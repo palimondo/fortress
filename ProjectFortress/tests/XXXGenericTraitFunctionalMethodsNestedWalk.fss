@@ -1,0 +1,24 @@
+component XXXGenericTraitFunctionalMethodsNestedWalk
+export Executable
+
+(* Two generic functional methods of a trait with a static parameter, the one over U extends Round inside the one over T extends Shape, are a valid overloading by the Return Type Rule, and a call takes the more specific one that applies; Specification/advanced/overloading.tex, section "Declarations with Static Parameters". *)
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+object Square extends Shape end
+
+trait Holds[\S\]
+    which[\T extends Shape\](self, x: T): String = "shape"
+    which[\U extends Round\](self, x: U): String = "round"
+end
+object H[\S\]() extends Holds[\S\] end
+
+run(): () = do
+    h = H[\ZZ32\]()
+    assert(which(h, Circle), "round", "a Circle takes the more specific declaration over U extends Round; overloading.tex, section \"Declarations with Static Parameters\"")
+    assert(which(h, Square), "shape", "a Square takes the declaration over T extends Shape, the only one that applies; overloading.tex, section \"Declarations with Static Parameters\"")
+    println("PASS")
+  end
+
+end

@@ -108,7 +108,7 @@ public class IntLiteral extends NativeConstructor {
         protected abstract FValue f(BigInteger x, long y);
 
         public final FValue applyMethod(FObject x, FValue y) {
-            return f(toB(x), y.getLong());
+            return f(toB(x), Int.powCount(y));
         }
     }
 
@@ -247,11 +247,7 @@ public class IntLiteral extends NativeConstructor {
 
     public static final class Pow extends KL2N {
         protected FValue f(BigInteger u, long v) {
-            if (v < 0) {
-                return FFloat.make(1.0 / u.pow((int) -v).doubleValue());
-            } else {
-                return FIntLiteral.make(u.pow((int) v));
-            }
+            return FIntLiteral.make(BigNum.pow(u, v));
         }
     }
 

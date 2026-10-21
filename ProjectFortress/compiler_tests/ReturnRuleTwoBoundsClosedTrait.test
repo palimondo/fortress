@@ -1,0 +1,5 @@
+tests=ReturnRuleTwoBoundsClosedTrait
+compile
+link
+run
+run_out_contains=PASS

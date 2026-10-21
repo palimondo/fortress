@@ -1,0 +1,35 @@
+(* AnyList's ||, addLeft and addRight, and the list comprehension, give a list whose element type is the join of its elements' types. *)
+component AnyListElementTypeWalk
+import List.{...}
+export Executable
+
+kinds(l: Any): String =
+    "ZZ32:" instanceOf[\List[\ZZ32\]\](l) " Number:" instanceOf[\List[\Number\]\](l) " Object:" instanceOf[\List[\Object\]\](l)
+
+run(): () = do
+    a = <|[\ZZ32\] 1, 2|>
+    c = a || <|[\String\] "x"|>
+    assert(kinds(c), "ZZ32:false Number:false Object:true", "|| of a list of ZZ32 and a list of String")
+    assert(|c|, 3, "|| keeps every element")
+    d = a.addLeft("y")
+    assert(kinds(d), "ZZ32:false Number:false Object:true", "addLeft of a String to a list of ZZ32")
+    e = a.addRight(2.5)
+    assert(kinds(e), "ZZ32:false Number:true Object:false", "addRight of an RR64 to a list of ZZ32")
+    f = a || <|[\ZZ32\] 3|>
+    assert(kinds(f), "ZZ32:true Number:false Object:false", "|| of two lists of ZZ32")
+    g = <|[\RR64\] 1.5|> || a
+    assert(kinds(g), "ZZ32:false Number:true Object:false", "|| of a list of RR64 and a list of ZZ32")
+    q = (<|[\ZZ32\] 1|>.addLeft("z")).addRight(3)
+    assert(kinds(q), "ZZ32:false Number:false Object:true", "addLeft then addRight")
+    assert(|q|, 3, "addLeft then addRight keep every element")
+    k: List[\ZZ32\] = <| 2 x | x <- 0#3 |>
+    assert(kinds(k), "ZZ32:true Number:false Object:false", "a comprehension at its declared type")
+    o = <| (if x = 0 then 1 else 2.5 end) | x <- 0#2 |>
+    assert(kinds(o), "ZZ32:false Number:true Object:false", "a comprehension at the join of its elements")
+    p = <|[\ZZ32\] x | x <- 0#0 |>
+    assert(kinds(p), "ZZ32:true Number:false Object:false", "an empty comprehension at its written type")
+    r = <|[\ZZ32\] x | x <- 0#2, x > 0 |>
+    assert(kinds(r), "ZZ32:true Number:false Object:false", "a filtered comprehension at its written type")
+  end
+
+end

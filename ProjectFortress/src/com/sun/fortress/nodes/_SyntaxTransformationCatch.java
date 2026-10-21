@@ -109,7 +109,7 @@ public class _SyntaxTransformationCatch extends Catch implements _SyntaxTransfor
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_name = getName();
         code ^= temp_name.hashCode();
         List<CatchClause> temp_clauses = getClauses();

@@ -1,0 +1,3 @@
+tests=XXXFunctionalMethodMeetTopLevelConcrete
+compile
+compile_err_contains=Invalid overloading of h in component XXXFunctionalMethodMeetTopLevelConcrete

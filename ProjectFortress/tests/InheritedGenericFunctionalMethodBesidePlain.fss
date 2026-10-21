@@ -1,0 +1,24 @@
+component InheritedGenericFunctionalMethodBesidePlain
+export Executable
+
+(* A generic functional method that a trait declares, beside a plain functional method of one name that the object declares, applies to an argument that only it fits. *)
+
+trait Shape comprises { Circle, Square } end
+object Circle extends Shape end
+object Square extends Shape end
+
+trait Describes
+    describe[\T extends Shape\](self, x: T): String = "generic"
+end
+object Describer extends Describes
+    describe(self, x: Circle): String = "circle"
+end
+
+run(): () = do
+    println("REACHED")
+    assert(describe(Describer, Circle), "circle", "the object's plain functional method on Circle lies inside the inherited generic one's declared domain, so a Circle takes it; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(describe(Describer, Square), "generic", "only the inherited generic functional method applies to a Square, with T = Square; overloading.tex, section \"Applicability to Named Functional Calls\"")
+    println("PASS")
+  end
+
+end

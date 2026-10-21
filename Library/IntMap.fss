@@ -517,7 +517,7 @@ private object NodeIM[\Val\](left: NonEmptyIntMap[\Val\], key:ZZ64, right: NonEm
     (** %UPLUS% (disjoint union) throws the %KeyOverlap% exception when a key
         occurs in both maps. **)
     opr UPLUS(self, other: IntMap[\Val\]): NonEmptyIntMap[\Val\] = self
-    opr UPLUS(self, other: SingletonIM[\Val\]): NodeIM[\Val\] = self.add(other)
+    opr UPLUS(self, other: SingletonIM[\Val\]): NodeIM[\Val\] = self.addNew(other)
     opr UPLUS(self, other: NodeIM[\Val\]): NodeIM[\Val\] = do
         (l1,l2,k,r1,r2) = self.nodeNode[\Val\](other)
         (l1 UPLUS l2).ordJoin(k, r1 UPLUS r2)
@@ -729,23 +729,23 @@ private fromCC[\Val\](cc: CovariantCollection[\(ZZ64,Val)\]): IntMap[\Val\] = do
     cc.cata[\IntMap[\Val\]\](EmptyIM[\Val\],SingletonIM[\Val\],uni)
   end
 
-opr BIG {|->[\Val\] }: IntMap[\Val\] =
+opr BIG {|->[\Val\] }: Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\] =
     covariantCompr[\(ZZ64,Val),IntMap[\Val\]\](fn cc => fromCC(cc))
 
 opr BIG {|->[\Val\] g: Generator[\(ZZ64,Val)\] }: IntMap[\Val\] =
     __bigOperatorSugar[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\](BIG {|->[\Val\] }(), g)
 
-opr BIG UNION[\Val\]() : Comprehension[\IntMap[\Val\],IntMap[\Val\],Any,Any\] =
+opr BIG UNION[\Val\]() : BigReduction[\IntMap[\Val\],IntMap[\Val\]\] =
     embiggen[\ IntMap[\Val\] \](fn (a,b) => a UNION b, EmptyIM[\Val\])
 
 opr BIG UNION[\Val\](g: Generator[\IntMap[\Val\]\]):IntMap[\Val\] =
-    __bigOperatorSugar[\IntMap[\Val\],IntMap[\Val\],Any,Any\](BIG UNION[\Val\](), g)
+    __bigOperatorSugar[\IntMap[\Val\],IntMap[\Val\],IntMap[\Val\],IntMap[\Val\]\](BIG UNION[\Val\](), g)
 
-opr BIG UPLUS[\Val\]() : Comprehension[\IntMap[\Val\],IntMap[\Val\],Any,Any\] =
+opr BIG UPLUS[\Val\]() : BigReduction[\IntMap[\Val\],IntMap[\Val\]\] =
     embiggen[\ IntMap[\Val\] \](fn (a,b) => a UPLUS b, EmptyIM[\Val\])
 
 opr BIG UPLUS[\Val\](g: Generator[\IntMap[\Val\]\]):IntMap[\Val\] =
-    __bigOperatorSugar[\IntMap[\Val\],IntMap[\Val\],Any,Any\](BIG UPLUS[\Val\](), g)
+    __bigOperatorSugar[\IntMap[\Val\],IntMap[\Val\],IntMap[\Val\],IntMap[\Val\]\](BIG UPLUS[\Val\](), g)
 
 toDots[\Val\](maps: IntMap[\Val\]...): String =
         ("strict digraph IntMap {" //

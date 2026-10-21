@@ -107,13 +107,13 @@ public class TupleType extends Type {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         TypeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         List<Type> temp_elements = getElements();
         code ^= temp_elements.hashCode();
         Option<Type> temp_varargs = getVarargs();
-        code ^= temp_varargs.hashCode();
+        code ^= NodeHash.of(temp_varargs);
         List<KeywordType> temp_keywords = getKeywords();
         code ^= temp_keywords.hashCode();
         return code;

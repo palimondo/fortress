@@ -99,7 +99,7 @@ public class _RewriteFnOverloadDecl extends Decl {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         IdOrOp temp_name = getName();
@@ -107,7 +107,7 @@ public class _RewriteFnOverloadDecl extends Decl {
         List<IdOrOp> temp_fns = getFns();
         code ^= temp_fns.hashCode();
         Option<Type> temp_type = getType();
-        code ^= temp_type.hashCode();
+        code ^= NodeHash.of(temp_type);
         return code;
     }
 

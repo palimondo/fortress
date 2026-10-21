@@ -1,0 +1,15 @@
+(* A trait whose where clause constrains its static parameter is extended only at a static argument that meets the constraint: a String does not extend Shows; trait-parameters.tex, section "Where Clauses". *)
+component XXXWhereConstraintExtendsChecker
+export Executable
+
+trait Shows
+  show(): String
+end
+trait Tr[\T\] where { T extends Shows }
+  showOf(t: T): String = t.show()
+end
+object Ob extends Tr[\String\] end
+
+run(): () = println(Ob.showOf("s"))
+
+end

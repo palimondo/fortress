@@ -1,0 +1,32 @@
+(* An IntMap comprehension or map expression whose key repeats with a different value throws KeyOverlap, whatever the order of its entries. *)
+component IntMapComprehensionRepeatedKey
+import IntMap.{...}
+export Executable
+
+overlap(f: () -> IntMap[\ZZ32\]): String = do
+    msg: String := "no exception"
+    try
+        ignore(f())
+    catch e
+        UncheckedException => msg := e.asString
+    end
+    msg
+  end
+
+run(): () = do
+    m4 = overlap(fn () => {[\ZZ32\] widen(k MOD 3) |-> k | k <- 0#4})
+    assert((m4 = "IntMap.KeyOverlap: 0 |-> 0 and |-> 3") OR (m4 = "IntMap.KeyOverlap: 0 |-> 3 and |-> 0"), true,
+           "a map comprehension whose key 0 repeats last with a different value throws KeyOverlap (comprehensions.tex, section \"Comprehensions\")")
+    m2 = overlap(fn () => {[\ZZ32\] widen(k MOD 2) |-> k | k <- 0#4})
+    assert((m2 = "IntMap.KeyOverlap: 0 |-> 0 and |-> 2") OR (m2 = "IntMap.KeyOverlap: 0 |-> 2 and |-> 0") OR
+           (m2 = "IntMap.KeyOverlap: 1 |-> 1 and |-> 3") OR (m2 = "IntMap.KeyOverlap: 1 |-> 3 and |-> 1"), true,
+           "a map comprehension whose keys 0 and 1 each repeat with a different value throws KeyOverlap (comprehensions.tex, section \"Comprehensions\")")
+    ml = overlap(fn () => {[\ZZ32\] widen(0) |-> 0, widen(1) |-> 1, widen(2) |-> 2, widen(0) |-> 3})
+    assert((ml = "IntMap.KeyOverlap: 0 |-> 0 and |-> 3") OR (ml = "IntMap.KeyOverlap: 0 |-> 3 and |-> 0"), true,
+           "a map expression whose key 0 repeats last with a different value throws KeyOverlap")
+    distinct = {[\ZZ32\] widen(k) |-> k | k <- 0#4}
+    assert(|distinct|, 4, "a map comprehension whose keys are distinct holds one entry for each key")
+    println("PASS")
+  end
+
+end

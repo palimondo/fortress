@@ -1587,7 +1587,8 @@ object S_RewriteObjectExprRef {
 
 trait Walker {
    def apply(node:Any):Any = walk(node)
-   def walk(node:Any):Any = {
+   def walk(node:Any):Any = walkCases0(node)
+   def walkCases0(node:Any):Any = {
        node match {
          case SKindOp =>
              SKindOp
@@ -1649,6 +1650,11 @@ trait Walker {
              SNotPredicateSymbol(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getSymbol).asInstanceOf[com.sun.fortress.nodes.SyntaxSymbol])
          case STokenSymbol(getInfo, getToken) =>
              STokenSymbol(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getToken).asInstanceOf[String])
+         case _ => walkCases1(node)
+      }
+   }
+   def walkCases1(node:Any):Any = {
+       node match {
          case SKeywordSymbol(getInfo, getToken) =>
              SKeywordSymbol(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getToken).asInstanceOf[String])
          case SNonterminalSymbol(getInfo, getNonterminal) =>
@@ -1709,6 +1715,11 @@ trait Walker {
              SSubscriptingMI(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getOp).asInstanceOf[com.sun.fortress.nodes.Op], walk(getExprs).asInstanceOf[List[com.sun.fortress.nodes.Expr]], walk(getStaticArgs).asInstanceOf[List[com.sun.fortress.nodes.StaticArg]])
          case SExponentiationMI(getInfo, getOp, getExpr) =>
              SExponentiationMI(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getOp).asInstanceOf[com.sun.fortress.nodes.FunctionalRef], walk(getExpr).asInstanceOf[Option[com.sun.fortress.nodes.Expr]])
+         case _ => walkCases2(node)
+      }
+   }
+   def walkCases2(node:Any):Any = {
+       node match {
          case SNonParenthesisDelimitedMI(getInfo, getExpr) =>
              SNonParenthesisDelimitedMI(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getExpr).asInstanceOf[com.sun.fortress.nodes.Expr])
          case SParenthesisDelimitedMI(getInfo, getExpr) =>
@@ -1769,6 +1780,11 @@ trait Walker {
              SWhereTypeAlias(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getAlias).asInstanceOf[com.sun.fortress.nodes.TypeAlias])
          case SWhereExtends(getInfo, getName, getSupers) =>
              SWhereExtends(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getName).asInstanceOf[com.sun.fortress.nodes.Id], walk(getSupers).asInstanceOf[List[com.sun.fortress.nodes.BaseType]])
+         case _ => walkCases3(node)
+      }
+   }
+   def walkCases3(node:Any):Any = {
+       node match {
          case SWhereBinding(getInfo, getName, getSupers, getKind) =>
              SWhereBinding(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getName).asInstanceOf[com.sun.fortress.nodes.Id], walk(getSupers).asInstanceOf[List[com.sun.fortress.nodes.BaseType]], walk(getKind).asInstanceOf[com.sun.fortress.nodes.StaticParamKind])
          case SWhereClause(getInfo, getBindings, getConstraints) =>
@@ -1829,6 +1845,11 @@ trait Walker {
              SDimBase(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.TypeInfo])
          case SLabelType(getInfo) =>
              SLabelType(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.TypeInfo])
+         case _ => walkCases4(node)
+      }
+   }
+   def walkCases4(node:Any):Any = {
+       node match {
          case SFixedPointType(getInfo, getName, getBody) =>
              SFixedPointType(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.TypeInfo], walk(getName).asInstanceOf[com.sun.fortress.nodes._InferenceVarType], walk(getBody).asInstanceOf[com.sun.fortress.nodes.Type])
          case SUnionType(getInfo, getElements) =>
@@ -1889,6 +1910,11 @@ trait Walker {
              S_RewriteFnApp(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getFunction).asInstanceOf[com.sun.fortress.nodes.Expr], walk(getArgument).asInstanceOf[com.sun.fortress.nodes.Expr])
          case SJuxt(getInfo, getMultiJuxt, getInfixJuxt, getExprs, isFnApp, isTight) =>
              SJuxt(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getMultiJuxt).asInstanceOf[com.sun.fortress.nodes.FunctionalRef], walk(getInfixJuxt).asInstanceOf[com.sun.fortress.nodes.FunctionalRef], walk(getExprs).asInstanceOf[List[com.sun.fortress.nodes.Expr]], walk(isFnApp).asInstanceOf[Boolean], walk(isTight).asInstanceOf[Boolean])
+         case _ => walkCases5(node)
+      }
+   }
+   def walkCases5(node:Any):Any = {
+       node match {
          case S_RewriteObjectExprRef(getInfo, getGenSymName, getStaticArgs) =>
              S_RewriteObjectExprRef(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getGenSymName).asInstanceOf[String], walk(getStaticArgs).asInstanceOf[List[com.sun.fortress.nodes.StaticArg]])
          case S_RewriteFnRef(getInfo, getFnExpr, getStaticArgs) =>
@@ -1949,6 +1975,11 @@ trait Walker {
              S_RewriteObjectExpr(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getHeader).asInstanceOf[com.sun.fortress.nodes.TraitTypeHeader], walk(getImplicitTypeParameters).asInstanceOf[Map[String, com.sun.fortress.nodes.StaticParam]], walk(getGenSymName).asInstanceOf[String], walk(getStaticArgs).asInstanceOf[List[com.sun.fortress.nodes.StaticArg]])
          case SObjectExpr(getInfo, getHeader, getSelfType) =>
              SObjectExpr(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getHeader).asInstanceOf[com.sun.fortress.nodes.TraitTypeHeader], walk(getSelfType).asInstanceOf[Option[com.sun.fortress.nodes.SelfType]])
+         case _ => walkCases6(node)
+      }
+   }
+   def walkCases6(node:Any):Any = {
+       node match {
          case SLabel(getInfo, getName, getBody) =>
              SLabel(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ExprInfo], walk(getName).asInstanceOf[com.sun.fortress.nodes.Id], walk(getBody).asInstanceOf[com.sun.fortress.nodes.Block])
          case SIf(getInfo, getClauses, getElseClause) =>
@@ -2009,6 +2040,11 @@ trait Walker {
              SImportApi(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getForeignLanguage).asInstanceOf[Option[String]], walk(getApis).asInstanceOf[List[com.sun.fortress.nodes.AliasedAPIName]])
          case SImportNames(getInfo, getForeignLanguage, getApiName, getAliasedNames) =>
              SImportNames(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getForeignLanguage).asInstanceOf[Option[String]], walk(getApiName).asInstanceOf[com.sun.fortress.nodes.APIName], walk(getAliasedNames).asInstanceOf[List[com.sun.fortress.nodes.AliasedSimpleName]])
+         case _ => walkCases7(node)
+      }
+   }
+   def walkCases7(node:Any):Any = {
+       node match {
          case SImportStar(getInfo, getForeignLanguage, getApiName, getExceptNames) =>
              SImportStar(walk(getInfo).asInstanceOf[com.sun.fortress.nodes.ASTNodeInfo], walk(getForeignLanguage).asInstanceOf[Option[String]], walk(getApiName).asInstanceOf[com.sun.fortress.nodes.APIName], walk(getExceptNames).asInstanceOf[List[com.sun.fortress.nodes.IdOrOpOrAnonymousName]])
          case SApi(getInfo, getName, getImports, getDecls, getComprises) =>

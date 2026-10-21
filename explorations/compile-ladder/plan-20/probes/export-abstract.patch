@@ -1,0 +1,22 @@
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 065215bbd..8c2b89c98 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -286,7 +286,7 @@ end
+ trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
+         comprises { RR64, RR32, QQ, AnyIntegral, IntLiteral }
+     (** The value as a float, the explicit conversion into %RR64%. **)
+-    asFloat(self): RR64
++    abstract asFloat(self): RR64
+     (** Two exact numbers of different types compare as rationals; a float
+         compares with any number after %asFloat%, so an exact value equals
+         its nearest float. **)
+@@ -444,7 +444,7 @@ end
+         (** not yet: ``%comprises Integral[\I\] where [\I\]%'' *)
+ 
+ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], MultiplicativeRing[\I\], AnyIntegral }
+-    getter zero(): I
++    abstract getter zero(): I
+     getter one(): I
+     opr -(self):I
+     opr DOTMINUS(self):I

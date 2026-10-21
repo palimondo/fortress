@@ -1,0 +1,69 @@
+The checker shadow of the full check: OverloadingChecker's three loops read every symbolic operator (checker-shadow.py; with catch, a crash on one name is printed and the check goes on). Measured as a shadow ahead of the build, never built into the tree. Generated on d97001d19 (main) by checker-shadow.py catch; apply to d97001d19 with git apply.
+
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+index 2fd48cf24..20e876d88 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+@@ -252,7 +252,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+         val importNames = importItems.filter(_.isInstanceOf[ImportNames]).map(_.asInstanceOf[ImportNames])
+ 
+         // First check names of functions declared in this component.
+-        for ( f <- toSet(functions) ; if isDeclaredName(f) ) {
++        for ( f <- toSet(functions) ; if isCheckedName(f) ) {
+           val name = f.asInstanceOf[IdOrOp].getText
+           var set = getFunctionsFromCompilationUnit(compilation_unit, f)
+ 
+@@ -284,7 +284,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+           }
+           
+           // debugging probe: TypeError.b3(name, f, set)
+-          checkFunctionOverloading(kindAndName, f, set, globalOracle)
++          try { checkFunctionOverloading(kindAndName, f, set, globalOracle) } catch { case __e: com.sun.fortress.exceptions.CompilerBug => System.out.println("@@PROBE CRASH\t" + kindAndName + "\t" + f + "\t" + __e.getMessage.replace("\n", " ")) }
+           
+           val dFunctions = getDeclaredFunctions(compilation_unit, f)
+ 
+@@ -317,7 +317,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+             }
+           }          
+           
+-          checkFancyRule(f, dFunctions, fMethods, globalOracle)
++          try { checkFancyRule(f, dFunctions, fMethods, globalOracle) } catch { case __e: com.sun.fortress.exceptions.CompilerBug => System.out.println("@@PROBE CRASH\t" + kindAndName + "\t" + f + "\t" + __e.getMessage.replace("\n", " ")) }
+           
+         }
+         
+@@ -399,17 +399,17 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+ 	        // the methods the trait or object provides, by the traits chapter's inheritance
+ 	        val (methodsR, overridden) = providedAndOverridden(tt, allMethods(tt, typeAnalyzer), typeAnalyzer, paramsWithoutSelf)
+ 
+-	        for (f <- toSet(methodsR.firstSet) ; if isDeclaredName(f) ) {
++	        for (f <- toSet(methodsR.firstSet) ; if isCheckedName(f) ) {
+                   val mset = toSet(methodsR.matchFirst(f))
+ 	              val dottedMethods = mset.filter(x => x match { case (m, str, tt) => m.isInstanceOf[JavaMethod] &&
+ 	      	      		  		     	     	      m.asInstanceOf[JavaMethod].selfType.isSome })  // unsure why this second condition
+-	              checkMethodOverloading(traitKindAndName, f, toMethodArrows(dottedMethods), oracle)
++	              try { checkMethodOverloading(traitKindAndName, f, toMethodArrows(dottedMethods), oracle) } catch { case __e: com.sun.fortress.exceptions.CompilerBug => System.out.println("@@PROBE CRASH\t" + traitKindAndName + "\t" + f + "\t" + __e.getMessage.replace("\n", " ")) }
+ 	              val functionalMethods = mset.filter(x => x match { case (m, str, tt) => m.isInstanceOf[JavaFunction]})
+-	              checkMethodOverloading(traitKindAndName, f, toFunctionalMethodArrows(functionalMethods, oracle), oracle)
++	              try { checkMethodOverloading(traitKindAndName, f, toFunctionalMethodArrows(functionalMethods, oracle), oracle) } catch { case __e: com.sun.fortress.exceptions.CompilerBug => System.out.println("@@PROBE CRASH\t" + traitKindAndName + "\t" + f + "\t" + __e.getMessage.replace("\n", " ")) }
+ 	        }
+ 	        // a declaration and one it keeps from being inherited: their return types
+-	        for ((f, o, p, equal) <- overridden ; if isDeclaredName(f))
+-	          checkOverridingReturnType(f, o, p, equal, oracle)
++	        for ((f, o, p, equal) <- overridden ; if isCheckedName(f))
++	          try { checkOverridingReturnType(f, o, p, equal, oracle) } catch { case __e: com.sun.fortress.exceptions.CompilerBug => System.out.println("@@PROBE CRASH\t" + traitKindAndName + "\t" + f + "\t" + __e.getMessage.replace("\n", " ")) }
+             typeAnalyzer = oldTypeAnalyzer
+             staticParamsInScope = Nil
+         }
+@@ -745,6 +745,12 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+         case _ => false
+     }
+ 
++    // PROBE: the full check reads every symbolic operator in the three loops
++    def isCheckedName(f: IdOrOpOrAnonymousName) = f match {
++        case SOp(_,_,_,_,_) => true
++        case _ => isDeclaredName(f)
++    }
++
+     def isDeclaredMethod(f: JavaFunctional) = f match {
+         case SDeclaredMethod(_,_) => true
+         case _ => false

@@ -1,0 +1,13 @@
+(* A comprises clause holds at every instance, so it is checked without a conditional extends entry's condition: V[\E\] needs an E that extends Shows, which only that entry assumes; trait-parameters.tex, section "Where Clauses", and traits.tex, section "Trait Declarations". *)
+component XXXCondExtendComprisesChecker
+export Executable
+
+trait Shows end
+trait D[\E\] extends { Shows where { E extends Shows } }
+    comprises { V[\E\] }
+end
+object V[\T extends Shows\]() extends D[\T\] end
+
+run(): () = println("unreachable")
+
+end

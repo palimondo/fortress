@@ -262,7 +262,12 @@ When its dispatch chooses among declarations, it passes over a declaration with
 static parameters whose arguments have several minimal common supertypes in
 favour of any other declaration applicable to the call without coercion
 (row~589 of the revival's gap ledger).
-It does not yet fix a type parameter by the expected type.
+It fixes a type parameter by the expected type only at a reduction or a
+comprehension that writes no static argument and whose value is that of a
+local variable declared with a type or of a top-level or local function
+declared with a return type, as the box after the list in
+\secref{numeral-default} says; elsewhere it does not yet fix a type parameter
+by the expected type.
 A type parameter that an argument bounds only from above, as a function
 argument bounds the type parameter of its parameter type, it instantiates at the
 intersection of the upper bounds that its declared bound and the arguments
@@ -275,9 +280,23 @@ it still instantiates at \TYP{BottomType}; and where the arguments place on
 such a type parameter two upper bounds that it cannot meet, as a function over
 one trait and a function over another do when neither trait extends the other,
 the call fails with an error of unification (row~616 of the revival's gap ledger).
+It infers the static arguments of a generic dotted method that a call does not
+write as it infers a generic function's, whether the method is alone under its
+name or among the overloads of its receiver.
 It compares declarations with static parameters on the parameter types they
-declare, except generic dotted methods (row~21 of the revival's gap ledger), and
-dispatches a converted call again, except a call of an overloaded method.}
+declare, but for two kinds: a functional method of a generic trait or object it
+compares on the instance that a call makes, and a generic dotted method on the
+parameter types it declares only where exactly one of the two declarations'
+declared parameter types lies inside the other's, and otherwise on that instance.
+It stops at load on an object or trait that declares a generic dotted method
+beside a plain one of the same name (row~760 of the revival's gap ledger), and
+it stops on an object that extends a generic trait whose dotted method has a
+static parameter of its own bounded by the trait's, at load or at a generic
+object's first instance (row~762).
+It reads the bounds of a generic method that a trait declares, and the types
+into which the arguments convert, where the trait declares the method, as it
+reads those of a method that an object declares.
+It dispatches a converted call again, except a call of an overloaded method.}
 
 \section{A Numeral Whose Conversions Tie}
 \seclabel{numeral-default}
@@ -364,27 +383,46 @@ operators $\sum$ and $\prod$ declare theirs, and that nothing at a call fixes,
 it leaves open: it does not instantiate it, and it admits every value where it
 checks a value against that type, as an argument, a variable declared with that
 type, a \KWD{typecase} clause or a type assertion.
-So a reduction whose element type nothing at the call fixes runs on the types
-of its elements, the interpreter's counterpart of the desugaring by the type
-\VAR{N} of the expression (\secref{reduction-expr}); but an empty such
-reduction takes the identity of \EXP{\mathbb{Z}32} whatever the type of the
-expression (row~645 of the revival's gap ledger), and the library's set
-reductions \EXP{\bigcup} and \EXP{\bigcap}, whose reductions take sets of
-that open type, stop at their first element (row~662).
-It still erases to \TYP{BottomType} the other static parameters of a big
-operator that a reduction or a comprehension invokes without its static
-arguments, a comprehension's collection being then built at the type of its
-elements (row~424 of the revival's gap ledger); it gives a function expression
-that declares no return type the return type \TYP{BottomType}, so that a type
-parameter that only its result fixes is instantiated there (row~587); and it
-leaves a generic method's static parameters uninstantiated (row~21).
+The big operator that a reduction or a comprehension invokes without its
+static arguments it instantiates as the desugaring by the type \VAR{N} of the
+expression would (\secref{reduction-expr}), with run-time types in place of the
+static type that it does not have: by the declared type of the local variable,
+or the declared return type of the top-level or local function, whose value the
+reduction or the comprehension is, also as the last expression of a block, where
+that type fixes the big operator's result type; otherwise by the join of the run-time types of
+the elements that its generator clauses give, which it collects before it
+reduces them; and where there is no element, at the bound of each static
+parameter, or open where the bound mentions the parameter itself.
+So an empty sum that is the value of a function declared \EXP{\mathbb{R}64}
+is the \EXP{\mathbb{R}64} zero, and the library's set reductions
+\EXP{\bigcup} and \EXP{\bigcap} run on sets of their elements' type; but an
+empty reduction that no declared type directs takes the identity of
+\EXP{\mathbb{Z}32} whatever the type of the expression, and an empty
+comprehension that no declared type directs is built at the bound, a list
+comprehension as a \EXP{\TYP{List}\llbracket\TYP{Any}\rrbracket} (row~716 of the
+revival's gap ledger); a comprehension that no declared type reaches, such as
+the value of a top-level variable, a field, a method or a function expression,
+the right-hand side of an assignment, the body of another reduction or an
+argument of a call, is
+built at the run-time types of its elements, which the declared type of an
+enclosing expression may not admit (rows~20, 510 and~717).
+A big operator whose declared result is none of the library's
+\TYP{BigReduction}, \TYP{Comprehension} and \TYP{BigOperator} it instantiates
+through the one of those three that its declared result extends, with that
+trait's static arguments.
+It gives a function expression that declares no return type the return type
+\TYP{BottomType}, so that a type parameter that only its result fixes is
+instantiated there (row~587); and it instantiates a static parameter of a
+generic method that only the expected type would fix, as one of a generic
+function, at its bound (row~510), a method that a trait declares among them.
 The third item of the team's draft note below asks whether inference may give a
 static parameter \TYP{BottomType}; the rule of \secref{static-arg-inference},
 taken from the type group's paper of 2019, answers that it may not.
 Neither implementation infers a \KWD{bool} parameter yet: the compiled type
 checker refuses by name to infer a \KWD{bool}, \KWD{dim} or \KWD{unit}
-parameter, and the interpreter does not unify a \KWD{bool} one (rows~21
-and~307 of the revival's gap ledger).
+parameter, and the interpreter does not unify a \KWD{bool} one (row~307 of
+the revival's gap ledger) and stops at load on an object or trait whose method
+has a parameter type with a \KWD{bool} static argument (row~761).
 The example of \secref{boolparams}, a coercion whose \KWD{bool} parameter only
 its parameter type mentions, can be applied only if its argument fixes that
 parameter.}

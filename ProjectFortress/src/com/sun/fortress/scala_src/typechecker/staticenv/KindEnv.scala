@@ -45,7 +45,8 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
     val whereBindings = where.map(KindEnv.extractNodeBindings)
                              .getOrElse(Iterable.empty)
     val nodeBindings = KindEnv.extractNodeBindings(node)
-    new NestedKindEnv(this, whereBindings ++ nodeBindings)
+    val declared = whereBindings ++ nodeBindings
+    new NestedKindEnv(this, declared ++ KindEnv.constraintBounds(this, declared, where))
   }
 
   /** Extend me with the immediate bindings of the given nodes. */
@@ -53,7 +54,8 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
     val whereBindings = where.map(KindEnv.extractNodeBindings)
                              .getOrElse(Iterable.empty)
     val nodesBindings = nodes.flatMap(KindEnv.extractNodeBindings)
-    new NestedKindEnv(this, whereBindings ++ nodesBindings)
+    val declared = whereBindings ++ nodesBindings
+    new NestedKindEnv(this, declared ++ KindEnv.constraintBounds(this, declared, where))
   }
 
   /**
@@ -74,6 +76,9 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
 
 /** The single empty kind environment. */
 protected object EmptyKindEnv extends KindEnv with EmptyStaticEnv[StaticParam] {
+  // A type opened from a value is found in every environment, as a size
+  // opened from a value needs no binding.
+  override def lookup(x: Name): Option[KindBinding] = KindEnv.lookupOpened(x)
 }
 
 /**
@@ -102,6 +107,28 @@ object KindEnv extends StaticEnvCompanion[StaticParam] {
 
   /** Creates a fresh kind environment. */
   def makeFresh: KindEnv = EmptyKindEnv.extend(Nil)
+
+  /**
+   * The bindings that the where clause's trait constraints give: each type
+   * variable X named by a constraint X extends B, bound in the declared
+   * bindings or outside them, rebound with B added to its bounds.
+   */
+  def constraintBounds(outer: KindEnv, declared: Iterable[KindBinding],
+                       where: Option[WhereClause]): Iterable[KindBinding] = where match {
+    case Some(SWhereClause(_, _, constraints)) =>
+      val scope = new NestedKindEnv(outer, declared)
+      val byName = constraints.collect { case SWhereExtends(_, name, supers) => (name, supers) }
+      val names = byName.map(_._1).foldLeft(List[Id]())((acc, n) =>
+        if (acc.exists(_.getText == n.getText)) acc else acc :+ n)
+      names.flatMap(n => scope.lookup(n) match {
+        case Some(KindBinding(bn, sp)) if sp.getKind.isInstanceOf[KindType] =>
+          val extra = byName.filter(_._1.getText == n.getText).flatMap(_._2)
+          val supers = toListFromImmutable(sp.getExtendsClause) ++ extra
+          List(KindBinding(bn, NF.makeStaticParam(sp, sp.getName.asInstanceOf[Id], toJavaList(supers))))
+        case _ => Nil
+      })
+    case _ => Nil
+  }
 
   /** Extract out the bindings in node. */
   protected def extractNodeBindings(node: Node) : Iterable[KindBinding] =
@@ -133,8 +160,46 @@ object KindEnv extends StaticEnvCompanion[StaticParam] {
         // Other kinds not supported yet.
         case _ => NI.nyi("non-type where clause bindings")
       }
-      
+
       case _ => Iterable.empty
+    }
+
+  /* The types opened from values (TypeAnalyzer.openWhereSizes), each a fresh
+   * name (Formula.openedSizeName) bound as its where-clause binding bounds it
+   * at the trait's static arguments. A name is registered once and never
+   * rebound, so an answer that reads its bound depends on the name alone. */
+  private val opened = new java.util.concurrent.ConcurrentHashMap[String, KindBinding]()
+
+  def registerOpened(id: Id, sp: StaticParam): Unit = opened.put(id.getText, KindBinding(id, sp))
+
+  def lookupOpened(x: Name): Option[KindBinding] = x match {
+    case i: Id if i.getApiName.isNone && i.getText.contains("#") => Option(opened.get(i.getText))
+    case _ => None
+  }
+
+  /* The conditions under which a declaration extends the type of its extends entry
+   * tw: the trait constraints of tw's where clause, if the clause binds no variable
+   * and holds trait constraints only; none for any other entry, which is extended
+   * unconditionally, as before (TypeAnalyzer.isConditional). */
+  def extendsConditions(tw: TraitTypeWhere): List[WhereExtends] = toOption(tw.getWhereClause) match {
+    case Some(SWhereClause(_, Nil, cs)) if !cs.isEmpty && cs.forall(_.isInstanceOf[WhereExtends]) =>
+      cs.map(_.asInstanceOf[WhereExtends])
+    case _ => Nil
+  }
+
+  /* The where clause under which a declaration with the where clause where and the
+   * extends clause extendsC is checked: where, with the conditions of its conditional
+   * extends entries added, so that they hold while its members are checked and
+   * constraintBounds reads them as bounds. */
+  def withExtendsConditions(where: Option[WhereClause], extendsC: List[TraitTypeWhere]): Option[WhereClause] =
+    extendsC.flatMap(extendsConditions) match {
+      case Nil => where
+      case conds => where match {
+        case Some(SWhereClause(info, bs, cs)) => Some(SWhereClause(info, bs, cs ++ conds))
+        case None => Some(NF.makeWhereClause(conds.head.getInfo.getSpan,
+                                             toJavaList(List[WhereBinding]()),
+                                             toJavaList(conds: List[WhereConstraint])))
+      }
     }
 }
 

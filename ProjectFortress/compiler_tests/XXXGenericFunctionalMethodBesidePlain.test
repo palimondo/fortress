@@ -1,0 +1,3 @@
+tests=XXXGenericFunctionalMethodBesidePlain
+compile
+compile_exception_contains=cannot be cast to class com.sun.fortress.compiler.index.Method

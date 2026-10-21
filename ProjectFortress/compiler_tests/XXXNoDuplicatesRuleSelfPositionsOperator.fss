@@ -1,0 +1,16 @@
+component XXXNoDuplicatesRuleSelfPositionsOperator
+export Executable
+
+(* Two functional methods of one trait declaring the operator || with the same parameter types, self first in one and second in the other, break the No Duplicates Rule, a static error the type checker gives (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait S
+  opr ||(self, y: S): ZZ32 = 1
+  opr ||(x: S, self): ZZ32 = 2
+end
+object O extends S end
+
+run(): () = do
+  println(O || O)
+end
+
+end

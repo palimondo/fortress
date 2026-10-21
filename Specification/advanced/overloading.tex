@@ -582,14 +582,28 @@ without this case.}
 Two parameter types with static parameters exclude each other, for the Meet
 Rule and the Incompatibility Rule, as the type group's paper of 2011 decides it
 by \emph{existential reduction}: each static parameter stands for any type
-within its bound, and where the two parameter types mention one parameterized
-trait, instantiation exclusion (\secref{trait-types}) lets them meet only where
-the static arguments of those mentions are the same, every static argument but
-an operator argument counting.
+within its bound, and where the two parameter types, or their elements at one
+position, are or extend instances of one parameterized trait, instantiation
+exclusion (\secref{trait-types}) lets them meet only where the static arguments
+of those instances are the same, every static argument but an operator argument
+counting.
 So where \TYP{Box} and \TYP{Pair} are distinct object types with static
 parameters, the parameter types \EXP{\TYP{Box}\llbracket{}T\rrbracket} and
 \EXP{\TYP{Pair}\llbracket{}A, B\rrbracket} of two declarations exclude each
 other whatever \VAR{T}, \VAR{A} and \VAR{B} stand for.
+\revision{revival-overloading}{The revival's text of 30~September 2026 read
+instantiation exclusion here only where the two parameter types mention one
+parameterized trait.
+The type group's paper of 2011 reads it at every pair of instances of one
+parameterized trait among the two types' supertypes, so that
+\EXP{\VAR{copyOf}\llbracket{}T\rrbracket(a\COLON
+\TYP{Frozen}\llbracket{}T\rrbracket)} and
+\EXP{\VAR{copyOf}\llbracket{}T\rrbracket(a\COLON
+\TYP{Thawed}\llbracket{}T\rrbracket)} exclude each other where
+\EXP{\TYP{Frozen}\llbracket{}E\rrbracket} and
+\EXP{\TYP{Thawed}\llbracket{}E\rrbracket} both extend
+\EXP{\TYP{Readable}\llbracket{}E\rrbracket} and exclude each other, a value of
+both having one instance of \TYP{Readable}.}
 
 The Return Type Rule refuses the following pair, where trait \TYP{Round}
 extends trait \TYP{Shape} and object \TYP{Circle} extends \TYP{Round}:
@@ -623,10 +637,10 @@ which the compiled type checker applies, with its Return Type Rule checked over
 every instance of the less specific declaration; the pair refused above has the
 shape of that paper's own example, which the compiled path used to accept and
 then fail to verify.
-Neither implementation runs the pair allowed above today: the interpreter
-refuses it at load, since it asks two declarations with static
-parameters for a pair of parameter types that exclude each other (row~159 of the
-revival's gap ledger), and the compiled code generator fails on it (row~537).
+The interpreter runs the pair allowed above, reading two declarations with
+static parameters on their declared domains, each over its own instances, where
+no pair of their parameter types excludes each other; the compiled code
+generator fails on it (row~537 of the revival's gap ledger).
 The compiled implementation adds one restriction that is not a rule of the
 language.
 When one declaration with static parameters is more specific than another that

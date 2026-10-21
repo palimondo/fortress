@@ -1,0 +1,4 @@
+tests=XXXCondExtendUnconditionalEntryChecker
+compile
+compile_err_contains=File XXXCondExtendUnconditionalEntryChecker.fss has 1 error.
+compile_err_WIcontains=XXXCondExtendUnconditionalEntryChecker.fss:10:33-39: Ill-formed type: Wrap[\\E\\] The static argument E does not satisfy the corresponding bound Ord[\\E\\].

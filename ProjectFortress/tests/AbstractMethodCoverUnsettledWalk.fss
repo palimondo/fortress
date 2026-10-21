@@ -1,0 +1,25 @@
+component AbstractMethodCoverUnsettledWalk
+export Executable
+
+(* An object whose one body at narrower parameter types does not cover an inherited abstract method of five parameters, each over a trait that comprises six objects, does not define the method, a static error, so the program is refused at load, under walk (traits.tex, section "Method Declarations"). *)
+
+trait D comprises { P1, P2, P3, P4, P5, P6 } end
+object P1 extends D end
+object P2 extends D end
+object P3 extends D end
+object P4 extends D end
+object P5 extends D end
+object P6 extends D end
+
+trait H
+  g(self, a: D, b: D, c: D, d: D, e: D): ZZ32
+end
+object O extends H
+  g(self, a: P1, b: P1, c: P1, d: P1, e: P1): ZZ32 = 1
+end
+
+run(): () = do
+    println(g(O, P1, P1, P1, P1, P1))
+  end
+
+end

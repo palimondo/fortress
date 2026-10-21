@@ -1258,3 +1258,179 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-14 06:10Z · rewritten · commit `7c2c7cd4b` · by coordinator: the POSITIONS pass after climb batch 14: the three decisions it built are built
 
 - P-147 **An object defines an inherited abstract method when its bodies of that name at narrower parameter types together cover the abstract method's parameter types (item 51).** It is the team's rule of 2012, in Steele's compiled checker and Welterweight's Covered rule, with `comprises` clauses read as the checker reads them; a body at the abstract method's own types is the plain case. So the team's `Pairs` and `FileConversion` stay valid, walk agrees with the checker, and the traits chapter's sentence is revised in the S1 form (P-96). Walk's allowance of any one narrower body goes. Still to build: batch 14's walk rung, which first repairs rows 668 and 669, then closes row 666.
+
+### P-48
+
+2026-10-14 16:19Z · rewritten · from `explorations/compile-ladder/climb-batch-15/RECORD.md`, "Handover lines" · commit `20474c144` · by coordinator's POSITIONS pass after climb batch 15: rung B's walk half built
+
+- P-48 **A type parameter that a call's arguments do not fix takes its bound, never `Bottom`.** Its instance is the intersection of its upper bounds, constrained by the call's static return type, never the arguments' union or the value's type alone. The rule is the team's later word (POPL 2019). He ranks the team's later work above his own reading. It sets the instance, not which declaration runs (P-46). MicroGPT's types are concrete, so it is untouched. The library keeps the team's unbounded declarations. Still to build: a compiled dispatcher that carries the static return type (row 538, PLAN phase 5).
+
+### P-148
+
+2026-10-14 19:06Z · added · by coordinator: his words, 19:01 UTC 2026-10-14, "Optimize performance anyway, would be my default position if it's not significantly faster than old measurement."; 19:03 UTC, "My reasoning is that there is no such a thing as too fast a checker, and these are always the performance bottlenecks in all languages that we heard about. So I think ensuring the correctness is priority number one in ensuring performance of type checking is priority number two. Or even one and a half."; 19:06 UTC, his yes to the entry, "Yes, include the checker performance as a high priority right after the correctness in the positions."; by: coordinator
+
+### P-148
+
+2026-10-14 19:17Z · rewritten · by coordinator: his rephrasing, 19:16 UTC 2026-10-14: "I would phrase the position a bit differently. Cut the duplication and say that after checker changes we always measure the performance impact and after the initial correctness pass we follow it up with a performance optimization pass. Ideally this would be done within the worker's rung and validated by the skeptic. Not as an extra post landing manual process that we are doing now."
+
+- P-148 **The checker's speed comes right after its correctness.** No checker is too fast, and in every language he has heard of the type checker is a performance bottleneck. So the checker's correctness comes first and its speed second, nearly level with it. A slowdown of the checker is work to do, not a cost to accept: it is optimized, keeping every answer. Still to build: the speed fix under row 680's repair (PLAN item 54).
+
+### P-148
+
+2026-10-14 19:20Z · rewritten · by coordinator: his word, 19:20 UTC 2026-10-14: "Try phrasing it in ASD-STE100 register (halfway). That compressed phrasing isn't obvious to me and I doubt fresh workers would get your meaning either.", on "keeping every answer"
+
+- P-148 **The checker's speed comes right after its correctness.** A rung that changes the checker measures the change's effect on the checker's time. After its correctness pass, it makes a pass that optimizes the change, keeping every answer, and its skeptic checks both. The speed work is part of the rung, not a separate step after the landing. Still to build: the batch manual's and the skills' lines for it; the speed fix under row 680's repair (PLAN item 54).
+
+### P-79
+
+2026-10-15 00:47Z · rewritten · by coordinator: row 425 made a duplicate of row 731 by PLAN's consolidation (ad56edb62)
+
+- P-79 **The team's demos that write no static argument for a generic reduction stay as they are, and are respelled later only if they still fail.** When a batch has a free slot, it first checks each demo again under P-48's bound rule (row 425). It then writes the static arguments that a demo still needs, with a demo stage that only reports.
+
+### P-148
+
+2026-10-15 00:47Z · rewritten · by coordinator: the speed fix under row 680's repair landed as climb batch 15b (a0205c127, e4dabaa0c)
+
+- P-148 **The checker's speed comes right after its correctness.** A rung that changes the checker measures how the change affects the time that the checker needs. First the rung makes the change correct. Then it does a second pass that makes the checker faster. This pass must not change the checker's results: the checker accepts and refuses the same programs as before, with the same errors at the same places. The rung's skeptic checks the time and the results. This work is part of the rung, not a separate step after the landing. Still to build: the batch manual's and the skills' lines for it; the speed fix under row 680's repair (PLAN item 54).
+
+### P-148
+
+2026-10-15 01:08Z · rewritten · by coordinator: the skills (315420c02, b875d2de7, 11fb10c64) and the batch script and manual (dc06efbbc)
+
+- P-148 **The checker's speed comes right after its correctness.** A rung that changes the checker measures how the change affects the time that the checker needs. First the rung makes the change correct. Then it does a second pass that makes the checker faster. This pass must not change the checker's results: the checker accepts and refuses the same programs as before, with the same errors at the same places. The rung's skeptic checks the time and the results. This work is part of the rung, not a separate step after the landing. Still to build: the batch manual's and the skills' lines for it.
+
+### P-149
+
+2026-10-15 06:13Z · added · by coordinator: his words, 06:10 UTC 2026-10-15: "So we are basically on track to doing it the Scala way. Is this correct reading? That would please me. I think that's reasonable. Just on my instinct alone. If there are checker rules that can disambiguate the situation, I think that's a good thing."; 06:13 UTC: "I'm also leaning this way, so you can pre-record my decision unless a hard evidence against it surfaces."; earlier, 04:18 UTC, on the ask: "it gives up the scalar's way of letting a sibling trait supply the body. So you were referring to scalar the language. So I would lean to go that way if possible, if that has a clean resolution."; by: coordinator
+
+### P-149
+
+2026-10-15 06:14Z · rewritten · by coordinator: his question, 06:14 UTC 2026-10-15, whether the specification declares this way; the coordinator told him the record reads it as refusing
+
+- P-149 **A body inherited from one supertype implements an abstract functional method inherited from another (Q1, Scala's way).** So `object O extends { A, B }`, with `pick(self)` abstract in `A` and given a body in `B`, is accepted, and a call through `A`, `B` or `O` runs `B`'s body. Two bodies from two supertypes stay ambiguous, and the type must declare its own; an abstract and a concrete declaration of one method in one trait are refused. Why: a peer, Scala, does it, and its rules settle each case at the checker. It stands unless the probe taken for it finds hard evidence against it. Still to build: climb batch 16's rung K, rows 572 and 727 (PLAN item 55).
+
+### P-149
+
+2026-10-15 06:24Z · rewritten · by coordinator: his answer, 06:23 UTC 2026-10-15: "Definitely. Option one, based on honoring the original designer's intent, we are not here to change the nature of Fortress in fundamental ways unless we must reconcile a conflict between earlier and later designer choices, then we look at other languages on how to resolve it. We are not bending Fortress the Scala way just for hypothetical convenience reasons."; after the coordinator corrected his reading at 06:17 UTC that the specification declared Scala's way; the probe `perf-probes/abstract-sibling-body/REPORT.md` (2798e75d5); by: coordinator
+
+- P-149 **A body inherited from one supertype implements an abstract functional method inherited from another (Q1, Scala's way).** So `object O extends { A, B }`, with `pick(self)` abstract in `A` and given a body in `B`, is accepted, and a call through `A`, `B` or `O` runs `B`'s body. Two bodies from two supertypes stay ambiguous, and the type must declare its own; an abstract and a concrete declaration of one method in one trait are refused. Why: a peer, Scala, does it, and its rules settle each case at the checker. Held for his word: he took it believing the specification accepts such an object, and the record reads the specification as refusing it; it waits for the probe's reading of the specification. Still to build: climb batch 16's rung K, rows 572 and 727 (PLAN item 55).
+
+### P-150
+
+2026-10-16 09:15Z · added · from `explorations/coordinator/process-engineering/fresh-jvm-commands.md`, "What a resident compiler could save, at most" · by coordinator: His word, 09:15 UTC on 2026-10-16: "This feels like something that should be recorded so that we do not reattempt it unless something significant changes."
+
+### P-151
+
+2026-10-16 16:44Z · added · from `explorations/perf-probes/where-clauses/REPORT.md`, "B.3 Conditional extension, by the accepted rule" · by curator: his answer "3 for the where clauses" at 16:42 UTC on 2026-10-16 to the coordinator's ask of 15:55 UTC (option 3: build the forms the team wrote down and stop there, keep the fusion and measure the team's commented generic distribute, move the rest of AnyList into List); the conditional-extension rule accepted at 12:35 UTC ("The rules feel solid ... if we know how to implement this, I would go for it")
+
+### P-149
+
+2026-10-16 19:13Z · rewritten · from `explorations/reviews/batch-16-review.md`, "What the record listed for him, and PLAN lacks" · commit `c23b85fdc` · by record worker after climb batch 16: the built part cut: rung K landed P-149
+
+- P-149 **An object that inherits an abstract functional method from one trait and its body from a sibling trait, and declares none of its own, is refused (Q1).** So `object O extends { A, B }`, with `pick(self)` abstract in `A` and given a body in `B`, must declare its own `pick`, as the specification's text and the type group's Welterweight calculus require and as walk already does; an abstract and a concrete declaration of one method in one trait are refused too. Why: the revival honors the designers' intent and does not change Fortress's nature for a convenience; other languages are consulted only to reconcile a conflict between earlier and later designers' choices, and here there is none. No library type uses the shape. Still to build: climb batch 16's rung K, rows 572 and 727.
+
+### P-45
+
+2026-10-16 19:49Z · rewritten · from `explorations/reviews/batch-16-review.md`, "For Pavol": his answer of 19:47 UTC on 2026-10-16 to climb batch 16's W.worker.1 (row 159's limit), asked as 'Should walk compare every pair of generic declarations by the types they declare?': 'Does this mean bringing it in line with the compiler's checker behavior? Then yes.'
+
+- P-45 **Overloads may differ in their static parameters (answer 9).** The specification drops its sentence that forbids it and states the type group's 2011 model, which the checker runs; the old sentence stays as superseded text. The checker keeps the paper's three overloading rules, checks the Return Type Rule over every instance, and requires two generic declarations in the more-specific relation to agree on their static parameters position by position, as Java's overriding rule does (row 398). Walk dispatches on declared domains, not by the order of the declarations. The library repairs its refused families with its own exclusions, and no model line changes. The judgement's smaller choices took the record's defaults, listed for his review in `PLAN.md`.
+
+### P-152
+
+2026-10-17 11:37Z · added · from `explorations/compile-ladder/climb-batch-16/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`": his answer to review item 3 at 11:36 UTC on 2026-10-17: 'Agreed. Only one option makes sense. The option one.'
+
+### P-45
+
+2026-10-17 17:40Z · rewritten · from `explorations/compile-ladder/rung-walk-generic-pairs/REPORT.md`, "7. Sentences made false" · by climb batch 17's gather: rung G's skeptic's leftForGather: its Still to build is built by rung G
+
+- P-45 **Overloads may differ in their static parameters (answer 9).** The specification drops its sentence that forbids it and states the type group's 2011 model, which the checker runs; the old sentence stays as superseded text. The checker keeps the paper's three overloading rules, checks the Return Type Rule over every instance, and requires two generic declarations in the more-specific relation to agree on their static parameters position by position, as Java's overriding rule does (row 398). Walk dispatches on declared domains, not by the order of the declarations, and its load check reads every pair of generic declarations on their declared domains by the checker's rules, with no parameter pair required to exclude, so that walk and the checker accept the same pairs (row 159). The library repairs its refused families with its own exclusions, and no model line changes. The judgement's smaller choices took the record's defaults, listed for his review in `PLAN.md`. Still to build: walk's load check over every pair, PLAN phase 3 item 15.
+
+### P-45
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `6d187d069` · by coordinator: the status narrowed to what rung G built (finding 5), row 759 named (finding 4)
+
+- P-45 **Overloads may differ in their static parameters (answer 9).** The specification drops its sentence that forbids it and states the type group's 2011 model, which the checker runs; the old sentence stays as superseded text. The checker keeps the paper's three overloading rules, checks the Return Type Rule over every instance, and requires two generic declarations in the more-specific relation to agree on their static parameters position by position, as Java's overriding rule does (row 398). Walk dispatches on declared domains, not by the order of the declarations, and its load check reads every pair of generic declarations on their declared domains by the checker's rules, with no parameter pair required to exclude, so that walk and the checker accept the same pairs (row 159). The library repairs its refused families with its own exclusions, and no model line changes. The judgement's smaller choices took the record's defaults, listed for his review in `PLAN.md`. Built: walk's load check over every pair, by climb batch 17's rung G.
+
+### P-151
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `24db899fa` · by coordinator: the status set to what climb batch 17 built (gather.3, finding 6); the decision text unchanged
+
+- P-151 **Only the `where` forms the team wrote down are built.** A trait that extends another under a `where` condition is that type only where the condition holds, and its members are checked under the condition; a method's `where` condition bounds its static parameters; and the team's comment `AnyList comprises List[\E\] where [\E\]` becomes live. `SUM`'s fusion with `MAX` and `MIN` stays, the team's commented generic `distribute` measured for its two type errors; the rest of `AnyList` moves into `List`. Why: build what the team left, and add nothing it did not. Still to build: the batch after climb batch 16.
+
+### P-151
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `396e4ed8d` · by climb batch 18's routing: status only: conditional extension and the where checks built; what is left named
+
+- P-151 **Only the `where` forms the team wrote down are built.** A trait that extends another under a `where` condition is that type only where the condition holds, and its members are checked under the condition; a method's `where` condition bounds its static parameters; and the team's comment `AnyList comprises List[\E\] where [\E\]` becomes live. `SUM`'s fusion with `MAX` and `MIN` stays, the team's commented generic `distribute` measured for its two type errors; the rest of `AnyList` moves into `List`. Why: build what the team left, and add nothing it did not. Built: the method condition and the generic `distribute`, by climb batch 17's rung L (`2b1cd8e63`), and `AnyList`'s clause, by its rung A (`24db899fa`), with `AnyList`'s bodies respelled within `AnyList`, not moved into `List`. Still to build: conditional extension (PLAN, "Work that can start now").
+
+### P-45
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/rung-walk-trait-method-bounds/REPORT.md`, "11. Defects and their homes" · commit `5262a2412` · by climb batch 18's routing: status only: the batch's rows 779 and 780 against walk's load check
+
+- P-45 **Overloads may differ in their static parameters (answer 9).** The specification drops its sentence that forbids it and states the type group's 2011 model, which the checker runs; the old sentence stays as superseded text. The checker keeps the paper's three overloading rules, checks the Return Type Rule over every instance, and requires two generic declarations in the more-specific relation to agree on their static parameters position by position, as Java's overriding rule does (row 398). Walk dispatches on declared domains, not by the order of the declarations, and its load check reads every pair of generic declarations on their declared domains by the checker's rules, with no parameter pair required to exclude, so that walk and the checker accept the same pairs (row 159). The library repairs its refused families with its own exclusions, and no model line changes. The judgement's smaller choices took the record's defaults, listed for his review in `PLAN.md`. Built: walk's load check over every pair of functions with static parameters, by climb batch 17's rung G. Not built: a functional method of a generic trait or object is still compared on its instances (F-26), the Meet Rule's search matches only some domains (row 539), and rows 740 and 741 wait on P-152. The one pair on which rung G's reading makes walk and the checker disagree is row 759's: walk refuses `g[\T\](a: T)` beside `g(a: Any)`, and the checker accepts it.
+
+### P-152
+
+2026-10-19 22:23Z · rewritten · from `explorations/coordinator/postmortem-2026-10-19-haiku/part-1-evening-and-morning.md`, "E22. P-152 (35287, 35295, 11:37; `6e400b6cd`)" · from `explorations/coordinator/postmortem-2026-10-19-haiku/fable-judgement.md`, "Part 1" · by Opus record worker: the Why names the team's source, the paper of 2011, with the specification as its restatement; Still to build no longer records the coordinator's proposal of a method as his decision, and names its PLAN item; Fable's judgement, E21 and E22: P-152 stands as decided
+
+- P-152 **Exclusion between two generic declarations is read over the whole parameter type, on both paths (the specification's existential reduction).** Two declarations whose parameter types exclude each other only together, through a shared parameter that fixes one static argument, are read as the specification reads them: the pair is valid where the declared domains meet the overloading rules. Walk and the compiled checker both change to read the whole parameter type, so that rows 740 and 741 close, and walk loads the program that it refused after climb batch 16. Why: the specification states this reading, and the paths should match the designers' text. Still to build: a probe to find the algorithm on both paths, then a batch rung on each.
+
+### P-153
+
+2026-10-20 00:45Z · added · from `explorations/reviews/integer-power-fable-judgement.md`, "6. The recommendation and the default" · by coordinator: the curator took option 1, E, at 00:45 UTC on 2026-10-20: "Yes."
+
+### P-152
+
+2026-10-20 03:39Z · rewritten · from `explorations/compile-ladder/climb-batch-19/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `14e91723f` · by coordinator: built by climb batch 19's rung P; rows 740 and 741 closed; rows 786 to 788 left
+
+- P-152 **Exclusion between two generic declarations is read over the whole parameter type, on both paths (the specification's existential reduction).** Two declarations whose parameter types exclude each other only together, through a shared parameter that fixes one static argument, are read as the specification reads them: the pair is valid where the declared domains meet the overloading rules. Walk and the compiled checker both change to read the whole parameter type, so that rows 740 and 741 close, and walk loads the program that it refused after climb batch 16. Why: the type group's paper of 2011 decides exclusion between parameter types with static parameters by existential reduction (`Papers/Types/exc-reduction.tick`; the team's later word, P-26), as the revised specification states (`advanced/overloading.tex`, "Declarations with Static Parameters"). Still to build: the reading on both paths, after the probe for its algorithm (PLAN phase 3, item 17).
+
+### P-45
+
+2026-10-20 03:39Z · rewritten · from `explorations/compile-ladder/climb-batch-19/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `14e91723f` · by coordinator: rows 740 and 741 closed by climb batch 19's rung P
+
+- P-45 **Overloads may differ in their static parameters (answer 9).** The specification drops its sentence that forbids it and states the type group's 2011 model, which the checker runs; the old sentence stays as superseded text. The checker keeps the paper's three overloading rules, checks the Return Type Rule over every instance, and requires two generic declarations in the more-specific relation to agree on their static parameters position by position, as Java's overriding rule does (row 398). Walk dispatches on declared domains, not by the order of the declarations, and its load check reads every pair of generic declarations on their declared domains by the checker's rules, with no parameter pair required to exclude, so that walk and the checker accept the same pairs (row 159). The library repairs its refused families with its own exclusions, and no model line changes. The judgement's smaller choices took the record's defaults, listed for his review in `PLAN.md`. Built: walk's load check over every pair of functions with static parameters, by climb batch 17's rung G. Not built: a functional method of a generic trait or object is still compared on its instances (F-26), the Meet Rule's search matches only some domains (row 539), two nested generic functional methods of a trait or object are refused at load where the same two functions load (row 779), and in a trait with static parameters load and fail at a call (row 780), and rows 740 and 741 wait on P-152. The one pair on which rung G's reading makes walk and the checker disagree is row 759's: walk refuses `g[\T\](a: T)` beside `g(a: Any)`, and the checker accepts it.
+
+### P-45
+
+2026-10-20 04:09Z · rewritten · from `explorations/reviews/batch-19-review.md`, "Part 4. Routing" · commit `bd003812b` · by coordinator: the paths' disagreements after climb batch 19: rows 786 to 788 beside row 759
+
+- P-45 **Overloads may differ in their static parameters (answer 9).** The specification drops its sentence that forbids it and states the type group's 2011 model, which the checker runs; the old sentence stays as superseded text. The checker keeps the paper's three overloading rules, checks the Return Type Rule over every instance, and requires two generic declarations in the more-specific relation to agree on their static parameters position by position, as Java's overriding rule does (row 398). Walk dispatches on declared domains, not by the order of the declarations, and its load check reads every pair of generic declarations on their declared domains by the checker's rules, with no parameter pair required to exclude, so that walk and the checker accept the same pairs (row 159). The library repairs its refused families with its own exclusions, and no model line changes. The judgement's smaller choices took the record's defaults, listed for his review in `PLAN.md`. Built: walk's load check over every pair of functions with static parameters, by climb batch 17's rung G. Not built: a functional method of a generic trait or object is still compared on its instances (F-26), the Meet Rule's search matches only some domains (row 539), two nested generic functional methods of a trait or object are refused at load where the same two functions load (row 779), and in a trait with static parameters load and fail at a call (row 780). The one pair on which rung G's reading makes walk and the checker disagree is row 759's: walk refuses `g[\T\](a: T)` beside `g(a: Any)`, and the checker accepts it.
+
+### P-40
+
+2026-10-20 05:43Z · rewritten · from `explorations/perf-probes/array-sites/REPORT.md`, "Step 2: E3 re-based (`e3-rebased.patch`)" · by curator: his answer to ask 3 in chat, 05:42 UTC on 2026-10-20: option 1, the diff; 'The patch made sense to me.'
+
+- P-40 **Sizes are checked, and a size left unknown is an error only where it is used.** The checker checks `nat` and `int` static parameters and refuses a size beyond `NN32` or `ZZ32` (F-140). Storage refuses a JVM array length over 2^31-1. A size that inference leaves unknown is an error only when it reaches a type, a name or a value. How the checker represents it is not his choice. A size that a call cannot fix refuses the call, also inside an overload set, instead of dropping the arm (row 400, its compiled half open). Every static argument but an operator counts in the exclusion rule; booleans join once the checker has boolean parameters (row 406). A size used as a value converts to `ZZ32` as a numeral does (row 485). The api's 25 unused sizes (F-35) go only by a diff shown to him with the switch-over's design.
+
+### P-154
+
+2026-10-20 06:21Z · added · by curator: his answer to ask 4 at about 06:20 UTC: option 1, as landed
+
+### P-155
+
+2026-10-20 11:54Z · added · by curator: his answer to ask 5 at about 11:50 UTC: option 2, 'Otherwise, we are just sweeping problems under the rug.'
+
+### P-79
+
+2026-10-20 11:54Z · rewritten · by curator: his answer at about 11:50 UTC: 'Rewrite these demos to make them work, since we know how ... I would prefer we maintain them all in running state as we are making changes in the unsealed tree.'
+
+- P-79 **The team's demos that write no static argument for a generic reduction stay as they are, and are respelled later only if they still fail.** When a batch has a free slot, it first checks each demo again under P-48's bound rule (row 731). It then writes the static arguments that a demo still needs, with a demo stage that only reports.
+
+### P-153
+
+2026-10-20 12:51Z · rewritten · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `5ad4a9957` · by climb batch 20's routing: built by rung I, with three demos where it named two; "Still to build" narrowed to the compiled half
+
+- P-153 **An integer raised to a negative power raises an error; a fraction comes from a float or rational base (contract E, item 58).** Each integer type's `^` answers its own type at every exponent: a negative exponent raises `IntegerOverflow` where the result is no integer, a base of 0 raises `DivisionByZero`, and the bases 1 and -1 give their exact power. A program that wants a fraction writes a float or rational base, as `2.0^(-1)`. Why: the team's later code types an integer power by its integer at a signed exponent (P-26); overloads choose by type, and no type carries an exponent's or a numeral's sign, so the split is on the base, with the sign tested at run time as the library tests every sign-refined subset (P-80). Still to build: the integer powers so typed, with row 747's typed `fail` in `strToInt`, and the team tests `realArith`, `compoundArray` and `simpleExp` and two demos written with a float base (PLAN item 58).
+
+### P-40
+
+2026-10-20 12:51Z · rewritten · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `e487cec2d` · by climb batch 20's routing: built by rung A
+
+- P-40 **Sizes are checked, and a size left unknown is an error only where it is used.** The checker checks `nat` and `int` static parameters and refuses a size beyond `NN32` or `ZZ32` (F-140). Storage refuses a JVM array length over 2^31-1. A size that inference leaves unknown is an error only when it reaches a type, a name or a value. How the checker represents it is not his choice. A size that a call cannot fix refuses the call, also inside an overload set, instead of dropping the arm (row 400, its compiled half open). Every static argument but an operator counts in the exclusion rule; booleans join once the checker has boolean parameters (row 406). A size used as a value converts to `ZZ32` as a numeral does (row 485). The unused sizes of the api's 17 vector and matrix operators go by decision E's diff, which he read and took for the switch-over (ask 3, 2026-10-20; `perf-probes/array-sites/e3-rebased.patch`): it finishes the team's own fix of 2008, which took them out of the component only (F-35), and is built with the array sites' other fixes. The other unused sizes of the 25 go only by a diff shown to him.
+
+### P-79
+
+2026-10-20 12:51Z · rewritten · from `explorations/reviews/batch-20-review.md`, "Findings" · commit `5ad4a9957` · by climb batch 20's routing: the review's finding 10: the example corrected to rung I's three demo lines (git show 5ad4a9957 -- ProjectFortress/demos/); its PLAN item named
+
+- P-79 **Every team demo is kept running as the tree changes (2026-10-20).** A demo that a change breaks is rewritten in the same batch where the way is known, as climb batch 20's rung I wrote `10.0^(-6)` in three demos; one that fails for want of a feature runs again once the feature is built. His word of 2026-10-20 replaces his earlier "Let's not touch them", which likely came when a fix needed a feature not yet built. So the demos that fail today are respelled where the way is known: the five refused at load (row 670), `trips.fss` (row 710), `BiCGSTAB`'s timing line (row 791), and the static arguments a reduction needs under P-48 (row 731). Still to build: a measurement of which demos run, and a rung for those with a known way.

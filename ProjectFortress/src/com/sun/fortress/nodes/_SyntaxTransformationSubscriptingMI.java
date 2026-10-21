@@ -112,7 +112,7 @@ public class _SyntaxTransformationSubscriptingMI extends SubscriptingMI implemen
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Op temp_op = getOp();
         code ^= temp_op.hashCode();
         List<Expr> temp_exprs = getExprs();

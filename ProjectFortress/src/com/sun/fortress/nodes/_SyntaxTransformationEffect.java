@@ -109,9 +109,9 @@ public class _SyntaxTransformationEffect extends Effect implements _SyntaxTransf
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<List<Type>> temp_throwsClause = getThrowsClause();
-        code ^= temp_throwsClause.hashCode();
+        code ^= NodeHash.of(temp_throwsClause);
         boolean temp_ioEffect = isIoEffect();
         code ^= temp_ioEffect ? 1231 : 1237;
         java.util.Map<String, Level> temp_variables = getVariables();

@@ -114,7 +114,7 @@ public class _SyntaxTransformationLiteralExpr extends LiteralExpr implements _Sy
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         String temp_text = getText();
         code ^= temp_text.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

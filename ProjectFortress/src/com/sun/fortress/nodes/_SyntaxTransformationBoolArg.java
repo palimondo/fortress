@@ -128,7 +128,7 @@ public class _SyntaxTransformationBoolArg extends BoolArg implements _SyntaxTran
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         BoolExpr temp_boolArg = getBoolArg();
         code ^= temp_boolArg.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

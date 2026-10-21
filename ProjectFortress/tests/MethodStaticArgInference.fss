@@ -1,0 +1,19 @@
+component MethodStaticArgInference
+export Executable
+
+(* A dotted method call that writes no static argument takes the method's own type argument from the type of an argument that mentions it. *)
+
+object Box[\T\](v: T) end
+
+object O
+  get[\T\](b: Box[\T\]): T = b.v
+end
+
+run(): () = do
+    println("REACHED")
+    z: ZZ32 = 3
+    assert(O.get(Box[\ZZ32\](z)) = 3, "a method call need not write its static arguments; inference.tex, chapter \"Type Inference\" and section \"The Static Arguments of a Call\"; row 21")
+    println("PASS")
+  end
+
+end

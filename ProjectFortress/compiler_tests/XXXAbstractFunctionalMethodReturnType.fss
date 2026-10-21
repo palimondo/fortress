@@ -1,0 +1,18 @@
+component XXXAbstractFunctionalMethodReturnType
+export Executable
+
+(* An object's functional method that defines an abstract one of its trait with the same parameter types and a return type that is not a subtype of the abstract one's is refused (traits.tex, section "Method Declarations"; overloading.tex, section "Declarations with Static Parameters", the Return Type Rule). *)
+
+trait T
+  f(self): ZZ32
+end
+object O extends T
+  f(self): String = "x"
+end
+
+run(): () = do
+  x: T = O
+  println(f(x))
+end
+
+end

@@ -96,7 +96,7 @@ public class NonterminalDef extends NonterminalDecl {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Id temp_name = getName();
@@ -106,7 +106,7 @@ public class NonterminalDef extends NonterminalDecl {
         NonterminalHeader temp_header = getHeader();
         code ^= temp_header.hashCode();
         Option<BaseType> temp_astType = getAstType();
-        code ^= temp_astType.hashCode();
+        code ^= NodeHash.of(temp_astType);
         return code;
     }
 

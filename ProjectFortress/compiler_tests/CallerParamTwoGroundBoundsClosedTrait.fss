@@ -1,0 +1,22 @@
+(* A call whose argument is the caller's own type parameter, bounded as the callee's is by a trait with a comprises clause and a trait without static parameters that excludes one of its listed types, is applicable. *)
+component CallerParamTwoGroundBoundsClosedTrait
+export Executable
+
+trait Q excludes { C } end
+trait K comprises { A, B, C } end
+object A extends { K, Q } end
+object B extends { K, Q } end
+object C extends K end
+
+h[\T extends { K, Q }\](x: T): T = x
+g[\T extends { K, Q }\](x: T): T = h(x)
+tag(a: A): String = "A"
+tag(b: B): String = "B"
+
+run(): () = do
+    assert(tag(g(A)), "A", "h(x) in g, whose argument has g's type parameter T under h's bounds, is applicable at h's instance T; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    assert(tag(g(B)), "B", "h(x) in g, whose argument has g's type parameter T under h's bounds, is applicable at h's instance T; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,18 @@
+component GenericReturnRuleInvariantWalk
+export Executable
+
+(* A generic declaration returning a Box of its type parameter beside a more specific generic one of the same shape over Round breaks the Return Type Rule, since for a Circle the first's instance at Shape returns a Box of Shape and no instance of the second does, so walk refuses the pair at load; Specification/advanced/overloading.tex, section "Declarations with Static Parameters". *)
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+object Box[\E\](v: E) end
+
+f[\T extends Shape\](x: T): Box[\T\] = Box[\T\](x)
+f[\U extends Round\](x: U): Box[\U\] = Box[\U\](x)
+
+run(): () = do
+    println(f(Circle).v)
+  end
+
+end

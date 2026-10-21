@@ -1,0 +1,17 @@
+The subscripts' design S1, the checker half: a tuple whose elements are each an Index is an Index (checker-shadow.py tupleindex). Measured as a shadow; subtyping only, the exclusion side not done. Generated on d97001d19 (main) by checker-shadow.py tupleindex; apply to d97001d19 with git apply.
+
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+index ae9651816..1e7abad62 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -326,6 +326,10 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+            pSub(disjunctFromTuple(s, e2.size + 1), disjunctFromTuple(t, e2.size + 1)))
+     case (s@STupleType(_, e1, None, _), t@STupleType(_, e2, None, _)) if e1.size == e2.size =>
+       pOr(pOr(e1.map(pEqv(_, BOTTOM))), pAnd((e1,e2).zipped.map((a, b) => pSub(a, b))))
++    // PROBE (tupleindex): a tuple of indices is an index
++    case (s@STupleType(_, e1, None, _), t@STraitType(_, tn, targs, _))
++        if tn.getText == "Index" && targs.isEmpty =>
++      pOr(pOr(e1.map(pEqv(_, BOTTOM))), pAnd(e1.map(pSub(_, t))))
+     case (s@STupleType(_, e1, _, _), t) =>
+       pOr(e1.map(pEqv(_, BOTTOM)))
+     case (s, t:TupleType) => 

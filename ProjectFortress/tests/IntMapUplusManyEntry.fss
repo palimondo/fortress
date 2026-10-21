@@ -1,0 +1,32 @@
+(* IntMap's UPLUS of two many-entry maps throws KeyOverlap on a shared key in either order, and holds every entry of both where they share none. *)
+component IntMapUplusManyEntry
+import IntMap.{...}
+export Executable
+
+overlap(f: () -> IntMap[\ZZ32\]): String = do
+    msg: String := "no exception"
+    try
+        ignore(f())
+    catch e
+        UncheckedException => msg := e.asString
+    end
+    msg
+  end
+
+sharedKey(msg: String): Boolean =
+    (msg = "IntMap.KeyOverlap: 3 |-> 53 and |-> 1") OR (msg = "IntMap.KeyOverlap: 3 |-> 1 and |-> 53") OR
+    (msg = "IntMap.KeyOverlap: 6 |-> 56 and |-> 2") OR (msg = "IntMap.KeyOverlap: 6 |-> 2 and |-> 56")
+
+run(): () = do
+    thirds = {[\ZZ32\] widen(3 k) |-> k | k <- 0#6}
+    middle = {[\ZZ32\] widen(k) |-> 50 + k | k <- 2#6}
+    assert(sharedKey(overlap(fn () => middle UPLUS thirds)), true, "keys 2 to 7 UPLUS keys 0, 3, ..., 15 throws KeyOverlap on a shared key")
+    assert(sharedKey(overlap(fn () => thirds UPLUS middle)), true, "keys 0, 3, ..., 15 UPLUS keys 2 to 7 throws KeyOverlap on a shared key")
+    others = {[\ZZ32\] widen(3 k + 1) |-> 100 + k | k <- 0#6}
+    both = {[\ZZ32\] widen(k) |-> (if k MOD 3 = 0 then k DIV 3 else 100 + k DIV 3 end) | k <- 0#17, k MOD 3 =/= 2}
+    assert(thirds UPLUS others, both, "keys 0, 3, ..., 15 UPLUS keys 1, 4, ..., 16 holds every entry of both")
+    assert(others UPLUS thirds, both, "keys 1, 4, ..., 16 UPLUS keys 0, 3, ..., 15 holds every entry of both")
+    println("PASS")
+  end
+
+end

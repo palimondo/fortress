@@ -117,7 +117,7 @@ public class _SyntaxTransformationTaggedUnitType extends TaggedUnitType implemen
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_elemType = getElemType();
         code ^= temp_elemType.hashCode();
         Expr temp_unitExpr = getUnitExpr();

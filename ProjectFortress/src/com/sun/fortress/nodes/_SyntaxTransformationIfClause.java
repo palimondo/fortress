@@ -109,7 +109,7 @@ public class _SyntaxTransformationIfClause extends IfClause implements _SyntaxTr
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         GeneratorClause temp_testClause = getTestClause();
         code ^= temp_testClause.hashCode();
         Block temp_body = getBody();

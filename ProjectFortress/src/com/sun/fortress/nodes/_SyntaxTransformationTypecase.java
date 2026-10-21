@@ -120,13 +120,13 @@ public class _SyntaxTransformationTypecase extends Typecase implements _SyntaxTr
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_bindExpr = getBindExpr();
         code ^= temp_bindExpr.hashCode();
         List<TypecaseClause> temp_clauses = getClauses();
         code ^= temp_clauses.hashCode();
         Option<Block> temp_elseClause = getElseClause();
-        code ^= temp_elseClause.hashCode();
+        code ^= NodeHash.of(temp_elseClause);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

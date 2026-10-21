@@ -109,11 +109,11 @@ public class _SyntaxTransformationAliasedSimpleName extends AliasedSimpleName im
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         IdOrOpOrAnonymousName temp_name = getName();
         code ^= temp_name.hashCode();
         Option<IdOrOpOrAnonymousName> temp_alias = getAlias();
-        code ^= temp_alias.hashCode();
+        code ^= NodeHash.of(temp_alias);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

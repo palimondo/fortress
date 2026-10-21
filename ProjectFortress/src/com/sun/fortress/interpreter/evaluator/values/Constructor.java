@@ -463,18 +463,19 @@ public class Constructor extends NonPrimitive {
      * The declarations with a body among provided that have the name and self
      * parameter position of the abstract declaration m, and parameter types,
      * the self parameter's not counted, each a subtype of m's, together cover
-     * m's parameter types; or the search does not settle.  A body at m's own
-     * parameter types covers them.  Otherwise the parameter types of m are
-     * split, position by position, into parts through comprises clauses read
-     * at the level of values (coverParts), and every combination of parts
-     * across the positions must lie inside the domain of one such declaration
+     * m's parameter types.  A body at m's own parameter types covers them.
+     * Otherwise the parameter types of m are split, position by position, into
+     * parts through comprises clauses read at the level of values
+     * (coverParts), and every combination of parts across the positions must
+     * lie inside the domain of one such declaration
      * (OverloadedFunction.someBelow), as walk's Meet Rule check reads an
      * overlap (OverloadedFunction.overlapCoveredBy).  With no such declaration
-     * m is not covered.  A domain that cannot be read, a search that meets a
-     * cycle or a symbolic type, and a search beyond the bounds of the Meet
-     * Rule check's (OVERLAP_STEPS, OVERLAP_PARTS) do not settle, and m is not
-     * refused: a call that no body defines stops at run time, unlike a call
-     * of an ambiguous overload.
+     * m is not covered.  A declaration whose domain cannot be read is not
+     * among them.  A search that meets a cycle or a symbolic type, or goes
+     * beyond the bounds of the Meet Rule check's (OVERLAP_STEPS,
+     * OVERLAP_PARTS), does not settle, and m is not covered, as the Meet Rule
+     * check refuses an overlap whose search does not settle and as the
+     * compiled type checker refuses there.
      */
     private static boolean definedBelow(MethodClosure m, Set<SingleFcn> provided) {
         List<List<FType>> covers = new ArrayList<List<FType>>();
@@ -499,7 +500,7 @@ public class Constructor extends NonPrimitive {
                 covers.add(dk);
             }
             catch (FortressException ex) {
-                return true;
+                continue;
             }
         }
         if (covers.isEmpty()) return false;
@@ -511,10 +512,10 @@ public class Constructor extends NonPrimitive {
             List<FType> at = new ArrayList<FType>(covers.size());
             for (List<FType> c : covers) at.add(c.get(i));
             List<Set<FType>> pi = coverParts(dm.get(i), at, new HashSet<FType>(), steps);
-            if (pi == null) return true;
+            if (pi == null) return false;
             parts.add(pi);
             combinations *= pi.size();
-            if (combinations > OverloadedFunction.OVERLAP_PARTS) return true;
+            if (combinations > OverloadedFunction.OVERLAP_PARTS) return false;
         }
         int[] index = new int[n];
         while (true) {

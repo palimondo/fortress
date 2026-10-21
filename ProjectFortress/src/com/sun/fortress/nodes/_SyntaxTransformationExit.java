@@ -117,11 +117,11 @@ public class _SyntaxTransformationExit extends Exit implements _SyntaxTransforma
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<Id> temp_target = getTarget();
-        code ^= temp_target.hashCode();
+        code ^= NodeHash.of(temp_target);
         Option<Expr> temp_returnExpr = getReturnExpr();
-        code ^= temp_returnExpr.hashCode();
+        code ^= NodeHash.of(temp_returnExpr);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

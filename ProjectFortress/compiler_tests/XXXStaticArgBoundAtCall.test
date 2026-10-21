@@ -1,0 +1,4 @@
+tests=XXXStaticArgBoundAtCall
+compile
+compile_err_contains=XXXStaticArgBoundAtCall.fss:13:
+compile_err_WIcontains=Ill-formed type: V[\\T\\] The static argument T does not satisfy the corresponding bound K.

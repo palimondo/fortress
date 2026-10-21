@@ -1,0 +1,69 @@
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -2600,22 +2600,22 @@
+ pmul[\ T extends { Number, MultiplicativeRing[\T\] }, nat k \]
+     (a : Vector[\T,k\], b : Vector[\T,k\]):Vector[\T,k\] = a.pmul(b)
+ 
+-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
++opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+        (me : Vector[\T,n\], other : Vector[\T,n\]):T = me.dot(other)
+ 
+-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
++opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+      (me : Vector[\T,n\], other : Vector[\T,n\]):T = me.dot(other)
+ 
+-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
++opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+        (me : Vector[\T,n\], other : T) : Vector[\T,n\] = me.scale(other)
+ 
+-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
++opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+      (me : Vector[\T,n\], other : T) : Vector[\T,n\] = me.scale(other)
+ 
+-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
++opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+         (other : T, me : Vector[\T,n\]) : Vector[\T,n\] = me.scale(other)
+ 
+-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
++opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+      (other : T, me : Vector[\T,n\]) : Vector[\T,n\] = me.scale(other)
+ 
+ squaredNorm[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](a:Vector[\T,s0\]):T = a.dot(a)
+@@ -2989,29 +2989,29 @@
+ 
+ 
+ (* matrix-vector multiplication *)
+-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
++opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+        (me:Matrix[\T,n,m\], v:Vector[\T,m\]):Vector[\T,n\] = me.rmul(v)
+ 
+-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
++opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+      (me:Matrix[\T,n,m\], v:Vector[\T,m\]):Vector[\T,n\] = me.rmul(v)
+ 
+ (* vector-matrix multiplication *)
+-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
++opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+        (v:Vector[\T,n\], me:Matrix[\T,n,m\]):Vector[\T,m\] = me.lmul(v)
+ 
+-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
++opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+      (v:Vector[\T,n\], me:Matrix[\T,n,m\]):Vector[\T,m\] = me.lmul(v)
+ 
+-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
++opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+        (me : Matrix[\T,n,m\], other : T) : Matrix[\T,n,m\] = me.scale(other)
+ 
+-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
++opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+      (me : Matrix[\T,n,m\], other : T) : Matrix[\T,n,m\] = me.scale(other)
+ 
+-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
++opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+        (other : T, me : Matrix[\T,n,m\]) : Matrix[\T,n,m\] = me.scale(other)
+ 
+-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
++opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+      (other : T, me : Matrix[\T,n,m\]) : Matrix[\T,n,m\] = me.scale(other)
+ 
+ (** Array3[\T,b0,s0,b1,s1,b2,s2\] is the type of 3-dimensional arrays

@@ -1,0 +1,14 @@
+component IntMapComprehensionTypedWalk
+import IntMap.{...}
+export Executable
+
+(* A map comprehension with no static argument, over ZZ64 keys and ZZ32 values, bound to a variable declared IntMap[ZZ32], holds its entries. *)
+
+run(): () = do
+    m: IntMap[\ZZ32\] = { widen(k) |-> 10 k | k <- 0#3 }
+    assert(|m|, 3, "a map comprehension bound to a variable declared IntMap[ZZ32] holds one entry for each key (comprehensions.tex, section \"Comprehensions\")")
+    assert(m[widen(2)], 20, "a map comprehension bound to a variable declared IntMap[ZZ32] maps each key to its value (comprehensions.tex, section \"Comprehensions\")")
+    println("PASS")
+  end
+
+end

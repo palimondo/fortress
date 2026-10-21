@@ -95,6 +95,18 @@ public class GenericMethod extends MethodClosure
         this.evaluationEnv = evaluationEnv;
     }
 
+    /**
+     * The environment in which the types that the declaration writes are
+     * evaluated: for a method that a trait declares, the trait's method
+     * environment, in which its instances evaluate their parameter types
+     * (TraitMethod.getEvalEnv), since the trait's member environment, which
+     * holds the declaration, encloses no scope; otherwise the environment
+     * that holds the declaration.
+     */
+    public Environment getTypeEnv() {
+        return isTraitMethod ? evaluationEnv : getWithin();
+    }
+
     //    public GenericMethod(Environment declarationEnv, Environment traitEnv, FnDecl fndef, String selfName) {
     //        super(declarationEnv, fndef, selfName);
     //

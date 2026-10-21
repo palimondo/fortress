@@ -123,7 +123,7 @@ public class _SyntaxTransformationFloatLiteralExpr extends FloatLiteralExpr impl
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         BigInteger temp_intPart = getIntPart();
         code ^= temp_intPart.hashCode();
         BigInteger temp_numerator = getNumerator();

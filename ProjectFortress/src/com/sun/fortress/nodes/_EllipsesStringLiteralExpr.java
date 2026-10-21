@@ -75,7 +75,7 @@ public class _EllipsesStringLiteralExpr extends StringLiteralExpr implements _El
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         return code;
     }
 

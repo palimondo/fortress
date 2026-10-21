@@ -117,7 +117,7 @@ public class _SyntaxTransformationArrayComprehension extends ArrayComprehension 
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<StaticArg> temp_staticArgs = getStaticArgs();
         code ^= temp_staticArgs.hashCode();
         List<ArrayComprehensionClause> temp_clauses = getClauses();

@@ -1,0 +1,36 @@
+The subscripts' design S1, walk's half: a tuple of Index types is an Index in FTypeTuple's subtypeOf, meet and excludesOther (walk-shadow.py). Built only in a scratch worktree for the walk suites. Generated on d97001d19 (main) by walk-shadow.py; apply to d97001d19 with git apply.
+
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java
+index 6ade3face..1c41a020c 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java
+@@ -104,6 +104,12 @@ public class FTypeTuple extends FType {
+             }
+ 
+         }
++        // PROBE (tupleindex, walk): a tuple of indices is an index
++        if (other instanceof FTypeTrait
++            && ("Index".equals(other.getName()) || other.getName().endsWith(".Index"))) {
++            for (FType t : this.l) if (!t.subtypeOf(other)) return false;
++            return true;
++        }
+         return false;
+     }
+ 
+@@ -173,6 +179,8 @@ public class FTypeTuple extends FType {
+             for (List<FType> lt : slf) {
+                 result.add(FTypeTuple.make(lt));
+             }
++        } else if (subtypeOf(other)) {
++            result.add(this); // PROBE (tupleindex, walk): a tuple of indices meets Index at itself
+         }
+         return result;
+     }
+@@ -381,6 +389,7 @@ public class FTypeTuple extends FType {
+             return false;
+         }
+         if (!(other instanceof FTypeTuple)) {
++            if (subtypeOf(other)) return false; // PROBE (tupleindex, walk): a tuple of indices is an index
+             exclDumpln(" Excludes.  Non-tuple.");
+             return true;
+         }

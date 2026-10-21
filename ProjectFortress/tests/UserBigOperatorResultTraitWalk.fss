@@ -1,0 +1,29 @@
+component UserBigOperatorResultTraitWalk
+import List.{...}
+export Executable
+
+(* A reduction with no static argument over a user big operator whose declared result is a trait of its own extending BigOperator is directed by the type of its body, as one declared BigReduction is. *)
+
+object CatReduction[\T\] extends MonoidReduction[\List[\T\]\]
+    getter asString(): String = "cat"
+    empty(): List[\T\] = <|[\T\] |>
+    join(a: List[\T\], b: List[\T\]): List[\T\] = a || b
+end
+
+trait CatOperator[\T\] extends BigOperator[\List[\T\],List[\T\],List[\T\],List[\T\]\] end
+
+object Cat[\T\] extends CatOperator[\T\]
+    getter reduction(): ActualReduction[\List[\T\],List[\T\]\] = CatReduction[\T\]
+    getter body(): List[\T\]->List[\T\] = fn (x: List[\T\]): List[\T\] => x
+    getter unwrap(): List[\T\]->List[\T\] = fn (x: List[\T\]): List[\T\] => x
+end
+
+opr BIG CATOP[\T\](): CatOperator[\T\] = Cat[\T\]
+
+run(): () = do
+    c = BIG CATOP[k <- 0#3] <|[\ZZ32\] k|>
+    assert(c, <|[\ZZ32\] 0, 1, 2|>, "BIG CATOP of the lists <|k|> over 0#3, each a List[ZZ32], is their concatenation, the big operator's static argument being fixed by the type of the body (reductions.tex, section \"Summations and Other Reduction Expressions\"; defining-generators.tex, subsection \"Simple Desugaring of Expressions with Generators\")")
+    println("PASS")
+  end
+
+end

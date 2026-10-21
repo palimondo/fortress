@@ -146,13 +146,20 @@ object Formula{
   private val openedSizeMark = "#"
   private val openedSizes = new java.util.concurrent.atomic.AtomicInteger()
   def openedSizeName(where: String): String = where + openedSizeMark + openedSizes.incrementAndGet
+  // How many sizes have been opened so far: a computation that opens one is not repeated by a memo.
+  def openedSizeCount: Int = openedSizes.get
   def isOpenedSize(e: IntExpr): Boolean = e match {
     case r: IntRef => r.getName.getText.contains(openedSizeMark)
     case _ => false
   }
 
-  // A static parameter or a literal: what a size variable can be bound to
-  def isNatTerm(e: IntExpr): Boolean = e.isInstanceOf[IntRef] || e.isInstanceOf[IntBase]
+  // What a size variable can be bound to: a static parameter, a literal, or an
+  // operation on such sizes, as i - 1; never a size with a variable in it
+  def isNatTerm(e: IntExpr): Boolean = e match {
+    case _: IntRef | _: IntBase => true
+    case SIntBinaryOp(_, _, l, r, _) => isNatTerm(l) && isNatTerm(r)
+    case _ => false
+  }
   
   private def merge[S,T](a: Map[S, T], b: Map[S,T], bin: (T,T) => T, unit: T): Map[S, T] =
     Map((a.keySet ++ b.keySet).map(k => 
@@ -353,7 +360,14 @@ object Formula{
     nds.filterNot{c => nds.exists(d => implies(c, d) && !equivalent(c,d))}
   }
 
-  def reduce(c: CFormula)(implicit ta: TypeAnalyzer): CFormula =  c match {
+  /* A conjunction or a disjunction is reduced once in each analyzer: asked again, the
+   * analyzer answers with its first reduction (TypeAnalyzer.reduced). */
+  def reduce(c: CFormula)(implicit ta: TypeAnalyzer): CFormula = c match {
+    case _: And | _: Or => ta.reduced(c)(reduceOnce(c))
+    case _ => c
+  }
+
+  private def reduceOnce(c: CFormula)(implicit ta: TypeAnalyzer): CFormula =  c match {
     case And(ts, os, ns) =>
       def tSimplify(ip: (_InferenceVarType, TPrimitive)): Option[(_InferenceVarType, TPrimitive)] = ip match {
         // catch trivial contradictions 
@@ -420,7 +434,7 @@ object Formula{
         val (i, NPrimitive(ps, ns)) = ip
         (i, NPrimitive(removeDups(ps.filterNot(nEq(i, _)), nEq), removeDups(ns, nEq)))
       }
-      // A size variable equal to two different sizes, or to arithmetic, has no solution
+      // A size variable equal to two different sizes, or to a size with a variable in it, has no solution
       def nContradiction(ip: (_InferenceVarInt, NPrimitive)) = {
         val (i, NPrimitive(ps, ns)) = ip
         if(ns.exists(nEq(i, _)) || ps.exists(p => ns.exists(nEq(p, _))) ||
@@ -632,7 +646,14 @@ object Formula{
 //	  println("newMap: " + newMap)
           if(isTrue(newMap))
             Some((sub compose tUnifier, oUnifier, nUnifier))
-          else {
+          else newMap match {
+            // A size that only the type variables' bounds name, as a where-clause
+            // variable in the bound of a function's type parameter, is fixed once
+            // the type variables are: solve what their solutions leave, sizes alone.
+            case And(rts, ros, rns) if rts.isEmpty && ros.isEmpty && !rns.isEmpty =>
+              slv(newMap, toBounds).map { case (t2, o2, n2) =>
+                (t2 compose sub compose tUnifier, o2 compose oUnifier, n2 compose nUnifier) }
+            case _ =>
 //               println("sub:" + sub + " on formula " + c)
                None
           }
@@ -759,7 +780,7 @@ object Formula{
 	    /* Now each equivalence class must consist of one inference variable 
 	     * and one non inference variable. Unify them.
 	     */
-	    // A size class holds at most one size, a static parameter or a literal
+	    // A size class holds at most one size, with no variable in it (isNatTerm)
 	    if (nSplit.exists{case (_, ns) => removeDups(ns, nEq).size > 1 || ns.exists(!isNatTerm(_))})
 	      return None
 	    val tSub = tSubstitution(Map(tSplit.map{case (iv, ts) => (iv.head, ts.head)}.toSeq:_*))

@@ -123,15 +123,15 @@ public class _SyntaxTransformationArrowCoercionInvocation extends ArrowCoercionI
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_arg = getArg();
         code ^= temp_arg.hashCode();
         ArrowType temp_toType = getToType();
         code ^= temp_toType.hashCode();
         Option<CoercionInvocation> temp_domainCoercion = getDomainCoercion();
-        code ^= temp_domainCoercion.hashCode();
+        code ^= NodeHash.of(temp_domainCoercion);
         Option<CoercionInvocation> temp_rangeCoercion = getRangeCoercion();
-        code ^= temp_rangeCoercion.hashCode();
+        code ^= NodeHash.of(temp_rangeCoercion);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

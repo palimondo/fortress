@@ -1,0 +1,34 @@
+component DispatchSwappedGenericArmWalk
+export Executable
+
+(* Two generic declarations over Two[A,B] and SubTwo[B,A], whose static parameters are named in the other order, are a valid overloading, the second more specific, and each call runs the one its argument selects, under walk. *)
+
+trait Two[\A,B\] end
+trait SubTwo[\A,B\] extends Two[\A,B\] end
+object Red end
+object Blue end
+object RedAndBlue extends SubTwo[\Red,Blue\] end
+object PlainPair extends Two[\Red,Blue\] end
+trait Marker[\A,B\] end
+object TwoM[\A,B\] extends Marker[\A,B\] end
+object SubM[\A,B\] extends Marker[\A,B\] end
+
+pair[\A,B\](t: Two[\A,B\]): Marker[\A,B\] = TwoM[\A,B\]
+pair[\B,A\](t: SubTwo[\B,A\]): Marker[\B,A\] = SubM[\B,A\]
+
+name(m: Any): String = typecase m of
+    TwoM[\Red,Blue\] => "TwoM[Red,Blue]"
+    SubM[\Red,Blue\] => "SubM[Red,Blue]"
+    else => "other"
+  end
+
+run(): () = do
+  println("REACHED")
+  t1: Two[\Red,Blue\] = RedAndBlue
+  assert(name(pair(t1)), "SubM[Red,Blue]", "a generic arm that names its parameters in the other order, row 159, Specification/basic/overloading.tex, sections \"Principles of Overloading\" and \"Overloading Resolution\"")
+  t2: Two[\Red,Blue\] = PlainPair
+  assert(name(pair(t2)), "TwoM[Red,Blue]", "Specification/basic/overloading.tex, sections \"Principles of Overloading\" and \"Overloading Resolution\"")
+  println("PASS")
+end
+
+end

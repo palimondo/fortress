@@ -1,0 +1,3 @@
+tests=XXXNoDuplicatesRuleSelfPositionsPlain
+compile
+compile_err_contains=There are multiple declarations of f

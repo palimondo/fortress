@@ -126,11 +126,11 @@ public class _SyntaxTransformationNestedPattern extends NestedPattern implements
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Option<Id> temp_field = getField();
-        code ^= temp_field.hashCode();
+        code ^= NodeHash.of(temp_field);
         Option<Id> temp_binderName = getBinderName();
-        code ^= temp_binderName.hashCode();
+        code ^= NodeHash.of(temp_binderName);
         Pattern temp_pat = getPat();
         code ^= temp_pat.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

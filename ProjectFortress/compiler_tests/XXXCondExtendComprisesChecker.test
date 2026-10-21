@@ -1,0 +1,4 @@
+tests=XXXCondExtendComprisesChecker
+typecheck
+typecheck_err_contains=File XXXCondExtendComprisesChecker.fss has 1 error.
+typecheck_err_WIcontains=XXXCondExtendComprisesChecker.fss:7:17-20: Ill-formed type: V[\\E\\] The static argument E does not satisfy the corresponding bound Shows.

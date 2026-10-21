@@ -1,6 +1,6 @@
 # The transcript backup and the git-check hook
 
-This part is for the coordinating session. Two Stop hooks run in this container.
+This part is for the coordinating session. The tracked `.claude/settings.json` runs three Stop hooks: the transcript backup, the `coordinator` skill's model check and the git-check switch. The launcher adds the git-check hook.
 
 ## The transcript backup
 
@@ -26,13 +26,9 @@ The scripts that run are the copies in the worktree's `scripts/`. The reference 
 
 `~/.claude/stop-hook-git-check.sh` comes from the launcher (`--settings /root/.claude/launcher-settings.json`). It exits 2, which makes the session take another turn, when the tree has uncommitted changes, untracked files, or unpushed commits. When commit signing is on, it also exits 2 for a local commit that is unsigned or whose committer is not `noreply@anthropic.com`.
 
-Its reminders are advisory. While the tree holds work that is not ready to commit or push, decline a reminder: say in one line that the work is not ready, and end the turn. The hook does not fire again at the end of the turn that it started.
+Its reminders are advisory. Answer one as the `coordinator` skill's `SKILL.md`, "Quiet times", says. The hook does not fire again at the end of the turn that it started.
 
-To turn the hook off, give the script an empty body, which reads its input and exits 0. Keep the original in the session's scratchpad:
+Every start of the process writes the launcher's script again. The git-check switch, the repository's `.claude/hooks/git-check-off.sh`, then turns the hook off: the tracked `.claude/settings.json` runs it at every SessionStart and at every turn's end. It replaces the script's body with two commands that read the input and exit 0. It keeps the launcher's script as `~/.claude/stop-hook-git-check.sh.orig`. Since the switch runs at every turn's end, a copy of the `.orig` file back is undone at the next one. Turn the hook back on only when the curator asks for it.
 
-    cp ~/.claude/stop-hook-git-check.sh <scratchpad>/stop-hook-git-check.sh.orig
-    printf '#!/bin/bash\ncat >/dev/null\nexit 0\n' > ~/.claude/stop-hook-git-check.sh
-
-- The automatic permission check refuses this step in auto mode, and also a check-in whose prompt would take it. The step runs only after the curator switches the session to manual approval, where each tool call waits for the curator.
-- In manual approval, every command of a Workflow agent also waits for the curator's approval. So a batch runs unattended only in auto mode: after the step, ask the curator to switch back.
-- Every start of the process writes the original script again. So after each process stop the hook is back on: `grep -c stop_hook_active ~/.claude/stop-hook-git-check.sh` prints 1 or more. The `coordinator` skill's `SKILL.md`, "The boot", says how the curator is told.
+- After a git-check reminder, run `grep -c stop_hook_active ~/.claude/stop-hook-git-check.sh`. If it prints 1 or more, run `.claude/hooks/git-check-off.sh </dev/null`.
+- Claude Code runs the Stop hooks at the same time, so on a turn after a start the git check can run before the switch empties it.

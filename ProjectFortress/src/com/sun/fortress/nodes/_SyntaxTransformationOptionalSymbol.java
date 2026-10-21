@@ -106,7 +106,7 @@ public class _SyntaxTransformationOptionalSymbol extends OptionalSymbol implemen
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         SyntaxSymbol temp_symbol = getSymbol();
         code ^= temp_symbol.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

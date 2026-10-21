@@ -111,7 +111,7 @@ public class OpRef extends FunctionalRef {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         List<StaticArg> temp_staticArgs = getStaticArgs();
@@ -127,9 +127,9 @@ public class OpRef extends FunctionalRef {
         List<Overloading> temp_newOverloadings = getNewOverloadings();
         code ^= temp_newOverloadings.hashCode();
         Option<Type> temp_overloadingType = getOverloadingType();
-        code ^= temp_overloadingType.hashCode();
+        code ^= NodeHash.of(temp_overloadingType);
         Option<Type> temp_overloadingSchema = getOverloadingSchema();
-        code ^= temp_overloadingSchema.hashCode();
+        code ^= NodeHash.of(temp_overloadingSchema);
         return code;
     }
 

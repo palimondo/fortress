@@ -1,0 +1,1087 @@
+<!-- An index into the curator's messages by UTC timestamp, sorted by area and within an area by date, where `show.py` beside this file prints any indexed message verbatim. -->
+
+# The curator's messages: an evidence index
+
+Built on 2026-10-16 for the profile of what the curator knows and where his gaps are. Evidence only: no judgement, no profile. Each entry says what one message shows, in the labeller's words.
+
+## How to read it
+
+- One entry is one line: the UTC timestamp (to the second), the kind, a label. A message can carry several entries, one for each area it touches.
+- To read the message behind an entry, run `python3 -I explorations/coordinator/curator-profile/show.py 2026-09-29T12:17:07`. A prefix works (`2026-09-29T12:17`), and `--list 2026-09-29` lists a day. The header of each printed message names its source (see the last section).
+- The kinds are the six asked for: knows; does not know (he says so); asked to explain; corrected the coordinator; background fact; learning or reading preference. One kind is added, **states a position**, for a wish, rule or decision that shows what he wants and neither knowledge nor a gap. It takes the place of about a fifth of what would otherwise read as "knows".
+- A "knows" entry means the message shows the knowledge: a fact stated, a term used correctly, a sound argument, or a memory that checks out. It does not mean the knowledge is deep. Whether a claim of his is right was checked only where the label says so.
+- Labels are in the labeller's words, 8 to 15 words each, no quotation longer than eight words. Models are named by tier (Opus, Fable, Sonnet) in the labels; his messages name versions.
+- Two entries (2026-10-12T21:49:21) report a Claude chat's memory summary of him that he relayed. They are not his words and nothing in them was verified here.
+- Speech-to-text garbles his words, and the labels read through the garbling. If an entry looks odd, read the message.
+
+## 1. Programming languages and tools (75)
+
+- 2026-08-19T00:08:15Z · knows · Suggests baselining the test suite on JDK 8, seeing the Java version as likely cause
+- 2026-08-19T01:41:30Z · knows · Proposes bumping Scala to 2.12.8 before Java 11, naming specific Scala release as ladder step
+- 2026-08-19T09:05:24Z · does not know · Does not know newer Scala and Java release dates; asks whether to go further
+- 2026-08-21T14:38:52Z · knows · Reads garbled characters in vendored BCEL files as a wrong-encoding problem
+- 2026-08-21T15:19:34Z · background fact · Used Scala 2.8 at a startup; loves it; earned Stack Overflow points answering Scala
+- 2026-08-21T15:19:34Z · background fact · Loved Swift and contributed extensively to its microbenchmark suite
+- 2026-08-21T15:40:12Z · knows · Understands compiler bootstrapping, using Swift's compiler in C++ with its library in Swift as example
+- 2026-08-21T15:40:12Z · knows · Names Scala's targets: JVM, JavaScript, WASM and LLVM-based Scala Native
+- 2026-08-21T15:40:12Z · does not know · Unsure whether Scala is self-hosted and what Fortress could gain by following Scala's ports
+- 2026-08-21T17:18:24Z · knows · Understands that the Java source/target level only governs the compiled classes
+- 2026-08-21T17:32:25Z · knows · Reasons that the repository should sit on the newest available Java long-term-support release
+- 2026-08-21T17:34:46Z · knows · Recalls the -Xfuture compiler flag that produced needless warnings, from hindsight on the ladder
+- 2026-08-21T19:55:54Z · asked to explain · Asked how nondeterministic method order from hash iteration was stabilized
+- 2026-08-21T20:17:27Z · knows · Looked up Rats! versus Scala parser combinators; knows both parsing approaches by name
+- 2026-08-21T22:58:23Z · knows · Knows Java's separate interface files, file-name matching and one class per file; contrasts Scala
+- 2026-08-22T09:11:23Z · background fact · Keeps a GitHub mirror of a talk-transcript repository containing many Rich Hickey talks
+- 2026-08-22T09:11:23Z · knows · Wonders whether Rich Hickey ever publicly credited Fortress as an influence on Clojure
+- 2026-08-22T11:57:24Z · knows · Recalls that Swift's designers credit prior languages for borrowed features, pointing to Swift evolution process
+- 2026-08-23T08:51:42Z · knows · Reasons that generated parser and syntax-tree sources are not worth committing because nobody reads them
+- 2026-08-23T19:13:01Z · background fact · Wrote a Scala toy program, a Mandelbrot demo, that earlier Claude chat ported and ran
+- 2026-08-23T19:22:28Z · knows · Names Scala, Clojure, Groovy, Jython, Kotlin; asks if any solved what stalled Fortress
+- 2026-08-23T19:32:08Z · knows · Links value types in the JVM discussion to Swift's value semantics
+- 2026-08-23T21:24:14Z · knows · Follows Chris Lattner's work after Apple and asks what Fortress could learn from it
+- 2026-08-24T21:04:11Z · knows · Knows Python's random uses a Mersenne Twister that Fortress lacks; asks to try native generators
+- 2026-09-08T21:06:36Z · knows · Observes Scala builds iteration from functional producers and closures, so its solution could be borrowed
+- 2026-09-08T21:31:37Z · knows · Believes Swift implements something like symmetric dispatch with witness tables; asks if the idea ports
+- 2026-09-08T21:37:37Z · knows · Knows Rust monomorphization and asks whether Zig or Julia offer lessons
+- 2026-09-08T21:51:22Z · does not know · Did not know Clojure has multimethods, though he knows it is a JVM language
+- 2026-09-08T22:09:48Z · knows · Knows Scala has value classes; asks whether Java records or Kotlin could supply value types
+- 2026-09-08T22:27:32Z · knows · Knows from Swift that name mangling encodes a type and parameter signature into one identifier
+- 2026-09-08T22:35:32Z · knows · Asks if any JVM language used structure of arrays, given Fortress numerics are value types
+- 2026-09-08T22:37:37Z · knows · Took from Swift lesson that value types come first and reference objects are last resort
+- 2026-09-08T22:37:37Z · does not know · Blanks on the names for Swift's unique references and copy-on-write, recalling persistent trees from Clojure
+- 2026-09-10T21:29:39Z · knows · Wonders whether APL could be a library DSL in Fortress, since APL's symbols are Unicode
+- 2026-09-11T06:42:14Z · does not know · Says he knows nothing about APL, wants to learn it because everyone calls it mind-altering
+- 2026-09-11T08:16:16Z · background fact · Wants to try the APL side quest through few ladder steps, learning APL from tutorial
+- 2026-09-12T09:30:13Z · does not know · Unsure if APL data is only numbers and arrays, and if mapping is easy
+- 2026-09-13T01:10:54Z · does not know · Unsure what APL rank means; guesses fixed-size array conversions like tuples
+- 2026-09-13T01:26:52Z · knows · Recalls the APL Unicode block was found unsupported; asks about look-alike mathematical glyph conflicts
+- 2026-09-13T20:34:36Z · background fact · Experimented in another Claude chat with APL version of microGPT, using Dyalog and JVM APL
+- 2026-09-13T20:42:06Z · does not know · Does not know why Dyalog cannot run in container and asks if it is commercial
+- 2026-09-13T23:41:42Z · knows · Knows Aaron Hsu's data-modeling techniques for array languages and has session applying them to microGPT
+- 2026-09-14T05:41:59Z · knows · Skimming result, judges it neither good APL nor good Fortress and dislikes its line count
+- 2026-09-15T07:28:31Z · does not know · Says he has not yet learned much APL nor started reading the book
+- 2026-09-15T07:28:31Z · background fact · Knows Hsu wrote a compiler in seventeen lines as his dissertation
+- 2026-09-15T07:35:36Z · background fact · Liked Hsu's talks on data-structure modeling for data-flow algorithms; calls resulting code lumps of coal
+- 2026-09-15T07:35:36Z · does not know · Admits he understands none of the languages or generated code well, relying on agentic coding
+- 2026-09-15T08:03:37Z · knows · Knows Scala lets lambda arguments stay anonymous by position; asks if Fortress has the same
+- 2026-09-15T09:06:42Z · knows · Compares view implementations across Swift, Scala, Kotlin and Rust to find what Fortress lacks
+- 2026-09-15T09:49:52Z · background fact · Is coming round to Hsu's view that language paradigms add accidental complexity
+- 2026-09-16T22:43:26Z · background fact · Finds APL a purer use of mathematical notation: one symbol per data transformation, array-friendly
+- 2026-09-17T01:43:51Z · knows · Is vaguely aware of Swift's compiler test-suite approach and asks what Scala or Kotlin teach
+- 2026-09-17T11:55:46Z · knows · Recalls that Swift integer types trap on overflow instead of wrapping silently
+- 2026-09-20T14:48:08Z · knows · Contrasts Fortress's numeric-only arrays with the C++ standard library's generic algorithms specialized for any type
+- 2026-09-22T07:17:57Z · knows · Distinguishes Swift's trapping and wrapping arithmetic, and asks what Julia and X10 do for comparison
+- 2026-09-22T07:31:53Z · knows · Treats a behavior that every other language avoids as the clearest red flag to reconsider
+- 2026-09-24T15:00:24Z · knows · Relates the size-encoding design to Swift's mangled names, which encode type information in a name
+- 2026-09-24T16:41:27Z · knows · Understands array slices as views over parts of arrays without copying values
+- 2026-09-24T18:01:45Z · knows · Guessed correctly what a map that also passes an element's index does
+- 2026-09-27T06:31:31Z · knows · Knows grep and complains that speech-to-text mangles its spelling
+- 2026-09-29T18:52:49Z · knows · Recalls the early comparison with Swift's lit-style testing; expects tests to hold their own assertions
+- 2026-10-09T07:05:31Z · knows · Vaguely recalls Swift collections with non-integer keys; fears his ZZ32 index choice broke the design
+- 2026-10-09T23:28:30Z · knows · Adds Swift to the cohort of checkers studied for speed, aware of its type-checker slowness
+- 2026-10-10T08:30:30Z · knows · Asks whether the newer Cohere Transcribe is a better speech-to-text model than Whisper
+- 2026-10-12T21:49:21Z · background fact · Relayed summary says he built Iconic Weather iPhone app, Swift Mandelbrot port and wyhash port
+- 2026-10-13T00:49:58Z · background fact · Wants the Scala mention restored in the email, as it was part of his story
+- 2026-10-13T00:56:38Z · background fact · Holds master's degree from Technical University of Košice, 2004, offered as credentials for writing professor
+- 2026-10-15T04:18:00Z · states a position · Leans toward Scala way of letting sibling trait supply body, if library does not break
+- 2026-10-15T06:10:54Z · knows · Reads the direction as following Scala's resolution of an abstract trait combined with concrete one
+- 2026-10-16T07:12:15Z · knows · Asks whether Scala 3 improves data type matching compared with Scala 2
+- 2026-10-16T07:20:52Z · knows · Knows scalac is self-hosted and asks what lessons it offers for compiler speed
+- 2026-10-16T07:39:59Z · knows · Recalls from his Scala 2.8 days that scalac could stay running in the background
+- 2026-10-16T12:48:17Z · knows · Likens Fortress's numeric tower to Haskell's numeric class hierarchy while pattern matching without understanding
+- 2026-10-16T13:26:43Z · background fact · Points to his Stack Overflow account, user Palimondo, as a calibration of his language knowledge
+- 2026-10-16T13:26:43Z · background fact · Worked on the Swift benchmark suite, with Python tooling and the benchmark driver, for calibration
+
+## 2. Type systems and language design (69)
+
+- 2026-08-21T17:10:01Z · does not know · Feels out of his depth with Fortress type research; asks if the model can help
+- 2026-08-21T17:10:01Z · knows · Suspects Fortress built generics before Java had them, and asks if later generics advances help
+- 2026-08-22T08:37:26Z · asked to explain · Asked what an Oracle patent means for open repository and how 2019 dispatch-with-variance paper relates
+- 2026-08-23T19:13:01Z · background fact · Hopes type-theory and prover progress since 2012 lets model move Fortress's stalled typing work forward
+- 2026-08-23T19:22:28Z · knows · Knows Java's generics arrived after Fortress began and that Scala traits pushed the JVM frontier
+- 2026-08-28T00:31:42Z · knows · Proposes using traits to remove a duplicated overload that a probe-distribution helper needed
+- 2026-09-08T20:08:12Z · knows · Knows Java erases generic types while Fortress keeps type information for run-time instantiation
+- 2026-09-08T20:12:59Z · does not know · Cannot judge whether the specification contains contradictions that would prevent efficient implementation
+- 2026-09-08T21:25:56Z · asked to explain · Asked for a detailed explanation of symmetric multimethod dispatch on run-time types
+- 2026-09-08T21:26:51Z · asked to explain · Asked for a detailed explanation of generic classes being instantiated at load time
+- 2026-09-14T19:45:30Z · knows · Asks whether every type declaration is needed given Fortress's inference
+- 2026-09-14T19:59:25Z · knows · Argues type declarations on hyperparameters are redundant when they are initialized from literals
+- 2026-09-15T07:28:31Z · knows · Describes impedance mismatch between hosted and host languages, and how any type defeats static optimization
+- 2026-09-15T08:25:05Z · knows · Notes the extensions spell out specific type combinations, not generic declarations inheriting from algebraic traits
+- 2026-09-15T08:40:14Z · does not know · Asked what a nat-parameterised type is and where it comes from
+- 2026-09-15T09:06:42Z · does not know · Asks why array views are objects, not traits or closures; feels out of his league
+- 2026-09-15T09:49:52Z · asked to explain · Asked why the specification has Ring and Field constraints that the library never shipped
+- 2026-09-16T10:25:22Z · does not know · Does not trust himself to design array dimension checking; asks the team's intended approach
+- 2026-09-19T18:21:22Z · knows · Knows dispatch on operand types defines Fortress; expects matrix, scalar and mask sums to coexist
+- 2026-09-19T18:31:44Z · knows · Knows exclusion declarations pervade the standard library and says extensions must follow its patterns
+- 2026-09-20T14:48:08Z · does not know · Cannot tell what tower closure means and has no context for the exclusion-rule decisions
+- 2026-09-20T18:27:02Z · does not know · Has no idea what teaching the checker about nat parameters entails or whether precedents exist
+- 2026-09-21T17:01:18Z · does not know · Could not recall what closure meant in the library discussion and asked for full reminder
+- 2026-09-21T21:20:29Z · states a position · Wants the where-clause availability documented as a gate for future work on an empty-case design
+- 2026-09-21T21:44:45Z · states a position · Asks a fresh top-tier worker to compare designs against other languages and Fortress specifics
+- 2026-09-23T07:29:30Z · does not know · Feels grossly unqualified to decide the multiple-instantiation exclusion question; asks for literature or author's advice
+- 2026-09-24T01:20:29Z · knows · Cares about user ergonomics and code-reuse economy, not type-theoretic purity such as subtyping towers
+- 2026-09-24T01:20:29Z · does not know · Does not understand how interpreter subtyping versus compiler's flat numerics affects user programs like C4
+- 2026-09-24T01:57:06Z · asked to explain · Asks why Steele modeled numeric tower with subtyping when flat coercion path is well trodden
+- 2026-09-24T18:06:30Z · knows · Asks if a diagonal should be subtype of matrix so other operations need no reimplementation
+- 2026-09-24T18:13:14Z · knows · Expects types to let a diagonal matrix inherit group and ring behavior with specialized iteration
+- 2026-09-24T18:25:08Z · knows · Proposes a read-only matrix trait, like the immutable array, with a diagonal partially implementing it
+- 2026-09-24T18:25:08Z · does not know · Unsure of correct vocabulary for implementing an interface versus extending a trait
+- 2026-09-26T09:34:25Z · knows · Suggests a factory pattern chosen for arrays might also fit type descriptors
+- 2026-09-26T11:38:29Z · knows · Asks whether other languages can express a given feature or it is type-system research
+- 2026-09-26T15:43:59Z · knows · Asks whether coercions between flattened numeric siblings must map each operation's identity correctly
+- 2026-09-26T15:52:02Z · knows · Defines coercion as implicit conversion between operand types and asks to be corrected on vocabulary
+- 2026-09-26T15:57:57Z · knows · Reasons that flattened numeric siblings need pairwise conversions usable as coercions and per-operand overrides
+- 2026-09-27T15:32:23Z · states a position · Wants a magic-bullet plan for the flattened numerics, doubting coercion and type problems are separate
+- 2026-09-28T07:03:30Z · knows · Says a type-theoretical question like integral comprises clause should be answered from theory, not experiments
+- 2026-09-28T08:52:27Z · asked to explain · Asked how overloading errors will be resolved and whether it means editing the library
+- 2026-09-28T13:37:36Z · does not know · Lost confidence in picking overload-resolution options; asks for nine-step grounding and a top-tier judgement
+- 2026-09-28T13:51:00Z · knows · Proposes applying conversion to specific type before falling back to generic arm; distrusts his derivation
+- 2026-09-29T10:58:53Z · does not know · Scared that decisions touch type theory he is unequipped to handle; consults another vendor's model
+- 2026-09-29T11:20:08Z · does not know · Says he still has no idea about type theory when asked to accept proof addendum
+- 2026-09-29T12:17:07Z · does not know · Admits making type-system decisions he does not understand, effectively telling model to make it fast
+- 2026-09-29T13:57:39Z · knows · Recaps that Any is type of everything; asks if Fortress's object resembles Scala's; accepts Any
+- 2026-09-29T14:10:36Z · knows · Reasons that if a narrower number fits a wider one, there should be direct conversion
+- 2026-09-29T15:26:18Z · knows · Understands coercion should be tried only when no subtyping match exists
+- 2026-10-02T11:11:41Z · knows · Understands the choice of changing the checker to match specification versus changing library and diverging
+- 2026-10-03T04:14:20Z · knows · Understands a bound of Object excludes the empty tuple while default bound Any includes it
+- 2026-10-09T06:55:25Z · knows · Reads the checker's missing expected type as inference gap; favors unifying inference rules where specified
+- 2026-10-09T14:54:50Z · does not know · Remains confused by an index-type review, including why a property-test generator's range matters
+- 2026-10-09T15:03:39Z · does not know · Sighs that question on covering by comprises and overriding would need book of type-system study
+- 2026-10-09T15:10:56Z · background fact · Admits not knowing what a checker-count row decides, but wants zero
+- 2026-10-09T23:21:17Z · knows · Worries the checker hit a reason for the project's demise: exponential type-analysis cost
+- 2026-10-10T05:55:24Z · states a position · Wants the highest tier to judge checker speedups for soundness, as he cannot check internals
+- 2026-10-10T05:55:24Z · background fact · Admits a cognitive gap while chasing the switch-over metric; neglected his language design study
+- 2026-10-13T23:23:46Z · knows · Asks whether 2019 paper helps decide on dropping comprises and how it modeled self types
+- 2026-10-14T00:07:32Z · does not know · Says he feels extremely out of his depth; options leave him flipping coin on types
+- 2026-10-14T07:10:28Z · does not know · Does not understand untyped-body decision or recall his earlier ruling; far out of his depth
+- 2026-10-15T04:18:00Z · knows · Understands that a checker refusing both abstract-plus-concrete shapes turns a later crash into checker error
+- 2026-10-16T10:46:16Z · knows · Notes where clauses were never built; asks why they sit on critical path to microGPT
+- 2026-10-16T11:18:08Z · knows · Worries that adding feature with little support in team's work bends language beyond his review
+- 2026-10-16T12:06:33Z · knows · Understands where clause as narrowing applicability; asks if implementing it is trivial or risks unsoundness
+- 2026-10-16T12:14:17Z · knows · Asks whether the 2016 unsoundness of Java and Scala existential types would hit nullless Fortress
+- 2026-10-16T12:35:52Z · knows · Guesses matrices are additive groups or rings only when their element types have those traits
+- 2026-10-16T12:48:17Z · knows · Wonders if a where clause could make matrix ring when its two sizes are equal
+- 2026-10-16T13:26:43Z · background fact · Commented on a few Swift language extensions in the Swift forum, a minor effort
+
+## 3. Mathematics (30)
+
+- 2026-09-15T09:06:42Z · does not know · Unsure that he uses the word tensor correctly
+- 2026-09-15T09:42:58Z · knows · Knows matrix multiplication needs matching inner dimensions; expects nat parameters to enforce it
+- 2026-09-15T09:42:58Z · does not know · Asks for a refresher on multiplying vectors and matrices
+- 2026-09-15T09:49:52Z · does not know · Asked what reshape and planes are, does not know ravel, and wanted outer product definition
+- 2026-09-15T09:49:52Z · knows · Believes he knows what a gather operation is
+- 2026-09-15T10:42:06Z · does not know · Says he does not know what ring and field are, as they were never explained
+- 2026-09-16T22:43:26Z · does not know · Says he has little background in mathematical notation to judge Fortress's rendering of it
+- 2026-09-19T06:54:03Z · does not know · Cannot recall what Q denotes in mathematics, or whether Z means naturals or all integers
+- 2026-09-19T06:54:03Z · knows · Follows the numeric ladder from ZZ32 and ZZ64 to arbitrary precision, rationals and floats
+- 2026-09-21T01:36:42Z · does not know · Asked for the numeric tower explained bottom-up as before and mistook Number for naturals
+- 2026-09-21T17:28:28Z · knows · Understands a rational is a numerator and denominator, so floor-type functions plausibly return integers
+- 2026-09-21T20:45:30Z · knows · Reasons through the numeric tower that floor results convert implicitly and avoid ZZ64 overflow
+- 2026-09-22T07:06:29Z · knows · Asks how bit shifts interact with the numeric tower; compares Scala and Kotlin
+- 2026-09-22T07:17:57Z · knows · Recalls IEEE rounding differs from Java's and has the advantage of not compounding error
+- 2026-09-22T07:24:37Z · states a position · Wants big-integer shifts to produce large number and fail only when stored into too-small type
+- 2026-09-24T09:29:05Z · does not know · Could not follow a shift-operator declaration issue for ZZ32; asked whether other numerics set precedent
+- 2026-09-24T16:41:27Z · does not know · Asked to be taught matrix multiplication, vectors, matrices and the diagonal from first principles
+- 2026-09-24T18:06:30Z · does not know · Forgot whether matrix multiplication order matters and whether a diagonal matrix commutes
+- 2026-09-25T23:29:15Z · asked to explain · Asks why microGPT uses double precision and whether Fortress has a single-precision float
+- 2026-09-26T11:30:00Z · does not know · Does not know which applications use rationals this way, nor what NumPy or Julia do
+- 2026-09-26T15:20:53Z · does not know · Unsure how infinities are represented in rationals and what is lost if dropped
+- 2026-09-26T15:25:48Z · knows · Expects identity elements for sums, products, minimum, maximum declared per type on algebraic structures
+- 2026-09-28T19:13:06Z · knows · Knows ZZ is signed and NN non-negative; asks whether array sizes and indices share type
+- 2026-09-29T15:18:44Z · knows · Concludes floor on a float should return a float, like other libraries
+- 2026-10-12T16:42:37Z · asked to explain · Asks for record-length statistics such as median, quartiles and outliers to set what to keep
+- 2026-10-16T12:48:17Z · does not know · Says he does not know what a ring, an additive group or multiplicative ring is
+- 2026-10-16T12:48:17Z · knows · Knows matrix multiplication takes dot products of rows and columns, not dot product in detail
+- 2026-10-16T12:48:17Z · does not know · Has not built intuition for dot products and matrix algebra, hence taking on microGPT
+- 2026-10-16T13:01:50Z · does not know · Held the mistaken impression that microGPT's matrices were square
+- 2026-10-16T13:01:50Z · does not know · Unsure whether transposition and identity matrices relate to the ring structure
+
+## 4. Machine learning (28)
+
+- 2026-08-23T21:33:44Z · knows · Conjectures that Fortress syntax could express AI algorithms close to the mathematical notation of papers
+- 2026-08-23T21:40:04Z · knows · Names nanoGPT as a candidate first Fortress machine-learning port
+- 2026-08-23T21:45:23Z · does not know · Misremembered llm.c versus Karpathy's small from-scratch GPT projects and asked to be corrected
+- 2026-08-23T22:01:47Z · background fact · Asks to add a microGPT port to the goals list and worries about library gaps
+- 2026-08-23T22:54:19Z · background fact · Wants a Fortress-code teaching presentation of the model, modeled on Karpathy's original, once port works
+- 2026-08-24T05:53:08Z · knows · Knows Karpathy's micrograd; judged the first Fortress port a letter-by-letter transliteration with no native idiom
+- 2026-08-24T05:53:08Z · knows · Expects training a GPT to reduce to a concise mathematical core, as in the papers
+- 2026-08-24T14:57:27Z · states a position · Wants transformer code to follow the papers' notation; asked Google AI mode for math expressions
+- 2026-08-25T23:32:13Z · states a position · Wants the teaching piece to explain the transformer while building Fortress blocks matching paper notation
+- 2026-08-27T04:06:03Z · does not know · Had not met boxed-plus big operator in machine-learning papers and says he is no yardstick
+- 2026-08-27T04:53:52Z · knows · Reads loss curves and asks about early stopping, Chinchilla, and the effect of random initialization
+- 2026-08-27T15:17:39Z · knows · Recalls Karpathy's microGPT being short enough for a few screens and asks for stripped core
+- 2026-08-27T17:30:07Z · knows · Uses the term KV cache and asks whether naming it as type would teach something
+- 2026-08-30T07:13:14Z · states a position · Wants the paper's sigma used literally, as standing order to stay close to paper notation
+- 2026-09-08T17:16:21Z · knows · Senses backpropagation needs a remembered computation tree kept on the computation, not on each value
+- 2026-09-08T17:16:21Z · does not know · Admits unsure how functional backpropagation could replace scalar value objects with matrices
+- 2026-09-08T17:46:08Z · does not know · Unsure of the memory cost of tape-style differentiation and how it parallelizes
+- 2026-09-08T19:17:51Z · background fact · Told the other vendor's model to limit interpreter training and write a comparison article
+- 2026-09-08T20:19:08Z · knows · Notes Karpathy's microGPT baseline is CPython code or NumPy, contradicting the coordinator's claim
+- 2026-09-08T23:00:39Z · knows · Judges matrix-level differentiation the more canonical mathematics; calls mutable visited flags the root of evil
+- 2026-09-15T07:35:36Z · background fact · States search is for microGPT's most readable expression, drawing on Fortress notation and Iverson's APL
+- 2026-09-17T01:31:22Z · knows · Notes the model's tokens are integers, so arrays must serve integers as well as doubles
+- 2026-09-19T10:04:31Z · asked to explain · Asked where C4's data structures allow parallelism and where task boundaries would fall
+- 2026-09-21T02:51:02Z · knows · Asks whether a 32-bit natural size can hold modern language models in a flat array
+- 2026-09-21T21:47:23Z · asked to explain · Asks why the array slices issue is not cleared since microGPT needs it
+- 2026-09-25T23:29:15Z · knows · Believes language models train at 32-bit floats at most, or lower, and use quantized inference
+- 2026-10-08T16:07:45Z · knows · Repeats that microGPT checks under walk need only few iterations for correctness, not full training
+- 2026-10-08T17:49:22Z · knows · Says a microGPT correctness check needs only two forward-backward passes and under a minute
+
+## 5. Fortress itself (116)
+
+- 2026-08-21T15:40:12Z · asked to explain · Asked for a module map of Fortress: parser, interpreter, library, and where type checker sits
+- 2026-08-21T17:10:01Z · asked to explain · Asked how the Fortress interpreter and compiler relate and compared the interpreter to Scala's REPL
+- 2026-08-21T19:16:10Z · background fact · Wants the README to carry Fortress history and the papers' research contributions, with linked PDFs
+- 2026-08-21T20:17:27Z · background fact · Found a Fortress contributor's public copy of the specification and wanted it linked
+- 2026-08-21T21:16:57Z · background fact · Knows that Guy Steele has no public presence since retiring, from the earlier research chat
+- 2026-08-21T21:16:57Z · asked to explain · Wants authorship in the module map, to know whom to contact about Fortress history
+- 2026-08-21T22:58:23Z · asked to explain · Asked whether Fortress forces separate api and implementation files and what its naming rituals are
+- 2026-08-21T23:39:35Z · knows · Summarizes Fortress as both interpreted and compiled, joking yes, and asks only to be corrected
+- 2026-08-22T00:06:39Z · knows · Recognizes a quoted Fortran-and-Java ambition as coming from Steele's JuliaCon slides that he supplied
+- 2026-08-22T07:26:34Z · knows · Proposes a README title punning on the interpreter's walk command, so he knows that lingo
+- 2026-08-22T09:02:16Z · knows · Knows Steele gave two 2016 retrospectives, JuliaCon and Google, and the Google slides are lost
+- 2026-08-22T09:07:30Z · background fact · Plans to publish human transcript of Google talk, whose slides hold Fortress code and notation
+- 2026-08-22T11:49:47Z · knows · Knows Steele shows Fortress in typeset mathematical notation, not ASCII; asks if GitHub renders LaTeX
+- 2026-08-22T12:33:45Z · states a position · Prefers the canonical Fortify render, dictated as forty five, since he cannot verify hand typesetting
+- 2026-08-22T15:26:05Z · background fact · Wants Steele and Eric Allen named together at the README's first mention of the team
+- 2026-08-23T04:33:52Z · knows · Knows the working-draft specification contains authors' margin notes and wants them visibly distinct
+- 2026-08-23T14:55:13Z · asked to explain · Asked for screenshots of the built spec's operator-name macros to see what they actually produce
+- 2026-08-23T15:05:12Z · knows · Remembers Steele's Four Solutions talk covering prefix and suffix big operators and offers screenshots
+- 2026-08-23T19:13:01Z · background fact · His original plan was extending Fortress with complex numbers, dropped when the compiler proved unfinished
+- 2026-08-23T22:24:42Z · knows · Knows the interpreter-versus-compiler split and asks whether the port will compile or only walk
+- 2026-08-24T05:53:08Z · knows · Knows parallel loops are Fortress's core feature; disabling them for exact equality defeats the purpose
+- 2026-08-24T05:53:08Z · knows · Expects the port to use the library's algebraic traits and objects, not Python-shaped code
+- 2026-08-24T05:57:00Z · knows · Noticed the Fortify render of RMSNorm mixed fonts and asked if it was Fortify bug
+- 2026-08-24T13:45:16Z · background fact · Sends screenshots from the Four Solutions video in batches, since the slides were never published
+- 2026-08-26T06:13:55Z · knows · Knows Fortress supports type inference and objects to restating types on right side of definitions
+- 2026-08-26T06:13:55Z · knows · Remembers that declaring compliance with existing traits earned implementations free, from the complex-number Mandelbrot work
+- 2026-08-26T06:13:55Z · corrected the coordinator · Told the coordinator to consult specification's TeX sources and review its own reasoning in transcripts
+- 2026-08-27T04:13:15Z · states a position · Asks that custom big operators be avoided unless papers or the language gaps force them
+- 2026-08-27T04:53:52Z · knows · Recalls Fortress advancing past Mersenne Twister with splittable random generators for parallel, order-independent execution
+- 2026-08-27T15:17:39Z · knows · Recalls the Four Solutions lesson of removing sequential order and notes restart brought sequences back
+- 2026-08-27T17:30:07Z · knows · Recalls Fortress type aliases and units like meters per second; asks about interpreter support
+- 2026-08-30T06:04:49Z · corrected the coordinator · Called claim that summation is sealed wrong, citing Steele's philosophy that Fortress grows through extension
+- 2026-08-30T08:43:34Z · knows · Expects the standard library to already provide vector and matrix types and challenges redefining them
+- 2026-08-30T11:11:46Z · corrected the coordinator · Said nobody was unsealing anything and that the coordinator again claimed impossibility from self-imposed constraints
+- 2026-09-08T19:14:19Z · knows · Recalls that Fortress leaves some operator precedence undefined so parentheses are needed, unlike other languages
+- 2026-09-08T19:39:08Z · knows · Reads the team's history as focusing on expressivity and parallelism over performance, losing HPC funding
+- 2026-09-08T20:54:36Z · asked to explain · Asked whether Fortress was meant to be small language grown through libraries despite complex types
+- 2026-09-11T06:42:14Z · does not know · Says he knows nothing about Fortress's extensible syntax or the specification chapter on it
+- 2026-09-11T06:42:14Z · asked to explain · Asked how a Fortress DSL block is opened and closed and what triggers alternate parser
+- 2026-09-12T09:15:07Z · knows · Knows Fortress treats juxtaposition as an operator, with flexible operator definition unlike languages he knows
+- 2026-09-12T09:15:07Z · does not know · Lacks mental model of whitespace significance in Fortress grammar and how DSL mechanism transforms syntax
+- 2026-09-12T09:32:29Z · knows · Knows an XML grammar exists as Fortress DSL; asks for other examples to learn from
+- 2026-09-12T09:51:37Z · asked to explain · Asked who wrote the DSL paper and whether its authors overlap the Fortress designers
+- 2026-09-12T10:04:56Z · knows · Notes XML and regex grammars ship with the interpreter; asks if Unicode APL avoids blocks
+- 2026-09-14T15:38:32Z · knows · Knows Fortress has work-stealing thread pools; asks why code talks about explicit threads
+- 2026-09-14T20:19:36Z · knows · Expects a floating-point epsilon constant to already exist in the Fortress standard library
+- 2026-09-15T06:34:25Z · knows · Calls a shared mutable frame stack that breaks at pool size four serious library bug
+- 2026-09-15T08:25:05Z · does not know · Says he can barely make sense of the flat-array api declarations
+- 2026-09-15T08:53:16Z · knows · Understands the library's matrix types are sealed to numbers, which suits high-performance numerics
+- 2026-09-15T09:49:52Z · knows · Asked whether the coordinator checked specification version one or later working draft with implementers' notes
+- 2026-09-15T09:49:52Z · background fact · Concludes after watching Steele's talks that Fortress died for good reasons, having ignored high-performance work
+- 2026-09-15T10:42:06Z · states a position · Wants library finished with its additive-group and ring structure so machine-learning code has mathematical rigor
+- 2026-09-15T10:42:06Z · knows · Knows when and why DARPA pulled funding and that the team did no performance work
+- 2026-09-15T23:23:54Z · knows · Asks whether Fortress stays true to its small-language-grown-by-libraries ethos, contrasting Scala
+- 2026-09-16T22:43:26Z · knows · Understands Fortress's mathematical rendering as a TeX presentation layer over ASCII source, not language core
+- 2026-09-16T22:43:26Z · background fact · Judges the mathematical 2D notation a gimmick that bakes one view of computation into syntax
+- 2026-09-16T22:43:26Z · knows · Got the impression team collected interesting language ideas into specification, not grown from small core
+- 2026-09-16T22:43:26Z · asked to explain · Asked where Fortify and its Emacs support live and when they would be touched
+- 2026-09-16T22:57:42Z · knows · Knows part of Fortress's design intent lives in the papers, not only the specification
+- 2026-09-16T23:29:34Z · knows · Suspects commented-out code and specification text holds design intent worth mapping
+- 2026-09-19T06:54:03Z · does not know · Has no knowledge of software transactional memory; asks which specification chapter and precedents to read
+- 2026-09-19T09:27:16Z · does not know · Has not read the specification's atomic and memory chapters and asks to be briefed first
+- 2026-09-19T09:31:50Z · knows · Expects microGPT parallelism to be data-parallel work stealing; asks whether atomics or transactions are involved
+- 2026-09-19T10:04:31Z · knows · Hoped Fortress numerics with work stealing give implicit parallelism; fears slow unfinished transactions
+- 2026-09-19T12:37:57Z · does not know · Scared by decisions made under silent or contradicted specification; cannot judge without more context
+- 2026-09-19T17:01:32Z · knows · Expected C4 to compose algorithm from standard arrays, vectors and matrices, not invent flat arrays
+- 2026-09-19T18:13:00Z · corrected the coordinator · Rejected rewriting an infix model expression into a function call, saying that is not Fortress
+- 2026-09-19T18:31:44Z · does not know · Says he knows nothing about the specification yet senses the coordinator misunderstands the language
+- 2026-09-20T07:13:52Z · knows · Frames the highest-risk decisions as touching specification, interpreter and compiler at once, which may disagree
+- 2026-09-20T07:20:24Z · states a position · Wants library extensions to follow precedent, where declaring a few conformances yields implementation free
+- 2026-09-20T07:20:24Z · background fact · Found the library's modeling of the numeric tower most convincing sign Fortress had good ideas
+- 2026-09-20T07:20:24Z · knows · Believes commented-out library code was probably left unfinished for good reasons and needs careful checking
+- 2026-09-20T14:48:08Z · knows · Recalls matrix and vector types rejected his own value type; library limits them to numerics
+- 2026-09-21T01:36:42Z · asked to explain · Asks for pros and cons of each choice on the sealed integer-tower line
+- 2026-09-21T01:59:02Z · asked to explain · Asks where the sealed line contradicts the specification, judging it the only logical exit
+- 2026-09-21T02:03:59Z · knows · Warns that workers cite library-generated specification text circularly, as if it were independent prose
+- 2026-09-21T03:02:13Z · asked to explain · Asks what the team planned for Fortress as high-performance computing: one machine, GPUs or clusters
+- 2026-09-21T17:21:55Z · knows · Worries the specification cites the source and the source cites the specification in a circle
+- 2026-09-21T17:28:28Z · does not know · Did not understand which methods and brackets floor discussion meant; asked what other languages return
+- 2026-09-22T07:17:57Z · states a position · Wants Java defaults followed where sensible but JVM mistakes corrected for a mathematically precise language
+- 2026-09-22T07:24:37Z · knows · Sees a single signed shift operator that yields several behaviors free as the Fortress way
+- 2026-09-23T07:10:02Z · knows · Doubts the Sun type experts overlooked an easy resolution; wants to read the original report
+- 2026-09-23T07:26:28Z · knows · Holds the spec was a wish written in vacuum; implementation-informed later designers' word outweighs it
+- 2026-09-23T07:26:28Z · background fact · Says the revival team knows nothing original designers did not, comparing itself to Jon Snow
+- 2026-09-24T01:02:52Z · knows · Weights the patents' latest design over Steele's flattening as the team's last word
+- 2026-09-24T01:20:29Z · knows · Remembers that declaring trait conformance for complex numbers in the Mandelbrot work yielded behavior free
+- 2026-09-26T01:43:15Z · corrected the coordinator · Asked why workers extract text from the PDF when specification's TeX sources are in repository
+- 2026-09-26T07:45:05Z · knows · Had spot-checked that frozen specification PDFs differed from working draft; asks whether it was mislabeled
+- 2026-09-27T06:44:55Z · knows · Takes the specification's wording over the alternatives as obvious when it is clear
+- 2026-09-29T12:17:07Z · does not know · Says he has not read the specification, the type-system papers or even the standard library
+- 2026-09-29T12:17:07Z · background fact · States his guiding rule: finish the designers' intent, trust their latest word, accept unfinished corners
+- 2026-09-29T12:17:07Z · knows · Assumes original team held competing, unharmonized ideas, so no single oracle with right answers exists
+- 2026-09-29T16:05:26Z · knows · Knows the 2019 dispatch-with-variance paper matters to the type discussion; wants it extracted to text
+- 2026-09-29T17:34:18Z · knows · Applies his rule that the team's later work supersedes earlier work, over his own misunderstanding
+- 2026-10-02T11:29:43Z · does not know · Cannot decide whether arithmetic on sizes is supported by the specification; wants to know precisely
+- 2026-10-04T20:08:52Z · knows · Recalls commissioning an early report on how Fortress parses, interprets and compiles to bytecode
+- 2026-10-08T11:05:01Z · knows · Recalls suspecting the interpreter library nests number types, and team took compiler library's flat numerics
+- 2026-10-08T15:53:33Z · knows · Holds one-thread pinning disables native parallelism; flaky parallel tests need atomic, not serial runs
+- 2026-10-09T05:20:34Z · states a position · Would extend standard library for C4 only for obvious gaps, like scalar addition on matrices
+- 2026-10-09T06:55:25Z · does not know · Did not know Fortress has goto-like labeled block; could not recall his earlier type-case ruling
+- 2026-10-10T06:03:05Z · asked to explain · Asks why array-design reports ignored 2019 type paper that his rule says outweighs earlier text
+- 2026-10-10T06:56:50Z · knows · Corrects that Park presented the dispatch paper, and transcribes the talk with Gemini
+- 2026-10-10T07:27:32Z · knows · Recalls dispatch paper should come with proof, which he could not find on its page
+- 2026-10-10T09:04:13Z · knows · Suggests examples from the talk might make good tests for rules implemented from the paper
+- 2026-10-12T21:27:17Z · background fact · Wrote Prof. Sukyoung Ryu; she asked him to introduce himself and explain maintenance plans
+- 2026-10-12T22:01:05Z · background fact · Learned of Fortress from Steele's 2016 talks; hoped its math syntax would teach language models
+- 2026-10-12T22:17:45Z · knows · Knows Ryu had most commits in front end, parser to type checker, per authorship map
+- 2026-10-12T22:53:49Z · background fact · Wants email to show respect for team: not kidnapping her baby, finishing what lacked resources
+- 2026-10-12T23:15:30Z · corrected the coordinator · Said a sentence about revising the specification sounded arrogant; revival reconciles contradictions toward latest implementation
+- 2026-10-13T00:46:41Z · background fact · Found Steele's Four Solutions talk the most memorable of talks that drew him to Fortress
+- 2026-10-13T00:52:50Z · knows · Notes the library is missing from the sources list revival reconciles; asks about dropped library
+- 2026-10-13T01:16:53Z · background fact · Emailed Prof. Ryu for 2018 extended proofs of POPL 2019 paper, whose links are gone
+- 2026-10-15T06:23:24Z · states a position · Rules Fortress is not bent Scala way for convenience; other languages guide only on conflicts
+- 2026-10-16T08:55:39Z · background fact · Uploaded Steele's ICFP 2009 paper on foldl and foldr from his phone for the repository
+- 2026-10-16T11:49:50Z · knows · Reads a Fortress array declaration: sizes are nat parameters the checker cannot read as values
+- 2026-10-16T11:49:50Z · does not know · Admits not knowing what thrower, reflect and zero mean in an array signature
+
+## 6. Compilers and run times (92)
+
+- 2026-08-19T00:03:00Z · asked to explain · Asked why something works in the compiler but not the interpreter; suspects unfinished porcupine work
+- 2026-08-21T15:19:34Z · knows · Knows what bytecode is in the JVM context but little beyond that
+- 2026-08-21T15:19:34Z · asked to explain · Asked for an education lesson on emitted class-file versions and stack-map frames
+- 2026-08-21T17:10:01Z · knows · Restates that class-file version 50 skips stack maps because Fortress generates classes at run time
+- 2026-08-21T17:10:01Z · asked to explain · Asked for an explainer of ManglingClassWriter, the runtime's method rewriting and the overall runtime architecture
+- 2026-08-21T22:53:28Z · does not know · Did not know what a compiled-component cache or FFI shim is, and asked about Guava
+- 2026-08-21T23:27:39Z · knows · Guessed a chain of persisted artifacts from source to bytecode; asked about the interpreter
+- 2026-08-21T23:29:38Z · asked to explain · Asked how the persisted-artifact chain connects to a linker
+- 2026-08-23T08:51:42Z · asked to explain · Asked whether generated files hold only Rats! parser and tree classes or any Fortress logic
+- 2026-08-23T19:25:31Z · asked to explain · Asked for more on Project Valhalla and why Julia's founders left the JVM
+- 2026-08-23T19:26:54Z · does not know · Did not know what Loom and the Vector API are
+- 2026-08-23T19:27:52Z · does not know · Did not know what Truffle and GraalVM are
+- 2026-08-23T19:51:09Z · asked to explain · Asked whether Graal and Truffle form a separate runtime or interoperate with the JVM
+- 2026-08-23T21:07:53Z · background fact · Used to read a lot about new JavaScript virtual machines and their invasive JIT strategies
+- 2026-08-23T21:14:43Z · asked to explain · Asked about native compilation with LLVM and how Graal handles vectorization
+- 2026-08-24T05:53:08Z · knows · Reads an interpreter running 170 times slower than Python as practically unusable
+- 2026-08-24T20:50:06Z · states a position · Wants to test whether the program compiles, to find compiler gaps from real examples
+- 2026-08-27T17:52:16Z · knows · Recalls the ant build taking about ninety seconds and first interpreter run about ten minutes
+- 2026-09-08T18:12:06Z · knows · Asks whether the compiler supports the library's vector and matrix slice; check gap ledger first
+- 2026-09-08T19:28:03Z · asked to explain · Puzzled that the compiled path was under ten times faster than the interpreter despite JIT
+- 2026-09-08T19:39:08Z · states a position · Accepts boxed numbers and unspecialized generics as the explanation of slow compiled code, without profiling
+- 2026-09-08T20:08:12Z · knows · Lists JVM or native roads, Scala's backends and MLIR as routes to fast Fortress
+- 2026-09-08T20:21:52Z · knows · Remembers an earlier discussion of Mojo and of a second JVM implementation for the interpreter
+- 2026-09-08T20:30:02Z · knows · Explains the compiler as parser, tree, then type-legal optimizations; asks how far off he is
+- 2026-09-08T20:30:02Z · asked to explain · Asked for a one-on-one grounding of how parser, type checker, compiler and interpreter connect
+- 2026-09-08T20:40:42Z · does not know · Lost on which phases run the Scala checker and why static types miss bytecode
+- 2026-09-08T20:40:42Z · knows · Remembers the emitted class-file version 1.6 as a consequence of Fortress's run-time class generation
+- 2026-09-08T20:53:10Z · knows · Reasons microGPT should become static double arrays without bounds checks so HotSpot can vectorize
+- 2026-09-08T20:53:10Z · asked to explain · Asked how Scala avoids boxed numbers while treating numbers as objects
+- 2026-09-08T21:03:14Z · corrected the coordinator · Called generating Java source stupid idea, since goal is extending Fortress's own compiler or interpreter
+- 2026-09-08T21:03:14Z · knows · Sees Truffle as only faster interpreter; links Julia's specialization on first use to Fortress's need
+- 2026-09-08T21:16:25Z · states a position · Wants a performance roadmap with a compiler route copying Scala and interpreter route through Truffle
+- 2026-09-08T21:46:49Z · asked to explain · Asked if .NET port would beat Graal and Valhalla and which multimethod languages exist there
+- 2026-09-08T22:08:54Z · knows · Works out that run-time specialization needs boxes to carry types, so double arrays need copying
+- 2026-09-08T22:21:21Z · does not know · Cannot name the structure-of-arrays idea he describes as fields stored in parallel primitive arrays
+- 2026-09-12T09:47:17Z · corrected the coordinator · Charged that the APL design nested an interpreter in an interpreter, ignoring Fortress's strengths
+- 2026-09-12T10:17:30Z · states a position · Insists APL syntax convert to efficient Fortress over native arrays, not an interpreter in Fortress
+- 2026-09-13T22:19:56Z · knows · Argues for extending native arrays to higher ranks rather than workaround that would hurt performance
+- 2026-09-15T06:46:15Z · knows · Restates that the APL DSL must produce native Fortress code, never an interpreter in interpreter
+- 2026-09-15T07:28:31Z · knows · Expects the DSL to yield strongly typed microGPT code, inferring types outward from hyperparameter literals
+- 2026-09-15T09:06:42Z · knows · Assumed nat-typed sizes let the compiler prove bounds statically and drop bounds checks
+- 2026-09-15T09:49:52Z · states a position · Wants a walking skeleton of microGPT fast on the JVM, with an interpreter for debugging
+- 2026-09-15T10:13:21Z · knows · Infers the run-time class loader could insert real array dimensions so HotSpot drops bounds checks
+- 2026-09-15T10:42:06Z · knows · Names unboxed double arrays top priority and the optional walk type checker as low-hanging fruit
+- 2026-09-15T22:34:55Z · knows · Challenged a performance test hitting float-literal parsing, which microGPT never exercises; asked for fairer one
+- 2026-09-15T23:21:26Z · asked to explain · Asked what the compiler prelude is and why it is so lacking
+- 2026-09-15T23:46:25Z · does not know · Did not know there was an earlier compiler than the second compiler the coordinator mentioned
+- 2026-09-15T23:51:36Z · states a position · Pushes to reuse the interpreter's FortressLibrary for the compiler; asks what breaks and when
+- 2026-09-16T04:40:25Z · asked to explain · Asked why the coordinator uses a driver technique for testing and what it is
+- 2026-09-16T10:34:54Z · knows · Finds writing parsed trees and cache files to disk on each run abnormal for interpreter
+- 2026-09-16T10:34:54Z · asked to explain · Asked what the repeated cache means and how ordinary interpreters work without it
+- 2026-09-17T01:31:22Z · asked to explain · Asks where a numeric specializer would live, guessing a new compiler phase
+- 2026-09-17T11:55:46Z · asked to explain · Asked how overflow trapping could work in JVM bytecode and how Java behaves
+- 2026-09-17T12:01:34Z · states a position · Asks that checks preventing vectorization be noted among performance concerns
+- 2026-09-17T15:27:25Z · knows · Remembers the cached parsed-library trick from modernization; asks why stale cache entries are not detected
+- 2026-09-17T17:35:07Z · states a position · Insists the interpreter is no golden oracle, since it never type-checked; divergences go to specification
+- 2026-09-19T16:43:19Z · knows · Says interpreter speed is irrelevant, as with debug builds in Swift; only compiled path counts
+- 2026-09-19T18:32:48Z · knows · Says arrays must be unboxed double arrays for performance; nat sizes are team's central design
+- 2026-09-20T14:27:53Z · knows · Holds that high-performance language without native JVM arrays cannot be fast, and would overrule team
+- 2026-09-20T14:33:50Z · knows · Takes specialization in the class loader as team's direction; wants interpreter and compiler libraries unified
+- 2026-09-20T14:39:06Z · knows · Believes the compiler's second library is only a bootstrap and should be dropped
+- 2026-09-20T18:27:02Z · knows · Describes pipeline as Rats! parse, desugar, type check, code generation to jar, run-time class loader
+- 2026-09-20T18:27:02Z · does not know · Does not understand what dynamic class loaders do or whether compiler runs at run time
+- 2026-09-20T18:27:02Z · knows · Knows the type checker is written in Scala and is one of repository's largest parts
+- 2026-09-21T03:02:13Z · asked to explain · Asked how large the biggest array of doubles can be on the JVM
+- 2026-09-21T20:50:41Z · knows · Expects the compiler or run time to remove an unnecessary integer-to-float conversion in hot loops
+- 2026-09-21T21:26:46Z · knows · Treats certain messages as debug messages and compares what Swift, Scala and Kotlin do
+- 2026-09-23T06:54:34Z · knows · Sees the rank P design gap as blocking compiled numeric tower, hence all of microGPT
+- 2026-09-23T07:10:02Z · knows · Summarizes that erasure on JVM forces Fortress's class loader to choose implementations at run time
+- 2026-09-24T01:02:52Z · does not know · Does not know the implications of run-time coercion choice or whether the JIT removes cost
+- 2026-09-24T14:51:12Z · knows · Pictures the class loader stamping sizes into generated code so the JIT drops bounds checks
+- 2026-09-24T15:07:56Z · does not know · Had not been told small run-time descriptor objects already exist for generics; suspected withheld information
+- 2026-09-24T15:14:48Z · asked to explain · Asks why operators are handled differently from classes-per-type and whether they should be unified
+- 2026-09-25T22:37:14Z · knows · Confused that a product override did not restore older solution's speed; guesses slower container CPU
+- 2026-09-25T23:26:52Z · asked to explain · Asked for a detailed explainer of the specialized integer-vector and string-vector classes
+- 2026-09-27T06:38:06Z · knows · Observes 32-bit indexes are the JVM array maximum, which argues against a 64-bit wide size
+- 2026-09-27T12:04:34Z · does not know · Confused why compiler error counts rose into thousands after fixes, and what exactly is measured
+- 2026-09-27T15:24:22Z · knows · Says ranges can only be ZZ32, largest JVM array size, so 64-bit choice was wrong
+- 2026-09-28T13:10:04Z · knows · States generic code is never fast; wants a specialized route, as in Swift and Julia
+- 2026-09-29T11:12:49Z · does not know · Did not know what a load of thirty on four CPUs means
+- 2026-09-30T05:24:08Z · knows · Compares history to a debug build with full provenance and facts to an optimized build
+- 2026-10-02T19:27:59Z · knows · Remembers worktree copies of Fortress cache are keyed by path; wants script to rekey them
+- 2026-10-08T18:11:36Z · knows · Agrees to pin the test thread count at four, since default here would be two
+- 2026-10-08T20:02:03Z · knows · Changes his mind and wants the compiled path's transaction-check cost measured while other work continues
+- 2026-10-09T23:12:54Z · does not know · Has no intuition choosing how to bind a native Java helper; wonders if prototypes decide
+- 2026-10-10T05:27:34Z · states a position · Prefers landing the checker-speed fix outside a batch with held rung; asks about record stringency
+- 2026-10-14T19:03:58Z · knows · Holds there is no such thing as too fast checker; checkers are always performance bottlenecks
+- 2026-10-16T06:45:52Z · asked to explain · Asked why disambiguating and renaming phases are so large, and why only 2.6 times faster
+- 2026-10-16T06:47:28Z · knows · Asks whether splitting a huge switch into method chain is best; suggests node-type bit encodings
+- 2026-10-16T07:30:43Z · does not know · Unsure whether memoization builds on on-disk caches or only in memory, and how correctness holds
+- 2026-10-16T07:39:59Z · knows · Sees a fresh JVM start per compiled test as wasteful, losing warmed-up JIT code
+- 2026-10-16T07:47:18Z · knows · Asks whether persisting checker memos like cached trees would need stable hashes for incremental compilation
+
+## 7. The repository, the tools and the process (413)
+
+- 2026-08-18T21:03:16Z · background fact · Started the first coordinating session from a phone, uploading a handover zip from earlier chat
+- 2026-08-18T23:33:18Z · corrected the coordinator · Caught the earlier agent guessing link to Steele slides and told it to drop it
+- 2026-08-19T00:03:00Z · knows · Knows git conventions; sees the old master branch name as leftover and asks for main
+- 2026-08-19T00:03:00Z · learning or reading preference · Wants his experiments committed in a separate place so the original Fortress tree stays untouched
+- 2026-08-19T00:20:03Z · background fact · Manages GitHub settings from the iOS GitHub app and mobile Safari, not a computer
+- 2026-08-19T01:16:24Z · asked to explain · Wanted reason odd fix worked before accepting it, asking if it removed team member's error
+- 2026-08-19T01:53:53Z · states a position · Approves a modernization plan, delegates to workers, and asks that plan be persisted before compaction
+- 2026-08-19T06:57:02Z · does not know · Admits he does not fully understand the trade-offs of an orphan branch for transcripts
+- 2026-08-19T09:05:24Z · knows · Knows GitHub Actions config can only be edited from his own computer; parks CI
+- 2026-08-21T14:38:52Z · corrected the coordinator · Did not recall the standing order the coordinator cited and demanded its actual origin
+- 2026-08-21T15:24:02Z · learning or reading preference · Distrusts generated-file timestamp headers as redundant and sends a scout to find the original reason
+- 2026-08-21T16:31:29Z · states a position · Wants a clean upgrade ladder with a commit per Java version, thinking like a maintainer
+- 2026-08-21T17:37:40Z · does not know · Had not heard of the reproducible-builds movement and reacted with surprise
+- 2026-08-21T18:15:07Z · corrected the coordinator · Said a provenance comment belongs in commit message, and asked why redundant post-processing step exists
+- 2026-08-21T18:39:14Z · knows · Proposes recording a git sha per upgrade step in README, wondering whether tags are better
+- 2026-08-22T00:17:33Z · knows · Reasons that graft touching all files ruins git log and blame, favoring clean fork-based ladder
+- 2026-08-22T00:17:33Z · corrected the coordinator · Charged that frequent compactions show coordinator is not delegating, and ordered scout to recover protocol
+- 2026-08-22T00:27:01Z · background fact · Wants the project's voice to be humble custodians who claim no credit for the revival
+- 2026-08-22T00:42:38Z · corrected the coordinator · Said the coordinator had forgotten its operating procedures because of repeated compactions
+- 2026-08-22T07:04:46Z · background fact · Dislikes README facts that go stale, such as test counts and red-test numbers
+- 2026-08-22T07:21:39Z · background fact · Frames the README as a museum exhibit about Fortress, with how-to-run last, rejecting quick-start voice
+- 2026-08-22T08:32:12Z · states a position · Asks for an independent adversarial reader to review the README from his stated perspective
+- 2026-08-22T08:56:34Z · background fact · Verifies archive links himself in Safari on a phone before accepting them
+- 2026-08-22T15:26:05Z · corrected the coordinator · Challenged unexplained claim that working spec is richer than committed PDF and asked for evidence
+- 2026-08-22T18:03:19Z · knows · Suspects a build-command change caused misplaced spec paragraphs and tells coordinator to check git history
+- 2026-08-22T18:12:41Z · corrected the coordinator · Noted that a claim the surveyor wanted loosened had become sharper instead and asked why
+- 2026-08-22T19:12:43Z · background fact · Will rename branches through the GitHub web interface himself when the clean ladder becomes main
+- 2026-08-22T19:28:18Z · knows · Asks whether the rebuild can run in git worktree on another branch without plan committed
+- 2026-08-22T19:37:16Z · states a position · Asks for an independent adversarial verifier of the plan instead of reviewing it himself
+- 2026-08-22T20:42:55Z · knows · Proposes de-risking by trying a simpler upgrade in a separate worktree before committing to plan
+- 2026-08-23T05:57:19Z · knows · Proposes that coordinator delegate each rebuild step to workers so its own context avoids compaction
+- 2026-08-23T06:01:09Z · knows · Suggests workers receive the plan section, mark completion and handle their own commits
+- 2026-08-23T06:03:43Z · corrected the coordinator · Objected that coordinator spoke of fast-forwarding main while clean ladder lives in its own worktree
+- 2026-08-23T07:09:14Z · corrected the coordinator · Told coordinator not to gaslight him about pushed work he could not see
+- 2026-08-23T07:12:41Z · corrected the coordinator · Complained that the coordinator did work itself and got compacted, against the delegation plan
+- 2026-08-23T08:07:52Z · states a position · Orders history rewrite folding one hygiene commit into another, and plans final pass over messages
+- 2026-08-23T08:12:47Z · asked to explain · Asked whether generated sources were in original repository and whether committing them was early mistake
+- 2026-08-23T08:43:01Z · knows · Proposes two parallel branches, one with generated build artifacts and one without, for different readers
+- 2026-08-23T10:09:50Z · corrected the coordinator · Challenged claims that some tests died early and bundled targets never ran; recalled only green
+- 2026-08-23T11:43:34Z · corrected the coordinator · Pointed out the coordinator had dropped a planned tag-namespace step that he remembered agreeing
+- 2026-08-23T14:09:20Z · knows · Knows the original trunk used Mercurial and asks if its hgignore entries match new gitignore
+- 2026-08-23T14:13:15Z · corrected the coordinator · Objected that a plan to keep generated sources contradicted his earlier decision to exclude them
+- 2026-08-23T14:23:03Z · does not know · Did not know git allows empty commits; asked why workers made them
+- 2026-08-23T14:29:04Z · knows · Knows the git convention of short title line, and asked why message bodies are hard-wrapped
+- 2026-08-23T14:29:36Z · background fact · Raised automatic compaction threshold from 200K to 1M tokens, torn between dumb zone and amnesia
+- 2026-08-23T18:53:42Z · corrected the coordinator · Said the tags created differ from the eight tag names in the plan he approved
+- 2026-08-23T19:06:03Z · knows · Understands that several JDK tags can sit on one commit after fixes were pulled forward
+- 2026-08-23T19:13:01Z · background fact · Started the project to test the claim that coding is solved, using a dead language
+- 2026-08-23T21:54:33Z · corrected the coordinator · Told the coordinator its dates seemed wrong and to ground itself with web search
+- 2026-08-23T22:38:13Z · states a position · Asks for de-risking of correctness and performance and an adversarial review before execution
+- 2026-08-24T18:22:33Z · knows · Worries a very large context degrades the coordinator and asks for summary to restart from
+- 2026-08-24T20:50:06Z · states a position · Orders cheaper Opus workers for experiments and keeps top model for architecture, judgement and taste
+- 2026-08-24T20:56:56Z · states a position · Tells the coordinator to brief workers by pointers to existing docs rather than restating everything
+- 2026-08-27T15:43:52Z · background fact · Hit his weekly limit on the top model and bought 20 euros of API credit
+- 2026-08-27T15:51:35Z · corrected the coordinator · Corrected the coordinator that only top-tier credits ran out while cheaper workers had plenty
+- 2026-08-30T06:04:49Z · states a position · Wants a blind worker tasked with the bare experiment, without the coordinator's foregone conclusion
+- 2026-08-30T06:09:56Z · corrected the coordinator · Asked why worker was told to modify language when experiment was to use existing sigma
+- 2026-08-30T08:48:43Z · background fact · Frames the project as testing whether coding is solved, on a language model barely knows
+- 2026-08-30T10:49:17Z · corrected the coordinator · Said the coordinator never presented or linked an artifact it claimed to have updated
+- 2026-08-30T10:59:02Z · corrected the coordinator · Accused the coordinator of gaslighting and pasted the exchange to show the inconsistency
+- 2026-08-30T11:14:15Z · background fact · Observed that each of his corrections nudged the coordinator toward the language's native mechanism
+- 2026-09-08T15:43:14Z · background fact · Compares against an independent run by another vendor's model and shared its brief
+- 2026-09-08T15:55:28Z · states a position · Waives a review, trusting the coordinator, and wants a fair blinded rerun matching other brief
+- 2026-09-08T15:59:39Z · asked to explain · Asked whether the blinded worker could spawn its own workers and offered an isolated session
+- 2026-09-08T16:07:35Z · states a position · Requires the isolated run to back up its transcripts and deliver an HTML presentation
+- 2026-09-08T16:14:17Z · corrected the coordinator · Stopped the coordinator for switching models and asked for cheapest way to run blinded worker
+- 2026-09-08T16:22:21Z · asked to explain · Asked how transcript backup is armed per container and whether second session shares its branch
+- 2026-09-08T16:33:20Z · states a position · Insists the blinded run get the hook-driven backup, so model never thinks about backing up
+- 2026-09-08T16:38:11Z · learning or reading preference · Wants progress monitoring built in so he never debugs a silent half-hour session
+- 2026-09-08T18:41:49Z · background fact · Ran another vendor's model in its mobile app; usage limits forced restarts every few hours
+- 2026-09-08T20:08:12Z · background fact · Frames project as using language models as army of interns to make designed language efficient
+- 2026-09-09T00:01:47Z · knows · Warns an over-prescriptive brief may bias a run, recalling the single-thread blinded run did best
+- 2026-09-09T06:33:17Z · states a position · Wants the exploration breadcrumbs of earlier runs preserved in the repository, with less stringent re-verification
+- 2026-09-09T06:46:30Z · background fact · Records workers' discoveries as ledger gaps; plans later meta-analysis of strategy efficiency against quality
+- 2026-09-10T21:36:42Z · knows · Asks whether a job is mechanical or creative reasoning, to choose stronger or cheaper model
+- 2026-09-12T09:39:27Z · corrected the coordinator · Asked why the coordinator searched the web for paper whose TeX source is in repository
+- 2026-09-12T09:52:40Z · knows · Knows copyrighted decks are linked and paraphrased; asks how paper may be stored in repository
+- 2026-09-12T10:22:42Z · states a position · Asks the coordinator to diagnose its failure to think in Fortress terms
+- 2026-09-13T01:42:55Z · background fact · States for the record that coding is not solved; claimants are mistaken or have agendas
+- 2026-09-13T01:48:07Z · knows · Proposes retiring the nested-interpreter exploration once the rewrite lands, since it teaches nothing
+- 2026-09-14T00:40:31Z · states a position · Prefers a focused single-session run with minimal delegation, recalling its token efficiency and result quality
+- 2026-09-14T05:53:20Z · knows · Weighs whether the next run should start from a cleared or compacted context
+- 2026-09-14T06:01:27Z · knows · Suspects lack of familiarity with the standard library and specification caused a run's divergence
+- 2026-09-14T06:14:14Z · knows · Understands a session has limits on spawning subprocesses and recalls compacting coordinator before control run
+- 2026-09-15T06:53:25Z · corrected the coordinator · Rejected agent time estimates in weeks, noting such work takes about half an hour
+- 2026-09-15T06:53:25Z · knows · Worries gap ledger mixes DSL-writing gaps with gaps in Fortress's library, interpreter, compiler and specification
+- 2026-09-16T20:00:14Z · background fact · Reports top-model usage at 94 percent; orders cheaper-tier workers until reset
+- 2026-09-16T22:43:26Z · background fact · Plans to unseal library, tag that point, fix original repository, later write microGPT in Java
+- 2026-09-17T01:31:22Z · states a position · Insists the compiler work be test-driven and asks what the first test is
+- 2026-09-17T01:43:51Z · asked to explain · Asked how fine-grained the interpreter's tests are and whether a climb can reuse them
+- 2026-09-17T05:57:09Z · states a position · Wants the climb workflow rebuilt so stop conditions do not force small decisions on him
+- 2026-09-17T15:10:07Z · learning or reading preference · Cares about work clock time more than tokens and wants a much quicker iteration loop
+- 2026-09-17T15:17:24Z · knows · Suggests running git object packing from the commit hook or from time to time
+- 2026-09-17T15:38:18Z · does not know · Admits guessing about prompt-prefix caching for cloned parallel workers; asks to be grounded
+- 2026-09-17T16:00:47Z · knows · Argues for running only tests relevant to changed parts, with full suite at batch end
+- 2026-09-17T16:50:18Z · knows · Clarifies his standing order as test-first: each edit adds permanent failing test, never one-off proofs
+- 2026-09-17T17:00:37Z · knows · Reasons the skeptic can be split into a per-change review and an amortized gate
+- 2026-09-17T18:31:40Z · knows · Concludes local fixes without global awareness caused specification violations; wants a systemic remedy in plan
+- 2026-09-17T19:33:28Z · corrected the coordinator · Put the coordinator on notice for doing a script's merge step itself, outside the workflow
+- 2026-09-17T19:46:12Z · corrected the coordinator · Rebuked the coordinator for time estimates in weeks and mornings when session spans two hours
+- 2026-09-17T19:52:42Z · background fact · Reads the coordinator's context size from a command output, 212K tokens at that moment
+- 2026-09-18T10:20:23Z · knows · Explains transcript backup via orphan branches; asks new session to adopt old one's work
+- 2026-09-18T11:01:12Z · knows · Knows lost workers' file edits can be rebuilt from transcript tool calls; wants that tried
+- 2026-09-18T12:31:43Z · knows · Argues for keeping the backup on the current branch, avoiding duplicating much larger earlier session
+- 2026-09-18T18:09:51Z · states a position · Wants the container recovery procedure in one file, not central to every session's boot
+- 2026-09-18T18:54:41Z · background fact · Describes earlier climbs taking eight wall-clock hours for six or seven rungs, motivating parallel workflows
+- 2026-09-18T18:54:41Z · knows · Proposes escalating from the cheaper tier to the top tier only at sparse judgment points
+- 2026-09-18T19:05:45Z · knows · Worries worktree workers left work uncommitted; proposes temporary branches workers commit to
+- 2026-09-18T19:17:51Z · knows · Knows KV caching rewards identical prefixes; asks about shared prefix before worker text
+- 2026-09-18T23:39:22Z · corrected the coordinator · Expected workflow scripts to resume from replayed worker state and asked why run cannot resume
+- 2026-09-19T06:54:03Z · states a position · Leans toward running more of test suite with higher thread counts to catch intermittent races
+- 2026-09-19T06:54:03Z · background fact · Pursues two tracks: improving the climbing process, which he sees as stable, and Fortress explorations
+- 2026-09-19T07:16:57Z · states a position · Tells the coordinator to preserve top-tier tokens and delegate repository exploration to workers returning summaries
+- 2026-09-19T09:05:06Z · background fact · Despises the Claude client's display of workflow progress and distrusts what the interface shows
+- 2026-09-19T09:31:50Z · states a position · Asks for stale historical facts to be pruned so they stop confusing new sessions
+- 2026-09-19T10:14:23Z · asked to explain · Asks how many worker and skeptic tests become permanent fixtures growing the safety net
+- 2026-09-19T12:50:41Z · knows · Argues raw test logs need not be committed when the skeptic holds them on disk
+- 2026-09-19T16:39:48Z · knows · Argues microGPT programs run too long to serve as ladder tests before the compiler works
+- 2026-09-19T16:55:12Z · states a position · Insists caches belong in gitignore and demands rewriting two commits that carried cache files
+- 2026-09-19T17:10:56Z · corrected the coordinator · Complained that the coordinator's boot flooded its context with a directory listing
+- 2026-09-19T18:08:21Z · knows · Says drafting the array design suits a clean top-tier worker, not a polluted coordinator
+- 2026-09-20T05:57:56Z · background fact · Felt out of control after a session with unauthorized initiative and missing crucial details
+- 2026-09-20T06:06:54Z · does not know · Did not know a workflow's agents can invoke subagents that show in the task display
+- 2026-09-20T06:44:36Z · knows · States the rule that workers run on the cheaper tier unless he requests top tier
+- 2026-09-20T06:45:49Z · background fact · Pasted weekly limit usage showing 34 to 37 percent used and mourned the spend
+- 2026-09-20T06:51:30Z · background fact · Counts the 1.7 million top-tier tokens spent by two mistaken workers as wasted
+- 2026-09-20T07:13:52Z · states a position · Wants cheaper workers to gather evidence for condensed brief, and top tier to decide design
+- 2026-09-20T07:27:48Z · knows · Expects each report committed by file name with git add, never staging everything dirty
+- 2026-09-20T07:35:31Z · background fact · Treats the repository as fully public; sees no reason to censor transcripts or his opinions
+- 2026-09-20T07:47:22Z · states a position · Objects to indices copying transcripts verbatim; wants scripts and tables pointing into the backed-up record
+- 2026-09-20T07:49:57Z · background fact · Plans cleaner pass making main hold only Fortress changes, with process records on another branch
+- 2026-09-20T08:01:00Z · knows · Warns lawyerly, over-specific rules break future sessions, and a stronger model needs fewer constraining rules
+- 2026-09-20T08:01:00Z · states a position · Wants worker tier alias that survives model releases, and never silent downgrades to smallest tier
+- 2026-09-20T14:20:34Z · knows · Notes project makes studies yet cannot find its earlier knowledge, failure for skills or coordinator
+- 2026-09-20T14:23:19Z · states a position · Wants the explorations folder's layout regularized after sensing several parallel filing patterns, with one-time cleanup
+- 2026-09-20T15:25:00Z · knows · Demands an immediate fix if tests print fail while the suite stays green
+- 2026-09-20T15:33:19Z · knows · Worries the earlier ladder work was busy work on local minimum, not progress to compiler
+- 2026-09-20T22:56:06Z · knows · Does not trust coordinator at 432K tokens of context for consequential decisions; wants state persisted
+- 2026-09-20T23:56:05Z · knows · Understands the hourly keep-alive that keeps the coordinator's prompt cache warm and its session cheap
+- 2026-09-21T00:38:01Z · corrected the coordinator · Lacks context to approve overnight work, cannot tell what decision F is; wants executive assistant
+- 2026-09-21T00:38:01Z · knows · Infers checker work touching five Scala files at once does not suit parallel batch workflow
+- 2026-09-21T01:01:44Z · corrected the coordinator · Told the coordinator reports on nat work already exist, contradicting its claim
+- 2026-09-21T01:14:56Z · knows · Diagnoses the repeated failures as a context management and memory problem needing consolidated, retrievable knowledge
+- 2026-09-21T17:24:06Z · background fact · Wants Oracle copyright headers removed from files revival modifies, owing Oracle nothing as open-source contributor
+- 2026-09-21T20:54:48Z · states a position · Wants historical evidence from commits about why the interpreter's rounding function differs
+- 2026-09-22T05:00:30Z · knows · Calls his review of pre-approved decisions human-in-the-loop work; asks whether it pays off
+- 2026-09-22T05:21:45Z · background fact · Insists on owning every choice, since as the revival's director he carries responsibility for consequences
+- 2026-09-22T05:21:45Z · knows · Suggests filing GitHub issues with exploration results and linking fixes to them for cleaner presentation
+- 2026-09-22T05:34:17Z · background fact · Admits big drops in an error count tempt him to chase zero; doubts tidy narrative
+- 2026-09-22T06:16:20Z · knows · Holds that forks probe can settle should be probed during planning, not left to workers
+- 2026-09-22T17:12:42Z · background fact · Notes a new Opus release arrived and sees the version-free worker tier designation paying off
+- 2026-09-23T04:19:41Z · states a position · Asks efficiency analysis to price more skeptic and repair loops and downstream cost of refusals
+- 2026-09-23T05:19:50Z · knows · Explains a huge bill by two wake-ups with uncached 744K context; asks to compact soon
+- 2026-09-23T05:19:50Z · background fact · Wants the coordinator to act as executive assistant and analyst, finding why the workflow stalled
+- 2026-09-23T05:28:37Z · corrected the coordinator · Said the coordinator wrongly credited a third-party migration graft in project history and demanded archaeology
+- 2026-09-23T06:02:13Z · corrected the coordinator · Recalls main restarted from copy of Mercurial history and denies any graft from third-party fork
+- 2026-09-23T06:02:13Z · background fact · Plans GitHub issues to document fixes and later clean main, with microGPT as focusing toy
+- 2026-09-23T06:02:13Z · knows · Suggests trying the smallest model tier for archaeology tasks
+- 2026-09-23T06:04:01Z · knows · Assumed the current main branch was built on top of the clean ladder
+- 2026-09-23T06:30:41Z · knows · Worries that generated sources are still being committed during ladder work
+- 2026-09-24T00:06:11Z · states a position · Wants top-tier tokens spent on planning the exclusion resolution before launching the next batch
+- 2026-09-24T01:50:45Z · knows · Asks whether choosing route A can later be reversed in favor of C
+- 2026-09-24T06:22:56Z · states a position · Wants CLAUDE.md smaller and timeless, without test counts or complex-number goals that no longer apply
+- 2026-09-24T06:44:33Z · states a position · Insists the boot reads the repository maps and indices in full, not by search
+- 2026-09-24T07:03:57Z · states a position · Wants the spec updated with the chosen design and original record kept, preserving route C
+- 2026-09-24T16:25:45Z · background fact · Pasted usage showing 98 percent of the weekly limit used, worried the budget was overshot
+- 2026-09-25T21:46:06Z · states a position · Wants to prevent myopic solutions, recalling the diagonal case; suggests the smallest tier for archaeology
+- 2026-09-25T22:31:31Z · states a position · Wants to try the newest mid-tier model as coordinator; judges may need top-tier pinning
+- 2026-09-25T22:39:41Z · states a position · Wants workers to record CPU type with every timing so runs on different machines compare
+- 2026-09-25T23:36:16Z · does not know · Asked what the switch-over is, a project term he had forgotten
+- 2026-09-26T00:52:02Z · knows · Suggests committing the batch manifest at each revision and diffing it, saving top-tier tokens
+- 2026-09-26T01:35:11Z · knows · Says liveness monitor should space checks about 45 minutes apart to keep prompt cache hot
+- 2026-09-26T01:39:41Z · does not know · Did not know the coordinator could read the session's rate-limit status itself
+- 2026-09-26T01:52:30Z · states a position · Wants workers to commit as they go, guarding against container loss and hook nagging
+- 2026-09-26T10:14:05Z · background fact · Consulted another vendor's model on the project, which produced a numeric-hierarchy review
+- 2026-09-26T10:44:54Z · background fact · Watches small paid plan, not largest, with top tier at 69 percent of weekly limit
+- 2026-09-26T12:35:08Z · background fact · Gave explicit permission to push, telling the automatic permission classifier to stand down
+- 2026-09-26T15:48:10Z · knows · Declares coordinator at its dumb zone; distrusts its judgement and asks for fresh top-tier view
+- 2026-09-26T16:21:41Z · knows · Suspects a diagnosed edge case is cargo cult; asks for cheap archaeology with middle-tier analysis
+- 2026-09-27T01:30:24Z · knows · Calls leaving traces of mistakes in the record pedantic; warns it bloats boot context
+- 2026-09-27T01:47:28Z · background fact · Trials newer mid-tier model as coordinator, finding it plain but more literal than top tier
+- 2026-09-27T01:52:12Z · knows · Distinguishes the orchestrator role from the executive assistant role, expecting different record keeping for each
+- 2026-09-27T02:21:51Z · states a position · Prefers paying about 125K tokens each session for full boot context over small size target
+- 2026-09-27T02:26:42Z · knows · Says one-off go-ahead messages need no permanent record entry
+- 2026-09-27T02:31:31Z · knows · Worries the coordinator reinvents an existing process for consolidating facts into a history file
+- 2026-09-27T02:47:20Z · knows · Believes the top-tier model did better with fewer principles; sprawling rule trees cause the problems
+- 2026-09-27T03:02:37Z · background fact · Says he never read the original working protocol, only knew collaboration worked with top-tier model
+- 2026-09-27T03:02:37Z · does not know · Does not feel qualified to judge a record-keeping proposal, as it depends on model interpretation
+- 2026-09-27T03:36:24Z · knows · Worries a boot context grown from 125K to 245K tokens nears the model's dumb zone
+- 2026-09-27T04:28:30Z · background fact · Reads Anthropic's prompting guides for both models; asks to review the protocol against them
+- 2026-09-27T05:57:11Z · knows · Recalls an early intervention requiring workers to use facts file and index, not search blindly
+- 2026-09-27T06:04:20Z · knows · Explains facts and index were introduced to force global view and stop myopic local decisions
+- 2026-09-27T06:22:31Z · corrected the coordinator · Reacted with outrage that a protocol rewrite deleted the oldest rule on cross-referencing earlier research
+- 2026-09-27T06:31:31Z · knows · Proposes giving each worker only a mission briefing extracted from maps; sample workers' context cost
+- 2026-09-27T07:04:16Z · knows · Criticizes an if-else lawyerly rule as the style that triggered the rewrite; prefers plain principles
+- 2026-09-27T07:04:16Z · knows · Likens newer mid-tier model to dog chasing every command into rabbit holes, far from AGI
+- 2026-09-27T07:09:40Z · corrected the coordinator · Told the coordinator that running a review is his call; it may only propose
+- 2026-09-27T07:26:51Z · background fact · Pays about 200 dollars a month for Max plan; wants costs in tokens, not dollars
+- 2026-09-27T07:33:18Z · knows · Argues workers need pre-gathered context, since the model projects other languages onto untrained Fortress
+- 2026-09-27T07:33:18Z · knows · Says agents decide locally, like in dark room with searchlight; briefings must give big picture
+- 2026-09-27T07:47:13Z · does not know · Could not recall the names of numbered items versus ledger rows; asks for earlier terminology
+- 2026-09-27T07:57:42Z · knows · Doubts sorting the gap ledger by plan phase; its rows are many kinds of problem
+- 2026-09-27T08:05:14Z · states a position · Asks for everything in context to reach the permanent record before compacting a 700K context
+- 2026-09-27T09:07:17Z · knows · Disagrees with requiring receipts of negative searches; briefings should supply positions and probe results
+- 2026-09-27T09:10:07Z · knows · Says agents work in foreign language and must learn in context; briefings should say so
+- 2026-09-27T09:12:51Z · background fact · Wants to stay humble and finds his own name repeated throughout the record irritating
+- 2026-09-27T12:16:59Z · knows · Furious that every test file runs three times under interpreter and restarted container wasted hours
+- 2026-09-27T12:37:13Z · knows · Challenges a rule that runs are relaunched, never resumed, suspecting it generalized one case
+- 2026-09-27T15:35:00Z · knows · Sets a pattern: strongest worker plans blind, then compares with the coordinator's plan; separate artifacts
+- 2026-09-27T19:34:10Z · knows · Cautions against many parallel runs on this machine; wants workers committing as they go
+- 2026-09-27T21:08:22Z · background fact · Wants an autonomous overnight run of the planned batches without his involvement
+- 2026-09-28T07:03:30Z · knows · Says the nine-step process briefs him on an unfamiliar repository; worries it triggered excess re-measurement
+- 2026-09-28T07:11:10Z · corrected the coordinator · Told the coordinator a verify-everything briefing wasted resources remeasuring and the protocol must prevent that
+- 2026-09-28T07:40:04Z · knows · Knows git can consolidate the object store by hand to free disk space
+- 2026-09-28T07:50:34Z · knows · Asks whether container restarts follow a pattern, noting they happen while he talks to coordinator
+- 2026-09-28T09:32:30Z · knows · Knows hourly check-ins let prompt cache expire, so monitors should be about 45 minutes apart
+- 2026-09-28T13:51:00Z · background fact · Realizes he slaps rules on rules without knowing their global consequences
+- 2026-09-28T20:02:02Z · corrected the coordinator · Asked why a question was posed when the answer already sat in the record
+- 2026-09-29T06:47:43Z · knows · Suspects very large batches may need slicing, noting gather agents compacted their own context
+- 2026-09-29T08:42:05Z · knows · Argues for landing large batches and repairing afterwards; missing failure test should not halt traffic
+- 2026-09-29T08:47:13Z · asked to explain · Asks why one added failure test forces rerunning the whole gate, not verifying it alone
+- 2026-09-29T08:57:31Z · knows · Calls rigid gate rerunning pedantic, since after-the-fact reviews catch what it would; wants cost-benefit weighing
+- 2026-09-29T09:19:14Z · background fact · Works in Central European time, noting eleven eighteen CET while container clock runs in UTC
+- 2026-09-29T09:19:14Z · knows · Knows the permissions command and switch from auto mode to manual approval on his client
+- 2026-09-29T09:34:06Z · background fact · Voices strong political objections to data center hosting his compute; asks to look it up
+- 2026-09-29T09:34:06Z · background fact · Describes himself as Eastern European fan directing effort without deep expertise; intelligence comes from model
+- 2026-09-29T09:34:06Z · background fact · Plans to price all tokens at official API rates later, as his plan is subsidized
+- 2026-09-29T10:10:59Z · knows · Expects landing a batch to be followed by fact consolidation, then reviews, as standing procedure
+- 2026-09-29T10:10:59Z · knows · Lets the coordinator launch top-tier workers on consequential library, spec or implementation questions without asking
+- 2026-09-29T11:12:49Z · states a position · Opposes blanket rule to run probes serially, since interpreter timings are relative; just note load
+- 2026-09-29T12:02:38Z · states a position · Wants to understand how an obvious-in-hindsight choice became a question, tracing missing positions or reviews
+- 2026-09-29T12:17:07Z · states a position · Asks for a thorough top-tier review of his decisions for errors of commission and omission
+- 2026-09-29T15:51:22Z · knows · Notices a delay before the app shows a reply as finished; suspects transcript backup hook
+- 2026-09-29T15:58:32Z · knows · Expects transcript backup to copy only changes and chunk only delta, with empathy for machine
+- 2026-09-29T16:22:45Z · knows · Knows the client's permission modes: auto, accept edits and plan; jokes auto is YOLO mode
+- 2026-09-29T17:19:31Z · knows · Knows he must switch to manual permissions so the coordinator may disable the commit-reminder hook
+- 2026-09-29T17:29:19Z · background fact · Asked another vendor's model whether the 2019 paper changes next batch and relays its answer
+- 2026-09-29T17:44:02Z · knows · Reads the context command's output and checks whether an unnoticed automatic compaction skipped boot files
+- 2026-09-29T17:52:56Z · knows · Questions why millions of tokens went to simple rungs and whether scratch files are committed
+- 2026-09-29T18:06:28Z · knows · Backs test-first discipline but wants only new test run per edit, corpus once at end
+- 2026-09-29T18:25:19Z · knows · Holds landed batch should commit only Fortress changes, tests, reports and ledger or plan lines
+- 2026-09-29T18:25:19Z · states a position · Objects to naming test files in Fortress after internal batch rungs
+- 2026-09-29T18:42:27Z · knows · Asks whether the workers' test practice follows the original team's suite or cargo-cult pretraining habit
+- 2026-09-29T19:01:43Z · knows · Reasons tests printing different values each run are irrelevant to pass or fail unless asserted
+- 2026-09-29T19:12:55Z · knows · Remembers telling a coordinator not to rename logs to text files, so they stay ignored
+- 2026-09-29T19:21:03Z · background fact · Wants the archaeology committed as a dated post-mortem, with model failures publicly on record
+- 2026-09-29T20:30:04Z · corrected the coordinator · Called report line word salad: its conclusion did not follow and logs cannot explain progress
+- 2026-09-29T20:42:23Z · knows · Asserts commit discipline on a worker branch should equal main's, with transcripts holding all history
+- 2026-09-29T20:42:23Z · background fact · Blames AI labs' testing culture as ignorant of software engineering after seeing what was committed
+- 2026-09-29T20:53:32Z · knows · Explains test-first as turning probe's gap into committed reproduction, then fixing it to prove closure
+- 2026-09-29T20:55:46Z · states a position · Wants the failing test written as clean minimal essence of problem, not copy of probe
+- 2026-09-29T20:58:00Z · background fact · Wonders whether his own request for adversarial skeptics was the source of the test-practice problem
+- 2026-09-29T21:27:46Z · states a position · Prefers fidelity of the facts and positions record over any token-count target when consolidating
+- 2026-09-29T21:36:20Z · knows · Defends the index as experiment map that stops rediscovery; doubts compressing 42K to 10K tokens
+- 2026-09-30T04:02:57Z · background fact · Ran out of the weekly limit on all models while top tier still had quota
+- 2026-09-30T04:44:53Z · background fact · Says he does unpaid testing of Anthropic's cloud infrastructure in open-source agentic coding research repository
+- 2026-09-30T05:05:47Z · knows · Calls it insane to keep a whole folder because record cites one file in it
+- 2026-09-30T05:13:09Z · knows · Suspects a 627K-token coordinator context weakens its attention and let a weak cleanup result pass
+- 2026-09-30T05:24:08Z · states a position · Wants facts and positions rewritten as timeless current-state statements, with provenance dates moved to history
+- 2026-09-30T05:24:08Z · states a position · Wants to give Claude a map of the territory, not leave it searching with flashlight
+- 2026-09-30T07:11:53Z · states a position · Tells the coordinator to report only token writes, as cached reads are effectively free
+- 2026-09-30T11:08:42Z · background fact · Reported a usage-metering bug and a rescinded promotional credit through the feedback command
+- 2026-09-30T11:38:57Z · knows · Believes worktrees for workers should already get a copy of Fortress cache as standing procedure
+- 2026-09-30T11:43:52Z · knows · Struggles to equate keyword with semantic search; proposes resumable sub-agent holding record as query service
+- 2026-09-30T12:01:35Z · knows · Proposes reordering facts by topic to reveal consolidation, and inventorying primary sources against derived notes
+- 2026-09-30T12:16:25Z · background fact · Bought 10 euros of usage credit after promotional credits vanished, testing how far it goes
+- 2026-09-30T12:25:35Z · background fact · Has a 40 euro monthly spend limit on usage credits and thus pays in euros
+- 2026-10-02T10:00:12Z · background fact · Suspects free lunch was promotional cloud credit he activated by checking site, not metering bug
+- 2026-10-02T15:37:40Z · knows · Sides with the strongest worker's opinion to keep the built-in workflow review stage
+- 2026-10-02T15:48:05Z · knows · States suite's original design already checks values that matter, so outputs need no extra comparison
+- 2026-10-02T18:10:17Z · background fact · Executes tagging and branch deletion from his local machine, since the container cannot push tags
+- 2026-10-02T18:42:47Z · knows · Suspects skeptics at 400K tokens each exceed scope he asked for, but cannot see why
+- 2026-10-02T19:03:23Z · knows · Says a skeptic should check transcript that test-first was followed, not rebuild and rerun test
+- 2026-10-02T19:09:56Z · knows · Says a skeptic reviews code, writing one small program, and must not do clean rebuilds
+- 2026-10-02T19:50:37Z · states a position · Wants unnecessary builds eliminated by sharing latest build between rungs and clearing only stale cache
+- 2026-10-03T04:14:20Z · knows · Suggests turning known failures into expected failures first and flipping them when the fix lands
+- 2026-10-03T04:19:34Z · knows · Treats not wasting machine resources as core engineering taste that the models lacked on caching
+- 2026-10-03T04:35:38Z · background fact · Wonders whether his hands-on workflow steering or the models' pretraining caused the inefficiency; wants experiment
+- 2026-10-03T04:35:38Z · background fact · Plans to play with the revival in spare time and avoid exhausting weekly tokens
+- 2026-10-03T04:42:09Z · knows · Describes batch composition as independent items not mixing checker and library, amortizing one full build
+- 2026-10-03T04:42:09Z · background fact · Notes promotional reset still did not carry week, as batches ran intensely and facts grew
+- 2026-10-03T05:07:38Z · knows · Understands worker agents run on a five-minute prompt cache while the main thread has hour
+- 2026-10-03T05:23:28Z · corrected the coordinator · Said the coordinator forgot a shared read-only baseline design agreed an hour before compaction
+- 2026-10-03T06:26:07Z · knows · Says coordinator must monitor large probes it launches and react when spend passes its estimate
+- 2026-10-03T06:26:07Z · knows · Values machine empathy: a three-second cache copy beating a minute-long rebuild is worth standardizing
+- 2026-10-03T06:26:07Z · states a position · Wants to see strong model's unconstrained workflow design, to learn what fixed process holds back
+- 2026-10-03T06:35:21Z · states a position · Rejects per-worker monitoring rules as cargo cult; wants them only for large probes
+- 2026-10-03T07:10:45Z · asked to explain · Asked what the ultracode command triggers for model and what freedom it grants designing worker
+- 2026-10-03T07:42:36Z · knows · Recalls earlier finding that workflow workers cannot share cached prompt prefix because whole messages differ
+- 2026-10-03T10:43:07Z · states a position · Wants competing workflow designs run on branches to get real numbers, not unverified estimates
+- 2026-10-03T10:59:37Z · knows · Considers always letting a top-tier coordinator design ultracode workflow per batch instead of fixed process
+- 2026-10-03T10:59:37Z · knows · Notes no dedicated skill concentrates knowledge about builds, caches, container resets and efficient test running
+- 2026-10-03T16:19:28Z · knows · Questions whether citing a source for every claim in skill helps workers or wastes tokens
+- 2026-10-04T10:40:16Z · states a position · Wants CLAUDE.md shrunk to a few lines now that skills carry the knowledge
+- 2026-10-04T19:11:02Z · states a position · Tells the coordinator not to waste resources on a wording conflict literal reading would cause
+- 2026-10-04T19:54:26Z · knows · Knows the skill-creator skill has a trigger-testing protocol; asks to run it on the router
+- 2026-10-04T20:02:53Z · corrected the coordinator · Told the coordinator not to invent harder scenario for worker, and to monitor spend itself
+- 2026-10-04T20:19:25Z · knows · Asks whether the 133 specification-extracted example programs are ever run or duplicated in the gate
+- 2026-10-04T20:28:16Z · knows · Asks whether workers actually use the Fortress command-line commands described in the skill
+- 2026-10-05T05:47:24Z · states a position · Wants skills built from data on how workers work, encoding practices most agents work around
+- 2026-10-05T05:47:24Z · knows · Recalls the compile-all build command has cache-keeping switch, contradicting rule that it always wipes caches
+- 2026-10-05T05:54:35Z · knows · Proposes a cold read plus trap scenarios to test whether fresh worker takes better path
+- 2026-10-05T06:03:45Z · corrected the coordinator · Found a project skill's description alarming and demanded descriptions that read well to a human
+- 2026-10-05T06:47:09Z · knows · Recalls batch role-splitting was left out of skills so unencumbered workflow designs could be tested
+- 2026-10-05T06:58:58Z · corrected the coordinator · Told the coordinator it misunderstood the skills split; a Claude-session skill belongs in repo skill
+- 2026-10-05T07:02:19Z · does not know · Does not know the difference between a Claude session and remote session in skill split
+- 2026-10-07T02:54:03Z · states a position · Wants workers to follow a procedure for deciding, gathering evidence, recording contradictions, or implementing decisions
+- 2026-10-07T03:05:44Z · knows · Explains project memory lives in the repo, since cloud containers lack local memory
+- 2026-10-07T03:05:44Z · states a position · Wants a one-way dependency where the coordinator briefs workers, who never load the coordinator skill
+- 2026-10-07T03:05:44Z · does not know · Does not know where the facts extract script lives
+- 2026-10-07T03:05:44Z · knows · Frames the work as context engineering: giving workers focused prompts without repeating settled knowledge
+- 2026-10-07T03:11:41Z · states a position · Wants the repo skill to teach workers to search project memory before long repository searches
+- 2026-10-07T03:16:33Z · states a position · Wants the repo skill to define term record up front as files replacing project memory
+- 2026-10-07T03:44:55Z · states a position · Wants building and exploring modes defined at the top of skill, with trigger for switching
+- 2026-10-07T03:54:45Z · knows · Believes earlier model versions left clever essayist register in record that only newest model avoids
+- 2026-10-07T03:54:45Z · states a position · Wants a writer sub-agent with standing order to restructure skills toward ASD-STE100, defining terms first
+- 2026-10-07T04:01:09Z · knows · Calls the writer exorcist for earlier models' register; demands structural rewrite, not just tone fixes
+- 2026-10-07T04:13:45Z · knows · Sees token efficiency and less rework as the purpose of extracting skills
+- 2026-10-07T04:18:50Z · does not know · Cannot explain why second-round skeptics and repairs cost as many tokens as the first round
+- 2026-10-07T04:44:10Z · knows · Says reversible decisions should take the path of least resistance; known failures stay marked triple-X
+- 2026-10-07T04:44:10Z · knows · Suggests skeptics fix what they find; asks if that breaks the separation principle
+- 2026-10-07T04:55:44Z · knows · Calls rule telling workers to do as their brief says pure waste of context tokens
+- 2026-10-08T03:58:58Z · background fact · Edited the repo skill himself in definition-list style so the glossary reads better to humans
+- 2026-10-08T04:23:08Z · knows · Knows one-hour prompt cache writes cost double but suit a writer receiving his edits slowly
+- 2026-10-08T06:21:54Z · knows · Sees the project's real problem as in-context learning: enough context to avoid rediscovering settled knowledge
+- 2026-10-08T06:21:54Z · knows · Believes facts, positions and ledger were model's own pretrained impulses and now strain, needing synthesis
+- 2026-10-08T06:21:54Z · does not know · Cannot tell what makes something a finding rather than file to edit; wants term defined
+- 2026-10-08T08:19:50Z · knows · Notes the one-hour cache lapsed for coordinator and writer; start a fresh writer each round
+- 2026-10-08T08:56:21Z · states a position · Wants ledger rewrite split among many small topical workers, with duplicate search as separate step
+- 2026-10-08T09:04:00Z · knows · Frames skills as in-context learning correcting pretraining misconceptions; doubts flashlight searching is efficient
+- 2026-10-08T09:49:29Z · does not know · Unsure how ledger rows are keyed and whether reordering is safe; guesses line numbers matter
+- 2026-10-08T09:49:29Z · knows · Expects tooling to read and write ledger rows with schema check, inserting into proper section
+- 2026-10-08T10:56:36Z · knows · States priority order: finish skills rewrite, redesign batch, then resume climbing, since reruns wasted batches
+- 2026-10-08T11:05:01Z · knows · Holds that repo resolves contradictions original team left open so working compiler can be reached
+- 2026-10-08T11:18:06Z · states a position · Asks the coordinator to clone his review style from past comments, reducing manual review
+- 2026-10-08T13:42:38Z · corrected the coordinator · Called an extracted review-style document a pile of garbage, dangerous as standing orders
+- 2026-10-08T15:53:33Z · does not know · Does not know whether the harness-one script is the team's harness or the revival's
+- 2026-10-08T15:53:33Z · states a position · Wants build, caches, test running and test writing understood together before optimizing the suite
+- 2026-10-08T17:07:44Z · knows · Knows to recover container state before booting from the last note when cloud container dies
+- 2026-10-08T17:45:13Z · knows · Asks whether the new machine's hardware differs enough to make gate timings incomparable
+- 2026-10-08T20:23:27Z · states a position · Rules a one-sentence detail stays in the skill and a paragraph moves to compiler part
+- 2026-10-08T20:51:13Z · knows · Recalls the main saving idea: skeptics fix what they find, the judge only rules
+- 2026-10-08T21:50:53Z · knows · Reminds the coordinator to arm 45-minute checkers during overnight runs to keep its cache warm
+- 2026-10-09T05:40:25Z · knows · Suspects top tier draws on both usage pools; designs two-worker test to watch usage delta
+- 2026-10-09T07:10:38Z · states a position · Wants the error-classification script run, since sorting errors into classes shows the biggest gain
+- 2026-10-09T23:48:05Z · states a position · Asks for closure of process-engineering work through reusable metric or archaeology process for skill's effect
+- 2026-10-09T23:52:53Z · knows · Says lost measurement scripts can be recovered from worker transcripts by archaeology, using same methodology
+- 2026-10-10T05:55:24Z · knows · Does not trust smallest tier with judgment, only archaeology; wants Opus or Fable to judge
+- 2026-10-10T06:27:03Z · states a position · Opposes the smallest tier editing his artifacts because it lacks the middle tier's writing skill
+- 2026-10-10T06:35:01Z · knows · Understands the batch's skill-update phase keeps in-context learning current; outraged coordinator question leaked into skill
+- 2026-10-10T06:44:21Z · states a position · Would make exception to copyright rule for open-access paper and keep its PDF beside extract
+- 2026-10-10T07:27:32Z · background fact · Uses Gemini to clean YouTube subtitles and merge keynote slides into a transcript
+- 2026-10-10T07:33:49Z · states a position · Wants the coordinator skill to absorb the protocol; asks whether records can load lighter
+- 2026-10-10T07:54:01Z · background fact · Tried the lab's Google Drive link and the Wayback Machine for talk video, both failing
+- 2026-10-10T08:05:10Z · states a position · Wants the coordinator skill loaded whole, not lazily; questions fully loading facts and positions
+- 2026-10-10T09:01:30Z · does not know · Does not know how to add secrets safely to a Claude Code cloud container
+- 2026-10-11T05:14:18Z · background fact · Recalls top-tier model as coordinator relied on its own pretrained habits, not system he designed
+- 2026-10-11T05:14:18Z · background fact · Says only deviation from model habits was keeping project memory in repo for cross-container portability
+- 2026-10-11T05:14:18Z · background fact · Switched to the newer mid-tier model mainly to escape clever essayist register; token economy secondary
+- 2026-10-11T05:14:18Z · states a position · Rejects system of hundreds of little rules; wants knowledge base to follow model's second nature
+- 2026-10-11T06:13:39Z · knows · Notes with surprise that auto mode can still request a manual permission dialog
+- 2026-10-11T06:24:04Z · corrected the coordinator · Doubted a rehearsal experiment as cargo-cult token waste; demanded its design, goals and isolation explained
+- 2026-10-11T06:37:23Z · background fact · Mocks the claim that coding is solved after the coordinator designed a wasteful experiment alone
+- 2026-10-11T06:46:04Z · states a position · Asks how to switch the coordinator back to top-tier model cleanly, with commands in order
+- 2026-10-11T07:10:24Z · knows · Refuses to let any model design test of agentic coding practices; demands explanation before launches
+- 2026-10-12T11:15:43Z · states a position · Wants the skill to hold only what differs from model's pretrained behavior, like project-specific procedures
+- 2026-10-12T11:15:43Z · knows · Notes the model's habit of local project memory; the repo needs one pointer to positions
+- 2026-10-12T11:15:43Z · states a position · Prefers interview-style questions about default instincts to replaying past sessions when finding model defaults
+- 2026-10-12T11:23:42Z · knows · Holds that model's habit of recording dates and provenance for every fact does not scale
+- 2026-10-12T11:25:05Z · states a position · Wants the natural-behavior baseline stored so skill can be rescaled when new top-tier model arrives
+- 2026-10-12T12:50:57Z · knows · Spots that asking all interview questions at once biases later answers; orders one per turn
+- 2026-10-12T13:05:24Z · states a position · Wants light homes for the held list and boot notes, apart from heavy facts
+- 2026-10-12T13:45:48Z · states a position · Wants the coordinator skill written from scratch by a worker using the map of issues
+- 2026-10-12T14:19:13Z · knows · Hypothesizes rules were duplicated across files because each repeated failure led model to re-record them
+- 2026-10-12T16:11:03Z · knows · Judges the coordinator a worse writer than mid-tier model; will not let it touch writing
+- 2026-10-12T16:19:10Z · knows · Recalls the held list stores his reactions verbatim with transcript timestamp pointers to survive compaction
+- 2026-10-12T16:42:37Z · background fact · Has never read the facts and positions files, which he regards as the coordinator's
+- 2026-10-12T16:59:17Z · corrected the coordinator · Asked why the coordinator remeasured record statistics instead of looking them up in the index
+- 2026-10-12T17:06:19Z · corrected the coordinator · Told the coordinator to check transcript dates after it misplaced when it read something
+- 2026-10-12T21:49:21Z · background fact · Relays a Claude chat memory summary: Košice, 20+ years in software, Swift benchmark contributor
+- 2026-10-12T22:01:05Z · background fact · Calls the revival his hobby project, a spare-time learning exercise on Fortress and agentic coding
+- 2026-10-13T00:31:13Z · states a position · Insists a Fortress revival report not mention improving agentic coding; it does not belong there
+- 2026-10-13T00:44:05Z · background fact · Refuses to claim credit for writing microGPT, saying Claude wrote it and he wrote nothing
+- 2026-10-13T01:28:19Z · knows · Knows Astra is OpenAI's ChatGPT 6 tier, Sol a smaller sibling, and Codex their harness
+- 2026-10-13T08:01:03Z · knows · Expects consolidation to cut a quarter; asks for statistics after only 303K to 259K tokens
+- 2026-10-13T09:02:01Z · knows · Describes a tiered record: optimized build of current status, historical record with provenance, full reports
+- 2026-10-13T09:16:07Z · knows · Separates project knowledge in facts and positions from collaboration process, which belongs in coordinator skill
+- 2026-10-13T09:23:44Z · knows · Proposes reusing the earlier record-consolidation process and a quiz to verify record-keeping principles
+- 2026-10-13T10:14:40Z · states a position · Wants record compression tested by a scenario checking reader still follows pointers to original reports
+- 2026-10-13T10:20:30Z · states a position · Wants only a limited trial on same records, recalling tokens wasted on elaborate eval design
+- 2026-10-13T10:27:46Z · knows · Asks whether cross-references between facts and positions use keys extract tool supports or plain text
+- 2026-10-13T14:36:08Z · corrected the coordinator · Called it a stupid question when coordinator asked permission to remember what it just learned
+- 2026-10-13T15:16:57Z · does not know · Heard weekly limit as paige watch limit via dictation; asked what and when it resets
+- 2026-10-13T16:16:23Z · knows · Suggests record rewrite as batch workflow: cheap workers gather context, middle-tier writer rewrites in ASD-STE100
+- 2026-10-13T17:16:41Z · knows · Does not want adversarial review by the top tier, which keeps suggesting leaving everything unchanged
+- 2026-10-13T17:26:39Z · states a position · Wants the Revival chart extended with record file size to show the savings from consolidation
+- 2026-10-14T00:19:13Z · corrected the coordinator · Corrected coordinator that his objection to top-tier review applied to one consolidation, not batch reviews
+- 2026-10-14T05:29:24Z · corrected the coordinator · Asked whether skill line about weighing top-tier review critically was his word or coordinator's synthesis
+- 2026-10-14T09:21:27Z · asked to explain · Asks why prototype worktrees are thrown away after probes and whether preparatory cost is counted
+- 2026-10-14T10:33:10Z · knows · Asks whether the Opus-then-Fable two-tier review is new, and how the two reviews compared
+- 2026-10-14T11:49:45Z · states a position · Objects that restating a quoting rule could lead to his speech-to-text rambling being recorded verbatim
+- 2026-10-14T11:55:34Z · does not know · Knows the nine steps but could not name the three principles inside them
+- 2026-10-14T12:40:07Z · knows · Is surprised the PLAN file is huge; asks whether it is read whole at boot
+- 2026-10-14T12:46:06Z · states a position · Wants a cheap worker to map plan file's sections and find duplication before Friday consolidation
+- 2026-10-14T19:16:45Z · states a position · Wants checker performance measured after every checker change and optimized within rung, validated by skeptic
+- 2026-10-15T04:18:00Z · asked to explain · Asks why the coordinator did not first find out whether library uses pattern, key factor
+- 2026-10-16T08:05:04Z · does not know · Unsure whether usage resets follow UTC or his local time
+- 2026-10-16T08:43:59Z · knows · Knows new Gemini release exists; plans to try its YouTube access for talk's source code
+- 2026-10-16T09:07:45Z · does not know · Needs the two measured counts re-explained and recalls one jumping to hundreds
+- 2026-10-16T10:39:28Z · knows · Challenges holding probes back for idle-machine timing: inference runs in the cloud and container idles
+- 2026-10-16T12:14:17Z · knows · Expects probe to prototype design work before batch; asks to try with and without where
+- 2026-10-16T12:27:55Z · knows · Explains the standing rule that workers' decisions beyond their mandate are surfaced to him
+- 2026-10-16T13:26:43Z · states a position · Prefers a bounded, cheap search of his public Swift and Stack Overflow record
+
+## 8. How he learns and reads (174)
+
+- 2026-08-18T23:35:06Z · learning or reading preference · Asks for a very short answer plus options in the question tool, deciding on phone
+- 2026-08-18T23:55:14Z · learning or reading preference · Reported the pop-up questionnaire loses his typed free-text answers while he is still writing
+- 2026-08-19T01:17:32Z · learning or reading preference · Wants the agent to keep documenting its techniques for moving around repository as it works
+- 2026-08-19T06:13:06Z · learning or reading preference · Asks for a verbal narration of the agent's greps and probes, to learn its methods
+- 2026-08-19T06:33:12Z · learning or reading preference · Wants complete session transcripts on a branch to study the agent's engineering and debugging practice
+- 2026-08-21T14:38:52Z · learning or reading preference · Reads the earlier conversation slowly from top and holds new work until he catches up
+- 2026-08-21T17:22:16Z · learning or reading preference · Names wall-of-text failure mode and asks for short acknowledgments while he gathers feedback in batches
+- 2026-08-21T18:07:04Z · learning or reading preference · Insists on discussing a README's goals before any draft is written
+- 2026-08-21T19:42:54Z · learning or reading preference · Wants README presented for approval, since he will not scroll through diff on his phone
+- 2026-08-21T23:12:48Z · learning or reading preference · Asks for short briefing on pending items whose originating turns he has not read yet
+- 2026-08-21T23:57:23Z · learning or reading preference · Describes an endless spiral of reading a growing backlog; asks for reading options
+- 2026-08-22T07:21:39Z · learning or reading preference · Tells the coordinator to give only terse acknowledgments because it is drowning him in text
+- 2026-08-22T08:49:15Z · learning or reading preference · Spots house-style closing flourishes in generated prose and wants sentences without a bow at end
+- 2026-08-22T11:47:07Z · background fact · Dictation garbles words, for example producing a strange word for README
+- 2026-08-22T18:19:30Z · learning or reading preference · Objects to essay-like tying-up sentences and asks for plain, neutral, factual wording with options
+- 2026-08-22T18:30:02Z · learning or reading preference · Again objects to generated-sounding register and says he is unsure the coordinator grasps the objection
+- 2026-08-22T19:12:43Z · learning or reading preference · Wants to talk plan through before writing it, and needs written plan to survive compaction
+- 2026-08-23T06:28:15Z · learning or reading preference · Asks for progress messages at major rungs to follow the remote session on his phone
+- 2026-08-23T10:57:46Z · learning or reading preference · Wants short progress reports during long runs, not long stories with timings
+- 2026-08-23T12:04:31Z · learning or reading preference · Reviews on phone and expects documents presented to him, scolding coordinator for forgetting after compaction
+- 2026-08-23T14:23:03Z · learning or reading preference · Wants commit messages short and essential, saying the coordinator writes books in them
+- 2026-08-23T14:29:04Z · learning or reading preference · Reads commit messages in a mobile view where hard line breaks look broken
+- 2026-08-23T14:32:13Z · learning or reading preference · Wants file links and an HTML preview presented every time, per the standing protocol
+- 2026-08-23T14:58:07Z · learning or reading preference · Rejects flowery or fancy phrasing in commit text and wants it stripped
+- 2026-08-23T22:24:42Z · learning or reading preference · Wants Markdown file linked as artifact on his phone, not HTML page to squint at
+- 2026-08-24T05:53:08Z · learning or reading preference · Wants the process documented, several alternatives explored, and no canonical-form claim after one pass
+- 2026-08-24T05:53:08Z · corrected the coordinator · Called the coordinator's praise of its own work embarrassing and unearned
+- 2026-08-24T13:27:08Z · background fact · Recognizes speech-to-text misrecognitions, such as Fortify heard as another word, and corrects them for coordinator
+- 2026-08-24T14:57:27Z · learning or reading preference · Gives context so the coordinator exercises taste, and dislikes it latching onto each slide batch
+- 2026-08-25T05:12:21Z · learning or reading preference · Finds jargon-filled chat summaries opaque, like overhearing others' conversation, and wants pedagogical, digestible text
+- 2026-08-25T23:04:59Z · corrected the coordinator · Said the presentation fails as a teaching explainer, locking onto one notation without alternatives
+- 2026-08-27T04:06:03Z · learning or reading preference · Reviews in a remote container on his phone and needs links to every produced artifact
+- 2026-08-27T04:53:52Z · learning or reading preference · Dislikes big code block followed by prose restating paper; wants paper notation interleaved with code
+- 2026-08-27T15:17:39Z · corrected the coordinator · Said the artifact did not show the line-count and simplicity gain he expected from Fortress
+- 2026-08-30T08:48:43Z · background fact · Wonders whether his own prompting causes the model's failure to link math knowledge to Fortress
+- 2026-08-30T11:09:59Z · learning or reading preference · Names the wall-of-text spiral again and says he is extremely frustrated
+- 2026-09-08T16:46:26Z · learning or reading preference · Asked worker not to narrate setup logs, only enough to show it is not stuck
+- 2026-09-08T17:16:21Z · learning or reading preference · Thinks aloud in long speculative messages and says so, asking how wrong he is
+- 2026-09-08T17:42:25Z · learning or reading preference · Lost the thread in a dense review paragraph and asked which phases to read
+- 2026-09-08T18:49:51Z · learning or reading preference · Needs files presented as readable links on his phone, not just file paths
+- 2026-09-08T20:08:12Z · background fact · Felt silly and discouraged after seeing the scale of the missing compiler work
+- 2026-09-08T20:53:10Z · background fact · Dictates and had to spell out the word bounds letter by letter after repeated misrecognition
+- 2026-09-08T21:22:00Z · learning or reading preference · Finds paragraphs with hard line breaks unreadable on mobile and demands none inside a paragraph
+- 2026-09-08T21:36:47Z · learning or reading preference · Flags a clever register or generated-sounding phrase in the coordinator's reply
+- 2026-09-09T00:15:39Z · learning or reading preference · Does not want setup status spammed back to him, only a stop when something fails
+- 2026-09-09T06:55:11Z · learning or reading preference · Does not want to reread the same comparison or be given more work than needed
+- 2026-09-12T09:15:07Z · learning or reading preference · Asks for explanations by example in plain language; a compressed summary gave no mental model
+- 2026-09-12T09:30:13Z · learning or reading preference · Angrily rejects essays of empty words and thought-terminating closing sentences and demands concise, jargon-free rephrasing
+- 2026-09-13T01:10:54Z · learning or reading preference · Asks for the last reply again in plain language, rejecting the clever essayist register
+- 2026-09-13T01:45:12Z · background fact · Explains an odd word was autocorrect garbling, treating such garbling as routine in his messages
+- 2026-09-14T19:41:41Z · background fact · Reviews tours on a phone and wants SVG colors to follow the device's dark-mode setting
+- 2026-09-15T06:40:57Z · learning or reading preference · Asks for a closing list of loose ends again in plain English
+- 2026-09-15T06:46:15Z · learning or reading preference · Demands to be taught background-built library parts whose decisions broke assumptions he never checked
+- 2026-09-15T08:53:16Z · background fact · Feels like a music producer shouting for more cowbell, unable to understand the concepts deeply
+- 2026-09-15T09:06:42Z · learning or reading preference · Wants answers clearly labelled so he can tell which part answers which of his questions
+- 2026-09-15T10:13:21Z · learning or reading preference · Says compressed two-option asks give him no context to choose, and demands implications spelled out
+- 2026-09-15T10:23:16Z · learning or reading preference · Asks that exploration dialogue be distilled into a durable file so it is not lost
+- 2026-09-15T10:42:06Z · corrected the coordinator · Told coordinator to organize knowledge so established base facts survive compaction and are not rehashed
+- 2026-09-17T15:51:34Z · learning or reading preference · Needs a scatter-gather schematic to understand where cost is paid and where parallelism wins
+- 2026-09-18T12:46:04Z · learning or reading preference · Says coordinator's answers are overly verbose and wants it to adopt his preferred communication style
+- 2026-09-18T17:46:51Z · learning or reading preference · Feels lost in a sea of options; asks for questions with consequences explained
+- 2026-09-18T17:48:06Z · learning or reading preference · Expects choices put through the interactive question tool, and insults coordinator when they are not
+- 2026-09-18T18:09:51Z · background fact · Says he may be too exhausted, citing executive function depletion, to follow the coordinator's account
+- 2026-09-19T09:22:02Z · background fact · Explains a speech-to-text error turned compact into contact in his message
+- 2026-09-19T11:16:13Z · learning or reading preference · Does not want commit-hook reminders; asks the coordinator to handle them silently
+- 2026-09-19T14:51:07Z · background fact · Says a long reply is wall of text he cannot absorb, citing depleted executive function
+- 2026-09-19T14:54:15Z · learning or reading preference · Skips reading a long reply and delegates the default decision to the coordinator instead
+- 2026-09-19T17:52:43Z · learning or reading preference · Says compressed, context-free jargon is unreadable, and suspects writer who cannot explain does not understand
+- 2026-09-20T05:57:56Z · background fact · Asks the coordinator to model what he knows and where his gaps are
+- 2026-09-20T06:34:29Z · background fact · Switches to speech-to-text input; asks the coordinator to silently repair mistranscriptions unless meanings differ materially
+- 2026-09-20T06:34:29Z · background fact · Says depleted executive function and unhelpful decision lists deepened his confusion the previous day
+- 2026-09-20T08:01:00Z · learning or reading preference · Describes his wall-of-text spiral of replying to partly read output; asks coordinator to protect him
+- 2026-09-20T08:01:00Z · learning or reading preference · Asks in recovery mode for only a brief acknowledgment and a standing list of grievances
+- 2026-09-20T08:07:10Z · background fact · Felt he lost control when handed decision lists he was unable to approve
+- 2026-09-20T13:51:24Z · learning or reading preference · Says dense terse paragraph exceeded his capacity at that moment; asks to just note it
+- 2026-09-20T15:40:27Z · learning or reading preference · Says back references to list items meant nothing to him; one-line descriptions too short
+- 2026-09-21T00:38:01Z · learning or reading preference · Refuses to say yes until he understands what he agrees to and its consequences
+- 2026-09-21T00:50:29Z · learning or reading preference · Calls compressed clever-turn-of-phrase advice unhelpful because it pressures approval without consequences explained
+- 2026-09-21T01:36:42Z · learning or reading preference · Demands the clever persona be dropped and asks that explanations be sound and plain
+- 2026-09-21T20:45:30Z · background fact · Is annoyed that dictation turned sixty-four into sixteen
+- 2026-09-22T04:52:01Z · background fact · Feels steered by a go-go attitude; needs an inventory with dependencies to regain big picture
+- 2026-09-22T05:21:45Z · learning or reading preference · Finds tables unreadable on his phone because each row scrolls sideways, and wants lists
+- 2026-09-22T05:56:07Z · background fact · Calls shrinking error counts catnip and wants the remaining few removed to reach zero
+- 2026-09-22T06:16:20Z · learning or reading preference · Wants each integer row decided one at time, with refreshers and comparisons to other languages
+- 2026-09-23T05:19:50Z · background fact · Dictated a message twice after the iOS speech input was interrupted by file upload menu
+- 2026-09-23T05:19:50Z · learning or reading preference · Wants numbers written as K or M, saying a programmer understands a kilo
+- 2026-09-23T05:28:37Z · learning or reading preference · Wants a calibration boot with terse history, goals and procedures before any work
+- 2026-09-23T05:33:46Z · learning or reading preference · Furious at casual talk of yesterday and this morning; wants poetic time framing stopped
+- 2026-09-23T05:39:17Z · learning or reading preference · Clarifies only incorrect casual remarks about time are forbidden, not saying when batch will land
+- 2026-09-23T05:49:44Z · learning or reading preference · Admits unfairness in calling reply too verbose, since that detail is what establishing facts needs
+- 2026-09-23T06:02:13Z · background fact · Describes his wall-of-text spiral failure mode; wants the coordinator to protect him as executive assistant
+- 2026-09-23T06:13:46Z · background fact · Dictates long replies on the iOS app and notes the input area shrinking his view
+- 2026-09-23T06:43:28Z · background fact · Reconstructs open decision rows by rereading the conversation to check nothing is owed
+- 2026-09-23T06:54:34Z · learning or reading preference · Pastes the coordinator's earlier full reply back so he need not scroll around the conversation
+- 2026-09-24T01:02:52Z · background fact · Slips a German phrase meaning he does not mind into an English message
+- 2026-09-24T18:30:37Z · corrected the coordinator · Asked why he had to invent diagonal-overrides-product solution when it was not obvious to workers
+- 2026-09-25T22:19:42Z · background fact · Asked a second model to review the coordinator's reply for tone and pasted its critique
+- 2026-09-25T22:31:59Z · background fact · Accidentally interrupted the session while trying to stop text-to-speech playback
+- 2026-09-26T00:00:05Z · learning or reading preference · Wants explainers kept in the repository, not scratchpad, and decisions fed one message per row
+- 2026-09-26T12:10:46Z · background fact · Holds his iPhone in the right hand and accidentally hits client's stop button in corner
+- 2026-09-27T01:20:25Z · learning or reading preference · Does not want his utterances duplicated across several record files
+- 2026-09-27T02:21:51Z · background fact · Says full context at boot spared him acting as the project's memory and reminder
+- 2026-09-27T03:04:20Z · learning or reading preference · Refuses to spend his time reading a long proposal and asks for a short version
+- 2026-09-27T03:52:16Z · learning or reading preference · Wants a repeated marker stated once at the top of the file and never again
+- 2026-09-27T05:49:41Z · background fact · Says he babysat the coordinator through the night and needs to sleep while batch runs
+- 2026-09-27T07:42:39Z · learning or reading preference · Wants coordinator to push back instead of folding; rules must sit between specific and platitude
+- 2026-09-27T08:02:31Z · corrected the coordinator · Pointed out long replies during wall-of-text spiral make it worse; coordinator should read documented anti-pattern
+- 2026-09-27T09:26:41Z · corrected the coordinator · Told the coordinator it ignored established form for asking him questions; find and record it
+- 2026-09-27T09:45:13Z · does not know · Cannot see how an offered list of options connects to the problem; needs clearer chain
+- 2026-09-29T14:18:19Z · background fact · Says he is starting to have trouble comprehending paragraphs and wonders if he is tired
+- 2026-09-29T14:52:46Z · background fact · Notes that skimming high volumes of model output is tiring for a human
+- 2026-09-29T15:18:44Z · background fact · Speaks Slovak to his dog mid-dictation; the dog, not he, is going out
+- 2026-09-29T16:40:35Z · background fact · Uploaded the paper from his phone and admits mixing up its source with Steele presentations
+- 2026-09-29T17:44:02Z · background fact · Talks of paying down cognitive debt and closing his comprehension gap about the decisions
+- 2026-09-29T17:52:56Z · background fact · Holds the phone one-handed so his palm taps the send or stop button in corner
+- 2026-10-03T05:05:07Z · background fact · Presses the dictation button by accident; wants workers resumed, not relaunched, after an accidental stop
+- 2026-10-03T06:44:35Z · background fact · Laughs at the workflow being named Fortress Climb, a pun his dictation failed to transcribe
+- 2026-10-04T10:40:16Z · learning or reading preference · Wants documents under review published as artifacts to comment on his phone
+- 2026-10-04T18:30:02Z · learning or reading preference · Asks for a review document of all skills to comment on, as in earlier rounds
+- 2026-10-05T05:47:24Z · learning or reading preference · Wants skill edits at paragraph level by a clean-context writer, judged for a novice reader
+- 2026-10-05T06:41:55Z · knows · Knows ASD-STE100, the technical-manual standard, counters verbose model habits; wants about halfway toward it
+- 2026-10-07T02:30:48Z · learning or reading preference · Refuses a blanket yes; wants proposed wording shown first to avoid approving something needing revision
+- 2026-10-07T03:25:27Z · learning or reading preference · Cannot parse a cryptically worded skill sentence when reading cold and asks for ASD-STE100 clarity
+- 2026-10-07T03:30:27Z · learning or reading preference · Dislikes negative phrasing such as do not question a decision and wants positive wording
+- 2026-10-07T03:37:42Z · learning or reading preference · Cannot hold if-else-style do-and-don't lists in working memory; wants named concepts and few rules
+- 2026-10-07T04:52:38Z · learning or reading preference · Tells the coordinator to answer minor writer questions from standing positions and stop bothering him
+- 2026-10-08T04:35:58Z · learning or reading preference · Reviews on his phone inside artifact; wants answers in comment threads, left unresolved for him
+- 2026-10-08T04:36:59Z · background fact · Sometimes reads on a desktop where chat and page sit side by side, different experience
+- 2026-10-08T09:10:48Z · background fact · Judges the coordinator neck deep in the dumb zone when he must point out obvious
+- 2026-10-08T09:25:07Z · learning or reading preference · Wants a chronology of batches for his own learning, not report for its own sake
+- 2026-10-08T11:28:08Z · learning or reading preference · Wants glossary terms defined dictionary-style without a leading article, since dictionary says revival, not revival
+- 2026-10-08T11:36:15Z · learning or reading preference · Wants button by each section heading selecting its text so iOS Speak reads it aloud
+- 2026-10-08T11:36:15Z · background fact · Reads on phone while listening, iOS set to very fast speech, practice he calls multimodal
+- 2026-10-08T15:20:26Z · learning or reading preference · Approves a one-page principles document after previewing it, confident to apply it to other rewrites
+- 2026-10-08T17:29:01Z · background fact · Marks two sessions with skull and Vulcan-salute emojis, joking about the old and new one
+- 2026-10-08T18:11:36Z · background fact · Gives the time in Central European summer time, 20:11, while frustrated by repeated container failures
+- 2026-10-09T03:36:47Z · knows · Found that restarting the iOS app fetches messages missing from the chat display, known glitch
+- 2026-10-09T05:22:47Z · learning or reading preference · Asks thread on page for rewritten sentence about triple-X tests that would clear his confusion
+- 2026-10-10T05:55:24Z · background fact · Notes reports under the new skills read in plain ASD-STE100, which he trusts more
+- 2026-10-10T06:35:01Z · background fact · Spells out cold in cold reader because his speech-to-text transcribed it with the wrong word
+- 2026-10-10T08:09:49Z · background fact · Works on iOS where webm files open in VLC, and uploads have a size limit
+- 2026-10-10T08:23:59Z · background fact · Uses the a-Shell app on his iPhone to extract audio; cannot find its folder
+- 2026-10-10T09:02:09Z · knows · Knows YouTube captions are garbage, which is why he always post-processes them with Gemini
+- 2026-10-11T05:14:18Z · background fact · Lists his working environment's special modes: mobile review, dictation, holding open items, preventing wall-of-text spirals
+- 2026-10-11T05:35:35Z · knows · Tests whether coordinator can send push notification that appears on his iOS device outside app
+- 2026-10-11T06:55:27Z · background fact · Asks the coordinator to infer his state of mind and name problem as executive assistant
+- 2026-10-12T12:39:05Z · knows · Points out presented links did not open on mobile; wants this in the skill
+- 2026-10-12T13:15:58Z · learning or reading preference · Dislikes the coordinator's register next to the mid-tier model's; expects it to study those messages
+- 2026-10-12T13:21:06Z · learning or reading preference · Says the mid-tier model did not put header on every paragraph and used lighter touch
+- 2026-10-12T13:26:32Z · learning or reading preference · Wants longer reports written by the middle-tier model, not the coordinator
+- 2026-10-12T13:43:29Z · learning or reading preference · Has an allergic reaction to sentence codas after a semicolon and to slogan-like phrases
+- 2026-10-12T15:27:15Z · learning or reading preference · Wants to leave many page comments without the coordinator reacting until told
+- 2026-10-12T16:33:33Z · learning or reading preference · Wants asks structured so he can answer in a few characters such as three B
+- 2026-10-12T16:33:33Z · background fact · Says context engineering is largest unsolved problem; he reads and writes fast but cannot remember
+- 2026-10-12T21:01:45Z · learning or reading preference · Dislikes an assistant whose every option B is do nothing; wants help crystallizing a plan
+- 2026-10-12T22:01:05Z · knows · Says we for himself and Claude is wrong register; the two do not make we
+- 2026-10-13T00:33:57Z · learning or reading preference · Says unrequested expansion produced TL;DR slop; wants the earlier version's scope kept with approved updates
+- 2026-10-13T00:49:22Z · background fact · Corrects speech-to-text that heard suits for test suites in his email draft
+- 2026-10-13T01:40:53Z · background fact · Works through the night, writing at 3:37 in the morning his time
+- 2026-10-13T08:25:22Z · background fact · Asks what he is doing wrong, wondering whether compaction or contradictory positions cause the misses
+- 2026-10-13T09:05:37Z · background fact · Says his rambling messages are not diamonds in rough; they need refining without losing fidelity
+- 2026-10-13T09:54:52Z · learning or reading preference · Is irritated by a differently styled artifact and asks for the house style
+- 2026-10-13T17:13:20Z · background fact · Plans to go to movies and trust coordinator to run consolidation and skill rewrite overnight
+- 2026-10-13T23:13:41Z · learning or reading preference · Objects to options presenting a no as useless do-nothing choice; wants trade-offs of real options
+- 2026-10-14T04:41:51Z · states a position · Accepts dot-only replies as the requested silence during 45-minute monitoring of a run
+- 2026-10-14T07:10:28Z · learning or reading preference · Prefers Markdown baseline with HTML copy for mobile reading, not HTML alone, for record keeping
+- 2026-10-14T19:20:20Z · learning or reading preference · Wants compressed phrasing restated in halfway ASD-STE100 because fresh workers would not get it either
+- 2026-10-15T04:18:00Z · corrected the coordinator · Said coordinator slipped into agentic shorthand about sources and review queue items he cannot read
+- 2026-10-16T08:34:15Z · background fact · Will not cut or upload large files on his phone or desktop machine
+- 2026-10-16T09:17:04Z · background fact · Corrects a transcription error where compact was heard as contact
+- 2026-10-16T11:18:08Z · learning or reading preference · Complains of internal references such as P4 and P1 and asks for halfway ASD-STE100 register
+- 2026-10-16T12:27:55Z · learning or reading preference · Cannot reason about contrived abstract toy examples; needs concrete cases to derive the abstract rule
+- 2026-10-16T13:04:22Z · background fact · Recalls parked idea of modeling what he knows and does not know; wants it started
+- 2026-10-16T13:10:53Z · learning or reading preference · Will only skim the profile, wanting it to calibrate the coordinator's explanations to his knowledge
+
+## What the record says about him
+
+The record's own statements, as pointers with a gloss. They are the record's reading of him, not evidence from his messages. A cross-check against his messages was made only where an entry says so.
+
+- `explorations/coordinator/POSITIONS.md`, "The goal", P-8: he decides by the goal, a compiled microGPT running fast, not by type-theoretic purity. It says he has not read the specification, the type papers or the library, and takes the designers to know more. His message of 2026-09-29T12:17:07 agrees.
+- Same file, "History he knows (do not re-explain)", P-16 to P-19: the cause of the project's end (no work on performance), the need for unboxed doubles, his drift toward Hsu's view of paradigms, and the correction that the tree is not described as a graft of the third-party port.
+- Same file, P-26, P-27, P-87, P-88 and P-149: his rules that the type group's late word outweighs the early specification, that the library's own practice is the standard, and (HELD.md cites P-149 for it) that another language's behaviour enters only to reconcile earlier and later designer choices. P-88 records that he found the diagonal's override himself.
+- `explorations/coordinator/answer-form-archaeology.md`: the five-part form that worked for putting a design question to him (question, short context, numbered options, the ask, one-line recommendation last), with a primer added when a term is new to him. His 2026-09-25T23:21:38 request names it.
+- `explorations/coordinator/postmortem-2026-09-19/wall-of-text-spiral.md`: the wall-of-text spiral as he named it on 2026-08-21, 08-22, 08-30, 09-19, 09-20 and 09-21, with the recoveries (short acknowledgments, "hold", batch the feedback) and the related smart-alec register complaints of 09-15 to 09-17.
+- `explorations/reviews/skills-review-style.md`: 14 lenses he applies when reviewing text (can a newcomer decode every word, can the agent act on it, is the reason there, does it fit the register, can he hold it in his head). It counts 68 comments in 35 threads on 2026-10-05 to 10-08, and notes a comparison to LLVM's lit for Swift helps him place the test suite.
+- `explorations/coordinator/HELD.md`: the held list. Its items show where he asked to understand instead of change: why a rung needed 50 checks, how Fortress's test suite compares with Swift's, which sentences of a skill read strangely to him, a better name for the coordinator-only files.
+- `.claude/skills/coordinator/SKILL.md`, "The facts of this environment" and "Talking to the curator": he reads on an iPhone, often with iOS Speak at a fast rate, and writes by dictation; paths do not open on the phone; tables render as one scrolling line; the clock is Central European; a new term must be defined for him even when common (reshape, outer product, Ring, matrix multiplication); register halfway to ASD-STE100; numbers as K or M.
+- `explorations/coordinator/process-engineering/record-origins-evidence.md`, section "The inciting incident": his own reasons for the project (2026-08-23T19:13:00 and 2026-08-30T08:48:43 in the first session), the Claude.ai chat of 2026-08-18 that produced the handover, and what could not be recovered of it.
+
+## Counts, coverage and thin spots
+
+### Counts by area and kind
+
+| Area | knows | does not know | asked to explain | corrected | background | preference | position | total |
+|---|---|---|---|---|---|---|---|---|
+| 1. Programming languages and tools | 48 | 10 | 1 | 0 | 15 | 0 | 1 | 75 |
+| 2. Type systems and language design | 36 | 19 | 6 | 0 | 4 | 0 | 4 | 69 |
+| 3. Mathematics | 11 | 16 | 2 | 0 | 0 | 0 | 1 | 30 |
+| 4. Machine learning | 15 | 4 | 2 | 0 | 4 | 0 | 3 | 28 |
+| 5. Fortress itself | 60 | 12 | 13 | 6 | 18 | 0 | 7 | 116 |
+| 6. Compilers and run times | 46 | 13 | 21 | 2 | 1 | 0 | 9 | 92 |
+| 7. Repository, tools, process | 174 | 20 | 10 | 46 | 74 | 4 | 85 | 413 |
+| 8. How he learns and reads | 6 | 1 | 0 | 8 | 56 | 102 | 1 | 174 |
+| total | 396 | 95 | 55 | 62 | 172 | 106 | 111 | 997 |
+
+997 entries on 762 distinct message timestamps. Kind "position" is the added kind. By month: 193 entries in August (2026-08-18 on), 524 in September, 280 in October (to the 16th).
+
+### What the transcripts cover, and what they miss
+
+- **Read:** all 1,946 messages that the three sources gave when the index was closed (about 1.0M characters), in date order. 1,339 are the main-session lines of the two transcript folders (the starter count of 2026-09-08 on); 582 are lines of the first coordinating session (`bdff267d`, 2026-08-18 to 2026-09-17), which the brief did not name: they are in neither folder, and were read with `git show` from `origin/transcripts` (`.parts/000.jsonl` and `001.jsonl`); 25 are messages he queued during a turn that no `user` line holds as text. `show.py --list DATE` marks the source of each message as `main`, `s1` or `queued`; the two kinds of source overlap from 2026-09-08 to 09-17, and all entries before 2026-09-08T16:43:07Z are `s1`.
+- **Dates:** the first message is 2026-08-18T21:03:16Z, the last 2026-10-16T13:26:43Z; messages after that are not indexed. 49 of the 60 days have a message. No message on 08-20, 08-29, 10-01, or from 08-31 through 09-07; the transcripts do not say why. On 09-30 he said he would pause until the weekly reset, which fits 10-01.
+- **Not his, and not indexed:** 81 scheduled check-ins, interrupts and bare boot calls; at least 28 pasted usage screens; 28 briefs that the coordinator typed to worker sessions (the skill writer's "Task:" messages and the fix-round briefs); pasted replies of other agents, of which only his lead-in words count; compaction summaries and command output, which the loader drops. Another 14 messages in sessions other than the coordinator's are his own, typed to a blinded worker, a restoration session and a test session; they are indexed (for example 2026-10-08T17:07:44).
+- **Missing:** the Claude.ai chat of 2026-08-18 and the handover text (redacted in the backup); the first session after 2026-09-17T20:29:50Z (its container was lost; the second session, which became the coordinator on 09-18, has lines from 09-18T09:50); the workers' own transcripts; everything he wrote in other places (Claude chat, Gemini, ChatGPT and Astra consultations, the email to Prof. Ryu except the drafts he pasted, GitHub, page comments except the two the coordinator relayed on 10-09 and his turn-by-turn remarks). The 68 page comments of 10-05 to 10-08 are summarised in `skills-review-style.md` but are not in the transcripts' user lines.
+- **Timing and form:** a queued message is dated when he sent it; a delivered line can hold several messages merged. Dictation errors are frequent (Fortify heard as another word, compact as contact, cold as another word).
+
+### Where the evidence is thin or contradictory
+
+- **Mathematics (30 entries, 16 of them "does not know") and machine learning (28):** both are thin and mostly about microGPT. He names ravel, ring, field, additive group, Q and Z, and the dot product as unknown or unsure, and doubts his use of the word tensor (2026-09-15T09:06:42, 09-15T09:49:52, 09-15T10:42:06, 09-19T06:54:03, 10-16T12:48:17), yet he states that a matrix product needs matching inner dimensions, that identity elements belong on the algebraic structures, and that ZZ is signed. Nothing shows his floating-point knowledge beyond three remarks (double against FP32, IEEE rounding, infinities in rationals). Nothing shows him working through attention, softmax or backpropagation himself; his 2026-09-08 remarks on backpropagation are self-described guesses.
+- **Named languages:** Swift (21 entries) and Scala (33) are well covered, and Java and the JVM (about 40 together). Kotlin has 6, Julia 8, Python 4, Rust 2, C++ 2, Haskell 1 and APL 15 (four of them say he does not know it). His account of Swift (microbenchmark contributor) and Scala (2.8 at a startup, Stack Overflow) comes from 2026-08-21T15:19:34, with later echoes on 2026-10-12T23:46:26 and 2026-10-13T00:49:58; the Haskell comparison is one passing remark.
+- **Type theory:** he says repeatedly that he has no idea about it or is out of his depth (for example 2026-09-29T10:58:53, 2026-09-29T11:20:08, 2026-10-14T00:07:32), and 19 entries in area 2 record a gap. He also reasons soundly about coercion against subtyping, the Any and Object bounds, erasure against reified generics, and he knows of the 2016 unsoundness of Java and Scala through null. The evidence does not test variance, soundness proofs or existential types directly; it shows practical judgement, not formal training.
+- **Fortress and its record:** P-8 and his own words say he has not read the specification, the papers or the library, and 2026-10-12T16:42:37 adds that he has never read the facts and positions files. Against that stand precise memories of Steele's talks (units and aliases, juxtaposition, undefined precedence, big operators) and line-by-line comments on the skills. What he has actually read is not stated anywhere in one place.
+- **Compilers and run times:** early messages (2026-08-21) say he knows bytecode in the JVM sense and little else; by 2026-09-08 he reasons about boxing, JIT, specialization and class-file versions. The trajectory is real; a profile should date each "does not know".
+- **Brevity against detail:** he demands very short replies and plain words (2026-08-21T17:22:16, 09-19T14:51:07), yet on 2026-09-23T05:49:44 he calls a long reply exactly the detail he needs to establish facts, and often asks for explanations "from first principles" and for examples. The evidence fits plain language and one concrete case at a time, not a fixed length; it does not settle the length.
+- **Background:** the career and education details rest on a relayed Claude chat summary (unverified) and on a few remarks of his own: Scala 2.8 and Swift benchmarks (2026-08-21T15:19:34), a master's degree from the Technical University of Košice in 2004 (2026-10-13T00:56:38), Central European time (2026-09-29T09:19:14), Slovak (2026-09-29T15:18:44). The summary's claim of 20+ years in software, and Košice as his home, are not in his words.
+- **Named by him, not examined:** his Stack Overflow answers (user Palimondo), his Swift benchmark-suite work (Python tooling and the benchmark driver) and his Swift forum comments, which he offered on 2026-10-16T13:26:43 as ways to calibrate his Scala and Swift knowledge; and APL, beyond saying he knows nothing of it. His claims about other languages (for example Swift's witness tables used like multimethod dispatch) were not checked against the languages.

@@ -168,7 +168,7 @@ public class _WrappedFValue extends Expr {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         boolean temp_is_parenthesized = NodeUtil.isParenthesized(this);
         code ^= temp_is_parenthesized ? 1231 : 1237;
         FValue temp_fValue = getFValue();

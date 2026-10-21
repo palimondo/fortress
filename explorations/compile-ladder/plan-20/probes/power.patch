@@ -1,0 +1,218 @@
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 065215bbd..b6b5bb169 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -280,7 +280,7 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
+     abstract opr TIMES(self, other:T): T
+     opr juxtaposition(self, other:T): T
+     (** Exponentiation need only deal with natural exponents. **)
+-    opr ^(self, other:ZZ64): T
++    abstract opr ^(self, other:AnyIntegral): T
+ end
+ 
+ trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
+@@ -363,6 +363,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
+     opr IEEE_SLASH_UP(self,b:RR64):RR64
+     opr |self| : RR64
+     opr ^(self, b:RR64):RR64
++    opr ^(self, b:AnyIntegral):RR64
+     sin(self):RR64
+     cos(self):RR64
+     tan(self):RR64
+@@ -427,7 +428,7 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+     opr TIMES(self,other:QQ):QQ
+     opr juxtaposition (self,other:QQ):QQ
+     opr /(self,other:QQ):QQ
+-    opr ^(self, other:ZZ64):QQ
++    opr ^(self, other:AnyIntegral):QQ
+     floor(self):ZZ
+     opr |\self/| : ZZ
+     ceiling(self):ZZ
+@@ -469,7 +470,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
+     opr LSHIFT(self,b:AnyIntegral):I
+     opr RSHIFT(self,b:AnyIntegral):I
+     opr BITNOT(self):I
+-    opr ^(self, b:AnyIntegral):RR64
++    opr ^(self, b:AnyIntegral):I
+     opr /(self, other:I):QQ
+     numerator(self): ZZ
+     denominator(self): ZZ
+@@ -521,8 +522,8 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     opr LSHIFT(self,b:AnyIntegral):NN64
+     opr RSHIFT(self,b:AnyIntegral):NN64
+     opr BITNOT(self):NN64
+-    opr ^(self, b:AnyIntegral):RR64
+-    opr ^(self, b:IntLiteral):RR64
++    opr ^(self, b:AnyIntegral):NN64
++    opr ^(self, b:IntLiteral):NN64
+     opr /(self, other:NN64):QQ
+     numerator(self): ZZ
+     narrow(self):NN32
+@@ -575,7 +576,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
+     opr LSHIFT(self,b:AnyIntegral):ZZ32
+     opr RSHIFT(self,b:AnyIntegral):ZZ32
+     opr BITNOT(self):ZZ32
+-    opr ^(self, b:IntLiteral):RR64
++    opr ^(self, b:IntLiteral):ZZ32
+     opr /(self, other:ZZ32):QQ
+     numerator(self): ZZ
+     widen(self):ZZ64
+@@ -633,7 +634,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     opr LSHIFT(self,b:AnyIntegral):ZZ64
+     opr RSHIFT(self,b:AnyIntegral):ZZ64
+     opr BITNOT(self):ZZ64
+-    opr ^(self, b:IntLiteral):RR64
++    opr ^(self, b:IntLiteral):ZZ64
+     opr /(self, other:ZZ64):QQ
+     numerator(self): ZZ
+     narrow(self):ZZ32
+@@ -671,7 +672,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+     opr TIMES(self, b: ZZ): ZZ
+     opr DOTTIMES(self, b: ZZ): ZZ
+     opr /(self,other:ZZ):QQ
+-    opr ^(self, b:IntLiteral):RR64
++    opr ^(self, b:IntLiteral):ZZ
+     numerator(self): ZZ
+     narrow(self): ZZ32
+     widen(self): ZZ64
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 80eb3d0f7..9d352086b 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -639,10 +639,12 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+         a d / b c
+     end
+     opr ^(self, other:AnyIntegral):QQ =
+-        if -other > 0 then   (* Way too clever by half (to avoid infinite recursion on 2^(-63)) *)
+-            (denominator(self)/numerator(self))^(-other)
+-        else
+-            (numerator(self))^other / (denominator(self))^other
++        typecase other of
++            e: NN32 => (numerator(self))^e / (denominator(self))^e
++            e: NN64 => (numerator(self))^e / (denominator(self))^e
++            e: ZZ32 => if e < 0 then (denominator(self)/numerator(self))^(-(widen(e))) else (numerator(self))^e / (denominator(self))^e end
++            e: ZZ64 => if e < 0 then (denominator(self)/numerator(self))^(-e) else (numerator(self))^e / (denominator(self))^e end
++            e: ZZ => if e < 0 then (denominator(self)/numerator(self))^(-e) else (numerator(self))^e / (denominator(self))^e end
+         end
+     floor(self):ZZ = if self < 0 then -ceiling(-self) else truncate(self) end
+     opr |\self/| : ZZ = floor(self)
+@@ -718,7 +720,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
+     opr LSHIFT(self,b:AnyIntegral):I
+     opr RSHIFT(self,b:AnyIntegral):I
+     opr BITNOT(self):I
+-    opr ^(self, b:AnyIntegral):RR64
++    opr ^(self, b:AnyIntegral):I
+     opr |\self/|: I = self
+     opr |/self\|: I = self
+     round(self): I = self
+@@ -796,9 +798,9 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$RShift")
+     opr BITNOT(self):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$BitNot")
+-    opr ^(self, b:AnyIntegral):RR64 =
++    opr ^(self, b:AnyIntegral):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Pow")
+-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
++    opr ^(self, b:IntLiteral):ZZ32 = self^(b.asZZ32)
+     widen(self):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$ToLong")
+     partitionL(self):ZZ32 =
+@@ -889,9 +891,9 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$RShift")
+     opr BITNOT(self):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$BitNot")
+-    opr ^(self, b:AnyIntegral):RR64 =
++    opr ^(self, b:AnyIntegral):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Pow")
+-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
++    opr ^(self, b:IntLiteral):ZZ64 = self^(b.asZZ32)
+     partitionL(self):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Partition")
+     narrow(self):ZZ32 =
+@@ -972,9 +974,9 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$RShift")
+     opr BITNOT(self):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$BitNot")
+-    opr ^(self, b:AnyIntegral):RR64 =
++    opr ^(self, b:AnyIntegral):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Pow")
+-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
++    opr ^(self, b:IntLiteral):NN64 = self^(b.asZZ32)
+     partitionL(self):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Partition")
+     narrow(self):NN32 =
+@@ -1071,9 +1073,9 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$LShift")
+     opr BITNOT(self): ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$BitNot")
+-    opr ^(self, b:AnyIntegral):RR64 =
++    opr ^(self, b:AnyIntegral):ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Pow")
+-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
++    opr ^(self, b:IntLiteral):ZZ = self^(b.asZZ32)
+     narrow(self):ZZ32 = 
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$ToZZ32")
+     (* This routine, named for consistency, converts to a ZZ64 *)
+@@ -4540,7 +4542,7 @@ strToInt(s: String, radix: ZZ32): ZZ32 = do
+     r = SUM[\ZZ32\][ i <- i0:n] if d <- digit(s[i], radix) then
+                           d radix^(n-i)
+                       else
+-                          fail("strToInt(" s.asString "," radix "): non-digit " s[i].asString)
++                          fail[\ZZ32\]("strToInt(" s.asString "," radix "): non-digit " s[i].asString)
+                       end
+     if neg then -r else r end
+   end
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+index 7d4f7a5f5..89a6b17fa 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+@@ -164,8 +164,8 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     opr LSHIFT(self,b:AnyIntegral):NN32
+     opr RSHIFT(self,b:AnyIntegral):NN32
+     opr BITNOT(self):NN32
+-    opr ^(self, b:AnyIntegral):RR64
+-    opr ^(self, b:IntLiteral):RR64
++    opr ^(self, b:AnyIntegral):NN32
++    opr ^(self, b:IntLiteral):NN32
+     opr /(self, other:NN32):QQ
+     numerator(self): ZZ
+     widen(self):NN64
+@@ -210,8 +210,8 @@ object IntLiteral extends { Number }
+     opr LSHIFT(self, b:AnyIntegral): IntLiteral
+     opr RSHIFT(self, b:AnyIntegral): IntLiteral
+     opr BITNOT(self): IntLiteral
+-    opr ^(self, b:AnyIntegral):RR64
+-    opr ^(self, b: IntLiteral): RR64
++    opr ^(self, b:AnyIntegral):IntLiteral
++    opr ^(self, b: IntLiteral): IntLiteral
+     opr DIVIDES(self, b: IntLiteral): Boolean
+     floor(self): IntLiteral
+     ceiling(self): IntLiteral
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 19171b8f5..09303f147 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -457,9 +457,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$RShift")
+     opr BITNOT(self):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitNot")
+-    opr ^(self, b:AnyIntegral):RR64 =
++    opr ^(self, b:AnyIntegral):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Pow")
+-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
++    opr ^(self, b:IntLiteral):NN32 = self^(b.asZZ32)
+     widen(self):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToUnsignedLong")
+     partitionL(self):NN32 =
+@@ -549,9 +549,9 @@ object IntLiteral extends Number
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$RShift")
+     opr BITNOT(self): IntLiteral =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$BitNot")
+-    opr ^(self, b:AnyIntegral):RR64 =
++    opr ^(self, b:AnyIntegral):IntLiteral =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Pow")
+-    opr ^(self, b: IntLiteral): RR64 = self^(b.asZZ32)
++    opr ^(self, b: IntLiteral): IntLiteral = self^(b.asZZ32)
+     opr DIVIDES(self, b: IntLiteral): Boolean = self.asZZ DIVIDES b.asZZ
+     floor(self): IntLiteral = self
+     ceiling(self): IntLiteral = self

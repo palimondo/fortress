@@ -1,0 +1,14 @@
+(* An array that array[\T\] builds at a T inferred from a ZZ32 argument is a vector, as it is at a written ZZ32. *)
+component XXXArrayInferredElementVectorWalk
+export Executable
+
+filled[\T\](x: T): Array[\T,ZZ32\] = array[\T\](3).fill(x)
+
+run(): () = do
+    z: ZZ32 = 5
+    assert(instanceOf[\AnyVector\](filled[\ZZ32\](z)), true, "an array of three at a written ZZ32 is a vector")
+    assert(instanceOf[\AnyVector\](filled(z)), true, "an array of three at a T inferred from a ZZ32 argument is a vector (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end

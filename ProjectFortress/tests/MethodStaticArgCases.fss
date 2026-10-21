@@ -1,0 +1,67 @@
+component MethodStaticArgCases
+export Executable
+
+(* A dotted method call that writes no static argument takes the method's own static arguments from the arguments' types: sizes, types inside other types, a type that is a parameter's whole type, a generic receiver and bounded parameters. *)
+
+object Cell[\T\](v: T) end
+
+object Sized[\nat k\](v: ZZ32)
+    idx[\nat j\](b: Sized[\j\]): Sized[\k\] = self
+    sz[\nat j\](b: Sized[\j\]): ZZ32 = j
+end
+
+object Vec
+    first[\T extends { Number, MultiplicativeRing[\T\] }\](v: Vector[\T,3\]): T = v.get(0)
+    len[\T extends { Number, MultiplicativeRing[\T\] }, nat n\](v: Vector[\T,n\]): ZZ32 = n
+end
+
+object Plain
+    id[\T\](x: T): T = x
+end
+
+shown(v: Any): String = typecase v of
+    v1: ZZ32 => v1.asString || ":ZZ32"
+    v2: ZZ64 => v2.asString || ":ZZ64"
+    else => "other"
+  end
+
+object Mixed
+    same[\T\](a: T, b: T): String = "[" || shown(a) || "," || shown(b) || "]"
+end
+
+object Holder[\U\](u: U)
+    get[\T\](b: Cell[\T\]): T = b.v
+    both[\T\](b: Cell[\T\]): (U, T) = (u, b.v)
+end
+
+trait Shape end
+object Circle extends Shape end
+object Within[\R\]()
+    pick[\K extends R\](x: K): String = "picked"
+end
+
+trait Numbered[\R\]
+    num[\N extends Number\](x: N): N = x
+end
+object Numbers extends Numbered[\String\] end
+
+run(): () = do
+    z: ZZ32 = 3
+    w: ZZ64 = widen(4)
+    assert(Sized[\3\](7).idx(Sized[\2\](5)).v, 7, "a size of the method's own is fixed by an argument of type Sized[2]; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(Sized[\3\](7).sz(Sized[\2\](5)), 2, "the size fixed by the argument is the method's j")
+    assert(Vec.first(vector[\ZZ32,3\](7)), 7, "a type parameter is fixed by a Vector argument")
+    assert(Vec.len(vector[\ZZ32,3\](7)), 3, "a size is fixed by a Vector argument")
+    assert(Plain.id(z), 3, "a type parameter that is a parameter's whole type takes the argument's type")
+    assert(Mixed.same(z, z), "[3:ZZ32,3:ZZ32]", "two ZZ32 arguments fix T = ZZ32")
+    assert(Mixed.same(z, w), "[3:ZZ64,4:ZZ64]", "a ZZ32 and a ZZ64 fix T = ZZ64, the narrowest type into which both convert, and the ZZ32 is converted")
+    assert(Holder[\String\]("s").get(Cell[\ZZ32\](z)), 3, "a generic receiver's method takes its own static argument from the argument")
+    (p, q) = Holder[\String\]("s").both(Cell[\ZZ32\](z))
+    assert(p, "s", "the receiver's static argument stays its own")
+    assert(q, 3, "the method's static argument comes from the argument")
+    assert(Within[\Shape\]().pick(Circle), "picked", "a bound that names the object's own static parameter admits the argument")
+    assert(Numbers.num(z), 3, "a trait's generic method with a library bound takes its static argument from the argument")
+    println("PASS")
+  end
+
+end

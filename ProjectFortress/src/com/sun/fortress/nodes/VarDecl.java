@@ -90,13 +90,13 @@ public class VarDecl extends Decl {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         List<LValue> temp_lhs = getLhs();
         code ^= temp_lhs.hashCode();
         Option<Expr> temp_init = getInit();
-        code ^= temp_init.hashCode();
+        code ^= NodeHash.of(temp_init);
         return code;
     }
 

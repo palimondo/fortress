@@ -149,7 +149,7 @@ public class _SyntaxTransformationOpRef extends OpRef implements _SyntaxTransfor
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<StaticArg> temp_staticArgs = getStaticArgs();
         code ^= temp_staticArgs.hashCode();
         int temp_lexicalDepth = getLexicalDepth();
@@ -163,9 +163,9 @@ public class _SyntaxTransformationOpRef extends OpRef implements _SyntaxTransfor
         List<Overloading> temp_newOverloadings = getNewOverloadings();
         code ^= temp_newOverloadings.hashCode();
         Option<Type> temp_overloadingType = getOverloadingType();
-        code ^= temp_overloadingType.hashCode();
+        code ^= NodeHash.of(temp_overloadingType);
         Option<Type> temp_overloadingSchema = getOverloadingSchema();
-        code ^= temp_overloadingSchema.hashCode();
+        code ^= NodeHash.of(temp_overloadingSchema);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

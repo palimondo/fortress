@@ -1,0 +1,20 @@
+component XXXBoolStaticArgMethod
+export Executable
+
+(* An object's method whose parameter type has a bool static argument applies, with a bool static parameter of its own written at the call or with none; trait-parameters.tex, section "Bool Parameters". *)
+
+object Flag[\bool b\](v: ZZ32) end
+
+object O
+    unflag[\bool b\](f: Flag[\b\]): ZZ32 = f.v
+    unflagTrue(f: Flag[\true\]): ZZ32 = f.v
+end
+
+run(): () = do
+    println("REACHED")
+    assert(O.unflag[\true\](Flag[\true\](7)), 7, "a method's own bool static parameter is instantiated at the boolean written at the call")
+    assert(O.unflagTrue(Flag[\true\](8)), 8, "a method whose parameter type has the bool static argument true applies to a Flag[true]")
+    println("PASS")
+  end
+
+end

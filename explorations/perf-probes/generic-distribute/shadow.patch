@@ -1,0 +1,125 @@
+The uncommitted shadow of the probe worktree /home/user/fortress-probe-distribute (branch wip/probe-generic-distribute, base fd7056abf), saved word for word on 2026-10-19 by the coordinating session, so that a lost container does not lose it. Apply it to fd7056abf with git apply.
+
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 6c46c0158..4b613bc96 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -3221,20 +3221,17 @@ trait ActualReduction[\R,L\] extends Reduction[\L\]
+     unlift(l:L): R
+     (** If this reduction left-distributes over r, return a pair of
+         reductions with the same lift and unlift **)
+-    leftDistribute(r: Reduction[\R\]): PossibleReductionPair[\R\] =
++    leftDistribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
+         distribute(r)
+     (** If this reduction right-distributes over r, return a pair of
+         reductions with the same lift and unlift **)
+-    rightDistribute(r: Reduction[\R\]): PossibleReductionPair[\R\] =
++    rightDistribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
+         distribute(r)
+     (** If this reduction distributes over r, return a pair of
+         reductions with the same lift and unlift **)
+     (* a hack to avoid the error of overloaded methods *)
+-    distribute(r: Any): PossibleReductionPair[\R\] =
+-        NoReductionPair[\R\]
+-(*    distribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\R\] =
+-        NoReductionPair[\R\]
+-*)
++    distribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
++        NoReductionPair[\K\]
+ end
+ 
+ trait PossibleReductionPair[\R\] extends Condition[\PossibleReductionPair[\R\]\]
+@@ -3418,9 +3415,9 @@ object SumReduction[\T extends AdditiveGroup[\T\]\] extends CommutativeMonoidRed
+     getter asString(): String = "SumReduction"
+     empty(): T = additiveIdentity[\T\]()
+     join(a: T, b: T): T = a + b
+-    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
++    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] where { T extends StandardMax[\T\] } =
+     MaxSumReductionPair[\T\]
+-    distribute(r: MinReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
++    distribute(r: MinReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] where { T extends StandardMin[\T\] } =
+     MinSumReductionPair[\T\]
+ end
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala
+index 168b3b372..9887e6de5 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala
+@@ -45,7 +45,8 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
+     val whereBindings = where.map(KindEnv.extractNodeBindings)
+                              .getOrElse(Iterable.empty)
+     val nodeBindings = KindEnv.extractNodeBindings(node)
+-    new NestedKindEnv(this, whereBindings ++ nodeBindings)
++    val declared = whereBindings ++ nodeBindings
++    new NestedKindEnv(this, declared ++ KindEnv.constraintBounds(this, declared, where))
+   }
+ 
+   /** Extend me with the immediate bindings of the given nodes. */
+@@ -53,7 +54,8 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
+     val whereBindings = where.map(KindEnv.extractNodeBindings)
+                              .getOrElse(Iterable.empty)
+     val nodesBindings = nodes.flatMap(KindEnv.extractNodeBindings)
+-    new NestedKindEnv(this, whereBindings ++ nodesBindings)
++    val declared = whereBindings ++ nodesBindings
++    new NestedKindEnv(this, declared ++ KindEnv.constraintBounds(this, declared, where))
+   }
+ 
+   /**
+@@ -103,6 +105,26 @@ object KindEnv extends StaticEnvCompanion[StaticParam] {
+   /** Creates a fresh kind environment. */
+   def makeFresh: KindEnv = EmptyKindEnv.extend(Nil)
+ 
++  /* PROBE (where clauses, Part B; row 677): a where clause's constraint X extends B
++   * bounds X by B within the declaration, whether X is the declaration's own static
++   * parameter, a where-clause variable, or a static parameter of an enclosing one. */
++  def constraintBounds(outer: KindEnv, declared: Iterable[KindBinding],
++                       where: Option[WhereClause]): Iterable[KindBinding] = where match {
++    case Some(SWhereClause(_, _, constraints)) =>
++      val scope = new NestedKindEnv(outer, declared)
++      val byName = constraints.collect { case SWhereExtends(_, name, supers) => (name, supers) }
++      val names = byName.map(_._1).foldLeft(List[Id]())((acc, n) =>
++        if (acc.exists(_.getText == n.getText)) acc else acc :+ n)
++      names.flatMap(n => scope.lookup(n) match {
++        case Some(KindBinding(bn, sp)) if sp.getKind.isInstanceOf[KindType] =>
++          val extra = byName.filter(_._1.getText == n.getText).flatMap(_._2)
++          val supers = toListFromImmutable(sp.getExtendsClause) ++ extra
++          List(KindBinding(bn, NF.makeStaticParam(sp, sp.getName.asInstanceOf[Id], toJavaList(supers))))
++        case _ => Nil
++      })
++    case _ => Nil
++  }
++
+   /** Extract out the bindings in node. */
+   protected def extractNodeBindings(node: Node) : Iterable[KindBinding] =
+     node match {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala b/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
+index 2e389f364..71958a505 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
+@@ -186,7 +186,25 @@ object STypesUtil {
+           Some(SMethodInfo(fhst.selfType.get, fhst.selfPosition))
+         case _ => None
+       }
+-      val sparamsJava = getStaticParameters(f, lifted)
++      // PROBE (where clauses, Part B; row 677): a where clause's constraint
++      // X extends B on a static parameter of the declaration is part of X's
++      // bound, so a call is checked against it.
++      val declWhere: Option[WhereClause] = f match {
++        case d: DeclaredFunction => toOption(d.ast.getHeader.getWhereClause)
++        case d: DeclaredMethod => toOption(d.ast.getHeader.getWhereClause)
++        case d: FunctionalMethod => toOption(d.ast.getHeader.getWhereClause)
++        case _ => None
++      }
++      val sparamsJava = declWhere match {
++        case Some(SWhereClause(_, _, cs)) if cs.exists(_.isInstanceOf[WhereExtends]) =>
++          toJavaList(toListFromImmutable(getStaticParameters(f, lifted)).map(sp => {
++            val extra = cs.collect { case SWhereExtends(_, n, supers) if n.getText == sp.getName.getText => supers }.flatten
++            if (extra.isEmpty) sp
++            else NF.makeStaticParam(sp, sp.getName.asInstanceOf[Id],
++                                    toJavaList(toListFromImmutable(sp.getExtendsClause) ++ extra))
++          }))
++        case _ => getStaticParameters(f, lifted)
++      }
+       Some(NF.makeArrowType(NF.typeSpan,
+                             false,
+                             argType,

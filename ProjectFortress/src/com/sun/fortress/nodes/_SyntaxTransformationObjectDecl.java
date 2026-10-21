@@ -109,11 +109,11 @@ public class _SyntaxTransformationObjectDecl extends ObjectDecl implements _Synt
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         TraitTypeHeader temp_header = getHeader();
         code ^= temp_header.hashCode();
         Option<SelfType> temp_selfType = getSelfType();
-        code ^= temp_selfType.hashCode();
+        code ^= NodeHash.of(temp_selfType);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

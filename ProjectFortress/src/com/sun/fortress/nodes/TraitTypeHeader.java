@@ -106,7 +106,7 @@ public class TraitTypeHeader extends DeclHeader {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<StaticParam> temp_staticParams = getStaticParams();
         code ^= temp_staticParams.hashCode();
         Modifiers temp_mods = getMods();
@@ -114,15 +114,15 @@ public class TraitTypeHeader extends DeclHeader {
         IdOrOpOrAnonymousName temp_name = getName();
         code ^= temp_name.hashCode();
         Option<WhereClause> temp_whereClause = getWhereClause();
-        code ^= temp_whereClause.hashCode();
+        code ^= NodeHash.of(temp_whereClause);
         Option<List<Type>> temp_throwsClause = getThrowsClause();
-        code ^= temp_throwsClause.hashCode();
+        code ^= NodeHash.of(temp_throwsClause);
         Option<Contract> temp_contract = getContract();
-        code ^= temp_contract.hashCode();
+        code ^= NodeHash.of(temp_contract);
         List<TraitTypeWhere> temp_extendsClause = getExtendsClause();
         code ^= temp_extendsClause.hashCode();
         Option<List<Param>> temp_params = getParams();
-        code ^= temp_params.hashCode();
+        code ^= NodeHash.of(temp_params);
         List<Decl> temp_decls = getDecls();
         code ^= temp_decls.hashCode();
         return code;

@@ -945,13 +945,28 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
         if (wheres != null) {
             // A nat or int where-clause variable stands for every size, as a
             // static parameter does in a symbolic instantiation: comprises
-            // { N[\n\] } where [\nat n\] lists N at every n.
+            // { N[\n\] } where [\nat n\] lists N at every n.  A type where-clause
+            // variable stands for every type, as a type static parameter does
+            // (SingleFcn.createSymbolicInstantiation): comprises { List[\E\] }
+            // where [\E\] lists List at every E.
+            List<WhereBinding> typeBindings = new ArrayList<WhereBinding>();
             for (WhereBinding b : wheres.getBindings()) {
                 if (b.getKind() instanceof KindNat || b.getKind() instanceof KindInt) {
                     String string_name = NodeUtil.nameString(b.getName());
                     if (interior.getLeafTypeNull(string_name) == null)
                         interior.putType(string_name, new SymbolicNat(string_name));
+                } else if (b.getKind() instanceof KindType) {
+                    String string_name = NodeUtil.nameString(b.getName());
+                    if (interior.getLeafTypeNull(string_name) == null) {
+                        interior.putType(string_name, new SymbolicInstantiatedType(string_name, interior, b));
+                        typeBindings.add(b);
+                    }
                 }
+            }
+            for (WhereBinding b : typeBindings) {
+                SymbolicInstantiatedType st =
+                    (SymbolicInstantiatedType) interior.getLeafType(NodeUtil.nameString(b.getName()));
+                st.setExtendsAndExcludes(new EvalType(interior).getFTypeListFromList(b.getSupers()), null);
             }
             for (WhereConstraint w : wheres.getConstraints()) {
                 if (w instanceof WhereExtends) {
@@ -1167,7 +1182,7 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
             final Environment env;
             final int unit;
             final List<String> params = new ArrayList<String>();
-            /** Its nat and int where-clause variables, each of which a type it lists may hold at any size. */
+            /** Its nat, int and type where-clause variables, each of which a type it lists may hold at any size or type. */
             final List<String> wheres = new ArrayList<String>();
 
             Declared(TraitObjectDecl decl, FType type, Environment env, int unit) {
@@ -1179,7 +1194,8 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
                 Option<WhereClause> w = NodeUtil.getWhereClause(decl);
                 if (w.isSome()) {
                     for (WhereBinding b : w.unwrap().getBindings()) {
-                        if (b.getKind() instanceof KindNat || b.getKind() instanceof KindInt)
+                        if (b.getKind() instanceof KindNat || b.getKind() instanceof KindInt ||
+                            b.getKind() instanceof KindType)
                             wheres.add(NodeUtil.nameString(b.getName()));
                     }
                 }
@@ -1444,7 +1460,11 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
             }
             if (n instanceof VarType) {
                 VarType v = (VarType) n;
-                if (x.params.contains(NodeUtil.nameString(v.getName()))) return named(v.getName(), x);
+                // A where-clause variable before the environment: a trait without
+                // static parameters binds its where-clause variables in its
+                // component's environment (processWhereClauses).
+                if (x.params.contains(NodeUtil.nameString(v.getName())) ||
+                    x.wheres.contains(NodeUtil.nameString(v.getName()))) return named(v.getName(), x);
                 FType h;
                 try {
                     h = x.env.getTypeNull(v);

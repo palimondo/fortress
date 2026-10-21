@@ -1,0 +1,24 @@
+(* A value whose trait lists a type at a where-clause variable bounded by a type that names the variable itself, through the clause's constraint or its binding, is that type at a type that meets the bound, so a call that needs the bound applies to it; trait-parameters.tex, section "Where Clauses", and traits.tex, section "Trait Declarations". *)
+component OpenTypeWhereSelfBoundChecker
+export Executable
+
+trait AnyC comprises { CBox[\E\] } where [\E\] { E extends StandardTotalOrder[\E\] }
+end
+object CBox[\E extends StandardTotalOrder[\E\]\](x: E) extends AnyC
+end
+trait AnyD comprises { DBox[\E\] } where [\E extends StandardTotalOrder[\E\]\]
+end
+object DBox[\E extends StandardTotalOrder[\E\]\](x: E) extends AnyD
+end
+
+mkC(): AnyC = CBox[\ZZ32\](3)
+mkD(): AnyD = DBox[\ZZ32\](4)
+pickC[\E extends StandardTotalOrder[\E\]\](b: CBox[\E\]): ZZ32 = 7
+pickD[\E extends StandardTotalOrder[\E\]\](b: DBox[\E\]): ZZ32 = 8
+
+run(): () = do
+    println(pickC(mkC()))
+    println(pickD(mkD()))
+  end
+
+end

@@ -115,7 +115,7 @@ public class Overloading extends AbstractNode {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         IdOrOp temp_unambiguousName = getUnambiguousName();
@@ -123,9 +123,9 @@ public class Overloading extends AbstractNode {
         IdOrOp temp_originalName = getOriginalName();
         code ^= temp_originalName.hashCode();
         Option<ArrowType> temp_type = getType();
-        code ^= temp_type.hashCode();
+        code ^= NodeHash.of(temp_type);
         Option<ArrowType> temp_schema = getSchema();
-        code ^= temp_schema.hashCode();
+        code ^= NodeHash.of(temp_schema);
         return code;
     }
 

@@ -105,7 +105,7 @@ public class TupleCoercionInvocation extends CoercionInvocation {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Expr temp_arg = getArg();
@@ -113,9 +113,9 @@ public class TupleCoercionInvocation extends CoercionInvocation {
         TupleType temp_toType = getToType();
         code ^= temp_toType.hashCode();
         List<Option<CoercionInvocation>> temp_subCoercions = getSubCoercions();
-        code ^= temp_subCoercions.hashCode();
+        code ^= NodeHash.of(temp_subCoercions);
         Option<Option<CoercionInvocation>> temp_varargCoercion = getVarargCoercion();
-        code ^= temp_varargCoercion.hashCode();
+        code ^= NodeHash.of(temp_varargCoercion);
         return code;
     }
 

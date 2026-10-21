@@ -87,7 +87,7 @@ public class TemplateGapVarRef extends VarRef implements TemplateGap {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_id = getGapId();
         code ^= temp_id.hashCode();
         List<Id> temp_templateParams = getTemplateParams();

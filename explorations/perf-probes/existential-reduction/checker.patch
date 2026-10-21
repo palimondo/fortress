@@ -1,0 +1,173 @@
+diff --git a/ProjectFortress/compiler_tests/GenericPairExcludesTogether.fss b/ProjectFortress/compiler_tests/GenericPairExcludesTogether.fss
+new file mode 100644
+index 000000000..de0da5960
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/GenericPairExcludesTogether.fss
+@@ -0,0 +1,41 @@
++component GenericPairExcludesTogether
++export Executable
++
++(* Two generic declarations whose parameter types exclude each other only read whole, through a static argument that another parameter fixes, are a valid overloading, beside a generic or a plain declaration, and each call runs the one its arguments select (overloading.tex, section "Declarations with Static Parameters"). *)
++
++trait P[\T\] excludes { Q[\T\] } end
++trait Q[\T\] end
++object Mixed extends { P[\ZZ32\], Q[\String\] } end
++object Box[\T\] end
++
++o[\T\](x: P[\T\], b: Box[\T\]): String = "oP"
++o[\T\](x: Q[\T\], b: Box[\T\]): String = "oQ"
++
++r[\T\](x: P[\T\], b: Box[\T\]): String = "rP"
++r[\U\](x: Q[\U\], b: Box[\U\]): String = "rQ"
++
++trait Ring[\T\] end
++trait RingZ extends Ring[\ZZ32\] end
++trait RingS extends Ring[\String\] end
++object Rz extends RingZ end
++object Rs extends RingS end
++
++pairOf[\T\](a: Ring[\T\], b: Ring[\T\]): String = "same"
++pairOf[\T\](a: RingZ, b: RingS): String = "apart"
++
++plainOf[\T\](a: Ring[\T\], b: Ring[\T\]): String = "same"
++plainOf(a: RingZ, b: RingS): String = "apart"
++
++run(): () = do
++    assert(o(Mixed, Box[\ZZ32\]), "oP", "with a Box of ZZ32 only the declaration over P applies")
++    assert(o(Mixed, Box[\String\]), "oQ", "with a Box of String only the declaration over Q applies")
++    assert(r(Mixed, Box[\ZZ32\]), "rP", "renamed static parameters: the declaration over P")
++    assert(r(Mixed, Box[\String\]), "rQ", "renamed static parameters: the declaration over Q")
++    assert(pairOf(Rz, Rz), "same", "two Rings of one T")
++    assert(pairOf(Rz, Rs), "apart", "a RingZ and a RingS")
++    assert(plainOf(Rz, Rz), "same", "beside a plain declaration: two Rings of one T")
++    assert(plainOf(Rz, Rs), "apart", "beside a plain declaration: a RingZ and a RingS")
++    println("PASS")
++  end
++
++end
+diff --git a/ProjectFortress/compiler_tests/GenericPairExcludesTogether.test b/ProjectFortress/compiler_tests/GenericPairExcludesTogether.test
+new file mode 100644
+index 000000000..c1058b27f
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/GenericPairExcludesTogether.test
+@@ -0,0 +1,5 @@
++tests=GenericPairExcludesTogether
++compile
++link
++run
++run_out_contains=PASS
+diff --git a/ProjectFortress/compiler_tests/XXXGenericPairSharedSupertypeExclusion.fss b/ProjectFortress/compiler_tests/GenericPairSharedSupertypeExclusion.fss
+similarity index 94%
+rename from ProjectFortress/compiler_tests/XXXGenericPairSharedSupertypeExclusion.fss
+rename to ProjectFortress/compiler_tests/GenericPairSharedSupertypeExclusion.fss
+index 33175ad51..92fa56da1 100644
+--- a/ProjectFortress/compiler_tests/XXXGenericPairSharedSupertypeExclusion.fss
++++ b/ProjectFortress/compiler_tests/GenericPairSharedSupertypeExclusion.fss
+@@ -1,4 +1,4 @@
+-component XXXGenericPairSharedSupertypeExclusion
++component GenericPairSharedSupertypeExclusion
+ export Executable
+ 
+ (* Two generic declarations over Thawed[T] and Frozen[T], which extend Readable[T] and exclude each other at one T, exclude at every pair of their instances, since no type extends two instances of Readable, so they are a valid overloading (overloading.tex, section "Declarations with Static Parameters"; types-vals-vars.tex, section "Trait Types"). *)
+diff --git a/ProjectFortress/compiler_tests/GenericPairSharedSupertypeExclusion.test b/ProjectFortress/compiler_tests/GenericPairSharedSupertypeExclusion.test
+new file mode 100644
+index 000000000..e5b2f1b7b
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/GenericPairSharedSupertypeExclusion.test
+@@ -0,0 +1,5 @@
++tests=GenericPairSharedSupertypeExclusion
++compile
++link
++run
++run_out_contains=PASS
+diff --git a/ProjectFortress/compiler_tests/XXXGenericPairFreeArgument.fss b/ProjectFortress/compiler_tests/XXXGenericPairFreeArgument.fss
+new file mode 100644
+index 000000000..d5a844316
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXGenericPairFreeArgument.fss
+@@ -0,0 +1,18 @@
++component XXXGenericPairFreeArgument
++export Executable
++
++(* Two generic declarations over P[T] and Box[T] and over Q[U] and Box[T], where P[T] excludes Q[T] at one T and Box fixes only T, overlap where U differs from T, so the pair breaks the Meet Rule and the compile refuses it (overloading.tex, section "Declarations with Static Parameters"). *)
++
++trait P[\T\] excludes { Q[\T\] } end
++trait Q[\T\] end
++object Mixed extends { P[\ZZ32\], Q[\String\] } end
++object Box[\T\] end
++
++o[\T\](x: P[\T\], b: Box[\T\]): String = "oP"
++o[\T, U\](x: Q[\U\], b: Box[\T\]): String = "oQ"
++
++run(): () = do
++    println(o(Mixed, Box[\ZZ32\]))
++  end
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXGenericPairFreeArgument.test b/ProjectFortress/compiler_tests/XXXGenericPairFreeArgument.test
+new file mode 100644
+index 000000000..e3dd0def5
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXGenericPairFreeArgument.test
+@@ -0,0 +1,3 @@
++tests=XXXGenericPairFreeArgument
++compile
++compile_err_contains=Invalid overloading of o in component XXXGenericPairFreeArgument
+diff --git a/ProjectFortress/compiler_tests/XXXGenericPairSharedSupertypeExclusion.test b/ProjectFortress/compiler_tests/XXXGenericPairSharedSupertypeExclusion.test
+deleted file mode 100644
+index d1f2a36b8..000000000
+--- a/ProjectFortress/compiler_tests/XXXGenericPairSharedSupertypeExclusion.test
++++ /dev/null
+@@ -1,3 +0,0 @@
+-tests=XXXGenericPairSharedSupertypeExclusion
+-compile
+-compile_err_contains=Invalid overloading of copyOf
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala b/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
+index 200055089..7f086a9be 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala
+@@ -323,7 +323,7 @@ class OverloadingOracle(implicit ta: TypeAnalyzer) extends PartialOrdering[Funct
+     val fd = sa.makeDomainWithSelfFromArrow(fa)
+     val gd = sa.makeDomainWithSelfFromArrow(ga)
+     val md = sa.meetED(fd, gd)
+-    sa.subtypeED(md, BOTTOM)
++    sa.subtypeED(md, BOTTOM) || sa.emptyED(md)
+   }
+   
+ //   //Checks whether f is the meet of g and h
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala
+index e562337a6..e555cf0a3 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala
+@@ -431,7 +431,30 @@ class TypeSchemaAnalyzer(implicit val ta: TypeAnalyzer) {
+       None
+     }
+   }
+-  
++
++  /**
++   * Whether the existential type `ed` has no instance but Bottom: reduceED's first
++   * premise, the constraint under which its body, each type parameter read as an
++   * inference variable, is not equivalent to Bottom, is False, so no instantiation
++   * makes it nontrivial (Section 5.3 of our paper: an intersection of types that
++   * exclude has the extent of Bottom).  reduceED cannot unify False and leaves such
++   * a type as it is, whose body its own type variables do not show to be Bottom.
++   */
++  def emptyED(ed: Type): Boolean = {
++    val spd = getStaticParams(ed)
++    if (spd.isEmpty) return false
++    val e = insertStaticParams(ta.extend(spd, None).normalize(clearStaticParams(ed)), spd)
++    val sp = getStaticParams(e)
++    val ia = sp.map(s => NF.make_InferenceVarType(NU.getSpan(s)))
++    val vars = (ia, sp).zipped.flatMap{
++      case (i, SStaticParam(info, _, n, _, _, _, _, _, _)) =>
++        Some((NF.makeVarType(info.getSpan, n.asInstanceOf[Id]), i))
++      case _ => None
++    }
++    val vi: Type => Type = liftSubstitution(Map[VarType, Type](vars.toSeq:_*))
++    isFalse(negate(ta.equivalent(vi(clearStaticParams(e)), BOTTOM)))
++  }
++
+   /**
+    * Map phi onto the given static params to produce a new set of static
+    * params. For more details, see the "Bounds substitution" definition

@@ -112,13 +112,13 @@ public class _SyntaxTransformationCaseClause extends CaseClause implements _Synt
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_matchClause = getMatchClause();
         code ^= temp_matchClause.hashCode();
         Block temp_body = getBody();
         code ^= temp_body.hashCode();
         Option<FunctionalRef> temp_op = getOp();
-        code ^= temp_op.hashCode();
+        code ^= NodeHash.of(temp_op);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

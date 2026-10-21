@@ -75,11 +75,11 @@ public class AnonymousFnName extends AnonymousName {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Option<APIName> temp_apiName = getApiName();
-        code ^= temp_apiName.hashCode();
+        code ^= NodeHash.of(temp_apiName);
         return code;
     }
 

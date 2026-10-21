@@ -10,6 +10,7 @@
  ******************************************************************************)
 
 api IntMap
+import CovariantCollection.{AnyCovColl}
 
 object KeyOverlap[\Val\](key: ZZ64, val1: Val, val2: Val)
     extends UncheckedException
@@ -79,15 +80,15 @@ opr {|->[\Val\] kvs: (ZZ64, Val)... }: IntMap[\Val\]
 
 opr {[\Val\]  }: IntMap[\Val\]
 
-opr BIG {|->[\Val\]  }: IntMap[\Val\]
+opr BIG {|->[\Val\]  }: Comprehension[\(ZZ64,Val),IntMap[\Val\],AnyCovColl,AnyCovColl\]
 
 opr BIG {|->[\Val\] g: Generator[\(ZZ64, Val)\] }: IntMap[\Val\]
 
-opr BIG CUP[\Val\](): Comprehension[\IntMap[\Val\], IntMap[\Val\], Any, Any\]
+opr BIG CUP[\Val\](): BigReduction[\IntMap[\Val\], IntMap[\Val\]\]
 
 opr BIG CUP[\Val\](g: Generator[\IntMap[\Val\]\]): IntMap[\Val\]
 
-opr BIG UPLUS[\Val\](): Comprehension[\IntMap[\Val\], IntMap[\Val\], Any, Any\]
+opr BIG UPLUS[\Val\](): BigReduction[\IntMap[\Val\], IntMap[\Val\]\]
 
 opr BIG UPLUS[\Val\](g: Generator[\IntMap[\Val\]\]): IntMap[\Val\]
 

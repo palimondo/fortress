@@ -13,11 +13,10 @@ api FlatString
 
   lineSeparator: String
 
-  object FlatString extends { String }
+  object FlatString extends { String, DelegatedIndexed[\Char, ZZ32\] }
     opr ||(self, b:FlatString): String
     opr ||(self, b:String):String
     opr ||(self, b:Char): String
-    opr ||(a:FlatString, self): String
     flatConcat(self, b:FlatString):String
     flatConcat(self, b:Char):String
   end

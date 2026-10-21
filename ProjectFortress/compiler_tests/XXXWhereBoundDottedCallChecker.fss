@@ -1,0 +1,21 @@
+(* A dotted call of a method whose where clause constrains its object's or trait's static parameter is refused where the receiver's static argument breaks the constraint: a String does not extend Shows; trait-parameters.tex, section "Where Clauses". *)
+component XXXWhereBoundDottedCallChecker
+export Executable
+
+trait Shows
+  show(): String
+end
+object Holder[\T\](x: T)
+  showIt(): String where { T extends Shows } = x.show()
+end
+trait Tr[\T\]
+  showOf(t: T): String where { T extends Shows } = t.show()
+end
+object Ob extends Tr[\String\] end
+
+run(): () = do
+    println(Holder[\String\]("s").showIt())
+    println(Ob.showOf("s"))
+  end
+
+end

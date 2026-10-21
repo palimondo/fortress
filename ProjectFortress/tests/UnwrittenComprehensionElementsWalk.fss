@@ -1,0 +1,23 @@
+component UnwrittenComprehensionElementsWalk
+import List.{...}
+export Executable
+
+(* A reduction or a comprehension with no static argument and no declared type is directed by the type of its elements, and takes the bound Any where it has no element. *)
+
+kindL(x: Any): String = typecase x of
+    List[\ZZ32\] => "List[ZZ32]"
+    List[\Any\] => "List[Any]"
+    else => "other"
+  end
+
+run(): () = do
+    c = BIG CONCAT[k <- 0#3] <|[\ZZ32\] k|>
+    assert(c, <|[\ZZ32\] 0, 1, 2|>, "BIG CONCAT of the lists <|k|> over 0#3 is their concatenation, a List[ZZ32] (reductions.tex, section \"Summations and Other Reduction Expressions\"; defining-generators.tex, subsection \"Simple Desugaring of Expressions with Generators\")")
+    n = BIG CONCAT[ys <- <|<|1, 2|>, <|3|>|>] <| 2 y | y <- ys |>
+    assert(n, <|2, 4, 6|>, "BIG CONCAT of the list comprehensions <| 2 y | y <- ys |> is their concatenation (reductions.tex, section \"Summations and Other Reduction Expressions\"; comprehensions.tex, section \"Comprehensions\")")
+    e = <| 2 k | k <- 0#0 |>
+    assert(kindL(e), "List[Any]", "a list comprehension with no element, no static argument and no declared type takes the bound Any of its element type, never BottomType (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end

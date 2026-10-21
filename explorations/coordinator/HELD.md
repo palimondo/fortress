@@ -2,14 +2,33 @@
 
 # Held list
 
+## Held from his page comments (2026-10-21)
+
+- 20:10 An entry of POSITIONS must be actionable: it changes what someone does or decides. A subjective observation (P-18, to be struck after the trial traces it) or a statement of the project's state on one day (P-10) is not a position. The record needs a filter that collects such entries (for the skill writer: `record.md`, what POSITIONS holds).
+- 20:16 Where the audit finds a message of his behind an entry that its history does not name, the source goes back into the entry's history, so that the entry can be checked again; written only after he has seen the findings.
+- 20:18 P-66, the integer principle, is a correct and precise expression of his position, read whole; his comment is its source if no other is found.
+- 20:20 Workers write their own report files and revise them as they go; the coordinator does not stand between them and the file as a scribe (for the skill writer: `delegating.md`, what a brief holds).
+
+## Held in chat (2026-10-21)
+
+- 18:02 Sonnet is enough for archaeology scouting, as the P-86 scout showed; do not spend Opus on such scouts (for the skill writer: the tier rule in `delegating.md`).
+- 18:14 Sonnet reads and analyzes (a scout's archaeology, a transcript's search patterns); Opus writes code and scripts, as the better coder. A worker that studies how a task was done returns search instructions as a brief for the Opus worker that writes the scripts, not the scripts themselves (for the skill writer: the tier rule in `delegating.md`).
+
+## Held in chat (2026-10-20)
+
+- 06:45 The batch agents keep the task tools; a step of the landing sweeps the done tasks from the shared list, decided on the evidence of `process-engineering/task-list-archaeology.md` (for the skill writer: the sweep as step 1 of `batch.md`, "The landing", by `tools/sweep-tasks.py`).
+
+## Held in chat (2026-10-16)
+
+- 19:57 On the closing line offering the queued questions "for whenever you want them": a teaser. While he is away, the coordinator keeps its messages to the minimum, gathers evidence and does its work, and sends no running commentary or line he cannot act on (for the skill writer).
+
+- 20:14 On the one difference that stays between walk and the checker (the checker does not check overloads of symbolic operators such as `×`, so for `opr ×` pairs walk applies the rules and the checker does not): can't the two be brought in line? Sorted at 12:42 UTC on 2026-10-17 (`perf-probes/symbolic-operators/SORT.md`): walk's meet check skips them too; 54 of the 205 errors clear by library fixes, 151 need a design choice; waits on PLAN items 38 and 59.
+
 ## Held in chat (2026-10-13)
 
-- 23:13 The coordinator skill's ask form asks for "what a yes commits the curator to, and what a no costs", which reads as a yes/no choice and clashes with the rule against an option that does nothing; the self-typed ask's "no" was such an option; the ask should have weighed the options he chooses among (there 2 and 3) against each other.
-- 00:07 (2026-10-14) On the mixin ask: "the rule as you worded it" put the record's wording in his mouth, since he said only "1"; he feels out of his depth on these type-system forks, the options document the gap instead of helping him grasp the topic, and he is flipping a coin, not making informed decisions.
-- 00:12 (2026-10-14) His yes, in force now, held for the `coordinator` skill's next fine-tuning with the 23:13 and 00:07 points: a type-system fork that the record's principles settle (the team's later word, the library as written, the peers) the coordinator decides and lists for his review; to him come only a fork that touches the goal (microGPT, its speed, its readability), one that would reverse a decision of his, or one where the principles split, each after a short primer in plain words with a Fortress example; no entry's wording is ever attributed to him.
-- 00:19 (2026-10-14) Held for the `coordinator` skill's fine-tuning: his "Opus checks instead" of 17:16 UTC on 2026-10-13 objected to a Fable review's conservatism spoiling the record consolidation; it waived no batch review, and the coordinator read it as a blanket waiver for batch 14's record; the batch records keep their Fable review.
-- 05:29 (2026-10-14) Held for the `coordinator` skill's fine-tuning: `references/delegating.md`'s "Weigh a Fable review's ideas critically: it tends to keep everything as it was. An Opus worker is enough for a check." is the skill writer's generalization (draft `7b434aae5`, its source HELD point 7 of 17:16 UTC on 2026-10-13) of his one-night word on the record consolidation; the coordinator closed that point as held by the skill (`0528e963b`) unchecked, then applied the rule to batch 14's record review; his note was scoped to the consolidation.
-- 09:21 (2026-10-14) He asks to understand, not change, what the preparation and follow-up of a batch cost beside the batch itself (probes, planner, reviews, landing work), and to have it tallied for each batch; first figures by `spend.py` for climb batch 14: the run 4.82M, its preparation about 2.7M (planner with the fold 1.24M, Opus review with its check 1.10M, Fable review 0.38M), its landing work about 1.45M (review 0.61M, routing 0.30M, page 0.24M, record pass 0.20M, the skill writer about 0.1M); batch 15's two probes about 2M; the coordinating session's own tokens not counted.
+- 09:21 (2026-10-14) He asks to understand, not change, what the preparation and follow-up of a batch cost beside the batch itself (probes, planner, reviews, landing work), and to have it tallied for each batch; first figures by `spend.py` for climb batch 14: the run 4.82M, its preparation about 2.7M (planner with the fold 1.24M, Opus review with its check 1.10M, Fable review 0.38M), its landing work about 1.45M (review 0.61M, routing 0.30M, page 0.24M, record pass 0.20M, the skill writer about 0.1M); batch 15's two probes about 2M; the coordinating session's own tokens not counted. Measured on his follow-up of 10:39 UTC by a Sonnet worker (transcripts of batches 6 to 15): a plan's Fable review alone writes a median of 486K tokens and makes 11.5 changes (n=10); an Opus review 473K to 495K and 10 to 12 changes (n=2), its cached reads about ten times Fable's; the one finished Fable review after Opus (batch 14) 385K and 6 changes, batch 15's still running at 698K; a Fable token weighs three to four times an Opus token against the limits.
+
+
 
 ## Held from his comments on the principles (2026-10-13)
 
@@ -19,7 +38,6 @@ His nine comments on the first section of https://claude.ai/artifact/17GstfC5tE8
 
 ## Held in chat (2026-10-12)
 
-- 00:22 (2026-10-13, page comment on the revival story, part 1) The update should only have brought the story up to date with what landed; it reframed the document in the email's framing, because the coordinator's brief named Prof. Ryu as a second reader and asked for an early part on how the revival treats the team's work. Proposed on the thread: halfway back to version 15's framing (opening and order as before, updates and fact-check corrections kept, "Why now" and his quotes cut, the curation facts as a short later section next to what the revival changed); held until he is done commenting, then one Opus pass.
 - 21:00 The name for the coordinator-only files: "the desk" is a stupid name; he has no better one; a brainstorm is wanted before one is chosen.
 
 ## Held from his page comments (2026-10-12)
@@ -33,7 +51,7 @@ His 19 comments on the sort page https://claude.ai/artifact/WoDrCFWNNso5YeLr9kuw
 
 Each point is a line in the coordinator's words with the UTC time of his message in the session transcript (`fe616d40`, backed up on `transcripts-blinded`), which holds his exact words: an index, not a copy. Worked through one at a time when he says he is done reading; being on this list answers nothing.
 
-Also waiting for his answer (PLAN.md, "Asked 2026-09-27"): the three worker questions, skeptic checks 11-13 and the gather's filing of items for him, for 6b; the principle 5 review line; a Fable judge overnight.
+Also waiting for his answer (PLAN-history.md, "Asked 2026-09-27", moved there by PLAN's consolidation as answered on the review queue's notes): the three worker questions, skeptic checks 11-13 and the gather's filing of items for him, for 6b; the principle 5 review line; a Fable judge overnight.
 
 Reacting to the coordinator's account of batch 6.5b's cost and files (2026-09-29, 18:25 UTC):
 

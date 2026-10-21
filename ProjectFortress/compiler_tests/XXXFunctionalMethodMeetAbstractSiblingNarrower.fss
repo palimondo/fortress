@@ -1,0 +1,23 @@
+component XXXFunctionalMethodMeetAbstractSiblingNarrower
+export Executable
+
+(* An object that inherits an abstract functional method from one trait and a concrete one with the same parameter types and a narrower return type from another, and declares none of its own, provides both and no declaration on their meet, a static error the type checker gives (overloading.tex, section "Meet Rule"; traits.tex, section "Method Declarations"). *)
+
+trait R end
+object R1 extends R end
+
+trait A
+  pick(self): R
+end
+trait B
+  pick(self): R1 = R1
+end
+object O extends { A, B } end
+
+run(): () = do
+  x: A = O
+  r: R = pick(x)
+  println("FAIL: O provides two declarations of pick")
+end
+
+end

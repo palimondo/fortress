@@ -1,0 +1,17 @@
+component GenericBesidePlainNoMeetWalk
+export Executable
+
+(* A generic declaration over T extends A beside a plain one over B, where A and B are unrelated traits that an object may extend both of, overlap at every type below both, and no declaration covers the overlap, so walk refuses the pair at load by the Meet Rule; Specification/advanced/overloading.tex, section "Declarations with Static Parameters". *)
+
+trait A end
+trait B end
+object C extends { A, B } end
+
+g[\T extends A\](x: T): String = "generic"
+g(x: B): String = "plain"
+
+run(): () = do
+    println(g(C))
+  end
+
+end

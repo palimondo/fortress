@@ -1,0 +1,40 @@
+(* The array factories give a vector and a matrix at each of the eight number types, and a plain array at another element type. *)
+component ArrayFactoryNumberTypes
+export Executable
+
+fill3[\T\](x: T): Array[\T,ZZ32\] = array[\T\](3).fill(x)
+
+run(): () = do
+    assert(instanceOf[\Vector[\ZZ32,2\]\](array1[\ZZ32,2\]()), true, "array1 at ZZ32 gives a vector")
+    assert(instanceOf[\Vector[\ZZ64,2\]\](array1[\ZZ64,2\]()), true, "array1 at ZZ64 gives a vector")
+    assert(instanceOf[\Vector[\NN32,2\]\](array1[\NN32,2\]()), true, "array1 at NN32 gives a vector")
+    assert(instanceOf[\Vector[\NN64,2\]\](array1[\NN64,2\]()), true, "array1 at NN64 gives a vector")
+    assert(instanceOf[\Vector[\ZZ,2\]\](array1[\ZZ,2\]()), true, "array1 at ZZ gives a vector")
+    assert(instanceOf[\Vector[\QQ,2\]\](array1[\QQ,2\]()), true, "array1 at QQ gives a vector")
+    assert(instanceOf[\Vector[\RR32,2\]\](array1[\RR32,2\]()), true, "array1 at RR32 gives a vector")
+    assert(instanceOf[\Vector[\RR64,2\]\](array1[\RR64,2\]()), true, "array1 at RR64 gives a vector")
+    assert(instanceOf[\AnyVector\](array1[\String,2\]()), false, "array1 at String gives a plain array")
+
+    assert(instanceOf[\Matrix[\ZZ32,2,3\]\](array2[\ZZ32,2,3\]()), true, "array2 at ZZ32 gives a matrix")
+    assert(instanceOf[\Matrix[\ZZ64,2,3\]\](array2[\ZZ64,2,3\]()), true, "array2 at ZZ64 gives a matrix")
+    assert(instanceOf[\Matrix[\NN32,2,3\]\](array2[\NN32,2,3\]()), true, "array2 at NN32 gives a matrix")
+    assert(instanceOf[\Matrix[\NN64,2,3\]\](array2[\NN64,2,3\]()), true, "array2 at NN64 gives a matrix")
+    assert(instanceOf[\Matrix[\ZZ,2,3\]\](array2[\ZZ,2,3\]()), true, "array2 at ZZ gives a matrix")
+    assert(instanceOf[\Matrix[\QQ,2,3\]\](array2[\QQ,2,3\]()), true, "array2 at QQ gives a matrix")
+    assert(instanceOf[\Matrix[\RR32,2,3\]\](array2[\RR32,2,3\]()), true, "array2 at RR32 gives a matrix")
+    assert(instanceOf[\Matrix[\RR64,2,3\]\](array2[\RR64,2,3\]()), true, "array2 at RR64 gives a matrix")
+    assert(instanceOf[\AnyMatrix\](array2[\String,2,3\]()), false, "array2 at String gives a plain array")
+
+    assert(instanceOf[\Vector[\RR64,3\]\](array[\RR64\](3)), true, "array at RR64 and a run-time size gives a vector")
+    assert(instanceOf[\Matrix[\ZZ32,2,2\]\](array[\ZZ32\](2,2)), true, "array at ZZ32 and two run-time sizes gives a matrix")
+    b = array1[\ZZ32,2\]().fill(2)
+    assert(b DOT b, 8, "a ZZ32 vector from array1 has the dot product")
+    z: ZZ32 = 5
+    filled = array[\ZZ32\](3).fill(z)
+    assert(filled[0] + filled[2], 10, "a ZZ32 vector from array holds its filled values")
+    inferred = fill3(z)
+    assert(inferred[0] + inferred[2], 10, "an array that array builds at a T inferred from a ZZ32 argument holds its filled values")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,27 @@
+(* A trait may list Box[\E\] where [\E\]: a Box at every type extends it, and a value of the trait is a Box at a type of its own. *)
+component OpenTypeWalk
+export Executable
+
+trait AnyBox comprises { Box[\E\] } where [\E\]
+  getter word(): String
+end
+object Box[\E\](item: E) extends AnyBox
+  getter word(): String = "box"
+end
+
+mk(z: ZZ32): AnyBox = if z = 0 then Box[\ZZ32\](3) else Box[\String\]("s") end
+item[\E\](b: Box[\E\]): E = b.item
+
+run(): () = do
+    assert(item(mk(0)), 3, "traits.tex, section \"Trait Declarations\": a value of the trait is a value of a listed type")
+    assert(item(mk(1)), "s", "traits.tex, section \"Trait Declarations\": a value of the trait is a value of a listed type")
+    r = typecase mk(1) of
+          Box[\ZZ32\] => "ZZ32"
+          Box[\String\] => "String"
+          else => "other"
+        end
+    assert(r, "String", "traits.tex, section \"Trait Declarations\": the listed type at the value's own type")
+    assert(mk(0).word, "box", "a member of the trait")
+  end
+
+end

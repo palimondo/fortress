@@ -227,9 +227,9 @@ public class NN32 extends NativeConstructor {
     public static final class Pow extends NativeMeth1 {
         public FValue applyMethod(FObject x, FValue y) {
             int base = x.getNN32();
-            long exp = y.getLong();
+            long exp = Int.powCount(y);
             if (exp < 0) {
-                return FFloat.make(1.0 / (double) UnsignedLong.pow(base, -exp));
+                return FNN32.make((int) UnsignedLong.negativePow(Unsigned.toLong(base)));
             } else {
                 return FNN32.make(rc(UnsignedLong.powExact(Unsigned.toLong(base), exp)));
             }

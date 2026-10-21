@@ -1,0 +1,38 @@
+The vector design A3: the four scalar + and - leave the library (designs.py vecA3): clears the 8 scalar + and - errors and brings none in the checker. Generated on d97001d19 (main) by designs.py vecA3; apply to d97001d19 with git apply.
+
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 852385f22..306be788d 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -2699,13 +2699,9 @@ opr SUFFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\]
+ (*) time, since map builds its result with replica and m + 1.0 is still a Matrix; a static
+ (*) checker sees only Array[\T,I\], so the rank and size of a sized argument are lost
+ (*) to it in the result.
+-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+ (*) Scalar on the left: y - x is y - e for each element e of x, so 3 - [1 2] is [2 1].
+ (*) This is the only pair here whose two orders differ: +, MIN and MAX commute, and so do
+ (*) the scalar DOT and juxtaposition pairs of Vector and Matrix that this block follows.
+-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+ opr MIN[\T extends { Number, StandardMin[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+ opr MIN[\T extends { Number, StandardMin[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+ opr MAX[\T extends { Number, StandardMax[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 3027ad19b..90cb23cb6 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -4903,13 +4903,9 @@ end
+ (*) time, since map builds its result with replica and m + 1.0 is still a Matrix; a static
+ (*) checker sees only Array[\T,I\], so the rank and size of a sized argument are lost
+ (*) to it in the result.
+-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e + y)
+-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y + e)
+-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e - y)
+ (*) Scalar on the left: y - x is y - e for each element e of x, so 3 - [1 2] is [2 1].
+ (*) This is the only pair here whose two orders differ: +, MIN and MAX commute, and so do
+ (*) the scalar DOT and juxtaposition pairs of Vector and Matrix that this block follows.
+-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y - e)
+ opr MIN[\T extends { Number, StandardMin[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e MIN y)
+ opr MIN[\T extends { Number, StandardMin[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y MIN e)
+ opr MAX[\T extends { Number, StandardMax[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e MAX y)

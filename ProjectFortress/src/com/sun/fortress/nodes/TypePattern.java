@@ -94,13 +94,13 @@ public class TypePattern extends PatternBinding {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Option<Id> temp_field = getField();
-        code ^= temp_field.hashCode();
+        code ^= NodeHash.of(temp_field);
         Option<Id> temp_binderName = getBinderName();
-        code ^= temp_binderName.hashCode();
+        code ^= NodeHash.of(temp_binderName);
         Type temp_typ = getTyp();
         code ^= temp_typ.hashCode();
         return code;

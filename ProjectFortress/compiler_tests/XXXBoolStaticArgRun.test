@@ -1,0 +1,3 @@
+tests=XXXBoolStaticArgRun
+run
+run_out_contains=REACHED

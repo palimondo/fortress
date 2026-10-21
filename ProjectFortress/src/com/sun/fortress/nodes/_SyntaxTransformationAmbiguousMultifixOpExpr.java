@@ -120,7 +120,7 @@ public class _SyntaxTransformationAmbiguousMultifixOpExpr extends AmbiguousMulti
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         FunctionalRef temp_infix_op = getInfix_op();
         code ^= temp_infix_op.hashCode();
         FunctionalRef temp_multifix_op = getMultifix_op();

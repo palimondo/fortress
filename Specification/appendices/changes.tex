@@ -153,6 +153,113 @@ declarations (\secref{revival-calculi}).
 infinitely many instantiations of one trait.
 \end{description}
 
+\subsection{Conditional extension}
+\seclabel{revival-conditional}
+
+\begin{description}
+\item[Affected section] \secref{where-clauses}.
+\item[Change] A paragraph and an example are added, with a box: where the
+\KWD{where} clause of an entry of an \KWD{extends} clause introduces no
+\KWD{where}-clause variable and all its constraints are trait constraints,
+the declared trait or object extends the entry's type exactly where the
+constraints hold, and the constraints hold while the entry itself, the
+declaration's value parameters and its members are checked, and not
+while the rest of the declaration is, which holds at every instance: its
+static parameters, its own \KWD{where} clause, its \KWD{throws} clause
+and contract, its \KWD{excludes} and \KWD{comprises} clauses and the
+other entries of its \KWD{extends} clause;
+the example is
+\library's list, totally ordered exactly where its elements are.
+\item[Rationale] This change does not follow from route~A; the revival
+decided on 16~October 2026 to build the forms of \KWD{where} clause the team
+wrote down, among them that a trait that extends another under a
+\KWD{where} condition is that type only where the condition holds and that
+its members are checked under the condition, as Haskell checks an
+instance's context, Rust a conditional implementation and Swift a
+conditional conformance.
+The grammar gives each entry of an \KWD{extends} clause its own optional
+\KWD{where} clause, and the text orders lists ``whose elements support these
+same comparison operators''
+(\nolinkurl{Specification-1.0-frozen/basic/operators/opr-overview.tex},
+lines 284--285), which no
+unconditional declaration of the list type can state:
+\library\ declared their list type as lexicographically ordered at every
+element type, so the compiled type checker refused the comparison of two
+elements of an unbounded type in the order's own body.
+The team's internal notes foresaw conditional subtyping and its cost,
+that ``we may also not be able to tell whether a trait has a particular
+method'' (\nolinkurl{Specification-1.0-frozen/appendices/internal-document.tex},
+lines 538--543, in its subsection ``No Wrapped Fields Whose Types Are Naked
+Type Variables'').
+A clause that introduces a \KWD{where}-clause variable, or whose
+constraints are not all trait constraints, keeps the reading it had: the
+entry is extended at every instance.
+\library's list keeps an element-wise \EXP{=} of its own outside the
+condition, so that a list whose elements are not ordered, a list of pairs
+among them, is still compared element by element.
+The alternative not taken is to read the clause as limiting nothing, the
+extension holding at every instance, under which the clause has no effect
+and the list's order needs another construct.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-checker-conditional-extension/REPORT.md}
+in the revival's repository.
+\item[Effect] The compiled type checker reads such a clause as this
+section says: a value of an instance whose static arguments satisfy the
+constraints is of the entry's type, one whose static arguments do not is
+refused where that type is expected, and the entry, the declaration's
+value parameters and its members are checked with the constraints
+holding, the rest of the declaration without them.
+Of that rest, the compiled type checker never sees a trait's or an
+object's \KWD{throws} clause or contract: the disambiguator drops both, so
+neither is checked, and neither path evaluates an object's contract
+(row~781).
+\library's \TYP{LexicographicOrder} bounds its element type by
+\TYP{StandardTotalOrder}, and its list extends it under the constraint
+that its element type does, so the compiled type checker orders a list
+exactly where its elements are totally ordered.
+It gives no order to a list of partially ordered elements, of \TYP{RR64},
+\TYP{QQ} or ranges among them, where \secref{partial-total-orders} says
+that a lexicographic order ``may be partial or total depending on whether the
+ordering of the elements is partial or total''
+(\nolinkurl{Specification-1.0-frozen/advanced-lib/algebraic-constraints.tex},
+lines 520--522), and where the operators chapter's subsection
+``Comparisons Operators'' compares lists ``whose elements support these same
+comparison operators'', as floating-point numbers do: no partial
+lexicographic order of lists is declared.
+The compiled type checker still lets a member that it checked with the
+constraints holding be called where they fail: it accepts a call of such
+a member on an instance whose static arguments do not satisfy them
+(row~773 of the revival's gap ledger).
+Its other readers of an \KWD{extends} clause, the members a type inherits
+and its checks of the type hierarchy, read the entry as extended at every
+instance.
+An entry under a clause that introduces a \KWD{where}-clause variable or
+holds a constraint that is not a trait constraint, as the entries of the
+team's sketch of conditional subtyping do
+(\nolinkurl{Specification-1.0-frozen/appendices/internal-document.tex},
+lines 483--512, its subsection ``Conditional Subtyping''), is read as
+extended at every instance on both paths.
+The interpreter reads the extension as holding at every instance, and so
+does the compiled run time: a type test of an instance whose static
+arguments fail the constraints answers \VAR{true} on both
+(row~774, gated for the interpreter by
+\nolinkurl{ProjectFortress/tests/XXXConditionalExtensionTypeTestWalk.fss}),
+so the interpreter keeps the order of a list of tuples or of floating-point
+numbers.
+The code generator compiles a declaration whose \KWD{extends} clause has
+such a clause; it refuses one that carries a \KWD{where} clause of its own
+(row~701).
+\item[Original text] No such paragraph. The grammar is unchanged:
+\nolinkurl{Specification-1.0-frozen/basic/traits.tex}, line 83,
+\begin{quote}
+\emph{TraitTypeWhere} ::= \emph{TraitType} \emph{Where}?
+\end{quote}
+and the front matter lists ``where clauses and conditional extension''
+among the features not yet supported
+(\nolinkurl{Specification-1.0-frozen/fortress/preamble.tex}, line 82).
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{The covariance example}
 \seclabel{revival-covariance}
 
@@ -788,12 +895,34 @@ The twelve check methods leave the listing and the method entries. The method en
 The sentences on the infinities of \EXP{\mathbb{Z}^*} and \EXP{\mathbb{N}^*}
 leave the method entries, and so do the words that made the strictly positive
 integers a type extending a lattice trait; the lattice they describe stays.
+Another revision gives the result of an integer raised to a negative power in
+the method entry of the power: the bases \EXP{1} and \EXP{-1} give their exact
+power, a base of \EXP{0} throws \TYP{DivisionByZero}, and any other base throws
+\TYP{IntegerOverflow}, since the result is no integer; a fraction is written
+with a floating-point or rational base. The box above the listing and a new box
+after the method entry say so.
 \item[Rationale] \secref{revival-numbers}.
 \Library\ declare no infinite integer and no check on the integer types.
 Division takes the type the library declares for it; the other signatures take
 \EXP{\mathbb{Z}}, since the library declares none of those methods with a
-natural-number type (its power on integers is another method, returning a
-floating-point value). Route~A gives each number type its own algebra, and the listing's commutative ring over \EXP{\mathbb{Z}} negates within \EXP{\mathbb{Z}}; the method entries' \EXP{\mathbb{Q}} held of an integer only while \EXP{\mathbb{Z}} was a subtype of \EXP{\mathbb{Q}}.
+natural-number type (its power on integers takes an exponent of any integer
+type and returns the integer's own type). Route~A gives each number type its own algebra, and the listing's commutative ring over \EXP{\mathbb{Z}} negates within \EXP{\mathbb{Z}}; the method entries' \EXP{\mathbb{Q}} held of an integer only while \EXP{\mathbb{Z}} was a subtype of \EXP{\mathbb{Q}}.
+The revision of the negative power follows the revival's decision of
+20~October 2026 that each integer type's power answers its own type at every
+exponent, raising an error where the result is no integer: the type group's
+later code types an integer power by its integer at a signed exponent; no type
+carries the sign of an exponent or of a numeral, so that no overloading can give
+\EXP{10^{16}} and \EXP{10^{-16}} different types, and the split is on the base,
+with the sign tested at run time as \library\ test a sign elsewhere.
+Its reasoning is in
+\nolinkurl{explorations/reviews/integer-power-fable-judgement.md}, and its
+measurement in \nolinkurl{explorations/perf-probes/integer-power/REPORT.md}, in
+the revival's repository.
+A reversal to the zero that truncation gives would change only the
+interpreter's natives at a negative exponent and the sentences of the method
+entry; one to a rational result, typed by the exponent as the Working Draft
+typed it, would need the sign of a numeral exponent in its type, which neither
+implementation gives.
 \item[Effect] As \secref{revival-numbers}.
 The integer types no longer hold infinities, so their total order is that of the
 finite integers. Negating an integer gives an integer.
@@ -803,7 +932,15 @@ The Working Draft gave the result of a negative power through the
 exponentiation of \EXP{\mathbb{Q}}, since \EXP{\mathbb{Z}} was a subtype of
 \EXP{\mathbb{Q}}: \EXP{2^{-1}} was \EXP{1/2}
 (\nolinkurl{Specification-1.0-frozen/basic-lib/numbers.tex}, lines 344--355).
-The revised text of \secref{basic-integers} does not give it.
+The revised text of \secref{basic-integers} gives it otherwise: \EXP{2^{-1}}
+throws \TYP{IntegerOverflow}, and a program that wants \EXP{1/2} writes
+\EXP{2.0^{-1}} or a rational base.
+The interpreter does so at every integer type, at an exponent of any integer
+type, and its integer powers answer the base's own type, as \library\ declare
+them; the compiled type checker types them so.
+The compiled path's own library does not: its \EXP{\mathbb{Z}32} power answers
+\EXP{0} at a negative exponent, and a Java exception that no \KWD{catch} sees
+at a base of \EXP{0} (rows~441 and~523 of the revival's gap ledger).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic-lib/basic-integers.tex}:
 the listing's lines 196, 239, 246, 249--250, 256, 261, 271--274 and 290--301:
 \begin{quote}
@@ -899,6 +1036,18 @@ and lines 901--903:
 Each of these methods checks this integer to see whether it belongs
 to the result type of the method.  If, the number is returned; if not,
 a \TYP{CastError} is thrown.
+\end{quote}
+Until the revision of the negative power, the revival's text said of it, in
+this entry's Rationale and Effect, in the box above the listing, and in
+\secref{revival-notrevised}:
+\begin{quote}
+its power on integers is another method, returning a floating-point value
+
+The revised text of \secref{basic-integers} does not give it.
+
+This chapter does not give it.
+
+The result of an integer raised to a negative power is not yet given
 \end{quote}
 \item[Route C] By the revival's reading, not measured, route~C could keep
 \EXP{\mathbb{Z}} below \EXP{\mathbb{Q}}, but not \EXP{\mathbb{Z}^*} or the refined
@@ -1030,6 +1179,20 @@ parameter open and the reduction runs on the types of its elements, an empty
 one taking the identity of \EXP{\mathbb{Z}32}, and that until the compiled
 type checker directs the desugaring by type a program that both implementations
 are to run writes the static argument.
+A revision of the interpreter of 14~October 2026 changes the box once more.
+It said that ``Neither implementation directs it by type yet'', and that where
+the bound of the big operator's static parameter mentions the static parameter
+itself ``the interpreter leaves that parameter open'', the reduction running on
+the types of its elements ``except that an empty one takes the identity of
+\EXP{\mathbb{Z}32} whatever the type of the expression''; it now says that
+neither implementation directs it by the type \VAR{N} of the expression yet,
+that the interpreter, which has no static types, instantiates the big operator
+by the declared type of the local variable, or the declared return type of the
+top-level or local function, whose value the reduction is, otherwise by the
+join of the run-time types of its elements, and where
+there is none at the bound of its static parameter, or open where that bound
+mentions the parameter itself, and that an empty reduction that no declared
+type directs takes the identity of \EXP{\mathbb{Z}32}.
 \item[Rationale] The revival decided on 26~September 2026 that the library's
 \OPR{SUM} and \OPR{PROD} become generic reductions over the library's algebra,
 each joined with its element type's own operator and taking that type's
@@ -1050,6 +1213,34 @@ instantiation of a call and returns such a parameter to \TYP{BottomType}; the
 specification's examples that write no static argument for such a reduction
 would stop again at their first element, and refusing the call, as the compiled
 type checker does, would stop them too.
+The revival decided on 14~October 2026 that the interpreter instantiates the
+big operator of a reduction or a comprehension that writes no static argument
+as the desugaring by the type \VAR{N} would, with run-time types in place of
+\VAR{N}: by the declared type of the local variable, or the declared return
+type of the top-level or local function, whose value the reduction is, which
+constrains the instance as a call's static return type
+does (\secref{static-arg-inference}), and otherwise by the join of the
+run-time types of its elements, which the interpreter collects before it
+reduces them, as it already took the types of the elements for \VAR{N} where
+it left the parameter open; with neither, the parameter takes its bound, or is
+left open where the bound mentions it.
+Until then the interpreter left a big operator's static parameter whose bound
+does not mention it at \TYP{BottomType} (\secref{revival-inference}), and an
+empty reduction, having no element, took the identity of
+\EXP{\mathbb{Z}32}.
+Reversing the revision of 14~October 2026 takes the declared type and the
+collection of the elements out of the interpreter's evaluation of such a
+reduction and returns those static parameters to \TYP{BottomType}: an empty
+reduction of \EXP{\mathbb{R}64} elements then takes the identity of
+\EXP{\mathbb{Z}32} again, the library's set reductions \EXP{\bigcup} and
+\EXP{\bigcap} stop again at their first element, a comprehension is built
+again at the run-time types of its elements wherever its type is declared, and
+the library's \VAR{body} in the application of a big operator can no longer
+declare the type of its parameter.
+The reasoning is in
+\nolinkurl{explorations/perf-probes/walk-plain-bound/REPORT.md} and
+\nolinkurl{explorations/compile-ladder/rung-walk-elements/REPORT.md} in the
+revival's repository.
 The compiled type checker, when it checks the libraries this specification
 describes, took \TYP{BottomType} too until it was revised to the rule of
 \secref{static-arg-inference} for a type parameter that nothing at a call
@@ -1068,10 +1259,26 @@ no static argument.
 Since 9~October 2026, under the interpreter, a reduction with a generator clause
 list whose element type nothing fixes, over a big operator whose bound mentions
 its static parameter, runs where it stopped at its first element, the
-specification's examples of that form among them; an empty one gives the
-identity of \EXP{\mathbb{Z}32} whatever the type of the expression (row~645
-of the revival's gap ledger), and the library's set reductions \EXP{\bigcup}
-and \EXP{\bigcap} still stop at their first element (row~662).
+specification's examples of that form among them.
+Since 14~October 2026, under the interpreter, such a reduction or comprehension
+is instantiated by the declared type of its value, by the join of its elements'
+run-time types or at its bound: an empty sum that is the value of a function
+declared \EXP{\mathbb{R}64} gives the \EXP{\mathbb{R}64} zero, where it gave
+the identity of \EXP{\mathbb{Z}32} (row~645 of the revival's gap ledger), the
+library's set reductions \EXP{\bigcup} and \EXP{\bigcap} run where they
+stopped at their first element (row~662), and a comprehension that is the
+value of a local variable or of a top-level or local function declared with its
+type is built at that type.
+An empty reduction that no declared type directs still gives the identity of
+\EXP{\mathbb{Z}32} whatever the type of the expression, and an empty
+comprehension is built at its big operator's bound (row~716); a
+comprehension that no declared type reaches, such as the value of a top-level
+variable, a field or a method, or the body of another reduction, is built at
+the run-time types of its elements (rows~20 and~717). Since 16~October 2026 a
+reduction over a big operator whose declared result is a trait other than the
+library's \TYP{BigReduction}, \TYP{Comprehension} and \TYP{BigOperator} is
+instantiated through the one of those three that the trait extends, its static
+arguments put for the trait's, as one declared with that supertype is (row~718).
 The compiled type checker still refuses that form (row~425).
 \item[Original text] Unchanged.
 \item[Route C] The same under route~C.
@@ -1377,6 +1584,12 @@ variables; \secref{where-clauses} allows a declaration to introduce them.
 A size so opened is bound for the call, as inference binds a type parameter
 to an argument's type, and since no program can write its name it cannot be
 equal to a size written elsewhere.
+The team wrote the same form at a type \KWD{where}-clause variable as a comment
+on \TYP{AnyList} (``Not yet: comprises
+\EXP{\TYP{List}\llbracket{}E\rrbracket} where \EXP{\llbracket{}E\rrbracket}'',
+\nolinkurl{Library/List.fsi}, line 56, in the revival's repository); the
+revival decided on 16~October 2026 to build the forms of \KWD{where} clause the
+team wrote down, that comment among them.
 The full reasoning of the amendment is in
 \nolinkurl{explorations/compile-ladder/rung-size-expressions/REPORT.md} and
 \nolinkurl{explorations/reviews/array-fork3-judgement.md} in the revival's
@@ -1419,13 +1632,47 @@ applicable to the same calls, and refuses the pair as duplicates, where the
 interpreter runs it and calls the second; the text does not say whether the
 opening counts for the rules of \secref{overloading-static-params}
 (row~682 of the revival's gap ledger).
-It does not yet open a type \KWD{where}-clause variable, as in
-\TYP{List}'s commented clause (row~636), and the code generator does not yet
-compile a trait with a \KWD{where} clause or read a size off an argument at a
-call (row~307).
-The interpreter binds such a variable as a size when it loads the trait, reads
-a listed type at every value of it in its check at load, and binds the size of
-an argument when it dispatches.
+Since 17~October 2026 it opens a type \KWD{where}-clause variable in the same
+way, as in the clause of \TYP{AnyList} in \library\ (row~636): an argument whose
+type is such a trait, passed where the listed type is expected, takes the listed
+type at a type of the value's own for that call, bounded as the variable's
+binding bounds it and by each trait constraint of the clause on the variable
+(\secref{where-clauses}), and known to equal only itself; before 18~October 2026
+it did not bound that type by such a constraint, and refused a call that needs
+the constraint's bound, a call the interpreter runs (row~771); it refuses an
+opened type that
+reaches a type naming another type, gives two values opened in one call two
+types, and reads a listed type at the types below the variable's bounds, its
+binding's and its constraints', when it checks the traits and objects that
+extend \VAR{T}, so that it refuses an extender that the clause lists only below
+a bound its static argument does not meet; before 18~October 2026 it read a
+listed type at every type of the variable, whatever its bound, and took such an
+extender (row~753).
+It does not open a trait whose clause lists a type at a type
+\KWD{where}-clause variable where it reaches that trait as a supertype of
+another type, so that a value of a trait that extends it, and is not itself
+listed, is not taken where a listed type is expected (row~752); it opens a
+trait whose clause lists a type at a size there, as before.
+It opens such a trait, of either kind, also where it is the result type of a
+function type, once for all the function's results, so it takes a function
+whose results are values of the trait where a function whose results share
+one listed type is expected, a call the interpreter refuses (row~751).
+The code generator does not yet compile a trait with a \KWD{where} clause or
+read a size off an argument at a call (rows~307 and~701).
+The interpreter binds a \KWD{nat} or \KWD{int} \KWD{where}-clause variable as a
+size, and a type \KWD{where}-clause variable as a type that stands for every
+type, when it loads the trait, reads a listed type at every value of either in
+its check at load, a type whatever its bound (row~754), and binds the size
+of an argument when it dispatches.
+It binds the type \KWD{where}-clause variable of a trait without static
+parameters in its component's environment, so that a static parameter of
+another declaration that has the variable's name and whose bound names it
+is read as the variable, and a call of that declaration fails (row~778).
+It refuses at load such a trait one of whose members has a declared type that
+names the variable, of either kind (row~755); the compiled type checker
+accepts that declaration, and stops with an internal error at a call, outside
+the trait, of such a member whose type names a type \KWD{where}-clause variable
+(row~756).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/traits.tex},
 lines 230--241, a draft note:
 \begin{quote}
@@ -1454,6 +1701,10 @@ A return to the text before it would put \TYP{NatParam}'s clause back into a
 comment, as \library\ had it, and leave the compiled type checker refusing
 each call that passes the value of \VAR{reflect} where an
 \EXP{N\llbracket{}n\rrbracket} is expected (row~664).
+Not opening a type \KWD{where}-clause variable would put \TYP{AnyList}'s
+clause back into a comment, as \library\ had it, and leave the compiled type
+checker refusing the call in \TYP{AnyList}'s concatenation operator that reads
+its two arguments as lists (row~636).
 \end{description}
 
 \subsection{Shifts and narrowing on the integer types}
@@ -1793,6 +2044,48 @@ the type parameter itself and that nothing at a call fixes, admitting every
 value where it checks a value against that type, what that gives a reduction
 whose element type nothing fixes, and that it still erases the other static
 parameters of such a big operator.
+A revision of the interpreter of 14~October 2026 changes both boxes on it once
+more.
+The box in \secref{static-arg-inference} said that the interpreter ``does not
+yet fix a type parameter by the expected type''; it now says that it does so
+only at a reduction or a comprehension that writes no static argument and whose
+value is that of a local variable declared with a type or of a top-level or
+local function declared with a return type.
+The box after the list said that the interpreter ``still erases to
+\TYP{BottomType} the other static parameters of a big operator that a
+reduction or a comprehension invokes without its static arguments, a
+comprehension's collection being then built at the type of its elements'', and
+that an empty reduction whose element type nothing fixes takes the identity of
+\EXP{\mathbb{Z}32} and the library's set reductions stop at their first
+element; it now says that the interpreter instantiates such a big operator by
+the declared type of the local variable, or the declared return type of the
+top-level or local function, whose value the reduction or the comprehension is,
+otherwise by the join of the run-time types of its
+elements, and where there is none at its bound, or open where the bound
+mentions the parameter, and names what that leaves: an empty reduction or
+comprehension that no declared type directs, a comprehension that no declared
+type reaches, and a big operator whose declared result is not one of the
+library's three.
+A revision of the interpreter of 17~October 2026 changes both boxes on it once
+more.
+The box in \secref{static-arg-inference} said that the interpreter compares
+declarations with static parameters on the parameter types they declare,
+``except generic dotted methods''; it now says that the interpreter infers the
+static arguments of a generic dotted method as it infers a generic function's,
+alone under its name or among the overloads of its receiver, and compares such
+a method on the parameter types it declares only where exactly one of two
+declarations' declared parameter types lies inside the other's, says that it
+compares a functional method of a generic trait or object on the instance that
+a call makes, names the call of an inherited generic functional method that
+finds no overload, names the two forms of generic
+dotted method on which it still stops, and says that it instantiates one that a
+trait declares without reading its bounds where they are declared.
+The box after the list said that the interpreter ``leaves a generic method's
+static parameters uninstantiated''; it now says that it instantiates one that
+only the expected type would fix at its bound, as it does one of a generic
+function, except a bounded one of a method that a trait declares, and that it
+stops at load on an object or trait whose method has a parameter type with a
+\KWD{bool} static argument.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 26~September 2026 that a generic call over two different
 integer types infers the narrowest type that both coerce into, by a rule
@@ -1834,9 +2127,12 @@ checker tries a call, is in
 in the revival's repository.
 The revival's decision of 29~September 2026 provided that the interpreter
 follow the same rule where it instantiates a declaration, from the run-time
-types of the arguments; it has no static return type to add to the bound.
+types of the arguments; it has no static return type to add to the bound,
+except, since 14~October 2026, the declared type of a local variable or of a
+top-level or local function whose value is a reduction or a comprehension that
+writes no static argument (below).
 It departs from the rule for the type parameters that the two boxes name,
-four kinds by decision and the others as defects.
+three kinds by decision and the others as defects.
 Until 9~October 2026, by decision, a type parameter whose bound mentions the
 type parameter itself kept \TYP{BottomType}: it has no bound to take before its
 own instance is known, the paper's calculus admits no type parameter of a
@@ -1849,12 +2145,27 @@ instantiates a static parameter at \TYP{BottomType} keeps a call from an
 instance that admits no value, and an open parameter refuses none.
 The reasoning is in \nolinkurl{explorations/reviews/p1-judgement.md} in the
 revival's repository.
-By decision, a big operator's static parameter whose bound does not mention it,
-that a reduction or a comprehension does not write, keeps \TYP{BottomType}: it
-is the element type of the reduction, which this chapter does not yet
-describe, and from \TYP{BottomType} the interpreter's
+Until 14~October 2026, by decision, a big operator's static parameter whose
+bound does not mention it, that a reduction or a comprehension does not write,
+kept \TYP{BottomType}: it is the element type of the reduction, which this
+chapter does not yet describe, and from \TYP{BottomType} the interpreter's
 library builds a comprehension's collection at the type of its elements, where
 from the bound it would build it at the bound.
+The revival decided on 14~October 2026 that the interpreter instantiates such a
+big operator as the desugaring by the type \VAR{N} of the expression would
+(\secref{revival-reductions}), with run-time types in place of \VAR{N}: by the
+declared type of the local variable, or the declared return type of the
+top-level or local function, whose value the reduction or the comprehension is,
+which is the static return type that the rule above lets
+constrain the instance, and otherwise by the join of the run-time types of the
+elements that its generator clauses give, which fix the parameter as \VAR{N}
+would and so are not the value's type of a parameter that nothing fixes; where
+there is neither, the parameter takes its bound, or is left open where the
+bound mentions it.
+The reasoning is in
+\nolinkurl{explorations/perf-probes/walk-plain-bound/REPORT.md} and
+\nolinkurl{explorations/compile-ladder/rung-walk-elements/REPORT.md} in the
+revival's repository.
 By decision, a type parameter that only the bound of a type parameter that the
 arguments fix mentions takes the arguments' type: the interpreter has no
 expected type to fix it, and the library's operator that appends two covariant
@@ -1978,11 +2289,53 @@ Since 9~October 2026, under the interpreter, a type parameter whose bound
 mentions the type parameter itself and that nothing at a call fixes is left
 open where it was instantiated at \TYP{BottomType}, so that a reduction whose
 element type nothing fixes runs on the types of its elements where it stopped
-at its first element (\secref{revival-reductions}); an empty such reduction
-takes the identity of \EXP{\mathbb{Z}32} whatever the type of the expression
-(row~645), and the library's set reductions \EXP{\bigcup} and
-\EXP{\bigcap}, whose reductions take sets of the open type, still stop
-(row~662).
+at its first element (\secref{revival-reductions}); until 14~October 2026 an
+empty such reduction took the identity of \EXP{\mathbb{Z}32} whatever the
+type of the expression (row~645), and the library's set reductions
+\EXP{\bigcup} and \EXP{\bigcap}, whose reductions take sets of the open
+type, stopped (row~662).
+Since 14~October 2026, under the interpreter, the big operator of a reduction
+or a comprehension that writes no static argument is instantiated by the
+declared type of its value, by the join of its elements' run-time types or at
+its bound, where its static parameters with a bound that does not mention them
+were instantiated at \TYP{BottomType}: an empty sum that is the value of a
+function declared \EXP{\mathbb{R}64} gives the \EXP{\mathbb{R}64} zero, the
+set reductions run, and a comprehension bound to a local variable declared
+with its type is admitted; an empty reduction that no declared type directs
+still takes the identity of \EXP{\mathbb{Z}32}, and an empty comprehension is
+built at its big operator's bound (row~716); a comprehension that no
+declared type reaches is built at the run-time types of its elements (rows~20
+and~717). Since 16~October 2026 a big operator whose declared result is a
+trait other than the library's three is instantiated through the one of them
+that the trait extends, as one declared with it is (row~718).
+Since 17~October 2026, under the interpreter, a dotted call that writes no
+static argument to a generic method infers the method's own static arguments
+from the run-time types of the arguments, as a call of a generic function does,
+where it stopped with an error of unification, or found no matching overload
+where the receiver overloads the method's name (row~21): a generic method that a
+trait declares and an object inherits beside a plain overload of its own is
+chosen where the plain one does not apply.
+A generic functional method that a trait declares and an object inherits beside
+a plain functional method of its own was not chosen where only it applies: the
+call found no overload (row~765), until 18~October 2026.
+It still stops at load on an object or trait that declares a generic dotted
+method beside a plain one of the same name (row~760) and on an object or
+trait whose method has a parameter type with a \KWD{bool} static argument
+(row~761); it stops on an object that extends a generic trait whose dotted
+method has a static parameter of its own bounded by the trait's, at load or at a
+generic object's first instance (row~762); and a dotted call that writes
+static arguments to a method its receiver overloads still stops (row~744).
+Until 18~October 2026 it instantiated a generic dotted method that a trait
+declares without reading the bounds where they are declared: a type parameter
+that is the whole type of parameters took the narrowest named common supertype
+of the arguments' run-time types, none of them converted, where the same method
+declared in an object takes the narrowest type into which they convert, and a
+bounded type parameter that nothing fixes took \TYP{BottomType} (row~766).
+Since then it reads the bounds of a generic method that a trait declares, and
+the types into which the arguments convert, where the trait declares the
+method, as for a method that an object declares, and so it gives such a method
+the instance that it gives the same method declared in an object, and chooses
+the inherited generic functional method above where only it applies.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/inference.tex},
 lines 12--27, which held after the chapter's heading two draft notes:
 \begin{quote}
@@ -2399,6 +2752,19 @@ A later revision states the section's No Duplicates Rule on the relation without
 ``and not the other way round'', that $d_1$ and $d_2$ are not each applicable to
 every call to which the other is applicable, with a box, and the box on Jan's
 example in the internal document gives that rule as its reason.
+A further revision has that box say that the factory of \library\ gives a
+\TYP{Vector} where its type argument is one of the eight number types and a
+plain array where it is any other type, \TYP{Number} among them: the factory
+called the vector factory at its own type argument, which has no bound, an
+instance that the bound of a \TYP{Vector}'s element type refuses
+(\secref{type-param}), and it now builds the vector at each number type, so
+that a \TYP{Vector} of \TYP{Number}, which is not well-formed, is no longer its
+result.
+Another revision has the section's existential reduction read instantiation
+exclusion where the two parameter types, or their elements at one position, are
+or extend instances of one parameterized trait, where it read it only where they
+mention one, with a box, and the internal document's box on the questions on
+exclusion says the same.
 \secref{resolving-coercion} says in three places that a declaration with static
 parameters is applicable when some instance of it is, that it is compared on the
 parameter types it declares, and that the declaration selected is then
@@ -2474,6 +2840,15 @@ type group's later word, that paper among it, outweighs the early text; its
 reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-popl-examples/REPORT.md} in the
 revival's repository.
+The revision of the existential reduction follows the paper of 2011, whose
+exclusion of two instances of type constructors reads every pair of their
+ancestors (\nolinkurl{Papers/Types/fig-exclusion.tick}, lines 136--147, in the
+revival's repository), and the revival's decision of 17~October 2026 that two
+declarations with static parameters exclude each other as the existential
+reduction reads their whole parameter types, in both implementations; its
+reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-existential-reduction/REPORT.md} in
+the revival's repository.
 \item[Effect] Declarations of one name may differ in their static parameters,
 as \library's do.
 The compiled type checker refuses the pair of the Return Type Rule's example,
@@ -2489,21 +2864,76 @@ object (row~542); the compiled code generator fails on two declarations with
 static parameters whose bounds differ, the pair the Return Type Rule allows in
 \secref{overloading-static-params} among them, and on the example of the type
 group's paper of 2019 that overloads a method over an array list and a list
-(row~537); and the interpreter refuses at load two declarations with static
-parameters of which no pair of parameter types excludes each other (row~159),
-that example among them (row~539).
+(row~537); and the interpreter reads two functions with static parameters, no
+pair of whose parameter types excludes each other as it compares them parameter
+by parameter, on the two declared domains, each over its own instances, by these
+rules, but finds a third declaration that holds the overlap of two neither of
+which lies inside the other only where their parameter types are, position by
+position, instances of one generic type or static parameters, so that it
+refuses that example (row~539).
+Of two generic functional methods one of whose declared domains lies inside
+the other's, it refuses at load the pair that a trait or object without
+static parameters declares, as failing the Meet Rule, where it loads the same
+two functions (row~779), and it loads the pair that a trait with static
+parameters declares, where a call to which both apply then fails, finding no
+definition of the method (row~780).
 Jan's example is still not a valid overloading, its two declarations having the
 same parameter type.
 The compiled type checker applies the No Duplicates Rule as it is now stated:
 it refuses two declarations whose parameter types, read over their instances,
 are each a subtype of the other, ``There are multiple declarations of \VAR{dup}
-with the same parameter type'', except two functional methods whose \KWD{self}
-parameters stand at different positions, which only its code generator
-refuses, as a malformed overload set (row~707 of the revival's gap ledger).
-The interpreter loads such a pair and runs one of them where both declarations
-have static parameters and their parameter types mention one parameterized
-type, as \VAR{dup}'s do (row~373), and where one has static parameters and the
-other's parameter type is its bound (row~549).
+with the same parameter type'', two functional methods among them wherever their
+\KWD{self} parameters stand.
+It accepts one such pair, a declaration whose parameter types are its type
+parameters, written with no bound and so bounded by \TYP{Any}, beside one
+without static parameters whose parameter types are \TYP{Any}, as
+\EXP{\VAR{g}\llbracket{}T\rrbracket(a\COLON{}T)} beside
+\EXP{\VAR{g}(a\COLON \TYP{Any})}, and runs the first for a call to which both
+apply; it refuses the same pair where the bound is written, \TYP{Any} or one
+below it (row~759 of the revival's gap ledger).
+It reads the abstract functional methods that a trait or object provides as it
+reads the abstract dotted ones, so that an abstract functional method beside a
+concrete one with the same parameter type is among the pairs it refuses, which
+only its code generator refused before, as a malformed overload set.
+It checks no overloading of an operator whose name is not a word of capitals
+(row~584 of the revival's gap ledger): two declarations of such an operator with
+the same parameter type pass it, and only its code generator refuses them, as a
+malformed overload set (row~726).
+The interpreter refuses at load two declarations with static parameters whose
+parameter types, each read over its own instances, are each a subtype of the
+other, as \VAR{dup}'s are, and so a declaration whose parameter types are its
+static parameters beside one whose parameter types are their bounds, a plain one
+or one whose parameter types mention none of its static parameters.
+The compiled type checker and the interpreter both find that two declarations,
+one or both with static parameters, whose parameter types exclude only together,
+through a static argument that another parameter's type fixes, exclude each
+other, and the compiled type checker finds so too of two whose parameter types
+exclude through the one instance of a supertype they share, which the
+interpreter loaded already.
+The interpreter does not so read a declaration with a \KWD{where} clause of its
+own, and refuses such a pair, which the compiled type checker accepts and its
+code generator does not compile (row~787 of the revival's gap ledger).
+The interpreter also reads an object type over a static parameter as excluding
+a type that the object type is at some instance of the static parameters, and
+so loads pairs that the Meet Rule refuses, as
+\EXP{\VAR{g}\llbracket{}T\rrbracket(x\COLON \TYP{Box}\llbracket{}T\rrbracket,
+y\COLON \mathbb{Z}32)} beside \EXP{\VAR{g}(x\COLON
+\TYP{Box}\llbracket\mathbb{Z}32\rrbracket, y\COLON \TYP{Any})}, where \TYP{Box}
+is an object type: the two overlap at a
+\EXP{\TYP{Box}\llbracket\mathbb{Z}32\rrbracket} and a \EXP{\mathbb{Z}32}, and
+neither is more specific than the other; the interpreter runs the first for a
+call to which both apply, and the compiled type checker refuses the pair
+(row~788 of the revival's gap ledger).
+They also differ on a pair whose static parameters' bounds exclude each other, as
+\EXP{\VAR{tint}\llbracket{}T \KWD{extends} \TYP{Red}\rrbracket(x\COLON
+\TYP{Box}\llbracket{}T\rrbracket)} beside
+\EXP{\VAR{tint}\llbracket{}T \KWD{extends} \TYP{Blue}\rrbracket(x\COLON
+\TYP{Box}\llbracket{}T\rrbracket)} where \TYP{Red}, \TYP{Blue} and
+\TYP{Box} are object types: the interpreter loads it, reading two static
+parameters whose bounds exclude each other as never one type, and the compiled
+type checker refuses it, its reduction making of the two static parameters one
+bounded by both, which it does not find empty (row~786 of the revival's gap
+ledger).
 The calculus of \appref{overloading-calculus} keeps its rule that two
 declarations with the same number of parameters have static parameters with the
 same bounds; it admits fewer overloadings than these chapters, so that its valid
@@ -2556,9 +2986,17 @@ The new section, the revival's text of 30~September 2026, stated:
 The \emph{No Duplicates Rule}: $d_1$ and $d_2$ are not each more specific than
 the other.
 \end{quote}
+and, of the existential reduction:
+\begin{quote}
+where the two parameter types mention one parameterized trait, instantiation
+exclusion (\secref{trait-types}) lets them meet only where the static arguments
+of those mentions are the same
+\end{quote}
 and the box on Jan's example in the internal document gave as its reason that
 the two declarations have the same parameter type ``and each is more specific
-than the other''.
+than the other''; until the further revision, the box ended: ``which chooses its
+result by a \KWD{typecase} on its type argument, a \TYP{Vector} where the
+argument is a \TYP{Number}''.
 \item[Route C] The same under route~C, except that the existential reduction
 uses the rule of \secref{revival-routec} in place of instantiation exclusion;
 the No Duplicates Rule does not depend on the rule on instantiations.
@@ -2875,15 +3313,23 @@ and refuses one whose definitions do not cover it, where it accepted any one
 definition at narrower parameter types before.
 It does not check objects with static parameters and object expressions in
 generic functions (row~665 of the revival's gap ledger), and it
-does not refuse an object where its search through the \KWD{comprises} clauses
-does not settle: a cycle, its bound on steps or parts, or a type it cannot read;
-it then loads an object that the compiled type checker refuses (row~708 of the
-revival's gap ledger).
-The compiled type checker does not split a tuple of parameter types through
-\KWD{comprises} clauses: it refuses an object whose concrete methods cover an
-inherited abstract method of two parameters only through combinations of the
-types that a trait lists, which the interpreter accepts (row~709 of the
-revival's gap ledger).
+refuses an object where its search through the \KWD{comprises} clauses
+does not settle: a cycle, its bound of 10,000 steps or of 4,096 combinations of
+parts, or a type it cannot read.
+It refuses an object whose one definition of an inherited abstract method has a
+static parameter of its own and covers the method, as
+\EXP{\VAR{g}\llbracket{}T \KWD{extends} \TYP{Side}\rrbracket(\KWD{self}, x\COLON{}T)}
+covers \EXP{\VAR{g}(\KWD{self}, x\COLON \TYP{Side})}, which the compiled type
+checker accepts (row~728 of the revival's gap ledger).
+The compiled type checker splits a tuple of parameter types through
+\KWD{comprises} clauses as the interpreter does, and refuses where its search
+meets a cycle or passes the same bounds: it accepts an object whose concrete
+methods cover an inherited abstract method of two parameters only through
+combinations of the types that a trait lists, as the interpreter does.
+It splits no tuple where the abstract method or a concrete method below it has
+static parameters of its own, and so refuses an object whose concrete methods,
+one of them with a static parameter of its own, cover such a method only
+through those combinations (row~725 of the revival's gap ledger).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex},
 lines 568--570:
 \begin{quote}
@@ -3460,11 +3906,18 @@ every kind; a clause
 \EXP{N\llbracket{}0\rrbracket} of a \KWD{typecase} on
 \EXP{N\llbracket{}b_{0}\rrbracket} is reachable.
 It still counts two different static parameters as different sizes, which the
-text does not say (row~683 of the revival's gap ledger), and it does not
-infer a static argument written with a static parameter in it: a call of
+text does not say (row~683 of the revival's gap ledger).
+It infers a static argument written with a static parameter in it: a call of
 \EXP{\VAR{get}\llbracket\KWD{int}\;i\rrbracket(b\COLON\TYP{IBox}\llbracket{}i\rrbracket)}
-with an argument of type \EXP{\TYP{IBox}\llbracket{}i-1\rrbracket} is refused
-unless it writes \EXP{\VAR{get}\llbracket{}i-1\rrbracket} (row~681).
+with an argument of type \EXP{\TYP{IBox}\llbracket{}i-1\rrbracket} instantiates
+\VAR{get} at \EXP{i-1}.
+Where a parameter type writes a static parameter of the callee inside an
+operation, neither it nor the interpreter infers that parameter: a call of
+\EXP{\VAR{getp}\llbracket\KWD{int}\;i\rrbracket(b\COLON\TYP{IBox}\llbracket{}i+1\rrbracket)}
+with an argument of type \EXP{\TYP{IBox}\llbracket{}3\rrbracket} is refused, and
+under the interpreter fails, unless it writes
+\EXP{\VAR{getp}\llbracket{}2\rrbracket}, though the instance at 2 has the
+argument's type (row~767).
 The compiled path computes a size when it names a class, an operation on
 numerals when the program is compiled and the rest when the class is first
 loaded, so that \EXP{\TYP{Box}\llbracket{}2+1\rrbracket} and
@@ -3620,7 +4073,7 @@ inferred before the applicability of a declaration was checked and before
 declarations were compared, the implicit bound of \secref{type-param}, and the
 rule of \chapref{overloaded-declarations} on a naked type parameter of bound
 \TYP{Any}, are revised with the overloading chapters (\secref{revival-overloading},
-\secref{revival-bound}). The result of an integer raised to a negative power is not yet given (\secref{basic-integers}; \secref{revival-integers}).
+\secref{revival-bound}).
 The instance of a \KWD{nat} or \KWD{int} parameter of a declaration that a call
 reaches only by dispatch, where nothing fixes it at run time, is not described;
 the rule of \secref{resolving-overloading} is for type parameters (row~446 of the

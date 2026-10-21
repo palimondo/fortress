@@ -53,7 +53,7 @@ api List
     should not be necessary in the presence of true type
     inference. **)
 trait AnyList excludes { Number, HasRank, String }
-        (** \vspace{-4ex} Not yet: ``%comprises List[\E\] where [\E\]%'' *)
+        comprises { List[\E\] } where [\E\]
     opr ||(self, f:AnyList): AnyList
     addLeft(e:Any): AnyList
     addRight(e:Any): AnyList
@@ -64,7 +64,8 @@ end
     complexity, but return a %List% in cases (such as %map% and
     %filter%) where it will.  Indexing on lists operates from the
     left, and ordering is lexicographic reading from the left. *)
-trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
+trait List[\E\] extends { AnyList, ZeroIndexed[\E\],
+                          LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }
         excludes { Number, HasRank, String }
   (** %left% and %extractLeft% return the leftmost element in the list
       (and in the latter case, the remainder of the list without its
@@ -79,6 +80,9 @@ trait List[\E\] extends { AnyList, LexicographicOrder[\List[\E\],E\] }
   (** the operator %||% returns a list containing the elements of %self% followed
       by the elements of %f% *)
   abstract opr ||(self, other:List[\E\]): List[\E\]
+  (** %=% compares two lists element by element, whether or not their
+      elements are ordered. *)
+  opr =(self, other:List[\E\]): Boolean
   (** %addLeft% and %addRight% add an element to the left or right of
       the list, respectively *)
   abstract addLeft(e:E):List[\E\]

@@ -280,7 +280,7 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
     abstract opr TIMES(self, other:T): T
     opr juxtaposition(self, other:T): T
     (** Exponentiation need only deal with natural exponents. **)
-    opr ^(self, other:ZZ64): T
+    abstract opr ^(self, other:AnyIntegral): T
 end
 
 trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
@@ -363,6 +363,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     opr IEEE_SLASH_UP(self,b:RR64):RR64
     opr |self| : RR64
     opr ^(self, b:RR64):RR64
+    opr ^(self, b:AnyIntegral):RR64
     sin(self):RR64
     cos(self):RR64
     tan(self):RR64
@@ -427,7 +428,7 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     opr TIMES(self,other:QQ):QQ
     opr juxtaposition (self,other:QQ):QQ
     opr /(self,other:QQ):QQ
-    opr ^(self, other:ZZ64):QQ
+    opr ^(self, other:AnyIntegral):QQ
     floor(self):ZZ
     opr |\self/| : ZZ
     ceiling(self):ZZ
@@ -469,7 +470,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
     opr LSHIFT(self,b:AnyIntegral):I
     opr RSHIFT(self,b:AnyIntegral):I
     opr BITNOT(self):I
-    opr ^(self, b:AnyIntegral):RR64
+    opr ^(self, b:AnyIntegral):I
     opr /(self, other:I):QQ
     numerator(self): ZZ
     denominator(self): ZZ
@@ -521,8 +522,8 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr LSHIFT(self,b:AnyIntegral):NN64
     opr RSHIFT(self,b:AnyIntegral):NN64
     opr BITNOT(self):NN64
-    opr ^(self, b:AnyIntegral):RR64
-    opr ^(self, b:IntLiteral):RR64
+    opr ^(self, b:AnyIntegral):NN64
+    opr ^(self, b:IntLiteral):NN64
     opr /(self, other:NN64):QQ
     numerator(self): ZZ
     narrow(self):NN32
@@ -575,7 +576,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
     opr LSHIFT(self,b:AnyIntegral):ZZ32
     opr RSHIFT(self,b:AnyIntegral):ZZ32
     opr BITNOT(self):ZZ32
-    opr ^(self, b:IntLiteral):RR64
+    opr ^(self, b:IntLiteral):ZZ32
     opr /(self, other:ZZ32):QQ
     numerator(self): ZZ
     widen(self):ZZ64
@@ -633,7 +634,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr LSHIFT(self,b:AnyIntegral):ZZ64
     opr RSHIFT(self,b:AnyIntegral):ZZ64
     opr BITNOT(self):ZZ64
-    opr ^(self, b:IntLiteral):RR64
+    opr ^(self, b:IntLiteral):ZZ64
     opr /(self, other:ZZ64):QQ
     numerator(self): ZZ
     narrow(self):ZZ32
@@ -671,7 +672,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr TIMES(self, b: ZZ): ZZ
     opr DOTTIMES(self, b: ZZ): ZZ
     opr /(self,other:ZZ):QQ
-    opr ^(self, b:IntLiteral):RR64
+    opr ^(self, b:IntLiteral):ZZ
     numerator(self): ZZ
     narrow(self): ZZ32
     widen(self): ZZ64
@@ -1341,7 +1342,7 @@ object DefaultZip[\E,F\](e:ZeroIndexed[\E\],f:ZeroIndexed[\F\])
     opr[r:Range[\ZZ32\]] : ZeroIndexed[\(E,F)\]
 end
 
-trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E\]
+trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E extends StandardTotalOrder[\E\]\]
         extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
     opr CMP(self, other:T): TotalComparison
     (** We give a specialized version of %=% because it can fail faster
@@ -1497,8 +1498,10 @@ array[\E\](x:ZZ32,y:ZZ32,z:ZZ32):Array[\E,(ZZ32,ZZ32,ZZ32)\]
 (** Factory for immutable arrays that returns an empty 0-indexed array
     of a given run-time-determined size. **)
 immutableArray[\E\](x:ZZ32):ImmutableArray[\E,ZZ32\]
+(*
 immutableArray[\E\](x:ZZ32,y:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32)\]
 immutableArray[\E\](x:ZZ32,y:ZZ32,z:ZZ32):ImmutableArray[\E,(ZZ32,ZZ32,ZZ32)\]
+*)
 
 primitiveArray[\E\](x:ZZ32):Array[\E,ZZ32\]
 
@@ -1619,6 +1622,8 @@ trait Vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]
     scale(t: T): Vector[\T,s0\]
     pmul(v: Vector[\T,s0\]): Vector[\T,s0\]
     dot(v: Vector[\T,s0\]): T
+    fill(v:T):Vector[\T,s0\]
+    tabulate(f:ZZ32->T):Vector[\T,s0\]
 end
 
 (** %__builtinFactory1% must be a non-overloaded 0-parameter factory for
@@ -1646,34 +1651,34 @@ vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](v:T):Vector[\T,s
 tabulatedVector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](f:ZZ32->T):Vector[\T,s0\]
 
 
-opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
+opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
 
-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
+opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
 
-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
+opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\]):Vector[\T,n\]
 
 pmul[\ T extends { Number, MultiplicativeRing[\T\] }, nat k \]
     (a : Vector[\T,k\], b : Vector[\T,k\]):Vector[\T,k\]
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
        (me : Vector[\T,n\], other : Vector[\T,n\]):T
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\], other : Vector[\T,n\]):T
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
        (me : Vector[\T,n\], other : T) : Vector[\T,n\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (me : Vector[\T,n\], other : T) : Vector[\T,n\]
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
         (other : T, me : Vector[\T,n\]) : Vector[\T,n\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
      (other : T, me : Vector[\T,n\]) : Vector[\T,n\]
 
 squaredNorm[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](a:Vector[\T,s0\]):T
@@ -1739,6 +1744,8 @@ trait Matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]
     rmul(v: Vector[\T,s1\]): Vector[\T,s0\]
     lmul(v: Vector[\T,s0\]): Vector[\T,s1\]
     t(): Matrix[\T,s1,s0\]
+    fill(v:T):Matrix[\T,s0,s1\]
+    tabulate(f:(ZZ32,ZZ32)->T):Matrix[\T,s0,s1\]
 end
 
 __builtinFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():Array2[\T,b0,s0,b1,s1\]
@@ -1771,29 +1778,29 @@ opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m,
      (me:Matrix[\T,n,m\], other:Matrix[\T,m,p\]): Matrix[\T,n,p\]
 
 (** Matrix-vector multiplication. *)
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
        (me:Matrix[\T,n,m\], v:Vector[\T,m\]):Vector[\T,n\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me:Matrix[\T,n,m\], v:Vector[\T,m\]):Vector[\T,n\]
 
 (** Vector-matrix multiplication. *)
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
        (v:Vector[\T,n\], me:Matrix[\T,n,m\]):Vector[\T,m\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (v:Vector[\T,n\], me:Matrix[\T,n,m\]):Vector[\T,m\]
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
        (me : Matrix[\T,n,m\], other : T) : Matrix[\T,n,m\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (me : Matrix[\T,n,m\], other : T) : Matrix[\T,n,m\]
 
-opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
        (other : T, me : Matrix[\T,n,m\]) : Matrix[\T,n,m\]
 
-opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p \]
+opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
      (other : T, me : Matrix[\T,n,m\]) : Matrix[\T,n,m\]
 
 (** %Array3[\T,b0,s0,b1,s1,b2,s2\]% is the type of 3-dimensional arrays
@@ -1858,6 +1865,7 @@ __builtinFactory3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]():
         Array3[\T,b0,s0,b1,s1,b2,s2\]
 
 array3[\T,nat s0, nat s1, nat s2\]():Array3[\T,0,s0,0,s1,0,s2\]
+array3[\T, nat s0, nat s1, nat s2\](v:T):Array3[\T,0,s0,0,s1,0,s2\]
 tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,s0,0,s1,0,s2\]
 
 (************************************************************
@@ -2149,7 +2157,7 @@ end
 (*
 embiggen[\T,opr OP\](z:T): ((Reduction[\T\],T->T) -> T) -> T
 *)
-embiggen[\T\](j:(Any,Any)->T, z:T) : Comprehension[\T,T,Any,Any\]
+embiggen[\T\](j:(T,T)->T, z:T) : BigReduction[\T,T\]
 
 trait FilterGenerator[\E\] extends Generator[\E\]
         excludes { HasRank }

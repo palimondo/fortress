@@ -117,7 +117,7 @@ public class _SyntaxTransformation_RewriteFnRef extends _RewriteFnRef implements
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Expr temp_fnExpr = getFnExpr();
         code ^= temp_fnExpr.hashCode();
         List<StaticArg> temp_staticArgs = getStaticArgs();

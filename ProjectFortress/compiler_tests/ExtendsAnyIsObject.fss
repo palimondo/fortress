@@ -1,0 +1,30 @@
+component ExtendsAnyIsObject
+export Executable
+
+(* An object or a trait whose extends clause names Any alone is an Object, as every trait but Any and Object is (traits.tex, section "Trait Declarations"; basic-lib/objects.tex, trait Fortress.Core.Object). *)
+
+object Inf extends Any end
+object InfBraced extends { Any } end
+trait Tany extends Any end
+object InTany extends Tany end
+object Plain end
+
+objectness(x: Any): String =
+    typecase x of
+        Object => "an Object"
+        else => "not an Object"
+    end
+
+run(): () = do
+    println("Inf: " || objectness(Inf))
+    println("InfBraced: " || objectness(InfBraced))
+    println("InTany: " || objectness(InTany))
+    println("Plain: " || objectness(Plain))
+    assert(objectness(Inf), "an Object", "object Inf extends Any")
+    assert(objectness(InfBraced), "an Object", "object InfBraced extends { Any }")
+    assert(objectness(InTany), "an Object", "object InTany extends Tany, trait Tany extends Any")
+    assert(objectness(Plain), "an Object", "object Plain")
+    println("PASS")
+end
+
+end

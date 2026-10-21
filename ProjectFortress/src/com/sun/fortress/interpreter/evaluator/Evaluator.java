@@ -592,7 +592,7 @@ public class Evaluator extends EvaluatorBase<FValue> {
                     return ifclause.getBody().accept(this);
                 }
             } else {
-                if (clauseVal.type() instanceof FTraitOrObject) {
+                if (maybeType(clauseVal.type())) {
                     if (((FTraitOrObject) clauseVal.type()).getName().equals("Just")) return ifclause.getBody().accept(
                             this);
                 } else {
@@ -606,6 +606,18 @@ public class Evaluator extends EvaluatorBase<FValue> {
         } else {
             return FVoid.V;
         }
+    }
+
+    /**
+     * Whether t is the type of one of the library's two Maybe objects, a
+     * Just or a Nothing, which an if clause without a binding takes as true
+     * where it holds a value and as false where it holds none.  An if clause
+     * of any other type that is not Boolean is refused.
+     */
+    private static boolean maybeType(FType t) {
+        if (!(t instanceof FTraitOrObject)) return false;
+        String n = ((FTraitOrObject) t).getName();
+        return (n.equals("Just") || n.equals("Nothing")) && Glue.extendsGenericTrait(t, "Maybe");
     }
 
     public FValue forLValue(LValue x) {
@@ -691,8 +703,124 @@ public class Evaluator extends EvaluatorBase<FValue> {
         return juxtApplyStack(stack, times, x);
     }
 
+    /**
+     * Whether e is the desugaring of a reduction or a comprehension whose big
+     * operator writes no static argument: __bigOperator(BIG OP, clauses).
+     */
+    public static boolean unwrittenBigOperator(Expr e) {
+        if (!(e instanceof _RewriteFnApp)) return false;
+        Expr fn = ((_RewriteFnApp) e).getFunction();
+        Expr arg = ((_RewriteFnApp) e).getArgument();
+        if (!(fn instanceof VarRef) || !(arg instanceof TupleExpr)) return false;
+        if (!((VarRef) fn).getVarId().getText().equals(WellKnownNames.bigOperator)) return false;
+        List<Expr> es = ((TupleExpr) arg).getExprs();
+        if (es.size() != 2 || !(es.get(0) instanceof OpExpr)) return false;
+        OpExpr o = (OpExpr) es.get(0);
+        return o.getArgs().isEmpty() && o.getOp().getStaticArgs().isEmpty();
+    }
+
+    /**
+     * Whether e's value is that of a reduction or a comprehension whose big
+     * operator writes no static argument: e itself, the body of a do block of
+     * one plain part, the last expression of a block, or the body of a local
+     * declaration that ends a block, at any depth (evalAt).
+     */
+    public static boolean unwrittenAtTail(Expr e) {
+        while (true) {
+            if (unwrittenBigOperator(e)) return true;
+            if (e instanceof Do) {
+                List<Block> fronts = ((Do) e).getFronts();
+                if (fronts.size() != 1 || fronts.get(0).isAtomicBlock() || fronts.get(0).getLoc().isSome())
+                    return false;
+                e = fronts.get(0);
+            } else if (e instanceof Block) {
+                List<Expr> es = ((Block) e).getExprs();
+                if (es.isEmpty()) return false;
+                e = es.get(es.size() - 1);
+            } else if (e instanceof LetExpr) {
+                e = ((LetExpr) e).getBody();
+            } else return false;
+        }
+    }
+
+    /**
+     * Evaluates e, whose value is that of a variable or a function declared
+     * with the type expected, or of neither where expected is null.  A
+     * reduction or a comprehension that writes no static argument and whose
+     * value is e's, as unwrittenAtTail finds it, is instantiated by that type,
+     * as a call by its static return type (inference.tex, "The Static
+     * Arguments of a Call"): the type travels with the evaluation of e's tail
+     * alone, as an argument, and no other evaluation sees it.  Everything
+     * else is evaluated as eval evaluates it.
+     */
+    public FValue evalAt(Expr e, FType expected) {
+        if (expected == null) return e.accept(this);
+        if (unwrittenBigOperator(e)) return bigOperatorByElements((_RewriteFnApp) e, expected);
+        if (e instanceof Do) {
+            List<Block> fronts = ((Do) e).getFronts();
+            if (fronts.size() != 1 || fronts.get(0).isAtomicBlock() || fronts.get(0).getLoc().isSome())
+                return e.accept(this);
+            return new Evaluator(this).evalAt(fronts.get(0), expected);
+        }
+        if (e instanceof Block) {
+            // as evalExprList(List<Expr>, AbstractNode), the last expression at the expected type
+            List<Expr> exprs = ((Block) e).getExprs();
+            FValue res = FVoid.V;
+            for (int i = 0; i < exprs.size(); i++) {
+                Expr exp = exprs.get(i);
+                FType x = i == exprs.size() - 1 ? expected : null;
+                if (exp instanceof LetExpr) {
+                    Environment inner = this.e.extendAt(exp);
+                    BuildLetEnvironments be = new BuildLetEnvironments(inner, x);
+                    res = be.doLets((LetExpr) exp);
+                } else {
+                    res = evalAt(exp, x);
+                }
+            }
+            return res;
+        }
+        return e.accept(this);
+    }
+
+    /**
+     * A reduction or a comprehension whose big operator writes no static
+     * argument, __bigOperator(BIG OP, clauses), as the specification's
+     * desugaring by the type of the expression runs it, with the run-time
+     * types in place of the static type that walk does not have.  Where the
+     * value is declared with the type expected (evalAt), that type
+     * instantiates the big operator if it fixes the operator's result type,
+     * and the clauses then run as written.  Otherwise the clauses run once,
+     * collecting their elements in order with the join of their run-time
+     * types (__elemsOf), the big operator is instantiated at that join, at
+     * its bound where there is no element, and the reduction runs over the
+     * collected elements (__bigOperatorElements).  A big operator without
+     * static parameters runs as written.
+     */
+    private FValue bigOperatorByElements(_RewriteFnApp that, FType expected) {
+        List<Expr> es = ((TupleExpr) that.getArgument()).getExprs();
+        OpExpr opExpr = (OpExpr) es.get(0);
+        FValue opv = getOp(opExpr.getOp());
+        if (!instantiable(opv)) return applyRewriteFnApp(that);
+        FValue clauses = eval(es.get(1));
+        if (expected != null) {
+            BigOperatorHint h = new BigOperatorHint(opv, null, expected);
+            FValue op = instantiateBigOperator(opv, h, opExpr);
+            if (h.byExpected()) return Fcn.functionInvocation(Useful.list(op, clauses), eval(that.getFunction()), that);
+        }
+        Environment lib = Driver.getFortressLibrary();
+        FValue elems = Fcn.functionInvocation(Useful.list(clauses), lib.getRootValue("__elemsOf"), that);
+        FType j = elementsType(elems);
+        FValue op = instantiateBigOperator(opv, new BigOperatorHint(opv, j, null), opExpr);
+        return Fcn.functionInvocation(Useful.list(op, elems), lib.getRootValue("__bigOperatorElements"), that);
+    }
+
     @Override
     public FValue for_RewriteFnApp(_RewriteFnApp that) {
+        if (unwrittenBigOperator(that)) return bigOperatorByElements(that, null);
+        return applyRewriteFnApp(that);
+    }
+
+    private FValue applyRewriteFnApp(_RewriteFnApp that) {
         // This method was written by NEB, so there is plenty of reason to believe
         // that I did it incorrectly.
 

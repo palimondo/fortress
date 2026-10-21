@@ -1,0 +1,5 @@
+tests=XXXWhereConstraintTypeUseChecker
+typecheck
+typecheck_err_WIcontains=Ill-formed type: Wrap[\\String\\] The static argument String does not satisfy the corresponding bound Shows.
+typecheck_err_contains=XXXWhereConstraintTypeUseChecker.fss:12:
+typecheck_err_WImatches=.*XXXWhereConstraintTypeUseChecker\\.fss:14:.*has 2 errors\\..*

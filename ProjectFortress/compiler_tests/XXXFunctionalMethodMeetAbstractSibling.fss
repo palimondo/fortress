@@ -1,0 +1,19 @@
+component XXXFunctionalMethodMeetAbstractSibling
+export Executable
+
+(* An object that inherits an abstract functional method from one trait and a concrete one with the same parameter types from another, and declares none of its own, provides both and no declaration on their meet, a static error the type checker gives (overloading.tex, section "Meet Rule"; traits.tex, section "Method Declarations"). *)
+
+trait A
+  pick(self): String
+end
+trait B
+  pick(self): String = "b"
+end
+object O extends { A, B } end
+
+run(): () = do
+  x: A = O
+  println(pick(x))
+end
+
+end

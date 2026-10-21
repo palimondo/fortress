@@ -115,7 +115,7 @@ public class _SyntaxTransformationNonterminalDef extends NonterminalDef implemen
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_name = getName();
         code ^= temp_name.hashCode();
         List<SyntaxDecl> temp_syntaxDecls = getSyntaxDecls();
@@ -123,7 +123,7 @@ public class _SyntaxTransformationNonterminalDef extends NonterminalDef implemen
         NonterminalHeader temp_header = getHeader();
         code ^= temp_header.hashCode();
         Option<BaseType> temp_astType = getAstType();
-        code ^= temp_astType.hashCode();
+        code ^= NodeHash.of(temp_astType);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

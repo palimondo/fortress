@@ -1,0 +1,15 @@
+component XXXGenericObjectInstanceBesidePlainWalk
+export Executable
+
+(* A generic declaration over Box[T] and ZZ32 beside a plain one over Box[ZZ32] and Any, Box an object type, overlap at a Box of ZZ32 and a ZZ32, and neither is more specific, so the pair breaks the Meet Rule and is refused at load (overloading.tex, section "Declarations with Static Parameters"). *)
+
+object Box[\T\] end
+
+g[\T\](x: Box[\T\], y: ZZ32): String = "generic"
+g(x: Box[\ZZ32\], y: Any): String = "plain"
+
+run(): () = do
+    println(g(Box[\ZZ32\], 3))
+  end
+
+end

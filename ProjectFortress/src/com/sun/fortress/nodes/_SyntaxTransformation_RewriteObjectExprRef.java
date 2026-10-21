@@ -117,7 +117,7 @@ public class _SyntaxTransformation_RewriteObjectExprRef extends _RewriteObjectEx
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         String temp_genSymName = getGenSymName();
         code ^= temp_genSymName.hashCode();
         List<StaticArg> temp_staticArgs = getStaticArgs();

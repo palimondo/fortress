@@ -114,11 +114,14 @@ a parallel implementation" [18:45]. Is the complicated ⊕ actually
 associative? He has verified it by hand ("It's a pain. It'd be nice to have
 a theorem prover do it, or a theorem prover built into a compiler — even
 better" [21:25]) — the same theorem-prover wish as JuliaCon slide 15's
-`property` laws. **[repo]** `trait Monoid[\T, opr OPLUS\]`
-(`Library/FortressLibrary.fss:2823`) and `trait MonoidReduction`
-(`:2952`, also `Library/GeneratorLibrary.fss:414`) are exactly this shipped
-machinery; the `BIG` operator desugaring lives in `__bigOperatorSugar` /
-`__bigOperator` (`Library/FortressLibrary.fss:1114`).
+`property` laws. **[repo]** `trait MonoidReduction`
+(`Library/FortressLibrary.fss:3319`, also `Library/GeneratorLibrary.fss:414`)
+is this machinery as it shipped; the operator-parameterized
+`trait Monoid[\ T, opr OPLUS \]` stands only inside a comment
+(`Library/FortressLibrary.fss:3188-3196`, unchanged since `5a68404fd`, the
+tree's oldest commit). The `BIG` operator desugaring lives in
+`__bigOperatorSugar` / `__bigOperator` (`Library/FortressLibrary.fss:1308`,
+`:1312`).
 
 Given ⊕, the solution is a one-liner [22:40–23:07]: map every element to a
 singleton glob, hit it with big ⊕, extract the water component. "It was

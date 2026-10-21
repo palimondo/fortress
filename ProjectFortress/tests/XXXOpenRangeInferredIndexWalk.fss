@@ -1,0 +1,14 @@
+(* The open range that openRange builds at an index type inferred from a ZZ32 argument is a ZZ32 open range, as it is at a written ZZ32. *)
+component XXXOpenRangeInferredIndexWalk
+export Executable
+
+openAt[\I\](x: I): OpenRange[\I\] = openRange[\I\]()
+
+run(): () = do
+    z: ZZ32 = 1
+    assert(instanceOf[\OpenRange[\ZZ32\]\](openAt[\ZZ32\](z)), true, "the open range at a written ZZ32 is a ZZ32 open range")
+    assert(instanceOf[\OpenRange[\ZZ32\]\](openAt(z)), true, "the open range at an index type inferred from a ZZ32 argument is a ZZ32 open range (inference.tex, section \"The Static Arguments of a Call\")")
+    println("PASS")
+  end
+
+end

@@ -88,13 +88,13 @@ public class CompoundAssignmentInfo extends DataNode {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         FunctionalRef temp_opForLhs = getOpForLhs();
         code ^= temp_opForLhs.hashCode();
         Option<CoercionInvocation> temp_compoundCoercionOuter = getCompoundCoercionOuter();
-        code ^= temp_compoundCoercionOuter.hashCode();
+        code ^= NodeHash.of(temp_compoundCoercionOuter);
         Option<CoercionInvocation> temp_compoundCoercionInner = getCompoundCoercionInner();
-        code ^= temp_compoundCoercionInner.hashCode();
+        code ^= NodeHash.of(temp_compoundCoercionInner);
         return code;
     }
 

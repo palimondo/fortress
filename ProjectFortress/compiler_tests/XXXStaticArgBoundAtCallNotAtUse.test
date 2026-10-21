@@ -1,0 +1,4 @@
+tests=XXXStaticArgBoundAtCallNotAtUse
+compile
+compile_err_contains=XXXStaticArgBoundAtCallNotAtUse.fss:14:7-
+compile_err_WIcontains=File XXXStaticArgBoundAtCallNotAtUse.fss has 1 error.

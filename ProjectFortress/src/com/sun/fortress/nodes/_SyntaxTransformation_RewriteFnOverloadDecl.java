@@ -112,13 +112,13 @@ public class _SyntaxTransformation_RewriteFnOverloadDecl extends _RewriteFnOverl
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         IdOrOp temp_name = getName();
         code ^= temp_name.hashCode();
         List<IdOrOp> temp_fns = getFns();
         code ^= temp_fns.hashCode();
         Option<Type> temp_type = getType();
-        code ^= temp_type.hashCode();
+        code ^= NodeHash.of(temp_type);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

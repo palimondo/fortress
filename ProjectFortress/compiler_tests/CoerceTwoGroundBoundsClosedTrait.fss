@@ -1,0 +1,19 @@
+(* A call of a generic function whose type parameter is bounded by a trait with a comprises clause and by a trait without static parameters that excludes one of its listed types is applicable with a numeral converted to the declared ZZ32 of another parameter. *)
+component CoerceTwoGroundBoundsClosedTrait
+export Executable
+
+trait Q excludes { C } end
+trait K comprises { A, B, C } end
+object A extends { K, Q } end
+object B extends { K, Q } end
+object C extends K end
+
+f[\T extends { K, Q }\](x: T, y: ZZ32): ZZ32 = y + 1
+
+run(): () = do
+    assert(f(A, 1), 2, "f(A, 1), the numeral converted to ZZ32, is f at A; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    assert(f(B, 2), 3, "f(B, 2), the numeral converted to ZZ32, is f at B; Specification/basic/inference.tex, section \"The Static Arguments of a Call\"")
+    println("PASS")
+  end
+
+end

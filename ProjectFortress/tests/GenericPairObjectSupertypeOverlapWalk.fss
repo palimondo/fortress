@@ -1,0 +1,18 @@
+component GenericPairObjectSupertypeOverlapWalk
+export Executable
+
+(* Two generic declarations over Box[T] and T and over Box[Ob[U]] and R[U], where the object type Ob[U] extends R[ZZ32], overlap at a Box of Ob[ZZ32] and an Ob[ZZ32], which is an R[ZZ32], and neither is more specific, so the pair breaks the Meet Rule and is refused at load (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait Box[\T\] end
+trait R[\T\] end
+object Ob[\U\] extends R[\ZZ32\] end
+object BoxOb extends Box[\Ob[\ZZ32\]\] end
+
+h[\T\](x: Box[\T\], y: T): String = "first"
+h[\U\](x: Box[\Ob[\U\]\], y: R[\U\]): String = "second"
+
+run(): () = do
+    println(h(BoxOb, Ob[\ZZ32\]))
+  end
+
+end

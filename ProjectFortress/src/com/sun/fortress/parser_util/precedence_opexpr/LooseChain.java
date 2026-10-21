@@ -95,7 +95,7 @@ public class LooseChain extends Chain {
      * the hashcodes of all the fields of the object.
      */
     protected int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         code ^= getLinks().hashCode();
         return code;
     }

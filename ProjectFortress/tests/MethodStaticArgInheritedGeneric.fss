@@ -1,0 +1,32 @@
+component MethodStaticArgInheritedGeneric
+export Executable
+
+(* A generic method inherited from a trait, alone under its name, called with no static argument, takes its static argument from the argument's type. *)
+
+trait Tagged[\L\] getter tag(): String end
+object NoPair[\L\] extends Tagged[\L\] getter tag(): String = "none" end
+object SomePair[\L\] extends Tagged[\L\] getter tag(): String = "some" end
+trait Lifted[\T\] end
+
+trait Red[\R,L\]
+    distribute[\K\](r: Red[\R,K\]): Tagged[\K\] = NoPair[\K\]
+end
+object Mx[\T\] extends Red[\T, Lifted[\T\]\] end
+object Sm[\T\] extends Red[\T,T\]
+    distribute(r: Mx[\T\]): Tagged[\Lifted[\T\]\] = SomePair[\Lifted[\T\]\]
+end
+
+kind(x: Any): String = typecase x of
+    NoPair[\ZZ32\] => "NoPair[ZZ32]"
+    NoPair[\Lifted[\ZZ32\]\] => "NoPair[Lifted[ZZ32]]"
+    SomePair[\Lifted[\ZZ32\]\] => "SomePair[Lifted[ZZ32]]"
+    else => "other"
+  end
+
+run(): () = do
+    assert(kind(Mx[\ZZ32\].distribute(Sm[\ZZ32\])), "NoPair[ZZ32]", "the generic method alone under its name takes K = ZZ32 from an argument of type Red[ZZ32,ZZ32]; inference.tex, section \"The Static Arguments of a Call\"")
+    assert(kind(Mx[\ZZ32\].distribute(Mx[\ZZ32\])), "NoPair[Lifted[ZZ32]]", "the generic method alone under its name takes K = Lifted[ZZ32] from an argument of type Red[ZZ32,Lifted[ZZ32]]")
+    println("PASS")
+  end
+
+end

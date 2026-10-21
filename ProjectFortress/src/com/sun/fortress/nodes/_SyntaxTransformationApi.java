@@ -115,7 +115,7 @@ public class _SyntaxTransformationApi extends Api implements _SyntaxTransformati
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         APIName temp_name = getName();
         code ^= temp_name.hashCode();
         List<Import> temp_imports = getImports();

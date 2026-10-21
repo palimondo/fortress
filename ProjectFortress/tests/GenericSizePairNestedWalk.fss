@@ -1,0 +1,23 @@
+component GenericSizePairNestedWalk
+export Executable
+
+(* Two generic declarations over vectors of one size beside vectors of two sizes are a valid overloading, the first more specific than the second, and each call runs the most specific declaration that applies (overloading.tex, section "Declarations with Static Parameters"). *)
+
+object Vec[\nat n\] end
+object Arr[\T, nat n\] end
+
+len[\nat n\](x: Vec[\n\], y: Vec[\n\]): String = "same"
+len[\nat n, nat m\](x: Vec[\n\], y: Vec[\m\]): String = "any"
+
+ln[\T, nat n\](x: Arr[\T, n\], y: Arr[\T, n\]): String = "same"
+ln[\T, nat n, nat m\](x: Arr[\T, n\], y: Arr[\T, m\]): String = "any"
+
+run(): () = do
+    assert(len(Vec[\3\], Vec[\3\]), "same", "two vectors of one size run the declaration over one size")
+    assert(len(Vec[\3\], Vec[\4\]), "any", "vectors of two sizes run the declaration over two sizes")
+    assert(ln(Arr[\ZZ32, 3\], Arr[\ZZ32, 3\]), "same", "two arrays of one element type and one size run the declaration over one size")
+    assert(ln(Arr[\ZZ32, 3\], Arr[\ZZ32, 4\]), "any", "arrays of two sizes run the declaration over two sizes")
+    println("PASS")
+  end
+
+end

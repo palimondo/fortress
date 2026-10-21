@@ -1,4 +1,4 @@
-<!-- Every section below up to "The build's caches rule and the four-thread suites" was applied on 2026-10-08 in the redesign (branch batch-redesign; process-engineering/batch-redesign.md), each marked; what is owed outside the script is named under its section. The two sections after it, added 2026-10-09 from climb batch 11's post-batch review (reviews/batch-11-review.md), were applied on 2026-10-09 in 96ea24232, each marked. The three items at the end, from the same review, are owed with no replacement text yet; the note can go once those are done. Its original header follows. The batch script and manual edits waiting for the next batch, gathered by the coordinator from 2026-10-03 to 2026-10-04: the seeding change of 5b0a82d97 (the old code from the base build with a private caches folder), the separate test commit dropped (POSITIONS "Test first, the test kept."), and the global.map restores removed (6e2907707; a git checkout of the untracked path now fails). All three must be in climb-batch-workflow.js and climb-batch-workflow.md before the next batch launches; then this note goes. -->
+<!-- Every section below up to "The build's caches rule and the four-thread suites" was applied on 2026-10-08 in the redesign (branch batch-redesign; process-engineering/batch-redesign.md), each marked; what is owed outside the script is named under its section. The two sections after it, added 2026-10-09 from climb batch 11's post-batch review (reviews/batch-11-review.md), were applied on 2026-10-09 in 96ea24232, each marked. The three items at the end, from the same review, are owed with no replacement text yet; the note can go once those are done. The section "The gather's order" after them, added 2026-10-17 from climb batch 17's landing review (finding 2), was owed before climb batch 18's launch, with its replacement texts, and was applied on 2026-10-18 in ac74e11c4, marked. Its original header follows. The batch script and manual edits waiting for the next batch, gathered by the coordinator from 2026-10-03 to 2026-10-04: the seeding change of 5b0a82d97 (the old code from the base build with a private caches folder), the separate test commit dropped (POSITIONS "Test first, the test kept."), and the global.map restores removed (6e2907707; a git checkout of the untracked path now fails). All three must be in climb-batch-workflow.js and climb-batch-workflow.md before the next batch launches; then this note goes. -->
 
 # Pending batch script edits
 
@@ -164,3 +164,37 @@ The scenario checker tests step 0's guard by its text, so it changes in the same
 - The skeptic's test-first sentence (`climb-batch-workflow.js:805`) also covers a test it adds as an `XXX` expected failure (measure 5).
 - The gate's `# machine` line records the calling shell's `FORTRESS_THREADS=1`, not the suites' pinned four (finding 8).
 - The skeptic's check 8 (`climb-batch-workflow.js:794`) drops "and on the other path" for a rung whose edit is on one path only, in line with the skill's narrowed rule (`SKILL.md`, "How a program runs", `7b3226bb2`).
+
+## The gather's order (climb batch 17's landing review, finding 2; owed before climb batch 18's launch)
+**Applied** (2026-10-18, `ac74e11c4`): items 1 to 5 as given; `workflow-scenarios.js` on the edited script, 0 problems. Batch 18's splice is still to come.
+
+**Why.** Climb batch 17's gather put rung L's `2b1cd8e63` before rung W's `743eb5286` on `main`, though L lands only with W, so `2b1cd8e63` alone fails `ProjectFortress/tests/LibraryOverloadFamilies.fss:37`; the order rule compares line numbers across different files and ignores `landsOnlyWith`, and L and W share no file (`reviews/batch-17-review.md`, finding 2; PLAN, "Work that can start now"; the pushed history is review-queue item 174). The edit is made before climb batch 18 launches, outside the batch. Batch 18 declares no `landsOnlyWith`, and its shared files order its rungs X, K, W under the old rule and the new one alike (`CLIMB-BATCH-18.md`, section 3, "The rule the rungs keep"). Line numbers are the script and the manual at `c2ac88ea1`.
+
+**1. `climb-batch-workflow.js`, a helper before `function gatherRole(` (`:1178`):**
+```js
+// The pairs the gather's order puts first: each approved rung after the rungs it lands only with.
+const landsAfterText = (approved) => approved.map(r => RUNGS.find(m => m.id === r.rung))
+  .filter(m => m && (m.landsOnlyWith || []).length)
+  .map(m => m.id + ' after ' + m.landsOnlyWith.join(' and ')).join('; ') || 'none in this batch'
+```
+
+**2. The gather's brief, the paragraph under `'## The order the rungs go in',` (`:1188`), now:**
+```js
+'Ascending order of each rung\'s lowest edited line in the files two or more rungs share, so that a later rung\'s hunk does not shift the lines a landed record cites: work it out from git diff ' + BASE + '...<branch> per branch before you apply anything, and say in your result what order you chose and why.',
+```
+Replace it with:
+```js
+'First, a rung goes after every rung it lands only with (landsOnlyWith in the manifest; here: ' + landsAfterText(approved) + '), so that no commit on main holds a rung without the rungs it needs. Then the rungs that share a file go in the ascending order of their lowest edited line in that file, so that a later rung\'s hunk does not shift the lines a landed record cites: a line is compared only with a line of the same file, never across files, and rungs that share no file keep the manifest\'s order. Where two shared files would order one pair both ways, the pair keeps the manifest\'s order, and the later rung\'s cited lines are re-anchored by symbol, as step 2 below says. Work it out from git diff ' + BASE + '...<branch> per branch before you apply anything, and say in your result what order you chose and why.',
+```
+
+**3. The gather's result schema, `applyOrder` (`:1229`), now** `'the order the rungs were applied in and the lowest edited line that decided it'`; **becomes** `'the order the rungs were applied in and what decided it: a rung after the rungs it lands only with, then the lowest edited line in each file two rungs share'`.
+
+**4. `climb-batch-workflow.md`, "Gather", the bullet "The order." (`:158`), now:**
+> **The order.** Ascending order of each rung's lowest edited line in the files two or more rungs share, so that a later hunk does not shift lines a landed record cites. Any `file:line` a record cites that an earlier hunk shifted is re-anchored by symbol. Tests cite the specification by section, never by line, so no test is re-anchored.
+
+Replace it with:
+> **The order.** First, a rung goes after every rung it lands only with (`landsOnlyWith`), so that no commit on `main` holds a rung without the rungs it needs: in climb batch 17 the old rule, which compared lines across files, put rung L's `2b1cd8e63` before rung W's `743eb5286`, and that commit alone fails `LibraryOverloadFamilies.fss:37` (`reviews/batch-17-review.md`, finding 2). Then the rungs that share a file go in the ascending order of their lowest edited line in that file, so that a later hunk does not shift lines a landed record cites; a line is compared only with a line of the same file, and rungs that share no file keep the manifest's order. Where two files order one pair both ways, the pair keeps the manifest's order. Any `file:line` a record cites that an earlier hunk shifted is re-anchored by symbol. Tests cite the specification by section, never by line, so no test is re-anchored.
+
+**5. `climb-batch-workflow.md`, "The manifest and the scatter", the paragraph on `landsOnlyWith` (`:29`):** after "Batch 6's T, the number chapters, landed only with F, the flat library they describe." add "The gather applies such a rung after the rungs it names ("Gather", "The order")."
+
+**Then.** `node explorations/coordinator/tools/workflow-scenarios.js` on the edited script, 0 problems (no scenario reads this text today; the brief checks see the new helper's text); then batch 18's splice, which leaves every line outside the block as it is (`plan-18/manifest/check18.js`). Mark this section applied, with its commit.

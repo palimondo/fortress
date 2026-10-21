@@ -1,0 +1,19 @@
+(* A value whose trait lists Box[\E\] where [\E\] opens, at a call, to a Box at a type of its own, and packs back into the trait. *)
+component OpenTypeChecker
+export Executable
+
+trait AnyBox comprises { Box[\E\] } where [\E extends Object\]
+end
+object Box[\E\](item: E) extends AnyBox end
+
+mk(): AnyBox = Box[\ZZ32\](3)
+same[\E\](b: Box[\E\]): Box[\E\] = b
+count[\E\](b: Box[\E\]): ZZ32 = 1
+
+run(): () = do
+    a: AnyBox = same(mk())
+    k: ZZ32 = count(mk())
+    println(k)
+  end
+
+end

@@ -1,0 +1,236 @@
+(* The vector and matrix operations, factories, columns and rows answer their declared array types with the right elements at each of the eight number types. *)
+component VectorMatrixCastsWalk
+export Executable
+
+vectorOps[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, n0: T, name: String): () = do
+    u = vector[\T,2\]()
+    u[0] := x
+    u[1] := y
+    w = vector[\T,2\](y)
+    assert(instanceOf[\Vector[\T,2\]\](w), true, name, ": vector(v) answers a Vector; Library/FortressLibrary.fsi, vector")
+    assert(w[0], y, name, ": vector(v) fills; Library/FortressLibrary.fsi, vector")
+    assert(w[1], y, name, ": vector(v) fills; Library/FortressLibrary.fsi, vector")
+
+    s = u + w
+    assert(instanceOf[\Vector[\T,2\]\](s), true, name, ": u + w answers a Vector; Library/FortressLibrary.fsi, trait Vector, opr +")
+    assert(instanceOf[\T\](s[0]), true, name, ": u + w holds the element type; Library/FortressLibrary.fsi, trait Vector, opr +")
+    assert(s[0], x + y, name, ": (u + w)[0]; Library/FortressLibrary.fsi, trait Vector, opr +")
+    assert(s[1], y + y, name, ": (u + w)[1]; Library/FortressLibrary.fsi, trait Vector, opr +")
+
+    d = u - w
+    assert(instanceOf[\Vector[\T,2\]\](d), true, name, ": u - w answers a Vector; Library/FortressLibrary.fsi, trait Vector, opr -")
+    assert(d[0], x - y, name, ": (u - w)[0]; Library/FortressLibrary.fsi, trait Vector, opr -")
+    assert(d[1], y - y, name, ": (u - w)[1]; Library/FortressLibrary.fsi, trait Vector, opr -")
+
+    n = -(vector[\T,2\](n0))
+    assert(instanceOf[\Vector[\T,2\]\](n), true, name, ": unary minus answers a Vector; Library/FortressLibrary.fsi, trait Vector, opr -(self)")
+    assert(n[0], -n0, name, ": (-v)[0]; Library/FortressLibrary.fsi, trait Vector, opr -(self)")
+    assert(n[1], -n0, name, ": (-v)[1]; Library/FortressLibrary.fsi, trait Vector, opr -(self)")
+
+    c = u.scale(y)
+    assert(instanceOf[\Vector[\T,2\]\](c), true, name, ": scale answers a Vector; Library/FortressLibrary.fsi, trait Vector, scale")
+    assert(c[0], y x, name, ": u.scale(y)[0]; Library/FortressLibrary.fsi, trait Vector, scale")
+    assert(c[1], y y, name, ": u.scale(y)[1]; Library/FortressLibrary.fsi, trait Vector, scale")
+
+    p = u.pmul(w)
+    assert(instanceOf[\Vector[\T,2\]\](p), true, name, ": pmul answers a Vector; Library/FortressLibrary.fsi, trait Vector, pmul")
+    assert(p[0], x y, name, ": u.pmul(w)[0]; Library/FortressLibrary.fsi, trait Vector, pmul")
+    assert(p[1], y y, name, ": u.pmul(w)[1]; Library/FortressLibrary.fsi, trait Vector, pmul")
+
+    f = vector[\T,2\]().fill(x)
+    assert(instanceOf[\Vector[\T,2\]\](f), true, name, ": fill answers a Vector; Library/FortressLibrary.fsi, trait Vector")
+    assert(f[0], x, name, ": fill(x)[0]; Library/FortressLibrary.fsi, trait Vector")
+    assert(f[1], x, name, ": fill(x)[1]; Library/FortressLibrary.fsi, trait Vector")
+
+    t = vector[\T,2\]().tabulate(fn (i: ZZ32): T => if i = 0 then y else x end)
+    assert(instanceOf[\Vector[\T,2\]\](t), true, name, ": tabulate answers a Vector; Library/FortressLibrary.fsi, trait Vector")
+    assert(t[0], y, name, ": tabulate(f)[0]; Library/FortressLibrary.fsi, trait Vector")
+    assert(t[1], x, name, ": tabulate(f)[1]; Library/FortressLibrary.fsi, trait Vector")
+
+    tv = tabulatedVector[\T,2\](fn (i: ZZ32): T => if i = 0 then x else y end)
+    assert(instanceOf[\Vector[\T,2\]\](tv), true, name, ": tabulatedVector answers a Vector; Library/FortressLibrary.fsi, tabulatedVector")
+    assert(tv[0], x, name, ": tabulatedVector(f)[0]; Library/FortressLibrary.fsi, tabulatedVector")
+    assert(tv[1], y, name, ": tabulatedVector(f)[1]; Library/FortressLibrary.fsi, tabulatedVector")
+  end
+
+matrixOps[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, z: T, n0: T, name: String): () = do
+    m = matrix[\T,2,2\]()
+    m[0,0] := x
+    m[0,1] := y
+    m[1,0] := z
+    m[1,1] := x
+    k = matrix[\T,2,2\](y)
+    assert(instanceOf[\Matrix[\T,2,2\]\](k), true, name, ": matrix(v) answers a Matrix; Library/FortressLibrary.fsi, matrix")
+    assert(k[0,0], y, name, ": matrix(v) puts v on the diagonal; Library/FortressLibrary.fsi, matrix")
+    assert(k[0,1], x.zero, name, ": matrix(v) puts zero off the diagonal; Library/FortressLibrary.fsi, matrix")
+    assert(k[1,1], y, name, ": matrix(v) puts v on the diagonal; Library/FortressLibrary.fsi, matrix")
+
+    s = m + k
+    assert(instanceOf[\Matrix[\T,2,2\]\](s), true, name, ": m + k answers a Matrix; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(instanceOf[\T\](s[0,0]), true, name, ": m + k holds the element type; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(s[0,0], x + y, name, ": (m + k)[0,0]; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(s[1,0], z, name, ": (m + k)[1,0]; Library/FortressLibrary.fsi, trait Matrix, opr +")
+
+    d = m - k
+    assert(instanceOf[\Matrix[\T,2,2\]\](d), true, name, ": m - k answers a Matrix; Library/FortressLibrary.fsi, trait Matrix, opr -")
+    assert(d[0,0], x - y, name, ": (m - k)[0,0]; Library/FortressLibrary.fsi, trait Matrix, opr -")
+    assert(d[0,1], y, name, ": (m - k)[0,1]; Library/FortressLibrary.fsi, trait Matrix, opr -")
+
+    n = -(matrix[\T,2,2\]().fill(n0))
+    assert(instanceOf[\Matrix[\T,2,2\]\](n), true, name, ": unary minus answers a Matrix; Library/FortressLibrary.fsi, trait Matrix, opr -(self)")
+    assert(n[0,1], -n0, name, ": (-m)[0,1]; Library/FortressLibrary.fsi, trait Matrix, opr -(self)")
+    assert(n[1,1], -n0, name, ": (-m)[1,1]; Library/FortressLibrary.fsi, trait Matrix, opr -(self)")
+
+    c = m.scale(y)
+    assert(instanceOf[\Matrix[\T,2,2\]\](c), true, name, ": scale answers a Matrix; Library/FortressLibrary.fsi, trait Matrix, scale")
+    assert(c[0,0], y x, name, ": m.scale(y)[0,0]; Library/FortressLibrary.fsi, trait Matrix, scale")
+    assert(c[1,0], y z, name, ": m.scale(y)[1,0]; Library/FortressLibrary.fsi, trait Matrix, scale")
+
+    f = matrix[\T,2,2\]().fill(z)
+    assert(instanceOf[\Matrix[\T,2,2\]\](f), true, name, ": fill answers a Matrix; Library/FortressLibrary.fsi, trait Matrix")
+    assert(f[0,1], z, name, ": fill(z)[0,1]; Library/FortressLibrary.fsi, trait Matrix")
+    assert(f[1,1], z, name, ": fill(z)[1,1]; Library/FortressLibrary.fsi, trait Matrix")
+
+    t = matrix[\T,2,2\]().tabulate(fn (i: ZZ32, j: ZZ32): T => if i = j then x else z end)
+    assert(instanceOf[\Matrix[\T,2,2\]\](t), true, name, ": tabulate answers a Matrix; Library/FortressLibrary.fsi, trait Matrix")
+    assert(t[0,0], x, name, ": tabulate(f)[0,0]; Library/FortressLibrary.fsi, trait Matrix")
+    assert(t[0,1], z, name, ": tabulate(f)[0,1]; Library/FortressLibrary.fsi, trait Matrix")
+
+    u = vector[\T,2\]()
+    u[0] := x
+    u[1] := y
+    r = m.rmul(u)
+    assert(instanceOf[\Vector[\T,2\]\](r), true, name, ": rmul answers a Vector; Library/FortressLibrary.fsi, trait Matrix, rmul")
+    assert(r[0], x x + y y, name, ": m.rmul(u)[0]; Library/FortressLibrary.fsi, trait Matrix, rmul")
+    assert(r[1], z x + x y, name, ": m.rmul(u)[1]; Library/FortressLibrary.fsi, trait Matrix, rmul")
+    l = m.lmul(u)
+    assert(instanceOf[\Vector[\T,2\]\](l), true, name, ": lmul answers a Vector; Library/FortressLibrary.fsi, trait Matrix, lmul")
+    assert(l[0], x x + y z, name, ": m.lmul(u)[0]; Library/FortressLibrary.fsi, trait Matrix, lmul")
+    assert(l[1], x y + y x, name, ": m.lmul(u)[1]; Library/FortressLibrary.fsi, trait Matrix, lmul")
+
+    tm = m.t()
+    assert(instanceOf[\Matrix[\T,2,2\]\](tm), true, name, ": t() answers a Matrix; Library/FortressLibrary.fsi, trait Matrix, t")
+    assert(tm[0,1], z, name, ": m.t()[0,1] is m[1,0]; Library/FortressLibrary.fsi, trait Matrix, t")
+    ts = tm + k
+    assert(instanceOf[\Matrix[\T,2,2\]\](ts), true, name, ": a transposed matrix's + answers a Matrix; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(ts[0,1], z, name, ": (m.t() + k)[0,1]; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(ts[1,0], y, name, ": (m.t() + k)[1,0]; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(ts[1,1], x + y, name, ": (m.t() + k)[1,1]; Library/FortressLibrary.fsi, trait Matrix, opr +")
+  end
+
+nonSquare[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, z: T, n0: T, name: String): () = do
+    w = matrix[\T,2,3\]().tabulate(fn (i: ZZ32, j: ZZ32): T => if i = j then x else z end)
+    assert(instanceOf[\Matrix[\T,2,3\]\](w), true, name, ": a 2 by 3 tabulate answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix")
+    k = matrix[\T,2,3\](y)
+    assert(instanceOf[\Matrix[\T,2,3\]\](k), true, name, ": a 2 by 3 matrix(v) answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, matrix")
+    s = w + k
+    assert(instanceOf[\Matrix[\T,2,3\]\](s), true, name, ": a 2 by 3 m + k answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(s[1,2], z, name, ": (m + k)[1,2] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    d = w - k
+    assert(instanceOf[\Matrix[\T,2,3\]\](d), true, name, ": a 2 by 3 m - k answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr -")
+    assert(d[1,1], x - y, name, ": (m - k)[1,1] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr -")
+    n = -(matrix[\T,2,3\]().fill(n0))
+    assert(instanceOf[\Matrix[\T,2,3\]\](n), true, name, ": a 2 by 3 unary minus answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr -(self)")
+    assert(n[1,2], -n0, name, ": (-m)[1,2] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, opr -(self)")
+    c = w.scale(y)
+    assert(instanceOf[\Matrix[\T,2,3\]\](c), true, name, ": a 2 by 3 scale answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix, scale")
+    assert(c[0,2], y z, name, ": m.scale(y)[0,2] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, scale")
+    f = matrix[\T,2,3\]().fill(z)
+    assert(instanceOf[\Matrix[\T,2,3\]\](f), true, name, ": a 2 by 3 fill answers a Matrix of 2 by 3; Library/FortressLibrary.fsi, trait Matrix")
+    r = w.rmul(vector[\T,3\](y))
+    assert(instanceOf[\Vector[\T,2\]\](r), true, name, ": a 2 by 3 rmul answers a Vector of 2; Library/FortressLibrary.fsi, trait Matrix, rmul")
+    assert(r[0], x y + z y + z y, name, ": m.rmul(u)[0] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, rmul")
+    l = w.lmul(vector[\T,2\](y))
+    assert(instanceOf[\Vector[\T,3\]\](l), true, name, ": a 2 by 3 lmul answers a Vector of 3; Library/FortressLibrary.fsi, trait Matrix, lmul")
+    assert(l[2], y z + y z, name, ": m.lmul(u)[2] of a 2 by 3; Library/FortressLibrary.fsi, trait Matrix, lmul")
+    tw = w.t() + matrix[\T,3,2\](y)
+    assert(instanceOf[\Matrix[\T,3,2\]\](tw), true, name, ": a 3 by 2 transposed matrix's + answers a Matrix of 3 by 2; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(tw[2,1], z, name, ": (m.t() + k)[2,1] of a 3 by 2; Library/FortressLibrary.fsi, trait Matrix, opr +")
+    assert(tw[1,1], x + y, name, ": (m.t() + k)[1,1] of a 3 by 2; Library/FortressLibrary.fsi, trait Matrix, opr +")
+  end
+
+slices[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, z: T, name: String): () = do
+    m = matrix[\T,2,2\]()
+    m[0,0] := x
+    m[0,1] := y
+    m[1,0] := z
+    m[1,1] := x
+    col = m[:, 1]
+    assert(instanceOf[\Array1[\T,0,2\]\](col), true, name, ": a[:, j] answers a 0-based rank-1 array; Library/FortressLibrary.fss, trait Array2, row and column extraction")
+    assert(col[0], y, name, ": m[:, 1][0]; ranges.tex, section \"Ranges\", implicit ranges")
+    assert(col[1], x, name, ": m[:, 1][1]; ranges.tex, section \"Ranges\", implicit ranges")
+    row = m[1, :]
+    assert(instanceOf[\Array1[\T,0,2\]\](row), true, name, ": a[i, :] answers a 0-based rank-1 array; Library/FortressLibrary.fss, trait Array2, row and column extraction")
+    assert(row[0], z, name, ": m[1, :][0]; ranges.tex, section \"Ranges\", implicit ranges")
+    assert(row[1], x, name, ": m[1, :][1]; ranges.tex, section \"Ranges\", implicit ranges")
+
+    b = __builtinFactory2[\T,1,2,1,3\]()
+    assert(instanceOf[\Array2[\T,1,2,1,3\]\](b), true, name, ": __builtinFactory2 at base (1,1); Library/FortressLibrary.fsi, __builtinFactory2")
+    bc = b[:, 2]
+    assert(instanceOf[\Array1[\T,0,2\]\](bc), true, name, ": a column of an array based at (1,1) is a 0-based rank-1 array of 2; Library/FortressLibrary.fss, trait Array2, row and column extraction")
+    br = b[1, :]
+    assert(instanceOf[\Array1[\T,0,3\]\](br), true, name, ": a row of an array based at (1,1) is a 0-based rank-1 array of 3; Library/FortressLibrary.fss, trait Array2, row and column extraction")
+  end
+
+factories[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, name: String): () = do
+    a0 = __builtinFactory1[\T,0,2\]()
+    assert(instanceOf[\Vector[\T,2\]\](a0), true, name, ": __builtinFactory1 at base 0 answers a Vector; Library/FortressLibrary.fsi, __builtinFactory1")
+    a0[0] := x
+    a0[1] := y
+    assert(a0[0] + a0[1], x + y, name, ": __builtinFactory1 at base 0 holds its elements; Library/FortressLibrary.fsi, __builtinFactory1")
+    a1 = __builtinFactory1[\T,1,2\]()
+    assert(instanceOf[\Array1[\T,1,2\]\](a1), true, name, ": __builtinFactory1 at base 1 answers an Array1 based at 1; Library/FortressLibrary.fsi, __builtinFactory1")
+    a1[1] := x
+    a1[2] := y
+    assert(a1[1], x, name, ": __builtinFactory1 at base 1, element 1; Library/FortressLibrary.fsi, __builtinFactory1")
+    assert(a1[2], y, name, ": __builtinFactory1 at base 1, element 2; Library/FortressLibrary.fsi, __builtinFactory1")
+
+    m = matrix[\T,2,2\]().fill(x)
+    m[0,1] := y
+    viaCol = (m[:, 1]).map[\T\](fn (e: T): T => e + e)
+    assert(instanceOf[\Vector[\T,2\]\](viaCol), true, name, ": a 0-based Array1's map, through __builtinFactory1's base-0 arm, answers a Vector; Library/FortressLibrary.fsi, trait Array1, map")
+    assert(viaCol[0], y + y, name, ": a 0-based Array1's map, element 0; Library/FortressLibrary.fsi, trait Array1, map")
+    assert(viaCol[1], x + x, name, ": a 0-based Array1's map, element 1; Library/FortressLibrary.fsi, trait Array1, map")
+    v = vector[\T,3\](x)
+    v[2] := y
+    sub = v.subarray[\1,2,1\](1)
+    assert(instanceOf[\Array1[\T,1,2\]\](sub), true, name, ": a subarray based at 1; Library/FortressLibrary.fsi, trait Array1, subarray")
+    viaSub = sub.map[\T\](fn (e: T): T => e + e)
+    assert(instanceOf[\Array1[\T,1,2\]\](viaSub), true, name, ": a 1-based Array1's map, through __builtinFactory1's other arm, answers an Array1 based at 1; Library/FortressLibrary.fsi, trait Array1, map")
+    assert(viaSub[1], x + x, name, ": a 1-based Array1's map, element 1; Library/FortressLibrary.fsi, trait Array1, map")
+    assert(viaSub[2], y + y, name, ": a 1-based Array1's map, element 2; Library/FortressLibrary.fsi, trait Array1, map")
+
+    i0 = __immutableFactory1[\T,0,2\]().fill(x)
+    assert(instanceOf[\ImmutableArray1[\T,0,2\]\](i0), true, name, ": __immutableFactory1 at base 0; Library/FortressLibrary.fsi, __immutableFactory1")
+    assert(i0[1], x, name, ": __immutableFactory1 at base 0 holds its elements; Library/FortressLibrary.fsi, __immutableFactory1")
+    i1 = __immutableFactory1[\T,1,2\]().fill(y)
+    assert(instanceOf[\ImmutableArray1[\T,1,2\]\](i1), true, name, ": __immutableFactory1 at base 1; Library/FortressLibrary.fsi, __immutableFactory1")
+    assert(i1[2], y, name, ": __immutableFactory1 at base 1 holds its elements; Library/FortressLibrary.fsi, __immutableFactory1")
+
+    f2 = __builtinFactory2[\T,0,2,0,2\]()
+    assert(instanceOf[\Matrix[\T,2,2\]\](f2), true, name, ": __builtinFactory2 at base (0,0) answers a Matrix; Library/FortressLibrary.fsi, __builtinFactory2")
+    f2[1,0] := y
+    assert(f2[1,0], y, name, ": __builtinFactory2 at base (0,0) holds its elements; Library/FortressLibrary.fsi, __builtinFactory2")
+  end
+
+each[\T extends { Number, MultiplicativeRing[\T\] }\](x: T, y: T, z: T, n0: T, name: String): () = do
+    vectorOps[\T\](x, y, n0, name)
+    matrixOps[\T\](x, y, z, n0, name)
+    nonSquare[\T\](x, y, z, n0, name)
+    slices[\T\](x, y, z, name)
+    factories[\T\](x, y, name)
+  end
+
+run(): () = do
+    each[\ZZ32\](5, 2, 3, 5, "ZZ32")
+    each[\ZZ64\](widen(5), widen(2), widen(3), widen(5), "ZZ64")
+    each[\NN32\](unsigned(5), unsigned(2), unsigned(3), unsigned(0), "NN32")
+    each[\NN64\](widen(unsigned(5)), widen(unsigned(2)), widen(unsigned(3)), widen(unsigned(0)), "NN64")
+    each[\ZZ\](big(5), big(2), big(3), big(5), "ZZ")
+    each[\QQ\](5/2, 1/2, 3/4, 5/2, "QQ")
+    each[\RR32\](narrow(5.0), narrow(2.0), narrow(0.75), narrow(5.0), "RR32")
+    each[\RR64\](2.5, 0.5, 0.75, 2.5, "RR64")
+    println("PASS")
+  end
+
+end

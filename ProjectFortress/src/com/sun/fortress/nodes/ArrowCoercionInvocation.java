@@ -105,7 +105,7 @@ public class ArrowCoercionInvocation extends CoercionInvocation {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Expr temp_arg = getArg();
@@ -113,9 +113,9 @@ public class ArrowCoercionInvocation extends CoercionInvocation {
         ArrowType temp_toType = getToType();
         code ^= temp_toType.hashCode();
         Option<CoercionInvocation> temp_domainCoercion = getDomainCoercion();
-        code ^= temp_domainCoercion.hashCode();
+        code ^= NodeHash.of(temp_domainCoercion);
         Option<CoercionInvocation> temp_rangeCoercion = getRangeCoercion();
-        code ^= temp_rangeCoercion.hashCode();
+        code ^= NodeHash.of(temp_rangeCoercion);
         return code;
     }
 

@@ -1,0 +1,18 @@
+(* An exported function is satisfied by a set of declarations the union of whose parameter types is its parameter type, here the two objects that it comprises (components/source-code.tex, section "Export Statements"; types-vals-vars.tex, section "Intersection and Union Types"). *)
+component XXXExportSetOfDeclarations
+export { XXXExportSetOfDeclarations, Executable }
+
+trait Q comprises { R1, R2 } end
+object R1 extends Q end
+object R2 extends Q end
+
+pick(r: R1): ZZ32 = 1
+pick(r: R2): ZZ32 = 2
+
+run(): () = do
+    assert(pick(R1), 1, "pick(R1)")
+    assert(pick(R2), 2, "pick(R2)")
+    println("PASS")
+  end
+
+end

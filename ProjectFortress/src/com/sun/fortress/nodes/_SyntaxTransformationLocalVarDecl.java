@@ -120,13 +120,13 @@ public class _SyntaxTransformationLocalVarDecl extends LocalVarDecl implements _
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Block temp_body = getBody();
         code ^= temp_body.hashCode();
         List<LValue> temp_lhs = getLhs();
         code ^= temp_lhs.hashCode();
         Option<Expr> temp_rhs = getRhs();
-        code ^= temp_rhs.hashCode();
+        code ^= NodeHash.of(temp_rhs);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

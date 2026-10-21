@@ -1,0 +1,3 @@
+tests=XXXApiFunctionalMethodOfComprisedObject
+compile
+compile_err_contains=There are multiple declarations of num with the same parameter type

@@ -19,6 +19,9 @@ import com.sun.fortress.compiler.typechecker.StaticTypeReplacer
 import com.sun.fortress.exceptions.StaticError
 import com.sun.fortress.exceptions.TypeError
 import com.sun.fortress.nodes._
+import com.sun.fortress.nodes_util.NodeUtil
+import com.sun.fortress.nodes_util.SourceLoc
+import com.sun.fortress.nodes_util.Span
 import com.sun.fortress.scala_src.nodes._
 import com.sun.fortress.scala_src.typechecker.Formula._
 import com.sun.fortress.scala_src.types.TypeAnalyzer
@@ -33,10 +36,82 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
 
   def check() = {
     walk(compilation_unit.ast)
+    // An error placed at an expression, at each place that holds no other place of the same
+    // message and node place, and at none where that node is ill-formed where it is written.
+    val keys = moved.keySet.iterator
+    while (keys.hasNext) {
+      val key = keys.next
+      if (!written.contains(key)) {
+        val ps = moved.get(key)
+        var i = 0
+        while (i < ps.size) {
+          val sp = NodeUtil.getSpan(ps.get(i).expr)
+          var holds = false
+          var j = 0
+          while (j < ps.size) {
+            val o = NodeUtil.getSpan(ps.get(j).expr)
+            if (within(o, sp) && !within(sp, o)) holds = true
+            j += 1
+          }
+          if (!holds) errors.add(TypeError.make(key._1, ps.get(i).expr))
+          i += 1
+        }
+      }
+    }
     errors
   }
 
-  private def error(s:String, n:Node) = errors.add(TypeError.make(s,n))
+  // An error on n is reported at n. Where n lies outside the nearest expression the walk is
+  // in, as a call's type keeps the spans of the callee's declared type, and n is not
+  // ill-formed where it is written, the error is reported at an expression instead: at the
+  // innermost expression the walk met n in, n being the type that one call made and that
+  // the expressions its value flows to share; check places these errors.
+  private def error(s:String, n:Node) = {
+    val key = (s, n.at)
+    outside(n) match {
+      case None =>
+        errors.add(TypeError.make(s,n))
+        written.add(key)
+      case Some(e) if !written.contains(key) =>
+        var ps = moved.get(key)
+        if (ps == null) { ps = new java.util.ArrayList[Placed](); moved.put(key, ps) }
+        var p: Placed = null
+        var i = 0
+        while (i < ps.size) { if (ps.get(i).node eq n) p = ps.get(i); i += 1 }
+        if (p == null) ps.add(new Placed(n, e))
+        else {
+          val (es, pe) = (NodeUtil.getSpan(e), NodeUtil.getSpan(p.expr))
+          if (within(es, pe) && !within(pe, es)) p.expr = e
+        }
+      case _ =>
+    }
+  }
+
+  // A node an error was placed at an expression for, and that expression.
+  private class Placed(val node: Node, var expr: Expr)
+
+  // The nearest expression the walk is in, if any.
+  private var enclosingExpr: Option[Expr] = None
+
+  // For each message and place of a node, each node met with it and its place, in the
+  // order met.
+  private val moved = new java.util.LinkedHashMap[(String, String), java.util.ArrayList[Placed]]()
+
+  // Each message and place of a node whose error was reported at the node.
+  private val written = new java.util.HashSet[(String, String)]()
+
+  // The nearest expression the walk is in, where n lies outside it.
+  private def outside(n: Node): Option[Expr] = (n, enclosingExpr) match {
+    case (t: ASTNode, Some(e)) if !within(NodeUtil.getSpan(t), NodeUtil.getSpan(e)) => Some(e)
+    case _ => None
+  }
+
+  // Whether span a lies within span b.
+  private def within(a: Span, b: Span): Boolean = {
+    def le(x: SourceLoc, y: SourceLoc) =
+      x.getLine < y.getLine || (x.getLine == y.getLine && x.column <= y.column)
+    a.getFileName == b.getFileName && le(b.getBegin, a.getBegin) && le(a.getEnd, b.getEnd)
+  }
 
   private val nn32Max = java.math.BigInteger.valueOf(4294967295L)
   private val zz32Min = java.math.BigInteger.valueOf(Int.MinValue.toLong)
@@ -99,6 +174,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
   }
 
   override def walk(node:Any):Any = {
+    val outer = enclosingExpr
+    node match { case e: Expr => enclosingExpr = Some(e) ; case _ => }
     node match {
       // Static parameters and where-clause variables may be introduced.
       // To Do: Check for the where-clause variables.
@@ -113,9 +190,25 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                                        params, decls),
                       self, excludes, comprises, _) =>
         val oldAnalyzer = analyzer
-        analyzer = analyzer.extend(sparams, where)
-        walk(sparams); walk(where); walk(throwsC); walk(contract); walk(extendsC)
-        walk(params); walk(decls); walk(self); walk(excludes); walk(comprises)
+        // The header holds at every instance, so it is checked without a conditional
+        // extension's conditions,
+        val header = oldAnalyzer.extend(sparams, where)
+        analyzer = header
+        walk(sparams); walk(where); walk(throwsC); walk(contract)
+        // which hold while the value parameters and the members are checked,
+        val inDecl =
+          if (extendsC.exists(e => !staticenv.KindEnv.extendsConditions(e).isEmpty))
+            oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
+          else header
+        analyzer = inDecl
+        // and an extends entry is checked with its own conditions only.
+        for (tw <- extendsC) {
+          if (extendsC.exists(e => !(e eq tw) && !staticenv.KindEnv.extendsConditions(e).isEmpty))
+            analyzer = oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, List(tw)))
+          walk(tw); analyzer = inDecl }
+        walk(params); walk(decls); walk(self)
+        analyzer = header
+        walk(excludes); walk(comprises)
         analyzer = oldAnalyzer
       case SObjectDecl(_,
                        STraitTypeHeader(sparams, _, _, where,
@@ -123,8 +216,22 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                                         params, decls),
                        self) =>
         val oldAnalyzer = analyzer
-        analyzer = analyzer.extend(sparams, where)
-        walk(sparams); walk(where); walk(throwsC); walk(contract); walk(extendsC)
+        // The header holds at every instance, so it is checked without a conditional
+        // extension's conditions,
+        val header = oldAnalyzer.extend(sparams, where)
+        analyzer = header
+        walk(sparams); walk(where); walk(throwsC); walk(contract)
+        // which hold while the value parameters and the members are checked,
+        val inDecl =
+          if (extendsC.exists(e => !staticenv.KindEnv.extendsConditions(e).isEmpty))
+            oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, extendsC))
+          else header
+        analyzer = inDecl
+        // and an extends entry is checked with its own conditions only.
+        for (tw <- extendsC) {
+          if (extendsC.exists(e => !(e eq tw) && !staticenv.KindEnv.extendsConditions(e).isEmpty))
+            analyzer = oldAnalyzer.extend(sparams, staticenv.KindEnv.withExtendsConditions(where, List(tw)))
+          walk(tw); analyzer = inDecl }
         walk(params); walk(decls); walk(self)
         analyzer = oldAnalyzer
       case SFnDecl(_,
@@ -165,6 +272,37 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
                     " does not satisfy the corresponding bound " + new_bound + ".", t)
             }
           sargs.zip(toListFromImmutable(sparams)).foreach(wfStaticArgs)
+          // A trait's or object's own where clause bounds the static parameters its
+          // constraints name, so its static arguments meet them as they meet the
+          // bounds. A constraint whose bound names a where-clause variable is not
+          // read here.
+          toOption(NodeUtil.getWhereClause(si.ast)) match {
+            case Some(SWhereClause(_, bindings, cs)) if cs.exists(_.isInstanceOf[WhereExtends]) =>
+              val vars = bindings.map(_.getName.getText).toSet
+              var named = false
+              object finder extends Walker {
+                override def walk(node: Any): Any = node match {
+                  case v: VarType if vars(v.getName.getText) => named = true; node
+                  case r: IntRef if vars(r.getName.getText) => named = true; node
+                  case _ => super.walk(node)
+                }
+              }
+              for (SWhereExtends(_, n, supers) <- cs;
+                   pair <- sargs.zip(toListFromImmutable(sparams)).find(_._2.getName.getText == n.getText).toList;
+                   if pair._1.isInstanceOf[TypeArg];
+                   bound <- supers) {
+                named = false; finder(bound)
+                if (!named) {
+                  val new_bound = replacer.replaceIn(bound)
+                  if ( ! isTrue(analyzer.subtype(pair._1.asInstanceOf[TypeArg].getTypeArg,
+                      new_bound))(analyzer))
+                    error("Ill-formed type: " + t +
+                        "\n    The static argument " + pair._1 +
+                        " does not satisfy the corresponding bound " + new_bound + ".", t)
+                }
+              }
+            case _ =>
+          }
         } else error("Ill-formed type: " + t +
             "\n    The numbers of the static parameters and " +
             "the static arguments do not match.", t)
@@ -204,6 +342,10 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
         walk(getArg)
         walk(getOverloadingType)
       case SOverloading(_, _, _, t, _) => walk(t)
+      // A variable's right-hand side before the body that uses it, so that a type it gives
+      // the variable is met first where it is made.
+      case SLocalVarDecl(info, body, lhs, rhs) =>
+        walk(info); walk(lhs); walk(rhs); walk(body)
         
       // Nodes with subnodes we want to ignore.
       case SCaseExpr(getInfo, getParam, getCompare, getEqualsOp, getInOp, getClauses, getElseClause) =>
@@ -226,6 +368,7 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       */
       case _ => super.walk(node)
     }
+    enclosingExpr = outer
     node
   }
 }

@@ -26,6 +26,7 @@ import com.sun.fortress.compiler.index.ComponentIndex
 import com.sun.fortress.compiler.index.ObjectTraitIndex
 import com.sun.fortress.compiler.index.ProperTraitIndex
 import com.sun.fortress.compiler.index.TraitIndex
+import com.sun.fortress.compiler.index.TypeConsIndex
 import com.sun.fortress.compiler.index.{Function => JavaFunction}
 import com.sun.fortress.compiler.index.{Functional => JavaFunctional}
 import com.sun.fortress.compiler.index.{FunctionalMethod => JavaFunctionalMethod}
@@ -115,10 +116,14 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         toFunctionArrows(fndeclsfiltered, false)
     }    
     
+    // in a component (onlyConcrete), the functions with a body and every functional method,
+    // abstract ones included, as the Meet Rule for functions judges one beside a function;
+    // but an abstract one implemented by a declaration of a subtype with the same parameter
+    // types, as toFunctionalMethodArrows reads them
     private def toFunctionArrows(set: Set[JavaFunctional], onlyConcrete: Boolean):
-        List[(ArrowType,Option[Int],Option[JavaFunctional])] =
-      set.filter(s => isFunction(s) &&
-                      (!onlyConcrete || s.asInstanceOf[JavaFunctional].body.isSome))
+        List[(ArrowType,Option[Int],Option[JavaFunctional])] = {
+      val arrows = set.filter(s => isFunction(s) &&
+                      (!onlyConcrete || isFunctionalMethod(s) || s.asInstanceOf[JavaFunctional].body.isSome))
          .toList.map(f => (NF.makeArrowType(f.getSpan,
 				     paramsToType(f.parameters, f.getSpan),
 				     f.getReturnType.unwrap,
@@ -127,18 +132,41 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 			     Some(f.asInstanceOf[JavaFunctionalMethod].selfPosition)
 			   else None,
 			   Some(f)))
+      def isAbstract(a: (ArrowType,Option[Int],Option[JavaFunctional])) =
+        a._3.exists(f => isFunctionalMethod(f) && f.body.isNone)
+      if (!onlyConcrete || !arrows.exists(isAbstract)) return arrows
+      // each functional method's declaring trait or object, and the traits that it extends
+      // at any depth, read on the declarations themselves, with no instance of their
+      // static parameters
+      def declarer(f: JavaFunctional): Option[TypeConsIndex] =
+        toOption(typeAnalyzer.traits.typeCons(f.asInstanceOf[JavaFunctionalMethod].declaringTrait))
+      def above(d: TypeConsIndex): List[TypeConsIndex] = d match {
+        case di: TraitIndex =>
+          typeAnalyzer.extend(toListFromImmutable(di.staticParameters), None)
+                      .ancestors(STypesUtil.declToTraitType(di.ast)).toList.flatMap {
+            case at: TraitType => toOption(typeAnalyzer.traits.typeCons(at.getName)).toList
+            case _ => Nil }
+        case _ => Nil }
+      val declared = arrows.map(a => {
+        val d = a._3.filter(isFunctionalMethod).flatMap(declarer)
+        (a, d, d.map(above).getOrElse(Nil)) })
+      // an abstract one that a functional method of a trait or object extending its
+      // declarer implements with the same parameter types
+      def implemented(a: (ArrowType,Option[Int],Option[JavaFunctional]), ad: Option[TypeConsIndex]) =
+        isAbstract(a) && ad.isDefined &&
+        declared.exists { case (c, cd, cabove) =>
+          !(c._1 eq a._1) && c._2 == a._2 && cd.isDefined && !(cd.get eq ad.get) &&
+          cabove.exists(_ eq ad.get) && globalOracle.equiv(a._1, c._1) }
+      declared.filter { case (a, ad, _) => !implemented(a, ad) }.map(_._1)
+    }
 
-    // for functional methods: in a component those with a body and every one inherited from
-    // an api, as the top-level set reads a component's own declarations and an imported api's;
-    // in an api every one; but an abstract one implemented by a declaration of a subtype
-    // with the same parameter types
+    // for functional methods: every one the type provides, abstract ones included, as
+    // toMethodArrows reads dotted ones; but an abstract one implemented by a declaration
+    // of a subtype with the same parameter types
     private def toFunctionalMethodArrows(set: Set[(JavaFunctional, StaticTypeReplacer, TraitType)],
                                          oracle: OverloadingOracle):
         List[(ArrowType,Option[Int],Option[JavaFunctional])] = {
-      val inComponent = compilation_unit.isInstanceOf[ComponentIndex]
-      val arrows = set.filter(p => p match { case (f, _, tt) => isFunctionalMethod(f) &&
-                                               (!inComponent || f.asInstanceOf[JavaFunction].body.isSome ||
-                                                !declaredInUnit(tt))})
+      val arrows = set.filter(p => p match { case (f, _, _) => isFunctionalMethod(f)})
          .toList.map(p => p match { case (f, replacer, tt) =>
               //TODO: Figure out whether I should get the lifted parameters or not. The original code DID.  I think the answer is NO. 2/21/2012
               val (sparams, apart) = ownStaticParamsApart(f)
@@ -168,15 +196,6 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         STypesUtil.paramsToType(kept, f.getSpan).map { t =>
           val (sparams, apart) = ownStaticParamsApart(f)
           replacer.replaceIn(insertStaticParams(apart(t), sparams)) }
-    }
-
-    // whether the trait or object is declared in this compilation unit, not in an api it imports
-    private def declaredInUnit(tt: TraitType): Boolean = {
-      val ti = typeAnalyzer.traits.typeCons(tt.getName)
-      if (ti.isNone) return false
-      val own = compilation_unit.typeConses.values.iterator
-      while (own.hasNext) if (own.next eq ti.unwrap) return true
-      false
     }
 
     // for dotted methods
@@ -348,7 +367,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         val typesInComp = compilation_unit.typeConses
         for ( t <- toSet(typesInComp.keySet) ; if NU.isTraitOrObject(typesInComp.get(t)) ) {
             val traitOrObject = typesInComp.get(t).asInstanceOf[TraitIndex]
-            val traitKindAndName = (compilation_unit match { case _:ObjectTraitIndex => "object "; case _ => "trait " }) + NU.getName(traitOrObject.ast)
+            val traitKindAndName = (traitOrObject match { case _:ObjectTraitIndex => "object "; case _ => "trait " }) + NU.getName(traitOrObject.ast)
             // Extend the type analyzer with the collected static parameters
             val oldTypeAnalyzer = typeAnalyzer
             // Add static parameters of the enclosing trait or object
@@ -438,14 +457,17 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
                 case 1 =>
                 case _ => var signatures = List[(ArrowType,Option[Int],Option[JavaFunctional])]()
                           for ( sig@(at, sp, fnal) <- triples ) {
-                        	  signatures.find(p => p match { case (at2, sp2, _) => oracle.equiv(at, at2) && sp == sp2 }) match {
+                                  // two functional methods are duplicates wherever their self parameters stand
+                        	  signatures.find(p => p match { case (at2, sp2, _) => oracle.equiv(at, at2) && (sp == sp2 || (sp.isDefined && sp2.isDefined)) }) match {
                                 	case Some((at2: ArrowType,sp2,_)) =>
+                                	// the domain of the pair's declaration written first, whatever the order of the set
+                                	val (shown, shownSp) = if (writtenBefore(at2, at)) (at2, sp2) else (at, sp)
                                 	error(mergeSpan(at, at2),
                                 			"There are multiple declarations of " +
-                                					name + " with the same parameter type: " + (sp match {
+                                					name + " with the same parameter type: " + (shownSp match {
                                                                           // a functional method's domain without self, wherever it sits
-                                                                          case Some(i) if isMethod => globalOracle.sa.makeDomainFromArrow(withoutSelf(at, i), false)
-                                                                          case _ => globalOracle.sa.makeDomainFromArrow(at, isMethod) }))
+                                                                          case Some(i) if isMethod => globalOracle.sa.makeDomainFromArrow(withoutSelf(shown, i), false)
+                                                                          case _ => globalOracle.sa.makeDomainFromArrow(shown, isMethod) }))
                                 	case None =>	
                               }	
                               // a dotted method's parameters are those after its receiver
@@ -748,6 +770,15 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
     private def mergeSpan(first: ArrowType, second: ArrowType): Span = mergeSpan(NU.getSpan(first), NU.getSpan(second))
 
     private def mergeSpan(first: Span, second: Span): Span = new MultiSpan(first, second)
+
+    // whether a's declaration is written before b's: by file, then line, then column
+    private def writtenBefore(a: ArrowType, b: ArrowType): Boolean = {
+      val (x, y) = (NU.getSpan(a).getBegin(), NU.getSpan(b).getBegin())
+      val (fx, fy) = (String.valueOf(x.getFileName()), String.valueOf(y.getFileName()))
+      if (fx != fy) fx < fy
+      else if (x.getLine() != y.getLine()) x.getLine() < y.getLine()
+      else x.column() < y.column()
+    }
 
     /* Returns the type of the given list of parameters. */
     private def paramsToType(params: JavaList[Param], span: Span): Type =

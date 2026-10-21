@@ -99,7 +99,7 @@ public class Param extends Binding {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Id temp_name = getName();
@@ -107,11 +107,11 @@ public class Param extends Binding {
         Modifiers temp_mods = getMods();
         code ^= temp_mods.hashCode();
         Option<TypeOrPattern> temp_idType = getIdType();
-        code ^= temp_idType.hashCode();
+        code ^= NodeHash.of(temp_idType);
         Option<Expr> temp_defaultExpr = getDefaultExpr();
-        code ^= temp_defaultExpr.hashCode();
+        code ^= NodeHash.of(temp_defaultExpr);
         Option<Type> temp_varargsType = getVarargsType();
-        code ^= temp_varargsType.hashCode();
+        code ^= NodeHash.of(temp_varargsType);
         return code;
     }
 

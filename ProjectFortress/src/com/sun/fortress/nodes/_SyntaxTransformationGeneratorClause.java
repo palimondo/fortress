@@ -109,7 +109,7 @@ public class _SyntaxTransformationGeneratorClause extends GeneratorClause implem
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<Id> temp_bind = getBind();
         code ^= temp_bind.hashCode();
         Expr temp_init = getInit();

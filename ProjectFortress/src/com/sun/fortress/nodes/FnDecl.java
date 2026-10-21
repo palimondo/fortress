@@ -108,7 +108,7 @@ public class FnDecl extends Decl implements Applicable, Generic {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         FnHeader temp_header = getHeader();
@@ -116,9 +116,9 @@ public class FnDecl extends Decl implements Applicable, Generic {
         IdOrOp temp_unambiguousName = getUnambiguousName();
         code ^= temp_unambiguousName.hashCode();
         Option<Expr> temp_body = getBody();
-        code ^= temp_body.hashCode();
+        code ^= NodeHash.of(temp_body);
         Option<IdOrOp> temp_implementsUnambiguousName = getImplementsUnambiguousName();
-        code ^= temp_implementsUnambiguousName.hashCode();
+        code ^= NodeHash.of(temp_implementsUnambiguousName);
         return code;
     }
 

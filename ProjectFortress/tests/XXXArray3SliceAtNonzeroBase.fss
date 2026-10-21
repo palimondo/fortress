@@ -1,0 +1,23 @@
+(* A range subscript and the whole-array subscript of a rank-3 array based above zero hold that array's elements at the subscripted indices. *)
+component XXXArray3SliceAtNonzeroBase
+export Executable
+
+sliceAt3[\nat b0, nat b1, nat b2\](): () = do
+    a = __builtinFactory3[\ZZ32,b0,2,b1,2,b2,2\]()
+    for i <- 0#2, j <- 0#2, k <- 0#2 do a[b0 + i, b1 + j, b2 + k] := 100 (i + 1) + 10 (j + 1) + (k + 1) end
+    s = a[(b0, b1, b2)#(2,2,2)]
+    assert(s[0,0,0], 111, "the range subscript (b0,b1,b2)#(2,2,2) starts at a[b0,b1,b2]; Library/FortressLibrary.fsi, trait Array3, subarray")
+    assert(s[1,1,1], 222, "the range subscript (b0,b1,b2)#(2,2,2) ends at a[b0+1,b1+1,b2+1]; Library/FortressLibrary.fsi, trait Array3, subarray")
+    t = a[(b0 + 1, b1, b2 + 1)#(1,2,1)]
+    assert(t[0,1,0], 222, "the range subscript (b0+1,b1,b2+1)#(1,2,1) ends at a[b0+1,b1+1,b2+1]; Library/FortressLibrary.fsi, trait Array3, subarray")
+    w = a[:]
+    assert(w[0,0,0], 111, "the whole subscript's first element is a[b0,b1,b2]; ranges.tex, section \"Ranges\": the implicit range : is treated as l:u")
+    assert(w[1,0,1], 212, "the whole subscript's element (1,0,1) is a[b0+1,b1,b2+1]; ranges.tex, section \"Ranges\", implicit ranges")
+  end
+
+run(): () = do
+    sliceAt3[\1,1,1\]()
+    println("PASS")
+  end
+
+end

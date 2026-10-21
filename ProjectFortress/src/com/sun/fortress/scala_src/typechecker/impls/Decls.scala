@@ -84,7 +84,9 @@ trait Decls { self: STypeChecker with Common =>
                       STraitTypeHeader(sparams, mods, name, where,
                                        throwsC, contract, extendsC, params, decls),
                       selfType, excludes, comprises, hasEllipses) => {
-      val checkerWSparams: STypeChecker = this.extend(sparams, params, where)
+      // A conditional extension's conditions hold while the members are checked.
+      val checkerWSparams: STypeChecker =
+        this.extend(sparams, params, staticenv.KindEnv.withExtendsConditions(where, extendsC))
       var method_checker = checkerWSparams
       var field_checker = checkerWSparams
       // Add field declarations (getters/setters?) to method_checker
@@ -129,7 +131,9 @@ trait Decls { self: STypeChecker with Common =>
                        STraitTypeHeader(sparams, mods, name, where,
                                         throwsC, contract, extendsC, params, decls),
                        selfType) => {
-      val checkerWSparams: STypeChecker = this.extend(sparams, params, where)
+      // A conditional extension's conditions hold while the members are checked.
+      val checkerWSparams: STypeChecker =
+        this.extend(sparams, params, staticenv.KindEnv.withExtendsConditions(where, extendsC))
       var method_checker = checkerWSparams
       var field_checker = checkerWSparams
       val newContract = contract match {
@@ -411,7 +415,7 @@ trait Decls { self: STypeChecker with Common =>
       val newChecker = this.extendWithListOfFunctions(fnIndices)
 
       // Prime functionals to infer return types.
-      Thunker.primeFunctionals(fnIndices, STypeCheckerFactory.makeTryChecker(this))
+      Thunker.primeFunctionals(fnIndices, STypeCheckerFactory.makeTryChecker(newChecker))
 
       // Check the contained body and FnDecls.
       val (newBody, newType) = checkLetBody(newChecker, body, expected).getOrElse(return expr)

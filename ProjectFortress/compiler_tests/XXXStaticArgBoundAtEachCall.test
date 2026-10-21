@@ -1,0 +1,4 @@
+tests=XXXStaticArgBoundAtEachCall
+compile
+compile_err_contains=XXXStaticArgBoundAtEachCall.fss:14:22-
+compile_err_WIcontains=File XXXStaticArgBoundAtEachCall.fss has 2 errors.

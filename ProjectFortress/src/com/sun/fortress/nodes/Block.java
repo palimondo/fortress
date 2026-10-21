@@ -110,11 +110,11 @@ public class Block extends Expr {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Option<Expr> temp_loc = getLoc();
-        code ^= temp_loc.hashCode();
+        code ^= NodeHash.of(temp_loc);
         boolean temp_atomicBlock = isAtomicBlock();
         code ^= temp_atomicBlock ? 1231 : 1237;
         boolean temp_withinDo = isWithinDo();

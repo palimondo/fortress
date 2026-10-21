@@ -15,6 +15,7 @@ import static com.sun.fortress.exceptions.InterpreterBug.bug;
 import static com.sun.fortress.exceptions.ProgramError.error;
 import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.evaluator.Environment;
+import com.sun.fortress.interpreter.evaluator.EvaluatorBase;
 import com.sun.fortress.interpreter.evaluator.types.FType;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTrait;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
@@ -163,7 +164,26 @@ public final class DottedMethodApplication extends Fcn {
     }
 
     public FValue applyInnerPossiblyGeneric(List<FValue> args) {
-        return cl.applyMethod(self, args);
+        return instanceFor(cl, args).applyMethod(self, args);
+    }
+
+    /**
+     * The method that a call of m writing no static argument applies to
+     * args: m itself, or, where m is the symbolic instance of a generic
+     * method that an object holds, the instance whose static arguments the
+     * types of args infer.
+     */
+    static Method instanceFor(Method m, List<FValue> args) {
+        if (!isSymbolicInstance(m)) return m;
+        GenericMethod gm = ((MethodInstance) m).getGenerator();
+        return (Method) EvaluatorBase.inferAndInstantiateGenericFunction(args, gm, gm.evaluationEnv);
+    }
+
+    /** Whether m is a generic method's instance at symbolic static arguments. */
+    static boolean isSymbolicInstance(Object m) {
+        if (!(m instanceof MethodInstance) || !(m instanceof FunctionClosure)) return false;
+        List<FType> instArgs = ((FunctionClosure) m).instArgs;
+        return instArgs != null && FType.anyAreSymbolic(instArgs);
     }
 
     public IdOrOpOrAnonymousName getFnName() {

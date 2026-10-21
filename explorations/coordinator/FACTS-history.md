@@ -2151,3 +2151,819 @@ pointer words refreshed in: F-24
 2026-10-14 06:09Z · rewritten · from `explorations/compile-ladder/rung-popl-examples/REPORT.md`, "4. Row 696: the specification's change, passage by passage" · from `explorations/compile-ladder/rung-popl-examples/SKEPTIC.md`, "2. My programs: the differential" · commit `3ba2d005f` · by record pass after climb batch 14: cut to the form; the checker's and the oracle's lines, the code generator's message, walk's two shapes to rows 373 and 549, and walk's refusal of the pair at different positions to the skeptic's section 2
 
 - F-223 **The specification's No Duplicates Rule is the type group's non-strict rule, and the compiled checker applies it but between functional methods whose `self` parameters stand at different positions.** Two declarations of one name may not each be applicable to every call to which the other is (`Specification/advanced/overloading.tex:548-549`), as in the papers of 2011 and 2019. The checker refuses such a pair by `oracle.equiv`, the domains' subtype relation both ways, at one self position (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:439-446`, `ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala:68-74`). Two functional methods whose `self` parameters stand at different positions pass the checker, and the code generator stops the compile, 'Likely bug in static analysis, apparently malformed overload set not rejected' (row 707, `compiler_tests/XXXNoDuplicatesRuleSelfPositions.test`). Walk runs one of the pair where both are generic over one parameterized type (row 373) and where a generic declaration stands beside one at its bound (row 549); it refuses the functional methods at different self positions. Gated by `compiler_tests/XXXNoDuplicatesRule.test`; walk's side by `tests/XXXNoDuplicatesRuleWalk`. Detail: `compile-ladder/rung-popl-examples/REPORT.md`, section 4.
+
+### F-226
+
+2026-10-14 11:39Z · added · from `explorations/reviews/astra-record-keeping-review.md`, "5. Further skill refinement: one independently maintainable claim" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: F-87's and F-43's renaming clauses given one home
+
+### F-43
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "5. Further skill refinement: one independently maintainable claim" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the renaming clause to F-226
+
+- F-43 **The overloading checker's memo hides errors by build order, so every count runs with it off.** The switch is `fortress.analyzer.overload.cache=false`, which the gate's stages set. The checker renames an inherited method's own static parameters apart from its trait's before it compares them, so `Generator.generate[\R\]`, inherited by `PossibleReductionPair[\R\]`, keeps its own `R` (row 561). Gated by `compiler_tests/InheritedMethodStaticParamSameName`. Detail: `perf-probes/nat/triage.md` sections 1 and 3.
+
+### F-70
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "3.1 F-70 and F-87: the call form was lost" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the dotted call's check and the top-level call's gap (rows 651, 470)
+
+- F-70 **No static parameter of the one library is bounded by `Object`; the checker checks no written static argument against its bound, and walk stops on a tuple, `()` or an arrow for a written `Object`.** The library's result-only parameters are unbounded, as P-48 decides (F-84), and six, `cast` among them, write `extends Any`. The specification's examples and the compiler tests write `extends Object`. The checker's gap is row 470. Walk's stop is an `InterpreterBug`, not a type error (row 471). Detail: `compile-ladder/rung-result-bounds/REPORT.md` section 10.
+
+### F-87
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "3.1 F-70 and F-87: the call form was lost" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the bound check to F-70, the renaming to F-226
+
+- F-87 **The compiled checker gives a call its expected type in a clause of an `if` without `else`, a block's last expression after local declarations, a `typecase` clause, a juxtaposition, a repeated operator, a `label` body and another call's argument.** The `label` body builds P-50, and another call's argument P-51, by a retry of the enclosing call (F-221). The checker renames an inherited method's own static parameters apart from the receiver's static arguments, and checks a written static argument against its bounds. Gated by `compiler_tests/InferResultOnly*`, `Infer*Context` and `MethodStaticArg*`. Detail: `compile-ladder/rung-checker-contexts/REPORT.md` section 1.
+
+### F-74
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "3.2 F-140 and F-170: a small value became a universal claim" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the same overgeneralization as F-170's
+
+- F-74 **Walk's numeral stays an `Int` until walk has the checker's static types, since without them a list of numerals and a generic's static argument take their types from the values.** It is P-76's walk half; F-79 is the library half. With walk's numeral an `IntLiteral`, the library loads and both microGPT checks keep their values, but 24 passing interpreter tests fail: 6 by design, 3 of them team tests that assert a `ZZ32`; 9 for want of static types (rows 364, 510); and 9 walk gaps. A size used as a value is an `Int` too (row 486). Detail: `reviews/numeral-switch-judgement.md` section 3.
+
+### F-170
+
+2026-10-14 11:39Z · rewritten · from `explorations/reviews/astra-record-keeping-review.md`, "3.2 F-140 and F-170: a small value became a universal claim" · by coordinator, from Astra's record-keeping review, its scope check applied to related entries: the measured small size, F-140 for the rule
+
+- F-170 **The specification's ranges are over ℤ32, and its own ranges over wider integer types are respelled.** An integer numeral and a `nat` or `int` parameter convert into a range's ℤ32 components. Another integer type is a static error. A wider counter widens each element (row 485). The two examples that built `ZZ64` ranges run over ℤ32, and `ant testSpecData`, a gate step, runs both (F-114). Under walk a `nat` parameter in value position is an `Int`, refused at an `NN32` binding (row 486). Detail: `compile-ladder/rung-spec-ranges/decision-record.md` sections 2 and 3.
+
+### F-227
+
+2026-10-14 14:56Z · added · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather
+
+### F-94
+
+2026-10-14 14:57Z · rewritten · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather: rung C's record: the title's last clause and the sentences on rows 686, 687, 689 and 690 no longer hold
+
+- F-94 **The compiled checker checks the array family under the bound `T extends { Number, MultiplicativeRing[\T\] }`, but fails calls through a parameter so bounded.** It refuses a call whose argument's type holds the caller's parameter (row 686), as at the library's `squaredNorm(me)`. It crashes on a call whose argument is the parameter, or that converts a numeral beside it (rows 689, 687). Writing the static argument avoids all three. It refuses a valid overloading beside such a declaration (row 690). A memo on the trait table keeps the count stage within its 900-second limit (row 688). Gated by `OverloadTwoBoundsClosed*`. Detail: `compile-ladder/rung-array-bound/REPORT.md` sections 1 and 9.
+
+### F-227
+
+2026-10-14 14:58Z · rewritten · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather: cut to a few lines
+
+- F-227 **The compiled checker keeps an intersection that names a type or inference variable as written, and reads a variable below a union through the union whole or its bound.** `normConjunct` expands a closed trait into its listed types only against a conjunct that names no variable (`TypeAnalyzer.scala:708-735`); before the union rule, an inference variable below a union takes the union as one upper bound, and a type variable is also tried through its bound (`:165-180`). So a call through a type parameter bounded by a closed trait and a bound excluding one of its listed types checks, and so does the Return Type Rule beside it (rows 686, 687, 689, 690 and 711); a call outside the bounds is refused as not applicable. A `Box[\T\]` argument under a ground second bound stays refused (row 712), and an overloading the base accepted through the expansion over a variable is refused, on a question Appendix I lists as not settled (row 713). Gated by `compiler_tests/*TwoBoundsClosedTrait`, `*TwoGroundBounds*ClosedTrait` and `XXXOverloadTwoBoundsClosedTraitExclusion`. Detail: `compile-ladder/rung-checker-bounds/REPORT.md` sections 1 and 6.
+
+### F-228
+
+2026-10-14 15:00Z · added · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "1. What changed and why" · by climb batch 15 gather
+
+### F-141
+
+2026-10-14 15:00Z · rewritten · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "1. What changed and why" · by climb batch 15 gather: rung B's record: D2 lifted
+
+- F-141 **Under `walk`, a type parameter that nothing at a call fixes takes its declared bound, and a lone one with no narrowest candidate its bound.** It builds P-48. Its departures by the rung's decisions: an F-bounded parameter stays open (F-143); a big operator's plain-bounded ones keep `BottomType` (D2); one that only a fixed parameter's bound mentions takes the arguments' type (D3, row 592); a lone one whose bound mentions a static parameter keeps the arguments' narrowest common supertype (D5). Its departures as defects, each with an expected failure: several bounds that walk cannot meet (row 591); a bound only from above that mentions a static parameter (row 612); an untyped function expression's result (row 587); a generic passed over at dispatch when its arguments have several minimal common supertypes (row 589), whose repair changes which declaration runs. Gated by `tests/Infer*Walk.fss`. Detail: `compile-ladder/rung-walk-instance/REPORT.md` section 2.
+
+### F-143
+
+2026-10-14 15:00Z · rewritten · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "1. What changed and why" · by climb batch 15 gather: rung B's record: rows 645, 646 and 662 fixed
+
+- F-143 **Under `walk`, a type parameter whose bound mentions itself and that nothing at a call fixes is left open.** The open type is below every type, and every value matches it. So a reduction that writes no static argument runs on its elements' types. A tuple, arrow or generic type that holds the open type admits no more than at `BottomType`, so `(Int, Int)` is not below `(OPEN, OPEN)` (row 663, contested). A declaration whose parameter type is the open type is the most specific, so it is chosen for every argument. Gated by `tests/UnwrittenReductionWalk.fss`. Open, each with no static argument written: rows 645 (an empty reduction), 646 (a set comprehension) and 662 (`Set`'s big operators). Detail: `compile-ladder/rung-walk-open-param/REPORT.md` sections 1 and 11.
+
+### F-220
+
+2026-10-14 15:00Z · rewritten · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "6. Suites, the count, the distance and the ladder" · by climb batch 15 gather: rung B's record: body(i: I) typed, the entry no longer holds
+
+- F-220 **Under walk, `__bigOperator`'s local `body` cannot be typed `I`, since an unwritten list or map comprehension gives `I` the type `BottomType`; so the checker count's one error stays at the untyped `body(i)`.** Walk keeps a big operator's plain-bounded parameter at `BottomType` (F-141, D2). Typing `body(i)` waits on review-queue item 17 (PLAN item 53). An untyped function expression in `body`'s place runs under walk; the checker's verdict on it is not measured. No gated test can show the refusal: row 703 gives the program and its output. Detail: `compile-ladder/rung-library-followups/REPORT.md` section 2.
+
+### F-229
+
+2026-10-14 15:02Z · added · from `explorations/compile-ladder/rung-library-factories/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather
+
+### F-230
+
+2026-10-14 15:02Z · added · from `explorations/compile-ladder/rung-library-factories/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather
+
+### F-151
+
+2026-10-14 15:02Z · rewritten · from `explorations/compile-ladder/rung-library-factories/REPORT.md`, "7. The specification's text, and the sentences made false" · by climb batch 15 gather: rung L's record and rung C's: rows 685 and 686 fixed
+
+- F-151 **`Vector`, `Matrix` and their factories and operators take the bound `T extends { Number, MultiplicativeRing[\T\] }`.** `Number` declares no arithmetic, so their bodies check only with the ring. `Number` stays, since the scalar block's mirror pairs (F-119) overload validly only through its closure. Gated under walk by `tests/ArrayElementAlgebra.fss`. The checker still refuses the first factories' results (row 685) and the norm's call (row 686). The bound is array fork 2's default, the curator's answer pending (PLAN item 52, P-85). Detail: `reviews/array-fork2-judgement.md` section 4.
+
+### F-145
+
+2026-10-14 15:04Z · rewritten · from `explorations/compile-ladder/rung-duplicates-coverage/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather: rung O's skeptic's leftForGather: rows 708 and 709 fixed, rows 725 and 728
+
+- F-145 **Walk refuses at load an object that leaves an inherited abstract method uncovered, an `override` that overrides nothing, and a generic type that breaks the Meet Rule for Functional Methods.** Bodies at narrower parameter types define an abstract method only where together they cover its parameter types, with `comprises` clauses read, as P-147 decides. A search for a cover that does not settle does not refuse (row 708), and a generic object is not checked (row 665). The compiled checker misses a cover through the listed types of two parameters (row 709). F-147 gives the `override` check and F-142 the Meet Rule's. Gated by `tests/AbstractMethod*Walk` and `OverrideNothing*Walk`. Detail: `compile-ladder/rung-walk-coverage/REPORT.md` sections 1 and 6.
+
+### F-223
+
+2026-10-14 15:04Z · rewritten · from `explorations/compile-ladder/rung-duplicates-coverage/REPORT.md`, "1. What changed, and why" · by climb batch 15 gather: rung O's skeptic's leftForGather: row 707 fixed, rows 726 and 727
+
+- F-223 **The specification's No Duplicates Rule is the papers' non-strict rule, and the compiled checker applies it except between functional methods whose `self` parameters stand at different positions.** Two declarations of one name may not each be applicable to every call to which the other is, as in the type group's papers of 2011 and 2019 (P-26). The checker refuses such a pair at one `self` position. A pair at different positions passes it, and the code generator then stops the compile (row 707). Walk runs one of such a pair in two shapes (rows 373 and 549). Gated by `compiler_tests/XXXNoDuplicatesRule`, and walk's departure by `tests/XXXNoDuplicatesRuleWalk`. Detail: `compile-ladder/rung-popl-examples/REPORT.md` section 4, and `SKEPTIC.md` section 2.
+
+### F-228
+
+2026-10-14 15:25Z · rewritten · from `explorations/compile-ladder/rung-walk-elements/REPORT.md`, "5. The design" · by climb batch 15 merged-diff review: the collector's last line on main is :1437
+
+- F-228 **Under walk, a reduction or a comprehension that writes no static argument instantiates its big operator by the declared type of its value, else by the join of its elements' run-time types, else at its bound; so `__bigOperator`'s `body(i: I)` is typed.** It builds P-48 by the coordinator's call (the walk probe's way 6 + 7), and lifts D2. The declared type is a local variable's, or a top-level or local function's declared return type, also where the clause form ends a block; otherwise the clauses run once into the library's collector (`Library/FortressLibrary.fss:1318-1438`), and the operator is instantiated at the elements' join. The hint is an argument to the operator's own instantiation, outside the per-argument caches (`EvaluatorBase.instantiateBigOperator`). Left open: an empty clause form no declared type directs (row 716), a comprehension no declared type reaches (rows 20 and 717), a user big operator whose declared result is its own trait (row 718), an argument of a call (rows 510 and 705). Gated by `tests/UnwrittenListMapComprehensionWalk`, `UnwrittenComprehension*Walk`, `ComprehensionTypedBindingWalk`, `UnwrittenSetBigOperatorsWalk`, `UnwrittenEmptyFloatSumWalk` and `IntMapComprehensionTypedWalk`. Detail: `compile-ladder/rung-walk-elements/REPORT.md` sections 1 and 5.
+
+### F-229
+
+2026-10-14 15:25Z · rewritten · from `explorations/compile-ladder/rung-library-factories/REPORT.md`, "11. For the curator" · by climb batch 15 merged-diff review: the departure from Array Expressions at Number, row 729
+
+- F-229 **`array1` and `array2` give a vector and a matrix only at the eight number types, chosen by a `typecase` over a witness of their result type; at any other element type they give a plain array.** The arms are `ZZ32`, `ZZ64`, `NN32`, `NN64`, `ZZ`, `QQ`, `RR32` and `RR64`, each built at that type and returned through `cast`, in `additiveIdentity`'s shape (`Library/FortressLibrary.fss:2572-2586`, `:2953-2965`). `Number`, `AnyIntegral` and walk's inferred `Int` get the plain array, since `Vector[\Number,n\]` is not well-formed under the family's bound (F-151; row 721); a witness of `T` itself would match a type below a number type and throw `CastError` at the `cast`, as `openRange` does at walk's `Int` (row 722). The four `wellformed` distance sites of the old factories are gone (row 685). Gated by `tests/ArrayFactoryNumberTypes`, `ArrayFactoryAbstractNumber` and the distance stage. Detail: `compile-ladder/rung-library-factories/REPORT.md` sections 1, 3 and 4.
+
+### F-53
+
+2026-10-14 15:52Z · rewritten · commit `e13da0396` · by climb batch 15 commit stage: the landed figures of climb batch 15 gate, read from explorations/compile-ladder/climb-batch-15/gate/distance.txt (#total 49) and checker-count.txt (#total 1): the distance 54 to 49, the count 1 as before; numbers only
+
+- F-53 **The distance to the switch-over is 54 errors and the checker count is 1, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The checker count stops at a component's first error, the untyped parameter of `body(i)` in `__bigOperator`, which walk does not yet let the library type (F-220). Typed, the count would stop at row 680's crash in `Array3`, still one error; only once that crash is fixed does it show the component's own errors, a rise that is no regression. Both are reported, never red. An edit can move 2 to 4 errors that it does not touch (row 488), so a move that small does not show its effect. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-53
+
+2026-10-14 15:58Z · rewritten · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "6. The measures" · commit `c40489978` · by coordinator's FACTS pass after climb batch 15: the count's stop at row 680, its repair held on the measured 809 s
+
+- F-53 **The distance to the switch-over is 49 errors and the checker count is 1, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The checker count stops at a component's first error, the untyped parameter of `body(i)` in `__bigOperator`, which walk does not yet let the library type (F-220). Typed, the count would stop at row 680's crash in `Array3`, still one error; only once that crash is fixed does it show the component's own errors, a rise that is no regression. Both are reported, never red. An edit can move 2 to 4 errors that it does not touch (row 488), so a move that small does not show its effect. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-54
+
+2026-10-14 15:58Z · rewritten · from `explorations/compile-ladder/rung-checker-bounds/REPORT.md`, "6. The measures" · commit `c40489978` · by coordinator's FACTS pass after climb batch 15: nothing hidden behind row 680's crash
+
+- F-54 **The gate classes the distance to the switch-over by root cause, and the sized arrays and the one-off body errors lead.** The `#class` rows of each gate's `distance.txt` hold the counts. No coercion into an arbitrary `I extends Integral[\I\]` can be declared, so a numeral where such an `I` is expected needs `x.zero` or `x.one`. The sized arrays' count is a floor: a checker crash hides the rank-3 array trait's body (row 680). With `StandardMinMax[\T\]` added to the array bound, the overloading check ran past 15 minutes when measured, before row 688's memo. Detail: `perf-probes/prelude/distance-triage.md` sections 2 and 3.4.
+
+### F-53
+
+2026-10-15 00:14Z · rewritten · from `explorations/compile-ladder/climb-batch-15b/RECORD.md`, "The gate, against batch 15's" · commit `3cf18a2b3` · by coordinator: climb batch 15b's gate, the count with row 680's repair
+
+- F-53 **The distance to the switch-over is 49 errors and the checker count is 1, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The checker count stops at a component's first error, now row 680's crash in `Array3`, since `body(i)` is typed (F-220). With row 680's repair in, the stage checks the library component whole: 43 errors in 809 s when measured under load, past the 690 s that climb batch 15 set against the stage's 900-second limit, so that repair is held (row 680, PLAN item 54); the rise it brings is no regression. Both are reported, never red. An edit can move 2 to 4 errors that it does not touch (row 488), so a move that small does not show its effect. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-54
+
+2026-10-15 00:14Z · rewritten · from `explorations/compile-ladder/climb-batch-15b/RECORD.md`, "The gate, against batch 15's" · commit `3cf18a2b3` · by coordinator: the crash row gone with row 680's repair
+
+- F-54 **The gate classes the distance to the switch-over by root cause, and the sized arrays and the one-off body errors lead.** The `#class` rows of each gate's `distance.txt` hold the counts. No coercion into an arbitrary `I extends Integral[\I\]` can be declared, so a numeral where such an `I` is expected needs `x.zero` or `x.one`. Row 680's crash hides no error: with its repair, the component's check finds none in `Array3`; the crash stays one of the distance's rows while the repair is held. With `StandardMinMax[\T\]` added to the array bound, the overloading check ran past 15 minutes when measured, before row 688's memo. Detail: `perf-probes/prelude/distance-triage.md` sections 2 and 3.4; `compile-ladder/rung-checker-bounds/REPORT.md` section 6.
+
+### F-220
+
+2026-10-15 00:14Z · rewritten · from `explorations/compile-ladder/climb-batch-15b/RECORD.md`, "What landed" · commit `e4dabaa0c` · by coordinator: the count no longer stops at row 680's crash
+
+- F-220 **`__bigOperator`'s local `body` is typed `body(i: I): L`, which walk runs since it no longer instantiates a big operator's static parameter at `BottomType`.** The checker count's one error is then row 680's crash in `Array3`. Gated by `tests/UnwrittenListMapComprehensionWalk`. Detail: `compile-ladder/rung-walk-elements/REPORT.md` section 6.
+
+### F-231
+
+2026-10-15 00:14Z · added · from `explorations/perf-probes/checker-speed-2/REPORT.md`, "1. In short" · commit `a0205c127` · by coordinator: the probe's FACTS item 1 and the skeptic's run, landed as climb batch 15b
+
+### F-232
+
+2026-10-15 00:14Z · added · from `explorations/perf-probes/checker-speed-2/REPORT.md`, "9. Row 488: the checker's output depends on identity hashes" · by coordinator: the probe's FACTS item 2, its row 488 note refused by ledger.py for length
+
+### F-233
+
+2026-10-15 00:14Z · added · from `explorations/compile-ladder/climb-batch-15b/RECORD.md`, "What landed" · commit `e4dabaa0c` · by coordinator: row 680's repair landed
+
+### F-59
+
+2026-10-15 00:47Z · rewritten · by coordinator: row 425 made a duplicate of row 731 by PLAN's consolidation (ad56edb62), which holds its corrected claim
+
+- F-59 **`SUM` and `PROD` take their identity from the static argument, and the checker needs that argument written where nothing at the call fixes the element type.** It builds P-78, with a `() -> T` witness `typecase`. Walk leaves an F-bounded `T` open, so such a call runs there (F-143). The checker refuses it for every generic big operator, `BIG MAX` included, since an F-bounded parameter that nothing fixes has no instance at its bound (row 425). C4 writes the static argument, as the team's tests do; `SUM e` and `DOT` need none. Gated by `compiler_tests/WitnessIdentityRungG` and `InferBigOperatorUnwritten`. Detail: `reviews/sum-replacement-judgement.md` section 5.
+
+### F-221
+
+2026-10-15 00:47Z · rewritten · by coordinator: row 425 made a duplicate of row 731 by PLAN's consolidation (ad56edb62), which holds its corrected claim
+
+- F-221 **The compiled checker retries a call written as another call's argument against each enclosing declaration's parameter type, where the enclosing call is not accepted otherwise.** It builds P-51 under P-49, so a declaration that accepts the call as written is never passed over. A reduction's plain-bounded big operator, an argument of `__bigOperator` once desugared, so takes the reduction's expected type; an F-bounded one is still refused (row 425). A chain `a OPLUS b OPLUS c` that only the retry makes acceptable to a multifix declaration now runs it, not the binary one. Walk gives such an argument no expected type (row 705). Gated by `compiler_tests/InferCallArgument*` and `InferBigOperatorExpectedType`. Detail: `compile-ladder/rung-argument-context/REPORT.md` sections 1, 5 and 8, and `SKEPTIC.md` finding 5.
+
+### F-234
+
+2026-10-16 09:15Z · added · from `explorations/coordinator/process-engineering/fresh-jvm-commands.md`, "What a resident compiler could save, at most" · by coordinator
+
+### F-234
+
+2026-10-16 09:15Z · rewritten · by coordinator: cut to the size: the harness line and the start-up times are in the report
+
+- F-234 **A Fortress command that a worker runs on its own starts a fresh JVM, and that start costs too little to pay for a resident compiler.** The suites already run each suite in one JVM, the harness calling the shell in-process for every test (`ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:762`); only a compiled test's run step starts a child JVM. In one measurement over 267 worker transcripts, such commands took 6.4 % of the workers' time and their start-up, 0.3 s for the shell and 3 s for a walk run of a one-line program, at most 1.8 % (P-150). The suites, builds and stages took 47.8 % of the command time, the count and distance stages the most. Detail: `coordinator/process-engineering/fresh-jvm-commands.md`, "What a resident compiler could save, at most".
+
+### F-235
+
+2026-10-16 17:25Z · added · from `explorations/compile-ladder/rung-solver-speed/REPORT.md`, "1. What changed and why" · by climb batch 16's gather: rung S's record, its first FACTS entry
+
+### F-236
+
+2026-10-16 17:25Z · added · from `explorations/compile-ladder/rung-solver-speed/REPORT.md`, "8. The guard's list" · by climb batch 16's gather: rung S's record, its second FACTS entry
+
+### F-231
+
+2026-10-16 17:25Z · rewritten · from `explorations/compile-ladder/rung-solver-speed/REPORT.md`, "5. The profiles" · by climb batch 16's gather: rung S's record, "Corrections of entries that are now wrong"
+
+- F-231 **The generated AST walker is split into methods that the JVM compiles; as one method it ran interpreted and set the checker's time.** `Walker.walk`, which `ScalaAstGenerator` writes into `FortressAst.scala`, was one method of 31,704 bytes, past HotSpot's 8,000-byte limit, and the checker's substitutions and normalizations all go through it. Split in order into eight methods, with identical output, the count stage with row 680's repair takes about 340 s on an idle machine instead of 911 s, and the distance stage 931 s instead of 2,375 s. What remains is about 95 % the solver normalizing meets again. Gated by `WalkerJUTest`. Detail: `perf-probes/checker-speed-2/REPORT.md` sections 2 and 6.
+
+### F-235
+
+2026-10-16 17:26Z · rewritten · from `explorations/compile-ladder/rung-solver-speed/REPORT.md`, "1. What changed and why" · by climb batch 16's gather: cut to the form
+
+- F-235 **The compiled checker reduces a formula once in each analyzer, answers an exclusion asked again with fresh inference variables from a memo, and finds a type by its name once per trait table.** Each memo's key holds every input its answer reads: a reduction is kept by its formula on the analyzer (`TypeAnalyzer.reduced`, `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:589-609`); an exclusion by the question with its type inference variables renamed apart, from an empty cycle history only (`:408-439`, `:985-1015`), and shared through the trait table where it read no context (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala:150-156`); a type's lookup and its declaration search by the name (`TraitTable.scala:34-68`). An answer that read the context is marked, so a hit on it is a context read; a computation that opened a size is not kept. Each memo has a switch, default on: `fortress.analyzer.reduce.cache`, `fortress.analyzer.exclusion.cache`, `fortress.analyzer.typecons.cache`. The count stage took 437 s before and 97 s after in one loaded session (the skeptic's pair: 392 s and 83 s), its tables and whole outputs equal; audits that computed every reused answer again found 0 differences, 7.15M reductions, 153,930 exclusions and 156M lookups on the count stage and 428M reuses on the distance stage. A new memo of the checker follows the same rule. Gated by `ReductionMemoJUTest`, `ExclusionMemoJUTest` and `TraitTableMemoJUTest` (misc track) and by the count stage's table. Detail: `compile-ladder/rung-solver-speed/REPORT.md` sections 1, 4, 6 and 7.
+
+### F-232
+
+2026-10-16 17:28Z · rewritten · from `explorations/compile-ladder/rung-ast-hashes/REPORT.md`, "4.3 The next source: `ApiTypeExtractor` and the index's identity hashes" · by climb batch 16's gather: rung H's record: its FACTS entry, which replaces F-232's text, the change having made it false
+
+- F-232 **The checker's output depends on the JVM's identity-hash sequence.** Every AST node's hash starts from its class's identity hash, so the order of every hash map and set of nodes, the apis that `StaticChecker.checkApis` takes in turn among them, moves when any code asks for an identity hash at another moment. One extra identity hash at start reorders the api checks and prints a union's members the other way; two instrumented runs lost row 488's site at `:130`. It is a lead for row 488's moves. Detail: `perf-probes/checker-speed-2/REPORT.md` section 9.
+
+### F-80
+
+2026-10-16 17:30Z · rewritten · from `explorations/compile-ladder/rung-checker-abstract-callsite/REPORT.md`, "1. What changed, and why" · by climb batch 16's gather: rung K's record, the rewrite of F-80, whose "Unchecked" part on row 572 is false since the rung
+
+- F-80 **The compiled checker judges two functional methods of one name by the Meet Rule for Functional Methods, in each type that provides both, and keys its overloading memo on the check's inputs.** Such a type must provide their meet, compared without the self parameter. F-88 says what a type provides. Unchecked: a pair one of whose declarations is the component's own abstract one (row 572), and a pair that only an object expression provides (row 570). Gated by `compiler_tests/FunctionalMethodMeet*`. Detail: `compile-ladder/rung-overloading-checker/REPORT.md` section 5.
+
+### F-237
+
+2026-10-16 17:30Z · added · from `explorations/compile-ladder/rung-checker-abstract-callsite/REPORT.md`, "1. What changed, and why" · by climb batch 16's gather: rung K's record, its new entry, with the skeptic's fixes as the judge upheld them
+
+### F-223
+
+2026-10-16 17:30Z · rewritten · from `explorations/compile-ladder/rung-checker-abstract-callsite/REPORT.md`, "7. Sentences made false" · by climb batch 16's gather: rung K's record: row 727 is no longer a departure
+
+- F-223 **The specification's No Duplicates Rule is the papers' non-strict rule, and the compiled checker applies it, to functional methods wherever their `self` parameters stand.** Two declarations of one name may not each be applicable to every call to which the other is, as in the type group's papers of 2011 and 2019 (P-26). The checker refuses such a pair, two functional methods at different `self` positions among them: "There are multiple declarations of f with the same parameter type", naming the domain of the declaration written first. It checks no symbolic operator (row 584) and reads no abstract functional method of a trait the component declares (row 727); such a pair passes it and stops the code generator (rows 726 and 727). Walk runs one of such a pair in two shapes (rows 373 and 549). Gated by `compiler_tests/XXXNoDuplicatesRule`, `XXXNoDuplicatesRuleSelfPositions` and `XXXNoDuplicatesRuleSelfPositionsPlain`, the checker's departures by `XXXNoDuplicatesRuleSelfPositionsOperator` and `XXXNoDuplicatesRuleAbstract`, and walk's departure by `tests/XXXNoDuplicatesRuleWalk`. Detail: `compile-ladder/rung-popl-examples/REPORT.md` section 4, its `SKEPTIC.md` section 2, and `compile-ladder/rung-duplicates-coverage/REPORT.md` sections 1 and 8.
+
+### F-238
+
+2026-10-16 17:36Z · added · from `explorations/compile-ladder/rung-walk-overload-if/REPORT.md`, "Row 373: two generic declarations, each read over its own instances" · by climb batch 16's gather: rung W's record, its first FACTS entry
+
+### F-239
+
+2026-10-16 17:36Z · added · from `explorations/compile-ladder/rung-walk-overload-if/REPORT.md`, "Row 673: walk's `if`" · by climb batch 16's gather: rung W's record, its second FACTS entry
+
+### F-228
+
+2026-10-16 17:36Z · rewritten · from `explorations/compile-ladder/rung-walk-overload-if/REPORT.md`, "Row 718: a user big operator's declared result" · by climb batch 16's gather: rung W's record: row 718 is no longer open
+
+- F-228 **Under walk, a reduction or a comprehension that writes no static argument instantiates its big operator by the declared type of its value, else by the join of its elements' run-time types, else at its bound; so `__bigOperator`'s `body(i: I)` is typed.** It builds P-48 by the coordinator's call (the walk probe's way 6 + 7), and lifts D2. The declared type is a local variable's, or a top-level or local function's declared return type, also where the clause form ends a block; otherwise the clauses run once into the library's collector (`Library/FortressLibrary.fss:1318-1437`), and the operator is instantiated at the elements' join. The hint is an argument to the operator's own instantiation, outside the per-argument caches (`EvaluatorBase.instantiateBigOperator`). Left open: an empty clause form no declared type directs (row 716), a comprehension no declared type reaches (rows 20 and 717), a user big operator whose declared result is its own trait (row 718), an argument of a call (rows 510 and 705). Gated by `tests/UnwrittenListMapComprehensionWalk`, `UnwrittenComprehension*Walk`, `ComprehensionTypedBindingWalk`, `UnwrittenSetBigOperatorsWalk`, `UnwrittenEmptyFloatSumWalk` and `IntMapComprehensionTypedWalk`. Detail: `compile-ladder/rung-walk-elements/REPORT.md` sections 1 and 5.
+
+### F-223
+
+2026-10-16 17:36Z · rewritten · from `explorations/compile-ladder/rung-walk-overload-if/REPORT.md`, "7. Sentences made false" · by climb batch 16's gather: rung W's record: walk refuses the generic pair (row 373)
+
+- F-223 **The specification's No Duplicates Rule is the papers' non-strict rule, and the compiled checker applies it, to functional methods wherever their `self` parameters stand, abstract ones included.** Two declarations of one name may not each be applicable to every call to which the other is, as in the type group's papers of 2011 and 2019 (P-26). The checker refuses such a pair, two functional methods at different `self` positions and an abstract functional method beside a concrete one among them: "There are multiple declarations of f with the same parameter type", naming the domain of the declaration written first. It checks no symbolic operator (row 584); such a pair passes it and stops the code generator (row 726). Walk runs one of such a pair in two shapes (rows 373 and 549). Gated by `compiler_tests/XXXNoDuplicatesRule`, `XXXNoDuplicatesRuleSelfPositions`, `XXXNoDuplicatesRuleSelfPositionsPlain`, `XXXNoDuplicatesRuleAbstract` and `XXXNoDuplicatesRuleAbstractSelfPositions`, the checker's departure by `XXXNoDuplicatesRuleSelfPositionsOperator`, and walk's departure by `tests/XXXNoDuplicatesRuleWalk`. Detail: `compile-ladder/rung-popl-examples/REPORT.md` section 4, its `SKEPTIC.md` section 2, `compile-ladder/rung-duplicates-coverage/REPORT.md` sections 1 and 8, and `compile-ladder/rung-checker-abstract-callsite/REPORT.md` section 1.
+
+### F-232
+
+2026-10-16 18:00Z · rewritten · from `explorations/compile-ladder/rung-ast-hashes/REPORT.md`, "4.4 Inference variables, and the instrumented copy that hashes nodes" · by climb batch 16 merged-diff review: the iteration-order sentence limited to nodes that hold no identity-hashed node, as the next sentence lists them
+
+- F-232 **The syntax tree's hashes do not depend on the JVM's identity hashes; one checker site still does, through the index's.** Every generated node's hash starts from the hash of its class's name, which makeAST's post-processing of ASTGen's output and the in-repo generators write (`build.xml:679-697`), and a field whose type holds an `Option` is hashed by `NodeHash.of` (`ProjectFortress/src/com/sun/fortress/nodes_util/NodeHash.java`), since the PLT `Option` classes hash by identity. So hash maps and sets of nodes iterate in one order whatever code asked for an identity hash before, and so do the apis that `StaticChecker.checkApis` takes in turn. Two kinds of node still hash by identity: the inference variables, whose id is a bare `Object` (`nodes_util/NodeFactory.java:1166-1184`), through which no output of the count stage moves, and walk's `_WrappedFValue` (`interpreter/evaluator/_WrappedFValue.java:170-177`; row 430). The checker's output still moves at row 488's `:130`, through row 737: `ApiTypeExtractor` matches a left-out return type by name over `DeclaredFunction`s, which hash by identity. Gated by `NodeHashJUTest`; for the site that still moves, `XXXOmittedReturnTypeFromApi`. Detail: `compile-ladder/rung-ast-hashes/REPORT.md` sections 4.2 to 4.4.
+
+### F-238
+
+2026-10-16 18:00Z · rewritten · from `explorations/compile-ladder/rung-walk-overload-if/SKEPTIC.md`, "5. Corrections (commit `354c002fa`)" · by climb batch 16 merged-diff review: the title names walk symbolic reading of each declaration, which the body gives, not one instantiation of both, which fails for pairs with different static parameter lists
+
+- F-238 **Under walk, two generic declarations a pair of whose parameter types excludes only when both are read at one instantiation are read each over its own instances, and are valid only by the No Duplicates, Return Type and Meet Rules on their declared domains.** Walk's load check read two generic functions of one name and one list of static parameters at one shared symbolic instantiation (`FGenericFunction.java:43-64`), and two instances of one generic object as two types that cannot be extended. Now such an exclusion is withdrawn where the instances of each do not exclude (instances of one generic type exclude only where their static arguments cannot be equal; an exclusion read at the shared instantiation stands where every generic type both extend forces one instance, as `Array` and `ImmutableArray` through `ReadableArray`), and the pair is then refused where each domain is inside the other, valid where one is inside the other with its return type below at the holding instance, or where a third declaration inside both holds their overlap (F-bounds read from the declarations, a symbolic size unified with a size parameter as `types/SymbolicNat.unifyStaticArg` reads it); otherwise refused, "with generic type, at least one pair of parameters must have excluding types" (F-155). A pair the old reading did not find excluding keeps its refusal (row 159). A pair that excludes only through a static argument that another position fixes is refused (row 740). Gated by `tests/GenericBoundsNoMeetWalk`, `NoDuplicatesRuleWalk`, `NoDuplicatesRuleSizeWalk`, `GenericOverloadInstancesApartWalk` (refused), `GenericBoundsMeetWalk`, `GenericFBoundsMeetWalk`, `GenericPairExcludingWalk`, `GenericSizePairNestedWalk` and `ShuffleTest` (load), and `XXXGenericPairExcludesTogetherWalk`. Detail: `compile-ladder/rung-walk-overload-if/REPORT.md` sections 1 and 9.
+
+### F-223
+
+2026-10-16 18:21Z · rewritten · from `explorations/compile-ladder/climb-batch-16/JUDGE-review.md`, "5. The repair" · by climb batch 16 repair of the review: the walk sentence names row 742 beside row 549, as the probe showed walk loading the form
+
+- F-223 **The specification's No Duplicates Rule is the papers' non-strict rule, and the compiled checker applies it, to functional methods wherever their `self` parameters stand, abstract ones included.** Two declarations of one name may not each be applicable to every call to which the other is, as in the type group's papers of 2011 and 2019 (P-26). The checker refuses such a pair, two functional methods at different `self` positions and an abstract functional method beside a concrete one among them: "There are multiple declarations of f with the same parameter type", naming the domain of the declaration written first. It checks no symbolic operator (row 584); such a pair passes it and stops the code generator (row 726). Walk refuses such a pair of two generic declarations at load, and runs one of a generic declaration beside a plain one at its bound (row 549). Gated by `compiler_tests/XXXNoDuplicatesRule`, `XXXNoDuplicatesRuleSelfPositions`, `XXXNoDuplicatesRuleSelfPositionsPlain`, `XXXNoDuplicatesRuleAbstract` and `XXXNoDuplicatesRuleAbstractSelfPositions`, the checker's departure by `XXXNoDuplicatesRuleSelfPositionsOperator`, and walk's refusal by `tests/NoDuplicatesRuleWalk`. Detail: `compile-ladder/rung-popl-examples/REPORT.md` section 4, its `SKEPTIC.md` section 2, `compile-ladder/rung-duplicates-coverage/REPORT.md` sections 1 and 8, and `compile-ladder/rung-checker-abstract-callsite/REPORT.md` section 1.
+
+### F-223
+
+2026-10-16 18:21Z · rewritten · from `explorations/compile-ladder/climb-batch-16/JUDGE-review.md`, "5. The repair" · by climb batch 16 repair of the review: the pair walk refuses named by its program
+
+- F-223 **The specification's No Duplicates Rule is the papers' non-strict rule, and the compiled checker applies it, to functional methods wherever their `self` parameters stand, abstract ones included.** Two declarations of one name may not each be applicable to every call to which the other is, as in the type group's papers of 2011 and 2019 (P-26). The checker refuses such a pair, two functional methods at different `self` positions and an abstract functional method beside a concrete one among them: "There are multiple declarations of f with the same parameter type", naming the domain of the declaration written first. It checks no symbolic operator (row 584); such a pair passes it and stops the code generator (row 726). Walk refuses at load such a pair of two generic declarations as `dup`'s, whose parameter types mention their static parameters; it loads and runs one of a generic declaration beside one whose parameter types are its bounds, a plain one (row 549) or a generic one whose parameter types mention none of its static parameters (row 742). Gated by `compiler_tests/XXXNoDuplicatesRule`, `XXXNoDuplicatesRuleSelfPositions`, `XXXNoDuplicatesRuleSelfPositionsPlain`, `XXXNoDuplicatesRuleAbstract` and `XXXNoDuplicatesRuleAbstractSelfPositions`, the checker's departure by `XXXNoDuplicatesRuleSelfPositionsOperator`, walk's refusal by `tests/NoDuplicatesRuleWalk`, and walk's two departures by `tests/XXXGenericBesidePlainSameDomain` and `XXXGenericBesideGenericSameDomain`. Detail: `compile-ladder/rung-popl-examples/REPORT.md` section 4, its `SKEPTIC.md` section 2, `compile-ladder/rung-duplicates-coverage/REPORT.md` sections 1 and 8, and `compile-ladder/rung-checker-abstract-callsite/REPORT.md` section 1.
+
+### F-231
+
+2026-10-16 19:13Z · rewritten · from `explorations/reviews/batch-16-review.md`, "2. The speed: 82 s and 217 s against 325 s and 1,075 s" · by record worker after climb batch 16: the split's effect put in the past; today's times point to the new entry
+
+- F-231 **The generated AST walker is split into methods that the JVM compiles; as one method it ran interpreted and set the checker's time.** `Walker.walk`, which `ScalaAstGenerator` writes into `FortressAst.scala`, was one method of 31,704 bytes, past HotSpot's 8,000-byte limit, and the checker's substitutions and normalizations all go through it. Split in order into eight methods, with identical output, the count stage with row 680's repair takes about 340 s on an idle machine instead of 911 s, and the distance stage 931 s instead of 2,375 s. About 95 % of what remained was the solver reducing formulas again, which its memos now answer (F-235); with the reduction memo alone the count stage's profile held the exclusion questions (`pExc`, `dExc`) at about 62 to 65 % of a run a third as long, and the final code has no profile. Gated by `WalkerJUTest`. Detail: `perf-probes/checker-speed-2/REPORT.md` sections 2 and 6; `compile-ladder/rung-solver-speed/REPORT.md` section 5.
+
+### F-53
+
+2026-10-16 19:13Z · rewritten · from `explorations/reviews/batch-16-review.md`, "2. The speed: 82 s and 217 s against 325 s and 1,075 s" · from `explorations/compile-ladder/climb-batch-16/RECORD.md`, "FACTS left for the coordinator" · commit `f98ad813f` · by record worker after climb batch 16: the "2 to 4 errors" is the one site :130, through row 737 (rung H); 15b's "a rise from 1" to the history
+
+- F-53 **The distance to the switch-over is 49 errors and the checker count is 39, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 39 are the `FortressLibrary` component's own errors, every api at 0, a rise from 1 that is no regression. Both are reported, never red. An edit can move 2 to 4 errors that it does not touch (row 488; F-232), so a move that small does not show its effect. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-232
+
+2026-10-16 19:13Z · rewritten · by record worker after climb batch 16: row 488 is now a duplicate of row 737 (ledger, 998a6e09c), so the site is named by its place
+
+- F-232 **The syntax tree's hashes do not depend on the JVM's identity hashes; one checker site still does, through the index's.** Every generated node's hash starts from the hash of its class's name, which makeAST's post-processing of ASTGen's output and the in-repo generators write (`build.xml:679-697`), and a field whose type holds an `Option` is hashed by `NodeHash.of` (`ProjectFortress/src/com/sun/fortress/nodes_util/NodeHash.java`), since the PLT `Option` classes hash by identity. So hash maps and sets of nodes that hold neither kind below iterate in one order whatever code asked for an identity hash before, and so do the apis that `StaticChecker.checkApis` takes in turn. Two kinds of node still hash by identity, and so does every node that holds one: the inference variables, whose id is a bare `Object` (`nodes_util/NodeFactory.java:1166-1184`), through which no output of the count stage moves, and walk's `_WrappedFValue` (`interpreter/evaluator/_WrappedFValue.java:170-177`; row 430). The checker's output still moves at row 488's `:130`, through row 737: `ApiTypeExtractor` matches a left-out return type by name over `DeclaredFunction`s, which hash by identity. Gated by `NodeHashJUTest`; for the site that still moves, `XXXOmittedReturnTypeFromApi`. Detail: `compile-ladder/rung-ast-hashes/REPORT.md` sections 4.2 to 4.4.
+
+### F-181
+
+2026-10-16 19:13Z · rewritten · from `explorations/perf-probes/where-clauses/REPORT.md`, "A.7 The code generator and `NatParam`'s clause" · by record worker after the where-clauses probe: what lies past the guard, measured with the guard let through in a scratch copy
+
+- F-181 **The code generator refuses every function, object and trait declaration that carries a `where` clause or a contract (row 701).** The `fortress-repo` skill's `references/compiler.md`, "What the compiled path cannot compile yet", gives this refusal and the constructs that the code generator has no case for, a local function among them (row 304). An array comprehension has no case either. Detail: `coordinator/map/spec-to-implementation.md` section 3.
+
+### F-239
+
+2026-10-16 19:13Z · rewritten · from `explorations/reviews/batch-16-review.md`, "Rung W, `9879d4386`" · by record worker after climb batch 16: maybeType tests names (Evaluator.java:617-621), the review's finding 5; row 746 for the departure
+
+- F-239 **Under walk, an `if` clause without a binding takes a `Boolean` by its value, a `Just` of the library's `Maybe` as true and a `Nothing` as false, and refuses every other value, "If clause did not return boolean".** A `Just` is true whatever it holds; a number, a string and an object that is neither are refused as `()`, a tuple and a function were (`Evaluator.java:582-621`). A refusal while a top-level variable is initialised counts as a refusal at load. Gated by `tests/IfClauseObjectWalk`, `IfClauseNumberWalk`, `IfClauseStringWalk`, `maybeTest` and `naturalsTest`. Detail: `compile-ladder/rung-walk-overload-if/REPORT.md` section 1.
+
+### F-240
+
+2026-10-16 19:13Z · added · from `explorations/reviews/batch-16-review.md`, "2. The speed: 82 s and 217 s against 325 s and 1,075 s" · commit `f98ad813f` · by record worker after climb batch 16: the gate's stage times, the count each landing changes, apart from F-231 and F-235
+
+### F-241
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/integer-power/REPORT.md`, "9. For FACTS" · by record worker after the integer-power probe
+
+### F-242
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/where-clauses/REPORT.md`, "A.8 Decisions, defects, hand-overs (Part A)" · from `explorations/perf-probes/generic-distribute/REPORT.md`, "10. For FACTS" · by record worker after the where-clauses and generic-distribute probes
+
+### F-243
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/where-clauses/REPORT.md`, "A.8 Decisions, defects, hand-overs (Part A)" · from `explorations/perf-probes/where-clauses/REPORT.md`, "B.6 Decisions, defects, hand-overs (Part B)" · by record worker after the where-clauses probe
+
+### F-244
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/where-clauses/REPORT.md`, "B.6 Decisions, defects, hand-overs (Part B)" · by record worker after the where-clauses probe
+
+### F-245
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/symbolic-operators/REPORT.md`, "5. Decisions, defects, hand-overs" · by record worker after the symbolic-operators probe
+
+### F-246
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/symbolic-operators/REPORT.md`, "5. Decisions, defects, hand-overs" · by record worker after the symbolic-operators probe
+
+### F-247
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/integer-power/REPORT.md`, "9. For FACTS" · by record worker after the integer-power probe
+
+### F-248
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/generic-distribute/REPORT.md`, "10. For FACTS" · by record worker after the generic-distribute probe
+
+### F-249
+
+2026-10-16 19:13Z · added · from `explorations/perf-probes/symbolic-operators/REPORT.md`, "5. Decisions, defects, hand-overs" · by record worker after the symbolic-operators probe
+
+### F-250
+
+2026-10-17 17:33Z · added · from `explorations/compile-ladder/rung-library-distribute/REPORT.md`, "7. The count and the distance" · by climb batch 17's gather: rung L's record, its FACTS entry
+
+### F-251
+
+2026-10-17 17:36Z · added · from `explorations/compile-ladder/rung-anylist-comprises/REPORT.md`, "What changed and why" · by climb batch 17's gather: rung A's record, its FACTS entry, its list joined into one line
+
+### F-252
+
+2026-10-17 17:40Z · added · from `explorations/compile-ladder/rung-walk-generic-pairs/REPORT.md`, "1. What changed and why" · from `explorations/compile-ladder/rung-walk-generic-pairs/SKEPTIC.md`, "2. The fix: the Return Type Rule at one instance (a defect of the change)" · by climb batch 17's gather: rung G's record, its new entry, with the skeptic's fix
+
+### F-238
+
+2026-10-17 17:40Z · rewritten · from `explorations/compile-ladder/rung-walk-generic-pairs/REPORT.md`, "7. Sentences made false" · by climb batch 17's gather: rung G's record, its corrections: row 159's sentence dropped; the holding instance read only where it stands for every applicable instance, after the skeptic's fix 36afa7eb1
+
+- F-238 **Under walk, two generic declarations a pair of whose parameter types excluded only in walk's reading of each at one symbolic instantiation are read each over its own instances, and are valid only by the No Duplicates, Return Type and Meet Rules on their declared domains.** Walk's load check read two generic functions of one name and one list of static parameters at one shared symbolic instantiation (`FGenericFunction.java:43-64`), and two instances of one generic object as two types that cannot be extended. Now such an exclusion is withdrawn where the instances of each do not exclude (instances of one generic type exclude only where their static arguments cannot be equal; an exclusion read at the shared instantiation stands where every generic type both extend forces one instance, as `Array` and `ImmutableArray` through `ReadableArray`), and the pair is then refused where each domain is inside the other, valid where one is inside the other with its return type below at the holding instance, or where a third declaration inside both holds their overlap (F-bounds read from the declarations, a symbolic size unified with a size parameter as `types/SymbolicNat.unifyStaticArg` reads it); otherwise refused, "with generic type, at least one pair of parameters must have excluding types" (F-155). A pair the old reading did not find excluding keeps its refusal (row 159). A pair that excludes only through a static argument that another position fixes is refused (row 740). Gated by `tests/GenericBoundsNoMeetWalk`, `NoDuplicatesRuleWalk`, `NoDuplicatesRuleSizeWalk`, `GenericOverloadInstancesApartWalk` (refused), `GenericBoundsMeetWalk`, `GenericFBoundsMeetWalk`, `GenericPairExcludingWalk`, `GenericSizePairNestedWalk` and `ShuffleTest` (load), and `XXXGenericPairExcludesTogetherWalk`. Detail: `compile-ladder/rung-walk-overload-if/REPORT.md` sections 1 and 9.
+
+### F-223
+
+2026-10-17 17:40Z · rewritten · from `explorations/compile-ladder/rung-walk-generic-pairs/REPORT.md`, "7. Sentences made false" · by climb batch 17's gather: rung G's record, its corrections: walk now refuses the pairs of rows 549 and 742
+
+- F-223 **The specification's No Duplicates Rule is the papers' non-strict rule, and the compiled checker applies it, to functional methods wherever their `self` parameters stand, abstract ones included.** Two declarations of one name may not each be applicable to every call to which the other is, as in the type group's papers of 2011 and 2019 (P-26). The checker refuses such a pair, two functional methods at different `self` positions and an abstract functional method beside a concrete one among them: "There are multiple declarations of f with the same parameter type", naming the domain of the declaration written first. It checks no symbolic operator (row 584); such a pair passes it and stops the code generator (row 726). Walk refuses at load such a pair of two generic declarations whose parameter types mention their static parameters, as `dup[\T\](x: Box[\T\])` beside `dup[\U\](x: Box[\U\])`; it loads and runs one of a generic declaration beside one whose parameter types are its bounds, a plain one (row 549) or a generic one whose parameter types mention none of its static parameters (row 742). Gated by `compiler_tests/XXXNoDuplicatesRule`, `XXXNoDuplicatesRuleSelfPositions`, `XXXNoDuplicatesRuleSelfPositionsPlain`, `XXXNoDuplicatesRuleAbstract` and `XXXNoDuplicatesRuleAbstractSelfPositions`, the checker's departure by `XXXNoDuplicatesRuleSelfPositionsOperator`, walk's refusal by `tests/NoDuplicatesRuleWalk`, and walk's two departures by `tests/XXXGenericBesidePlainSameDomain` and `XXXGenericBesideGenericSameDomain`. Detail: `compile-ladder/rung-popl-examples/REPORT.md` section 4, its `SKEPTIC.md` section 2, `compile-ladder/rung-duplicates-coverage/REPORT.md` sections 1 and 8, and `compile-ladder/rung-checker-abstract-callsite/REPORT.md` section 1.
+
+### F-155
+
+2026-10-17 17:40Z · rewritten · from `explorations/compile-ladder/rung-walk-generic-pairs/REPORT.md`, "7. Sentences made false" · by climb batch 17's gather: rung G's record, its corrections: a rank-specialised declaration inside an index-generic one now loads; rows 416 and 341, no longer 159
+
+- F-155 **Under walk, two declarations of one name that differ only in the element type, or a rank-specialised declaration beside an index-generic one, are refused at load.** The message is "at least one pair of parameters must have excluding types" (rows 159, 416). Walk checks as one family the overloads of one name that two imported apis declare, and an import alias does not separate them. So two such vocabularies cannot stand in one component. Detail: `apl/mg/NOTES-swap.md`, "Departures, each with its evidence", items 5 and 6.
+
+### F-253
+
+2026-10-17 17:43Z · added · from `explorations/compile-ladder/rung-walk-method-sargs/REPORT.md`, "1. What changed and why" · by climb batch 17's gather: rung W's record, its FACTS entry, with the skeptic's row 766
+
+### F-26
+
+2026-10-17 17:43Z · rewritten · from `explorations/compile-ladder/rung-walk-method-sargs/REPORT.md`, "7. What the specification settles" · by climb batch 17's gather: rung W's record, its corrections: a generic dotted method is now compared on its declared domain where exactly one declared domain lies inside the other
+
+- F-26 **Walk chooses between a generic declaration and another on their declared domains, not by the order they are written in.** It builds P-45 under walk. A generic trait's functional method and a generic dotted method are still compared by their instances. A generic instance chosen by converting an argument dispatches again, except for overloaded methods. The symbolic instance reads the static parameters' kinds and bounds, not a `where` clause. Gated by `tests/DispatchDeclaredDomain.fss` and `DispatchConvertedAgain.fss`. Detail: `compile-ladder/rung-walk-dispatch/REPORT.md` section 5.1.
+
+### F-248
+
+2026-10-17 17:43Z · rewritten · from `explorations/compile-ladder/rung-walk-method-sargs/REPORT.md`, "7. What the specification settles" · by climb batch 17's gather: rung W's record, its corrections: the nested reduction's stop holds only without rung W's change; NestedReductionFusion runs on the tree with both
+
+- F-248 **Under walk, the team's generic `distribute` over `K`, with the `Any` method gone, keeps every fused answer but stops a nested reduction with no fused pair.** `GeneratorDeclarations` and microGPT's quick pair keep their answers, and `MAX` and `MIN` over `SUM` and `SUM` over `PROD` still fuse. A `SUM` of `SUM`s over a generator of generators now stops, since walk infers no static argument of a generic method (row 21); no suite test reaches it. The team's explicit `r.distribute[\L1\](q)` stops every fused pair (row 744). Detail: `perf-probes/generic-distribute/REPORT.md` section 5.
+
+### F-252
+
+2026-10-17 17:43Z · rewritten · from `explorations/compile-ladder/rung-walk-method-sargs/REPORT.md`, "7. What the specification settles" · by climb batch 17's gather: rung W's change, which lands after rung G's: a generic dotted method is compared on its declared domain at a call since rung W, as F-26 now says
+
+- F-252 **Under walk, two functions with static parameters that no pair of parameter types excludes are read on their declared domains, each over its own instances, by the No Duplicates, Return Type and Meet Rules, and a pair whose declared domains are equal is refused even where the parameter check orders it.** Walk's parameter-by-parameter check passes a pair it finds excluding; a pair of two own generics it refuses is read by `genericPairValid` (`interpreter/evaluator/values/OverloadedFunction.java:766`), whether or not an exclusion was withdrawn; a pair it passes by order, one at least an own generic and the other an own generic or plain, whose declared domains each lie inside the other is refused, "fails because their parameter lists have the same types" (`:533-540`, `sameDeclaredDomains` `:806`), since the check reads a type parameter as strictly below its bound. Limits: the Meet Rule's search matches the two domains only where their parameter types are, position by position, instances of one generic type or static parameters (row 539); a pair whose parameter types exclude only together is refused (row 740); instances of one generic type at different ground arguments do not exclude in the check (row 416); a generic functional method or dotted method is compared on the instance a call makes. Gated by `tests/DispatchRenamedGenericArmWalk`, `DispatchSwappedGenericArmWalk`, `GenericPairNestedBoundsWalk` (load and dispatch), `GenericBesideGenericSameDomain`, `GenericBesidePlainSameDomain` (refused), `XXXOverloadExistentialMeetWalk` and `XXXGenericPairExcludesTogetherWalk`. Detail: `compile-ladder/rung-walk-generic-pairs/REPORT.md` sections 1 and 5. The Return Type Rule, where one of two own generics lies inside the other, is read at the instance of the outer one that holds the inner one's declared domain only where that instance stands for every instance applicable to an argument of the inner one (`returnRuleAtEveryInstance`, `OverloadedFunction.java` at 36afa7eb1): each static parameter the outer one's return type names is fixed by a static argument of one of its parameter types, or the outer one returns that type parameter and the inner one returns a type parameter of its own that is the type of no other parameters, or has there an object type below which its return type lies; otherwise the pair is refused, "at least one pair of parameters must have excluding types", as `f[\T extends Shape\](x: T, y: T): T` beside `f[\U extends Round\](x: U, y: Round): Round` and `f[\T extends Shape\](x: T): Box[\T\]` beside `f[\U extends Round\](x: U): Box[\U\]` are, which the compiled checker refuses too. Gated by `tests/GenericReturnRuleOuterParamWalk`, `GenericReturnRuleInvariantWalk` (refused) and `GenericReturnRuleHoldsWalk` (load and dispatch). Detail: `compile-ladder/rung-walk-generic-pairs/SKEPTIC.md` section 2. A type parameter bounded by `Any` counts: `g[\T\](a: T)` beside `g(a: Any)` is refused as equal declared domains, which the compiled checker accepts (row 759).
+
+### F-254
+
+2026-10-17 17:45Z · added · from `explorations/compile-ladder/rung-checker-four-rows/REPORT.md`, "1. What changed and why" · by climb batch 17's gather: rung C's record, its FACTS entry
+
+### F-53
+
+2026-10-17 17:45Z · rewritten · from `explorations/compile-ladder/rung-checker-four-rows/REPORT.md`, "7. Sentences made false" · by climb batch 17's gather: rung C's record, its corrections: the sentence on the moving site at FortressLibrary.fss:130 dropped, row 737 repaired; the numbers are the gate's
+
+- F-53 **The distance to the switch-over is 49 errors and the checker count is 39, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 39 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. An edit can move one error that it does not touch, `Library/FortressLibrary.fss:130` (row 737; F-232), so a lone move of that site does not show the edit's effect. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-232
+
+2026-10-17 17:45Z · rewritten · from `explorations/compile-ladder/rung-checker-four-rows/REPORT.md`, "7. Sentences made false" · by climb batch 17's gather: rung C's record, its corrections: no checker site moves with the index's identity hashes since row 737's repair
+
+- F-232 **The syntax tree's hashes do not depend on the JVM's identity hashes; one checker site still does, through the index's.** Every generated node's hash starts from the hash of its class's name, which makeAST's post-processing of ASTGen's output and the in-repo generators write (`build.xml:679-697`), and a field whose type holds an `Option` is hashed by `NodeHash.of` (`ProjectFortress/src/com/sun/fortress/nodes_util/NodeHash.java`), since the PLT `Option` classes hash by identity. So hash maps and sets of nodes that hold neither kind below iterate in one order whatever code asked for an identity hash before, and so do the apis that `StaticChecker.checkApis` takes in turn. Two kinds of node still hash by identity, and so does every node that holds one: the inference variables, whose id is a bare `Object` (`nodes_util/NodeFactory.java:1166-1184`), through which no output of the count stage moves, and walk's `_WrappedFValue` (`interpreter/evaluator/_WrappedFValue.java:170-177`; row 430). The checker's output still moves at `Library/FortressLibrary.fss:130`, through row 737: `ApiTypeExtractor` matches a left-out return type by name over `DeclaredFunction`s, which hash by identity. Gated by `NodeHashJUTest`; for the site that still moves, `XXXOmittedReturnTypeFromApi`. Detail: `compile-ladder/rung-ast-hashes/REPORT.md` sections 4.2 to 4.4.
+
+### F-85
+
+2026-10-17 18:17Z · rewritten · from `explorations/compile-ladder/rung-library-distribute/SKEPTIC.md`, "7. The report and the record" · by climb batch 17 review: two of its three sites are gone with the identities cast and the typed embiggen; the batch record gives F-85 to no one
+
+- F-85 **The one library's generator, condition, reduction and nested-generator slips are repaired in its own spelling, and three sites of the distance are left there.** They are the identities' numeral fallback (row 436), `embiggen` (row 631) and `__bigOperator2`'s fused arm (row 632). `Condition`'s `cond` calls write their result type as static argument. F-93 holds a generator's size and index (row 629), and F-144 the reductions' `Any` devices (row 628). Gated by `tests/GeneratorDeclarations.fss`. Detail: `compile-ladder/rung-generator-slips/REPORT.md` sections 5 and 8.
+
+### F-53
+
+2026-10-17 18:51Z · rewritten · commit `f7abdaa63` · by climb batch 17 commit stage: the landed figures of climb batch 17 gate, read from explorations/compile-ladder/climb-batch-17/gate/distance.txt (#total 35) and checker-count.txt (#total 31): the distance 49 to 35, the count 39 to 31; numbers only
+
+- F-53 **The distance to the switch-over is 49 errors and the checker count is 39, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 39 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-27
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `6d187d069` · by coordinator: row 159 closed: walk reads every pair of functions with static parameters on their declared domains
+
+- F-27 **Walk's load check reads a generic declaration beside a plain one on declared domains, and covers an overlap through `comprises` clauses, where its parameter-by-parameter check refuses.** It builds P-46 and P-60 under walk. An overlap passes only if one declaration below both covers all of it. Walk refuses two generic declarations unless some parameter pair excludes (row 159), and one valid set (row 539). Gated by `tests/ComprisesMeetWalk.fss` and `GenericBesidePlain*.fss`, among others. Detail: `compile-ladder/rung-walk-dispatch/REPORT.md` sections 5.3 and 5.4.
+
+### F-75
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `2b1cd8e63` · by coordinator: the generic distribute over K cleared distribute's two pairs, row 433 closed
+
+- F-75 **The compiled checker checks the Return Type Rule over every instance and answer 9's positional rule: two generic declarations in the more-specific relation agree on their static parameters by position.** It builds P-45. It also refuses a generic declaration beside a plain one on an object domain, which the paper accepts (row 542, for the curator's review). In the one library the two rules refuse only `distribute`'s two pairs (row 433). Gated by `compiler_tests/OverloadGeneric*`. Detail: `compile-ladder/rung-return-type-rule/decision-record.md` sections 1 and 2.
+
+### F-81
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `2b1cd8e63` · by coordinator: distribute's pairs cleared, row 433 closed
+
+- F-81 **The one library declares a method on the meet for each Meet Rule pair inside one type, and its declared types match what their bodies answer.** `String`'s juxtaposition is three top-level operators, since functional methods with `self` at different positions have no meet. Left: `distribute`'s pairs (row 433), and `String`'s `||`, `|||`, `//` and `///`, a refused shape unseen only while the checker skips symbolic operators (rows 584, 585). Gated by `tests/LibraryMeetDeclarations.fss`. Detail: `compile-ladder/rung-library-meets/REPORT.md` section 1.
+
+### F-84
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `24db899fa` · by coordinator: AnyList's readings cleared, row 636 closed
+
+- F-84 **The one library's numbers, orderings, `List` and natives answer their declared types, and its result-only parameters are unbounded, as the team declared them.** `fail`, `builtinPrimitive` and `List`'s nullary comprehension carry an unbounded `T` (P-48), so where `()` is expected their instance is `()`. `MatchFailure` is unchecked. Left: `LexicographicOrder` (row 634's list half), `AnyList`'s readings (row 636) and `QQ`'s power (rows 438, 445). Gated by `tests/NumberOrderListDeclarations.fss`. Detail: `compile-ladder/rung-number-order-slips/REPORT.md` sections 1 and 5.
+
+### F-121
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `24db899fa` · by coordinator: the checker opens a type where-clause variable too, row 636 closed
+
+- F-121 **The team's spelling of the tower closure, `comprises Integral[\I\] where [\I\]`, stays a comment, and no decision says whether it is a valid clause.** The closure as written stands (P-44) and checks (F-62). The specification lets a listed type hold a `where`-clause variable, at every value of it. The compiled checker opens a listed type's `nat` and `int` `where`-clause variables, but not a type one (row 636). Detail: `compile-ladder/rung-library-comments/REPORT.md` section 4; `coordinator/process-engineering/facts-slice-2.md`, "Points for the checker".
+
+### F-146
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `091ec54df` · by coordinator: rows 636 and 681 closed; row 767 holds the case 681's repair leaves
+
+- F-146 **The compiled checker accepts arithmetic in a size and opens a value of a trait whose `comprises` clause lists a type at a `where`-clause size.** It builds P-55, with array fork 3 at its default. A name or an operation beside a numeral counts as not known to differ, and two different size parameters as different (row 683, contested). The checker opens each listed type's `nat` and `int` `where`-clause sizes as fresh names, and walk reads them as any size. Gated by `compiler_tests/NatArith*` and `NatOpenChecker`. Open: an opened size does not compile (row 307), and rows 636, 675, 681 and 682 (contested). Detail: `compile-ladder/rung-size-expressions/REPORT.md` sections 1 and 12.
+
+### F-237
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `2b1cd8e63` · by coordinator: row 433's sites at :3422 and :3424 gone
+
+- F-237 **The well-formedness walk reports an ill-formed type that it meets outside the expression it is in at that expression, so a call whose static argument breaks the bound of the callee's result type is reported at the call.** A call's type keeps the spans of the callee's declared type. An error on such a type is reported at the innermost expression the walk met it in, once for each call that made the type: the expressions that a call's value flows to share its type node and add no error, and a second call with the same printed static argument gets its own error. Where the type is ill-formed where it is written, its error stays at the declaration. A local variable's right-hand side is walked before the lines that use the variable, so a call whose value a variable holds is reported at the call, not at a later use. In the library, by reading, no error is added or dropped, and row 433's two fusion-pair sites are at their calls, `Library/FortressLibrary.fss:3422` and `:3424`. Source: `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:37-114` and `:284-287`. Gated by `compiler_tests/XXXStaticArgBoundAtCall`, `XXXStaticArgBoundAtCallOnce`, `XXXStaticArgBoundAtEachCall`, `XXXStaticArgBoundAtCallNotAtUse` and `XXXIllFormedTypeAtDeclarationOnce`. Detail: `compile-ladder/rung-checker-abstract-callsite/REPORT.md` sections 1 and 6, its `SKEPTIC.md` sections 5.1 and 5.2 and its `JUDGE.md`.
+
+### F-240
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "1. Conformance, rung by rung" · commit `65c0cc463` · by coordinator: climb batch 17's gate: 76 s and 180 s
+
+- F-240 **The checker's count stage takes 82 s and its distance stage 217 s at the last landed gate, climb batch 16's.** At climb batch 15b's gate they took 325 s and 1,075 s; the solver's memos (F-235) make the difference, not load. Both ran beside other JVMs, and no idle run of the merged tree exists. Load can lengthen a stage more than twofold: rung S's tree took 574 s for the distance stage at load 5. So a time compares only with one taken beside like load. Source: the gate's result and `compile-ladder/climb-batch-16/gate/distance.txt`. Detail: `reviews/batch-16-review.md`, section 2.
+
+### F-242
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `2b1cd8e63` · by coordinator: the six sites cleared by rung L's method condition and generic distribute, row 433 closed
+
+- F-242 **`SUM`'s fusion pairs with `MAX` and `MIN` hold six sites of the distance: four unmet bounds, which a method `where` condition clears, and two results only the team's generic `distribute` over its own `K` clears.** The two are `distribute` overloads answering a pair over `Maybe[\T\]` where the inherited one answers one over `T`, refused by the return-type rule (F-75). With both, 49 falls to 42; the team's literal `PossibleReductionPair[\R\]` only moves the two. Row 433. Detail: `perf-probes/where-clauses/REPORT.md` A.1; `perf-probes/generic-distribute/REPORT.md` sections 3 and 4.
+
+### F-243
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `24db899fa` · by coordinator: 12 of the 13 sites cleared; AnyList's bodies respelled within AnyList, not moved into List (finding 6)
+
+- F-243 **Of the distance's 13 `where`-clause sites, library edits with no new language clear 12, and conditional extension the 13th.** Dropping the fusion pairs (6), moving `AnyList`'s bodies into `List` (4) and a `cast` at the identities' numeral fallback (2) give 49 to 37, nothing new, walk and microGPT unchanged. Conditional extension then clears the list comparisons' site (36), with `ZeroIndexed[\E\]` kept outside the condition. The checker's narrow forms (P-151) alone clear 6 (43). Detail: `perf-probes/where-clauses/REPORT.md` A.0, A.4, B.0 and B.3.
+
+### F-244
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `24db899fa` · by coordinator: the forms built in the checker, not as shadows; conditional extension not built
+
+- F-244 **The narrow `where` forms, built as shadow patches in the checker, held where tested and left two holes.** A type variable opened from a `comprises` clause passes the escape, two-value and Amin–Tate tests. Under the rules the shadows took, a member checked under a conditional extension's condition stays callable where the condition fails, and a method's constraint on its trait's parameter is not checked at a dotted call; the peers scope the first to the condition and check the second at calls. Detail: `perf-probes/where-clauses/REPORT.md` B.1 to B.3 and B.6.
+
+### F-250
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `743eb5286` · by coordinator: the walk sentence holds of 2b1cd8e63 alone
+
+- F-250 **The compiled checker reads a `where` clause's trait constraint `X extends B` as a bound of `X` inside the declaration, and folds a constraint on the declaration's own static parameter into its arrow, so a call is checked against it; with the team's generic `distribute` over `K`, the identities' cast and a typed `embiggen`, the distance is 40 and the count 32 on the rung's own tree.** Inside a declaration, a method's condition on its trait's or object's parameter bounds that parameter (`WhereBoundMethodChecker`), and a call that breaks a function's own constraint is refused (`XXXWhereBoundFunctionCall`). Four holes remain: a method's condition on its trait's parameter is not checked at a dotted call (row 748), though a functional method's is, through its lifted arrow; a trait's or object's own constraint is not checked where its type is used (row 750); a static argument written at a top-level call is not checked against a folded bound, `g[\String\]("s")` accepted where `g("s")` is refused (row 470); and a constraint whose bound names a `where`-clause variable refuses every call (row 749, `XXXWhereVariableBoundCall`). The 9 distance sites gone are row 433's 6, row 436's 2 and row 631's 1; `FortressLibrary.fss:130` stayed. Under walk, the change alone stops every dotted call of the generic `distribute` that writes no static argument, `LibraryOverloadFamilies.fss:37` the one in the suites, until rung W's walk fix lands with it; the identities' fallback ends in `CastError`, for an empty `SUM` over a user group and for a filtered one. Test: `WhereBoundMethodChecker`, and the distance stage's per-site list. Detail: `explorations/compile-ladder/rung-library-distribute/REPORT.md` sections 6 to 8.
+
+### F-252
+
+2026-10-17 19:33Z · rewritten · from `explorations/reviews/batch-17-review.md`, "6. Routing missing, by home" · commit `6d187d069` · by coordinator: the limit narrowed to the code, judge-review.3 of climb batch 17 (OverloadedFunction.java:2240-2241), F-26's words
+
+- F-252 **Under walk, two functions with static parameters that no pair of parameter types excludes are read on their declared domains, each over its own instances, by the No Duplicates, Return Type and Meet Rules, and a pair whose declared domains are equal is refused even where the parameter check orders it.** Walk's parameter-by-parameter check passes a pair it finds excluding; a pair of two own generics it refuses is read by `genericPairValid` (`interpreter/evaluator/values/OverloadedFunction.java:766`), whether or not an exclusion was withdrawn; a pair it passes by order, one at least an own generic and the other an own generic or plain, whose declared domains each lie inside the other is refused, "fails because their parameter lists have the same types" (`:533-540`, `sameDeclaredDomains` `:806`), since the check reads a type parameter as strictly below its bound. Limits: the Meet Rule's search matches the two domains only where their parameter types are, position by position, instances of one generic type or static parameters (row 539); a pair whose parameter types exclude only together is refused (row 740); instances of one generic type at different ground arguments do not exclude in the check (row 416); a generic functional method is compared on the instance a call makes, and so is a generic dotted method except where exactly one of the two declared domains lies inside the other (F-253). Gated by `tests/DispatchRenamedGenericArmWalk`, `DispatchSwappedGenericArmWalk`, `GenericPairNestedBoundsWalk` (load and dispatch), `GenericBesideGenericSameDomain`, `GenericBesidePlainSameDomain` (refused), `XXXOverloadExistentialMeetWalk` and `XXXGenericPairExcludesTogetherWalk`. Detail: `compile-ladder/rung-walk-generic-pairs/REPORT.md` sections 1 and 5. The Return Type Rule, where one of two own generics lies inside the other, is read at the instance of the outer one that holds the inner one's declared domain only where that instance stands for every instance applicable to an argument of the inner one (`returnRuleAtEveryInstance`, `OverloadedFunction.java` at 36afa7eb1): each static parameter the outer one's return type names is fixed by a static argument of one of its parameter types, or the outer one returns that type parameter and the inner one returns a type parameter of its own that is the type of no other parameters, or has there an object type below which its return type lies; otherwise the pair is refused, "at least one pair of parameters must have excluding types", as `f[\T extends Shape\](x: T, y: T): T` beside `f[\U extends Round\](x: U, y: Round): Round` and `f[\T extends Shape\](x: T): Box[\T\]` beside `f[\U extends Round\](x: U): Box[\U\]` are, which the compiled checker refuses too. Gated by `tests/GenericReturnRuleOuterParamWalk`, `GenericReturnRuleInvariantWalk` (refused) and `GenericReturnRuleHoldsWalk` (load and dispatch). Detail: `compile-ladder/rung-walk-generic-pairs/SKEPTIC.md` section 2. A type parameter bounded by `Any` counts: `g[\T\](a: T)` beside `g(a: Any)` is refused as equal declared domains, which the compiled checker accepts (row 759).
+
+### F-255
+
+2026-10-18 03:07Z · added · from `explorations/compile-ladder/rung-checker-conditional-extension/REPORT.md`, "1. What changed, and why" · from `explorations/compile-ladder/rung-checker-conditional-extension/SKEPTIC.md`, "4. The fixes" · by climb batch 18's gather: rung X's record, its FACTS entry, with the skeptic's fixes
+
+### F-256
+
+2026-10-18 03:12Z · added · from `explorations/compile-ladder/rung-checker-where-checks/REPORT.md`, "1. What changed and why" · from `explorations/compile-ladder/rung-checker-where-checks/SKEPTIC.md`, "F1, a defect, fixed in `deabd50f6` (settled)" · by climb batch 18's gather: rung K's record, its FACTS entry, with the skeptic's fix
+
+### F-255
+
+2026-10-18 03:12Z · rewritten · by climb batch 18's gather: climb batch 18's gather: the conditional-parent members re-anchored by symbol (parents to withConditionalParents), moved 7 lines down by rung K's hunks above them in TypeAnalyzer.scala
+
+- F-255 **The compiled checker reads conditional extension: a trait or object that extends a type under a `where` clause of trait constraints only is that type exactly where the constraints hold, and its members and the entry itself are checked with them holding, its other `extends` entries without them; `List` is so ordered only where its elements are totally ordered, and the list comparisons' site is cleared.** `parents` leaves such an entry out and `conditionalParents` gives it, with its conditions at the type's static arguments, which the subtype case of a trait type reads as a formula beside rung A's reading of a parent that opens (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:290-315`, `:919-962`); `KindEnv.withExtendsConditions` adds the conditions to the declaration's own `where` clause in Decls' and TypeWellFormedChecker's trait and object cases (`KindEnv.scala:179-203`). A clause that binds a variable, or holds a constraint that is not a trait constraint, is read as before. With `LexicographicOrder`'s `E` bounded by `StandardTotalOrder[\E\]`, `List`'s entry under `E extends StandardTotalOrder[\E\]`, `ZeroIndexed[\E\]` and an element-wise `=` written outside it (`Library/List.fss:106-107`, `:124-128`), the site `FortressLibrary.fss:2063` goes: distance 35 to 34, count 31 to 30, no site comes. A member checked under the condition stays callable where it fails (row 773), and walk and the compiled run time read the extension at every instance (row 774). Tests: `compiler_tests/CondExtendChecker`, `XXXCondExtendRefuseChecker`, `CondExtendInheritedMember` (a type that inherits through a conditional parent compiles: the code generator's analyzer, which binds no declaration's static parameters, reads the parent at every instance), `tests/XXXConditionalExtensionTypeTestWalk`. Detail: `compile-ladder/rung-checker-conditional-extension/REPORT.md`, sections 1, 6 and 10.
+
+### F-257
+
+2026-10-18 03:16Z · added · from `explorations/compile-ladder/rung-walk-trait-method-bounds/REPORT.md`, "1. What changed and why" · from `explorations/compile-ladder/rung-walk-trait-method-bounds/REPORT.md`, "3. The tests keyed on the old message, and the pairs that keep it" · by climb batch 18's gather: rung W's record, its FACTS entry, its list joined into one line
+
+### F-256
+
+2026-10-18 03:42Z · rewritten · by climb batch 18's merged-diff review: the count and distance sentence spoke of rung K's tree alone; on main rung X's F-255 moves them to 30 and 34
+
+- F-256 **The compiled checker checks a `where` clause's trait constraints where they apply.** A dotted call's candidate whose where clause constrains its trait's or object's static parameter is not applicable where the receiver's static argument breaks the constraint ('Method Holder[\String\].showIt is not applicable: its where clause requires String to extend Shows.'). A where clause's own type, `nat` and `int` variables are static parameters of the function's arrow, inferred at the call, so a constraint whose bound names one is met where some value of it meets every constraint; the solver fixes, once, a size that only the type variables' bounds name. A trait's or object's own constraint is checked where its type is used, with the bound's message, also at a constructor call through the call's type. A type `where`-clause variable of a `comprises` clause is bounded by its binding and by the clause's constraints on it, at its opening and in the extender check; a bound that names the variable, as `E extends StandardTotalOrder[\E\]` does, names it opened. Not read: a constraint whose bound names the method's own static parameters or a `where`-clause variable, at a dotted call or at a type's use; a static argument written at a top-level call (row 470). Walk still runs a dotted call that breaks a method's condition (row 777), and reads a comprises clause's `where`-clause variable for the same name in another declaration's bound (row 778). The count stays 31 and the distance 35. Tests: `XXXWhereBoundDottedCallChecker`, `WhereVariableBoundCallChecker`, `XXXWhereConstraintTypeUseChecker`, `XXXWhereConstraintExtendsChecker`, `XXXComprisesWhereBoundExtenderChecker`, `OpenTypeWhereConstraintChecker`, `XXXComprisesWhereConstraintExtenderChecker`, `OpenTypeWhereSelfBoundChecker`. Detail: `explorations/compile-ladder/rung-checker-where-checks/REPORT.md`, sections 1 and 6, and `SKEPTIC.md` beside it.
+
+### F-255
+
+2026-10-18 04:12Z · rewritten · from `explorations/compile-ladder/climb-batch-18/JUDGE-review.md`, "3. What the text and the record say": the header checked without the conditions, after the merged-diff review
+
+- F-255 **The compiled checker reads conditional extension: a trait or object that extends a type under a `where` clause of trait constraints only is that type exactly where the constraints hold, and its members and the entry itself are checked with them holding, its other `extends` entries without them; `List` is so ordered only where its elements are totally ordered, and the list comparisons' site is cleared.** `parents` leaves such an entry out and `conditionalParents` gives it, with its conditions at the type's static arguments, which the subtype case of a trait type reads as a formula beside rung A's reading of a parent that opens (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:290-315`, `:926-969`); `KindEnv.withExtendsConditions` adds the conditions to the declaration's own `where` clause in Decls' and TypeWellFormedChecker's trait and object cases (`KindEnv.scala:179-203`). A clause that binds a variable, or holds a constraint that is not a trait constraint, is read as before. With `LexicographicOrder`'s `E` bounded by `StandardTotalOrder[\E\]`, `List`'s entry under `E extends StandardTotalOrder[\E\]`, `ZeroIndexed[\E\]` and an element-wise `=` written outside it (`Library/List.fss:106-107`, `:124-128`), the site `FortressLibrary.fss:2063` goes: distance 35 to 34, count 31 to 30, no site comes. A member checked under the condition stays callable where it fails (row 773), and walk and the compiled run time read the extension at every instance (row 774). Tests: `compiler_tests/CondExtendChecker`, `XXXCondExtendRefuseChecker`, `CondExtendInheritedMember` (a type that inherits through a conditional parent compiles: the code generator's analyzer, which binds no declaration's static parameters, reads the parent at every instance), `tests/XXXConditionalExtensionTypeTestWalk`. Detail: `compile-ladder/rung-checker-conditional-extension/REPORT.md`, sections 1, 6 and 10.
+
+### F-53
+
+2026-10-18 04:38Z · rewritten · commit `5b11849c6` · by climb batch 18 commit stage: the landed figures of climb batch 18 gate, read from explorations/compile-ladder/climb-batch-18/gate/distance.txt (#total 34) and checker-count.txt (#total 30): the distance 35 to 34, the count 31 to 30; numbers only
+
+- F-53 **The distance to the switch-over is 35 errors and the checker count is 31, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 31 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-243
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `372b9bf6a` · by climb batch 18's routing: conditional extension built in the checker; the rung's replacement text
+
+- F-243 **Of the distance's 13 `where`-clause sites, 12 are cleared, and the 13th, the list comparisons' site, waits on conditional extension.** The method condition and the generic `distribute` clear the fusion pairs' 6 (F-242), `AnyList`'s live clause its 4, with its bodies respelled within `AnyList` and none moved into `List` (F-251), and a `cast` at the identities' numeral fallback 2 (row 436). Conditional extension clears the list comparisons' site (row 634's list half), with `ZeroIndexed[\E\]` kept outside the condition. Library edits with no new language also clear 12, by the probe: the fusion pairs dropped and `AnyList`'s bodies moved into `List`. Detail: `perf-probes/where-clauses/REPORT.md` A.0, A.4, B.0 and B.3; `reviews/batch-17-review.md`, section 2.
+
+### F-244
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `396e4ed8d` · by climb batch 18's routing: conditional extension built (rung X); rows 748, 749, 750, 753 and 771 closed (rung K); the hole that stands is row 773
+
+- F-244 **The narrow `where` forms, built in the checker except conditional extension, hold where tested, and the probe's two holes stand.** A type variable opened from a `comprises` clause passes the escape, two-value and Amin–Tate tests (F-251). A method's constraint on its trait's parameter bounds that parameter inside the method and is not checked at a dotted call (row 748; F-250). Under the rules the probe's shadow patches took, a member checked under a conditional extension's condition stays callable where the condition fails. The peers check the constraint at calls and scope the member to the condition. The built forms' other departures are rows 749 to 753 and 771. Detail: `perf-probes/where-clauses/REPORT.md` B.1 to B.3 and B.6.
+
+### F-84
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/rung-checker-conditional-extension/REPORT.md`, "1. What changed, and why" · commit `372b9bf6a` · by climb batch 18's routing: the pass: row 634's list half closed by conditional extension
+
+- F-84 **The one library's numbers, orderings, `List` and natives answer their declared types, and its result-only parameters are unbounded, as the team declared them.** `fail`, `builtinPrimitive` and `List`'s nullary comprehension carry an unbounded `T` (P-48), so where `()` is expected their instance is `()`. `MatchFailure` is unchecked. Left: `LexicographicOrder` (row 634's list half) and `QQ`'s power (rows 438, 445). Gated by `tests/NumberOrderListDeclarations.fss`. Detail: `compile-ladder/rung-number-order-slips/REPORT.md` sections 1 and 5.
+
+### F-181
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/rung-checker-conditional-extension/REPORT.md`, "15. For the curator" · from `explorations/compile-ladder/climb-batch-18/REPAIR-review.md`, "2. Deviations" · commit `5b11849c6` · by climb batch 18's routing: the pass: X.worker.5 measured the extends entry's clause compiled (row 774's notes); the repair found the contract dropped before the checker (row 781)
+
+- F-181 **The code generator refuses every function, object and trait declaration that carries a `where` clause or a contract (row 701).** The `fortress-repo` skill's `references/compiler.md`, "What the compiled path cannot compile yet", gives this refusal and the constructs that the code generator has no case for, a local function among them (row 304). An array comprehension has no case either. Past the guard, `NatParam`'s clause of bindings only compiles and runs, and opening its value at a call fails verification (row 307). Detail: `coordinator/map/spec-to-implementation.md` section 3; `perf-probes/where-clauses/REPORT.md` A.7.
+
+### F-255
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/REPAIR-review.md`, "1. What was done, by the ruling's steps" · commit `5b11849c6` · by climb batch 18's routing: checked against main after the repair: its claims and lines hold; the test of the skeptic's upheld fix bd18b6a47 added to its tests
+
+- F-255 **The compiled checker reads conditional extension: a trait or object that extends a type under a `where` clause of trait constraints only is that type exactly where the constraints hold, and the entry itself, its value parameters and its members are checked with them holding, the rest of the declaration (its static parameters, own `where` clause, `throws` clause, contract, `excludes` and `comprises` clauses and other `extends` entries) without them; `List` is so ordered only where its elements are totally ordered, and the list comparisons' site is cleared.** `parents` leaves such an entry out and `conditionalParents` gives it, with its conditions at the type's static arguments, which the subtype case of a trait type reads as a formula beside rung A's reading of a parent that opens (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:290-315`, `:926-969`); `KindEnv.withExtendsConditions` adds the conditions to the declaration's own `where` clause in Decls' and TypeWellFormedChecker's trait and object cases (`KindEnv.scala:179-203`). TypeWellFormedChecker's trait and object cases check the header with the declaration's own `where` clause only, and the value parameters and members with every condition, each `extends` entry with its own (`TypeWellFormedChecker.scala:192-212`, `:218-236`); an object's contract never reaches `Decls`, whose check of it (`Decls.scala:139-142`) reads every condition, since the disambiguator drops a trait's and an object's `throws` clause and contract (`TypeDisambiguator.java:112-113`, `:137-138`; row 781). A clause that binds a variable, or holds a constraint that is not a trait constraint, is read as before. With `LexicographicOrder`'s `E` bounded by `StandardTotalOrder[\E\]`, `List`'s entry under `E extends StandardTotalOrder[\E\]`, `ZeroIndexed[\E\]` and an element-wise `=` written outside it (`Library/List.fss:106-107`, `:124-128`), the site `FortressLibrary.fss:2063` goes: distance 35 to 34, count 31 to 30, no site comes. A member checked under the condition stays callable where it fails (row 773), and walk and the compiled run time read the extension at every instance (row 774). Tests: `compiler_tests/CondExtendChecker`, `XXXCondExtendRefuseChecker`, `XXXCondExtendExcludesChecker`, `XXXCondExtendComprisesChecker`, `XXXCondExtendParamBoundChecker`, `XXXCondExtendExcludesWhereChecker`, `CondExtendInheritedMember` (a type that inherits through a conditional parent compiles: the code generator's analyzer, which binds no declaration's static parameters, reads the parent at every instance), `tests/XXXConditionalExtensionTypeTestWalk`. Detail: `compile-ladder/rung-checker-conditional-extension/REPORT.md`, sections 1, 6 and 10.
+
+### F-250
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `396e4ed8d` · by climb batch 18's routing: rows 748, 749 and 750 closed by the where checks; row 470's hole stays
+
+- F-250 **The compiled checker reads a `where` clause's trait constraint `X extends B` as a bound of `X` inside the declaration, and folds a constraint on the declaration's own static parameter into its arrow, so a call is checked against it; with the team's generic `distribute` over `K`, the identities' cast and a typed `embiggen`, the distance is 40 and the count 32 on the rung's own tree.** Inside a declaration, a method's condition on its trait's or object's parameter bounds that parameter (`WhereBoundMethodChecker`), and a call that breaks a function's own constraint is refused (`XXXWhereBoundFunctionCall`). Four holes remain: a method's condition on its trait's parameter is not checked at a dotted call (row 748), though a functional method's is, through its lifted arrow; a trait's or object's own constraint is not checked where its type is used (row 750); a static argument written at a top-level call is not checked against a folded bound, `g[\String\]("s")` accepted where `g("s")` is refused (row 470); and a constraint whose bound names a `where`-clause variable refuses every call (row 749, `XXXWhereVariableBoundCall`). The 9 distance sites gone are row 433's 6, row 436's 2 and row 631's 1; `FortressLibrary.fss:130` stayed. Under walk, the change alone, the tree at `2b1cd8e63`, stops every dotted call of the generic `distribute` that writes no static argument, `LibraryOverloadFamilies.fss:37` the one in the suites; from `743eb5286` on, walk infers that call (F-253). The identities' fallback ends in `CastError`, for an empty `SUM` over a user group and for a filtered one. Test: `WhereBoundMethodChecker`, and the distance stage's per-site list. Detail: `explorations/compile-ladder/rung-library-distribute/REPORT.md` sections 6 to 8.
+
+### F-251
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `396e4ed8d` · by climb batch 18's routing: an opened type is now also bounded by the clause's constraints (row 771 closed)
+
+- F-251 **A type `where`-clause variable of a `comprises` clause is opened at a call, as a size is, and `AnyList`'s clause is live.** The compiled checker gives an argument whose trait lists `Box[\E\] where [\E\]` a fresh type of its own for the call, bounded as the binding is. It refuses that type where another type is declared, gives two values two types, and refuses Amin and Tate's shape. It does not open such a trait where it reaches it as a parent (row 752). Walk binds the variable as a symbolic type at load. With `AnyList`'s `addLeft`, `addRight` and the comprehension's unwrap respelled, the distance goes from 49 to 45 on the rung's own tree (row 636's four sites); the count, and walk's element types, are unchanged. Tests: `OpenTypeChecker`, `XXXOpenTypeEscapeChecker`, `XXXOpenTypeTwoChecker`, `XXXOpenTypeBoundEvidenceChecker`, `OpenTypeWalk`, `AnyListElementTypeWalk`. Detail: `compile-ladder/rung-anylist-comprises/REPORT.md`.
+
+### F-253
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · from `explorations/compile-ladder/rung-walk-trait-method-bounds/SKEPTIC.md`, "3. My programs: the old code against the new" · commit `5262a2412` · by climb batch 18's routing: row 766 repaired by way A; the exception sentence replaced by the rung's four, the last its skeptic's
+
+- F-253 **Under walk, a dotted call that writes no static argument infers a generic method's own static arguments, and the method is chosen on its declared domain.** Walk takes the instance from the arguments' run-time types, as at a call of a generic function, whether the method is alone under its name or among its receiver's overloads. Against another method of the set it is compared on its declared domain where exactly one of the two declared domains lies inside the other, as an own generic is. A method that a trait declares is the exception: its bounds are not read where they are declared, so a type parameter that is a parameter's whole type takes the join of the arguments' run-time types with no argument converted, and a bounded one that nothing fixes takes `BottomType` (row 766, `XXXTraitGenericMethodInference`). Rung L's generic `distribute` then runs the nested reductions under walk (F-248). Gated by `tests/MethodStaticArgInference.fss`, `MethodStaticArgOverloadedReceiver.fss`, `MethodStaticArgDeclaredDomain.fss` and `NestedReductionFusion.fss`. Detail: `compile-ladder/rung-walk-method-sargs/REPORT.md` sections 1 and 2.
+
+### F-252
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `5262a2412` · by climb batch 18's routing: walk's refusal now names the rule it breaks
+
+- F-252 **Under walk, two functions with static parameters that no pair of parameter types excludes are read on their declared domains, each over its own instances, by the No Duplicates, Return Type and Meet Rules, and a pair whose declared domains are equal is refused even where the parameter check orders it.** Walk's parameter-by-parameter check passes a pair it finds excluding; a pair of two own generics it refuses is read by `genericPairValid` (`interpreter/evaluator/values/OverloadedFunction.java:766`), whether or not an exclusion was withdrawn; a pair it passes by order, one at least an own generic and the other an own generic or plain, whose declared domains each lie inside the other is refused, "fails because their parameter lists have the same types" (`:533-540`, `sameDeclaredDomains` `:806`), since the check reads a type parameter as strictly below its bound. Limits: the Meet Rule's search matches the two domains only where their parameter types are, position by position, instances of one generic type or static parameters (row 539); a pair whose parameter types exclude only together is refused (row 740); instances of one generic type at different ground arguments do not exclude in the check (row 416); a functional method of a generic trait or object is compared on the instance a call makes, and so is a generic dotted method except where exactly one of the two declared domains lies inside the other (F-253). Gated by `tests/DispatchRenamedGenericArmWalk`, `DispatchSwappedGenericArmWalk`, `GenericPairNestedBoundsWalk` (load and dispatch), `GenericBesideGenericSameDomain`, `GenericBesidePlainSameDomain` (refused), `XXXOverloadExistentialMeetWalk` and `XXXGenericPairExcludesTogetherWalk`. Detail: `compile-ladder/rung-walk-generic-pairs/REPORT.md` sections 1 and 5. The Return Type Rule, where one of two own generics lies inside the other, is read at the instance of the outer one that holds the inner one's declared domain only where that instance stands for every instance applicable to an argument of the inner one (`returnRuleAtEveryInstance`, `OverloadedFunction.java` at 36afa7eb1): each static parameter the outer one's return type names is fixed by a static argument of one of its parameter types, or the outer one returns that type parameter and the inner one returns a type parameter of its own that is the type of no other parameters, or has there an object type below which its return type lies; otherwise the pair is refused, "at least one pair of parameters must have excluding types", as `f[\T extends Shape\](x: T, y: T): T` beside `f[\U extends Round\](x: U, y: Round): Round` and `f[\T extends Shape\](x: T): Box[\T\]` beside `f[\U extends Round\](x: U): Box[\U\]` are, which the compiled checker refuses too. Gated by `tests/GenericReturnRuleOuterParamWalk`, `GenericReturnRuleInvariantWalk` (refused) and `GenericReturnRuleHoldsWalk` (load and dispatch). Detail: `compile-ladder/rung-walk-generic-pairs/SKEPTIC.md` section 2. A type parameter bounded by `Any` counts: `g[\T\](a: T)` beside `g(a: Any)` is refused as equal declared domains, which the compiled checker accepts (row 759).
+
+### F-238
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `5262a2412` · by climb batch 18's routing: walk's refusal now names the rule it breaks
+
+- F-238 **Under walk, two generic declarations a pair of whose parameter types excluded only in walk's reading of each at one symbolic instantiation are read each over its own instances, and are valid only by the No Duplicates, Return Type and Meet Rules on their declared domains.** Walk's load check read two generic functions of one name and one list of static parameters at one shared symbolic instantiation (`FGenericFunction.java:43-64`), and two instances of one generic object as two types that cannot be extended. Now such an exclusion is withdrawn where the instances of each do not exclude (instances of one generic type exclude only where their static arguments cannot be equal; an exclusion read at the shared instantiation stands where every generic type both extend forces one instance, as `Array` and `ImmutableArray` through `ReadableArray`), and the pair is then refused where each domain is inside the other, valid where one is inside the other with its return type below at the holding instance where that instance stands for every instance applicable to an argument of the inner one (F-252), or where a third declaration inside both holds their overlap (F-bounds read from the declarations, a symbolic size unified with a size parameter as `types/SymbolicNat.unifyStaticArg` reads it); otherwise refused, "with generic type, at least one pair of parameters must have excluding types" (F-155). A pair that excludes only through a static argument that another position fixes is refused (row 740). Gated by `tests/GenericBoundsNoMeetWalk`, `NoDuplicatesRuleWalk`, `NoDuplicatesRuleSizeWalk`, `GenericOverloadInstancesApartWalk` (refused), `GenericBoundsMeetWalk`, `GenericFBoundsMeetWalk`, `GenericPairExcludingWalk`, `GenericSizePairNestedWalk` and `ShuffleTest` (load), and `XXXGenericPairExcludesTogetherWalk`. Detail: `compile-ladder/rung-walk-overload-if/REPORT.md` sections 1 and 9.
+
+### F-155
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `5262a2412` · by climb batch 18's routing: walk's refusal now names the rule it breaks, measured on this pair
+
+- F-155 **Under walk, two declarations of one name that differ only in the element type are refused at load; a rank-specialised declaration beside an index-generic one loads where it lies inside it.** The message is "at least one pair of parameters must have excluding types" (row 416), as for `h[\I\](a: Array[\RR64,I\])` beside `h[\J\](a: Array[\ZZ32,J\])`; `k[\I\](a: Array[\RR64,I\])` beside `k[\nat n\](v: Vector[\RR64,n\])` loads and dispatches. The rank-specialised `×` of `apl/mg/elemwise_nat_probe.fss` passes its own pair, then is refused beside the library's `MultiplicativeRing.×` (row 341). Walk checks as one family the overloads of one name that two imported apis declare, and an import alias does not separate them. So two such vocabularies cannot stand in one component. Detail: `apl/mg/NOTES-swap.md`, "Departures, each with its evidence", items 5 and 6; `compile-ladder/rung-walk-generic-pairs/REPORT.md` section 5.
+
+### F-240
+
+2026-10-18 04:56Z · rewritten · from `explorations/compile-ladder/climb-batch-18/gate/distance.txt` · commit `e51759f57` · by climb batch 18's routing: the pass: the landed gate's stage times, the count stage's from the gate's result
+
+- F-240 **The checker's count stage takes 76 s and its distance stage 180 s at the last landed gate, climb batch 17's.** At climb batch 15b's gate they took 325 s and 1,075 s; the solver's memos (F-235) make the difference, not load. The distance stage runs beside the suites, and no idle run of the merged tree is recorded. Load can lengthen a stage more than twofold: rung S's tree took 574 s for the distance stage at load 5. So a time compares only with one taken beside like load. Source: the gate's result and `compile-ladder/climb-batch-17/gate/distance.txt`. Detail: `reviews/batch-17-review.md`, section 1; `reviews/batch-16-review.md`, section 2.
+
+### F-245
+
+2026-10-19 22:33Z · rewritten · from `explorations/perf-probes/symbolic-operators/SORT.md`, "Step 1: the reproduction" · from `explorations/perf-probes/symbolic-operators/SORT.md`, "Step 4: totals" · from `explorations/coordinator/postmortem-2026-10-19-haiku/part-1-evening-and-morning.md`, "E30. The sorting probe's report (12:42; `e8312aee5`, after line 35451)" · by Opus record worker: the sort's record pass, owed since 12:42 UTC on 2026-10-17 (part 1, E30; part 2, 4; Fable D.2.3): 205 and 253 at d212b2c1f beside the earlier 200 and 249, the 54 known fixes and the 151 design choices; the title takes 205 (part 2, 4), and the walk refusal the known fixes change is kept from the worker's For FACTS
+
+- F-245 **Checking symbolic operators for overloading would add 200 errors to the distance in the compiled checker, and one in walk's load check.** With the checker's three loops admitting every operator (row 584), the run goes from 49 to 249: subscripts 125, `^` 16, `String`'s four families 40, the arrays' `+` and `-` 9, `=` 4, `|_|` 3, `FlatString`'s pair 2 (row 726), `EmptyString`'s `||` 1 (row 611); the export check adds 2. Walk's meet check, so widened, refuses only `EmptyString`'s `||`, which one declaration clears. Detail: `perf-probes/symbolic-operators/REPORT.md` sections 1.2 to 1.5.
+
+### F-258
+
+2026-10-20 02:43Z · added · from `explorations/compile-ladder/rung-existential-reduction/REPORT.md`, "2. The tests, their failing and passing runs" · from `explorations/compile-ladder/rung-existential-reduction/REPORT.md`, "7. The checker's time (P-148)" · from `explorations/compile-ladder/rung-existential-reduction/SKEPTIC.md`, "3. The diff, and the defect of the change" · by climb batch 19's gather: rung P's record, its FACTS entry, its placeholders numbered
+
+### F-238
+
+2026-10-20 02:44Z · rewritten · from `explorations/compile-ladder/rung-existential-reduction/REPORT.md`, "8. Sentences made false" · by climb batch 19's gather: row 740's pair now loads under walk (rung P); its test promoted to GenericPairExcludesTogetherWalk
+
+- F-238 **Under walk, two generic declarations a pair of whose parameter types excluded only in walk's reading of each at one symbolic instantiation are read each over its own instances, and are valid only by the No Duplicates, Return Type and Meet Rules on their declared domains.** Walk's load check read two generic functions of one name and one list of static parameters at one shared symbolic instantiation (`FGenericFunction.java:43-64`), and two instances of one generic object as two types that cannot be extended. Now such an exclusion is withdrawn where the instances of each do not exclude (instances of one generic type exclude only where their static arguments cannot be equal; an exclusion read at the shared instantiation stands where every generic type both extend forces one instance, as `Array` and `ImmutableArray` through `ReadableArray`), and the pair is then refused where each domain is inside the other, valid where one is inside the other with its return type below at the holding instance where that instance stands for every instance applicable to an argument of the inner one (F-252), or where a third declaration inside both holds their overlap (F-bounds read from the declarations, a symbolic size unified with a size parameter as `types/SymbolicNat.unifyStaticArg` reads it); otherwise refused, "fails the Meet Rule" (F-257). A pair that excludes only through a static argument that another position fixes is refused (row 740). Gated by `tests/GenericBoundsNoMeetWalk`, `NoDuplicatesRuleWalk`, `NoDuplicatesRuleSizeWalk`, `GenericOverloadInstancesApartWalk` (refused), `GenericBoundsMeetWalk`, `GenericFBoundsMeetWalk`, `GenericPairExcludingWalk`, `GenericSizePairNestedWalk` and `ShuffleTest` (load), and `XXXGenericPairExcludesTogetherWalk`. Detail: `compile-ladder/rung-walk-overload-if/REPORT.md` sections 1 and 9.
+
+### F-252
+
+2026-10-20 02:44Z · rewritten · from `explorations/compile-ladder/rung-existential-reduction/REPORT.md`, "8. Sentences made false" · by climb batch 19's gather: row 740's limit gone with rung P; its expected failure promoted
+
+- F-252 **Under walk, two functions with static parameters that no pair of parameter types excludes are read on their declared domains, each over its own instances, by the No Duplicates, Return Type and Meet Rules, and a pair whose declared domains are equal is refused even where the parameter check orders it.** Walk's parameter-by-parameter check passes a pair it finds excluding; a pair of two own generics it refuses is read by `genericPairValid` (`interpreter/evaluator/values/OverloadedFunction.java:766`), whether or not an exclusion was withdrawn; a pair it passes by order, one at least an own generic and the other an own generic or plain, whose declared domains each lie inside the other is refused, "fails because their parameter lists have the same types" (`:533-540`, `sameDeclaredDomains` `:806`), since the check reads a type parameter as strictly below its bound. Limits: the Meet Rule's search matches the two domains only where their parameter types are, position by position, instances of one generic type or static parameters (row 539); a pair whose parameter types exclude only together is refused (row 740); instances of one generic type at different ground arguments do not exclude in the check (row 416); a functional method of a generic trait or object is compared on the instance a call makes, and so is a generic dotted method except where exactly one of the two declared domains lies inside the other (F-253). Gated by `tests/DispatchRenamedGenericArmWalk`, `DispatchSwappedGenericArmWalk`, `GenericPairNestedBoundsWalk` (load and dispatch), `GenericBesideGenericSameDomain`, `GenericBesidePlainSameDomain` (refused), `XXXOverloadExistentialMeetWalk` and `XXXGenericPairExcludesTogetherWalk`. Detail: `compile-ladder/rung-walk-generic-pairs/REPORT.md` sections 1 and 5. The Return Type Rule, where one of two own generics lies inside the other, is read at the instance of the outer one that holds the inner one's declared domain only where that instance stands for every instance applicable to an argument of the inner one (`returnRuleAtEveryInstance`, `OverloadedFunction.java` at 36afa7eb1): each static parameter the outer one's return type names is fixed by a static argument of one of its parameter types, or the outer one returns that type parameter and the inner one returns a type parameter of its own that is the type of no other parameters, or has there an object type below which its return type lies; otherwise the pair is refused, "fails the Return Type Rule" (F-257), as `f[\T extends Shape\](x: T, y: T): T` beside `f[\U extends Round\](x: U, y: Round): Round` and `f[\T extends Shape\](x: T): Box[\T\]` beside `f[\U extends Round\](x: U): Box[\U\]` are, which the compiled checker refuses too. Gated by `tests/GenericReturnRuleOuterParamWalk`, `GenericReturnRuleInvariantWalk` (refused) and `GenericReturnRuleHoldsWalk` (load and dispatch). Detail: `compile-ladder/rung-walk-generic-pairs/SKEPTIC.md` section 2. A type parameter bounded by `Any` counts: `g[\T\](a: T)` beside `g(a: Any)` is refused as equal declared domains, which the compiled checker accepts (row 759).
+
+### F-259
+
+2026-10-20 02:47Z · added · from `explorations/compile-ladder/rung-string-conversion/REPORT.md`, "1. What changed and why" · from `explorations/compile-ladder/rung-string-conversion/REPORT.md`, "4. The checker count and the distance" · from `explorations/compile-ladder/rung-string-conversion/REPORT.md`, "5. Old against new" · by climb batch 19's gather: rung S's record, its FACTS entry, its list joined into one line, F-246's sentence corrected in that entry instead
+
+### F-246
+
+2026-10-20 02:47Z · rewritten · from `explorations/compile-ladder/rung-string-conversion/REPORT.md`, "8. What the specification settles, and the sentences made false" · by climb batch 19's gather: rung S repaired row 743 beside the conversion
+
+- F-246 **The distance's three `String` sites clear by the library's own conversion and two lines of `FlatString`'s api, with `String`'s operators where they are.** `("" || a)` with `cast[\Object\]` in the two `||` bodies over `Any`, and `FlatString`'s api extending `DelegatedIndexed` without `opr ||(a:FlatString, self)`, give 49 to 46, nothing new; juxtaposition's device alone only moves the two `asString` sites. The conversion makes the team test `extendAny` stop with `CastError` (row 743). Detail: `perf-probes/symbolic-operators/REPORT.md` sections 2.2, 2.3 and 3.
+
+### F-238
+
+2026-10-20 03:11Z · rewritten · from `explorations/compile-ladder/rung-existential-reduction/SKEPTIC.md`, "5. Defects and their homes" · by climb batch 19 merged-diff review: the whole-type reading reads no where clause, row 787
+
+- F-238 **Under walk, two generic declarations a pair of whose parameter types excluded only in walk's reading of each at one symbolic instantiation are read each over its own instances, and are valid only by the No Duplicates, Return Type and Meet Rules on their declared domains.** Walk's load check read two generic functions of one name and one list of static parameters at one shared symbolic instantiation (`FGenericFunction.java:43-64`), and two instances of one generic object as two types that cannot be extended. Now such an exclusion is withdrawn where the instances of each do not exclude (instances of one generic type exclude only where their static arguments cannot be equal; an exclusion read at the shared instantiation stands where every generic type both extend forces one instance, as `Array` and `ImmutableArray` through `ReadableArray`), and the pair is then refused where each domain is inside the other, valid where one is inside the other with its return type below at the holding instance where that instance stands for every instance applicable to an argument of the inner one (F-252), or where a third declaration inside both holds their overlap (F-bounds read from the declarations, a symbolic size unified with a size parameter as `types/SymbolicNat.unifyStaticArg` reads it); otherwise refused, "fails the Meet Rule" (F-257). A pair that excludes only through a static argument that another position fixes loads, its whole parameter type read (F-258). Gated by `tests/GenericBoundsNoMeetWalk`, `NoDuplicatesRuleWalk`, `NoDuplicatesRuleSizeWalk`, `GenericOverloadInstancesApartWalk` (refused), `GenericBoundsMeetWalk`, `GenericFBoundsMeetWalk`, `GenericPairExcludingWalk`, `GenericSizePairNestedWalk`, `ShuffleTest` and `GenericPairExcludesTogetherWalk` (load). Detail: `compile-ladder/rung-walk-overload-if/REPORT.md` sections 1 and 9.
+
+### F-252
+
+2026-10-20 03:11Z · rewritten · from `explorations/compile-ladder/rung-existential-reduction/SKEPTIC.md`, "5. Defects and their homes" · by climb batch 19 merged-diff review: the whole-type reading reads no where clause, row 787
+
+- F-252 **Under walk, two functions with static parameters that no pair of parameter types excludes are read on their declared domains, each over its own instances, by the No Duplicates, Return Type and Meet Rules, and a pair whose declared domains are equal is refused even where the parameter check orders it.** Walk's parameter-by-parameter check passes a pair it finds excluding; a pair of two own generics it refuses is read by `genericPairValid` (`interpreter/evaluator/values/OverloadedFunction.java:766`), whether or not an exclusion was withdrawn; a pair it passes by order, one at least an own generic and the other an own generic or plain, whose declared domains each lie inside the other is refused, "fails because their parameter lists have the same types" (`:533-540`, `sameDeclaredDomains` `:806`), since the check reads a type parameter as strictly below its bound. Limits: the Meet Rule's search matches the two domains only where their parameter types are, position by position, instances of one generic type or static parameters (row 539), beside which a pair whose parameter types exclude only together is read over its whole parameter type (F-258); instances of one generic type at different ground arguments do not exclude in the check (row 416); a functional method of a generic trait or object is compared on the instance a call makes, and so is a generic dotted method except where exactly one of the two declared domains lies inside the other (F-253). Gated by `tests/DispatchRenamedGenericArmWalk`, `DispatchSwappedGenericArmWalk`, `GenericPairNestedBoundsWalk` (load and dispatch), `GenericBesideGenericSameDomain`, `GenericBesidePlainSameDomain` (refused), `XXXOverloadExistentialMeetWalk`. Detail: `compile-ladder/rung-walk-generic-pairs/REPORT.md` sections 1 and 5. The Return Type Rule, where one of two own generics lies inside the other, is read at the instance of the outer one that holds the inner one's declared domain only where that instance stands for every instance applicable to an argument of the inner one (`returnRuleAtEveryInstance`, `OverloadedFunction.java` at 36afa7eb1): each static parameter the outer one's return type names is fixed by a static argument of one of its parameter types, or the outer one returns that type parameter and the inner one returns a type parameter of its own that is the type of no other parameters, or has there an object type below which its return type lies; otherwise the pair is refused, "fails the Return Type Rule" (F-257), as `f[\T extends Shape\](x: T, y: T): T` beside `f[\U extends Round\](x: U, y: Round): Round` and `f[\T extends Shape\](x: T): Box[\T\]` beside `f[\U extends Round\](x: U): Box[\U\]` are, which the compiled checker refuses too. Gated by `tests/GenericReturnRuleOuterParamWalk`, `GenericReturnRuleInvariantWalk` (refused) and `GenericReturnRuleHoldsWalk` (load and dispatch). Detail: `compile-ladder/rung-walk-generic-pairs/SKEPTIC.md` section 2. A type parameter bounded by `Any` counts: `g[\T\](a: T)` beside `g(a: Any)` is refused as equal declared domains, which the compiled checker accepts (row 759).
+
+### F-258
+
+2026-10-20 03:23Z · rewritten · from `explorations/compile-ladder/climb-batch-19/JUDGE-review.md`, "4. The repair": row 788 named among the two paths differences, as in Appendix I
+
+- F-258 **Walk and the compiled checker read exclusion between two declarations, one or both with static parameters, over the whole parameter type, by existential reduction.** A value of both declared domains has, at each position, one instance of each generic type that the two parameter types there are or extend, so those instances' static arguments are equal; the two domains exclude where these equalities cannot hold together, or where, at the instance they force, the parameter types at some position exclude. Walk: the Meet branches of `genericPairValid` and of `validOnDeclaredDomains`'s generic-beside-plain reading also ask `domainsExcludeTogether` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:935` at `a93fb3bfd`), which reads bounds where `mayBeEqual` and `meetParams` read them and reads no `where` clause, varargs or lists of different lengths; at the instance the equalities force, it reads two parameter types that still mention a static parameter apart only where they cannot meet at any instance of it: an object type apart from a type that neither it nor a supertype of it may be, and no `comprises` clause (`excludesAtMeet`, `OverloadedFunction.java:1041` at `84957e6ef`). The checker: `OverloadingOracle.excludes` asks `TypeSchemaAnalyzer.emptyED` beside `subtypeED` (`ProjectFortress/src/com/sun/fortress/scala_src/overloading/OverloadingOracle.scala:326`, `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala:444`): the existential reduction's first premise alone, its bounds not read. On the interpreter's library `emptyED` is never reached: `subtypeED` shows all 691 meets the count stage tests empty. The two paths differ on two type parameters whose bounds exclude (row 786), and on such a pair one of whose declarations has a `where` clause, which walk refuses and the checker accepts (row 787). Gated by `ProjectFortress/tests/GenericPairExcludesTogetherWalk`, `GenericPairForcedObjectApartWalk`, `ProjectFortress/compiler_tests/GenericPairExcludesTogether` and `GenericPairSharedSupertypeExclusion` (load, compile and dispatch), and `ProjectFortress/tests/GenericPairFreeArgumentWalk`, `GenericPairObjectSupertypeOverlapWalk` and `ProjectFortress/compiler_tests/XXXGenericPairFreeArgument` (refused). Detail: `compile-ladder/rung-existential-reduction/REPORT.md` sections 2, 5 and 7.
+
+### F-53
+
+2026-10-20 03:29Z · rewritten · commit `3dca83601` · by climb batch 19 commit stage: the landed figures of climb batch 19 gate, read from explorations/compile-ladder/climb-batch-19/gate/distance.txt (#total 31) and checker-count.txt (#total 28): the distance 34 to 31, the count 30 to 28; numbers only
+
+- F-53 **The distance to the switch-over is 34 errors and the checker count is 30, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 30 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-260
+
+2026-10-20 03:59Z · added · from `explorations/perf-probes/array-sites/REPORT.md`, "In short" · commit `fa133ed9a` · by Opus probe worker: the array sites probe for ask 3
+
+### F-261
+
+2026-10-20 03:59Z · added · from `explorations/reviews/integer-power-fable-judgement.md`, "9. For the record" · commit `c302e4613` · by Fable judgement on item 58: its section 9, handed to FACTS
+
+### F-262
+
+2026-10-20 03:59Z · added · from `explorations/reviews/integer-power-fable-judgement.md`, "9. For the record" · commit `c302e4613` · by Fable judgement on item 58: its section 9, handed to FACTS
+
+### F-35
+
+2026-10-20 05:38Z · rewritten · commit `32153798d` · by coordinator: the dead sizes' origin, read in git: 72ae6881b (2007-01-04) and 32153798d (2008-04-27), for the curator's question on ask 3
+
+- F-35 **The `FortressLibrary` api has 25 declarations with a dead size, a size parameter that occurs in no parameter type, return type or body.** They check clean (P-40). Where the component omits the dead size, the export checker reports the api's declaration missing. Six vector `DOT` and juxtaposition operators have this shape, `[\T, nat n, nat m, nat p\]` in the api and `[\T, nat n\]` in the component, and give one of the distance's export errors (F-53). P-40 lets the dead sizes go only by a diff shown to the curator with the switch-over's design. Detail: `perf-probes/nat/REPORT.md` sections 2 and 7.
+
+### F-263
+
+2026-10-20 08:34Z · added · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "1. What changed and why" · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "2. The tests, their failing runs and their passing runs" · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "4. The stages" · by climb batch 20's gather: rung I's record, its FACTS entry, its list joined into one line
+
+### F-84
+
+2026-10-20 08:34Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20's gather: rung I's skeptic's leftForGather: rows 438 and 445 fixed by rung I, so QQ's power is no longer left
+
+- F-84 **The one library's numbers, orderings, `List` and natives answer their declared types, and its result-only parameters are unbounded, as the team declared them.** `fail`, `builtinPrimitive` and `List`'s nullary comprehension carry an unbounded `T` (P-48), so where `()` is expected their instance is `()`. `MatchFailure` is unchecked. Left: `QQ`'s power (rows 438, 445). `LexicographicOrder` bounds its element by `StandardTotalOrder`, and `List` extends it under that condition (row 634, closed; F-255). Gated by `tests/NumberOrderListDeclarations.fss`. Detail: `compile-ladder/rung-number-order-slips/REPORT.md` sections 1 and 5.
+
+### F-84
+
+2026-10-20 08:34Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20's gather: the same sentence, its wording
+
+- F-84 **The one library's numbers, orderings, `List` and natives answer their declared types, and its result-only parameters are unbounded, as the team declared them.** `fail`, `builtinPrimitive` and `List`'s nullary comprehension carry an unbounded `T` (P-48), so where `()` is expected their instance is `()`. `MatchFailure` is unchecked. The integer powers answer their base's own type, and `QQ`'s its exponent of any integer (F-263). `LexicographicOrder` bounds its element by `StandardTotalOrder`, and `List` extends it under that condition (row 634, closed; F-255). Gated by `tests/NumberOrderListDeclarations.fss`. Detail: `compile-ladder/rung-number-order-slips/REPORT.md` sections 1 and 5.
+
+### F-264
+
+2026-10-20 08:40Z · added · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "2. The failing runs and the passing runs" · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "4. The checker count and the distance" · from `explorations/compile-ladder/rung-array-sites/SKEPTIC.md`, "3. Findings and fixes" · by climb batch 20's gather: rung A's record, its FACTS entry
+
+### F-35
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: E3 built, 25 dead sizes to 8, the six vector operators' export error gone; P-40's sentence on the rest
+
+- F-35 **The `FortressLibrary` api has 25 declarations with a dead size, a size parameter that occurs in no parameter type, return type or body.** They check clean (P-40). They stand in the oldest library in the history, of 2007-01-04 (`72ae6881b`), where the six vector forms, scalar ones included, carry the matrix product's `nat n, nat m, nat p` beside it, with no `where` clause; in 2008 Jan-Willem Maessen took them out of the component while fixing walk's unification ("tons of latent type bugs came out", `32153798d`), and the api kept them. Where the component omits the dead size, the export checker reports the api's declaration missing. Six vector `DOT` and juxtaposition operators have this shape, `[\T, nat n, nat m, nat p\]` in the api and `[\T, nat n\]` in the component, and give one of the distance's export errors (F-53). P-40 lets the dead sizes go only by a diff shown to the curator with the switch-over's design. Detail: `perf-probes/nat/REPORT.md` sections 2 and 7.
+
+### F-260
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sentence made false by rung A
+
+- F-260 **The library's own devices clear the 19 typecheck sites of the array code in the distance, and either decision E's diff or the component carrying the api's unused sizes clears its first export error.** After climb batch 19, `fill` and `tabulate` redeclared in `Vector` and `Matrix`, the library's `cast` in 14 bodies, 3 factory arms and `Col` and `Row`, the two `immutableArray` ranks commented out of the api and `array3(v)` declared in it take the distance from 31 to 12, with no site come. E3 re-based, or the 14 component headers given the unused sizes, then give 11, site for site the same. The second export error's 44 entries do not move. Walk's 40 array tests and microGPT's quick pair are unchanged. Detail: `perf-probes/array-sites/REPORT.md`.
+
+### F-158
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sentence made false by rung A
+
+- F-158 **`fill` takes a value and `tabulate` a function, both defined where the array diamond meets.** It builds P-89. `StandardMutableArrayType` and `ImmutableArray1`, the traits below both sides of the diamond, define them. A method declared only in each leaf leaves the meet refused by the checker's Meet Rule, so `copy` is declared on the meet too (row 467). Its factories are `tabulatedArray1` to `tabulatedArray3` and `tabulatedVector`. A demo still passes a function to `fill` (row 464). Gated by `tests/TabulateRungA.fss`. Detail: `compile-ladder/rung-tabulate/REPORT.md` section 2.
+
+### F-58
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sentence made false by rung A
+
+- F-58 **MicroGPT's flat program, C4, has 26 errors of its own under the compiled checker, and none comes from a numeral's type.** 15 are arrays without sizes: `Array[\RR64,ZZ32\]` where the library wants `Vector`, `Matrix` or `Array3`. 5 are numeral powers such as `10.0^(-5)`, refused as ambiguous because two declarations of `^` each need the integer converted (row 533). 6 are small slips. With decision D's diff, which sizes the model's arrays, 14 remain: the 5 powers, 3 `DOT` calls that fail on the api's unused sizes (F-35), 1 bridge that passes arrays sized only at run time, and 5 small slips. Each count is a floor, since the checker stops a block at its first failing statement (row 474). The counts come from one measurement, on an earlier library. Detail: `reviews/array-design-ways.md` section 2.
+
+### F-53
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sized arrays no longer lead once rung A lands; numbers left to the commit stage
+
+- F-53 **The distance to the switch-over is 31 errors and the checker count is 28, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, led by the sized arrays (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 28 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-54
+
+2026-10-20 08:40Z · rewritten · from `explorations/compile-ladder/rung-array-sites/REPORT.md`, "7. What the specification settles, and the sentences made false" · by climb batch 20's gather: rung A's skeptic's leftForGather: the sized arrays no longer lead once rung A lands; numbers left to the commit stage
+
+- F-54 **The gate classes the distance to the switch-over by root cause, and the sized arrays and the one-off body errors lead.** The `#class` rows of each gate's `distance.txt` hold the counts. No coercion into an arbitrary `I extends Integral[\I\]` can be declared, so a numeral where such an `I` is expected needs `x.zero` or `x.one`. Row 680's crash hid no error: with its repair (F-233) the component's check finds none in `Array3`, and the distance lost its crash row. With `StandardMinMax[\T\]` added to the array bound, the overloading check ran past 15 minutes when measured, before row 688's memo. Detail: `perf-probes/prelude/distance-triage.md` sections 2 and 3.4; `compile-ladder/rung-checker-bounds/REPORT.md` section 6.
+
+### F-241
+
+2026-10-20 09:05Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20 merged-diff review: its sites gone since rung I; made true as written, the consolidation left to the coordinator
+
+- F-241 **The integer power's declared `RR64` holds five of the distance's sites; `strToInt`'s sixth needs a typed `fail` too.** With every integer `^` typed by its operands at a nonnegative exponent, the text that an error and a zero at a negative one both need, `QQ`'s four sites and `strToFloat`'s clear: 49 to 44. `strToInt`'s clears only with `fail[\ZZ32\]` written there too (43; row 747). Source: `coordinator/tools/distance/run.sh` on the probe's text. Detail: `perf-probes/integer-power/REPORT.md` sections 3.1 and 7.
+
+### F-247
+
+2026-10-20 09:05Z · rewritten · from `explorations/compile-ladder/rung-integer-power/REPORT.md`, "7. Sentences made false" · by climb batch 20 merged-diff review: its declared RR64 and team lines gone since rung I; made true as written, the consolidation left to the coordinator
+
+- F-247 **Under walk, the integer power already answers the integer at a nonnegative exponent, and only three team tests reach a negative one.** Only the declared type says `RR64` (row 438). So a contract for a negative exponent moves walk's values only in `realArith`, `compoundArray` and `simpleExp`, which write a scale as `10^(-k)`, and by reading the demos `BiCGSTAB` and `BiCGSTAB2`. microGPT's one integer power is `strToInt`'s, at nonnegative exponents; a rational result would stop both quick programs there. Detail: `perf-probes/integer-power/REPORT.md` sections 1.3, 1.6 and 3.
+
+### F-53
+
+2026-10-20 09:13Z · rewritten · commit `d3a9335ef` · by climb batch 20 commit stage: the landed figures of climb batch 20 gate, read from explorations/compile-ladder/climb-batch-20/gate/distance.txt (#total 5) and checker-count.txt (#total 3): the distance 31 to 5, the count 28 to 3; numbers only
+
+- F-53 **The distance to the switch-over is 31 errors and the checker count is 28, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, by root cause (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 28 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-35
+
+2026-10-20 12:51Z · rewritten · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `e487cec2d` · by climb batch 20's routing: consolidated with F-264: the six operators' shape and their export error, gone, left to this history
+
+- F-35 **The `FortressLibrary` api has 8 declarations with a dead size, a size parameter that occurs in no parameter type, return type or body.** It had 25 until climb batch 20's rung A took the sizes out of the 17 vector and matrix operators by decision E's diff (P-40; F-264). They check clean (P-40). They stand in the oldest library in the history, of 2007-01-04 (`72ae6881b`), where the six vector forms, scalar ones included, carry the matrix product's `nat n, nat m, nat p` beside it, with no `where` clause; in 2008 Jan-Willem Maessen took them out of the component while fixing walk's unification ("tons of latent type bugs came out", `32153798d`), and the api kept them. Where the component omits the dead size, the export checker reports the api's declaration missing. Six vector `DOT` and juxtaposition operators had this shape, `[\T, nat n, nat m, nat p\]` in the api and `[\T, nat n\]` in the component, and gave one of the distance's export errors, gone since (F-264). P-40 lets the other dead sizes go only by a diff shown to the curator. Detail: `perf-probes/nat/REPORT.md` sections 2 and 7.
+
+### F-260
+
+2026-10-20 12:51Z · merged into F-264 · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `e487cec2d` · by climb batch 20's routing: the probe's fact, built by rung A on the same text (F-264), as the record and the review's finding 12 leave it
+
+- F-260 **The library's own devices clear the 19 typecheck sites of the array code in the distance, and either decision E's diff or the component carrying the api's unused sizes clears its first export error.** After climb batch 19, `fill` and `tabulate` redeclared in `Vector` and `Matrix`, the library's `cast` in 14 bodies, 3 factory arms and `Col` and `Row`, the two `immutableArray` ranks commented out of the api and `array3(v)` declared in it take the distance from 31 to 12, with no site come. E3 re-based, or the 14 component headers given the unused sizes, then give 11, site for site the same. The second export error's 44 entries do not move. Walk's 40 array tests and microGPT's quick pair are unchanged. Climb batch 20's rung A built these ways with E3, 31 to 11 on its tree (F-264). Detail: `perf-probes/array-sites/REPORT.md`.
+
+### F-264
+
+2026-10-20 12:51Z · F-260 merged in, rewritten · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `e487cec2d` · by climb batch 20's routing: F-260, the probe's measurement of the same text, merged in, as the record and the review's finding 12 leave it; cut toward the record's 600
+
+- F-264 **The array code's 19 typecheck sites and the api's first export error are gone: `Vector` and `Matrix` redeclare `fill` and `tabulate` at their own type, the library's `cast` types their parent-typed bodies, the size-tested factory arms and `Col`'s and `Row`'s subscript value, and the api drops its 17 operators' unused sizes.** The api also puts `immutableArray`'s ranks 2 and 3 in a comment, as the component has them, and declares `array3(v)`. The distance goes 31 to 11 and the count 28 to 9 on the rung's tree, nothing come; the second export error's 44 entries stay. Under walk no value of the tree's tests and demos moves: each cast holds at the eight number types, on a transposed matrix, and through both arms of the 1-D and 2-D factories; a `Vector` or `Matrix` whose `replica` answers an array that is not one now raises `CastError` at its `+`, `-`, unary `-`, `scale` or `pmul`, where the base answered that array (`compile-ladder/rung-array-sites/SKEPTIC.md`, section 3). Test: `ProjectFortress/tests/VectorMatrixCastsWalk.fss`, and the distance stage. Detail: `compile-ladder/rung-array-sites/REPORT.md` sections 2 and 4.
+
+### F-241
+
+2026-10-20 12:51Z · merged into F-263 · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `5ad4a9957` · by climb batch 20's routing: the probe's fact on the power's sites, built by rung I (F-263), as the record and the review's finding 12 leave it
+
+- F-241 **The integer power's declared `RR64` held five of the distance's sites; `strToInt`'s sixth needed a typed `fail` too.** With every integer `^` typed by its operands at a nonnegative exponent, the text that an error and a zero at a negative one both need, `QQ`'s four sites and `strToFloat`'s clear: 49 to 44. `strToInt`'s clears only with `fail[\ZZ32\]` written there too (43; row 747). Climb batch 20's rung I built that text by contract E, and the six sites are gone, 31 to 25 on its tree (F-263). Source: `coordinator/tools/distance/run.sh` on the probe's text. Detail: `perf-probes/integer-power/REPORT.md` sections 3.1 and 7.
+
+### F-263
+
+2026-10-20 12:51Z · F-241 merged in, F-247 merged in, rewritten · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `5ad4a9957` · by climb batch 20's routing: F-241 and F-247, the probe's facts built by rung I, merged in, as the record and the review's finding 12 leave them; the rung's own distance and count left to F-53 and the report
+
+- F-263 **Every integer power answers its base's own type; at a negative exponent the bases 1 and -1 give their exact power, 0 raises `DivisionByZero`, and any other base `IntegerOverflow` (contract E).** Under walk this holds at `ZZ32`, `ZZ64`, `NN32`, `NN64` and `ZZ`, at an exponent of any integer type, one beyond 64 bits included; `(1/2)^(big(3))` is `1/8`. The numeral type follows the same rules at a negative exponent, but its power, like all its arithmetic, answers a `ZZ32` value under walk (row 578). The library declares it so in the component and the api. `QQ`'s power splits by a `typecase` over the integer types, `MultiplicativeRing`'s api power is abstract over `AnyIntegral` with `RR64`'s beside it, and `strToInt` writes `fail[\ZZ32\]`. So the distance's six power sites are gone, 31 to 25 on the rung's tree, and the count goes from 28 to 22. The second export error loses `MultiplicativeRing`'s entry, 44 entries to 43. A fraction comes from a float or rational base, as `2.0^(-1)`. The team tests `realArith`, `compoundArray` and `simpleExp`, and the demos `BiCGSTAB`, `BiCGSTAB2` and `npbft`, now write theirs so. The compiled path's own library still answers 0 at a negative exponent, and a raw exception at 0 (rows 441 and 523; `compiler_tests/XXXIntegerPowerContractCompiled.test`). Tests: `tests/IntegerPowerContractWalk.fss`, `tests/QQPowerExponent.fss`; the distance stage. Detail: `compile-ladder/rung-integer-power/REPORT.md`, sections 1, 2 and 4.
+
+### F-247
+
+2026-10-20 12:51Z · merged into F-263 · from `explorations/compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator" · commit `5ad4a9957` · by climb batch 20's routing: walk's values before contract E and the tests and demos it moved, built by rung I (F-263), as the record and the review's finding 12 leave it
+
+- F-247 **Under walk, the integer power answered the integer at a nonnegative exponent before contract E, and only three team tests and three demos reached a negative one.** Only the declared type said `RR64` (row 438, closed). So contract E moved walk's values only in `realArith`, `compoundArray` and `simpleExp`, which wrote a scale as `10^(-k)`, and in the demos `BiCGSTAB`, `BiCGSTAB2` and `npbft`; climb batch 20's rung I gave each a float base (F-263). microGPT's one integer power is `strToInt`'s, at nonnegative exponents; a rational result would stop both quick programs there. Detail: `perf-probes/integer-power/REPORT.md` sections 1.3, 1.6 and 3.
+
+### F-240
+
+2026-10-20 12:51Z · rewritten · from `explorations/reviews/batch-20-review.md`, "2. The stages' times against batch 19's gate" · commit `510fac459` · by climb batch 20's routing: the review's finding 12: the title two gates behind, brought to batch 20's gate
+
+- F-240 **The checker's count stage takes about 68 s and its distance stage 173 s at the last landed gate, climb batch 18's.** At climb batch 15b's gate they took 325 s and 1,075 s; the solver's memos (F-235) make the difference, not load. The distance stage runs beside the suites, and no idle run of the merged tree is recorded. Load can lengthen a stage more than twofold: rung S's tree took 574 s for the distance stage at load 5. So a time compares only with one taken beside like load. Source: the gate's result and `compile-ladder/climb-batch-18/gate/distance.txt`. Detail: `reviews/batch-17-review.md`, section 1; `reviews/batch-16-review.md`, section 2.
+
+### F-83
+
+2026-10-20 12:51Z · rewritten · from `explorations/reviews/batch-20-review.md`, "Findings" · commit `4190069c4` · by climb batch 20's routing: the review's finding 12: "the one string site left on the distance is FlatString's export error" false since climb batch 19's rung S
+
+- F-83 **The string components' slips are repaired in the library's own spelling, and the one string site left on the distance is `FlatString`'s export error.** Its api declares `opr ||(a:FlatString, self)`, which the component lacks, and leaves out the component's `DelegatedIndexed` (PLAN item 38). Open library defects: `FlatString.rangeContains` finds only the first occurrence (row 607), and a subscript `:b:c` is completed from the right end (row 609). Gated by `tests/StringPieces.fss`. Detail: `compile-ladder/rung-string-slips/REPORT.md` sections 4 and 8.
+
+### F-53
+
+2026-10-20 12:51Z · rewritten · from `explorations/reviews/batch-20-review.md`, "1. The count 3 and the distance 5, row by row" · commit `510fac459` · by climb batch 20's routing: the classes with the largest share, which the gather's rewrite left out, from the review's section 1
+
+- F-53 **The distance to the switch-over is 5 errors and the checker count is 3, at the last landed gate.** The distance counts the checker's errors in the interpreter's library, by root cause (F-54). The count stops where the checker crashes or meets an error it cannot pass; since row 680's repair (F-233) nothing stops it, so its 3 are the `FortressLibrary` component's own errors, every api at 0. Both are reported, never red. By kind and by site, a rung's before (the `coordinator` skill, `references/batch.md`, "The checker count and the distance"): the last landed batch's `gate/distance.txt` and `compile-ladder/gate/distance-sites.tsv`.
+
+### F-54
+
+2026-10-20 12:51Z · rewritten · from `explorations/reviews/batch-20-review.md`, "1. The count 3 and the distance 5, row by row" · commit `510fac459` · by climb batch 20's routing: climb batch 19's classes left to the history; the last gate's are in F-53
+
+- F-54 **The gate classes the distance to the switch-over by root cause.** The `#class` rows of each gate's `distance.txt` hold the counts. At climb batch 19's gate the sized arrays (class V2, 17 of 31) and the one-off body errors (class OT, 9) led; climb batch 20's rung A took class V2 to 0 on its tree (F-264). No coercion into an arbitrary `I extends Integral[\I\]` can be declared, so a numeral where such an `I` is expected needs `x.zero` or `x.one`. Row 680's crash hid no error: with its repair (F-233) the component's check finds none in `Array3`, and the distance lost its crash row. With `StandardMinMax[\T\]` added to the array bound, the overloading check ran past 15 minutes when measured, before row 688's memo. Detail: `perf-probes/prelude/distance-triage.md` sections 2 and 3.4; `compile-ladder/rung-checker-bounds/REPORT.md` section 6.
+
+### F-245
+
+2026-10-20 12:51Z · rewritten · by climb batch 20's routing: the ask 5 drafter's points of about 06:36 UTC on 2026-10-20 (points 1, 2 and 4): the numbers are of d212b2c1f, and the families moved since by reading; P-155's probe re-measures them; by: climb batch 20's routing
+
+- F-245 **Checking symbolic operators for overloading would add 205 errors to the distance in the compiled checker, and one in walk's load check.** With the checker's three loops admitting every operator (row 584), the run went from 49 to 249 at `d19ade2fb`, and from 49 to 253 at `d212b2c1f` (one identity-hash error gone, row 737), one measurement each: 205 errors, subscripts 125, `^` 21 (5 of them `Integral`'s `^` return type, read since climb batch 16's rung K), `String`'s four families 40, the arrays' `+` and `-` 9, `=` 4, `|_|` 3, `FlatString`'s pair 2 (row 726), `EmptyString`'s `||` 1 (row 611); the export check adds 2. 54 clear by library fixes that move no walk value (one walk test, `XXXFunctionalMethodMeetOperator`, is refused at load with another message); 151 need a design choice (PLAN item 59). Walk's meet check, so widened, refuses only `EmptyString`'s `||`, which one declaration clears. Detail: `perf-probes/symbolic-operators/REPORT.md` sections 1.2 to 1.5; `perf-probes/symbolic-operators/SORT.md`, "Step 1: the reproduction" to "Step 4: totals".

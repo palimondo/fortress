@@ -1,0 +1,26 @@
+component GenericReturnRuleHoldsWalk
+export Executable
+
+(* Two generic declarations returning the type parameter of both parameters of the less specific one, where the more specific one returns its own type parameter that only its first parameter takes, or returns the object type of its second parameter, meet the Return Type Rule at every instance, so walk loads them and each call runs the one its arguments select; Specification/advanced/overloading.tex, section "Declarations with Static Parameters". *)
+
+trait Shape end
+trait Round extends Shape end
+object Circle extends Round end
+object Disc extends Round end
+object Square extends Shape end
+
+lead[\T extends Shape\](x: T, y: T): T = y
+lead[\U extends Round\](x: U, y: Shape): U = x
+
+pin[\T extends Shape\](x: T, y: T): T = x
+pin[\U extends Round\](x: U, y: Circle): Circle = y
+
+run(): () = do
+    assert(lead(Circle, Square), Circle, "a Round first argument selects the declaration over Round, which returns its first argument")
+    assert(lead(Square, Square), Square, "only the declaration over Shape applies to a Square, and it returns its second argument")
+    assert(pin(Disc, Circle), Circle, "a Round first argument and a Circle second select the declaration that returns its second argument")
+    assert(pin(Square, Circle), Square, "only the declaration over Shape applies to a Square first, and it returns its first argument")
+    println("PASS")
+  end
+
+end

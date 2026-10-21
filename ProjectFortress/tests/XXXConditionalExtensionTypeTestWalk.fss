@@ -1,0 +1,27 @@
+component XXXConditionalExtensionTypeTestWalk
+export Executable
+
+(* A generic object that extends a trait under a where clause on its static parameter is that trait only at the instances where the clause holds, so a type test of an instance whose static argument fails the clause answers false, under walk (trait-parameters.tex, section "Where Clauses"). *)
+
+trait Shows
+  show(): String
+end
+object Word(s: String) extends Shows
+  show(): String = s
+end
+object Box[\E\](x: E) extends { Shows where { E extends Shows } }
+  show(): String = x.show()
+end
+
+shows(v: Any): Boolean = typecase v of
+    Shows => true
+    else => false
+  end
+
+run(): () = do
+    assert(shows(Box[\Word\](Word("w"))), true, "a box of words shows, since Word extends Shows")
+    assert(shows(Box[\ZZ32\](1)), false, "a box of integers does not show, since ZZ32 does not extend Shows")
+    println("PASS")
+  end
+
+end

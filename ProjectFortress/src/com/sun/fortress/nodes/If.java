@@ -98,13 +98,13 @@ public class If extends Expr {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ExprInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         List<IfClause> temp_clauses = getClauses();
         code ^= temp_clauses.hashCode();
         Option<Block> temp_elseClause = getElseClause();
-        code ^= temp_elseClause.hashCode();
+        code ^= NodeHash.of(temp_elseClause);
         return code;
     }
 

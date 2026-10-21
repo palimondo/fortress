@@ -128,7 +128,7 @@ public class _SyntaxTransformationDimArg extends DimArg implements _SyntaxTransf
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         DimExpr temp_dimArg = getDimArg();
         code ^= temp_dimArg.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

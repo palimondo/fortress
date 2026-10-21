@@ -128,7 +128,7 @@ public class _SyntaxTransformationUnitArg extends UnitArg implements _SyntaxTran
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         UnitExpr temp_unitArg = getUnitArg();
         code ^= temp_unitArg.hashCode();
         java.util.Map<String, Level> temp_variables = getVariables();

@@ -162,6 +162,22 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         case Some(cs) => pOr(unionResult, pAnd(cs.map(pSub(_, t)))) 
         case None => unionResult
       }
+    // An inference variable below a union is bounded by the union as a whole: split,
+    // a solution that holds only of the whole union, as a type variable bounded by
+    // it, is lost, and the solver meets a disjunction it cannot unify.
+    case (s: _InferenceVarType, t: UnionType) if !negate => pUpperBound(s, t)
+    // A type variable is below a union where its bound is, as well as where it is
+    // below one of the union's members.
+    case (s@SVarType(_, id, _), t@SUnionType(_, ts)) if !negate =>
+      val split = pOr(ts.map(pSub(s, _)))
+      val hEntry = (negate, true, s, t)
+      traits.readContext()
+      if (history.contains(hEntry)) split
+      else {
+        val nHistory = history + hEntry
+        val supers = pNorm(makeIntersectionType(toListFromImmutable(staticParam(id).getExtendsClause)))(nHistory)
+        pOr(split, pSub(supers, t)(negate, nHistory))
+      }
     case (s, SUnionType(_, ts)) =>
       pOr(ts.map(pSub(s, _)))
     // We must eliminate trait self types before making constraints  
@@ -248,11 +264,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
 
      // First, let's find the static parameters for trait traitId_1
 	  
-     def same_id(idx: TypeConsIndex) = {
-       traitId_1.getText().equals(idx.ast().asInstanceOf[TraitObjectDecl].getHeader().getName().asInstanceOf[Id].getText())
-     }
-
-     val idx = traits.find(same_id)
+     val idx = traits.declaredTypeCons(traitId_1.getText())
      val staticParams = scalaify(idx.unwrap().staticParameters()).asInstanceOf[List[StaticParam]]
 
      val args = staticParams.zip(staticArgs_1.zip(staticArgs_2))
@@ -276,7 +288,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     // to its own size for that call.  A listed type extends the trait, so
     // the trait is opened once on each path.
     case (s: TraitType, t: TraitType) if opensSizes(s) =>
-      val parentResult = pOr(parents(s).map(pSub(_, t)))
+      val parentResult = withConditionalParents(s, pOr(parents(s).map(pSub(_, t))), pSub(_, t))
       val hEntry = (negate, true, s, t)
       traits.readContext()
       if (history.contains(hEntry)) parentResult
@@ -288,12 +300,19 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       // println("checking " + s + " <: " + t)
       val par = parents(s)
       // println(s + " has parents " + par)
-      val parentResult = pOr(par.map(pSub(_, t)))
+      // A parent whose comprises clause lists types at a type where-clause variable
+      // is not opened on the way up: s is one value, not every listed type.  A parent
+      // that opens only sizes is opened as before.
+      def throughParent(p: BaseType): CFormula = p match {
+        case p: TraitType if opensTypes(p) && !(t.getName.getText == p.getName.getText) =>
+          pOr(parents(p).map(pSub(_, t)))
+        case p => pSub(p, t) }
+      val parentResult = pOr(par.map(throughParent))
 //       comprisedTypes(s) match {   // Gets a stack overflow error; maybe we don't need this in practice.  GLS 6/6/12
 //         case Some(cs) => pOr(parentResult, pAnd(cs.map(c => parents(c.asInstanceOf[TraitType]).filter(!lteq(_,s)).map(pSub(_, t))).flatten))
 //         case None => parentResult
 //       }
-      parentResult
+      withConditionalParents(s, parentResult, throughParent)
     case (s: ObjectExprType, t) => pSub(removeSelf(s), t)
     // Arrow types
     case (SArrowType(_, d1, r1, e1, i1, _), SArrowType(_, d2, r2, e2, i2, _)) =>
@@ -393,7 +412,38 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   def definitelyExcludes(x: Type, y: Type): Boolean =
     isTrue(excludes(x,y))
 
-  def dExc(x: Type, y: Type)(implicit history: Set[hType]): Boolean = isTrue(exc(x,y))
+  // dExc's answers in this analyzer, by the question with its inference variables renamed apart:
+  // an answer is the same under every renaming of them, so a question asked again with fresh
+  // variables, as each inference makes them, is computed once. An answer is kept only from an empty
+  // cycle history, marked if its computation read the context, so that a hit on it is a read of the
+  // context too, and shared through the trait table if it read none; a computation that opened a
+  // size is not kept.
+  private final val cacheExclusions = ProjectProperties.getBoolean("fortress.analyzer.exclusion.cache", true)
+  private val exclusionMemo = new scala.collection.mutable.HashMap[(Type, Type), (Boolean, Boolean)]()
+
+  def dExc(x: Type, y: Type)(implicit history: Set[hType]): Boolean =
+    if (!cacheExclusions || !history.isEmpty) isTrue(exc(x,y))
+    else TypeAnalyzer.renamedApart(x, y) match {
+      case None => isTrue(exc(x,y))
+      case Some(question) => exclusionMemo.get(question) match {
+        case Some((v, contextual)) => if (contextual) traits.readContext(); v
+        case None => traits.sharedExclusion(question) match {
+          case null =>
+            val before = traits.contextReads
+            val opened = openedSizeCount
+            val result = isTrue(exc(x,y))
+            if (openedSizeCount == opened) {
+              val contextual = traits.contextReads != before
+              exclusionMemo += (question -> (result, contextual))
+              if (!contextual) traits.shareExclusion(question, result)
+            }
+            result
+          case shared =>
+            exclusionMemo += (question -> (shared.booleanValue, false))
+            shared.booleanValue
+        }
+      }
+    }
 
   /*
    * Given two types x and y this method computes the constraints
@@ -545,6 +595,26 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   }
   
 
+  // Formula.reduce's answers in this analyzer, each marked if its computation read the context.
+  // A reduction asks only this analyzer's public questions, each from an empty cycle history, so
+  // its answer depends on the formula and this analyzer alone, and a hit on a marked answer is a
+  // read of the context too. A reduction that opened a size is not kept: computed again, it
+  // would open a fresh one.
+  private final val cacheReduce = ProjectProperties.getBoolean("fortress.analyzer.reduce.cache", true)
+  private val reduceMemo = new scala.collection.mutable.HashMap[CFormula, (CFormula, Boolean)]()
+
+  def reduced(c: CFormula)(compute: => CFormula): CFormula =
+    if (!cacheReduce) compute
+    else reduceMemo.get(c) match {
+      case Some((v, contextual)) => if (contextual) traits.readContext(); v
+      case None =>
+        val before = traits.contextReads
+        val opened = openedSizeCount
+        val result = compute
+        if (openedSizeCount == opened) reduceMemo += (c -> (result, traits.contextReads != before))
+        result
+    }
+
   private val normalizeVarTypeMemo = new scala.collection.mutable.HashMap[Id, Any]()
   private val normalizeTraitTypeMemo = new scala.collection.mutable.HashMap[(Id, List[StaticArg]), Any]()
   private val normalizeTupleTypeMemo = new scala.collection.mutable.HashMap[(List[Type], Option[Type]), Any]()
@@ -690,11 +760,17 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
   }
   
   protected def normConjunct(x: Iterable[Type])(implicit history: Set[hType]): List[Type] = {
+    // A closed trait is replaced by the types its comprises clause lists that no other
+    // conjunct excludes, only where that conjunct names no type or inference variable:
+    // over a variable the union would be split by the union rule before the variable's
+    // bound is read, and a solution that holds only of the union as a whole is lost.
+    def excludedListed(c: Type) =
+      x.exists(z => getVarTypes(z).isEmpty && !hasInferenceVars(z) && dExc(z, c))
     val cc = x.map(y => (y, y.isInstanceOf[TraitType] &&
-                            comprisesClause(y.asInstanceOf[TraitType]).exists(c => x.exists(z => dExc(z, c))))).toList
+                            comprisesClause(y.asInstanceOf[TraitType]).exists(excludedListed))).toList
     if (cc.exists(_._2))
       cc.map(z => { val (y, p) = z;
-                    if (p) makeUnionType(comprisesClause(y.asInstanceOf[TraitType]).toList.flatMap(c => if (x.exists(z => dExc(z, c))) None else Some(c)))
+                    if (p) makeUnionType(comprisesClause(y.asInstanceOf[TraitType]).toList.flatMap(c => if (excludedListed(c)) None else Some(c)))
                     else y })
     else if (x.exists(y => x.exists(z => dExc(y, z))))
       List(BOTTOM)
@@ -774,19 +850,29 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       val args = toListFromImmutable(t.getArgs)
       val params = toListFromImmutable(ti.staticParameters)
       toSet(ti.comprisesTypes).map(nt => if (!nt.isInstanceOf[TraitType]) return Set()
-                                         else openWhereSizes(ti, substitute(args, params, nt)).asInstanceOf[TraitType])
+                                         else openWhereSizes(ti, substitute(args, params, nt), args, params).asInstanceOf[TraitType])
     case _ => Set()
   }
 
-  /* The nat and int where-clause variables of a trait declaration with a
+  /* The nat, int and type where-clause variables of a trait declaration with a
    * comprises clause, as static parameters: comprises { N[\n\] } where
-   * [\nat n\] lists N at every n. */
+   * [\nat n\] lists N at every n, and comprises { List[\E\] } where [\E\]
+   * lists List at every E. A type variable is bounded by its binding and by
+   * each trait constraint of the clause on it: where [\E\] { E extends Foo }
+   * lists List at every E that extends Foo. */
   def whereSizes(ti: ProperTraitIndex): List[StaticParam] =
     if (ti.comprisesTypes.isEmpty) Nil
     else ti.ast match {
       case d: TraitObjectDecl => toOption(NU.getWhereClause(d)) match {
         case Some(w) => toListFromImmutable(w.getBindings).filter(b =>
-            b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt]).map(b =>
+            b.getKind.isInstanceOf[KindNat] || b.getKind.isInstanceOf[KindInt] ||
+            b.getKind.isInstanceOf[KindType]).map(b =>
+            if (b.getKind.isInstanceOf[KindType]) {
+              val constraints = toListFromImmutable(w.getConstraints).collect {
+                case SWhereExtends(_, n, supers) if n.getText == b.getName.getText => supers }.flatten
+              NF.makeTypeParam(NU.getSpan(b), b.getName,
+                               toJavaList(toListFromImmutable(b.getSupers) ++ constraints), none[Type], false)
+            } else
             NF.makeStaticParam(NU.getSpan(b), null, b.getName,
                                _root_.java.util.Collections.emptyList[BaseType],
                                _root_.java.util.Collections.emptyList[BaseType],
@@ -796,7 +882,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       case _ => Nil
     }
 
-  /* Whether t is a trait whose comprises clause lists types at where-clause sizes. */
+  /* Whether t is a trait whose comprises clause lists types at where-clause variables. */
   def opensSizes(t: Type): Boolean = t match {
     case tt: TraitType => toOption(traits.typeCons(tt.getName)) match {
       case Some(ti: ProperTraitIndex) => !whereSizes(ti).isEmpty
@@ -805,24 +891,96 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     case _ => false
   }
 
-  /* A type ti's comprises clause lists, each where-clause size opened: a
-   * fresh name, equal only to itself (Formula.openedSizeName). */
-  def openWhereSizes(ti: ProperTraitIndex, listed: Type): Type = whereSizes(ti) match {
+  /* Whether t is a trait whose comprises clause lists types at a type where-clause variable. */
+  def opensTypes(t: Type): Boolean = t match {
+    case tt: TraitType => toOption(traits.typeCons(tt.getName)) match {
+      case Some(ti: ProperTraitIndex) => whereSizes(ti).exists(_.getKind.isInstanceOf[KindType])
+      case _ => false
+    }
+    case _ => false
+  }
+
+  /* A type ti's comprises clause lists, each where-clause variable opened: a
+   * fresh name, equal only to itself (Formula.openedSizeName); a type is
+   * bounded as its where-clause binding is, at the trait's static arguments
+   * args for its static parameters params, a bound that names a where-clause
+   * variable, the variable itself among them, naming it opened. */
+  def openWhereSizes(ti: ProperTraitIndex, listed: Type, args: List[StaticArg], params: List[StaticParam]): Type =
+    whereSizes(ti) match {
     case Nil => listed
     case ws =>
-      val opened = ws.map(p => NF.makeIntArg(NU.getSpan(p),
-        NF.makeIntRef(NU.getSpan(p), NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText)))))
+      val ids = ws.map(p => NF.makeId(NU.getSpan(p), openedSizeName(p.getName.getText)))
+      val opened: List[StaticArg] = ws.zip(ids).map { case (p, id) =>
+        if (p.getKind.isInstanceOf[KindType])
+          NF.makeTypeArg(NU.getSpan(p), NF.makeVarType(NU.getSpan(p), id)): StaticArg
+        else
+          NF.makeIntArg(NU.getSpan(p), NF.makeIntRef(NU.getSpan(p), id)): StaticArg }
+      for ((p, id) <- ws.zip(ids) if p.getKind.isInstanceOf[KindType]) {
+        val bounds = toListFromImmutable(p.getExtendsClause).map(b =>
+          substitute(opened, ws, if (args.isEmpty) b else substitute(args, params, b)).asInstanceOf[BaseType])
+        KindEnv.registerOpened(id, NF.makeTypeParam(NU.getSpan(p), id, toJavaList(bounds), none[Type], false))
+      }
       substitute(opened, ws, listed)
   }
   
   // For the purposes of this method Any is not the Parent of Object as it is not a TraitType
+  // A conditional parent (isConditional) is not one of these: conditionalParents gives it.
   def parents(t: TraitType): Set[BaseType] = traits.memoParents(t) {
     val STraitType(_, n, a, _) = t
     val index = typeCons(n).asInstanceOf[TraitIndex]
-    toListFromImmutable(index.extendsTypes).
+    toListFromImmutable(index.extendsTypes).filterNot(isConditional).
       map(tw => substitute(a, toListFromImmutable(index.staticParameters), tw.getBaseType).asInstanceOf[BaseType]).toSet
   }
-  
+
+  /* Whether the extends entry tw names a conditional parent: its where clause binds
+   * no variable and holds trait constraints only (KindEnv.extendsConditions), and the
+   * declaration extends the entry's type exactly where they hold.  An entry under
+   * any other where clause is read as a parent, as before. */
+  def isConditional(tw: TraitTypeWhere): Boolean = !KindEnv.extendsConditions(tw).isEmpty
+
+  /* t's conditional parents at t's static arguments, each with its conditions there:
+   * a pair (X, B) for each constraint X extends B of the entry's where clause. */
+  def conditionalParents(t: TraitType): List[(BaseType, List[(Type, BaseType)])] =
+    typeCons(t.getName) match {
+      // Most types have no entry under a where clause: they are answered before t is read.
+      case index: TraitIndex if index.extendsTypes.stream.anyMatch((tw: TraitTypeWhere) => tw.getWhereClause.isSome) =>
+        val a = toListFromImmutable(t.getArgs)
+        val ps = toListFromImmutable(index.staticParameters)
+        toListFromImmutable(index.extendsTypes).flatMap(tw => KindEnv.extendsConditions(tw) match {
+          case Nil => Nil
+          case cs => List((substitute(a, ps, tw.getBaseType).asInstanceOf[BaseType],
+                           cs.flatMap { case SWhereExtends(_, x, bs) =>
+                             val xt = substitute(a, ps, NF.makeVarType(NU.getSpan(x), x))
+                             bs.map(b => (xt, substitute(a, ps, b).asInstanceOf[BaseType])) }))
+        })
+      case _ => Nil
+    }
+
+  /* r, the answer of s below t through s's parents, or s below t through a conditional
+   * parent of s, read as through(p) reads a parent, where the parent's conditions hold:
+   * the conditions are a formula, so an inference variable that one names is bounded
+   * by it. */
+  private def withConditionalParents(s: TraitType, r: CFormula, through: BaseType => CFormula)
+                                    (implicit negate: Boolean, history: Set[hType]): CFormula =
+    conditionalParents(s) match {
+      case Nil => r
+      case cps => pOr(r, pOr(cps.map { case (p, conds) =>
+        pAnd(pAnd(conds.map { case (x, b) => condition(x, b) }), through(p)) }))
+    }
+
+  /* The condition x extends b of a conditional parent.  A type variable that this
+   * analyzer's kind environment does not bind, as an analyzer outside the declaration
+   * (the code generator's) does not bind the declaration's static parameters, leaves
+   * the condition unread: the parent is read at every instance, as the code generator
+   * builds the declaration's class. */
+  private def condition(x: Type, b: BaseType)(implicit negate: Boolean, history: Set[hType]): CFormula =
+    x match {
+      case SVarType(_, id, _) =>
+        traits.readContext()
+        if (env.staticParam(id).isEmpty) pTrue() else pSub(x, b)
+      case _ => pSub(x, b)
+    }
+
   def ancestors(t: TraitType): Set[BaseType] =
     parents(t).flatMap{
       case s:TraitType => Set(s) ++ ancestors(s)
@@ -836,7 +994,8 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
 	val cs = index.comprisesTypes
 	if (cs.isEmpty) None
         else
-	    Some(toSet(cs).map(typ => openWhereSizes(index, substitute(a, toListFromImmutable(index.staticParameters), typ)).asInstanceOf[BaseType]).toSet)
+	    Some(toSet(cs).map(typ => openWhereSizes(index, substitute(a, toListFromImmutable(index.staticParameters), typ),
+	                                             a, toListFromImmutable(index.staticParameters)).asInstanceOf[BaseType]).toSet)
       case _ => None
     }
   }
@@ -912,4 +1071,36 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
 
 object TypeAnalyzer {
   def make(traits: TraitTable) = new TypeAnalyzer(traits, KindEnv.makeFresh)
+
+  // The k-th inference variable that a walk of a question meets, renamed apart. Its hash is its
+  // number, so a renaming asks the JVM for no identity hash.
+  private final class Renamed(val k: Int) {
+    override def toString = "renamed" + k
+    override def hashCode = k
+  }
+  private val renamed = new java.util.ArrayList[_InferenceVarType]()
+  private def renamedVar(k: Int): _InferenceVarType = renamed.synchronized {
+    while (renamed.size <= k) renamed.add(NF.make_InferenceVarType(typeSpan, false, new Renamed(renamed.size)))
+    renamed.get(k)
+  }
+
+  /** The two types with their type inference variables renamed apart, each in the order that a
+   *  walk of x and then y meets it; None if they hold an inference variable of another kind. */
+  def renamedApart(x: Type, y: Type): Option[(Type, Type)] = {
+    val names = new java.util.HashMap[_InferenceVarType, _InferenceVarType]()
+    var other = false
+    object renamer extends Walker {
+      override def walk(n: Any): Any = n match {
+        case v: _InferenceVarType =>
+          val r = names.get(v)
+          if (r != null) r else { val fresh = renamedVar(names.size); names.put(v, fresh); fresh }
+        case _: _InferenceVarInt => other = true; n
+        case _: _InferenceVarOp => other = true; n
+        case _ => super.walk(n)
+      }
+    }
+    val rx = renamer(x).asInstanceOf[Type]
+    val ry = renamer(y).asInstanceOf[Type]
+    if (other) None else Some((rx, ry))
+  }
 }

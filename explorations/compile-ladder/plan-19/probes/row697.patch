@@ -1,0 +1,35 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 1d83117b1..a0eeec829 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -1681,7 +1681,7 @@ value object Nothing[\T\] extends Maybe[\T\]
+     reduce(r: Reduction[\T\]):T = r.empty()
+     loop(f:T->()): () = ()
+     opr IN(x:T, self): Boolean = false
+-    opr =(self,_:Nothing[\T\]) = true
++    opr =(self,_:Nothing[\T\]): Boolean = true
+     opr SQCAP(self, o: Maybe[\T\]): Nothing[\T\] = self
+     opr SQCAP(self, o: UniqueItem[\T\]): Nothing[\T\] = self
+     opr SQCUP(self, o: UniqueItem[\T\]): UniqueItem[\T\] = o
+@@ -1728,7 +1728,7 @@ value object NotUnique[\T\] extends UniqueItem[\T\]
+     reduce(r: Reduction[\T\]):T = r.empty()
+     loop(f:T->()): () = ()
+     opr IN(x:T, self): Boolean = false
+-    opr =(self,_:NotUnique[\T\]) = true
++    opr =(self,_:NotUnique[\T\]): Boolean = true
+     opr SQCAP(self, o:UniqueItem[\T\]): UniqueItem[\T\] = o
+     opr SQCUP(self, o:UniqueItem[\T\]): NotUnique[\T\] = self
+ end
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
+index de7f8f1a3..5a6489061 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java
+@@ -506,7 +506,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
+                     }
+                 }
+ 
+-                distinct |= unequal && (allObjInstance1 || allObjInstance2);
++                /* PROBE row 697: the object-type shortcut removed */
+             }
+             //      }
+ 

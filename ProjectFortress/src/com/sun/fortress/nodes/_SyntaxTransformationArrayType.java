@@ -117,7 +117,7 @@ public class _SyntaxTransformationArrayType extends ArrayType implements _Syntax
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Type temp_elemType = getElemType();
         code ^= temp_elemType.hashCode();
         Indices temp_indices = getIndices();

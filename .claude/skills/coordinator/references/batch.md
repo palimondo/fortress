@@ -32,8 +32,8 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 ## The go
 
 - The batches of PLAN's phase 3 run on a standing go, in PLAN's order. Launch each when the batch before it has landed and its own batch record has no open question.
-- Put a question that a batch record raises to the curator first. While the curator is away, overnight, take its recommended default and put it on the review list. If that default would reverse a decision of the curator, hold that batch, and launch the repair batch (`explorations/coordinator/REPAIR-BATCH.md`) in its place.
-- A top-tier review of a coming batch's record, written for the curator in place of reading the record, needs no further ask.
+- If a question that the batch record raises is consequential (`SKILL.md`), put it to the curator first. Otherwise decide it and put it on the review list. While the curator is away, overnight, take its recommended default and put it on the review list. If that default would reverse a decision of the curator, hold that batch, and launch the repair batch (`explorations/coordinator/REPAIR-BATCH.md`) in its place.
+- Have one Fable review read each coming batch record before the launch, with a go in advance. It is written for the curator in place of reading the record. Treat its questions as the batch record's.
 
 ## The workflow
 
@@ -42,13 +42,13 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 - Build the base once, yourself, in a worktree where nobody compiles or runs (`args.baseBuild`). Every rung worktree is seeded from it (`explorations/coordinator/tools/seed-worktree.sh`), never built clean.
 - No stage runs a build, a suite or a measurement again on a code state that another stage ran, and no agent reads again a log that has not changed.
 - Let the planner give each rung its mission briefing, from the territory map (`explorations/coordinator/map/`), in neutral words: "the decisions on record", not the curator's name. Require no answers from the worker about how it searched.
-- At each landing, report the share of agents that read the briefing in their first turn. Aim for about 80 percent, the share it once had; it fell to 25 to 35.
+- At each landing, report the share of briefed agents that read the briefing at all. Aim for all of them. By the brief's order, none reads it in its first turn.
 
 ## The roles
 
-- The skeptic checks a rung's result after its worker, and builds nothing to check. It reads from the worker's transcript whether the test came first and failed. It runs its own small programs on the rung's build, and on the base through `explorations/coordinator/tools/old-fortress.sh` with a private caches folder.
+- The skeptic checks a rung's result after its worker, and builds nothing to check. It reads from the worker's transcript whether the test came first and failed. It runs its own small programs on the rung's build, and on the base through `explorations/coordinator/tools/old-fortress.sh` with a private caches folder. Where the rung changes the compiled checker, the skeptic also runs the count stage itself, on the base build and on the worker's commits, as `fortress-repo`'s `compiler.md`, "The checker's time", gives a reviewer. That run is the one exception to this bullet and to the rule that no stage measures a code state again.
 - It checks the result against the library's way, the ledger, sibling sites and the decisions on record, and fixes what it finds, test first.
-- A judge rules only on a fix that the skeptic marks contested, on a rung that the skeptic refuses, or on a rung whose worker reported that it could not go on. The first ruling runs on Opus, a second on Fable (`judgeTier`). A settled fix lands with the review and the gate as its check.
+- A judge rules only on a fix that the skeptic marks contested, on a rung that the skeptic refuses, or on a rung whose worker reported that it could not go on. The first ruling runs on Opus, a second on Fable (`judgeTier`). A settled fix lands with the review and the gate as its check. Reaching a reserved point, or a file outside what the rung's section of the batch record names, does not make a settled fix contested: it lands, and the point or the file goes on the review list. A point that cannot be undone holds the batch.
 - No batch compares the printed outputs of the suites' test programs, and no baseline is run to compare against.
 
 ## The checker count and the distance
@@ -70,14 +70,22 @@ The gate reports the checker count in every batch, and the distance in phase 3. 
 
 ## While it runs
 
-- At a boot, read the batch record's sections for the curator, the run's journal (`references/delegating.md`) at the run ID in the boot note, and the times of its agents' transcripts in the session's `subagents/workflows/<run>/`.
+- At a boot, read the batch record's sections for the curator, the run's journal (`references/delegating.md`) at the run ID in the check-in file (below), and the times of its agents' transcripts in the session's `subagents/workflows/<run>/`.
+- From the launch until the run ends, by landing, by stopping or by holding its push for the curator, edit no tracked file in the main tree, the boot note included. The gather needs `git status --porcelain` there to print nothing. Push nothing to `main` from any tree, or git refuses the landing's push.
+- Before the launch, name the check-in file in the boot note: `<scratchpad>/batch<N>/checkins.txt`, where `<N>` is the batch's number. After the launch, write the run's ID and each armed check-in's ID in that file. If the scratchpad loses a check-in's ID, find the check-in again with `list_triggers`.
 - Workers push to their own `wip/` branches as they go. A branch holds only what `main` is to hold (`fortress-repo`, its committing part).
 - If a process stop or the usage limit ends the run, resume it (`references/delegating.md`). The limit drops no rung.
 
 ## The landing
 
-1. Check that the commit stage folded the batch's entries into FACTS (`references/record.md`, "The pass").
-2. Have the writer update `fortress-repo`'s `references/revival-changes.md` (`references/skill-rewrite.md`).
-3. Name each decision that landed in one line, and put the items for the curator on the review list.
-4. Have one Opus reviewer, which only reads, check the landed changes against the decisions on record and the library's way; measure misses by kind, the briefing's use and cost, and re-measuring; and run the routing check (the manual, "After the landing: the coordinator's routing").
-5. File what the review finds in PLAN.
+If the batch's push is held for the curator, take the steps below at once on the local commits. Only the push waits, and the parts of the routing that need the pushed hashes.
+
+1. Sweep the batch agents' to-dos from the session's shared task list: `explorations/coordinator/tools/sweep-tasks.py --delete`. If another workflow still runs, add `--running`, which removes only the completed tasks. The agents write these to-dos themselves, and the harness shows the whole list to every agent.
+2. Check that the commit stage folded the batch's entries into FACTS (`references/record.md`, "The pass").
+3. Have the writer update `fortress-repo`'s `references/revival-changes.md` (`references/skill-rewrite.md`).
+4. Name each decision that landed in one line, and put the items for the curator on the review list.
+5. Have one Opus reviewer, which only reads, check the landed changes against the decisions on record and the library's way; measure misses by kind, the briefing's use and cost, and re-measuring; and run the routing check (the manual, "After the landing: the coordinator's routing").
+6. File what the review finds in PLAN. Then make these moves yourself. The manual's section "After the landing: the coordinator's routing" gives `PLAN-history.md`'s heading for each landing and the form of the one line.
+   - Move word for word into `PLAN-history.md` each item that the batch built, each question that the batch or the curator answered, and each stale item. A stale item is one that a decision or a landed change has made moot.
+   - If another home holds an open item's whole text, cut it in PLAN to one line with a pointer there. If it holds part, first move the rest there. This holds for the review lists too: an entry that `review-queue.md` holds becomes such a line.
+   - Repoint each citation of a moved item: `git grep -n 'PLAN\.md' -- explorations/coordinator/*.md explorations/fortress-gap-ledger.md .claude/skills`. Cut a built item's part from its POSITIONS entry with `record.py`.

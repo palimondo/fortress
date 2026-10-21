@@ -111,11 +111,11 @@ opr BIG {/|->[\E extends StandardTotalOrder[\E\], F extends List[\E\],
         V\]  /}: Comprehension[\(F, V), PrefixMap[\E, F, V\], AnyCovColl,
         AnyCovColl\]
 
-opr BIG UNION[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\]():Comprehension[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],Any,Any\]
+opr BIG UNION[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\]():BigReduction[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\]\]
 
 opr BIG UNION[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\](g: Generator[\PrefixMap[\E,F,V\]\]):PrefixMap[\E,F,V\]
 
-opr BIG UPLUS[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\]():Comprehension[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\],Any,Any\]
+opr BIG UPLUS[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\]():BigReduction[\PrefixMap[\E,F,V\],PrefixMap[\E,F,V\]\]
 
 opr BIG UPLUS[\E extends StandardTotalOrder[\E\], F extends List[\E\],V\](g: Generator[\PrefixMap[\E,F,V\]\]):PrefixMap[\E,F,V\]
 

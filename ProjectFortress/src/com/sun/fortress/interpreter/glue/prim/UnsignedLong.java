@@ -227,9 +227,9 @@ public class UnsignedLong extends NativeConstructor {
     public static final class Pow extends NativeMeth1 {
         public FValue applyMethod(FObject x, FValue y) {
             long base = x.getNN64();
-            long exp = y.getLong();
+            long exp = Int.powCount(y);
             if (exp < 0) {
-                return FFloat.make(1.0 / (double) pow(base, -exp));
+                return FNN64.make(negativePow(base));
             } else {
                 return FNN64.make(powExact(base, exp));
             }
@@ -332,6 +332,15 @@ public class UnsignedLong extends NativeConstructor {
             if (y > 0) x = multiplyExact(x, x);
         }
         return r;
+    }
+
+    /** An unsigned base to a negative exponent: the base 1 gives 1, 0 throws
+        DivisionByZero, and any other base, whose power is no integer, throws
+        IntegerOverflow. */
+    public static long negativePow(long base) {
+        if (base == 1) return 1;
+        if (base == 0) throw Int.divisionByZero();
+        throw Int.overflow();
     }
 
     public static long pow(long x, long y) {

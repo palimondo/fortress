@@ -1,0 +1,10 @@
+component IfClauseNumberWalk
+export Executable
+
+(* An if clause without a binding whose value is a number is no Boolean, so the program is refused at load, under walk (if.tex, section "If Expressions"). *)
+
+chosen: String = if 1 then "then" else "else" end
+
+run(): () = println(chosen)
+
+end

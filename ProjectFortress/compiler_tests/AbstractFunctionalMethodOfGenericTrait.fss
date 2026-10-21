@@ -1,0 +1,18 @@
+(* An abstract functional method of a generic trait beside an object's declaration of it at one instance is checked among the top-level declarations of its name like any other pair, the object's being the more specific (overloading.tex, section "Subtype Rule"). *)
+component AbstractFunctionalMethodOfGenericTrait
+export Executable
+
+trait G[\T\]
+  gm(self): ZZ32
+end
+object O extends G[\ZZ32\]
+  gm(self): ZZ32 = 1
+end
+
+run(): () = do
+    g: G[\ZZ32\] = O
+    assert(gm(g), 1, "gm(g) runs O's declaration")
+    println("PASS")
+  end
+
+end

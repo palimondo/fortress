@@ -1,4 +1,4 @@
-(* A where clause's constraint bounds the type parameter it names: a method of the bound is found on a value of that parameter. *)
+(* A function whose where clause bounds its type parameter compiles: a method of the bound is found on a value of that parameter, and the function is compiled. *)
 component XXXWhereBoundChecker
 export Executable
 

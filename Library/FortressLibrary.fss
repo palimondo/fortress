@@ -639,10 +639,12 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
         a d / b c
     end
     opr ^(self, other:AnyIntegral):QQ =
-        if -other > 0 then   (* Way too clever by half (to avoid infinite recursion on 2^(-63)) *)
-            (denominator(self)/numerator(self))^(-other)
-        else
-            (numerator(self))^other / (denominator(self))^other
+        typecase other of
+            e: NN32 => (numerator(self))^e / (denominator(self))^e
+            e: NN64 => (numerator(self))^e / (denominator(self))^e
+            e: ZZ32 => if e < 0 then (denominator(self)/numerator(self))^(-(widen(e))) else (numerator(self))^e / (denominator(self))^e end
+            e: ZZ64 => if e < 0 then (denominator(self)/numerator(self))^(-e) else (numerator(self))^e / (denominator(self))^e end
+            e: ZZ => if e < 0 then (denominator(self)/numerator(self))^(-e) else (numerator(self))^e / (denominator(self))^e end
         end
     floor(self):ZZ = if self < 0 then -ceiling(-self) else truncate(self) end
     opr |\self/| : ZZ = floor(self)
@@ -718,7 +720,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
     opr LSHIFT(self,b:AnyIntegral):I
     opr RSHIFT(self,b:AnyIntegral):I
     opr BITNOT(self):I
-    opr ^(self, b:AnyIntegral):RR64
+    opr ^(self, b:AnyIntegral):I
     opr |\self/|: I = self
     opr |/self\|: I = self
     round(self): I = self
@@ -796,9 +798,9 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$RShift")
     opr BITNOT(self):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$BitNot")
-    opr ^(self, b:AnyIntegral):RR64 =
+    opr ^(self, b:AnyIntegral):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Pow")
-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
+    opr ^(self, b:IntLiteral):ZZ32 = self^(b.asZZ32)
     widen(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$ToLong")
     partitionL(self):ZZ32 =
@@ -889,9 +891,9 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$RShift")
     opr BITNOT(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$BitNot")
-    opr ^(self, b:AnyIntegral):RR64 =
+    opr ^(self, b:AnyIntegral):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Pow")
-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
+    opr ^(self, b:IntLiteral):ZZ64 = self^(b.asZZ32)
     partitionL(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Partition")
     narrow(self):ZZ32 =
@@ -972,9 +974,9 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$RShift")
     opr BITNOT(self):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$BitNot")
-    opr ^(self, b:AnyIntegral):RR64 =
+    opr ^(self, b:AnyIntegral):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Pow")
-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
+    opr ^(self, b:IntLiteral):NN64 = self^(b.asZZ32)
     partitionL(self):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Partition")
     narrow(self):NN32 =
@@ -1071,9 +1073,9 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$LShift")
     opr BITNOT(self): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$BitNot")
-    opr ^(self, b:AnyIntegral):RR64 =
+    opr ^(self, b:AnyIntegral):ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Pow")
-    opr ^(self, b:IntLiteral):RR64 = self^(b.asZZ32)
+    opr ^(self, b:IntLiteral):ZZ = self^(b.asZZ32)
     narrow(self):ZZ32 = 
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$ToZZ32")
     (* This routine, named for consistency, converts to a ZZ64 *)
@@ -1311,9 +1313,130 @@ __bigOperatorSugar[\I,O,R,L\](o:BigOperator[\I,O,R,L\],g:Generator[\I\]): O =
 (** Application of a BIG operator, the topmost level of comprehension desugaring. **)
 __bigOperator[\I,O,R,L\](o:BigOperator[\I,O,R,L\],desugaredClauses:(Reduction[\L\],I->L)->L): O = do
     r = o.reduction
-    body(i): L = r.lift((o.body)(i))
+    body(i: I): L = r.lift((o.body)(i))
     (o.unwrap)(r.unlift(desugaredClauses(r,body)))
   end
+
+(* Walk's desugaring of a reduction or a comprehension that writes no static
+   argument, by the type of its elements (Evaluator.bigOperatorByElements): its
+   clauses give their elements, in order, to __ElemsReduction, which joins
+   them at the join of their run-time types, as APPCOV joins a covariant
+   collection; the big operator instantiated at that join then reduces them
+   (__bigOperatorElements).  The implementation calls __elemsOf and
+   __bigOperatorElements by name. *)
+trait __ElemsAny end
+object __ElemsNone extends __ElemsAny end
+trait __AnyElemsOne extends __ElemsAny
+    getter v(): Any
+end
+trait __AnyElemsTwo extends __ElemsAny
+    getter a(): __ElemsAny
+    getter b(): __ElemsAny
+end
+trait __Elems[\T\] extends __ElemsAny end
+object __ElemsOne[\T\](v: T) extends { __AnyElemsOne, __Elems[\T\] } end
+object __ElemsTwo[\T\](a: __ElemsAny, b: __ElemsAny) extends { __AnyElemsTwo, __Elems[\T\] } end
+
+__elemsJoin[\T, A extends T, B extends T\](a: __Elems[\A\], b: __Elems[\B\]): __Elems[\T\] =
+    __ElemsTwo[\T\](a, b)
+__elemsJoin(a: __ElemsAny, b: __ElemsAny): __ElemsAny =
+    typecase a of
+        __ElemsNone => b
+        else => typecase b of
+                    __ElemsNone => a
+                    else => __ElemsTwo[\Any\](a, b)
+                end
+    end
+
+object __ElemsReduction extends MonoidReduction[\__ElemsAny\]
+    getter asString(): String = "elements"
+    empty(): __ElemsAny = __ElemsNone
+    join(a: __ElemsAny, b: __ElemsAny): __ElemsAny = __elemsJoin(a, b)
+end
+
+__elemsOne(x: Any): __ElemsAny = __ElemsOne(x)
+
+__elemsOf(desugaredClauses: (Reduction[\__ElemsAny\], Any->__ElemsAny)->__ElemsAny): __ElemsAny =
+    desugaredClauses(__ElemsReduction, __elemsOne)
+
+__replay[\I,L\](e: __ElemsAny, r: Reduction[\L\], u: I->L): L =
+    typecase e of
+        e': __AnyElemsTwo =>
+            typecase e'.b of
+                __AnyElemsTwo =>
+                    typecase e'.a of
+                        __AnyElemsTwo => r.join(__replay[\I,L\](e'.a, r, u), __replay[\I,L\](e'.b, r, u))
+                        else => __replayRight[\I,L\](e', r, u)
+                    end
+                else => __replayLeft[\I,L\](e', r, u)
+            end
+        e': __AnyElemsOne =>
+            typecase e'.v of
+                x: I => u(x)
+                else => throw CastError
+            end
+        else => r.empty()
+    end
+
+(* A chain of joins down the left, as a sequential generator makes, replayed by a
+   loop over its spine: its right operands, deepest first, joined in turn. *)
+__replayLeft[\I,L\](e: __AnyElemsTwo, r: Reduction[\L\], u: I->L): L = do
+    rights: __ElemsAny := __ElemsNone
+    node: __ElemsAny := e
+    descending: Boolean := true
+    while descending do
+        typecase node of
+            n': __AnyElemsTwo => do
+                rights := __ElemsTwo[\Any\](n'.b, rights)
+                node := n'.a
+              end
+            else => descending := false
+        end
+    end
+    result: L := __replay[\I,L\](node, r, u)
+    ascending: Boolean := true
+    while ascending do
+        typecase rights of
+            s': __AnyElemsTwo => do
+                result := r.join(result, __replay[\I,L\](s'.a, r, u))
+                rights := s'.b
+              end
+            else => ascending := false
+        end
+    end
+    result
+  end
+
+(* The same down the right, as a reversed sequential generator makes. *)
+__replayRight[\I,L\](e: __AnyElemsTwo, r: Reduction[\L\], u: I->L): L = do
+    lefts: __ElemsAny := __ElemsNone
+    node: __ElemsAny := e
+    descending: Boolean := true
+    while descending do
+        typecase node of
+            n': __AnyElemsTwo => do
+                lefts := __ElemsTwo[\Any\](n'.a, lefts)
+                node := n'.b
+              end
+            else => descending := false
+        end
+    end
+    result: L := __replay[\I,L\](node, r, u)
+    ascending: Boolean := true
+    while ascending do
+        typecase lefts of
+            s': __AnyElemsTwo => do
+                result := r.join(__replay[\I,L\](s'.a, r, u), result)
+                lefts := s'.b
+              end
+            else => ascending := false
+        end
+    end
+    result
+  end
+
+__bigOperatorElements[\I,O,R,L\](o: BigOperator[\I,O,R,L\], e: __ElemsAny): O =
+    __bigOperator[\I,O,R,L\](o, fn (r: Reduction[\L\], u: I->L): L => __replay[\I,L\](e, r, u))
 
 (** Application of two nested BIG operators, possibly with fusion.  This only covers
     a comprehension of the form:
@@ -1934,7 +2057,7 @@ object DefaultZip[\E,F\](e:ZeroIndexed[\E\],f:ZeroIndexed[\F\])
         DefaultZip[\E,F\](e[r],f[r])
 end
 
-trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E\]
+trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E extends StandardTotalOrder[\E\]\]
         extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
     opr CMP(self, other:T): TotalComparison =
         self.zip[\E\](other).generate[\TotalComparison\](
@@ -2401,14 +2524,22 @@ trait AnyVector end
 trait Vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]
         extends { AnyVector, Array1[\T,0,s0\], AdditiveGroup[\Vector[\T,s0\]\] }
         excludes { AnyMultiplicativeRing }
+    fill(v:T):Vector[\T,s0\] = do
+        for i <- zeroIndices() do init0(i,v) end
+        self
+      end
+    tabulate(f:ZZ32->T):Vector[\T,s0\] = do
+        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
+        self
+      end
     opr +(self, v:Vector[\T,s0\]): Vector[\T,s0\] =
-        ivmap[\T\](fn (i:ZZ32, e: T):T => e + v.get(i))
+        cast[\Vector[\T,s0\]\](ivmap[\T\](fn (i:ZZ32, e: T):T => e + v.get(i)))
     opr -(self, v:Vector[\T,s0\]): Vector[\T,s0\] =
-        ivmap[\T\](fn (i:ZZ32, e: T):T => e - v.get(i))
-    opr -(self): Vector[\T,s0\] = map[\T\](fn (e: T):T => - e)
-    scale(t: T): Vector[\T,s0\] = map[\T\](fn (v) => t v)
+        cast[\Vector[\T,s0\]\](ivmap[\T\](fn (i:ZZ32, e: T):T => e - v.get(i)))
+    opr -(self): Vector[\T,s0\] = cast[\Vector[\T,s0\]\](map[\T\](fn (e: T):T => - e))
+    scale(t: T): Vector[\T,s0\] = cast[\Vector[\T,s0\]\](map[\T\](fn (v) => t v))
     pmul(v: Vector[\T,s0\]): Vector[\T,s0\] =
-        ivmap[\T\](fn (i:ZZ32, e: T):T => e v.get(i))
+        cast[\Vector[\T,s0\]\](ivmap[\T\](fn (i:ZZ32, e: T):T => e v.get(i)))
     dot(v: Vector[\T,s0\]): T =
         SUM[\T\] [(i,me_i)<-self.indexValuePairs] me_i v.get(i)
 end
@@ -2430,7 +2561,7 @@ end
 __builtinFactory1[\T, nat b0, nat s0\]():Array1[\T,b0,s0\] = do
     r = array1[\T,s0\]()
     typecase N[\b0\] of
-        N[\0\] => r
+        N[\0\] => cast[\Array1[\T,b0,s0\]\](r)
         else => r.subarray[\b0,s0,0\](1)
     end
   end
@@ -2441,17 +2572,26 @@ __builtinFactory1[\T, nat b0, nat s0\]():Array1[\T,b0,s0\] = do
 __immutableFactory1[\T, nat b0, nat s0\]():ImmutableArray1[\T,b0,s0\] = do
     r = immutableArray1[\T,s0\]()
     typecase N[\b0\] of
-        N[\0\] => r
+        N[\0\] => cast[\ImmutableArray1[\T,b0,s0\]\](r)
         else => r.subarray[\b0,s0,0\](1)
     end
   end
 
 __thrower[\T\](): T = throw ForbiddenException(CallerViolation)
 
-(* TODO: fix when Number is covariant. *)
+(* At each number type array1 gives a vector: a typecase over a witness of
+   its result type finds the type, as in additiveIdentity, and the vector
+   built at that type is returned through cast. *)
 array1[\T, nat s0\]():Array1[\T,0,s0\] =
-    typecase __thrower[\T\] of
-        () -> Number => vector[\T,s0\]()
+    typecase __thrower[\Array1[\T,0,s0\]\] of
+        () -> Array1[\ZZ32,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\ZZ32,s0\]())
+        () -> Array1[\ZZ64,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\ZZ64,s0\]())
+        () -> Array1[\NN32,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\NN32,s0\]())
+        () -> Array1[\NN64,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\NN64,s0\]())
+        () -> Array1[\ZZ,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\ZZ,s0\]())
+        () -> Array1[\QQ,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\QQ,s0\]())
+        () -> Array1[\RR32,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\RR32,s0\]())
+        () -> Array1[\RR64,0,s0\] => cast[\Array1[\T,0,s0\]\](vector[\RR64,s0\]())
         else => PrimitiveArray[\T,s0\]()
     end
 array1[\T, nat s0\](v:T):Array1[\T,0,s0\] = array1[\T,s0\]().fill(v)
@@ -2564,11 +2704,11 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
   opr[_:TrivialOpenRange, _:TrivialOpenRange]: Array[\T,(ZZ32,ZZ32)\] = self[:]
 *)
   (** Row and column extraction *)
-  opr[_:TrivialOpenRange, i1:ZZ32]: Array[\T,ZZ32\] = Col(self[(b0,i1)#(s0,1)])
+  opr[_:TrivialOpenRange, i1:ZZ32]: Array[\T,ZZ32\] = Col(cast[\Array2[\T,0,s0,0,1\]\](self[(b0,i1)#(s0,1)]))
 (*
   opr[r:Range[\ZZ32\], i1:ZZ32]: Array[\T,ZZ32\] =        Col(self[r, i1#1])
 *)
-  opr[i0:ZZ32, _:TrivialOpenRange]: Array[\T,ZZ32\] = Row(self[(i0,b1)#(1,s1)])
+  opr[i0:ZZ32, _:TrivialOpenRange]: Array[\T,ZZ32\] = Row(cast[\Array2[\T,0,1,0,s1\]\](self[(i0,b1)#(1,s1)]))
 (*
   opr[i0:ZZ32, r:Range[\ZZ32\]]: Array[\T,ZZ32\] =        Row(self[i0#1, r])
 *)
@@ -2705,12 +2845,20 @@ trait AnyMatrix end
 trait Matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]
         extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\], AdditiveGroup[\Matrix[\T,s0,s1\]\] }
         excludes { AnyMultiplicativeRing }
+    fill(v:T):Matrix[\T,s0,s1\] = do
+        for i <- zeroIndices() do init0(i,v) end
+        self
+      end
+    tabulate(f:(ZZ32,ZZ32)->T):Matrix[\T,s0,s1\] = do
+        for i <- zeroIndices() do init0(i,f(toIndex(i))) end
+        self
+      end
     opr +(self, v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\] =
-        ivmap[\T\](fn (i:(ZZ32,ZZ32),e:T):T => e + v.get(i))
+        cast[\Matrix[\T,s0,s1\]\](ivmap[\T\](fn (i:(ZZ32,ZZ32),e:T):T => e + v.get(i)))
     opr -(self, v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\] =
-        ivmap[\T\](fn (i:(ZZ32,ZZ32),e:T):T => e - v.get(i))
-    opr -(self): Matrix[\T,s0,s1\] = map[\T\](fn (e:T):T => - e)
-    scale(t1: T): Matrix[\T,s0,s1\] = map[\T\](fn (e:T):T => t1 e)
+        cast[\Matrix[\T,s0,s1\]\](ivmap[\T\](fn (i:(ZZ32,ZZ32),e:T):T => e - v.get(i)))
+    opr -(self): Matrix[\T,s0,s1\] = cast[\Matrix[\T,s0,s1\]\](map[\T\](fn (e:T):T => - e))
+    scale(t1: T): Matrix[\T,s0,s1\] = cast[\Matrix[\T,s0,s1\]\](map[\T\](fn (e:T):T => t1 e))
     mul[\ nat s2 \](other: Matrix[\T,s1,s2\]): Matrix[\T,s0,s2\] = do
         res = matrix[\T,s0,s2\]()
         mma(a:ZZ32,i:ZZ32,b:ZZ32,j:ZZ32,c:ZZ32,k:ZZ32):() =
@@ -2814,16 +2962,23 @@ end
 
 __builtinFactory2[\T,nat b0,nat s0,nat b1,nat s1\]():Array2[\T,b0,s0,b1,s1\] =
     if b0=0 AND b1=0 then
-        array2[\T,s0,s1\]()
+        cast[\Array2[\T,b0,s0,b1,s1\]\](array2[\T,s0,s1\]())
     else
         __DefaultArray2[\T,b0,s0,b1,s1\]()
     end
 
 (* array2 is a factory for 0-based 2-D arrays. *)
-(* TODO: fix when Number is covariant. *)
+(* At each number type array2 gives a matrix, found as in array1. *)
 array2[\T, nat s0, nat s1\]():Array2[\T,0,s0,0,s1\] =
-    typecase __thrower[\T\] of
-        ()->Number => matrix[\T,s0,s1\]()
+    typecase __thrower[\Array2[\T,0,s0,0,s1\]\] of
+        () -> Array2[\ZZ32,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\ZZ32,s0,s1\]())
+        () -> Array2[\ZZ64,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\ZZ64,s0,s1\]())
+        () -> Array2[\NN32,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\NN32,s0,s1\]())
+        () -> Array2[\NN64,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\NN64,s0,s1\]())
+        () -> Array2[\ZZ,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\ZZ,s0,s1\]())
+        () -> Array2[\QQ,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\QQ,s0,s1\]())
+        () -> Array2[\RR32,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\RR32,s0,s1\]())
+        () -> Array2[\RR64,0,s0,0,s1\] => cast[\Array2[\T,0,s0,0,s1\]\](matrix[\RR64,s0,s1\]())
         else => __DefaultArray2[\T,0,s0,0,s1\]()
     end
 array2[\T, nat s0, nat s1\](v:T):Array2[\T,0,s0,0,s1\] =
@@ -2837,7 +2992,7 @@ tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\] =
 matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]():Matrix[\T,s0,s1\] =
   __DefaultMatrix[\T,s0,s1\]()
 matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\](v:T):Matrix[\T,s0,s1\] =
-  array2[\T,s0,s1\]().tabulate(fn (x:ZZ32,y:ZZ32):T => if x=y then v else v.zero end)
+  matrix[\T,s0,s1\]().tabulate(fn (x:ZZ32,y:ZZ32):T => if x=y then v else v.zero end)
 
 (* Matrix multiplication; used to use a cache-oblivious algorithm, but
    we ran into trouble due to lack of support for atomic increment of
@@ -3084,20 +3239,16 @@ trait ActualReduction[\R,L\] extends Reduction[\L\]
     unlift(l:L): R
     (** If this reduction left-distributes over r, return a pair of
         reductions with the same lift and unlift **)
-    leftDistribute(r: Reduction[\R\]): PossibleReductionPair[\R\] =
+    leftDistribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
         distribute(r)
     (** If this reduction right-distributes over r, return a pair of
         reductions with the same lift and unlift **)
-    rightDistribute(r: Reduction[\R\]): PossibleReductionPair[\R\] =
+    rightDistribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
         distribute(r)
     (** If this reduction distributes over r, return a pair of
         reductions with the same lift and unlift **)
-    (* a hack to avoid the error of overloaded methods *)
-    distribute(r: Any): PossibleReductionPair[\R\] =
-        NoReductionPair[\R\]
-(*    distribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\R\] =
-        NoReductionPair[\R\]
-*)
+    distribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\] =
+        NoReductionPair[\K\]
 end
 
 trait PossibleReductionPair[\R\] extends Condition[\PossibleReductionPair[\R\]\]
@@ -3224,8 +3375,8 @@ trait DistributesOver[\E\] end
 
 (** The identity of + and of juxtaposition for the number type named by the
     static argument alone, with no element in hand: the typecase over a
-    %() -> T% witness that %array1% uses.  Each type is tested before its
-    supertypes. **)
+    %() -> T% witness, the witness of its result type, as %array1% takes
+    one of its own.  Each type is tested before its supertypes. **)
 additiveIdentity[\T extends AdditiveGroup[\T\]\](): T =
     typecase __thrower[\T\] of
         () -> ZZ32 =>
@@ -3240,7 +3391,7 @@ additiveIdentity[\T extends AdditiveGroup[\T\]\](): T =
         () -> RR64 =>
             v: RR64 = 0.0
             cast[\T\](v)
-        else => 0
+        else => cast[\T\](0)
     end
 
 multiplicativeIdentity[\T extends MultiplicativeRing[\T\]\](): T =
@@ -3257,7 +3408,7 @@ multiplicativeIdentity[\T extends MultiplicativeRing[\T\]\](): T =
         () -> RR64 =>
             v: RR64 = 1.0
             cast[\T\](v)
-        else => 1
+        else => cast[\T\](1)
     end
 
 object SumProdReductionPair[\T extends MultiplicativeRing[\T\]\] extends ReductionPair[\T,T\]
@@ -3281,9 +3432,9 @@ object SumReduction[\T extends AdditiveGroup[\T\]\] extends CommutativeMonoidRed
     getter asString(): String = "SumReduction"
     empty(): T = additiveIdentity[\T\]()
     join(a: T, b: T): T = a + b
-    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
+    distribute(r: MaxReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] where { T extends StandardMax[\T\] } =
     MaxSumReductionPair[\T\]
-    distribute(r: MinReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] =
+    distribute(r: MinReduction[\T\]): PossibleReductionPair[\Maybe[\T\]\] where { T extends StandardMin[\T\] } =
     MinSumReductionPair[\T\]
 end
 
@@ -3574,8 +3725,8 @@ end
 embiggen[\T,opr OP\](z:Any, g:(Reduction[\Any\],T->Any) -> Any) : T =
     g(MIOprReduction[\T,OP\](z), fn (x) => x)
 *)
-embiggen[\T\](j:(Any,Any)->T, z:T) : Comprehension[\T,T,Any,Any\] =
-    Comprehension[\T,T,Any,Any\](fn (x) => x, MIMapReduceReduction[\T\](j,z), fn (x) => x)
+embiggen[\T\](j:(T,T)->T, z:T) : BigReduction[\T,T\] =
+    BigReduction[\T,T\](MapReduceReduction[\T\](j,z))
 
 (** Helpers for maps and cross products of generators.  These can be
     quite a bit more sophisticated (for example, we can hoist maps
@@ -4257,8 +4408,8 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
         do (i,j,k,l,m) = b; self || "(" || i || "," j || "," k || "," l || "," m || ")" end
     opr ||(self, b:(Any,Any,Any,Any,Any,Any)):String =
         do (i,j,k,l,m,n) = b; self || "(" || i || "," j || "," k || "," l || "," m || "," n || ")" end
-    opr ||(a:Any, self):String = a.asString || self
-    opr ||(self, b:Any):String = self || b.asString
+    opr ||(a:Any, self):String = ("" || a) || self
+    opr ||(self, b:Any):String = self || cast[\Object\](b).asString
 
     (** The operator %|||% with at least one String argument converts to string,
         then appends with a whitespace separator unless one of the two arguments is
@@ -4407,7 +4558,7 @@ strToInt(s: String, radix: ZZ32): ZZ32 = do
     r = SUM[\ZZ32\][ i <- i0:n] if d <- digit(s[i], radix) then
                           d radix^(n-i)
                       else
-                          fail("strToInt(" s.asString "," radix "): non-digit " s[i].asString)
+                          fail[\ZZ32\]("strToInt(" s.asString "," radix "): non-digit " s[i].asString)
                       end
     if neg then -r else r end
   end

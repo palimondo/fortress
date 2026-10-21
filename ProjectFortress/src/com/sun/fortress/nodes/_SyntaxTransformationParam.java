@@ -118,17 +118,17 @@ public class _SyntaxTransformationParam extends Param implements _SyntaxTransfor
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_name = getName();
         code ^= temp_name.hashCode();
         Modifiers temp_mods = getMods();
         code ^= temp_mods.hashCode();
         Option<TypeOrPattern> temp_idType = getIdType();
-        code ^= temp_idType.hashCode();
+        code ^= NodeHash.of(temp_idType);
         Option<Expr> temp_defaultExpr = getDefaultExpr();
-        code ^= temp_defaultExpr.hashCode();
+        code ^= NodeHash.of(temp_defaultExpr);
         Option<Type> temp_varargsType = getVarargsType();
-        code ^= temp_varargsType.hashCode();
+        code ^= NodeHash.of(temp_varargsType);
         java.util.Map<String, Level> temp_variables = getVariables();
         code ^= temp_variables.hashCode();
         java.util.List<String> temp_syntaxParameters = getSyntaxParameters();

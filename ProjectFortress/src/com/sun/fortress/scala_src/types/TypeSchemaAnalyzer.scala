@@ -431,7 +431,20 @@ class TypeSchemaAnalyzer(implicit val ta: TypeAnalyzer) {
       None
     }
   }
-  
+
+  /**
+   * Whether the existential type `ed` has no instance but Bottom: the first premise
+   * of reduceED, the constraint under which its body, each type parameter read as an
+   * inference variable, is not equivalent to Bottom, is False, so no instantiation
+   * makes it nontrivial.  An intersection of types that exclude has the extent of
+   * Bottom (the paper that reduceED cites, Section 5.3); reduceED cannot unify False
+   * and leaves such a type as it is, whose body its own type variables do not show
+   * to be Bottom.
+   */
+  def emptyED(ed: Type): Boolean =
+    !getStaticParams(ed).isEmpty &&
+    isFalse(negate(ta.equivalent(replaceTypeParametersWithInferenceVariables(ed), BOTTOM)))
+
   /**
    * Map phi onto the given static params to produce a new set of static
    * params. For more details, see the "Bounds substitution" definition

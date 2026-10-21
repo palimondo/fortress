@@ -109,7 +109,7 @@ public class _SyntaxTransformationCharacterInterval extends CharacterInterval im
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         String temp_beginSymbol = getBeginSymbol();
         code ^= temp_beginSymbol.hashCode();
         String temp_endSymbol = getEndSymbol();

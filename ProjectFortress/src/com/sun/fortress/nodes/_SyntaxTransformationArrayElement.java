@@ -117,7 +117,7 @@ public class _SyntaxTransformationArrayElement extends ArrayElement implements _
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         List<StaticArg> temp_staticArgs = getStaticArgs();
         code ^= temp_staticArgs.hashCode();
         Expr temp_element = getElement();

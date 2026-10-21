@@ -622,14 +622,19 @@ public class ScalaAstGenerator extends CodeGenerator {
             }
             writer.println(sub("}"));
         }
-        // Generate walker.
+        // Generate walker.  Its cases are tried in their order, split into
+        // methods of WALKER_CASES_PER_METHOD class cases each, the last method
+        // ending with the cases of a List, an Option and any other value: one
+        // method holding them all is longer than the 8000 bytes of bytecode above
+        // which HotSpot does not compile a method (HugeMethodLimit), so it ran in
+        // the interpreter.
         writer.println();
         writer.println("trait Walker {");
         writer.println("   def apply(node:Any):Any = walk(node)");
-        writer.println("   def walk(node:Any):Any = {");
-        writer.println("       node match {");
+        writer.println("   def walk(node:Any):Any = walkCases0(node)");
         List<NodeClass> cList = mkList(ast.classes());
         Collections.reverse(cList);
+        List<String> cases = new ArrayList<String>();
         for (NodeClass c : cList) {
             if (ignoreClass(c.name())) {
                 continue;
@@ -638,16 +643,31 @@ public class ScalaAstGenerator extends CodeGenerator {
                 continue;
             }
 
-            writer.println(sub("         case S@name@fieldsNoTypes =>", "@name", c.name(), "@fieldsNoTypes", fieldsNames(c)));
-            writer.println(sub("             S@name@fieldsNoTypes", "@name", c.name(), "@fieldsNoTypes", wrappedFieldCalls("walk", c)));
+            cases.add(sub("         case S@name@fieldsNoTypes =>", "@name", c.name(), "@fieldsNoTypes", fieldsNames(c)) + "\n" +
+                      sub("             S@name@fieldsNoTypes", "@name", c.name(), "@fieldsNoTypes", wrappedFieldCalls("walk", c)));
         }
-        writer.println("         case xs:List[_] => xs.map(walk _)");
-        writer.println("         case xs:Option[_] => xs.map(walk _)");
-        writer.println("         case _ => node");
-        writer.println("      }");
-        writer.println("   }");
+        for (int m = 0; m == 0 || m * WALKER_CASES_PER_METHOD < cases.size(); m++) {
+            int end = Math.min(cases.size(), (m + 1) * WALKER_CASES_PER_METHOD);
+            writer.println("   def walkCases" + m + "(node:Any):Any = {");
+            writer.println("       node match {");
+            for (String c : cases.subList(m * WALKER_CASES_PER_METHOD, end)) {
+                writer.println(c);
+            }
+            if (end < cases.size()) {
+                writer.println("         case _ => walkCases" + (m + 1) + "(node)");
+            } else {
+                writer.println("         case xs:List[_] => xs.map(walk _)");
+                writer.println("         case xs:Option[_] => xs.map(walk _)");
+                writer.println("         case _ => node");
+            }
+            writer.println("      }");
+            writer.println("   }");
+        }
         writer.println("}");
     }
+
+    /** The number of class cases in each method of the generated walker (generateBody). */
+    private static final int WALKER_CASES_PER_METHOD = 30;
 
     /**
      * Given a String denoting a file name, and a preamble (e.g., a copyright notice)

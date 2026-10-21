@@ -112,7 +112,7 @@ public class _SyntaxTransformationCaseTransformerClause extends CaseTransformerC
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         Id temp_constructor = getConstructor();
         code ^= temp_constructor.hashCode();
         List<Id> temp_parameters = getParameters();

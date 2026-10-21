@@ -81,7 +81,7 @@ public class _InferenceVarInt extends IntExpr implements OutAfterTypeChecking {
      * the hashcodes of all the fields of the object.
      */
     public int generateHashCode() {
-        int code = getClass().hashCode();
+        int code = getClass().getName().hashCode();
         ASTNodeInfo temp_info = getInfo();
         code ^= temp_info.hashCode();
         Object temp_id = getId();

@@ -1,0 +1,15 @@
+(* A member of a trait whose comprises clause lists Box[\E\] where [\E\] may name E in its declared type. *)
+component XXXWhereVariableMemberWalk
+export Executable
+
+trait AnyBox comprises { Box[\E\] } where [\E\]
+    getter item(): E
+end
+object Box[\E\](item: E) extends AnyBox end
+
+run(): () = do
+    b = Box[\ZZ32\](3)
+    assert(b.item, 3, "trait-parameters.tex, section \"Where Clauses\": a where-clause variable is a static variable of the declaration")
+  end
+
+end

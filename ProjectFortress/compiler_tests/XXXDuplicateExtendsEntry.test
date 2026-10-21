@@ -1,0 +1,3 @@
+tests=XXXDuplicateExtendsEntry
+run
+run_out_contains=REACHED

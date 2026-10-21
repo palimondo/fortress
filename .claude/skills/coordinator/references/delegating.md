@@ -17,9 +17,9 @@
 - Give each worker its tier's alias: `model: 'opus'`, `'sonnet'` or `'fable'`. Write no identifier that an alias resolves to.
 - Use Sonnet for archaeology and retrieval only, never for a judgement.
 - When this session runs on Fable, have an Opus worker write each longer report or page for the curator.
-- Take a cross-area question in two steps. First, Opus workers gather cited evidence or a list of ways. Then, if the record does not settle it, run a Fable judgement without asking, sparingly, and put it to the curator as an ask.
-- Three kinds of Fable work have a go in advance: a judge's second ruling in a batch, the top-tier reviews of the batch records, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
-- Weigh a Fable review's ideas critically: it tends to keep everything as it was. An Opus worker is enough for a check.
+- Take a cross-area question in two steps. First, Opus workers gather cited evidence or a list of ways. Then, if neither the record nor the three principles (`SKILL.md`) settle it, run a Fable judgement, sparingly. If the fork stays consequential, put it to the curator as an ask.
+- Four kinds of Fable work have a go in advance: the Fable judgement on a cross-area question, a judge's second ruling in a batch, the Fable review of each batch record, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
+- If you start a headless session on a tier other than Opus or Fable, set `FORTRESS_HEADLESS=1` in its environment. Otherwise the model check's alarm stops its work (`SKILL.md`, "The boot"). Today only the baseline interview does so.
 - A Fable token also uses the all-models limits, at three to four times an Opus token's share of the session limit.
 
 ## What a brief holds
@@ -29,6 +29,7 @@
 - A pointer to the research on file, not a restatement of it.
 - The record's measurements, as findings to cite, not claims to check again, even for a worker kept clean of our options. Name the one new thing to measure. Ask for a new measurement only if the tree has changed under a finding, and say what changed.
 - The entries that it needs, quoted word for word under their numbers. Quote a rule of the curator's whole, with its limit and its example.
+- Before you quote the curator's words from a message, clean them. Fix the obvious typos of the phone's swipe keyboard and of dictation, and keep the meaning. Put `[?]` after each word whose reading is a guess. Quote an entry as the record holds it.
 - For an update of a document: a length cap against the version before. The update adds what landed.
 - No second reader named in the brief, since that reframes the document.
 - No request to measure or cap its own token spend. The spend is yours to watch.
