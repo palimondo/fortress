@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-10-21)
+
+- 18:02 Sonnet is enough for archaeology scouting, as the P-86 scout showed; do not spend Opus on such scouts (for the skill writer: the tier rule in `delegating.md`).
+
 ## Held in chat (2026-10-20)
 
 - 06:45 The batch agents keep the task tools; a step of the landing sweeps the done tasks from the shared list, decided on the evidence of `process-engineering/task-list-archaeology.md` (for the skill writer: the sweep as step 1 of `batch.md`, "The landing", by `tools/sweep-tasks.py`).
