@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 18:26 UTC on 2026-10-21** (20:26 his time). The one-time light boot he asked for was taken at about 17:23 UTC on 10-20: the two skill cores, this note and `explorations/reviews/item31-drafts.md`, with no FACTS, POSITIONS, INDEX, PLAN or HELD. The next boot is the skill's full boot. The VM restarted at 17:33 UTC on 10-21; the tree matched `origin/main` after it.
+**State at 18:56 UTC on 2026-10-21** (20:56 his time). The one-time light boot he asked for was taken at about 17:23 UTC on 10-20: the two skill cores, this note and `explorations/reviews/item31-drafts.md`, with no FACTS, POSITIONS, INDEX, PLAN or HELD. The next boot is the skill's full boot. The VM restarted at 17:33 UTC on 10-21; the tree matched `origin/main` after it.
 
 ## The scene: a post-mortem
 
@@ -20,7 +20,8 @@
 
 ## Running and owed
 
-- **Running:** an Opus worker, launched at about 18:26 UTC on 10-21: from the Sonnet study of the P-86 scout's searches (`positions-audit/scout-search-study.md`, `52c6a70b1`), it writes the audit's scripts (an entry's trail through the history and git; his messages near a time with the asks they answered; a quote check; an entry's leads), tests each on P-86's known answers, checks three weak links by hand, and sorts the 85 entries by the marks doc, bulk, default and msg into `sort.txt`. Scratch in `scratchpad/provenance/opus/`; its report is its final message. Rough guess, not measured: 0.5M to 1M tokens written. Then: commit the scripts once read, and show him the suspects and the audit brief (Sonnet scouts retrieve the trail and quotes; the classing is a judgement, for an Opus reader or the coordinator) before any scout runs.
+- **Nothing runs.** The Opus script worker returned at about 18:51 UTC on 10-21. Its scripts are in `positions-audit/tools/` (`tests.py`: 0 failed, rerun there), its report is `positions-audit/scripts-report.md` and the sort is `positions-audit/sort-2026-10-21.txt` (`4543f9bf4`).
+- **The ask with him (about 18:56 UTC on 10-21):** go for the trial on the ten entries and with the scout brief of the page https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb (source `scratchpad/auditpage/`, `build.py`): P-86, P-148, P-150, P-10, P-18, P-55, P-85, P-88, P-151, P-66. On a yes: `leads.py N` for each into a file, ten Sonnet scouts with the page's brief, the quote check on every quote, one fresh Opus reader that classes the ten, the coordinator's check, his check of 2 or 3. Nothing in the record changes.
 - **Returned:** the scout on the revival part (on Opus, launched before his rule of 18:02 UTC), committed word for word as `reviews/revival-part-use-2026-10-21.md` (`911e48140`); its counts went to him at about 18:06 UTC on 10-21. What to do about the part waits until he has read them.
 - The workers' reports of 10-20 afternoon, each committed word for word: the immutable-arrays probe (`40565a35e`, `perf-probes/immutable-arrays/REPORT.md`; owed to him with a recommendation, after item 1), the symbolic-operators probe for P-155 (`0a6ba39e6` and `3099fb2eb`, `perf-probes/symbolic-operators-2/REPORT.md`; its five design questions owed to him before their rungs), the drafts file (`bf8525294`, then his message added).
 - His rule for the review list (about 12:40 UTC on 10-20): climb batch 20's items one a message, queue items 31, 29, 95, 112, 113, 165 in that order. Then the INDEX ask, then the post-mortem redo plan's asks 6, 7, 9 and 10. All of it waits on the two tasks above.
@@ -31,4 +32,4 @@
 - **The model:** Opus 5.5 since his `/model claude-opus-5-5` at 21:04:25 UTC on 2026-10-19; `get_session` showed Opus in both fields at the boot of about 17:23 UTC on 10-20.
 - **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable`. Commit by named paths only (`git add -- <new paths>`, then `git commit -- <paths>`), never `-A`, `.` or `-a`.
 - **The machine.** The VM last started at 17:33:27 UTC on 2026-10-21; the next stop by the cap is about 06:33 UTC on 10-22. 4.4 GB free at 17:35 UTC.
-- **Pages:** the drafts page, https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg, source `scratchpad/haiku-window/page31/` (`build.py` rebuilds it), no comments at 17:25 UTC on 10-20; publish it again by its URL after a compaction. The revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, version 22, made on Haiku, its rewrite owed.
+- **Pages:** the audit trial's page, https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb, source `scratchpad/auditpage/`. The drafts page, https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg, source `scratchpad/haiku-window/page31/` (`build.py` rebuilds it), no comments at 17:25 UTC on 10-20; publish it again by its URL after a compaction. The revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, version 22, made on Haiku, its rewrite owed.
