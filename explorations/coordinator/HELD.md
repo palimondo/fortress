@@ -11,6 +11,7 @@
 
 ## Held in chat (2026-10-21)
 
+- 22:28 A measured number (P-150's 1.8 %) is not his position and does not belong in POSITIONS: a number from one measurement is a fact, held in FACTS (F-234) or its report, and an entry keeps the decision and its reason in plain words, with a pointer. And his later word on an entry's subject updates the entry even where it went into a skill (P-148's timing, loosened to a smoke test on 10-17 at 10:28 and 10:29 UTC, never reached P-148) (for the audit's rules 11 and 12, and the skill writer: `record.md`, what a POSITIONS entry holds).
 - 22:24 What a worker can fetch by script, a script fetches: the leads, the message he answered, the pointers, the homes of a status. A launch message names the entry's number and the brief; it never copies record text by hand (for the skill writer: `delegating.md`, what a brief holds). The full audit runs overnight as a Workflow, one brief for every scout and a list of numbers, at more than two agents at once if the machine allows (his opt-in to a Workflow for that run).
 - 18:02 Sonnet is enough for archaeology scouting, as the P-86 scout showed; do not spend Opus on such scouts (for the skill writer: the tier rule in `delegating.md`).
 - 18:14 Sonnet reads and analyzes (a scout's archaeology, a transcript's search patterns); Opus writes code and scripts, as the better coder. A worker that studies how a task was done returns search instructions as a brief for the Opus worker that writes the scripts, not the scripts themselves (for the skill writer: the tier rule in `delegating.md`).
