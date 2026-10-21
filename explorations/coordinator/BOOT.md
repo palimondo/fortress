@@ -2,11 +2,11 @@
 
 # Boot note
 
-**State at 23:58 UTC on 2026-10-21** (01:58 his time on 10-22), written before the compaction he asked for at about 23:56 UTC.
+**State at 23:56 UTC on 2026-10-21** (01:56 his time on 10-22), written before the compaction he asked for at 23:54 UTC.
 
 ## A one-time exception to the boot
 
-At the curator's word of 23:56 UTC on 2026-10-21, the boot after this compaction is again a light one, this once. It reads only, in this order:
+At the curator's word of 23:54 UTC on 2026-10-21, the boot after this compaction is again a light one, this once. It reads only, in this order:
 
 1. `get_session` with no session ID: the model, as step 0 of the boot says.
 2. `.claude/skills/coordinator/SKILL.md` and `.claude/skills/fortress-repo/SKILL.md`, the two cores; then `.claude/skills/coordinator/references/delegating.md`, for resuming a Workflow run.
@@ -24,7 +24,7 @@ Do not read FACTS, POSITIONS, INDEX or PLAN, and do not run `check-index.sh`: th
 - **Each chunk:** ten Sonnet scouts (`positions-audit/full/evidence/P-N.md`), an Opus judgement (`judgement-CHUNK.md`), an Opus writer on a scratch copy of the record (`corrections-CHUNK.md`, `corrections-CHUNK.apply`, `rewritten-CHUNK.txt`, `review-queue-items-CHUNK.md`), a cold read (`cold-read-CHUNK.md`), a takeaway check (`takeaway-CHUNK.md`). Briefs: `positions-audit/full/evidence/briefs/`; the writer's has rules 0 to 12, rule 0 his "change as little as possible".
 - **Check-ins** "Audit check-in 1" to "6", at 00:23, 01:08, 01:53, 02:38, 03:23 and 04:08 UTC on 10-22 (trig_01LMzPg9qZxnp2kpiCZpojn2, trig_014WdrnwpWqqjVYUnnVdMjDT, trig_01UGQVyFN5CvxBdsjAArhG1V, trig_013LCfqMPVQEuBiUBqLmN2nm, trig_01HBwHaNbaQcCiBTMNo5xNPf, trig_01PHJxTMmUnLnBUDXzgbDWDM). At each: check the four runs, resume a killed one, commit and push the new files under `positions-audit/full/evidence/` by named paths, reply "." alone. He is asleep: no other message.
 - **When all four end:** delete the check-ins left; commit everything; `positions-audit/tools/hischeck.py` on every report and judgement; apply all eight writers' apply files together on one scratch copy of the record and run `record.py check` there; measure the spend; write `positions-audit/full/RESULTS.md` with one INDEX line; then the page.
-- **The page for the morning** (https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb, source `scratchpad/auditpage/`, a new first section), at his word of 23:56 UTC, grouped so that he can approve whole groups without dealing with every change:
+- **The page for the morning** (https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb, source `scratchpad/auditpage/`, a new first section), at his word of 23:54 UTC, grouped so that he can approve whole groups without dealing with every change:
   1. The changes by type, each group one approval: struck; corrected for a factual error; defaults moved to the review queue; sources put back into the history only. Each entry before and after, in short.
   2. His questions, numbered, to be put one at a time afterwards.
   3. The unchanged entries at the bottom, for him to skim.
@@ -33,7 +33,7 @@ Do not read FACTS, POSITIONS, INDEX or PLAN, and do not run `check-index.sh`: th
 
 ## Owed, after the run
 
-- **A history-only command in `record.py`,** at his word of 23:56 UTC: add a source line to an entry's history without changing its text. Written by an Opus worker after the run ends, since the run's writers use `record.py` on their copies. Then the history lines of P-10 and P-88, whose sources are his page comments of 23:05 and 23:29 UTC on 10-21 (`positions-audit/evidence/curator-comments-2026-10-21.md`), and every kept entry of the full run that gained a source.
+- **A history-only command in `record.py`,** at his word of 23:54 UTC: add a source line to an entry's history without changing its text. Written by an Opus worker after the run ends, since the run's writers use `record.py` on their copies. Then the history lines of P-10 and P-88, whose sources are his page comments of 23:05 and 23:29 UTC on 10-21 (`positions-audit/evidence/curator-comments-2026-10-21.md`), and every kept entry of the full run that gained a source.
 - **P-85's two questions,** for him one at a time with the full run's: does the third array question (a factory for a size known only at run time) still wait for the switch-over, since fork 3 was built at a default after his question of 10-09 at 15:10 UTC; and what did "the whole prep for the arrays" (09-22, 05:21 UTC) cover. The takeaway check's fixes for P-85's text wait on those answers (`trial/evidence/takeaway-check.md`).
 - **The trial's other questions are answered:** P-66's GCD clause dropped (his 23:21), P-148 rewritten at his 22:41, P-151 approved (his 23:33).
 - **Review item 31,** the element rule of `Vector` and `Matrix` (`review-queue.md`), holds the live point of the struck P-86: C4's `gather` and the APL port's `ravel` only copy, yet the landed rule makes them ask for times. He rejects "add times" as a workaround. To probe, held until the audit is done: whether the team's conditional extension (a trait extends another only where a condition holds; the compiled checker reads it since batch 18) fits `Vector` and `Matrix`, given that a member scoped to a condition is unbuilt (row 773); his question of 10-16 at 12:35 UTC asked exactly this.
