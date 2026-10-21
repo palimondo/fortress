@@ -2,6 +2,13 @@
 
 # Held list
 
+## Held from his page comments (2026-10-21)
+
+- 20:10 An entry of POSITIONS must be actionable: it changes what someone does or decides. A subjective observation (P-18, to be struck after the trial traces it) or a statement of the project's state on one day (P-10) is not a position. The record needs a filter that collects such entries (for the skill writer: `record.md`, what POSITIONS holds).
+- 20:16 Where the audit finds a message of his behind an entry that its history does not name, the source goes back into the entry's history, so that the entry can be checked again; written only after he has seen the findings.
+- 20:18 P-66, the integer principle, is a correct and precise expression of his position, read whole; his comment is its source if no other is found.
+- 20:20 Workers write their own report files and revise them as they go; the coordinator does not stand between them and the file as a scribe (for the skill writer: `delegating.md`, what a brief holds).
+
 ## Held in chat (2026-10-21)
 
 - 18:02 Sonnet is enough for archaeology scouting, as the P-86 scout showed; do not spend Opus on such scouts (for the skill writer: the tier rule in `delegating.md`).

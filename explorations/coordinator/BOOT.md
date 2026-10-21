@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 18:56 UTC on 2026-10-21** (20:56 his time). The one-time light boot he asked for was taken at about 17:23 UTC on 10-20: the two skill cores, this note and `explorations/reviews/item31-drafts.md`, with no FACTS, POSITIONS, INDEX, PLAN or HELD. The next boot is the skill's full boot. The VM restarted at 17:33 UTC on 10-21; the tree matched `origin/main` after it.
+**State at 20:30 UTC on 2026-10-21** (22:30 his time). The one-time light boot he asked for was taken at about 17:23 UTC on 10-20: the two skill cores, this note and `explorations/reviews/item31-drafts.md`, with no FACTS, POSITIONS, INDEX, PLAN or HELD. The next boot is the skill's full boot. The VM restarted at 17:33 UTC on 10-21; the tree matched `origin/main` after it.
 
 ## The scene: a post-mortem
 
@@ -21,7 +21,7 @@
 ## Running and owed
 
 - **Nothing runs.** The Opus script worker returned at about 18:51 UTC on 10-21. Its scripts are in `positions-audit/tools/` (`tests.py`: 0 failed, rerun there), its report is `positions-audit/scripts-report.md` and the sort is `positions-audit/sort-2026-10-21.txt` (`4543f9bf4`).
-- **The ask with him (about 18:56 UTC on 10-21):** go for the trial on the ten entries and with the scout brief of the page https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb (source `scratchpad/auditpage/`, `build.py`): P-86, P-148, P-150, P-10, P-18, P-55, P-85, P-88, P-151, P-66. On a yes: `leads.py N` for each into a file, ten Sonnet scouts with the page's brief, the quote check on every quote, one fresh Opus reader that classes the ten, the coordinator's check, his check of 2 or 3. Nothing in the record changes.
+- **The ask with him (about 20:30 UTC on 10-21):** go for the trial as version 2 of the page https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb says, after his six comments of 20:06 to 20:25 UTC (held list): the ten entries P-86, P-148, P-150, P-10, P-18, P-55, P-85, P-88, P-151, P-66, with P-66 now a third good entry by his word and P-10, P-18 not actionable by his word; one fresh Opus reader marks all 85 entries actionable or not; `leads.py N` for each of the ten; ten Sonnet scouts that write and revise `positions-audit/trial/P-N.md` themselves; the quote check on every quote; one fresh Opus reader that writes the classes, the actionable call and proposed history lines to a file; the coordinator's check; his check of 2 or 3. Nothing in the record changes before he sees the findings. His threads on the page are not sent to Claude, so they stay open; answer in chat.
 - **Returned:** the scout on the revival part (on Opus, launched before his rule of 18:02 UTC), committed word for word as `reviews/revival-part-use-2026-10-21.md` (`911e48140`); its counts went to him at about 18:06 UTC on 10-21. What to do about the part waits until he has read them.
 - The workers' reports of 10-20 afternoon, each committed word for word: the immutable-arrays probe (`40565a35e`, `perf-probes/immutable-arrays/REPORT.md`; owed to him with a recommendation, after item 1), the symbolic-operators probe for P-155 (`0a6ba39e6` and `3099fb2eb`, `perf-probes/symbolic-operators-2/REPORT.md`; its five design questions owed to him before their rungs), the drafts file (`bf8525294`, then his message added).
 - His rule for the review list (about 12:40 UTC on 10-20): climb batch 20's items one a message, queue items 31, 29, 95, 112, 113, 165 in that order. Then the INDEX ask, then the post-mortem redo plan's asks 6, 7, 9 and 10. All of it waits on the two tasks above.
