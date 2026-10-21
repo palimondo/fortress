@@ -154,6 +154,29 @@ The consolidation is done when the file can be read whole, the scope distinction
 
 For each later landing, continue to record established findings in FACTS and gaps in the ledger, with their existing histories. Then ask which of those findings changes the small worker orientation. Many will change only a specialist skill part or no skill text at all. New content must compete for space through consolidation; it must not bypass the budget merely because it is new.
 
+## Sources audit and provenance during consolidation
+
+A follow-up check at the same review base, `f415fa913`, confirms that skill sources were maintained as Revival grew:
+
+- Of 40 commits changing `revival-changes.md`, 34 also changed `sources.md`.
+- The six without a same-commit sources edit were review and cold-read corrections in batches 11–13: `79ce86fd1`, `9928f59d8`, `5ac066690`, `3711db681`, `510e80b8f` and `29e4b4bd8`. Sources contains later sections for those batches' corrections, including explicit references to review and cold-read findings. A missing same-commit edit is therefore not sufficient evidence of missing provenance. Each correction was not individually reconciled.
+- Of the 54 current entry headings, 49 occur verbatim in sources. The other five have corresponding entries under shorter or combined names: `comprises`, the bound `Any`, Sizes, the string's `left` and `right`, and a parameter whose type is left out.
+
+Method: list commits touching Revival, inspect their changed paths for sources, compare the current bold entry headings with sources, then inspect the unmatched topics and the batch-correction sections. These are structural checks and targeted reads, not a sentence-by-sentence proof that every current claim is supported. A source entry's existence does not establish its adequacy or currency.
+
+**Conclusion:** preserve and reuse the existing provenance. Do not launch a wholesale reconstruction from transcripts. The immediate need is to retain traceability when headings and explanations are consolidated, and repair specific gaps encountered.
+
+During consolidation:
+
+1. For each new heading, list the old entries it replaces or combines in the temporary disposition table.
+2. Find the evidence for the resulting current rule and its exceptions, including later corrections. Merely linking the earliest source can preserve an obsolete rule.
+3. Add a dated consolidation entry to `sources.md`, mapping each new heading to its supporting source entries and exact report sections or revision-specific code references. Preserve the older historical entries; do not rewrite them to pretend that the new organization existed earlier.
+4. When a detail moves to another skill part, update its maintenance mapping there. When it remains only in a report, retain that destination in the consolidation account.
+5. For missing or ambiguous support, trace the specific passage through its skill-edit commit, the post-landing writer's cited material and the relevant batch report or record. Use transcripts only if these fail. Mark unresolved support explicitly; do not infer authority from the fact that a sentence survived earlier rewrites.
+6. Publish the consolidated guidance and its source mapping together. Check that every retained substantive rule has a usable evidence trail and that merged headings have not stranded their exceptions.
+
+The mapping can be ordinary Markdown bullets in the existing sources file. No new permanent registry is needed. Normal workers still do not load sources: the smaller orientation must explain its rules itself. Maintenance evidence need not shrink in proportion to the reader-facing guidance.
+
 ## Review limits
 
 This review sampled Revival and its sources. It did not reread the whole file, audit FACTS or POSITIONS, inspect transcripts, run builds, or test the numerical claims anew. Growth measurements are attributed to the existing scout report.
