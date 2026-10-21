@@ -1446,3 +1446,9 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-21 22:42Z · rewritten · by coordinator: at his yes of 2026-10-21T22:41:50Z, after the POSITIONS audit's trial (positions-audit/trial/evidence/P-150.md, judgement.md). The measured figures, 1.8 % and 6.4 %, leave the entry for F-234, which holds them: a number from one measurement is not his position (his 2026-10-21T22:28:24Z). Sources, reworded: his 2026-10-16T07:39:59Z, whether a background compiler like fsc could speed up the suites; 07:45:26Z, measure it from the transcripts; 09:15:00Z, record why it is not worth doing, so that it is not tried again unless something significant changes
 
 - P-150 **No resident compiler is built.** One warm JVM that serves many Fortress commands, as Scala 2's `fsc` did, would save at most 1.8 % of the workers' time, so the speed work goes to the checker itself (P-148). It is weighed again only if that share grows much, for example once programs are compiled often after the switch-over.
+
+### P-86
+
+2026-10-21 22:59Z · removed · by coordinator: at his yes of 2026-10-21 about 22:55Z, after the POSITIONS audit's trial (positions-audit/trial/evidence/P-86.md, judgement.md, corrections.md): a one-time approval, carried out. His only word behind it is 2026-09-26T10:21:32Z, yes to carrying Astra's review's checks into batch 6's briefs; a rewrite of 2026-09-30 (bc8902f47) made it a standing rule, and its ring clause kept only the review's reason (a), false since 2026-09-27. The review's live reason (b) moves to review-queue item 31.
+
+- P-86 **The integration review's checks stand for the array work.** A generic `Vector` or `Matrix` body is checked against what each operation needs, with no blanket ring bound that would exclude integer arrays. An empty reduction is checked for its type and its value. A small product through `PView` and a transpose is checked, with controls. The checks: `reviews/numeric-hierarchy-integration-review.md` section 5.
