@@ -12,6 +12,7 @@ Read first: `.claude/skills/coordinator/references/record.md`, "What an entry is
 
 **The rules**
 
+0. Change as little as you can. An entry, or a sentence, that is his and correct stays word for word, even where you would word it otherwise. Change only what is factually wrong, not his, or stale (his page comment of 2026-10-21, 23:21 UTC).
 1. His decision, or his yes to a question stated fairly: it stays, as a fair, concise rewording of his intent, checked against his words.
 2. An agent's default that waits for his review: it leaves POSITIONS for the review queue (`explorations/coordinator/review-queue.md`); where no item holds it, draft one in the queue's form, numbered `Q-?1`, `Q-?2` (the coordinator numbers them).
 3. A one-time approval, carried out, that carries no standing rule: struck, with the reason in its history.
