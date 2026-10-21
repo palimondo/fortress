@@ -49,3 +49,7 @@ Word for word, as the page's comment tool returned them; dictation errors kept. 
 
 - 23:16: "Why is the sign of GCD dropped? If you are saying that it's an example that the coordinator edit it, was it wrong? And what is with no Java default? Like I don't understand why we had to touch this. Was it factually wrong?"
 - 23:21: "Okay, if it's not a Java default that is being corrected, how would you characterize adding GCD on integers and floats? Maybe I'm misquoting it now, like I think now we are going into the direction, like, is this a fair rewording? It is almost my words with an addition. So is that addition factually incorrect? You are like lawyering the words about what is the Java default here, whether it is correcting a Java default. So if it is confusing you, then strike it. But it was added by the coordinator because I assume it thought it added something important here. So either you or the coordinator back then, like your opinions differ. So my goal is not to touch every position and rewrite it. If it's fine as it is. If there is a factual mistake, correct it. If the wording as it stood is also correct, then don't touch it."
+
+### On P-88, the proposal to move its `ReadableArray2` sentence to the review queue (23:29 UTC, sent to Claude; answered in the thread)
+
+- 23:29: "Well, I read it as a recording of my additional position that we wish to write readable array to. So like a read-only matrix. So I would not delete it. I think we are somehow too aggressive in touching everything."
