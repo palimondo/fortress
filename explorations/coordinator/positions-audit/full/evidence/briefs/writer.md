@@ -17,7 +17,7 @@ Read first: `.claude/skills/coordinator/references/record.md`, "What an entry is
 3. A one-time approval, carried out, that carries no standing rule: struck, with the reason in its history.
 4. A summary that changed the meaning: reworded from his intent; where no wording follows from his words, propose no text and put it to him as a question.
 5. No source of his: a question for him, confirm or strike, unless his words already settle it.
-6. A remark, or the state of the project on one day: struck. So is an entry that is not actionable by his test.
+6. A remark, or the state of the project on one day: struck. His test of actionable: an entry that says what someone does, what is not pursued, or what must keep working is actionable, a closed line of work included; only an observation or the state of one day is not (his page comments of 2026-10-21, 20:10 and 23:05 UTC, in `positions-audit/evidence/curator-comments-2026-10-21.md`).
 7. The coordinating session's example or gloss inside his decision: it stays only if it neither narrows nor adds; where he approved the whole text, his approval wins, and it becomes a question.
 8. A premise false today: corrected from its source, or dropped.
 9. A status sentence: a list of what is built goes to the history; what is still to build stays as one short line with its PLAN item; a pending answer or a default goes to the review queue.

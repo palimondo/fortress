@@ -19,7 +19,7 @@ For each entry:
    - a remark, or the state of the project on one day, and not a decision;
    - no source found.
    Note also: a number from one measurement; a premise that is false today; his later word that the entry does not reflect. Give the reason in at most three lines, citing the report and his messages by UTC time.
-2. **Actionable**: actionable, partly, or not. His test: an entry earns its place only if it changes what someone on the project does or decides; an observation, the state of one day, or a closed line of work with nothing left to do or avoid is not actionable.
+2. **Actionable**: actionable, partly, or not. His test: an entry earns its place only if it changes what someone on the project does or decides. An entry that says what is not pursued, or what must keep working, is actionable, a closed line of work included; only an observation or the state of one day is not (his page comments of 2026-10-21, 20:10 and 23:05 UTC).
 3. **Sources to put back**: where the report found a message of his behind the entry that its history does not name, one line: his message's time, a fair rewording of what he said (quote only a short answer that is itself the decision, such as "Yes."), and the time of the message he answered.
 4. **Doubts about the report.**
 

@@ -29,3 +29,14 @@ Word for word, as the page's comment tool returned them; dictation errors kept. 
 
 - 20:07: "I don't understand why such a point would land in positions. It's non-actionable. Maybe I should read it whole."
 - 20:10: "Oh, that is the whole message. Now, it should be stricken from the record. It is non-actionable. It changes nothing about project. It's a subjective observation. I have no idea why coordinator chose to store this in positions. Just out of curiosity, the context for why it was recorded might be interesting, but it should be only feeding our rewrite as an example of position that should not even be in the record. Like, I don't know how to characterize it, but it is. It has nothing to do with Fortress Revival. It doesn't belong here."
+
+## Later, on version 5 of the page
+
+### On P-86, its text as it stood before the strike (23:01 UTC, sent to Claude; answered in the thread, then resolved by him)
+
+- 23:01: "Are you sure this is the original wording that triggered this whole post-mortem? I think this is already rewritten. So it should not be struck because it was rewritten to be current, or am I mistaken? Like, this has nothing about or maybe I am mistaken. There was something about no ring that triggered this whole thing. Are you sure this is the original wording? Or after the postmortem started, we did rewrite this position."
+
+### On P-10, "The APL side quest is closed: its remaining ground ..." (23:05 and 23:09 UTC, sent to Claude)
+
+- 23:05: "Wait a minute. When I was checking the positions, I only saw the bold part. I thought that was the whole message. What's written in the rest, quote, it's sublanguage expands APL to Fortress code over native arrays, and its APL micro GPT program stays in the walk check P30, end quote. I think this is a valuable position. I would not strike it from the record, so maybe my actionable rule is not specific enough. Let me see what happens with other parts. I mean, with other positions."
+- 23:09: "See above"

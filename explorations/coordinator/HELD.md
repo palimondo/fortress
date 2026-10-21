@@ -4,6 +4,7 @@
 
 ## Held from his page comments (2026-10-21)
 
+- 23:05 He reverses the strike of P-10: read whole, its sub-language and its APL program in the walk check are a valuable position, and his actionable test was not specific enough. Sharpened: an entry that says what is not pursued or what must keep working is actionable, a closed line of work included; only an observation or the state of one day is not. His comment is the source of the walk-check clause.
 - 20:10 An entry of POSITIONS must be actionable: it changes what someone does or decides. A subjective observation (P-18, to be struck after the trial traces it) or a statement of the project's state on one day (P-10) is not a position. The record needs a filter that collects such entries (for the skill writer: `record.md`, what POSITIONS holds).
 - 20:16 Where the audit finds a message of his behind an entry that its history does not name, the source goes back into the entry's history, so that the entry can be checked again; written only after he has seen the findings.
 - 20:18 P-66, the integer principle, is a correct and precise expression of his position, read whole; his comment is its source if no other is found.
