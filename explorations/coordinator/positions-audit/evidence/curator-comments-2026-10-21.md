@@ -44,3 +44,7 @@ Word for word, as the page's comment tool returned them; dictation errors kept. 
 ### On P-55, "A size may hold arithmetic, compared by its written form ..." (23:10 UTC, sent to Claude; answered in the thread)
 
 - 23:10: "How did you or writer know to remove this part? You say this is already in review queue items 30 and 31. Like, how does a writer have this in context? How would you know to, like, this is this something that the judge rewriting brought? Into the context because it saw the full positions record?"
+
+### On P-66, its words "and the sign of GCD" (23:16 UTC, sent to Claude; answered in the thread)
+
+- 23:16: "Why is the sign of GCD dropped? If you are saying that it's an example that the coordinator edit it, was it wrong? And what is with no Java default? Like I don't understand why we had to touch this. Was it factually wrong?"
