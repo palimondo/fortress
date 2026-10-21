@@ -110,7 +110,51 @@ The list of demos rewritten from `10^(-k)` to `10.0^(-k)` is repair history. Kee
 
 Use this one entry as a trial before rewriting the whole file. Verify that the shorter version preserves the operational distinctions and that its sources still support them. Then apply the same boundary to one topic section. Compare length and cold-reader answers; length alone is not success.
 
-## Bounds and decisions left open
+## Addendum: restore a whole-readable worker orientation
+
+The curator clarified the intended split after reading this review: the coordinator loads the full current record; a worker loads a much smaller Revival orientation whole. Revival selects the facts needed to correct its working model, rather than reproducing the full record. This clarification changes the proposed end state: a useful lookup file alone is not sufficient.
+
+### FACTS has not been replaced
+
+Both channels still exist in the process and in recent commits:
+
+- `climb-batch-workflow.js:526` asks each rung for a FACTS entry, ledger updates, and separate material for the skill writer. Its gather instruction at line 923 folds the record. Its review instruction at line 998 checks both the folded record and the separate Revival material.
+- The landing instructions check the FACTS fold before requesting the skill update. The skill update does not substitute for it.
+- Commit `bd33a2f8b` updates FACTS and FACTS-history during batch 20's routing and consolidation. Commit `408910f26` closes the ledger rows fixed by batch 20. These are evidence of actual maintenance, not only instructions to do it.
+
+This confirms that both are maintained; it does not establish that every finding was transferred correctly. No exhaustive batch-to-record audit was made.
+
+### Intended use versus the written instructions
+
+The coordinator skill's boot order explicitly reads FACTS, POSITIONS and INDEX whole, with FACTS paged to fit the Read tool. The worker skill says to read slices of the record as needed. This supports the different roles the curator describes.
+
+However, the current worker skill tells the reader to load Revival **when an old source or training disagrees**, and Revival itself says to search by construct. It does not require every worker to load Revival whole. The growth report records whole-file cold reads in earlier batches, but that is not a universal worker loading rule.
+
+Thus the curator is clarifying a coherent intended architecture, not inventing an unrelated purpose. But the current instructions do not fully enforce it. The proposal should explicitly state the small orientation's purpose and loading rule. Workers may still follow task-specific record pointers; “orientation whole” does not mean “no other evidence ever”.
+
+The hypothesis that read limits caused the lack of whole reads is plausible, but not established by the scout's counts. They include previews, partial reads and changed briefing instructions. No conclusion about the exact cause is needed to restore a whole-readable orientation.
+
+### Consolidation procedure
+
+This is a one-time consolidation followed by the smaller update rule above. Do not shorten each of the 54 entries independently: that preserves the wrong unit of organization.
+
+1. **Set the reading contract.** Revival is the short account of current departures from the original Fortress that workers must know before work. Core skill definitions may be assumed. Batch history and the coordinator's full record may not be assumed.
+2. **Choose a provisional budget.** Aim for 8–12 thousand characters, near the original scale. This is a proposed editorial target, not a known tool limit or a reason to omit necessary qualifications. Verify that the complete file can be returned without truncation by the actual worker reading tool. Also judge its cost alongside the core skill.
+3. **Draft a current-state outline.** Start with the existing language topics: dispatch, traits, static parameters and sizes, numerics, generators and reductions, and implementation limits. Organize by concepts workers use, not by repairs. Merge several repairs when together they establish one rule.
+4. **Account for the old content in a temporary review table.** For each old entry, name its destination: retained current rule; merged rule; detail already in an area skill or report; history in sources; or unresolved discrepancy. This table is a review artifact, not another permanent registry. Check an actual destination before dropping unique information. If a useful fact exists only in the skill, flag it for the normal FACTS pass rather than silently discarding it.
+5. **Write from the outline.** Give the current rule, the scope and exceptions required to apply it, and at most a short contrast or example where it prevents a likely error. Link to the relevant area skill for specialist detail. Keep essential path differences in the orientation itself. Do not require sources to understand a rule.
+6. **Check preservation and comprehension separately.** Compare the draft against the source-backed old rules and the disposition table. Then cold-read the whole draft with the core skill, without the old Revival or batch reports. Ask a few concrete questions about the distinctions that must survive, including walk versus compiled behaviour and numeric result types. A shorter file that produces wrong answers fails.
+7. **Publish the consolidation with its provenance.** Update sources so a maintainer can trace each new heading to the old entries and supporting evidence. Keep historical source entries; add a mapping for renamed or merged headings. Update the core skill's description and the post-landing instruction together. Thereafter replace affected explanations rather than append repair narratives.
+
+Retain the one-entry trial as calibration, then consolidate the whole orientation to this outline. Merely demonstrating a shorter integer-power entry does not solve the 74K-file problem.
+
+### Acceptance and maintenance
+
+The consolidation is done when the file can be read whole, the scope distinctions survive, no unique finding is lost without a destination, and a cold reader can state how to work differently. Report the before/after character counts and any remaining size exception. If the target cannot be met without losing essential meaning, expose that conflict instead of compressing the prose into unexplained shorthand.
+
+For each later landing, continue to record established findings in FACTS and gaps in the ledger, with their existing histories. Then ask which of those findings changes the small worker orientation. Many will change only a specialist skill part or no skill text at all. New content must compete for space through consolidation; it must not bypass the budget merely because it is new.
+
+## Review limits
 
 This review sampled Revival and its sources. It did not reread the whole file, audit FACTS or POSITIONS, inspect transcripts, run builds, or test the numerical claims anew. Growth measurements are attributed to the existing scout report.
 
