@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 18:06 UTC on 2026-10-21** (20:06 his time). The one-time light boot he asked for was taken at about 17:23 UTC on 10-20: the two skill cores, this note and `explorations/reviews/item31-drafts.md`, with no FACTS, POSITIONS, INDEX, PLAN or HELD. The next boot is the skill's full boot. The VM restarted at 17:33 UTC on 10-21; the tree matched `origin/main` after it.
+**State at 18:09 UTC on 2026-10-21** (20:09 his time). The one-time light boot he asked for was taken at about 17:23 UTC on 10-20: the two skill cores, this note and `explorations/reviews/item31-drafts.md`, with no FACTS, POSITIONS, INDEX, PLAN or HELD. The next boot is the skill's full boot. The VM restarted at 17:33 UTC on 10-21; the tree matched `origin/main` after it.
 
 ## The scene: a post-mortem
 
@@ -20,7 +20,7 @@
 
 ## Running and owed
 
-- **Running:** a Sonnet worker, launched at about 18:02 UTC on 10-21: from the P-86 scout's transcript, which of its calls found the evidence; scripts that do those searches (an entry's trail through the history and git, his messages near a time with the asks they answered, a quote check), each tested on P-86; and the sort of the 85 entries by the marks doc, bulk, default and msg. Scratch and scripts in `scratchpad/provenance/`; its report is its final message. Then show him the suspects and the audit brief.
+- **Running:** a Sonnet worker, launched at about 18:02 UTC on 10-21, narrowed at 18:09 UTC at his word: it studies the P-86 scout's transcript (which calls found the evidence, which were dead ends) and returns search instructions as a brief for an Opus worker. Then launch that Opus worker: it writes the scripts (an entry's trail through the history and git, his messages near a time with the asks they answered, a quote check), tests each on P-86's known answers, and sorts the 85 entries by the marks doc, bulk, default and msg. Scratch in `scratchpad/provenance/`. Then show him the suspects and the audit brief.
 - **Returned:** the scout on the revival part (on Opus, launched before his rule of 18:02 UTC), committed word for word as `reviews/revival-part-use-2026-10-21.md` (`911e48140`); its counts went to him at about 18:06 UTC on 10-21. What to do about the part waits until he has read them.
 - The workers' reports of 10-20 afternoon, each committed word for word: the immutable-arrays probe (`40565a35e`, `perf-probes/immutable-arrays/REPORT.md`; owed to him with a recommendation, after item 1), the symbolic-operators probe for P-155 (`0a6ba39e6` and `3099fb2eb`, `perf-probes/symbolic-operators-2/REPORT.md`; its five design questions owed to him before their rungs), the drafts file (`bf8525294`, then his message added).
 - His rule for the review list (about 12:40 UTC on 10-20): climb batch 20's items one a message, queue items 31, 29, 95, 112, 113, 165 in that order. Then the INDEX ask, then the post-mortem redo plan's asks 6, 7, 9 and 10. All of it waits on the two tasks above.
