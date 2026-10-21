@@ -2,7 +2,7 @@
 
 # The audit's scripts: the Opus worker's report
 
-The report of the Opus worker that wrote the scripts now in `tools/`, launched at about 18:26 UTC on 2026-10-21 from `scout-search-study.md`, returned at about 18:52 UTC. Word for word. Its paths name the session's scratch folder, where it wrote; the scripts were copied unchanged into `tools/`, and `tests.py` passed there too (0 failed). The sort it names is `sort-2026-10-21.txt`.
+The report of the Opus worker that wrote the scripts now in `tools/`, launched at about 18:26 UTC on 2026-10-21 from `scout-search-study.md`, returned at about 18:51 UTC. Word for word. Its paths name the session's scratch folder, where it wrote; the scripts were copied unchanged into `tools/`, and `tests.py` passed there too (0 failed). The sort it names is `sort-2026-10-21.txt`.
 
 All four scripts and the sort are written and pass every test on P-86's known answers (tests.py: 18 PASS, 0 FAIL). P-86 comes out marked doc and bulk. Nothing in the repository was edited.
 
