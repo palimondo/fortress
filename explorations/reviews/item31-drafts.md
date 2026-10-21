@@ -9,6 +9,7 @@ This file holds what four workers sent back, word for word. The coordinator rewo
 - Part 2, not blind: a fresh Opus worker. It got the brief in Part 6 and the coordinator's three failed attempts in Part 7.
 - Part 3, not blind: a fresh Fable worker, with the same brief and the same attempts as Part 2.
 - Part 4: the Sonnet scout you asked for, on where P-86 comes from, how it changed, and why the `where`-clause work did not touch the arrays.
+- Part 8: the brief of that scout, word for word as the coordinator wrote it at 13:42:16 UTC (`scratchpad/haiku-window/brief-p86-archaeology.md`; the launch said only "Read your brief and follow it", on Sonnet).
 
 Each draft has the message for you and notes for the coordinator; the blind one puts its notes first.
 
@@ -270,3 +271,37 @@ A plain-words explanation: the question is not about the array-with-number opera
 
 His verdict: still very unclear; "deep in the dumb zone"; he asked for a fresh Opus worker and a fresh Fable worker to explain the original issue and raise it again in clean ASD-STE100.
 
+# Part 8. The brief of the P-86 scout (Part 4)
+
+You are a Sonnet archaeology scout in the Fortress revival repository (`/home/user/fortress`). You only read; write nothing to the repository and commit nothing.
+
+## The question
+
+The curator does not recognize POSITIONS' entry P-86 as his words:
+
+> P-86 **The integration review's checks stand for the array work.** A generic `Vector` or `Matrix` body is checked against what each operation needs, with no blanket ring bound that would exclude integer arrays. An empty reduction is checked for its type and its value. A small product through `PView` and a transpose is checked, with controls. The checks: `reviews/numeric-hierarchy-integration-review.md` section 5.
+
+Since climb batch 13b, the element type of `Vector`, `Matrix` and their family is bounded by `T extends { Number, MultiplicativeRing[\T\] }` (F-151; `explorations/reviews/array-fork2-judgement.md`), one ring bound on the whole family. The coordinator put this to him as a departure from P-86's words. He asks where P-86 comes from, and why the `where`-clause work did not touch the arrays.
+
+## Where to look
+
+- The curator's messages from 2026-08-18: `explorations/coordinator/curator-profile/evidence.md` indexes them by UTC timestamp, and `explorations/coordinator/curator-profile/show.py` beside it prints any message verbatim (read its header for how).
+- P-86's history: `explorations/coordinator/tools/facts-extract.sh 'history:P-86'`, and `'P-86+'`; `POSITIONS-history.md`.
+- `explorations/reviews/numeric-hierarchy-integration-review.md` (Astra's review, 2026-09-26), its section 5, and `numeric-hierarchy-integration-review/row388-container-probe.md`.
+- `explorations/reviews/array-fork2-judgement.md` (2026-10-09), `explorations/reviews/array-judgements-popl-check.md`, `explorations/compile-ladder/climb-batch-13b/RECORD.md`, and PLAN-history's items on fork 2 (item 52).
+- The `where`-clause work: P-151, `explorations/perf-probes/where-clauses/REPORT.md`, `explorations/coordinator/CLIMB-BATCH-17.md` and `CLIMB-BATCH-18.md`, and their reviews under `explorations/reviews/`.
+- The scalar operators between an array and a number: F-119, `explorations/reviews/library-scalar-extension-review.md`, commit `02d09a39f`, P-88.
+- The coordinating session's transcript for the period from 2026-10-08: `/root/.claude/projects/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d.jsonl` (use `jq` or short scripts; never print a whole line). Earlier transcripts may be on the `transcripts-blinded` branch (`explorations/coordinator/remote-container.md` says how to read them).
+
+## What to find
+
+1. **P-86's origin.** The curator's message that P-86 records, verbatim with its UTC time, and the coordinator's message before it that he answered. What he was asked to approve, in its own words.
+2. **What "a blanket ring bound that would exclude integer arrays" meant then.** Astra's section 5 in its words; in the library of that day (`c5eada1b2` or the commit the review names), which traits each integer type extended, and whether a `MultiplicativeRing` bound would then have excluded an integer array. Say whether that worry still holds in today's flat library, where each number type declares its own algebra (`git show HEAD:Library/FortressLibrary.fsi`, the integer types' `extends` clauses).
+3. **The rewrites.** Each change of P-86's text, with its commit and its reason.
+4. **Fork 2's path.** How the two-trait bound was judged (2026-10-09), whether the judgement named P-86, whether the curator was told and what he said (he said "land it now" for batch 13b's held half: find the message), and how the record came to hold the bound as "his answer pending".
+5. **The `where` clauses and the arrays.** Whether any probe, planner, judgement or review of the `where`-clause work (P-151, climb batches 17 and 18) considered a `where` clause per method of `Vector` or `Matrix` in place of the family's bound, and why not. Note that the code generator refuses a function or method with its own `where` clause (row 701; F-181).
+6. **The array-with-number operators.** What the curator asked for after the tower's flattening (scalar `+`, `-`, `MIN`, `MAX` between an array and a number; and a number juxtaposed with a matrix, `s M`), his words with times; what the library has today for each and with which bound; whether microGPT uses them.
+
+## Your report
+
+Your final message is the report, at most 50 lines: each point's answer, his words verbatim with their UTC times, each claim with its file and line, commit or transcript line, and plainly where the evidence is thin. Recommend nothing.
