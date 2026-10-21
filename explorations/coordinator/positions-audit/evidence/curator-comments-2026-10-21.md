@@ -1,0 +1,31 @@
+<!-- The curator's six comment threads on the POSITIONS audit trial's page (https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb, version 1), 2026-10-21, 20:06 to 20:25 UTC, word for word as dictated, with the text each was anchored to; read by the audit's scripts, since page comments are not in the transcripts. All six threads were resolved by him. -->
+
+# His comments on the audit trial's page, 2026-10-21
+
+Word for word, as the page's comment tool returned them; dictation errors kept. Times UTC.
+
+## On "What the sort found" (the section heading)
+
+- 20:25: "Further down, I'm picking on specific positions. Like I'm saying, why they are even in positions. The sort make comments or put them in a category for those specific positions that I deemed non-actionable or unnecessary."
+
+## On the scout's brief, its first paragraph
+
+- 20:20: "Why not let these archaeology workers write the positions? What are we calling this? Where is this file? Into the same review of positions? Why not let them write the reports for each of them? You don't need to put yourself in the middle as a scribe for them. This way they can revise the document themselves several times and not to attempt to compose or one shot the message in one shot."
+
+## On P-66, "the integer principle: Java's and the JVM's defaults stay where they make sense"
+
+- 20:18: "I recall this position. It's a good synthesis of my position. So it doesn't need to be necessarily sourced to some specific utterance of mine, but I maybe we will find it. But this is a definitely, like, I read the whole, not just the short bold part of the PE66, but the whole part, and that's a correct and precise expression of my position."
+
+## On P-88, "the model's vocabulary leaves plus, minus and MAX between an array and a number to the library"
+
+- 20:16: "Okay, so if the scout finds a message that the history doesn't name, would we then put it into history as a provenance? It seems like we are creating or trying to create a better provenance for each position so that it can be rechecked. Well, it might be worth doing, but I see, it's like for grounding it. So we will extend the history with the record of provenance for these words of mine, and we will probably find out whether it was just lost during the moves from positions to position history, or during the rewrite, that we lost the source, so we can put it back in. Okay, that might make sense."
+
+## On P-10, "the APL side quest is closed"
+
+- 20:06: "I recognize this. I don't think this needs investigation."
+- 20:13: "But it is, I believe, non-actionable. Again, why would it be in positions? It must be something from very early on. Like maybe it was moved from a plan file that recorded the full history. And it's just a statement about the state of the project at the time. But again, I don't think it raises to the level that it needs to be recorded in positions. Like the APL explorations sit there, there is a report on them, but nothing makes them active or anything. Like, why would we need to have a position on this? I think, like, maybe before it was a longer thing. We need some kind of filter that does garbage collection. Because this is a garbage position that's taking a place, but okay, let's see what the provenance turns out on how it survived on the record."
+
+## On P-18, "he is coming round to Hsu's view that language paradigms are accidental complexity"
+
+- 20:07: "I don't understand why such a point would land in positions. It's non-actionable. Maybe I should read it whole."
+- 20:10: "Oh, that is the whole message. Now, it should be stricken from the record. It is non-actionable. It changes nothing about project. It's a subjective observation. I have no idea why coordinator chose to store this in positions. Just out of curiosity, the context for why it was recorded might be interesting, but it should be only feeding our rewrite as an example of position that should not even be in the record. Like, I don't know how to characterize it, but it is. It has nothing to do with Fortress Revival. It doesn't belong here."
