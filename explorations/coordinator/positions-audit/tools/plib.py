@@ -24,6 +24,7 @@ import collections
 import difflib
 import math
 import os
+import glob
 import pickle
 import re
 import subprocess
@@ -173,15 +174,22 @@ def _read_blobs(ids):
 class Repo:
     """The commits that touched either file, with rewritten parents, and each one's parsed files."""
 
-    def __init__(self, refresh=False):
-        head = git('rev-parse', 'HEAD').strip()
+    def __init__(self, refresh=False, rev=None):
+        head = git('rev-parse', (rev or 'HEAD') + '^{commit}').strip()
         os.makedirs(CACHE, exist_ok=True)
-        cpath = os.path.join(CACHE, 'repo-v%d-%s.pickle' % (PARSE_VERSION, head[:12]))
+        # keyed by the newest commit that touched either file: a later commit that touches neither
+        # changes nothing parsed here, so it reuses the entry (only self.head is set anew)
+        last = git('log', '-1', '--full-history', '--format=%H', head, '--', PFILE, HFILE).strip() or head
+        cpath = os.path.join(CACHE, 'repo-v%d-%s.pickle' % (PARSE_VERSION, last[:12]))
         if not refresh and os.path.exists(cpath):
-            with open(cpath, 'rb') as f:
-                self.__dict__.update(pickle.load(f))
-            return
-        log = git('log', '--full-history', '--parents', '--format=%H%x09%P%x09%aI%x09%cI%x09%s',
+            try:
+                with open(cpath, 'rb') as f:
+                    self.__dict__.update(pickle.load(f))
+                self.head = head
+                return
+            except (OSError, EOFError, pickle.UnpicklingError, ValueError):
+                pass
+        log = git('log', '--full-history', '--parents', '--format=%H%x09%P%x09%aI%x09%cI%x09%s', head,
                   '--', PFILE, HFILE)
         self.info = {}
         self.order = []           # newest first, as git log prints
@@ -211,8 +219,17 @@ class Repo:
         self.blobs = blobs
         self.head = head
         self.rank = {h: k for k, h in enumerate(self.order)}
-        with open(cpath, 'wb') as f:
+        tmp = '%s.%d.tmp' % (cpath, os.getpid())
+        with open(tmp, 'wb') as f:
             pickle.dump(self.__dict__, f)
+        os.replace(tmp, cpath)
+        # keep this entry and the newest other one (a pinned test beside HEAD); each is about 70 MB
+        olds = sorted((os.path.getmtime(q), q) for q in glob.glob(os.path.join(CACHE, 'repo-v*.pickle')) if q != cpath)
+        for _, q in olds[:-1]:
+            try:
+                os.remove(q)
+            except OSError:
+                pass
 
     # the state of a commit
     def entries(self, h, which):
@@ -469,8 +486,9 @@ class Change:
 
 
 class World:
-    def __init__(self, refresh=False):
-        self.repo = Repo(refresh)
+    """The record's history up to rev (default HEAD): rev pins every result to a commit."""
+    def __init__(self, refresh=False, rev=None):
+        self.repo = Repo(refresh, rev)
         self.sim = Sim(self.repo)
         self._ch = {}
 
@@ -493,13 +511,59 @@ def head_entry(w, num):
     raise KeyError(num)
 
 
+def find_entry(w, num):
+    """(entry, struck): the entry at HEAD and None; or, for a number that no longer stands in
+    POSITIONS.md, its entry in the newest listed commit that held it and
+    struck = {'last': that commit, 'removal': the commit that removed it, 'block': the history
+    block the removal wrote (its reason), or None, 'elsewhere': the number the same text stands
+    under at the removal, if any, 'in_history': whether the text stands verbatim in the history
+    file there}. KeyError if no listed commit ever held the number."""
+    num = num if str(num).startswith('P-') else 'P-%s' % num
+    r = w.repo
+    try:
+        return head_entry(w, num), None
+    except KeyError:
+        pass
+    for k, h in enumerate(r.order):                 # newest first
+        e = next((x for x in r.entries(h, 'P') if x['num'] == num), None)
+        if e is None:
+            continue
+        kids = [c for c in r.order[:k] if h in r.parents(c)
+                and not any(x['num'] == num for x in r.entries(c, 'P'))]
+        rem = kids[-1] if kids else None
+        st = {'last': h, 'removal': rem, 'block': None, 'elsewhere': None, 'in_history': False}
+        if rem:
+            st['in_history'] = e['norm'] in r.texts(rem, 'H')
+            x = r.entry(rem, 'P', e['norm'])
+            st['elsewhere'] = x['num'] if x else None
+            for b in head_blocks(w, num):
+                if b['writer'] == rem:
+                    st['block'] = b
+        return e, st
+    raise KeyError(num)
+
+
 def trail(w, num):
     """The commits that made and changed the entry's text, newest first. Each event:
-    {h, kind, text (after), prev (before), link, ...}."""
+    {h, kind, text (after), prev (before), link, ...}. An entry struck from POSITIONS.md is traced
+    from the last commit that held it, and its first event is the removal ('struck')."""
     r = w.repo
-    e = head_entry(w, num)
+    e, st = find_entry(w, num)
     t, loc, c = e['norm'], 'P', r.start
     events = []
+    if st is not None:
+        c = st['last']
+        b = st['block']
+        note = 'the number left POSITIONS.md; it stood last at %s' % c[:9]
+        if st['elsewhere']:
+            note += '; the same text stands under %s' % st['elsewhere']
+        if st['in_history']:
+            note += '; the text stands verbatim in POSITIONS-history.md'
+        if b:
+            note += '; reason, the block this commit wrote (POSITIONS-history.md:%d): %s' % (
+                b['line'], (b['prov'] or '').split('\n')[0])
+        events.append({'h': st['removal'] or c, 'kind': 'struck', 'text': t, 'prev': t, 'loc': 'P', 'note': note,
+                       'struck': st})
     while True:
         ps = r.parents(c)
         holder = [p for p in ps if t in r.texts(p, loc)]
@@ -609,7 +673,8 @@ def trail(w, num):
             break
     for ev in events:
         ch = w.change(ev['h'])
-        mine = 1 if ev['kind'] in ('changed', 're-created', 'created', 'restored', 'moved to history', 'removed') else 0
+        mine = 1 if ev['kind'] in ('changed', 're-created', 'created', 'restored', 'moved to history', 'removed',
+                                   'struck') else 0
         ev['others'] = max(0, ch.touched - mine)
         ev['renum'] = ch.renum
         ev['sect'] = ch.sect

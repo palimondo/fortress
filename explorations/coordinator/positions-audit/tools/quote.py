@@ -44,7 +44,7 @@ def main(argv):
         print(__doc__)
         return 0
     quote, t = argv[0], argv[1].strip().replace(' ', 'T').rstrip('Z')
-    msgs = [m for m in tlib.show.load() if m['ts'].startswith(t)]
+    msgs = [m for m in tlib.load_msgs() if m['ts'].startswith(t)]
     if not msgs:
         print('NO MESSAGE of his at %s' % argv[1])
         return 2

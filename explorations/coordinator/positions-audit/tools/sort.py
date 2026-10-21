@@ -45,10 +45,13 @@ def phrase(text, m, k=35):
 
 
 def marks(w, num, n=plib.BULK_N, events=None):
-    e = plib.head_entry(w, num)
+    e, st = plib.find_entry(w, num)
     events = events if events is not None else plib.trail(w, num)
-    blocks = [b for b in plib.head_blocks(w, num) if '· numbered ·' not in (b['prov'] or '')]
-    out = {'num': num, 'title': e['title'] or e['norm'][:60], 'marks': [], 'ev': []}
+    blocks = [b for b in plib.head_blocks(w, num) if '· numbered ·' not in (b['prov'] or '')
+              and not (st and b['writer'] == st['removal'])]      # a struck entry: its removal's block is not a source
+    out = {'num': num, 'title': e['title'] or e['norm'][:60], 'marks': ['struck'] if st else [], 'ev': []}
+    if st:
+        out['ev'].append('struck at %s' % (st['removal'] or '?')[:9])
     cur_hits, msg_hits, msgd_hits, sources = [], [], [], []
     for b in blocks:
         prov = b['prov'] or ''

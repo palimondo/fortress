@@ -3,9 +3,11 @@
 
     python3 -I trail.py 86            (or P-86)
     python3 -I trail.py 86 --short    the commit list only, one line each
+    python3 -I trail.py 86 --at REV   the record as commit REV holds it
 
 Prints:
-  1. the entry's text at HEAD;
+  1. the entry's text at HEAD (for an entry struck from POSITIONS.md: STRUCK at the top, with the
+     commit that removed it and the reason its history block gives, and the text as it last stood);
   2. its blocks in POSITIONS-history.md at HEAD, each with the commit that wrote it (the oldest
      commit whose history file holds the block's provenance line). A block's own "commit X" names
      the source it cites, not its writer;
@@ -26,6 +28,7 @@ What a commit did:
   re-created       a text new in POSITIONS.md made from an earlier text (archived or removed)
   restored         a text back in POSITIONS.md verbatim from POSITIONS-history.md
   renumbered       the same text under a new number (2026-10-13: none -> P-n)
+  struck           the number left POSITIONS.md (the first event of a struck entry's trail)
   section moved    the same text under another heading
 "Other entries changed": the entries of POSITIONS.md the commit changed, added or removed, other
 than this one: texts new in the commit plus texts it removed against every parent, less the pairs.
@@ -100,17 +103,37 @@ def fmt_link(ev):
 def print_trail(w, num, short=False, out=sys.stdout):
     num = num if str(num).startswith('P-') else 'P-%s' % num
     r = w.repo
-    e = plib.head_entry(w, num)
+    e, st = plib.find_entry(w, num)
     events = plib.trail(w, num)
     p = lambda *a: print(*a, file=out)
     if short:
+        if st is not None:
+            p('%s: STRUCK from POSITIONS.md at %s; traced from %s, the last commit that held it' % (
+                num, (st['removal'] or '?')[:9], st['last'][:9]))
         for ev in reversed(events):
             i = w.info(ev['h'])
             p('%s %s %-16s others %3d  %s' % (ev['h'][:9], i['adate'], ev['kind'], ev['others'], i['subject'][:90]))
         return events
-    p('%s: trail at HEAD %s (POSITIONS.md:%d, section "%s")' % (num, r.head[:9], e['line'], e['section']))
-    p()
-    p('== 1. The text at HEAD')
+    if st is None:
+        p('%s: trail at HEAD %s (POSITIONS.md:%d, section "%s")' % (num, r.head[:9], e['line'], e['section']))
+        p()
+        p('== 1. The text at HEAD')
+    else:
+        rm = st['removal']
+        i = w.info(rm) if rm else None
+        p('%s: STRUCK. It is not in POSITIONS.md at HEAD %s. Removed by %s %s "%s"; traced from %s, the last '
+          'commit that held it (POSITIONS.md:%d there, section "%s").' % (
+              num, r.head[:9], rm[:9] if rm else '?', i['adate'] if i else '', i['subject'][:120] if i else '',
+              st['last'][:9], e['line'], e['section']))
+        if st['block']:
+            p('The reason, from the history block the removal wrote (POSITIONS-history.md:%d): %s' % (
+                st['block']['line'], (st['block']['prov'] or '').split('\n')[0]))
+        else:
+            p('The removal wrote no history block for %s; its commit message is in section 3.' % num)
+        if st['elsewhere']:
+            p('The same text stands at the removal under %s.' % st['elsewhere'])
+        p()
+        p('== 1. The text as it last stood, at %s' % st['last'][:9])
     p(e['raw'])
     p()
     p('== 2. Its blocks in POSITIONS-history.md at HEAD')
@@ -198,7 +221,12 @@ def main(argv):
     if not argv or argv[0] in ('-h', '--help'):
         print(__doc__)
         return 0
-    w = plib.World()
+    at = None
+    if '--at' in argv:
+        k = argv.index('--at')
+        at = argv[k + 1]
+        argv = argv[:k] + argv[k + 2:]
+    w = plib.World(rev=at)
     print_trail(w, argv[0], short='--short' in argv)
     return 0
 
