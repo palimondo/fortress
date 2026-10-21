@@ -40,3 +40,7 @@ Word for word, as the page's comment tool returned them; dictation errors kept. 
 
 - 23:05: "Wait a minute. When I was checking the positions, I only saw the bold part. I thought that was the whole message. What's written in the rest, quote, it's sublanguage expands APL to Fortress code over native arrays, and its APL micro GPT program stays in the walk check P30, end quote. I think this is a valuable position. I would not strike it from the record, so maybe my actionable rule is not specific enough. Let me see what happens with other parts. I mean, with other positions."
 - 23:09: "See above"
+
+### On P-55, "A size may hold arithmetic, compared by its written form ..." (23:10 UTC, sent to Claude; answered in the thread)
+
+- 23:10: "How did you or writer know to remove this part? You say this is already in review queue items 30 and 31. Like, how does a writer have this in context? How would you know to, like, this is this something that the judge rewriting brought? Into the context because it saw the full positions record?"
