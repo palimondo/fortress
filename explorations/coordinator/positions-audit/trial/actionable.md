@@ -1,0 +1,91 @@
+# Which POSITIONS entries are actionable
+
+Counts: actionable 73, partly 10, not actionable 2 (85 entries).
+
+How I counted: I judged each entry from its text in `POSITIONS.md` alone. A short "Built" tag, a "Still to build" item or a pointer to another entry does not make an entry partly. Whole sentences of narration, history, mood, a rung's results, or a reason another entry already holds do.
+
+- P-7: actionable. "The language is not redesigned"; "The judge is `Specification/`"; the floor is "a pure-Java microGPT".
+- P-8: actionable. "decides by the goal... not by type-theoretic purity"; "a review checks his decisions against their intent". Partly also fair: "He has not read".
+- P-9: partly. Actionable: "polishing happens in the vocabulary", and hyperparameters as "tuple bindings". The "In his words" quote only repeats the title.
+- P-10: actionable. Its ground "is not pursued", and the program "stays in the walk check". Not actionable also fair: a closed side line.
+- P-11: actionable. "no work on it unless he asks". Partly also fair: the Fortify and APL sentences are his view.
+- P-12: actionable. Sets the order: the checker on walk's programs "comes after the switch-over", once walk takes static coercions.
+- P-16: not actionable. His reading of history ("He reads the project's end"). Only the header's "do not re-explain" asks anything.
+- P-17: actionable. "Unboxed doubles... are required"; boxing "is measured on microGPT-shaped kernels, not on a scalar loop".
+- P-18: not actionable. A mood, "He is coming round to Hsu's view", with no rule after it.
+- P-19: actionable. "The tree is not described as the... migration grafted". Fair either way: "is not carried out" reads as a decision or as state.
+- P-25: actionable. Says what to cite: the Types chapter "is cited beside `Specification/` as the designers' later word".
+- P-26: actionable. How to choose: "late positions outweigh the specification's early text"; "The revival does not second-guess them".
+- P-27: partly. Actionable: "first studies how it does the same kind of thing"; no fix "from the specification alone". The diagonal anecdote is history.
+- P-28: actionable. Sets the priority and the next step: "Next is the algebraic layer: `Ring`, `Field`", in the standard library.
+- P-29: actionable. "no performance decision of any kind... until microGPT runs compiled"; the gate "compiles them and records the phase".
+- P-30: actionable. The check "runs in under a minute"; "The full check programs run only when asked".
+- P-32: actionable. Sets the map's depth, "down to where the design intent is written". Not actionable also fair: it describes an artifact.
+- P-33: partly. Actionable: phases "approved with their workers"; "row 41... joins the switch-over's design". "Phases 1 and 2 are landed" is state.
+- P-37: actionable. "no declaration goes into it"; files "deleted at the switch-over with their tests kept"; "not a question to ask again".
+- P-38: actionable. The defects "are not repaired: they go with it". Orders the switch-over's respellings and promotions.
+- P-39: actionable. The count is "measured in every gate and never turns the gate red"; the distance is "a report-only stage".
+- P-40: actionable. Rules for sizes; "How the checker represents it is not his choice"; other sizes "go only by a diff shown to him".
+- P-41: actionable. "a size travels as the descriptor"; "no holder class"; operator arguments "stay compile-time names".
+- P-42: actionable. "implicit bound is `Any`, not `Object`", with the specification's callout and the compile path's departure until the switch-over.
+- P-43: actionable. "The exclusion rule stays, and the number tower is flat"; "`Number` has no catch-all operators".
+- P-44: actionable. "`AnyIntegral`'s closure stands", and states when "A generic child of a closed trait may extend it".
+- P-45: partly. Actionable: the overloading rules and "The library repairs its refused families". The long "Built:"/"Not built:" list of rungs and rows is state.
+- P-46: actionable. "never changes which declaration runs when one already fits"; "His own broader rule... is not taken".
+- P-47: actionable. "Each integer type declares its own `MIN`, `MAX` and `MINMAX`", and names the open `NN32` half.
+- P-48: partly. Actionable: "takes its bound, never `Bottom`"; "The library keeps the team's unbounded declarations". "He ranks the team's later work" restates P-26.
+- P-49: actionable. Fixes the checker's order: "without the expected type first, and with coercion only after".
+- P-50: actionable. "takes the expected type of the whole `label`"; row 642 is `CONTESTED` "only because the ledger's tool cannot close it".
+- P-51: partly. Actionable: the retry rule; "The trigger is wide". "Its probe moves no error" and "Its rung promotes" narrate a landed rung.
+- P-52: actionable. Settles the semantics: containment "corner by corner", by `PCMP`, "not by the tuple order".
+- P-53: actionable. Settles the answer: "they return `Just` of the first and of the last character".
+- P-54: actionable. "keep `ZZ` and raise at +∞, −∞ and 0/0"; the paragraph "is revised"; a later rung follows row 330.
+- P-55: actionable. Size arithmetic is "compared by its written form"; forks 3 and 2 "stand at defaults while his answers are pending".
+- P-56: actionable. "`TrivialOpenRange` stays `OpenRange[\Any\]`"; the methods "are `fail` bodies"; "Way (c)... is not taken".
+- P-57: actionable. Fixes the overload's domain, "declared over `TotalComparison`". Not actionable also fair: "Nothing calls `isLeftZero`", and it is built.
+- P-58: actionable. A binding is "exactly `builtinPrimitive("…")`" naming "a static helper"; "Way 2... is not taken".
+- P-59: actionable. Accepts walk's limit "until the switch-over", "stated in one callout"; after it, walk "takes the static coercions".
+- P-60: actionable. The specification reads `comprises` "at the level of values" and "states that boundary"; the gaps are "listed for his review".
+- P-62: actionable. "future work, off the path"; "Its expected-failure tests are owed in a batch rung".
+- P-146: partly. Actionable: `self` "has the type `C[\X\] & X`"; "The library's text gains no self type". "It clears 29 sites" narrates a result.
+- P-147: actionable. Settles the coverage rule, bodies that "together cover"; "Walk's allowance of any one narrower body goes".
+- P-148: actionable. The rung's procedure: "a second pass that makes the checker faster", which "must not change the checker's results".
+- P-149: actionable. The shape "is refused"; "other languages are consulted only to reconcile a conflict" is a general rule.
+- P-151: partly. Actionable: "`where` forms the team wrote down are built"; "Still to build". The "Built:" history is state and contradicts "moves into `List`".
+- P-152: partly. Actionable: exclusion is "read over the whole parameter type, on both paths". The "Built..." and "Left:" lists are rung results and state.
+- P-154: actionable. "a list only elements that are totally ordered"; "No partial lexicographic trait is added"; a revision note is owed.
+- P-155: actionable. The check covers symbolic operators "before the switch-over"; "First a probe", and each design is "brought to him before its rung".
+- P-66: actionable. How to choose: defaults are "corrected where they fail high performance or mathematical precision"; "The peers to compare are...".
+- P-67: actionable. Settles: "`round` on an exact half goes to the even integer, on both paths".
+- P-68: actionable. Settles the return types; the rung "first counts the interpreter tests whose output changes".
+- P-69: actionable. Settles shifts: "A count at or beyond the width gives 0 or the sign"; "never through ℤ".
+- P-70: actionable. Settles: "nonnegative results, and `LCM` raises an overflow error", "on both paths".
+- P-71: actionable. Says how to guard: "tests for the most negative value itself, not for `a = -a`".
+- P-72: actionable. Settles: "`narrow` out of range truncates to the low 32 bits", which the team's test asserts.
+- P-73: actionable. "raises `IntegerOverflow` under `walk`"; code that wraps "uses... ∔, ∸ and ⨰, fully parenthesised".
+- P-74: actionable. "each wider type declares a `coerce`"; "An exact conversion is implicit and a lossy one explicit".
+- P-75: actionable. "not building it is the default", pending PLAN item 37. The title alone reads as a rule in force.
+- P-76: actionable. A numeral's type is `IntLiteral`; "Walk's half... waits for the switch-over", and its rows wait with it.
+- P-77: actionable. "Scalar ranges are over `ZZ32` only"; "A range over another integer type is a static error".
+- P-78: actionable. "A clause form whose element type nothing... fixes writes its static argument"; "`MAX` and `MIN` get no identity".
+- P-79: partly. Actionable: a broken demo is "rewritten in the same batch where the way is known". The rung I example and the "likely came" guess narrate.
+- P-80: actionable. "a program tests such a subset at run time"; `numbers-advanced.tex` "stays word for word, marked superseded".
+- P-153: actionable. Settles the contract for an integer `^`: "a negative exponent raises `IntegerOverflow`". The compiled powers are still to build.
+- P-84: actionable. "Storage is `double[]`, unboxed", and storage and sizes "are built together".
+- P-85: actionable. The questions are "open, with no default, and return after the switch-over", so they are not decided before; the `RR64` question goes to him then.
+- P-86: actionable. "The integration review's checks stand": "no blanket ring bound", and an empty reduction is checked.
+- P-87: actionable. "An operator in the model never becomes a function call"; a repair is "shown to him as a diff before it is built".
+- P-88: actionable. "`Diag` extends `Matrix` and overrides `mul`"; `ReadableArray2` is "a library change..., not a vocabulary hack".
+- P-89: actionable. Settles the names: "`fill` takes a value, `tabulate` a function".
+- P-90: actionable. The empty case is `Nothing[\T\]` in the library and the specification; the bare `Nothing` "is not tried before then".
+- P-91: actionable. It prints "its bare Fortress type name... on both paths"; "The debug marker... goes in `asDebugString`".
+- P-95: actionable. "Every change... is recorded with its reason"; "`Specification-1.0-frozen/` is never touched".
+- P-96: actionable. Prescribes the form: "A callout that prints in every build, not a `\note`", and an Appendix I entry for each change.
+- P-97: actionable. "Each refused example stays, marked "Not allowed""; the rule is "stated once, in Luchangco's two-part form".
+- P-98: actionable. "extends `StandardMinMax[\TotalComparison\]`", and he is owed an explanation, "on the list for his review". Partly also fair: "took it on... recommendation".
+- P-102: actionable. "the worker writes the test first, verifies that it actually fails"; "the test stays in the corpus".
+- P-103: actionable. "no expected-output files are added; none of it is offered to him again".
+- P-123: actionable. The "fix waits for a rung of its own"; "route C gets no entry in... Proposed Features".
+- P-124: actionable. "every example must pass"; "A failing example is not respelled for walk".
+- P-125: actionable. "pinned at four threads"; a failure under parallelism "is fixed, never hidden by a pin".
+- P-150: actionable. "No resident compiler is built"; it is "weighed again only if that share grows much".
