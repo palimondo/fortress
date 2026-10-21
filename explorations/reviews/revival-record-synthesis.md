@@ -177,6 +177,40 @@ During consolidation:
 
 The mapping can be ordinary Markdown bullets in the existing sources file. No new permanent registry is needed. Normal workers still do not load sources: the smaller orientation must explain its rules itself. Maintenance evidence need not shrink in proportion to the reader-facing guidance.
 
+## Recovered pretraining audit and the missing regression check
+
+A bounded read-only search by a Luna worker found the original Fortress-worker artifacts. The findings were checked against their relevant passages. No transcript search was needed to locate them.
+
+- `explorations/reviews/fortress-pretraining-quiz.md`, added in `9764aefe1` on October 8, records a fresh Opus session run outside the repository with no tools. The prompt asks for Fortress knowledge from memory, with confidence labels, for a programmer familiar with Java, Scala, Haskell and Julia. Question 10 asks for likely traps.
+- `explorations/reviews/skills-distillation-audit.md`, added in `91906f99a`, grades that answer against the skill and project evidence. Section B.10 grades fourteen trap claims. Section A5 identifies concrete first-test traps and their operational cost.
+- One important correction is not merely a language fact: a worker must not resolve a specification/implementation disagreement by automatically trusting the code. A curator decision settles it; otherwise the conflict must be explored.
+
+These artifacts establish a pretraining elicitation followed by an evidence-based audit. They do not, by themselves, establish a controlled before/after trial showing that workers given the rewritten skill avoided every trap. This bounded search does not exclude additional experiments elsewhere.
+
+### What survived in the instructions
+
+The current `skill-cold-read-brief.md` describes a reader who knows Java and Scala but not Fortress or the repository. It asks for missing gotchas and passages that would send a worker wrong. The original concern therefore survives in general form.
+
+However, neither that brief nor the skill-writing method explicitly requires replaying the Fortress quiz, retaining an approved set of trap cases, or comparing the resulting answers against expected behaviour. The specific regression check is not encoded there.
+
+The baseline interview still named in `coordinator/references/skill-rewrite.md` is for new models of the coordinating session. Its README confirms that scope. It is not a substitute for the Fortress-worker check.
+
+### A small test to preserve through consolidation
+
+Keep the quiz and audit as historical evidence. Select a small set of consequential wrong assumptions from them and actual worker failures, then update the expected answers against the current record. The October 8 audit itself contains statements that later work may have changed; do not use its old answers as a timeless oracle.
+
+For the whole-Revival consolidation, give a fresh reader the core skill, the proposed whole orientation and neutral task questions, without the audit or answer key. Grade concrete choices, including the path and scope qualifications, rather than its ability to repeat headings. For example: how to run a source program; what to do when the specification and an implementation disagree; and whether a numeric relationship or conversion assumed from another language holds here. Include a case where the right action is to follow a task-specific pointer or explore, not invent an answer.
+
+The reviewer has the expected answers and evidence. Record missed corrections and new false assumptions. Compare old and new skill versions on the same cases when judging a consolidation regression. For later small edits, rerun only the affected cases; refresh the pretraining-only baseline when a materially different worker model makes that useful. This is a proposed bounded regression practice, not a claim that the earlier experiment already implemented it.
+
+### Do named frameworks help?
+
+ASD-STE100 is already named in the writer's standing brief and the writing principles, with concrete instructions about terminology, sentence structure and descriptive versus procedural text. The project uses an adaptation (“halfway”), not a demonstrated certification of compliance.
+
+The useful ideas from the other responses should likewise become observable checks: introduce required concepts before relying on them; supply context at entry points; preserve a claim's conditions and evidence; and test whether a reader can make the intended decision. Much of this is already in the writing principles and cold reads.
+
+Do not add Knowledge Space Theory, RST, GSN or other labels to the mandatory writer brief merely to sound more grounded. This review has not verified the external responses' descriptions of those frameworks, and no recommendation depends on those descriptions. If a framework later supplies a useful technique, record its source and the particular check it motivates in maintenance material. Naming a framework is not a substitute for specifying the reader failure to prevent.
+
 ## Review limits
 
 This review sampled Revival and its sources. It did not reread the whole file, audit FACTS or POSITIONS, inspect transcripts, run builds, or test the numerical claims anew. Growth measurements are attributed to the existing scout report.
