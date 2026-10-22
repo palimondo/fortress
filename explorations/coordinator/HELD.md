@@ -2,6 +2,11 @@
 
 # Held list
 
+## Held from his page comments (2026-10-22)
+
+- 05:49 A pointer in an entry carries a few words on what it holds (a gap-ledger row, another entry, a PLAN item), so that a reader can decide whether to follow it without loading every reference; a bare list of row numbers fails (P-45's still-to-build list). For the clarity pass's writer, and for the skill writer: `record.md`, what an entry is.
+- 04:53 A handle that only made sense in the conversation ("answer 9") is struck; agreed for all such handles at 05:28 (group 7).
+
 ## Held in chat (2026-10-22)
 
 - 05:35 The writer is always Opus: Fable writes in a register he dislikes, and Opus writes better (for the skill writer: the tier rule in `delegating.md`).
