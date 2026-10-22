@@ -485,5 +485,93 @@
    "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f15/concepts.md",
    "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f16/concepts.md"
   ]
+ },
+ "ledger": {
+  "out": "/home/user/fortress/explorations/coordinator/ledger-health-2026-10-22/clarity/",
+  "chunks": [
+   {
+    "name": "l1",
+    "rows": [
+     "8",
+     "20",
+     "25",
+     "71",
+     "75",
+     "101",
+     "219",
+     "268",
+     "305",
+     "307",
+     "314",
+     "316"
+    ]
+   },
+   {
+    "name": "l2",
+    "rows": [
+     "336",
+     "340",
+     "355",
+     "364",
+     "369",
+     "371",
+     "374",
+     "405",
+     "407",
+     "416",
+     "430",
+     "436"
+    ]
+   },
+   {
+    "name": "l3",
+    "rows": [
+     "441",
+     "457",
+     "463",
+     "465",
+     "470",
+     "495",
+     "510",
+     "511",
+     "514",
+     "523",
+     "533",
+     "537"
+    ]
+   },
+   {
+    "name": "l4",
+    "rows": [
+     "539",
+     "546",
+     "550",
+     "555",
+     "570",
+     "571",
+     "585",
+     "589",
+     "591",
+     "638",
+     "639",
+     "653"
+    ]
+   },
+   {
+    "name": "l5",
+    "rows": [
+     "665",
+     "670",
+     "682",
+     "695",
+     "697",
+     "701",
+     "713",
+     "723",
+     "726",
+     "759"
+    ]
+   }
+  ]
  }
 }
