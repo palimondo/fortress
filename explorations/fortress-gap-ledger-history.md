@@ -1,4 +1,4 @@
-<!-- The full earlier line of every changed row of `explorations/fortress-gap-ledger.md`, unchanged, under `### Row N` and a line that says what became of it; and every line of the ledger before its rewrite of 2026-10-08 that was not a row, unchanged. Rows are cited by number; a row's latest line is in the ledger. `explorations/coordinator/tools/ledger.py` appends to this file when it changes a row (`note`, `close`, `duplicate`); nothing here is changed or deleted. -->
+<!-- The full earlier line of every changed row of `explorations/fortress-gap-ledger.md`, unchanged, under `### Row N` and a line that says what became of it; and every line of the ledger before its rewrite of 2026-10-08 that was not a row, unchanged. Rows are cited by number; a row's latest line is in the ledger. `explorations/coordinator/tools/ledger.py` appends to this file when it changes a row (`note`, `rewrite`, `close`, `duplicate`); nothing here is changed or deleted. -->
 
 # Fortress gap ledger: history
 
@@ -5495,3 +5495,69 @@ closed by e487cec2d
 note added
 
 | 465 | under walk, a program can call an overload the api does not declare when the api declares another overload of the same name: `array3[\ZZ32,2,2,2\](5)` runs, though the api declares only `array3()` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/components/source-code.tex`, "Import Statements" | none | climb batch 7 rung A | The value factory `array3(v)` is in `Library/FortressLibrary.fss` and not in the api, which declares `array3()` and `tabulatedArray3`; a name declared only in the component, `__thrower`, is refused, 'Function __thrower is not defined'. The compiled export check lists `array3()` among the api declarations the component does not match. Exporting `array3(v)` beside `array1(v)` and `array2(v)` would make the call legal; the walk side (resolving an overload set from the component rather than the api) is not located. Probes `explorations/compile-ladder/rung-tabulate/probes/Array3Value.fss`, `ComponentOnly.fss`, in the parent of `9269f7bd2`; full text: history, row 465 |
+
+### Row 8
+
+rewritten
+
+| 8 | `value`, `at`, `type`, `unit`, `of`, `most`, `label` … are reserved words | NEGATIVE-VERIFIED | design limit (parser) | `basic/lexical-structure.tex`, "Reserved Words"; `fortress/fortress-keywords.tex` (86 reserved words, `label` among them) | none | blinded, run-c | siblings: 262. `value = 3` → `Syntax Error`. Workaround: rename (`tag`). A *parameter* named `label` is rejected twice with `Missing label from a label expression.`, at the parameter's own position (`5:6-9`) and at its use (`5:44-47`), a message about the `label` expression rather than about the name: that diagnostic is an implementation gap (`explorations/run-c/probes/g148_label.fss`). Run C's row 148 is merged here, so the numbering skips 148 and `run-c/gaps.md`'s row 148 resolves to this row. Probe `explorations/gap-ledger-probes/g08.fss`, in the parent of `e879b6a44`. full text: history, row 8 |
+
+### Row 72
+
+rewritten
+
+| 72 | G2 — no generic `array[\T\](n)` | DUPLICATE | library gap vs spec (prelude) | `Specification/library/apis/FortressLibrary.tex`, "Array support" | none | ours | duplicate of row 305; full text: history, row 72 |
+
+### Row 73
+
+rewritten
+
+| 73 | G3 — no `exp` / `log` | FIXED | library gap vs spec (prelude) | `Specification/library/apis/FortressLibrary.tex`, "Numeric hierarchy" | `ProjectFortress/library_tests/RR64FunctionsRungF.test` | ours | fixed b70ed4590 (climb batch 1, rung F); full text: history, row 73 |
+
+### Row 75
+
+rewritten
+
+| 75 | G5 — `nanoTime()` has a different type on the two paths: `RR64` compiled, `ZZ64` under walk | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/library/apis/FortressLibrary.tex`, "Top-level primitives" | `explorations/tparallel.fss` | ours | Compiled, the program gives `(ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (RR64, RR64)`. `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:23` declares `nanoTime(): RR64`; `Library/FortressLibrary.fsi:2524` and the specification declare `ZZ64`. |
+
+### Row 162
+
+rewritten
+
+| 162 | `fail(msg)` ends the interpreter with exit status 1, after `FAIL: msg`, a `FailCalled` context and the usual Java boilerplate; everything printed before it is flushed | POSITIVE-VERIFIED | — | `library/apis/FortressLibrary.tex`, "Simple Combinators" | none | run-c2, run-c3 | `(3) about to fail` / `FAIL: checks FAILED` / `FortressLibrary.fss:56:5-23:` / `FailCalled`, exit status 1; run-c3's probe prints `before`, fails, and never reaches its `println "after"`. The body is `Library/FortressLibrary.fss:54-57`, the throw at `:56`. This makes a red check a non-zero exit: both ports end their checks with a verdict line and then `fail(…)` if any comparison failed. Probes `explorations/run-c/probes/q04e_fail.fss`, in the parent of `4ebf80aec`; `explorations/run-c3/probes/g170_fail_exit/ExitFail.fss`, in the parent of `a0a0c7c99`; full text: history, row 162 |
+
+### Row 305
+
+rewritten
+
+| 305 | G2 — the compiled path has no array type: `Array`, `Array1`/`2`/`3` and `Vector` are undefined and there is no generic `array[\T\]` constructor; the prelude ships only `ZZ32Vector` and `StringVector` | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/library/apis/FortressLibrary.tex`, "Array support" | `explorations/run-c4/src/FlatArrays.fss` | kernels probe | `fortress compile` of `FlatArrays.fss` gives 77 errors, all in DISAMBIGUATE (`Array is undefined.` 60, `Array3` 11, `Vector` 6); three microGPT-shaped kernels fail with the same 77 before codegen, while `SQRT`, `^` and juxtaposition on `RR64` compile. `array[\RR64\](4)` gives `Function array is not defined.` (row 72). No minimal shim: `FlatArrays` uses the array protocol (`fill`, `map`, `ivmap`, `t()`, `get`/`put`/`init0`/`replica`, `import NatReflect`), `NativeArray.fss` plus about 1,000 lines of `FortressLibrary` (row 310). Vectors: `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:563`, `:582`. Report `explorations/perf-probes/kernels/REPORT.md`. full text: history, row 305 |
+
+### Row 314
+
+rewritten
+
+| 314 | the compiler world's prelude lacks the specification's comparing `assert(x: Any, y: Any, failMsg: Any...)` and its `deny`, declaring them only at `ZZ32`, `String` and `Character`, so a call such as `assert(3 IN C, true, "...")` is refused: `Could not check call to function assert` | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/library/apis/FortressLibrary.tex`, "Assertions" | none | ladder rung 4 | Half fixed by `b52a32ac2` (ladder rung 4, test `ProjectFortress/library_tests/AssertRung4.test`): `assert` at `(ZZ32, ZZ32)` and `(String, String)` with or without a message and at `(Character, Character, String)`, `deny` at the three-argument shapes (`Library/CompilerLibrary.fsi:45-58`). The `Any` form cannot be copied: `opr ===` over `Any` compares boxes, and an `Any` parameter blocks the `IntLiteral`-to-`ZZ32` coercion. Open: the vararg form, whose parameter does not typecheck against arguments needing a coercion, blocking four `objectCC_*mutVar*` programs; and `(Boolean, Boolean, String)` (`explorations/compile-ladder/rung-overloading-checker/REPORT.md` §16). full text: history, row 314 |
+
+### Row 316
+
+rewritten
+
+| 316 | the compiler world's `String` declares `\|\|`, `\|\|\|`, `//` and `juxtaposition` with `self` on the left only, so `1 \|\| "a"` and `1 "a"` are refused on the compiled path, where walk answers `1a` | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/basic/operators/juxtameaning.tex`, "Juxtaposition"; `Specification/library/apis/FortressLibrary.tex`, "Ranges" (trait `String`) | none | ladder rung 5 | Half fixed by `9373985b4` (ladder rung 5, test `ProjectFortress/library_tests/LineConcatRung5.test`): `//` is now `opr //(self, b:Object): String` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:39`), body `self \|\| makeCharacter(10).asString \|\| b` (`.fss:407`): `\|\|`, not `\|\|\|` (row 76), and no `newline`, which walk takes from `lineSeparator` (`Library/String.fss:568`). Open: `CompilerBuiltin.fsi:37-40` take `self` on the left only: `(String, Object)->String is not applicable to an argument of type (IntLiteral, String)`; closes at the switch-over. Probe `SkCompiledLeft.fss` (`explorations/compile-ladder/rung-library-meets/SKEPTIC.md` section 5). full text: history, row 316 |
+
+### Row 535
+
+rewritten
+
+| 535 | the compiled checker's union for a lone type parameter reaches code generation; the run fails verification when the union lists a closed trait's types | FIXED | implementation gap (checker) | `Specification/basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXInferLoneUnionClosedTrait.fss` | climb batch 7b rung S's skeptic | fixed f3032eed8 (climb batch 8, rung I): `k(pk0(Tri, Sq))` is now refused at `BoxT[\Any\]`, a refusal the `XXX` test pins; full text: history, row 535 |
+
+### Row 642
+
+closed by 054c4bcfd
+
+| 642 | the compiled checker gives the body of a `label` expression no expected type, so a call that ends the body and whose type parameter only its result mentions takes the bound `Any`, and the body is refused: `Library/String.fss:431`, `SubString.verify` | CONTESTED | implementation gap (checker) | `basic/expressions/label.tex`, "Label and Exit"; `basic/inference.tex`, "A Numeral Whose Conversions Tie" | `ProjectFortress/compiler_tests/XXXInferResultOnlyLabelBody.test` | climb batch 11 rung E | siblings: 560, 455. `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala:706` checks the body with no expected type (at 587ce436d), and the label's type is the join of the body's and its exits' types. `label.tex` gives that type as a union, which by the reading taken for a `typecase` clause (Q2, way 1) would give the body the enclosing expected type; the inference chapter lists a label's body as not yet described, so the reading is the curator's. The test pins today's refusal. Workaround: none in the library's practice. |
+
+### Row 577
+
+closed by 9d24290fb
+
+| 577 | the distance stage's `#class` rows misattribute errors when an edit shifts library lines, because `classify.py`'s site ranges are fixed lines read on `edc815f0c` | NEGATIVE-VERIFIED | packaging (tools) | silent | `explorations/compile-ladder/rung-numeral-library/REPORT.md` | climb batch 8 rung Q | `explorations/coordinator/tools/distance/classify.py:24-25`. Rung Q moved `FortressLibrary.fss` by up to 31 lines; the table read I1 +2, V1 -8, G1 -5, OT +9 where, with lines mapped back to the base, only R3 -1, OT -2 and BR +1 moved (reproducer, section 11, `table.py` over the remapped run). Workaround: read the per-site list with lines mapped through the diff. Rung M's report names it for its G1 -2 and I1 +1; seen again in batch 9 rung R (`explorations/compile-ladder/rung-range-meets/REPORT.md`, section 4); batch 10 rungs N and G (`rung-number-order-slips/REPORT.md`, section 6; `rung-generator-slips/REPORT.md`, section 9); full text: history, row 577 again: rung-library-slips, section 6 |
