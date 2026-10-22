@@ -40,6 +40,7 @@
 ## Rules for the run
 
 - No batch runs. A hold (only he can decide, and it blocks the work) goes to him with a push notification; anything else goes to the review queue.
+- At his word of about 11:08 UTC: a push notification when a bigger step lands: FACTS applied, the scrape, the report page, the ledger health report, the orientation installed. Otherwise he is away: quiet times.
 - Watch the spend with `spend.py`; write each run's estimate and epoch here.
 - Machine restarts on 10-22 at 00:03, 04:46 and 07:47 UTC: after one, check the tree, resume what it killed (a Workflow by `resumeFromRunId`; an Agent-tool worker by `SendMessage` if its transcript survives, else relaunch with its leftovers).
 
