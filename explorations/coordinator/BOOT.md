@@ -2,17 +2,7 @@
 
 # Boot note
 
-**State at 23:56 UTC on 2026-10-21** (01:56 his time on 10-22), written before the compaction he asked for at 23:54 UTC.
-
-## A one-time exception to the boot
-
-At the curator's word of 23:54 UTC on 2026-10-21, the boot after this compaction is again a light one, this once. It reads only, in this order:
-
-1. `get_session` with no session ID: the model, as step 0 of the boot says.
-2. `.claude/skills/coordinator/SKILL.md` and `.claude/skills/fortress-repo/SKILL.md`, the two cores; then `.claude/skills/coordinator/references/delegating.md`, for resuming a Workflow run.
-3. This boot note, whole, then `explorations/coordinator/HELD.md`, whose 10-21 sections hold the audit's rules from him.
-
-Do not read FACTS, POSITIONS, INDEX or PLAN, and do not run `check-index.sh`: the work in flight needs none of them. If the boot has already read them before reaching this note, say so to him and go on. Take this section out after the boot.
+**State at 00:00 UTC on 2026-10-22** (02:00 his time), after the light boot he asked for at 23:54 UTC on 10-21 and again at the boot (the model, the two skill cores, `delegating.md`, this note, HELD; not FACTS, POSITIONS, INDEX or PLAN). The next boot is the full one.
 
 ## In flight: the full POSITIONS audit
 
