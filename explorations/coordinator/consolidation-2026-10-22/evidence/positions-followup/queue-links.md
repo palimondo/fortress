@@ -1,0 +1,26 @@
+<!-- The review-queue items that hold the agents' choices which the POSITIONS follow-up of 2026-10-22 moves from POSITIONS to FACTS, each with the FACTS entry that it should name and the words of it that the move makes stale; nothing in the queue changed. -->
+
+# Review-queue items to name a FACTS entry
+
+Six POSITIONS entries held an agent's choice that the curator has not reviewed. `proposals.apply` takes each choice out of POSITIONS. The behaviour that the choice gives the tree is in FACTS: in an entry that already stated it, or in an entry that the apply file extends. Each item below holds one of the choices. It should name that FACTS entry, so that a reader of the item finds what the tree does without the POSITIONS sentence. The words in quotes are the item's own, at `d4d454f9d`, which the move makes stale.
+
+| Choice, from | FACTS entry | Queue item | Names it now? | To change in the item |
+|---|---|---|---|---|
+| Walk promotes from the arguments' run-time types (P-46) | F-137, walk's inference with coercion by P-74's promotion; the apply file adds the reason, walk has no static types | 85, "Walk promotes from run-time types, so where a variable is declared wider than its value ..." | Yes: its Home names "F-137, walk's inference with coercion by that promotion" | Its Home: "P-46, which names walk's promotion from run-time types as a choice taken without his word" no longer holds. Name P-46 for the decision and F-137 for the choice. |
+| Walk keeps `Bottom` for row 591 (P-48) | F-141, walk's instance of a type parameter that nothing fixes; it lists row 591 among the defects "each with an expected failure" | 81, "Walk has no intersection type, so a parameter with two bounds it cannot meet stays at `Bottom` (row 591) ..." | No | Add F-141 to its Home. Its Home's "P-48, "Still to build", which names this item for row 591" no longer holds: P-48 names rows 587, 591 and 612 only. |
+| The checker's third and fourth attempts at a call (P-49) | F-78, which the apply file extends with the four attempts in order, by reading of decision-record D4 and `Functionals.scala:733-737` | 2, "The checker's third and fourth attempts at a call." | No | Add F-78 to its Home. "P-49 states all four, and marks only the third as waiting for his review" no longer holds: P-49 states the two attempts of his decision, and F-78 the four. |
+| Row 320's open half gated as an expected failure, not fixed (P-33) | F-22, "When a component's name differs from the api that it exports, neither path finds the component ..."; it is gated by `XXXExportVarRungXLinked` (row 320). F-120 holds the fixed half. | 36, "The dead sizes, the linker row and walk's unknown size." | No | Add F-22 to its Home. "which an agent gated as an expected failure without his approval, as P-33 records" and the Home's "P-33, the agent's decision on row 320's second half" no longer hold: P-33 keeps only his approval, that row 320's open half is part of the switch-over's design. |
+| Way 4a, a size known only at run time read as fixed for the call (P-85) | F-270, the checker's opening of a `where`-clause size; the apply file states there that P-85 leaves the question open and that way 4a is the one way built on it | 30, "A size known only at run time: way 4a and his decision on sizes." | Yes: its Home names "F-270, the checker's opening of a `where`-clause size as built" | Its Home's "P-85, ... of which way 4a is the one default landed" no longer holds. Name F-270 for the landed way. |
+| The same choice (P-85) | F-270 | 229, "Does the array design's third question still wait for the switch-over (P-85)?" | No | Add F-270 to its Home. Its Landed line quotes P-85's sentence "One exception to "no default": ... It is not the curator's answer and waits for his review (review-queue item 30)." That sentence leaves P-85; F-270 states the conflict instead. |
+| `addLeft` and `addRight` kept in `AnyList`, respelled under the live clause, against his option 3 (P-151) | F-243, the 13 errors filed as waiting on `where` clauses; it says that `AnyList`'s clause clears its 4 "with its bodies respelled within `AnyList` and none moved into `List`" | 188, "P-151's `AnyList`, built otherwise." | No | Add F-243 to its Home, and the drafted row NEW-8 once filed. Its Landed line's "Until then P-151 lists the move as still to build, with climb batch 17's departure and this item" no longer holds: P-151 keeps his option 3 and names row NEW-8, and FACTS holds the departure. |
+
+## Items that hold points not fixed
+
+These items hold questions that the proposals leave open. They need no FACTS entry. Two of them, 248 and 188, can name a drafted row once it is filed.
+
+- 239 (P-30): whether a check of microGPT past the minute is a fault. The follow-up does not say what follows a slower check.
+- 240 (P-32): whether "kept current" covers the territory map. The follow-up does not say who keeps it current.
+- 230 (P-85): what "the whole prep for the arrays" covers. The follow-up leaves "preparation" as it is.
+- 60 (P-45): the positional rule's equal-count scope. P-45 now points to F-75, which names that scope as the rung's.
+- 248 (P-88): whether the read-only matrix's shape is `ReadableArray2`. Row NEW-7 claims only that no read-only matrix trait exists; the item can name it.
+- 188 (P-151): as above; row NEW-8 is `CONTESTED` for this item's question.
