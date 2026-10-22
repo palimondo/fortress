@@ -1,0 +1,9 @@
+== growth since 250fdafe8
+file: 588280 -> 662866 characters (+74586, +12.7%)
+rows: 701 -> 793 (92 new, rows 703 to 794)
+new rows: 85105 characters; by status now: {'NEGATIVE-VERIFIED': 56, 'FIXED': 27, 'NEGATIVE-BOUNDED': 4, 'CONTESTED': 5}
+old rows changed: 62 (grew 27 by 2207 characters, shrank 35 by 12818 characters, mostly closes)
+old rows still open: 374; of them changed since: 28
+rows closed since (FIXED or DUPLICATE now, open then): 34
+new rows still open: 65; of them at row>=1100 or notes>=600: 26
+new open rows: median length 1036, at the time of entry vs now not measured

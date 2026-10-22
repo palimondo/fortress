@@ -1,0 +1,19 @@
+== row length (limit 1,200) and notes length (limit 700), rows at or above each mark
+group	rows	row>=1190	row>=1150	row>=1100	row>=1000	row>=800	notes>=690	notes>=650	notes>=600	notes>=500	median_row	median_notes
+open	439	20	77	135	256	388	79	193	274	346	1032	634
+positive	117	1	2	9	29	64	14	32	41	64	842	527
+closed	237	0	1	2	4	18	2	2	4	12	489	138
+
+open rows with no room for a 100-character note: 281 of 439
+  of them limited by the notes cell: 274; by the row: 135 (some by both)
+  claim at or above 280 of 300: 52
+
+== growth since ae4f8e38a
+file: 540693 -> 662866 characters (+122173, +22.6%)
+rows: 638 -> 793 (155 new, rows 640 to 794)
+new rows: 135492 characters; by status now: {'NEGATIVE-VERIFIED': 75, 'CONTESTED': 10, 'FIXED': 63, 'NEGATIVE-BOUNDED': 7}
+old rows changed: 66 (grew 26 by 2644 characters, shrank 40 by 16118 characters, mostly closes)
+old rows still open: 347; of them changed since: 27
+rows closed since (FIXED or DUPLICATE now, open then): 39
+new rows still open: 92; of them at row>=1100 or notes>=600: 43
+new open rows: median length 1049, at the time of entry vs now not measured

@@ -1,0 +1,14 @@
+commit-says-fixed         3 hits,    3 rows
+line-past-end             3 hits,    3 rows
+notes-refused           124 hits,   89 rows
+notes-xxx-gone            4 hits,    3 rows
+path-gone               371 hits,  218 rows
+pinned-file-changed      71 hits,   70 rows
+record-says-fixed        28 hits,   24 rows
+record-says-open         13 hits,   12 rows
+repro-plain-settled       6 hits,    6 rows
+repro-promoted            1 hits,    1 rows
+repro-xxx-gone            2 hits,    2 rows
+row-cites-closed          3 hits,    2 rows
+siblings-closed          36 hits,   36 rows
+subject-names-row         1 hits,    1 rows

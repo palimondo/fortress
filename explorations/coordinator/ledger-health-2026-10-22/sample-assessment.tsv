@@ -1,0 +1,44 @@
+row	era	status	scope	present	evidence	comprehension	ownership	consistency	disposition	failing passage or reason
+5	A	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	parser grammars unchanged since the team (git log a874948ac..HEAD -- parser/*.rats is empty)
+84	A	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	Expression.rats:384-386 still PrimaryItem = LeftAssociatedPrimary / MathPrimary; file unchanged since the team
+405	B	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	minor: STypeEnv.scala:192-193 unpinned, the refusal now at :200; two refused notes (batches 11, 12) wait
+652	C	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	XXXKeywordParamOmitted present; STypeEnv.scala:199-200 still the refusal
+20	A	NEGATIVE-VERIFIED	U	U	U	F	P	F	Investigate	"probe and full text: history, row 20 A set comprehension shows it too: row 646." (646 is FIXED, F-143; walk now instantiates comprehensions by the elements' join, F-228; not re-measured since run-b)
+307	B	NEGATIVE-VERIFIED	F	F	P	P	P	F	Reword	"Arithmetic in a size ... is refused (`XXXNatArithChecker`) where walk runs it": 7fd8fddc8 promoted it to NatArithSize, the checker accepts arithmetic in a size (F-146); three refused notes; row at 1,194
+533	B	NEGATIVE-VERIFIED	F	F	F	P	P	F	Investigate	claim: "ties `RR64`'s `opr ^(self, b:RR64)` with `MultiplicativeRing`'s `opr ^(self, other:ZZ64)`": the ring's power is now `abstract opr ^(self, other:AnyIntegral): T` (FortressLibrary.fsi:283); notes: "Not measured since batch 8's numeral library"
+642	C	CONTESTED	F	F	F	P	P	F	Close	fixed by 054c4bcfd under Q48(a) ("gaps repaired (rows 642, 644 and 651)"); reproducer XXXInferResultOnlyLabelBody.test gone, InferResultOnlyLabelBody.test in its place; "The test pins today's refusal"
+731	C	NEGATIVE-VERIFIED	P	F	F	P	F	P	Reorganize	notes open "Row 425's text corrected: its expected-type half is fixed since climb batch 14's rung A"; reproducer InferBigOperatorUnwritten is a passing run test of the plain-bounded case ("instantiates the operator at its bound; ledger row 425"), not the F-bounded defect claimed
+776	C	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	TypeWellFormedChecker.scala:50-56 is the span test described
+112	A	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	no revival change to value objects found (FACTS, POSITIONS, git -S isValueObject); unguarded, measured in run-b2
+313	B	NEGATIVE-VERIFIED	P	P	P	F	P	P	Reword	reproducer `ProjectFortress/tests/immutableTopLevel.fss` is a walk test that passes; the defect shows only when the program is compiled
+665	C	NEGATIVE-VERIFIED	F	F	P	P	F	F	Reword	claim: "the load checks ... of an `override` that overrides nothing skip generic objects ... and generic traits": fixed in efd6bb2f2 (batch 13); notes: "`XXXOverrideNothingGenericWalk`, `XXXOverrideNothingGenericTraitWalk` ... gate the other shapes" (both promoted); "Rows 667 and 668 are fixed (668 by f9fe5c874)"
+782	C	NEGATIVE-BOUNDED	F	F	P	P	P	F	Reword	claim: "grows from 17 entries to 165"; notes end: "Batch 20 rung A: those 17 entries are gone."
+97	A	NEGATIVE-VERIFIED	P	U	U	P	P	P	Investigate	evidence from run-b2 (probe in the parent of 22ea0cd90); walk's overloading check rewritten in batches 13 to 19 (its message still at OverloadedFunction.java:601); sibling 159 FIXED
+539	B	NEGATIVE-VERIFIED	F	F	P	F	P	F	Reword	claim quotes "'at least one pair of parameters must have excluding types'", now "fails the Meet Rule" (review item 187); notes: "full text: history, row 539 Climb batch 17 rung G: only m[\P\] beside m[\Q\] is refused"
+787	C	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	OverloadedFunction.java:943 is the where-clause test described
+495	B	NEGATIVE-VERIFIED	P	P	P	F	P	P	Reword	claim: "generic dotted methods keep the compiled dispatch defects of rows 493 and 494": both rows FIXED, so the claim names its defect through two closed rows
+682	C	CONTESTED	P	P	P	F	P	P	Reword	notes: "Unsettled: ..." and "Settled for the checker: `reviews/array-judgements-popl-check.md` § 7"; the hinge, review-queue item 30 (way 4a), is not named; batch 17's note (the type face too) waits
+726	C	NEGATIVE-VERIFIED	P	F	P	P	P	F	Reword	notes: "`FlatString`'s api declares this pair (`Library/FlatString.fsi:17`, `:20`)": the api declares only self-first `||` now (FlatString.fsi:16-21; batch 19's refused note)
+786	C	CONTESTED	P	P	P	P	P	P	Keep	the plain walk test pins walk's half of a contested pair
+336	B	NEGATIVE-VERIFIED	P	P	P	P	F	F	Reword	"Fix: a zero test raising `DivisionByZero` as `Int.overflow()` (`:258`) raises `IntegerOverflow`": the helper `Int.divisionByZero()` now exists (Int.java:263); `ZZ`'s `big(1) DIV big(0)` (batch 12) and the helper (batch 20) wait as refused notes
+441	B	NEGATIVE-VERIFIED	F	F	F	P	P	F	Reorganize	claim: "a negative power of an integer has no specified result ... `2^(-1)` is `0.5` ... under walk"; notes: "The curator chooses a rational, a throw, or `RR64`": P-153 chose, walk raises (Int.java:291), the compiled half is P-153's "Still to build"
+792	C	CONTESTED	P	P	P	P	P	P	Keep	
+94	A	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	no `pi` in FortressLibrary.fsi, no RationalValueTimesPi in Library/
+330	B	NEGATIVE-VERIFIED	F	F	P	P	P	F	Reword	claim: "the float types' `floor` and `ceiling` return a float where the specification returns an integer": P-68 rules that they keep the float (Built); the open part is the brackets, `round` and `truncate` to `ZZ`
+672	C	CONTESTED	P	P	P	P	P	P	Keep	
+44	A	NEGATIVE-VERIFIED	F	F	F	P	P	F	Investigate	claim: "the library's `SUM` is sealed twice over, by `[\T extends Number\]` and an `unwrap` that is `cast[\Number\]`": `opr SUM[\T extends AdditiveGroup[\T\]\]` since d846e3644 (2026-09-27); row 436: a nonempty SUM over a user AdditiveGroup runs
+436	B	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	F-85 agrees (its two distance sites clear, the empty SUM stays)
+716	C	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	
+35	A	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	no postfix ^T, matrix power or matrix norm in the library's apis (a vector norm exists, FortressLibrary.fsi:1686)
+794	C	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	FortressLibrary.fss:3130-3135 as described
+141	A	NEGATIVE-VERIFIED	P	P	P	P	P	F	Reword	status NEGATIVE-VERIFIED ("the specification settles it") beside spec `silent` and class `deliberate (library)`: the row records a documented behaviour (FlatString.fss:150)
+59	A	NEGATIVE-VERIFIED	F	P	P	P	F	P	Reword	claim bundles a race the memory model defines ("a bare `acc := acc + c` inside a parallel `for` silently loses updates") with the unbuilt reduction variables, under class `implementation gap (walk)` though both show compiled; "Fixed half: `atomic` on a top-level variable lost updates on the compiled path until repair batch R1"
+746	C	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	minor: "its revision box waits for the next rung that edits `if.tex`" is task bookkeeping
+584	B	NEGATIVE-VERIFIED	P	P	P	P	F	F	Reword	"Admitted to its three loops: 49→249, 200 errors in 11 families": F-245 owns the count (205 at d212b2c1f); three refused notes wait (batch 20: isDeclaredName now at OverloadingChecker.scala:742-746)
+701	C	NEGATIVE-VERIFIED	F	P	P	P	P	F	Reword	claim: "refuses every function, object and trait declaration that carries a `where` clause or a contract": an extends entry's where clause compiles (row 774), a contract never reaches it (row 781); review item 182; row at 1,199
+790	C	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	NamingCzar.java:733-755 as described
+207	A	NEGATIVE-VERIFIED	P	P	P	P	P	P	Keep	probes named as gone; readable from history
+268	A	NEGATIVE-VERIFIED	P	P	F	P	P	P	Reword	"`ProjectFortress/build.xml:1264` (`testsyntax`)": that file is the 18-line deprecated stub; the target is the root `build.xml` (:1264 at 052a7c3fe, now :1507; testNightly :1564)
+577	B	NEGATIVE-VERIFIED	F	F	P	P	F	F	Close	fixed by 9d24290fb, "classify.py finds its library places by declaration (row 577)"; notes are a sightings log: "seen again in batch 9 rung R ...; batch 10 rungs N and G ...; full text: history, row 577 again: rung-library-slips, section 6"
+745	C	NEGATIVE-BOUNDED	P	P	P	P	P	P	Keep	
+641	C	NEGATIVE-BOUNDED	P	P	P	P	P	P	Keep	

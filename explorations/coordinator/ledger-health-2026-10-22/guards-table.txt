@@ -1,0 +1,5 @@
+era	xxx	plain	probe	other-path	none	missing	total
+A	3	1	25	1	134	0	164
+B	91	10	9	2	71	0	183
+C	45	9	3	2	32	1	92
+all	139	20	37	5	237	1	439

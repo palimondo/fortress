@@ -1,0 +1,12 @@
+row 8 (line 42): spec-path: fortress/fortress-keywords.tex is not a file from the repository root or Specification/
+row 535 (line 170): reproducer-path: ProjectFortress/compiler_tests/XXXInferLoneUnionClosedTrait.fss is no path from the repository root and no test name
+row 642 (line 186): reproducer-path: ProjectFortress/compiler_tests/XXXInferResultOnlyLabelBody.test is no path from the repository root and no test name
+row 72 (line 752): spec-path: Specification/library/apis/FortressLibrary.tex is not a file from the repository root or Specification/
+row 73 (line 753): spec-path: Specification/library/apis/FortressLibrary.tex is not a file from the repository root or Specification/
+row 75 (line 755): spec-path: Specification/library/apis/FortressLibrary.tex is not a file from the repository root or Specification/
+row 305 (line 758): spec-path: Specification/library/apis/FortressLibrary.tex is not a file from the repository root or Specification/
+row 314 (line 762): spec-path: Specification/library/apis/FortressLibrary.tex is not a file from the repository root or Specification/
+row 316 (line 763): spec-path: Specification/library/apis/FortressLibrary.tex is not a file from the repository root or Specification/
+row 316 (line 763): spec-section: "Ranges" is no heading of Specification/basic/operators/juxtameaning.tex
+row 162 (line 893): spec-path: library/apis/FortressLibrary.tex is not a file from the repository root or Specification/
+ledger.py check: fortress-gap-ledger.md, 793 rows, 10 fail the template; rows (or places) failing each rule: spec-path 8, reproducer-path 2, spec-section 1

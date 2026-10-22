@@ -1,0 +1,29 @@
+status
+  POSITIVE-VERIFIED              117
+  NEGATIVE-VERIFIED              414
+  NEGATIVE-BOUNDED               12
+  CONTESTED                      13
+  RETIRED                        3
+  FIXED                          208
+  DUPLICATE                      26
+kind
+  implementation gap             422
+  library gap vs spec            51
+  library bug                    90
+  design limit                   100
+  deliberate                     7
+  typesetter                     3
+  packaging                      8
+  —                              112
+area
+  parser                         75
+  walk                           162
+  checker                        150
+  codegen                        56
+  runtime                        25
+  library                        143
+  prelude                        33
+  specification                  16
+  tests                          10
+  tools                          11
+rows 793

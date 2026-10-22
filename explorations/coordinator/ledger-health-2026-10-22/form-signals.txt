@@ -1,0 +1,12 @@
+open rows 439
+after-marker     17 rows
+deliberate-open  6 rows
+nv-silent        76 rows
+notes naming each marker (rows):
+  batch/rung                   84
+  skeptic/judge/gather         63
+  repair design                41
+  repair story                 26
+  promotion/XXX bookkeeping    9
+  date                         1
+rows by the number of marker kinds in their notes: {0: 277, 1: 113, 2: 37, 3: 11, 4: 1}
