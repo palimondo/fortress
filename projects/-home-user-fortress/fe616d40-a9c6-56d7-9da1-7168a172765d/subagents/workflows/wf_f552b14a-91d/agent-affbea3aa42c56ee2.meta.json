@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"takeaway c2","workflowPhase":"Check","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
