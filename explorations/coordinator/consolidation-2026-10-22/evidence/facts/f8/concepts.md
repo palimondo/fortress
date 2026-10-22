@@ -1,0 +1,23 @@
+<!-- Concepts that the FACTS clarity pass's chunk f8 (F-231, F-232, F-237, F-240, F-242 to F-245), after its fix round, uses and that every worker needs, each with the entries that use it and where it should be defined: input for the worker skill's orientation. -->
+
+# Concepts for every worker, chunk f8
+
+The entries name these concepts without defining them, since other entries use them too. Each belongs in the `fortress-repo` skill, not in the revival part that is being rewritten.
+
+| Term | Entries | Where to define it | What the definition needs |
+|---|---|---|---|
+| The distance stage and the count stage | F-231, F-237, F-240, F-242, F-243, F-245; also F-53 | `references/compiler.md` | Chunk f0's `concepts.md` defines the distance, chunk f5's the count stage. These entries add that the distance has had different values at different gates (49 at climb batches 15b and 16, 5 now), so a site count in an entry names its tree. |
+| A probe | F-242 to F-245 | The short orientation that replaces the revival part | A measurement made on a copy of the tree under `explorations/perf-probes/`, with its report; its numbers hold for the commit it names. A probe's "way" or "device" is a change it tried, not one that landed. |
+| A shadow of the checker | F-245; also F-66 | `references/compiler.md` | A copy of a checker source file, changed for a measurement and put first on the stage's class path, so that the tracked checker stays as it is. |
+| The checker's skip of symbolic operators | F-245; also F-80, F-81 | `references/compiler.md` | Chunk f6's `concepts.md` defines it (row 584). |
+| Conditional extension, `where` clauses | F-243, F-244; also F-250, F-251, F-255, F-256, P-151 | `fortress-repo` core, beside generics | A `where` clause adds constraints to a declaration's static parameters. In conditional extension, a type extends another only where its `where` constraints hold, as `List` is ordered only where its elements are. P-151 builds only the forms that the team wrote down. |
+| A load-dependent time | F-240, F-231 | `cloud-container` skill, beside the machine's timings | A stage's time depends on the machine's load; compare it only with a time taken beside like load. F-240 holds the current times. |
+| HotSpot's method-size limit | F-231; also F-236 | `references/compiler.md` | The JVM does not compile a method larger than 8,000 bytes of bytecode, so such a method runs interpreted. `MethodSizeJUTest` lists the build's methods past the limit. |
+| The checker's solver | F-231; also F-235, F-240, F-256 | `references/compiler.md`, beside "The checker's time" | `TypeAnalyzer`'s subtype and exclusion questions (`pSub`, `pExc`, `dExc`, `normConjunct`) and `Formula`'s reduction of constraint formulas. The skill never names it. |
+| makeAST and the PLT library | F-232 | `references/toolchain.md`, beside its line on what `Fortress.ast` generates | makeAST is the root `build.xml` target that runs ASTGen on `Fortress.ast` and post-processes its output, so that every `Option`-typed field is hashed through `NodeHash.of` without a worker writing it. The PLT library (`ProjectFortress/third_party/plt/plt.jar`) supplies the `Option` that the generated nodes hold. |
+| A site of the distance | F-242, F-243, F-245; also F-259 and others | `fortress-repo` core, in the distance's entry | Each of the distance's errors: one row of `explorations/compile-ladder/gate/distance-sites.tsv`, named by file and line. |
+| The fusion of `SUM` with `MAX` and `MIN` | F-242, F-243; also P-151 | `references/library.md` | `MaxSumReductionPair`, `MinSumReductionPair` and `SumReduction`'s two `distribute` overloads, through which the team's `Generator2` computes the maximum or the minimum of sums over a generator of generators in one fused pass (`perf-probes/where-clauses/REPORT.md` A.2.1). F-242 now names them too. |
+| Opening a `comprises` clause's `where`-clause variable | F-244; also F-251, F-256 | `references/compiler.md`, the checker area | At a call, the checker gives an argument whose trait lists `Box[\E\] where [\E\]` a fresh type for `E`, as it does a size (F-251). Its present home, `references/revival-changes.md`, is being rewritten. |
+| The load average | F-240 | `cloud-container` skill, beside the machine's timings | The machine's load average on its 4 CPUs, beside which a stage's time is read. |
+
+Concepts that only one entry uses are defined in it: the hashes' two exceptions (F-232).

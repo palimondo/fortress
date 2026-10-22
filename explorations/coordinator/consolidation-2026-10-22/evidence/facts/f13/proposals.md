@@ -6,7 +6,10 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 
 ## F-143
 
-**Meaning:** one sentence corrected to the present tree, as the assessment asks. The old text said that an unwritten reduction runs on its elements' types through the open parameter. Since F-228, the declared type and the elements' join come first (WE section 1, item 3; section 5.2). The open parameter now reaches only an empty clause form with no declared type, and a generic call such as `mk()`. The gate moved from `UnwrittenReductionWalk`, whose forms F-228 fixes first, to the two tests that still exercise the open type. The most-specific claim is now named as a probe's observation.
+**Meaning:** one sentence corrected to the present tree, as the assessment asks. The old text said that an unwritten reduction runs on its elements' types through the open parameter. Since F-228, the declared type and the elements' join come first (WE section 1, item 3; section 5.2). The open parameter now reaches only an empty clause form with no declared type, and a generic call such as `mk()`. The gate moved from `UnwrittenReductionWalk`, whose forms F-228 fixes first, to the two tests that still exercise the open type. The most-specific claim is now named as a probe's observation. Fix round, three narrowings that the check found against the record's own conditions:
+- The tuple clause holds where overloads are compared, as row 663 says; a lone `one(x: (T,T))` takes `(1, 2)`, as the entry's own gate asserts.
+- The empty case is `SUM` or `PROD` (row 716). An empty identity-less reduction raises `EmptyReduction`.
+- The case of a declared type or join that does not fit the bound is added (WE section 10, decision 6).
 
 **Sources:**
 - Title, sentence 3: the old text; `rung-walk-open-param/REPORT.md` section 1.
@@ -18,7 +21,7 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 
 ## F-144
 
-**Meaning:** the stale clause replaced. "The plain-bounded monoid operators stop (F-141)" was decision D2's state, which climb batch 15's rung B lifted. WE section 7 measured `BIG SQCUP`, `BIG SQCAP` and the nested `BIG CONCAT` running. The entry now says which were measured, which were not, and that none is gated, as the assessment asks. The refusal at `Any` gets its gate.
+**Meaning:** the stale clause replaced. "The plain-bounded monoid operators stop (F-141)" was decision D2's state, which climb batch 15's rung B lifted. WE section 7 measured `BIG SQCUP`, `BIG SQCAP` and the nested `BIG CONCAT` running. The entry now says which were measured and which were not, as the assessment asks. The refusal at `Any` gets its gate. Fix round, one correction: `List`'s `BIG CONCAT` with no static argument is gated, by `tests/UnwrittenComprehensionElementsWalk.fss:14-17`, which rung B landed. The assessment and the first round said that no gated test holds any of the five. "Walk refuses `AnyMaybe`" is now "the program stops", since the source reports a stop under walk, not a refusal at load.
 
 **Sources:**
 - Title, sentences 1 to 4: the old text; `rung-reduction-types/REPORT.md` section 1.
@@ -27,7 +30,7 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 
 ## F-145
 
-**Meaning:** unchanged; the title narrowed to the body's one subject. The `override` refusal is F-147's, and the meet refusal is F-142's. Both were already handed over in the old body.
+**Meaning:** unchanged; the title narrowed to the body's one subject. The `override` refusal is F-147's, and the meet refusal is F-142's. Both were already handed over in the old body. Fix round: the hand-over no longer claims that these are walk's only other checks. The checker's behaviour at row 725 and row 728's class, a defect of walk, are said from the rows.
 
 **Sources:**
 - Sentences 1 to 5: the old text; `rung-duplicates-coverage/REPORT.md` section 1 (the unsettled search, the bounds); rows 665, 725 and 728.
@@ -35,7 +38,7 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 
 ## F-146
 
-**Meaning:** unchanged; split. F-146 keeps the arithmetic, which builds P-55, the curator's ruling. F-?1 takes the opening of `where`-clause sizes, which is a default under review. The title's second half is P-55's rule, which F-146 builds. The rows now carry their subjects.
+**Meaning:** unchanged; split. F-146 keeps the arithmetic, which builds P-55, the curator's ruling. F-?1 takes the opening of `where`-clause sizes, which is a default under review. The title's second half is P-55's rule, which F-146 builds. The rows now carry their subjects. Fix round: the comparison's third answer, "not known to differ", is stated, as `pEqv` gives it.
 
 **Sources:**
 - Title and sentence 2: `rung-size-expressions/REPORT.md` section 1, "Item 15, 15a with its part (b)" (`foldSize`, `nEq`, `nDiffer`); P-55.
@@ -45,7 +48,7 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 
 ## F-?1, new: opened `where`-clause sizes
 
-**Meaning:** unchanged; split from F-146. "With array fork 3 at its default" is now said in words: way 4a of PLAN item 13's fork 3, landed by an agent, which waits for the curator's review (P-85; review-queue item 30). The two walk tests are added as gates.
+**Meaning:** unchanged; split from F-146. "With array fork 3 at its default" is now said in words: way 4a of PLAN item 13's fork 3, landed by an agent, which waits for the curator's review (P-85; review-queue item 30). The two walk tests are added as gates. Fix round: "walk reads such a size as any size" is bounded to walk's `comprises` check at load; at a call, walk binds the argument's own size (section 1, the walk point). The failing stage of row 307 is named, the code generator (`compiler_tests/XXXNatOpenRun`).
 
 **Sources:**
 - Title, sentences 1 and 2: `rung-size-expressions/REPORT.md` section 1, "Fork 3, way 4a, under Q13.3" (`openWhereSizes`, `pSubInner`; "An opened size is not known to differ from any size").
@@ -56,7 +59,7 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 
 ## F-147
 
-**Meaning:** narrowed, as the assessment asks. The row 693 clause now covers only inherited types that differ from the `override`'s, as row 693 and the skill say. At equal types the `override` is still refused. The rule is stated in the title, and the two cases in which walk does not read the bounds are named.
+**Meaning:** narrowed, as the assessment asks. The row 693 clause now covers only inherited types that differ from the `override`'s, as row 693 and the skill say. At equal types the `override` is still refused. The rule is stated in the title, and the two cases in which walk does not read the bounds are named. Fix round: the title's "only" is dropped, since at an instance of a generic trait that an object extends, equal types still count as overridden (`OverrideGenericInstanceEqualTypesWalk`, which the entry's own glob holds).
 
 **Sources:**
 - Title and sentence 1: `rung-walk-override/REPORT.md` section 1, "The strict relation"; `Specification/basic/traits.tex:585-589`.
@@ -67,7 +70,10 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 
 ## F-228
 
-**Meaning:** the third step corrected, as the assessment asks. "Else at its bound" now has both cases: a plain bound, and an F-bounded parameter that stays open (WE section 1, item 3). The title's "declared type of its value" is now bounded by the list of the contexts that are reached and that are not reached (WE section 5.3). "So each body runs once" is from WE section 1, item 2.
+**Meaning:** the third step corrected, as the assessment asks. "Else at its bound" now has both cases: a plain bound, and an F-bounded parameter that stays open (WE section 1, item 3). The title's "declared type of its value" is now bounded by the list of the contexts that are reached and that are not reached (WE section 5.3). "So each body runs once" is from WE section 1, item 2. Fix round:
+- The fallback of a declared type or join that does not fit is added (WE section 1; section 10, decision 6).
+- The typed `body(i: I)` again follows from the instantiation, not from row 718's repair, which the first round had put before it.
+- "Left open" is renamed, with what goes wrong in each row, so that it does not read as F-143's open type.
 
 **Sources:**
 - Title, sentences 1 and 2: WE section 1, items 1 to 3; section 5.3.
@@ -78,7 +84,9 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 
 ## F-238
 
-**Meaning:** unchanged; cut to its own claim. The old text told the reading before and after the change in the past tense, though the shared reading still runs first today. The new text states the withdrawal and its `ReadableArray` exception in the present. It points to F-252 and F-257 for what follows. F-258 owns the whole-type reading and its row 787 exception; F-252 points there.
+**Meaning:** unchanged; cut to its own claim. The old text told the reading before and after the change in the past tense, though the shared reading still runs first today. The new text states the withdrawal and its `ReadableArray` exception in the present. It points to F-252 and F-257 for what follows. F-258 owns the whole-type reading and its row 787 exception; F-252 points there. Fix round:
+- The title covers both old readings that the change withdraws from: the shared instantiation, and a generic object's instances as two object types. The first round's "shared" kept only one.
+- The alternative that an exclusion read with the static parameters renamed apart stands is restored, since the first round's added "only" denied it (OI section 1).
 
 **Sources:**
 - Title and sentences 1 to 5: OI section 1, "Row 373", its first two points and the first point after "Now".
@@ -89,13 +97,19 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 
 ## F-239
 
-**Meaning:** unchanged. The refused values are now listed in the present tense.
+**Meaning:** one addition. The refused values are now listed in the present tense. Fix round: the entry now says that walk's reading of `if` is a default, which the record left unmarked. It is the coordinator's call 6 at climb batch 16, which waits for the curator's review (row 746, "deliberate (walk)"; PLAN, "Climb batch 16, listed for his review", default as built). The writer brief's point 9 asks for this.
 
-**Sources:** OI section 1, "Row 673"; row 746; the three `IfClause*Walk` tests (`load_exception_contains=If clause did not return boolean`).
+**Sources:** OI section 1, "Row 673"; row 746; `explorations/coordinator/CLIMB-BATCH-16.md` section 2; the three `IfClause*Walk` tests (`load_exception_contains=If clause did not return boolean`); `Specification/basic/expressions/if.tex:54`; `interpreter/glue/Glue.java:70-83` (the names only).
 
 ## F-248
 
-**Meaning:** unchanged; the present state is stated first. Both changes that the old text assumed are in the tree: the generic `distribute` (`Library/FortressLibrary.fss:3242-3251`), and walk's inference of a method's static arguments (row 21, fixed; F-253). The explicit form is now named as the team's commented line, which the library does not run.
+**Meaning:** the present state is stated first, with two corrections. Both changes that the old text assumed are in the tree: the generic `distribute` (`Library/FortressLibrary.fss:3242-3251`), and walk's inference of a method's static arguments (row 21, fixed; F-253). The explicit form is now named as the team's commented line, which the library does not run. Fix round:
+- Authorship. The result written over `K` is the probe's variant L4. The team's commented line returned `PossibleReductionPair[\R\]` (`git show a874948ac:Library/FortressLibrary.fss`, line 2868). The first round's full signature attributed the change to the team.
+- The fused path. The record stated it in the present, but the probe traced it before F-253. It is now stated as that measurement, and the title no longer claims the path.
+
+`NestedReductionFusion`'s five pairs are all named.
+
+**Question for the curator** (it needs a run): do `MAX` and `MIN` over `SUM`, and `SUM` over `PROD`, still take the fused path on today's tree? A run of `GeneratorDeclarations` and `NestedReductionFusion` with the team's trace lines in `generate2` made live would settle it. No later trace exists.
 
 **Sources:**
 - Sentence 1 (what "fused" means): `perf-probes/generic-distribute/REPORT.md` section 5, first paragraph (`generate2` takes `efficientImpl` exactly when `distributes(q, r)` holds).
@@ -108,4 +122,5 @@ The clean text of each entry is in `clean.txt` and `proposals.apply`, word for w
 - **F-114**: it says that five specification examples pass "only because walk leaves that parameter open (F-143)". Since F-228, they may pass by the declared type or the join first. Reading the five examples settles it. F-114 is outside this chunk.
 - **F-142**: "a generic one through a stand-in (F-145)" names material that F-145 has not held since 14 October. The stand-in is in `compile-ladder/rung-walk-override/REPORT.md` section 1, "The generic declarations", and `rung-walk-load-checks/REPORT.md` section 1. F-142's pointer needs a new target.
 - **Row 665**: its cell and notes still say that the `override` check skips generic declarations, and name `XXXOverrideNothingGeneric*` tests. That half is fixed (F-147), and the tests are gated without `XXX`.
+- **F-121**: it cites "(F-146, F-251)" for the compiled checker's opening of `where`-clause variables. The size half is now F-?1, so that pointer should move to F-?1.
 - **Chunk f14**: F-238 now points to F-252 for the reading on declared domains. Chunk f14 proposes to split F-252, with the Return Type Rule at every instance in a new entry. F-238 no longer names that rule, so its pointer stays right after the split.
