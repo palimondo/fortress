@@ -767,3 +767,14 @@ From the cold read of `0cf48c7b2` (`tmp/skill-writer/coldread-20.md`), each fix 
 - `revival-changes.md`, "The rational power over any integer": the types of `unsigned(3)` and `big(3)`, `Library/FortressLibrary.fsi:584`, `:586` (R7).
 - `revival-changes.md`, "The result types of vectors and matrices, and the api's array declarations": the factories at base 0, `Library/FortressLibrary.fss:2561-2567`, `:2963-2968`; `Col` and `Row`, `:2821-2842`, and the subscripts that wrap them, `:2707`, `:2711` (R8); `replica`, `Library/FortressLibrary.fsi:1448-1450`, and `map` and `ivmap` through it, `Library/FortressLibrary.fss:2472-2474` (R9); the eight declarations, FACTS F-35 and F-260 (R10).
 - This file, "Climb batch 20's changes": the gather's record named as such, and rung A's change placed in the coordinator's boot-note commit `e487cec2d` (S3, F1).
+
+## Changes of 2026-10-22
+
+- `SKILL.md`, the glossary, the project's working terms moved into the core: the curator's word in chat, 2026-10-22, after cold readers of the rewritten record entries, given only this skill, could not read these terms. The terms and what their definitions need: the concepts lists `explorations/coordinator/positions-audit/clarity/evidence/concepts.md` and `explorations/coordinator/consolidation-2026-10-22/evidence/*/*/concepts.md`.
+  - "batch" and "rung": the `coordinator` skill's glossary, where they are removed. "Climb batch": `explorations/coordinator/climb-batch-workflow.md`, line 8, and the folder names under `explorations/compile-ladder/`. The rung's brief: `coordinator/references/batch.md`, "batch record".
+  - "model program": the `coordinator` skill's glossary, where it is removed. C4 and the APL program, their files and quick checks: the concepts lists of chunks p1, p2 and p7 and the pilot's list, checked against `explorations/run-c4/src/` and `explorations/apl/mg/`.
+  - "count stage": moved from `references/compiler.md`, with the checker count from `coordinator/references/batch.md`, where it is removed.
+  - "distance": moved from `coordinator/references/batch.md`. Its stage, `explorations/coordinator/tools/distance/run.sh`: the concepts list of chunk f0.
+  - "PLAN": the concepts lists of chunks p1, p3, p4 and p7, checked against the headings of `explorations/coordinator/PLAN.md`.
+  - "review queue" and "default": the concepts lists of chunks p3 and p7, and the header of `explorations/coordinator/review-queue.md`.
+  - "Built." and "Still to build:", and "one library": the concepts list of chunk p7.

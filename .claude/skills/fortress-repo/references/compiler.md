@@ -1,8 +1,5 @@
 # The compiled checker, the code generator and the run time
 
-**count stage**
-: Script that runs the compiled checker over the interpreter's library and prints its errors: `explorations/coordinator/tools/checker-count/run.sh`.
-
 The code of this area is in these directories:
 
 - `scala_src/typechecker/`: the type checker, in Scala.

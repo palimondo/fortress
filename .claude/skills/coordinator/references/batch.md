@@ -23,12 +23,6 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 **reserved point**
 : Point that a batch record keeps for the curator, such as a model or APL line beyond the approved ones, or an interpreter output that a rung cannot explain.
 
-**checker count**
-: Errors that the compiled checker reports on the interpreter's library, up to each component's first error.
-
-**distance**
-: All the checker's errors on that library, which must reach zero before the switch-over: the move of the compiled path onto the interpreter's library.
-
 ## The go
 
 - The batches of PLAN's phase 3 run on a standing go, in PLAN's order. Launch each when the batch before it has landed and its own batch record has no open question.

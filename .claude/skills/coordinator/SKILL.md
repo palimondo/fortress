@@ -19,15 +19,6 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 **entry**
 : Line of `FACTS.md` or `POSITIONS.md` under its permanent number, such as `F-87` or `P-48`.
 
-**batch**
-: Run of the batch workflow script (`references/batch.md`) that changes the tree in several rungs. A rung is one task of it, with its own worker and worktree.
-
-**land**
-: Commit a batch's merged work to `main` and push it.
-
-**model program**
-: microGPT, the program by which the revival is measured.
-
 **fork**
 : Design question with more than one way forward.
 
