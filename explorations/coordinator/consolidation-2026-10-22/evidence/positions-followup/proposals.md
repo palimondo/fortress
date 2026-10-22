@@ -2,7 +2,7 @@
 
 # The POSITIONS follow-up: proposals
 
-The base is `d4d454f9d`. POSITIONS and FACTS there are as `382289832` (the scrape) left them. The changed lines, in `record.py`'s apply form, are in `proposals.apply` beside this file. The drafted ledger rows are in `rows-new.md`, and the review-queue items that should name a FACTS entry are in `queue-links.md`.
+The base is `d4d454f9d`. POSITIONS and FACTS there are as `382289832` (the scrape) left them. The changed lines, in `record.py`'s apply form, are in `proposals.apply` beside this file. The drafted ledger rows are in `rows-new.md`, and the review-queue items that should name a FACTS entry are in `queue-links.md`. The text takes the fixes that the fidelity check, `check.md` beside it, asks for.
 
 How to read each section:
 
@@ -33,15 +33,15 @@ How to read each section:
 ## P-30
 
 - **Cold read**: "must take less than a minute" does not say whose duty it is, or what follows when a change makes the check slower; "after a batch" and "Each batch's commit stage" are project terms.
-- **Change**: the title says "after each batch". New: "A batch is a set of agents' changes that land together." The minute is said as "the curator's goal for what the check runs: only about two forward-and-backward passes of the model, not a full training". "Each batch's commit stage" becomes "The commit stage of each batch, the step that lands its changes".
+- **Change**: the title stays as it is, since `climb-batch-workflow.md:248` quotes it. New: "A batch is a set of tasks, each called a rung, that agents build at once and land together.", the same words as in P-39 and P-79. The minute is said as "the curator's goal, for a check that runs only about two forward-and-backward passes of the model, not a full training". "Each batch's commit stage" becomes "The commit stage of each batch, the step that lands its changes".
 - **Checked against**: his 2026-10-08T17:49:22.269Z ("I would have said like run two backward forward passes", "it needs to run under a minute, okay? That's the goal.") and 16:20:06.948Z ("Not a full training that takes ages."), in the audit's `P-30.md`, section 1; `climb-batch-workflow.md`, "Commit, and the push held".
 - **Not fixed**: what follows when a change makes the check slower. Review-queue item 239 holds that question, so the entry does not settle it.
 
 ## P-32
 
 - **Cold read**: "kept current" does not say by whom; "each rung's mission briefing (`references/batch.md`)" and "The boot" point into the coordinator skill, which a worker does not load.
-- **Change**: the sentence on the coordinator skill becomes "The coordinator reads FACTS and `INDEX.md` whole when it starts a session, and gives each worker's brief a mission briefing from the territory map, not the whole map."
-- **Checked against**: his 2026-09-27T06:31:31.170Z ("Maybe the worker doesn't need the full global map, but it needs a mission briefing from the map."), in the audit's `P-32.md`; the coordinator skill's `SKILL.md:218` (the boot reads FACTS, POSITIONS and `INDEX.md` whole) and `references/batch.md:44` (each rung's mission briefing from the territory map).
+- **Change**: the sentence on the coordinator skill becomes "`INDEX.md` is read whole at the coordinator's boot, at the start of each session and after each compaction, and each worker's brief carries a mission briefing from the territory map, not the whole map." It keeps his decision only: no quote of his asks for FACTS to be read whole, and the boot's reading of FACTS stays the coordinator skill's.
+- **Checked against**: his 2026-10-20T12:07:28.821Z ("The index being read full is the mechanism against this.") and 2026-09-27T06:31:31.170Z ("Maybe the worker doesn't need the full global map, but it needs a mission briefing from the map."), in the audit's `P-32.md`, section 4; the coordinator skill's `SKILL.md:214` (the boot runs "At session start and after each compaction") and `references/batch.md:44` (each rung's mission briefing from the territory map).
 - **Not fixed**: who keeps the territory map current. Review-queue item 240 asks whether "kept current" covers it.
 
 ## P-33
@@ -65,8 +65,8 @@ How to read each section:
 ## P-45
 
 - **Cold read**: "line up position by position" does not say what must match, or whether either path enforces it; "two nested generic functional methods" reads as one method inside another.
-- **Change**: "The compiled checker enforces it (F-75 gives its form and scope)." added after the Java sentence. Rows 779 and 780 are said as "two generic functional methods of a trait without static parameters whose declared domains lie one inside the other".
-- **Checked against**: `scala_src/overloading/OverloadingOracle.scala:154-175`, `satisfiesPositionalRule`; F-75, which gives the form and says that the equal-count scope and the kinds are the rung's choices (review-queue item 60 holds that scope). So the form stays in FACTS, and the entry says only that the checker enforces the rule. Rows 779 and 780 ("one inside the other": `which[\T extends Shape\]` beside `which[\U extends Round\]`).
+- **Change**: "The compiled checker tests it only where the two declarations have as many static parameters of their own (F-75)." added after the Java sentence. Rows 779 and 780 are said as "two generic functional methods of a trait without static parameters whose declared domains lie one inside the other".
+- **Checked against**: `scala_src/overloading/OverloadingOracle.scala:154-175`, `satisfiesPositionalRule`, which accepts the pair when the counts differ (`:164`, `if (xo.isEmpty || xo.size != yo.size) return true`); F-75, which says that the equal-count scope and the kinds are the rung's choices (review-queue item 60 holds that scope). So the entry gives the scope as the tree's, with F-75 for the rest. Rows 779 and 780 ("one inside the other": `which[\T extends Shape\]` beside `which[\U extends Round\]`). The entry does not say whether walk tests the rule.
 
 ## P-46
 
@@ -97,7 +97,7 @@ How to read each section:
 
 - **Cold read**: "rung" is undefined; "the compiled checker sees each rung's bindings as that rung lands" reads two ways; "neither the loader nor the rewrite exists" names no row; `library.md` says that a new native is a glue class.
 - **Change**: "The bindings move onto helpers step by step, and from the step that moves a binding, the compiled checker checks it against the helper's Java signature, not all at once at the switch-over." The plan sentence ("The first natives rung builds them ...") goes, and the gaps are named: "Every binding still names a glue class. Row NEW-4: walk loads a binding's string only as a glue class. Row 309: the compiled path has no counterpart of `builtinPrimitive`."
-- **Checked against**: the audit's `P-58.md`, section 1: his "Item 35, agreed with recommendation, option 1." of 2026-10-10T05:27:34.812Z took the coordinator's 00:17:43.858Z option 1, "Rung by rung, from the first natives rung", with each rung's bindings checked as they land; `reviews/item35-natives-binding.md:111` ("every binding is checked against the helper's Java signature"). `interpreter/glue/NativeApp.java:164-203` (by reading); row 309. With row NEW-4 named, the entry agrees with `library.md`: a binding that walk must load today names a glue class.
+- **Checked against**: the audit's `P-58.md`, section 1: his "Item 35, agreed with recommendation, option 1." of 2026-10-10T05:27:34.812Z took the coordinator's 00:17:43.858Z option 1, "Rung by rung, from the first natives rung", with each rung's bindings checked as they land. That option is key (b) of `perf-probes/prelude/natives-binding-probe.md:113-116`, "Keyed to the command": "The stages read each family's calls from the rung that changes its strings, exactly as under way 2." `reviews/item35-natives-binding.md:111` gives that checking for way 2 ("every binding is checked against the helper's Java signature"), which key (b) carries over to way 1. `interpreter/glue/NativeApp.java:164-203` (by reading); row 309. With row NEW-4 named, the entry agrees with `library.md`: a binding that walk must load today names a glue class.
 
 ## P-60
 
@@ -109,8 +109,8 @@ How to read each section:
 ## P-73
 
 - **Cold read**: the title opens "Under walk", yet the rule is the specification's; it is unclear whether it binds the compiled `NN32` and `NN64` arithmetic and powers (rows 441, 442, 523). The saturating operators have no row.
-- **Change**: "they come in a later step of their own (row NEW-5)". At the end: "The decision is walk's. On the compiled path the rule holds as the specification's (P-25, the standard), and the compiled powers depart from it (rows 523 to 525)."
-- **Checked against**: the audit's `P-73.md`, section 1: the ask of 2026-09-24T09:00:30.281Z was "the specification's rule on `walk`", and his answers of 2026-09-26 are walk's too; F-132 ("The compiled path is outside this fact", rows 523 to 525). Rows 441 and 442 are not about overflow, so they are not named. The ledger find `saturat*` gives rows 348 (the compiler prelude's inverted spellings, whose note holds the wait) and 429 (unary ∔); neither claim holds the missing operators, and `grep -c -E 'BOXPLUS|BOXMINUS|BOXDOT|BOXTIMES'` on the one library's four prelude files prints 0. So row NEW-5 is drafted.
+- **Change**: "they come in a later step of their own (row NEW-5)". At the end: "The decision is walk's. On the compiled path the rule holds as the specification's (P-25, the standard), and the compiled path departs from it at `^` (rows 523 to 525) and at `CHOOSE` (row 521)."
+- **Checked against**: the audit's `P-73.md`, section 1: the ask of 2026-09-24T09:00:30.281Z was "the specification's rule on `walk`", and his answers of 2026-09-26 are walk's too; F-132 ("The compiled path is outside this fact": `^` saturates, throws or adds, rows 523 to 525, and `CHOOSE` past its helper's table dies with a Java exception, row 521). Rows 441 and 442 are not about overflow, so they are not named. The ledger find `saturat*` gives rows 348 (the compiler prelude's inverted spellings, whose note holds the wait) and 429 (unary ∔); neither claim holds the missing operators, and `grep -c -E 'BOXPLUS|BOXMINUS|BOXDOT|BOXTIMES'` on the one library's four prelude files prints 0. So row NEW-5 is drafted.
 
 ## P-75
 
@@ -121,13 +121,13 @@ How to read each section:
 ## P-78
 
 - **Cold read**: "writes its static argument where its generators and body do not fix the element type" conflicts with the skill ("Write it in every clause form"), and row 731 calls the refusal a checker gap whose workaround is to write the argument.
-- **Change**: "A reduction written with generators writes its static argument where nothing at the call fixes the element type. The compiled checker fixes it from neither the generators, the body nor a declared type that receives the value, and refuses every such `SUM` or `PROD` that leaves it out (row 731, a gap of the checker). So every clause form of `SUM` and `PROD` writes it, as in `SUM[\ZZ32\][j <- 0#n] f(j)`."
+- **Change**: "A reduction written with generators writes its static argument where nothing at the call fixes the element type. The compiled checker fixes it from neither the generators, the body nor a declared type that receives the value, and refuses every such `SUM` or `PROD` that leaves it out (row 731, a gap of the checker). Row 731's workaround is to write it in every clause form of `SUM` and `PROD`, as in `SUM[\ZZ32\][j <- 0#n] f(j)`." The workaround is said as row 731's, apart from his rule.
 - **Checked against**: P-78's history, the block of 2026-10-22 08:30Z: his answer 7, "A clause form whose element type nothing at the call fixes writes its static argument"; row 731 ("never from the clauses", F-bounded `SUM` and `PROD` refused, "Workaround: write the static argument"); `revival-changes.md:79`; `library.md:25`.
 
 ## P-79
 
 - **Cold read**: nothing in the skill runs `ProjectFortress/demos/`, so a worker cannot tell whether his change broke a demo; "batch" is undefined.
-- **Change**: "...`ProjectFortress/demos/`; no suite or step of the gate runs them." "The same batch" becomes "the batch that makes the change, the set of agents' changes that land together, also rewrites the demo".
+- **Change**: "...`ProjectFortress/demos/`; no suite or step of the gate runs them." "The same batch rewrites the demo" becomes "the batch that makes the change also rewrites the demo", followed by "A batch is a set of tasks, each called a rung, that agents build at once and land together.", the same words as in P-30 and P-39.
 - **Checked against**: `ProjectFortress/build.xml` and the worker skill name no demo (grep); P-79's history (his 2026-10-20T11:52:00.829Z, "maintain them all in running state").
 
 ## P-84
@@ -158,13 +158,13 @@ How to read each section:
 ## P-151
 
 - **Cold read**: "Climb batch 17 kept `addLeft` and `addRight` in `AnyList` ... against the option he chose" does not say whether the move is still owed (no row); "the team's commented-out generic `distribute`, after a measurement, the other two" contradicts F-242, and "after a measurement" reads as done or pending.
-- **Change**: the batch's sentence goes. "move into `List` (row NEW-8)". The fusion sentence becomes "... and the team's commented-out generic `distribute`, after a measurement of it, the other two (F-242: as the team wrote it, it only moves the two errors; the form in the tree, with its result over its own `K`, clears them)."
-- **Checked against**: the trial audit's `P-151.md`: option 3 of 2026-10-16T15:55:06.719Z, which he took at 16:42 ("Keep the fusion, and measure the team's commented fix for its last 2 errors. Fix the rest of `AnyList` by moving its operations into `List`."); his "HOLD" of 2026-10-16T20:09:30.180Z on the default that the generic's result is over its own type, so the entry does not give the `K` form as his; F-242 and `perf-probes/generic-distribute/REPORT.md`, section 1. The respelling within `AnyList` is FACTS' already: F-243 ("its bodies respelled within `AnyList` and none moved into `List`"). Review-queue item 188 holds the choice. `Library/List.fsi:58-59`, `Library/List.fss:89-90`.
+- **Change**: the batch's sentence goes. "move into `List` (row NEW-8)". The fusion sentence becomes "A method's `where` condition clears four of the fusion's six type errors; for the other two, the team's commented-out generic `distribute` is the fix measured (F-242 holds the measurement: as the team wrote it, it only moves them)." The form that clears them, with its result over its own `K`, stays in F-242 alone.
+- **Checked against**: the trial audit's `P-151.md`: option 3 of 2026-10-16T15:55:06.719Z, which he took at 16:42 ("Keep the fusion, and measure the team's commented fix for its last 2 errors. Fix the rest of `AnyList` by moving its operations into `List`."); his "HOLD" of 2026-10-16T20:09:30.180Z on the default that the generic's result is over its own element type, so the `K` form is an agent's default and does not enter POSITIONS; F-242 ("The team's commented text ... only moves the two errors to the generic"). The respelling within `AnyList` is FACTS' already: F-243 ("its bodies respelled within `AnyList` and none moved into `List`"). Review-queue item 188 holds the choice. `Library/List.fsi:58-59`, `Library/List.fss:89-90`.
 
 ## F-78
 
-- **Change**: after "It builds P-48 and P-49.": "Where the call has an expected type, its attempts come in this order: subtyping without the expected type, kept when its result converts to it; subtyping with the expected type; coercion with it; and coercion without it. The second lets a call whose untyped function argument only the expected type fixes type-check, since the coercion attempt cannot check such an argument (row 507)." The detail names D4 and `Functionals.scala:733-737`, by reading.
-- **Why**: P-49's third and fourth attempts, moved (review-queue item 2). F-78 already held the first attempt. It grows from 592 to 1,122 characters; the new sentences stay because a worker who reads only P-49 would take the checker for two attempts (question 1).
+- **Change**: after "It builds P-48 and P-49.": "Where the call has an expected type, its attempts come in this order: subtyping without the expected type, kept when its result converts to it; subtyping with the expected type; coercion with it; and coercion without it. The second lets a call whose untyped function argument only the expected type fixes type-check, since the coercion attempt cannot check such an argument (row 507). P-49 decides the first and the third; the second and the fourth are an agent's choice, the instance-bound rung's (its decision record, D4)." The detail names D4 and `Functionals.scala:733-737`, by reading.
+- **Why**: the two attempts that P-49 does not decide, moved (review-queue item 2). F-78 already held the first attempt. The sentence on which attempts P-49 decides keeps F-78 and P-49 consistent, as the record part's Consistency check asks; without it, "It builds P-48 and P-49" reads as his approval of all four. F-78 grows from 592 to 1,262 characters; the new sentences stay because a worker who reads only P-49 would take the checker for two attempts (question 1).
 
 ## F-137
 
