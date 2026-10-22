@@ -26,7 +26,7 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 : `explorations/coordinator/review-queue.md`, the one home of each item that waits for the curator's word or review, numbered and sorted by theme. A pointer cites an item by its number.
 
 **default**
-: Option that stands unless the curator picks another: the one that an ask recommends, or the choice that an agent landed without the curator's word, whose item waits in the review queue.
+: Option that stands unless the curator picks another: the one that an ask recommends, or the choice that an agent landed without the curator's word, which FACTS states and whose item waits in the review queue.
 
 **batch**
 : Run of the batch workflow (`references/batch.md`) that changes the tree in several rungs and lands their merged work. The record names each one a climb batch, by number, with its folder `explorations/compile-ladder/climb-batch-<N>/`.

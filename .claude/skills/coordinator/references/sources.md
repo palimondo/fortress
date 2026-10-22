@@ -172,3 +172,10 @@ From the cold read of the parts changed on 2026-10-22, base `b6f5268e1^` (`explo
 - `batch.md`, "The landing", step 3, the one home of the orientation update: POSITIONS entries taken in, since the revival part cites decisions in most rules, settled by the coordinator; the `git diff` that lists the entries; the workflow writes sections and the writer installs those its judge accepts, from `explorations/coordinator/tools/orientation/README.md` (S1, S2, S3, B3). `skill-rewrite.md` now points there.
 - `record.md`, the pointer's example with its subject (M1); "the team's design" for the gap ledger's missing part (M2); the six checks applied in a consolidation of FACTS (M3); the dispositions of a failing entry, "unresolved", the evidence's kind and uncertainty, and "do not delete the fact", from `explorations/reviews/revival-record-synthesis.md`, "Per-entry assessment rubric", whose pointer is removed (M4, M5); a rung's draft entries (M6); the six checks named (M7); the clarity workflow's stages removed (M8); the consolidate mode's trigger, a cold read, the quiz or the README's budget, settled by the coordinator's task as a named test in place of "drifts" (M9).
 - `delegating.md`, the chunk defined in "writer stream", the fix round restated, the judge's held items to the review queue as `record.md`, "The consolidation tools", says (G1, G2, G3).
+
+## The rules of the record approved on 2026-10-22
+
+The curator approved both changes word for word in chat, 2026-10-22, 22:19 UTC.
+
+- `record.md`, "What an entry is", the POSITIONS bullet: a decision may point to a fact that it rests on, and `P-48+` finds every fact that points to it. From the curator's page comment of 2026-10-22, 16:56 UTC (thread `b64dca1f`), that decisions do refer to facts.
+- `record.md`, "What an entry is", the new bullet that POSITIONS holds only the curator's decisions and that a worker's landed choice is a FACTS entry; `SKILL.md`, the glossary's "default", the landed choice that FACTS states. From the coordinator's proposal of about 16:45 UTC on 2026-10-22, applied in the POSITIONS follow-up at `4d7df29c3`.
