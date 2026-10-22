@@ -26,13 +26,11 @@ Do not read FACTS, POSITIONS, INDEX or PLAN whole; workers read them. Take this 
 ## Done
 
 - **Stage 1,** `6b560762f`: the audit's groups 1 to 7 and the pilot's ten entries applied (`positions-audit/apply-2026-10-22/`, its `build.py` and ten apply files); P-16 and P-123 struck; P-27, P-38, P-43, P-90 unchanged, held for his answers; F-39's pointer. POSITIONS has 81 entries.
+- **Stage 1's history and queue:** `9c17b3975`, 58 noted blocks (`11-history-notes.apply`: the 25 kept entries' sources, P-10's and P-88's page comments, 46 corrections of blocks naming the wrong commit); `329d866a9`, review-queue items 205 to 234 (the audit's ten drafted items, its 16 questions, the pilot's 4) and the drafts' changes to existing items. Left for later: 11 old blocks that name the wrong commit and no writer listed (P-10, P-67, P-68, P-84, P-88, P-95 to P-98, P-103, P-124, P-125; one more `note --correcting` call), and queue lines that quote old titles (item 60, line 50, settled item 1, the settled entries for P-149, P-50, P-51).
 - **Stage 2,** `d56844991`: the clarity workflow, `tools/record-clarity/` (`record-clarity.js`, `writer.md`, `fix.md`, `coldread.md`, `check.md`, `assess.md`, `entries.py`, README); the mining README; the run arguments, `consolidation-2026-10-22/runs.json`. Its script was checked with stub agents for both kinds.
 
 ## In flight
 
-- **Two Opus workers (Agent tool), launched at about 08:30 UTC:**
-  - history notes: writes `positions-audit/apply-2026-10-22/11-history-notes.apply` (`record.py note` blocks: the kept entries' sources, P-10's and P-88's, the corrections of blocks naming the wrong commit), tested on a scratch copy. Then: read it, apply it on `main`, `check --base`, commit the record with the file.
-  - the review queue: files the audit's ten drafted items, the changes to existing items, and 20 questions (the audit's 16, the pilot's 4) in `review-queue.md`, uncommitted. Then: read the diff, commit it.
 - **Five Workflow runs of `tools/record-clarity/record-clarity.js`, launched at 08:34 UTC** (spend epoch 1792658063), their args in `consolidation-2026-10-22/runs.json`, output under `consolidation-2026-10-22/evidence/positions/` and `.../facts/`:
   - `wf_d3e351c0-edc`: positions p1, p2.
   - `wf_9d898834-f5c`: positions p3, p4.
