@@ -9,6 +9,7 @@
 
 ## Held in chat (2026-10-22)
 
+- 08:19 The process of the audit and the clarity pass is encoded, in the skills and as reusable tooling, so that a consolidation can run again when the record drifts: the mining workflow kept as a tool; the clarity rewrite with its cold reader and checker as one workflow for POSITIONS and FACTS, with a brief for each. Open questions of these runs go to the review queue. "Built" and "Still to build" lines may belong in PLAN, not POSITIONS: a possible size saving later, not now (for the skill writer: `record.md`, and the boot note's plan).
 - 05:35 The writer is always Opus: Fable writes in a register he dislikes, and Opus writes better (for the skill writer: the tier rule in `delegating.md`).
 - 05:28 A POSITIONS entry must read on its own: a reader who knows the language, or can look it up in the skills, but never saw the conversation, must be able to tell what he decided, where it applies, what it requires and what is unfinished; handles of a past conversation ("answer 9", "item 48") go to the history. Astra's review states the standard (`origin/astra/record-keeping-review`, `explorations/reviews/revival-record-synthesis.md`, "P45: fidelity and comprehensibility are separate checks" and "For Fable: rewrite positions before consolidating Revival") (for the skill writer: `record.md`, what an entry is, and the pass's checks).
 
