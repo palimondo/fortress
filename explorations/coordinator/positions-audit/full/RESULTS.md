@@ -6,7 +6,7 @@ Eight chunks of POSITIONS, 75 entries, from 23:37 UTC on 2026-10-21 to 02:25 UTC
 
 ## What it proposes, by group
 
-The page https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb (version 10) shows each entry's change and its whole text before and after.
+The page https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb (version 10; group 7 in version 11) shows each entry's change and its whole text before and after.
 
 1. Status and counts moved to the history (8): P-45, P-50, P-51, P-89, P-147, P-149, P-152, P-155.
 2. Factual errors corrected (12): P-12, P-19, P-28, P-47, P-53, P-69, P-70, P-72, P-74, P-87, P-91, P-102.
@@ -16,7 +16,7 @@ The page https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb (version 10) shows ea
 6. Struck (2): P-16, P-123; F-39's pointer to P-123 is rewritten with it.
 7. Handles from past conversations struck (19), added at his page comment on P-45 of 2026-10-22 04:53 UTC (`evidence/handles.apply`, applied after the eight): "answer N", "ask N", an "item N" of the questions of 10-09 whose number now names another review-queue item, a probe's "Q1". P-45's at his word, the other 18 the coordinator's proposal. Only P-52 and P-59 are in no other group; with them, 52 entries change and 23 are kept.
 - Held for his answers (4): P-27, P-38, P-43, P-90.
-- Kept word for word (25): P-7, P-11, P-25, P-26, P-37, P-41, P-42, P-49, P-52, P-59, P-67, P-68, P-71, P-73, P-76, P-77, P-80, P-84, P-95, P-96, P-97, P-98, P-103, P-124, P-125. Each has source lines for its history that `record.py` cannot write (each chunk's "History lines" section).
+- Kept word for word by the writers (25; group 7 would change P-52 and P-59): P-7, P-11, P-25, P-26, P-37, P-41, P-42, P-49, P-52, P-59, P-67, P-68, P-71, P-73, P-76, P-77, P-80, P-84, P-95, P-96, P-97, P-98, P-103, P-124, P-125. Each has source lines for its history that `record.py` cannot write (each chunk's "History lines" section).
 
 Ten review-queue items are drafted for groups 4 and 5; one more (c8, P-124) only if he prefers it to his question. Sixteen questions: fourteen from the writers, on P-26, P-27, P-38, P-42, P-43 (two), P-59, P-77, P-87, P-90, P-95, P-123, P-124 and P-152, and P-85's two from the trial. The takeaway checks found 19 kept sentences that a reader with no context misread; by his rule of 23:21 UTC on 10-21 none is fixed, and each fix is drafted in its chunk's takeaway file.
 
