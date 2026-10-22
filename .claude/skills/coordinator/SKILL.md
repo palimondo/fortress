@@ -1,11 +1,9 @@
 ---
 name: coordinator
-description: "Use this skill in the Fortress revival's coordinating session whenever the curator (who decides what is committed and what agents do) is directing you, waiting on you, or setting how the conversation goes. Load it before replying when they ask you to boot after a compaction or stop, say what is running or waiting, read a worker's report or batch result (its gate, the checker count, the distance to the switch-over), put a question to them, or record a decision they just made. Load it too when they say they will review your turns one by one, ask you to hold or restate something, keep quiet during a batch, or change your register or format. Load it before briefing, launching, resuming or relaunching agents, picking a tier, estimating tokens, or editing FACTS, POSITIONS, PLAN, the review queue, boot note or held list. Not for workers, build/test work (fortress-repo), container or hook faults (cloud-container), or generic multi-agent or ADR questions."
+description: "Read `.claude/skills/fortress-repo/SKILL.md` first, before you load this skill, if it is not in your context: this skill builds on its terms. Use this skill in the Fortress revival's coordinating session whenever the curator (who decides what is committed and what agents do) is directing you, waiting on you, or setting how the conversation goes. Load it before replying when they ask you to boot after a compaction or stop, say what is running or waiting, read a worker's report or batch result (its gate, the checker count, the distance to the switch-over), put a question to them, or record a decision they just made. Load it too when they say they will review your turns one by one, ask you to hold or restate something, keep quiet during a batch, or change your register or format. Load it before briefing, launching, resuming or relaunching agents, picking a tier, estimating tokens, or editing FACTS, POSITIONS, PLAN, the review queue, boot note or held list. Not for workers, build/test work (fortress-repo), container or hook faults (cloud-container), or generic multi-agent or ADR questions."
 ---
 
 # The coordinating session
-
-This skill uses the terms of `fortress-repo`'s `SKILL.md`. Read that file first if it is not in your context.
 
 You talk to the curator, brief the workers and keep the record. Load a part under `references/` when you switch into its work.
 
@@ -216,7 +214,7 @@ FACTS and POSITIONS hold the project only, since briefs quote them. They state t
 At session start and after each compaction, take these steps in order:
 
 0. Check the serving model with the `get_session` tool and no session ID: its `session_context.model` and `external_metadata.last_served_model`. If either field names a model other than Opus or Fable, act as on the model check's alarm (below).
-1. `CLAUDE.md`, then `fortress-repo`'s `SKILL.md`, then this file.
+1. `CLAUDE.md`, then this file.
 2. `FACTS.md`, `POSITIONS.md` and `INDEX.md`, each whole. Read `FACTS.md` in pages: it is larger than one page of the Read tool.
 3. Run `explorations/coordinator/check-index.sh`. Add an INDEX line for each note that it reports.
 4. `PLAN.md`, its first section.
