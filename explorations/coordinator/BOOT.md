@@ -25,5 +25,5 @@
 
 - **The model:** Opus 5.5 since his `/model claude-opus-5-5` at 21:04:25 UTC on 2026-10-19.
 - **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable` (one push to `blinded-fable` failed once on 10-21 and went through on retry). Commit by named paths only, never `-A`, `.` or `-a`.
-- **The machine.** The VM last started at 00:03:05 UTC on 2026-10-22, the disk not rolled back; the next stop by the cap is about 13:03 UTC.
+- **The machine.** The VM last started at 04:46:55 UTC on 2026-10-22, the disk not rolled back; the next stop by the cap is about 17:47 UTC.
 - **Pages:** the audit's page above; the drafts page, https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg; the revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, its rewrite owed. Publish a page by its file path or its URL after a compaction.
