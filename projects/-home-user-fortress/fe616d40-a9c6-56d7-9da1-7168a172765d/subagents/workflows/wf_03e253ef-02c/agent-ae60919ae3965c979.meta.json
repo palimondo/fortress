@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"cold read c3","workflowPhase":"Check","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
