@@ -12,11 +12,14 @@
 **archaeology**
 : Search of git and the transcripts for how something came about. It returns cited evidence, not a judgement.
 
+**writer stream**
+: Headless Opus session that writes the chunks of a long writing pass in turn, started and resumed by `explorations/coordinator/tools/record-clarity/writer-stream.sh`.
+
 ## Which tier runs what
 
 - Give each worker its tier's alias: `model: 'opus'`, `'sonnet'` or `'fable'`. Write no identifier that an alias resolves to.
 - Use Sonnet for archaeology and retrieval only, never for a judgement.
-- When this session runs on Fable, have an Opus worker write each longer report or page for the curator.
+- Run every writer on Opus: of skill text, of record entries, and of each longer report or page for the curator, also when this session runs on Fable. The curator dislikes Fable's register.
 - Take a cross-area question in two steps. First, Opus workers gather cited evidence or a list of ways. Then, if neither the record nor the three principles (`SKILL.md`) settle it, run a Fable judgement, sparingly. If the fork stays consequential, put it to the curator as an ask.
 - Four kinds of Fable work have a go in advance: the Fable judgement on a cross-area question, a judge's second ruling in a batch, the Fable review of each batch record, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
 - If you start a headless session on a tier other than Opus or Fable, set `FORTRESS_HEADLESS=1` in its environment. Otherwise the model check's alarm stops its work (`SKILL.md`, "The boot"). Today only the baseline interview does so.
@@ -66,6 +69,15 @@ An interrupt or a process stop kills every running Workflow agent and Agent-tool
 - A project agent type written during the session is found only after a process stop. A project skill appears at once.
 - `agent()` can return null for an agent that the harness marks failed after it delivered its result. Read its branch before you run it again.
 - Check a script by parsing it as an async function body, not with `node --check`: `explorations/coordinator/tools/workflow-scenarios.js`.
+
+## A long writing pass
+
+Run a long writing pass, such as a run of the clarity or orientation workflow, as writer streams.
+
+- The script resumes a stream while its context is small and its prompt cache is warm. Its header gives the limits. Otherwise it starts a fresh session.
+- So a fix round resumes the session that wrote the text, with its evidence still in the cache. A fresh writer would read everything again.
+- Give each Workflow run its own stream, and run several side by side.
+- End each round with one judge, which applies or holds each chunk's items. No chunk goes through a second fix round.
 
 ## A second session
 

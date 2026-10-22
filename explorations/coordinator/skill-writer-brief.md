@@ -29,7 +29,7 @@ More rules:
 - Do not fold a list into a sentence. Use a vertical list.
 - Keep the small words: "the", "a", "that". Do not write in telegraphic shorthand.
 - Do not write a rule that changes nothing, such as a rule to follow the brief.
-- A rewrite of existing text is never longer than the text it replaces. New content that a task asks for is the exception.
+- A rewrite of existing text is never longer than the text it replaces. New content that a task asks for may add length, unless the part has a budget, as the orientation (`fortress-repo`'s revival part) has. There, new content competes for space with the text already there.
 
 Example. Bad: "Name the way that changes nothing." Good: "Tell which solution keeps the current behaviour."
 

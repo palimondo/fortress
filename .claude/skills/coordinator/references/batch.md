@@ -82,7 +82,7 @@ If the batch's push is held for the curator, take the steps below at once on the
 
 1. Sweep the batch agents' to-dos from the session's shared task list: `explorations/coordinator/tools/sweep-tasks.py --delete`. If another workflow still runs, add `--running`, which removes only the completed tasks. The agents write these to-dos themselves, and the harness shows the whole list to every agent.
 2. Check that the commit stage folded the batch's entries into FACTS (`references/record.md`, "The pass").
-3. Have the writer update `fortress-repo`'s `references/revival-changes.md` (`references/skill-rewrite.md`).
+3. Run the orientation workflow in update mode on the landing's new and changed FACTS entries, and have the writer install its result (`references/skill-rewrite.md`).
 4. Name each decision that landed in one line, and put the items for the curator on the review list.
 5. Have one Opus reviewer, which only reads, check the landed changes against the decisions on record and the library's way; measure misses by kind, the briefing's use and cost, and re-measuring; and run the routing check (the manual, "After the landing: the coordinator's routing").
 6. File what the review finds in PLAN. Then make these moves yourself. The manual's section "After the landing: the coordinator's routing" gives `PLAN-history.md`'s heading for each landing and the form of the one line.

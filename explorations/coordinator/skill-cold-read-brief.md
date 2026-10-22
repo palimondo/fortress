@@ -35,10 +35,16 @@ Run the skills lint on the changed parts, from `/home/user/fortress`:
 
 It prints one line per hit: `path:line: set: text`. Treat every hit as a flag.
 
+## Two questions for each changed section
+
+- What would you do differently after reading this section? State the rule and its limits without opening its sources.
+- Does this section contain repair history or detail that changes no action and prevents no misunderstanding?
+
 ## What to flag
 
 Flag a passage of the changed text for each of these:
 
+- A passage that the second question finds.
 - A term not defined where it is used.
 - A claim that a worker could not check.
 - A sentence that reads two ways.
@@ -47,7 +53,7 @@ Flag a passage of the changed text for each of these:
 - A question, item, batch, rung, review or record file named as the source of a rule, or a decision's status (who decided, answered, pending, default).
 - A lint hit.
 
-For the last two kinds, propose deletion. Never propose to make the name exact. A worker cannot act on it, and it goes stale when the curator answers or a batch lands. A Reason sentence that gives only provenance is deleted too. That changes no rule.
+For the first kind and the last two, propose deletion. Never propose to make the name exact. A worker cannot act on it, and it goes stale when the curator answers or a batch lands. A Reason sentence that gives only provenance is deleted too. That changes no rule.
 
 ## What each flag holds
 
@@ -69,7 +75,8 @@ For the last two kinds, propose deletion. Never propose to make the name exact. 
 Write it in plain short sentences, in this order:
 
 1. The lint's output, whole.
-2. The flags, part by part, in line order.
-3. The undefined terms, one line each: the term, the part and line where it is first used.
-4. The gotchas, one line each: what a worker would do wrong, and where.
-5. A count: flags by confidence, and lint hits.
+2. Your answer to the first question, section by section.
+3. The flags, part by part, in line order.
+4. The undefined terms, one line each: the term, the part and line where it is first used.
+5. The gotchas, one line each: what a worker would do wrong, and where.
+6. A count: flags by confidence, and lint hits.
