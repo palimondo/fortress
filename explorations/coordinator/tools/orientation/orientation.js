@@ -12,7 +12,7 @@ export const meta = {
 }
 
 // args: { mode: 'consolidate' | 'update', out: '/abs/folder/', stream: 'name', concepts: ['/abs/concepts.md', ...] (consolidate),
-//         facts: ['F-261', ...] (update: the entries the landing added or changed) }
+//         facts: ['F-261', 'P-153', ...] (update: the FACTS and POSITIONS entries the landing added or changed) }
 // Writes into out: outline.md and disposition.md, or admission.md; orientation.md and sources-mapping.md; the
 // reports; judgement.md and queue.md. The coordinator installs a judged text through the skill writer.
 const T = '/home/user/fortress/explorations/coordinator/tools/orientation/'
@@ -44,7 +44,7 @@ let plan
 if (MODE === 'consolidate') {
   plan = await agent(`Read your brief and follow it: ${T}outline.md\n\nYour folder: ${OUT}\nThe concepts lists: ${(args.concepts || []).join(', ')}`, { label: 'outline', phase: 'Plan', model: 'opus' })
 } else {
-  const a = await agent(`Read your brief and follow it: ${T}admission.md\n\nYour folder: ${OUT}\nThe landing's FACTS entries: ${(args.facts || []).join(', ')}`, { label: 'admission', phase: 'Plan', model: 'opus', schema: ADMIT })
+  const a = await agent(`Read your brief and follow it: ${T}admission.md\n\nYour folder: ${OUT}\nThe landing's FACTS and POSITIONS entries: ${(args.facts || []).join(', ')}`, { label: 'admission', phase: 'Plan', model: 'opus', schema: ADMIT })
   if (!a || !a.admitted.length) return { mode: MODE, admitted: [], summary: a ? a.summary : 'admission failed' }
   plan = a.summary
 }
