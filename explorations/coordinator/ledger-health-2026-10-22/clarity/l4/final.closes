@@ -1,0 +1,1 @@
+638	b872d65a1	none	the library's five throws and the revival's two witnesses pass CallerViolation since b872d65a1; the team's QuickCheckTest.fss:39 keeps a never-called bare throw; no gated program reaches them

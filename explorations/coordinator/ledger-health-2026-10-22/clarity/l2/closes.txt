@@ -1,0 +1,1 @@
+none: no row of chunk l2 is fixed in the tree at d4d454f9d. Each row's XXX reproducer is still in its test folder: 340, 364, 369, 374, 416, 430 and 436. For the rows with reproducer `none` (336, 355, 371, 405, 407), the cited code still holds the defect's mechanism.
