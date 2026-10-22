@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"assess f0","workflowPhase":"Assess","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
