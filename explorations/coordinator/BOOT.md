@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 23:24 UTC on 2026-10-22** (01:24 his time). Nothing runs, and no check-in is armed. The post-mortem and record consolidation of 10-20 to 22 are done. Its report landed at `226e3dd97` (`postmortem-2026-10-20-record/REPORT.md`, by the Opus writer from `MAP.md`). It is published as the page https://claude.ai/artifact/F3Gz2ynXQSKEjKXqhNT5is, and the push notification is sent. The batch hold lifts with it, at his word of 22:43.
+**State at 23:24 UTC on 2026-10-22** (01:24 his time). Nothing runs. One check-in is armed: "Batch 21 preparation start" at 10:05 UTC on 10-23, after the weekly reset. The post-mortem and record consolidation of 10-20 to 22 are done. Its report landed at `226e3dd97` (`postmortem-2026-10-20-record/REPORT.md`, by the Opus writer from `MAP.md`). It is published as the page https://claude.ai/artifact/F3Gz2ynXQSKEjKXqhNT5is, and the push notification is sent. The batch hold lifts with it, at his word of 22:43.
 
 ## Next
 
