@@ -3451,3 +3451,223 @@ pointer words refreshed in: F-24
 2026-10-22 12:03Z · rewritten · by the clarity pass: one correction of evidence (consolidation-2026-10-22/evidence/facts/f4/proposals.md, "F-63"): "Declared otherwise, each is an error of the checker on the api" split by evidence: measured for split and zip in their earlier forms only, the other repairs tried reading the same count (103) and the kept forms chosen by the specification's export rules (source-code.tex:372-384, :399-404); for Condition.map seen only under rung P's relaxation, which did not land, and otherwise read from ExportChecker.scala:598-610, as the text before chunk F2b said ("whether the count stage ... refuses it reverted is not measured"); QQ's clause given from the tree (FortressLibrary.fsi:398), where the report's "What changed" gives comprises { AnyIntegral, ... }, and put in the title; the split pair and the zip named (fsi:2483-2484, :1333)
 
 - F-63 **The one library's api declares `String`'s `split` pair once, abstract, redeclares no covariant `zip` in `List`, and has `Condition.map` return `Condition[\G\]`.** Declared otherwise, each is an error of the checker on the api. `QQ`'s api clause is `comprises { ... }`, since its one value type `Ratio` is private. Nothing extends `QQ`, so F-64's refusal misses it. No test gates the `Condition.map` edit. Detail: `compile-ladder/rung-library-defects/REPORT.md`, "What changed".
+
+### F-106
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f10/proposals.md, "F-106"); the generator's skips (constructors, static initializers, a byte, short or array in the descriptor; FortressMethodAdapter.java:215-225, SignatureParser.java:45-85) put back with the claim, as row 368 and the report state them; the rule limited to a class that some import java names (systemHelper.java:25, in no imported class)
+
+- F-106 **The native-wrapper generator wraps every method of a class that `import java` names, private ones too, and refuses the whole import on a type with no Fortress counterpart.** So a `nativeHelpers` helper needs a signature that maps to Fortress, even when private (row 368). Detail: `compile-ladder/rung-default-rendering/REPORT.md`, "The repair round".
+
+### F-107
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f10/proposals.md, "F-107"); the compiled run said apart from walk's three heaps (bin/fortress:16-18, bin/run:33-34, build.xml:1187-1188); 768 MB said as junitMem, the JUnit JVM's heap (build.xml:132, :1179, :1424); the report's test named
+
+- F-107 **Three heaps run the interpreter, and a gated test can pass at two of them and die at the third.** `bin/fortress` gives 256 MB unless `JAVA_FLAGS` is set (row 67), the `testSystem` harness 768 MB and `env.sh` 4 GB. `testFast`'s compiled run steps get 4 GB with 64 MB stacks. Measure a claim about a failure near a memory limit at 256 MB. Detail: `compile-ladder/rung-int-semantics-walk/REPORT.md` sections 3 and 4.4.
+
+### F-108
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f10/proposals.md, "F-108"); "on one core" replaced by the three JVM flags of JUDGE.md section 5, as the text of 2026-10-13 19:03Z had them; the routing rule's condition, the verdict unchanged, restored from batch.md
+
+- F-108 **The interpreter's overload-ambiguity message names its two declarations in an order that is not a property of the program.** Under walk with the JVM's default flags the order varies from run to run. On one core it is fixed for a given library, and a library edit can flip it. The harness reads only that the `XXX` test fails. An output comparison that sees the order move cites row 430: such a move is a ledger row and holds no batch (the `coordinator` skill, `references/batch.md`, "Reserved points and repairs"). Detail: `compile-ladder/rung-wrap-operators/JUDGE.md` sections 3 to 5.
+
+### F-111
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f10/proposals.md, "F-111"); the code reading cited as the evidence; the distance stage's phases corrected (DistanceMulti -order check, the first six of compilerPhaseOrder); "the texts" spelled out, explorations/ limited to outside the stages' own folders; the "only" list of walk's users cut (ENVGEN runs in no phase order; the list left out the test harness and CacheBasedRepository.java:148); left the entry: Detail: coordinator/climb-batch-workflow.md, "Rules weighed by what they cost against what they protect", item 5
+
+- F-111 **The checker-count and distance stages read only the compiler's phases, so an edit to the test corpora, the texts or walk's evaluator and natives cannot move them.** Both stages run `Shell.compilerPhases` over `PhaseOrder.compilerPhaseOrder`, which reads no test, text or record. Outside `interpreter/`, only walk's own commands, the `ENVGEN` phase that only they run, exception field types and unused code name walk's evaluator, and only the library's strings name its natives. Detail: `coordinator/climb-batch-workflow.md`, "Rules weighed by what they cost against what they protect", item 5.
+
+### F-112
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f10/proposals.md, "F-112"); source repointed from PLAN.md:402, which now holds another item, to PLAN-history.md:391 and dc0eee2fe; the citation left said as a comment, left as it was
+
+- F-112 **The test corpora cite the specification by file and section, never by line.** A test names the section's heading, and in the library chapters the entry too (the `fortress-repo` skill's `tests-writing.md`, "Names, comments, citations"). A rung that renames or removes a cited section updates the citation in the same commit. One citation is left: `library_tests/IntLiteralArithRung7.fss:19` cites `Specification/library/apis/CompilerBuiltin.tex`, a generated file not in the tree (F-162). Source: `coordinator/PLAN.md:402`.
+
+### F-203
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f10/proposals.md, "F-203"); the count and distance run.sh only ask their caller to source env.sh (run.sh:11 in each); the scripts that source it listed from git grep 'experiment/env.sh', the gate's two apart (gate.md:86-92), each with its own JAVA_FLAGS; env.sh:4 replaces FORTRESS_HOME
+
+- F-203 **`explorations/experiment/env.sh` sets up a shell for the gate's runners, and takes `FORTRESS_HOME` from its own place in the tree.** It sets the JDK, `FORTRESS_THREADS=1` and `JAVA_FLAGS`, unsets `JAVA_TOOL_OPTIONS`, and removes the parser folders in `/tmp` that no live run uses (F-101). The checker-count and distance runners, the ladder subset and `microgpt-phase.sh` source it. A worker sets up each call by the `fortress-repo` skill's lines instead (`build-and-caches.md`, "Setting up each call").
+
+### F-234
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f10/proposals.md, "F-234"); the .sh test named as a second child process (FileTests.java:675-692); the shares compared on one denominator, Bash wall time (17.5 % against 47.8 %); 6.4 % kept as the measured share, with the report's 11.6 %; "each suite in one JVM" corrected (build.xml:1208-1235, :1449-1454); the unmeasured inside of the suites and stages stated
+
+- F-234 **A Fortress command that a worker runs on its own starts a fresh JVM, and that start costs too little to pay for a resident compiler.** The suites already run each suite in one JVM, whose harness calls the shell for every test; only a compiled test's run step starts a child JVM. In one measurement over 267 worker transcripts, such commands took 6.4 % of the workers' time and their start-up at most 1.8 % (P-150), while the suites, builds and stages took 47.8 % of the command time. Detail: `coordinator/process-engineering/fresh-jvm-commands.md`, "What a resident compiler could save, at most".
+
+### F-250
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: reorganized for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-250"); left the entry: the rung's distance 40 and count 32 and the 9 sites by row (rows 433, 436, 631; REPORT.md section 7); "FortressLibrary.fss:130 stayed", true of the rung's tree only (F-254); walk at 2b1cd8e63 and from 743eb5286 (F-253); "one of its four holes" (rows 748, 749, 750 closed, F-256); the identities' CastError (F-85, row 436); detail was REPORT.md sections 6 to 8
+
+- F-250 **The compiled checker reads a `where` clause's trait constraint `X extends B` as a bound of `X` inside the declaration, and folds a constraint on the declaration's own static parameter into its arrow, so a call is checked against it; with the team's generic `distribute` over `K`, the identities' cast and a typed `embiggen`, the distance is 40 and the count 32 on the rung's own tree.** Inside a declaration, a method's condition on its trait's or object's parameter bounds that parameter (`WhereBoundMethodChecker`), and a call that breaks a function's own constraint is refused (`XXXWhereBoundFunctionCall`). One of its four holes remains: a static argument written at a top-level call is not checked against a folded bound, `g[\String\]("s")` accepted where `g("s")` is refused (row 470). A method's condition on its trait's parameter is checked at a dotted call, a trait's or object's own constraint where its type is used, and a constraint whose bound names a `where`-clause variable through that variable inferred at the call (rows 748, 750 and 749 closed; F-256). The 9 distance sites gone are row 433's 6, row 436's 2 and row 631's 1; `FortressLibrary.fss:130` stayed. Under walk, the change alone, the tree at `2b1cd8e63`, stops every dotted call of the generic `distribute` that writes no static argument, `LibraryOverloadFamilies.fss:37` the one in the suites; from `743eb5286` on, walk infers that call (F-253). The identities' fallback ends in `CastError`, for an empty `SUM` over a user group and for a filtered one. Test: `WhereBoundMethodChecker`, and the distance stage's per-site list. Detail: `explorations/compile-ladder/rung-library-distribute/REPORT.md` sections 6 to 8.
+
+### F-251
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-251"); "as a size is" pointed to F-146; Amin and Tate's shape said from XXXOpenTypeBoundEvidenceChecker.fss:1; the four sites' causes said (List.fss:88 through the opened type; :89, :90, :179 respelled)
+
+- F-251 **A type `where`-clause variable of a `comprises` clause is opened at a call, as a size is, and `AnyList`'s clause is live.** The compiled checker gives an argument whose trait lists `Box[\E\] where [\E\]` a fresh type of its own for the call, bounded by the binding and by the clause's constraints on it (F-256). It refuses that type where another type is declared, gives two values two types, and refuses Amin and Tate's shape. It does not open such a trait where it reaches it as a parent (row 752). Walk binds the variable as a symbolic type at load. With `AnyList`'s `addLeft`, `addRight` and the comprehension's unwrap respelled, the distance goes from 49 to 45 on the rung's own tree (row 636's four sites); the count, and walk's element types, are unchanged. Tests: `OpenTypeChecker`, `XXXOpenTypeEscapeChecker`, `XXXOpenTypeTwoChecker`, `XXXOpenTypeBoundEvidenceChecker`, `OpenTypeWalk`, `AnyListElementTypeWalk`. Detail: `compile-ladder/rung-anylist-comprises/REPORT.md`.
+
+### F-254
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-254"); the compiled checker named in the title; the JFR-instrumented runs' equal tables left to REPORT.md section 5
+
+- F-254 **A function or method that leaves out its return type takes it from the exported api's declaration of its own parameter types.** `ApiTypeExtractor.isExported` compares parameter types as the export check does (`ExportChecker.equalTypes`) and takes the one api declaration of the name that has the function's; a parameter the function leaves untyped matches any. With none or several, it takes none, and the declaration keeps its elisions (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ApiTypeExtractor.scala:77-126`, `:193-209`). So no output of the count or distance stage is known to move with the JVM's identity-hash order any more: `Library/FortressLibrary.fss:130` is out of both, and the JFR-instrumented runs of both stages print the plain runs' tables. Tests: `OmittedReturnTypeFromApi`, `OmittedMethodReturnTypeFromApi`. Detail: `compile-ladder/rung-checker-four-rows/REPORT.md`, sections 1 and 5.
+
+### F-255
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: reorganized for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-255"); the reading scoped to subtyping, with report section 10's two kinds of reader as a limit; throws and contract said as dropped (row 781); left the entry: the code walk-through (TypeAnalyzer.scala:290-315, :926-969; KindEnv.scala:179-203; TypeWellFormedChecker.scala:192-212, :218-236; Decls.scala:139-142; TypeDisambiguator.java:112-113, :137-138), "rung A's reading of a parent that opens" (F-251), LexicographicOrder's bound (F-84), distance 35 to 34 and count 31 to 30 against climb batch 17's gate
+
+- F-255 **The compiled checker reads conditional extension: a trait or object that extends a type under a `where` clause of trait constraints only is that type exactly where the constraints hold, and the entry itself, its value parameters and its members are checked with them holding, the rest of the declaration (its static parameters, own `where` clause, `throws` clause, contract, `excludes` and `comprises` clauses and other `extends` entries) without them; `List` is so ordered only where its elements are totally ordered, and the list comparisons' site is cleared.** `parents` leaves such an entry out and `conditionalParents` gives it, with its conditions at the type's static arguments, which the subtype case of a trait type reads as a formula beside rung A's reading of a parent that opens (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:290-315`, `:926-969`); `KindEnv.withExtendsConditions` adds the conditions to the declaration's own `where` clause in Decls' and TypeWellFormedChecker's trait and object cases (`KindEnv.scala:179-203`). TypeWellFormedChecker's trait and object cases check the header with the declaration's own `where` clause only, and the value parameters and members with every condition, each `extends` entry with its own (`TypeWellFormedChecker.scala:192-212`, `:218-236`); an object's contract never reaches `Decls`, whose check of it (`Decls.scala:139-142`) reads every condition, since the disambiguator drops a trait's and an object's `throws` clause and contract (`TypeDisambiguator.java:112-113`, `:137-138`; row 781). A clause that binds a variable, or holds a constraint that is not a trait constraint, is read as before. With `LexicographicOrder`'s `E` bounded by `StandardTotalOrder[\E\]`, `List`'s entry under `E extends StandardTotalOrder[\E\]`, `ZeroIndexed[\E\]` and an element-wise `=` written outside it (`Library/List.fss:106-107`, `:124-128`), the site `FortressLibrary.fss:2063` goes: distance 35 to 34, count 31 to 30, no site comes. A member checked under the condition stays callable where it fails (row 773), and walk and the compiled run time read the extension at every instance (row 774). Tests: `compiler_tests/CondExtendChecker`, `XXXCondExtendRefuseChecker`, `XXXCondExtendUnconditionalEntryChecker`, `XXXCondExtendExcludesChecker`, `XXXCondExtendComprisesChecker`, `XXXCondExtendParamBoundChecker`, `XXXCondExtendExcludesWhereChecker`, `CondExtendInheritedMember` (a type that inherits through a conditional parent compiles: the code generator's analyzer, which binds no declaration's static parameters, reads the parent at every instance), `tests/XXXConditionalExtensionTypeTestWalk`. Detail: `compile-ladder/rung-checker-conditional-extension/REPORT.md`, sections 1, 6 and 10.
+
+### F-256
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-256"); the arrow's inference limited to nat and int variables, and only with a trait constraint (REPORT.md header); a type where-clause variable of a function refused at binding (SKEPTIC.md F5); "Not read" split by place (Functionals.scala:977-978, TypeWellFormedChecker.scala:275-278); the counts 31/35 and 30/34 of climb batch 18's trees replaced by "moved no site" and F-53
+
+- F-256 **The compiled checker checks a `where` clause's trait constraints where they apply.** A dotted call's candidate whose where clause constrains its trait's or object's static parameter is not applicable where the receiver's static argument breaks the constraint ('Method Holder[\String\].showIt is not applicable: its where clause requires String to extend Shows.'). A where clause's own type, `nat` and `int` variables are static parameters of the function's arrow, inferred at the call, so a constraint whose bound names one is met where some value of it meets every constraint; the solver fixes, once, a size that only the type variables' bounds name. A trait's or object's own constraint is checked where its type is used, with the bound's message, also at a constructor call through the call's type. A type `where`-clause variable of a `comprises` clause is bounded by its binding and by the clause's constraints on it, at its opening and in the extender check; a bound that names the variable, as `E extends StandardTotalOrder[\E\]` does, names it opened. Not read: a constraint whose bound names the method's own static parameters or a `where`-clause variable, at a dotted call or at a type's use; a static argument written at a top-level call (row 470). Walk still runs a dotted call that breaks a method's condition (row 777), and reads a comprises clause's `where`-clause variable for the same name in another declaration's bound (row 778). These checks move neither the count nor the distance: 31 and 35 on their own, 30 and 34 with conditional extension (F-255). Tests: `XXXWhereBoundDottedCallChecker`, `WhereVariableBoundCallChecker`, `XXXWhereConstraintTypeUseChecker`, `XXXWhereConstraintExtendsChecker`, `XXXComprisesWhereBoundExtenderChecker`, `OpenTypeWhereConstraintChecker`, `XXXComprisesWhereConstraintExtenderChecker`, `OpenTypeWhereSelfBoundChecker`. Detail: `explorations/compile-ladder/rung-checker-where-checks/REPORT.md`, sections 1 and 6, and `SKEPTIC.md` beside it.
+
+### F-99
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-99"); the pin scoped to the two suites (build.xml:1186-1188, :1431); TimingRungT's overflow said as row 640's 8 of 12 runs, under bin/run's default stacks
+
+- F-99 **The gate's thread count is pinned in the build file, not in the calling shell.** `build.xml`'s `fastTrack` macro and `systemShard` set `FORTRESS_THREADS=4` (P-125). Without it, the tests take the caller's count: half the CPUs if unset, 1 under `env.sh`. `fastTrack` also pins `JAVA_FLAGS` to `-Xmx4g -Xss64m`, since a compiled test's run step takes its heap and stacks from it: with 1 MB stacks, `library_tests/TimingRungT` overflows at four threads (row 640). Detail: `coordinator/process-engineering/build-efficiency.md` section 6.
+
+### F-100
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-100"); "nothing else clears bytecode_cache/" replaced by what does (build.xml:357-368; Shell.java:115-122; CompilerJUTest.java:28-34, LibraryJUTest.java:32-33; build.xml:1183) and what does not (build-efficiency.md section 2); the two folders named (build.xml:43-47, :545-546); the error and the time cited to build-and-caches.md
+
+- F-100 **`ant compileAll` deletes the caches folder, the linker's untracked `global.map` with it, when the implementation changed, and keeps it otherwise.** It compares the folder's `implementation.stamp` with the new build's. After a deletion, `fortress run` dies with `NoClassDefFoundError: fortress/CompilerLibrary$GeneratorZZ32` until the library order refills the five library jars, in about two minutes. Nothing else clears `bytecode_cache/`. The linker writes a missing `global.map` again, empty. Detail: `coordinator/process-engineering/build-efficiency.md` section 2.
+
+### F-101
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: reorganized (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-101"); env.sh's rule for deleting parser folders moved to F-203, which owns env.sh
+
+- F-101 **`harness-one.sh` keeps its Fortress cache between calls, and sourcing `env.sh` does not delete a live run's parser folder.** The cache, `<scratch-dir>.cache`, is reused while the built implementation and the Fortress sources are those that filled it, and `COLD_CACHE=1` empties it. `env.sh` deletes a `fortress*rats` folder only if nothing in it was written for an hour and every running `java` started after its last write. Detail: `coordinator/process-engineering/build-efficiency.md` sections 1 and 4.
+
+### F-102
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-102"); the api sentence split into its two facts, as the text of 2026-10-13 19:03Z had them, with its example
+
+- F-102 **An `XXX*.fss` in the interpreter corpus is a gated expected-failure test.** `SystemJUTest` marks a file whose name starts with `XXX` as one that must fail, and the suite goes red when it passes. Its apis come from `ProjectFortress/test_library/`, so it needs no `.test` file unless it names a refusal at load (F-29). The compiled corpora's rule is F-103. Source: `FileTests.java:781-782`, `:394-412`; the `fortress-repo` skill's `tests-writing.md`, "How `XXX` works".
+
+### F-103
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-103"); "a compile-stage failure only" restated as the limit of one .test file
+
+- F-103 **The `XXX` expected-failure mechanism in `compiler_tests/` and `library_tests/` can express a compile-stage failure only, and a run-time defect needs two `.test` files.** The prefix of a `.test` file makes each command that it drives a must-fail, so a defect at run time needs a plain `link` file and an `XXX` `run` file over one component (the `fortress-repo` skill's `tests-writing.md`). An `XXX` compile test whose program compiles is red, "Saw wrong failure" with a `compile_err_contains` key. Detail: `compile-ladder/rung-tryatomic/REPORT.md`.
+
+### F-104
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f9/proposals.md, "F-104"); "third" said as the third check stream; "wall" tied to the skill's definition (compiler.md:30); the unmet-key condition kept beside "green" (tests-writing.md, "How XXX works")
+
+- F-104 **A thrown `CompilerError` takes a third path through the test harness, keyed on the `tests=` name, with check stream `compile_exception_*`.** `Shell` does not catch a code generator's `CompilerError`, so the harness reads it as an exception of the component that `tests=` names. A link or compile exception of a component whose name holds `XXX` is green whatever the `.test` file is called. A `compile_exception_contains` key pins the wall, so the test turns red when the wall falls or moves. Detail: `compile-ladder/climb-batch-2/REPAIR-review.md` section 2.
+
+### F-203
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: chunk f10's fixed rewrite (consolidation-2026-10-22/evidence/facts/f10/proposals.md, "F-203") with F-101's rule for deleting parser folders moved in (f9/proposals.md, "F-101"); apply in place of f10's line, or after it
+
+- F-203 **`explorations/experiment/env.sh` sets up a shell for the gate's runners, and sets `FORTRESS_HOME` from its own place in the tree.** It sets `FORTRESS_HOME` two folders above itself, replacing any value that the shell had (`env.sh:4`), so sourcing another tree's `env.sh` runs that tree's code. It also sets the JDK, `FORTRESS_THREADS=1` and `JAVA_FLAGS`, unsets `JAVA_TOOL_OPTIONS`, and removes the parser folders in `/tmp` that no live run uses (F-101 holds the removal's rule). The compile ladder's drivers source it: `compile-ladder/run-ladder.sh` and its copy in `baseline-2026-09-19/`, and the two that the gate's ladder regression runs, `repair-r1-atomic-static/run-subset.sh` and `baseline-2026-09-19/microgpt-phase.sh`. Each of these sets its own `JAVA_FLAGS` after it. `experiment/setup.sh` sources it too. `microgpt-phase.sh` names the main tree's `env.sh` by its absolute path; the gate rewrites that path in its copy (the `fortress-repo` skill's `gate.md`, "The ladder regression"). The count stage's and the distance stage's `run.sh` do not source it: their headers tell the caller to source it first. A worker does not source it. It starts each Bash call with the `fortress-repo` skill's setup lines, which give the same settings (`build-and-caches.md`, "Setting up each call"). Evidence: read in the scripts.
+
+### F-269
+
+2026-10-22 12:06Z · added · from `explorations/reviews/library-scalar-extension-review.md`, "Change 1 — the generic scalar-extension block" · by the clarity pass: walk's check of rows 341 and 342, split out of F-119 (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-269 (new, from F-119)"); the library's parsed-cache entry as the condition, from row 342's notes and run-c4/cold-cache/CAPTURES.md, ablations A to C; C4's pair said as former (row 341, fixed by 02d09a39f)
+
+### F-118
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-118"); row 328's comparison named beside row 326 (CompilerBuiltin.fss:912-917); the 64-bit arithmetic said as the probe's observation (probes/skeptic/s3), not gated; walk's answer to the probe measured again on 2026-10-22 (IntegerOverflow since 917bb7b32), replacing the type error of 2026-09-19
+
+- F-118 **A numeral's value reaches the compiled world intact.** The code generator chooses a numeral's representation by its exact bit length, so `4294967295` and `18446744073709551615` keep their values, as under walk. So does an `IntLiteral` arithmetic result of 64 bits or more. The compiled path prints an `NN32` or `NN64` above its type's signed half as negative (row 326). Gated by `compiler_tests/IntLiteralWrapRepairR2`. Detail: `compile-ladder/repair-r2-literal-wrap/REPORT.md`, "The failure-mode question".
+
+### F-119
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: reorganized (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-119"); walk's rule for rows 341 and 342 moved to its own entry; the cold-cache condition said for the fixture's overloads (rung-library-comments/REPORT.md section 4; 02d09a39f)
+
+- F-119 **The library's scalar extension is eight generic declarations: `+`, `-`, `MIN` and `MAX` between an `Array[\T,I\]` and a scalar `T`, in both orders.** `T` is bounded by `Number` with `AdditiveGroup[\T\]`, `StandardMin[\T\]` or `StandardMax[\T\]`. Under walk a lone user declaration of a library operator name is not checked against the library's. Two are, on a cold cache only (rows 341, 342). Gated from an empty cache by `tests/ArrayScalarExtension.fss` and `ArrayOperatorsBesideLibrary.fss`. Detail: `reviews/library-scalar-extension-review.md`, change 1.
+
+### F-121
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-121"); "not measured" from facts-slice-2.md point 1; the comment kept by P-44, with the later question in PLAN; left the entry: compile-ladder/rung-library-comments/REPORT.md section 4, whose reading predates the specification's revision
+
+- F-121 **The team's spelling of the tower closure, `comprises Integral[\I\] where [\I\]`, stays a comment, and no decision says whether it is a valid clause.** The closure as written stands (P-44) and checks (F-62). The specification lets a listed type hold a `where`-clause variable, at every value of it. The compiled checker opens a listed type's `where`-clause variables, of a `nat`, an `int` or a type (F-146, F-251). Detail: `compile-ladder/rung-library-comments/REPORT.md` section 4; `coordinator/process-engineering/facts-slice-2.md`, "Points for the checker".
+
+### F-122
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-122"); each path's gate named (RR64FunctionsRungF.fss:87-92, RR64 only); NaN and saturation said as ungated on both paths
+
+- F-122 **`round` on a float sends an exact half to the even integer on both paths.** NaN gives 0, and a value beyond the 64-bit range saturates. A numeral within half an ulp of a tie is rounded as its nearest double (row 360). Gated by `tests/RoundHalfEvenRungR.fss`. Detail: `compile-ladder/rung-round-half-even/REPORT.md`, "What landed".
+
+### F-123
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-123"); row 321's inherited case and row 364's string case, from the rows; the Java toString from stringOps.java:75-86
+
+- F-123 **A compiled object with no `asString` of its own prints its bare type name, as walk does.** A Java class with a `toString` of its own keeps it. A zero-argument Fortress member named `toString` overflows the stack (row 321). `asDebugString` and `asExprString` (row 363) and a generic object's static arguments (row 364) still print differently from walk. Gated by `compiler_tests/DefaultRenderRungS`. Detail: `compile-ladder/rung-default-rendering/REPORT.md`, "Defects and their homes".
+
+### F-124
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-124"); the checks named (simpleLongArith.java:58-92, simpleIntArith.java:62-97); Integer3.fss:97-104 named for addition and subtraction; left the entry: "where walk differs, section 9", history since F-125 and F-132
+
+- F-124 **The compiled path's `LSHIFT` and `RSHIFT` on `ZZ32` and `ZZ64` give 0 or the sign at or beyond the width and reverse on a negative count, and `narrow` keeps the low 32 bits.** `<<`, `>>` and `<<<` are unchanged, and `asZZ32` throws out of range. The overflow checks fire only at the minimum, so `|0|`, `-0` and a zero factor answer 0. `ZZ`'s `<<<` raises a catchable `IntegerOverflow` on a shift that it cannot represent (row 386). Gated by `compiler_tests/IntSemanticsRungB.fss`. Detail: `compile-ladder/rung-int-semantics-compiled/REPORT.md` section 1; where walk differs, section 9.
+
+### F-128
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-128"); a varargs parameter converts (CoercionCallRungC.fss:39-41); the three limits from REPORT.md sections 1, 5 and 11, grouped by Specification/basic/conversions-coercions.tex
+
+- F-128 **Under `walk`, the interpreter converts by coercion at its three kinds of type check.** They are a parameter; an overloaded call that no declaration fits without coercion, which walk then dispatches again; and a typed binding or assignment. Walk chooses the coercion by the run-time value (P-59). Not converted: a declared return (row 387), a coercion with its own static parameter (row 513), an overloaded function's tuple parameter or a tuple-typed field (row 395), and a varargs, keyword or arrow target. Gated by `tests/Coercion*RungC.fss`. Detail: `compile-ladder/rung-interp-coercion/REPORT.md` sections 1 and 9.
+
+### F-129
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-129"); limited to sizes known at compile time, with row 307; each open row given its subject; row 416 said as walk's
+
+- F-129 **A size is carried at run time as a descriptor from `RTTIsize.of`, and a sized program loads, dispatches and runs compiled.** It builds P-41. Each number has one descriptor, a supertype only of an equal size. A size read as a value is a constant that the class loader replaces by the numeral. Closures and tasks capture a size as a free static parameter (F-135). Gated by `compiler_tests/NatRt*`. Open: a `ZZ32Vector` passed to a generic constructor (row 408), `extends Object` on a size (row 412), and rows 413, 414 and 416. Detail: `compile-ladder/rung-size-runtime/REPORT.md` sections 1 and 9.
+
+### F-130
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f11/proposals.md, "F-130"); row 700's mechanism and both its conditions said (Random.fss:235, :241); the prelude's lack of DOTTIMES (CompilerBuiltin.fss:599, :684)
+
+- F-130 **The specification's wrapping operators ∔, ∸ and ⨰ are declared in the interpreter's library, and the library bodies and team tests that meant to wrap use them.** It builds P-73. The compiler prelude spells ∔ and ∸ as saturating (row 348). `Random`'s `LinearCongruential` is built only with the modulus 2^48, and gives wrong numbers for a modulus that is not a power of two (row 700). Gated by `tests/WrapOperatorsRungD.fss`. Detail: `compile-ladder/rung-wrap-operators/REPORT.md` section 2; their users, `reviews/wrap-dependent-code.md`.
+
+### F-131
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f12/proposals.md, "F-131"); IntLiteral scoped to the compiled checker, with walk's rule (P-76); P-74's pairs and P-75's state said; QQ's coercions named (FortressLibrary.fsi:399-404); the gate's scope from FlatTowerRungF.fss:16-76; row 432's failure from the row; P-43 named
+
+- F-131 **The one library's number tower is flat.** `ZZ32`, `ZZ64`, `NN32`, `NN64`, `ZZ`, `QQ`, `RR64`, `RR32` and the numeral's type `IntLiteral` are siblings under `Number`. The coercions are P-74's, and `RR64` converts from `RR32` too. `NN32` into `RR64` waits (P-75). `Number`'s `=` compares a float with an exact number after `asFloat`, so it is not transitive (row 434). Under walk a bare big operator over a list of numerals is refused (row 432), and an empty `SUM` over a group that is not a number dies (row 436). Gated by `tests/FlatTowerRungF.fss`. Detail: `compile-ladder/rung-flat-tower/REPORT.md` sections 5 and 17.
+
+### F-132
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f12/proposals.md, "F-132"); "every arithmetic operation", with narrow (P-72) and the shifts (F-125) named as raising nothing, the shifts not as keeping the low bits (basic-integers.tex:44-56); DIV added to the gate (FixedWidthOverflowRungB.fss:30, :36); the compiled gaps given their defects; rung-size-range/REPORT.md section 12 added
+
+- F-132 **Under `walk`, fixed-width integer arithmetic raises `IntegerOverflow` when the result does not fit, as the specification says.** It builds P-73. Every fixed-width operation whose result can leave its type raises it, `^`, `CHOOSE` and `LCM` included, and a program can catch it. Code that means to wrap uses the wrapping operators (F-130). Gated by `tests/FixedWidthOverflowRungB.fss` and `PowChooseLcmRungE.fss`. Open on the compiled path: the prelude's ranges at the integer bounds (row 453), `^` (rows 523 to 525) and `CHOOSE` (row 521). Detail: `compile-ladder/rung-overflow-natives/REPORT.md` section 13.
+
+### F-133
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: reorganized (consolidation-2026-10-22/evidence/facts/f12/proposals.md, "F-133"); the bounds claim limited by row 522 and gated by rows 450 and 451's tests; row 480's conditions and consequence restored; left the entry: "The compiled checker stops on an extremum expression (row 482)", no range, held by its row
+
+- F-133 **The one library's scalar ranges are over `ZZ32` alone.** It builds P-77. The range bodies answer at the integer bounds. The compiler library has no strided range (row 514), and its range `IN` and `=` are always `false` (rows 479, 481). The compiled checker stops on an extremum expression (row 482), and its `case` without an operator takes `=` where the specification gives ∈ (row 480). Gated by `tests/RangeZZ32RungJ.fss` and `RangeBoundsRungO`. Open under walk: a strided range whose differences overflow (row 522). Detail: `compile-ladder/rung-ranges-zz32/REPORT.md` sections 4 and 10.
+
+### F-135
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f12/proposals.md, "F-135"); the compiled path named (CodeGen.delegate, REPORT.md sections 1 and 7); the task class said as a template; || said as an example
+
+- F-135 **A parallel task in a generic declaration is generic over its free static parameters.** The code generator names the task class with them, as it does for a closure, so a generic method's `||` operands run as such tasks. Gated by `compiler_tests/NatRtTask` and `NatRtMethBoth`. Detail: `compile-ladder/rung-generic-runtime/REPORT.md` section 1.
+
+### F-136
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f12/proposals.md, "F-136"); limited to top-level functions and to a dispatcher whose static parameters are all types (OverloadSet.java:1342-1353); the other path said, by reading (:1817-1821; REPORT.md section 9, not measured); rows 493 to 496 given their defects and conditions (row 494's two spellings)
+
+- F-136 **A generic arm of a template dispatcher is called at the dispatcher's own static parameters, by position.** The arm's kinds are not checked. An arm in the more-specific relation that is not the dispatcher's by position is tested at the call's instantiation. The checker accepts two arms that disagree position by position where their return types agree, and the less specific one then runs (row 499, two expected failures). Generic dotted methods (row 495) and dispatchers that are not templates (row 496) keep rows 493 and 494's defects. Gated by `compiler_tests/Dispatch*ArmRungG`. Detail: `compile-ladder/rung-generic-runtime/REPORT.md` sections 7 and 9.
+
+### F-137
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f12/proposals.md, "F-137"); "lone" defined with its condition (EvaluatorBase.java:521-528, :639-643; REPORT.md section 2); the bound's condition restored (decision-record.md D5; EvaluatorBase.java:648); walk's promotion marked a default (P-46, review-queue item 85); rows 432, 486, 510 and 511 given their cases; the numeral case marked an inference (041682188)
+
+- F-137 **Under `walk`, a generic call's static arguments are inferred with coercion, by P-74's promotion, also for the declaration that an overloaded call chooses (P-46).** A lone type parameter takes the narrowest of its arguments' run-time types, their coercion targets and its bounds that admits every argument. So `ZZ32` with `ZZ64` gives `ZZ64`, and `ZZ64` with `RR64` gives the declared bound. With no narrowest candidate, the parameter takes its bound (F-141). Where a static type is wider than its value, the two paths instantiate differently (row 509). Not reached: rows 432, 486, 510 and 511, and a numeral alone at a bound it does not meet (P-76). Gated by `tests/InferCoercionRungK.fss`. Detail: `compile-ladder/rung-inference-walk/REPORT.md` sections 2 and 9.
+
+### F-141
+
+2026-10-22 12:06Z · rewritten · from `explorations/compile-ladder/rung-walk-meet/REPORT.md`, "1. What changed" · by the clarity pass: rewritten for a reader without the batch (consolidation-2026-10-22/evidence/facts/f12/proposals.md, "F-141"); the upper end of a parameter bounded only from above, row 616 and InferContravariantWalk moved in from F-142, with the source's conditions (EvaluatorBase.java:408-413); "lone" and the bound defined with their conditions; F-228's rule marked the coordinator's call (review-queue item 210); D3 and D5 named by what they decide, as defaults with review-queue items 80 and 4
+
+- F-141 **Under `walk`, a type parameter that nothing at a call fixes takes its declared bound, and a lone one with no narrowest candidate its bound.** It builds P-48. Its departures by the rung's decisions: an F-bounded parameter stays open (F-143); a big operator's, at a clause form that writes no static argument, is fixed first by the declared type of its value or by its elements' join (F-228); one that only a fixed parameter's bound mentions takes the arguments' type (D3, row 592); a lone one whose bound mentions a static parameter keeps the arguments' narrowest common supertype (D5). Its departures as defects, each with an expected failure: several bounds that walk cannot meet (row 591); a bound only from above that mentions a static parameter (row 612); an untyped function expression's result (row 587); a generic passed over at dispatch when its arguments have several minimal common supertypes (row 589), whose repair changes which declaration runs. Gated by `tests/Infer*Walk.fss`. Detail: `compile-ladder/rung-walk-instance/REPORT.md` section 2; `compile-ladder/rung-walk-elements/REPORT.md` section 1.
+
+### F-142
+
+2026-10-22 12:06Z · rewritten · by the clarity pass: reorganized (consolidation-2026-10-22/evidence/facts/f12/proposals.md, "F-142"); the upper-end clause, InferContravariantWalk and rows 612 and 616 moved to F-141; the stand-in's limit stated (BuildEnvironments.java:1050-1058); the walk-meet rung's count of five sites, of 2026-10-03, replaced by F-245's measurement
+
+- F-142 **Walk checks at load the Meet Rule for Functional Methods per providing type, and gives a type parameter that an argument bounds only from above its interval's upper end.** The meet check covers every trait, object and object expression, a generic one through a stand-in (F-145). A type provides what it declares and what it inherits, but not what its `override` declarations override. Symbolic operators are skipped, as the checker skips them (row 611). Walk's other refusals at load are in the `fortress-repo` skill's `references/interpreter.md`. Gated by `tests/FunctionalMethodMeet*` and `InferContravariantWalk`. Residues: rows 611, 612 and 616. Detail: `compile-ladder/rung-walk-meet/REPORT.md` sections 1 and 7.
