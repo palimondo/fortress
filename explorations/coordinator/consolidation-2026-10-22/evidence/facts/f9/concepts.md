@@ -1,0 +1,16 @@
+<!-- Concepts that the FACTS clarity pass's chunk f9 (F-250, F-251, F-254, F-255, F-256, F-99 to F-104, and F-203) uses and that every worker needs, each with the entries that use it and where it should be defined: input for the worker skill's orientation. -->
+
+# Concepts for every worker, chunk f9
+
+The entries name these concepts without defining them, since other entries use them too. Each belongs in the `fortress-repo` skill, not in the revival part that is being rewritten. The skill already defines walk, the compiled path, the gate, the count stage, the distance, a rung, a batch, the harness and a gated test; those are not listed. Chunk f10's `concepts.md` lists the test corpora, an `XXX` test, the gap ledger, the suites and a compiled test's run step; F-99 to F-104 use them too.
+
+| Term | Entries | Where to define it | What the definition needs |
+|---|---|---|---|
+| `where` clause, trait constraint, `where`-clause variable | F-250, F-251, F-255, F-256; also F-121, F-146, F-243, F-244 | `fortress-repo` core, beside static parameters | A declaration's `where [\V\] { X extends B }`: the variables it binds (a type, `nat` or `int`) and its constraints. A trait constraint is one of the form `X extends B`. The checker's readings differ by where the clause sits: a method, a function, a trait or object, an `extends` entry, a `comprises` clause. |
+| Opening a listed type's variable | F-251, F-256; also F-121, F-146, F-244 | `references/compiler.md` (the checker) | When a value's trait lists a type with a `where`-clause variable in its `comprises` clause, the checker gives that variable a fresh type or size of its own for the call. Today only F-146 and F-251 say it. |
+| Conditional extension | F-255; also F-84, F-243, F-244 | `fortress-repo` core, beside `extends` | An `extends` entry under a `where` clause of trait constraints: the type extends the parent only where the constraints hold. The specification's revision entry is "Conditional extension" in `Specification/appendices/changes.tex`. |
+| Arrow of a function | F-250, F-256 | `references/compiler.md` | The checker's function type of a declaration, with its static parameters; a call is checked against it. |
+| Dotted call and top-level call | F-250, F-256; also F-253 | `fortress-repo` core | A dotted call is `x.m(...)`, a method call on a receiver; a top-level call is `f(...)`, a call of a function. The checker reads `where` clauses differently at each. |
+| The library order, the caches folder | F-100; also F-101, F-113 | `references/build-and-caches.md` (defined there; name it in the core) | The caches folder is `default_repository/caches`, which holds the library jars and `global.map`; the library order is the build step that fills the jars. |
+| `sayWhat` refusal | F-104 | `references/compiler.md` (the code generator) | The code generator's refusal of a construct that it cannot compile, by a thrown `CompilerError`. Older records call it a "wall". |
+| The ladder regression | F-203; also F-97 | `references/gate.md` (defined there) | Already defined in `gate.md`; F-203 names its scripts. |

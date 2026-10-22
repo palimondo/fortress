@@ -1,0 +1,16 @@
+<!-- Concepts that the FACTS clarity pass's chunk f10 (F-106, F-107, F-108, F-111, F-112, F-203, F-234) uses and that every worker needs, each with the entries that use it and where it should be defined: input for the worker skill's orientation. -->
+
+# Concepts for every worker, chunk f10
+
+The entries name these concepts without defining them, since other entries use them too. Each belongs in the `fortress-repo` skill, not in the revival part that is being rewritten. The skill already defines walk, the compiled path, the gate, the count stage, the distance, a rung, a batch, the harness and a gated test; those are not listed.
+
+| Term | Entries | Where to define it | What the definition needs |
+|---|---|---|---|
+| Test corpora | F-111, F-112; also F-102, F-105 ("interpreter corpus") | `fortress-repo` core, beside the harness | The folders of Fortress test programs that the suites run: `ProjectFortress/tests/` (the interpreter corpus), `compiler_tests/`, `library_tests/`, `syntax_abstraction_tests/`, `static_tests/` and `not_passing_yet/`. Which suite runs which folder. |
+| `XXX` test | F-108; also F-104, F-114 | `references/tests-writing.md`, opening glossary, beside "gated test" | A test whose component name holds `XXX`: the harness expects it to fail. |
+| Gap ledger, ledger row | F-106, F-107, F-108 | `fortress-repo` core glossary | `explorations/fortress-gap-ledger.md`: one numbered row for each known gap. The core names the file in its list of records, but has no glossary term; entries cite "row N" without it. |
+| Suites (`testFast`, `testSystem`) | F-107, F-234; also F-99, F-105 | `references/tests-running.md`, opening | The Ant targets that run the test corpora, each suite in one JUnit JVM at the heap `junitMem` (768 MB). `testSystem` runs in four shards. |
+| A compiled test's run step | F-107, F-234; also F-99 | `references/tests-running.md` or `tests-writing.md` | The step of a compiled test's `.test` file that runs the compiled program through a child `bin/fortress run`, with the `JAVA_FLAGS` that `testFast` pins. |
+| Walk's natives | F-111 | `references/interpreter.md` | The Java classes, under `interpreter/glue/`, that walk calls for library functions written in Java; the library names them in strings. |
+| `env.sh` | F-107, F-203; also F-99, F-101 | `references/build-and-caches.md`, "Setting up each call" | The shell setup at `explorations/experiment/env.sh` that the gate's scripts use; what it sets, and how a worker's own setup lines differ from it. |
+| Worker transcripts, Bash wall time | F-234; also P-150 | No skill: the report `coordinator/process-engineering/fresh-jvm-commands.md` defines them | Only F-234 measures by them. The entry now says "wall time of the workers' shell commands" and "whole running time" in plain words. |

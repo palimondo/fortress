@@ -1,0 +1,19 @@
+<!-- Concepts that the FACTS clarity pass's chunk f14 uses and that every worker needs, each with the entries that use it and where it should be defined: input for the worker skill's orientation. -->
+
+# Concepts for every worker, chunk f14
+
+The entries name these concepts without a full definition, since other entries use them too. Each belongs in the `fortress-repo` skill, not in the revival part that is being rewritten.
+
+| Term | Entries | Where to define it | What the definition needs |
+|---|---|---|---|
+| A declaration with static parameters of its own (the code's "own generic") | F-252 (defined there), F-?1, F-?2, F-257, F-258; also F-27, F-238 | `references/interpreter.md`, beside walk's load check | A generic function, a generic object's constructor, or a functional method that declares static parameters in a trait or object that has none (`ownGeneric`, `OverloadedFunction.java:2401-2410`). Not a functional method of a generic trait or object, and not a dotted method. Walk's load check reads such declarations on their declared domains. |
+| Declared domain | F-252, F-?1, F-?2, F-253, F-257, F-258; also F-26, F-27, F-238 | `fortress-repo` core, beside overloading | The set of argument types to which a declaration applies. For a generic declaration, the union over all its instances, each within its bounds. |
+| Walk's load check, and its parameter-by-parameter check | F-252, F-?1, F-257, F-258; also F-27, F-155, F-238 | `references/interpreter.md`, "What walk checks" | At load, walk checks each overloaded name's declarations in pairs. It first compares the pair parameter by parameter: a pair valid there loads. A refused pair can be read again on its declared domains (F-252, F-27). |
+| The three overloading rules: No Duplicates, Return Type, Meet | F-249, F-252, F-?1, F-?2, F-257, F-258; also F-238 | `fortress-repo` core, beside overloading | The specification's rules for a valid overloaded set (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters"). No Duplicates: no two declarations have equal domains. Return Type: where one is more specific, its return type is below the other's. Meet: where two overlap and neither is more specific, a third declaration, their meet, covers the overlap. Two declarations whose domains exclude need none of these. |
+| Exclusion | F-252, F-258; also F-155, F-238 | `fortress-repo` core, beside `comprises` and `excludes` | Two types exclude where no value has both. Two declarations whose domains exclude are a valid overloading. |
+| The pre-disambiguation desugaring | F-259 | `references/compiler.md` or the core's list of front-end phases | A phase that both paths run before name disambiguation; among other rewrites, it gives an empty `extends` clause `{Object}`. |
+| The distance stage | F-?3 (through F-246) | `references/compiler.md`, beside the count stage | Already listed by chunk f0's `concepts.md`. |
+| Run C4 and its vocabulary | F-156 | The short orientation that replaces the revival part | Run C4 is microGPT's flat-array version, under `explorations/run-c4/`. Its vocabulary is the array declarations of `explorations/run-c4/src/FlatArrays.fsi`, which the library lacks. |
+| The APL model | F-154 | The short orientation | microGPT's second version, under `explorations/apl/mg/`, with its own array declarations in `FlatArrays2`. |
+
+Concepts that only one entry uses are defined in it: the string objects (F-249), a shared `nat` (F-154), a plane function (F-156), the instance that stands for every applicable instance (F-?2).
