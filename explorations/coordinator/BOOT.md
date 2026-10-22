@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 08:36 UTC on 2026-10-22** (10:36 his time). **At his word of 08:19:30 UTC, refined at about 08:27, the session runs autonomously** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He is away for long stretches. Five Workflow runs are in flight, and two Opus workers (Agent tool).
+**State at 08:35 UTC on 2026-10-22** (10:35 his time). **At his word of 08:19:30 UTC, refined at 08:28:48, the session runs autonomously** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He is away for long stretches. Five Workflow runs are in flight, and two Opus workers (Agent tool).
 
 ## The boot after a compaction, a one-time exception
 
@@ -15,7 +15,7 @@ A light boot, since the work needs the plan, not the whole record. It reads only
 
 Do not read FACTS, POSITIONS, INDEX or PLAN whole; workers read them. Take this section out after the boot.
 
-## His word of 08:19 and its refinement, in short
+## His word of 08:19 and its refinement of 08:28, in short
 
 - The audit and the clarity pilot are approved "as a run": done, finished, applied (stage 1). Only open questions go to the review queue.
 - The clarity rewrite runs over the rest of POSITIONS and over FACTS as a Workflow, the process of the skill rewrite of 10-08 (run `wf_185878c8-0fb`, script in the session's `workflows/scripts/fortress-repo-skill-rewrite-wf_185878c8-0fb.js`) and of the pilot, made reusable: `explorations/coordinator/tools/record-clarity/`. The mining workflow stays a tool: `positions-audit/README.md`.
