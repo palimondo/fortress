@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 08:35 UTC on 2026-10-22** (10:35 his time). **At his word of 08:19:30 UTC, refined at 08:28:48, the session runs autonomously** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He is away for long stretches. Five Workflow runs are in flight, and two Opus workers (Agent tool).
+**State at 09:31 UTC on 2026-10-22** (11:31 his time). **At his word of 08:19:30 UTC, refined at 08:28:48, the session runs autonomously** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He is away for long stretches. Three judge-only Workflow runs and the skill writer are in flight.
 
 ## The boot after a compaction, a one-time exception
 
@@ -31,25 +31,21 @@ Do not read FACTS, POSITIONS, INDEX or PLAN whole; workers read them. Take this 
 
 ## In flight
 
-- **Five Workflow runs of `tools/record-clarity/record-clarity.js`, launched at 08:34 UTC** (spend epoch 1792658063), their args in `consolidation-2026-10-22/runs.json`, output under `consolidation-2026-10-22/evidence/positions/` and `.../facts/`:
-  - `wf_d3e351c0-edc`: positions p1, p2.
-  - `wf_9d898834-f5c`: positions p3, p4.
-  - `wf_d8fdeed7-8b4`: positions p5, p6.
-  - `wf_e98f1b26-a7f`: positions p7, p8.
-  - `wf_d4a20e43-e1d`: the FACTS calibration, f0 (F-151, F-261, F-262, F-263, F-264).
-  - Estimates of tokens written: the four positions runs about 7M; the calibration about 1M.
-  - Do not edit `record-clarity.js` or its briefs while these runs live; to change a brief for the FACTS run, resume nothing from the old version, and launch the new runs after these end.
-- **Check-ins** "Consolidation check-in 1" to "4", at 09:20, 10:05, 10:50 and 11:35 UTC (`trig_01BHLM6kPwqAtHFepD8svZS3`, `trig_01CfentvcWNXcEB8mQDqhnPR`, `trig_01RSgn5zyiQbtyvzLUu2oZ1k`, `trig_01RknQ6q4s2DRkUTV2tPFro2`). Arm more, 45 minutes apart, while runs live.
+- **The positions clarity run is written:** all eight chunks (`consolidation-2026-10-22/evidence/positions/p1` to `p8`, 71 entries, about 7.3M tokens written by the four runs) and the FACTS calibration (`evidence/facts/f0`: F-261 and F-262 kept, F-151 reworded, F-263 and F-264 reorganized; about 1M). None is applied yet.
+- **At his yes of 09:23:49 UTC on 10-22 to the design** (the judge, the writer streams, the orientation tool), built at `913ba1cbf`: the judge stage and the headless writer stream in `tools/record-clarity/` (`judge.md`, `writer-stream.sh`, `wait.py`; `from: 'judge'` for chunks written before the judge), and the orientation workflow, `tools/orientation/` (README). The driver step was tested with a trivial task (Workflow `wf_e5193039-792`).
+- **Three judge-only runs, launched at 09:28 UTC:** `wf_a4d6ac30-946` (positions p1 to p4), `wf_89f6e945-3c5` (p5 to p8), `wf_cc490bd8-861` (facts f0). Each judge writes `judgement.md`, `final.apply` and `queue.md` in its chunk's folder.
+- **The skill writer, started at 09:29 UTC** (`skill-writer.sh new`, task `consolidation-2026-10-22/evidence/briefs/task-skill-docs.md`, log `tmp/skill-writer/skill-docs.log`, watched by a background wait): documents the three tools and the record's new rules in the coordinator skill, the writer's brief and the cold reader's brief. It commits; push its commit, then have a cold read of the changed parts.
+- **Check-ins** "Consolidation check-in 2" to "4", at 10:05, 10:50 and 11:35 UTC. Arm more, 45 minutes apart, while runs live.
 
 ## The plan from here
 
-**After each chunk** (`record-clarity/README.md`, "After a chunk"): read its `proposals.md` and `cold-read-2.md`; apply `proposals.apply` on a copy, `check --base`, then on `main`; commit the record with the chunk's files; file its questions in the queue (a change of meaning that no source settles is not applied); merge its `concepts.md` into `consolidation-2026-10-22/concepts.md`, with the pilot's `positions-audit/clarity/evidence/concepts.md`.
+**After each judged chunk** (`record-clarity/README.md`, "After a chunk"): apply its `final.apply` on a copy, `check --base`, then on `main`; commit the record with the chunk's files; collect its `queue.md` for one queue worker at the end; merge its `concepts.md` into `consolidation-2026-10-22/concepts.md`, with the pilot's `positions-audit/clarity/evidence/concepts.md`.
 
-**Stage 4, FACTS.** Read the calibration (`evidence/facts/f0/`): does the assessment pick the right entries, and do the rewrites keep scope and evidence? Fix the briefs if needed, then launch the four `facts` runs of `runs.json` (16 chunks, 193 entries), side by side with what is left of POSITIONS. Estimate about 10M. "Investigate" entries keep their text; their narrow questions go to a list, then to the queue.
+**Stage 4, FACTS.** The four `facts` runs of `runs.json` (16 chunks, 193 entries), each its own writer stream (the first chunk's name), with the judge: launch them with the current script once the judges of the calibration have run and its result reads right. Estimate about 9M. "Investigate" entries keep their text; their questions go to the queue.
 
-**Stage 5, the skill text,** through the skill writer (`skill-writer.sh`, Opus), after stages 3 and 4: `coordinator/references/record.md` (an entry reads on its own; pointers carry a few words; no handles; Astra's FACTS rubric and dispositions; the record pass owns the final wording; the mining and clarity workflows and when to run them); `skill-rewrite.md` and the writer's standing brief (Astra's post-landing rule in place of "each change, with its contradiction and its reason"; the growth loophole closed); her two cold-read questions in `skill-cold-read-brief.md`; the rung brief asks for complete findings, not finished prose (`climb-batch-workflow.js`, `references/batch.md`); the rules held for the skill writer in `HELD.md`. Cold-read each changed part.
+**Stage 6, the orientation, after FACTS** (Astra: the corrected record is its input): `tools/orientation/orientation.js`, mode `consolidate`, `concepts` the merged list, `out` `consolidation-2026-10-22/evidence/orientation/`. Then install by the README's "Installing its result", with the skill writer. Then one more cold read of the rewritten POSITIONS with the new orientation. Estimate about 3M.
 
-**Stage 6, the revival part,** by Astra's "Consolidation procedure", her admission test and her trap check: the reading contract; a budget of 8K to 12K characters; an outline by the concepts workers use; a temporary disposition table for the 54 old entries; the skill writer writes from the outline, with the merged concepts list as input; a preservation check against the table; a cold read of the whole with the core only; the trap questions from `reviews/fortress-pretraining-quiz.md` and `reviews/skills-distillation-audit.md`, answers updated to the current record; the Fable comparison with the approved version (a go in advance); the mapping in `sources.md`; the core's description and the post-landing instruction updated together. Then one more cold read of the rewritten POSITIONS with the new orientation. Estimate about 4M.
+**Stage 5 remainder:** the rung brief asks for complete findings, not finished prose (`climb-batch-workflow.js`; an Opus worker, checked with `tools/workflow-scenarios.js`).
 
 **Stage 7:** a report page for him, and a push notification.
 
