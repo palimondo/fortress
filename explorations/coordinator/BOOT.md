@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 02:38 UTC on 2026-10-22** (04:38 his time). He is asleep; the morning page is published and waits for him.
+**State at 02:58 UTC on 2026-10-22** (04:58 his time). He is asleep; the morning page is published and waits for him.
 
 ## The POSITIONS audit's full run: done, waiting on his approval
 
@@ -14,7 +14,7 @@
 
 ## Owed
 
-- **A history-only command in `record.py`,** at his word of 23:54 UTC on 10-21: an Opus worker (Agent tool, background) launched at 02:36 UTC on 10-22 adds it, with tests, on a scratch copy only, committing nothing; its example apply file is `positions-audit/full/evidence/history-only-example.apply`. Review its diff, commit `record.py` and `test_record.py` by name. Then, after he has seen the page: the history lines of P-10 and P-88 (his page comments of 23:05 and 23:29 UTC on 10-21, `positions-audit/evidence/curator-comments-2026-10-21.md`), of the 25 kept entries (each chunk's "History lines" section), and the corrections of the old blocks that name the wrong commit (chunks c2, c3, c4, c6). If the worker's process is killed, relaunch it with the same brief and tell it what it left.
+- **The history-only command** landed at `a0a30ffe3`, at his word of 23:54 UTC on 10-21: `record.py note N [--correcting TIME]`, and `note N` in an apply file, writes a `noted` block and leaves the entry as it is; worked example `positions-audit/full/evidence/history-only-example.apply` (P-7, P-25; not applied). Limits: one block per entry per call, so a rewritten entry takes its correction in its rewrite's note or a second call; a struck entry takes no note after its removal. After he has seen the page, write with it: the history lines of P-10 and P-88 (his page comments of 23:05 and 23:29 UTC on 10-21, `positions-audit/evidence/curator-comments-2026-10-21.md`), of the 25 kept entries (each chunk's "History lines" section), and the corrections of the old blocks that name the wrong commit (chunks c2, c3, c4, c6).
 - **P-85's two questions,** for him one at a time with the full run's (questions 15 and 16 on the page): does the third array question (a factory for a size known only at run time) still wait for the switch-over, since fork 3 was built at a default after his question of 10-09 at 15:10 UTC; and what did "the whole prep for the arrays" (09-22, 05:21 UTC) cover. The takeaway check's fixes for P-85's text wait on those answers (`trial/evidence/takeaway-check.md`).
 - **The trial's other questions are answered:** P-66's GCD clause dropped (his 23:21), P-148 rewritten at his 22:41, P-151 approved (his 23:33).
 - **Review item 31,** the element rule of `Vector` and `Matrix` (`review-queue.md`), holds the live point of the struck P-86: C4's `gather` and the APL port's `ravel` only copy, yet the landed rule makes them ask for times. He rejects "add times" as a workaround. To probe, held until the audit is done: whether the team's conditional extension (a trait extends another only where a condition holds; the compiled checker reads it since batch 18) fits `Vector` and `Matrix`, given that a member scoped to a condition is unbuilt (row 773); his question of 10-16 at 12:35 UTC asked exactly this.
