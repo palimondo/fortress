@@ -14,6 +14,7 @@ The page https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb (version 10) shows ea
 4. Defaults moved to the review queue (8): P-17, P-30, P-40, P-57, P-60, P-75, P-146, P-153.
 5. Reworded back to his meaning (10): P-29, P-32, P-39, P-46, P-48, P-54, P-56, P-58, P-62, P-154.
 6. Struck (2): P-16, P-123; F-39's pointer to P-123 is rewritten with it.
+7. Handles from past conversations struck (19), added at his page comment on P-45 of 2026-10-22 04:53 UTC (`evidence/handles.apply`, applied after the eight): "answer N", "ask N", an "item N" of the questions of 10-09 whose number now names another review-queue item, a probe's "Q1". P-45's at his word, the other 18 the coordinator's proposal. Only P-52 and P-59 are in no other group; with them, 52 entries change and 23 are kept.
 - Held for his answers (4): P-27, P-38, P-43, P-90.
 - Kept word for word (25): P-7, P-11, P-25, P-26, P-37, P-41, P-42, P-49, P-52, P-59, P-67, P-68, P-71, P-73, P-76, P-77, P-80, P-84, P-95, P-96, P-97, P-98, P-103, P-124, P-125. Each has source lines for its history that `record.py` cannot write (each chunk's "History lines" section).
 
