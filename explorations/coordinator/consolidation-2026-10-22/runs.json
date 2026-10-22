@@ -1,0 +1,456 @@
+{
+ "positions": [
+  {
+   "kind": "positions",
+   "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/",
+   "chunks": [
+    {
+     "name": "p1",
+     "entries": [
+      "P-7",
+      "P-8",
+      "P-9",
+      "P-10",
+      "P-11",
+      "P-17",
+      "P-19",
+      "P-25",
+      "P-26"
+     ]
+    },
+    {
+     "name": "p2",
+     "entries": [
+      "P-27",
+      "P-28",
+      "P-30",
+      "P-32",
+      "P-33",
+      "P-37",
+      "P-38",
+      "P-39",
+      "P-41"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "positions",
+   "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/",
+   "chunks": [
+    {
+     "name": "p3",
+     "entries": [
+      "P-42",
+      "P-43",
+      "P-44",
+      "P-46",
+      "P-47",
+      "P-48",
+      "P-49",
+      "P-52",
+      "P-53"
+     ]
+    },
+    {
+     "name": "p4",
+     "entries": [
+      "P-54",
+      "P-55",
+      "P-56",
+      "P-57",
+      "P-58",
+      "P-59",
+      "P-60",
+      "P-62",
+      "P-147"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "positions",
+   "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/",
+   "chunks": [
+    {
+     "name": "p5",
+     "entries": [
+      "P-148",
+      "P-149",
+      "P-151",
+      "P-152",
+      "P-154",
+      "P-155",
+      "P-66",
+      "P-68"
+     ]
+    },
+    {
+     "name": "p6",
+     "entries": [
+      "P-69",
+      "P-70",
+      "P-71",
+      "P-72",
+      "P-73",
+      "P-75",
+      "P-76",
+      "P-77",
+      "P-78"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "positions",
+   "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/",
+   "chunks": [
+    {
+     "name": "p7",
+     "entries": [
+      "P-79",
+      "P-80",
+      "P-84",
+      "P-85",
+      "P-87",
+      "P-88",
+      "P-89",
+      "P-90",
+      "P-91"
+     ]
+    },
+    {
+     "name": "p8",
+     "entries": [
+      "P-95",
+      "P-96",
+      "P-97",
+      "P-98",
+      "P-102",
+      "P-103",
+      "P-124",
+      "P-125",
+      "P-150"
+     ]
+    }
+   ]
+  }
+ ],
+ "facts-calibration": [
+  {
+   "kind": "facts",
+   "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/",
+   "chunks": [
+    {
+     "name": "f0",
+     "entries": [
+      "F-151",
+      "F-261",
+      "F-262",
+      "F-263",
+      "F-264"
+     ]
+    }
+   ]
+  }
+ ],
+ "facts": [
+  {
+   "kind": "facts",
+   "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/",
+   "chunks": [
+    {
+     "name": "f1",
+     "entries": [
+      "F-7",
+      "F-9",
+      "F-11",
+      "F-12",
+      "F-17",
+      "F-18",
+      "F-19",
+      "F-20",
+      "F-21",
+      "F-22",
+      "F-23",
+      "F-24"
+     ]
+    },
+    {
+     "name": "f2",
+     "entries": [
+      "F-25",
+      "F-26",
+      "F-27",
+      "F-28",
+      "F-29",
+      "F-32",
+      "F-34",
+      "F-35",
+      "F-36",
+      "F-37",
+      "F-38",
+      "F-39"
+     ]
+    },
+    {
+     "name": "f3",
+     "entries": [
+      "F-40",
+      "F-41",
+      "F-42",
+      "F-43",
+      "F-44",
+      "F-45",
+      "F-46",
+      "F-47",
+      "F-48",
+      "F-49",
+      "F-50",
+      "F-51"
+     ]
+    },
+    {
+     "name": "f4",
+     "entries": [
+      "F-52",
+      "F-53",
+      "F-54",
+      "F-55",
+      "F-56",
+      "F-57",
+      "F-58",
+      "F-59",
+      "F-60",
+      "F-61",
+      "F-62",
+      "F-63"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "facts",
+   "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/",
+   "chunks": [
+    {
+     "name": "f5",
+     "entries": [
+      "F-64",
+      "F-65",
+      "F-66",
+      "F-67",
+      "F-68",
+      "F-69",
+      "F-70",
+      "F-71",
+      "F-72",
+      "F-73",
+      "F-74",
+      "F-75"
+     ]
+    },
+    {
+     "name": "f6",
+     "entries": [
+      "F-76",
+      "F-77",
+      "F-78",
+      "F-79",
+      "F-80",
+      "F-81",
+      "F-82",
+      "F-83",
+      "F-84",
+      "F-85",
+      "F-86",
+      "F-87"
+     ]
+    },
+    {
+     "name": "f7",
+     "entries": [
+      "F-88",
+      "F-89",
+      "F-90",
+      "F-91",
+      "F-92",
+      "F-93",
+      "F-94",
+      "F-220",
+      "F-221",
+      "F-225",
+      "F-226",
+      "F-227"
+     ]
+    },
+    {
+     "name": "f8",
+     "entries": [
+      "F-231",
+      "F-232",
+      "F-233",
+      "F-235",
+      "F-236",
+      "F-237",
+      "F-240",
+      "F-242",
+      "F-243",
+      "F-244",
+      "F-245",
+      "F-246"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "facts",
+   "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/",
+   "chunks": [
+    {
+     "name": "f9",
+     "entries": [
+      "F-250",
+      "F-251",
+      "F-254",
+      "F-255",
+      "F-256",
+      "F-97",
+      "F-98",
+      "F-99",
+      "F-100",
+      "F-101",
+      "F-102",
+      "F-103",
+      "F-104"
+     ]
+    },
+    {
+     "name": "f10",
+     "entries": [
+      "F-105",
+      "F-106",
+      "F-107",
+      "F-108",
+      "F-109",
+      "F-111",
+      "F-112",
+      "F-113",
+      "F-114",
+      "F-203",
+      "F-234",
+      "F-117"
+     ]
+    },
+    {
+     "name": "f11",
+     "entries": [
+      "F-118",
+      "F-119",
+      "F-120",
+      "F-121",
+      "F-122",
+      "F-123",
+      "F-124",
+      "F-125",
+      "F-126",
+      "F-128",
+      "F-129",
+      "F-130"
+     ]
+    },
+    {
+     "name": "f12",
+     "entries": [
+      "F-131",
+      "F-132",
+      "F-133",
+      "F-134",
+      "F-135",
+      "F-136",
+      "F-137",
+      "F-138",
+      "F-139",
+      "F-140",
+      "F-141",
+      "F-142"
+     ]
+    }
+   ]
+  },
+  {
+   "kind": "facts",
+   "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/",
+   "chunks": [
+    {
+     "name": "f13",
+     "entries": [
+      "F-143",
+      "F-144",
+      "F-145",
+      "F-146",
+      "F-147",
+      "F-148",
+      "F-222",
+      "F-228",
+      "F-230",
+      "F-238",
+      "F-239",
+      "F-248"
+     ]
+    },
+    {
+     "name": "f14",
+     "entries": [
+      "F-249",
+      "F-252",
+      "F-253",
+      "F-257",
+      "F-258",
+      "F-259",
+      "F-152",
+      "F-154",
+      "F-155",
+      "F-156",
+      "F-157",
+      "F-158"
+     ]
+    },
+    {
+     "name": "f15",
+     "entries": [
+      "F-159",
+      "F-229",
+      "F-162",
+      "F-163",
+      "F-165",
+      "F-166",
+      "F-167",
+      "F-168",
+      "F-169",
+      "F-170",
+      "F-171",
+      "F-172"
+     ]
+    },
+    {
+     "name": "f16",
+     "entries": [
+      "F-173",
+      "F-174",
+      "F-175",
+      "F-176",
+      "F-223",
+      "F-179",
+      "F-180",
+      "F-181",
+      "F-182",
+      "F-183",
+      "F-184",
+      "F-185"
+     ]
+    }
+   ]
+  }
+ ]
+}

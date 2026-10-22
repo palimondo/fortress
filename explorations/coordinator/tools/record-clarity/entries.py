@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""entries.py N...: for each POSITIONS entry N, its text now, the audit's proposed text, and its evidence files.
+"""entries.py N...: for each POSITIONS entry N, its text in the record now, and the provenance audit's evidence on it.
 
-    python3 -I entries.py 45 50 51
+    python3 -I explorations/coordinator/tools/record-clarity/entries.py 45 50 51
 
-The proposed text is the full run's eight apply files and group 7's handles, applied together on the
-scratch copy of the record (positions-audit/full/RESULTS.md, "The checks"); "struck" if the audit
-removes the entry. The evidence: the scout's report, and the chunk's judgement, corrections and
-takeaway files, each with the line where its section on the entry starts.
+The evidence comes from the provenance audit of 2026-10-21 and 22 (positions-audit/): the scout's report
+on the curator's messages behind the entry, with a block of his exact quotes, and its chunk's judgement,
+corrections and takeaway files, each with the line where its section on the entry starts. The audit's
+corrections are applied (6b560762f), so the text now is the corrected text. An entry the audit did not
+trace has no evidence; run the mining workflow first (positions-audit/README.md).
 """
 import os, re, subprocess, sys
 REPO = '/home/user/fortress/'
-COMB = '/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/positions-audit/full/combined/root/explorations/coordinator/POSITIONS.md'
 E = 'explorations/coordinator/positions-audit/full/evidence/'
 CHUNKS = {'c1': [7, 8, 9, 11, 12, 16, 17, 19, 25, 26], 'c2': [27, 28, 29, 30, 32, 33, 37, 38, 39, 40],
           'c3': [41, 42, 43, 44, 45, 46, 47, 48, 49, 50], 'c4': [51, 52, 53, 54, 56, 57, 58, 59, 60, 62],
@@ -21,7 +21,8 @@ def entries(text):
     return {m.group(1): l[2:] for l in text.split('\n') for m in [re.match(r'- (P-\d+) ', l)] if m}
 
 now = entries(subprocess.run(['git', '-C', REPO, 'show', 'HEAD:explorations/coordinator/POSITIONS.md'], capture_output=True, text=True).stdout)
-prop = entries(open(COMB).read())
+TRIAL = [10, 18, 55, 66, 85, 86, 88, 148, 150, 151]
+T = 'explorations/coordinator/positions-audit/trial/evidence/'
 
 def where(path, n):
     try:
@@ -40,9 +41,10 @@ for a in sys.argv[1:]:
     c = next((k for k, v in CHUNKS.items() if n in v), None)
     print('## %s\n' % key)
     print('Now:\n\n> - %s\n' % now.get(key, '(not in POSITIONS)'))
-    print('Proposed by the audit:\n\n> %s\n' % ('- ' + prop[key] if key in prop else 'struck'))
     if c:
         print('Evidence: %s; %s; %s; %s\n' % (E + key + '.md', where(E + 'judgement-%s.md' % c, n),
               where(E + 'corrections-%s.md' % c, n), where(E + 'takeaway-%s.md' % c, n)))
+    elif n in TRIAL:
+        print('Evidence: %s; %s; %s; %s\n' % (T + key + '.md', where(T + 'judgement.md', n), where(T + 'corrections.md', n), where(T + 'takeaway-check.md', n)))
     else:
-        print('Evidence: the trial, positions-audit/trial/evidence/\n')
+        print('Evidence: none; the provenance audit did not trace this entry.\n')
