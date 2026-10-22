@@ -353,6 +353,92 @@ Do not inflate Revival to supply all those prerequisites. Ordinary language conc
 
 No POSITIONS entries or skill files were changed by this report update.
 
+## For Claude: assess all FACTS, rewrite only failing entries
+
+The curator requests a **full assessment pass over FACTS**, not only entries written before the writing guidance. Rewrite entries that fail the checks below; leave passing entries intact. This work follows the positions work and precedes Revival consolidation. It is a proposal for the coordinator's existing record process, not an edit of FACTS or the skills.
+
+### Why the pass includes newer entries
+
+A bounded historical comparison at `origin/main ae2d3dbc5` found:
+
+- `ea4d2f1bf`, October 8: ASD-STE100 enters the skill writer's standing brief.
+- `7b434aae5`, October 13: “Write halfway to ASD-STE100” appears in the coordinator's record-writing part. This is the relevant boundary for FACTS.
+- `a88e52bf7`, October 13, numbers existing entries. A fact's first appearance with an F-number is not necessarily its creation date.
+- Older array-bound material, now F-151, is more focused after consolidation.
+- F-261 and F-262, created October 20 in `36d53bdd6`, are useful examples of focused, scoped writing. Their wording was assessed, not their underlying claims independently re-proved.
+- F-263 (`5ad4a9957`) and F-264 (`444f37018`) were also created October 20. They mix current behaviour with repair details, counts and historical shorthand, even after changes in the consolidation commit `bd33a2f8b`.
+
+This sample supports uneven application of otherwise useful guidance. It does not establish a general failure of ASD-STE100 or prove that later entries are worse. Age is useful provenance, not a rewrite criterion.
+
+### Entry schema: meaning before format
+
+Retain Markdown and permanent F-identifiers. Refine the existing entry form; do not introduce a database or require every entry to fill repetitive labelled fields.
+
+Each entry should communicate:
+
+1. **Current claim and scope.** What is established, on which execution path, library, call form or other relevant conditions. The title must not imply a broader claim than the body supports.
+2. **Consequence and limits.** What a worker can safely conclude or do, with exceptions and unresolved uncertainty kept beside the claim. Include consequences only when they matter.
+3. **Evidence and route to detail.** The supporting test, measurement, source reading or report section. Distinguish observed behaviour from code inspection or an inference. A missing automated test is not itself a defect if other evidence is honestly identified.
+
+Keep the source conditions with the claim. Move repair chronology to history and task-specific detail to the cited report. A historical measurement can remain a useful fact if it is explicitly scoped to that measurement; do not mechanically delete every number or past-tense sentence. Link to the owning current count rather than duplicating a count that changes at every landing.
+
+A FACTS entry may record an implementation choice made under a default. It must distinguish that fact from a curator-approved ruling. POSITIONS owns the ruling; history owns its origin.
+
+### Per-entry assessment rubric
+
+Use a temporary assessment table with one row per F-identifier. Mark each criterion **pass**, **fail**, or **unresolved**, with a short reason and a quoted passage for each fail. “Unresolved” means evidence is needed, not that a reviewer may guess.
+
+| Criterion | Pass condition |
+|---|---|
+| Scope | Title and body agree on the path, conditions and limits; the statement does not generalize beyond its support. |
+| Present meaning | The reader can identify the current property, or the explicitly bounded historical observation, without reconstructing a batch's work. |
+| Evidence | The stated support can be found and supports the retained claim; uncertainty and the kind of evidence are accurately represented. |
+| Comprehension | Given normal language prerequisites, a reader can restate the finding and its consequence. Subjects, referents and technical terms are unambiguous. |
+| Ownership | The entry has one independently maintainable subject; unrelated repairs, chronology and duplicated current counts do not obscure it. |
+| Consistency | Relevant linked or same-subject entries agree, or their different scopes or unresolved conflict are explicit. |
+
+Do not average these into a score that allows good prose to compensate for an unsupported claim. Scope, evidence and consistency failures block acceptance. Comprehension and ownership failures require a wording or organization correction.
+
+Assign each entry a disposition:
+
+- **Keep:** all applicable checks pass.
+- **Reword:** supported meaning is sound, but presentation or scope wording fails.
+- **Reorganize:** move detail, merge with an existing owner, or split independently changing claims. Keep conditions and exceptions with their claims.
+- **Investigate:** support or consistency is unresolved. Resolve the narrow question before approving new wording; do not silently delete the fact.
+
+Useful completion measures are assessed entries / total entries, counts by disposition, and unresolved failures by criterion. Every entry must have a disposition; every changed entry must be checked again. Report remaining unresolved items explicitly. Character count is a diagnostic, not an acceptance score.
+
+### Run it within the existing process
+
+1. Pin the base and list every F-identifier. Divide the assessment using the coordinator's existing bounded chunks. Calibrate on a few contrasting entries, including a concise one and a dense batch-derived one, before expanding.
+2. Read every entry, following its cited evidence as needed to establish the retained claim. Use bounded report sections and related-entry searches. No automatic rerun of experiments or full transcript archaeology; record a narrow evidence gap when those would be needed.
+3. Produce the temporary assessment table before rewriting. Do not rewrite passing entries merely to make their surface form uniform.
+4. Rewrite or reorganize the failing entries using the existing writer pass. Apply the ASD-STE100-inspired register and the scope-preservation rules. Preserve identifiers and use `record.py` with its history and checks. After splits or merges, reconcile incoming references.
+5. Review changed entries against evidence, then use the existing fresh-reader quiz for consequential distinctions. The reader should know ordinary Fortress concepts but not the original conversation. Distinguish a missing prerequisite from defective wording.
+6. Recheck affected related entries. Complete the pass with coverage and unresolved-item counts. If main changed during the work, reconcile entries changed since the pinned base rather than overwriting them.
+7. Only then use the corrected current record as input to Revival consolidation. Do not copy every fact into Revival.
+
+This is a full entry assessment with targeted evidence review and selective rewriting, not a fresh scientific verification of the entire repository.
+
+### Ownership and minimal instruction changes
+
+The present worker skill already says: “Spend no effort on the entry's wording: it is rewritten to the record's form after your work.” Keep that division of labour.
+
+- **Rung workers:** provide precise findings, conditions, evidence and implications in their reports and `record.md`. No added prose-polishing workflow.
+- **Gather:** incorporate the findings without losing scope or provenance.
+- **Record pass:** produce the final readable entries and check their scope, evidence and related statements. The coordinator's instructions assign this to the batch commit stage, and to the coordinator after a lone worker.
+- **Coordinator:** own the guidance and verify that the pass occurred. Delegate the writing through the existing process; this need not become another task the coordinator personally performs in full.
+
+Align the rung brief's request for “finished prose” with the worker skill: request complete findings, while making the record pass responsible for final editorial wording.
+
+Put the schema clarification and assessment criteria in `.claude/skills/coordinator/references/record.md`. Ensure the actual batch stage brief carries that guidance, rather than assuming the descriptive skill text alone causes it to happen. The full pass is a one-time repair of the accumulated record; subsequent landings apply the same criteria to new, changed and affected related entries. Do not add another full-record audit after every landing.
+
+For routine acceptance, keep the central question short:
+
+> Can a reader identify what is established, under which conditions, and what it means for the work, without reconstructing what the batch changed?
+
+The corresponding POSITIONS question remains about faithful communication of the curator's ruling. The shared register helps both; their evidence and ownership requirements remain distinct.
+
 ## Review limits
 
 This review sampled Revival and its sources. It did not reread the whole file, audit FACTS or POSITIONS, inspect transcripts, run builds, or test the numerical claims anew. Growth measurements are attributed to the existing scout report.
