@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 00:00 UTC on 2026-10-22** (02:00 his time), after the light boot he asked for at 23:54 UTC on 10-21 and again at the boot (the model, the two skill cores, `delegating.md`, this note, HELD; not FACTS, POSITIONS, INDEX or PLAN). The next boot is the full one.
+**State at 00:06 UTC on 2026-10-22** (02:06 his time). The VM restarted at 00:03 UTC and killed the four runs; all four were resumed at 00:05 UTC, their finished agents reused. Before that, the light boot he asked for at 23:54 UTC on 10-21 and again at the boot (the model, the two skill cores, `delegating.md`, this note, HELD; not FACTS, POSITIONS, INDEX or PLAN). The next boot is the full one.
 
 ## In flight: the full POSITIONS audit
 
@@ -34,5 +34,5 @@
 
 - **The model:** Opus 5.5 since his `/model claude-opus-5-5` at 21:04:25 UTC on 2026-10-19.
 - **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable` (one push to `blinded-fable` failed once on 10-21 and went through on retry). Commit by named paths only, never `-A`, `.` or `-a`.
-- **The machine.** The VM last started at 17:33:27 UTC on 2026-10-21; the next stop by the cap is about 06:33 UTC on 10-22.
+- **The machine.** The VM last started at 00:03:05 UTC on 2026-10-22, the disk not rolled back; the next stop by the cap is about 13:03 UTC.
 - **Pages:** the audit's page above; the drafts page, https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg; the revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, its rewrite owed. Publish a page by its file path or its URL after a compaction.
