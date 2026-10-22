@@ -22,18 +22,30 @@ under `### F-87`, one block per change, oldest first: one provenance line (the
 UTC time from the clock, the kind of change, `from` each report section,
 `commit`, `by`, then the note after a colon), and the line as it stood before
 the change. The tool derives the kind: `added`, `rewritten`, `moved to "S"`,
-`merged into F-n`, `F-n merged in`, `removed`; the numbering wrote one
+`merged into F-n`, `F-n merged in`, `removed`, `noted`; the numbering wrote one
 `numbered` block per entry. A retitle that refreshed other entries' pointer
 words, or a merge that moved their pointers, says so in one more line of the
 block (`pointer words refreshed in: F-12, P-48`).
+
+A `noted` block, which `note` writes, leaves the entry as it is. It adds what
+the entry's history lacks, such as the curator's messages behind a text kept
+word for word, with their times, or a correction of an earlier block. It holds
+no earlier line, and its note says what it adds, so it needs one. A gone entry
+takes none: its last block stays `merged into` or `removed`. A noted block
+that corrects an earlier block names it by its time, in the field after the
+kind: `correcting the block of 2026-10-13 19:07Z`, or, where blocks of the
+entry share that minute, `correcting the 2nd block of 2026-10-14 04:41Z`,
+counted oldest first. The block corrected is never edited.
 
 Every write takes a lock (flock on .record.lock beside the record), checks the
 state it would leave, appends the history blocks first and then replaces each
 record file in one step. A write is refused only for what would break the
 store: a bad number, a pointer that does not resolve or whose words do not
 open its target's title, a line break in an entry, no provenance (neither
-`--from` nor `--note`). Never for size. The tool does not commit: commit the
-record file and its history together.
+`--from` nor `--note`; for a noted block, no `--note`), a correction that
+names no block or more than one, two blocks for one entry in one call.
+Never for size. The tool does not commit: commit the record file and its
+history together.
 
 usage: record.py COMMAND [ARGS] [PROVENANCE] [--root DIR]
 
@@ -51,6 +63,11 @@ usage: record.py COMMAND [ARGS] [PROVENANCE] [--root DIR]
       record.py merge F-90 --into F-87 f87.md --note 'one fact, two entries'
   remove N                       N removed; refused while a pointer to it remains
       record.py remove P-131 --note 'evicted to the coordinator skill, references/briefing.md'
+  note N [--correcting TIME]     a noted block in N's history, N unchanged; needs
+                                 --note; refused when the history holds it already.
+                                 TIME: 2026-10-13 19:07Z, or 2nd 2026-10-14 04:41Z
+      record.py note P-25 --from 'positions-audit/full/evidence/corrections-c1.md#History lines the tool cannot write' --note 'his message behind the text: 2026-09-26T08:01:03.475Z, ...'
+      record.py note P-7 --correcting '2026-10-13 19:07Z' --commit b87a17de5 --note 'that block names bc8902f47, ...'
   apply FILE                     many changes from one file, all or none (below)
       record.py apply chunk3.md --by 'consolidation chunk 3'
   check [--base COMMIT]          the store's checks; exit 1 on a failure
@@ -61,18 +78,24 @@ new entries below it go to (an existing entry stands under no heading, or
 under its own section's, or the `## ` one that holds it); entry lines as they
 should stand, `- F-87 ...`, or `- F-?1 ...` for a new entry, its placeholder
 replaced by its number everywhere in the file; `move F-87 to SECTION`;
-`remove F-90`; `merge F-91 into F-87`. Each may be followed by one indented
-provenance line of its own:
+`remove F-90`; `merge F-91 into F-87`; `note F-87`, or `note F-87 correcting
+TIME`, a noted block. Each may be followed by one indented provenance line of
+its own:
 `  from: PATH, "HEADING"; commit: HASH; by: WHO; note: WHY`. Blank lines and
-`<!-- -->` comments are ignored. An entry line equal to the entry is skipped.
+`<!-- -->` comments are ignored. An entry line equal to the entry is skipped:
+to add to its history, write `note F-87`. A note whose block the history holds
+already, all but its time, is skipped too, so a file run twice writes nothing
+twice. One call writes one block per entry, so an entry is noted, or changed,
+once in a file.
 
 check fails on: an entry line without its number, or a line under an entry
 that continues it; a number on two lines; a number with no `numbered` or
 `added` block, or one gone from its file whose last block is not `merged into`
-or `removed`; a pointer to no live entry, or quoted words that do not open the
-target's title; with --base, an entry at COMMIT that is neither its line now
-nor the earlier line of a block in its history (pointer words refreshed by the
-tool aside). It reports, without failing: the entries over 600 characters, the
+or `removed`; a noted block that holds an earlier line, or whose `correcting`
+names no earlier block of its entry, or more than one; a pointer to no live
+entry, or quoted words that do not open the target's title; with --base, an
+entry at COMMIT that is neither its line now nor the earlier line of a block
+in its history (pointer words refreshed by the tool aside). It reports, without failing: the entries over 600 characters, the
 entries without a bold title, and the `--from` paths and the report sections
 an entry cites (`PATH`, "HEADING") that do not resolve.
 
@@ -112,6 +135,9 @@ HEADING = re.compile(r'(#{2,3}) +(.*\S)\s*$')
 BLOCK_HEAD = re.compile(r'### ([FP])-(\d+)\s*$')
 ELLIPSIS = re.compile(r'\s*(?:\.\.\.|…)\s*')
 CITED = re.compile(r'`([^`\s]+\.(?:md|tex))(?::[\d,:\s-]*)?`,? (?:section |§ )?"([^"]+)"')
+STAMP = re.compile(r'\d{4}-\d\d-\d\d \d\d:\d\dZ$')
+TIME_GIVEN = re.compile(r'(?:(\d+)(?:st|nd|rd|th)\s+)?(\d{4}-\d\d-\d\d)[ T](\d\d:\d\d)Z?$')    # what --correcting takes
+CORRECTING = re.compile(r'correcting the (?:(\d+)(?:st|nd|rd|th) )?block of (\d{4}-\d\d-\d\d \d\d:\d\dZ)(?=: |$)')
 
 
 class RecordError(Exception):
@@ -341,6 +367,10 @@ class Block:
         self.earlier = earlier[0] if earlier else None
         fields = self.prov.split(SEP)
         self.kind = fields[1].split(':')[0].strip() if len(fields) > 1 else ''
+        self.stamp = fields[0] if STAMP.match(fields[0]) else ''
+        # A noted block's correction is the field after a bare kind, so a note's words are never read as one.
+        m = CORRECTING.match(fields[2]) if len(fields) > 2 and fields[1] == 'noted' else None
+        self.correcting = (int(m.group(1)) if m.group(1) else None, m.group(2)) if m else None   # (nth or None, time)
 
     def text(self):
         lines = list(self.lines)
@@ -381,6 +411,38 @@ class HistoryFile:
 
     def of(self, key):
         return [b for b in self.blocks if b.key == key]
+
+
+# ---------------------------------------------------------------- a noted block's correction
+
+def ordinal(n):
+    return '%d%s' % (n, 'th' if 10 <= n % 100 <= 20 else {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th'))
+
+
+def parse_time(text):
+    """--correcting's TIME, `2026-10-13 19:07Z` or `2nd 2026-10-14 04:41Z` -> (nth or None, the time as a block holds it)."""
+    m = TIME_GIVEN.match(text.strip())
+    if not m or (m.group(1) and int(m.group(1)) < 1):
+        raise RecordError('"%s" is not the time of a block, such as 2026-10-13 19:07Z, or 2nd 2026-10-14 04:41Z '
+                          'where blocks of the entry share the minute' % text.strip())
+    return (int(m.group(1)) if m.group(1) else None), '%s %sZ' % (m.group(2), m.group(3))
+
+
+def correcting_text(ref):
+    n, t = ref
+    return 'correcting the %sblock of %s' % (ordinal(n) + ' ' if n else '', t)
+
+
+def corrected(blocks, ref, key):
+    """The one block of blocks (key's, oldest first) that ref names, or raise."""
+    n, t = ref
+    hits = [b for b in blocks if b.stamp == t]
+    if n is None and len(hits) > 1:
+        raise RecordError('%s names %d blocks of %s; say which, counted oldest first: %s %s' % (t, len(hits), key, ordinal(2), t))
+    if not hits or (n or 1) > len(hits):
+        raise RecordError('%s%s names no block of %s%s' % (
+            ordinal(n) + ' ' if n else '', t, key, '; %d of its blocks have that time' % len(hits) if hits else ''))
+    return hits[(n or 1) - 1]
 
 
 class Paths:
@@ -638,12 +700,13 @@ class State:
 
 
 class Op:
-    """One change a call asks for. what: add, set, merge, remove."""
-    def __init__(self, what, key, line=None, section=None, into=None, prov=None, where=''):
+    """One change a call asks for. what: add, set, merge, remove, note."""
+    def __init__(self, what, key, line=None, section=None, into=None, prov=None, where='', correcting=None):
         self.what, self.key, self.line, self.section, self.into = what, key, line, section, into
         self.prov = prov or Prov()
         self.where = where          # where the op was written, for messages
         self.prov_given = False
+        self.correcting = correcting    # a note's (nth or None, time) of the block it corrects
 
 
 def entry_line(key, text, where=''):
@@ -670,12 +733,17 @@ def execute(store, ops, call_prov, pc):
     stamp = now()
     errors = []
     seen = set()
+    noted = {op.key for op in ops if op.what == 'note'}
     for op in ops:
         for k in [op.key] + ([op.into] if op.into else []):
             if op.what != 'add' and k not in st.old:
                 errors.append('%s%s is no live entry%s' % (op.where, k, store.gone_note(k)))
-        if op.key in seen and op.what != 'merge-target':
-            errors.append('%s%s is changed twice in one call' % (op.where, op.key))
+        if op.key in seen and (op.what != 'merge-target' or op.key in noted):
+            if op.key in noted:
+                errors.append('%s%s is noted and changed, or noted twice, in one call, which writes one block per entry: '
+                              'put what the note says in one note, or in the change\'s own, or note it in a call of its own' % (op.where, op.key))
+            else:
+                errors.append('%s%s is changed twice in one call' % (op.where, op.key))
         seen.add(op.key)
     if errors:
         raise RecordError('\n  '.join(['the changes are refused:'] + errors))
@@ -714,6 +782,16 @@ def execute(store, ops, call_prov, pc):
                 st.delete(op.key)
                 removed.append(op.key)
                 changed[op.key] = ['removed']
+            elif op.what == 'note':
+                # No change to the state: a block of its own, with no earlier line, that its note fills.
+                if not (prov.note and prov.note.strip()):
+                    raise RecordError('a noted block needs --note WHY (in an apply file, its own `note: WHY` or the call\'s '
+                                      '--note): it changes nothing, so its note is what it adds')
+                parts = ['noted']
+                if op.correcting:
+                    corrected(store.hist[op.key[0]].of(op.key), op.correcting, op.key)
+                    parts.append(correcting_text(op.correcting))
+                changed[op.key] = parts
         except RecordError as e:
             errors.append(op.where + str(e))
         own_prov.setdefault(op.key, prov)
@@ -767,7 +845,7 @@ def execute(store, ops, call_prov, pc):
 
     # What each change is, now that the state is known.
     for k in list(changed):
-        if changed[k] and (changed[k][0] in ('added', 'removed') or changed[k][0].startswith('merged into')):
+        if changed[k] and (changed[k][0] in ('added', 'removed', 'noted') or changed[k][0].startswith('merged into')):
             continue
         old_line, old_section = st.old[k]
         new_line, new_section = st.line(k), st.section_of(k)
@@ -785,7 +863,7 @@ def execute(store, ops, call_prov, pc):
 
     # The checks of the state left: the lines written hold pointers to live entries,
     # with words that open their titles; nothing points to a removed entry.
-    written = set(changed) | {x for xs in rewritten_in.values() for x in xs}
+    written = {k for k in changed if changed[k][0] != 'noted'} | {x for xs in rewritten_in.values() for x in xs}
     for k in st.keys():
         line = st.line(k)
         for p in pointers(line):
@@ -802,11 +880,24 @@ def execute(store, ops, call_prov, pc):
             errors.append('%s holds a line break' % k)
     for k in changed:
         try:
-            changed[k] = (changed[k], pc.line(own_prov.get(k, call_prov), ', '.join(changed[k]), stamp))
+            # A noted block's correction is a field of its own after the kind; the other kinds join with commas.
+            kind = SEP.join(changed[k]) if changed[k][0] == 'noted' else ', '.join(changed[k])
+            changed[k] = (changed[k], pc.line(own_prov.get(k, call_prov), kind, stamp))
         except RecordError as e:
             errors.append('%s: %s' % (k, e))
     if errors:
         raise RecordError('\n  '.join(['the changes are refused:'] + sorted(set(errors), key=errors.index)))
+
+    # A noted block that the history holds already, all but its time, is skipped, as an unchanged line is:
+    # the history is never edited, so a file run twice must not leave each block twice.
+    held = []
+    for k in [k for k in changed if changed[k][0][0] == 'noted']:
+        same = [b for b in store.hist[k[0]].of(k) if b.kind == 'noted' and b.prov.split(SEP, 1)[1:] == changed[k][1].split(SEP, 1)[1:]]
+        if same:
+            held.append('%s holds this noted block already, of %s' % (k, same[-1].stamp))
+            del changed[k]
+    if held and not changed:
+        raise RecordError('nothing changes: ' + '; '.join(held))
 
     blocks = {'F': [], 'P': []}
     for k, (parts, prov_line) in changed.items():
@@ -814,7 +905,7 @@ def execute(store, ops, call_prov, pc):
         if k in rewritten_in:
             who = ', '.join(sorted(set(rewritten_in[k]), key=sort_key))
             extra.append(('pointers to %s rewritten to %s in: ' % (k, follow(k)) if k in merged else 'pointer words refreshed in: ') + who)
-        earlier = store.live[k].line if k in store.live else None
+        earlier = store.live[k].line if k in store.live and parts[0] != 'noted' else None
         blocks[k[0]].append((k, prov_line, extra, earlier))
     report = []
     for k, (parts, prov_line) in changed.items():
@@ -822,6 +913,7 @@ def execute(store, ops, call_prov, pc):
     for n, ks in rewritten_in.items():
         report.append('%s: %s %s' % (n, 'pointers rewritten in' if n in merged else 'pointer words refreshed in',
                                      ', '.join(sorted(set(ks), key=sort_key))))
+    report += [h.replace(' ', ': ', 1) + '; skipped' for h in held]
     return st, blocks, report
 
 
@@ -934,6 +1026,11 @@ def cmd_remove(a, p):
     run_ops(p, [Op('remove', key)], call_prov(a))
 
 
+def cmd_note(a, p):
+    key = key_of(*parse_key(a.n))
+    run_ops(p, [Op('note', key, correcting=parse_time(a.correcting) if a.correcting else None)], call_prov(a))
+
+
 def parse_apply(text, store):
     """The ops of an apply file, its placeholders numbered."""
     errors = []
@@ -972,7 +1069,7 @@ def parse_apply(text, store):
             continue
         if ln[0] in ' \t':
             if last is None or last.prov_given:
-                errors.append(where + 'a provenance line follows an entry, a merge or a remove, once')
+                errors.append(where + 'a provenance line follows an entry, a move, a merge, a remove or a note, once')
                 continue
             try:
                 last.prov = Prov.parse_line(ln)
@@ -984,6 +1081,7 @@ def parse_apply(text, store):
         r = re.match(r'remove ([FP]-\d+)\s*$', ln)
         g = re.match(r'merge ([FP]-\d+) into ([FP]-\d+)\s*$', ln)
         v = re.match(r'move ([FP]-\d+) to (.+?)\s*$', ln)
+        n = re.match(r'note ([FP]-\d+)(?:\s+correcting\s+(.+?))?\s*$', ln)
         try:
             if m:
                 key = key_of(m.group(1), int(m.group(2)))
@@ -1007,9 +1105,11 @@ def parse_apply(text, store):
                 op = Op('remove', r.group(1), where=where)
             elif g:
                 op = Op('merge', g.group(1), into=g.group(2), where=where)
+            elif n:
+                op = Op('note', n.group(1), where=where, correcting=parse_time(n.group(2)) if n.group(2) else None)
             else:
                 raise RecordError('not a heading, an entry line `- F-87 ...`, `move F-87 to SECTION`, `remove F-87`, '
-                                  '`merge F-87 into F-53` or an indented provenance line: ' + clip(ln, 80))
+                                  '`merge F-87 into F-53`, `note F-87 [correcting TIME]` or an indented provenance line: ' + clip(ln, 80))
         except RecordError as e:
             errors.append(where + str(e))
             last = None
@@ -1117,6 +1217,19 @@ def check(p, base=None):
             if key not in store.live and not bs[-1].kind.startswith(('merged into', 'removed')):
                 fails.append(('%s:%d' % (HISTORIES[k], bs[-1].lineno), 'history', '%s is in no line of %s, and its last block is %s, not merged into or removed' % (
                     key, name, bs[-1].kind or 'without a kind')))
+            for i, b in enumerate(bs):
+                if b.kind != 'noted':
+                    continue
+                where = '%s:%d' % (HISTORIES[k], b.lineno)
+                if b.earlier is not None:
+                    fails.append((where, 'history', '%s: a noted block holds an earlier line, though it changed nothing' % key))
+                if b.correcting:
+                    nth, t = b.correcting
+                    hits = [x for x in bs[:i] if x.stamp == t]
+                    if (nth or 1) > len(hits) or (nth is None and len(hits) > 1):
+                        named = 'no earlier block' if nth or not hits else '%d earlier blocks' % len(hits)
+                        fails.append((where, 'correcting', '%s: a noted block corrects the %s, which names %s of %s' % (
+                            key, correcting_text(b.correcting)[len('correcting the '):], named, key)))
         for b in h.blocks:
             for path, heading in re.findall(r'from `([^`]+)`(?:, "([^"]*)")?', b.prov):
                 try:
@@ -1221,6 +1334,9 @@ def main(argv):
     s.add_argument('--into', required=True)
     s = sp('remove', cmd_remove, prov)
     s.add_argument('n')
+    s = sp('note', cmd_note, prov)
+    s.add_argument('n')
+    s.add_argument('--correcting', metavar='TIME', help='the earlier block this one corrects, by its time')
     s = sp('apply', cmd_apply, prov)
     s.add_argument('file')
     s = sp('check', cmd_check)

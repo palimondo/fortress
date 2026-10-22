@@ -44,6 +44,8 @@ Even more.
 sys.path.insert(0, TOOLS)
 import record as R  # noqa: E402
 
+NUMBERED_AT = '2026-10-13 17:58Z'
+
 
 def git(root, *args):
     return subprocess.run(['git', '-C', root] + list(args), capture_output=True, text=True, check=True).stdout
@@ -72,6 +74,9 @@ class RecordTest(unittest.TestCase):
         p = subprocess.run([sys.executable, NUMBER_PY, '--root', root, '--write'], capture_output=True, text=True)
         assert p.returncode == 0, p.stdout + p.stderr
         cls.number_out = p.stdout
+        for name in ('FACTS-history.md', 'POSITIONS-history.md'):      # the numbering's time, as the record's: no block a test writes shares it
+            path = os.path.join(root, COORD, name)
+            write(path, re.sub(r'(?m)^\d{4}-\d\d-\d\d \d\d:\d\dZ( · numbered )', r'%s\1' % NUMBERED_AT, R.read(path)))
         git(root, '-c', 'user.name=t', '-c', 'user.email=t@t', 'commit', '-q', '-a', '-m', 'numbered')
         cls.base = git(root, 'rev-parse', 'HEAD').strip()
 
@@ -410,6 +415,187 @@ class RecordTest(unittest.TestCase):
         self.assertEqual(self.blocks(m.key)[-1].kind, '%s merged in, rewritten' % n.key)
         self.assertTrue(self.blocks(m.key)[-1].prov.endswith('by chunk: one fact'))
         self.run_tool('check', '--base', self.base)
+
+    # ------------------------------------------------------------ note: a block, the entry unchanged
+
+    def stamp(self, block):
+        return block.prov.split(' · ')[0]
+
+    def same_stamp_pair(self, key):
+        """Two rewrites of key, the second's time made the first's by hand, as two calls in one minute leave them."""
+        line = self.store().live[key].line
+        self.run_tool('set', key, self.line_file(line + ' One.'), '--note', 'first')
+        self.run_tool('set', key, self.line_file(line + ' Two.'), '--note', 'second')
+        first, second = self.blocks(key)[-2:]
+        hist = self.p.histories[key[0]]
+        text = R.read(hist)
+        t = '2000-01-01 00:00Z'
+        for b in (first, second):
+            self.assertEqual(text.count(b.prov), 1)
+            text = text.replace(b.prov, t + b.prov[len(self.stamp(b)):])
+        write(hist, text)
+        return t
+
+    def test_note(self):
+        st = self.store()
+        e = st.files['P'].entries[4]
+        before = self.snapshot()
+        p = self.run_tool('note', e.key, '--from', '%s#The question' % REPORT_REL, '--by', 'the tests',
+                          '--note', 'the sources behind its text: 2026-09-16T22:46:21.111Z, his words: "word"')
+        self.assertEqual(p.stdout.strip(), '%s: noted' % e.key)
+        after = self.snapshot()
+        for k in ('F', 'P', 'Fh'):
+            self.assertEqual(after[k], before[k], k)                 # the entry and its file unchanged
+        self.assertTrue(after['Ph'].startswith(before['Ph']))      # the history only appended to
+        b = self.blocks(e.key)[-1]
+        self.assertEqual(b.kind, 'noted')
+        self.assertIsNone(b.earlier)
+        self.assertEqual(b.extra, [])
+        self.assertIsNone(b.correcting)
+        self.assertRegex(b.prov, r'^\d{4}-\d\d-\d\d \d\d:\d\dZ · noted · from `%s`, "The question" · by the tests: '
+                                 r'the sources behind its text: 2026-09-16T22:46:21\.111Z, his words: "word"$' % re.escape(REPORT_REL))
+        self.assertEqual(self.store().live[e.key].line, e.line)
+        self.run_tool('check', '--base', self.base)
+        self.assertIn(' · noted · from ', self.fx('history:' + e.key).stdout)
+        # a block that corrects an earlier one names it by its time
+        numbered = self.blocks(e.key)[0]
+        p = self.run_tool('note', e.key, '--correcting', self.stamp(numbered), '--commit', self.base,
+                          '--note', 'that block names the wrong commit')
+        self.assertEqual(p.stdout.strip(), '%s: noted, correcting the block of %s' % (e.key, self.stamp(numbered)))
+        b = self.blocks(e.key)[-1]
+        self.assertEqual(b.kind, 'noted')
+        self.assertEqual(b.correcting, (None, self.stamp(numbered)))
+        self.assertIsNone(b.earlier)
+        self.assertRegex(b.prov, r'^\d{4}-\d\d-\d\d \d\d:\d\dZ · noted · correcting the block of %s · commit `%s`: '
+                                 r'that block names the wrong commit$' % (re.escape(self.stamp(numbered)), self.base[:9]))
+        self.assertEqual(self.store().live[e.key].line, e.line)
+        self.run_tool('check', '--base', self.base)
+        # the time written with a T names the same block
+        iso = self.stamp(numbered).replace(' ', 'T')
+        p = self.run_tool('note', e.key, '--correcting', iso, '--note', 'again')
+        self.assertIn('correcting the block of %s' % self.stamp(numbered), p.stdout)
+
+    def test_note_refused(self):
+        st = self.store()
+        e = st.files['P'].entries[4]
+        pointed = {q.key for x in st.entries() for q in R.pointers(x.line)}
+        lone = [x for x in st.files['F'].entries if x.key not in pointed][0]
+        self.run_tool('remove', lone.key, '--note', 'gone for the test')
+        before = self.snapshot()
+        for args in (('note', e.key),                                                     # no provenance
+                     ('note', e.key, '--from', '%s#The question' % REPORT_REL),           # sources, no reason
+                     ('note', e.key, '--note', '   '),
+                     ('note', 'P-9999', '--note', 'n'),
+                     ('note', lone.key, '--note', 'n'),                                   # removed: no live entry
+                     ('note', e.key, '--note', 'n', '--correcting', '1999-01-01 00:00Z'),   # names no block
+                     ('note', e.key, '--note', 'n', '--correcting', 'yesterday'),
+                     ('note', e.key, '--note', 'n', '--correcting', '2nd ' + self.stamp(self.blocks(e.key)[0])),
+                     ('note', e.key, '--note', 'n', '--from', '%s#No such heading' % REPORT_REL)):
+            p = self.run_tool(*args, ok=False)
+            self.assertEqual(p.returncode, 1, args)
+            self.assertEqual(self.snapshot(), before, args)
+        self.assertIn('is no live entry', self.run_tool('note', lone.key, '--note', 'n', ok=False).stderr)
+        self.assertIn('needs --note', self.run_tool('note', e.key, '--from', '%s#The question' % REPORT_REL, ok=False).stderr)
+        self.assertIn('names no block', self.run_tool('note', e.key, '--note', 'n', '--correcting', '1999-01-01 00:00Z', ok=False).stderr)
+
+    def test_note_same_time(self):
+        """Two blocks of one entry from one minute: the time names neither alone, and its place among them does."""
+        e = self.store().files['F'].entries[6]
+        t = self.same_stamp_pair(e.key)
+        p = self.run_tool('note', e.key, '--correcting', t, '--note', 'n', ok=False)
+        self.assertIn('names 2 blocks of %s' % e.key, p.stderr)
+        p = self.run_tool('note', e.key, '--correcting', '2nd ' + t, '--note', 'the second rewrite was by hand')
+        self.assertIn('%s: noted, correcting the 2nd block of %s' % (e.key, t), p.stdout)
+        b = self.blocks(e.key)[-1]
+        self.assertEqual(b.correcting, (2, t))
+        self.assertIn(' · noted · correcting the 2nd block of %s: ' % t, b.prov)
+        self.run_tool('check', '--base', self.base)
+        self.run_tool('note', e.key, '--correcting', '3rd ' + t, '--note', 'n', ok=False)
+
+    def test_note_check(self):
+        e = self.store().files['P'].entries[4]
+        t = self.stamp(self.blocks(e.key)[0])
+        self.run_tool('note', e.key, '--correcting', t, '--note', 'n')
+        hist = self.p.histories['P']
+        good = R.read(hist)
+        b = self.blocks(e.key)[-1]
+        # a reference to no block of the entry fails, and so does an earlier line in a noted block
+        write(hist, good.replace(b.prov, b.prov.replace('of ' + t, 'of 1999-01-01 00:00Z')))
+        out = self.run_tool('check', ok=False).stdout
+        self.assertIn('correcting: %s: a noted block corrects the block of 1999-01-01 00:00Z, which names no earlier block of %s' % (e.key, e.key), out)
+        write(hist, good.replace(b.prov, b.prov + '\n\n' + e.line))
+        out = self.run_tool('check', ok=False).stdout
+        self.assertIn('history: %s: a noted block holds an earlier line' % e.key, out)
+        write(hist, good)
+        self.run_tool('check', '--base', self.base)
+
+    def test_apply_note(self):
+        st = self.store()
+        a, b, c = st.files['P'].entries[4], st.files['P'].entries[5], st.files['P'].entries[6]
+        t = self.stamp(self.blocks(b.key)[0])
+        before = self.snapshot()
+        text = '\n'.join([
+            '<!-- history lines for entries kept word for word -->',
+            'note %s' % a.key,
+            '  from: %s, "The question"; by: the audit; note: his words of 2026-09-16T22:46:21.111Z: "word"' % REPORT_REL,
+            a.line,                                                     # the entry as it stands: skipped
+            'note %s correcting %s' % (b.key, t),
+            '  commit: %s; note: that block names the wrong commit' % self.base,
+            c.line + ' Rewritten beside the notes.',
+            '  note: a rewrite in the same call',
+            ''])
+        p = self.run_tool('apply', self.line_file(text), '--by', 'chunk 0')
+        self.assertEqual(p.stdout.split('\n')[:3], ['%s: noted' % a.key, '%s: noted, correcting the block of %s' % (b.key, t),
+                                                    '%s: rewritten' % c.key])
+        st = self.store()
+        self.assertEqual(st.live[a.key].line, a.line)
+        self.assertEqual(st.live[b.key].line, b.line)
+        self.assertEqual(st.live[c.key].line, c.line + ' Rewritten beside the notes.')
+        ba, bb = self.blocks(a.key)[-1], self.blocks(b.key)[-1]
+        self.assertRegex(ba.prov, r' · noted · from `%s`, "The question" · by the audit: his words of 2026-09-16T22:46:21\.111Z: "word"$' % re.escape(REPORT_REL))
+        self.assertRegex(bb.prov, r' · noted · correcting the block of %s · commit `%s` · by chunk 0: that block names the wrong commit$' % (
+            re.escape(t), self.base[:9]))
+        self.assertIsNone(ba.earlier)
+        self.assertIsNone(bb.earlier)
+        self.assertEqual(self.snapshot()['F'], before['F'])
+        self.run_tool('check', '--base', self.base)
+        # run again, the file adds nothing: a note the history holds already is skipped, as an unchanged line is
+        again = self.snapshot()
+        p = self.run_tool('apply', self.line_file(text), '--by', 'chunk 0', ok=False)
+        self.assertIn('nothing changes', p.stderr)
+        self.assertIn('%s holds this noted block already, of %s' % (a.key, self.stamp(ba)), p.stderr)
+        self.assertEqual(self.snapshot(), again)
+        p = self.run_tool('apply', self.line_file(text.replace('Rewritten beside the notes.', 'Rewritten again.')), '--by', 'chunk 0')
+        self.assertEqual(p.stdout.split('\n')[0], '%s: rewritten' % c.key)
+        self.assertIn('%s: holds this noted block already, of %s; skipped' % (a.key, self.stamp(ba)), p.stdout)
+        self.assertEqual([x.kind for x in self.blocks(a.key)].count('noted'), 1)
+        # the same sources with another reason are another block
+        self.run_tool('note', a.key, '--from', '%s#The question' % REPORT_REL, '--by', 'the audit', '--note', 'another reason')
+        self.run_tool('note', a.key, '--from', '%s#The question' % REPORT_REL, '--by', 'the audit', '--note', 'another reason', ok=False)
+        self.assertEqual([x.kind for x in self.blocks(a.key)].count('noted'), 2)
+
+    def test_apply_note_all_or_none(self):
+        st = self.store()
+        a, b = st.files['P'].entries[4], st.files['P'].entries[5]
+        src, n, ptr = self.pointing()
+        m = [e for e in st.files['F'].entries if e.key not in (src.key, n.key)][-1]
+        before = self.snapshot()
+        good = 'note %s\n  note: his words\n' % a.key
+        for bad in (good + 'note P-9999\n  note: n\n',
+                    good + 'note %s\n' % b.key,                                                 # no reason
+                    good + 'note %s\n  from: %s, "The question"\n' % (b.key, REPORT_REL),     # sources, no reason
+                    good + 'note %s\n  note: twice\n' % a.key,                                  # one block per entry per call
+                    good + a.line + ' Rewritten.\n',                                           # noted and rewritten
+                    good + 'remove %s\n  note: n\n' % a.key,
+                    good + 'note %s correcting 1999-01-01 00:00Z\n  note: n\n' % b.key,
+                    good + 'note %s\n  note: n\nmerge %s into %s\n  note: one fact\n' % (m.key, n.key, m.key),
+                    good + '## Numbers\n- P-?1 **New.** x\n  note: n\nnote P-?1\n  note: n\n'):
+            p = self.run_tool('apply', self.line_file(bad), ok=False)
+            self.assertEqual(p.returncode, 1, bad)
+            self.assertEqual(self.snapshot(), before, bad)
+        p = self.run_tool('apply', self.line_file(good + 'note %s\n' % b.key), '--note', 'the call\'s reason')
+        self.assertTrue(self.blocks(b.key)[-1].prov.endswith(' · noted: the call\'s reason'))
+        self.assertTrue(self.blocks(a.key)[-1].prov.endswith(' · noted: his words'))
 
     # ------------------------------------------------------------ check
 
