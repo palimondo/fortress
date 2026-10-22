@@ -33,6 +33,11 @@ template on the line it writes, and puts the full earlier line of a row it
 changes, unchanged, in the history file beside the ledger
 (fortress-gap-ledger-history.md), under "### Row N" and a line saying what
 became of it. A failed check prints the rules the row breaks and exits 1.
+add, rewrite, close and duplicate check the whole line they write; note checks
+only what it changes (the notes cell and the row's length), so that a row
+failing the template elsewhere still takes a note. A row at its length limit
+takes no note: rewrite cuts it back (the rework's decision D4, "each is cut
+when next edited", process-engineering/gap-ledger-archaeology.md).
 
 usage: ledger.py COMMAND [ARGS] [--root DIR] [--ledger FILE] [--history FILE]
 
@@ -57,15 +62,35 @@ usage: ledger.py COMMAND [ARGS] [--root DIR] [--ledger FILE] [--history FILE]
                              seven cells after it); numbers it max + 1 and
                              inserts it in that section's table in number
                              order
-  note N TEXT                appends TEXT to row N's notes
-  close N --commit HASH --test NAME [--note TEXT] [--claim C] [--class C]
-        [--spec C] [--found-by C]
+  note N TEXT                adds TEXT to row N's notes, before the row's own
+                             "full text: history, row N" marker where it has
+                             one, else at their end (notes of `none` are
+                             replaced); checks the notes cell and the row's
+                             length only, so a failure in another cell does
+                             not block it; a row keeps its own cells
+  rewrite N FILE             FILE holds row N's whole new line (its # cell N
+                             or ?, or the seven cells after it); checks it
+                             against the template and writes it in the row's
+                             place, its earlier line in the history
+                             ("rewritten"): the route that corrects a claim,
+                             cuts notes, or moves a reproducer. A FIXED or
+                             DUPLICATE row stays so (a FIXED row's commit is
+                             checked); a row becomes one only by close or
+                             duplicate
+  close N --commit HASH --test NAME [--settled TEXT] [--note TEXT] [--claim C]
+        [--class C] [--spec C] [--found-by C]
                              after the fix has landed: HASH must be in HEAD's
-                             history and NAME a test under the test folders;
-                             writes the one-line FIXED row (the claim's first
-                             sentence, the test as reproducer, notes `fixed
-                             HASH; full text: history, row N`); the options
-                             give cells the old row lacks in the template's form
+                             history; NAME a test under the test folders, a
+                             file under explorations/coordinator/tools/ (a
+                             tool's own test), or none, which needs --note
+                             with the reason; a CONTESTED row needs --settled
+                             naming what settled its question (the curator's
+                             answer, a POSITIONS entry), and only it takes
+                             it; writes the one-line FIXED row (the claim's
+                             first sentence, the test or none as reproducer,
+                             notes `fixed HASH[; settled by TEXT][; TEXT];
+                             full text: history, row N`); the options give
+                             cells the old row lacks in the template's form
   duplicate N --of M [--add TEXT] [--claim C] [--class C] [--spec C]
         [--reproducer C] [--found-by C]
                              makes row N a DUPLICATE pointer to row M (notes
@@ -80,6 +105,31 @@ usage: ledger.py COMMAND [ARGS] [--root DIR] [--ledger FILE] [--history FILE]
                              history file, and that the set of row numbers is
                              unchanged; --summary prints only the counts by
                              rule; exit 1 on any failure
+  landing-check BASE [--head REV] [--facts FILE] [--positions FILE]
+                             the checks of a landing that need no reading
+                             (ledger-health-2026-10-22/REPORT.md, 6.3), on the
+                             ledger and on BASE..REV (REV default HEAD), one
+                             line per finding, exit 1 on any:
+                               template  check with no allowance, and check
+                                 --base BASE (new rows allowed, none gone)
+                               xxx-gone  each XXX test of the test folders
+                                 that the diff deletes or renames, with the
+                                 open rows that still name it
+                               commit-says-fixed, subject-names-row  each open
+                                 row that a commit of the range touching code
+                                 or the tools says it fixed (row N fixed,
+                                 repaired (rows N, M), fixes row N), or names
+                                 in its subject as (row N), and whose line is
+                                 the same as at BASE
+                               record  each row whose status a FACTS or
+                                 POSITIONS entry changed since BASE states
+                                 otherwise, in words next to its number (row N
+                                 is fixed, row N stays open), or that it names
+                                 under "Still to build:" while closed
+                             The files are the tree's (FACTS, POSITIONS, the
+                             ledger and its history); a past range is checked
+                             with copies at REV (--ledger, --history, --facts,
+                             --positions)
 
 Text given on the command line (TEXT, C) has its bare pipes escaped.
 """
@@ -120,6 +170,16 @@ VACANT = {148}        # never used: run-c's row 148 was merged into row 8
 FROZEN = 'Specification-1.0-frozen/'
 PLACEHOLDERS = ('?', '#', 'N', '')
 TEST_FOLDERS_EXTRA = ('shelltests', 'compiler_regressions', 'long_term_not_working', 'not_passing_yet', 'test_library')
+TOOLS_REL = 'explorations/coordinator/tools'    # a tool's own test may close a row of the tools
+FACTS_REL = 'explorations/coordinator/FACTS.md'
+POSITIONS_REL = 'explorations/coordinator/POSITIONS.md'
+MARKER = 'full text: history, row %d'
+# The cell each template rule checks; row-length, cells and pipe are the line's own.
+RULE_CELL = {'number': 'num', 'status': 'status', 'class': 'class',
+             'spec': 'spec', 'spec-path': 'spec', 'spec-line': 'spec', 'spec-section': 'spec',
+             'reproducer': 'reproducer', 'reproducer-path': 'reproducer', 'reproducer-length': 'reproducer',
+             'claim': 'claim', 'claim-length': 'claim', 'found-by': 'found_by', 'found-by-length': 'found_by',
+             'notes-length': 'notes', 'closed': 'notes'}
 
 SEP = re.compile(r'\|\s*:?-{3,}')
 ROW = re.compile(r'\|\s*(\d+)\s*\|')
@@ -452,6 +512,20 @@ class Linter:
         raise LedgerError('no test under the test folders is named %s' % name if not hits else
                           'the test name %s is ambiguous: %s' % (name, ', '.join(hits)))
 
+    def close_test(self, name):
+        """The reproducer of a close: a test under the test folders, a file under the tools' folder (a tool's own test), or None for none."""
+        name = name.strip('`')
+        if name == 'none':
+            return None
+        if name.startswith(TOOLS_REL + '/'):
+            if os.path.isfile(os.path.join(self.root, name)):
+                return name
+            raise LedgerError('%s is no file' % name)
+        try:
+            return self.test_path(name)
+        except LedgerError as e:
+            raise LedgerError('%s; a close also takes a file under %s/ (a tool\'s own test), or none with --note giving the reason' % (e, TOOLS_REL))
+
     def tex_headings(self, path):
         if path not in self._tex:
             heads = []
@@ -581,13 +655,30 @@ class Linter:
         return out
 
 
+def template_error(line, fails):
+    return LedgerError('the row does not meet the template:\n' + '\n'.join('  %s: %s' % f for f in fails) + '\n  the row: ' + clip(line, 300))
+
+
 def template_row(line, numbers, root):
     """Lint one line written by a command; raise with the rules it breaks."""
     row = Row(int(ROW.match(line).group(1)) if ROW.match(line) else None, 0, None, TEMPLATE, line)
     fails = Linter(root, numbers).lint(row)
     if fails:
-        raise LedgerError('the row does not meet the template:\n' + '\n'.join('  %s: %s' % f for f in fails) + '\n  the row: ' + clip(line, 300))
+        raise template_error(line, fails)
     return row
+
+
+def changed_cells_row(old, line, cells, numbers, root):
+    """Lint a line that changes only CELLS of the row old, read in old's table; raise with the rules it breaks
+    in those cells, the row's length, and any other rule of the line that old did not break."""
+    new = Row(old.num, old.lineno, old.section, old.table, line)
+    lint = Linter(root, numbers)
+    before = {rule for rule, d in lint.lint(old)}
+    fails = [(rule, d) for rule, d in lint.lint(new)
+             if RULE_CELL.get(rule) in cells or rule == 'row-length' or (RULE_CELL.get(rule) in (None, 'num') and rule not in before)]
+    if fails:
+        raise template_error(line, fails)
+    return new
 
 
 # ---------------------------------------------------------------- writing
@@ -744,16 +835,22 @@ def cmd_count(a, p):
     print('rows %d' % len(rows))
 
 
-def cmd_add(a, p):
-    with open(a.file, encoding='utf-8') as f:
+def read_row_file(path, number='?'):
+    """The eight cells of the one row line a file holds; its # cell may be left out."""
+    with open(path, encoding='utf-8') as f:
         lines = [ln.strip() for ln in f.read().split('\n') if ln.strip()]
     if len(lines) != 1 or not lines[0].startswith('|'):
-        raise LedgerError('%s must hold one row line, | ? | claim | status | class | spec citation | reproducer | found by | notes |' % a.file)
+        raise LedgerError('%s must hold one row line, | %s | claim | status | class | spec citation | reproducer | found by | notes |' % (path, number))
     cells = split_cells(lines[0])
     if len(cells) == len(HEADER) - 1:
         cells = ['?'] + cells
     if len(cells) != len(HEADER):
         raise LedgerError('the row has %d cells at its unescaped pipes; the template has %d (write a pipe inside a cell as \\|)' % (len(cells), len(HEADER)))
+    return cells
+
+
+def cmd_add(a, p):
+    cells = read_row_file(a.file)
     if cells[0] not in PLACEHOLDERS:
         raise LedgerError('add numbers the row itself: write ? in its # cell, not %s' % cells[0])
     with Lock(p.lock):
@@ -775,6 +872,18 @@ def cmd_add(a, p):
         print('rows that cite the same files: %s' % ', '.join(map(str, kin[:20])) + (' and %d more' % (len(kin) - 20) if len(kin) > 20 else ''))
 
 
+def insert_note(notes, text, num):
+    """notes with text added: before the row's own history marker where it has one, else at the end; notes of none replaced."""
+    if notes.strip() in ('', 'none'):
+        return text
+    marks = list(re.finditer(re.escape(MARKER % num) + r'(?!\d)', notes))
+    if not marks:
+        return notes + ' ' + text
+    at = marks[-1].start()
+    before = notes[:at].rstrip()
+    return (before + ' ' if before else '') + text + (' ' if re.search(r'[.;!?]$', text) else '; ') + notes[at:]
+
+
 def cmd_note(a, p):
     text = escape_pipes(one_line(a.text))
     if not text:
@@ -784,37 +893,91 @@ def cmd_note(a, p):
         r = led.one(a.n)
         if r.status_word in ('FIXED', 'DUPLICATE'):
             raise LedgerError('row %d is %s: a closed row is not edited; its full text is in the history file' % (r.num, r.status_word))
-        cells = r.template_cells()
-        cells[7] = (cells[7] + ' ' + text).strip()
+        if r.split == 'bad' or 'notes' not in r.table.names:
+            raise LedgerError('row %d does not split into its table\'s %d cells, so its notes cell is not known: rewrite it (ledger.py rewrite N FILE)' % (
+                r.num, len(r.table.names)))
+        cells = list(r.cells)
+        i = r.table.names.index('notes')
+        cells[i] = insert_note(cells[i], text, r.num)
         line = join_cells(cells)
-        template_row(line, {x.num for x in led.rows}, p.root)
+        changed_cells_row(r, line, {'notes'}, {x.num for x in led.rows}, p.root)
         replace_rows(p, led, [(r, line, 'note added')])
     print('row %d: note added (%d characters)' % (r.num, len(line)))
 
 
+def commit_in_head(root, h):
+    if git(root, 'rev-parse', '--verify', '--quiet', h + '^{commit}').returncode != 0:
+        raise LedgerError('%s is not a commit' % h)
+    if git(root, 'merge-base', '--is-ancestor', h, 'HEAD').returncode != 0:
+        raise LedgerError('%s is not in the history of HEAD: close a row after its fix has landed' % h)
+    return git(root, 'rev-parse', '--short=9', h).stdout.strip()
+
+
+def cmd_rewrite(a, p):
+    cells = read_row_file(a.file, str(a.n))
+    if cells[0] not in PLACEHOLDERS and cells[0] != str(a.n):
+        raise LedgerError('the line is numbered as row %s; rewrite %d writes row %d (write %d or ? in its # cell)' % (cells[0], a.n, a.n, a.n))
+    with Lock(p.lock):
+        led = Ledger(p.ledger)
+        r = led.one(a.n)
+        if tuple(r.table.titles) != HEADER:
+            raise LedgerError('row %d is in a table of %d columns (%s); the template\'s line goes in a table of its eight' % (
+                r.num, len(r.table.titles), ', '.join(r.table.titles)))
+        cells[0] = str(r.num)
+        line = join_cells(cells)
+        if line == r.line:
+            raise LedgerError('row %d is already that line' % r.num)
+        numbers = {x.num for x in led.rows}
+        new = template_row(line, numbers, p.root)
+        was, now = r.status_word, new.status
+        if was in ('FIXED', 'DUPLICATE') and now != was:
+            raise LedgerError('row %d is %s, and a closed row stays %s: a new issue gets a new row (ledger.py add)' % (r.num, was, was))
+        if now == 'FIXED' and was != 'FIXED':
+            raise LedgerError('the line makes row %d FIXED: close it with ledger.py close N --commit HASH --test NAME, which checks the fix' % r.num)
+        if now == 'DUPLICATE' and was != 'DUPLICATE':
+            raise LedgerError('the line makes row %d a DUPLICATE: use ledger.py duplicate N --of M' % r.num)
+        if now == 'FIXED':
+            m = re.search(r'\bfixed\b\W*([0-9a-f]{7,40})\b', new.notes, re.I)
+            if not m:
+                raise LedgerError('a FIXED row\'s notes open with `fixed HASH`, the commit that fixed it')
+            commit_in_head(p.root, m.group(1))
+        if now == 'DUPLICATE':
+            other = led.one(int(re.search(r'\bduplicate of row (\d+)', new.notes, re.I).group(1)))
+            if other.status_word == 'DUPLICATE':
+                raise LedgerError('row %d is itself a duplicate: point at the row it names' % other.num)
+        replace_rows(p, led, [(r, line, 'rewritten')])
+    print('row %d: rewritten (%d characters); its earlier line is in %s' % (r.num, len(line), os.path.basename(p.history)))
+
+
 def cmd_close(a, p):
     root = p.root
-    if git(root, 'rev-parse', '--verify', '--quiet', a.commit + '^{commit}').returncode != 0:
-        raise LedgerError('%s is not a commit' % a.commit)
-    if git(root, 'merge-base', '--is-ancestor', a.commit, 'HEAD').returncode != 0:
-        raise LedgerError('%s is not in the history of HEAD: close a row after its fix has landed' % a.commit)
-    short = git(root, 'rev-parse', '--short=9', a.commit).stdout.strip()
+    short = commit_in_head(root, a.commit)
+    note = escape_pipes(one_line(a.note)) if a.note else ''
+    settled = escape_pipes(one_line(a.settled)) if a.settled else ''
     with Lock(p.lock):
         led = Ledger(p.ledger)
         r = led.one(a.n)
         lint = Linter(root, {x.num for x in led.rows})
-        test = lint.test_path(a.test)
+        test = lint.close_test(a.test)
         if r.status_word in ('FIXED', 'DUPLICATE'):
             raise LedgerError('row %d is already closed (%s)' % (r.num, r.status_word))
-        if r.status_word in ('RETIRED', 'CONTESTED'):
-            raise LedgerError('row %d is %s, which is not a defect to close' % (r.num, r.status_word))
-        notes = 'fixed `%s`' % short + ('; ' + escape_pipes(one_line(a.note)) if a.note else '') + '; full text: history, row %d' % r.num
+        if r.status_word == 'RETIRED':
+            raise LedgerError('row %d is RETIRED, which is not a defect to close' % r.num)
+        if r.status_word == 'CONTESTED' and not settled:
+            raise LedgerError('row %d is CONTESTED: close it once its question is settled, and name what settled it with --settled TEXT '
+                              '(the curator\'s answer, or the POSITIONS entry)' % r.num)
+        if settled and r.status_word != 'CONTESTED':
+            raise LedgerError('--settled is for a CONTESTED row; row %d is %s' % (r.num, r.status_word))
+        if test is None and not note:
+            raise LedgerError('--test none needs --note with the reason no test checks the fix')
+        notes = ('fixed `%s`' % short + ('; settled by ' + settled if settled else '') + ('; ' + note if note else '')
+                 + '; ' + MARKER % r.num)
         cells = [str(r.num), pick(a.claim, first_sentence(r.claim)), 'FIXED', pick(a.klass, r.klass),
-                 pick(a.spec, r.spec), '`%s`' % test, pick(a.found_by, r.found_by), notes]
+                 pick(a.spec, r.spec), '`%s`' % test if test else 'none', pick(a.found_by, r.found_by), notes]
         line = join_cells(cells)
         template_row(line, {x.num for x in led.rows}, root)
         replace_rows(p, led, [(r, line, 'closed by %s' % short)])
-    print('row %d: FIXED by %s, test %s; its earlier line is in %s' % (r.num, short, test, os.path.basename(p.history)))
+    print('row %d: FIXED by %s, test %s; its earlier line is in %s' % (r.num, short, test or 'none', os.path.basename(p.history)))
 
 
 def cmd_duplicate(a, p):
@@ -879,15 +1042,21 @@ def cmd_check(a, p):
         if r is not None:
             rows_failing.add(id(r))
         if not a.summary:
-            where = ('row %s (line %d)' % (r.num if r.num is not None else '?', r.lineno)) if r is not None else name
-            print('%s: %s: %s' % (where, rule, d))
+            print(failure_line(r, rule, d, name))
     print('ledger.py check: %s, %d rows, %d fail the template%s' % (
         name, total, len(rows_failing), '' if not by_rule else '; rows (or places) failing each rule: ' +
         ', '.join('%s %d' % kv for kv in sorted(by_rule.items(), key=lambda kv: (-kv[1], kv[0])))))
     return 1 if fails else 0
 
 
-def check_base(base, led, p):
+def failure_line(r, rule, d, name):
+    where = ('row %s (line %d)' % (r.num if r.num is not None else '?', r.lineno)) if r is not None else name
+    return '%s: %s: %s' % (where, rule, d)
+
+
+def check_base(base, led, p, new_rows=False):
+    """[(None, rule, detail)]: each row at BASE whose line is neither its line now nor in the history file, and a
+    change in the set of row numbers (with new_rows, only a number gone, since a landing adds rows)."""
     shown = git(p.root, 'show', '%s:%s' % (base, LEDGER_REL))
     if shown.returncode != 0:
         raise LedgerError('git show %s:%s failed: %s' % (base, LEDGER_REL, shown.stderr.strip()))
@@ -906,10 +1075,168 @@ def check_base(base, led, p):
         out.append((None, 'base-line', 'row %d at %s (its line %d) is not its line now, and its full line is not in %s' % (
             r.num, base, r.lineno, os.path.basename(p.history))))
     was, isn = {r.num for r in old.rows}, set(now)
-    if was != isn:
+    if was - isn if new_rows else was != isn:
         out.append((None, 'base-numbers', 'the row numbers differ from %s: gone %s; new %s' % (
             base, ', '.join(map(str, sorted(was - isn))) or 'none', ', '.join(map(str, sorted(isn - was))) or 'none')))
     return out
+
+# ---------------------------------------------------------------- landing-check
+
+# How a commit message or a FACTS or POSITIONS entry names rows: "row 642", "rows 642, 644 and 651",
+# "gap-ledger row 8"; not "row 314's", a part of the row.
+NUMS = r'\d{1,4}(?:(?:,? (?:and|or) |, )\d{1,4})*'
+ROWS = r"\b(?:gap-ledger |ledger )?[Rr]ows? (" + NUMS + r")\b(?![’']s)"
+FIX_DONE = r'(?:fixed|repaired|closed|resolved)'
+# The row's status in words next to its number, as a statement and not a plan or a part.
+SAID_FIXED = (re.compile(ROWS + r',? (?:(?:is|are|was|were|now|both|all|each|also) )*' + FIX_DONE + r'\b'),
+              re.compile(r'\b' + FIX_DONE + r'(?: by `?[0-9a-f]{7,40}`?)?,? \(' + ROWS + r'[),;]'))
+SAID_FIXES = re.compile(r'\b(?:fix(?:es|ed)?|repair(?:s|ed)?|clos(?:es|ed)|resolv(?:es|ed))(?: the)? ' + ROWS)   # in a commit only
+SAID_OPEN = (re.compile(ROWS + r',? (?:(?:is|are|stays?|remains?|still|left|now|both|all) )*(?:open|unfixed|not (?:yet )?fixed|owed)\b'),
+             re.compile(r'\b(?:open|unfixed) ' + ROWS))
+NOT_SO = re.compile(r'\b(?:not|never|until|once|when|before|after|if|unless|whether|will|would|half|partly|in part|to be)\b', re.I)
+# A subject that names a row without fixing it (scripts/signals.py of the ledger health check, 2026-10-22).
+NOT_A_FIX = re.compile(r'\b(opened|added|refused|noted|named|notes? on|recorded|records|waits?|full\b|contested|re-?anchored)', re.I)
+
+
+def numbers_in(body):
+    return [int(x) for x in re.findall(r'\d{1,4}', body)]
+
+
+def said(text, patterns):
+    """[(row, the words around it)] for each row that one of the patterns says the status of, not in a plan or a part."""
+    out = []
+    for pat in patterns:
+        for m in pat.finditer(text):
+            clause = re.split(r'[.;:!?]\s', text[max(0, m.start() - 40):m.start()])[-1]
+            if NOT_SO.search(clause):
+                continue
+            words = text[max(0, m.start() - 60):m.end() + 20].strip()
+            out += [(n, words) for n in numbers_in(m.group(1))]
+    return out
+
+
+def under_tests(path):
+    parts = path.split('/')
+    return len(parts) > 2 and parts[0] == 'ProjectFortress' and (
+        parts[1] == 'tests' or parts[1].endswith('_tests') or parts[1] in TEST_FOLDERS_EXTRA)
+
+
+def xxx_gone(p, led, base, head):
+    """Each XXX test that BASE..HEAD deletes or renames to another name, with the open rows that still name it."""
+    out = []
+    stems = {os.path.basename(t).split('.')[0] for t in git(p.root, 'ls-tree', '-r', '--name-only', head).stdout.split('\n') if t}
+    diff = git(p.root, 'diff', '--name-status', '-M', base, head).stdout
+    for ln in diff.split('\n'):
+        parts = ln.split('\t')
+        if len(parts) == 2 and parts[0] == 'D':
+            old, new = parts[1], None
+        elif len(parts) == 3 and parts[0].startswith('R'):
+            old, new = parts[1], parts[2]
+        else:
+            continue
+        name = os.path.basename(old)
+        stem = name.split('.')[0]
+        if 'XXX' not in name or not under_tests(old) or (new and os.path.basename(new).split('.')[0] == stem):
+            continue
+        # the stem names the test unless a file of that stem is still in the tree; then only the file's own name does
+        named = re.compile(r'(?<!\w)%s(?!\w)' % re.escape(name if stem in stems else stem))
+        rows = [r for r in led.rows if r.status_word not in CLOSED and named.search(r.line)]
+        if rows:
+            out.append(('xxx-gone', '%s, %s: %s' % (old, 'renamed %s' % new if new else 'deleted',
+                                                   ', '.join('row %d (%s)' % (r.num, r.status_word) for r in rows))))
+    return out
+
+
+def commits_say_fixed(p, led, old, base, head, label):
+    """Each open row, unchanged since BASE, that a code or tool commit of BASE..HEAD says it fixed, or names in its subject as (row N)."""
+    by = {r.num: r for r in led.rows}
+    was = {r.num: r.line for r in old.rows}
+    out = []
+    log = git(p.root, 'log', '--format=%x01%H%x02%B%x03', '--name-only', '%s..%s' % (base, head)).stdout
+    for chunk in log.split('\x01')[1:]:
+        h, _, rest = chunk.partition('\x02')
+        body, _, names = rest.partition('\x03')
+        files = [f for f in names.split('\n') if f.strip()]
+        if not [f for f in files if not f.startswith(('explorations/', '.claude/', 'research/')) or f.startswith(TOOLS_REL + '/')]:
+            continue    # a commit of the record alone
+        subject = body.strip().split('\n', 1)[0]
+        flat = one_line(body)
+        hits = []
+        if not NOT_A_FIX.search(subject):
+            hits += [('subject-names-row', n, subject) for m in re.finditer(r'\(' + ROWS + r'\)', subject) for n in numbers_in(m.group(1))]
+        hits += [('commit-says-fixed', n, w) for n, w in said(flat, SAID_FIXED + (SAID_FIXES,))]
+        seen = set()
+        for kind, n, words in hits:
+            r = by.get(n)
+            if n in seen or r is None or r.status_word in CLOSED or was.get(n) != r.line:
+                continue    # closed, or changed in the landing: closed or noted, as the landing check asks
+            seen.add(n)
+            out.append((kind, '%s "%s": row %d (%s) is open and unchanged since %s' % (h[:9], clip(words, 160), n, r.status_word, label)))
+    return out
+
+
+def entry_name(line):
+    m = re.match(r'-\s+([FP]-\d+)\b', line)
+    if m:
+        return m.group(1)
+    t = re.search(r'\*\*(.+?)\*\*', line)
+    return '"%s"' % clip(t.group(1) if t else line[2:], 60)
+
+
+def records_disagree(p, led, base, files):
+    """Each row whose status a FACTS or POSITIONS entry changed since BASE states otherwise."""
+    by = {r.num: r for r in led.rows}
+    out = []
+    for rel, path in files:
+        if not os.path.isfile(path):
+            raise LedgerError('%s is no file' % path)
+        with open(path, encoding='utf-8') as f:
+            text = f.read()
+        shown = git(p.root, 'show', '%s:%s' % (base, rel))
+        before = set(shown.stdout.split('\n')) if shown.returncode == 0 else set()
+        for ln in text.split('\n'):
+            if not ln.startswith('- ') or ln in before:
+                continue
+            what = []
+            what += [(n, 'called fixed', w) for n, w in said(ln, SAID_FIXED) if by.get(n) and by[n].status_word not in CLOSED]
+            what += [(n, 'called open', w) for n, w in said(ln, SAID_OPEN) if by.get(n) and by[n].status_word in CLOSED]
+            owed = re.search(r'Still to build:?(.*)$', ln)
+            if owed:
+                what += [(n, 'named under "Still to build:"', owed.group(1)[max(0, m.start() - 60):m.end() + 20].strip())
+                         for m in re.finditer(ROWS, owed.group(1)) for n in numbers_in(m.group(1))
+                         if by.get(n) and by[n].status_word in CLOSED]
+            seen = set()
+            for n, how, words in what:
+                if (n, how) not in seen:
+                    seen.add((n, how))
+                    out.append(('record', '%s, %s: row %d (%s) %s: "%s"' % (
+                        os.path.basename(rel), entry_name(ln), n, by[n].status_word, how, clip(words, 160))))
+    return out
+
+
+def cmd_landing_check(a, p):
+    head = a.head or 'HEAD'
+    for rev in (a.base, head):
+        if git(p.root, 'rev-parse', '--verify', '--quiet', rev + '^{commit}').returncode != 0:
+            raise LedgerError('%s is not a commit' % rev)
+    if git(p.root, 'merge-base', '--is-ancestor', a.base, head).returncode != 0:
+        raise LedgerError('%s is not an ancestor of %s' % (a.base, head))
+    label = git(p.root, 'rev-parse', '--short=9', a.base).stdout.strip()
+    led = Ledger(p.ledger)
+    name = os.path.basename(p.ledger)
+    fails = Linter(p.root, {r.num for r in led.rows}).lint_ledger(led) + check_base(a.base, led, p, new_rows=True)
+    findings = [('template', failure_line(r, rule, d, name)) for r, rule, d in fails]
+    findings += xxx_gone(p, led, a.base, head)
+    old = Ledger(LEDGER_REL + '@' + a.base, git(p.root, 'show', '%s:%s' % (a.base, LEDGER_REL)).stdout)
+    findings += commits_say_fixed(p, led, old, a.base, head, label)
+    files = [(FACTS_REL, a.facts or os.path.join(p.root, FACTS_REL)), (POSITIONS_REL, a.positions or os.path.join(p.root, POSITIONS_REL))]
+    findings += records_disagree(p, led, a.base, files)
+    for kind, text in findings:
+        print('%s: %s' % (kind, text))
+    kinds = collections.Counter(k for k, t in findings)
+    print('ledger.py landing-check: %s..%s: %s' % (label, head, 'no finding' if not findings else '%d finding%s (%s)' % (
+        len(findings), '' if len(findings) == 1 else 's', ', '.join('%s %d' % kv for kv in sorted(kinds.items())))))
+    return 1 if findings else 0
 
 
 def main(argv):
@@ -944,10 +1271,14 @@ def main(argv):
     s = sp('note', cmd_note)
     s.add_argument('n', type=int)
     s.add_argument('text')
+    s = sp('rewrite', cmd_rewrite)
+    s.add_argument('n', type=int)
+    s.add_argument('file')
     s = sp('close', cmd_close)
     s.add_argument('n', type=int)
     s.add_argument('--commit', required=True)
     s.add_argument('--test', required=True)
+    s.add_argument('--settled')
     s.add_argument('--note')
     for opt in ('--claim', '--class', '--spec', '--found-by'):
         s.add_argument(opt, dest=opt[2:].replace('-', '_').replace('class', 'klass'))
@@ -961,6 +1292,11 @@ def main(argv):
     s.add_argument('--rows', metavar='FILE')
     s.add_argument('--base', metavar='COMMIT')
     s.add_argument('--summary', action='store_true')
+    s = sp('landing-check', cmd_landing_check)
+    s.add_argument('base')
+    s.add_argument('--head', metavar='REV')
+    s.add_argument('--facts', metavar='FILE')
+    s.add_argument('--positions', metavar='FILE')
     a = ap.parse_args(argv)
     try:
         return a.func(a, Paths(a)) or 0
