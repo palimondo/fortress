@@ -19,6 +19,21 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 **entry**
 : Line of `FACTS.md` or `POSITIONS.md` under its permanent number, such as `F-87` or `P-48`.
 
+**PLAN**
+: Working plan, `explorations/coordinator/PLAN.md`. Its last phases are 3, the checker at zero; 4, the switch-over; 5, microGPT compiles; 6, microGPT fast. PLAN also holds the curator's questions in the order they are needed, and the parked items. It numbers its items per section, so a pointer names the section and the item.
+
+**review queue**
+: `explorations/coordinator/review-queue.md`: numbered items that wait for the curator's word or review. A pointer cites an item by its number.
+
+**default**
+: Choice that an agent made and landed without the curator's word. It stands in the tree, and its item in the review queue waits for the curator's review.
+
+**batch**
+: Run of the batch workflow (`references/batch.md`) that changes the tree in several rungs and lands their merged work. The record names each one a climb batch, by number, with its folder `explorations/compile-ladder/climb-batch-<N>/`.
+
+**rung**
+: One task of a batch, with its own worker and worktree. Its brief is its section of `explorations/coordinator/CLIMB-BATCH-<N>.md`.
+
 **fork**
 : Design question with more than one way forward.
 

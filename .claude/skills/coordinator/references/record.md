@@ -16,7 +16,9 @@ How workers read the record, and edit it when a brief asks, is `fortress-repo`'s
 An entry reads on its own. A reader who knows the language, or can look it up in the `fortress-repo` skill, can tell what it says without the conversation or the batch behind it. The entry lets a worker or you act right without opening the report, and says when the report is needed. Its number is permanent and never reused. Its title and text are rewritten freely, since the number is the key.
 
 - A FACTS entry holds, after its number and a bold title that states the fact: what is established now, and under which conditions; what it means for the work, such as what it blocks or which row or decision it bears on; its evidence: the test that gates it, or its source, and whether it was observed, read in the code or inferred; the decision it builds, by number; and the report section that holds the detail.
-- A POSITIONS entry holds, after its number and a bold title: what the curator decided about the project, and why, in one or two sentences; where it applies; what it requires of the work; and what is still to build, with its PLAN item. Its "Built." or "Still to build:" line stays in the entry. It lists no FACTS entries: `P-48+` finds them.
+- A POSITIONS entry holds, after its number and a bold title: what the curator decided about the project, and why, in one or two sentences; where it applies; and what it requires of the work. It lists no FACTS entries: `P-48+` finds them.
+- An entry states the present, or what holds for all time. It holds no plan and no status: no state words such as "Built." or "Still to build:", no PLAN phase or item, no review-queue item, and no words that it waits for the curator's review. PLAN and the review queue name the entries that their items concern.
+- If the tree lacks a part of a decision or a fact, that part is a row of the gap ledger. The entry may name it as "row N", with a few words on what the row holds. In an entry, "row N" always names a row of the gap ledger.
 - A pointer that stays in an entry carries a few words on what it holds, such as a ledger row's subject. A bare list of numbers goes to the history.
 - A handle that only made sense in a past conversation, such as "answer 9", goes to the history.
 - Quote the curator only where the exact words are the decision. Otherwise condense the words into the position, keeping the part of the rule that cuts. Check the condensed text against the words before you write it. The dictated words go to the history, with their time.
@@ -77,7 +79,8 @@ The pass owns each entry's final wording. A rung reports complete findings: the 
    - The cited report section holds what the entry left out.
    - The entry keeps the source's scope: the path (walk or the compiled path), the call form (a dotted method call against a top-level call), the range of values and the conditions. Ask: does the entry let a reader conclude more than the evidence shows?
    - If a behaviour changed, grep FACTS for it, linked or not. Each entry that states it is updated, or says how it differs.
-4. Report each entry over 600 characters, with the question that keeps its extra sentence.
+4. Cut any plan or status from each entry (above). If the cut text named a PLAN item or a review-queue item, check that the item names the entry.
+5. Report each entry over 600 characters, with the question that keeps its extra sentence.
 
 Run the same pass on POSITIONS at each landing, and when the curator replaces a decision.
 

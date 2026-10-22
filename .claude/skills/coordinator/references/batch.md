@@ -23,6 +23,12 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 **reserved point**
 : Point that a batch record keeps for the curator, such as a model or APL line beyond the approved ones, or an interpreter output that a rung cannot explain.
 
+**checker count**
+: Errors that the compiled checker reports on the interpreter's library, up to each component's first error.
+
+**distance**
+: All the compiled checker's errors on the interpreter's library, which must reach zero before the switch-over. The gate's distance stage counts them (`explorations/coordinator/tools/distance/run.sh`), and FACTS holds the current value.
+
 ## The go
 
 - The batches of PLAN's phase 3 run on a standing go, in PLAN's order. Launch each when the batch before it has landed and its own batch record has no open question.
@@ -72,6 +78,8 @@ The gate reports the checker count in every batch, and the distance in phase 3. 
 
 ## The landing
 
+The landing check is `ledger.py landing-check BASE`, run by the gather and by the merged-diff review on the batch's base. It reports a row that breaks the template, an `XXX` test removed while a row that is not closed names it, a row that is not closed though a commit says it fixed it, and a FACTS or POSITIONS entry that disagrees with a row's status. A finding the base already had counts too. Any finding fails the stage until it is cleared through `rewrite`, `close` or `note`, or the entry is reworded. So a batch lands only when the check prints nothing.
+
 If the batch's push is held for the curator, take the steps below at once on the local commits. Only the push waits, and the parts of the routing that need the pushed hashes.
 
 1. Sweep the batch agents' to-dos from the session's shared task list: `explorations/coordinator/tools/sweep-tasks.py --delete`. If another workflow still runs, add `--running`, which removes only the completed tasks. The agents write these to-dos themselves, and the harness shows the whole list to every agent.
@@ -82,4 +90,4 @@ If the batch's push is held for the curator, take the steps below at once on the
 6. File what the review finds in PLAN. Then make these moves yourself. The manual's section "After the landing: the coordinator's routing" gives `PLAN-history.md`'s heading for each landing and the form of the one line.
    - Move word for word into `PLAN-history.md` each item that the batch built, each question that the batch or the curator answered, and each stale item. A stale item is one that a decision or a landed change has made moot.
    - If another home holds an open item's whole text, cut it in PLAN to one line with a pointer there. If it holds part, first move the rest there. This holds for the review lists too: an entry that `review-queue.md` holds becomes such a line.
-   - Repoint each citation of a moved item: `git grep -n 'PLAN\.md' -- explorations/coordinator/*.md explorations/fortress-gap-ledger.md .claude/skills`. Cut a built item's part from its POSITIONS entry with `record.py`.
+   - Repoint each citation of a moved item: `git grep -n 'PLAN\.md' -- explorations/coordinator/*.md explorations/fortress-gap-ledger.md .claude/skills`.

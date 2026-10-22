@@ -19,18 +19,6 @@ The team at Sun Labs built the Fortress language from 2003 to 2012 and left it u
 **record**
 : Project's memory: the files under `explorations/` that hold what the project has established, decided and measured (below).
 
-**PLAN**
-: Working plan, `explorations/coordinator/PLAN.md`. Its last phases are 3, the checker at zero; 4, the switch-over; 5, microGPT compiles; 6, microGPT fast. These are not the phases of a run (below). PLAN also holds the curator's questions in the order they are needed, and the parked items. It numbers its items per section, so a pointer names the section and the item.
-
-**review queue**
-: `explorations/coordinator/review-queue.md`: numbered items that wait for the curator's word or review. A pointer cites an item by its number.
-
-**default**
-: Choice that an agent made and landed without the curator's word. It stands in the tree, and its item in the review queue waits for the curator's review.
-
-**Built.**, **Still to build:**
-: State words that end a POSITIONS entry. "Built." means that the decision is in the landed tree. "Still to build:" names the work owed and where it is tracked, such as a PLAN item or a gap-ledger row.
-
 **walk**
 : Interpreter, and the default command of `bin/fortress`: `bin/fortress P.fss` is the same as `bin/fortress walk P.fss`.
 
@@ -57,18 +45,6 @@ The team at Sun Labs built the Fortress language from 2003 to 2012 and left it u
 
 **gate**
 : Full check of a tree before it lands, when a brief asks for it. To land a tree is to commit it to `main` and push `main`.
-
-**count stage**
-: Gate's stage that runs the compiled checker over the interpreter's library: `explorations/coordinator/tools/checker-count/run.sh`. Its total, the checker count, counts the errors up to each component's first error.
-
-**distance**
-: All the compiled checker's errors on the interpreter's library, which must reach zero before the switch-over. The gate's distance stage counts them (`explorations/coordinator/tools/distance/run.sh`), and FACTS holds the current value.
-
-**batch**
-: Run of the batch workflow that changes the tree in several rungs and lands their merged work. The record names each one a climb batch, by number, with its folder `explorations/compile-ladder/climb-batch-<N>/`.
-
-**rung**
-: One task of a batch, with its own worker and worktree. Its brief is its section of `explorations/coordinator/CLIMB-BATCH-<N>.md`.
 
 **harness**
 : Suites' own test runner. Each test is a whole Fortress program, not a JUnit test of a Java class. The harness runs the program and checks the result, as LLVM's lit does for Swift's test suite. `harness-one.sh` and `junit.sh` run it on the files that you name.

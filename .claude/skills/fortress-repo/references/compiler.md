@@ -1,5 +1,8 @@
 # The compiled checker, the code generator and the run time
 
+**count stage**
+: Script that runs the compiled checker over the interpreter's library and prints its errors: `explorations/coordinator/tools/checker-count/run.sh`. Its total, the checker count, counts the errors up to each component's first error.
+
 The code of this area is in these directories:
 
 - `scala_src/typechecker/`: the type checker, in Scala.
@@ -48,7 +51,7 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 - The `value` modifier has no effect on the representation.
 - An array of `RR64` values is to be stored as an unboxed `double[]`. The code generator does not build it yet (`SKILL.md`, "The compiled run time"). If your task touches how arrays are stored, print the two POSITIONS entries on arrays first (about 2 KB):
 
-      explorations/coordinator/tools/facts-extract.sh 'positions:Storage is' 'positions:array design'
+      explorations/coordinator/tools/facts-extract.sh 'positions:array is stored as' 'positions:array design'
 
 ## The run time
 

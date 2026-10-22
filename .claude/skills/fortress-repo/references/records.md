@@ -51,11 +51,9 @@ A row is one line of eight cells, at most 1,200 characters, in the table of a to
 
 Read the ledger only through the queries below: it is too large to read whole.
 
-Three limits of `ledger.py` (below):
+A row states its gap as it stands now. A note adds a fact. If your work changes what a row says, write the row's whole new line with `rewrite` (below), not a note that tells the repair.
 
-- A row at its 1,200-character limit takes no further note.
-- No command edits a row's claim. `close --claim` takes a corrected one.
-- Its heading reader does not expand the specification's `\Trait{X}` macro. So a row that names a library trait's section cites `Specification-1.0-frozen/` by line.
+The heading reader of `ledger.py` does not expand the specification's `\Trait{X}` macro. So a row that names a library trait's section cites `Specification-1.0-frozen/` by line.
 
 ## Reading the record
 
@@ -104,9 +102,11 @@ To add a row:
 
 To change a row:
 
-- `$L note N TEXT` adds TEXT to the notes of row N.
+- `$L note N TEXT` adds TEXT to the notes of row N. A row at its 1,200-character limit takes no note.
+- `$L rewrite N FILE` replaces row N with the whole line in FILE, a file under your tree's `tmp/`. Use it to correct the claim, cut the notes or change the reproducer. The tool checks the line against the template and keeps the old line in the history file.
 - `$L duplicate N --of M` makes row N a pointer to row M.
-- `$L close N --commit HASH --test NAME` marks row N `FIXED`, by the commit HASH and its test NAME. Run it once that commit is in `HEAD`, and commit the close after it.
+- `$L close N --commit HASH --test NAME` marks row N `FIXED`, by the commit HASH and its test NAME. Run it once that commit is in `HEAD`, and commit the close after it. NAME can also be a file under `explorations/coordinator/tools/`, or `none` with `--note REASON`. For a `CONTESTED` row, add `--settled TEXT`, which names what settled its question.
+- `$L landing-check BASE` prints each problem that the commits after BASE leave in the record, and exits 1 on any. The problems are a row that breaks the template, an `XXX` test deleted or renamed while a row that is not closed names it, a row that is not closed though a commit says it fixed it, and a FACTS or POSITIONS entry that disagrees with a row's status.
 
 ## The repository's history
 
