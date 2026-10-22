@@ -11,4 +11,4 @@ Read the file your launch message names. For each entry, write:
 4. **Unfinished:** what the entry says is still to build, if anything.
 5. **Could not resolve:** each word or phrase you could not understand or could read two ways, and for each, whether it is a language concept you lack (and could not find in the skill) or unclear wording.
 
-Write your report to `explorations/coordinator/positions-audit/clarity/pilot/cold-read.md`, and revise it as you go. Your final message: its path, and one line per entry: clear, or what blocked you.
+Write your report to `explorations/coordinator/positions-audit/clarity/evidence/pilot/cold-read.md`, and revise it as you go. Your final message: its path, and one line per entry: clear, or what blocked you.
