@@ -211,6 +211,54 @@ The useful ideas from the other responses should likewise become observable chec
 
 Do not add Knowledge Space Theory, RST, GSN or other labels to the mandatory writer brief merely to sound more grounded. This review has not verified the external responses' descriptions of those frameworks, and no recommendation depends on those descriptions. If a framework later supplies a useful technique, record its source and the particular check it motivates in maintenance material. Naming a framework is not a substitute for specifying the reader failure to prevent.
 
+## Recovered admission rule, workflow runs and transcript search pointers
+
+Follow-up on October 22: the curator clarified that each Revival entry must earn its place by correcting a worker's default mental model to match **revived Fortress**. This is an admission test for each addition or edit, and a retention test during consolidation, not merely a final readability check.
+
+### The original rule is on record
+
+`explorations/reviews/skills-review-style.md`, Lens 10, gives the test verbatim:
+
+> Test: name an agent that acts differently without the sentence. Name the record or transcript that shows the failure. If there is neither, cut it.
+
+The same review records the curator's October 8 goal: use the agents' pretraining knowledge to guide them toward a correct mental model of Fortress. Section 2, M3 links that goal to the pretraining quiz and distillation audit. M4 records the October 5 05:54 request for a fresh reader and scenarios containing traps; it says this became cold reads given only the skill, followed by fixes and work on triggering/routing. Those times are as recorded in the artifact; their timezone was not independently verified.
+
+This is stronger recovered support than the general “flag gotchas” instruction alone. The writer should require a default assumption, the correction for revived Fortress, and the consequential mistake avoided. Keep supporting evidence in sources or the evaluation record, not as another compulsory three-part paragraph in Revival.
+
+### Actual automated work, distinguished from the unverified paired test
+
+| Artifact | What it establishes |
+|---|---|
+| `explorations/reviews/fortress-repo-rewrite-points.md`, opening | A completed rewrite Workflow run, **`wf_185878c8-0fb`**, on October 8: sixteen writers, one per part, then three cold readers and fixes. Commits: `24af7743b` rewrite, `9a9c30d95` cold-read fixes, `cae2a0ad5` comparison. |
+| `explorations/reviews/skills-description-optimization.md` | Executed skill-creator scripts on October 4, 20:05–20:40 UTC: 20 trigger/near-miss queries per skill, repeated runs, training/test split and description optimization. Fortress triggering improved from 52/60 to 59/60 runs. “Before/after” here means description versions, not worker answers without/with the skill. The evaluation files were outside git in `scratchpad/skills-description-optimization/`. |
+| `explorations/reviews/skills-review-style.md`, M4 | Scenario/trap cold-reading was requested and performed according to the historical review. It does not give a paired no-skill/with-skill scoring protocol. |
+| `explorations/coordinator/process-engineering/skill-effect.md` | A comparison of actual earlier and later batch behaviour, not a controlled per-entry admission experiment. Concurrent workflow changes limit attribution to the skill. |
+
+The October 4 held note also records an initial trigger/routing experiment that the curator stopped and replaced with the skill-creator's normal description optimization. See `explorations/coordinator/postmortem-2026-09-19/held-list.md` at `9e17a6937` (19:55:58 UTC) and `8806c5360` (20:03:36 UTC). The planned `skills-trigger-test.md` must not be cited as a completed result.
+
+The evidence therefore confirms real automated evaluation and a real rewrite Workflow. It does **not yet verify** that the specific paired mental-model test remembered by the curator ran as a workflow. Do not conflate these procedures or conclude it never ran.
+
+### Precise breadcrumbs for Claude's transcript search
+
+The relevant commits carry Claude session **`session_01AmiXNpJxQ6TBwec4vJZHDB`**. Start in that session's history with:
+
+- October 4, 19:55–20:40 UTC: initial testing worker, its cancellation, then skill-creator optimization.
+- October 5, 05:54 as recorded in the style review: request for scenarios containing traps, then cold-reader launches.
+- October 8: pretraining quiz, distillation audit, and Workflow **`wf_185878c8-0fb`**. Resolve its full ID in the workflow journal; the report preserves only this prefix.
+- Search phrases: “scenarios that contain traps”, “name an agent that acts differently”, and the workflow ID.
+
+Remote branches `transcripts` and `transcripts-blinded` were confirmed to exist. Their contents were not downloaded for this bounded review. Thus these are session, time and run pointers recovered from repository artifacts, **not an independently verified JSONL path or message ID**. Claude should inspect the actual launch briefs and results before claiming to have recovered the exact paired protocol.
+
+### Operationalize the admission test, not another writing ritual
+
+For consolidation, apply the admission test to each candidate correction. For later landings, apply it to each proposed addition or substantive edit. An established trap can reuse its evidence; do not rerun a baseline merely to satisfy a form. When necessity is uncertain, use a fresh-reader test.
+
+A small Claude Workflow could separate three jobs: a scenario author establishes the expected decision and its evidence; fresh readers answer neutral matched scenarios with and without the candidate correction; a grader compares answers against the evidence. For an incremental edit, the baseline should normally be the existing skill **without the candidate**, not an entirely unassisted worker. Otherwise the test cannot show that this particular addition is needed. A no-skill baseline remains useful for discovering broader pretraining assumptions.
+
+The scenario author and grader may see the record; test readers must not see the expected answers or each other's responses. Require correct decisions and scope, not recitation. A candidate earns space when it addresses an evidenced wrong assumption or consequential missing knowledge; if the baseline already handles the case, seek evidence from other relevant failures before retaining it. One passing answer is not proof that every future worker will know it.
+
+This is a workflow outline for Claude to reconcile with the recovered run, not a claim about how that run was implemented. Keep the writer's instruction small: **identify the mistaken assumption, show why it is expected, and verify that the correction prevents the mistake without introducing another.** Preserve evaluation evidence in maintenance records. No skill files or workflow code were changed in this review.
+
 ## Review limits
 
 This review sampled Revival and its sources. It did not reread the whole file, audit FACTS or POSITIONS, inspect transcripts, run builds, or test the numerical claims anew. Growth measurements are attributed to the existing scout report.
