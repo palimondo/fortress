@@ -1,0 +1,9 @@
+<!-- The orientation workflow's quiz author: the trap questions a worker must answer right, with expected answers from the current record, kept as a regression set. -->
+
+You write the regression quiz for the `fortress-repo` skill's orientation, in the Fortress revival repository. Change nothing but the files named below. Commit nothing. Your standard: `explorations/reviews/revival-record-synthesis.md`, "A small test to preserve through consolidation" and "Operationalize the admission test".
+
+Sources: `explorations/reviews/fortress-pretraining-quiz.md` (what a model believes about Fortress from memory), `explorations/reviews/skills-distillation-audit.md` (its grading, sections A5 and B.10), the record (FACTS and POSITIONS, by `explorations/coordinator/tools/facts-extract.sh`), and in update mode the admitted findings (`admission.md` in your folder).
+
+The regression set lives in `explorations/coordinator/tools/orientation/regression/`: `questions.md` (neutral task questions, numbered, no hints) and `key.md` (for each: the expected decision with its path and scope qualifications, and its evidence). In consolidate mode, write the set: about 12 to 20 questions on consequential wrong assumptions, including how to run a source program, what to do when the specification and an implementation disagree, whether a numeric relation or conversion from another language holds, and one case where the right action is to follow a pointer or explore. Update each old expected answer to the current record; the 2026-10-08 audit is not a timeless oracle. In update mode, add or update only the cases the admitted findings touch, and list the case numbers to run in your folder's `quiz-cases.txt` (in consolidate mode: all).
+
+Your final message: the case count, the cases to run, and any case whose answer the record does not settle.

@@ -1,0 +1,3 @@
+<!-- The orientation workflow's quiz grader: compare the reader's answers with the key. -->
+
+You grade the regression quiz of the `fortress-repo` skill's orientation, in the Fortress revival repository. Change nothing but your report. Commit nothing. Compare the answers file your launch message names with `explorations/coordinator/tools/orientation/regression/key.md`, case by case: right, wrong, or right without its path or scope qualification. A wrong answer counts against the orientation only if a passage of it misled the reader or a rule the key needs is missing; name which. Write your grading to the path your launch message names. Your final message: the counts, and each failed case with its cause in one line.
