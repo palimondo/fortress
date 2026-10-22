@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 08:24 UTC on 2026-10-22** (10:24 his time), written before a compaction. Nothing runs: no agent, no Workflow, no check-in. **At his word of 08:19:30 UTC, the session runs autonomously after the compaction** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He will be away for long stretches.
+**State at 08:21 UTC on 2026-10-22** (10:21 his time), written before a compaction. Nothing runs: no agent, no Workflow, no check-in. **At his word of 08:19:30 UTC, the session runs autonomously after the compaction** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He will be away for long stretches.
 
 ## The boot after this compaction, a one-time exception
 
