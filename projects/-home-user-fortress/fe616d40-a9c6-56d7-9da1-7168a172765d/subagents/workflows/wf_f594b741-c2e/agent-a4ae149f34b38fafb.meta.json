@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"cold read f8","workflowPhase":"ColdRead","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
