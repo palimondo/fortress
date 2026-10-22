@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 23:24 UTC on 2026-10-22** (01:24 his time). Nothing runs. One check-in is armed: "Batch 21 preparation start" at 10:05 UTC on 10-23, after the weekly reset. The post-mortem and record consolidation of 10-20 to 22 are done. Its report landed at `226e3dd97` (`postmortem-2026-10-20-record/REPORT.md`, by the Opus writer from `MAP.md`). It is published as the page https://claude.ai/artifact/F3Gz2ynXQSKEjKXqhNT5is, and the push notification is sent. The batch hold lifts with it, at his word of 22:43.
+**State at 23:35 UTC on 2026-10-22** (01:35 his time). One check-in is armed: "Batch 21 preparation start" at 10:05 UTC on 10-23, after the weekly reset. The post-mortem and record consolidation of 10-20 to 22 are done. Its report landed at `226e3dd97` (`postmortem-2026-10-20-record/REPORT.md`, by the Opus writer from `MAP.md`). It is published as the page https://claude.ai/artifact/F3Gz2ynXQSKEjKXqhNT5is, and the push notification is sent. The batch hold lifts with it, at his word of 22:43. **Running:** at his word of 23:31, the report rewritten in a neutral register for researchers who train later models, not addressed to him: an Opus writer (Agent tool, launched 23:34, spend epoch 1792711998, estimate about 0.3M), brief `postmortem-2026-10-20-record/briefs/writer-2.md`, output `/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/REPORT-v2.md` (test -f it). **Then:** read it whole, replace `REPORT.md` with it, commit, republish the page from `scratchpad/pmreport/index.html` (its standfirst made neutral too), so the URL stays.
 
 ## Next
 
