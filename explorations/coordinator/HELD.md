@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-10-22)
+
+- 05:28 A POSITIONS entry must read on its own: a reader who knows the language, or can look it up in the skills, but never saw the conversation, must be able to tell what he decided, where it applies, what it requires and what is unfinished; handles of a past conversation ("answer 9", "item 48") go to the history. Astra's review states the standard (`origin/astra/record-keeping-review`, `explorations/reviews/revival-record-synthesis.md`, "P45: fidelity and comprehensibility are separate checks" and "For Fable: rewrite positions before consolidating Revival") (for the skill writer: `record.md`, what an entry is, and the pass's checks).
+
 ## Held from his page comments (2026-10-21)
 
 - 23:29 P-88's `ReadableArray2` sentence stays: he reads it as his own wish for a read-only array trait; his comment is its source. The trial's writer was too aggressive; a sentence with no source of his keeps its text and becomes a question (rule 5 of the writer's brief).
