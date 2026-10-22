@@ -452,5 +452,38 @@
     }
    ]
   }
- ]
+ ],
+ "orientation": {
+  "mode": "consolidate",
+  "out": "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/orientation/",
+  "stream": "orientation",
+  "concepts": [
+   "/home/user/fortress/explorations/coordinator/positions-audit/clarity/evidence/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/p1/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/p2/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/p3/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/p4/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/p5/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/p6/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/p7/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/positions/p8/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f0/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f1/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f2/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f3/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f4/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f5/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f6/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f7/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f8/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f9/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f10/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f11/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f12/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f13/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f14/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f15/concepts.md",
+   "/home/user/fortress/explorations/coordinator/consolidation-2026-10-22/evidence/facts/f16/concepts.md"
+  ]
+ }
 }
