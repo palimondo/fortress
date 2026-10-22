@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"reread p6","workflowPhase":"Reread","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
