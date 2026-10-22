@@ -6,7 +6,7 @@ How workers read the record, and edit it when a brief asks, is `fortress-repo`'s
 : `FACTS-history.md` or `POSITIONS-history.md`. Under each number, one block per change: a provenance line (the time, the kind of change, the report section, the commit, who, why) and the line as it stood before.
 
 **pointer**
-: Another entry's number in the sentence that needs it: "It builds P-48."
+: Another entry's number in the sentence that needs it, with a few words on its subject: "It builds P-48, on a type parameter that a call does not fix."
 
 **pass**
 : Your rewrite of what a worker wrote into entries of the form below.
@@ -15,10 +15,10 @@ How workers read the record, and edit it when a brief asks, is `fortress-repo`'s
 
 An entry reads on its own. A reader who knows the language, or can look it up in the `fortress-repo` skill, can tell what it says without the conversation or the batch behind it. The entry lets a worker or you act right without opening the report, and says when the report is needed. Its number is permanent and never reused. Its title and text are rewritten freely, since the number is the key.
 
-- A FACTS entry holds, after its number and a bold title that states the fact: what is established now, and under which conditions; what it means for the work, such as what it blocks or which row or decision it bears on; its evidence: the test that gates it, or its source, and whether it was observed, read in the code or inferred; the decision it builds, by number; and the report section that holds the detail.
+- A FACTS entry holds, after its number and a bold title that states the fact: what is established now, and under which conditions; what it means for the work, such as what it blocks or which row or decision it bears on; its evidence: the test that gates it, or its source, and whether it was observed, read in the code or inferred; the decision it builds, by number and subject; and the report section that holds the detail.
 - A POSITIONS entry holds, after its number and a bold title: what the curator decided about the project, and why, in one or two sentences; where it applies; and what it requires of the work. It lists no FACTS entries: `P-48+` finds them.
 - An entry states the present, or what holds for all time. It holds no plan and no status: no state words such as "Built." or "Still to build:", no PLAN phase or item, no review-queue item, and no words that it waits for the curator's review. PLAN and the review queue name the entries that their items concern.
-- If the tree lacks a part of a decision or a fact, that part is a row of the gap ledger. The entry may name it as "row N", with a few words on what the row holds. In an entry, "row N" always names a row of the gap ledger.
+- If the tree does not yet do what a decision or the team's design asks, the missing part is a row of the gap ledger. The entry may name it as "row N", with a few words on what the row holds. In an entry, "row N" always names a row of the gap ledger.
 - A pointer that stays in an entry carries a few words on what it holds, such as a ledger row's subject. A bare list of numbers goes to the history.
 - A handle that only made sense in a past conversation, such as "answer 9", goes to the history.
 - Quote the curator only where the exact words are the decision. Otherwise condense the words into the position, keeping the part of the rule that cuts. Check the condensed text against the words before you write it. The dictated words go to the history, with their time.
@@ -37,23 +37,21 @@ Ask of each sentence, and act on the answer:
 5. Does another entry or a skill say it? Give that entry's number, or the skill's part.
 6. Can a reader new to the project follow every word? Name the kind of each count.
 
-Judge a FACTS entry by six checks. Mark each one pass, fail or unresolved, and quote the passage that fails:
+In a consolidation of FACTS, judge each entry by six checks. Mark each one pass, fail, or unresolved where evidence is still needed, and quote the passage that fails:
 
 - Scope: the title and the text agree on the path, the conditions and the limits, and claim no more than the evidence shows.
 - Present meaning: a reader can tell the current property, or a measurement bounded to its day, without rebuilding a batch's work.
-- Evidence: the cited support exists and holds the claim.
+- Evidence: the cited support exists and holds the claim, and the entry states the kind of its evidence and its uncertainty.
 - Comprehension: a reader can restate the fact and what it means. Subjects, referents and terms are plain.
 - Ownership: the entry has one subject. No repair history or copied count hides it.
 - Consistency: entries on the same subject agree, or state their different scopes or their conflict.
 
-A fail of scope, evidence or consistency blocks the entry. A fail of comprehension or ownership asks for a rewrite. Give no score: good prose does not make up for an unsupported claim. Then give the entry one disposition:
+An entry that fails scope, evidence or consistency is not kept as it stands: reword it to what its support holds, or investigate where the support is unresolved. A fail of comprehension or ownership asks for a rewrite. Give no score: good prose does not make up for an unsupported claim. Then give the entry one disposition:
 
 - keep: every check passes;
 - reword: the meaning holds, but the wording or the stated scope fails;
 - reorganize: move detail out, merge the entry into its owner, or split it;
-- investigate: the support or the consistency is unresolved. Settle that narrow question before any new wording.
-
-The detail of each check is in `explorations/reviews/revival-record-synthesis.md`, "Per-entry assessment rubric".
+- investigate: the support or the consistency is unresolved. Settle that narrow question before any new wording, and do not delete the fact meanwhile.
 
 Before you write or check the first entries of a consolidation, read the five worked examples: `facts-extract.sh 'doc:explorations/coordinator/process-engineering/record-rule-draft.md#Worked examples'`, a large read.
 
@@ -71,7 +69,7 @@ Before you write or check the first entries of a consolidation, read the five wo
 
 Run the pass when a worker finishes, and before the next boot or batch reads FACTS. In a batch, the commit stage runs it, with this part quoted in its prompt. After a lone worker, you run it.
 
-The pass owns each entry's final wording. A rung reports complete findings: the claim, its conditions, its evidence and what it means. It writes no finished prose.
+The pass owns each entry's final wording. A rung writes its findings as draft entries: the claim, its conditions, its evidence and what it means.
 
 1. Write each new fact as an entry, or rewrite in place the entry that it changes. A rung writes its entries in a file `record.md` in its worktree, and the gather folds them in with `record.py apply`.
 2. Give each change its provenance: the report section, the commit, and why.
@@ -100,8 +98,8 @@ A consolidation runs the pass over whole sections. Run it on FACTS before each b
 Three Workflow scripts make the record and the worker skill readable again when they drift. Each one's README says how to run it and what to do with its output. Put the open questions of their runs on the review queue.
 
 - The mining workflow finds where each POSITIONS entry came from: the curator's words, or an agent's summary or default. Run it on the entries that it has not traced, before the clarity workflow rewrites them. Its README: `explorations/coordinator/positions-audit/README.md`.
-- The clarity workflow rewrites POSITIONS or FACTS entries so that each reads on its own. For FACTS, it first judges every entry by the six checks above, and rewrites only those marked reword or reorganize. A cold read and a fidelity check follow the writer, then its fix round, a second cold read, and a judge that applies or holds each entry. Run it when entries no longer read on their own. Its README: `explorations/coordinator/tools/record-clarity/README.md`.
-- The orientation workflow writes `fortress-repo`'s revival part, the short account of how revived Fortress differs from the original, which every worker reads whole. Its consolidate mode rewrites the whole part: run it once, and again when the part drifts. Its update mode runs after each landing (`references/batch.md`, "The landing"). Its README: `explorations/coordinator/tools/orientation/README.md`.
+- The clarity workflow rewrites POSITIONS or FACTS entries so that each reads on its own. For FACTS, it first judges every entry by the six checks of "What an entry is" (scope, present meaning, evidence, comprehension, ownership and consistency), and rewrites only those marked reword or reorganize. Run it when entries no longer read on their own. Its README: `explorations/coordinator/tools/record-clarity/README.md`.
+- The orientation workflow writes `fortress-repo`'s revival part, the short account of how revived Fortress differs from the original, which every worker reads whole. Its consolidate mode rewrites the whole part. Run it when a cold read or the regression quiz shows that the part no longer reads whole, or when an update cannot keep it within the README's budget. Its update mode runs after each landing (`references/batch.md`, "The landing"). Its README: `explorations/coordinator/tools/orientation/README.md`.
 
 ## INDEX and the gap ledger
 

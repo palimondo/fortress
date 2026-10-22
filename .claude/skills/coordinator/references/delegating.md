@@ -13,7 +13,7 @@
 : Search of git and the transcripts for how something came about. It returns cited evidence, not a judgement.
 
 **writer stream**
-: Headless Opus session that writes the chunks of a long writing pass in turn, started and resumed by `explorations/coordinator/tools/record-clarity/writer-stream.sh`.
+: Headless Opus session that writes a long writing pass in chunks, one slice of its entries or sections at a time, started and resumed by `explorations/coordinator/tools/record-clarity/writer-stream.sh`.
 
 ## Which tier runs what
 
@@ -75,9 +75,9 @@ An interrupt or a process stop kills every running Workflow agent and Agent-tool
 Run a long writing pass, such as a run of the clarity or orientation workflow, as writer streams.
 
 - The script resumes a stream while its context is small and its prompt cache is warm. Its header gives the limits. Otherwise it starts a fresh session.
-- So a fix round resumes the session that wrote the text, with its evidence still in the cache. A fresh writer would read everything again.
-- Give each Workflow run its own stream, and run several side by side.
-- End each round with one judge, which applies or holds each chunk's items. No chunk goes through a second fix round.
+- So the round that fixes a chunk after its checks resumes the session that wrote it, with its evidence still in the cache. A fresh writer would read everything again.
+- Give each Workflow run its own stream. Several such runs can go side by side.
+- End each round with one judge. It applies each item that a chunk's checks raise, or holds it out and puts it on the review queue. No chunk goes through a second fix round.
 
 ## A second session
 

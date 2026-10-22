@@ -1,7 +1,7 @@
 # The compiled checker, the code generator and the run time
 
 **count stage**
-: Script that runs the compiled checker over the interpreter's library and prints its errors: `explorations/coordinator/tools/checker-count/run.sh`. Its total, the checker count, counts the errors up to each component's first error.
+: Script that runs the compiled checker over the interpreter's library and prints its errors: `explorations/coordinator/tools/checker-count/run.sh`. Its total is the checker count. Where an early stage of the checker finds errors in an api or a component, the checker skips its overloading and return-type checks there. So the count misses the errors of those checks there, and a fix of an early error can raise it.
 
 The code of this area is in these directories:
 
@@ -75,11 +75,11 @@ The wrapper generator wraps every method of a class that it is given, the privat
 `revival-changes.md` gives the rules. This section gives where the checker applies them, and where it does not yet.
 
 - Overloads: the checker reads no bounds of static parameters when it reads exclusion over the whole tuple of parameter types. So it refuses `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])`, where `Red`, `Blue` and `Box` are objects, and walk loads it (ledger row 786). It accepts `g[\T\](a: T)` beside `g(a: Any)`, whose declared domains are equal, and runs the generic one (ledger row 759).
-- A `where` clause's constraint: the checker checks a function's or functional method's constraint on its own static parameters at the call. At a dotted call, a candidate is not applicable where the receiver's static argument breaks the method's constraint. A trait's or object's own constraint is checked where its type is used, also at a constructor call. A `where`-clause variable is a static parameter of the arrow, inferred at the call. The checker does not yet check these:
+- A `where` clause's constraint: the checker checks a function's or functional method's constraint on its own static parameters at the call. At a dotted call, a candidate is not applicable where the receiver's static argument breaks the method's constraint. A trait's or object's own constraint is checked where its type is used, also at a constructor call; only the checker reads it, and the code generator refuses such a declaration (ledger row 701). A `where`-clause variable is a static parameter of the function's arrow type, inferred at the call. The checker does not yet check these, and no ledger row holds the first two:
   - at a dotted call, a constraint whose bound names the method's own static parameters or a `where`-clause variable;
   - at a type's use, a constraint whose bound names a `where`-clause variable;
   - a static argument written at a top-level call, against its parameter's bound (ledger row 470).
-- Conditional extension: the condition holds while the checker checks the `extends` entry itself, an object's value parameters and the members. It does not hold for the other `extends` entries, the static parameters, the declaration's own `where` clause, and the `excludes` and `comprises` clauses. The checker lets a member that it checked under the condition be called where the condition fails (ledger row 773).
+- Conditional extension: the condition holds while the checker checks the `extends` entry itself, an object's value parameters and every member. It does not hold for the other `extends` entries, the static parameters, the declaration's own `where` clause, and the `excludes` and `comprises` clauses. The checker lets a member that it checked under the condition be called where the condition fails (ledger row 773).
 - A `comprises` clause that lists a type at a `where`-clause variable, as `NatParam comprises { N[\n\] } where [\ nat n \]` or `AnyList comprises List[\E\] where [\E\]`: at a call, the checker gives the variable a fresh size or type, equal only to itself. Two values passed in one call get two. A fresh type is bounded by the binding and by the clause's constraints. The variable is in scope in the trait, except in its `extends` and `excludes` clauses. The checker gives no fresh type where it meets the trait as a supertype of another type. Departures: a fresh type also under a function type's result (ledger row 751), none for an extender that the clause does not list (ledger row 752), and a crash at a call, from outside the trait, of a member whose type names the variable (ledger row 756).
 
 ## The `fortress` commands

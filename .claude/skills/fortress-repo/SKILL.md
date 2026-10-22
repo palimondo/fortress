@@ -26,7 +26,7 @@ The team at Sun Labs built the Fortress language from 2003 to 2012 and left it u
 : Other way to run a program: `bin/fortress compile P.fss` writes JVM bytecode, and `bin/fortress run P` runs it.
 
 **model program**
-: microGPT, the program by which the revival is measured. It has two programs: C4, the flat program (`explorations/run-c4/src/MicroGptFlat.fss`), and the APL program (`explorations/apl/mg/MicroGptApl.fss`). Each has a quick check beside it, `MicroGptFlatQuick.fss` and `MicroGptAplQuick.fss`. A model line is a line of the two programs.
+: microGPT, the program by which the revival is measured. It has two programs: the flat program, which the record calls C4 (`explorations/run-c4/src/MicroGptFlat.fss`), and the APL program (`explorations/apl/mg/MicroGptApl.fss`). Each has a quick check beside it, `MicroGptFlatQuick.fss` and `MicroGptAplQuick.fss`. A model line is a source line of either program.
 
 **one library**
 : Interpreter's library, which both paths use after the switch-over (below).
@@ -200,6 +200,6 @@ The parts, in the order that work meets them:
 - What every report holds and where it goes, findings and points to report; POSITIONS, FACTS and the gap ledger; the queries of the record and when to run each; writing the ledger with `ledger.py`; the repository's history: `references/records.md`
 - This cloud platform (the machine, the disk, the network, the platform's stops, the transcript backup, a lost container): the `cloud-container` skill.
 
-A task usually needs several parts, and every task needs `records.md`, for its queries and its report. For example, a fix of walk needs `build-and-caches.md`, `session.md`, `worktrees.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. An edit of the library needs the same parts and `library.md`.
+A task usually needs several parts, and every task needs `revival-changes.md`, read whole before work, and `records.md`, for its queries and its report. For example, a fix of walk needs `build-and-caches.md`, `session.md`, `worktrees.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. An edit of the library needs the same parts and `library.md`.
 
 `references/sources.md` gives the source of each fact in these parts. Use it only to maintain this skill. Do not load it for a task.

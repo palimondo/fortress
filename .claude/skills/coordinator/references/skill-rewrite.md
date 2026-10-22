@@ -23,7 +23,7 @@ The skills are written for a reader new to the repository, which every agent is.
 - After a rule enters a skill from the curator's words, check that the skill caught the meaning, by a cold read or a test.
 - If a practice that a skill states is in question, have a Sonnet scout check what the workers actually did. If they found a better way, write that way into the skill.
 - Keep batch structure out of `fortress-repo`. The workflow or the brief sets which roles exist, and who builds, checks, commits and pushes.
-- After each landing, run the orientation workflow in update mode on the landing's new and changed FACTS entries (`references/record.md`, "The consolidation tools"). It rewrites the affected explanation of `fortress-repo`'s `references/revival-changes.md` in place, within the length budget that the workflow's README gives. Have the writer install what its judge accepts. `fortress-repo`'s `SKILL.md` keeps only what does not change from batch to batch.
+- After each landing, the orientation workflow updates `fortress-repo`'s `references/revival-changes.md` (`references/batch.md`, "The landing", step 3). `fortress-repo`'s `SKILL.md` keeps only what does not change from batch to batch.
 
 ## The coordinator skill
 

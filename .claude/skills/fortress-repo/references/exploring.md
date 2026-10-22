@@ -38,7 +38,7 @@ When your report describes the team's sources on a question, say which of them i
 
 ## The procedure
 
-1. Search the record with the queries in `records.md`. If two of the team's sources disagree, look for the construct in `revival-changes.md` first.
+1. Search the record with the queries in `records.md`. If two of the team's sources disagree, look for the construct in `revival-changes.md` before you search the record.
 2. If the record or `revival-changes.md` settles the question, go back to building. Cite what settles it.
 3. If you have evidence against a decision of the curator, read its POSITIONS entry and the notes that it names. If the decision used your evidence, go back to building.
 4. Search the original tree. These help: the feature table and the phase map (`compiler.md`, "Before an edit"), the `\note{}` boxes and the map of design areas ("Weighing the sources" above), and the history of a file (`records.md`, "The repository's history").

@@ -20,13 +20,13 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 : Line of `FACTS.md` or `POSITIONS.md` under its permanent number, such as `F-87` or `P-48`.
 
 **PLAN**
-: Working plan, `explorations/coordinator/PLAN.md`. Its last phases are 3, the checker at zero; 4, the switch-over; 5, microGPT compiles; 6, microGPT fast. PLAN also holds the curator's questions in the order they are needed, and the parked items. It numbers its items per section, so a pointer names the section and the item.
+: Working plan, `explorations/coordinator/PLAN.md`. Its phases end with 3, the distance at zero (`references/batch.md`); 4, the switch-over, the move of the compiled path onto the interpreter's library; 5, microGPT compiles; 6, microGPT fast. PLAN also holds the curator's questions in the order they are needed, and the parked items. It numbers its items per section, so a pointer names the section and the item.
 
 **review queue**
-: `explorations/coordinator/review-queue.md`: numbered items that wait for the curator's word or review. A pointer cites an item by its number.
+: `explorations/coordinator/review-queue.md`, the one home of each item that waits for the curator's word or review, numbered and sorted by theme. A pointer cites an item by its number.
 
 **default**
-: Choice that an agent made and landed without the curator's word. It stands in the tree, and its item in the review queue waits for the curator's review.
+: Option that stands unless the curator picks another: the one that an ask recommends, or the choice that an agent landed without the curator's word, whose item waits in the review queue.
 
 **batch**
 : Run of the batch workflow (`references/batch.md`) that changes the tree in several rungs and lands their merged work. The record names each one a climb batch, by number, with its folder `explorations/compile-ladder/climb-batch-<N>/`.
@@ -50,7 +50,7 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 : Decision that the work waits on until the curator answers.
 
 **review list**
-: PLAN's list "listed for his review" under each batch: items for the curator's later review.
+: PLAN's list "listed for his review" under each batch: one line for each item for the curator's later review, with a pointer to its item in the review queue once the queue holds it.
 
 **interrupt**
 : Stop of a turn by the stop button.
@@ -90,7 +90,7 @@ Three principles settle most forks: the team's later word (P-26), the library as
 A decision is consequential if it:
 
 - reverses, bends or reads anew a decision of the curator's;
-- touches microGPT: a line of the model program, its speed or its readability;
+- touches microGPT: a line of its two programs, its speed or its readability;
 - chooses among ways that the record does not settle, where the three principles split or are silent;
 - or cannot be undone.
 
@@ -168,7 +168,7 @@ Give each decision a default that the curator can take without reading the argum
 - Answer the git-check hook's reminders silently. Never commit unready work to satisfy one.
 - Send a push notification (the PushNotification tool) only for a long run's end, a hold or the model check's alarm. It reaches the phone only outside the app.
 
-**While the curator reads turn by turn,** hold the points. Your default, an answer to each point as it comes, buries the curator in text.
+**While the curator reads turn by turn,** hold the points. An answer to each point as it comes buries the curator in text.
 
 - Write each point on the held list, one line in your words, with the UTC time of its message.
 - Reply with that line and "holding", in three lines at most.
@@ -196,7 +196,7 @@ Under `explorations/coordinator/`:
 - `PLAN-history.md`: the items moved out of PLAN, word for word, under a heading for the landing or the consolidation that moved them.
 - The boot note, the one home of state: what runs, with each run's ID and estimate; what to do when it ends; a question waiting on the curator; the session's model; the one next process stop; the armed check-ins, by name; and the URLs of live pages. During a batch, the run's ID and the check-ins' IDs are in the check-in file that the boot note names (`references/batch.md`, "While it runs").
 - The held list. Its last section holds the smaller items that the curator owns.
-- `review-queue.md`: the review lists, sorted by theme.
+- `review-queue.md`: the review queue.
 
 Elsewhere: the reports and notes, which hold the detail; the gap ledger, `explorations/fortress-gap-ledger.md`, one numbered row for each known gap between the team's design and the tree; and the skills. This skill holds how you work with the curator and the workers. `fortress-repo` holds the rules that bind workers. `cloud-container` holds the platform.
 
