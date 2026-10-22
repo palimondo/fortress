@@ -1,0 +1,5 @@
+Characters (Unicode code points; bytes in brackets) of the record before the scrape (HEAD 7e904c8b4) and after it,
+on a scratch copy with scrape.apply applied by record.py apply.
+
+POSITIONS.md  before  79,787 [79,840 bytes]  after  73,923 [73,976 bytes]  saved  5,864 characters (7.3 %)
+FACTS.md      before 222,720 [222,808 bytes]  after 220,493 [220,581 bytes]  saved  2,227 characters (1.0 %)

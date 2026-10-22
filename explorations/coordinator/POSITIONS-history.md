@@ -2518,3 +2518,393 @@ pointer words refreshed in: F-27, F-76, F-175
 2026-10-22 09:47Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p8/proposals.md, "P-125"); his 2026-10-08T15:53:33.559Z to the coordinator's 15:31:57.152Z, a one-thread suite a blind spot, a test made flaky by parallelism written wrong; his "So yeah, pin it to four. That's good." of 18:11:36.440Z to the coordinator's 18:07:13.987Z, first asked at 17:42:19.408Z; "fails or varies" said as a verdict, since printed output does not count (P-103), and "a pin" as the one-thread pin; the two suites named, as build.xml:1186 and :1431 pin them
 
 - P-125 **The suites run Fortress in parallel, pinned at four threads in `build.xml`.** Parallelism is native to Fortress, so a one-thread suite has a blind spot, and sparing a four-CPU machine is no reason for one. A test that fails or varies under parallelism is written wrong, such as a write that needs `atomic`, or it exposes a defect: either is fixed, never hidden by a pin. The pin makes every run the same, whatever the calling shell sets. Built.
+
+### P-7
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-7 **The goal is to finish what the designers intended, measured by one program, microGPT, compiled to JVM bytecode and running fast.** What the designers intended is judged by the specification in `Specification/`: the team's Working Draft of February 2011, as the revival revises it, with the Types chapter of the team's 2012 restart cited beside it (P-25). The revival revises the specification to reconcile contradictions: where the team's later work, in the compiler or in the papers on types, contradicts the original text, the text is updated to follow that work (P-26: the type group's later word wins). The language is not redesigned. The specification is a living document that states each change that the revival makes (P-95 says how a change is recorded). A pure-Java microGPT is the baseline that compiled microGPT is measured against: the optimal result, the one to aim at. Still to build: the pure-Java microGPT (PLAN, "Phase 6. microGPT fast").
+
+### P-12
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-12 **After the switch-over, walk runs the compiled type checker on its programs, and then uses the static coercions that the checker inserts.** The curator wants the checker usable on the programs that walk runs. Today `fortress typecheck` checks a program only against the compiler's prelude, so it is no check of walk's programs (F-9 holds this fact). Walk is not changed for this before the switch-over. After it, walk runs the checker on its programs and so gains their static types. Walk then uses the static coercions that the checker inserts, in place of its choice on the run-time value (P-59, walk's choice of coercions until the switch-over). Still to build: both steps, after the switch-over (PLAN, phase 4, names the batch that gives walk the checker's static types).
+
+### P-17
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-17 **Unboxed doubles and arrays of unboxed doubles are required: without them the revival misses its point.** Why: a language meant for high performance cannot box its numbers. Today the code generator boxes every number: an `RR64` value is an object of the class `FRR64`. In Java models of microGPT's three array kernels, the dot product, the matrix product and the row lift, boxing is the main cost (F-11 holds the measurement). How arrays store doubles, as `double[]`, is P-84's decision. Still to build: the arrays' `double[]` storage, in PLAN's phase 5, microGPT compiles, and unboxed arithmetic chosen by static type, in phase 6, microGPT fast (P-33 lists the phases).
+
+### P-19
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-19 **The tree is not described as the third-party port's migration grafted onto the team's history.** The port is a third-party port of the tree to Java 9, which commit `8fe1daa8f` copied onto the team's last commit (the `fortress-repo` skill, `references/records.md`, "The repository's history"). By history, `main` descends from that commit. By content, most of the port's files are removed or redone, and only one piece of the port's code still runs: the `FTypeArrayList` fix for the JDK 8 `TreeSet` crash (F-165). Why: the tree is not built on the port, and the record must not lead anyone to think that it is. The files that still describe the tree so wait for the lineage cleanup, a task parked in PLAN ("Off the path, parked"); `coordinator/lineage.md`, "Files that still repeat it", lists them.
+
+### P-28
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-28 **Fleshing out the standard library is a very important task.** Its next layer is algebra: traits such as `Ring` and `Field`, which the library does not declare yet, and what machine learning's matrices and tensors need, so that the library's algebraic traits, such as `AdditiveGroup` and `MultiplicativeRing`, reach them too. Why: the curator wants those matrices and tensors to have the mathematical rigour that the library's way of building its types promises. The work edits the standard library itself, in `Library/`, not a separate tree of the revival's own outside it (P-27, how the library is extended). It is parked off the path to microGPT compiled: PLAN lists it under "Off the path, parked", whose default is to leave each item until it becomes relevant and then bring it to the curator. Two matrix ideas of his wait there beside it: square matrices of one size as a multiplicative ring, and diagonal matrices of one size as a ring whose product commutes.
+
+### P-33
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-33 **The work toward microGPT compiled follows the phases of `explorations/coordinator/PLAN.md`, in the order that the curator approved.** Still to build: phase 3, the compiled checker reports no error on the interpreter's whole library (the distance to the switch-over at zero; F-53 defines it and holds its value); phase 4, the switch-over, first the natives, the library's `builtinPrimitive` bindings made to run on the compiled path, then the compiled path reads the interpreter's library and the compiler's prelude is deleted; phase 5, microGPT compiles: its static types, the array design and the code generator's open gaps; phase 6, microGPT runs fast. Other work has gone in beside that order. Phase 2b, the repair batch from the reviews of the landed batches, went in before phase 3: on 2026-09-27 he said that those reviews could yield batches that go in before phase 3. Code-generator work goes on under either library (P-37), and PLAN schedules phase 4's natives beside phase 3. PLAN's section "Where we stand" says how far the work is. One decision that an agent took without his approval waits for him with the switch-over's design. Gap-ledger row 320 has two halves. The agent fixed one, mutability across the api, and gated the other as an expected failure instead of fixing it (`ProjectFortress/compiler_tests/XXXExportVarRungXLinked`): an api implemented by a component of another name does not link. Item 36 of `explorations/coordinator/review-queue.md`, the list of what waits for his review, holds the decision.
+
+### P-37
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-37 **One library, the interpreter's, is the library that the compiler checks.** The interpreter's prelude, `FortressLibrary` and `FortressBuiltin`, becomes the compiled path's prelude in place of the compiler's own, and the compiled path reads the interpreter's library with it. The curator sees the compiler's prelude, its own library files `CompilerLibrary`, `CompilerBuiltin` and `CompilerAlgebra`, as a bootstrap to remove. So no declaration is added to the compiler's prelude, and at the switch-over its three files are deleted and their tests kept (P-38 says which tests are respelled). The decision settles which files survive, not the designs inside them: the one library may take a design of the prelude's, as it took the prelude's flat shape of the number types. This decision does not stop work on the code generator, which is compiler work under either library. The decision is not put to him again. How the checker comes to accept the library, its first step and the order of the work, was left to a plan for him; that plan is PLAN's phases 3 and 4, which he approved in their order (P-33). Still to build: PLAN phase 4.
+
+### P-38
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-38 **The compiler prelude's defects are not repaired: they go with it at the switch-over.** Its `Maybe` block and its `REM` guard `if other = -1 then 0` stay as landed until the prelude is deleted, and their tests stay. Then the compiled tests respell its reversed wrapping and saturating operators (row 348), `ZZ64`'s compiled shift closes (row 381), and the specification's `shift` reaches the compiled path (row 383). `XXXShiftDeclRungI` is then promoted, and the switch-over batch finds the compiler tests that bind `shift`, a reserved name from then on. Still to build: PLAN phase 4.
+
+### P-39
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-39 **Every batch's gate measures the checker count, and its total never turns the gate red.** The checker count and the distance to the switch-over both count the compiled checker's errors on the interpreter's library. The count stops where the checker crashes or meets an error that it cannot get past; the distance counts every error, over all apis and components (F-53 defines both and holds their values). A rise of the count's total is reported and never fails a batch on its own. The count's stage, step 8 of the batch's gate (`explorations/coordinator/climb-batch-workflow.md`), can still turn the gate red on the faults that F-66 names. One is a checker crash that no rung of the batch listed in advance as expected, in the field `expectedCheckerCrash` of its manifest. The gates of phase 3's batches, whose work drives the distance down, also measure the distance, in a stage that only reports. Why: the distance's full measurement takes far longer than the count, and a batch pays for it only when the distance is the number that it tries to move.
+
+### P-40
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-40 **Sizes are checked, and a size that inference leaves unknown is an error only where it is used.** A size is a `nat` or `int` static parameter, such as the length of an array in its type. The compiled checker checks sizes, and refuses a size beyond `NN32` or `ZZ32` (F-140, the bound on both paths). Wherever the array design creates a JVM array, it checks the length there, at run time, and refuses one over 2^31-1. A size that inference leaves unknown is an error only when it reaches a type, a name or a value. So a declaration may declare a size that none of its types uses, and pass. A call that cannot fix a size of the declaration that it would choose is refused, also inside an overload set, instead of passing over that declaration. In the rule that no type extends two different instantiations of one generic trait, two instantiations differ when any static argument but an operator differs, so `Vec[\3\]` and `Vec[\4\]` are two; boolean arguments count too once the checker has boolean parameters. A size used as a number, as in the range `0#n`, converts to `ZZ32` where one is needed, as a numeral does. The 17 vector and matrix operators of the `FortressLibrary` api lose their unused sizes by `explorations/perf-probes/array-sites/e3-rebased.patch`, which finishes the team's own fix of 2008: that fix removed them from the component only. Built, except three parts. The JVM length check waits for the array design (PLAN, phase 5); under walk such an array dies with a raw Java exception (gap-ledger row 527). The checker still passes over a declaration whose unfixed size occurs in its own parameter type (row 400). The checker compares no boolean arguments (row 406).
+
+### P-42
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-42 **A type parameter declared without a bound has the implicit bound `Any`, not `Object`.** `Any` holds tuples, functions and `()`, which `Object` does not. The library instantiates its generic containers at tuple types: its arrays indexed by pairs, such as `(ZZ32,ZZ32)`, are among them. The specification states the bound `Any`, with a callout that records that the Working Draft of February 2011 said `Object`. Built in the library and walk. The compiled path departs from it until the switch-over, which ends the departure: while it uses the compiler's prelude, it bounds such a parameter by `Object`, and so refuses a generic instantiated at a tuple (gap-ledger row 412).
+
+### P-44
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-44 **`AnyIntegral` stays closed by its `comprises` clause, and the compiled checker reads the clause as the team's 2012 texts do.** The library's `AnyIntegral`, whose `comprises` clause lists the five integer types `ZZ32`, `ZZ64`, `ZZ`, `NN32` and `NN64`, stays closed. Beside the clause stays a comment in the team's `NOT YET` form, by which the team's library records a clause that it cannot write yet: here `comprises Integral[\I\] where [\I\]`, whose `where` form is not built. `Integral[\I\]` extends `AnyIntegral` and is not in the list. The checker accepts such a generic trait below a closed trait when every type that the checker knows below it is listed. The clause's text in the library, and walk, stay as they are. Why: the team's 2012 texts, Luchangco's Types chapter and Welterweight, are its later word (P-25, P-26), and by them the clause is right as written. The rule leaves a hole that every way of closing `AnyIntegral` shares, except the team's 2008 way, a `comprises` clause on `Integral[\I\]` itself: a program's own subtype of `Integral`, declared in another component, is accepted although no listed type is above it. Gap-ledger row 487 records the hole, and this decision does not close it. Built.
+
+### P-45
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-45 **Overloaded declarations may differ in their static parameters.** The specification drops its sentence that forbids this, and keeps it as superseded text. It states instead the overloading model of the type group's 2011 paper (`Papers/Types/`), which the compiled checker already used. The checker keeps the paper's three rules: No Duplicates, Meet and Return Type. It checks the Return Type Rule over every instance of a generic declaration that the argument types allow, not over one guessed instance. One rule of the old sentence survives: if one generic declaration is more specific than another, their static parameters must line up position by position, as Java's rule for overriding a generic method requires. Walk chooses among overloads by the parameter types that each declaration declares, not by the order in which they are written. At load, walk judges each pair of two generic declarations by the checker's rules on their declared parameter types. It does not refuse a pair only because none of their parameter types exclude, as when one declaration is more specific than the other. Walk and the checker must accept the same pairs. The library repairs, by declarations of its own, the overload sets that the checker refused, and no line of microGPT's two programs changes. Still to build, where walk or the checker still judges a pair against these rules: walk compares two functional methods of a generic trait or object on the instance that a call makes (F-26); both paths refuse the paper's own valid example (gap-ledger row 539); walk refuses two nested generic functional methods of a plain trait, and fails at a call on them in a generic trait (rows 779 and 780); and walk and the checker disagree on four kinds of pair (rows 759 and 786 to 788). PLAN, phase 3, item 19, the next checker batch's candidates, lists all of these rows but 539.
+
+### P-46
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-46 **A conversion only makes a call possible: it never changes which declaration runs when one already fits.** The declaration that runs is chosen on the parameter types that each overload declares: first those that apply, then the most specific of them (P-45). A generic declaration applies if some type within its bounds takes the arguments. Only then is the chosen declaration instantiated by promotion: at the narrowest type into which its arguments coerce (P-74). So beside `op(a: Any, b: Any)`, `op[\T extends Number\](a: T, b: T)` applies to a call with a `ZZ32` and a `ZZ64`, at `T = Number`. It is the more specific, so it runs, at `ZZ64`. Why: the curator wants fast generic code that a JVM can specialise. His own broader rule is not taken: to apply any conversion that reaches a specific declaration, and to fall back to a plain one only when none does. Walk and the compiled checker both infer static arguments with coercion, by the same promotion. The compiled path inserts the conversions statically. Walk, which has no static types, promotes from the arguments' run-time types: a choice taken without the curator's word, which waits for his review (review-queue item 85). P-49 gives the order in which the checker tries a call. Still to build: the compiled dispatch between two generic declarations of one name with different bounds, whose run dies today (gap-ledger row 537; PLAN.md, phase 5, microGPT compiles).
+
+### P-47
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-47 **Each integer type declares its own `MIN`, `MAX` and `MINMAX`, instead of relying on those that it inherits from the generic order traits.** The integer types are the five that `AnyIntegral` lists: `ZZ32`, `ZZ64`, `ZZ`, `NN32` and `NN64`. Through `Integral`, each inherits the three operators from `StandardTotalOrder` and the `StandardMin`, `StandardMax` and `StandardMinMax` that it extends. `a MINMAX b` is the pair `(a MIN b, a MAX b)`. The `MAX` that a `ZZ64` inherits types `self` as the order trait, so neither it nor `QQ`'s `MAX` is more specific. Under walk, `b MAX 1` for a `ZZ64` `b` would then stop the run with "Ambiguous coercion". With their own declarations, these operators answer at the type that their arguments promote to (P-74), as `b + 1` does. Why: it is the library's own device. `QQ`, `RR64` and the compiler's prelude declare all three, and the specification's `ZZ` declares its own `MIN` and `MAX`. Built.
+
+### P-48
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-48 **A type parameter that a call's arguments do not fix takes its bound, never `Bottom`.** The arguments leave a parameter unfixed when it occurs only in the result type; when two arguments meet at it with no narrowest type into which both convert (a `ZZ32` and a `ZZ64` have one, `ZZ64`, by P-74); or when dispatch, at run time, picks a generic declaration and must choose the instance to run. Its instance is then the intersection of its upper bounds (`Any` if it has none). At checking, that is narrowed by what the call's expected type (P-49 defines it) requires of the declared return type; at run time, by the static type that the checker gave the call. It is never `Bottom`, never the union of the arguments' types, and never the value's type alone. The rule sets the instance, not which declaration runs (P-46). Why: the rule is the team's later word, from the POPL 2019 paper on multiple dispatch, and the curator trusts the team's later work above his own understanding (P-26). The rule changes nothing in microGPT, whose types are concrete. The library keeps the team's declarations of `fail`, `builtinPrimitive` and `List`'s empty comprehension, whose type parameters have no written bound, without the `extends Object` that a batch had added. Under walk, dispatch takes the value's type, and always will, since walk has no static types. Still to build: a compiled dispatcher that carries the static type that the checker gave the call, so that a generic declaration reached only at run time gets this instance (gap-ledger row 538; PLAN.md, phase 5, microGPT compiles); and three cases in which walk still gives `Bottom` (gap-ledger rows 587, 591 and 612; review-queue item 81 holds walk's `Bottom` for row 591, kept without the curator's word, for his review).
+
+### P-49
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-49 **The compiled checker tries a call first by subtyping, without the expected type, and coerces its arguments only when that attempt is not kept.** The expected type is the type that the call's context requires. The checker's first attempt checks the call by subtyping alone, without the expected type. It keeps that attempt when its result converts to the expected type, by coercion if need be. If it does not keep that attempt, it tries coercion of the arguments, with the expected type. So a declaration that fits the arguments as they are is not passed over for one that coercion reaches. Why: in the curator's words, coercion should be tried when there are no matches. Built, with two more attempts. Between the two, the checker tries subtyping with the expected type, a choice taken without the curator's word, which waits for his review (review-queue item 2). Last, it tries coercion without the expected type (`compile-ladder/rung-instance-bound/decision-record.md`, D4, the built order).
+
+### P-51
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-51 **The checker retries a call written as another call's argument against each declaration's parameter type.** Take an outer call `f(g(x))`, whose argument is an inner call `g(x)`. If none of the compiled checker's attempts at the call accepts `f(g(x))` (P-49 gives the order of those attempts), the checker checks `g(x)` again, once for each declaration of `f`, with that declaration's parameter type at `g(x)`'s position as its expected type. The retry covers every inner call with inferred static arguments, not only one whose type parameter occurs in its result type alone. Why: the curator wants the type inference rules unified across contexts, which covers cases that the team did not build. As built, a generic declaration of `f` is first instantiated from the other arguments. The declaration whose retry succeeds is kept, or the most specific of several; otherwise the call goes on as it would without the retry. The measurement behind the decision is in `explorations/reviews/argument-context-probe.md`. Built.
+
+### P-52
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-52 **`narrowToRange` on a range of rank 2 or 3 checks containment corner by corner.** `r.narrowToRange(other)` must raise `IndexOutOfBounds` when `other` reaches outside `r` on any axis. Its bounds check compares the two ranges' lower corners, and their upper corners, by `PCMP`, the ranges' own point order, which compares each axis on its own. It does not use the tuples' lexicographic order, which serves sorting. So `((0,0):(9,9)).narrowToRange((2,-1):(5,5))` raises `IndexOutOfBounds`, since -1 lies below 0 on the second axis. Built.
+
+### P-53
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-53 **`String`'s `left` and `right` answer `Just(c)`, as their declared result type `Maybe[\Char\]` promises.** For a non-empty string, `left` answers `Just` of its first character, and `right` `Just` of its last; for an empty string both answer `Nothing`. The `left` and `right` of the library's ranges and lists answer `Maybe` values in the same way. So walk prints `Just(a)` for `"abc".left`, not `a`. Built.
+
+### P-54
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-54 **`QQ`'s `ceiling` and `truncate` keep `ZZ`, their declared result type, and raise an error at +∞, −∞ and 0/0.** The specification's paragraph on these methods said that they return the argument itself at those three values (`Specification/basic-lib/numbers.tex`, "Rational Numbers"). That paragraph is revised. `floor`, `round` and the brackets ⌊x⌋ and ⌈x⌉ are built on `ceiling` and `truncate`, so they raise too. Why: the declared integer result and other languages win over the paragraph: Python's `math.floor(inf)`, for one, raises. Built: the library raises `DivisionByZero`, as the revised paragraph says. Later, a rung after the switch-over makes `QQ` follow the float ruling (P-68, on rounding the float types). Then `floor` and `ceiling` return `QQ` and pass the infinities through, and the brackets, `round` and `truncate` give `ZZ`. Still to build: that rung, beside P-68's rung for the float types (PLAN, phase 4, "After the names").
+
+### P-56
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-56 **The open range `(:)` keeps its wildcard type, and its five cutting methods fail.** `(:)` is the range of every index, as in `a[:]`. It is the object `TrivialOpenRange`, which stays an `OpenRange[\Any\]`: the team used `Any` as a wildcard for any index type. Its methods `truncL`, `truncR`, `every`, `imposeStride` and `atMost` cut a range, so each must answer a range over `Any`. The library's range operators build ranges only over `ZZ32` and its pairs and triples, and a range over `ZZ32` is not a range over `Any`. So no body that answers a range passes the compiled checker. Each of the five is a `fail` with a message, the team's own device for a body that cannot answer its declared type. Nothing in the tree calls them on `(:)` but the five tests `ProjectFortress/tests/TrivialOpenRange*Stop.fss`, which pin the `fail`. The other way, `(:)` as a range over `ZZ32`, is not taken. Why: a probe under walk tried that way on small programs. More of them stopped with an error where they had printed a result than printed a result where they had stopped (`reviews/ranges-and-index-types.md`, section 5). Built.
+
+### P-57
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-57 **`LexicographicReduction.isLeftZero` takes `TotalComparison`, so the team's answers are reached.** `LexicographicReduction` is the library's reduction behind `BIG LEXICO`, which combines comparisons in dictionary order. `isLeftZero(c)` says whether `c LEXICO x` is `c` for every `x`. The team declared `isLeftZero(_:EqualTo)` as `false` and `isLeftZero(_:Comparison)` as `true`. `TotalComparison`, whose values are `LessThan`, `EqualTo` and `GreaterThan`, lies below `Comparison`. The object also inherits `ReductionWithZeroes.isLeftZero` at `TotalComparison`, which answers `false`. That declaration is more specific, so the team's `true` was never reached. The `true` overload is now declared over `TotalComparison`, so it replaces the inherited one: `LessThan` and `GreaterThan` answer `true`, and `EqualTo` `false`. Why: the curator wants the compiled checker's error count on the interpreter's library at zero. This change removed the last of the count's errors in an api file. Other errors kept the count above zero (F-53 holds the count). Built.
+
+### P-58
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-58 **Every native binding is a `builtinPrimitive` call naming a static helper.** A native binding is a library body that is exactly `builtinPrimitive("…")`, the library's own form, and it keeps that form. Its string is to name a static Java method in `nativeHelpers/`, the compiled path's helpers, such as `"com.sun.fortress.nativeHelpers.simpleIntArith.intLT"`, in place of a glue class of walk, which the compiled path cannot use (F-32). Walk is to load the named helper through a loader beside its glue classes. At the parse, before the checker, the compiled path is to rewrite each such body into a synthetic `import java` of the helper and a call, and to refuse a string that names no helper. The bindings move onto helpers rung by rung, and the compiled checker sees each rung's bindings as that rung lands, not all at once at the switch-over. The other form, `import java` declarations written in the library itself, is not taken. Still to build: all of it. Every binding still names a glue class, and neither the loader nor the rewrite exists. The first natives rung builds them, test first, and the later rungs move the bindings (PLAN, phase 4, "The natives").
+
+### P-59
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-59 **Walk chooses a coercion by the run-time value until it runs the checker, after the switch-over.** Walk has no static types. So where a coercion is needed, walk chooses it by the value's run-time type. The specification and the compiled path choose it by the static type. The curator accepts this as the interpreter's limit, and walk is not changed for it before the switch-over. A callout in the coercion chapter (`Specification/basic/conversions-coercions.tex`) states the limit. Two expected-failure tests record it: `XXXCoercionStaticRungC`, the chapter's own printed example, and `XXXCoercionStaticNarrowRungC`. After the switch-over, once walk runs the checker on its programs (P-12 orders the two steps), it uses the static coercions that the checker inserts. MicroGPT's static types are concrete, each the type of the value itself and not a trait above it, so on microGPT walk's choice and the static choice agree. Still to build: walk's use of those coercions, after walk runs the checker on its programs (P-12; PLAN, phase 4).
+
+### P-62
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-62 **The `covariant` keyword is future work, off the path to microGPT.** The keyword, with `contravariant`, is the team's 2012 declaration-site variance: under `trait C[\covariant S\]`, a `C[\Dog\]` is a `C[\Animal\]`, as with Scala's `+S`. No library declaration and no line of microGPT uses it. Gap-ledger row 404 records the hole: the compiled checker accepts variance, but the compiled run dies with `IncompatibleClassChangeError`, and walk refuses the program. The future work is declaration-site variance, carried to run time on both paths. When it lands, a rung tries to bring back the specification's sign-refined number types as covariant static parameters. P-80 keeps their design word for word in the specification, marked superseded. Still to build: row 404's expected-failure tests, one on the compiled path and one under walk, owed in a batch rung. No PLAN line names them yet.
+
+### P-147
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-147 **An object defines an inherited abstract method when its bodies of that name at narrower parameter types together cover the abstract method's parameter types.** That is, each value of the abstract method's parameter types is a value of one body's parameter types. A `comprises` clause counts as the compiled checker reads it, which is P-60's reading: a closed trait is covered by its listed types. A body at the abstract method's own parameter types is the plain case. This is the team's rule of 2012, in Steele's abstract-method check of the compiled checker and in the Covered rule of the Welterweight calculus (`Papers/Welterweight/`). So the team's `Library/Pairs.fss` and `ProjectFortress/tests/FileConversion.fss` stay valid: an object in each defines an inherited abstract operator once for each type that a `comprises` clause lists. Walk applies the same rule at load, and its earlier allowance of any one narrower body goes. The traits chapter's sentence, which admitted no narrower body, is revised in the specification's revision form (P-96). Built (F-145). Still to build: the acceptance of some valid objects whose methods have static parameters of their own, which the checker (gap-ledger row 725) and walk (row 728) refuse, and walk's check of generic objects, which its load check skips (row 665).
+
+### P-149
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-149 **An object that inherits an abstract functional method from one trait, and a body for it from a sibling trait, is refused unless it declares the method itself.** In `object O extends { A, B }`, where `A` declares `pick(self)` abstract and `B` gives `pick(self)` a body, `O` must declare its own `pick`. Scala's way, where the sibling trait's body implements the abstract method, is not taken. The compiled checker refuses such an object, as the specification's text and the type group's Welterweight calculus (`Papers/Welterweight/`) require. Walk already refuses it at load, by the Meet Rule for Functional Methods. A trait that declares one method both abstract and with a body, at the same parameter types, is refused too. Why: the revival honors the designers' intent. It changes Fortress's nature only to reconcile a conflict between the earlier and the later designers' choices, and then looks to other languages for how to do it. Here there is no such conflict, and Fortress is not bent to Scala's way for a hypothetical convenience. Built.
+
+### P-151
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-151 **Only the `where`-clause forms that the team wrote down are built: conditional extension, a function's or a method's condition, and `AnyList`'s `comprises` clause.** A `where` clause states conditions on static parameters, and may introduce static variables of its own, as `where [\E\]` does. A trait or object that extends a type under a `where` condition is that type only where the condition holds, and its members are checked with the condition holding (conditional extension). A `where` condition on a function's or a method's own static parameters bounds them. The team's commented-out clause `AnyList comprises List[\E\] where [\E\]` becomes live, which clears the type error of `AnyList`'s join `||`; its other operations, `addLeft` and `addRight`, move into `List`. `SUM`'s fusion with `MAX` and `MIN`, the library's fast path for the maximum or the minimum of sums, stays. A method's `where` condition clears four of the fusion's six type errors, and the team's commented-out generic `distribute`, after a measurement, the other two (F-242: the errors and how each is cleared). Why: a feature with little support in the team's work bends the language beyond what the curator can review. He has such a feature built where the team left enough design intent for it, or where it is on the critical path to running fast compiled. Built in the compiled checker and the library, `distribute` included; still to build: `addLeft` and `addRight` moved into `List` (climb batch 17 kept them in `AnyList` instead, respelled under the live clause, against the option he chose; review-queue item 188 holds that for his word); the members scoped to the condition, since a member checked under it stays callable where the condition fails (gap-ledger row 773); walk's half of conditional extension (row 774); and the code generator's half (row 701), after the switch-over (PLAN, phase 3, the `where` clauses' line).
+
+### P-152
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-152 **Walk and the compiled checker read the exclusion of two generic declarations over their whole parameter types, by existential reduction.** With static parameters, the parameter types of two declarations can exclude each other as a whole, even where no single parameter excludes its counterpart. In `o[\T\](x: P[\T\], b: Box[\T\])` beside `o[\T\](x: Q[\T\], b: Box[\T\])`, where `P[\T\]` excludes `Q[\T\]` only at the same `T`, neither parameter excludes alone. But no value is a `Box` of two types, so `b` fixes the same `T` for both declarations, and no argument fits both. A generic trait in `Box`'s place fixes `T` in the same way. Both paths read such a pair as excluding, and judge it on that reading by the overloading rules (P-45: the 2011 paper's No Duplicates, Meet and Return Type rules). Why: the type group's 2011 paper decides exclusion between parameter types with static parameters by existential reduction (`Papers/Types/exc-reduction.tick`; P-26, the type group's later word outweighs the specification's early text), as the revised specification states (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters"). Built on both paths; still to build: walk refuses such a pair at load where one declaration has a `where` clause, which the checker accepts (gap-ledger row 787); and walk reads an object type over a static parameter, such as `Box[\T\]`, as excluding a type that it equals at some instance, such as `Box[\ZZ32\]`, so that it loads a pair that the checker refuses (row 788).
+
+### P-154
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-154 **A list is ordered only where its element type is totally ordered.** The library's `List` extends its lexicographic order only where its element type extends `StandardTotalOrder` (conditional extension, P-151). Floats and `QQ` are only partially ordered, since NaN, and `QQ`'s 0/0, compare with nothing. So on the compiled checker a list of floats or of `QQ` has no order: no `<`, `CMP` or the other comparisons, though its `=` stays. A pair of floats stays ordered: the curator accepted that mismatch as a cost of the list rule. The tuples' own rule is not decided here; review-queue item 213 holds it for his review. No lexicographic trait over partially ordered elements is added now: the team never wrote one, and the case touches neither the distance to the switch-over nor microGPT. Why: the team's later code bounds the element of both of its lexicographic traits by a total order (`Library/incomplete/advanced/Fortress.PartialTotalOrders.fss:117-140`; P-26, the team's later word outweighs its early text), and conditional extension is a `where` form that the team wrote (P-151). Still to build: walk's half, since walk still gives every list an order (gap-ledger row 774; PLAN, phase 3, item 19, the next batch's candidates); and a revision note at the specification's two sentences that order every list (`advanced-lib/algebraic-constraints.tex:519-522`, `basic/operators/opr-overview.tex:293-295`).
+
+### P-155
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-155 **The compiled checker checks the overloads of symbolic operators before the switch-over.** Today its overloading check reads an operator only if its name is a word of capitals, such as `MAX`, so `+`, `^`, `||`, the subscripts and the other symbolic operators pass unchecked. The check must read them by the rules that it applies to any function, so that the distance to the switch-over reaches zero with them checked. Why: the skip is a gap that the team knew, not a rule: the specification's appendix of proposed features calls the library's two subscript operators "not really a valid overloading" (`Specification/appendices/future.tex:186-207`, its item on array indexing). A zero with them unchecked would hide known errors. Each design that the check needs is brought to the curator before its rung, with the probe's measurement (`perf-probes/symbolic-operators-2/REPORT.md`, which counts the new errors and tries designs for the two cases that need one: a bound on the subscripts' index type that keeps ranges out; and, for the arrays' `+` of a vector and a number beside `+` of two vectors, vectors that stop being additive groups, or the scalar `+` and `-` dropped). Still to build: the check and its rungs (gap-ledger row 584; PLAN, "Pavol's answers", item 38, the order of the work, and item 59, the candidate designs and the coordinator's proposed defaults, none built before his answer).
+
+### P-67
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-67 **`round` on an exact half goes to the even integer, on both paths.** Under walk and on the compiled path, `round(2.5)` gives 2: an `RR64` or `RR32` value rounds an exact half to the even integer, as a rational does. This is the specification's rule for rationals, the default rounding of IEEE 754, and the rule of the team's own `round` on rationals. Built.
+
+### P-68
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-68 **On the float types, `floor` and `ceiling` return the same float type, while the brackets ⌊x⌋ and ⌈x⌉, `round` and `truncate` return `ZZ`, the unbounded integer.** So `floor(2.5)` is the `RR64` value 2.0, and ⌊2.5⌋ is to be the `ZZ` value 2. Built for `floor` and `ceiling`. Still to build: one library rung after the switch-over, which first counts the interpreter tests whose output changes, then makes the brackets, `round` and `truncate` return `ZZ` in each of the library's declarations of them (gap-ledger row 330: today the brackets are `ZZ64` under walk and `RR64` compiled, and `round` and `truncate` are `ZZ64`, `ZZ` or `RR64` by declaration; PLAN, phase 4).
+
+### P-69
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-69 **`LSHIFT` and `RSHIFT` are bit operators on the fixed-width integer types, and `ZZ`'s `shift` is exact.** On `ZZ32`, `ZZ64`, `NN32` and `NN64`, a shift loses the bits that it shifts out, silently, as in every peer language. A count at or beyond the width gives 0, or -1 for `RSHIFT` of a negative value, and a negative count shifts the other way, as Swift's and Julia's shifts do. The count may have any integer type, and the shift works at the width of the value shifted. On `ZZ`, the unbounded integers ℤ, `shift(x, k)` is ⌊x·2^k⌋ at any count; there the specification defines `x LSHIFT k` as `shift(x, k)` and `x RSHIFT k` as `shift(x, -k)`. On the compiled path, a shift of a fixed-width value works on the JVM's `int` or `long`, never through `ZZ`. Why: a shift through `ZZ` costs speed wherever the JVM cannot remove it. Built under walk, and on the compiled path for `ZZ32` and `ZZ64` with a count of the shifted value's own type. Still to build, when the compiled path moves onto the interpreter's library at the switch-over (P-38: the compiler's prelude is not repaired before then): the compiled `NN32` and `NN64` shifts, refused today (gap-ledger row 442); `ZZ`'s `shift`, which the compiler's prelude does not declare (row 383); and a count of another integer type, where the compiled path refuses a `ZZ`, `NN32` or `NN64` count and computes a `ZZ64` count on a `ZZ32` at 64 bits (row 381).
+
+### P-70
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-70 **`GCD` and `LCM` give nonnegative results, and `LCM` raises `IntegerOverflow` when the multiple does not fit its type.** So `0 GCD -4` is 4 and `1 LCM -5` is 5, and on `ZZ32`, `(2^31 - 1) LCM 2` raises. The rule applies on both paths. Why: the specification says that both results are nonnegative, and its general rule raises `IntegerOverflow` for an integer result that does not fit. The same general rule makes `GCD` raise it where the divisor does not fit, as in the specification's example `-2^31 GCD 0` on `ZZ32`. Built under walk on the five integer types, and on the compiled path on `ZZ32` and `ZZ64`. Still to build: `GCD` and `LCM` on the compiled path's `NN32`, `NN64` and `ZZ`, which come when it moves onto the interpreter's library at the switch-over; gap-ledger row 442 records the first two.
+
+### P-71
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-71 **An overflow guard tests for the type's most negative value, not for `a = -a`, so `|0|`, `-0` and `0 DIV -1` do not overflow.** On a signed fixed-width type, only the most negative value overflows when it is negated, taken in absolute value or divided by -1. The test `a = -a` is true for that value, and also for 0. Walk already gave 0 in the three cases. On the compiled path, the natives of negation, absolute value and division on `ZZ32` and `ZZ64` test for the most negative value. The same faulty test sat in `ZZ64`'s multiplication, through which its `REM`, `MOD`, `GCD` and `LCM` compute, so `0 · 5`, `3 REM 5` and `12 GCD 18` raised; that multiplication now raises only when the exact product does not fit. Why: no reading of the specification makes the three cases overflow. Built.
+
+### P-72
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-72 **`narrow` keeps the low 32 bits of a value that the narrower type cannot hold, signed and unsigned, on both paths, and raises no `IntegerOverflow`.** The decision covers `narrow` from a `ZZ64` to a `ZZ32` and from an `NN64` to an `NN32`. A value that the narrower type holds is unchanged; any other becomes the value of the narrower type with the same low 32 bits. Why: the team's specification said nothing on `narrow`, and the team's boundary test `ProjectFortress/tests/UnsignedTest.fss` asserts the low 32 bits for `NN64` values. On the unsigned types, keeping the low bits is a bit operation, like a shift, and the signed `narrow` gets the same answer. Built.
+
+### P-73
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-73 **Under walk, fixed-width integer arithmetic raises `IntegerOverflow` when its result does not fit, on the unsigned `NN32` and `NN64` too.** The rule covers every operation whose result can leave its type, `^`, `CHOOSE` and `LCM` included (F-132 holds what is built and its tests). So a subtraction below 0 on `NN32` raises. Code that means to wrap uses the specification's wrapping operators ∔ (`DOTPLUS`), ∸ (`DOTMINUS`) and ⨰ (`DOTTIMES`), fully parenthesised, since the specification states their precedence only among the three. The specification's saturating operators, such as ⊞ (`BOXPLUS`), are not in the interpreter's library; they wait for a later step of their own, which no PLAN line holds yet. Why: this is the specification's rule, and the compiled path already raised the error for addition, subtraction, multiplication, division, negation and absolute value on `ZZ32` and `ZZ64`. Built.
+
+### P-75
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-75 **`NN32` coerces into `RR64` implicitly, since every `NN32` value converts to `RR64` exactly.** Why: a conversion that fits is implicit, the rule of P-74 on mixed widths. Still to build: the coercion, and the rewording of the specification's sentences that keep this conversion explicit (`Specification/basic/conversions-coercions.tex`, "Principles of Coercion"; `Specification/basic-lib/numbers.tex`, "Rational Numbers"). With the coercion, an operator that both `RR64` and `ZZ64` declare is ambiguous on both paths for a `ZZ32` with an `NN32`, since neither `ZZ64` nor `RR64` coerces into the other. Without it, P-74's rule, the narrowest type into which both arguments coerce, gives `ZZ64` (gap-ledger row 575 holds the conflict and its measurement). How to build it waits for the curator's choice, and the coercion stays unbuilt until then. Each way to build it changes a decided behaviour. Review-queue item 21 lists the ways; PLAN tracks the choice as item 37 of its list of the curator's answers, "Pavol's answers, in the order they are needed".
+
+### P-76
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-76 **An integer numeral has a type of its own, `IntLiteral`, which each number type converts from: in the interpreter's library now, and under walk once walk has the checker's static types.** The design is the compiler's prelude's working one, taken in place of the specification's numeral types, which the team left unfinished. Why the split: walk has no static types, so it would give a list of numerals the element type `IntLiteral`, with no declared type to go by. Built: the library half. The interpreter's library declares `IntLiteral`, the conversions from it into the five integer types, `QQ` and `RR64`, and `IntLiteral`'s own arithmetic, which the team had left commented out until coercion existed. Walk still gives an integer numeral the type `ZZ32`, or `ZZ64` or `ZZ` when its value does not fit, so no numeral reaches `IntLiteral`'s declarations under walk. Still to build: walk's half, after the step of the switch-over that gives walk the checker's static types, a step not yet designed (PLAN, phase 4, the line on the numeral switch's walk half). These walk gaps wait with it: a numeral that walk matches as a `ZZ32` in a `typecase` or an overload (gap-ledger row 79), a numeral at an `NN32` or `NN64` binding (row 454), an integer numeral beyond `ZZ32`'s range at an `RR64` binding (row 443), a `nat` parameter used as a value (row 486), and coercion through tuple and varargs parameters (rows 395 and 511).
+
+### P-77
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-77 **Scalar ranges are over `ZZ32` only, as the compiler's prelude declares them (`Library/CompilerLibrary.fsi`).** Why: a JVM array has at most as many elements as the largest `ZZ32`. A range over another integer type is a static error. A loop whose counter needs a wider type runs over a `ZZ32` range and widens each element, as in `j: ZZ64 = i`. A range of rank 2 or 3 is a tuple of `ZZ32` scalar ranges. The public range traits, such as `Range[\I\]`, stay generic in their index type: the ranges of rank 2 and 3 extend them at pairs and triples of `ZZ32`. Built.
+
+### P-78
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-78 **`SUM` and `PROD` are one generic reduction each over the library's algebra, in place of the team's catch-all over `Number`, and take their identity from the static argument.** `SUM` is generic over `AdditiveGroup` and `PROD` over `MultiplicativeRing`. A reduction written with generators writes its static argument where its generators and body do not fix the element type, as in `SUM[\ZZ32\][j <- 0#n] f(j)`. A declared type that receives the value does not fix it: the compiled checker refuses the call without the static argument even then (gap-ledger row 731). A sum without generators is written as before, with no static argument: `SUM e` over a collection `e`, and the dot product `x DOT y`. `BIG MAXN`, `BIG MINN` and `BIG MINMAXN`, the team's `Number`-typed big operators for the maximum, the minimum and both, each with an identity, are gone; no program called them. `MAX` and `MIN` get no identity on the integers or the floats, so an empty `BIG MAX` or `BIG MIN` raises `EmptyReduction` (F-60: a maximum's identity is its type's least value, which a coercion into a wider type does not carry). Built for the number types. Under walk, an empty `SUM` or `PROD` over another algebra, such as a user `AdditiveGroup`, still fails (gap-ledger row 436) until the specification's `HasIdentity` is built (PLAN, phase 3, the line on `where` clauses).
+
+### P-79
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-79 **Every team demo is kept running as the tree changes.** The team demos are the programs in `ProjectFortress/demos/`. If a change breaks a demo and the way to repair the demo is known, the same batch rewrites the demo. For example, the change that made `10^(-4)` an error (P-153, the integer power) also wrote `10.0^(-4)` in `BiCGSTAB.fss` and `BiCGSTAB2.fss`, and `10.0^(-6)` for `10^(-6)` in `npbft.fss`. A demo that fails for want of a feature is made to run again once the feature is built. So the demos known to fail today are to be respelled where the way is known: the five demos that walk refuses at load, since they leave an inherited abstract method without a body (gap-ledger row 670, which names them); `trips.fss`, which walk runs but the compiled checker refuses, since its `generator` object extends `StandardTotalOrder[\trip\]` without being a `trip` (row 710); the timing line of `BiCGSTAB.fss` and `BiCGSTAB2.fss`, which divides a `ZZ64` by a float and so stops walk (row 791); and the reductions that the compiled checker refuses because they leave out the static argument of a big operator whose bound names its own static parameter, such as `SUM`; their repair writes the argument (row 731). Still to build: a measurement of which demos run, then the respelling of those with a known way; both are candidates for the next batch (PLAN, phase 3, item 19).
+
+### P-153
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-153 **The integer power splits on the base: an integer base gives an integer or raises an error, and a float or rational base gives the fraction.** Each integer type's `^` returns its own type at every exponent. At a negative exponent, the bases 1 and -1 give their exact power, a base of 0 raises `DivisionByZero`, and any other base raises `IntegerOverflow`. A program that wants a fraction writes a float or rational base, as in `2.0^(-1)`. Why: the team's later code gives an integer power the type of its integer base at a signed exponent (P-26, the team's later work outweighs the specification's early text). Overloads choose by type, and no type tells a negative exponent from a non-negative one, since a signed integer or a numeral can be either. So the split is on the base, and the sign of the exponent is tested at run time, as the library tests a value's sign everywhere (P-80, run-time sign tests in place of sign-refined types). Built in the interpreter's library and under walk, at an exponent of any integer type (F-263 states it as built). Still to build: the same rule on the compiled path, whose own powers give 0 at a negative exponent and a raw Java exception at a base of 0 (gap-ledger row 441), and overflow silently or with a raw Java exception (row 523); PLAN, phase 4, the natives, binds the library's `^` to compiled helpers.
+
+### P-84
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-84 **An `RR64` array is stored as a Java `double[]`, unboxed, and arrays keep the team's `nat` sizes in their types.** Why: a high-performance language cannot box its array elements, and the sizes are central to the team's design. So the storage and the sizes are one design: the sizes stay in the array types as `nat` static parameters, as the library's `Vector` and `Matrix` declare them, and the compiled checker checks them. The sizes do not wait while a first version of the store carries them only as run-time fields; that layered plan was rejected. Both halves follow the library's own patterns (P-27, the library's own practice is the standard). Built: the compiled checker checks `nat` static parameters (F-67). Still to build: the compiled path's `double[]` store, which waits with the other array decisions until after the switch-over; among them is decision A, the way the `double[]` store goes under a float vector (P-85).
+
+### P-85
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-85 **The array design's three questions are open, with no default, and return after the switch-over with the array decisions A, B and D.** The array design is the compiled path's design for arrays. PLAN lists its forks, each a question for the curator with its ways, as item 13 of its section "Pavol's answers, in the order they are needed". The three questions: whether the array factory chooses a store for each element type; whether the store also keeps the size as a field, beside the size in the type; and whether a factory for a size known only at run time returns the unsized `Array[\E,I\]`, whose type holds no size. These questions are apart from decisions A, B and D: decision A is how the `double[]` store goes under a float vector, B is where unboxed arithmetic happens, and D is the sizes in the model's own types (P-87). The whole preparation for the array work is to be done before the switch-over; only the work itself waits. One exception to "no default": on the third question's ground, that PLAN item's fork 3, an agent has since landed a default in the tree, way 4a, by which the compiled checker reads a size known only at run time as fixed for that call, not as unknown. It is not the curator's answer and waits for his review (review-queue item 30).
+
+### P-87
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-87 **The model's text is the notation, and the vocabulary is repaired around it.** The model is microGPT's two programs; the vocabulary is the array operations that they are written in (`FlatArrays.fss` for C4, the flat program, and `FlatArrays2.fss` for the APL-style one). No operator in the model is replaced by a function call to pass an overload check, as a proposed repair once wrote `planeSum(mask, x)` for `mask + x`; the vocabulary changes instead. Any repair that changes a line of the model is shown to the curator as a diff before it is built. Decision D, still open and returning after the switch-over with the other array decisions (P-85), is such a diff: it gives C4's arrays sized types, in its vocabulary's signatures and in the model lines that these force (`explorations/reviews/decision-d-diff.md`; the patch itself is only in git, in the parent of `84aef6a4f`). Nothing of decision D is applied before PLAN's phase 5, where microGPT compiles, after the switch-over.
+
+### P-88
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-88 **The model's vocabulary leaves `+`, `-` and `MAX` between an array and a scalar to the library's scalar-extension block, and its diagonal keeps its own product.** The vocabulary, the array operations that microGPT is written in, declares none of these six operators, an array with a number on either side; the library's scalar-extension block, in `Library/FortressLibrary.fss`, serves them. `Diag`, the vocabulary's diagonal matrix, extends `Matrix` and overrides `mul`, the method that the library's matrix product calls, so `diag(v) m` scales the rows of `m` without forming the matrix. This is what the type system promises: a diagonal is a kind of matrix, with a faster product of its own. Gap-ledger row 299 records what the general product costs on a diagonal: 13 to 54 times as much as scaling the rows. Built: the six operators left to the library, and `Diag`'s `mul`. Since the diagonal is read-only, a read-only matrix trait, `ReadableArray2`, which `Array2` would extend as `Array1` extends `ReadableArray1`, is also wanted: it is a library change, under a gap-ledger row of its own still to be filed, not a definition in the vocabulary.
+
+### P-89
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-89 **`fill` takes a value, `tabulate` a function.** On the library's arrays, `fill(v)` fills an array with the value `v`, even when `v` is a function, and `tabulate(f)` fills it with `f` applied to each index. The function form, formerly an overload of `fill`, takes Scala's name `tabulate`. Why: in every peer language that has `fill`, `fill` takes the value. Built.
+
+### P-90
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-90 **`Maybe`'s empty case is the team's parametric `Nothing[\T\]`, in the one library and the specification.** The bare `Nothing` is future work: it needs a `where` clause that binds a type variable in an `extends` clause, which neither path implements, and it is not tried before then. Gating row 331 on static-argument inference instead is parked (PLAN, "Off the path, parked").
+
+### P-91
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-91 **What an object with no `asString` prints: its bare Fortress type name, walk's spelling, on both paths.** An object with no `asString` of its own prints its Fortress type name as walk spells it, such as `Box`, or `Box[\ZZ32\]` for an instance of a generic object, with no marker and no hash code. A debug marker, such as the Java class name that the curator first leaned to, belongs in `asDebugString` if one is still wanted, not in the printed form; walk's `asDebugString` prints `a Box: Box`. Built: the bare type name on both paths (F-123). Still to build on the compiled path: an `asDebugString` that prints as walk's does, where the compiled one prints `Box` (row 363); and printing an object that declares or inherits a zero-argument member named `toString`, which overflows the stack (row 321). Once the compiled path reads the one library, every object inherits such a member, the `getter toString` of that library's `trait Object`, so every object with no `asString` meets the overflow (PLAN, phase 4, "From the reviews").
+
+### P-97
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-97 **The specification's examples that break the exclusion rule take the library's shapes, and each original stays, marked "Not allowed".** The Working Draft offered such examples as legal. Each now shows the shape that the library uses for the same thing, with the original beside it under the specification's own mark, "Not allowed". The specification states the rule, which it calls instantiation exclusion, once, in the two parts of Luchangco's Types chapter of 2012 (`Documentation/Specification/Prose/Language/types.tick`; P-25): `Specification/basic/types-vals-vars.tex` says which instantiations exclude each other, and `basic/traits.tex` says that a declaration may not extend two that do. The covariance example, a trait that extends other instantiations of itself, is rewritten and marked in the same way. Its callout adds one sentence: the type group's later design, in the same Types chapter, declares variance with a `covariant` modifier, which neither walk nor the compiled path implements (gap-ledger row 404 records the gap). The calculi of Appendix A keep their rules as the team wrote them, under a callout that they predate the rule. Built.
+
+### P-98
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-98 **`TotalComparison` extends `StandardMinMax[\TotalComparison\]`, so that the library's `BIG MIN` and `BIG MAX` work over total comparisons.** It does so in the library's api and component, `Library/FortressLibrary.fsi` and `.fss`. It keeps the five members that it restates by hand: `MIN`, `MAX`, `MINMAX`, `<=` and `>=`. Without the parent, walk finds no overload of `BIG MIN` or `BIG MAX` that takes total comparisons (gap-ledger row 461). Why: it is the library's own device, which its other ordered types use. The curator took it on the coordinator's recommendation. It stands and blocks no work, but he wants it explained to him in more detail when he has the energy: `PLAN.md`, "Pavol's answers, in the order they are needed", lists that explanation as owed. Built (F-77).
+
+### P-124
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-124 **The specification's examples are a step of the gate, and every one must pass.** `ant testSpecData` runs the examples extracted from `Specification/` under walk (F-114 says which 130 it runs), and the gate fails if any of them fails. When an example fails, the implementation is fixed: the example is not respelled to get around a gap in walk, and no list of examples allowed to fail is kept. Built.
+
+### P-125
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-125 **The suites run Fortress in parallel, pinned at four threads in `build.xml`.** `build.xml` sets `FORTRESS_THREADS` to 4 for the two suites, `ant testFast` and `ant testSystem`, so that every run of them uses four threads, whatever the calling shell sets. A test that parallelism makes fail, on every run or only on some, is written wrong, for example a write that needs `atomic`, or it shows a defect. Either is fixed, never hidden by running at one thread. Why: Fortress is parallel by default, so a suite at one thread has a blind spot, and sparing the four-CPU machine is no reason for one. Built.
+
+### P-30
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-30 **The check of microGPT under walk after a batch must take less than a minute.** That is the curator's goal. The check runs about two forward-and-backward passes of the model and compares the results with reference values. That is enough to show that the model's mathematics still works, and that the library's changes, such as those to the arrays, did not break it. A slower check is to him a waste of time. Built: each batch's commit stage runs the check as `explorations/coordinator/tools/mg-run.sh`, the quick versions of microGPT's two programs at once, outside the gate.
+
+### P-41
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-41 **On the compiled path, a size static argument travels at run time as a descriptor object, as a type argument does.** A generic type's descriptor has a field for each of its static parameters that is not an operator. The team's code generator already emitted that field for a size, with nothing to put in it, and the size's descriptor fills it. Each size value, such as the 3 of `Vec[\3\]`, has one descriptor, which `RTTIsize.of` takes from a table; no Java class is written for it. This is the team's pattern for instantiating types, applied to numbers. An operator static argument, by contrast, stays a name known only at compile time (F-39, how both paths carry it). The curator sees no need for an operator argument to be carried at run time the way types and sizes are. Built: F-129, which holds what runs and its open rows.
+
+### P-50
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-50 **The body of a `label` expression, and each value that an `exit` gives it, take the expected type of the whole `label`.** A `label` is a named block that code inside it can leave early with `exit`, giving a value with `with`. The specification types a `label` as the union of its body's last expression and the values that its `exit` expressions give. So when a `label` has an expected type, the compiled checker passes it into the body and into each of those values, as it does into each clause of a `typecase`. The specification's inference chapter lists the body and those values as contexts that carry an expected type. P-51 decides the same question for a call written as another call's argument. Built (F-87 lists the checker's contexts that carry an expected type).
+
+### P-55
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-55 **A size may hold arithmetic, compared by its written form once its numerals are computed.** The compiled checker accepts a sum, a difference, a product or a power as a size, such as the length in `Vector[\RR64, 16\]`. It computes each operation whose operands are both numerals, from the inside out, so `2 3` is the size `6`. Otherwise it compares two sizes by their written form: `s0 s1` is not the same size as `s1 s0`, though their values are equal. On the compiled path, the class loader computes a size's value when it makes the class of an instantiation. Walk already computes such a size exactly when it makes an instance. The checker counts a size name, such as `b0`, as possibly equal to a numeral, as the team's Q&A in `Specification/appendices/internal-document.tex` answers. So the `N[\0\]` arm of a `typecase N[\b0\]` is reachable. The library keeps the team's sizes written as products and sums, such as a matrix's storage of `s0 s1` cells. Built (F-146 states what the checker accepts).
+
+### P-60
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-60 **The specification reads a `comprises` clause at the level of values.** `trait S comprises { U, V }` says that every value of `S` is a value of `U` or of `V`. So another trait may stand between `S` and its listed types. The specification defines "covers" once: a type covers another when every value of the second is a value of the first. The Meet Rule gains a case for closed traits. Where the rule asks for a declaration at the meet of two overloads' parameter types, several declarations below both serve, if together they cover the meet. So a call whose argument's static type stands between closed traits and their listed types may have several most specific declarations. The call's type is the intersection of their return types, and the declaration that runs is unique only at run time. Why: the proof addendum (`reviews/comprises-type-level-proof-addendum.md`) shows this sound for ground declarations, at calls that need no coercion. A ground declaration's types hold no type variable, and `G[\ZZ32\]` is ground. The addendum also asks that the checker use coverage only in its overloading rules, to accept an overload set and to justify a call's tie among several most specific declarations, and not in its general subtype test. A declaration with static parameters, whose instance dispatch must choose at run time, is outside the proof: one instance would have to meet every one of the return types at once. The typing by the intersection is not extended to it, and the specification states that boundary. Built: F-175 (the specification), F-76 (the compiled checker) and F-27 (walk's load check).
+
+### P-146
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-146 **In a self-typed trait, the compiled checker types `self` in the method bodies as also being the implementing type.** A self-typed trait is a trait `C[\X\]` whose parameter `X` extends `C[\X\]`, such as `Integral[\I extends Integral[\I\]\]`. In its method bodies, `self` has the type `C[\X\] & X`. The method signatures keep the plain trait type, because the proofs of the POPL 2019 paper on multiple dispatch (Park, Hong, Steele and Ryu) assume that no declared type holds a type parameter inside an intersection. The checker refuses a type that extends such a trait at another type, since an extender must be a subtype of the static argument that it gives: `object Bad extends Integral[\ZZ32\]` is refused, because `Bad` is not a `ZZ32`. Scala has the same rule for self types. The library's text gains no self type and no `comprises` clause, and walk is unchanged. The rule accepts every self-typed method body of the library except `Integral`'s `numerator`, which each integer type declares instead. Why: the checker reads the library as the team wrote it, as P-44 does for the closure of `AnyIntegral`, by one rule that peer languages share. Built (F-225 states the rule as built).
+
+### P-148
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-148 **The checker's speed comes right after its correctness in priority: a rung that changes the compiled checker also makes the change fast.** The rung times the checker before and after its change. It first makes the change correct. Then, in the same rung, it makes the new code fast, without changing which programs the checker accepts or refuses. So no optimization is left to be done by hand after the landing. Why: the checker must stay usable as it grows. Some slowdown is fine, but new checks have made it orders of magnitude slower, so that the checker ran past the time limit of the batch gate's count stage, and rungs could not land. The timing is a smoke test: one run of each tree, to catch a slowdown of several times; a small difference is noise. Built in the `fortress-repo` skill (`compiler.md`, "The checker's time", which gives the steps, their commands and what the rung reports).
+
+### P-74
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22; each row pointer kept, built from the deleted sentence's own words
+
+- P-74 **Mixed integer widths convert by declared coercions: each wider integer type declares a `coerce` from each narrower integer type, as the compiler prelude does.** A conversion that is exact is implicit, and a conversion that can lose precision is written out. So `ZZ32` values and integer numerals coerce into `RR64` implicitly, and a `ZZ64` value into `RR64` is written out (P-66, Java's defaults corrected where they lose precision). A call of a generic function with arguments of mixed widths infers, on both paths, the narrowest type into which its arguments coerce. A range is over `ZZ32` only (P-77, the rule on ranges). The specification's `widens` declaration, which would make a narrow computation stored into a wide variable run wide, is deferred. Built, except the implicit coercion of `NN32` into `RR64`, which is still to build (P-75 holds it, with its conflict with the overloads of `RR64` and `ZZ64`).
+
+### P-80
+
+2026-10-22 12:37Z · rewritten · by the scrape: status and planning references deleted, at the curator's word of 2026-10-22
+
+- P-80 **The specification's sign-refined number types are a superseded design: a program tests such a subset of a type at run time.** These types are the specification's subtypes by sign, such as positive ℚ, non-negative ℚ and non-zero ℚ, and the same refinements of the integers. The machine types `NN32` and `NN64` are separate types, not among them. The specification's number chapters now test a value's sign by comparison, and a float with two getters of `RR64`: `check` returns `Just(x)` for a finite `x`, `check_star` returns `Just(x)` for an `x` that is not a NaN, and each returns `Nothing` otherwise. The chapter that held the design, `Specification/advanced-lib/numbers-advanced.tex`, stays word for word, marked superseded by a callout in the form of every specification change (P-96), so that the original design stays on record. Built: the chapters' rewrite and the callout (F-168). Their possible return belongs to P-62: once the `covariant` keyword is built, a worker tries to bring them back as covariant static parameters.
