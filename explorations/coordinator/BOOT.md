@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 09:31 UTC on 2026-10-22** (11:31 his time). **At his word of 08:19:30 UTC, refined at 08:28:48, the session runs autonomously** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He is away for long stretches. Three judge-only Workflow runs and the skill writer are in flight.
+**State at 09:48 UTC on 2026-10-22** (11:48 his time). **At his word of 08:19:30 UTC, refined at 08:28:48, the session runs autonomously** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He is away for long stretches. Three judge-only Workflow runs and the skill writer are in flight.
 
 ## The boot after a compaction, a one-time exception
 
@@ -31,10 +31,10 @@ Do not read FACTS, POSITIONS, INDEX or PLAN whole; workers read them. Take this 
 
 ## In flight
 
-- **The positions clarity run is written:** all eight chunks (`consolidation-2026-10-22/evidence/positions/p1` to `p8`, 71 entries, about 7.3M tokens written by the four runs) and the FACTS calibration (`evidence/facts/f0`: F-261 and F-262 kept, F-151 reworded, F-263 and F-264 reorganized; about 1M). None is applied yet.
+- **POSITIONS is consolidated** (stage 3 done): the eight clarity chunks judged and applied, `265a60711` and `f1b427c16`; 65 of 71 entries applied, six held by the judges (P-27, P-38, P-43, P-90, waiting on his answers already; P-66, kept word for word at his comments of 10-21; P-150, whose new sentence added a limit he was never told). POSITIONS grew from 44.5K to 79.8K characters. The FACTS calibration is applied, `09e1338df`.
+- **Owed from the judges** (each chunk's `queue.md` and `judgement.md`): one queue worker files every chunk's `queue.md` items (new questions on P-11, P-19, P-76, P-79, P-88, P-148, P-151, and the held entries) and the quote updates they name (items 2, 21, 81, 109, 188, 210, 213, 215 to 218, 222, 223, 227 to 230); `.claude/skills/fortress-repo/references/compiler.md:54`'s query `positions:Storage is` needs a new key after P-84's new title (the skill writer); `explorations/coordinator/lineage.md`, "Files that still repeat it", to match `a4e266faa` (P-19's note).
 - **At his yes of 09:23:49 UTC on 10-22 to the design** (the judge, the writer streams, the orientation tool), built at `913ba1cbf`: the judge stage and the headless writer stream in `tools/record-clarity/` (`judge.md`, `writer-stream.sh`, `wait.py`; `from: 'judge'` for chunks written before the judge), and the orientation workflow, `tools/orientation/` (README). The driver step was tested with a trivial task (Workflow `wf_e5193039-792`).
-- **Three judge-only runs, launched at 09:28 UTC:** `wf_a4d6ac30-946` (positions p1 to p4), `wf_89f6e945-3c5` (p5 to p8), `wf_cc490bd8-861` (facts f0). Each judge writes `judgement.md`, `final.apply` and `queue.md` in its chunk's folder.
-- **The skill writer, started at 09:29 UTC** (`skill-writer.sh new`, task `consolidation-2026-10-22/evidence/briefs/task-skill-docs.md`, log `tmp/skill-writer/skill-docs.log`, watched by a background wait): documents the three tools and the record's new rules in the coordinator skill, the writer's brief and the cold reader's brief. It commits; push its commit, then have a cold read of the changed parts.
+- **The skill writer, started at 09:29 UTC** (`skill-writer.sh new`, task `consolidation-2026-10-22/evidence/briefs/task-skill-docs.md`, log `tmp/skill-writer/skill-docs.log`, watched by a background wait): documents the three tools and the record's new rules in the coordinator skill, the writer's brief and the cold reader's brief. It commits; push its commit, then resume it (`skill-writer.sh resume`, within the hour) on `evidence/briefs/task-glossary.md`, his word of 09:30:07 UTC: the working terms (batch, rung, PLAN, the review queue, a default, the state words, the gate's stages, microGPT's programs) move to the `fortress-repo` core's glossary, before the FACTS run's cold reads. Then a cold read of the changed parts.
 - **Check-ins** "Consolidation check-in 2" to "4", at 10:05, 10:50 and 11:35 UTC. Arm more, 45 minutes apart, while runs live.
 
 ## The plan from here
