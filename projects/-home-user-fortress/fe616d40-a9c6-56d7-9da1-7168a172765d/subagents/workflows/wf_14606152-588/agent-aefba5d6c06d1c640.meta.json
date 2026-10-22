@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"writer c8","workflowPhase":"Write","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
