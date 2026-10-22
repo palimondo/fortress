@@ -294,6 +294,65 @@ A citation establishes where a statement came from; it does not establish that t
 
 This is a proposed improvement to positions writing, distinct from Revival's admission rule. A ruling remains part of POSITIONS even when a worker would already agree with it by default. No POSITIONS entry, skill or audit proposal was edited here.
 
+## For Fable: rewrite positions before consolidating Revival
+
+**Current priority, requested by the curator on October 22:** finish the faithful, readable rewriting of POSITIONS before consolidating the skill's Revival part. This section is the starting brief for that work; the rest of this report supplies background. It does not authorize changing a ruling or treating a proposed wording as an approved decision.
+
+### Reader and register
+
+Assume the reader knows the relevant language concepts, or can reach their definitions through the normal skill references, but does not remember the conversation that produced the decision. A position must communicate the ruling without requiring that conversation.
+
+Apply the project's existing **ASD-STE100-inspired register (“halfway”)** to these entries, not only to skills. Read:
+
+- `explorations/coordinator/skill-writer-brief.md`, section 1, for the writing guidance.
+- `explorations/reviews/skills-writing-principles.md`, for the worked examples and principles.
+- `.claude/skills/coordinator/references/record.md`, for entry ownership, scope, history and the record-writing procedure.
+
+These are writing references, not a request to adopt unrelated skill-writer duties. Use familiar verbs, explicit subjects and antecedents, consistent technical terms, and one main point per sentence. Put the condition before the action when that makes the rule easier to follow. Separate a decision from its reason and implementation status. Short sentences must preserve qualifications; do not meet a word target by replacing precise meaning with shorthand.
+
+The curator suspects that older entries predate this register and have not received a comparable prose pass. That chronology has not been established entry by entry. The observed wording defects justify the clarity pass regardless of their age. This is an adaptation of ASD-STE100 guidance, not a claim of formal compliance.
+
+### What the supplied examples show
+
+The P45, P50 and P51 reviews are based on the curator's pasted text and screenshots of proposed edits, not a fresh verification of the original rulings.
+
+**P45 needs structural clarification.** Separate what the curator requires from claims about achieved behaviour. Lead with the decision; retain exact technical restrictions; put detailed implementation gaps in their existing record homes, with a concise pointer where needed. The illustrative opening in the preceding P45 section remains provisional.
+
+**P50 and P51 need a smaller clarity pass.** Each already centres on a recognizable rule. Removing the historical material is useful; do not require a wholesale rewrite merely because the reader needs language knowledge.
+
+For P50:
+
+- Replace the grammatical compression “its exits' with values” with wording that explicitly identifies the values supplied by exits.
+- “P-51 is the other half of item 48” describes the old discussion's organization. State the substantive relationship if it helps the reader; otherwise leave that association in history.
+- Expected-type propagation into the label body and its exits is the central decision. Keep its scope intact. Verify any proposed restatement against the ruling rather than inferring further type-theoretical claims from it.
+
+For P51:
+
+- “When the checker's attempts at a call keep none” should identify exactly what the initial check failed to find. “If the initial check finds no applicable overload” is a possible wording **only if it matches the recorded trigger**.
+- Distinguish the outer call from the inner call used as its argument. Repeated uses of “call” should not force the reader to infer which one is meant.
+- Preserve the boundary “any inferred static argument, not only a result-only type parameter”. This affects which cases the decision covers.
+- Replace “it makes the inference rules one rule everywhere” with the particular consistency the ruling sought. Do not widen the decision or invent a stronger rationale.
+- The probe's measurement belongs in its report. A short implementation-status statement can remain if it accurately reports the relevant completion; it must not imply that every related gap is closed.
+
+### A bounded rewrite and check
+
+For each entry already under review:
+
+1. Recover the ruling and its qualifications from the provenance gathered by the current audit. Distinguish the curator's decision from a coordinator default, a worker choice and an implementation fact.
+2. Write the clean proposed entry in the register above. Preserve the permanent identifier. Keep decision, scope and essential reason together. Retain technical conditions that affect what is allowed.
+3. Check fidelity against the source, including whether the rewrite makes the claim stronger or broader. Keep historical wording and provenance in the established history mechanism.
+4. Check comprehension with the normal prerequisite context but without the original discussion. Ask the reader to restate the decision, its trigger and limits, and any unfinished work.
+5. Classify a failure before fixing it: missing language concept, unclear wording, or uncertain fidelity. Supply or link a definition for the first; rewrite the second; return to the evidence or curator for the third.
+6. Present the clean proposal first and its diff underneath for the curator's review. Apply approved edits through the existing record tooling and preserve their history.
+
+This refines the existing fidelity and cold-reader checks; it does not require a new large audit or a separate agent for every entry. Focus review effort on changed or ambiguous decisions.
+
+**Acceptance question:** can a reader with the normal language prerequisites explain what Pavol decided and where it applies, without reconstructing the original conversation?
+
+Do not inflate Revival to supply all those prerequisites. Ordinary language concepts belong in the core or appropriate area reference. Revival retains its narrower role of correcting mistaken assumptions about revived Fortress. Nor should a ruling be removed from POSITIONS merely because it matches a worker's default belief: the per-entry necessity test for Revival is not a deletion rule for the curator's decisions.
+
+No POSITIONS entries or skill files were changed by this report update.
+
 ## Review limits
 
 This review sampled Revival and its sources. It did not reread the whole file, audit FACTS or POSITIONS, inspect transcripts, run builds, or test the numerical claims anew. Growth measurements are attributed to the existing scout report.
