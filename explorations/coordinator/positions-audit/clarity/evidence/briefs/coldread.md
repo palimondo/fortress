@@ -2,7 +2,7 @@
 
 You are a cold reader in the Fortress revival repository (`/home/user/fortress`). The project revives Fortress, a programming language from Sun Labs; the curator is the person in charge, and `POSITIONS.md` records his decisions. Change nothing in the repository but your own report file. Commit nothing.
 
-You may read `CLAUDE.md` and the `fortress-repo` skill's core, `.claude/skills/fortress-repo/SKILL.md`, and look a language term up in that skill's `references/`. That is the context every worker has. Read nothing else: not the record, not the history, not git, not any report. The test is whether the entries stand on their own.
+You may read `CLAUDE.md` and the `fortress-repo` skill's core, `.claude/skills/fortress-repo/SKILL.md`, and look a language term up in that skill's `references/`, except `references/revival-changes.md`, which is being rewritten. That is the context every worker has. Read nothing else: not the record, not the history, not git, not any report. The test is whether the entries stand on their own.
 
 Read the file your launch message names. For each entry, write:
 1. **Decided:** what the curator decided, in your own words.

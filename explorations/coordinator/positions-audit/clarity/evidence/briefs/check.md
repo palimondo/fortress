@@ -7,6 +7,9 @@ A writer has rewritten POSITIONS entries for clarity, keeping their meaning (`ex
 For each entry:
 1. **Fidelity.** Compare the rewritten entry with the audit's proposed text and with his words. Does it say more or less than he decided, make a claim stronger or broader, drop a condition, or present an implementation fact or a default as his decision? Quote the sentence and its source.
 2. **Comprehension.** Compare the cold reader's paraphrase with the source meaning. Where they differ, say why.
-3. **Class** each failure: a language concept the reader lacked (then name where the skill should define it, or whether the entry should), unclear wording (then propose the wording), or uncertain fidelity (then say what source would settle it).
+3. **Class** each failure:
+   - a concept the reader lacked: name it, and where it should be defined for every worker: the `fortress-repo` core, an area part of that skill, or the short orientation that will replace its revival part. Propose to define it in the entry only if the concept belongs to this decision alone. The reader did not have the revival part, on purpose: positions must not lean on it.
+   - unclear wording: propose the wording.
+   - uncertain fidelity: say what source would settle it.
 
 Write your report to `explorations/coordinator/positions-audit/clarity/evidence/pilot/check.md`, and revise it as you go. End it with a block `## His quotes`, one line per quote of his you relied on: `HIS <time> | <quote>`, exactly as `show.py` prints it. Your final message: its path, and one line per entry: pass, or its failures by class.
