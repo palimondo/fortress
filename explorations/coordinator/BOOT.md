@@ -2,55 +2,64 @@
 
 # Boot note
 
-**State at 08:21 UTC on 2026-10-22** (10:21 his time), written before a compaction. Nothing runs: no agent, no Workflow, no check-in. **At his word of 08:19:30 UTC, the session runs autonomously after the compaction** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He will be away for long stretches.
+**State at 08:36 UTC on 2026-10-22** (10:36 his time). **At his word of 08:19:30 UTC, refined at about 08:27, the session runs autonomously** until POSITIONS, FACTS and the `fortress-repo` skill's revival part are consolidated, by the plan below. He is away for long stretches. Five Workflow runs are in flight, and two Opus workers (Agent tool).
 
-## The boot after this compaction, a one-time exception
+## The boot after a compaction, a one-time exception
 
 A light boot, since the work needs the plan, not the whole record. It reads only, in this order:
 
 1. `get_session` with no session ID: the model, as step 0 of the boot says.
 2. The two cores: `.claude/skills/coordinator/SKILL.md` and `.claude/skills/fortress-repo/SKILL.md`. Then the coordinator's `references/delegating.md`, `references/skill-rewrite.md` and `references/record.md`.
 3. This boot note, whole, then `explorations/coordinator/HELD.md`, whose 10-21 and 10-22 sections hold his rules for this work.
-4. `explorations/reviews/revival-record-synthesis.md`, whole: Astra's review, the standard for every stage below.
+4. `explorations/coordinator/tools/record-clarity/README.md`, and `explorations/reviews/revival-record-synthesis.md` whole (Astra's review, the standard for every stage).
 
 Do not read FACTS, POSITIONS, INDEX or PLAN whole; workers read them. Take this section out after the boot.
 
-## His word of 08:19:30 UTC on 10-22, in short
+## His word of 08:19 and its refinement, in short
 
-- He listened to the clarity pilot fast: the tone is good, and the growth in size is the price of clarity. He approves the audit and the clarity pass "as a run". **The coordinator's reading:** his yes covers the audit's groups 1 to 7 as the page proposes them, and the clarity pass over every entry; the four entries held for his answers (P-27, P-38, P-43, P-90) stay as they are now.
-- **Every open question goes to the review queue**, not to him now: the audit's 16, the pilot's 4, and any the runs raise.
-- **"Built" and "Still to build" lines stay in POSITIONS for now.** They may belong in PLAN; moving them is a possible size saving later, if the record grows too large for the coordinator's full boot.
-- **The process is encoded,** in the skills and as reusable tooling, so that a consolidation can run again when the record drifts: the audit's mining workflow kept as a tool; the clarity rewrite with its cold reader and checker, one workflow for POSITIONS and FACTS with a brief for each, run in parallel.
+- The audit and the clarity pilot are approved "as a run": done, finished, applied (stage 1). Only open questions go to the review queue.
+- The clarity rewrite runs over the rest of POSITIONS and over FACTS as a Workflow, the process of the skill rewrite of 10-08 (run `wf_185878c8-0fb`, script in the session's `workflows/scripts/fortress-repo-skill-rewrite-wf_185878c8-0fb.js`) and of the pilot, made reusable: `explorations/coordinator/tools/record-clarity/`. The mining workflow stays a tool: `positions-audit/README.md`.
+- One pass or two: the clarity writer reads the audit's evidence and starts from its applied corrections, so this run is one pass; when the mining runs again, its correction and the clarity rewrite can be one writer stage (said in the mining README).
+- "Built" and "Still to build" lines stay in POSITIONS for now; moving them to PLAN is a possible size saving later.
+- The process is encoded in the skills after the runs (stage 5).
 
-## The plan, in order
+## Done
 
-**Stage 1. Apply the audit to POSITIONS.** Groups 1 to 7: the eight `positions-audit/full/evidence/corrections-cN.apply` files and `handles.apply`, without the four held entries' lines; in P-89 keep the bare "Built."; F-39's pointer change with P-123's removal. Test on a copy of the record with `record.py apply` and `check --base`, then on `main`. Then, with `record.py note`: the history lines of the 25 kept entries (each chunk's "History lines" section), of P-10 and P-88 (his page comments of 23:05 and 23:29 UTC on 10-21), and the corrections of old blocks that name the wrong commit (chunks c2, c3, c4, c6). File in `review-queue.md`: the ten drafted items (`review-queue-items-cN.md`), the changes they propose to existing items, the audit's 16 questions (`scratchpad/auditpage/full.py`, `Q`; P-85's two from `trial/evidence/takeaway-check.md`) and the pilot's 4 (`clarity/evidence/pilot/proposals.md`). One commit for the record, one for the queue.
+- **Stage 1,** `6b560762f`: the audit's groups 1 to 7 and the pilot's ten entries applied (`positions-audit/apply-2026-10-22/`, its `build.py` and ten apply files); P-16 and P-123 struck; P-27, P-38, P-43, P-90 unchanged, held for his answers; F-39's pointer. POSITIONS has 81 entries.
+- **Stage 2,** `d56844991`: the clarity workflow, `tools/record-clarity/` (`record-clarity.js`, `writer.md`, `fix.md`, `coldread.md`, `check.md`, `assess.md`, `entries.py`, README); the mining README; the run arguments, `consolidation-2026-10-22/runs.json`. Its script was checked with stub agents for both kinds.
 
-**Stage 2. The reusable tooling,** written by an Opus worker from the files that ran:
-- The mining workflow: `positions-audit/full/evidence/workflow.js`, its briefs and `positions-audit/tools/`, generalized into one home with a README (where it lives is the worker's proposal, under `explorations/coordinator/tools/`).
-- The clarity workflow: one script, its kind `positions` or `facts`. Per chunk: for FACTS only, an assessment by Astra's rubric first, and only failing entries go on; then the writer (Opus, its prompt the skill writer's standing brief, `skill-writer-brief.md`, then the kind's task, from `clarity/evidence/briefs/task-pilot.md` and `task-pilot-fix.md`); the cold reader (`coldread.md`: the `fortress-repo` core and area parts, never the revival part); the checker (`check.md`); the writer's fix round; a second cold read. Output per chunk: `proposals.md`, `clean.txt`, `proposals.apply`, the reports, and concepts for `clarity/evidence/concepts.md`. Check the script with `tools/workflow-scenarios.js` before a run. At most two agents run in one Workflow, so run several side by side.
+## In flight
 
-**Stage 3. The POSITIONS clarity run.** Every live entry after stage 1, in chunks of about ten: the eight trial entries and the 63 or so others; the pilot's ten get one fix round for `cold-read-2.md`'s blocked phrases. A change of meaning that the checker finds and no source settles is not applied: that part keeps its wording, and its question goes to the queue. Read each chunk's result, then apply it on `main` with `record.py`, one commit per chunk.
+- **Two Opus workers (Agent tool), launched at about 08:30 UTC:**
+  - history notes: writes `positions-audit/apply-2026-10-22/11-history-notes.apply` (`record.py note` blocks: the kept entries' sources, P-10's and P-88's, the corrections of blocks naming the wrong commit), tested on a scratch copy. Then: read it, apply it on `main`, `check --base`, commit the record with the file.
+  - the review queue: files the audit's ten drafted items, the changes to existing items, and 20 questions (the audit's 16, the pilot's 4) in `review-queue.md`, uncommitted. Then: read the diff, commit it.
+- **Five Workflow runs of `tools/record-clarity/record-clarity.js`, launched at 08:34 UTC** (spend epoch 1792658063), their args in `consolidation-2026-10-22/runs.json`, output under `consolidation-2026-10-22/evidence/positions/` and `.../facts/`:
+  - `wf_d3e351c0-edc`: positions p1, p2.
+  - `wf_9d898834-f5c`: positions p3, p4.
+  - `wf_d8fdeed7-8b4`: positions p5, p6.
+  - `wf_e98f1b26-a7f`: positions p7, p8.
+  - `wf_d4a20e43-e1d`: the FACTS calibration, f0 (F-151, F-261, F-262, F-263, F-264).
+  - Estimates of tokens written: the four positions runs about 7M; the calibration about 1M.
+  - Do not edit `record-clarity.js` or its briefs while these runs live; to change a brief for the FACTS run, resume nothing from the old version, and launch the new runs after these end.
+- **Check-ins** "Consolidation check-in 1" to "4", at 09:20, 10:05, 10:50 and 11:35 UTC (`trig_01BHLM6kPwqAtHFepD8svZS3`, `trig_01CfentvcWNXcEB8mQDqhnPR`, `trig_01RSgn5zyiQbtyvzLUu2oZ1k`, `trig_01RknQ6q4s2DRkUTV2tPFro2`). Arm more, 45 minutes apart, while runs live.
 
-**Stage 4. The FACTS assessment,** by Astra's section "For Claude: assess all FACTS, rewrite only failing entries". First a calibration on a few contrasting entries (she names F-261 and F-262 as focused, F-263 and F-264 as dense, and F-151); read it, then the full run over every entry, side by side with stage 3 when the machine allows. A temporary assessment table, one row per entry, with a disposition: keep, reword, reorganize or investigate. Only failing entries are rewritten. An "investigate" entry keeps its text and goes to a list for the narrow question. Apply per chunk, as in stage 3.
+## The plan from here
 
-**Stage 5. The skill text,** through the skill writer (`skill-writer.sh`, Opus), after stages 3 and 4, so that it encodes what worked:
-- `coordinator/references/record.md`: an entry reads on its own; a pointer that stays carries a few words on what it holds; no handle of a past conversation; Astra's FACTS rubric and dispositions; the record pass owns the final wording; how to run the mining and the clarity workflows.
-- `coordinator/references/skill-rewrite.md` and the writer's standing brief: Astra's post-landing rule ("A small change to the existing process"), in place of "each change, with its contradiction and its reason"; the growth loophole closed; her two cold-read questions in `skill-cold-read-brief.md`.
-- The rung brief: complete findings, not finished prose (`climb-batch-workflow.js`, and `references/batch.md` if it says otherwise).
-- The rules held for the skill writer in `HELD.md`'s 10-21 and 10-22 sections.
-Cold-read each changed part, as `skill-rewrite.md` says.
+**After each chunk** (`record-clarity/README.md`, "After a chunk"): read its `proposals.md` and `cold-read-2.md`; apply `proposals.apply` on a copy, `check --base`, then on `main`; commit the record with the chunk's files; file its questions in the queue (a change of meaning that no source settles is not applied); merge its `concepts.md` into `consolidation-2026-10-22/concepts.md`, with the pilot's `positions-audit/clarity/evidence/concepts.md`.
 
-**Stage 6. The revival part's consolidation,** by Astra's "Consolidation procedure", her admission test ("Recovered admission rule") and her trap check ("A small test to preserve through consolidation"): the reading contract; a budget of 8K to 12K characters; an outline by the concepts workers use; a temporary disposition table for the 54 old entries; the skill writer writes from the outline, with `clarity/evidence/concepts.md` as input; a preservation check against the table; a cold read of the whole with the core only; the trap questions from `reviews/fortress-pretraining-quiz.md` and `reviews/skills-distillation-audit.md`, answers updated to the current record; the Fable comparison with the approved version (a go in advance, `delegating.md`); the mapping in `sources.md`; the core's description and the post-landing instruction updated together. Then one more cold read of the rewritten POSITIONS, now with the new orientation, to confirm that no entry still needs it or repeats it.
+**Stage 4, FACTS.** Read the calibration (`evidence/facts/f0/`): does the assessment pick the right entries, and do the rewrites keep scope and evidence? Fix the briefs if needed, then launch the four `facts` runs of `runs.json` (16 chunks, 193 entries), side by side with what is left of POSITIONS. Estimate about 10M. "Investigate" entries keep their text; their narrow questions go to a list, then to the queue.
 
-**Stage 7. Report to him:** a page with what changed in each record and skill, the counts, the questions filed, the cost; a push notification.
+**Stage 5, the skill text,** through the skill writer (`skill-writer.sh`, Opus), after stages 3 and 4: `coordinator/references/record.md` (an entry reads on its own; pointers carry a few words; no handles; Astra's FACTS rubric and dispositions; the record pass owns the final wording; the mining and clarity workflows and when to run them); `skill-rewrite.md` and the writer's standing brief (Astra's post-landing rule in place of "each change, with its contradiction and its reason"; the growth loophole closed); her two cold-read questions in `skill-cold-read-brief.md`; the rung brief asks for complete findings, not finished prose (`climb-batch-workflow.js`, `references/batch.md`); the rules held for the skill writer in `HELD.md`. Cold-read each changed part.
+
+**Stage 6, the revival part,** by Astra's "Consolidation procedure", her admission test and her trap check: the reading contract; a budget of 8K to 12K characters; an outline by the concepts workers use; a temporary disposition table for the 54 old entries; the skill writer writes from the outline, with the merged concepts list as input; a preservation check against the table; a cold read of the whole with the core only; the trap questions from `reviews/fortress-pretraining-quiz.md` and `reviews/skills-distillation-audit.md`, answers updated to the current record; the Fable comparison with the approved version (a go in advance); the mapping in `sources.md`; the core's description and the post-landing instruction updated together. Then one more cold read of the rewritten POSITIONS with the new orientation. Estimate about 4M.
+
+**Stage 7:** a report page for him, and a push notification.
 
 ## Rules for the run
 
-- **Check-ins** with `send_later`, 45 minutes apart, while any run is in flight; at each, resume a killed run (`resumeFromRunId`, the same script and args), commit and push by named paths, reply "." alone.
-- **Estimates of tokens written,** to be refined at each stage: stage 3 about 7M; stage 4 about 10M; stages 2, 5 and 6 about 5M together. Watch with `spend.py`; write each run's estimate and epoch here.
-- **No batch runs.** A hold (something only he can decide, that blocks the work) goes to him with a push notification; anything else goes to the review queue.
-- Machine restarts: three on 10-22 (00:03, 04:46, 07:47 UTC). After one, check the tree and resume what it killed.
+- No batch runs. A hold (only he can decide, and it blocks the work) goes to him with a push notification; anything else goes to the review queue.
+- Watch the spend with `spend.py`; write each run's estimate and epoch here.
+- Machine restarts on 10-22 at 00:03, 04:46 and 07:47 UTC: after one, check the tree, resume what it killed (a Workflow by `resumeFromRunId`; an Agent-tool worker by `SendMessage` if its transcript survives, else relaunch with its leftovers).
 
 ## Owed, outside this run
 
