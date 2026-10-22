@@ -487,7 +487,7 @@
   ]
  },
  "ledger": {
-  "out": "/home/user/fortress/explorations/coordinator/ledger-health-2026-10-22/clarity/",
+  "out": "/home/user/fortress/explorations/coordinator/ledger-health-2026-10-22/evidence/clarity/",
   "chunks": [
    {
     "name": "l1",

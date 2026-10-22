@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 23:35 UTC on 2026-10-22** (01:35 his time). One check-in is armed: "Batch 21 preparation start" at 10:05 UTC on 10-23, after the weekly reset. The post-mortem and record consolidation of 10-20 to 22 are done. Its report landed at `226e3dd97` (`postmortem-2026-10-20-record/REPORT.md`, by the Opus writer from `MAP.md`). It is published as the page https://claude.ai/artifact/F3Gz2ynXQSKEjKXqhNT5is, and the push notification is sent. The batch hold lifts with it, at his word of 22:43. **Running:** at his word of 23:31, the report rewritten in a neutral register for researchers who train later models, not addressed to him: an Opus writer (Agent tool, launched 23:34, spend epoch 1792711998, estimate about 0.3M), brief `postmortem-2026-10-20-record/briefs/writer-2.md`, output `/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/REPORT-v2.md` (test -f it). **Then:** read it whole, replace `REPORT.md` with it, commit, republish the page from `scratchpad/pmreport/index.html` (its standfirst made neutral too), so the URL stays.
+**State at 23:35 UTC on 2026-10-22** (01:35 his time). One check-in is armed: "Batch 21 preparation start" at 10:05 UTC on 10-23, after the weekly reset. The post-mortem and record consolidation of 10-20 to 22 are done. Its report landed at `226e3dd97` (`postmortem-2026-10-20-record/REPORT.md`, by the Opus writer from `MAP.md`). It is published as the page https://claude.ai/artifact/F3Gz2ynXQSKEjKXqhNT5is, and the push notification is sent. The batch hold lifts with it, at his word of 22:43. **Running:** at his word of 23:31, the report rewritten in a neutral register for researchers who train later models, not addressed to him: an Opus writer (Agent tool, launched 23:34, spend epoch 1792711998, estimate about 0.3M), brief `postmortem-2026-10-20-record/briefs/writer-2.md`, output `/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/REPORT-v2.md` (test -f it). **Then:** read it whole, replace `REPORT.md` with it, commit, republish the page from `scratchpad/pmreport/index.html` (its standfirst made neutral too), so the URL stays. Then move `MAP.md` and `briefs/` into the post-mortem's `evidence/` by `git mv`, as the rule of `record.md` says (`c24fcf50a`), drop their INDEX lines, and fix their citations (`REPORT.md`, the page's link to `MAP.md`).
 
 ## Next
 
@@ -12,8 +12,7 @@
 
 ## Owed, small
 
-- To the skill writer: an ad hoc headless `claude -p` passes `--session-id`, as `skill-writer.sh` does. Without it the run writes into this session's transcript: my three test prompts of 22:56, 23:07 and 23:10 UTC on 10-22, each starting "This is a test of", read there as his messages.
-- The ledger clarity run's queue items (`ledger-health-2026-10-22/clarity/l1` to `l5`, `queue.md`), not filed yet; among them the questions on rows 219 and 555.
+- The ledger clarity run's queue items (`ledger-health-2026-10-22/evidence/clarity/l1` to `l5`, `queue.md`), not filed yet; among them the questions on rows 219 and 555.
 - One `record.py note --correcting` call for the 11 history blocks that name the wrong commit: P-10, P-67, P-68, P-84, P-88, P-95 to P-98, P-103, P-124, P-125.
 - P-91's FACTS pointer from F-123; `oracle-headers.md:47` still names the port.
 - Review item 31's probe: whether the team's conditional extension fits `Vector` and `Matrix`, given row 773 (a member scoped to its condition is unbuilt); he rejects "add times".

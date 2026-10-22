@@ -2,7 +2,7 @@
 
 # Chunk l3: judgement
 
-Tree: `HEAD` `8a210ee22`. `git diff --stat d4d454f9d HEAD -- ProjectFortress Library Specification explorations/fortress-gap-ledger.md` is empty, so the check's reading at `b3dad547d` holds, and each row reads in the ledger (`ledger.py show N`) as the assessment quoted it. `python3 explorations/coordinator/tools/ledger.py check --rows explorations/coordinator/ledger-health-2026-10-22/clarity/l3/final.rewrite`: "11 rows, 0 fail the template".
+Tree: `HEAD` `8a210ee22`. `git diff --stat d4d454f9d HEAD -- ProjectFortress Library Specification explorations/fortress-gap-ledger.md` is empty, so the check's reading at `b3dad547d` holds, and each row reads in the ledger (`ledger.py show N`) as the assessment quoted it. `python3 explorations/coordinator/tools/ledger.py check --rows explorations/coordinator/ledger-health-2026-10-22/evidence/clarity/l3/final.rewrite`: "11 rows, 0 fail the template".
 
 Result: 11 applied (8 as the check passed them; 463 passed, with the line range that the check's note gives; 470 and 495 with the check's corrections), 1 held (533, investigate; it keeps its line). No close: `closes.txt` proposes none, so `final.closes` is empty. Every sibling that a new line names is open (524, 525, 661, 71, 74, 314, 705, 395, 496, 413: `NEGATIVE-VERIFIED`); the siblings that the new lines drop are closed (493, 494, 455, 520 and row 21: `FIXED`).
 

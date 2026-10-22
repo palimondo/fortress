@@ -217,7 +217,7 @@ Pages (built from uncommitted scratch folders): the audit page `claude.ai/artifa
 - **Review-queue item 31**, the element bound of `Vector` and `Matrix`. Live point: C4's `gather` and the APL port's `ravel` only copy but the landed bound asks for times (by reading, not measured); whether the team's conditional extension fits is to be probed (row 773). He "does not agree" with "add times" (Q10-21 22:58:41). [`review-queue.md:341`; BOOT.md "Owed, outside this run"]
 - **Review-queue items 205 to 277** (73 added); 268 to 276 are for his later review; 277 asks whether the compiled checker still refuses microGPT's `10.0^(-5)` (row 533). [`review-queue.md`; HELD.md 22:02]
 - **Held entries:** POSITIONS P-27, P-38, P-43, P-90 (his answers), P-66, P-150; 13 FACTS entries. [queue items 235 to 267; BOOT.md stage 3]
-- **Unfiled ledger questions** for rows 219 and 555. [`ledger-health-2026-10-22/clarity/l1/queue.md`, `l4/queue.md`]
+- **Unfiled ledger questions** for rows 219 and 555. [`ledger-health-2026-10-22/evidence/clarity/l1/queue.md`, `l4/queue.md`]
 - **The ledger repair** of about 180 stale rows, after the weekly reset. [BOOT.md; `REPORT.md` 6.1]
 - **PLAN's own consolidation** (about 162K characters), later, over the weekend. [`PLAN.md`, `1feddbbb1`]
 - **This report:** the Opus writer to `REPORT.md`; a page and a push notification; the boot note rewritten whole; the full boot after the compaction. [BOOT.md, "State at 22:39"; check-in `trig_01M2mgbV9goKhLgswXgWyogu` at 23:30]

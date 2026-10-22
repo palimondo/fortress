@@ -2,7 +2,7 @@
 
 The writer's `rows.rewrite` (11 lines) and `closes.txt`, checked against the tree at `HEAD` (`b3dad547d`; since `d4d454f9d` only files under `explorations/coordinator/` changed, so every pin "at d4d454f9d" reads the same at `HEAD`). Each row's old line was read with `ledger.py show N`. Nothing was built or run.
 
-Form: `python3 explorations/coordinator/tools/ledger.py check --rows explorations/coordinator/ledger-health-2026-10-22/clarity/l3/rows.rewrite` prints "11 rows, 0 fail the template".
+Form: `python3 explorations/coordinator/tools/ledger.py check --rows explorations/coordinator/ledger-health-2026-10-22/evidence/clarity/l3/rows.rewrite` prints "11 rows, 0 fail the template".
 
 Counts: pass 9 (441, 457, 463, 465, 510, 511, 514, 523, 537); fail 2 (470, 495). Row 533 has no new line (investigate; its question is in `questions.md`). Closes: none proposed, and none is due: every row's defect stands in the tree (below).
 

@@ -4,7 +4,7 @@
 
 HEAD is `8a210ee22`. The writer's base was `cdb84fba5`. `git diff --stat cdb84fba5 HEAD` touches only `explorations/coordinator/positions-followup/` files and the boot note, so every line cited at `cdb84fba5` reads the same at HEAD. Nothing was built or run.
 
-**Form.** `python3 explorations/coordinator/tools/ledger.py check --rows explorations/coordinator/ledger-health-2026-10-22/clarity/l5/rows.rewrite` printed "10 rows, 0 fail the template" (exit 0).
+**Form.** `python3 explorations/coordinator/tools/ledger.py check --rows explorations/coordinator/ledger-health-2026-10-22/evidence/clarity/l5/rows.rewrite` printed "10 rows, 0 fail the template" (exit 0).
 
 **Closes.** `closes.txt` proposes none, so there is no close to check. The tree agrees: row 665's abstract half stands (`Constructor.java:263`, `:431`), and every other claim holds by reading.
 
