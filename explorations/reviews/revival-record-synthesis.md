@@ -259,6 +259,41 @@ The scenario author and grader may see the record; test readers must not see the
 
 This is a workflow outline for Claude to reconcile with the recovered run, not a claim about how that run was implemented. Keep the writer's instruction small: **identify the mistaken assumption, show why it is expected, and verify that the correction prevents the mistake without introducing another.** Preserve evaluation evidence in maintenance records. No skill files or workflow code were changed in this review.
 
+## P45: fidelity and comprehensibility are separate checks
+
+On October 22 the curator supplied a screenshot and copied text of a proposed P-45 revision from the positions audit. The artifact URL could not be retrieved; this review concerns the supplied example, not the entire list. The screenshot distinguishes deletions from retained text; the copied text alone mixes both. The original ruling and its provenance have not been re-audited here.
+
+**Finding:** removing historical material improves the entry but does not by itself make the remaining decision understandable. The difficulty is visible in the formulation, not necessarily a lack of Fortress knowledge on the reader's part.
+
+- It mixes requirements with statements of implementation behaviour. “The checker runs” and “walk and the checker accept the same pairs” read as established facts, while “Still to build” points to remaining disagreements. State clearly whether agreement is a requirement or an achieved result.
+- “No parameter pair required to exclude”, “refused families” and “reads otherwise” conceal important meaning in compressed technical wording. Name the objects and the operation precisely.
+- “The paper's three overloading rules” neither identifies the paper precisely nor states enough of the decision to orient the reader. A reference may supply detail; it should not replace the explanation of what was decided.
+- “No model line changes” compresses a consequential constraint into project shorthand. Identify the microGPT model program and state the exact restriction established by the ruling.
+- A tracked diff makes historical and current wording compete for attention. Show the clean proposed entry first, with the diff available underneath.
+
+### Proposed form, subject to checking the ruling
+
+Lead with the decision. Follow with its essential scope, reason and exact technical conditions. Distinguish any remaining implementation work and point to its proper record. Preserve conditions that limit the decision; do not simplify away those conditions merely to improve fluency.
+
+An illustrative opening is:
+
+> **P-45 — Use the 2011 overloading model in the specification and both execution paths.** Allow overloads whose static parameters differ. The compiler's checker and the interpreter must apply the same rules when deciding which overload declarations are permitted.
+
+This is a presentation example, **not a verified replacement for P45**. It must be checked against the curator's actual ruling before adoption, and it does not replace the technical requirements omitted from this short opening. In the final entry, identify the 2011 source precisely. Do not turn an implementation default or a writer's inference into the curator's decision.
+
+### Two checks in the existing rewrite process
+
+1. **Fidelity:** compare the proposed entry with the recorded ruling and its qualifications. Distinguish the curator's words from the coordinator's interpretation, an implementation choice and a fact about the current tree. Keep the provenance in history.
+2. **Comprehensibility:** give a cold reader the clean entry and its declared prerequisite context, without the original discussion. Ask it to paraphrase what the curator decided, where it applies, what it requires, and what remains unfinished. Compare that paraphrase with the source-backed meaning. If the reader has to reconstruct the original discussion to resolve the wording, revise the entry.
+
+The acceptance question is:
+
+> Can a reader distinguish what Pavol decided, what the implementation currently does, and what remains unfinished?
+
+A citation establishes where a statement came from; it does not establish that the statement communicates its meaning. This check does not require a type-theory lesson inside every position. It requires enough context to identify the decision before following pointers for technical detail.
+
+This is a proposed improvement to positions writing, distinct from Revival's admission rule. A ruling remains part of POSITIONS even when a worker would already agree with it by default. No POSITIONS entry, skill or audit proposal was edited here.
+
 ## Review limits
 
 This review sampled Revival and its sources. It did not reread the whole file, audit FACTS or POSITIONS, inspect transcripts, run builds, or test the numerical claims anew. Growth measurements are attributed to the existing scout report.
