@@ -1,6 +1,6 @@
 ---
 name: fortress-repo
-description: "Use this skill whenever you touch the code of the Fortress language revival (/home/user/fortress or a worktree like fortress-w4): building with ant; recompiling after editing a .fss, .fsi, Java or Scala file; running programs under walk or the bytecode compiler; running or writing tests (testFast, testSystem, harness-one.sh, junit.sh, .test files, XXX expected failures); the gate before landing; editing the interpreter, compiled checker, code generator, Library or Specification; searching the gap ledger or git history; seeding worktrees; committing a code change. Load it before even a small build, test, edit or measurement there, including long background runs you wait on, and when briefing agents for that work. Skip it for session upkeep (compaction, boot notes, reading batch results, scheduling agents: coordinator skill), Stop hooks, disk or container trouble (cloud-container), other repos, and general Fortress history."
+description: "Use this skill whenever you touch the code of the Fortress language revival (/home/user/fortress or a worktree like fortress-w4): building with ant; recompiling after editing a .fss, .fsi, Java or Scala file; running programs under walk or the bytecode compiler; running or writing tests (testFast, testSystem, harness-one.sh, junit.sh, .test files, XXX expected failures); the gate before landing; editing the interpreter, compiled checker, code generator, Library or Specification; searching the gap ledger or git history; seeding worktrees; committing a code change. Load it before even a small build, test, edit or measurement there, including long background runs you wait on, and when briefing agents for that work; then read references/revival-changes.md whole before work. Skip it for session upkeep (compaction, boot notes, reading batch results, scheduling agents: coordinator skill), Stop hooks, disk or container trouble (cloud-container), other repos, and general Fortress history."
 ---
 
 # Working in the Fortress revival repository
@@ -191,7 +191,7 @@ The parts, in the order that work meets them:
 - The compiled area: the checker, the code generator, the run time, compiled runs, the `fortress` commands, the checker's time after a change: `references/compiler.md`
 - The library area (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/library.md`
 - The specification area (`Specification/`), Appendix I, citing it: `references/specification.md`
-- What the revival changed in the team's Fortress, each change with its contradiction and reason; load it when a team source, an old note or your training disagrees with this skill: `references/revival-changes.md`
+- How revived Fortress differs from the team's Fortress and from the languages that you know; read it whole, after this file, before work: `references/revival-changes.md`
 - Exploring: where to search, what to record and report, which choices are yours: `references/exploring.md`
 - Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, how a defect that you found is recorded: `references/tests-writing.md`
 - Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`

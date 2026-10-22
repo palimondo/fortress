@@ -93,7 +93,7 @@ The record does not fully settle three cases: 2 (which way to record the defect)
 
 - **Trap.** `2^(-1)` is 0.5 (Python, the team's walk) or the rational 1/2 (the Working Draft). A worker failure: the team's demos wrote `10^(-4)` and `10^(-6)` (P-79).
 - **Expected.** Write a float base: `10.0^(-k)`. An integer `^` answers its base's own type: at a negative exponent the bases 1 and -1 give their exact power, 0 raises `DivisionByZero`, and any other base raises `IntegerOverflow`. So `10^(-k)` raises `IntegerOverflow` under walk for `k > 0`, the numeral `10` being a `ZZ32` there. A rational base gives a fraction too: `(2/3)^(-1)` is `3/2`.
-- **Scope.** Before the switch-over, the compiler's prelude's `ZZ32` power gives 0, quietly, at a negative exponent, and a raw Java exception at a base of 0 (rows 441, 523).
+- **Scope.** Before the switch-over, the compiler's prelude's `ZZ32` power gives 0, quietly, at a negative exponent, and a raw Java exception at a base of 0 (rows 441, 523). `10.0^(-k)` compiles before the switch-over too: the prelude's `RR64` power takes a `ZZ32` exponent, a negative one included (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:456`, `CompilerBuiltin.fss:955-971`).
 - **Wrong.** `10^(-k)`; any answer that expects 0.5-style results from an integer base on either path.
 - **Partial.** `10.0^(-k)` with no word on what `10^(-k)` does compiled.
 - **Skill.** The orientation's rule on the integer power.
