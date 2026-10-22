@@ -2128,3 +2128,201 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-88
 
 2026-10-22 08:48Z · noted · from `explorations/coordinator/positions-audit/evidence/curator-comments-2026-10-21.md`, "Later, on version 5 of the page" · by the coordinator, from his page comments of 2026-10-21 on the audit trial's page, which the held list names as the source, at his word of 2026-10-22 08:19 UTC: the text stands as consolidation chunk P3 wrote it; this block gives the source of its `ReadableArray2` sentence, his page comment, which no block of this history gave. Its source: 2026-10-21 23:29 UTC, his comment on the audit trial's page (version 5), on the proposal to move that sentence to the review queue: he reads it as the record of a further position of his, that a `ReadableArray2`, a read-only matrix, is wanted, so he would not delete it, and he finds the audit too aggressive in touching everything.
+
+### P-7
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p1/proposals.md, "P-7"); the coordinator's word "floor" replaced by his own "baseline" and "optimal result", his 2026-09-16T22:43:26.489Z, taken with "word" at 22:46:21.111Z; what a revision is, his 2026-10-12T23:15:30.246Z ("we are reconciling the contradictions and when later work in compiler or type papers contradict the original spec, we updated it"); the specification's copy named as F-163 and P-96 name it; the state split into its own line; his yes 2026-09-29T15:49:10.603Z to item 11 of the decisions review on the living document
+
+- P-7 **The goal is to finish what the designers intended, measured by one program, microGPT, compiled to bytecode and running fast.** The judge is `Specification/`, the Working Draft of February 2011 as the revival revises it, with the 2012 Types chapter cited beside it (P-25). The language is not redesigned. The specification is a living document that states the revival's changes (P-95). The floor to measure against is a pure-Java microGPT, not yet written (PLAN phase 6).
+
+### P-8
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p1/proposals.md, "P-8"); "he" named as the curator; "left no word" as the designers' own sources giving no answer, his "they have no clues on record", and the sources as the fortress-repo skill lists them; "accepting all unfinished corners ... because I want to get to a compiled version of micro GPT ... so that we do not get bogged down", 2026-09-29T12:17:07.180Z
+
+- P-8 **Where the designers left no word, he decides by the goal, a compiled microGPT running fast, not by type-theoretic purity, and stays true to the spirit of Fortress.** He accepts the language's unfinished corners rather than stall in theory. He has not read the specification, the type papers or the library, and takes the designers to have known more than he does.
+
+### P-9
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p1/proposals.md, "P-9"); his goal 2026-09-15T07:35:36.514Z; C4, the APL program, the vocabulary and the two hyperparameter forms named with their files and examples (explorations/run-c4/src/MicroGptFlat.fss:6-7 and :17; commit 1bde6cd0e for the one-line form); "set aside" as his reason, 2026-09-14T20:12:12.623Z; the target form as the APL program's expansion into C4's lines, his 2026-09-19T17:01:32.913Z and explorations/apl/mg/MicroGptApl.fss:1-11; the library's share his 2026-09-20T07:20:24.519Z
+
+- P-9 **The search is for microGPT's most readable expression.** In the flat program in Hsu's style, C4, polishing happens in the vocabulary, the operations the model is written in (P-87). C4 is the APL program's target form. Its hyperparameters are tuple bindings, the form an APL strand assignment expands to; the semicolon form of those lines is set aside.
+
+### P-10
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p1/proposals.md, "P-10"); the closed ground and the sub-language's limit his 2026-09-15T07:28:31.808Z ("do only the part necessary for the micro GPT in APL and put the rest out of scope") to the coordinator's 07:23:52.724Z; the sub-language said in his words of 2026-09-12T10:17:30.754Z (convert APL syntax into efficient Fortress code, not an interpreter); the walk-check clause his page comment of 2026-10-21 23:05 UTC; the check's content by the fortress-repo skill's part
+
+- P-10 **The APL side quest is closed: its remaining ground, tacit functions, characters and nested arrays, is not pursued.** Its sub-language expands APL to Fortress code over native arrays, and its APL microGPT program stays in the walk check (P-30).
+
+### P-11
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p1/proposals.md, "P-11"); Fortify named; "does that better" made to point at APL's way of writing a computation; the verdict's scope, typesetting only and the Unicode operators the language's own, from the coordinator's reflection of 2026-09-16T22:44:25.808Z that he answered "word" at 22:46:21.111Z, and his own "a presentational layer" at 22:43:26.489Z; open: whether a repair of Fortify/fortify.sty that the specification's build needs waits for his ask (proposals.md, "P-11", question 1)
+
+- P-11 **The 2D notation is a gimmick: no work on it unless he asks.** Fortify's mathematical rendering bakes one view of a computation into the syntax, though the same mathematics can be written many ways. APL's one glyph for each transformation does that better. It is presentation only, off the path, and no argument for Fortress.
+
+### P-17
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p1/proposals.md, "P-17"); his reason stated, 2026-09-19T18:32:48.384Z and 2026-09-15T10:42:06.544Z; the cost's scope, Java models of the three kernels, as F-11 states it; the state in its own line, both parts as PLAN.md tracks them (phase 5, the array design; phase 6, "Unboxed arithmetic chosen by static type in generated code")
+
+- P-17 **Unboxed doubles and arrays of doubles are required: without them the revival misses its point.** The code generator boxes every number, and boxing is the main cost on microGPT's array kernels (F-11). The storage is P-84's decision; unboxed arithmetic is PLAN phase 6 (P-33).
+
+### P-19
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p1/proposals.md, "P-19"); the port and the lineage by history and by content, the coordinator's 2026-09-23T06:27:47.426Z that he answered, and F-165; his reason, 2026-09-23T06:33:41.521Z ("because it is not"); his rejection of the graft line 2026-09-23T05:28:37.640Z; his hold on the cleanup 06:02:13.771Z; apply after coordinator/lineage.md, "Files that still repeat it", is brought up to date with a4e266faa
+
+- P-19 **The tree is not described as the third-party port's migration grafted on its history.** The files that still say so wait for the lineage cleanup (PLAN, "Off the path, parked"), which `coordinator/lineage.md`, "Files that still repeat it", lists.
+
+### P-25
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p1/proposals.md, "P-25"); the three passages said as the passages that bear on the revision, as the coordinator's ask of 2026-09-26T07:56:16.747Z named them, to which he answered "Agreed." at 08:01:03.475Z; the two-part form placed as the restart and the revised specification each state it (types.tick:355-376; Specification/basic/types-vals-vars.tex and basic/traits.tex; reviews/spec-refused-examples-judgement.md, section 5); covariant's state from P-62 and his 08:07:48.939Z
+
+- P-25 **The specification stays the standard, the Types chapter beside it.** Where the Types chapter of the team's unfinished 2012 restart (F-166) covers a topic, it is cited beside `Specification/` as the designers' later word. On the rules that the revival revises, it is their latest intent, which the goal is to finish. It covers the exclusion rule, as instantiation exclusion in its two-part form, the `covariant` modifier, and `Bottom`, which no program can write.
+
+### P-26
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p1/proposals.md, "P-26"); the type group and specialization defined (the fortress-repo skill's exploring part; the coordinator's account of 2026-09-23T07:16:28.611Z that he answered, and Naden's write-up, lines 78-88), specialization's definition marked as the type group's design, not his requirement (his 2026-09-24T01:02:52.634Z); "made" as his "tried to make it run"; "the spec must change" restored from his message of 2026-09-23T07:26:28.248Z; the sentence on unfinished text kept word for word for his answer to the audit's question (positions-audit/full/evidence/corrections-c1.md, "P-26")
+
+- P-26 **The type group's late positions outweigh the specification's early text where they conflict.** The early text was a wish. The type group then made the language run, for performance and with specialization a must, and learned what is feasible. So their later word wins: the exclusion rule, specialization kept, the compiler prelude's tower flattened in 2009 and 2010 (P-43), Naden's 2012 write-up, the POPL 2019 paper. The implementers' later word also outweighs unfinished text. The revival does not second-guess them: it knows less than they did.
+
+### P-28
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (explorations/coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md, "P-28"); his reason of 2026-09-15T10:42:06.544Z put after "Why:"; `Ring` and `Field` not declared in Library/FortressLibrary.fsi (git grep at d56844991); the separate tree said as the choice of the 2026-09-15 question, Library/ or a tree of the revival's own; the parked line said with PLAN's default for its parked list, the coordinator's, and his "Park both with the algebra work." of 2026-10-16T13:01:50.455Z
+
+- P-28 **Fleshing out the standard library is a very important task.** Its next layer is the algebraic one: `Ring`, `Field` and what the matrices and tensors of machine learning need, so that the library's traits reach them; it is parked off microGPT's path (PLAN, "Off the path, parked"). It goes into the standard library itself (P-27), not into a tree of the revival's own.
+
+### P-30
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (explorations/coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md, "P-30"); the minute said as his requirement and goal, his words of 2026-10-08T17:49:22.269Z, not as a measured fact; the script and its quick pair marked as built state, the commit stage's step 0, outside the gate (mg-run.sh header; climb-batch-workflow.md, "Commit, and the push held")
+
+- P-30 **The microGPT walk check after a batch runs in under a minute.** It runs about two forward-and-backward passes against the reference values, which shows that the model's mathematics still works and that the library's changes did not break it. A slower check is to him a waste of time.
+
+### P-32
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (explorations/coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md, "P-32"); the title leads with the standing rule from the body, "kept current and used", his words of 2026-09-24T06:44:33.963Z and 2026-09-27T05:57:11.388Z; the territory map and the papers from 2026-09-16T22:43:26.489Z and 22:57:42.006Z; a pointer to the coordinator skill for how the maps are read; the territory map's date as state (map/README.md), with a question to him whether "kept current" covers it
+
+- P-32 **The territory map (`coordinator/map/`) maps the tree down to where the design intent is written, in the papers as well as the specification.** It and the record's other maps, FACTS and `INDEX.md`, are kept current and used, so that nothing on record is found again from scratch.
+
+### P-33
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (explorations/coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md, "P-33"); his "Yes, this order and workers are go." of 2026-09-26T09:04:41.396Z to the coordinator's 08:40:51.388Z; each phase said in words from PLAN; the work beside the order from PLAN's phases 2b and 4, P-37 and his 2026-09-27T06:13:29.788Z; moved here: the handle "re-approval row 41", line 41 of postmortem-2026-09-19/decisions-for-reapproval.md, now said as the decision it holds, with ledger row 320's two halves
+
+- P-33 **The plan (`coordinator/PLAN.md`) holds the phases in the order he approved.** Still to build: 3, the checker at a true zero; 4, the switch-over, natives then names; 5, microGPT compiles: its static types, the array design and the code generator's holes; 6, microGPT fast. Where the work stands: PLAN's "Where we stand". Re-approval row 41 (ledger row 320: a component named apart from its api does not link) joins the switch-over's design.
+
+### P-37
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation (explorations/coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md, "P-37"); his limit of 2026-09-24T01:02:52.634Z, "Only which file survives.", said in the entry, with the flat number types as its example, the design that the coordinator's 00:47:26.776Z asked about; the two files said as the interpreter's prelude, from library-route-judgement.md:65 and PLAN's phase 4; the code generator's reason and the plan in the coordinator's words of 2026-09-21T02:36:16.321Z, which he confirmed at 02:40:19.981Z; the plan named as PLAN's phases 3 and 4, approved 2026-09-26T09:04:41.396Z
+
+- P-37 **One library, the interpreter's, is the library the compiler checks.** The interpreter's `FortressLibrary` and `FortressBuiltin` become the compiled path's library. He sees the compiler's prelude (`CompilerLibrary`, `CompilerBuiltin`, `CompilerAlgebra`) as a bootstrap to remove, so no declaration goes into it, and its three files are deleted at the switch-over with their tests kept. Code-generator rungs go on. How the checker comes to accept the library is a plan shown to him step by step, not a question to ask again. Still to build: PLAN phase 4.
+
+### P-39
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (explorations/coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md, "P-39"); every gate said as every batch's gate, step 8 of climb-batch-workflow.md; the two measures said in F-53's words; one of F-66's red faults named, with the manifest field expectedCheckerCrash; his "Agreed, option 1" of 2026-09-26T12:24:01.196Z to Answer 11 of 12:21:03.045Z, whose recommendation and option 2's cost give the reason after "Why:"
+
+- P-39 **The checker count is measured in every gate, and its total never turns the gate red.** A rise of the count is reported and never fails a batch on its own; F-66 gives what turns its stage red. The distance to the switch-over (F-53), over all apis and components, is a report-only stage of the phase-3 gates, whose work drives it down.
+
+### P-41
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (explorations/coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md, "P-41"); his "All right. B it is." of 2026-09-24T16:17:27.464Z and "Agreed, (b) factory" of 2026-09-26T09:44:10.939Z; the slot said as the descriptor's field per non-operator static parameter, which the team's code generator already emitted (CodeGen.java, "Fields and Getters for static parameters"; size-runtime-design-brief.md, "Pavol's three questions about B's classes"); one descriptor per size value, the ask of 09:30:07.795Z; the built state as a pointer to F-129; moved here: the handle "design B", of explorations/reviews/size-runtime-design-brief.md
+
+- P-41 **At run time a size travels as the descriptor that a type argument has (design B).** It fills the slot that the team's code generator reserved. Each number has one descriptor, from a table, with no holder class, as the team instantiates types. Operator static arguments stay compile-time names (F-39): he sees no need to unify them.
+
+### P-42
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (consolidation-2026-10-22/evidence/positions/p3/proposals.md, "P-42"); his "Option one" of 2026-09-29T14:02:25.736Z to the coordinator's 13:58:02.218Z, whose option 1 is a callout recording that the draft said Object; the compiled path's departure said as the skill's compiler.md and row 412 say it, ended by the switch-over (Shell.java:371-380; the callout revival-bound); "functions" kept, the audit's question on it open (positions-audit/full/evidence/corrections-c3.md, "P-42", question 1; review-queue item 218)
+
+- P-42 **An unbounded type parameter's implicit bound is `Any`, not `Object`.** `Any` holds tuples, functions and `()`, which `Object` does not, and the library instantiates its generic containers at tuples, arrays indexed by pairs among them. The specification states the bound, with a callout that keeps the Working Draft's `Object`. The compile path's `Object` bound departs from it until the switch-over (row 412).
+
+### P-44
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (p3/proposals.md, "P-44"); his 2026-09-21T17:08:18.165Z to the coordinator's 17:01:34.623Z (keep the closure with a NOT YET comment), and his "Option 1." of 2026-09-28T08:52:27.340Z to the coordinator's 07:49:57.970Z; the reason added from that ask ("By your decisions of 09-23 and 09-26, the 2012 texts weigh more, and by them the clause is right as written"), the decisions being P-26 and P-25; the five types from FortressLibrary.fsi:442, the NOT YET form from FortressLibrary.fss:683, :1612, :1695; state added: the checker's rule 079f54ea9 and the specification's change d8e0cd28e
+
+- P-44 **`AnyIntegral`'s closure stands, and the checker reads `comprises` the 2012 way.** The closure `AnyIntegral comprises { ... }` stands, with a `NOT YET` comment in the team's wording. A generic child of a closed trait may extend it when every type that the checker knows below it is listed. The clause's text and walk stay as they are. Row 487 records the hole that every reading but the 2008 one shares: a program's own `Integral` subtype in another component is not caught.
+
+### P-46
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (p3/proposals.md, "P-46"); his "C-O. Both recommendations for batch N accepted." of 2026-09-28T19:06:50.868Z to the coordinator's 14:52:02.906Z (decision 1); "a generic version fits if some type within its bound would take the arguments" restored from that decision; the handle "answer 8's promotion" said as P-74's rule; the example's signatures from reviews/conversion-overloading-judgement.md:15, :28; walk's promotion from run-time types, that judgement's section 3 and its defaults (review-queue item 85); his 2026-09-27T19:30:05.855Z "Agreed." to 19:24:33.002Z for the inference on both paths
+
+- P-46 **A conversion makes a call possible, and never changes which declaration runs when one already fits.** Declarations are chosen on declared domains, by applicability and then specificity (P-45). The chosen one is instantiated by answer 8's promotion (P-74), its coercions inserted statically. So beside a plain arm over `Any`, a generic arm over `T extends Number` runs at `ZZ64` for a mixed-width call. Why: he wants fast generic code that a JVM can specialise. His own broader rule, to apply any conversion that reaches a specific declaration and to fall back to a plain one only when none does, is not taken. Both paths infer static arguments with coercion and the same promotion, and P-49 orders the checker's attempts. Still open: the dispatch between two generic declarations (row 537, PLAN phase 5).
+
+### P-47
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (p3/proposals.md, "P-47"); his "C-O. Both recommendations for batch N accepted." of 2026-09-28T19:06:50.868Z, which took decision 2 of reviews/conversion-overloading-judgement.md; the tie and "the library's own device" from that decision; the five types, the order traits and MINMAX from FortressLibrary.fsi:442, :192-233; state added: built by 2770550c3 (climb batch N, rung M)
+
+- P-47 **Each integer type declares its own `MIN`, `MAX` and `MINMAX`.** It follows `QQ`, `RR64` and the compiler library, and the specification's `ZZ`, which declares its own `MIN` and `MAX`, so that under walk the family answers at the promoted type.
+
+### P-48
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (p3/proposals.md, "P-48"); his 2026-09-29T17:34:18.956Z to the coordinator's 17:29:52.529Z, restating 16:52:08.446Z; the three unfixed cases, "Any if there is none" and walk's "always" from that ask's option 1; "unrelated" and the static return type read by Specification/basic/inference.tex:80-104; his 2026-10-03T04:14:20.092Z to item 20 of 04:01:11.833Z for the three unbounded declarations; state completed: walk's Bottom cases from the skill's revival-changes.md, "Static parameters"
+
+- P-48 **A type parameter that a call's arguments do not fix takes its bound, never `Bottom`.** Its instance is the intersection of its upper bounds, constrained by the call's static return type, never the arguments' union or the value's type alone. The rule is the team's later word (POPL 2019). He ranks the team's later work above his own reading. It sets the instance, not which declaration runs (P-46). MicroGPT's types are concrete, so it is untouched. The library keeps the team's unbounded declarations. Walk has no static types, so where dispatch reaches a declaration it still takes the value's type. Still to build: a compiled dispatcher that carries the static return type (row 538, PLAN phase 5).
+
+### P-49
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (p3/proposals.md, "P-49"); his 2026-09-29T15:49:10.603Z to the coordinator's 15:26:31.509Z, item 4 of reviews/decisions-review/judgement.md section 6; the reason, his 15:26:18.244Z; state added: built by f3032eed8 (climb batch 8, rung I), its four attempts as Functionals.scala:733-737 makes them, the second held as review-queue item 2; moved here: gap-ledger row 508, FIXED, the defect that the decision repaired
+
+- P-49 **The checker tries a call without the expected type first, and with coercion only after (row 508).** It keeps the first attempt, by subtyping, when its result converts to the expected type, and only then tries coercion with the context. So a declaration that fits the arguments as they are is not passed over for one reached by coercion.
+
+### P-52
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (p3/proposals.md, "P-52"); his "Q50 (a) as recommended" of 2026-10-09T07:13:27.273Z to the coordinator's 07:09:23.365Z; state added: built by abe8b0342; moved here: gap-ledger row 657, FIXED
+
+- P-52 **A range of rank 2 or 3 checks containment corner by corner (row 657).** The bounds check behind `narrowToRange` compares the other range's bounds by the ranges' point-by-point order, `PCMP`, not by the tuple order, which serves sorting. So `((0,0):(9,9)).narrowToRange((2,-1):(5,5))` raises `IndexOutOfBounds`.
+
+### P-53
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged (p3/proposals.md, "P-53"); his "agreed with the recommendation." of 2026-10-09T07:18:49.726Z to the coordinator's 07:14:01.035Z, whose question also gives the empty string's Nothing; state added: built by 74b28e9d4; moved here: gap-ledger row 606, FIXED
+
+- P-53 **`String`'s `left` and `right` answer `Just(c)` (row 606).** For a non-empty string they return `Just` of the first and of the last character, as their declared `Maybe[\Char\]` and the `left` and `right` of the library's ranges and lists do. So walk prints `Just` of the character, not the character.
+
+### P-54
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged; his 2026-10-09T07:28:28.361Z, to the coordinator's 07:19:47.208Z (way 2, keep `ZZ` and raise, following the declaration and the peers, Python's `math.floor(inf)` and Julia's `floor(Int, Inf)`; the float rung later, way 3); "the methods keep the type" stated as way 3 and P-68 give it, `floor` and `ceiling` keeping `QQ` (positions-audit/full/evidence/takeaway-c4.md, P-54); the old paragraph's words stated; built by climb batch 12's rung S, 74b28e9d4; moved here: gap-ledger row 635, FIXED, and row 330, P-68's row, replaced by P-68; the later state as way 3 of 07:19:47.208Z gives it: `floor` and `ceiling` return `QQ` and pass the infinities through
+
+- P-54 **`QQ`'s `ceiling` and `truncate` keep `ZZ` and raise at +∞, −∞ and 0/0 (row 635).** The declared integer result and the peer languages win over the specification's paragraph that returns the argument at an infinity, and that paragraph is revised. `floor`, `round` and the two brackets raise too. A rung after the switch-over makes `QQ` follow the float ruling (row 330): the methods keep the type, and the brackets, `round` and `truncate` give ℤ.
+
+### P-55
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged; his "Item 15: 15a with (b) yes." of 2026-10-09T13:51:11.783Z, to item 1 of the coordinator's 11:56:38.064Z list, whose full form is its 07:59:01.341Z text (part (b): a size name counts as possibly equal to a number); the labels array fork 1, item 15 and 15a with (b) struck; built 7fd8fddc8 (F-146); "each operation whose operands are numerals" as Formula.scala:97-100 computes it; walk's exact sizes from reviews/array-forks-now.md, Q15, which he read
+
+- P-55 **A size may hold arithmetic, compared by its written form once numerals are folded (array fork 1, 15a with (b)).** The checker accepts a sum, difference, product or power in a size. `2 3` folds to `6`, but `s0 s1` is not `s1 s0`. The class loader computes the value when it makes a class. A size name may equal a numeral, as the team's Q&A answers, so the `N[\0\]` arm of a `typecase N[\b0\]` is reachable. The library keeps the team's sizes written as products and sums.
+
+### P-56
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged; his 2026-10-09T14:54:50.968Z (after probe P3, option (a), the `fail` bodies) and "OK then." of 15:01:26.240Z, to the coordinator's 14:55:36.046Z; why no body passes the checker stated from reviews/ranges-and-index-types.md, section 5; "probe P3" and "way (c)" named by what they are; built by climb batch 12's rung R, abe8b0342; moved here: gap-ledger row 656, FIXED; the probe's finding said of printed results and errors, as section 5 counts them (25 results became errors, 16 errors became results)
+
+- P-56 **The open range `(:)` keeps its wildcard type, and its five cutting methods fail (row 656).** `TrivialOpenRange` stays `OpenRange[\Any\]`. A range over `ZZ32` is not a range over `Any`, so no body can type its `truncL`, `truncR`, `every`, `imposeStride` and `atMost`. They are `fail` bodies with a message, the team's own device for such a body. Nothing in the tree calls them on `(:)` but the five tests that pin the `fail`. Way (c), `(:)` over `ZZ32`, is not taken: probe P3 found that it makes things worse, with more values lost than gained (`reviews/ranges-and-index-types.md`, section 5).
+
+### P-57
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged; his 2026-10-09T15:10:56.122Z, to the coordinator's 14:56:40.919Z (row 582, way 1, the team's answers reached; "I like getting the checker counts to zero"); the left zero, `BIG LEXICO` and the shadowing declaration stated (Library/FortressLibrary.fss, `LexicographicReduction`, `ReductionWithZeroes`); built by climb batch 13's rung O, 9ba86f7da; moved here: gap-ledger row 582, FIXED; `TotalComparison` below `Comparison` (Library/FortressLibrary.fss:132-206); the count's state left to F-53; the refusal of `isLeftZero(Unordered)` under walk, moved out by the audit, is review-queue item 211
+
+- P-57 **`LexicographicReduction.isLeftZero` takes `TotalComparison`, so the team's answers are reached (row 582).** The team's overload `isLeftZero(_:Comparison)` is declared over `TotalComparison`, so the inherited `ReductionWithZeroes.isLeftZero` no longer shadows it. `LessThan` and `GreaterThan` answer `true`, and `EqualTo` `false`. Why: it cleared the count stage's last api error (F-53).
+
+### P-58
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged; his "Item 35, agreed with recommendation, option 1." of 2026-10-10T05:27:34.812Z, to the coordinator's 00:17:43.858Z (option 1, rung by rung, each rung's bindings checked as they land); "way 2" named by what it is; the glue classes and the helpers stated (F-32; fortress-repo references/interpreter.md and compiler.md); the string, the loader, the rewrite and the refusal said as the target, since none is built (positions-audit/full/evidence/P-58.md, sections 2 and 5); the example string from reviews/item35-natives-binding.md:101; the first natives rung from the 00:17:43.858Z text, PLAN's N0
+
+- P-58 **Every native binding is a `builtinPrimitive` call naming a static helper.** Each binding stays the library's own form, a body that is exactly `builtinPrimitive("…")`, and its string names a static helper of `nativeHelpers/`, not an interpreter glue class. Walk loads the string through a loader beside its glue classes. The compiled path rewrites each body at the parse into a synthetic `import java` and a call before the checker, and refuses a string that names no helper. Each natives rung's bindings meet the checker as they land, not all at once at the switch-over. Way 2, `import java` blocks in the library, is not taken. Still to build: the natives rungs, PLAN phase 4.
+
+### P-59
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning as he decided it, with the condition that 55f1a1352 cut restored; his 2026-09-29T14:07:20.452Z, "item seven as recommended. So one now and two after the switch.", to item 7 of reviews/decisions-review/judgement.md, and his hold on walk until the switch-over, in that message, stated; the step after the switch-over is the coordinator's 14:08:16.691Z; the still-to-build line added (PLAN, phase 4; P-12); the microGPT premise kept, its question to him open (positions-audit/full/evidence/corrections-c4.md, P-59, question 1); retitled to his condition, walk running the checker, not the switch-over alone (his 14:07:20.452Z; judgement.md:358; P-12); "concrete" said by the chapter's example, XXXCoercionStaticRungC; the microGPT premise is review-queue item 221
+
+- P-59 **Walk chooses coercions on the value until the switch-over.** Walk has no static types, so it chooses a coercion by the value, where the specification and the compiled path resolve it statically. This is accepted as the interpreter's limit, stated in one callout of the coercion chapter, with `XXXCoercionStaticRungC` and `XXXCoercionStaticNarrowRungC` as its record. After the switch-over walk takes the static coercions that the checker inserts. MicroGPT's static types are concrete, so both paths agree on it.
+
+### P-60
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged; his "Yes" of 2026-09-29T11:25:37.094Z, to the coordinator's 11:20:23.184Z (item 26, option 1 with Astra's three points); the boundary from his forward of Astra's note, 17:29:19.700Z ("Do not generalize the new typing rule on the strength of the appendix proof"), stated whole (positions-audit/full/evidence/takeaway-c4.md, P-60); value reading, covers, the Meet Rule's case and ground declarations stated from the specification and the addendum; built state by F-175, F-76 and F-27; moved here: gap-ledger row 491, FIXED by 576b4c287; the coverage query local to overload validity and the static tie (addendum, lines 186-188); the boundary said as the specification's, declarations with static parameters (overloading.tex, revival-meet), not item 58's narrower condition
+
+- P-60 **The specification reads a `comprises` clause at the level of values (row 491).** "Covers" is defined once, and the Meet Rule has a closed-trait case. A call whose argument sits between closed traits is typed by the intersection of its candidates' return types, with run-time uniqueness in place of static. Why: the proof addendum (`reviews/comprises-type-level-proof-addendum.md`) shows this sound for ground declarations, `G[\ZZ32\]` among them, at calls that need no coercion, with the coverage search local to overload checking. A generic declaration that needs a run-time instance is outside it. The specification states that boundary.
+
+### P-62
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged; his "Agreed." of 2026-09-26T08:18:07.238Z to the coordinator's 08:05:53.363Z (not on the critical path; a defect row with expected-failure tests, one on each path), and his 11:38:29.550Z (record the original design; when covariance comes, try to resurrect it); declaration-site variance and row 404's hole stated from the ledger; the owed tests set as the still-to-build line; P-80's part named: it keeps the sign-refined design word for word, marked superseded
+
+- P-62 **The `covariant` keyword is future work, off the path to microGPT.** Row 404 records the hole: the checker accepts variance, and neither path carries it to run time. Its expected-failure tests are owed in a batch rung. The future work is declaration-site variance, carried to run time on both paths. When it lands, a rung tries to bring back the specification's sign-refined number types as covariant static parameters.
+
+### P-147
+
+2026-10-22 09:45Z · rewritten · by the clarity pass: rewritten for a reader without the conversation, meaning unchanged; his 2026-10-13T23:43:34.199Z and 23:49:12.486Z, to the coordinator's 23:39:05.946Z (item 51, option 1, coverage) and 23:44:29.416Z; covering, `Pairs` and `FileConversion` stated from reviews/walk-load-readings-check.md, section 2; "walk agrees with the checker" split into the rule walk applies and the built state, with the open rows 725 and 728 (F-145); "S1 form" named the revision form; built by climb batch 14's rung W, f9fe5c874; P-60 named as the reading of `comprises`; "an object in each", since only one of FileConversion's two objects splits; walk's skip of generic objects (row 665, F-145) added to the still-to-build line
+
+- P-147 **An object defines an inherited abstract method when its bodies of that name at narrower parameter types together cover the abstract method's parameter types.** It is the team's rule of 2012, in Steele's compiled checker and Welterweight's Covered rule, with `comprises` clauses read as the checker reads them; a body at the abstract method's own types is the plain case. So the team's `Pairs` and `FileConversion` stay valid, walk agrees with the checker, and the traits chapter's sentence is revised in the S1 form (P-96). Walk's allowance of any one narrower body goes.
