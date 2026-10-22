@@ -18,7 +18,7 @@ index="$root/explorations/coordinator/INDEX.md"
 # Run/experiment trees: a directory holding one run's sources and evidence.
 run_roots='apl|astra|blinded-fable|compile-ladder|run-b|run-b2|run-c|run-c3|run-c4|fortify|ci|experiment'
 # Generic evidence directory names, at any depth.
-evidence_dirs='probes|checks|goldens|figures|evidence|measurements|raw|src|tools|gate|cold-cache|reference|archive|build|article|worker|notes|recovered-reports|_prior|__pycache__|existing-tests|failed|png|regen|tic-regen|tour|pairs|combos'
+evidence_dirs='probes|clarity|checks|goldens|figures|evidence|measurements|raw|src|tools|gate|cold-cache|reference|archive|build|article|worker|notes|recovered-reports|_prior|__pycache__|existing-tests|failed|png|regen|tic-regen|tour|pairs|combos'
 
 notes=$(cd "$root" && find explorations -name '*.md' \
   | grep -vE "(^|/)[A-Za-z0-9_.-]+-(probes|pairs)/" \
