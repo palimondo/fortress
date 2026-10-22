@@ -179,3 +179,8 @@ The curator approved both changes word for word in chat, 2026-10-22, 22:19 UTC.
 
 - `record.md`, "What an entry is", the POSITIONS bullet: a decision may point to a fact that it rests on, and `P-48+` finds every fact that points to it. From the curator's page comment of 2026-10-22, 16:56 UTC (thread `b64dca1f`), that decisions do refer to facts.
 - `record.md`, "What an entry is", the new bullet that POSITIONS holds only the curator's decisions and that a worker's landed choice is a FACTS entry; `SKILL.md`, the glossary's "default", the landed choice that FACTS states. From the coordinator's proposal of about 16:45 UTC on 2026-10-22, applied in the POSITIONS follow-up at `4d7df29c3`.
+
+## The light boot and the order of the cores, 2026-10-22
+
+- `SKILL.md`, "The boot", the paragraph "A light boot", and "Read nothing that the boot does not name" in place of "Read nothing else", so that the bullet allows the light boot's reads: the curator's approval in chat, 2026-10-22, 22:54 UTC. Its first use was at his words "Boot up light", after the compaction of about 16:37 UTC.
+- `SKILL.md`, the line under the heading that `fortress-repo`'s `SKILL.md` is read first, and the boot's step 1: the curator's approval in the same message, 22:54 UTC ("test that fortress-repo core is a pre-requisite for loading the coordinator skill's core as well").

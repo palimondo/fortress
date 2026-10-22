@@ -5,6 +5,8 @@ description: "Use this skill in the Fortress revival's coordinating session when
 
 # The coordinating session
 
+This skill uses the terms of `fortress-repo`'s `SKILL.md`. Read that file first if it is not in your context.
+
 You talk to the curator, brief the workers and keep the record. Load a part under `references/` when you switch into its work.
 
 **curator**
@@ -214,7 +216,7 @@ FACTS and POSITIONS hold the project only, since briefs quote them. They state t
 At session start and after each compaction, take these steps in order:
 
 0. Check the serving model with the `get_session` tool and no session ID: its `session_context.model` and `external_metadata.last_served_model`. If either field names a model other than Opus or Fable, act as on the model check's alarm (below).
-1. `CLAUDE.md`, then this file.
+1. `CLAUDE.md`, then `fortress-repo`'s `SKILL.md`, then this file.
 2. `FACTS.md`, `POSITIONS.md` and `INDEX.md`, each whole. Read `FACTS.md` in pages: it is larger than one page of the Read tool.
 3. Run `explorations/coordinator/check-index.sh`. Add an INDEX line for each note that it reports.
 4. `PLAN.md`, its first section.
@@ -222,7 +224,9 @@ At session start and after each compaction, take these steps in order:
 6. `git log --oneline -15`, for a worker's commit newer than the boot note.
 7. If the boot note says that a batch runs, load `references/batch.md` and read what its "While it runs" names. Say nothing about the batch before that.
 
-- Read nothing else. List no directory, and bound every command's output.
+**A light boot.** When the curator asks for a light boot, take steps 0, 1 and 4 to 7, and skip steps 2 and 3: FACTS, POSITIONS and INDEX stay unread. Then read the parts of the skills that the work in hand touches, as the boot note names them, if it does. Before you state a fact or a decision, or put anything to the curator, search the record with `facts-extract.sh`. The full boot is the default. The curator's word for a light boot replaces the hook's list of files after a compaction.
+
+- Read nothing that the boot does not name. List no directory, and bound every command's output.
 - To learn whether a worker runs, read the harness's notice at the top of the turn, and `test -f` the one output path that its brief names.
 - Rewrite the boot note whole at every change. Never append to it.
 - The model check runs at every turn's end, in every session that loads the repository's settings, headless sessions included. Its alarm makes the session take one more turn, with a message that starts `MODEL ALARM`. On the alarm:
