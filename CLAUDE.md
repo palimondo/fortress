@@ -27,7 +27,7 @@ running fast.
   the `fortress-repo` skill, which also covers long commands and waits; for
   the cloud container's machine, disk, stops and restarts, and a lost
   container, the `cloud-container` skill.
-- The coordinating session follows the boot order of
-  `explorations/coordinator/README.md` at session start and after every
-  compaction, and works by the `coordinator` skill, which also covers running
-  agents and resuming runs.
+- The coordinating session loads the `fortress-repo` skill, then the
+  `coordinator` skill, at session start and after every compaction, and boots
+  and works by the `coordinator` skill, which also covers running agents and
+  resuming runs.
