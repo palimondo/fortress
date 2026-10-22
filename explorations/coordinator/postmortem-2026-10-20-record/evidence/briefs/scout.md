@@ -12,7 +12,7 @@ During this work, batches were held. The work ran from about 2026-10-20 to 2026-
 
 ## What to return
 
-Write `explorations/coordinator/postmortem-2026-10-20-record/MAP.md`, about 25K to 35K characters, in these sections. Cite each claim: a commit hash, a file and line or heading, or a transcript time (UTC, to the minute) with the speaker.
+Write `explorations/coordinator/postmortem-2026-10-20-record/evidence/MAP.md`, about 25K to 35K characters, in these sections. Cite each claim: a commit hash, a file and line or heading, or a transcript time (UTC, to the minute) with the speaker.
 
 1. **The inciting incident.** Which entry of POSITIONS it was and what it said; the review that surfaced it; each of the coordinator's three explanations and what the curator said back; the three fresh workers, their tiers, what each concluded, and where they contradicted each other. Quote the curator's key words, cleaned, with their times.
 2. **The timeline.** One line per step, in order, from the incident to now: the time, what happened, who did it (the coordinator, or a worker with its tier and kind: Agent-tool worker, Workflow run with its ID, headless session), its output file or commit, and the curator's word that started or stopped it.

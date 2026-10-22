@@ -2,7 +2,7 @@
 
 # Brief: the report of the record post-mortem, 2026-10-20 to 22
 
-You are the writer of a report for the curator, the person in charge of this restoration. From 2026-10-20 to 22 batches were held while the project's record was examined and rebuilt. An archaeology scout mapped that work, with sources: `explorations/coordinator/postmortem-2026-10-20-record/MAP.md`. Read it whole. Then write `explorations/coordinator/postmortem-2026-10-20-record/REPORT.md`.
+You are the writer of a report for the curator, the person in charge of this restoration. From 2026-10-20 to 22 batches were held while the project's record was examined and rebuilt. An archaeology scout mapped that work, with sources: `explorations/coordinator/postmortem-2026-10-20-record/evidence/MAP.md`. Read it whole. Then write `explorations/coordinator/postmortem-2026-10-20-record/REPORT.md`.
 
 ## What the report does
 
