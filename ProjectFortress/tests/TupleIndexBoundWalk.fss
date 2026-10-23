@@ -51,6 +51,8 @@ run(): () = do
     assert(instanceOf[\Index\]((1, 2, 3)), true, "a triple of ZZ32 is an Index")
     assert(instanceOf[\Index\]((1, "a")), false, "a pair with a String element is no Index")
     assert(instanceOf[\Index\]("a"), false, "a String is no Index")
+    assert(instanceOf[\Index\](()), false, "() is no tuple type and no Index")
+    assert(instanceOf[\Index\]((1, ())), false, "a pair with a () element is no Index")
     assert(instanceOf[\Object\](3), true, "a ZZ32 is an Object")
     assert(instanceOf[\Object\]((1, 2)), false, "a pair of ZZ32 is no Object")
     assert(kind(3), "object", "a ZZ32 goes to the declaration over Object")

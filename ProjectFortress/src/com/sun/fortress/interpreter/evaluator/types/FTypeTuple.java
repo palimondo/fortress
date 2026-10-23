@@ -77,8 +77,10 @@ public class FTypeTuple extends FType {
         }
     }
 
-    /** True if each element type is a subtype of the library's Index, which index is. */
+    /** True if this is a tuple type, not the void type (), and each element
+     *  type is a subtype of the library's Index, which index is. */
     private boolean elementsSubtypeOf(FType index) {
+        if (l.isEmpty()) return false;
         for (FType t : l) {
             if (t instanceof FTypeRest || !t.subtypeOf(index)) return false;
         }
