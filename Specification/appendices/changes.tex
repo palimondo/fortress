@@ -4166,6 +4166,14 @@ A numeral is no \TYP{Index} to the compiled type checker, which types it
 \TYP{IntLiteral} (\secref{revival-numeral-type}); the interpreter, whose
 numerals are values of the integer types (row~364), passes one to a parameter
 of type \TYP{Index}.
+The interpreter loads a function over \TYP{Index} beside a function over a
+tuple type whose element types are neither subtypes of \TYP{Index} nor exclude
+it, as \EXP{h(x\COLON \TYP{Index})} beside
+\EXP{h(x\COLON (\TYP{Foo}, \TYP{Foo}))} for a trait \TYP{Foo}, which the Meet
+Rule refuses (\secref{more-specific-rule}) and the compiled type checker
+refuses (row~NEW-B-2 of the revival's gap ledger).
+The interpreter refuses a program's own type named \TYP{Index} as ambiguous
+with \library's, as it refuses one named \TYP{Indexed}.
 The compiled path still compiles programs against its own library, which
 declares no \TYP{Index}, until it is switched over to the interpreter's.
 The code generator refuses a method with a \KWD{where} clause of its own
