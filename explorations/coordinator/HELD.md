@@ -41,7 +41,7 @@
 
 - 19:57 On the closing line offering the queued questions "for whenever you want them": a teaser. While he is away, the coordinator keeps its messages to the minimum, gathers evidence and does its work, and sends no running commentary or line he cannot act on (for the skill writer).
 
-- 20:14 On the one difference that stays between walk and the checker (the checker does not check overloads of symbolic operators such as `×`, so for `opr ×` pairs walk applies the rules and the checker does not): can't the two be brought in line? Sorted at 12:42 UTC on 2026-10-17 (`perf-probes/symbolic-operators/SORT.md`): walk's meet check skips them too; 54 of the 205 errors clear by library fixes, 151 need a design choice; waits on PLAN items 38 and 59.
+- 20:14 On the one difference that stays between walk and the checker (the checker does not check overloads of symbolic operators such as `×`, so for `opr ×` pairs walk applies the rules and the checker does not): can't the two be brought in line? Sorted at 12:42 UTC on 2026-10-17 (`perf-probes/symbolic-operators/SORT.md`): walk's meet check skips them too; 54 of the 205 errors clear by library fixes, 151 need a design choice; waits on PLAN items 38 and 59, answered since (P-155 to P-157; `PLAN-history.md`, "Climb batch 21's landing, run 1, 2026-10-23"), and now on climb batch 21b's rung C, the checker's half; walk's meet check stays as it is (`CLIMB-BATCH-21.md`, section 2, fork 17).
 
 ## Held in chat (2026-10-13)
 
