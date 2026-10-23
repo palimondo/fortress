@@ -20,7 +20,7 @@ A sentence that cites a ledger row states a known departure of one path from a b
 
 - both paths refuse an abstract and a concrete method with the same parameter types in one trait;
 - the checker refuses an abstract functional method `h(self): ZZ32` beside a top-level `h(x: String): ZZ32`;
-- both paths refuse an object that inherits an abstract functional method from one trait and its body from another, unless the object declares the method itself (P-149). Scala accepts it.
+- both paths refuse an object that inherits an abstract functional method from one trait and its body from another, unless the object declares the method itself (P-149). The Scala language accepts it.
 
 ## Traits and objects
 
@@ -32,12 +32,19 @@ A sentence that cites a ledger row states a known departure of one path from a b
 
 **An object defines an inherited abstract method by bodies that together cover its parameter types (P-147).** It needs one body at those types, or several narrower bodies that cover them, with `comprises` clauses read. Walk refuses at load an object without static parameters that leaves one uncovered. Walk skips this check for a generic object (row 665). Walk stops its search for a cover at limits that `interpreter.md` gives, and the checker at the same limits. The checker refuses a cover by several bodies where the abstract or a covering method has static parameters (row 725).
 
-**In a self-typed trait the checker types `self` as the trait met with the implementing type.** A trait `T` is self-typed if it has no `comprises` clause, or one that lists only the literal `...`, and a parameter `X` bounded in one of two ways:
+**In a self-typed trait the checker types `self` as the trait met with the implementing type.** A trait `T` is self-typed if both conditions hold:
 
-- by `T` itself, as `trait T[\X extends T[\X\]\]` (P-146);
-- by a self-typed trait that `T` extends at `X`.
+- `T` has no `comprises` clause, or an open one, which lists only `...`;
+- `T` has a parameter `X` bounded by `T` itself, as `trait T[\X extends T[\X\]\]` (P-146), or by a self-typed trait that `T` extends at `X`.
 
-In `T`'s bodies, `self` has the intersection type of `T[\X\]` and `X`; signatures keep `T[\X\]`. So `floor(self): I = self` in `Integral[\I extends Integral[\I\]\]` is valid without a cast. A type that extends `T[\A\]` and is not an `A` is refused. A compiled body that returns `self` fails the JVM's verification when its class loads (row 695).
+In `T`'s bodies, `self` has the intersection type of `T[\X\]` and `X`. So `floor(self): I = self` in `Integral[\I extends Integral[\I\]\]` is valid without a cast. The checker refuses a type that extends `T[\A\]` and is not an `A`. A compiled body of `T` that returns `self` fails the JVM's verification when its class loads (row 695).
+
+In `T`'s signatures, `self` stays `T[\X\]` for every overloading rule except one. The checker's test of whether two declarations exclude each other reads `self` as `T[\X\] & X`, and reads the static parameters' declared bounds (P-157). With both readings, the library's generic `+` and `-` between an array and a number are valid beside `AdditiveGroup`'s own. Walk loads the library's pairs, but refuses such a pair in a program's own component (row 804).
+
+**An indexed type's index parameter is bounded by `Index` (P-156).** The library's generic indexed types declare `I extends Index`. In your own generic over such a type, write the bound: walk runs the code without it, but the checker refuses it. `ZZ32` extends `Index`, and `Range` excludes `Index`. To the checker a numeral is an `IntLiteral`, so it is no `Index`; walk takes it (row 364). The Working Draft lets no trait type hold a tuple, but here a tuple whose element types are all `Index` types is an `Index`. So `m[i, j]` passes the pair `(i, j)` as one index. `Index` extends only `Any`, so such a tuple is still no `Object`, and `()` is no `Index`. A function over `Index` and one over a tuple of `Index` types do not exclude each other. Until the switch-over, the compiler's prelude declares no `Index`, so a program that names it does not compile. Two departures:
+
+- the checker refuses a tuple expression at a parameter of type `Index`, but takes one at a parameter of a type `I extends Index` (row 805);
+- walk loads a function over `Index` beside one over a pair whose element types neither lie below `Index` nor exclude it (row 806).
 
 **Pairs and triples are ordered only where each element type extends `StandardPartialOrder`.** This holds for `<`, `<=`, `>`, `>=` and `CMP`. Walk refuses another element type at the call, also where earlier elements decide, as `(1,()) < (2,())`. It also refuses numbers of two run-time types at one position, as `(1,2) < (1,2.5)` (row 511). Unordered deciding elements give `false`, or `Unordered` for `CMP`. The checker orders a `List[\E\]` only where `E extends StandardTotalOrder[\E\]`, so a list of `RR64` has no order there (P-154). Walk orders every list (row 774). A list's `=` stays element by element.
 

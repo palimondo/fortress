@@ -102,7 +102,7 @@ To add a row:
 
 To change a row:
 
-- `$L note N TEXT` adds TEXT to the notes of row N. A row at its 1,200-character limit takes no note.
+- `$L note N TEXT` adds TEXT to the notes of row N. It refuses a note that takes the row past 1,200 characters or its notes past 700.
 - `$L rewrite N FILE` replaces row N with the whole line in FILE, a file under your tree's `tmp/`, with N or `?` in its number cell. Use it to correct the claim, cut the notes or change the reproducer. The tool checks the line against the template and keeps the old line in the history file.
 - `$L duplicate N --of M` makes row N a pointer to row M.
 - `$L close N --commit HASH --test NAME` marks row N `FIXED`, by the commit HASH and its test NAME. Run it once that commit is in `HEAD`, and commit the close after it. NAME can also be a file under `explorations/coordinator/tools/`, or `none` with `--note REASON`. For a `CONTESTED` row, add `--settled TEXT`, which names what settled its question.

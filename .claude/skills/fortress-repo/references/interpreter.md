@@ -33,9 +33,11 @@ An edit of a phase that both paths run, or of the desugaring switches, can chang
 
 Walk does not check static types (`SKILL.md`, "The phases"). The commands that stop after a phase, and `unparse`, use the compiler's prelude and the compiled path's desugaring switches (`compiler.md`, "The `fortress` commands"). So `fortress typecheck` does not check a walk program, and `desugar` or `unparse` does not print the tree that walk runs. That tree is the component's entry in `interpreter_cache/` (`SKILL.md`, "The caches").
 
+Walk refuses a program's own top-level type named `Index` or `Indexed` as ambiguous with the library's: "Type name may refer to: Index, FortressLibrary.Index".
+
 At load, walk checks the overload sets, some `comprises` clauses, inherited abstract methods and `override` declarations. It lifts each object expression to the top level as an object, which takes the static parameters of an enclosing generic function, and checks it as an object. It checks a trait or object with static parameters once, through a stand-in: one type for all its instances, with a symbolic type for each static parameter (`symbolicInstance` in `interpreter/evaluator/BuildEnvironments.java`). Through the stand-in, it does not check two functional methods whose parameter types mention a symbolic type. It makes no stand-in, and so checks nothing through one, for a declaration with an `opr` static parameter, or where its static parameters, `where` clause or `extends` clause raise an error at the symbolic types. It refuses:
 
-- two declarations of one name that its parameter-by-parameter check cannot order. It accepts them if `comprises` clauses cover the overlap. For every pair of functions of which at least one is generic, it checks the overloading rules of `SKILL.md`, "Fortress as a language", on their declared domains (`revival-changes.md`, "Dispatch and overloading"): the No Duplicates Rule, the Meet Rule and the Return Type Rule. So it refuses two whose declared domains are equal. The message names the rule: "fails because their parameter lists have the same types", "fails the Return Type Rule" or "fails the Meet Rule". Walk keeps the team's check and message, "at least one pair of parameters must have excluding types", for these pairs:
+- two declarations of one name that its parameter-by-parameter check cannot order. It accepts them if `comprises` clauses cover the overlap. For every pair of functions of which at least one is generic, it checks the overloading rules of `SKILL.md`, "Fortress as a language", on their declared domains (`revival-changes.md`, "Dispatch and overloading"): the No Duplicates Rule, the Meet Rule and the Return Type Rule. So it refuses two whose declared domains are equal. The message names the rule: "fails because their parameter lists have the same types", "fails the Return Type Rule" or "fails the Meet Rule". Walk keeps the team's check and messages for the pairs below. For a parameter of generic type, the message is "at least one pair of parameters must have excluding types". For two unrelated parameters of plain types, it is "are unrelated (neither subtype, excludes, nor equal) and no excluding pair is present". The pairs:
   - a pair with a varargs parameter;
   - a pair whose parameter lists differ in length;
   - a pair that is neither two generic declarations nor a generic one beside a plain one;
@@ -48,6 +50,9 @@ At load, walk checks the overload sets, some `comprises` clauses, inherited abst
   - It refuses overloads on two instantiations of one generic type, as `g(b: Tg[\3\])` beside `g(b: Tg[\4\])` (ledger row 416).
   - Its parameter-by-parameter check reads an object type over a static parameter as excluding a type that one of its instances is or extends. So it loads `g[\T\](x: Box[\T\], y: ZZ32)` beside `g(x: Box[\ZZ32\], y: Any)`, which the Meet Rule refuses (ledger row 788).
   - It reads no `where` clause when it reads exclusion over the whole tuple. So it refuses such a pair where one declaration has a `where` clause of its own (ledger row 787).
+  - It refuses a program's generic operators between an array of a number type and a number, on either side, beside a self-typed additive group's own operator. The checker accepts them, and the library's own pairs of this shape load (ledger row 804).
+  - It loads a function over `Index` beside one over a pair whose element types neither lie below `Index` nor exclude it, which the Meet Rule refuses (ledger row 806).
+  - It refuses `f[\T extends { K, R[\T\] }\](x: T)` beside `f(x: Z)`, where `K comprises { A, B, C }`, `Z excludes { A, B }` and `C extends Z` but not `R`: "fails the Meet Rule". The checker reads the bounds, finds that no value lies in both domains, and accepts the pair (ledger row 713, `CONTESTED`).
 - two functional methods that break the Meet Rule for Functional Methods (`Specification/advanced/overloading.tex`) in a type that provides both.
 - an overloaded function with one parameter of type `T`, where `T extends Any` is written: `f[\T extends Any\](x: T)`.
 - an extender that a `comprises` clause of the program's main component does not allow. Walk does not yet check the library's clauses, another component's clauses or an object expression's clauses. Where a listed type names a bounded type `where`-clause variable, as `NBox[\E\]` in `comprises { NBox[\E\] } where [\E extends Number\]`, walk ignores the variable's bound, and runs `NBox[\String\]` (ledger row 754). In another declaration's bound, it takes a name equal to the variable's as the variable (ledger row 778).
@@ -65,6 +70,8 @@ So a library edit can stop every program at load, if it does one of these:
 - leaves an inherited abstract method that no bodies cover, covers it only by a body with a static parameter of its own, or covers it by bodies whose cover walk's search cannot settle;
 - adds an `override` that overrides nothing;
 - gives a member a type that names its trait's `comprises`-clause variable, as `E` in `AnyList`.
+
+Walk checks a program's declarations against the library's only where it analyses the library afresh (ledger row 342). So the same program is refused on a fresh cache and runs on a filled one.
 
 `tests-writing.md` says how a test names a refusal at load.
 

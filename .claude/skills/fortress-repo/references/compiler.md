@@ -74,7 +74,7 @@ The wrapper generator wraps every method of a class that it is given, the privat
 
 `revival-changes.md` gives the rules. This section gives where the checker applies them, and where it does not yet.
 
-- Overloads: the checker reads no bounds of static parameters when it reads exclusion over the whole tuple of parameter types. So it refuses `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])`, where `Red`, `Blue` and `Box` are objects, and walk loads it (ledger row 786). It accepts `g[\T\](a: T)` beside `g(a: Any)`, whose declared domains are equal, and runs the generic one (ledger row 759).
+- Overloads: when the checker reads exclusion over the whole tuple of parameter types, it reads each static parameter at the top of the two domains' meet as its declared bounds (P-157). It still refuses `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])`, where `Red`, `Blue` and `Box` are objects, because `Box[\Bottom\]` lies in both domains. Walk loads it (ledger row 786, `CONTESTED`). It accepts `g[\T\](a: T)` beside `g(a: Any)`, whose declared domains are equal, and runs the generic one (ledger row 759).
 - A `where` clause's constraint: the checker checks a function's or functional method's constraint on its own static parameters at the call. At a dotted call, a candidate is not applicable where the receiver's static argument breaks the method's constraint. A trait's or object's own constraint is checked where its type is used, also at a constructor call; only the checker reads it, and the code generator refuses such a declaration (ledger row 701). A `where`-clause variable is a static parameter of the function's arrow type, inferred at the call. The checker does not yet check these, and no ledger row holds the first two:
   - at a dotted call, a constraint whose bound names the method's own static parameters or a `where`-clause variable;
   - at a type's use, a constraint whose bound names a `where`-clause variable;
@@ -134,7 +134,7 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
 This section is for a change of the checker: its Scala under `scala_src/`, or `ProjectFortress/astgen/Fortress.ast` and the generators under `ProjectFortress/src/com/sun/fortress/astgen/`, from which the build generates the checker's syntax tree and `Walker`.
 
-The count stage takes `<out-file> <scratch>` and about a minute. It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`, and its caches in `<scratch>`, so a run from the base build leaves the base build as it was.
+The count stage takes `<out-file> <scratch>` and about 80 seconds, more under load. It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`, and its caches in `<scratch>`, so a run from the base build leaves the base build as it was.
 
 The checker's results are the programs that it accepts and refuses, and each error with its text and its place. On the interpreter's library, a change keeps the results the same if both of these hold:
 
