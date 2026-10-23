@@ -1,0 +1,108 @@
+# Climb batch 21b, rung C (rung-symbolic-check): record lines
+
+## Findings
+
+1. **The compiled checker's overloading check reads every operator.** Its top-level loop, its trait check's provided methods and its overriding return types now read `isCheckedName`, which admits every `SOp` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:270`, `:396`, `:405`, `:766-773`). `isDeclaredName`, which the export check reads (`ExportChecker.scala:275`), is unchanged, so row 782 stays latent.
+   - Conditions: wip/rung-symbolic-check at `ed4782762` (code of `4fb3242fa`), on climb batch 21's landed library.
+   - Evidence, the distance stage (`explorations/coordinator/tools/distance/run.sh`): '#total 5', 'typecheck 4', 'export 1', '#crash none'. `compare.sh` against climb batch 21's gate: 'DISTANCE SAME   5'. The five rows equal `explorations/compile-ladder/gate/distance-sites.tsv` row by row, the export error's 43 entries included.
+   - Evidence, against the base's full check (`plan-21/probes/full-check-base.tsv`): 'landed 191 now 5', none come.
+   - Evidence, the count stage: '#total 3', the landed table byte for byte.
+   - Evidence, the tests: `XXXSymbolicOperatorOverloadUnrelated` ('Invalid overloading of + in component ...') and `XXXFunctionalMethodMeetOperatorChecker` ('Invalid overloading of || in object Vo'); both compile on the base.
+   - What it means: P-155's zero is now measured with every operator checked. The stock stages are the full check, so run 1's 186 cleared sites are held by gated stages, and fork 34's fallback is not needed.
+2. **The crash on a `where`-clause comprises trait's self type** (NEW-C-1). Outside the trait, `removeSelf` read `self`'s type `AnyC & C[\E\]` with `E` unbound. `checkCC` and `checkP` then reached `staticParam(E)`, 'E is not in the kind env'. It did so on three paths: the overloading check's top-level set (`toFunctionArrows`'s `equiv`), a call from outside (`CoercionOracle.moreSpecific`), and rung X's bounds reading in the exclusion test (`TypeSchemaAnalyzer.withBounds` from `meetEmptyWithBounds`). Rung X's exclusion arrows were not a path: a trait with a `comprises` clause keeps none.
+   - The repair: `TypeAnalyzer.selfComprised` (`TypeAnalyzer.scala:604-622`), read by `removeSelf` (`:579`) and `withBounds` (`TypeSchemaAnalyzer.scala:470-471`). It reads no listed type where the trait's `where`-clause variable is unbound in the kind environment, and the lookup counts as a read of the context. Inside the trait the variable is bound, so the body's reading is unchanged.
+   - Evidence: `ComprisesWhereFunctionalMethodChecker` (typecheck, with a call) and `XXXComprisesWhereFunctionalMethodBounds`, both 'E is not in the kind env' on the base. On the distance stage, the three units' `||` checks (`List`'s api and component, `String`'s component) run with no crash line and no error.
+   - What it means: `AnyList`'s `||` is checked.
+3. **Row 775's program is cleared by the same repair.** The shape is a generic trait whose `comprises` clause lists `S[\E, F\]` at a `where`-clause `F` and overrides an inherited method. A dotted override gave 'F is not in the kind env [E -> KindBinding(E,E extends Object)][][]' on the old code, and a functional one 'F is not in the kind env [E$2 ...][T$1 ...][][]'. Both typecheck now.
+   - Test: `ComprisesWhereOverrideChecker`, red on the old code through `old-fortress.sh junit`.
+4. **The double count** (NEW-C-2). `checkOverloading`'s on-demand import loops added `getFunctions(index, f)` once for each name of the api with the operator's text. So an api with a prefix and an infix `-` added its `-` twice, and the duplicate check refused each declaration against itself. With the full check and no repair, the compiler's prelude refuses itself (CLIMB-BATCH-21.md, section 4).
+   - Repair: `importsOnDemand` (`OverloadingChecker.scala:248-256`), once per api, at all three loops (`:291`, `:318`, `:349`).
+   - Evidence: the guard `OperatorPrefixInfixImport` passes on the base and after. Under the loops-only checker (scratch classes) it is refused: 'There are multiple declarations of - with the same parameter type: (OperatorPrefixInfixApi.Pt, OperatorPrefixInfixApi.Pt)'. With the repair, the prelude's library order compiles all five jars.
+5. **The ignored `except` clause** (NEW-C-3). The three loops tested `excepts.contains((m:IdOrOp) => m.getText.equals(text))`, which is always false. So a name that an on-demand import's `except` leaves out was still read, by identifiers on the base too.
+   - Repair: in `importsOnDemand`.
+   - Evidence: `ImportExceptOverload` and `ImportExceptByName`, 'There are multiple declarations of pick with the same parameter type: ImportExceptOverloadApi.P' on the base; both link and run PASS after; walk runs both.
+   - Conditions: no component of the stages has an `except` clause, so the stages cannot move by it.
+6. **The prelude's range `=`** (fork 15). `GeneratorZZ32` extends `Equality[\GeneratorZZ32\]` and also excludes `Number`, `Character` and `String` (`Library/CompilerLibrary.fsi:111`, `.fss:301`). The always-false top-level `=` is gone (formerly `.fsi:129`, `.fss:314`).
+   - Evidence: compiled, `r = r` was false on the old code and is true now; `(1:3) = (1#3)` and `(2:4) = (2:5)` are false on both. `RangeEqRungJLink` links, and `XXXRangeEqRungJ` stays an expected failure ('FAIL:  ranges.tex, section "Ranges"').
+7. **Row 726's test, respelled.** `XXXNoDuplicatesRuleSelfPositionsOperator` now expects the checker's 'There are multiple declarations of ||'. It was 'Saw expected failure' on the code generator's message on the base, then red with the new key on the base, then 'Saw expected failure' after.
+8. **The checker's time** (P-148). Machine: nproc 4, Intel Xeon @ 2.10 GHz, openjdk 25.0.4.1, `FORTRESS_THREADS=1`.
+   - The count stage: base 120.2 s (load 6.88), change 107.5 s (6.77), pass 94.3 s (1.83); a later pair, base 84.4 s (0.24) and pass 96.8 s (0.85).
+   - The tables and the `run.txt` files are equal across base, change and pass.
+   - JFR: the apis' overloading check took 2,838 of 6,125 samples on the base and 3,689 of 6,845 on the change. The growth is the exclusion test (814 to 1,296) and the Return Type Rule (948 to 1,212); the new code itself takes 0 to 22 samples.
+   - The pass (`4fb3242fa`) tests `functionalMethodsAtOnePosition` first, which takes the specificity samples in `validOverloadingInner` from 379 to 302.
+   - The distance stage took 256 s (FortressLibrary 190 s) at load 2.87, against 206 s at the last gate. This is one run, not a pair.
+9. **No ladder file or microGPT component moved.** In a subset of 120 files, the 85 that the gate holds are at the same phases as climb batch 21's ladder. Three UP against the baseline (`NatReflectTest`, `genericTest1`, `genericTest2`) behave the same on the old code. The eighteen microGPT components are at the same phases.
+10. **`ant testQuick` on the change**: 'Tests run: 1303, Failures: 0', 86, 263, 'BUILD SUCCESSFUL'. One more test, `XXXFunctionalMethodMeetOperatorChecker`, came after it, so the gate's compiler track should count 1,304.
+11. **Walk's comment is now stale.** `OverloadedFunction.java:1894-1895` says walk's Meet Rule check reads "those the compiled checker checks (OverloadingChecker.isDeclaredName)". The compiled check now reads every operator, while walk's `checkedName` (`:1990-1994`) still reads `NodeUtil.validOp`. It is walk's file, which this rung does not edit.
+
+## FACTS
+
+**The compiled checker checks the overloading of every operator, symbolic ones included, and the library gives the distance's 5 sites and the count's 3 with no crash.**
+- Fact: its three loops read `isCheckedName` (`OverloadingChecker.scala:766-773`). An api is read once per on-demand import, which honours `except`. A `where`-clause comprises trait's self type is read as the trait outside it (`TypeAnalyzer.selfComprised`).
+- Source: climb batch 21b, rung C, REPORT.md sections 1, 3 and 5.
+- Tests: `XXXSymbolicOperatorOverloadUnrelated`, `ComprisesWhereFunctionalMethodChecker`, `XXXComprisesWhereFunctionalMethodBounds`, `OperatorPrefixInfixImport`, `ImportExceptOverload`; the stages: distance '#total 5' '#crash none', count '#total 3'.
+- Replaces F-245's "the checker as built skips these operators (row 584)".
+
+## Ledger: changes to existing rows
+
+- **Row 584**: close, commit `a1e3de058`, test `XXXSymbolicOperatorOverloadUnrelated` (the stages beside it: distance 5, count 3, '#crash none' with every operator checked).
+- **Row 726**: close, commit `a1e3de058`, test `XXXNoDuplicatesRuleSelfPositionsOperator` (its key respelled in `744845ec4`).
+- **Row 775**: close, commit `a1e3de058`, test `ComprisesWhereOverrideChecker`.
+- **Row 611**: rewrite, the whole line:
+
+| 611 | walk's Meet Rule check skips symbolic operators: an object that inherits two functional `\|\|` of overlapping parameter types with no declaration on their meet loads and runs under walk, where the specification refuses it | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "The Meet Rule for Functional Methods" | `ProjectFortress/tests/XXXFunctionalMethodMeetOperator.fss` | climb batch 10, rung W; the test its skeptic | siblings: 584, 585. Walk's check reads `NodeUtil.validOp` (`checkedName`, `OverloadedFunction.java:1990-1994` at ed4782762), so it skips every symbolic operator; the compiled checker reads every operator and refuses the pair, `XXXFunctionalMethodMeetOperatorChecker`. The library's sites are repaired: `EmptyString`'s meet (`Library/String.fss:318`), the ranges' since `b872d65a1`. The test's traits exclude `String`, since walk refuses on a cold cache (row 342) a program's functional `\|\|` that can meet `String`'s `opr \|\|(a:String, b:Any)`. Compiled, the call stops first: 'Ambiguous coercion in call to operator \|\|'. full text: history, row 611 |
+
+- **Row 481**: rewrite, the whole line:
+
+| 481 | on the compiled path a range's `=` is identity: `(1:3) = (1#3)` and `(3:1) = (5:4)` print `false` compiled and `true` under walk; a range equals only itself | NEGATIVE-VERIFIED | library bug (prelude) | `Specification/basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss` | climb batch 7R rung J's skeptic | siblings: 479. The compiler library's `GeneratorZZ32` extends `Equality[\GeneratorZZ32\]` (`Library/CompilerLibrary.fsi:111`, `.fss:301`), whose `=` is `self === other` (`Library/CompilerAlgebra.fss:26`); its always-false top-level `=` is gone since climb batch 21b. The test asserts `(1:3) = (1#3)`, `(3:1) = (5:4)` and `NOT ((2:4) = (2:5))`; walk passes all three, the compiled run stops at the first. The compiler library takes no new declaration (POSITIONS, "The library route"): the one library's `=` replaces it at the switch-over. full text: history, row 481 |
+
+- **Row 782**: no change (fork 13; `isDeclaredName` unchanged).
+
+## Ledger: new rows
+
+Each new row is added as below, then closed by commit `a1e3de058` with the test named.
+
+| NEW-C-1 | the compiled checker crashes on a functional method of a trait whose `comprises` clause lists a type at a type `where`-clause variable, read outside the trait: `AnyC comprises { C[\E\] } where [\E extends Object\]` with `cat(self, f: AnyC)` in `AnyC` and `C` stops, 'E is not in the kind env' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/compiler_tests/ComprisesWhereFunctionalMethodChecker.test` | the symbolic-operators probe | siblings: 775, 756, 584. `removeSelf` read self's type `AnyC & C[\E\]` with `E` unbound outside the trait (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:575-588` at aa5c67d48), and `checkCC` and `checkP` reached `staticParam(E)` (`:1059`): in the overloading check's top-level set, at a call (`CoercionOracle.moreSpecific`), and in the exclusion test's bounds reading (`TypeSchemaAnalyzer.withBounds`; `XXXComprisesWhereFunctionalMethodBounds`). In the library, `AnyList`'s `opr \|\|` (`Library/List.fsi:55-57`), hidden by row 584. Walk runs the program. |
+
+Close: commit `a1e3de058`, test `ComprisesWhereFunctionalMethodChecker`.
+
+| NEW-C-2 | the compiled checker's overloading check reads an api's declarations of an operator once for each name of the api with the operator's text, so a component that imports an api with a prefix and an infix `-` and declares its own `-` is refused, each declaration a duplicate of itself | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Principles of Overloading" | `ProjectFortress/compiler_tests/OperatorPrefixInfixImport.test` | climb batch 21's planner | siblings: 584. `checkOverloading`'s on-demand import loops add `getFunctions(index, f)` inside a loop over the api's names (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:279-290`, `:313-324`, `:351-362` at aa5c67d48). Latent while symbolic operators went unchecked (row 584). With them checked, the prelude refuses itself, 'There are multiple declarations of - with the same parameter type: (ZZ, ZZ)' at `CompilerBuiltin.fsi:116` and six more, and every compiled test fails; the guard is refused, '(OperatorPrefixInfixApi.Pt, OperatorPrefixInfixApi.Pt)'. Walk runs the guard. |
+
+Close: commit `a1e3de058`, test `OperatorPrefixInfixImport` (and the prelude's library order).
+
+| NEW-C-3 | the compiled checker's overloading check ignores an on-demand import's `except` clause: a component that imports `A.{...} except { pick }` and declares its own `pick` at the api's parameter type is refused, 'There are multiple declarations of pick' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/source-code.tex`, "Import Statements" | `ProjectFortress/compiler_tests/ImportExceptOverload.test` | climb batch 21b rung C | siblings: NEW-C-2. The three on-demand import loops test `excepts.contains((m:IdOrOp) => m.getText.equals(text))`, a list of names asked whether it holds a function value, always false (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:285`, `:319`, `:357` at aa5c67d48; the team's code, `a874948ac`). A name imported by name from another api beside it: `ImportExceptByName`. No component that the stages read has an `except` clause. Walk runs both programs. |
+
+Close: commit `a1e3de058`, test `ImportExceptOverload`.
+
+## Handover
+
+Climb batch 21b rung C (rung-symbolic-check), branch `wip/rung-symbolic-check` at `ed4782762`:
+- the compiled checker checks every symbolic operator (P-155, row 584);
+- the `AnyList` crash (NEW-C-1, row 775), the double count (NEW-C-2) and the ignored `except` (NEW-C-3) are repaired;
+- the prelude's range `=` is now `Equality`'s identity;
+- distance 5, count 3, '#crash none';
+- testQuick 1303/86/263 green; the ladder and the microGPT phases are unchanged;
+- count stage: base 120 s, change 107 s, pass 94 s, with the same results.
+
+## Revival change
+
+**The change.**
+- **Every operator is checked.** The team's compiled checker checked overloading only for identifiers and for operators named by a word of capitals: its loops filtered by `isDeclaredName`, which admits an operator only where `NodeUtil.validOp` holds (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:169`, `:314` at `a874948ac`). So `+`, `||`, the subscripts and the other symbolic operators went unchecked, and the code generator met invalid sets of them as "Likely bug in static analysis, apparently malformed overload set not rejected" (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:410-411`).
+  - Now: the checker applies the overloading rules to every operator (`OverloadingChecker.scala:766-773`). Tests: `ProjectFortress/compiler_tests/XXXSymbolicOperatorOverloadUnrelated` ('Invalid overloading of + in component ...'), `XXXNoDuplicatesRuleSelfPositionsOperator` ('There are multiple declarations of ||'), `XXXFunctionalMethodMeetOperatorChecker` ('Invalid overloading of || in object Vo').
+  - Reason: the specification applies its rules to every functional declaration and to "every operator declaration in the same component" (`Specification/advanced/overloading.tex:98-101`, `:125-130`). The team's proposed-features appendix calls the library's two subscript operators "not really a valid overloading" (`Specification/appendices/future.tex:186-207`). The code generator's own message names the static analysis as at fault.
+  - Walk's Meet Rule check still reads only the team's names (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:1990-1994`).
+- **An api is read once, and its except clause is read.** The team's checker read an api's declarations once for each of its names whose text was the operator's, so twice for an api with a prefix and an infix `-`. It also never applied an import's `except` clause: `excepts.contains((m:IdOrOp) => ...)` asks a list of names whether it holds a function value (`OverloadingChecker.scala:190-196`, `:224-230`, `:262-268` at `a874948ac`).
+  - Now: each api is read once, and an excepted name is not read (`OverloadingChecker.scala:248-256`). Tests: `OperatorPrefixInfixImport`, `ImportExceptOverload`, `ImportExceptByName`.
+  - Reason: a name is imported on demand only if it is "neither listed in the except clause nor explicitly imported", and the overloading rules apply to the declarations "declared or imported" (`Specification/basic/components/source-code.tex:248-258`). On the team's code the two except tests are refused, 'There are multiple declarations of pick with the same parameter type'. With every operator checked, the team's code refuses the compiler's prelude itself, 'There are multiple declarations of - with the same parameter type: (ZZ, ZZ)', each declaration against itself.
+- **A self type is read as its trait outside the trait.** The team's analyzer read a trait's self type, the trait met with the types its `comprises` clause lists, with those types as written (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:473-481` at `a874948ac`). For a clause that lists a type at a `where`-clause variable, the variable is unbound outside the trait.
+  - Now: outside the trait such a self type is read as the trait type alone; inside, as before (`TypeAnalyzer.scala:604-622`). Tests: `ComprisesWhereFunctionalMethodChecker`, `XXXComprisesWhereFunctionalMethodBounds`, `ComprisesWhereOverrideChecker`.
+  - Reason: on the earlier code such a program stops the checker, 'E is not in the kind env', at the overloading check, at a call and in the exclusion test. The trait comprises its listed types at every value of the variable, so the trait type holds the same values.
+- **A compiled range's `=` is identity.** The team's compiler prelude declared `opr =(left:GeneratorZZ32, right:GeneratorZZ32): Boolean = false` (`Library/CompilerLibrary.fss:281` at `a874948ac`).
+  - Now: `GeneratorZZ32` extends `Equality[\GeneratorZZ32\]`, whose `=` is identity, and the top-level `=` is gone (`Library/CompilerLibrary.fsi:111`, `.fss:301`). A compiled `r = r` is `true`, while `(1:3) = (1#3)` stays `false`. Tests: `RangeEqRungJLink`, `XXXRangeEqRungJ`.
+  - Reason: with every operator checked, the prelude's `=` has no meet with `RR64`'s, `Character`'s, `String`'s and `Equality`'s, and its api is refused, 'Invalid overloading of = in API CompilerLibrary'. Taking the `=` out alone leaves ranges with no `=`, '(ZZ32, ZZ32)->Boolean is not applicable to an argument of type (Range, Range).'
+
+**Provenance.**
+- P-155 (the compiled checker checks the overloads of symbolic operators before the switch-over), with the record's defaults: fork 13 (`isDeclaredName` kept for the export check), fork 14 (the double count, once per api), fork 15 (the prelude's `=`), fork 16 (compiled tests the check refuses), fork 17 (walk's check left) and fork 18 (row 726 closed by the check).
+- The except clause and the self-type reading are the rung's own repairs of defects found on the way (NEW-C-3, NEW-C-1), with row 775 cleared.
+- P-148 for the speed pass.
+- Climb batch 21b, rung C (`explorations/coordinator/CLIMB-BATCH-21.md`, section 3, "C").
