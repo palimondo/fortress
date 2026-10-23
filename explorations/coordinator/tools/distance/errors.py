@@ -112,7 +112,7 @@ def classify(stage, msg):
     if r: return "return-type", r.group(1)
     if "corresponding bound Object" in msg or re.search(r"bound Object\b", msg):
         return "bound-Object", "-"
-    r = re.search(r"inherited abstract method (?:abstract getter )?(\S+?)[(:\[].*has no concrete implementation", msg)
+    r = re.search(r"inherited abstract method (?:abstract getter )?((?:prefix |postfix )?\S+?)[(:\[].*has no concrete implementation", msg)
     if r: return "abstract-method", r.group(1)
     if stage == "typecheck": return "typecheck", shape(msg)
     if stage.startswith("wellformed"): return "wellformed", shape(msg)

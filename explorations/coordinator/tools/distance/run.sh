@@ -56,7 +56,8 @@
 #
 # The table, tab-separated, every row tagged:
 #   #distance   the setting, the switches and the twelve targets
-#   #total      distinct errors
+#   #total      distinct errors; or "none:" and why, when no total was measured, as when a
+#               target stopped with errors the stage does not count, such as a parse error
 #   #kind       by kind (errors.py): exclusion, comprises, overloading, return-type, ...
 #   #class      by root cause (classify.py, distance-triage.md section 2), with its name
 #   #check      a disagreement: errors.py's and table.py's totals, or sites classify.py cannot
@@ -136,8 +137,9 @@ esac
         python3 "$D/errors.py" "$SCRATCH/errors.tsv" "$SCRATCH/run.txt" > "$SCRATCH/tally.txt" 2>&1
         E=$(sed -n 's/^# \([0-9]*\) distinct errors.*/\1/p' "$SCRATCH/tally.txt")
         T=$(awk -F'\t' '$1 == "#total" { print $2 }' "$SCRATCH/rows.txt")
-        [ "$E" = "$T" ] || printf '#check\terrors.py counts %s, table.py %s: the two normalisations differ on this run; see %s\n' "$E" "$T" "$SCRATCH/tally.txt"
-        printf '#seconds\t%s\tFortressLibrary %s\n' "${ELAPSED:-?}" "$(sed -n 's/^### done Library\/FortressLibrary.fss rc=[0-9]* seconds=\([0-9]*\)$/\1/p' "$SCRATCH/run.txt")"
+        case "$T" in none*) ;; *)
+        [ "$E" = "$T" ] || printf '#check\terrors.py counts %s, table.py %s: the two normalisations differ on this run; see %s\n' "$E" "$T" "$SCRATCH/tally.txt" ;; esac
+        printf '#seconds\t%s\tFortressLibrary %s\n' "${ELAPSED:-?}" "$(sed -n 's/^### done Library\/FortressLibrary.fss rc=-\{0,1\}[0-9]* seconds=\([0-9]*\)$/\1/p' "$SCRATCH/run.txt")"
     else
         case "$SHADOW" in
           STALE*) printf '#total\tnone: the checker did not run\n' ;;

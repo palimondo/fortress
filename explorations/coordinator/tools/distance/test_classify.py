@@ -4,7 +4,8 @@ found by declaration, so lines inserted into the library move no site between cl
 
 The inputs are two landed pairs of per-site list and library, read from git: climb batch 11's
 (f9d3ec826) and climb batch 10's (ec718967a). Nothing in the tree is touched; the copies go to
-a temporary folder. No build and no Fortress run.
+a temporary folder. No build and no Fortress run. The class Readings tests table.py's and
+errors.py's readings of a run on small run outputs of its own.
 
 usage: python3 explorations/coordinator/tools/distance/test_classify.py [-v]
 """
@@ -215,6 +216,57 @@ class Declarations(unittest.TestCase):
         self.assertTrue(C.sp_anyintegral(("I",)))
         self.assertFalse(C.sp_anyintegral(("I extends Integral[\\I\\]",)))
         self.assertFalse(C.sp_anyintegral(()))
+
+
+class Readings(unittest.TestCase):
+    """table.py's and errors.py's readings of a run, on small run outputs (export-check-full
+    REPORT.md section 6, defects 4 and 5)"""
+
+    # the shape of a run whose library stops at parse: its errors are not @@SC lines
+    STOPPED = "\n".join([
+        "### order=check setting=any (extendsObject=false compiledExpr=true) prelude=INTERPRETER"
+        " targets=[Library/FortressLibrary.fss, Library/List.fss] overloadCache=false",
+        "### target Library/FortressLibrary.fss componentOnly=false",
+        "File FortressLibrary.fss has 4 errors.",
+        "### done Library/FortressLibrary.fss rc=-1 seconds=1",
+        "### target Library/List.fss componentOnly=true",
+        "@@SC STAGE\tcomponent List\ttypecheck\terrors=0",
+        "### done Library/List.fss rc=0 seconds=0",
+        "### all seconds=5 rc=0",
+        ""])
+
+    def table(self, folder, text):
+        run = write(folder, "run.txt", text)
+        return subprocess.run([sys.executable, "-B", os.path.join(HERE, "table.py"), run, TREE],
+                              capture_output=True, text=True, check=True).stdout
+
+    def test_a_stopped_target_leaves_no_total(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = self.table(d, self.STOPPED)
+            total = [r for r in out.splitlines() if r.startswith("#total\t")]
+            self.assertEqual(len(total), 1, out)
+            self.assertTrue(total[0].startswith("#total\tnone: "), total[0])
+            self.assertIn("Library/FortressLibrary.fss rc=-1", total[0])
+            self.assertIn("File FortressLibrary.fss has 4 errors.", total[0])
+            self.assertNotIn("List.fss", total[0])
+            verdict = subprocess.run(["bash", os.path.join(HERE, "compare.sh"), "", write(d, "distance.txt", out)],
+                                     capture_output=True, text=True, check=True).stdout
+            self.assertTrue(verdict.startswith("DISTANCE NO TABLE   none: "), verdict)
+
+    def test_a_run_whose_targets_end_rc_0_keeps_its_total(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = self.table(d, self.STOPPED.replace("File FortressLibrary.fss has 4 errors.\n", "")
+                                            .replace("rc=-1", "rc=0"))
+            self.assertIn("#total\t0\n", out)
+
+    def test_abstract_method_of_a_prefix_operator(self):
+        E = {}
+        exec(read(os.path.join(HERE, "errors.py")).split("out_path, runs = sys.argv[1], sys.argv[2:]")[0], E)
+        msg = ("The inherited abstract method %s(self:(Integral[\\I\\] & {I})%s):I from the trait Integral[\\ZZ\\]"
+               " has no concrete implementation in the object BigNum in component FortressBuiltin.")
+        self.assertEqual(E["classify"]("overloading", msg % ("prefix BITNOT", "")), ("abstract-method", "prefix BITNOT"))
+        self.assertEqual(E["classify"]("overloading", msg % ("postfix !", "")), ("abstract-method", "postfix !"))
+        self.assertEqual(E["classify"]("overloading", msg % ("BITAND", ",b:I")), ("abstract-method", "BITAND"))
 
 
 if __name__ == "__main__":
