@@ -5945,3 +5945,33 @@ rewritten
 note added
 
 | 774 | walk, and the compiled run time, read an `extends` entry under a `where` clause as holding at every instance: `Box[\ZZ32\](1)` passes a type test against `Shows` for `object Box[\E\](x: E) extends { Shows where { E extends Shows } }` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/XXXConditionalExtensionTypeTestWalk.fss` | climb batch 18 rung X | siblings: 773, 701. Walk reads the extension without its clause (`Constructor.boundsUnread` and its comment, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:725-737` at db8fecd22). Compiled, `typecase v of Shows => true else => false end` prints `true` for `Box[\ZZ32\](1)`: the code generator compiles the declaration, whose class extends `Shows` at every instance. So walk keeps the `<` of a list of tuples or floats, to which the checker now gives no order. |
+
+### Row 585
+
+closed by 557cabb04
+
+| 585 | `String`'s `\|\|`, `\|\|\|`, `//` and `///` each pair `(a:Any, self)` with `(self, b:Any)`, the shape the specification refuses, which the checker does not see while it skips symbolic operators (row 584) | NEGATIVE-VERIFIED | library bug (library) | `Specification/advanced/overloading.tex`, "The Meet Rule for Functional Methods" | none | climb batch 8, rung M and its skeptic | siblings: 584, 611. Api `Library/FortressLibrary.fsi:2496-2522`, component `.fss:4411-4443`, at d4d454f9d; `grep -n 'opr.*(a:Any, self)' Library/FortressLibrary.fsi` prints `:2502`, `:2510`, `:2516`, `:2522`. The checker refuses the shape named `juxtaposition`, `DOT` or `foo` (`JuxtProbe`, `explorations/compile-ladder/rung-library-meets/REPORT.md` §7). Checked, the four families give 40 errors (F-245). Juxtaposition's way, three top-level operators (`.fss:4476-4478`), would clear them; for `\|\|` their meet must call the string objects' own, which `String`'s api must then declare (F-249), and beside `String`'s abstract `\|\|` row 545 refuses the mix. full text: history, row 585 |
+
+### Row 784
+
+closed by 557cabb04
+
+| 784 | five library slips that only the check of symbolic operators sees: the api's six top-level `Vector` and `Matrix` `+` and `-`, which the component lacks; `ZZ`'s api without its component's `=`; `SubString`'s api without its `opr \|self\|`; `Float`'s `\|self\|: Number`; `Maybe` without the meets | NEGATIVE-VERIFIED | library bug (library) | `advanced/overloading.tex`, "Meet Rule"; `basic/components/source-code.tex`, "Export Statements" | none | the symbolic-operator sort probe | siblings: 584, 585, 611, 726. At d212b2c1f: `Library/FortressLibrary.fsi:1649-1656` and `:1757-1764` (3 errors); `Number`'s `=` (`fsi:293`, the revival's `d846e3644`) beside `StandardPartialOrder`'s (`:180`) in `Integral`, `ZZ` and `BigNum` (4), `Integral` with no meet and `ZZ`'s only in its component (`FortressLibrary.fss:1004`); `Library/String.fsi:28` (1); `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:79` against `RR64`'s `: RR64` (`fsi:364`) (1); `Maybe`'s `Condition` at `fsi:921-922` beside `Indexed`'s `:1294` and `:1296` (2). Each fix verified alone: 11 errors gone, no walk value moved. Detail: `perf-probes/symbolic-operators/SORT.md`, "One paragraph per family". |
+
+### Row 783
+
+closed by 153887360
+
+| 783 | generic `Indexed` pairs `opr[i:I]` with `opr[r:Range[\I\]]` and `opr[_:TrivialOpenRange]` over an unbounded index type `I`, invalid at `I = Object` or `Any`: there the range overload is more specific, and its `Indexed[\E,I\]` is not an `E`; the team's text calls it "not really a valid overloading" | NEGATIVE-VERIFIED | library bug (library) | `advanced/overloading.tex`, "Subtype Rule"; `appendices/future.tex`, "Traits and Objects" | none | the symbolic-operator sort probe | siblings: 584, 585. `Library/FortressLibrary.fsi:1296` beside `:1308` and `:1309` at d212b2c1f, and the same in `MutableIndexed`, the arrays and the mapped, reversed and index-value generators: 84 of the 124 subscript errors the checker gives once it reads symbolic operators (row 584). `:1308` beside `:1309`, 40 more, is valid at each fixed `I`. `Specification/appendices/future.tex:186-207` wants a bound on `I` that excludes `Range[\I\]`, which tuple indices block. Walk dispatches each subscript right by its run-time type. The ways, S1 to S5, are PLAN item 59's. Detail: `perf-probes/symbolic-operators/SORT.md`, "One paragraph per family". |
+
+### Row 793
+
+closed by ff19305cc
+
+| 793 | under walk, a column `a[:, j]`, a row `a[i, :]` or a range subscript of an `Array2` based above zero reads the wrong elements: on a 2 by 3 array based at (1,1), `(a[:,1])[0]` is `a[2,2]`, and the column's next element raises Java's `ArrayIndexOutOfBoundsException` | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/tests/XXXArray2SliceAtNonzeroBase.fss` | climb batch 20 rung A | siblings: 794. `Array2.subarray` hands `SubArray2`, whose offsets are 0-based, the subscript's offset in the array's own index space, with no `- b0` (`Library/FortressLibrary.fss:2729-2733`, `:2797`), where `Array1.subarray` subtracts it (`:2456-2459`); both the team's. The whole subscript `a[:]` reads the same way (`:2686-2687`). `Array3`'s faces are row 794. 0-based arrays and matrices are unaffected. Walk only: the compiled path's library has no `Array2`. Workaround: slice a 0-based array. Fix: pass `(o0-b0, o1-b1)`, as `Array1.subarray` does. |
+
+### Row 794
+
+closed by ff19305cc
+
+| 794 | under walk, a range subscript or the whole subscript `a[:]` of an `Array3` based above zero reads the wrong elements or raises: on a 2 by 2 by 2 array based at (1,1,1), `(a[(1,1,1)#(2,2,2)])[0,0,0]` is `a[2,2,2]`, and `a[:]` raises `IndexOutOfBounds` | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/tests/XXXArray3SliceAtNonzeroBase.fss` | climb batch 20 rung A | siblings: 793. `Array3.subarray` hands `SubArray3`, whose offsets are 0-based, the subscript's offset in the array's own index space, with no `- b0` (`Library/FortressLibrary.fss:3130-3135`); and `opr[_:TrivialOpenRange]` passes `(0,0,0)` (`:3112-3113`) where `Array2`'s passes `(b0,b1)` (`:2686-2687`), which the bounds check refuses: '([0,1] BY [0,1] BY [0,1]) left outside bounds ([1,2] BY [1,2] BY [1,2])'. Both the team's. Walk only. Fix: `(o0-b0, o1-b1, o2-b2)` in `subarray`, as `Array1.subarray` does (`:2456-2459`), and `(b0,b1,b2)` in `opr[:]`. |
