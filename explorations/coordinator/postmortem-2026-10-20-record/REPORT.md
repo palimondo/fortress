@@ -95,17 +95,31 @@ Sources:
 
 ## 6. What it cost
 
-Tokens written: input plus prompt-cache writes, each message once, measured by the scout with `spend.py` unless marked.
-- Item 31's workers and scout: 0.84M. The revival-part scout and scripts: 0.91M.
-- The audit: trial 2.85M, against an estimate of 2.0M; full run 19.3M, against 16M to 17M.
-- The clarity rewrite: POSITIONS 8.0M, with its judge stage and one FACTS chunk; FACTS 15.7M, against an estimate of 9M.
-- The orientation 1.9M, the ledger run 2.6M, the follow-up 1.2M, other workers about 4.7M.
-- **Total, 10-20 13:40 to 10-22 22:38: about 58M.**
-- Outside the total: the coordinator's own session, 4.3M; this report and its map, about 0.6M, estimated.
-- About 5M are left until the weekly reset at 10:00 on 10-23, an estimate.
+Tokens written: input plus prompt-cache writes, each message once, as `spend.py` counts them. Figures are measured unless called estimates. "Map" marks a figure of the map; the rest were measured for this section. A phase runs from its launch, or the curator's ask, to its last commit. "Coordinator" is the coordinator's own tokens written in that time. A message that falls in two phases, or in the report and the next work from 23:44, is split evenly between them. Sums can differ by 0.01M, from rounding.
+
+- **The incident**, 10-20: the P-86 scout and three drafters, 0.84M (map). Coordinator 0.93M. Total 1.77M.
+- **The provenance audit**, 10-21 17:33 to 10-22 08:51: the scripts 0.64M (map); the trial 2.85M (map), estimate about 2.0M; the full run 19.29M (map), estimate 16M to 17M; `record.py note`, the history notes and the queue items 0.91M. Workers 23.69M. Coordinator 2.11M. Total 25.80M.
+- **The clarity rewrite of POSITIONS**, 05:28 to 06:13 and 08:34 to 10:30: the pilot 0.87M; four runs 5.83M (map), estimate about 7M; the judge stage 1.22M (map); the judges' queue items 0.40M. FACTS chunk f0, 0.93M (map), estimate about 1M, is counted here, since it was launched and estimated with these runs. Workers 9.25M. Coordinator 0.21M. Total 9.46M.
+- **The clarity rewrite of FACTS**, 10:10 to 12:13: four runs and eight headless writers, 15.74M (map), estimate about 9M; a test of the writer streams at 09:25, 0.10M. Workers 15.84M. Coordinator 0.23M. Total 16.06M.
+- **The scrape and the queue worker**, 12:15 to 13:00: 0.41M and 0.37M, estimates about 0.5M each. Workers 0.78M. Coordinator 0.04M. Total 0.82M.
+- **The follow-up**, 14:54 to 22:16: the proposals 0.92M, estimate about 0.5M; the fidelity check 0.30M (map). Workers 1.22M. Coordinator 0.43M. Total 1.65M.
+- **The orientation**: the scout on the revival part, 10-21 17:37, 0.27M (map, taken from the audit's scripts); the run, 12:38 to 14:08, 1.87M (map), estimate 3M; its headless writer 0.15M. Workers 2.29M. Coordinator 0.06M. Total 2.34M.
+- **The gap ledger**, 11:05 to 12:17 and 14:58 to 16:23: the health check 0.33M, estimate about 1M; `ledger.py` 0.32M, estimate about 1.5M; the clarity run 2.56M (map), estimate about 3M. Workers 3.21M. Coordinator 0.11M. Total 3.32M.
+- **The skill changes**, in five spells from 09:28 to 23:17: the skill writer's headless tasks 0.56M, the orientation's install among them; the two cold reads of 14:09, 0.34M; a Haiku worker on the skills' front matter, 0.04M. Workers 0.93M. Coordinator 0.19M. Total 1.12M.
+- **The post-mortem report**, 22:37 to 23:57: the scout 0.41M, estimate about 1M; the first writer 0.25M, estimate about 0.4M; the second writer 0.27M, estimate about 0.3M. Workers 0.93M. Coordinator 0.55M. Total 1.49M.
+
+Totals, 10-20 12:59 to 10-22 23:57:
+- **Workers: 58.98M**: the map's rows, 57.93M (its "about 58M"); the report, 0.93M; three short runs that the map leaves out, 0.12M.
+- **Coordinator: 4.92M**, 4.27M of it to 22:38 (the map: 4.26M); 0.06M fell between phases. Six of its messages, each the first after a pause of 90 minutes or more, read about 30K from the cache and wrote the rest of the context again: 1.69M, a third of its total.
+- **All: 63.90M.** On 10-20 at 16:53 the coordinator guessed 5M to 8M for its first two steps, POSITIONS against the curator's messages and FACTS against the tree.
+- **The weekly limit:** his client read 86 % at about 11:46 on 10-22, and 95 % at 16:35 and at 22:43. At the record's rate of about 1.1M per percent, which counts workers only, the window took about 58 % of the week, the workers alone about 54 %. This is an estimate. The readings fit it: 10.3M were written from 11:46 to 16:35, about 1.15M per percent, and 0.7M between the two readings of 95 %.
+- Not counted: this section's writer; the workers on batch 20 beside the incident; the work from 23:44 on 10-22, batch 21's probes among it.
 
 Sources:
-1. `evidence/MAP.md`, section 8; the 16 headless sessions measured again: 3.43M.
+1. `evidence/MAP.md`, section 8, the figures marked "map"; section 2, the launch times.
+2. The boot note's history, `git log -p -- explorations/coordinator/BOOT.md`, 10-20 to 10-22: each estimate, the spend epochs, the client's readings and the rate.
+3. `spend.py`, run at about 00:50 on 10-23 on the Agent-tool, Workflow and headless transcripts; for the coordinator, its count by a script over its transcript, in `timestamp` order, each message id once.
+4. The coordinator's message of 16:53:44 on 10-20; the commits that close each phase, `329d866a9` to `db6e890c3`.
 
 ## 7. What is still open
 
