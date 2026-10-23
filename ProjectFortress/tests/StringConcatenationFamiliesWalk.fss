@@ -10,9 +10,16 @@ run(): () = do
     void = ()
     pair = (1, 2)
     triple = (1, 2, 3)
+    alpha = "abcdefghijklmnopqrstuvwxyz"
+    cat = alpha || alpha
 
     assert("ab" || "cd", "abcd", "|| of two strings")
     assert(("ab" || "cd").depth, 0, "|| of two short flat strings is flat")
+    assert(cat.depth, 1, "|| of two long flat strings is a concatenation node")
+    assert(cat || "!", "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz!", "|| of a concatenation node and a string")
+    assert((cat || "!").depth, 1, "|| of a concatenation node and a short string joins its last leaf")
+    assert(("!" || cat).depth, 2, "|| of a short string and a concatenation node")
+    assert(cat || 7, "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz7", "|| of a concatenation node and a number")
     assert("s" || 3, "s3", "|| of a string and a number")
     assert(3 || "s", "3s", "|| of a number and a string")
     assert("s" || 'c', "sc", "|| of a string and a character")
