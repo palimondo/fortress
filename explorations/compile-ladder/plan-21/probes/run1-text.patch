@@ -1,0 +1,1013 @@
+Climb batch 21's first run, its four rungs' text as the planner measured it together (CLIMB-BATCH-21.md, section 4): rung S's known fixes (known-fixes.py empty str4 eq abshead maybeidx vecops floatpow) and vectors (designs.py vecA2), rung B's index bound (designs.py subS1) with the probe's checker and walk tuple rules (subtyping by the bare name; the record's forks 6 and 7 and question 1 ask more), rung W's walk patch with its Equality line, its two test lines and QuickCheck's map, rung N's three lines. Against aa5ff2423; apply with git apply. The rungs build from their own sources; this is the measured text.
+
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 852385f22..e985c4f7f 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -449,6 +449,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
+     getter one(): I
+     opr -(self):I
+     opr DOTMINUS(self):I
++    opr =(self,b:I):Boolean
+     opr +(self,b:I):I
+     opr DOTPLUS(self,b:I):I
+     opr -(self,b:I):I
+@@ -530,7 +531,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     signed(self):ZZ64
+ end
+ 
+-trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
++trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+         excludes { ZZ64, ZZ, NN64, NN32 }
+         comprises { Int }
+     coerce(x: IntLiteral)
+@@ -651,6 +652,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+     coerce(x: NN32)
+     coerce(x: NN64)
+     coerce(x: IntLiteral)
++    opr =(self, b: ZZ):Boolean
+     opr <(self, other:ZZ): Boolean
+     opr <=(self, other:ZZ): Boolean
+     opr >(self, other:ZZ): Boolean
+@@ -976,6 +978,8 @@ value trait Maybe[\T\]
+         extends { AnyMaybe, Condition[\T\], ZeroIndexed[\T\], UniqueItem[\T\] }
+         comprises { Nothing[\T\], Just[\T\] }
+     opr SQCAP(self, o: Maybe[\T\]): Maybe[\T\]
++    opr |self| : ZZ32
++    opr [i:ZZ32]:T throws NotFound
+     map[\G\](f: T->G): Maybe[\G\]
+     ivmap[\G\](f: (ZZ32,T)->G): Maybe[\G\]
+ end
+@@ -1204,7 +1208,7 @@ end
+ * \subsection*{Array support}
+ ************************************************************)
+ 
+-trait HasRank extends Equality[\HasRank\] excludes { Number, AnyMaybe }
++trait HasRank extends Equality[\HasRank\] excludes { Number, AnyMaybe, AnyAdditiveGroup }
+   (** not yet: ``% comprises Array[\T,E,I\] where [\T,E,I\]{ T extends Array[\T,E,I\] }%'' *)
+   abstract rank():ZZ32
+   opr =(self, other:HasRank): Boolean
+@@ -1257,7 +1261,10 @@ An object %i% that is an instance of %Indexed% defines three basic things:
+   A set of utility functions, %assign%, %fill%, and %copy%.  Only %fill% and
+     %copy% need to be defined.
+ **)
+-trait Indexed[\E, I\] extends Generator[\E\]
++(** An index type: what a subscript takes, apart from the ranges, which exclude it. **)
++trait Index end
++
++trait Indexed[\E, I extends Index\] extends Generator[\E\]
+     (** %isEmpty()% indicates whether there are any valid indices.  It is
+         defined as %|self| = 0%. *)
+     getter isEmpty(): Boolean
+@@ -1360,7 +1367,7 @@ toArray[\E\](g:Indexed[\E,ZZ32\]): Array[\E,ZZ32\]
+     This class is designed for convenience; it should not be used as a
+     type in running code, but only as a supertype in lieu of %Indexed%.
+ **)
+-trait DelegatedIndexed[\E,I\] extends Indexed[\E,I\]
++trait DelegatedIndexed[\E,I extends Index\] extends Indexed[\E,I\]
+     getter generator(): Generator[\E\]
+     getter size(): ZZ32
+     opr |self| : ZZ32
+@@ -1381,7 +1388,7 @@ end
+     and
+     %Indexed[\Array[\E,ZZ32\],E,ZZ32\]%.
+     We will need to find a solution to this at some point.  **)
+-trait MutableIndexed[\E, I\]
++trait MutableIndexed[\E, I extends Index\]
+         extends { Indexed[\E,I\] }
+     abstract opr[i:I]:=(v:E) : ()
+ 
+@@ -1393,7 +1400,7 @@ end
+ 
+ (** Array whose bounds are implicit rather than static, and which may
+     be either mutable or immutable. *)
+-trait ReadableArray[\E,I\]
++trait ReadableArray[\E,I extends Index\]
+         extends { HasRank, Indexed[\E,I\], DelegatedIndexed[\E,I\] }
+     (** CONCRETE GETTERS
+         Default implementations of getters based on abstract methods
+@@ -1452,7 +1459,7 @@ trait ReadableArray[\E,I\]
+     opr =(self, other:HasRank): Boolean
+ end
+ 
+-trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
++trait ImmutableArray[\E,I extends Index\] extends { ReadableArray[\E,I\] }
+         excludes { Array[\E,I\] }
+     abstract opr[r:Range[\I\]] : ImmutableArray[\E,I\]
+     abstract opr[_:TrivialOpenRange] : ImmutableArray[\E,I\]
+@@ -1468,7 +1475,7 @@ trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
+     abstract thaw():Array[\E,I\]
+ end
+ 
+-trait Array[\E,I\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
++trait Array[\E,I extends Index\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
+     abstract put(i:I, e:E): ()
+     opr[i:I]:=(v:E):()
+ 
+@@ -1511,7 +1518,7 @@ primitiveImmutableArray[\E\](x:ZZ32):ImmutableArray[\E,ZZ32\]
+     %StandardMutableArrayType%.  It therefore does not extend
+     %ImmutableArray% as you might expect.  Other types that extend
+     it should also extend %ImmutableArray% explicitly. **)
+-trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],E,I\]
++trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],E,I extends Index\]
+         extends { ReadableArray[\E,I\] }
+     abstract tabulate(f:I->E):T
+     abstract fill(v:E):T
+@@ -1519,7 +1526,7 @@ trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],
+ end
+ 
+ 
+-trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I\]
++trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I extends Index\]
+         extends { StandardImmutableArrayType[\T,E,I\], Array[\E,I\] }
+     assign(v:T):T
+     assign(f:I->E):T
+@@ -1614,7 +1621,7 @@ end
+ trait AnyVector end
+ 
+ trait Vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]
+-        extends { AnyVector, Array1[\T,0,s0\], AdditiveGroup[\Vector[\T,s0\]\] }
++        extends { AnyVector, Array1[\T,0,s0\] }
+         excludes { AnyMultiplicativeRing }
+     opr +(self, v:Vector[\T,s0\]): Vector[\T,s0\]
+     opr -(self, v:Vector[\T,s0\]): Vector[\T,s0\]
+@@ -1651,15 +1658,6 @@ vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](v:T):Vector[\T,s
+ tabulatedVector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](f:ZZ32->T):Vector[\T,s0\]
+ 
+ 
+-opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
+-     (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
+-
+-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
+-     (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
+-
+-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
+-     (me : Vector[\T,n\]):Vector[\T,n\]
+-
+ pmul[\ T extends { Number, MultiplicativeRing[\T\] }, nat k \]
+     (a : Vector[\T,k\], b : Vector[\T,k\]):Vector[\T,k\]
+ 
+@@ -1734,7 +1732,7 @@ end
+ trait AnyMatrix end
+ 
+ trait Matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]
+-        extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\], AdditiveGroup[\Matrix[\T,s0,s1\]\] }
++        extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\] }
+         excludes { AnyMultiplicativeRing }
+     opr +(self, v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\]
+     opr -(self, v:Matrix[\T,s0,s1\]): Matrix[\T,s0,s1\]
+@@ -1761,15 +1759,6 @@ tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\]
+ matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]():Matrix[\T,s0,s1\]
+ matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\](v:T):Matrix[\T,s0,s1\]
+ 
+-opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
+-     (me:Matrix[\T,n,m\], other:Matrix[\T,n,m\]): Matrix[\T,n,m\]
+-
+-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
+-     (me:Matrix[\T,n,m\], other:Matrix[\T,n,m\]) : Matrix[\T,n,m\]
+-
+-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
+-     (me:Matrix[\T,n,m\]): Matrix[\T,n,m\]
+-
+ (** Matrix multiplication. *)
+ opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p\]
+        (me:Matrix[\T,n,m\], other:Matrix[\T,m,p\]): Matrix[\T,n,p\]
+@@ -2180,7 +2169,7 @@ end
+       %a < b% if and only if all points in %a% are strictly contained in %b%.
+  **)
+ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
+-        excludes { Number, String }
++        excludes { Number, String, Index }
+     abstract getter stride(): I
+     abstract getter left(): Maybe[\I\]
+     abstract getter right(): Maybe[\I\]
+@@ -2248,7 +2237,6 @@ trait BoundedRange[\I\] extends Range[\I\]
+     getter leftOrRight(): I
+     abstract flip(): BoundedRange[\I\]
+     every(s: I): BoundedRange[\I\]
+-    atMost(n: I): FullRange[\I\]
+     opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
+     narrowToRange(other:OpenRange[\I\]): BoundedRange[\I\]
+     abstract narrowToRange(other:Range[\I\]): BoundedRange[\I\]
+@@ -2278,7 +2266,7 @@ trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
+     abstract opr FORWARD_CMP(self, other: Range[\I\]): Comparison
+ end
+ 
+-trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I, I\] }
++trait FullRange[\I extends Index\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I, I\] }
+     getter extent(): Just[\I\]
+     narrowToRange(other:OpenRange[\I\]): FullRange[\I\]
+     abstract narrowToRange(other:Range[\I\]): FullRange[\I\]
+@@ -2287,14 +2275,14 @@ trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWit
+     abstract opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison
+ end
+ 
+-trait CompactFullRange[\I\] extends FullRange[\I\]
++trait CompactFullRange[\I extends Index\] extends FullRange[\I\]
+     getter lower(): I
+     getter upper(): I
+     abstract opr |self| : ZZ32
+     forward(): CompactFullRange[\I\]
+ end
+ 
+-trait StridedFullRange[\I\] extends FullRange[\I\] end
++trait StridedFullRange[\I extends Index\] extends FullRange[\I\] end
+ 
+ (** The %#% and %:% operators serve as factories for parallel ranges. **)
+ opr #(lo:ZZ32, ex:ZZ32): CompactFullRange[\ZZ32\]
+@@ -2411,12 +2399,12 @@ The following are rejected at present:
+ 
+ opr :[\I\](r: Range[\I\], stride:I): Range[\I\]
+ (* This doesn't obey the subtyping rule due to the genericity involved!
+-opr :[\I\](r: FullRange[\I\], stride:I): FullRange[\I\] = r.imposeStride(stride)
++opr :[\I extends Index\](r: FullRange[\I\], stride:I): FullRange[\I\] = r.imposeStride(stride)
+ *)
+ 
+ opr #[\I\](r: PartialRange[\I\], size:I): Range[\I\]
+ 
+-object SimpleMappedSeqIndexed[\E,F,I\](g0: Indexed[\E,I\], f0: E->F)
++object SimpleMappedSeqIndexed[\E,F,I extends Index\](g0: Indexed[\E,I\], f0: E->F)
+         extends { SequentialGenerator[\F\], Indexed[\F,I\] }
+     getter size(): ZZ32
+     getter bounds(): CompactFullRange[\I\]
+@@ -2435,7 +2423,7 @@ end
+ * STRINGS
+ ************************************************************)
+ 
+-trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
++trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\] }
+         excludes { AnyMultiplicativeRing }
+     getter size() : ZZ32
+     getter indices() : CompactFullRange[\ZZ32\]
+@@ -2493,33 +2481,21 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
+ 
+     (** The operator %||% with at least one String argument converts to string and
+         appends **)
+-    opr ||(self, b:String):String
+     opr ||(self, b:Number):String
+     opr ||(self, c:Char):String
+     opr ||(self, b:()):String
+     opr ||(self, b:(Any,Any)):String
+     opr ||(self, b:(Any,Any,Any)):String
+-    opr ||(a:Any, self):String
+-    opr ||(self, b:Any):String
+ 
+     (** The operator %|||% with at least one String argument converts to string,
+         then concatenates with a whitespace separator unless one of the two arguments is
+         empty.  If there is an empty argument, the other argument is returned. **)
+-    opr |||(self, b:String): String
+-    opr |||(self, b:Any): String
+-    opr |||(a:Any, self): String
+ 
+     (** opr // concatenates with a single newline separator. **)
+     opr //(self) : String
+-    opr //(self, a:String): String
+-    opr //(self, a:Any): String
+-    opr //(a:Any, self): String
+ 
+     (** opr /// concatenates with a double newline separator **)
+     opr ///(self) : String
+-    opr ///(self, a:String): String
+-    opr ///(self, a:Any): String
+-    opr ///(a:Any, self): String
+ 
+    abstract writeOn(s: WriteStream): ()
+    stats(): StringStats
+@@ -2528,6 +2504,20 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
+ 
+ end String
+ 
++(** String's four concatenation families are top-level operators, as juxtaposition's **)
++opr ||(a:Any, b:String):String
++opr ||(a:String, b:String):String
++opr ||(a:String, b:Any):String
++opr |||(a:Any, b:String):String
++opr |||(a:String, b:String):String
++opr |||(a:String, b:Any):String
++opr //(a:Any, b:String):String
++opr //(a:String, b:String):String
++opr //(a:String, b:Any):String
++opr ///(a:Any, b:String):String
++opr ///(a:String, b:String):String
++opr ///(a:String, b:Any):String
++
+ (** Right now for backward compatibility juxtaposition works like %||% **)
+ opr juxtaposition(a:Any, b:String):String
+ opr juxtaposition(a:String, b:String):String
+@@ -2699,17 +2689,17 @@ opr SUFFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\]
+ (*) time, since map builds its result with replica and m + 1.0 is still a Matrix; a static
+ (*) checker sees only Array[\T,I\], so the rank and size of a sized argument are lost
+ (*) to it in the result.
+-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
++opr +[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\]
++opr +[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\]
++opr -[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\]
+ (*) Scalar on the left: y - x is y - e for each element e of x, so 3 - [1 2] is [2 1].
+ (*) This is the only pair here whose two orders differ: +, MIN and MAX commute, and so do
+ (*) the scalar DOT and juxtaposition pairs of Vector and Matrix that this block follows.
+-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+-opr MIN[\T extends { Number, StandardMin[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+-opr MIN[\T extends { Number, StandardMin[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+-opr MAX[\T extends { Number, StandardMax[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+-opr MAX[\T extends { Number, StandardMax[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
++opr -[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\]
++opr MIN[\T extends { Number, StandardMin[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\]
++opr MIN[\T extends { Number, StandardMin[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\]
++opr MAX[\T extends { Number, StandardMax[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\]
++opr MAX[\T extends { Number, StandardMax[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\]
+ 
+ 
+ end
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 3027ad19b..7407baa6d 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -699,6 +699,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
+     even(self): Boolean = (self MOD (self.one + self.one)) = self.zero
+     opr -(self):I
+     opr DOTMINUS(self):I
++    opr =(self,b:I):Boolean
+     opr +(self,b:I):I
+     opr DOTPLUS(self,b:I):I
+     opr -(self,b:I):I
+@@ -726,7 +727,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
+     round(self): I = self
+ end
+ 
+-trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
++trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+         excludes { ZZ64, ZZ, NN64, NN32 }
+         comprises { Int }
+     coerce(x: IntLiteral) = x.asZZ32
+@@ -1627,6 +1628,8 @@ value trait Maybe[\T\]
+         extends { AnyMaybe, Condition[\T\], UniqueItem[\T\] }
+         comprises { Nothing[\T\], Just[\T\] }
+     opr SQCAP(self, o: Maybe[\T\]): Maybe[\T\] = Nothing[\T\]    (*) semilattice "meet" operator
++    opr |self|: ZZ32 = if self.holds then 1 else 0 end
++    opr [i:ZZ32]:T throws NotFound = if i=0 then self.get else throw NotFound end
+     map[\G\](f: T->G): Maybe[\G\] =
+         cond[\Maybe[\G\]\](fn (e:T):Maybe[\G\] => Just[\G\](f(e)), fn ():Maybe[\G\] => Nothing[\G\])
+     ivmap[\G\](f: (ZZ32,T)->G): Maybe[\G\] =
+@@ -1906,7 +1909,7 @@ oops(s:ZZ32, l:ZZ32, sz:ZZ32, got:ZZ32):() = do
+         " which is not in " l "#" sz);
+ end
+ 
+-trait HasRank extends Equality[\HasRank\] excludes { Number, AnyMaybe }
++trait HasRank extends Equality[\HasRank\] excludes { Number, AnyMaybe, AnyAdditiveGroup }
+   (** \vspace{-4ex} NOT YET: %comprises Array[\T,E,I\]
+                               where [\T,E,I\]{ T extends Array[\T,E,I\] }% *)
+   rank():ZZ32
+@@ -1958,7 +1961,10 @@ An object i that's an instance of Indexed defines three basic things:
+   A set of utility functions, assign, fill, and copy.  Only fill and
+     copy need to be defined.
+ **)
+-trait Indexed[\E, I\] extends Generator[\E\]
++(** An index type: what a subscript takes, apart from the ranges, which exclude it. **)
++trait Index end
++
++trait Indexed[\E, I extends Index\] extends Generator[\E\]
+     (** isEmpty indicates whether there are any valid indices.  It is
+         defined as size=0 *)
+     getter isEmpty(): Boolean = |self| = 0
+@@ -2088,7 +2094,7 @@ toArray[\E\](g:Indexed[\E,ZZ32\]): Array[\E,ZZ32\] = do
+     This class is designed for convenience; it shouldn't be used as a
+     type in runing code, but only as a supertype in lieu of Indexed.
+ **)
+-trait DelegatedIndexed[\E,I\] extends Indexed[\E,I\]
++trait DelegatedIndexed[\E,I extends Index\] extends Indexed[\E,I\]
+     getter generator(): Indexed[\E,I\] =
+         self.indexValuePairs.map[\E\](fn (i:I, e:E): E => e)
+     opr |self| : ZZ32 = |self.indices|
+@@ -2111,7 +2117,7 @@ end
+     Indexed[\Array[\E,ZZ32\],E,ZZ32\].  We will need to find a
+     solution to this at some point.
+ **)
+-trait MutableIndexed[\E, I\]
++trait MutableIndexed[\E, I extends Index\]
+         extends { Indexed[\E,I\] }
+     opr[i:I]:=(v:E) : ()
+ 
+@@ -2124,7 +2130,7 @@ end
+ 
+ (* Array whose bounds are implicit rather than static, and which may
+    be either mutable or immutable. *)
+-trait ReadableArray[\E,I\]
++trait ReadableArray[\E,I extends Index\]
+         extends { HasRank, Indexed[\E,I\], DelegatedIndexed[\E,I\] }
+     (** CONCRETE GETTERS
+         Default implementations of getters based on abstract methods
+@@ -2192,7 +2198,7 @@ trait ReadableArray[\E,I\]
+ 
+ end
+ 
+-trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
++trait ImmutableArray[\E,I extends Index\] extends { ReadableArray[\E,I\] }
+         excludes { Array[\E,I\] }
+     opr[r:Range[\I\]] : ImmutableArray[\E,I\]
+     opr[_:TrivialOpenRange] : ImmutableArray[\E,I\]
+@@ -2208,7 +2214,7 @@ trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
+     thaw():Array[\E,I\]
+ end
+ 
+-trait Array[\E,I\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
++trait Array[\E,I extends Index\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
+     (** 0-based non-bounds-checked indexing **)
+     put(i:I, e:E): ()
+     opr[i:I]:=(v:E):() = put(offset(i),v)
+@@ -2294,7 +2300,7 @@ __piarr[\E, nat n\](w:()->E,x:N[\n\]):PrimImmutableArray[\E,n\] =
+     StandardMutableArrayType.  It therefore doesn't extend
+     ImmutableArray as you might expect.  Other types that extend
+     it should also extend ImmutableArray explicitly. **)
+-trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],E,I\]
++trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],E,I extends Index\]
+         extends { ReadableArray[\E,I\] }
+     tabulate(f:I->E):T
+     fill(v:E):T
+@@ -2303,7 +2309,7 @@ trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],
+ end
+ 
+ 
+-trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I\]
++trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I extends Index\]
+         extends { StandardImmutableArrayType[\T,E,I\], Array[\E,I\] }
+     assign(v:T):T = do
+         for i <- zeroIndices() do put(i,v.get(i)) end
+@@ -2522,7 +2528,7 @@ end
+ trait AnyVector end
+ 
+ trait Vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\]
+-        extends { AnyVector, Array1[\T,0,s0\], AdditiveGroup[\Vector[\T,s0\]\] }
++        extends { AnyVector, Array1[\T,0,s0\] }
+         excludes { AnyMultiplicativeRing }
+     fill(v:T):Vector[\T,s0\] = do
+         for i <- zeroIndices() do init0(i,v) end
+@@ -2729,7 +2735,7 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
+   subarray[\nat bo0, nat so0, nat bo1, nat so1, nat o0, nat o1\]
+           (m0:ZZ32,m1:ZZ32): Array2[\T,bo0,so0,bo1,so1\] = do
+       boundsCheck = self.bounds.narrowToRange( (o0,o1)::(m0,m1)#(so0,so1) )
+-      SubArray2[\T,bo0,so0,bo1,so1,b0,s0,b1,s1\](self,m0,o0,m1,o1)
++      SubArray2[\T,bo0,so0,bo1,so1,b0,s0,b1,s1\](self,m0,o0-b0,m1,o1-b1)
+     end
+ 
+   zeroIndices():CompactFullRange2D = sized2Range(0,0,s0,s1)
+@@ -2843,7 +2849,7 @@ end
+ trait AnyMatrix end
+ 
+ trait Matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]
+-        extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\], AdditiveGroup[\Matrix[\T,s0,s1\]\] }
++        extends { AnyMatrix, Array2[\T, 0, s0, 0, s1\] }
+         excludes { AnyMultiplicativeRing }
+     fill(v:T):Matrix[\T,s0,s1\] = do
+         for i <- zeroIndices() do init0(i,v) end
+@@ -3110,7 +3116,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
+                    N[\0\],reflect(z2), reflect(l0),reflect(l1), reflect(l2),m0,m1,m2)
+       end
+     opr[_:TrivialOpenRange] : Array3[\T,0,s0,0,s1,0,s2\] =
+-        subarray[\0,s0,0,s1,0,s2,0,0,0\](1,1,1)
++        subarray[\0,s0,0,s1,0,s2,b0,b1,b2\](1,1,1)
+     shift(t:(ZZ32,ZZ32,ZZ32)): Array[\T,(ZZ32,ZZ32,ZZ32)\] = do
+         (o0,o1,o2)=t
+         if o0=0 AND o1=0 AND o2=0 then
+@@ -3131,7 +3137,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
+               nat o0, nat o1, nat o2\]
+             (m0:ZZ32,m1:ZZ32,m2:ZZ32): Array3[\T,bo0,so0,bo1,so1,bo2,so2\] = do
+         boundsCheck = self.bounds.narrowToRange( (o0,o1,o2)::(m0,m1,m2)#(so0,so1,so2) )
+-        SubArray3[\T,bo0,so0,bo1,so1,bo2,so2,b0,s0,b1,s1,b2,s2\](self,m0,o0,m1,o1,m2,o2)
++        SubArray3[\T,bo0,so0,bo1,so1,bo2,so2,b0,s0,b1,s1,b2,s2\](self,m0,o0-b0,m1,o1-b1,m2,o2-b2)
+       end
+ 
+     zeroIndices():CompactFullRange3D =
+@@ -3754,7 +3760,7 @@ object SimpleMappedGenerator[\E,F\](g0: Generator[\E\], f0: E->F)
+     getter f() = f0
+ end
+ 
+-object SimpleMappedIndexed[\E,F,I\](g0: Indexed[\E,I\], f0: E->F)
++object SimpleMappedIndexed[\E,F,I extends Index\](g0: Indexed[\E,I\], f0: E->F)
+         extends { MappedGenerator[\E,F\], Indexed[\F,I\] }
+     getter size(): ZZ32 = |self.g|
+     getter g() = g0
+@@ -3774,7 +3780,7 @@ object SimpleMappedIndexed[\E,F,I\](g0: Indexed[\E,I\], f0: E->F)
+         SimpleMappedIndexed[\E,G,I\](self.g, f' COMPOSE self.f)
+ end
+ 
+-object SimpleIndexValuePairs[\E,I\](g0: Indexed[\E,I\])
++object SimpleIndexValuePairs[\E,I extends Index\](g0: Indexed[\E,I\])
+         extends Indexed[\(I,E),I\]
+     getter g(): Indexed[\E,I\] = g0
+     getter bounds(): CompactFullRange[\I\] = self.g.bounds
+@@ -3925,7 +3931,7 @@ object SimpleReversedGenerator[\E\](g0:Generator[\E\]) extends ReversedGenerator
+     getter asString(): String = "SimpleReversedGenerator(" self.g.asString ")"
+ end
+ 
+-trait ReversedIndexed[\E,I\] extends { Indexed[\E,I\], ReversedGenerator[\E\] }
++trait ReversedIndexed[\E,I extends Index\] extends { Indexed[\E,I\], ReversedGenerator[\E\] }
+     getter g():Indexed[\E,I\]
+ 
+     getter isEmpty(): Boolean = self.g.isEmpty
+@@ -3945,7 +3951,7 @@ trait ReversedIndexed[\E,I\] extends { Indexed[\E,I\], ReversedGenerator[\E\] }
+     indexOf(e:E): Maybe[\I\] = self.g.indexOf(e)
+ end
+ 
+-object SimpleReversedIndexed[\E,I\](g0:Indexed[\E,I\]) extends ReversedIndexed[\E,I\]
++object SimpleReversedIndexed[\E,I extends Index\](g0:Indexed[\E,I\]) extends ReversedIndexed[\E,I\]
+     getter g():Indexed[\E,I\] = g0
+     getter asString(): String = "SimpleReversedIndexed(" self.g.asString ")"
+ end
+@@ -3991,7 +3997,7 @@ end
+       a < b iff all points in a are strictly contained in b.
+  **)
+ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
+-        excludes { Number, String } (* Important or the strided factories can't overload! *)
++        excludes { Number, String, Index } (* Important or the strided factories can't overload! *)
+     getter stride(): I
+     getter left(): Maybe[\I\]
+     getter right(): Maybe[\I\]
+@@ -4096,7 +4102,6 @@ trait BoundedRange[\I\] extends Range[\I\]
+     getter leftOrRight(): I
+     flip(): BoundedRange[\I\]
+     every(s:I): BoundedRange[\I\]
+-    atMost(n:I): FullRange[\I\]
+     opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
+     narrowToRange(other:OpenRange[\I\]): BoundedRange[\I\] = self INTERSECTION other
+     narrowToRange(other:Range[\I\]): BoundedRange[\I\]
+@@ -4126,7 +4131,7 @@ trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
+     opr FORWARD_CMP(self, other: Range[\I\]): Comparison
+ end
+ 
+-trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I,I\] }
++trait FullRange[\I extends Index\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I,I\] }
+     getter extent(): Just[\I\]
+     narrowToRange(other:OpenRange[\I\]): FullRange[\I\] = do
+         r = self INTERSECTION other
+@@ -4141,14 +4146,14 @@ trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWit
+     opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison
+ end
+ 
+-trait CompactFullRange[\I\] extends FullRange[\I\]
++trait CompactFullRange[\I extends Index\] extends FullRange[\I\]
+     getter lower(): I = self.left.get
+     getter upper(): I = self.right.get
+     opr |self| : ZZ32
+     forward(): CompactFullRange[\I\] = self
+ end
+ 
+-trait StridedFullRange[\I\] extends FullRange[\I\] end
++trait StridedFullRange[\I extends Index\] extends FullRange[\I\] end
+ 
+ (** The # and : operators serve as factories for parallel ranges. **)
+ opr #(lo:ZZ32, ex:ZZ32): CompactFullParScalarRange = sized1Range(lo,ex)
+@@ -4296,12 +4301,12 @@ The following are rejected at present:
+ 
+ opr :[\I\](r: Range[\I\], stride:I): Range[\I\] = r.imposeStride(stride)
+ (* This doesn't obey the subtyping rule due to the genericity involved!
+-opr :[\I\](r: FullRange[\I\], stride:I): FullRange[\I\] = r.imposeStride(stride)
++opr :[\I extends Index\](r: FullRange[\I\], stride:I): FullRange[\I\] = r.imposeStride(stride)
+ *)
+ 
+ opr #[\I\](r: PartialRange[\I\], size:I): Range[\I\] = r.atMost(size)
+ 
+-object SimpleMappedSeqIndexed[\E,F,I\](g0: Indexed[\E,I\], f0: E->F)
++object SimpleMappedSeqIndexed[\E,F,I extends Index\](g0: Indexed[\E,I\], f0: E->F)
+         extends { SequentialGenerator[\F\], Indexed[\F,I\] }
+     getter size(): ZZ32 = |g0|
+     getter bounds(): CompactFullRange[\I\] = g0.bounds
+@@ -4395,7 +4400,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+ 
+     (** The operator %||% with at least one String argument converts
+         to String and concatenates **)
+-    opr ||(self, b:String):String
+     opr ||(self, b:Number):String = self || b.asString
+     opr ||(self, c:Char):String
+     opr ||(self, b:()):String = self || "()"
+@@ -4408,19 +4412,10 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+         do (i,j,k,l,m) = b; self || "(" || i || "," j || "," k || "," l || "," m || ")" end
+     opr ||(self, b:(Any,Any,Any,Any,Any,Any)):String =
+         do (i,j,k,l,m,n) = b; self || "(" || i || "," j || "," k || "," l || "," m || "," n || ")" end
+-    opr ||(a:Any, self):String = ("" || a) || self
+-    opr ||(self, b:Any):String = self || cast[\Object\](b).asString
+ 
+     (** The operator %|||% with at least one String argument converts to string,
+         then appends with a whitespace separator unless one of the two arguments is
+         empty.  If there is an empty argument, the other argument is returned. **)
+-    opr |||(self, b:String): String =
+-        if |self| = 0 then b
+-        elif |b| = 0 then self
+-        else self || " " || b
+-        end
+-    opr |||(self, b:Any): String = self ||| (""||b)
+-    opr |||(a:Any, self): String = (""||a) ||| self
+ 
+     (** opr %//% appends a single line separator.  Note that as
+         with %||% and %|||% at least one argument must be a String.
+@@ -4428,9 +4423,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+         FortressLibrary that performs string conversion, but the prefix
+          version must occur before a String. **)
+     opr //(self) : String = newline || self
+-    opr //(self, a:String): String = self || newline || a
+-    opr //(self, a:Any): String    = self || newline || a
+-    opr //(a:Any, self): String    = a || newline || self
+ 
+     (** opr %///% appends a double line separator.  Note that, as
+         with %||% and %|||%, at least one argument must be a String.
+@@ -4438,9 +4430,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+         FortressLibrary that performs string conversion, but the prefix
+          version must occur before a String. **)
+     opr ///(self) : String = doubleNewline || self
+-    opr ///(self, a:String): String = self || doubleNewline || a
+-    opr ///(self, a:Any): String    = self || doubleNewline || a
+-    opr ///(a:Any, self): String    = a || doubleNewline || self
+ 
+     abstract writeOn(s: WriteStream): ()
+ 
+@@ -4472,6 +4461,33 @@ object StringJoinReduction(s:String) extends Reduction[\Maybe[\String\]\]
+     end
+ end
+ 
++(** String's four concatenation families are top-level operators, as juxtaposition's
++    below: two functional methods with self at different positions have no meet. **)
++opr ||(a:Any, b:String):String = ("" || a) || b
++opr ||(a:String, b:String):String =
++    typecase a of
++        a':FlatString => a' || b
++        a':Concatenable => a' || b
++        else => concatAndBalanceIfNecessary(a, b)
++    end
++opr ||(a:String, b:Any):String = a || cast[\Object\](b).asString
++
++opr |||(a:Any, b:String): String = (""||a) ||| b
++opr |||(a:String, b:String): String =
++    if |a| = 0 then b
++    elif |b| = 0 then a
++    else a || " " || b
++    end
++opr |||(a:String, b:Any): String = a ||| (""||b)
++
++opr //(a:Any, b:String): String    = a || newline || b
++opr //(a:String, b:String): String = a || newline || b
++opr //(a:String, b:Any): String    = a || newline || b
++
++opr ///(a:Any, b:String): String    = a || doubleNewline || b
++opr ///(a:String, b:String): String = a || doubleNewline || b
++opr ///(a:String, b:Any): String    = a || doubleNewline || b
++
+ (** Right now for backward compatibility juxtaposition works like %||% **)
+ opr juxtaposition(a:Any, b:String):String = (""||a) || b
+ opr juxtaposition(a:String, b:String):String = a || b
+@@ -4903,17 +4919,17 @@ end
+ (*) time, since map builds its result with replica and m + 1.0 is still a Matrix; a static
+ (*) checker sees only Array[\T,I\], so the rank and size of a sized argument are lost
+ (*) to it in the result.
+-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e + y)
+-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y + e)
+-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e - y)
++opr +[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e + y)
++opr +[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y + e)
++opr -[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e - y)
+ (*) Scalar on the left: y - x is y - e for each element e of x, so 3 - [1 2] is [2 1].
+ (*) This is the only pair here whose two orders differ: +, MIN and MAX commute, and so do
+ (*) the scalar DOT and juxtaposition pairs of Vector and Matrix that this block follows.
+-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y - e)
+-opr MIN[\T extends { Number, StandardMin[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e MIN y)
+-opr MIN[\T extends { Number, StandardMin[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y MIN e)
+-opr MAX[\T extends { Number, StandardMax[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e MAX y)
+-opr MAX[\T extends { Number, StandardMax[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y MAX e)
++opr -[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y - e)
++opr MIN[\T extends { Number, StandardMin[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e MIN y)
++opr MIN[\T extends { Number, StandardMin[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y MIN e)
++opr MAX[\T extends { Number, StandardMax[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\] = x.map[\T\](fn (e: T): T => e MAX y)
++opr MAX[\T extends { Number, StandardMax[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\] = x.map[\T\](fn (e: T): T => y MAX e)
+ 
+ 
+ end
+diff --git a/Library/List.fsi b/Library/List.fsi
+index bf034a6ce..c85e6532f 100644
+--- a/Library/List.fsi
++++ b/Library/List.fsi
+@@ -64,7 +64,7 @@ end
+     complexity, but return a %List% in cases (such as %map% and
+     %filter%) where it will.  Indexing on lists operates from the
+     left, and ordering is lexicographic reading from the left. *)
+-trait List[\E\] extends { AnyList, ZeroIndexed[\E\],
++trait List[\E\] extends { AnyList, ZeroIndexed[\E\], Equality[\List[\E\]\],
+                           LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }
+         excludes { Number, HasRank, String }
+   (** %left% and %extractLeft% return the leftmost element in the list
+diff --git a/Library/List.fss b/Library/List.fss
+index 824144643..0636a7b57 100644
+--- a/Library/List.fss
++++ b/Library/List.fss
+@@ -103,7 +103,7 @@ private app[\T,E extends T,F extends T\](a:List[\E\], b:List[\F\]): List[\T\] =
+     for which reuse of the %Generator% will not increase asymptotic
+     complexity, but return a %List% in cases (such as %map% and
+     %filter%) where it will.  *)
+-trait List[\E\] extends { AnyList, ZeroIndexed[\E\],
++trait List[\E\] extends { AnyList, ZeroIndexed[\E\], Equality[\List[\E\]\],
+                           LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }
+         excludes { Number, HasRank, String }
+     (** %left% and %extractLeft% return the leftmost element in the list
+diff --git a/Library/QuickCheck.fss b/Library/QuickCheck.fss
+index 16222e64d..9c4417d78 100644
+--- a/Library/QuickCheck.fss
++++ b/Library/QuickCheck.fss
+@@ -1066,7 +1066,7 @@ checkResult[\P\](t:Testable[\P\], g:Gen[\P\], c:TestContext): TestResult = do
+     m = c.maxTests
+ 
+     (passed, skipped, failed): (ZZ32,ZZ32,ZZ32) := (0, 0, 0)
+-    freqmap: Map[\Any,ZZ32\] := {[\Any,ZZ32\]}
++    freqmap: Map[\String,ZZ32\] := {[\String,ZZ32\]}
+     failure = label checking
+         while passed < n AND (passed + skipped + failed) < m do
+             remaining = (n - passed) MIN (m - (passed + skipped + failed))
+@@ -1079,7 +1079,8 @@ checkResult[\P\](t:Testable[\P\], g:Gen[\P\], c:TestContext): TestResult = do
+                         atomic passed += 1
+                         collected = quicksort(result.collected)
+                         if NOT collected.isEmpty then
+-                            atomic freqmap := freqmap.update(collected, freqmap.member(collected, 0) + 1)
++                            key = (BIG || [obj <- seq(collected)] ", " obj.asString)[2:]
++                            atomic freqmap := freqmap.update(key, freqmap.member(key, 0) + 1)
+                         end
+                     end
+                     TestSkip => do
+@@ -1125,9 +1126,8 @@ checkResult[\P\](t:Testable[\P\], g:Gen[\P\], c:TestContext): TestResult = do
+         println(".")
+         if NOT freqmap.isEmpty then
+             println("Collected test data:")
+-            sortedfreqmap = quicksort(<| (freq,objs) | (objs,freq) <- freqmap |>)
+-            for (freq,objs) <- seq(sortedfreqmap.reverse) do
+-                formated = (BIG || [obj <- seq(objs)] ", " obj.asString)[2:]
++            sortedfreqmap = quicksort(<| (freq,formated) | (formated,freq) <- freqmap |>)
++            for (freq,formated) <- seq(sortedfreqmap.reverse) do
+                 println("    " |\ 100 freq/n /| "%: " formated)
+             end
+         end
+diff --git a/Library/String.fsi b/Library/String.fsi
+index 7e10897e0..8cefe59f3 100644
+--- a/Library/String.fsi
++++ b/Library/String.fsi
+@@ -14,6 +14,9 @@ api String
+   concatAndBalanceIfNecessary(s1: String, s2: String): String
+ 
+   trait Concatenable extends String
++    opr ||(self, other:String): String
++    opr ||(self, _:EmptyString): String
++    opr ||(self, other:Char): String
+   end
+ 
+   trait Balanceable extends String
+@@ -23,6 +26,9 @@ api String
+   end
+ 
+   value object EmptyString extends {String, Concatenable}
++    opr ||(self, other:String): String
++    opr ||(self, _:EmptyString): String
++    opr ||(self, other:Char): String
+   end
+ 
+   object SubString(baseString: String, range: Range[\ZZ32\]) extends {Concatenable, DelegatedIndexed[\Char, ZZ32\]}
+diff --git a/Library/String.fss b/Library/String.fss
+index c8016a818..12032b348 100644
+--- a/Library/String.fss
++++ b/Library/String.fss
+@@ -315,6 +315,7 @@ export String
+         self
+ 
+     opr || (self, other:String): String = other
++    opr || (self, _:EmptyString): String = self
+     opr || (self, other:Char):String = other.asString
+ 
+     writeOn(stream: WriteStream): () = do end
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 09303f147..20eac8745 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -76,7 +76,7 @@ value object Float extends RR64
+     (** returns a value of type RR32 **)
+     narrow(self): RR32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Narrow")
+-    opr |self| : Number =
++    opr |self| : RR64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Abs")
+     opr =(self, b:Float):Boolean =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Eq")
+@@ -155,6 +155,8 @@ value object Float extends RR64
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
+     opr ^(self, b:RR32):RR64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
++    opr ^(self, b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
+     opr ^(self, b:Number):RR64 = self^(asFloat(b))
+     (** Shouldn't need this extra declaration. **)
+     opr ^(self, b:AnyIntegral):RR64 =
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/env/ComponentWrapper.java b/ProjectFortress/src/com/sun/fortress/interpreter/env/ComponentWrapper.java
+index 560172406..abc5ab2e9 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/env/ComponentWrapper.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/env/ComponentWrapper.java
+@@ -164,7 +164,7 @@ public class ComponentWrapper extends NonApiWrapper {
+                 // Regular constructor
+                 FTypeObject fto = new FTypeObject(name, env, oe, NodeUtil.getParams(oe), NodeUtil.getDecls(oe), oe);
+                 env.putType(name, fto);
+-                BuildEnvironments.finishObjectTrait(NodeUtil.getTypes(NodeUtil.getExtendsClause(oe)),
++                BuildEnvironments.finishObjectTrait(NodeUtil.getExtendsClause(oe),
+                                                     null,
+                                                     null,
+                                                     fto,
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+index f64e6986c..a72c81dbb 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+@@ -907,7 +907,6 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+      * @param interior
+      */
+     public void finishTrait(TraitDecl x, FTypeTrait ftt, Environment interior) {
+-        List<BaseType> extends_ = NodeUtil.getTypes(NodeUtil.getExtendsClause(x));
+         // TODO What if I don't
+         // interior = interior.extendAt(x);
+ 
+@@ -916,6 +915,7 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+                                                                           interior);
+         else et = new EvalType(interior);
+ 
++        List<BaseType> extends_ = holdingExtends(NodeUtil.getExtendsClause(x), et, interior, ftt);
+         List<FType> extl = et.getFTypeListFromList(extends_);
+         List<FType> excl = et.getFTypeListFromList(NodeUtil.getExcludesClause(x));
+         ftt.setExtendsAndExcludes(extl, excl, interior);
+@@ -1018,18 +1018,89 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+         return et;
+     }
+ 
++    /**
++     * The trace of conditional extension: where the environment variable
++     * FORTRESS_CONDEXT_TRACE is set, each entry read under its condition is
++     * printed to the standard error, with whether it holds.  (Probe only.)
++     */
++    private static final boolean CONDEXT_TRACE = System.getenv("FORTRESS_CONDEXT_TRACE") != null;
++
++    /**
++     * The entry ttw of an extends clause holds only where its where clause
++     * holds: the clause binds no variable and states only constraints
++     * X extends B (conditional extension, as the compiled checker reads it,
++     * KindEnv.extendsConditions).  Any other entry is extended at every
++     * instance, its where clause unread.
++     */
++    private static boolean conditional(TraitTypeWhere ttw) {
++        if (ttw.getWhereClause().isNone()) return false;
++        WhereClause wc = ttw.getWhereClause().unwrap();
++        if (!wc.getBindings().isEmpty() || wc.getConstraints().isEmpty()) return false;
++        for (WhereConstraint w : wc.getConstraints()) {
++            if (!(w instanceof WhereExtends)) return false;
++        }
++        return true;
++    }
++
++    /**
++     * The types of the extends clause ttws that the type owner extends, in
++     * the environment interior of its static arguments, et evaluating there:
++     * every entry but a conditional one whose condition fails, that is, where
++     * some X is not a subtype of one of its B, as processWhereClauses checks
++     * a declaration's own constraint.  A condition that cannot be evaluated
++     * fails.
++     */
++    private static List<BaseType> holdingExtends(List<TraitTypeWhere> ttws, EvalType et,
++                                                 Environment interior, FType owner) {
++        List<BaseType> res = new ArrayList<BaseType>(ttws.size());
++        for (TraitTypeWhere ttw : ttws) {
++            if (!conditional(ttw)) {
++                res.add(ttw.getBaseType());
++                continue;
++            }
++            boolean holds = true;
++            String why = "";
++            try {
++                for (WhereConstraint w : ttw.getWhereClause().unwrap().getConstraints()) {
++                    WhereExtends we = (WhereExtends) w;
++                    FType ft = interior.getLeafTypeNull(NodeUtil.nameString(we.getName()));
++                    if (ft == null) {
++                        holds = false;
++                        why = " (" + NodeUtil.nameString(we.getName()) + " unbound)";
++                        break;
++                    }
++                    for (BaseType b : we.getSupers()) {
++                        FType st = et.evalType(b);
++                        if (!ft.subtypeOf(st)) {
++                            holds = false;
++                            why = " (" + ft + " is not a " + st + ")";
++                            break;
++                        }
++                    }
++                    if (!holds) break;
++                }
++            }
++            catch (FortressException ex) {
++                holds = false;
++                why = " (error: " + ex.getMessage() + ")";
++            }
++            if (CONDEXT_TRACE) System.err.println(errorMsg("condext: ", owner, " extends ", ttw.getBaseType(), ": ",
++                                                           holds ? "kept" : "dropped" + why));
++            if (holds) res.add(ttw.getBaseType());
++        }
++        return res;
++    }
++
+     public void finishObjectTrait(ObjectDecl x, FTypeObject ftt) {
+-        List<BaseType> extends_ = NodeUtil.getTypes(NodeUtil.getExtendsClause(x));
+-        finishObjectTrait(extends_, null, NodeUtil.getWhereClause(x), ftt, containing, x);
++        finishObjectTrait(NodeUtil.getExtendsClause(x), null, NodeUtil.getWhereClause(x), ftt, containing, x);
+     }
+ 
+     public void finishObjectTrait(_RewriteObjectExpr x, FTypeObject ftt) {
+-        List<BaseType> extends_ = NodeUtil.getTypes(NodeUtil.getExtendsClause(x));
+         // _RewriteObjectExpr has no excludes clause.
+-        finishObjectTrait(extends_, null, null, ftt, containing, x);
++        finishObjectTrait(NodeUtil.getExtendsClause(x), null, null, ftt, containing, x);
+     }
+ 
+-    static public void finishObjectTrait(List<BaseType> extends_,
++    static public void finishObjectTrait(List<TraitTypeWhere> extendsClause,
+                                          List<? extends Type> excludes,
+                                          Option<WhereClause> wheres,
+                                          FTypeObject ftt,
+@@ -1039,6 +1110,7 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+         EvalType et;
+         if (wheres != null && wheres.isSome()) et = processWhereClauses(wheres.unwrap(), interior);
+         else et = new EvalType(interior);
++        List<BaseType> extends_ = holdingExtends(extendsClause, et, interior, ftt);
+         ftt.setExtendsAndExcludes(et.getFTypeListFromList(extends_), et.getFTypeListFromList(excludes), interior);
+         if (x instanceof _RewriteObjectExpr && NodeUtil.getStaticParams((_RewriteObjectExpr) x).isEmpty()) {
+             // An object expression without static parameters provides its functional
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java
+index 6ade3face..1c41a020c 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTypeTuple.java
+@@ -104,6 +104,12 @@ public class FTypeTuple extends FType {
+             }
+ 
+         }
++        // PROBE (tupleindex, walk): a tuple of indices is an index
++        if (other instanceof FTypeTrait
++            && ("Index".equals(other.getName()) || other.getName().endsWith(".Index"))) {
++            for (FType t : this.l) if (!t.subtypeOf(other)) return false;
++            return true;
++        }
+         return false;
+     }
+ 
+@@ -173,6 +179,8 @@ public class FTypeTuple extends FType {
+             for (List<FType> lt : slf) {
+                 result.add(FTypeTuple.make(lt));
+             }
++        } else if (subtypeOf(other)) {
++            result.add(this); // PROBE (tupleindex, walk): a tuple of indices meets Index at itself
+         }
+         return result;
+     }
+@@ -381,6 +389,7 @@ public class FTypeTuple extends FType {
+             return false;
+         }
+         if (!(other instanceof FTypeTuple)) {
++            if (subtypeOf(other)) return false; // PROBE (tupleindex, walk): a tuple of indices is an index
+             exclDumpln(" Excludes.  Non-tuple.");
+             return true;
+         }
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+index ae9651816..1e7abad62 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -326,6 +326,10 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+            pSub(disjunctFromTuple(s, e2.size + 1), disjunctFromTuple(t, e2.size + 1)))
+     case (s@STupleType(_, e1, None, _), t@STupleType(_, e2, None, _)) if e1.size == e2.size =>
+       pOr(pOr(e1.map(pEqv(_, BOTTOM))), pAnd((e1,e2).zipped.map((a, b) => pSub(a, b))))
++    // PROBE (tupleindex): a tuple of indices is an index
++    case (s@STupleType(_, e1, None, _), t@STraitType(_, tn, targs, _))
++        if tn.getText == "Index" && targs.isEmpty =>
++      pOr(pOr(e1.map(pEqv(_, BOTTOM))), pAnd(e1.map(pSub(_, t))))
+     case (s@STupleType(_, e1, _, _), t) =>
+       pOr(e1.map(pEqv(_, BOTTOM)))
+     case (s, t:TupleType) => 
+diff --git a/ProjectFortress/tests/NumberOrderListDeclarations.fss b/ProjectFortress/tests/NumberOrderListDeclarations.fss
+index 06c67a0ee..68abdb9b0 100644
+--- a/ProjectFortress/tests/NumberOrderListDeclarations.fss
++++ b/ProjectFortress/tests/NumberOrderListDeclarations.fss
+@@ -40,7 +40,7 @@ orderings(): () = do
+     assert((1,2) < (1,3), "pairs compare lexicographically")
+     assert((1,2,3) CMP (1,2,2), GreaterThan, "triples compare lexicographically")
+     assert((1.5, 2) < (2.5, 1), "pairs of a float and an integer compare lexicographically")
+-    assert(<|1,2|> < <|1,3|>, "opr-overview.tex, subsection \"Comparisons Operators\": lists compare lexicographically when their elements support the comparison")
++    assert(<|[\ZZ32\] 1,2|> < <|[\ZZ32\] 1,3|>, "opr-overview.tex, subsection \"Comparisons Operators\": lists compare lexicographically when their elements support the comparison")
+   end
+ 
+ lists(): () = do
+diff --git a/ProjectFortress/tests/TupleOrderBounds.fss b/ProjectFortress/tests/TupleOrderBounds.fss
+index 2ca99ce49..e8c37ee79 100644
+--- a/ProjectFortress/tests/TupleOrderBounds.fss
++++ b/ProjectFortress/tests/TupleOrderBounds.fss
+@@ -8,7 +8,7 @@ pairs(): () = do
+     assert((1,2) < (1,3), true, "pairs of integers compare by their second elements when the first are equal")
+     assert((1.5, 2) < (2.5, 1), true, "a pair of a float and an integer compares by its first elements when they differ")
+     assert(("a","b") < ("a","c"), true, "pairs of strings compare lexicographically")
+-    assert((<|1,2|>, <|3|>) < (<|1,2|>, <|4|>), true, "pairs of lists compare lexicographically")
++    assert((<|[\ZZ32\] 1,2|>, <|[\ZZ32\] 3|>) < (<|[\ZZ32\] 1,2|>, <|[\ZZ32\] 4|>), true, "pairs of lists compare lexicographically")
+     assert((1, 0.0/0.0) CMP (2, 0.0/0.0), LessThan, "the second elements of a pair are not compared when the first decide")
+     assert((1, nan) CMP (1, 1.0), Unordered, "a pair whose second elements are unordered is unordered when its first are equal")
+     assert((nan, 1) CMP (1.0, 1), Unordered, "a pair whose first elements are unordered is unordered")

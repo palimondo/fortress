@@ -1,0 +1,125 @@
+The compiled path under the full check, as the planner measured it (CLIMB-BATCH-21.md, section 4, 'The compiled path under the full check'): OverloadingChecker's three loops read every symbolic operator (the probe's checker-full-check.patch without its catch wrappers), its two import-star loops add an api's set once per api, not once per name of the same text, and the prelude's GeneratorZZ32 extends Equality[\GeneratorZZ32\] and excludes Number, Character and String, its always-false top-level = gone. With it the prelude compiles and ant testFast fails only row 726's XXXNoDuplicatesRuleSelfPositionsOperator, which the checker now refuses. Against aa5ff2423; apply with git apply. Rung C builds from its own sources; the crash is not in it.
+
+diff --git a/Library/CompilerLibrary.fsi b/Library/CompilerLibrary.fsi
+index d0d423e63..90a80dee5 100644
+--- a/Library/CompilerLibrary.fsi
++++ b/Library/CompilerLibrary.fsi
+@@ -108,7 +108,7 @@ object TryAtomicFailure extends CheckedException end
+  * Simple Range support
+  ************************************************************)
+ 
+-trait GeneratorZZ32 excludes { Boolean }   (*) excludes { Boolean, AllGenerators  }
++trait GeneratorZZ32 extends Equality[\GeneratorZZ32\] excludes { Boolean, Number, Character, String }   (*) excludes { Boolean, AllGenerators  }
+     abstract getter asString(): String
+     seq(self): SeqGeneratorZZ32
+     abstract loop(body:ZZ32->()): ()
+@@ -126,7 +126,6 @@ trait SeqGeneratorZZ32 extends GeneratorZZ32
+     abstract filter(f: ZZ32 -> Boolean): SeqGeneratorZZ32
+ end
+ 
+-opr =(left:GeneratorZZ32, right:GeneratorZZ32): Boolean
+ 
+ __bigOperator(o:ReductionString,
+               desugaredClauses:(ReductionString, String->String)->String): String
+diff --git a/Library/CompilerLibrary.fss b/Library/CompilerLibrary.fss
+index 88616ca6b..42d81d16c 100644
+--- a/Library/CompilerLibrary.fss
++++ b/Library/CompilerLibrary.fss
+@@ -298,7 +298,7 @@ opr SEQV(a:Any, b:Any) = jSEQV(a,b)
+  * Simple Range support
+  ************************************************************)
+ 
+-trait GeneratorZZ32 excludes { Boolean }  (*) excludes { Boolean, AllGenerators }
++trait GeneratorZZ32 extends Equality[\GeneratorZZ32\] excludes { Boolean, Number, Character, String }  (*) excludes { Boolean, AllGenerators }
+     getter asString(): String
+     seq(self): SeqGeneratorZZ32 = SeqGenZZ32(self)
+     loop(body:ZZ32->()): ()
+@@ -311,7 +311,6 @@ trait GeneratorZZ32 excludes { Boolean }  (*) excludes { Boolean, AllGenerators
+     opr IN(x:ZZ32, self): Boolean = false
+ end
+ 
+-opr =(left:GeneratorZZ32, right:GeneratorZZ32): Boolean = false
+ 
+ trait SeqGeneratorZZ32 extends GeneratorZZ32
+     getter asString(): String
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+index 2fd48cf24..0800b809e 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+@@ -252,7 +252,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+         val importNames = importItems.filter(_.isInstanceOf[ImportNames]).map(_.asInstanceOf[ImportNames])
+ 
+         // First check names of functions declared in this component.
+-        for ( f <- toSet(functions) ; if isDeclaredName(f) ) {
++        for ( f <- toSet(functions) ; if isCheckedName(f) ) {
+           val name = f.asInstanceOf[IdOrOp].getText
+           var set = getFunctionsFromCompilationUnit(compilation_unit, f)
+ 
+@@ -273,14 +273,11 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+           for ( i <- importStars ) {
+             val index = globalEnv.lookup(i.getApiName)
+             val excepts = toListFromImmutable(i.getExceptNames).asInstanceOf[List[IdOrOp]]
+-            for ( n <- toSet(index.functions.firstSet).++(toSet(index.variables.keySet)) ) {
+-              val text = n.asInstanceOf[IdOrOp].getText
+-              if ( text.equals(name) &&
+-                   ! excepts.contains((m:IdOrOp) => m.getText.equals(text)) ) {
+-                // get the JavaFunctionals from the api and add them to set
++            // PROBE: once per api, not once per name of the same text (a prefix and an infix name share it)
++            if ( (toSet(index.functions.firstSet).++(toSet(index.variables.keySet))).exists(n => {
++                   val text = n.asInstanceOf[IdOrOp].getText
++                   text.equals(name) && ! excepts.contains((m:IdOrOp) => m.getText.equals(text)) }) )
+                 set ++= getFunctions(index, f)
+-              }
+-            }
+           }
+           
+           // debugging probe: TypeError.b3(name, f, set)
+@@ -307,14 +304,10 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+           for ( i <- importStars ) {
+             val index = globalEnv.lookup(i.getApiName)
+             val excepts = toListFromImmutable(i.getExceptNames).asInstanceOf[List[IdOrOp]]
+-            for ( n <- toSet(index.functions.firstSet).++(toSet(index.variables.keySet)) ) {
+-              val text = n.asInstanceOf[IdOrOp].getText
+-              if ( text.equals(name) &&
+-                   ! excepts.contains((m:IdOrOp) => m.getText.equals(text)) ) {
+-                // get the JavaFunctionals from the api and add them to set
++            if ( (toSet(index.functions.firstSet).++(toSet(index.variables.keySet))).exists(n => {
++                   val text = n.asInstanceOf[IdOrOp].getText
++                   text.equals(name) && ! excepts.contains((m:IdOrOp) => m.getText.equals(text)) }) )
+                 fMethods ++= getFunctionalMethods(index, f)
+-              }
+-            }
+           }          
+           
+           checkFancyRule(f, dFunctions, fMethods, globalOracle)
+@@ -399,7 +392,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+ 	        // the methods the trait or object provides, by the traits chapter's inheritance
+ 	        val (methodsR, overridden) = providedAndOverridden(tt, allMethods(tt, typeAnalyzer), typeAnalyzer, paramsWithoutSelf)
+ 
+-	        for (f <- toSet(methodsR.firstSet) ; if isDeclaredName(f) ) {
++	        for (f <- toSet(methodsR.firstSet) ; if isCheckedName(f) ) {
+                   val mset = toSet(methodsR.matchFirst(f))
+ 	              val dottedMethods = mset.filter(x => x match { case (m, str, tt) => m.isInstanceOf[JavaMethod] &&
+ 	      	      		  		     	     	      m.asInstanceOf[JavaMethod].selfType.isSome })  // unsure why this second condition
+@@ -408,7 +401,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+ 	              checkMethodOverloading(traitKindAndName, f, toFunctionalMethodArrows(functionalMethods, oracle), oracle)
+ 	        }
+ 	        // a declaration and one it keeps from being inherited: their return types
+-	        for ((f, o, p, equal) <- overridden ; if isDeclaredName(f))
++	        for ((f, o, p, equal) <- overridden ; if isCheckedName(f))
+ 	          checkOverridingReturnType(f, o, p, equal, oracle)
+             typeAnalyzer = oldTypeAnalyzer
+             staticParamsInScope = Nil
+@@ -745,6 +738,12 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
+         case _ => false
+     }
+ 
++    // PROBE: the full check reads every symbolic operator in the three loops
++    def isCheckedName(f: IdOrOpOrAnonymousName) = f match {
++        case SOp(_,_,_,_,_) => true
++        case _ => isDeclaredName(f)
++    }
++
+     def isDeclaredMethod(f: JavaFunctional) = f match {
+         case SDeclaredMethod(_,_) => true
+         case _ => false

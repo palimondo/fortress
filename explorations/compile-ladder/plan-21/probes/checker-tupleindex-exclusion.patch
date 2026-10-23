@@ -1,0 +1,40 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
+index ebda6db31..235abb395 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreDisambiguationDesugaringVisitor.java
+@@ -121,7 +121,8 @@ public class PreDisambiguationDesugaringVisitor extends NodeUpdateVisitor {
+         Option<List<NamedType>> comprisesClause_result = recurOnOptionOfListOfNamedType(that.getComprisesClause());
+ 
+         if (!NodeUtil.getName(that).equals(anyTypeId) &&
+-            !NodeUtil.getName(that).equals(objectTypeId)) {
++            !NodeUtil.getName(that).equals(objectTypeId) &&
++            !NodeUtil.getName(that).getText().equals("Index")) { // PROBE (question 1): Index outside Object
+             header_result = NodeFactory.makeTraitTypeHeader(header_result,
+                                                             rewriteExtendsClause(that, header_result.getExtendsClause()));
+         }
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+index ae9651816..043564383 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala
+@@ -326,6 +326,10 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+            pSub(disjunctFromTuple(s, e2.size + 1), disjunctFromTuple(t, e2.size + 1)))
+     case (s@STupleType(_, e1, None, _), t@STupleType(_, e2, None, _)) if e1.size == e2.size =>
+       pOr(pOr(e1.map(pEqv(_, BOTTOM))), pAnd((e1,e2).zipped.map((a, b) => pSub(a, b))))
++    // PROBE (tupleindex): a tuple of indices is an index
++    case (s@STupleType(_, e1, None, _), t@STraitType(_, tn, targs, _))
++        if tn.getText == "Index" && targs.isEmpty =>
++      pOr(pOr(e1.map(pEqv(_, BOTTOM))), pAnd(e1.map(pSub(_, t))))
+     case (s@STupleType(_, e1, _, _), t) =>
+       pOr(e1.map(pEqv(_, BOTTOM)))
+     case (s, t:TupleType) => 
+@@ -557,6 +561,10 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
+       pOr((e1, e2).zipped.map((a, b) => pExc(a, b)))
+     case (STupleType(_, e1, None, _), STupleType(_, e2, None, _)) =>
+       pTrue()
++    // PROBE (tupleindex, exclusion): a tuple excludes Index only where an element excludes Index
++    case (s@STupleType(_, e1, None, _), t@STraitType(_, tn, targs, _))
++        if tn.getText == "Index" && targs.isEmpty && e1.nonEmpty =>
++      pOr(e1.map(pExc(_, t)))
+     case (s: TupleType, t) => pExc(disjunctFromTuple(s, 1), t)
+     case (s, t: TupleType) => pExc(t, s)
+     case (s: ArrowType, t: ArrowType) => pFalse()
