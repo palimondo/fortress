@@ -2,12 +2,13 @@
 
 # Boot note
 
-**State at 10:45 UTC on 2026-10-23** (12:45 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
+**State at 11:05 UTC on 2026-10-23** (13:05 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
 
 ## Running
 
 - **Batch 21's planner**, an Opus Agent-tool worker launched at about 10:08 UTC: drafts `explorations/coordinator/CLIMB-BATCH-21.md` and `explorations/compile-ladder/plan-21/manifest/`, from the five probes (symbolic operators, export check, walk's conditional extension, team demos, rows 793 and 794), commits and pushes them itself. Estimate 2M to 3M written, a guess. Its brief is its launch prompt.
-- **The type-decisions review's Fable judgement**, a Fable Agent-tool worker launched at about 10:44 UTC (a go in advance, his word at 08:19 UTC), reading only: writes `explorations/reviews/type-decisions-review/judgement.md`, does not commit. Estimate 0.5M to 1M, a guess. Its evidence map landed at `105b4a46b` (0.70M; six lines that read batch 21's type items as held corrected by the coordinator).
+- **Probe A1**, an Opus Agent-tool worker launched at about 11:04 UTC: checker shadows of the overload check's exclusion test reading a self-typed trait's `self` as `C[\X\] & X`, and of existential reduction carrying bounds, measured on the 8 vector sites with the full symbolic check on, on `wip/probe-a1` (worktree seeded from the base build); report `explorations/perf-probes/self-type-exclusion/REPORT.md` on that branch. Estimate 0.4M to 1M, a guess. The planner was told (at about 11:03 UTC) to keep P-157's A2 change separable, to keep P-156 with the judgement's three changes and the `atMost` drop as a question for him, and to take row 774's walk half out for `List extends Equality[\List[\E\]\]` and the `=/=` row.
+- **The type-decisions review landed**: the evidence map `105b4a46b` (0.70M) and the Fable judgement `28b6e27a0` (0.39M). The chain bends in one place: P-146's signature half, which forces P-157.
 - **Batch 21's base build**, `/home/user/fortress-base21` at `aa5ff2423`, built by the coordinator in the background (log `<scratchpad>/batch21/base-build.log`, done at `EXIT=0`). The planner seeds its probe worktrees from it. At the launch it serves as `args.baseBuild` if the base differs from it only in record files; otherwise build again at the base.
 
 **Check-ins:** "Batch 21 prep check-in 1" at 10:55 UTC and "Batch 21 prep check-in 2" at 11:40 UTC, after the process stop expected about 11:37 UTC. A stop kills both workers; resume each with `SendMessage` from its transcript. The batch's own check-in file, at its launch: `<scratchpad>/batch21/checkins.txt`.
@@ -24,7 +25,8 @@ Batch 21 has his go to launch once its record is written and reviewed by Fable (
 ## Next
 
 - **When the planner ends:** read its report and the record's diff; launch the Fable review of the record in place (a go in advance). Then the coordinator's steps of the manual's "Before the launch" (the base build, a trial seed, the generator's checks, the splice and its commit, the disk, the check-ins), and the launch on his go.
-- **When the Fable judgement ends:** read it whole, commit it with an INDEX line, then its write-up for him by an Opus writer, as a page. If it finds that one of batch 21's three type items (P-156, P-157, row 774) should change, bring that to him before the launch. Batch 21 is not held for it otherwise, at his word: the type items are reversible.
+- **When probe A1 ends:** bring its branch's report and patches onto `main` under `perf-probes/self-type-exclusion/` with an INDEX line. Then the ask on P-157 (hold it and keep the team's additive-group vectors, if A1 clears the 8), with A1's measurement, before the launch; and the ask on `BoundedRange`'s `atMost` from the record. The judgement's write-up for him by an Opus writer, as a page, with A1's result.
+- **The judgement's other items, for him after batch 21's asks, one per message:** P-75 withdrawn (reverses his yes of 09-29); P-154's reason corrected; the team's `AnyIntegral comprises Integral[\I\] where [\I\]` probed to close row 487; row 701 a prerequisite of the switch-over (a PLAN line).
 - **The ledger repair**, about 180 open rows (`ledger-health-2026-10-22/REPORT.md`), if budget allows; the 40 refused notes first.
 - **PLAN's consolidation**, a later cleanup over the weekend beside the climb batches (PLAN, "Work that can start now", item 1).
 
