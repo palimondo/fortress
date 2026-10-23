@@ -11,7 +11,7 @@
 - **The type-decisions review landed**: the evidence map `105b4a46b` (0.70M) and the Fable judgement `28b6e27a0` (0.39M). The chain bends in one place: P-146's signature half, which forces P-157.
 - **Batch 21's base build**, `/home/user/fortress-base21` at `aa5ff2423`, built by the coordinator in the background (log `<scratchpad>/batch21/base-build.log`, done at `EXIT=0`). The planner seeds its probe worktrees from it. At the launch it serves as `args.baseBuild` if the base differs from it only in record files; otherwise build again at the base.
 
-**Check-ins:** "Batch 21 prep check-in 1" at 10:55 UTC and "Batch 21 prep check-in 2" at 11:40 UTC, after the process stop expected about 11:37 UTC. A stop kills both workers; resume each with `SendMessage` from its transcript. The batch's own check-in file, at its launch: `<scratchpad>/batch21/checkins.txt`.
+**Check-ins:** "Batch 21 prep check-in 3" at 12:26 UTC, re-armed 45 minutes out while a worker runs. A stop kills the workers; resume each with `SendMessage` from its transcript. The batch's own check-in file, at its launch: `<scratchpad>/batch21/checkins.txt`.
 
 ## The go
 
@@ -45,5 +45,5 @@ Batch 21 has his go to launch once its record is written and reviewed by Fable (
 - **The boot:** the full boot is the default; a light boot only at his word. The compaction hook checks the model with `tools/model-now.sh`, then loads `fortress-repo` and the coordinator skill with the Skill tool.
 - **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable`. Commit by named paths only, never `-A`, `.` or `-a`.
 - **The week:** reset at 10:00 UTC on 10-23; 0% used by his client then.
-- **The machine:** the VM last started at 22:37:03 UTC on 2026-10-22; the next stop by the cap is about 11:37 UTC on 10-23.
+- **The machine:** the session's process last started at 10:01:31 UTC on 2026-10-23 (`ps`); the next stop by the cap is about 23:00 UTC on 10-23.
 - **Pages:** the post-mortem report, https://claude.ai/artifact/F3Gz2ynXQSKEjKXqhNT5is, version 3 (source `scratchpad/pmreport/build.py`, from `REPORT.md`); the audit page, https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb, version 15, for his later review of items 268 to 276 (source `scratchpad/auditpage/`); the drafts page, https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg; the revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, its rewrite owed. After a compaction, publish a page by its URL.
