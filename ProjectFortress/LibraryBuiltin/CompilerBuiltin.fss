@@ -1167,7 +1167,7 @@ trait JavaBufferedReader excludes { String, Number, Boolean, Character }
   ready(): Boolean throws IOException = jJavaBufferedReaderReady(self)
   close(): () throws IOException = jJavaBufferedReaderClose(self)
   whenUnconsumed(): () throws IOException = jJavaBufferedReaderWhenUnconsumed(self)
-  consume(): () = jJavaBufferedReaderConsume(self)
+  consume(): () throws IOException = jJavaBufferedReaderConsume(self)
 end
 
 makeJavaBufferedReader(s: String): JavaBufferedReader throws FileNotFoundException = jJavaBufferedReaderOpen(s.asJavaString)

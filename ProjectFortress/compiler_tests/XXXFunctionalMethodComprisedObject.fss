@@ -1,0 +1,18 @@
+(* A functional method of a trait that comprises one object, called on a value whose static type is that object, runs the object's declaration (traits.tex, section "Method Declarations"; overloading.tex, section "Principles of Overloading"), so num(R) is 1. *)
+component XXXFunctionalMethodComprisedObject
+export Executable
+
+trait Q comprises { R }
+    abstract num(self): ZZ32
+end
+object R extends Q
+    num(self): ZZ32 = 1
+end
+
+run(): () = do
+    println("REACHED")
+    assert(num(R), 1, "num(R) runs R's declaration")
+    println("PASS")
+  end
+
+end

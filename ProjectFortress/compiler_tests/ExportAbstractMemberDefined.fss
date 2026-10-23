@@ -1,0 +1,9 @@
+(* A method declared abstract in the api needs no matching definition (apis.tex, section "Component and API Identity"), so the component's trait may define it with a body, and the component matches its api. *)
+component ExportAbstractMemberDefined
+export ExportAbstractMemberDefined
+
+trait T
+    f(): ZZ32 = 1
+end
+
+end

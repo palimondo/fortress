@@ -1,0 +1,19 @@
+(* The api's abstract functional method of a trait that comprises { ... } declares the component's of a trait that comprises { R } (apis.tex, section "Component and API Identity"), so the component matches its api and num(q) is 1. *)
+component ExportComprisesEllipsisAbstract
+export { ExportComprisesEllipsisAbstract, Executable }
+
+trait Q comprises { R }
+    abstract num(self): ZZ32
+end
+
+object R extends Q
+    num(self): ZZ32 = 1
+end
+
+run(): () = do
+    q: Q = R
+    assert(num(q), 1, "num(q) runs R's declaration")
+    println("PASS")
+  end
+
+end

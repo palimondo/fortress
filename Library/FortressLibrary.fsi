@@ -100,6 +100,7 @@ opr BIG LEXICO(g: Generator[\TotalComparison\]): TotalComparison
 trait Comparison
         extends { StandardPartialOrder[\Comparison\] }
         comprises { Unordered, TotalComparison }
+    abstract getter asString(): String
     opr =(self, other:Comparison): Boolean
     opr LEXICO(self, other:Comparison): Comparison
     opr LEXICO(self, other:()->Comparison): Comparison
@@ -160,7 +161,7 @@ end
 object EqualTo extends TotalComparison
     opr =(self, other:EqualTo): Boolean
     opr CMP(self, other:TotalComparison): TotalComparison
-    opr <(self, other:LessThan): Boolean
+    opr <(self, other:GreaterThan): Boolean
     opr <(self, other:TotalComparison): Boolean
     opr LEXICO(self, other:TotalComparison): TotalComparison
     opr LEXICO(self, other:()->TotalComparison): TotalComparison
@@ -191,7 +192,7 @@ end
     %a MIN b = b MIN a%. **)
 trait StandardMin[\T extends StandardMin[\T\]\]
         excludes { HasRank }
-    opr MIN(self, other:T): T
+    abstract opr MIN(self, other:T): T
 end
 
 (** %StandardMax% is the %MAX% operator; most types that implement %MAX%
@@ -203,7 +204,7 @@ end
     %a MAX b = b MAX a%. **)
 trait StandardMax[\T extends StandardMax[\T\]\]
         excludes { HasRank }
-    opr MAX(self, other:T): T
+    abstract opr MAX(self, other:T): T
 end
 
 (** %StandardMinMax% combines MIN and MAX operators, and provides a
@@ -286,7 +287,7 @@ end
 trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
         comprises { RR64, RR32, QQ, AnyIntegral, IntLiteral }
     (** The value as a float, the explicit conversion into %RR64%. **)
-    asFloat(self): RR64
+    abstract asFloat(self): RR64
     (** Two exact numbers of different types compare as rationals; a float
         compares with any number after %asFloat%, so an exact value equals
         its nearest float. **)
@@ -404,12 +405,12 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     coerce(x: IntLiteral)
     getter zero(): QQ
     getter one(): QQ
-    getter isNaN(): Boolean
-    getter isInfinite(): Boolean
+    abstract getter isNaN(): Boolean
+    abstract getter isInfinite(): Boolean
     getter isNumber(): Boolean
     getter isFinite(): Boolean
-    numerator(self): ZZ
-    denominator(self): ZZ  (* Ideally would be NN *)
+    abstract numerator(self): ZZ
+    abstract denominator(self): ZZ  (* Ideally would be NN *)
     opr |self| : QQ
     opr =(self, other:QQ):Boolean
     opr =/=(self, other:QQ):Boolean
@@ -445,35 +446,35 @@ end
         (** not yet: ``%comprises Integral[\I\] where [\I\]%'' *)
 
 trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], MultiplicativeRing[\I\], AnyIntegral }
-    getter zero(): I
-    getter one(): I
-    opr -(self):I
-    opr DOTMINUS(self):I
-    opr =(self,b:I):Boolean
-    opr +(self,b:I):I
-    opr DOTPLUS(self,b:I):I
-    opr -(self,b:I):I
-    opr DOTMINUS(self,b:I):I
-    opr DOT(self,b:I):I
-    opr TIMES(self,b:I):I
-    opr juxtaposition(self,b:I):I
-    opr DOTTIMES(self,b:I):I
-    opr DIV(self,b:I):I
-    opr REM(self,b:I):I
-    opr MOD(self,b:I):I
-    opr GCD(self,b:I):I
-    opr LCM(self,b:I):I
+    abstract getter zero(): I
+    abstract getter one(): I
+    abstract opr -(self):I
+    abstract opr DOTMINUS(self):I
+    abstract opr =(self,b:I):Boolean
+    abstract opr +(self,b:I):I
+    abstract opr DOTPLUS(self,b:I):I
+    abstract opr -(self,b:I):I
+    abstract opr DOTMINUS(self,b:I):I
+    abstract opr DOT(self,b:I):I
+    abstract opr TIMES(self,b:I):I
+    abstract opr juxtaposition(self,b:I):I
+    abstract opr DOTTIMES(self,b:I):I
+    abstract opr DIV(self,b:I):I
+    abstract opr REM(self,b:I):I
+    abstract opr MOD(self,b:I):I
+    abstract opr GCD(self,b:I):I
+    abstract opr LCM(self,b:I):I
     opr DIVIDES(self,b:I):Boolean
-    opr CHOOSE(self,b:I):I
-    opr BITAND(self,b:I):I
-    opr BITOR(self,b:I):I
-    opr BITXOR(self,b:I):I
-    opr LSHIFT(self,b:AnyIntegral):I
-    opr RSHIFT(self,b:AnyIntegral):I
-    opr BITNOT(self):I
-    opr ^(self, b:AnyIntegral):I
-    opr /(self, other:I):QQ
-    numerator(self): ZZ
+    abstract opr CHOOSE(self,b:I):I
+    abstract opr BITAND(self,b:I):I
+    abstract opr BITOR(self,b:I):I
+    abstract opr BITXOR(self,b:I):I
+    abstract opr LSHIFT(self,b:AnyIntegral):I
+    abstract opr RSHIFT(self,b:AnyIntegral):I
+    abstract opr BITNOT(self):I
+    abstract opr ^(self, b:AnyIntegral):I
+    abstract opr /(self, other:I):QQ
+    abstract numerator(self): ZZ
     denominator(self): ZZ
     floor(self): I
     ceiling(self): I
@@ -577,6 +578,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     opr LSHIFT(self,b:AnyIntegral):ZZ32
     opr RSHIFT(self,b:AnyIntegral):ZZ32
     opr BITNOT(self):ZZ32
+    opr ^(self, b:AnyIntegral):ZZ32
     opr ^(self, b:IntLiteral):ZZ32
     opr /(self, other:ZZ32):QQ
     numerator(self): ZZ
@@ -635,6 +637,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr LSHIFT(self,b:AnyIntegral):ZZ64
     opr RSHIFT(self,b:AnyIntegral):ZZ64
     opr BITNOT(self):ZZ64
+    opr ^(self, b:AnyIntegral):ZZ64
     opr ^(self, b:IntLiteral):ZZ64
     opr /(self, other:ZZ64):QQ
     numerator(self): ZZ
@@ -652,6 +655,8 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     coerce(x: NN32)
     coerce(x: NN64)
     coerce(x: IntLiteral)
+    getter zero(): ZZ
+    getter one(): ZZ
     opr =(self, b: ZZ):Boolean
     opr <(self, other:ZZ): Boolean
     opr <=(self, other:ZZ): Boolean
@@ -674,6 +679,19 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr TIMES(self, b: ZZ): ZZ
     opr DOTTIMES(self, b: ZZ): ZZ
     opr /(self,other:ZZ):QQ
+    opr DIV(self, b: ZZ): ZZ
+    opr REM(self, b: ZZ): ZZ
+    opr MOD(self, b: ZZ): ZZ
+    opr GCD(self, b: ZZ): ZZ
+    opr LCM(self, b: ZZ): ZZ
+    opr CHOOSE(self, b: ZZ): ZZ
+    opr BITAND(self, b: ZZ): ZZ
+    opr BITOR(self, b: ZZ): ZZ
+    opr BITXOR(self, b: ZZ): ZZ
+    opr LSHIFT(self, b:AnyIntegral): ZZ
+    opr RSHIFT(self, b:AnyIntegral): ZZ
+    opr BITNOT(self): ZZ
+    opr ^(self, b:AnyIntegral):ZZ
     opr ^(self, b:IntLiteral):ZZ
     numerator(self): ZZ
     narrow(self): ZZ32
@@ -1033,7 +1051,7 @@ value object Nothing[\T\] extends Maybe[\T\]
 end
 
 value trait AnyUniqueItem extends Equality[\AnyUniqueItem\] excludes Number
-    getter holds() : Boolean
+    abstract getter holds() : Boolean
     opr =(self, other:AnyUniqueItem): Boolean
 end
 
@@ -1236,11 +1254,11 @@ end
    general, anything which extends %Indexed_i% must also
    extend %Indexed_j% for $j < i$. *)
 
-trait Indexed1[\ nat n \] end
+trait Indexed1[\ nat n \] extends HasRank end
 
-trait Indexed2[\ nat n \] end
+trait Indexed2[\ nat n \] extends HasRank end
 
-trait Indexed3[\ nat n \] end
+trait Indexed3[\ nat n \] extends HasRank end
 
 (** %Index% is the type of what a subscript takes, apart from the ranges,
     which exclude it: %ZZ32%, and every tuple type whose element types are
@@ -1339,7 +1357,8 @@ trait Indexed[\E, I extends Index\] extends Generator[\E\]
 end
 
 trait ZeroIndexed[\E\] extends Indexed[\E,ZZ32\]
-    bounds(): CompactFullRange[\ZZ32\]
+    getter bounds(): CompactFullRange[\ZZ32\]
+    abstract opr[r:Range[\ZZ32\]] : ZeroIndexed[\E\]
     zip[\F\](g:ZeroIndexed[\F\]):ZeroIndexed[\(E,F)\]
 end
 
@@ -1559,7 +1578,7 @@ trait ReadableArray1[\T, nat b0, nat s0\]
     abstract getter mutability():String
     opr |self| : ZZ32
 
-    subarray[\nat b, nat s, nat o\](m: ZZ32): ReadableArray1[\T, b, s\]
+    abstract subarray[\nat b, nat s, nat o\](m: ZZ32): ReadableArray1[\T, b, s\]
 
     (** Offset converts from %b0%-indexing to 0-indexing,
         bounds checking en route. *)
@@ -1708,6 +1727,8 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
   opr[r:Range[\(ZZ32,ZZ32)\]]: Array[\T,(ZZ32,ZZ32)\]
   opr[_:OpenRange[\ZZ32\]] : Array2[\T,0,s0,0,s1\]
   opr[_:TrivialOpenRange] : Array2[\T,0,s0,0,s1\]
+  opr[_:TrivialOpenRange, i1:ZZ32]: Array[\T,ZZ32\]
+  opr[i0:ZZ32, _:TrivialOpenRange]: Array[\T,ZZ32\]
   shift(t1:(ZZ32,ZZ32)): Array[\T,(ZZ32,ZZ32)\]
 
   (** 2-D subarray given static subarray parameters.
@@ -1722,8 +1743,8 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
 
   replica[\U\]():Array2[\U,b0,s0,b1,s1\]
   copy():Array2[\T,b0,s0,b1,s1\]
-  put(t1:(ZZ32, ZZ32), v:T) : ()
-  get(t1:(ZZ32, ZZ32)):T
+  abstract put(t1:(ZZ32, ZZ32), v:T) : ()
+  abstract get(t1:(ZZ32, ZZ32)):T
   t():Array2[\T,b1,s1,b0,s0\]
   (* Copied here for better return type information. *)
   map[\R\](f:T->R): Array2[\R,b0,s0,b1,s1\]
@@ -1866,8 +1887,8 @@ tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,
 
 trait Reduction[\L\]
     getter reverse():Reduction[\L\]
-    empty(): L
-    join(a: L, b: L): L
+    abstract empty(): L
+    abstract join(a: L, b: L): L
 end
 
 (** Invariants:
@@ -1906,7 +1927,7 @@ trait SomeReductionPair[\R\] extends PossibleReductionPair[\R\]
     cond[\G\](t:PossibleReductionPair[\R\]->G, e:()->G): G
 end
 
-trait ReductionPair[\R,L\] extends SomeReductionPair[\R\]
+trait ReductionPair[\R,L\] extends SomeReductionPair[\L\]
     abstract getter outer(): ActualReduction[\R,L\]
     abstract getter inner(): ActualReduction[\R,L\]
 end
@@ -2153,8 +2174,8 @@ embiggen[\T\](j:(T,T)->T, z:T) : BigReduction[\T,T\]
 
 trait FilterGenerator[\E\] extends Generator[\E\]
         excludes { HasRank }
-    getter g(): Generator[\E\]
-    getter p(): E -> Condition[\()\]
+    abstract getter g(): Generator[\E\]
+    abstract getter p(): E -> Condition[\()\]
     generate[\R\](r:Reduction[\R\], m: E->R): R
     reduce(r: Reduction[\E\]): E
     filter(p': E -> Condition[\()\]): FilterGenerator[\E\]  (* ' *)
@@ -2194,10 +2215,9 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
     abstract opr IN(n: I, self): Boolean
     abstract opr CMP(self, other:Range[\I\]): Comparison
     abstract opr FORWARD_CMP(self, other:Range[\I\]): Comparison
-    asDebugStriing(): String
-    check(): Range[\I\]
-    shiftLeft(amount: I): Range[\I\]
-    shiftRight(amount: I): Range[\I\]
+    abstract check(): Range[\I\]
+    abstract shiftLeft(amount: I): Range[\I\]
+    abstract shiftRight(amount: I): Range[\I\]
     opr << (self, amount: I): Range[\I\]
     opr >> (self, amount: I): Range[\I\]
 end
@@ -2209,10 +2229,13 @@ trait OpenRange[\I\] extends PartialRange[\I\]
     getter right(): Nothing[\I\]
     getter extent(): Nothing[\I\]
     getter isEmpty(): Boolean
+    abstract forward(): OpenRange[\I\]
     narrowToRange(other:OpenRange[\I\]): Range[\I\]
     opr FORWARD_CMP(self, other:OpenRange[\I\]): Comparison
     opr FORWARD_CMP(self, other:Range[\I\]): Comparison
     opr IN(n: I, self): Boolean
+    shiftLeft(amount: I): OpenRange[\I\]
+    shiftRight(amount: I): OpenRange[\I\]
 end
 
 object TrivialOpenRange extends OpenRange[\Any\]
@@ -2225,7 +2248,7 @@ object TrivialOpenRange extends OpenRange[\Any\]
 end
 
 trait RangeWithExtent[\I\] extends Range[\I\]
-    getter extent(): Just[\I\]
+    abstract getter extent(): Just[\I\]
 end
 
 trait ExtentRange[\I\] extends { RangeWithExtent[\I\], PartialRange[\I\] }
@@ -2237,17 +2260,17 @@ trait ExtentRange[\I\] extends { RangeWithExtent[\I\], PartialRange[\I\] }
 end
 
 trait BoundedRange[\I\] extends Range[\I\]
-    getter leftOrRight(): I
+    abstract getter leftOrRight(): I
     abstract flip(): BoundedRange[\I\]
-    every(s: I): BoundedRange[\I\]
-    atMost(n: I): FullRange[\I\] where { I extends Index }
-    opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
+    abstract every(s: I): BoundedRange[\I\]
+    abstract atMost(n: I): FullRange[\I\] where { I extends Index }
+    abstract opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
     narrowToRange(other:OpenRange[\I\]): BoundedRange[\I\]
     abstract narrowToRange(other:Range[\I\]): BoundedRange[\I\]
 end
 
 trait RangeWithLeft[\I\] extends BoundedRange[\I\]
-    getter left(): Just[\I\]
+    abstract getter left(): Just[\I\]
     getter leftOrRight(): I
 end
 
@@ -2259,7 +2282,7 @@ trait LeftRange[\I\] extends { RangeWithLeft[\I\], PartialRange[\I\] }
 end
 
 trait RangeWithRight[\I\] extends BoundedRange[\I\]
-    getter right(): Just[\I\]
+    abstract getter right(): Just[\I\]
 end
 
 trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
@@ -2271,7 +2294,7 @@ trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
 end
 
 trait FullRange[\I extends Index\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I, I\] }
-    getter extent(): Just[\I\]
+    abstract getter extent(): Just[\I\]
     narrowToRange(other:OpenRange[\I\]): FullRange[\I\]
     abstract narrowToRange(other:Range[\I\]): FullRange[\I\]
     abstract opr IN(n: I, self): Boolean
@@ -2662,7 +2685,7 @@ trait SomeGenerator2 end  (* marking for GG *)
 (* non-filtered GG *)
 trait Generator2[\ E \]
   extends {Generator[\ Generator[\ E \] \], SomeGenerator2}
-  getter seed() : Generator[\ E \]
+  abstract getter seed() : Generator[\ E \]
 
   generate2[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R
 
@@ -2679,8 +2702,8 @@ end
 (*---------------------------Relational Predicates -------------------------*)
 (* base of relational predicates condition *)
 trait RelationalPredicateCondition[\E\] extends { Condition[\()\] }
-  relation() : (E, E) -> Boolean
-  target() : Generator[\ E \]
+  abstract relation() : (E, E) -> Boolean
+  abstract target() : Generator[\ E \]
   cond[\G\](t: () -> G, e: () -> G) : G
 end
 
