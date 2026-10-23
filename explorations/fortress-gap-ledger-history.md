@@ -5975,3 +5975,27 @@ closed by ff19305cc
 closed by ff19305cc
 
 | 794 | under walk, a range subscript or the whole subscript `a[:]` of an `Array3` based above zero reads the wrong elements or raises: on a 2 by 2 by 2 array based at (1,1,1), `(a[(1,1,1)#(2,2,2)])[0,0,0]` is `a[2,2,2]`, and `a[:]` raises `IndexOutOfBounds` | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/tests/XXXArray3SliceAtNonzeroBase.fss` | climb batch 20 rung A | siblings: 793. `Array3.subarray` hands `SubArray3`, whose offsets are 0-based, the subscript's offset in the array's own index space, with no `- b0` (`Library/FortressLibrary.fss:3130-3135`); and `opr[_:TrivialOpenRange]` passes `(0,0,0)` (`:3112-3113`) where `Array2`'s passes `(b0,b1)` (`:2686-2687`), which the bounds check refuses: '([0,1] BY [0,1] BY [0,1]) left outside bounds ([1,2] BY [1,2] BY [1,2])'. Both the team's. Walk only. Fix: `(o0-b0, o1-b1, o2-b2)` in `subarray`, as `Array1.subarray` does (`:2456-2459`), and `(b0,b1,b2)` in `opr[:]`. |
+
+### Row 316
+
+rewritten
+
+| 316 | the compiled path's `String` declares `\|\|`, `\|\|\|`, `//` and `juxtaposition` with `self` on the left only, so `1 \|\| "a"` is refused on the compiled path, where walk answers `1a`, and `1 "a"` meets the same one-sided form | NEGATIVE-VERIFIED | implementation gap (prelude) | `basic/operators/juxtameaning.tex`, "Juxtaposition"; `library/default-libraries.tex`, "FortressLibrary" (subsection Ranges, trait `String`, typeset from `Library/FortressLibrary.fsi`) | none | ladder rung 5 | siblings: 76. `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37-40` declare each as `opr OP(self, b:Object)`: `(String, Object)->String is not applicable to an argument of type (IntLiteral, String)`. Walk's library has top-level `opr \|\|(a:Any, b:String)` and its kin, as for `juxtaposition`. The compiled `//` puts `makeCharacter(10)` between its operands (`CompilerBuiltin.fss:407`), where walk's `newline` is `lineSeparator` (`Library/String.fss:568`). The prelude goes at the switch-over. Probe `SkCompiledLeft.fss`, never committed: `explorations/compile-ladder/rung-library-meets/SKEPTIC.md` section 5. full text: history, row 316 |
+
+### Row 726
+
+rewritten
+
+| 726 | the code generator stops on two functional methods of a symbolic operator with the same parameter types at two `self` positions, which the checker does not check (row 584): `opr \|\|(self, y: S)` beside `opr \|\|(x: S, self)` in one trait | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXNoDuplicatesRuleSelfPositionsOperator.test` | climb batch 15 rung O's skeptic | siblings: 584, 707, 727. 'Likely bug in static analysis, apparently malformed overload set not rejected' (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:410-411` at cdb84fba5): `isDeclaredName` admits an operator to the duplicate check only where `NodeUtil.validOp` holds, capitals and eight words, so no symbolic one (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:742-746`); its check of abstract functional methods reads none either. Walk refuses the pair at load. F-223. `FlatString`'s api declares each `\|\|` with `self` first (`Library/FlatString.fsi:16-21`); `String`'s four families are top-level operators since row 585's repair. |
+
+### Row 803
+
+rewritten
+
+| 803 | the compiled checker's solver recurses without end on an intersection that holds an inference variable beside its F-bound, as `#T & Numb & AddG[\#T\] & AddG[\#V\]`: `Formula.tImplies` and `primImp` call each other through `TypeAnalyzer.excludes` to a `StackOverflowError`, also at a 1 GB stack | NEGATIVE-BOUNDED | implementation gap (checker) | silent | `explorations/perf-probes/self-type-exclusion/REPORT.md` | the self-type exclusion probe | siblings: 736. `Formula.scala:282` (`tImplies`' `pu1.exists(t1 => primImp(p, ta.excludes(e2, t1)))`) and `:287-292` at aa5ff2423; the team's comment there says a recursive implies will not terminate, and `forall`'s `stackLevel` guard (`:308-314`) is not on this path. Reached from `normConjunct`'s subtype test (`TypeAnalyzer.scala:779`) under `equivalent(body, BOTTOM)`: `shadow.py bounds keepvar`, typecheck of the probe's `VecPairsLeft`. The exclusion test as built reads each parameter as its bounds alone and does not meet it (`compiler_tests/ExclusionBoundsScalarLeft`). |
+
+### Row 803
+
+rewritten
+
+| 803 | the compiled checker's solver recurses without end on an intersection that holds an inference variable beside its F-bound, as `#T & Numb & AddG[\#T\] & AddG[\#V\]`: `Formula.tImplies` and `primImp` call each other through `TypeAnalyzer.excludes` to a `StackOverflowError`, also at a 1 GB stack | NEGATIVE-BOUNDED | implementation gap (checker) | silent | `explorations/perf-probes/self-type-exclusion/REPORT.md` | the self-type exclusion probe | siblings: 736. `Formula.scala:282` (`tImplies`' `pu1.exists(t1 => primImp(p, ta.excludes(e2, t1)))`) and `:287-292` at aa5ff2423; the team's comment there says a recursive implies will not terminate, and `forall`'s `stackLevel` guard (`:308-314`) is not on this path. Reached from `normConjunct`'s subtype test (`TypeAnalyzer.scala:787`) under `equivalent(body, BOTTOM)`: `shadow.py bounds keepvar`, typecheck of the probe's `VecPairsLeft`. The exclusion test as built reads each parameter as its bounds alone and does not meet it (`compiler_tests/ExclusionBoundsScalarLeft`). |
