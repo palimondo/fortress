@@ -1,0 +1,3 @@
+tests=XXXComprisesWhereFunctionalMethodBounds
+compile
+compile_err_contains=Invalid overloading of cat in component XXXComprisesWhereFunctionalMethodBounds

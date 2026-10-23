@@ -1,0 +1,3 @@
+tests=XXXSymbolicOperatorOverloadUnrelated
+compile
+compile_err_contains=Invalid overloading of + in component XXXSymbolicOperatorOverloadUnrelated

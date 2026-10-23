@@ -1,0 +1,14 @@
+component XXXImportExceptOperator
+import ImportExceptOperatorApi.{...} except { opr - }
+export Executable
+
+(* An operator that an import's except clause lists is not imported, so the component's own declaration of it at the api's parameter types overloads with none of the api's (source-code.tex, section "Import Statements"). *)
+
+opr -(x: Pm, y: Pm): ZZ32 = 2
+
+run(): () = do
+  assert(Pm1 - Pm1, 2, "the component's own -, the api's left out by except")
+  println("PASS")
+end
+
+end

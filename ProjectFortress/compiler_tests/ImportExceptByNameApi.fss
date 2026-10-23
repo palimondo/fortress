@@ -1,0 +1,8 @@
+(* The component of ImportExceptByNameApi. *)
+component ImportExceptByNameApi
+import ImportExceptOverloadApi.{ P }
+export ImportExceptByNameApi
+
+pick(x: P): ZZ32 = 3
+
+end

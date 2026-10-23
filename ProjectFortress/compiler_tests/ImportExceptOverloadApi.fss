@@ -1,0 +1,9 @@
+(* The component of ImportExceptOverloadApi. *)
+component ImportExceptOverloadApi
+export ImportExceptOverloadApi
+
+trait P end
+object P1 extends P end
+pick(x: P): ZZ32 = 1
+
+end

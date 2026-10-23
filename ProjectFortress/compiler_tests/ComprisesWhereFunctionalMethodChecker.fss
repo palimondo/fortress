@@ -1,0 +1,18 @@
+(* A functional method of a trait whose comprises clause lists a type at a type where-clause variable is read outside the trait, beside the listed type's definition of it and at a call, as a method of the trait itself. *)
+component ComprisesWhereFunctionalMethodChecker
+export Executable
+
+trait AnyC comprises { C[\E\] } where [\E extends Object\]
+  cat(self, f: AnyC): AnyC
+end
+trait C[\E\] extends AnyC
+  cat(self, f: AnyC): AnyC = self
+end
+object Ci[\E\](item: E) extends C[\E\] end
+
+run(): () = do
+  x: AnyC = cat(Ci[\ZZ32\](3), Ci[\String\]("s"))
+  println("PASS")
+end
+
+end

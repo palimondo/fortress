@@ -1,0 +1,11 @@
+(* The component of OperatorPrefixInfixApi. *)
+component OperatorPrefixInfixApi
+export OperatorPrefixInfixApi
+
+trait Pt
+  opr -(self): ZZ32 = 1
+  opr -(self, other: Pt): ZZ32 = 2
+end
+object Pt1 extends Pt end
+
+end

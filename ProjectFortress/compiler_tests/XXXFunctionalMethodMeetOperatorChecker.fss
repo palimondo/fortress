@@ -1,0 +1,18 @@
+component XXXFunctionalMethodMeetOperatorChecker
+export Executable
+
+(* An object that inherits two functional methods of one symbolic operator whose parameter types overlap, and provides no declaration on their meet, is no valid overloading, a static error the type checker gives for an operator as for a function (overloading.tex, section "Meet Rule"). *)
+
+trait S excludes { String }
+  opr ||(self, b: ZZ32): ZZ32 = 1
+end
+trait T excludes { String }
+  opr ||(self, b: ZZ32): ZZ32 = 2
+end
+object Vo extends { S, T } end
+
+run(): () = do
+  println("PASS")
+end
+
+end

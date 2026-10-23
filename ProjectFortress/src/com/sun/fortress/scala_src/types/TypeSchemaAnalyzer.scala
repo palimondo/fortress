@@ -467,8 +467,8 @@ class TypeSchemaAnalyzer(implicit val ta: TypeAnalyzer) {
       case STupleType(i, es, vt, ks) => STupleType(i, es.map(top), vt, ks)
       case SIntersectionType(i, es) => SIntersectionType(i, es.map(top))
       case SUnionType(i, es) => SUnionType(i, es.map(top))
-      case STraitSelfType(_, named, comprised) if !comprised.isEmpty =>
-        NF.makeIntersectionType(toJavaList(List(top(named), top(NF.makeMaybeUnionType(toJavaList(comprised.map(_.asInstanceOf[Type])))))))
+      case s: TraitSelfType if !ta.selfComprised(s).isEmpty =>
+        NF.makeIntersectionType(toJavaList(List(top(s.getNamed), top(NF.makeMaybeUnionType(toJavaList(ta.selfComprised(s).map(_.asInstanceOf[Type])))))))
       case STraitSelfType(_, named, _) => top(named)
       case _ => x
     }

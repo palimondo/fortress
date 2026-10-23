@@ -576,7 +576,7 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     object remover extends Walker {
       override def walk(y: Any): Any = y match {
         case t:TraitSelfType =>
-          if (t.getComprised.isEmpty)
+          if (selfComprised(t).isEmpty)
             t.getNamed
           else
             NF.makeIntersectionType(t.getNamed, NF.makeMaybeUnionType(t.getComprised))
@@ -600,6 +600,24 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       }
     }
     remover(x).asInstanceOf[Type]
+  }
+
+  /* The types that self's type t lists beside its trait, as this analyzer reads them: none
+   * where the trait's comprises clause lists them at a where-clause variable that the kind
+   * environment does not bind, as outside the trait's declaration, where a functional
+   * method's signature is read. The trait comprises its listed types at every value of the
+   * variable, so the trait type alone holds the values that its self type holds. */
+  def selfComprised(t: TraitSelfType): List[NamedType] = {
+    val comprised = toListFromImmutable(t.getComprised)
+    if (comprised.isEmpty) Nil
+    else t.getNamed match {
+      case tt: TraitType => toOption(traits.typeCons(tt.getName)) match {
+        case Some(ti: ProperTraitIndex) if whereSizes(ti).exists(w => {
+            traits.readContext(); env.staticParam(w.getName).isEmpty }) => Nil
+        case _ => comprised
+      }
+      case _ => comprised
+    }
   }
   
 

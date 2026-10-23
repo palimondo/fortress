@@ -245,6 +245,15 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
     }
 
 
+    /* Whether the on-demand import i of the api index imports a functional or variable
+     * whose name has the text name: once for the api, though several of its names have
+     * that text, as a prefix and an infix operator do; and not where i's except clause
+     * lists the name (source-code.tex, "Import Statements"). */
+    private def importsOnDemand(index: CompilationUnitIndex, i: ImportStar, name: String): Boolean =
+      !toListFromImmutable(i.getExceptNames).exists(m => m.asInstanceOf[IdOrOp].getText.equals(name)) &&
+      (toSet(index.functions.firstSet).exists(n => n.asInstanceOf[IdOrOp].getText.equals(name)) ||
+       toSet(index.variables.keySet).exists(n => n.asInstanceOf[IdOrOp].getText.equals(name)))
+
     /* Called by com.sun.fortress.compiler.StaticChecker.checkComponent
      *       and com.sun.fortress.compiler.StaticChecker.checkApi
      */
@@ -258,7 +267,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         val importNames = importItems.filter(_.isInstanceOf[ImportNames]).map(_.asInstanceOf[ImportNames])
 
         // First check names of functions declared in this component.
-        for ( f <- toSet(functions) ; if isDeclaredName(f) ) {
+        for ( f <- toSet(functions) ; if isCheckedName(f) ) {
           val name = f.asInstanceOf[IdOrOp].getText
           var set = getFunctionsFromCompilationUnit(compilation_unit, f)
 
@@ -278,15 +287,8 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
           
           for ( i <- importStars ) {
             val index = globalEnv.lookup(i.getApiName)
-            val excepts = toListFromImmutable(i.getExceptNames).asInstanceOf[List[IdOrOp]]
-            for ( n <- toSet(index.functions.firstSet).++(toSet(index.variables.keySet)) ) {
-              val text = n.asInstanceOf[IdOrOp].getText
-              if ( text.equals(name) &&
-                   ! excepts.contains((m:IdOrOp) => m.getText.equals(text)) ) {
-                // get the JavaFunctionals from the api and add them to set
-                set ++= getFunctions(index, f)
-              }
-            }
+            // get the JavaFunctionals from the api and add them to set
+            if ( importsOnDemand(index, i, name) ) set ++= getFunctions(index, f)
           }
           
           // debugging probe: TypeError.b3(name, f, set)
@@ -312,15 +314,8 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
           
           for ( i <- importStars ) {
             val index = globalEnv.lookup(i.getApiName)
-            val excepts = toListFromImmutable(i.getExceptNames).asInstanceOf[List[IdOrOp]]
-            for ( n <- toSet(index.functions.firstSet).++(toSet(index.variables.keySet)) ) {
-              val text = n.asInstanceOf[IdOrOp].getText
-              if ( text.equals(name) &&
-                   ! excepts.contains((m:IdOrOp) => m.getText.equals(text)) ) {
-                // get the JavaFunctionals from the api and add them to set
-                fMethods ++= getFunctionalMethods(index, f)
-              }
-            }
+            // get the JavaFunctionals from the api and add them to set
+            if ( importsOnDemand(index, i, name) ) fMethods ++= getFunctionalMethods(index, f)
           }          
           
           checkFancyRule(f, dFunctions, fMethods, globalOracle)
@@ -350,15 +345,8 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
             }
             for ( i <- importStars ) {
               val index = globalEnv.lookup(i.getApiName)
-              val excepts = toListFromImmutable(i.getExceptNames).asInstanceOf[List[IdOrOp]]
-              for ( n <- toSet(index.functions.firstSet).++(toSet(index.variables.keySet)) ) {
-                val text = n.asInstanceOf[IdOrOp].getText
-                if ( text.equals(name) &&
-                     ! excepts.contains((m:IdOrOp) => m.getText.equals(text)) ) {
-                  // get the JavaFunctionals from the api and add them to set
-                  set ++= getFunctions(index, g.getName)
-                }
-              }
+              // get the JavaFunctionals from the api and add them to set
+              if ( importsOnDemand(index, i, name) ) set ++= getFunctions(index, g.getName)
             }
             checkFunctionOverloading(kindAndName, g.getName, set, globalOracle)
           }
@@ -405,7 +393,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 	        // the methods the trait or object provides, by the traits chapter's inheritance
 	        val (methodsR, overridden) = providedAndOverridden(tt, allMethods(tt, typeAnalyzer), typeAnalyzer, paramsWithoutSelf)
 
-	        for (f <- toSet(methodsR.firstSet) ; if isDeclaredName(f) ) {
+	        for (f <- toSet(methodsR.firstSet) ; if isCheckedName(f) ) {
                   val mset = toSet(methodsR.matchFirst(f))
 	              val dottedMethods = mset.filter(x => x match { case (m, str, tt) => m.isInstanceOf[JavaMethod] &&
 	      	      		  		     	     	      m.asInstanceOf[JavaMethod].selfType.isSome })  // unsure why this second condition
@@ -414,7 +402,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
 	              checkMethodOverloading(traitKindAndName, f, toFunctionalMethodArrows(functionalMethods, oracle), oracle)
 	        }
 	        // a declaration and one it keeps from being inherited: their return types
-	        for ((f, o, p, equal) <- overridden ; if isDeclaredName(f))
+	        for ((f, o, p, equal) <- overridden ; if isCheckedName(f))
 	          checkOverridingReturnType(f, o, p, equal, oracle)
             typeAnalyzer = oldTypeAnalyzer
             staticParamsInScope = Nil
@@ -607,9 +595,10 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
       val (ga, gsp, _) = second
       true
       
-      if (oa.lteq(fa, ga)) { true }
+      // the one test that reads no type, first
+      if (functionalMethodsAtOnePosition(first, second, isMethod)) { true }
+      else if (oa.lteq(fa, ga)) { true }
       else if (oa.lteq(ga, fa)) { true }
-      else if (functionalMethodsAtOnePosition(first, second, isMethod)) { true }
       else if (meetRule(first, second, signatures, isMethod, oa, debug)) { true }
       else if (oa.excludes(forExclusion(fa), forExclusion(ga))) { true }
       else { coverageRule(first, second, signatures, isMethod, oa) }
@@ -772,6 +761,15 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         case SId(_,_,str) => IdentifierUtil.validId(str)
         case SOp(_,_,str,_,_) => NU.validOp(str)
         case _ => false
+    }
+
+    // the names whose declarations the overloading rules are checked for: every operator,
+    // symbolic ones such as + and the subscripts as well as those named by a word of
+    // capitals, and each identifier that isDeclaredName admits (overloading.tex,
+    // "Principles of Overloading"); the export check reads isDeclaredName itself
+    def isCheckedName(f: IdOrOpOrAnonymousName) = f match {
+        case SOp(_,_,_,_,_) => true
+        case _ => isDeclaredName(f)
     }
 
     def isDeclaredMethod(f: JavaFunctional) = f match {

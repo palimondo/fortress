@@ -1,0 +1,3 @@
+tests=XXXImportExplicitHidesOnDemand
+compile
+compile_err_contains=There are multiple declarations of pick
