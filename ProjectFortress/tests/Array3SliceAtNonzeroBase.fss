@@ -1,5 +1,5 @@
 (* A range subscript and the whole-array subscript of a rank-3 array based above zero hold that array's elements at the subscripted indices. *)
-component XXXArray3SliceAtNonzeroBase
+component Array3SliceAtNonzeroBase
 export Executable
 
 sliceAt3[\nat b0, nat b1, nat b2\](): () = do

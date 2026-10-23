@@ -1,0 +1,17 @@
+(* The library's =/= and its three-argument assert read the = that a value's own type declares. *)
+component XXXNotEqualOwnEquality
+export Executable
+
+object P(x: ZZ32)
+    opr =(self, other: P): Boolean = (x = other.x)
+end
+
+run(): () = do
+    assert(P(1) = P(1), "P's own = compares the field x")
+    assert(P(1) =/= P(2), "opr-overview.tex, the sentence on e =/= e' that closes subsection \"GCD, LCM, and CHOOSE Operators\": P(1) and P(2) are unequal")
+    assert(NOT (P(1) =/= P(1)), "opr-overview.tex, the sentence on e =/= e' that closes subsection \"GCD, LCM, and CHOOSE Operators\": e =/= e' is NOT (e = e')")
+    assert(P(1), P(1), "two P(1) are equal by P's own =")
+    println("PASS")
+  end
+
+end

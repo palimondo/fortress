@@ -1,5 +1,5 @@
 (* A column, a row and a range subscript of a rank-2 array based above zero hold that array's elements at the subscripted indices. *)
-component XXXArray2SliceAtNonzeroBase
+component Array2SliceAtNonzeroBase
 export Executable
 
 sliceAt[\nat b0, nat b1\](): () = do
