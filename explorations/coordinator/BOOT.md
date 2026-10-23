@@ -2,18 +2,17 @@
 
 # Boot note
 
-**State at 01:10 UTC on 2026-10-23** (03:10 his time). The post-mortem and record consolidation of 10-20 to 22 are done, and the batch hold lifted with its report, at his word of 22:43 on 10-22.
+**State at 01:45 UTC on 2026-10-23** (03:45 his time). The post-mortem and record consolidation of 10-20 to 22 are done, and the batch hold lifted with its report, at his word of 22:43 on 10-22. The compaction of about 01:40 was followed by a full boot.
 
 ## Running
 
-Two Opus Agent-tool workers, batch 21's probes, at his word of 23:4x on 10-22 to use the week's last percent now:
+One Opus Agent-tool worker, batch 21's last probe, at his word of 23:4x on 10-22 to use the week's last percent now:
 
-- **Walk's half of conditional extension (row 774):** launched 23:51 on 10-22, spend epoch 1792713037, estimate about 0.8M (0.36M at 01:07). Brief `compile-ladder/plan-21/evidence/briefs/probe-walk-conditional-extension.md`; branch `wip/probe-walk-cond-ext`; report `perf-probes/walk-conditional-extension/REPORT.md` in its worktree, or `scratchpad/probe-walk-cond-ext-REPORT.md` if the Write tool refused it.
-- **The team's demos (P-79):** launched 00:41, spend epoch 1792716053, estimate about 0.5M (0.14M at 01:07). Brief `compile-ladder/plan-21/evidence/briefs/probe-team-demos.md`; branch `wip/probe-team-demos`; report `perf-probes/team-demos/REPORT.md`, or `scratchpad/probe-team-demos-REPORT.md`.
+- **The team's demos (P-79):** launched 00:41, spend epoch 1792716053, estimate about 0.5M (0.26M at 01:44, in its final full demo run). Brief `compile-ladder/plan-21/evidence/briefs/probe-team-demos.md`; branch `wip/probe-team-demos`; worktree `/home/user/fortress-probe-team-demos`; report `perf-probes/team-demos/REPORT.md` in its worktree, or `scratchpad/probe-team-demos-REPORT.md` if the Write tool refused it.
 
-When one ends: read its report whole, bring it and its patch onto `main` under `perf-probes/`, with an INDEX line; push; remove its worktree once its branch is pushed.
+When it ends: read its report whole, bring it and its patch onto `main` under `perf-probes/`, with an INDEX line; push; remove its worktree once its branch is pushed.
 
-**Check-ins:** "Batch 21 probes check-in 3" at 01:53 UTC, then 45 minutes apart while a probe runs; "Batch 21 preparation start" at 10:05 UTC on 10-23, after the weekly reset.
+**Check-ins:** "Batch 21 probes check-in 3" at 01:53 UTC, then 45 minutes apart while the probe runs; "Batch 21 preparation start" at 10:05 UTC on 10-23, after the weekly reset.
 
 ## Waiting on him
 
@@ -22,16 +21,17 @@ When one ends: read its report whole, bring it and its patch onto `main` under `
 
 ## Landed since the compaction of 23:20 UTC on 10-22
 
+- The walk probe of row 774 (`7a6e3afe0`, `perf-probes/walk-conditional-extension/`): the fix turns the gate test; with it 10 interpreter tests and 1 specification example go red, by three causes (a list built at a run-time class, `<|1,2|>` a `List[\Int\]`, loses its order, row 364; the library's `=/=` and three-argument `assert` reach a list's `=` only through `LexicographicOrder`, a defect today for any user `=`; P-154's intended loss, QuickCheck); `List` extending `Equality[\List[\E\]\]`, two written `[\ZZ32\]` and QuickCheck keyed by strings clear them. Its four questions (section 11) and its two drafted ledger notes (section 7) go to the planner; the `=/=` defect has no row yet. Its worktree removed.
 - The post-mortem report rewritten in a neutral register for researchers (`db6e890c3`), and its section 6 with the cost of each phase (`44f2a2fd9`: workers 58.98M, the coordinator 4.92M, all 63.90M); the page at version 3. Its map and briefs, and the ledger clarity run's chunks, moved into `evidence/` by `git mv`.
 - The export check run to its end (`13d80a540`): 115 differences behind the 43 entries; 4h with 19 follow-on api lines keeps the distance at 5 and the entries fall to 20, 4i to 15. Its defects: the distance table shows a library that does not parse as no total, and `errors.py` takes prefix operators (`c21177829`); rows 800 to 802 for the export check (`9d8119024`).
 - The skill re-attachment archaeology (`3a7adac8f`): old behaviour, since 08-19.
 - The boot's step 0 by `tools/model-now.sh` in place of `get_session` (`db2b751b1`, `404599414`).
 - The coordinator skill: a run's working files into `evidence/`, and `--session-id` for every headless run (`c24fcf50a`); a brief-file rule added and taken out again at his word, since the model's habit serves (`5427e7208`).
-- The eleven old worktrees, each checked, removed: 7.3 GB free.
+- The eleven old worktrees, each checked, removed: 7.8 GB free.
 
 ## Next
 
-- **Climb batch 21's preparation, on defaults** (PLAN, phase 3, item 19), at his word of 22:43 on 10-22: put only critical decisions to him; the launch needs his go. The planner starts after the reset, from the probes' reports. For it, besides the candidates: the gated `XXX` tests of rows 800 to 802 (shapes in `tmp/export-rows/`), and the checker-count stage's same gap (a library that does not parse reads as its parse-error count). The four candidates that wait on his answers do not block it: the symbolic-operators probe's five questions (`perf-probes/symbolic-operators-2/REPORT.md`), row 774's question, review item 177 (row 773) and item 9 (`tint`).
+- **Climb batch 21's preparation, on defaults** (PLAN, phase 3, item 19), at his word of 22:43 on 10-22: put only critical decisions to him; the launch needs his go. The planner starts after the reset, from the probes' reports: `perf-probes/export-check-full/`, `perf-probes/walk-conditional-extension/` and the demos probe's. For it, besides the candidates: the gated `XXX` tests of rows 800 to 802 (shapes in `tmp/export-rows/`), the checker-count stage's same gap (a library that does not parse reads as its parse-error count), and the walk probe's `=/=` row and row 774 note. The candidates that wait on his answers do not block it: the symbolic-operators probe's five questions (`perf-probes/symbolic-operators-2/REPORT.md`), review item 177 (row 773) and item 9 (`tint`).
 - **The ledger repair**, about 180 open rows (`ledger-health-2026-10-22/REPORT.md`), after the reset, if budget allows; the 40 refused notes first.
 - **PLAN's consolidation**, a later cleanup over the weekend beside the climb batches (PLAN, "Work that can start now", item 1).
 
