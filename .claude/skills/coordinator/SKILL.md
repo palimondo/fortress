@@ -228,7 +228,7 @@ At session start and after each compaction, take these steps in order:
 - Rewrite the boot note whole at every change. Never append to it.
 - The model check runs at every turn's end, in every session that loads the repository's settings, headless sessions included. Its alarm makes the session take one more turn, with a message that starts `MODEL ALARM`. On the alarm:
   - make the alarm the first line of your reply, and send it as a push notification;
-  - do no other work until `get_session` shows Opus or Fable again, or the curator says to go on.
+  - do no other work until step 0's check shows Opus or Fable again, or the curator says to go on.
 
   The alarm holds over the rules of "Quiet times", also over the "." reply at a check-in. A go on holds until the model changes again. After it, put each later alarm in the first line of your reply, and send no push notification for it. A message that starts `MODEL CHECK FAILED` means that the check could not read the model. Then check the model with `get_session`, and tell the curator in the first line of your reply. If the model is Opus or Fable, go on. If it is not, act as on the alarm.
 
