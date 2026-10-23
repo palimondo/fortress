@@ -1,5 +1,6 @@
-#  The briefing and checks lists of climb batch 21's seven rungs, in its two runs: S, B, V and N (run 1, climb batch 21)
-# and C, E and D (run 2, climb batch 21b) (CLIMB-BATCH-21.md, section 3), in batch 20's form
+#  The briefing and checks lists of climb batch 21's seven rungs, in its two runs: S, B, X and N (run 1, climb batch 21)
+# and C, E and D (run 2, climb batch 21b); rung X took rung V's place on the curator's answer on P-157, and V's lists
+# went with it (CLIMB-BATCH-21.md, section 3), in batch 20's form
 # (explorations/compile-ladder/plan-20/manifest/lists20.py) for the batch workflow
 # (explorations/coordinator/process-engineering/batch-redesign.md, "The brief"): each list holds what the rung's section
 # cites, the decisions, the ledger rows, the specification's sections, the notes and the code it rests on, and no
@@ -15,6 +16,8 @@ SRC = 'ProjectFortress/src/com/sun/fortress'
 TA = SRC + '/scala_src/types/TypeAnalyzer.scala'
 OC = SRC + '/scala_src/typechecker/OverloadingChecker.scala'
 EC = SRC + '/scala_src/typechecker/ExportChecker.scala'
+TSA = SRC + '/scala_src/types/TypeSchemaAnalyzer.scala'
+OO = SRC + '/scala_src/overloading/OverloadingOracle.scala'
 FL = 'Library/FortressLibrary.fss'
 FLI = 'Library/FortressLibrary.fsi'
 
@@ -23,6 +26,8 @@ SOP = "doc:explorations/perf-probes/symbolic-operators-2/"
 EX = "doc:explorations/perf-probes/export-check-full/REPORT.md#"
 WC = "doc:explorations/perf-probes/walk-conditional-extension/REPORT.md#"
 TD = "doc:explorations/perf-probes/team-demos/REPORT.md#"
+A1 = "doc:explorations/perf-probes/self-type-exclusion/REPORT.md#"
+A1P = "doc:explorations/perf-probes/self-type-exclusion/"
 TJ = "doc:explorations/reviews/type-decisions-review/judgement.md#"
 CHG = "doc:Specification/appendices/changes.tex#"
 REC = "doc:explorations/coordinator/CLIMB-BATCH-21.md#"
@@ -96,23 +101,40 @@ B_CHECKS = [
   "doc:Specification/basic/types-vals-vars.tex#Tuple Types",
 ]
 
-V_BRIEFING = [
-  ("P-157", "The decision your rung builds: Vector and Matrix keep their own operators and leave AdditiveGroup, arrays excluding every additive group."),
+X_BRIEFING = [
+  ("P-157", "The decision your rung builds: Vector and Matrix stay additive groups, and the exclusion test reads the self type and the static parameters' bounds."),
+  ("P-146", "The self type in bodies, the plain signatures, and the one reading in a signature that your rung adds: the exclusion test's."),
+  ("P-152", "Exclusion over the whole parameter type by existential reduction, whose reduction your rung makes read the bounds."),
   ("P-88", "The scalar block that microGPT uses, which stays beside the vectors' own operators."),
-  ("P-146", "Why the vectors give way: the overload check reads a self-typed trait's self in a signature as the plain trait type."),
-  ("F-245", "The full check's 8 vector errors your rung clears."),
-  (SO + "3.2 A vector plus a number beside a vector plus a vector", "The vectors' eight errors and the ways, A2 the one taken, with what each moves under walk."),
-  (SOP + "vector-not-additive-group.patch", "Your library text as the probe measured it."),
-  (SOP + "designs.py", "The generator of your text, vecA2."),
-  (SOP + "run-shadow.sh", "The full-check distance stage, your test for the library's sites."),
-  (TJ + "V1. The chain bends in one place that matters: P-146's signature half forces P-157, and P-157 overrules the team's library on a conflict that is the checker's, not the library's.", "Why the rung stands apart: the judgement's case that P-157 should wait for a checker probe."),
-  ("code:" + FLI + "#trait HasRank", "The arrays' root, which excludes every additive group after your rung."),
-  ("code:" + FLI + "#trait Vector[", "The api's Vector, whose header loses AdditiveGroup."),
+  ("P-155", "The full check, under which the 8 pairs your rung clears are refused."),
+  ("P-148", "Your rung changes the checker: it times the count stage and makes the change fast."),
+  ("F-245", "The full check's 8 vector errors, which your rung clears."),
+  ("F-225", "The self type as the checker builds it today, read from the F-bound or from the comprises clause."),
+  ("ledger:584", "The full check's row, which gains probe A1's note."),
+  ("ledger:786", "tint, refused under your change as before: the row gains probe A1's note and your guard."),
+  (A1 + "In short", "Probe A1 in one page: the two shadows, what each clears alone and together, and what did not move."),
+  (A1 + "2.1 Shadow (i): the self type in the exclusion test only (self-exclusion.patch, word selfexc)", "Shadow (i): what the tree does, the second arrow, and what keeps the plain signature."),
+  (A1 + "2.2 Shadow (ii): the bounds in the exclusion test's reduction (bound-exclusion.patch, word bounds)", "Shadow (ii): why the solver needs the bounds, the new emptiness test, and the global variant not taken."),
+  (A1 + "3. The distance stage with the full check on", "The full-check figures under each shadow, site by site, with the changes of wording."),
+  (A1 + "5. The probes", "Your compiled tests' programs: the common lines, each declaration and its verdicts, the negative probes and tint."),
+  (A1 + "8. Defects", "The solver's recursion with its draft row, which you file, and the notes for rows 584 and 786."),
+  (A1 + "9. Decisions", "The probe's choices: the exclusion test only, the bounds in the constraint generator, disjunct by disjunct, the declaration's own parameters."),
+  (A1P + "self-exclusion.patch", "Shadow (i) as the probe measured it."),
+  (A1P + "bound-exclusion.patch", "Shadow (ii) as the probe measured it."),
+  (SOP + "run-shadow.sh", "The full-check distance stage, your test for the 8 sites."),
+  (REC + "Probe A1, after the record was drafted", "The record's account of probe A1."),
+  (TJ + "V1. The chain bends in one place that matters: P-146's signature half forces P-157, and P-157 overrules the team's library on a conflict that is the checker's, not the library's.", "The judgement's case that the 8 pairs are valid under the designers' rules and refused for two gaps of the exclusion test."),
+  ("doc:explorations/reviews/self-typed-bodies-judgement.md#Rule (a) alone, as section 6 asks", "The stall path watched when the exclusion test of an intersection was tried, which your timing watches."),
+  ("code:" + OC + "#    private def toFunctionArrows(", "Where the overloading check makes a declaration's arrow: shadow (i)'s first place."),
+  ("code:" + OC + "#    private def validOverloadingInner(", "The overloading rules over two arrows, whose exclusion test reads the second arrow."),
+  ("code:" + TSA + "#  def emptyED(", "The emptiness test beside which shadow (ii)'s goes."),
+  ("code:" + OO + "#  def excludes(fa: ArrowType, ga: ArrowType)", "The exclusion test, which takes shadow (ii)'s as a third way to be valid."),
+  ("code:" + TA + "#  protected def removeSelf(x", "How the checker reads a self type as the trait met with the implementing type."),
 ]
-V_CHECKS = [
-  "P-157", "F-245",
-  SO + "3.2 A vector plus a number beside a vector plus a vector",
-  SOP + "vector-not-additive-group.patch",
+X_CHECKS = [
+  "P-157", "P-146", "P-148", "ledger:786",
+  A1 + "In short", A1 + "5. The probes", A1 + "8. Defects",
+  A1P + "self-exclusion.patch", A1P + "bound-exclusion.patch",
 ]
 
 N_BRIEFING = [
@@ -215,9 +237,9 @@ D_CHECKS = [
   TD + "3.1 Demo by demo", "doc:explorations/perf-probes/team-demos/demos-repairs.patch",
 ]
 
-RUNS = {'1': ('S', 'B', 'V', 'N'), '2': ('C', 'E', 'D')}
+RUNS = {'1': ('S', 'B', 'X', 'N'), '2': ('C', 'E', 'D')}
 IDS = RUNS['1'] + RUNS['2']
-_B = {'S': (S_BRIEFING, S_CHECKS), 'B': (B_BRIEFING, B_CHECKS), 'V': (V_BRIEFING, V_CHECKS), 'N': (N_BRIEFING, N_CHECKS),
+_B = {'S': (S_BRIEFING, S_CHECKS), 'B': (B_BRIEFING, B_CHECKS), 'X': (X_BRIEFING, X_CHECKS), 'N': (N_BRIEFING, N_CHECKS),
       'C': (C_BRIEFING, C_CHECKS), 'E': (E_BRIEFING, E_CHECKS), 'D': (D_BRIEFING, D_CHECKS)}
 LISTS = {r: ([k for k, _ in _B[r][0]], _B[r][1]) for r in IDS}
 REASONS = {r: _B[r][0] for r in IDS}

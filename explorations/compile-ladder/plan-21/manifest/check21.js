@@ -3,19 +3,18 @@
 // $OUT21/manifest21b.js for run 2) spliced into a scratch copy of the workflow script, and with --write splices it into
 // the tracked script. As check20.js: node --check on the original and the spliced copy; both parsed as the body of an
 // async function, as the Workflow harness parses them, their export made const; every line outside the block
-// byte-identical; the block evaluated with the script's own load checks and scatter order; the run's rungs (S, B, V,
-// N for run 1, less any that --without names, C, E, D for run 2), their fields, no rung bringing a gate step, declaring a checker count, a crash,
+// byte-identical; the block evaluated with the script's own load checks and scatter order; the run's rungs (S, B, X,
+// N for run 1, C, E, D for run 2, less any that --without names), their fields, no rung bringing a gate step, declaring a checker count, a crash,
 // landsOnlyWith or a ladder move; each section equal to the rung's section 3 of the record (backticks dropped, the
 // ellipsis character as three full stops); briefing, reasons and checks equal to lists21.py's, one reason per key,
-// checks a sub-list of the briefing; S's and V's tests the stage and no other's; every section naming the count stage and
-// the distance stage; B's, C's and E's sections, which change the checker, naming P-148 and its speed pass, and the
+// checks a sub-list of the briefing; S's test the stage and no other's; every section naming the count stage and
+// the distance stage; B's, X's, C's and E's sections, which change the checker, naming P-148 and its speed pass, and the
 // others saying they make no speed pass; no backtick or non-ASCII character in any string the agents read; no text
 // asking a skeptic to see a failure again or a stage re-run without a code change (the coordinator skill's
 // references/batch.md, "The workflow"); no LEDGER_FROM; the record holding no copy of the block. Its last lines say
 // whether the tracked script's block equals the generated one, and count the problems.
-//   node check21.js --run 1|2 [--without X] [--write] [RECORD]      RECORD defaults to explorations/coordinator/CLIMB-BATCH-21.md
-// --without X checks the block that gen21.py --without X writes: the run's rungs less X (rung V, if the curator holds
-// P-157).
+//   node check21.js --run 1|2 [--without <rung>] [--write] [RECORD]      RECORD defaults to explorations/coordinator/CLIMB-BATCH-21.md
+// --without <rung> checks the block that gen21.py writes with the same argument: the run's rungs less that one.
 const fs = require('fs')
 const cp = require('child_process')
 const path = require('path')
@@ -25,13 +24,13 @@ const SRC = path.join(ROOT, 'explorations/coordinator/climb-batch-workflow.js')
 const argv = process.argv.slice(2)
 const WRITE = argv.includes('--write')
 const RUN = argv.includes('--run') ? argv[argv.indexOf('--run') + 1] : null
-if (RUN !== '1' && RUN !== '2') { console.log('usage: node check21.js --run 1|2 [--without X] [--write] [RECORD]'); process.exit(2) }
+if (RUN !== '1' && RUN !== '2') { console.log('usage: node check21.js --run 1|2 [--without <rung>] [--write] [RECORD]'); process.exit(2) }
 const WITHOUT = argv.map((a, i) => argv[i - 1] === '--without' ? a : null).filter(a => a !== null)
 const BATCH_NAME = RUN === '1' ? '21' : '21b'
-const RUN_IDS = (RUN === '1' ? ['S', 'B', 'V', 'N'] : ['C', 'E', 'D']).filter(x => !WITHOUT.includes(x))
-if (WITHOUT.some(x => !(RUN === '1' ? 'SBVN' : 'CED').includes(x))) { console.log('--without names a rung not in run ' + RUN); process.exit(2) }
-const STAGE_RUNGS = ['S', 'V']
-const CHECKER_RUNGS = ['B', 'C', 'E']
+const RUN_IDS = (RUN === '1' ? ['S', 'B', 'X', 'N'] : ['C', 'E', 'D']).filter(x => !WITHOUT.includes(x))
+if (WITHOUT.some(x => !(RUN === '1' ? 'SBXN' : 'CED').includes(x))) { console.log('--without names a rung not in run ' + RUN); process.exit(2) }
+const STAGE_RUNGS = ['S']
+const CHECKER_RUNGS = ['B', 'X', 'C', 'E']
 const REC = argv.filter((a, i) => !a.startsWith('--') && argv[i - 1] !== '--run' && argv[i - 1] !== '--without')[0] || path.join(ROOT, 'explorations/coordinator/CLIMB-BATCH-21.md')
 const block = fs.readFileSync(path.join(HERE, 'manifest' + BATCH_NAME + '.js'), 'utf8')
 const orig = fs.readFileSync(SRC, 'utf8')
