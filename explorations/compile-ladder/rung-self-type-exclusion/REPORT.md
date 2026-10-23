@@ -43,7 +43,7 @@ Nine compiled tests in `ProjectFortress/compiler_tests/`, each a component of A1
 | 8 | `XXXExclusionBoundsMeetAtObject` | NegShared | compile, `compile_err_contains` | green | green |
 | 9 | `XXXExclusionExcludingBoundsBox` | tint (row 786) | compile, `compile_err_contains=Invalid overloading of tint in component ...` | green | green |
 
-**The failing run**, on the base's code, before the change was first built (2026-10-23T13:38:58Z; the build of the change began at 13:41):
+**The failing run**, on the base's code, before the change was first built (2026-10-23T13:38:58Z; the run ended by 13:39:12, the patches were applied at 13:39:56 and the build of the change began at 13:42:28, by the transcript):
 
     ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh base ProjectFortress/compiler_tests <the nine .test files>
         Invalid overloading of PLUS in component ExclusionSelfTypeBoundsScalarRight:
