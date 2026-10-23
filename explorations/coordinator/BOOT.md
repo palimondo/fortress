@@ -2,14 +2,14 @@
 
 # Boot note
 
-**State at 11:05 UTC on 2026-10-23** (13:05 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
+**State at 12:04 UTC on 2026-10-23** (14:04 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
 
 ## Running
 
-- **Batch 21's planner**, an Opus Agent-tool worker launched at about 10:08 UTC: drafts `explorations/coordinator/CLIMB-BATCH-21.md` and `explorations/compile-ladder/plan-21/manifest/`, from the five probes (symbolic operators, export check, walk's conditional extension, team demos, rows 793 and 794), commits and pushes them itself. Estimate 2M to 3M written, a guess. Its brief is its launch prompt.
-- **Probe A1**, an Opus Agent-tool worker launched at about 11:04 UTC: checker shadows of the overload check's exclusion test reading a self-typed trait's `self` as `C[\X\] & X`, and of existential reduction carrying bounds, measured on the 8 vector sites with the full symbolic check on, on `wip/probe-a1` (worktree seeded from the base build); report `explorations/perf-probes/self-type-exclusion/REPORT.md` on that branch. Estimate 0.4M to 1M, a guess. The planner was told (at about 11:03 UTC) to keep P-157's A2 change separable, to keep P-156 with the judgement's three changes and the `atMost` drop as a question for him, and to take row 774's walk half out for `List extends Equality[\List[\E\]\]` and the `=/=` row.
-- **The type-decisions review landed**: the evidence map `105b4a46b` (0.70M) and the Fable judgement `28b6e27a0` (0.39M). The chain bends in one place: P-146's signature half, which forces P-157.
-- **Batch 21's base build**, `/home/user/fortress-base21` at `aa5ff2423`, built by the coordinator in the background (log `<scratchpad>/batch21/base-build.log`, done at `EXIT=0`). The planner seeds its probe worktrees from it. At the launch it serves as `args.baseBuild` if the base differs from it only in record files; otherwise build again at the base.
+- **The Fable review of batch 21's record**, a Fable Agent-tool worker launched at about 11:50 UTC (a go in advance): edits `CLIMB-BATCH-21.md` and its generator in place, writes `climb-batch-21-review.md`, commits and pushes. Told at about 12:03 of probe A1's result, to state in the record the other branch of rung V (a checker rung for the exclusion test). Estimate 0.5M to 1M, a guess.
+- **Batch 21's base build**, `/home/user/fortress-base21` at `aa5ff2423`, built and clean. At the launch it serves as `args.baseBuild` if the base differs from it only in record files; otherwise build again at the base.
+
+**Landed today for batch 21:** the record and generator (`e985c8f0a`, the planner, 0.30M written by its own count): run 1 rungs S, B, V (droppable), N; run 2 (21b) rungs C, E, D; the full check 191 to 5 with run 1. Probe A1 (`dd9d7619a`, 0.40M): the exclusion test reading `self` as `C[\X\] & X` and the reduction reading bounds clear the 8 vector sites together with no library line, nothing else moving. The type-decisions review (`105b4a46b`, `28b6e27a0`).
 
 **Check-ins:** "Batch 21 prep check-in 3" at 12:26 UTC, re-armed 45 minutes out while a worker runs. A stop kills the workers; resume each with `SendMessage` from its transcript. The batch's own check-in file, at its launch: `<scratchpad>/batch21/checkins.txt`.
 
@@ -19,14 +19,16 @@ Batch 21 has his go to launch once its record is written and reviewed by Fable (
 
 ## Waiting on him
 
+- **Batch 21's three asks, one per message, in this order:** (1) whether `BoundedRange` keeps its narrowed `atMost` under `where { I extends Index }` (record question 2; put to him with the planner's measurement, recommended option 2, keep it); (2) where the trait `Index` stands, outside `Object` beside `Any` (record question 1, default option 1); (3) P-157 with probe A1's result: withdraw it and build the checker change (keep the team's additive-group vectors), or keep rung V (A1's default: withdraw). Then the launch of run 1, on his go of 10:05 UTC, once the Fable review is in.
 - Who decides changes to the coordinator skill (the 10-19 post-mortem's ask). Until he answers, no edit of the coordinator skill without his yes on its wording: my word to him at about 00:30 UTC on 10-23.
-- Not critical, for the planner and the review queue: the export probe's two questions, `RR64`'s rounding return types and whether `Condition` or `Maybe` extends `ZeroIndexed`.
+- Not critical, on the review list: the export probe's two questions, `RR64`'s rounding return types and whether `Condition` or `Maybe` extends `ZeroIndexed` (the record takes no default; their differences stay in the export error).
 
 ## Next
 
-- **When the planner ends:** read its report and the record's diff; launch the Fable review of the record in place (a go in advance). Then the coordinator's steps of the manual's "Before the launch" (the base build, a trial seed, the generator's checks, the splice and its commit, the disk, the check-ins), and the launch on his go.
-- **When probe A1 ends:** bring its branch's report and patches onto `main` under `perf-probes/self-type-exclusion/` with an INDEX line. Then the ask on P-157 (hold it and keep the team's additive-group vectors, if A1 clears the 8), with A1's measurement, before the launch; and the ask on `BoundedRange`'s `atMost` from the record. The judgement's write-up for him by an Opus writer, as a page, with A1's result.
-- **The judgement's other items, for him after batch 21's asks, one per message:** P-75 withdrawn (reverses his yes of 09-29); P-154's reason corrected; the team's `AnyIntegral comprises Integral[\I\] where [\I\]` probed to close row 487; row 701 a prerequisite of the switch-over (a PLAN line).
+- **When the Fable review ends:** read its diff and its review; bring its questions as the record's. Then the coordinator's steps of the manual's "Before the launch" (the base build, a trial seed, the generator's checks for run 1 with or without V, the splice and its commit, the disk, the check-ins), and the launch of run 1 once his three answers are in.
+- **If he withdraws P-157:** drop V from run 1 (`--without V`), and have a checker rung for (i) and (ii) written into run 2 (overlaps with B's `TypeAnalyzer` and C's `OverloadingChecker`; the 8 sites show only under the full check).
+- **The judgement's write-up for him**, by an Opus writer as a page, with A1's result: after batch 21's asks.
+- **The judgement's other items, for him after batch 21's asks, one per message:** P-75 withdrawn (reverses his yes of 09-29); P-154's reason corrected; the team's `AnyIntegral comprises Integral[\I\] where [\I\]` probed to close row 487; row 701 a prerequisite of the switch-over (a PLAN line); A1's drafted row (the solver's recursion) and its notes for rows 584 and 786.
 - **The ledger repair**, about 180 open rows (`ledger-health-2026-10-22/REPORT.md`), if budget allows; the 40 refused notes first.
 - **PLAN's consolidation**, a later cleanup over the weekend beside the climb batches (PLAN, "Work that can start now", item 1).
 
