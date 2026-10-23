@@ -1,0 +1,16 @@
+component XXXExclusionBoundsMeetAtObject
+export Executable
+
+(* Two generic declarations on a box of a type and that type, one bounded by A and one by B, are an invalid overloading where an object extends both A and B, since a box of that object and the object are in both domains (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait A end
+trait B end
+object C extends { A, B } end
+object Box[\T\] end
+
+g[\T extends A\](x: Box[\T\], y: T): String = "a"
+g[\T extends B\](x: Box[\T\], y: T): String = "b"
+
+run(): () = ()
+
+end

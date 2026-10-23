@@ -1,0 +1,27 @@
+component XXXExclusionSelfTypeSharedLeft
+export Executable
+
+(* A generic operator on a type and an array of it, bounded by the additive group only, beside the group's own operator is an invalid overloading, since an object that is an array of itself and an additive group of itself is in both domains (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait AnyAddG end
+trait AddG[\T extends AddG[\T\]\] extends AnyAddG
+    opr PLUS(self, other: T): T
+end
+trait Numb end
+trait HasRk excludes { Numb } end
+object Rr extends { Numb, AddG[\Rr\] }
+    opr PLUS(self, other: Rr): Rr = self
+end
+trait Arry[\E\] extends HasRk end
+object Vv extends { Arry[\Rr\], AddG[\Vv\] }
+    opr PLUS(self, other: Vv): Vv = self
+end
+object Ww extends { Arry[\Ww\], AddG[\Ww\] }
+    opr PLUS(self, other: Ww): Ww = self
+end
+
+opr PLUS[\T extends AddG[\T\]\](y: T, x: Arry[\T\]): Arry[\T\] = x
+
+run(): () = ()
+
+end

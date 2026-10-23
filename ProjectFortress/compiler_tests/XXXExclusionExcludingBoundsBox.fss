@@ -1,0 +1,15 @@
+component XXXExclusionExcludingBoundsBox
+export Executable
+
+(* Two generic declarations on a box of a type, one bounded by the object Red and one by the object Blue, are refused as an invalid overloading, since the box of Bottom is an instance of both domains. *)
+
+object Red end
+object Blue end
+object Box[\T\] end
+
+tint[\T extends Red\](x: Box[\T\]): String = "red"
+tint[\T extends Blue\](x: Box[\T\]): String = "blue"
+
+run(): () = ()
+
+end

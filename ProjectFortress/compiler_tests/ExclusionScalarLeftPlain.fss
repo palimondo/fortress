@@ -1,0 +1,24 @@
+component ExclusionScalarLeftPlain
+export Executable
+
+(* An operator on a number and an array of that number beside the additive group's own operator is a valid overloading, since an array is no number (overloading.tex, section "Incompatibility Rule"). *)
+
+trait AnyAddG end
+trait AddG[\T extends AddG[\T\]\] extends AnyAddG
+    opr PLUS(self, other: T): T
+end
+trait Numb end
+trait HasRk excludes { Numb } end
+object Rr extends { Numb, AddG[\Rr\] }
+    opr PLUS(self, other: Rr): Rr = self
+end
+trait Arry[\E\] extends HasRk end
+object Vv extends { Arry[\Rr\], AddG[\Vv\] }
+    opr PLUS(self, other: Vv): Vv = self
+end
+
+opr PLUS(y: Rr, x: Arry[\Rr\]): Arry[\Rr\] = x
+
+run(): () = ()
+
+end

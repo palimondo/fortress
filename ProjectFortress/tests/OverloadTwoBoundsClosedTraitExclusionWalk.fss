@@ -1,0 +1,22 @@
+component OverloadTwoBoundsClosedTraitExclusionWalk
+export Executable
+
+(* Walk refuses at load, by the Meet Rule, a generic declaration whose type parameter is bounded by a trait with a comprises clause and by a bound naming the parameter, beside a declaration on a trait that excludes only the listed types that meet that bound, though the only listed type that could meet both is outside the bound (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait R[\T extends R[\T\]\] end
+trait Z excludes { A, B } end
+trait K comprises { A, B, C } end
+object A extends { K, R[\A\] } end
+object B extends { K, R[\B\] } end
+object C extends { K, Z } end
+
+f[\T extends { K, R[\T\] }\](x: T): String = "R"
+f(x: Z): String = "Z"
+
+run(): () = do
+    assert(f(A), "R", "f(A)")
+    assert(f(C), "Z", "f(C)")
+    println("PASS")
+  end
+
+end

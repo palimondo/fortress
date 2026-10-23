@@ -1,0 +1,31 @@
+component ExclusionVectorScalarBlock
+export Executable
+
+(* Operators on an array of a number type and a number, on either side, beside the additive group's own operators are a valid overloading where a vector is both an array and an additive group, since no value is both an array and a number (traits.tex, section "Trait Declarations"; overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait AnyAddG end
+trait AddG[\T extends AddG[\T\]\] extends AnyAddG
+    opr PLUS(self, other: T): T
+    opr MINUS(self, other: T): T
+end
+trait Numb comprises { Rr, Zz } end
+trait HasRk excludes { Numb } end
+object Rr extends { Numb, AddG[\Rr\] }
+    opr PLUS(self, other: Rr): Rr = self
+    opr MINUS(self, other: Rr): Rr = self
+end
+object Zz extends { Numb, AddG[\Zz\] }
+    opr PLUS(self, other: Zz): Zz = self
+    opr MINUS(self, other: Zz): Zz = self
+end
+trait Arr[\E, I\] extends HasRk end
+trait Vec[\T extends Numb, nat s\] extends { Arr[\T, ZZ32\], AddG[\Vec[\T,s\]\] } end
+
+opr PLUS[\T extends { Numb, AddG[\T\] }, I\](x: Arr[\T,I\], y: T): Arr[\T,I\] = x
+opr PLUS[\T extends { Numb, AddG[\T\] }, I\](y: T, x: Arr[\T,I\]): Arr[\T,I\] = x
+opr MINUS[\T extends { Numb, AddG[\T\] }, I\](x: Arr[\T,I\], y: T): Arr[\T,I\] = x
+opr MINUS[\T extends { Numb, AddG[\T\] }, I\](y: T, x: Arr[\T,I\]): Arr[\T,I\] = x
+
+run(): () = ()
+
+end

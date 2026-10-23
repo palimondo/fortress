@@ -1,0 +1,3 @@
+tests=XXXExclusionBoundsMeetAtObject
+compile
+compile_err_contains=Invalid overloading of g in component XXXExclusionBoundsMeetAtObject

@@ -76,7 +76,9 @@ then the type of \KWD{self} in the bodies of its methods is instead
 ``\EXP{T \cap X}'';
 the \KWD{self} parameter keeps the type `\EXP{T}'
 in the signature of each method declaration,
-which overloading and the choice of a declaration at a call read.
+which overloading and the choice of a declaration at a call read,
+save the test of whether two overloaded declarations' parameter types
+exclude each other, which reads it as ``\EXP{T \cap X}''.
 \revision{revival-self-type}{The sentence on a self-type parameter is new.
 The Working Draft of February 2011 gave \KWD{self} the type of the trait
 in such a declaration,

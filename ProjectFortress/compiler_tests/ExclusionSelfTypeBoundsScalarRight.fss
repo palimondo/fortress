@@ -1,0 +1,24 @@
+component ExclusionSelfTypeBoundsScalarRight
+export Executable
+
+(* A generic operator on an array of a number type and a number beside the additive group's own operator is a valid overloading, since no value is both an array and the number that is its element type: the group's self is also the implementing type, and the shared bound makes the two type parameters one (traits.tex, section "Trait Declarations"; overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait AnyAddG end
+trait AddG[\T extends AddG[\T\]\] extends AnyAddG
+    opr PLUS(self, other: T): T
+end
+trait Numb end
+trait HasRk excludes { Numb } end
+object Rr extends { Numb, AddG[\Rr\] }
+    opr PLUS(self, other: Rr): Rr = self
+end
+trait Arry[\E\] extends HasRk end
+object Vv extends { Arry[\Rr\], AddG[\Vv\] }
+    opr PLUS(self, other: Vv): Vv = self
+end
+
+opr PLUS[\T extends { Numb, AddG[\T\] }\](x: Arry[\T\], y: T): Arry[\T\] = x
+
+run(): () = ()
+
+end
