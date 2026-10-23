@@ -594,14 +594,23 @@ object ExportChecker {
       case _ => false
     }
 
+  /* Returns true if two names of declarations are same. */
+  private def equalNames(left: IdOrOpOrAnonymousName,
+                         right: IdOrOpOrAnonymousName): Boolean =
+    (left, right) match {
+      case (l: IdOrOp, r: IdOrOp) => equalIdOrOps(l, r)
+      case _ => false
+    }
+
   /* Returns true if two FnHeaders are same. */
   private def equalFnHeaders(left: FnHeader, right: FnHeader,
                              ignoreAbstract: Boolean): Boolean = (left, right) match {
-      case (SFnHeader(sparamsL, modsL, _, whereL, throwsL, contractL,
+      case (SFnHeader(sparamsL, modsL, nameL, whereL, throwsL, contractL,
                       paramsL, retTyL),
-            SFnHeader(sparamsR, modsR, _, whereR, throwsR, contractR,
+            SFnHeader(sparamsR, modsR, nameR, whereR, throwsR, contractR,
                       paramsR, retTyR)) =>
-        (equalListStaticParams(sparamsL, sparamsR) &&
+        (equalNames(nameL, nameR) &&
+          equalListStaticParams(sparamsL, sparamsR) &&
           ( if (ignoreAbstract)
               modsL.remove(Modifiers.Abstract).equals(modsR.remove(Modifiers.Abstract))
             else modsL.equals(modsR) ) &&
@@ -749,7 +758,7 @@ object ExportChecker {
     (inComp.forall( 
     	d => d match {
     	  case SFnDecl(_,h,_,_,_) => if (h.getMods().isAbstract() && !h.getMods().isPrivate()) {
-    	    val b = inAPI.exists(r => equalMember(d,r))
+    	    val b = inAPI.exists(r => equalMember(r,d))
     	    if (b) true else { cause = addMessage(cause, "Asbtract method " + h.getName() + " @ " + NodeUtil.getSpan(d) + " is not declared in the API") ; false }
     	  }  else true
     	  case _ => true
@@ -760,22 +769,38 @@ object ExportChecker {
                                  
     
     
+  /* Returns true if a member of a trait or object is declared abstract:
+   * a method, or a field all of whose names are.
+   */
+  private def isAbstractMember(d: Decl): Boolean = d match {
+    case SFnDecl(_, h, _, _, _) => h.getMods.isAbstract
+    case SVarDecl(_, lhs, _) => lhs.nonEmpty && lhs.forall(lv => lv.getMods.isAbstract)
+    case _ => false
+  }
+
   /* Returns true if members in traits and objects in an API have
    * corresponding members in the component.
+   * From the spec (apis.tex, "Component and API Identity"):
+   * "A matching definition of a declaration d is a definition d' with
+   *  the same name as d that includes definitions for all declarations
+   *  other than the methods or fields declared abstract in d."
+   * So a member declared abstract in the API needs no corresponding member.
    */
   private def equalListMembers(inAPI: List[Decl], inComp: List[Decl],
                                original: String): (Boolean, String) =
-    if ( inAPI.length > inComp.length )
+    if ( inAPI.count(l => ! isAbstractMember(l)) > inComp.length )
       (false, "missing members of the trait/object in the component")
     else {
       var cause = original
       def handleOne(l: Decl) = {
-        val eq = inComp.exists(r => equalMember(l, r))
+        val eq = isAbstractMember(l) || inComp.exists(r => equalMember(l, r))
         if ( ! eq )
           l match {
-            case SVarDecl(_,_,_) =>
+            case SVarDecl(_,lhs,_) =>
               cause = addMessage(cause,
-                                 "different field @ " + NodeUtil.getSpan(l))
+                                 "different field " +
+                                 lhs.map(lv => lv.getName.getText).mkString(", ") +
+                                 " @ " + NodeUtil.getSpan(l))
             case SFnDecl(_,h,_,_,_) =>
               val eq2 = inComp.exists(r => equalMember(l, r))
               cause = addMessage(cause,
@@ -813,11 +838,11 @@ object ExportChecker {
     (left, right) match {
       case (SLValue(_, nameL, modsL, typeL, _),
             SLValue(_, nameR, modsR, typeR, _)) =>
-        equalIds(nameL, nameR) && modsL.equals(modsR)
-        (typeL, typeR) match {
+        equalIds(nameL, nameR) && modsL.equals(modsR) &&
+        ((typeL, typeR) match {
           case (Some(tl@SType(_)), Some(tr@SType(_))) => equalTypes(tl, tr)
           case _ => false
-        }
+        })
   }
 
   private def toOptList[T](ol: JavaOption[JavaList[T]]): Option[List[T]] =
