@@ -2,12 +2,12 @@
 
 # Boot note
 
-**State at 10:52 UTC on 2026-10-23** (12:52 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
+**State at 10:45 UTC on 2026-10-23** (12:45 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
 
 ## Running
 
 - **Batch 21's planner**, an Opus Agent-tool worker launched at about 10:08 UTC: drafts `explorations/coordinator/CLIMB-BATCH-21.md` and `explorations/compile-ladder/plan-21/manifest/`, from the five probes (symbolic operators, export check, walk's conditional extension, team demos, rows 793 and 794), commits and pushes them itself. Estimate 2M to 3M written, a guess. Its brief is its launch prompt.
-- **The type-decisions review's Fable judgement**, a Fable Agent-tool worker launched at about 10:50 UTC (a go in advance, his word at 08:19 UTC), reading only: writes `explorations/reviews/type-decisions-review/judgement.md`, does not commit. Estimate 0.5M to 1M, a guess. Its evidence map landed at `105b4a46b` (0.70M; six lines that read batch 21's type items as held corrected by the coordinator).
+- **The type-decisions review's Fable judgement**, a Fable Agent-tool worker launched at about 10:44 UTC (a go in advance, his word at 08:19 UTC), reading only: writes `explorations/reviews/type-decisions-review/judgement.md`, does not commit. Estimate 0.5M to 1M, a guess. Its evidence map landed at `105b4a46b` (0.70M; six lines that read batch 21's type items as held corrected by the coordinator).
 - **Batch 21's base build**, `/home/user/fortress-base21` at `aa5ff2423`, built by the coordinator in the background (log `<scratchpad>/batch21/base-build.log`, done at `EXIT=0`). The planner seeds its probe worktrees from it. At the launch it serves as `args.baseBuild` if the base differs from it only in record files; otherwise build again at the base.
 
 **Check-ins:** "Batch 21 prep check-in 1" at 10:55 UTC and "Batch 21 prep check-in 2" at 11:40 UTC, after the process stop expected about 11:37 UTC. A stop kills both workers; resume each with `SendMessage` from its transcript. The batch's own check-in file, at its launch: `<scratchpad>/batch21/checkins.txt`.
