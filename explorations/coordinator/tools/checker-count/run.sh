@@ -16,8 +16,9 @@
 # javac output and the checker's caches go to the scratch directory (default: $TMPDIR
 # or /tmp), and the caches are given to the JVM as -Dfortress.caches, honoured through
 # ProjectProperties.java:261-269,283, so default_repository/ is never read or written.
-# Exit 0 if the table was produced, 1 if it could not be. 20 s in the main tree,
-# measured 2026-09-22; it needs no library rebuild and no warm cache.
+# Exit 0 if the table holds a total; 1 if no table could be produced, or if the table holds
+# no total because the run's errors are not the checker's (#stopped, below). 20 s in the
+# main tree, measured 2026-09-22; it needs no library rebuild and no warm cache.
 #
 # The two sources beside this script are copies, taken 2026-09-22 from
 # explorations/perf-probes/prelude/, so that the gate does not depend on a probe
@@ -39,6 +40,21 @@
 # layer, classified"); with it off every build gives one count. The table's "#cache"
 # row says so. On the tree of 2026-09-27 the count is 62 with the memo on and off,
 # because the FortressLibrary api stops before its overloading check.
+#
+# The table, tab-separated, every row tagged:
+#   #api        one row per api the checker checked, with that api's error count
+#   #total      the errors that the run's last "File X has N errors." line counts
+#   #locations  the distinct file:line those errors were reported at
+#   #stopped    in place of #total and #locations, when that line counts errors that the
+#               checker did not report: no api's check reported an error and the checker
+#               never reached the component, so the library stopped at parse or name
+#               binding, before the apis' check or between it and the component's. It names
+#               the target, that line and the files the errors were reported in. The gate's
+#               checker_compare reads a table with no #total row as NO TOTAL, red.
+#   #crash      the first OverloadingChecker crash the checker survived, or none
+#   #cache      whether the overloading checker's memo is on (it is off: above)
+#   #shadow     whether the instrumented copy still matches the tracked StaticChecker
+# test_run.py beside this script tests these readings on canned run outputs.
 set -u
 
 STOCK_SHA=16e6e11df9341a67038b7d7cc9f0d7bb5e5a6149019f09e92545a8b646363a0b   # ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java, 2026-09-22
@@ -79,12 +95,26 @@ fi
 #    instrumented checker printed it; then the total, the number of distinct
 #    file:line the errors were reported at, and the first crash the checker
 #    survived. Rows are sorted so that two runs of the same tree are byte-equal.
+#    The errors are the checker's when an api's check reported one or the checker
+#    reached the component (TypeCheckPhase runs checkComponents only after checkApis
+#    succeeds); otherwise they are a phase's before it, and #stopped takes the total's place.
+APIS_CHECKED=$(grep -c '^@@PROBE checkApi .* -> errors=' "$SCRATCH/run.txt")
+API_ERRORS=$(sed -n 's/^@@PROBE checkApi .* -> errors=\([0-9]*\)$/\1/p' "$SCRATCH/run.txt" | awk '{ n += $1 } END { print n + 0 }')
+STOPPED=
+if [ "$API_ERRORS" = 0 ] && ! grep -q '^@@PROBE checkComponent ' "$SCRATCH/run.txt" ; then
+    AT=$(grep -oE '^/[^ ]+:[0-9]+:' "$SCRATCH/run.txt" | sed -E "s#^$FH/##; s#:[0-9].*##" | sort -u | paste -sd, - | sed 's/,/, /g')
+    STOPPED="$TARGET stopped with errors that the checker did not report, from a phase before it such as parse, so the run measured no total: \"$(grep -E '^File .* has [0-9]+ errors?\.$' "$SCRATCH/run.txt" | tail -1)\", at ${AT:-no location}; the checker checked $APIS_CHECKED apis$( [ "$APIS_CHECKED" = 0 ] || echo ', with no error,') and no component"
+fi
 {
     printf '#api\terrors\n'
     grep '^@@PROBE checkApi .* -> errors=' "$SCRATCH/run.txt" \
         | sed -E 's/^@@PROBE checkApi ([^ ]+) -> errors=([0-9]+)$/\1\t\2/' | sort -u
-    printf '#total\t%s\n' "$(grep -oE 'has [0-9]+ errors?\.$' "$SCRATCH/run.txt" | tail -1 | grep -oE '[0-9]+')"
-    printf '#locations\t%s\n' "$(grep -oE '^/[^ ]+:[0-9]+:' "$SCRATCH/run.txt" | sort -u | wc -l | tr -d ' ')"
+    if [ -z "$STOPPED" ] ; then
+        printf '#total\t%s\n' "$(grep -oE 'has [0-9]+ errors?\.$' "$SCRATCH/run.txt" | tail -1 | grep -oE '[0-9]+')"
+        printf '#locations\t%s\n' "$(grep -oE '^/[^ ]+:[0-9]+:' "$SCRATCH/run.txt" | sort -u | wc -l | tr -d ' ')"
+    else
+        printf '#stopped\t%s\n' "$STOPPED"
+    fi
     crash=$(grep -m1 '^@@PROBE OverloadingChecker CRASHED on ' "$SCRATCH/run.txt" | sed 's/^@@PROBE //')
     site=$(grep -m1 -A6 '^@@PROBE OverloadingChecker CRASHED on ' "$SCRATCH/run.txt" \
            | grep -oE '\([A-Za-z0-9_$]+\.(scala|java):[0-9]+\)' | grep -v '(NI\.java:' \
@@ -101,3 +131,4 @@ fi
 
 cat "$OUT"
 echo "# checker-count: full output $SCRATCH/run.txt, rc=$RC"
+[ -z "$STOPPED" ]
