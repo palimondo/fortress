@@ -2729,7 +2729,7 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
   subarray[\nat bo0, nat so0, nat bo1, nat so1, nat o0, nat o1\]
           (m0:ZZ32,m1:ZZ32): Array2[\T,bo0,so0,bo1,so1\] = do
       boundsCheck = self.bounds.narrowToRange( (o0,o1)::(m0,m1)#(so0,so1) )
-      SubArray2[\T,bo0,so0,bo1,so1,b0,s0,b1,s1\](self,m0,o0,m1,o1)
+      SubArray2[\T,bo0,so0,bo1,so1,b0,s0,b1,s1\](self,m0,o0-b0,m1,o1-b1)
     end
 
   zeroIndices():CompactFullRange2D = sized2Range(0,0,s0,s1)
@@ -3110,7 +3110,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
                    N[\0\],reflect(z2), reflect(l0),reflect(l1), reflect(l2),m0,m1,m2)
       end
     opr[_:TrivialOpenRange] : Array3[\T,0,s0,0,s1,0,s2\] =
-        subarray[\0,s0,0,s1,0,s2,0,0,0\](1,1,1)
+        subarray[\0,s0,0,s1,0,s2,b0,b1,b2\](1,1,1)
     shift(t:(ZZ32,ZZ32,ZZ32)): Array[\T,(ZZ32,ZZ32,ZZ32)\] = do
         (o0,o1,o2)=t
         if o0=0 AND o1=0 AND o2=0 then
@@ -3131,7 +3131,7 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
               nat o0, nat o1, nat o2\]
             (m0:ZZ32,m1:ZZ32,m2:ZZ32): Array3[\T,bo0,so0,bo1,so1,bo2,so2\] = do
         boundsCheck = self.bounds.narrowToRange( (o0,o1,o2)::(m0,m1,m2)#(so0,so1,so2) )
-        SubArray3[\T,bo0,so0,bo1,so1,bo2,so2,b0,s0,b1,s1,b2,s2\](self,m0,o0,m1,o1,m2,o2)
+        SubArray3[\T,bo0,so0,bo1,so1,bo2,so2,b0,s0,b1,s1,b2,s2\](self,m0,o0-b0,m1,o1-b1,m2,o2-b2)
       end
 
     zeroIndices():CompactFullRange3D =

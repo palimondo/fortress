@@ -64,7 +64,7 @@ end
     complexity, but return a %List% in cases (such as %map% and
     %filter%) where it will.  Indexing on lists operates from the
     left, and ordering is lexicographic reading from the left. *)
-trait List[\E\] extends { AnyList, ZeroIndexed[\E\],
+trait List[\E\] extends { AnyList, ZeroIndexed[\E\], Equality[\List[\E\]\],
                           LexicographicOrder[\List[\E\],E\] where { E extends StandardTotalOrder[\E\] } }
         excludes { Number, HasRank, String }
   (** %left% and %extractLeft% return the leftmost element in the list
