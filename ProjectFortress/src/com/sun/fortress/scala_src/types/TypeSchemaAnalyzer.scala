@@ -526,14 +526,20 @@ class TypeSchemaAnalyzer(implicit val ta: TypeAnalyzer) {
   }
 
   /* The meet of two existential domains, renamed apart and not reduced, is empty by
-   * emptyWithBounds. */
-  def meetEmptyWithBounds(x: Type, y: Type): Boolean = {
+   * emptyWithBounds. Neither domain having static parameters, it is not. An answer is
+   * reused for the same two domains in this analyzer, as subtypeED's is. */
+  private val meetEmptyWithBoundsMemo = new scala.collection.mutable.HashMap[(Type, Type), Boolean]()
+
+  def meetEmptyWithBounds(x: Type, y: Type): Boolean =
+    if (getStaticParams(x).isEmpty && getStaticParams(y).isEmpty) false
+    else if (cacheSchemaSubtypes) meetEmptyWithBoundsMemo.getOrElseUpdate((x, y), meetEmptyWithBoundsInner(x, y))
+    else meetEmptyWithBoundsInner(x, y)
+
+  private def meetEmptyWithBoundsInner(x: Type, y: Type): Boolean = {
     val ax = alphaRenameTypeSchema(x, ta.env)
     val ay = alphaRenameTypeSchema(y, ta.env)
-    val xp = getStaticParams(ax)
-    val yp = getStaticParams(ay)
-    if (xp.isEmpty && yp.isEmpty) return false
-    emptyWithBounds(insertStaticParams(makeIntersectionType(Set(clearStaticParams(ax), clearStaticParams(ay))), xp ++ yp))
+    emptyWithBounds(insertStaticParams(makeIntersectionType(Set(clearStaticParams(ax), clearStaticParams(ay))),
+                                       getStaticParams(ax) ++ getStaticParams(ay)))
   }
 
   /**
