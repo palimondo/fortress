@@ -1,0 +1,3 @@
+tests=XXXExclusionExcludingBoundsBox
+compile
+compile_err_contains=Invalid overloading of tint in component XXXExclusionExcludingBoundsBox

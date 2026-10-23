@@ -1,0 +1,3 @@
+tests=XXXExclusionSelfTypeSharedLeft
+compile
+compile_err_contains=Invalid overloading of PLUS in component XXXExclusionSelfTypeSharedLeft
