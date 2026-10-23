@@ -1,0 +1,13 @@
+(* A name that an import's except clause leaves out is not imported, so the component's own declaration of it overloads with none of the api's (source-code.tex, section "Import Statements"). *)
+component ImportExceptOverload
+import ImportExceptOverloadApi.{...} except { pick }
+export Executable
+
+pick(x: P): ZZ32 = 2
+
+run(): () = do
+  assert(pick(P1), 2, "the component's own pick, the api's left out by except")
+  println("PASS")
+end
+
+end
