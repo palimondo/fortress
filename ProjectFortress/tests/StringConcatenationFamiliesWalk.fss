@@ -1,0 +1,76 @@
+component StringConcatenationFamiliesWalk
+import String.{EmptyString}
+export Executable
+
+(* Each of ||, |||, // and /// with a string on one side or on both converts the other side's number, character, (), pair or triple to its string and concatenates, and the empty string on either side of || gives the other (FortressLibrary, trait String and the concatenation operators; advanced-lib/algebraic-constraints.tex, trait Monoid: the empty string is the identity of ||). *)
+
+run(): () = do
+    nl: String = (""//)
+    nl2: String = (""///)
+    void = ()
+    pair = (1, 2)
+    triple = (1, 2, 3)
+
+    assert("ab" || "cd", "abcd", "|| of two strings")
+    assert(("ab" || "cd").depth, 0, "|| of two short flat strings is flat")
+    assert("s" || 3, "s3", "|| of a string and a number")
+    assert(3 || "s", "3s", "|| of a number and a string")
+    assert("s" || 'c', "sc", "|| of a string and a character")
+    assert('c' || "s", "cs", "|| of a character and a string")
+    assert("s" || void, "s()", "|| of a string and ()")
+    assert(void || "s", "()s", "|| of () and a string")
+    assert("s" || pair, "s(1,2)", "|| of a string and a pair")
+    assert(pair || "s", "(1,2)s", "|| of a pair and a string")
+    assert("s" || triple, "s(1,2,3)", "|| of a string and a triple")
+    assert(triple || "s", "(1,2,3)s", "|| of a triple and a string")
+
+    assert(EmptyString || "s", "s", "|| of the empty string and a string")
+    assert("s" || EmptyString, "s", "|| of a string and the empty string")
+    assert(|EmptyString || EmptyString|, 0, "|| of the empty string and the empty string")
+    assert(EmptyString || 3, "3", "|| of the empty string and a number")
+    assert(3 || EmptyString, "3", "|| of a number and the empty string")
+    assert(EmptyString || 'c', "c", "|| of the empty string and a character")
+
+    assert("a" ||| "b", "a b", "||| of two strings")
+    assert("" ||| "b", "b", "||| of the empty string and a string")
+    assert("a" ||| "", "a", "||| of a string and the empty string")
+    assert("a" ||| 3, "a 3", "||| of a string and a number")
+    assert(3 ||| "a", "3 a", "||| of a number and a string")
+    assert("a" ||| 'c', "a c", "||| of a string and a character")
+    assert('c' ||| "a", "c a", "||| of a character and a string")
+    assert("a" ||| void, "a ()", "||| of a string and ()")
+    assert(void ||| "a", "() a", "||| of () and a string")
+    assert("a" ||| pair, "a (1,2)", "||| of a string and a pair")
+    assert(pair ||| "a", "(1,2) a", "||| of a pair and a string")
+    assert("a" ||| triple, "a (1,2,3)", "||| of a string and a triple")
+    assert(triple ||| "a", "(1,2,3) a", "||| of a triple and a string")
+
+    assert("a" // "b", "a" || nl || "b", "// of two strings")
+    assert("a" // 3, "a" || nl || "3", "// of a string and a number")
+    assert(3 // "b", "3" || nl || "b", "// of a number and a string")
+    assert("a" // 'c', "a" || nl || "c", "// of a string and a character")
+    assert('c' // "b", "c" || nl || "b", "// of a character and a string")
+    assert("a" // void, "a" || nl || "()", "// of a string and ()")
+    assert(void // "b", "()" || nl || "b", "// of () and a string")
+    assert("a" // pair, "a" || nl || "(1,2)", "// of a string and a pair")
+    assert(pair // "b", "(1,2)" || nl || "b", "// of a pair and a string")
+    assert("a" // triple, "a" || nl || "(1,2,3)", "// of a string and a triple")
+    assert(triple // "b", "(1,2,3)" || nl || "b", "// of a triple and a string")
+
+    assert("a" /// "b", "a" || nl2 || "b", "/// of two strings")
+    assert("a" /// 3, "a" || nl2 || "3", "/// of a string and a number")
+    assert(3 /// "b", "3" || nl2 || "b", "/// of a number and a string")
+    assert("a" /// 'c', "a" || nl2 || "c", "/// of a string and a character")
+    assert('c' /// "b", "c" || nl2 || "b", "/// of a character and a string")
+    assert("a" /// void, "a" || nl2 || "()", "/// of a string and ()")
+    assert(void /// "b", "()" || nl2 || "b", "/// of () and a string")
+    assert("a" /// pair, "a" || nl2 || "(1,2)", "/// of a string and a pair")
+    assert(pair /// "b", "(1,2)" || nl2 || "b", "/// of a pair and a string")
+    assert("a" /// triple, "a" || nl2 || "(1,2,3)", "/// of a string and a triple")
+    assert(triple /// "b", "(1,2,3)" || nl2 || "b", "/// of a triple and a string")
+
+    assert(|nl| > 0, true, "the line separator is not empty")
+    assert(nl2, nl || nl, "the double line separator is two line separators")
+end
+
+end
