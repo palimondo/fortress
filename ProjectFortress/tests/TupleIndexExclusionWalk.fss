@@ -1,0 +1,16 @@
+component TupleIndexExclusionWalk
+export Executable
+
+(* A function over an Index and a ZZ32 beside a function over a pair of a trait that neither excludes Index nor lies below it and a ZZ32 is no valid overloading, since the pair does not exclude Index, so the program is refused at load, under walk (overloading.tex, section "Meet Rule"; types-vals-vars.tex, section "Tuple Types"). *)
+
+trait Foo end
+
+f(x: Index, y: ZZ32): String = "index"
+f(x: (Foo, Foo), y: ZZ32): String = "pair"
+
+run(): () = do
+    i: ZZ32 = 1
+    println(f(i, i))
+  end
+
+end
