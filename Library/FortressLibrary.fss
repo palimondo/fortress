@@ -699,6 +699,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
     even(self): Boolean = (self MOD (self.one + self.one)) = self.zero
     opr -(self):I
     opr DOTMINUS(self):I
+    opr =(self,b:I):Boolean
     opr +(self,b:I):I
     opr DOTPLUS(self,b:I):I
     opr -(self,b:I):I
@@ -1627,6 +1628,8 @@ value trait Maybe[\T\]
         extends { AnyMaybe, Condition[\T\], UniqueItem[\T\] }
         comprises { Nothing[\T\], Just[\T\] }
     opr SQCAP(self, o: Maybe[\T\]): Maybe[\T\] = Nothing[\T\]    (*) semilattice "meet" operator
+    opr |self|: ZZ32 = if self.holds then 1 else 0 end
+    opr [i:ZZ32]:T throws NotFound = if i=0 then self.get else throw NotFound end
     map[\G\](f: T->G): Maybe[\G\] =
         cond[\Maybe[\G\]\](fn (e:T):Maybe[\G\] => Just[\G\](f(e)), fn ():Maybe[\G\] => Nothing[\G\])
     ivmap[\G\](f: (ZZ32,T)->G): Maybe[\G\] =
@@ -4395,7 +4398,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
 
     (** The operator %||% with at least one String argument converts
         to String and concatenates **)
-    opr ||(self, b:String):String
     opr ||(self, b:Number):String = self || b.asString
     opr ||(self, c:Char):String
     opr ||(self, b:()):String = self || "()"
@@ -4408,19 +4410,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
         do (i,j,k,l,m) = b; self || "(" || i || "," j || "," k || "," l || "," m || ")" end
     opr ||(self, b:(Any,Any,Any,Any,Any,Any)):String =
         do (i,j,k,l,m,n) = b; self || "(" || i || "," j || "," k || "," l || "," m || "," n || ")" end
-    opr ||(a:Any, self):String = ("" || a) || self
-    opr ||(self, b:Any):String = self || cast[\Object\](b).asString
-
-    (** The operator %|||% with at least one String argument converts to string,
-        then appends with a whitespace separator unless one of the two arguments is
-        empty.  If there is an empty argument, the other argument is returned. **)
-    opr |||(self, b:String): String =
-        if |self| = 0 then b
-        elif |b| = 0 then self
-        else self || " " || b
-        end
-    opr |||(self, b:Any): String = self ||| (""||b)
-    opr |||(a:Any, self): String = (""||a) ||| self
 
     (** opr %//% appends a single line separator.  Note that as
         with %||% and %|||% at least one argument must be a String.
@@ -4428,9 +4417,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
         FortressLibrary that performs string conversion, but the prefix
          version must occur before a String. **)
     opr //(self) : String = newline || self
-    opr //(self, a:String): String = self || newline || a
-    opr //(self, a:Any): String    = self || newline || a
-    opr //(a:Any, self): String    = a || newline || self
 
     (** opr %///% appends a double line separator.  Note that, as
         with %||% and %|||%, at least one argument must be a String.
@@ -4438,9 +4424,6 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
         FortressLibrary that performs string conversion, but the prefix
          version must occur before a String. **)
     opr ///(self) : String = doubleNewline || self
-    opr ///(self, a:String): String = self || doubleNewline || a
-    opr ///(self, a:Any): String    = self || doubleNewline || a
-    opr ///(a:Any, self): String    = a || doubleNewline || self
 
     abstract writeOn(s: WriteStream): ()
 
@@ -4471,6 +4454,38 @@ object StringJoinReduction(s:String) extends Reduction[\Maybe[\String\]\]
         end
     end
 end
+
+(** The operator %||% with at least one String argument converts
+    to String and concatenates **)
+opr ||(a:Any, b:String):String = ("" || a) || b
+opr ||(a:String, b:String):String =
+    typecase a of
+        a':FlatString => a' || b
+        a':Concatenable => a' || b
+        else => concatAndBalanceIfNecessary(a, b)
+    end
+opr ||(a:String, b:Any):String = a || cast[\Object\](b).asString
+
+(** The operator %|||% with at least one String argument converts to string,
+    then appends with a whitespace separator unless one of the two arguments is
+    empty.  If there is an empty argument, the other argument is returned. **)
+opr |||(a:Any, b:String): String = (""||a) ||| b
+opr |||(a:String, b:String): String =
+    if |a| = 0 then b
+    elif |b| = 0 then a
+    else a || " " || b
+    end
+opr |||(a:String, b:Any): String = a ||| (""||b)
+
+(** opr %//% concatenates with a single line separator. **)
+opr //(a:Any, b:String): String    = a || newline || b
+opr //(a:String, b:String): String = a || newline || b
+opr //(a:String, b:Any): String    = a || newline || b
+
+(** opr %///% concatenates with a double line separator. **)
+opr ///(a:Any, b:String): String    = a || doubleNewline || b
+opr ///(a:String, b:String): String = a || doubleNewline || b
+opr ///(a:String, b:Any): String    = a || doubleNewline || b
 
 (** Right now for backward compatibility juxtaposition works like %||% **)
 opr juxtaposition(a:Any, b:String):String = (""||a) || b

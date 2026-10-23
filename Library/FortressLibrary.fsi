@@ -449,6 +449,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
     getter one(): I
     opr -(self):I
     opr DOTMINUS(self):I
+    opr =(self,b:I):Boolean
     opr +(self,b:I):I
     opr DOTPLUS(self,b:I):I
     opr -(self,b:I):I
@@ -651,6 +652,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     coerce(x: NN32)
     coerce(x: NN64)
     coerce(x: IntLiteral)
+    opr =(self, b: ZZ):Boolean
     opr <(self, other:ZZ): Boolean
     opr <=(self, other:ZZ): Boolean
     opr >(self, other:ZZ): Boolean
@@ -976,6 +978,8 @@ value trait Maybe[\T\]
         extends { AnyMaybe, Condition[\T\], ZeroIndexed[\T\], UniqueItem[\T\] }
         comprises { Nothing[\T\], Just[\T\] }
     opr SQCAP(self, o: Maybe[\T\]): Maybe[\T\]
+    opr |self| : ZZ32
+    opr [i:ZZ32]:T throws NotFound
     map[\G\](f: T->G): Maybe[\G\]
     ivmap[\G\](f: (ZZ32,T)->G): Maybe[\G\]
 end
@@ -1651,15 +1655,6 @@ vector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](v:T):Vector[\T,s
 tabulatedVector[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](f:ZZ32->T):Vector[\T,s0\]
 
 
-opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
-     (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
-
-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
-     (me : Vector[\T,n\], other : Vector[\T,n\]):Vector[\T,n\]
-
-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
-     (me : Vector[\T,n\]):Vector[\T,n\]
-
 pmul[\ T extends { Number, MultiplicativeRing[\T\] }, nat k \]
     (a : Vector[\T,k\], b : Vector[\T,k\]):Vector[\T,k\]
 
@@ -1760,15 +1755,6 @@ tabulatedArray2[\T, nat s0, nat s1\](f:(ZZ32,ZZ32)->T):Array2[\T,0,s0,0,s1\]
    construct a multiple of the identity matrix. **)
 matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\]():Matrix[\T,s0,s1\]
 matrix[\T extends { Number, MultiplicativeRing[\T\] }, nat s0, nat s1\](v:T):Matrix[\T,s0,s1\]
-
-opr +[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
-     (me:Matrix[\T,n,m\], other:Matrix[\T,n,m\]): Matrix[\T,n,m\]
-
-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
-     (me:Matrix[\T,n,m\], other:Matrix[\T,n,m\]) : Matrix[\T,n,m\]
-
-opr -[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m \]
-     (me:Matrix[\T,n,m\]): Matrix[\T,n,m\]
 
 (** Matrix multiplication. *)
 opr DOT[\ T extends { Number, MultiplicativeRing[\T\] }, nat n, nat m, nat p\]
@@ -2435,7 +2421,7 @@ end
 * STRINGS
 ************************************************************)
 
-trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
+trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\] }
         excludes { AnyMultiplicativeRing }
     getter size() : ZZ32
     getter indices() : CompactFullRange[\ZZ32\]
@@ -2493,33 +2479,17 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
 
     (** The operator %||% with at least one String argument converts to string and
         appends **)
-    opr ||(self, b:String):String
     opr ||(self, b:Number):String
     opr ||(self, c:Char):String
     opr ||(self, b:()):String
     opr ||(self, b:(Any,Any)):String
     opr ||(self, b:(Any,Any,Any)):String
-    opr ||(a:Any, self):String
-    opr ||(self, b:Any):String
-
-    (** The operator %|||% with at least one String argument converts to string,
-        then concatenates with a whitespace separator unless one of the two arguments is
-        empty.  If there is an empty argument, the other argument is returned. **)
-    opr |||(self, b:String): String
-    opr |||(self, b:Any): String
-    opr |||(a:Any, self): String
 
     (** opr // concatenates with a single newline separator. **)
     opr //(self) : String
-    opr //(self, a:String): String
-    opr //(self, a:Any): String
-    opr //(a:Any, self): String
 
     (** opr /// concatenates with a double newline separator **)
     opr ///(self) : String
-    opr ///(self, a:String): String
-    opr ///(self, a:Any): String
-    opr ///(a:Any, self): String
 
    abstract writeOn(s: WriteStream): ()
    stats(): StringStats
@@ -2527,6 +2497,29 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\] }
    join[\E\](g:Generator[\E\]):String
 
 end String
+
+(** The operator %||% with at least one String argument converts to string and
+    appends **)
+opr ||(a:Any, b:String):String
+opr ||(a:String, b:String):String
+opr ||(a:String, b:Any):String
+
+(** The operator %|||% with at least one String argument converts to string,
+    then concatenates with a whitespace separator unless one of the two arguments is
+    empty.  If there is an empty argument, the other argument is returned. **)
+opr |||(a:Any, b:String):String
+opr |||(a:String, b:String):String
+opr |||(a:String, b:Any):String
+
+(** opr // concatenates with a single newline separator. **)
+opr //(a:Any, b:String):String
+opr //(a:String, b:String):String
+opr //(a:String, b:Any):String
+
+(** opr /// concatenates with a double newline separator **)
+opr ///(a:Any, b:String):String
+opr ///(a:String, b:String):String
+opr ///(a:String, b:Any):String
 
 (** Right now for backward compatibility juxtaposition works like %||% **)
 opr juxtaposition(a:Any, b:String):String

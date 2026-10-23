@@ -14,6 +14,9 @@ api String
   concatAndBalanceIfNecessary(s1: String, s2: String): String
 
   trait Concatenable extends String
+    opr ||(self, other:String): String
+    opr ||(self, _:EmptyString): String
+    opr ||(self, other:Char): String
   end
 
   trait Balanceable extends String
@@ -23,6 +26,9 @@ api String
   end
 
   value object EmptyString extends {String, Concatenable}
+    opr ||(self, other:String): String
+    opr ||(self, _:EmptyString): String
+    opr ||(self, other:Char): String
   end
 
   object SubString(baseString: String, range: Range[\ZZ32\]) extends {Concatenable, DelegatedIndexed[\Char, ZZ32\]}
