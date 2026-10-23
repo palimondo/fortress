@@ -22,6 +22,8 @@ import com.sun.fortress.useful.HasAt;
 public class WellKnownNames {
     public static final String anyTypeName = "Any";
     public static final String objectTypeName = "Object";
+    /** The trait of index types, declared by fortressLibrary(): it extends Any, not Object. */
+    public static final String indexTypeName = "Index";
     public static final String defaultSelfName = "self";
     public static final String secretSelfName = "$self"; // The true name of the object
     public static final String secretParentName = "$parent"; // The true name of the object

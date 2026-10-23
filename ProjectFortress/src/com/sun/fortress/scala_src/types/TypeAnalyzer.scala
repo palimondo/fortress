@@ -27,6 +27,7 @@ import com.sun.fortress.compiler.index.ObjectTraitIndex
 import com.sun.fortress.compiler.index.ProperTraitIndex
 import com.sun.fortress.compiler.index.TypeAliasIndex
 
+import com.sun.fortress.compiler.WellKnownNames
 import com.sun.fortress.compiler.Types.ANY
 import com.sun.fortress.compiler.Types.BOTTOM
 import com.sun.fortress.compiler.Types.OBJECT
@@ -257,7 +258,8 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
         result
       }
     // Trait types
-    case (s: TraitType, t: TraitType) if (t==OBJECT) => pTrue()
+    // Every trait type is an Object but the library's Index, which extends Any as Object does.
+    case (s: TraitType, t: TraitType) if (t==OBJECT) && !isLibraryIndex(s) => pTrue()
     
     case (STraitType(_,traitId_1,staticArgs_1,_),STraitType(_,traitId_2,staticArgs_2,_)) 
     	if (typeCons(traitId_1)==typeCons(traitId_2)) =>
@@ -326,6 +328,9 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
            pSub(disjunctFromTuple(s, e2.size + 1), disjunctFromTuple(t, e2.size + 1)))
     case (s@STupleType(_, e1, None, _), t@STupleType(_, e2, None, _)) if e1.size == e2.size =>
       pOr(pOr(e1.map(pEqv(_, BOTTOM))), pAnd((e1,e2).zipped.map((a, b) => pSub(a, b))))
+    // A tuple type whose element types are all subtypes of the library's Index is a subtype of Index.
+    case (s@STupleType(_, e1, None, _), t: TraitType) if e1.nonEmpty && isLibraryIndex(t) =>
+      pOr(pOr(e1.map(pEqv(_, BOTTOM))), pAnd(e1.map(pSub(_, t))))
     case (s@STupleType(_, e1, _, _), t) =>
       pOr(e1.map(pEqv(_, BOTTOM)))
     case (s, t:TupleType) => 
@@ -557,6 +562,9 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       pOr((e1, e2).zipped.map((a, b) => pExc(a, b)))
     case (STupleType(_, e1, None, _), STupleType(_, e2, None, _)) =>
       pTrue()
+    // A tuple type excludes the library's Index only where one of its element types excludes Index.
+    case (STupleType(_, e1, None, _), t: TraitType) if e1.nonEmpty && isLibraryIndex(t) =>
+      pOr(e1.map(pExc(_, t)))
     case (s: TupleType, t) => pExc(disjunctFromTuple(s, 1), t)
     case (s, t: TupleType) => pExc(t, s)
     case (s: ArrowType, t: ArrowType) => pFalse()
@@ -840,6 +848,18 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     SEffect(i1, tc, io1 && io2)
   }
   
+  /* Whether t is the library's trait Index, by its qualified name: the trait Index of
+   * the api WellKnownNames.fortressLibrary.  A program's own trait Index is not it. */
+  def isLibraryIndex(t: Type): Boolean = t match {
+    case STraitType(_, n, args, _) =>
+      args.isEmpty && n.getText == WellKnownNames.indexTypeName &&
+        (toOption(n.getApiName) match {
+          case Some(api) => api.getText == WellKnownNames.fortressLibrary
+          case None => false
+        })
+    case _ => false
+  }
+
   // Accessor methods for trait table
   def typeCons(x: Id): TypeConsIndex =
 //    toOption(traits.typeCons(x)).getOrElse(bug(x, x + " is not in the trait table"))

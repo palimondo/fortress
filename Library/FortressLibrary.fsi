@@ -530,7 +530,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     signed(self):ZZ64
 end
 
-trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\] }
+trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
         excludes { ZZ64, ZZ, NN64, NN32 }
         comprises { Int }
     coerce(x: IntLiteral)
@@ -1238,6 +1238,12 @@ trait Indexed2[\ nat n \] end
 
 trait Indexed3[\ nat n \] end
 
+(** %Index% is the type of what a subscript takes, apart from the ranges,
+    which exclude it: %ZZ32%, and every tuple type whose element types are
+    all %Index% types.  It extends %Any%, not %Object%, so a tuple of
+    indices is an %Index% and no %Object%. **)
+trait Index extends Any end
+
 (** The indexed trait indicates that an object of type %T% can be
 indexed using type %I% to obtain elements with type %E%.
 
@@ -1257,7 +1263,7 @@ An object %i% that is an instance of %Indexed% defines three basic things:
   A set of utility functions, %assign%, %fill%, and %copy%.  Only %fill% and
     %copy% need to be defined.
 **)
-trait Indexed[\E, I\] extends Generator[\E\]
+trait Indexed[\E, I extends Index\] extends Generator[\E\]
     (** %isEmpty()% indicates whether there are any valid indices.  It is
         defined as %|self| = 0%. *)
     getter isEmpty(): Boolean
@@ -1360,7 +1366,7 @@ toArray[\E\](g:Indexed[\E,ZZ32\]): Array[\E,ZZ32\]
     This class is designed for convenience; it should not be used as a
     type in running code, but only as a supertype in lieu of %Indexed%.
 **)
-trait DelegatedIndexed[\E,I\] extends Indexed[\E,I\]
+trait DelegatedIndexed[\E,I extends Index\] extends Indexed[\E,I\]
     getter generator(): Generator[\E\]
     getter size(): ZZ32
     opr |self| : ZZ32
@@ -1381,7 +1387,7 @@ end
     and
     %Indexed[\Array[\E,ZZ32\],E,ZZ32\]%.
     We will need to find a solution to this at some point.  **)
-trait MutableIndexed[\E, I\]
+trait MutableIndexed[\E, I extends Index\]
         extends { Indexed[\E,I\] }
     abstract opr[i:I]:=(v:E) : ()
 
@@ -1393,7 +1399,7 @@ end
 
 (** Array whose bounds are implicit rather than static, and which may
     be either mutable or immutable. *)
-trait ReadableArray[\E,I\]
+trait ReadableArray[\E,I extends Index\]
         extends { HasRank, Indexed[\E,I\], DelegatedIndexed[\E,I\] }
     (** CONCRETE GETTERS
         Default implementations of getters based on abstract methods
@@ -1452,7 +1458,7 @@ trait ReadableArray[\E,I\]
     opr =(self, other:HasRank): Boolean
 end
 
-trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
+trait ImmutableArray[\E,I extends Index\] extends { ReadableArray[\E,I\] }
         excludes { Array[\E,I\] }
     abstract opr[r:Range[\I\]] : ImmutableArray[\E,I\]
     abstract opr[_:TrivialOpenRange] : ImmutableArray[\E,I\]
@@ -1468,7 +1474,7 @@ trait ImmutableArray[\E,I\] extends { ReadableArray[\E,I\] }
     abstract thaw():Array[\E,I\]
 end
 
-trait Array[\E,I\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
+trait Array[\E,I extends Index\] extends { ReadableArray[\E,I\], MutableIndexed[\E,I\] }
     abstract put(i:I, e:E): ()
     opr[i:I]:=(v:E):()
 
@@ -1511,7 +1517,7 @@ primitiveImmutableArray[\E\](x:ZZ32):ImmutableArray[\E,ZZ32\]
     %StandardMutableArrayType%.  It therefore does not extend
     %ImmutableArray% as you might expect.  Other types that extend
     it should also extend %ImmutableArray% explicitly. **)
-trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],E,I\]
+trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],E,I extends Index\]
         extends { ReadableArray[\E,I\] }
     abstract tabulate(f:I->E):T
     abstract fill(v:E):T
@@ -1519,7 +1525,7 @@ trait StandardImmutableArrayType[\T extends StandardImmutableArrayType[\T,E,I\],
 end
 
 
-trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I\]
+trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I extends Index\]
         extends { StandardImmutableArrayType[\T,E,I\], Array[\E,I\] }
     assign(v:T):T
     assign(f:I->E):T
@@ -2180,7 +2186,7 @@ end
       %a < b% if and only if all points in %a% are strictly contained in %b%.
  **)
 trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
-        excludes { Number, String }
+        excludes { Number, String, Index }
     abstract getter stride(): I
     abstract getter left(): Maybe[\I\]
     abstract getter right(): Maybe[\I\]
@@ -2248,7 +2254,7 @@ trait BoundedRange[\I\] extends Range[\I\]
     getter leftOrRight(): I
     abstract flip(): BoundedRange[\I\]
     every(s: I): BoundedRange[\I\]
-    atMost(n: I): FullRange[\I\]
+    atMost(n: I): FullRange[\I\] where { I extends Index }
     opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
     narrowToRange(other:OpenRange[\I\]): BoundedRange[\I\]
     abstract narrowToRange(other:Range[\I\]): BoundedRange[\I\]
@@ -2278,7 +2284,7 @@ trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
     abstract opr FORWARD_CMP(self, other: Range[\I\]): Comparison
 end
 
-trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I, I\] }
+trait FullRange[\I extends Index\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I, I\] }
     getter extent(): Just[\I\]
     narrowToRange(other:OpenRange[\I\]): FullRange[\I\]
     abstract narrowToRange(other:Range[\I\]): FullRange[\I\]
@@ -2287,14 +2293,14 @@ trait FullRange[\I\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWit
     abstract opr FORWARD_CMP(self, other: FullRange[\I\]): Comparison
 end
 
-trait CompactFullRange[\I\] extends FullRange[\I\]
+trait CompactFullRange[\I extends Index\] extends FullRange[\I\]
     getter lower(): I
     getter upper(): I
     abstract opr |self| : ZZ32
     forward(): CompactFullRange[\I\]
 end
 
-trait StridedFullRange[\I\] extends FullRange[\I\] end
+trait StridedFullRange[\I extends Index\] extends FullRange[\I\] end
 
 (** The %#% and %:% operators serve as factories for parallel ranges. **)
 opr #(lo:ZZ32, ex:ZZ32): CompactFullRange[\ZZ32\]
@@ -2411,12 +2417,12 @@ The following are rejected at present:
 
 opr :[\I\](r: Range[\I\], stride:I): Range[\I\]
 (* This doesn't obey the subtyping rule due to the genericity involved!
-opr :[\I\](r: FullRange[\I\], stride:I): FullRange[\I\] = r.imposeStride(stride)
+opr :[\I extends Index\](r: FullRange[\I\], stride:I): FullRange[\I\] = r.imposeStride(stride)
 *)
 
 opr #[\I\](r: PartialRange[\I\], size:I): Range[\I\]
 
-object SimpleMappedSeqIndexed[\E,F,I\](g0: Indexed[\E,I\], f0: E->F)
+object SimpleMappedSeqIndexed[\E,F,I extends Index\](g0: Indexed[\E,I\], f0: E->F)
         extends { SequentialGenerator[\F\], Indexed[\F,I\] }
     getter size(): ZZ32
     getter bounds(): CompactFullRange[\I\]
@@ -2699,17 +2705,17 @@ opr SUFFIX_SUM(x: Array[\ZZ32,ZZ32\]): Array[\ZZ32,ZZ32\]
 (*) time, since map builds its result with replica and m + 1.0 is still a Matrix; a static
 (*) checker sees only Array[\T,I\], so the rank and size of a sized argument are lost
 (*) to it in the result.
-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
-opr +[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr +[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr +[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr -[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\]
 (*) Scalar on the left: y - x is y - e for each element e of x, so 3 - [1 2] is [2 1].
 (*) This is the only pair here whose two orders differ: +, MIN and MAX commute, and so do
 (*) the scalar DOT and juxtaposition pairs of Vector and Matrix that this block follows.
-opr -[\T extends { Number, AdditiveGroup[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
-opr MIN[\T extends { Number, StandardMin[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
-opr MIN[\T extends { Number, StandardMin[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
-opr MAX[\T extends { Number, StandardMax[\T\] }, I\](x: Array[\T,I\], y: T): Array[\T,I\]
-opr MAX[\T extends { Number, StandardMax[\T\] }, I\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr -[\T extends { Number, AdditiveGroup[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr MIN[\T extends { Number, StandardMin[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr MIN[\T extends { Number, StandardMin[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\]
+opr MAX[\T extends { Number, StandardMax[\T\] }, I extends Index\](x: Array[\T,I\], y: T): Array[\T,I\]
+opr MAX[\T extends { Number, StandardMax[\T\] }, I extends Index\](y: T, x: Array[\T,I\]): Array[\T,I\]
 
 
 end

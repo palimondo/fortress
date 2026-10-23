@@ -202,7 +202,7 @@ abstract public class FType implements Comparable<FType> {
         if (other instanceof FTypeArrow) // FTypeArrow handles other case
             return true;
         if (other instanceof FTypeTuple) // FTypeTuple handles other case
-            return true;
+            return FTypeTuple.isLibraryIndex(this) ? other.excludesOther(this) : true;
         if (excludesOtherSimply(other)) {
             return true;
         }

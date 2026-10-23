@@ -13,7 +13,9 @@ package com.sun.fortress.interpreter.evaluator.types;
 
 import static com.sun.fortress.exceptions.FortressException.errorMsg;
 import static com.sun.fortress.exceptions.InterpreterBug.bug;
+import com.sun.fortress.compiler.WellKnownNames;
 import com.sun.fortress.exceptions.UnificationError;
+import com.sun.fortress.interpreter.Driver;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import static com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.exclDump;
 import static com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.exclDumpln;
@@ -63,6 +65,27 @@ public class FTypeTuple extends FType {
     }
 
     /**
+     * True if t is the library's trait Index. A tuple type whose element
+     * types are all subtypes of Index is a subtype of Index.
+     */
+    static boolean isLibraryIndex(FType t) {
+        if (!(t instanceof FTypeTrait) || !WellKnownNames.indexTypeName.equals(t.getName())) return false;
+        try {
+            return t == Driver.getFortressLibrary().getRootTypeNull(WellKnownNames.indexTypeName);
+        } catch (RuntimeException e) {
+            return false; // no library loaded
+        }
+    }
+
+    /** True if each element type is a subtype of the library's Index, which index is. */
+    private boolean elementsSubtypeOf(FType index) {
+        for (FType t : l) {
+            if (t instanceof FTypeRest || !t.subtypeOf(index)) return false;
+        }
+        return true;
+    }
+
+    /**
      * Returns this subtypeof other.
      */
     public boolean subtypeOf(FType other) {
@@ -104,6 +127,7 @@ public class FTypeTuple extends FType {
             }
 
         }
+        if (isLibraryIndex(other)) return elementsSubtypeOf(other);
         return false;
     }
 
@@ -173,6 +197,8 @@ public class FTypeTuple extends FType {
             for (List<FType> lt : slf) {
                 result.add(FTypeTuple.make(lt));
             }
+        } else if (isLibraryIndex(other) && elementsSubtypeOf(other)) {
+            result.add(this);
         }
         return result;
     }
@@ -190,6 +216,8 @@ public class FTypeTuple extends FType {
             for (List<FType> lt : slf) {
                 result.add(FTypeTuple.make(lt));
             }
+        } else if (isLibraryIndex(other) && elementsSubtypeOf(other)) {
+            result.add(other);
         }
         return result;
     }
@@ -381,6 +409,17 @@ public class FTypeTuple extends FType {
             return false;
         }
         if (!(other instanceof FTypeTuple)) {
+            if (isLibraryIndex(other)) {
+                // A tuple type excludes Index only where one of its element types does.
+                for (FType t : l) {
+                    if (t instanceof FTypeRest || t.excludesOther(other)) {
+                        exclDumpln(" Excludes.  An element excludes Index.");
+                        return true;
+                    }
+                }
+                exclDumpln(" No.  No element excludes Index.");
+                return false;
+            }
             exclDumpln(" Excludes.  Non-tuple.");
             return true;
         }
