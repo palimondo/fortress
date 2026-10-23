@@ -108,7 +108,7 @@ object TryAtomicFailure extends CheckedException end
  * Simple Range support
  ************************************************************)
 
-trait GeneratorZZ32 excludes { Boolean }   (*) excludes { Boolean, AllGenerators  }
+trait GeneratorZZ32 extends Equality[\GeneratorZZ32\] excludes { Boolean, Number, Character, String }   (*) excludes { Boolean, AllGenerators  }
     abstract getter asString(): String
     seq(self): SeqGeneratorZZ32
     abstract loop(body:ZZ32->()): ()
@@ -125,8 +125,6 @@ trait SeqGeneratorZZ32 extends GeneratorZZ32
     abstract getter asString(): String
     abstract filter(f: ZZ32 -> Boolean): SeqGeneratorZZ32
 end
-
-opr =(left:GeneratorZZ32, right:GeneratorZZ32): Boolean
 
 __bigOperator(o:ReductionString,
               desugaredClauses:(ReductionString, String->String)->String): String

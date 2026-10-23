@@ -298,7 +298,7 @@ opr SEQV(a:Any, b:Any) = jSEQV(a,b)
  * Simple Range support
  ************************************************************)
 
-trait GeneratorZZ32 excludes { Boolean }  (*) excludes { Boolean, AllGenerators }
+trait GeneratorZZ32 extends Equality[\GeneratorZZ32\] excludes { Boolean, Number, Character, String }  (*) excludes { Boolean, AllGenerators }
     getter asString(): String
     seq(self): SeqGeneratorZZ32 = SeqGenZZ32(self)
     loop(body:ZZ32->()): ()
@@ -310,8 +310,6 @@ trait GeneratorZZ32 excludes { Boolean }  (*) excludes { Boolean, AllGenerators 
     filter(f: ZZ32 -> Boolean): GeneratorZZ32
     opr IN(x:ZZ32, self): Boolean = false
 end
-
-opr =(left:GeneratorZZ32, right:GeneratorZZ32): Boolean = false
 
 trait SeqGeneratorZZ32 extends GeneratorZZ32
     getter asString(): String
