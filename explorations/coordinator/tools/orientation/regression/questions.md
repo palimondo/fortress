@@ -47,7 +47,7 @@ If you would look something up before you act, say what you would look up, where
 
 17. Port this Java loop: `for (long i = lo; i < hi; i++) { total = step(total, i); }`. `lo` and `hi` are `ZZ64` values that fit in 32 bits, `step(t: RR64, i: ZZ64): RR64` is declared, and each step depends on the total before it.
 
-18. In `Library/RangeInternals.fss` you add `checkFits(r: Range[\ZZ32\], n: ZZ32): ()` beside `checkFits(r: Range[\(ZZ32,ZZ32)\], n: (ZZ32,ZZ32)): ()`. The count stage reports no new error. Walk now refuses every program at load, with an overload message that names your two declarations. What do you do?
+18. In `Library/RangeInternals.fss` you add `checkFits(r: Range[\ZZ32\], other: Range[\ZZ32\]): ()` beside `checkFits(r: Range[\(ZZ32,ZZ32)\], other: Range[\(ZZ32,ZZ32)\]): ()`. The count stage reports no new error. Walk now refuses every program at load, with an overload message that names your two declarations. What do you do?
 
 19. Your new walk test stops with an error inside a library function that your change did not touch, and you do not recognise the message. What do you do?
 
