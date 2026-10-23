@@ -1,0 +1,12 @@
+(* A name imported by name from one api and left out of another's import by its except clause is overloaded with none of the second api's declarations (source-code.tex, section "Import Statements"). *)
+component ImportExceptByName
+import ImportExceptOverloadApi.{...} except { pick }
+import ImportExceptByNameApi.{ pick }
+export Executable
+
+run(): () = do
+  assert(pick(P1), 3, "the pick imported by name, the other api's left out by except")
+  println("PASS")
+end
+
+end
