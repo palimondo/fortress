@@ -38,7 +38,6 @@
 - No second reader named in the brief, since that reframes the document.
 - No request to measure or cap its own token spend. The spend is yours to watch.
 - For an Agent-tool worker: every wait under 270 s. A long run is polled in steps, or handed to a script while the agent ends its turn.
-- Put a one-off worker's brief in its launch prompt. The transcript keeps it. Write a brief to a file only where a tool reads it from one, such as `skill-writer.sh`, a Workflow script or a writer stream, or where several workers share it.
 
 A worker whose task touches the repository loads `fortress-repo` by itself. That skill tells it which choices are its own.
 

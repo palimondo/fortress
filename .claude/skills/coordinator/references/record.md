@@ -105,7 +105,7 @@ Three Workflow scripts make the record and the worker skill readable again when 
 ## INDEX and the gap ledger
 
 - Give each new note under `explorations/` one line in INDEX, from its header comment's first sentence.
-- Put a run's working files in an `evidence/` folder beside its results file: its brief files, chunks and checks, and the worker reports that the results draw on. Move them there with `git mv` once the results are judged. Only the results file gets an INDEX line. `check-index.sh` skips evidence folders. Do not add a folder's name to its list to let the folder pass.
+- Put a run's working files in an `evidence/` folder beside its results file: its briefs, chunks and checks, and the worker reports that the results draw on. Move them there with `git mv` once the results are judged. Only the results file gets an INDEX line. `check-index.sh` skips evidence folders. Do not add a folder's name to its list to let the folder pass.
 - The gap ledger keeps its rows in topic sections. A row keeps its number for good. `explorations/coordinator/tools/ledger.py` is the only way to write it. Other views, such as `explorations/apl/lessons.md`, are derived from it.
 - Split a rewrite of the ledger among small workers, each with a slice of rows that it can hold. Run a duplicate search first, as its own step.
 - Ask the curator before you regroup the ledger's rows or derive its views again.
