@@ -1084,3 +1084,16 @@ The items for him that climb batch 20's rungs, skeptics and gather left (`compil
 - A.skeptic.4 of climb batch 20's rung A: should the api declare `Array2`'s column and row subscripts, `opr[_:TrivialOpenRange, i1:ZZ32]` and `opr[i0:ZZ32, _:TrivialOpenRange]`, as the rung declared `array3(v)`? Walk runs them, and the api's `Array2` lacks them, so a checker that reads the api does not see them (row 465's other case). No default on record. Evidence: `Library/FortressLibrary.fss:2707`, `:2711`; `Library/FortressLibrary.fsi:1706-1709`; `compile-ladder/rung-array-sites/SKEPTIC.md:96`.
 
 - gather.2 of climb batch 20's gather: the dimensions chapter writes its unit factors with an integer numeral base at a negative exponent, `inch` as `2.54 \times 10^{-2}` meter, its conversion of miles as `((2.54 \times 10^{-2})(12)(5280)/10^{3})`, "or `25146/15625`", an exact rational, and the SI prefixes `deci` to `yocto` as `10^{-1}` to `10^{-24}` (`Specification/advanced/defining-dimensions.tex:217`, `:224-225`, `:310-319`). The integer chapter's revised power entry, which the numeral type follows, now makes each such power throw `IntegerOverflow` (`Specification/basic-lib/basic-integers.tex:534-537`; P-153). Rung I's report lists no such sentence (`compile-ladder/rung-integer-power/REPORT.md:182-202`); dimensions and units are not built, so no test or extracted example runs them. Respell them with a rational or float base, as rung I did the team's tests and demos, or leave the chapter as the team wrote it? No default on record.
+
+## The timed pairs of the walk check dropped, 2026-10-23
+
+Both items proposed timing microGPT's quick walk check, old code against new, to find a slowdown's cause. At 18:58 and 19:03 UTC on 2026-10-23 the curator ruled such timings out: the `fortress-repo` rule against timing walk stands ("It is telling you not to measure work"), and no new rule is added (`process-engineering/walk-timing-rule-archaeology.md`).
+
+### Work that can start now, with no decision
+
+- Climb batch 20's review, finding 8, the review's proposal: microGPT's quick pair took 3 s and 5 s more, with rung A's casts on both programs' path; one timed pair, the base build `/home/user/fortress-base20` against the head, each program alone at a load under 1, about 3 minutes of the machine and under 50K tokens, before the base build is removed (`reviews/batch-20-review.md`, section 5).
+
+### Climb batch 16, listed for his review
+
+- The quick microGPT walk check took 65 s and 58 s at the landing, past P-30's minute for the first program (the review's finding 6). Default: one idle pair of `tools/mg-run.sh`'s quick programs, the base build against `main`, to find the cause before anything changes. "For Pavol", 9.
+
