@@ -1,0 +1,9 @@
+(* An object of the component matches its api's object only with a definition of the same name for each field (apis.tex, section "Component and API Identity"), so a field y of x's type does not satisfy x, and the component is refused. *)
+component XXXExportFieldName
+export XXXExportFieldName
+
+object O
+    var y: ZZ32 := 1
+end
+
+end
