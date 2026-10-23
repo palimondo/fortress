@@ -3,10 +3,10 @@ export Executable
 
 (* An object that inherits two operator declarations of one symbolic name whose parameter types overlap, and provides no declaration on their meet, is no valid overloading, so the program is refused at load (row 611); Specification/advanced/overloading.tex, section "Meet Rule". *)
 
-trait S
+trait S excludes { String }
   opr ||(self, b: ZZ32): ZZ32 = 1
 end
-trait T
+trait T excludes { String }
   opr ||(self, b: ZZ32): ZZ32 = 2
 end
 object Vo extends { S, T } end
