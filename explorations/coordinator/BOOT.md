@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 12:16 UTC on 2026-10-23** (14:16 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
+**State at 12:24 UTC on 2026-10-23** (14:24 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
 
 ## Running
 
@@ -25,7 +25,7 @@ Batch 21 has his go to launch once its record is written and reviewed by Fable (
 
 ## Next
 
-- **Before the launch, done at about 12:15 UTC:** the base build covers `main`'s code (no diff from `aa5ff2423` under `Library`, `ProjectFortress`, `Specification`, `build.xml`, `bin`); a trial seed (4 s) and `old-fortress.sh` on `BooleanOps` (exit 0); 7.3G free. **Left, after his three answers:** the generator for run 1 (with or without V, or with the checker rung written in V's place by a planner), the splice and its commit, the base hash, the check-ins, and the launch.
+- **Before the launch, done by 12:24 UTC:** the base build covers `main`'s code (no diff from `aa5ff2423` under `Library`, `ProjectFortress`, `Specification`, `build.xml`, `bin`); a trial seed (4 s) and `old-fortress.sh` on `BooleanOps` (exit 0); 7.3G free. **Left, after his three answers:** the generator for run 1 (with or without V, or with the checker rung written in V's place by a planner), the splice and its commit, the base hash, the check-ins, and the launch.
 - **Between the runs:** the count stage's blind spot (a library that does not parse reads as its parse-error count), the coordinator's tool fix, as `c21177829` did for the distance stage; PLAN's line 13 and item 19 updated for batch 21.
 - **If he withdraws P-157:** drop V from run 1 (`--without V`), and have a planner write the checker rung in V's place in run 1, as the record's rung V section, "The other branch", gives it (its section, `lists21.py`'s `RUNS['1']` and briefing, `check21.js`'s `RUN_IDS` and `CHECKER_RUNGS`, the intro).
 - **The judgement's write-up for him**, by an Opus writer as a page, with A1's result: after batch 21's asks.
