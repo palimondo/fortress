@@ -231,7 +231,7 @@ D_BRIEFING = [
   (TD + "6. Decisions", "The probe's choices and the ways not taken, demo by demo."),
   ("doc:explorations/perf-probes/team-demos/demos-repairs.patch", "Your text as the probe measured it."),
   (REC + "The demos on the first run's text", "The 52 demos with the patch on the first run's text as first drafted, which is not the walk the first run landed."),
-  ("doc:explorations/coordinator/review-queue.md#Tests and the team's demos (1)", "Item 247, whose default on record your rung builds: every listed failure is owed, on walk and on the compiled checker."),
+  ("doc:explorations/coordinator/review-queue.md#(b) Consequential, by theme > Tests and the team's demos", "Item 247, whose default on record your rung builds: every listed failure is owed, on walk and on the compiled checker."),
   ("doc:Library/Generator22D.fss", "rects, halving with / where DIV is meant."),
 ]
 D_CHECKS = [
