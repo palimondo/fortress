@@ -1,0 +1,454 @@
+diff --git a/Library/Generator22D.fss b/Library/Generator22D.fss
+index 66ecb614e..86cc19657 100644
+--- a/Library/Generator22D.fss
++++ b/Library/Generator22D.fss
+@@ -141,13 +141,13 @@ do
+   (iu, ju) = bs.upper
+   s0 = iu - il + 1
+   s1 = ju - jl + 1
+-  ss0 = (s0 (s0+1))/2
+-  ss1 = (s1 (s1+1))/2
++  ss0 = (s0 (s0+1)) DIV 2
++  ss1 = (s1 (s1+1)) DIV 2
+   ret = array[\Generator[\E\]\](ss0, ss1).tabulate(
+ fn (i,j) => do
+ 
+ est_n(u) = narrow(|\ SQRT(2 u) /|)
+-ss(n) = ((n-1) n) / 2
++ss(n) = ((n-1) n) DIV 2
+ chk(u, n) = do d = u - ss n; d > 0 AND d <= n end
+ fst(a,b) = a
+ snd(a,b) = b
+diff --git a/ProjectFortress/demos/ArrayListLong.fss b/ProjectFortress/demos/ArrayListLong.fss
+index 78c2e2551..a878e8674 100644
+--- a/ProjectFortress/demos/ArrayListLong.fss
++++ b/ProjectFortress/demos/ArrayListLong.fss
+@@ -156,7 +156,7 @@ run():() = do
+   end
+   finish = nanoTime()
+   ms = ((finish-start) + 500000) DIV 1000000
+-  println( //"Succeeded in " (ms/1000.0) "s")
++  println( //"Succeeded in " (asFloat(ms)/1000.0) "s")
+ end
+ 
+ end
+diff --git a/ProjectFortress/demos/BiCGSTAB.fss b/ProjectFortress/demos/BiCGSTAB.fss
+index 5717a9d72..2742b985c 100644
+--- a/ProjectFortress/demos/BiCGSTAB.fss
++++ b/ProjectFortress/demos/BiCGSTAB.fss
+@@ -174,7 +174,7 @@ do
+   bicg_stab_band[\imax, jmax, kmax\](Ap,Ae,Aw,An,As,At,Ab,x,b)
+   et = nanoTime()
+   t = et - st
+-  ss = t / 1000000000.0
++  ss = asFloat(t) / 1000000000.0
+   println("elapsed time " t " ns ( " ss " s)")
+ end
+ (* Note
+diff --git a/ProjectFortress/demos/BiCGSTAB2.fss b/ProjectFortress/demos/BiCGSTAB2.fss
+index 92cc479f7..f74edaec0 100644
+--- a/ProjectFortress/demos/BiCGSTAB2.fss
++++ b/ProjectFortress/demos/BiCGSTAB2.fss
+@@ -160,7 +160,7 @@ do
+   BiCGSTABband[\imax, jmax, kmax\](Ap,Ae,Aw,An,As,At,Ab,x,b)
+   et = nanoTime()
+   t = et - st
+-  ss = t / 1000000000.0
++  ss = asFloat(t) / 1000000000.0
+   println("elapsed time " t " ns ( " ss " s)")
+ end
+ (* Note
+diff --git a/ProjectFortress/demos/BirdCount1m.fss b/ProjectFortress/demos/BirdCount1m.fss
+index 78cd223aa..5bcc78db0 100644
+--- a/ProjectFortress/demos/BirdCount1m.fss
++++ b/ProjectFortress/demos/BirdCount1m.fss
+@@ -25,7 +25,7 @@ stringToFloat(s: String): RR64 = do
+   intpart = s UPTO '.'
+   frac = s BEYOND '.'
+   both = intpart || frac
+-  1.0 (SUM[k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|))
++  asFloat((SUM[k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|)))
+ end
+ 
+ (*) opr UPTO(s: String, c: Char) = s.asFlatString.javaRegExpSplit(c.asString.asFlatString, 0)
+diff --git a/ProjectFortress/demos/BirdCount1n.fss b/ProjectFortress/demos/BirdCount1n.fss
+index 2a066daa4..63932af34 100644
+--- a/ProjectFortress/demos/BirdCount1n.fss
++++ b/ProjectFortress/demos/BirdCount1n.fss
+@@ -24,7 +24,7 @@ stringToFloat(s: String): RR64 = do   (*) Quick and dirty implementation
+   intpart = s UPTO '.'
+   frac = s BEYOND '.'
+   both = intpart || frac
+-  1.0 (SUM[k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|))
++  asFloat((SUM[k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|)))
+ end
+ 
+ opr UPTO(s: String, c: Char) =
+diff --git a/ProjectFortress/demos/BirdCount1o.fss b/ProjectFortress/demos/BirdCount1o.fss
+index e36747729..45b015945 100644
+--- a/ProjectFortress/demos/BirdCount1o.fss
++++ b/ProjectFortress/demos/BirdCount1o.fss
+@@ -24,7 +24,7 @@ stringToFloat(s: String): RR64 = do   (*) Quick and dirty implementation
+   intpart = s UPTO '.'
+   frac = s BEYOND '.'
+   both = intpart || frac
+-  1.0 (SUM[k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|))
++  asFloat((SUM[k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|)))
+ end
+ 
+ opr UPTO(s: String, c: Char) =
+diff --git a/ProjectFortress/demos/DemoGenerator22D.fss b/ProjectFortress/demos/DemoGenerator22D.fss
+index 7bb98aeda..8f249b39d 100644
+--- a/ProjectFortress/demos/DemoGenerator22D.fss
++++ b/ProjectFortress/demos/DemoGenerator22D.fss
+@@ -64,7 +64,7 @@ rundemo(i) = do
+     ans=BIG MAX[\Number\] <|[\Number\] SUM[\Number\] r | r <- rects xs |>
+     et = nanoTime()
+     t = et - st
+-    ss = t / 1000000000.0
++    ss = asFloat(t) / 1000000000.0
+ 
+     n = sizes[i]
+     println("mrs of " n "x" n " in " t " ns ( " ss " s) (the answer is " ans")")
+diff --git a/ProjectFortress/demos/GenomeUtil1z.fss b/ProjectFortress/demos/GenomeUtil1z.fss
+index 440163183..444c430d2 100644
+--- a/ProjectFortress/demos/GenomeUtil1z.fss
++++ b/ProjectFortress/demos/GenomeUtil1z.fss
+@@ -65,7 +65,6 @@ getReferenceGenomeFromFile(fileName: String, chunkSize: ZZ32, maxReadSize: ZZ32)
+ end
+ 
+ trait ReadList
+-  nextRange(): ()
+   getReads(): List[\Read\]
+ end ReadList
+ 
+diff --git a/ProjectFortress/demos/GenomeUtil2a.fss b/ProjectFortress/demos/GenomeUtil2a.fss
+index f20c7446d..157d1e1ef 100644
+--- a/ProjectFortress/demos/GenomeUtil2a.fss
++++ b/ProjectFortress/demos/GenomeUtil2a.fss
+@@ -71,7 +71,6 @@ getReferenceGenomeFromFile(fileName: String, chunkSize: ZZ32, maxReadSize: ZZ32)
+ end
+ 
+ trait ReadList
+-  nextRange(): ()
+   getReads(): List[\Read\]
+ end ReadList
+ 
+diff --git a/ProjectFortress/demos/GenomeUtil2d.fsi b/ProjectFortress/demos/GenomeUtil2d.fsi
+new file mode 100644
+index 000000000..8fa327d1b
+--- /dev/null
++++ b/ProjectFortress/demos/GenomeUtil2d.fsi
+@@ -0,0 +1,50 @@
++(*******************************************************************************
++Copyright 2010 Michael Zody and Sun Microsystems, Inc. 
++All rights reserved.
++
++Sun Microsystems, Inc. is the Copyright owner of the Fortress programming language software,
++and Michael Zody is the developer of the algorithm which this software implements and the
++Copyright owner of the software implementation of the algorithm, to which Sun Microsystems, Inc.
++has a perpetual, irrevocable, royalty free right and license to use and distribute. 
++
++Use is subject to license terms accompanying the software.
++ ******************************************************************************)
++
++api GenomeUtil2d
++
++import FileSupport.{...}
++import List.{...}
++
++colorsFromACGT(strACGT: String): String
++colorsToACGT(start: Char, colorstr: String): String
++
++trait ReferenceGenome extends { SequentialGenerator[\ReferenceGenomeChunk\] } end
++
++trait ReferenceGenomeChunk comprises {...}
++  currentChunkRange(): CompactFullRange[\ZZ32\]
++  getACGT(r: CompactFullRange[\ZZ32\]): String
++  getColors(r: CompactFullRange[\ZZ32\]): String
++end ReferenceGenomeChunk
++
++getReferenceGenomeFromFile(fileName: String, chunkSize: ZZ32, maxReadSize: ZZ32): ReferenceGenome
++
++trait ReadList
++  getReads(refChunk: ReferenceGenomeChunk): List[\Read\]
++end ReadList
++
++getReadListFromFile(fileName: String, maxReadSize: ZZ32): ReadList
++
++trait Read comprises {...}
++  header: String
++  sampleACGT: String
++  name: String
++  pos: ZZ32
++  length: ZZ32
++  seqend: ZZ32
++  getter asString(): String
++  getter refACGT(): String
++  getter refColors(): String
++  getter sampleColors(): String
++end Read
++
++end
+diff --git a/ProjectFortress/demos/HeapShakedown.fss b/ProjectFortress/demos/HeapShakedown.fss
+index 8bf57dcf2..6084202c2 100644
+--- a/ProjectFortress/demos/HeapShakedown.fss
++++ b/ProjectFortress/demos/HeapShakedown.fss
+@@ -105,7 +105,7 @@ checkGen(h:Heap[\ZZ32,ZZ32\], n:ZZ32): () = do
+   end
+ 
+ timeDiffMS(start:ZZ64, fin:ZZ64): RR64 =
+-    (fin-start) / 10^6
++    asFloat((fin-start) / 10^6)
+ 
+ lg(n:ZZ32):ZZ32 =
+     if n <= 1 then 0
+@@ -167,7 +167,7 @@ run():() = do
+         fn (s: ZZ32): List[\List[\RR64\]\] =>
+           singleton[\List[\RR64\]\](
+             appending[\RR64\](
+-              <| 1.0 s, s lg s |>,
++              <|[\RR64\] 1.0 s, s lg s |>,
+               testHeap(s,lazy[\ZZ32,ZZ32\],(0#s).indexValuePairs),
+               testHeap(s,lazy[\ZZ32,ZZ32\],(0#s).map[\(ZZ32,ZZ32)\](spread)),
+               testHeap(s,pairing[\ZZ32,ZZ32\],(0#s).indexValuePairs),
+diff --git a/ProjectFortress/demos/Integrate2.fss b/ProjectFortress/demos/Integrate2.fss
+index 3167b3ef5..0a19bd548 100644
+--- a/ProjectFortress/demos/Integrate2.fss
++++ b/ProjectFortress/demos/Integrate2.fss
+@@ -45,7 +45,7 @@ recEval(l: RR64, r: RR64, fl: RR64, fr: RR64, a: RR64): RR64 = do
+   end
+ 
+ elapsedSec(init:ZZ64, final:ZZ64): RR64 =
+-    (final - init) / (10.0^9)
++    asFloat(final - init) / (10.0^9)
+ 
+ run(): () = do
+     println("Time(s)\tArea")
+diff --git a/ProjectFortress/demos/IntegrationStats.fss b/ProjectFortress/demos/IntegrationStats.fss
+index c679bab7f..3068a095a 100644
+--- a/ProjectFortress/demos/IntegrationStats.fss
++++ b/ProjectFortress/demos/IntegrationStats.fss
+@@ -87,8 +87,8 @@ integrate_fo'(l: RR64, h:RR64, fl: RR64, fh:RR64, a:RR64, tol: RR64, depth:RR64)
+     end
+   end
+ 
+-elapsedSec(init:RR64, final:RR64): RR64 =
+-    (final - init) / (10.0^9)
++elapsedSec(init:ZZ64, final:ZZ64): RR64 =
++    asFloat(final - init) / (10.0^9)
+ 
+ runTest(theTest: ()->Result): () = do
+     startTime = nanoTime()
+diff --git a/ProjectFortress/demos/PureListLong.fss b/ProjectFortress/demos/PureListLong.fss
+index a197a1760..b82fa036b 100644
+--- a/ProjectFortress/demos/PureListLong.fss
++++ b/ProjectFortress/demos/PureListLong.fss
+@@ -150,7 +150,7 @@ run():() = do
+   end
+   finish = nanoTime()
+   ms = ((finish-start) + 500000) DIV 1000000
+-  println( //"Succeeded in " (ms/1000.0) "s")
++  println( //"Succeeded in " (asFloat(ms)/1000.0) "s")
+ end
+ 
+ end
+diff --git a/ProjectFortress/demos/SatEx.fss b/ProjectFortress/demos/SatEx.fss
+index aa9ca189c..6ad8ee170 100755
+--- a/ProjectFortress/demos/SatEx.fss
++++ b/ProjectFortress/demos/SatEx.fss
+@@ -15,11 +15,11 @@ run() = do
+                 start = nanoTime()
+                 q = readQuery(f)
+                 fin = nanoTime()
+-                println "c TIME (READING): " ((fin-start)/10.0^9) "s"
++                println "c TIME (READING): " (asFloat(fin-start)/10.0^9) "s"
+                 start' = nanoTime()
+                 a = satisfiability(q)
+                 fin' = nanoTime()
+-                println "c TIME (SOLVING): " ((fin'-start')/10.0^9) "s"
++                println "c TIME (SOLVING): " (asFloat(fin'-start')/10.0^9) "s"
+                 if (0 IN a) then
+                         println "s UNSATISFIABLE"
+                 else
+diff --git a/ProjectFortress/demos/Satisfiability.fss b/ProjectFortress/demos/Satisfiability.fss
+index 0c3c2232d..5e2262dea 100755
+--- a/ProjectFortress/demos/Satisfiability.fss
++++ b/ProjectFortress/demos/Satisfiability.fss
+@@ -86,7 +86,7 @@ end
+     Function fUnitPropagation removes unnecessary clauses and variables in f.
+ *)
+ 
+-fUnitPropagation(f, theta) = <|[\ZZ32\] g.filter(fn h => NOT (-h IN theta)) | g <- f.filter(fn g => |g.filter(fn h => h IN theta)| = 0) |>
++fUnitPropagation(f, theta) = <|[\List[\ZZ32\]\] g.filter(fn h => NOT (-h IN theta)) | g <- f.filter(fn g => |g.filter(fn h => h IN theta)| = 0) |>
+ 
+ (*
+     Function thetaUnitPropagation finds values of free variables in unit clauses.
+diff --git a/ProjectFortress/demos/aStar.fss b/ProjectFortress/demos/aStar.fss
+index d59d39645..2d8f9d2e0 100644
+--- a/ProjectFortress/demos/aStar.fss
++++ b/ProjectFortress/demos/aStar.fss
+@@ -35,9 +35,9 @@ export Executable
+     updatable board data structure.
+  **)
+ 
+-trait SearchInstance[\Self extends SearchInstance[\Self,Cost\],
++trait SearchInstance[\Inst extends SearchInstance[\Inst,Cost\],
+                       Cost (* extends StandardTotalOrder[\Cost\] *)\]
+-        extends Generator[\Self\]
++        extends Generator[\Inst\]
+     (** isComplete() returns true if no further searching is possible
+         from this point, and returns false if further searching is
+         required. **)
+@@ -56,11 +56,11 @@ trait SearchInstance[\Self extends SearchInstance[\Self,Cost\],
+         this probably ought to return an empty generator.  If you
+         write the children() getter you do not need to write the
+         generate() method.  **)
+-    getter children(): Generator[\Self\] = self
++    getter children(): Generator[\Inst\] = self
+ 
+     (** If you don't write the children() getter you should write the
+         generate() method. **)
+-    generate[\R\](r: Reduction[\R\], body: Self->R): R =
++    generate[\R\](r: Reduction[\R\], body: Inst->R): R =
+         self.children.generate[\R\](r,body)
+ end
+ 
+@@ -339,10 +339,10 @@ timing(x:()->Any): (Any,NanoInterval) = do
+   end
+ 
+ value object NanoInterval(i:ZZ64)
+-    getter sec(): RR64 = i / 10.0^9
+-    getter ms(): RR64 = i / 10.0^6
+-    getter us(): RR64 = i / 10.0^3
+-    getter ns(): RR64 = 1.0 i
++    getter sec(): RR64 = asFloat(i) / 10.0^9
++    getter ms(): RR64 = asFloat(i) / 10.0^6
++    getter us(): RR64 = asFloat(i) / 10.0^3
++    getter ns(): RR64 = asFloat(i)
+     getter asString(): String =
+         if i = 0 then "0"
+         elif i >= 10^9 then self.sec "s"
+diff --git a/ProjectFortress/demos/buffons.fss b/ProjectFortress/demos/buffons.fss
+index aa4d60531..fc6f7c6db 100644
+--- a/ProjectFortress/demos/buffons.fss
++++ b/ProjectFortress/demos/buffons.fss
+@@ -21,7 +21,7 @@ run():()=do
+    var hits : RR64 := 0.0
+    var n : RR64 := 0.0
+ 
+-   time:RR64 = nanoTime()
++   time = nanoTime()
+ 
+    println("Starting parallel Buffons")
+    for i <- 1#3000 do
+@@ -43,7 +43,7 @@ run():()=do
+    end
+    probability = hits/n
+    pi_est = 2.0/probability
+-   elapsed = (nanoTime() - time) / 1000000000.0
++   elapsed = asFloat(nanoTime() - time) / 1000000000.0
+    println("hits = " || hits || " n = " || n)
+    println("Buffons: estimated Pi = "  || pi_est || " took time " || elapsed)
+ end
+diff --git a/ProjectFortress/demos/mg.fss b/ProjectFortress/demos/mg.fss
+index 58f354703..28d7eaa0d 100644
+--- a/ProjectFortress/demos/mg.fss
++++ b/ProjectFortress/demos/mg.fss
+@@ -17,7 +17,10 @@ export Executable
+ 
+ object Grid3(x:ZZ32, y:ZZ32, z:ZZ32, I)
+ 
+-    var data:Array[\RR64, (ZZ32, ZZ32, ZZ32)\] := array[\RR64\](x, y, z).fill(I)
++    var data:Array[\RR64, (ZZ32, ZZ32, ZZ32)\] := typecase I of
++            (ZZ32, ZZ32, ZZ32) -> RR64 => array[\RR64\](x, y, z).tabulate(I)
++            else => array[\RR64\](x, y, z).fill(I)
++        end
+ 
+     getter x_size() = x
+     getter y_size() = y
+@@ -156,7 +159,7 @@ run() = do
+         r := v - (A u)
+         u := u + vmg(r, k_vmg)
+         tempTimeEnd := nanoTime()
+-        println ((tempTimeEnd - tempTimeStart) / 1000000000.0) " seconds"
++        println (asFloat(tempTimeEnd - tempTimeStart) / 1000000000.0) " seconds"
+     end
+ 
+     endTime = nanoTime()
+@@ -164,7 +167,7 @@ run() = do
+     println ""
+     println "L2 Norm is " (v - (A u)).norm
+     println ""
+-    println "Time: " ((endTime - startTime) / 1000000000.0) " seconds"
++    println "Time: " (asFloat(endTime - startTime) / 1000000000.0) " seconds"
+ 
+ end
+ end mg
+diff --git a/ProjectFortress/demos/npbft.fss b/ProjectFortress/demos/npbft.fss
+index 306c173c5..9032903f6 100644
+--- a/ProjectFortress/demos/npbft.fss
++++ b/ProjectFortress/demos/npbft.fss
+@@ -28,12 +28,12 @@ object NPBRandom(seed:ZZ64)
+   end
+   generate():RR64 = do
+     last := multiply(a, last)
+-    last / base
++    asFloat(last) / base
+   end
+ end NPBRandom
+ 
+ (*) Complex number object
+-object Complex(r:RR64, i:RR64) extends Number
++object Complex(r:RR64, i:RR64) extends AdditiveGroup[\Complex\]
+   getter asString() = r "+" i "i"
+   getter real() = r
+   getter imag() = i
+diff --git a/ProjectFortress/demos/trips.fss b/ProjectFortress/demos/trips.fss
+index 08e32ebd8..3164a24d9 100644
+--- a/ProjectFortress/demos/trips.fss
++++ b/ProjectFortress/demos/trips.fss
+@@ -64,8 +64,6 @@ specified implicitly or as defaults. *)
+ (* The following definitions work around problems that arose when I tried the
+ typechecker. *)
+ 
+-opr MIN(a:ZZ32,b:ZZ32):ZZ32 = if a<=b then a else b end
+-opr MAX(a:ZZ32,b:ZZ32):ZZ32 = if a>b then a else b end
+ 
+ orderedTrip(a:ZZ32, b:ZZ32, c:ZZ32):trip =
+     trip ((a MIN b), (a MAX b), c)
+diff --git a/ProjectFortress/demos/wordcount.fss b/ProjectFortress/demos/wordcount.fss
+index 7e90cd7db..07de0764e 100644
+--- a/ProjectFortress/demos/wordcount.fss
++++ b/ProjectFortress/demos/wordcount.fss
+@@ -81,7 +81,7 @@ opr BIG UNIONUNION(): BigReduction[\Map[\ZZ32, List[\String\]\],Map[\ZZ32, List[
+     embiggen[\Map[\ZZ32, List[\String\]\]\](fn(a,b) => a UNIONUNION b, {[\ZZ32,List[\String\]\]})
+ 
+ processFile(name:String):() = do
+-    time(str:String,s,f): () = println(str " in " ((f-s)/10.0^6) "ms")
++    time(str:String,s,f): () = println(str " in " (asFloat(f-s)/10.0^6) "ms")
+     println("Processing file " name)
+     var rs:FileReadStream = FileReadStream(name)
+     start = nanoTime()
+diff --git a/ProjectFortress/demos/wordcount2.fss b/ProjectFortress/demos/wordcount2.fss
+index 0b995aafb..042920587 100644
+--- a/ProjectFortress/demos/wordcount2.fss
++++ b/ProjectFortress/demos/wordcount2.fss
+@@ -72,7 +72,7 @@ maybeWord(s: String, d:Map[\CaseInsensitiveString,ZZ32\]): Map[\CaseInsensitiveS
+       d.updateWith(fn(mx)=>Just[\ZZ32\](mx.getDefault(0)+1), CaseInsensitiveString(s))
+ end
+ 
+-opr BIG OPLUS[\T\](): Reduction[\WordState\] = embiggen( fn(a,b) => a OPLUS b, Chunk("") )
++opr BIG OPLUS[\T\](): Reduction[\WordState\] = embiggen[\WordState\]( fn(a,b) => a OPLUS b, Chunk("") )
+ 
+ processChar(c: Char): WordState =
+   if (isDelimiter(c)) then
+@@ -103,7 +103,7 @@ opr BIG UNIONUNION(): BigReduction[\Map[\ZZ32, List[\String\]\],Map[\ZZ32, List[
+     embiggen[\Map[\ZZ32, List[\String\]\]\](fn(a,b) => a UNIONUNION b, {[\ZZ32,List[\String\]\]})
+ 
+ processFile(name:String):() = do
+-    time(str:String,s,f): () = println(str " in " ((f-s)/10.0^6) "ms")
++    time(str:String,s,f): () = println(str " in " (asFloat(f-s)/10.0^6) "ms")
+     println("Processing file " name)
+     rs:FileReadStream = FileReadStream(name)
+     start = nanoTime()
