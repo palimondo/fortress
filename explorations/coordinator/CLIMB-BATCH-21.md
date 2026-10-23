@@ -99,6 +99,8 @@ For `m[1, 2]` to check, `(ZZ32, ZZ32)` must be an `Index`. But the desugaring wr
 
 ### Question 2, consequential: whether `BoundedRange`'s narrowed `atMost` goes
 
+**Answered: option 2**, the curator at 12:36 UTC on 2026-10-23 ("at most agreed with recommendation option 2"); P-156 holds it. Rung B builds option 2.
+
 **The question.** The bound `I extends Index` cannot be put on `BoundedRange[\I\]`: `Range`'s `truncL` and `truncR` return a `BoundedRange`, and `Range` stays unbounded so that the open range `(:)` stays a range of `Any` (P-56). But `BoundedRange` narrows `Range`'s `atMost(n: I): Range[\I\]` to `atMost(n: I): FullRange[\I\]` (`Library/FortressLibrary.fsi:2251`, `.fss:4099`), and a `FullRange[\I\]` now needs `I extends Index`. The probe dropped the narrowing (its section 3.1); you asked at 06:57 UTC whether it could be kept (the type-decisions evidence, `reviews/type-decisions-review/evidence.md:207`). Does it go?
 
 **Primer.** A range that knows one end, such as `3:`, limited to a size, gives a range that knows both ends:
