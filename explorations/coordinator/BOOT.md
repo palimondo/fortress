@@ -7,10 +7,10 @@
 ## Running
 
 - **Batch 21b's preparation:** the planner's re-read of run 2's sections C, E and D against run 1's landed tree, an Opus Agent-tool worker launched at about 19:16 UTC (lines, `run2-api.patch` rewritten on the landed api, run 1's consequences and any fork with its default, item 247's default in D, one measurement in a worktree seeded from `/home/user/fortress-base21b`, the manifest's checks; it commits `CLIMB-BATCH-21.md` and `plan-21/`, does not push). Done: the count stage's blind spot (fork 21), `58de05993`, pushed, with the gate's brief naming NO TOTAL red (`climb-batch-workflow.js`, pushed); the base build `/home/user/fortress-base21b` (HEAD `24919e97d`, code `c53063bbd`'s).
-- **The routing of the post-batch review**, an Opus Agent-tool worker launched at about 19:33 UTC: PLAN's list for batch 21 (the record's forks and defaults, the moved sites, defaults for B.worker.1, N.worker.1 and N.worker.2, item 46's and the rounding question's calls), rows 806 and 808, items 38 and 59 to PLAN-history, item 61 moved, "Where we stand" (the walk check's verdict only), the review queue's lines, F-240, F-245 and F-225 by `record.py`; no POSITIONS entry. It commits, does not push. Must end before the launch: no tracked edit in the main tree during a batch.
+- **The routing of the post-batch review**, an Opus Agent-tool worker launched at about 19:31 UTC: PLAN's list for batch 21 (the record's forks and defaults, the moved sites, defaults for B.worker.1, N.worker.1 and N.worker.2, item 46's and the rounding question's calls), rows 806 and 808, items 38 and 59 to PLAN-history, item 61 moved, "Where we stand" (the walk check's verdict only), the review queue's lines, F-240, F-245 and F-225 by `record.py`; no POSITIONS entry. It commits, does not push. Must end before the launch: no tracked edit in the main tree during a batch.
 - **The `Condition` probe** (above, "The last-5 batch's questions"), and the archaeology, done: `65942b5bf` (note and INDEX line; the plan's two timed-pair items moved to PLAN-history at his word).
 
-**Check-ins:** "Batch 21 landing check-in 2" at 19:35 UTC (`trig_01AVQ8KJXrMbq4j1hCrQJrd6`), re-armed 45 minutes out while a worker runs.
+**Check-ins:** "Batch 21b preparation check-in" at 20:22 UTC (`trig_01NaS8mxtYJ2UC86UJ4vB1Ah`), re-armed 45 minutes out while a worker runs.
 
 ## The go
 
