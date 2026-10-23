@@ -1,6 +1,6 @@
 """Make the checker shadows of the self-type exclusion probe from the tracked sources.
 
-usage: shadow.py <tree> <out-dir> [selfexc] [bounds] [global]
+usage: shadow.py <tree> <out-dir> [selfexc] [bounds] [global] [keepvar]
 
 Always: the full symbolic-operator check with crashes caught per name, as the earlier
 probe made it (perf-probes/symbolic-operators-2/checker-shadow.py <tree> <out> catch),
@@ -24,6 +24,9 @@ bounds   shadow (ii). The exclusion test (OverloadingOracle.excludes) gains one 
 global   with bounds: the bounds are also read in reduceED's own constraint, so that every
          existential reduction (specificity, the Meet Rule, the Return Type Rule) carries
          them. A variant beside the brief's shadows; not one of them.
+keepvar  with bounds: withBounds keeps each parameter beside its bounds (X & B, not B), the
+         first form of shadow (ii). It reproduces the solver's recursion without end
+         (Formula.tImplies and primImp) on an F-bounded parameter; the report's defect.
 
 With -Dprobe.excdebug=true on the checker's JVM, the shadowed exclusion test prints each
 pair it decides by the new reading. Each edit must match exactly once, so the shadow cannot
@@ -34,6 +37,7 @@ import io, os, subprocess, sys
 tree, out = sys.argv[1], sys.argv[2]
 words = sys.argv[3:]
 selfexc, bounds, glob = "selfexc" in words, "bounds" in words, "global" in words
+keepvar = "keepvar" in words
 here = os.path.dirname(os.path.abspath(__file__))
 full = os.path.join(tree, "explorations/perf-probes/symbolic-operators-2/checker-shadow.py")
 subprocess.check_call([sys.executable, full, tree, out, "catch"])
@@ -230,6 +234,9 @@ if bounds:
     val ieNotBottom = and(negate(ta.equivalent(ie, BOTTOM)), negate(ta.equivalent(vi(withBounds(clearStaticParams(e), sp)), BOTTOM)))
     val c = and(ieNotBottom, ub)
 """))
+    if keepvar:
+        edits.append(("""        case Some(b) if !b.isEmpty => NF.makeMaybeIntersectionType(toJavaList(b))""",
+                      """        case Some(b) if !b.isEmpty => NF.makeIntersectionType(toJavaList(v :: b))   // PROBE (keepvar)"""))
     t = edit(t, edits, "TypeSchemaAnalyzer.scala (bounds)")
     io.open(os.path.join(out, "TypeSchemaAnalyzer.scala"), "w", encoding="utf-8").write(t)
     print("shadow (ii) written: %s%s" % (os.path.join(out, "TypeSchemaAnalyzer.scala"),
