@@ -429,7 +429,7 @@ Line numbers of run 1's rungs are on aa5ff2423, whose Library/, ProjectFortress/
 - Row 468's test first: a walk test of Generator22D's rects, named by its topic, which imports Generator22D and asserts the rectangles rects gives for a small grid; on the base it stops, Failed to find any matching overload, args = (Ratio,Ratio) (Library/Generator22D.fss:146); after the fix, DIV in place of / at :144, :145 and :150, it passes.
 - demos-repairs.patch, which applies to main at c53063bbd, the first run's landing (git apply --check): 22 demo files, Library/Generator22D.fss (the fix above) and ProjectFortress/demos/GenomeUtil2d.fsi (fork 24), each repair as the probe's section 3.1 gives it.
 - Row 710, fork 27: trips.fss's generator extends StandardTotalOrder[\generator\] (ProjectFortress/demos/trips.fss:97-100), checked by the checker's driver over the demo, as row 710's reproducer runs it.
-- Run all 52 under walk on your final tree, one at a time, each from ProjectFortress/demos with a 600 s limit and an empty standard input, wordcount2 from the tree's root, tennisRanking with the arguments the team's test gives it (the probe's section 1); each must exit 0 and print no fail. A demo that the batch's first run broke and whose repair is known is respelled; one whose repair is not known is a point to report, with a row. Give each demo's seconds: the longest, Generator2Demo, took 366 s in the planner's run beside other probes, and the first run's index bound put a test of Index on walk's path of every tuple subscript, and microGPT's quick walk check, whose programs take that path, rose from 47 s and 41 s to 56 s and 47 s, no cause measured (reviews/batch-21-review.md, section 5); a demo the limit stops is a point to report, with its seconds.
+- Run all 52 under walk on your final tree, one at a time, each from ProjectFortress/demos with a 600 s limit and an empty standard input, wordcount2 from the tree's root, tennisRanking with the arguments the team's test gives it (the probe's section 1); each must exit 0 and print no fail. A demo that the batch's first run broke and whose repair is known is respelled; one whose repair is not known is a point to report, with a row. A demo that the 600 s limit stops is a point to report, with a row.
 - Not yours: row 731's demo half (item 247's default owes it, after a probe of the checker over each demo); the saved outputs BirdCount2c-output.txt and BirdCount2d-output.txt, which no test reads.
 
 **Rows.** The gather closes rows 791, 670, 449, 464 and 468 (with your test) and 710, each by the demo runs. The probe's nine drafted rows stay in its report (fork 25); a defect you meet that it did not draft gets a row.
@@ -710,7 +710,7 @@ Each block gives the fields of one rung's manifest entry. "Its test is the stage
 - **lands only with:** none
 - **blurb:** the team demos running (P-79): the demos probe's repairs, so that all 52 demos the team's test runs reach their end under walk, with row 468's test first for Generator22D, the api file GenomeUtil2d.fsi the team never committed, and trips.fss's order (row 710); rows 791, 670, 449, 464, 468 and 710 closed, by review-queue item 247's default; neither stage.
 - **points to report:**
-  - Each demo's line and seconds before and after, and whether each reaches its end within the limit.
+  - Each demo's line before and after, and whether each reaches its end within the limit.
   - Each repair that departs from the probe's, and why.
   - GenomeUtil2d.fsi, a new file in the team's folder.
   - Row 710's repair, and the checker's driver on trips.fss before and after.
@@ -763,14 +763,14 @@ Each key is a `facts-extract.sh` key, read whole by the worker first; a key mark
 - The ladder: no rung declares a move; S and B change an api the compiled path can read, and X what the checker accepts, a point to report.
 - The checker count: reported, not declared; 3 by the planner's measurement.
 - The distance, reported and never red: 5, the same five sites; the export error's 43 entries, `String`'s narrowed.
-- microGPT's quick pair at the commit stage, both programs `ALL PASS`, 7 of 7 each (P-30; 47 s and 41 s at batch 20).
+- microGPT's quick pair at the commit stage, both programs `ALL PASS`, 7 of 7 each (P-30).
 
 **Run 2.** The comparands are climb batch 21's tables.
 - `testFast`: the compiler track 1,293, run 1's gate's, plus C's and E's compiled tests, with row 726's expected failure promoted and any test fork 16 respells; the library track 86; the other-compiler track 263.
 - `testSystem`: run 1's sum, 677 (167, 173, 167 and 170 over the four shards), plus D's test.
 - `testSpecData`: 130 green.
 - The count: 3, `#crash none`; the distance: 5, `#crash none`, every symbolic operator now checked, X's 8 vector sites among the cleared; the export error's entries 43 to about 15.
-- microGPT's quick pair: both `ALL PASS`, 7 of 7 each (P-30; 56 s and 47 s at run 1's commit stage).
+- microGPT's quick pair: both `ALL PASS`, 7 of 7 each (P-30).
 - A repair after the review or the gate runs the gate again only when it changed a path the gate reads (`ProjectFortress/` but test files, `Library/`, `build.xml`).
 
 ### The ledger
