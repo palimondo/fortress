@@ -70,6 +70,8 @@
 
 ### Question 1, consequential: where the trait `Index` stands
 
+**Answered: option 1**, the curator at 12:46 UTC on 2026-10-23, taking the default ("I have no way how to compare the options, so I agree with your default"); P-156 holds it. Rung B builds option 1.
+
 **The question.** P-156 makes a tuple of indices an `Index`. The specification's rule makes every trait except `Any` and `Object` extend `Object`, and P-42 says that `Object` holds no tuple. So `Index` cannot be an ordinary trait: if it extends `Object`, a tuple of indices becomes an `Object`. Where does `Index` stand?
 
 **Primer.** In Fortress every trait you declare is below `Object`, whose values are objects; tuples, functions and `()` are not objects, and only `Any` holds them (P-42; `Specification/basic/types-vals-vars.tex`, "Tuple Types": "A tuple type excludes any non-tuple type other than `Any`."). P-156 adds:
