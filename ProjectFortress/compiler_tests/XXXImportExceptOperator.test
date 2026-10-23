@@ -1,0 +1,3 @@
+tests=XXXImportExceptOperator
+compile
+compile_err_contains=apparently malformed overload set not rejected

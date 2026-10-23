@@ -1,0 +1,9 @@
+(* The component of ImportExceptOperatorApi. *)
+component ImportExceptOperatorApi
+export ImportExceptOperatorApi
+
+trait Pm end
+object Pm1 extends Pm end
+opr -(x: Pm, y: Pm): ZZ32 = 1
+
+end

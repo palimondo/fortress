@@ -1,0 +1,13 @@
+component XXXImportExplicitHidesOnDemand
+import ImportExceptOverloadApi.{...}
+import ImportExceptByNameApi.{ pick }
+export Executable
+
+(* A name imported explicitly from one api is not imported on demand from another, so the second api's pick, at the same parameter type, is not overloaded with the first (source-code.tex, section "Import Statements"). *)
+
+run(): () = do
+  assert(pick(P1), 3, "the pick imported by name, the other api's not imported on demand")
+  println("PASS")
+end
+
+end
