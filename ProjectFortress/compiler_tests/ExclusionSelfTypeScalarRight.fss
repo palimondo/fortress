@@ -1,7 +1,7 @@
 component ExclusionSelfTypeScalarRight
 export Executable
 
-(* An operator on an array of a number and that number beside the additive group's own operator is a valid overloading, since the group's self is also the implementing type, a number, which no array is (traits.tex, section "Trait Declarations"; overloading.tex, section "Overloaded Functional Declarations"). *)
+(* An operator on an array of a number and that number beside the additive group's own operator is a valid overloading, since the group's self is also the implementing type, a number, which no array is (traits.tex, section "Trait Declarations"; overloading.tex, section "Incompatibility Rule"). *)
 
 trait AnyAddG end
 trait AddG[\T extends AddG[\T\]\] extends AnyAddG
