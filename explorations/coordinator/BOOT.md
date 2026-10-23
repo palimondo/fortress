@@ -2,11 +2,11 @@
 
 # Boot note
 
-**State at 12:04 UTC on 2026-10-23** (14:04 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
+**State at 12:16 UTC on 2026-10-23** (14:16 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
 
 ## Running
 
-- **The Fable review of batch 21's record**, a Fable Agent-tool worker launched at about 11:50 UTC (a go in advance): edits `CLIMB-BATCH-21.md` and its generator in place, writes `climb-batch-21-review.md`, commits and pushes. Told at about 12:03 of probe A1's result, to state in the record the other branch of rung V (a checker rung for the exclusion test). Estimate 0.5M to 1M, a guess.
+- **Nothing runs.** The Fable review of batch 21's record landed at `d90e7d8b0` (0.49M): ready to launch run 1 on his three answers; probe A1's branch written into the record (a checker rung in V's place, in run 1, about 0.6M worker and 0.55M skeptic); the count stage's blind spot (the record's fork 21) moved from rung E to the coordinator, between the runs.
 - **Batch 21's base build**, `/home/user/fortress-base21` at `aa5ff2423`, built and clean. At the launch it serves as `args.baseBuild` if the base differs from it only in record files; otherwise build again at the base.
 
 **Landed today for batch 21:** the record and generator (`e985c8f0a`, the planner, 0.30M written by its own count): run 1 rungs S, B, V (droppable), N; run 2 (21b) rungs C, E, D; the full check 191 to 5 with run 1. Probe A1 (`dd9d7619a`, 0.40M): the exclusion test reading `self` as `C[\X\] & X` and the reduction reading bounds clear the 8 vector sites together with no library line, nothing else moving. The type-decisions review (`105b4a46b`, `28b6e27a0`).
@@ -25,8 +25,9 @@ Batch 21 has his go to launch once its record is written and reviewed by Fable (
 
 ## Next
 
-- **When the Fable review ends:** read its diff and its review; bring its questions as the record's. Then the coordinator's steps of the manual's "Before the launch" (the base build, a trial seed, the generator's checks for run 1 with or without V, the splice and its commit, the disk, the check-ins), and the launch of run 1 once his three answers are in.
-- **If he withdraws P-157:** drop V from run 1 (`--without V`), and have a checker rung for (i) and (ii) written into run 2 (overlaps with B's `TypeAnalyzer` and C's `OverloadingChecker`; the 8 sites show only under the full check).
+- **Before the launch, done at about 12:15 UTC:** the base build covers `main`'s code (no diff from `aa5ff2423` under `Library`, `ProjectFortress`, `Specification`, `build.xml`, `bin`); a trial seed (4 s) and `old-fortress.sh` on `BooleanOps` (exit 0); 7.3G free. **Left, after his three answers:** the generator for run 1 (with or without V, or with the checker rung written in V's place by a planner), the splice and its commit, the base hash, the check-ins, and the launch.
+- **Between the runs:** the count stage's blind spot (a library that does not parse reads as its parse-error count), the coordinator's tool fix, as `c21177829` did for the distance stage; PLAN's line 13 and item 19 updated for batch 21.
+- **If he withdraws P-157:** drop V from run 1 (`--without V`), and have a planner write the checker rung in V's place in run 1, as the record's rung V section, "The other branch", gives it (its section, `lists21.py`'s `RUNS['1']` and briefing, `check21.js`'s `RUN_IDS` and `CHECKER_RUNGS`, the intro).
 - **The judgement's write-up for him**, by an Opus writer as a page, with A1's result: after batch 21's asks.
 - **The judgement's other items, for him after batch 21's asks, one per message:** P-75 withdrawn (reverses his yes of 09-29); P-154's reason corrected; the team's `AnyIntegral comprises Integral[\I\] where [\I\]` probed to close row 487; row 701 a prerequisite of the switch-over (a PLAN line); A1's drafted row (the solver's recursion) and its notes for rows 584 and 786.
 - **The ledger repair**, about 180 open rows (`ledger-health-2026-10-22/REPORT.md`), if budget allows; the 40 refused notes first.
