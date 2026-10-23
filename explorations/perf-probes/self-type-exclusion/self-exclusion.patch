@@ -1,0 +1,73 @@
+Shadow (i) of the self-type exclusion probe: in the overloading check's exclusion test only, a self-typed trait's functional method reads self as C[\X\] & X (shadow.py selfexc). Measured as a shadow ahead of the build, never built into the tree. Generated on aa5ff2423 by shadow.py; apply with git apply after ../symbolic-operators-2/checker-full-check.patch.
+
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala
+@@ -124,10 +124,12 @@
+         List[(ArrowType,Option[Int],Option[JavaFunctional])] = {
+       val arrows = set.filter(s => isFunction(s) &&
+                       (!onlyConcrete || isFunctionalMethod(s) || s.asInstanceOf[JavaFunctional].body.isSome))
+-         .toList.map(f => (NF.makeArrowType(f.getSpan,
++         .toList.map(f => (selfTyped(NF.makeArrowType(f.getSpan,
+ 				     paramsToType(f.parameters, f.getSpan),
+ 				     f.getReturnType.unwrap,
+-				     getStaticParameters(f, true)),
++				     getStaticParameters(f, true)), f,
++				     (ps: JavaList[Param]) => NF.makeArrowType(f.getSpan, paramsToType(ps, f.getSpan),
++				       f.getReturnType.unwrap, getStaticParameters(f, true))),
+ 		           if (isFunctionalMethod(f))
+ 			     Some(f.asInstanceOf[JavaFunctionalMethod].selfPosition)
+ 			   else None,
+@@ -170,10 +172,14 @@
+          .toList.map(p => p match { case (f, replacer, tt) =>
+               //TODO: Figure out whether I should get the lifted parameters or not. The original code DID.  I think the answer is NO. 2/21/2012
+               val (sparams, apart) = ownStaticParamsApart(f)
+-              ((NF.makeArrowType(f.getSpan,
++              ((selfTyped(NF.makeArrowType(f.getSpan,
+                                 replacer.replaceIn(apart(paramsToType(f.parameters, f.getSpan))),
+                                 replacer.replaceIn(apart(f.getReturnType.unwrap)),
+-				sparams),
++				sparams), f,
++                  (ps: JavaList[Param]) => NF.makeArrowType(f.getSpan,
++                                replacer.replaceIn(apart(paramsToType(ps, f.getSpan))),
++                                replacer.replaceIn(apart(f.getReturnType.unwrap)),
++                                sparams)),
+                Some(f.asInstanceOf[JavaFunctionalMethod].selfPosition),
+ 	       Some(f)), tt)})
+       def implemented(a: (ArrowType,Option[Int],Option[JavaFunctional]), tt: TraitType) =
+@@ -542,6 +548,26 @@
+      * on the other signatures there, on whether they are dotted methods and on the static
+      * parameters in scope, so a valid answer is reused only where all of these are equal. */
+     private var staticParamsInScope: List[StaticParam] = Nil
++
++    // PROBE (selfexc): the exclusion test reads a self-typed trait's self as C[\X\] & X.
++    // For a functional method whose self type was read from the F-bound (P-146), the
++    // declaration's own parameters (FunctionalMethod.ast) keep the TraitSelfType that
++    // parameters() makes plain; an arrow made from them, by the same steps as the plain
++    // arrow, is kept beside it for the exclusion test, keyed by the plain arrow's identity.
++    private val exclusionArrows = new java.util.IdentityHashMap[ArrowType, ArrowType]()
++    private def selfTyped(a: ArrowType, f: JavaFunctional, mk: JavaList[Param] => ArrowType): ArrowType = {
++      f match {
++        case fm: JavaFunctionalMethod =>
++          val own = NU.getParams(fm.ast)
++          if (!own.equals(fm.parameters)) exclusionArrows.put(a, mk(own))
++        case _ =>
++      }
++      a
++    }
++    private def forExclusion(a: ArrowType): ArrowType = {
++      val e = exclusionArrows.get(a)
++      if (e == null) a else e
++    }
+     private val validOverloadingMemo = new scala.collection.mutable.HashMap[
+         (ArrowType, Option[Int], ArrowType, Option[Int], Set[(ArrowType, Option[Int])], Boolean, List[StaticParam]), Boolean]()
+ 
+@@ -582,7 +608,7 @@
+       else if (oa.lteq(ga, fa)) { true }
+       else if (functionalMethodsAtOnePosition(first, second, isMethod)) { true }
+       else if (meetRule(first, second, signatures, isMethod, oa, debug)) { true }
+-      else if (oa.excludes(fa, ga)) { true }
++      else if (oa.excludes(forExclusion(fa), forExclusion(ga))) { true }
+       else { coverageRule(first, second, signatures, isMethod, oa) }
+     
+       
