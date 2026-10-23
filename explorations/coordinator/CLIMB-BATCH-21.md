@@ -511,7 +511,7 @@ On question 2's text above, the checker's half of question 1's default and fork 
 ### The demos on the first run's text
 
 `perf-probes/team-demos/demos-repairs.patch` applied as it stands on run 1's text as first drafted (with the row-774 parts, above), with `GenomeUtil2d.fsi` added (fork 24) and walk built; the 52 programs of `DemoTests` one at a time by the demos probe's driver, with its 600 s limit:
-- All 52 exit 0 and none prints "fail". The longest, `Generator2Demo`, took 366 s; the 52 took 34 minutes, beside the other probes.
+- All 52 exit 0 and none prints "fail".
 - The same tree's walk suites, with the demos patch too: `ant testSystem` red at the same four tests as above; `ant testSpecData` 'Tests run: 130, Failures: 0'; microGPT's quick pair 'VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS'.
 - So run 1's library changes, S's top-level `||` and B's bound among them, stop no demo, and D's patch needs no change for them. Not run without the row-774 parts: the demos probe ran the patch on the base without them, 52 of 52 (its section 3.2), and rung D runs the demos on run 1's landed tree, which differs from this text in walk's tuple rule, `atMost` and the row-774 parts (rung D's section). The patch applies to `main` at `c53063bbd` as it stands (`git apply --check`).
 
