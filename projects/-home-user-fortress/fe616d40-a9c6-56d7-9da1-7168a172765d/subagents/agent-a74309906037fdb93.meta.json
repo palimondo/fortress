@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","description":"Fix the count stage's unparsed-library reading","toolUseId":"toolu_01TXxrjQ3WvWygcpKE4akA7c","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","description":"Fix the count stage's unparsed-library reading","toolUseId":"toolu_01TXxrjQ3WvWygcpKE4akA7c","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
