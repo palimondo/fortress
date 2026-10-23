@@ -146,7 +146,7 @@ C_BRIEFING = [
   ("ledger:789", "Another kind-environment refusal beside the crash."),
   ("ledger:726", "The pair the code generator stops on, which your check refuses first."),
   ("ledger:611", "Walk's and the checker's meet checks skip symbolic operators: the checker's half is yours."),
-  ("ledger:782", "The export check's own skip of symbolic names, which stays (fork 16)."),
+  ("ledger:782", "The export check's own skip of symbolic names, which stays (fork 13)."),
   (SO + "1.1 The shadow", "The three loops and the export check's isDeclaredName, which stays."),
   (SO + "1.3 The crash", "The crash: where it is, its stack, the program that shows it without an operator."),
   (SOP + "checker-full-check.patch", "The check as the probe built it, its catch wrappers aside."),
@@ -183,8 +183,6 @@ E_BRIEFING = [
   ("code:" + EC + "#  private def equalFnHeaders(", "Row 800's place: the header's name bound to nothing."),
   ("code:" + EC + "#  private def allAbstractsMadePublic(", "Row 802's place: the component-to-api half."),
   ("code:" + EC + "#  private def equalLValue(", "Row 801's place: two lines read as two statements."),
-  ("doc:explorations/coordinator/tools/checker-count/run.sh", "The count stage, whose total reading fork 24 changes."),
-  ("doc:explorations/coordinator/tools/distance/table.py", "The precedent: the distance stage's reading of a target that stopped, with its test."),
 ]
 E_CHECKS = [
   "P-148", "ledger:800", "ledger:801", "ledger:802",
@@ -206,7 +204,7 @@ D_BRIEFING = [
   (TD + "In short", "The probe in one page: 30 run, 22 stop, all 52 with the patch."),
   (TD + "1. How it was run", "How each demo runs: from the demos folder, the limit, the arguments and input."),
   (TD + "3.1 Demo by demo", "Each repair, and what the demo did then."),
-  (TD + "5. Defects, and the draft ledger rows", "The nine drafts, which stay in the report (fork 28)."),
+  (TD + "5. Defects, and the draft ledger rows", "The nine drafts, which stay in the report (fork 25)."),
   (TD + "6. Decisions", "The probe's choices and the ways not taken, demo by demo."),
   ("doc:explorations/perf-probes/team-demos/demos-repairs.patch", "Your text as the probe measured it."),
   (REC + "The demos on the first run's text", "The 52 demos with the patch on the first run's library, as the planner ran them."),
