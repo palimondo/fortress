@@ -4059,6 +4059,143 @@ parameter (row~407 of the revival's gap ledger); and leave in
 group's calculus of 2012 does not admit.
 \end{description}
 
+\subsection{The index type of a subscript}
+\seclabel{revival-index}
+
+\begin{description}
+\item[Affected sections] \secref{type-relations}; \secref{trait-types};
+\secref{tuple-types}; \secref{trait-decls}; and, in a draft build, the item on
+array indexing among the proposed features of the appendix ``Internal
+Document''.
+\item[Change] \library\ declare the trait \TYP{Index},
+\EXP{\KWD{trait}\:\TYP{Index} \KWD{extends}\:\TYP{Any}}, which
+\EXP{\mathbb{Z}32} extends and \TYP{Range} excludes, and bound every index
+parameter of their generic indexed types by it,
+\EXP{I \KWD{extends}\:\TYP{Index}}: \TYP{Indexed}, its delegated and mutable
+forms, the array traits, the full ranges, and the mapped, reversed and
+index-value views over an indexed generator.
+\TYP{BoundedRange}, whose index type stays unbounded since the open range
+\EXP{(:)} is a range over \TYP{Any}, keeps its narrowed \VAR{atMost}, whose
+result is a full range, under the method condition
+\EXP{\KWD{where} \{ I \KWD{extends}\:\TYP{Index} \}}.
+In \secref{tuple-types}, a sentence says that a tuple type whose element types
+are all subtypes of \TYP{Index} is a subtype of \TYP{Index}, and no subtype of
+\TYP{Object}; the sentence on the exclusion of non-tuple types names
+\TYP{Index} beside \TYP{Any}, and says that a tuple type excludes \TYP{Index}
+if and only if one of its element types excludes \TYP{Index}.
+In \secref{trait-types}, the sentence that every trait type excludes every
+tuple type excepts \TYP{Index}.
+In \secref{type-relations}, the immediate subtypes of \TYP{Any} include
+\TYP{Index}.
+In \secref{trait-decls}, the sentence on the implicit extension of
+\TYP{Object} names \TYP{Index} beside \TYP{Any} and \TYP{Object}, a sentence
+says that a trait that extends \TYP{Index} and no other trait but \TYP{Any}
+implicitly extends \TYP{Object} too, and the hierarchy is rooted at
+\TYP{Object} and \TYP{Index}.
+The item on array indexing among the proposed features gains a box, and so
+does each changed passage.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 23~October 2026 on the index type of \library's
+subscripts, and its place of \TYP{Index} outside \TYP{Object} and its
+\VAR{atMost} follow the revival's answers of the same day.
+The bound finishes the team's wish.
+Their item on array indexing calls \TYP{Indexed}'s two subscripts, one over an
+index and one over a range of indices, ``not really a valid overloading'', and
+goes on: ``We want to say that the type variable \VAR{I} extends a type, say,
+\TYP{Index} which either excludes \EXP{\TYP{Range}\llbracket{}I\rrbracket} or is
+a supertype of \EXP{\TYP{Range}\llbracket{}I\rrbracket}''
+(\nolinkurl{Specification-1.0-frozen/appendices/future.tex}, lines 200--203).
+With \VAR{I} bounded by an \TYP{Index} that \TYP{Range} excludes, the two
+subscripts never apply to one value, and the pair is a valid overloading at
+every instance (\secref{overloading-static-params}); unbounded, at the instance
+\TYP{Any} the range subscript is the more specific, and its result is no
+element, which the Return Type Rule refuses.
+The compiled type checker, made to check the overloading of symbolic operators
+over \library, reported 124 such errors in the generic indexed types, and none
+at the bound with the rule below.
+The tuple rule is the revival's departure from the designers' text on tuple
+types.
+The team named the obstacle themselves: ``However, we cannot say that because
+when we invoke that subscripting method, we write \EXP{a[1, 2, 3]} where the
+arguments are passed as a tuple, \EXP{(1, 2, 3)}. If we want to use
+\TYP{Index}, we need a magic to convert that tuple argument expression to
+something of type \TYP{Index}.'' (lines 204--207).
+They asked for a conversion, and a conversion would change every index value
+that a subscript passes; the rule makes the tuple type a subtype of
+\TYP{Index} instead, a typing rule that changes no value.
+The Working Draft's text on tuple types forbids it (quoted below), and so does
+the team's later Types chapter, twice, its macros for the void and bottom types
+written out: ``Every trait type excludes \TYP{()}, \TYP{BottomType} and every
+tuple type.'' and ``A tuple type excludes \TYP{BottomType}, \TYP{()}, and every
+trait type, arrow type or function type.'' (Luchangco, 2012,
+\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines 341
+and 424, in the revival's repository).
+\TYP{Index} stands outside \TYP{Object}, as \TYP{Any} and \TYP{Object} do, so
+that a tuple of indices is no \TYP{Object} (\secref{revival-bound}); the
+specification's library declares its trait of all tuples so too,
+\EXP{\KWD{trait}\:\TYP{Tuple} \KWD{extends}\:\TYP{Any}
+\KWD{excludes} \{\,\TYP{Object}\,\}} (\secref{core-tuple}).
+Two ways stay open, each with its own cost: a constraint
+\EXP{\KWD{where} \{ I \KWD{excludes}\:\TYP{Range}\llbracket{}I\rrbracket \}},
+which the team left as an open question (the item ``Type variables in
+\KWD{excludes} clauses'' of the same appendix) and which is not among the
+Working Draft's forms of constraint; and subscripts by a range only at the
+index types that \library\ fix, as the arrays of rank one to three, the strings,
+\TYP{Just} and \TYP{Nothing} already have them, at the price of slicing in the
+generic views.
+A reversal would remove the rule, the bound and \TYP{Index}, and leave the 124
+errors standing, or take one of the two ways.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-index-bound/decision-record.md} in
+the revival's repository.
+\item[Effect] The interpreter and the compiled type checker, when it checks
+\library, read the rule and the exclusion by the qualified name of
+\library's trait, so a program's own trait named \TYP{Index} is not read as
+it, and both keep \TYP{Index} outside \TYP{Object}; a program with an index
+type of its own declares it an \TYP{Index}.
+A program's own generic declaration that instantiates an indexed type of
+\library\ at its own type parameter bounds that parameter by \TYP{Index}; the
+compiled type checker refuses it unbounded, ``The static argument \VAR{I} does
+not satisfy the corresponding bound \TYP{Index}'', and the interpreter, which
+checks a bound only at a call that infers the parameter, runs it.
+The compiled path still compiles programs against its own library, which
+declares no \TYP{Index}, until it is switched over to the interpreter's.
+The code generator refuses a method with a \KWD{where} clause of its own
+(row~701 of the revival's gap ledger), so after the switch-over
+\TYP{BoundedRange}'s \VAR{atMost} waits on that row, beside the two
+\VAR{distribute} methods of \library's sum reduction.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/types-vals-vars.tex},
+lines 134--136, 215--216 and 272--273, which the change revises:
+\begin{quote}
+We say that a value is \emph{an instance of} its runtime type and of every
+supertype of its runtime type; immediate subtypes of \TYP{Any} comprises of
+tuple types, arrow types, \TYP{()}, and \TYP{Object}.
+\end{quote}
+\begin{quote}
+Every trait type also excludes every arrow type and every tuple type, and the
+special types \TYP{()} and \TYP{BottomType}.
+\end{quote}
+\begin{quote}
+A tuple type excludes any non-tuple type other than \TYP{Any}.
+\end{quote}
+lines 263--265, which stand unchanged and are now followed by the rule:
+\begin{quote}
+Every tuple type is a subtype of \TYP{Any}. No other type encompasses all tuple
+types. Tuple types cannot be extended by trait types.
+\end{quote}
+and \nolinkurl{Specification-1.0-frozen/basic/traits.tex}, lines 181--183 and
+193--194, which the change revises:
+\begin{quote}
+In addition, every trait except \TYP{Any} and \TYP{Object} implicitly extends
+the trait \TYP{Object} if it does not do so explicitly.
+\end{quote}
+\begin{quote}
+This relation must form an acyclic hierarchy rooted at trait \TYP{Object}.
+\end{quote}
+The box in the appendix of proposed features is new.
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
