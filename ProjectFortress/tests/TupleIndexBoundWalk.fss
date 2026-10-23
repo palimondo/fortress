@@ -19,6 +19,8 @@ object Slot(n: ZZ32) extends Index end
 kind(x: Object): String = "object"
 kind(x: Any): String = "any"
 
+oneIndex(x: Index): String = "an index"
+
 run(): () = do
     assert(ident(3), 3, "ident takes a ZZ32 at its bound Index")
     assert(ident((1, 2)), (1, 2), "ident takes a pair of ZZ32 at its bound Index")
@@ -53,6 +55,9 @@ run(): () = do
     assert(instanceOf[\Object\]((1, 2)), false, "a pair of ZZ32 is no Object")
     assert(kind(3), "object", "a ZZ32 goes to the declaration over Object")
     assert(kind((1, 2)), "any", "a pair of ZZ32 goes to the declaration over Any")
+    assert(oneIndex(3), "an index", "a function over Index takes a ZZ32")
+    assert(oneIndex((1, 2)), "an index", "a function over Index takes a pair of ZZ32")
+    assert(oneIndex(1, 2, 3), "an index", "a function over Index takes the triple of its arguments")
 
     s = Slot(5)
     assert(instanceOf[\Index\](s), true, "an object of the program's own that extends Index is an Index")
