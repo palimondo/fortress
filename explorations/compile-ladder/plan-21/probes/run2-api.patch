@@ -1,7 +1,7 @@
-Climb batch 21's second run, rung E's api text as the planner wrote it on the first run's api (run1-text.patch) and measured it (CLIMB-BATCH-21.md, section 4): library-4h.patch with its three rejected hunks written by hand (Integral's new = abstract too, BoundedRange's atMost gone with rung B, FullRange's bound), the export probe's 19 follow-on lines, and Array2's two subscripts. Against run1-text.patch applied to aa5ff2423; apply with git apply after it.
+Climb batch 21's second run, rung E's api text (CLIMB-BATCH-21.md, section 3, rung E; section 4, "Run 2's library text on the first run's"): the export probe's library-4h.patch on the first run's landed api, its hunks that meet rungs S's and B's lines written by hand (Integral's = from rung S abstract too; BoundedRange's atMost, which rung B kept under its method condition, written abstract atMost(n: I): FullRange[\I\] where { I extends Index }; FullRange's extent beside B's bound), the export probe's 19 follow-on lines, and Array2's two subscripts. The planner first wrote it against run1-text.patch on aa5ff2423, where atMost was dropped; written again for climb batch 21b against main at c53063bbd, the first run's landing (Library/ the same at 994647cd4): the same lines, with atMost's line made abstract under its condition. Apply with git apply on main.
 
 diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
-index e985c4f7f..9ac26c63a 100644
+index e4174d9c9..2858faa41 100644
 --- a/Library/FortressLibrary.fsi
 +++ b/Library/FortressLibrary.fsi
 @@ -100,6 +100,7 @@ opr BIG LEXICO(g: Generator[\TotalComparison\]): TotalComparison
@@ -196,9 +196,9 @@ index e985c4f7f..9ac26c63a 100644
 -trait Indexed3[\ nat n \] end
 +trait Indexed3[\ nat n \] extends HasRank end
  
- (** The indexed trait indicates that an object of type %T% can be
- indexed using type %I% to obtain elements with type %E%.
-@@ -1336,7 +1354,8 @@ trait Indexed[\E, I extends Index\] extends Generator[\E\]
+ (** %Index% is the type of what a subscript takes, apart from the ranges,
+     which exclude it: %ZZ32%, and every tuple type whose element types are
+@@ -1339,7 +1357,8 @@ trait Indexed[\E, I extends Index\] extends Generator[\E\]
  end
  
  trait ZeroIndexed[\E\] extends Indexed[\E,ZZ32\]
@@ -208,7 +208,7 @@ index e985c4f7f..9ac26c63a 100644
      zip[\F\](g:ZeroIndexed[\F\]):ZeroIndexed[\(E,F)\]
  end
  
-@@ -1556,7 +1575,7 @@ trait ReadableArray1[\T, nat b0, nat s0\]
+@@ -1559,7 +1578,7 @@ trait ReadableArray1[\T, nat b0, nat s0\]
      abstract getter mutability():String
      opr |self| : ZZ32
  
@@ -217,7 +217,7 @@ index e985c4f7f..9ac26c63a 100644
  
      (** Offset converts from %b0%-indexing to 0-indexing,
          bounds checking en route. *)
-@@ -1705,6 +1724,8 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
+@@ -1708,6 +1727,8 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
    opr[r:Range[\(ZZ32,ZZ32)\]]: Array[\T,(ZZ32,ZZ32)\]
    opr[_:OpenRange[\ZZ32\]] : Array2[\T,0,s0,0,s1\]
    opr[_:TrivialOpenRange] : Array2[\T,0,s0,0,s1\]
@@ -226,7 +226,7 @@ index e985c4f7f..9ac26c63a 100644
    shift(t1:(ZZ32,ZZ32)): Array[\T,(ZZ32,ZZ32)\]
  
    (** 2-D subarray given static subarray parameters.
-@@ -1719,8 +1740,8 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
+@@ -1722,8 +1743,8 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
  
    replica[\U\]():Array2[\U,b0,s0,b1,s1\]
    copy():Array2[\T,b0,s0,b1,s1\]
@@ -237,7 +237,7 @@ index e985c4f7f..9ac26c63a 100644
    t():Array2[\T,b1,s1,b0,s0\]
    (* Copied here for better return type information. *)
    map[\R\](f:T->R): Array2[\R,b0,s0,b1,s1\]
-@@ -1863,8 +1884,8 @@ tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,
+@@ -1866,8 +1887,8 @@ tabulatedArray3[\T, nat s0, nat s1, nat s2\](f:(ZZ32,ZZ32,ZZ32)->T):Array3[\T,0,
  
  trait Reduction[\L\]
      getter reverse():Reduction[\L\]
@@ -248,7 +248,7 @@ index e985c4f7f..9ac26c63a 100644
  end
  
  (** Invariants:
-@@ -1903,7 +1924,7 @@ trait SomeReductionPair[\R\] extends PossibleReductionPair[\R\]
+@@ -1906,7 +1927,7 @@ trait SomeReductionPair[\R\] extends PossibleReductionPair[\R\]
      cond[\G\](t:PossibleReductionPair[\R\]->G, e:()->G): G
  end
  
@@ -257,7 +257,7 @@ index e985c4f7f..9ac26c63a 100644
      abstract getter outer(): ActualReduction[\R,L\]
      abstract getter inner(): ActualReduction[\R,L\]
  end
-@@ -2150,8 +2171,8 @@ embiggen[\T\](j:(T,T)->T, z:T) : BigReduction[\T,T\]
+@@ -2153,8 +2174,8 @@ embiggen[\T\](j:(T,T)->T, z:T) : BigReduction[\T,T\]
  
  trait FilterGenerator[\E\] extends Generator[\E\]
          excludes { HasRank }
@@ -268,7 +268,7 @@ index e985c4f7f..9ac26c63a 100644
      generate[\R\](r:Reduction[\R\], m: E->R): R
      reduce(r: Reduction[\E\]): E
      filter(p': E -> Condition[\()\]): FilterGenerator[\E\]  (* ' *)
-@@ -2191,10 +2212,9 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
+@@ -2194,10 +2215,9 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
      abstract opr IN(n: I, self): Boolean
      abstract opr CMP(self, other:Range[\I\]): Comparison
      abstract opr FORWARD_CMP(self, other:Range[\I\]): Comparison
@@ -282,7 +282,7 @@ index e985c4f7f..9ac26c63a 100644
      opr << (self, amount: I): Range[\I\]
      opr >> (self, amount: I): Range[\I\]
  end
-@@ -2206,10 +2226,13 @@ trait OpenRange[\I\] extends PartialRange[\I\]
+@@ -2209,10 +2229,13 @@ trait OpenRange[\I\] extends PartialRange[\I\]
      getter right(): Nothing[\I\]
      getter extent(): Nothing[\I\]
      getter isEmpty(): Boolean
@@ -296,7 +296,7 @@ index e985c4f7f..9ac26c63a 100644
  end
  
  object TrivialOpenRange extends OpenRange[\Any\]
-@@ -2222,7 +2245,7 @@ object TrivialOpenRange extends OpenRange[\Any\]
+@@ -2225,7 +2248,7 @@ object TrivialOpenRange extends OpenRange[\Any\]
  end
  
  trait RangeWithExtent[\I\] extends Range[\I\]
@@ -305,7 +305,7 @@ index e985c4f7f..9ac26c63a 100644
  end
  
  trait ExtentRange[\I\] extends { RangeWithExtent[\I\], PartialRange[\I\] }
-@@ -2234,16 +2257,16 @@ trait ExtentRange[\I\] extends { RangeWithExtent[\I\], PartialRange[\I\] }
+@@ -2237,17 +2260,17 @@ trait ExtentRange[\I\] extends { RangeWithExtent[\I\], PartialRange[\I\] }
  end
  
  trait BoundedRange[\I\] extends Range[\I\]
@@ -313,8 +313,10 @@ index e985c4f7f..9ac26c63a 100644
 +    abstract getter leftOrRight(): I
      abstract flip(): BoundedRange[\I\]
 -    every(s: I): BoundedRange[\I\]
+-    atMost(n: I): FullRange[\I\] where { I extends Index }
 -    opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
 +    abstract every(s: I): BoundedRange[\I\]
++    abstract atMost(n: I): FullRange[\I\] where { I extends Index }
 +    abstract opr INTERSECTION(self, other: Range[\I\]): BoundedRange[\I\]
      narrowToRange(other:OpenRange[\I\]): BoundedRange[\I\]
      abstract narrowToRange(other:Range[\I\]): BoundedRange[\I\]
@@ -326,7 +328,7 @@ index e985c4f7f..9ac26c63a 100644
      getter leftOrRight(): I
  end
  
-@@ -2255,7 +2278,7 @@ trait LeftRange[\I\] extends { RangeWithLeft[\I\], PartialRange[\I\] }
+@@ -2259,7 +2282,7 @@ trait LeftRange[\I\] extends { RangeWithLeft[\I\], PartialRange[\I\] }
  end
  
  trait RangeWithRight[\I\] extends BoundedRange[\I\]
@@ -335,7 +337,7 @@ index e985c4f7f..9ac26c63a 100644
  end
  
  trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
-@@ -2267,7 +2290,7 @@ trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
+@@ -2271,7 +2294,7 @@ trait RightRange[\I\] extends { RangeWithRight[\I\], PartialRange[\I\] }
  end
  
  trait FullRange[\I extends Index\] extends { RangeWithLeft[\I\], RangeWithRight[\I\], RangeWithExtent[\I\], Indexed[\I, I\] }
@@ -344,7 +346,7 @@ index e985c4f7f..9ac26c63a 100644
      narrowToRange(other:OpenRange[\I\]): FullRange[\I\]
      abstract narrowToRange(other:Range[\I\]): FullRange[\I\]
      abstract opr IN(n: I, self): Boolean
-@@ -2653,7 +2676,7 @@ trait SomeGenerator2 end  (* marking for GG *)
+@@ -2662,7 +2685,7 @@ trait SomeGenerator2 end  (* marking for GG *)
  (* non-filtered GG *)
  trait Generator2[\ E \]
    extends {Generator[\ Generator[\ E \] \], SomeGenerator2}
@@ -353,7 +355,7 @@ index e985c4f7f..9ac26c63a 100644
  
    generate2[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R
  
-@@ -2670,8 +2693,8 @@ end
+@@ -2679,8 +2702,8 @@ end
  (*---------------------------Relational Predicates -------------------------*)
  (* base of relational predicates condition *)
  trait RelationalPredicateCondition[\E\] extends { Condition[\()\] }

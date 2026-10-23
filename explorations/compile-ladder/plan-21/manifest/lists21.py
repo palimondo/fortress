@@ -161,7 +161,7 @@ C_BRIEFING = [
   ("P-148", "Your rung changes the checker: it times the count stage and makes the change fast."),
   ("P-151", "AnyList's comprises clause with its where-variable, live: the clause the crash meets."),
   ("P-45", "The overloading rules the check applies, and where walk and the checker still judge a pair apart."),
-  ("F-245", "The full check's 186, three of them the crash's lines; the first run cleared the rest."),
+  ("F-245", "The full check's 186, which the first run cleared; the crash's three lines stand beside the 5 that remain."),
   ("F-251", "How the checker opens a comprises clause's where-variable at a call."),
   ("ledger:584", "Your row: the check skips every operator whose name is not a word of capitals."),
   ("ledger:775", "The crash's sibling, a comprises clause's where-variable missing from the kind environment."),
@@ -178,6 +178,7 @@ C_BRIEFING = [
   ("code:" + OC + "#    def checkOverloading(): JavaList[StaticError] = {", "The top-level set, its three loops' first and the import-star loops."),
   ("code:" + OC + "#    def isDeclaredName(", "The name filter the three loops read today."),
   ("code:" + TA + "#      def checkCC(s: TraitType, t: TraitType): CFormula = {", "The comprises clause's exclusion check, beside the excludes check that reads the clause's parameters."),
+  ("code:" + OC + "#    private def selfTyped(", "The first run's exclusion arrows beside the crash's equiv call: a second way the unopened E may reach the exclusion test."),
   ("code:Library/CompilerLibrary.fsi#trait GeneratorZZ32", "The prelude's generator trait, whose = has no meet under the full check."),
 ]
 C_CHECKS = [
@@ -200,7 +201,7 @@ E_BRIEFING = [
   (EX + "3.2 4i, 8 (and String's 2)", "The check brought to the specification's rule, as the shadow applied it."),
   (EX + "4.3 Each new error, the line that brings it, and the line that clears it", "The 23 errors the abstract lines bring, and the 19 api lines that clear them."),
   (EX + "6. Defects found on the way", "The rows' defects, the count's blind spot's twin in the distance stage among them."),
-  ("doc:explorations/compile-ladder/plan-21/probes/run2-api.patch", "Your api text as the planner wrote it on the first run's api and measured it."),
+  ("doc:explorations/compile-ladder/plan-21/probes/run2-api.patch", "Your api text, written on the first run's landed api with atMost abstract under its condition, and measured there."),
   ("doc:Specification/basic/components/apis.tex#Component and API Identity", "The rule the check is brought to: a definition of the same name, abstract members aside."),
   ("code:" + EC + "#  private def equalFnHeaders(", "Row 800's place: the header's name bound to nothing."),
   ("code:" + EC + "#  private def allAbstractsMadePublic(", "Row 802's place: the component-to-api half."),
@@ -229,7 +230,8 @@ D_BRIEFING = [
   (TD + "5. Defects, and the draft ledger rows", "The nine drafts, which stay in the report (fork 25)."),
   (TD + "6. Decisions", "The probe's choices and the ways not taken, demo by demo."),
   ("doc:explorations/perf-probes/team-demos/demos-repairs.patch", "Your text as the probe measured it."),
-  (REC + "The demos on the first run's text", "The 52 demos with the patch on the first run's library, as the planner ran them."),
+  (REC + "The demos on the first run's text", "The 52 demos with the patch on the first run's text as first drafted, which is not the walk the first run landed."),
+  ("doc:explorations/coordinator/review-queue.md#Tests and the team's demos (1)", "Item 247, whose default on record your rung builds: every listed failure is owed, on walk and on the compiled checker."),
   ("doc:Library/Generator22D.fss", "rects, halving with / where DIV is meant."),
 ]
 D_CHECKS = [
