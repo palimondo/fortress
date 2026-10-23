@@ -50,7 +50,7 @@ with the three `@@PROBE CRASH` lines of the `AnyList` crash caught, on `||` in `
 
 with 53 `GONE` lines (one of them `x2`), so 54 sites gone, and no site come. Section 4 gives them by family.
 
-**The walk guard**, `ProjectFortress/tests/StringConcatenationFamiliesWalk.fss`: each of the four families with a string on either side and on both, beside a number, a character, `()`, a pair and a triple; `EmptyString` on each side of `||`; that `"ab" || "cd"` is flat, depth 0 (F-249's concern: a meet with `Concatenable`'s body gave a `CatString`); the line separators read through the library's postfix `//` and `///`. It guards behaviour that works, so it has no failing run (`tests-writing.md`, "The order"). On the base's code, before the library edit (14:47:14Z):
+**The walk guard**, `ProjectFortress/tests/StringConcatenationFamiliesWalk.fss`: each of the four families with a string on either side and on both, beside a number, a character, `()`, a pair and a triple; `EmptyString` on each side of `||`; that `"ab" || "cd"` is flat, depth 0 (F-249's concern: a meet with `Concatenable`'s body gave a `CatString`); the line separators read through the library's postfix `//` and `///`; and, added by the skeptic, a concatenation node of depth 1 on either side of `||`, which reaches the meet's `Concatenable` arm (`SKEPTIC.md` section 4). It guards behaviour that works, so it has no failing run (`tests-writing.md`, "The order"). On the base's code, before the library edit (14:47:14Z):
 
     explorations/compile-ladder/rung-inference-walk/harness-one.sh $PWD/tmp/rung-symbolic-library/h1 ProjectFortress/tests/StringConcatenationFamiliesWalk.fss
     # harness-one 2026-10-23T14:47:14Z; tree 00f2e1bdc; nproc=4; load 0.96 0.77 1.89; openjdk version "25.0.4.1" 2026-08-18; FORTRESS_THREADS=4; cache filled
@@ -84,7 +84,7 @@ The pair is the library's new `opr ||(a:String, b:Any)` (`.fss:4467`; the span r
      Saw expected failure: loaded and ran, not refused at load
     OK (1 test)
 
-The test keeps its subject (an object inheriting two symbolic operators with no meet, which walk's meet check skips: row 611) and its key, `load_exception_contains=Invalid overloading of ||`. The red run above shows that the harness reads the key. The rule this exposes: under walk, a program's own trait with a functional `||`, `|||`, `//` or `///` that can meet `String` now needs `excludes { String }` or a meet. A grep of the walk tests, `test_library/`, the specification's examples, the demos and both microGPT programs for a declaration of one of the four operators (`grep -rln 'opr *\(||\|||| *\|//\|///\) *(' ProjectFortress/tests ProjectFortress/test_library SpecData ProjectFortress/demos explorations/run-c4/src explorations/apl/mg`) prints only this test.
+The test keeps its subject (an object inheriting two symbolic operators with no meet, which walk's meet check skips: row 611) and its key, `load_exception_contains=Invalid overloading of ||`. The red run above shows that the harness reads the key. The rule this exposes: under walk, a program's own trait with a functional `||`, `|||`, `//` or `///` that can meet `String` now needs `excludes { String }` or a meet. Walk makes this check only when it analyses the library afresh, as the harness and the suites do; on a cache that already holds the library's analysis it skips the check and runs the program (row 342; the skeptic's cold and warm runs, `SKEPTIC.md` section 3). A grep of the walk tests, `test_library/`, the specification's examples, the demos and both microGPT programs for a declaration of one of the four operators (`grep -rln 'opr *\(||\|||| *\|//\|///\) *(' ProjectFortress/tests ProjectFortress/test_library SpecData ProjectFortress/demos explorations/run-c4/src explorations/apl/mg`) prints only this test.
 
 ## 4. The stages
 
@@ -134,7 +134,7 @@ The ways the language and the library offer are in decision 2.
 
 ## 6. What the specification settles
 
-`Specification/advanced/overloading.tex:518-523`: "Two declarations which differ in the position of the self parameter must satisfy either the Subtype Rule or the Incompatibility Rule to be a valid overloading." So no meet repairs `(a:Any, self)` beside `(self, b:Any)`, and a top-level function beside a functional method is judged by the Meet Rule for functions (`:526-530`). The meets elsewhere follow the Meet Rule for Functional Methods (`:469-516`). The specification has no strings chapter (`ls Specification/basic-lib/`); `Specification/advanced-lib/algebraic-constraints.tex:1352-1356` says the empty string is the identity of `||`, which the guard asserts.
+`Specification/advanced/overloading.tex:518-523`: "Two declarations which differ in the position of the self parameter must satisfy either the Subtype Rule or the Incompatibility Rule to be a valid overloading." So no meet repairs `(a:Any, self)` beside `(self, b:Any)`, and a top-level function beside a functional method is judged by the Meet Rule for functions (`:525-529`). The meets elsewhere follow the Meet Rule for Functional Methods (`:469-516`). The specification has no strings chapter (`ls Specification/basic-lib/`); `Specification/advanced-lib/algebraic-constraints.tex:1352-1356` says the empty string is the identity of `||`, which the guard asserts.
 
 ## 7. Programs run old against new
 
@@ -165,13 +165,14 @@ In the record, for the gather:
 - F-249's title, "Under walk, a program that imports only the prelude reaches the string objects' own `||` only through `String`'s abstract `opr ||(self, b:String)`" (`FACTS.md:174`): the abstract is gone; the route is the top-level meet's `typecase`.
 - F-259: "`String`'s two `||` members over `Any`", "`opr ||(a:Any, self)` is `("" || a) || self` and `opr ||(self, b:Any)` is `self || cast[\Object\](b).asString`" (`FACTS.md:179`): they are now the top-level `opr ||(a:Any, b:String)` and `opr ||(a:String, b:Any)`, with those bodies.
 - Rows 585 and 784's claims (`explorations/fortress-gap-ledger.md:785`, `:805`), and row 611's "the rule breaks at five library sites: `EmptyString`'s `||` ..." (`:787`).
+- Row 726's note "`String`'s `(a:Any, self)` beside `(self, b:Any)` differ in type: row 585" (`explorations/fortress-gap-ledger.md:454`), and row 316's "Walk's library has `opr ||(a:Any, self)`, its kin and `juxtaposition(a:Any, b:String)`" (`:770`), which cites its lines at `63e420a33`.
 
 ## 11. Points to report
 
 - **The generators' text: taken, with the doc comments moved** (decision 1); `Library/FortressLibrary.fsi:2501-2522`, `.fss:4458-4488`.
 - **The full-check tables**: 191 to 137, 54 gone site by site (section 4), none come; the stock count 3 to 3 (the diff empty) and the distance 5 to 5 ('DISTANCE SAME 5', the same five sites), String's export entry without "different extends clauses".
 - **The count stage's seconds**: 95 s, beside the full-check stage (section 4).
-- **XXXFunctionalMethodMeetOperator**: walk refused it for `opr ||(a:String, b:Any)` beside its `T`'s `opr ||(self, b: ZZ32)`; its traits now exclude `String` (`ProjectFortress/tests/XXXFunctionalMethodMeetOperator.fss:6`, `:9`); green again with its key. The rule: under walk a program's own trait with a functional `||`, `|||`, `//` or `///` that can meet `String` needs the exclusion; no other test, example, demo or microGPT file declares one (section 3).
+- **XXXFunctionalMethodMeetOperator**: walk refused it for `opr ||(a:String, b:Any)` beside its `T`'s `opr ||(self, b: ZZ32)`; its traits now exclude `String` (`ProjectFortress/tests/XXXFunctionalMethodMeetOperator.fss:6`, `:9`); green again with its key. The rule: under walk a program's own trait with a functional `||`, `|||`, `//` or `///` that can meet `String` needs the exclusion, where walk analyses the library afresh (row 342); no other test, example, demo or microGPT file declares one (section 3).
 - **Walk values and tests**: no walk value moved (the guard on both codes; `ant testSystem` 669, 0 failures; `ant testSpecData` 130, 0). The one test whose verdict changed is `XXXFunctionalMethodMeetOperator`, before its respelling.
 - **The api's declarations that leave, join or change, and so Part IV**: String's `||(self, b:String)`, `||(a:Any, self)`, `||(self, b:Any)`, its three `|||` and its binary `//` and `///` leave String's trait, and twelve top-level `||`, `|||`, `//`, `///` join (`fsi:2501-2522`); the six top-level `Vector` and `Matrix` `+` and `-` leave (base `fsi:1654-1661`, `:1764-1771`); `Integral` gains `opr =(self,b:I):Boolean` (`fsi:452`), `ZZ` `opr =(self, b: ZZ):Boolean` (`fsi:655`), `Maybe` `opr |self| : ZZ32` and `opr [i:ZZ32]:T throws NotFound` (`fsi:981-982`); String's header gains `DelegatedIndexed[\Char,ZZ32\]` (`fsi:2424`). In String's api, which Part IV does not render, `Concatenable` and `EmptyString` gain three `||` each (`Library/String.fsi:17-19`, `:29-31`).
 - **Sentences made false**: section 10; none in the specification's text.
@@ -200,7 +201,7 @@ None holds the push: each is reversible and acts against no decision.
 - **Row 611's library half**, `EmptyString`'s `||`: home 1, repaired; the full-check stage (its site gone). Its walk half, walk's meet check skipping symbolic operators: home 2, its gated expected failure `XXXFunctionalMethodMeetOperator.fss`, kept.
 - **`FlatString`'s `|_|`** (F-245's +1) and **`Float`'s `^`** (the one `^` site left after P-153): home 1, repaired; the full-check stage. Neither has a row.
 - **The `AnyList` crash**, three caught crash lines in the full check: not this rung's; rung C's planned row (NEW-C-1).
-- **`expTest.fss` on the compiled path**, 'Variable asFloat is not defined.': not this change's; home 3, a note to row 442 (the compiler's prelude lacks conversions), in record.md.
+- **`expTest.fss` on the compiled path**, 'Variable asFloat is not defined.': not this change's; home 3, row 442, whose claim already holds it ('`ZZ`, `ZZ64`, `NN64` lack `asRR64` and `asFloat`'); the row, at 1,199 characters, takes no note (record.md).
 
 ## For FACTS
 
