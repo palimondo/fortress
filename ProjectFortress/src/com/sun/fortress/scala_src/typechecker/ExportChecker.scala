@@ -833,12 +833,17 @@ object ExportChecker {
     left.length == right.length &&
     (left, right).zipped.forall((l,r) => equalLValue(l,r))
 
-  /* Returns true if two LValues are same. */
+  /* Returns true if two LValues are same.
+   * The var modifier is not compared: from the spec (traits.tex,
+   * "Abstract Field Declarations"), "the var modifier without settable
+   * only affects implementations".
+   */
   private def equalLValue(left: LValue, right: LValue): Boolean =
     (left, right) match {
       case (SLValue(_, nameL, modsL, typeL, _),
             SLValue(_, nameR, modsR, typeR, _)) =>
-        equalIds(nameL, nameR) && modsL.equals(modsR) &&
+        equalIds(nameL, nameR) &&
+        modsL.remove(Modifiers.Var).equals(modsR.remove(Modifiers.Var)) &&
         ((typeL, typeR) match {
           case (Some(tl@SType(_)), Some(tr@SType(_))) => equalTypes(tl, tr)
           case _ => false

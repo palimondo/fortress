@@ -1,0 +1,9 @@
+(* A var field satisfies the api's field of its name and type, since var without settable only affects implementations (traits.tex, section "Abstract Field Declarations"; source-code.tex, subsection "Export Statements"), so the component matches its api. *)
+component ExportVarFieldMatchesField
+export ExportVarFieldMatchesField
+
+object O
+    var x: ZZ32 := 1
+end
+
+end
