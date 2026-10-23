@@ -825,3 +825,13 @@ The orientation workflow's update of `revival-changes.md` for climb batch 21 (`e
 - `records.md`: the note's limits, `explorations/coordinator/tools/ledger.py:165`.
 - `tests-writing.md`: `assert` and `=/=` under walk, F-280, row 807.
 - `tests-running.md` and `compiler.md`, "The checker's time": the counts and times of climb batch 21's gate, `explorations/compile-ladder/climb-batch-21/gate/summary.txt` (`testFast` 2,081 tests in 6 min 18 s, `testSystem` 677 tests, `testSpecData` 1 min 7 s), the gates of climb batches 16 to 20 for the ranges, and the count stage's 78 s (`explorations/reviews/batch-21-review.md`, Part 2).
+
+## The cold read of climb batch 21's install, 2026-10-23
+
+From the cold read of `732f3b2e2` to `f6f7de70c` (`tmp/cold-read-b21/report.md`), each fix settled by the coordinator.
+
+- The bounds reading, one wording in `revival-changes.md`, "Dispatch and overloading", and `compiler.md`, "The checker's gaps": `withBounds` and `meetEmptyWithBounds` in `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala`; F-277, P-157 (flags 3, 10).
+- Rows 786 and 713 as pairs on which the paths differ, with no decision on which is right; row 713's `C` an object, `ProjectFortress/tests/OverloadTwoBoundsClosedTraitExclusionWalk.fss` (flags 11, 12, 16, 17).
+- `interpreter.md`: row 804's message and reach, `ProjectFortress/tests/XXXExclusionVectorScalarWalk.fss` and the row (flags 4, 15); the disambiguator's refusal of a `FortressLibrary` type name, `ProjectFortress/src/com/sun/fortress/compiler/disambiguator/TypeDisambiguator.java`, `explorations/compile-ladder/rung-index-bound/SKEPTIC.md`, sections 3 and 10 (flag 13); the two messages by whether the parameter type mentions a static parameter, `OverloadedFunction.java`, `describeOverloadingFailure` (flag 14); lists of different lengths checked only with a varargs parameter, `OverloadedFunction.java:381`; the cache, F-269, row 342, `COLD_CACHE=1` in `explorations/compile-ladder/rung-inference-walk/harness-one.sh` (flag 18).
+- `revival-changes.md`, the `Index` rule: the indexed type defined; the bound and the count stage; a numeral refused at a parameter of type `Index`, `explorations/compile-ladder/rung-index-bound/REPORT.md`, sections 4 and 6 (flags 5 to 9); "open" dropped and `self`'s reading restated (flags 1, 2).
+- `library.md`: `atMost`'s condition and `UniformDistribution`'s case, P-156, `rung-index-bound/REPORT.md`, section 1 (flags 19 to 21). `records.md`, `tests-writing.md`: wording (flags 22 to 24).

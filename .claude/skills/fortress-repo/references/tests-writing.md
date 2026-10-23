@@ -29,7 +29,7 @@ A test program has this form:
 
 - `(*)` starts a comment to the end of the line. It cannot hold `*)`: the parser ends the comment there and refuses the program. `(* ... *)` comments nest.
 - A compiled test with a `run` key ends `run()` with `println("PASS")`, unless a `run_out` key checks its output (below).
-- Under walk, `assert(x, y, msg)` checks that `x` equals `y`. It and `=/=` see a type's own `=` only through a `FortressLibrary` trait, such as `Equality[\T\]`, and otherwise compare by identity (ledger row 807). If a type has its own `=`, make it extend `Equality[\T\]`, or write `assert(x = y, msg)`. The compiler's library declares the two-value `assert` only for `ZZ32`, `String` and `Character`; its `assert(flag, msg)` takes any `Boolean`.
+- Under walk, `assert(x, y, msg)` checks that `x` equals `y`. It and `=/=` call a type's own `=` only if the type extends a `FortressLibrary` trait that declares `=`, such as `Equality`. Otherwise they compare by identity (ledger row 807). If a type `P` has its own `=`, make `P` extend `Equality[\P\]`, or write `assert(x = y, msg)`. The compiler's library declares the two-value `assert` only for `ZZ32`, `String` and `Character`; its `assert(flag, msg)` takes any `Boolean`.
 - Do not name a variable or a parameter after a functional method of the library, such as `big`, `even`, `numerator` or `shift`. The disambiguator, the phase that binds names, refuses it: "Variable even is already declared."
 - Under walk, a numeral does not bind to `NN32` or `NN64`, and a numeral with a radix point does not bind to `RR32` (ledger row 454). Write `a: NN32 = unsigned(5)`, not `a: NN32 = 5`.
 
