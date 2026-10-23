@@ -183,9 +183,16 @@ one below: a \KWD{where}-clause variable may not appear as a static
 argument in an \KWD{extends} clause (\secref{where-clauses}),
 so no trait extends itself through a hidden type variable
 and explicit extension has no self cycles.}
-In addition, every trait except \TYP{Any} and \TYP{Object}
+In addition, every trait except \TYP{Any}, \TYP{Object} and \TYP{Index}
 implicitly extends the trait \TYP{Object}
 if it does not do so explicitly.
+The trait \TYP{Index} of the library, the trait of the types that a
+subscript takes, extends only \TYP{Any}, as \TYP{Object} does:
+a tuple type whose element types are all subtypes of \TYP{Index}
+is a subtype of \TYP{Index} (\secref{tuple-types}), and no tuple is an
+\TYP{Object}.
+A trait that extends \TYP{Index} and no other trait but \TYP{Any}
+implicitly extends \TYP{Object} too.
 We define the extension relation to be the transitive closure
 of implicit and
 explicit extension.
@@ -196,7 +203,11 @@ that \VAR{T} explicitly extends and that extends \VAR{U}.
 The extension relation induced by a program is the smallest
 relation satisfying these conditions.
 This relation must form an acyclic hierarchy
-rooted at trait \TYP{Object}.
+rooted at the traits \TYP{Object} and \TYP{Index}.
+\revision{revival-index}{The Working Draft of February 2011 named only
+\TYP{Any} and \TYP{Object} as the traits that do not implicitly extend
+\TYP{Object}, and rooted the hierarchy at \TYP{Object}; \TYP{Index}, which
+the revival adds to the library, is the third.}
 \note{
 Victor: Technically, there may be self cycles in explicit extension due to
  hidden type variables, as described above.}

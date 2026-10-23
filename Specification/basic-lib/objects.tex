@@ -19,7 +19,11 @@
 The trait \TYP{Any} is the single root of the type hierarchy; every
 object in Fortress has trait \TYP{Any} and therefore every object
 implements the methods of this trait.  The immediate subtypes of the trait
-\TYP{Any} are \TYP{Object}, \TYP{Tuple}, and \TYP{()}.
+\TYP{Any} are \TYP{Object}, \TYP{Tuple}, \TYP{()}, and \TYP{Index}, the
+trait of the types that a subscript takes (\secref{type-relations}).
+\revision{revival-index}{The Working Draft of February 2011 named
+\TYP{Object}, \TYP{Tuple} and \TYP{()} only; \TYP{Index}, which extends
+\TYP{Any} and not \TYP{Object}, is new.}
 
 %trait Any
 %  getter hashCode(): NN64
@@ -156,8 +160,8 @@ is not allowed:
 {\tt~~~~}\pushtabs\=\+\(    \KWD{excludes} \{\,\TYP{Tuple}\,\}\)\-\\\poptabs
 \(\KWD{end}\)
 \end{Fortress}
-Every trait other than \TYP{Any} and \TYP{Object} extends \TYP{Object}
-(\secref{trait-decls}),
+Every trait other than \TYP{Any}, \TYP{Object} and \TYP{Index} extends
+\TYP{Object} (\secref{trait-decls}),
 and the algebraic constraints make each commutative algebraic type \VAR{T}
 an \EXP{\TYP{EquivalenceRelation}\llbracket{}T,=\rrbracket}
 (\chapref{lib:algebraic-constraints});
@@ -170,6 +174,9 @@ which instantiation exclusion forbids (\secref{trait-types}).
 existing operators more abstractly.
 The declaration \EXP{\KWD{trait}\:\TYP{Object} \KWD{extends}\:\TYP{Any}}
 is the library's.}
+\revision{revival-index}{The Working Draft of February 2011 named only
+\TYP{Any} and \TYP{Object} as the traits that do not extend \TYP{Object};
+\TYP{Index}, which the revival adds to the library, is the third.}
 
 
 \Trait{Fortress.Core.Tuple}

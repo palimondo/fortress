@@ -37,7 +37,9 @@ import static com.sun.fortress.exceptions.InterpreterBug.bug;
 
 /** Run desugaring phases that must occur before disambiguation.
  *  1) Rewrite trait, object, and object expressions to explicitly extend Object
- *     if no explicit bounds, or only Any, were given.  Also rewrite static parameter bindings
+ *     if no explicit bounds, or only Any, were given, and to extend Object beside
+ *     Index if only Index and Any were given; the traits Any and Object, and the
+ *     library's trait Index, are left as written.  Also rewrite static parameter bindings
  *     to explicitly extend Object if no explicit bounds were given.
  *  2) Remove conditional operators, replacing their operands with thunks.
  *  Desugar conditional operators into operators that take thunks.
@@ -56,12 +58,41 @@ public class PreDisambiguationDesugaringVisitor extends NodeUpdateVisitor {
     private final Id anyTypeId = NodeFactory.makeId(NodeFactory.makeSpan("singleton"), WellKnownNames.anyTypeName);
     private final Id objectTypeId = NodeFactory.makeId(NodeFactory.makeSpan("singleton"), WellKnownNames.objectTypeName);
 
+    /** The name of the api or component visited. */
+    private String unitName = "";
+
+    @Override
+    public Node forComponent(Component that) {
+        unitName = that.getName().getText();
+        return super.forComponent(that);
+    }
+
+    @Override
+    public Node forApi(Api that) {
+        unitName = that.getName().getText();
+        return super.forApi(that);
+    }
+
+    /** True if the type is named name. */
+    private static boolean isNamed(BaseType type, String name) {
+        return type instanceof NamedType && ((NamedType)type).getName().getText().equals(name);
+    }
+
     /** True if each type of the extends clause is Any, as in an empty clause. */
     private static boolean namesOnlyAny(List<TraitTypeWhere> extendsClause) {
         for (TraitTypeWhere entry : extendsClause) {
+            if ( ! isNamed(entry.getBaseType(), WellKnownNames.anyTypeName) )
+                return false;
+        }
+        return true;
+    }
+
+    /** True if each type of the extends clause is Any or Index. */
+    private static boolean namesOnlyAnyOrIndex(List<TraitTypeWhere> extendsClause) {
+        for (TraitTypeWhere entry : extendsClause) {
             BaseType type = entry.getBaseType();
-            if ( ! ( type instanceof NamedType &&
-                     ((NamedType)type).getName().getText().equals(WellKnownNames.anyTypeName) ) )
+            if ( ! isNamed(type, WellKnownNames.anyTypeName) &&
+                 ! isNamed(type, WellKnownNames.indexTypeName) )
                 return false;
         }
         return true;
@@ -69,18 +100,33 @@ public class PreDisambiguationDesugaringVisitor extends NodeUpdateVisitor {
 
     /** If the extends clause of a trait declaration, an object declaration, or
      *  an object expression is empty or names only Any, then replace it
-     *  with {Object}.
+     *  with {Object}.  If it names only Index and Any, then replace it with
+     *  its Index entries and Object: the library's Index extends Any and not
+     *  Object, so a type that extends only Index extends Object too.
      */
     private List<TraitTypeWhere> rewriteExtendsClause(Node whence,
                                                       List<TraitTypeWhere> extendsClause) {
-        if ( ! namesOnlyAny(extendsClause) ) return extendsClause;
+        if ( ! namesOnlyAnyOrIndex(extendsClause) ) return extendsClause;
         if ( ! ( whence instanceof ASTNode ) )
             bug(whence, "Only ASTNodes are supported.");
         Id objectId = NodeFactory.makeId(NodeUtil.getSpan((ASTNode)whence),
                                          WellKnownNames.objectTypeName);
         TraitType typeObject = NodeFactory.makeTraitType(objectId);
         TraitTypeWhere extendsObject = NodeFactory.makeTraitTypeWhere(typeObject);
-        return Collections.singletonList(extendsObject);
+        if ( namesOnlyAny(extendsClause) ) return Collections.singletonList(extendsObject);
+        List<TraitTypeWhere> result = new ArrayList<TraitTypeWhere>();
+        for (TraitTypeWhere entry : extendsClause) {
+            if ( isNamed(entry.getBaseType(), WellKnownNames.indexTypeName) ) result.add(entry);
+        }
+        result.add(extendsObject);
+        return result;
+    }
+
+    /** True if the trait declaration is the library's trait Index, which
+     *  extends Any as Object does, and not Object. */
+    private boolean isLibraryIndex(TraitDecl that) {
+        return unitName.equals(WellKnownNames.fortressLibrary()) &&
+               NodeUtil.getName(that).getText().equals(WellKnownNames.indexTypeName);
     }
 
     /** If the extends clause of a static parameter is empty,
@@ -121,7 +167,8 @@ public class PreDisambiguationDesugaringVisitor extends NodeUpdateVisitor {
         Option<List<NamedType>> comprisesClause_result = recurOnOptionOfListOfNamedType(that.getComprisesClause());
 
         if (!NodeUtil.getName(that).equals(anyTypeId) &&
-            !NodeUtil.getName(that).equals(objectTypeId)) {
+            !NodeUtil.getName(that).equals(objectTypeId) &&
+            !isLibraryIndex(that)) {
             header_result = NodeFactory.makeTraitTypeHeader(header_result,
                                                             rewriteExtendsClause(that, header_result.getExtendsClause()));
         }

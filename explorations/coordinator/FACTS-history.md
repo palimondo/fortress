@@ -4207,3 +4207,25 @@ pointer words refreshed in: F-24
 ### F-277
 
 2026-10-23 16:46Z · added · from `explorations/compile-ladder/rung-self-type-exclusion/REPORT.md`, "4. The stages" · by climb batch 21 gather
+
+### F-245
+
+2026-10-23 16:51Z · rewritten · from `explorations/compile-ladder/rung-index-bound/REPORT.md`, "5. The stages, the suites and the time" · by climb batch 21 gather: the 124 subscript errors cleared by rung B; S, B and X together
+
+- F-245 **Checking symbolic operators for overloading adds 186 errors to the distance in the compiled checker, measured at `d97001d19`, whose code is climb batch 20's gate, with crashes caught per name: 54 are cleared by known library fixes (F-276), 8 by the exclusion test that P-157 decides (F-277), and 124 wait on P-156's index bound.** As the stage runs, the 186 are 185 errors and three crashes on `||`, in `List`'s api and component and `String`'s component, "E is not in the kind env": a checker crash that no fix or design clears (`perf-probes/symbolic-operators-2/REPORT.md` section 1.3). The check was turned on in a copy of the checker whose three loops admit every operator; the checker as built skips them (row 584). On climb batch 21's base the stage gives 191, the distance's 5 and these 186 (`compile-ladder/plan-21/probes/full-check-base.tsv`), 137 with the known fixes alone, and 183 with the exclusion test alone. The two designs: a bound on the subscripts' index type (124 errors), and a vector plus a number beside a vector plus a vector (8). The probe's candidates S1, an index bound with a rule for tuple indices, and A2, `Vector` and `Matrix` leaving `AdditiveGroup`, clear them with nothing new; A3, the scalar `+` and `-` dropped, also clears the 8. The largest families are the subscripts over a generic `Indexed` (124) and `String`'s four concatenation operators, `||`, `|||`, `//` and `///` (40). An earlier measurement, at `d212b2c1f`, counted 205; batches since cleared `FlatString`'s pair (2; F-259) and 20 of the 21 `^` errors (F-263), and added 3: `|_|` 1 and the scalar `+` and `-` 2. Walk's meet check, which also skips symbolic operators and judges neither `String`'s pairs, the subscripts, `^` nor `=`, refused only `EmptyString`'s `||` when widened the same way in the first probe of these operators. Detail: `perf-probes/symbolic-operators-2/REPORT.md` sections 0 to 2; `perf-probes/symbolic-operators/REPORT.md` section 1.5.
+
+### F-81
+
+2026-10-23 16:51Z · rewritten · from `explorations/compile-ladder/rung-index-bound/REPORT.md`, "8. Sentences this change makes false, not edited here" · by climb batch 21 gather: the subscript pairs valid since the index bound
+
+- F-81 **In the interpreter's library, every Meet Rule pair inside one type that the compiled checker checks has a declaration on its meet. The checker skips operators whose names are symbols (row 584); checked, their pairs give the errors of F-245.** `String`'s juxtaposition is three top-level operators, since two functional methods with `self` at different positions have no meet. `String`'s `||`, `|||`, `//` and `///`, which paired `(a:Any, self)` with `(self, b:Any)`, the shape the specification refuses, are now three top-level operators each too (F-276). F-245's measurement found other pairs without a meet, among them `Indexed`'s three subscripts in 17 types. The rung that added these meets also set the declared types listed in report section 1 to what their bodies answer. Elsewhere in the library some still differ, such as `__bigOperator2`'s fused branch (F-85). Gated by `tests/LibraryMeetDeclarations.fss`. Detail: `compile-ladder/rung-library-meets/REPORT.md` section 1.
+
+### F-259
+
+2026-10-23 16:51Z · rewritten · from `explorations/compile-ladder/rung-index-bound/REPORT.md`, "1. What changed and why" · by climb batch 21 gather: the library's Index keeps extends Any
+
+- F-259 **An object or trait whose `extends` clause names `Any` alone is an `Object` on both paths, and such an object expression under walk, and `String`'s two top-level `||` over `Any` convert by the library's own way.** The pre-disambiguation desugaring that both paths run gives such a clause `{Object}`, as it gives an empty one, and leaves `Any`'s and `Object`'s own declarations as written. `opr ||(a:Any, b:String)` is `("" || a) || b` and `opr ||(a:String, b:Any)` is `a || cast[\Object\](b).asString` (top-level since F-276); `FlatString`'s api states its component's header, with no `opr ||(a:FlatString, self)`. So a tuple or `()` concatenates on the left of a string, and a function or a tuple of seven or more elements beside one raises `CastError`. The team test `extendAny` prints `Infinity`, and the distance's three `String` sites are gone: 34 to 31, the count 30 to 28. Tests: `tests/ExtendsAnyIsObjectWalk.fss`, `compiler_tests/ExtendsAnyIsObject.test`, `tests/ConcatAnyOnLeftWalk.fss`; the distance stage. Detail: `compile-ladder/rung-string-conversion/REPORT.md`, sections 1, 4 and 5.
+
+### F-278
+
+2026-10-23 16:51Z · added · from `explorations/compile-ladder/rung-index-bound/REPORT.md`, "5. The stages, the suites and the time" · by climb batch 21 gather

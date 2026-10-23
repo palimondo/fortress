@@ -1,0 +1,73 @@
+(* A tuple type whose element types are all Index types is an Index and no Object, so a static parameter bounded by Index takes ZZ32 and its pairs and triples, and the subscript beside the range subscript runs at each. *)
+component TupleIndexBoundWalk
+export Executable
+
+ident[\I extends Index\](x: I): I = x
+
+trait Cells[\I extends Index\]
+    opr[i: I]: String
+    opr[r: Range[\I\]]: String
+end
+
+object Grid[\I extends Index\]() extends Cells[\I\]
+    opr[i: I]: String = "one index"
+    opr[r: Range[\I\]]: String = "a range"
+end
+
+object Slot(n: ZZ32) extends Index end
+
+kind(x: Object): String = "object"
+kind(x: Any): String = "any"
+
+oneIndex(x: Index): String = "an index"
+
+run(): () = do
+    assert(ident(3), 3, "ident takes a ZZ32 at its bound Index")
+    assert(ident((1, 2)), (1, 2), "ident takes a pair of ZZ32 at its bound Index")
+    assert(ident((1, 2, 3)), (1, 2, 3), "ident takes a triple of ZZ32 at its bound Index")
+
+    g1 = Grid[\ZZ32\]()
+    assert(g1[4], "one index", "the subscript at ZZ32")
+    assert(g1[0#2], "a range", "the range subscript at ZZ32")
+    g2 = Grid[\(ZZ32,ZZ32)\]()
+    assert(g2[1, 2], "one index", "the subscript at a pair")
+    g3 = Grid[\(ZZ32,ZZ32,ZZ32)\]()
+    assert(g3[1, 2, 3], "one index", "the subscript at a triple")
+
+    m: Matrix[\RR64,2,2\] = matrix[\RR64,2,2\](2.0)
+    m[0,1] := -3.0
+    assert((m + 1.0)[0,1], -2.0, "a matrix plus a number")
+    assert((1.0 + m)[0,0], 3.0, "a number plus a matrix")
+    assert((m MAX 0.0)[0,1], 0.0, "a matrix MAX a number")
+    assert((0.0 MAX m)[0,0], 2.0, "a number MAX a matrix")
+
+    a = array[\ZZ32\](2,3).fill(0)
+    a[1,2] := 12
+    assert(a[1,2], 12, "a rank-2 array read and written at a[i, j]")
+    assert(a[(1,2)], 12, "a rank-2 array read at a pair")
+
+    assert(instanceOf[\Index\](3), true, "a ZZ32 is an Index")
+    assert(instanceOf[\Index\]((1, 2)), true, "a pair of ZZ32 is an Index")
+    assert(instanceOf[\Index\]((1, 2, 3)), true, "a triple of ZZ32 is an Index")
+    assert(instanceOf[\Index\]((1, "a")), false, "a pair with a String element is no Index")
+    assert(instanceOf[\Index\]("a"), false, "a String is no Index")
+    assert(instanceOf[\Index\](()), false, "() is no tuple type and no Index")
+    assert(instanceOf[\Index\]((1, ())), false, "a pair with a () element is no Index")
+    assert(instanceOf[\Object\](3), true, "a ZZ32 is an Object")
+    assert(instanceOf[\Object\]((1, 2)), false, "a pair of ZZ32 is no Object")
+    assert(kind(3), "object", "a ZZ32 goes to the declaration over Object")
+    assert(kind((1, 2)), "any", "a pair of ZZ32 goes to the declaration over Any")
+    i: ZZ32 = 1
+    j: ZZ32 = 2
+    assert(oneIndex(i), "an index", "a function over Index takes a ZZ32")
+    assert(oneIndex((i, j)), "an index", "a function over Index takes a pair of ZZ32")
+    assert(oneIndex(i, j, i), "an index", "a function over Index takes the triple of its arguments")
+
+    s = Slot(5)
+    assert(instanceOf[\Index\](s), true, "an object of the program's own that extends Index is an Index")
+    assert(instanceOf[\Object\](s), true, "an object of the program's own that extends Index is an Object")
+    assert(instanceOf[\Index\]((s, 1)), true, "a pair of such an object and a ZZ32 is an Index")
+    println("PASS")
+  end
+
+end

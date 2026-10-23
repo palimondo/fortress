@@ -1059,7 +1059,10 @@ A great deal of programming can be done simply through the use of
 functions, top-level
 variables, and standard types. However, Fortress also includes a trait and object system for
 defining new types, as well as objects that belong to them. Traits in Fortress exist in
-a multiple inheritance hierarchy rooted at trait \TYP{Object}.
+a multiple inheritance hierarchy rooted at the traits \TYP{Object} and \TYP{Index}.
+\revision{revival-index}{The Working Draft of February 2011 rooted the
+hierarchy at \TYP{Object}; \TYP{Index}, which the revival adds to the
+library, extends only \TYP{Any} (\secref{trait-decls}).}
 A trait declaration includes a set of method declarations,
 some of which may be abstract.
 For example, here is a declaration of a simple trait named \TYP{Moving}:

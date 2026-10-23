@@ -205,6 +205,13 @@ However, we cannot say that because when we invoke that subscripting method,
 we write \EXP{a[1, 2, 3]} where the arguments are passed as a tuple,
 \EXP{(1, 2, 3)}.  If we want to use \TYP{Index},
 we need a magic to convert that tuple argument expression to something of type \TYP{Index}.
+\revision{revival-index}{Done, by subtyping in place of a conversion: the
+library declares \EXP{\KWD{trait}\:\TYP{Index} \KWD{extends}\:\TYP{Any}},
+\EXP{\mathbb{Z}32} extends \TYP{Index}, \TYP{Range} excludes it, and every index
+parameter of the library's generic indexed types is bounded
+\EXP{I \KWD{extends}\:\TYP{Index}}; a tuple type whose element types are all
+subtypes of \TYP{Index} is a subtype of \TYP{Index} (\secref{tuple-types}), so
+\EXP{a[1, 2, 3]} passes its tuple as before.}
 
 \item Do we want to allow object trait types to appear in \KWD{extends} clauses?
 (Jan's email titled ``Re: Question about not\_passing\_yet/extendsParam.fss'' sent

@@ -150,7 +150,13 @@ valid Fortress program, an expression's runtime type is always a subtype of
 its static type.
 We say that a value is \emph{an instance of} its runtime
 type and of every supertype of its runtime type; immediate subtypes of
-\TYP{Any} comprises of tuple types, arrow types, \TYP{()}, and \TYP{Object}.
+\TYP{Any} comprises of tuple types, arrow types, \TYP{()}, \TYP{Object}, and
+\TYP{Index}, the trait of the types that a subscript takes, of which a tuple
+type whose element types are all subtypes of \TYP{Index} is a subtype
+(\secref{tuple-types}).
+\revision{revival-index}{The Working Draft of February 2011 listed tuple
+types, arrow types, \TYP{()} and \TYP{Object} only; \TYP{Index}, which
+extends \TYP{Any} and not \TYP{Object}, is new.}
 
 The exclusion relation is a symmetric relation between two types
 whose intersection is \TYP{BottomType}.
@@ -229,8 +235,15 @@ In addition, every trait type is a subtype of \TYP{Any}.
 A trait declaration may also include an \KWD{excludes} clause,
 in which case the defined trait type
 excludes every type that appears in that clause.
-Every trait type also excludes every arrow type and every tuple type,
-and the special types \TYP{()} and \TYP{BottomType}.
+Every trait type also excludes every arrow type
+and the special types \TYP{()} and \TYP{BottomType},
+and every trait type other than \TYP{Index} excludes every tuple type;
+\TYP{Index} excludes a tuple type only where one of its element types
+excludes \TYP{Index} (\secref{tuple-types}).
+\revision{revival-index}{The Working Draft of February 2011 said that every
+trait type excludes every tuple type. A tuple type whose element types are
+all subtypes of \TYP{Index} is now a subtype of \TYP{Index}, so \TYP{Index}
+does not exclude it.}
 
 Two instantiations of the same parameterized trait exclude each other
 unless each static argument of one,
@@ -319,9 +332,23 @@ a tuple type $X$ is a subtype of tuple type $Y$
 if and only if they have the same number of element types
 and each element type of $X$ is a subtype of the
 corresponding element type of $Y$.
+A tuple type whose element types are all subtypes of the trait \TYP{Index}
+is a subtype of \TYP{Index}, the trait of the types that a subscript takes
+(\secref{subscripting-ops}).
+\TYP{Index} extends \TYP{Any} and not \TYP{Object}
+(\secref{trait-decls}),
+so such a tuple type is no subtype of \TYP{Object}.
 
 A tuple type excludes any non-tuple type
-other than \TYP{Any}.
+other than \TYP{Any} and \TYP{Index},
+and it excludes \TYP{Index} if and only if one of its element types
+excludes \TYP{Index}.
+\revision{revival-index}{The Working Draft of February 2011 made no tuple
+type a subtype of a trait type, and said that a tuple type excludes any
+non-tuple type other than \TYP{Any}. The rule that a tuple of indices is an
+\TYP{Index}, and the exclusion that follows from it, are the revival's: they
+let an index parameter be bounded by \TYP{Index} while a subscript such as
+\EXP{a[i, j]} passes the tuple \EXP{(i, j)} as its one index.}
 A tuple type excludes every tuple type that does not have the same
 number of element types.
 Also, tuple types that have the same number of element types exclude each other

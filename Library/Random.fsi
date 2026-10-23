@@ -257,7 +257,7 @@ mersenneTwister(): MersenneTwister[\ZZ64,32,624\]
 
 (** Uniform random distribution within the given `range`. It uses a classic
     retrial method. **)
-object UniformDistribution[\T\](range:FullRange[\T\])
+object UniformDistribution[\T extends Index\](range:FullRange[\T\])
     extends RandomDistribution[\T\]
 
     min[\N extends Integral[\N\]\](gen:RandomGen[\N\]): Just[\T\]
