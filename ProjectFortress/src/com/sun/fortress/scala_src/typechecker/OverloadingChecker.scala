@@ -124,10 +124,12 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
         List[(ArrowType,Option[Int],Option[JavaFunctional])] = {
       val arrows = set.filter(s => isFunction(s) &&
                       (!onlyConcrete || isFunctionalMethod(s) || s.asInstanceOf[JavaFunctional].body.isSome))
-         .toList.map(f => (NF.makeArrowType(f.getSpan,
+         .toList.map(f => (selfTyped(NF.makeArrowType(f.getSpan,
 				     paramsToType(f.parameters, f.getSpan),
 				     f.getReturnType.unwrap,
-				     getStaticParameters(f, true)),
+				     getStaticParameters(f, true)), f,
+				     (ps: JavaList[Param]) => NF.makeArrowType(f.getSpan, paramsToType(ps, f.getSpan),
+				       f.getReturnType.unwrap, getStaticParameters(f, true))),
 		           if (isFunctionalMethod(f))
 			     Some(f.asInstanceOf[JavaFunctionalMethod].selfPosition)
 			   else None,
@@ -170,10 +172,14 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
          .toList.map(p => p match { case (f, replacer, tt) =>
               //TODO: Figure out whether I should get the lifted parameters or not. The original code DID.  I think the answer is NO. 2/21/2012
               val (sparams, apart) = ownStaticParamsApart(f)
-              ((NF.makeArrowType(f.getSpan,
+              ((selfTyped(NF.makeArrowType(f.getSpan,
                                 replacer.replaceIn(apart(paramsToType(f.parameters, f.getSpan))),
                                 replacer.replaceIn(apart(f.getReturnType.unwrap)),
-				sparams),
+				sparams), f,
+                  (ps: JavaList[Param]) => NF.makeArrowType(f.getSpan,
+                                replacer.replaceIn(apart(paramsToType(ps, f.getSpan))),
+                                replacer.replaceIn(apart(f.getReturnType.unwrap)),
+                                sparams)),
                Some(f.asInstanceOf[JavaFunctionalMethod].selfPosition),
 	       Some(f)), tt)})
       def implemented(a: (ArrowType,Option[Int],Option[JavaFunctional]), tt: TraitType) =
@@ -542,6 +548,29 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
      * on the other signatures there, on whether they are dotted methods and on the static
      * parameters in scope, so a valid answer is reused only where all of these are equal. */
     private var staticParamsInScope: List[StaticParam] = Nil
+
+    /* The exclusion test alone reads the self of a trait whose self type comes from its
+     * F-bound as the trait met with that self type, C[\X\] & X, which every extender is,
+     * since it must be a subtype of the static argument that it gives. For a functional
+     * method of such a trait, parameters() keeps self at the plain trait type, which
+     * specificity, the Meet Rule, the coverage rule and the Return Type Rule read; the
+     * declaration's own parameters (FunctionalMethod.ast) keep its TraitSelfType. An arrow
+     * made from those by the same steps as the plain arrow is kept beside it, keyed by the
+     * plain arrow's identity, and validOverloadingInner's exclusion test reads it. */
+    private val exclusionArrows = new java.util.IdentityHashMap[ArrowType, ArrowType]()
+    private def selfTyped(a: ArrowType, f: JavaFunctional, mk: JavaList[Param] => ArrowType): ArrowType = {
+      f match {
+        case fm: JavaFunctionalMethod =>
+          val own = NU.getParams(fm.ast)
+          if (!own.equals(fm.parameters)) exclusionArrows.put(a, mk(own))
+        case _ =>
+      }
+      a
+    }
+    private def forExclusion(a: ArrowType): ArrowType = {
+      val e = exclusionArrows.get(a)
+      if (e == null) a else e
+    }
     private val validOverloadingMemo = new scala.collection.mutable.HashMap[
         (ArrowType, Option[Int], ArrowType, Option[Int], Set[(ArrowType, Option[Int])], Boolean, List[StaticParam]), Boolean]()
 
@@ -582,7 +611,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
       else if (oa.lteq(ga, fa)) { true }
       else if (functionalMethodsAtOnePosition(first, second, isMethod)) { true }
       else if (meetRule(first, second, signatures, isMethod, oa, debug)) { true }
-      else if (oa.excludes(fa, ga)) { true }
+      else if (oa.excludes(forExclusion(fa), forExclusion(ga))) { true }
       else { coverageRule(first, second, signatures, isMethod, oa) }
     
       

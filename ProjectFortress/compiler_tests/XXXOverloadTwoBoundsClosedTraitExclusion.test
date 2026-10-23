@@ -1,3 +1,0 @@
-tests=XXXOverloadTwoBoundsClosedTraitExclusion
-compile
-compile_err_contains=Invalid overloading of f
