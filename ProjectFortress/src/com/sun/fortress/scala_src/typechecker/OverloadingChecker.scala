@@ -595,9 +595,10 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
       val (ga, gsp, _) = second
       true
       
-      if (oa.lteq(fa, ga)) { true }
+      // the one test that reads no type, first
+      if (functionalMethodsAtOnePosition(first, second, isMethod)) { true }
+      else if (oa.lteq(fa, ga)) { true }
       else if (oa.lteq(ga, fa)) { true }
-      else if (functionalMethodsAtOnePosition(first, second, isMethod)) { true }
       else if (meetRule(first, second, signatures, isMethod, oa, debug)) { true }
       else if (oa.excludes(forExclusion(fa), forExclusion(ga))) { true }
       else { coverageRule(first, second, signatures, isMethod, oa) }
