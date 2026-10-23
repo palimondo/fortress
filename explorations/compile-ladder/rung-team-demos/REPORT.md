@@ -2,7 +2,7 @@
 
 # Rung D: the team demos running (P-79)
 
-- problem: rows 468 (`explorations/fortress-gap-ledger.md:602`) and 710 (`:298`), and the demos probe's base run, in which 30 of the 52 programs of the team's `DemoTests` reach their end under walk and 22 stop: `explorations/perf-probes/team-demos/REPORT.md:60-96`
+- problem: rows 468 (`explorations/fortress-gap-ledger.md:602`) and 710 (`:298`), and the demos probe's base run, in which 30 of the 52 programs of the team's `DemoTests` reach their end under walk and 22 stop: `explorations/perf-probes/team-demos/REPORT.md:60-90`
 - spec: the demos are the team's programs, and no passage names them (`grep -rln -i "ProjectFortress/demos\|team demo" Specification Documentation` prints nothing). For `rects`: "When the operator / is used to divide one integer by another, the result is rational. The operator ÷ performs truncating integer division", subsection "Multiplication, Division, Modulo, and Remainder Operators", `Specification/basic/operators/opr-overview.tex:125-128`. For row 710: a declaration that extends an instantiation of a self-typed trait "must be a subtype of the static argument of that instantiation for the self-type parameter", `Specification/basic/traits.tex:306-312`
 - precedent: the probe's repairs, `explorations/perf-probes/team-demos/demos-repairs.patch:1-454`; the library's halving `n DIV 2`, `Library/FortressLibrary.fss:4389`; for row 710, the demo's own `trip` ordered at itself, `ProjectFortress/demos/trips.fss:50-51`
 - deviation: none from the probe's patch, which applies as it stands; the one line beyond it is fork 27's repair of row 710, `ProjectFortress/demos/trips.fss:96`
@@ -165,7 +165,7 @@ These are NEW-D-1 (section 12). Walk runs the demo to its end (section 3).
   In `Generator22D.fss` the precedent's defect had three sites. All three are repaired, and no other remains (section 1).
 - **The demos' repairs are the probe's**, each in a form that the record or the team's later code uses (the probe's section 6, decision 5). A `ZZ64` or a `QQ` that meets a float goes through `asFloat` (P-74; `Library/FortressLibrary.fsi:289`; `nanoTime(): ZZ64`, `:2546`).
 
-  By grep, 17 demos call `nanoTime()`, 42 calls in all. Each time feeds a repaired line or integer arithmetic: `trips.fss:234`, `turnersParaffins0.fss:436`, and the `DIV` in `ArrayListLong.fss:158` and `PureListLong.fss:152` before their repaired lines. Every one of the 17 reaches its end.
+  By grep, 16 demos call `nanoTime()`, 42 calls in all, two of them (`trips.fss:238-239`) inside a comment. Each time feeds a repaired line or integer arithmetic: `trips.fss:234`, `turnersParaffins0.fss:436`, and the `DIV` in `ArrayListLong.fss:158` and `PureListLong.fss:152` before their repaired lines. Every one of the 16 reaches its end.
 - **`npbft`'s `Complex`** drops `Number`, whose `comprises { RR64, RR32, QQ, AnyIntegral, IntLiteral }` does not list it (`Library/FortressLibrary.fss:380-381`). It extends `AdditiveGroup[\Complex\]`, which is `SumReduction`'s bound (`Library/FortressLibrary.fss:3440`).
 - **`trips`'s `MIN` and `MAX`** duplicate `ZZ32`'s own (`Library/FortressLibrary.fss:751-752`).
 - **Row 710** takes the shape of the demo's own `trip`: `object trip (...) extends StandardTotalOrder[\trip\]` with `opr CMP(self, other:trip)` (`trips.fss:50-54`).
@@ -276,7 +276,7 @@ No gated test reads the demos: `DemoTests` is in no suite. So rows 791, 670, 449
       esac
       if grep -qi fail "$OUT/$n.txt" ; then fl=fail-in-output ; else fl=clean ; fi
       if [ $rc -eq 0 ] && [ $fl = clean ] ; then v=END ; elif [ $rc -eq 124 ] || [ $rc -eq 137 ] ; then v=LIMIT ; else v=STOP ; fi
-      printf '%s\t%s\trc=%s\t%s\n' "$n" "$v" "$rc" "$fl" >> "$OUT/summary.tsv"
+      printf '%s\t%s\trc=%s\t%s\t%s\n' "$n" "$v" "$rc" "$fl" "$(grep -v '^ *$' "$OUT/$n.txt" | tail -1 | cut -c1-160)" >> "$OUT/summary.tsv"
     done
     echo "demos: $(grep -c . "$OUT/summary.tsv") run, $(awk -F'\t' '$2=="END"' "$OUT/summary.tsv" | wc -l) reached their end"
 

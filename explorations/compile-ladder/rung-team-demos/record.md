@@ -56,9 +56,9 @@ The closes, after the fix commit (`3cd33d0b0`, its hash after the merge as `H`) 
 
 In row 710's note, NEW-D-1 is to be replaced by the new row's number.
 
-NEW-D-1, for section "3. Traits, objects and components", beside row 710. With a number in its first cell, it passes `ledger.py check --rows`: 1,094 characters, claim 295, notes 631.
+NEW-D-1, for section "3. Traits, objects and components", beside row 710. With a number in its first cell, it passes `ledger.py check --rows`: 1,113 characters with a three-digit number, claim 295, notes 648.
 
-| NEW-D-1 | past row 710, the compiled checker's driver still refuses the team demo `trips.fss`, which walk runs: 18 typecheck errors, among them seven `generator` calls whose function it types `ZZ32->List.List[\Any\]` and 'Cannot assign to immutable variable: approx' (`ProjectFortress/demos/trips.fss:76`) | NEGATIVE-BOUNDED | library bug (tests) | `basic/variables.tex`, "Local Variable Declarations" | `ProjectFortress/demos/trips.fss` | climb batch 21b rung D | siblings: 710, 731. `DistanceMulti -order check -setting any ProjectFortress/demos/trips.fss` with the distance stage's shadow classes, after row 710's repair: acyclic 0, typecheck 18 (`generator` at `:113`, `:130`, `:139`, `:146`, `:153`, `:199`, `:216`; eight `__generate` at `Reduction[\List.List[\Any\]\]`; `seq` of a `Range[\ZZ32\]`, `:303`; `perfectSqrt`'s body `AnyMaybe`, `:82`), 'Missing parameter type for' `trips`, `xs`, `ps` (`:232`, `:255`, `:263`), 'TryChecker returned an untyped expr' (`:286`), and an `OptionUnwrapException` in the overloading stage (`OverloadingChecker.scala:129`). Causes not each established. |
+| NEW-D-1 | past row 710, the compiled checker's driver still refuses the team demo `trips.fss`, which walk runs: 18 typecheck errors, among them seven `generator` calls whose function it types `ZZ32->List.List[\Any\]` and 'Cannot assign to immutable variable: approx' (`ProjectFortress/demos/trips.fss:76`) | NEGATIVE-BOUNDED | library bug (tests) | `basic/variables.tex`, "Local Variable Declarations" | `ProjectFortress/demos/trips.fss` | climb batch 21b rung D | siblings: 710, 731, 621. `DistanceMulti -order check -setting any ProjectFortress/demos/trips.fss` with the distance stage's shadow classes, after row 710's repair, at 3cd33d0b0: acyclic 0, typecheck 18 (`generator` at `:113`, `:130`, `:139`, `:146`, `:153`, `:199`, `:216`; eight `__generate` at `Reduction[\List.List[\Any\]\]`; `seq` of a `Range[\ZZ32\]`, `:303`; `perfectSqrt`'s body `AnyMaybe`, `:82`), 'Missing parameter type for' `trips`, `xs`, `ps` (`:232`, `:255`, `:263`), 'TryChecker returned an untyped expr' (`:286`), and an `OptionUnwrapException` in the overloading stage (`OverloadingChecker.scala:129`). Causes not each established. |
 
 No other open row cites a file that the rung edits. `ledger.py find --cites` for each of the 23 edited files lists only rows 468, 791, 670, 449, 464 and 710, and row 427, which is FIXED.
 
@@ -72,7 +72,7 @@ Rung D is in on its branch at `3cd33d0b0`. With the demos probe's patch, row 710
 
 ### The change
 
-The team's `rectsImpl` counted an array's row and column ranges with `/` (`Library/Generator22D.fss:144-145`, `:150` at a874948ac). In the team's library too, two `ZZ32`s divide to a rational: `ZZ32` extended `ZZ`, whose `opr /(self,other:ZZ):QQ` (`Library/FortressLibrary.fsi:533-534` at a874948ac). So `rects` stopped under walk at `array[\Generator[\E\]\](ss0, ss1)`.
+The team's `rectsImpl` counted an array's row and column ranges with `/` (`Library/Generator22D.fss:144-145`, `:150` at a874948ac). In the team's library too, two `ZZ32`s divide to a rational: `ZZ32` extended `ZZ`, whose `opr /(self,other:ZZ):QQ` (`Library/FortressLibrary.fsi:533-534` at a874948ac). So, by reading, `rects` stopped under walk at `array[\Generator[\E\]\](ss0, ss1)` in the team's tree too.
 
 The tree halves with `DIV` (`Library/Generator22D.fss:144`, `:145`, `:150`), and `rects` gives each contiguous rectangle of an `Array2` once. Test: `Generator22DRects`.
 
