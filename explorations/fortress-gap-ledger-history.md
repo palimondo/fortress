@@ -6023,3 +6023,93 @@ rewritten
 rewritten
 
 | 770 | the compiled checker refuses an api whose object declares the abstract functional method of the trait comprising it: `num(self): ZZ32` in `trait Q comprises { R }` and in `object R extends Q`, 'There are multiple declarations of num with the same parameter type', where walk runs it | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXApiFunctionalMethodOfComprisedObject.test` | climb batch 17 rung C's skeptic | siblings: 739, 727. An api's top-level set reads every functional method with no filter (`toFunctionArrows` returns at `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:137` at ca4bc4d88 when not `onlyConcrete`), where a component's leaves out an abstract one that a subtype's declaration implements (`:138-160`, row 739's repair; its component twin is `AbstractFunctionalMethodImplementedByComprised`). The text: a trait does not inherit a method whose parameter type equals that of one it declares. The one library's `QQ` and `Ratio` are not in its api. Workaround: leave the object's declaration out of the api. |
+
+### Row 584
+
+closed by 108ab82d6
+
+| 584 | the compiled overloading checker never checks an overloaded operator whose name is not a word of capitals: `opr +(x:A, y:A)` beside `opr +(x:B, y:B)` over unrelated traits passes, where the pair named `MYOP`, or a function `f`, is refused | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/operators/operators.tex`, "Operators"; `advanced/overloading.tex`, "Overloaded Functional Declarations" | none | climb batch 8, rung M and its skeptic | siblings: 611. `isDeclaredName` admits an `SOp` only if `NodeUtil.validOp` holds (`OverloadingChecker.scala:650-652` at 052a7c3fe), so its loops skip every symbolic operator, unseen by the count and distance stages. Admitted, as the full check does (`perf-probes/symbolic-operators-2/run-shadow.sh catch`), the library gives 191 errors at 00f2e1bdc (F-245). Batch 21, each rung alone: rung S clears 54 (to 137); rung B 124 by the `Index` bound (to 67); rung X 8 by the exclusion test (to 183; its bounds alone 4, its self type none); all three, 5, the stock distance. No `XXX` compile test can hold it: the harness fails one that compiles. Open: P-155, batch 21b's rung C. full text: history, row 584 |
+
+### Row 726
+
+closed by 108ab82d6
+
+| 726 | the code generator stops on two functional methods of a symbolic operator with the same parameter types at two `self` positions, which the checker does not check (row 584): `opr \|\|(self, y: S)` beside `opr \|\|(x: S, self)` in one trait | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/compiler_tests/XXXNoDuplicatesRuleSelfPositionsOperator.test` | climb batch 15 rung O's skeptic | siblings: 584, 707, 727. 'Likely bug in static analysis, apparently malformed overload set not rejected' (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:410-411` at cdb84fba5): `isDeclaredName` admits an operator to the duplicate check only where `NodeUtil.validOp` holds, capitals and eight words, so no symbolic one (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:771-775`); its check of abstract functional methods reads none either. Walk refuses the pair at load. F-223. `FlatString`'s api declares each `\|\|` with `self` first (`Library/FlatString.fsi:16-21`); `String`'s four families are top-level operators since row 585's repair. |
+
+### Row 775
+
+closed by 108ab82d6
+
+| 775 | the compiled checker crashes on a generic trait that lists a type at a type `where`-clause variable in its `comprises` clause and overrides an inherited method: `trait P[\E\] extends Ord[\P[\E\]\] comprises { S[\E, F\] } where [\F extends Object\]` with `lt` stops, 'F is not in the kind env' | NEGATIVE-BOUNDED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | none | climb batch 18 rung X's skeptic | siblings: 752, 756. On the base too (db8fecd22). `bin/fortress typecheck -debug stacktrace`: `TypeSchemaAnalyzer.subEDsolution` (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala:198` at db8fecd22) from the overriding return-type check (`OverloadingChecker.scala:695`, `:722`), whose kind environment binds `E` and not the clause's `F`. Without the inherited `lt`, or with no static parameter (`OpenTypeChecker`), it is accepted. So no program reaches the opening branch of the trait-type case, whose `parents(p)` leaves out a conditional parent of `p`. No gated test: the refusal is a crash. |
+
+### Row 809
+
+closed by 108ab82d6
+
+| 809 | the compiled checker crashes on a functional method of a trait whose `comprises` clause lists a type at a type `where`-clause variable, read outside the trait: `AnyC comprises { C[\E\] } where [\E extends Object\]` with `cat(self, f: AnyC)` in `AnyC` and `C` stops, 'E is not in the kind env' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/compiler_tests/ComprisesWhereFunctionalMethodChecker.test` | the symbolic-operators probe | siblings: 775, 756, 584. `removeSelf` read self's type `AnyC & C[\E\]` with `E` unbound outside the trait (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:575-588` at aa5c67d48), and `checkCC` and `checkP` reached `staticParam(E)` (`:1059`): in the overloading check's top-level set, at a call (`CoercionOracle.moreSpecific`), and in the exclusion test's bounds reading (`TypeSchemaAnalyzer.withBounds`; `XXXComprisesWhereFunctionalMethodBounds`). In the library, `AnyList`'s `opr \|\|` (`Library/List.fsi:55-57`), hidden by row 584. Walk runs the program. |
+
+### Row 810
+
+closed by 108ab82d6
+
+| 810 | the compiled checker's overloading check reads an api's declarations of an operator once for each name of the api with the operator's text, so a component that imports an api with a prefix and an infix `-` and declares its own `-` is refused, each declaration a duplicate of itself | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Principles of Overloading" | `ProjectFortress/compiler_tests/OperatorPrefixInfixImport.test` | climb batch 21's planner | siblings: 584. `checkOverloading`'s on-demand import loops add `getFunctions(index, f)` inside a loop over the api's names (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:279-290`, `:313-324`, `:351-362` at aa5c67d48). Latent while symbolic operators went unchecked (row 584). With them checked, the prelude refuses itself, 'There are multiple declarations of - with the same parameter type: (ZZ, ZZ)' at `CompilerBuiltin.fsi:116` and six more, and every compiled test fails; the guard is refused, '(OperatorPrefixInfixApi.Pt, OperatorPrefixInfixApi.Pt)'. Walk runs the guard. |
+
+### Row 811
+
+closed by 108ab82d6
+
+| 811 | the compiled checker's overloading check ignores an on-demand import's `except` clause: a component that imports `A.{...} except { pick }` and declares its own `pick` at the api's parameter type is refused, 'There are multiple declarations of pick' | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/source-code.tex`, "Import Statements" | `ProjectFortress/compiler_tests/ImportExceptOverload.test` | climb batch 21b rung C | siblings: 810. The three on-demand import loops test `excepts.contains((m:IdOrOp) => m.getText.equals(text))`, a list of names asked whether it holds a function value, always false (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:285`, `:319`, `:357` at aa5c67d48; the team's code, `a874948ac`). A name imported by name from another api beside it: `ImportExceptByName`. No component that the stages read has an `except` clause. Walk runs both programs. |
+
+### Row 800
+
+closed by 031c38bbc
+
+| 800 | the compiled export check matches a trait's or object's members without their names: an api `trait T f(): ZZ32 end` is satisfied by a component `trait T g(): ZZ32 = 1 end`, which compiles, where the text asks a matching definition of the same name | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/apis.tex`, "Component and API Identity" | `explorations/perf-probes/export-check-full/export-check-shadow.patch` | the export-check-full probe | siblings: 768, 769, 782. `equalFnHeaders` binds the header's name to `_` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:600` at ddf5f8214) and `equalMember` (`:791`) compares nothing else, so on either half any member with the header matches. That pair through `fortress compile`: rc 0; with `f(): ZZ64 = 1`, refused 'due to different method f'. On FortressLibrary it hides 4 differences and passes 32 pairs, `String`'s `\|\|(self, b:String)` through `\|\|\|`: the shadow's `api-matched-by-other-name` lines. Detail: `perf-probes/export-check-full/REPORT.md`, "6. Defects found on the way", item 1. |
+
+### Row 801
+
+closed by 031c38bbc
+
+| 801 | the compiled export check compares a field by its type only: an api `object O x: ZZ32 end` is satisfied by a component `object O var y: ZZ32 := 1 end`, which compiles, since `equalLValue` discards its comparison of the names and the modifiers | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/apis.tex`, "Component and API Identity" | none | the export-check-full probe | siblings: 800. `equalLValue` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:812-821` at ddf5f8214) writes `equalIds(nameL, nameR) && modsL.equals(modsR)` on one line and the type `match` on the next; Scala ends a statement at the newline before `(`, so the first is discarded and the match alone is the result. That pair through `fortress compile`: rc 0; with `x: ZZ64 = 1`, refused 'due to different field'. A ten-line Scala program of the shape, scalac 2.13.18, prints 'different names, same type: true'. FortressLibrary has no field difference, so it hides nothing there. Detail: `perf-probes/export-check-full/REPORT.md`, "6. Defects found on the way", item 2. |
+
+### Row 802
+
+closed by 031c38bbc
+
+| 802 | the compiled export check refuses an abstract functional method of a trait whose api writes `comprises { ... }` and component `comprises { R }`: 'Asbtract method num ... is not declared in the API', since its component-to-api half calls `equalMember` with arguments swapped | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/apis.tex`, "Component and API Identity" | `explorations/perf-probes/export-check-full/export-check-shadow.patch` | the export-check-full probe | siblings: 800, 801. `allAbstractsMadePublic` calls `equalMember(d, r)` with the component's `d` where `equalMember` takes the api's first (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:752`, `:791` at ddf5f8214); `equalTypes` accepts two self types when the left one's list is empty (`:485-488`; the team's note: `comprises {...}` and a plain self type share one encoding). `abstract num(self): ZZ32` on both sides: refused; plain, or dotted `num()`: rc 0. It keeps `QQ`'s `numerator` and `denominator` in the library's export error after `library-4h.patch`. Fix by reading: swap them at `:752`. Detail: `perf-probes/export-check-full/REPORT.md`, section 6, item 3. |
+
+### Row 468
+
+closed by 5e60e356a
+
+| 468 | `Generator22D`'s `rects` cannot run under walk: `rectsImpl` halves with `/`, which on `ZZ32` gives a rational, so `array[\Generator[\E\]\](ss0, ss1)` fails with "Failed to find any matching overload, args = (Ratio,Ratio)" | NEGATIVE-VERIFIED | library bug (library) | `Specification/basic-lib/basic-integers.tex`, "Integers" (`opr /(self, other: ZZ): QQ`); silent on `rects` | none | climb batch 7 rung A's skeptic | The `/` at `Library/Generator22D.fss:144-145` and in `ss` at `:150` (row 174); the allocation at `:146`, now spelled `tabulate`, which no run reaches, and `ProjectFortress/demos/DemoGenerator22D.fss` cannot show `rects`. Fix: `DIV` at `:144-145` and `:150`. Probe `explorations/compile-ladder/rung-tabulate/probes/skeptic/SkGen22D.fss`, its output in `walk-base-edit.txt:79`, `:118` beside it, in the parent of ab067d9b6; full text: history, row 468 |
+
+### Row 791
+
+closed by 5e60e356a
+
+| 791 | the team demos `BiCGSTAB` and `BiCGSTAB2` stop under walk after their solve, at `ss = t / 1000000000.0` with `t` a `ZZ64` from `nanoTime()`: 'Failed to find any matching overload, args = (63894328343: ZZ64,1.0E9)' (`ProjectFortress/demos/BiCGSTAB.fss:177`, `BiCGSTAB2.fss:163`) | NEGATIVE-VERIFIED | library bug (tests) | `basic-lib/numbers.tex`, "Rational Numbers" | none | climb batch 20 rung I | siblings: 75, 670. A `ZZ64` converts into `RR64` only by `asFloat` (P-74), and `nanoTime()` answers a `ZZ64` under walk (row 75). Both demos print their 29 residuals first, the same lines on the base 97ccd5f1f and after the integer power's contract E; the repair is `asFloat(t) / 1000000000.0`, a team line; with it, a scratch copy of each completes on the rung's head (rc 0, its 29 residuals, then 'elapsed time 62581849885 ns ( 62.581849885 s)'). `bin/fortress ProjectFortress/demos/BiCGSTAB.fss`: 'BiCGSTAB.fss:177:8: Failed to find any matching overload, args = (63894328343: ZZ64,1.0E9)'. |
+
+### Row 670
+
+closed by 5e60e356a
+
+| 670 | the team's demos leave inherited abstract methods without a body, so walk refuses them at load: `FileBasedReadList` under `ReadList`'s `nextRange()` in `GenomeUtil1z.fss` and `GenomeUtil2a.fss`, which `BirdCount1z.fss` and `BirdCount2a.fss` import; `npbft.fss`'s `Complex` under `Number`'s `asFloat` | NEGATIVE-VERIFIED | library bug (tests) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/demos/BirdCount1z.fss` | climb batch 12 rung W | siblings: 649. `ProjectFortress/demos/GenomeUtil1z.fss:68` and `GenomeUtil2a.fss:74` declare `nextRange(): ()`, which nothing defines or calls; `npbft.fss:36-52`'s `object Complex extends Number` has no `asFloat` (`Library/FortressLibrary.fss:382` at cdb84fba5). On 8803d2f45, from `ProjectFortress/demos`, `../../bin/fortress BirdCount1z.fss`: 'Object FileBasedReadList does not define an abstract method declared in type ReadList'. Under the coverage rule (P-147) all three are refused alike (`compile-ladder/rung-walk-coverage/REPORT.md` § 6). Without the check (7fa767d48) `BirdCount1z.fss` exits 0, and `npbft.fss` stops at run time, 'Failed to find any matching overload' (`:31`). |
+
+### Row 449
+
+closed by 5e60e356a
+
+| 449 | the demo `ProjectFortress/demos/HeapShakedown.fss` stops on the flat library before its first table, `Type of expression, Ratio, not a subtype of RR64`, because its `timeDiffMS` divides two integers with `/` | NEGATIVE-VERIFIED | library bug (tests) | `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators"; `Specification/basic/conversions-coercions.tex`, "Principles of Coercion" | `ProjectFortress/demos/HeapShakedown.fss` | climb batch 6b rung O | `timeDiffMS(start:ZZ64, fin:ZZ64): RR64 = (fin-start) / 10^6` (`:107-108`) answers a rational, as `Integral`'s `opr /(self, other:I):QQ` declares (`Library/FortressLibrary.fsi:470`, at 052a7c3fe); walk does not enforce the declared `RR64` (row 153's kind), so the `Ratio` reaches `timeDump`'s `t asif RR64` (`:128`), and a rational converts to `RR64` only explicitly. By reading, a consequence of rung F's flat tower (d846e3644). No gated home: the demos run in no gated suite (`explorations/coordinator/map/test-coverage.md:26`). Fix: `asFloat((fin-start) / 10^6)` (`Library/FortressLibrary.fsi:286`), which changes what the demo computes. full text: history, row 449 |
+
+### Row 464
+
+closed by 5e60e356a
+
+| 464 | **`ProjectFortress/demos/mg.fss:20` passes its constructor field `I`, the value `0` or a three-argument function, to `fill`**, so a function argument fails at `:20` ("Unification error: Closure/Constructor for fill param 1 (v:RR64) got arg FnExpr"), the function form being `tabulate` | NEGATIVE-VERIFIED | library bug (tests) | `advanced/parallelism-locality/arrays-distributed.tex`, "Distributed Arrays" (`fill` initializes with a value of the element type; `tabulate` calls a function) | `ProjectFortress/demos/mg.fss` | climb batch 7 rung A | Outside the gate. The demo relied on walk's run-time choice between `fill`'s two forms; before the rename it stopped later, at `:159`, a `ZZ64` time divided by a float (answer 8). Fix: at `:20`, a `typecase` on `I` choosing `tabulate` for a `(ZZ32,ZZ32,ZZ32)->RR64` and `fill` otherwise, or two constructors. full text: history, row 464 |
+
+### Row 710
+
+closed by 5e60e356a
+
+| 710 | the team demo `ProjectFortress/demos/trips.fss:97-98` declares `object generator(...) extends StandardTotalOrder[\trip\]`, which the self-type rule refuses: a `generator` is not a `trip`, though `StandardTotalOrder`'s default bodies read `self` as its parameter; walk loads and runs the demo | NEGATIVE-VERIFIED | library bug (tests) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/demos/trips.fss` | climb batch 14 rung S | The compiled checker, by the distance stage's driver over the demo (`DistanceMulti -order check -setting any ... ProjectFortress/demos/trips.fss`, `compile-ladder/rung-self-type/REPORT.md` section 6), reports "trips.fss:98:13-38: generator extends StandardTotalOrder[\trip\], whose self parameter is trip, but generator is not a subtype of trip."; walk has no static types and loads it. The object defines `CMP` at `generator` (`:100`), so by reading its declared order is `StandardTotalOrder[\generator\]`. No gated test reads the demo under the checker. |
