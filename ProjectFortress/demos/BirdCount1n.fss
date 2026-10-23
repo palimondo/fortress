@@ -24,7 +24,7 @@ stringToFloat(s: String): RR64 = do   (*) Quick and dirty implementation
   intpart = s UPTO '.'
   frac = s BEYOND '.'
   both = intpart || frac
-  1.0 (SUM[k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|))
+  asFloat((SUM[k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|)))
 end
 
 opr UPTO(s: String, c: Char) =

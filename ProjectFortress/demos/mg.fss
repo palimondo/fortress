@@ -17,7 +17,10 @@ export Executable
 
 object Grid3(x:ZZ32, y:ZZ32, z:ZZ32, I)
 
-    var data:Array[\RR64, (ZZ32, ZZ32, ZZ32)\] := array[\RR64\](x, y, z).fill(I)
+    var data:Array[\RR64, (ZZ32, ZZ32, ZZ32)\] := typecase I of
+            (ZZ32, ZZ32, ZZ32) -> RR64 => array[\RR64\](x, y, z).tabulate(I)
+            else => array[\RR64\](x, y, z).fill(I)
+        end
 
     getter x_size() = x
     getter y_size() = y
@@ -156,7 +159,7 @@ run() = do
         r := v - (A u)
         u := u + vmg(r, k_vmg)
         tempTimeEnd := nanoTime()
-        println ((tempTimeEnd - tempTimeStart) / 1000000000.0) " seconds"
+        println (asFloat(tempTimeEnd - tempTimeStart) / 1000000000.0) " seconds"
     end
 
     endTime = nanoTime()
@@ -164,7 +167,7 @@ run() = do
     println ""
     println "L2 Norm is " (v - (A u)).norm
     println ""
-    println "Time: " ((endTime - startTime) / 1000000000.0) " seconds"
+    println "Time: " (asFloat(endTime - startTime) / 1000000000.0) " seconds"
 
 end
 end mg

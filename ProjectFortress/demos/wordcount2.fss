@@ -72,7 +72,7 @@ maybeWord(s: String, d:Map[\CaseInsensitiveString,ZZ32\]): Map[\CaseInsensitiveS
       d.updateWith(fn(mx)=>Just[\ZZ32\](mx.getDefault(0)+1), CaseInsensitiveString(s))
 end
 
-opr BIG OPLUS[\T\](): Reduction[\WordState\] = embiggen( fn(a,b) => a OPLUS b, Chunk("") )
+opr BIG OPLUS[\T\](): Reduction[\WordState\] = embiggen[\WordState\]( fn(a,b) => a OPLUS b, Chunk("") )
 
 processChar(c: Char): WordState =
   if (isDelimiter(c)) then
@@ -103,7 +103,7 @@ opr BIG UNIONUNION(): BigReduction[\Map[\ZZ32, List[\String\]\],Map[\ZZ32, List[
     embiggen[\Map[\ZZ32, List[\String\]\]\](fn(a,b) => a UNIONUNION b, {[\ZZ32,List[\String\]\]})
 
 processFile(name:String):() = do
-    time(str:String,s,f): () = println(str " in " ((f-s)/10.0^6) "ms")
+    time(str:String,s,f): () = println(str " in " (asFloat(f-s)/10.0^6) "ms")
     println("Processing file " name)
     rs:FileReadStream = FileReadStream(name)
     start = nanoTime()

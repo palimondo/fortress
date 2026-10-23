@@ -87,8 +87,8 @@ integrate_fo'(l: RR64, h:RR64, fl: RR64, fh:RR64, a:RR64, tol: RR64, depth:RR64)
     end
   end
 
-elapsedSec(init:RR64, final:RR64): RR64 =
-    (final - init) / (10.0^9)
+elapsedSec(init:ZZ64, final:ZZ64): RR64 =
+    asFloat(final - init) / (10.0^9)
 
 runTest(theTest: ()->Result): () = do
     startTime = nanoTime()

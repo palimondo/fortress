@@ -174,7 +174,7 @@ do
   bicg_stab_band[\imax, jmax, kmax\](Ap,Ae,Aw,An,As,At,Ab,x,b)
   et = nanoTime()
   t = et - st
-  ss = t / 1000000000.0
+  ss = asFloat(t) / 1000000000.0
   println("elapsed time " t " ns ( " ss " s)")
 end
 (* Note
