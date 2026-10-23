@@ -2915,10 +2915,12 @@ It reads the abstract functional methods that a trait or object provides as it
 reads the abstract dotted ones, so that an abstract functional method beside a
 concrete one with the same parameter type is among the pairs it refuses, which
 only its code generator refused before, as a malformed overload set.
-It checks no overloading of an operator whose name is not a word of capitals
-(row~584 of the revival's gap ledger): two declarations of such an operator with
-the same parameter type pass it, and only its code generator refuses them, as a
-malformed overload set (row~726).
+It checks the overloading of every operator by these rules, a symbolic one such
+as $+$ or a subscript as one whose name is a word of capitals, so that it refuses
+two declarations of such an operator with the same parameter type, which only its
+code generator refused before, as a malformed overload set; the interpreter's
+check of the Meet Rule at load reads no symbolic operator (row~611 of the
+revival's gap ledger).
 The interpreter refuses at load two declarations with static parameters whose
 parameter types, each read over its own instances, are each a subtype of the
 other, as \VAR{dup}'s are, and so a declaration whose parameter types are its
