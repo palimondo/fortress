@@ -4156,8 +4156,16 @@ type of its own declares it an \TYP{Index}.
 A program's own generic declaration that instantiates an indexed type of
 \library\ at its own type parameter bounds that parameter by \TYP{Index}; the
 compiled type checker refuses it unbounded, ``The static argument \VAR{I} does
-not satisfy the corresponding bound \TYP{Index}'', and the interpreter, which
-checks a bound only at a call that infers the parameter, runs it.
+not satisfy the corresponding bound \TYP{Index}'', and the interpreter runs
+it.
+The compiled type checker refuses a tuple expression of indices passed to a
+function whose one parameter's type is \TYP{Index}, as \EXP{f(i, j)} for
+\EXP{f(x\COLON \TYP{Index})}, though it takes a variable of the tuple type
+(row~NEW-B-1 of the revival's gap ledger); the interpreter runs it.
+A numeral is no \TYP{Index} to the compiled type checker, which types it
+\TYP{IntLiteral} (\secref{revival-numeral-type}); the interpreter, whose
+numerals are values of the integer types (row~364), passes one to a parameter
+of type \TYP{Index}.
 The compiled path still compiles programs against its own library, which
 declares no \TYP{Index}, until it is switched over to the interpreter's.
 The code generator refuses a method with a \KWD{where} clause of its own
