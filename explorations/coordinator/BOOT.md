@@ -2,16 +2,16 @@
 
 # Boot note
 
-**State at 12:24 UTC on 2026-10-23** (14:24 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
+**State at 13:06 UTC on 2026-10-23** (15:06 his time). The weekly reset has passed. The compaction of about 10:00 was followed by a full boot. Batch 21's preparation started at 10:08 UTC.
 
 ## Running
 
-- **Nothing runs.** The Fable review of batch 21's record landed at `d90e7d8b0` (0.49M): ready to launch run 1 on his three answers; probe A1's branch written into the record (a checker rung in V's place, in run 1, about 0.6M worker and 0.55M skeptic); the count stage's blind spot (the record's fork 21) moved from rung E to the coordinator, between the runs.
+- **Batch 21's planner, resumed** at about 13:05 UTC: writes the checker rung (probe A1's two shadows in the exclusion test) into run 1 in rung V's place, with its briefing and the generator's lists, checks, commits and pushes. Estimate 0.3M to 0.6M, a guess. The Fable review of the record landed at `d90e7d8b0` (0.49M), ready on his three answers.
 - **Batch 21's base build**, `/home/user/fortress-base21` at `aa5ff2423`, built and clean. At the launch it serves as `args.baseBuild` if the base differs from it only in record files; otherwise build again at the base.
 
 **Landed today for batch 21:** the record and generator (`e985c8f0a`, the planner, 0.30M written by its own count): run 1 rungs S, B, V (droppable), N; run 2 (21b) rungs C, E, D; the full check 191 to 5 with run 1. Probe A1 (`dd9d7619a`, 0.40M): the exclusion test reading `self` as `C[\X\] & X` and the reduction reading bounds clear the 8 vector sites together with no library line, nothing else moving. The type-decisions review (`105b4a46b`, `28b6e27a0`).
 
-**Check-ins:** "Batch 21 prep check-in 3" at 12:26 UTC, re-armed 45 minutes out while a worker runs. A stop kills the workers; resume each with `SendMessage` from its transcript. The batch's own check-in file, at its launch: `<scratchpad>/batch21/checkins.txt`.
+**Check-ins:** "Batch 21 prep check-in 4" at 13:52 UTC, re-armed 45 minutes out while a worker runs. A stop kills the workers; resume each with `SendMessage` from its transcript. The batch's own check-in file, at its launch: `<scratchpad>/batch21/checkins.txt`.
 
 ## The go
 
@@ -19,7 +19,7 @@ Batch 21 has his go to launch once its record is written and reviewed by Fable (
 
 ## Waiting on him
 
-- **Batch 21's three asks, one per message, in this order:** (1) whether `BoundedRange` keeps its narrowed `atMost` under `where { I extends Index }` (record question 2; put to him with the planner's measurement, recommended option 2, keep it); (2) where the trait `Index` stands, outside `Object` beside `Any` (record question 1, default option 1); (3) P-157 with probe A1's result: withdraw it and build the checker change (keep the team's additive-group vectors), or keep rung V (A1's default: withdraw). Then the launch of run 1, on his go of 10:05 UTC, once the Fable review is in.
+- **Batch 21's three asks are answered** (POSITIONS P-156 and P-157): `atMost` kept under `where { I extends Index }` (12:36 UTC); `Index` beside `Any` and `Object` (12:46, taking the default, "I have no way how to compare the options"); vectors stay additive groups, the checker fixed instead, reversing this morning's P-157 (13:03, "That was my original stance"). His "Go" at 13:03 stands with his go of 10:05: run 1 launches once the new rung is written and reviewed.
 - Who decides changes to the coordinator skill (the 10-19 post-mortem's ask). Until he answers, no edit of the coordinator skill without his yes on its wording: my word to him at about 00:30 UTC on 10-23.
 - Not critical, on the review list: the export probe's two questions, `RR64`'s rounding return types and whether `Condition` or `Maybe` extends `ZeroIndexed` (the record takes no default; their differences stay in the export error).
 
@@ -27,7 +27,7 @@ Batch 21 has his go to launch once its record is written and reviewed by Fable (
 
 - **Before the launch, done by 12:24 UTC:** the base build covers `main`'s code (no diff from `aa5ff2423` under `Library`, `ProjectFortress`, `Specification`, `build.xml`, `bin`); a trial seed (4 s) and `old-fortress.sh` on `BooleanOps` (exit 0); 7.3G free. **Left, after his three answers:** the generator for run 1 (with or without V, or with the checker rung written in V's place by a planner), the splice and its commit, the base hash, the check-ins, and the launch.
 - **Between the runs:** the count stage's blind spot (a library that does not parse reads as its parse-error count), the coordinator's tool fix, as `c21177829` did for the distance stage; PLAN's line 13 and item 19 updated for batch 21.
-- **If he withdraws P-157:** drop V from run 1 (`--without V`), and have a planner write the checker rung in V's place in run 1, as the record's rung V section, "The other branch", gives it (its section, `lists21.py`'s `RUNS['1']` and briefing, `check21.js`'s `RUN_IDS` and `CHECKER_RUNGS`, the intro).
+- **When the planner ends:** read its diff; have the Fable reviewer (resumed) review the new rung in place; then generate and splice run 1's manifest, commit, arm the batch's check-ins in `<scratchpad>/batch21/checkins.txt`, and launch run 1 with `args.base` the head after the splice and `args.baseBuild` `/home/user/fortress-base21`.
 - **The judgement's write-up for him**, by an Opus writer as a page, with A1's result: after batch 21's asks.
 - **The judgement's other items, for him after batch 21's asks, one per message:** P-75 withdrawn (reverses his yes of 09-29); P-154's reason corrected; the team's `AnyIntegral comprises Integral[\I\] where [\I\]` probed to close row 487; row 701 a prerequisite of the switch-over (a PLAN line); A1's drafted row (the solver's recursion) and its notes for rows 584 and 786.
 - **The ledger repair**, about 180 open rows (`ledger-health-2026-10-22/REPORT.md`), if budget allows; the 40 refused notes first.
