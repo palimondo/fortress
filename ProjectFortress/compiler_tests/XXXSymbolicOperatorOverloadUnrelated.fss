@@ -1,0 +1,16 @@
+component XXXSymbolicOperatorOverloadUnrelated
+export Executable
+
+(* Two declarations of the operator + over two traits that neither extend nor exclude each other, with no declaration on their meet, satisfy none of the rules of valid overloading, a static error the type checker gives for an operator as for a function (overloading.tex, section "Principles of Overloading"). *)
+
+trait A end
+trait B end
+
+opr +(x: A, y: A): ZZ32 = 1
+opr +(x: B, y: B): ZZ32 = 2
+
+run(): () = do
+  println("PASS")
+end
+
+end

@@ -1,0 +1,18 @@
+(* A component that imports an api with a prefix and an infix operator - and declares its own infix -: an overloading of three declarations, each read once, valid by the Incompatibility Rule (overloading.tex, section "Incompatibility Rule"). *)
+component OperatorPrefixInfixImport
+import OperatorPrefixInfixApi.{...}
+export Executable
+
+trait Q excludes { Pt } end
+object Q1 extends Q end
+
+opr -(x: Q, y: Q): ZZ32 = 3
+
+run(): () = do
+  assert(-Pt1, 1, "the api's prefix -")
+  assert(Pt1 - Pt1, 2, "the api's infix -")
+  assert(Q1 - Q1, 3, "the component's infix -")
+  println("PASS")
+end
+
+end
