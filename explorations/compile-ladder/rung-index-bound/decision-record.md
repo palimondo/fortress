@@ -77,6 +77,32 @@ New (`Specification/appendices/future.tex:208-214`): a box "Done, by subtyping i
 
 Way back: remove the box.
 
+### 4.7 The immediate subtypes of `Any`, in the library (`basic-lib/objects.tex`, "Fortress.Core.Any")
+
+Added after climb batch 21's merged-diff review, with 4.8 and 4.9. The gather corrected these three passages, which the rule made false (`explorations/compile-ladder/climb-batch-21/RECORD.md`, rung B's corrections, and `JUDGE-review.md` there). Their lines are `main`'s.
+
+Original (`Specification-1.0-frozen/basic-lib/objects.tex:19-20`; base `Specification/basic-lib/objects.tex:21-22`): "The immediate subtypes of the trait Any are Object, Tuple, and ()."
+
+New (`Specification/basic-lib/objects.tex:21-26`): "The immediate subtypes of the trait Any are Object, Tuple, (), and Index, the trait of the types that a subscript takes", with a box.
+
+Reason: as 4.1, `Index extends Any` makes it an immediate subtype of `Any`. Way back: drop `Index` from the list, and the box.
+
+### 4.8 The traits that do not extend `Object` (`basic-lib/objects.tex`, "Fortress.Core.Object")
+
+Original: none in the Working Draft's chapter. The base's sentence, "Every trait other than Any and Object extends Object" (`Specification/basic-lib/objects.tex:159-160` at `00f2e1bdc`), is the revival's (`3924e7ec3`, beside the box of Appendix I's "The root's algebra"), and restates `Specification-1.0-frozen/basic/traits.tex:181-183` (4.5).
+
+New (`Specification/basic-lib/objects.tex:163-164`, its box at `:177-179`): "Every trait other than Any, Object and Index extends Object".
+
+Reason: as 4.5, question 1's answer (P-156). Way back: the base's sentence, without the box.
+
+### 4.9 The root of the hierarchy, in the overview (`preliminaries/overview.tex`, "Objects and Traits")
+
+Original (`Specification-1.0-frozen/preliminaries/overview.tex:1061-1062`, the same lines in the base): "Traits in Fortress exist in a multiple inheritance hierarchy rooted at trait Object."
+
+New (`Specification/preliminaries/overview.tex:1061-1065`): "... rooted at the traits Object and Index", with a box.
+
+Reason: as 4.5's second sentence. Way back: the original sentence, without the box.
+
 ## 5. BoundedRange's `atMost`
 
 Question 2's answer, option 2 (P-156): `atMost(n: I): FullRange[\I\] where { I extends Index }` (`Library/FortressLibrary.fsi:2257`, `.fss:4105`), the library's form for a member that applies at some instances only (`SumReduction`'s `distribute`s, `Library/FortressLibrary.fss:3441`, `:3443`). The specification's text does not name the method; Part IV renders it from the api. Way back: the probe's drop, question 2's option 1.

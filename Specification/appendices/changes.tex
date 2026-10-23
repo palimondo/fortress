@@ -4153,6 +4153,13 @@ In \secref{trait-decls}, the sentence on the implicit extension of
 says that a trait that extends \TYP{Index} and no other trait but \TYP{Any}
 implicitly extends \TYP{Object} too, and the hierarchy is rooted at
 \TYP{Object} and \TYP{Index}.
+In \chapref{lib:object}, the immediate subtypes of the trait \TYP{Any} include
+\TYP{Index}.
+In the same chapter, the sentence that every trait other than \TYP{Any} and
+\TYP{Object} extends \TYP{Object}, which is the revival's
+(\secref{revival-object}), names \TYP{Index} beside them.
+In \secref{overview-objects-traits}, the hierarchy of traits is rooted at the
+traits \TYP{Object} and \TYP{Index}.
 The item on array indexing among the proposed features gains a box, and so
 does each changed passage.
 \item[Rationale] This change does not follow from route~A; it follows the
@@ -4260,7 +4267,7 @@ lines 263--265, which stand unchanged and are now followed by the rule:
 Every tuple type is a subtype of \TYP{Any}. No other type encompasses all tuple
 types. Tuple types cannot be extended by trait types.
 \end{quote}
-and \nolinkurl{Specification-1.0-frozen/basic/traits.tex}, lines 181--183 and
+\nolinkurl{Specification-1.0-frozen/basic/traits.tex}, lines 181--183 and
 193--194, which the change revises:
 \begin{quote}
 In addition, every trait except \TYP{Any} and \TYP{Object} implicitly extends
@@ -4269,6 +4276,22 @@ the trait \TYP{Object} if it does not do so explicitly.
 \begin{quote}
 This relation must form an acyclic hierarchy rooted at trait \TYP{Object}.
 \end{quote}
+\nolinkurl{Specification-1.0-frozen/basic-lib/objects.tex}, lines 19--20, which
+the change revises:
+\begin{quote}
+The immediate subtypes of the trait \TYP{Any} are \TYP{Object}, \TYP{Tuple},
+and \TYP{()}.
+\end{quote}
+and \nolinkurl{Specification-1.0-frozen/preliminaries/overview.tex}, lines
+1061--1062, which the change revises:
+\begin{quote}
+Traits in Fortress exist in a multiple inheritance hierarchy rooted at trait
+\TYP{Object}.
+\end{quote}
+The sentence of \chapref{lib:object} on the traits that do not extend
+\TYP{Object} has no counterpart in the Working Draft's chapter; it restates
+the sentence of \nolinkurl{Specification-1.0-frozen/basic/traits.tex}, lines
+181--183, quoted above.
 The box in the appendix of proposed features is new.
 \item[Route C] The same under route~C.
 \end{description}
