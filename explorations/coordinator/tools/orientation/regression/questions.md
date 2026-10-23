@@ -52,3 +52,9 @@ If you would look something up before you act, say what you would look up, where
 19. Your new walk test stops with an error inside a library function that your change did not touch, and you do not recognise the message. What do you do?
 
 20. Your brief asks for a compiled test, in `compiler_tests/`, of a function that takes an array of three `RR64` values, built in the test with the literal `[1.0 2.0 3.0]`. How do you write the test today?
+
+21. The interpreter's library declares generic `+` and `-` between an array and a number, with the number on either side, beside the `+` and `-` that `Vector` and `Matrix` inherit from `AdditiveGroup` (`Library/FortressLibrary.fsi`). Your brief asks whether these pairs are a valid overloading once the checker checks symbolic operators, and what the library must change if they are not. Give your answer, and the change if there is one. You also write a test program of your own with the same shape: a self-typed trait of your own in place of `AdditiveGroup`, a trait of arrays that excludes your trait of numbers, and the two generic operators. Does the program load under walk, and does it compile?
+
+22. Two declarations over indices.
+    - (a) In `explorations/apl/mg/FlatArrays2.fsi` you add `tanh`, applied element by element to an array of any number type and any rank, declared as that file's `exp` and `log` are. Write the declaration. `MicroGptAplQuick.fss` passes under walk. Does the compiled path accept the declaration, and when does it first read it?
+    - (b) In a program of your own, `trait Cell end` stands for a cell. You overload `place(x: Index): String`, which takes one index, with `place(x: (Cell, Cell)): String`, which takes a pair of cells. Is the pair a valid overloading? What does walk do at load, and what does the checker do? If the pair is not valid, what do you change?
