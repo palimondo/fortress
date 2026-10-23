@@ -45,7 +45,7 @@ recEval(l: RR64, r: RR64, fl: RR64, fr: RR64, a: RR64): RR64 = do
   end
 
 elapsedSec(init:ZZ64, final:ZZ64): RR64 =
-    (final - init) / (10.0^9)
+    asFloat(final - init) / (10.0^9)
 
 run(): () = do
     println("Time(s)\tArea")

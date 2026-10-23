@@ -105,7 +105,7 @@ checkGen(h:Heap[\ZZ32,ZZ32\], n:ZZ32): () = do
   end
 
 timeDiffMS(start:ZZ64, fin:ZZ64): RR64 =
-    (fin-start) / 10^6
+    asFloat((fin-start) / 10^6)
 
 lg(n:ZZ32):ZZ32 =
     if n <= 1 then 0
@@ -167,7 +167,7 @@ run():() = do
         fn (s: ZZ32): List[\List[\RR64\]\] =>
           singleton[\List[\RR64\]\](
             appending[\RR64\](
-              <| 1.0 s, s lg s |>,
+              <|[\RR64\] 1.0 s, s lg s |>,
               testHeap(s,lazy[\ZZ32,ZZ32\],(0#s).indexValuePairs),
               testHeap(s,lazy[\ZZ32,ZZ32\],(0#s).map[\(ZZ32,ZZ32)\](spread)),
               testHeap(s,pairing[\ZZ32,ZZ32\],(0#s).indexValuePairs),

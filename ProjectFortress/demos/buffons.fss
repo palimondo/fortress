@@ -21,7 +21,7 @@ run():()=do
    var hits : RR64 := 0.0
    var n : RR64 := 0.0
 
-   time:RR64 = nanoTime()
+   time = nanoTime()
 
    println("Starting parallel Buffons")
    for i <- 1#3000 do
@@ -43,7 +43,7 @@ run():()=do
    end
    probability = hits/n
    pi_est = 2.0/probability
-   elapsed = (nanoTime() - time) / 1000000000.0
+   elapsed = asFloat(nanoTime() - time) / 1000000000.0
    println("hits = " || hits || " n = " || n)
    println("Buffons: estimated Pi = "  || pi_est || " took time " || elapsed)
 end

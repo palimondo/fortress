@@ -64,8 +64,6 @@ specified implicitly or as defaults. *)
 (* The following definitions work around problems that arose when I tried the
 typechecker. *)
 
-opr MIN(a:ZZ32,b:ZZ32):ZZ32 = if a<=b then a else b end
-opr MAX(a:ZZ32,b:ZZ32):ZZ32 = if a>b then a else b end
 
 orderedTrip(a:ZZ32, b:ZZ32, c:ZZ32):trip =
     trip ((a MIN b), (a MAX b), c)
@@ -95,7 +93,7 @@ generators. A generator object contains a doc string, a recommended
 max value as the argument, and the generator function. *)
 
 object generator(doc:String, max:ZZ32, fun:ZZ32->List[\trip\])
-    extends StandardTotalOrder[\trip\]
+    extends StandardTotalOrder[\generator\]
     getter asString():String = "[generator " doc " max: " max "]"
     opr CMP(self, other:generator):TotalComparison = doc CMP other.doc
 end generator

@@ -86,7 +86,7 @@ end
     Function fUnitPropagation removes unnecessary clauses and variables in f.
 *)
 
-fUnitPropagation(f, theta) = <|[\ZZ32\] g.filter(fn h => NOT (-h IN theta)) | g <- f.filter(fn g => |g.filter(fn h => h IN theta)| = 0) |>
+fUnitPropagation(f, theta) = <|[\List[\ZZ32\]\] g.filter(fn h => NOT (-h IN theta)) | g <- f.filter(fn g => |g.filter(fn h => h IN theta)| = 0) |>
 
 (*
     Function thetaUnitPropagation finds values of free variables in unit clauses.

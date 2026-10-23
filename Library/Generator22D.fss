@@ -141,13 +141,13 @@ do
   (iu, ju) = bs.upper
   s0 = iu - il + 1
   s1 = ju - jl + 1
-  ss0 = (s0 (s0+1))/2
-  ss1 = (s1 (s1+1))/2
+  ss0 = (s0 (s0+1)) DIV 2
+  ss1 = (s1 (s1+1)) DIV 2
   ret = array[\Generator[\E\]\](ss0, ss1).tabulate(
 fn (i,j) => do
 
 est_n(u) = narrow(|\ SQRT(2 u) /|)
-ss(n) = ((n-1) n) / 2
+ss(n) = ((n-1) n) DIV 2
 chk(u, n) = do d = u - ss n; d > 0 AND d <= n end
 fst(a,b) = a
 snd(a,b) = b

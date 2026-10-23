@@ -1,0 +1,18 @@
+(* Generator22D's rects gives every contiguous rectangle of a 2 by 3 array once, each identified here by its sum over cells weighted by distinct powers of two. *)
+component Generator22DRects
+import Generator22D.{...}
+import List.{...}
+export Executable
+
+run(): () = do
+    xs = array[\ZZ32\](2, 3).tabulate(fn (i:ZZ32, j:ZZ32):ZZ32 => 2^(3 i + j))
+    sums = <|[\ZZ32\] SUM[\ZZ32\] r | r <- rects xs |>
+    assert(|sums|, 18, "Generator22D.fsi, rects: a 2 by 3 array has 3 row ranges times 6 column ranges")
+    expected = <|[\ZZ32\] 1, 2, 4, 3, 6, 7, 8, 16, 32, 24, 48, 56, 9, 18, 36, 27, 54, 63|>
+    for m <- seq(expected) do
+        assert(|sums.filter(fn (s:ZZ32):Boolean => s = m)|, 1, "Generator22D.fsi, rects: the rectangle of cell mask " m " is given once")
+    end
+    println("PASS")
+  end
+
+end

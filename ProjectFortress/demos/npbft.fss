@@ -28,12 +28,12 @@ object NPBRandom(seed:ZZ64)
   end
   generate():RR64 = do
     last := multiply(a, last)
-    last / base
+    asFloat(last) / base
   end
 end NPBRandom
 
 (*) Complex number object
-object Complex(r:RR64, i:RR64) extends Number
+object Complex(r:RR64, i:RR64) extends AdditiveGroup[\Complex\]
   getter asString() = r "+" i "i"
   getter real() = r
   getter imag() = i

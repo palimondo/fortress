@@ -65,7 +65,6 @@ getReferenceGenomeFromFile(fileName: String, chunkSize: ZZ32, maxReadSize: ZZ32)
 end
 
 trait ReadList
-  nextRange(): ()
   getReads(): List[\Read\]
 end ReadList
 

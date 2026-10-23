@@ -35,9 +35,9 @@ export Executable
     updatable board data structure.
  **)
 
-trait SearchInstance[\Self extends SearchInstance[\Self,Cost\],
+trait SearchInstance[\Inst extends SearchInstance[\Inst,Cost\],
                       Cost (* extends StandardTotalOrder[\Cost\] *)\]
-        extends Generator[\Self\]
+        extends Generator[\Inst\]
     (** isComplete() returns true if no further searching is possible
         from this point, and returns false if further searching is
         required. **)
@@ -56,11 +56,11 @@ trait SearchInstance[\Self extends SearchInstance[\Self,Cost\],
         this probably ought to return an empty generator.  If you
         write the children() getter you do not need to write the
         generate() method.  **)
-    getter children(): Generator[\Self\] = self
+    getter children(): Generator[\Inst\] = self
 
     (** If you don't write the children() getter you should write the
         generate() method. **)
-    generate[\R\](r: Reduction[\R\], body: Self->R): R =
+    generate[\R\](r: Reduction[\R\], body: Inst->R): R =
         self.children.generate[\R\](r,body)
 end
 
@@ -339,10 +339,10 @@ timing(x:()->Any): (Any,NanoInterval) = do
   end
 
 value object NanoInterval(i:ZZ64)
-    getter sec(): RR64 = i / 10.0^9
-    getter ms(): RR64 = i / 10.0^6
-    getter us(): RR64 = i / 10.0^3
-    getter ns(): RR64 = 1.0 i
+    getter sec(): RR64 = asFloat(i) / 10.0^9
+    getter ms(): RR64 = asFloat(i) / 10.0^6
+    getter us(): RR64 = asFloat(i) / 10.0^3
+    getter ns(): RR64 = asFloat(i)
     getter asString(): String =
         if i = 0 then "0"
         elif i >= 10^9 then self.sec "s"

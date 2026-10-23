@@ -64,7 +64,7 @@ rundemo(i) = do
     ans=BIG MAX[\Number\] <|[\Number\] SUM[\Number\] r | r <- rects xs |>
     et = nanoTime()
     t = et - st
-    ss = t / 1000000000.0
+    ss = asFloat(t) / 1000000000.0
 
     n = sizes[i]
     println("mrs of " n "x" n " in " t " ns ( " ss " s) (the answer is " ans")")

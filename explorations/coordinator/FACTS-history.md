@@ -4399,3 +4399,23 @@ pointer words refreshed in: F-24
 ### F-282
 
 2026-10-23 22:43Z · added · from `explorations/compile-ladder/rung-export-align/REPORT.md`, "5. Suites and stages" · by climb batch 21b's gather: rung E's fact, from its record.md's FACTS entry; row 816's sentence added
+
+### F-225
+
+2026-10-23 22:46Z · rewritten · from `explorations/compile-ladder/rung-team-demos/REPORT.md`, "4. Row 710: the checker's driver on `trips.fss`, before and after" · by climb batch 21b's gather: the gather's grep: rung D repairs row 710's declaration, so it is no longer an open row the rule refuses
+
+- F-225 **In a self-typed trait with no `comprises` clause, or one that lists only `...`, the compiled checker types `self` in the method bodies as `C[\X\] & X`, the trait met with the implementing type, read from the trait's F-bound; the methods' signatures keep `self` at the plain trait type `C[\X\]`, save in the overloading check's exclusion test (F-277), and the checker refuses an extender at another type.** It builds P-146. A self-typed trait is a trait `C[\X\]` whose parameter `X` extends `C[\X\]`. The checker also takes a parameter bounded by a self-typed trait that the trait extends at that parameter, as the team's `Containment` mixins are: a default of the coordinator's. In a trait whose `comprises` clause lists types, `self` is instead the trait met with the union of those types, and the exclusion test reads its signatures plain. For example, `object Bad extends Integral[\ZZ32\]` is refused, since `Bad` is not a `ZZ32`. The rule accepts every self-typed body of the library but `Integral`'s `numerator`, which each integer type declares instead (P-146). Walk has no such rule and loads what it refuses. A compiled default body that returns `self` dies at class load with a `VerifyError` when the trait's self-type parameter is an object type, as in `object Pt(…) extends Shape[\Pt\]`: an open defect (row 695). The rule refuses, rightly, two team declarations, each an open row: the demo `trips.fss`'s `generator` (row 710) and `PureList`'s `List` (row 355). Gated by `compiler_tests/SelfType*` and `XXXSelfType*`. Detail: `compile-ladder/rung-self-type/REPORT.md` sections 1, 2, 4 and 7; `compile-ladder/rung-self-type-exclusion/REPORT.md` section 1.
+
+### F-158
+
+2026-10-23 22:46Z · rewritten · from `explorations/compile-ladder/rung-team-demos/REPORT.md`, "3. The 52 demos under walk, before and after" · by climb batch 21b's gather: the gather's grep: rung D repairs mg.fss, which chooses tabulate or fill by a typecase (row 464)
+
+- F-158 **`fill` takes a value and `tabulate` a function, both defined where the array diamond meets.** It builds P-89. `StandardMutableArrayType` and `ImmutableArray1`, the traits below both sides of the diamond, define them. `Vector` and `Matrix` also redeclare them at their own type, with the meet's bodies (F-264). A method declared only in each leaf leaves the meet refused by the checker's Meet Rule, so `copy` is declared on the meet too (row 467). Its factories are `tabulatedArray1` to `tabulatedArray3` and `tabulatedVector`. A demo still passes a function to `fill` (row 464). Gated by `tests/TabulateRungA.fss`. Detail: `compile-ladder/rung-tabulate/REPORT.md` section 2.
+
+### F-283
+
+2026-10-23 22:46Z · added · from `explorations/compile-ladder/rung-team-demos/REPORT.md`, "3. The 52 demos under walk, before and after" · by climb batch 21b's gather: rung D's first fact, from its record.md's For FACTS; row 817 named
+
+### F-284
+
+2026-10-23 22:46Z · added · from `explorations/compile-ladder/rung-team-demos/REPORT.md`, "2. The test: failing on the base, passing after" · by climb batch 21b's gather: rung D's second fact, from its record.md's For FACTS
