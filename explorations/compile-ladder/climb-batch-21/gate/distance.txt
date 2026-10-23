@@ -1,0 +1,20 @@
+#distance	setting any; -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false; 12 components in one JVM (DistanceMulti -order check)
+#total	5
+#kind	exclusion	0
+#kind	comprises	0
+#kind	overloading	0
+#kind	return-type	0
+#kind	abstract-method	0
+#kind	bound-Object	0
+#kind	wellformed	0
+#kind	typecheck	4
+#kind	export	1
+#class	X1	1	export: component against api
+#class	BR	2	big operators: a reduction's body typed as the element, not the BigReduction or Comprehension declared
+#class	OT	2	other body errors (one-off library slips and checker limits)
+#unit	component FortressLibrary	4
+#unit	component List	1
+#crash	none
+#seconds	206	FortressLibrary 144
+#machine	nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 1.60 0.63 0.44; openjdk version "25.0.4.1" 2026-08-18; FORTRESS_THREADS=1
+#shadow	every shadow edit matched the tracked sources
