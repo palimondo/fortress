@@ -4229,3 +4229,11 @@ pointer words refreshed in: F-24
 ### F-278
 
 2026-10-23 16:51Z · added · from `explorations/compile-ladder/rung-index-bound/REPORT.md`, "5. The stages, the suites and the time" · by climb batch 21 gather
+
+### F-279
+
+2026-10-23 16:54Z · added · from `explorations/compile-ladder/rung-slices-list-equality/REPORT.md`, "1. What changed and why" · by climb batch 21 gather
+
+### F-280
+
+2026-10-23 16:54Z · added · from `explorations/compile-ladder/rung-slices-list-equality/REPORT.md`, "1. What changed and why" · by climb batch 21 gather

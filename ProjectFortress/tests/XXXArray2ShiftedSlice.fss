@@ -1,0 +1,20 @@
+(* A range subscript, a column and the whole subscript of a rank-2 array shifted to a new origin hold the shifted array's elements at the subscripted indices. *)
+component XXXArray2ShiftedSlice
+export Executable
+
+run(): () = do
+    a = __builtinFactory2[\ZZ32,0,2,0,3\]()
+    for i <- 0#2, j <- 0#3 do a[i, j] := 10 (i + 1) + (j + 1) end
+    s = a.shift((1,1))
+    assert(s[1,1], 11, "Library/FortressLibrary.fsi, trait ReadableArray, shift: the shifted array is a view of the same array at a new origin")
+    t = s[(1,2)#(2,2)]
+    assert(t[0,0], 12, "the range subscript (1,2)#(2,2) of the shifted array starts at s[1,2]; Library/FortressLibrary.fsi, trait Array2, subarray")
+    assert(t[1,1], 23, "the range subscript (1,2)#(2,2) of the shifted array ends at s[2,3]; Library/FortressLibrary.fsi, trait Array2, subarray")
+    c = s[:, 2]
+    assert(c[0], 12, "the shifted array's column's first element is s[1,2]; ranges.tex, section \"Ranges\": the implicit range : is treated as l:u")
+    w = s[:]
+    assert(w[0,0], 11, "the shifted array's whole subscript's first element is s[1,1]; ranges.tex, section \"Ranges\", implicit ranges")
+    println("PASS")
+  end
+
+end

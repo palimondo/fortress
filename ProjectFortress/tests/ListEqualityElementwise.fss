@@ -1,0 +1,29 @@
+(* A list's =, and the library's =/= and three-argument assert on lists, compare element by element, at element types totally ordered or not. *)
+component ListEqualityElementwise
+import List.{...}
+export Executable
+
+run(): () = do
+    a = <|[\ZZ32\] 1, 2, 3|>
+    b = <|[\ZZ32\] 1, 2, 3|>
+    assert(a = b, "List.fsi, trait List, opr =: two lists of ZZ32 with equal elements are equal")
+    assert(a, b, "List.fsi, trait List, opr =: the library's assert sees a list of ZZ32's =")
+    assert(NOT (a =/= b), "opr-overview.tex, the sentence on e =/= e' that closes subsection \"GCD, LCM, and CHOOSE Operators\": two equal lists of ZZ32 are not unequal")
+    assert(a =/= <|[\ZZ32\] 1, 2, 4|>, "List.fsi, trait List, opr =: lists of ZZ32 that differ in an element are unequal")
+    assert(a =/= <|[\ZZ32\] 1, 2|>, "List.fsi, trait List, opr =: lists of ZZ32 of different lengths are unequal")
+    x = <|[\RR64\] 1.5, 2.5|>
+    y = <|[\RR64\] 1.5, 2.5|>
+    assert(x = y, "List.fsi, trait List, opr =: two lists of RR64 with equal elements are equal")
+    assert(x, y, "List.fsi, trait List, opr =: the library's assert sees a list of RR64's =")
+    assert(NOT (x =/= y), "opr-overview.tex, the sentence on e =/= e' that closes subsection \"GCD, LCM, and CHOOSE Operators\": two equal lists of RR64 are not unequal")
+    assert(x =/= <|[\RR64\] 1.5, 3.5|>, "List.fsi, trait List, opr =: lists of RR64 that differ in an element are unequal")
+    p = <|[\(ZZ32, ZZ32)\] (1, 2), (3, 4)|>
+    q = <|[\(ZZ32, ZZ32)\] (1, 2), (3, 4)|>
+    assert(p = q, "List.fsi, trait List, opr =: two lists of pairs with equal elements are equal")
+    assert(p, q, "List.fsi, trait List, opr =: the library's assert sees a list of pairs' =")
+    assert(NOT (p =/= q), "opr-overview.tex, the sentence on e =/= e' that closes subsection \"GCD, LCM, and CHOOSE Operators\": two equal lists of pairs are not unequal")
+    assert(p =/= <|[\(ZZ32, ZZ32)\] (1, 2), (3, 5)|>, "List.fsi, trait List, opr =: lists of pairs that differ in an element are unequal")
+    println("PASS")
+  end
+
+end
