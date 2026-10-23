@@ -2849,6 +2849,14 @@ reduction reads their whole parameter types, in both implementations; its
 reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-existential-reduction/REPORT.md} in
 the revival's repository.
+The compiled type checker's test of exclusion reads the static parameters'
+bounds by the revival's decision of 23~October 2026: the existential reduction of
+the paper of 2011 solves the condition that the meet is not empty together with
+the bounds of its static parameters (\nolinkurl{Papers/Types/exc-reduction.tick},
+lines 40--46 and 68, in the revival's repository), which the compiled type
+checker carried but from which its solver took no equality; its reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-self-type-exclusion/REPORT.md} in the
+revival's repository.
 \item[Effect] Declarations of one name may differ in their static parameters,
 as \library's do.
 The compiled type checker refuses the pair of the Return Type Rule's example,
@@ -2910,6 +2918,20 @@ through a static argument that another parameter's type fixes, exclude each
 other, and the compiled type checker finds so too of two whose parameter types
 exclude through the one instance of a supertype they share, which the
 interpreter loaded already.
+The compiled type checker's test of whether two such parameter types exclude
+each other also reads each static parameter that stands at the top of their
+meet, the meet itself, an element of a tuple or a member of an intersection or
+union, as within its declared bounds.
+So it accepts, beside the $+$ of \TYP{AdditiveGroup}, the $+$ of \library\
+between a number of type \VAR{T} and an
+\EXP{\TYP{Array}\llbracket{}T, I\rrbracket}, with \VAR{T} bounded by
+\TYP{Number} and \EXP{\TYP{AdditiveGroup}\llbracket{}T\rrbracket}, since no
+array is a number; and it accepts
+\EXP{\VAR{f}\llbracket{}T \KWD{extends} \{K, R\llbracket{}T\rrbracket\}\rrbracket(x\COLON{}T)}
+beside \EXP{\VAR{f}(x\COLON{}Z)}, where \VAR{K} comprises \VAR{A}, \VAR{B} and
+\VAR{C}, \VAR{Z} excludes \VAR{A} and \VAR{B}, and \VAR{C} extends \VAR{Z}
+but not \VAR{R}, which the interpreter refuses at load as failing the Meet Rule
+(row~713 of the revival's gap ledger).
 The interpreter does not so read a declaration with a \KWD{where} clause of its
 own, and refuses such a pair, which the compiled type checker accepts and its
 code generator does not compile (row~787 of the revival's gap ledger).
@@ -2932,8 +2954,9 @@ They also differ on a pair whose static parameters' bounds exclude each other, a
 \TYP{Box} are object types: the interpreter loads it, reading two static
 parameters whose bounds exclude each other as never one type, and the compiled
 type checker refuses it, its reduction making of the two static parameters one
-bounded by both, which it does not find empty (row~786 of the revival's gap
-ledger).
+bounded by both, which it does not find empty: though its test of exclusion reads
+the bounds, \EXP{\TYP{Box}\llbracket\TYP{BottomType}\rrbracket} is an
+instance of both domains (row~786 of the revival's gap ledger).
 The calculus of \appref{overloading-calculus} keeps its rule that two
 declarations with the same number of parameters have static parameters with the
 same bounds; it admits fewer overloadings than these chapters, so that its valid
@@ -4002,18 +4025,38 @@ compares declared domains (p.~11:13): with the intersection in the signatures,
 the domains of the two declarations of \OPR{CMP} on \TYP{StandardPartialOrder}
 and \TYP{StandardTotalOrder} became equivalent, and the compiled type checker
 reported 18 errors of the Return Type Rule that the declarations do not make.
+The test by which the compiled type checker's overloading check decides whether
+the parameter types of two declarations exclude each other reads the \KWD{self}
+parameter of a functional method of such a trait as \EXP{T \cap X} all the same,
+following the revival's decision of 23~October 2026: every declaration that
+extends an instantiation of \VAR{T} is a subtype of its static argument for
+\VAR{X}, so every value that the method takes as \KWD{self} is an \VAR{X}, and
+the two reasons above bear on which declaration is more specific and on the
+Return Type Rule, not on whether a value lies in both domains.
+With the overloads of symbolic operators checked, the plain trait type in that
+test, beside an existential reduction that read no bounds
+(\secref{revival-overloading}), made the compiled type checker refuse 8 pairs of
+\library\ between the $+$ and $-$ of \TYP{AdditiveGroup}, which \TYP{Vector}
+and \TYP{Matrix} extend, and the operators between an array and a number, though
+no call fits both: a vector's own $+$ takes two vectors, the other an array and
+a number, and arrays exclude numbers.
 The second form of a self-type parameter keeps valid as written the mixins of
 \library\ that the team wrote in 2009, \TYP{ContainmentBySubset} and
 \TYP{ContainmentByComparison}, whose static parameter is bounded by the trait
 \TYP{Containment}, which they extend at it.
 The full reasoning is in
 \nolinkurl{explorations/reviews/self-typed-bodies-judgement.md} and
-\nolinkurl{explorations/compile-ladder/rung-self-type/decision-record.md} in the
+\nolinkurl{explorations/compile-ladder/rung-self-type/decision-record.md}, and for
+the test of exclusion in
+\nolinkurl{explorations/compile-ladder/rung-self-type-exclusion/REPORT.md}, in the
 revival's repository.
 \item[Effect] The compiled type checker types \KWD{self} as \EXP{T \cap X} in
 the bodies of the dotted and functional methods of a trait with a self
 parameter \VAR{X}, keeps \VAR{T} in the signatures that overloading, the Return
-Type Rule and the choice of a declaration at a call read, and refuses a trait
+Type Rule and the choice of a declaration at a call read, except that the test
+by which its overloading check decides whether two declarations' parameter types
+exclude each other reads the \KWD{self} parameter of a functional method as
+\EXP{T \cap X} where the self type comes from the bound, and refuses a trait
 or object declaration or an object expression that the new paragraph of
 \secref{trait-decls} does not allow, with the message
 ``\VAR{D} extends \EXP{C\llbracket{}A\rrbracket}, whose self parameter is \VAR{A},
