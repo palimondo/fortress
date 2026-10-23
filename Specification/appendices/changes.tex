@@ -157,7 +157,8 @@ infinitely many instantiations of one trait.
 \seclabel{revival-conditional}
 
 \begin{description}
-\item[Affected section] \secref{where-clauses}.
+\item[Affected sections] \secref{where-clauses}; \secref{partial-total-orders};
+the overview of operators in \chapref{operators}.
 \item[Change] A paragraph and an example are added, with a box: where the
 \KWD{where} clause of an entry of an \KWD{extends} clause introduces no
 \KWD{where}-clause variable and all its constraints are trait constraints,
@@ -170,6 +171,10 @@ and contract, its \KWD{excludes} and \KWD{comprises} clauses and the
 other entries of its \KWD{extends} clause;
 the example is
 \library's list, totally ordered exactly where its elements are.
+Callouts at the lexicographic order of \secref{partial-total-orders} and at
+the comparison of lists in the overview of operators say that a list is
+ordered only where its element type is totally ordered, and that the
+interpreter still orders every list.
 \item[Rationale] This change does not follow from route~A; the revival
 decided on 16~October 2026 to build the forms of \KWD{where} clause the team
 wrote down, among them that a trait that extends another under a
@@ -202,7 +207,8 @@ extension holding at every instance, under which the clause has no effect
 and the list's order needs another construct.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-checker-conditional-extension/REPORT.md}
-in the revival's repository.
+in the revival's repository, and for the two callouts in
+\nolinkurl{explorations/compile-ladder/rung-slices-list-equality/REPORT.md}.
 \item[Effect] The compiled type checker reads such a clause as this
 section says: a value of an instance whose static arguments satisfy the
 constraints is of the entry's type, one whose static arguments do not is
@@ -257,6 +263,11 @@ such a clause; it refuses one that carries a \KWD{where} clause of its own
 and the front matter lists ``where clauses and conditional extension''
 among the features not yet supported
 (\nolinkurl{Specification-1.0-frozen/fortress/preamble.tex}, line 82).
+The two passages that order lists are unchanged
+(\nolinkurl{Specification-1.0-frozen/advanced-lib/algebraic-constraints.tex},
+lines 519--522, and
+\nolinkurl{Specification-1.0-frozen/basic/operators/opr-overview.tex},
+lines 284--285); each gains its callout.
 \item[Route C] The same under route~C.
 \end{description}
 

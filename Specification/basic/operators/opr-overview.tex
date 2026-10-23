@@ -293,6 +293,12 @@ used to compare characters
 and strings (lexicographic order based on the character ordering).
 They also use lexicographic order when used to compare lists
 whose elements support these same comparison operators.
+\revision{revival-conditional}{\Library\ order a list only where its element
+type is totally ordered (\secref{where-clauses}): a list of floating-point
+numbers or of rational numbers, whose elements support these comparison
+operators but are only partially ordered, has no order on the compiled type
+checker, while its \EXP{=} still compares the two lists element by element.
+The interpreter still orders every list (row~774 of the revival's gap ledger).}
 
 When $<$, \EXP{\leq}, \EXP{\geq}, and \EXP{>} are used to compare numerical
 intervals, the result is a boolean interval.  The functions

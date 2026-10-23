@@ -520,6 +520,12 @@ The \TYP{Comparison} trait provides an associative operator
 \OPR{LEXICO} whose principal use is in defining lexicographic order on
 sequences of elements, which may be partial or total depending on
 whether the ordering of the elements is partial or total.
+\revision{revival-conditional}{\Library\ declare only the total
+lexicographic order of lists: a list is ordered only where its element type
+is totally ordered (\secref{where-clauses}), and no partial lexicographic order
+of lists is declared, so on the compiled type checker a list of floating-point
+numbers has no order, while its \EXP{=} still compares element by element.
+The interpreter still orders every list (row~774 of the revival's gap ledger).}
 
 A set of lexicographic partial order operators \EXP{\sqsubset,\sqsubseteq,\equiv,\sqsupseteq,\sqsupset,\OPR{TCMP}}
 may be defined in terms of a partial order on the elements of the sequence with operators
