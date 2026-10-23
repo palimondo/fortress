@@ -213,7 +213,7 @@ FACTS and POSITIONS hold the project only, since briefs quote them. They state t
 
 At session start and after each compaction, take these steps in order:
 
-0. Check the serving model with the `get_session` tool and no session ID: its `session_context.model` and `external_metadata.last_served_model`. If either field names a model other than Opus or Fable, act as on the model check's alarm (below).
+0. Check the serving model: run `explorations/coordinator/tools/model-now.sh`, which prints the model of this turn's reply. If it prints nothing, use the `get_session` tool with no session ID: its `session_context.model` and `external_metadata.last_served_model`. If the model is neither Opus nor Fable, act as on the model check's alarm (below).
 1. `FACTS.md`, `POSITIONS.md` and `INDEX.md`, each whole. Read `FACTS.md` in pages: it is larger than one page of the Read tool.
 2. Run `explorations/coordinator/check-index.sh`. Add an INDEX line for each note that it reports.
 3. `PLAN.md`, its first section.
