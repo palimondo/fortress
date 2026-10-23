@@ -1,0 +1,136 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/env/ComponentWrapper.java b/ProjectFortress/src/com/sun/fortress/interpreter/env/ComponentWrapper.java
+index 560172406..abc5ab2e9 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/env/ComponentWrapper.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/env/ComponentWrapper.java
+@@ -164,7 +164,7 @@ public class ComponentWrapper extends NonApiWrapper {
+                 // Regular constructor
+                 FTypeObject fto = new FTypeObject(name, env, oe, NodeUtil.getParams(oe), NodeUtil.getDecls(oe), oe);
+                 env.putType(name, fto);
+-                BuildEnvironments.finishObjectTrait(NodeUtil.getTypes(NodeUtil.getExtendsClause(oe)),
++                BuildEnvironments.finishObjectTrait(NodeUtil.getExtendsClause(oe),
+                                                     null,
+                                                     null,
+                                                     fto,
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+index f64e6986c..a72c81dbb 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+@@ -907,7 +907,6 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+      * @param interior
+      */
+     public void finishTrait(TraitDecl x, FTypeTrait ftt, Environment interior) {
+-        List<BaseType> extends_ = NodeUtil.getTypes(NodeUtil.getExtendsClause(x));
+         // TODO What if I don't
+         // interior = interior.extendAt(x);
+ 
+@@ -916,6 +915,7 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+                                                                           interior);
+         else et = new EvalType(interior);
+ 
++        List<BaseType> extends_ = holdingExtends(NodeUtil.getExtendsClause(x), et, interior, ftt);
+         List<FType> extl = et.getFTypeListFromList(extends_);
+         List<FType> excl = et.getFTypeListFromList(NodeUtil.getExcludesClause(x));
+         ftt.setExtendsAndExcludes(extl, excl, interior);
+@@ -1018,18 +1018,89 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+         return et;
+     }
+ 
++    /**
++     * The trace of conditional extension: where the environment variable
++     * FORTRESS_CONDEXT_TRACE is set, each entry read under its condition is
++     * printed to the standard error, with whether it holds.  (Probe only.)
++     */
++    private static final boolean CONDEXT_TRACE = System.getenv("FORTRESS_CONDEXT_TRACE") != null;
++
++    /**
++     * The entry ttw of an extends clause holds only where its where clause
++     * holds: the clause binds no variable and states only constraints
++     * X extends B (conditional extension, as the compiled checker reads it,
++     * KindEnv.extendsConditions).  Any other entry is extended at every
++     * instance, its where clause unread.
++     */
++    private static boolean conditional(TraitTypeWhere ttw) {
++        if (ttw.getWhereClause().isNone()) return false;
++        WhereClause wc = ttw.getWhereClause().unwrap();
++        if (!wc.getBindings().isEmpty() || wc.getConstraints().isEmpty()) return false;
++        for (WhereConstraint w : wc.getConstraints()) {
++            if (!(w instanceof WhereExtends)) return false;
++        }
++        return true;
++    }
++
++    /**
++     * The types of the extends clause ttws that the type owner extends, in
++     * the environment interior of its static arguments, et evaluating there:
++     * every entry but a conditional one whose condition fails, that is, where
++     * some X is not a subtype of one of its B, as processWhereClauses checks
++     * a declaration's own constraint.  A condition that cannot be evaluated
++     * fails.
++     */
++    private static List<BaseType> holdingExtends(List<TraitTypeWhere> ttws, EvalType et,
++                                                 Environment interior, FType owner) {
++        List<BaseType> res = new ArrayList<BaseType>(ttws.size());
++        for (TraitTypeWhere ttw : ttws) {
++            if (!conditional(ttw)) {
++                res.add(ttw.getBaseType());
++                continue;
++            }
++            boolean holds = true;
++            String why = "";
++            try {
++                for (WhereConstraint w : ttw.getWhereClause().unwrap().getConstraints()) {
++                    WhereExtends we = (WhereExtends) w;
++                    FType ft = interior.getLeafTypeNull(NodeUtil.nameString(we.getName()));
++                    if (ft == null) {
++                        holds = false;
++                        why = " (" + NodeUtil.nameString(we.getName()) + " unbound)";
++                        break;
++                    }
++                    for (BaseType b : we.getSupers()) {
++                        FType st = et.evalType(b);
++                        if (!ft.subtypeOf(st)) {
++                            holds = false;
++                            why = " (" + ft + " is not a " + st + ")";
++                            break;
++                        }
++                    }
++                    if (!holds) break;
++                }
++            }
++            catch (FortressException ex) {
++                holds = false;
++                why = " (error: " + ex.getMessage() + ")";
++            }
++            if (CONDEXT_TRACE) System.err.println(errorMsg("condext: ", owner, " extends ", ttw.getBaseType(), ": ",
++                                                           holds ? "kept" : "dropped" + why));
++            if (holds) res.add(ttw.getBaseType());
++        }
++        return res;
++    }
++
+     public void finishObjectTrait(ObjectDecl x, FTypeObject ftt) {
+-        List<BaseType> extends_ = NodeUtil.getTypes(NodeUtil.getExtendsClause(x));
+-        finishObjectTrait(extends_, null, NodeUtil.getWhereClause(x), ftt, containing, x);
++        finishObjectTrait(NodeUtil.getExtendsClause(x), null, NodeUtil.getWhereClause(x), ftt, containing, x);
+     }
+ 
+     public void finishObjectTrait(_RewriteObjectExpr x, FTypeObject ftt) {
+-        List<BaseType> extends_ = NodeUtil.getTypes(NodeUtil.getExtendsClause(x));
+         // _RewriteObjectExpr has no excludes clause.
+-        finishObjectTrait(extends_, null, null, ftt, containing, x);
++        finishObjectTrait(NodeUtil.getExtendsClause(x), null, null, ftt, containing, x);
+     }
+ 
+-    static public void finishObjectTrait(List<BaseType> extends_,
++    static public void finishObjectTrait(List<TraitTypeWhere> extendsClause,
+                                          List<? extends Type> excludes,
+                                          Option<WhereClause> wheres,
+                                          FTypeObject ftt,
+@@ -1039,6 +1110,7 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+         EvalType et;
+         if (wheres != null && wheres.isSome()) et = processWhereClauses(wheres.unwrap(), interior);
+         else et = new EvalType(interior);
++        List<BaseType> extends_ = holdingExtends(extendsClause, et, interior, ftt);
+         ftt.setExtendsAndExcludes(et.getFTypeListFromList(extends_), et.getFTypeListFromList(excludes), interior);
+         if (x instanceof _RewriteObjectExpr && NodeUtil.getStaticParams((_RewriteObjectExpr) x).isEmpty()) {
+             // An object expression without static parameters provides its functional
