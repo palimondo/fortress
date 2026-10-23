@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","description":"Probe: code generation over the one library","toolUseId":"toolu_019fRDzumFP3upZFAaRsf51N","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","description":"Probe: code generation over the one library","toolUseId":"toolu_019fRDzumFP3upZFAaRsf51N","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
