@@ -1,0 +1,31 @@
+component XXXExclusionVectorScalarWalk
+export Executable
+
+(* Operators on an array of a number type and a number, on either side, beside the additive group's own operator are a valid overloading where a vector is both an array and an additive group, since no value is both an array and a number, and each call runs the declaration its arguments select (traits.tex, section "Trait Declarations"; overloading.tex, sections "Incompatibility Rule" and "Declarations with Static Parameters"). *)
+
+trait AnyAddG end
+trait AddG[\T extends AddG[\T\]\] extends AnyAddG
+    opr PLUS(self, other: T): String
+end
+trait Numb end
+trait HasRk excludes { Numb } end
+object Rr extends { Numb, AddG[\Rr\] }
+    opr PLUS(self, other: Rr): String = "number"
+end
+trait Arry[\E\] extends HasRk end
+object Vv extends { Arry[\Rr\], AddG[\Vv\] }
+    opr PLUS(self, other: Vv): String = "vector"
+end
+
+opr PLUS[\T extends { Numb, AddG[\T\] }\](x: Arry[\T\], y: T): String = "array and number"
+opr PLUS[\T extends { Numb, AddG[\T\] }\](y: T, x: Arry[\T\]): String = "number and array"
+
+run(): () = do
+    assert(Rr PLUS Rr, "number", "two numbers run the number's own operator")
+    assert(Vv PLUS Vv, "vector", "two vectors run the vector's own operator")
+    assert(Vv PLUS Rr, "array and number", "a vector and a number run the array's operator")
+    assert(Rr PLUS Vv, "number and array", "a number and a vector run the array's operator")
+    println("PASS")
+  end
+
+end

@@ -168,6 +168,8 @@ The record and the skill (for the gather):
 7. F-227 (`FACTS.md:93`): "(row 713, contested; `compiler_tests/XXXOverloadTwoBoundsClosedTraitExclusion` pins the refusal)". The checker accepts the pair, and the test is promoted.
 8. F-245 (`FACTS.md:104`): "132 wait on two designs that the curator decides" and "a vector plus a number beside a vector plus a vector (8)": the 8 clear under the full check with this change, the design P-157 (with the full check off, nothing moves).
 9. Row 713's claim, "the compiled checker refuses, as an invalid overloading, ...", and its reproducer; row 786's note "its `emptyED` reads no bounds" (record.md gives both rows' new lines).
+10. (Added by the skeptic.) F-258 (`FACTS.md:178`): "The checker: `OverloadingOracle.excludes` asks `TypeSchemaAnalyzer.emptyED` beside `subtypeED` ...: the existential reduction's first premise alone, its bounds not read." `excludes` now also asks `meetEmptyWithBounds`, which reads the bounds (`OverloadingOracle.scala:327`).
+11. (Added by the skeptic.) `explorations/coordinator/PLAN.md:419` (C.skeptic.1 of climb batch 15's rung C): "the checker refuses it as an invalid overloading" and "Default: today's refusal, pinned by `ProjectFortress/compiler_tests/XXXOverloadTwoBoundsClosedTraitExclusion.test`". The checker accepts the pair, and the test is promoted to `OverloadTwoBoundsClosedTraitExclusion`.
 
 The Appendix I effects of the two entries edited were corrected in place (section 7).
 
@@ -203,6 +205,7 @@ No POSITIONS entry covers 2 to 9; P-157 covers 1 and 3 in part. I acted on the r
 - **Row 713's walk half** (walk refuses the pair at load, 'fails the Meet Rule'): home 3, contested (Appendix I lists the question as not settled for the language; P-157 settles the checker's exclusion test only): the walk test `OverloadTwoBoundsClosedTraitExclusionWalk` asserts today's refusal, and the row's new line.
 - **Row 786's tint**: unchanged, home 3 (contested): `XXXExclusionExcludingBoundsBox` holds the checker's refusal beside the walk test the row names; the row's new line.
 - **The solver's recursion** on an inference variable beside its F-bound: home 3, NEW-X-1, `NEGATIVE-BOUNDED`, reproducer A1's report; no program of the plain checker is known to reach it, and no gated test can hold a `StackOverflowError` of a shadow.
+- (Added by the skeptic.) **Walk's half of the vector pairs**: walk refuses at load a program's generic operators between an array of a number type and a number, on either side, beside a self-typed additive group's own operator, 'with generic type, at least one pair of parameters must have excluding types', which the checker now accepts and runs (P-157): home 2, the gated `ProjectFortress/tests/XXXExclusionVectorScalarWalk.fss` and NEW-X-2 (record.md); measured by the skeptic (SKEPTIC.md, section 4).
 
 ## 12. For FACTS
 
