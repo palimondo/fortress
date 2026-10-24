@@ -1,0 +1,34 @@
+--- a/explorations/coordinator/tools/checker-count/run.sh
++++ b/explorations/coordinator/tools/checker-count/run.sh
+@@ -84,9 +84,17 @@
+ # 2. run the compiler phase order over the interpreter's library under a private cache
+ ( cd "$FH" && timeout -k 10 900 java -Xmx4g -Xss64m -Dfortress.caches="$SCRATCH/caches" \
+        -Dfortress.analyzer.overload.cache=$OVERLOAD_CACHE \
+-       -cp "$SCRATCH/classes:$CP" WorldFlip "$TARGET" ) > "$SCRATCH/run.txt" 2>&1
++       -cp "$SCRATCH/classes:$CP" WorldFlip -stop typecheck "$TARGET" ) > "$SCRATCH/run.txt" 2>&1
+ RC=$?
+-if ! grep -q 'has [0-9]* errors\?\.$' "$SCRATCH/run.txt" ; then
++# A clean check: the checker reached the component and the run ended rc=0 with no error line, so the
++# checker's total is 0. The run stops after the type checker (-stop typecheck): past it, the code
++# generator's refusals are not the checker's errors (FACTS F-34 counts them), and its first one throws.
++CLEAN=
++if [ "$RC" = 0 ] && grep -q '^@@PROBE checkComponent ' "$SCRATCH/run.txt" && grep -q '^### rc=0$' "$SCRATCH/run.txt" \
++   && ! grep -q 'has [0-9]* errors\?\.$' "$SCRATCH/run.txt" ; then
++    CLEAN=yes
++fi
++if [ -z "$CLEAN" ] && ! grep -q 'has [0-9]* errors\?\.$' "$SCRATCH/run.txt" ; then
+     echo "checker-count: the run printed no error total (rc=$RC); see $SCRATCH/run.txt" >&2
+     tail -20 "$SCRATCH/run.txt" >&2 ; exit 1
+ fi
+@@ -109,7 +117,10 @@
+     printf '#api\terrors\n'
+     grep '^@@PROBE checkApi .* -> errors=' "$SCRATCH/run.txt" \
+         | sed -E 's/^@@PROBE checkApi ([^ ]+) -> errors=([0-9]+)$/\1\t\2/' | sort -u
+-    if [ -z "$STOPPED" ] ; then
++    if [ -n "$CLEAN" ] ; then
++        printf '#total\t0\n'
++        printf '#locations\t0\n'
++    elif [ -z "$STOPPED" ] ; then
+         printf '#total\t%s\n' "$(grep -oE 'has [0-9]+ errors?\.$' "$SCRATCH/run.txt" | tail -1 | grep -oE '[0-9]+')"
+         printf '#locations\t%s\n' "$(grep -oE '^/[^ ]+:[0-9]+:' "$SCRATCH/run.txt" | sort -u | wc -l | tr -d ' ')"
+     else

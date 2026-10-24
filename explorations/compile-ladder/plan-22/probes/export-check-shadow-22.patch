@@ -1,0 +1,296 @@
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
+@@ -121,6 +121,7 @@
+       // API in the globalEnv
+       val api = globalEnv.api(e)
+       val apiName = api.ast.getName
++      shadowUnit = componentName.getText + "/" + apiName.getText
+ 
+       /* Multiple APIs exported by a single component cannot include
+        * declarations with the same name and kind.
+@@ -352,26 +353,41 @@
+           var cause = ""
+           if ( ! equalHeaders._1 )
+               cause = addMessage(cause, equalHeaders._2)
++          val dn = NodeUtil.nameString(declInAPI.getHeader.getName)
++          val sa = "" + NodeUtil.getSpan(declInAPI)
++          val sc = "" + NodeUtil.getSpan(declInComp)
+           if (NodeUtil.isTrait(traitOrObject)) {
+             if (!declInAPI.isInstanceOf[TraitDecl]) {
+               cause = addMessage(cause, "non-trait in api, but trait in component")
++              xdiff(dn, "header-kind", "-", sa, sc, "object in api, trait in component")
+             } else {
+               if (! equalListTypes(toListFromImmutable(NodeUtil.getExcludesClause(declInAPI)),
+                                    toListFromImmutable(NodeUtil.getExcludesClause(declInComp)))) {
+                 cause = addMessage(cause, "different excludes clauses for traits")
++                xdiff(dn, "header-excludes", "-", sa, sc,
++                      "api " + toListFromImmutable(NodeUtil.getExcludesClause(declInAPI)).mkString("{", ", ", "}") +
++                      " component " + toListFromImmutable(NodeUtil.getExcludesClause(declInComp)).mkString("{", ", ", "}"))
+               }
+               if (! equalComprises(declInAPI, declInComp)) {
+                 cause = addMessage(cause, "different comprises clauses for traits")
++                xdiff(dn, "header-comprises", "-", sa, sc,
++                      "api " + toOptList(NodeUtil.getComprisesClause(declInAPI)).map(_.mkString("{", ", ", "}")).getOrElse("none") +
++                      (if (NodeUtil.isComprisesEllipses(declInAPI)) " (with ...)" else "") +
++                      " component " + toOptList(NodeUtil.getComprisesClause(declInComp)).map(_.mkString("{", ", ", "}")).getOrElse("none"))
+               }
+             }
+           } else if (NodeUtil.isObject(traitOrObject)) {
+             if (declInAPI.isInstanceOf[TraitDecl]) {
+               if ( ! isEmptyComprisesEllipses(declInAPI)) {
+                 cause = addMessage(cause, "trait in api must comprise {...} to match object in component")
++                xdiff(dn, "header-kind", "-", sa, sc, "trait in api without comprises {...}, object in component")
+               }
+             } else if (! equalOptListParams(toOptList(NodeUtil.getParams(declInAPI)),
+                                             toOptList(NodeUtil.getParams(declInComp)))) {
+               cause = addMessage(cause, "different parameters for object constructors")
++              xdiff(dn, "header-ctor-params", "-", sa, sc,
++                    "api " + toOptList(NodeUtil.getParams(declInAPI)).map(_.map(showParam).mkString("(", ", ", ")")).getOrElse("none") +
++                    " component " + toOptList(NodeUtil.getParams(declInComp)).map(_.map(showParam).mkString("(", ", ", ")")).getOrElse("none"))
+             }
+           }
+           if ( ! cause.equals("") )
+@@ -379,6 +395,8 @@
+         } else {
+           TypeError.b2(typesInComp.keySet, t);
+           missingDecls = declInAPI :: missingDecls
++          xdiff(NodeUtil.nameString(declInAPI.getHeader.getName), "toplevel-type-missing", "-",
++                "" + NodeUtil.getSpan(declInAPI), "-", "no trait or object of this name in the component")
+         }
+       }
+ 
+@@ -387,6 +405,8 @@
+       if ( ! missingDecls.isEmpty ) {
+         def comp(x:ASTNode,y:ASTNode) = toString(x) < toString(y)
+         missingDecls = missingDecls.sortWith(comp)
++        for ( m <- missingDecls ; if ! NodeUtil.isTraitObjectDecl(m) )
++          xdiff("(top level)", "toplevel-missing", "-", toString(m), "-", getMessage(m))
+         var message = "" + getMessage(missingDecls.head)
+         for ( f <- missingDecls.tail )
+           message += ",\n                           " + getMessage(f)
+@@ -462,6 +482,151 @@
+   private def error(errors: JavaList[StaticError], loc: HasAt, msg: String) =
+     errors.add(TypeError.make(msg, loc))
+ 
++  /* The shadow's report: one line for each difference, every member of each
++   * trait or object compared, by name as well as by header. Never lands. */
++  private var shadowUnit: String = ""
++  private val shadow4i: Boolean = true  // 4i is the check's own rule since rung E
++  private def xdiff(decl: String, kind: String, member: String, apiSpan: String,
++                    compSpan: String, detail: String): Unit =
++    System.out.println("#XDIFF\t" + shadowUnit + "\t" + decl + "\t" + kind + "\t" + member +
++                       "\t" + apiSpan + "\t" + compSpan + "\t" +
++                       detail.replace('\n', ' ').replace('\t', ' '))
++
++  private def showType(t: Option[_]): String = t match {
++    case Some(x) => "" + x
++    case None => "-"
++  }
++  private def showSP(p: StaticParam): String = p match {
++    case SStaticParam(_, _, name, ext, _, _, _, kind, _) =>
++      (kind.getClass.getSimpleName match {
++         case "KindType" => ""
++         case k => k.replace("Kind", "").toLowerCase + " "
++       }) + NodeUtil.nameString(name) +
++      (if (ext.isEmpty) "" else " extends " + ext.mkString("{", ", ", "}"))
++  }
++  private def showSPs(ps: List[StaticParam]): String =
++    if (ps.isEmpty) "none" else ps.map(showSP).mkString("[\\", ", ", "\\]")
++  private def showParam(p: Param): String = p match {
++    case SParam(_, name, mods, ty, _, va) =>
++      (if (mods.isEmpty) "" else mods.toString + " ") + name.getText + ":" +
++      (ty match {
++         case Some(t) => "" + t
++         case None => va match { case Some(v) => "" + v + "..."; case None => "?" }
++       })
++  }
++  private def showFn(h: FnHeader): String = h match {
++    case SFnHeader(sps, mods, name, _, throws, _, params, ret) =>
++      (if (mods.isEmpty) "" else mods.toString + " ") + NodeUtil.nameString(name) +
++      (if (sps.isEmpty) "" else showSPs(sps)) +
++      params.map(showParam).mkString("(", ", ", ")") + ":" + showType(ret) +
++      (throws match { case Some(l) if ! l.isEmpty => " throws " + l.mkString(", "); case _ => "" })
++  }
++  private def showExtends(l: List[TraitTypeWhere]): String =
++    l.map(w => w match {
++      case STraitTypeWhere(_, t, wh) => "" + t + (if (wh.isDefined) " where ..." else "")
++    }).mkString("{", ", ", "}")
++  private def showMember(d: Decl): String = d match {
++    case SFnDecl(_, h, _, body, _) => showFn(h) + (if (body.isEmpty) " (no body)" else "")
++    case SVarDecl(_, lhs, _) =>
++      lhs.map(lv => lv match {
++        case SLValue(_, n, m, t, _) => (if (m.isEmpty) "" else m.toString + " ") + n.getText + ":" + showType(t)
++      }).mkString("(", ", ", ")")
++    case _ => d.getClass.getSimpleName
++  }
++  private def memberName(d: Decl): String = d match {
++    case SFnDecl(_, h, _, _, _) => NodeUtil.nameString(h.getName)
++    case SVarDecl(_, lhs, _) => lhs.map(lv => lv.getName.getText).mkString(",")
++    case _ => d.getClass.getSimpleName
++  }
++  /* What differs between two members of one name. */
++  private def diffParts(l: Decl, r: Decl): List[String] = (l, r) match {
++    case (SFnDecl(_, hl, _, _, _), SFnDecl(_, hr, _, _, _)) =>
++      var parts = List[String]()
++      if ( hl.getMods.isAbstract != hr.getMods.isAbstract )
++        parts = (if (hl.getMods.isAbstract) "abstract in api only" else "abstract in component only") :: parts
++      if ( ! hl.getMods.remove(Modifiers.Abstract).equals(hr.getMods.remove(Modifiers.Abstract)) )
++        parts = ("modifiers api '" + hl.getMods.remove(Modifiers.Abstract) + "' component '" +
++                 hr.getMods.remove(Modifiers.Abstract) + "'") :: parts
++      if ( ! equalListStaticParams(toListFromImmutable(hl.getStaticParams), toListFromImmutable(hr.getStaticParams)) )
++        parts = "static parameters" :: parts
++      if ( ! equalOptListTypes(toOptList(hl.getThrowsClause), toOptList(hr.getThrowsClause)) )
++        parts = "throws clause" :: parts
++      if ( ! equalListParams(toListFromImmutable(hl.getParams), toListFromImmutable(hr.getParams)) )
++        parts = "parameter types" :: parts
++      if ( ! equalOptTypes(toOption(hl.getReturnType), toOption(hr.getReturnType)) )
++        parts = "return type" :: parts
++      parts.reverse
++    case (SVarDecl(_, ll, _), SVarDecl(_, lr, _)) =>
++      if ( equalListLValues(ll, lr) ) List() else List("field type")
++    case _ => List("a method on one side, a field on the other")
++  }
++  /* Every member compared, both ways, by name and header. */
++  private def shadowReport(dn: String, inAPI: List[Decl], inComp: List[Decl]): Unit = {
++    if ( (if (shadow4i) inAPI.filter(d => ! isAbstractMember(d)).length else inAPI.length) > inComp.length )
++      xdiff(dn, "member-count", "-", "-", "-",
++            "api " + inAPI.length + " members, component " + inComp.length + " (the stock check stops here)")
++    for ( l <- inAPI ; if ! (shadow4i && isAbstractMember(l)) ) {
++      val n = memberName(l)
++      val sameName = inComp.filter(r => memberName(r) == n)
++      val exactSame = sameName.filter(r => equalMember(l, r))
++      val stockMatch = inComp.filter(r => equalMember(l, r))
++      if ( exactSame.isEmpty ) {
++        val sl = "" + NodeUtil.getSpan(l)
++        if ( ! stockMatch.isEmpty )
++          xdiff(dn, "api-matched-by-other-name", n, sl,
++                stockMatch.map(r => "" + NodeUtil.getSpan(r)).mkString(" "),
++                "stock check accepts: api " + showMember(l) + " ; other-named component " +
++                stockMatch.map(showMember).mkString(" | ") +
++                (if (sameName.isEmpty) " ; no same-named member"
++                 else " ; same-named " + sameName.map(r => showMember(r) + " [" + diffParts(l, r).mkString(", ") + "]").mkString(" | ")))
++        else if ( sameName.isEmpty )
++          xdiff(dn, "api-member-missing", n, sl, "-",
++                "api " + showMember(l) + (if (isAbstractMember(l)) " (abstract in api)" else "") +
++                " ; the component's trait declares no member of this name")
++        else {
++          val cands = sameName.map(r => (r, diffParts(l, r)))
++                              .sortBy(c => (c._2.length, if (c._2.forall(_.startsWith("abstract in"))) 0 else 1))
++          val best = cands.head._2
++          val kind =
++            if ( best == List("abstract in component only") ) "abstract-component-only"
++            else if ( best == List("abstract in api only") ) "abstract-api-only"
++            else "api-member-differs"
++          xdiff(dn, kind, n, sl, cands.map(c => "" + NodeUtil.getSpan(c._1)).mkString(" "),
++                "api " + showMember(l) + " ; component " +
++                cands.map(c => showMember(c._1) + " [" + c._2.mkString(", ") + "]").mkString(" | "))
++        }
++      }
++    }
++    for ( d <- inComp ; if isAbstractMember(d) && (d match { case SFnDecl(_,h,_,_,_) => ! h.getMods.isPrivate; case _ => false }) ) {
++      val n = memberName(d)
++      val sameName = inAPI.filter(r => memberName(r) == n)
++      val exactSame = sameName.filter(r => equalMember(r, d))
++      val stockMatch = inAPI.filter(r => equalMember(r, d))
++      if ( exactSame.isEmpty ) {
++        val sd = "" + NodeUtil.getSpan(d)
++        if ( ! stockMatch.isEmpty )
++          xdiff(dn, "comp-abstract-matched-by-other-name", n,
++                stockMatch.map(r => "" + NodeUtil.getSpan(r)).mkString(" "), sd,
++                "stock check accepts: component " + showMember(d) + " ; other-named api " +
++                stockMatch.map(showMember).mkString(" | "))
++        else if ( sameName.isEmpty )
++          xdiff(dn, "comp-abstract-absent", n, "-", sd,
++                "component " + showMember(d) + " ; the api's trait declares no member of this name")
++        else {
++          val cands = sameName.map(r => (r, diffParts(r, d)))
++                              .sortBy(c => (c._2.length, if (c._2.forall(_.startsWith("abstract in"))) 0 else 1))
++          val best = cands.head._2
++          val kind =
++            if ( best == List("abstract in component only") ) "pair:abstract-component-only"
++            else "comp-abstract-differs"
++          xdiff(dn, kind, n, cands.map(c => "" + NodeUtil.getSpan(c._1)).mkString(" "), sd,
++                "component " + showMember(d) + " ; api " +
++                cands.map(c => showMember(c._1) + " [" + c._2.mkString(", ") + "]").mkString(" | "))
++        }
++      }
++    }
++  }
++
+   /* Returns true if two types are same.
+    * If any of the following types are compared, returns false:
+    *
+@@ -692,22 +857,40 @@
+             STraitTypeHeader(sparamsR, modsR, _, whereR, throwsR, contractR,
+                              extendsR, paramsR, declsR)) =>
+         var cause = ""
+-        if ( ! equalListStaticParams(sparamsL, sparamsR) )
++        val dn = NodeUtil.nameString(inAPI.getName)
++        val sa = "" + inAPI.getName.getInfo.getSpan
++        val sc = "" + inComp.getName.getInfo.getSpan
++        if ( ! equalListStaticParams(sparamsL, sparamsR) ) {
+           cause = addMessage(cause, "different static parameters")
+-        if ( ! modsL.equals(modsR) )
++          xdiff(dn, "header-static-params", "-", sa, sc,
++                "api " + showSPs(sparamsL) + " component " + showSPs(sparamsR))
++        }
++        if ( ! modsL.equals(modsR) ) {
+           cause = addMessage(cause, "different modifiers")
+-        if ( ! equalOptListTypes(throwsL, throwsR) )
++          xdiff(dn, "header-modifiers", "-", sa, sc, "api '" + modsL + "' component '" + modsR + "'")
++        }
++        if ( ! equalOptListTypes(throwsL, throwsR) ) {
+           cause = addMessage(cause, "different throws clauses")
+-        if ( ! equalListTraitTypeWheres(extendsL, extendsR) )
++          xdiff(dn, "header-throws", "-", sa, sc, "api " + throwsL + " component " + throwsR)
++        }
++        if ( ! equalListTraitTypeWheres(extendsL, extendsR) ) {
+           cause = addMessage(cause, "different extends clauses")
+-        if ( ! equalOptListParams(paramsL, paramsR) )
++          xdiff(dn, "header-extends", "-", sa, sc,
++                "api " + showExtends(extendsL) + " component " + showExtends(extendsR))
++        }
++        if ( ! equalOptListParams(paramsL, paramsR) ) {
+           cause = addMessage(cause, "different parameters")
++          xdiff(dn, "header-params", "-", sa, sc,
++                "api " + paramsL.map(_.map(showParam).mkString("(", ", ", ")")).getOrElse("none") +
++                " component " + paramsR.map(_.map(showParam).mkString("(", ", ", ")")).getOrElse("none"))
++        }
+         val equalDecls = equalListMembers(declsL, declsR, cause)
+         if ( ! equalDecls._1 )
+           cause = addMessage(cause, equalDecls._2)
+         val abstractOK = allAbstractsMadePublic(declsL, declsR, cause)
+         if ( ! abstractOK._1 )
+           cause = addMessage(cause, abstractOK._2)  
++        shadowReport(dn, declsL, declsR)
+         (cause.equals(""), cause)
+     }
+ 
+@@ -787,11 +970,12 @@
+    * So a member declared abstract in the API needs no corresponding member.
+    */
+   private def equalListMembers(inAPI: List[Decl], inComp: List[Decl],
+-                               original: String): (Boolean, String) =
+-    if ( inAPI.count(l => ! isAbstractMember(l)) > inComp.length )
+-      (false, "missing members of the trait/object in the component")
+-    else {
++                               original: String): (Boolean, String) = {
+       var cause = original
++      // the stock verdict kept: "missing members" when the api's non-abstract members outnumber the component's
++      val longer = inAPI.count(l => ! isAbstractMember(l)) > inComp.length
++      if ( longer )
++        cause = addMessage(cause, "missing members of the trait/object in the component")
+       def handleOne(l: Decl) = {
+         val eq = isAbstractMember(l) || inComp.exists(r => equalMember(l, r))
+         if ( ! eq )
+@@ -809,7 +993,9 @@
+           }
+         eq
+       }
+-      (inAPI.forall(handleOne), cause)
++      val each = inAPI.map(handleOne).forall(b => b)
++      if ( longer ) (false, "missing members of the trait/object in the component")
++      else (each, cause)
+     }
+ 
+   /* Returns true if two members in traits and objects are same. */

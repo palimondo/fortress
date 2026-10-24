@@ -1,0 +1,22 @@
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
+@@ -788,12 +788,17 @@
+    */
+   private def equalListMembers(inAPI: List[Decl], inComp: List[Decl],
+                                original: String): (Boolean, String) =
+-    if ( inAPI.count(l => ! isAbstractMember(l)) > inComp.length )
++    if ( inAPI.length > inComp.length )   // ALT4I: every api member counts, as the team's rule
+       (false, "missing members of the trait/object in the component")
+     else {
+       var cause = original
+       def handleOne(l: Decl) = {
+-        val eq = isAbstractMember(l) || inComp.exists(r => equalMember(l, r))
++        // ALT4I: 4i's first rule alone: an api member written abstract is matched by a component
++        // member of the same name and header, abstract or concrete (the team's ignoreAbstract)
++        val eq = inComp.exists(r => equalMember(l, r) ||
++                                    (isAbstractMember(l) && ((l, r) match {
++                                       case (SFnDecl(_,hl,_,_,_), SFnDecl(_,hr,_,_,_)) => equalFnHeaders(hl, hr, true)
++                                       case _ => false })))
+         if ( ! eq )
+           l match {
+             case SVarDecl(_,lhs,_) =>

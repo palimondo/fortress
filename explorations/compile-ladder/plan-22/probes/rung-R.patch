@@ -1,0 +1,42 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index d5abf7e6a..1997672c7 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -1473,7 +1473,7 @@ __bigOperator2[\I0,O0,R0,L0,I1,O1,R1,L1,E,F extends Generator[\E\]\]
+          * Often the assumption is satisfied,
+          * but some types are necesary to guarantee it.
+          *)
+-        (outer'.unwrap)(gg'.generate2[\I0,L0,L1\](outer'.reduction, inner'.reduction, fn x => (inner'.body)(innerBody(x))))
++        cast[\O0\]((outer'.unwrap)(gg'.generate2[\I0,L0,L1\](outer'.reduction, inner'.reduction, fn x => (inner'.body)(innerBody(x)))))
+         else =>
+           ((outer.unwrap)(o.unlift(
+             gg.generate[\L0\](o,fn (xs) =>
+@@ -4392,13 +4392,13 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+ 
+     upto(c: Char): String =
+       if c IN self then
+-        n = BIG MIN[i <- self.indices, self[i]=c] i
++        n = BIG MIN[\ZZ32\][i <- self.indices, self[i]=c] i
+         self[ 0#n ]
+       else self end
+ 
+     beyond(c: Char): String =
+       if c IN self then
+-        n = BIG MIN[i <- self.indices, self[i]=c] i
++        n = BIG MIN[\ZZ32\][i <- self.indices, self[i]=c] i
+         self[ (n+1): ]
+       else "" end
+ 
+diff --git a/Library/List.fss b/Library/List.fss
+index 0636a7b57..542b58721 100644
+--- a/Library/List.fss
++++ b/Library/List.fss
+@@ -148,7 +148,7 @@ trait List[\E\] extends { AnyList, ZeroIndexed[\E\], Equality[\List[\E\]\],
+         if r.stride = 1 then
+             drop(r.left.get).take(|r|)
+         else
+-            <| self[i] | i <- r |>
++            <|[\E\] self[i] | i <- r |>
+         end
+       end
+     (** %l.split(n)% is equivalent to %(l.take(n),l.drop(n))%.  Note in

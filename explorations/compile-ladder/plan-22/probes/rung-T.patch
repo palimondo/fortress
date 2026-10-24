@@ -1,0 +1,121 @@
+diff --git a/Library/FlatString.fss b/Library/FlatString.fss
+index 542ae389c..bb64701d3 100644
+--- a/Library/FlatString.fss
++++ b/Library/FlatString.fss
+@@ -49,6 +49,8 @@ object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
+     getter isAlmostBalanced():Boolean = true
+     getter isExtremelyUnbalanced():Boolean = false
+ 
++    balanced():String = self
++
+     opr |self| : ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FlatString$Size")
+ 
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 2858faa41..c84a91a22 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -2451,18 +2451,18 @@ end
+ ************************************************************)
+ 
+ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\] }
+-        excludes { AnyMultiplicativeRing }
+-    getter size() : ZZ32
++        excludes { Number, Char, AnyMultiplicativeRing }
++    abstract getter size() : ZZ32
+     getter indices() : CompactFullRange[\ZZ32\]
+     getter left(): Maybe[\Char\]
+     getter right(): Maybe[\Char\]
+-    getter depth() : ZZ32
+-    getter asFlatString(): String
+-    getter isBalanced(): Boolean
++    abstract getter depth() : ZZ32
++    abstract getter asFlatString(): String
++    abstract getter isBalanced(): Boolean
+     getter generator(): Generator[\Char\]
+ 
+ 
+-    verify() : ()       (* Verify the data structure invaraints of self *)
++    abstract verify() : ()       (* Verify the data structure invaraints of self *)
+     abstract asDebugStringIndented(indent: ZZ32): String
+     opr |self| : ZZ32
+     opr CASE_INSENSITIVE_CMP(self, other:String): TotalComparison
+@@ -2479,11 +2479,11 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+          should be in a "friends" interface.  It is the responsibility of uncheckedSubstring to do
+          whatever optimizationms for empty ranges and trivial (whole string) ranges may be
+          appropriate for the representation.*)
+-    uncheckedSubstring(r0: Range[\ZZ32\]) : String
++    abstract uncheckedSubstring(r0: Range[\ZZ32\]) : String
+     allButLast(): String
+     allButFirst(): String
+ 
+-    rangeContains(r: Range[\ZZ32\], c: Char) : Boolean
++    abstract rangeContains(r: Range[\ZZ32\], c: Char) : Boolean
+ 
+     (** Answers a subdivision of self into substrings.  This method must take time
+         proportional to the number of pairs generated.   If there is no such subdivision,
+@@ -2499,7 +2499,7 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+     abstract split(): Generator[\String\]
+ 
+     (**  A balanced version of the receiver  **)
+-    balanced(): String (*  ensures {outcome.isAlmostBalanced AND outcome = self} *)
++    abstract balanced(): String (*  ensures {outcome.isAlmostBalanced AND outcome = self} *)
+ 
+     opr ^(self, n: ZZ32): String
+ 
+@@ -2509,7 +2509,7 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+     (** The operator %||% with at least one String argument converts to string and
+         appends **)
+     opr ||(self, b:Number):String
+-    opr ||(self, c:Char):String
++    abstract opr ||(self, c:Char):String
+     opr ||(self, b:()):String
+     opr ||(self, b:(Any,Any)):String
+     opr ||(self, b:(Any,Any,Any)):String
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index d5abf7e6a..9aafa6b2f 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -4333,7 +4333,7 @@ end
+ ************************************************************)
+ 
+ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\] }
+-             excludes {Number, Char, AnyMultiplicativeRing, AnyList}
++             excludes {Number, Char, AnyMultiplicativeRing}
+     getter size() : ZZ32
+     getter asString() : String = self
+     getter indices() : CompactFullRange[\ZZ32\] = self.bounds
+diff --git a/Library/String.fss b/Library/String.fss
+index 12032b348..ee102fbe7 100644
+--- a/Library/String.fss
++++ b/Library/String.fss
+@@ -125,6 +125,13 @@ export String
+     get(i:ZZ32): Char =
+         if i ∈ first.indices then first.get(i) else second.get(i - |first|) end
+ 
++    rangeContains(r: Range⟦ZZ32⟧, c: Char):Boolean = do
++        leftBounds' = r ∩ first.bounds
++        rightBounds' = (r ≪ first.size) ∩ second.bounds
++        ((¬ leftBounds'.isEmpty) AND: first.rangeContains(leftBounds', c)) OR:
++            ((¬ rightBounds'.isEmpty) AND: second.rangeContains(rightBounds', c))
++      end
++
+     verify():() = do
+         assert(self.depth, (first.depth MAX second.depth) + 1, self)
+         assert(self.size, |first| + |second|, self)
+@@ -276,6 +283,7 @@ export String
+     getter size():ZZ32 = 0
+     getter bounds():CompactFullRange[\ZZ32\] = 0#0
+     getter depth():ZZ32 = 0
++    getter isBalanced():Boolean = true
+     getter isEmpty():Boolean = true
+     getter asFlatString():String = ""
+     getter asExprString():String = "\"\""
+@@ -322,6 +330,7 @@ export String
+ 
+     splitWithOffsets():ZeroIndexed⟦(ZZ32, String)⟧ = Nothing⟦(ZZ32, String)⟧
+     split():Generator⟦String⟧ = Nothing⟦String⟧
++    balanced():String = self
+ 
+   end EmptyString
+ 
