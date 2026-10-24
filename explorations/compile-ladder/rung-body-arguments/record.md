@@ -21,6 +21,11 @@
    - `ant testSystem`: shards 169, 168, 168 and 174, 679 in all, 'Failures: 0, Errors: 0'.
    - `ant testSpecData`: 'Tests run: 130, Failures: 0, Errors: 0'.
    - `BirdCount1q` and `BirdCount1t`, old against new: 676 lines each, 0 differing lines.
+7. **Under walk, `List`'s range subscript at a stride other than 1, on a list whose element type walk left open (F-143), now ends in `CastError`, where the base answered its elements; a list comprehension written at such an open type parameter ended in `CastError` on the base already.** Measured by the rung's skeptic. Conditions: walk; a list built from a call whose self-bounded type parameter nothing fixes, a call the checker refuses (F-59). Evidence:
+   - `ProjectFortress/tests/OpenParameterListComprehensionWalk.fss` through the base build's harness on the base's code (`FORTRESS_HOME=/home/user/fortress-base22 /home/user/fortress-base22/explorations/compile-ladder/rung-inference-walk/harness-one.sh .../old-harness .../OpenParameterListComprehensionWalk.fss`, 2026-10-24T03:19:50Z): 'FAIL: a Boolean: false =/= a Boolean: true; the list of the open element type at 0:2:2, stride 2, a comprehension written at the list's element type, ends in CastError', its three earlier assertions holding, the written comprehension's `CastError` among them.
+   - The same test on the head (`harness-one.sh $PWD/tmp/rung-body-arguments/skeptic/h2 ...`, 03:20:10Z, tree 68b527766): 'OK (1 test)'.
+
+   What it means: a second walk value moves with this rung, from a value to an error, only in programs the checker refuses. The `CastError` is the comprehension's own, at `cast[\CovariantCollection[\T\]\](cc)` (`Library/List.fss:179`), which the written `[\E\]` now reaches at an open `E`; NEW-R-2 records it.
 
 ## For FACTS
 
@@ -40,6 +45,7 @@ Entries the gather changes:
 - F-53: the distance and the count on the merged tree.
 - F-85: its sentence "One site of those declarations is still on the distance: `__bigOperator2`'s fused branch" becomes the cast at `:1476`.
 - F-59: may add that the library writes the argument at its own sites.
+- F-143: may add that a list comprehension written at the open type parameter ends in `CastError` at its unwrap's cast, and so does `List`'s strided range subscript on a list of that open type (NEW-R-2).
 
 ## Changes to existing ledger rows
 
@@ -57,21 +63,27 @@ NEW-R-1, in section "8. Generators, reductions and ranges" (or "10. Strings, map
 
 | NEW-R-1 | under walk, a pure list's range subscript at a stride other than 1 answers a list of its elements' run-time class: for `l = <\|[\ZZ32\] 10, 11, 12, 13, 14, 15 \|>` of `PureList`, `l[0:4:2]` is a `PureList[\Int\]`, which a binding declared `List[\ZZ32\]` refuses | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/comprehensions.tex`, "Comprehensions" | `ProjectFortress/tests/XXXPureListStridedSubscriptWalk.fss` | climb batch 22 rung R | siblings: 20, 717, 731. Its comprehension `<\| self[i] \| i <- r \|>` (`Library/PureList.fss:73`) writes no static argument, and a method's return type does not direct it under walk (F-228), so it takes the join of the elements' run-time classes. `List`'s half is fixed: its subscript (`Library/List.fss:151`) writes `<\|[\E\] self[i] \| i <- r \|>` since climb batch 22's rung R, where it answered an `ArrayList[\Int\]` unequal to `<\|[\ZZ32\] 10, 12, 14 \|>` and an `ArrayList[\FlatString\]` for a list of strings (`WrittenReductionArgumentsWalk`). Stride 1 runs through `drop` and `take`. Workaround: write the same. |
 
-(1080 characters in all, the claim 261, the notes 619.)
+(1086 characters in all, the claim 261, the notes 619.)
+
+NEW-R-2, the skeptic's, in section "2. Types: generics, static parameters, inference and coercion", beside row 663 (home 3: the specification is silent, so its test asserts today's behaviour):
+
+| NEW-R-2 | under walk, a list comprehension written at a self-bounded type parameter that nothing fixed ends in `CastError` at its unwrap's cast (`Library/List.fss:179`), and so, since climb batch 22's rung R, does `List`'s range subscript at a stride other than 1 on a list of that open element type | CONTESTED | implementation gap (walk) | silent | `ProjectFortress/tests/OpenParameterListComprehensionWalk.fss` | climb batch 22 rung R | siblings: 663, 716, NEW-R-1. With `emptyOf[\T extends SelfBound[\T\]\](): List[\T\] = <\|[\T\] \|>` and `xs = emptyOf().addRight(Leaf)`, `<\|[\T\] x \| x <- xs \|>` over `T` stops at `cast[\CovariantCollection[\T\]\](cc)` (`List.fss:179`) at 64386618b and after. Unsettled: the `revival-inference` callout of `basic/inference.tex` has walk admit every value checked against the open type, and is silent on a generic type that holds it, as `CovariantCollection[\OPEN\]`; the checker refuses the call that leaves it open (F-59). `xs[0:2:2]` answered 2 elements at 64386618b, before `List.fss:151` wrote `[\E\]`; stride 1 runs through `drop` and `take`. Workaround: `emptyOf[\Leaf\]()`. |
+
+(1127 characters in all, the claim 289, the notes 683.)
 
 ## Handover line
 
 Rung R (`rung-body-arguments`, `wip/rung-body-arguments`, `55a87a61c` and `3f3bff4ab`):
 - What it did: row 731's three library sites now write their static argument (`BIG MIN[\ZZ32\]` in `String`'s `upto` and `beyond`, `<|[\E\] ... |>` in `List`'s range subscript), and `__bigOperator2`'s fused arm casts its result to `O0`.
 - Its stages on its own tree: the distance 5 to 1 and the count 3 to 1, the export error left in each.
-- Under walk, `List`'s strided subscript now answers a `List[\E\]`. `PureList`'s does not yet (NEW-R-1, `XXXPureListStridedSubscriptWalk`).
-- Rows: row 731 rewritten, row 632 to close.
+- Under walk, `List`'s strided subscript now answers a `List[\E\]`. `PureList`'s does not yet (NEW-R-1, `XXXPureListStridedSubscriptWalk`). On a list whose element type walk left open, a program the checker refuses, it now ends in `CastError`, as a comprehension written at that open type already did (NEW-R-2, `OpenParameterListComprehensionWalk`, the skeptic's).
+- Rows: row 731 rewritten, row 632 to close, NEW-R-1 and NEW-R-2 new.
 
 ## Revival change
 
 **The change.**
 - What the team's library does: at `a874948ac` it writes three clause forms without their static argument, `n = BIG MIN[i <- self.indices, self[i]=c] i` in `String`'s `upto` and `beyond` (`Library/FortressLibrary.fss:4008`, `:4014`) and `<| self[i] | i <- r |>` in `List`'s range subscript (`Library/List.fss:150`). Its `__bigOperator2` fused arm returns `(outer'.unwrap)(...)` uncast (`Library/FortressLibrary.fss:1158`).
-- What the tree now does: it writes `BIG MIN[\ZZ32\][...]` (`Library/FortressLibrary.fss:4395`, `:4401`) and `<|[\E\] self[i] | i <- r |>` (`Library/List.fss:151`), and passes the arm's result through `cast[\O0\]` (`:1476`). Under walk, `List`'s range subscript at a stride other than 1 now answers a `List[\E\]`. Before, it answered a list of its elements' run-time class, as an `ArrayList[\Int\]` for a `List[\ZZ32\]`, which was unequal to a list of the same elements and refused by a binding or parameter of the list's type. The test that shows it is `ProjectFortress/tests/WrittenReductionArgumentsWalk.fss`. `PureList`'s range subscript keeps the team's text and its walk behaviour (`Library/PureList.fss:73`, `ProjectFortress/tests/XXXPureListStridedSubscriptWalk.fss`).
+- What the tree now does: it writes `BIG MIN[\ZZ32\][...]` (`Library/FortressLibrary.fss:4395`, `:4401`) and `<|[\E\] self[i] | i <- r |>` (`Library/List.fss:151`), and passes the arm's result through `cast[\O0\]` (`:1476`). Under walk, `List`'s range subscript at a stride other than 1 now answers a `List[\E\]`. Before, it answered a list of its elements' run-time class, as an `ArrayList[\Int\]` for a `List[\ZZ32\]`, which was unequal to a list of the same elements and refused by a binding or parameter of the list's type. The test that shows it is `ProjectFortress/tests/WrittenReductionArgumentsWalk.fss`. `PureList`'s range subscript keeps the team's text and its walk behaviour (`Library/PureList.fss:73`, `ProjectFortress/tests/XXXPureListStridedSubscriptWalk.fss`). On a list whose element type walk left open (F-143), in a program the checker refuses, `List`'s strided subscript now ends in `CastError`, as a list comprehension written at that open type already did (`ProjectFortress/tests/OpenParameterListComprehensionWalk.fss`, NEW-R-2).
 - The reason, as evidence:
   - The compiled checker refuses each of the four sites over the interpreter's library: 'Could not check call to operator BIG MIN - [\T extends StandardMin[\T\]\]()->BigReduction[\T,Maybe[\T\]\] is not applicable to an argument of type ().'; 'Function body has type OR(List.List[\Any\],List.List[\E\]), but declared return type is List.List[\E\].'; 'Function body has type OR(I0,O0), but declared return type is O0.' (`explorations/compile-ladder/gate/distance-sites.tsv:3-6`).
   - The specification's revision box asks a program that both implementations are to run to write such an argument (`Specification/basic/expressions/reductions.tex:51-55`).

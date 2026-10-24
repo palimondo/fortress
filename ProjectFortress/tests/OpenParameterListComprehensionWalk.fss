@@ -1,0 +1,30 @@
+component OpenParameterListComprehensionWalk
+import List.{...}
+export Executable
+
+(* Under walk, a list comprehension written at a self-bounded type parameter that nothing fixed ends in CastError, and so does a list's range subscript at stride 2 on a list of that open element type, while its subscript at stride 1 answers its elements. *)
+
+trait SelfBound[\T\] end
+object Leaf extends SelfBound[\Leaf\] end
+
+emptyOf[\T extends SelfBound[\T\]\](): List[\T\] = <|[\T\] |>
+copyOf[\T extends SelfBound[\T\]\](xs: List[\T\]): List[\T\] = <|[\T\] x | x <- xs |>
+
+castErrorOf(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    CastError => true
+  end
+
+run(): () = do
+    xs = emptyOf().addRight(Leaf).addRight(Leaf).addRight(Leaf)
+    assert(|xs|, 3, "a list built from emptyOf, whose type parameter nothing fixes, holds the three elements added to it")
+    assert(|xs[0#2]|, 2, "the list of the open element type at 0#2, stride 1, answers its first two elements")
+    assert(castErrorOf(fn () => copyOf(xs)), true, "a list comprehension written at the open type parameter ends in CastError, where the open type admits every value checked against it (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(castErrorOf(fn () => xs[0:2:2]), true, "the list of the open element type at 0:2:2, stride 2, a comprehension written at the list's element type, ends in CastError")
+    println("PASS")
+  end
+
+end

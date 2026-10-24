@@ -102,6 +102,7 @@ Row 632 cites `Specification/basic/expressions/typecase.tex`, "Typecase Expressi
       call: 3
 
   So, under walk, `List`'s range subscript at stride 2 gave back an `ArrayList[\Int\]` for a `List[\ZZ32\]`, and an `ArrayList[\FlatString\]` for a `List[\String\]`. That list was unequal to a list of the same elements at the list's own type. A binding of that type refused it (the first probe on the base: `RHS expression type ArrayList[\Int\] is not assignable to LHS type List[\ZZ32\]`), and so did a parameter of that type. Now the subscript gives back a `List[\E\]`. This is the value that moves. At stride 1 the subscript runs through `drop` and `take`, and was right on both trees. The mechanism is F-228's: under walk a method's return type does not direct an unwritten comprehension, so the comprehension was built at the join of its elements' run-time classes (rows 20, 717).
+- A second move, measured by the rung's skeptic (`SKEPTIC.md`): on a list whose element type walk left open (F-143), built from a call whose self-bounded type parameter nothing fixes, which the checker refuses (F-59), the strided subscript answered its elements on the base and now ends in `CastError`, at the comprehension's own cast (`Library/List.fss:179`). A list comprehension written at such an open type parameter ended so on the base already. `ProjectFortress/tests/OpenParameterListComprehensionWalk.fss` asserts today's behaviour (home 3, NEW-R-2 in `record.md`).
 - `upto`, `beyond` and the arm: no value moves. Walk instantiates the written reduction at its argument, `ZZ32`, as it instantiated the unwritten one at the join of its `ZZ32` indices. `tests/NestedReductionFusion.fss` (five pairs, fused and unfused) and `tests/GeneratorDeclarations.fss` run the fused arm, and both pass on the base and after, so `cast[\O0\]` holds where walk reaches the arm.
 - Two team demos call `upto` and `beyond`: `ProjectFortress/demos/BirdCount1q.fss` and `BirdCount1t.fss`. Each was run from `ProjectFortress/demos` on the old code (`old-fortress.sh ... BirdCount1q.fss`) and on the new (`../../bin/fortress BirdCount1q.fss`). Both runs exit 0 with 676 lines each, 0 differing lines (`diff`), and no "fail". The 52 demos on the merged tree are the gather's (fork 20).
 - `ant testSystem` on the final library (2026-10-24T02:42:29Z): 'Tests run: 169', '168', '168' and '174, Failures: 0, Errors: 0', 679 in all, the landed 678 and the guard; 'BUILD SUCCESSFUL', 'Total time: 4 minutes 37 seconds'. `XXXPureListStridedSubscriptWalk` was added after this run, so the gate counts 680.
@@ -177,7 +178,7 @@ The component `WrittenReductionArgumentsWalk`, its function `lengthOfZZ32s`, and
 
 ## 12. Sentences made false
 
-In the specification: none (section 4's grep).
+In the specification: none by section 4's grep. The rung's skeptic adds one sentence that the rung makes false at its general reading: Appendix I's entry "The contexts that give a call an expected type", its rationale, gives as the reason for the alternative not taken at row 560's `fail` calls that "the revival decided that the library's own practice is the standard, and the library does not route round a gap of the type checker" (`Specification/appendices/changes.tex:2470-2473`). The rung writes `BIG MIN[\ZZ32\]` and `<|[\E\] ... |>` where the checker cannot infer them, with row 731's gap open (fork 17). At its narrow reading, of row 560's calls, it stands.
 
 In the record, for the gather:
 - F-53: "the distance to the switch-over is 5 errors and the checker count is 3", with its list of the five. On this tree the distance is 1 and the count is 1, the export error in each.
@@ -193,7 +194,7 @@ In the record, for the gather:
 - The distance: 5 to 1, site by site, nothing come (section 9).
 - The count stage's table: 3 to 1. Its one error is the export error, which the stage now reaches. The clean-check reading is on the tree (section 8).
 - The count stage's seconds: 149 (section 8).
-- A walk value moves: `List`'s strided range subscript gives back a `List[\E\]` where it gave back a list of its elements' run-time class. The guard is red on the base and green after. No other test's verdict changes (section 5).
+- A walk value moves: `List`'s strided range subscript gives back a `List[\E\]` where it gave back a list of its elements' run-time class. The guard is red on the base and green after. No other test's verdict changes (section 5). The skeptic's second move: on a list of an element type walk left open, the strided subscript ends in `CastError` where it answered its elements (section 5, NEW-R-2).
 - Row 731's rewritten line and row 632's close: `record.md`.
 - Sentences made false: section 12.
 - Files edited beyond those named: one message of `ProjectFortress/tests/InferUnfixedFBoundedWalk.fss:29` (section 6), and the new `ProjectFortress/tests/XXXPureListStridedSubscriptWalk.fss` (section 7). No edit of the checker or the desugarer.
@@ -216,6 +217,7 @@ No decision of the curator was needed beyond those the brief cites (P-78, P-48, 
 - The fused arm at `FortressLibrary.fss:1466` (row 632): home 1, repaired. Its test is the distance stage. The gather closes the row.
 - Under walk, `List`'s strided range subscript gives back a list of its elements' run-time class: home 1, repaired, `tests/WrittenReductionArgumentsWalk.fss`. It is the fixed half of NEW-R-1.
 - Under walk, `PureList`'s strided range subscript does the same: home 2, `tests/XXXPureListStridedSubscriptWalk.fss`. It is NEW-R-1's open half.
+- Under walk, a list comprehension written at a type parameter left open ends in `CastError`, and since this rung so does `List`'s strided subscript on a list of that open type (the skeptic's): home 3, `tests/OpenParameterListComprehensionWalk.fss` and NEW-R-2.
 
 ## 16. For FACTS
 
