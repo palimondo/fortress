@@ -1,6 +1,6 @@
 # Rung T of climb batch 22: String's api and the string objects' missing members
 
-problem: the distance stage's export error names `String` among its 15 entries, "(TraitDecl String at FortressLibrary.fsi:2453.1, due to different method size ..., different excludes clauses for traits)" (`explorations/compile-ladder/gate/distance-sites.tsv:2`), its 10 differences sorted by the planner (`explorations/coordinator/CLIMB-BATCH-22.md:203`); under walk four calls of members the api declares stop (`explorations/coordinator/CLIMB-BATCH-22.md:222-226`)
+problem: the distance stage's export error names `String` among its 15 entries, "(TraitDecl String at FortressLibrary.fsi:2453.1, due to different method size ..., different excludes clauses for traits)" (`explorations/compile-ladder/gate/distance-sites.tsv:2`), its 10 differences sorted by the planner (`explorations/coordinator/CLIMB-BATCH-22.md:283`); under walk four calls of members the api declares stop (`explorations/coordinator/CLIMB-BATCH-22.md:302-306`)
 spec: a matching definition "includes definitions for all declarations other than the methods or fields declared abstract", at the same header (`Specification/basic/components/apis.tex:252-256`); a trait is satisfied by one with the same header, the types of its `excludes` clause in any order (`Specification/basic/components/source-code.tex:373-379`); exclusion is symmetric (`Specification/basic/traits.tex:234-244`)
 precedent: the api's `abstract splitWithOffsets()` and `abstract split()`, the team's own lines for members the component's trait never declares (`Library/FortressLibrary.fsi:2498-2499`), and `abstract get` for a member it declares without a body (`Library/FortressLibrary.fsi:2476`, the component's `Library/FortressLibrary.fss:4352`); the bodies after SubString's `balanced` (`Library/String.fss:373-376`), FlatString's `isBalanced` (`Library/FlatString.fss:48`), CatString's `uncheckedSubstring` (`Library/String.fss:148-161`) and SubString's `∈` (`Library/String.fss:431`)
 deviation: the component's `excludes` clause loses `AnyList`, the team's own text since `a874948ac` (`Library/FortressLibrary.fss:4336`)
@@ -21,7 +21,7 @@ The library text is the planner's `rung-T.patch` as it stands, applied by `pytho
 - **String's `excludes` clause is one text on both sides**, `{ Number, Char, AnyMultiplicativeRing }` (`fsi:2454`, `fss:4336`): the component's clause, less `AnyList`. The api cannot name `AnyList` without importing `List`. `AnyList` states the exclusion itself on both of its sides (`Library/List.fsi:55`, `Library/List.fss:86`), and by the specification's symmetry that keeps `String` and `AnyList` exclusive (`Specification/basic/traits.tex:234-244`).
 - **The four members those lines ask of the string objects** (written by the planner, taken as written):
   - `CatString`'s `rangeContains(r, c)` (`Library/String.fss:128-133`) asks its two halves over the parts of `r` that fall in each. It splits `r` as its own `uncheckedSubstring` splits a range (`r ∩ first.bounds`, `(r ≪ first.size) ∩ second.bounds`, `Library/String.fss:152-153`). Each half is guarded as SubString's `∈` guards a piece, `(¬ ….isEmpty) AND: ….rangeContains(…)` (`:431`).
-  - `FlatString`'s `balanced():String = self` (`Library/FlatString.fss:52`) sits after its getters, since the parser refuses a method among them: 'Field/getter/setter declarations should come before method declarations.' (the planner's second run, `explorations/coordinator/CLIMB-BATCH-22.md:209`).
+  - `FlatString`'s `balanced():String = self` (`Library/FlatString.fss:52`) sits after its getters, since the parser refuses a method among them: 'Field/getter/setter declarations should come before method declarations.' (the planner's second run, `explorations/coordinator/CLIMB-BATCH-22.md:289`).
   - `EmptyString`'s `getter isBalanced():Boolean = true` (`Library/String.fss:286`) and `balanced():String = self` (`:333`).
 
   The two `balanced` bodies answer `self`, as SubString's does when it is balanced (`Library/String.fss:373-376`). A flat or empty string is balanced, as FlatString's `isBalanced` says (`Library/FlatString.fss:48`).
@@ -59,7 +59,7 @@ The test stops at its first defect. So the other three defects, and `IN` on the 
     Cannot find definition for method rangeContains given receiver CatString
     Tests run: 4,  Failures: 4,  Errors: 0
 
-In the FlatString program, `flat.isBalanced` passed and `flat.balanced()` stopped. The planner's four programs showed the same four failures on the old code (`explorations/coordinator/CLIMB-BATCH-22.md:222-226`).
+In the FlatString program, `flat.isBalanced` passed and `flat.balanced()` stopped. The planner's four programs showed the same four failures on the old code (`explorations/coordinator/CLIMB-BATCH-22.md:302-306`).
 
 The pass, after the edit, with the three string tests beside it:
 
@@ -77,7 +77,7 @@ The precedent for the same defect in the same trait is climb batch 9's rung S (`
 
 The other sites of the defect in `Library/FortressLibrary.fsi`: none left.
 - The file has 165 lines written `abstract` at the base (88 at `a874948ac`) and 174 after this rung (`grep -c -E '^\s*abstract '`).
-- Of the export error's 15 entries, String's was the only one where an api member lacked `abstract` while its component gives no body (the planner's sort, `explorations/coordinator/CLIMB-BATCH-22.md:189-203`).
+- Of the export error's 15 entries, String's was the only one where an api member lacked `abstract` while its component gives no body (the planner's sort, `explorations/coordinator/CLIMB-BATCH-22.md:267-283`).
 - The per-site list after this rung shows no other.
 
 The ways the language and the library offer for the five members the component's trait never declares:
@@ -125,7 +125,7 @@ Its three errors are rung R's and item 46's, unmoved:
 - Every `#kind` row is the landed one ('typecheck 4', 'export 1', 'abstract-method 0'), and '#crash none'.
 - Read by row against the per-site list (row 577), the five sites are the landed five at the same locations: `FortressLibrary.fss:12` (export), `:4395`, `:4401`, `:1466` and `List.fss:146`. `diff` of the kind, unit, stage and location columns printed nothing.
 - The messages differ in one place only: the export message's `String` entry is gone, and the other 14 entries are word for word the same.
-- No site came. In particular, none of the four abstract-method errors that the api lines bring without the bodies came (`FlatString.fss:34`, `String.fss:275` twice, `String.fss:75`; `explorations/coordinator/CLIMB-BATCH-22.md:208`).
+- No site came. In particular, none of the four abstract-method errors that the api lines bring without the bodies came (`FlatString.fss:34`, `String.fss:275` twice, `String.fss:75`; `explorations/coordinator/CLIMB-BATCH-22.md:288`).
 
 ## 6. The suites and the ladder subset
 
@@ -179,7 +179,7 @@ The 52 team demos are not run here: the brief gives them to the gather, on the m
 
 1. **`rung-T.patch` taken as it is.**
    - Not taken: writing CatString's `rangeContains` another way (section 3, (b) and (c)); placing FlatString's `balanced` elsewhere (among the getters the parser refuses it, the planner's second run).
-   - Evidence: the patch's text follows the library at every line (section 1). The planner measured it at distance 0 with the other rungs (`explorations/coordinator/CLIMB-BATCH-22.md:210-211`). On this tree alone it gives the predicted drop from 15 to 14 entries (section 5).
+   - Evidence: the patch's text follows the library at every line (section 1). The planner measured it at distance 0 with the other rungs (`explorations/coordinator/CLIMB-BATCH-22.md:290-291`). On this tree alone it gives the predicted drop from 15 to 14 entries (section 5).
 2. **The five never-declared members by `abstract` in the api alone**, with fork 13 and question 1 at their defaults.
    - Not taken: default bodies in the component's trait; bodyless declarations in the component (question 1's option 2).
    - Evidence: F-282; `explorations/coordinator/CLIMB-BATCH-22.md:61-81`.
