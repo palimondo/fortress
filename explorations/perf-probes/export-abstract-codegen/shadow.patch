@@ -1,0 +1,126 @@
+diff --git a/ProjectFortress/compiler_tests/ExportAbstractMemberCall.fss b/ProjectFortress/compiler_tests/ExportAbstractMemberCall.fss
+new file mode 100644
+index 000000000..006492442
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/ExportAbstractMemberCall.fss
+@@ -0,0 +1,12 @@
++(* A client calls, through the api's trait type, a method that the api declares abstract and that the exporting component's trait leaves out; the object's definition answers. *)
++component ExportAbstractMemberCall
++import ExportAbstractMemberCallApi.{...}
++export Executable
++
++run(): () = do
++    println("REACHED")
++    assert(mk().f(), 3, "mk().f() through the api's trait type")
++    println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/ExportAbstractMemberCall.test b/ProjectFortress/compiler_tests/ExportAbstractMemberCall.test
+new file mode 100644
+index 000000000..4218c307a
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/ExportAbstractMemberCall.test
+@@ -0,0 +1,4 @@
++tests=ExportAbstractMemberCall
++link
++run
++run_out_contains=PASS
+diff --git a/ProjectFortress/compiler_tests/ExportAbstractMemberCallApi.fsi b/ProjectFortress/compiler_tests/ExportAbstractMemberCallApi.fsi
+new file mode 100644
+index 000000000..cff0503f3
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/ExportAbstractMemberCallApi.fsi
+@@ -0,0 +1,10 @@
++(* The api of ExportAbstractMemberCallApi: a trait with an abstract method f, and a function that makes a value of it. *)
++api ExportAbstractMemberCallApi
++
++trait T
++    abstract f(): ZZ32
++end
++
++mk(): T
++
++end
+diff --git a/ProjectFortress/compiler_tests/ExportAbstractMemberCallApi.fss b/ProjectFortress/compiler_tests/ExportAbstractMemberCallApi.fss
+new file mode 100644
+index 000000000..e3d0b059e
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/ExportAbstractMemberCallApi.fss
+@@ -0,0 +1,14 @@
++(* A component whose trait leaves out the method f that its api declares abstract (apis.tex, section "Component and API Identity"); the object below the trait defines it. *)
++component ExportAbstractMemberCallApi
++export ExportAbstractMemberCallApi
++
++trait T
++end
++
++object O extends T
++    f(): ZZ32 = 3
++end
++
++mk(): T = O
++
++end
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+index 17975e8e4..6739f182d 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+@@ -6797,11 +6797,40 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+      * @param decls
+      */
+     private void dumpTraitMethodSigs(List<Decl> decls) {
++        Set<String> emitted = new HashSet<String>();
++        dumpTraitMethodSigs(decls, emitted, false);
++        dumpExportedTraitMethodSigs(emitted);
++    }
++
++    /**
++     * An api's trait may declare a method abstract that the exporting
++     * component's trait leaves out (apis.tex, "Component and API Identity");
++     * a client compiled against the api names the method on this interface,
++     * so the interface declares it too, abstract, and the objects below the
++     * trait give its body.
++     */
++    private void dumpExportedTraitMethodSigs(Set<String> emitted) {
++        String traitText = ((Id) currentTraitObjectDecl.getHeader().getName()).getText();
++        for (APIName apiname : component.getExports()) {
++            ApiIndex ai = env.api(apiname);
++            if (ai == null) continue;
++            for (Map.Entry<Id, TypeConsIndex> e : ai.typeConses().entrySet()) {
++                if (!e.getKey().getText().equals(traitText)) continue;
++                if (!(e.getValue().ast() instanceof TraitDecl)) continue;
++                TraitDecl apiTrait = (TraitDecl) e.getValue().ast();
++                dumpTraitMethodSigs(apiTrait.getHeader().getDecls(), emitted, true);
++            }
++        }
++    }
++
++    private void dumpTraitMethodSigs(List<Decl> decls, Set<String> emitted, boolean fromApi) {
+         debug("dumpSigs", decls);
+         for (Decl d : decls) {
+             debug("dumpSigs decl =", d);
+-            if (!(d instanceof FnDecl))
++            if (!(d instanceof FnDecl)) {
++                if (fromApi) continue;
+                 throw sayWhat(d);
++            }
+ 
+             FnDecl f = (FnDecl) d;
+             FnHeader h = f.getHeader();
+@@ -6816,6 +6845,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+                 List<StaticParam> tsp = currentTraitObjectDecl.getHeader().getStaticParams();
+ 
+                 String method_name = NamingCzar.genericMethodName(new FnNameInfo(f, tsp, thisApi()), selfIndex, thisApi());
++                if (!emitted.add(method_name + genericMethodClosureFinderSig) && fromApi) continue;
+                 CodeGenMethodVisitor mv = cw.visitCGMethod(ACC_ABSTRACT + ACC_PUBLIC, method_name, genericMethodClosureFinderSig, null, null);
+                 mv.visitMaxs(Naming.ignoredMaxsParameter, Naming.ignoredMaxsParameter);
+                 mv.visitEnd();
+@@ -6832,6 +6862,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+                 // it seems wrong to publicly mangle.
+                 String mname = functionalMethod ? Naming.fmDottedName(
+                         singleName(name), selfIndex) : singleName(name); 
++                if (!emitted.add(mname + desc) && fromApi) continue;
+                 abstractMethod(desc, mname);
+                 // provide both overloaded and single names in abstract decl.
+                 mname = NamingCzar.mangleAwayFromOverload(mname);
