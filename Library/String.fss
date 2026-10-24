@@ -125,6 +125,13 @@ export String
     get(i:ZZ32): Char =
         if i ∈ first.indices then first.get(i) else second.get(i - |first|) end
 
+    rangeContains(r: Range⟦ZZ32⟧, c: Char):Boolean = do
+        leftBounds' = r ∩ first.bounds
+        rightBounds' = (r ≪ first.size) ∩ second.bounds
+        ((¬ leftBounds'.isEmpty) AND: first.rangeContains(leftBounds', c)) OR:
+            ((¬ rightBounds'.isEmpty) AND: second.rangeContains(rightBounds', c))
+      end
+
     verify():() = do
         assert(self.depth, (first.depth MAX second.depth) + 1, self)
         assert(self.size, |first| + |second|, self)
@@ -276,6 +283,7 @@ export String
     getter size():ZZ32 = 0
     getter bounds():CompactFullRange[\ZZ32\] = 0#0
     getter depth():ZZ32 = 0
+    getter isBalanced():Boolean = true
     getter isEmpty():Boolean = true
     getter asFlatString():String = ""
     getter asExprString():String = "\"\""
@@ -322,6 +330,7 @@ export String
 
     splitWithOffsets():ZeroIndexed⟦(ZZ32, String)⟧ = Nothing⟦(ZZ32, String)⟧
     split():Generator⟦String⟧ = Nothing⟦String⟧
+    balanced():String = self
 
   end EmptyString
 

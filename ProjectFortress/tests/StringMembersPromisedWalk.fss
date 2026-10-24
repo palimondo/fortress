@@ -1,0 +1,52 @@
+(* The members String's api declares, rangeContains, balanced and isBalanced, answered by concatenated, flat and empty strings under walk, and IN and rangeContains on a substring of a concatenation of concatenations. *)
+component StringMembersPromisedWalk
+import String.{...}
+import FlatString.{...}
+export Executable
+
+run() = do
+    lowers = "abcdefghijklmnopqrst"
+    uppers = "ABCDEFGHIJKLMNOPQRST"
+    cat = lowers || uppers
+    assert(cat.ilkName, "CatString", "two twenty-character strings concatenate into a CatString, being longer than maxLeafSize")
+    assert(cat.rangeContains(2#5, 'e'), true, "e lies in 2#5 of the concatenated string, inside its left half")
+    assert(cat.rangeContains(25#5, 'H'), true, "H lies in 25#5 of the concatenated string, inside its right half")
+    assert(cat.rangeContains(17#6, 'r'), true, "r lies in 17#6 of the concatenated string, on the left of its two halves' join")
+    assert(cat.rangeContains(17#6, 'B'), true, "B lies in 17#6 of the concatenated string, on the right of its two halves' join")
+    assert(cat.rangeContains(17#6, 'q'), false, "q, at 16, lies outside 17#6")
+    assert(cat.rangeContains(17#6, 'D'), false, "D, at 23, lies outside 17#6")
+    assert(cat.rangeContains(0#10, 'Z'), false, "Z is nowhere in the concatenated string")
+
+    digitsUp = "uvwxyzUVWXYZ01234567"
+    digitsDown = "ZYXWVUzyxwvu76543210"
+    cat2 = digitsUp || digitsDown
+    nested = cat || cat2
+    assert((cat2.ilkName, nested.ilkName), ("CatString", "CatString"), "a concatenation of two concatenations is a CatString of CatStrings")
+    assert(nested.depth, 2, "a concatenation of two concatenations has depth 2")
+    assert(nested.rangeContains(30#20, 'U'), true, "U, at 46, lies in 30#20 of the concatenation of concatenations, across its two halves")
+    assert(nested.rangeContains(30#20, 'w'), true, "w, at 42, lies in 30#20 of the concatenation of concatenations")
+    assert(nested.rangeContains(30#20, 'Y'), false, "Y, at 50 and 61, lies outside 30#20")
+    sub = nested[2#70]
+    assert(sub.ilkName, "SubString", "seventy characters across the halves of a concatenation of concatenations are a SubString")
+    assert('Z' IN sub, true, "Z, at 51 and 60, is in the substring 2#70 of the concatenation of concatenations")
+    assert('a' IN sub, false, "a, at 0 only, is not in the substring 2#70")
+    assert('9' IN sub, false, "9 is nowhere in the concatenation of concatenations")
+    assert(sub.rangeContains(36#6, 'T'), true, "T, at 39 of the concatenation of concatenations, lies at 37 of its substring 2#70, in 36#6 across the join of its two halves")
+    assert(sub.rangeContains(36#6, 'u'), true, "u, at 40 of the concatenation of concatenations, lies at 38 of its substring 2#70, in 36#6")
+    assert(sub.rangeContains(36#6, 'y'), false, "y, at 44 and 67 of the concatenation of concatenations, lies at 42 and 65 of its substring 2#70, outside 36#6")
+
+    flat = "abc"
+    assert(flat.ilkName, "FlatString", "abc is a FlatString")
+    assert(flat.isBalanced, true, "a flat string is balanced")
+    assert(flat.balanced(), "abc", "a flat string balanced is itself, abc")
+    assert(flat.balanced().ilkName, "FlatString", "a flat string balanced stays a FlatString")
+
+    emptyPiece = cat.uncheckedSubstring(3#0)
+    assert(emptyPiece.ilkName, "EmptyString", "a concatenated string's unchecked substring over an empty range is the EmptyString")
+    assert(emptyPiece.isBalanced, true, "the empty string is balanced")
+    assert(emptyPiece.balanced(), "", "the empty string balanced is empty")
+    assert(emptyPiece.balanced().ilkName, "EmptyString", "the empty string balanced is the EmptyString itself")
+    println("PASS")
+end
+
+end

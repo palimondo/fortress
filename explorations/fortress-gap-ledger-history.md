@@ -6155,3 +6155,51 @@ rewritten
 rewritten
 
 | 731 | **the compiled checker fixes a generic big operator's static parameter in an unwritten clause form by its bound or the expected type only, never from the clauses**: one whose bound names the parameter, as `SUM`'s, `PROD`'s and `BIG MIN`'s do, has no instance, and the reduction is refused | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/advanced/parallelism-locality/defining-generators.tex`, "Simple Desugaring of Expressions with Generators" | `ProjectFortress/compiler_tests/InferBigOperatorUnwritten.fss` | ours (sum-replacement judgement) | siblings: 424, 716. Row 425's text corrected: its expected-type half is fixed since climb batch 14's rung A (`0856f3e6a`), the expected type reaching a plain-bounded big operator where its type at the bound does not fit (`InferBigOperatorExpectedType`: at the bound `Number`, `s: ZZ32 = BIG LAST[j <- lo#n] (3 j)` runs). An F-bounded one reads 'not applicable to an argument of type ()', the inner call having no instance (`explorations/compile-ladder/rung-argument-context/REPORT.md` section 5); 3 sites of the distance (`explorations/coordinator/CLIMB-BATCH-15.md` section 4). Workaround: write the static argument. |
+
+### Row 387
+
+rewritten
+
+| 387 | under `walk`, a body whose return type is declared is not converted by coercion: `r(): Wide = NarrowOf(3)` returns the `NarrowOf`, and `r().big` ends the run with "Cannot find definition for method", where the compiled run converts and answers `3` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Principles of Coercion" | `ProjectFortress/tests/XXXCoercionReturnRungC.fss` | climb batch 4 rung C | The team switched the interpreter's return check off: `if (true \|\| t.typeMatch(x))` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java:42-54`, at `:45`), so no conversion runs at a return. Walk converts at a variable, field, assignment, element and argument, not here: `retR64(x: RR32): RR64 = x` answers `1.5 : RR32`, and `ret(): ZZ64 = 2147483647; ret() + 1` is `-2147483648`, where the compiled run gives an `RR64` and `2147483648`. `Library/String.fss:508`'s `avFlat(): RR32` over an `RR64` body is a declaration the specification refuses, row 531, not this. full text: history, row 387 |
+
+### Row 674
+
+rewritten
+
+| 674 | the api's advice for an `Indexed`'s range subscript, `(bounds())[r]` "to narrow and bounds check the range r", reads `r` as positions from 0: with bounds `5#3`, `(5#3)[5#2]` stops walk ("[5,6] right outside bounds [0,1,2]") and `(5#3)[0#2]` is `[5,6]`, where `narrowToRange` takes indices | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/RangeSubscriptPositions.fss` | climb batch 13 rung G's skeptic | The advice is `Library/FortressLibrary.fsi:1292-1301` (`.fss:1876-1885`). The library's own range subscripts narrow with `narrowToRange` (`Library/FortressLibrary.fss:1405`, `:2257`, `:2537`, `:2948`, `:4211`); the advice's two uses subscript a string's bounds, which start at 0 (`Library/FlatString.fss:115`, `Library/String.fss:301`). Rung G's `SimpleIndexValuePairs` followed the advice, so the default pairs of a value indexed from 5 refused a range of its own indices; the skeptic's fix narrows with `narrowToRange` (`compile-ladder/rung-generator-size/SKEPTIC.md`). A program's `Indexed` that follows the advice with bounds above 0 meets it. The test asserts today's behaviour. |
+
+### Row 611
+
+rewritten
+
+| 611 | walk's Meet Rule check skips symbolic operators: an object that inherits two functional `\|\|` of overlapping parameter types with no declaration on their meet loads and runs under walk, where the specification refuses it | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/advanced/overloading.tex`, "The Meet Rule for Functional Methods" | `ProjectFortress/tests/XXXFunctionalMethodMeetOperator.fss` | climb batch 10, rung W; the test its skeptic | siblings: 584, 585. Walk's check reads `NodeUtil.validOp` (`checkedName`, `OverloadedFunction.java:1990-1994` at ed4782762), so it skips every symbolic operator; the compiled checker reads every operator and refuses the pair, `XXXFunctionalMethodMeetOperatorChecker`. The library's sites are repaired: `EmptyString`'s meet (`Library/String.fss:318`), the ranges' since `b872d65a1`. The test's traits exclude `String`, since walk refuses on a cold cache (row 342) a program's functional `\|\|` that can meet `String`'s `opr \|\|(a:String, b:Any)`. Compiled, the call stops first: 'Ambiguous coercion in call to operator \|\|'. full text: history, row 611 |
+
+### Row 316
+
+rewritten
+
+| 316 | the compiled path's `String` declares `\|\|`, `\|\|\|`, `//` and `juxtaposition` with `self` on the left only, so `1 \|\| "a"` is refused on the compiled path, where walk answers `1a`, and `1 "a"` meets the same one-sided form | NEGATIVE-VERIFIED | implementation gap (prelude) | `basic/operators/juxtameaning.tex`, "Juxtaposition"; `library/default-libraries.tex`, "FortressLibrary" (subsection Ranges, trait `String`, typeset from `Library/FortressLibrary.fsi`) | none | ladder rung 5 | siblings: 76. `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37-40` declare each as `opr OP(self, b:Object)`: `(String, Object)->String is not applicable to an argument of type (IntLiteral, String)`. Walk's library has top-level `opr \|\|(a:Any, b:String)` and its kin, as for `juxtaposition`. The compiled `//` puts `makeCharacter(10)` between its operands (`CompilerBuiltin.fss:407`), where walk's `newline` is `lineSeparator` (`Library/String.fss:569`). The prelude goes at the switch-over. Probe `SkCompiledLeft.fss`, never committed: `explorations/compile-ladder/rung-library-meets/SKEPTIC.md` section 5. full text: history, row 316 |
+
+### Row 823
+
+rewritten
+
+| 823 | the code generator refuses a function declared with the modifier `test`, 'Don't know how to compile this kind of FnDecl', since its modifier guard does not hold `test`: the one library's `test stringifyChars()` (`Library/String.fss:328`) is refused | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/tests.tex`, "Tests and Properties" | `explorations/perf-probes/codegen-distance/REPORT.md` | the code generator's distance probe | siblings: 650, 120. `fnDeclCompilableModifiers` holds the getter, setter, `io`, `private` and `abstract` modifiers only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2897-2899` at 32242b80d), and `forFnDecl` refuses a declaration with any other (`:2972`, `:2976`): row 650's guard, whose claim and test name `override` only. Measured on the library only, by the probe's code generation per declaration with the checker's failures caught (its section 3, note (b)); not reproduced apart from it. Walk collects `test` functions (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/CollectTests.java:51`), and they run under `fortress test` (row 120). No gated test. |
+
+### Row 138
+
+rewritten
+
+| 138 | `s.indexOf(c)` on a `String` returns a `Maybe[\ZZ32\]`, and the surrounding idioms (`.holds`, `.get`, `getDefault`, `if i <- …`, `IN`, `BIG MIN` over `.indices`) all work | POSITIVE-VERIFIED | — | silent | none | run-b2 | `indexOf('c') = Just(2)`, `.holds = true`, `.get = 2`, `if i <- uchars.indexOf(c)` binds `2`; the absent case prints `Nothing`, `.holds = false`, `getDefault(-1) = -1`. `indexOf(e:E): Maybe[\I\]` is declared on `Indexed[\E,I\]` (`Library/FortressLibrary.fsi:1314-1316`), and `Library/FlatString.fss:101` overrides it for `String`. Note the interaction with row 114: `SEQV` on the result is useless. Probe `explorations/run-b2/probes/g4i_indexof.fss`, in the parent of `22ea0cd90`. |
+
+### Row 141
+
+rewritten
+
+| 141 | `String.split()` is not a tokenizer: on a flat string it yields **no** pieces; it is the rope's structural subdivision | NEGATIVE-VERIFIED | deliberate (library) | silent | none | run-c | The api documents it as "a subdivision of self into substrings", which may be the empty generator (`Library/FortressLibrary.fsi:2450-2461`), and `Library/FlatString.fss:150` returns `Nothing`. `(1) pieces of "a b  c".split(): 0`, with `(2) \|s\| = 6  s[2] = 'b'` on the same string to show it is not empty. Workaround: scan characters (`parseRow` in `explorations/run-c/src/MicroGptFlat.fss`, `numbersOf` in its check). Probe `explorations/run-c/probes/g141_split.fss`, in the parent of `4ebf80aec`. |
+
+### Row 607
+
+rewritten
+
+| 607 | **`FlatString.rangeContains` finds only the first occurrence of the character**: under walk `"abca".rangeContains(3#1, 'a')` answers `false`, and so does `'a' IN` a substring whose `a` lies past the string's first | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/StringPieces.fss` | climb batch 9 rung S's skeptic | `self.javaIndexOf(c) ∈ self.bounds[r]` (`Library/FlatString.fss:115`) misses a later occurrence inside `r`: `'a' IN sub` is `false` for the substring `aabcd` of `("a"^20) \|\| "bcdefghijklmnopqrstu"` at `18#5`, through SubString's `∈` (`Library/String.fss:416-426`). Generator's comment gives the answer, "x IN self holds if x is generated by this generator" (`Library/FortressLibrary.fsi:826-827`), library text. `StringPieces.fss` pins both `false` answers. Repair: `BIG ∨ [i ← self.bounds[r]] (self.get(i) = c)`; a walk value change, so the curator's (`explorations/compile-ladder/rung-string-slips/JUDGE.md` section 2). full text: history, row 607 |
