@@ -7,8 +7,9 @@
 ## Running
 
 - **The phase 3 exit review**, at his yes of about 13:55 UTC on 10-24 to steps 1 and 2 of my proposal (between the phases, before batch 23):
-  - step 1, **the audit of the zero**, an Opus agent launched at about 13:56 UTC: what the two stages see and don't, every library change made to clear a checker error sorted into four kinds (the team's device, a restoration, a reading of ours, a giveaway), and the debt into phase 4. Its worktree is seeded from `/home/user/fortress-base23`. It returns its report as text; I commit it at `explorations/reviews/phase3-exit/zero-audit.md`.
-  - step 2, **the decisions evidence map**, an Opus agent launched at about 13:56 UTC: every POSITIONS entry on the language, the library, the specification and the implementation against the designers' intent, updating the reviews of 09-29 and 10-23, with the defaults landed since 10-23 and the review queue's consequential items. Returned as text; I commit it at `explorations/reviews/phase3-exit/decisions-evidence.md`. Then **a Fable judgement** on it (his yes covers it), committed beside it.
+  - step 1, the audit of the zero: done, `6c4a07d67` (`reviews/phase3-exit/zero-audit.md`).
+  - step 2, the decisions evidence map: done, `ef103a417` (`reviews/phase3-exit/decisions-evidence.md`).
+  - **The Fable judgement** on both, launched at about 14:53 UTC; returned as text, I commit it at `reviews/phase3-exit/judgement.md`. Then an Opus writer turns its "For Pavol" section into the page or asks he reads (the writer is always Opus).
   - Then step 4, **PLAN's consolidation**, and the next batch on his go.
 - Agents do not survive a process stop. If one is cut, launch it again from its brief with its partial transcript named.
 
