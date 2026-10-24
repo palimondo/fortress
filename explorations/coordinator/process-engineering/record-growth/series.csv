@@ -2191,3 +2191,845 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 2189,2026-10-13 20:06:33Z,4dca7e10d,701,588280,92742,37561,199766,590074,92782,37591,199878,,"BOOT.md: step 12 landed, 130.3K; the cold read of the two skills running"
 2190,2026-10-13 20:12:14Z,8ca0d7e61,701,588280,92742,37561,199766,590074,92782,37591,199878,,"Skills: the second cold read's fixes, and P-135, F-210 and F-219 moved into their homes"
 2191,2026-10-13 20:13:13Z,b67abe3d2,701,588280,90179,33903,199766,590074,90218,33933,199878,,"FACTS and POSITIONS: P-135, F-210 and F-219 removed, their rules now in the skills"
+2192,2026-10-13 20:14:47Z,c4bc2eee3,701,588280,90179,33903,199766,590074,90218,33933,199878,,"BOOT.md: the record at 124.1K, the chart and scenario 6's re-run running"
+2193,2026-10-13 20:23:20Z,4d478cc6a,701,588280,90179,33903,200124,590074,90218,33933,200236,,"Record test: scenario 6 on the final record, 3 of 3 with F-201's rule read from the skill"
+2194,2026-10-13 20:23:47Z,e78ed16b0,701,588280,90179,33903,200124,590074,90218,33933,200236,,check-verbatim.py retired: record.py writes each earlier line to the history and its check replaces it
+2195,2026-10-13 20:24:07Z,8ded51772,701,588280,90179,33903,200124,590074,90218,33933,200236,,"PLAN.md: the last citation of a FACTS entry by an old title, by its number"
+2196,2026-10-13 20:31:31Z,010775aaf,701,588280,90179,33903,200124,590074,90218,33933,200236,,"Record growth: measured to b67abe3d2, the consolidation of FACTS and POSITIONS of 10-13 marked"
+2197,2026-10-13 20:33:29Z,eb06f353e,701,588280,90179,33903,200124,590074,90218,33933,200236,,"BOOT.md: the chart and the test landed, the morning page running"
+2198,2026-10-13 20:45:04Z,42753f46f,701,588280,90179,33903,200124,590074,90218,33933,200236,,"BOOT.md: the overnight order done, the morning page published"
+2199,2026-10-13 21:46:32Z,953d26782,701,588280,90179,33903,200124,590074,90218,33933,200236,,"BOOT.md: the remaining check-ins deleted, nothing running"
+2200,2026-10-13 22:55:42Z,f118f5433,701,588280,90179,33903,200124,590074,90218,33933,200236,,"BOOT.md: the VM restart of 22:53 UTC, the next process stop"
+2201,2026-10-13 22:57:24Z,ece8b3abb,701,588280,90179,33903,200124,590074,90218,33933,200236,,BOOT.md: the boot's context measured after the consolidation
+2202,2026-10-13 23:01:43Z,4013d4025,701,588280,90179,33903,200124,590074,90218,33933,200236,,"PLAN and HELD: batch 14 next; the history rebuild and the hook reset closed, the morning page read"
+2203,2026-10-13 23:03:21Z,8b3c3b40f,701,588280,90179,33903,200124,590074,90218,33933,200236,,"BOOT.md: the morning page read, batch 14's planner and the citations worker running"
+2204,2026-10-13 23:09:19Z,5794791ce,701,588280,90179,33903,200124,590074,90218,33933,200236,,Records: repoint the citations of removed FACTS and POSITIONS entries
+2205,2026-10-13 23:09:45Z,eb229607c,701,588280,90179,33903,200124,590074,90218,33933,200236,,BOOT.md: the citations repointed
+2206,2026-10-13 23:14:14Z,e019c094d,701,588280,90179,33903,200124,590074,90218,33933,200236,,"HELD.md: the ask form's yes and no, held"
+2207,2026-10-13 23:28:32Z,77b59d7a2,701,588280,90179,33903,200124,590074,90218,33933,200236,,"Climb batch 14's record, drafted: S the self type (QS), A the argument retry (P-51), L the library's loose ends, P the P"
+2208,2026-10-13 23:29:37Z,e86bdf0ce,701,588280,90179,33903,200124,590074,90218,33933,200236,,"BOOT.md: batch 14's record drafted, its review running"
+2209,2026-10-13 23:29:52Z,f4963c92a,701,588280,90179,33903,200124,590074,90218,33933,200236,,BOOT.md: his message's time read from the transcript
+2210,2026-10-13 23:38:38Z,fe7051d7a,701,588280,90179,34627,200124,590074,90218,34657,200236,,"POSITIONS: P-146, the checker's self type in a self-typed trait's bodies (way 6), his answer to batch 14's QS"
+2211,2026-10-13 23:44:17Z,b4fa3cd47,701,588280,90179,35316,200124,590074,90218,35346,200236,,"POSITIONS: P-147, coverage defines an inherited abstract method (item 51), his answer"
+2212,2026-10-13 23:58:01Z,b4c1d0d51,701,588280,90179,35316,200124,590074,90218,35346,200236,,"Climb batch 14's record reviewed in place: walk refuses body(i: I) on list comprehensions by reading, rule (b) refuses f"
+2213,2026-10-13 23:59:24Z,196bcc860,701,588280,90179,35316,200124,590074,90218,35346,200236,,"BOOT.md: batch 14 reviewed, his two answers being folded in"
+2214,2026-10-14 00:08:13Z,cd3c520b8,701,588280,90179,35316,200124,590074,90218,35346,200236,,"HELD.md: the type-system asks as coin flips, held"
+2215,2026-10-14 00:12:29Z,7f30f6a50,701,588280,90179,35316,200124,590074,90218,35346,200236,,"HELD.md: which forks reach him, his yes, held for the coordinator skill"
+2216,2026-10-14 00:14:15Z,bf0ca8393,701,588280,90179,35316,200124,590074,90218,35346,200236,,"Climb batch 14's record amended: QS and item 51 answered (P-146, P-147), rung W added for coverage, the coordinator's de"
+2217,2026-10-14 00:14:58Z,673bc44b3,701,588280,90179,35316,200124,590074,90218,35346,200236,,"BOOT.md: batch 14's fold landed, its check running; how forks reach him"
+2218,2026-10-14 00:19:29Z,72e2d591a,701,588280,90179,35316,200124,590074,90218,35346,200236,,"HELD.md: the Fable review of batch records stands, held for the skill"
+2219,2026-10-14 00:23:00Z,430bd9e8e,701,588280,90179,35316,200124,590074,90218,35346,200236,,"Climb batch 14's amended record checked: the widened self parameter a trait's only, measured by S's tests, stated in the"
+2220,2026-10-14 00:23:38Z,dd81a9cba,701,588280,90179,35316,200124,590074,90218,35346,200236,,"BOOT.md: his go for batch 14, its Fable review running"
+2221,2026-10-14 00:48:26Z,abee90866,701,588280,90179,35316,200124,590074,90218,35346,200236,,Climb batch 14's record reviewed again before the launch: S's widened self parameter needs the disambiguator an environm
+2222,2026-10-14 00:49:34Z,5bf8a7c84,701,588280,90179,35316,200124,590074,90218,35346,200236,,"Batch workflow: climb batch 14's manifest spliced (S, A, L, P, W)"
+2223,2026-10-14 00:53:27Z,2ac499dea,701,588280,90179,35316,200124,590074,90218,35346,200236,,"BOOT.md: climb batch 14 launched, its check-ins armed"
+2224,2026-10-14 04:40:29Z,604d0e23c,703,590706,91237,35316,200124,592500,91276,35346,200236,,"IntMap's node map SYMDIFF a singleton keeps its other entries, Array2's offset takes Array1's shape, and each integer ty"
+2225,2026-10-14 04:43:22Z,0856f3e6a,704,591887,93510,35316,200124,593681,93549,35346,200236,,The compiled checker retries a call written as another call's argument against each declaration's parameter type
+2226,2026-10-14 04:45:36Z,3ba2d005f,706,594464,95774,35316,200124,596258,95813,35346,200236,,"Walk computes a power in a size, the No Duplicates Rule is restated on the non-strict relation, and the POPL 2019 exampl"
+2227,2026-10-14 04:47:09Z,f9fe5c874,708,596620,97416,35316,200124,598414,97455,35346,200236,,"Walk counts an inherited abstract method as defined only where the object's narrower bodies cover it, Random's and Quick"
+2228,2026-10-14 04:48:44Z,1c32ccffd,709,597625,99241,35316,200124,599419,99280,35346,200236,,"The compiled checker reads a self-typed trait's self as the implementing type from its F-bound, keeps the signatures pla"
+2229,2026-10-14 04:49:46Z,b2b68d7fc,709,595397,99241,35316,200124,597207,99280,35346,200236,,Close the rows climb batch 14 fixed
+2230,2026-10-14 04:55:03Z,5e4a5782d,709,595397,99241,35316,200124,597207,99280,35346,200236,,"Climb batch 14's gather record: the five rungs landed in changes.tex's order, their rows, points, curator items and revi"
+2231,2026-10-14 05:12:30Z,cf40fd6a1,709,595573,99241,35316,200124,597383,99280,35346,200236,,Fold the review's corrections
+2232,2026-10-14 05:34:00Z,7c2c7cd4b,709,595573,99241,35316,200124,597383,99280,35346,200236,batch 14,Record the gate's tables and the microGPT walk check
+2233,2026-10-14 05:36:53Z,912c26f5f,709,595573,99241,35316,200124,597383,99280,35346,200236,,"HELD.md: the Fable line's provenance, held for the coordinator skill"
+2234,2026-10-14 05:37:18Z,3526b510d,709,595573,99351,35316,200124,597383,99390,35346,200236,,"FACTS: F-53 and F-54 after climb batch 14, the self-typed bodies cleared and the count's path past body(i)"
+2235,2026-10-14 05:37:56Z,0329be3d9,709,595573,99351,35316,200124,597383,99390,35346,200236,,"BOOT.md: climb batch 14 landed, its review and the skill writer running"
+2236,2026-10-14 05:40:49Z,01ff2e099,709,595573,99351,35316,200124,597383,99390,35346,200236,,"fortress-repo: the revival changes of climb batch 14, walk's abstract-method check by coverage, walk's power in a size"
+2237,2026-10-14 05:58:24Z,011161cad,709,595573,99351,35316,200124,597383,99390,35346,200236,,"Climb batch 14's post-batch review: conformance, the distance site by site, the cost against batches 11 to 13, the pract"
+2238,2026-10-14 05:59:59Z,d495b82cb,709,595573,99351,35316,200124,597383,99390,35346,200236,,"BOOT.md: batch 14's review in; the record pass, the routing and the writer's follow-up running"
+2239,2026-10-14 06:00:06Z,2b8830787,709,595573,99351,35316,200124,597383,99390,35346,200236,,fortress-repo: a self-type parameter's trait may have a comprises clause that lists only ...
+2240,2026-10-14 06:09:29Z,15a6d4365,709,595573,93353,35316,200124,597383,93392,35346,200236,,"FACTS: the record pass after climb batch 14, the twelve entries cut to the form and F-224 merged into F-145"
+2241,2026-10-14 06:10:08Z,c5210e202,709,595573,93353,35287,200124,597383,93392,35317,200236,,"POSITIONS: P-51, P-146 and P-147 built by climb batch 14"
+2242,2026-10-14 06:10:55Z,bc9208255,709,595573,93353,35287,200124,597383,93392,35317,200236,,"PLAN: climb batch 14 routed: its line, batch 15's candidates, the unlined rows, his list, the stale lines"
+2243,2026-10-14 06:12:23Z,87134b3a2,709,595573,93353,35287,200124,597383,93392,35317,200236,,"Batch script and manual: the count stage takes about 5 minutes, started in the background"
+2244,2026-10-14 06:14:29Z,9d97fc506,709,595573,93353,35287,200124,597383,93392,35317,200236,,batch-measures.py: count a build run detached through nohup bash -c '( ant compileAll ) ...'
+2245,2026-10-14 06:15:30Z,4c3b2e42a,709,595573,93353,35287,201820,597383,93392,35317,201932,,"INDEX and the review queue: climb batch 14's three notes, its two answered items built"
+2246,2026-10-14 06:15:46Z,63d8bbd03,709,595573,93353,35287,201820,597383,93392,35317,201932,,"BOOT.md: the landing's follow-ups done, the final report page running"
+2247,2026-10-14 06:15:57Z,148ec483a,709,595573,93353,35287,201820,597383,93392,35317,201932,,BOOT.md: the time read from the clock
+2248,2026-10-14 06:29:58Z,b31648134,709,595573,93353,35287,201820,597383,93392,35317,201932,,"BOOT.md: batch 14's final report published, nothing running"
+2249,2026-10-14 06:30:10Z,aa17b5bc4,709,595573,93353,35287,201820,597383,93392,35317,201932,,"BOOT.md: the times read from the clock, the page not watched"
+2250,2026-10-14 07:12:49Z,873d65f0c,709,595573,93353,35287,201820,597383,93392,35317,201932,,"PLAN and BOOT: numerator accepted, batch 15's two probes running"
+2251,2026-10-14 07:13:25Z,11bea64a0,709,595573,93353,35287,201820,597383,93392,35317,201932,,"PLAN: the coordinator's calls on five of batch 14's items, by his rule of 00:12 UTC"
+2252,2026-10-14 09:07:27Z,a8b6e140d,709,595573,93353,35287,201820,597383,93392,35317,201932,,"Probe: walk's plain-bounded big-operator parameter, the ways to P-48 measured"
+2253,2026-10-14 09:08:02Z,29c2351f1,709,595573,93353,35287,201820,597383,93392,35317,201932,,BOOT.md: the walk probe landed and its question settled by the record; the checker probe running
+2254,2026-10-14 09:20:54Z,32269d57d,709,595573,93353,35287,201820,597383,93392,35317,201932,,"Probe: the compiled checker's bound defects traced, rows 680 and 685 to 690, a shadow patch for each"
+2255,2026-10-14 09:22:13Z,66a2c8caa,709,595573,93353,35287,201820,597383,93392,35317,201932,,"HELD.md: the cost of a batch's preparation and landing work, his ask to understand it"
+2256,2026-10-14 09:23:21Z,c8dbc85b0,709,595573,93353,35287,201820,597383,93392,35317,201932,,"Probe: the checker's bound defects, rows 680 and 685 to 690, traced and fixed in shadow"
+2257,2026-10-14 09:23:50Z,54e104d39,709,595573,93353,35287,201820,597383,93392,35317,201932,,"BOOT.md: both probes in, batch 15's planner running"
+2258,2026-10-14 09:24:02Z,06448ebf2,709,595573,93353,35287,201820,597383,93392,35317,201932,,BOOT.md: the time read from the clock
+2259,2026-10-14 09:53:45Z,94b5aaf83,709,595573,93353,35287,201820,597383,93392,35317,201932,,"Climb batch 15's record and its manifest generator: walk's big operator by its elements, the checker's normal form and l"
+2260,2026-10-14 09:55:27Z,287bb24e2,709,595573,93353,35287,201820,597383,93392,35317,201932,,"BOOT.md: batch 15's record drafted, its reviews running, the launch after the cap's stop"
+2261,2026-10-14 10:23:32Z,a92e32ca0,709,595573,93353,35287,201820,597383,93392,35317,201932,,"Climb batch 15's record reviewed in place: Q1 as the coordinator's call 5, call 1's reading of P-48 named, O's FlatStrin"
+2262,2026-10-14 10:24:22Z,3662c84e2,709,595573,93353,35287,201820,597383,93392,35317,201932,,Batch script and manual: the gather's handover lines go to the batch's RECORD.md (gather.1 of batch 14)
+2263,2026-10-14 10:24:48Z,324df02c1,709,595573,93353,35287,201820,597383,93392,35317,201932,,"Batch script: the handover sentence without apostrophes, which broke the single-quoted string"
+2264,2026-10-14 10:25:08Z,1cf03d1ea,709,595573,93353,35287,201820,597383,93392,35317,201932,,"BOOT.md: batch 15's Opus review in, the Fable review running"
+2265,2026-10-14 10:49:00Z,17ea932c9,709,595573,93353,35287,201820,597383,93392,35317,201932,,"Climb batch 15's record reviewed before the launch: B's hint window and the one uncollected path, the normal form's read"
+2266,2026-10-14 10:49:20Z,b52799031,709,595573,93353,35287,201820,597383,93392,35317,201932,,"HELD.md: the plan reviews' costs measured, batches 6 to 15"
+2267,2026-10-14 10:49:55Z,ee1aa1a95,709,595573,93353,35287,201820,597383,93392,35317,201932,,"Batch workflow: climb batch 15's manifest spliced (B, C, L, O)"
+2268,2026-10-14 10:53:43Z,0d5a4b475,709,595573,93353,35287,201820,597383,93392,35317,201932,,"BOOT.md: climb batch 15 launched, its check-ins armed; the VM restart of 07:10 UTC"
+2269,2026-10-14 10:54:00Z,54f766be5,709,595573,93353,35287,201820,597383,93392,35317,201932,,BOOT.md: the time read from the transcript
+2270,2026-10-14 11:17:57Z,6a7cc790e,709,595573,93353,35287,201820,597383,93392,35317,201932,,BOOT.md: the git-check hook off again since 11:17 UTC
+2271,2026-10-14 11:22:13Z,732d05e5f,709,595573,93353,35287,204232,597383,93392,35317,204344,,"BOOT.md rewritten whole after the compaction; INDEX lines for batch 15's record, its review and the two probe notes"
+2272,2026-10-14 11:26:23Z,7e0ce0bb3,709,595573,93353,35287,204232,597383,93392,35317,204344,,"BOOT.md: the weekly limit at 11:26 UTC, and batch 16's preparation after the reset"
+2273,2026-10-14 11:38:09Z,b9c71167a,709,595573,93353,35287,204232,597383,93392,35317,204344,,docs: hand over Astra record-keeping review
+2274,2026-10-14 11:39:21Z,cf20f71d0,709,595573,94479,35287,204232,597383,94518,35317,204344,,FACTS: the scope errors of Astra's record-keeping review repaired
+2275,2026-10-14 11:40:54Z,55cf04bd7,709,595573,94479,35287,204874,597383,94518,35317,204986,,BOOT.md: the skill fine-tuning side quest; the fork rule as he said yes to it; INDEX line for Astra's review
+2276,2026-10-14 11:43:33Z,cb9213556,709,595573,94479,35287,204874,597383,94518,35317,204986,,"coordinator skill: the curator's held feedback of 2026-10-13 and 14, and the record-keeping review"
+2277,2026-10-14 11:50:04Z,5c21aca88,709,595573,94479,35287,204874,597383,94518,35317,204986,,BOOT.md: the writer's fix round restores the old line on an entry's title
+2278,2026-10-14 11:50:20Z,b5bd60c0d,709,595573,94479,35287,204874,597383,94518,35317,204986,,BOOT.md: the time read from the transcript
+2279,2026-10-14 11:52:48Z,c74f01d5a,709,595573,94479,35287,204874,597383,94518,35317,204986,,coordinator skill: fix round for cb9213556
+2280,2026-10-14 11:53:28Z,701b7daac,709,595573,94479,35287,204874,597383,94518,35317,204986,,HELD.md and BOOT.md: the skill points of 23:13 to 05:29 UTC closed by the coordinator skill's fine-tuning
+2281,2026-10-14 12:47:12Z,f35684712,709,595573,94479,35287,204874,597383,94518,35317,204986,,"HELD.md and BOOT.md: PLAN's consolidation held for Friday, its map running"
+2282,2026-10-14 12:53:37Z,56b2d45f2,709,595573,94479,35287,204874,597383,94518,35317,204986,,BOOT.md: PLAN's map parked on the held list when it ends
+2283,2026-10-14 13:09:34Z,6a3e20783,709,595573,94479,35287,205419,597383,94518,35317,205531,,"PLAN.md's map for Friday's consolidation, parked on the held list"
+2284,2026-10-14 14:58:49Z,f237148ac,713,599834,95261,35287,205419,601644,95300,35317,205531,,"The compiled checker expands a closed trait only against a conjunct that names no type variable, and reads a variable be"
+2285,2026-10-14 15:01:38Z,20474c144,718,605216,96493,35287,205419,607026,96532,35317,205531,,Walk instantiates the big operator of a reduction or comprehension that writes no static argument by the declared type o
+2286,2026-10-14 15:03:23Z,a0f839ad7,721,608001,98259,35287,205419,609811,98298,35317,205531,,"array1 and array2 build a vector or a matrix per number type by a typecase over a witness of their result type, and IntM"
+2287,2026-10-14 15:05:00Z,59b1d0a4d,727,614322,99215,35287,205419,616132,99254,35317,205531,,The compiled checker refuses duplicate functional methods wherever their self parameters stand and covers an abstract me
+2288,2026-10-14 15:05:59Z,32af87b18,727,607047,99215,35287,205419,608881,99254,35317,205531,,Close the rows climb batch 15 fixed
+2289,2026-10-14 15:11:50Z,e13da0396,727,607047,99215,35287,205419,608881,99254,35317,205531,,"Climb batch 15's gather record: the four rungs landed in the order of the files B and L share, their rows, points, curat"
+2290,2026-10-14 15:28:09Z,219d485eb,728,608163,99328,35287,205419,609997,99367,35317,205531,,Fold the review's corrections
+2291,2026-10-14 15:55:25Z,c40489978,728,608163,99328,35287,205419,609997,99367,35317,205531,batch 15,Record the gate's tables and the microGPT walk check
+2292,2026-10-14 15:58:32Z,4dbf3ff4c,728,608163,99510,35287,205419,609997,99549,35317,205531,,"FACTS: F-53 and F-54 after climb batch 15, the count at row 680's crash and its repair held"
+2293,2026-10-14 15:59:47Z,a4d17e103,728,608163,99510,35287,205419,609997,99549,35317,205531,,"BOOT.md: climb batch 15 landed, its landing steps in flight"
+2294,2026-10-14 16:04:12Z,f13f373c4,728,608163,99510,35287,205419,609997,99549,35317,205531,,fortress-repo: fold climb batch 15's revival changes
+2295,2026-10-14 16:16:43Z,ed1c410a4,728,608163,99510,35287,205419,609997,99549,35317,205531,,fortress-repo: fix the cold read of climb batch 15's revival changes
+2296,2026-10-14 16:18:26Z,d8a98c515,728,608163,99510,35287,205419,609997,99549,35317,205531,,"Climb batch 15's post-batch review: conformance, the distance and count, the cost, the practice, routing"
+2297,2026-10-14 16:19:46Z,ef45e44e2,728,608163,99510,35401,205419,609997,99549,35431,205531,,POSITIONS: P-48's walk half for unwritten clause forms built by climb batch 15
+2298,2026-10-14 16:21:21Z,df2343aad,728,608163,99510,35401,205419,609997,99549,35431,205531,,"BOOT.md: climb batch 15's landing work done, its routing held for Friday's PLAN consolidation"
+2299,2026-10-14 17:03:58Z,ae131ac88,728,608163,99510,35401,205419,609997,99549,35431,205531,,"BOOT.md: his yes to option 3, PLAN's consolidation then batch 16's preparation, after the compaction"
+2300,2026-10-14 18:42:22Z,994dc944c,728,608163,99510,35401,205793,609997,99549,35431,205905,,INDEX: climb batch 15's post-batch review
+2301,2026-10-14 18:44:47Z,3f6cd90d0,728,608163,99510,35401,205793,609997,99549,35431,205905,,"BOOT.md: PLAN's consolidation and row 680's idle measurement running, batch 16's preparation next"
+2302,2026-10-14 18:47:47Z,d2d12a1ec,728,608163,99510,35401,205793,609997,99549,35431,205905,,"Boot hook reads the coordinator skill's file, not a copy from before the compaction; BOOT.md: the held fix first"
+2303,2026-10-14 18:48:07Z,2e7bd7e6a,728,608163,99510,35401,205793,609997,99549,35431,205905,,BOOT.md: his words as dictated
+2304,2026-10-14 19:01:53Z,a29024460,728,608163,99510,35401,205793,609997,99549,35431,205905,,"BOOT.md: his default, optimize the checker anyway"
+2305,2026-10-14 19:02:13Z,a7870846b,728,608163,99510,35401,205793,609997,99549,35431,205905,,BOOT.md: his message's time from the transcript
+2306,2026-10-14 19:04:18Z,b6df83150,728,608163,99510,35401,205793,609997,99549,35431,205905,,"BOOT.md: his reason, the checker's speed right after its correctness"
+2307,2026-10-14 19:05:37Z,b792b85bf,728,608163,99510,35401,205793,609997,99549,35431,205905,,"BOOT.md: row 680's idle measure 959 s, the checker-speed probe running"
+2308,2026-10-14 19:06:01Z,473ab6a30,728,608163,99510,35401,205793,609997,99549,35431,205905,,BOOT.md: the speed probe's check-ins
+2309,2026-10-14 19:07:05Z,633275cd0,728,608163,99510,35832,205793,609997,99549,35862,205905,,"POSITIONS: P-148, the checker's speed comes right after its correctness"
+2310,2026-10-14 19:17:06Z,2de5e4201,728,608163,99510,35867,205793,609997,99549,35897,205905,,"POSITIONS: P-148 rephrased at his word, the speed pass inside the rung"
+2311,2026-10-14 19:17:22Z,b3794eecf,728,608163,99510,35867,205793,609997,99549,35897,205905,,"HELD: P-148's rule for the workers, owed to the skill and the batch script"
+2312,2026-10-14 19:20:41Z,7f4f88ab7,728,608163,99510,36055,205793,609997,99549,36085,205905,,"POSITIONS: P-148 in plain words, what the speed pass must not change"
+2313,2026-10-14 19:20:55Z,e9cafd1e2,728,608163,99510,36055,205793,609997,99549,36085,205905,,HELD: P-148's rule in its plain wording
+2314,2026-10-14 19:29:06Z,4c160ffcd,728,608163,99510,36055,205793,609997,99549,36085,205905,,BOOT.md: a push notification when the perf work is done
+2315,2026-10-14 19:52:56Z,ab9775b84,728,608163,99510,36055,205793,609997,99549,36085,205905,,"BOOT.md: his word for the night, the order of the remaining budget"
+2316,2026-10-14 20:14:13Z,5ff1d58aa,728,608163,99510,36055,205793,609997,99549,36085,205905,,"BOOT.md: the VM restart of 18:33 UTC, the next stop about 07:34 UTC, the hook back on"
+2317,2026-10-14 21:44:02Z,69b651886,728,608163,99510,36055,205793,609997,99549,36085,205905,,BOOT.md: two more check-ins for the speed probe
+2318,2026-10-14 23:21:53Z,0b308d585,728,608163,99510,36055,206629,609997,99549,36085,206741,,Checker speed probe 2: the generated AST walker is never JIT-compiled; splitting it in order takes the count stage with 
+2319,2026-10-14 23:23:15Z,558ae0a10,728,608163,99510,36055,206629,609997,99549,36085,206741,,"BOOT.md: the speed probe's result, its skeptic running, the landing next"
+2320,2026-10-14 23:41:35Z,bc65431d5,728,608163,99510,36055,206629,609997,99549,36085,206741,,"Checker speed probe 2: the skeptic's review, approved with no fixes, 333 s with row 680's repair and identical output"
+2321,2026-10-14 23:46:26Z,a0205c127,728,608163,99510,36055,206629,609997,99549,36085,206741,,The generated AST walker split in order into methods HotSpot compiles
+2322,2026-10-14 23:47:14Z,c23b49a18,729,609226,99510,36055,206629,611060,99549,36085,206741,,"Ledger: row 730, the generated AST walker never JIT-compiled, closed by the split"
+2323,2026-10-14 23:49:54Z,e4dabaa0c,729,609226,99510,36055,206629,611060,99549,36085,206741,,The compiled checker primes a block's local functions with the group in scope (row 680)
+2324,2026-10-14 23:50:07Z,7377247d2,729,609039,99510,36055,206629,610873,99549,36085,206741,,"Ledger: row 680 closed by its line, with its corrected claim"
+2325,2026-10-15 00:10:30Z,3cf18a2b3,729,609039,99510,36055,206629,610873,99549,36085,206741,,Climb batch 15b: the gate's tables
+2326,2026-10-15 00:12:18Z,f97c39479,729,609039,99510,36055,207267,610873,99549,36085,207379,,"Climb batch 15b: the record, and its INDEX line"
+2327,2026-10-15 00:14:03Z,975da2abb,729,609039,99510,36055,207267,610873,99549,36085,207379,,"Climb batch 15b: microGPT's quick walk checks, 7 of 7 each"
+2328,2026-10-15 00:15:07Z,dfc92d9a5,729,609039,101074,36055,207267,610873,101113,36085,207379,,"FACTS: climb batch 15b, the count 39 and the distance 49; F-231 the walker split, F-232 identity hashes (row 488), F-233"
+2329,2026-10-15 00:15:16Z,8da483e6f,729,609052,101074,36055,207267,610886,101113,36085,207379,,"Ledger: row 488's note points to F-232, the checker's identity-hash dependence"
+2330,2026-10-15 00:16:13Z,aa3747948,729,609052,101074,36055,207267,610886,101113,36085,207379,,"BOOT.md: climb batch 15b landed, PLAN's consolidation resumed"
+2331,2026-10-15 00:45:52Z,ad56edb62,730,609570,101074,36055,207558,611404,101113,36085,207670,,"PLAN consolidated: closed items to PLAN-history.md, open ones held elsewhere cut to pointers; climb batch 15's and 15b's"
+2332,2026-10-15 00:48:09Z,e2906af77,730,609570,101074,36002,207464,611404,101113,36032,207575,,"After PLAN's consolidation: row 425's citations repointed to row 731, P-148's built part out, INDEX and HELD brought up "
+2333,2026-10-15 00:48:54Z,32c5818e3,730,609570,101074,36002,207464,611404,101113,36032,207575,,"BOOT.md: PLAN's consolidation done, the skill writer running"
+2334,2026-10-15 00:53:03Z,315420c02,730,609570,101074,36002,207464,611404,101113,36032,207575,,fortress-repo: the checker's time after a change of the checker; row 425 cited as row 731
+2335,2026-10-15 00:53:31Z,401d81de1,730,609570,101074,36002,207464,611404,101113,36032,207575,,"coordinator: PLAN-history.md, and the landing step that keeps PLAN small"
+2336,2026-10-15 00:57:54Z,dc06efbbc,730,609570,101074,36002,207464,611404,101113,36032,207575,,"Batch workflow: P-148's lines, the checker's time in the rung and its skeptic"
+2337,2026-10-15 01:07:16Z,b875d2de7,730,609570,101074,36002,207464,611404,101113,36032,207575,,"fortress-repo: the cold read's fixes to ""The checker's time"""
+2338,2026-10-15 01:07:55Z,11fb10c64,730,609570,101074,36002,207464,611404,101113,36032,207575,,coordinator: the cold read's fixes to the landing's step 5 and the skeptic's count stage
+2339,2026-10-15 01:08:41Z,36f7db77c,730,609570,101074,36056,207464,611404,101113,36086,207575,,POSITIONS: P-148 built in the skills and the batch workflow; its held line closed
+2340,2026-10-15 01:09:04Z,3f072048a,730,609570,101074,36056,207464,611404,101113,36086,207575,,"BOOT.md: P-148 built, batch 16's planner running"
+2341,2026-10-15 01:37:25Z,7cef6d1b0,730,609570,101074,36056,207464,611404,101113,36086,207575,,Climb batch 16: the draft record and its manifest generator
+2342,2026-10-15 01:38:50Z,b24e0770b,730,609570,101074,36056,207464,611404,101113,36086,207575,,"BOOT.md: batch 16 drafted, its Fable review running"
+2343,2026-10-15 02:10:59Z,9f7a10e74,730,609570,101074,36056,207464,611404,101113,36086,207575,,"Climb batch 16: the top-tier review in place; row 697 cut from rung W, call 6 made concrete on the team's Maybe tests, t"
+2344,2026-10-15 02:12:18Z,0dabb4b8f,730,609570,101074,36056,208632,611404,101113,36086,208743,,"PLAN: batch 16 drafted and reviewed, its Q1 as item 55; INDEX lines for its record and review"
+2345,2026-10-15 02:12:46Z,b36b611d2,730,609570,101074,36056,208632,611404,101113,36086,208743,,"BOOT.md: the night's work done, batch 16 waiting on Q1 and the reset"
+2346,2026-10-15 04:19:41Z,423958063,730,609570,101074,36056,208632,611404,101113,36086,208743,,BOOT.md: Q1's probe of the library's use and Scala's way running
+2347,2026-10-15 06:06:41Z,d969fe41a,730,609570,101074,36056,208632,611404,101113,36086,208743,,"BOOT.md: the VM restart of 04:16 UTC, the next stop about 17:16 UTC"
+2348,2026-10-15 06:09:11Z,5501d4902,730,609570,101074,36056,208632,611404,101113,36086,208743,,BOOT.md: the git-check hook off again at his word
+2349,2026-10-15 06:13:48Z,7908e83a2,730,609570,101074,36726,208632,611404,101113,36756,208743,,"POSITIONS: P-149, a body inherited from one supertype implements an abstract method from another (Q1, Scala's way), pre-"
+2350,2026-10-15 06:14:03Z,9b273cc24,730,609570,101074,36726,208632,611404,101113,36756,208743,,BOOT.md: Q1 pre-recorded as P-149
+2351,2026-10-15 06:14:51Z,035868d4e,730,609570,101074,36846,208632,611404,101113,36876,208743,,"POSITIONS: P-149 held for his word, taken on a misreading of the specification's side"
+2352,2026-10-15 06:18:32Z,2798e75d5,734,613522,101074,36846,209434,615356,101113,36876,209545,,"Q1 probe: the library holds no unmet row 572 shape; Scala's way clean for equal types but bends the specification, which"
+2353,2026-10-15 06:25:44Z,6b1e1b1b2,734,613522,101074,36850,210021,615356,101113,36880,210132,,"Q1 answered, refuse (P-149); the detour toward Scala's way reported; item 55 to PLAN-history; the ask rules held for the"
+2354,2026-10-15 17:23:14Z,5385965af,734,613522,101074,36850,210021,615356,101113,36880,210132,,"BOOT.md: the VM restart of 17:21 UTC, the next stop about 06:21 UTC; nothing launched before the reset"
+2355,2026-10-16 06:16:59Z,2f0d4b48a,734,613522,101074,36850,210021,615356,101113,36880,210132,,"BOOT.md: the VM restart of 06:14 UTC, the next stop about 19:14 UTC"
+2356,2026-10-16 07:22:25Z,aa453fd6d,734,613522,101074,36850,210021,615356,101113,36880,210132,,"PLAN: the Scala walker in the team's update-visitor shape, a candidate after rung S's profile"
+2357,2026-10-16 07:46:56Z,ad3e05a2c,734,613522,101074,36850,210021,615356,101113,36880,210132,,BOOT.md: the fresh-JVM measurement armed for 10:05 UTC
+2358,2026-10-16 08:06:42Z,2e70473ca,734,613522,101074,36850,210021,615356,101113,36880,210132,,"Climb batch 16: the Q1 probe's corrections and Q1's answer (P-149) in the record; its block spliced, the checks and scen"
+2359,2026-10-16 08:08:16Z,528438ac5,734,613522,101074,36850,210021,615356,101113,36880,210132,,"PLAN, BOOT.md: batch 16 spliced and checked, waiting on its base build and his go"
+2360,2026-10-16 08:11:19Z,5db9cb0bf,734,613522,101074,36850,210021,615356,101113,36880,210132,,BOOT.md: batch 16's base build done and proved; the launch waits on his go
+2361,2026-10-16 08:29:31Z,a85487031,734,613522,101074,36850,210021,615356,101113,36880,210132,,BOOT.md: the fresh-JVM measurement running on Sonnet
+2362,2026-10-16 08:29:45Z,45107a6f6,734,613522,101074,36850,210021,615356,101113,36880,210132,,BOOT.md: the measurement's start time read from the clock
+2363,2026-10-16 08:45:03Z,4f2a9d1f8,734,613522,101074,36850,210021,615356,101113,36880,210132,,BOOT.md: the JuliaCon deck's code being extracted
+2364,2026-10-16 08:45:14Z,294882a79,734,613522,101074,36850,210021,615356,101113,36880,210132,,BOOT.md: the extraction's start time read from the clock
+2365,2026-10-16 08:56:10Z,d3f1ea5b0,734,613522,101074,36850,210407,615356,101113,36880,210518,,Fresh-JVM commands measured from the workers' transcripts: start-up at most 1.8 % of the agents' time; its INDEX line
+2366,2026-10-16 08:57:52Z,73cd672a7,734,613522,101074,36850,210407,615356,101113,36880,210518,,"JuliaCon 2016 extract: the deck's code word for word, and a demo section"
+2367,2026-10-16 08:58:27Z,f836a146f,734,613522,101074,36850,210407,615356,101113,36880,210518,,BOOT.md: the morning's measurement and the JuliaCon code done
+2368,2026-10-16 09:03:18Z,003497d05,734,613522,101074,36850,210407,615356,101113,36880,210518,,BOOT.md: the ICFP 2009 deck's extract running
+2369,2026-10-16 09:08:24Z,cecefdbb0,734,613522,101074,36850,210407,615356,101113,36880,210518,,"BOOT.md: his go for batch 16, its launch armed for 10:01 UTC"
+2370,2026-10-16 09:14:08Z,f34f00b8e,734,613522,101074,36850,210407,615356,101113,36880,210518,,"BOOT.md: the asks for his open answers, where clauses and arrays drafted at the launch, and his ping"
+2371,2026-10-16 09:15:56Z,a479a1abe,734,613522,101681,37186,210407,615356,101720,37216,210518,,"FACTS F-234, POSITIONS P-150: one-off commands' JVM start-up measured too small for a resident compiler, which is not bu"
+2372,2026-10-16 09:17:21Z,f9323c2aa,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the open proposal on reading INDEX at boot
+2373,2026-10-16 09:21:36Z,33425f7e1,734,613522,101681,37186,210407,615356,101720,37216,210518,,"ICFP 2009 keynote extract: the deck's code word for word, and what it gives the histogram-water demo"
+2374,2026-10-16 09:24:06Z,b8b81db5b,734,613522,101681,37186,210407,615356,101720,37216,210518,,Extracts: the operator-parameterized Monoid stands only in a comment; BOOT.md: the ICFP 2009 extract done
+2375,2026-10-16 10:03:59Z,e853e7d8b,734,613522,101681,37186,210407,615356,101720,37216,210518,,"BOOT.md: climb batch 16 launched, run wf_46ebb338-7a8; its check-ins and the asks worker"
+2376,2026-10-16 10:26:59Z,a428d0dc1,734,613522,101681,37186,210407,615356,101720,37216,210518,,"Open asks of 2026-10-16: four asks ready (a where clause on an extends entry, the where-clause variable sentence, the ar"
+2377,2026-10-16 10:28:02Z,52fadea89,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the open asks drafted and read; ask 1 put; the probes after batch 16 lands
+2378,2026-10-16 10:28:15Z,23d34697d,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: ask 1's time read from the clock
+2379,2026-10-16 10:42:02Z,72a4ff655,734,613522,101681,37186,210407,615356,101720,37216,210518,,"BOOT.md: the VM restart of 10:02 UTC, the stop's check-in moved, probe P1 running niced beside the batch"
+2380,2026-10-16 11:17:26Z,d731fc328,734,613522,101681,37186,210407,615356,101720,37216,210518,,"BOOT.md: the VM restart of 11:15 UTC, the batch resumed, P1 continued; his where-clause question and the proposal"
+2381,2026-10-16 11:34:27Z,d249d4154,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the git-check hook turned off at his word
+2382,2026-10-16 11:34:50Z,5e386d386,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the hook's time read from the clock
+2383,2026-10-16 12:15:21Z,d4dd89fc6,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: asks 1 and 2 withdrawn; the where-clause measurement and its second half
+2384,2026-10-16 12:37:06Z,f8fc7e8bd,734,613522,101681,37186,210407,615356,101720,37216,210518,,"BOOT.md: his answer on conditional extension, passed to the measurement worker"
+2385,2026-10-16 12:37:19Z,fd5cb43aa,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: his answer's time read from the transcript
+2386,2026-10-16 12:48:41Z,336fbb528,734,613522,101681,37186,210407,615356,101720,37216,210518,,"Probe P1, the integer power: every use, each negative-exponent contract's sites, moved values and cost, the peers and th"
+2387,2026-10-16 12:49:41Z,5ce290a75,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the integer power probe done; its ask waits
+2388,2026-10-16 12:50:01Z,1f10cd926,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the probe's time read from its commit
+2389,2026-10-16 13:03:14Z,6c32529e5,734,613522,101681,37186,210407,615356,101720,37216,210518,,PLAN: two matrix ideas parked with the library's algebraic layer
+2390,2026-10-16 13:03:30Z,e98b0b50f,734,613522,101681,37186,210407,615356,101720,37216,210518,,PLAN: the parking's time read from the transcript
+2391,2026-10-16 13:07:29Z,f9e3e50b7,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the curator's knowledge profile started
+2392,2026-10-16 13:11:05Z,f48a9c08f,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the profile is for the coordinator's calibration
+2393,2026-10-16 13:11:23Z,1ee9c7c3e,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: his word's time read from the transcript
+2394,2026-10-16 13:27:34Z,e8ad06658,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the bounded search of his public work
+2395,2026-10-16 13:34:53Z,e8b8ab00f,734,613522,101681,37186,210407,615356,101720,37216,210518,,"curator-profile: public-work.md, the curator's public work as palimondo (Stack Overflow, Swift benchmark suite, Swift fo"
+2396,2026-10-16 13:35:27Z,00ecb4bf0,734,613522,101681,37186,210407,615356,101720,37216,210518,,BOOT.md: the public-work note done
+2397,2026-10-16 13:44:17Z,43dea0a6f,734,613522,101681,37186,210407,615356,101720,37216,210518,,"Curator profile: an index of the curator's messages by area, and a script that prints each message"
+2398,2026-10-16 13:46:00Z,f09d35582,734,613522,101681,37186,210407,615356,101720,37216,210518,,"BOOT.md: the evidence index done, the profile's writer running"
+2399,2026-10-16 14:00:43Z,77467c2c5,734,613522,101681,37186,210407,615356,101720,37216,210518,,Curator profile: what Pavol knows and where his gaps are
+2400,2026-10-16 14:01:14Z,c67465ecf,734,613522,101681,37186,210407,615356,101720,37216,210518,,PROFILE.md: microGPT's matrix shapes as C4 has them
+2401,2026-10-16 14:01:40Z,9e04ee19e,734,613522,101681,37186,212597,615356,101720,37216,212708,,INDEX lines for the day's notes; the profile held for the coordinator skill; BOOT.md: the profile done
+2402,2026-10-16 14:08:25Z,366e454f1,734,613522,101681,37186,213366,615356,101720,37216,213477,,"Probe on the where-clause errors: 12 of 13 clear by library edits, the list comparisons by conditional extension; its IN"
+2403,2026-10-16 14:08:58Z,d19ade2fb,734,613522,101681,37186,213366,615356,101720,37216,213477,,BOOT.md: the where-clause measurement's result and the next batch's work; probe on String's pairs running
+2404,2026-10-16 16:33:32Z,a8af8a427,734,613522,101681,37186,213366,615356,101720,37216,213477,,BOOT.md: the profile's compression running
+2405,2026-10-16 16:43:40Z,d49e395a0,734,613522,101681,37186,213366,615356,101720,37216,213477,,"PROFILE.md graded on a scale of 0 to 4, its evidence moved to PROFILE-sources.md"
+2406,2026-10-16 16:44:02Z,c68a8f5b6,734,613522,101681,37806,213366,615356,101720,37836,213477,,POSITIONS P-151: only the where forms the team wrote down are built
+2407,2026-10-16 16:44:30Z,7a91239e7,734,613522,101681,37806,213688,615356,101720,37836,213801,,"PLAN, INDEX, BOOT.md: P-151's work for the batch after 16, the profile's new lines"
+2408,2026-10-16 16:48:37Z,8661e9c64,734,613522,101681,37806,213688,615356,101720,37836,213801,,BOOT.md: the batch's check-ins to 23:32 UTC
+2409,2026-10-16 17:27:27Z,ee6bfcb8d,735,614688,103906,37806,213688,616522,103945,37836,213801,,The compiled checker reduces each formula once and answers repeated exclusions and type lookups from memos; a test guard
+2410,2026-10-16 17:29:48Z,d2fe4e1d9,736,615833,104618,37806,213688,617667,104657,37836,213801,,"Syntax tree nodes hash from their class's name, not the JVM's identity hash, so the checker's output keeps one order"
+2411,2026-10-16 17:32:18Z,c23b85fdc,738,617604,106368,37806,213688,619438,106407,37836,213801,,"The compiled checker reads a type's abstract functional methods, and reports a broken bound at each call"
+2412,2026-10-16 17:37:27Z,9879d4386,740,619802,109205,37806,213688,621636,109244,37836,213801,,"Walk reads two generic declarations each over its own instances, takes an if clause only as a Boolean or a Maybe, and re"
+2413,2026-10-16 17:38:18Z,3667c3a3c,740,617091,109205,37806,213688,618939,109244,37836,213801,,Close the rows climb batch 16 fixed
+2414,2026-10-16 17:45:05Z,85b1d3d85,740,617091,109205,37806,213688,618939,109244,37836,213801,,"Climb batch 16's gather record: the four rungs landed, their order, rows, notes, points and revival changes"
+2415,2026-10-16 17:58:02Z,fb0d488f8,740,617091,109205,37806,214349,618939,109244,37836,214462,,"Probe on String's pairs and the symbolic operators: the full check's 200 errors, the device and the conversion; its INDE"
+2416,2026-10-16 17:58:32Z,ba7bdd0e0,740,617091,109205,37806,214349,618939,109244,37836,214462,,BOOT.md: the String probe done; the generic distribute measurement running
+2417,2026-10-16 17:59:00Z,c2c86ed65,740,617091,109205,37806,214349,618939,109244,37836,214462,,BOOT.md: the early push of batch 16's gathered commits; no push until its landing
+2418,2026-10-16 18:01:39Z,07c83a40a,740,617091,109289,37806,214349,618939,109328,37836,214462,,Fold the review's corrections
+2419,2026-10-16 18:16:01Z,aa4bbb2b6,740,617091,109289,37806,214349,618939,109328,37836,214462,,"Climb batch 16: the judge's ruling on the merged-diff review, a specification repair of two Effect sentences on walk's g"
+2420,2026-10-16 18:26:44Z,464159846,741,618248,109633,37806,214349,620096,109672,37836,214462,,"Climb batch 16's repair after the merged-diff review: Appendix I's two sentences on walk's generic pairs, and walk's loa"
+2421,2026-10-16 18:32:34Z,f98ad813f,741,618248,109633,37806,214349,620096,109672,37836,214462,batch 16,Record the gate's tables and the microGPT walk check
+2422,2026-10-16 18:36:06Z,3ddba3ae6,741,618248,109633,37806,214349,620096,109672,37836,214462,,BOOT.md: climb batch 16 landed; the landing steps and the check-ins
+2423,2026-10-16 18:42:54Z,bf2ad8f73,741,618248,109633,37806,215104,620096,109672,37836,215217,,Probe on the team's generic distribute: the fusion's last 2 errors clear with its result over K; its INDEX line
+2424,2026-10-16 18:43:19Z,314696de5,741,618248,109633,37806,215104,620096,109672,37836,215217,,"BOOT.md: the generic distribute probe done, its questions queued; the base build removed"
+2425,2026-10-16 18:43:30Z,9064cbd0a,741,618248,109633,37806,215104,620096,109672,37836,215217,,BOOT.md: the removal's time read from the clock
+2426,2026-10-16 18:57:53Z,5cfdfcb76,741,618248,109633,37806,215104,620096,109672,37836,215217,,"Climb batch 16's post-batch review: conformance, the speed, the practice and routing"
+2427,2026-10-16 19:00:10Z,9ec146fd9,741,618248,109633,37806,215104,620096,109672,37836,215217,,BOOT.md: batch 16's review done; the skill writer and the record worker running
+2428,2026-10-16 19:03:51Z,6c1473029,741,618248,109633,37806,215104,620096,109672,37836,215217,,"fortress-repo: climb batch 16 revival changes and the sentences it made false; timed runs under one lock, in alternated "
+2429,2026-10-16 19:04:27Z,f78a45dde,741,618248,109633,37806,215104,620096,109672,37836,215217,,"fortress-repo: a run beside a batch, niced, one JVM at a time, 6 GB available first"
+2430,2026-10-16 19:04:27Z,5880b9dac,741,618248,109633,37806,215104,620096,109672,37836,215217,,"coordinator: asks from the designers word first, probes before questions, the profile, review items not holds, the switc"
+2431,2026-10-16 19:10:16Z,998a6e09c,746,623077,109633,37806,215104,624935,109672,37836,215217,,Ledger after climb batch 16's landing and the probes of 2026-10-16
+2432,2026-10-16 19:13:24Z,7a58250bf,746,623077,115592,37825,215104,624935,115633,37855,215217,,FACTS and POSITIONS after climb batch 16's landing and the probes of 2026-10-16
+2433,2026-10-16 19:17:49Z,6df3e1892,746,623077,115592,37825,215627,624935,115633,37855,215740,,PLAN routed after climb batch 16's landing; INDEX line for its review
+2434,2026-10-16 19:19:34Z,af3a2c632,746,623077,115592,37825,215627,624935,115633,37855,215740,,"HELD, PLAN, BOOT.md: the two held rules now in the skill; the class loader's generic arm for the switch-over; the landin"
+2435,2026-10-16 19:19:41Z,eedc92056,746,623077,115592,37825,215627,624935,115633,37855,215740,,BOOT.md: the follow-up's start time read from the clock
+2436,2026-10-16 19:19:59Z,519208971,746,623077,115592,37825,215627,624935,115633,37855,215740,,coordinator: the ask rules moved to SKILL.md; the principles and the primer give the peers their place
+2437,2026-10-16 19:20:33Z,d7a7a70cd,746,623077,115592,37825,215627,624935,115633,37855,215740,,"BOOT.md: the follow-up done, the cold read running"
+2438,2026-10-16 19:29:56Z,48f5f61b4,746,623077,115592,37825,215627,624935,115633,37855,215740,,"BOOT.md: the cold read done, its flags with rulings to the writer"
+2439,2026-10-16 19:31:18Z,b6d29965e,746,623077,115592,37825,215627,624935,115633,37855,215740,,"Skills: the cold read of the batch 16 skill changes, 33 flags fixed"
+2440,2026-10-16 19:31:48Z,3143194fb,746,623077,115592,37825,215627,624935,115633,37855,215740,,"BOOT.md: the cold read's flags fixed, batch 16's landing steps done"
+2441,2026-10-16 19:31:59Z,93f6dff50,746,623077,115592,37825,215627,624935,115633,37855,215740,,BOOT.md: the rewrite's time read from the clock
+2442,2026-10-16 19:33:32Z,83d43b6c0,746,623077,115592,37825,215627,624935,115633,37855,215740,,BOOT.md: the ledger-notes worker running
+2443,2026-10-16 19:50:00Z,4e8dedde2,746,623077,115592,38114,215627,624935,115633,38144,215740,,"P-45 and PLAN: walk's load check reads every pair of generic declarations, row 159's limit lifted for batch 17"
+2444,2026-10-16 19:50:47Z,cd51fea6b,746,623077,115592,38114,215627,624935,115633,38144,215740,,fortress-repo: the order-only allowance of the checker comparison dropped
+2445,2026-10-16 19:53:33Z,394480f8c,746,623077,115592,38114,215627,624935,115633,38144,215740,,HELD: his points of 19:53 UTC on the generic distribute message
+2446,2026-10-16 19:55:02Z,772eb5a74,746,623077,115592,38114,215627,624935,115633,38144,215740,,HELD: his point of 19:54 UTC on the timing fix
+2447,2026-10-16 19:57:33Z,a9ad89c0d,746,623077,115592,38114,215627,624935,115633,38144,215740,,HELD: his point of 19:57 UTC on teasers while he is away
+2448,2026-10-16 19:58:08Z,e654c5950,746,623278,115592,38114,215627,625149,115633,38144,215740,,"Ledger: the 13 notes of climb batch 16's probes and rung W, their rows' notes tightened to fit"
+2449,2026-10-16 19:59:33Z,237f5eb1d,746,623278,115592,38114,215627,625149,115633,38144,215740,,"Review queue: item 62 settled, by P-149 and climb batch 16's rung K"
+2450,2026-10-16 19:59:38Z,68a606665,746,623278,115592,38114,215627,625149,115633,38144,215740,,HELD: his point on the skills update
+2451,2026-10-16 19:59:50Z,30cfaf3bf,746,623278,115592,38114,215627,625149,115633,38144,215740,,HELD: the point's time read from the transcript
+2452,2026-10-16 20:00:48Z,b4c4dc339,746,623278,115592,38114,215627,625149,115633,38144,215740,,BOOT.md: the ledger notes written; he reads and holds
+2453,2026-10-16 20:02:08Z,5edd93757,746,623278,115592,38114,215627,625149,115633,38144,215740,,HELD: his point of 20:01 UTC on the coordinator skill's edits
+2454,2026-10-16 20:05:33Z,82bb7bab2,746,623278,115592,38114,215627,625149,115633,38144,215740,,HELD: his point of 20:05 UTC on the timing lock's redesign
+2455,2026-10-16 20:09:47Z,1c9e8e323,746,623278,115592,38114,215627,625149,115633,38144,215740,,HELD: his point of 20:09 UTC on the two open questions
+2456,2026-10-16 20:14:28Z,bdb33d866,746,623278,115592,38114,215627,625149,115633,38144,215740,,HELD: his point of 20:14 UTC on the symbolic operators
+2457,2026-10-16 20:17:47Z,909af8577,746,623278,115592,38114,215627,625149,115633,38144,215740,,"HELD: where he stopped reading, 20:17 UTC"
+2458,2026-10-17 10:29:43Z,5291280ae,746,623278,115592,38114,215627,625149,115633,38144,215740,,PLAN: the timing lock item dropped at the curator's word
+2459,2026-10-17 10:30:21Z,9a6a922e5,746,623278,115592,38114,215627,625149,115633,38144,215740,,"fortress-repo: timing simplified to one run each, no lock, order or 6 % rule"
+2460,2026-10-17 10:31:10Z,ae18fc010,746,623278,115592,38114,215627,625149,115633,38144,215740,,fortress-repo: the checker timing as a smoke test
+2461,2026-10-17 10:45:50Z,71fd44de0,746,623278,115592,38114,215627,625149,115633,38144,215740,,"HELD: point 2 approved, with the brief-first rule for such changes"
+2462,2026-10-17 10:48:12Z,d3c91ac67,746,623278,115592,38114,215627,625149,115633,38144,215740,,HELD: open point on briefing the curator before a skill change
+2463,2026-10-17 10:57:32Z,cab96d954,746,623278,115592,38114,215627,625149,115633,38144,215740,,HELD: the open point resolved by the curator's yes
+2464,2026-10-17 10:57:39Z,89c828c25,746,623278,115592,38114,215627,625149,115633,38144,215740,,"coordinator: how the coordinator changes its own skill, two kinds of change"
+2465,2026-10-17 10:58:00Z,e8b8fcd75,746,623278,115592,38114,215627,625149,115633,38144,215740,,"HELD: the brief-first point written into the coordinator skill, its line removed"
+2466,2026-10-17 11:25:27Z,d212b2c1f,746,623278,115592,38114,215627,625149,115633,38144,215740,,BOOT.md: the two probes running
+2467,2026-10-17 11:37:11Z,6e400b6cd,746,623278,115592,38867,215627,625149,115633,38897,215740,,"POSITIONS: exclusion read over the whole parameter type, the curator's answer to climb batch 16's item 3"
+2468,2026-10-17 11:54:36Z,2a630c2ff,746,623278,115592,38867,215627,625149,115633,38897,215740,,"Probe: walk's generic-method static arguments, the fix sized with the team's generic distribute"
+2469,2026-10-17 12:13:48Z,f8007d7df,746,623278,115592,38867,215627,625149,115633,38897,215740,,"BOOT.md: the walk probe back, the overloaded-receiver probe running"
+2470,2026-10-17 12:25:48Z,67ae27a10,746,623278,115592,38867,215627,625149,115633,38897,215740,,Probe: walk's first part alone does not cover the overloaded receivers; the second part is needed
+2471,2026-10-17 12:38:45Z,ed08c1119,746,623278,115592,38867,215627,625149,115633,38897,215740,,BOOT.md: the curator's word to order and launch batch 17 while he is away
+2472,2026-10-17 12:42:25Z,e8312aee5,746,623278,115592,38867,215627,625149,115633,38897,215740,,Probe: the symbolic-operator errors sorted into known library fixes and design choices
+2473,2026-10-17 12:42:44Z,5f339c4d6,746,623278,115592,38867,215627,625149,115633,38897,215740,,"PLAN: the symbolic-operator design choices as an open answer, item 59"
+2474,2026-10-17 13:03:49Z,d158301b6,746,623278,115592,38867,215627,625149,115633,38897,215740,,"CLIMB-BATCH-17.md: the draft record of climb batch 17, launch-ready, for the Fable review"
+2475,2026-10-17 13:23:06Z,a929b1677,746,623278,115592,38867,215627,625149,115633,38897,215740,,"CLIMB-BATCH-17.md: Fable's review in place, nine changes, ready to launch"
+2476,2026-10-17 13:26:38Z,3aea3da53,746,623278,115592,38867,215627,625149,115633,38897,215740,,"Climb batch 17: the manifest generator and the spliced block, the base for the batch"
+2477,2026-10-17 13:29:22Z,350a371ff,746,623278,115592,38867,215627,625149,115633,38897,215740,,"BOOT.md: climb batch 17 launched, its run and base"
+2478,2026-10-17 13:29:34Z,0e07d93f1,746,623278,115592,38867,215627,625149,115633,38897,215740,,BOOT.md: the launch time read from the clock
+2479,2026-10-17 17:35:50Z,2b1cd8e63,749,626977,117319,38867,215627,628848,117360,38897,215740,,"The compiled checker reads a where clause's trait constraint as a bound, and the library's generic distribute, identitie"
+2480,2026-10-17 17:38:54Z,24db899fa,757,634264,118266,38867,215627,636135,118307,38897,215740,,"AnyList's comprises clause is live: the checker opens a type where-clause variable at a call, walk binds it at load, and"
+2481,2026-10-17 17:41:34Z,6d187d069,758,635714,121726,38864,215627,637586,121769,38894,215740,,"Walk's load check reads every pair of generic declarations on its declared domains by the checker's rules, and refuses t"
+2482,2026-10-17 17:44:29Z,743eb5286,765,642799,123254,38864,215627,644671,123297,38894,215740,,"Walk infers a generic dotted method's own static arguments, alone or among its receiver's overloads, and chooses it on i"
+2483,2026-10-17 17:46:38Z,091ec54df,769,647495,123899,38864,215627,649367,123942,38894,215740,,"The compiled checker takes a left-out return type from the api declaration of the function's own parameter types, names "
+2484,2026-10-17 17:48:00Z,d6bd05ed7,769,643785,123899,38864,215627,645676,123942,38894,215740,,Close the rows climb batch 17 fixed
+2485,2026-10-17 17:56:47Z,f7abdaa63,769,643785,123899,38864,215627,645676,123942,38894,215740,,"Climb batch 17's gather record: the five rungs landed, their order, rows, notes, points and revival changes"
+2486,2026-10-17 18:19:44Z,21dce2148,769,643785,124092,38864,215627,645676,124135,38894,215740,,Fold the review's corrections
+2487,2026-10-17 18:37:10Z,41567bcc1,769,643785,124092,38864,215627,645676,124135,38894,215740,,Climb batch 17: the judge's ruling on the merged-diff review
+2488,2026-10-17 18:49:09Z,3b4578c2c,770,644967,124092,38864,215627,646858,124135,38894,215740,,"Climb batch 17's repair after the merged-diff review: the opening's bound without a where clause's constraint recorded, "
+2489,2026-10-17 18:55:27Z,65c0cc463,770,644967,124092,38864,215627,646858,124135,38894,215740,batch 17,Record the gate's tables and the microGPT walk check
+2490,2026-10-17 18:57:54Z,26656ccad,770,644967,124092,38864,215627,646858,124135,38894,215740,,"BOOT.md: climb batch 17 landed, the review and the routing next"
+2491,2026-10-17 19:00:14Z,0707ac9ac,770,644967,124092,38864,215627,646858,124135,38894,215740,,fortress-repo: climb batch 17 revival changes and the sentences it made false
+2492,2026-10-17 19:02:57Z,9df6b36df,770,644967,124092,38864,215863,646858,124135,38894,215976,,Boot note: climb batch 17's landing review in flight under its agent; INDEX line for its record
+2493,2026-10-17 19:23:51Z,8b1173430,770,644967,124092,38864,216178,646858,124135,38894,216291,,"Landing review of climb batch 17: landed with findings, text as returned"
+2494,2026-10-17 19:24:48Z,5dd54b64b,770,644967,124092,38864,216178,646858,124135,38894,216291,,Boot note: the landing review is done; the routing and the row 766 probe run
+2495,2026-10-17 19:34:10Z,7fd287cec,770,644967,124540,38864,216178,646858,124583,38894,216291,,"FACTS: climb batch 17's landing review routed, 13 entries rewritten"
+2496,2026-10-17 19:34:10Z,c598d3471,770,644967,124540,39517,216178,646858,124583,39547,216291,,POSITIONS: P-45's and P-151's status after climb batch 17
+2497,2026-10-17 19:34:25Z,18b5c64b4,770,645018,124540,39517,216178,646909,124583,39547,216291,,Ledger: rows 675 and 744 carry climb batch 17's two lost measurements
+2498,2026-10-17 19:38:05Z,c8f9eabe5,770,645018,124540,39517,216178,646909,124583,39547,216291,,PLAN: climb batch 17's landing routed
+2499,2026-10-17 19:38:05Z,ded3a93a8,770,645018,124540,39517,216178,646909,124583,39547,216291,,Review queue: two items from climb batch 17's landing review
+2500,2026-10-17 19:39:38Z,194af87db,770,645018,124540,39517,216178,646909,124583,39547,216291,,PLAN and review queue: four stale lines after climb batch 17's routing; finding 7's minor items
+2501,2026-10-17 19:39:51Z,919656c1e,770,645018,124540,39517,216178,646909,124583,39547,216291,,Boot note: the routing of climb batch 17's review is done; the row 766 probe runs
+2502,2026-10-17 20:00:59Z,c2ac88ea1,771,645976,124540,39517,216603,647867,124583,39547,216716,,"Probe of row 766: walk reads a trait's generic method's bounds in the trait's method environment (way A, built and measu"
+2503,2026-10-17 20:32:42Z,fa2b1b3cd,771,645976,124540,39517,216603,647867,124583,39547,216716,,"Climb batch 18: the planner's record and manifest, drafted from the batch 17 review"
+2504,2026-10-17 20:34:07Z,7bea8eaa7,771,645976,124540,39517,216603,647867,124583,39547,216716,,PLAN and boot note: batch 18 is drafted and waits for the curator's go
+2505,2026-10-18 00:27:14Z,ac74e11c4,771,645976,124540,39517,216603,647867,124583,39547,216716,,Batch script: the gather puts a rung after the rungs it lands only with
+2506,2026-10-18 00:27:27Z,843967112,771,645976,124540,39517,216603,647867,124583,39547,216716,,Pending script edits: the gather's order marked applied in ac74e11c4
+2507,2026-10-18 00:40:45Z,802229edd,771,645976,124540,39517,216603,647867,124583,39547,216716,,"Climb batch 18: the record reviewed in place before the launch, with its review"
+2508,2026-10-18 00:42:38Z,db8fecd22,771,645976,124540,39517,216603,647867,124583,39547,216716,,Batch script: climb batch 18's manifest spliced in
+2509,2026-10-18 00:47:03Z,e43f28d28,771,645976,124540,39517,216603,647867,124583,39547,216716,,"Boot note and PLAN: climb batch 18 launched on db8fecd2, run wf_f345f475-9ae"
+2510,2026-10-18 03:11:01Z,372b9bf6a,774,649636,126467,39517,216603,651527,126510,39547,216716,,"The compiled checker reads conditional extension, and a list is ordered where its elements are totally ordered"
+2511,2026-10-18 03:15:01Z,396e4ed8d,777,652667,128386,39517,216603,654558,128429,39547,216716,,"The compiled checker checks a where clause's constraints where they apply: at a dotted call, at a call through a where-c"
+2512,2026-10-18 03:17:25Z,5262a2412,779,655102,130177,39517,216603,656993,130220,39547,216716,,"Walk reads a trait's generic method's bounds and coercion targets where the trait declares them, and names the overloadi"
+2513,2026-10-18 03:18:30Z,2b7badde8,779,651117,130177,39517,216603,653024,130220,39547,216716,,Close the rows climb batch 18 fixed
+2514,2026-10-18 03:24:04Z,632f73d60,779,651117,130177,39517,216603,653024,130220,39547,216716,,"Climb batch 18's gather record: the three rungs landed, their order, rows, notes, points and revival changes"
+2515,2026-10-18 03:43:17Z,7d6c65881,779,651218,130261,39517,216603,653125,130304,39547,216716,,Fold the review's corrections
+2516,2026-10-18 03:56:57Z,53ee5dc29,779,651218,130261,39517,216603,653125,130304,39547,216716,,Climb batch 18's merged-diff review: the judge's ruling
+2517,2026-10-18 04:18:23Z,5b11849c6,780,652310,131063,39517,216603,654217,131106,39547,216716,,Climb batch 18's repair after the merged-diff review: a declaration's header is checked without a conditional extension'
+2518,2026-10-18 04:41:24Z,e51759f57,780,652310,131063,39517,216603,654217,131106,39547,216716,batch 18,Record the gate's tables and the microGPT walk check
+2519,2026-10-18 04:44:16Z,2735989f2,780,652310,131063,39517,216603,654217,131106,39547,216716,,Boot note: climb batch 18 landed at e51759f57; routing and the report are next
+2520,2026-10-18 04:57:16Z,9332e8ec0,780,652310,132235,39517,216603,654217,132278,39547,216716,,FACTS: climb batch 18's landing routed into the entries it made stale
+2521,2026-10-18 04:57:16Z,4c607e9dc,780,652310,132235,40196,216603,654217,132278,40226,216716,,"POSITIONS: P-151's status after climb batch 18, and P-45's open rows"
+2522,2026-10-18 05:02:28Z,0156a74d2,780,652310,132235,40196,216603,654217,132278,40226,216716,,"PLAN: climb batch 18's landing routed, its built and answered items to PLAN-history"
+2523,2026-10-18 05:04:09Z,33459f054,780,652310,132235,40196,216603,654217,132278,40226,216716,,"Review queue: climb batch 18's items, and items 173 and 174 settled"
+2524,2026-10-18 05:05:41Z,66fb38573,780,652310,132235,40196,216603,654217,132278,40226,216716,,Boot note: batch 18's routing is done; item 58 is the next ask
+2525,2026-10-19 16:41:45Z,0edf14207,780,652310,132235,40196,216603,654217,132278,40226,216716,,"Boot note: the state before the compaction (batches 17 and 18, the open ask, running reads, the revival page, local prob"
+2526,2026-10-19 16:50:14Z,38a14ca6b,780,652310,132235,40196,217280,654217,132278,40226,217393,,"Boot note after the compaction: batches 17 and 18 measured, the revival page at version 22, the two workers stopped; IND"
+2527,2026-10-19 21:11:30Z,3c8f1f1a4,780,652310,132235,40196,217280,654217,132278,40226,217393,,Boot note before the compaction: the coordinating session ran on Haiku from 20:09 UTC on 16 October to 21:04 UTC on 19 O
+2528,2026-10-19 21:23:20Z,12a6e553f,780,652310,132235,40196,217280,654217,132278,40226,217393,,Post-mortem of the Haiku window: the index into the transcript and the scripts that print it
+2529,2026-10-19 21:25:12Z,47bd80534,780,652310,132235,40196,217280,654217,132278,40226,217393,,"Boot note: the review of the Haiku window runs, three Opus reviewers by part"
+2530,2026-10-19 21:25:34Z,27aeda070,780,652310,132235,40196,217280,654217,132278,40226,217393,,Boot note: his message's time read from the transcript
+2531,2026-10-19 21:39:28Z,7d7d7e6f0,780,652310,132235,40196,217280,654217,132278,40226,217393,,"Boot note: his yes to a Fable reviewer, and the review widened to decisions he approved"
+2532,2026-10-19 21:48:13Z,3adefec17,780,652310,132235,40196,217280,654217,132278,40226,217393,,"Post-mortem of the Haiku window, part 3: the curator's return on 2026-10-19, 19 acts judged, seven redo items"
+2533,2026-10-19 21:49:53Z,13899f00e,780,652310,132235,40196,217280,654217,132278,40226,217393,,"Post-mortem of the Haiku window, part 1: the evening of 2026-10-16 and the morning of 2026-10-17, 32 acts judged"
+2534,2026-10-19 21:50:11Z,531599682,780,652310,132235,40196,217809,654217,132278,40226,217922,,"Post-mortem of the Haiku window, part 2: climb batches 17 and 18, 35 acts judged; the folder's INDEX line"
+2535,2026-10-19 21:50:29Z,103525c88,780,652310,132235,40196,219252,654217,132278,40226,219365,,INDEX: the three parts of the Haiku window's post-mortem
+2536,2026-10-19 21:54:49Z,56d0d67a8,780,652310,132235,40196,219252,654217,132278,40226,219365,,Model check: a Stop hook alarms when the coordinating session's turn ran on neither Opus nor Fable; the compaction hook 
+2537,2026-10-19 21:55:10Z,62cd2d055,780,652310,132235,40196,219252,654217,132278,40226,219365,,Model check: each run leaves its time and the model it read in ~/.claude/model-check.last
+2538,2026-10-19 21:55:31Z,fa2ee21c5,780,652310,132235,40196,219252,654217,132278,40226,219365,,"Boot note: the three reviews in, the Fable pass running, the model check built"
+2539,2026-10-19 21:56:18Z,8ffd4d8a7,780,652310,132235,40196,219252,654217,132278,40226,219365,,"Model check: the skill writer is checked too, since it must run on Opus; only the baseline interview is left alone"
+2540,2026-10-19 21:59:20Z,0d3219b7b,780,652310,132235,40196,219252,654217,132278,40226,219365,,Model check: read the transcript backwards in 64K blocks and stop at the last reply; alarm when no reply can be read
+2541,2026-10-19 22:03:36Z,156909266,780,652310,132235,40196,219252,654217,132278,40226,219365,,"Model check in shell: tac from the transcript's end to the last reply, its first model key by grep; the Python version r"
+2542,2026-10-19 22:03:53Z,9c3f57133,780,652310,132235,40196,219252,654217,132278,40226,219365,,Boot note: the model check is a shell script
+2543,2026-10-19 22:18:32Z,7a5c4cf13,780,652310,132235,40196,219837,654217,132278,40226,219950,,"Post-mortem of the Haiku window: the Fable pass over the marked entries, and the redo plan"
+2544,2026-10-19 22:19:18Z,02ac0fb15,780,652310,132235,40196,219837,654217,132278,40226,219950,,Git-check switch: a hook at every SessionStart and Stop gives the platform's git-check script its empty body whenever th
+2545,2026-10-19 22:21:49Z,c4a8fee2a,780,652310,132235,40196,219837,654217,132278,40226,219950,,"Boot note: the Fable pass in, the first Opus work of the redo plan running, ask 1 next"
+2546,2026-10-19 22:22:06Z,3cc3bd404,780,652310,132235,40196,219837,654217,132278,40226,219950,,Boot note: the launch and the ask's times read from the clock
+2547,2026-10-19 22:23:59Z,ba93d28ec,780,652310,132235,40415,219837,654217,132278,40445,219950,,"Haiku post-mortem, fix D.1.1: P-152's Why and Still to build; its PLAN line moved to PLAN-history as answered"
+2548,2026-10-19 22:25:18Z,758693e40,780,652310,132235,40415,219837,654217,132278,40445,219950,,"Haiku post-mortem, fix D.1.2: PLAN items 38 and 59, the sort's figures and their defaults"
+2549,2026-10-19 22:25:52Z,a5e800599,780,652310,132235,40415,219837,654217,132278,40445,219950,,"Haiku post-mortem, fix D.1.3: the held list's answered points out, the 20:14 point sorted"
+2550,2026-10-19 22:26:39Z,9565c98ef,780,652310,132235,40415,219837,654217,132278,40445,219950,,"Haiku post-mortem, fix D.1.4: CLIMB-BATCH-17's words of 12:18 and 12:38 UTC, and the held note cut"
+2551,2026-10-19 22:27:55Z,c34bfb465,780,652310,132235,40415,219837,654217,132278,40445,219950,,"Haiku post-mortem, fix D.1.5: review-queue items 18 and 174, and P-151's AnyList as item 188"
+2552,2026-10-19 22:28:20Z,6ffc23c52,780,652310,132235,40415,219837,654217,132278,40445,219950,,"Haiku post-mortem, fix D.1.6: the tiers named in batch 18's two records, and the batch-17 review's header"
+2553,2026-10-19 22:29:12Z,06359c7d6,780,652310,132235,40415,219837,654217,132278,40445,219950,,"Haiku post-mortem, fix D.1.7: the timing lock's PLAN-history heading and line take his words and times"
+2554,2026-10-19 22:29:59Z,8cd318c07,780,652310,132235,40415,220637,654217,132278,40445,220752,,"Haiku post-mortem, fix D.1.8: INDEX lines for the walk probe's report and the sort's"
+2555,2026-10-19 22:32:54Z,86318dc26,780,652310,132235,40415,220637,654217,132278,40445,220752,,"Haiku post-mortem, D.2.3: the walk probe's report and the sort's replaced with the workers' returned texts"
+2556,2026-10-19 22:33:32Z,e043ba41f,780,652310,132710,40415,220637,654217,132753,40445,220752,,"Haiku post-mortem, D.2.3: F-245 takes the sort's 205 errors and 253 at d212b2c1f"
+2557,2026-10-19 22:37:28Z,a86598454,783,655728,132710,40415,220637,657635,132753,40445,220752,,"Haiku post-mortem, D.2.3: the sort probe's three defects as ledger rows 782 to 784"
+2558,2026-10-19 22:38:13Z,ada547c0b,783,655728,132710,40415,220637,657635,132753,40445,220752,,"Haiku post-mortem, D.2.3: the row 766 probe's report takes back the worker's words at lines 1, 133, 142 and 145"
+2559,2026-10-19 22:40:33Z,d7eeece3a,783,655728,132710,40415,220637,657635,132753,40445,220752,,"Boot note: the record fixes done, the digest and the tally relaunched"
+2560,2026-10-19 22:40:49Z,1b1cc94d8,783,655728,132710,40415,220637,657635,132753,40445,220752,,Boot note: the answer's time read from the transcript
+2561,2026-10-19 22:45:15Z,5bef46d64,783,655728,132710,40415,221066,657635,132753,40445,221181,,"Process engineering: the cost of climb batches 14 to 18 by preparation, run and landing, the tally's returned text"
+2562,2026-10-19 22:51:45Z,33b88c48d,783,655728,132710,40415,222138,657635,132753,40445,222253,,Batch 18's post-batch review and the digest of where the project stands; row 774 held out of batch 19 until question 2 i
+2563,2026-10-19 22:53:51Z,8638f54bc,783,655728,132710,40415,222138,657635,132753,40445,222253,,Boot note rewritten whole after the review of the Haiku window
+2564,2026-10-19 22:54:22Z,433079cac,783,655728,132710,40415,222138,657635,132753,40445,222253,,Boot note: two times read from the clock and the writer's log
+2565,2026-10-19 22:55:58Z,c3e2b8e1f,783,655728,132710,40415,222138,657635,132753,40445,222253,,"fortress-repo: climb batch 18 revival changes, and the false sentences of batches 17 and 18"
+2566,2026-10-19 22:57:23Z,fd0cf67dd,783,655728,132710,40415,222138,657635,132753,40445,222253,,Skills: the model check and the git-check switch
+2567,2026-10-19 22:57:42Z,2d9663cc3,783,655728,132710,40415,222138,657635,132753,40445,222253,,"coordinator: the minimum while the curator is away, and a held line never cited as a yes"
+2568,2026-10-19 22:59:16Z,3c8b6d5e7,783,655728,132710,40415,222138,657635,132753,40445,222253,,"Skills: the four open points of the hooks task, ruled"
+2569,2026-10-19 23:00:14Z,662d6aa36,783,655728,132710,40415,222138,657635,132753,40445,222253,,"Boot note: the skill writer's task done, the cold reads and the row 716 runs running"
+2570,2026-10-19 23:06:21Z,b15c88694,783,655728,132710,40415,222138,657635,132753,40445,222253,,"Skills: the cold read of the hooks and the two rules, as ruled"
+2571,2026-10-19 23:07:44Z,472509d97,783,655728,132710,40415,222676,657635,132753,40445,222791,,"Item 58: the review behind the rewritten ask, and PLAN's default E with its pointer"
+2572,2026-10-19 23:08:36Z,f15013941,783,655728,132710,40415,222676,657635,132753,40445,222791,,"Boot note: the item 58 ask ready, the writer on the cold read's flags, the open ask, row 716 settled"
+2573,2026-10-19 23:08:53Z,02ace0fcb,783,655728,132710,40415,222676,657635,132753,40445,222791,,"Boot note: the open ask's time read from the transcript, row 716 settled"
+2574,2026-10-19 23:12:28Z,55bbb48ef,783,655728,132710,40415,223291,657635,132753,40445,223406,,"Probe for P-152: exclusion over the whole parameter type on walk and the checker, the report as returned and its two pat"
+2575,2026-10-19 23:12:43Z,475be9b38,783,655728,132710,40415,223291,657635,132753,40445,223406,,"fortress-repo: the cold read of the batch 17 and 18 passes, as ruled"
+2576,2026-10-19 23:12:44Z,a52e72312,783,655728,132710,40415,223291,657635,132753,40445,223406,,Boot note: the P-152 probe done and landed as returned
+2577,2026-10-19 23:14:37Z,62bf23368,783,655728,132710,40415,223291,657635,132753,40445,223406,,Probes: the four worktrees' uncommitted shadows saved as patch files in their probe folders
+2578,2026-10-19 23:16:49Z,100e40b7b,783,655728,132710,40415,223291,657635,132753,40445,223406,,"Settings: six exact allow rules for committing.md's three pushes, at the curator's word, approved in manual mode"
+2579,2026-10-19 23:17:42Z,81c9f9047,783,655728,132710,40415,223291,657635,132753,40445,223406,,Boot note: batch 19's planner runs
+2580,2026-10-19 23:33:21Z,4c64de9b4,783,655728,132710,40415,223291,657635,132753,40445,223406,,Boot note: his yes to the two rules; item 58 put
+2581,2026-10-20 00:02:13Z,ce752ed20,783,655728,132710,40415,223291,657635,132753,40445,223406,,Boot note: item 58 goes to a Fable judgement at the curator's word
+2582,2026-10-20 00:04:47Z,3f463d3b5,783,655728,132710,40415,223291,657635,132753,40445,223406,,"HELD: his rule of 2026-10-20 on cleaning his quoted words in a brief, for the skill writer"
+2583,2026-10-20 00:11:23Z,8cfe2638d,783,655728,132710,40415,223763,657635,132753,40445,223878,,"Climb batch 19: its record and manifest generator, rungs P (P-152 on both paths) and S (the String sites with row 743)"
+2584,2026-10-20 00:13:10Z,52f8bdffb,784,656604,132710,40415,223763,658511,132753,40445,223878,,"Ledger: row 785, walk refuses a pair whose more specific declaration writes no return type, from climb batch 19's planne"
+2585,2026-10-20 00:15:17Z,efd20cc7c,784,656604,132710,40415,223763,658511,132753,40445,223878,,"Boot note: batch 19's record at its Fable review, row 785 filed"
+2586,2026-10-20 00:18:26Z,c302e4613,784,656604,132710,40415,224348,658511,132753,40445,224463,,"Item 58: the Fable judgement on a combination that rebuilds the tower's power, as returned, and its INDEX line"
+2587,2026-10-20 00:18:46Z,fb6be40df,784,656604,132710,40415,224348,658511,132753,40445,224463,,"Boot note: item 58's Fable judgement in, ask 2 put again"
+2588,2026-10-20 00:32:45Z,e5f490b3c,784,656604,132710,40415,224633,658511,132753,40445,224748,,"Climb batch 19: the Fable review of its record before the launch, ready to launch; the record's six slips fixed"
+2589,2026-10-20 00:34:14Z,612869b4a,784,656604,132710,40415,224633,658511,132753,40445,224748,,"Workflow: climb batch 19's manifest spliced, rungs P and S"
+2590,2026-10-20 00:35:15Z,2d91166b8,784,656604,132710,40415,224633,658511,132753,40445,224748,,"PLAN: batch 19's record drafted and reviewed, in its two lines"
+2591,2026-10-20 00:38:09Z,c6c058bea,784,656604,132710,40415,224633,658511,132753,40445,224748,,"Boot note: climb batch 19 launched, its check-ins armed"
+2592,2026-10-20 00:44:21Z,4cb9792a2,784,656604,132710,40415,224633,658511,132753,40445,224748,,Boot note: the VM restart of 00:41 UTC and climb batch 19 resumed
+2593,2026-10-20 00:47:36Z,d3b5b812d,784,656604,132710,41357,224633,658511,132753,41387,224748,,"POSITIONS: P-153, an integer raised to a negative power raises an error, at the curator's yes; PLAN item 58 answered; as"
+2594,2026-10-20 00:48:15Z,361cfe483,784,656604,132710,41357,224633,658511,132753,41387,224748,,"Boot note: the curator asleep, the asks held until morning"
+2595,2026-10-20 00:53:27Z,cfa9525eb,784,656604,132710,41357,224633,658511,132753,41387,224748,,Boot note: the array sites' ways worker runs beside batch 19
+2596,2026-10-20 00:55:46Z,b5c96fbec,784,656604,132710,41357,224633,658511,132753,41387,224748,,"Boot note: the morning message kept short, at the curator's word"
+2597,2026-10-20 01:33:02Z,de6d5e5c8,784,656604,132710,41357,225431,658511,132753,41387,225546,,"Reviews: the ways for the distance's 21 array sites, for ask 3; boot note"
+2598,2026-10-20 01:34:30Z,4f4c026dc,784,656604,132710,41357,225431,658511,132753,41387,225546,,Boot note: ask 3's outline and the probe before it
+2599,2026-10-20 02:45:58Z,14e91723f,788,660636,135112,41357,225431,662543,135155,41387,225546,,Walk and the compiled checker read exclusion between two declarations with static parameters over the whole parameter ty
+2600,2026-10-20 02:47:43Z,4190069c4,789,661659,136269,41357,225431,663566,136312,41387,225546,,"An object or trait whose extends clause names Any alone extends Object, String's two || members over Any convert by the "
+2601,2026-10-20 02:50:14Z,fb1b182c9,789,660005,136269,41357,225431,661916,136312,41387,225546,,Close the rows climb batch 19 fixed
+2602,2026-10-20 02:53:57Z,3dca83601,789,660005,136269,41357,225431,661916,136312,41387,225546,,"Climb batch 19's gather record: the two rungs landed, their order, rows, notes, points and revival changes"
+2603,2026-10-20 03:12:06Z,25b55a1a1,789,660005,136395,41357,225431,661916,136438,41387,225546,,Fold the review's corrections
+2604,2026-10-20 03:20:45Z,aa9632536,789,660005,136395,41357,225431,661916,136438,41387,225546,,"Climb batch 19's judge of the merged-diff review: row 788 named in Appendix I's Effect, a repair"
+2605,2026-10-20 03:26:56Z,cf4ec59ea,789,660005,136659,41357,225431,661916,136702,41387,225546,,"Climb batch 19's repair after the merged-diff review: row 788 named in Appendix I's Effect of ""Overloading with static p"
+2606,2026-10-20 03:31:50Z,ebd39a6bd,789,660005,136659,41357,225431,661916,136702,41387,225546,batch 19,Record the gate's tables and the microGPT walk check
+2607,2026-10-20 03:39:40Z,53fdd6d34,789,660005,136659,41653,225431,661916,136702,41683,225546,,"POSITIONS: P-152 built by climb batch 19's rung P, rows 786 to 788 left; P-45's wait on it gone"
+2608,2026-10-20 03:40:00Z,45a0ff799,789,660005,136659,41653,225431,661916,136702,41683,225546,,"fortress-repo: climb batch 19's revival changes, exclusion over the whole parameter type and extends Any"
+2609,2026-10-20 03:40:26Z,ea0a1f0a8,789,660005,136659,41653,225431,661916,136702,41683,225546,,"coordinator: the curator's approval of the two rules, and the cleaning pass before his words are quoted"
+2610,2026-10-20 03:41:29Z,50c7e6fba,789,660005,136659,41653,225431,661916,136702,41683,225546,,"Boot note: climb batch 19 landed, its landing steps in flight"
+2611,2026-10-20 03:42:19Z,f4c6fba1a,789,660005,136659,41653,225431,661916,136702,41683,225546,,Boot note: the cold read of batch 19's skill changes running
+2612,2026-10-20 03:58:54Z,fa133ed9a,789,660005,136659,41653,226293,661916,136702,41683,226408,,"Probes: the array sites' no-decision ways measured, 31 to 12, and to 11 with E3 or the component's dead sizes"
+2613,2026-10-20 03:59:46Z,36d53bdd6,789,660005,138340,41653,226293,661916,138383,41683,226408,,"FACTS: F-260, the array sites by the library's own devices; F-261 and F-262 from the item 58 judgement; boot note"
+2614,2026-10-20 04:00:32Z,6a66c88ff,789,660005,138340,41653,226293,661916,138383,41683,226408,,Boot note: ask 3 drafted
+2615,2026-10-20 04:05:26Z,bd003812b,789,660005,138340,41653,227129,661916,138383,41683,227244,,Reviews: climb batch 19's post-batch review
+2616,2026-10-20 04:10:43Z,b85a5ba5b,789,660005,138340,41653,227129,661916,138383,41683,227244,,"fortress-repo: the cold read of task 19's parts, and batch 19's review's sentences"
+2617,2026-10-20 04:10:51Z,19510fa6c,789,660005,138340,41718,227129,661916,138383,41748,227244,,"PLAN routing for climb batch 19: item 17 landed, item 18 the next batch's candidates, the review's items listed; review "
+2618,2026-10-20 04:10:55Z,6d971a543,789,660005,138340,41718,227129,661916,138383,41748,227244,,"coordinator: the cleaning pass's limit and mark, and the briefing's share"
+2619,2026-10-20 04:12:17Z,a072ebad2,789,660005,138340,41718,227129,661916,138383,41748,227244,,"fortress-repo: the free static parameter's pair, its order under walk"
+2620,2026-10-20 04:13:13Z,33ee7b674,789,660005,138340,41718,227129,661916,138383,41748,227244,,Boot note: climb batch 19's landing steps done; held list: the cleaning rule built
+2621,2026-10-20 05:38:19Z,273ed00db,789,660005,138717,41718,227129,661916,138760,41748,227244,,"FACTS: F-35, where the api's dead sizes came from"
+2622,2026-10-20 05:44:11Z,4d2aef691,789,660005,138717,42020,227129,661916,138760,42050,227244,,"POSITIONS: P-40, the vector and matrix operators' unused sizes go by decision E's diff, his answer to ask 3; PLAN and th"
+2623,2026-10-20 05:44:28Z,7d74fe8a0,789,660005,138717,42020,227129,661916,138760,42050,227244,,Boot note: ask 3 answered
+2624,2026-10-20 05:55:58Z,96d461f5b,789,660005,138717,42020,227129,661916,138760,42050,227244,,Boot note: climb batch 20's planner running
+2625,2026-10-20 06:03:03Z,0f72567eb,789,660005,138717,42020,227129,661916,138760,42050,227244,,"Boot note: the morning's asks, ask 4 waiting"
+2626,2026-10-20 06:22:37Z,27722cd3f,789,660005,138717,42969,227129,661916,138760,42999,227244,,"POSITIONS: P-154, tuples partially ordered and lists totally, his answer to ask 4; PLAN item 43 answered, row 774 no lon"
+2627,2026-10-20 06:23:33Z,1b1ae5ae9,789,660005,138717,42969,227129,661916,138760,42999,227244,,"Boot note: ask 4 answered, ask 5 drafting, the stale task list cleared"
+2628,2026-10-20 06:36:33Z,4baec3f84,789,660005,138717,42969,227129,661916,138760,42999,227244,,Boot note: the task list's root cause owed at batch 20's launch; the review list's schedule proposed
+2629,2026-10-20 06:43:42Z,827e329a7,789,660005,138717,42969,227779,661916,138760,42999,227894,,"Climb batch 20: its record and manifest generator, rungs I (the integer power by P-153) and A (the array sites with deci"
+2630,2026-10-20 06:45:43Z,b9d39d60d,789,660005,138717,42969,227779,661916,138760,42999,227894,,"Boot note: climb batch 20's record drafted, its Fable review running; ask 5 drafted"
+2631,2026-10-20 06:59:33Z,11914c105,789,660005,138717,42969,227779,661916,138760,42999,227894,,Boot note: the task-list archaeology and the review queue's sort running
+2632,2026-10-20 07:03:10Z,64249659e,789,660005,138717,42969,228141,661916,138760,42999,228256,,"Climb batch 20: the Fable review of its record before the launch, ready to launch; a third team demo with an integer bas"
+2633,2026-10-20 07:04:22Z,97ccd5f1f,789,660005,138717,42969,228141,661916,138760,42999,228256,,Climb batch 20: its manifest block spliced into the batch script
+2634,2026-10-20 07:07:53Z,d0870885a,789,660005,138717,42969,228141,661916,138760,42999,228256,,Boot note: climb batch 20 launched
+2635,2026-10-20 07:21:49Z,4968ba966,789,660005,138717,42969,228141,661916,138760,42999,228256,,"Review queue: each open item's point of need, and ten stale items moved to (a)"
+2636,2026-10-20 07:22:55Z,247bced1b,789,660005,138717,42969,228802,661916,138760,42999,228917,,"Process engineering: the task-list archaeology, word for word; tools/sweep-tasks.py, the landing's sweep of the shared t"
+2637,2026-10-20 07:23:41Z,253dd4e58,789,660005,138717,42969,228802,661916,138760,42999,228917,,"Boot note: the task list settled by evidence, the queue sorted, a hold on a third demo"
+2638,2026-10-20 07:54:07Z,56d084018,789,660005,138717,42969,228802,661916,138760,42999,228917,,Boot note: the next check-in
+2639,2026-10-20 08:38:35Z,5ad4a9957,791,662050,140268,42969,228802,663963,140311,42999,228917,,"Every integer power answers its base's own type, and a negative power raises where the result is no integer"
+2640,2026-10-20 08:41:25Z,e487cec2d,791,662050,140268,42969,228802,663963,140311,42999,228917,,Boot note: the next check-in
+2641,2026-10-20 08:42:55Z,444f37018,793,664080,141876,42969,228802,665993,141919,42999,228917,,"The array sites by the library's own devices, with decision E's diff: rung A's record folded"
+2642,2026-10-20 08:43:21Z,408910f26,793,662837,141876,42969,228802,664755,141919,42999,228917,,Close the rows climb batch 20 fixed
+2643,2026-10-20 08:49:13Z,d3a9335ef,793,662837,141876,42969,228802,664755,141919,42999,228917,,"Climb batch 20's gather record: the two rungs landed, their order, rows, notes, points and revival changes"
+2644,2026-10-20 09:07:10Z,63e1a6eb1,793,662837,142059,42969,228802,664755,142102,42999,228917,,Fold the review's corrections
+2645,2026-10-20 09:16:44Z,510fac459,793,662837,142056,42969,228802,664755,142099,42999,228917,batch 20,Record the gate's tables and the microGPT walk check
+2646,2026-10-20 09:17:27Z,d5541535f,793,662837,142056,42969,228802,664755,142099,42999,228917,,"Climb batch 20's record: not pushed, and why"
+2647,2026-10-20 09:19:16Z,4324e660d,793,662837,142056,42969,228802,664755,142099,42999,228917,,"Boot note: climb batch 20 ran, its push held on two points"
+2648,2026-10-20 11:53:24Z,f258c3dd9,793,662837,142056,42969,228802,664755,142099,42999,228917,,Climb batch 20's record: pushed after his two answers; e487cec2d holds rung A's net change
+2649,2026-10-20 11:56:28Z,f502f5563,793,662837,142056,44198,228802,664755,142099,44228,228917,,"POSITIONS: P-155, symbolic operators checked before the switch-over, his answer to ask 5; P-79, every team demo kept run"
+2650,2026-10-20 11:57:20Z,3551fa5e3,793,662837,142056,44198,228802,664755,142099,44228,228917,,"Boot note: climb batch 20 landed, its landing steps and the symbolic-operators probe running; ask 5 answered"
+2651,2026-10-20 11:58:13Z,d97001d19,793,662837,142056,44198,228802,664755,142099,44228,228917,,Boot note: its time read from the clock
+2652,2026-10-20 12:00:02Z,0cf48c7b2,793,662837,142056,44198,228802,664755,142099,44228,228917,,"fortress-repo: climb batch 20's revival changes, the integer power and the array sites"
+2653,2026-10-20 12:00:47Z,1130effc7,793,662837,142056,44198,228802,664755,142099,44228,228917,,"coordinator: commit only named paths, and nothing in the main tree while a batch runs"
+2654,2026-10-20 12:01:22Z,2f9d9b693,793,662837,142056,44198,228802,664755,142099,44228,228917,,Held list: the two commit rules are in the coordinator skill (1130effc7)
+2655,2026-10-20 12:01:46Z,eae2b424f,793,662837,142056,44198,228802,664755,142099,44228,228917,,"Boot note: the writer's task 20 done, its cold read running"
+2656,2026-10-20 12:09:14Z,62a3fe898,793,662837,142056,44198,228802,664755,142099,44228,228917,,Boot note: the writer's fixes and the INDEX archaeology running
+2657,2026-10-20 12:12:03Z,df58b05b8,793,662837,142056,44198,228802,664755,142099,44228,228917,,fortress-repo: the cold read of task 20's revival changes
+2658,2026-10-20 12:13:39Z,222c9d5fe,793,662837,142056,44198,228802,664755,142099,44228,228917,,"coordinator: the cold read of task 20, the sweep and the held push at the landing"
+2659,2026-10-20 12:14:35Z,066725e0a,793,662837,142056,44198,228802,664755,142099,44228,228917,,Boot note: the writer's task 20b done
+2660,2026-10-20 12:27:12Z,5c4662bfb,793,662837,142056,44198,229516,664755,142099,44228,229631,,Reviews: climb batch 20's post-batch review; its INDEX line
+2661,2026-10-20 12:27:59Z,b5d39dcc1,793,662837,142056,44198,229516,664755,142099,44228,229631,,"Boot note: climb batch 20's review done, its routing running"
+2662,2026-10-20 12:28:22Z,61248b23a,793,662837,142056,44198,229516,664755,142099,44228,229631,,Boot note: its times read from the clock
+2663,2026-10-20 12:32:22Z,31723d98b,793,662837,142056,44198,230122,664755,142099,44228,230237,,"Process engineering: the INDEX-use archaeology, word for word; its INDEX line"
+2664,2026-10-20 12:32:55Z,85a8955c9,793,662837,142056,44198,230122,664755,142099,44228,230237,,Boot note: the INDEX archaeology done
+2665,2026-10-20 12:59:41Z,9d6933a65,793,662837,142056,44198,230122,664755,142099,44228,230237,,Boot note: his rule for batch 20's review items; the first sent
+2666,2026-10-20 13:03:50Z,bd33a2f8b,793,662866,140091,44340,230122,664784,140134,44370,230237,,"Climb batch 20's routing: item 18 landed, item 19 batch 21's candidates; his answers' items moved; review list items 195"
+2667,2026-10-20 13:06:01Z,8215bc78e,793,662866,140091,44340,230122,664784,140134,44370,230237,,Boot note: climb batch 20's routing done
+2668,2026-10-20 13:18:28Z,4069f1a8b,793,662866,140091,44340,230122,664784,140134,44370,230237,,"Boot note: review item 1 put again, the immutable-arrays probe running"
+2669,2026-10-20 13:42:28Z,78869af2a,793,662866,140091,44340,230122,664784,140134,44370,230237,,Boot note: the P-86 archaeology running
+2670,2026-10-20 13:50:13Z,b1d73df0d,793,662866,140091,44340,230122,664784,140134,44370,230237,,Boot note: review item 1 handed to two fresh drafters
+2671,2026-10-20 13:52:55Z,a8b620050,793,662866,140091,44340,230122,664784,140134,44370,230237,,Boot note: the blind replay of review item 1
+2672,2026-10-20 13:55:17Z,720806b14,793,662866,140091,44340,230122,664784,140134,44370,230237,,Boot note: the drafts go into one markdown file
+2673,2026-10-20 14:02:17Z,40565a35e,793,662866,140091,44340,231100,664784,140134,44370,231215,,"Perf probes: the immutable-arrays probe's report, word for word, and its two patches; its INDEX line"
+2674,2026-10-20 14:03:53Z,0a6ba39e6,793,662866,140091,44340,231100,664784,140134,44370,231215,,"Symbolic-operators probe 2: the full check's shadow, the known fixes and the two designs as generators and patches"
+2675,2026-10-20 14:04:46Z,1466bf153,793,662866,140091,44340,231100,664784,140134,44370,231215,,Boot note: rewritten after the boot; two drafts and the immutable-arrays probe returned
+2676,2026-10-20 14:07:30Z,bf8525294,793,662866,140091,44340,231890,664784,140134,44370,232005,,"Reviews: review item 1's three drafts and the P-86 scout, word for word, with their briefs; its INDEX line"
+2677,2026-10-20 14:07:54Z,ee458d7b4,793,662866,140091,44340,231890,664784,140134,44370,232005,,"Boot note: the drafts file pushed, its link sent"
+2678,2026-10-20 14:27:58Z,3099fb2eb,793,662866,140091,44340,232667,664784,140134,44370,232782,,"Perf probes: the symbolic-operators probe's report, word for word; its INDEX line"
+2679,2026-10-20 14:28:45Z,c499a7300,793,662866,140091,44340,232667,664784,140134,44370,232782,,"Boot note: the symbolic-operators probe returned, its report committed"
+2680,2026-10-20 16:52:55Z,4cd6595d6,793,662866,140091,44340,232667,664784,140134,44370,232782,,"Boot note: his hold of 16:50 UTC, no batch until FACTS and POSITIONS are verified again"
+2681,2026-10-20 17:19:40Z,5160e328f,793,662866,140091,44340,232625,664784,140134,44370,232740,,"Light boot set for the post-mortem: the boot note's first section, the skill's light-boot clause; his message in the dra"
+2682,2026-10-20 17:20:30Z,1ea8fee45,793,662866,140091,44340,232625,664784,140134,44370,232740,,Light boot: the skill's boot section left as it was; the one-time exception stated in the boot note only
+2683,2026-10-20 17:27:48Z,028f12489,793,662866,140091,44340,232625,664784,140134,44370,232740,,Boot note: the one-time light boot taken; its section removed
+2684,2026-10-21 17:37:54Z,4c1d8659b,793,662866,140091,44340,232625,664784,140134,44370,232740,,"Boot note: item 1's findings, the audit prototype asked, the revival-part scout running"
+2685,2026-10-21 17:54:50Z,a294000d2,793,662866,140091,44340,232625,664784,140134,44370,232740,,"Item 31 drafts: the P-86 scout's brief as Part 8, word for word"
+2686,2026-10-21 18:03:19Z,e7afc66ae,793,662866,140091,44340,232625,664784,140134,44370,232740,,"Boot note and held list: the POSITIONS audit's method as he set it, the Sonnet script worker running; his Sonnet rule fo"
+2687,2026-10-21 18:05:40Z,911e48140,793,662866,140091,44340,232938,664784,140134,44370,233053,,"The revival part's use and growth: the scout's report word for word, and its INDEX line"
+2688,2026-10-21 18:05:55Z,1117d0e09,793,662866,140091,44340,232938,664784,140134,44370,233053,,Boot note: the revival-part scout returned
+2689,2026-10-21 18:15:21Z,326d61bb1,793,662866,140091,44340,232938,664784,140134,44370,233053,,"Boot note and held list: the script worker split, Sonnet's study then Opus's scripts, at his word"
+2690,2026-10-21 18:15:43Z,90db01ef4,793,662866,140091,44340,232938,664784,140134,44370,233053,,Boot note and held list: the times read from the clock and the transcript
+2691,2026-10-21 18:25:32Z,52c6a70b1,793,662866,140091,44340,233237,664784,140134,44370,233352,,"POSITIONS audit: the study of the P-86 scout's searches, word for word, and its INDEX line"
+2692,2026-10-21 18:26:17Z,3e2b735f4,793,662866,140091,44340,233237,664784,140134,44370,233352,,Boot note: the Opus script worker running
+2693,2026-10-21 18:53:15Z,4543f9bf4,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit: the provenance scripts, their report word for word, and the sort of the 85 entries"
+2694,2026-10-21 18:55:01Z,2f962b1ac,793,662866,140091,44340,233907,664784,140134,44370,234022,,POSITIONS audit: the scripts report's return time from the worker's duration
+2695,2026-10-21 18:55:21Z,2e7cfb2b0,793,662866,140091,44340,233907,664784,140134,44370,234022,,"Boot note: the scripts landed, the trial's page and its ask"
+2696,2026-10-21 20:30:07Z,f415fa913,793,662866,140091,44340,233907,664784,140134,44370,234022,,"Held list and boot note: his six comments on the audit trial's page, and the trial's ask as revised"
+2697,2026-10-21 20:55:23Z,b7fccea2b,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scouts' brief as approved, and the boot note with the trial running"
+2698,2026-10-21 20:55:52Z,d5cd9f2d3,793,662866,140091,44340,233907,664784,140134,44370,234022,,Boot note: the trial's times read from the transcript
+2699,2026-10-21 20:59:41Z,bbdab7fc0,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the Opus reader's actionable marks for all 85 entries, as it wrote them"
+2700,2026-10-21 21:01:31Z,2e233109d,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scout's report on P-148, as it wrote it"
+2701,2026-10-21 21:02:15Z,e64643119,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scouts' reports on P-18 and P-86, as they wrote them"
+2702,2026-10-21 21:03:06Z,251a7871c,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scout's report on P-151, as it wrote it"
+2703,2026-10-21 21:03:43Z,c3372426d,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scout's report on P-150, as it wrote it"
+2704,2026-10-21 21:04:05Z,bea47c4ae,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scout's report on P-66, as it wrote it"
+2705,2026-10-21 21:04:41Z,a2ea4437c,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scout's report on P-88, as it wrote it"
+2706,2026-10-21 21:06:32Z,a33829fef,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scout's report on P-85, as it wrote it"
+2707,2026-10-21 21:06:45Z,e4582442d,793,662866,140091,44340,233907,664784,140134,44370,234022,,POSITIONS audit trial: the P-88 scout's last revision of its report
+2708,2026-10-21 21:07:09Z,8cc378364,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scout's report on P-55, as it wrote it"
+2709,2026-10-21 21:09:29Z,8d5a0dccd,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the scout's report on P-10, as it wrote it"
+2710,2026-10-21 21:10:46Z,49baf7b6c,793,662866,140091,44340,233907,664784,140134,44370,234022,,"Boot note: the trial's scouts back, their cost, the judgement reader running"
+2711,2026-10-21 21:27:00Z,57a451100,793,662866,140091,44340,233907,664784,140134,44370,234022,,"Boot note: the trial's files go into an evidence folder after the judgement, at his word"
+2712,2026-10-21 21:36:26Z,4f613c02c,793,662866,140091,44340,233907,664784,140134,44370,234022,,"POSITIONS audit trial: the Opus reader's judgement of the ten entries, as it wrote it"
+2713,2026-10-21 21:38:56Z,d245ddeaf,793,662866,140091,44340,234386,664784,140134,44370,234501,,"POSITIONS audit trial: its files moved into evidence/ by git mv, at his word; the results file and its INDEX line"
+2714,2026-10-21 21:39:34Z,08445652a,793,662866,140091,44340,234386,664784,140134,44370,234501,,"Boot note: the trial done, its results, and the full run's ask"
+2715,2026-10-21 21:49:53Z,47333b2e2,793,662866,140091,44340,234386,664784,140134,44370,234501,,Boot note: the correction trial running
+2716,2026-10-21 22:01:15Z,18b2511d7,793,662866,140091,44340,234386,664784,140134,44370,234501,,"Boot note: his rule on rewording his words, sent to the correction writer"
+2717,2026-10-21 22:01:29Z,2681a035a,793,662866,140091,44340,234386,664784,140134,44370,234501,,Boot note: the time read from the clock
+2718,2026-10-21 22:12:48Z,5b3309e51,793,662866,140091,44340,234386,664784,140134,44370,234501,,"POSITIONS audit trial: the Opus writer's proposed corrections for the ten entries, its apply file and its drafted queue "
+2719,2026-10-21 22:13:33Z,68883a160,793,662866,140091,44340,234386,664784,140134,44370,234501,,"Boot note: the correction trial's writer back, the cold reader running"
+2720,2026-10-21 22:16:49Z,c310b0dcd,793,662866,140091,44340,234386,664784,140134,44370,234501,,"POSITIONS audit trial: the cold read of the seven rewritten entries, as its reader wrote it"
+2721,2026-10-21 22:17:09Z,596bb2cf3,793,662866,140091,44340,234386,664784,140134,44370,234501,,"Boot note: the cold read back, the takeaway check running"
+2722,2026-10-21 22:25:51Z,25e6c4572,793,662866,140091,44340,234386,664784,140134,44370,234501,,"POSITIONS audit: his six comments on the trial's page, word for word, for the scripts to read"
+2723,2026-10-21 22:26:39Z,05c55d866,793,662866,140091,44340,234386,664784,140134,44370,234501,,Held list and boot note: his word on scripted leads and an overnight Workflow; the scripts' second round running
+2724,2026-10-21 22:27:13Z,0f11e0ba6,793,662866,140091,44340,234386,664784,140134,44370,234501,,"POSITIONS audit trial: the takeaway check of the seven rewritten entries, as its reader wrote it"
+2725,2026-10-21 22:28:12Z,fa3931f42,793,662866,140091,44340,234386,664784,140134,44370,234501,,"Boot note: the correction trial done, on the page's version 4"
+2726,2026-10-21 22:29:30Z,d6fb50bdd,793,662866,140091,44340,234386,664784,140134,44370,234501,,"Held list and boot note: numbers out of POSITIONS, his later word updates an entry; item 8 for the scripts"
+2727,2026-10-21 22:42:30Z,b39657798,793,662866,140091,44284,234386,664784,140134,44314,234501,,POSITIONS: P-148 takes his loosening of the timing and his reason of today; P-150's measured figures leave for F-234; at
+2728,2026-10-21 22:42:53Z,83edacefa,793,662866,140091,44284,234386,664784,140134,44314,234501,,Boot note: P-148 and P-150 rewritten at his yes
+2729,2026-10-21 22:51:18Z,12ead6ec2,793,662866,140091,44284,234386,664784,140134,44314,234501,,"Boot note: the before-and-after page, and the ask on P-86 and item 31"
+2730,2026-10-21 22:51:31Z,d19fc059b,793,662866,140091,44284,234386,664784,140134,44314,234501,,Boot note: the time read from the clock
+2731,2026-10-21 23:00:00Z,93b7c921e,793,662866,140091,43865,234386,664784,140134,43895,234501,,"POSITIONS: P-86 struck at his yes, a one-time approval carried out; review-queue item 31 takes its live point, Astra's r"
+2732,2026-10-21 23:07:40Z,16a937771,793,662866,140091,43865,234734,664784,140134,43895,234849,,"POSITIONS audit: the scripts' second round (reply chain, pointers, homes, comments, quote-block check, later words, one "
+2733,2026-10-21 23:09:25Z,69b25703b,793,662866,140091,43865,234734,664784,140134,43895,234849,,"POSITIONS audit, full run: the five briefs (scout, judgement, writer, cold read, takeaway), for his go"
+2734,2026-10-21 23:10:00Z,1022e9d06,793,662866,140091,43865,234734,664784,140134,43895,234849,,"Boot note: the scripts in, P-86 struck, and the full run's design put to him"
+2735,2026-10-21 23:11:11Z,6efbfd207,793,662866,140091,43865,234734,664784,140134,43895,234849,,POSITIONS audit: his comments of 23:01 to 23:09 saved; P-10 kept at his word; the actionable test sharpened in the brief
+2736,2026-10-21 23:12:03Z,e0643c6c1,793,662866,140091,43865,234734,664784,140134,43895,234849,,POSITIONS audit: his comment of 23:10 on P-55 saved
+2737,2026-10-21 23:17:39Z,43958521c,793,662866,140091,43865,234734,664784,140134,43895,234849,,POSITIONS audit: his comment of 23:16 on P-66 saved
+2738,2026-10-21 23:22:42Z,317f24091,793,662866,140091,43865,234734,664784,140134,43895,234849,,POSITIONS audit: his rule of 23:21 (change as little as possible) as rule 0 of the writer's brief; P-66's GCD clause set
+2739,2026-10-21 23:30:16Z,e0f39b357,793,662866,140091,43865,234734,664784,140134,43895,234849,,POSITIONS audit: P-88 kept at his word; rule 5 keeps an unsourced sentence as a question; his comment saved; held
+2740,2026-10-21 23:33:31Z,7f468a539,793,662866,140091,43865,234734,664784,140134,43895,234849,,POSITIONS audit: his yes of 23:33 to P-151's proposed text saved
+2741,2026-10-21 23:36:53Z,eda1dd5e3,793,662866,140091,43247,234734,664784,140134,43277,234849,,"POSITIONS: the trial's corrections applied at his word, as his page comments left them: P-18 struck; P-55, P-66, P-85 an"
+2742,2026-10-21 23:38:42Z,138dd65f9,793,662866,140091,43247,234734,664784,140134,43277,234849,,"Boot note: the trial's corrections applied, the full POSITIONS audit running in four Workflows, its check-ins; the Workf"
+2743,2026-10-21 23:55:07Z,a864ff524,793,662866,140091,43247,234734,664784,140134,43277,234849,,"Review queue: items 30 and 37 corrected after the audit's trial, at his word (the message behind fork 3; the element wid"
+2744,2026-10-21 23:56:04Z,05d26045b,793,662866,140091,43247,234734,664784,140134,43277,234849,,"Boot note rewritten for the compaction: a one-time light boot; the full audit in flight, its check-ins and end; the morn"
+2745,2026-10-21 23:56:24Z,d260cbfe4,793,662866,140091,43247,234734,664784,140134,43277,234849,,Boot note: his message's time from the transcript
+2746,2026-10-22 00:00:15Z,4fee10969,793,662866,140091,43247,234734,664784,140134,43277,234849,,"POSITIONS audit, full run: the scouts' reports so far"
+2747,2026-10-22 00:05:50Z,503f723bf,793,662866,140091,43247,234734,664784,140134,43277,234849,,Boot note: the VM restart at 00:03 UTC and the four runs resumed; P-43's scout report
+2748,2026-10-22 00:23:45Z,db0e0ad9b,793,662866,140091,43247,234734,664784,140134,43277,234849,,"POSITIONS audit, full run: seven more scout reports"
+2749,2026-10-22 01:09:05Z,ed2a45803,793,662866,140091,43247,234734,664784,140134,43277,234849,,"POSITIONS audit, full run: more scout reports, and the judgements of chunks 7 and 8"
+2750,2026-10-22 01:31:52Z,e5b63d56c,793,662866,140091,43247,234734,664784,140134,43277,234849,,"POSITIONS audit, full run: chunks 7 and 8 done (writers, cold reads, takeaway checks); more scout reports"
+2751,2026-10-22 01:54:11Z,25f48b11e,793,662866,140091,43247,234734,664784,140134,43277,234849,,"POSITIONS audit, full run: more of chunks 1 to 6"
+2752,2026-10-22 01:58:12Z,6601e811b,793,662866,140091,43247,234734,664784,140134,43277,234849,,"POSITIONS audit, full run: chunks 3 and 4 done; more of chunks 1, 2, 5 and 6"
+2753,2026-10-22 02:06:04Z,2348e3c8d,793,662866,140091,43247,234734,664784,140134,43277,234849,,"POSITIONS audit, full run: chunks 5 and 6 done"
+2754,2026-10-22 02:25:47Z,6897e6f48,793,662866,140091,43247,234734,664784,140134,43277,234849,,"POSITIONS audit, full run: chunks 1 and 2 done; all eight chunks finished"
+2755,2026-10-22 02:37:39Z,d9a11f134,793,662866,140091,43247,235053,664784,140134,43277,235168,,"POSITIONS audit, full run: results (50 entries change in six groups for his approval, 25 kept, 16 questions; checks pass"
+2756,2026-10-22 02:55:56Z,a0a30ffe3,793,662866,140091,43247,235053,664784,140134,43277,235168,,"record.py: note N, a noted block that adds to an entry's history without changing the entry (sources, or a correction of"
+2757,2026-10-22 02:56:11Z,1d896c417,793,662866,140091,43247,235053,664784,140134,43277,235168,,Boot note: the history-only command landed
+2758,2026-10-22 02:56:20Z,c01db535d,793,662866,140091,43247,235053,664784,140134,43277,235168,,Boot note: its time from the clock
+2759,2026-10-22 04:48:07Z,243884eea,793,662866,140091,43247,235053,664784,140134,43277,235168,,Boot note: the VM restart at 04:46 UTC
+2760,2026-10-22 04:57:11Z,391a4baa0,793,662866,140091,43247,235053,664784,140134,43277,235168,,"POSITIONS audit: group 7, the handles of past conversations struck from 19 entries, at his page comment on P-45 (P-45's "
+2761,2026-10-22 04:57:23Z,045ede9b0,793,662866,140091,43247,235053,664784,140134,43277,235168,,Audit results: the kept count with group 7
+2762,2026-10-22 05:31:17Z,5b75f40b0,793,662866,140091,43247,235053,664784,140134,43277,235168,,"POSITIONS clarity pass: the briefs (writer, cold reader, checker) from Astra's review, and entries.py, which fetches an "
+2763,2026-10-22 05:31:42Z,df7ddbf7b,793,662866,140091,43247,235053,664784,140134,43277,235168,,"Boot note and held list: the clarity pass of POSITIONS at his word of 05:28 UTC, its pilot running; group 7 agreed"
+2764,2026-10-22 05:32:39Z,5bd207753,793,662866,140091,43247,235470,664784,140134,43277,235585,,"Astra's record-keeping review onto main, from astra/record-keeping-review at df1a1d50d (its only file); INDEX line"
+2765,2026-10-22 05:33:18Z,0f6aeb398,793,662866,140091,43247,235470,664784,140134,43277,235585,,"POSITIONS clarity pass: through the skill writer's process at his word; the briefs moved to clarity/evidence/, the ad-ho"
+2766,2026-10-22 05:33:49Z,568caa619,793,662866,140091,43247,235470,664784,140134,43277,235585,,"Boot note: the clarity pilot runs in the skill writer, at his word"
+2767,2026-10-22 05:36:05Z,9e5052526,793,662866,140091,43247,235470,664784,140134,43277,235585,,"Clarity pass: the cold reader never reads the revival part, and a missing concept goes to a list for the orientation rat"
+2768,2026-10-22 05:40:24Z,9ead1c6df,793,662866,140091,43247,235470,664784,140134,43277,235585,,"POSITIONS clarity pass, pilot: ten entries rewritten for a cold reader"
+2769,2026-10-22 05:45:45Z,9a8a6e666,793,662866,140091,43247,235470,664784,140134,43277,235585,,Clarity pilot: the cold read of the ten rewritten entries
+2770,2026-10-22 05:49:20Z,0bf265472,793,662866,140091,43247,235470,664784,140134,43277,235585,,Held: his page comments of 10-22 on pointers and handles
+2771,2026-10-22 05:52:11Z,ae2d3dbc5,793,662866,140091,43247,235470,664784,140134,43277,235585,,Held: his refinement of 05:51 on pointers
+2772,2026-10-22 06:03:42Z,6549e9dc8,793,662866,140091,43247,235470,664784,140134,43277,235585,,Clarity pilot: the checker's fidelity and comprehension report
+2773,2026-10-22 06:04:02Z,19dff6fde,793,662866,140091,43247,235470,664784,140134,43277,235585,,"Clarity pilot: the writer's fix task, from the two checks and his page comments on pointers"
+2774,2026-10-22 06:08:02Z,7bd82d9ad,793,662866,140091,43247,235470,664784,140134,43277,235585,,POSITIONS clarity pilot: the ten entries fixed from the cold read and the check
+2775,2026-10-22 06:13:32Z,a588107eb,793,662866,140091,43247,235470,664784,140134,43277,235585,,"Clarity pilot: the second cold read, of the fixed entries"
+2776,2026-10-22 06:13:56Z,210167968,793,662866,140091,43247,235470,664784,140134,43277,235585,,Boot note: the clarity pilot on the page
+2777,2026-10-22 07:51:48Z,8a2f7ac3b,793,662866,140091,43247,235595,664784,140134,43277,235710,,"Astra's review: its FACTS section (e1081e187) onto main; INDEX line; boot note: the order POSITIONS, FACTS, revival; the"
+2778,2026-10-22 08:00:30Z,d43aa4bd8,793,662866,140091,43247,235595,664784,140134,43277,235710,,Boot note: a one-time light boot after the compaction he offered at 08:00 UTC; nothing runs
+2779,2026-10-22 08:21:29Z,e037b5959,793,662866,140091,43247,235595,664784,140134,43277,235710,,"Boot note rewritten for the autonomous consolidation he asked for at 08:19 UTC (POSITIONS, FACTS, the revival part), wit"
+2780,2026-10-22 08:21:41Z,051e009b1,793,662866,140091,43247,235595,664784,140134,43277,235710,,Boot note: its time from the clock
+2781,2026-10-22 08:30:36Z,6b560762f,793,662866,140085,44521,235595,664784,140128,44551,235710,,"POSITIONS: the audit's groups 1 to 7 and the clarity pilot's ten entries applied, at his word of 08:19 UTC (P-16 and P-1"
+2782,2026-10-22 08:34:05Z,d56844991,793,662866,140085,44521,235875,664784,140128,44551,235990,,"The clarity workflow as a reusable tool (tools/record-clarity/: the script, its briefs, entries.py moved there, a README"
+2783,2026-10-22 08:35:16Z,5b541511d,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Boot note: the consolidation in flight (stage 1 applied, the clarity tooling, five Workflow runs, two workers, check-ins"
+2784,2026-10-22 08:35:37Z,df0728b81,793,662866,140085,44521,235875,664784,140128,44551,235990,,Boot note: his message times from the transcript
+2785,2026-10-22 08:48:44Z,9c17b3975,793,662866,140085,44521,235875,664784,140128,44551,235990,,"POSITIONS history: noted blocks for 58 entries (the 25 kept entries' sources, P-10's and P-88's page comments, 46 correc"
+2786,2026-10-22 08:51:33Z,329d866a9,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Review queue: the audit's ten drafted items (205 to 214), its 16 questions and the clarity pilot's 4 (215 to 234), with "
+2787,2026-10-22 08:51:48Z,30ee7ae4b,793,662866,140085,44521,235875,664784,140128,44551,235990,,Boot note: stage 1's history notes and queue items done
+2788,2026-10-22 09:18:44Z,ea79dfad1,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Consolidation: the clarity run of POSITIONS chunks p3 and p4 (18 entries), not yet judged or applied"
+2789,2026-10-22 09:19:34Z,bf0e8ea66,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Consolidation: the clarity run of POSITIONS chunks p7 and p8 (18 entries), not yet judged or applied"
+2790,2026-10-22 09:21:17Z,38762577b,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Consolidation: the clarity run of POSITIONS chunks p5 and p6 (17 entries), not yet judged or applied"
+2791,2026-10-22 09:22:28Z,001209119,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Consolidation: the FACTS calibration (F-151, F-261 to F-264): assessment, rewrites of the three failing entries, cold re"
+2792,2026-10-22 09:26:27Z,b4dcfc4e4,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Consolidation: the clarity run of POSITIONS chunks p1 and p2 (18 entries), not yet judged or applied; all eight chunks w"
+2793,2026-10-22 09:28:18Z,913ba1cbf,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Consolidation tools: the judge stage and the headless writer stream in the clarity workflow (writer-stream.sh, wait.py, "
+2794,2026-10-22 09:29:00Z,4df2195df,793,662866,140085,44521,235875,664784,140128,44551,235990,,Consolidation: the skill writer's task to document the three tools and the record's new rules
+2795,2026-10-22 09:29:12Z,58a18db8c,793,662866,140085,44521,235875,664784,140128,44551,235990,,Consolidation: the writer's task into the evidence folder
+2796,2026-10-22 09:29:50Z,dc1dad1b4,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Boot note: the tools built at his yes of 09:23 UTC, the judges and the skill writer in flight, the plan from here"
+2797,2026-10-22 09:30:41Z,ca6f7fee7,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Consolidation: the skill writer's next task, the working terms moved to the fortress-repo core's glossary, at his word"
+2798,2026-10-22 09:32:00Z,b6f5268e1,793,662866,140085,44521,235875,664784,140128,44551,235990,,"Coordinator skill: the record's consolidation tools, entries that read on their own, the FACTS checks, the orientation u"
+2799,2026-10-22 09:34:52Z,09e1338df,793,662866,142811,44521,235875,664784,142854,44551,235990,,"FACTS: the calibration's three entries applied as judged (F-151 reworded, F-263 and F-264 reorganized; F-261 and F-262 k"
+2800,2026-10-22 09:45:15Z,265a60711,793,662866,142811,63231,235875,664784,142854,63270,235990,,"POSITIONS: clarity chunks p1 to p4 applied as judged (33 entries; P-27, P-38 and P-43 held for his answers), at his word"
+2801,2026-10-22 09:47:49Z,f1b427c16,793,662866,142811,79787,235875,664784,142854,79840,235990,,"POSITIONS: clarity chunks p5 to p8 applied as judged (32 entries; P-66, P-90 and P-150 held), at his word of 08:19 UTC; "
+2802,2026-10-22 09:48:18Z,aa1c14230,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Boot note: POSITIONS consolidated, what the judges left owed, the glossary task next"
+2803,2026-10-22 10:10:16Z,a898e1baf,793,662866,142811,79787,235875,664784,142854,79840,235990,,"fortress-repo core: the working terms in its glossary (PLAN, review queue, default, Built./Still to build:, model progra"
+2804,2026-10-22 10:11:26Z,4caa90c81,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Boot note: the skill text landed, the FACTS run in flight with its run IDs, the check-ins"
+2805,2026-10-22 10:23:35Z,8c99c2413,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Held: his question of 10:23 on where status lines and PLAN pointers belong, for after the compaction; boot note"
+2806,2026-10-22 10:29:58Z,1c872927c,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Review queue: the clarity judges' items 235 to 249 (P-11, P-19, P-30, P-32, P-148, P-151, P-76, P-79, P-88, the six held"
+2807,2026-10-22 10:31:57Z,5ca623461,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Boot note: light boot done, his question of 10:23 answered with two options, the queue filed; held list"
+2808,2026-10-22 10:50:41Z,7259e3332,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Boot note: the model of the record's homes proposed, waiting on his word"
+2809,2026-10-22 10:52:21Z,64e30f6e3,793,662866,142811,79787,235875,664784,142854,79840,235990,,"FACTS clarity run: the sixteen chunks' assessments and the written chunks' proposals, before their checks"
+2810,2026-10-22 10:58:30Z,772a5a2af,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Boot note: the model of the homes corrected after his objection, a scrape proposed"
+2811,2026-10-22 11:05:35Z,ef0bbbf17,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Boot note: his yes to the scrape, the report page and the orientation after; the ledger health worker; held list"
+2812,2026-10-22 11:10:00Z,34fbf49d4,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Boot note: push notifications when a bigger step lands, at his word"
+2813,2026-10-22 11:34:48Z,437161c51,793,662866,142811,79787,235875,664784,142854,79840,235990,,"Gap ledger health check, read-only: ten template failures with fixes, staleness signals, sizes, a 43-row sample by the r"
+2814,2026-10-22 11:35:35Z,fcb2e6c1c,793,662866,142811,79787,236273,664784,142854,79840,236388,,INDEX: the gap ledger health check
+2815,2026-10-22 11:35:52Z,a799f4708,793,662866,142811,79787,236273,664784,142854,79840,236388,,"Boot note: the ledger health check done, what it leaves owed"
+2816,2026-10-22 11:36:42Z,ba34eee42,793,662866,142811,79787,236273,664784,142854,79840,236388,,"FACTS clarity run: the chunks' cold reads and checks, and the fixed proposals of the chunks past their fix round"
+2817,2026-10-22 11:40:58Z,2e1c35249,793,662866,142811,79787,236273,664784,142854,79840,236388,,"Boot note: the ledger's root cause traced, three steps proposed"
+2818,2026-10-22 11:49:09Z,4ac64c20a,793,662866,142811,79787,236273,664784,142854,79840,236388,,"Boot note: his yes to the ledger steps, the weekly limit and the order under it, the ledger tool worker"
+2819,2026-10-22 11:56:20Z,0ae072be7,793,662866,159239,79787,236273,664784,159296,79840,236388,,FACTS: clarity chunks f5 to f8 applied as judged (F-246 merged into F-259)
+2820,2026-10-22 11:56:58Z,ce8a1b4c0,793,662866,159239,79787,236273,664784,159296,79840,236388,,Boot note: FACTS chunks f5 to f8 applied
+2821,2026-10-22 12:03:41Z,bb39dbee3,793,662866,182905,79787,236273,664784,182976,79840,236388,,FACTS: clarity chunks f1 to f4 applied as judged (F-268 split out in f3; one f1 entry held)
+2822,2026-10-22 12:04:01Z,edf471152,793,662866,182905,79787,236273,664784,182976,79840,236388,,Boot note: FACTS chunks f1 to f4 applied
+2823,2026-10-22 12:06:22Z,16bbe6072,793,662866,200016,79787,236273,664784,200095,79840,236388,,FACTS: clarity chunks f9 to f12 applied as judged (f10 before f9 for F-203; three entries held)
+2824,2026-10-22 12:06:37Z,8d0d8e846,793,662866,200016,79787,236273,664784,200095,79840,236388,,Boot note: FACTS chunks f9 to f12 applied
+2825,2026-10-22 12:13:41Z,1ac7028b4,793,662866,200016,79787,236273,664784,200095,79840,236388,,"ledger.py: rewrite, closes of a settled CONTESTED row and of a fix with no test-folder test, notes before the history ma"
+2826,2026-10-22 12:13:45Z,e06bd068e,793,662866,222720,79787,236273,664784,222808,79840,236388,,FACTS: clarity chunks f13 to f16 applied as judged (nine entries held; f14's header comment cleared of the held splits' 
+2827,2026-10-22 12:14:10Z,30872d93c,793,662278,222720,79787,236273,664200,222808,79840,236388,,Gap ledger: the health check's ten template fixes and the closes of rows 642 and 577; ledger.py check passes on every ro
+2828,2026-10-22 12:16:05Z,6026231ff,793,662278,222720,79787,236273,664200,222808,79840,236388,,"words-subset.py: check that a scrape of record entries only deletes words; boot note: FACTS consolidated, the scrape wor"
+2829,2026-10-22 12:16:09Z,c9b5beb36,793,662278,222720,79787,236273,664200,222808,79840,236388,,Batch workflow: the gather and the review run ledger.py landing-check against the batch's base and fail on any finding; 
+2830,2026-10-22 12:17:49Z,b0ddb2373,793,662278,222720,79787,236273,664200,222808,79840,236388,,"Boot note: the ledger tool and landing check done, what the skill writer owes"
+2831,2026-10-22 12:18:52Z,726848f16,793,662278,222720,79787,236273,664200,222808,79840,236388,,The skill writer's task for the scrape and the ledger commands; boot note
+2832,2026-10-22 12:22:45Z,ef6a0a026,793,662278,222720,79787,236273,664200,222808,79840,236388,,"Skills: entries carry no plan or status, and the pass keeps them so; the coordinator's terms back out of the fortress-re"
+2833,2026-10-22 12:23:34Z,7e904c8b4,793,662278,222720,79787,236273,664200,222808,79840,236388,,Boot note: the skill writer's scrape and ledger task landed
+2834,2026-10-22 12:37:25Z,382289832,793,662278,220470,73923,236273,664200,220558,73976,236388,,"POSITIONS and FACTS: the scrape, at his word of 2026-10-22: state words, PLAN and review-queue pointers deleted from 65 "
+2835,2026-10-22 12:39:01Z,cc1da1cda,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Boot note: the scrape applied, the queue worker and the orientation run in flight; runs.json: the orientation's argument"
+2836,2026-10-22 13:00:17Z,7d6bdfdda,793,662278,220470,73923,236273,664200,220558,73976,236388,,Review queue and PLAN: the FACTS clarity pass's items 250 to 264 and the ledger check's 265 to 267; item 165 settled by 
+2837,2026-10-22 13:01:41Z,b9090d9bd,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Boot note: the report page published, the queue filed"
+2838,2026-10-22 13:14:54Z,d6f3ca0e3,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Orientation run: the outline, the disposition table, the first text and its checks so far"
+2839,2026-10-22 13:51:33Z,328261e28,793,662278,220470,73923,236273,664200,220558,73976,236388,,Orientation run: the quiz and the fix round's files so far
+2840,2026-10-22 14:04:21Z,d9af66e64,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Orientation run judged: five parts install, two held for one sentence each; the regression quiz; the install task"
+2841,2026-10-22 14:04:46Z,86c6f74a2,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Boot note: the orientation judged, its install launched"
+2842,2026-10-22 14:08:48Z,b1c54a47b,793,662278,220470,73923,236273,664200,220558,73976,236388,,fortress-repo: install the consolidated orientation as the revival part
+2843,2026-10-22 14:09:57Z,c35f9050b,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Boot note: the orientation installed, the two cold reads in flight"
+2844,2026-10-22 14:18:32Z,491a5f5ec,793,662278,220470,73923,236273,664200,220558,73976,236388,,"The cold read of POSITIONS with the new revival part: 53 entries clear, 28 partly clear, none blocked"
+2845,2026-10-22 14:21:02Z,63103247d,793,662278,220470,73923,236273,664200,220558,73976,236388,,"The cold read of today's changed skill parts: 55 flags, 2 high"
+2846,2026-10-22 14:21:31Z,6a5a639e5,793,662278,220470,73923,236273,664200,220558,73976,236388,,The skill writer's task: the cold read's flags
+2847,2026-10-22 14:21:53Z,47d1abead,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Boot note: both cold reads done, the writer on the skill flags, the week's spend"
+2848,2026-10-22 14:26:54Z,6becc28f9,793,662278,220470,73923,236273,664200,220558,73976,236388,,Skills: fix the cold read's flags on the parts changed on 2026-10-22
+2849,2026-10-22 14:27:56Z,22466f4b9,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Orientation tool: the update mode takes the landing's POSITIONS entries too, as batch.md's landing now says"
+2850,2026-10-22 14:28:42Z,62e075a60,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Boot note: the consolidation run done, one ask waiting"
+2851,2026-10-22 14:28:56Z,92fd67d4a,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Boot note: the state line's time, read from the clock"
+2852,2026-10-22 14:58:36Z,f78642571,793,662278,220470,73923,236273,664200,220558,73976,236388,,"The ledger clarity workflow: writer, checker and judge per chunk of open gap-ledger rows, nothing written to the ledger;"
+2853,2026-10-22 14:59:39Z,63e420a33,793,662278,220470,73923,236273,664200,220558,73976,236388,,Boot note: the ledger clarity run and the POSITIONS follow-up proposals in flight
+2854,2026-10-22 14:59:56Z,d4d454f9d,793,662278,220470,73923,236273,664200,220558,73976,236388,,Boot note: times from the clock
+2855,2026-10-22 15:29:32Z,cdb84fba5,793,662278,220470,73923,236273,664200,220558,73976,236388,,"POSITIONS follow-up: proposals for the 24 entries the last cold read found partly clear, three FACTS entries and eight d"
+2856,2026-10-22 15:47:41Z,b3dad547d,793,662278,220470,73923,236273,664200,220558,73976,236388,,"POSITIONS follow-up: the fidelity check, 20 of 27 entries pass, 5 of 8 drafted rows"
+2857,2026-10-22 15:52:48Z,e30e72115,793,662278,220470,73923,236273,664200,220558,73976,236388,,POSITIONS follow-up: the check's failures fixed; boot note: version 14 of the audit page
+2858,2026-10-22 16:04:15Z,8a210ee22,793,662278,220470,73923,236273,664200,220558,73976,236388,,"Boot note: the pointer direction settled at his yes of 11:04, by the transcript"
+2859,2026-10-22 16:23:48Z,e553d8949,793,662892,220470,73923,236273,664799,220558,73976,236388,,"Gap ledger: the clarity run's 58 open rows, as judged: 53 rewritten to state each gap as it stands now, row 638 closed ("
+2860,2026-10-22 16:28:40Z,ae9ed0f9a,793,662892,220470,73923,236273,664799,220558,73976,236388,,Boot note and held list: he approved nothing of the record explanation or the 24 proposals; to close after the compactio
+2861,2026-10-22 16:36:26Z,486e26f37,793,662892,220470,73923,236273,664799,220558,73976,236388,,Boot note: the week's spend
+2862,2026-10-22 16:41:21Z,ff3b844f0,793,662892,220470,73923,236273,664799,220558,73976,236388,,Boot note: the light boot done; the record keeping put to him
+2863,2026-10-22 16:45:16Z,278fa3ce1,793,662892,220470,73923,236273,664799,220558,73976,236388,,Boot note: he reviews the audit page; the skill writer drafts after
+2864,2026-10-22 16:57:46Z,023481cf1,793,662892,220470,73923,236273,664799,220558,73976,236388,,Boot note: his comment that decisions point to facts; the rule proposed to match the record
+2865,2026-10-22 22:04:56Z,59bc92b7a,798,667252,220470,73923,236273,669181,220558,73976,236388,,"Gap ledger: rows 795 to 799, five unbuilt parts of decisions that no row held; held list and boot note: none of his answ"
+2866,2026-10-22 22:11:01Z,9aaba57e3,798,667252,220470,73923,236273,669181,220558,73976,236388,,"Review queue: items 268 to 276, the POSITIONS follow-up's nine entries, each with the coordinator's default; POSITIONS u"
+2867,2026-10-22 22:14:44Z,4d7df29c3,798,667252,221269,74782,236273,669181,221357,74835,236388,,"POSITIONS follow-up applied at the curator's word: 22 POSITIONS entries and F-78, F-137, F-270 changed in place as draft"
+2868,2026-10-22 22:16:06Z,b374630e6,798,667252,221269,74782,236273,669181,221357,74835,236388,,Review queue: the seven items whose agents' choices left POSITIONS name their FACTS entries; items 268 to 276 applied at
+2869,2026-10-22 22:20:35Z,caaf4f13f,798,667252,221269,74782,236273,669181,221357,74835,236388,,"coordinator skill: a decision may point to a fact; a worker's landed choice is a FACTS entry, approved by the curator"
+2870,2026-10-22 22:22:03Z,4ce8b3460,798,667252,221269,74782,236273,669181,221357,74835,236388,,"Boot note: the two record rules landed, the audit page at version 15; the skill writer's task"
+2871,2026-10-22 22:27:28Z,eec6efdbc,798,667252,221269,74782,236273,669181,221357,74835,236388,,"Review queue: item 277, the ledger clarity run's one held row (533, the model's numeral powers)"
+2872,2026-10-22 22:38:44Z,acbe9a753,798,667252,221269,74782,236273,669181,221357,74835,236388,,Post-mortem of the record: the archaeology scout's brief; boot note
+2873,2026-10-22 22:44:52Z,7489f29e0,798,667252,221269,74782,236273,669181,221357,74835,236388,,Boot note: his word of 22:43 on the next batch's preparation; the full boot after the compaction; the check-in
+2874,2026-10-22 22:47:03Z,1feddbbb1,798,667252,221269,74782,236273,669181,221357,74835,236388,,"PLAN: its own consolidation, a later cleanup beside the climb batches, at his word"
+2875,2026-10-22 22:56:09Z,617b0d94c,798,667252,221269,74782,236273,669181,221357,74835,236388,,"coordinator skill: the light boot, and fortress-repo's core read first, approved by the curator"
+2876,2026-10-22 22:58:06Z,817764b00,798,667252,221269,74782,236273,669181,221357,74835,236388,,"Boot note: the post-mortem's paths in full, after the light-boot test looked in the wrong folder"
+2877,2026-10-22 23:04:04Z,1e7a45da9,798,667252,221269,74782,236273,669181,221357,74835,236388,,"Post-mortem of the record: the archaeology map, 2026-10-20 to 22, and the report writer's brief; the light-boot task; bo"
+2878,2026-10-22 23:06:51Z,0cbb4f5c9,798,667252,221269,74782,236273,669181,221357,74835,236388,,"coordinator skill: fortress-repo's core read first, stated in the description, read before the load, at the curator's wo"
+2879,2026-10-22 23:08:28Z,ddea4d142,798,667252,221269,74782,236273,669181,221357,74835,236388,,The core-order task for the skill writer
+2880,2026-10-22 23:11:33Z,4f2257485,798,667252,221269,74782,236273,669181,221357,74835,236388,,"Compaction hook: the boot loads the fortress-repo skill, then the coordinator skill, with the Skill tool, so that the co"
+2881,2026-10-22 23:12:07Z,e067a7403,798,667252,221269,74782,236273,669181,221357,74835,236388,,Boot note: the boot.md read errors traced and fixed; headless test runs without a session id land in this session's tran
+2882,2026-10-22 23:14:12Z,3c8ee2acc,798,667252,221269,74782,236273,669181,221357,74835,236388,,"coordinator skill: the boot's step 1 removed, since CLAUDE.md and this file are in context already, at the curator's wor"
+2883,2026-10-22 23:14:36Z,a38d1cd9c,798,667252,221269,74782,236273,669181,221357,74835,236388,,"Compaction hook: CLAUDE.md out of the boot's list, since every session has it already; the skill writer's step-1 task"
+2884,2026-10-22 23:17:56Z,91461011e,798,667252,221269,74782,236240,669181,221357,74835,236355,,"CLAUDE.md: the coordinating session loads fortress-repo, then the coordinator skill, and boots by the coordinator skill;"
+2885,2026-10-22 23:24:20Z,226e3dd97,798,667252,221269,74782,237511,669181,221357,74835,237626,,"Post-mortem of the record: the report, by the Opus writer from MAP.md and the later commits; INDEX lines for the post-mo"
+2886,2026-10-22 23:25:19Z,28a73fdd4,798,667252,221269,74782,237511,669181,221357,74835,237626,,Boot note: the post-mortem report landed and published; the batch hold lifts; batch 21's preparation after the reset; th
+2887,2026-10-22 23:26:36Z,d5ff95ae6,798,667252,221269,74782,237511,669181,221357,74835,237626,,Boot note: the check-in that starts batch 21's preparation after the reset
+2888,2026-10-22 23:33:43Z,3306b4240,798,667252,221269,74782,237511,669181,221357,74835,237626,,"Post-mortem of the record: the writer's brief for the report in a neutral register for researchers, at the curator's wor"
+2889,2026-10-22 23:47:35Z,c24fcf50a,798,667252,221269,74782,237511,669181,221357,74835,237626,,coordinator skill: a run's working files into evidence/ by git mv; --session-id for every headless session
+2890,2026-10-22 23:48:16Z,0c7e7be18,798,667252,221269,74782,237236,669181,221357,74835,237351,,"Ledger clarity run: its chunks moved into evidence/ by git mv, as on 10-21 at the curator's word, their citations fixed;"
+2891,2026-10-22 23:50:45Z,d1d2bda6a,798,667252,221269,74782,237236,669181,221357,74835,237351,,"Climb batch 21's preparation: three probe briefs (the export check run to its end, walk's half of conditional extension,"
+2892,2026-10-22 23:51:18Z,4463902e9,798,667252,221269,74782,237236,669181,221357,74835,237351,,"Boot note: the two probes for batch 21 running, the demos probe next, the check-ins"
+2893,2026-10-22 23:57:43Z,db6e890c3,798,667252,221269,74782,236909,669181,221357,74835,237024,,"Post-mortem of the record: the report rewritten in a neutral register for researchers, at the curator's word of 23:31; t"
+2894,2026-10-23 00:07:11Z,404599414,798,667252,221269,74782,236909,669181,221357,74835,237024,,"coordinator skill: the boot's step 0 by model-now.sh, with get_session when it prints nothing, at the curator's yes"
+2895,2026-10-23 00:07:37Z,db2b751b1,798,667252,221269,74782,236909,669181,221357,74835,237024,,"Boot step 0 by tools/model-now.sh, which reads the serving model from the transcript, in place of get_session's 6K; the "
+2896,2026-10-23 00:14:49Z,d70d78445,798,667252,221269,74782,236909,669181,221357,74835,237024,,coordinator skill: brief files only where a tool reads one or workers share one; the alarm's check by step 0
+2897,2026-10-23 00:15:03Z,3652c9846,798,667252,221269,74782,236909,669181,221357,74835,237024,,"The skill writer's task for brief files only where a tool reads one, at the curator's yes of 00:13"
+2898,2026-10-23 00:25:42Z,82ea4ff5b,798,667252,221269,74782,236909,669181,221357,74835,237024,,Boot note: the skill re-attachment scout running; the check-in
+2899,2026-10-23 00:37:50Z,5427e7208,798,667252,221269,74782,236909,669181,221357,74835,237024,,"coordinator skill: the brief-file rule of d70d78445 taken out again, delegating.md and record.md as before it, at the cu"
+2900,2026-10-23 00:40:20Z,13d80a540,798,667252,221269,74782,237862,669181,221357,74835,237977,,"Probe for batch 21: the export check run to its end (the Opus worker's report from the scratchpad, its two patches from "
+2901,2026-10-23 00:40:53Z,23878af0e,798,667252,221269,74782,237862,669181,221357,74835,237977,,"Boot note: the export probe landed, the demos probe running, the disk freed"
+2902,2026-10-23 00:42:01Z,28311f895,798,667252,221269,74782,237862,669181,221357,74835,237977,,"Boot note: the report's per-phase cost section, delegated"
+2903,2026-10-23 00:43:06Z,ddf5f8214,798,667252,221269,74782,237862,669181,221357,74835,237977,,Boot note: the worker for the export probe's defects
+2904,2026-10-23 00:47:58Z,3a7adac8f,798,667252,221269,74782,238598,669181,221357,74835,238713,,"The skill re-attachment archaeology: a Sonnet scout's report, word for word, at the curator's question; INDEX line"
+2905,2026-10-23 00:51:00Z,cdf7aa652,798,667252,221269,74782,238598,669181,221357,74835,238713,,"Boot note: the old worktrees removed, 7.3 GB free"
+2906,2026-10-23 00:55:14Z,c21177829,798,667252,221269,74782,238598,669181,221357,74835,238713,,Distance stage: a target that stops with uncounted errors leaves no total; prefix operators' abstract-method errors
+2907,2026-10-23 00:57:38Z,44f2a2fd9,798,667252,221269,74782,238598,669181,221357,74835,238713,,"Post-mortem of the record: section 6 rewritten with the cost of each consolidation phase (workers 58.98M, the coordinato"
+2908,2026-10-23 00:57:56Z,4da288d34,798,667252,221269,74782,238598,669181,221357,74835,238713,,Boot note: the cost section and the re-attachment archaeology landed
+2909,2026-10-23 01:01:38Z,9d8119024,801,670661,221269,74782,238598,672590,221357,74835,238713,,"Ledger rows 800-802: the export check's three defects, from the export-check probe"
+2910,2026-10-23 01:02:39Z,6d83c4f7f,801,670661,221269,74782,238598,672590,221357,74835,238713,,Boot note: the export probe's defects fixed and filed; their tests owed to batch 21
+2911,2026-10-23 01:20:14Z,60fba81e6,801,670661,221269,74782,238598,672590,221357,74835,238713,,"Boot note rewritten whole before the compaction: the two probes running, the check-ins, what waits on him, what landed s"
+2912,2026-10-23 01:43:41Z,7a6e3afe0,801,670661,221269,74782,239679,672590,221357,74835,239794,,"Probe for batch 21: walk's half of conditional extension (row 774), the Opus worker's report from the scratchpad and its"
+2913,2026-10-23 01:44:35Z,972a0f699,801,670661,221269,74782,239679,672590,221357,74835,239794,,"Boot note: the walk probe landed, its worktree removed; the demos probe running"
+2914,2026-10-23 01:56:25Z,025b140e8,801,670661,221269,74782,240478,672590,221357,74835,240593,,"Probe for batch 21: which team demos run under walk (P-79), the Opus worker's report from the scratchpad and its repairs"
+2915,2026-10-23 01:56:54Z,7320e6dd0,801,670661,221269,74782,240478,672590,221357,74835,240593,,"Boot note: the demos probe landed, its worktree removed; batch 21's three probes all in, nothing running"
+2916,2026-10-23 07:11:01Z,09cfd8261,801,670661,221269,76363,240478,672590,221357,76416,240593,,"POSITIONS: P-156 (the index bound with the tuple rule) and P-157 (vectors not additive groups for now), the curator's an"
+2917,2026-10-23 07:31:48Z,bea124ac8,801,670661,221269,76363,240478,672590,221357,76416,240593,,"Boot note: the self-type probe for vectors as additive groups, at the reset beside the planner"
+2918,2026-10-23 08:09:14Z,049c7d488,801,670661,221269,76363,240478,672590,221357,76416,240593,,Boot note: the self-type probe held at the curator's wariness; a review of his type-system decisions proposed
+2919,2026-10-23 08:20:06Z,aa5ff2423,801,670661,221269,76363,240478,672590,221357,76416,240593,,"Boot note: the review of the curator's type decisions as one chain, at his go with its Fable judgement; batch 21 not hel"
+2920,2026-10-23 10:11:09Z,5bbf1357b,801,670661,221269,76363,240478,672590,221357,76416,240593,,"Boot note: batch 21's planner and the type-decisions evidence map running, the base build at aa5ff2423; the launch has h"
+2921,2026-10-23 10:44:51Z,105b4a46b,801,670661,221269,76363,241483,672590,221357,76416,241598,,"Type-decisions review: the evidence map, an Opus worker reading only; INDEX line"
+2922,2026-10-23 10:45:31Z,00206dc41,801,670661,221269,76363,241483,672590,221357,76416,241598,,Boot note: the evidence map landed; the Fable judgement of the chain running
+2923,2026-10-23 10:45:48Z,d0e4bbbe7,801,670661,221269,76363,241483,672590,221357,76416,241598,,Boot note: the times read from the clock
+2924,2026-10-23 11:03:52Z,28b6e27a0,801,670661,221269,76363,242669,672590,221357,76416,242784,,Type-decisions review: the Fable judgement of the chain; INDEX line
+2925,2026-10-23 11:05:21Z,86ef72c84,801,670661,221269,76363,242669,672590,221357,76416,242784,,Boot note: the type-decisions review landed; probe A1 running; the planner told of the judgement's three changes to batc
+2926,2026-10-23 11:41:38Z,d0194854a,801,670661,221269,76363,242669,672590,221357,76416,242784,,"Boot note: the check-ins re-armed; the process last started at 10:01 UTC, so the next stop is about 23:00 UTC"
+2927,2026-10-23 11:53:41Z,e985c8f0a,801,670661,221269,76363,243713,672590,221357,76416,243828,,"Climb batch 21's record, in two runs, with its manifest generator and probes"
+2928,2026-10-23 12:04:11Z,dd9d7619a,801,670661,221269,76363,244721,672590,221357,76416,244836,,"Probe A1 for P-157: the self type and the bounds in the overloading check's exclusion test, the Opus worker's report fro"
+2929,2026-10-23 12:05:47Z,e9043d54a,801,670661,221269,76363,244721,672590,221357,76416,244836,,Boot note: batch 21's record and probe A1 landed; the Fable review running; his three asks in order
+2930,2026-10-23 12:22:50Z,d90e7d8b0,801,670661,221269,76363,245333,672590,221357,76416,245448,,Climb batch 21's record reviewed in place: the Fable review; probe A1's result and rung V's other branch written in; the
+2931,2026-10-23 12:24:10Z,768926fe5,801,670661,221269,76363,245333,672590,221357,76416,245448,,"Boot note: batch 21's record reviewed by Fable, ready on his three answers; the pre-launch checks done"
+2932,2026-10-23 12:24:23Z,c96dbc606,801,670661,221269,76363,245333,672590,221357,76416,245448,,Boot note: the times read from the clock
+2933,2026-10-23 12:38:55Z,8754cd416,801,670661,221269,76800,245333,672590,221357,76853,245448,,"P-156: BoundedRange keeps its narrowed atMost under where { I extends Index }, the curator's answer to batch 21's questi"
+2934,2026-10-23 12:46:35Z,d7b3ac5b0,801,670661,221269,77220,245333,672590,221357,77273,245448,,"P-156: Index stands beside Any and Object, outside Object, the curator's answer to batch 21's question 1; the record mar"
+2935,2026-10-23 13:05:32Z,cc636ae5a,801,670661,221269,77789,245333,672590,221357,77842,245448,,"P-157 rewritten to his answer: Vector and Matrix stay additive groups, the overloading check's exclusion test reads the "
+2936,2026-10-23 13:06:16Z,1edd3aff9,801,670661,221269,77789,245333,672590,221357,77842,245448,,Boot note: his three answers in; the planner writes the checker rung in V's place; then the Fable review and the launch
+2937,2026-10-23 13:19:51Z,54989187b,801,670661,221269,77789,245554,672590,221357,77842,245669,,"Climb batch 21's record: rung X, probe A1's two shadows, in rung V's place in run 1"
+2938,2026-10-23 13:29:35Z,a94daf979,801,670661,221269,77789,245826,672590,221357,77842,245941,,"Climb batch 21's record: the Fable review's second read of rung X (probe A1's two shadows in the checker, in rung V's pl"
+2939,2026-10-23 13:31:19Z,00f2e1bdc,801,670661,221269,77789,245826,672590,221357,77842,245941,,"Climb batch 21, run 1: its manifest spliced into the batch workflow (rungs S, B, X, N); the boot note for the launch"
+2940,2026-10-23 16:45:16Z,557cabb04,801,670532,222509,77789,245826,672458,222597,77842,245941,,"String's four concatenation operators become top-level operators, with the library's known meets beside them"
+2941,2026-10-23 16:49:08Z,64fa505c4,803,672726,224290,77789,245826,674652,224378,77842,245941,,The overloading check's exclusion test reads a self-typed trait's self and the static parameters' bounds
+2942,2026-10-23 16:53:02Z,153887360,805,674995,226261,77789,245826,676921,226349,77842,245941,,"The library's index parameters are bounded by Index, and a tuple of indices is an Index on both paths"
+2943,2026-10-23 16:55:19Z,ff19305cc,807,677372,227752,77789,245826,679298,227840,77842,245941,,"Array2 and Array3 slices based above zero read their own elements, and List extends Equality at every element type"
+2944,2026-10-23 16:58:39Z,b169d1fbd,807,674551,227752,77789,245826,676486,227840,77842,245941,,Close the rows climb batch 21 fixed
+2945,2026-10-23 17:08:04Z,dd60211b3,807,674551,227752,77789,245826,676486,227840,77842,245941,,Climb batch 21's first run: the gather's record
+2946,2026-10-23 17:30:02Z,bdf83c1d1,807,674564,227752,77789,245826,676499,227840,77842,245941,,Fold the review's corrections
+2947,2026-10-23 17:40:44Z,f3468b14c,807,674564,227752,77789,245826,676499,227840,77842,245941,,Climb batch 21: the judge's ruling on the merged-diff review
+2948,2026-10-23 17:50:38Z,6e8d7deab,807,674564,227752,77789,245826,676499,227840,77842,245941,,"Climb batch 21's repair after the merged-diff review: Appendix I's ""The index type of a subscript"" describes and quotes "
+2949,2026-10-23 17:55:54Z,c53063bbd,807,674564,227752,77789,245826,676499,227840,77842,245941,batch 21,Record the gate's tables and the microGPT walk check
+2950,2026-10-23 18:03:26Z,f3f5ed200,807,674564,227752,77789,245826,676499,227840,77842,245941,,Boot note: climb batch 21's first run landed; the orientation update and the post-batch review running
+2951,2026-10-23 18:08:40Z,16ce5bf7b,807,674564,227752,77789,245826,676499,227840,77842,245941,,"PLAN item 61: the default after the curator's answer, the first batch in which the checker reads microGPT, its vocabular"
+2952,2026-10-23 18:08:59Z,66ed71f52,807,674564,227752,77789,245826,676499,227840,77842,245941,,PLAN item 61: the answer's time from the transcript
+2953,2026-10-23 18:21:05Z,91cf640a2,807,674564,227752,77789,245826,676499,227840,77842,245941,,Boot note: the code-generation probe beside batch 21b; nothing to him before tomorrow
+2954,2026-10-23 18:32:45Z,d60750278,807,674564,227752,77789,246730,676499,227840,77842,246845,,"Climb batch 21: the post-batch review of run 1, an Opus reviewer reading only; INDEX line"
+2955,2026-10-23 18:33:09Z,859c130c4,807,674564,227752,77789,246730,676499,227840,77842,246845,,"Boot note: the post-batch review landed; the routing, the microGPT timing pair and the steps before run 2"
+2956,2026-10-23 18:52:37Z,3120d85f1,807,674564,227752,77789,246730,676499,227840,77842,246845,,"Boot note: the walk-timing rule's archaeology at the curator's word; microGPT's timed pair, the rise not run 1's code"
+2957,2026-10-23 18:56:56Z,732f3b2e2,807,674564,227752,77789,246730,676499,227840,77842,246845,,"Climb batch 21: the orientation update judged (both changed sections install, none held), its admission, and the regress"
+2958,2026-10-23 18:58:04Z,f02dcd07e,807,674564,227752,77789,246730,676499,227840,77842,246845,,Boot note: the orientation update judged and committed; the skill writer on its install
+2959,2026-10-23 18:59:15Z,c48efbc30,807,674564,227752,77789,246730,676499,227840,77842,246845,,"Boot note: the curator questions the timed pair, not the rule; the scout redirected"
+2960,2026-10-23 19:01:31Z,f6f7de70c,807,674564,227752,77789,246730,676499,227840,77842,246845,,"fortress-repo: install climb batch 21's orientation update, and fix the sentences the batch made false"
+2961,2026-10-23 19:01:35Z,399d9209e,807,674564,227752,77789,246730,676499,227840,77842,246845,,Regression quiz: case 18's pair is one that walk refuses
+2962,2026-10-23 19:02:53Z,ddee2bd89,807,674564,227752,77789,246730,676499,227840,77842,246845,,Boot note: the writer's install pushed; its cold read running
+2963,2026-10-23 19:04:18Z,24919e97d,807,674564,227752,77789,246730,676499,227840,77842,246845,,Boot note: the times read from the commits; his word on measurements; 21b's launch after the stop
+2964,2026-10-23 19:16:13Z,2d5820c89,807,674564,227752,77789,246730,676499,227840,77842,246845,,fortress-repo: fix the cold read's 24 flags on climb batch 21's install
+2965,2026-10-23 19:17:33Z,994647cd4,807,674564,227752,77789,246730,676499,227840,77842,246845,,Boot note: batch 21b's preparation running; the skill writer's work pushed
+2966,2026-10-23 19:21:37Z,c59f08b28,807,674564,227752,77789,246730,676499,227840,77842,246845,,"Boot note: 21b launches when ready, not after the stop; the last-5 batch's questions, two settled by the record, one pro"
+2967,2026-10-23 19:22:06Z,1f2c3ba04,807,674564,227752,77789,246730,676499,227840,77842,246845,,Boot note: times from the clock
+2968,2026-10-23 19:29:17Z,58de05993,807,674564,227752,77789,246730,676499,227840,77842,246845,,Checker-count stage: a library that stops before the checker leaves no total
+2969,2026-10-23 19:30:09Z,65942b5bf,807,674564,227752,77789,247771,676499,227840,77842,247887,,"The walk-timing archaeology, a Sonnet scout at the curator's word; INDEX line; the plan's two timed-pair items to PLAN-h"
+2970,2026-10-23 19:30:41Z,9a5583c85,807,674564,227752,77789,247771,676499,227840,77842,247887,,"Batch script: the gate names NO TOTAL among the checker count's red cases, beside the stage's fix 58de05993"
+2971,2026-10-23 19:32:12Z,2357a9b95,807,674564,227752,77789,247771,676499,227840,77842,247887,,Boot note: the routing worker; the tool fix and the archaeology landed
+2972,2026-10-23 19:36:39Z,b93a11748,807,674564,227752,77789,247771,676499,227840,77842,247887,,Boot note: the check-in re-armed
+2973,2026-10-23 19:42:42Z,b5908bef9,807,674564,227752,77789,247771,676499,227840,77842,247887,,Climb batch 21's record: run 2 re-read on run 1's landed tree
+2974,2026-10-23 19:44:19Z,87eb95047,807,674564,227752,77789,247771,676499,227840,77842,247887,,"Climb batch 21b's record: rung D reports no demo's seconds and the gate's microGPT line no walk times, at the curator's "
+2975,2026-10-23 19:45:25Z,303d5b1be,807,674564,227752,77789,247771,676499,227840,77842,247887,,Boot note: the planner's re-read landed; its Fable review running
+2976,2026-10-23 19:45:40Z,26762c054,807,674564,227752,77789,247771,676499,227840,77842,247887,,Boot note: the review's launch time from the clock
+2977,2026-10-23 19:52:41Z,04b009628,807,674571,226886,77789,247771,676506,226974,77842,247887,,"Climb batch 21's routing, run 1: item 19 landed, 21b being prepared; items 38 and 59 to PLAN-history, item 61 moved; the"
+2978,2026-10-23 19:53:39Z,d4efaa1d6,807,674571,226886,77789,247771,676506,226974,77842,247887,,Boot note: the routing landed; item 61's new home
+2979,2026-10-23 20:02:37Z,fb5bff1f3,807,674571,226886,77789,247771,676506,226974,77842,247887,,"Climb batch 21's record, the Fable review's third read before run 2: forks 34 and 21, C's briefing size, D's review-queu"
+2980,2026-10-23 20:05:07Z,aa5c67d48,807,674571,226886,77789,247771,676506,226974,77842,247887,,"Climb batch 21b, run 2: its manifest spliced into the batch workflow (rungs C, E, D); the demo timings cut from section "
+2981,2026-10-23 22:41:40Z,108ab82d6,813,681145,228392,77789,247771,683079,228480,77842,247887,,"The compiled checker checks the overloading of every symbolic operator, with the AnyList crash, an api's operator set re"
+2982,2026-10-23 22:45:10Z,031c38bbc,815,683411,229841,77789,247771,685345,229929,77842,247887,,"The export check matches an api's members by name and header and reads abstract, and FortressLibrary's api states its co"
+2983,2026-10-23 22:47:17Z,5e60e356a,816,684525,231060,77789,247771,686459,231148,77842,247887,,"The team demos run to their end under walk, Generator22D's rects halving with DIV and trips' generator ordered as itself"
+2984,2026-10-23 23:16:13Z,5ef2e93f3,816,676252,231060,77789,247771,678215,231148,77842,247887,,Close the rows climb batch 21b fixed
+2985,2026-10-23 23:17:33Z,01cf94c5e,816,676252,231060,77789,247771,678215,231148,77842,247887,,Climb batch 21b's record: the gather's RECORD.md
+2986,2026-10-23 23:37:38Z,7341a2ad8,816,676252,231125,77789,247771,678215,231213,77842,247887,,Fold the review's corrections
+2987,2026-10-23 23:44:19Z,32242b80d,816,676252,231125,77789,247771,678215,231213,77842,247887,batch 21b,Record the gate's tables and the microGPT walk check
+2988,2026-10-23 23:47:00Z,2c12a0ee9,816,676252,231125,77789,249401,678215,231213,77842,249517,,"Two probes of 2026-10-23: Condition and Maybe as ZeroIndexed (way A+ taken as the coordinator's call), and the code gene"
+2989,2026-10-23 23:48:10Z,aff478ca5,816,676252,231125,77789,249401,678215,231213,77842,249517,,Boot note: climb batch 21b landed; its orientation update and post-batch review running
+2990,2026-10-24 00:13:00Z,5d02d6b1c,816,676252,231125,77789,250066,678215,231213,77842,250182,,"Climb batch 21b: the post-batch review, an Opus reviewer reading only; INDEX line"
+2991,2026-10-24 00:13:43Z,286709571,816,676252,231125,77789,250066,678215,231213,77842,250182,,Boot note: 21b's review committed; its routing running
+2992,2026-10-24 00:14:07Z,ce9357fc4,816,676252,231125,77789,250066,678215,231213,77842,250182,,Boot note: the routing's launch time from the clock
+2993,2026-10-24 00:29:21Z,b7e28cfd9,816,676252,231125,77789,250066,678215,231213,77842,250182,,"Climb batch 21b: the orientation update judged (every changed part installs, none held), its admission"
+2994,2026-10-24 00:30:07Z,c4fc9b60e,816,676252,231125,77789,250066,678215,231213,77842,250182,,Boot note: the skill writer on 21b's install
+2995,2026-10-24 00:33:50Z,98c104b30,816,676252,231125,77789,250066,678215,231213,77842,250182,,fortress-repo: install climb batch 21b orientation update and its area-part changes
+2996,2026-10-24 00:33:53Z,ff2fea99c,816,676252,231125,77789,250066,678215,231213,77842,250182,,"Orientation regression quiz: case 23 new, cases 5, 7 and 21 revised, for climb batch 21b"
+2997,2026-10-24 00:36:49Z,08c95c708,822,683052,230738,77789,250066,685015,230826,77842,250182,,"Climb batch 21b's routing: item 19 landed, the last-5 batch next; the review's findings and defaults filed; F-240, F-34;"
+2998,2026-10-24 00:38:49Z,a9325898e,822,683052,230738,77789,250066,685015,230826,77842,250182,,Boot note: climb batch 22's planner and 21b's cold read running
+2999,2026-10-24 00:47:45Z,1c10695d7,822,683052,230738,77789,250066,685015,230826,77842,250182,,fortress-repo: fix the cold read flags on climb batch 21b install
+3000,2026-10-24 00:47:59Z,dab13f1ef,822,683052,230738,77789,250066,685015,230826,77842,250182,,fortress-repo: route C glossed as the checker rule of F-46
+3001,2026-10-24 00:48:47Z,9c89dd0cd,822,683052,230738,77789,250066,685015,230826,77842,250182,,Boot note: 21b's skill work landed
+3002,2026-10-24 01:41:07Z,adc310f66,822,683052,230738,77789,251000,685015,230826,77842,251116,,"Climb batch 22's record, the last-5 batch, with its manifest generator and probes"
+3003,2026-10-24 01:43:15Z,7c67f3327,822,683052,230738,77789,251000,685015,230826,77842,251116,,Boot note: climb batch 22's record drafted (distance 0 measured); its Fable review and the count stage's fix running
+3004,2026-10-24 01:51:24Z,36ec68cab,822,683052,230738,77789,251000,685015,230826,77842,251116,,Checker-count stage: a clean check reads as 0
+3005,2026-10-24 01:57:46Z,d17f26bf9,822,683052,230738,77789,251527,685015,230826,77842,251643,,"Climb batch 22's record reviewed before the launch: fork 19 done at 36ec68cab, question 1's other reading costed in the "
+3006,2026-10-24 02:00:09Z,64386618b,822,683052,230738,77789,251527,685015,230826,77842,251643,,"Climb batch 22: its manifest spliced into the batch workflow (rungs E, R, T); PLAN's item 19 and the rounding call broug"
+3007,2026-10-24 03:39:07Z,8dd64e8fc,822,683296,231454,77789,251527,685259,231542,77842,251643,,"FortressLibrary's api states its component's last members at the component's headers, all but String's"
+3008,2026-10-24 03:43:21Z,bd00ad997,824,685451,233962,77789,251527,687414,234050,77842,251643,,"Row 731's three library sites write their static argument, and __bigOperator2's fused arm casts its result to O0"
+3009,2026-10-24 03:46:44Z,c8e013faf,825,686714,235961,77789,251527,688679,236049,77842,251643,,"String's api writes abstract on its bodyless and undeclared members, and the string objects define the four members it a"
+3010,2026-10-24 03:47:22Z,30ead0f11,825,685362,235961,77789,251527,687329,236049,77842,251643,,Close the rows climb batch 22 fixed
+3011,2026-10-24 04:08:40Z,64da76510,825,685362,235961,77789,251527,687329,236049,77842,251643,,Climb batch 22's record: the gather's RECORD.md
+3012,2026-10-24 04:24:25Z,a101e30ea,825,685362,235961,77789,251527,687329,236049,77842,251643,,Fold the review's corrections
+3013,2026-10-24 04:34:24Z,2bff2fe23,825,685362,235958,77789,251527,687329,236046,77842,251643,batch 22,Record the gate's tables and the microGPT walk check
+3014,2026-10-24 04:39:49Z,89d488872,825,685362,235610,77789,251527,687329,235698,77842,251643,,"F-53 at climb batch 22's gate: the distance 0 and the count 0, the five it cleared named by their entries"
+3015,2026-10-24 04:42:20Z,fc8b496a2,825,685362,235610,77789,251527,687329,235698,77842,251643,,"Boot note: climb batch 22 landed, its review and the orientation update running, phase 4 waiting for his go"
+3016,2026-10-24 04:47:17Z,024dad24f,825,685362,235610,77789,251527,687329,235698,77842,251643,,"Climb batch 22's orientation update: no entry admitted; the two skill sentences the landing made false, with their homes"
+3017,2026-10-24 05:07:47Z,4d131544b,825,685362,235610,77789,252367,687329,235698,77842,252483,,"Climb batch 22's post-batch review, with its INDEX line"
+3018,2026-10-24 05:10:33Z,3ba95468d,825,685362,235610,77789,252367,687329,235698,77842,252483,,fortress-repo: the sentences climb batch 22 made false or incomplete
+3019,2026-10-24 05:19:39Z,463b2245b,825,685362,235610,77789,252367,687329,235698,77842,252483,,fortress-repo: the cold read's flags on the climb batch 22 change
+3020,2026-10-24 05:23:51Z,e0ec620a9,825,685657,235874,77789,252367,687624,235962,77842,252483,,"Climb batch 22's routing: phase 3 at its exit, phase 4's natives next on his go; the review's findings and defaults file"
+3021,2026-10-24 05:26:05Z,cee66300c,825,685657,235874,77789,252367,687624,235962,77842,252483,,Boot note: batch 22's landing steps done; the batch 23 planner and the row 816 probe running
+3022,2026-10-24 05:26:22Z,bccc57d2e,825,685657,235874,77789,252367,687624,235962,77842,252483,,Boot note: the state's time from the clock
+3023,2026-10-24 05:39:00Z,9717175fd,825,685565,235874,77789,253319,687532,235962,77842,253435,,"Row 816's probe: the compiled call of an api-only abstract member, a code-generator third way measured; row 816 rewritte"
+3024,2026-10-24 05:39:53Z,3e6270dc1,825,685565,235874,77789,253319,687532,235962,77842,253435,,"Boot note: row 816's probe in, question 1 rewritten; the probe's and the old base's worktrees removed"
+3025,2026-10-24 06:50:53Z,a6b6e9d06,825,685565,235874,77789,254798,687532,235962,77842,254914,,"Climb batch 23's record, phase 4's first batch, the natives' mechanism, with its manifest generator and probes"
+3026,2026-10-24 06:54:30Z,bbf8094a0,825,685565,235874,77789,254798,687532,235962,77842,254914,,workflow-scenarios.js: a scenario that drops or stops a rung expects the rungs that land only with it withheld
+3027,2026-10-24 07:13:34Z,3108ab29b,825,685565,235874,77789,255437,687532,235962,77842,255553,,"Climb batch 23's record reviewed in place before the launch: the scenario checker's fix marked done, question 2's other "
+3028,2026-10-24 07:15:37Z,15f3a9993,825,685565,235874,77789,255437,687532,235962,77842,255553,,"Climb batch 23's review: no walk timing in it, at the curator's ruling of 2026-10-23"
+3029,2026-10-24 07:16:20Z,d6e087190,825,685565,235874,77789,255437,687532,235962,77842,255553,,Climb batch 23's review: the walk check's verdict only
+3030,2026-10-24 11:39:59Z,e13d0874b,825,685565,235874,77789,255437,687532,235962,77842,255553,,Boot note: batch 23 held at his word for a review between the phases
+3031,2026-10-24 11:40:48Z,9fe165e4e,825,685565,235874,77789,255437,687532,235962,77842,255553,,Boot note: the hold's time from the transcript
+3032,2026-10-24 11:59:36Z,e62489ef4,825,685565,235874,77789,255437,687532,235962,77842,255553,,"Revival story brought to 2026-10-24: climb batches 19 to 22 with their counts, distances and tokens, phase 3's end and w"
+3033,2026-10-24 12:01:01Z,ef425379e,825,685565,235874,77789,255437,687532,235962,77842,255553,,The revival page published at version 23; its switch-over gloss brought to the zero

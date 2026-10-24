@@ -168,7 +168,7 @@ Sources: `explorations/microgpt-run-c-handover.md` and `-history.md`; `explorati
 
 ## 3. How the record grew
 
-![The gap ledger's characters and rows, and FACTS, POSITIONS and INDEX, commit by commit from 09-08 to 10-09, with each batch's landing marked](record-growth/record-growth.png)
+![The gap ledger's characters and rows, and FACTS, POSITIONS and INDEX, commit by commit from 09-08 to 10-24, with each batch's landing marked](record-growth/record-growth.png)
 
 The chart has three panels on one time axis. A vertical line marks each batch's landing. Top: the ledger's characters. Middle: its rows. Bottom: FACTS, POSITIONS and INDEX (INDEX has one line for each note under `explorations/`).
 

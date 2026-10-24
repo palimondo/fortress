@@ -67,7 +67,7 @@ ax1.annotate('%dK' % round(y[-1] * 1e3), (t[-1], y[-1]), textcoords='offset poin
 # the ledger's peak, and its rewrite of 10-08 (ae4f8e38a: rows cut to 1,200 characters, the earlier text moved to the history file)
 pkL = max(S, key=lambda r: float(r['ledger_chars']))
 ax1.annotate('peak %.2fM at batch 10 (10-03)' % (float(pkL['ledger_chars']) / 1e6), (T(pkL['utc']), float(pkL['ledger_chars']) / 1e6),
-             xytext=(dt.datetime(2026, 9, 27, 12), 1.47), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
+             xytext=(dt.datetime(2026, 10, 12, 12), 1.40), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
              bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
 rw = by_commit['ae4f8e38a']
 ax1.annotate('10-08 rewrite: %.2fM to %dK,\nrows cut to 1,200 characters' % (float(by_commit['d4d3ac558']['ledger_chars']) / 1e6, round(float(rw['ledger_chars']) / 1e3)),
@@ -78,7 +78,7 @@ ax1.annotate('10-08 rewrite: %.2fM to %dK,\nrows cut to 1,200 characters' % (flo
 y = col('ledger_rows')
 step(ax2, y, NEUTRAL)
 end_dot(ax2, y[-1], NEUTRAL)
-ax2.set_ylim(0, 800); ax2.set_yticks([0, 200, 400, 600])
+ax2.set_ylim(0, 1000); ax2.set_yticks([0, 200, 400, 600, 800])
 panel_title(ax2, 'Gap ledger, rows')
 ax2.annotate('%d' % round(y[-1]), (t[-1], y[-1]), textcoords='offset points', xytext=(-8, 8), ha='right', fontsize=10, color=INK, fontweight='bold')
 
@@ -91,32 +91,31 @@ for name, k, c in series:
 ax3.set_ylim(0, 400); ax3.set_yticks([0, 100, 200, 300])
 ax3.set_yticklabels(['0', '100K', '200K', '300K'])
 panel_title(ax3, 'FACTS, INDEX and POSITIONS, characters')
-# direct labels at the right edge (leader-free: the three end values are far enough apart)
+# direct labels just right of the end dots (leader-free; INDEX and FACTS end 19K apart, so each is moved off its value)
 ends = {'FACTS': float(S[-1]['facts_chars']) / 1e3, 'INDEX': float(S[-1]['index_chars']) / 1e3, 'POSITIONS': float(S[-1]['positions_chars']) / 1e3}
-# FACTS's label sits higher: since 10-13 its end (90K) is just under POSITIONS's line before the drop (103K)
-lift = {'FACTS': 12}
+lift = {'INDEX': 4, 'FACTS': -10, 'POSITIONS': -3}
 for name, k, c in series:
     v = ends[name]
-    ax3.annotate('%s %dK' % (name, round(v)), (t[-1], v), textcoords='offset points', xytext=(-8, lift.get(name, 8)), ha='right', fontsize=9.5, color=INK, fontweight='bold')
+    ax3.annotate('%s %dK' % (name, round(v)), (t[-1], v), textcoords='offset points', xytext=(8, lift.get(name, 0)), ha='left', va='center', fontsize=9.5, color=INK, fontweight='bold')
 # the three biggest events of FACTS, in words
 def point(commit, k):
     r = by_commit[commit]; return T(r['utc']), float(r[k]) / 1e3
 pk = max(S, key=lambda r: float(r['facts_chars']))
 ax3.annotate('FACTS peak %dK\nat batch 7b (09-30)' % round(float(pk['facts_chars']) / 1e3), (T(pk['utc']), float(pk['facts_chars']) / 1e3),
-             xytext=(dt.datetime(2026, 9, 25, 18), 318), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
+             xytext=(dt.datetime(2026, 9, 20, 12), 292), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
              bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
 d = by_commit['d4ddb06c4']
 ax3.annotate('-92K: rung entries\ncut to the fact (10-02)', (T(d['utc']), float(d['facts_chars']) / 1e3),
-             xytext=(dt.datetime(2026, 10, 4, 18), 352), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
+             xytext=(dt.datetime(2026, 10, 14, 12), 352), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
              bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
 # the consolidation of 10-13: FACTS and POSITIONS together, from just before 55f1a1352 to the last commit
 # (the chunks 55f1a1352 to ab933086b, then the entries that moved to the skills, 1632b5dfa to b67abe3d2: one drop at this scale)
 i0 = next(i for i, r in enumerate(S) if r['commit'] == '55f1a1352')
 fp = lambda r: (float(r['facts_chars']) + float(r['positions_chars'])) / 1e3
-a, b = fp(S[i0 - 1]), fp(S[-1])
+a, b = fp(S[i0 - 1]), fp(by_commit['b67abe3d2'])
 ax3.annotate('FACTS and POSITIONS\n%dK to %dK (10-13)' % (round(a), round(b)), (T(by_commit['9ef0b13a8']['utc']), 145),
-             xytext=(dt.datetime(2026, 10, 3, 18), 184), textcoords='data', ha='center', va='center', fontsize=9, color=INK2, zorder=8,
-             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2, relpos=(1, 0)))
+             xytext=(dt.datetime(2026, 10, 5, 6), 32), textcoords='data', ha='center', va='center', fontsize=9, color=INK2, zorder=8,
+             bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2, relpos=(1, 0.5)))
 d = by_commit['93eda3889']
 ax3.annotate('-55K rewrite\n(09-20)', (T(d['utc']), float(d['facts_chars']) / 1e3), textcoords='offset points',
              xytext=(-8, 52), ha='right', fontsize=9, color=INK2, zorder=8, bbox=dict(fc=SURFACE, ec='none', pad=1.5),
@@ -135,7 +134,7 @@ for ax in axes:
 # labels: evenly spaced slots in the band above the first panel, a slanted leader to each true landing time
 axL.set_ylim(0, 1)
 axL.axis('off')
-slot0, slot1 = dt.datetime(2026, 9, 14, 12), dt.datetime(2026, 10, 9, 18)
+slot0, slot1 = dt.datetime(2026, 9, 14, 12), X1 - dt.timedelta(hours=18)
 n = len(land)
 for i, (b, tm) in enumerate(land):
     slot = slot0 + (slot1 - slot0) * i / (n - 1)
@@ -150,7 +149,7 @@ ax3.set_xlabel('UTC date, 2026 (first-parent commits of main; nothing of the fou
 fig.suptitle('Growth of the record, commit by commit, 09-08 to %s' % t[-1].strftime('%m-%d'), fontsize=13, fontweight='bold', x=0.02, ha='left', y=0.985)
 fig.text(0.02, 0.953, 'A vertical line is a climb batch\'s landing, named at the top ("ladder" is the eight-rung\nclimb, "repair" the repair batch). Each step is one commit on main.',
          fontsize=9, color=INK2, ha='left', va='top', linespacing=1.4)
-fig.subplots_adjust(left=0.12, right=0.92, top=0.90, bottom=0.085)
+fig.subplots_adjust(left=0.12, right=0.81, top=0.90, bottom=0.085)
 handles = [Line2D([], [], color=NEUTRAL, lw=2, label='gap ledger'), Line2D([], [], color=BLUE, lw=2, label='FACTS'),
            Line2D([], [], color=ORANGE, lw=2, label='POSITIONS'), Line2D([], [], color=AQUA, lw=2, label='INDEX'),
            Line2D([], [], color='#9b9a92', lw=1, label='a batch landing')]
