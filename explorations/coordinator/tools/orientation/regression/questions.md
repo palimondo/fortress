@@ -58,3 +58,5 @@ If you would look something up before you act, say what you would look up, where
 22. Two declarations over indices.
     - (a) In `explorations/apl/mg/FlatArrays2.fsi` you add `tanh`, applied element by element to an array of any number type and any rank, declared as that file's `exp` and `log` are. Write the declaration. `MicroGptAplQuick.fss` passes under walk. Does the compiled path accept the declaration, and when does it first read it?
     - (b) In a program of your own, `trait Cell end` stands for a cell. You overload `place(x: Index): String`, which takes one index, with `place(x: (Cell, Cell)): String`, which takes a pair of cells. Is the pair a valid overloading? What does walk do at load, and what does the checker do? If the pair is not valid, what do you change?
+
+23. You port two Java lines into a program that runs under walk, with `lo`, `hi`, `done` and `total` of type `ZZ32`: `int mid = (lo + hi) / 2;` and `double frac = (double) done / total;`. Write the Fortress lines, and say what each gives at `lo = 2`, `hi = 5`, `done = 1` and `total = 4`. Do your lines hold on the compiled path?
