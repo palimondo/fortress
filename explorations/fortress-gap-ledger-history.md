@@ -6215,3 +6215,21 @@ closed by bd00ad997
 closed by c8e013faf
 
 | 826 | **under walk, string objects lack members the api's `String` declares**: `CatString`'s `rangeContains`, `FlatString`'s and `EmptyString`'s `balanced`, `EmptyString`'s `isBalanced` stop, 'Cannot find definition for method', and so do a substring's `rangeContains` and `IN` that reach a `CatString` | NEGATIVE-VERIFIED | library bug (library) | `basic/components/apis.tex`, "Component and API Identity" | `ProjectFortress/tests/StringMembersPromisedWalk.fss` | climb batch 22 rung T | At 64386618b the api's `String` declared `depth`, `isBalanced`, `verify`, `rangeContains` and `balanced` (`Library/FortressLibrary.fsi:2459-2502`), the component's none, and `CatString` (`Library/String.fss:75`), `FlatString` (`Library/FlatString.fss:34`) and `EmptyString` (`:275`) lacked the four. Through the harness at the base: '... rangeContains given receiver CatString', '... balanced given receiver "abc"', '... isBalanced given receiver EmptyString', '... balanced given receiver EmptyString', and the first at `Library/String.fss:422:51-91` for `'Z' IN` a substring of a concatenation of concatenations (SubString's `∈`), at `:430:9-64` for a substring's `rangeContains`. |
+
+### Row 138
+
+rewritten
+
+| 138 | `s.indexOf(c)` on a `String` returns a `Maybe[\ZZ32\]`, and the surrounding idioms (`.holds`, `.get`, `getDefault`, `if i <- …`, `IN`, `BIG MIN` over `.indices`) all work | POSITIVE-VERIFIED | — | silent | none | run-b2 | `indexOf('c') = Just(2)`, `.holds = true`, `.get = 2`, `if i <- uchars.indexOf(c)` binds `2`; the absent case prints `Nothing`, `.holds = false`, `getDefault(-1) = -1`. `indexOf(e:E): Maybe[\I\]` is declared on `Indexed[\E,I\]` (`Library/FortressLibrary.fsi:1316-1318`), and `Library/FlatString.fss:103` overrides it for `String`. Note the interaction with row 114: `SEQV` on the result is useless. Probe `explorations/run-b2/probes/g4i_indexof.fss`, in the parent of `22ea0cd90`. |
+
+### Row 141
+
+rewritten
+
+| 141 | `String.split()` is not a tokenizer: on a flat string it yields **no** pieces; it is the rope's structural subdivision | NEGATIVE-VERIFIED | deliberate (library) | silent | none | run-c | The api documents it as "a subdivision of self into substrings", which may be the empty generator (`Library/FortressLibrary.fsi:2450-2461`), and `Library/FlatString.fss:152` returns `Nothing`. `(1) pieces of "a b  c".split(): 0`, with `(2) \|s\| = 6  s[2] = 'b'` on the same string to show it is not empty. Workaround: scan characters (`parseRow` in `explorations/run-c/src/MicroGptFlat.fss`, `numbersOf` in its check). Probe `explorations/run-c/probes/g141_split.fss`, in the parent of `4ebf80aec`. |
+
+### Row 387
+
+rewritten
+
+| 387 | under `walk`, a body whose return type is declared is not converted by coercion: `r(): Wide = NarrowOf(3)` returns the `NarrowOf`, and `r().big` ends the run with "Cannot find definition for method", where the compiled run converts and answers `3` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Principles of Coercion" | `ProjectFortress/tests/XXXCoercionReturnRungC.fss` | climb batch 4 rung C | The team switched the interpreter's return check off: `if (true \|\| t.typeMatch(x))` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java:42-54`, at `:45`), so no conversion runs at a return. Walk converts at a variable, field, assignment, element and argument, not here: `retR64(x: RR32): RR64 = x` answers `1.5 : RR32`, and `ret(): ZZ64 = 2147483647; ret() + 1` is `-2147483648`, where the compiled run gives an `RR64` and `2147483648`. `Library/String.fss:517`'s `avFlat(): RR32` over an `RR64` body is a declaration the specification refuses, row 531, not this. full text: history, row 387 |
