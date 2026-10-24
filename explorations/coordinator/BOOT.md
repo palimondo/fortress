@@ -11,7 +11,7 @@
 
 ## The go
 
-The batches of phase 3 ran on the standing go; phase 3 is at its exit. Phase 4 is not under the standing go. **Batch 23 is held at his word of about 07:20 UTC on 10-24:** he wants a review between the phases first (the zero's soundness, his decisions against the designers' intent, the review queue, PLAN's consolidation), at a higher priority than batch 23. My proposal of the steps is with him; nothing of it launched but the revival page's update, which he asked for. Batch 23's record is ready (`CLIMB-BATCH-23.md`, Fable-reviewed at `3108ab29b`), its base build `/home/user/fortress-base23`.
+The batches of phase 3 ran on the standing go; phase 3 is at its exit. Phase 4 is not under the standing go. **Batch 23 is held at his word of 11:36 UTC on 10-24:** he wants a review between the phases first (the zero's soundness, his decisions against the designers' intent, the review queue, PLAN's consolidation), at a higher priority than batch 23. My proposal of the steps is with him; nothing of it launched but the revival page's update, which he asked for. Batch 23's record is ready (`CLIMB-BATCH-23.md`, Fable-reviewed at `3108ab29b`), its base build `/home/user/fortress-base23`.
 
 ## Waiting on him
 
