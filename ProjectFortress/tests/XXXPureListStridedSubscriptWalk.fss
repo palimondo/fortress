@@ -1,0 +1,18 @@
+component XXXPureListStridedSubscriptWalk
+import PureList.{...}
+export Executable
+
+(* A pure list's range subscript at stride 2 answers a list of the list's own element type, which a binding of that list type accepts. *)
+
+run(): () = do
+    l = <|[\ZZ32\] 10, 11, 12, 13, 14, 15 |>
+    evens: List[\ZZ32\] = l[0:4:2]
+    assert(|evens|, 3, "the pure list at 0:4:2 holds three elements (ranges.tex, section \"Ranges\")")
+    assert(evens[1], 12, "the pure list at 0:4:2 holds 12 at index 1 (ranges.tex, section \"Ranges\")")
+    s = <|[\String\] "p", "q", "r", "s" |>
+    qs: List[\String\] = s[1:3:2]
+    assert(qs[0] || qs[1], "qs", "the pure list of strings at 1:3:2 is q and s, a List[\\String\\] (comprehensions.tex, section \"Comprehensions\")")
+    println("PASS")
+  end
+
+end
