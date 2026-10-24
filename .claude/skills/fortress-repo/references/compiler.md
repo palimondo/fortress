@@ -1,7 +1,7 @@
 # The compiled checker, the code generator and the run time
 
 **count stage**
-: Script that runs the compiled checker over the interpreter's library and prints its errors: `explorations/coordinator/tools/checker-count/run.sh`. Its total is the checker count. Where an early stage of the checker finds errors in an api or a component, the checker skips its overloading and return-type checks there. So the count misses the errors of those checks there, and a fix of an early error can raise it.
+: Script that runs the compiled checker over the interpreter's library and prints its errors: `explorations/coordinator/tools/checker-count/run.sh`. Its total is the checker count. A check that ends with no error reads as 0. Each api and the component stop at their first stage with errors, so the component reaches the export check only after its type errors are gone. Where an early stage of the checker finds errors in an api or a component, the checker skips its overloading and return-type checks there. So the count misses the errors of those checks there, and a fix of an early error can raise it.
 
 The code of this area is in these directories:
 
@@ -139,7 +139,7 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
 This section is for a change of the checker: its Scala under `scala_src/`, or `ProjectFortress/astgen/Fortress.ast` and the generators under `ProjectFortress/src/com/sun/fortress/astgen/`, from which the build generates the checker's syntax tree and `Walker`.
 
-The count stage takes `<out-file> <scratch>` and about 90 to 100 seconds, more under load. It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`, and its caches in `<scratch>`, so a run from the base build leaves the base build as it was.
+The count stage takes `<out-file> <scratch>` and about 150 seconds, more under load. It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`, and its caches in `<scratch>`, so a run from the base build leaves the base build as it was.
 
 The checker's results are the programs that it accepts and refuses, and each error with its text and its place. On the interpreter's library, a change keeps the results the same if both of these hold:
 

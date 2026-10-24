@@ -868,3 +868,13 @@ From the cold read of `c4fc9b60e` to `98c104b30` (`tmp/cold-read-b21b/report.md`
 - `interpreter.md`: the specification's file at the first naming of the rule (flag 20).
 - `library.md`: top-level functions and members; the header as `equalFnHeaders` in `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:606-619`, top-level functions by the same comparison (`existsMatching`, `:431-433`); the `abstract` member declared in the component, row 816; the first difference, `equalListMembers`'s `forall` (flags 21 to 24).
 - `tests-running.md`: the driver, not `ant testDemos` (flag 25); the parser and shared phases, "When to run a whole suite" (flag 26, 27); the saved script and its call (flag 28); a long run in the background, no time (flag 29); the driver's last line and the criterion, `rung-team-demos/REPORT.md`, section 13 (flags 30, 31); a demo with no known repair, P-79 (flag 32); the 52 demos of `DemoTests` (flag 33).
+
+## Climb batch 22, 2026-10-24
+
+From climb batch 22's landing at `2bff2fe23` and its review (`explorations/reviews/batch-22-review.md`, "Part 3. Skill sentences the batch made false"). The wording was settled by the coordinator.
+
+- `SKILL.md`, "The caches": the example entry's span `12:1~158:2`, from `Library/FlatString.fss`, 158 lines since rung T added `balanced`.
+- `SKILL.md`, "The phases": the checker accepts the interpreter's library, F-53; the switch-over waits for the natives, P-33 and P-58.
+- `compiler.md`, the count stage: a clean check read as 0, `explorations/coordinator/tools/checker-count/run.sh`, since `36ec68cab`; the component reaches the export check only after its type errors are gone, F-53 and `batch-22-review.md`, section 2.
+- `compiler.md`, "The checker's time": the count stage about 150 s with the component's check run to its end, from 149 s on rung R's tree, 151 s on the merged tree and about 150 s at climb batch 22's gate (`batch-22-review.md`, section 2).
+- `library.md`, "Designing a change": the component at the api's header where the api's type is the contract, F-282; `RR64`'s `truncate`, `|\self/|` and `|/self\|` at `ZZ64` in `Library/FortressLibrary.fsi:379-382` and `Library/FortressLibrary.fss:498-501`, over `Float`'s natives at `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:184-191`; rung E, `8dd64e8fc`.
