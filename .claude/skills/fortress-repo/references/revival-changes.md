@@ -72,7 +72,7 @@ The checker reads an `extends` entry with any other `where` clause as unconditio
 
 ## Numbers
 
-**The number types are flat siblings (P-43).** The record calls this choice route A, and the nested tower that was not chosen route C. It still calls the number and order traits "the tower". That word does not mean that they nest.
+**The number types are flat siblings (P-43).** The record calls this choice route A. Route C is the way not chosen: a checker rule under which the number types could nest again. The record still calls the number and order traits "the tower". That word does not mean that they nest.
 
 **Under walk a numeral has a run-time class.** The checker types an integer numeral as `IntLiteral`, a sibling under `Number` that converts to the integer types, `QQ` and `RR64` (P-76). Walk gives a numeral the class `Int`, `Long` or `BigNum` by its value. These classes stand for `ZZ32`, `ZZ64` and `ZZ`, but a generic instantiates at the class: `Box[\Int\]` is not `Box[\ZZ32\]` (row 364). Walk answers `IntLiteral`'s arithmetic as a `ZZ32` (row 578). The library's factories `array1` and `array2` give a `Vector` or `Matrix` only at the eight number types, not at a user subtype of `Number`. Elsewhere they give a plain array, whose `+` and unary `-` fail dispatch under walk. Under walk, an inferred element type is a run-time class, so they give a plain array (row 721). Write the static argument.
 
