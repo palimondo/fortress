@@ -2,13 +2,13 @@
 
 # Boot note
 
-**State at 04:41 UTC on 2026-10-24** (06:41 his time). Climb batch 22 (run `wf_5e692c7a-778`, base `64386618b`) landed and pushed at `2bff2fe23`, 04:34 UTC: the gate green (`testSystem` 683, `testSpecData` 130, `testFast` clean), the distance 5 to 0 and the checker count 3 to 0, '#crash none', the microGPT walk check 7 of 7 on both programs. So phase 3's distance is at zero. The commit stage swapped F-53's numbers by word and left its five sites listed as "its 0"; I rewrote F-53 at `89d488872`. The push notification of the landing went to him at about 04:38 UTC. The batch's tasks are swept, and its gather tree `/home/user/fortress-gather22` is removed.
+**State at 05:27 UTC on 2026-10-24** (07:27 his time). Climb batch 22 (run `wf_5e692c7a-778`, base `64386618b`) landed and pushed at `2bff2fe23`, 04:34 UTC: the gate green (`testSystem` 683, `testSpecData` 130, `testFast` clean), the distance 5 to 0 and the checker count 3 to 0, '#crash none', the microGPT walk check 7 of 7 on both programs. So phase 3 is at its exit by P-33's letter; whether it is done is his call (PLAN, "Climb batch 22, listed for his review"). The push notification of the landing went to him at about 04:38 UTC. Its landing steps are done and pushed: F-53 rewritten (`89d488872`), the orientation update (no entry admitted, `024dad24f`), the post-batch review (`4d131544b`, `reviews/batch-22-review.md`), the skill writer's install (`3ba95468d`) with its cold read's 18 flags fixed (`463b2245b`), and the routing (`e0ec620a9`: PLAN, the queue, F-240, F-281, F-34, F-245, F-61, rows 756 and 735). The routing gave batch 22 its own phase-3 item, 20.
 
 ## Running
 
-- **The post-batch review of climb batch 22**, an Opus agent reading only, launched at about 04:40 UTC. It returns the whole review as text; I commit it at `explorations/reviews/batch-22-review.md`. It also checks phase 3's end against P-33, and the steps due before phase 4.
-- **The orientation update**, run `wf_ec2245f0-860` (`tools/orientation/orientation.js`, update mode), launched at about 04:40 UTC, on the landing's changed entries F-53, F-58, F-59, F-81, F-83, F-85, F-143, F-282, F-285 and F-286; out `explorations/compile-ladder/climb-batch-22/orientation/`, stream `orientation-b22`. Its untracked scratch goes to `tmp/orientation-b22/` before any commit, as for 21b.
-- **Check-ins** still armed from the batch: `trig_01R2JFoiJ5qtEQm1hjvkujDN` at 05:15 and `trig_014Uwg5fTrJaDbNuHPuevBkF` at 06:00 UTC. At each, check the two runs above.
+- **The planner of climb batch 23**, phase 4's first batch, the natives' mechanism (N0, P-58), an Opus agent launched at about 05:26 UTC: `CLIMB-BATCH-23.md`, its probes under `compile-ladder/plan-23/probes/`, its generator under `plan-23/manifest/`; it commits and does not push. Its base build: `/home/user/fortress-base23` at `e0ec620a9`, built by `scratchpad/batch23/base-build.sh`, its log `scratchpad/batch23/base-build.log` (ends `EXIT=0`). Then a Fable review, and the launch only on his go.
+- **The probe for question 1** (row 816), an Opus agent launched at about 05:12 UTC: whether the code generator can close the run-time failure under the reading as landed, a third option; its worktree `/home/user/fortress-probe816`, seeded from `/home/user/fortress-base22`. It returns its report as text; I commit it at `explorations/perf-probes/export-abstract-codegen/REPORT.md`. Then ask 1 is rewritten with its result.
+- **Check-in** still armed: `trig_014Uwg5fTrJaDbNuHPuevBkF` at 06:00 UTC. At it, check the two agents above.
 
 ## The go
 
@@ -16,9 +16,10 @@ The batches of phase 3 run on the standing go, in PLAN's order; with the distanc
 
 ## Waiting on him
 
-- **For this morning, one per message with defaults:**
-  - the go for phase 4's first batch, the natives;
+- **For this morning, one per message with defaults** (drafts in `scratchpad/batch22/askA-phase4-go.md` and `ask1-row816.md`):
+  - the go for phase 4's first batch, the natives, with phase 3's end at its default (done, with the three readings named);
   - question 1 of batch 22 (row 816, how the export check reads an api member written `abstract`), taken overnight at its default, the reading as landed; the other reading costs a checker rung and about 12 component declarations, and the distance and the count read 1 until they land;
+  - the distance kept in phase 4's gates, report-only, until the switch-over (the review's finding 2; it touches P-39 and the coordinator skill's `batch.md:56`);
   - the code-generation probe's question (the gate's distance stage running code generation per declaration, report-only; default: no, a probe when a rung touches the code generator);
   - P-154's row-774 wait;
   - the type-decisions items (P-75 withdrawn, P-154's reason, the `AnyIntegral comprises ... where` probe for row 487, row 701 as a PLAN line, P-156's "Why").
@@ -28,10 +29,9 @@ The batches of phase 3 run on the standing go, in PLAN's order; with the distanc
 
 ## Next
 
-- **After the review:** commit it; the routing (PLAN's "Where we stand", phase 3's item 19 and "The last-5 batch" lines, item 46, rows 824 to 826, batch 22's list, the review's routing gaps); F-240 brought to batch 22's gate from the review's figures; the review's false sentences in FACTS by `record.py`.
-- **After the orientation update:** the skill writer's install of what its judge accepts, with the review's false skill sentences (`SKILL.md:100`'s cache entry span, now `12:1~158:2`; `library.md:39`'s rule on an api's `abstract` member against `String`'s seven members), then its cold read and the writer's fixes.
-- **Phase 4's first batch:** a planner for the natives (N0, the mechanism; P-58), from the review's "steps due" and PLAN's phase 4; a Fable review; the launch on his go.
-- **Clean-up:** `/home/user/fortress-base22` after the next batch's base build.
+- **After his answer on question 1:** the skill's `library.md:39` and `compiler.md:74` (an api member written `abstract`) to his answer, by the skill writer, with a cold read.
+- **Phase 4's first batch:** the planner's record, then its Fable review, then the launch on his go; the batch script spliced for 23 then, its check-in file `scratchpad/batch23/checkins.txt`.
+- **Clean-up:** `/home/user/fortress-base22` and `/home/user/fortress-probe816` once the probe's report is in.
 - **The type-decisions judgement's write-up for him**, by an Opus writer as a page, with probe A1's result, his three answers and batch 21's landing.
 - **The orientation's size** (17.4K against the 12K budget): a later consolidation that moves path departures to the area parts; run 1's admission's ten entries not admitted to route (`climb-batch-21/orientation/admission.md`).
 - **The ledger repair**, about 180 open rows (`ledger-health-2026-10-22/REPORT.md`), if budget allows; the 40 refused notes first.
