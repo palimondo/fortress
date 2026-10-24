@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","description":"Post-batch review of climb batch 21b","toolUseId":"toolu_01A27BN5M57VLqpWAKBYc1dK","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","description":"Post-batch review of climb batch 21b","toolUseId":"toolu_01A27BN5M57VLqpWAKBYc1dK","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
