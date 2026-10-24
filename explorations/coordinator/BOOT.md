@@ -6,8 +6,11 @@
 
 ## Running
 
-- **The planner of climb batch 23**, phase 4's first batch, the natives' mechanism (N0, P-58), an Opus agent launched at about 05:26 UTC: `CLIMB-BATCH-23.md`, its probes under `compile-ladder/plan-23/probes/`, its generator under `plan-23/manifest/`; it commits and does not push. Its base build: `/home/user/fortress-base23` at `e0ec620a9`, built by `scratchpad/batch23/base-build.sh`, its log `scratchpad/batch23/base-build.log` (ends `EXIT=0`). Then a Fable review, and the launch only on his go.
-- **Check-in** still armed: `trig_014Uwg5fTrJaDbNuHPuevBkF` at 06:00 UTC. At it, check the planner.
+- **The phase 3 exit review**, at his yes of about 12:15 UTC on 10-24 to steps 1 and 2 of my proposal (between the phases, before batch 23):
+  - step 1, **the audit of the zero**, an Opus agent launched at about 12:15 UTC: what the two stages see and don't, every library change made to clear a checker error sorted into four kinds (the team's device, a restoration, a reading of ours, a giveaway), and the debt into phase 4. Its worktree is seeded from `/home/user/fortress-base23`. It returns its report as text; I commit it at `explorations/reviews/phase3-exit/zero-audit.md`.
+  - step 2, **the decisions evidence map**, an Opus agent launched at about 12:15 UTC: every POSITIONS entry on the language, the library, the specification and the implementation against the designers' intent, updating the reviews of 09-29 and 10-23, with the defaults landed since 10-23 and the review queue's consequential items. Returned as text; I commit it at `explorations/reviews/phase3-exit/decisions-evidence.md`. Then **a Fable judgement** on it (his yes covers it), committed beside it.
+  - Then step 4, **PLAN's consolidation**, and the next batch on his go.
+- The process stop by the cap is about 15:00 UTC; agents do not survive it. If one is cut, launch it again from its brief with its partial transcript named.
 
 ## The go
 
