@@ -1,0 +1,376 @@
+<!-- The record of climb batch 23, the first batch of the plan's phase 4, the switch-over, whose first step is the natives (PLAN, phase 4, first bullet; P-33; P-58; `reviews/batch-22-review.md`, "The steps due before phase 4's first batch", item 7), for the coordinating session, the curator and the batch's workers. Drafted 2026-10-24 by an Opus planning worker against `main` at `e0ec620a9`, whose `Library/`, `ProjectFortress/`, `Specification/`, `build.xml` and `bin/` are those of `2bff2fe23`, climb batch 22's landing (`git diff --stat 2bff2fe23 e0ec620a9` over them is empty; `main` moved on to `3e6270dc1` while it was drafted, by boot notes and row 816's probe, no code): so climb batch 22's landed tables describe the base, and the planner's measurements hold on it. Phase 4 is not under the standing go: the batch launches only on the curator's go, and every open point is put here as a question with a default. -->
+<!-- Sources: PLAN.md, "Where we stand", "Next", phase 4's first bullet and "Climb batch 22, listed for his review"; the post-batch review `reviews/batch-22-review.md`, section 6 ("Phase 3's end"), findings 2 and 3, and "The steps due before phase 4's first batch", item 7; POSITIONS P-58, P-29, P-30, P-33, P-39 and the others cited by number; FACTS F-32, F-53, F-111, F-180, F-34 and the others cited by number; `perf-probes/prelude/natives-shape.md` sections 1 to 3 and its files at `4a46fb83a`; `perf-probes/prelude/natives-binding-probe.md` and `natives-binding-probe.sh`; `reviews/item35-natives-binding.md`; the ledger rows 309, 336, 520, 521, 560, 578 and 796; the code at the sites; the specification's sections cited. -->
+<!-- The planner's probes (section 4): three worktrees seeded from the base build `/home/user/fortress-base23` (`e0ec620a9`), detached, removed after: `fortress-p23w`, `fortress-p23c`, `fortress-p23b`. Nothing run in the base build but `count.sh`'s javap, `git apply --check`, and `run-four.sh` with its scratch outside it, which left it as it was. (1) F-32's classes counted again on the base, with the natives probe's scripts, and the bindings that can name their helper as a bare string today. (2) Walk's half of N0 re-based on today's code, its tests on the base and on the half. (3) The compiled half re-based, its tests on the base and on the half. (4) The two halves together: both stages. (5) The halves with the first family moved, four times as it was corrected: walk's suite, the specification's examples, both stages, the compiled tracks, and a control of the count stage, run twice. (8) The manifest's generator and checks, and the workflow's scenario checker on its splice. (6) Walk programs of the family's values on the base and on the text. (7) The compiled checker over the library components microGPT imports outside the distance, report-only, by the distance stage's driver. Machine: nproc 4, Intel Xeon @ 2.10 GHz, openjdk 25.0.4.1, `FORTRESS_THREADS=1` for the stages; another probe worker shared the machine, so no time here is one to compare; walk was not timed. Patches, scripts and tables are under `compile-ladder/plan-23/probes/`. One line per paragraph. -->
+
+# Climb batch 23
+
+## 1. For the curator
+
+### The words this record uses
+
+- **Walk** is the interpreter. The **compiled path** checks a program's types with the **checker**, then makes JVM bytecode. Until the **switch-over** the compiled path uses its own small library, the **prelude**; after it, the interpreter's library, the **one library**.
+- A **native binding** is a library body `builtinPrimitive("…")`, a declaration whose code is Java. Today every string names a **glue class**, Java over walk's own values, which the compiled path cannot call (F-32). A **helper** is a static Java method over plain Java values in `nativeHelpers/`, the compiled path's kind. By your decision P-58, each string comes to name a helper: walk loads it beside its glue classes, and the compiled path rewrites the body at the parse into a call of it.
+- To **move** a binding is to change its string from a glue class to a helper. A **family** is a set of bindings moved together, as `ZZ32`'s.
+- **The distance** is the checker's errors on the one library's twelve prelude components; **the count** its errors on the `FortressLibrary` component alone. Both are 0 since climb batch 22 (F-53).
+- A **rung** is one change, built by one worker and checked by a second, the skeptic. A **batch** is a few rungs landed together after the **gate**. **Test first**: every change starts with a test seen failing before it and passing after; a **guard** passes before and after.
+
+### Where the natives stand
+
+- **449 live bindings on the base, sorted into F-32's classes** by the natives probe's own scripts: 154 the prelude binds at the same owner and signature (A), 59 with a helper that nothing binds (B), 158 that need a new helper (C), 36 methods of the I/O objects (D1) and 42 with no compiled analogue (D2) (section 4). F-32's 424 at `e455ccd98` gained the 24 `IntLiteral` bindings of `9d2e4c856` and one `Float` power; two bindings moved from B to A since their headers now name the type their helper answers.
+- **The 24 `IntLiteral` bindings:** 4 in A, 2 in B by their operation, 18 in C. All 24 wait for the switch-over day (N5): the prelude's `IntLiteral` helpers take and answer the prelude's own `IntLiteral` class, which walk's values cannot be, and no numeral reaches them under walk while walk's numeral is an `Int` (P-76; row 578).
+- **104 of A and B can name their helper as a bare string today**: the helper's Java signature, read as the checker reads it, fits the declaration. 109 cannot: `Char`, `NN32` and `NN64` (the checker reads a Java `int` as `ZZ32`), bindings over `AnyIntegral`, `Number` or `Any`, and bindings whose prelude form composes two helpers (section 4).
+
+### The batch: one run, two rungs
+
+- **C, the compiled half.** At the parse, a body `builtinPrimitive("com.sun.fortress.nativeHelpers.Class.method")` becomes a call of that helper through a synthetic `import java`, self first for a method, so the checker reads it against the helper's Java signature. A helper string that names no static method is a static error. The rewrite runs on the compiled path's commands and in the gate's two stages, never under walk. A reading of the Java types as the one library's lets the checker read a helper's types in walk's world, where the stages run; it sits beside the prelude's table, since the shape probe's rewrite of the table itself failed a team test, `NamingCzarJUTest`, in the planner's run. Its tests come first: three compiled tests, which fail on the base with 'Variable builtinPrimitive is not defined.'
+- **W, walk's half and the first family.** Walk loads a helper string beside its glue classes: the overload that fits the declaration's types, its values carried at the declared types, and a helper's raise of `IntegerOverflow` or `DivisionByZero` turned into the library's own exception. With it, the first family moves: 19 of `ZZ32`'s operators and `Int`'s `asString` and `asExprString`. Its tests come first: three walk tests fail on the base, as does a fourth, `ZZ32`'s `DIV` by zero, which ends the run today and raises `DivisionByZero` after (row 336). A guard of the family's values passes before and after. W lands only with C, so the checker checks every moved binding from this batch on, as P-58 asks.
+- **Measured together** (section 4): the distance 0 and the count 0, '#crash none'; walk's suite 688 tests and no failure; the specification's examples 130 and no failure; the compiled tracks 2,107 tests, C's four new among them, and no failure. A control showed that the stages do check a moved binding: a misfitting string at `ZZ32`'s `<` gave the count 1, 'Function body has type ZZ32, but declared return type is Boolean.'
+
+### The two questions for you, and what each answer costs
+
+**Question 1, consequential: the distance stage in phase 4's gates** (the review's finding 2; P-39).
+- P-39 measures the distance in the gates "of batches whose work drives the distance down", and the coordinator's rule in phase 3 only. This batch's moved bindings are read by the checker only through the two stages, and only the distance reads `FortressBuiltin`'s component, where 2 of the 21 sit. The planner's run of a variant showed it: the count read 0 where the distance read 1 (section 4).
+- **Default: the distance stage stays in every gate, report-only, until the switch-over lands, with every site that comes put on your list.** Its cost is about 4 minutes of one core in each gate, beside the suites. The workflow script already runs it in every gate.
+
+**Question 2, consequential: the first family in this batch, inside rung W.**
+- PLAN's natives line splits N0, the mechanism, from N1, the 147 bound natives, as two steps. The planner folds N1's first family, 21 bindings, into N0's walk rung. The reason: no user program can call a helper on a method's `self`, since a program's own objects are no Java values. So without library bindings, walk's method paths have no test: a functional method's `self`, a dotted method's, and an `int` answered as `NN32`. With the family, walk's whole suite runs them.
+- **Default: in.** The other way leaves the family to the next batch; W then tests only top-level functions, and the mechanism's method paths meet their first program in N1.
+
+### What the batch leaves out (section 4, "Left out, each with its home")
+
+- **`CHOOSE`** stays on its glue class: moved, `34 CHOOSE 17` ends walk's run with a raw `ArrayIndexOutOfBoundsException` from the helper (row 521), and `PowChooseLcmRungE` fails. It moves with row 521's helper fix, in the integer families' next rung.
+- **`Int`'s `asFloat`** stays: the checker refuses its move, 'Function body has type RR64, but declared return type is Float.'
+- **The 109 bindings that cannot name their helper as a bare string,** `Char` and the unsigned types first: a design question for N1's later rungs.
+- **The library components microGPT imports outside the distance** (the review's finding 3), checked once, report-only: 31 errors, `System` 2, `File` 4, `FileSupport` 24, `FortressAst` 1 (one export error over 203 generated objects), `FortressSyntax` 0. Home: the names batch; F-53's definition unchanged.
+
+### Before the batch runs
+
+- **Your go.** Phase 4 is not under the standing go (`coordinator/BOOT.md`, "The go").
+- Questions 1 and 2 answered, or their defaults taken with the go; one Fable review of this record before the launch.
+- The coordinator generates and splices `plan-23/manifest/` and checks the briefings on the base (section 5). The workflow's scenario checker prints one problem on the spliced script, its scenario F6, which drops C and expects W to land alone: W lands only with C, as the script is to treat it (section 5, "The generator"). Its fix is the checker's, a tool change between batches; under question 2's option 2 it does not arise.
+- The gather runs the 52 team demos on the merged tree, since both rungs change what walk or the parser runs (F-283; P-79).
+
+### Cost
+
+- About 2.4M tokens written: from 2.1M if no fix is contested and the review blocks nothing, to 3.2M with a judge and a repair round on a rung and on the review. Workers about 0.8M (W 0.45M, C 0.35M), skeptics about 0.6M, the fixed roles about 1.0M. About 2 h 40 min, the 52 demos in the gather's time.
+- Climb batch 22 wrote 2.82M over 10 agents for three rungs of library text in 2 h 35 min (`reviews/batch-22-review.md`, "For the curator"). This batch has two rungs of Java, each with whole suites to run, and no checker change, so no speed pass.
+
+## 2. The forks, with their defaults
+
+**Consequential** means what the `coordinator` skill's `SKILL.md`, "The curator's role and decisions", gives: it reverses, bends or reads anew a decision of yours; it touches microGPT's lines, speed or readability; it chooses among ways that the record does not settle, where the three principles split or are silent; or it cannot be undone.
+
+### Question 1, consequential: the distance stage in phase 4's gates
+
+**The question.** The review's finding 2, a proposal for you: should the gate keep measuring the distance in phase 4, when the work is no longer driving it down?
+
+**What stands.** P-39: "The gates of batches whose work drives the distance down also measure the distance, in a stage that only reports. Why: the distance's full measurement takes far longer than the count, and a batch pays for it only when the distance is the number that it tries to move." The `coordinator` skill's `references/batch.md`: "The gate reports the checker count in every batch, and the distance in phase 3." The workflow script's gate runs it in every batch (`coordinator/climb-batch-workflow.js`, the gate's steps 2 and 9).
+
+**What this batch changes.** From rung C on, the two stages read each moved binding as a call of its helper and check it against the helper's Java signature (section 4, "The control"). That is P-58's check: "from the step that moves a binding, the compiled checker checks it against the helper's Java signature". The count checks only the `FortressLibrary` component, where 125 of the 449 bindings sit. The distance checks the twelve prelude components, where 393 sit: `FortressBuiltin`'s 236, `FlatString`'s 14, `Writer`'s 11 and `NativeArray`'s 7 besides. Measured: with `Int`'s `asFloat` moved, the count read 0 and the distance 1, at `FortressBuiltin.fss:375`.
+
+**Options.**
+1. **Kept in every gate, report-only, until the switch-over lands; each site that comes goes on your list.** Cost: about 4 minutes of one core per gate (227 s at climb batch 22's, 220 s on this batch's text), beside the suites.
+2. **The count only, as P-39's letter gives it.** Cost: a moved binding outside the `FortressLibrary` component, 268 of the 393 in the twelve, is checked by no gate until the switch-over, against P-58's "from the step that moves a binding".
+
+**Default: option 1.** Consequential because it bends P-39's scope. The batch builds the same either way; only the gate's step 9 differs.
+
+### Question 2, consequential: the first family in this batch
+
+**The question.** Should N0's batch also move N1's first family, inside rung W, or should N0 land alone?
+
+**What stands.** PLAN, phase 4, first bullet: "N0, the mechanism (1 rung, Java); N1, the 147 bound natives (2, library text only)", from `perf-probes/prelude/natives-shape.md` section 3: "N0 ... Test first: the probe programs as interpreter tests, seen failing." P-58: "The bindings move onto helpers step by step, and from the step that moves a binding, the compiled checker checks it against the helper's Java signature, not all at once at the switch-over." Two rules of the batch machinery: no rung builds on another rung of its batch, and no two rungs change one declaration (PLAN, "The principle for the batches").
+
+**The measurement.** The probe programs are top-level functions. Walk's loader has three more paths: a functional method, called with `self` among its arguments; a dotted method, called with `self` apart; and a result boxed at its declared type. A user program cannot reach them, since a helper takes Java values and a program's `self` is an object of its own. The library's bindings reach all three: `ZZ32`'s operators are functional methods, `Int`'s getters are dotted methods, and `unsigned` answers `NN32` from an `int`. With the 21 moved, walk's suite passed, 688 tests (section 4).
+
+**Options.**
+1. **The family in W, which lands only with C.** W's tree alone runs it under walk; the merged tree is the first on which the checker reads it, and the gate's tables are that check. Cost: W carries library strings beside its Java, and its suite run is the family's test.
+2. **N0 alone, the family in the next batch.** W's tests are the three top-level programs. The method paths are first run by N1's rungs, whose library edits then carry any repair of walk's Java.
+
+**Default: option 1.** Consequential because it reads anew the plan's split of N0 and N1, which PLAN states. If you answer option 2, W's section drops "The first family" and its two family tests, and the batch is otherwise the same.
+
+### Forks the batch takes, none consequential
+
+Each default can be undone, and none reverses a decision of yours or touches a line of microGPT.
+
+1. **Two rungs, C and W; W lands only with C.** Default: so. W does not build on C: its walk tests pass on its own tree, where the checker reads the moved strings as calls of `builtinPrimitive`, as it reads every glue string (row 560). P-58's check of them needs C's rewrite, so W lands only where C does. The gather applies C, then W.
+2. **The rewrite's switch: on while the compiled path's repository is in use, off under walk's.** Default: `Shell.specificRepository` turns it on for the analyzed-cache repository and off for the interpreter's, so the compile commands, `fortress junit` and the gate's two stages rewrite, and walk does not. The binding probe left the key open between the compiled world, which would hide every moved binding from the gate's stages until N5, and the command (`natives-binding-probe.md`, "Questions for the curator"). P-58's "from the step that moves a binding" settles it for the command. Both stages call `Shell.compilerPhases` (`coordinator/tools/distance/DistanceMulti.java`, `checker-count/WorldFlip.java`), so no tool changes. Walk reads its own parsed cache (`interpreter_parsed_cache/`), so no rewritten tree reaches it.
+3. **The refusal.** Default: a string under `com.sun.fortress.nativeHelpers.` that names no public static method is a static error at the string, 'builtinPrimitive names no static helper: …'; every other string is left alone, glue strings among them. That is the binding probe's rule ("So the landing rung needs one more rule", section 1), from which P-58's "refuse a string that names no helper" was written. Refusing glue strings too would refuse all 428 left on the compiled path before they move.
+4. **The import collector's hook only for a component whose text names a helper.** Default: so. The repository learns of a synthetic `import java` only from the import collector's view of the file (`GraphRepository.readCUFor`), so that view must be the rewritten component. The probe's hook parsed every component whole there. Limited to a file whose text holds `"com.sun.fortress.nativeHelpers.`, which no library file or test does on the base (by grep), it leaves every other parse as it is, a DSL grammar's included.
+5. **The stand-in type reading in C, now, as a reading of walk's world beside the prelude's table.** Default: `NamingCzar.fortressTypeForForeignJavaType`'s three-argument reading, the one `ForeignJava` and the wrapper generator call, reads a Java type as the one library's whenever the world is walk's, decided at each call: `int` as `FortressLibrary.ZZ32`, `long` as `ZZ64`, `double` as `RR64`, `String` as `String`, `BigInteger` as `ZZ`, the special names as `Char`, `NN32` and `NN64`; a type the one library lacks falls back to the prelude's reading. The prelude's table, and the one-argument reading, stay as they are. Natives-shape's gap 1 patch, which rewrote the table itself at class load, failed a team test in the planner's run of the compiled tracks: `NamingCzarJUTest.testForeign`, 'expected:<...com/sun/fortress/compiler/runtimeValues/F...> but was:<...fortress/FortressLibrary$...>', since that test reads the table in the default world, which is walk's (section 4). Without the reading the checker reads a helper's types as the prelude's, and every moved binding is an error in the stages. N5 drops the world test, when both paths read the one library.
+6. **Walk chooses a helper's overload by the declaration's types.** Default: so. Among the class's static methods of that name, walk takes the one whose Java parameter and result types carry the declared types, self first. So `simpleOverload.baz(String)` and `baz(int)`, under one name, each bind where they fit, as the checker picks them on the compiled path. Item 35's write-up left N0 to choose between this, distinct names for new helpers, and parameter types in the string; walk's probe loader picked by arity.
+7. **Values carried at the declared types.** Default: a Java `int` carries `ZZ32`, `NN32` or `Char`, and a `long` `ZZ64` or `NN64`, by the declaration; a `Char` argument goes as its code point. The prelude's helpers carry them so (`NamingCzar.fortressTypeForForeignJavaType`'s six special names). The shape probe's conversions read the Java type alone, which boxes every `int` as a `ZZ32`.
+8. **A functional method passes `self` first under walk,** as the compiled rewrite passes it. Default: so. No library binding has a `self` elsewhere, but for the brackets, whose `self` is their only parameter (section 4).
+9. **A dotted method and a top-level function are told apart by the helper's arity.** Default: a helper with one parameter more than the declaration takes a dotted method's `self` first, as the shape probe's loader did. Walk's loader is not told where the declaration sits (`FunctionClosure` calls `NativeApp.checkAndLoadNative` with the declaration only); the compiled rewrite is. The library's bindings fit this rule.
+10. **Walk refuses at load a helper string that names nothing, or no overload that fits.** Default: 'Native helper … names no static method of …', as walk refuses a glue class it cannot find ('Native class … not found.').
+11. **The raise translation inside the loader** (natives-shape's gap 5). Default: a helper's `FortressImplementationError` whose message is `fortress.<Api>$<Name>` becomes walk's raise of the library's `<Name>`, as `Int.overflow()` raises `IntegerOverflow`. The shape probe put it in the `import java` path's closure only. At N5 the strings name the one library's exceptions, and the same pattern reads them.
+12. **The first family: 19 of `ZZ32`'s and 2 of `Int`'s.** Default: every `ZZ32` and `Int` binding that can name its helper as a bare string, less two. `CHOOSE` is out: moved, it brings row 521's raw exception to walk, and `PowChooseLcmRungE` fails. Its other way, row 521's fix in the helper (`simpleIntArith.intOverflowingChoose` and `simpleLongArith.longOverflowingChoose` raising `IntegerOverflow` past their tables), would also promote `XXXChooseTableCompiledRungE`; PLAN puts it with the integer families' rungs. `Int`'s `asFloat` is out: its declared result `Float`, walk's float object, is narrower than the helper's `RR64`, and the checker refuses the move. Its other way, the declaration at `RR64`, changes a header for a later rung.
+13. **Row 336 rewritten, not closed.** W's move fixes `ZZ32`'s `DIV` by zero under walk; `REM` and `MOD` on `ZZ32`, the three on `ZZ64`, and `ZZ`'s `DIV` still end the run. Default: the gather rewrites the row to those.
+14. **Rows 796 and 309 closed.** Row 796, walk loading a string only as a glue class, closes with W's commit, its test `NativeHelperBindingWalk`. Row 309, `builtinPrimitive` with no compiled counterpart, closes with C's, its test `NativeHelperBindingCompiled`. The bindings that still name glue classes are F-32's count, not a gap of either mechanism. Default: so.
+15. **The specification: `builtinPrimitive`'s printed comment revised in the revision form, by W.** Default: so (section 3, W). The comment says the string names a glue class (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:14-29`), which the library's typeset api prints (`Specification/library/default-libraries.tex:25-27`). Item 35's write-up names this one revision as way 1's cost, and P-58 took way 1. C alone makes no sentence false, since no library string names a helper without W.
+16. **No rung's test is a stage.** Both have tests first. Each runs both stages once on its final tree, their before climb batch 22's landed tables, 0 and 0. Default: so.
+17. **No speed pass.** No rung changes the checker's code: C changes the parser, the foreign-type reading and `Shell`. Default: so.
+18. **An expected static error as an `XXX` compile test,** as every one of the 347 `.test` files with a `compile_err` key in `compiler_tests/` is. Default: so.
+19. **The 52 demos run by the gather** on the merged tree (F-283; P-79), in the background while it folds. Default: so.
+20. **No rung declares a checker count, a crash or a ladder move.** Default: none; the count and the distance reported.
+
+### Points the batch lists for you, not questions
+
+- **Team lines changed:** W: 21 strings of the library's bindings (19 in `Library/FortressLibrary.fss`, 2 in `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`); `builtinPrimitive`'s comment in `FortressBuiltin.fsi`; `NativeApp.checkAndLoadNative`, 8 lines added. C: `Parser.importCollector` and `parseFileConvertExn`, `Shell.specificRepository`, and `NamingCzar.fortressTypeForForeignJavaType`'s three-argument reading, which gains walk's world; the table and the team's `NamingCzarJUTest` stay as they are.
+- **What walk does differently:** `ZZ32`'s `DIV` by zero raises `DivisionByZero`, where the run ended (row 336). By the planner's runs no other value moves: the family's 21 operations at ordinary and overflowing values print the same on the base and on the text, and walk's suite and the specification's examples pass.
+- **What the checker does differently:** it reads a moved binding as a call of its helper, so a misfitting helper is an error at the binding (the control, section 4).
+- **The first family under walk runs by reflection,** where its glue classes were compiled calls. Walk's speed is no measure (P-29); the commit stage's quick microGPT check is the one place it shows, as P-30's minute. The planner did not time it.
+
+## 3. The rungs
+
+Line numbers are those of main at e0ec620a9, whose Library/, ProjectFortress/ and Specification/ are those of 2bff2fe23, climb batch 22's landing. Each rung's tests come first: written, run through the harness on the base and seen failing, or for a guard seen passing, and committed before the edit or with it. A value that matters is asserted inside the test (P-103). The planner's text is explorations/compile-ladder/plan-23/probes/: rung-C.patch and rung-W.patch, each applying to the base alone (git apply --check), together the text the planner measured at distance 0; NOTES.md says how to run them again.
+
+### C. The compiled half: the rewrite at the parse (P-58; rows 309 and 560)
+
+**The answers this rung follows.** P-58: a native binding is a library body that is exactly builtinPrimitive("..."), and it keeps that form; its string is to name a static Java method in nativeHelpers/; at the parse, before the checker, the compiled path is to rewrite each such body into a synthetic import java of the helper and a call, and to refuse a string that names no helper; from the step that moves a binding, the compiled checker checks it against the helper's Java signature. The binding probe built this rewrite in a shadow and ran five shapes (explorations/perf-probes/prelude/natives-binding-probe.md, section 1): it must sit at the parse, since the repository makes the foreign api from the import collector's view of the file. F-180: the import java machinery, its gaps on walk, and the stand-in table of the shape probe, whose form fork 5 changes. Row 309: the compiled path has no counterpart of builtinPrimitive. Row 560: the checker reads a glue string's body as a call of builtinPrimitive's generic function, which stays so for every string you leave alone. This record's section 2, forks 2 to 5, 14 and 16 to 18, give the defaults you build.
+
+**What you build.**
+- The planner's rung-C.patch: git apply explorations/compile-ladder/plan-23/probes/rung-C.patch in your tree. Take the text, or improve it and say why. It holds:
+  - compiler/BuiltinPrimitiveRewriter.java, new: a declaration whose body is the tight juxtaposition of builtinPrimitive and a string literal, the shape walk recognizes (interpreter/glue/NativeApp.java:164-188), and whose string names a public static method pkg.Class.method of a class that loads, becomes a call of an alias builtinPrimitive_Class_method, with the component gaining import java pkg.{Class.method => builtinPrimitive_Class_method, ...}; the arguments are the parameters in order, self first for a method of a trait or object, a functional method's self moved to the front; a declaration with a varargs parameter is left alone.
+  - The refusal, fork 3: a string under com.sun.fortress.nativeHelpers. that names no public static method is a static error at the string: builtinPrimitive names no static helper: <the string>. Any other string is left alone.
+  - Its switch, fork 2: BuiltinPrimitiveRewriter.setEnabled, which Shell.specificRepository (ProjectFortress/src/com/sun/fortress/Shell.java:101) calls, on for the compiled path's repository and off for walk's.
+  - Two hooks in compiler/Parser.java: parseFileConvertExn (:323) rewrites each parsed component; importCollector (:156) returns the whole rewritten component for a file whose text names a helper string, fork 4, so that the repository makes the foreign api (GraphRepository.readCUFor, :1022).
+  - The stand-in reading, fork 5: in compiler/NamingCzar.java, fortressTypeForForeignJavaType's three-argument form (:368), which ForeignJava and the wrapper generator call, reads the Java types as the one library's whenever the world is walk's, decided at each call, and falls back to the prelude's reading for a type the one library lacks; the prelude's table (:436-466) and the one-argument form stay as they are, so NamingCzarJUTest keeps its verdict. Not natives-shape's gap 1 patch, which rewrote the table at class load and failed NamingCzarJUTest.testForeign in the planner's run.
+- Not yours: walk's loader and every library string (rung W); the glue strings, which the compiled path leaves to row 560 until each moves; the names batch's table (N5); the checker's Scala.
+
+**Rows.**
+- Row 309: the gather closes it with your commit, its test NativeHelperBindingCompiled (fork 14).
+- Row 560: unchanged; its claim is about the glue strings, which stay.
+
+**Distance sites.** Run the count stage and the distance stage once each on your final tree; their before is climb batch 22's landed tables, 0 and 0 (explorations/compile-ladder/climb-batch-22/gate/). No library string names a helper on your tree, so the rewrite changes nothing the stages read: by the planner's run of your text with W's, 0 and 0, '#crash none'. Any site that comes is a point to report. You change no checker code: report the count stage's seconds, and make no speed pass.
+
+**Files.**
+- ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java, new.
+- ProjectFortress/src/com/sun/fortress/compiler/Parser.java: the two hooks, only.
+- ProjectFortress/src/com/sun/fortress/Shell.java: specificRepository, only.
+- ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java: the foreign-type reading, only.
+- ProjectFortress/compiler_tests/: your tests.
+- Not: interpreter/; Library/; ProjectFortress/LibraryBuiltin/; nativeHelpers/; the tools.
+
+**Tests, first.**
+- In ProjectFortress/compiler_tests/, as rung-C.patch writes them: NativeHelperBindingCompiled (link and run): a top-level function, a trait's functional method, an object's dotted method with self first, a helper that raises IntegerOverflow caught by a Fortress catch, and two Java overloads of one helper name, each bound at its own types; XXXNativeHelperMisfitCompiled (compile): a helper that does not fit its declaration, 'Function body has type ZZ32, but declared return type is Boolean.'; XXXNativeHelperMisspeltCompiled (compile): a misspelt helper, 'builtinPrimitive names no static helper: com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAddd'. On the base all four cases fail: the link and both compiles with 'Variable builtinPrimitive is not defined.', the run with 'Could not load NativeHelperBindingCompiled'; on your text, 'OK (4 tests)'.
+- Keep their verdicts: the compiler, library and other-compiler tracks and the misc track's NamingCzarJUTest, by the planner's run of the batch's text: 2,107 tests over the four tracks and no failure, the compiler track 1,319; walk's suite, which the switch keeps off the rewrite.
+- After the change: ant testSystem once and ant testQuick once, since the parser is a phase both paths run (the fortress-repo skill's tests-running.md, "When to run a whole suite").
+
+**Specification.** None. The printed comment on builtinPrimitive (ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:14-29, typeset by Specification/library/default-libraries.tex:25-27) stays true while no library string names a helper; rung W revises it. Grep Specification/ and Appendix I (Specification/appendices/changes.tex) for a sentence on how the compiled path treats builtinPrimitive or import java; the planner's grep found Appendix I's row 560 entry (changes.tex:2466), about the glue strings, which stays true. List every sentence made false as revival-change material: F-111's "the library names walk's natives only in strings, which only walk resolves" and F-180's "not yet built" among them.
+
+**Overlaps by file.** None: rung W edits interpreter/glue/, the library's strings and FortressBuiltin.fsi's comment. The gather applies you first, since W lands only with you. You meet in the suites and both stages: on the merged tree the stages read W's 21 moved bindings through your rewrite, which the planner measured at 0.
+
+### W. Walk's half and the first family (P-58; rows 796, 336 and 521)
+
+**The answers this rung follows.** P-58: walk is to load the helper that a builtinPrimitive string names, through a loader beside its glue classes; the bindings move onto helpers step by step. Row 796: walk loads a string only as a glue class. The shape probe measured walk's half (explorations/perf-probes/prelude/natives-shape.md, section 1): a loader of 72 lines, the conversions of its gap 4, and gap 5, a helper's raise of a compiled exception class translated into the library's own. F-180 names both findings that bear on a shared binding. P-29: walk's speed is irrelevant; the reflective call weighs nothing. Rows 336 and 521: walk's DIV by zero ends the run, and the ZZ32 CHOOSE helper fails past its table. This record's section 2, question 2 and forks 1, 6 to 15, 16, 17 and 19, give the defaults you build.
+
+**What you build.**
+- The tests first (below).
+- The planner's rung-W.patch: git apply explorations/compile-ladder/plan-23/probes/rung-W.patch in your tree. Take the text, or improve it and say why. It holds:
+  - interpreter/glue/StaticNativeApp.java, new: a NativeMeth for a string under com.sun.fortress.nativeHelpers.; the helper is the class's public static method of that name whose Java parameter and result types carry the declared types, self first (fork 6), one parameter more for a dotted method's self (fork 9); the values carried at the declared types (fork 7); a functional method's self moved to the front (fork 8); the raise translation (fork 11).
+  - Its hook in NativeApp.checkAndLoadNative (interpreter/glue/NativeApp.java:194), before the glue class's load: a helper string goes to StaticNativeApp, and a string that names nothing, or no overload that fits, is refused at load (fork 10).
+  - The first family, fork 12, by exact text: 19 strings of trait ZZ32 in Library/FortressLibrary.fss (:741 to :810: =, <, the unary - and DOTMINUS, +, DOTPLUS, the binary - and DOTMINUS, DOT, TIMES, juxtaposition, DOTTIMES, DIV, BITAND, BITOR, BITXOR, BITNOT, widen, unsigned) and 2 of value object Int in ProjectFortress/LibraryBuiltin/FortressBuiltin.fss (:371 and :373, asString and asExprString), each naming the helper that the prelude binds or that computes it (explorations/compile-ladder/plan-23/probes/movable-base.tsv).
+- The specification's text (below).
+- Not yours: CHOOSE, Int's asFloat and every other binding (fork 12); the compiled rewrite and the stand-in reading of the foreign types (rung C); the helpers' Java; row 521's fix; the glue classes, which stay for every binding not moved.
+
+**Rows.**
+- Row 796: the gather closes it with your commit, its test NativeHelperBindingWalk (fork 14).
+- Row 336: rewritten by the gather from your record.md (fork 13): ZZ32's DIV by zero raises DivisionByZero since your commit, its test ZZ32DivisionByZeroWalk; REM and MOD on ZZ32, the three on ZZ64 and ZZ's DIV still end the run.
+- Row 521: a note: moving ZZ32's CHOOSE onto simpleIntArith.intOverflowingChoose brings its raw ArrayIndexOutOfBoundsException to walk ('Index 15 out of bounds for length 15', simpleIntArith.java:211; PowChooseLcmRungE fails), so CHOOSE stays on its glue class until the helper's fix.
+
+**Distance sites.** Run the count stage and the distance stage once each on your final tree; their before is climb batch 22's landed tables, 0 and 0. Without rung C's rewrite on your tree the checker reads your moved strings as calls of builtinPrimitive (row 560), as it reads every glue string, so both stay 0 there. The merged tree is the first on which the stages read your 21 through C's rewrite: by the planner's run of the two texts together, 0 and 0, '#crash none'; with Int's asFloat moved too, the distance 1 at FortressBuiltin.fss:375 and the count 0. Any site that comes is a point to report. You change no checker code: report the count stage's seconds, and make no speed pass.
+
+**Files.**
+- ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java, new; ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java: checkAndLoadNative's hook, only.
+- Library/FortressLibrary.fss: trait ZZ32's 19 strings, only.
+- ProjectFortress/LibraryBuiltin/FortressBuiltin.fss: Int's 2 strings, only. ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi: builtinPrimitive's comment, only.
+- Specification/appendices/changes.tex: your entry; Specification/fortress/preamble.tex only if your change makes its paragraph false.
+- ProjectFortress/tests/: your tests.
+- Not: compiler/; Shell.java; nativeHelpers/; interpreter/glue/prim/; the tools.
+
+**Tests, first.**
+- In ProjectFortress/tests/, as rung-W.patch writes them, each failing on the base through the harness: NativeHelperBindingWalk, top-level functions binding helpers over ZZ32, RR64, ZZ64, Boolean, String, ZZ, NN32 and Char, and two Java overloads of one name, the values asserted (the base: 'Native class com.sun.fortress.nativeHelpers.simpleIntArith.intLT not found.'); NativeHelperRaiseWalk, a helper's IntegerOverflow and DivisionByZero caught by a Fortress catch; NativeHelperMisspeltWalk with its .test file, a misspelt helper refused at load, load_exception_contains=names no static method of com.sun.fortress.nativeHelpers.simpleIntArith; ZZ32DivisionByZeroWalk, ZZ32's 7 DIV 0 raising DivisionByZero, a catch seeing it (opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators"; the base: 'java.lang.ArithmeticException: / by zero').
+- A guard, passing on the base and after: NativeHelperFamilyZZ32Walk, the family's 21 operations at ordinary values and at the overflows each raises, the values asserted.
+- Keep their verdicts: walk's suite, 683 tests at the landed gate, PowChooseLcmRungE and IntegerPowerContractWalk among them; ant testSpecData's 130; the compiled tracks, which your Java does not reach. By the planner's run of the batch's text: 688 tests, no failure, and 130.
+- After the change: ant testSystem once and ant testSpecData once (P-124).
+
+**Specification.** builtinPrimitive's comment in ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:14-29, which the library's typeset api prints (Specification/library/default-libraries.tex:25-27), says that the string names a subclass of com.sun.fortress.interpreter.glue.NativeApp. Your rung makes it incomplete for the 21. Revise it in the revision form of the fortress-repo skill's specification.md, "Changing the text: the revision form": the string names either a glue class, which only walk runs, or a static method of com.sun.fortress.nativeHelpers, which both paths call, walk through its loader and the compiled path through a call it makes at the parse; an Appendix I entry in its revival section, with the original text from Specification-1.0-frozen/ and P-58 as its decision, its effect naming each binding that still names a glue class (F-32) and row 521's CHOOSE; a revision callout at the comment, if the api's typesetting carries it, and otherwise a sentence in the entry saying where the comment prints; decision-record.md in your folder. Build the specification once to check it. Grep Specification/ for another sentence on builtinPrimitive, native components or division by zero under walk; the planner's grep found opr-overview.tex:164-165, "For integer results, division by zero throws a DivisionByZero.", which your rung makes true for ZZ32's DIV. List every sentence made false as revival-change material: F-32's count, F-180's "not yet built", and the fortress-repo skill's interpreter.md, "Natives", "The library binds each of walk's natives by a string in its .fss files: builtinPrimitive("com.sun.fortress.interpreter.glue.prim.X")", among them.
+
+**Overlaps by file.** None: rung C edits compiler/ and Shell.java. You land only with C, so the gather applies you second. You meet in the suites and both stages: on the merged tree the stages read your 21 through C's rewrite.
+
+### The rule the rungs keep, and how they meet
+
+- No two rungs change one declaration, and no rung builds on another rung (PLAN, "The principle for the batches"): W's tests pass on its own tree; C's on its own. W lands only with C, by P-58's check from the step that moves a binding (fork 1).
+- The declarations each rung changes. C: Parser.importCollector and parseFileConvertExn, Shell.specificRepository, NamingCzar's table, the new BuiltinPrimitiveRewriter. W: NativeApp.checkAndLoadNative, the new StaticNativeApp, trait ZZ32's 19 bindings, Int's 2, builtinPrimitive's comment.
+- Files two rungs share: none. The gather applies C, then W.
+- They meet in the suites and both stages: the gate's tables on the merged tree are the first to read the moved bindings against their helpers, and the planner's measurement of their text together gives the distance 0 and the count 0 (section 4).
+
+## 4. The candidates, and what the batch leaves out
+
+### What the record owes, from the review's item 7
+
+- **F-32's classes counted again on the base:** below, "The count". **In: the base's 449, the 24 placed.**
+- **The distance stage kept in the gate, or the reason it is not:** question 1, default kept.
+- **The four model imports outside the twelve, probed once:** below, "The model's imports outside the distance". **Report-only; out of the batch.**
+- **A base build at its base:** `/home/user/fortress-base23`, at `e0ec620a9`, built by the coordinator; `/home/user/fortress-base22` was removed (`3e6270dc1`).
+- **A Fable review before the launch, and the launch on his go:** section 1, "Before the batch runs".
+
+### The planner's probes
+
+Three worktrees seeded from the base build, `/home/user/fortress-p23w`, `fortress-p23c` and `fortress-p23b`, detached at `e0ec620a9`. The stages are the gate's own (`tools/distance/run.sh`, `tools/checker-count/run.sh`). The files are in `compile-ladder/plan-23/probes/`, and its `NOTES.md` says how to run each again.
+
+**The count.** `count.sh` runs the natives probe's own scripts (`extract.py`, `match.py`, `classify.py`, read from `4a46fb83a`) on the base, with the helpers' signatures read again by `javap` from the base's build: the same 369 public static helpers in 25 classes as at `f55fd68e2`.
+- 449 live bindings in nine files: `FortressBuiltin.fss` 236, `FortressLibrary.fss` 125, `Reflect.fss` 28, `File.fss` 15, `FlatString.fss` 14, `Writer.fss` 11, `Reader.fss` 10, `NativeArray.fss` 7, `System.fss` 3.
+- By class: 'all A=154 B= 59 C=158 D1= 36 D2= 42 total=449'; the prelude and what it imports hold 393 (A 153, B 59, C 157, D1 11, D2 13), the other four files 56. 40 bindings have a parameter that is no Java value (B 10, C 14, D2 16); 23 of B carry a name the prelude gives to another helper, the 12 wrapping operators among them (row 348).
+- Against F-32's 424 at `e455ccd98`, binding by binding (`classified-base.tsv` against the probe's `classified.tsv`): 25 more, the 24 `IntLiteral` bindings of `9d2e4c856` and `Float`'s `opr ^(self, b:RR64):RR64` (`FortressBuiltin.fss:158`); `Float`'s `|self|` and `NN64`'s `signed` from B to A, their headers now `RR64` and `ZZ64`; `RR32`'s `^` gone with rung V (`e455ccd98`, F-32's count already); the other moves are headers alone, `RR32`'s 31 now over `RR32` and the five integer powers answering their own types (P-153). So A 147 to 154, B 61 to 59, C 138 to 158.
+- **The 24 `IntLiteral` bindings** (among `IntLiteral`'s 29, `FortressBuiltin.fss:489-554`), placed: the classifier gives A 4 (`+`, the unary and binary `-`, juxtaposition: the prelude binds them to `simpleIntLiteralArith`'s `add`, `neg`, `sub` and `mul`) and C 20. By operation, `DOT` and `TIMES` are B 2, since juxtaposition's helper `mul` computes them, which the classifier's table of families lacks; C 18 (`DIV`, `REM`, `MOD`, `GCD`, `LCM`, `CHOOSE`, the four bit operators, the two shifts, `^` and the five conversions `asZZ32` to `asZZ`). All 24 wait for N5: the four helpers take and answer `fortress.CompilerBuiltin$IntLiteral` (`helpers-javap.txt`), which walk's values cannot be, and walk reaches no `IntLiteral` native while its numeral is an `Int` (P-76; row 578).
+- **The bindings that can name their helper as a bare string** (`movable.py`, `movable-base.tsv`): the helper's Java signature, read through the foreign-type table as walk's world reads it with the stand-in table (`int` `ZZ32`, `long` `ZZ64`, `double` `RR64`, `float` `RR32`, `boolean` `Boolean`, `String` `String`, `BigInteger` `ZZ`, `void` `()`, the six special-name helpers `NN32`, `NN64` or `Char`), fits the declaration, self first, each argument a subtype of the helper's parameter and the helper's result a subtype of the declared one. Of A's 154 and B's 59, 104 fit (A 80, B 24): `Float` 30, `ZZ64` 21, `ZZ32` 20, `ZZ` 16, `FlatString` 5, top level 3, `Int` 2, `Long` 2, `BigNum` 2, `NN32` 1, `NN64` 1, `Char` 1. Of the 109 that do not: `Char` 40, `NN32` 22 and `NN64` 20, where the table reads the helper's `int` or `long` as `ZZ32` or `ZZ64`; seven over `AnyIntegral`, the shifts of `ZZ32`, `ZZ64` and `ZZ` and `ZZ`'s `shift`, and `ZZ32`'s `big`, whose helper takes a `long`; `Float`'s 5, over `RR32`, `AnyIntegral` or `Number`, or whose bracket's helper answers `RR64`; `FlatString`'s 4, whose prelude form composes (`=` from `compareTo`) or whose helper answers an `int` for a `Char`; `IntLiteral`'s 4; `Object`'s 2 and two top-level ones over `Any` or `Number`; `RR32`'s `^` over `Float`; and the `asFloat`s of `Int`, `RR32` and `NN32`, answering `Float`, walk's float object, where the helper answers `RR64`.
+- **Bindings whose `self` is not their first parameter:** none but the four floor and ceiling brackets, whose `self` is their one parameter (`bindings.tsv`'s headers).
+
+**Walk's half alone** (`fortress-p23w`, before the family): the shape probe's loader (`opt1-builtinprimitive-static.patch` at `4a46fb83a`) re-based with the changes of forks 6 to 11; 208 lines in the new `StaticNativeApp.java` and 8 in `NativeApp.java`.
+- On the base (`tools/old-fortress.sh` and the base build's `harness-one.sh`), all three tests fail: 'Native class com.sun.fortress.nativeHelpers.simpleIntArith.intLT not found.', '... intOverflowingAdd not found.', and for the misspelt string 'Refused at load, but did not satisfy load_exception_contains'.
+- On the half: 'OK (3 tests)': 'OK (time = 557ms)', 'OK Saw expected refusal at load', 'OK (time = 9507ms)'. The misspelt string: 'Native helper com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAddd names no static method of com.sun.fortress.nativeHelpers.simpleIntArith.'
+- No library string names a helper on the base, so the half alone changes nothing that walk's suite runs; it was run with the family (below).
+
+**The compiled half alone** (`fortress-p23c`): the binding probe's class re-based with forks 2 to 4, 134 lines, the hooks (+5 −2), the switch (+2), and at first gap 1's table unchanged (+14 −11), later replaced by the reading of fork 5 (+45; below, "The halves with the first family"). The library order, then `ONE_JVM=1 junit.sh` on the three tests, under gap 1's table:
+- On the base (`old-fortress.sh ... junit`): 'Tests run: 4, Failures: 4'; the link 'Variable builtinPrimitive is not defined.' six times, 'File NativeHelperBindingCompiled.fss has 6 errors.', each compile test 'Saw failure, but did not satisfy compile_err_contains', and the run 'Could not load NativeHelperBindingCompiled'.
+- On the half: 'OK (4 tests)': '. link ... NativeHelperBindingCompiled OK', '. run ... NativeHelperBindingCompiled (316ms) PASS', and each compile test 'Saw expected failure' with its message, 'builtinPrimitive names no static helper: com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAddd' at `XXXNativeHelperMisspeltCompiled.fss:5:46-109`.
+
+**The two halves together, no binding moved** (`fortress-p23b`): the distance '#total 0', every `#kind` 0, '#crash none', '#seconds 226 FortressLibrary 169', '#shadow every shadow edit matched the tracked sources'; the count '#total 0', '#locations 0', '#crash none'.
+
+**The control.** On the same tree, one string changed for one run, `ZZ32`'s `opr <` naming `simpleIntArith.intOverflowingAdd`, then restored: the count stage '#total 1', `FortressLibrary.fss:743:9-90`: 'Function body has type ZZ32, but declared return type is Boolean.' Run once more on the batch's text (the fourth text below), with `opr <`'s moved string changed so for one run and restored: the same '#total 1' and the same error. So the stages read a moved binding as a call of its helper and check it against the helper's signature, through either form of the type reading: the acceptance below is a check that passed.
+
+**The halves with the first family** (`fortress-p23w`, at last the batch's text: `rung-C.patch` and `rung-W.patch`). Four texts, each correcting the one before:
+- First, 23 strings, `CHOOSE` and `Int`'s `asFloat` among them, without the guard and the division test: walk's suite 'Tests run: 173', '163, Failures: 1', '169', '181': `PowChooseLcmRungE`, 'UNEXPECTED exception', `java.lang.ArrayIndexOutOfBoundsException` from `simpleIntArith.intOverflowingChoose` (row 521).
+- Second, `CHOOSE` back on its glue class, 22 strings: walk's suite 686 tests over its four shards, 'Failures: 0, Errors: 0'; `ant testSpecData` 'Tests run: 130, Failures: 0, Errors: 0'; the distance '#total 1', 'typecheck 1', '#unit component FortressBuiltin 1', `FortressBuiltin.fss:375`: 'Function body has type RR64, but declared return type is Float.'; the count '#total 0', since it does not check `FortressBuiltin`'s component.
+- Third, `Int`'s `asFloat` back too, 21 strings, with the guard and the division test: walk's suite 'Tests run: 176', '174', '159', '179, Failures: 0, Errors: 0', 688; `ant testSpecData` 'Tests run: 130, Failures: 0, Errors: 0'; the distance '#total 0', '#crash none', '#seconds 220 FortressLibrary 161'; the count '#total 0', '#locations 0', '#crash none'; `ant testFast` 'BUILD FAILED': the compiler track 'Tests run: 1319, Failures: 0', the other-compiler track '263, Failures: 0', the library track '86, Failures: 0', and in the misc track `NamingCzarJUTest` 'Tests run: 2, Failures: 1': `testForeign`, 'expected:<...com/sun/fortress/compiler/runtimeValues/F...> but was:<...fortress/FortressLibrary$...>'. The test asserts the foreign reading of `I` and `Ljava/lang/String;` (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzarJUTest.java:33-38`) in the default world, which is walk's (`WellKnownNames.java:44-45`), and gap 1's patch had rewritten the table every reading shares.
+- Fourth, the same text with fork 5's reading in place of gap 1's patch, the batch's text: `ant testOnly -DtestPattern=NamingCzarJUTest` 'Tests run: 2, Failures: 0, Errors: 0'; the distance '#total 0', every `#kind` 0, '#crash none', '#seconds 206 FortressLibrary 152'; the count '#total 0', '#locations 0', '#crash none'; `ant testFast` the compiler track 'Tests run: 1319, Failures: 0', the library track '86, Failures: 0', the other-compiler track '263, Failures: 0', and the misc track green, 2,107 tests over 54 classes against the landed 2,103, 'BUILD SUCCESSFUL'. Walk's suite and the examples were not run again: the reading changed only the three-argument form, which only `ForeignJava` and the wrapper generator call (`repository/ForeignJava.java:340`, `compiler/nativeInterface/FortressMethodAdapter.java:251`), code that walk does not run. Not timed.
+- The guard and the division test, through the harness: on the base, `ZZ32DivisionByZeroWalk` 'java.lang.ArithmeticException: / by zero', `NativeHelperFamilyZZ32Walk` 'OK'; on the text, 'OK (2 tests)'.
+
+**The family's values under walk.** Three programs on the base's old code and on the 23-string text, their output compared with `diff`:
+- The 22 operations of the family and `CHOOSE`, at ordinary values and at the overflows each raises ('-x -2147483647 IntegerOverflow', 'DOT 2147395600 IntegerOverflow', 'DIV 3 -3 -3 IntegerOverflow', 'CHOOSE 10 1166803110 9880 1 0 0 IntegerOverflow', 'widen 2147483647 unsigned 7 4294967295', 'asString 2147483647 -2147483648 asFloat 2.147483647E9 -1.0'): `diff` prints nothing.
+- `1 DIV 0` in a `try` catching `DivisionByZero`: the base ends the run, 'Caused by: java.lang.ArithmeticException: / by zero' at `Int$Div.f(Int.java:126)`; the text prints 'DIV by zero: DivisionByZero'.
+- `34 CHOOSE 17` in a `try` catching `IntegerOverflow`: the base prints '34 CHOOSE 17: IntegerOverflow'; the text ends the run, 'java.lang.ArrayIndexOutOfBoundsException: Index 15 out of bounds for length 15' at `simpleIntArith.intOverflowingChoose(simpleIntArith.java:211)`.
+
+**The model's imports outside the distance** (the review's finding 3), on the base build, report-only: `run-four.sh`, the distance stage with its component list one target, run once per target so that each is checked with every stage (`four-imports-base.tsv`). `File` imports `FileSupport`, which is checked too.
+- `System` '#total 2', both type errors of `NativeArray`'s `PrimImmutableArray` (`System.fss:28`, `:34`; D2's arrays).
+- `File` '#total 4': an export error of 2 entries (`FileWriteStream`'s `flush`; `FileReadStream`'s extends clause, parameters and members), two `FileReadStream` constructors at one parameter type, `characters`' return type against `FileSupport`'s, and `writeOn` on a `FileWriteStream`.
+- `FileSupport` '#total 24': an export error of 4 entries (`Closeable`, `FileStream`, `Consumable`, `ReadStream`), `seq`'s return type, and 22 body errors, 10 of them `eof` and `ready` written as methods where the api declares getters, and two `Char` against `ZZ32`.
+- `FortressAst` '#total 1': one export error of 203 entries, each a generated object's `asString`, a method in the component (`asString():String = "BoolArg"`, `FortressAst.fss:104`) and a getter in the api (`FortressAst.fsi:103`). Both files are generated from `ProjectFortress/astgen/Fortress.ast`.
+- `FortressSyntax` '#total 0'.
+- So 31 errors outside the twelve, all on the path of microGPT's I/O (`File`, `FileSupport`), its arguments (`System`) and the APL program's syntax api (`FortressAst`). None is a native binding's.
+
+### Left out, each with its home
+
+- **N1's other families, and the 109 bindings that cannot name their helper as a bare string:** `Char` 40, `NN32` 22 and `NN64` 20 need the table to read their `int` and `long` as their own types: by helpers with the special names, by the table reading a helper's types from its binding's declaration, or by a second declaration that converts, which P-58's bare form cannot write in one body. Not measured. Home: PLAN, phase 4's natives line, a new sub-item for N1's planner.
+- **`CHOOSE`, with row 521's helper fix,** and the compiled powers' rows 523 to 525: the integer families' next rung, as PLAN's phase 4 line gives them.
+- **`Int`'s `asFloat`,** and the other two `asFloat`s answering `Float`: their family's rung, with the declared result at `RR64` or a helper answering walk's type.
+- **Row 336's rest:** `REM` and `MOD` (class C, new helpers, N3) and `ZZ64`'s and `ZZ`'s `DIV` (their families' rungs).
+- **The 24 `IntLiteral` bindings:** N5, with Q-walk's numeral (P-76).
+- **D1 and D2:** N4 and the array design (phase 5), as PLAN gives them.
+- **The 31 errors of the model's imports:** the names batch, which reads them when the compiled path reads the one library; F-53's definition unchanged. Home: PLAN, phase 4's names line, beside rows 782, 813 and 814.
+- **The code generator's refusals of the library** (F-34): phase 4's names batch and phase 5.
+- **FACTS made stale by the landing:** F-32's count, F-111's "which only walk resolves", F-180's "not yet built": the commit stage's fold and the routing. The `fortress-repo` skill's `interpreter.md` and `compiler.md`, "Natives": the skill writer, from the batch's revival-change material.
+
+## 5. How it is run
+
+The batch runs on the workflow of climb batch 22: `coordinator/climb-batch-workflow.js`, its manual `coordinator/climb-batch-workflow.md`, and the practice they build, `coordinator/process-engineering/batch-redesign.md`. Section 3 is each worker's brief word for word; this section holds the rest of the manifest, which `explorations/compile-ladder/plan-23/manifest/gen23.py` reads with the briefings of `lists23.py` beside it, and `check23.js` checks.
+
+### The generator
+
+`plan-23/manifest/` is committed with this record: `gen23.py`, `lists23.py` and `check23.js`, made from `plan-22/manifest/`. Changed from climb batch 22's: the batch's values (`BATCH` `23`, its folder `compile-ladder/climb-batch-23/`, the output `manifest23.js`); two rungs in the order C, W, as the gather applies them, since W lands only with C (the manual, "Gather", "The order"); W's `landsOnlyWith: ["C"]`, which `check23.js` requires and which `--without C` refuses, since W cannot land without C; no rung whose test is the stage; every section naming the count stage and the distance stage, saying it makes no speed pass and naming no P-148. On `main` at `3e6270dc1`, whose code is `e0ec620a9`'s, with this record: `lists23.py` 'bad lists 0'; `gen23.py`, its block checked by `check23.js` on a scratch splice, 'problems: 0'; and `coordinator/tools/workflow-scenarios.js` on that splice, 'problems: 1': 'BAD  F6 a refusal repaired, the repair not landing: dropped', 'landed false (expected true)'. Scenario F6 drops the manifest's first rung, C, and expects the rest to land; W lands only with C, so nothing is left to gather, which is what the script is to do. With W's `landsOnlyWith` taken out of a scratch copy of the splice, the same checker prints 'problems: 0'. So the problem is the scenario checker's: its scenarios that drop one rung (F4, F6, S2) assume that the others land alone. Its fix, the scenarios reading `landsOnlyWith` and expecting a dependent rung withheld, is a tool change for the coordinator between batches; with question 2's other answer, W needs no `landsOnlyWith` and the checker prints 0 as it stands. The tracked script is not spliced: the coordinator splices it ("Before the launch", step 3).
+
+### The manifest, rung by rung
+
+Each block gives the fields of one rung's manifest entry. Neither rung's test is the stage: each has its tests first. "Joins the gate" names a step the gate gains once the rung lands; none does, and `ant testSpecData` runs because the last landed summary has it. No rung declares a checker count: it is reported, never red. The expected minutes order the scatter only. The points to report are the kinds of change the curator reviews after the landing: a rung that reaches one finishes, lists it with its evidence, and lands; only a step that cannot be undone, or that would act against a decision of the curator, holds the push.
+
+#### C
+- **slug:** `rung-natives-compiled`
+- **worktree:** `/home/user/fortress-natives-compiled`
+- **expected minutes:** 100
+- **its test is the stage:** no
+- **writes state:** no
+- **joins the gate:** none
+- **checker count:** none
+- **lands only with:** none
+- **blurb:** the compiled half of P-58: at the parse, a builtinPrimitive body whose string names a static helper of nativeHelpers becomes a synthetic import java and a call, self first for a method, so the checker reads it against the helper's Java signature; a helper string that names nothing is a static error; on for the compiled path's repository and the gate's stages, off under walk; the stand-in foreign-type table of walk's world; compiled tests first; row 309 closed.
+- **points to report:**
+  - Whether you took rung-C.patch as it is or changed it, and why.
+  - Your three tests before and after, through junit.sh.
+  - The distance table and the count table on your final tree, and any site that comes; the count stage's seconds.
+  - The verdicts of ant testSystem and ant testQuick on your final tree, and each test whose verdict changes.
+  - Any parse of a file that names no helper that your hook changes, and any compiled test that changes.
+  - Every sentence made false.
+  - A file edited beyond those named, or any edit of interpreter/, the library or the checker's Scala.
+
+#### W
+- **slug:** `rung-natives-walk`
+- **worktree:** `/home/user/fortress-natives-walk`
+- **expected minutes:** 120
+- **its test is the stage:** no
+- **writes state:** no
+- **joins the gate:** none
+- **checker count:** none
+- **lands only with:** C
+- **blurb:** walk's half of P-58 and the first family: walk loads a builtinPrimitive string that names a static helper beside its glue classes, the overload that fits the declaration's types, values at the declared types, a helper's IntegerOverflow or DivisionByZero raised as the library's; 19 of ZZ32's operators and Int's asString and asExprString moved onto their helpers; ZZ32's DIV by zero now raises DivisionByZero; walk tests first; builtinPrimitive's printed comment revised; rows 796 closed, 336 rewritten; lands only with C.
+- **points to report:**
+  - Whether you took rung-W.patch as it is or changed it, and why; each binding moved, and any left on its glue class.
+  - Your tests before and after, through the harness: the four that fail on the base, and the guard.
+  - The distance table and the count table on your final tree, and any site that comes; the count stage's seconds.
+  - Each walk value that moves beyond ZZ32's DIV by zero, and each test whose verdict changes in ant testSystem and ant testSpecData.
+  - Row 336's rewritten line, row 796's close and row 521's note.
+  - The specification's revision: the comment, the Appendix I entry, and the build's verdict.
+  - Every sentence made false.
+  - A file edited beyond those named, or any edit of compiler/, Shell.java or nativeHelpers/.
+
+### What every agent reads first
+
+This run is climb batch 23, the first batch of the plan's phase 4, the switch-over, whose first step is the natives: each library binding builtinPrimitive("...") is to name a static Java helper of nativeHelpers that both paths call, in place of a glue class of walk's, which the compiled path cannot use (P-58; F-32). The distance and the count stand at 0 (compile-ladder/climb-batch-22/gate/; F-53). The base's library has 449 live bindings, all naming glue classes. Its rungs: C, the compiled half, the rewrite at the parse of a helper string into a synthetic import java and a call, so that the checker reads a moved binding against its helper's Java signature, with its switch on for the compiled path's repository and the gate's stages and off under walk, its refusal of a helper string that names nothing, and the stand-in type table; W, walk's half, the loader of a helper string beside the glue classes, with the conversions at the declared types and the raise translation, and the first family moved onto helpers, 19 of ZZ32's operators and Int's two getters. The planner measured the two texts together: the distance 0, the count 0, walk's suite 688 tests and no failure, the specification's examples 130 and no failure; a control showed that the stages check a moved binding. Both rungs have tests first; neither changes the checker's code, so neither makes a speed pass. No two rungs share a file, and no rung builds on another; W lands only with C, so that the checker checks every moved binding from this batch on; the gather applies C, then W. ant testSpecData runs in the gate because the landed summary has it; the gather runs the 52 team demos on the merged tree.
+
+### Before the launch
+
+The coordinator:
+1. The curator's go, since phase 4 is not under the standing go; questions 1 and 2 put to him with it, or their defaults taken with his go; the record's other forks taken at their defaults (the `coordinator` skill's `references/batch.md`, "The go"). The Fable review of this record before the launch.
+2. If question 2 is answered option 2: W's section loses the first family, its guard and its division test, and the manifest's W blurb and points follow; the record is regenerated before step 3.
+3. The briefings checked on the base: `python3 -B explorations/compile-ladder/plan-23/manifest/lists23.py`, every key matching one place. The block generated and spliced: `python3 -B explorations/compile-ladder/plan-23/manifest/gen23.py`, then `node explorations/compile-ladder/plan-23/manifest/check23.js`, which splices it into a scratch copy and checks it; then `check23.js --write`, `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced script, whose scenario F6 prints BAD by W's `landsOnlyWith` unless the checker's drop scenarios read it first ("The generator" above), and the commit. The base is `main`'s head after that commit, its full hash, passed as `args.base`.
+4. The base build: `/home/user/fortress-base23`, at `e0ec620a9`, serves if the base differs from it only in record and tool files (`git diff --stat e0ec620a9 <base> -- Library ProjectFortress Specification build.xml bin` empty); otherwise a new one at the base, as the manual's "Before the launch" steps 2 and 3 give it. One trial seed and one `old-fortress.sh` run of `BooleanOps.fss` from the main tree prove it.
+5. `df -h /` against two seeded worktrees (about 206 MB each), the base build, and the stages' scratch folders; `git status --porcelain` empty in the main tree, and no other agent writing there or pushing `main` while the run gathers and commits. The session's permission rules let the commit stage run `explorations/coordinator/tools/mg-run.sh`, and the gather the demo driver of `compile-ladder/rung-team-demos/REPORT.md`, section 13.
+6. Check-ins armed for the run's length, about 2 h 40 min, 45 minutes apart; a run stopped by the session's process stop is resumed with `resumeFromRunId`.
+
+### The launch arguments
+
+`Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js', args: {base: '<the full hash of main after step 3>', baseBuild: '/home/user/fortress-base23'}})`. The arguments are kept byte for byte in the session's scratchpad, as `batch23/launch-args.json`, since a resume needs them.
+
+### The briefings, rung by rung
+
+Each key is a `facts-extract.sh` key, read whole by the worker first; a key marked (check) is also read by the skeptic, a judge and a repair round. The reasons are in `lists23.py` and rendered at the end of the worker's brief. NS is the shape probe, `perf-probes/prelude/natives-shape.md`; BP the binding probe, `perf-probes/prelude/natives-binding-probe.md`; P23 this record's probe folder, `compile-ladder/plan-23/probes/`; all under `explorations/`; REC this record.
+
+- **C**, 15 keys, 8 checks, about 28K tokens: P-58 (check), F-180 (check), F-111; ledger 309 (check), 560; BP "1. Way 1's compiled half" (check); NS "The names"; P23 `rung-C.patch` (check); REC "The planner's probes" (check) and "Forks the batch takes, none consequential"; the code of `Parser.importCollector` (check), `GraphRepository.readCUFor`, `Shell.specificRepository` (check), `NamingCzar.fortressTypeForForeignJavaType`'s three-argument form and `NativeApp.checkAndLoadNative`.
+- **W**, 19 keys, 8 checks, about 33K tokens: P-58 (check), P-29, F-32, F-180; ledger 796 (check), 336 (check), 521 (check); NS "What each gap does to it" and "The library's own construct, walk's half" (check); P23 `rung-W.patch` (check); REC "The planner's probes" (check), "Forks the batch takes, none consequential" and "Question 2, consequential: the first family in this batch"; the code of `NativeApp.checkAndLoadNative` (check), `Int.overflow`, trait `ZZ32`, value object `Int` and `builtinPrimitive`'s printed comment; `opr-overview.tex` "Multiplication, Division, Modulo, and Remainder Operators".
+
+### The gate, and what it should show
+
+The comparands are climb batch 22's `summary.txt`, `checker-count.txt` (0) and `distance.txt` (0).
+- `testSystem`: 683, the comparand's sum (162, 173, 168 and 180 over the four shards), plus W's five tests: 688 at the planner's run of the batch's text.
+- `testFast`: the compiler track 1,315 plus C's four cases, the library track 86, the other-compiler track 263, as landed: 2,107 over the four tracks at the planner's run of the batch's text, 'BUILD SUCCESSFUL'.
+- `testSpecData`: 130 green.
+- The four-thread atomic runs, 42 lines: unchanged; no rung touches the run time.
+- The ladder: no rung declares a move; no ladder program names a helper string, so the rewrite changes none.
+- The checker count: 0, reported, not declared; on the merged tree it reads `ZZ32`'s 19 moved bindings.
+- The distance, reported and never red (question 1): 0, `#crash none`; on the merged tree it reads all 21.
+- The 52 team demos at the gather, each reaching its end (F-283).
+- microGPT's quick pair at the commit stage, both programs `ALL PASS`, 7 of 7 each (P-30): the first landing at which walk's `ZZ32` arithmetic runs through helpers.
+
+### The ledger
+
+New rows go into `explorations/fortress-gap-ledger.md` only through `ledger.py add`, by the gather; until then a worker or a skeptic writes each new row in its `record.md` in the row template with the placeholder `NEW-<rung>-<n>`. Rows opened by plan: none. Rows closed: 309 (C), 796 (W). Rewritten: 336 (W), `ZZ32`'s `DIV` half fixed. Notes: 521 (W), the helper's exception reaching walk if `CHOOSE` moves. Where `ledger.py` refuses a note for length, the gather lists the text for the coordinator.
+
+### After the landing
+
+The landing report; the routing of every item for the curator into PLAN, questions 1 and 2 and this record's forks among them, and the new sub-item for N1's planner on the 109 bindings (section 4); FACTS: F-32 (the base's 449 and the 21 moved), F-111 (the stages now read a helper string), F-180 (the mechanism built), F-53 unchanged; the skill writer's task with the batch's revival-change material, `interpreter.md` and `compiler.md`, "Natives", among it; the post-batch review. The next batch is N1's: the planner sorts the 104 bare-string bindings less the 21 into families, and the 109 into their ways.
+
+## 6. Files cited, with their links
+
+- Records: [PLAN.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/PLAN.md), [POSITIONS.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/POSITIONS.md), [FACTS.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/FACTS.md), [the gap ledger](https://github.com/palimondo/fortress/blob/main/explorations/fortress-gap-ledger.md), [CLIMB-BATCH-22.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/CLIMB-BATCH-22.md), [climb-batch-workflow.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/climb-batch-workflow.md), [climb batch 22's gate](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/climb-batch-22/gate/distance.txt), [climb batch 22's post-batch review](https://github.com/palimondo/fortress/blob/main/explorations/reviews/batch-22-review.md).
+- Probes: [the shape probe](https://github.com/palimondo/fortress/blob/main/explorations/perf-probes/prelude/natives-shape.md), [the binding probe](https://github.com/palimondo/fortress/blob/main/explorations/perf-probes/prelude/natives-binding-probe.md), [item 35's write-up](https://github.com/palimondo/fortress/blob/main/explorations/reviews/item35-natives-binding.md); the planner's [NOTES.md](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-23/probes/NOTES.md), [rung-C.patch](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-23/probes/rung-C.patch), [rung-W.patch](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-23/probes/rung-W.patch), [classified-base.tsv](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-23/probes/classified-base.tsv), [movable-base.tsv](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-23/probes/movable-base.tsv) and [four-imports-base.tsv](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-23/probes/four-imports-base.tsv).
+- Code: [NativeApp.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java), [Parser.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/compiler/Parser.java), [NamingCzar.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java), [Shell.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/Shell.java), [simpleIntArith.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java), [FortressBuiltin.fsi](https://github.com/palimondo/fortress/blob/main/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi), [FortressLibrary.fss](https://github.com/palimondo/fortress/blob/main/Library/FortressLibrary.fss), [the count stage](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/tools/checker-count/run.sh), [the distance stage](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/tools/distance/run.sh).
+- Specification: [default-libraries.tex](https://github.com/palimondo/fortress/blob/main/Specification/library/default-libraries.tex), [opr-overview.tex](https://github.com/palimondo/fortress/blob/main/Specification/basic/operators/opr-overview.tex), [changes.tex](https://github.com/palimondo/fortress/blob/main/Specification/appendices/changes.tex).

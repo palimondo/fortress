@@ -1,0 +1,346 @@
+diff --git a/ProjectFortress/compiler_tests/NativeHelperBindingCompiled.fss b/ProjectFortress/compiler_tests/NativeHelperBindingCompiled.fss
+new file mode 100644
+index 000000000..beac024fb
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/NativeHelperBindingCompiled.fss
+@@ -0,0 +1,41 @@
++(* On the compiled path, a builtinPrimitive body whose string names a static helper of nativeHelpers compiles into a call of that helper, self first for a method. *)
++component NativeHelperBindingCompiled
++export Executable
++
++less(a:ZZ32, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLT")
++
++trait Shape
++  same(self, other:Shape):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
++end
++
++object Box(v:ZZ32) extends Shape
++  kind():JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.typeName")
++end
++
++add(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd")
++
++bazS(s:JavaString):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
++bazI(n:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
++
++run():() = do
++  assert(less(1, 2), "less(1, 2)")
++  assert(NOT less(3, 2), "less(3, 2)")
++  b = Box(3)
++  c = Box(4)
++  assert(same(b, b), "same(b, b)")
++  assert(NOT same(b, c), "same(b, c)")
++  assert(b.kind() = "Box", "b.kind()")
++  assert(add(2, 3), 5, "add(2, 3)")
++  r: ZZ32 := 0
++  try
++    r := add(2147483647, 1)
++  catch e
++    IntegerOverflow => r := 1
++  end
++  assert(r, 1, "add(2147483647, 1) raises IntegerOverflow")
++  assert(bazS("x".asJavaString) = "baz x", "bazS")
++  assert(bazI(7) = "baz 7", "bazI")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/NativeHelperBindingCompiled.test b/ProjectFortress/compiler_tests/NativeHelperBindingCompiled.test
+new file mode 100644
+index 000000000..7511b3ab3
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/NativeHelperBindingCompiled.test
+@@ -0,0 +1,4 @@
++tests=NativeHelperBindingCompiled
++link
++run
++run_out_contains=PASS
+diff --git a/ProjectFortress/compiler_tests/XXXNativeHelperMisfitCompiled.fss b/ProjectFortress/compiler_tests/XXXNativeHelperMisfitCompiled.fss
+new file mode 100644
+index 000000000..f208f33f9
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXNativeHelperMisfitCompiled.fss
+@@ -0,0 +1,9 @@
++(* On the compiled path, the checker reads a builtinPrimitive helper binding as a call of the helper, so a helper that does not fit its declaration is a static error. *)
++component XXXNativeHelperMisfitCompiled
++export Executable
++
++wrongType(a:ZZ32, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd")
++
++run():() = println(wrongType(1, 2))
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXNativeHelperMisfitCompiled.test b/ProjectFortress/compiler_tests/XXXNativeHelperMisfitCompiled.test
+new file mode 100644
+index 000000000..34c141a35
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXNativeHelperMisfitCompiled.test
+@@ -0,0 +1,3 @@
++tests=XXXNativeHelperMisfitCompiled
++compile
++compile_err_contains=Function body has type ZZ32, but declared return type is Boolean.
+diff --git a/ProjectFortress/compiler_tests/XXXNativeHelperMisspeltCompiled.fss b/ProjectFortress/compiler_tests/XXXNativeHelperMisspeltCompiled.fss
+new file mode 100644
+index 000000000..fe0c61cc5
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXNativeHelperMisspeltCompiled.fss
+@@ -0,0 +1,9 @@
++(* On the compiled path, a builtinPrimitive string under nativeHelpers that names no static method is a static error. *)
++component XXXNativeHelperMisspeltCompiled
++export Executable
++
++typo(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAddd")
++
++run():() = println(typo(1, 2))
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXNativeHelperMisspeltCompiled.test b/ProjectFortress/compiler_tests/XXXNativeHelperMisspeltCompiled.test
+new file mode 100644
+index 000000000..7bce959fb
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXNativeHelperMisspeltCompiled.test
+@@ -0,0 +1,3 @@
++tests=XXXNativeHelperMisspeltCompiled
++compile
++compile_err_contains=builtinPrimitive names no static helper: com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAddd
+diff --git a/ProjectFortress/src/com/sun/fortress/Shell.java b/ProjectFortress/src/com/sun/fortress/Shell.java
+index ebedff14d..63165158c 100644
+--- a/ProjectFortress/src/com/sun/fortress/Shell.java
++++ b/ProjectFortress/src/com/sun/fortress/Shell.java
+@@ -99,6 +99,8 @@ public final class Shell {
+     }
+ 
+     private static GraphRepository specificRepository(Path p, CacheBasedRepository cache ) throws IOException {
++        // The compiled path rewrites a builtinPrimitive body naming a helper at the parse; walk loads it itself.
++        com.sun.fortress.compiler.BuiltinPrimitiveRewriter.setEnabled(cache != interpreterCache);
+         GraphRepository fr = new GraphRepository( p, cache );
+         CURRENT_INTERPRETER_REPOSITORY = fr;
+         return fr;
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java b/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
+new file mode 100644
+index 000000000..c51dad325
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
+@@ -0,0 +1,134 @@
++/*******************************************************************************
++ Probe (climb batch 23's planner, N0's compiled half, from item 35's probe): a body that is exactly
++ builtinPrimitive("pkg.Class.method"), the string naming a public static Java
++ method, becomes a call of that method through the import java machinery: the
++ component gains `import java pkg.{Class.method => alias}` and the body becomes
++ alias(args), self first for a method (then the other parameters in order, as
++ walk's NativeMeth passes them).  A string that names no static method (walk's
++ glue classes, "pkg.Class$Op") is left alone, but a string under the helpers'
++ package, com.sun.fortress.nativeHelpers., that names no static method is a
++ static error at the string.  On while the compiled path's repository is in use
++ (Shell.specificRepository), off under walk's (Shell.specificInterpreterRepository).  Applied to the parse of a
++ component (Parser.parseFileConvertExn) and to the import collector's view of
++ it (Parser.importCollector), so the foreign api is known when the repository
++ builds its graph, before every phase.
++ ******************************************************************************/
++
++package com.sun.fortress.compiler;
++
++import com.sun.fortress.nodes.*;
++import com.sun.fortress.nodes_util.ExprFactory;
++import com.sun.fortress.nodes_util.NodeFactory;
++import com.sun.fortress.nodes_util.NodeUtil;
++import com.sun.fortress.nodes_util.Span;
++import edu.rice.cs.plt.tuple.Option;
++
++import java.lang.reflect.Method;
++import java.lang.reflect.Modifier;
++import java.util.*;
++
++public final class BuiltinPrimitiveRewriter {
++    private BuiltinPrimitiveRewriter() {}
++
++    public static final String HELPERS = "com.sun.fortress.nativeHelpers.";
++    private static volatile boolean on = false;
++    public static void setEnabled(boolean b) { on = b; }
++    public static boolean enabled() { return on; }
++
++    /** pkg -> (Class.method -> alias), in order of first use */
++    private static final class Aliases extends LinkedHashMap<String, LinkedHashMap<String, String>> {}
++
++    public static CompilationUnit rewrite(CompilationUnit cu) {
++        if (!enabled() || !(cu instanceof Component)) return cu;
++        Component c = (Component) cu;
++        Aliases aliases = new Aliases();
++        List<Decl> decls = new ArrayList<Decl>();
++        for (Decl d : c.getDecls()) decls.add(decl(d, false, aliases));
++        if (aliases.isEmpty()) return cu;
++        List<Import> imports = new ArrayList<Import>(c.getImports());
++        Span span = NodeUtil.getSpan(c);
++        for (Map.Entry<String, LinkedHashMap<String, String>> e : aliases.entrySet()) {
++            List<AliasedSimpleName> names = new ArrayList<AliasedSimpleName>();
++            for (Map.Entry<String, String> n : e.getValue().entrySet())
++                names.add(NodeFactory.makeAliasedSimpleName(span, NodeFactory.makeId(span, n.getKey()),
++                          Option.<IdOrOpOrAnonymousName>some(NodeFactory.makeId(span, n.getValue()))));
++            imports.add(NodeFactory.makeImportNames(span, Option.some("java"),
++                                                    NodeFactory.makeAPIName(span, e.getKey()), names));
++        }
++        return new Component(c.getInfo(), c.getName(), imports, decls, c.getComprises(), c.is_native(), c.getExports());
++    }
++
++    private static Decl decl(Decl d, boolean inType, Aliases aliases) {
++        if (d instanceof FnDecl) return fn((FnDecl) d, inType, aliases);
++        if (d instanceof TraitDecl) {
++            TraitDecl t = (TraitDecl) d;
++            return new TraitDecl(t.getInfo(), header(t.getHeader(), aliases), t.getSelfType(),
++                                 t.getExcludesClause(), t.getComprisesClause(), t.isComprisesEllipses());
++        }
++        if (d instanceof ObjectDecl) {
++            ObjectDecl o = (ObjectDecl) d;
++            return new ObjectDecl(o.getInfo(), header(o.getHeader(), aliases), o.getSelfType());
++        }
++        return d;
++    }
++
++    private static TraitTypeHeader header(TraitTypeHeader h, Aliases aliases) {
++        List<Decl> ds = new ArrayList<Decl>();
++        for (Decl d : h.getDecls()) ds.add(decl(d, true, aliases));
++        return new TraitTypeHeader(h.getStaticParams(), h.getMods(), h.getName(), h.getWhereClause(),
++                                   h.getThrowsClause(), h.getContract(), h.getExtendsClause(), h.getParams(), ds);
++    }
++
++    private static FnDecl fn(FnDecl f, boolean inType, Aliases aliases) {
++        if (f.getBody().isNone() || !(f.getBody().unwrap() instanceof Juxt)) return f;
++        Juxt body = (Juxt) f.getBody().unwrap();
++        List<Expr> es = body.getExprs();
++        if (!body.isTight() || es.size() != 2 || !(es.get(0) instanceof VarRef) || !(es.get(1) instanceof StringLiteralExpr))
++            return f;
++        if (!((VarRef) es.get(0)).getVarId().getText().equals("builtinPrimitive")) return f;
++        String s = ((StringLiteralExpr) es.get(1)).getText();
++        int m = s.lastIndexOf('.'), k = m < 0 ? -1 : s.lastIndexOf('.', m - 1);
++        if (k < 0 || !namesStaticMethod(s.substring(0, m), s.substring(m + 1))) {
++            if (s.startsWith(HELPERS))
++                throw com.sun.fortress.exceptions.StaticError.make(
++                    "builtinPrimitive names no static helper: " + s, es.get(1));
++            return f;
++        }
++        String pkg = s.substring(0, k), item = s.substring(k + 1);   // item = Class.method
++        LinkedHashMap<String, String> inPkg = aliases.get(pkg);
++        if (inPkg == null) aliases.put(pkg, inPkg = new LinkedHashMap<String, String>());
++        String alias = inPkg.get(item);
++        if (alias == null) inPkg.put(item, alias = "builtinPrimitive_" + item.replace('.', '_'));
++
++        Span span = NodeUtil.getSpan(body);
++        List<Expr> args = new ArrayList<Expr>();
++        boolean hasSelf = false;
++        for (Param p : NodeUtil.getParams(f)) {
++            if (p.getVarargsType().isSome()) return f;
++            if (p.getName().getText().equals("self")) hasSelf = true;
++            else args.add(ExprFactory.makeVarRef(span, p.getName().getText()));
++        }
++        if (inType || hasSelf) args.add(0, ExprFactory.makeVarRef(span, "self"));
++        Expr arg = args.isEmpty() ? ExprFactory.makeVoidLiteralExpr(span)
++                 : args.size() == 1 ? ExprFactory.makeInParentheses(args.get(0))
++                 : ExprFactory.makeTupleExpr(span, args);
++        Expr call = ExprFactory.makeTightJuxt(body, Arrays.asList(ExprFactory.makeVarRef(span, alias), arg));
++        return new FnDecl(f.getInfo(), f.getHeader(), f.getUnambiguousName(), Option.some(call),
++                          f.getImplementsUnambiguousName());
++    }
++
++    /** Does the file's text hold a builtinPrimitive string that names a helper? */
++    public static boolean namesHelpers(java.io.File file) {
++        try {
++            return new String(java.nio.file.Files.readAllBytes(file.toPath()), "UTF-8").contains("\"" + HELPERS);
++        } catch (java.io.IOException e) { return false; }
++    }
++
++    private static boolean namesStaticMethod(String cls, String method) {
++        try {
++            for (Method x : Class.forName(cls, false, BuiltinPrimitiveRewriter.class.getClassLoader()).getMethods())
++                if (x.getName().equals(method) && Modifier.isStatic(x.getModifiers())) return true;
++        } catch (ClassNotFoundException e) { } catch (LinkageError e) { }
++        return false;
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+index 6cb5ecb08..b7390ce42 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+@@ -366,6 +366,10 @@ public class NamingCzar {
+     // The following version is needed to hack the methods "jMakeCharacter" and "jCodePoint".
+     // If other methods also need to be hacked, then this mechanism should be generalized.
+     public static com.sun.fortress.nodes.Type fortressTypeForForeignJavaType(String s, String method_name, boolean isResultType) {
++	if (WellKnownNames.fortressBuiltin().equals("FortressBuiltin")) {
++	    com.sun.fortress.nodes.Type t = oneLibraryTypeForForeignJavaType(s, method_name, isResultType);
++	    if (t != null) return t;
++	}
+ 	if (isResultType && method_name.equals("charMakeCharacterWithSpecialCompilerHackForCharacterResultType") && s.equals("I")) {
+ 	    return fortressCharacterType;
+ 	} else if ((!isResultType) && method_name.equals("charCodePointWithSpecialCompilerHackForCharacterArgumentType") && s.equals("I")) {
+@@ -457,6 +461,47 @@ public class NamingCzar {
+ 	// Instead, we need a specially coded hack in method fortressTypeForForeignJavaType,
+ 	// and it relies on the following static field definition.
+      }
++    /* The same reading in walk's world, where the checker reads a helper that a builtinPrimitive body names against
++     * the one library's types (P-58): ZZ32, ZZ64, RR64, String, ZZ and NN64 are FortressLibrary's, Boolean, RR32,
++     * NN32 and Char FortressBuiltin's.  Until the switch-over the compiler's world keeps the prelude's names above.
++     */
++    private static final APIName oneLib = NodeFactory.makeAPIName(span, "FortressLibrary");
++    private static final APIName oneBuiltin = NodeFactory.makeAPIName(span, "FortressBuiltin");
++    private static final Map<String, com.sun.fortress.nodes.Type> oneLibraryForeignJavaTranslations =
++        new HashMap<String, com.sun.fortress.nodes.Type>();
++    private static void o(Type cl, APIName api, String str) {
++        oneLibraryForeignJavaTranslations.put(cl.getDescriptor(), ss(api, str));
++    }
++    static {
++        o(Type.getType(Boolean.class), oneBuiltin, "Boolean");
++        o(Type.BOOLEAN_TYPE, oneBuiltin, "Boolean");
++        o(Type.getType(Integer.class), oneLib, "ZZ32");
++        o(Type.INT_TYPE, oneLib, "ZZ32");
++        o(Type.getType(Long.class), oneLib, "ZZ64");
++        o(Type.LONG_TYPE, oneLib, "ZZ64");
++        o(Type.getType(Float.class), oneBuiltin, "RR32");
++        o(Type.FLOAT_TYPE, oneBuiltin, "RR32");
++        o(Type.getType(Double.class), oneLib, "RR64");
++        o(Type.DOUBLE_TYPE, oneLib, "RR64");
++        o(Type.getType(Object.class), anyLib, "Any");
++        o(Type.getType(String.class), oneLib, "String");
++        o(Type.getType(BigInteger.class), oneLib, "ZZ");
++        oneLibraryForeignJavaTranslations.put("V", NodeFactory.makeVoidType(span));
++    }
++
++    private static com.sun.fortress.nodes.Type oneLibraryTypeForForeignJavaType(String s, String method_name, boolean isResultType) {
++        if ((isResultType && method_name.equals("charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
++             || !isResultType && method_name.equals("charCodePointWithSpecialCompilerHackForCharacterArgumentType")) && s.equals("I"))
++            return ss(oneBuiltin, "Char");
++        if ((isResultType && method_name.equals("makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
++             || !isResultType && method_name.equals("makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")) && s.equals("I"))
++            return ss(oneBuiltin, "NN32");
++        if ((isResultType && method_name.equals("makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType")
++             || !isResultType && method_name.equals("makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType")) && s.equals("J"))
++            return ss(oneLib, "NN64");
++        return oneLibraryForeignJavaTranslations.get(s);
++    }
++
+     private static TraitType fortressCharacterType = ss(fortLib, "Character");
+     private static TraitType fortressZZ32VectorType = ss(fortLib, "ZZ32Vector");
+     private static TraitType fortressStringVectorType = ss(fortLib, "StringVector");
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/Parser.java b/ProjectFortress/src/com/sun/fortress/compiler/Parser.java
+index ff17949bb..645c6f012 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/Parser.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/Parser.java
+@@ -154,6 +154,9 @@ public class Parser {
+      * Return a partial compilation unit including import statements.
+      */
+     public static CompilationUnit importCollector(File file) {
++        if (BuiltinPrimitiveRewriter.enabled() && file.getName().endsWith(ProjectProperties.COMP_SOURCE_SUFFIX)
++            && BuiltinPrimitiveRewriter.namesHelpers(file))
++            return parseFileConvertExn(file);   // the whole component, its builtinPrimitive bodies rewritten
+         try {
+             String filename = file.getCanonicalPath();
+             BufferedReader in = Useful.utf8BufferedFileReader(file);
+@@ -323,8 +326,8 @@ public class Parser {
+     public static CompilationUnit parseFileConvertExn(File file) {
+         try {
+             String filename = file.getCanonicalPath();
+-            return parseCU(Useful.utf8BufferedFileReader(file), filename,
+-                           preParser(Useful.utf8BufferedFileReader(file), filename));
++            return BuiltinPrimitiveRewriter.rewrite(parseCU(Useful.utf8BufferedFileReader(file), filename,
++                           preParser(Useful.utf8BufferedFileReader(file), filename)));
+         } catch (FileNotFoundException fnfe) {
+             throw convertExn(fnfe, file);
+         } catch (IOException ioe) {

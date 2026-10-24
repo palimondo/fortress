@@ -1,0 +1,518 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index b55353e99..12fd1865d 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -738,9 +738,9 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+ 
+     opr |self| : ZZ32 = if self>=0 then self else -self end
+     opr =(self, b:ZZ32):Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Eq")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intEQ")
+     opr <(self, b:ZZ32):Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Less")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLT")
+     opr >(self, b:ZZ32):Boolean = b < self
+     opr >=(self, b:ZZ32):Boolean = NOT (self < b)
+     opr <=(self, b:ZZ32):Boolean = NOT (b < self)
+@@ -756,27 +756,27 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     opr MAXNUM(self, other:ZZ32): ZZ32 = self MAX other
+ 
+     opr -(self):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Negate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingNeg")
+     opr DOTMINUS(self):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$WrappingNegate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intWrappingNeg")
+     opr +(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd")
+     opr DOTPLUS(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$WrappingAdd")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intWrappingAdd")
+     opr -(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Sub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingSub")
+     opr DOTMINUS(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$WrappingSub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intWrappingSub")
+     opr DOT(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingMul")
+     opr TIMES(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingMul")
+     opr juxtaposition(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingMul")
+     opr DOTTIMES(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$WrappingMul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intWrappingMul")
+     opr DIV(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Div")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingDiv")
+     opr REM(self,b:ZZ32):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Rem")
+     opr MOD(self,b:ZZ32):ZZ32 =
+@@ -788,26 +788,26 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     opr CHOOSE(self,b:ZZ32):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Choose")
+     opr BITAND(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$BitAnd")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitAnd")
+     opr BITOR(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$BitOr")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitOr")
+     opr BITXOR(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$BitXor")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitXor")
+     opr LSHIFT(self,b:AnyIntegral):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$LShift")
+     opr RSHIFT(self,b:AnyIntegral):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$RShift")
+     opr BITNOT(self):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$BitNot")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitNot")
+     opr ^(self, b:AnyIntegral):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Pow")
+     opr ^(self, b:IntLiteral):ZZ32 = self^(b.asZZ32)
+     widen(self):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$ToLong")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.intToLong")
+     partitionL(self):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Partition")
+     unsigned(self):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.ZZ32$ToNN32")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
+     narrow(self):ZZ32 = self
+     big(self):ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToBigNum")
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 20eac8745..58bf49e59 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -368,9 +368,9 @@ end
+ 
+ value object Int extends ZZ32
+     getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToString")
+     getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToString")
+     asFloat(self): Float =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$AsFloat")
+ end
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java
+index 63731ca04..5394edc70 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java
+@@ -191,6 +191,14 @@ public abstract class NativeApp implements Applicable {
+         synchronized (cache) {
+             NativeApp res = cache.get(key);
+             if (res != null) return res;
++            if (StaticNativeApp.isHelperString(str)) {
++                Object found = StaticNativeApp.find(str, defn);
++                if (found instanceof String) return bug(defn, (String) found);
++                res = new StaticNativeApp((java.lang.reflect.Method) found, defn);
++                res.init(defn, isFunctionalMethod);
++                cache.put(key, res);
++                return res;
++            }
+             try {
+                 // System.err.println("Loading primitive class "+str);
+                 Class nativeAct = Class.forName(str);
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java
+new file mode 100644
+index 000000000..07c4526f0
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java
+@@ -0,0 +1,208 @@
++/*******************************************************************************
++ Probe (climb batch 23's planner, N0's walk half): a builtinPrimitive whose string
++ names a static Java method of nativeHelpers ("com.sun.fortress.nativeHelpers.
++ Class.method") rather than a glue class.  The method is chosen among the
++ class's public static methods of that name by the declaration's own types
++ (each declared Fortress type read as its Java type), and called directly:
++ each argument unboxed, the result boxed at the declared result type.  A
++ method passes self first; a functional method passes its self first too.  A
++ helper's raise of a compiled exception class, "fortress.<Api>$<Name>", becomes
++ the raise of the library's own <Name>, as Int.overflow() raises it.
++ ******************************************************************************/
++
++package com.sun.fortress.interpreter.glue;
++
++import static com.sun.fortress.exceptions.ProgramError.error;
++import com.sun.fortress.compiler.runtimeValues.FortressImplementationError;
++import com.sun.fortress.exceptions.FortressError;
++import com.sun.fortress.interpreter.Driver;
++import com.sun.fortress.interpreter.evaluator.values.*;
++import com.sun.fortress.nodes.*;
++import com.sun.fortress.nodes_util.NodeUtil;
++
++import java.lang.reflect.InvocationTargetException;
++import java.lang.reflect.Method;
++import java.lang.reflect.Modifier;
++import java.math.BigInteger;
++import java.util.ArrayList;
++import java.util.List;
++import java.util.regex.Matcher;
++import java.util.regex.Pattern;
++
++public class StaticNativeApp extends NativeMeth {
++    public static final String HELPERS = "com.sun.fortress.nativeHelpers.";
++
++    /** Does s name a helper (a static method of nativeHelpers), not a glue class? */
++    public static boolean isHelperString(String s) {
++        return s.startsWith(HELPERS);
++    }
++
++    private final Method m;
++    private final Class<?>[] ps;
++    private final String result;     // the declared result type's name
++    private final int selfAt;        // index of self among the declared parameters, or -1
++    private int arity;
++
++    /** The Java type that carries a value of the named Fortress type, or null. */
++    static Class<?> javaFor(String t) {
++        if (t == null) return null;
++        if (t.equals("ZZ32") || t.equals("NN32") || t.equals("Char")) return int.class;
++        if (t.equals("ZZ64") || t.equals("NN64")) return long.class;
++        if (t.equals("RR64")) return double.class;
++        if (t.equals("RR32")) return float.class;
++        if (t.equals("Boolean")) return boolean.class;
++        if (t.equals("String") || t.equals("FlatString") || t.equals("JavaString")) return String.class;
++        if (t.equals("ZZ")) return BigInteger.class;
++        if (t.equals("()")) return void.class;
++        return null;
++    }
++
++    static String typeName(TypeOrPattern t) {
++        if (t instanceof TupleType && ((TupleType) t).getElements().isEmpty()) return "()";
++        if (t instanceof NamedType) return ((NamedType) t).getName().getText();
++        return null;
++    }
++
++    static boolean carried(Class<?> c) {
++        return c == int.class || c == long.class || c == double.class || c == float.class
++            || c == boolean.class || c == String.class || c == BigInteger.class;
++    }
++
++    /**
++     * The helper that the string s names for the declaration defn, or an error message.  Among the
++     * class's public static methods of that name, it takes the one whose parameters are the
++     * declaration's, self first where the declaration has one (a functional method), or one more
++     * in front for a dotted method's self, at the Java types that carry the declared types.
++     */
++    static Object find(String s, Applicable defn) {
++        int dot = s.lastIndexOf('.');
++        String cls = s.substring(0, dot), name = s.substring(dot + 1);
++        Class<?> c;
++        try { c = Class.forName(cls); }
++        catch (ClassNotFoundException e) { return "Native helper class " + cls + " not found."; }
++        List<Class<?>> want = new ArrayList<Class<?>>();
++        boolean hasSelf = false;
++        for (Param p : NodeUtil.getParams(defn)) {
++            if (p.getName().getText().equals("self")) { hasSelf = true; continue; }
++            want.add(javaFor(p.getIdType().isSome() ? typeName(p.getIdType().unwrap()) : null));
++        }
++        Class<?> res = javaFor(NodeUtil.getReturnType(defn).isSome()
++                               ? typeName(NodeUtil.getReturnType(defn).unwrap()) : null);
++        List<Method> fits = new ArrayList<Method>();
++        int named = 0;
++        for (Method x : c.getMethods()) {
++            if (!x.getName().equals(name) || !Modifier.isStatic(x.getModifiers())) continue;
++            named++;
++            Class<?>[] xs = x.getParameterTypes();
++            int off = xs.length - want.size();          // 1: self first
++            if (off < 0 || off > 1 || (hasSelf && off != 1)) continue;
++            boolean ok = (res == null || x.getReturnType() == res)
++                         && (x.getReturnType() == void.class || carried(x.getReturnType()));
++            for (int i = 0; ok && i < xs.length; i++) {
++                if (!carried(xs[i])) ok = false;
++                else if (i >= off && want.get(i - off) != null && xs[i] != want.get(i - off)) ok = false;
++            }
++            if (ok) fits.add(x);
++        }
++        if (named == 0) return "Native helper " + s + " names no static method of " + cls + ".";
++        if (fits.size() == 1) return fits.get(0);
++        if (fits.isEmpty()) return "Native helper " + s + " has no overload that fits the declaration's types.";
++        return "Native helper " + s + " has " + fits.size() + " overloads that fit the declaration's types.";
++    }
++
++    StaticNativeApp(Method m, Applicable defn) {
++        this.m = m;
++        this.ps = m.getParameterTypes();
++        this.result = NodeUtil.getReturnType(defn).isSome() ? typeName(NodeUtil.getReturnType(defn).unwrap()) : null;
++        int at = -1, i = 0;
++        for (Param p : NodeUtil.getParams(defn)) { if (p.getName().getText().equals("self")) at = i; i++; }
++        this.selfAt = at;
++    }
++
++    public int getArity() { return arity; }
++
++    protected void init(Applicable app, boolean isFunctionalMethod) {
++        arity = NodeUtil.getParams(app).size() - (isFunctionalMethod ? 1 : 0);
++        super.init(app, isFunctionalMethod);
++    }
++
++    /** A function, or a functional method with its self among the arguments: self goes first. */
++    public FValue applyToArgs(List<FValue> args) {
++        if (selfAt <= 0) return call(args);
++        List<FValue> all = new ArrayList<FValue>(args);
++        all.add(0, all.remove(selfAt));
++        return call(all);
++    }
++
++    /** A dotted method: self first. */
++    public FValue applyMethod(FObject self, List<FValue> args) {
++        List<FValue> all = new ArrayList<FValue>(args.size() + 1);
++        all.add(self);
++        all.addAll(args);
++        return call(all);
++    }
++
++    private FValue call(List<FValue> args) {
++        if (args.size() != ps.length) return error("Native " + m + " given " + args.size() + " arguments");
++        Object[] xs = new Object[ps.length];
++        for (int i = 0; i < ps.length; i++) xs[i] = unbox(ps[i], args.get(i));
++        try {
++            return box(m.getReturnType(), result, m.invoke(null, xs));
++        }
++        catch (InvocationTargetException e) {
++            Throwable t = e.getCause();
++            FortressError f = raised(t);
++            if (f != null) throw f;
++            if (t instanceof RuntimeException) throw (RuntimeException) t;
++            if (t instanceof Error) throw (Error) t;
++            return error(t.toString());
++        }
++        catch (IllegalAccessException e) {
++            return error(e.toString());
++        }
++    }
++
++    private static final Pattern RAISE = Pattern.compile("^fortress\\.\\w+\\$(\\w+)$");
++
++    /** A helper's Utility.makeFortressException("fortress.<Api>$<Name>") names a compiled class;
++        under walk it becomes the library's own exception object <Name>. */
++    static FortressError raised(Throwable t) {
++        if (!(t instanceof FortressImplementationError) || t.getMessage() == null) return null;
++        Matcher x = RAISE.matcher(t.getMessage());
++        if (!x.matches()) return null;
++        return new FortressError((FObject) Driver.getFortressLibrary().getRootValue(x.group(1)));
++    }
++
++    static Object unbox(Class<?> c, FValue v) {
++        if (c == int.class) return v instanceof FChar ? ((FChar) v).getChar() : v.getInt();
++        if (c == long.class) return v.getLong();
++        if (c == double.class) return v.getFloat();
++        if (c == float.class) return (float) v.getFloat();
++        if (c == boolean.class) return ((FBool) v).getBool();
++        if (c == String.class) return v.getString();
++        if (c == BigInteger.class) return v.getBigInteger();
++        return error("No interpreter value for a Java " + c.getName());
++    }
++
++    /** The result at the declared type: int as ZZ32, NN32 or Char; long as ZZ64 or NN64. */
++    static FValue box(Class<?> c, String declared, Object r) {
++        if (c == void.class) return FVoid.V;
++        if (c == int.class) {
++            int i = (Integer) r;
++            if ("NN32".equals(declared)) return FNN32.make(i);
++            if ("Char".equals(declared)) return FChar.make(i);
++            return FInt.make(i);
++        }
++        if (c == long.class) {
++            long l = (Long) r;
++            if ("NN64".equals(declared)) return FNN64.make(l);
++            return FLong.make(l);
++        }
++        if (c == double.class) return FFloat.make((Double) r);
++        if (c == float.class) return FRR32.make((Float) r);
++        if (c == boolean.class) return FBool.make((Boolean) r);
++        if (c == String.class) return FString.make((String) r);
++        if (c == BigInteger.class) return FBigNum.make((BigInteger) r);
++        return error("No interpreter value for a Java " + c.getName());
++    }
++}
+diff --git a/ProjectFortress/tests/NativeHelperBindingWalk.fss b/ProjectFortress/tests/NativeHelperBindingWalk.fss
+new file mode 100644
+index 000000000..f1216af6b
+--- /dev/null
++++ b/ProjectFortress/tests/NativeHelperBindingWalk.fss
+@@ -0,0 +1,38 @@
++(* Under walk, a builtinPrimitive body whose string names a static helper of nativeHelpers runs that helper, its arguments and result carried at the declared types. *)
++component NativeHelperBindingWalk
++export Executable
++
++less(a:ZZ32, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLT")
++plus(a:RR64, b:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
++ladd(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingAdd")
++both(a:Boolean, b:Boolean):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleBoolean.booleanAnd")
++cat(a:String, b:String):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeConcatenate")
++len(a:String):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
++wide(a:ZZ64):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.makeZZfromZZ64")
++nn(a:ZZ32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
++ch(a:ZZ32):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
++code(c:Char):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType")
++upper(c:Char):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
++(* two Java overloads of one name, each declaration taking the one at its own types *)
++bazS(s:String):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
++bazI(n:ZZ32):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
++
++run():() = do
++  assert(less(1, 2), true, "less(1, 2)")
++  assert(less(3, 2), false, "less(3, 2)")
++  assert(plus(2.5, 3.0), 5.5, "plus(2.5, 3.0)")
++  x: ZZ64 = 4000000000
++  assert(ladd(x, x), 8000000000, "ladd")
++  assert(both(true, false), false, "both")
++  assert(cat("ab", "cd"), "abcd", "cat")
++  assert(len("abcde"), 5, "len")
++  assert(wide(x) wide(x), 16000000000000000000, "wide")
++  assert(nn(7), unsigned(7), "nn(7)")
++  assert(ch(65), 'A', "ch(65)")
++  assert(code('a'), 97, "code('a')")
++  assert(upper('q'), 'Q', "upper('q')")
++  assert(bazS("x"), "baz x", "bazS")
++  assert(bazI(7), "baz 7", "bazI")
++end
++
++end
+diff --git a/ProjectFortress/tests/NativeHelperFamilyZZ32Walk.fss b/ProjectFortress/tests/NativeHelperFamilyZZ32Walk.fss
+new file mode 100644
+index 000000000..c0a474f60
+--- /dev/null
++++ b/ProjectFortress/tests/NativeHelperFamilyZZ32Walk.fss
+@@ -0,0 +1,51 @@
++(* ZZ32's and Int's operators bound to nativeHelpers keep their values and their IntegerOverflow under walk. *)
++component NativeHelperFamilyZZ32Walk
++export Executable
++
++overflows(f: () -> ZZ32): Boolean =
++  try
++    f()
++    false
++  catch e
++    IntegerOverflow => true
++  end
++
++run():() = do
++  a: ZZ32 = 2147483647
++  b: ZZ32 = -2147483647 - 1
++  m: ZZ32 = -1
++  assert(3 = 3, true, "=")
++  assert(3 = 4, false, "= unequal")
++  assert(3 < 4, true, "<")
++  assert(4 < 3, false, "< not")
++  assert(-a, -2147483647, "unary -")
++  assert(overflows(fn () => -b), "unary - of the minimum overflows")
++  assert(DOTMINUS b, b, "unary DOTMINUS wraps")
++  assert(a - 1 + 1, a, "+")
++  assert(overflows(fn () => a + 1), "+ overflows")
++  assert(a DOTPLUS 1, b, "DOTPLUS wraps")
++  assert(b + 1 - 1, b, "-")
++  assert(overflows(fn () => b - 1), "- overflows")
++  assert(b DOTMINUS 1, a, "DOTMINUS wraps")
++  assert(46340 DOT 46340, 2147395600, "DOT")
++  assert(overflows(fn () => 65536 DOT 65536), "DOT overflows")
++  assert(7 TIMES 6, 42, "TIMES")
++  assert(overflows(fn () => 65536 TIMES 65536), "TIMES overflows")
++  assert(7 6, 42, "juxtaposition")
++  assert(overflows(fn () => 65536 65536), "juxtaposition overflows")
++  assert(65536 DOTTIMES 65536, 0, "DOTTIMES wraps")
++  assert(7 DIV 2, 3, "DIV")
++  assert((-7) DIV 2, -3, "DIV rounds toward zero")
++  assert(overflows(fn () => b DIV m), "DIV of the minimum by -1 overflows")
++  assert(12 BITAND 10, 8, "BITAND")
++  assert(12 BITOR 10, 14, "BITOR")
++  assert(12 BITXOR 10, 6, "BITXOR")
++  assert(BITNOT 12, -13, "BITNOT")
++  assert(widen(a).asString, "2147483647", "widen")
++  assert(unsigned(m).asString, "4294967295", "unsigned")
++  assert(a.asString, "2147483647", "asString")
++  assert(b.asExprString, "-2147483648", "asExprString")
++  assert(asFloat(m), -1.0, "asFloat")
++end
++
++end
+diff --git a/ProjectFortress/tests/NativeHelperMisspeltWalk.fss b/ProjectFortress/tests/NativeHelperMisspeltWalk.fss
+new file mode 100644
+index 000000000..ecef9b3f9
+--- /dev/null
++++ b/ProjectFortress/tests/NativeHelperMisspeltWalk.fss
+@@ -0,0 +1,9 @@
++(* Under walk, a builtinPrimitive string under nativeHelpers that names no static method stops the program at load. *)
++component NativeHelperMisspeltWalk
++export Executable
++
++typo(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAddd")
++
++run():() = println(typo(1, 2))
++
++end
+diff --git a/ProjectFortress/tests/NativeHelperMisspeltWalk.test b/ProjectFortress/tests/NativeHelperMisspeltWalk.test
+new file mode 100644
+index 000000000..382cde766
+--- /dev/null
++++ b/ProjectFortress/tests/NativeHelperMisspeltWalk.test
+@@ -0,0 +1 @@
++load_exception_contains=names no static method of com.sun.fortress.nativeHelpers.simpleIntArith
+diff --git a/ProjectFortress/tests/NativeHelperRaiseWalk.fss b/ProjectFortress/tests/NativeHelperRaiseWalk.fss
+new file mode 100644
+index 000000000..a77153e60
+--- /dev/null
++++ b/ProjectFortress/tests/NativeHelperRaiseWalk.fss
+@@ -0,0 +1,26 @@
++(* Under walk, a helper's raise of IntegerOverflow or DivisionByZero is the library's exception, which a catch sees. *)
++component NativeHelperRaiseWalk
++export Executable
++
++add(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd")
++quot(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingDiv")
++
++run():() = do
++  assert(add(2, 3), 5, "add(2, 3)")
++  r: String := "none"
++  try
++    add(2147483647, 1)
++  catch e
++    IntegerOverflow => r := "IntegerOverflow"
++  end
++  assert(r, "IntegerOverflow", "add(2147483647, 1)")
++  r := "none"
++  try
++    quot(1, 0)
++  catch e
++    DivisionByZero => r := "DivisionByZero"
++  end
++  assert(r, "DivisionByZero", "quot(1, 0)")
++end
++
++end
+diff --git a/ProjectFortress/tests/ZZ32DivisionByZeroWalk.fss b/ProjectFortress/tests/ZZ32DivisionByZeroWalk.fss
+new file mode 100644
+index 000000000..7bd3a102c
+--- /dev/null
++++ b/ProjectFortress/tests/ZZ32DivisionByZeroWalk.fss
+@@ -0,0 +1,20 @@
++(* ZZ32's DIV by zero throws DivisionByZero, which a catch sees; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
++component ZZ32DivisionByZeroWalk
++export Executable
++
++dividesByZero(f: () -> ZZ32): Boolean =
++  try
++    f()
++    false
++  catch e
++    DivisionByZero => true
++  end
++
++run():() = do
++  zero: ZZ32 = 0
++  seven: ZZ32 = 7
++  assert(dividesByZero(fn () => seven DIV zero), "ZZ32 7 DIV 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
++  assert(seven DIV 2, 3, "ZZ32 7 DIV 2 is 3")
++end
++
++end
