@@ -34,6 +34,7 @@ The running library has four objects that extend `String`: FlatString, CatString
 - CatString's `rangeContains` on a 40-character concatenation, longer than `maxLeafSize`, 32 (`Library/String.fss:576`): over a range in its left half, in its right half, and across both on each side of the join, and on characters outside the range or nowhere;
 - `rangeContains` across the halves of a concatenation of two concatenations;
 - for `s`, that nested concatenation's substring `2#70`: `'Z' IN s`, `'a' IN s` (at 0 only, outside `s`) and `'9' IN s` (nowhere);
+- for the same `s`, `s.rangeContains(36#6, c)` across the join of its base's halves: true for `T` and `u`, false for `y` (three assertions the skeptic added, `SKEPTIC.md`);
 - FlatString's `isBalanced` and `balanced()`;
 - `isBalanced` and `balanced()` of the EmptyString got from a CatString's `uncheckedSubstring(3#0)`.
 
@@ -206,6 +207,7 @@ No decision of the curator is crossed. Question 1 and row 607's repair stay the 
 | EmptyString has no `isBalanced` | 1 | the same |
 | `c IN s` stops in the library for a substring of a concatenation of concatenations (`Library/String.fss:422` at the base), by the first defect | 1 | the same |
 | String's export entry: the api's bodyless members without `abstract`, five not in the component, the `excludes` clauses differing | 1 | the distance stage's per-site list, the entry gone (section 5) |
+| `s.rangeContains(r, c)` stops in the library for a substring of any concatenation (`Library/String.fss:430` at the base, SubString's `rangeContains`), by the first defect; measured and asserted by the skeptic (`SKEPTIC.md`) | 1 | the same |
 | Row 607's first-occurrence miss, now reached through CatString's `rangeContains` too | 3, its row | row 607, rewritten (`record.md`); the new route is not asserted, since row 607's repair is meant to change it |
 
 The four take home 1 because the specification settles that a component defines every non-abstract api member (`apis.tex:252-256`), and this change repairs them. They are one row, NEW-T-1, because one cause makes all four: the api declares members that the objects lack.

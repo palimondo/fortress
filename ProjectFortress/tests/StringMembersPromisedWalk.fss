@@ -1,4 +1,4 @@
-(* The members String's api declares, rangeContains, balanced and isBalanced, answered by concatenated, flat and empty strings under walk, and IN on a substring of a concatenation of concatenations. *)
+(* The members String's api declares, rangeContains, balanced and isBalanced, answered by concatenated, flat and empty strings under walk, and IN and rangeContains on a substring of a concatenation of concatenations. *)
 component StringMembersPromisedWalk
 import String.{...}
 import FlatString.{...}
@@ -31,6 +31,9 @@ run() = do
     assert('Z' IN sub, true, "Z, at 51 and 60, is in the substring 2#70 of the concatenation of concatenations")
     assert('a' IN sub, false, "a, at 0 only, is not in the substring 2#70")
     assert('9' IN sub, false, "9 is nowhere in the concatenation of concatenations")
+    assert(sub.rangeContains(36#6, 'T'), true, "T, at 39 of the concatenation of concatenations, lies at 37 of its substring 2#70, in 36#6 across the join of its two halves")
+    assert(sub.rangeContains(36#6, 'u'), true, "u, at 40 of the concatenation of concatenations, lies at 38 of its substring 2#70, in 36#6")
+    assert(sub.rangeContains(36#6, 'y'), false, "y, at 44 and 67 of the concatenation of concatenations, lies at 42 and 65 of its substring 2#70, outside 36#6")
 
     flat = "abc"
     assert(flat.ilkName, "FlatString", "abc is a FlatString")
