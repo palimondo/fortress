@@ -878,3 +878,13 @@ From climb batch 22's landing at `2bff2fe23` and its review (`explorations/revie
 - `compiler.md`, the count stage: a clean check read as 0, `explorations/coordinator/tools/checker-count/run.sh`, since `36ec68cab`; the component reaches the export check only after its type errors are gone, F-53 and `batch-22-review.md`, section 2.
 - `compiler.md`, "The checker's time": the count stage about 150 s with the component's check run to its end, from 149 s on rung R's tree, 151 s on the merged tree and about 150 s at climb batch 22's gate (`batch-22-review.md`, section 2).
 - `library.md`, "Designing a change": the component at the api's header where the api's type is the contract, F-282; `RR64`'s `truncate`, `|\self/|` and `|/self\|` at `ZZ64` in `Library/FortressLibrary.fsi:379-382` and `Library/FortressLibrary.fss:498-501`, over `Float`'s natives at `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:184-191`; rung E, `8dd64e8fc`.
+
+## The cold read of climb batch 22's skill change, 2026-10-24
+
+From the cold read of `3ba95468d` (`tmp/cold-read-b22/report.md`). All 18 flags settled by the coordinator's rulings; flags 4 and 5 left, since no source asks a worker for a compiled binding of a new native or a run of the count stage after a library edit.
+
+- `SKILL.md`, "The phases": the checker finds no error in the library, F-53; the count stage's 0 covers the `FortressLibrary` component, F-53 and `checker-count/run.sh`'s `TARGET`; the natives' compiled binding, P-33 and P-58; the pointer to `interpreter.md`, "Natives" (flags 1 to 3).
+- `SKILL.md`, "The caches": the span dropped (flag 6).
+- `compiler.md`, the count stage: the glossary entry cut to the term and what it counts; the component and its apis, F-53 and `run.sh`'s `TARGET` (flags 7, 8, 12).
+- `compiler.md`, "The checker's time": the 120 s limit, `session.md` (flag 13); apis before the component, `run.sh:115-117` and `compiler/phases/TypeCheckPhase.java:43-49`; the stages and their stops, `compiler/StaticChecker.java`, `checkCompilationUnit`, `:187-285`; the rows `#total`, `#stopped` and `#crash`, and the run with no table, `run.sh:19-20`, `:52-63`, `:99-108`, `:153` (flags 9 to 11).
+- `library.md`, "Designing a change": the three cases and their reasons, `explorations/compile-ladder/rung-export-last/REPORT.md`, the table of section 1 and the forks 3, 10 and 11, and F-282; the lines `Library/FortressLibrary.fss:498-501`, `:2102`, `:2657`, `:2745`, `:3065`, `:3147`, `Library/RangeInternals.fsi:520-521`, `Library/FlatString.fss:45` (flags 14 to 18).

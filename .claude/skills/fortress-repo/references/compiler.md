@@ -1,7 +1,7 @@
 # The compiled checker, the code generator and the run time
 
 **count stage**
-: Script that runs the compiled checker over the interpreter's library and prints its errors: `explorations/coordinator/tools/checker-count/run.sh`. Its total is the checker count. A check that ends with no error reads as 0. Each api and the component stop at their first stage with errors, so the component reaches the export check only after its type errors are gone. Where an early stage of the checker finds errors in an api or a component, the checker skips its overloading and return-type checks there. So the count misses the errors of those checks there, and a fix of an early error can raise it.
+: Script that runs the compiled checker over the interpreter's library, on the `FortressLibrary` component and the apis that it imports, and prints the errors in a table: `explorations/coordinator/tools/checker-count/run.sh`. Its total is the checker count.
 
 The code of this area is in these directories:
 
@@ -139,7 +139,23 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
 This section is for a change of the checker: its Scala under `scala_src/`, or `ProjectFortress/astgen/Fortress.ast` and the generators under `ProjectFortress/src/com/sun/fortress/astgen/`, from which the build generates the checker's syntax tree and `Walker`.
 
-The count stage takes `<out-file> <scratch>` and about 150 seconds, more under load. It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`, and its caches in `<scratch>`, so a run from the base build leaves the base build as it was.
+The count stage takes `<out-file> <scratch>` and about 150 seconds, more under load. That is longer than the Bash tool's default time limit, so run it in the background (`session.md`). It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`, and its caches in `<scratch>`, so a run from the base build leaves the base build as it was.
+
+The checker checks every api first, and the component only if no api has an error. In each api or component, it stops at the first of its stages that finds errors. The stages run in this order (`compiler/StaticChecker.java`, `checkCompilationUnit`):
+
+1. The type hierarchy and the type check.
+2. The overloading check, which also compares the overloads' return types.
+3. In the component only, the export check (`library.md`, "Designing a change").
+
+So the count misses the errors of the later stages, and a fix of an early error can raise it.
+
+The table's rows tell a clean run from a run that the checker did not finish:
+
+- `#total 0` and `#locations 0`: the checker reached the component and found no error.
+- `#stopped`, in place of `#total` and `#locations`: the errors came from a phase before the checker, such as the parse. The checker reported none and did not reach the component. The script exits 1, and the gate reads the table as red.
+- `#crash`: the first crash of the overloading check that the run survived, or `none`.
+
+If the run printed no error total and was not clean, the script writes no table and exits 1.
 
 The checker's results are the programs that it accepts and refuses, and each error with its text and its place. On the interpreter's library, a change keeps the results the same if both of these hold:
 
