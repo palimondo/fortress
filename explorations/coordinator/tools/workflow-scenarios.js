@@ -17,7 +17,8 @@
 //
 // The scenarios (rewritten for the redesign of 2026-10-08; the earlier checker's are in git at
 // cd2393a08): every agent approving; a skeptic that fixes and approves (no judge); a fix contested and
-// upheld, contested and repaired, a refusal ruled to stand, repaired, dropped; a worker that stops; the
+// upheld, contested and repaired, a refusal ruled to stand, repaired, dropped; a worker that stops; a rung withheld
+// where a scenario drops or stops a rung it lands only with (landsOnlyWith), nothing gathered if none is left; the
 // merged tree's paths carried over from the earlier checker (the review routing, a code finding repaired
 // with and without a second gate, a red gate and its repair, a review that returns nothing, the judge's
 // land, the paths no gate stage reads); the push held by a step that cannot be undone and not by a
@@ -208,8 +209,30 @@ const SCEN = [
   { name: 'A19 the first worker returns nothing three times: the run stops', over: { 'rung:S0': nul }, agentsPrefix: 'rung:S0, rung:S0:attempt2, rung:S0:attempt3', halts: 'rung:S0' },
 ]
 
+// landsOnlyWith: a scenario that drops or stops a rung expects every rung that lands only with it, in the
+// closure, withheld (the script's applyLandsOnlyWith); and where no rung is left to land, nothing gathered.
+const NEEDS = {}
+for (const id of IDS) {
+  const m = new RegExp('^const \\w+ = \\{ id: \'' + id + '\'[\\s\\S]*?(?=^const |^\\]|$(?![\\s\\S]))', 'm').exec(orig)
+  const lw = m && /landsOnlyWith: \[([^\]]*)\]/.exec(m[0])
+  NEEDS[id] = lw ? lw[1].split(',').map(s => s.trim().replace(/^["']|["']$/g, '')).filter(Boolean) : []
+}
+for (const sc of SCEN) {
+  if (!sc.states) continue
+  const gone = new Set(Object.entries(sc.states).filter(([, st]) => st === 'dropped' || st === 'stopped').map(([k]) => subst(k)))
+  const withheld = new Set()
+  for (let moved = true; moved;) {
+    moved = false
+    for (const id of IDS) if (!gone.has(id) && !withheld.has(id) && NEEDS[id].some(n => gone.has(n) || withheld.has(n))) { withheld.add(id); moved = true }
+  }
+  if (!withheld.size) continue
+  for (const id of withheld) sc.states[id] = 'withheld'
+  if (IDS.every(id => gone.has(id) || withheld.has(id))) { sc.after = ''; sc.landed = false; delete sc.states }
+  sc.name += ' (with ' + [...withheld].join(', ') + ' withheld by landsOnlyWith)'
+}
+
 let SCATTER_IDS = []
-const subst2 = (s) => subst(s).replace(/\bS(\d)\b/g, (m, d) => SCATTER_IDS[Number(d)])
+const subst2 =(s) => subst(s).replace(/\bS(\d)\b/g, (m, d) => SCATTER_IDS[Number(d)])
 
 function mkAgent(sc, calls, journal, replay) {
   let prevKey = 'root'
