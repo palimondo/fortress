@@ -6125,3 +6125,27 @@ rewritten
 note added
 
 | 481 | on the compiled path a range's `=` is identity: `(1:3) = (1#3)` and `(3:1) = (5:4)` print `false` compiled and `true` under walk; a range equals only itself | NEGATIVE-VERIFIED | library bug (prelude) | `Specification/basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss` | climb batch 7R rung J's skeptic | siblings: 479. The compiler library's `GeneratorZZ32` extends `Equality[\GeneratorZZ32\]` (`Library/CompilerLibrary.fsi:111`, `.fss:301`), whose `=` is `self === other` (`Library/CompilerAlgebra.fss:26`); its always-false top-level `=` is gone since climb batch 21b. The test asserts `(1:3) = (1#3)`, `(3:1) = (5:4)` and `NOT ((2:4) = (2:5))`; walk passes all three, the compiled run stops at the first. The compiler library takes no new declaration (POSITIONS, "The library route"): the one library's `=` replaces it at the switch-over. full text: history, row 481 |
+
+### Row 330
+
+rewritten
+
+| 330 | the float types' `floor` and `ceiling` return a float where the specification returns an integer, and the brackets `⌊x⌋` and `⌈x⌉` are a `ZZ64` under walk and an `RR64` compiled | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic-lib/numbers.tex`, "Rational Numbers" | `ProjectFortress/library_tests/RR64FunctionsRungF.fss:75-82` | climb batch 1 rung F | At 052a7c3fe the interpreter declares `floor` and `ceiling` at `RR64` and the brackets at `ZZ64` (`Library/FortressLibrary.fsi:372-375`; `Float`'s bodies `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:180-187`), the compiler world all four at `RR64` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:457-458`, `:468-469`). `truncate` is `RR64` in `trait RR64`'s body (`Library/FortressLibrary.fss:498`), `ZZ64` in its api and in `Float`; `round` is `ZZ` there (`:499`), `ZZ64` in `Float`. On both paths `round` and `truncate` are `0` at NaN and saturate at ±∞ and past `2^63`. Decision: POSITIONS, "`floor` and `ceiling` on the float types keep the float". full text: history, row 330 |
+
+### Row 188
+
+note added
+
+| 188 | `RR64.truncate()` is declared in the library's api but has no implementation at run time | NEGATIVE-VERIFIED | library bug (library) | silent | none | apl rung 1 | siblings: 283. The api declares `truncate(self):ZZ64` (`Library/FortressLibrary.fsi:332`); the call fails with `Cannot find definition for method truncate given receiver 7.0`. The floor bracket's value fails the same way on `narrow` (`Cannot find definition for method narrow given receiver 7: ZZ64`), so there is still no `RR64 → ZZ32` conversion. Verified on the retired first library, in a worktree of `0ff5eae27~1` (its `explorations/apl/v1/base`). Probes `explorations/apl/v1-probes/p01_numfmt.fss` and `p01c_numfmt.fss` (for `narrow`), in the parent of 1ee3b0bc5; full text: history, row 188 |
+
+### Row 283
+
+note added
+
+| 283 | there is no working `RR64 → ZZ32` conversion: the floor bracket yields a `ZZ64` whose declared `narrow` cannot be found | NEGATIVE-VERIFIED | library bug (library) | silent | none | apl feasibility | siblings: 188. `Cannot find definition for method narrow given receiver 3: ZZ64`, although `narrow(self): ZZ32` is declared for `ZZ64` in the api and the component (`Library/FortressLibrary.fsi:529`, `Library/FortressLibrary.fss:762`; the bracket is `opr \|\self/\| : ZZ`, `:415`). Workaround, used by row 281's library: count up with a `while`. Probe `explorations/apl-probes/d21_narrow.fss`, in the parent of 7c3218956; full text: history, row 283 |
+
+### Row 533
+
+rewritten
+
+| 533 | the compiled checker refuses the model's numeral powers as an ambiguous coercion, and a refused power ends the check of its block: `10.0^(-5)` (`explorations/run-c4/src/MicroGptFlat.fss:18`) ties `RR64`'s `opr ^(self, b:RR64)` with `MultiplicativeRing`'s `opr ^(self, other:ZZ64)` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/conversions-coercions.tex`, "Coercion Resolution" | `explorations/run-c4/src/MicroGptFlat.fss` | array-design-ways review | Each declaration (`Library/FortressLibrary.fsi:359`, `:278`) applies only by converting the integer, and `(RR64, RR64)` and `(MultiplicativeRing[\RR64\], ZZ64)` are incomparable, so the chapter's most specific declaration does not exist. The refusal is row 391's call-site check. Also refused: `10.0^(-8)`, `-(10.0^10)` (`:29`), `explorations/run-c4/src/MicroGptFlatCheck.fss:16-18`, and on decision D's patched copy `adamN`'s `beta1^t` and `beta2^t`; the check of `stepN` stops at its mask line. Walk takes every one. Which declaration the repair changes is not settled. Not measured since batch 8's numeral library, which gives `IntLiteral` its own coercions. full text: history, row 533 |

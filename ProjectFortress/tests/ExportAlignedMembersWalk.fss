@@ -1,0 +1,130 @@
+(* The library members whose api lines take their component's headers, and the component's float rounding, size, generator and array bounds lines, called under walk with the values they answer. *)
+component ExportAlignedMembersWalk
+import String.{...}
+export Executable
+
+inOrder[\E\](g: Generator[\E\]): String = do
+    s: String := ""
+    for x <- seq(g) do s := s || x || "," end
+    s
+end
+
+boundsAt[\nat b0, nat b1, nat b2\](): () = do
+    a1 = __builtinFactory1[\ZZ32,b0,3\]()
+    for i <- 0#3 do a1[b0 + i] := 10 (i + 1) end
+    whole = a1[:]
+    assert(whole.bounds = (0#3), true, "the implicit range subscript of a rank-1 array based above zero answers that array based at 0; Library/FortressLibrary.fsi, trait Array1, opr [_:TrivialOpenRange]")
+    assert(inOrder(whole), "10,20,30,", "the implicit range subscript of a rank-1 array holds its whole axis in order; ranges.tex, section \"Ranges\", implicit ranges")
+
+    a2 = __builtinFactory2[\ZZ32,b0,2,b1,3\]()
+    for i <- 0#2, j <- 0#3 do a2[b0 + i, b1 + j] := 10 (i + 1) + (j + 1) end
+    assert(a2.bounds = ((b0, b1)#(2, 3)), true, "a rank-2 array's bounds start at its static bases and extend by its sizes; Library/FortressLibrary.fsi, trait Array2, bounds")
+    assert(a2.zeroIndices() = ((0, 0)#(2, 3)), true, "a rank-2 array's zero indices start at (0,0) and extend by its sizes; Library/FortressLibrary.fsi, trait Array2, zeroIndices")
+    assert(|a2.bounds|, 6, "a 2 by 3 array's bounds hold 6 indices")
+    assert(a2.bounds.size, 6, "a 2 by 3 array's bounds, a rank-2 range, have size 6")
+    assert(SUM[\ZZ32\][(i, j) <- a2.bounds] a2[i, j], 11 + 12 + 13 + 21 + 22 + 23, "the indices of a rank-2 array's bounds index each of its elements once")
+    assert(a2[:].bounds = ((0, 0)#(2, 3)), true, "the implicit range subscript of a rank-2 array based above zero is that array based at (0,0)")
+
+    a3 = __builtinFactory3[\ZZ32,b0,2,b1,2,b2,3\]()
+    for i <- 0#2, j <- 0#2, k <- 0#3 do a3[b0 + i, b1 + j, b2 + k] := 100 i + 10 j + k end
+    assert(a3.bounds = ((b0, b1, b2)#(2, 2, 3)), true, "a rank-3 array's bounds start at its static bases and extend by its sizes; Library/FortressLibrary.fsi, trait Array3, bounds")
+    assert(a3.zeroIndices() = ((0, 0, 0)#(2, 2, 3)), true, "a rank-3 array's zero indices start at (0,0,0) and extend by its sizes; Library/FortressLibrary.fsi, trait Array3, zeroIndices")
+    assert(|a3.bounds|, 12, "a 2 by 2 by 3 array's bounds hold 12 indices")
+    assert(a3.bounds.size, 12, "a 2 by 2 by 3 array's bounds, a rank-3 range, have size 12")
+    assert(SUM[\ZZ32\][(i, j, k) <- a3.bounds] a3[i, j, k], 4 (0 + 1 + 2) + 6 (10) + 6 (100), "the indices of a rank-3 array's bounds index each of its elements once")
+    assert(a3[:].bounds = ((0, 0, 0)#(2, 2, 3)), true, "the implicit range subscript of a rank-3 array based above zero is that array based at (0,0,0)")
+  end
+
+run(): () = do
+    lit = 2.5
+    v: RR64 = 2.5 + 0.25
+    assert(|\lit/| = 2, true, "the floor bracket of the literal 2.5 is 2; Library/FortressLibrary.fsi, trait RR64")
+    assert(|/lit\| = 3, true, "the ceiling bracket of the literal 2.5 is 3")
+    assert(truncate(lit) = 2, true, "the literal 2.5 truncates to 2")
+    assert(truncate(-2.5) = -2, true, "the literal -2.5 truncates toward zero, to -2")
+    assert(|\v/| = 2, true, "the floor bracket of the float 2.75 is 2")
+    assert(|/v\| = 3, true, "the ceiling bracket of the float 2.75 is 3")
+    assert(truncate(v) = 2, true, "the float 2.75 truncates to 2")
+    assert(4.0^0.5 = 2.0, true, "a float literal raised to a float exponent: 4.0^0.5 is 2.0")
+    assert(2.0^3 = 8.0, true, "a float literal raised to an integer exponent: 2.0^3 is 8.0")
+    assert(v^1.0 = v, true, "a float raised to the float exponent 1.0 is itself")
+
+    assert(LessThan = LessThan, true, "LessThan equals itself")
+    assert(LessThan = GreaterThan, false, "LessThan does not equal GreaterThan")
+    assert(EqualTo = LessThan, false, "EqualTo does not equal LessThan")
+    assert(EqualTo = Unordered, false, "a total comparison does not equal Unordered")
+    assert(GreaterThan = Unordered, false, "GreaterThan does not equal Unordered")
+
+    j5 = Just[\ZZ32\](5)
+    n5 = Nothing[\ZZ32\]
+    assert(inOrder(j5.indices), "0,", "Just's one index is 0; Library/FortressLibrary.fsi, trait Condition, indices")
+    assert(inOrder(n5.indices), "", "Nothing has no index")
+    assert(inOrder(j5.indexValuePairs), "(0,5),", "Just of 5 pairs its element with index 0")
+    assert(j5.indexValuePairs.holds, true, "Just's index-value pairs are a condition that holds")
+    assert(n5.indexValuePairs.holds, false, "Nothing's index-value pairs are a condition that does not hold")
+    assert(j5.ivmap[\ZZ32\](fn (i: ZZ32, e: ZZ32): ZZ32 => 10 i + e + 1).asString, "Just(6)", "Just of 5 mapped with its index 0 by 10 i + e + 1 is Just(6)")
+    assert(n5.ivmap[\ZZ32\](fn (i: ZZ32, e: ZZ32): ZZ32 => 10 i + e + 1).asString, "Nothing", "Nothing mapped with its index is Nothing")
+    assert(j5[0#1].asString, "Just(5)", "Just indexed by its one index is itself; Library/FortressLibrary.fsi, trait Condition, range subscript")
+    assert(j5[0#0].asString, "Nothing", "Just indexed by an empty range is Nothing")
+    assert(j5[1#0].asString, "Nothing", "Just indexed by an empty range past its index is Nothing")
+    assert(n5[0#0].asString, "Nothing", "Nothing indexed by an empty range is Nothing")
+    assert(j5[0], 5, "Just of 5 at index 0 is 5")
+    assert(|j5|, 1, "Just has one element")
+    assert(|n5|, 0, "Nothing has no element")
+
+    j3 = Just[\ZZ32\](3)
+    j4 = Just[\ZZ32\](4)
+    n3 = Nothing[\ZZ32\]
+    nu = NotUnique[\ZZ32\]
+    assert((j3 SQCAP Just[\ZZ32\](3)).asString, "Just(3)", "the meet of Just of 3 and Just of 3 is Just(3); Library/FortressLibrary.fsi, object Just, opr SQCAP")
+    assert((j3 SQCAP j4).asString, "Nothing", "the meet of Just of 3 and Just of 4 is Nothing")
+    assert((j3 SQCAP n3).asString, "Nothing", "the meet of Just of 3 and Nothing is Nothing")
+    assert((j3 SQCAP nu).asString, "Just(3)", "the meet of Just of 3 and NotUnique is Just(3)")
+    assert((j3 SQCUP n3).asString, "Just(3)", "the join of Just of 3 and Nothing is Just(3); Library/FortressLibrary.fsi, object Just, opr SQCUP")
+    assert((j3 SQCUP Just[\ZZ32\](3)).asString, "Just(3)", "the join of Just of 3 and Just of 3 is Just(3)")
+    assert((j3 SQCUP j4).asString, "NotUnique", "the join of Just of 3 and Just of 4 is NotUnique")
+    assert((j3 SQCUP nu).asString, "NotUnique", "the join of Just of 3 and NotUnique is NotUnique")
+
+    assert(SumReduction[\ZZ32\].distribute(MaxReduction[\ZZ32\]).holds, true, "the sum distributes over the maximum")
+    assert(ProdReduction[\ZZ32\].distribute(SumReduction[\ZZ32\]).holds, true, "the product distributes over the sum")
+    assert(SumReduction[\ZZ32\].distribute(SumReduction[\ZZ32\]).holds, false, "the sum does not distribute over the sum")
+    assert(SumReduction[\ZZ32\].leftDistribute[\ZZ32\](SumReduction[\ZZ32\]).holds, false, "the sum does not left-distribute over the sum")
+    assert(SumReduction[\ZZ32\].rightDistribute[\ZZ32\](SumReduction[\ZZ32\]).holds, false, "the sum does not right-distribute over the sum")
+
+    br = BigReduction[\ZZ32,ZZ32\](SumReduction[\ZZ32\])
+    assert(br.reduction.join(2, 3), 5, "a big sum's reduction joins 2 and 3 into 5; Library/FortressLibrary.fsi, object BigReduction")
+    assert(br.reduction.empty(), 0, "a big sum's reduction is empty at 0")
+    assert((br.body)(7), 7, "a big reduction's body is the identity")
+    assert((br.unwrap)(7), 7, "a big reduction's unwrap is the identity")
+    co = Comprehension[\ZZ32,ZZ32,ZZ32,ZZ32\](fn (x: ZZ32): ZZ32 => 2 x, SumReduction[\ZZ32\], fn (i: ZZ32): ZZ32 => i + 1)
+    assert((co.unwrap)(5), 10, "a comprehension's unwrap is its first argument; Library/FortressLibrary.fsi, object Comprehension")
+    assert(co.reduction.join(2, 3), 5, "a comprehension's reduction is its second argument")
+    assert((co.body)(4), 5, "a comprehension's body is its third argument")
+
+    flat = "hello"
+    assert(flat.size, 5, "a flat string's size is its length")
+    assert(|flat|, 5, "a flat string's |self| is its length")
+    cs = ("a"^20) || "bcdefghijklmnopqrstu"
+    sub = cs[18#5]
+    assert(sub.ilkName, "SubString", "five characters across the two halves of a concatenated string are a SubString")
+    assert(sub.size, 5, "the substring's size is 5")
+    assert(|sub|, 5, "the substring's |self| is 5")
+    assert(inOrder(sub.generator), "a,a,b,c,d,", "the substring's generator generates its five characters")
+    zz = "abc".zip[\Char\]("wxyz")
+    assert(zz.size, 3, "two strings of 3 and 4 characters zip into 3 pairs: the zip's size")
+    assert(|zz|, 3, "the zip's |self| is 3")
+    assert(inOrder(zz.generator), "(a,w),(b,x),(c,y),", "the zip's generator, DelegatedIndexed's, generates its pairs in order")
+    assert(SUM[\ZZ32\][p <- zz] 1, 3, "a reduction over the zip runs once for each pair")
+    r2 = (1, 2)#(2, 3)
+    assert(r2.size, 6, "the rank-2 range (1,2)#(2,3) has size 6")
+    assert(|r2|, 6, "the rank-2 range's |self| is 6")
+    r3 = (0, 0, 0)#(2, 2, 2)
+    assert(r3.size, 8, "the rank-3 range (0,0,0)#(2,2,2) has size 8")
+    assert(|r3|, 8, "the rank-3 range's |self| is 8")
+
+    boundsAt[\1,2,3\]()
+    boundsAt[\4,1,2\]()
+    println("PASS")
+  end
+
+end

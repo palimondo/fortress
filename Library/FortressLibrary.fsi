@@ -122,7 +122,8 @@ end
 trait TotalComparison
         extends { Comparison, StandardMinMax[\TotalComparison\] }
         comprises { LessThan, EqualTo, GreaterThan }
-    opr =(self, other:Comparison): Boolean
+    opr =(self, other:TotalComparison): Boolean
+    opr =(self, other:Unordered): Boolean
     opr CMP(self, other:Unordered): Comparison
     opr >=(self, other:Unordered): Boolean
     opr >=(self, other:Comparison): Boolean
@@ -363,7 +364,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     opr IEEE_SLASH_DOWN(self,b:RR64):RR64
     opr IEEE_SLASH_UP(self,b:RR64):RR64
     opr |self| : RR64
-    opr ^(self, b:RR64):RR64
+    opr ^(self, b:Number):RR64
     opr ^(self, b:AnyIntegral):RR64
     sin(self):RR64
     cos(self):RR64
@@ -930,17 +931,18 @@ end
 (** A Condition is a Generator that generates 0 or 1 element.
     Conditions can be used as nullary comprehension generators or
     as predicates in an if expression. **)
-trait Condition[\E\] extends SequentialGenerator[\E\]
+trait Condition[\E\] extends { ZeroIndexed[\E\], SequentialGenerator[\E\] }
     getter isEmpty(): Boolean
     getter nonEmpty(): Boolean
     getter holds(): Boolean
     getter size(): ZZ32
     getter get(): E throws NotFound
     getter bounds(): CompactFullRange[\ZZ32\]
-    getter indices(): CompactFullRange[\ZZ32\]
-    getter indexValuePairs(): Generator[\(ZZ32,E)\]
+    getter indices(): Generator[\ZZ32\]
+    getter indexValuePairs(): Condition[\(ZZ32,E)\]
     opr |self|: ZZ32
     opr [i:ZZ32]:E throws NotFound
+    opr [r:Range[\ZZ32\]]: Condition[\E\]
 
     (** %cond% is the core of a %Condition%, in terms of which all other
         methods are written.  When %holds()%, %t% is invoked with the
@@ -950,7 +952,7 @@ trait Condition[\E\] extends SequentialGenerator[\E\]
     (** For a %Condition%, these methods run eagerly. **)
     generate[\G\](r:Reduction[\G\], body: E -> G): G
     map[\G\](f: E->G): Condition[\G\]
-    ivmap[\G\](f: (ZZ32,E)->G): Generator[\G\]
+    ivmap[\G\](f: (ZZ32,E)->G): Condition[\G\]
     nest[\G\](f: E -> Generator[\G\]): Generator[\G\]
     cross[\G\](g: Generator[\G\]): Generator[\(E,G)\]
     mapReduce[\R\](body: E->R, _:(R,R)->R, zero:R): R
@@ -993,7 +995,7 @@ just(t:Any):AnyMaybe
     Thus, %Just[\T\]% can be used as a single-element generator, and
     %Nothing% can be used as an empty generator. *)
 value trait Maybe[\T\]
-        extends { AnyMaybe, Condition[\T\], ZeroIndexed[\T\], UniqueItem[\T\] }
+        extends { AnyMaybe, Condition[\T\], UniqueItem[\T\] }
         comprises { Nothing[\T\], Just[\T\] }
     opr SQCAP(self, o: Maybe[\T\]): Maybe[\T\]
     opr |self| : ZZ32
@@ -1011,7 +1013,6 @@ value object Just[\T\](x:T) extends Maybe[\T\]
     cond[\R\](t:T->R, _:()->R): R
     generate[\R\](_:Reduction[\R\],m:T->R): R
     opr[i:ZZ32]:T
-    opr[r:Range[\ZZ32\]]:Maybe[\T\]
     map[\G\](f: T->G): Just[\G\]
     cross[\G\](g: Generator[\G\]): Generator[\(T,G)\]
     mapReduce[\R\](m: T->R, _:(R,R)->R, _:R): R
@@ -1020,8 +1021,10 @@ value object Just[\T\](x:T) extends Maybe[\T\]
     loop(f:T->()): ()
     opr =(self,o:Just[\T\]): Boolean
     opr SQCAP(self, o:Maybe[\T\]): Maybe[\T\]
-    opr SQCAP(self, o:UniqueItem[\T\]): Maybe[\T\]
-    opr SQCUP(self, o:UniqueItem[\T\]): UniqueItem[\T\]
+    opr SQCAP(self, o:NotUnique[\T\]): Just[\T\]
+    opr SQCAP(self, o:Just[\T\]): Maybe[\T\]
+    opr SQCUP(self, o:Nothing[\T\]): Just[\T\]
+    opr SQCUP(self, o:Just[\T\]): UniqueItem[\T\]
     unique(self): Maybe[\T\]
 end
 
@@ -1036,7 +1039,6 @@ value object Nothing[\T\] extends Maybe[\T\]
     cond[\R\](t:T->R, _:()->R): R
     generate[\R\](r:Reduction[\R\],_:T->R): R
     opr[_:ZZ32]: T
-    opr[r:Range[\ZZ32\]]: Nothing[\T\]
     map[\G\](f: T->G): Nothing[\G\]
     cross[\G\](g: Generator[\G\]): Generator[\(T,G)\]
 
@@ -1594,7 +1596,6 @@ trait ImmutableArray1[\T, nat b0, nat s0\]
     getter mutability():String
     shift(o:ZZ32): ImmutableArray[\T,ZZ32\]
     opr[r: Range[\ZZ32\]] : ImmutableArray[\T,ZZ32\]
-    opr[_:OpenRange[\ZZ32\]] : ImmutableArray1[\T,0,s0\]
     opr[_:TrivialOpenRange] : ImmutableArray1[\T,0,s0\]
 
     (** %subarray% selects a subarray of this array based on static parameters.
@@ -1627,7 +1628,6 @@ trait Array1[\T, nat b0, nat s0\]
     shift(o:ZZ32): Array[\T,ZZ32\]
 
     opr[r: Range[\ZZ32\]] : Array[\T,ZZ32\]
-    opr[_:OpenRange[\ZZ32\]] : Array1[\T,0,s0\]
     opr[_:TrivialOpenRange] : Array1[\T,0,s0\]
 
     subarray[\nat b, nat s, nat o\](m:ZZ32):Array1[\T, b, s\]
@@ -1725,7 +1725,6 @@ trait Array2[\T, nat b0, nat s0, nat b1, nat s1\]
   toIndex(t1:(ZZ32,ZZ32)):(ZZ32,ZZ32)
   opr[x:ZZ32,y:ZZ32]:=(v:T):()
   opr[r:Range[\(ZZ32,ZZ32)\]]: Array[\T,(ZZ32,ZZ32)\]
-  opr[_:OpenRange[\ZZ32\]] : Array2[\T,0,s0,0,s1\]
   opr[_:TrivialOpenRange] : Array2[\T,0,s0,0,s1\]
   opr[_:TrivialOpenRange, i1:ZZ32]: Array[\T,ZZ32\]
   opr[i0:ZZ32, _:TrivialOpenRange]: Array[\T,ZZ32\]
@@ -1851,7 +1850,6 @@ trait Array3[\T, nat b0, nat s0, nat b1, nat s1, nat b2, nat s2\]
 
     opr[i:ZZ32, j:ZZ32, k:ZZ32] := (v:T): ()
     opr[r:Range[\(ZZ32,ZZ32,ZZ32)\]]: Array[\T,(ZZ32,ZZ32,ZZ32)\]
-    opr[_:OpenRange[\ZZ32\]] : Array3[\T,0,s0,0,s1,0,s2\]
     opr[_:TrivialOpenRange] : Array3[\T,0,s0,0,s1,0,s2\]
     shift(t:(ZZ32,ZZ32,ZZ32)): Array[\T,(ZZ32,ZZ32,ZZ32)\]
 
@@ -1902,13 +1900,13 @@ trait ActualReduction[\R,L\] extends Reduction[\L\]
     abstract unlift(l:L): R
     (** If this reduction left-distributes over r, return a pair of
         reductions with the same lift and unlift **)
-    leftDistribute(r: Reduction[\R\]): Maybe[\(Reduction[\R\],Reduction[\R\])\]
+    leftDistribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\]
     (** If this reduction right-distributes over r, return a pair of
         reductions with the same lift and unlift **)
-    rightDistribute(r: Reduction[\R\]): Maybe[\(Reduction[\R\],Reduction[\R\])\]
+    rightDistribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\]
     (** If this reduction distributes over r, return a pair of
         reductions with the same lift and unlift **)
-    distribute(r: Reduction[\R\]): Maybe[\(Reduction[\R\],Reduction[\R\])\]
+    distribute[\K\](r: ActualReduction[\R,K\]): PossibleReductionPair[\K\]
 end
 
 trait PossibleReductionPair[\R\] extends Condition[\PossibleReductionPair[\R\]\]
@@ -1967,17 +1965,13 @@ trait BigOperator[\I,O,R,L\]
     abstract getter unwrap(): R->O
 end
 
-object BigReduction[\R,L\](r:ActualReduction[\R,L\]) extends BigOperator[\R,R,R,L\]
-    getter reduction(): ActualReduction[\R,L\]
+object BigReduction[\R,L\](reduction:ActualReduction[\R,L\]) extends BigOperator[\R,R,R,L\]
     getter body(): R->R
     getter unwrap(): R->R
 end
 
-object Comprehension[\I,O,R,L\](u: R->O, r: ActualReduction[\R,L\], singleton:I->R)
+object Comprehension[\I,O,R,L\](unwrap: R->O, reduction: ActualReduction[\R,L\], body:I->R)
         extends BigOperator[\I,O,R,L\]
-    getter reduction(): ActualReduction[\R,L\]
-    getter body(): I->R
-    getter unwrap(): R->O
 end
 
 (** VoidReduction is usually done for effect, so we pretend that
