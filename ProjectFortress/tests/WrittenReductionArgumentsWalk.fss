@@ -1,0 +1,31 @@
+component WrittenReductionArgumentsWalk
+import List.{...}
+export Executable
+
+(* String's upto and beyond answer the text before and after a character's first occurrence, and List's range subscript answers its elements at strides 1 and 2 as a list of its own element type. *)
+
+lengthOfZZ32s(xs: List[\ZZ32\]): ZZ32 = |xs|
+
+run(): () = do
+    assert("abc".upto('b'), "a", "upto of a character that occurs once answers the text before it")
+    assert("abc".beyond('b'), "c", "beyond of a character that occurs once answers the text after it")
+    assert("hello".upto('l'), "he", "upto of a character that occurs twice answers the text before its first occurrence")
+    assert("hello".beyond('l'), "lo", "beyond of a character that occurs twice answers the text after its first occurrence")
+    assert("abc".upto('z'), "abc", "upto of a character that does not occur answers the whole string")
+    assert("abc".beyond('z'), "", "beyond of a character that does not occur answers the empty string")
+    assert("abc".upto('a'), "", "upto of the first character answers the empty string")
+    assert("abc".beyond('c'), "", "beyond of the last character answers the empty string")
+
+    l = <|[\ZZ32\] 10, 11, 12, 13, 14, 15 |>
+    assert(l[1#3], <|[\ZZ32\] 11, 12, 13 |>, "the list at 1#3, stride 1, is its elements at 1, 2 and 3 (ranges.tex, section \"Ranges\")")
+    assert(l[0:4:2], <|[\ZZ32\] 10, 12, 14 |>, "the list at 0:4:2, stride 2, is its elements at 0, 2 and 4, a List[\\ZZ32\\] (ranges.tex, section \"Ranges\"; aggregate.tex, section \"List Expressions\")")
+    evens: List[\ZZ32\] = l[0:4:2]
+    assert(|evens|, 3, "the list at 0:4:2 binds to a local declared List[\\ZZ32\\]")
+    assert(lengthOfZZ32s(l[1:5:2]), 3, "the list at 1:5:2 passes to a parameter declared List[\\ZZ32\\]")
+    s = <|[\String\] "p", "q", "r", "s" |>
+    assert(s[0#2], <|[\String\] "p", "q" |>, "the list of strings at 0#2, stride 1, is p and q (ranges.tex, section \"Ranges\")")
+    assert(s[1:3:2], <|[\String\] "q", "s" |>, "the list of strings at 1:3:2, stride 2, is q and s, a List[\\String\\] (ranges.tex, section \"Ranges\"; aggregate.tex, section \"List Expressions\")")
+    println("PASS")
+  end
+
+end
