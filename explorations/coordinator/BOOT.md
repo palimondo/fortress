@@ -6,7 +6,8 @@
 
 ## Running
 
-- Nothing. Agents do not survive a process stop.
+- **The `AnyIntegral` probe's filing**, an Opus routing worker launched at about 16:28 UTC: D1 as a new ledger row, notes on rows 804 and 487, a FACTS note on F-121; it commits and pushes itself. If cut, launch it again from its brief (in this session's transcript) with its partial transcript named.
+- Agents do not survive a process stop.
 
 ## The go
 
