@@ -6113,3 +6113,15 @@ closed by 5e60e356a
 closed by 5e60e356a
 
 | 710 | the team demo `ProjectFortress/demos/trips.fss:97-98` declares `object generator(...) extends StandardTotalOrder[\trip\]`, which the self-type rule refuses: a `generator` is not a `trip`, though `StandardTotalOrder`'s default bodies read `self` as its parameter; walk loads and runs the demo | NEGATIVE-VERIFIED | library bug (tests) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/demos/trips.fss` | climb batch 14 rung S | The compiled checker, by the distance stage's driver over the demo (`DistanceMulti -order check -setting any ... ProjectFortress/demos/trips.fss`, `compile-ladder/rung-self-type/REPORT.md` section 6), reports "trips.fss:98:13-38: generator extends StandardTotalOrder[\trip\], whose self parameter is trip, but generator is not a subtype of trip."; walk has no static types and loads it. The object defines `CMP` at `generator` (`:100`), so by reading its declared order is `StandardTotalOrder[\generator\]`. No gated test reads the demo under the checker. |
+
+### Row 650
+
+rewritten
+
+| 650 | the code generator refuses a method declaration with the modifier `override`, "Don't know how to compile this kind of FnDecl", so the team's `tests/disp0.fss`, which the compiled checker accepts, does not compile | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXOverrideModifierCodeGeneration.test` | climb batch 11 rung C | siblings: 610. `CodeGen.fnDeclCompilableModifiers` holds the getter, setter, `io`, `private` and `abstract` modifiers only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2897-2899` at 83b1cae78), and `forFnDecl` calls `sayWhat` on a declaration with any other (`:2966-2976`). The chapter's draft note says the modifier is not yet supported. Whether the compiled dispatch then leaves out a declaration a type does not provide is not measured. Walk prints `f PASS` and `g PASS`. |
+
+### Row 481
+
+note added
+
+| 481 | on the compiled path a range's `=` is identity: `(1:3) = (1#3)` and `(3:1) = (5:4)` print `false` compiled and `true` under walk; a range equals only itself | NEGATIVE-VERIFIED | library bug (prelude) | `Specification/basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/compiler_tests/XXXRangeEqRungJ.fss` | climb batch 7R rung J's skeptic | siblings: 479. The compiler library's `GeneratorZZ32` extends `Equality[\GeneratorZZ32\]` (`Library/CompilerLibrary.fsi:111`, `.fss:301`), whose `=` is `self === other` (`Library/CompilerAlgebra.fss:26`); its always-false top-level `=` is gone since climb batch 21b. The test asserts `(1:3) = (1#3)`, `(3:1) = (5:4)` and `NOT ((2:4) = (2:5))`; walk passes all three, the compiled run stops at the first. The compiler library takes no new declaration (POSITIONS, "The library route"): the one library's `=` replaces it at the switch-over. full text: history, row 481 |

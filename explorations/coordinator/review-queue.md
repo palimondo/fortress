@@ -2,24 +2,24 @@
 
 ## When each item is needed
 
-Each open item ends with a line "Needed by": the point by which the work needs his word on it, and why, sorted on 2026-10-20 against PLAN (its phases, and phase 3's item 18, the next batches' candidates), climb batch 20's record (`coordinator/CLIMB-BATCH-20.md`, rungs I and A) and POSITIONS through P-154, and brought to climb batch 20's landing by its routing (phase 3's item 19, P-155 and P-79), and to climb batch 21's first run's by its routing (phase 3's item 19; the next batch, its second run, climb batch 21b). The points: **the next batch**, where its record builds on the item or changes it; **before** a later piece of work, named by its PLAN item, row or candidate; **before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library, natives then names); **before microGPT compiles** (phase 5) or **runs fast** (phase 6); and **never**: nothing later builds on it, the landed default can stand, and it can be undone at any time. A line that starts "kind:" says the item sits under the wrong kind by the `coordinator` skill's test of a consequential decision; the item is not moved.
+Each open item ends with a line "Needed by": the point by which the work needs his word on it, and why, sorted on 2026-10-20 against PLAN (its phases, and phase 3's item 18, the next batches' candidates), climb batch 20's record (`coordinator/CLIMB-BATCH-20.md`, rungs I and A) and POSITIONS through P-154, and brought to climb batch 20's landing by its routing (phase 3's item 19, P-155 and P-79), and to climb batch 21's first run's by its routing (phase 3's item 19; the next batch, its second run, climb batch 21b), and to climb batch 21b's by its routing (phase 3's item 19; the next batch, the one for the distance's last 5 errors, to be drafted). The points: **the next batch**, where its record builds on the item or changes it; **before** a later piece of work, named by its PLAN item, row or candidate; **before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library, natives then names); **before microGPT compiles** (phase 5) or **runs fast** (phase 6); and **never**: nothing later builds on it, the landed default can stand, and it can be undone at any time. A line that starts "kind:" says the item sits under the wrong kind by the `coordinator` skill's test of a consequential decision; the item is not moved.
 
-**Counts**, 257 open items, 76 consequential and 181 routine:
-- The next batch, climb batch 21b, the second run of climb batch 21, being prepared: 4 (2 consequential, 2 routine).
-- Before a named later piece of work: 33 (11 consequential, 22 routine).
-- Before the switch-over: 15 (11 consequential, 4 routine).
+**Counts**, 256 open items, 76 consequential and 180 routine:
+- The next batch, the one for the distance's last 5 errors, to be drafted: 1 (1 consequential, 0 routine).
+- Before a named later piece of work: 33 (12 consequential, 21 routine).
+- Before the switch-over: 14 (10 consequential, 4 routine).
 - Before microGPT compiles: 17 (10 consequential, 7 routine).
 - Before microGPT runs fast: 3 (1 consequential, 2 routine).
-- Never: 185 (41 consequential, 144 routine).
+- Never: 188 (42 consequential, 146 routine).
 
-**Needed by the next batch**, climb batch 21b (`coordinator/CLIMB-BATCH-21.md`, rungs C, E and D): 11 and 191, by rung C, the symbolic-operator check itself (P-155), for which climb batch 21's first run landed the library's and the checker's changes, the full check on its merged tree 191 to 5 (F-245); 199, by rung E, `Array2`'s column and row subscripts in the api (the record's fork 22); and 247, by rung D, which builds the item's default on record, both paths, but for row 731's demo half, left for a probe (`reviews/batch-21-review.md`, Part 4, "Between the runs", step 6). The four moved here from the named pieces of work below at climb batch 21's first run's landing. Batch 20's seven moved at its landing: 43 settled by P-79; 29 and 31 to before microGPT compiles; 95 to Q-walk; 165 to climb batch 21's gather; 112 and 113 to never.
+**Needed by the next batch**, the one for the distance's last 5 errors, to be drafted (PLAN, phase 3, item 19): 40, item 46's fused arm, whose default, the coordinator's `cast[\O0\]`, that batch builds; moved here from before the switch-over at climb batch 21b's landing. Climb batch 21b's four (`coordinator/CLIMB-BATCH-21.md`, rungs C, E and D) moved at its landing: 11 and 191 to never, since rung C turned the symbolic-operator check on with no error from a mixed family and closed row 726; 199 to never, since rung E built its default; 247 to the probe of the checker's driver over each demo, since rung D built its default for walk and for row 710 (`reviews/batch-21b-review.md`, Part 4). They had moved there from the named pieces of work below at climb batch 21's first run's landing. Batch 20's seven moved at its landing: 43 settled by P-79; 29 and 31 to before microGPT compiles; 95 to Q-walk; 165 to climb batch 21's gather; 112 and 113 to never.
 
 **Needed by the next named pieces of work:**
 - Row 773's rung, the members of a conditional extension scoped to the condition, a candidate of climb batch 21 that waits on his answer to ask 8 (PLAN, phase 3, item 19): 175, 176, 177, 178, 179.
 - The tint rung, row 786, held for his answer (PLAN, phase 3, item 19): 9, 192.
 - Row 774's walk rung, walk's half of conditional extension, out of climb batch 21: it waits until walk runs the checker (P-12) or row 364 is fixed (`coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, phase 3, item 19): 76, 153, 224, 246.
 - The next rung that edits the integer chapter, `Specification/basic-lib/basic-integers.tex`: 195.
-- The checker rung on row 775, a crash, after a trace: 183.
+- The probe of the compiled checker's driver over each team demo, with row 731's demo half and row 817, `trips.fss`'s other refusals (P-79; PLAN, phase 3, item 19, the demos' line): 247.
 - The checker rung on row 759, the No Duplicates Rule's exception at `Any`, among climb batch 21's candidates (PLAN, phase 3, item 19): 262.
 - The rung on rows 763 and 757, with the `bool` family: 180.
 - The next walk rung, whichever it is: 185.
@@ -31,11 +31,11 @@ Each open item ends with a line "Needed by": the point by which the work needs h
 - The next rung whose specification build needs a change to `Fortify/fortify.sty`: 235.
 - The gap ledger's full pass, the last job, after the orientation, if the week's budget allows (`coordinator/ledger-health-2026-10-22/REPORT.md`, section 6.1): 265, 267.
 
-**Needed before the switch-over:** 2, 20, 21, 30, 35, 36, 39, 40, 51, 108, 194, 212, 214, 229, 230. **Before microGPT compiles:** 3, 6, 29, 31, 37, 50, 54, 58, 93, 158, 159, 206, 216, 223, 237, 263, 277. **Before it runs fast:** 22, 205, 250.
+**Needed before the switch-over:** 2, 20, 21, 30, 35, 36, 39, 51, 108, 194, 212, 214, 229, 230. **Before microGPT compiles:** 3, 6, 29, 31, 37, 50, 54, 58, 93, 158, 159, 206, 216, 223, 237, 263, 277. **Before it runs fast:** 22, 205, 250.
 
 **Kind.** Items 60 and 194 sit under (c) and are consequential by the skill's test. Item 188 acts against his word (P-151's option 3), which the skill brings to him at once as a hold, not by the review list; item 43, on the demos, is settled by P-79.
 
-**Moved to (a) as stale on 2026-10-20:** 1, 14, 16, 17, 26, 33, 42, answered by a decision of his; 78, 123, 124, answered by a landed fix. **Moved to (a) at climb batch 20's landing:** 12, by P-155; 43 and 151, by P-79; 189, merged into 9, one question. **Moved to (a) on 2026-10-22:** 165, by the `ledger.py` routes built at `1ac7028b4`.
+**Moved to (a) as stale on 2026-10-20:** 1, 14, 16, 17, 26, 33, 42, answered by a decision of his; 78, 123, 124, answered by a landed fix. **Moved to (a) at climb batch 20's landing:** 12, by P-155; 43 and 151, by P-79; 189, merged into 9, one question. **Moved to (a) on 2026-10-22:** 165, by the `ledger.py` routes built at `1ac7028b4`. **Moved to (a) at climb batch 21b's landing:** 183, answered by row 775's close (rung C, `108ab82d6`).
 
 What waits for Pavol's review, 2026-10-10
 
@@ -170,7 +170,7 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - The other way: The text says which rule governs, here or in a later specification rung, and the checker's mixed-family rule follows.
    - Its cost: A text revision. The answer also decides the way batch 8 did not take for `String`'s juxtaposition (the next item).
    - Home: PLAN, "Climb batch 7b, listed for his review", Row 545; PLAN, "Climb batch 8, listed for his review", `String`'s juxtaposition is three top-level operators since climb batch 8's rung M; `reviews/batch-7b-review.md`, Part 3; row 545 (10-02: 33)
-   - Needed by: the next batch, climb batch 21b, whose rung C turns on the symbolic-operator check itself (P-155; PLAN, phase 3, item 19); the probe ran, and climb batch 21's first run landed the fixes the check needs, the full check on its merged tree 191 to 5 (F-245). The check meets families that mix a function with functional methods; `String`'s families, the device that turned on this mixed-family rule, took the top-level form that avoids the mix (row 545).
+   - Needed by: never; climb batch 21b's rung C turned the symbolic-operator check on (P-155; F-281), and no family of the library that mixes a function with functional methods gave an error, the distance staying at its 5 (F-53); `String`'s families, the device that turned on this mixed-family rule, took the top-level form that avoids the mix (row 545), so nothing waits on the text's answer.
 
 13. **The approved `comprises` check decides by names.** The 14 lines of the checker's `comprises` check that he approved decide by how a type that extends the trait spells its type variable, and by simple names: an unrelated trait of the same name counts, and a false clause can pass.
    - Landed: The code as approved; one face gated by an expected failure (row 489).
@@ -406,7 +406,7 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - The other way: Widen the arm's pattern, which types it and changes when the compiled path fuses an outer operator whose output type differs from its input.
    - Its cost: The worker, both skeptics and the judge left it to him. The default is one cast in the library's text.
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 46, and its entry under "Climb batch 21, listed for his review"; `compile-ladder/rung-generator-slips/REPORT.md:161`, `:229`, `JUDGE.md:144`; row 632; F-53, the distance of 5, this site among them
-   - Needed by: before the switch-over; its site is one of the 5 left after climb batch 21's first run (`compile-ladder/climb-batch-21/gate/distance.txt`; F-53; PLAN item 46), and the switch-over comes at a distance of zero; the default is for a batch after climb batch 21b, which the record names for batch 22's lists (`coordinator/CLIMB-BATCH-21.md`, section 5, "After the landing").
+   - Needed by: the next batch, the one for the distance's last 5 errors (PLAN, phase 3, item 19), whose record builds the default; its site is one of the 5 left after climb batch 21b (`compile-ladder/climb-batch-21b/gate/distance.txt`; F-53; PLAN item 46), and the switch-over comes at a distance of zero.
 
 188. **P-151's `AnyList`, built otherwise.** His option 3 of 16:42 UTC on 2026-10-16 moves "the rest of `AnyList` into `List`"; climb batch 17's rung A made the team's `comprises` clause live and respelled `addLeft` and `addRight` within `AnyList` instead (`Library/List.fss:87-90`; `reviews/batch-17-review.md` finding 6); the four sites are gone either way.
    - Landed: As built. Default: as built. P-151's sentence "its other operations, `addLeft` and `addRight`, move into `List`" is to read that they stay in `AnyList`, respelled under the live clause, and the move is to leave its "still to build"; that edit of P-151 waits on his yes. P-151 keeps his option 3 and names row 799 for the move, and F-243 holds climb batch 17's departure; no worker makes the move before he answers.
@@ -476,11 +476,11 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
 ### Tests and the team's demos (1)
 
 247. **Does "kept running" in P-79 mean running under walk, or also accepted by the compiled checker?** P-79 says that every team demo, the programs in `ProjectFortress/demos/`, is kept running as the tree changes. On 2026-10-20 at 11:52 UTC he said: "Now generally I would prefer we maintain them all in running state as we are making changes in the unsealed tree." His words name no path. At 11:57 UTC the coordinator told him which demos are owed, and he did not contest it. That list mixes two kinds of failure. Walk refuses five demos at load (row 670) and stops on the timing line of the two `BiCGSTAB` demos (row 791). The compiled checker refuses `trips.fss`, which walk runs (row 710), and the reductions that leave out the static argument of a big operator such as `SUM` (row 731). The entry as the clarity pass of 2026-10-22 applied it shows each row's path, and does not decide which path a demo must run on.
-   - Landed: The entry as the clarity pass applied it. Default: every listed failure is owed, on walk and on the compiled checker, as PLAN, phase 3, item 19 lists it.
+   - Landed: The entry as the clarity pass applied it. Default: every listed failure is owed, on walk and on the compiled checker, as PLAN, phase 3, item 19 lists it. Climb batch 21b's rung D built it for walk and for row 710: all 52 demos run under walk (F-283; rows 670, 791 and 710 closed). The compiled checker still refuses `trips.fss` for other reasons (row 817), and row 731's demo half waits for a probe of the checker's driver over each demo (D.worker.1's entry under PLAN's "Climb batch 21b, listed for his review", its default acted on).
    - The other way: "Running" means under walk. `trips.fss` and row 731's reductions leave the list owed today, and they come back when the compiled path runs the demos.
    - Its cost: One sentence of P-79 and the demos' line in PLAN, phase 3, item 19. Under the other way, the repair of `trips.fss`'s object and the static arguments of row 731's demo half wait.
-   - Home: POSITIONS P-79; `coordinator/consolidation-2026-10-22/evidence/positions/p7/proposals.md`, "P-79", question 1, the clarity writer's question; `check.md` beside it, "P-79", the fidelity check; `coordinator/positions-audit/full/evidence/judgement-c6.md`, "P-79", the audit's judgement on the entry; PLAN, phase 3, item 19, the demos' line; rows 670, 710, 731 and 791, the four failures
-   - Needed by: before the demos' measurement and rung, a candidate of climb batch 21 (PLAN, phase 3, item 19); the measurement needs to know which path "running" means.
+   - Home: POSITIONS P-79; `coordinator/consolidation-2026-10-22/evidence/positions/p7/proposals.md`, "P-79", question 1, the clarity writer's question; `check.md` beside it, "P-79", the fidelity check; `coordinator/positions-audit/full/evidence/judgement-c6.md`, "P-79", the audit's judgement on the entry; PLAN, phase 3, item 19, the demos' line; rows 670, 710, 731 and 791, the four failures; PLAN, "Climb batch 21b, listed for his review", D.worker.1; row 817
+   - Needed by: before the probe of the compiled checker's driver over each team demo, with row 731's demo half (PLAN, phase 3, item 19, the demos' line); climb batch 21b's rung D built the default for walk and for row 710, and that probe is where the checker's half of "running", row 817's `trips.fss` and row 731's reductions, is next met.
 
 ### Code generation and the run time (3)
 
@@ -627,7 +627,7 @@ The cold read of POSITIONS of 2026-10-22 (`coordinator/consolidation-2026-10-22/
 
 Each is kept as landed unless he says otherwise.
 
-### The checker's typing and inference (11)
+### The checker's typing and inference (10)
 
 51. A clause-form reduction whose big operator's static argument is unwritten is instantiated by the checker at its bound or, since climb batch 14's rung A, at the expected type where the bound's type does not fit it, so `s: ZZ32 = BIG LAST[j <- lo#n] (3 j)` at the bound `Number` runs; one whose bound names its parameter, as `SUM`'s, `PROD`'s and `BIG MIN`'s do, has no instance and is refused (row 731, row 425's corrected text).
    - Landed: Refused where the bound names the parameter, three sites of the distance; the expected type taken otherwise (`InferBigOperatorExpectedType`). The other way: The desugaring fixes the big operator's static argument from the clauses. Its cost: A desugarer change, a checker project before the switch-over.
@@ -658,13 +658,6 @@ Each is kept as landed unless he says otherwise.
    - Landed: Refused at the variable's use, until the switch-over brings the one library. The other way: Per site, or at the binding. Its cost: Goes away at the switch-over.
    - Home: PLAN, "Climb batch 10, listed for his review", Under the compiled library; PLAN, "Climb batch 9, listed for his review", Stop met and lifted; `compile-ladder/rung-checker-defects/REPORT.md:415`, `JUDGE.md:44`
    - Needed by: never; the switch-over brings the one library's `ImmutableArray` and removes it (row 604).
-
-183. **Row 775: a crash of the checker.** The checker stops, 'F is not in the kind env', on a generic trait whose `comprises` clause lists a type at a type `where`-clause variable and that overrides an inherited method. The base does the same, since climb batch 17's rung A opened such types.
-   - Landed: No default on record, so none is taken: the row open, with no gated test, since the refusal is a crash.
-   - The other way: A repair in a checker rung.
-   - Its cost: A trace from `ProjectFortress/src/com/sun/fortress/scala_src/types/TypeSchemaAnalyzer.scala:198` and `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:695`, `:722` first.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.skeptic.2; PLAN, phase 3, item 19; row 775
-   - Needed by: before the checker rung on row 775; PLAN's phase 3 item 19 lists it among the checker rows, a trace first (`coordinator/CLIMB-BATCH-20.md`, section 4).
 
 208. **How the checker represents a size that inference leaves unknown.** On 2026-09-21 at 03:09 UTC the coordinator put two decisions on unknown sizes to him. At 16:57 UTC he chose a way for the first, wrote that he did not understand the second, and asked what decision he was making. The coordinator answered at 16:58 UTC: it was a choice inside the checker's code, how to represent an unknown size while solving. The clean way adds a new node to the syntax tree's definition and regenerates generated code. The other way reuses an existing node with a reserved name. The choice was his only if he cared about that regenerated diff; otherwise it was the coordinator's. He did not reply. P-40 stated "How the checker represents it is not his choice." until the audit.
    - Landed: A new node, `_InferenceVarInt(Object id)`, as the checker's other inference variables are nodes, with 26 generated files changed and 4 new. It is the checker rung's first decision ("Pavol left this to the rung"; `compile-ladder/rung-nat-checker/REPORT.md`, "Decision 1: the unknown size is a node, `_InferenceVarInt(Object id)`, not a reserved name."). Default: as built.
@@ -1025,11 +1018,11 @@ Each is kept as landed unless he says otherwise.
    - Needed by: never; the default adds nothing, and the other way, way 1b, waits on the array decisions after the switch-over (P-85).
 
 199. **`Array2`'s column and row subscripts not in the api.** Walk runs `opr[_:TrivialOpenRange, i1:ZZ32]` and `opr[i0:ZZ32, _:TrivialOpenRange]`, and the api's `Array2` lacks them, so a checker that reads the api does not see them (row 465's other case).
-   - Landed: Not declared. Default (the post-batch review's; none on record): add them with the second export error's work, which aligns the api with the component trait by trait.
+   - Landed: Declared by climb batch 21b's rung E with the second export error's work, which aligned the api with the component trait by trait, as the default (climb batch 20's post-batch review's) asked (`Library/FortressLibrary.fsi:1730-1731`; `coordinator/CLIMB-BATCH-21.md`, section 2, fork 22).
    - The other way: Add them now, as rung A declared `array3(v)`; or leave them out of the api.
    - Its cost: Two api lines.
-   - Home: PLAN, "Climb batch 20, listed for his review", A.skeptic.4; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Library/FortressLibrary.fss:2707`, `:2711`; `Library/FortressLibrary.fsi:1706-1709`; `compile-ladder/rung-array-sites/SKEPTIC.md:96`; row 465
-   - Needed by: before the second export error's rung (PLAN, phase 3, item 19); its default adds the two subscripts with that rung.
+   - Home: PLAN-history, "Climb batch 21b's landing, 2026-10-23" and "Climb batch 20's landing, 2026-10-20", each under "Climb batch 20, listed for his review", A.skeptic.4; `Library/FortressLibrary.fss:2707`, `:2711`; `Library/FortressLibrary.fsi:1730-1731`; `compile-ladder/rung-array-sites/SKEPTIC.md:96`; row 465
+   - Needed by: never; climb batch 21b's rung E built the default, and the two subscripts come out of the api again in two lines.
 
 202. **The api's `immutableArray` of rank 2 and 3 put in a comment (fork 5).** The component has had them in a comment since the team's last commit, and the library has no `ImmutableArray2` or `ImmutableArray3`, so no program can call them; they leave the library chapter, Part IV, which renders the api.
    - Landed: As the patch: the built side wins, by the library's own standard.
@@ -1235,7 +1228,7 @@ Each is kept as landed unless he says otherwise.
    - The other way: The pair kept in the api, and declared in the component.
    - Its cost: Two api lines and a component declaration.
    - Home: PLAN, "Climb batch 19, listed for his review", review.1
-   - Needed by: the next batch, climb batch 21b, whose rung C turns on the symbolic-operator check itself (P-155; PLAN, phase 3, item 19) and closes row 726, which names the pair, its expected failure promoted (`coordinator/CLIMB-BATCH-21.md`, section 2, fork 18); climb batch 15's default kept the pair for item 38's answer, given by P-155.
+   - Needed by: never; climb batch 21b's rung C turned the symbolic-operator check on and closed row 726, which names the pair (`coordinator/CLIMB-BATCH-21.md`, section 2, fork 18), and the api no longer declares it; the landed default can stand and can be undone.
 
 211. **`LexicographicReduction.isLeftZero(Unordered)` is refused under walk since row 582's fix.** Before the fix, the team's overload `isLeftZero(_:Comparison)` answered `true` for every comparison but `EqualTo`, and so for `Unordered`. His answer on row 582 declared that overload over `TotalComparison`, so that `LessThan` and `GreaterThan` are reached (P-57). `Unordered` extends `Comparison` only (`Library/FortressLibrary.fss:151`), so no declaration takes it now, and walk refuses the call: "Failed to find any matching overload, args = (Unordered)". The question that he answered did not name `Unordered`.
    - Landed: The refusal (climb batch 13's rung O, `9ba86f7da`; its skeptic found it, `compile-ladder/rung-tuple-orders/SKEPTIC.md:142`, `:245`). Default: as landed.
@@ -1739,7 +1732,7 @@ Each is kept as landed unless he says otherwise.
 - **43, Team demo lines changed by the batches.** P-79, "Every team demo is kept running as the tree changes.", his word of 11:52 UTC on 2026-10-20, which confirms his word of 2026-09-29, "we should make the demos run again", and replaces the reading of it that the consolidation of 2026-10-13 wrote, "stay as they are": a demo that a change breaks is rewritten where the way is known, so batch 7's, batch 12's and climb batch 20's respelled lines stand; `mg.fss` stays row 464. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Off the path, parked", Climb batch 7's rung A respelled 32 lines of, and "Climb batch 12, listed for his review", Three points a decision on record makes his (point 3); PLAN, "Off the path, parked", The team's demos are kept running.
 - **151, five team demos refused at load since batch 12 (row 670).** P-79, as for item 43: they are respelled where the way is known, after a measurement of which demos run, a candidate of PLAN's phase 3, item 19. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 12, listed for his review", Five team demos are refused at load since climb batch 12's rung ...; row 670.
 
-### Answered by a landed fix or a closed row (39)
+### Answered by a landed fix or a closed row (40)
 
 - **186, `ownGeneric`'s comment, half false.** Rewritten by climb batch 19's rung P (`14e91723f`). Home: PLAN-history, "Climb batch 19's landing, 2026-10-20", its climb batch 17 and 18 entries.
 - **Row 531, `avFlat` declared `RR32`.** Row 531 fixed by batch 8's rung M. Home: PLAN-history, "Climb batch 6.5b, listed for his review", Row 531.
@@ -1780,6 +1773,7 @@ Each is kept as landed unless he says otherwise.
 - **Item 123, the identities' fallback answers a numeral where `T` is expected (row 630, a duplicate of row 436).** The item's other way, a `cast`, landed by climb batch 17's rung L (`2b1cd8e63`; F-243, F-250) and cleared the two sites; row 436 stays open for `HasIdentity`. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 10, listed for his review", Row 630.
 - **Item 124, row 631: `embiggen` unwrapped its reduction's `Any`.** Row 631 fixed by climb batch 17's rung L (`2b1cd8e63`), `embiggen` in its typed form. Home: PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 10, listed for his review", Row 631.
 - **165, `ledger.py`'s missing routes: a note past the length limit, a reproducer, a close with no test, a close of a contested row, a narrowed claim.** Built at `1ac7028b4`: `rewrite N FILE` writes an open row's whole new line, checked by the template, so it corrects a claim, cuts notes or moves a reproducer; `close --settled` closes a `CONTESTED` row whose question is settled; `close --test` takes a test under `coordinator/tools/`, or `none` with a reason; `note` writes before the row's "full text: history, row N" marker and checks only the cells it changes; `landing-check BASE` runs the health check's checks of a landing that need no reading. The batch workflow's gather and review run `landing-check` against the batch's base and fail on any finding, and a row's changed claim goes through `rewrite` (`c9b5beb36`). Rows 642 and 577 closed at `30872d93c`. The refused notes that the item listed are not written: the 40 open rows that hold one (`coordinator/ledger-health-2026-10-22/refused-notes.tsv`) wait for the ledger's full pass, which he has put last, after the orientation, if the week's budget allows (item 267). Home: PLAN, "Climb batch 11, listed for his review", gather.1; "Climb batch 12, listed for his review", gather.2; "Climb batch 14, listed for his review", P.worker.1; "Climb batch 15, listed for his review", gather.1; "Climb batch 18, listed for his review", gather.1; "Climb batch 20, listed for his review", gather.1; `coordinator/ledger-health-2026-10-22/REPORT.md`, sections 6.2 and 7; `explorations/coordinator/tools/ledger.py`, its header
+- **183, Row 775: a crash of the checker.** Row 775 fixed by climb batch 21b's rung C (`108ab82d6`), whose repair reads a trait's self type outside the trait as the trait type alone (row 809). Home: PLAN-history, "Climb batch 21b's landing, 2026-10-23", "Climb batch 18, listed for his review", X.skeptic.2; row 775.
 
 ### Information only, a list of other entries, or merged into an entry here (6)
 
