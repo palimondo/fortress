@@ -26,7 +26,7 @@ run(): () = do
     assert((0 IN s) AND (1 IN s) AND (4 IN s), true, "the set comprehension over n^2 for n in -2:2 holds 0, 1 and 4 (comprehensions.tex, section \"Comprehensions\")")
     b = mk()
     assert(b.kind, "boxed", "a call that fixes no static argument of a function whose type parameter's bound mentions itself runs, and its result answers its getter (inference.tex, section \"The Static Arguments of a Call\")")
-    assert("ab.c".upto('.'), "ab", "String's upto, whose body calls BIG MIN with no static argument, answers the prefix before the character")
+    assert("ab.c".upto('.'), "ab", "String's upto answers the prefix before the character")
     println("PASS")
   end
 
