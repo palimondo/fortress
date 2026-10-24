@@ -1,8 +1,8 @@
-<!-- The Fortress revival from 2026-08-19 to 2026-10-10 told in plain words for the curator: the exploring era, the unsealed tree and the climb batches through 13b with their decisions and the checker's errors, how the record grew, the skills and process work since 10-04, what changed in Fortress for a programmer, and, for each of the skill's language points, whether the revival left the team's Fortress as it was or resolved a contradiction, with the custodians' principle and the three sources the team left. First written 2026-10-08. Updated 2026-10-13 in the first version's framing, order and voice, at the curator's comments on the update of 2026-10-12: brought through climb batch 13b inside its six parts and corrected against git and the record. Read-only, from the record and git; the same text is the curator's page "Fortress Revival So Far". -->
+<!-- The Fortress revival from 2026-08-19 to 2026-10-24 told in plain words for the curator: the exploring era, the unsealed tree and the climb batches through 22 with their decisions and the checker's errors, phase 3's end and phase 4's first batch, how the record grew, the skills and process work since 10-04 with the record's post-mortem of 10-20 to 22 and the type-decisions review of 10-23, what changed in Fortress for a programmer, and, for each of the skill's language points, whether the revival left the team's Fortress as it was or resolved a contradiction, with the custodians' principle and the three sources the team left. First written 2026-10-08. Updated 2026-10-13 in the first version's framing, order and voice; 2026-10-19 through climb batch 18; 2026-10-24 through climb batch 22's landing and climb batch 23's draft, from the record to d6e087190. Read-only, from the record and git; the same text is the curator's page "Fortress Revival So Far". -->
 
 # The revival so far, in plain words
 
-Written 2026-10-08, updated 2026-10-13, for the curator. Dates without a year are 2026, times UTC. Each part ends with its sources.
+Written 2026-10-08, updated 2026-10-24, for the curator. Dates without a year are 2026, times UTC. Each part ends with its sources.
 
 Words used throughout:
 
@@ -44,7 +44,7 @@ Words used throughout:
 
 Sources: `explorations/process-records/01-microgpt-port.md` to `14-apl-rung-4b.md`; `explorations/microgpt-run-c-handover.md`; `explorations/microgpt-run-c-handover-history.md`; `explorations/coordinator/map/README.md`; `explorations/coordinator/process-engineering/gap-ledger-archaeology.md` section 1.1; `explorations/coordinator/process-engineering/fortress-changes-chronology.md` A0, A1, A10; `explorations/notation-collaboration/README.md`.
 
-## 2. The unsealed tree and the batches (09-17 to 10-10)
+## 2. The unsealed tree and the batches (09-17 to 10-24)
 
 **How a batch works.** A batch is one run of a workflow script.
 
@@ -60,7 +60,7 @@ Sources: `explorations/process-records/01-microgpt-port.md` to `14-apl-rung-4b.m
 - The repair batch (09-18 to 09-19) fixed those two.
 - Batches 1 and 2 (09-19, 09-20) added more prelude names: `RR64`'s functions, `Maybe`, `GCD`, shifts, integer conversions. 85 passed, and 85 still pass.
 
-**Batches 3 to 10 (09-22 to 10-03).** From 09-21 every batch worked to make the checker accept the one library: 16 landings in 12 days. Names such as 3.5, 6b, 7R, N or 7b are batches split from or added to a plan. Batches 8 to 10 repaired checker defects and the library's one-off slips. The decisions below say which batch built each one. Batches 11, 12 and 13 landed on 10-09, and 13b on 10-10 (part 4).
+**Batches 3 to 10 (09-22 to 10-03).** From 09-21 every batch worked to make the checker accept the one library: 16 landings in 12 days. Names such as 3.5, 6b, 7R, N or 7b are batches split from or added to a plan. Batches 8 to 10 repaired checker defects and the library's one-off slips. The decisions below say which batch built each one. Batches 11, 12 and 13 landed on 10-09, and 13b on 10-10 (part 4). Batches 14 to 22 followed from 10-14 to 10-24 (below).
 
 ### The main decisions, in plain words
 
@@ -70,13 +70,19 @@ Sources: `explorations/process-records/01-microgpt-port.md` to `14-apl-rung-4b.m
 - **The flat number tower** (09-24). The checker keeps the team's rule that no type extends two instantiations of one generic trait. The one library's nested number types broke it, so they became siblings that convert by declared coercions, as in the prelude. Walk learned coercion in batch 4; the library was flattened in batch 6. The checker's errors fell from 125 to 62.
 - **Sizes at run time** (09-24). A size parameter (`nat`) gets the run-time descriptor a type argument has. Since batch 5, a sized program compiles and runs.
 - **Overflow** (09-26). Fixed-width overflow raises `IntegerOverflow` under walk too. Code meant to wrap uses the specification's operators ∔ ∸ ⨰. Batches 5 and 6b.
-- **The plan** (09-26). Six phases: 1 and 2, decided work and the flattening; 3, the checker at zero errors; 4, the switch-over; 5, microGPT compiles; 6, microGPT fast. Phase 3 has landed through batch 13b; phases 4 to 6 have not started.
+- **The plan** (09-26). Six phases: 1 and 2, decided work and the flattening; 3, the checker at zero errors; 4, the switch-over; 5, microGPT compiles; 6, microGPT fast. Phase 3 reached its exit at batch 22 (below). Phases 4 to 6 have not started.
 - **Ranges over `ZZ32` only**, because a JVM array index is a 32-bit integer. Batch 7R.
 - **The inference rule.** When a generic call mixes number types, the type parameter takes the narrowest type all arguments convert into. A parameter that nothing in a call fixes is inferred at its bound, not at the empty type `Bottom`, on both paths, with a few cases left under walk; at run time the rule is only partly built (part 6). Batches N, 8, 9 and 11.
-- **The overloading model.** Overloads may differ in static parameters. The return-type rule is checked for every instance. Walk chooses by declared types, not by order in the file. Batch 7b.
+- **The overloading model.** Overloads may differ in static parameters, the type and size parameters such as `T` in `Box[\T\]`. The return-type rule is checked for every instance. Walk chooses by declared types, not by order in the file. Batch 7b.
 - **`fill` takes a value, `tabulate` a function.** Batch 7.
 - **Arrays become unboxed `double[]`** (09-19). Decided, not built.
 - **Each change to the specification** gets a callout at the passage and an Appendix I entry with the original text and the reason.
+- **Exclusion over the whole parameter types** (10-17). Two generic declarations may stand side by side when no value fits both, also where no single parameter rules out its counterpart. Batch 19.
+- **The integer power** (10-20) answers its base's type, and raises an error where the result is no integer. Batch 20.
+- **A list is ordered only where its elements are totally ordered** (10-20). Batches 13 and 18.
+- **Symbolic operators checked** (10-20): the checker checks the overloads of `+`, `^`, `||` and every other operator, not only names in capitals such as `MAX`. Batches 21 and 21b.
+- **The `Index` bound** (10-23). An array's index type extends a trait `Index`, which `ZZ32` extends and the ranges exclude. Batch 21.
+- **Vectors stay additive groups** (10-23), as the team had them. The checker's exclusion test reads `self` in a self-typed trait as also the implementing type. A self-typed trait is one whose type parameter stands for the type that implements it, as `I` in `Integral[\I\]`. Batch 21.
 
 **The checker's errors falling.** Two numbers measure the way to the switch-over.
 
@@ -97,6 +103,12 @@ Sources: `explorations/process-records/01-microgpt-port.md` to `14-apl-rung-4b.m
 - after 8: 56
 - after 9 to 12: 1 (a pair in `LexicographicReduction` (row 582), left for the curator's choice)
 - after 13, 13b: 1 (the pair fixed; now an untyped parameter)
+- after 15b: 39 (row 680's repair let the check run to its end; these are the component's own errors)
+- after 17: 31
+- after 18: 30
+- after 19: 28
+- after 20 to 21b: 3
+- after 22: 0 (the component's check runs to its end with no error)
 
 **The distance to the switch-over, where it moved**
 
@@ -111,24 +123,48 @@ Sources: `explorations/process-records/01-microgpt-port.md` to `14-apl-rung-4b.m
 - after 12: 153
 - after 13: 105
 - after 13b: 85
+- after 14: 54
+- after 15, 16: 49
+- after 17: 35
+- after 18: 34
+- after 19: 31
+- after 20 to 21b: 5 (since 21b with every symbolic operator checked)
+- after 22: 0
 
-Of the 85: 29 are bodies over the self-typed `Integral` trait, which wait for a judgement on how to type them; 19 are in the array family; 16 are one-off slips and limits of the checker.
+**Batches 14 to 22 (10-14 to 10-24).** Each landed with its gate green, and microGPT's quick walk check passed 7 of 7 in both programs.
+
+- Batches 14 to 18 (10-14 to 10-18): the checker types `self` in a self-typed trait's bodies as the implementing type; closed traits and the array factories; walk's generic static arguments; conditional extension. After 15b, outside a batch at the curator's word, and 16, the checker's gate stages ran four to five times faster. Count 1 to 30, distance 85 to 34.
+- Batch 19 (10-20): exclusion over the whole parameter types, on both paths, and a fix of the two `||` operators between a string and a value of any type. Count 30 to 28, distance 34 to 31. The machine restarted just after the launch, and the run resumed.
+- Batch 20 (10-20): the integer power, and casts that give the vector and matrix operators and three branches of the array factories their declared types. Count 28 to 3, distance 31 to 5. Its push waited for the curator's answers (part 4).
+- Batch 21 (10-23), four rungs: `String`'s four concatenation operators, the exclusion test that reads the self type, the `Index` bound, and two walk repairs, of array slices and of a list's `=`. Count 3, distance 5. With every symbolic operator checked, the errors fell from 191 to 5.
+- Batch 21b (10-23): the distance stage checks every operator; the library's api, the file that states what its component provides, matches the component at more points, so the export error's entries fell from 43 to 15; all 52 team demos run to their end under walk. Count 3, distance 5.
+- Batch 22 (10-24): the distance's last five errors, by library text only. The api's last differences from its component went, and three reductions now write their static argument. Count 3 to 0, distance 5 to 0.
+
+**Tokens written, batches 14 to 22,** by the run's own count, without the preparation, batch 15b and the coordinating session: batch 14: 4.82M; 15: 4.44M; 16: 6.01M; 17: 6.52M; 18: 5.13M; 19: 3.82M; 20: 2.64M; 21: 4.75M; 21b: 3.50M; 22: 2.82M.
 
 **Where the tokens went.** "Written" means tokens processed fresh: cache writes and new input, the measure the curator uses.
 
-- The 15 batches from the repair batch to 6.5b used 269 agents and wrote 146M tokens.
-- Rung workers took about half; skeptics, judges, repairs and reviews about two-fifths.
+- The 15 batches from the repair batch to 6.5b used 269 agents and wrote 146M tokens. The largest: 7 (22M), N (18M), 6.5b (17M).
 - 45% of all writes came after an agent waited five minutes or more. The prompt cache lives five minutes, so the agent wrote its whole context again.
-- The largest batches: 7 (22M), N (18M), 6.5b (17M). After the post-mortem: 7b 7.3M, 8 and 9 14.6M together, 10 6.3M.
 
 ### Where the records went: the post-mortem of 09-29
 
-- Batch 6.5b changed about 280 lines of Fortress code, 90 of specification and 710 of tests. Beside them it committed 866 record files, 46K lines, most of them scratch.
-- Nobody had asked the curator whether scratch goes to `main`. It came from six small steps. On 09-19 he asked whether logs were needed. Gate logs stayed out, but rung outputs were then named `.txt`, so `.gitignore` missed them, and he was not told.
-- Two cleanings removed 4.4K files (11.7 MB) on 09-29 and 9.9K files (173 MB) on 09-30.
-- The new practice: commit only what `main` is to hold; write the test and see it fail first; build or run nothing twice. Batch 7b committed 20 record files.
+- Batch 6.5b changed about 280 lines of Fortress code, 90 of specification and 710 of tests. Beside them it committed 866 record files, 46K lines, most of them scratch. Nobody had asked the curator whether scratch goes to `main`.
+- Two cleanings removed 4.4K files (11.7 MB) on 09-29 and 9.9K files (173 MB) on 09-30. The new practice: commit only what `main` is to hold; write the test and see it fail first; build or run nothing twice.
 
-Sources: `explorations/microgpt-run-c-handover.md` and `-history.md`; `explorations/coordinator/PLAN.md` ("Where we stand", "The phases"), `POSITIONS.md`, `FACTS.md` (the distance by root cause); `explorations/coordinator/postmortem-2026-09-29/README.md` and `characterization.md`; `explorations/reviews/batch-6.5-review.md` to `batch-13-review.md`; `explorations/compile-ladder/CLIMB.md` and `climb-batch-13b/RECORD.md`; `explorations/coordinator/process-engineering/README.md`; `git ls-tree` over `ProjectFortress/tests/`.
+### Phase 3's end (10-24)
+
+At batch 22's landing (`2bff2fe23`) the distance and the checker count are 0. So phase 3 is at its exit as the plan of 09-26 states it. Whether it is done is the curator's call; the review's default is done. The zero rests on three readings:
+
+- The export check compares each api with its component. It asks no body for an api member written `abstract`. Under the other reading the distance is 1.
+- The checker still cannot infer the element type of a reduction such as `BIG MIN` from its clauses. The library writes the static argument; user programs still meet the gap.
+- The export check skips an api's top-level symbolic operators.
+
+The distance covers the twelve library components that replace the prelude. Four more that microGPT imports had 31 errors in one report-only check.
+
+**Phase 4's first batch**, climb batch 23, is drafted and waits for the curator's go. It builds the natives' mechanism. A native binding is a library function whose body is Java, and today only walk can call it. Each binding comes to name a static Java method that both paths can call. The batch asks the curator two questions, each with a default, and estimates about 2.4M tokens.
+
+Sources: `explorations/microgpt-run-c-handover.md` and `-history.md`; `explorations/coordinator/PLAN.md` ("Where we stand", "The phases", items 12 to 20, "Climb batch 22, listed for his review"), `POSITIONS.md` (P-79 and P-152 to P-157 for the decisions since 10-17), `FACTS.md` (F-53, F-245, F-281 to F-283; the distance by root cause); `explorations/coordinator/postmortem-2026-09-29/README.md` and `characterization.md`; `explorations/reviews/batch-6.5-review.md` to `batch-13-review.md`; `explorations/compile-ladder/CLIMB.md` and `climb-batch-13b/RECORD.md`; `explorations/coordinator/process-engineering/README.md`; `git ls-tree` over `ProjectFortress/tests/`; for batches 14 to 18, `reviews/batch-16-review.md` section 3, `reviews/batch-17-review.md` section 5, and batch 18's run measured with `coordinator/tools/batch-measures.py`; for batches 19 to 22, `explorations/compile-ladder/climb-batch-19/RECORD.md` to `climb-batch-22/RECORD.md` and `explorations/reviews/batch-19-review.md` to `batch-22-review.md`, sections 1 and 3; phase 3's end, `reviews/batch-22-review.md` section 6; phase 4's first batch, `explorations/coordinator/CLIMB-BATCH-23.md` section 1.
 
 ## 3. How the record grew
 
@@ -143,9 +179,11 @@ The chart has three panels on one time axis. A vertical line marks each batch's 
 - Rows almost never shrank until 10-08: after entry they gained 308K characters and lost 0.8K. Then the ledger was rewritten. Each row was cut to 1,200 characters at most, and the ledger fell from 1.25M to 541K characters in one commit. The mean row went from 1.9K to 0.8K. The earlier text is in a history file, 1.33M characters. Closing a row cuts it too.
 - From 09-17 to batch 13, batch runs took 28% of the clock (35% to batch 10; no batch ran from 10-03 to 10-08). They brought 89% of the ledger's new characters and 93% of its new rows (88% and 92% to batch 10).
 - FACTS peaked at 352K at batch 7b (09-30). On 10-02 it lost 92K in one commit, when the rung entries were cut to the fact. It was 294K at batch 13.
-- POSITIONS peaked at 105K (09-29) and was 94K at batch 13. INDEX never lost more than 324 characters in a commit, and stands at 175K.
+- POSITIONS peaked at 105K (09-29) and was 94K at batch 13. To batch 13, INDEX never lost more than 324 characters in a commit; it was 175K then.
+- On 10-13 a consolidation cut FACTS from 258K to 90K characters and POSITIONS from 104K to 34K. The rewrite of 10-22 (part 4) took them to 223K and 80K.
+- At batch 22 (10-24) the ledger has 825 rows and 685K characters, FACTS 236K, POSITIONS 78K and INDEX 252K.
 
-Sources: `explorations/coordinator/process-engineering/record-growth/README.md`, `per-batch.csv`, `series.csv`, `landings.csv`; `explorations/coordinator/process-engineering/gap-ledger-archaeology.md` sections 1.1 and 2.4; `explorations/fortress-gap-ledger-history.md`.
+Sources: `explorations/coordinator/process-engineering/record-growth/README.md`, `per-batch.csv`, `series.csv`, `landings.csv`; `explorations/coordinator/process-engineering/gap-ledger-archaeology.md` sections 1.1 and 2.4; `explorations/fortress-gap-ledger-history.md`; `explorations/coordinator/postmortem-2026-10-20-record/REPORT.md` section 3; the ledger, FACTS, POSITIONS and INDEX at `2bff2fe23`, read with `git show` and counted as the record-growth README counts them.
 
 ## 4. Since 10-04: the skills and the process
 
@@ -153,32 +191,34 @@ Sources: `explorations/coordinator/process-engineering/record-growth/README.md`,
 
 - Sharing one build between checkouts had been called impossible for two weeks. Given the goal, fresh agents found the way in about 15 minutes. The waste was 245 of 425 builds, about 7.3 agent-hours.
 - One probe wrote 7.0M tokens against an estimate of 0.5M. Now the coordinator watches a long run against its estimate.
-- Six designs for running batch 10 were priced: four at 4.5M to 7.5M, two with no cost limit at about 31M and 37M. Whether to design a workflow for each batch waits on the curator.
-- 10-08: the round after a skeptic refuses was redesigned (part 2).
 
 **The `fortress-repo` skill**: the instructions every agent loads to work here.
 
-- 10-04: three project skills written from the record and reviewed.
-- 10-05: a reader given only the skill found about 30 passages a new reader could not act on.
-- 10-05 and 10-06: the curator reviewed it, about 35 comments, grouped as eight lenses. A writer applied them, and every file got shorter.
-- 10-07: the skill gained two modes of work, building and exploring.
+- 10-04 to 10-07: three project skills written from the record. The curator's 35 comments made every file shorter. The skill gained two modes of work, building and exploring.
 - 10-08: a fresh session answered a quiz on Fortress from pre-training alone; an audit graded 56 claims correct, 7 wrong, 3 outdated. The section "Fortress as a language" came from it.
 
-**The context study** (10-08): what batch 10's four rung workers read before their first fix.
-
-- Of what they read: the briefing 25%; code, library, specification and tests 48%; their own searches of the record 4%.
-- Relearning what the record held was common but small: about 1% of what they read.
-- A "librarian" pass after each batch would cost 0.7M to 0.9M tokens. It pays if it turns the causes of refusals into skill rules.
-
-### The ledger
-
-- An archaeology (10-08) proposed a form. The curator decided: one status word of seven, a class with its area, at most 1.2K characters a row, topic sections with every number kept, the old text in a history file, one tool, `ledger.py`, to write it.
-- The ledger check (10-08) compared about 490 rows with the batch records and found three mismatches.
-- The rewrite landed on 10-08 at 14:06. The 638 rows kept their numbers and stand in fifteen topic sections (part 3).
+**The ledger.** The curator decided its form on 10-08: one status word of seven, at most 1.2K characters a row, topic sections, the old text in a history file, and one tool, `ledger.py`, to write it. The rewrite landed that day; the 638 rows kept their numbers (part 3).
 
 **The climb** paused from 10-03 to 10-08 while this work ran. Batch 11 began at 23:42 on 10-08.
 
-Sources: `explorations/coordinator/process-engineering/README.md`, `batch-redesign.md`, `context-study.md`, `ledger-check.md`, `gap-ledger-archaeology.md`, `skill-effect.md` section 1; `explorations/coordinator/INDEX.md`; `explorations/coordinator/POSITIONS.md` (the ledger's form, the skills); `git show -s ae4f8e38a`.
+### The record's post-mortem (10-20 to 10-22)
+
+- 10-20: the curator did not recognize one decision in POSITIONS as his words. It paraphrased a review by Astra. He held all batches until FACTS and POSITIONS were checked again.
+- An audit traced each decision to his words, changed 50 of 75 entries and struck four. A rewrite made each entry read on its own, with no plan or status in it.
+- The skill's part on what the revival changed had grown from 8K to 74K characters in 12 days. It was rebuilt as a 16K account that every worker reads whole.
+- Now POSITIONS holds only the curator's decisions, and a choice that an agent landed is a FACTS entry that says so. The work wrote about 64M tokens.
+
+**A commit outside the batch** (10-20). During batch 20, a commit of the coordinator's own note took a rung's change into `main` before the gate. The push waited for the curator's answers; the history stays as it is. Since then a commit names its paths, and nothing in the main tree is edited or pushed while a batch runs.
+
+### The type-decisions review (10-23)
+
+- At the curator's request, a Fable judge read his decisions on types as one chain, to find where they go against the team's intent.
+- It found one place: the first answer took `Vector` and `Matrix` out of the team's additive groups because of a limit of the checker. The curator took its advice the same day: keep the vectors and change the checker (part 2).
+- It also found that the tuple rule of the `Index` bound departs from the team's text on tuples. The flat number tower and the overloading rules stand.
+
+**No timing of walk** (10-23). The curator ruled it out. The batch reviews now give the walk check's verdict only.
+
+Sources: `explorations/coordinator/process-engineering/README.md`, `batch-redesign.md`, `ledger-check.md`, `gap-ledger-archaeology.md`, `skill-effect.md` section 1; `explorations/coordinator/INDEX.md`; `explorations/coordinator/POSITIONS.md` (the ledger's form, the skills; P-157); `git show -s ae4f8e38a`; `explorations/coordinator/postmortem-2026-10-20-record/REPORT.md` sections 1 to 6; `explorations/reviews/batch-20-review.md` section 6; `explorations/reviews/type-decisions-review/judgement.md` V1 to V5 and section 2; `explorations/coordinator/PLAN-history.md` ("The timed pairs of the walk check dropped, 2026-10-23").
 
 ## 5. What the revival changed in Fortress itself
 
@@ -188,7 +228,8 @@ Changes a programmer writing Fortress would notice, by area.
 
 - The number types are siblings under `Number`, not a tower, as the team's compiler library already had them. A wider type converts from a narrower one by a declared `coerce`.
 - Fixed-width overflow raises `IntegerOverflow` under walk, as on the compiled path. To wrap on purpose, write ∔, ∸ or ⨰.
-- `SUM` and `PROD` are generic. Under walk, a reduction whose element type nothing fixes runs. The checker still needs it written: `SUM[\ZZ32\][j <- 0#i] f(j)`.
+- An integer power answers its base's type. A negative exponent raises an error, except at the bases 1 and -1. For a fraction, write `2.0^(-1)`.
+- `SUM` and `PROD` are generic. Under walk, a reduction whose element type nothing fixes runs. The checker still needs it written, also for `BIG MAX` and `BIG MIN`: `SUM[\ZZ32\][j <- 0#i] f(j)`.
 - `QQ` is exact. A negative shift count shifts the other way. `GCD` and `LCM` are never negative. `narrow` keeps the low 32 bits. `round` sends an exact half to the even integer.
 - The library's numeral type is `IntLiteral`, a sibling that the integer types, `QQ` and `RR64` convert from. Walk's numerals are unchanged for now.
 
@@ -198,7 +239,9 @@ Changes a programmer writing Fortress would notice, by area.
 
 - `fill` takes a value; `tabulate` takes a function.
 - The array types bound their elements: `T extends { Number, MultiplicativeRing[\T\] }`.
-- `String`'s juxtaposition is three top-level operators.
+- An array's index type is bounded by `Index`, which only `ZZ32` of the integer types extends. Write `I extends Index` in your own generic over one.
+- `String`'s juxtaposition, and each of `||`, `|||`, `//` and `///`, is three top-level operators.
+- On the checker, a list of `RR64` or `QQ` has no `<`.
 - Array storage is still boxed.
 
 ### Walk
@@ -206,12 +249,15 @@ Changes a programmer writing Fortress would notice, by area.
 - Walk converts by coercion at calls, bindings and assignments, picking the coercion from the run-time value.
 - Walk infers type arguments through coercions. A type parameter nothing fixes takes its bound, and one whose bound names itself stays open.
 - Walk chooses between a generic and a plain declaration by declared types, not by order in the file.
-- At load, walk refuses some programs it used to run: an object extending two closed traits without being listed; two functional methods with no declaration on their meet; an object that leaves an inherited abstract method without a body, as five of the team's demos do; an `override` that overrides nothing.
+- At load, walk refuses some programs it used to run: an object extending two closed traits without being listed; two functional methods with no declaration on their meet; an object that leaves an inherited abstract method without a body, as five of the team's demos did before they were respelled; an `override` that overrides nothing.
 
 ### The checker
 
 - It checks `nat` and `int` size parameters, arithmetic in a size and a size known only at run time, and infers static arguments through coercions.
-- Overloads may differ in static parameters. The return-type rule is checked for every instance.
+- Overloads may differ in static parameters. The return-type rule is checked for every instance. Two generic overloads are valid where their parameter types exclude each other as a whole, on both paths.
+- The overloads of every operator are checked, the symbolic ones too.
+- In a self-typed trait, `self` in a body is also of the implementing type, so `floor(self): I = self` needs no cast.
+- An `extends` entry may hold only under a `where` condition, as a list's order does.
 - It judges two functional methods for each type that provides both.
 
 ### The code generator and the run time
@@ -221,15 +267,15 @@ Changes a programmer writing Fortress would notice, by area.
 - A sized program compiles, loads and runs. Generic code dispatches correctly on four threads.
 - An object with no `asString` prints its type name.
 
-**The specification.** Appendix I has 39 entries, each with the original text and the reason.
+**The specification.** Appendix I has 42 entries, each with the original text and the reason.
 
 ### Size of the internal changes
 
-- 143 commits touched the code, library or specification: 28 before the tag, 21 of them toolchain; 115 after it.
-- Lines added after the tag: walk 3.3K, checker 1.8K, code generator and run time 1.0K, specification 5.3K, tests 14.5K. The library gained 3.6K lines and lost 2.3K.
-- The grammar is unchanged. The suites grew from about 1.4K and 382 tests to 1.9K and 580.
+- 194 commits touched the code, library or specification: 28 before the tag, 21 of them toolchain; 166 after it.
+- Lines added after the tag: walk 4.8K, checker 3.4K, code generator and run time 1.0K, specification 6.7K, tests 20.9K. The library gained 4.1K lines and lost 2.6K.
+- The grammar is unchanged. The suites grew from about 1.4K and 382 tests to 2.1K and 683.
 
-Sources: `explorations/coordinator/process-engineering/fortress-changes-chronology.md` part A (to batch 10); `.claude/skills/fortress-repo/references/revival-changes.md`; `climb-batch-13b/gate/summary.txt`; `git diff --numstat 75cca6683 main`.
+Sources: `explorations/coordinator/process-engineering/fortress-changes-chronology.md` part A (to batch 10); `.claude/skills/fortress-repo/references/revival-changes.md`; `explorations/coordinator/FACTS.md` F-258, F-263, F-276 to F-281, F-285; `Specification/appendices/changes.tex` at `2bff2fe23`; `explorations/reviews/batch-22-review.md` section 1 (the suites); `git diff --numstat 75cca6683 2bff2fe23`; `git log 75cca6683..2bff2fe23` over `ProjectFortress`, `Library`, `Specification`, `bin` and `build.xml`; `git diff a874948ac 2bff2fe23` over the grammar files.
 
 ## 6. The original Fortress and the revival's resolutions
 
@@ -242,7 +288,7 @@ The first principle of the protocol the work follows reads: "We are custodians o
 - Reasons go into commit messages and reports, not into the team's source comments.
 - Every claim is checked against a primary source: the code, the specification, the papers or a command's output.
 
-None of the team's tests or demos was deleted, and 43 were edited, each for a reason on record.
+None of the team's tests or demos was deleted, and 63 were edited, each for a reason on record. All 52 team demos run to their end under walk. A batch that breaks a demo also repairs it, where the repair is known.
 
 ### The team left three sources that disagree
 
@@ -286,6 +332,8 @@ So a model that remembers the tower remembers the team's interpreter library cor
 - **How walk chooses between a generic and a plain declaration.**
   - Original: the specification chooses by the declarations' types. Walk chose by their order in the file.
   - Resolution: walk now chooses by the declared types, as the specification says. A program's answer no longer depends on the order of its declarations.
+- **Generic declarations that exclude each other only as a whole.** Both implementations refused such a pair. The 2011 paper accepts it, by reading the parameter types together. Both paths now follow the paper.
+- **Symbolic operators.** The checker skipped their overloads. The team knew the gap: its appendix of proposed features calls the two subscript operators "not really a valid overloading". The checker now checks every operator.
 
 #### Traits and objects
 
@@ -295,6 +343,7 @@ So a model that remembers the tower remembers the team's interpreter library cor
 - **What a `comprises` clause says.**
   - Original: four passages of the Working Draft read it as a statement about types, and so are false for some programs it allows. The Types chapter of the 2012 restart reads it as a statement about values.
   - Resolution: every value of the closed trait is a value of a listed type. Read by values, the passages hold.
+- **The vectors' algebra.** The team's vectors are additive groups, and its library also adds an array and a number. By the team's rules these overloads are valid together, but the checker could not show it. The library stays as the team wrote it, and the checker now reads the self type.
 
 #### Static parameters
 
@@ -303,8 +352,9 @@ So a model that remembers the tower remembers the team's interpreter library cor
   - Resolution: the bound is `Any`, because the library works only with `Any`.
 - **A type parameter that nothing in a call fixes.**
   - Original: the implementations gave it the empty type `Bottom`, or left it unsolved, and some such compiled calls failed the JVM's check of the bytecode. The POPL 2019 paper of Park, Hong, Steele and Ryu gives such a parameter its bound, never `Bottom`.
-  - Built: the specification states the paper's rule. The checker infers such a parameter at its bounds, never at `Bottom`. Walk gives it its declared bound, and leaves open one whose bound names itself, such as `SUM`'s. Walk still gives `Bottom` in four narrow cases.
+  - Built: the specification states the paper's rule. The checker infers such a parameter at its bounds, never at `Bottom`. Walk gives it its declared bound, and leaves open one whose bound names itself, such as `SUM`'s. Walk still gives `Bottom` in three narrow cases.
   - Not built yet: at run time both implementations still run a dispatched generic declaration at the value's type where nothing fixes the parameter. The compiled path waits for phase 5, when its dispatcher will carry the call's static return type.
+- **The index type of a subscript.** The team wanted an index bounded by an `Index` type that excludes the ranges, but `a[1, 2, 3]` passes a tuple, and they needed "a magic to convert that tuple argument expression to something of type Index". The bound is built, and a tuple of `Index` types is an `Index`. That tuple rule departs from the team's text on tuples, and the specification says so.
 - **Sizes on the compiled path.** The specification has size parameters. The compiled path couldn't carry them, but its code generator had a slot reserved for them. The revival fills the reserved slot, in the team's pattern for type arguments, and a program with sizes now compiles and runs.
 
 #### Numbers
@@ -312,6 +362,7 @@ So a model that remembers the tower remembers the team's interpreter library cor
 - **Conversion in walk.** The specification says that a call converts its arguments when that makes it apply. Walk had a note "TODO add checks for COERCE" at that place. Walk now converts the arguments, doing the work the team's note left to do.
 - **Overflow.** The specification and the compiled path raise `IntegerOverflow` when a fixed-width result doesn't fit; walk wrapped the result. Walk now raises it too. Code that means to wrap uses the specification's own wrapping operators.
 - **Ranges.** The interpreter's ranges took any integer type, the prelude's only `ZZ32`. Ranges are now over `ZZ32` only, as in the prelude, since a JVM array index is a 32-bit integer.
+- **The integer power.** The Working Draft gives it a rational value, which the team never built. The team's later code gives it its base's type, and the revival follows that code (part 5).
 - **`SUM` and `PROD`.** `SUM` used catch-all operators on `Number`, which went with the tower. `SUM` and `PROD` are now one generic declaration each, over the element type's own algebra.
 
 ### Where the quiz was right about the original
@@ -330,4 +381,4 @@ Some answers marked wrong come from the team's own specification, which describe
 
 Two answers are wrong for both the team and the revival: integer types that wrap by themselves (the specification wraps only with its own operators), and an `Any` type that doesn't hold tuples. One more is wrong for the team: the guess that walk built part of the coercion rules. The team's walk had none.
 
-Sources: `explorations/protocol.md` (principle 1); `.claude/skills/fortress-repo/references/revival-changes.md`; `explorations/coordinator/FACTS.md` and `POSITIONS.md` (the flattening, the exclusion rule, the static-parameter sentence, the instance rule); `Specification-1.0-frozen/basic/overloading.tex` lines 100 to 108; `explorations/reviews/mie-probes/spec-sentences-dated.md`; `git diff --diff-filter=M` and `=D a874948ac main` over the team's test and demo folders; `explorations/reviews/fortress-pretraining-quiz.md`; `skills-distillation-audit.md` section B; the team's commits, read with `git show -s`: b2880c05c, 76c267f98, 6896886fb, 3e0306166, 128f313b5, 2ef730c88, d0cde7d17, b3c2e1342, da5291587, d535963cb (the prelude's numbers); 5a6b7913b, e828b44b1 (the exclusion rule in the checker); cec470a34, 0f49d8698 (the static-parameter sentence); 166841592, 275b90773 (the 2012 restart).
+Sources: `explorations/protocol.md` (principle 1); `.claude/skills/fortress-repo/references/revival-changes.md`; `explorations/coordinator/FACTS.md` and `POSITIONS.md` (the flattening, the exclusion rule, the static-parameter sentence, the instance rule; P-79, P-152, P-153, P-155 to P-157); FACTS F-283; `Specification-1.0-frozen/basic/overloading.tex` lines 100 to 108; `explorations/reviews/mie-probes/spec-sentences-dated.md`; `git diff --diff-filter=M` and `=D a874948ac 2bff2fe23` over the team's test and demo folders; `explorations/compile-ladder/rung-existential-reduction/REPORT.md` (the pair refused on the base); `Papers/Types/exc-reduction.tick`; `Specification-1.0-frozen/appendices/future.tex` lines 186 to 207; `Specification/appendices/changes.tex`, "The index type of a subscript"; `explorations/reviews/type-decisions-review/judgement.md` V1, V2 and V10; `explorations/reviews/fortress-pretraining-quiz.md`; `skills-distillation-audit.md` section B; the team's commits, read with `git show -s`: b2880c05c, 76c267f98, 6896886fb, 3e0306166, 128f313b5, 2ef730c88, d0cde7d17, b3c2e1342, da5291587, d535963cb (the prelude's numbers); 5a6b7913b, e828b44b1 (the exclusion rule in the checker); cec470a34, 0f49d8698 (the static-parameter sentence); 166841592, 275b90773 (the 2012 restart).
