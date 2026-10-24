@@ -20,11 +20,19 @@
 # no total because the run's errors are not the checker's (#stopped, below). 20 s in the
 # main tree, measured 2026-09-22; it needs no library rebuild and no warm cache.
 #
+# The run stops after the type checker (WorldFlip -stop check), since 2026-10-24 (climb batch
+# 22): the compiler's own phase order up to and including TYPECHECK, integer literal folding
+# included, as the distance stage's DistanceMulti -order check. Past the checker, the code
+# generator's refusals are not the checker's errors (FACTS F-34 counts them), and its first
+# one throws, so a run on a library the checker passes went on into the code generator and
+# printed no total. A run the checker stops runs the same phases as before; a clean check,
+# a run that reached the component's check and ended rc 0 with no error line, reads as 0.
+#
 # The two sources beside this script are copies, taken 2026-09-22 from
 # explorations/perf-probes/prelude/, so that the gate does not depend on a probe
 # directory: WorldFlip.java (Shell.useInterpreterLibraries() plus
 # PhaseOrder.compilerPhaseOrder, both public, which is the world switch without an edit
-# to a tracked file) and shadow-src/.../StaticChecker.java, a copy of
+# to a tracked file; its -stop check added 2026-10-24) and shadow-src/.../StaticChecker.java, a copy of
 # ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java with three
 # instrumentation points added: it names each compilation unit it checks and prints that
 # unit's error count, and it catches the OverloadingChecker crash instead of dying on it.
@@ -43,7 +51,8 @@
 #
 # The table, tab-separated, every row tagged:
 #   #api        one row per api the checker checked, with that api's error count
-#   #total      the errors that the run's last "File X has N errors." line counts
+#   #total      the errors that the run's last "File X has N errors." line counts, or 0 for
+#               a clean check (above)
 #   #locations  the distinct file:line those errors were reported at
 #   #stopped    in place of #total and #locations, when that line counts errors that the
 #               checker did not report: no api's check reported an error and the checker
@@ -81,12 +90,19 @@ if [ $? -ne 0 ] ; then
     echo "checker-count: javac failed; see $SCRATCH/javac.txt" >&2 ; tail -20 "$SCRATCH/javac.txt" >&2 ; exit 1
 fi
 
-# 2. run the compiler phase order over the interpreter's library under a private cache
+# 2. run the compiler phase order through the checker over the interpreter's library under a
+#    private cache
 ( cd "$FH" && timeout -k 10 900 java -Xmx4g -Xss64m -Dfortress.caches="$SCRATCH/caches" \
        -Dfortress.analyzer.overload.cache=$OVERLOAD_CACHE \
-       -cp "$SCRATCH/classes:$CP" WorldFlip "$TARGET" ) > "$SCRATCH/run.txt" 2>&1
+       -cp "$SCRATCH/classes:$CP" WorldFlip -stop check "$TARGET" ) > "$SCRATCH/run.txt" 2>&1
 RC=$?
-if ! grep -q 'has [0-9]* errors\?\.$' "$SCRATCH/run.txt" ; then
+# A clean check: the checker reached the component, and the run ended rc 0 with no error line.
+CLEAN=
+if [ "$RC" = 0 ] && grep -q '^@@PROBE checkComponent ' "$SCRATCH/run.txt" && grep -q '^### rc=0$' "$SCRATCH/run.txt" \
+   && ! grep -q 'has [0-9]* errors\?\.$' "$SCRATCH/run.txt" ; then
+    CLEAN=yes
+fi
+if [ -z "$CLEAN" ] && ! grep -q 'has [0-9]* errors\?\.$' "$SCRATCH/run.txt" ; then
     echo "checker-count: the run printed no error total (rc=$RC); see $SCRATCH/run.txt" >&2
     tail -20 "$SCRATCH/run.txt" >&2 ; exit 1
 fi
@@ -95,6 +111,7 @@ fi
 #    instrumented checker printed it; then the total, the number of distinct
 #    file:line the errors were reported at, and the first crash the checker
 #    survived. Rows are sorted so that two runs of the same tree are byte-equal.
+#    A clean check's total and locations are 0.
 #    The errors are the checker's when an api's check reported one or the checker
 #    reached the component (TypeCheckPhase runs checkComponents only after checkApis
 #    succeeds); otherwise they are a phase's before it, and #stopped takes the total's place.
@@ -109,7 +126,9 @@ fi
     printf '#api\terrors\n'
     grep '^@@PROBE checkApi .* -> errors=' "$SCRATCH/run.txt" \
         | sed -E 's/^@@PROBE checkApi ([^ ]+) -> errors=([0-9]+)$/\1\t\2/' | sort -u
-    if [ -z "$STOPPED" ] ; then
+    if [ -n "$CLEAN" ] ; then
+        printf '#total\t0\n#locations\t0\n'
+    elif [ -z "$STOPPED" ] ; then
         printf '#total\t%s\n' "$(grep -oE 'has [0-9]+ errors?\.$' "$SCRATCH/run.txt" | tail -1 | grep -oE '[0-9]+')"
         printf '#locations\t%s\n' "$(grep -oE '^/[^ ]+:[0-9]+:' "$SCRATCH/run.txt" | sort -u | wc -l | tr -d ' ')"
     else
