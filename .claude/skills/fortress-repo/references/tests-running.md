@@ -54,6 +54,11 @@ Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harne
 ## Outside the gate
 
 - `ant testNotPassing` runs the interpreter programs of `ProjectFortress/not_passing_yet/`, which are expected to fail. It fails if one of them passes.
+- No suite and no stage of the gate runs the team demos, the programs of `ProjectFortress/demos/`. `ant testDemos` runs them through `DemoTests`, with a weaker test of the output than the demo driver below. Keep every demo running (P-79):
+  - If your change edits walk or the interpreter's library, run the demos under walk with the demo driver. Print its text with `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/compile-ladder/rung-team-demos/REPORT.md#Commands worked out'`.
+  - Save the driver as `run-demos.sh`. Run `run-demos.sh <out-dir>` from the tree's root, after you set up the call. It runs the 52 demos of `DemoTests` one at a time and writes `<out-dir>/summary.tsv`.
+  - Its last line must read 'demos: 52 run, 52 reached their end'. A demo reaches its end if it exits 0 and its output holds no "fail", in any case.
+  - If your change breaks a demo and the repair is known, rewrite the demo with your change.
 - Nothing runs these folders: `not_working_compiler_tests/`, `not_working_library_tests/`, `not_working_static_tests/`, `obsolete_interpreter_tests/`, `long_term_not_working/`, `linker_tests/`, `compiler_regressions/`. Put every new test in a gated test folder. A test of a defect that fails today is an `XXX` test there (`tests-writing.md`).
 
 ## When to run a whole suite

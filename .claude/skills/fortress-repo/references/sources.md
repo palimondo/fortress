@@ -835,3 +835,25 @@ From the cold read of `732f3b2e2` to `f6f7de70c` (`tmp/cold-read-b21/report.md`)
 - `interpreter.md`: row 804's message and reach, `ProjectFortress/tests/XXXExclusionVectorScalarWalk.fss` and the row (flags 4, 15); the disambiguator's refusal of a `FortressLibrary` type name, `ProjectFortress/src/com/sun/fortress/compiler/disambiguator/TypeDisambiguator.java`, `explorations/compile-ladder/rung-index-bound/SKEPTIC.md`, sections 3 and 10 (flag 13); the two messages by whether the parameter type mentions a static parameter, `OverloadedFunction.java`, `describeOverloadingFailure` (flag 14); lists of different lengths checked only with a varargs parameter, `OverloadedFunction.java:381`; the cache, F-269, row 342, `COLD_CACHE=1` in `explorations/compile-ladder/rung-inference-walk/harness-one.sh` (flag 18).
 - `revival-changes.md`, the `Index` rule: the indexed type defined; the bound and the count stage; a numeral refused at a parameter of type `Index`, `explorations/compile-ladder/rung-index-bound/REPORT.md`, sections 4 and 6 (flags 5 to 9); "open" dropped and `self`'s reading restated (flags 1, 2).
 - `library.md`: `atMost`'s condition and `UniformDistribution`'s case, P-156, `rung-index-bound/REPORT.md`, section 1 (flags 19 to 21). `records.md`, `tests-writing.md`: wording (flags 22 to 24).
+
+## Climb batch 21b's update, 2026-10-24
+
+The orientation workflow's update of `revival-changes.md` for climb batch 21b (`explorations/compile-ladder/climb-batch-21b/orientation/`), installed whole from its `orientation.md` by its `judgement.md`'s install steps, settled by the coordinator. Base: `revival-changes.md` at `aff478ca5`, 18,155 characters; after, 18,749. The judge accepted the size exception for this install.
+
+- "Numbers", `/` on two integers (change A): `DIV` on both paths, a float operand, `asFloat` for a `ZZ64`, the compiler's library. F-284 (the admission's change A); `Library/FortressLibrary.fsi:476`, `:569`, `:583`; `Specification/basic/operators/opr-overview.tex:125-128`; `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:448`, with no `QQ` in that file, and `:131` to `:420` for `DIV`; rows 174, 449, 468. The `ZZ64` clause: `orientation/preserve.md`, failure 1, and `library.md`, the `RR64` bullet. "On both paths": `orientation/quiz-grade-1.md`, second observation.
+- The opening: "the team's later type papers (`Papers/`)" (cold read 2.19); the sentence on "Until the switch-over" (cold read 2.4).
+- "Dispatch and overloading": "the ledger row that it cites" (cold read 2.6); the `h(self)` case as a Meet Rule sentence, `ProjectFortress/compiler_tests/XXXFunctionalMethodMeetTopLevelAbstract.fss` (cold read 2.7; climb batch 21's judgement, "Findings on unchanged text", 1).
+- "Traits and objects": the `IncompatibleClassChangeError` sentence cut, and row 416 on walk's sentence (cold read 3, first item; 2.2); row 551 on walk's check of the main component's clauses (cold read 2.3); "by this rule" (cold read 2.8); the `Index` rule's pointer to `compiler.md`, only `ZZ32` among the integer types (`Library/FortressLibrary.fsi:535`), row 364 on walk's sentence, "indexed by `ZZ32`" (cold read 2.5, 2.13, 2.2, 2.11).
+- "Numbers": "route C" cut (cold read 3, third item); "For a result that is not an integer" (cold read 2.19).
+- "Reductions and comprehensions": row 731 on the checker's sentence (cold read 2.2).
+
+## Climb batch 21b's area parts, 2026-10-24
+
+From the admission's homes (`climb-batch-21b/orientation/admission.md`, "Notes for the coordinator") and `explorations/reviews/batch-21b-review.md`, Part 3, settled by the coordinator.
+
+- `interpreter.md`, "What walk checks": walk loads a pair of functional symbolic operators that breaks the Meet Rule, row 611, F-142, `ProjectFortress/compiler_tests/XXXFunctionalMethodMeetOperatorChecker`; the Meet Rule bullet bounded to identifiers and operators named by a word, `checkedName` in `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:1990-1994` and `NodeUtil.validOp`.
+- `compiler.md`, "The checker's gaps": the self type read as the trait type outside the trait, F-281, `climb-batch-21b/RECORD.md`, "Revival changes, for the skill writer", C; rows 812 and 701. The imports, rows 813 and 814.
+- `compiler.md`, "Traps of the compiled path": the two `NoSuchMethodError`s after a clean link, rows 815 and 816, as the tree behaves.
+- `compiler.md`, "The checker's time": the count stage about 90 to 100 s, from 96.8 s and 98.3 s on rung C's head and about 90 s at the gate (`batch-21b-review.md`, "2. The stages' times").
+- `library.md`, "Designing a change": the api's members and `abstract` (F-282), and the export check, `RECORD.md`, "Revival changes, for the skill writer", E; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala`, `equalListMembers` and `equalLValue`; `Specification/basic/components/apis.tex:252-256`.
+- `tests-running.md`, "Outside the gate": the team demos, F-283, P-79; the driver and its criterion, `explorations/compile-ladder/rung-team-demos/REPORT.md`, sections 3 and 13; `ant testDemos`, `build.xml`.
