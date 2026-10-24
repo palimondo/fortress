@@ -11,7 +11,7 @@
 
 ## The go
 
-The batches of phase 3 run on the standing go, in PLAN's order; with the distance at zero, phase 3's batches are done. Phase 4, the switch-over, is not under the standing go: its first batch, the natives (PLAN, phase 4; P-58), waits for his go. A planner may draft it before, as an Opus worker.
+The batches of phase 3 ran on the standing go; phase 3 is at its exit. Phase 4 is not under the standing go. **Batch 23 is held at his word of about 07:20 UTC on 10-24:** he wants a review between the phases first (the zero's soundness, his decisions against the designers' intent, the review queue, PLAN's consolidation), at a higher priority than batch 23. My proposal of the steps is with him; nothing of it launched but the revival page's update, which he asked for. Batch 23's record is ready (`CLIMB-BATCH-23.md`, Fable-reviewed at `3108ab29b`), its base build `/home/user/fortress-base23`.
 
 ## Waiting on him
 
