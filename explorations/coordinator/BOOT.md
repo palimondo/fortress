@@ -2,12 +2,11 @@
 
 # Boot note
 
-**State at 16:25 UTC on 2026-10-24** (18:25 his time). Climb batch 22 landed at `2bff2fe23` (04:34 UTC), with its landing steps done. Phase 3 is at its exit by P-33's letter. **The phase 3 exit review** (his yes of about 13:55 UTC to steps 1 and 2) is in: the audit of the zero (`6c4a07d67`), the decisions evidence map (`ef103a417`), the Fable judgement (`2be634867`, `reviews/phase3-exit/judgement.md`), and the audit's findings filed in the ledger and FACTS (`e21ab5389`: rows 782, 701, 827 to 830; rows 19, 308, 399 closed; F-34, F-287 to F-290; F-281 fixed at `081099714`). The `AnyIntegral` comprises-where probe's report is committed (`b99ee0e6e`, `perf-probes/anyintegral-comprises-where/REPORT.md`).
+**State at 16:33 UTC on 2026-10-24** (18:33 his time). Climb batch 22 landed at `2bff2fe23` (04:34 UTC), with its landing steps done. Phase 3 is at its exit by P-33's letter. **The phase 3 exit review** (his yes of about 13:55 UTC to steps 1 and 2) is in: the audit of the zero (`6c4a07d67`), the decisions evidence map (`ef103a417`), the Fable judgement (`2be634867`, `reviews/phase3-exit/judgement.md`), and the audit's findings filed in the ledger and FACTS (`e21ab5389`: rows 782, 701, 827 to 830; rows 19, 308, 399 closed; F-34, F-287 to F-290; F-281 fixed at `081099714`). The `AnyIntegral` comprises-where probe's report is committed (`b99ee0e6e`, `perf-probes/anyintegral-comprises-where/REPORT.md`) and filed (`e15da7608`: row 831, its D1; notes on rows 804 and 487; F-121 rewritten with the measurement).
 
 ## Running
 
-- **The `AnyIntegral` probe's filing**, an Opus routing worker launched at about 16:28 UTC: D1 as a new ledger row, notes on rows 804 and 487, a FACTS note on F-121; it commits and pushes itself. If cut, launch it again from its brief (in this session's transcript) with its partial transcript named.
-- Agents do not survive a process stop.
+- Nothing. Agents do not survive a process stop.
 
 ## The go
 
@@ -32,7 +31,7 @@ Phase 4 is not under the standing go. **Batch 23 is held at his word of 11:36 UT
 ## Next
 
 - **After his answer on row 816:** record it (POSITIONS only for his decision, by `record.py`); F-282 ("finds no difference", against F-287) and row 816 to match; the skill's `library.md:39` and `compiler.md:74` by the skill writer, with a cold read.
-- **The `AnyIntegral` probe's filing**, coordinator's work, at once: D1 as a ledger row (front end, both paths); notes on F-121 (D2's memory, the literal spelling ill-formed), row 804 (the trace of why the library's pairs load) and row 487 (the clause discharges it for the library only).
+- **The `AnyIntegral` probe's leftovers, unfiled by scope:** the specification's edits (report section 4) wait on his answer; the code generator refusing a trait header with a `where` clause (row 701, by reading only) to note on row 701 if his answer makes the clause live.
 - **Small record fixes:** PLAN.md:80 says 58 declarations, 52 now (at the consolidation); `XXXCoercionStaticRungC` cites row 19, now closed; the distance stage's list to gain CovariantCollection and OneShotFlag (the audit's action 1, report-only); P-42's flip as a named PLAN step (with the consolidation).
 - **Phase 4's first batch:** the launch on his go; the batch script spliced for 23 then, its check-in file `scratchpad/batch23/checkins.txt`.
 - **Clean-up:** `/home/user/fortress-base23` after batch 23 lands.
