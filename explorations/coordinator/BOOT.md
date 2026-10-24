@@ -10,7 +10,7 @@
   - step 1, **the audit of the zero**, an Opus agent launched at about 13:56 UTC: what the two stages see and don't, every library change made to clear a checker error sorted into four kinds (the team's device, a restoration, a reading of ours, a giveaway), and the debt into phase 4. Its worktree is seeded from `/home/user/fortress-base23`. It returns its report as text; I commit it at `explorations/reviews/phase3-exit/zero-audit.md`.
   - step 2, **the decisions evidence map**, an Opus agent launched at about 13:56 UTC: every POSITIONS entry on the language, the library, the specification and the implementation against the designers' intent, updating the reviews of 09-29 and 10-23, with the defaults landed since 10-23 and the review queue's consequential items. Returned as text; I commit it at `explorations/reviews/phase3-exit/decisions-evidence.md`. Then **a Fable judgement** on it (his yes covers it), committed beside it.
   - Then step 4, **PLAN's consolidation**, and the next batch on his go.
-- The process stop by the cap is about 15:00 UTC; agents do not survive it. If one is cut, launch it again from its brief with its partial transcript named.
+- Agents do not survive a process stop. If one is cut, launch it again from its brief with its partial transcript named.
 
 ## The go
 
@@ -55,5 +55,5 @@ The batches of phase 3 ran on the standing go; phase 3 is at its exit. Phase 4 i
 - **The boot:** the full boot is the default; a light boot only at his word. The compaction hook checks the model with `tools/model-now.sh`, then loads `fortress-repo` and the coordinator skill with the Skill tool.
 - **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable`. Commit by named paths only, never `-A`, `.` or `-a`.
 - **The week:** reset at 10:00 UTC on 10-23. Batch 22's run used about 2.97M over 10 agents by the harness's count.
-- **The machine:** the session's process last started at 01:59:35 UTC on 2026-10-24 (`ps`, pid 5071); the next stop by the cap is about 15:00 UTC on 10-24.
+- **The machine:** the session's process last started at 13:45:19 UTC on 2026-10-24 (`ps`, pid 86); the next stop by the cap is about 02:45 UTC on 10-25.
 - **Pages:** the post-mortem report, https://claude.ai/artifact/F3Gz2ynXQSKEjKXqhNT5is, version 3 (source `scratchpad/pmreport/build.py`, from `REPORT.md`); the audit page, https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb, version 15, for his later review of items 268 to 276 (source `scratchpad/auditpage/`); the drafts page, https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg; the revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, version 23 of 10-24 (source `scratchpad/revivalpage/page.html`, text `process-engineering/revival-story.md`). After a compaction, publish a page by its URL.
