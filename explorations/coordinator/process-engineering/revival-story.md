@@ -11,7 +11,7 @@ Words used throughout:
 - **compiled path**: Path that compiles a program to JVM bytecode and runs it: `fortress compile`, then `fortress run`.
 - **checker**: Static type checker. It runs on the compiled path only.
 - **library**: Fortress code that every program loads. There were two. The interpreter's is **the one library**. The compiler's own smaller one is **the prelude**.
-- **switch-over**: Point at which the compiled path moves onto the one library and the prelude is deleted. It comes when the checker accepts the one library.
+- **switch-over**: Point at which the compiled path moves onto the one library and the prelude is deleted. The checker accepts the one library since 10-24; the switch-over also waits for the library's Java bindings to run on the compiled path.
 - **gap ledger**: File with one numbered row for each known gap or defect.
 
 ## 1. The start and the exploring era (08-19 to 09-16)
