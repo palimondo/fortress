@@ -4333,7 +4333,7 @@ end
 ************************************************************)
 
 trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\] }
-             excludes {Number, Char, AnyMultiplicativeRing, AnyList}
+             excludes {Number, Char, AnyMultiplicativeRing}
     getter size() : ZZ32
     getter asString() : String = self
     getter indices() : CompactFullRange[\ZZ32\] = self.bounds

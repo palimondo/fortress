@@ -2451,18 +2451,18 @@ end
 ************************************************************)
 
 trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], DelegatedIndexed[\Char,ZZ32\] }
-        excludes { AnyMultiplicativeRing }
-    getter size() : ZZ32
+        excludes { Number, Char, AnyMultiplicativeRing }
+    abstract getter size() : ZZ32
     getter indices() : CompactFullRange[\ZZ32\]
     getter left(): Maybe[\Char\]
     getter right(): Maybe[\Char\]
-    getter depth() : ZZ32
-    getter asFlatString(): String
-    getter isBalanced(): Boolean
+    abstract getter depth() : ZZ32
+    abstract getter asFlatString(): String
+    abstract getter isBalanced(): Boolean
     getter generator(): Generator[\Char\]
 
 
-    verify() : ()       (* Verify the data structure invaraints of self *)
+    abstract verify() : ()       (* Verify the data structure invaraints of self *)
     abstract asDebugStringIndented(indent: ZZ32): String
     opr |self| : ZZ32
     opr CASE_INSENSITIVE_CMP(self, other:String): TotalComparison
@@ -2479,11 +2479,11 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
          should be in a "friends" interface.  It is the responsibility of uncheckedSubstring to do
          whatever optimizationms for empty ranges and trivial (whole string) ranges may be
          appropriate for the representation.*)
-    uncheckedSubstring(r0: Range[\ZZ32\]) : String
+    abstract uncheckedSubstring(r0: Range[\ZZ32\]) : String
     allButLast(): String
     allButFirst(): String
 
-    rangeContains(r: Range[\ZZ32\], c: Char) : Boolean
+    abstract rangeContains(r: Range[\ZZ32\], c: Char) : Boolean
 
     (** Answers a subdivision of self into substrings.  This method must take time
         proportional to the number of pairs generated.   If there is no such subdivision,
@@ -2499,7 +2499,7 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
     abstract split(): Generator[\String\]
 
     (**  A balanced version of the receiver  **)
-    balanced(): String (*  ensures {outcome.isAlmostBalanced AND outcome = self} *)
+    abstract balanced(): String (*  ensures {outcome.isAlmostBalanced AND outcome = self} *)
 
     opr ^(self, n: ZZ32): String
 
@@ -2509,7 +2509,7 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
     (** The operator %||% with at least one String argument converts to string and
         appends **)
     opr ||(self, b:Number):String
-    opr ||(self, c:Char):String
+    abstract opr ||(self, c:Char):String
     opr ||(self, b:()):String
     opr ||(self, b:(Any,Any)):String
     opr ||(self, b:(Any,Any,Any)):String
