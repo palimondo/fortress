@@ -7,8 +7,7 @@
 ## Running
 
 - **The planner of climb batch 23**, phase 4's first batch, the natives' mechanism (N0, P-58), an Opus agent launched at about 05:26 UTC: `CLIMB-BATCH-23.md`, its probes under `compile-ladder/plan-23/probes/`, its generator under `plan-23/manifest/`; it commits and does not push. Its base build: `/home/user/fortress-base23` at `e0ec620a9`, built by `scratchpad/batch23/base-build.sh`, its log `scratchpad/batch23/base-build.log` (ends `EXIT=0`). Then a Fable review, and the launch only on his go.
-- **The probe for question 1** (row 816), an Opus agent launched at about 05:12 UTC: whether the code generator can close the run-time failure under the reading as landed, a third option; its worktree `/home/user/fortress-probe816`, seeded from `/home/user/fortress-base22`. It returns its report as text; I commit it at `explorations/perf-probes/export-abstract-codegen/REPORT.md`. Then ask 1 is rewritten with its result.
-- **Check-in** still armed: `trig_014Uwg5fTrJaDbNuHPuevBkF` at 06:00 UTC. At it, check the two agents above.
+- **Check-in** still armed: `trig_014Uwg5fTrJaDbNuHPuevBkF` at 06:00 UTC. At it, check the planner.
 
 ## The go
 
@@ -18,7 +17,7 @@ The batches of phase 3 run on the standing go, in PLAN's order; with the distanc
 
 - **For this morning, one per message with defaults** (drafts in `scratchpad/batch22/askA-phase4-go.md` and `ask1-row816.md`):
   - the go for phase 4's first batch, the natives, with phase 3's end at its default (done, with the three readings named);
-  - question 1 of batch 22 (row 816, how the export check reads an api member written `abstract`), taken overnight at its default, the reading as landed; the other reading costs a checker rung and about 12 component declarations, and the distance and the count read 1 until they land;
+  - question 1 of batch 22 (row 816, how the export check reads an api member written `abstract`), taken overnight at its default, the reading as landed; rewritten with the probe of 9717175fd (`perf-probes/export-abstract-codegen/REPORT.md`): under the reading as landed 9 of the library's 12 such members die once compiled; three options, my recommendation option 2 (the component declares them: a checker rung and a library rung);
   - the distance kept in phase 4's gates, report-only, until the switch-over (the review's finding 2; it touches P-39 and the coordinator skill's `batch.md:56`);
   - the code-generation probe's question (the gate's distance stage running code generation per declaration, report-only; default: no, a probe when a rung touches the code generator);
   - P-154's row-774 wait;
@@ -31,7 +30,7 @@ The batches of phase 3 run on the standing go, in PLAN's order; with the distanc
 
 - **After his answer on question 1:** the skill's `library.md:39` and `compiler.md:74` (an api member written `abstract`) to his answer, by the skill writer, with a cold read.
 - **Phase 4's first batch:** the planner's record, then its Fable review, then the launch on his go; the batch script spliced for 23 then, its check-in file `scratchpad/batch23/checkins.txt`.
-- **Clean-up:** `/home/user/fortress-base22` and `/home/user/fortress-probe816` once the probe's report is in.
+- **Clean-up:** `/home/user/fortress-base23` after batch 23 lands.
 - **The type-decisions judgement's write-up for him**, by an Opus writer as a page, with probe A1's result, his three answers and batch 21's landing.
 - **The orientation's size** (17.4K against the 12K budget): a later consolidation that moves path departures to the area parts; run 1's admission's ten entries not admitted to route (`climb-batch-21/orientation/admission.md`).
 - **The ledger repair**, about 180 open rows (`ledger-health-2026-10-22/REPORT.md`), if budget allows; the 40 refused notes first.
