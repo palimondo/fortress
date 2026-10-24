@@ -46,6 +46,7 @@ F-282, its text after this rung alone (the record pass owns the wording, and fol
 - **Row 283, a note** (its notes reach 618 characters): "Not reproduced at 64386618b: under walk `narrow` of the floor bracket of 7.5 is the `ZZ32` 7 (climb batch 22, rung E, `explorations/coordinator/tools/old-fortress.sh`)."
 - **Row 816:** unchanged; question 1 holds it.
 - **New rows:** none.
+- **Row 533, for the gather** (added by the skeptic; the row has no room for a note: 1,508 characters with it, notes 1,033): its claim names `RR64`'s `opr ^(self, b:RR64)`, which the api no longer declares (`Library/FortressLibrary.fsi:367` is `b:Number`, the component's header, `Library/FortressLibrary.fss:485`), and its tie does not reproduce at the base: the distance stage's driver (`DistanceMulti -order check -setting any`) checks a component of `10.0^(-5)` and `10.0^(-8)` against the interpreter's library with no error, on `64386618b`'s library and on this rung's (`explorations/compile-ladder/rung-export-last/SKEPTIC.md`, section 3). Its whole new line, or its close, is the gather's.
 
 ## Sentences made false, for the gather
 
@@ -54,6 +55,7 @@ F-282, its text after this rung alone (the record pass owns the wording, and fol
 - P-68 (`explorations/coordinator/POSITIONS.md:74`): 'and `round` and `truncate` are `ZZ64`, `ZZ` or `RR64` by declaration'. No float `truncate` is declared `RR64` now (`Library/FortressLibrary.fss:501`). The curator's to rewrite.
 - Row 330's notes (above).
 - F-63: '`Condition` is the sequential generator trait at `Library/FortressLibrary.fsi:933`': it is now at `:934`.
+- Row 533's claim, '`RR64`'s `opr ^(self, b:RR64)`': the api's is now `opr ^(self, b:Number)` (`Library/FortressLibrary.fsi:367`) (added by the skeptic).
 
 ## Handover line
 
