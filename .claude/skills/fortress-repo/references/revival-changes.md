@@ -4,7 +4,7 @@ This part gives the departures of revived Fortress from the team's Fortress, and
 
 Each bold rule states the rule of this tree. A sentence that names a POSITIONS entry (P-N) states a decision of the curator. Build on a sentence without one, but do not cite it as a decision. Question a rule only on new evidence (`SKILL.md`, "When to explore"). Most rules follow the team's later type papers (`Papers/`) over the specification's early text (P-26; `exploring.md`). The Working Draft is the unrevised specification, in `Specification-1.0-frozen/`. Where a rule changed the specification, Appendix I keeps the original text (`specification.md`).
 
-A sentence that cites a ledger row states a known departure of one path from a bold rule. A fix can change it, so do not assert it as correct in a test. A sentence that opens "Until the switch-over" states a limit of the compiler's library, which ends when the compiled path moves onto the interpreter's library. If a change is not here, search FACTS and POSITIONS (`records.md`) before you call a disagreement a conflict. An old note, a team test and your training can be right about the team's walk and wrong here: the number types do not nest, fixed-width arithmetic does not wrap, and walk converts arguments.
+A sentence that cites a ledger row states a known departure of one path from a bold rule. A fix can change it, so do not assert it as correct in a test. A sentence that opens "Until the switch-over" states a limit of the compiler's library. The limit ends when the compiled path moves onto the interpreter's library, so do not fix it in the compiler's prelude (`compiler.md`). If a change is not here, search FACTS and POSITIONS (`records.md`) before you call a disagreement a conflict. An old note, a team test and your training can be right about the team's walk and wrong here: the number types do not nest, fixed-width arithmetic does not wrap, and walk converts arguments.
 
 ## Dispatch and overloading
 
@@ -14,14 +14,14 @@ A sentence that cites a ledger row states a known departure of one path from a b
 
 **Walk chooses by declared parameter types, never by the order of the declarations.** It compares declared domains where one lies strictly inside the other. Otherwise it compares the instances that the call makes. It infers a dotted generic method's static arguments from the arguments' run-time types, as for a generic function. A trait's generic method called with an argument outside a bound fails with "Cannot unify".
 
-**Walk's load check is not the verdict of these rules.** It refuses some valid pairs and loads some invalid ones, and the checker differs from it on others. Before you change code to pass walk's check, or take its acceptance as proof, find the case, and the ledger row that it cites, in `interpreter.md`, "What walk checks". For example, walk compares two functional methods of a generic trait or object on their declared domains only at a call (row 780).
+**Walk's load check is not the verdict of these rules.** It refuses some valid pairs and loads some invalid ones, and the checker differs from it on others. Before you change code to pass walk's check, or take its acceptance as proof, find the case in `interpreter.md`, "What walk checks": a case that cites a ledger row is a departure of walk. For example, walk compares two functional methods of a generic trait or object on their declared domains only at a call (row 780).
 
 **Two functional methods with equivalent parameter types are duplicates, wherever `self` stands.** So the checker refuses `f(self, y: S)` beside `f(x: S, self)` in a trait `S`. Abstract declarations count:
 
 - both paths refuse an abstract and a concrete method with the same parameter types in one trait;
 - both paths refuse an object that inherits an abstract functional method from one trait and its body from another, unless the object declares the method itself (P-149). The Scala language accepts it.
 
-An abstract functional method also counts for the Meet Rule. So the checker refuses `h(self): ZZ32` in a trait `S` beside a top-level `h(x: String): ZZ32`: `S` and `String` neither exclude each other nor nest, and nothing covers their meet.
+The Meet Rule asks for a declaration that covers the meet of two overloads that neither exclude each other nor nest (`SKILL.md`, "Fortress as a language"). An abstract functional method also counts for it. So the checker refuses `h(self): ZZ32` in a trait `S` beside a top-level `h(x: String): ZZ32`: nothing covers the meet of `S` and `String`.
 
 ## Traits and objects
 
@@ -29,7 +29,7 @@ An abstract functional method also counts for the Meet Rule. So the checker refu
 
 **A `comprises` clause speaks of values (P-60).** Every value of the trait that declares it is a value of a listed type. So a generic trait need not be listed if every type below it is below a listed type, as `Integral[\I\]` below `AnyIntegral`. A Java `permits` list names each direct subtype; this clause need not. Read so, several declarations can together cover the meet of two overloads. At load, walk checks extenders only against the clauses of the program's main component (row 551).
 
-**`override` widens.** An `override` overrides an inherited declaration only where the inherited parameter types are strictly narrower than its own. To replace an inherited declaration at its own parameter types, declare it again without `override`. An `override` in a trait also overrides in every type below it. The checker checks that an overriding return type is a subtype. Walk refuses at load an `override` that overrides nothing by this rule, so a Java-style `override` in the library stops every program. Two departures: the checker accepts such an `override` (row 653), and the code generator refuses every `override` modifier (row 650).
+**`override` widens.** An `override` overrides an inherited declaration only where the inherited parameter types are strictly narrower than its own. To replace an inherited declaration at its own parameter types, declare it again without `override`. An `override` in a trait also overrides in every type below it. The checker checks that an overriding return type is a subtype. Walk refuses at load an `override` that, by this rule, overrides nothing, so a Java-style `override` in the library stops every program. Two departures: the checker accepts such an `override` (row 653), and the code generator refuses every `override` modifier (row 650).
 
 **An object defines an inherited abstract method by bodies that together cover its parameter types (P-147).** It needs one body at those types, or several narrower bodies that cover them, with `comprises` clauses read. Walk refuses at load an object without static parameters that leaves one uncovered. Walk skips this check for a generic object (row 665). Walk stops its search for a cover at limits that `interpreter.md` gives, and the checker at the same limits. The checker refuses a cover by several bodies where the abstract or a covering method has static parameters (row 725).
 
@@ -72,7 +72,7 @@ The checker reads an `extends` entry with any other `where` clause as unconditio
 
 ## Numbers
 
-**The number types are flat siblings (P-43).** The record calls this choice route A. It still calls the number and order traits "the tower". That word does not mean that they nest.
+**The number types are flat siblings (P-43).** The record calls this choice route A, and the nested tower that was not chosen route C. It still calls the number and order traits "the tower". That word does not mean that they nest.
 
 **Under walk a numeral has a run-time class.** The checker types an integer numeral as `IntLiteral`, a sibling under `Number` that converts to the integer types, `QQ` and `RR64` (P-76). Walk gives a numeral the class `Int`, `Long` or `BigNum` by its value. These classes stand for `ZZ32`, `ZZ64` and `ZZ`, but a generic instantiates at the class: `Box[\Int\]` is not `Box[\ZZ32\]` (row 364). Walk answers `IntLiteral`'s arithmetic as a `ZZ32` (row 578). The library's factories `array1` and `array2` give a `Vector` or `Matrix` only at the eight number types, not at a user subtype of `Number`. Elsewhere they give a plain array, whose `+` and unary `-` fail dispatch under walk. Under walk, an inferred element type is a run-time class, so they give a plain array (row 721). Write the static argument.
 
@@ -80,7 +80,7 @@ The checker reads an `extends` entry with any other `where` clause as unconditio
 
 **An integer power answers its base's type (P-153).** In the interpreter's library, `^` takes an exponent of any integer type. At a negative exponent, 1 and -1 give their power, 0 raises `DivisionByZero`, and other bases raise `IntegerOverflow`. For a result that is not an integer, write `2.0^(-1)`, or a `QQ` base as `(2/3)^(-1)`, not `10^(-k)`. Until the switch-over, the compiler's library has integer powers only at `ZZ32`, `NN32` and `NN64`, each with an exponent of its own type; its `RR64` power takes an `RR64` or a `ZZ32` exponent, a negative one included. Its `ZZ32` power gives 0 at a negative exponent for other bases. At a base of 0 it throws a Java exception that no `catch` sees (rows 441, 523).
 
-**`/` on two integers answers a `QQ`.** So `7 / 2` is `7/2`, not 3. Truncate with `DIV` on both paths. It answers its operands' type. For a float, make one operand a float, as `(1.0 s) / n`; a `ZZ64` needs `asFloat` first. Until the switch-over, the compiler's library has no `QQ` and declares `/` only at `RR64`.
+**`/` on two integers answers a `QQ`.** So `7 / 2` is `7/2`, not 3. Truncate with `DIV`, on both paths. `DIV` answers its operands' type and rounds toward zero. For a float, make one operand a float, as `(1.0 s) / n` for `ZZ32` values `s` and `n`. Convert each `ZZ64` operand with `asFloat`, as `asFloat(s) / asFloat(n)`. Until the switch-over, the compiler's library has no `QQ` and declares `/` only at `RR64`, so a compiled `7 / 2` is a static error.
 
 ## Reductions and comprehensions
 

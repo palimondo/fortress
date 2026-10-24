@@ -54,11 +54,12 @@ Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harne
 ## Outside the gate
 
 - `ant testNotPassing` runs the interpreter programs of `ProjectFortress/not_passing_yet/`, which are expected to fail. It fails if one of them passes.
-- No suite and no stage of the gate runs the team demos, the programs of `ProjectFortress/demos/`. `ant testDemos` runs them through `DemoTests`, with a weaker test of the output than the demo driver below. Keep every demo running (P-79):
-  - If your change edits walk or the interpreter's library, run the demos under walk with the demo driver. Print its text with `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/compile-ladder/rung-team-demos/REPORT.md#Commands worked out'`.
-  - Save the driver as `run-demos.sh`. Run `run-demos.sh <out-dir>` from the tree's root, after you set up the call. It runs the 52 demos of `DemoTests` one at a time and writes `<out-dir>/summary.tsv`.
-  - Its last line must read 'demos: 52 run, 52 reached their end'. A demo reaches its end if it exits 0 and its output holds no "fail", in any case.
-  - If your change breaks a demo and the repair is known, rewrite the demo with your change.
+- No suite and no stage of the gate runs the team demos, the programs of `ProjectFortress/demos/`. Keep each of the 52 demos that `DemoTests` lists reaching its end (P-79). Check them with the demo driver below, not with `ant testDemos`, whose test of the output is weaker:
+  - If your change edits walk, the parser, a phase that both paths run or the interpreter's library, run the driver once, after your last edit of code.
+  - Print the driver with `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/compile-ladder/rung-team-demos/REPORT.md#Commands worked out'`. Save the first script that it prints, under "The demo driver", without the text around it, as `tmp/run-demos.sh` in your tree.
+  - From the tree's root, after you set up the call, run `bash tmp/run-demos.sh tmp/demos`. It runs long, so run it in the background with a log (`session.md`, "Long commands"). It runs the demos under walk one at a time and writes `tmp/demos/summary.tsv`.
+  - The driver's last line of output, before the log's `EXIT=` line, must read 'demos: 52 run, 52 reached their end'. A demo reaches its end if it exits 0 and its output holds no "fail" in upper or lower case.
+  - If your change breaks a demo and you know how to repair the demo, repair it in the commit of your change. Otherwise, report the demo, its output and the ledger row that holds the missing feature, as a defect that your change makes or uncovers.
 - Nothing runs these folders: `not_working_compiler_tests/`, `not_working_library_tests/`, `not_working_static_tests/`, `obsolete_interpreter_tests/`, `long_term_not_working/`, `linker_tests/`, `compiler_regressions/`. Put every new test in a gated test folder. A test of a defect that fails today is an `XXX` test there (`tests-writing.md`).
 
 ## When to run a whole suite
@@ -71,7 +72,7 @@ Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harne
 - Quote the verdict lines and the command in your report, with the commit if your code is committed.
 - If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.
 - After an edit of the code generator (`codegen/`, `OverloadSet`) or the run time (`runtimeSystem/`), run your own tests, and the four-thread atomic runs (`gate.md`) if `compiler.md` asks for them. Leave the whole tracks to the gate.
-- After every other change, run only your own tests, through the scripts below. Leave the rest to the gate. This includes an edit of either library, though it reaches many tests.
+- After every other change, run only your own tests, through the scripts below, and the demos where "Outside the gate" asks for them. Leave the rest to the gate. This includes an edit of either library, though it reaches many tests.
 
 The suites do not check these:
 
