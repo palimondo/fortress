@@ -6251,3 +6251,39 @@ rewritten
 rewritten
 
 | 816 | the compiled export check accepts a component whose trait leaves out a member that its api declares `abstract`, or declares it at another header; a client compiled against the api that calls the member on a value the component made dies at run time with `NoSuchMethodError` | CONTESTED | design limit (specification) | `basic/components/apis.tex`, "Component and API Identity" | `ProjectFortress/compiler_tests/ExportAbstractMemberAbsent.test` | climb batch 21b rung E's skeptic | siblings: 802. Fork 20's reading: `equalListMembers` skips an api member written `abstract` (`ExportChecker.scala:796` at 13cf0b5ec). Api `trait T abstract f(): ZZ32 end` and `mk(): T`; component `trait T end`, `object O extends T end`, `mk(): T = O`; client `println(mk().f())`: both compile rc 0, the run prints 'REACHED', then 'java.lang.NoSuchMethodError'. The same with `f(): String` in the component's `T`. The base refuses both components. Walk: 'Cannot find definition for method f given receiver O'. Unsettled: `source-code.tex`, "Export Statements", lets a satisfying trait "provide a concrete declaration" of an abstract method, which reads as still declaring it. |
+
+### Row 782
+
+rewritten
+
+| 782 | the compiled export check, once it reads symbolic operator names, lists as missing declarations that api and component spell alike: FortressLibrary's 'Missing declarations' grows from 17 entries to 165, `AND`, `OR` and `SCMP` among them, and List's and RangeInternals' components each gain an error | NEGATIVE-BOUNDED | implementation gap (checker) | `basic/components/source-code.tex`, "Export Statements" | none | the symbolic-operator sort probe | siblings: 584, 768, 769. Latent: the check's `isDeclaredName` skips every symbolic name (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:275` at d212b2c1f; row 584). A shadow admitting every `SOp` there (`tmp/shadowx` in the probe's worktree) gives 214 errors against 212 by the body-skipping instrument. `List.fsi:108-116` is spelled as `List.fss:177-186`, and only `BIG <\|...\|>`'s result type differs. The team's comments at `:289-310` call the matching a "Heisenbug". Not traced: `existsMatching` and `equalFnHeaders` for `SCMP`. Detail: `perf-probes/symbolic-operators/SORT.md`, "One paragraph per family". Batch 20 rung A: those 17 entries are gone. |
+
+### Row 701
+
+rewritten
+
+| 701 | the code generator refuses a function, object or trait declaration whose own header carries a `where` clause, and a function with a contract: `forFnDecl` stops with "Don't know how to compile this kind of FnDecl", `forObjectDeclPrePass` and `forTraitDecl` with "Can't compile …" | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/trait-parameters.tex`, "Where Clauses"; `basic/functions.tex`, "Function Contracts" | `ProjectFortress/compiler_tests/XXXNatOpenRun.test` | territory map (spec-to-implementation) | siblings: 304, 650, 677, 774, 781. The guards: `CodeGen.java:2967`, `:2971` (`:2976`), `:4107`, `:4109` (`:4115`) and `:5027`, `:5029` (`:5033`) at cdb84fba5. A header `where` that only binds a size counts: the reproducer's `trait NatParamT comprises { Nt[\n\] } where [\nat n\]` stops it, 'Can't compile TraitDecl NatParamT'; `XXXWhereBoundChecker` stops at `forFnDecl`. An object's `where` and a function's contract stop here by reading (`:4107`, `:2971`), not run. An `extends` entry's `where` compiles (row 774). The disambiguator drops a trait's or object's contract and `throws` clause (row 781), so those guards never fire. Walk runs both (rows 118, 677). F-181. |
+
+### Row 308
+
+closed by 2bff2fe23
+
+| 308 | the compiled checker refuses the interpreter's library: made the compiler's prelude, it passes DISAMBIGUATE with zero errors and the type checker then reports errors in the library's own apis, 92 at 95 locations at the prelude probe | NEGATIVE-VERIFIED | library bug (library) | `Specification/basic/traits.tex`, "Trait Declarations" | none | prelude probe | 36 `Type X excludes Y but it extends Y.`, 26 `Types A and B exclude each other. C must not extend them.`, 26 `Ill-formed type` or `does not satisfy the corresponding bound Integral[\I\]`, three singletons: the comparison and numeric tower, never checked because walk leaves the checker off; it then had `QQ extends RR64` and `AnyIntegral extends QQ` (since flattened, `Library/FortressLibrary.fsi:391`, `:438`). `checkApis` fails, so `checkComponents` never runs; forced past it, the component dies at row 307's `nat` crash, and DESUGAR and CODEGEN are never reached. Name resolution of the whole api graph succeeds. Report `explorations/perf-probes/prelude/REPORT.md`. full text: history, row 308 |
+
+### Row 399
+
+closed by e487cec2d
+
+| 399 | six declarations of `Library/FortressLibrary.fss` the compiled checker passed clean each gain one error once it reaches sizes: `__builtinFactory2`, `array2(v)` and the one-argument `BIG LEXICO`, `BIG SQCUP`, `BIG MINNUM`, `BIG MAXNUM` | NEGATIVE-VERIFIED | library bug (library) | `Specification/advanced/overloading.tex`, "Overloaded Functional Declarations" | none | the nat shadow; climb batch 4 rung N | `__builtinFactory2`'s `then` branch is `Array2[\T,0,s0,0,s1\]` against a declared `Array2[\T,b0,s0,b1,s1\]`, sound by its guard `b0=0 AND b1=0`, which no static rule reads (`Library/FortressLibrary.fss:2794-2799` at 052a7c3fe); `array2(v)`'s `.fill(v)` (`:2808-2809`) resolves to the general `fill`. The four `BIG` ones, with no return type, got the api's nullary overload's ('Function body has type TotalComparison, but declared return type is BigReduction[...]'), mechanism not isolated (row 488); since `a9b9933e6` all but `BIG LEXICO` (`:129`) declare it. Fates: `explorations/compile-ladder/rung-nat-checker/probes/perdecl-fates.txt`, in the parent of `ab067d9b6`; full text: history, row 399 |
+
+### Row 19
+
+closed by b628871a2
+
+| 19 | coercion declarations parse and are then ignored by the type checker (`typecheck`); walk ignored them too, and that half is fixed | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/basic/conversions-coercions.tex:152-153`, "Coercion Declarations" | none | ours | Walk's half fixed `b628871a2` (climb batch 4, rung C): walk converts at a parameter, at an overloaded call and at a typed binding or assignment, a tuple element by element (`ProjectFortress/tests/CoercionCallRungC.fss` and five more); its open sites are rows 387, 395 and 513. The compiled path is unchanged; `CoercionOracle.scala` exists, unwired. Walk picks a coercion by the run-time value (route A), the specification statically: its example prints `f(c) = 3` compiled, `f(c) = 4` under walk (`XXXCoercionStaticRungC.fss`). Workaround: a `konst`-style shim plus per-scalar overloads. Probe `explorations/spec-probes/p15_coertc.fss`, no longer in the tree. full text: history, row 19 |
+
+### Row 19
+
+rewritten
+
+| 19 | coercion declarations parse and are then ignored under walk; the claim's half for the compiled checker did not hold | FIXED | implementation gap (walk) | `Specification-1.0-frozen/basic/conversions-coercions.tex:152-153`, "Coercion Declarations" | `ProjectFortress/tests/CoercionCallRungC.fss` | ours | fixed `b628871a2`; walk converts at a parameter, at an overloaded call and at a typed binding or assignment (`ProjectFortress/tests/CoercionCallRungC.fss` and five more); its open sites are rows 387, 395 and 513, and its choice by the run-time value is P-59's limit (`XXXCoercionStaticRungC`). The compiled checker applies coercion declarations through `CoercionOracle`, wired by the team (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/STypeChecker.scala:159`, `:483`; `impls/Functionals.scala:386`), gated by `compiler_tests/CoercionGenericFnCompiledRungC` and `InferCoercionShapes`; full text: history, row 19 |

@@ -4589,3 +4589,25 @@ pointer words refreshed in: F-24
 2026-10-24 05:15Z · rewritten · from `explorations/reviews/batch-22-review.md`, "Findings" · commit `2bff2fe23` · by climb batch 22's routing: the post-batch review's finding 4: "which must also reach zero", now reached
 
 - F-61 **`perf-probes/prelude/REPORT.md` named three steps to making the interpreter's library the compiler's: the checker's sizes and the tower's errors are done.** The steps are: the checker checks `nat` and `int` static parameters (F-67); the library api's errors from the number and comparison tower are cleared (F-131); and the native bindings move to the compiled path's helpers (F-32). The report's run stopped in the library's apis, before the component, desugaring and code generation (section 5). The component's errors since are the distance, which must also reach zero before the switch-over (F-53). No minimal `Array` or `Vector` added to the compiler's prelude can serve C4's `FlatArrays` (`run-c4/src/FlatArrays.fss`), which extends the library's array hierarchy and uses its whole protocol. Such a shim would reproduce `NativeArray.fss` and about 1,000 lines of the library above it. Detail: the same report, sections 5 (the steps) and 4 (the shim).
+
+### F-34
+
+2026-10-24 15:32Z · rewritten · from `explorations/reviews/phase3-exit/zero-audit.md`, "Part C. The debt carried into phase 4" · from `explorations/reviews/phase3-exit/zero-audit.md`, "For FACTS" · commit `6c4a07d67` · by the phase 3 exit review's record worker: brought to the audit's measurement on main, 52 refused at climb batch 22's code (Part C item 4, For FACTS item 5), where climb batch 21b's base gave 58; the dispatch count kept as the older base's
+
+- F-34 **Under the switch-over's setting the code generator refuses 58 declarations of the library's twelve components, 50 of them declarations that the checker passes, in 14 kinds; the dispatch generator refuses no overload set.** Measured once, on climb batch 21b's base (`aa5c67d48`), with the checker's failures caught per declaration and the bound `Any`, the distance stage's setting: `FortressLibrary` emits 475 of its 504 declarations, and none of its 178 overload sets is refused; desugaring and the overload rewriting refuse nothing. The other 8 refusals lie in or under `__bigOperator2` and trait `List`, which held four of the distance's five errors on that base, all cleared since by library text (F-285). So after the switch-over the code generator stands between the library and bytecode at 50 declarations at least: a declaration counts at its first wall, and no emitted class was run. Each kind has a ledger row; the largest are a local function (row 304), the 2-D and 3-D ranges' "Not in the trait table" (row 733), `asif` (row 818) and varargs (row 624), and rows 818 to 823 hold the six kinds the measurement found with no row. No test checks it, since the gate's distance stage runs no code generation. Detail: `perf-probes/codegen-distance/REPORT.md`, sections 2 to 6.
+
+### F-287
+
+2026-10-24 15:32Z · added · from `explorations/reviews/phase3-exit/zero-audit.md`, "A.4 The checker's known blind spots, row by row" · from `explorations/reviews/phase3-exit/zero-audit.md`, "For FACTS" · commit `6c4a07d67` · by the phase 3 exit review's record worker: the audit's For FACTS item 1, row 782 sorted; the judgement's section 2.2, item 2, checked the 9 at their lines
+
+### F-288
+
+2026-10-24 15:32Z · added · from `explorations/reviews/phase3-exit/zero-audit.md`, "A.2 Scope" · from `explorations/reviews/phase3-exit/zero-audit.md`, "For FACTS" · commit `6c4a07d67` · by the phase 3 exit review's record worker: the audit's For FACTS item 2; the judgement's section 2.3, item 1
+
+### F-289
+
+2026-10-24 15:32Z · added · from `explorations/reviews/phase3-exit/zero-audit.md`, "A.3 The settings, and what the tools leave out" · from `explorations/reviews/phase3-exit/zero-audit.md`, "For FACTS" · commit `6c4a07d67` · by the phase 3 exit review's record worker: the audit's For FACTS item 3; the judgement's section 2.3, item 2
+
+### F-290
+
+2026-10-24 15:32Z · added · from `explorations/reviews/phase3-exit/zero-audit.md`, "A.2 Scope" · from `explorations/reviews/phase3-exit/zero-audit.md`, "For FACTS" · commit `6c4a07d67` · by the phase 3 exit review's record worker: the audit's For FACTS item 6; the judgement's section 2.4
