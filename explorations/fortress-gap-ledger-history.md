@@ -6233,3 +6233,15 @@ rewritten
 rewritten
 
 | 387 | under `walk`, a body whose return type is declared is not converted by coercion: `r(): Wide = NarrowOf(3)` returns the `NarrowOf`, and `r().big` ends the run with "Cannot find definition for method", where the compiled run converts and answers `3` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Principles of Coercion" | `ProjectFortress/tests/XXXCoercionReturnRungC.fss` | climb batch 4 rung C | The team switched the interpreter's return check off: `if (true \|\| t.typeMatch(x))` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java:42-54`, at `:45`), so no conversion runs at a return. Walk converts at a variable, field, assignment, element and argument, not here: `retR64(x: RR32): RR64 = x` answers `1.5 : RR32`, and `ret(): ZZ64 = 2147483647; ret() + 1` is `-2147483648`, where the compiled run gives an `RR64` and `2147483648`. `Library/String.fss:517`'s `avFlat(): RR32` over an `RR64` body is a declaration the specification refuses, row 531, not this. full text: history, row 387 |
+
+### Row 756
+
+rewritten
+
+| 756 | the compiled checker crashes on a call, outside its trait, of a member whose type names a type `where`-clause variable: `println(mk().item)`, with `getter item(): E` in `trait AnyBox comprises { Box[\E\] } where [\E extends Object\]`, stops with 'E is not in the kind env' | CONTESTED | implementation gap (checker) | silent | none | climb batch 17 rung A's skeptic | siblings: 755. Since rung A; the base refuses the clause, 'E is undefined.' `TypeAnalyzer.staticParam` calls `bug` (`TypeAnalyzer.scala:981`) from the variable case of `pSubInner` (`:207`): the call's type keeps the unopened variable. The size face is accepted, on the base too: `sz(mk().me)` with `getter me(): Nt[\n\]`. The text does not say what type such a call has, an opened type as at an argument or none; a crash is neither. No gated test: the refusal is a crash. |
+
+### Row 735
+
+rewritten
+
+| 735 | under walk an object that inherits two dotted declarations of one signature from sibling traits keeps the one of the first trait in its extends clause: two bodies run that one's, and an abstract one beside a body is refused or runs the body by the order | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Meet Rule" | none | climb batch 16's Q1 probe | siblings: 444, 572. The object's methods are keyed by signature (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:182-183` at 423958063) and the first declaration met is kept (`putIfAbsent`, `:846-859`), in the order of the extends clause. `m(): String = "a"` in `A`, `= "b"` in `B`: `object O extends { A, B }` prints `a`, `object P extends { B, A }` prints `b`. With `A`'s `m()` abstract, `extends { B, A }` runs `b` and `extends { A, B }` is refused, 'Object O does not define an abstract method declared in type A'. The compiled checker refuses all four, 'Invalid overloading of m in trait O'. |
