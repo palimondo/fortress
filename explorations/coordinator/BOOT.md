@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 18:55 UTC on 2026-10-25** (19:55 his time). Climb batch 22 landed at `2bff2fe23` (04:34 UTC on 10-24), with its landing steps done. Phase 3 is at its exit by P-33's letter. **The phase 3 exit review** (his yes of about 13:55 UTC on 10-24 to steps 1 and 2) is in: the audit of the zero (`6c4a07d67`), the decisions evidence map (`ef103a417`), the Fable judgement (`2be634867`, `reviews/phase3-exit/judgement.md`), and the audit's findings filed in the ledger and FACTS (`e21ab5389`; F-281 fixed at `081099714`). The `AnyIntegral` comprises-where probe is committed (`b99ee0e6e`, `perf-probes/anyintegral-comprises-where/REPORT.md`) and filed (`e15da7608`: row 831, notes on rows 804 and 487, F-121 rewritten with the measurement).
+**State at 19:13 UTC on 2026-10-25** (20:13 his time). Row 816 is decided: his option 2 at 19:06 UTC, P-158, recorded at `edbd0d4f5` (F-282, row 816, PLAN's phase 4 line "Row 816's repair"). The model check gained a boot check after a compaction at his word (`05a4fdb11`). Climb batch 22 landed at `2bff2fe23` (04:34 UTC on 10-24), with its landing steps done. Phase 3 is at its exit by P-33's letter. **The phase 3 exit review** (his yes of about 13:55 UTC on 10-24 to steps 1 and 2) is in: the audit of the zero (`6c4a07d67`), the decisions evidence map (`ef103a417`), the Fable judgement (`2be634867`, `reviews/phase3-exit/judgement.md`), and the audit's findings filed in the ledger and FACTS (`e21ab5389`; F-281 fixed at `081099714`). The `AnyIntegral` comprises-where probe is committed (`b99ee0e6e`, `perf-probes/anyintegral-comprises-where/REPORT.md`) and filed (`e15da7608`: row 831, notes on rows 804 and 487, F-121 rewritten with the measurement).
 
 ## Running
 
@@ -14,15 +14,14 @@ Phase 4 is not under the standing go. **Batch 23 is held at his word of 11:36 UT
 
 ## Waiting on him
 
-- **The judgement's decisions, one per message, in the order I announced to him:**
-  1. **Row 816, sent at about 16:20 UTC on 10-24; his answer awaited.** When an api writes a member `abstract`, must the component's trait declare it too? Options: 1 as landed; 2 back to the team's 2012 check (1 rung, 12 bodyless lines, the distance 1 until it lands); 3 the code generator copies (up to 4 rungs). My recommendation: 2, the rung before the switch-over's names batch.
-  2. Phase 3 done, with its exit restated, and phase 4's two zeros named (the checker's over the thirteen under the compile setting; the code generator's).
-  3. P-58's informed yes before batch 23.
-  4. P-155 read to cover the export check (row 782's 9 operators, 1 rung).
-  5. P-75 withdrawn.
-  6. His texts to correct (P-146, P-154, P-156, P-68, P-79, P-155's second sentence, P-33), shown as a page with the wording.
-  7. Two review-queue items without a default (rq 35, rq 230).
-  8. The go for batch 23 (Q1, the distance stage kept in phase 4's gates, default yes; Q2, N1's first family folded in, default yes).
+- **The judgement's decisions, one per message, in the order I announced to him** (the first, row 816, answered):
+  1. Phase 3 done, with its exit restated, and phase 4's two zeros named (the checker's over the thirteen under the compile setting; the code generator's).
+  2. P-58's informed yes before batch 23.
+  3. P-155 read to cover the export check (row 782's 9 operators, 1 rung).
+  4. P-75 withdrawn.
+  5. His texts to correct (P-146, P-154, P-156, P-68, P-79, P-155's second sentence, P-33), shown as a page with the wording.
+  6. Two review-queue items without a default (rq 35, rq 230).
+  7. The go for batch 23 (Q1, the distance stage kept in phase 4's gates, default yes; Q2, N1's first family folded in, default yes).
 - **After the eight, not yet in any ask:**
   - the `AnyIntegral` probe's question: the team's clause, with its bound, made live by way 2 after three prerequisite rungs, or P-44's list stays (the probe's default: the list stays; way 2 measured again at row 804's fix);
   - the code-generation probe's question (`perf-probes/codegen-distance/REPORT.md`): the gate's distance stage running code generation per declaration, report-only (default: no, a probe when a rung touches the code generator); ask 2's second zero bears on it;
@@ -33,7 +32,7 @@ Phase 4 is not under the standing go. **Batch 23 is held at his word of 11:36 UT
 
 ## Next
 
-- **After his answer on row 816:** record it (POSITIONS only for his decision, by `record.py`); F-282 ("finds no difference", against F-287) and row 816 to match; the skill's `library.md:39` and `compiler.md:74` by the skill writer, with a cold read.
+- **Row 816's repair** (P-158): a rung before the names batch; the skill's `library.md:44` ("It requires no component member") and `compiler.md:74` become false with it, revival-change material for that rung.
 - **The `AnyIntegral` probe's leftovers, unfiled by scope:** the specification's edits (report section 4) wait on his answer; the code generator's refusal of a trait header with a `where` clause (row 701, by reading only) goes on row 701 if his answer makes the clause live.
 - **Small record fixes:** PLAN.md:80 says 58 declarations, 52 now (at the consolidation); `XXXCoercionStaticRungC` cites row 19, now closed; the distance stage's list to gain `CovariantCollection` and `OneShotFlag` (the audit's action 1, report-only); P-42's flip as a named PLAN step (with the consolidation).
 - **Phase 4's first batch:** the launch on his go; the batch script spliced for 23 then, its check-in file `scratchpad/batch23/checkins.txt`.
