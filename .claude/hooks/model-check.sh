@@ -31,7 +31,15 @@ model=
 printf '%s %s\n' "$(date -u +%FT%TZ)" "${model:-none}" > ~/.claude/model-check.last 2>/dev/null
 
 case $model in
-  *opus*|*fable*) exit 0 ;;
+  *opus*|*fable*)
+    # The boot check, added at the curator's word of 2026-10-25, after the
+    # session skipped its boot after a compaction: since the transcript's last
+    # compaction, the session must have loaded both skills with the Skill tool.
+    boot=$(tac -- "$path" | awk '/"name":"Skill","input":\{"skill":"fortress-repo"/ {r=1}
+      /"name":"Skill","input":\{"skill":"coordinator"/ {c=1}
+      /"subtype":"compact_boundary"/ {print ((r && c) ? "ok" : "missing"); exit}')
+    [[ $boot != missing ]] && exit 0
+    echo "BOOT CHECK: this session was compacted and has not booted since. Before anything else, follow the compaction hook: check the model, load the fortress-repo skill, then the coordinator skill, with the Skill tool, take the coordinator skill's boot, and say in your reply that the boot was done." >&2 ;;
   "") echo "MODEL CHECK FAILED: the model check found no reply of the coordinating session in its transcript ($path), so it cannot tell which model this turn ran on. Tell the curator so in the first line of your reply, and check the model with get_session." >&2 ;;
   *) echo "MODEL ALARM: this turn of the coordinating session ran on $model, not Opus or Fable. Before anything else: make this alarm, with the model's name, the first line of your reply to the curator; send him the same line as a push notification (PushNotification); and make no other tool call, launch, edit or commit until he switches the model back or tells you to go on." >&2 ;;
 esac
