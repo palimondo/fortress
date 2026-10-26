@@ -6,7 +6,7 @@
 
 ## Running
 
-- **The foundations review, step 2**, launched at 07:02 UTC on 10-26: an Opus evidence map of the nine tenets by the three layers, reading only; report `explorations/reviews/foundations/tenets-evidence.md` (or its returned text); estimate about 1.5M written. Then step 3, the Fable judgement on both steps (his go of 06:11 UTC includes it), then a page for him by an Opus writer.
+- **The foundations review, step 2:** **returned**, committed (`reviews/foundations/tenets-evidence.md`), read in full. The prelude-lens sweep still runs. Then step 3, the Fable judgement on step 1, step 2 and the sweep (his go of 06:11 UTC includes it), then a page for him by an Opus writer.
 - **The prelude-lens sweep**, added at his yes of 07:36 UTC on 10-26, launched beside step 2: an Opus worker lists every checker change and library change since `sealed-tree` that touches a shape the compiler's prelude also has, with what the prelude does, whether that is a deliberate design or a bootstrap stub, and whether the batch weighed it; report `explorations/reviews/foundations/prelude-lens.md` (or its returned text); estimate about 1.5M written. The Fable judgement rules on it with steps 1 and 2.
 - **His framing of 10-26:** this is the phase 3 exit review; if the judgement holds the tenets, phase 3 closes with one more batch, climb batch 22c (or more), for the rungs left: candidates row 816 (P-158), the 9 operator headers (row 782), `List`'s two imports, the bound `Any` for `fortress compile`. So row 816's repair goes into 22c, not batch 23.
 - Step 1 is in: the bound archaeology (`ab2ee0c29`) and the bound-`Any` compiled probe (`4b3d91cb4`, `perf-probes/bound-any-compiled/REPORT.md`), both read in full. The probe's findings for the ledger and FACTS (a new row for the tuple-domain defect of generic dotted methods; notes on rows 339, 691, 470; its "For FACTS" items) and its two questions wait for the judgement.
@@ -19,6 +19,7 @@ Phase 4 is not under the standing go. **Batch 23 is held at his word of 11:36 UT
 
 ## Waiting on him
 
+- **My two POSITIONS wordings of about 08:05 UTC (P-37's reason and the prelude's designs; P-26's three layers): held** until the judgement, since the evidence map shows the two pull against each other (the prelude as L2 work, P-43's "Why" reading it as L1).
 - **Held behind the foundations review:** ask 2 (phase 3's exit) is open in discussion: he holds it until the tenets are re-verified. His reason for P-37 (the switch-over avoids porting walk's library; the revival continues the checker until it accepts the fuller library), from his message of 10-26, goes into P-37 when that discussion ends. My revised view on the other 40 components (zero before P-12's step, where walk runs the checker, or before the first program that needs each) is his to confirm.
 - **The judgement's decisions, one per message, in the order I announced to him** (the first, row 816, answered):
   1. Phase 3 done, with its exit restated, and phase 4's two zeros named (the checker's over the thirteen under the compile setting; the code generator's).
