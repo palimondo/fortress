@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 08:12 UTC on 2026-10-26** (09:12 his time). Written before a compaction at his word of 07:54 UTC. **Read `explorations/conversations/02-phase3-exit-foundations.md` whole right after this note**: it holds the dialogue of 10-25 18:50 to 10-26 07:55 (how he wants things explained, row 816's argument, the library route's history, the foundations review's findings, his framing of phase 3's close, the flat numbers' grounds, the POSITIONS rewrite plan). This note holds only what is in flight and what to do next.
+**State at 08:11 UTC on 2026-10-26** (09:11 his time). Written before a compaction at his word of 07:54 UTC. **Read `explorations/conversations/02-phase3-exit-foundations.md` whole right after this note**: it holds the dialogue of 10-25 18:50 to 10-26 07:55 (how he wants things explained, row 816's argument, the library route's history, the foundations review's findings, his framing of phase 3's close, the flat numbers' grounds, the POSITIONS rewrite plan). This note holds only what is in flight and what to do next.
 
 ## Running
 
