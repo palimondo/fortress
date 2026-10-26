@@ -1,0 +1,107 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index b55353e99..d5bc7ef41 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -1611,6 +1611,7 @@ object traversals until the moment the resulting generator is used.
+    to remain non-parametric. *)
+ value trait AnyMaybe extends { AnyUniqueItem } excludes Number
+         (** \vspace{-4ex} NOT YET: %comprises Maybe[\T\] where [\T\]% *)
++    getter holds() : Boolean
+     opr =(self, other:AnyMaybe): Boolean = self SEQV other
+ end
+ 
+@@ -2173,6 +2174,7 @@ trait ReadableArray[\E,I extends Index\]
+ 
+     (** Indexed functionality with more specific type information **)
+     opr[r:Range[\I\]] : ReadableArray[\E,I\]
++    opr[_:TrivialOpenRange] : ReadableArray[\E,I\]
+     ivmap[\R\](f:(I,E)->R): ReadableArray[\R, I\]
+     map[\R\](f:E->R): ReadableArray[\R, I\]
+ 
+@@ -3245,6 +3247,8 @@ end
+     unlift(lift(x)) = x
+  **)
+ trait ActualReduction[\R,L\] extends Reduction[\L\]
++    empty(): L
++    join(a: L, b: L): L
+     lift(r: R): L
+     unlift(l:L): R
+     (** If this reduction left-distributes over r, return a pair of
+@@ -4006,6 +4010,7 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
+     getter left(): Maybe[\I\]
+     getter right(): Maybe[\I\]
+     getter extent(): Maybe[\I\]
++    getter isEmpty(): Boolean
+     getter isLeftBounded(): Boolean = self.left.holds
+     getter isAnyBounded(): Boolean = self.left.holds OR self.right.holds
+     truncL(l:I): BoundedRange[\I\]
+@@ -4346,10 +4351,14 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+        CatString trees.  Sub-traits should override it with equivalent but more efficient code. *)
+     getter generator() : Generator[\Char\] =
+         self.indices.map[\Char\](fn (i:ZZ32):Char => self[i])
++    getter depth() : ZZ32
+     getter asFlatString(): String
++    getter isBalanced(): Boolean
+ 
+     opr |self| : ZZ32 = self.size
+ 
++    verify() : ()
++
+     abstract get(i:ZZ32): Char
+     abstract asDebugStringIndented(indent: ZZ32): String
+ 
+@@ -4383,6 +4392,11 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+     allButLast(): String = self[0#(|self| - 1)]
+     allButFirst(): String = self[1:]
+ 
++    rangeContains(r: Range[\ZZ32\], c: Char) : Boolean
++    splitWithOffsets(): ZeroIndexed[\(ZZ32, String)\]
++    split(): Generator[\String\]
++    balanced(): String
++
+     opr ^(self, n: ZZ32): String =
+       if n <= 1 then
+         if n=1 then self elif n=0 then "" else throw NegativeLength end
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
+index 8a0eaebd2..2e5c73bc3 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
+@@ -784,16 +784,19 @@ object ExportChecker {
+    * "A matching definition of a declaration d is a definition d' with
+    *  the same name as d that includes definitions for all declarations
+    *  other than the methods or fields declared abstract in d."
+-   * So a member declared abstract in the API needs no corresponding member.
++   * So every member of the API's trait or object is declared in the
++   * component's; one declared abstract in the API needs no body there, and
++   * is matched by a member of the same header with a body or without one.
+    */
+   private def equalListMembers(inAPI: List[Decl], inComp: List[Decl],
+                                original: String): (Boolean, String) =
+-    if ( inAPI.count(l => ! isAbstractMember(l)) > inComp.length )
++    if ( inAPI.length > inComp.length )
+       (false, "missing members of the trait/object in the component")
+     else {
+       var cause = original
+       def handleOne(l: Decl) = {
+-        val eq = isAbstractMember(l) || inComp.exists(r => equalMember(l, r))
++        val eq = inComp.exists(r => equalMember(l, r) ||
++                                    (isAbstractMember(l) && equalAbstractMember(l, r)))
+         if ( ! eq )
+           l match {
+             case SVarDecl(_,lhs,_) =>
+@@ -812,6 +815,15 @@ object ExportChecker {
+       (inAPI.forall(handleOne), cause)
+     }
+ 
++  /* Returns true if a member declared abstract in the API has the header of a
++   * member of the component, the abstract modifier aside. */
++  private def equalAbstractMember(inAPI: Decl, inComp: Decl): Boolean =
++    (inAPI, inComp) match {
++      case (SFnDecl(_,headerL,_,_,_), SFnDecl(_,headerR,_,_,_)) =>
++        equalFnHeaders(headerL, headerR, true)
++      case _ => false
++    }
++
+   /* Returns true if two members in traits and objects are same. */
+   private def equalMember(inAPI: Decl, inComp: Decl): Boolean =
+     (inAPI, inComp) match {

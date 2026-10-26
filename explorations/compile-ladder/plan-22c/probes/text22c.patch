@@ -1,0 +1,406 @@
+diff --git a/Library/CovariantCollection.fsi b/Library/CovariantCollection.fsi
+index 51b0152b5..b5479a47c 100644
+--- a/Library/CovariantCollection.fsi
++++ b/Library/CovariantCollection.fsi
+@@ -16,17 +16,21 @@ opr APPCOV[\T, A extends T, B extends T\](a: CovariantCollection[\A\], b: Covari
+ opr APPCOV(a: AnyCovColl, b: AnyCovColl): AnyCovColl
+ 
+ trait AnyCovColl
++    abstract dirtyIAF[\R\](a:ImmutableArray[\R,ZZ32\], i:ZZ32): ()
+ end
+ 
+ trait CovariantCollection[\T\] extends AnyCovColl
+         comprises { Empty[\T\], NonEmpty[\T\] }
++    abstract opr | self |: ZZ32
+     toImmutableArray(): ImmutableArray[\T, ZZ32\]
+     toArray(): Array[\T, ZZ32\]
+     assignToArray(res: Array[\T, ZZ32\]): ()
+     abstract cata[\R\](e: R, s: (T -> R), a: ((ZZ32, R, R) -> R)): R
+ end
+ 
+-object Empty[\T\] extends CovariantCollection[\T\]
++trait AnyEmpty extends AnyCovColl end
++
++object Empty[\T\] extends { AnyEmpty, CovariantCollection[\T\] }
+     getter isEmpty(): Boolean
+ 
+     opr | self |: ZZ32
+@@ -37,7 +41,11 @@ trait NonEmpty[\T\] extends CovariantCollection[\T\]
+     getter isEmpty(): Boolean
+ end
+ 
+-object Singleton[\T\](x: T) extends NonEmpty[\T\]
++trait AnySingleton extends AnyCovColl
++    abstract getter x(): Any
++end
++
++object Singleton[\T\](x: T) extends { AnySingleton, NonEmpty[\T\] }
+     opr | self |: ZZ32
+     cata[\R\](e: R, s: (T -> R), a: ((ZZ32, R, R) -> R)): R
+ end
+diff --git a/Library/CovariantCollection.fss b/Library/CovariantCollection.fss
+index 7482e06e8..8f9f8d9e1 100644
+--- a/Library/CovariantCollection.fss
++++ b/Library/CovariantCollection.fss
+@@ -12,16 +12,19 @@
+ component CovariantCollection
+ export CovariantCollection
+ 
+-private upward[\R, I extends R, T extends R\]
+-      (_: Empty[\I\], s: Empty[\T\]): Empty[\R\] = Empty[\R\]
+-private upward[\R, I extends R, T extends R\]
+-      (_: Empty[\I\], s: NonEmpty[\T\]): Singleton[\R\] =
+-    fail("upward: NonEmpty but not Singleton/Append")
+-private upward[\R, I extends R, T extends R\]
+-      (_: Empty[\I\], s: Singleton[\T\]): Singleton[\R\] =
++private upward[\R\]
++      (_: Empty[\R\], s: AnyCovColl): CovariantCollection[\R\] =
++    cast[\CovariantCollection[\R\]\](s)
++private upward[\R, T extends R\]
++      (_: Empty[\R\], s: Empty[\T\]): Empty[\R\] = Empty[\R\]
++private upward[\R, T extends R\]
++      (_: Empty[\R\], s: NonEmpty[\T\]): NonEmpty[\R\] =
++    fail[\NonEmpty[\R\]\]("upward: NonEmpty but not Singleton/Append")
++private upward[\R, T extends R\]
++      (_: Empty[\R\], s: Singleton[\T\]): Singleton[\R\] =
+     Singleton[\R\](s.x)
+-private upward[\R, I extends R, T extends R, A extends T, B extends T\]
+-      (_: Empty[\I\], c: Append[\T,A,B\]): Append[\R,A,B\] =
++private upward[\R, T extends R, A extends T, B extends T\]
++      (_: Empty[\R\], c: Append[\T,A,B\]): Append[\R,A,B\] =
+     Append[\R,A,B\](c.a, c.b)
+ 
+ opr APPCOV[\T, A extends T, B extends T\]
+@@ -47,6 +50,9 @@ private initArrayFrom[\R, T extends R\]
+         c':Singleton[\T\] => a.init(i,c'.x)
+         else => iaf(a,i,c)
+     end
++private iaf[\R, T extends R\]
++           (a: ReadableArray[\R,ZZ32\], i:ZZ32, c: CovariantCollection[\T\]): () =
++    fail[\()\]("initArrayFrom: NonEmpty but not Singleton/Append")
+ private iaf[\R, T extends R, A extends T, B extends T\]
+            (a: ReadableArray[\R,ZZ32\], i:ZZ32, c: Append[\T,A,B\]): () = do
+         initArrayFrom[\R,A\](a, i, c.a)
+@@ -61,6 +67,9 @@ private assignArrayFrom[\R, T extends R\]
+         c':Singleton[\T\] => a[i] := c'.x
+         else => aaf(a,i,c)
+   end
++private aaf[\R, T extends R\]
++           (a: Array[\R,ZZ32\], i:ZZ32, c: CovariantCollection[\T\]): () =
++    fail[\()\]("assignArrayFrom: NonEmpty but not Singleton/Append")
+ private aaf[\R, T extends R, A extends T, B extends T\]
+            (a: Array[\R,ZZ32\], i:ZZ32, c: Append[\T,A,B\]): () = do
+         assignArrayFrom(a, i, c.a)
+@@ -75,6 +84,7 @@ end
+ trait CovariantCollection[\T\]
+         extends { AnyCovColl }
+         comprises { Empty[\T\], NonEmpty[\T\] }
++    opr |self|: ZZ32
+     toImmutableArray(): ImmutableArray[\T,ZZ32\] = do
+         res = immutableArray[\T\](|self|)
+         initArrayFrom(res,0,self)
+@@ -112,7 +122,7 @@ end
+ object Singleton[\T\](x:T) extends { AnySingleton, NonEmpty[\T\] }
+     opr |self|: ZZ32 = 1
+     cata[\R\](e:R, s:T->R, a:(ZZ32,R,R)->R): R = s(x)
+-    dirtyIAF[\R\](a:ImmutableArray[\R,ZZ32\], i:ZZ32): () = a.init(i,x)
++    dirtyIAF[\R\](a:ImmutableArray[\R,ZZ32\], i:ZZ32): () = a.init(i,cast[\R\](x))
+ end
+ 
+ trait AnyAppend extends AnyCovColl
+@@ -122,7 +132,7 @@ end
+ 
+ private object Append[\T,A extends T, B extends T\](a:NonEmpty[\A\], b:NonEmpty[\B\])
+         extends { AnyAppend, NonEmpty[\T\] }
+-    sz = |a| + |b|
++    sz: ZZ32 = |a| + |b|
+     opr |self|: ZZ32 = sz
+     unapp[\R\](k:(NonEmpty[\A\], NonEmpty[\B\])->R): R = k(a,b)
+     cata[\R\](e:R, s:T->R, app:(ZZ32,R,R)->R): R = app(sz,a.cata[\R\](e,s,app),b.cata[\R\](e,s,app))
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index f58739342..ea53e1542 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -2125,14 +2125,14 @@ end
+     its inputs (of type Any) to String if necessary. **)
+ opr BIG ||(): Comprehension[\Any,String,String,String\]
+ 
+-opr BIG ||(g: Generator[\Any\]): String
++opr BIG ||[\T\](g: Generator[\T\]): String
+ 
+ (** This operator performs string concatenation, first converting
+     its inputs (of type Any) to String if necessary, and separating
+     non-empty components by a space. **)
+ opr BIG |||(): Comprehension[\Any,String,String,String\]
+ 
+-opr BIG |||(g: Generator[\Any\]): String
++opr BIG |||[\T\](g: Generator[\T\]): String
+ 
+ (** This operator performs string concatenation with newline
+     separation, first converting its inputs (of type Any) to String if
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index b55353e99..9b5326d91 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -1611,6 +1611,7 @@ object traversals until the moment the resulting generator is used.
+    to remain non-parametric. *)
+ value trait AnyMaybe extends { AnyUniqueItem } excludes Number
+         (** \vspace{-4ex} NOT YET: %comprises Maybe[\T\] where [\T\]% *)
++    getter holds() : Boolean
+     opr =(self, other:AnyMaybe): Boolean = self SEQV other
+ end
+ 
+@@ -2173,6 +2174,7 @@ trait ReadableArray[\E,I extends Index\]
+ 
+     (** Indexed functionality with more specific type information **)
+     opr[r:Range[\I\]] : ReadableArray[\E,I\]
++    opr[_:TrivialOpenRange] : ReadableArray[\E,I\]
+     ivmap[\R\](f:(I,E)->R): ReadableArray[\R, I\]
+     map[\R\](f:E->R): ReadableArray[\R, I\]
+ 
+@@ -3245,6 +3247,8 @@ end
+     unlift(lift(x)) = x
+  **)
+ trait ActualReduction[\R,L\] extends Reduction[\L\]
++    empty(): L
++    join(a: L, b: L): L
+     lift(r: R): L
+     unlift(l:L): R
+     (** If this reduction left-distributes over r, return a pair of
+@@ -4006,6 +4010,7 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
+     getter left(): Maybe[\I\]
+     getter right(): Maybe[\I\]
+     getter extent(): Maybe[\I\]
++    getter isEmpty(): Boolean
+     getter isLeftBounded(): Boolean = self.left.holds
+     getter isAnyBounded(): Boolean = self.left.holds OR self.right.holds
+     truncL(l:I): BoundedRange[\I\]
+@@ -4161,19 +4166,19 @@ end
+ trait StridedFullRange[\I extends Index\] extends FullRange[\I\] end
+ 
+ (** The # and : operators serve as factories for parallel ranges. **)
+-opr #(lo:ZZ32, ex:ZZ32): CompactFullParScalarRange = sized1Range(lo,ex)
+-opr #(lo:(ZZ32,ZZ32), ex:(ZZ32,ZZ32)): CompactFullRange2D =
++opr #(lo:ZZ32, ex:ZZ32): CompactFullRange[\ZZ32\] = sized1Range(lo,ex)
++opr #(lo:(ZZ32,ZZ32), ex:(ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32)\] =
+     do (l1,l2)=lo; (x1,x2)=ex; sized2Range(l1,l2,x1,x2) end
+-opr #(lo:(ZZ32,ZZ32,ZZ32), ex:(ZZ32,ZZ32,ZZ32)): CompactFullRange3D =
++opr #(lo:(ZZ32,ZZ32,ZZ32), ex:(ZZ32,ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32,ZZ32)\] =
+     do (l1,l2,l3)=lo; (x1,x2,x3)=ex
+        sized3Range(l1,l2,l3,x1,x2,x3)
+     end
+ 
+-opr :(lo:ZZ32, hi:ZZ32): CompactFullParScalarRange =
++opr :(lo:ZZ32, hi:ZZ32): CompactFullRange[\ZZ32\] =
+         bounded1Range(lo,hi)
+-opr :(lo:(ZZ32,ZZ32), hi:(ZZ32,ZZ32)): CompactFullRange2D =
++opr :(lo:(ZZ32,ZZ32), hi:(ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32)\] =
+     do (l1,l2)=lo; (h1,h2)=hi; bounded2Range(l1,l2,h1,h2) end
+-opr :(lo:(ZZ32,ZZ32,ZZ32), hi:(ZZ32,ZZ32,ZZ32)): CompactFullRange3D = do
++opr :(lo:(ZZ32,ZZ32,ZZ32), hi:(ZZ32,ZZ32,ZZ32)): CompactFullRange[\(ZZ32,ZZ32,ZZ32)\] = do
+     (l1,l2,l3)=lo; (h1,h2,h3)=hi
+     bounded3Range(l1,l2,l3,h1,h2,h3)
+   end
+@@ -4346,10 +4351,14 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+        CatString trees.  Sub-traits should override it with equivalent but more efficient code. *)
+     getter generator() : Generator[\Char\] =
+         self.indices.map[\Char\](fn (i:ZZ32):Char => self[i])
++    getter depth() : ZZ32
+     getter asFlatString(): String
++    getter isBalanced(): Boolean
+ 
+     opr |self| : ZZ32 = self.size
+ 
++    verify() : ()
++
+     abstract get(i:ZZ32): Char
+     abstract asDebugStringIndented(indent: ZZ32): String
+ 
+@@ -4383,6 +4392,11 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
+     allButLast(): String = self[0#(|self| - 1)]
+     allButFirst(): String = self[1:]
+ 
++    rangeContains(r: Range[\ZZ32\], c: Char) : Boolean
++    splitWithOffsets(): ZeroIndexed[\(ZZ32, String)\]
++    split(): Generator[\String\]
++    balanced(): String
++
+     opr ^(self, n: ZZ32): String =
+       if n <= 1 then
+         if n=1 then self elif n=0 then "" else throw NegativeLength end
+diff --git a/Library/List.fsi b/Library/List.fsi
+index c85e6532f..25fbe9653 100644
+--- a/Library/List.fsi
++++ b/Library/List.fsi
+@@ -11,6 +11,8 @@
+ 
+ api List
+ 
++import CovariantCollection.{AnyCovColl}
++
+ (** Array lists, immutable style (not the mutable Java \texttt{ArrayList} style).
+ 
+     A %List% is an immutable segment of an immutable (really
+@@ -111,7 +113,7 @@ end
+ (** Vararg factory for lists; provides aggregate list constants: *)
+ opr <|[\E\] xs: E... |>: List[\E\]
+ (** List comprehensions: *)
+-opr BIG <|[\T\]|>:Comprehension[\T,List[\T\],List[\T\],List[\T\]\]
++opr BIG <|[\T\]|>:Comprehension[\T,List[\T\],AnyCovColl,AnyCovColl\]
+ opr BIG <|[\T\] g:Generator[\T\]|>:List[\T\]
+ 
+ opr BIG CONCAT[\T\](): BigReduction[\List[\T\],List[\T\]\]
+diff --git a/ProjectFortress/src/com/sun/fortress/Shell.java b/ProjectFortress/src/com/sun/fortress/Shell.java
+index ebedff14d..1df7072b8 100644
+--- a/ProjectFortress/src/com/sun/fortress/Shell.java
++++ b/ProjectFortress/src/com/sun/fortress/Shell.java
+@@ -369,7 +369,7 @@ public final class Shell {
+     }
+ 
+     public static void useCompilerLibraries() {
+-	setExtendsObjectPreDesugaring(true);
++	setExtendsObjectPreDesugaring(false);
+ 	setAssignmentPreDesugaring(false);
+ 	setAssignmentDesugaring(true);
+         WellKnownNames.useCompilerLibraries();
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
+index 8a0eaebd2..0a732b013 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
+@@ -272,7 +272,7 @@ object ExportChecker {
+       val fnsInAPI  = api.functions
+       val fnsInComp = component.functions
+       for ( f <- toSet(fnsInAPI.firstSet) ;
+-            if overloadingChecker.isDeclaredName(f) ) {
++            if overloadingChecker.isCheckedName(f) && isDeclarationName(fnsInAPI, f) ) {
+         // f should be in this component
+         if ( fnsInComp.firstSet.contains(f) ) {
+           val overloadingInAPI =
+@@ -594,6 +594,17 @@ object ExportChecker {
+       case _ => false
+     }
+ 
++  /* Returns true if f is the name of a function declared in fns, and not the
++   * unambiguous name made from a declaration's span, under which the index
++   * also files each function (IndexBuilder.buildFunction).
++   */
++  private def isDeclarationName(fns: Relation[IdOrOpOrAnonymousName, JavaFunction],
++                                f: IdOrOpOrAnonymousName): Boolean =
++    toSet(fns.matchFirst(f)).exists {
++      case SDeclaredFunction(fd) => NodeUtil.getName(fd).equals(f)
++      case _ => false
++    }
++
+   /* Returns true if two names of declarations are same. */
+   private def equalNames(left: IdOrOpOrAnonymousName,
+                          right: IdOrOpOrAnonymousName): Boolean =
+@@ -654,12 +665,16 @@ object ExportChecker {
+   /* Returns true if two IntExprs are same. */
+   private def equalIntExprs(left: IntExpr, right: IntExpr): Boolean = Formula.nEq(left, right)
+ 
+-  /* Returns true if two parameters are same. */
++  /* Returns true if two parameters are same.
++   * The var modifier is not compared: an object's value parameter is one of
++   * its fields, and an API cannot write var on it (apis.tex, ApiFldMod), as
++   * equalLValue does not compare it on a field.
++   */
+   private def equalParams(left: Param, right: Param): Boolean =
+     (left, right) match {
+       case (SParam(_, nameL, modsL, typeL, initL, varargsL),
+             SParam(_, nameR, modsR, typeR, initR, varargsR)) =>
+-        modsL.equals(modsR) &&
++        modsL.remove(Modifiers.Var).equals(modsR.remove(Modifiers.Var)) &&
+         ((typeL, typeR) match {
+            case (Some(tl@SType(_)), Some(tr@SType(_))) => equalTypes(tl, tr)
+            // a varargs parameter has its type in its varargs slot
+@@ -784,16 +799,19 @@ object ExportChecker {
+    * "A matching definition of a declaration d is a definition d' with
+    *  the same name as d that includes definitions for all declarations
+    *  other than the methods or fields declared abstract in d."
+-   * So a member declared abstract in the API needs no corresponding member.
++   * So every member of the API's trait or object is declared in the
++   * component's; one declared abstract in the API needs no body there, and
++   * is matched by a member of the same header with a body or without one.
+    */
+   private def equalListMembers(inAPI: List[Decl], inComp: List[Decl],
+                                original: String): (Boolean, String) =
+-    if ( inAPI.count(l => ! isAbstractMember(l)) > inComp.length )
++    if ( inAPI.length > inComp.length )
+       (false, "missing members of the trait/object in the component")
+     else {
+       var cause = original
+       def handleOne(l: Decl) = {
+-        val eq = isAbstractMember(l) || inComp.exists(r => equalMember(l, r))
++        val eq = inComp.exists(r => equalMember(l, r) ||
++                                    (isAbstractMember(l) && equalAbstractMember(l, r)))
+         if ( ! eq )
+           l match {
+             case SVarDecl(_,lhs,_) =>
+@@ -812,6 +830,15 @@ object ExportChecker {
+       (inAPI.forall(handleOne), cause)
+     }
+ 
++  /* Returns true if a member declared abstract in the API has the header of a
++   * member of the component, the abstract modifier aside. */
++  private def equalAbstractMember(inAPI: Decl, inComp: Decl): Boolean =
++    (inAPI, inComp) match {
++      case (SFnDecl(_,headerL,_,_,_), SFnDecl(_,headerR,_,_,_)) =>
++        equalFnHeaders(headerL, headerR, true)
++      case _ => false
++    }
++
+   /* Returns true if two members in traits and objects are same. */
+   private def equalMember(inAPI: Decl, inComp: Decl): Boolean =
+     (inAPI, inComp) match {
+diff --git a/explorations/coordinator/tools/distance/DistanceMulti.java b/explorations/coordinator/tools/distance/DistanceMulti.java
+index 3d0f9863b..4c10be2cf 100644
+--- a/explorations/coordinator/tools/distance/DistanceMulti.java
++++ b/explorations/coordinator/tools/distance/DistanceMulti.java
+@@ -42,7 +42,7 @@ public class DistanceMulti {
+             throw new RuntimeException("unknown -setting " + setting);
+ 
+         Shell.useInterpreterLibraries();
+-        Shell.setExtendsObjectPreDesugaring(setting.equals("compile"));
++        Shell.setExtendsObjectPreDesugaring(setting.equals("compile") && compileCommandExtendsObject());
+         Shell.setCompiledExprDesugaring(!setting.equals("walk"));
+         Shell.setTypeChecking(true);
+         Shell.setScala(true);
+@@ -72,4 +72,18 @@ public class DistanceMulti {
+         System.out.println("### all seconds=" + (System.nanoTime() - t0) / 1000000000L + " rc=" + worst);
+         System.exit(worst);
+     }
++
++    // -setting compile: the extends-Object switch of the compile command, as Shell.useCompilerLibraries()
++    // sets it in the tracked source, read at each run so that the stage follows that line. Calling the
++    // method here would not do: Types' constants would then name the compiler's prelude.
++    static boolean compileCommandExtendsObject() throws java.io.IOException {
++        String src = new String(java.nio.file.Files.readAllBytes(
++                java.nio.file.Paths.get("ProjectFortress/src/com/sun/fortress/Shell.java")), "UTF-8");
++        java.util.regex.Matcher m = java.util.regex.Pattern.compile(
++                "public static void useCompilerLibraries\\(\\) \\{\\s*setExtendsObjectPreDesugaring\\((true|false)\\);")
++                .matcher(src);
++        if (!m.find())
++            throw new RuntimeException("Shell.useCompilerLibraries() does not open with setExtendsObjectPreDesugaring");
++        return Boolean.parseBoolean(m.group(1));
++    }
+ }
+diff --git a/explorations/coordinator/tools/distance/run.sh b/explorations/coordinator/tools/distance/run.sh
+index 7d22ad687..ae1c0ea83 100755
+--- a/explorations/coordinator/tools/distance/run.sh
++++ b/explorations/coordinator/tools/distance/run.sh
+@@ -79,12 +79,13 @@ FH=${FORTRESS_HOME:-$PWD}
+ D="$FH/explorations/coordinator/tools/distance"
+ SCRATCH=${2:-${TMPDIR:-/tmp}/distance.$$}
+ case "$SCRATCH" in /*) ;; *) SCRATCH="$PWD/$SCRATCH" ;; esac
+-SETTING=${3:-any}
++SETTING=${3:-compile}
+ case "$SETTING" in any|walk|compile) ;; *) echo "distance: unknown setting $SETTING" >&2 ; exit 1 ;; esac
+ FLAGS="-Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false"
+ COMPONENTS="Library/FortressLibrary.fss Library/RangeInternals.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+  ProjectFortress/LibraryBuiltin/NativeArray.fss Library/List.fss Library/String.fss Library/FlatString.fss Library/Stream.fss
+- ProjectFortress/LibraryBuiltin/NatReflect.fss Library/TypeProxy.fss Library/Writer.fss ProjectFortress/LibraryBuiltin/AnyType.fss"
++ ProjectFortress/LibraryBuiltin/NatReflect.fss Library/TypeProxy.fss Library/Writer.fss ProjectFortress/LibraryBuiltin/AnyType.fss
++ Library/CovariantCollection.fss Library/OneShotFlag.fss"
+ 
+ rm -rf "$SCRATCH/shadow-src" "$SCRATCH/shadow-classes" "$SCRATCH/classes" "$SCRATCH/caches" "$SCRATCH/tmp"
+ mkdir -p "$SCRATCH/shadow-src" "$SCRATCH/shadow-classes" "$SCRATCH/classes" "$SCRATCH/caches" "$SCRATCH/tmp" \

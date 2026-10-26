@@ -1,0 +1,156 @@
+diff --git a/Library/CovariantCollection.fsi b/Library/CovariantCollection.fsi
+index 51b0152b5..b5479a47c 100644
+--- a/Library/CovariantCollection.fsi
++++ b/Library/CovariantCollection.fsi
+@@ -16,17 +16,21 @@ opr APPCOV[\T, A extends T, B extends T\](a: CovariantCollection[\A\], b: Covari
+ opr APPCOV(a: AnyCovColl, b: AnyCovColl): AnyCovColl
+ 
+ trait AnyCovColl
++    abstract dirtyIAF[\R\](a:ImmutableArray[\R,ZZ32\], i:ZZ32): ()
+ end
+ 
+ trait CovariantCollection[\T\] extends AnyCovColl
+         comprises { Empty[\T\], NonEmpty[\T\] }
++    abstract opr | self |: ZZ32
+     toImmutableArray(): ImmutableArray[\T, ZZ32\]
+     toArray(): Array[\T, ZZ32\]
+     assignToArray(res: Array[\T, ZZ32\]): ()
+     abstract cata[\R\](e: R, s: (T -> R), a: ((ZZ32, R, R) -> R)): R
+ end
+ 
+-object Empty[\T\] extends CovariantCollection[\T\]
++trait AnyEmpty extends AnyCovColl end
++
++object Empty[\T\] extends { AnyEmpty, CovariantCollection[\T\] }
+     getter isEmpty(): Boolean
+ 
+     opr | self |: ZZ32
+@@ -37,7 +41,11 @@ trait NonEmpty[\T\] extends CovariantCollection[\T\]
+     getter isEmpty(): Boolean
+ end
+ 
+-object Singleton[\T\](x: T) extends NonEmpty[\T\]
++trait AnySingleton extends AnyCovColl
++    abstract getter x(): Any
++end
++
++object Singleton[\T\](x: T) extends { AnySingleton, NonEmpty[\T\] }
+     opr | self |: ZZ32
+     cata[\R\](e: R, s: (T -> R), a: ((ZZ32, R, R) -> R)): R
+ end
+diff --git a/Library/CovariantCollection.fss b/Library/CovariantCollection.fss
+index 7482e06e8..8f9f8d9e1 100644
+--- a/Library/CovariantCollection.fss
++++ b/Library/CovariantCollection.fss
+@@ -12,16 +12,19 @@
+ component CovariantCollection
+ export CovariantCollection
+ 
+-private upward[\R, I extends R, T extends R\]
+-      (_: Empty[\I\], s: Empty[\T\]): Empty[\R\] = Empty[\R\]
+-private upward[\R, I extends R, T extends R\]
+-      (_: Empty[\I\], s: NonEmpty[\T\]): Singleton[\R\] =
+-    fail("upward: NonEmpty but not Singleton/Append")
+-private upward[\R, I extends R, T extends R\]
+-      (_: Empty[\I\], s: Singleton[\T\]): Singleton[\R\] =
++private upward[\R\]
++      (_: Empty[\R\], s: AnyCovColl): CovariantCollection[\R\] =
++    cast[\CovariantCollection[\R\]\](s)
++private upward[\R, T extends R\]
++      (_: Empty[\R\], s: Empty[\T\]): Empty[\R\] = Empty[\R\]
++private upward[\R, T extends R\]
++      (_: Empty[\R\], s: NonEmpty[\T\]): NonEmpty[\R\] =
++    fail[\NonEmpty[\R\]\]("upward: NonEmpty but not Singleton/Append")
++private upward[\R, T extends R\]
++      (_: Empty[\R\], s: Singleton[\T\]): Singleton[\R\] =
+     Singleton[\R\](s.x)
+-private upward[\R, I extends R, T extends R, A extends T, B extends T\]
+-      (_: Empty[\I\], c: Append[\T,A,B\]): Append[\R,A,B\] =
++private upward[\R, T extends R, A extends T, B extends T\]
++      (_: Empty[\R\], c: Append[\T,A,B\]): Append[\R,A,B\] =
+     Append[\R,A,B\](c.a, c.b)
+ 
+ opr APPCOV[\T, A extends T, B extends T\]
+@@ -47,6 +50,9 @@ private initArrayFrom[\R, T extends R\]
+         c':Singleton[\T\] => a.init(i,c'.x)
+         else => iaf(a,i,c)
+     end
++private iaf[\R, T extends R\]
++           (a: ReadableArray[\R,ZZ32\], i:ZZ32, c: CovariantCollection[\T\]): () =
++    fail[\()\]("initArrayFrom: NonEmpty but not Singleton/Append")
+ private iaf[\R, T extends R, A extends T, B extends T\]
+            (a: ReadableArray[\R,ZZ32\], i:ZZ32, c: Append[\T,A,B\]): () = do
+         initArrayFrom[\R,A\](a, i, c.a)
+@@ -61,6 +67,9 @@ private assignArrayFrom[\R, T extends R\]
+         c':Singleton[\T\] => a[i] := c'.x
+         else => aaf(a,i,c)
+   end
++private aaf[\R, T extends R\]
++           (a: Array[\R,ZZ32\], i:ZZ32, c: CovariantCollection[\T\]): () =
++    fail[\()\]("assignArrayFrom: NonEmpty but not Singleton/Append")
+ private aaf[\R, T extends R, A extends T, B extends T\]
+            (a: Array[\R,ZZ32\], i:ZZ32, c: Append[\T,A,B\]): () = do
+         assignArrayFrom(a, i, c.a)
+@@ -75,6 +84,7 @@ end
+ trait CovariantCollection[\T\]
+         extends { AnyCovColl }
+         comprises { Empty[\T\], NonEmpty[\T\] }
++    opr |self|: ZZ32
+     toImmutableArray(): ImmutableArray[\T,ZZ32\] = do
+         res = immutableArray[\T\](|self|)
+         initArrayFrom(res,0,self)
+@@ -112,7 +122,7 @@ end
+ object Singleton[\T\](x:T) extends { AnySingleton, NonEmpty[\T\] }
+     opr |self|: ZZ32 = 1
+     cata[\R\](e:R, s:T->R, a:(ZZ32,R,R)->R): R = s(x)
+-    dirtyIAF[\R\](a:ImmutableArray[\R,ZZ32\], i:ZZ32): () = a.init(i,x)
++    dirtyIAF[\R\](a:ImmutableArray[\R,ZZ32\], i:ZZ32): () = a.init(i,cast[\R\](x))
+ end
+ 
+ trait AnyAppend extends AnyCovColl
+@@ -122,7 +132,7 @@ end
+ 
+ private object Append[\T,A extends T, B extends T\](a:NonEmpty[\A\], b:NonEmpty[\B\])
+         extends { AnyAppend, NonEmpty[\T\] }
+-    sz = |a| + |b|
++    sz: ZZ32 = |a| + |b|
+     opr |self|: ZZ32 = sz
+     unapp[\R\](k:(NonEmpty[\A\], NonEmpty[\B\])->R): R = k(a,b)
+     cata[\R\](e:R, s:T->R, app:(ZZ32,R,R)->R): R = app(sz,a.cata[\R\](e,s,app),b.cata[\R\](e,s,app))
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
+index 8a0eaebd2..324ef24e5 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala
+@@ -654,12 +654,16 @@ object ExportChecker {
+   /* Returns true if two IntExprs are same. */
+   private def equalIntExprs(left: IntExpr, right: IntExpr): Boolean = Formula.nEq(left, right)
+ 
+-  /* Returns true if two parameters are same. */
++  /* Returns true if two parameters are same.
++   * The var modifier is not compared: an object's value parameter is one of
++   * its fields, and an API cannot write var on it (apis.tex, ApiFldMod), as
++   * equalLValue does not compare it on a field.
++   */
+   private def equalParams(left: Param, right: Param): Boolean =
+     (left, right) match {
+       case (SParam(_, nameL, modsL, typeL, initL, varargsL),
+             SParam(_, nameR, modsR, typeR, initR, varargsR)) =>
+-        modsL.equals(modsR) &&
++        modsL.remove(Modifiers.Var).equals(modsR.remove(Modifiers.Var)) &&
+         ((typeL, typeR) match {
+            case (Some(tl@SType(_)), Some(tr@SType(_))) => equalTypes(tl, tr)
+            // a varargs parameter has its type in its varargs slot
+diff --git a/explorations/coordinator/tools/distance/run.sh b/explorations/coordinator/tools/distance/run.sh
+index 7d22ad687..1cb8811fb 100755
+--- a/explorations/coordinator/tools/distance/run.sh
++++ b/explorations/coordinator/tools/distance/run.sh
+@@ -84,7 +84,8 @@ case "$SETTING" in any|walk|compile) ;; *) echo "distance: unknown setting $SETT
+ FLAGS="-Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false"
+ COMPONENTS="Library/FortressLibrary.fss Library/RangeInternals.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+  ProjectFortress/LibraryBuiltin/NativeArray.fss Library/List.fss Library/String.fss Library/FlatString.fss Library/Stream.fss
+- ProjectFortress/LibraryBuiltin/NatReflect.fss Library/TypeProxy.fss Library/Writer.fss ProjectFortress/LibraryBuiltin/AnyType.fss"
++ ProjectFortress/LibraryBuiltin/NatReflect.fss Library/TypeProxy.fss Library/Writer.fss ProjectFortress/LibraryBuiltin/AnyType.fss
++ Library/CovariantCollection.fss Library/OneShotFlag.fss"
+ 
+ rm -rf "$SCRATCH/shadow-src" "$SCRATCH/shadow-classes" "$SCRATCH/classes" "$SCRATCH/caches" "$SCRATCH/tmp"
+ mkdir -p "$SCRATCH/shadow-src" "$SCRATCH/shadow-classes" "$SCRATCH/classes" "$SCRATCH/caches" "$SCRATCH/tmp" \

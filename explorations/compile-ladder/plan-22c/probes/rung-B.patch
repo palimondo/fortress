@@ -1,0 +1,58 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/Shell.java b/ProjectFortress/src/com/sun/fortress/Shell.java
+index ebedff14d..1df7072b8 100644
+--- a/ProjectFortress/src/com/sun/fortress/Shell.java
++++ b/ProjectFortress/src/com/sun/fortress/Shell.java
+@@ -369,7 +369,7 @@ public final class Shell {
+     }
+ 
+     public static void useCompilerLibraries() {
+-	setExtendsObjectPreDesugaring(true);
++	setExtendsObjectPreDesugaring(false);
+ 	setAssignmentPreDesugaring(false);
+ 	setAssignmentDesugaring(true);
+         WellKnownNames.useCompilerLibraries();
+diff --git a/explorations/coordinator/tools/distance/DistanceMulti.java b/explorations/coordinator/tools/distance/DistanceMulti.java
+index 3d0f9863b..4c10be2cf 100644
+--- a/explorations/coordinator/tools/distance/DistanceMulti.java
++++ b/explorations/coordinator/tools/distance/DistanceMulti.java
+@@ -42,7 +42,7 @@ public class DistanceMulti {
+             throw new RuntimeException("unknown -setting " + setting);
+ 
+         Shell.useInterpreterLibraries();
+-        Shell.setExtendsObjectPreDesugaring(setting.equals("compile"));
++        Shell.setExtendsObjectPreDesugaring(setting.equals("compile") && compileCommandExtendsObject());
+         Shell.setCompiledExprDesugaring(!setting.equals("walk"));
+         Shell.setTypeChecking(true);
+         Shell.setScala(true);
+@@ -72,4 +72,18 @@ public class DistanceMulti {
+         System.out.println("### all seconds=" + (System.nanoTime() - t0) / 1000000000L + " rc=" + worst);
+         System.exit(worst);
+     }
++
++    // -setting compile: the extends-Object switch of the compile command, as Shell.useCompilerLibraries()
++    // sets it in the tracked source, read at each run so that the stage follows that line. Calling the
++    // method here would not do: Types' constants would then name the compiler's prelude.
++    static boolean compileCommandExtendsObject() throws java.io.IOException {
++        String src = new String(java.nio.file.Files.readAllBytes(
++                java.nio.file.Paths.get("ProjectFortress/src/com/sun/fortress/Shell.java")), "UTF-8");
++        java.util.regex.Matcher m = java.util.regex.Pattern.compile(
++                "public static void useCompilerLibraries\\(\\) \\{\\s*setExtendsObjectPreDesugaring\\((true|false)\\);")
++                .matcher(src);
++        if (!m.find())
++            throw new RuntimeException("Shell.useCompilerLibraries() does not open with setExtendsObjectPreDesugaring");
++        return Boolean.parseBoolean(m.group(1));
++    }
+ }
+diff --git a/explorations/coordinator/tools/distance/run.sh b/explorations/coordinator/tools/distance/run.sh
+index 7d22ad687..0cae4b448 100755
+--- a/explorations/coordinator/tools/distance/run.sh
++++ b/explorations/coordinator/tools/distance/run.sh
+@@ -79,7 +79,7 @@ FH=${FORTRESS_HOME:-$PWD}
+ D="$FH/explorations/coordinator/tools/distance"
+ SCRATCH=${2:-${TMPDIR:-/tmp}/distance.$$}
+ case "$SCRATCH" in /*) ;; *) SCRATCH="$PWD/$SCRATCH" ;; esac
+-SETTING=${3:-any}
++SETTING=${3:-compile}
+ case "$SETTING" in any|walk|compile) ;; *) echo "distance: unknown setting $SETTING" >&2 ; exit 1 ;; esac
+ FLAGS="-Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false"
+ COMPONENTS="Library/FortressLibrary.fss Library/RangeInternals.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
