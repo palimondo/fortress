@@ -3088,3 +3088,9 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-158
 
 2026-10-25 19:09Z · added · from `explorations/reviews/phase3-exit/judgement.md`, "3.1 Bends and reversals" · by curator: his message of 2026-10-25T19:06:08Z, answering ask 1 of the phase 3 exit review (row 816): 'If the API declares it, trait leaves it, and then the checker checks on the final object whether it is declared or not. So, like, of course, option two'
+
+### P-158
+
+2026-10-26 04:30Z · rewritten · by curator: his message of 2026-10-26T04:28:41Z gives the reason: 'by the standing position that later team's work supersedes earlier one, we take the compiled path's way over the walk library's. That's why 21b should have chosen (a), not weaken the check — we must reverse this. With that bending corrected (goes into next batch).'
+
+- P-158 **A member that an api writes `abstract` is declared in the component that exports the api.** The component's trait or object declares each such member at the api's header, with a body or without one. The compiled export check refuses a component that leaves one out, and the checker then checks that each object defines it. Why: the specification asks for no body there, not for no declaration (`Specification/basic/components/apis.tex`, "Component and API Identity"), and the team's own export check of 2012 counted every api member; without the declaration, a compiled client's call of the member dies with `NoSuchMethodError` (row 816).
