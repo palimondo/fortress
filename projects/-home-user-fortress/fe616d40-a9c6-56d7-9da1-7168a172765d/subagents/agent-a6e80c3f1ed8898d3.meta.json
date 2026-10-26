@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Blind grader of the trap test","toolUseId":"toolu_01Vk1Ntn53Lyq1nd5zwtxxQN","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Blind grader of the trap test","toolUseId":"toolu_01Vk1Ntn53Lyq1nd5zwtxxQN","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
