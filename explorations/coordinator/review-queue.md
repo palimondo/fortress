@@ -4,9 +4,9 @@
 
 Each open item ends with a line "Needed by": the point by which the work needs his word on it, and why, sorted on 2026-10-20 against PLAN (its phases, and phase 3's item 18, the next batches' candidates), climb batch 20's record (`coordinator/CLIMB-BATCH-20.md`, rungs I and A) and POSITIONS through P-154, and brought to climb batch 20's landing by its routing (phase 3's item 19, P-155 and P-79), and to climb batch 21's first run's by its routing (phase 3's item 19; the next batch, its second run, climb batch 21b), and to climb batch 21b's by its routing (phase 3's item 19; the next batch, the one for the distance's last 5 errors, to be drafted), and to climb batch 22's by its routing (phase 3 at its exit, its candidates moved to PLAN, "Off the path, parked", "Phase 3's candidates at its end"; the next batch, phase 4's first, the natives' mechanism, to be drafted). The points: **the next batch**, where its record builds on the item or changes it; **before** a later piece of work, named by its PLAN item, row or candidate; **before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library, natives then names); **before microGPT compiles** (phase 5) or **runs fast** (phase 6); and **never**: nothing later builds on it, the landed default can stand, and it can be undone at any time. A line that starts "kind:" says the item sits under the wrong kind by the `coordinator` skill's test of a consequential decision; the item is not moved.
 
-**Counts**, 256 open items, 76 consequential and 180 routine:
+**Counts**, 257 open items, 76 consequential and 181 routine:
 - The next batch, phase 4's first, the natives' mechanism, to be drafted: 0.
-- Before a named later piece of work: 34 (12 consequential, 22 routine).
+- Before a named later piece of work: 35 (12 consequential, 23 routine).
 - Before the switch-over: 13 (10 consequential, 3 routine).
 - Before microGPT compiles: 17 (10 consequential, 7 routine).
 - Before microGPT runs fast: 3 (1 consequential, 2 routine).
@@ -30,6 +30,7 @@ Each open item ends with a line "Needed by": the point by which the work needs h
 - A rung that builds an immutable or read-only matrix (`perf-probes/immutable-arrays/REPORT.md`, its question 1): 248.
 - The next rung whose specification build needs a change to `Fortify/fortify.sty`: 235.
 - The gap ledger's full pass, the last job, after the orientation, if the week's budget allows (`coordinator/ledger-health-2026-10-22/REPORT.md`, section 6.1): 265, 267.
+- The rung that builds row 352's `throws` check, which no PLAN item names yet: 278.
 
 **Needed before the switch-over:** 2, 20, 21, 30, 35, 36, 39, 108, 194, 212, 214, 229, 230. **Before microGPT compiles:** 3, 6, 29, 31, 37, 50, 54, 58, 93, 158, 159, 206, 216, 223, 237, 263, 277. **Before it runs fast:** 22, 205, 250.
 
@@ -627,7 +628,7 @@ The cold read of POSITIONS of 2026-10-22 (`coordinator/consolidation-2026-10-22/
 
 Each is kept as landed unless he says otherwise.
 
-### The checker's typing and inference (10)
+### The checker's typing and inference (11)
 
 51. A clause-form reduction whose big operator's static argument is unwritten is instantiated by the checker at its bound or, since climb batch 14's rung A, at the expected type where the bound's type does not fit it, so `s: ZZ32 = BIG LAST[j <- lo#n] (3 j)` at the bound `Number` runs; one whose bound names its parameter, as `SUM`'s, `PROD`'s and `BIG MIN`'s do, has no instance and is refused (row 731, row 425's corrected text).
    - Landed: Refused where the bound names the parameter; the expected type taken otherwise (`InferBigOperatorExpectedType`). The library's three sites, once of the distance, write the argument since climb batch 22's rung R (`bd00ad997`; F-285), so the gap is user programs' and the team demos' (row 731's demo half). The other way: The desugaring fixes the big operator's static argument from the clauses. Its cost: A desugarer change, a checker project that no probe has designed.
@@ -686,6 +687,13 @@ Each is kept as landed unless he says otherwise.
    - Its cost: One sentence of P-151's reason. Nothing built changes. For `where` clauses he chose the team's forms only, and nothing past them (2026-10-16 at 16:42 UTC).
    - Home: POSITIONS P-151; `coordinator/consolidation-2026-10-22/evidence/positions/p5/proposals.md`, "P-151", question 1, the clarity writer's question; `check.md` beside it, "P-151", the fidelity check; `coordinator/positions-audit/trial/evidence/takeaway-check.md`, "P-151", the cold reading of the wording that he approved; `coordinator/positions-audit/evidence/curator-comments-2026-10-21.md`, "On P-151", his page comments
    - Needed by: never; no planned rung builds a feature past the team's forms, and either wording can stand until he answers.
+
+278. **Once the checker checks `throws` clauses (row 352), does the one library's cast failure stay a checked exception, where the compiler's prelude has an unchecked one?** The compiler's prelude declares `object CastException extends UncheckedException` (`Library/CompilerLibrary.fsi:103`). The one library's `cast` throws `CastError`, a `CheckedException` (`Library/FortressLibrary.fsi:1198`), with no `throws` clause (`Library/FortressLibrary.fss:32-37`, the team's). The revival added about 50 casts to the one library. Neither path checks a `throws` clause (row 352), so the kind costs nothing today. A built check would refuse `cast` and each caller of it that neither declares nor handles `CastError` (`reviews/phase3-exit/zero-audit.md`, A.4, the row 352 line). No decision on record covers it.
+   - Landed: `CastError` checked, as the one library declares it; no `throws` check on either path. Default: none yet.
+   - The other way: `CastError` made unchecked, as the prelude's `CastException` is; or a `throws` clause or a handler at `cast` and at each site that calls it.
+   - Its cost: One library declaration under the first way; under the second, `cast`'s header and its callers, among them the about 50 casts that the revival added. Nothing until the check is built.
+   - Home: `reviews/foundations/prelude-lens.md`, section 6, "A cast's exception kind differs between the two libraries"; `reviews/foundations/judgement.md`, section 3, "Two side findings", and section 8, "Decisions not taken, for later"; `reviews/phase3-exit/zero-audit.md`, A.4; row 352
+   - Needed by: before the rung that builds row 352's `throws` check, which no PLAN item names yet; the choice changes what that rung writes.
 
 ### Overloading and the Meet Rule (13)
 
