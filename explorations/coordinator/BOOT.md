@@ -2,51 +2,42 @@
 
 # Boot note
 
-**State at 07:37 UTC on 2026-10-26** (08:37 his time). Row 816 is decided (P-158, with his reason; its repair in the next batch). **The foundations review** runs at his yes of 06:11 UTC on 10-26: re-verifying the tenets the revival rests on, each ground filed by layer (the language, the team's JVM implementation, Java interoperability); step 1 first, tenets 3 (one library, P-37) and 4 (the implicit bound `Any`, P-42); then step 2, an Opus evidence map of all nine tenets; then step 3, a Fable judgement (his go included) and a page for him. Batch 23 stays held until it is done.
+**State at 07:57 UTC on 2026-10-26** (08:57 his time). Written before a compaction at his word of 07:54 UTC. **Read `explorations/conversations/02-phase3-exit-foundations.md` whole right after this note**: it holds the dialogue of 10-25 18:50 to 10-26 07:55 (how he wants things explained, row 816's argument, the library route's history, the foundations review's findings, his framing of phase 3's close, the flat numbers' grounds, the POSITIONS rewrite plan). This note holds only what is in flight and what to do next.
 
 ## Running
 
-- **The foundations review, step 2:** **returned**, committed (`reviews/foundations/tenets-evidence.md`), read in full. The prelude-lens sweep still runs. Then step 3, the Fable judgement on step 1, step 2 and the sweep (his go of 06:11 UTC includes it), then a page for him by an Opus writer.
-- **The prelude-lens sweep**, added at his yes of 07:36 UTC on 10-26, launched beside step 2: an Opus worker lists every checker change and library change since `sealed-tree` that touches a shape the compiler's prelude also has, with what the prelude does, whether that is a deliberate design or a bootstrap stub, and whether the batch weighed it; report `explorations/reviews/foundations/prelude-lens.md` (or its returned text); estimate about 1.5M written. The Fable judgement rules on it with steps 1 and 2.
-- **His framing of 10-26:** this is the phase 3 exit review; if the judgement holds the tenets, phase 3 closes with one more batch, climb batch 22c (or more), for the rungs left: candidates row 816 (P-158), the 9 operator headers (row 782), `List`'s two imports, the bound `Any` for `fortress compile`. So row 816's repair goes into 22c, not batch 23.
-- Step 1 is in: the bound archaeology (`ab2ee0c29`) and the bound-`Any` compiled probe (`4b3d91cb4`, `perf-probes/bound-any-compiled/REPORT.md`), both read in full. The probe's findings for the ledger and FACTS (a new row for the tuple-domain defect of generic dotted methods; notes on rows 339, 691, 470; its "For FACTS" items) and its two questions wait for the judgement.
-- Check-ins armed: `trig_01P1nG3fBxAev8Gp6JcxzwF7` (07:48 UTC) and `trig_01MfqA5a75SA2w2ghqTVwX1A` (08:33 UTC).
-- Agents do not survive a process stop. If one is cut, launch it again from its brief (in this session's transcript of 07:02 UTC) with its partial transcript named.
+- **The prelude-lens sweep** (the foundations review's third input), an Opus Agent-tool worker launched at about 07:37 UTC on 10-26 at his yes of 07:36: every checker change and library change since `sealed-tree` that touches a shape the compiler's prelude also has, with what the prelude does, whether that is a deliberate design or a bootstrap stub, and whether the batch weighed it. Report `explorations/reviews/foundations/prelude-lens.md` (if its write is refused, its returned text: extract it from its transcript under `subagents/` and commit it); estimate about 1.5M written. When it returns: read it whole, commit it with an INDEX line.
+- Check-in armed: `trig_01MfqA5a75SA2w2ghqTVwX1A` (08:33 UTC). At a check-in with the sweep still running, reply "." only.
+- Agents do not survive a process stop. If the sweep is cut, launch it again from its brief (this session's transcript, about 07:37 UTC on 10-26) with its partial transcript named.
 
-## The go
+## Next, in order (all approved by him)
 
-Phase 4 is not under the standing go. **Batch 23 is held at his word of 11:36 UTC on 10-24**: the review between the phases comes first. Batch 23's record is ready (`CLIMB-BATCH-23.md`, Fable-reviewed at `3108ab29b`), its base build `/home/user/fortress-base23` (check it survived the VM restart of 18:48 UTC on 10-25 before use).
+1. **The Fable judgement** (step 3 of the foundations review; his go of 06:11 UTC on 10-26 includes it), on: `reviews/foundations/bound-archaeology.md` (`ab2ee0c29`), `perf-probes/bound-any-compiled/REPORT.md` (`4b3d91cb4`), `reviews/foundations/tenets-evidence.md` (`6c6437dfc`) and the sweep. Its brief must: keep his three layers apart (the language; the team's JVM implementation; Java interoperability; a ground in one layer does not decide a question in another); quote his goal of 04:47 UTC on 10-26 and his worry of 07:30 UTC (the conversation note, sections 4 and 5); name the exclusion-fork notes directly (`reviews/multiple-instantiation-exclusion.md`, `reviews/exclusion-design-brief.md`, `reviews/mie-probes/`, `reviews/decisions-review/judgement.md` D4, `reviews/decisions-review/popl-recheck.md` §1.1), since the flat numbers rest on the exclusion rule, not on the prelude's history (section 7); ask it, per tenet, whether it holds, what its stated reason should be, and which POSITIONS entries bend or lack their real reason; and ask the question for P-37: when does a design of the compiler's prelude bind the one library (my answer for it to weigh: when the team's later word on the language backs it). The judge returns text; commit it at `reviews/foundations/judgement.md`. Then an Opus writer turns its "For Pavol" section into a page (house style).
+2. **The POSITIONS rewrites and the trap test** (his yes of 07:42 and 07:48 UTC; the conversation note, section 8): an Opus worker writes 4 trap scenarios (the coordinator's forks) from the old entries and his words, before the new text; the clarity workflow rewrites P-26, P-37 and every entry the judgement names; the record-test kit runs one Opus reader per copy (old, new), acting as the coordinating session, and a blind Opus grader; fix and rerun a failed trap; nothing enters POSITIONS until it passes. Keep it small.
+3. **Climb batch 22c**, phase 3's closing batch (his framing of 07:30 UTC): its planner's record after the judgement and the rewrites; candidate rungs: row 816's repair (P-158: Chase's count restored and 12 bodyless declarations; PLAN phase 4's line "Row 816's repair" moves to it), row 782's 9 operator headers with the export check reading operators, `List`'s two imports (`CovariantCollection`, `OneShotFlag`) checked and cleared, the bound `Any` for `fortress compile` (the probe's one small rung: `Shell.java:372` and 10 test edits). Its record goes through the Fable review; it launches on his go (phase 3 batches ran on the standing go, but ask it).
+4. **Then batch 23** (the natives), held at his word of 11:36 UTC on 10-24; its record is ready (`CLIMB-BATCH-23.md`, Fable-reviewed at `3108ab29b`), its base build `/home/user/fortress-base23` (rebuild from `main` after 22c lands).
 
 ## Waiting on him
 
-- **The POSITIONS rewrites, his yes of 07:48 UTC on 10-26 to the plan:** after the Fable judgement, rewrite P-26 (the three layers) and P-37 (his reason; when a design of the compiler's prelude binds the one library: where the team's later word on the language backs it, as the exclusion rule backs the flat numbers), and any other entry the judgement names (P-43's "Why", P-42's grounds, P-33's exit), with the clarity workflow; before the rewrite, an Opus worker writes 4 trap scenarios from the old entries and his words, not seeing the new text; the readers act as the coordinating session (coordinator skill loaded), the scenarios are its forks (planning a batch, a probe, weighing a trade-off), since POSITIONS is mainly for the coordinator's judgement after compactions and restarts; one Opus reader in a copy with the old entries, one with the new, a blind Opus grader (the record-test kit); a failed trap is fixed and rerun; nothing enters POSITIONS before it passes. Keep it small. The judge's brief names the exclusion-fork notes (`multiple-instantiation-exclusion.md`, `exclusion-design-brief.md`, `mie-probes/`), which ground the flat numbers on the rule, not on the prelude's history.
-- **Held behind the foundations review:** ask 2 (phase 3's exit) is open in discussion: he holds it until the tenets are re-verified. His reason for P-37 (the switch-over avoids porting walk's library; the revival continues the checker until it accepts the fuller library), from his message of 10-26, goes into P-37 when that discussion ends. My revised view on the other 40 components (zero before P-12's step, where walk runs the checker, or before the first program that needs each) is his to confirm.
-- **The judgement's decisions, one per message, in the order I announced to him** (the first, row 816, answered):
-  1. Phase 3 done, with its exit restated, and phase 4's two zeros named (the checker's over the thirteen under the compile setting; the code generator's).
-  2. P-58's informed yes before batch 23.
-  3. P-155 read to cover the export check (row 782's 9 operators, 1 rung).
-  4. P-75 withdrawn.
-  5. His texts to correct (P-146, P-154, P-156, P-68, P-79, P-155's second sentence, P-33), shown as a page with the wording.
-  6. Two review-queue items without a default (rq 35, rq 230).
-  7. The go for batch 23 (Q1, the distance stage kept in phase 4's gates, default yes; Q2, N1's first family folded in, default yes).
-- **After the eight, not yet in any ask:**
-  - the `AnyIntegral` probe's question: the team's clause, with its bound, made live by way 2 after three prerequisite rungs, or P-44's list stays (the probe's default: the list stays; way 2 measured again at row 804's fix);
-  - the code-generation probe's question (`perf-probes/codegen-distance/REPORT.md`): the gate's distance stage running code generation per declaration, report-only (default: no, a probe when a rung touches the code generator); ask 2's second zero bears on it;
-  - P-154's row-774 wait (walk's half of conditional extension waits for P-12 or row 364);
-  - PLAN's lists "Climb batch 22, listed for his review" and "Climb batch 21b, listed for his review", whose items the eight do not take: rows 188, 283 and 533 (default open, noted), the zero with row 731's checker gap open, R.skeptic.1 (`changes.tex:2470-2473` stands), row 825 (default today's behaviour), `PureList.fss:73` (waits with row 824), E.worker.1 with E.skeptic.2 (default none), D.worker.1 with D.skeptic.1 (waits with row 731's demo half).
-- Then **PLAN's consolidation** (step 4): closed items to `PLAN-history.md`, phases 4 to 6 rewritten from the review.
+- **The other 40 components:** my view, his to confirm: each reaches its checker zero before P-12's step (walk runs the checker) or before the first program that needs it.
+- **The asks still open, after the review,** one per message: P-58's informed yes; P-155 to cover the export check (may fold into 22c); P-75 withdrawn; his texts to correct (P-146, P-154, P-156, P-68, P-79, P-155's second sentence, P-33), shown as a page; rq 35 and rq 230; batch 23's go (Q1 the distance stage kept in phase 4's gates, default yes; Q2 N1's first family folded in, default yes). Ask 2 (phase 3 done) is replaced by his framing: phase 3 closes after 22c.
+- **The probe's two questions** (when `Any` reaches `fortress compile`: his framing puts it in 22c; `CoercionGenericFnCompiledRungC`'s fate) and **the `AnyIntegral` probe's question** (P-44's list stays, or the team's clause by way 2 after three prerequisite rungs; default the list stays).
+- **Not yet in any ask:** the code-generation probe's question (the distance stage running code generation, report-only; default no); P-154's row-774 wait; PLAN's lists "Climb batch 22, listed for his review" and "Climb batch 21b, listed for his review" (rows 188, 283, 533; the zero with row 731's gap; R.skeptic.1; row 825; `PureList.fss:73`; E.worker.1 with E.skeptic.2; D.worker.1 with D.skeptic.1).
 - Who decides changes to the coordinator skill (the 10-19 post-mortem's ask). Until he answers, no edit of the coordinator skill without his yes on its wording.
 
-## Next
+## To file after the judgement (coordinator's work, by an Opus routing worker)
 
-- **Row 816's repair** (P-158): a rung in the next batch, at his word of 04:28 UTC on 10-26; batch 23's record gains it by a planner's amendment after asks 1 to 3 below, since ask 3's rung (row 782) touches the same `ExportChecker.scala`; the skill's `library.md:44` ("It requires no component member") and `compiler.md:74` become false with it, revival-change material for that rung.
-- **The `AnyIntegral` probe's leftovers, unfiled by scope:** the specification's edits (report section 4) wait on his answer; the code generator's refusal of a trait header with a `where` clause (row 701, by reading only) goes on row 701 if his answer makes the clause live.
-- **Small record fixes:** PLAN.md:80 says 58 declarations, 52 now (at the consolidation); `XXXCoercionStaticRungC` cites row 19, now closed; the distance stage's list to gain `CovariantCollection` and `OneShotFlag` (the audit's action 1, report-only); P-42's flip as a named PLAN step (with the consolidation).
-- **Phase 4's first batch:** the launch on his go; the batch script spliced for 23 then, its check-in file `scratchpad/batch23/checkins.txt`.
-- **Clean-up:** `/home/user/fortress-base23` after batch 23 lands.
-- **The type-decisions judgement's write-up for him**, by an Opus writer as a page.
-- **The orientation's size** (17.4K against the 12K budget): a later consolidation.
-- **The ledger repair**, about 180 open rows (`ledger-health-2026-10-22/REPORT.md`), if budget allows.
+- From the bound-Any probe: a new ledger row (compiled path, section 12: a generic dotted method with one tuple-typed parameter dies with `ClassCastException`, `CodeGen.java:6250-6263`); row 339 ("unverified" dropped, confirmed by `javap`); notes on rows 691 (reached by row 412: `id((3, 4))` runs `id(3)`) and 470; its "For FACTS" items.
+- From the evidence map: `TypeMapping.tex:125` on F-44; his class-loader lean of 09-20 (a held-list or review-queue item for him, not POSITIONS without his word); walk's checker gap (Scala off, no `CoercionInvocation` case) on P-12's ground (a FACTS entry or a ledger row); the two statements on stamping (a FACTS correction).
+- From the bound archaeology: Steele's 2012 commits on F-55 or row 412.
+
+## Next, smaller
+
+- **The `AnyIntegral` probe's leftovers:** the specification's edits wait on his answer; row 701's note if the clause goes live.
+- **Small record fixes:** PLAN.md:80 says 58 declarations, 52 now; `XXXCoercionStaticRungC` cites row 19, now closed; the distance stage's list to gain `CovariantCollection` and `OneShotFlag`; P-42's flip as a PLAN step (now 22c's).
+- **PLAN's consolidation** after the review: closed items to `PLAN-history.md`, phases 4 to 6 rewritten from the judgement.
+- **The type-decisions judgement's write-up** for him, by an Opus writer as a page.
+- **The orientation's size** (17.4K against the 12K budget); **the ledger repair** (about 180 open rows), if budget allows.
 
 ## Owed, small
 
@@ -61,9 +52,9 @@ Phase 4 is not under the standing go. **Batch 23 is held at his word of 11:36 UT
 
 ## The record, the machine, the pages
 
-- **The model:** Opus 5.5 since his `/model claude-opus-5-5` at 21:04:25 UTC on 2026-10-19 (`model-now.sh` at 18:51 UTC on 10-25). Every writer is Opus, at his word of 05:35 UTC on 10-22.
-- **The boot:** the full boot is the default; a light boot only at his word. After the compaction of 10-24 the boot was skipped until his question at about 18:50 UTC on 10-25, then done in full.
-- **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable`. Commit by named paths only, never `-A`, `.` or `-a`.
+- **The model:** Opus 5.5 since his `/model claude-opus-5-5` at 21:04:25 UTC on 2026-10-19. Every writer is Opus, at his word of 05:35 UTC on 10-22.
+- **The boot:** the full boot is the default; a light boot only at his word. The model-check Stop hook now also blocks the first stop after a compaction if both skills were not loaded since (`05a4fdb11`).
+- **The record** lands on `main` by `committing.md`'s three pushes: `main`, `main:claude/worker-brief-fable-vnnuv8`, `main:blinded-fable`. Commit by named paths only, never `-A`, `.` or `-a`. A worker's report write is often refused ("Subagents should return findings as text"): extract the report from its transcript (`subagents/agent-<id>.jsonl`, the last assistant text) and commit it yourself.
 - **The week:** reset at 10:00 UTC on 10-23.
 - **The machine:** the VM restarted at 04:28:32 UTC on 2026-10-26 (`ps`, pid 1), after another at 18:48 UTC on 10-25; the tree matched `origin/main` after each, and `/home/user/fortress-base23` is present. The next stop by the cap is about 17:30 UTC on 10-26.
 - **Pages:** the post-mortem report, https://claude.ai/artifact/F3Gz2ynXQSKEjKXqhNT5is, version 3; the audit page, https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb, version 15; the drafts page, https://claude.ai/artifact/XXBj1nCCADReEGXspFG2Tg; the revival page, https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5, version 24 of 10-24 (source `scratchpad/revivalpage/page.html`, text `process-engineering/revival-story.md`). After a compaction, publish a page by its URL.
