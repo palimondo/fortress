@@ -79,3 +79,8 @@
 - **Fork 10, `table.py`'s api lines.** The planner did not measure it, and the record says so; the canned case comes first, by the brief. Left.
 - **Question 4's other way, a bridge at the api's descriptor.** No probe has designed it; NEW-O-1 names it. Left.
 - **The gate's first run of the compile setting.** The planner's c2 run is the first measurement of the stage under `-setting compile` with the switch read from `Shell.java`; the gate's run is the second. If it reads other than 0, the setting's reading is the first suspect, then the text.
+
+## The coordinator's correction, after the review
+
+Item 2's date is wrong. `a9c625b1e` (2012-06-19) has no parent either (`git rev-list --parents -n 1 a9c625b1e` prints one hash), so `git log --follow -S` lists it as the commit that "added" the count, as it lists every root. In the connected history before the snapshots, the count entered at `ac0d41de0` (Sukyoung Ryu, 2009-05-08, "[export checker] Improved error messages.  Added a test."), whose diff adds `if ( inAPI.length > inComp.length )` with the message "missing members of the trait/object in the component", three months after Ryu's checker of `80d8c678a` (2009-02-03) quoted the specification's rule for fields and non-abstract methods. The record's three sentences now say so.
+
