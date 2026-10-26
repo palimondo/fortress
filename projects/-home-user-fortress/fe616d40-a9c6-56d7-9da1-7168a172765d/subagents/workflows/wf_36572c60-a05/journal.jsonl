@@ -1,0 +1,3 @@
+{"type":"launched"}
+{"type":"started","key":"v2:942d8bca336ccd38bd1056abffbe2b55bb48282c470f216495b8848b242aced3","agentId":"a35ff4dd28f324199","label":"write c1","phase":"Write"}
+{"type":"started","key":"v2:4c2b9925385f3338a711e5191acddc260cc6eccfc32094144b1371a47ce5fc41","agentId":"a3d88003605acce9c","label":"write c2","phase":"Write"}
