@@ -1,0 +1,2 @@
+X = the new texts (copy q, answers-new.md)
+Y = the entries as at bedc80b01 (copy p, answers-old.md)
