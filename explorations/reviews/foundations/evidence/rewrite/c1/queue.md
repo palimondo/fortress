@@ -1,0 +1,23 @@
+<!-- The judge's items for the review queue from chunk c1 of the foundations rewrite (P-26, P-37, P-43, P-42, P-7, P-158), 2026-10-26, in the form of coordinator/review-queue.md: no held entry; one question for the curator that proposals.md writes on an applied entry (P-26, with P-37); notes on four items already in the queue that the applied texts answer by their defaults (215, 218, 219, 220). -->
+
+# Review-queue items, foundations rewrite c1
+
+This chunk has no held entry. `proposals.md` writes one question on an applied entry, for the judge or the curator. No source settles it, so it goes to him. Give the item a number when it goes into `coordinator/review-queue.md`.
+
+**How is the team's library text dated when a prelude design is weighed against it (P-26, P-37)?** P-26 puts the team's library, the interpreter's, in the language layer, beside the specification and the papers. It ranks the language's texts by year: the Working Draft (text of 2010), the 2011 paper, the Types chapter and Naden's write-up (2012), and the POPL 2019 paper. The library is not in that list. P-37 says that a line of the compiler's prelude counts as the team's later word only if it is later than the library's text on the same shape, by P-26's dating. A shape is one design that the two libraries declare differently, such as the number types. The foundations judgement gives this test (section 3) but no way to date the library's text. Its one example dates the library by the last year the team kept it: "the interpreter's nested library kept to 2012 against the prelude flat since 2009". It calls those two later sources in conflict, which P-26 gives no order and which he decides by the goal (tenet 2). The library's text could be dated by the commit that wrote the shape, or by the last commit that kept it. Or it could stay out of the ranking, with every such case sent to him. No source read by the writer, the checker or the judge says which.
+   - Landed: nothing. The record's P-26 has no dating rule. Default: the applied P-26 and P-37, which state no rule. A case that turns on the date goes to him as two later sources in conflict, as the judgement's own example does.
+   - The other way: one sentence in P-26. The library's text on a shape is dated by the team's commit that wrote it, and it ranks by that year beside the texts. Or it is dated by the last commit that kept it.
+   - Its cost: one sentence of P-26. No case waits on it today. The judgement's sweep of the prelude found no backed prelude design that the revival overrode, except row 816, which P-158 settles on the ambiguous text, not on a date (section 3).
+   - Home: POSITIONS P-26 and P-37; `reviews/foundations/judgement.md`, tenet 2 and section 3, sharpening 3; `reviews/foundations/rewrite/c1/proposals.md`, "P-26", its question; `check.md` beside it, "P-26", comprehension; `cold-read-2.md` beside it, "P-26" and "P-37"
+   - Needed by: the next case where a prelude design differs from the library's on a shape, and neither a language text nor a rule of the team's checker settles it. None is planned.
+
+## Notes on items already in the queue
+
+These four are the three one-word answers of the foundations judgement's section 9, item 4 (open answer 3 of the run). The applied texts take each default. A yes to the texts answers each item. A no brings back the old sentence, as `proposals.md` gives it for each entry.
+
+- Item 215 (P-26: "The implementers' later word also outweighs unfinished text."). The applied P-26 strikes the sentence. It has no source; the coordinator added it at `bc8902f47`.
+- Item 218 (P-42: "functions" among what `Any` holds and `Object` does not). The applied P-42 says "tuples and `()`", as the specification's callout does.
+- Item 219 (P-43: why he chose route A). The applied P-43 moves the old "Why" to history. In its place it gives the language's grounds as the entry's, marked "from the judgement, for his yes": the exclusion rule's four texts, and the Working Draft's "mutually exclusive" sentence. His words of 2026-10-26 07:46 UTC ("we did a plenty of digging which decided why we took the flat numeric tower") point to those grounds. They are not his reason as recorded.
+- Item 220 (P-43: "He cares that specialised code runs fast, not how a specialisation is chosen."). The applied P-43 moves the sentence to history.
+
+The sentences that depend on open answer 1 (phase 3 closes with climb batch 22c over the fourteen components) are in P-37 and P-42. They are items 1 and 2 of the judgement's section 9, which go to him. `proposals.md` gives the other text for each. They are not repeated here.
