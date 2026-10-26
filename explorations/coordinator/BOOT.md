@@ -2,11 +2,15 @@
 
 # Boot note
 
-**State at 04:33 UTC on 2026-10-26** (05:33 his time). Row 816 is decided: his option 2 at 19:06 UTC on 10-25, P-158, with his reason at 04:28 UTC on 10-26 (the compiled path's way, the team's later work, over the walk library's, by P-26); its repair goes into the next batch. Row 816 is decided: his option 2 at 19:06 UTC, P-158, recorded at `edbd0d4f5` (F-282, row 816, PLAN's phase 4 line "Row 816's repair"). The model check gained a boot check after a compaction at his word (`05a4fdb11`). Climb batch 22 landed at `2bff2fe23` (04:34 UTC on 10-24), with its landing steps done. Phase 3 is at its exit by P-33's letter. **The phase 3 exit review** (his yes of about 13:55 UTC on 10-24 to steps 1 and 2) is in: the audit of the zero (`6c4a07d67`), the decisions evidence map (`ef103a417`), the Fable judgement (`2be634867`, `reviews/phase3-exit/judgement.md`), and the audit's findings filed in the ledger and FACTS (`e21ab5389`; F-281 fixed at `081099714`). The `AnyIntegral` comprises-where probe is committed (`b99ee0e6e`, `perf-probes/anyintegral-comprises-where/REPORT.md`) and filed (`e15da7608`: row 831, notes on rows 804 and 487, F-121 rewritten with the measurement).
+**State at 06:14 UTC on 2026-10-26** (07:14 his time). Row 816 is decided (P-158, with his reason; its repair in the next batch). **The foundations review** runs at his yes of 06:11 UTC on 10-26: re-verifying the tenets the revival rests on, each ground filed by layer (the language, the team's JVM implementation, Java interoperability); step 1 first, tenets 3 (one library, P-37) and 4 (the implicit bound `Any`, P-42); then step 2, an Opus evidence map of all nine tenets; then step 3, a Fable judgement (his go included) and a page for him. Batch 23 stays held until it is done.
 
 ## Running
 
-- Nothing. Agents do not survive a process stop.
+- **The foundations review, step 1**, launched at 06:13 UTC on 10-26, two Agent-tool workers:
+  - a Sonnet archaeology scout on why the compiled path sets the implicit bound `Object`, by the three layers, with P-42's history and what he was told; report `explorations/reviews/foundations/bound-archaeology.md` (or its returned text); estimate about 0.4M written;
+  - an Opus probe of the compiled path with a tuple, an arrow type and `()` as static arguments under the `Object` bound and under `Any`, and the compiled tests that import `CompilerSystem` under `Any`; report `explorations/perf-probes/bound-any-compiled/REPORT.md` (or its returned text); estimate about 1.5M written.
+- Check-ins armed: `trig_013zbv9KkBWRRYWYHQFiNNKc` (06:59 UTC) and `trig_014w3pKsXTW4vAhZthtC3PgH` (07:44 UTC).
+- Agents do not survive a process stop. If one is cut, launch it again from its brief (in this session's transcript of 06:13 UTC) with its partial transcript named.
 
 ## The go
 
@@ -14,6 +18,7 @@ Phase 4 is not under the standing go. **Batch 23 is held at his word of 11:36 UT
 
 ## Waiting on him
 
+- **Held behind the foundations review:** ask 2 (phase 3's exit) is open in discussion: he holds it until the tenets are re-verified. His reason for P-37 (the switch-over avoids porting walk's library; the revival continues the checker until it accepts the fuller library), from his message of 10-26, goes into P-37 when that discussion ends. My revised view on the other 40 components (zero before P-12's step, where walk runs the checker, or before the first program that needs each) is his to confirm.
 - **The judgement's decisions, one per message, in the order I announced to him** (the first, row 816, answered):
   1. Phase 3 done, with its exit restated, and phase 4's two zeros named (the checker's over the thirteen under the compile setting; the code generator's).
   2. P-58's informed yes before batch 23.
