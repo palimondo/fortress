@@ -7,7 +7,7 @@
 ## Running
 
 - **The foundations review, step 1**, launched at 06:13 UTC on 10-26, two Agent-tool workers:
-  - a Sonnet archaeology scout on why the compiled path sets the implicit bound `Object`, by the three layers, with P-42's history and what he was told; report `explorations/reviews/foundations/bound-archaeology.md` (or its returned text); estimate about 0.4M written;
+  - the Sonnet archaeology scout: **returned**, committed at `ab2ee0c29` (`reviews/foundations/bound-archaeology.md`), read in full;
   - an Opus probe of the compiled path with a tuple, an arrow type and `()` as static arguments under the `Object` bound and under `Any`, and the compiled tests that import `CompilerSystem` under `Any`; report `explorations/perf-probes/bound-any-compiled/REPORT.md` (or its returned text); estimate about 1.5M written.
 - Check-ins armed: `trig_013zbv9KkBWRRYWYHQFiNNKc` (06:59 UTC) and `trig_014w3pKsXTW4vAhZthtC3PgH` (07:44 UTC).
 - Agents do not survive a process stop. If one is cut, launch it again from its brief (in this session's transcript of 06:13 UTC) with its partial transcript named.
