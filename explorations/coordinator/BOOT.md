@@ -2,15 +2,14 @@
 
 # Boot note
 
-**State at 06:14 UTC on 2026-10-26** (07:14 his time). Row 816 is decided (P-158, with his reason; its repair in the next batch). **The foundations review** runs at his yes of 06:11 UTC on 10-26: re-verifying the tenets the revival rests on, each ground filed by layer (the language, the team's JVM implementation, Java interoperability); step 1 first, tenets 3 (one library, P-37) and 4 (the implicit bound `Any`, P-42); then step 2, an Opus evidence map of all nine tenets; then step 3, a Fable judgement (his go included) and a page for him. Batch 23 stays held until it is done.
+**State at 07:04 UTC on 2026-10-26** (08:04 his time). Row 816 is decided (P-158, with his reason; its repair in the next batch). **The foundations review** runs at his yes of 06:11 UTC on 10-26: re-verifying the tenets the revival rests on, each ground filed by layer (the language, the team's JVM implementation, Java interoperability); step 1 first, tenets 3 (one library, P-37) and 4 (the implicit bound `Any`, P-42); then step 2, an Opus evidence map of all nine tenets; then step 3, a Fable judgement (his go included) and a page for him. Batch 23 stays held until it is done.
 
 ## Running
 
-- **The foundations review, step 1**, launched at 06:13 UTC on 10-26, two Agent-tool workers:
-  - the Sonnet archaeology scout: **returned**, committed at `ab2ee0c29` (`reviews/foundations/bound-archaeology.md`), read in full;
-  - an Opus probe of the compiled path with a tuple, an arrow type and `()` as static arguments under the `Object` bound and under `Any`, and the compiled tests that import `CompilerSystem` under `Any`; report `explorations/perf-probes/bound-any-compiled/REPORT.md` (or its returned text); estimate about 1.5M written.
-- Check-ins armed: `trig_013zbv9KkBWRRYWYHQFiNNKc` (06:59 UTC) and `trig_014w3pKsXTW4vAhZthtC3PgH` (07:44 UTC).
-- Agents do not survive a process stop. If one is cut, launch it again from its brief (in this session's transcript of 06:13 UTC) with its partial transcript named.
+- **The foundations review, step 2**, launched at 07:02 UTC on 10-26: an Opus evidence map of the nine tenets by the three layers, reading only; report `explorations/reviews/foundations/tenets-evidence.md` (or its returned text); estimate about 1.5M written. Then step 3, the Fable judgement on both steps (his go of 06:11 UTC includes it), then a page for him by an Opus writer.
+- Step 1 is in: the bound archaeology (`ab2ee0c29`) and the bound-`Any` compiled probe (`4b3d91cb4`, `perf-probes/bound-any-compiled/REPORT.md`), both read in full. The probe's findings for the ledger and FACTS (a new row for the tuple-domain defect of generic dotted methods; notes on rows 339, 691, 470; its "For FACTS" items) and its two questions wait for the judgement.
+- Check-ins armed: `trig_01P1nG3fBxAev8Gp6JcxzwF7` (07:48 UTC) and `trig_01MfqA5a75SA2w2ghqTVwX1A` (08:33 UTC).
+- Agents do not survive a process stop. If one is cut, launch it again from its brief (in this session's transcript of 07:02 UTC) with its partial transcript named.
 
 ## The go
 
