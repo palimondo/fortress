@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Probe: compiled path with tuple, arrow, () type args","toolUseId":"toolu_01CH9su9DErqTj4yHKAzHgGK","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Probe: compiled path with tuple, arrow, () type args","toolUseId":"toolu_01CH9su9DErqTj4yHKAzHgGK","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
