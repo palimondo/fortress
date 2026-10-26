@@ -13,7 +13,8 @@ export const meta = {
 }
 
 // args: { kind: 'positions' | 'facts', out: '/abs/folder/', chunks: [{ name: 'c1', entries: ['P-7', 'P-8'] }],
-//         stream: 'name' (the writer stream, default the first chunk's name), from: 'judge' (only judge chunks already written) }
+//         stream: 'name' (the writer stream, default the first chunk's name), from: 'judge' (only judge chunks already written),
+//         extra: 'text' (a run's own brief, given to the writer, the fix round, the checker and the judge; the cold reader never sees it) }
 // The writer and its fix round run in the stream's headless Opus session (writer-stream.sh), driven by a
 // Sonnet step that only runs the command and waits; the stream resumes its session while the context is small.
 // Every agent writes its own files into out + chunk name + '/'. The judge writes final.apply and queue.md;
@@ -29,8 +30,9 @@ const ASSESS = {
 }
 const STREAM = args.stream || args.chunks[0].name
 const FROM = args.from || 'assess'
+const EXTRA = args.extra ? String(args.extra) : ''
 const drive = (x, n, brief) => {
-  const task = `Read your brief and follow it: ${T}${brief}. Your kind: ${KIND}. Your chunk: ${x.name}. Your entries: ${x.write.join(', ')}. Your folder: ${x.dir}`
+  const task = `Read your brief and follow it: ${T}${brief}.${EXTRA ? ' ' + EXTRA : ''} Your kind: ${KIND}. Your chunk: ${x.name}. Your entries: ${x.write.join(', ')}. Your folder: ${x.dir}`
   const log = `${x.dir}writer-${n}.log`, done = `${x.dir}writer-${n}.done`
   return agent(`You drive a long command and report its output; you judge nothing and write nothing else. The folder ${x.dir} may not exist yet: create it with mkdir -p.
 1. If ${done} exists, skip to step 3.
@@ -39,7 +41,7 @@ const drive = (x, n, brief) => {
 3. Run \`python3 ${T}wait.py ${done} 540\` in the foreground, with a timeout of 600000 ms. If it exits 1, run it again; repeat until it exits 0.
 4. Your final message: the last 60 lines of ${log}, verbatim.`, { label: `${n === 1 ? 'write' : 'fix'} ${x.name}`, phase: n === 1 ? 'Write' : 'Fix', model: 'sonnet' })
 }
-const tell = (x, extra) => `Your kind: ${KIND}. Your chunk: ${x.name}. Your entries: ${x.write.join(', ')}. Your folder: ${x.dir}` + (extra ? '\n' + extra : '')
+const tell = (x) => `Your kind: ${KIND}. Your chunk: ${x.name}. Your entries: ${x.write.join(', ')}. Your folder: ${x.dir}` + (EXTRA ? '\n' + EXTRA : '')
 
 const res = await pipeline(args.chunks,
   async (c) => {
