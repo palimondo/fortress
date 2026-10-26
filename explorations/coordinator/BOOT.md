@@ -19,7 +19,7 @@ Phase 4 is not under the standing go. **Batch 23 is held at his word of 11:36 UT
 
 ## Waiting on him
 
-- **My two POSITIONS wordings of about 08:05 UTC (P-37's reason and the prelude's designs; P-26's three layers): held** until the judgement, since the evidence map shows the two pull against each other (the prelude as L2 work, P-43's "Why" reading it as L1).
+- **My two POSITIONS wordings of 07:39 UTC (P-37's reason and the prelude's designs; P-26's three layers): held** until the judgement, since the evidence map shows the two pull against each other (the prelude as L2 work, P-43's "Why" reading it as L1).
 - **Held behind the foundations review:** ask 2 (phase 3's exit) is open in discussion: he holds it until the tenets are re-verified. His reason for P-37 (the switch-over avoids porting walk's library; the revival continues the checker until it accepts the fuller library), from his message of 10-26, goes into P-37 when that discussion ends. My revised view on the other 40 components (zero before P-12's step, where walk runs the checker, or before the first program that needs each) is his to confirm.
 - **The judgement's decisions, one per message, in the order I announced to him** (the first, row 816, answered):
   1. Phase 3 done, with its exit restated, and phase 4's two zeros named (the checker's over the thirteen under the compile setting; the code generator's).
