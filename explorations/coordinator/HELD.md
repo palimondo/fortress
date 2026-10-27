@@ -2,6 +2,11 @@
 
 # Held list
 
+## Held in chat (2026-10-27)
+
+- 07:12 Fable 5.1 writes no text that goes as written into the permanent record. It may give its reasoning as corrections to text that Opus writes, and Opus writes the text. The reason: its compressed register degrades the reasoning; the 5.5 models were trained out of it. This holds until a Fable 5.5 (for the skill writer: the tier rule in `delegating.md`).
+- 07:13 After a boot, load at once the parts of the coordinator skill that the work in hand needs, `delegating.md` before any reading that a worker could do; keep this session's context for decisions, and give the menial reading of long reports, such as the Fable judgement, to workers (for the skill writer: `SKILL.md`, "The boot", and the boot note naming the parts).
+
 ## Held from his page comments (2026-10-22)
 
 - 05:49 A pointer that stays in an entry carries a few words on what it holds (a gap-ledger row, another entry, a PLAN item), so that a reader can decide whether to follow it without loading every reference; a bare list of row numbers fails (P-45's still-to-build list). 05:51: whether the pointer stays in the entry at all is the writer's call; in the history, as provenance, a bare reference is fine, since a reader there is chasing links anyway. For the clarity pass's writer, and for the skill writer: `record.md`, what an entry is.
