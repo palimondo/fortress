@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Extract the review's findings per entry","toolUseId":"toolu_01RcgoWUQAG1WmGuwQkcV5Dw","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet"}
