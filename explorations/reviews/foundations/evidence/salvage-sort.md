@@ -10,7 +10,7 @@ Sorted by the coordinator at 05:38 UTC on 2026-10-28, after a light boot, from `
 2. P-26 (a): the three aspects of 05:25:27 kept apart (what Fortress does; how it is implemented on the JVM; interoperability with Java). (c): "later" checked by date (my restatement, which he confirmed "more or less" at 07:12 UTC on 10-27). Out of its list: "the number types of the compiler's prelude made siblings in 2009 and 2010", which is earlier than the Working Draft of February 2011; the exclusion rule, already in the list, makes the numbers flat (07:46:17).
 3. P-27: one pointer: where the two libraries differ, P-37 decides (trap scenario 2).
 4. P-43 (a) and (b): its "Why" replaced by the grounds that decided the flat tower (07:46:17; the conversation note, section 7).
-5. P-158 (a): the specification's export rule asks no declaration of an abstract member (`source-code.tex:380-383`). (b): "of 2012" out; the count is of 2009-05-08 (`ac0d41de0`).
+5. P-158 (a): the specification's export rule asks no declaration of an abstract member (`source-code.tex:380-383`). (b): "of 2012" out; the count is of 2009-03-10 (`edb516dba`).
 6. P-42 (b): "until the switch-over, which ends the departure" and "while it uses the compiler's prelude" out: a setting of `fortress compile` holds the bound `Object` (`Shell.java:372`, F-289). (d): the example of arrays indexed by pairs out, since P-156 bounds every index parameter by `Index`.
 7. P-33: "the interpreter's whole library" to the components that the distance counts (F-53); his "Of course" at 04:47:50 answers "the word 'whole' is wrong".
 

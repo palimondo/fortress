@@ -182,5 +182,5 @@ Ground: `Specification/basic/components/source-code.tex:372-385`; the team's che
 
 **P-158** (b), the date. At issue: "export check of 2012 enforces it"
 Reports: "the count is Sukyoung Ryu's, `ac0d41de0`, 2009-05-08; `5a68404fd` and `a9c625b1e` of 2012 are parentless snapshots" (rewrite note, "Still owed").
-Plain: False date: the member count is of 2009-05-08.
-Ground: commit ac0d41de0 (sukyoungryu). Elsewhere: row 816 (60aaeb6bb); the entry: no.
+Plain: False date: the member count is of 2009-03-10.
+Ground: commit edb516dba (sukyoungryu). Elsewhere: row 816 (60aaeb6bb); the entry: no.
