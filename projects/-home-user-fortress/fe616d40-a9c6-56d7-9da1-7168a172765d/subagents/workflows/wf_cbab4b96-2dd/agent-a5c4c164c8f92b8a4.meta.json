@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","isBuiltIn":true,"description":"write p","workflowPhase":"Write","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"sonnet"}
