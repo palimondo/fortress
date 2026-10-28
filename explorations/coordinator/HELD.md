@@ -2,6 +2,13 @@
 
 # Held list
 
+## Held in chat (2026-10-28)
+
+- 06:41 The register: halfway to ASD-STE100, no Claudisms, no internal shorthand, no reference to an internal reasoning position; the terms that the skills define are known to him, nothing else is assumed. Guard the context like a hawk: delegate heavily, Sonnet for archaeology of exact words only, Opus to process evidence into reports; the coordinator acts on high-level summaries and never reads transcripts or overlong reports itself (for the skill writer: `SKILL.md`, "Talking to the curator" and "The standing goal"; `delegating.md`).
+- 07:26 POSITIONS and the skills are a minimal delta from the model's trained behaviour. POSITIONS is not his voice: it holds his meaning, factually correct, in the smallest form from which a fresh worker or coordinator, with the skills loaded, decides right. The skills stay light: no series of rules and cases, which confuse a full context. The record is the project's culture, how decisions are taken where he is not asked, so a wrong premise there compounds (for the skill writer: `record.md`, "What an entry is"; `skill-rewrite.md`).
+- 07:37 Do not reinvent the consolidation process. A batch of entry changes of this size runs through the clarity workflow, chunked, with a specialist Opus writer, never by the coordinator's hand. The scope of the salvage is every issue the review found, not the two changes agreed before; the 2.5M tokens of digging are used. Before the work, the full story of what went wrong, by Sonnet scouts and an Opus synthesis, so that it does not recur. Briefs light, no micromanagement; Opus workers at extra high reasoning effort comb large reports and return summaries or exact quotes sized for the coordinator (for the skill writer: `delegating.md`; `record.md`, "A consolidation").
+- 07:42 The analysis's scope, his go: the last consolidation's tools, their correct use, their evolution, its lessons and how they were or were not encoded; whether skill changes in between degraded the coordinator; a worker loads INDEX and reconstructs the slice of the record for the coordinator's decisions.
+
 ## Held in chat (2026-10-27)
 
 - 07:12 Fable 5.1 writes no text that goes as written into the permanent record. It may give its reasoning as corrections to text that Opus writes, and Opus writes the text. The reason: its compressed register degrades the reasoning; the 5.5 models were trained out of it. This holds until a Fable 5.5 (for the skill writer: the tier rule in `delegating.md`). 07:47: not a blanket ban; Fable may edit a batch record in place, as its review does.
