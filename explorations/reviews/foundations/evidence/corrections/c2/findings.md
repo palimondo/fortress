@@ -2,16 +2,6 @@
 
 "At issue" quotes POSITIONS.md as it stands (last changed 5da8144e4). In quotes, [..] replaces a shorthand of the reports and "…" a cut. Sources (explorations/reviews/foundations/): judgement.md (the judge's; cited as "tenet N", its §2, or "§N"), tenets-evidence.md (evidence map), prelude-lens.md (prelude sweep), rewrite-results.md (rewrite note), evidence/trap-test/key.md and grades.md; "dialogue" is conversations/02-phase3-exit-foundations.md. Old reader: the trap-test reader with today's entries (10 of 12); "scenario N" is the trap test's. All times UTC. One-line entries: named as stated, no fault found.
 
-**P-12**, walk runs the checker. At issue: "walk runs the checker on its programs"
-Reports: "walk has no case for `CoercionInvocation` …; and F-290's 624 errors stand between the checker and the components walk's programs import" (tenet 9).
-Plain: Bigger than stated: Scala checker on under walk, inserted coercions read, components cleared; unmeasured.
-Ground: code reading (`StaticChecker.java:228-229`), F-290. Elsewhere: F-9, row 833 (0d2206c5f); the entry: no.
-
-**P-17**, unboxed doubles. At issue: "cannot box its numbers"
-Reports: "they do not cite `objects.tex:38` or `binary.tex:76-82`, which are the [language] grounds" (tenet 7).
-Plain: Missing reason: the specification's own words on unboxed values.
-Ground: Working Draft `objects.tex:38`, `binary.tex:80`. Elsewhere: no.
-
 **P-33**, the phase order. At issue: "reports no error on the interpreter's whole library"
 Reports: ""The interpreter's whole library" is wider than F-53's twelve, and his 10-26 goal says "the fuller library"." (tenet 6).
 Plain: The zero covers twelve components (fourteen with `List`'s imports). The other 38 block P-12's step; code generation was unmeasured (F-34); phase 3 closes with batch 22c; two zeros go to phase 4.
