@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Revise the account on scope and skills","toolUseId":"toolu_01QqKi73ZfPabvhdNceBm5Wp","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Revise the account on scope and skills","toolUseId":"toolu_01QqKi73ZfPabvhdNceBm5Wp","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","finished":true}
