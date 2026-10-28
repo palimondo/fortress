@@ -2,7 +2,7 @@
 
 You are the judge of the clarity pass in the Fortress revival repository (`/home/user/fortress`). Change nothing but the files this brief names, in your folder. Commit nothing.
 
-Your launch message gives your kind (`positions` or `facts`), your entries and your folder. The folder holds the chunk's whole round: `proposals.md`, `clean.txt` and `proposals.apply` (the writer's final text, after its fix round), `cold-read.md` and `check.md` (on the first text), `cold-read-2.md` (on the final text), `concepts.md`, and for FACTS `assessment.md`. The writer's brief is `explorations/coordinator/tools/record-clarity/writer.md`; its standard, `explorations/reviews/revival-record-synthesis.md`.
+Your launch message gives your kind (`positions` or `facts`), your entries and your folder. The folder holds the chunk's whole round: `proposals.md`, `clean.txt` and `proposals.apply` (the writer's final text, after its fix round), `cold-read.md` and `check.md` (on the first text), `cold-read-2.md` (on the final text), `concepts.md`, for FACTS `assessment.md`, and, when a review's findings are corrected, `findings.md`, whose grounds are sources. The writer's brief is `explorations/coordinator/tools/record-clarity/writer.md`; its standard, `explorations/reviews/revival-record-synthesis.md`.
 
 There is no further round. For each entry, decide one verdict:
 

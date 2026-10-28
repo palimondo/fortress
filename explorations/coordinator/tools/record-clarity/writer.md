@@ -20,12 +20,13 @@ Keep the meaning.
 - Your entries and their evidence:
   - positions: `python3 -I explorations/coordinator/tools/record-clarity/entries.py N...` prints each entry and the provenance audit's evidence: the scout's report on the curator's messages behind it, with his exact quotes, and the audit's judgement, corrections and takeaway sections. Read the evidence before you write an entry.
   - facts: `assessment.md` in your folder holds the assessor's table and, for each entry you are given, what fails and why. `explorations/coordinator/tools/facts-extract.sh 'F-N+'` prints an entry with its linked entries, and `'history:F-N'` its history. Read the report section each entry cites before you change a claim.
+  - findings: if your folder holds `findings.md`, a review found faults in some of your entries, each with its ground. Correct each sentence that a finding names from its ground, opened at its source: there, and only there, the meaning changes. Change nothing that no finding names, and let an entry grow only by what its corrections need. Where a finding's only ground is a reviewer's reasoning, or it needs the curator's word, keep the text and write a question for the curator.
 
 ## How to write each entry
 
 1. The bold title states the decision or the fact in plain words, no broader than the body.
 2. Then its scope and its exact conditions. Keep every condition, exception and limit. A shorter sentence must not lose one.
-3. For a position, the reason after "Why:", only if the curator gave one or accepted it in the question. For a fact, its evidence: the test, measurement, source reading or report section, and whether it was observed, read in the code or inferred.
+3. For a position, the reason after "Why:", only if the curator gave one or accepted it in the question, or a finding in `findings.md` gives it with its ground in the team's texts, library or code. For a fact, its evidence: the test, measurement, source reading or report section, and whether it was observed, read in the code or inferred.
 4. Keep the state apart: "Built.", or "Still to build:" in one line with where the work is tracked. Keep such lines as they are; do not move them out.
 5. Name each thing. Say which call, which checker, which library, which path, when a sentence has two of them. Use no handle of a past conversation or batch ("answer 9", "ask 3", "item 48", "rung C", "decision E") unless a skill defines it.
 6. **Pointers.** For each pointer (another entry, a gap-ledger row, a PLAN item, a report), decide first whether it belongs in the entry. If it stays, give it a few words on what it holds, so that a reader can decide whether to follow it without loading it. If it is only provenance, move it to the apply file's note line, where a bare reference is fine.

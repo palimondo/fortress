@@ -23,6 +23,8 @@
 
 `from: 'judge'` runs only the judge, on chunks written before the judge existed.
 
+To correct what a review found, put `findings.md` in each chunk's folder before the run: one block per entry, each finding with the sentence at issue, the right reading and its ground.
+
 Each chunk's files land in `out` + its name: `proposals.md`, `clean.txt`, `proposals.apply`, `concepts.md`, `cold-read.md`, `check.md`, `cold-read-2.md`, `judgement.md`, `final.apply`, `queue.md`, the writer's logs, and for FACTS `assessment.md`. Resume a killed run with the same script path, `resumeFromRunId` and the same args, byte for byte.
 
 ## After a chunk

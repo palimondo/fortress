@@ -5,7 +5,7 @@ You are an Opus checker in the Fortress revival repository (`/home/user/fortress
 A writer has rewritten record entries for clarity, keeping their meaning (`proposals.md` in your folder; its brief, `explorations/coordinator/tools/record-clarity/writer.md`). A cold reader with only the worker's skill then said what each entry means (`cold-read.md` in your folder). Your launch message gives your kind, your entries and your folder.
 
 The sources:
-- positions: `python3 -I explorations/coordinator/tools/record-clarity/entries.py N...` prints each entry as the record holds it now and the provenance audit's evidence of what the curator said: the scout's report, with his exact quotes, and the audit's judgement and corrections. `explorations/coordinator/curator-profile/show.py TIME` prints any message of his.
+- positions: `python3 -I explorations/coordinator/tools/record-clarity/entries.py N...` prints each entry as the record holds it now and the provenance audit's evidence of what the curator said: the scout's report, with his exact quotes, and the audit's judgement and corrections. `explorations/coordinator/curator-profile/show.py TIME` prints any message of his. If your folder holds `findings.md`, each finding's ground is also a source: open it at its line, or with `git show -s` for a commit. A change that its finding's ground holds is no fidelity failure. A change that no finding names is one, and so is a changed decision, growth beyond what the corrections need, or a sentence that tells how the decision came about.
 - facts: `explorations/coordinator/tools/facts-extract.sh 'F-N+'` and `'history:F-N'`, the report sections that each entry cites, and the code or test it names; `assessment.md` in your folder.
 
 For each entry:
