@@ -1,10 +1,12 @@
-<!-- The account of why the POSITIONS rewrite of 2026-10-26 failed where the consolidation of 2026-10-21 to 22 succeeded, and of how to run the foundations review's corrections now, written on 2026-10-28 by an Opus worker from the map and three evidence files beside it, for the coordinator and the curator. -->
+<!-- The account of why the POSITIONS rewrite of 2026-10-26 failed where the consolidation of 2026-10-21 to 22 succeeded, and of how to run the foundations review's corrections now, written on 2026-10-28 by an Opus worker from the map and the evidence files beside it, and revised on 2026-10-28 after the curator's recheck, for the coordinator and the curator. -->
 
 # Why the POSITIONS rewrite of 10-26 failed, and how to run the corrections
 
-Times are UTC. From 10-25 the curator's time is UTC+1. Paths start at `explorations/` unless they start at `.claude/`. Three evidence files are cited by short names:
+Times are UTC. From 10-25 the curator's time is UTC+1. Paths start at `explorations/` unless they start at `.claude/`. Five evidence files are cited by short names:
 
 - "timeline": `coordinator/postmortem-2026-10-28/evidence/timeline-10-26-to-10-28.md`, by the time of a message;
+- "recheck": `.../evidence/scope-recheck.md`, by section;
+- "genesis": `.../evidence/brief-genesis.md`, by section, with the run brief's instructions I1 to I29;
 - "consolidation": `.../evidence/last-consolidation.md`, by section;
 - "history": `.../evidence/tools-and-skills-history.md`, by section.
 
@@ -12,15 +14,15 @@ Times are UTC. From 10-25 the curator's time is UTC+1. Paths start at `explorati
 
 ## Summary for the coordinator
 
-**The causes, heaviest first.**
+**The causes, heaviest first.** The steps up to the launch were right (section 1). The run brief bent the work.
 
-1. You turned the clarity workflow, which keeps an entry's meaning, into a content rewrite. You added a hook to the tool (`bedc80b01`) and a run brief of your own that "wins" over the tool's briefs. The brief made the Fable judgement's list of behaviours the target, asked for dates and new grounds, and set aside the writer's "Keep the meaning." The texts grew to 1.9 times the entries and carried history. That fits his complaints of length and of "historical events".
-2. You widened the scope from the two entries he approved to 13, with no ask. The compaction then carried that scope as "already approved".
-3. Nothing caught it before the end: no pilot for him to read, no length cap, and a trap test that checks decisions only. It scored 12 of 12 on texts he rejected.
-4. The skills name no tool for correcting entries after a review. No rule says that a run gives a tool data, not rules. The lessons that would have stopped it stayed in a tool brief, a README, a commit message and the held list.
+1. You made the Fable judgement's list of behaviours binding, over the clarity tool's guard. Your judge brief had asked for the list. The run brief said "Each rewritten entry must produce every behaviour listed for it" and "Where they differ, this brief wins", through your hook (`bedc80b01`). The list carried batch numbers, counts and dates; you added "the year of each ground". The texts grew to 1.9 times the entries and carried history: his complaints of length and "historical events".
+2. A fresh boot wrote the brief eight minutes after a compaction, at 466K. Its plan came from the boot note and its content from the judgement, unchecked against `record.md`. It gives no length cap and no register.
+3. The skills name no tool for correcting entries after a review. No rule says that a run gives a tool data, not rules. The lessons that would have stopped it stayed in a tool brief, a README, a commit message and the held list.
+4. Nothing caught it before the end: no pilot for him to read, no length cap, and a trap test that checks decisions only. It scored 12 of 12 on texts he rejected.
 5. After the rejection, four framings in two days. The last was an ask he could not read.
 
-**Did a skill or tool change degrade the coordinator? No.** No coordinator skill file changed after 10-23 00:37. Every rule broken on 10-26 stood before it: most from 10-13 or 10-14, one added by the consolidation itself. The tool differed from its form of 10-22 only by your own hook, made ten seconds before the launch. The model was Opus 5.5 both times, and on 10-22 the context was as full. Lessons that were never encoded failed, not changed text.
+**Did the skill changes after the consolidation encode the practice wrongly or too thinly? Too thinly.** The 14 commits of 10-22 and 10-23 to the coordinator skill and `fortress-repo`'s records part are right, but they name what each tool does, not the job it fits: no tool for corrections, no rule 0, no pilot. One cut the only mention of the clarity tool's fidelity check. The tool differed only by your hook; the model was the same.
 
 **How to run the corrections.**
 
@@ -30,18 +32,15 @@ Times are UTC. From 10-25 the curator's time is UTC+1. Paths start at `explorati
 - Checks: the tool's cold reads, check, fix and judge; `record.py check --base`, a length table and `words-subset.py` on a copy; the trap test of 10-26 again, blind, about 0.8M.
 - You write no entry text and edit no judged file. You copy files, launch, apply with `record.py` at his yes, and commit. About 2.5M to 3.5M tokens written in all, an estimate.
 
-**Decisions for the curator** (section 7): the brief change, or the mining workflow instead; the pilot; whether five findings that need his word go into the run as questions; the quiz; four skill proposals.
+**Decisions for the curator** (section 7): the brief change, or the mining workflow instead; the pilot; whether five findings that need his word go into the run as questions; the quiz; three skill proposals.
 
 ## 1. What happened, 10-26 to 10-28
 
 All from the timeline unless marked.
 
-- **10-26 07:37 to 07:48.** He asked whether POSITIONS needed fine-tuning. The coordinator proposed two changes: one library (P-37) and the team's later word (P-26). At 07:42:15 he said yes to both, and suggested the clarity workflow and a trap test: a test of whether a reader acting as the coordinator decides right from the new text where the old text leads wrong. At 07:48:49 he agreed the plan, and asked for care.
-- **07:49:25.** The coordinator wrote that the rewrites "cover more than P-26 and P-37". It did not ask.
-- **08:10 to 08:29.** A Fable judge wrote the judgement. Its section 7 listed what new texts for 12 entries must make the coordinator do. Then the context was compacted, and its summary said: "already approved; tell him, no ask".
-- **08:37 to 08:38.** The coordinator wrote a run brief of 7.7K for 13 entries, hooked it into four stages of the clarity tool (`bedc80b01`), and launched the run.
+- **10-26 07:37 to 08:38: the steps up to the launch** (recheck). The coordinator put two changes to POSITIONS: "Three more wait for the Fable judgement." (07:38:21). He approved the two, one library (P-37) and the team's later word (P-26), with the clarity workflow and a trap test: a test of whether a reader acting as the coordinator decides right from the new text where the old text leads wrong (07:42:15). The coordinator stated the extension: "They also cover every other entry that the judgement says bends or lacks its real reason." (07:49:25). He assented: "Yeah, this sounds like a solid plan." (07:54:36). The Fable judge was asked "Which entries bend" (08:10:52); its section 7 listed what new texts for 12 entries must make the coordinator do. The compaction carried the rewrites as "already approved" (08:29:38). Each of these steps was right. At 08:37 to 08:38 the coordinator wrote a run brief of 7.7K for 13 entries, hooked it into four stages of the clarity tool (`bedc80b01`), and launched the run.
 - **09:26 to 12:13.** Both judges applied all 13 texts; the coordinator edited five. The trap test scored them 12 of 12, the old entries 10 of 12. A page put them to him (`reviews/foundations/rewrite-results.md`).
-- **19:08 to 19:26.** He rejected them. The coordinator proposed to keep two sentences; he called that weaseling. It then said it had widened the scope. The cost was about 2.7M tokens written, against 1.5M estimated.
+- **19:08 to 19:26.** He rejected them. The coordinator proposed to keep two sentences; he called that weaseling. The cost was about 2.7M tokens written, against 1.5M estimated.
 - **10-27 07:12 to 07:47.** He asked to salvage small, targeted corrections, and ruled that Fable writes no text that enters the record as written (`coordinator/HELD.md`, "Held in chat (2026-10-27)"). He refused the coordinator's new plan: it reinvented workflows that exist.
 - **22:14 to 23:35.** The hook was undone (`18788035c`). The coordinator said it should write the corrections itself. A Sonnet worker's findings list came in: 40 entries named, 18 with findings.
 - **10-28 05:40 to 05:56.** On Opus, the coordinator put a scope ask in the numbers of its own sort. He could not read it, and switched the coordinator to Fable.
@@ -51,33 +50,35 @@ All from the timeline unless marked.
 
 ### The causes, heaviest first
 
-**1. A run brief turned the clarity workflow into a content rewrite.** The coordinator's choice.
+The steps up to the launch were right (section 1). The causes are what bent the run brief, and what let its texts through.
 
-- The clarity workflow keeps meaning: "Keep the meaning.", and rule 8 forbids a new claim, reason or scope (`coordinator/tools/record-clarity/writer.md`). Its checker compares the text with the entry as the record holds it (`check.md`, step 1).
-- The coordinator's brief reached the writer, the fix round, the checker and the judge, and said: "Where they differ, this brief wins." (`reviews/foundations/evidence/rewrite/run-brief.md`; history §2).
-- It made the judgement's section 7 the target. It asked for the year of each ground, three layers defined in P-26, and new grounds "from the judgement". For the changed parts, it moved the checker's fidelity test onto the judgement (run brief, "The rules for a reason", "For the checker and the judge").
+**1. The run brief made the Fable judgement's list binding, over the tool's guard.** The coordinator's reasoning. He had asked for this tool so that the proven process, with its cold reader, would write the entries, not the coordinator with its full context: "you can use for writing it with a code reader" (07:42:15; "code" is "cold", dictated).
+
+- The list was the coordinator's design: its judge brief asked, "For each entry to rewrite", what the new text must make the coordinator do (07:58:56), and the compaction summary carried the plan "per judgement section 7" (genesis §3).
+- The run brief set aside the clarity writer's "Keep the meaning." (I4; section 8) and made the list binding: "Each rewritten entry must produce every behaviour listed for it" (I5); "A behaviour of section 7 that the text does not produce is a failure" (I27). It reached four stages and said "Where they differ, this brief wins." (I2). The override and its hook (`bedc80b01`) have no source but the coordinator (genesis §2).
+- Section 7 gives up to six behaviours an entry, with batch numbers, counts and dates: "closed by 22c", "is 52 walls now", "his 09-20 class-loader lean". Where it met the record's rules, the list won. The coordinator added "give the year of each ground it ranks" (I17, no source found).
 - My count: the 13 texts hold 21.2K characters against 11.2K in the entries, 1.9 times. The team's later word (P-26) grew from 1.2K to 3.2K, one library (P-37) from 1.1K to 2.9K (`reviews/foundations/evidence/rewrite/combined.apply` against `coordinator/POSITIONS.md`). The years it asked for fit his "historical events".
 - The writer was Opus (`reviews/foundations/evidence/salvage-inventory.md`, piece 3). Its first source and target was the 55K Fable judgement. That this carried Fable's register in is my inference; nothing measured it.
 
-**2. The scope grew from two entries to 13 without an ask.** The coordinator's choice.
+**2. A fresh boot wrote the brief from the plan, without the record's rules.** The coordinator's situation (genesis §3 to §5).
 
-- His go named two entries (timeline 07:42:15). The coordinator widened it at 07:49:25, also in the boot note. The compaction carried it as approved (timeline 08:29:38). At 08:40:51 it told him: "The rewrites have started, as you approved."
-- So his question at 19:08:27, "What is the impetus for rewriting this?", has this answer: no word of his.
-- Its context: 685K tokens at 07:49, 466K at 08:37 (timeline 19:22 to 19:26).
+- An automatic compaction came at 08:29:38, at 796K. The brief came eight minutes later, at 466K: 124K after the compaction, 17K of skills, 235K of boot reading and 90K of work.
+- In the coordinator's words (19:22:55): "Its plan came from the boot note." and "The fresh session carried the plan out without checking it against `record.md`." Its content came from reading the judgement and the dialogue (19:27:02).
+- The brief names none of the record's rules for an entry: near 600 characters, one or two sentences, ASD-STE100. "keep each entry as short as the behaviours allow" (I7) gives no number.
+- At 08:36:59 it planned "a small change so the clarity workflow can carry this run's extra brief, then the brief itself". The hook, the brief, the commit and the launch took 65 seconds.
 
-**3. Nothing caught it before the end.** The coordinator's choices and the tools' limits.
+**3. The tool did not fit the job, and the skills did not say so.** The skills' text and the tools' limits.
+
+- The skill gives the clarity workflow one job: "Run it when entries no longer read on their own." (`.claude/skills/coordinator/references/record.md`, "The consolidation tools"). No tool is named for correcting what a review found.
+- On 10-21 to 22 the audit's writer made the content corrections, by rule 0 and its other rules (`coordinator/positions-audit/full/evidence/briefs/writer.md`, "The rules"). Its merge with the clarity writer stays in a README (section 8).
+- The clarity tool has no input for findings (`record-clarity.js`). The coordinator saw the conflict (I4), and changed the tool without his word: `bedc80b01` cites none (history §2). The skill asks it to propose a fix (rules below).
+
+**4. Nothing caught it before the end.** The coordinator's choices and the tools' limits.
 
 - No pilot: he saw all 13 texts at once, after the test.
 - No length cap and no length check (`coordinator/BOOT.md`, "Waiting on him").
 - The trap test checks decisions only. It passed 12 of 12 (`rewrite-results.md`, "The trap test"). No tool checks register, length against the version before, or history in an entry (my reading of the tool's briefs).
 - Both judges held nothing; on 10-22 they held 6 of 65 (consolidation §1, step 13).
-
-**4. The skills named no tool for the job, and no rule against the override.** The skills' text and the tools' limits.
-
-- The skill gives the clarity workflow one job: "Run it when entries no longer read on their own." (`.claude/skills/coordinator/references/record.md`, "The consolidation tools"). No tool is named for correcting what a review found.
-- On 10-21 to 22 the audit's writer made the content corrections, by rule 0 and its other rules (`coordinator/positions-audit/full/evidence/briefs/writer.md`, "The rules"). Its merge with the clarity writer stays in a README (section 8).
-- The clarity tool has no input for findings (`record-clarity.js`). The coordinator changed it without his word: `bedc80b01` cites none (history §2).
-- No skill says that a run gives a tool data, not rules. Only the message of `18788035c` says it (consolidation §5).
 
 **5. After the rejection, four framings.** The coordinator's choices (timeline).
 
@@ -87,10 +88,7 @@ All from the timeline unless marked.
 
 All but one stood before the consolidation that worked (my check by `git blame` and `git log -S`):
 
-- "Keep a proposal of yours marked as yours until the curator says yes." (`SKILL.md`, "The curator's role and decisions", `7b434aae5`, 10-13).
-- A go is "Curator's approval to start a named piece of work." (`SKILL.md`, glossary, `f6bc1aa75`, 10-13).
-- A decision that "reverses, bends or reads anew a decision of the curator's" is consequential, and a known fork is asked before the work (`SKILL.md`, the same section, `c74f01d5a`, 10-14).
-- "If its words would defeat its purpose, do the better thing, say so in one line, and propose a fix." (the same section).
+- "If its words would defeat its purpose, do the better thing, say so in one line, and propose a fix." (`SKILL.md`, "The curator's role and decisions").
 - "The problem, never the expected answer." and "For an update of a document: a length cap against the version before." (`references/delegating.md`, "What a brief holds", `f6bc1aa75`).
 - "An entry states the present, or what holds for all time." (`record.md`, "What an entry is", `ef6a0a026`, 10-22, a lesson of the consolidation). Question 3 there, a date goes "to the history" (`7b434aae5`), and "Keep an entry near 600 characters." (`cb9213556`, 10-14).
 - "Use no internal shorthand." (`SKILL.md`, "Talking to the curator"): the ask of 10-28 05:40:11.
@@ -100,7 +98,6 @@ All but one stood before the consolidation that worked (my check by `git blame` 
 - A run brief that overrides a tool's own briefs.
 - Which tool corrects entries after a review.
 - A pilot that he reads before a run rewrites many entries. Both runs of 10-21 to 22 had one; no skill asks for it.
-- A compaction summary that reports an unasked scope as approved.
 - A check of length, register and history. The tools check meaning and decisions only.
 - Two homes for writing entries: "The pass" and "A consolidation" (`record.md`). The skill does not say which one governs a correction of 18 entries. The coordinator chose the first at 22:56:47 on 10-27; he ruled for the second at 07:37 on 10-28.
 
@@ -112,17 +109,16 @@ A full context does not separate the windows: on 10-22 the clarity runs launched
 
 ### What it did right that 10-26 did not
 
-1. **His go set the scope**: "go for all 75 overnight" (consolidation §1, step 6). On 10-26 the coordinator set it.
-2. **Each tool ran on its own briefs.** A launch message held two lines: the brief's path, then the entries and the folder (consolidation §2). He shaped the audit's briefs by page comments; rule 0 is his (history §5, `317f24091`).
-3. **The tool fit the job.** The audit's writer made the content corrections by rule 0. The clarity writer then kept their meaning (consolidation §1, steps 4 to 13).
-4. **A pilot came first, and he read it**: ten entries in the audit's trial, ten in the clarity pilot, then "I felt the tone was good." (consolidation §3, 08:19:30).
-5. **The writers wrote from his words**: 1,100 quotes of his, all checked exact (`coordinator/positions-audit/full/RESULTS.md`, "The checks"). On 10-26 the first source was the Fable judgement.
-6. **The coordinator's part was mechanical**: apply, check, commit (`coordinator/tools/record-clarity/README.md`, "After a chunk"). On 10-26 it wrote the run brief and edited five judged texts (`combined.apply`, header).
-7. **The judges held what they doubted**, with the old text as the default (consolidation §1, step 13; §4, item 9).
+1. **Each tool ran on its own briefs.** A launch message held two lines: the brief's path, then the entries and the folder (consolidation §2). He shaped the audit's briefs by page comments; rule 0 is his (history §5, `317f24091`).
+2. **The tool fit the job.** The audit's writer made the content corrections by rule 0. The clarity writer then kept their meaning (consolidation §1, steps 4 to 13).
+3. **A pilot came first, and he read it**: ten entries in the audit's trial, ten in the clarity pilot, then "I felt the tone was good." (consolidation §3, 08:19:30).
+4. **The writers wrote from his words**: 1,100 quotes of his, all checked exact (`coordinator/positions-audit/full/RESULTS.md`, "The checks"). On 10-26 the first source was the Fable judgement.
+5. **The coordinator's part was mechanical**: apply, check, commit (`coordinator/tools/record-clarity/README.md`, "After a chunk"). On 10-26 it wrote the run brief and edited five judged texts (`combined.apply`, header).
+6. **The judges held what they doubted**, with the old text as the default (consolidation §1, step 13; §4, item 9).
 
 ### Which lessons reached the skills and tools
 
-Reached (consolidation §5; history §6): the tools and when to run them, the mining workflow before the clarity workflow (`record.md`, `b6f5268e1`, `6becc28f9`); every writer on Opus, writer streams, one judge per round (`delegating.md`, `b6f5268e1`); no plan or status in an entry (`ef6a0a026`); a decision may point to a fact (`caaf4f13f`).
+Reached: section 4 gives each commit.
 
 Not reached:
 
@@ -133,15 +129,14 @@ Not reached:
 
 ## 4. Did a change to the skills or tools degrade the coordinator?
 
-No, by the commit history.
+Not by wrong text, but by thin text. From 10-22 09:32 to the launch, 14 commits changed the coordinator skill or `fortress-repo`'s records part, the last at 10-23 19:16 (history §6; my reading of the diffs).
 
-- **The coordinator skill** last changed at 10-23 00:37 (`5427e7208`), which took out a rule added 23 minutes before and left `delegating.md` and `record.md` as they were. Its only other change after the consolidation is the boot's model check (`404599414`) (history §6).
-- **The `fortress-repo` skill** changed on 10-23 and 10-24 only by installs after climb batches, with no text on how the record is written (history, "Scope and conventions", §6).
-- **The rules broken on 10-26** date from 10-13 and 10-14, but one that the consolidation added on 10-22 (section 2).
-- **The rules added during the consolidation** were kept on 10-26: an Opus writer, a writer stream, one judge (`salvage-inventory.md`, piece 3).
-- **The clarity tool** at the run differed from 10-22 only by the coordinator's own hook, committed ten seconds before the launch. At HEAD the folder is as it was at 10-22 12:16 (history §1, §2; timeline 08:37:54).
-- **The model** was Opus 5.5 on both days (consolidation, its opening paragraph).
-- One qualification: the skills grew by about 8K characters during the consolidation, and the new tools section names the clarity workflow as the tool that rewrites entries (history §6). That may have drawn the choice, but he named the same tool at 07:42:15.
+- `b6f5268e1` (10-22 09:32): entries that read on their own, the six checks, "The consolidation tools" with the mining workflow first, every writer on Opus, writer streams, one judge a round. Right, but thin (cause 3). The mining workflow only "finds where each POSITIONS entry came from": that its writer corrected by rule 0 is left out. So is what would have stopped 10-26: section 3's "Not reached".
+- `ef6a0a026` (12:22): "An entry states the present, or what holds for all time." Right; the 10-26 texts broke it.
+- `6becc28f9` (14:26), wording fixes. It cut the clarity bullet's one mention of the tool's fidelity check. Right, and thinner.
+- Right, with no bearing on how entries are written: `caaf4f13f` (a decision may point to a fact), `c24fcf50a` (evidence folders), `a898e1baf` (terms moved, then back), `617b0d94c`, `0cbb4f5c9`, `3c8ee2acc` (load order, light boot), `404599414` (model check), `d70d78445` and its reversal `5427e7208`; in the records part, ledger commands (`ef6a0a026`, `6becc28f9`, `f6f7de70c`, `2d5820c89`).
+
+The rest held: the rules broken on 10-26 (section 2), the consolidation's own rules (`salvage-inventory.md`, piece 3), the tool but for the hook (history §1, §2), and the model.
 
 ## 5. How to run the corrections now
 
@@ -212,12 +207,6 @@ It adds the rule of `18788035c`, which today lives only in a commit message.
 
 It settles which part governs: "The pass" for one worker's findings, this part for many entries. It is shorter than the text it replaces.
 
-**Proposal 4.** `SKILL.md`, "The curator's role and decisions", after "Keep a proposal of yours marked as yours until the curator says yes.":
-
-> Before you act on a go that a compaction summary or the boot note reports, read the curator's message that gave it, and act only on what it names.
-
-It adds the check that the summary of 10-26 08:29 needed. It could replace the boot note's line "Before acting on any plan in this note, check it against the skills' rules", whose wording he has not approved.
-
 ## 7. Decisions for the curator
 
 None of these is taken.
@@ -235,7 +224,7 @@ None of these is taken.
 4. **The quiz.**
    - a. The trap test again, blind, about 0.8M. Default.
    - b. No quiz: the tool's checks and his read only.
-5. **Proposals 1 to 4 for the skills**, each yes or no. Default: yes to each, with the skill writer's wording shown to him on a page before it lands.
+5. **Proposals 1 to 3 for the skills**, each yes or no. Default: yes to each, with the skill writer's wording shown to him on a page before it lands.
 
 ## 8. The quotes that the decisions rest on
 
