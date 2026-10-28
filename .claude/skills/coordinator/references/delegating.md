@@ -19,7 +19,7 @@
 
 - Give each worker its tier's alias: `model: 'opus'`, `'sonnet'` or `'fable'`. Write no identifier that an alias resolves to.
 - Use Sonnet for archaeology and retrieval of exact words only, never for a judgement or a summary. Use Opus to turn evidence into reports, and to condense a large report for you.
-- Run every writer on Opus: of skill text, of record entries, and of each longer report or page for the curator, also when this session runs on Fable. Fable writes no text that enters the record as written, since its compressed register degrades the reasoning of those who read it. It may give its reasoning as corrections to a text that Opus writes, and edit a batch record in place, as its review does.
+- Run every writer on Opus: of skill text, of record entries, and of each longer report or page for the curator, also when this session runs on Fable. Fable writes none of these texts as written. It may give its reasoning as corrections to one that Opus writes. Its review of a batch record (`references/batch.md`) may edit that file in place.
 - Take a cross-area question in two steps. First, Opus workers gather cited evidence or a list of ways. Then, if neither the record nor the three principles (`SKILL.md`) settle it, run a Fable judgement, sparingly. If the fork stays consequential, put it to the curator as an ask.
 - Four kinds of Fable work have a go in advance: the Fable judgement on a cross-area question, a judge's second ruling in a batch, the Fable review of each batch record, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
 - If you start a headless session on a tier other than Opus or Fable, set `FORTRESS_HEADLESS=1` in its environment. Otherwise the model check's alarm stops its work (`SKILL.md`, "The boot"). Today only the baseline interview does so.
@@ -28,7 +28,7 @@
 
 ## What a brief holds
 
-- The problem, never the expected answer or the steps to find it. On a design choice, ask the worker to list every way that the language and the library offer, and give it none of our notes or options.
+- The problem, and the tools and limits that the task needs, never the expected answer or a method to reach it. On a design choice, ask the worker to list every way that the language and the library offer, and give it none of our notes or options.
 - If a rule blocks an option, ask how the library gets around it.
 - A pointer to the research on file, not a restatement of it.
 - The record's measurements, as findings to cite, not claims to check again, even for a worker kept clean of our options. Name the one new thing to measure. Ask for a new measurement only if the tree has changed under a finding, and say what changed.

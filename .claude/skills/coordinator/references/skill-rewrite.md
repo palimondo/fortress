@@ -1,6 +1,6 @@
 # Rewriting a skill
 
-The skills are written for a reader new to the repository, which every agent is. Each skill is a light delta from what the model does by itself. A series of small rules and cases confuses a full context.
+The skills are written for a reader new to the repository, which every agent is. Each skill holds few rules: only those that change what the model would do by itself. Many small rules and cases contradict each other, and confuse a reader whose context is long.
 
 **writer**
 : Headless session that makes every edit of the project skills, started and resumed by `explorations/coordinator/tools/skill-writer.sh`, with its standing brief `explorations/coordinator/skill-writer-brief.md`.
@@ -21,7 +21,7 @@ The skills are written for a reader new to the repository, which every agent is.
 - The writer edits and commits the skill files. You push, and keep the review page in step.
 - If a part that the curator approved is written again, have a Fable reviewer compare the two. Where it finds a regression, it writes a synthesis of both, never a wholesale revert.
 - After a rule enters a skill from the curator's words, check that the skill caught the meaning, by a cold read or a test.
-- If a practice that a skill states is in question, have a Sonnet scout check what the workers actually did. If they found a better way, write that way into the skill.
+- If a practice that a skill states is in question, have a Sonnet scout gather what the workers actually did, and an Opus worker judge it. If they found a better way, write that way into the skill.
 - Keep batch structure out of `fortress-repo`. The workflow or the brief sets which roles exist, and who builds, checks, commits and pushes.
 - After each landing, the orientation workflow updates `fortress-repo`'s `references/revival-changes.md` (`references/batch.md`, "The landing", step 3). `fortress-repo`'s `SKILL.md` keeps only what does not change from batch to batch.
 
