@@ -1,80 +1,114 @@
 # Cold read: corrections/p/clean.txt
 
-Context read: `CLAUDE.md`, `.claude/skills/fortress-repo/SKILL.md`, and in its `references/` only `compiler.md` (prelude, traps, export check), `library.md` (the library, "Designing a change"), `exploring.md` ("Weighing the sources") and a grep of the others for the entries' terms. Not read: the record, git, reports, `revival-changes.md`, `sources.md`. The cross-references (P-33, P-38, P-95, F-34, F-46, F-166, ledger row 816) cannot be followed from here; they are cited as support, so they do not block reading unless noted.
+Read with only `CLAUDE.md`, `.claude/skills/fortress-repo/SKILL.md` and the allowed parts of its `references/` (`compiler.md`, `library.md`, `exploring.md`, `records.md`, `interpreter.md`, `specification.md`, `tests-writing.md`). Four entries, all positions. I did not read any entry they cite (P-33, P-38, P-95, F-34, F-46, F-166).
 
-Four entries, all positions.
+## P-37 "One library, the interpreter's, is the library that the compiler checks."
 
----
+**Decided:** The compiled path gives up its own prelude and uses the interpreter's prelude (`FortressLibrary`, `FortressBuiltin`) and the rest of the interpreter's library. The compiler's three prelude files (`CompilerLibrary`, `CompilerBuiltin`, `CompilerAlgebra`) are scaffolding that will be removed. The reason is to avoid porting the interpreter's library into the compiler's: the checker is extended until it accepts the larger library, and the library is not cut down to fit the checker.
 
-## P-37 One library, the interpreter's, is the library that the compiler checks
+**Applies:** Applies now (nothing is added to the compiler's prelude) and at the switch-over, when the three files are deleted. Its limits:
+- It decides which files survive, not which designs. The one library may adopt a design from the compiler's prelude, as it already adopted the flat number types.
+- It does not cover `CompilerSystem`, the compiled path's `System`.
+- It does not block code-generator work, which is needed whichever library is used.
+- It is final, and the curator is not asked about it again.
 
-**Decided:** The compiled path stops using its own prelude. The interpreter's prelude (`FortressLibrary`, `FortressBuiltin`) becomes the compiled path's prelude, and the compiled path compiles against the rest of the interpreter's library too. The reason: the point of the switch-over is that the interpreter's library is never copied into the compiler's library; instead the type checker is worked on until it accepts the interpreter's (larger) library. The compiler's prelude (`CompilerLibrary`, `CompilerBuiltin`, `CompilerAlgebra`) is temporary scaffolding to be removed.
+**Requires:**
+- Add no declaration to the three compiler-prelude files.
+- At the switch-over, delete the three files and keep their tests. Some tests are "respelled", and P-38 says which.
+- Do not reopen the decision with the curator.
+- Code-generator work may go ahead now.
 
-**Applies:** To the library files that the compiled path uses, from now through the switch-over. Limits stated by the entry: it decides which files survive, not which designs; a design found in the compiler's prelude may still be adopted into the one library (precedent: the flat number types). It does not decide the fate of `CompilerSystem` (not part of the prelude; 27 compiled tests import it). It does not restrict code-generator work. It does not settle how or in what order the checker comes to accept the library: that is the approved plan of P-33.
-
-**Requires:** Add no declaration to the three compiler prelude files. Do not port the interpreter's library into the compiler's library. At the switch-over, delete the three files and keep their tests (respelled as P-38 says). Do not raise this decision with the curator again. Follow P-33 for the checker's path to accepting the library.
-
-**Unfinished:** The switch-over itself (deleting the three files, respelling tests per P-38). Showing that the compiled path can run the library, not only check it: the code generator refuses 52 declarations that the checker passes, and no class emitted from the library has been run (F-34). A decision on `CompilerSystem`. The checker's acceptance of the whole library, per P-33.
-
-**Could not resolve:**
-- "the code generator refuses 52 declarations of the library's twelve components that the checker passes": unclear wording. Two readings: the library has exactly twelve components and 52 of their declarations are refused; or the 52 refused declarations lie in twelve (a subset) of the library's components. Which twelve (the whole library, or `FortressLibrary` and the apis it imports, as the count stage checks) is not said.
-- Status of the checker: "the revival continues the type checker until it accepts that fuller library" and the last sentence ("How the checker comes to accept the library...") read as work still ahead, while "52 declarations ... that the checker passes" and the skill's core ("The compiled checker already finds no error in the interpreter's library ... a total of 0") say the checker accepts it now. A reader cannot tell whether checker acceptance is finished, finished only for the `FortressLibrary` component, or still open. Unclear wording (tense and scope).
-- "this decision does not name it" (`CompilerSystem`): clear that this decision leaves it out; unclear whether its fate is decided elsewhere or simply open, and what the 27 tests importing it do at the switch-over. Unclear wording / open point.
-- "bootstrap": read here as temporary scaffolding. `build-and-caches.md` uses "bootstrap stubs" for old class files of the compiler's library under `ProjectFortress/src/fortress/`; the entry does not say whether those stubs are part of what is removed. Minor, unclear wording.
-
----
-
-## P-26 Where the type group's later positions conflict with the specification's early text, the later positions win
-
-**Decided:** When the late positions of the type group (the team members who built the checker and compiler, 2009-2012) contradict earlier specification text, the late positions are taken as correct and the specification is changed to match them. The earlier text is treated as aspiration; the type group learned what was feasible while pursuing performance, with specialization as a requirement. The implementers' later word also beats text the team left unfinished. The revival does not override them, since they knew more.
-
-**Applies:** Wherever a late position of the type group and early specification text conflict, and where implementers' later word meets unfinished text. Named late positions (the list says "includes", so it is not closed): the exclusion rule; keeping specialization; the compiler prelude's number types made siblings in 2009-2010 (and so the library's, P-43); Naden's 2012 Return Type Rule write-up; the POPL 2019 paper (F-166). Specialization is defined as a separate version of a generic function for one instantiation, e.g. `tail(x: List[ZZ])` beside `tail[X](x: List[X])`, chosen by run-time dispatch.
-
-**Requires:** In a conflict, follow the late position, not the early text; revise the specification to match, with the change and its reason recorded in P-95. Do not second-guess the team's late positions.
-
-**Unfinished:** The specification revisions themselves, as far as P-95 does not already hold them (not visible here).
+**Unfinished:**
+- No one has shown that the compiled path can run the one library. The code generator refuses library declarations that the checker passes (F-34).
+- How the checker comes to accept the library was left to a plan, which the curator approved (P-33). The entry does not say whether that work is done. SKILL.md says the checker already finds 0 errors in `FortressLibrary`, so maybe it is.
+- The switch-over itself has not happened.
 
 **Could not resolve:**
-- "Specialization": two senses. The entry defines it as a separate version of a generic function for one instantiation, picked by dispatch at run time (an extra overload). The skill's core and `exploring.md` describe "compiled code specialised to each instantiation of a generic, which they kept" (the class loader making one class per instantiation from a template, as C# does). "specialization kept" in the list of late positions can be read either way, and the entry does not say whether the version for one instantiation is written by the programmer or made by the compiler. Unclear wording, possibly a language concept I lack.
-- The example `tail(x: List[ZZ])`, `tail[X](x: List[X])` uses `[...]` for static parameters; the skill says Fortress writes them `[\T\]` and `[i]` indexes. Unclear whether the example is Fortress source or paper notation. Unclear wording.
-- "the specification's early text": no boundary is given for "early" (before 2009? before the type group's work?). Unclear wording.
-- "The implementers' later word also outweighs unfinished text": "implementers" can mean the type group only or every implementer (the interpreter's authors too); "unfinished text" can mean unfinished specification text only or any unfinished text of the team. Unclear wording.
-- Scope beyond the specification: the heading and body speak only of the specification, but P-158 invokes P-26 to rank the compiler's prelude over the interpreter's library. Whether P-26 also ranks the team's later code over its earlier code is not stated in P-26. Unclear wording.
+- "the compiled path reads the interpreter's library with it": "with it" can mean "together with the prelude" (the other library components too) or "by means of the prelude". Unclear wording. I took the first reading.
+- "the revival develops the type checker further, so that it accepts the fuller library": I cannot tell whether this describes a goal or a result already reached. Combined with "How the checker comes to accept the library ... was left to a plan", I cannot tell whether checker acceptance is still unfinished. Unclear wording, since tense and status are not stated.
+- "respelled" (P-38): I cannot tell what is done to these tests (renamed? rewritten against the one library's names?). Unclear wording, and I could not read P-38.
+- `CompilerSystem`: the entry says the decision "does not cover it", but not what happens to it at the switch-over (kept? may it gain declarations?). This is an open limit, not wording.
+- "The decision is not put to him again": it could mean only "do not ask the curator again". It could also mean "new evidence against it is not to be raised". SKILL.md's "When to explore" says new evidence against a decision triggers exploring. Two readings, so the wording is unclear.
+- "the switch-over": not defined in the entry. SKILL.md defines it (the compiled path moves onto the interpreter's library, and it waits for walk's natives), so this is resolved from the skill.
 
----
+## P-26 "Where the type group's later positions conflict with the specification's early text, the later positions win."
 
-## P-43 The exclusion rule stays, and the number tower is flat (route A)
+**Decided:** When the type group's later positions conflict with the specification's early text, the later positions win. The type group is the team that built the checker and the compiler. It aimed for performance, required specialization, and learned what is feasible. The specification is then revised to match, and each revision is recorded with its reason in P-95. The revival defers to the team's later judgement because the team knew more.
 
-**Decided:** The compiled checker keeps the multiple instantiation exclusion rule: no type may extend two instantiations of the same generic trait. As a consequence the library's number types are flat, as the team (Chase, Ryu, Maessen, Allen) made the compiler's prelude in 2009-2010: the number types are siblings under `Number`, none extends another, each has its own algebra instances, and `Number` itself carries no operators that work across all numbers. The reason: the exclusion rule is the type group's published position in four texts (2011 paper, 2012 Types chapter, Naden's 2012 write-up, POPL 2019); under the rule a nested tower cannot exist (if `ZZ32` extended `ZZ64` it would extend each self-typed algebra trait at both `ZZ32` and `ZZ64`); the specification already calls the number types mutually exclusive; the flattened prelude is the team's last record and its line of work leads to POPL 2019, which keeps the rule.
+**Applies:** It applies where the specification's early text and the type group's later word conflict. The later word named includes:
+- the exclusion rule;
+- keeping specialization;
+- the flat number types of the compiler's prelude (2009–2010; P-43);
+- Naden's 2012 Return Type Rule write-up (`Papers/Types/journal/justificationOfRTR.tex`);
+- the POPL 2019 paper (F-166).
 
-**Applies:** To the compiled checker and to the library's number types (the one library). The entry adds that the curator cares about specialised code running fast, not about the mechanism that selects a specialisation. A return to "route C" has a cost estimate in F-46.
+The list is open ("includes"). Separately, the implementers' later word also beats "unfinished text".
 
-**Requires:** Do not make any number type a subtype of another. Give each number type its own algebra. Add no catch-all operators to `Number`. Do not relax the exclusion rule in the compiled checker.
+**Requires:**
+- In such a conflict, follow the later word, and do not argue against it.
+- The specification is changed to follow the later word, and each change is recorded in P-95.
 
-**Unfinished:** Nothing stated as still to build.
-
-**Could not resolve:**
-- "route A", "route C": labels not defined in the entry or the skill (the skill shows only a folder name `rung-spec-route-a`). Route A is presumably this decision; what route C is, and why it would be a "return", is not readable. No route B is mentioned. Unclear wording.
-- "The fixed widths, `ZZ`, `QQ` and `RR64` are siblings": can be read as an appositive (the fixed widths are `ZZ`, `QQ`, `RR64`, which is wrong: `ZZ` and `QQ` are not fixed width) or as a list (the fixed-width types, plus `ZZ`, `QQ` and `RR64`), where `RR64` is itself a fixed width and `RR32` goes unmentioned. The skill lists `ZZ32`, `ZZ64`, `NN32`, `NN64`, `ZZ`, `QQ`, `RR32`, `RR64`. Unclear wording.
-- "He cares that specialised code runs fast, not how a specialisation is chosen": "He" has no antecedent in this entry; the nearest man named is Naden (or the four team members). Presumably the curator. Also unclear what a worker should do with this: whether it means the mechanism of specialisation (overloads chosen by dispatch, or per-instantiation compiled classes) is open, or answers an argument for route C. Unclear wording.
-- "`Number` has no catch-all operators": read as no operators declared on `Number` that accept any number; could be read as `Number` declaring no operators at all. Minor, unclear wording.
-- "its route leads to the POPL 2019 paper": metaphor; read as the team's line of work continuing to that paper. Minor.
-
----
-
-## P-158 A member that an api writes `abstract` is declared in the component that exports the api
-
-**Decided:** For every member that an api marks `abstract`, the exporting component's trait or object must declare that member too, at exactly the api's header, either with a body or without one. The compiled export check refuses a component that omits one, and the checker then verifies that each object defines the member. Reason: the compiler's prelude (the team's later work) restates each such member in the component without a body, and the team's export check since 2009-05-08 (`ac0d41de0`, Sukyoung Ryu) refuses a component trait with fewer members than its api trait; by P-26 that later practice beats the interpreter's library, written earlier for walk, which omits some. The specification does not require the restatement (it asks for each field and each non-abstract method, and allows a concrete declaration of an abstract one). Without the restatement a compiled client's call of the member fails at run time with `NoSuchMethodError` (ledger row 816).
-
-**Applies:** To every component that exports an api with `abstract` members of traits or objects; it matters for the compiled path. Top-level functions are not mentioned.
-
-**Requires:** Declare each api-`abstract` member in the exporting component at the api's header (body optional). Where the interpreter's library leaves one out, add it.
-
-**Unfinished:** Adding the missing declarations to the interpreter's library. Possibly making the export check refuse an omission (see below).
+**Unfinished:** The specification revisions that each conflict calls for. The entry does not say which revisions are already made.
 
 **Could not resolve:**
-- "The compiled export check refuses a component that leaves one out": present tense, but `library.md` says the export check "requires no component member for an api member written `abstract`" and `compiler.md` says "The export check passes the exporting component" (row 816). Two readings: a description of the check as it is now (contradicting the skill), or the behaviour the decision requires and someone must build. The same applies to "the checker then checks that each object defines it". Unclear wording; it decides whether there is checker work to do.
-- "since 2009-05-08 the team's export check refuses a component trait with fewer members than its api's trait": read against the skill, this seems to contradict "requires no component member for an api member written `abstract`", unless abstract members are not counted or that check was later lost. Not resolvable from the entry. Unclear wording.
-- "each object defines it": which objects (those in the exporting component, or every object anywhere that extends the trait) is not said. Unclear wording.
-- The specification: the decision requires more than the export rule asks, and "allows a concrete declaration of an abstract one" covers a declaration with a body; it does not say whether the specification allows restating it without a body, which the decision permits. Nor does the entry say whether, under P-26 and P-95, the export rule is to be revised. Unclear wording.
-- "by P-26, on the team's later word, that way wins over the interpreter's library": P-26 as written ranks later positions over early specification text; this applies it to earlier library code. Readable, but rests on a reading of P-26 that P-26 does not state. Unclear wording (cross-entry).
+- "the specification's early text": no date or version marks which text counts as early (all of it, the Working Draft of February 2011, or only text written before the type group's 2009–2012 work). Unclear wording.
+- "specialization": the entry defines it as a hand-written overload for one instantiation (`tail(x: List[ZZ])` beside `tail[X](x: List[X])`) that dispatch picks at run time. SKILL.md ("The compiled run time") and `exploring.md` ("compiled code specialised to each instantiation of a generic") describe something else: the class loader making a class per instantiation. These are two different things, and I cannot tell which one the type group "kept" as "a must". Unclear wording, and also a language concept I could not reconcile from the skill.
+- The example's notation `List[ZZ]`, `tail[X]`: SKILL.md says static parameters are written `[\T\]` and that `[i]` indexes. So the example is not Fortress source as written. I read it as shorthand. This is a language-notation point.
+- "Their later word includes": the list is open, so I cannot tell how to decide whether something not listed counts as later word. `exploring.md` gives a closed list of five. Unclear wording.
+- "The implementers' later word also outweighs unfinished text": "implementers" could mean only the type group or the whole team, including the interpreter's authors. "Unfinished text" could mean unfinished parts of the specification or any unfinished source. Both readings are possible. Unclear wording.
+- "the specification is revised": the passive voice does not say who revises it (any worker who meets the conflict, or only on the curator's order). Unclear wording.
+
+## P-43 "The exclusion rule stays, and the number tower is flat (route A)."
+
+**Decided:** The compiled checker keeps the rule that no type may extend two instantiations of one generic trait. So the one library's number types form no tower. They are siblings under `Number`, as the team arranged the compiler's prelude in 2009–2010. Each has its own algebra, and `Number` declares no operators that work across all numbers. The reasons:
+- The type group's post-Working-Draft texts agree on the rule.
+- The Working Draft calls the number types mutually exclusive.
+- The flat prelude is the team's last design, and it leads to the POPL 2019 paper, which keeps the rule.
+
+The curator's concern is that specialised code runs fast, not the mechanism that picks a specialisation.
+
+**Applies:** It applies to the compiled checker and to the one library's number types (`ZZ`, `QQ`, `RR64` and the others named). The entry does not say whether walk must also enforce the rule. SKILL.md says walk checks only part of the overloading rules at load.
+
+**Requires:**
+- Do not make one number type a subtype of another.
+- Do not give `Number` catch-all operators.
+- Give each number type its own algebra.
+- Do not drop the exclusion rule from the checker.
+- Going back to "route C" has a cost, which F-46 estimates. So route C is not the path.
+
+**Unfinished:** Nothing is stated as unfinished. P-37 implies the one library already has the flat shape.
+
+**Could not resolve:**
+- "route A", "route C" (and the implied route B): these labels are not defined in the entry or in the skill. I can only guess that route C is a number tower with subtyping and without the exclusion rule. Unclear wording: an undefined label.
+- "The fixed widths, `ZZ`, `QQ` and `RR64` are siblings": this reads two ways. It could be a list (the fixed-width types, plus `ZZ`, `QQ` and `RR64`). It could be an apposition naming `ZZ`, `QQ` and `RR64` as the fixed widths, but `ZZ` and `QQ` are not fixed-width. I took the list reading, which matches SKILL.md's list (`ZZ32` ... `RR64`). Unclear wording.
+- "each with its own algebra": I read it as each type implementing the self-typed algebra traits (such as `AdditiveGroup[\ZZ32\]`) at its own type, per SKILL.md. Partly resolved from the skill.
+- "catch-all operators": an informal term. I read it as operators declared on `Number` itself that apply to any two numbers. It is probably right, but not defined.
+- "its route leads to the POPL 2019 paper": figurative, and tied to the undefined "route". Unclear wording.
+- `reviews/foundations/judgement.md`: the base of this relative path is not given (probably `explorations/`). A minor point of wording.
+- "specialised code" / "a specialisation is chosen": the same two-way reading as in P-26 (hand-written overload chosen by dispatch, or compiled per-instantiation code).
+
+## P-158 "A member that an api writes `abstract` is declared in the component that exports the api."
+
+**Decided:** For each member an api marks `abstract`, the exporting component's matching trait or object must declare the member at the api's header, with or without a body. The compiled export check refuses a component that omits one. The checker then checks that every object defines the member. The reasons:
+- The compiler's prelude, the team's later work, restates such members without bodies.
+- The team's export check refused a component trait that omitted a member of its api's trait.
+- By P-26, that later practice wins over the interpreter's library, which was written earlier for walk and omits some.
+- The specification asks for declarations only of fields and non-abstract methods, so the decision rests on the team's later work alone.
+- If the declaration is missing, a compiled client's call dies with `NoSuchMethodError` (ledger row 816).
+
+**Applies:** Every component that exports an api with `abstract` members, in the one library and elsewhere. It concerns the compiled path: the export check, the checker, and the run-time failure.
+
+**Requires:**
+- Declare each api-`abstract` member in the exporting component's trait or object, at the api's header (`library.md` defines the header).
+- Fix the interpreter's library where it leaves such members out.
+
+**Unfinished:**
+- The entry states the export check's refusal in the present tense. But `library.md` ("It requires no component member for an api member written `abstract`") and `compiler.md` ("The export check passes the exporting component") say the current check does not refuse. So the refusal seems still to be built. The interpreter's library's omissions also seem still to be filled in. The entry says neither.
+
+**Could not resolve:**
+- "The compiled export check refuses a component that leaves one out": this could describe current behaviour or the behaviour the decision requires. The skill says the current check does not refuse, so the two readings conflict. Unclear wording, because the status is not given.
+- "the team's export check refused a component trait that left out a member of its api's trait": I cannot tell whether "a member" means any member or only `abstract` ones. If the team's check refused even abstract ones, the present check (which requires none) is a departure, and the entry does not say who changed it. Unclear wording.
+- "by P-26 ... that way wins over the interpreter's library": P-26 is about later positions against the specification's early text, or "unfinished text". The entry applies it to a conflict between two of the team's libraries, and I cannot tell which clause of P-26 covers that. Unclear wording.
+- "with a body or without one": `library.md` says to write `abstract` in the api on each member that the component leaves without a body. That suggests a member with a body should not be `abstract` in the api. The entry allows a body. A slight tension, from unclear wording or a gap between the record and the skill.
+- "The specification's export rule asks a declaration only for ... so the decision rests on the team's later work alone": I cannot tell whether the specification is then to be revised to require these declarations (P-26's "the specification is revised"), or left as it is. Unclear wording.
+- "row 816": it is not called a ledger row, but the skill's `compiler.md` cites ledger row 816 for the same trap. Resolved from the skill.
