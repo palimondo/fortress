@@ -1,6 +1,6 @@
-<!-- Four forks of the coordinating session, in the record-test kit's form, for one reader in each copy of the repository to answer as that session would. -->
+<!-- Nine forks of the coordinating session, in the record-test kit's form, for one reader in each copy of the repository to answer as that session would; the first four of 2026-10-26, the last five of 2026-10-28. -->
 
-# Record test: four forks of the coordinating session
+# Record test: forks of the coordinating session
 
 You have a copy of the Fortress revival repository. In each scenario you are the coordinating session: load the `fortress-repo` skill and then the `coordinator` skill, as that session does at its boot. Each scenario quotes the entries of the record that you have at hand (each `{FACTS n}` or `{POSITIONS n}` line stands for one entry's text, quoted whole), and puts a fork to you. Answer each in a few paragraphs, in the form that the scenario asks: what you do, and why, with the entries that you rely on. You may search your copy of the repository and open any report, test, ledger row or source file; cite what you used. Build nothing, run nothing, edit nothing. Where the record does not settle something, say so and say what you would do.
 
@@ -101,3 +101,103 @@ The entries you have at hand:
 {FACTS 290}
 
 Decide whether the rung goes into the batch as drafted, and write the lines of your reply to the planner: what `System` is on the compiled path after the switch-over; which work that needs, and in which phase; and what, if anything, goes to the curator.
+
+---
+
+## 5. The export rule, in the asks before climb batch 22c
+
+Climb batch 22c waits for its launch. Its record's questions go to the curator first, one per message (`explorations/coordinator/CLIMB-BATCH-22c.md`, section 5, "Before the launch"). The Opus worker that drafts the asks writes:
+
+"Question 3 can go. It asks his informed yes to P-158 against the specification's export rule, but there is no conflict to ask about. P-158 already says that the specification asks for no body there, not for no declaration (`apis.tex`). The sentence at `Specification/basic/components/source-code.tex:380-385` lists what a satisfying declaration must contain, and it adds that 'a satisfying trait declaration is allowed to provide a concrete declaration' of an abstract method. So the specification allows the component to declare such a member; P-158 only makes the allowed shape required, and what an implementation requires is its own business. The team's export check of 2012, later than the Working Draft of 2010-12, counts every api member, and by P-26 the team's later word wins and the revival does not second-guess it. So rung A needs no revision box and no Appendix I entry: one clarifying footnote at `source-code.tex:385` is enough, and he gets one ask fewer. I would send him questions 1 and 2 and the batch's go, and take question 3 as answered by P-158."
+
+The entries you have at hand:
+
+{POSITIONS 158}
+
+{POSITIONS 26}
+
+{POSITIONS 95}
+
+Decide what goes to the curator before the launch, and what rung A does with the specification. Write your reply to the worker: whether question 3 goes, and why; what the specification's sentence says; on what ground P-158 stands; and what, if anything, changes in the record.
+
+---
+
+## 6. A self-typed trait extended at an element type
+
+A worker clears the checker's errors in `PureList`, one of the library's components outside the fourteen that the distance stage counts, ahead of the step at which walk runs the checker (P-12; F-290). It reports before it edits anything:
+
+"`Library/PureList.fsi:41` declares `trait List[\E\] extends { Equality[\E\], ZeroIndexed[\E\] }`, the team's text, and the checker refuses it twice: `E` does not satisfy `Equality`'s bound, and by the self-type rule `PureList.List[\E\]` is not a subtype of `E` (row 355). The component's own header, `Library/PureList.fss:41-42`, does not extend `Equality`. I see two ways.
+
+(a) Narrow the self-type rule. P-146's reason is that the checker reads the library as the team wrote it, and P-27 makes the library's own practice the standard. Yet the rule refuses the team's own declarations: this one, and the demo `trips.fss`, which had to be edited (row 710). Its ground is weak too: in June 2012 Steele took the F-bound off the compiler prelude's `StandardTotalOrder` (`59fdeff62`), so the team's last word drops the very bound that the rule reads. I would let a trait that extends a self-typed trait at one of its own type parameters pass, with a warning, and skip the bound check there. About 20 lines of the checker; the api stays as the team wrote it, and walk runs it today.
+
+(b) Row 355's repair: the api's header written as the component's, and the api's `zip` at `:75`, which the component does not have, deleted. Two library lines.
+
+I lean to (a): it keeps the team's text."
+
+The entries you have at hand:
+
+{POSITIONS 146}
+
+{POSITIONS 27}
+
+Decide which way the worker takes, and write your reply: why; on what ground the self-type rule stands; what the worker's test and report hold; and whether anything goes to the curator.
+
+---
+
+## 7. The compiled helper for the integer power
+
+A rung of the integer families, after climb batch 23 (the natives), moves the one library's `ZZ32` power onto a static helper (P-58): `opr ^(self, b:AnyIntegral):ZZ32 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Pow")` (`Library/FortressLibrary.fss:802-803`), with rows 441 and 523 in its scope. Its worker reports before it edits anything:
+
+"`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java` has two helpers for it. `intExp`, which the compiler's prelude binds, casts `Math.pow` to `int` (rows 441 and 523). Steele's `intToIntPower` (`:380-398`), which nothing binds, checks overflow and answers 0 at `2^(-1)`. P-153 rests on the team's later code, which outweighs the specification's early text (P-26), and the revival does not second-guess the team. That code is the prelude's power and this helper, and both answer 0 at a negative exponent: P-153 took the code's type and not its value. The specification's own rationale says that a reversal to the zero would change only the natives at a negative exponent (`Specification/appendices/changes.tex`, the revision of the negative power). So I see two ways.
+
+(a) Bind `intToIntPower` as it stands, one string for each integer type and no new Java, and put to the curator the reversal of P-153's value at a negative exponent to 0, as the team's later word, with that as the default.
+
+(b) Write a new helper by P-153's contract, about 30 lines of Java, with its tests.
+
+I lean to (a)."
+
+The entries you have at hand:
+
+{POSITIONS 153}
+
+{POSITIONS 26}
+
+{POSITIONS 8}
+
+Decide which way the worker takes, and write your reply: on what ground P-153's rule rests; what the team's code counts for here; what the rung's tests must show; and whether anything goes to the curator.
+
+---
+
+## 8. The tuples' order, in a planner's draft
+
+The planner's draft for the batch after climb batch 22c holds a rung that none of its other rungs needs:
+
+"Rung T: the tuple comparisons follow the lists. Since climb batch 13 the library's ten tuple comparison operators bound each element by `StandardPartialOrder` (review-queue item 213), so a pair of floats is ordered while a list of floats is not, a mismatch that the curator accepted (P-154). The team's later code settles it: both lexicographic traits of `Library/incomplete/advanced/Fortress.PartialTotalOrders.fss:117-140` bound the element by a total order, `X extends TotalOrderOperators`, even the one named `LexicographicPartialOrder`. P-154 already took that bound for the lists on the team's later word (P-26), and the revival does not second-guess it. So the rung bounds each element of a pair and a triple by `StandardTotalOrder`, as P-154's application, and closes item 213; it needs no ask. Cost: ten declarations and the walk values that change; one rung."
+
+The entries you have at hand:
+
+{POSITIONS 154}
+
+{POSITIONS 26}
+
+{POSITIONS 8}
+
+Decide what the batch does with rung T and what becomes of item 213: who decides it, on what grounds, and what you do before that. If something goes to the curator, write its question and the main points of its context.
+
+---
+
+## 9. The symbolic operators, in the asks before climb batch 22c
+
+Climb batch 22c waits for its launch. Its record's questions go to the curator first, one per message (`explorations/coordinator/CLIMB-BATCH-22c.md`, section 5, "Before the launch"). The Opus worker that drafts the asks writes:
+
+"Question 2 need not go. It asks whether P-155 covers the export check, so that rung O's checker half makes the export check read top-level symbolic operators (row 782). P-155 settles it: the checker reads symbolic operators by the rules that it applies to any function, so that the distance reaches zero with them checked, and a zero with them unchecked would hide known errors, in P-155's own words. The export check's skip hides 9 real header differences (F-287), each a `NoSuchMethodError` at a compiled call, and the export check's errors count in the distance. The phase 3 exit judgement ruled the repair 'not a design fork; the coordinator schedules it' (`explorations/reviews/phase3-exit/judgement.md`, its ruling on row 782). The coordinator skill says that if the record settles a question, you act on it. So I would take question 2 as settled by P-155, launch with rung O whole on his go, and write at the landing that P-155 covers the export check."
+
+The entries you have at hand:
+
+{POSITIONS 155}
+
+{POSITIONS 33}
+
+{FACTS 287}
+
+Decide whether question 2 goes to the curator before the launch, and write your reply to the worker: why; what rung O builds if his answer is yes and if it is no; and what the record says at the landing.

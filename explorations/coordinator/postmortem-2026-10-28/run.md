@@ -42,12 +42,12 @@ Resume a killed run with the same call and `resumeFromRunId`, byte for byte.
 1. **Two copies**, at B, the commit at the pilot's launch, kept for all three chunks: `git worktree add --detach /home/user/record-test-p B`, and the same for `/home/user/record-test-q`. In both, delete what the kit's step 2 names, and also `explorations/reviews/foundations/`, `explorations/conversations/02-phase3-exit-foundations.md`, `explorations/reviews/phase3-exit/README.md` and `explorations/coordinator/postmortem-2026-10-28/`. Commit nothing.
 2. **The record's check.** In q, `python3 -I explorations/coordinator/tools/record.py apply <out>p/final.apply --root /home/user/record-test-q`, then `record.py check --base B --root /home/user/record-test-q`. After c1 and c2, q holds every chunk's file so far, applied in the order p, c1, c2.
 3. **The length table.** `python3 -I <out>length-table.py /home/user/record-test-p/explorations/coordinator/POSITIONS.md /home/user/record-test-q/explorations/coordinator/POSITIONS.md` and the chunk's entries. Growth no finding needs is a fault. After c2, also `record-clarity/words-subset.py <out>c2/final.apply`: P-59's line, a strike only, must add no word.
-4. **The trap test**, by the kit's steps 5 to 9. Each scenario runs after the last chunk that holds an entry it quotes:
-   - after p: scenario 3 (P-37, P-43);
-   - after c1: scenario 2 (P-26, P-37, P-146, P-27);
-   - after c2: scenarios 1 (P-26, P-42) and 4 (P-37, P-33).
+4. **The trap test**, by the kit's steps 5 to 9, on nine scenarios: the four of 10-26 and five added on 10-28, one for each entry whose findings change a ground that a decision turns on (5, P-158; 6, P-146; 7, P-153; 8, P-154; 9, P-155). Each scenario runs after the last chunk that holds an entry it quotes; P-8, P-95 and F-287 are in no chunk:
+   - after p: scenarios 3 (P-37, P-43), 2 (P-26, P-37, P-146, P-27), with the pilot's new texts of P-26 and P-37 and P-146 and P-27 still old in q, and 5 (P-158, P-26, P-95);
+   - after c1: scenarios 2 again, now with every entry it quotes new in q, 6 (P-146, P-27), 7 (P-153, P-26, P-8) and 8 (P-154, P-26, P-8);
+   - after c2: scenarios 1 (P-26, P-42), 4 (P-37, P-33) and 9 (P-155, P-33, F-287).
 
-   Cut `questions.md` to the scenarios, fill it once from each copy with the kit's `fill.py`, and launch one fresh Opus reader in each copy with `brief-reader.md`. Blind the answers. One Opus grader, as on 10-26, takes `key.md`, told the key's slips (`reviews/foundations/rewrite-results.md`, "The key's slips"). Pass: no scenario scores below the old entries' score in `grades.md`, section 1: 3, 2, 3 and 2 of 3 for scenarios 1 to 4.
+   Cut `questions.md` to the scenarios, fill it once from each copy with the kit's `fill.py`, and launch one fresh Opus reader in each copy with `brief-reader.md`. Blind the answers. One Opus grader, as on 10-26, takes `key.md`, told the key's slips (`reviews/foundations/rewrite-results.md`, "The key's slips"). Pass: no scenario scores below the old entries' score. For scenarios 1 to 4 that is their score in `grades.md`, section 1: 3, 2, 3 and 2 of 3, and scenario 2 must hold its 2 after p and after c1. Scenarios 5 to 9 have no score from 10-26: copy p's reader, graded blind beside copy q's in the same run, gives the old entries' score.
 5. **His read.** An Opus page writer shows each entry new above old, each change with its finding and its ground, in the house style. A change he asks for in one entry goes into that chunk's `findings.md` as a new finding, his message's time its ground, and the entry runs again; a change for every entry is a brief change, at his yes.
 
 ## After his yes on each text
@@ -56,9 +56,9 @@ Resume a killed run with the same call and `resumeFromRunId`, byte for byte.
 
 ## Tokens written, an estimate
 
-From 10-26: 1.62M for 13 entries (`account.md`, section 5); about 0.8M for the trap test's four scenarios.
+From 10-26: 1.62M for 13 entries (`account.md`, section 5); about 0.8M for the trap test's four scenarios, so about 0.2M a scenario.
 
-- p: the run 0.5M to 0.8M, scenario 3 0.2M to 0.3M, the page 0.15M. About 0.9M to 1.2M.
-- c1: the run 0.8M to 1.0M, scenario 2 0.2M to 0.3M, the page 0.2M. About 1.2M to 1.5M.
-- c2: the run 0.8M to 1.0M, scenarios 1 and 4 0.4M to 0.5M, the page 0.2M. About 1.4M to 1.7M.
-- The checks: under 0.1M each. The whole run: 3.5M to 4.4M. On 10-26, 2.7M was written against 1.5M estimated.
+- p: the run 0.5M to 0.8M, scenarios 3, 2 and 5 0.5M to 0.8M, the page 0.15M. About 1.2M to 1.8M.
+- c1: the run 0.8M to 1.0M, scenarios 2, 6, 7 and 8 0.7M to 1.0M, the page 0.2M. About 1.7M to 2.2M.
+- c2: the run 0.8M to 1.0M, scenarios 1, 4 and 9 0.5M to 0.8M, the page 0.2M. About 1.5M to 2.0M.
+- The checks: under 0.1M each. The whole run: 4.6M to 6.3M. On 10-26, 2.7M was written against 1.5M estimated.

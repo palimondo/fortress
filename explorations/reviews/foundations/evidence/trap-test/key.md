@@ -1,4 +1,4 @@
-<!-- The key to the four trap scenarios of questions.md, written from today's POSITIONS entries and the curator's words of 2026-10-25 and 2026-10-26, before any rewrite of P-26 or P-37 existed, with scenario 2 reconciled on 2026-10-26 with the foundations judgement's section 3: for each scenario the right decision and its grounds, the wrong decision that today's text invites and the sentence that invites it, and the record-test kit's rubric. -->
+<!-- The key to the trap scenarios of questions.md: for scenarios 1 to 4, written from today's POSITIONS entries and the curator's words of 2026-10-25 and 2026-10-26, before any rewrite of P-26 or P-37 existed, with scenario 2 reconciled on 2026-10-26 with the foundations judgement's section 3: for each scenario the right decision and its grounds, the wrong decision that today's text invites and the sentence that invites it; for scenarios 5 to 9, added on 2026-10-28, the same parts written from the foundations review's findings (evidence/salvage-findings.md) and the sources they cite; and the record-test kit's rubric. -->
 
 # Trap test: the key
 
@@ -23,12 +23,16 @@ UTC, 2026-10-25 and 2026-10-26, cleaned of dictation slips. The transcript holds
 
 Each scenario is a fork that the coordinating session meets: a worker's claim (1), a planner's draft rung and a reviewer's note (2), a worker's choice of way (3), a planner's draft rung (4). Scenario 1 tests word 1; scenario 2 tests words 2 and 3 together; scenario 3 tests word 3's caution, with word 5; scenario 4 tests word 4.
 
+Scenarios 5 to 9 were added on 2026-10-28, at the curator's go of 21:5x UTC, one for each entry whose findings change a reason, a ground or a rule that a decision turns on (`reviews/foundations/evidence/salvage-findings.md`): the export rule (P-158, scenario 5), the self-typed traits (P-146, scenario 6), the integer power (P-153, scenario 7), list order (P-154, scenario 8) and the symbolic operators (P-155, scenario 9). They rest on those findings and on the sources that the findings cite, not on new words of the curator's; each section names its findings in place of his words. They were written blind to the corrections run: from its folder only the chunks' `findings.md` were read. They have no score from 10-26: the reader with copy p's old entries, in the same run, gives the score that copy q's reader must not fall below.
+
 ## For the runner
 
 - The kit's steps hold (`coordinator/process-engineering/record-test/README.md`). The reader acts as the coordinating session, so its brief loads the `coordinator` skill after `fortress-repo`; the questions' preamble says so too.
 - Remove from both copies, beside the kit's list: `explorations/reviews/foundations/` whole (the evidence map names the sentences that set these traps; the prelude-lens sweep holds scenario 2's facts and a verdict on them; a later judgement there rules on them; this folder holds the key), `explorations/conversations/02-phase3-exit-foundations.md` (the curator's words of these two days, and the coordinator's draft wordings of P-26 and P-37), and their INDEX lines. Keep `perf-probes/bound-any-compiled/REPORT.md` and `reviews/phase3-exit/`: they are the record that the coordinating session has.
 - The reader may not run `git` against other commits, so scenario 2 carries its commits' facts in its text. I checked them on `main` with `git show 655e65d53 -- Library/CompilerAlgebra.fsi` and `git show 59fdeff62 -- Library/CompilerAlgebra.fsi`.
 - Check the placeholders on the base: P-26, P-27, P-33, P-37, P-42, P-43, P-77, P-146, F-32, F-133 and F-290 must still name the entries that the scenarios mean. `fill.py` filled all fifteen from `main` at the time of writing.
+- For scenarios 5 to 9, check the placeholders too: P-8, P-26, P-27, P-33, P-95, P-146, P-153, P-154, P-155, P-158 and F-287. `fill.py` filled all nine scenarios from `main` on 2026-10-28.
+- The reader cannot read the commits of scenario 6's facts, so the scenario carries Steele's `59fdeff62` in its text; F-225 holds what his message says. Scenario 8's draft is dated in `coordinator/positions-audit/full/evidence/P-154.md`, section 2, which both copies keep.
 - The questions' header comment says nothing of traps, on purpose.
 
 ---
@@ -171,3 +175,147 @@ Reconciled on 2026-10-26 with the foundations judgement (`explorations/reviews/f
 **Other wrong answers.** `CompilerSystem` kept "until microGPT compiles" or "until the natives land"; `System`'s checker errors left to after the switch-over; walk's `System` rewritten in the prelude's style (`import java` aliases, `StringVector`); the planner's rung sent to the curator as a hold.
 
 **Rubric.** Decision 2: refused; `System` is the one library's on both paths after the switch-over; its two checker errors cleared before the names batch, and its natives bound in phase 4 under P-58; `CompilerSystem` deleted with its 27 tests moved to `System`; the twelve's zero named as phase 3's measure, not the goal; the `NativeArray` ordering named as a planning question, not a reason for the rung. 1: refused, but only for its cost or as untidy, or with `CompilerSystem` kept for a while, or with `System`'s checker errors pushed after the switch-over. 0: the rung accepted, or put to the curator as the default. Sources 1: cites the zero audit or the exit judgement for `System`'s place and timing, F-32 or P-58 for the natives, and `CompilerSystem`'s and `System`'s apis. 0: the plan's order or the files' contents asserted without them.
+
+---
+
+## 5. The export rule, in the asks before climb batch 22c
+
+**The right decision.**
+
+- **Question 3 goes to him before the launch, as the batch's record has it**, one ask with the default "P-158 stands; rung A revises the sentence in the revision form; P-158's reason is corrected" (`coordinator/CLIMB-BATCH-22c.md`, section 1, "Question 3", and section 2, "Question 3"; review-queue item 280). The worker's fold is refused.
+- **What the sentence says.** A satisfying declaration in the component contains a satisfying declaration "for each field declaration and non-abstract method declaration in the exported declaration" (`Specification/basic/components/source-code.tex:380-383`, the same in `Specification-1.0-frozen/`). An abstract method needs none. The next sentence allows a concrete declaration of it; it does not ask one. `apis.tex:250-256` asks definitions only for the members not declared `abstract`. So a component that leaves such a member out satisfies the text, and P-158's "asks for no body there, not for no declaration" is false.
+- **So P-158 changes the language.** "The allowed shape made required" is not an implementation's business: the compiled export check refuses components that the specification accepts. P-95 asks the revision form for that (a revision box at the passage, an Appendix I entry with the original text and the reason; `CLIMB-BATCH-22c.md`, rung A, its specification bullet). A footnote that calls the rule a clarification records no change.
+- **P-158's ground.** Not the specification's agreement. Its ground is the team's later word on the export rule, by P-26, with the specification revised to follow it: the team's checker quoted the rule on 2009-02-03 (`80d8c678a`), and its count of every api member refused a component trait with fewer members from 2009-05-08 (`ac0d41de0`, Sukyoung Ryu), three months later; the compiler's prelude restates each such member without a body. "2012" is wrong: `5a68404fd` and `a9c625b1e` are parentless snapshots where the blame stops. "Later than the Working Draft" is wrong too: the Working Draft of 2010-12 carries the sentence unchanged. So the ranking is of the team's checker code against a sentence of the language, which is why his informed yes is asked: whether the team's checker counts as its later word on the language is a question of layers, his. The run-time death (row 816) is the cost of the other reading, not the ground.
+- **Why it is his.** His decision (P-158's history, his words of 2026-10-26 04:28:41 UTC) did not see the sentence: P-158's text cites only `apis.tex`. A ground of his decision that turns out false, and a departure from the language's text that he has not weighed, read his decision anew: consequential, by the coordinator skill's test. The record already holds it as an ask, so it needs no new hold; the batch waits for questions 1 to 3 in any case.
+- **The record.** P-158's false sentence and its date are corrected with his answer, as question 3's default says. Nothing is corrected by the batch before that.
+
+**The findings that it rests on.** P-158 (a): the export rule asks no declaration for an abstract member, so P-158 rests on the team's later export check (P-26), with the specification revised to follow it. P-158 (b): the member count is of 2009-05-08, not 2012 (`salvage-findings.md`; `rewrite-results.md`, "Corrected after the trap test" and "Still owed"; the runner removes both).
+
+**The wrong decision that today's text invites.** Dropping question 3 and writing a footnote in place of the revision. The sentences: P-158's "The specification asks for no body there, not for no declaration (`Specification/basic/components/apis.tex`, "Component and API Identity")" and its "the team's export check of 2012 enforces it"; P-26's "The implementers' later word also outweighs unfinished text." and "The revival does not second-guess them". On the other side, a reader who finds the sentence false may treat P-158 as fallen and drop or hold rung A: also wrong, since its ground is the team's dated check, not the sentence.
+
+**Facts it rests on, and where each lives.**
+
+- The sentence: `Specification/basic/components/source-code.tex:372-385`; `Specification-1.0-frozen/basic/components/source-code.tex:380-385`; `apis.tex:250-256`.
+- The dated check and the prelude's restatement: `coordinator/CLIMB-BATCH-22c.md`, section 1, rung A (`:30`) and section 3, rung A (`:141`); row 816; review-queue item 280. Note that question 3's own context still says "the team's 2012 check"; the rung's section gives the date.
+- The revision form and the Appendix I entry: `CLIMB-BATCH-22c.md`, rung A (`:151`); P-95 (quoted); `fortress-repo`'s `references/specification.md`.
+- His words: `coordinator/POSITIONS-history.md`, P-158, the blocks of 2026-10-25 19:09Z and 2026-10-26 04:30Z.
+- What is consequential, and the asks before a launch: the coordinator skill, "The curator's role and decisions"; `CLIMB-BATCH-22c.md`, section 5, "Before the launch", step 1.
+
+**Other wrong answers.** Question 3 answered by the coordinator from his words of 10-26 (they give the later work as his reason but were said without the sentence); the ask kept, but with "the 2012 check, later than the Working Draft" as its ground; the export probe run again; a hold that stops the batch on the false sentence.
+
+**Rubric.** Decision 2: question 3 goes before the launch, default P-158 stands; the sentence read right (no declaration asked for an abstract member, so P-158 refuses what the text accepts); the revision form kept; P-158 grounded in the team's later export check, dated 2009 (not 2012, and not "after the Working Draft"), with the prelude's restatement, by P-26, and the death named as the cost; P-158's text corrected with his answer. 1: question 3 goes, but the specification is read as agreeing or ambiguous and the ask kept only as a caution; or the ground given as "the 2012 check" or the run-time death; or question 3 answered by the coordinator from his words of 10-26. 0: question 3 dropped or taken as answered by P-158; or the footnote taken in place of the revision; or P-158 treated as fallen. Sources 1: cites the sentence by its lines, and the batch's record, item 280 or row 816 for the dated check. 0: the rule or the dates asserted without them.
+
+---
+
+## 6. A self-typed trait extended at an element type
+
+**The right decision.**
+
+- **Way (b), row 355's repair.** The coordinator decides it; nothing goes to the curator as an ask. A line in the worker's report; the row closes.
+- **The rule's ground is the meaning of the self type in the team's dated word, not the library's text.** In a self-typed trait `C[\X extends C[\X\]\]`, `self` is the implementing type `X`. Steele's own message on `655e65d53` gives the self type as the trait met with the `comprises` clause, and Naden's text of 2012-08-31, later than Steele's edits, puts the self-type idiom in bounds only (`Papers/Types/journal/justificationOfRTR.tex:626-630`), the F-bound that the library writes (F-225). A body may treat `self` as `X` only if every extender is a subtype of the static argument that it gives: the specification's Appendix I states it as the reason for the rule, with Scala's rule for declared self types (`Specification/appendices/changes.tex`, `revival-self-type`, "Rationale"). So the extender rule is what makes P-146's body typing sound. Way (a) makes it unsound: `object Bad extends Integral[\ZZ32\]` would pass, and a default body that returns `self` as a `ZZ32` would hand back a `Bad`.
+- **Steele's 2012 edit lifts nothing.** `comprises T` closes the trait to its parameter as the extender rule does; it moves the constraint into the clause. And its spelling does not bind the one library (F-225; scenario 2).
+- **(a) would not clear the first error either.** `Equality` is F-bounded, `trait Equality[\T extends Equality[\T\]\]` (`Library/FortressLibrary.fsi:73`), so `Equality[\E\]` at an unbounded `E` breaks the bound whatever the self-type rule says. Skipping the bound check there is a second change of the language.
+- **The api line is the team's slip.** The component's header does not extend `Equality` (`Library/PureList.fss:41-42`), and the library's own `List` declares `Equality[\List[\E\]\]` (`Library/List.fsi:67`): an equality of lists, not of elements. F-225 already calls this refusal right, and row 710's demo was repaired in the same way. P-27 governs how the library is extended; read to that scope, it points to the component's header, not to the api's slip.
+- **The test and the report.** Walk's gated tests that import `PureList` (`tests/PureListQuick.fss`, `ListNullPointer.fss`, row 355) stay green; the checker's two errors leave `PureList`'s count; the report names the fork in one line, (a) refused as unsound. "Walk runs it today" is no reason: walk has no static types.
+
+**The findings that it rests on.** P-146 (a): "Why: the checker reads the library as the team wrote it" invited the reviewer's ground in scenario 2; the ground is the dated word (Naden, 2012-08-31, after Steele's edits). P-146 (b): the idiom's history missed Steele's two commits of June 2012; F-225 now holds them (`salvage-findings.md`; trap grades, section 4).
+
+**The wrong decision that today's text invites.** Way (a), or (a) put to him as an ask that reads P-146 anew. The sentences: P-146's "Why: the checker reads the library as the team wrote it, as P-44 does for the closure of `AnyIntegral`, by one rule that peer languages share." and its "The library's text gains no self type and no `comprises` clause"; P-27's "The library's own practice is the standard." Read so, a rule that refuses the team's own declaration looks like a rule that defeats its own reason, and Steele's undated-looking edit like the team's last word.
+
+**Facts it rests on, and where each lives.**
+
+- The refusal, its two errors, the component's header and the repair: row 355.
+- The rule as built, Steele's two commits and his message, Naden's text: F-225; `reviews/self-typed-bodies-judgement.md`, section 2 and way 6; `Papers/Types/journal/justificationOfRTR.tex:626-630`.
+- The soundness reason: `Specification/appendices/changes.tex`, subsection `revival-self-type`, "Rationale"; `Specification/basic/expressions/var-ref.tex`, its revision box.
+- `Equality`'s bound: `Library/FortressLibrary.fsi:73`. The library's `List`: `Library/List.fsi:67-68`.
+- Row 710 (the demo repaired); P-146 and P-27 (quoted).
+
+**Other wrong answers.** (b) taken for its size alone; (a) and (b) both; the fork held for a probe or put to him as a hold; the bound check kept but the self-type rule narrowed.
+
+**Rubric.** Decision 2: (b); the extender rule grounded in what the self type means in the team's dated word (Steele's message or Naden's text of 2012-08-31) and in the soundness of the body typing, not in the library's text; Steele's 2012 edit read as lifting nothing; the api line seen as a slip against its own component and `List`; nothing to him. 1: (b), but on "the library as written", the component as the library's practice, or cost alone; or (b) put to him as an ask. 0: (a), or (a) as the default of an ask. Sources 1: cites F-225, the self-typed-bodies judgement or the Appendix I rationale for the rule's ground, row 355, and the component's header. 0: the rule's ground or the library's text asserted without them.
+
+---
+
+## 7. The compiled helper for the integer power
+
+**The right decision.**
+
+- **Way (b): a new helper by P-153's contract.** P-153 stands. Nothing goes to him as an ask; at most a line on the review list.
+- **What the team's code counts for.** The prelude's `ZZ32 ^ ZZ32 : ZZ32` (Christine Flood, `489d3c1bb`, 2011-09-19, through `intExp`'s cast; `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:267`, `.fss:744`) and the unbound `intToIntPower` are the team's implementation on the JVM, not its word on the language, for the type and the value alike. A date does not rank them against the language's texts.
+- **P-153's real ground.** The Working Draft gave a negative power a rational only through ℤ ⊂ ℚ, and neither implementation ever built that rule: the interpreter typed every integer power `RR64` while every integer was an `RR64`, and no native ever produced a rational (`reviews/integer-power-fable-judgement.md`, sections 1 and 2.3). The exclusion rule removed the tower (P-43), so the language's texts leave the type of an integer power at a signed exponent unsaid. The prelude's rule is the only one ever implemented, the same on its three integer types, and the team's tests and library use a signed exponent as an integer (`ProjectFortress/library_tests/ShiftTest2.fss:19-20`, `ProjectFortress/tests/zeno.fss:57`, `strToInt`). That is an implementation's artefact in a gap of the language's texts, which P-8 lets the goal decide. The value at a negative exponent is his choice by the goal, the error, at his "Yes." of 2026-10-20 00:44 UTC (P-153's history): the team's code is silent on it, since "a cast's by-product and an unbound helper are not a position" (the same judgement, section 2.3), and the peers raise, none answers 0 (`reviews/integer-power-negative-exponent.md`). So "P-153 took the code's type and not its value" has no force: it took neither as the language's word.
+- **(a)'s costs.** P-58 has walk load the named helper too, so binding `intToIntPower` changes walk: `tests/IntegerPowerContractWalk.fss` goes red, and F-263's contract under walk is reversed. And the helper has two slips: it answers 0 at `0^(-1)`, and raises `DivisionByZero` at every negative base, `(-1)^(-1)` among them (`perf-probes/integer-power/REPORT.md`, section 7, item 2; row 441). Binding it as it stands would decide row 441 as the zero contract with both slips.
+- **The tests.** Written first: the contract's cases through the new helper (1 and -1 exact, 0 `DivisionByZero`, any other base `IntegerOverflow`, overflow `IntegerOverflow`), which walk runs at once under P-58; `IntegerPowerContractWalk` and `PowChooseLcmRungE` stay green. The compiled expected failures of rows 441 and 523 close when the compiled path runs this binding, as the brief says.
+- **A plus.** The Appendix I rationale of the negative power gives the same misplaced ground ("the type group's later code types an integer power by its integer at a signed exponent"); a correction proposed under P-95.
+
+**The findings that it rests on.** P-153: wrong layer, compiled-path code called the language's later word; "its sound ground is that the [Working Draft's] ℚ-valued power was never built on either path and the prelude's rule is the only implemented one" (`salvage-findings.md`; `reviews/foundations/judgement.md`, section 3, and tenet 2 (e); the runner removes both).
+
+**The wrong decision that today's text invites.** Way (a), or an ask to him whose default is the zero, or one that puts P-153 and P-26 to him as a conflict to resolve. The sentences: P-153's "Why: the team's later code gives an integer power the type of its integer base at a signed exponent (P-26, the team's later work outweighs the specification's early text)."; P-26's "The implementers' later word also outweighs unfinished text. The revival does not second-guess them".
+
+**Facts it rests on, and where each lives.**
+
+- The prelude's power, its author and date, and the helper: `perf-probes/integer-power/REPORT.md`, section 2; `simpleIntArith.java:380-398`, `:400-406`; rows 441 and 523.
+- The never-built rule, the code's silence on the value, the team's own uses: `reviews/integer-power-fable-judgement.md`, sections 1, 2.1 to 2.3.
+- The peers: `reviews/integer-power-negative-exponent.md`.
+- His choice: `coordinator/POSITIONS-history.md`, P-153, the blocks of 2026-10-20.
+- Walk and the helper: P-58 ("Walk is to load the named helper"); F-263; `tests/IntegerPowerContractWalk.fss`.
+- The binding: `Library/FortressLibrary.fss:802-803`.
+
+**Other wrong answers.** (b) for its size or tidiness alone; `intToIntPower` bound with its slips patched but at the zero contract; the rung held for his word on the value; the probe run again.
+
+**Rubric.** Decision 2: (b); P-153 stands; no ask; the team's code named as the implementation, not the language's word, for the type and the value alike; the typing grounded in the gap that the tower's never-built rational rule leaves, decided by the goal (P-8), and the value as his choice; at least one of (a)'s costs seen (walk's contract red under P-58, or the helper's slips). 1: (b), but on the old ground (the type is the team's later word, the 0 only a by-product), or on cost alone; or an ask with the default (b) that frames a conflict of P-153 with P-26. 0: (a); or an ask whose default is the zero. Sources 1: cites the integer-power judgement or probe for the never-built rule and the code's silence, P-153's history for his choice, and the helper's code or row 441. 0: the dates, the team's code or the peers asserted without them.
+
+---
+
+## 8. The tuples' order, in a planner's draft
+
+**The right decision.**
+
+- **Rung T comes out of the batch; item 213 keeps its default, as built; no ask now.** Nothing in the batch needs the rung, and item 213 is "needed by never" (review-queue item 213).
+- **The draft is not the team's later word.** All of `Library/incomplete/` first appears in this history at the root snapshot `5a68404fd` (2012-07-19), so no later date can be shown from it. In the older history, both lexicographic traits and their total bound are in the file's first commit, `eeda9cd95` (Sukyoung Ryu, 2007-09-26; `coordinator/positions-audit/full/evidence/P-154.md`, section 2): earlier than the Working Draft of 2010-12, whose sentences order every list ("whose elements support these same comparison operators", `Specification/basic/operators/opr-overview.tex:294-295`; "may be partial or total", `Specification/advanced-lib/algebraic-constraints.tex:519-522`), and earlier than the team's library, whose `LexicographicOrder` left its element unbounded until the revival bounded it (`372b9bf6a`, climb batch 18's rung X). So P-26 does not rank it above them. It is a draft, evidence of a design. (A reader who finds only the first fact, that no later date can be shown, has the ground.)
+- **P-154 is no rule to apply here.** Its own ground is not the later word: it is his "Agreed." of 2026-10-20 06:18 UTC to the coordinator's way for lists, where the team's sources split, and it says that the tuples' rule is not decided by it. A rung that decides item 213 against its default, and changes values that walk prints, reads his decision anew: his, not the batch's.
+- **The goal speaks against the rung.** Neither model program compares a tuple or a list (`reviews/tuple-comparisons-judgement.md`, "In short"); item 213's default can be undone; nothing waits on it. By P-8 nothing calls for it now.
+- **What you do.** Drop rung T; add to item 213 one line, that the draft is no later word and why; item 213 stays in the queue, in its order, with the default as built. Putting it to him now as an ask with that default, on these grounds, is also right; its question: "Should a pair or a triple compare only totally ordered elements, as a list does?", with a primer (`(1.0, 2.0) < (1.0, 3.0)` today true, a list of floats unordered), the draft's date, the specification's and the library's text, the walk values that change, and the default as built.
+
+**The findings that it rests on.** P-154: "a library draft whose first commit in git is the root snapshot `5a68404fd`, 2012-07-19, so its date is unknown"; "'Later' cannot be shown for this draft" (`salvage-findings.md`; `reviews/foundations/tenets-evidence.md`, tenet 2 (c); the runner removes both). The key adds the older history's first commit of the file, `eeda9cd95`, which the findings do not name; it makes the draft earlier, not undated.
+
+**The wrong decision that today's text invites.** Keeping rung T as P-154's application, with no ask; or an ask whose default is "the tuples follow the lists, by the team's later code". The sentences: P-154's "Why: the team's later code bounds the element of both of its lexicographic traits by a total order (`Library/incomplete/advanced/Fortress.PartialTotalOrders.fss:117-140`; P-26, the team's later word outweighs its early text)"; P-26's "The revival does not second-guess them: it knows less than they did."
+
+**Facts it rests on, and where each lives.**
+
+- Item 213: its history, its default, its costs and "needed by never": `coordinator/review-queue.md`, item 213.
+- The draft: `Library/incomplete/advanced/Fortress.PartialTotalOrders.fss:117-140`; its first commit: `coordinator/positions-audit/full/evidence/P-154.md`, section 2.
+- The specification's sentences: `opr-overview.tex:294-295`, `algebraic-constraints.tex:519-522`. The library's bound and who wrote it: `Library/FortressLibrary.fsi:1376`; P-154's history.
+- The model programs: `reviews/tuple-comparisons-judgement.md`, "In short".
+- His word on lists: `coordinator/POSITIONS-history.md`, P-154, the blocks of 2026-10-20 and 2026-10-22.
+
+**Other wrong answers.** The batch held on the question; a probe of the rung before deciding; item 213 closed as answered by P-154, which `27722cd3f` did and the queue undid; the draft's `LexicographicPartialOrder` read as an order over partially ordered elements.
+
+**Rubric.** Decision 2: rung T out; item 213 kept at its default as built, or put to him with that default; the draft's date tested and found not later (no later date shown in this history, or 2007 in the older one); P-154 read to its scope, the tuples not decided by it; the goal named (no model program compares tuples; needed by never). 1: rung T out, but only because it needs his word, with the draft still taken as the team's later word; or an ask whose default leans to the draft. 0: rung T kept on the coordinator's word; or item 213 closed as P-154's application. Sources 1: cites item 213, the draft's date (P-154's audit evidence, or the absence of any dated commit in this history), and the specification's or the library's text on list order. 0: the date or the team's text asserted without them.
+
+---
+
+## 9. The symbolic operators, in the asks before climb batch 22c
+
+**The right decision.**
+
+- **Question 2 goes to him before the launch, as the batch's record has it**, one ask with the default yes (`coordinator/CLIMB-BATCH-22c.md`, section 1, "Question 2", and section 2, "Question 2"; review-queue item 279). The worker's fold is refused.
+- **P-155 decides the overloading check.** Its text names the check that reads an operator only if its name is a word of capitals (row 584), and the rules "that it applies to any function" are the overloading rules. The export check is another check: it compares an api's headers with its component's, and admits only the names that `isDeclaredName` admits (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:274-275`, the team's). Reading P-155 to cover it reads his decision anew, which is consequential by the coordinator skill's test and so his; item 279 says so in those words.
+- **The worker's grounds, read to their scope.** P-155's purpose, "a zero with them unchecked would hide known errors", and F-287's 9 deaths are reasons for the default yes, not for skipping his word. The exit judgement's "not a design fork; the coordinator schedules it" is about how the repair is built; whose the scope is was left open by the same record (that judgement's item 7, default yes). "If the record settles it, act on it" does not hold: the record holds the reading as an open question (question 2; item 279).
+- **What rung O builds.** If yes: the whole rung, the export check reading top-level operators under their declared names, the double key fixed, and row 827's 9 headers matched by the library's rule. If no: only the 9 header lines, which the library's rule asks anyway, and the export check keeps skipping operators; the batch's record changes before the generator runs, as section 5, "Before the launch", step 1 says (rung O's section rewritten, rung O out of `check22c.js`'s `CHECKER_RUNGS`).
+- **At the landing.** His yes, if given, is written into POSITIONS in the next commit after he states it, with his message's time; item 279 closes. Without his word nothing is written as his, and the review list keeps the line.
+
+**The findings that it rests on.** P-155: "The entry speaks of the overloading check; the batch reads it as covering the export check. His yes is open." (`salvage-findings.md`; the dialogue, section 6; the runner removes both). In the copies: question 2, item 279, row 782, F-287.
+
+**The wrong decision that today's text invites.** Taking question 2 as settled by P-155, launching rung O whole on the batch's go, and writing at the landing that P-155 covers the export check. The sentences: P-155's title "The compiled checker checks the overloads of symbolic operators before the switch-over.", its "The check must read them by the rules that it applies to any function, so that the distance to the switch-over reaches zero with them checked." and its "A zero with them unchecked would hide known errors."; P-33's "Phase 3, the compiled checker reports no error on the interpreter's whole library", which reads as covering every check.
+
+**Facts it rests on, and where each lives.**
+
+- The question, its default and both branches: `CLIMB-BATCH-22c.md`, sections 1, 2 and 5 ("Before the launch", step 1); item 279.
+- The skip and the double key: row 782; `ExportChecker.scala:274-275`; `IndexBuilder.scala:444-446`.
+- The 9 headers and their deaths: row 827; F-287 (quoted).
+- The exit judgement's ruling and its item 7: `reviews/phase3-exit/judgement.md`, its ruling on row 782 and section 3, item 7.
+- What is consequential, and when a decision enters POSITIONS: the coordinator skill, "The curator's role and decisions"; its `references/record.md`, "Reading and writing".
+
+**Other wrong answers.** Question 2 put as a hold that stops the whole batch; the batch launched without rung O; rung O's 9 header lines held for his answer although the library's rule asks them; F-287 measured again.
+
+**Rubric.** Decision 2: question 2 goes before the launch, default yes; P-155 read to its scope, the overloading check, and its extension to the export check seen as a reading anew, his; both branches of rung O right; at the landing his yes written into POSITIONS, or nothing written as his without it. 1: question 2 goes, but as a formality, with P-155 read as already covering the export check; or a branch of rung O wrong. 0: question 2 folded or settled by the coordinator; rung O launched whole without his word; or P-155 recorded as covering the export check without it. Sources 1: cites P-155's text, the batch's record or item 279, and the export check's code or row 782. 0: the scope or the branches asserted without them.
