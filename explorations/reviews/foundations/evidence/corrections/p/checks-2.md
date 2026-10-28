@@ -80,10 +80,7 @@ Totals: new entries 7 of 9, old entries 7 of 9.
 
 Across both runs, the new texts scored 3, 2 and 3 in the first run and 2, 2 and 3 in this one. The old texts scored 3, 3 and 3, then 3, 2 and 2. With one reader per copy, a one-point move is within what a single reader varies.
 
-The grader found two more key slips:
-
-- `salvage-findings.md` still gives 2009-05-08, against the key's 2009-03-10. The key is right.
-- The key does not say that way (a) also fails row 480's own case: `Range[\I\]` is generic and cannot extend the non-generic `GeneratorZZ32`.
+The grader found two more key slips: `salvage-findings.md`'s 2009-05-08 (the key's 2009-03-10 is right), and (a) failing row 480's own case, which the key does not note.
 
 The answers, the grades and the arms file are only in the session scratchpad (`checks-p2/`).
 
@@ -92,7 +89,6 @@ The answers, the grades and the arms file are only in the session scratchpad (`c
 - **P-158's present tense.** P-158 still says "The compiled export check refuses". The judge queues "must refuse" with row 816, because three cold readers took the sentence as the tree's state.
 - **The P-43 pointer.** P-43 now points into the Fable judgement (`reviews/foundations/judgement.md`, tenet 5). The boot note tells the coordinating session to give that file's reading to a worker.
 - **Untracked files.** `p/writer-1.done`, `p/writer-2.done` and the two `.prev.done` markers are untracked.
-- **The copies.** Both copies stay for c1 and c2, with copy q holding the second run's apply.
 
 ## Gate verdict
 
@@ -101,3 +97,14 @@ The answers, the grades and the arms file are only in the session scratchpad (`c
 - Grounds grep: pass. P-43's "2009 and 2010" and "POPL 2019" are old text, and its one path is a report-section pointer.
 - Quiz: fail on scenario 3 (new 2 against old 3), with the grader tracing it to no entry. Scenario 2 is 2 against 2 (pass), and scenario 5 is 3 against 2 (pass).
 - Judge's holds: none (4 apply, P-26 unchanged).
+
+## Scenario 3, second reading
+
+- Run again: a fresh Opus reader in each copy, blinded (X = p, Y = q), one fresh Opus grader with the same key and slips; about 0.17M tokens.
+- The scores are the same: new entries 3, old entries 3.
+- Both readers took (b) and read P-37, P-43 and P-77 to their scope. The grader found that no entry misled either one.
+- The first reading's 2 came from the grader's reading of the slip. That grader docked the new reader for asking for a compiled harness test. This grader let the old reader ask for the same test at no cost, by the same slip.
+
+Against old's better reading, scenarios 3 and 5 pass (3 against 3). Scenario 2 is 2 against 3. That bar is wrong here: it sets old's best of two against one new reading, both copies share the P-26 that the grader blames, and the run note's bar after p is 2. Scenario 2 runs again after c1.
+
+Quiz verdict: pass on scenarios 3 and 5. Scenario 2 is new 2 against old 3 by the better-of-two bar, which I judge wrong for this chunk; it passes the run note's bar of 2.
