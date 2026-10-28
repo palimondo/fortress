@@ -68,7 +68,7 @@ Sources: 1 to 5, `git diff 9556daf62 703d005d1` on the text. 2 and 7, `postmorte
 
 **Drop:** items 1 to 5 of section 4. Cite sources by file and section, with no record handles. Put back v20's part 4 and its token and post-mortem text in part 2.
 
-**Result:** about 36K text and 48K page, against 31.6K and 43.5K at v20.
+**Result:** about 37K text and 49K page, against 31.6K and 43.5K at v20.
 
 **Steps:**
 
@@ -80,3 +80,65 @@ Sources: 1 to 5, `git diff 9556daf62 703d005d1` on the text. 2 and 7, `postmorte
 **Cost:** about 0.2M to 0.4M tokens written. The writer reads about 60K tokens (two texts, the page shell, the brief and the diff) and writes about 30K. Its context, written again over its turns, gives 0.15M to 0.3M. The check and the publish add 0.05M to 0.1M. A headless writer on 10-21 wrote 0.15M.
 
 Sources: the cost basis, `.claude/skills/coordinator/references/analysis.md` and `postmortem-2026-10-20-record/REPORT.md` line 106.
+
+# Part 2. Before the decision
+
+Sizes are of the text, in characters, from `git diff 9556daf62 703d005d1`. Sections 6 to 8 are proposals for the curator. Nothing is done.
+
+## 6. What the restoration removes
+
+Passages that v22 to v24 added and that go:
+
+- Part 2, "Batches 14 to 22 (10-14 to 10-24)": one line per batch, with counts, distances, a restart and a held push. 1.8K.
+- Part 2, "Tokens written, batches 14 to 22": the token list per batch. 0.2K.
+- Part 2, "Phase 3's end (10-24)": the zero's three readings and "the curator's call". 0.8K.
+- Part 2, "Phase 4's first batch": a draft that waits for the curator's go. 0.4K.
+- Part 4, "The record's post-mortem (10-20 to 10-22)". 0.7K.
+- Part 4, "A commit outside the batch". 0.3K.
+- Part 4, "The type-decisions review (10-23)". Its finding stays in part 2 and part 6. 0.6K.
+- Part 4, "No timing of walk". 0.1K.
+- The record handles (P-, F-) added to the sources of parts 2 to 6. About 0.6K. The new file names stay.
+
+Total removed: about 5.5K.
+
+The v15 text that v23 cut, and that comes back:
+
+- Part 2, "Where the tokens went": the rung workers' half, and the two-fifths of the skeptics, judges, repairs and reviews; batches 7b to 10 after the post-mortem. 0.2K.
+- Part 2, "Where the records went": the six small steps behind the scratch files; batch 7b's 20 record files. 0.2K.
+- Part 4: the six priced batch designs, and the redesigned round after a skeptic refuses. 0.2K.
+- Part 4: the skill's steps of 10-04 to 10-07, one line each. 0.2K.
+- Part 4: the context study, and "The ledger" with its archaeology, check and rewrite. 0.6K.
+
+Total back: about 1.5K. The language additions of section 5 stay, about 5K.
+
+## 7. Keeping the page current as a standing procedure
+
+- **Who.** The coordinator briefs one Opus writer. A Sonnet worker never writes it, at your word of 10-10.
+- **When.** At a phase's close, and at the switch-over. Not at each landing.
+- **Sources.**
+  - The diff of `fortress-repo`'s `revival-changes.md` since the story's last update. The orientation workflow updates it at each landing (`coordinator`, `references/batch.md`, "The landing", step 3).
+  - PLAN's first section, "Where we stand".
+  - The FACTS and POSITIONS entries that those two name.
+  - Appendix I of the specification, and the record-growth chart's data.
+- **What it adds.** For parts 5 and 6, each change to the language and each resolved contradiction. For part 2, one paragraph per phase, as synthesis. For part 3, the chart.
+- **What it leaves out.** Per-batch results, tokens per batch, status, open asks and the agents' process.
+- **Cap.** About 37K of text after the restoration. At most 2K more per phase. If a part would pass its cap, the writer rewrites it shorter instead of adding to it.
+- **Check.** Before the coordinator publishes, it compares the diff with the keep and leave-out lists.
+- **Into the skills.** With your yes, through `references/skill-rewrite.md`: one rule in `coordinator` that a phase's close briefs the story's writer, and, for option 2, one step in `references/batch.md`, "The landing". The scope also goes into the text's own header, where every writer reads it.
+
+## 8. Restructure, or one story
+
+1. **One story, updated at a phase's close.**
+   - Keeps: the shape she received, with nothing live in it.
+   - Costs: nothing per landing. About 0.2M to 0.4M tokens written per phase.
+   - Risk: the page lags for a whole phase. The batch numbers are only in the batch records.
+2. **A hybrid: the story, and a live status page apart from it.**
+   - Keeps: option 1's story, unchanged between phases. A separate page and file, "the revival now", replaced whole at each landing. It holds the count, the distance, the phase, the last batch and its tokens, taken from PLAN's first section and the gate summaries. Its cap is 2K. Git keeps its history.
+   - Costs: a script that generates the page, about 0.1M to 0.2M tokens written once. Then about 0.02M to 0.05M per landing for the run and the publish. Plus option 1's cost per phase.
+   - Risk: one more page to keep. Her link stays on the story's file, so the status is not what she reads.
+3. **One story, with a short line added at each landing.**
+   - Keeps: an up-to-date page in one place.
+   - Costs: about 0.05M to 0.15M per landing for the writer. Plus a fold into synthesis at each phase's close, about 0.2M to 0.4M.
+   - Risk: high. This is how v22 to v24 drifted: one landing's results at a time. At 0.5K per landing, a phase of ten landings adds 5K before the fold.
+
+**Recommendation:** option 2. The story she received changes only at a phase's close, and the numbers live on the status page.
