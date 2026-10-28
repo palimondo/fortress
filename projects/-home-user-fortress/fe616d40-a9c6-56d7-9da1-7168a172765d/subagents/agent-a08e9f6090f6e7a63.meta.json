@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Rebuild the review page as baseline","toolUseId":"toolu_012iuB1N1grkhLxh1DG51vKv","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Rebuild the review page as baseline","toolUseId":"toolu_012iuB1N1grkhLxh1DG51vKv","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","stoppedByUser":true}
