@@ -1,4 +1,4 @@
-<!-- The three additions to the clarity workflow that let it correct a review's findings on POSITIONS, written as exact edits to its README and briefs, ready to apply and not applied, by an Opus worker on 2026-10-28. -->
+<!-- The three additions to the clarity workflow that let it correct a review's findings on POSITIONS, written as exact edits to its README and briefs, ready to apply and applied on 10-28 at his yes of 20:42 UTC, commit 9a37e8401, by an Opus worker on 2026-10-28. -->
 
 # The three additions to the clarity workflow, as exact edits
 
