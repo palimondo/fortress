@@ -24,6 +24,8 @@
 
 ## The asks after that, one per message, in this order
 
+- **Their one home is now the review queue, items 279 to 290** (at his yes of 11:4x UTC on 10-28 to the README proposal): 279 is 22c's question 2, 280 its question 3, 283 the judgement's ask 2, 282 its ask 5, 281 P-75's withdrawal, 284 the `AnyIntegral` clause, 285 to 290 the six entry texts the exit judgement says to correct. `explorations/reviews/phase3-exit/README.md` names the whole process, its six layers and their files. The list below stays as the order of asking.
+
 1. **Climb batch 22c's question 2:** P-155 covers the export check (rung O reads top-level operators). Default yes. The record's section 2.
 2. **Climb batch 22c's question 3:** his informed yes to P-158 against the specification's export rule (`Specification/basic/components/source-code.tex:380-385` asks a satisfying declaration only for fields and non-abstract methods, the rule the team's checker quoted in 2009-02, `80d8c678a`; the team's later check counted every member from 2009-05-08, `ac0d41de0`, Sukyoung Ryu; the compiler's prelude restates each member). Default: P-158 stands; rung A revises the sentence in the revision form. It bears on the layer rule: whether the team's checker code counts as its later word on the language.
 3. **The judgement's ask 2:** the library's 38 other components (outside the fourteen) block the step at which walk runs the checker (P-12), not the switch-over. Default yes.
