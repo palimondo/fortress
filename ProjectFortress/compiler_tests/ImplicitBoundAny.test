@@ -1,0 +1,4 @@
+tests=ImplicitBoundAny
+link
+run
+run_out_contains=kind of a Seal at Any -> Seal at Any

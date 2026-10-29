@@ -33,11 +33,12 @@ trait A[\T\]
 end
 
 (* a must be overloaded.  The second overloading doesn't seem to matter. *)
-a[\E\](v: E): A[\E\] = fail("a(v)")
+(*) The bound Object keeps a(v) apart from a(), and b(v) from b(): under the bound Any, v may be (), the argument that a() and b() take.
+a[\E extends Object\](v: E): A[\E\] = fail("a(v)")
 a(): () = fail("a()")
 
 (* b must be overloaded.  Again, second overloading doesn't matter. *)
-b[\F\](v: F): A[\F\] = fail("b(v)")
+b[\F extends Object\](v: F): A[\F\] = fail("b(v)")
 b(): () = fail("b()")
 
 run(): () = do

@@ -2,7 +2,7 @@
 component ComprisesWhereFunctionalMethodChecker
 export Executable
 
-trait AnyC comprises { C[\E\] } where [\E extends Object\]
+trait AnyC comprises { C[\E\] } where [\E\]
   cat(self, f: AnyC): AnyC
 end
 trait C[\E\] extends AnyC

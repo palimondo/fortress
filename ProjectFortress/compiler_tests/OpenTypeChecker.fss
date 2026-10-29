@@ -2,7 +2,7 @@
 component OpenTypeChecker
 export Executable
 
-trait AnyBox comprises { Box[\E\] } where [\E extends Object\]
+trait AnyBox comprises { Box[\E\] } where [\E\]
 end
 object Box[\E\](item: E) extends AnyBox end
 
