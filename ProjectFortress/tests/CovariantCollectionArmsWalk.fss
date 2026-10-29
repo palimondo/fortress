@@ -1,0 +1,86 @@
+component CovariantCollectionArmsWalk
+import CovariantCollection.{...}
+import List.{...}
+export Executable
+
+(* Under walk, APPCOV of empty and non-empty covariant collections at a narrower and a wider element type answers a collection at the wider type, whose toImmutableArray, toArray and dirtyIAF give its elements, and a list comprehension, which goes through covariantCompr, holds its elements in order (aggregate.tex, section "List Expressions"). *)
+
+shapeOf(c: AnyCovColl): String =
+    typecase c of
+        Empty[\ZZ32\] => "Empty ZZ32"
+        Empty[\Number\] => "Empty Number"
+        Singleton[\ZZ32\] => "Singleton ZZ32"
+        Singleton[\Number\] => "Singleton Number"
+        NonEmpty[\ZZ32\] => "NonEmpty ZZ32"
+        NonEmpty[\Number\] => "NonEmpty Number"
+        else => "another type"
+    end
+
+half(x: ZZ32): Number = if x = 1 then 0.5 else x end
+
+run(): () = do
+    e32 = Empty[\ZZ32\]
+    eN = Empty[\Number\]
+    s1 = Singleton[\ZZ32\](1)
+    s2 = Singleton[\Number\](2.5)
+    a34 = Singleton[\ZZ32\](3) APPCOV Singleton[\ZZ32\](4)
+    assert(shapeOf(a34), "NonEmpty ZZ32", "two singletons of ZZ32 append at ZZ32")
+    assert(|a34|, 2, "the append of two singletons has two elements")
+
+    assert(shapeOf(e32 APPCOV eN), "Empty Number", "the empty collections of ZZ32 and Number join at Number")
+    assert(shapeOf(eN APPCOV e32), "Empty Number", "the empty collections of Number and ZZ32 join at Number")
+    assert(|eN APPCOV e32|, 0, "the join of two empty collections is empty")
+
+    r1 = eN APPCOV s1
+    assert(shapeOf(r1), "Singleton Number", "an empty collection of Number before a singleton of ZZ32 lifts the singleton to Number")
+    a1 = r1.toArray()
+    assert(a1[0], 1, "the lifted singleton's toArray holds its element")
+    i1 = r1.toImmutableArray()
+    assert(i1[0], 1, "the lifted singleton's toImmutableArray holds its element")
+    r2 = s1 APPCOV eN
+    assert(shapeOf(r2), "Singleton Number", "a singleton of ZZ32 before an empty collection of Number is lifted to Number")
+    a2 = r2.toArray()
+    assert(|a2|, 1, "the lifted singleton's toArray has one element")
+    assert(shapeOf(e32 APPCOV s1), "Singleton ZZ32", "an empty collection before a singleton of its own type answers the singleton")
+
+    r3 = s1 APPCOV s2
+    assert(shapeOf(r3), "NonEmpty Number", "a singleton of ZZ32 before a singleton of Number appends at Number")
+    a3 = r3.toArray()
+    assert(|a3|, 2, "the append's toArray has two elements")
+    assert(a3[0], 1, "the append's toArray holds the narrower singleton's element first")
+    assert(a3[1], 2.5, "the append's toArray holds the wider singleton's element second")
+    i3 = r3.toImmutableArray()
+    assert(i3[0], 1, "the append's toImmutableArray holds the narrower singleton's element first")
+    assert(i3[1], 2.5, "the append's toImmutableArray holds the wider singleton's element second")
+
+    r4 = eN APPCOV a34
+    assert(shapeOf(r4), "NonEmpty Number", "an empty collection of Number before an append of ZZ32 lifts the append to Number")
+    i4 = r4.toImmutableArray()
+    assert(i4[0], 3, "the lifted append's toImmutableArray holds its first element")
+    assert(i4[1], 4, "the lifted append's toImmutableArray holds its second element")
+    r5 = a34 APPCOV eN
+    assert(shapeOf(r5), "NonEmpty Number", "an append of ZZ32 before an empty collection of Number is lifted to Number")
+    a5 = r5.toArray()
+    assert(a5[1], 4, "the lifted append's toArray holds its second element")
+
+    d = immutableArray[\Number\](3)
+    s1.dirtyIAF[\Number\](d, 0)
+    r3.dirtyIAF[\Number\](d, 1)
+    assert(d[0], 1, "a singleton's dirtyIAF writes its element at a wider element type")
+    assert(d[1], 1, "an append's dirtyIAF writes its first part's element")
+    assert(d[2], 2.5, "an append's dirtyIAF writes its second part's element after the first")
+
+    xs: List[\ZZ32\] = <|[\ZZ32\] 2 x | x <- 0#4 |>
+    assert(|xs|, 4, "a list comprehension of ZZ32 holds an element for each of its generator's values")
+    assert(xs[0], 0, "the comprehension's first element")
+    assert(xs[3], 6, "the comprehension's last element")
+    ws: List[\Number\] = <|[\Number\] half(x) | x <- 0#3 |>
+    assert(|ws|, 3, "a list comprehension of Number over elements of two types holds each")
+    assert(ws[1], 0.5, "the comprehension of Number holds the RR64 element in its place")
+    assert(ws[2], 2, "the comprehension of Number holds the ZZ32 element in its place")
+    es: List[\ZZ32\] = <|[\ZZ32\] x | x <- 0#0 |>
+    assert(|es|, 0, "a list comprehension over an empty generator is empty")
+    println("PASS")
+  end
+
+end
