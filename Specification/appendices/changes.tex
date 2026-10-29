@@ -4298,6 +4298,81 @@ The box in the appendix of proposed features is new.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{An abstract method of an exported trait}
+\seclabel{revival-export-abstract}
+
+\begin{description}
+\item[Affected section] \secref{export-statements}.
+\item[Change] The rule by which a trait or object declaration of a component
+satisfies an exported one asks, beside a satisfying declaration for each field
+declaration and non-abstract method declaration of the exported declaration, a
+method declaration for each abstract method declaration of it, with the same
+header apart from the modifier \KWD{abstract}, with a body or without one.
+The sentence that allows a concrete declaration for an abstract method stands.
+The passage gains a box.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 25~October 2026, which the revival confirmed against this
+passage on 29~October 2026, that a method that an \apiN\ declares abstract is
+declared in the component that exports the \apiN.
+The decision takes the type group's later work over this text, as the revival
+does wherever the two conflict.
+The compiler's own library declares, in its \apiN, the abstract methods of its
+trait \TYP{GeneratorZZ32}, such as \VAR{loop}, and restates each of them in its
+component without a body
+(\nolinkurl{Library/CompilerLibrary.fsi}, lines 110--120, and
+\nolinkurl{Library/CompilerLibrary.fss}, lines 301--312, in the revival's
+repository).
+The team's compiled type checker compared every member of an exported trait
+with the component's: in 2009 member by member, an abstract method matched
+by a declaration of the same header apart from the modifier \KWD{abstract}
+(Sukyoung Ryu, commit \texttt{edb516dba}), and in its snapshots of 2011 and
+2012 by refusing a component whose trait has fewer members than the
+exported one (commit \texttt{5a68404fd}, the last).
+The code generator makes a call of a method through a trait an interface call
+on the component's declaration of the trait, so a compiled call of an abstract
+method that the component's trait leaves out, or declares at another header,
+stops at run time with \texttt{NoSuchMethodError}, also where every object
+defines the method (row~816 of the revival's gap ledger).
+\library\ followed the earlier practice of the interpreter, which finds a
+method on the object by name at a call and never needed the declaration, and
+left twelve such methods undeclared in its component; the component now
+declares them, without bodies.
+The text of \secref{apis}, which asks a matching definition to include
+definitions for all declarations other than the methods and fields declared
+abstract, is unchanged: it asks no body for an abstract method, and the revised
+rule asks none either.
+A reversal would restore the original sentences and return the compiled
+export check to asking no declaration for an abstract method of an exported
+trait, so that a compiled call of a method that a component leaves out stops
+at run time again; the twelve declarations of \library\ would then be
+unnecessary, though harmless, or the code generator would declare such a
+method in the component's interface itself, a change that still leaves a
+method declared at another header, a narrower return type and a functional
+method failing at run time.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-abstract-declared/decision-record.md}
+in the revival's repository.
+\item[Effect] The compiled type checker refuses a component whose trait leaves
+out a method that the exported trait declares abstract (``missing members of
+the trait/object in the component'') or declares it at another header
+(``different method''), and takes a declaration with a body or without one.
+The interpreter compares no component with the \apisN\ it exports, so it loads
+and runs a component that leaves such a method out, or declares it at another
+header, where each object defines it (row~NEW-A-1 of the revival's gap
+ledger).
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/components/source-code.tex},
+lines 380--385, which the change revises:
+\begin{quote}
+and contains,
+for each field declaration and non-abstract method declaration
+in the exported declaration,
+a satisfying declaration (or a set of declarations).
+When a trait has an abstract method declared,
+a satisfying trait declaration is allowed to provide a concrete declaration.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 

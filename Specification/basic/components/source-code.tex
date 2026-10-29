@@ -286,6 +286,7 @@ the type \TYP{List} declared in the API \TYP{List} or
 the type \TYP{List} declared in the API \TYP{PureList}.
 
 \subsection{Export Statements}
+\seclabel{export-statements}
 \note{
 Victor's email on March 7, 2009 1:28:48 AM EST
 titled "Re: Exposing a partial type hierarchy in an API"
@@ -380,9 +381,22 @@ may differ.}
 and contains,
 for each field declaration and non-abstract method declaration
 in the exported declaration,
-a satisfying declaration (or a set of declarations).
+a satisfying declaration (or a set of declarations),
+and, for each abstract method declaration in the exported declaration,
+a method declaration with the same header,
+apart from the modifier \KWD{abstract},
+with a body or without one.
 When a trait has an abstract method declared,
 a satisfying trait declaration is allowed to provide a concrete declaration.
+\revision{revival-export-abstract}{The Working Draft of February 2011 asked a
+satisfying trait or object declaration to contain a satisfying declaration only
+for each field declaration and non-abstract method declaration of the exported
+declaration, and allowed a concrete declaration for an abstract method.
+The revival decided on 25~October 2026 that the satisfying declaration also
+declares each method that the exported declaration declares abstract, at its
+header, with a body or without one, as the compiler's own library and the
+type group's compiled type checker did: a compiled call of such a method names
+the satisfying trait's declaration of it.}
 If a trait declaration (in an API)
 has a \KWD{comprises} clause containing ``\EXP{\ldots}'',
 then the \KWD{comprises} clause of its satisfying declaration
