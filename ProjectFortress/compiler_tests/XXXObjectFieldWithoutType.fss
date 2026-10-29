@@ -1,0 +1,15 @@
+(* An object's field may leave out its type and take its initializer's, since a field declaration may be written "BindIdOrBindIdTuple = Expr" (objects.tex, section "Field Declarations"), so this component compiles. *)
+component XXXObjectFieldWithoutType
+export Executable
+
+object Pair(a: ZZ32, b: ZZ32)
+    sz = a + b
+    total(): ZZ32 = sz
+end
+
+run(): () = do
+    assert(Pair(2, 3).total(), 5, "the field without a type holds its initializer's value")
+    println("PASS")
+end
+
+end

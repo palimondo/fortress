@@ -1,0 +1,3 @@
+tests=XXXObjectFieldWithoutType
+compile
+compile_err_contains=Must provide type for initializer
