@@ -4,6 +4,7 @@
 
 ## Held from his page comments (2026-10-29)
 
+- 05:35 On P-43's added segment (the type group's texts after the Working Draft agree on the exclusion rule): it changes nothing a reader would do, so it belongs in the entry's history, as a correction of its grounding, not in the entry's text. A trend of this rewrite: the foundations review found corrections to the grounding of his positions, which should refine the history part of the record, not the P-XX text; if so, the briefing misdirects the signal into the permanently loaded part of the record and feeds its growth. He reads one more pilot entry; if the same, the corrective measure is different and is discussed in chat.
 - 05:22 On P-37's question whether `CompilerSystem` is deleted at the switch-over and its 27 tests move to the one library's `System`: he believes this was already discussed and lost in a compaction without entering the record; a scout checks. The first addition to P-37, the why, is good; the second sentence could be shortened by that decision, if it exists, or the point is discussed now without growing the entry further; P-37 was over the limit before and is now excessively large: it needs a trim or a split.
 
 ## Held in chat (2026-10-28)
