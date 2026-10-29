@@ -21,19 +21,19 @@
 # container on 2026-09-27, 14 to 24 minutes under load 7 to 18 (switch-over-distance-flat.md
 # section 5); the table's #seconds and #machine rows say what each run took and where.
 #
-# The setting: "any" by default, the compiled path with the implicit bound Any
-# (DistanceMulti's -setting any: the extends-Object pre-desugaring off, as walk's, and the
-# compiled-expression desugaring on, as the compile path's). Answer 11 names the compile
-# path's setting; batch 7's question 1, answered (a) on 2026-09-27 (POSITIONS.md, the
-# numerics plans), bounds an unbounded type parameter by Any, and under it the switch-over
-# takes that bound for the compiled path (CLIMB-BATCH-7.md section 1, Q1), so the 372
-# "bound Object" errors of the plain compile setting are the setting's, not the library's
-# (switch-over-distance-flat.md sections 2.7 and 5: "under (a) the stage runs stage-any").
-# On the tree of 2026-09-27 it differs from walk's setting by the compiled-expression
-# desugaring's 12 abstract-method errors on bodyless functions, one export error and the
-# variance checker's crash on Stream: 1,746 to 1,747 against 1,737 to 1,738 (FACTS.md,
-# "The true distance to the switch-over"). The third argument, walk or compile, runs
-# another setting, for a comparison with the measurements on file; the gate never passes it.
+# The setting: "compile" by default, the compile command's own: DistanceMulti's -setting
+# compile takes the extends-Object pre-desugaring from the line that opens
+# Shell.useCompilerLibraries() in the tracked ProjectFortress/src/com/sun/fortress/Shell.java,
+# read at each run (the run stops, with no total, if that line is not there; its "### order="
+# line prints the switch it read, extendsObject=...), and turns the compiled-expression
+# desugaring on, as the compile path does. Answer 11 names the compile path's setting. That
+# line sets the switch off, the implicit bound Any of P-42 (row 412), so the default runs as
+# "any", which fixes the switch off whatever Shell.java says; with the switch on, the compile
+# setting gave 685 errors on climb batch 22's code, 580 on the bound Object (F-289). "any"
+# differs from walk's setting by the compiled-expression desugaring: on the tree of 2026-09-27
+# 1,746 to 1,747 errors against 1,737 to 1,738 (FACTS.md, "The true distance to the
+# switch-over"). The third argument, any or walk, runs another setting, for a comparison
+# with the measurements on file; the gate never passes it.
 #
 # The overloading checker's memo is off (-Dfortress.analyzer.overload.cache=false), as in
 # every run of the measurement: keyed on declaration pairs, it hides 27 to 35 errors
@@ -79,7 +79,7 @@ FH=${FORTRESS_HOME:-$PWD}
 D="$FH/explorations/coordinator/tools/distance"
 SCRATCH=${2:-${TMPDIR:-/tmp}/distance.$$}
 case "$SCRATCH" in /*) ;; *) SCRATCH="$PWD/$SCRATCH" ;; esac
-SETTING=${3:-any}
+SETTING=${3:-compile}
 case "$SETTING" in any|walk|compile) ;; *) echo "distance: unknown setting $SETTING" >&2 ; exit 1 ;; esac
 FLAGS="-Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false"
 COMPONENTS="Library/FortressLibrary.fss Library/RangeInternals.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
