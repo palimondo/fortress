@@ -114,3 +114,44 @@ Lengths in characters, old to the run's, from `summary.md`.
 - P-158, 867 to 983: two cuts, so shorter.
 
 So 9 entries should change: 6 by a few words or one sentence (P-27, P-33, P-37, P-42, P-59, P-146) and 3 by cuts only (P-153, P-154, P-158). Nine should not change. The run changed 14, 5 of them where nothing should change (P-12, P-17, P-43, P-58, P-84).
+
+## The same 30 findings by significance
+
+One test: does the finding change what a reader of the entry decides or does in the work, or would any reasonable reader already read the entry that way? Consequential: a reader decides or does otherwise. Minor: a true correction that changes no decision; it belongs in the history or FACTS, or is a word. None: a quibble; any reasonable reading already gives it.
+
+- P-7: none. The entry already sends the reader to P-26.
+- P-12: minor. F-9 holds the step's parts, and P-12 points there.
+- P-17: none. "Doubles" stands for every primitive number type that speed needs, and the specification's words change nothing.
+- P-26 (a): consequential. A reader would rank 2009 prelude code above the 2011 Working Draft.
+- P-26 (b): consequential. The sentence is a ranking rule that readers apply to other forks.
+- P-26 (c): minor. Its one rule that cuts, the date test, is (a)'s.
+- P-27: consequential. Read alone, it led a reader to drop a rung (scenario 2).
+- P-33: minor, a word. The entry's parenthesis already ties phase 3 to F-53's distance.
+- P-37 (a): consequential. Without his reason, a reader planned a bridge for `CompilerSystem` (scenario 4).
+- P-37 (b): consequential. With no rule, a reader can take a prelude stub as a design that binds.
+- P-37 (c): minor. F-34 holds it, and the decision stands.
+- P-37 (d): consequential. At the switch-over, a reader cannot tell whether `CompilerSystem` goes.
+- P-42 (a): minor, a word. The bound is `Any` either way.
+- P-42 (b): consequential. A reader would wait for the switch-over to end the departure, and no step does.
+- P-42 (c): minor. The grounds go to the history.
+- P-42 (d): none. Element types such as `(E,F)` still need the bound, so the rule reads the same.
+- P-43 (a): minor. The decision stands, and the wrong-layer use of a reason is P-26 (a)'s.
+- P-43 (b): minor. The grounds go to the history.
+- P-58 (a): minor. The grounds go to the history.
+- P-58 (b): consequential. His informed yes must come before climb batch 23. Item 282 holds it.
+- P-59: minor. Walk is unchanged whether the premise holds or not.
+- P-84: minor. F-18 holds it, and the store waits either way.
+- P-85: minor. The questions stay open with no default, lean or not.
+- P-146 (a): consequential. The reason led a reader to drop a rung (scenario 2).
+- P-146 (b): minor. F-225 holds the dates.
+- P-153: minor. The power's rule stands. The wrong ground misleads only as P-26 (a) does.
+- P-154: minor. The list rule stands on his acceptance.
+- P-155: consequential. Whether the export check reads symbolic operators changes a rung's work (row 782).
+- P-158 (a): consequential. The false sentence hides a departure from the specification's export rule. That departure needs a revision recorded (P-95) or his word against it (item 280).
+- P-158 (b): minor. The decision stands. The date bears on item 280.
+
+**Counts.** Consequential 11, minor 16, none 3.
+
+**The consequential ones.** P-26 (a), P-26 (b), P-27, P-37 (a), P-37 (b), P-37 (d), P-42 (b), P-58 (b), P-146 (a), P-155, P-158 (a).
+
+**Against the first sort.** Of the 11, five wait for his word in the review queue or as a question: P-26 (a) and (b), P-37 (b), P-58 (b), P-155. Two go to FACTS with his question: P-37 (d), P-158 (a). Only four need new words in the text: P-27, P-37 (a), P-42 (b), P-146 (a). The run wrote 13 of the 16 minor findings and two of the three none findings (P-17, P-42 d) into the texts.
