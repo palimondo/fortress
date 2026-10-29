@@ -115,7 +115,7 @@ Another worker edits PLAN and FACTS in this tree, so these are listed for the co
 
 ## 7. Read against the full text
 
-Written after the curator took option 2 and the paper was committed beside its extract (`research/extracts/ParkPOPL2019.pdf`, its text `ParkPOPL2019.txt`). The pages below were read from the PDF (its pages 10 to 22 are the article's 11:10 to 11:22; the figures are images), and the line numbers are the text file's. Nothing above this section is changed; where the full text overturns a sentence above, this section says so.
+Written after the curator took option 2 and the paper was committed beside its extract (`research/extracts/3290324-popl19w.pdf`, its text `ParkPOPL2019.txt`). The pages below were read from the PDF (its pages 10 to 22 are the article's 11:10 to 11:22; the figures are images), and the line numbers are the text file's. Nothing above this section is changed; where the full text overturns a sentence above, this section says so.
 
 ### 7.1 The rules at the source, claim by claim
 

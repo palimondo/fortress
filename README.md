@@ -142,6 +142,18 @@ on this dispatch machinery
 siblings) on 31 August 2012, the same day as the original repository's
 [last commits](https://github.com/palimondo/fortress/commit/a874948acb5b4b6aa7791e8d735657437910d879).
 
+### Later papers, as PDFs
+
+Inside [`research/extracts/`](research/extracts/):
+
+- [*Polymorphic Symmetric Multiple Dispatch with
+  Variance*](research/extracts/3290324-popl19w.pdf)
+  (Park, Hong, Steele, Ryu — **POPL 2019**), licensed CC BY-NC 4.0 as its
+  first page prints ([`research/README.md`](research/README.md)).
+- [*Polymorphic Symmetric Multiple Dispatch with Variance*, technical
+  report](research/extracts/3290324-popl19-TR.pdf): the paper extended with
+  the formalization, included with Sukyoung Ryu's permission of 2026-10-29.
+
 ## Repository tour
 
 The top level:

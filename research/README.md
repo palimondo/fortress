@@ -110,10 +110,10 @@ transcript of its talk with the slides' text.
     by the owner/author(s)." It permits non-commercial redistribution with
     attribution. On that license the curator made it the one exception to
     keeping copyrighted PDFs out of the repository.
-  - Committed: the PDF, `extracts/ParkPOPL2019.pdf`, its full text from
+  - Committed: the PDF, `extracts/3290324-popl19w.pdf`, its full text from
     `pdftotext -layout`, `extracts/ParkPOPL2019.txt`, and the working extract,
     `extracts/ParkPOPL2019-extract.md`.
-  - The technical report, `extracts/ParkPOPL2019-TR.pdf`: the paper extended
+  - The technical report, `extracts/3290324-popl19-TR.pdf`: the paper extended
     with the formalization, 74 pages, sent by Sukyoung Ryu to the curator on
     2026-10-28, and included here with her permission of 2026-10-29 ("It's
     okay to include it publicly in the repository.").

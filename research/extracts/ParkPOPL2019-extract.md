@@ -11,7 +11,7 @@ reproduction of the paper.
   https://dl.acm.org/doi/pdf/10.1145/3290324?download=true, was downloaded by
   Pavol on 2026-09-29. It is 28 pages, SHA-256
   `791f978e529b17d533e3342763ed6c54a2f1027eeee5aac9869956b5cdd2b954`.
-- **Copies in the repository.** The PDF is `research/extracts/ParkPOPL2019.pdf`
+- **Copies in the repository.** The PDF is `research/extracts/3290324-popl19w.pdf`
   (the same SHA-256) and its full text (`pdftotext -layout`) is
   `research/extracts/ParkPOPL2019.txt`, beside these notes, so that the paper's
   figures and rules are read at the source.
