@@ -72,6 +72,8 @@ You framed this batch as phase 3's close (07:30 UTC on 26 October, 08:30 your ti
 
 ### Question 2, consequential: the export check reads symbolic operators (P-155)
 
+**Answered: option 1**, the curator at about 21:2x UTC on 2026-10-29, taking the default ("Of course, it's option one."); P-155 holds it, so rung O is built whole.
+
 **The question.** P-155: "The check must read them by the rules that it applies to any function, so that the distance to the switch-over reaches zero with them checked." Its text names the overloading check. The export check reads only names that `isDeclaredName` admits (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:274-275`, the team's), so it never compares a symbolic operator's header. The phase 3 exit judgement read P-155 to cover the export check too (its item 7, default yes; consequential, his).
 
 **Measured** (section 4, "Rung O"): with the operators read and the double key fixed, the twelve give 2 errors, which list exactly the 9 headers of row 827 and nothing else; with the 9 lines, 0. The compiled tracks and the compiler's prelude show no other operator that differs (the library order compiles, and no compiled test turns red by it).
