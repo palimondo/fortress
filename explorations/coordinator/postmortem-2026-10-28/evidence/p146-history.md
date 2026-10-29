@@ -74,3 +74,19 @@ His answers, whole (23:13:41 and 07:10:28 mention neither the Why nor the librar
 From the words alone: "1." says yes to the decision, before the Why existed. No word of his names the library as written, `AnyIntegral` or P-44; his reasons are "weak signal from repo" and "precedent in other languages". "Yes, that's how I want it." answers "Is that how you want it?", a question on the coordinator's method, in a text that also calls the library as written "the reason for your choice": a yes to a text holding both, to a question on the method.
 
 Audit, judgement-c5.md "P-146" (`:7`): '"Why": the coordinator's reasons, which his 23:32 message restated in part'; "The peers half is his; "as P-44 does" is the coordinator's. Fair, not his own reason word for word."
+
+## 8. His messages that name `AnyIntegral` (transcript fe616d40; `show.py <ts>` prints each)
+
+Search: all 2338 messages of `show.load()` (to 10-29T08:19), for "any integral", "AnyIntegral", "integr", "tegral", and the raw user lines. Seven hit. The saved page comments (`curator-comments-2026-10-21.md`) have none; his 10-29 page comments are not in the transcripts. Coordinator turns by `near.py`.
+
+1. 09-21T01:36:42.293Z; quotes the coordinator's 01:16:50.879Z (`000:9426`), "The team sealed every level except one, AnyIntegral." Him: "Why are we reiterating this point? ... Why is this on the table as a question?" About the `comprises { ZZ }` seal on `AnyIntegral` (P-44's origin).
+2. 09-21T02:03:59.809Z; answers 01:59:26.210Z (`000:9537`), quoted: "Integral immediately extends AnyIntegral and is not in the list." Him: "Are there any other examples asking the numeric tower that would set precedent and teach us what this pattern should look like?" Same subject.
+3. 09-24T09:29:05.037Z; answers 09:15:45.447Z (`001:1261`). "any integral count" is the shift count of `ZZ32` (rows 380, 381), not the trait.
+4. 09-28T04:33:50.373Z; quotes the report of 04:07:01.891Z (`002:2731`): "One error needs a decision from you: AnyIntegral's comprises clause". Him: "Nine steps?" The decision that became P-44; it launched the probe.
+5. 09-28T07:03:30.391Z; answers the 04:53:06.475Z turn (`002:3281`), "the nine steps on `AnyIntegral`'s `comprises` clause". Him: "Is all the data that the integral, uh, any, sorry, any integral probe is now gathering required?" About how the probe was briefed.
+6. 09-28T07:11:10.705Z; answers 07:04:30.152Z (`002:3536`), "The `AnyIntegral` worker itself runs on untouched." Him: "steer the any integral worker only to the necessary measurements". Same.
+7. 09-29T12:17:07.180Z; answers 12:06:04.017Z (`002:11532`), a batch status that does not name it. Him: "This goes then into those generic type code decisions I did about any lit integral I have no idea what I was doing there." "any lit integral" read as `AnyIntegral` (the reading is mine); about his confidence in his decisions.
+
+Decision messages that do not name it (P-44 `:2234`): 09-21T17:01:18.942Z "Closure? Remind me (full context), don’t remember."; 17:08:18.165Z "... I am pretty sure I've already approved this."; 09-28T08:52:27.340Z "Option 1." The coordinator's 10-13 23:24:28.785Z has "Your `AnyIntegral` closure decision."
+
+Which discussion: none of the seven asks why `AnyIntegral` is an example, and none names P-146. Item 2 is the only one that asks about examples and precedent, and items 1 and 2 (09-21) are the discussion of the closure that P-44 records. Items 5 and 6 are about the probe's brief; item 284 and the 10-24 probe, and the clarity pass's widening of the Why on 10-22, have no message of his naming it.
