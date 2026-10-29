@@ -13,7 +13,7 @@
 
 - P-9: 1242 to 1279
 - P-27: 452 to 829
-- P-37: 1056 to 1107; with the pointer of `facts-new.md`, 1165
+- P-37: 1056 to 1031; with the pointer of `facts-new.md`, 1089
 - P-33: 913 to 1060
 - P-84: 938 to 927
 - P-59: 930 to 774
@@ -27,7 +27,7 @@
 - P-48: 1570 to 1563
 - P-152: 1488 to 1412
 - P-158: 867 to 832; with the pointer of `facts-new.md`, 767
-- All sixteen: 16980 to 17432
+- All sixteen: 16980 to 17356
 
 ## P-9
 
@@ -55,7 +55,7 @@ New:
 
 ## P-37
 
-His reason is added as the run wrote it; the run's sentence on F-34, a status line, and its sentences on `CompilerSystem` are not taken, since that question is open and his; the last two sentences, that the decision is not put to him again and that a plan he approved set the order of the work, go to the history. It answers his page comment of 05:22 (a trim, and the reason) and finding P-37 a.
+His reason is added, condensed from the run's sentence; the run's sentence on F-34, a status line, and its sentences on `CompilerSystem` are not taken, since that question is open and his; the last two sentences, that the decision is not put to him again and that a plan he approved set the order of the work, go to the history. It answers his page comment of 05:22 (a trim, and the reason) and finding P-37 a.
 
 Old:
 
@@ -63,11 +63,11 @@ Old:
 
 New:
 
-> - P-37 **One library, the interpreter's, is the library that the compiler checks.** The interpreter's prelude, `FortressLibrary` and `FortressBuiltin`, becomes the compiled path's prelude in place of the compiler's own, and the compiled path reads the interpreter's library with it. Why: the switch-over exists to avoid the need to port the interpreter's library into the compiler's library; the revival is developing the type checker further, so that it will accept the fuller library that the interpreter uses. The curator sees the compiler's prelude, its own library files `CompilerLibrary`, `CompilerBuiltin` and `CompilerAlgebra`, as a bootstrap to remove. So no declaration is added to the compiler's prelude, and at the switch-over its three files are deleted and their tests kept (P-38 says which tests are respelled). The decision settles which files survive, not the designs inside them: the one library may take a design of the prelude's, as it took the prelude's flat shape of the number types. This decision does not stop work on the code generator, which is compiler work under either library.
+> - P-37 **One library, the interpreter's, is the library that the compiler checks.** The interpreter's prelude, `FortressLibrary` and `FortressBuiltin`, becomes the compiled path's prelude in place of the compiler's own, and the compiled path reads the interpreter's library with it. Why: the switch-over spares porting the interpreter's library into the compiler's; the revival develops the checker until it accepts that fuller library. The curator sees the compiler's prelude, its own library files `CompilerLibrary`, `CompilerBuiltin` and `CompilerAlgebra`, as a bootstrap to remove. So no declaration is added to the compiler's prelude, and at the switch-over its three files are deleted and their tests kept (P-38 says which tests are respelled). The decision settles which files survive, not the designs inside them: the one library may take a design of the prelude's, as it took the prelude's flat shape of the number types. This decision does not stop work on the code generator, which is compiler work under either library.
 
 ## P-33
 
-The run's text, which he approved: phase 3 covers what the distance counts, and the library's other components are cleared part by part as the need arises. It answers his page comment of 07:34 and the finding on P-33.
+The run's text, which he approved: phase 3 covers the apis and components that the distance counts, and the library's other components are outside phase 3, with a pointer to F-290 for their errors. It answers his page comment of 07:34 and the finding on P-33.
 
 Old:
 
@@ -115,7 +115,7 @@ New:
 
 ## P-154
 
-The run's text, minus "of an unfinished library draft of the team's", which the cited path already says. It answers his page comment of 07:02 and the finding on P-154.
+The run's text, minus "of an unfinished library draft of the team's", which the cited path already says, with "That file" for "The draft" in the next sentence. It answers his page comment of 07:02 and the finding on P-154.
 
 Old:
 
@@ -123,7 +123,7 @@ Old:
 
 New:
 
-> - P-154 **A list is ordered only where its element type is totally ordered.** The library's `List` extends its lexicographic order only where its element type extends `StandardTotalOrder` (conditional extension, P-151). Floats and `QQ` are only partially ordered, since NaN, and `QQ`'s 0/0, compare with nothing. So on the compiled checker a list of floats or of `QQ` has no order: no `<`, `CMP` or the other comparisons, though its `=` stays. A pair of floats stays ordered: the curator accepted that mismatch as a cost of the list rule. The tuples' own rule is not decided here. No lexicographic trait over partially ordered elements is added now: the team never wrote one, and the case touches neither the distance to the switch-over nor microGPT. Why: the two lexicographic traits (`Library/incomplete/advanced/Fortress.PartialTotalOrders.fss:117-140`) both bound the element by a total order, and conditional extension is a `where` form that the team wrote (P-151). The draft is not shown to be later than the specification's sentence that lets a list's order be partial where its elements' order is, so it does not count as the team's later word (P-26). Row 774: walk's half, since walk still gives every list an order.
+> - P-154 **A list is ordered only where its element type is totally ordered.** The library's `List` extends its lexicographic order only where its element type extends `StandardTotalOrder` (conditional extension, P-151). Floats and `QQ` are only partially ordered, since NaN, and `QQ`'s 0/0, compare with nothing. So on the compiled checker a list of floats or of `QQ` has no order: no `<`, `CMP` or the other comparisons, though its `=` stays. A pair of floats stays ordered: the curator accepted that mismatch as a cost of the list rule. The tuples' own rule is not decided here. No lexicographic trait over partially ordered elements is added now: the team never wrote one, and the case touches neither the distance to the switch-over nor microGPT. Why: the two lexicographic traits (`Library/incomplete/advanced/Fortress.PartialTotalOrders.fss:117-140`) both bound the element by a total order, and conditional extension is a `where` form that the team wrote (P-151). That file is not shown to be later than the specification's sentence that lets a list's order be partial where its elements' order is, so it does not count as the team's later word (P-26). Row 774: walk's half, since walk still gives every list an order.
 
 ## P-12
 
@@ -231,7 +231,7 @@ A pointer to F-293, the compiler's fourth file `CompilerSystem`, is added in the
 
 New:
 
-> - P-37 **One library, the interpreter's, is the library that the compiler checks.** The interpreter's prelude, `FortressLibrary` and `FortressBuiltin`, becomes the compiled path's prelude in place of the compiler's own, and the compiled path reads the interpreter's library with it. Why: the switch-over exists to avoid the need to port the interpreter's library into the compiler's library; the revival is developing the type checker further, so that it will accept the fuller library that the interpreter uses. The curator sees the compiler's prelude, its own library files `CompilerLibrary`, `CompilerBuiltin` and `CompilerAlgebra`, as a bootstrap to remove. So no declaration is added to the compiler's prelude, and at the switch-over its three files are deleted and their tests kept (P-38 says which tests are respelled; F-293 holds the compiler's fourth file, `CompilerSystem`). The decision settles which files survive, not the designs inside them: the one library may take a design of the prelude's, as it took the prelude's flat shape of the number types. This decision does not stop work on the code generator, which is compiler work under either library.
+> - P-37 **One library, the interpreter's, is the library that the compiler checks.** The interpreter's prelude, `FortressLibrary` and `FortressBuiltin`, becomes the compiled path's prelude in place of the compiler's own, and the compiled path reads the interpreter's library with it. Why: the switch-over spares porting the interpreter's library into the compiler's; the revival develops the checker until it accepts that fuller library. The curator sees the compiler's prelude, its own library files `CompilerLibrary`, `CompilerBuiltin` and `CompilerAlgebra`, as a bootstrap to remove. So no declaration is added to the compiler's prelude, and at the switch-over its three files are deleted and their tests kept (P-38 says which tests are respelled; F-293 holds the compiler's fourth file, `CompilerSystem`). The decision settles which files survive, not the designs inside them: the one library may take a design of the prelude's, as it took the prelude's flat shape of the number types. This decision does not stop work on the code generator, which is compiler work under either library.
 
 ### P-158
 
