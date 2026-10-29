@@ -1,0 +1,9 @@
+(* The component's trait must declare each method that its api's trait declares abstract, with a body or without one (source-code.tex, subsection "Export Statements"), so a trait that leaves out f and defines only g is refused. *)
+component XXXExportAbstractMemberAbsent
+export XXXExportAbstractMemberAbsent
+
+trait T
+    g(): ZZ32 = 2
+end
+
+end

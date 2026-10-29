@@ -1,0 +1,11 @@
+(* The main component of ExportAbstractMemberBodyless: a client's call of the api's abstract method f on the T that mk makes runs O's f, which answers 3. *)
+component ExportAbstractMemberBodyless
+import ExportAbstractMemberBodylessApi.{...}
+export Executable
+
+run(): () = do
+    assert(mk().f(), 3, "mk().f()")
+    println("PASS")
+  end
+
+end
