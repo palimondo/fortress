@@ -4,7 +4,7 @@
 
 ## Held in chat (2026-10-29)
 
-- 09:5x Guidance for the coordinator skill on page comments, from the context analysis of this session (`postmortem-2026-10-28/evidence/context-spend.md`): a comment costs little by itself (a read is about 1.7K tokens, 70 percent of it the tool's fixed header and footer), but each comment turn cost about four calls and 5K tokens; so read a thread once, never re-read it, batch the held-list edits and their commit over several comments, reply short on the thread, keep the thinking short, and bring the points to chat as one list when the reading is done (for the skill writer: `SKILL.md`, "While the curator reads turn by turn" and "Pages").
+- 12:3x Guidance for the coordinator skill on page comments, from the context analysis of this session (`postmortem-2026-10-28/evidence/context-spend.md`): a comment costs little by itself (a read is about 1.7K tokens, 70 percent of it the tool's fixed header and footer), but each comment turn cost about four calls and 5K tokens; so read a thread once, never re-read it, batch the held-list edits and their commit over several comments, reply short on the thread, keep the thinking short, and bring the points to chat as one list when the reading is done (for the skill writer: `SKILL.md`, "While the curator reads turn by turn" and "Pages").
 
 ## Held from his page comments (2026-10-29)
 
