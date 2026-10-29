@@ -1611,6 +1611,7 @@ object traversals until the moment the resulting generator is used.
    to remain non-parametric. *)
 value trait AnyMaybe extends { AnyUniqueItem } excludes Number
         (** \vspace{-4ex} NOT YET: %comprises Maybe[\T\] where [\T\]% *)
+    getter holds() : Boolean
     opr =(self, other:AnyMaybe): Boolean = self SEQV other
 end
 
@@ -2173,6 +2174,7 @@ trait ReadableArray[\E,I extends Index\]
 
     (** Indexed functionality with more specific type information **)
     opr[r:Range[\I\]] : ReadableArray[\E,I\]
+    opr[_:TrivialOpenRange] : ReadableArray[\E,I\]
     ivmap[\R\](f:(I,E)->R): ReadableArray[\R, I\]
     map[\R\](f:E->R): ReadableArray[\R, I\]
 
@@ -3245,6 +3247,8 @@ end
     unlift(lift(x)) = x
  **)
 trait ActualReduction[\R,L\] extends Reduction[\L\]
+    empty(): L
+    join(a: L, b: L): L
     lift(r: R): L
     unlift(l:L): R
     (** If this reduction left-distributes over r, return a pair of
@@ -4006,6 +4010,7 @@ trait Range[\I\] extends { StandardPartialOrder[\Range[\I\]\], Contains[\I\] }
     getter left(): Maybe[\I\]
     getter right(): Maybe[\I\]
     getter extent(): Maybe[\I\]
+    getter isEmpty(): Boolean
     getter isLeftBounded(): Boolean = self.left.holds
     getter isAnyBounded(): Boolean = self.left.holds OR self.right.holds
     truncL(l:I): BoundedRange[\I\]
@@ -4346,9 +4351,13 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
        CatString trees.  Sub-traits should override it with equivalent but more efficient code. *)
     getter generator() : Generator[\Char\] =
         self.indices.map[\Char\](fn (i:ZZ32):Char => self[i])
+    getter depth() : ZZ32
     getter asFlatString(): String
+    getter isBalanced(): Boolean
 
     opr |self| : ZZ32 = self.size
+
+    verify() : ()
 
     abstract get(i:ZZ32): Char
     abstract asDebugStringIndented(indent: ZZ32): String
@@ -4382,6 +4391,11 @@ trait String extends { StandardTotalOrder[\String\], ZeroIndexed[\Char\], Delega
     uncheckedSubstring(r0: Range[\ZZ32\]) : String
     allButLast(): String = self[0#(|self| - 1)]
     allButFirst(): String = self[1:]
+
+    rangeContains(r: Range[\ZZ32\], c: Char) : Boolean
+    splitWithOffsets(): ZeroIndexed[\(ZZ32, String)\]
+    split(): Generator[\String\]
+    balanced(): String
 
     opr ^(self, n: ZZ32): String =
       if n <= 1 then
