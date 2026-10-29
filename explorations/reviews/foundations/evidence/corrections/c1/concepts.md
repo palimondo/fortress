@@ -1,0 +1,19 @@
+<!-- The concepts that a reader of chunk c1's corrected entries needs and that no entry should define alone, each with the entries that use it and where it should be defined for every worker. -->
+
+# Concepts for chunk c1
+
+- **switch-over**: the step at which the one library replaces the compiler's prelude on the compiled path. Used by P-12, P-154. Define in the `fortress-repo` core, beside "one library".
+- **distance to the switch-over**: the count of the compiled checker's errors over the interpreter's library. Used by P-154. Define in the `fortress-repo` core, with the switch-over; F-53 defines it and holds its value.
+- **compiler's prelude**: the compiled path's own small library (`Library/CompilerLibrary.fsi`, `CompilerBuiltin`, `CompilerAlgebra`), a bootstrap that the switch-over removes. Used by P-27, P-146, P-153, P-12. Define in the `fortress-repo` core, beside "compiled path".
+- **compiled checker** (also "the Scala checker"): the static type checker of the compiled path, written in Scala. Used by P-146, P-154, P-12. Define in the `fortress-repo` area part on the checker; name the two words as one thing.
+- **the team's later word**: the team's later texts and deliberate rules, which outweigh the specification's early text (P-26). Used by P-7, P-27, P-153, P-154. P-26 owns it; the short orientation should name it in one sentence with its pointer.
+- **the team's later texts on types**: Karl Naden's write-up "The Return Type Rule and Generics" (`Papers/Types/journal/justificationOfRTR.tex`), Welterweight, the 2012 Types chapter and the POPL 2019 paper. Used by P-146 (and P-7, P-26). P-26 names them; the short orientation should name them once, with P-26's pointer. Where the texts are silent, the curator decides by the goal (P-8); the same line should say so, since a reader of P-7 cannot tell whether a gap counts as a contradiction.
+- **Working Draft**: the team's specification of February 2011, the base of `Specification/`. Used by P-7, P-153, P-17. Define in the `fortress-repo` area part on the specification.
+- **F-bound**: a bound in which a type parameter extends a type built from itself, as `X extends C[\X\]`. Used by P-146. Define in the area part on the checker, beside self-typed traits.
+- **row N**: a row of the gap ledger, `explorations/fortress-gap-ledger.md`. Used by P-153, P-154. Define in the `fortress-repo` core.
+- **`CoercionInvocation`**: the syntax-tree node that the compiled checker inserts for a coercion. Used by P-12. Name it once in the interpreter area part.
+- **`QQ`'s 0/0**: the library's rational type has a value 0/0 that compares with nothing. Used by P-154. Define in the library area part.
+- **value object**: an object of a value type, which an implementation may copy freely and so store unboxed. Used by P-17. Define in the area part on the code generator, beside boxing.
+- **the Types chapter of the team's 2012 restart**: the Types chapter of the new specification that the team began in 2012 and left unfinished, `Documentation/Specification/Prose/Language/types.tick`, cited beside `Specification/` (P-25, F-166). Used by P-7. Define in the `fortress-repo` area part on the specification, beside the Working Draft. Added by the judge: the second cold reader could not place it.
+- **`CMP`**: the library's three-way comparison operator; it answers a `Comparison`, `LessThan`, `EqualTo`, `GreaterThan` or, for a partial order, `Unordered`. Used by P-154. Define in the library area part, beside the order traits. Added by the judge.
+- **the row lift**: one of microGPT's three array kernels; it applies a function of a row, such as C4's `rmsn`, to each row of a matrix and builds a new matrix, as C4's `FlatArrays.rows` does (`perf-probes/kernels/REPORT.md`, section 2(c)). Used by P-17. Define in the `fortress-repo` core, beside the model program, or name it where F-11 is cited. Added by the judge.
