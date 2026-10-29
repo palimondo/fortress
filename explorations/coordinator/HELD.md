@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-10-29)
+
+- 09:5x Guidance for the coordinator skill on page comments, from the context analysis of this session (`postmortem-2026-10-28/evidence/context-spend.md`): a comment costs little by itself (a read is about 1.7K tokens, 70 percent of it the tool's fixed header and footer), but each comment turn cost about four calls and 5K tokens; so read a thread once, never re-read it, batch the held-list edits and their commit over several comments, reply short on the thread, keep the thinking short, and bring the points to chat as one list when the reading is done (for the skill writer: `SKILL.md`, "While the curator reads turn by turn" and "Pages").
+
 ## Held from his page comments (2026-10-29)
 
 - 07:56 On P-84's new text (the double[] store): it adds nuance on what is not yet built and which decision holds it; he is unsure this belongs in a position, which is a statement of future intent, and such status needs updating as it changes; since the position is loaded in the coordinator's context, a partial awareness of the state makes sense; it irked him, but on reflection he was fine with it as rewritten. Revised at 07:58: the next entry, P-85, already holds the open array decisions, and the two would rarely be read apart, so restating them at the tail of P-84 wastes space and tokens; that tail is cut.
