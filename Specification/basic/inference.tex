@@ -35,9 +35,7 @@ the cases in which it departs from the text are listed in
 The Working Draft had no counterpart to the rule for a numeral whose
 conversions tie (\secref{numeral-default}).
 A type parameter declared without an \KWD{extends} clause is bounded by
-\TYP{Any} (\secref{type-param}); the compiled path still takes \TYP{Object} for
-such a parameter of a program's own declarations (row~412 of the revival's gap
-ledger).
+\TYP{Any} (\secref{type-param}), on the compiled path as in the interpreter.
 \chapref{multiple-dispatch} and \chapref{overloaded-declarations} were revised
 with this chapter's order, a declaration chosen on the parameter types it
 declares and then instantiated (\secref{revival-overloading}).
@@ -356,11 +354,10 @@ is not accepted without it.}
 \revision{revival-inference}{The compiled type checker instantiates a type
 parameter that neither an argument nor the expected type fixes at the
 intersection of its upper bounds, as \secref{static-arg-inference} says; on the
-compiled path a type parameter of a program's own declaration that is declared
-without an \KWD{extends} clause is bounded by \TYP{Object} (row~412 of the
-revival's gap ledger), so that a call that fixes such a parameter by nothing
-else, where the expected type is one that \TYP{Object} excludes, such as
-\TYP{()}, is a static error there.
+compiled path, as in the interpreter, a type parameter declared without an
+\KWD{extends} clause is bounded by \TYP{Any}, so that a call that fixes such a
+parameter by the expected type alone may fix it at a type that \TYP{Object}
+excludes, such as \TYP{()}.
 A reduction's big operator is an argument of the call that the reduction's
 desugaring makes, so it has an expected type only as such an argument has one:
 the compiled type checker instantiates a generic big operator whose static
