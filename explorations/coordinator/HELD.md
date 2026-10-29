@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held from his page comments (2026-10-29)
+
+- 05:22 On P-37's question whether `CompilerSystem` is deleted at the switch-over and its 27 tests move to the one library's `System`: he believes this was already discussed and lost in a compaction without entering the record; a scout checks. The first addition to P-37, the why, is good; the second sentence could be shortened by that decision, if it exists, or the point is discussed now without growing the entry further; P-37 was over the limit before and is now excessively large: it needs a trim or a split.
+
 ## Held in chat (2026-10-28)
 
 - 06:41 The register: halfway to ASD-STE100, no Claudisms, no internal shorthand, no reference to an internal reasoning position; the terms that the skills define are known to him, nothing else is assumed. Guard the context like a hawk: delegate heavily, Sonnet for archaeology of exact words only, Opus to process evidence into reports; the coordinator acts on high-level summaries and never reads transcripts or overlong reports itself (for the skill writer: `SKILL.md`, "Talking to the curator" and "The standing goal"; `delegating.md`).
