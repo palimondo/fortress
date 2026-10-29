@@ -57,3 +57,20 @@ A block holds the line it replaced (POSITIONS-history.md header), so `:1250` hol
 `key.md` §6: `:215` "The rule's ground is the meaning of the self type in the team's dated word, not the library's text." and "Naden's text of 2012-08-31, later than Steele's edits, puts the self-type idiom in bounds only ..., the F-bound that the library writes (F-225)."; `:235` "grounded in what the self type means in the team's dated word (Steele's message or Naden's text of 2012-08-31)". `:223` lists as inviting the wrong decision P-146's Why and "The library's text gains no self type and no `comprises` clause".
 
 `key.md:26`: scenarios 5 to 9 were "written blind to the corrections run" and give "no score from 10-26". `grades.md:212-217` (scenario 2): "The library's text gains no self type ... gave both readers the right verdict on the rung, which was better." and "Why: the checker reads the library as the team wrote it" "invited the reviewer's ground". Run's scores (`c1/checks.md:66-67`): scenario 2 "new 3, old 3"; scenario 6 "new 2 then 3, old 3 then 3".
+
+## 7. Did he approve the Why? (transcript fe616d40, `parts/001.jsonl`)
+
+Coordinator before "1.": 23:24:28.785Z (`:6173`): "Your `AnyIntegral` closure decision. There you had the checker read the library as the team meant it, rather than rewriting the library to suit the checker. Option 1 is the same move." 23:32:24.772Z (`:6243`): "The library's text doesn't change at all; only the checker learns a rule." The Why text is first in the transcript at 23:38:28.588Z (`:6297`, a tool call, 54 s after "1."); no message to him holds it.
+
+Coordinator after: 00:08:24.734Z (`:6493`): "I've taken option 2, because it follows the reason for your choice: read the team's library as the team wrote it. It goes on your review list." ... "Is that how you want it?"
+
+His answers, whole (23:13:41 and 07:10:28 mention neither the Why nor the library; `show.py` prints both):
+- 23:23:46.460Z: "What I am hearing is that we are reconciling contradiction between old spec wording, missing checker feature (that option 1 will implement) and  I’m unclear how clear the signal from later team’s decisions is that justifies removal of `comprises`…  does latest POPL2019 paper help us decide this or not? It didn’t use the keyword and modeled the self types in the way option 1 you recommended? Did we already make earlier decisions in the revival that have bearing in the choice now?"
+- 23:32:10.196Z: "I’m still unclear on what the consequences are, but am hearing that option 1 is more in line with weak signal from repo and has precedent in other languages as well, so you’ll probably know got to implement that? And it is not a removal of `comprises`?"
+- 23:37:34.404Z: "1. Let’s also decide item 51, of that fits into batch, too."
+- 10-14 00:07:32.184Z: "What do you meant in option 1, role as I worded it? I don’t recall wording anything about mixins. Mission of some of your suggestions? I feel extremely out of my depth here. And these option explanations are not helping me grasp the underlying type system topics. They just document that I have a huge gap in my knowledge here and a flipping a coin. These aren’t informed decisions I am making."
+- 00:12:14.696Z: "Yes, that's how I want it. And hold this as coordinator skill fine-tuning item, so that we don’t stumble on such shape again"
+
+From the words alone: "1." says yes to the decision, before the Why existed. No word of his names the library as written, `AnyIntegral` or P-44; his reasons are "weak signal from repo" and "precedent in other languages". "Yes, that's how I want it." answers "Is that how you want it?", a question on the coordinator's method, in a text that also calls the library as written "the reason for your choice": a yes to a text holding both, to a question on the method.
+
+Audit, judgement-c5.md "P-146" (`:7`): '"Why": the coordinator's reasons, which his 23:32 message restated in part'; "The peers half is his; "as P-44 does" is the coordinator's. Fair, not his own reason word for word."
