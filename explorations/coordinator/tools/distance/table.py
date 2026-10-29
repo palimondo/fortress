@@ -9,11 +9,15 @@ message with paths cut to the file name, so one printed by two units or two stag
 Each is given its kind by errors.py's classify and its root-cause class by classify.py (the
 triage's classes, perf-probes/prelude/distance-triage.md section 2, with its rule that a
 generator filter failing on the error inside it takes that error's class). The crashes are
-the @@TC DECL-CRASH, @@SC CRASH and ### target-crash lines. A target whose ### done line has an
-rc other than 0 and 99 (99 is a target-crash) stopped with errors that print no @@SC line, such
-as a parse error ("File X.fss has N errors."), so the run measured no total; its #total row
-then says so, and compare.sh reads it as no table. Prints, tab-separated:
-    #total <n>                      or: none: <the targets that stopped, rc and error count>
+the @@TC DECL-CRASH, @@SC CRASH, @@TC API-CRASH and ### target-crash lines. A target whose ###
+done line has an rc other than 0 and 99 (99 is a target-crash) stopped with errors that print no
+@@SC line, such as a parse error ("File X.fss has N errors."), so the run measured no total; its
+#total row then says so, and compare.sh reads it as no table. So does an api whose @@TC API line
+counts errors and which printed no @@SC line of its own: only a later target checked it, by the
+tracked method (probe.componentOnly, add-patch.py), so its errors print no line this counts.
+Prints, tab-separated:
+    #total <n>                      or: none: <the targets that stopped, rc and error count;
+                                    the apis whose errors print no line, with their count>
     #kind <kind> <n>                in errors.py's order, then any other kind
     #class <code> <n> <name>        in classify.py's order, the classes that occur
     #check classify.py: ...         when sites of the files that name classify.py's places fall
@@ -47,12 +51,20 @@ def one_line(s, n=140):
 seen = collections.OrderedDict()   # (loc, msg) -> [units, stages]
 crashes = []
 stopped, said = [], {}             # targets that ended rc other than 0 and 99; "File X has N errors." by X
+api_lines, api_errors = set(), collections.OrderedDict()   # apis with @@SC lines; @@TC API errors= by api
 for raw in open(sys.argv[1], encoding="utf-8", errors="replace"):
     f = raw.rstrip("\n").split("\t")
     m = re.match(r"(File (\S+) has \d+ errors?\.)$", raw.strip())
     if m: said[m.group(2)] = m.group(1)
     m = re.match(r"### done (\S+) rc=(-?\d+)", raw)
     if m and m.group(2) not in ("0", "99"): stopped.append((m.group(1), m.group(2)))
+    if f[0] in ("@@SC STAGE", "@@SC ERR", "@@SC CRASH") and len(f) >= 2 and f[1].startswith("api "):
+        api_lines.add(f[1][len("api "):])
+    if f[0] == "@@TC API" and len(f) >= 3 and re.match(r"errors=\d+$", f[2]):
+        api_errors[f[1]] = max(api_errors.get(f[1], 0), int(f[2][len("errors="):]))
+    elif f[0] == "@@TC API-CRASH" and len(f) >= 3:
+        # api, exception, top frame, message
+        crashes.append("api\t%s\t%s\t%s" % (f[1], f[2].split(".")[-1], one_line("\t".join(f[4:]))))
     if f[0] == "@@SC ERR" and len(f) >= 4:
         unit, stage, text = f[1], f[2], "\t".join(f[3:])
         m = PREFIX.match(text.strip())
@@ -79,10 +91,16 @@ for (loc, msg), (us, stages) in seen.items():
     units.append(sorted(us)[0])
 classes = C.with_cascades(rows)
 
+unread = [(a, n) for a, n in api_errors.items() if n > 0 and a not in api_lines]
+why = []
 if stopped:
-    print("#total\tnone: %d target(s) stopped with errors the stage does not count: %s" % (len(stopped), "; ".join(
+    why.append("%d target(s) stopped with errors the stage does not count: %s" % (len(stopped), "; ".join(
         "%s rc=%s%s" % (t, rc, " (%s)" % said[os.path.basename(t)] if os.path.basename(t) in said else "")
         for t, rc in stopped)))
+if unread:
+    why.append("%d api(s) with errors that print no line the stage counts, checked only by a later target: %s"
+               % (len(unread), "; ".join("%s errors=%d" % an for an in unread)))
+if why: print("#total\tnone: " + "; ".join(why))
 else: print("#total\t%d" % len(rows))
 KS = ["exclusion", "comprises", "overloading", "return-type", "abstract-method", "bound-Object",
       "wellformed", "typecheck", "export"]

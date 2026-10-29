@@ -16,17 +16,21 @@ opr APPCOV[\T, A extends T, B extends T\](a: CovariantCollection[\A\], b: Covari
 opr APPCOV(a: AnyCovColl, b: AnyCovColl): AnyCovColl
 
 trait AnyCovColl
+    abstract dirtyIAF[\R\](a:ImmutableArray[\R,ZZ32\], i:ZZ32): ()
 end
 
 trait CovariantCollection[\T\] extends AnyCovColl
         comprises { Empty[\T\], NonEmpty[\T\] }
+    abstract opr | self |: ZZ32
     toImmutableArray(): ImmutableArray[\T, ZZ32\]
     toArray(): Array[\T, ZZ32\]
     assignToArray(res: Array[\T, ZZ32\]): ()
     abstract cata[\R\](e: R, s: (T -> R), a: ((ZZ32, R, R) -> R)): R
 end
 
-object Empty[\T\] extends CovariantCollection[\T\]
+trait AnyEmpty extends AnyCovColl end
+
+object Empty[\T\] extends { AnyEmpty, CovariantCollection[\T\] }
     getter isEmpty(): Boolean
 
     opr | self |: ZZ32
@@ -37,7 +41,11 @@ trait NonEmpty[\T\] extends CovariantCollection[\T\]
     getter isEmpty(): Boolean
 end
 
-object Singleton[\T\](x: T) extends NonEmpty[\T\]
+trait AnySingleton extends AnyCovColl
+    abstract getter x(): Any
+end
+
+object Singleton[\T\](x: T) extends { AnySingleton, NonEmpty[\T\] }
     opr | self |: ZZ32
     cata[\R\](e: R, s: (T -> R), a: ((ZZ32, R, R) -> R)): R
 end
