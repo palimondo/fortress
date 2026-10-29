@@ -4,6 +4,7 @@
 
 ## Held from his page comments (2026-10-29)
 
+- 07:51 On P-59's new text (walk's choice of coercion, a strike only): "Agreed with this edit. No other comments." His yes to this entry; the apply waits until his reading is done.
 - 07:48 On P-58's finding (the natives' binding form has no stated ground; the sound ground is that the language has no foreign-function interface, so the library's practice decides): an important point, to be stated more shortly: there is no foreign-function interface, it was one of the planned features; the Working Draft as the source goes to the historical record; a minimal edit.
 - 07:44 On P-42's new text (the default bound): at the end of his expertise; he cannot judge whether the rewrite is better than the original, nor the grounding of the reasoning in the paper; the question is whether anything changes in the decisions the coordinator makes; he is unsure whether to accept or reject the edit; to discuss separately. (Answered on the thread: the sort grades finding (b) consequential, the bound is a setting the switch-over alone does not change.)
 - 07:34 On P-33's new text (the phases of the work): the first rewrite that does a good job, because it incorporates a later discussion into the position: during the tenets review they discovered a part of the library that was not counted and decided to clear it per part as the need arises; the coordinator failed to record that decision; the rewrite refines the split and encodes the decision faithfully.
