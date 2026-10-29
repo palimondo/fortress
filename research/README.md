@@ -113,6 +113,10 @@ transcript of its talk with the slides' text.
   - Committed: the PDF, `extracts/ParkPOPL2019.pdf`, its full text from
     `pdftotext -layout`, `extracts/ParkPOPL2019.txt`, and the working extract,
     `extracts/ParkPOPL2019-extract.md`.
+  - The technical report, `extracts/ParkPOPL2019-TR.pdf`: the paper extended
+    with the formalization, 74 pages, sent by Sukyoung Ryu to the curator on
+    2026-10-28, and included here with her permission of 2026-10-29 ("It's
+    okay to include it publicly in the repository.").
   - The talk: Gyunghee Park presented the paper at POPL 2019 on 17 January
     2019; video https://www.youtube.com/watch?v=eqpe-VfW3F4. Committed: its
     transcript, `extracts/ParkPOPL2019-talk.md`, made from the ACM video's
