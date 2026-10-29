@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Rename the two PDFs and link them","toolUseId":"toolu_01ERGigQzrnaJd6KoBRSsenW","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"medium"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Rename the two PDFs and link them","toolUseId":"toolu_01ERGigQzrnaJd6KoBRSsenW","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"medium","finished":true}
