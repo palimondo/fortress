@@ -4,15 +4,16 @@
 
 ## In short
 
-- Fifteen entries change. Nine change by his page comments: P-27 rewritten whole; P-37, P-33, P-84, P-59, P-153, P-154, P-12 and P-58 by a sentence or a cut. Six change only by the sweep of P-26 as a cited reason: P-7, P-25, P-44, P-48, P-152 and P-158.
+- Sixteen entries change. Nine change by his page comments: P-27 rewritten whole; P-37, P-33, P-84, P-59, P-153, P-154, P-12 and P-58 by a sentence or a cut. Six change only by the sweep of P-26 as a cited reason: P-7, P-25, P-44, P-48, P-152 and P-158. P-9 changes only in its pointer words for P-27.
 - P-42 and P-146 do not change. Neither cites P-26.
 - Seven grounding corrections go to the history, not the texts (`history-notes.md`). Two new facts go to FACTS (`facts-new.md`), and then P-37 and P-158 take a pointer to them (the last section).
 - Times are UTC, on 2026-10-29.
 
 ## Lengths, in characters, old against new
 
+- P-9: 1242 to 1279
 - P-27: 452 to 829
-- P-37: 1056 to 1286; with the pointer of `facts-new.md`, 1344
+- P-37: 1056 to 1107; with the pointer of `facts-new.md`, 1165
 - P-33: 913 to 1060
 - P-84: 938 to 927
 - P-59: 930 to 774
@@ -25,8 +26,20 @@
 - P-44: 1208 to 1202
 - P-48: 1570 to 1563
 - P-152: 1488 to 1412
-- P-158: 867 to 832; with the pointer of `facts-new.md`, 775
-- All fifteen: 15738 to 16332
+- P-158: 867 to 832; with the pointer of `facts-new.md`, 767
+- All sixteen: 16980 to 17432
+
+## P-9
+
+P-27's pointer words change to P-27's new title, since he found the old words, "what microGPT invented goes into the library", too strong. It answers his page comment of 06:42 on P-27.
+
+Old:
+
+> - P-9 **The revival searches for the most readable expression of the microGPT algorithm.** C4 is the flat microGPT program (`explorations/run-c4/src/MicroGptFlat.fss`), whose data layout follows Aaron Hsu's flat style of APL (P-29: C4 is not edited for speed before microGPT runs compiled). In C4, the polishing happens in the vocabulary, the array operations that the model's lines call: `FlatArrays.fss` beside C4, and what of it has moved into the standard library (P-27: what microGPT invented goes into the library). P-87 holds the limit: the model's text is the notation, and a change to a model line is shown to the curator as a diff first. C4 is the target form of the APL microGPT program (`explorations/apl/mg/MicroGptApl.fss`): the APL program is written so that each of its lines expands into the line that C4 writes by hand. C4 writes its hyperparameters as tuple bindings, such as `(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)`, the form to which the APL sub-language (P-10) expands a strand assignment, APL's binding of several names at once. The one-line form, declarations separated by semicolons such as `nEmbd = 16; blockSize = 16; ...`, is not used: the APL sub-language has no use for it.
+
+New:
+
+> - P-9 **The revival searches for the most readable expression of the microGPT algorithm.** C4 is the flat microGPT program (`explorations/run-c4/src/MicroGptFlat.fss`), whose data layout follows Aaron Hsu's flat style of APL (P-29: C4 is not edited for speed before microGPT runs compiled). In C4, the polishing happens in the vocabulary, the array operations that the model's lines call: `FlatArrays.fss` beside C4, and what of it has moved into the standard library (P-27: what a program builds that a more mature library would hold goes into the library). P-87 holds the limit: the model's text is the notation, and a change to a model line is shown to the curator as a diff first. C4 is the target form of the APL microGPT program (`explorations/apl/mg/MicroGptApl.fss`): the APL program is written so that each of its lines expands into the line that C4 writes by hand. C4 writes its hyperparameters as tuple bindings, such as `(nEmbd, blockSize, nHead, headDim, vocabSize, bosId) = (16, 16, 4, 4, 27, 26)`, the form to which the APL sub-language (P-10) expands a strand assignment, APL's binding of several names at once. The one-line form, declarations separated by semicolons such as `nEmbd = 16; blockSize = 16; ...`, is not used: the APL sub-language has no use for it.
 
 ## P-27
 
@@ -42,7 +55,7 @@ New:
 
 ## P-37
 
-His reason is added as the run wrote it; the run's sentence on F-34, a status line, and its sentences on `CompilerSystem` are not taken, since that question is open and his. It answers his page comment of 05:22 and finding P-37 a.
+His reason is added as the run wrote it; the run's sentence on F-34, a status line, and its sentences on `CompilerSystem` are not taken, since that question is open and his; the last two sentences, that the decision is not put to him again and that a plan he approved set the order of the work, go to the history. It answers his page comment of 05:22 (a trim, and the reason) and finding P-37 a.
 
 Old:
 
@@ -50,7 +63,7 @@ Old:
 
 New:
 
-> - P-37 **One library, the interpreter's, is the library that the compiler checks.** The interpreter's prelude, `FortressLibrary` and `FortressBuiltin`, becomes the compiled path's prelude in place of the compiler's own, and the compiled path reads the interpreter's library with it. Why: the switch-over exists to avoid the need to port the interpreter's library into the compiler's library; the revival is developing the type checker further, so that it will accept the fuller library that the interpreter uses. The curator sees the compiler's prelude, its own library files `CompilerLibrary`, `CompilerBuiltin` and `CompilerAlgebra`, as a bootstrap to remove. So no declaration is added to the compiler's prelude, and at the switch-over its three files are deleted and their tests kept (P-38 says which tests are respelled). The decision settles which files survive, not the designs inside them: the one library may take a design of the prelude's, as it took the prelude's flat shape of the number types. This decision does not stop work on the code generator, which is compiler work under either library. The decision is not put to him again. How the checker comes to accept the library, its first step and the order of the work, was left to a plan for him, which he approved (P-33).
+> - P-37 **One library, the interpreter's, is the library that the compiler checks.** The interpreter's prelude, `FortressLibrary` and `FortressBuiltin`, becomes the compiled path's prelude in place of the compiler's own, and the compiled path reads the interpreter's library with it. Why: the switch-over exists to avoid the need to port the interpreter's library into the compiler's library; the revival is developing the type checker further, so that it will accept the fuller library that the interpreter uses. The curator sees the compiler's prelude, its own library files `CompilerLibrary`, `CompilerBuiltin` and `CompilerAlgebra`, as a bootstrap to remove. So no declaration is added to the compiler's prelude, and at the switch-over its three files are deleted and their tests kept (P-38 says which tests are respelled). The decision settles which files survive, not the designs inside them: the one library may take a design of the prelude's, as it took the prelude's flat shape of the number types. This decision does not stop work on the code generator, which is compiler work under either library.
 
 ## P-33
 
@@ -218,15 +231,15 @@ A pointer to F-293, the compiler's fourth file `CompilerSystem`, is added in the
 
 New:
 
-> - P-37 **One library, the interpreter's, is the library that the compiler checks.** The interpreter's prelude, `FortressLibrary` and `FortressBuiltin`, becomes the compiled path's prelude in place of the compiler's own, and the compiled path reads the interpreter's library with it. Why: the switch-over exists to avoid the need to port the interpreter's library into the compiler's library; the revival is developing the type checker further, so that it will accept the fuller library that the interpreter uses. The curator sees the compiler's prelude, its own library files `CompilerLibrary`, `CompilerBuiltin` and `CompilerAlgebra`, as a bootstrap to remove. So no declaration is added to the compiler's prelude, and at the switch-over its three files are deleted and their tests kept (P-38 says which tests are respelled; F-293 holds the compiler's fourth file, `CompilerSystem`). The decision settles which files survive, not the designs inside them: the one library may take a design of the prelude's, as it took the prelude's flat shape of the number types. This decision does not stop work on the code generator, which is compiler work under either library. The decision is not put to him again. How the checker comes to accept the library, its first step and the order of the work, was left to a plan for him, which he approved (P-33).
+> - P-37 **One library, the interpreter's, is the library that the compiler checks.** The interpreter's prelude, `FortressLibrary` and `FortressBuiltin`, becomes the compiled path's prelude in place of the compiler's own, and the compiled path reads the interpreter's library with it. Why: the switch-over exists to avoid the need to port the interpreter's library into the compiler's library; the revival is developing the type checker further, so that it will accept the fuller library that the interpreter uses. The curator sees the compiler's prelude, its own library files `CompilerLibrary`, `CompilerBuiltin` and `CompilerAlgebra`, as a bootstrap to remove. So no declaration is added to the compiler's prelude, and at the switch-over its three files are deleted and their tests kept (P-38 says which tests are respelled; F-293 holds the compiler's fourth file, `CompilerSystem`). The decision settles which files survive, not the designs inside them: the one library may take a design of the prelude's, as it took the prelude's flat shape of the number types. This decision does not stop work on the code generator, which is compiler work under either library.
 
 ### P-158
 
-The false sentence on the specification is replaced by a pointer to F-294, the export rule, which asks no declaration of an abstract member. It answers finding P-158 a, which the sort puts in FACTS with a cut of the sentence.
+The false sentence on the specification is replaced by a pointer to F-294, the export rule, which asks no declaration of an abstract member, and the false date "of 2012" is cut from the clause on the team's export check. It answers findings P-158 a and b, which the sort puts in FACTS and the history, each with a cut.
 
 New:
 
-> - P-158 **A member that an api writes `abstract` is declared in the component that exports the api.** The component's trait or object declares each such member at the api's header, with a body or without one. The compiled export check refuses a component that leaves one out, and the checker then checks that each object defines it. Why: the compiler's prelude, the team's later work, restates each such member in the component without a body, and the team's export check of 2012 enforces it; that way wins over the interpreter's library, written earlier for walk, which leaves some out. The specification's export rule asks no declaration of an abstract member (F-294). Without the declaration, a compiled client's call of the member dies with `NoSuchMethodError` (row 816).
+> - P-158 **A member that an api writes `abstract` is declared in the component that exports the api.** The component's trait or object declares each such member at the api's header, with a body or without one. The compiled export check refuses a component that leaves one out, and the checker then checks that each object defines it. Why: the compiler's prelude, the team's later work, restates each such member in the component without a body, and the team's export check enforces it; that way wins over the interpreter's library, written earlier for walk, which leaves some out. The specification's export rule asks no declaration of an abstract member (F-294). Without the declaration, a compiled client's call of the member dies with `NoSuchMethodError` (row 816).
 
 ### The two new facts
 
