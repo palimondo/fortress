@@ -1,0 +1,3 @@
+tests=XXXExportOperatorHeader
+compile
+compile_err_contains=does not define all declarations

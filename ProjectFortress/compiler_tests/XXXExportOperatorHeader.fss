@@ -1,0 +1,10 @@
+(* A top-level operator whose return type is a subtype of its exported declaration's satisfies that declaration (components/source-code.tex, section "Export Statements"), so # answering B, which extends A, satisfies the api's # answering A. *)
+component XXXExportOperatorHeader
+export XXXExportOperatorHeader
+
+trait A end
+object B extends A end
+
+opr #(a: String, b: String): B = B
+
+end

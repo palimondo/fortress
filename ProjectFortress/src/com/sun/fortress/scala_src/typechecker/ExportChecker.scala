@@ -272,7 +272,7 @@ object ExportChecker {
       val fnsInAPI  = api.functions
       val fnsInComp = component.functions
       for ( f <- toSet(fnsInAPI.firstSet) ;
-            if overloadingChecker.isDeclaredName(f) ) {
+            if overloadingChecker.isCheckedName(f) && isDeclarationName(fnsInAPI, f) ) {
         // f should be in this component
         if ( fnsInComp.firstSet.contains(f) ) {
           val overloadingInAPI =
@@ -591,6 +591,17 @@ object ExportChecker {
       case (None, None) => true
       case (Some(SAPIName(_, idsL, _)), Some(SAPIName(_, idsR, _))) =>
         (idsL, idsR).zipped.forall((l,r) => equalIds(l,r))
+      case _ => false
+    }
+
+  /* Returns true if f is the name of a function declared in fns, and not the
+   * unambiguous name made from a declaration's span, under which the index
+   * also files each function (IndexBuilder.buildFunction).
+   */
+  private def isDeclarationName(fns: Relation[IdOrOpOrAnonymousName, JavaFunction],
+                                f: IdOrOpOrAnonymousName): Boolean =
+    toSet(fns.matchFirst(f)).exists {
+      case SDeclaredFunction(fd) => NodeUtil.getName(fd).equals(f)
       case _ => false
     }
 
