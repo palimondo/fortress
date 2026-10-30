@@ -126,7 +126,7 @@ The five files whose recorded first error in the baseline names something this r
 
 - rung-W.patch taken with one change of substance: a declared type that no Java type carries is refused at load (evidence above), plus its header, the order of `find`'s refusals and a guard on a missing result type; two tests added for the refusals. Each of the 21 bindings moved as the patch writes it (`Library/FortressLibrary.fss:741-810`, `FortressBuiltin.fss:371`, `:373`). Left on glue among `ZZ32`'s and `Int`'s: `CHOOSE` (`FortressLibrary.fss:789`, row 521), `Int`'s `asFloat` (`FortressBuiltin.fss:375`), and `REM`, `MOD`, `GCD`, `LCM`, `LSHIFT`, `RSHIFT`, `^`, `partitionL`, `big`, none in the family.
 - The tests before and after through the harness: 'Tests run: 7,  Failures: 6' (the patch's four, Misfit and Uncarried; the guard OK) and 'OK (8 tests)'.
-- The count table the same as landed, '#total 0', 161 s; the distance below; no site came.
+- The count table the same as landed, '#total 0', 161 s; the distance '#total 0', 'DISTANCE SAME   0', 215 s by its '#seconds'; no site came.
 - Walk values: none moves beyond `ZZ32`'s `DIV` by zero (the guard on both codes); no test changes its verdict in `ant testSystem` (693, no failure) or `ant testSpecData` (130, no failure).
 - Row 336's rewritten line, row 796's close and row 521's note (with a rewrite, since the note does not fit): `record.md`, "Ledger".
 - The specification's revision: the comment, its callout, the Appendix I entry, the decision record; each of its three builds 'BUILD SUCCESSFUL' with 0 warnings (the first on an earlier wording of the callout).
