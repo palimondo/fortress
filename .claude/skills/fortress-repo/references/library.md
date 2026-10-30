@@ -41,7 +41,17 @@ These functions work on the library's generators and reductions: `trait Generato
   - The api's type is wider, and the overrides and bodies use only that type. `DelegatedIndexed`'s `generator` answers the api's `Generator[\E\]`, as `FlatString`'s override does.
 
   In the api, write `abstract` on each member that the component leaves without a body.
-- The compiled checker's export check matches an api member with a component member of the same name and header. It matches a field by its name, its type and its modifiers other than `var`, and an object's value parameter by the same, its name aside. It matches an api's abstract getter by a component field of its name and type that is neither `hidden` nor `private`. It does not match an api's field by a component's getter, so declare such a member as a field (ledger row 842). It also requires a component member for each api member written `abstract`, at the api's header, with a body or without one. Each entry of the check's error names a trait or object and only its first member that differs. After you fix that member, check again to see the next.
+- The compiled checker's export check matches each api member with a component member of the same name and header. It matches these members in these ways:
+  - A field, as `x: ZZ32` in an api's trait: by a component field of its name, its type and its modifiers other than `var`. A component's getter does not match it, so declare a field in the component too (ledger row 842).
+  - An object's value parameter: by its type and its modifiers other than `var`, but not by its name.
+  - A getter written `abstract`, as `abstract getter one(): T`: by a component getter at its header, or by a component field of its name and type that is neither `hidden` nor `private`. A `hidden` field has no getter.
+  - Another member written `abstract`: by a component member at the api's header, with a body or without one.
+
+  Each entry of the check's error names a trait or object and only its first member that differs. After you fix that member, check again to see the next. These steps run the check:
+  - For a component of a compiled program or test: `fortress compile`.
+  - For the one library's `FortressLibrary` component: the count stage (`compiler.md`, "The checker's time").
+  - For the other thirteen components that the `COMPONENTS` line of `explorations/coordinator/tools/distance/run.sh` names: that script, the gate's distance stage, in the background. Its header gives its usage.
+  - For another component of the one library: no step, until the switch-over.
 - A new overload can make walk refuse every program at load. `interpreter.md`, "What walk checks", lists what walk refuses.
 - A new native is a Java class under `interpreter/glue/prim/` (`interpreter.md`, "Natives"), so it is an edit of walk's Java too.
 - `interpreter.md`, "The model program", says how to check microGPT under walk.

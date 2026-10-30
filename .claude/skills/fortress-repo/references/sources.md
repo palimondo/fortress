@@ -209,7 +209,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - Quick loop: map README § 6 (the shadow loop); `checker-count/run.sh:57-70`, not named in the part (nothing of the checker count); caches never checked against the compiler: exploration § 6.
 - Tracks once per code state: the script `:1037`, which names the checker's and walk's source; the code-generator line follows `tests-running.md` (the cold read, finding 1.11, put to the curator); the part now points there (lens 3).
 - Atomic runs and threads: the script `:1839`; map README § 7 row `runtimeSystem/`.
-- extends Object, until 2026-10-30: FACTS "Between the interpreter's library and bytecode stands the checker ..."; POSITIONS "The implicit bound of an unbounded type parameter is `Any`". "And the measurements" dropped with the checker count.
+- The `Object` bound before disambiguation, the trap cut on 2026-10-30: FACTS "Between the interpreter's library and bytecode stands the checker ..."; POSITIONS "The implicit bound of an unbounded type parameter is `Any`". "And the measurements" dropped with the checker count.
 - Api/component name: FACTS "An exported function fails exactly as an exported variable does ...".
 - 0-byte jar on a failed program compile: FACTS Execution model (boxing/kernels entry); failed library compile writes nothing: exploration § 2 (now `build-and-caches.md`'s).
 - The `fortress` commands: `Shell.java:403-487` (the dispatch) and `:371-386` (the library switch), read on the tree, and no longer given in the part; `explorations/repo-internals.md:41-43`, `:111-117`; the agents' use of each command counted over session `fe616d40`'s agent transcripts on 2026-10-04 (`compile`, `run`, `junit` and walk regular; `typecheck`, `parse` and `link` occasional; `api`, `test` and `unparse` almost never).
@@ -380,7 +380,7 @@ Every part rewritten whole by the outline, `explorations/reviews/fortress-repo-o
 - "What the two paths share" without its opening sentence and its line on tasks and transactions, which `SKILL.md`'s "How a program runs" and "Parallelism and mutable state" state: the distillation audit's item A2, as the outline of 2026-10-08 places it. The jar half of "The run" was cut as `SKILL.md`'s "The caches".
 - Cut as stated in another file (settled by the coordinator, the task of 2026-10-08, principle 6): the native helper's `ant compileAll` (`build-and-caches.md`, "Two layers of code"); the regular commands (`SKILL.md`'s glossary, `tests-running.md`); `typecheck` and an interpreter program (`interpreter.md`); the own tests through `junit.sh` (`SKILL.md`'s rules, `tests-running.md`); the checks at one and four threads (`tests-writing.md`); the specification's bound `Any` (`SKILL.md`, "Static parameters"); `phases/PhaseOrder.java` and the pointer for the phases' meaning (`SKILL.md`, "The phases").
 - The prelude section placed before its first use, the wall's definition placed in "What the compiled path cannot compile yet", "Known shapes" renamed "Traps of the compiled path", the territory map named by its folder, the title's "run time": settled by the coordinator, the task of 2026-10-08, principles 1 and 2. `SKILL.md`'s writer asked for the same title.
-- The `Object` bound, until 2026-10-30: ledger row 412 (`compiler_tests/XXXImplicitBoundAny.test`, then); checked on 2026-10-08: `PreDisambiguationDesugaringVisitor.java:136`, `Shell.java:372` and `:380`.
+- The `Object` bound, until 2026-10-30: ledger row 412 (`compiler_tests/XXXImplicitBoundAny.test`, now `ImplicitBoundAny.test`); checked on 2026-10-08: `PreDisambiguationDesugaringVisitor.java:136`, `Shell.java:372` and `:380`.
 - Its lines on what to re-check are under "What to re-check when the tree changes".
 
 ### library.md
@@ -904,11 +904,22 @@ From climb batch 22c's landing at `b81d86b75` and its record (`explorations/comp
 
 From `explorations/reviews/batch-22c-review.md`, "Part 3. Skill sentences the batch made false", items settled by the coordinator; each checked on `main`.
 
-- `specification.md`, "Building it": the multiply defined labels restored as the grep's third alternative, the pattern of `climb-batch-21/RECORD.md:56` that the batch's judge, rung B, its skeptic and the commit stage ran.
+- `specification.md`, "Building it": the multiply defined labels restored as the grep's third alternative, the pattern of `explorations/compile-ladder/climb-batch-21/RECORD.md:56` that the batch's judge, rung B, its skeptic and the commit stage ran.
 - `compiler.md`, "Traps of the compiled path": the prelude's `print`, `println` and `||` at `Object`, `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37`, `:55`, `:61`; F-296; the message from the review; `T extends Object` as `compiler_tests/CoercionGenericFnCompiledRungC.fss:20-21` writes it.
 - `compiler.md`, "Traps of the compiled path": the renamed value parameter, ledger row 839; `ExportChecker.scala`, `equalParams` (`:690-702`).
 - `library.md`, "Designing a change": static parameters' names, row 836, `equalStaticParams` (`:654-662`); value parameters as fields, row 839.
-- `library.md`, "Designing a change": the value parameter less `var`, rung L, `equalParams`; the abstract getter by a field, F-297, `equalAbstractMember` (`:860`); no field by a getter, row 842.
+- `library.md`, "Designing a change": the value parameter matched without its `var`, climb batch 22c's rung L, `equalParams`; the abstract getter by a field, F-297, `equalAbstractMember` (`:860`); no field by a getter, row 842.
 - `interpreter.md`, "What walk checks": no comparison with the exported apis, row 841.
 - `session.md`, "Long commands": the setup lines apart from the `nohup` line, the review's finding 8 (rung O).
 - `sources.md`: the `extends Object` line dated.
+
+## The cold read of climb batch 22c's skill changes, 2026-10-30
+
+From the cold read of `79e5202ad` and `d8026c1d8` (`cold-read-22c.md`, in the coordinator's scratchpad). Flags 1 to 5 and 7 to 18 settled by the coordinator's task; each checked on `main`.
+
+- `compiler.md`, "Traps of the compiled path": the prelude's full path; the message for `println` (flags 1, 2); the limit for a compiled program, the one library's `print` and `println` at `String`, `Number`, `Boolean` and `Any` (`Library/FortressLibrary.fsi:2583-2600`) and its `||` at `Any` and `String` (`:2526-2528`) (flag 3); the reader of a value parameter, the value parameter defined, the check's names narrowed to value parameters (flags 4, 5).
+- `library.md`, "Designing a change": the members as a list by the form the api writes (flags 7, 8, 11); `hidden`, `Specification/basic/traits.tex:742`; a field in the component, `compiler_tests/XXXExportFieldByGetter.fsi` (flags 9, 10); the steps that run the check (flag 13): `fortress compile`, as `compiler_tests/XXXExportAbstractMemberAbsent.test`'s `compile` step; the count stage; `explorations/coordinator/tools/distance/run.sh`, its `COMPONENTS` line and its `DistanceMulti.java`, which checks through `Shell.useInterpreterLibraries()` (`:48`), where `fortress compile` takes the compiler's prelude.
+- `interpreter.md`, "What walk checks": the pointer to those steps (flag 13).
+- `specification.md`, "Building it": LaTeX's summary line, since the log wraps a long label's warning (flag 12).
+- `session.md`, "Long commands": the lines after it in the same call (flag 14).
+- `sources.md`: flags 15 to 18.

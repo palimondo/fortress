@@ -46,7 +46,7 @@ To check your LaTeX, build the specification in a built tree, after the setup li
 
     nohup bash -c '( cd Specification/fortress && ./ant genSource && ./ant tex ) > tmp/spec.txt 2>&1; echo EXIT=$? >> tmp/spec.txt' >/dev/null 2>&1 &
 
-- Both commands must end in `BUILD SUCCESSFUL`, and `grep -c 'LaTeX Warning: Reference\|LaTeX Warning: Label .* multiply defined\|^! Undefined control sequence' Specification/fortress/fortress.log` must print 0.
+- Both commands must end in `BUILD SUCCESSFUL`, and `grep -c 'LaTeX Warning: Reference\|LaTeX Warning: Label .* multiply defined\|LaTeX Warning: There were multiply-defined labels\|^! Undefined control sequence' Specification/fortress/fortress.log` must print 0.
 - If `pdflatex` is missing, install the packages of the `PKGS` line of `explorations/experiment/setup.sh` with `apt-get update -qq && apt-get install -y`.
 - The build writes only ignored files, its log among them, which can reach 400 MB. Remove them afterwards: `git clean -fXq -- Specification`.
 - Update `Specification/fortress.pdf` only if your brief asks for it: copy `Specification/fortress/fortress.pdf` over it.

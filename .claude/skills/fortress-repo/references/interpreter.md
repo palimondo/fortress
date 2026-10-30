@@ -75,7 +75,7 @@ So a library edit can stop every program at load, if it does one of these:
 
 Walk checks a program's declarations against the library's only when it analyses the library, not when it loads the library's entries from the cache (ledger row 342). So a program that walk refuses with an empty cache runs with a filled one. Deleting the program's own entries does not bring the check back. To see such a refusal, run with an empty cache, as `COLD_CACHE=1` gives `harness-one.sh`.
 
-Walk compares no component with the apis that it exports. So a component that leaves out an api member, or declares it at another header, loads and runs under walk. The compiled export check refuses it (`library.md`, "Designing a change"; ledger row 841).
+Walk compares no component with the apis that it exports. So a component that leaves out an api member, or declares it at another header, loads and runs under walk. The compiled export check refuses it (ledger row 841). `library.md`, "Designing a change", gives the step that runs the check on each component.
 
 `tests-writing.md` says how a test names a refusal at load.
 
