@@ -4455,11 +4455,11 @@ which the compiled code cannot call.
 The bindings move onto helpers step by step, and the type checker checks each
 moved binding against its helper's Java signature from the step that moves it.
 The alternative not taken was \KWD{import} \KWD{java} declarations written in
-\library\ itself, the compiler's own form for its natives, which the
-interpreter does not run.
+the source files of \library, the compiler's own form for its natives, which
+the interpreter does not run.
 A reversal would restore the original comment, put the moved bindings back on
-their glue classes, and leave the compiled code without a binding of
-\library's natives that it can call.
+their glue classes, and leave the compiled code without a binding of the
+natives of \library\ that it can call.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-natives-walk/decision-record.md}
 in the revival's repository.
