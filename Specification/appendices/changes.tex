@@ -2911,13 +2911,14 @@ it refuses two declarations whose parameter types, read over their instances,
 are each a subtype of the other, ``There are multiple declarations of \VAR{dup}
 with the same parameter type'', two functional methods among them wherever their
 \KWD{self} parameters stand.
-It accepts one such pair, a declaration whose parameter types are its type
-parameters, written with no bound and so bounded by \TYP{Any}, beside one
-without static parameters whose parameter types are \TYP{Any}, as
+Among them is a declaration whose parameter types are its type parameters,
+written with no bound and so bounded by \TYP{Any}, beside one without static
+parameters whose parameter types are \TYP{Any}, as
 \EXP{\VAR{g}\llbracket{}T\rrbracket(a\COLON{}T)} beside
-\EXP{\VAR{g}(a\COLON \TYP{Any})}, and runs the first for a call to which both
-apply; it refuses the same pair where the bound is written, \TYP{Any} or one
-below it (row~759 of the revival's gap ledger).
+\EXP{\VAR{g}(a\COLON \TYP{Any})}, as is the same pair with the bound written,
+\TYP{Any} or one below it; while the compiled path bounded such a type
+parameter by \TYP{Object} (\secref{revival-bound}), it accepted that pair and
+ran the first (row~759 of the revival's gap ledger).
 It reads the abstract functional methods that a trait or object provides as it
 reads the abstract dotted ones, so that an abstract functional method beside a
 concrete one with the same parameter type is among the pairs it refuses, which
@@ -3105,8 +3106,9 @@ of the revival's gap ledger), and a generic dotted method whose one parameter
 has a tuple type (row~832).
 Until the compiled path is switched over to the interpreter's library, the
 compiler's own library declares the concatenation of a \TYP{String} with an
-\TYP{Object}, not with \TYP{Any}, so there a string concatenated with a value of
-such a type parameter is a static error.
+\TYP{Object}, and \VAR{print} and \VAR{println} of an \TYP{Object}, not of
+\TYP{Any}, so there a string concatenated with a value of such a type parameter,
+or such a value printed, is a static error.
 The rationale of \secref{revival-tabulate}, written before this change, speaks
 of the implicit bound \TYP{Object}.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/trait-parameters.tex},
