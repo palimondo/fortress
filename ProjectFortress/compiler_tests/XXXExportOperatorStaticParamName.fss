@@ -1,0 +1,12 @@
+(* A generic top-level operator whose static parameter the component names U, where its api names it T, is refused by the export check, which compares static parameters by name. *)
+component XXXExportOperatorStaticParamName
+export { XXXExportOperatorStaticParamName, Executable }
+
+opr <->[\U\](a: U, b: U): U = b
+
+run(): () = do
+    assert("x" <-> "y", "y", "\"x\" <-> \"y\" runs the component's <->")
+    println("PASS")
+  end
+
+end

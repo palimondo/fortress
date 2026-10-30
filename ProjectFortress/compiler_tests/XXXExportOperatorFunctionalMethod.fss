@@ -1,0 +1,14 @@
+(* A top-level operator of an api is satisfied by a functional method of the component at its parameter types (components/source-code.tex, section "Export Statements"), so T's <-> satisfies the api's <-> over two T values. *)
+component XXXExportOperatorFunctionalMethod
+export { XXXExportOperatorFunctionalMethod, Executable }
+
+object T
+  opr <->(self, o: T): ZZ32 = 5
+end
+
+run(): () = do
+    assert(T <-> T, 5, "T <-> T runs T's functional method")
+    println("PASS")
+  end
+
+end
