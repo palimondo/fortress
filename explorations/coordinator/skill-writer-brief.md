@@ -49,10 +49,12 @@ A skill's terms open the skill, in `SKILL.md`, as a definition list with no head
 
 - Edit the skill files in place. Git keeps the earlier text.
 - A comment of the curator marks a problem area. Fix it at the level of its paragraph or section, with the whole skill in mind.
-- Commit only the paths that you wrote: `git add -- <paths> && git commit -m '<message>' -- <paths>`. End every commit message with these two lines, exactly:
+- Commit only the paths that you wrote: `git add -- <paths> && git commit -m '<message>' -- <paths>`. End every commit message with these two lines. In the first, write the tier and version of the model that you run on in place of `<tier and version>`:
 
-      Co-Authored-By: Claude <noreply@anthropic.com>
+      Co-Authored-By: Claude <tier and version> <noreply@anthropic.com>
       Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB
+
+  An Opus 5.5 writer writes `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 
 - Do not push. The coordinator pushes.
 - Do not touch the review page or its scratch files. The coordinator keeps the page in step.
