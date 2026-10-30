@@ -1,0 +1,20 @@
+#api	errors
+AnyType	0
+CovariantCollection	0
+FlatString	0
+FortressBuiltin	0
+FortressLibrary	0
+List	0
+NatReflect	0
+NativeArray	0
+RangeInternals	0
+Stream	0
+String	0
+TypeProxy	0
+Writer	0
+com.sun.fortress.nativeHelpers	0
+#total	0
+#locations	0
+#crash	none
+#cache	overloading memo off (-Dfortress.analyzer.overload.cache=false)
+#shadow	matches the tracked StaticChecker
