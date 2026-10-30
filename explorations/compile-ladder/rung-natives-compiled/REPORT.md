@@ -164,7 +164,7 @@ Nothing: the specification says nothing of `builtinPrimitive` or `import java`; 
 ## Sentences made false
 
 - Specification: none. Appendix I's row 560 entry (`Specification/appendices/changes.tex:2465-2476`) speaks of the glue strings' calls of `builtinPrimitive`, which stay. The library's printed comment on `builtinPrimitive` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:14-17`, typeset by `Specification/library/default-libraries.tex:37-39`) says the function "is actually recognized as a special piece of built-in magic by the Fortress interpreter" and that its argument "names a Java Class which is a subclass of `com.sun.fortress.interpreter.glue.NativeApp`". It stays true of every library string on this tree, where none names a helper; it is not true of a compiled program's string that names a helper, as the binding test's, which the compiled path now reads. Rung W revises the comment.
-- The record, for the gather: F-180's "P-58 chose another way, not yet built": the compiled half is built here. F-111's "The library names walk's natives only in strings, which only walk resolves": true on this tree, where no library string names a helper; false on the merged tree, where the stages resolve W's moved strings through this rewrite.
+- The record, for the gather: F-180's "P-58 chose another way, not yet built": the compiled half is built here. F-180's "five gaps stop it": the foreign-type reading of walk's world closes gap 1, the type table, for walk itself too, so a written `import java` under walk stops at gap 3 (SKEPTIC.md; row NEW-C-1 in `record.md`). F-111's "The library names walk's natives only in strings, which only walk resolves": true on this tree, where no library string names a helper; false on the merged tree, where the stages resolve W's moved strings through this rewrite.
 
 ## Limits, by reading, not measured
 
@@ -206,6 +206,7 @@ Each is reversible; none holds the push.
 - Row 309, the compiled path with no counterpart of `builtinPrimitive`: home 1, repaired; `NativeHelperBindingCompiled`. The gather closes it with commit `3d72de41f` (fork 14).
 - The planner's text's crash on a string outside the helpers' package in a file that names no helper, and its binding of such a string beside a helper: home 1, repaired before landing; `XXXNativeHelperOutsidePackageCompiled`. It never reached the base, so it has no ledger row.
 - The limits above are read, not measured; none is reachable from a library or test component on this tree, and none has a row.
+- Walk's crash on a written `import java`, which the foreign-type reading moves from F-180's gap 1 to its gap 3, measured by the skeptic: home 3, row NEW-C-1 in `record.md`, with no test, since walk crashes on the program (SKEPTIC.md).
 
 ## For FACTS
 
