@@ -4387,6 +4387,26 @@ exported one's is not, as \TYP{OneShot}'s parameter \VAR{canTryIt} in
 The rule above, like the matching definition of \secref{apis}, asks the same
 header, and an object's header holds its value parameters with their
 modifiers (row~844 of the revival's gap ledger).
+The compiled type checker compares no name of a value parameter of an object
+declaration: a component's object declaration whose value parameter is named
+\VAR{z} satisfies an exported one whose value parameter is named \VAR{a}, so
+that a compiled client that reads the field \VAR{a} stops at run time with
+\texttt{NoSuchMethodError}, and one whose two value parameters have each
+other's names satisfies the exported one too (row~839 of the revival's gap
+ledger).
+The compiled type checker takes only a field declaration as satisfying a field
+declaration of an exported trait, where \secref{export-statements} takes a
+getter declaration too: a component's trait that declares a getter \VAR{x} for
+the exported trait's field \VAR{x} is refused (``different field'', row~842 of
+the revival's gap ledger).
+The compiled type checker takes only a method declaration with the same
+header, its return type included, as satisfying a method declaration of an
+exported trait that is not abstract, where \secref{export-statements} takes one
+whose return type is a subtype of the exported one's: a component's method
+\VAR{m} whose return type is \TYP{B}, where \TYP{B} extends \TYP{A}, does not
+satisfy an exported method \VAR{m} whose return type is \TYP{A} (``different
+method''); whether the rule or the check is to change is open (row~834 of the
+revival's gap ledger).
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/components/source-code.tex},
 lines 380--385, which the change revises:
 \begin{quote}
