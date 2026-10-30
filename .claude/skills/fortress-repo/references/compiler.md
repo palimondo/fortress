@@ -66,9 +66,12 @@ The wrapper generator wraps every method of a class that it is given, the privat
 
 ## Traps of the compiled path
 
+- The compiler's prelude declares `print`, `println` and `String`'s `||` at `Object`, not `Any` (`LibraryBuiltin/CompilerBuiltin.fsi:37`, `:55`, `:61`). So until the switch-over, the checker refuses a generic that prints a value of a type parameter written without a bound, or concatenates it onto a `String`: 'Object->() is not applicable to an argument of type T.' In such a generic, write `T extends Object`.
 - An api and the component that implements it must have the same name. The linker looks for a component with the api's own name. If there is none, the link fails ("Could not find an implementation for API"), and the run dies with `NoClassDefFoundError`.
 - The compiled dispatch ignores the contravariance of a parameter of arrow type. The property `fortress.disable.contravariance` is true by default, so `OverloadSet` passes no variance. The team turned it off in 2012 (`c35aac139`). If a compiled call with function arguments picks another declaration than walk does, look here first.
-- A clean link does not prove that every call has its method. A call of a functional method of an object that a trait's `comprises` clause lists dies at run time with `NoSuchMethodError` on a value whose static type is the object. An example is `num(R)`, where `trait Q comprises { R }` declares `abstract num(self): ZZ32` and `object R extends Q` gives its body. Call it through a value typed as the trait, as `q: Q = R` and then `num(q)` (ledger row 815).
+- A clean link does not prove that every call has its method. Two calls die at run time with `NoSuchMethodError`:
+  - a call of a functional method of an object that a trait's `comprises` clause lists, on a value whose static type is the object. An example is `num(R)`, where `trait Q comprises { R }` declares `abstract num(self): ZZ32` and `object R extends Q` gives its body. Call it through a value typed as the trait, as `q: Q = R` and then `num(q)` (ledger row 815);
+  - a client's read of an exported object's value parameter that the component names otherwise than the api. An example is `Np(3).a`, where the api declares `object Np(a: ZZ32)` and the component `object Np(z: ZZ32)`. The export check compares no parameter names. Give each value parameter the api's name (ledger row 839).
 
 ## The checker's gaps
 

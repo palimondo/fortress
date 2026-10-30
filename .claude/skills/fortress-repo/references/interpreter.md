@@ -75,6 +75,8 @@ So a library edit can stop every program at load, if it does one of these:
 
 Walk checks a program's declarations against the library's only when it analyses the library, not when it loads the library's entries from the cache (ledger row 342). So a program that walk refuses with an empty cache runs with a filled one. Deleting the program's own entries does not bring the check back. To see such a refusal, run with an empty cache, as `COLD_CACHE=1` gives `harness-one.sh`.
 
+Walk compares no component with the apis that it exports. So a component that leaves out an api member, or declares it at another header, loads and runs under walk. The compiled export check refuses it (`library.md`, "Designing a change"; ledger row 841).
+
 `tests-writing.md` says how a test names a refusal at load.
 
 Walk's overload-ambiguity message names its two declarations in an order that varies from run to run. On one core, the order is fixed for a given library, but a library edit can change it. Do not pin or compare this order. The harness reads only that an `XXX` test fails.

@@ -209,7 +209,7 @@ The part `checker-measurements.md` and its lines in the other parts were removed
 - Quick loop: map README § 6 (the shadow loop); `checker-count/run.sh:57-70`, not named in the part (nothing of the checker count); caches never checked against the compiler: exploration § 6.
 - Tracks once per code state: the script `:1037`, which names the checker's and walk's source; the code-generator line follows `tests-running.md` (the cold read, finding 1.11, put to the curator); the part now points there (lens 3).
 - Atomic runs and threads: the script `:1839`; map README § 7 row `runtimeSystem/`.
-- extends Object: FACTS "Between the interpreter's library and bytecode stands the checker ..."; POSITIONS "The implicit bound of an unbounded type parameter is `Any`". "And the measurements" dropped with the checker count.
+- extends Object, until 2026-10-30: FACTS "Between the interpreter's library and bytecode stands the checker ..."; POSITIONS "The implicit bound of an unbounded type parameter is `Any`". "And the measurements" dropped with the checker count.
 - Api/component name: FACTS "An exported function fails exactly as an exported variable does ...".
 - 0-byte jar on a failed program compile: FACTS Execution model (boxing/kernels entry); failed library compile writes nothing: exploration § 2 (now `build-and-caches.md`'s).
 - The `fortress` commands: `Shell.java:403-487` (the dispatch) and `:371-386` (the library switch), read on the tree, and no longer given in the part; `explorations/repo-internals.md:41-43`, `:111-117`; the agents' use of each command counted over session `fe616d40`'s agent transcripts on 2026-10-04 (`compile`, `run`, `junit` and walk regular; `typecheck`, `parse` and `link` occasional; `api`, `test` and `unparse` almost never).
@@ -899,3 +899,16 @@ From climb batch 22c's landing at `b81d86b75` and its record (`explorations/comp
 - `library.md`, "Designing a change": the export check requires a member for each api member written `abstract`; rung A, as above.
 - `specification.md`, "Building it": the grep's pattern; the old one printed 47 on an unchanged text, each a traced line of a macro (`explorations/compile-ladder/rung-abstract-declared/REPORT.md`, section 4).
 - `sources.md`: the `Object` bound's line and the cold read's `library.md` line given as dated history.
+
+## Climb batch 22c's review, 2026-10-30
+
+From `explorations/reviews/batch-22c-review.md`, "Part 3. Skill sentences the batch made false", items settled by the coordinator; each checked on `main`.
+
+- `specification.md`, "Building it": the multiply defined labels restored as the grep's third alternative, the pattern of `climb-batch-21/RECORD.md:56` that the batch's judge, rung B, its skeptic and the commit stage ran.
+- `compiler.md`, "Traps of the compiled path": the prelude's `print`, `println` and `||` at `Object`, `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37`, `:55`, `:61`; F-296; the message from the review; `T extends Object` as `compiler_tests/CoercionGenericFnCompiledRungC.fss:20-21` writes it.
+- `compiler.md`, "Traps of the compiled path": the renamed value parameter, ledger row 839; `ExportChecker.scala`, `equalParams` (`:690-702`).
+- `library.md`, "Designing a change": static parameters' names, row 836, `equalStaticParams` (`:654-662`); value parameters as fields, row 839.
+- `library.md`, "Designing a change": the value parameter less `var`, rung L, `equalParams`; the abstract getter by a field, F-297, `equalAbstractMember` (`:860`); no field by a getter, row 842.
+- `interpreter.md`, "What walk checks": no comparison with the exported apis, row 841.
+- `session.md`, "Long commands": the setup lines apart from the `nohup` line, the review's finding 8 (rung O).
+- `sources.md`: the `extends Object` line dated.

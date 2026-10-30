@@ -25,6 +25,8 @@ If a command can take more than a minute or two, start it detached with `nohup`,
 
     nohup bash -c '( ant compileAll ) > tmp/build.txt 2>&1; echo EXIT=$? >> tmp/build.txt' >/dev/null 2>&1 &
 
+Keep the setup lines and the `nohup` line as separate lines. `A && nohup B &` runs `A` in the background too, so its `cd` and its exports do not reach the next line.
+
 The log gets the output, then a last line `EXIT=<status>`. The automatic permission check refuses a shell function that passes the command to `bash -c` in a variable, because it cannot read the command.
 
 The shell function `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0: ant's `BUILD` and `Total time:`, JUnit's `OK (`, `FAILURES!!!` and `Tests run:`, and `EXIT=`. If not, it returns 1.
