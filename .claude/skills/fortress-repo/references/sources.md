@@ -380,7 +380,7 @@ Every part rewritten whole by the outline, `explorations/reviews/fortress-repo-o
 - "What the two paths share" without its opening sentence and its line on tasks and transactions, which `SKILL.md`'s "How a program runs" and "Parallelism and mutable state" state: the distillation audit's item A2, as the outline of 2026-10-08 places it. The jar half of "The run" was cut as `SKILL.md`'s "The caches".
 - Cut as stated in another file (settled by the coordinator, the task of 2026-10-08, principle 6): the native helper's `ant compileAll` (`build-and-caches.md`, "Two layers of code"); the regular commands (`SKILL.md`'s glossary, `tests-running.md`); `typecheck` and an interpreter program (`interpreter.md`); the own tests through `junit.sh` (`SKILL.md`'s rules, `tests-running.md`); the checks at one and four threads (`tests-writing.md`); the specification's bound `Any` (`SKILL.md`, "Static parameters"); `phases/PhaseOrder.java` and the pointer for the phases' meaning (`SKILL.md`, "The phases").
 - The prelude section placed before its first use, the wall's definition placed in "What the compiled path cannot compile yet", "Known shapes" renamed "Traps of the compiled path", the territory map named by its folder, the title's "run time": settled by the coordinator, the task of 2026-10-08, principles 1 and 2. `SKILL.md`'s writer asked for the same title.
-- The `Object` bound: ledger row 412 (`compiler_tests/XXXImplicitBoundAny.test`), cited in the part; checked: `PreDisambiguationDesugaringVisitor.java:136`, `Shell.java:372` and `:380`.
+- The `Object` bound, until 2026-10-30: ledger row 412 (`compiler_tests/XXXImplicitBoundAny.test`, then); checked on 2026-10-08: `PreDisambiguationDesugaringVisitor.java:136`, `Shell.java:372` and `:380`.
 - Its lines on what to re-check are under "What to re-check when the tree changes".
 
 ### library.md
@@ -866,7 +866,7 @@ From the cold read of `c4fc9b60e` to `98c104b30` (`tmp/cold-read-b21b/report.md`
 - `compiler.md`, "Traps of the compiled path": the listed object, and `q: Q = R`, `ProjectFortress/compiler_tests/AbstractFunctionalMethodImplementedByComprised.fss` (flags 10, 11); the importing and exporting components, and the action (flags 12, 13).
 - `compiler.md`, "The checker's gaps": `import A.{...}` and its remedy `except { pick }`, `compiler_tests/ImportExceptByName` (flags 14, 15); the `except` of an operator, no remedy, walk's run of the component's own `-`, row 814 (flag 16); the self-type sentence cut (flag 17); "declares such a trait" and the listed `List[\E\]`, `compiler_tests/ComprisesWhereFunctionalMethodChecker.fss`, row 812 (flags 18, 19).
 - `interpreter.md`: the specification's file at the first naming of the rule (flag 20).
-- `library.md`: top-level functions and members; the header as `equalFnHeaders` in `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:606-619`, top-level functions by the same comparison (`existsMatching`, `:431-433`); the `abstract` member declared in the component, row 816; the first difference, `equalListMembers`'s `forall` (flags 21 to 24).
+- `library.md`: top-level functions and members; the header as `equalFnHeaders` (`ExportChecker.scala:632-645` at `b81d86b75`), top-level functions by the same comparison (`existsMatching`, `:431-433`); the `abstract` member declared in the component, row 816, until 2026-10-30; the first difference, `equalListMembers`'s `forall` (flags 21 to 24).
 - `tests-running.md`: the driver, not `ant testDemos` (flag 25); the parser and shared phases, "When to run a whole suite" (flag 26, 27); the saved script and its call (flag 28); a long run in the background, no time (flag 29); the driver's last line and the criterion, `rung-team-demos/REPORT.md`, section 13 (flags 30, 31); a demo with no known repair, P-79 (flag 32); the 52 demos of `DemoTests` (flag 33).
 
 ## Climb batch 22, 2026-10-24
@@ -888,3 +888,14 @@ From the cold read of `3ba95468d` (`tmp/cold-read-b22/report.md`). All 18 flags 
 - `compiler.md`, the count stage: the glossary entry cut to the term and what it counts; the component and its apis, F-53 and `run.sh`'s `TARGET` (flags 7, 8, 12).
 - `compiler.md`, "The checker's time": the 120 s limit, `session.md` (flag 13); apis before the component, `run.sh:115-117` and `compiler/phases/TypeCheckPhase.java:43-49`; the stages and their stops, `compiler/StaticChecker.java`, `checkCompilationUnit`, `:187-285`; the rows `#total`, `#stopped` and `#crash`, and the run with no table, `run.sh:19-20`, `:52-63`, `:99-108`, `:153` (flags 9 to 11).
 - `library.md`, "Designing a change": the three cases and their reasons, `explorations/compile-ladder/rung-export-last/REPORT.md`, the table of section 1 and the forks 3, 10 and 11, and F-282; the lines `Library/FortressLibrary.fss:498-501`, `:2102`, `:2657`, `:2745`, `:3065`, `:3147`, `Library/RangeInternals.fsi:520-521`, `Library/FlatString.fss:45` (flags 14 to 18).
+
+## Climb batch 22c, 2026-10-30
+
+From climb batch 22c's landing at `b81d86b75` and its record (`explorations/compile-ladder/climb-batch-22c/RECORD.md`, "Left for the coordinator and the skill writer"). The list was settled by the coordinator; each sentence checked on `main`.
+
+- `compiler.md`, "Traps of the compiled path": the `Object` bound cut; rung B, `1bc0a9083`, row 412 closed, `compiler_tests/ImplicitBoundAny.test`; `Shell.java:372` sets `setExtendsObjectPreDesugaring(false)`.
+- `compiler.md`, "Traps of the compiled path": the `NoSuchMethodError` of an api's `abstract` member cut; rung A, `cc47b637d`, row 816 closed; `ExportChecker.scala`, `equalListMembers` (`:826`) and `equalAbstractMember` (`:860`); `compiler_tests/XXXExportAbstractMemberAbsent.test` and `XXXExportAbstractMemberOtherHeader.test`.
+- `compiler.md`, "The checker's gaps": row 759's sentence cut; rung B, `1bc0a9083`, row 759 closed, `compiler_tests/XXXNoDuplicatesRuleUnboundedBesideAny.test`; walk also refuses equal declared domains (`interpreter.md`, "What walk checks").
+- `library.md`, "Designing a change": the export check requires a member for each api member written `abstract`; rung A, as above.
+- `specification.md`, "Building it": the grep's pattern; the old one printed 47 on an unchanged text, each a traced line of a macro (`explorations/compile-ladder/rung-abstract-declared/REPORT.md`, section 4).
+- `sources.md`: the `Object` bound's line and the cold read's `library.md` line given as dated history.

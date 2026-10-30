@@ -41,7 +41,7 @@ These functions work on the library's generators and reductions: `trait Generato
   - The api's type is wider, and the overrides and bodies use only that type. `DelegatedIndexed`'s `generator` answers the api's `Generator[\E\]`, as `FlatString`'s override does.
 
   In the api, write `abstract` on each member that the component leaves without a body.
-- The compiled checker's export check matches an api member with a component member of the same name and header. It matches a field by its name, its type and its modifiers other than `var`. It requires no component member for an api member written `abstract`. So declare each such member in the component too, at the api's header: a call of a missing one dies with `NoSuchMethodError` (`compiler.md`, "Traps of the compiled path"). Each entry of the check's error names a trait or object and only its first member that differs. After you fix that member, check again to see the next.
+- The compiled checker's export check matches an api member with a component member of the same name and header. It matches a field by its name, its type and its modifiers other than `var`. It also requires a component member for each api member written `abstract`, at the api's header, with a body or without one. Each entry of the check's error names a trait or object and only its first member that differs. After you fix that member, check again to see the next.
 - A new overload can make walk refuse every program at load. `interpreter.md`, "What walk checks", lists what walk refuses.
 - A new native is a Java class under `interpreter/glue/prim/` (`interpreter.md`, "Natives"), so it is an edit of walk's Java too.
 - `interpreter.md`, "The model program", says how to check microGPT under walk.
