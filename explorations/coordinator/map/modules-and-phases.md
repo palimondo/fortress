@@ -442,7 +442,7 @@ Two `runtimeSystem` classes are used by the interpreter as well: `ByteCodeWriter
 
 The two worlds bind native code by two mechanisms that share nothing but the word "native".
 
-Interpreter: a function whose body is literally `builtinPrimitive("some.java.Class")` is pattern-matched in `NativeApp.checkAndLoadNative` (`interpreter/glue/NativeApp.java:164-215`), and that class — a subclass of `NativeFn0..3`/`NativeMeth0..3` in `interpreter/glue/` — is loaded reflectively and takes the evaluator's boxed `FValue`s directly.
+Interpreter: a function whose body is literally `builtinPrimitive("some.java.Class")` is pattern-matched in `NativeApp.checkAndLoadNative` (`interpreter/glue/NativeApp.java:164-223`). A string under `com.sun.fortress.nativeHelpers.` names a static Java method, `"com.sun.fortress.nativeHelpers.Class.method"`: `interpreter/glue/StaticNativeApp.java` takes, among the class's public static methods of that name, the one whose Java types carry the declared types, `self` first, and calls it by reflection, each argument unboxed and the result boxed (`NativeApp.java:194-201`; since rung W, `640acb4a1`; F-299). Any other string names a class — a subclass of `NativeFn0..3`/`NativeMeth0..3` in `interpreter/glue/` — which is loaded reflectively and takes the evaluator's boxed `FValue`s directly.
 
 There are 231 such bindings in `LibraryBuiltin/FortressBuiltin.fss`, 108 in `Library/FortressLibrary.fss` and 7 in `LibraryBuiltin/NativeArray.fss`.
 
