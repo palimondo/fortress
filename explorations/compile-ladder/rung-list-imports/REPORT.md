@@ -174,7 +174,7 @@ No ladder program has a recorded first error that names `OneShot`, `CovariantCol
 
 ## 10. Sentences made false
 
-In `Specification/`: none (section 7's greps; the export rule, `source-code.tex:393-397`, still holds).
+In `Specification/`, by the skeptic's reading: two sentences that ask a satisfying object declaration for the api's header, which holds the value parameters with their modifiers, `source-code.tex:372-379` ("has the same header") and `apis.tex:256` ("The header and type of $d'$ must be the same"), made false for a parameter written `var` in the component only; quoted in `record.md`, "Sentences of the specification made false". The field rule, `source-code.tex:393-397`, still holds.
 
 In the record, for the gather:
 - F-288: "`List` imports `CovariantCollection` and `OneShotFlag`, which the compiled checker refuses" and "The distance checks only their apis, during its `List` run". The checker now accepts both, and the distance checks both components.
