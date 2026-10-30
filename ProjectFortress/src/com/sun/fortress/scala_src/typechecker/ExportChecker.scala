@@ -819,11 +819,23 @@ object ExportChecker {
     }
 
   /* Returns true if a member declared abstract in the API has the header of a
-   * member of the component, the abstract modifier aside. */
+   * member of the component, the abstract modifier aside.  An abstract getter
+   * is also declared by a field of its name and type that is neither hidden
+   * nor private: from the spec (traits.tex, "Abstract Field Declarations"),
+   * "Traits may also include abstract field declarations that are implicit
+   *  declarations of abstract getter methods."
+   */
   private def equalAbstractMember(inAPI: Decl, inComp: Decl): Boolean =
     (inAPI, inComp) match {
       case (SFnDecl(_,headerL,_,_,_), SFnDecl(_,headerR,_,_,_)) =>
         equalFnHeaders(headerL, headerR, true)
+      case (SFnDecl(_, SFnHeader(sparamsL, modsL, nameL, _, throwsL, _,
+                                 paramsL, Some(retTyL@SType(_))), _, _, _),
+            SVarDecl(_, List(SLValue(_, nameR, modsR, Some(tyR@SType(_)), _)), _)) =>
+        modsL.remove(Modifiers.Abstract).equals(Modifiers.Getter) &&
+        sparamsL.isEmpty && paramsL.isEmpty && throwsL.forall(_.isEmpty) &&
+        ! modsR.isHidden && ! modsR.isPrivate &&
+        equalNames(nameL, nameR) && equalTypes(retTyL, tyR)
       case _ => false
     }
 

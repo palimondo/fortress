@@ -1,0 +1,13 @@
+(* A component's trait whose field x declares its api's abstract getter x satisfies it, a field declaring its getter (traits.tex, section "Abstract Field Declarations"; source-code.tex, subsection "Export Statements"), and its object O defines x. *)
+component ExportAbstractGetterFieldApi
+export ExportAbstractGetterFieldApi
+
+trait T
+    x: ZZ32
+end
+
+object O(x: ZZ32) extends T end
+
+mk(): T = O(4)
+
+end
