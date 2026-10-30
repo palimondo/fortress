@@ -1,0 +1,44 @@
+(* On the compiled path, a builtinPrimitive body whose string names a static helper of nativeHelpers compiles into a call of that helper, self first for a method. *)
+component NativeHelperBindingCompiled
+export Executable
+
+less(a:ZZ32, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLT")
+
+trait Shape
+  same(self, other:Shape):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+  sameAs(other:Shape, self):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+end
+
+object Box(v:ZZ32) extends Shape
+  kind():JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.typeName")
+end
+
+add(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd")
+
+bazS(s:JavaString):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
+bazI(n:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
+
+run():() = do
+  assert(less(1, 2), "less(1, 2)")
+  assert(NOT less(3, 2), "less(3, 2)")
+  b = Box(3)
+  c = Box(4)
+  assert(same(b, b), "same(b, b)")
+  assert(NOT same(b, c), "same(b, c)")
+  assert(sameAs(b, b), "sameAs(b, b)")
+  assert(NOT sameAs(c, b), "sameAs(c, b)")
+  assert(b.kind() = "Box", "b.kind()")
+  assert(add(2, 3), 5, "add(2, 3)")
+  r: ZZ32 := 0
+  try
+    r := add(2147483647, 1)
+  catch e
+    IntegerOverflow => r := 1
+  end
+  assert(r, 1, "add(2147483647, 1) raises IntegerOverflow")
+  assert(bazS("x".asJavaString) = "baz x", "bazS")
+  assert(bazI(7) = "baz 7", "bazI")
+  println("PASS")
+end
+
+end

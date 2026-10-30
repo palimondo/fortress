@@ -1,0 +1,3 @@
+tests=XXXNativeHelperMisfitCompiled
+compile
+compile_err_contains=Function body has type ZZ32, but declared return type is Boolean.

@@ -1,0 +1,9 @@
+(* On the compiled path, a builtinPrimitive string that names a static Java method outside nativeHelpers names no helper, so its body stays a call of builtinPrimitive. *)
+component XXXNativeHelperOutsidePackageCompiled
+export Executable
+
+absOf(n:ZZ32):ZZ32 = builtinPrimitive("java.lang.Math.abs")
+
+run():() = println(absOf(-3))
+
+end

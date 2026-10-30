@@ -621,6 +621,12 @@ The items for him that climb batch 22c (`coordinator/CLIMB-BATCH-22c.md`, rungs 
 - The three lines of the team's tests that rung B rewrote to keep their checked values under the bound `Any`, `ProjectFortress/compiler_tests/XXX6bu.test:16`, `XXX6bv.test:16` and `ProjectFortress/tests/doubledOverloading.fss:36-41`, each with its before and after there. Default: as landed. Review-queue item 304.
 - The difference the gate's comparison hid: three rows of the APL microGPT program, `AplMgSyntax.fsi`, `AplMgSyntax.fss` and `MicroGptApl.fss`, change their first compile error from 'DelegatedIndexed is undefined.' to 'ImmutableArray is undefined.', their phase unchanged. Default: as landed. Review-queue item 305.
 
+### Climb batch 23, listed for his review
+
+The items for him that climb batch 23 (`coordinator/CLIMB-BATCH-23.md`, rungs C and W, phase 4's first batch, the natives' mechanism) left (`compile-ladder/climb-batch-23/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`"). One entry for each point, opening with the ids it holds, with its default and evidence. Those below ask for no answer before work on the path can go on: each is built at a default or needs none, and each is reversible.
+
+- C.skeptic.1 of climb batch 23's rung C (row 845): the foreign-type reading of fork 5 applies whenever the world is walk's, and walk itself runs in that world, its repository handing a written `import java` to `ForeignJava` (`ProjectFortress/src/com/sun/fortress/repository/GraphRepository.java:957`), so such an import under walk, which stopped with 'FortressBuiltin.ZZ32 is undefined.', now ends with `InterpreterBug` 'Non-top-level reference to imported …'. Keep the reading as the fork gives it, or key it to the checker's runs only? Default: as the fork gives it, as landed; no suite, demo or library component writes `import java` under walk, and P-58 does not take that form. Evidence: `compile-ladder/rung-natives-compiled/SKEPTIC.md:31-33` ("My programs, old against new").
+
 ### Not classified, to check
 
 Workflow measures of the post-batch reviews that were not built when filed, and whose status this plan's consolidation did not settle: the script was redesigned on 2026-10-08, and the lines they cite no longer resolve (`process-engineering/plan-map.md` section 5). Each is one line with its reason; the full text is in `PLAN-history.md`, "Work that can start now, with no decision".

@@ -99,6 +99,8 @@ public final class Shell {
     }
 
     private static GraphRepository specificRepository(Path p, CacheBasedRepository cache ) throws IOException {
+        // The compiled path rewrites a builtinPrimitive body naming a helper at the parse; walk loads it itself.
+        com.sun.fortress.compiler.BuiltinPrimitiveRewriter.setEnabled(cache != interpreterCache);
         GraphRepository fr = new GraphRepository( p, cache );
         CURRENT_INTERPRETER_REPOSITORY = fr;
         return fr;

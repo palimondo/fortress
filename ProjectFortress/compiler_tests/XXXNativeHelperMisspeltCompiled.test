@@ -1,0 +1,3 @@
+tests=XXXNativeHelperMisspeltCompiled
+compile
+compile_err_contains=builtinPrimitive names no static helper: com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAddd

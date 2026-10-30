@@ -154,6 +154,9 @@ public class Parser {
      * Return a partial compilation unit including import statements.
      */
     public static CompilationUnit importCollector(File file) {
+        if (BuiltinPrimitiveRewriter.enabled() && file.getName().endsWith(ProjectProperties.COMP_SOURCE_SUFFIX)
+            && BuiltinPrimitiveRewriter.namesHelpers(file))
+            return parseFileConvertExn(file);   // the whole component, its builtinPrimitive bodies rewritten
         try {
             String filename = file.getCanonicalPath();
             BufferedReader in = Useful.utf8BufferedFileReader(file);
@@ -323,8 +326,8 @@ public class Parser {
     public static CompilationUnit parseFileConvertExn(File file) {
         try {
             String filename = file.getCanonicalPath();
-            return parseCU(Useful.utf8BufferedFileReader(file), filename,
-                           preParser(Useful.utf8BufferedFileReader(file), filename));
+            return BuiltinPrimitiveRewriter.rewrite(parseCU(Useful.utf8BufferedFileReader(file), filename,
+                           preParser(Useful.utf8BufferedFileReader(file), filename)));
         } catch (FileNotFoundException fnfe) {
             throw convertExn(fnfe, file);
         } catch (IOException ioe) {

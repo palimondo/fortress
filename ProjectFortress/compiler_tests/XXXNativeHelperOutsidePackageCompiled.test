@@ -1,0 +1,3 @@
+tests=XXXNativeHelperOutsidePackageCompiled
+compile
+compile_err_contains=Variable builtinPrimitive is not defined.
