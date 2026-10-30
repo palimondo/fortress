@@ -1,0 +1,3 @@
+tests=XXXExportFieldByGetter
+compile
+compile_err_contains=different field x

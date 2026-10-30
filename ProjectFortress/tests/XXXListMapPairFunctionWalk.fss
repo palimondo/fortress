@@ -1,0 +1,14 @@
+(* A list of pairs maps by a function of two parameters, map's static argument inferred from the function's result type (inference.tex, section "The Static Arguments of a Call"). *)
+component XXXListMapPairFunctionWalk
+import List.{...}
+export Executable
+
+run(): () = do
+    p: List[\(ZZ32, String)\] = <|[\(ZZ32, String)\] (0, "a"), (1, "b") |>
+    q = p.map(fn (i: ZZ32, s: String): String => s)
+    assert(|q|, 2, "the map of two pairs has two elements")
+    assert(q[0] || q[1], "ab", "the map answers each pair's string, in order")
+    println("PASS")
+  end
+
+end

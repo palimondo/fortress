@@ -1,0 +1,11 @@
+(* The main component of ExportAbstractGetterField: a client's call of the api's abstract getter x on the T that mk makes runs the getter of O's field x, which answers 4. *)
+component ExportAbstractGetterField
+import ExportAbstractGetterFieldApi.{...}
+export Executable
+
+run(): () = do
+    assert(mk().x, 4, "mk().x")
+    println("PASS")
+  end
+
+end

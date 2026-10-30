@@ -1,0 +1,9 @@
+(* A field declaration is satisfied by a getter declaration (source-code.tex, subsection "Export Statements"), so a component's trait whose getter x stands for its api's field x matches its api. *)
+component XXXExportFieldByGetter
+export XXXExportFieldByGetter
+
+trait T
+    getter x(): ZZ32
+end
+
+end

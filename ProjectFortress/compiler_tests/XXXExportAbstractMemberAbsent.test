@@ -1,0 +1,3 @@
+tests=XXXExportAbstractMemberAbsent
+compile
+compile_err_contains=missing members of the trait/object in the component

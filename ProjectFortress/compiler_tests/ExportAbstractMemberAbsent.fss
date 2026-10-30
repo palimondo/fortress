@@ -1,9 +1,0 @@
-(* A method declared abstract in the api needs no matching definition (apis.tex, section "Component and API Identity"), so the component's trait may leave it out and define only g, and the component matches its api. *)
-component ExportAbstractMemberAbsent
-export ExportAbstractMemberAbsent
-
-trait T
-    g(): ZZ32 = 2
-end
-
-end

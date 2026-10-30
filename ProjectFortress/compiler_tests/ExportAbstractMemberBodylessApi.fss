@@ -1,0 +1,15 @@
+(* A component's trait that declares its api's abstract method f without a body satisfies it (source-code.tex, subsection "Export Statements"), and its object O defines f. *)
+component ExportAbstractMemberBodylessApi
+export ExportAbstractMemberBodylessApi
+
+trait T
+    f(): ZZ32
+end
+
+object O extends T
+    f(): ZZ32 = 3
+end
+
+mk(): T = O
+
+end

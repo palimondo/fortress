@@ -1,0 +1,273 @@
+<!-- Climb batch 22c, rung A (rung-abstract-declared): row 816's repair by P-158; the export check counts every api member again, the components declare the 12 members their apis write abstract, and the specification's export rule is revised. -->
+# Rung A: an api member written abstract is declared in the component (P-158; row 816)
+
+- problem: a compiled client's call of a member that an api writes `abstract` and the exporting component leaves out dies with `NoSuchMethodError`, which the export check passed (row 816, `explorations/fortress-gap-ledger.md:314`; `explorations/perf-probes/export-abstract-codegen/REPORT.md:5-23`); the planner's run a0, the check alone over the twelve: 'export 1', five entries (`explorations/coordinator/CLIMB-BATCH-22c.md:330`).
+- spec: `Specification/basic/components/source-code.tex:381-399`, subsection "Export Statements", as this rung revises it; before, `Specification-1.0-frozen/basic/components/source-code.tex:380-385`.
+- precedent: the compiler prelude's `GeneratorZZ32`, which restates each method its api writes `abstract` bodyless (`Library/CompilerLibrary.fss:301-312` against `Library/CompilerLibrary.fsi:110-120`); the team's count, `5a68404fd:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:767`; the team's `ignoreAbstract`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:606-619`.
+- deviation: an abstract api member is matched with the `abstract` modifier ignored, as the team's 2009 comparison did (`edb516dba`). The team's 2012 snapshot compared the modifiers whole (`5a68404fd:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:790-801`). The rung follows P-158's "with a body or without one" (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:821-828`).
+- deviation: the revised sentence asks one declaration "with the same header" for an abstract method, where the text's rule for a non-abstract method asks "a set of method declarations" whose union covers it (`Specification/basic/components/source-code.tex:385-388` against `:413-418`).
+- historical: `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala`, `Library/FortressLibrary.fss`, `Specification/basic/components/source-code.tex`, `Specification/appendices/changes.tex`.
+
+## 1. What changed and why
+
+P-158: a member that an api writes `abstract` is declared in the component that exports the api, at the api's header, with a body or without one. The compiled export check refuses a component that leaves one out. The curator confirmed it against the specification's export rule: climb batch 22c, question 3, option 1, 21:34 UTC on 2026-10-29.
+
+- **The check** (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:781-828`, commit `733d73574`).
+  - `equalListMembers` counts every member of an api trait or object again, `inAPI.length > inComp.length` (`:796`). That is the team's count, which `031c38bbc` had narrowed to the members not written `abstract`.
+  - Each api member is matched by `inComp.exists(r => equalMember(l, r) || (isAbstractMember(l) && equalAbstractMember(l, r)))` (`:801-802`).
+  - The new `equalAbstractMember` (`:821-828`) matches an api method written `abstract` with a component method by `equalFnHeaders(headerL, headerR, true)`, the team's `ignoreAbstract`. It compares the name, the static parameters, the modifiers apart from `abstract`, the `throws` clause, the parameters and the return type.
+  - The comment names the export rule of `source-code.tex` beside the `apis.tex` quotation.
+- **The library** (`Library/FortressLibrary.fss`, the same commit): 12 bodyless declarations at the api's headers, no `abstract` written, each where its kind stands (getters among the getters):
+  - `AnyMaybe`: `getter holds() : Boolean` (`:1614`; api `Library/FortressLibrary.fsi:983`);
+  - `ReadableArray`: `opr[_:TrivialOpenRange] : ReadableArray[\E,I\]` (`:2177`; api `:1462`);
+  - `ActualReduction`: `empty(): L`, `join(a: L, b: L): L` (`:3250-3251`; api `:1897-1898`);
+  - `Range`: `getter isEmpty(): Boolean` (`:4013`; api `:2195`);
+  - `String`: `getter depth() : ZZ32` (`:4354`), `getter isBalanced(): Boolean` (`:4356`), `verify() : ()` (`:4360`), `rangeContains(r: Range[\ZZ32\], c: Char) : Boolean`, `splitWithOffsets(): ZeroIndexed[\(ZZ32, String)\]`, `split(): Generator[\String\]`, `balanced(): String` (`:4395-4398`; api `:2453-2496`).
+- **The specification** (commit `ace3c2821`): the passage, its box, a label for the subsection, the Appendix I entry and the decision record (section 4).
+- **The tests** (commit `5eb595b66`, before the edit): section 2.
+
+I took `rung-A.patch` as it is: `python3 -I explorations/compile-ladder/plan-22c/probes/edits22c.py <tree> count816 absMaybe absArray absReduction absRange absString`, and `git diff` against the patch printed nothing. One change: the comment over `equalListMembers` drew "So every member ... is declared in the component's" from the `apis.tex` quotation alone, which asks no body and says nothing of a declaration. It now cites the revised `source-code.tex` rule, from which the conclusion follows.
+
+## 2. The tests
+
+The tests were written first and run through the harness on the base's code before the edit was built. The worktree was seeded with the base build, `c3c22817c`; this run ended before the edit was first built:
+
+    ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh base ProjectFortress/compiler_tests \
+        XXXExportAbstractMemberAbsent.test XXXExportAbstractMemberOtherHeader.test ExportAbstractMemberBodyless.test ExportAbstractMemberDefined.test
+
+    # junit.sh base 2026-10-29T22:17:38Z; nproc 4; ...; tree c3c22817c with the next rung applied, not yet committed
+    1) ProjectFortress/compiler_tests/XXXExportAbstractMemberAbsent(...)junit.framework.AssertionFailedError: Saw wrong failure. compile
+    2) ProjectFortress/compiler_tests/XXXExportAbstractMemberOtherHeader(...)junit.framework.AssertionFailedError: Saw wrong failure. compile
+    FAILURES!!!
+    Tests run: 5,  Failures: 2,  Errors: 0
+
+The two guards passed there: '. link ProjectFortress/compiler_tests/ExportAbstractMemberBodyless  OK', '. run ProjectFortress/compiler_tests/ExportAbstractMemberBodyless (362ms) PASS', '. compile ProjectFortress/compiler_tests/ExportAbstractMemberDefined  OK'.
+
+- `XXXExportAbstractMemberAbsent`: a `git mv` of `ExportAbstractMemberAbsent.fsi`, `.fss` and `.test`, with the names inside renamed. Its comment says the component's trait must declare each method its api's trait declares abstract. Its keys are `compile` and `compile_err_contains=missing members of the trait/object in the component`, the form of `XXXExportMemberName.test`.
+- `XXXExportAbstractMemberOtherHeader`: api `trait T abstract f(): ZZ32 end`; component `trait T f(): String = "other header" end`; `compile_err_contains=different method f`.
+- `ExportAbstractMemberBodyless`, a guard: the api `ExportAbstractMemberBodylessApi` declares `trait T abstract f(): ZZ32 end` and `mk(): T`. Its component declares `trait T f(): ZZ32 end`, `object O extends T f(): ZZ32 = 3 end` and `mk(): T = O`. A client, `ExportAbstractMemberBodyless`, asserts that `mk().f()` is 3; its keys are `link`, `run` and `run_out_contains=PASS`.
+- `ExportAbstractMemberDefined`, unchanged, a guard: a body satisfies an abstract member.
+
+After the edit I built: `ant compileAll` printed 'BUILD SUCCESSFUL', then the library order ran, five compiles rc 0, the five jars in place. Then my tests, with the other export tests beside them:
+
+    ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh change ProjectFortress/compiler_tests \
+        XXXExportAbstractMemberAbsent.test XXXExportAbstractMemberOtherHeader.test ExportAbstractMemberBodyless.test \
+        ExportAbstractMemberDefined.test ExportComprisesEllipsisAbstract.test ExportPrivateAbstractMember.test \
+        ExportVarFieldMatchesField.test XXXExportMemberName.test XXXExportFieldName.test
+
+    (TraitDecl T at ProjectFortress/compiler_tests/XXXExportAbstractMemberAbsent.fsi:4.1,
+     due to missing members of the trait/object in the component)
+    (TraitDecl T at ProjectFortress/compiler_tests/XXXExportAbstractMemberOtherHeader.fsi:4.1,
+     due to different method f @ ProjectFortress/compiler_tests/XXXExportAbstractMemberOtherHeader.fsi:5:5-6:1)
+    OK (12 tests)
+
+That is my last run of my tests after my last change of code (`733d73574`; later commits are prose).
+
+The first `XXX` test shown red on a deliberate fix: `XXXExportAbstractMemberAbsent.fss` was given `f(): ZZ32` in its trait for one run, then restored with `git checkout`:
+
+    ONE_JVM=1 explorations/compile-ladder/climb-batch-N/merged-tests/junit.sh deliberate ProjectFortress/compiler_tests XXXExportAbstractMemberAbsent.test
+    . compile ProjectFortress/compiler_tests/XXXExportAbstractMemberAbsent
+     Saw failure, but did not satisfy compile_err_contains; expected
+    missing members of the trait/object in the component
+    FAILURES!!!
+    Tests run: 1,  Failures: 1,  Errors: 0
+
+## 3. Where the fix belongs, and the precedent
+
+- **The place.** The fix belongs in two places:
+  - the compiled export check, `scala_src/typechecker/ExportChecker.scala`, which `StaticChecker.checkCompilationUnit` runs on a component after its type check and overloading check (`ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java:281-284`);
+  - the component's traits in `Library/FortressLibrary.fss`, the interpreter's library, which compiled programs do not link until the switch-over.
+
+  Walk runs no export check of members (section 7).
+- **The ways for the 12 declarations.** The language and the library offer four:
+  - (a) bodyless, with no `abstract` written. This is the form of the component's own bodyless members beside them (`String`'s `getter size() : ZZ32`, `getter asFlatString(): String`, `uncheckedSubstring(r0: Range[\ZZ32\]) : String`, `Library/FortressLibrary.fss:4343`, `:4355`, `:4391`) and of the prelude's `GeneratorZZ32`.
+  - (b) bodyless, with `abstract` written. This is the form of `String`'s `abstract get`, `abstract asDebugStringIndented` and `abstract writeOn`, and of `Range`'s `abstract shiftLeft` and `abstract shiftRight` (`:4362`, `:4363`, `:4449`, `:4048`, `:4049`), the only 5 such members in the component.
+  - (c) a body. P-158 allows it, but the planner's notes rule it out: a body makes the method concrete, and then no object must define it (`explorations/conversations/02-phase3-exit-foundations.md`, section 3, item 4).
+  - (d) no declaration, and the code generator's "third way" (`explorations/perf-probes/export-abstract-codegen/REPORT.md`, section 3). That is not this rung's.
+
+  I took (a), the batch's fork 3.
+- **The precedent's other sites.** The compiler's prelude writes 85 api members `abstract` (`grep -c '^\s*abstract '`: `Library/CompilerLibrary.fsi` 18, `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi` 62, `Library/CompilerAlgebra.fsi` 5). Its components write `abstract` on 5 (`CompilerAlgebra.fss` 5, the others 0). With the restored count the library order compiles all three, so the prelude declares every one of the 85 in its component, 80 of them without `abstract` written. `FortressLibrary.fsi` writes 174 lines `abstract`, and `FortressLibrary.fss` writes 5; with the 12 new lines its check is clean (section 5).
+- **The ways for the check.** Three:
+  - (a) the team's 2012 count with its strict comparison of modifiers (`count816strict`). It refuses `Indexed`'s `size` and `Equality`'s `=`, whose components give a body where the api writes `abstract` (the planner's run `as`), and it would turn `ExportAbstractMemberDefined` red.
+  - (b) the count with the `abstract` modifier ignored for an abstract api member (`count816`). This is P-158's letter, and the team's 2009 member comparison: in `edb516dba`, `equalListMembers` compared the members one by one, `left.length == right.length`, each by `equalFnHeaders(headerL, headerR, true)`.
+  - (c) keep `031c38bbc`'s skip, against P-158.
+
+  I took (b).
+- **The history.** `git log -S'inAPI.length > inComp.length'` reaches the parentless snapshots `26718e298` (2011-12-06) to `5a68404fd` (2012-07-19). Their `equalMember` compares `equalFnHeaders(headerL, headerR, false)`, with a commented-out branch that adds `Abstract` to a bodyless component header (`5a68404fd:...ExportChecker.scala:790-801`). `edb516dba` (Sukyoung Ryu, 2009-03-10) wrote the member comparison with `ignoreAbstract = true`.
+
+## 4. What the specification settles, and the revision
+
+The Working Draft's export rule asks a satisfying declaration only "for each field declaration and non-abstract method declaration in the exported declaration", and allows a concrete declaration for an abstract method (`Specification-1.0-frozen/basic/components/source-code.tex:380-385`). So it asks no declaration of an abstract method (F-294). P-158 asks for one, on the type group's later word (P-26). The text is revised in the revision form (commit `ace3c2821`):
+
+- **The passage**, `Specification/basic/components/source-code.tex:381-390`: "... a satisfying declaration (or a set of declarations), and, for each abstract method declaration in the exported declaration, a method declaration with the same header, apart from the modifier abstract, with a body or without one. When a trait has an abstract method declared, a satisfying trait declaration is allowed to provide a concrete declaration." The last sentence is the team's, kept.
+- **The box**, `:391-399`: `\revision{revival-export-abstract}{...}`. The subsection gains `\seclabel{export-statements}` (`:289`).
+- **The Appendix I entry**, `Specification/appendices/changes.tex:4301-4374`, "An abstract method of an exported trait". It gives:
+  - the change;
+  - the rationale: P-158, with the prelude (`CompilerLibrary.fsi:110-120`, `.fss:301-312`) and the team's check of 2009 and 2012;
+  - the way back;
+  - the effect: the compiled checker's two messages, and walk's departure (row 841, which the gather numbers: `changes.tex:4361`);
+  - the original text, quoted from `Specification-1.0-frozen/basic/components/source-code.tex:380-385`;
+  - route C: the same.
+- **The front matter's paragraph** (`Specification/fortress/preamble.tex:54-64`) speaks of the revisions in general and stays true.
+- **The decision record**: `explorations/compile-ladder/rung-abstract-declared/decision-record.md`.
+- **The build.** `cd Specification/fortress && ./ant genSource && ./ant tex` printed 'BUILD SUCCESSFUL' twice, and `grep -c "LaTeX Warning: Reference\|^! Undefined control sequence" fortress.log` printed 0.
+  - The skill's pattern, `grep -c 'Reference .* undefined\|multiply defined\|Undefined control sequence'`, prints 47 on my tree, and 47 on a copy of the base's `Specification/` built the same way. Each match is a traced line of the macro's own text, 'x@warning {Reference `#1' on page \thepage \space undefined}}{}', not a warning.
+  - In the PDF's text, the affected section reads "Section 22.2.2" and the box reads "SEE Section I.1.43".
+  - The build's files were removed with `git clean -fXq -- Specification`.
+- **What stays true.**
+  - `apis.tex:252-256` asks no body, and stays true.
+  - `apis.tex:160-162` ("has a significant effect on its meaning") stays true.
+  - `source-code.tex:352-354` and the team's notes 2 and 4 (`:443`, `:447`) speak of top-level abstract function declarations or of the other direction, and stay true.
+  - `grep -rn -i 'need not\|needs no\|need no\|not required'` over `Specification/basic/components/`, `traits.tex`, `objects.tex` and `appendices/changes.tex` finds no other sentence that asks no declaration of an api's abstract method.
+
+## 5. The stages
+
+**The count stage**, on the final code (`733d73574`), run named `change` (`tmp/count/change.txt`, copied to the brief's `checker-count-postedit.txt`; the speed pass changed no code, so there is no later run). Its table equals the base's and the landed one:
+
+    explorations/coordinator/tools/checker-count/run.sh $W/tmp/count/change.txt $W/tmp/count/change
+    #total	0
+    #locations	0
+    #crash	none
+    diff tmp/count/base.txt tmp/count/change.txt                                              (nothing)
+    diff tmp/count/base.txt explorations/compile-ladder/climb-batch-22/gate/checker-count.txt  (nothing)
+
+Its twelve api rows are 0, `FortressLibrary 0` among them, and the component's check reached the export check and found nothing. The two `run.txt` files, with each tree's path replaced by `TREE`, are equal: `diff` printed nothing.
+
+**The checker's time** (P-148; the skill's `compiler.md`, "The checker's time"). One session, on nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, openjdk 25.0.4.1, `FORTRESS_THREADS=1`, with another rung's agent working beside:
+- `base`, from `/home/user/fortress-base23` (load at start 0.29): 'real 2m52.447s', 172 s.
+- `change`, my tree at `733d73574` (load at start 2.03): 'real 2m49.785s', 170 s.
+- The second pass: a JFR profile of the count stage's checker on my tree, from a copy of `run.sh` with `-XX:StartFlightRecording=...,settings=profile` on its `java` line. It was neither timed nor compared.
+  - 12,430 execution samples. The export check's frames are in 62 of them (0.50%), `equalListMembers` in 1, `equalAbstractMember` in none.
+  - The top frames by self time: `scala.runtime.Statics.anyHash` 5.49%, `scala.runtime.BoxesRunTime.equals2` 5.31%, `Walker.walkCases7$` 4.92%, `ASTGenHelper$.scalaify` 4.09%, `Walker.walkCases0` 3.30%, `AbstractNode.hashCode` 3.14%. Inclusive: `TypeAnalyzer` 65.8%, `OverloadingChecker` 15.0%.
+  - The profile shows no gain in the code this rung changes, so the pass changes nothing and no `pass` run follows. The checker's time is spent outside this rung's files.
+
+**The distance stage**, on the final code:
+
+    explorations/coordinator/tools/distance/run.sh tmp/rung-abstract-declared/distance-postedit.txt tmp/rung-abstract-declared/dist-post
+    #distance	setting any; ...; 12 components in one JVM (DistanceMulti -order check)
+    #total	0
+    #kind	export	0
+    #crash	none
+    #seconds	295	FortressLibrary 215
+
+    explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-22/gate/distance.txt tmp/rung-abstract-declared/distance-postedit.txt
+    DISTANCE SAME   0
+
+    python3 -I explorations/perf-probes/array-sites/compare-sites.py explorations/compile-ladder/gate/distance-sites.tsv tmp/rung-abstract-declared/dist-post/errors.tsv
+    landed 0 now 0
+    export 'does not define all declarations': landed 0 entries, now 0
+    export 'are not matched by the declarations': landed 0 entries, now 0
+
+Every kind is 0. No site moved and none came, in any component; `errors.tsv` holds only its header. The export error's entries:
+- at the landed gate: 0;
+- with the check alone (the planner's a0): 5, `ReadableArray`, `ActualReduction`, `Range`, `String` and `AnyMaybe`, each 'due to missing members of the trait/object in the component';
+- with the 12 lines: 0.
+
+## 6. The suites and the ladder
+
+- `ant testQuick`, once, on `733d73574`: 'BUILD SUCCESSFUL', 'Total time: 8 minutes 31 seconds'. Compiler 'Tests run: 1318, Failures: 0, Errors: 0', library 'Tests run: 86, Failures: 0, Errors: 0', othercompiler 'Tests run: 263, Failures: 0, Errors: 0'. The landed gate had 1315, 86 and 263; the 3 more are `XXXExportAbstractMemberOtherHeader`'s compile and `ExportAbstractMemberBodyless`'s link and run.
+- `ant testSystem`, once, since the component changes (P-124): 'Tests run: 173', '162', '168', '180', each 'Failures: 0, Errors: 0', 683 in all, the landed count; 'BUILD SUCCESSFUL'.
+- `ant testSpecData`, once: 'Tests run: 130, Failures: 0, Errors: 0'; 'BUILD SUCCESSFUL'.
+- The 52 team demos: not run, by the brief (the gather runs them on the merged tree, fork 18).
+- **The ladder subset** (the skill's `gate.md`, "The ladder regression"; the drivers under `tmp/rung-abstract-declared/ladder/`, the caches copied after the library order).
+  - The subset is the eight files whose recorded first error in the baseline names the export check or a trait this rung touched: `testTest1.fss` ('Component testTest1 exports API Executable'), `XXXextendBoolean.fss` (`isEmpty`), `Generator2Test.fss` (`ActualReduction`), `RandomTest.fss`, `QuickCheckTest.fss` and `ReflectiveQuickCheckTest.fss` (`ImmutableArray`), `spuriousSelf.fss` (`Indexed`), `whileTest.fss` (`ReadableArray`).
+  - None of them is in the gate's pass list, so they are compared with the baseline's `ladder.tsv` (`explorations/compile-ladder/baseline-2026-09-19/ladder.tsv`). Each keeps its phase (6 `disambiguate`, 2 `typecheck`), and seven keep their first error.
+  - `RandomTest.fss` now leads with 'ZeroIndexed is undefined.', where the baseline of 2026-09-19 has 'LexicographicOrder is undefined.'. The old code gives the same order as my tree ('2:    ZeroIndexed is undefined.', '4:    LexicographicOrder is undefined.', from `old-fortress.sh ... compile tests/RandomTest.fss`, rc 255), so the move predates this rung.
+  - The eighteen microGPT components' phases: `diff <(mg_phases ...baseline.../microgpt-phase.md) <(mg_phases .../microgpt-phase.md)` prints nothing, and so does the same diff against `explorations/compile-ladder/climb-batch-22/gate/ladder/microgpt-phase.md`.
+
+## 7. Old against new
+
+Two programs in scratch, each an api, its component and a client:
+
+    api WalkAbsentApi                       component WalkAbsentApi                component WalkAbsent
+    trait T                                 export WalkAbsentApi                   import WalkAbsentApi.{...}
+        abstract f(): ZZ32                  trait T                                export Executable
+        g(): ZZ32                               g(): ZZ32 = 2                      run(): () = println("mk().f() = " mk().f()
+    end                                     end                                        ", mk().g() = " mk().g())
+    mk(): T                                 object O extends T                     end
+    end                                         f(): ZZ32 = 3
+                                            end
+                                            mk(): T = O
+                                            end
+
+`WalkOther` is the same with the api's `trait T abstract f(): ZZ32 end` and the component's `trait T f(): String end`, `object O extends T f(): String = "other header" end`.
+
+| Program | Command | Old code (`c3c22817c`) | New (`733d73574`) |
+|---|---|---|---|
+| `WalkAbsent` | walk, `bin/fortress WalkAbsent.fss` | 'mk().f() = 3, mk().g() = 2', rc 0 | the same |
+| `WalkOther` | walk, `bin/fortress WalkOther.fss` | 'mk().f() = other header', rc 0 | the same |
+| `WalkAbsentApi` | `bin/fortress compile WalkAbsentApi.fss` | rc 0 | rc 255, 'due to missing members of the trait/object in the component' |
+| `WalkAbsent` | `compile WalkAbsent.fss`, then `run WalkAbsent` | compile rc 0; run rc 1, 'java.lang.NoSuchMethodError: 'com.sun.fortress.compiler.runtimeValues.FZZ32 WalkAbsentApi$T.f()'' | not reached: its api's component is refused |
+
+So walk loads and runs both components, the second answering a `String` where the api says `ZZ32` (row 841). The compiled path now refuses at compile time where it died at run time (row 816). The old code ran through `explorations/coordinator/tools/old-fortress.sh /home/user/fortress-base23 <tree>/tmp/old-caches`; the new code ran with a private copy of my tree's caches.
+
+The compiled tests ran under `junit.sh` on the base's code and on the change (section 2).
+
+## 8. Sentences made false
+
+- In the specification: `Specification/basic/components/source-code.tex:380-385` (the base's lines), which this rung revises (section 4). No other.
+- In the record and the skill, for the gather and the skill writer (record.md, "Revival change"):
+  - F-282 (`explorations/coordinator/FACTS.md:119`): "asks no definition for an api member written `abstract`"; "So a component may leave out, or declare at another header, a member its api writes `abstract`, and a client's call of it dies at run time"; and "That zero rests on the reading of `abstract` above, which P-158 replaces". Its test list names `ExportAbstractMemberAbsent`, now `XXXExportAbstractMemberAbsent`.
+  - F-286 (`FACTS.md:121`): "The component's trait ... declares 7 of them, none with a body, and leaves out `depth`, `isBalanced`, `verify`, `rangeContains`, `balanced`, `splitWithOffsets` and `split`", and "A compiled client's call of one of the seven members the component's trait does not declare is row 816's case."
+  - F-294 (`FACTS.md:128`): "asks a component to declare each field and non-abstract method ..., not its abstract methods", and "no revision note records it (P-95)". The text now asks for the declaration, in the revision form.
+  - F-53 (`FACTS.md:48`): "The export check's zero rests on its reading of `abstract` (row 816)".
+  - The skill's `references/library.md:44`: "It requires no component member for an api member written `abstract`."
+  - The skill's `references/compiler.md:74`, the second trap of the compiled path: "The export check passes the exporting component."
+  - Row 816 (`explorations/fortress-gap-ledger.md:314`): its claim, which the gather closes.
+
+## 9. Points to report
+
+- rung-A.patch taken as it is, with its comment improved (section 1).
+- The distance table and the export error's entries: before, 0 at the landed gate and 5 with the check alone (the planner's a0); after, 0. No site came in any component. The count stage's table: `#total 0`, the same as the base's (section 5).
+- The count stage's seconds: base 172 s, change 170 s. The speed pass's profile shows the export check at 0.50% of the samples and the changed functions at 1 sample, so the pass changes nothing (section 5).
+- Component traits or objects that the export check now refuses: in the compiler's prelude, none (the library order compiles all five, rc 0). In the compiled tests, only `ExportAbstractMemberAbsent`'s, turned to `XXXExportAbstractMemberAbsent` (`ant testQuick`, 0 failures).
+- Walk values and test verdicts: no walk test changes its verdict (683 and 130, no failure). Among the compiled tests, only `ExportAbstractMemberAbsent`'s verdict turns.
+- The specification's revised passage (`source-code.tex:381-399`), its Appendix I entry (`changes.tex:4301-4374`) and the decision record; every other sentence made false is listed in section 8.
+- Row 816 closes by `733d73574` with `XXXExportAbstractMemberAbsent`; the new row 841 is in record.md; `ExportAbstractMemberAbsent` was turned in commit `5eb595b66`.
+- A file edited beyond those named: none. Within the named files, `source-code.tex` gains the label `\seclabel{export-statements}` (`:289`), which the Appendix I entry cites. The guard has a client component: `ExportAbstractMemberBodylessApi.fsi` and `.fss` stand beside `ExportAbstractMemberBodyless.fss` and `.test`, all in `ProjectFortress/compiler_tests/`.
+
+## 10. Decisions
+
+1. **The check: P-158's letter, the `abstract` modifier ignored for an abstract api member** (`count816`).
+   - Not taken: the team's 2012 strict comparison (`count816strict`), which refuses the components' bodies for `Indexed`'s `size` and `Equality`'s `=` (the planner's run `as`) and refuses `ExportAbstractMemberDefined`; and `031c38bbc`'s skip, which P-158 reverses.
+   - Evidence: P-158 ("with a body or without one"); `edb516dba`'s `equalFnHeaders(headerL, headerR, true)`; the batch's fork 2. A decision of the curator covers it (P-158).
+2. **The 12 declarations bodyless, no `abstract` written** (fork 3).
+   - Not taken: `abstract` written, the component's form for only 5 members (`Library/FortressLibrary.fss:4048`, `:4049`, `:4362`, `:4363`, `:4449`); a body, which makes the method concrete.
+   - Evidence: the prelude declares 80 of its 85 abstract members without the modifier; the bodyless members beside the new lines.
+3. **The comment over `equalListMembers` cites the revised export rule**, beside the `apis.tex` quotation.
+   - Not taken: the planner's text, whose "So" follows from no quoted sentence.
+   - Mine; it changes no behaviour.
+4. **The guard `ExportAbstractMemberBodyless` is an api, its component and a client**, where the brief's shape puts `run()` in the exporting component.
+   - Not taken: the single component.
+   - Evidence: row 816's death is a client's call compiled against the api (`explorations/fortress-gap-ledger.md:314`), which is the layout of ExportPrivateAbstractMember (`ProjectFortress/compiler_tests/ExportPrivateAbstractMember.fss`). The call is the same `invokeinterface` either way. Mine, reversible.
+5. **The revised sentence adds a clause to the team's sentence and keeps the team's next sentence.**
+   - Not taken: rewriting both sentences.
+   - Evidence: the revision form keeps the original readable beside the change. Mine.
+6. **A label for the subsection**, `\seclabel{export-statements}`, so that the Appendix I entry cites it by `\secref`.
+   - Not taken: naming the subsection in words, as `revival-covering` does.
+   - Mine.
+7. **Row 841 with reproducer `none`**, its notes my walk runs.
+   - Not taken: a gated `XXX` walk test with a `load_exception_contains` key. Walk has no message for the refusal yet, the test would need an api in `ProjectFortress/test_library/` (a file beyond those the brief names), and the row's home is P-12's step.
+   - The brief allows either.
+8. **No speed-pass change**: the profile shows no gain in this rung's functions (section 5).
+   - Not taken: hoisting `isAbstractMember(l)` out of the `exists`, or matching an abstract method by `equalAbstractMember` alone. Either would save comparisons in a function that holds 1 sample of 12,430.
+   - Evidence: the profile; the skill's rule, "Where it shows none, say so".
+9. **The count stage's after is the `change` run**, on the final code, copied to `checker-count-postedit.txt`.
+   - Not taken: a second run of unchanged code.
+   - Evidence: the skill's rule to reuse each result until the code changes.
+10. **The 52 demos left to the gather**, though the skill's `tests-running.md` asks for them after an edit of the interpreter's library.
+    - Evidence: the brief, fork 18.
+
+## 11. Defects, each with its home
+
+- **Row 816**: the export check accepted a component that leaves out an api's abstract member or declares it at another header, and the compiled client died with `NoSuchMethodError`. Home 1, repaired: asserted by `XXXExportAbstractMemberAbsent` and `XXXExportAbstractMemberOtherHeader`, guarded by `ExportAbstractMemberBodyless` and `ExportAbstractMemberDefined`.
+- **The library's 12 undeclared members.** Home 1, repaired by the 12 lines: asserted by the distance stage (export 0) and the count stage.
+- **row 841**: walk compares no component with its apis. Home 3 in the brief's form: a ledger row with reproducer `none`, its notes the walk runs of section 7. The text settles the question (the export rule), but walk has no refusal to assert yet, and the row's home is P-12's step.
+
+## 12. For FACTS, commands, questions
+
+- For FACTS: in record.md.
+- Commands worked out:
+  - The JFR profile of the count stage: a copy of `explorations/coordinator/tools/checker-count/run.sh` with `-XX:StartFlightRecording=filename=$JFR_OUT,settings=profile` after `java` on its run line. Then `jfr view --width 200 hot-methods <file>`, and `jfr print --events jdk.ExecutionSample --stack-depth 200 <file>` with a small script that counts the samples whose stack holds a class. JFR's own stack depth of 64 bounds the inclusive counts of deep stacks, but not those of the export check's shallow ones.
+  - A base copy of the specification built for comparison: `git archive c3c22817c Specification | tar -x -C <dir>`, a symbolic link `<dir>/Fortify` to the tree's `Fortify/`, then `./ant genSource && ./ant tex` in `<dir>/Specification/fortress`.
+- Questions for the curator: none.

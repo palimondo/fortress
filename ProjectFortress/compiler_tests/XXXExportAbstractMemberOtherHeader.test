@@ -1,0 +1,3 @@
+tests=XXXExportAbstractMemberOtherHeader
+compile
+compile_err_contains=different method f
