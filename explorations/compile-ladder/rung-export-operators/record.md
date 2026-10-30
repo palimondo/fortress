@@ -10,7 +10,7 @@ The harness refused the worker's write of this file and of `REPORT.md`, so their
 
 1. **The export check reads every top-level operator of an api, under its declared name only.**
    - The claim: it admits a name by the overloading check's `isCheckedName`, and only a key under which a declared function is filed by its own name (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:275`, `:597-606`). So the span key that `IndexBuilder.buildFunction` also files each function under (`scala_src/typechecker/IndexBuilder.scala:444-446`) is never read.
-   - Conditions: the compiled checker (`fortress compile`, the count and distance stages), from `<O>`. For identifiers, it admits exactly what `isDeclaredName` admitted.
+   - Conditions: the compiled checker (`fortress compile`, the count and distance stages), from `<O>`. For identifiers, it compares exactly what `isDeclaredName`'s admission compared: the keys it leaves out are span keys, no valid identifier, and keys that hold no declared function, which gave nothing to compare.
    - Evidence:
      - `compiler_tests/XXXExportOperatorHeader` compiles on the base ('Saw wrong failure') and is refused after the change ('Missing declarations: {#(a:String,b:String):XXXExportOperatorHeader.A ...}', 'Saw expected failure').
      - `compiler_tests/ExportOperatorMatch` passes on both. It turns red under a check that admits operators and reads the span keys ('Missing declarations: {#(a:String,b:String):String at .../ExportOperatorMatch.fsi:4:1-6:1}').
