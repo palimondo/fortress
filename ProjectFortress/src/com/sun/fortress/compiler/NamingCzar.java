@@ -366,6 +366,10 @@ public class NamingCzar {
     // The following version is needed to hack the methods "jMakeCharacter" and "jCodePoint".
     // If other methods also need to be hacked, then this mechanism should be generalized.
     public static com.sun.fortress.nodes.Type fortressTypeForForeignJavaType(String s, String method_name, boolean isResultType) {
+	if (WellKnownNames.fortressBuiltin().equals("FortressBuiltin")) {
+	    com.sun.fortress.nodes.Type t = oneLibraryTypeForForeignJavaType(s, method_name, isResultType);
+	    if (t != null) return t;
+	}
 	if (isResultType && method_name.equals("charMakeCharacterWithSpecialCompilerHackForCharacterResultType") && s.equals("I")) {
 	    return fortressCharacterType;
 	} else if ((!isResultType) && method_name.equals("charCodePointWithSpecialCompilerHackForCharacterArgumentType") && s.equals("I")) {
@@ -457,6 +461,48 @@ public class NamingCzar {
 	// Instead, we need a specially coded hack in method fortressTypeForForeignJavaType,
 	// and it relies on the following static field definition.
      }
+    /* The same reading in walk's world, where the checker reads a helper that a builtinPrimitive body names against
+     * the one library's types: ZZ32, ZZ64, RR64, String, ZZ and NN64 are FortressLibrary's, Boolean, RR32, NN32
+     * and Char FortressBuiltin's.  A type the one library lacks keeps the prelude's reading above, and the
+     * compiler's world keeps the prelude's names.
+     */
+    private static final APIName oneLib = NodeFactory.makeAPIName(span, "FortressLibrary");
+    private static final APIName oneBuiltin = NodeFactory.makeAPIName(span, "FortressBuiltin");
+    private static final Map<String, com.sun.fortress.nodes.Type> oneLibraryForeignJavaTranslations =
+        new HashMap<String, com.sun.fortress.nodes.Type>();
+    private static void o(Type cl, APIName api, String str) {
+        oneLibraryForeignJavaTranslations.put(cl.getDescriptor(), ss(api, str));
+    }
+    static {
+        o(Type.getType(Boolean.class), oneBuiltin, "Boolean");
+        o(Type.BOOLEAN_TYPE, oneBuiltin, "Boolean");
+        o(Type.getType(Integer.class), oneLib, "ZZ32");
+        o(Type.INT_TYPE, oneLib, "ZZ32");
+        o(Type.getType(Long.class), oneLib, "ZZ64");
+        o(Type.LONG_TYPE, oneLib, "ZZ64");
+        o(Type.getType(Float.class), oneBuiltin, "RR32");
+        o(Type.FLOAT_TYPE, oneBuiltin, "RR32");
+        o(Type.getType(Double.class), oneLib, "RR64");
+        o(Type.DOUBLE_TYPE, oneLib, "RR64");
+        o(Type.getType(Object.class), anyLib, "Any");
+        o(Type.getType(String.class), oneLib, "String");
+        o(Type.getType(BigInteger.class), oneLib, "ZZ");
+        oneLibraryForeignJavaTranslations.put("V", NodeFactory.makeVoidType(span));
+    }
+
+    private static com.sun.fortress.nodes.Type oneLibraryTypeForForeignJavaType(String s, String method_name, boolean isResultType) {
+        if ((isResultType && method_name.equals("charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
+             || !isResultType && method_name.equals("charCodePointWithSpecialCompilerHackForCharacterArgumentType")) && s.equals("I"))
+            return ss(oneBuiltin, "Char");
+        if ((isResultType && method_name.equals("makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
+             || !isResultType && method_name.equals("makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")) && s.equals("I"))
+            return ss(oneBuiltin, "NN32");
+        if ((isResultType && method_name.equals("makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType")
+             || !isResultType && method_name.equals("makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType")) && s.equals("J"))
+            return ss(oneLib, "NN64");
+        return oneLibraryForeignJavaTranslations.get(s);
+    }
+
     private static TraitType fortressCharacterType = ss(fortLib, "Character");
     private static TraitType fortressZZ32VectorType = ss(fortLib, "ZZ32Vector");
     private static TraitType fortressStringVectorType = ss(fortLib, "StringVector");
