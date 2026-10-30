@@ -1,0 +1,9 @@
+(* Under walk, a builtinPrimitive string under nativeHelpers that names a helper none of whose overloads fits the declaration's types stops the program at load. *)
+component NativeHelperMisfitWalk
+export Executable
+
+wrongType(a:ZZ32, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd")
+
+run():() = println(wrongType(1, 2))
+
+end
