@@ -3,7 +3,7 @@ export Executable
 
 (* A generic functional method of a trait whose comprises clause lists a type at a type where-clause variable, beside a generic top-level function of the same name whose domain meets its own, satisfies none of the rules of valid overloading, read with the static parameters' bounds (overloading.tex, section "Declarations with Static Parameters"). *)
 
-trait AnyC comprises { C[\E\] } where [\E extends Object\]
+trait AnyC comprises { C[\E\] } where [\E\]
   cat[\T extends Object\](self, t: T): AnyC = self
 end
 trait C[\E\] extends AnyC end

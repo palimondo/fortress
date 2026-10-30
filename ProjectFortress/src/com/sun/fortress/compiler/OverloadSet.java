@@ -1498,7 +1498,7 @@ nameTemp + "\n" +
                 MultiMap<StaticParam,Type> concreteUpperBounds = new MultiMap<StaticParam,Type>(); //form X <: T where T contains no type variables
                 for (int outer = 0; outer < staticParams.size(); outer++) {
                     StaticParam outerSP = staticParams.get(outer);
-                    // a size has no bound its descriptor could meet; the compile path gives it extends Object
+                    // a size has no bound its descriptor could meet, so its extends clause is skipped
                     if (outerSP.getKind() instanceof KindNat || outerSP.getKind() instanceof KindInt) continue;
                     for (BaseType bt : outerSP.getExtendsClause()) {
                         if (bt instanceof VarType) {  // outerSP <: bt so outerSP will provide a lower bound on BT

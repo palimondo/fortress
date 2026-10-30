@@ -17,7 +17,8 @@ object NarrowOf(s: ZZ32) extends Narrow
   getter small(): ZZ32 = s
 end
 
-gf[\T\](x: Wide, y: T): String = "gf got " || x.big || " and " || y
+(*) T is bounded by Object because the compiler's prelude declares String's || at Object, not at Any, until the switch-over.
+gf[\T extends Object\](x: Wide, y: T): String = "gf got " || x.big || " and " || y
 
 run(): () = do
     println("REACHED")

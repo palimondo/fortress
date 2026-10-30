@@ -369,7 +369,7 @@ public final class Shell {
     }
 
     public static void useCompilerLibraries() {
-	setExtendsObjectPreDesugaring(true);
+	setExtendsObjectPreDesugaring(false);
 	setAssignmentPreDesugaring(false);
 	setAssignmentDesugaring(true);
         WellKnownNames.useCompilerLibraries();

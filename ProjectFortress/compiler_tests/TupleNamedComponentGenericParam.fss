@@ -1,0 +1,14 @@
+(* A component whose name begins with Tuple runs a generic function whose one parameter has a generic type of the component (source-code.tex, section "Components"). *)
+component TupleNamedComponentGenericParam
+export Executable
+
+object Box[\T\](x: T) end
+count[\T\](b: Box[\T\]): ZZ32 = 1
+
+run(): () = do
+  println("REACHED")
+  assert(count(Box[\ZZ32\](7)), 1, "count of a Box at ZZ32")
+  println("PASS")
+end
+
+end

@@ -6,7 +6,7 @@ trait Ord[\T\]
   lt(o: T): Boolean = false
   gt(self, o: T): Boolean = false
 end
-trait P[\E\] extends Ord[\P[\E\]\] comprises { S[\E, F\] } where [\F extends Object\]
+trait P[\E\] extends Ord[\P[\E\]\] comprises { S[\E, F\] } where [\F\]
   lt(o: P[\E\]): Boolean = true
   gt(self, o: P[\E\]): Boolean = true
 end

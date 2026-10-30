@@ -1,0 +1,16 @@
+component NoDuplicatesRuleUnboundedBesideAny
+export Executable
+
+(* A generic declaration whose parameter types are its type parameters, declared without a bound and so bounded by Any, and a declaration whose parameter types are Any are each applicable to every call to which the other is, so each such pair breaks the No Duplicates Rule, a static error (overloading.tex, section "Declarations with Static Parameters"; trait-parameters.tex, section "Type Parameters"). *)
+
+g[\T\](a: T): String = "generic"
+g(a: Any): String = "any"
+
+h[\T\](a: T, b: T): String = "generic"
+h(a: Any, b: Any): String = "any"
+
+run(): () = do
+  println(g(3) || h(3, 4))
+end
+
+end

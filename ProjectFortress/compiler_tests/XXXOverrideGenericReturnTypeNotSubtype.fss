@@ -3,7 +3,8 @@ component XXXOverrideGenericReturnTypeNotSubtype
 export Executable
 
 trait A
-  f[\T\](x: T): T = x
+  (*) T is bounded by Object so that B's f at Any widens f; under the implicit bound Any the two domains are equal, B's f overrides nothing, and the checker does not refuse that (row 653 of the gap ledger).
+  f[\T extends Object\](x: T): T = x
   g(x: ZZ32): ZZ32 = x
 end
 

@@ -59,10 +59,9 @@ written under \TYP{Any}, instantiating such parameters at tuple types, and the
 interpreter reads the bound so.
 The type group's paper of 2019 says the same: ``By default, each type parameter
 has an upper bound Any'' (Park, Hong, Steele and Ryu, POPL 2019).
-The compiled path still gives such a type parameter of a program's own
-declarations the bound \TYP{Object} (row~412 of the revival's gap ledger), a
-divergence that lasts until the compiled path is switched over to the
-interpreter's library.}
+The compiled path gives such a type parameter the bound \TYP{Any} too; there
+some instances at \TYP{()} or at a tuple type still fail at run time
+(\secref{revival-bound}).}
 
 
 Type parameters are instantiated with types such as trait types, tuple types,

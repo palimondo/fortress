@@ -1,0 +1,3 @@
+tests=NoDuplicatesRuleUnboundedBesideAny
+compile
+compile_err_matches=(?s).*multiple declarations of g with the same parameter type: T.*multiple declarations of h with the same parameter type: \\(T, T\\).*File NoDuplicatesRuleUnboundedBesideAny.fss has 2 errors\\..*

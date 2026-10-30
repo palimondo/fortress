@@ -2007,6 +2007,13 @@ bound \TYP{Object} makes of it, what reaches a reduction's big operator and what
 the interpreter does, and that the rule answers the third item of the team's
 draft note, which the chapter keeps.
 A later revision of the interpreter changes both boxes on it.
+Since the compiled path gives a type parameter declared without an
+\KWD{extends} clause the bound \TYP{Any} too (\secref{revival-bound}), the first
+box no longer says that the compiled path takes \TYP{Object} for such a
+parameter of a program's own declarations (row~412 of the revival's gap ledger),
+and the box after the list says that such a parameter may then be fixed by the
+expected type alone at a type that \TYP{Object} excludes, such as \TYP{()},
+where it said that such a call is a static error there.
 The box in \secref{static-arg-inference} said that, where no argument's type is
 the narrowest, the interpreter ``binds a type parameter that is the whole type
 of parameters to the narrowest named common supertype of the arguments'
@@ -2904,13 +2911,14 @@ it refuses two declarations whose parameter types, read over their instances,
 are each a subtype of the other, ``There are multiple declarations of \VAR{dup}
 with the same parameter type'', two functional methods among them wherever their
 \KWD{self} parameters stand.
-It accepts one such pair, a declaration whose parameter types are its type
-parameters, written with no bound and so bounded by \TYP{Any}, beside one
-without static parameters whose parameter types are \TYP{Any}, as
+Among them is a declaration whose parameter types are its type parameters,
+written with no bound and so bounded by \TYP{Any}, beside one without static
+parameters whose parameter types are \TYP{Any}, as
 \EXP{\VAR{g}\llbracket{}T\rrbracket(a\COLON{}T)} beside
-\EXP{\VAR{g}(a\COLON \TYP{Any})}, and runs the first for a call to which both
-apply; it refuses the same pair where the bound is written, \TYP{Any} or one
-below it (row~759 of the revival's gap ledger).
+\EXP{\VAR{g}(a\COLON \TYP{Any})}, as is the same pair with the bound written,
+\TYP{Any} or one below it; while the compiled path bounded such a type
+parameter by \TYP{Object} (\secref{revival-bound}), it accepted that pair and
+ran the first (row~759 of the revival's gap ledger).
 It reads the abstract functional methods that a trait or object provides as it
 reads the abstract dotted ones, so that an abstract functional method beside a
 concrete one with the same parameter type is among the pairs it refuses, which
@@ -3058,6 +3066,12 @@ overloaded is stated for a bound written \TYP{Any}, and a sentence says that a
 type parameter declared without an \KWD{extends} clause does not fall under it,
 with \library's value factory of one-dimensional arrays as its example, and a
 box.
+The last sentence of the box in \secref{type-param} said that the compiled path
+still gives such a type parameter of a program's own declarations the bound
+\TYP{Object} (row~412 of the revival's gap ledger), a divergence that lasts
+until the compiled path is switched over to the interpreter's library; since the
+compiled path gives it the bound \TYP{Any} too, the box says so, and points to
+this entry for the instances that still fail there.
 \item[Rationale] This change does not follow from route~A; the revival took
 \TYP{Any} as the implicit bound on 27~September 2026 and decided it on
 29~September 2026.
@@ -3085,11 +3099,16 @@ The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-spec-overloading/decision-record.md}
 in the revival's repository.
 \item[Effect] A type parameter declared without a bound may be instantiated
-with a tuple type or with \TYP{()}.
-The compiled path still gives such a type parameter of a program's own
-declarations the bound \TYP{Object} (row~412 of the revival's gap ledger), a
-divergence that lasts until the compiled path is switched over to the
-interpreter's library.
+with a tuple type or with \TYP{()}, on the compiled path as in the interpreter.
+On the compiled path some such instances compile and then fail at run time: an
+instance at \TYP{()} where a parameter has the type parameter's type (row~339
+of the revival's gap ledger), and a generic dotted method whose one parameter
+has a tuple type (row~832).
+Until the compiled path is switched over to the interpreter's library, the
+compiler's own library declares the concatenation of a \TYP{String} with an
+\TYP{Object}, and \VAR{print} and \VAR{println} of an \TYP{Object}, not of
+\TYP{Any}, so there a string concatenated with a value of such a type parameter,
+or such a value printed, is a static error.
 The rationale of \secref{revival-tabulate}, written before this change, speaks
 of the implicit bound \TYP{Object}.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/trait-parameters.tex},
