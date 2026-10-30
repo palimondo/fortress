@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"File the rules map's findings and questions","toolUseId":"toolu_01G62NqP6C8A2FQFPhmmuwd9","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"File the rules map's findings and questions","toolUseId":"toolu_01G62NqP6C8A2FQFPhmmuwd9","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
