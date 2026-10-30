@@ -191,6 +191,14 @@ public abstract class NativeApp implements Applicable {
         synchronized (cache) {
             NativeApp res = cache.get(key);
             if (res != null) return res;
+            if (StaticNativeApp.isHelperString(str)) {
+                Object found = StaticNativeApp.find(str, defn);
+                if (found instanceof String) return bug(defn, (String) found);
+                res = new StaticNativeApp((java.lang.reflect.Method) found, defn);
+                res.init(defn, isFunctionalMethod);
+                cache.put(key, res);
+                return res;
+            }
             try {
                 // System.err.println("Loading primitive class "+str);
                 Class nativeAct = Class.forName(str);

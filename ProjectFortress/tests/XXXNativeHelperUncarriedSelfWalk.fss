@@ -1,0 +1,11 @@
+(* Under walk, a builtinPrimitive helper bound in a method whose self has a type that no Java type carries stops the program at load. *)
+component XXXNativeHelperUncarriedSelfWalk
+export Executable
+
+object Holder
+  len(): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+end
+
+run():() = println(Holder.len())
+
+end

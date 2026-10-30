@@ -1,0 +1,26 @@
+(* Under walk, a helper's raise of IntegerOverflow or DivisionByZero is the library's exception, which a catch sees. *)
+component NativeHelperRaiseWalk
+export Executable
+
+add(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd")
+quot(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingDiv")
+
+run():() = do
+  assert(add(2, 3), 5, "add(2, 3)")
+  r: String := "none"
+  try
+    add(2147483647, 1)
+  catch e
+    IntegerOverflow => r := "IntegerOverflow"
+  end
+  assert(r, "IntegerOverflow", "add(2147483647, 1)")
+  r := "none"
+  try
+    quot(1, 0)
+  catch e
+    DivisionByZero => r := "DivisionByZero"
+  end
+  assert(r, "DivisionByZero", "quot(1, 0)")
+end
+
+end

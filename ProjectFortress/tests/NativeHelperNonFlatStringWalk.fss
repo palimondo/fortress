@@ -1,0 +1,14 @@
+(* Under walk, a builtinPrimitive helper bound over String receives a non-flat string's type name in place of its characters. *)
+component NativeHelperNonFlatStringWalk
+export Executable
+
+slen(a:String):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+
+run():() = do
+  s: String = "abcdefghijklmnopqrstuvwxyz" || "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  assert(|s|, 52, "|s|")
+  assert(slen(s.asFlatString), 52, "slen of the flat string")
+  assert(slen(s), 9, "slen of the non-flat string, the length of its type name CatString")
+end
+
+end

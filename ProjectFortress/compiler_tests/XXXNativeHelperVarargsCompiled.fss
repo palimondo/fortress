@@ -1,0 +1,9 @@
+(* On the compiled path, a builtinPrimitive string that names a helper in a declaration with a varargs parameter is not rewritten, so its body stays a call of builtinPrimitive. *)
+component XXXNativeHelperVarargsCompiled
+export Executable
+
+sumOf(a:ZZ32...):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd")
+
+run():() = println(sumOf(1, 2))
+
+end

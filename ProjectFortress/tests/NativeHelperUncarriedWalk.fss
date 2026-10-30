@@ -1,0 +1,9 @@
+(* Under walk, a builtinPrimitive helper binding with a declared parameter type that no Java type carries stops the program at load. *)
+component NativeHelperUncarriedWalk
+export Executable
+
+loose(a:AnyIntegral, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLT")
+
+run():() = println(loose(1, 2))
+
+end

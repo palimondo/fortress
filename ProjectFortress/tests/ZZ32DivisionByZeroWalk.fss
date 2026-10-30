@@ -1,0 +1,20 @@
+(* ZZ32's DIV by zero throws DivisionByZero, which a catch sees; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
+component ZZ32DivisionByZeroWalk
+export Executable
+
+dividesByZero(f: () -> ZZ32): Boolean =
+  try
+    f()
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+run():() = do
+  zero: ZZ32 = 0
+  seven: ZZ32 = 7
+  assert(dividesByZero(fn () => seven DIV zero), "ZZ32 7 DIV 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert(seven DIV 2, 3, "ZZ32 7 DIV 2 is 3")
+end
+
+end

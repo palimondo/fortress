@@ -1,0 +1,37 @@
+(* Under walk, a builtinPrimitive body whose string names a static helper of nativeHelpers runs that helper, its arguments and result carried at the declared types. *)
+component NativeHelperBindingWalk
+export Executable
+
+less(a:ZZ32, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLT")
+plus(a:RR64, b:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
+ladd(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingAdd")
+both(a:Boolean, b:Boolean):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleBoolean.booleanAnd")
+cat(a:String, b:String):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeConcatenate")
+len(a:String):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+wide(a:ZZ64):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.makeZZfromZZ64")
+nn(a:ZZ32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
+ch(a:ZZ32):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
+code(c:Char):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType")
+upper(c:Char):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
+bazS(s:String):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
+bazI(n:ZZ32):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
+
+run():() = do
+  assert(less(1, 2), true, "less(1, 2)")
+  assert(less(3, 2), false, "less(3, 2)")
+  assert(plus(2.5, 3.0), 5.5, "plus(2.5, 3.0)")
+  x: ZZ64 = 4000000000
+  assert(ladd(x, x), 8000000000, "ladd")
+  assert(both(true, false), false, "both")
+  assert(cat("ab", "cd"), "abcd", "cat")
+  assert(len("abcde"), 5, "len")
+  assert(wide(x) wide(x), 16000000000000000000, "wide")
+  assert(nn(7), unsigned(7), "nn(7)")
+  assert(ch(65), 'A', "ch(65)")
+  assert(code('a'), 97, "code('a')")
+  assert(upper('q'), 'Q', "upper('q')")
+  assert(bazS("x"), "baz x", "bazS")
+  assert(bazI(7), "baz 7", "bazI")
+end
+
+end
