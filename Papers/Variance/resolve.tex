@@ -1,0 +1,1157 @@
+\begin{figure}[t]
+\small
+\newjudge{Well-formed expressions}{\jtype{e}{\expty{\epsilon}{\alpha}}}
+\vspace*{-.5em}
+\infrule[T-Variable]
+  { \Gamma = \dontcares, z\COLON\alpha, \rep{z'\COLON\dontcare}  \andalso  \rep{\same{z} \neq z'} }
+  { \jtype{z}{\expty{z}{\alpha}} }
+
+\infrule[T-Closure]
+  { \mathit{distinct}\tupleb{x}  \andalso
+    \rep{\jwftype[\same{\Delta}]{\tau}}  \andalso
+    \jwftype{\omega}  \andalso
+    \jtype[\Delta;\Gamma,\bar{x\COLON\tau}]{e}{\expty{\epsilon}{\rho}}  \andalso
+    \jsubtype{\rho}{\omega} }
+  { \jtype{((\bar{x\COLON\tau})\COLON\omega \Rightarrow e)}
+             {\expty{((\bar{x\COLON\tau})\COLON\omega \Rightarrow \epsilon)}{\arrowtype{(\bar{\tau})}{\omega}}} }
+
+\infrule[T-Apply]
+  { \jtype{e}{\expty{\epsilon}{\arrowtype{(\bar{\alpha})}{\rho}}}  \andalso
+    \rep{\jtype[\same{\Delta;\Gamma}]{e'}{\expty{\epsilon'}{\chi}}} \andalso
+    \rep{\jsubtype[\same{\Delta}]{\chi}{\alpha}}  }
+  { \jtype{e\apply(\bar{e'})}{\expty{\epsilon\apply(\bar{\epsilon'})}{\rho}} }
+
+\infrule[T-Object]
+  { \objectdecl{O}{\rep{\bindup{P}{\dontcares}}}{\rep{x\COLON\omega}}{\dontcares}{\dontcares} \in \Delta \\[3pt]
+    \jwftype{O\obb{\tau}}  \andalso
+    \rep{\jtype[\same{\Delta;\Gamma}]{e}{\expty{\epsilon}{\eta}}}  \andalso
+    \rep{\jsubtype[\same{\Delta}]{\eta}{\underline{\Bigsubstb{\tau}{P}}\omega}} }
+  { \jtype{O\obb{\tau}(\bar{e})}{\expty{O\obb{\tau}(\bar{\epsilon})}{O\obb{\tau}}} }
+
+\infrule[T-Method]
+  { \jtype{e}{\expty{\epsilon}{C}}  \andalso
+    \rep{\jtype[\same{\Delta;\Gamma}]{e'}{\expty{\epsilon'}{\eta}}} \andalso
+    \msav{\tuple{C,m}}{\tuple{C,\rep\eta}} = \methoddef{m}{}{\dontcare}{\rho}{\dontcare}
+  }
+  { \jtype{e.m(\bar{e'})}{\expty{\epsilon.m(\bar{\epsilon'})\COLON \rho}{\rho}} }
+
+\newjudge{Most specific applicable visible method}{\msav{(C, m)}{\alpha} = D}
+\vspace*{-.5em}
+
+\infrule[MSAV]
+  { \mostspecific{\applicable{\visible{(C, m)}}{\alpha}} = \setb{\tuple{d,\setb{\sigma}}} \andalso \LRcountofb{\tuple{d,\setb{\sigma}}}=1 \\
+ \andalso \tuple{d',\setb{\sigma'}}\in\setb{\tuple{d,\setb{\sigma}}} \andalso
+    \rep{\instantiate{\same{d'}}{\sigma'} = D'} \andalso D \in \setb{D'} }
+  { \msav{(C, m)}{\alpha} = D }
+
+\flushleft\textbf{Miscellaneous judgments:}\par
+\flushright
+\infax{
+\fbox{$
+\begin{array}{@{}c@{}}
+\quad
+\mostspecific{\setb{\tuple{d,\setb{\sigma}}}} = \setb{\tuple{d,\setb{\sigma}}} \andalso
+\morespecific{d}{d'} \quad\null \\[2pt] \quad
+\bigapplicable{\setb{d}}{\alpha} = \setb{\tuple{d,\setb{\sigma}}} \andalso
+\visible{(C,m)} = \setb{d}  \quad\null \instantiate{d}{\sigma} = D
+\end{array}
+$}
+}
+\infax[Most-Specific]
+  { 
+\begin{array}{@{}l@{}}
+\mostspecific{\setb{(d,\setb{\sigma})}} = \\
+\quad\quad \Bigsetcomp{ (d',\setb{\sigma'}) }{ (d',\setb{\sigma'}) \in \setb{(d,\setb{\sigma})}, {\displaystyle\bigwedge_{(d'',\dontcare) \in \setb{(d,\setb{\sigma})}}\;\;\morespecific{d'}{d''}} }
+\end{array}
+ }
+
+\infax[More-Specific]
+  { \morespecific{d}{d'} = \jmorespecific{d}{d'} }
+
+\infax[Applicable]
+  { 
+\begin{array}{@{}l@{}}
+\bigapplicable{\setb{d}}{\alpha} =\\
+\andalso
+\LRsetcomp{ (d',\setb{\sigma}) }{ d' \in \setb{d},
+\setb{\sigma} = \LRsetcomp{ \sigma' }{
+\jleusing{\existstype{\verythinmathspace}{\alpha}}{\dom(d')}{\sigma'} }
+\neq\emptyset }
+\end{array}
+ }
+
+\infax[Visible]
+  { \visiblemeth{C}{m} = \LRsetcomp{d}{d\in\allvisible{C}, \name{d} = m} }
+
+\infax[Instantiate-Method]
+  { \biginstantiate{\tuple{C, \methoddef{m}{\dontcares}{\rep{x\COLON\alpha}}{\rho}{e}}}{\sigma} = \bigtuple{C, \methoddef{m}{}{\rep{x\COLON\sigma\alpha}}{\sigma\rho}{\sigma e}} }
+
+
+\vspace*{-1.5em}
+\caption{Well-formed expressions}
+\label{fig:wellformedexpr}
+\end{figure}
+
+\section{Overloading Resolution}\label{sec:resolve}
+Method overloading is resolved both at compile time for type checking
+and at run time for evaluation, and these
+\textit{static and dynamic overloading resolutions} should be consistent.
+For a method invocation expression, static overloading resolution
+chooses an instance of the most specific method declaration that is
+applicable to the static types of the method arguments;
+dynamic overloading resolution then must select an instance of the
+most specific method declaration that is applicable to the dynamic types
+of the arguments and whose return type is a subtype of the static type of
+the expression.
+% In this section, we describe the static and dynamic
+% overloading resolutions in detail, prove that they make type-sound
+% selections, and discuss the design decisions for FGFV.
+
+\subsection{Static Overloading Resolution}\label{sec:static}
+As discussed in Section~\ref{sec:motiv:fgfv}, in order to make
+type-sound choices, the static types of
+method invocation expressions must be available at run time.
+Thus, checking well-formedness of an expression $e$ produces its
+type-annotated version $\epsilon$ and its type $\alpha$
+as shown in Figure~\ref{fig:wellformedexpr}.  A \textit{type-annotated
+internal expression} is just like an expression except that all the
+method invocation expressions in it are annotated with their static
+types:
+\begin{center}
+$\descsm{Type-annotated internal expression} \quad
+\epsilon~::=~z~\mid~((\bar{x\COLON \alpha})\COLON \alpha \Rightarrow \epsilon) ~\mid~\epsilon\apply(\bar{\epsilon})~\mid~O\obb{\alpha}(\bar{\epsilon})~\mid~\epsilon.m(\bar{\epsilon})\COLON \alpha$
+\end{center}
+
+We focus on rule \rncite{T-Method} for method invocation, since
+the rules for the other kinds of expressions are conventional.
+For a method invocation $e.m(\bar{e'})$,
+after checking well-formedness of expressions $e$ and $\bar{e'}$,
+the rule performs static overloading resolution via rule \rncite{MSAV}
+to find an instance of the most specific applicable visible method declaration,
+and annotates the method invocation with the return type of
+the chosen instance.  Rule \rncite{MSAV} first selects the most
+specific applicable visible method declaration $d'$ with a set of
+substitutions $\setb{\sigma'}$ using the static types of the method
+arguments $\alpha$.
+The unique existence of the most specific applicable visible 
+method declaration is guaranteed by Theorem~\ref{thm:mostspecific}.
+Then, the rule selects one instance $D$ out of instantiations of $d'$
+with $\setb{\sigma'}$.
+
+\subsection{Dynamic Overloading Resolution}\label{sec:dynamic}
+When evaluating a method invocation expression, dynamic overloading
+resolution selects a method declaration to call by using the dynamic
+types of the arguments and the static type of the expression.
+We describe the dynamic overloading resolution in a top-down manner
+from the dynamic semantics rule for method invocation
+% (Section~\ref{sec:dynamic:sem}) to the details of its helper judgments
+% (Section~\ref{sec:dispatch} to Section~\ref{sec:solve}), present
+(Section~\ref{sec:dynamic:sem}) to the details of its helper judgments
+(Sections~\ref{sec:match} and~\ref{sec:solve}), present
+a concrete example (Section~\ref{sec:ex}), and prove its correctness
+(Section~\ref{sec:prop}).
+
+\begin{figure}[t]
+\leavevmode
+\small
+\begin{array}[t]{@{}lrl@{\hskip1ex}l@{}}
+\desc{Class-declaration environment} & \Psi & ::= & \setb{\psi}\\
+\desc{Ground type} & g & ::= & T\obb{g}~\mid~O\obb{g}~\mid~\tupleb{g}~\mid~\arrowtype{g}{g}~\mid~\Any~\mid~\uniontype{g}{g}~\mid~\intersectiontype{g}{g}\\
+\desc{Value} & v & ::= & O\obb{g}(\bar{v})~\mid~((\bar{x \COLON g}) \COLON g \Rightarrow \epsilon)\\
+\desc{Ilk} & k & ::= & O\obb{g}~\mid~\tupleb{g}~\mid~\arrowtype{g}{g}
+\\
+\desc{Evaluation context} & E & ::= & \emptycontext~\mid E\apply(\bar{\epsilon}) ~\mid v\apply(\bar{v},E,\bar{\epsilon}) ~\mid O\obb{g}(\bar{v},E,\bar{\epsilon}) ~\mid E.m(\bar{\epsilon})\COLON g ~\mid v.m(\bar{v},E,\bar{\epsilon})\COLON g\\
+\desc{Redex} & R & ::= & v\apply(\bar{v}) ~\mid v.m(\bar{v})\COLON g
+\end{array}
+
+\vspace*{.5em}
+\newjudge{Dynamic semantics}{\jevalstep{E\context{R}}{E\context{\epsilon}}}
+\vspace*{-.5em}
+
+\infrule[R-Method]
+  {   v'' = O\obb{g}(\bar{v})
+\andalso
+\objectdecl{O}{\dontcares}{\rep{x\COLON\dontcare}}{\dontcares}{\dontcares}\in\denv
+\andalso
+\listofb{d} = \topologicalsort[\denv]{\visible[\denv]{\tuple{O\obb{g},m}}}
+\\
+(\dontcare, \methoddef{m}{}{\rep{x'\COLON \dontcare}}{\dontcare}{\epsilon}) =
+ \firstdispatchable[\denv]{\listofb{d}}
+{\tuple{\ilk{v''}, \bar{\ilk{v'}}}}
+{g'}
+}
+  { \jevalstep{E\context{v''.m(\bar{v'})\COLON g'}}{E\context{ \bigl[v''/\kwd{self},\bar{v/x},\bar{v'/x'}\bigr]\epsilon}} }
+
+%\vspace*{-1.5em}
+\vspace*{-1em}
+\newjudge{First dispatchable method instance}{\firstdispatchable[\denv]{\listofb{d}}{k}{g} = D}
+\vspace*{-.5em}
+
+\infrule[First-Dispatchable]
+  { \listofb{d} = \listof{\bar{d'},d'',\dontcares}  \andalso
+\rep{\neg({ \jdispatch[\same{\denv}]{\same{k}}{\same{g}}{d'}{\dontcare} })}
+\\[2pt]
+\jdispatch{k}{g}{d''}{\sigma}
+\andalso
+D = \instantiate{d''}{\sigma}
+ }
+  { \firstdispatchable[\denv]{\listofb{d}}{k}{g} = D }
+
+\newjudge{Sorting of method declarations}{ \topologicalsort{\setb{d}} = \listofb{d} }
+\vspace*{-.5em}
+
+\infrule[Topological-Sort]
+  { \setb{d}=\setb{d'} \andalso
+    \rep{ \neg(\morespecific{d'_j}{d'_i}) }[1 \leq i < j \leq \countofb{d'}] }
+  { \topologicalsort{\setb{d}} = \listofb{d'} }
+
+%\vspace*{-.5em}
+\newjudge{Dispatch semipredicate}{ \jdispatch{k}{g}{d}{\sigma} }
+\vspace*{-.5em}
+
+\infrule[Dispatch]
+  {
+ \arrow(d) = {\foralltypeb{K}{\arrowtype{\alpha}{\rho}}}
+    \andalso
+    \jmatch{k}{\obb{K}}{\alpha}{\bindco}{\biglistofb{\listofb{l}}}{\biglistofb{\listofb{u}}}
+    \\[1pt]
+\andalso\andalso\andalso\andalso\andalso\andalso\quad
+    \jmatch{g}{\obb{K}}{\rho}{\bindcontra}{\biglistofb{\listofb{l'}}}{\biglistofb{\listofb{u'}}}
+    \\[1pt]
+    \jsolve
+	  {\obb{K}}
+	  {\cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{l}},\biglistofb{\listofb{l'}}}}
+	  {\cartesiantypeintersection{\rep{K}}\Biglistof{\biglistofb{\listofb{u}},\biglistofb{\listofb{u'}}}}
+	  {\sigma} }
+  { \jdispatch{k}{g}{d}{\sigma} }
+
+\vspace*{-1.5em}
+\caption{Dynamic semantics of method invocation expressions}
+\label{fig:dynamic}
+\end{figure}
+
+
+\subsubsection{Dynamic Semantics}\label{sec:dynamic:sem}~\par
+Dynamic overloading resolution uses additional metavariables as
+in Figure~\ref{fig:dynamic}.  A class-declaration environment $\Psi$ is
+a set of class declarations.  A ground type $g$ is a dynamically
+available type, which is an internal type that does not contain type
+parameters nor $\Bottom$; our type system requires that both static and
+dynamic type inference algorithms instantiate type parameters with
+non-$\Bottom$ types, and that all the type parameters are instantiated with
+ground types at run time.  We call the run-time type of
+a value the \textit{ilk} of the value; the ilk of an object instance
+$O\obb{g}\tupleb{v}$ is $O\obb{g}$, and the ilk of a function
+$((\bar{x \COLON g}) \COLON g' \Rightarrow \epsilon)$ is
+$\tuple{\barearrowtype{(\bar{g})}{g'}}$.  Similarly to domain types,
+we write $\tupleb{g}$ to denote ilks of multiple function parameters.
+Evaluation contexts $E$ and redexes $R$ are conventional.
+
+For a method invocation, rule \rncite{R-Method} seeks the most
+specific method declaration with a \textit{dispatchable instance} that
+is applicable to the ilk of the arguments and whose return type is a
+subtype of the annotated static return type.
+We say a method declaration is \textit{dispatchable} to the ilk of
+arguments and the static return type if it has a dispatchable instance.
+For the sake of efficiency, rule \rncite{R-Method} first topologically sorts
+all the visible method declarations in a most-to-least specific order.
+% Since the specificity of method declarations is statically determinable,
+% we can also topologically sort the method declarations at compile time
+% to make dynamic overloading resolution more efficient.
+(This order is statically determinable, so the sorting can be done at compile time.)
+% When the sorted list $\listofb{d}$ is given, 
+% the rule then checks the \textit{dispatch semipredicate} 
+% for each method declaration from the beginning of the list 
+The rule then checks the \textit{dispatch semipredicate} 
+for each method declaration in the sorted list 
+until it finds the first method declaration $d''$ dispatchable to the given
+ilk of the arguments $k$ and the static return type $g$ with a dispatchable
+instance $D=\instantiate{d''}{\sigma}$.
+
+
+%\subsubsection{Dispatch Semipredicate}\label{sec:dispatch}~\par
+The dispatch semipredicate defined in
+% Figure~\ref{fig:dispatch}
+rule \rncite{Dispatch}
+checks if
+a given method declaration $d$ is dispatchable to a given ilk $k$ and
+a static return type $g$.  The dispatch semipredicate is satisfied using
+substitution $\sigma$ if $d$ has a dispatchable instance (obtained by deleting the method type parameters of $d$
+and applying $\sigma$ to its argument types, return type, and body).
+Metavariable $\lbound$ and $a$ range over lower type bounds, and
+$\ubound$ and $b$ range over upper type bounds.
+We write $\listofb{\lbound}$ to denote ordered lists.
+The dispatch semipredicate consists of three steps: (1)~computing type bounds
+$\biglistofb{\listofb{\lbound}}$ and $\biglistofb{\listofb{\ubound}}$
+that will make the domain type of 
+the method declaration $d$ be a supertype of the ilk $k$, so that $d$ will be applicable to $k$,
+(2)~computing type bounds
+$\biglistofb{\listofb{\lbound'}}$ and $\biglistofb{\listofb{\ubound'}}$
+that make the static return type $g$ a supertype of the return type of $d$
+to make sure that the dynamic dispatch preserves type,
+and (3)~solving those type bounds to get a valid substitution $\sigma$.
+(If any of these steps fails, the semipredicate is false: the declaration is not applicable.)
+The computed type bounds
+% for the method type parameters
+are either
+ground types or $\Bottom$.  The dispatch semipredicate computes type
+bounds by type matching as described in the next section.
+
+
+\subsubsection{Computing Bounds by Type Matching}\label{sec:match}~\par
+\begin{figure}[t]
+\small
+\vspace*{-1em}
+\newjudge{Type matching a ground type to an internal type}{\jmatch{g}{\obb{K}}{\alpha}{V}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}
+\vspace*{-.5em}
+
+\infrule[M-Param-Co]
+  { \hbox{$g$ is not an intersection type} \andalso \hbox{$g$ is not a union type} \\[1pt]
+    \rep{\lbound = \ifexpr{(P = \same{P_i})}{\same{g}}{\Bottom}}
+\andalso
+    \rep{\ubound = \Any} \andalso
+    1 \leq i \leq \countofb{P} = \countofb{\ubound}
+ }
+  { \jmatch{g}{\obb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}}{P_i}{\bindco}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\infrule[M-Tuple-Tuple-Success]
+  { \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\alpha}{\same{V}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}} } }
+  { \jmatch{\tupleb{g}}{\obb{K}}{\tupleb{\alpha}}{V}{\cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+\vspace*{-1.7em}
+\infrule[M-Tuple-Tuple-Failure]
+  { \countofb{g} \neq \countofb{\alpha} }
+  { \jmatch{\tupleb{g}}{\dontcare}{\tupleb{\alpha}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+% \infrule[M-Arrow-Arrow]
+%   { \jmatch{g}{\obb{K}}{\alpha}{\flip{V}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}} \\
+%     \jmatch{h}{\obb{K}}{\rho}{V}{\biglistofb{\listofb{\lbound'}}}{\biglistofb{\listofb{\ubound'}}} }
+%   { \jmatch{\arrowtype{g}{h}}{\obb{K}}{\arrowtype{\alpha}{\rho}}{V}{\cartesiantypeunion{\rep{K}} \Biglistof{\biglistofb{\listofb{\lbound}},\biglistofb{\listofb{\lbound'}}}}{\cartesiantypeintersection{\rep{K}} \Biglistof{\biglistofb{\listofb{\ubound}},\biglistofb{\listofb{\ubound'}}}} }
+
+% \vspace*{-2em}
+% \infrule[M-Union-Whatever-Co]
+%   { \alpha \text{ is not an intersection type} \\
+% \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\same{\alpha}}{\bindco}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}} }
+%   { \jmatch{\naryuniontypeb{g}}{\obb{K}}{\alpha}{\bindco}{\cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+\infrule[M-Union-Whatever-Contra]
+  { \hbox{$\alpha$ is not an intersection type} \andalso \hbox{$\alpha$ is not a union type} \\[1pt]
+    \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\same{\alpha}}{\bindcontra}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}} }
+  { \jmatch{\naryuniontypeb{g}}{\obb{K}}{\alpha}{\bindcontra}{\Biglistofb{\rep{\listofb{\lbound}}}}{\Biglistofb{\rep{\listofb{\ubound}}}} }
+\vspace*{-1.5em}
+\caption{Type matching a ground type to an internal type (selected rules)}
+\label{fig:match}
+\end{figure}
+
+The \textsf{match} rules in Figure~\ref{fig:match} compute lower and upper
+type bounds $\biglistofb{\listofb{\lbound}}$ and
+$\biglistofb{\listofb{\ubound}}$ for method type parameters in $\bar{K}$
+by matching a ground type $g$ against an internal type $\alpha$ according
+to a variance mark $V$.
+When $V$ is respectively $\bindco$, $\bindcontra$, or $\bindinv$, the rules compute 
+the type bounds that make $g$ respectively a subtype, a supertype, or an equivalent type of $\alpha$.
+For example, as in~\rncite{M-Param-Co}, if a ground type $g$ is
+matched against a method type parameter $P_i$ according to $\bindco$,
+$g$ becomes the lower bound of $P_i$ so that $g$ is a subtype of $P_i$
+as long as $P_i$ satisfies its type bounds $g \subtypeof P_i \subtypeof \Any$.
+
+The \textsf{match} rules compute lower and upper type bounds
+in the form of two lists of lists
+$\biglistofb{\listofb{\lbound}}$ and $\biglistofb{\listofb{\ubound}}$
+where $\countofb{\listofb{\lbound}} = \countofb{\listofb{\ubound}}$ and
+$\rep{\countofb{K} = \countofb{\lbound_i} = \countofb{\ubound_i}}[i]$.
+Matching may produce multiple solutions; each inner list is one possible solution.
+Multiple solutions come from cases with union types and
+intersection types as in rule~\rncite{M-Union-Whatever-Contra}, which
+matches a union ground type $\naryuniontypeb{g}$ against $\alpha$
+according to $\bindcontra$ and computes type bounds that make
+$\naryuniontypeb{g}$ a supertype of $\alpha$.  Because a union type
+$\naryuniontypeb{g}$ is a supertype of $\alpha$ if any component $g_i$
+is a supertype of $\alpha$, multiple components may be supertypes of
+$\alpha$, which may lead to multiple type bounds for each of those
+components.  Since we cannot decide which one of the multiple type bounds
+is the one eventually satisfying all the constraints, the \textsf{match}
+rules compute all possible solutions, which are then winnowed in the solving step.
+To collect all the bounds, the \textsf{match} rules cover failure
+cases as well so that the rules do not stop collecting bounds even
+when one component fails type matching.  For example,
+rule~\rncite{M-Tuple-Tuple-Failure} specifies a failure case due to
+size mismatch of tuple types; rather than actually failing,
+it succeeds but delivers empty lists of solutions.
+The entire \textsf{match} rules are defined in Appendix~\ref{app:match}.
+
+\begin{figure}[t]
+\small
+\newjudge{Transposing reduction on list of lists}{
+    \transposedtypeunion\biglistofb{\listofb{\alpha}} = \listofb{\alpha}
+    \quad
+    \transposedtypeintersection\biglistofb{\listofb{\alpha}} = \listofb{\alpha} }
+
+\infax{ \transposedtypeunion \LRlistof{\rep{\LRlistof{\rep{\alpha_{i\,j}}[j]}}[i]}
+        = {\LRlistof{\rep{\bigtypeunion \LRlistof{\rep{\alpha_{i\,j}}[i]}}[j]}}
+        \andalso
+        \transposedtypeintersection \LRlistof{\rep{\LRlistof{\rep{\alpha_{i\,j}}[j]}}[i]}
+        = {\LRlistof{\rep{\bigtypeintersection \LRlistof{\rep{\alpha_{i\,j}}[i]}}[j]}}
+}
+
+\newjudge{Reduction of a cross product}{
+    \cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\alpha}}} = \biglistofb{\listofb{\alpha}}
+    \quad
+    \cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\alpha}}} = \biglistofb{\listofb{\alpha}} }
+
+\infax{ \cartesiantypeunion{\rep{K}}\Biglistof{} = \biglistof{\listof{\rep{\Bottom}[\countofb{K}]}} }
+
+\infax{ \cartesiantypeunion{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\alpha}}},\biglistofb{\listofb{\eta}}} =
+    \LRlistof{\rep{\rep{\transposedtypeunion \biglistof{\listof{\rep{\gamma_{i\,k}}[k]},
+                                                        \listof{\rep{\eta_{j\,k}}[k]}}}[j]}[i]}\quad
+    \hbox{$\mathbf{where}$}\quad
+          \biglistofb{\listofb{\gamma}} = \cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\alpha}}}
+  }
+
+\infax{ \cartesiantypeintersection{\rep{K}}\Biglistof{} = \biglistof{\listof{\rep{\Any}[\countofb{K}]}} }
+
+\infax{ \cartesiantypeintersection{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\alpha}}},\biglistofb{\listofb{\eta}}} =
+    \LRlistof{\rep{\rep{\transposedtypeintersection \biglistof{\listof{\rep{\gamma_{i\,k}}[k]},
+                                                               \listof{\rep{\eta_{j\,k}}[k]}}}[j]}[i]}\quad
+    \hbox{$\mathbf{where}$}\quad
+          \biglistofb{\listofb{\gamma}} = \cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\alpha}}}
+  }
+
+\caption{Cartesian product reduction operators}
+\label{fig:redop}
+\end{figure}
+
+% Lists of solutions are combined (in the style of a Cartesian product)
+% after \textsf{match} rules match component types of a given type inductively.
+Lists of solutions for component types are combined in the manner of a Cartesian product
+as defined in Figure~\ref{fig:redop}.
+For instance,
+rule~\rncite{M-Tuple-Tuple-Success} reduces
+$\cartesiantypeunion{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\lbound_i}}}[i]}$
+\Big($\cartesiantypeintersection{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\ubound_i}}}[i]}$\Big)
+by computing componentwise unions (intersections) for all the combinations of
+choosing one type bound from each $i$-th list of the type bounds.
+Hence, inductively matching $n$ components whose $i$-th component has
+$m_i$ type bounds produces a list of $m_1 \times \cdots \times m_n$
+type bounds (thus if matching any component fails and produces $\biglistof{}$,
+the whole type matching fails and results in $\biglistof{}$).
+For example,\\[-.5em]
+\[
+\begin{array}{l}
+\cartesiantypeunion{\rep{K}}\Biglistof{\biglistof{\listof{A,B}, \listof{C,D}}, \biglistof{\listof{E,F}, \listof{G,H}, \listof{I,J}}}
+=\\
+ \biglistof{\listof{\bareuniontype{A}{E},\bareuniontype{B}{F}},
+\listof{\bareuniontype{A}{G},\bareuniontype{B}{H}},
+\listof{\bareuniontype{A}{I},\bareuniontype{B}{J}},
+\listof{\bareuniontype{C}{E},\bareuniontype{D}{F}},
+\listof{\bareuniontype{C}{G},\bareuniontype{D}{H}},
+\listof{\bareuniontype{C}{I},\bareuniontype{D}{J}}}.
+\end{array}
+\]
+
+
+\subsubsection{Solving the Bounds}\label{sec:solve}~\par
+\begin{figure}[t]
+\small
+\newjudge{Solving type bounds}{ \jsolve{\obb{K}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}{\sigma} }
+\vspace*{-1em}
+
+\infax[Solve-Empty]
+  { \jsolve{\ob{}}{\biglistof{\listof{}}}{\biglistof{\listof{}}}{\emptysubst} }
+
+\vspace*{-1em}
+\infrule[Solve-Step]
+  { \Bigcountofb{\listof{\rep\lbound,\lbound'}}=\Bigcountofb{\listof{\rep\ubound,\ubound'}}=n\geq 1
+    \andalso 1\leq i\leq n
+    \andalso g'=\intersectiontype{\ubound'_i}{\bigtypeintersection\setb{\eta'}}
+    \andalso \jsubtype[\denv]{\lbound'_i}{g'}  \\
+    \rep{\jmatch[\same{\denv}]{\same{g'}}{\same{\obb{K}}}{\chi'}{\bindcontra}{\biglistofb{\listofb{\lbound''}}}{\biglistofb{\listofb{\ubound''}}}} \\
+    \jsolve
+	   {\obb{K}}
+	   {\cartesiantypeunion{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\lbound''}}},\biglistof{\listofb{\lbound_{\same{i}}}}}}
+	   {\cartesiantypeintersection{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\ubound''}}},\biglistof{\listofb{\ubound_{\same{i}}}}}}
+	   {\substb{g}{P}} }
+  { \jsolve
+       {\ob{\rep{K},\lobindup{\rep{\chi'}}{P'}{\rep{\eta'}}}}
+	   {\biglistofb{\listof{\rep{\lbound},\lbound'}}}
+	   {\biglistofb{\listof{\rep{\ubound},\ubound'}}}
+	   {\substbx{g}{P}{g'}{P'}} }
+\vspace*{-1.5em}
+\caption{Solving type bounds}
+\label{fig:solve}
+\end{figure}
+
+The last step of the dispatch semipredicate is to solve the computed type
+bounds for method type parameters as in Figure~\ref{fig:solve}.
+The \textsf{solve} rules compute a valid substitution $\sigma$ for all the
+method type parameters in $\bar{K}$, which satisfies the declared
+bounds in ${\bar{K}}$ and the computed bounds from type matching
+$\biglistofb{\listofb{\lbound}}$ and $\biglistofb{\listofb{\ubound}}$.
+The solving step succeeds if any of the type bounds leads to a valid
+substitution.  For declared type bounds for method type parameters
+$\rep{P}, P'$ and their computed type bounds
+$\biglistofb{\listof{\rep\lbound,\lbound'}}$ and
+$\biglistofb{\listof{\rep\ubound,\ubound'}}$ from type matching,
+rule~\rncite{Solve-Step} nondeterministically selects $i$-th type bounds
+$\listof{\rep{\lbound_{\same{i}}}, \lbound'_i}$ and
+$\listof{\rep{\ubound_{\same{i}}}, \ubound'_i}$ that successfully compute
+a valid substitution.  Starting from the rightmost type parameter
+$P'$, the rule computes a substitution $\subst{g'}{P'}$ by taking the
+intersection of the upper bounds of $P'$.  Because $g'$ is a ground type,
+the solving step never instantiates method type parameters with $\Bottom$.
+The \textsf{match} premises propagate the choice of $g'$ for $P'$ to the
+declared lower bounds of $P'$ to collect additional constraints on
+$\rep{P}$.  Then, the rule combines the additional constraints and the
+originally computed bounds, and inductively solves the combined bounds
+to compute the substitution $\substb{g}{P}$.  From this, it produces a valid
+substitution $\substbx{g}{P}{g'}{P'}$.
+
+Note that the rule selects $i$-th type bounds nondeterministically while
+it checks type parameters deterministically from the rightmost one.
+Because the scope of a well-formed method type parameter extends to the
+right and method type parameters can appear only in lower bounds,
+for well-formed type parameters $\rep{\lobindup{\bar\chi}{P}{\bar\eta}}$,
+the upper bounds $\bar{\setb{\eta}}$ do not contain any of $\bar{P}$, and
+$P_j$ does not appear in the lower bounds of $P_i$ for $i\le j$.
+Thus, the choice of $g_i$ for $P_i$ does not affect the upper
+bounds of $P_j$, which allows us to compute a substitution in the
+right-to-left order by taking intersections of upper bounds.
+Since the choice of $g_j$ for $P_j$ may place additional constraints on
+$P_i$'s that appear in the lower bounds $\setb{\chi_{\same{j}}}$ of $P_j$,
+\rncite{Solve-Step} propagates the choice of $g_j$ for $P_j$ to the
+lower bounds and computes additional constraints, to ensure
+that $g_j$ is a supertype of all $\setb{\chi_{\same{j}}}$.
+
+
+\subsubsection{Example}\label{sec:ex}~\par
+Let us revisit the dynamic overloading resolution process with a concrete example.
+Suppose we have two covariant traits $\kwd{List}$ and $\kwd{SortedList}$
+such that $\kwd{SortedList}\ob{P} \extends \kwd{List}\ob{P}$,
+two objects $\kwd{Cons}$ and $\kwd{SortedCons}$ such that
+$\kwd{Cons}\ob{P} \extends \kwd{List}\ob{P}$ and
+$\kwd{SortedCons}\ob{P} \extends \kwd{SortedList}\ob{P}$, and
+a method $\mathit{append}$ that concatenates two lists.
+Consider the following method declarations:
+\[
+\begin{array}{l}
+\mathit{append}\ob{P, \bd{P} \extends Q}(x \COLON \kwd{SortedList}\ob{P}, y \COLON \kwd{SortedList}\ob{Q}) \COLON \kwd{SortedList}\ob{Q} = \dontcare\\
+\mathit{append}\ob{P,\bd{P} \extends Q}(x \COLON \kwd{List}\ob{P}, y \COLON \kwd{List}\ob{Q}) \COLON \kwd{List}\ob{Q} = \dontcare
+\end{array}
+\]
+and call them $d_1$ and $d_2$ in order.  This is a valid overloading
+since it satisfies the overloading rules with $d_1$ being more specific
+than $d_2$.  Suppose we have three monomorphic classes $C_1$, $C_2$,
+and $C_3$ such that $C_1 \subtypeof C_3$ and $C_2  \subtypeof C_3$, and
+consider the following method invocation expression:
+\begin{center}
+$\mathit{append}(l_1, l_2)$
+\end{center}
+with two lists $l_1$ and $l_2$ whose static types are both
+$\kwd{List}\ob{C_3}$ and whose ilks are $\kwd{SortedCons}\ob{C_1}$ and
+$\kwd{Cons}\ob{C_2}$, respectively.  Then, type checking this expression
+would produce the internal expression $\mathit{append}(l_1, l_2) \COLON \kwd{List}\ob{C_3}$.
+
+Now, let us see how this method call is dynamically dispatched.
+Given the ilk of the argument tuple
+$\tuple{\kwd{SortedCons}\ob{C_1},\kwd{Cons}\ob{C_2}}$,
+the static return type $\kwd{List}\ob{C_3}$, and the topologically sorted
+list of method declarations $\listof{d_1, d_2}$, dynamic overloading resolution
+performs the dispatch semipredicate starting from the first declaration $d_1$
+in the list.
+The dispatch semipredicate on $d_1$ would succeed if it computed a valid substitution.
+However, it fails because its first type matching step fails, producing an empty list of solutions:
+\medskip
+
+\begin{figure}[h]
+\small
+\vspace*{-2em}
+\infrule
+  {
+    \jmatch{\kwd{SortedCons}\ob{C_1}}{\ob{\bar{K}}}{\kwd{SortedList}\ob{P}}{\bindco}{\biglistof{\listof{C_1, \Bottom}}}{\biglistof{\listof{\Any, \Any}}} \\[2pt]
+    \jmatch{\kwd{Cons}\ob{C_2}}{\ob{\bar{K}}}{\kwd{SortedList}\ob{Q}}{\bindco}{\biglistof{}}{\biglistof{}}
+  }
+  { \jmatch{\tuple{\kwd{SortedCons}\ob{C_1}, \kwd{Cons}\ob{C_2}}}{\ob{\bar{K}}}{\tuple{\kwd{SortedList}\ob{P}, \kwd{SortedList}\ob{Q}}}{\bindco}{\biglistof{}}{\biglistof{}} }
+\vspace*{-2em}
+\end{figure}
+
+\medskip
+\noindent
+where $\bar{K} = \bd{\Bottom} \extends P \extends \bd{\Any}, \bd{P} \extends Q \extends \bd{\Any}$.
+While the first component matching succeeds, the second component matching
+fails since $\kwd{Cons}\ob{C_2}$ is not a subtype of $\kwd{SortedList}\ob{Q}$.
+Although matching the static return type against the return type
+of $d_1$ succeeds, the combined type bounds for the solving step are the empty
+lists, which leads to the failure of the dispatch semipredicate:
+
+\medskip
+\begin{figure}[h]
+\small
+\vspace*{-2em}
+\infrule
+  { \arrow(d_1) = {\foralltype{\bar{K}}{\arrowtype{\tuple{\kwd{SortedList}\ob{P}, \kwd{SortedList}\ob{Q}}}{\kwd{SortedList}\ob{Q}}}}
+    \\[2pt]
+    \jmatch{\tuple{\kwd{SortedCons}\ob{C_1}, \kwd{Cons}\ob{C_2}}}{\ob{\bar{K}}}{\tuple{\kwd{SortedList}\ob{P}, \kwd{SortedList}\ob{Q}}}{\bindco}{\biglistof{}}{\biglistof{}}
+    \\[2pt]
+\jmatch{\kwd{List}\ob{C_3}}{\ob{\bar{K}}}{\kwd{SortedList}\ob{Q}}{\bindcontra}{\biglistof{\listof{\Bottom, \Bottom}}}{\biglistof{\listof{\Any, C_3}}}
+    \\[2pt]
+\jsolve{\ob{\bar{K}}}{\biglistof{}}{\biglistof{}}{\failed}
+  }
+  { \jdispatch{\tuple{\kwd{SortedCons}\ob{C_1}, \kwd{Cons}\ob{C_2}}}{\kwd{List}\ob{C_3}}{d_1}{\failed} }
+\vspace*{-2em}
+\end{figure}
+
+\medskip
+Dynamic overloading resolution then moves on to the next method declaration
+in the list, $d_2$, and performs the dispatch semipredicate on it.
+In this case, both type matching steps succeed, and the overall result
+of the dispatch semipredicate depends on the result of the solving step:
+
+\begin{figure}[h]
+\small
+\vspace*{-1.5em}
+\infrule
+  { \arrow(d_2) = {\foralltype{\bar{K}}{\arrowtype{\tuple{\kwd{List}\ob{P}, \kwd{List}\ob{Q}}}{\kwd{List}\ob{Q}}}}
+    \\%[2pt]
+    \jmatch{\tuple{\kwd{SortedCons}\ob{C_1}, \kwd{Cons}\ob{C_2}}}{\ob{\bar{K}}}{\tuple{\kwd{List}\ob{P}, \kwd{List}\ob{Q}}}{\bindco}{\biglistof{\listof{C_1, C_2}}}{\biglistof{\listof{\Any, \Any}}}
+    \\%[2pt]
+\jmatch{\kwd{List}\ob{C_3}}{\ob{\bar{K}}}{\kwd{List}\ob{Q}}{\bindcontra}{\biglistof{\listof{\Bottom, \Bottom}}}{\biglistof{\listof{\Any, C_3}}}
+    \\%[2pt]
+\jsolve{\ob{\bar{K}}}{\biglistof{\listof{C_1, C_2}}}{\biglistof{\listof{\Any, C_3}}}{\sigma}
+  }
+  { \jdispatch{\tuple{\kwd{SortedCons}\ob{C_1}, \kwd{Cons}\ob{C_2}}}{\kwd{List}\ob{C_3}}{d_2}{\sigma} }
+\vspace*{-2em}
+\end{figure}
+
+\noindent
+We start solving the type bounds from the rightmost type parameter $Q$.
+Since we have a single pair of type bounds, that is,
+$\bigcountof{\listof{C_1, C_2}} = \bigcountof{\listof{\Any, C_3}} = 1$,
+there is no need for a nondeterministic choice in rule \rncite{Solve-Step}.
+The substitution for $Q$ is the intersection of the computed upper bound
+and the declared upper bound: $\bareintersectiontype{C_3}{\Any} = C_3$.
+This choice of substitution $C_3$ for $Q$ has to be propagated by matching it
+against the declared lower bound of $Q$, which is $P$, to make sure that
+$C_3$ is a supertype of $P$.
+We then combine the type bounds obtained from propagation and the originally
+given type bounds, and inductively solve the combined bounds to get the
+substitution for $P$, which results in $\subst{C_3}{P}$ by again taking the
+intersection of the upper bounds: $\bareintersectiontype{C_3}{\Any} = C_3$.
+Thus, the solving step succeeds with a valid substitution
+$\substxx{C_3}{P}{C_3}{Q}$:
+
+\smallskip
+\begin{figure}[h]
+\small
+\vspace*{-2em}
+\infrule
+  {
+\jsubtype[\denv]{C_2}{C_3}  \andalso
+    \jmatch{C_3}{\ob{\Bottom \extends P \extends \Any}}{P}{\bindcontra}{\biglistof{\listof{\Bottom}}}{\biglistof{\listof{C_3}}} \\[2pt]
+    \jsolve{\ob{\Bottom \extends P \extends \Any}}{\biglistof{\listof{C_1}}}{\biglistof{\listof{C_3}}}{\subst{C_3}{P}}
+  }
+  { \jsolve{\ob{\Bottom \extends P \extends \Any, P \extends Q \extends \Any}}{\biglistof{\listof{C_1,C_2}}}{\biglistof{\listof{\Any,C_3}}}{\substxx{C_3}{P}{C_3}{Q}} }
+\vspace*{-2em}
+\end{figure}
+
+\medskip
+\noindent
+As a result, the dispatch semipredicate on $d_2$ succeeds with
+$\substxx{C_3}{P}{C_3}{Q}$, and the method call expression
+is dispatched to the following instance of $d_2$:
+\begin{center}
+$D = \instantiate{d_2}{\substxx{C_3}{P}{C_3}{Q}}
+= \mathit{append}(x \COLON \kwd{List}\ob{C_3}, y \COLON \kwd{List}\ob{C_3}) \COLON \kwd{List}\ob{C_3} = \dontcare$
+\end{center}
+It shows that the dynamic overloading resolution selects an
+instance of the most specific applicable method declaration without any
+ambiguity, and the return type of the chosen instance is a subtype of
+the static return type, which means that the dynamic overloading
+resolution preserves type.
+
+
+\subsubsection{Correctness of Dispatch Semipredicate}\label{sec:prop}~\\
+We prove the soundness and completeness of the dispatch semipredicate
+by showing that each of its steps is sound and complete.
+
+We first show that the type matching step is sound and complete.
+
+The \textsf{match} rules compute sound bounds for method type parameters
+by matching a ground type $g$ against an internal type $\alpha$ according
+to a variance mark $V$.  That is, any substitution $\sigma$ satisfying
+the bounds makes $\sigma\alpha$ a supertype, a subtype, or an equivalent type of
+$g$ when $V$ is respectively $\bindco$, $\bindcontra$, or $\bindinv$.
+
+\begin{lemma}(Soundness of Type Matching)\\
+\label{lem:matchsound}
+Let $\rep{K=\lobindup{\rep{\chi}}{P}{\rep{\eta}}}$,
+$\jscope[\denv]{\obb{K}}$,
+$\jwftype[\denv]{g}$,
+$\jwftype[\denv\cup\setb{K}]{\alpha}$, and
+$\sigma=\substb{g'}{P}$ with $\rep{\jwftype[\same\denv]{g'}}$.
+% Suppose for all $\T$ and $\T'$,
+% \begin{center}
+% $\alpha\neq\T\context{\Bottom}$,
+% $\rep{(\same\alpha=\T\context{\naryuniontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$, and
+% $\rep{(\same\alpha=\T\context{\naryintersectiontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$.
+% \end{center}
+
+\begin{tabular}{l@{~}l}
+If &
+$\jmatch{g}{\obb{K}}{\alpha}{V}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}$,\\
+&
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{i}}}}{\listofb{\ubound_{\same{i}}}}$
+for some $1\leq i\leq \countofb{\listofb{\lbound}}=\countofb{\listofb{\ubound}}$, and\\
+&
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\biglistofb{\bigtypeunion \setb{\chi}}}{\biglistofb{\bigtypeintersection \setb{\eta}}}$,\\
+then &
+$\jcompare[\denv]{g}{\sigma\alpha}{V}$.
+\end{tabular}
+\end{lemma}
+
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+Suppose an internal type $\alpha$ do not contain $\Bottom$ and any union
+types and intersection types it contains do not contain any type
+parameters. For a ground type $g$ and a variance mark $V$, if a
+substitution $\sigma$ on $\listofb{P}$ makes $\sigma\alpha$ a supertype, a subtype, or an
+equivalent type of $g$ when $V$ is respectively $\bindco$, $\bindcontra$, or
+$\bindinv$, then the \textsf{match} rules find bounds of $\listofb{P}$
+that $\sigma$ satisfies.
+
+\begin{lemma}(Completeness of Type Matching)\\
+Let $\rep{K=\lobindup{\rep{\chi}}{P}{\rep{\eta}}}$,
+$\jscope[\denv]{\obb{K}}$,
+$\jwftype[\denv]{g}$,
+$\jwftype[\denv\cup\setb{K}]{\alpha}$, and
+$\sigma=\substb{g'}{P}$ with $\rep{\jwftype[\same\denv]{g'}}$.
+Suppose for all $\T$ and $\T'$,
+\begin{center}
+$\alpha\neq\T\context{\Bottom}$,
+$\rep{(\same\alpha=\T\context{\naryuniontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$, and
+$\rep{(\same\alpha=\T\context{\naryintersectiontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$.
+\end{center}
+\begin{tabular}{l@{~}l}
+If &
+$\jcompare[\denv]{g}{\sigma\alpha}{V}$
+and
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\biglistofb{\bigtypeunion \setb{\chi}}}{\biglistofb{\bigtypeintersection \setb{\eta}}}$,\\
+then &
+$\jmatch{g}{\obb{K}}{\alpha}{V}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}$ and\\
+&
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{i}}}}{\listofb{\ubound_{\same{i}}}}$
+for some $1\leq i\leq \countofb{\listofb{\lbound}}=\countofb{\listofb{\ubound}}$.
+\end{tabular}
+\label{lem:matchcomp}
+\end{lemma}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+A subtle point in Lemma~\ref{lem:matchcomp} is the assumptions on type $\alpha$.
+While the syntax of the \textsf{match} rules allows any internal types,
+each \textsf{match} rule is used only with $\alpha$ coming from method
+declarations.  The explicitly annotated types in method declarations are
+external types, which do not contain $\Bottom$, union types, nor
+intersection types.  On the contrary, inferred types for method type
+parameters may contain such internal types.  For instance, in the
+following example (in which type annotations appear for the two method calls):
+\[
+\begin{array}{lll}
+\kwd{object}\;O'\ob{Q} & m'(x \COLON Q) \COLON Q = \dontcare & \kwd{end}\\
+\kwd{object}\;O & m\ob{P}(x \COLON P, y \COLON P) \COLON P = O'\ob{P}.m'(x) \COLON P &
+\kwd{end}\\
+\lefteqn{O.m(\kwd{3}, \kwd{true}) \COLON \uniontype{\kwd{Int}}{\kwd{Boolean}}}
+\end{array}
+\]
+the method type parameter $P$ of $m$ is inferred as
+$\uniontype{\kwd{Int}}{\kwd{Boolean}}$ by the dispatch semipredicate
+at run time.  Since this inferred type then flows into the method
+declaration of $m'$, the ilk and the static type of method invocation
+expression of $m'$ are matched against the union type.  However, because
+our type system requires that both static and dynamic type inference
+algorithms instantiate type parameters with non-$\Bottom$ types,
+$\alpha$ does not contain $\Bottom$.  In addition, when $\alpha$
+contains union types or intersection types, all the type parameters in
+them are already instantiated with ground types.
+
+
+Next, we show the soundness and completeness of the solving step.
+
+The \textsf{solve} rules compute a valid substitution that satisfies
+both the declared bounds and computed bounds of method type parameters.
+
+\begin{lemma}(Soundness of Solving Bounds)\\
+Let $\rep{K=\lobindup{\rep{\chi}}{P}{\rep{\eta}}}$ and
+$\jscope[\denv]{\obb{K}}$.
+
+\begin{tabular}{l@{~}l}
+If &
+$\jsolve{\obb{K}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}{\sigma}$,\\
+then &
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{i}}}}{\listofb{\ubound_{\same{i}}}}$
+for some $1\leq i\leq \countofb{\listofb{\lbound}}=\countofb{\listofb{\ubound}}$
+and\\
+&$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\bigtypeunion \setb{\chi}}}{\listofb{\bigtypeintersection \setb{\eta}}}$.
+\end{tabular}
+\label{lem:solvesound}
+\end{lemma}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+If a valid substitution for method type parameters exists,
+then the \textsf{solve} rules find one.
+
+\begin{lemma}(Completeness of Solving Bounds)\\
+Let $\rep{K=\lobindup{\rep{\chi}}{P}{\rep{\eta}}}$,
+$\jscope[\denv]{\obb{K}}$, and
+$\sigma=\substb{g}{P}$ with $\rep{\jwftype[\same\denv]{g}}$.
+
+\begin{tabular}{l@{~}l}
+If &
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\bigtypeunion \setb{\chi}}}{\listofb{\bigtypeintersection \setb{\eta}}}$
+and
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$\\
+& for some $\rep{\lbound}$ and $\rep{\ubound}$,\\
+then &
+$\jsolve{\obb{K}}{\biglistofb{\listofb{\lbound'}}}{\biglistofb{\listofb{\ubound'}}}{\sigma'}$ for some $\sigma'$\\
+&
+where $\listofb{\lbound}=\listofb{\lbound'_{\same{i}}}$ and $\listofb{\ubound}=\listofb{\ubound'_{\same{i}}}$
+for some $1\leq i\leq \countofb{\listofb{\lbound'}}=\countofb{\listofb{\ubound'}}$.
+\end{tabular}
+\label{lem:solvecomp}
+\end{lemma}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+Finally, we prove that the dispatch semipredicate is sound and complete.
+
+If the dispatch semipredicate on a method declaration $d$ for an ilk
+$k$ and a static return type $g$ succeeds,
+then $d$ is dispatchable to $k$ and $g$.
+
+\begin{theorem}(Soundness of Dispatch Semipredicate)\\
+Let\ \
+$\jwftype[\denv]{k}$,
+$\jwftype[\denv]{g}$,
+$\rep{K=\lobindup{\rep{\chi}}{P}{\rep{\eta}}}$,
+$\jscope[\denv]{\obb{K}}$,
+$\arrow(d)=\foralltypeb{K}{\arrowtype{\alpha}{\rho}}$,
+$\jwftype[\denv\cup\setb{K}]{\alpha}$, and
+$\jwftype[\denv\cup\setb{K}]{\rho}$.
+
+\begin{tabular}{l@{~}l}
+If &
+$\jfancydispatch{k}{g}{d}{\sigma}$,\\
+then &
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\bigtypeunion \setb{\chi}}}{\listofb{\bigtypeintersection \setb{\eta}}}$,
+$\jsubtype[\denv]{k}{\sigma\alpha}$,
+and
+$\jsubtype[\denv]{\sigma\rho}{g}$.
+\end{tabular}
+\label{thm:dispatchsound}
+\end{theorem}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+If a method declaration $d$ is dispatchable to an ilk $k$ and a static
+return type $g$, then the dispatch semipredicate on $d$ for $k$ and $g$
+succeeds.
+
+\begin{theorem}(Completeness of Dispatch Semipredicate)\\
+Let $\rep{K=\lobindup{\rep{\chi}}{P}{\rep{\eta}}}$,
+$\jscope[\denv]{\obb{K}}$,
+$\sigma=\substb{g'}{P}$ with $\rep{\jwftype[\same\denv]{g'}}$,
+$\jwftype[\denv]{k}$,
+$\jwftype[\denv]{g}$,
+$\arrow(d)=\foralltypeb{K}{\arrowtype{\alpha}{\rho}}$,
+$\jwftype[\denv\cup\setb{K}]{\alpha}$, and
+$\jwftype[\denv\cup\setb{K}]{\rho}$.
+
+\begin{tabular}{l@{~}l}
+If &
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\bigtypeunion \setb{\chi}}}{\listofb{\bigtypeintersection \setb{\eta}}}$,
+$\jsubtype[\denv]{k}{\sigma\alpha}$,
+and
+$\jsubtype[\denv]{\sigma\rho}{g}$,\\
+then &
+$\jfancydispatch{k}{g}{d}{\sigma'}$ for some $\sigma'$.
+\end{tabular}
+\label{thm:dispatchcomp}
+\end{theorem}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+
+\subsection{Type Soundness of FGFV}\label{sec:sound}
+We now prove the type soundness of FGFV.
+First, we show that for any applicable method declaration instance
+for a given method invocation, we can find an instance of
+the most specific method declaration whose return type is
+a subtype of the return type of the applicable instance.
+\begin{lemma}(Existence of a Type-safe Most Specific Method Instance)\\
+\label{lem:instance}
+Let $\setb{d_0'}=\visible{\tuple{C,m}}$ for $\jwftype{C}$, and
+$\tuple{d_0,\setb{\sigma_0}}\in\applicable{\setb{d_0'}}{\alpha}$
+and
+$\tuple{d,\setb{\sigma}}\in\mostspecific{\applicable{\setb{d_0'}}{\alpha}}$
+for $\jwftype{\alpha}$ and $\alpha\neq\Bottom$.
+
+\begin{tabular}{l@{~}l}
+If & $\,D_0\in \bigsetb{\instantiate{\same{d_0}}{\sigma_0}}$
+with
+$\arrow(D_0)=\foralltype{}{\arrowtype{\dontcare}{\rho_0}}$,\\
+then &
+$\,\exists\;D\in\bigsetb{\instantiate{\same{d}}{\sigma}}$
+with
+$\arrow(D)=\foralltype{}{\arrowtype{\dontcare}{\rho}}$
+such that $\jsubtype{\rho}{\rho_0}$.
+\end{tabular}
+\end{lemma}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+Next, we show that no matter which applicable method instance we choose
+for a method invocation expression at compile time, there exists
+a type-safe most specific method instance at run time.
+\begin{lemma}(Existence of a Type-safe Most Specific Method Instance at Run Time)\\
+\label{lem:runtimeinstance}
+Let
+$\setb{d_0'}=\visible{\tuple{C,m}}$ and $\setb{d'}=\visible[\denv]{\tuple{G,m}}$
+for $\jwftype{C}$, \mbox{$\jwftype[\denv]{G}$}, and $\Delta = \denv \cup \set{\rep{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}}$.
+Also, let
+$\tuple{d_0,\setb{\sigma_0}}\in\applicable{\setb{d_0'}}{\alpha}$
+for \mbox{$\jwftype{\alpha}$} and $\alpha\neq\Bottom$, and
+$\tuple{d,\setb{\sigma}}\in\mostspecific[\denv]{\applicable[\denv]{\setb{d'}}{k}}$
+for $\jwftype[\denv]{k}$
+with
+\mbox{$\jsubtype[\denv]{G}{\sigma C}$} and $\jsubtype[\denv]{k}{\sigma\alpha}$
+for
+$\sigma=\substb{g'}{P}$ with
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\bigtypeunion \bdb{\chi}}}{\listofb{\bigtypeintersection \bdb{\eta}}}$
+and $\rep{\jwftype[\same{\denv}]{g'}}$.
+
+\begin{tabular}{l@{~}l}
+If &
+$D_0\in\bigsetb{\instantiate{\same{d_0}}{\sigma_0}}$
+with
+$\arrow(D_0)=\foralltype{}{\arrowtype{\dontcare}{\rho_0}}$
+\\
+then &
+$\exists\;D\in\bigsetb{\instantiate{\same{d}}{\sigma}}$
+with
+$\arrow(D)=\foralltype{}{\arrowtype{\dontcare}{h}}$
+such that $\jsubtype[\denv]{h}{\sigma\rho_0}$.
+\end{tabular}
+\end{lemma}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+We now show that if a type-safe most specific method instance exists,
+the \textit{firstDispatchable} rule finds one. This lemma follows from
+the soundness and completeness of the dispatch semipredicate.
+
+\begin{lemma}(Validity of the firstDispatchable Rule)\\
+\label{lem:fstdisp}
+Let $\setb{d'}=\visible[\denv]{\tuple{G,m}}$ for $\jwftype[\denv]{G}$.
+
+\begin{tabular}{l@{~}l}
+If &
+$\tuple{d,\setb{\sigma}}\in\mostspecific[\denv]{\applicable[\denv]{\setb{d'}}{k}}$
+for $\jwftype[\denv]{k}$
+and
+$D\in\bigsetb{\instantiate{\same{d}}{\sigma}}$\\
+& with
+$\arrow(D)=\foralltype{}{\arrowtype{\dontcare}{h}}$
+and
+$\jsubtype[\denv]{h}{g}$ for $\jwftype[\denv]{g}$,
+\\
+then &
+$\firstdispatchable[\denv]{\topologicalsort[\denv]{\setb{d'}}}{k}{g}=D_1$\\
+& with
+$D_1\in\bigsetb{\instantiate{\same{d}}{\sigma}}$,
+$\arrow(D_1)=\foralltype{}{\arrowtype{h_1}{h_2}}$,
+$\jsubtype[\denv]{k}{h_1}$,
+and
+$\jsubtype[\denv]{h_2}{g}$.
+\end{tabular}
+\end{lemma}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+Finally, we prove the type soundness of FGFV.
+Since the main focus of this paper is resolution of overloaded method
+invocation and the other cases are conventional, we prove only the
+method invocation case: a well-typed method invocation
+can be reduced via \rncite{R-Method} and the reduced expression preserves
+the type of the method invocation.
+
+\begin{theorem}(Type Soundness of Method Invocation Expression)\\
+\label{thm:soundinvok}
+Let
+$\listofb{d} = \topologicalsort[\denv]{\visible[\denv]{\tuple{O\obb{g''},m}}}$
+for 
+\mbox{$\objectdecl{O}{\dontcares}{\rep{x\COLON\dontcare}}{\dontcares}{\dontcares}\in\denv$} and
+$\jwftype[\denv]{O\obb{g''}}$. 
+
+\begin{tabular}{l@{~}l}
+If &
+$\,\jtype[\denv;\emptyseq]{O\obb{g''}(\bar{v}).m(\rep{v'})}{\tuple{\dontcare,g}}$,\\
+then &
+$(\dontcare, \methoddef{m}{}{\rep{x'\COLON \dontcare}}{\dontcare}{\epsilon})=\firstdispatchable[\denv]{\listofb{d}}{\tuple{O\obb{g''},\bar{\ilk{v'}}}}{g}$\\
+and &
+\mbox{$\jtype[\denv;\emptyseq]{\subst{O\obb{g''}(\bar{v})}{\kwd{self}}\substb{v}{x}\substb{v'}{x'}\epsilon}{\tuple{\dontcare,g'}}$}
+with
+$\jsubtype[\denv]{g'}{g}$.
+\end{tabular}
+\end{theorem}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+\begin{theorem}(Type Soundness of FGFV)\\
+\label{thm:typesoundness}
+If
+$\,\jtype[\denv;\emptyseq]{e}{\tuple{\epsilon,g}}$
+and
+$\jevalstar[\denv]{\epsilon}{v}$, then
+$\jtype[\denv;\emptyseq]{v}{\tuple{\dontcare,g'}}$
+and
+$\jsubtype[\denv]{g'}{g}$.
+\end{theorem}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+
+\subsection{Discussion}\label{sec:discuss}
+Defining a provable system for an object-oriented language requires addressing
+various technical challenges due to the structural asymmetries inherent
+in the language design.  One can have a variable of type $\Any$,
+but one cannot have a variable of type $\Bottom$.  The ilk of an actual
+argument must be a subtype, not a supertype, of the method's parameter
+type.  The ilk of a returned value must be a subtype, not a supertype, of
+the method's return type.  A trait may declare ancestors but not
+descendants.  Such asymmetries prohibit
+seemingly symmetric features from being treated as duals.  One might think
+at first glance that upper bounds and lower bounds of type parameters
+should be related symmetrically (perhaps treated as duals), but they cannot be.
+
+For example, the ``Ancestor Meet Rule''
+(expressed in this paper by rule \rncite{Anc-Same-Trait}) was introduced
+into Fortress in 2012 by Guy Steele and David Chase~\cite{dchase12} to
+design an expressive type system with union and intersection types.  This rule
+permits proofs that (a)~if $T\ob{P}$ is covariant in $P$ then
+$T\ob{\intersectiontype{\alpha}{\alpha'}}\equiv \intersectiontype{T\ob{\alpha}}{T\ob{\alpha'}}$, and
+(b)~if $T\ob{P}$ is contravariant in $P$ then
+$T\ob{\uniontype{\alpha}{\alpha'}}\equiv \intersectiontype{T\ob{\alpha}}{T\ob{\alpha'}}$
+(that last set operator is indeed $\sqcap$, not $\sqcup$).
+These equivalences allow simplification of type expressions by moving type union
+and type intersection operators out of type arguments.
+However, the ``obvious other two cases'' are not available.
+When $T\ob{P}$ is covariant in $P$, $T\ob{\uniontype{\alpha}{\alpha'}}$
+is not equivalent to some simple combination of $T\ob{\alpha}$ and $T\ob{\alpha'}$;
+the best one can say is that $\uniontype{T\ob{\alpha}}{T\ob{\alpha'}} \subtypeof T\ob{\uniontype{\alpha}{\alpha'}}$.
+
+In 2012, the developers of Fortress explored an alternate set of language restrictions
+that exploited these asymmetries to ensure that exponential blowup could occur at run time
+only when union types interacted with contravariance (the dual case of intersection types
+interacting with covariance could not occur).  They then
+contemplated two alternatives for avoiding the exponential blowup.
+One possibility is to eliminate contravariant type parameters and contravariant type relationships.
+This has the consequence that arrow types must be treated as invariant, rather than contravariant,
+in the type to the left of the arrow.
+This could make it inconvenient to use higher-order functions such as
+$\mathit{map}$, but one can compensate by introducing rules of
+coercion, so that if a function of type $\arrowtype{\alpha}{\rho}$ is
+used in a situation where a function of type $\arrowtype{\alpha'}{\rho'}$ is required,
+it can be coerced to a new function object if $\alpha'\subtypeof\alpha$ and $\rho\subtypeof\rho'$.
+The other possibility is to eliminate union types from the type
+theory; this might require restricting the language so that, for
+example, in an \texttt{if}-\texttt{then}-\texttt{else}
+expression, the type of the $\texttt{then}$ subexpression must be
+either a supertype or a subtype of the $\texttt{else}$ subexpression.
+Alternatively, some sort of pseudo-join (least common existing supertype) operation could be used.
+One could go even further, also eliminating intersection types from the type theory
+by further restricting the language and possibly using a pseudo-meet operation.
+
+% In this paper, we carefully designed the dynamic dispatch algorithm to
+% make a balanced tradeoff between static expressivity and dynamic
+% efficiency.  We accept the potential for exponential blowup during
+% dynamic dispatch because we believe that such cases are unlikely to
+% arise in practice and the use of union and intersection types in the
+% type theory, even if not directly expressible by the programmer, makes
+% the language more expressive.  Also, while one could in principle
+% allow any lower bound to refer to any type parameter, dynamic
+% overloading resolution would then have to solve a general set of type
+% inequalities, requiring a complex technique with multiple iterations;
+% we chose instead to impose left-to-right scoping on method type
+% parameters, so as to allow the use of a simple, one-pass right-to-left scan.
+
+We carefully designed our dynamic dispatch algorithm to
+make a balanced tradeoff between static expressivity and dynamic
+efficiency.  We accept the potential for exponential blowup
+% during dynamic dispatch
+because we believe that such cases are unlikely to
+arise in practice and the use of union and intersection types in the
+type theory, even if not directly expressible by the programmer, makes
+the language more expressive.  Also, while one could in principle
+allow any lower bound to refer to any type parameter, dynamic
+overloading resolution would then have to solve a general set of type
+inequalities, requiring a complex technique with multiple iterations;
+we chose instead to impose left-to-right scoping on method type
+parameters, allowing use of a simple, one-pass right-to-left scan.
+We believe this tradeoff represents a relatively small sacrifice of expressivity for
+a large gain in dynamic efficiency.
+
+Dynamically inferring type instantiations can incur run-time overhead.
+In simple invariant cases, we expect the run-time cost to be relatively low but nonzero.
+For example, if we pass a value of type \texttt{List$\ob{\texttt{String}}$} to a method such as
+\textit{foo}$\ob{T}$\texttt{($x$:List$\ob{T}$)},
+$T$ is matched only once and no union or intersection types are involved.
+If \texttt{List} is invariant in $T$, it will come down to extracting the type \texttt{String}
+from the type \texttt{List$\ob{\texttt{String}}$} and binding $T$ to that.
+For more costly covariant and contravariant cases,
+as in certain JVM implementations, such techniques as caching or dynamic recompilation
+in reaction to the relative frequencies of types actually encountered may help.
+
+The biggest challenge we faced in trying to find a provable system was
+grappling with the language asymmetries described above and trying to
+understand their consequences.  In particular, the Fortress team had
+assumed, because it seemed from several working examples to be in accord
+with intuition, that once the tightest possible upper and lower bounds
+for a method type parameter have been found, then the union
+(or pseudo-union) of the lower bounds should be chosen as the type to be used for that type parameter.
+% But we were unable to complete the proofs of correctness presented here until we abandoned that assumption.
+% We then considered the hybrid technique of using the intersection of upper bounds only when
+% the union of lower bounds is \Bottom, but we were unable to get that to work either.
+% That is why the dynamic dispatch algorithm presented here always chooses the intersection of the upper bounds.
+% It remains an open question whether there is a provably correct dynamic dispatch technique that
+% chooses the union of the lower bounds.
+We considered this and the hybrid technique of using the intersection of upper bounds only when
+the union of lower bounds is \Bottom, but we were unable to
+complete the proofs of correctness of both the techniques.
+Since the minimum requirement for a type to instantiate a method type parameter
+is that it satisfies all the lower and upper bounds of the type parameter,
+the dynamic dispatch algorithm presented here always chooses
+the intersection of the upper bounds.
+
+In the work presented here, as in previous work, one of the most difficult parts
+is finding the necessary substitution $\sigma$ to satisfy the rule \rncite{E-Sub} for existential
+subtyping during static analysis.  This is more difficult than the corresponding calculation
+during dynamic dispatch because at run time one always matches an ilk (which contains no
+type parameters) to a type, but at compile time one must match a type against a type,
+where each type may contain type parameters.
+Indeed, we do not present a specific static type inference
+algorithm that finds the substitution $\sigma$ in rule \rncite{E-Sub},
+but only refer to previous work in this area.
+However, we conjecture that the \textsf{match} rule presented here can
+serve this role after being extended to handle the case of matching
+two type parameters.

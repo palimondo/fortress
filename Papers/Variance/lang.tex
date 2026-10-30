@@ -1,0 +1,559 @@
+\section{Language}\label{sec:lang}
+In this section, we define the abstract syntax of FGFV and its well-formedness requirements.
+
+\subsection{Notation}
+
+Following, for example, \citet{vytiniotis13} and \citet{coughlin14}, we use an overline above mathematical material to
+indicate an appropriately punctuated sequence of zero or more repetitions of the material, with a subscript added
+to each metavariable in the material. Thus $\set{\rep{\alpha}}$ is equal to $\set{\alpha_1,\alpha_2,\ldots,\alpha_n}$.
+Sometimes we write $\bullet$ as an explicit indication of an empty sequence.
+Overlines may be nested, in which case they are expanded outermost first, so
+``$\bigobb{\lobindup{\rep{\zeta}}{Q}{\rep{\xi}}}$'' expands first to
+``$\bigob{\lobindup{\rep{\zeta_1}}{Q_1}{\rep{\xi_1}},\lobindup{\rep{\zeta_2}}{Q_2}{\rep{\xi_2}},\ldots,\lobindup{\rep{\zeta_n}}{Q_n}{\rep{\xi_n}}}$''
+and then to
+\newcommand\subfixup[1]{{\setbox0\hbox{$\scriptstyle 2$}\hbox to \wd0{$\scriptstyle #1$\hss}}}
+\newcommand\subsubfixup[1]{{\setbox0\hbox{$\scriptscriptstyle 2$}\hbox to \wd0{$\scriptscriptstyle #1$\hss}}}
+$$\begin{array}{@{}r@{}l@{}}
+{\llbracket\;}&\bd{\zeta_{1\,1},\zeta_{1\,2},\ldots,\zeta_{1\,k_1}}\extends{Q_1}\extends\bd{\xi_{1\,1},\xi_{1\,2},\ldots,\xi_{1\,m_1}}, \\
+         &\bd{\zeta_{2\,1},\zeta_{2\,2},\ldots,\zeta_{2\,k_2}}\extends{Q_2}\extends\bd{\xi_{2\,1},\xi_{2\,2},\ldots,\xi_{2\,m_2}}, \\
+         &\ldots, \\
+         &\bd{\zeta_{\subfixup{n}\,1},\zeta_{\subfixup{n}\,2},\ldots,\zeta_{\subfixup{n}\,k_{\subsubfixup{n}}}}\extends{Q_\subfixup{n}}\extends\bd{\xi_{\subfixup{n}\,1},\xi_{\subfixup{n}\,2},\ldots,\xi_{\subfixup{n}\,m_{\subsubfixup{n}}}}\;\rrbracket
+\end{array}$$
+(conceptually all on one line, broken here for reasons of space).
+The copies of each inner overline expand independently, so the sequences into which they expand may have different lengths; thus
+``$\bigobb{\lobindup{\rep{\zeta}}{Q}{\rep{\xi}}}$'' could expand into, e.g.,
+``$\llbracket\bd{\zeta_{1\,1},\zeta_{1\,2}}\extends{Q_1}\extends\bd{\xi_{1\,1}},
+         \bd{}\extends{Q_2}\extends\bd{\xi_{2\,1},\xi_{2\,2},\xi_{2\,3}}\rrbracket$''.
+
+\newcommand\declsep{\hskip 1.5em}
+Following a suggestion of Steele~\citeyearpar[0:59:37]{NEW-OLD-LANGUAGE},
+we use an underline below submaterial within overlined material to prevent an 
+overline from attaching subscripts to the metavariables in the submaterial;
+the effect is to require the underlined material to be the same in each copy.
+Thus ``$\rep{\jwfdecl[\same{\Delta}]{\psi}}$'' represents the sequence
+``$\jwfdecl[\Delta]{\psi_1}\declsep\jwfdecl[\Delta]{\psi_2}\declsep\cdots\declsep\jwfdecl[\Delta]{\psi_n}$''
+for any $n \geq 0$.  Similarly
+$\rep{\rep{\jwftype[\same{\same{\Delta'}}]{\xi}}}$ expands to
+``$\rep{\jwftype[\same{\Delta'}]{\xi_1}}\declsep\rep{\jwftype[\same{\Delta'}]{\xi_2}}\declsep\cdots\declsep\rep{\jwftype[\same{\Delta'}]{\xi_n}}$''
+and then to
+$$\begin{array}{@{}l@{\declsep}l@{\declsep}l@{\declsep}l@{}}
+\jwftype[\Delta']{\xi_{1\,1}}&\jwftype[\Delta']{\xi_{1\,2}}&\cdots&\jwftype[\Delta']{\xi_{1\,m_1}} \\
+\jwftype[\Delta']{\xi_{2\,1}}&\jwftype[\Delta']{\xi_{2\,2}}&\cdots&\jwftype[\Delta']{\xi_{2\,m_2}} \\
+\ldots \\
+\jwftype[\Delta']{\xi_{\subfixup{n}\,1}}&\jwftype[\Delta']{\xi_{\subfixup{n}\,2}}&\cdots&\jwftype[\Delta']{\xi_{\subfixup{n}\,m_{\subsubfixup{n}}}}
+\end{array}$$
+The overline notation may explicitly bind index variables by using a range expression.
+In such cases, the index variables may appear explicitly in the covered material,
+and subscripts are not automatically attached to metavariables.  For example,
+$\bigl(\rep{m(e_i)}[3\leq i\leq 6]\bigr)$ means $(m(e_3),m(e_4),m(e_5),m(e_6))$.
+
+Metavariables are expanded \emph{after} overlines.  Multiple occurrences of a metavariable with the same
+subscript(s) must have the same expansion, but occurrences of a metavariable with different subscript(s)
+may be expanded independently.  Thus ``$\bigobb{\lobindup{\rep{\zeta}}{Q}{\rep{\xi}}}$'' might ultimately expand into, e.g.,
+``$\llbracket\bd{\TYP{A},\TYP{B}}\extends{\TYP{U}}\extends\bd{\TYP{List}\ob{\TYP{Boolean}}},
+         \bd{}\extends{\TYP{V}}\extends\bd{\Any,\TYP{C},\TYP{Number}}\rrbracket$''.
+
+We use horizontal lines as overlines and underlines, but also in the usual Gentzen notation
+for inference rules, with premises above the line and the conclusion below.
+To help reduce confusion: (1)~we use a slightly heavier and wider line for inference rules;
+(2)~the line for inference rules has more space above and below it;
+(3)~we do not use the inference rule notation for axioms (rules that have no premises); and
+(4)~we do not nest the inference rule notation to present derivation trees.
+
+
+
+\subsection{Syntax}\label{sec:grammar}
+\begin{figure}[t]
+\leavevmode
+\small
+\begin{array}[t]{lrll@{\hskip1ex}l}
+\desc{Program} &\Pi      & ::= &  \multicolumn{2}{l}{\rep{\psi}, e}\\
+\desc{Class declaration} &\psi     & ::= &  \multicolumn{2}{l}{\traitdecl{T}{\rep{V\;\beta}}{\rep{t}}{\rep{\mu}}                     
+~\mid~\objectdecl{O}{\rep{\beta}}{\rep{x\COLON \tau}}{\rep{t}}{\rep{\mu}}}\\
+\desc{Method definition} &\mu      & ::= &  \multicolumn{2}{l}{\methoddef{m}{\rep{\kappa}}{\rep{x\COLON\tau}}{\tau}{e}}\\
+\desc{Class type parameter binding} &\beta    & ::= &  \multicolumn{2}{l}{\bindup{P}{\rep{\tau}}}\\
+\desc{Method type parameter binding} &\kappa   & ::= &  \multicolumn{2}{l}{\lobindup{\rep{\tau}}{P}{\rep{\tau}}}\\
+\desc{Variance mark} &V        & ::= &  \bindco &~\mid~ \bindcontra~\mid~\bindinv\\
+\desc{Expression} &e      & ::= &  z
+&~\mid~ ((\bar{x\COLON\tau})\COLON\tau \Rightarrow e)
+~\mid~ e\apply(\bar{e})
+~\mid~  O\obb{\tau}(\bar{e})
+~\mid~  e.m(\rep{e})\\
+\desc{Bindable variable} &z        & ::= &  x &~\mid~ \kwd{self}\\
+\desc{Type} &\tau & ::= &  P
+&~\mid~ c
+~\mid~(\rep{\tau})
+~\mid~\arrowtype{\tau}{\tau}
+~\mid~\Any\\
+\desc{Constructed type} &c        & ::= &  t
+&~\mid~O\obb{\tau}\\
+\desc{Trait type} &t        & ::= &  \multicolumn{2}{l}{T\obb{\tau}}
+\end{array}
+\vspace*{-.5em}
+\caption{Abstract syntax of FGFV}
+\label{fig:grammar}
+\end{figure}
+
+Figure~\ref{fig:grammar} shows the syntax of the FGFV calculus.
+Metavariables $T$ and $U$ range over trait names;
+$O$ ranges over object names;
+$x$ ranges over variable and field names;
+$z$ is either $x$ or the keyword $\KWD{self}$;
+$m$ ranges over method names;
+$P$, $Q$, $S$ range over type parameter names;
+and $\tau$, $\omega$, $\zeta$, $\xi$ range over types.
+
+A program consists of a sequence of class declarations and
+a top-level expression.
+A class is either a trait or an object;
+traits are like Java interfaces that do not have any fields, and
+objects are like Java final classes that cannot be extended.
+A trait may have type parameters with variance annotations and
+upper bounds, extend any number of other traits, and have method definitions.
+An object is similar to a trait except that (1)~its type parameters do
+not have variance annotations because they are always invariant, and
+(2)~it may have fields, which are initialized when an object instance is
+created.  When a class does not extend any trait, we omit the
+empty extends clause $\extends \bigbd{}$.
+When a class has no type parameters, we omit the
+empty brackets; we write $T$ for $T\ob{}$.
+A method may have type parameters as well, but they have both
+lower and upper bounds.
+We omit clauses when no bounds are specified; for example,
+we write $T\ob{\bindco \; P}$ for $T\ob{\bindco \; \bindup{P}{}}$ and
+$m\ob{Q,\bd{Q} \extends S}$ for $m\ob{\lobindup{}{Q}{}, \lobindup{Q}{S}{}}$.
+By default, each type parameter has an upper bound $\Any$ and a
+lower bound $\Bottom$, which we describe in the next subsection.
+
+The bounds of a type parameter place restrictions on valid instantiations
+of the type parameter; a valid type instantiation must be a subtype of
+all its upper bounds and, at the same time, a supertype of
+all its lower bounds, if any.
+We write $\bindco$ for covariance, $\bindcontra$ for
+contravariance, and $\bindinv$ for invariance.  As discussed in
+Section~\ref{sec:motiv:fgfv}, variance annotations of type parameters define
+subtype relations between different instances of a generic trait.
+For example, consider the following trait declarations:\\[-.5em]
+\[
+\begin{array}{l}
+\kwd{trait} \; U_1 \; \dontcares \; \kwd{end}\\
+\kwd{trait} \; U_2 \extends \bigbd{U_1} \; \dontcares \; \kwd{end}\\
+\kwd{trait} \; T \bigob{\bindco \; P, \bindcontra \; Q, \bindinv \; S} \;
+\dontcares \; \kwd{end}
+\end{array}
+\]
+where ``$\dontcares$'' denotes omitted material.
+Because $U_2$ is a subtype of $U_1$,
+the variance annotations of the type parameters of $T$ define
+subtype relations such as $T\ob{U_2, U_1, U_1} \subtypeof T\ob{U_1, U_2, U_1}$.
+
+\begin{figure}[t]
+\small
+\newjudge{Well-formed programs}{\jtype[]{\Pi}{g}}
+
+\infrule[T-Program]
+  { \Pi = \bar{\psi},e  \andalso
+    \mathit{distinct}(\rep{\mathit{name}(\psi)})  \andalso
+    \Delta = \setb{\psi}  \andalso
+    \rep{\jwfdecl[\same{\Delta}]{\psi}}  \andalso
+    \jtype[\Delta;\emptyseq]{e}{\expty{\dontcare}{g}} }
+  { \jtype[]{\Pi}{g} }
+
+\newjudge{Well-formed trait and object declarations}{\jwfdecl{\psi}}
+
+{\showboxdepth=20\showboxbreadth=20
+
+\infrule[D-Trait]
+  { \Delta' = \Delta \cup \bigsetb{\lobindup{}{P}{\rep{\xi}}}  \andalso
+    \mathit{distinct}(\rep{P})  \andalso
+    \rep{\rep{\jwftype[\same{\same{\Delta'}}]{\xi}}}  \andalso
+    \rep{\jwftype[\same{\Delta'}]{t}}  \\[2.5pt]
+    \setb{J} = \properancestors[\Delta']{T\obb{P}}  \andalso
+    \rep{\jancestormeetrule[\Delta'; \rep{J}]{J_i}{J_j}}[1 \leq i < j \leq \countofb{J}] \\[3.5pt]
+    \rep{\same{T} \neq \mathit{name}(J)}  \andalso
+    \rep{\jwfmeth[\same{\Delta';\kwd{self}\COLON T\bigobb{P};\rep{V\;P}}]{\mu}}  \andalso
+    \setb{d} = \allvisible[\Delta']{T\obb{P}}  \\[3.5pt]
+    \rep{\jnoduplicatesrule[\Delta']{d_i}{d_j}}[1 \leq i < j \leq \countofb{d}]  \andalso
+    \rep{\jmethodmeetrule[\Delta']{d_i}{d_j}{\setb{d}}}[1 \leq i < j \leq \countofb{d}] \\[3pt]
+    \rep{\jreturntyperule[\Delta']{d_i}{d_j}}[1 \leq i < j \leq \countofb{d}] \andalso
+    \rep{\jreturntyperule[\Delta']{d_j}{d_i}}[1 \leq i < j \leq \countofb{d}]
+    }
+  { \jwfdecl{\traitdecl{T}{\rep{\bindup{V\;P}{\rep{\xi}}}}{\rep{t}}{\rep{\mu}}} }
+
+}
+
+\infrule[D-Object]
+  { \Delta' = \Delta \cup \bigsetb{\lobindup{}{P}{\rep{\xi}}}  \andalso
+    \mathit{distinct}(\bar{P})  \andalso
+    \rep{\rep{\jwftype[\same{\same{\Delta'}}]{\xi}}}  \andalso
+    \rep{\jwftype[\same{\Delta'}]{t}}  \\[2.5pt]
+    \setb{J} = \properancestors[\Delta']{O\obb{P}}  \andalso
+    \rep{\jancestormeetrule[\Delta'; \rep{J}]{J_i}{J_j}}[1 \leq i < j \leq \countofb{J}]  \\[3.5pt]
+    \rep{\jwfmeth[\same{\Delta';\kwd{self}\COLON O\bigobb{P},\bar{x\COLON\tau};\rep{\bindinv\;P}}]{\mu}} \andalso
+    \setb{d} = \allvisible[\Delta']{O\obb{P}}  \\[3.5pt]
+    \rep{\jnoduplicatesrule[\Delta']{d_i}{d_j}}[1 \leq i < j \leq \countofb{d}]  \andalso
+    \rep{\jmethodmeetrule[\Delta']{d_i}{d_j}{\setb{d}}}[1 \leq i < j \leq \countofb{d}] \\[3pt]
+    \rep{\jreturntyperule[\Delta']{d_i}{d_j}}[1 \leq i < j \leq \countofb{d}] \andalso
+    \rep{\jreturntyperule[\Delta']{d_j}{d_i}}[1 \leq i < j \leq \countofb{d}] \\[3pt]
+    \jbwftype[\Delta']{\tau}  \andalso
+    \mathit{distinct}(\bar{x})
+    }
+  { \jwfdecl{\objectdecl{O}{\rep{\bindup{P}{\rep{\xi}}}}{\rep{x\COLON\tau}}{\rep{t}}{\rep{\mu}}} }
+
+\newjudge{Well-formed method declarations}{\jwfmeth{\mu}}
+
+\infrule[D-Method]
+  {
+    \jscope{\bigobb{\lobindup{\rep{\zeta}}{Q}{\rep{\xi}}}} \andalso
+    \Delta' = \Delta \cup \bigsetb{\lobindup{\rep{\zeta}}{Q}{\rep{\xi}}} \andalso
+\jbbwftype[\Delta']{\zeta} \andalso
+    \jbbwftype[\Delta']{\xi} \\[3pt]
+    \mathit{distinct}(\bar{x})  \andalso
+    \rep{\jwftype[\same{\Delta'}]{\tau}}  \andalso  \jwftype[\Delta']{\omega} \andalso
+    \jtype[\Delta';\Gamma,\bar{x\COLON\tau}]{e}{\expty{\dontcare}{\rho}}  \andalso
+\jsubtype[\Delta']{\rho}{\omega} \\[3pt]
+    \mathit{distinct}(\bar{P},\bar{Q})  \andalso
+    \rep{(V = \bindinv)\lor(\forall \T.\ (\same{\arrowtype{(\rep{\tau})}{\omega}}\neq\T\context{P}) \lor (\jcontextvar[\same{\Delta}]{\T}{V}))} }
+  { \jwfmeth{\methoddef{m}{\rep{\lobindup{\rep{\zeta}}{Q}{\rep{\xi}}}}{\rep{x\COLON\tau}}{\omega}{e}} }
+
+\vspace*{-1.5em}
+\caption{Well-formed programs, class declarations, and method declarations}
+\label{fig:wellformed}
+\end{figure}
+
+Expressions and types are conventional.
+One can refer to a field or bound variable simply by mentioning it;
+the keyword $\KWD{self}$ refers to the target object for the currently executing method.
+Functions are first-class values; $((\bar{x\COLON\tau})\COLON\tau \Rightarrow e)$
+is a (typed) function constructor,
+and we write $e\apply(\bar{e})$ for
+function calls.  An object creation $O\obb{\tau}(\bar{e})$ makes an
+instance of $O$ by instantiating its type parameters with $\bar{\tau}$ and
+initializing its fields with the values of $\bar{e}$.
+While tuples are not first-class values in FGFV (they would be trivial to add,
+but are not needed for our purposes), we use tuple types $(\rep{\tau})$
+to denote the domain types of functions and methods, which may have multiple parameters.
+The type $\Any$ is a supertype of every type (and $\Bottom$, used below, is a subtype of every type but is intentionally not expressible in the surface syntax).
+
+
+\subsection{Well-formedness}\label{sec:wellformed}
+
+We define well-formedness of a program and its declarations as shown in
+Figure~\ref{fig:wellformed}.
+A type-declaration environment $\Delta$ is a set of class declarations and
+type parameter bindings, and
+a variable-type environment $\Gamma$ is a sequence of bindable variables
+and their types.  Checking well-formedness may introduce
+\textit{internal types}:
+\begin{center}
+$\descsm{Internal type} \quad \alpha~::= P~\mid~C~\mid~\tupleb{\alpha}~\mid~
+\arrowtype{\alpha}{\alpha}~\mid~\Any~\mid~\Bottom~\mid~
+\uniontype{\alpha}{\alpha}~\mid~\intersectiontype{\alpha}{\alpha}$
+\end{center}
+which contain $\Bottom$, union types, and intersection types.
+Type $\Bottom$ is a subtype of every type; hence, $\Any$ and $\Bottom$
+are the top and bottom, respectively, of the type lattice.
+Metavariables $\alpha, \gamma, \rho, \chi, \eta$ range over internal types.
+We introduce metavariables $K$, $C$, $J$, and $M$,
+analogous to $\kappa$, $c$, $t$, and $\mu$, respectively, where 
+types $\tau$ in the latter are replaced by internal types $\alpha$ in the former.
+
+Rule \rncite{T-Program} states that a program is well-formed
+if its class declarations have distinct names and are well-formed, and
+its top-level expression is well-formed.
+%%% The following material has been obsoleted by new section on notation.
+% We write $\emptyseq$ for an empty sequence.
+% Following a suggestion of Steele~\citeyearpar[0:59:37]{NEW-OLD-LANGUAGE},
+% we use
+% an underline below submaterial within overlined material to prevent the 
+% overline from attaching subscripts to the metavariables in the submaterial;
+% hence, $\rep{\jwfdecl[\same{\Delta}]{\psi}}$ represents the sequence
+% $\Delta\vdash\psi_1\, \mathsf{ok}\ \ \Delta\vdash\psi_2\, \mathsf{ok}\ \cdots\ \Delta\vdash\psi_n\, \mathsf{ok}$
+% for any appropriate $n \geq 0$.
+The type of a program is the type of its top-level expression;
+the metavariable $g$ and $h$ represents a \textit{ground type},
+which is a type that contains no type parameters.
+We describe well-formedness and type checking of expressions
+in Section~\ref{sec:static}.
+
+Rules \rncite{D-Trait} and \rncite{D-Object} check well-formedness
+of class declarations.  For the declaration of a class $C$,
+they verify that the type parameter names of the declaration are distinct,
+that the types used in the declaration are well-formed,
+and that the declared methods are well-formed.
+In addition, as we explain later in this subsection,
+they make sure that (1)~the \textit{proper ancestors} of $C$,
+which are all the traits $C$ extends, by explicitly extending and
+transitively inheriting as well, are well-formed, and
+(2)~the \textit{visible methods} of $C$,
+which are the methods either declared by $C$ or inherited
+from the traits $C$ extends, obey the overloading rules.
+The only differences are that rule \rncite{D-Trait} additionally
+guarantees that a trait does not extend itself, and rule \rncite{D-Object}
+guarantees that the names of the fields are distinct.
+
+Well-formedness of types is conventional
+as shown in Figure~\ref{fig:wellformedtypes}.
+The types $\Any$ and $\Bottom$ are trivially well-formed.
+A type parameter $P$ is well-formed under a type-declaration environment
+$\Delta$, if $\Delta$ contains a binding of $P$.
+A constructed type $T\obb{\alpha}$ or $O\obb{\alpha}$ is well-formed, if
+the trait $T$ or the object $O$ is declared in the given
+type-declaration environment and all the type arguments $\rep{\alpha}$
+are well-formed and satisfy the declared
+bounds of their corresponding type parameters.
+Finally, the remaining structural types such as tuple types, arrow types, 
+union types, and intersection types are well-formed,
+if all their component types are.
+
+\begin{figure}[t]
+\small
+\newjudge{Well-formed types}{\jwftype{\alpha}}
+\smallskip
+\begin{tabular}{@{}c@{\hskip0.02\textwidth}c@{}}
+\begin{minipage}[t]{0.48\textwidth}
+\infax[W-Any]
+  { \jwftype{\Any} }
+\smallskip
+
+\infax[W-Bottom]
+  { \jwftype{\Bottom} }
+\smallskip
+
+\infrule[W-Param]
+  { \lobindup{\dontcares}{P}{\dontcares} \in \Delta }
+  { \jwftype{P} }
+\smallskip
+
+\infrule[W-Tuple]
+  { \jbwftype{\alpha} }
+  { \jwftype{(\bar{\alpha})} }
+
+\end{minipage}&
+\begin{minipage}[t]{.5\textwidth}
+\infrule[W-Arrow]
+  { \jwftype{\alpha}  \andalso  \jwftype{\rho} }
+  { \jwftype{\arrowtype{\alpha}{\rho}} }
+\smallskip
+
+\infrule[W-Union]
+  { \jwftype{\alpha}  \andalso  \jwftype{\gamma} }
+  { \jwftype{\uniontype{\alpha}{\gamma}} }
+\smallskip
+
+\infrule[W-Intersection]
+  { \jwftype{\alpha}  \andalso  \jwftype{\gamma} }
+  { \jwftype{\intersectiontype{\alpha}{\gamma}} }
+\smallskip
+
+\end{minipage}
+\end{tabular}
+\infrule[W-Trait]
+  { \traitdecl{T}{\rep{\bindup{V\;P}{\rep{\xi}}}}{\dontcares}{\dontcares} \in \Delta \andalso
+    \jbwftype{\alpha} \andalso
+    \jbsubtype{\alpha}{\same{\substb{\alpha}{P}}\bigtypeintersection\setb{\xi}} }
+  { \jwftype{T\obb{\alpha}} }
+\smallskip
+
+\infrule[W-Object]
+  { \objectdecl{O}{\rep{\bindup{P}{\rep{\xi}}}}{\dontcares}{\dontcares}{\dontcares} \in \Delta \andalso
+    \jbwftype{\alpha} \andalso
+    \jbsubtype{\alpha}{\same{\substb{\alpha}{P}}\bigtypeintersection\setb{\xi}} }
+  { \jwftype{O\obb{\alpha}} }
+\vspace*{-1em}
+\caption{Well-formed types}
+\label{fig:wellformedtypes}
+\end{figure}
+
+The proper ancestors $\setb{J}$ of a class $C$ are well-formed, if
+every pair in $\setb{J}$ satisfies one of the well-formed ancestors rules
+shown in Figure~\ref{fig:ancestors}: $\rep{\jancestormeetrule
+[\Delta'; \rep{J}]{J_i}{J_j}}[1 \leq i < j \leq \countofb{J}]$.
+The well-formed ancestors rules ensure that if a class $C$ extends
+two instances of a trait $T$, $T\obb{\alpha}$ and $T\obb{\rho}$,
+then $C$ also extends some $T\obb{\gamma}$
+(which may be $T\obb{\alpha}$, $T\obb{\rho}$,
+or a third instance) that extends both $T\obb{\alpha}$ and $T\obb{\rho}$.
+Therefore, because the rules guarantee that there always exists a single
+minimal ancestor when a class extends multiple instances of a trait,
+no ambiguous method calls are possible due to multiple instances of a trait
+as discussed in Section~\ref{sec:dynamic}.
+
+
+\begin{figure}[t]
+\small
+\newjudge{Well-formed ancestors}{\jancestormeetrule{J}{J}}
+\vspace*{-.7em}
+
+\infrule[Anc-Diff-Trait]
+  { T \neq T' }
+  { \jancestormeetrule{T\obb{\alpha}}{T'\obb{\eta}} }
+
+\vspace*{-1em}
+\infrule[Anc-Same-Trait]
+  { T\obb{\gamma} \in \setb{J}  \andalso
+    \jsubtype{T\obb{\gamma}}{T\obb{\alpha}}  \andalso
+    \jsubtype{T\obb{\gamma}}{T\obb{\eta}} }
+  { \jancestormeetrule{T\obb{\alpha}}{T\obb{\eta}} }
+
+\newjudge{Well-formed type parameter bindings}{\jscope{\obb{K}}}
+\vspace*{-.7em}
+
+\infax[Binding-Empty]
+  { \jscope{\ob{}} }
+
+\vspace*{-1.5em}
+\infrule[Binding-Step]
+ { \FV(\bar{\chi'})\subseteq\mathit{parameters}(\Delta)\cup\setb{P} \andalso
+   \FV(\bar{\eta'})\subseteq\mathit{parameters}(\Delta) \\%[3pt]
+   \jsubtype{\bigtypeunion\bigsetb{\chi'} }{ \bigtypeintersection\bigsetb{\eta'} } \andalso
+   \jscope{\obb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}} }
+ { \jscope{\ob{\rep{\lobindup{\rep{\chi}}{P}{\rep{\eta}}},\lobindup{\rep{\chi'}}{P'}{\rep{\eta'}}}} }
+
+\vspace*{-1.5em}
+\caption{Well-formed ancestors and type parameter bindings}
+\label{fig:ancestors}
+\end{figure}
+
+The visible methods $\setb{d} = \setb{\tuple{C,M}}$ of a class 
+obey the overloading rules if every pair in $\setb{d}$ satisfies 
+the overloading rules described in Section~\ref{sec:rules:formal}.
+The set $\setb{\tuple{C,M}}$ contains pairs of visible method declarations 
+$\bar{M}$ and their defining classes $\bar{C}$.
+
+Rule \rncite{D-Method} checks well-formedness of method declarations.
+For the method declaration $\mu$, it verifies that the parameter names
+of the declaration are distinct;
+that the class type parameters and the method type parameters
+of the declaration are collectively distinct;
+that types used in the declaration are well-formed;
+that the body expression is well-formed;
+and that the type of the body expression is a subtype of the 
+declared return type.  In addition, as we discuss below,
+it checks that method type parameter bindings are well-formed and
+that any references to trait type parameters are correctly used
+according to their variance annotations.
+
+A sequence of method type parameter bindings is well-formed,
+if (1)~every reference to a method type parameter falls within its scope
+(which extends to the right of its declaration),
+(2)~no reference to a method type parameter appears in any of the upper bounds,
+and (3) for each type parameter, the union of its lower bounds is a subtype
+of the intersection of its upper bounds.
+As we discuss in Section~\ref{sec:discuss},
+restriction (1) makes dynamic dispatch more efficient
+and restriction (2) makes it consistent.  Figure~\ref{fig:ancestors}
+shows the rules for well-formed type parameter bindings.
+
+Trait type parameters are correctly used according to their variance annotations,
+if covariant and contravariant type parameters appear only at
+covariant and contravariant positions, respectively.
+In order to express this restriction, we introduce a \textit{type context} $\T$,
+which defines positions where a type can appear within another type.
+Similarly to the conventional evaluation contexts~\cite{wright94},
+a type context $\T$ is a type with one of its components replaced by a hole,
+denoted by ``$\emptycontext$''.  The type $\T\context{\tau}$ results from
+placing a type $\tau$ in the hole of $\T$:
+\begin{center}
+$\descsm{Type context} \quad 
+\T~::=~\emptycontext ~\mid~ T\ob{\bar\tau, \T, \bar\tau} ~\mid~ O\ob{\bar\tau, \T, \bar\tau} ~\mid~ \tuple{\bar\tau, \T, \bar\tau} ~\mid~ \arrowtype{\T}{\tau} ~\mid~\arrowtype{\tau}{\T}$
+\end{center}
+Thus, if $\tau = \arrowtype{\tuple{P,T\ob{Q}}}{\Any}$, 
+then $\tau = \T\context{P} = \T'\context{Q}$ where 
+$\T = \arrowtype{\tuple{\emptycontext, T\ob{Q}}}{\Any}$ and 
+$\T' = \arrowtype{\tuple{P, T\ob{\emptycontext}}}{\Any}$.
+
+\begin{figure}[t]
+\small
+\smallskip
+\newjudge{Variance of type context}{\jcontextvar{\T}{V}}
+\begin{tabular}{@{}c@{\hskip0.01\textwidth}c@{}}
+\begin{minipage}[t]{0.5\textwidth}
+\infax[Tc-Empty] {\jcontextvar{\emptycontext}{\bindco}}
+\smallskip
+
+\infrule[Tc-Trait]
+  { \traitdecl{T}{\rep{\bindup{V\;\dontcare}{\dontcares}}}{\dontcares}{\dontcares} \in \Delta \\[3pt]
+    i = \countof{\rep\tau} + 1  \andalso
+    \countofb{V} = \countof{\rep\tau} + \countof{\rep\omega} + 1  \\[3pt]
+    \jcontextvar{\T}{V'} \andalso
+    V = V_i \times V' }
+  { \jcontextvar{T\ob{\bar\tau,\T,\bar\omega}}{V} }
+\smallskip
+
+\infax[Tc-Obj] { \jcontextvar{O\ob{\bar\tau,\T,\bar\omega}}{\bindinv} }
+
+\smallskip
+
+\newjudge{Flip of variance}{\flip{V} = V}
+\begin{equation*}
+\flip{V} =
+\begin{cases}
+\bindcontra & \text{if } V = \bindco\\
+\bindco & \text{if } V = \bindcontra\\
+\bindinv & \text{if } V = \bindinv\\
+\end{cases}
+\end{equation*}
+
+\end{minipage}&
+\begin{minipage}[t]{.5\textwidth}
+\infrule[Tc-Tuple]
+  { \jcontextvar{\T}{V} }
+  { \jcontextvar{(\bar\tau,\T,\bar\omega)}{V} }
+\smallskip
+
+\infrule[Tc-Arrow-Param]
+  { \jcontextvar{\T}{V'}
+  { \andalso V=\flip{V'} } }
+  { \jcontextvar{\arrowtype{\T}{\tau}}{V} }
+\smallskip
+
+\infrule[Tc-Arrow-Return]
+  { \jcontextvar{\T}{V} }
+  { \jcontextvar{\arrowtype{\tau}{\T}}{V} }
+\smallskip
+
+\smallskip
+
+\newjudge{Composition of variance}{V \times V = V}
+
+\begin{equation*}
+V_1 \times V_2 =
+\begin{cases}
+\bindinv & \text{if } V_1 = \bindinv \lor V_2 = \bindinv\\
+\bindco & \text{if } V_1 \neq \bindinv \land V_2 \neq \bindinv \land V_1 = V_2\\
+\bindcontra & \text{if } V_1 \neq \bindinv \land V_2 \neq \bindinv \land V_1 \neq V_2\\
+\end{cases}
+\end{equation*}
+
+\end{minipage}
+\end{tabular}
+\vspace*{-1em}
+\caption{Variance of type context}
+\label{fig:contextvar}
+\end{figure}
+
+Using type contexts, the last premise of rule \rncite{D-Method} ensures that
+the class type parameters of a method appear in correct positions.
+Considering the arrow type representing the method's type
+$\tau' = \arrowtype{(\rep{\tau})}{\omega}$,
+an invariant type parameter can appear anywhere in $\tau'$. However, 
+when a covariant or contravariant type parameter $P$ appears in 
+$\tau' = \T\context{P}$, the \textit{variance of the type context} of $P$
+should match the variance $V$ of $P$: $\Delta\vdash{\T}\,\mathsf{variance}\,V$.
+As shown in Figure~\ref{fig:contextvar},
+the variance of a type context is defined inductively:
+(1)~the hole is covariant;
+(2)~components of tuple types, return types of arrow types, and
+covariant type parameters of traits preserve
+the variance of their enclosing contexts;
+(3)~parameter types of arrow types and
+contravariant type parameters of traits flip
+the variance of their enclosing contexts; and
+(4)~type parameters of objects and
+invariant type parameters of traits are invariant.
+For example, if $\tau = \arrowtype{\tuple{P,T\ob{Q}}}{\Any}$
+is a method's type where $P$ and $Q$ are class type parameters and
+$T$ has a contravariant type parameter,
+then
+$P$ is required to be contravariant or invariant and $Q$ is required to be covariant or invariant.

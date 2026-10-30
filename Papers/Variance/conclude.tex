@@ -1,0 +1,18 @@
+\section{Conclusion}\label{sec:conc}
+We defined FGFV, a core calculus for an object-oriented language
+with symmetric multiple dispatch, multiple inheritance, and
+parametric polymorphism with variance.
+In order to ensure type soundness of FGFV, it must guarantee no ambiguous
+method invocations at run time, and preserve type even when a method
+invocation is dispatched to a different method at run time from the method
+chosen at compile time.
+Thus, we formalized overloading rules using existential types and
+universal types quantified over method type parameters to mechanically
+check whether overloaded polymorphic methods are valid.
+As a result, in a well-formed program that satisfies the overloading rules,
+there always exists the single most specific method to invoke
+with respect to both static argument types and dynamic argument types.
+Further, with the static types of method invocation expressions
+delivered to run time, the dynamic semantics of FGFV that uses the new
+dynamic dispatch algorithm we presented is proven to make
+type-sound choices among applicable method declarations.

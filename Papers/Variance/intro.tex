@@ -1,0 +1,221 @@
+\section{Introduction}\label{sec:intro}
+In object-oriented languages, \textit{method overloading} and its
+unique resolution are important features.  Method overloading allows
+multiple method declarations of the same name but different parameter
+types.  Thus, it enables to define different behaviors of $+$ or
+\texttt{equal} for different parameter types, for example.  For a given
+overloaded method invocation of \texttt{equal}, a resolution mechanism
+should select a single declaration to call among the overloaded
+declarations of \texttt{equal} using the argument types of the method invocation.
+
+When resolving an overloaded method invocation, \textit{dynamic dispatch}
+considers the run-time types of the arguments of the method invocation.
+When a dispatch mechanism considers the run-time type of only a single
+argument, usually the receiver of a method call, as in languages like
+\CC and Java, it is \textit{single dispatch}.  By contrast,
+\textit{multiple dispatch} considers the run-time types of more than one
+argument as in languages like Common Lisp, Fortress, and Julia.
+Especially, \textit{symmetric multiple dispatch} considers multiple
+arguments equally, which supports mathematical operators like binary
+methods intuitively and uniformly~\cite{clifton00}.
+
+While method overloading and its resolution by dynamic dispatch
+give a consistency in naming methods that logically perform very
+similar tasks, they impose two restrictions to guarantee a unique
+and type-sound resolution of each overloaded method
+invocation~\cite{castagna92,castagna95}.  First, the dispatch mechanism should be
+able to find the \textit{most specific applicable} method declaration for
+any overloaded method invocation.  A method declaration is applicable to
+given arguments if its parameter types are supertypes of the types of
+the arguments.  One method declaration is more specific than another
+if the \emph{domain type} of the former is a subtype of that of the
+latter.  Hereafter, we consider that every method declaration has a
+single parameter possibly a tuple of two or more components, and call the
+parameter type of a method declaration its domain type.  Second, for a
+given overloaded method invocation, its static type should be a supertype
+of the return type of a dynamically chosen method declaration by the
+dispatch mechanism.  Otherwise, a method invocation result may be used
+in a type-unsound manner.
+
+Moreover, expressive language features often add various possibilities to
+make overloaded method invocations ambiguous.  As we discuss below,
+such features make it difficult to design a language that guarantees no
+ambiguous nor undefined calls at run time.  
+
+One such a feature is \textit{multiple inheritance}, which allows one
+class to extend multiple classes.  While multiple inheritance supports
+modular and reusable code, it easily introduces ambiguous method
+calls.  Because one parent class may not be more specific than another
+parent class, dynamically selecting the most specific applicable method
+declaration may be unclear.  For example, consider that each of two
+classes $A$ and $B$ has a method declaration $m$ with the same
+parameter type \texttt{Number}, class $C$ extends both $A$ and $B$, and
+$c$ is an instance of $C$.  Then, evaluation of $c.m(0)$ results in an
+ambiguous call because neither $A$ nor $B$ is more specific than each
+other.
+
+Another feature is \textit{parametric polymorphism}, or \textit{generics}.
+By introducing type parameters in class and method declarations,
+parametric polymorphism enables programmers to manage types in a
+fine-grained way.
+% For example, the \texttt{List} class may be refined as
+% \texttt{List$\ob{\texttt{String}}$} and
+% \texttt{List$\ob{\texttt{Integer}}$}, which allows different
+% operations on lists of strings and lists of integers.
+For example, the \texttt{List} class may be instantiated as either
+\texttt{List$\ob{\texttt{String}}$} or
+\texttt{List$\ob{\texttt{Integer}}$}.
+However,
+% parametric polymorphism also easily introduces ambiguity in overloading
+% resolution.  Because polymorphic method declarations have domain types that
+% are more generic than monomorphic method declarations,
+selecting the most
+specific applicable declaration among polymorphic method declarations
+at run time is not trivial.
+% Moreover, since languages with parametric polymorphism often support type
+% inference for the type arguments of polymorphic method invocations, the
+% dynamic dispatch should not only find the most specific applicable
+% declaration, but also infer the type arguments of method invocations.
+Moreover, many languages with parametric polymorphism support automatic
+inference for the type arguments of polymorphic method invocations;
+at run time, dynamic dispatch must not only find the most specific applicable
+declaration, but also infer appropriate type arguments for that declaration.
+
+Finally, \textit{variance} defines additional subtype relations for
+polymorphic types~\cite{variance}.
+% While polymorphic types without
+% variance have only a restricted pointwise subtype relation, where
+Without variance,
+instances of the same polymorphic type are in a subtype relation only
+when their type arguments are the same type.
+Variance supports subtype
+relationships between different instances of the same polymorphic type
+by allowing the programmer to label each type parameter of a class
+\textit{covariant}, \textit{contravariant}, or \textit{invariant}.
+% ; more
+% specifically, programmers can define class declarations with
+% variance annotations of type parameters: \textit{covariant},
+% \textit{contravariant}, and \textit{invariant}.
+If a parametric type $T$
+has one covariant type parameter, then it preserves the subtype relation
+of its type argument; hence, when a type $P$ is a subtype of another type
+$Q$, which we write $P\extends Q$, it implies $T\ob{P}\extends T\ob{Q}$.
+If the type parameter of $T$ is contravariant, then $T$ reverses the
+subtype relationship of its type arguments; hence, $P\extends Q$ implies
+$T\ob{Q}\extends T\ob{P}$.  If the type parameter of $T$ is invariant,
+then
+% $T$ ignores any subtype relation between its type arguments; hence,
+$T\ob{P}\extends T\ob{Q}$ only if $P\equiv Q$, where $P\equiv Q$ denotes
+that $P$ and $Q$ are equivalent, that is, $P$ is a subtype of $Q$ and
+vice versa.
+% With such expressive subtype relations between polymorphic
+% types, programmer can define more expressive polymorphic methods than
+% without variance.
+Variance annotations allow the programmer to define more expressive polymorphic methods.
+For example, consider the following excerpt from the
+\texttt{List} class source code in Scala~\cite{scalalist}:\\[-.7em]
+
+{\tt\setlength{\baselineskip}{.5\baselineskip}\noindent
+\hspace*{5em}sealed abstract class List[+A] extends Seq[A] \{\\
+\hspace*{7em}$\cdots$\\[-.4em]
+\hspace*{7em}def :::[B >: A](prefix: List[B]): List[B] = $\cdots$\\[-.4em]
+\hspace*{7em}$\cdots$\\[-.4em]
+\hspace*{5em}\}
+}
+\\[-.7em]
+
+\noindent
+The \texttt{List} class takes a single covariant (denoted by \texttt{+}) type parameter
+\texttt{A}, and the
+\texttt{:::} method concatenates two lists, its receiver and argument.
+If \texttt{A} were invariant, the element type \texttt{B} of the argument
+list should be a supertype of the element type \texttt{A} of the receiver
+list.  However, since \texttt{A} is covariant, the method can take a list
+of any element type \texttt{C} that is less than or equal to \texttt{B},
+and return a list whose element type is
+\texttt{B}, which is a common supertype of the element types of its
+receiver and argument: \texttt{A}$\extends$\texttt{B} and
+\texttt{C}$\extends$\texttt{B}.
+% As expected, due to the increased
+% subtype relations between polymorphic types, variance
+% also adds ambiguities in overloading resolution.
+As one might expect, variance also
+increases the difficulty of overloading resolution.
+
+Therefore, supporting symmetric multiple dispatch in the presence of
+various expressive language features has been a long-standing effort.
+Previous efforts have formalized a variety of core calculi that capture
+some of the aforementioned features in a piecemeal rather than holistic
+fashion.  While they are widely different in terms of the expressivity,
+completeness, decidability, and correctness of the formalization of the
+target languages and their type systems, they all define a set of
+\emph{overloading rules} that overloaded method declarations should
+satisfy to make dynamic dispatch select the most specific applicable
+method declaration with a type-safe return type.
+
+For a simple object-oriented language with multiple inheritance,
+\citet{ff, fortress} and \citet{ffcoq} presented three overloading rules:
+Exclusion Rule, Subtype Rule, and Meet Rule.
+% Each rule gives constraints
+% for a pair of two method declarations, and every pair of method
+% declarations with the same name should satisfy \emph{one} of the
+% overloading rules.
+Every pair of method
+declarations with the same name must satisfy \emph{one} of these
+overloading rules.
+The authors proved that a set of overloaded method
+declarations satisfying the overloading rules does not produce any
+ambiguous method invocation at run time.
+
+To understand the interplay between symmetric multiple dispatch and
+parametric polymorphism, \citet{oopsla11} focused on a type system
+without any specific target language and informally presented three other
+overloading rules: a No Duplicates Rule, a revised Meet Rule, and a Return Type Rule,
+% As before, each rule puts constraints for a pair of two method
+% declarations, but, this time, every pair of method declarations with the
+% same name should satisfy \emph{all} three overloading rules.
+where every pair of method declarations with the
+same name must satisfy \emph{all three} overloading rules.
+The authors
+showed that interpreting a polymorphic method declaration as a set of
+infinitely many monomorphic declarations is not appropriate for
+overloading resolution.  Instead, they considered a polymorphic method
+declaration as a single declaration whose domain type is existentially
+quantified over its type parameters as proposed by \citet{bm97}.
+
+%Based on the previous work, we finally
+% present a formal specification of
+% an object-oriented language with symmetric multiple dispatch, multiple
+% inheritance, and parametric polymorphism with variance.
+% We define a core calculus named \emph{FGFV}, Featherweight Generic Fortress with Variance,
+% which contains only the core language features.
+% For example, FGFV omits functional
+% methods~\cite{ff} and declarations of closed types~\cite{oopsla11}
+% (but these could be added to FGFV in an obvious way).
+% We formally present overloading
+% rules for FGFV and define its dynamic semantics with a new dynamic
+% dispatch algorithm.  We also prove the type soundness of FGFV.
+
+In this paper, we
+present a formal core calculus \emph{FGFV} (Featherweight Generic Fortress with Variance)
+for an object-oriented language with symmetric multiple dispatch, multiple
+inheritance, and parametric polymorphism with variance.
+For conciseness, FGFV omits functional methods~\cite{ff} and declarations of closed types~\cite{oopsla11},
+but these could be added back to FGFV in an obvious way.
+Unlike the prior work, we formally present overloading rules for FGFV,
+define its dynamic semantics with a novel dynamic
+dispatch algorithm, and prove type soundness.
+As we discuss in Section~\ref{sec:discuss}, defining a provable system
+for an object-oriented language with asymmetric features requires careful
+tradeoffs between static expressivity and dynamic efficiency.
+
+In the rest of the paper, we first describe the previous efforts in more
+detail with concrete code examples (Section~\ref{sec:motiv}).  After
+presenting the FGFV calculus that represents an object-oriented
+language with symmetric multiple dispatch, multiple inheritance,
+parametric polymorphism, and variance (Section~\ref{sec:lang}), we
+formally define the overloading rules for FGFV (Section~\ref{sec:rules}).
+Then, we define both static and dynamic overloading resolution with
+a novel dynamic dispatch algorithm, and prove the type soundness of FGFV
+(Section~\ref{sec:resolve}).  Finally, we discuss related work
+(Section~\ref{sec:related}) and conclude (Section~\ref{sec:conc}).

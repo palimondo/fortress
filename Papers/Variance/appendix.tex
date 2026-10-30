@@ -1,0 +1,2997 @@
+\begin{appendices}
+\section{Conditional Type Relations}
+\normalfont
+\begin{figure}[ht]
+\small
+\newjudge{Conditional subtyping}{\jsub{\alpha}{\alpha}{\C}}
+
+\infax[Sub-Params-Same]
+    { \jsub{P}{P}{\TRUE} }
+
+\smallskip
+
+\infrule[Sub-Params-Different]
+  { P\in\mathit{parameters}(\Delta) \andalso \lobindup{\bar{\chi}}{Q}{\dontcares} \in \Delta \andalso
+    \distinct{P,Q} \andalso \rep{\jsub[\same{\Delta}]{\same{P}}{\chi}{\C}} }
+  { \jsub{P}{Q}{\bigvee \bigsetb{\C}} }
+
+\infrule[Sub-LParam]
+  { \alpha \text{ is none of the following: a type parameter, an intersection type, a union type} \\[2pt]
+    \lobindup{\dontcares}{P}{\bar{\eta}} \in \Delta \andalso
+    \countofb{\eta} > 0 \andalso
+    \rep{\jsub[\same{\Delta}]{\eta}{\same{\alpha}}{\C}} }
+  { \jsub{P}{\alpha}{\bigvee \setb{\C}} }
+
+\infrule[Sub-LParam-Any]
+  { \alpha \text{ is none of the following: a type parameter, an intersection type, a union type} \\[2pt]
+    \lobindup{\dontcares}{P}{} \in \Delta \andalso \jsub{\Any}{\alpha}{\C} }
+  { \jsub{P}{\alpha}{\C} }
+
+\infrule[Sub-RParam]
+  { \alpha \text{ is none of the following: a type parameter, an intersection type, a union type}\\[2pt]
+    \lobindup{\bar{\chi}}{P}{\dontcares} \in \Delta \andalso
+    \countofb{\chi} > 0 \andalso
+    \rep{\jsub[\same{\Delta}]{\same{\alpha}}{\chi}{\C}} }
+  { \jsub{\alpha}{P}{\bigvee \setb{\C}} }
+
+\infrule[Sub-RParam-Bottom]
+  { \alpha \text{ is none of the following: a type parameter, an intersection type, a union type}\\[2pt]
+    \lobindup{}{P}{\dontcares} \in \Delta \andalso \jsub{\alpha}{\Bottom}{\C} }
+  { \jsub{\alpha}{P}{\C} }
+
+\infrule[Sub-LParam-Infer]
+  { \alpha \text{ is none of the following: an intersection type, a union type} \\
+    P \not\in \mathit{parameters}(\Delta) \andalso (\alpha=Q)\Rightarrow(\mathit{distinct}(P,Q)) }
+  { \jsub{P}{\alpha}{P \subtypeof \alpha} }
+
+\infrule[Sub-RParam-Infer]
+  { \alpha \text{ is none of the following: an intersection type, a union type} \\
+    P \not\in \mathit{parameters}(\Delta) \andalso (\alpha=Q)\Rightarrow(Q\in\mathit{parameters}(\Delta)) }
+  { \jsub{\alpha}{P}{\alpha \subtypeof P} }
+
+\infrule[Sub-Tuple]
+  { \rep{\jsub[\same{\Delta}]{\alpha}{\eta}{\C}} }
+  { \jsub{\tupleb{\alpha}}{\tupleb{\eta}}{\bigwedge \setb{\C}} }
+
+\infrule[Sub-Tuple-Size]
+  { \countofb{\alpha} \neq \countofb{\eta} }
+  { \jsub{\tupleb{\alpha}}{\tupleb{\eta}}{\FALSE} }
+
+\caption{Subtyping rules that generate constraints (1 of 2)}
+\end{figure}
+
+\begin{figure}[t]
+\small
+\infrule[Sub-Arrow]
+  { \jsub{\alpha'}{\alpha}{\C} \andalso \jsub{\rho}{\rho'}{\C'} }
+  { \jsub{\arrowtype{\alpha}{\rho}}{\arrowtype{\alpha'}{\rho'}}{\C \wedge \C'} }
+
+\infrule[Sub-Object-Same]
+  { \rep{\jequiv[\same{\Delta}]{\alpha}{\eta}{\C}} }
+  { \jsub{O\obb{\alpha}}{O\obb{\eta}}{\bigwedge\bigsetb{\C}} }
+
+\infrule[Sub-Object-Different]
+  { \mathit{distinct}(O,O') }
+  { \jsub{O\obb{\alpha}}{O'\obb{\eta}}{\FALSE} }
+
+\infrule[Sub-Trait]
+  { \traitdecl{T}{\rep{\bindup{V\;\dontcare}{\dontcares}}}{\dontcares}{\dontcares} \in \Delta \andalso
+    \rep{\jcomp[\same{\Delta}]{\alpha}{\eta}{V}{\C}} }
+  { \jsub{T\obb{\alpha}}{T\obb{\eta}}{\bigwedge\bigsetb{\C}} }
+
+\infrule[Sub-O-Parents]
+  { \setb{J} = \parents{O\obb{\alpha}} \andalso
+    \rep{\jsub[\same{\Delta}]{J}{\same{T\obb{\eta}}}{\C}} }
+  { \jsub{O\obb{\alpha}}{T\obb{\eta}}{\bigvee\bigsetb{\C}} }
+
+\infrule[Sub-T-Parents]
+  { \distinct{T,T'} \andalso
+    \setb{J} = \parents{T\obb{\alpha}} \andalso
+    \rep{\jsub[\same{\Delta}]{J}{\same{T'\obb{\eta}}}{\C}} }
+  { \jsub{T\obb{\alpha}}{T'\obb{\eta}}{\bigvee\bigsetb{\C}} }
+
+\infrule[Sub-LUnion]
+  { \chi \text{ is not an intersection type} \\
+    \jsub{\alpha}{\chi}{\C} \andalso
+ \jsub{\eta}{\chi}{\C'} }
+  { \jsub{\uniontype{\alpha}{\eta}}{\chi}{\C \wedge \C'} }
+
+\infrule[Sub-LIntersection]
+  { \chi \text{ is not an intersection type} \\
+    \jsub{\alpha}{\chi}{\C} \andalso \jsub{\eta}{\chi}{\C'} \andalso \jexc{\alpha}{\eta}{\C''} }
+  { \jsub{\intersectiontype{\alpha}{\eta}}{\chi}{\C \vee \C' \vee \C''} }
+
+\infrule[Sub-RUnion]
+  { \alpha \text{ is none of the following: an intersection type, a union type}\\[2pt]
+    \jsub{\alpha}{\eta}{\C} \andalso \jsub{\alpha}{\chi}{\C'} }
+  { \jsub{\alpha}{\uniontype{\eta}{\chi}}{\C \vee \C'} }
+
+\infrule[Sub-RIntersection]
+  { \jsub{\alpha}{\eta}{\C} \andalso \jsub{\alpha}{\chi}{\C'} }
+  { \jsub{\alpha}{\intersectiontype{\eta}{\chi}}{\C \wedge \C'} }
+
+\caption{Subtyping rules that generate constraints (2 of 2)}
+\end{figure}
+
+\begin{figure}[t]
+\small
+\newjudge{Conditional exclusion}{\jexc{\alpha}{\alpha}{\C}}
+
+
+\infax[Exc-Refl]
+  { \jexc{P}{P}{\FALSE} }
+
+\infrule[Exc-Param]
+  { \lobindup{\dontcares}{P}{\bar{\eta}} \in \Delta \andalso \alpha \neq \Bottom\andalso
+	(\alpha=Q)\Rightarrow(Q\in\mathit{parameters}(\Delta)) \andalso
+    \rep{\jexc[\same{\Delta}]{\eta}{\same\alpha}{\C}} }
+  { \jexc{P}{\alpha}{\bigvee \bigsetb{\C}} }
+
+%\infrule[Exc-Param-Empty]
+%  { \lobindup{\dontcares}{P}{} \in \Delta \andalso \alpha \neq \Bottom }
+%  { \jexc{P}{\alpha}{\FALSE} }
+
+%\smallskip
+
+\infrule[Exc-Param-Infer]
+  { P \not\in \mathit{parameters}(\Delta) \andalso
+    (\alpha=Q)\Rightarrow(\mathit{distinct}(P,Q)) \andalso
+    \alpha \neq \Bottom }
+  { \jexc{P}{\alpha}{P \exc \alpha} }
+
+\infrule[Exc-Union]
+  { \chi \text{ is none of the following: a type parameter, an intersection type} \\
+    \jexc{\alpha}{\chi}{\C} \andalso \jexc{\eta}{\chi}{\C'} }
+  { \jexc{\uniontype{\alpha}{\eta}}{\chi}{\C \land \C'} }
+
+\infrule[Exc-Intersection]
+  { \chi \text{ is not a type parameter} \\
+    \jexc{\alpha}{\chi}{\C} \andalso \jexc{\eta}{\chi}{\C'} \andalso
+    \jsub{\intersectiontype{\alpha}{\eta}}{\Bottom}{\C''} }
+  { \jexc{\intersectiontype{\alpha}{\eta}}{\chi}{\C \vee \C' \vee \C''} }
+
+\infrule[Exc-Tuple]
+  { \rep{\jexc[\same{\Delta}]{\alpha}{\eta}{\C}} }
+  { \jexc{\tupleb{\alpha}}{\tupleb{\eta}}{\bigvee \bigsetb{\C}} }
+
+\infrule[Exc-Tuple-Size]
+  { \countofb{\alpha} \neq \countofb{\eta} }
+  { \jexc{\tupleb{\alpha}}{\tupleb{\eta}}{\TRUE} }
+
+\smallskip
+
+\infrule[Exc-Object-Same]
+  { \rep{\jnequiv[\same{\Delta}]{\alpha}{\eta}{\C}} }
+  { \jexc{O\obb{\alpha}}{O\obb{\eta}}{\bigvee\bigsetb{\C}} }
+
+\smallskip
+
+\infrule[Exc-Object-Different]
+  { \mathit{distinct}(O,O') }
+  { \jexc{O\obb{\alpha}}{O'\obb{\eta}}{\TRUE} }
+
+
+\caption{Exclusion rules that generate constraints (1 of 2)}
+\end{figure}
+
+\begin{figure}[t]
+\small
+\infrule[Exc-Trait]
+  { \jnsub{T\obb{\alpha}}{T'\obb{\eta}}{\C} \andalso
+    \jnsub{T'\obb{\eta}}{T\obb{\alpha}}{\C'} \\
+	\setb{J}=\ancestors{T\obb{\alpha}} \andalso
+	\setb{J'}=\ancestors{T'\obb{\eta}} \\
+	\rep{\jmexc{J_i}{J'_j}{\C''_{ij}}}^{i,j} }
+  { \jexc{T\obb{\alpha}}{T'\obb{\eta}}{\bigwedge\bigset{\C,\C',\bigvee\bigsetb{\rep{\C''}}} } }
+
+\smallskip
+
+\infrule[Exc-Object-Trait]
+  { \jnsub{O\obb{\alpha}}{T\obb{\eta}}{\C} }
+  { \jexc{O\obb{\alpha}}{T\obb{\eta}}{\C} }
+
+\medskip
+
+\newjudge{Constructability of a subtype of two trait types}{\jmexc{J}{J}{\C}}
+
+\infrule
+  { \mathit{distinct}(T,T') }
+  { \jmexc{T\obb{\alpha}}{T'\obb{\eta}}{\FALSE} }
+
+\smallskip
+
+\infrule
+  { \traitdecl{T}{\rep{\bindup{V\;\dontcare}{\dontcares}}}{\dontcares}{\dontcares} \in \Delta \\
+    \rep{(V=\bindco)\Rightarrow(\jexc{\alpha}{\eta}{\C}) \land (V=\bindinv)\Rightarrow(\jnequiv{\alpha}{\eta}{\C}) \land (V=\bindcontra)\Rightarrow(\C=\FALSE)} }
+  { \jmexc{T\obb{\alpha}}{T\obb{\eta}}{\bigvee\bigsetb{\C}} }
+
+\caption{Exclusion rules that generate constraints (2 of 2)}
+\end{figure}
+\label{app:condrel}
+\end{appendices}
+
+\clearpage
+\begin{appendices}
+\section{Type Matching Rules}
+\normalfont
+\begin{figure}[ht]
+\small
+\newjudge{Matching an argument to a signature}{\jmatch{g}{\obb{K}}{\alpha}{V}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}
+
+\smallskip
+
+\infrule[M-Any-Whatever-Success]
+  { \alpha \text{ is none of the following: a type parameter, \Any, an intersection type, a union type} \\
+    \countofb{\lbound} = \countofb{\ubound} = \countofb{K} \andalso
+    \rep{\lbound = \Bottom} \andalso
+    \rep{\ubound = \Any} \\
+    \jcompare[\denv \cup \setb{K}]{\Any}{\alpha}{V} }
+  { \jmatch{\Any}{\obb{K}}{\alpha}{V}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Any-Whatever-Failure]
+  { \alpha \text{ is none of the following: a type parameter, \Any, an intersection type, a union type} \\
+    \jdonotcompare[\denv \cup \setb{K}]{\Any}{\alpha}{V} }
+  { \jmatch{\Any}{\obb{K}}{\alpha}{V}{\biglistof{}}{\biglistof{}} }
+
+
+\caption{Matching arguments to signatures (1 of 11: matching \TYP{Any} to a type)}
+\end{figure}
+
+\begin{figure}[ht]
+\small
+\infrule[M-Whatever-Any-Success]
+  { g \text{ is none of the following: an intersection type, a union type} \\
+    \countofb{\lbound} = \countofb{\ubound} = \countofb{K} \andalso
+    \rep{\lbound = \Bottom} \andalso
+    \rep{\ubound = \Any} \\
+    \jcompare[\denv]{g}{\Any}{V} }
+  { \jmatch{g}{\obb{K}}{\Any}{V}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Whatever-Any-Failure]
+  { g \text{ is none of the following: an intersection type, a union type} \\
+    \jdonotcompare[\denv]{g}{\Any}{V} }
+  { \jmatch{g}{\dontcare}{\Any}{V}{\biglistof{}}{\biglistof{}} }
+
+
+\caption{Matching arguments to signatures (2 of 11: matching a ground type to \TYP{Any})}
+\end{figure}
+
+\begin{figure}[ht]
+\small
+
+\infrule[M-Param-In]
+  { \hbox{$g$ is none of the following: an intersection type, a union type} \\
+    1 \leq i \leq \countofb{P} \andalso
+    \rep{\lbound = \ifexpr{(P = \same{P_i})}{\same{g}}{\Bottom}} \andalso
+    \rep{\ubound = \ifexpr{(P = \same{P_i})}{\same{g}}{\Any}} }
+  { \jmatch{g}{\obb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}}{P_i}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Param-Co]
+  { \hbox{$g$ is none of the following: an intersection type, a union type} \\
+    1 \leq i \leq \countofb{P} = \countofb{\ubound} \andalso
+    \rep{\lbound = \ifexpr{(P = \same{P_i})}{\same{g}}{\Bottom}} \andalso
+    \rep{\ubound = \Any} }
+  { \jmatch{g}{\obb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}}{P_i}{\bindco}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Param-Contra]
+  { \hbox{$g$ is none of the following: an intersection type, a union type} \\
+    1 \leq i \leq \countofb{P} = \countofb{\lbound} \andalso
+    \rep{\lbound = \Bottom} \andalso
+    \rep{\ubound = \ifexpr{(P = \same{P_i})}{\same{g}}{\Any}} }
+  { \jmatch{g}{\obb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}}{P_i}{\bindcontra}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\caption{Matching arguments to signatures (3 of 11: matching a type parameter)}
+\end{figure}
+
+\begin{figure}[ht]
+\small
+
+
+\infrule[M-Arrow-Arrow]
+  { \jmatch{g}{\obb{K}}{\alpha}{\flip{V}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}} \\
+    \jmatch{h}{\obb{K}}{\rho}{V}{\biglistofb{\listofb{\lbound'}}}{\biglistofb{\listofb{\ubound'}}} }
+  { \jmatch{\arrowtype{g}{h}}{\obb{K}}{\arrowtype{\alpha}{\rho}}{V}{\cartesiantypeunion{\rep{K}} \Biglistof{\biglistofb{\listofb{\lbound}},\biglistofb{\listofb{\lbound'}}}}{\cartesiantypeintersection{\rep{K}} \Biglistof{\biglistofb{\listofb{\ubound}},\biglistofb{\listofb{\ubound'}}}} }
+
+\smallskip
+
+\infax[M-Tuple-Arrow]
+  { \jmatch{\tupleb{g}}{\dontcare}{\arrowtype{\alpha}{\rho}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Const-Arrow]
+  { \jmatch{G}{\dontcare}{\arrowtype{\alpha}{\rho}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+
+\caption{Matching arguments to signatures (4 of 11: matching an arrow)}
+\end{figure}
+
+\begin{figure}[ht]
+\small
+
+\infrule[M-Tuple-Tuple-Success]
+  { \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\alpha}{\same{V}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}} } }
+  { \jmatch{\tupleb{g}}{\obb{K}}{\tupleb{\alpha}}{V}{\cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+\smallskip
+
+\infrule[M-Tuple-Tuple-Failure]
+  { \countofb{g} \neq \countofb{\alpha} }
+  { \jmatch{\tupleb{g}}{\dontcare}{\tupleb{\alpha}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Arrow-Tuple]
+  { \jmatch{\arrowtype{g}{h}}{\dontcare}{\tupleb{\alpha}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Const-Tuple]
+  { \jmatch{G}{\dontcare}{\tupleb{\alpha}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+\caption{Matching arguments to signatures (5 of 11: matching a tuple)}
+\end{figure}
+
+\begin{figure}[ht]
+\small
+
+\infrule[M-Union-In-Same]
+  { \countofb{\lbound} = \countofb{\ubound} = \countofb{K} \andalso
+    \rep{\lbound = \Bottom} \andalso
+    \rep{\ubound = \Any} }
+  { \jmatch{\naryuniontypeb{g}}{\obb{K}}{\naryuniontypeb{g}}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Union-In-Different]
+  { \alpha \text{ is not parameter} \andalso \alpha \neq {\naryuniontypeb{g}} }
+  { \jmatch{\naryuniontypeb{g}}{\dontcare}{\alpha}{\bindinv}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infrule[M-Union-In-Param]
+  { 1 \le i \le \countofb{P} \andalso \rep{\lbound = \ifexpr{(P = \same{P_i})}{\same{\naryuniontypeb{g}}}{\Bottom}} \andalso \rep{\ubound = \ifexpr{(P = \same{P_i})}{\same{\naryuniontypeb{g}}}{\Any}} }
+  { \jmatch{\naryuniontypeb{g}}{\obb{\lobindup{\rep\chi}{P}{\rep\eta}}}{P_i}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Union-Whatever-Co]
+  { \alpha \text{ is not an intersection type} \\
+\rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\same{\alpha}}{\bindco}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}} }
+  { \jmatch{\naryuniontypeb{g}}{\obb{K}}{\alpha}{\bindco}{\cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+\smallskip
+
+\infrule[M-Union-Whatever-Contra]
+  { \alpha \text{ is none of the following: an intersection type, a union type} \\
+    \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\same{\alpha}}{\bindcontra}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}} }
+  { \jmatch{\naryuniontypeb{g}}{\obb{K}}{\alpha}{\bindcontra}{\Biglistofb{\rep{\listofb{\lbound}}}}{\Biglistofb{\rep{\listofb{\ubound}}}} }
+
+\caption{Matching arguments to signatures (6 of 11: matching a union type to a type)}
+\end{figure}
+
+\begin{figure}[ht]
+\small
+
+
+\infrule[M-Intersection-In-Same]
+  { \countofb{\lbound} = \countofb{\ubound} = \countofb{K} \andalso
+    \rep{\lbound = \Bottom} \andalso
+    \rep{\ubound = \Any} }
+  { \jmatch{\naryintersectiontypeb{g}}{\obb{K}}{\naryintersectiontypeb{g}}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Intersection-In-Different]
+  { \alpha \text{ is not a type parameter} \andalso \alpha \neq {\naryintersectiontypeb{g}} }
+  { \jmatch{\naryintersectiontypeb{g}}{\dontcare}{\alpha}{\bindinv}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infrule[M-Intersection-In-Param]
+  { 1 \le i \le \countofb{P} \andalso \rep{\lbound = \ifexpr{(P = \same{P_i})}{\same{\naryintersectiontypeb{g}}}{\Bottom}} \andalso \rep{\ubound = \ifexpr{(P = \same{P_i})}{\same{\naryintersectiontypeb{g}}}{\Any}} }
+  { \jmatch{\naryintersectiontypeb{g}}{\obb{\lobindup{\rep\chi}{P}{\rep\eta}}}{P_i}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Intersection-Whatever-Co]
+  { \alpha \text{ is not an intersection type} \\
+\rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\same{\alpha}}{\bindco}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}} }
+  { \jmatch{\naryintersectiontypeb{g}}{\obb{K}}{\alpha}{\bindco}{\Biglistofb{\rep{\listofb{\lbound}}}}{\Biglistofb{\rep{\listofb{\ubound}}}} }
+
+\smallskip
+
+\infrule[M-Intersection-Whatever-Contra]
+  { \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\same{\alpha}}{\bindcontra}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}} }
+  { \jmatch{\naryintersectiontypeb{g}}{\obb{K}}{\alpha}{\bindcontra}{\cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+
+\caption{Matching arguments to signatures (7 of 11: matching an intersection type to a type)}
+\end{figure}
+
+\clearpage
+\begin{figure}[ht]
+\small
+
+\infrule[M-Whatever-Union-Success]
+  { g \text{ is none of the following: an intersection type, a union type} \\
+    \countofb{\lbound} = \countofb{\ubound} = \countofb{K} \andalso
+    \rep{\lbound = \Bottom} \andalso
+    \rep{\ubound = \Any} \\
+    \jcompare[\denv \cup \setb{K}]{g}{\naryuniontypeb{\alpha}}{V} }
+  { \jmatch{g}{\obb{K}}{\naryuniontypeb{\alpha}}{V}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Whatever-Union-Failure]
+  { g \text{ is none of the following: an intersection type, a union type} \\
+    \jdonotcompare[\denv \cup \setb{K}]{g}{\naryuniontypeb{\alpha}}{V} }
+  { \jmatch{g}{\obb{K}}{\naryuniontypeb{\alpha}}{V}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infrule[M-Union-Union-Success]
+  { \countofb{\lbound} = \countofb{\ubound} = \countofb{K} \andalso \rep{\lbound = \Bottom} \andalso \rep{\ubound = \Any} \\
+    \jcompare[\denv \cup \setb{K}]{\naryuniontypeb{g}}{\naryuniontypeb{\alpha}}{\bindcontra} }
+  { \jmatch{\naryuniontypeb{g}}{\obb{K}}{\naryuniontypeb{\alpha}}{\bindcontra}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Union-Union-Failure]
+  { \jdonotcompare[\denv \cup \setb{K}]{\naryuniontypeb{g}}{\naryuniontypeb{\alpha}}{\bindcontra} }
+  { \jmatch{\naryuniontypeb{g}}{\obb{K}}{\naryuniontypeb{\alpha}}{\bindcontra}{\biglistof{}}{\biglistof{}} }
+
+\caption{Matching arguments to signatures (8 of 11: matching a union type)}
+\end{figure}
+
+\begin{figure}[ht]
+\small
+
+\infrule[M-Whatever-Intersection-Success]
+  { g \text{ is none of the following: an intersection type, a union type} \\
+\countofb{\lbound} = \countofb{\ubound} = \countofb{K} \andalso
+    \rep{\lbound = \Bottom} \andalso
+    \rep{\ubound = \Any} \\
+    \jcompare[\denv \cup \setb{K}]{g}{\naryintersectiontypeb{\alpha}}{V} }
+  { \jmatch{g}{\obb{K}}{\naryintersectiontypeb{\alpha}}{V}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Whatever-Intersection-Failure]
+  { g \text{ is none of the following: an intersection type, a union type} \\
+   \jdonotcompare[\denv \cup \setb{K}]{g}{\naryintersectiontypeb{\alpha}}{V} }
+  { \jmatch{g}{\obb{K}}{\naryintersectiontypeb{\alpha}}{V}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infrule[M-Union-Intersection-Success]
+  { \countofb{\lbound} = \countofb{\ubound} = \countofb{K} \andalso \rep{\lbound = \Bottom} \andalso \rep{\ubound = \Any} \\
+    (V = \bindco) \lor (V = \bindcontra) \andalso \jcompare[\denv \cup \setb{K}]{\naryuniontypeb{g}}{\naryintersectiontypeb{\alpha}}{V} }
+  { \jmatch{\naryuniontypeb{g}}{\obb{K}}{\naryintersectiontypeb{\alpha}}{V}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Union-Intersection-Failure]
+  { (V = \bindco) \lor (V = \bindcontra) \andalso \jdonotcompare[\denv \cup \setb{K}]{\naryuniontypeb{g}}{\naryintersectiontypeb{\alpha}}{V} }
+  { \jmatch{\naryuniontypeb{g}}{\obb{K}}{\naryintersectiontypeb{\alpha}}{V}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infrule[M-Intersection-Intersection-Success]
+  { \countofb{\lbound} = \countofb{\ubound} = \countofb{K} \andalso \rep{\lbound = \Bottom} \andalso \rep{\ubound = \Any} \\
+    \jcompare[\denv \cup \setb{K}]{\naryintersectiontypeb{g}}{\naryintersectiontypeb{\alpha}}{\bindco} }
+  { \jmatch{\naryintersectiontypeb{g}}{\obb{K}}{\naryintersectiontypeb{\alpha}}{\bindco}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}} }
+
+\smallskip
+
+\infrule[M-Intersection-Intersection-Failure]
+  { \jdonotcompare[\denv \cup \setb{K}]{\naryintersectiontypeb{g}}{\naryintersectiontypeb{\alpha}}{\bindco} }
+  { \jmatch{\naryintersectiontypeb{g}}{\obb{K}}{\naryintersectiontypeb{\alpha}}{\bindco}{\biglistof{}}{\biglistof{}} }
+
+\caption{Matching arguments to signatures (9 of 11: matching an intersection type)}
+\end{figure}
+
+
+\begin{figure}[ht]
+\small
+
+\infrule[M-Trait-In-Success]
+  { \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\alpha}{\bindinv}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}} }
+  }
+  { \jmatch{T\obb{g}}{\obb{K}}{T\obb{\alpha}}{\bindinv}{\cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+\smallskip
+
+\infrule[M-Trait-In-Failure]
+  { \mathit{distinct}(T, T') }
+  { \jmatch{T\obb{g}}{\obb{K}}{T'\obb{\alpha}}{\bindinv}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infrule[M-Trait-Co]
+  { \traitdecl{T}{\rep{\bindup{V'\;\dontcare}{\dontcares}}}{\dontcares}{\dontcares} \in \denv \\[4pt]
+    \jsubtype[\denv]{G}{T\obb{g}}  \andalso  \jgtemplate[\denv]{(G \subtypeof T\obb{\alpha'})}{\Rightarrow}{(T\obb{g} \subtypeof T\obb{\alpha'})} \\[2pt]
+    \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\alpha}{V'}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}} }
+  }
+  { \jmatch{G}{\obb{K}}{T\obb{\alpha}}{\bindco}{\cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+\smallskip
+
+\infrule[M-Trait-Contra]
+  { \traitdecl{T}{\rep{\bindup{V'\;\dontcare}{\dontcares}}}{\dontcares}{\dontcares} \in \denv \\[4pt]
+    \jsubtype[\denv \cup \setb{K}]{T'\obb{\alpha'}}{T\obb{\alpha}}  \andalso  \jgtemplate[\denv \cup \setb{K}]{(T'\obb{\alpha'} \subtypeof T\obb{\alpha''})}{\Rightarrow}{(T\obb{\alpha} \subtypeof T\obb{\alpha''})} \\[2pt]
+    \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\alpha}{\flip{V'}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}} }
+  }
+  { \jmatch{T\obb{g}}{\obb{K}}{T'\obb{\alpha'}}{\bindcontra}{\cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+\smallskip
+
+\infax[M-Object-Trait-In]
+  { \jmatch{O\ob{\dontcares}}{\dontcare}{T\ob{\dontcares}}{\bindinv}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Object-Trait-Contra]
+  { \jmatch{O\ob{\dontcares}}{\dontcare}{T\ob{\dontcares}}{\bindcontra}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infrule[M-Trait-Co-Ancestor-Not-Found]
+  { \setb{C} = \ancestors[\denv]{G}  \andalso  T \not\in \bigsetb{\name{C}} }
+  { \jmatch{G}{\dontcare}{T\ob{\dontcares}}{\bindco}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infrule[M-Trait-Contra-Ancestor-Not-Found]
+  { \setb{C} = \ancestors[\denv]{T'\obb{\alpha'}} \andalso T \not\in \bigsetb{\name{C}} }
+  { \jmatch{T\ob{\dontcares}}{\dontcare}{T'\obb{\alpha'}}{\bindcontra}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Tuple-Trait]
+  { \jmatch{\tupleb{g}}{\dontcare}{T\ob{\dontcares}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Arrow-Trait]
+  { \jmatch{\arrowtype{g}{h}}{\dontcare}{T\ob{\dontcares}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+\caption{Matching arguments to signatures (10 of 11: matching a trait type)}
+\end{figure}
+
+\begin{figure}[ht]
+\small
+
+
+\infrule[M-Object-Object-Same]
+  { \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\alpha}{\bindinv}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}} }
+  }
+  { \jmatch{O\obb{g}}{\obb{K}}{O\obb{\alpha}}{V}{\cartesiantypeunion{\rep{K}} \Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}} \Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+\smallskip
+
+\infrule[M-Object-Object-Different]
+  { \mathit{distinct}(O,O') }
+  { \jmatch{O\ob{\dontcares}}{\dontcare}{O'\ob{\dontcares}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Trait-Object-In]
+  { \jmatch{T\ob{\dontcares}}{\dontcare}{O\ob{\dontcares}}{\bindinv}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Trait-Object-Co]
+  { \jmatch{T\ob{\dontcares}}{\dontcare}{O\ob{\dontcares}}{\bindco}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infrule[M-Trait-Object-Contra]
+  { \traitdecl{T}{\rep{\bindup{V'\;\dontcare}{\dontcares}}}{\dontcares}{\dontcares} \in \denv \\
+    \jsubtype[\denv \cup \setb{K}]{O\obb{\alpha}}{T\obb{\alpha'}} \andalso
+    \jgtemplate[\denv \cup \setb{K}]{(O\obb{\alpha} \subtypeof T\obb{\alpha''})}{\Rightarrow}{(T\obb{\alpha'} \subtypeof T\obb{\alpha''})} \\[4pt]
+    \rep{\jmatch[\same{\denv}]{g}{\same{\obb{K}}}{\alpha'}{\flip{V'}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}} }
+  { \jmatch{T\obb{g}}{\obb{K}}{O\obb{\alpha}}{\bindcontra}{\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}} }
+
+\smallskip
+
+\infrule[M-Trait-Object-Ancestor-Not-Found]
+  { \setb{C} = \ancestors[\denv]{O\obb{\alpha}}  \andalso  T \not\in \bigsetb{\name{C}} }
+  { \jmatch{T\ob{\dontcares}}{\dontcare}{O\obb{\alpha}}{\bindcontra}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Tuple-Object]
+  { \jmatch{\tupleb{g}}{\dontcare}{O\obb{\alpha}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+\smallskip
+
+\infax[M-Arrow-Object]
+  { \jmatch{\arrowtype{g}{h}}{\dontcare}{O\obb{\alpha}}{\dontcare}{\biglistof{}}{\biglistof{}} }
+
+\caption{Matching arguments to signatures (11 of 11: matching an object type)}
+\end{figure}
+
+\label{app:match}
+\end{appendices}
+
+\clearpage
+\begin{appendices}
+\section{Lemmas}
+\normalfont
+\begin{lemma}
+\label{lem:cartesianobeys}
+For $\biglistofb{\listofb{\lbound'}}=\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{l}}}$ and $\biglistofb{\listofb{\ubound'}}=\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{u}}}$ such that
+\begin{center}
+$1 \le m = \Bigcountofb{\biglistofb{\listofb{\lbound}}} = \Bigcountofb{\biglistofb{\listofb{\ubound}}}$ and $\rep{\bigcountofb{\listofb{\lbound}}=\bigcountofb{\listofb{\ubound}}}$ and $\rep{\rep{\same{\same{\countofb{K}}}=\countofb{\lbound}=\countofb{\ubound}}}$ and $\rep{\rep{\rep{\jsubtype[\same{\same{\same{\denv}}}]{\lbound}{\ubound}}}}$,
+\end{center}
+there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+if and only if there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+\end{lemma}
+
+\begin{proof}
+We prove by induction on $m$.
+First, if $m = 1$,
+\begin{center}
+$\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{\lbound}}} = \biglistofb{\listofb{\lbound}}$
+\quad and \quad
+$\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistof{\biglistofb{\listofb{\ubound}}} = \biglistofb{\listofb{\ubound}}$
+\end{center}
+Therefore, the statement holds trivially.\\
+Now, suppose the statement holds for $m-1$ where $m>1$, and we show that
+it holds for $m$.
+For
+\begin{center}
+$\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\lbound}}}[m-1], \biglistofb{\listofb{\lbound_{\same{\same{m}}}}}}$
+\quad and \quad
+$\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\ubound}}}[m-1], \biglistofb{\listofb{\ubound_{\same{\same{m}}}}}}$,
+\end{center}
+by letting $\biglistofb{\listofb{\lbound''}} = \cartesiantypeunion{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\lbound}}}[m-1]}$ and
+$\biglistofb{\listofb{\ubound''}} = \cartesiantypeintersection{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\ubound}}}[m-1]}$, we have
+\begin{center}
+$\biglistofb{\listofb{\lbound'}} = \Biglistof{\rep{\rep{\transposedtypeunion\biglistof{\listof{\rep{\lbound''_{i'k}}[k]},\listof{\rep{\lbound_{mj'k}}[k]}}}[j']}[i']}$
+\quad and \quad
+$\biglistofb{\listofb{\ubound'}} = \Biglistof{\rep{\rep{\transposedtypeintersection\biglistof{\listof{\rep{\ubound''_{i'k}}[k]},\listof{\rep{\ubound_{mj'k}}[k]}}}[j']}[i']}$
+\end{center}
+For $\sigma = \substb{g}{P}$,
+there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+if and only if
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\transposedtypeunion\biglistof{\listofb{\lbound''_{\same{i'}}}, \listofb{\lbound_{\same{mj'}}}}}{\transposedtypeintersection\biglistof{\listofb{\ubound''_{\same{i}}}, \listofb{\ubound_{\same{mj'}}}}}$
+for some $i'$ and $j'$
+\end{center}
+if and only if
+\begin{center}
+$\rep{\jsubtype[\denv]{\sigma\naryuniontype{\lbound''_{i'k}, \lbound_{mj'k}}}{g_k}}[k]$
+\quad and \quad
+$\rep{\jsubtype[\denv]{g_k}{\sigma\naryintersectiontype{\ubound''_{i'k}, \ubound_{mj'k}}}}[k]$
+\end{center}
+if and only if
+\begin{center}
+$\rep{\jsubtype[\same\denv]{\same{\sigma}\lbound''_{\same{i'}}}{g}}$
+\quad and\quad
+$\rep{\jsubtype[\same\denv]{\same{\sigma}\lbound_{\same{mj'}}}{g}}$
+\quad and\quad
+$\rep{\jsubtype[\same\denv]{g}{\same\sigma\ubound''_{\same{i'}}}}$
+\quad and\quad
+$\rep{\jsubtype[\same\denv]{g}{\same\sigma\ubound_{\same{mj'}}}}$
+\end{center}
+if and only if
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound''_{\same{i'}}}}{\listofb{\ubound''_{\same{i'}}}}$
+\quad and \quad
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{mj'}}}}{\listofb{\ubound_{\same{mj'}}}}$
+\end{center}
+if and only if there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1\le j \le m-1]$ and $k_m = j'$ such that for each $1 \le j \le m$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+by inductive hypothesis.
+\end{proof}
+
+\begin{lemma}
+\label{lem:substitution}
+For $\rep{K=\lobindup{\rep{\chi}}{P}{\rep{\eta}}}$ and $\sigma=\substb{\gamma}{P}$
+with $\jbbwftype{\chi}$, $\jbbwftype{\eta}$, $\rep{\jwftype[\same\Delta]{\gamma}}$, and $\setb{P}\cap\FV(\bar{\gamma})=\emptyset$, if
+\begin{center}
+$\jobeys{\sigma}{\listofb{P}}{\listofb{\bigtypeunion\setb{\chi}}}{\listofb{\bigtypeintersection\setb{\eta}}}$
+\end{center}
+and
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\alpha'}$
+\end{center}
+then
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma\alpha'}$
+\end{center}
+\end{lemma}
+
+\begin{proof}
+If $\FV(\alpha, \alpha') \cap \setb{P} = \emptyset$, the statement holds
+trivially. We prove by induction according to whichever subtype rule was used:
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-Params-Same}:
+$\jsubtype{\sigma P_i}{\sigma P_i}$ is trivially satisfied.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-Params-Different}:
+
+If $\jsubtype[\Delta\cup\setb{K}]{P_i}{P_j}$ for $i\neq j$, it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{P_i}{\chi_{jk}}$ for some $k$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\gamma_i}{\sigma\chi_{jk}}$
+\end{center}
+From {\sf obeys} judgement, it follows that
+\begin{center}
+$\jsubtype{\sigma\bigtypeunion\setb{\chi_{\same{j}}}}{\gamma_j}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\gamma_i}{\gamma_j}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma P_i}{\sigma P_j}$
+\end{center}
+
+If $\jsubtype[\Delta\cup\setb{K}]{P_i}{Q}$ for $Q \not\in \setb{P}$ and
+$\setb{\chi'}\extends Q \extends \dontcare \in \Delta$,
+it follows that for some $k$
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{P_i}{\chi'_k}$ and
+$\jsubtype[\Delta\cup\setb{K}]{\chi'_k}{Q}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\gamma_i}{\sigma\chi'_k}$ and
+$\jsubtype{\sigma\chi'_k}{Q}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\gamma_i}{Q}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma P_i}{\sigma Q}$
+\end{center}
+
+If $\jsubtype[\Delta\cup\setb{K}]{Q}{P_j}$ for $Q \not\in \setb{P}$,
+it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{Q}{\chi_{jk}}$ for some k
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{Q}{\sigma\chi_{jk}}$
+\end{center}
+From {\sf obeys} judgement, it follows that
+\begin{center}
+$\jsubtype{\sigma\bigtypeunion\setb{\chi_{\same{j}}}}{\gamma_j}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{Q}{\gamma_j}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma Q}{\sigma P_j}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-LParam}:
+
+If $\jsubtype[\Delta\cup\setb{K}]{P_i}{\alpha}$, it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\eta_{ik}}{\alpha}$ for some $k$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma\eta_{ik}}{\sigma\alpha}$
+\end{center}
+From {\sf obeys} judgement, it follows that
+\begin{center}
+$\jsubtype{\gamma_i}{\sigma\bigtypeintersection\setb{\eta_{\same{i}}}}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\gamma_i}{\sigma \alpha}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma P_i}{\sigma \alpha}$
+\end{center}
+
+If $\jsubtype[\Delta\cup\setb{K}]{Q}{\alpha}$ for $Q \not\in \setb{P}$
+and $\dontcare \extends Q \extends \setb{\eta'} \in \Delta$, it follows that
+for some $k$
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{Q}{\eta'_k}$ and
+$\jsubtype[\Delta\cup\setb{K}]{\eta'_k}{\alpha}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{Q}{\sigma\eta'_k}$ and
+$\jsubtype{\sigma\eta'_k}{\sigma\alpha}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{Q}{\sigma\alpha}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma Q}{\sigma\alpha}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-LParam-Any}:
+If $\jsubtype[\Delta\cup\setb{K}]{P}{\alpha}$ for
+$\dontcare \extends P \extends \set{} \in \Delta\cup\setb{K}$, it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\Any}{\alpha}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\Any}{\sigma\alpha}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma P}{\sigma\alpha}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-RParam}:
+
+If $\jsubtype[\Delta\cup\setb{K}]{\alpha}{P_j}$, it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\chi_{jk}}$ for some $k$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma\chi_{jk}}$
+\end{center}
+From {\sf obeys} judgement, it follows that
+\begin{center}
+$\jsubtype{\sigma\bigtypeunion\setb{\chi_{\same{j}}}}{\gamma_j}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\sigma\alpha}{\gamma_j}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma P_j}$
+\end{center}
+
+If $\jsubtype[\Delta\cup\setb{K}]{\alpha}{Q}$ for $Q \not\in \setb{P}$ and
+$\setb{\chi'} \extends Q \extends \dontcare \in \Delta$, it follows that
+for some $k$
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\chi'_k}$ and
+$\jsubtype[\Delta\cup\setb{K}]{\chi'_k}{Q}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma\chi'_k}$ and
+$\jsubtype{\sigma\chi'_k}{Q}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\sigma\alpha}{Q}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma Q}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-RParam-Bottom}:
+If $\jsubtype[\Delta\cup\setb{K}]{\alpha}{P}$ for
+$\set{} \extends P \extends \dontcare \in \Delta\cup\setb{K}$, it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\Bottom}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma\alpha}{\Bottom}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma P}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-Tuple}:
+From $\jsubtype[\Delta\cup\setb{K}]{\tupleb{\alpha}}{\tupleb{\eta}}$,
+it follows that
+\begin{center}
+$\rep{\jsubtype[\same{\Delta\cup\setb{K}}]{\alpha}{\eta}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\rep{\jsubtype[\same\Delta]{\same\sigma\alpha}{\same\sigma\eta}}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\tupleb{\alpha}}{\sigma\tupleb{\eta}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-Arrow}:
+From $\jsubtype[\Delta\cup\setb{K}]{\arrowtype{\alpha}{\rho}}{\arrowtype{\alpha'}{\rho'}}$,
+it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha'}{\alpha}$ and $\jsubtype[\Delta\cup\setb{K}]{\rho}{\rho'}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma\alpha'}{\sigma\alpha}$ and $\jsubtype{\sigma\rho}{\sigma\rho'}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\arrowtype{\alpha}{\rho}}{\sigma\arrowtype{\alpha'}{\rho'}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-Object-Same}:
+From $\jsubtype[\Delta\cup\setb{K}]{O\obb{\alpha}}{O\obb{\eta}}$,
+it follows that
+\begin{center}
+$\rep{\jequivtype[\same{\Delta\cup\setb{K}}]{\alpha}{\eta}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\rep{\jequivtype[\same{\Delta}]{\same\sigma\alpha}{\same\sigma\eta}}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{O\obb{\same\sigma\alpha}}{O\obb{\same\sigma\eta}}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma O\obb{\alpha}}{\sigma O\obb{\eta}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-Trait}:
+From $\jsubtype[\Delta\cup\setb{K}]{T\obb{\alpha}}{T\obb{\eta}}$,
+it follows that
+\begin{center}
+$\rep{\jcompare[\same{\Delta\cup\setb{K}}]{\alpha}{\eta}{V}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\rep{\jcompare[\same\Delta]{\same\sigma\alpha}{\same\sigma\eta}{V}}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{T\obb{\same\sigma\alpha}}{T\obb{\same\sigma\eta}}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma T\obb{\alpha}}{\sigma T\obb{\eta}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-O-Parents}:
+From $\jsubtype[\Delta\cup\setb{K}]{O\obb{\alpha}}{T\obb{\eta}}$,
+it follows that
+\begin{center}
+$\objectdecl{O}{\rep{Q\extends\dontcare}}{\dontcare}{\rep{T\obb{\chi}}}{\dontcare} \in \Delta\cup\setb{K}$
+\end{center}
+and for some $T_k\obb{\same{\substb{\alpha}{Q}}\chi_{\same{k}}} \in \parents[\Delta\cup\setb{K}]{O\obb{\alpha}}$,
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{T_k\obb{\same{\substb{\alpha}{Q}}\chi_{\same{k}}}}{T\obb{\eta}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma T_k\obb{\same{\substb{\alpha}{Q}}\chi_{\same{k}}}}{\sigma T\obb{\eta}}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{T_k\obb{\same{\substb{\same\sigma\alpha}{Q}}\chi_{\same{k}}}}{\sigma T\obb{\eta}}$
+\end{center}
+Since $T_k\obb{\same{\substb{\same\sigma\alpha}{Q}}\chi_{\same{k}}} \in \parents{O\obb{\same\sigma\alpha}} = \parents{\sigma O\obb{\alpha}}$, we can conclude that
+\begin{center}
+$\jsubtype{\sigma O\obb{\alpha}}{\sigma T\obb{\eta}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-T-Parents}:
+From $\jsubtype[\Delta\cup\setb{K}]{T\obb{\alpha}}{T'\obb{\eta}}$,
+it follows that
+\begin{center}
+$\traitdecl{T}{\rep{\dontcare \; Q\extends\dontcare}}{\rep{T\obb{\chi}}}{\dontcare} \in \Delta\cup\setb{K}$
+\end{center}
+and for some $T_k\obb{\same{\substb{\alpha}{Q}}\chi_{\same{k}}} \in \parents[\Delta\cup\setb{K}]{T\obb{\alpha}}$,
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{T_k\obb{\same{\substb{\alpha}{Q}}\chi_{\same{k}}}}{T'\obb{\eta}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma T_k\obb{\same{\substb{\alpha}{Q}}\chi_{\same{k}}}}{\sigma T'\obb{\eta}}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{T_k\obb{\same{\substb{\same\sigma\alpha}{Q}}\chi_{\same{k}}}}{\sigma T'\obb{\eta}}$
+\end{center}
+Since $T_k\obb{\same{\substb{\same\sigma\alpha}{Q}}\chi_{\same{k}}} \in \parents{T\obb{\same\sigma\alpha}} = \parents{\sigma T\obb{\alpha}}$, we can conclude that
+\begin{center}
+$\jsubtype{\sigma T\obb{\alpha}}{\sigma T'\obb{\eta}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-LUnion}:
+From $\jsubtype[\Delta\cup\setb{K}]{\LRuniontype{\alpha}{\eta}}{\chi}$,
+it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\chi}$ and
+$\jsubtype[\Delta\cup\setb{K}]{\eta}{\chi}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma\chi}$ and $\jsubtype{\sigma\eta}{\sigma\chi}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\LRuniontype{\sigma\alpha}{\sigma\eta}}{\sigma\chi}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\LRuniontype{\alpha}{\eta}}{\sigma\chi}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-LIntersection}:
+From $\jsubtype[\Delta\cup\setb{K}]{\LRintersectiontype{\alpha}{\eta}}{\chi}$,
+it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\chi}$ or
+$\jsubtype[\Delta\cup\setb{K}]{\eta}{\chi}$ or
+$\jexctype[\Delta\cup\setb{K}]{\alpha}{\eta}$
+\end{center}
+If $\jexctype[\Delta\cup\setb{K}]{\alpha}{\eta}$,
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\LRintersectiontype{\alpha}{\eta}}{\Bottom}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\sigma\LRintersectiontype{\alpha}{\eta}}{\Bottom}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\LRintersectiontype{\alpha}{\eta}}{\sigma\chi}$
+\end{center}
+If $\jnotexctype[\Delta\cup\setb{K}]{\alpha}{\eta}$,
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\chi}$ or
+$\jsubtype[\Delta\cup\setb{K}]{\eta}{\chi}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma\chi}$ or $\jsubtype{\sigma\eta}{\sigma\chi}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\LRintersectiontype{\sigma\alpha}{\sigma\eta}}{\sigma\chi}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\LRintersectiontype{\alpha}{\eta}}{\sigma\chi}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-RUnion}:
+From $\jsubtype[\Delta\cup\setb{K}]{\alpha}{\LRuniontype{\eta}{\chi}}$,
+it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\eta}$ or
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\chi}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma\eta}$ or $\jsubtype{\sigma\alpha}{\sigma\chi}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\sigma\alpha}{\LRuniontype{\sigma\eta}{\sigma\chi}}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma\LRuniontype{\eta}{\chi}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Sub-RIntersection}:
+From $\jsubtype[\Delta\cup\setb{K}]{\alpha}{\LRintersectiontype{\eta}{\chi}}$,
+it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\eta}$ and
+$\jsubtype[\Delta\cup\setb{K}]{\alpha}{\chi}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma\eta}$ and
+$\jsubtype{\sigma\alpha}{\sigma\chi}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\sigma\alpha}{\LRintersectiontype{\sigma\eta}{\sigma\chi}}$
+\end{center}
+therefore
+\begin{center}
+$\jsubtype{\sigma\alpha}{\sigma\LRintersectiontype{\eta}{\chi}}$
+\end{center}
+\end{proofcase}
+
+\noindent And so all cases are covered.
+
+\end{proof}
+
+\begin{lemma}
+\label{lem:minimalancestor}
+If $\jsubtype{C}{T\obb{\alpha}}$, then there exists $T\obb{\alpha'}$ such that
+\begin{center}
+$\jsubtype{C}{T\obb{\alpha'}}$ and $\jgtemplate{(C \subtypeof T\obb{\alpha''})}{\Rightarrow}{(T\obb{\alpha'} \subtypeof T\obb{\alpha''})}$
+\end{center}
+\end{lemma}
+
+\begin{proof}
+Let $A = \bigset{T\obb{\alpha} \mid \jsubtype{C}{T\obb{\alpha}}}$, then
+$A$ is a partially ordered set with respect to subtype relation.
+It is sufficient to show that if $\left\vert A \right\vert \ge 1$,
+$A$ has the least element.
+If $\left\vert A \right\vert = 1$,
+$T\obb{\alpha} \in A$ itself is the least element.
+If $\left\vert A \right\vert > 1$, we show that for any pair
+$T\obb{\alpha'}, T\obb{\alpha''} \in A$,
+there exists $T\obb{\alpha'''} \in A$ such that
+$\jsubtype{T\obb{\alpha'''}}{T\obb{\alpha'}}$ and
+$\jsubtype{T\obb{\alpha'''}}{T\obb{\alpha''}}$,
+then the rest is a straightforward induction.
+
+Note that $C$ is either
+\begin{center}
+$C = T'\obb{\eta}$ with 
+$\traitdecl{T'}{\rep{\dontcare \; P \extends \setb{\xi}}}{\dontcare}{\dontcare} \in \Delta$
+\end{center}
+or
+\begin{center}
+$C = O\obb{\eta}$ with
+$\objectdecl{O}{\rep{P\extends\setb{\xi}}}{\dontcare}{\dontcare}{\dontcare} \in \Delta$,
+\end{center}
+and let $C' = T'\obb{P}$ or $C' = O\obb{P}$ for respective case.
+If $C = T'\obb{\eta}$ and $T' = T$, $T'\obb{\eta}$ itself is the least element.
+Otherwise, if $T\obb{\alpha'}, T\obb{\alpha''} \in A$,
+\begin{center}
+$T\obb{\alpha'} = \substb{\eta}{P}T\obb{\chi'}$ and $T\obb{\alpha''} = \substb{\eta}{P}T\obb{\chi''}$
+\end{center}
+for
+$T\obb{\chi'}, T\obb{\chi''} \in \properancestors[\denv\cup\bigsetb{\myemptyset\extends P \extends \setb{\xi}}]{C'}$
+and $\sigma = \substb{\eta}{P}$ such that
+$\jobeys{\sigma}{\listofb{P}}{\listofb{\Bottom}}{\listofb{\bigtypeintersection\setb{\xi}}}$.
+Since the trait $T'$ or the object $O$ is well-formed, its proper ancestors
+are well-formed, and so there exists
+$T\obb{\chi'''} \in \properancestors[\denv\cup\bigsetb{\myemptyset\extends P \extends \setb{\xi}}]{C'}$
+such that
+\[
+\begin{array}{l}
+\jsubtype[\denv\cup\bigsetb{\myemptyset\extends P \extends \setb{\xi}}]{C'}{T\obb{\chi'''}}\\
+\jsubtype[\denv\cup\bigsetb{\myemptyset\extends P \extends \setb{\xi}}]{T\obb{\chi'''}}{T\obb{\chi'}}\\
+\jsubtype[\denv\cup\bigsetb{\myemptyset\extends P \extends \setb{\xi}}]{T\obb{\chi'''}}{T\obb{\chi''}}
+\end{array}
+\]
+which implies
+\[
+\begin{array}{l}
+\jsubtype[\Delta\cup\bigsetb{\myemptyset\extends P \extends \setb{\xi}}]{C'}{T\obb{\chi'''}}\\
+\jsubtype[\Delta\cup\bigsetb{\myemptyset\extends P \extends \setb{\xi}}]{T\obb{\chi'''}}{T\obb{\chi'}}\\
+\jsubtype[\Delta\cup\bigsetb{\myemptyset\extends P \extends \setb{\xi}}]{T\obb{\chi'''}}{T\obb{\chi''}}
+\end{array}
+\]
+By Lemma~\ref{lem:substitution},
+\[
+\begin{array}{l}
+\jsubtype{C}{\sigma T\obb{\chi'''}}\\
+\jsubtype{\sigma T\obb{\chi'''}}{T\obb{\alpha'}}\\
+\jsubtype{\sigma T\obb{\chi'''}}{T\obb{\alpha''}}
+\end{array}
+\]
+therefore $T\obb{\alpha'''} = \sigma T\obb{\chi'''} \in A$ such that
+$\jsubtype{T\obb{\alpha'''}}{T\obb{\alpha'}}$ and $\jsubtype{T\obb{\alpha'''}}{T\obb{\alpha''}}$.
+\end{proof}
+
+
+% \begin{lemma}
+% \label{lem:reductionsubtype}
+% If $\jtreds{\Xi}{\Xi'}{\sigma}$, then $\jleinnerusing{\Xi'}{\Xi}{\sigma}$
+% \end{lemma}
+% \begin{proof}
+% If $\sigma=\emptysubst$, then it is trivial.
+% Let
+% \begin{center}
+% $\Xi=\existstypeb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}{\alpha}$
+% and
+% $\Xi'=\existstypeb{\lobindup{\rep{\chi'}}{P'}{\rep{\eta'}}}{\sigma\alpha}$
+% \end{center}
+% Then
+% \begin{center}
+% $\jsubtype[\Delta\cup\setb{\lobindup{\rep{\chi'}}{P'}{\rep{\eta'}}}]{\sigma\alpha}{\sigma\alpha}$
+% and
+% $\jobeys{\sigma}{\listofb{P}}{\listofb{\chi}}{\listofb{\eta}}$
+% \end{center}
+% since
+% \begin{center}
+% $\toConstraint{\rep{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}}{\C'}$
+% and
+% $\junify{\C \wedge \C'}{\sigma}{\C''}$
+% \end{center}
+% Therefore
+% \begin{center}
+% $\jleinnerusing{\Xi'}{\Xi}{\sigma}$
+% \end{center}
+% \end{proof}
+% 
+\begin{lemma}
+\label{lem:reductionpreserve}
+If $\jleinner{\Xi_1}{\Xi_2}$, $\jtred{\Xi_1}{\Xi'_1}$, and $\jtred{\Xi_2}{\Xi'_2}$, then
+$\jleinner{\Xi'_1}{\Xi'_2}$.
+\end{lemma}
+\begin{proof}
+Let
+\begin{center}
+$\Xi_1 = \existstype{\rep{\setb{\chi_1} \extends P_1 \extends \setb{\eta_1}}}\alpha_1$ and
+$\Xi_2 = \existstype{\rep{\setb{\chi_2} \extends P_2 \extends \setb{\eta_2}}}\alpha_2$,\\
+$\Xi_1' = \existstype{\rep{\setb{\chi_1'} \extends P_1' \extends \setb{\eta_1'}}}\alpha_1'$ and
+$\Xi_2' = \existstype{\rep{\setb{\chi_2'} \extends P_2' \extends \setb{\eta_2'}}}\alpha_2'$,\\
+$\Delta_1 = \bigsetb{\setb{\chi_1} \extends P_1 \extends \setb{\eta_1}}$,
+and $\Delta_1' = \bigsetb{\setb{\chi_1'} \extends P_1' \extends \setb{\eta_1'}}$.
+\end{center}
+If $\jtreds{\Xi_1}{\Xi_1'}{\sigma_1}$ and $\jtreds{\Xi_2}{\Xi_2'}{\sigma_2}$,
+then $\alpha'_1 = \sigma_1\alpha_1$ and $\alpha'_2 = \sigma_2\alpha_2$,
+and neither of them is $\Bottom$. Also, from the existential reduction,
+it follows that
+\begin{center}
+$\jobeys[\Delta\cup\Delta_1']{\sigma_1}{\listofb{P_1}}{\biglistofb{\bigtypeunion \setb{\chi_1}}}{\biglistofb{\bigtypeintersection \setb{\eta_1}}}$
+\end{center}
+If $\jleinnerusing{\Xi_1}{\Xi_2}{\sigma}$, then
+\begin{center}
+$\jsubtype[\Delta\cup\Delta_1]{\alpha_1}{\sigma\alpha_2}$
+\end{center}
+, hence
+\begin{center}
+$\jsubtype[\Delta\cup\Delta_1\cup\Delta_1']{\alpha_1}{\sigma\alpha_2}$.
+\end{center}
+Therefore, by Lemma~\ref{lem:substitution},
+\begin{center}
+$\jsubtype[\Delta\cup\Delta_1']{\sigma_1\alpha_1}{\sigma_1\sigma\alpha_2}$,
+\end{center}
+thus $\sigma_1\sigma\alpha_2$ is not $\Bottom$.
+Since $\sigma_2$ represents the minimum requirement that prevents
+$\sigma_2\alpha_2$ from being $\Bottom$, there exists $\sigma'$ such that
+$\sigma_1\compose\sigma = \sigma'\compose\sigma_2$.
+Therefore,
+\begin{center}
+$\jsubtype[\Delta\cup\Delta'_1]{\sigma_1\alpha_1}{\sigma'\sigma_2\alpha_2}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype[\Delta\cup\Delta'_1]{\alpha'_1}{\sigma'\alpha'_2}$
+\end{center}
+therefore
+\begin{center}
+$\jleinnerusing{\Xi_1'}{\Xi_2'}{\sigma'}$
+\end{center}
+\end{proof}
+
+\begin{lemma}
+\label{lem:innertransitive}
+If $\jleinnerusing{\Xi_1}{\Xi_2}{\sigma_1}$
+and $\jleinnerusing{\Xi_2}{\Xi_3}{\sigma_2}$,
+then $\jleinnerusing{\Xi_1}{\Xi_3}{\sigma_1\compose\sigma_2}$
+\end{lemma}
+\begin{proof}
+Let
+\[
+\begin{array}{l}
+\Xi_1 = \existstype{\rep{\setb{\chi_1} \extends P_1 \extends \setb{\eta_1}}}{\alpha_1},\\
+\Xi_2 = \existstype{\rep{\setb{\chi_2} \extends P_2 \extends \setb{\eta_2}}}{\alpha_2},\\
+\Xi_3 = \existstype{\rep{\setb{\chi_3} \extends P_3 \extends \setb{\eta_3}}}{\alpha_3},\\
+\Delta_1 = \bigsetb{\setb{\chi_1} \extends P_1 \extends \setb{\eta_1}},\\
+\Delta_2 = \bigsetb{\setb{\chi_2} \extends P_2 \extends \setb{\eta_2}},
+\end{array}
+\]
+and $\sigma_1=\substb{\gamma_1}{P_2}$ and $\sigma_2=\substb{\gamma_2}{P_3}$.
+From $\jleinnerusing{\Xi_2}{\Xi_3}{\sigma_2}$, it follows that
+\begin{center}
+$\rep{\jsubtype[\same{\Delta\cup\Delta_1\cup\Delta_2}]{\same{\sigma_2}\bigl(\bigtypeunion \bdb{\chi_3}\bigr)}{\gamma_2}}$ and 
+$\rep{\jsubtype[\same{\Delta\cup\Delta_1\cup\Delta_2}]{\gamma_2}{\same{\sigma_2}\bigl(\bigtypeintersection \bdb{\eta_3}\bigr)}}$
+\end{center}
+From $\jleinnerusing{\Xi_1}{\Xi_2}{\sigma_1}$, it follows that
+\begin{center}
+$\jobeys[\Delta\cup\Delta_1]{\sigma_1}{\listofb{P_2}}{\biglistofb{\bigtypeunion \bdb{\chi_2}}}{\biglistofb{\bigtypeintersection \bdb{\eta_2}}}$
+\end{center}
+Therefore by lemma \ref{lem:substitution},
+\begin{center}
+$\rep{\jsubtype[\same{\Delta\cup\Delta_1}]{\same{\sigma_1 \sigma_2}\bigl(\bigtypeunion \bdb{\chi_3}\bigr)}{\same{\sigma_1}\gamma_2}}$ and 
+$\rep{\jsubtype[\same{\Delta\cup\Delta_1}]{\same{\sigma_1}\gamma_2}{\same{\sigma_1 \sigma_2}\bigl(\bigtypeintersection \bdb{\eta_3}\bigr)}}$
+\end{center}
+therefore,
+\begin{center}
+$\jobeys[\Delta\cup\Delta_1]{\sigma_1 \compose \sigma_2}{\listofb{P_3}}{\biglistofb{\bigtypeunion \bdb{\chi_3}}}{\biglistofb{\bigtypeintersection \bdb{\eta_3}}}$
+\end{center}
+From $\jleinnerusing{\Xi_2}{\Xi_3}{\sigma_2}$, it follows that
+\begin{center}
+$\jsubtype[\Delta\cup\Delta_1\cup\Delta_2]{\alpha_2}{\sigma_2 \alpha_3}$
+\end{center}
+Since $\jobeys[\Delta\cup\Delta_1]{\sigma_1}{\listofb{P_2}}{\biglistofb{\bigtypeunion \bdb{\chi_2}}}{\biglistofb{\bigtypeintersection \bdb{\eta_2}}}$
+\begin{center}
+$\jsubtype[\Delta\cup\Delta_1]{\sigma_1 \alpha_2}{\sigma_1 \sigma_2 \alpha_3}$
+\end{center}
+by lemma \ref{lem:substitution}.
+Since it follows that $\jsubtype[\Delta\cup\Delta_1]{\alpha_1}{\sigma_1 \alpha_2}$ from $\jleinnerusing{\Xi_1}{\Xi_2}{\sigma_1}$,
+\begin{center}
+$\jsubtype[\Delta\cup\Delta_1]{\alpha_1}{\sigma_1 \sigma_2 \alpha_3}$
+\end{center}
+by transitivity.
+Therefore
+\begin{center}
+$\jleinnerusing{\Xi_1}{\Xi_3}{\sigma_1 \compose \sigma_2}$
+\end{center}
+\end{proof}
+
+\begin{lemma}
+\label{lem:existentialtransitive}
+If $\jle{\Xi_1}{\Xi_2}$ and $\jle{\Xi_2}{\Xi_3}$, then $\jle{\Xi_1}{\Xi_3}$.
+\end{lemma}
+\begin{proof}
+Let $\Xi_1'$ and $\Xi_2'$ be the existential types reduced from $\Xi_1$ and
+$\Xi_2$, respectively.
+From $\jle{\Xi_1}{\Xi_2}$, it follows that $\jleinner{\Xi_1'}{\Xi_2}$.
+By Lemma~\ref{lem:reductionpreserve}, we have $\jleinner{\Xi_1'}{\Xi_2'}$,
+and since $\jle{\Xi_2}{\Xi_3}$ implies $\jleinner{\Xi_2'}{\Xi_3}$,
+we can conclude that $\jleinner{\Xi_1'}{\Xi_3}$
+by Lemma~\ref{lem:innertransitive}.
+Therefore, $\jle{\Xi_1}{\Xi_3}$.
+\end{proof}
+
+ 
+% \begin{lemma}
+% \label{innerouter}
+% $\jleinnerusing{\Xi_1}{\Xi_2}{\dontcare} \Rightarrow \jle{\Xi_1}{\Xi_2}$
+% \end{lemma}
+% 
+\label{app:lemma}
+\end{appendices}
+
+\clearpage
+\begin{appendices}
+\section{Proofs of Theorems}
+\normalfont
+{\bf Proof of Theorem \ref{thm:mostspecific}}
+\begin{proof}
+Let $\setb{(d',\setb\sigma)}=\applicable{\setb{d}}{\alpha}$ where $\setb{d}=\visible{n}$ and $\alpha\neq\Bottom$.
+For the sake of brevity, let $\preceq$ relation represent $\curriedmorespecific$.
+We now show that $\big(\setb{d'}, \preceq\big)$ forms a meet semilattice
+by showing that 1) it is a partially ordered set, and
+2) the greatest lower bound of any pair resides in the set.\\
+$\big(\setb{d'}, \preceq\big)$ forms a partially ordered set since $\preceq$ is:\\
+(1) Clearly reflexive.\\
+(2) Transitive by lemma \ref{lem:existentialtransitive}.\\
+(3) Antisymmetric by No Duplicates Rule.\\
+Next, we must show that for every $d_1,d_2\in\setb{d'}$, there exists $d_0\in\set{d'}$ such that $d_0\preceq d_1$ and $d_0 \preceq d_2$, and if there exists $d_0'\in\setb{d'}$ such that $d_0' \preceq d_1$ and $d_0'\preceq d_2$ then $d_0'\preceq d_0$.
+Let
+\begin{center}
+$\dom(d_1)=\existstypeb{\lobindup{\rep{\chi_1}}{P_1}{\rep{\eta_1}}}{\alpha_1}$
+and
+$\dom(d_2)=\existstypeb{\lobindup{\rep{\chi_2}}{P_2}{\rep{\eta_2}}}{\alpha_2}$
+\end{center}
+From
+\begin{center}
+$\jleusing{\existstype{}{\alpha}}{\dom(d_1)}{\sigma_1}$
+and
+$\jleusing{\existstype{}{\alpha}}{\dom(d_2)}{\sigma_2}$
+\end{center}
+it follows that
+\begin{center}
+$\jsubtype{\alpha}{\sigma_1\alpha_1}$ and $\jsubtype{\alpha}{\sigma_2\alpha_2}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype{\alpha}{\sigma_0\intersectiontype{\alpha_1}{\alpha_2}}$
+\end{center}
+where $\sigma_0=\sigma_1\compose\sigma_2$, and from
+\begin{center}
+$\jobeys{\sigma_1}{\listofb{P_1}}{\biglistofb{\bigtypeunion \bdb{\chi_1}}}{\biglistofb{\bigtypeintersection \bdb{\eta_1}}}$\\[2pt]
+$\jobeys{\sigma_2}{\listofb{P_2}}{\biglistofb{\bigtypeunion \bdb{\chi_2}}}{\biglistofb{\bigtypeintersection \bdb{\eta_2}}}$,
+\end{center}
+it follows that
+\begin{center}
+$\jobeys{\sigma_0}{\listof{\bar{P_1},\bar{P_2}}}{\biglistof{\bar{\bigtypeunion \bdb{\chi_1}},\bar{\bigtypeunion \bdb{\chi_2}}}}{\biglistof{\bar{\bigtypeintersection \bdb{\eta_1}},\bar{\bigtypeintersection \bdb{\eta_2}}}}$
+\end{center}
+Since $d_1,d_2\in\setb{d}$, they must satisfy the Meet Rule.
+Clearly, \rncite{Meet-Triv} and \rncite{Meet-Excl} are not applicable.
+If they satisfy \rncite{Meet-Spec-Less} by $\jle{\dom(d_1)}{\dom(d_2)}$, then $d_0=d_1$ is the greatest lower bound.
+If they satisfy \rncite{Meet-Spec-Grt} by $\jle{\dom(d_2)}{\dom(d_1)}$, then $d_0=d_2$ is the greatest lower bound.
+If they satisfy \rncite{Meet-Third}, then there exists $d_0\in\setb{d}$ such that
+\begin{center}
+$\dom(d_0)=\existstype{\bar{\lobindup{\rep{\chi_1}}{P_1}{\rep{\eta_1}}}, \bar{\lobindup{\rep{\chi_2}}{P_2}{\rep{\eta_2}}}}{\intersectiontype{\alpha_1}{\alpha_2}}$
+\end{center}
+which implies
+\begin{center}
+$\jle{\dom(d_0)}{\dom(d_1)}$
+and
+$\jle{\dom(d_0)}{\dom(d_2)}$
+\end{center}
+Moreover, $d_0\in\setb{d'}$ since
+\begin{center}
+$\jsubtype{\alpha}{\sigma_0\intersectiontype{\alpha_1}{\alpha_2}}$
+\end{center}
+and
+\begin{center}
+$\jobeys{\sigma_0}{\listof{\bar{P_1},\bar{P_2}}}{\biglistof{\bar{\bigtypeunion \bdb{\chi_1}},\bar{\bigtypeunion \bdb{\chi_2}}}}{\biglistof{\bar{\bigtypeintersection \bdb{\eta_1}},\bar{\bigtypeintersection \bdb{\eta_2}}}}$
+\end{center}
+Now, we show that $d_0$ is the greatest lower bound.
+Suppose there exists $d_0' \in \setb{d'}$ such that
+\begin{center}
+$\dom(d_0')=\existstypeb{\lobindup{\rep{\chi_0'}}{P_0'}{\rep{\eta_0'}}}{\alpha_0'}$
+\end{center}
+and
+\begin{center}
+$\jleusing{\dom(d_0')}{\dom(d_1)}{\sigma_1'}$
+and
+$\jleusing{\dom(d_0')}{\dom(d_2)}{\sigma_2'}$.
+\end{center}
+Then, for 
+$\Xi_r=\existstypeb{\lobindup{\rep{\chi_r'}}{P_r'}{\rep{\eta_r'}}}{\alpha_r'}$
+such that $\jtred{\dom(d_0')}{\Xi_r}$,
+\begin{center}
+$\jsubtype[\Delta,\Delta_r']{\alpha_r'}{\sigma_1'\alpha_1}$ and $\jsubtype[\Delta,\Delta_r']{\alpha_r'}{\sigma_2'\alpha_2}$
+\end{center}
+where $\Delta_r'=\setb{\lobindup{\rep{\chi_r'}}{P_r'}{\rep{\eta_r'}}}$,
+which implies
+\begin{center}
+$\jsubtype[\Delta,\Delta_r']{\alpha_r'}{\sigma_0'\intersectiontype{\alpha_1}{\alpha_2}}$
+\end{center}
+where $\sigma_0'=\sigma_1'\compose\sigma_2'$
+,therefore
+\begin{center}
+$\jleusing{\dom(d_0')}{\dom(d_0)}{\sigma_0'}$
+\end{center}
+Since for every pair of a partially ordered set $\big(\setb{d'},\preceq\big)$ their greatest lower bound is also in $\setb{d'}$, it forms a finite meet semilattice.
+Now it is easy to show that $\setb{d'}$ has a single most specific declaration by simple straightforward induction.
+\end{proof}
+
+{\bf Proof of Lemma \ref{lem:matchsound}}
+\begin{proof}
+If $\jmatch{\dontcare}{\dontcare}{\dontcare}{\dontcare}{\biglistof{}}{\biglistof{}}$, the theorem holds vacuously. Therefore, we will prove by induction on whichever successful {\sf match} rule was used:
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Any-Whatever-Success}:
+Since $\jequivtype[\denv]{\sigma\Any}{\Any}$, by applying lemma \ref{lem:substitution} to the premise
+\begin{center}
+$\jcompare[\denv \cup \setb{K}]{\Any}{\alpha}{V}$
+\end{center}
+it follows that
+\begin{center}
+$\jcompare[\denv]{\Any}{\sigma\alpha}{V}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Whatever-Any-Success}:
+Since $\jequivtype[\denv]{\sigma\Any}{\Any}$, it follows from the premise that
+\begin{center}
+$\jcompare[\denv]{g}{\sigma\Any}{V}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Param-In}:
+From the premises and the hypothesis
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+it follows that $g=\lbound_i=\ubound_i=g'_i$. Therefore $\jequivtype[\denv]{g}{g'_i}$ from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{g}{\sigma P_i}{\bindinv}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Param-Co}:
+From the premise and the hypothesis
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+it follows that $g=\lbound_i$ and $\jsubtype[\denv]{\lbound_i}{g'_i}$ from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{g}{\sigma P_i}{\bindco}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Param-Contra}:
+From the premise and the hypothesis
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+it follows that $\ubound_i=g$ and $\jsubtype[\denv]{g'_i}{\ubound_i}$ from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{g}{\sigma P_i}{\bindcontra}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Arrow-Arrow}:
+Let $\biglistofb{\listofb{\lbound''}}=\cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{\lbound}}, \biglistofb{\listofb{\lbound'}}}$ and $\biglistofb{\listofb{\ubound''}}=\cartesiantypeintersection{\rep{K}}\Biglistof{\biglistofb{\listofb{\ubound}}, \biglistofb{\listofb{\ubound'}}}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound''_{\same{i}}}}{\listofb{\ubound''_{\same{i}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\listofb{\lbound''}} = \bigcountofb{\listofb{\ubound''}}$, by lemma \ref{lem:cartesianobeys}, there exist $1 \le j \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}$ and $1 \le j' \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{j}}}}{\listofb{\ubound_{\same{j}}}}$ and $\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{j'}}}}{\listofb{\ubound'_{\same{j'}}}}$
+\end{center}
+Then we can infer inductively from the premises that
+\begin{center}
+$\jcompare[\denv]{g}{\sigma\alpha}{\flip{V}}$ and $\jcompare[\denv]{g'}{\sigma\rho}{V}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\arrowtype{g}{g'}}{\sigma\arrowtype{\alpha}{\rho}}{V}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Tuple-Tuple-Success}:
+Let $\biglistofb{\listofb{\lbound'}}=\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$, $\biglistofb{\listofb{\ubound'}}=\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$, and $m = \Bigcountofb{\biglistofb{\listofb{\lbound}}} = \Bigcountofb{\biglistofb{\listofb{\ubound}}}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$, by lemma \ref{lem:cartesianobeys}, there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Then we can infer inductively from the premises that
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha}{\same{V}}}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\tupleb{g}}{\sigma\tupleb{\alpha}}{V}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Union-In-Same}:
+Since $\bigtypeunion\listofb{g}$ is a ground type, $\jequivtype[\denv]{\sigma\big(\bigtypeunion\listofb{g}\big)}{\bigtypeunion\listofb{g}}$ from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\bigtypeunion\listofb{g}}{\sigma\big(\bigtypeunion\listofb{g}\big)}{\bindinv}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Union-In-Param}:
+From the premises and the hypothesis
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+it follows that $\bigtypeunion\listofb{g}=\lbound_i=\ubound_i=g'_i$.
+Therefore $\jequivtype[\denv]{\bigtypeunion\listofb{g}}{g'_i}$
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\bigtypeunion\listofb{g}}{\sigma P_i}{\bindinv}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Union-Whatever-Co}:
+Let $\biglistofb{\listofb{\lbound'}}=\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$, $\biglistofb{\listofb{\ubound'}}=\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$, and $m = \Bigcountofb{\biglistofb{\listofb{\lbound}}} = \Bigcountofb{\biglistofb{\listofb{\ubound}}}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$, by lemma \ref{lem:cartesianobeys}, there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Then we can infer inductively from the premises that
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same{\sigma\alpha}}{\bindco}}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\bigtypeunion\listofb{g}}{\sigma\alpha}{\bindco}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Union-Whatever-Contra}:
+Let $\biglistofb{\listofb{\lbound'}} = \biglistof{\rep{\rep{\listof{\rep{\lbound}[k]}}[j]}[i]}$ and $\biglistofb{\listofb{\ubound'}} = \biglistof{\rep{\rep{\listof{\rep{\ubound}[k]}}[j]}[i]}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i'}}}}{\listofb{\ubound'_{\same{i'}}}}$
+\end{center}
+for some $1 \le i' \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{ij}}}}{\listofb{\ubound_{\same{ij}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\rep{\listofb{\lbound}}} = \bigcountofb{\rep{\listofb{\ubound}}}$ and $1 \le j \le \bigcountofb{\listofb{\lbound_{\same{\same{i}}}}} = \bigcountofb{\listofb{\ubound_{\same{\same{i}}}}}$. Then we can infer inductively from the $i$-th \sf{match} premise that
+\begin{center}
+$\jcompare[\denv]{g_i}{\sigma\alpha}{\bindcontra}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\bigtypeunion\listofb{g}}{\sigma\alpha}{\bindcontra}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Intersection-In-Same}:
+Since $\bigtypeintersection\listofb{g}$ is a ground type, $\jequivtype[\denv]{\sigma\big(\bigtypeintersection\listofb{g}\big)}{\bigtypeintersection\listofb{g}}$ from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\bigtypeintersection\listofb{g}}{\sigma\big(\bigtypeintersection\listofb{g}\big)}{\bindinv}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Intersection-In-Param}:
+From the premises and the hypothesis
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+it follows that $\bigtypeintersection\listofb{g}=\lbound_i=\ubound_i=g'_i$.
+Therefore $\jequivtype[\denv]{\bigtypeintersection\listofb{g}}{g'_i}$
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\bigtypeintersection\listofb{g}}{\sigma P_i}{\bindinv}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Intersection-Whatever-Co}:
+Let $\biglistofb{\listofb{\lbound'}} = \biglistof{\rep{\rep{\listof{\rep{\lbound}[k]}}[j]}[i]}$ and $\biglistofb{\listofb{\ubound'}} = \biglistof{\rep{\rep{\listof{\rep{\ubound}[k]}}[j]}[i]}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i'}}}}{\listofb{\ubound'_{\same{i'}}}}$
+\end{center}
+for some $1 \le i' \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{ij}}}}{\listofb{\ubound_{\same{ij}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\rep{\listofb{\lbound}}} = \bigcountofb{\rep{\listofb{\ubound}}}$ and $1 \le j \le \bigcountofb{\listofb{\lbound_{\same{\same{i}}}}} = \bigcountofb{\listofb{\ubound_{\same{\same{i}}}}}$. Then we can infer inductively from the $i$-th \sf{match} premise that
+\begin{center}
+$\jcompare[\denv]{g_i}{\sigma\alpha}{\bindco}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\bigtypeintersection\listofb{g}}{\sigma\alpha}{\bindco}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Intersection-Whatever-Contra}:
+Let $\biglistofb{\listofb{\lbound'}}=\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$, $\biglistofb{\listofb{\ubound'}}=\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$, and $m = \Bigcountofb{\biglistofb{\listofb{\lbound}}} = \Bigcountofb{\biglistofb{\listofb{\ubound}}}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$, by lemma \ref{lem:cartesianobeys}, there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Then we can infer inductively from the premises that
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same{\sigma\alpha}}{\bindcontra}}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{\bigtypeintersection\listofb{g}}{\sigma\alpha}{\bindcontra}$
+\end{center}
+
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Whatever-Union-Success}:
+From the premise
+\begin{center}
+$\jcompare[\denv\cup\setb{K}]{g}{\bigtypeunion\listofb{\alpha}}{V}$
+\end{center}
+it follows by Lemma~\ref{lem:substitution} that
+\begin{center}
+$\jcompare{\sigma g}{\sigma\big(\bigtypeunion\listofb{\alpha}\big)}{V}$
+\end{center}
+therefore
+\begin{center}
+$\jcompare[\denv]{g}{\sigma\big(\bigtypeunion\listofb{\alpha}\big)}{V}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Union-Union-Success}:
+From the premise
+\begin{center}
+$\jcompare[\denv\cup\setb{K}]{\bigtypeunion\listofb{g}}{\bigtypeunion\listofb{\alpha}}{\bindcontra}$
+\end{center}
+it follows by Lemma~\ref{lem:substitution} that
+\begin{center}
+$\jcompare{\sigma\big(\bigtypeunion\listofb{g}\big)}{\sigma\big(\bigtypeunion\listofb{\alpha}\big)}{\bindcontra}$
+\end{center}
+therefore
+\begin{center}
+$\jcompare[\denv]{\bigtypeunion\listofb{g}}{\sigma\big(\bigtypeunion\listofb{\alpha}\big)}{\bindcontra}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Whatever-Intersection-Success}:
+From the premise
+\begin{center}
+$\jcompare[\denv\cup\setb{K}]{g}{\bigtypeintersection\listofb{\alpha}}{V}$
+\end{center}
+it follows by Lemma~\ref{lem:substitution} that
+\begin{center}
+$\jcompare{\sigma g}{\sigma\big(\bigtypeintersection\listofb{\alpha}\big)}{V}$
+\end{center}
+therefore
+\begin{center}
+$\jcompare[\denv]{g}{\sigma\big(\bigtypeintersection\listofb{\alpha}\big)}{V}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Union-Intersection-Success}:
+From the premise
+\begin{center}
+$\jcompare[\denv\cup\setb{K}]{\bigtypeunion\listofb{g}}{\bigtypeintersection\listofb{\alpha}}{\bindcontra}$
+\end{center}
+it follows by Lemma~\ref{lem:substitution} that
+\begin{center}
+$\jcompare{\sigma\big(\bigtypeunion\listofb{g}\big)}{\sigma\big(\bigtypeintersection\listofb{\alpha}\big)}{\bindcontra}$
+\end{center}
+therefore
+\begin{center}
+$\jcompare[\denv]{\bigtypeunion\listofb{g}}{\sigma\big(\bigtypeintersection\listofb{\alpha}\big)}{\bindcontra}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Intersection-Intersection-Success}:
+From the premise
+\begin{center}
+$\jcompare[\denv\cup\setb{K}]{\bigtypeintersection\listofb{g}}{\bigtypeintersection\listofb{\alpha}}{\bindcontra}$
+\end{center}
+it follows by Lemma~\ref{lem:substitution} that
+\begin{center}
+$\jcompare{\sigma\big(\bigtypeintersection\listofb{g}\big)}{\sigma\big(\bigtypeintersection\listofb{\alpha}\big)}{\bindcontra}$
+\end{center}
+therefore
+\begin{center}
+$\jcompare[\denv]{\bigtypeintersection\listofb{g}}{\sigma\big(\bigtypeintersection\listofb{\alpha}\big)}{\bindcontra}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Trait-In-Success}:
+Let $\biglistofb{\listofb{\lbound'}}=\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$, $\biglistofb{\listofb{\ubound'}}=\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$, and $m = \Bigcountofb{\biglistofb{\listofb{\lbound}}} = \Bigcountofb{\biglistofb{\listofb{\ubound}}}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$, by lemma \ref{lem:cartesianobeys}, there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Then we can infer inductively from the premises that
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha}{\bindinv}}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{T\obb{g}}{\sigma T\obb{\alpha}}{\bindinv}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Trait-Co}:
+Let $\biglistofb{\listofb{\lbound'}}=\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$, $\biglistofb{\listofb{\ubound'}}=\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$, and $m = \Bigcountofb{\biglistofb{\listofb{\lbound}}} = \Bigcountofb{\biglistofb{\listofb{\ubound}}}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$, by lemma \ref{lem:cartesianobeys}, there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Then we can infer inductively from the premises that
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha}{V'}}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{T\obb{g}}{\sigma T\obb{\alpha}}{\bindco}$
+\end{center}
+Since $\jcompare[\denv]{G}{T\obb{g}}{\bindco}$,
+\begin{center}
+$\jcompare[\denv]{G}{\sigma T\obb{\alpha}}{\bindco}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Trait-Contra}:
+Let $\biglistofb{\listofb{\lbound'}}=\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$, $\biglistofb{\listofb{\ubound'}}=\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$, and $m = \Bigcountofb{\biglistofb{\listofb{\lbound}}} = \Bigcountofb{\biglistofb{\listofb{\ubound}}}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$, by lemma \ref{lem:cartesianobeys}, there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Then we can infer inductively from the premises that
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha}{\flip{V'}}}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{T\obb{g}}{\sigma T\obb{\alpha}}{\bindcontra}$
+\end{center}
+By applying lemma \ref{lem:substitution} to the premise,
+\begin{center}
+$\jcompare[\denv]{\sigma T\obb{\alpha}}{\sigma T'\obb{\alpha'}}{\bindcontra}$
+\end{center}
+therefore
+\begin{center}
+$\jcompare[\denv]{T\obb{g}}{\sigma T'\obb{\alpha'}}{\bindcontra}$
+\end{center}
+
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Object-Object-Same}:
+Let $\biglistofb{\listofb{\lbound'}}=\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$, $\biglistofb{\listofb{\ubound'}}=\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$, and $m = \Bigcountofb{\biglistofb{\listofb{\lbound}}} = \Bigcountofb{\biglistofb{\listofb{\ubound}}}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$, by lemma \ref{lem:cartesianobeys}, there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Then we can infer inductively from the premises that
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha}{\bindinv}}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{O\obb{g}}{\sigma O\obb{\alpha}}{\bindinv}$
+\end{center}
+which implies
+\begin{center}
+$\jcompare[\denv]{O\obb{g}}{\sigma O\obb{\alpha}}{V}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{M-Trait-Object-Contra}:
+Let $\biglistofb{\listofb{\lbound'}}=\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$, $\biglistofb{\listofb{\ubound'}}=\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$, and $m = \Bigcountofb{\biglistofb{\listofb{\lbound}}} = \Bigcountofb{\biglistofb{\listofb{\ubound}}}$. Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+for some $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$, by lemma \ref{lem:cartesianobeys}, there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Then we can infer inductively from the premises that
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha'}{\flip{V'}}}$
+\end{center}
+from which we can conclude that
+\begin{center}
+$\jcompare[\denv]{T\obb{g}}{\sigma T\obb{\alpha'}}{\bindcontra}$
+\end{center}
+By applying lemma \ref{lem:substitution} to the premise,
+\begin{center}
+$\jcompare[\denv]{\sigma T\obb{\alpha'}}{\sigma O\obb{\alpha}}{\bindcontra}$
+\end{center}
+therefore
+\begin{center}
+$\jcompare[\denv]{T\obb{g}}{\sigma O\obb{\alpha}}{\bindcontra}$
+\end{center}
+
+\end{proofcase}
+\end{proof}
+
+\setcounter{equation}{0}
+{\bf Proof of Lemma \ref{lem:matchcomp}}
+\begin{proof}
+By induction on the structure of $g$ and $\alpha$:
+
+
+\begin{proofcase}
+{\bf Case 1} $g = \Any$ and $\alpha$ is none of the following: a type parameter, $\Any$, an intersection type, a union type :\\
+$\jcompare[\denv]{\Any}{\sigma \alpha}{V}$ holds only when $V = \bindcontra$.
+Let
+\begin{center}
+$\rep{\lbound=\Bottom}[\countofb{K}]$ and $\rep{\ubound=\Any}[\countofb{K}]$
+\end{center}
+Then since $\jcompare[\denv \cup \setb{K}]{\Any}{\alpha}{\bindcontra}$,
+by \rncite{M-Any-Whatever-Success},
+\begin{center}
+$\jmatch{\Any}{\obb{K}}{\alpha}{\bindcontra}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 2} $g$ is none of the following: an intersection type, a union type, and $\alpha = \Any$ :\\
+$\jcompare[\denv]{g}{\sigma \Any}{V}$ implies $\jcompare[\denv\cup\setb{K}]{g}{\Any}{V}$.
+Let
+\begin{center}
+$\rep{\lbound=\Bottom}[\countofb{K}]$ and $\rep{\ubound=\Any}[\countofb{K}]$
+\end{center}
+Then by \rncite{M-Whatever-Any-Success},
+\begin{center}
+$\jmatch{g}{\obb{K}}{\Any}{\bindco}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 3} $g$ is none of the following: an intersection type, a union type, and $\alpha = P_i$ :\\
+If $V=\bindinv$, let
+\begin{center}
+$\rep{\lbound = \ifexpr{(P = \same{P_i})}{\same{g}}{\Bottom}}[\countofb{K}]$ and $\rep{\ubound = \ifexpr{(P = \same{P_i})}{\same{g}}{\Any}}[\countofb{K}]$
+\end{center}
+Then by \rncite{M-Param-In},
+\begin{center}
+$\jmatch{g}{\obb{K}}{P_i}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and since $\jcompare[\denv]{g}{\sigma P_i}{\bindinv}$, 
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+If $V=\bindco$, let
+\begin{center}
+$\rep{\lbound = \ifexpr{(P = \same{P_i})}{\same{g}}{\Bottom}}[\countofb{K}]$ and $\rep{\ubound = \Any}[\countofb{K}]$
+\end{center}
+Then by \rncite{M-Param-Co},
+\begin{center}
+$\jmatch{g}{\obb{K}}{P_i}{\bindco}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and since $\jcompare[\denv]{g}{\sigma P_i}{\bindco}$, 
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+If $V=\bindcontra$, let
+\begin{center}
+$\rep{\lbound = \Bottom}[\countofb{K}]$ and $\rep{\ubound = \ifexpr{(P = \same{P_i})}{\same{g}}{\Any}}[\countofb{K}]$ 
+\end{center}
+Then by \rncite{M-Parma-Contra},
+\begin{center}
+$\jmatch{g}{\obb{K}}{P_i}{\bindcontra}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and since $\jcompare[\denv]{g}{\sigma P_i}{\bindcontra}$, 
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 4} $g = \arrowtype{g_1}{g_2}$ and $\alpha = \arrowtype{\alpha_1}{\alpha_2}$ :\\
+Since $\jcompare[\denv]{\arrowtype{g_1}{g_2}}{\sigma\arrowtype{\alpha_1}{\alpha_2}}{V}$,
+\begin{center}
+$\jcompare[\denv]{g_1}{\sigma\alpha_1}{\flip{V}}$ and $\jcompare[\denv]{g_2}{\sigma\alpha_2}{V}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\jmatch{g_1}{\obb{K}}{\alpha_1}{\flip{V}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}$\\
+$\jmatch{g_2}{\obb{K}}{\alpha_2}{V}{\biglistofb{\listofb{\lbound'}}}{\biglistofb{\listofb{\ubound'}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{j}}}}{\listofb{\ubound_{\same{j}}}}$ and $\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{k}}}}{\listofb{\ubound'_{\same{k}}}}$
+\end{center}
+for some $1 \le j \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}$ and some $1 \le k \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$. Therefore, by \rncite{M-Arrow-Arrow},
+\begin{center}
+$\jmatch{\arrowtype{g_1}{g_2}}{\obb{K}}{\arrowtype{\alpha_1}{\alpha_2}}{V}{\cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{\lbound}}, \biglistofb{\listofb{\lbound'}}}}{\cartesiantypeintersection{\rep{K}}\Biglistof{\biglistofb{\listofb{\ubound}}, \biglistofb{\listofb{\ubound'}}}}$
+\end{center}
+and by lemma \ref{lem:cartesianobeys}, there exists $1 \le i \le \bigcountofb{\listofb{\lbound''}} = \bigcountofb{\listofb{\ubound''}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound''_{\same{i}}}}{\listofb{\ubound''_{\same{i}}}}$
+\end{center}
+where $\biglistofb{\listofb{\lbound''}} = \cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{\lbound}}, \biglistofb{\listofb{\lbound'}}}$ and $\biglistofb{\listofb{\ubound''}} = \cartesiantypeintersection{\rep{K}}\Biglistof{\biglistofb{\listofb{\ubound}}, \biglistofb{\listofb{\ubound'}}}$.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 5} $g=\tupleb{g}$ and $\alpha=\tupleb{\alpha}$ :\\
+Since $\jcompare[\denv]{\tupleb{g}}{\sigma\tupleb{\alpha}}{V}$,
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha}{\same{V}}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\rep{\jmatch[\same\denv]{g}{\same{\obb{K}}}{\alpha}{\same{V}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ where $m=\Bigcountofb{\biglistofb{\listofb{\lbound}}}=\Bigcountofb{\biglistofb{\listofb{\ubound}}}$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Therefore, by \rncite{M-Tuple-Tuple},
+\begin{center}
+$\jmatch{\tupleb{g}}{\obb{K}}{\tupleb{\alpha}}{V}{\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and by lemma \ref{lem:cartesianobeys}, there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+where $\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$ and $\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 6} $g = \naryuniontypeb{g}$, $\alpha = \naryuniontypeb{g}$, and $V=\bindinv$ :\\
+Let
+\begin{center}
+$\rep{\lbound = \Bottom}[\countofb{K}]$ and $\rep{\ubound = \Any}[\countofb{K}]$
+\end{center}
+Then by \rncite{M-Union-In-Same},
+\begin{center}
+$\jmatch{\naryuniontypeb{g}}{\obb{K}}{\naryuniontypeb{g}}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 7} $g = \naryuniontypeb{g}$, $\alpha = P_i$, and $V = \bindinv$ :\\
+Let
+\begin{center}
+$\rep{\lbound = \ifexpr{(P = \same{P_i})}{\same{\naryuniontypeb{g}}}{\Bottom}}[\countofb{K}]$ and $\rep{\ubound = \ifexpr{(P = \same{P_i})}{\same{\naryuniontypeb{g}}}{\Any}}[\countofb{K}]$
+\end{center}
+Then by \rncite{M-Union-In-Param},
+\begin{center}
+$\jmatch{\naryuniontypeb{g}}{\obb{K}}{P_i}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and since $\jcompare[\denv]{\naryuniontypeb{g}}{\sigma P_i}{\bindinv}$, 
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 8} $g = \naryuniontypeb{g}$, $\alpha$ is not an intersection type, and $V=\bindco$ :\\
+Since $\jcompare[\denv]{\naryuniontypeb{g}}{\sigma\alpha}{\bindco}$,
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same{\sigma\alpha}}{\bindco}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\rep{\jmatch[\same\denv]{g}{\same{\obb{K}}}{\same\alpha}{\bindco}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ where $m=\Bigcountofb{\biglistofb{\listofb{\lbound}}}=\Bigcountofb{\biglistofb{\listofb{\ubound}}}$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Therefore, by \rncite{M-Union-Whatever-Co},
+\begin{center}
+$\jmatch{\naryuniontypeb{g}}{\obb{K}}{\alpha}{\bindco}{\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and by lemma \ref{lem:cartesianobeys}, there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+where $\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$ and $\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 9} $g = \naryuniontypeb{g}$, $\alpha$ is none of the following: an intersectiontype, a union type, and $V=\bindcontra$ :\\
+Since $\jcompare[\denv]{\naryuniontypeb{g}}{\sigma\alpha}{\bindcontra}$,
+\begin{center}
+$\jcompare[\denv]{g_j}{\sigma\alpha}{\bindcontra}$
+\end{center}
+for some $1 \le j \le \countofb{g}$. We can infer inductively that
+\begin{center}
+$\jmatch[\denv]{g_j}{\obb{K}}{\alpha}{\bindcontra}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}$
+\end{center}
+and there exists $1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{k}}}}{\listofb{\ubound_{\same{k}}}}$
+\end{center}
+Therefore, by \rncite{M-Union-Whatever-Contra},
+\begin{center}
+$\jmatch[\denv]{\naryuniontypeb{g}}{\obb{K}}{\alpha}{\bindcontra}{\biglistofb{\listofb{\lbound'}}}{\biglistofb{\listofb{\ubound'}}}$
+\end{center}
+and there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that $\listofb{\lbound'_{\same{i}}} = \listofb{\lbound_{\same{k}}}$ and $\listofb{\ubound'_{\same{i}}} = \listofb{\ubound_{\same{k}}}$ which implies
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 10} $g = \naryintersectiontypeb{g}$, $\alpha = \naryintersectiontypeb{g}$, and $V=\bindinv$ :\\
+Let
+\begin{center}
+$\rep{\lbound = \Bottom}[\countofb{K}]$ and $\rep{\ubound = \Any}[\countofb{K}]$
+\end{center}
+Then by \rncite{M-Intersection-In-Same},
+\begin{center}
+$\jmatch{\naryintersectiontypeb{g}}{\obb{K}}{\naryintersectiontypeb{g}}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 11} $g = \naryintersectiontypeb{g}$, $\alpha = P_i$, and $V = \bindinv$ :\\
+Let
+\begin{center}
+$\rep{\lbound = \ifexpr{(P = \same{P_i})}{\same{\naryintersectiontypeb{g}}}{\Bottom}}[\countofb{K}]$ and $\rep{\ubound = \ifexpr{(P = \same{P_i})}{\same{\naryintersectiontypeb{g}}}{\Any}}[\countofb{K}]$
+\end{center}
+Then by \rncite{M-Intersection-In-Param},
+\begin{center}
+$\jmatch{\naryintersectiontypeb{g}}{\obb{K}}{P_i}{\bindinv}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and since $\jcompare[\denv]{\naryintersectiontypeb{g}}{\sigma P_i}{\bindinv}$, 
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 12} $g = \naryintersectiontypeb{g}$, $\alpha$ is not an intersection type, and $V = \bindco$ :\\
+Since $\jcompare[\denv]{\naryintersectiontypeb{g}}{\sigma\alpha}{\bindco}$,
+\begin{center}
+$\jcompare[\denv]{g_j}{\sigma\alpha}{\bindco}$
+\end{center}
+for some $1 \le j \le \countofb{g}$. We can infer inductively that
+\begin{center}
+$\jmatch[\denv]{g_j}{\obb{K}}{\alpha}{\bindco}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}$
+\end{center}
+and there exists $1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{k}}}}{\listofb{\ubound_{\same{k}}}}$
+\end{center}
+Therefore, by \rncite{M-Intersection-Whatever-Co},
+\begin{center}
+$\jmatch[\denv]{\naryintersectiontypeb{g}}{\obb{K}}{\alpha}{\bindco}{\biglistofb{\listofb{\lbound'}}}{\biglistofb{\listofb{\ubound'}}}$
+\end{center}
+and there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that $\listofb{\lbound'_{\same{i}}} = \listofb{\lbound_{\same{k}}}$ and $\listofb{\ubound'_{\same{i}}} = \listofb{\ubound_{\same{k}}}$ which implies
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 13} $g = \naryintersectiontypeb{g}$, and $V = \bindcontra$ :\\
+Since $\jcompare[\denv]{\naryintersectiontypeb{g}}{\sigma\alpha}{\bindcontra}$,
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same{\sigma\alpha}}{\bindcontra}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\rep{\jmatch[\same\denv]{g}{\same{\obb{K}}}{\same\alpha}{\bindcontra}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ where $m=\Bigcountofb{\biglistofb{\listofb{\lbound}}}=\Bigcountofb{\biglistofb{\listofb{\ubound}}}$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Therefore, by \rncite{M-Intersection-Whatever-Contra},
+\begin{center}
+$\jmatch{\naryintersectiontypeb{g}}{\obb{K}}{\alpha}{\bindcontra}{\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and by lemma \ref{lem:cartesianobeys}, there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+where $\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$ and $\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 14} $g$ is none of the following: an intersection type, a union type, and $\alpha = \naryuniontypeb{\alpha}$ :\\
+Since $\jcompare[\denv]{g}{\sigma\big(\naryuniontypeb{\alpha}\big)}{V}$ and $\FV(\rep{\alpha}) \cap \setb{P} = \emptyset$,
+\begin{center}
+$\jcompare[\denv \cup \setb{K}]{g}{\naryuniontypeb{\alpha}}{V}$
+\end{center}
+Let
+\begin{center}
+$\rep{\lbound = \Bottom}[\countofb{K}]$ and $\rep{\ubound = \Any}[\countofb{K}]$
+\end{center}
+Then, by \rncite{M-Whatever-Union-Success},
+\begin{center}
+$\jmatch{g}{\obb{K}}{\naryuniontypeb{\alpha}}{V}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 15} $g = \naryuniontypeb{g}$, $\alpha = \naryuniontypeb{\alpha}$, and $V=\bindcontra$ :\\
+Since $\jcompare[\denv]{\naryuniontypeb{g}}{\sigma\big(\naryuniontypeb{\alpha}\big)}{\bindcontra}$ and $\FV(\rep{\alpha}) \cap \setb{P} = \emptyset$,
+\begin{center}
+$\jcompare[\denv \cup \setb{K}]{\naryuniontypeb{g}}{\naryuniontypeb{\alpha}}{\bindcontra}$
+\end{center}
+Let
+\begin{center}
+$\rep{\lbound = \Bottom}[\countofb{K}]$ and $\rep{\ubound = \Any}[\countofb{K}]$
+\end{center}
+Then, by \rncite{M-Union-Union-Success}, 
+\begin{center}
+$\jmatch{\naryuniontypeb{g}}{\obb{K}}{\naryuniontypeb{\alpha}}{\bindcontra}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 16} $g$ is none of the following: an intersection type, a union type, and $\alpha = \naryintersectiontypeb{\alpha}$ :\\
+Since $\jcompare[\denv]{g}{\sigma\big(\naryintersectiontypeb{\alpha}\big)}{V}$ and $\FV(\rep{\alpha}) \cap \setb{P} = \emptyset$,
+\begin{center}
+$\jcompare[\denv \cup \setb{K}]{g}{\naryintersectiontypeb{\alpha}}{V}$
+\end{center}
+Let
+\begin{center}
+$\rep{\lbound = \Bottom}[\countofb{K}]$ and $\rep{\ubound = \Any}[\countofb{K}]$
+\end{center}
+Then, by \rncite{M-Whatever-Intersection-Success},
+\begin{center}
+$\jmatch{g}{\obb{K}}{\naryintersectiontypeb{\alpha}}{V}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 17} $g = \naryuniontypeb{g}$, $\alpha = \naryintersectiontypeb{\alpha}$, and $(V=\bindco) \lor (V=\bindcontra)$ :\\
+Since $\jcompare[\denv]{\naryuniontypeb{g}}{\sigma\big(\naryintersectiontypeb{\alpha}\big)}{V}$ and $\FV(\rep{\alpha}) \cap \setb{P} = \emptyset$,
+\begin{center}
+$\jcompare[\denv \cup \setb{K}]{\naryuniontypeb{g}}{\naryintersectiontypeb{\alpha}}{V}$
+\end{center}
+Let
+\begin{center}
+$\rep{\lbound = \Bottom}[\countofb{K}]$ and $\rep{\ubound = \Any}[\countofb{K}]$
+\end{center}
+Then, by \rncite{M-Union-Intersection-Success}, 
+\begin{center}
+$\jmatch{\naryuniontypeb{g}}{\obb{K}}{\naryintersectiontypeb{\alpha}}{V}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 18} $g = \naryintersectiontypeb{g}$, $\alpha = \naryintersectiontypeb{\alpha}$, and $V = \bindco$ :\\
+Since $\jcompare[\denv]{\naryintersectiontypeb{g}}{\sigma\big(\naryintersectiontypeb{\alpha}\big)}{\bindco}$ and $\FV(\rep{\alpha}) \cap \setb{P} = \emptyset$,
+\begin{center}
+$\jcompare[\denv \cup \setb{K}]{\naryintersectiontypeb{g}}{\naryintersectiontypeb{\alpha}}{\bindco}$
+\end{center}
+Let
+\begin{center}
+$\rep{\lbound = \Bottom}[\countofb{K}]$ and $\rep{\ubound = \Any}[\countofb{K}]$
+\end{center}
+Then, by \rncite{M-Intersection-Intersection-Success}, 
+\begin{center}
+$\jmatch{\naryintersectiontypeb{g}}{\obb{K}}{\naryintersectiontypeb{\alpha}}{\bindco}{\biglistof{\listofb{\lbound}}}{\biglistof{\listofb{\ubound}}}$
+\end{center}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound}}{\listofb{\ubound}}$
+\end{center}
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 19} $g = T\obb{g}$, $\alpha = T\obb{\alpha}$, and $V=\bindinv$ :\\
+Since $\jcompare[\denv]{T\obb{g}}{\sigma T\obb{\alpha}}{\bindinv}$,
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha}{\bindinv}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\rep{\jmatch[\same\denv]{g}{\same{\obb{K}}}{\alpha}{\bindinv}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ where $m=\Bigcountofb{\biglistofb{\listofb{\lbound}}}=\Bigcountofb{\biglistofb{\listofb{\ubound}}}$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Therefore, by \rncite{M-Trait-In-Success},
+\begin{center}
+$\jmatch{T\obb{g}}{\obb{K}}{T\obb{\alpha}}{\bindinv}{\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and by lemma \ref{lem:cartesianobeys}, there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+where $\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$ and $\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 20} $g = G$, $\alpha = T\obb{\alpha}$, and $V = \bindco$ :\\
+Suppose $\traitdecl{T}{\rep{\bindup{V'\;\dontcare}{\dontcares}}}{\dontcares}{\dontcares} \in \denv$. 
+Since $\jcompare[\denv]{G}{\sigma T\obb{\alpha}}{\bindco}$, by lemma \ref{lem:minimalancestor}, there exists $T\obb{g'}$ such that
+\begin{center}
+$\jsubtype[\denv]{G}{T\obb{g'}}$ and $\jgtemplate[\denv]{(G \subtypeof T\obb{g''})}{\Rightarrow}{(T\obb{g'} \subtypeof T\obb{g''})}$
+\end{center}
+Therefore, $\jcompare[\denv]{T\obb{g'}}{\sigma T\obb{\alpha}}{\bindco}$ which implies
+\begin{center}
+$\rep{\jcompare[\same\denv]{g'}{\same\sigma\alpha}{V'}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\rep{\jmatch[\same\denv]{g'}{\same{\obb{K}}}{\alpha}{V'}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ where $m=\Bigcountofb{\biglistofb{\listofb{\lbound}}}=\Bigcountofb{\biglistofb{\listofb{\ubound}}}$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Therefore, by \rncite{M-Trait-Co},
+\begin{center}
+$\jmatch{G}{\obb{K}}{T\obb{\alpha}}{\bindco}{\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and by lemma \ref{lem:cartesianobeys}, there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+where $\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$ and $\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 21} $g = T\obb{g}$, $\alpha = T'\obb{\alpha'}$, and $V = \bindcontra$ :\\
+Suppose $\traitdecl{T}{\rep{\bindup{V'\;\dontcare}{\dontcares}}}{\dontcares}{\dontcares} \in \denv$.
+Since $\jcompare[\denv]{T\obb{g}}{\sigma T'\obb{\alpha'}}{\bindcontra}$, there exists $T\obb{\alpha''}$ such that
+\begin{center}
+$\jequivtype[\denv]{\sigma T\obb{\alpha''}}{T\obb{g}}$ and $\jsubtype[\denv\cup\setb{K}]{T'\obb{\alpha'}}{T\obb{\alpha''}}$
+\end{center}
+Therefore, by lemma \ref{lem:minimalancestor}, there exists $T\obb{\alpha}$ such that
+\begin{center}
+$\jsubtype[\denv\cup\setb{K}]{T'\obb{\alpha'}}{T\obb{\alpha}}$ and $\jgtemplate[\denv\cup\setb{K}]{(T'\obb{\alpha'} \subtypeof T\obb{\alpha'''})}{\Rightarrow}{(T\obb{\alpha} \subtypeof T\obb{\alpha'''})}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype[\denv\cup\setb{K}]{T\obb{\alpha}}{T\obb{\alpha''}}$
+\end{center}
+Therefore, by lemma \ref{lem:substitution},
+\begin{center}
+$\jcompare[\denv]{T\obb{g}}{\sigma T\obb{\alpha}}{\bindcontra}$
+\end{center}
+which implies
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha}{\flip{V'}}}$
+\end{center}
+from which we can infer inductively that 
+\begin{center}
+$\rep{\jmatch[\same\denv]{g}{\same{\obb{K}}}{\alpha}{\flip{V'}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ where $m=\Bigcountofb{\biglistofb{\listofb{\lbound}}}=\Bigcountofb{\biglistofb{\listofb{\ubound}}}$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Therefore, by \rncite{M-Trait-Contra},
+\begin{center}
+$\jmatch{T\obb{g}}{\obb{K}}{T'\obb{\alpha'}}{\bindcontra}{\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and by lemma \ref{lem:cartesianobeys}, there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+where $\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$ and $\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 22} $g = O\obb{g}$ and $\alpha = O\obb{\alpha}$ :\\
+Since $\jcompare[\denv]{O\obb{g}}{\sigma O\obb{\alpha}}{V}$,
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha}{\bindinv}}$
+\end{center}
+from which we can infer inductively that
+\begin{center}
+$\rep{\jmatch[\same\denv]{g}{\same{\obb{K}}}{\alpha}{\bindinv}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ where $m=\Bigcountofb{\biglistofb{\listofb{\lbound}}}=\Bigcountofb{\biglistofb{\listofb{\ubound}}}$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Therefore, by \rncite{M-Object-Object-Same},
+\begin{center}
+$\jmatch{O\obb{g}}{\obb{K}}{O\obb{\alpha}}{V}{\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and by lemma \ref{lem:cartesianobeys}, there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+where $\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$ and $\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Case 23} $g = T\obb{g}$, $\alpha = O\obb{\alpha}$, and $V = \bindcontra$ :\\
+Suppose $\traitdecl{T}{\rep{\bindup{V'\;\dontcare}{\dontcares}}}{\dontcares}{\dontcares} \in \denv$.
+Since $\jcompare[\denv]{T\obb{g}}{\sigma O\obb{\alpha}}{\bindcontra}$, there exists $T\obb{\alpha''}$ such that
+\begin{center}
+$\jequivtype[\denv]{\sigma T\obb{\alpha''}}{T\obb{g}}$ and $\jsubtype[\denv\cup\setb{K}]{O\obb{\alpha}}{T\obb{\alpha''}}$
+\end{center}
+Therefore, by lemma \ref{lem:minimalancestor}, there exists $T\obb{\alpha'}$ such that
+\begin{center}
+$\jsubtype[\denv\cup\setb{K}]{O\obb{\alpha}}{T\obb{\alpha'}}$ and $\jgtemplate[\denv\cup\setb{K}]{(O\obb{\alpha'} \subtypeof T\obb{\alpha'''})}{\Rightarrow}{(T\obb{\alpha'} \subtypeof T\obb{\alpha'''})}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype[\denv\cup\setb{K}]{T\obb{\alpha'}}{T\obb{\alpha''}}$
+\end{center}
+Therefore, by lemma \ref{lem:substitution},
+\begin{center}
+$\jcompare[\denv]{T\obb{g}}{\sigma T\obb{\alpha'}}{\bindcontra}$
+\end{center}
+which implies
+\begin{center}
+$\rep{\jcompare[\same\denv]{g}{\same\sigma\alpha'}{\flip{V'}}}$
+\end{center}
+from which we can infer inductively that 
+\begin{center}
+$\rep{\jmatch[\same\denv]{g}{\same{\obb{K}}}{\alpha'}{\flip{V'}}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and there exist $\rep{1 \le k \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}}[1 \le j \le m]$ where $m=\Bigcountofb{\biglistofb{\listofb{\lbound}}}=\Bigcountofb{\biglistofb{\listofb{\ubound}}}$ such that for each $j$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{jk_j}}}}{\listofb{\ubound_{\same{jk_j}}}}$
+\end{center}
+Therefore, by \rncite{M-Trait-Object-Contra},
+\begin{center}
+$\jmatch{T\obb{g}}{\obb{K}}{O\obb{\alpha}}{\bindcontra}{\cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}}{\cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}}$
+\end{center}
+and by lemma \ref{lem:cartesianobeys}, there exists $1 \le i \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{i}}}}{\listofb{\ubound'_{\same{i}}}}$
+\end{center}
+where $\biglistofb{\listofb{\lbound'}} = \cartesiantypeunion{\rep{K}}\Biglistofb{\biglistofb{\listofb{\lbound}}}$ and $\biglistofb{\listofb{\ubound'}} = \cartesiantypeintersection{\rep{K}}\Biglistofb{\biglistofb{\listofb{\ubound}}}$.
+
+\end{proofcase}
+
+\end{proof}
+
+\setcounter{equation}{0}
+{\bf Proof of Lemma \ref{lem:solvesound}}
+\begin{proof}
+By induction, according to whichever proof rule was used for {\sf solve}:
+
+\begin{proofcase}
+{\bf Rule} \rncite{Solve-Empty}:
+Since
+\begin{center}
+$\jobeys[\denv]{\emptysubst}{\emptylist}{\emptylist}{\emptylist}$
+\end{center}
+is satisfied trivially, this case is trivial.
+\end{proofcase}
+
+\begin{proofcase}
+{\bf Rule} \rncite{Solve-Step}:
+Suppose that
+\begin{center}
+$\rep{K={\lobindup{\rep{\chi}}{P}{\rep{\eta}}}}$
+\end{center}
+and
+\begin{center}
+$\jsolve{\ob{\rep{K},\lobindup{\rep{\chi'}}{P'}{\rep{\eta'}}}}{\biglistofb{\listof{\rep{\lbound},\lbound'}}}{\biglistofb{\listof{\rep{\ubound},\ubound'}}}{\substbx{g}{P}{g'}{P'}}$
+\end{center}
+Let $\sigma=\substbx{g}{P}{g'}{P'}$ and $\sigma'=\substb{g}{P}$.
+From the premises, there exists $1\leq{i}\leq\bigcountofb{\listof{\rep\lbound,\lbound'}}=\bigcountofb{\listof{\rep\ubound,\ubound'}}$ such that
+\begin{center}
+$g'=\bigbigintersectiontype{\ubound_i'}{\bigtypeintersection\setb{\eta'}}$
+\end{center}
+It follows that
+\begin{center}
+$\jsubtype[\denv]{g'}{\ubound_i'}$ and $\jsubtype[\denv]{g'}{\bigtypeintersection\setb{\eta'}}$
+\end{center}
+Since $\set{\bar{P},P'} \cap \FV(\ubound'_i,\bar{\eta'})=\emptyset$,
+\begin{myequation}\label{eq:u}
+\jsubtype[\denv]{g'}{\sigma\ubound'_i}
+\end{myequation}
+and
+\begin{myequation}\label{eq:eta}
+\jsubtype[\denv]{g'}{\sigma\big(\bigtypeintersection\setb{\eta'}\big)}
+\end{myequation}
+Since $\jsubtype[\denv]{\lbound_i'}{g'}$ from the premises and $\FV(\lbound_i')=\emptyset$,
+\begin{myequation}\label{eq:l}
+\jsubtype[\denv]{\sigma\lbound_i'}{g'}
+\end{myequation}
+For
+\begin{center}
+$\rep{\jmatch[\same\denv]{\same{g'}}{\same{\obb{K}}}{\chi'}{\bindcontra}{\biglistofb{\listofb{\lbound''}}}{\biglistofb{\listofb{\ubound''}}}}$
+\end{center}
+let
+\begin{center}
+$\biglistofb{\listofb{\lbound'''}}=\cartesiantypeunion{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{\lbound''}}}, \biglistof{\listofb{\lbound_{\same{i}}}}}$
+and
+$\biglistofb{\listofb{\ubound'''}}=\cartesiantypeintersection{\rep{K}}\Biglistof{\biglistofb{\listofb{\ubound''}}, \biglistof{\listofb{\ubound_{\same{i}}}}}$
+\end{center}
+From
+\begin{center}
+$\jsolve{\obb{K}}{\biglistofb{\listofb{\lbound'''}}}{\biglistofb{\listofb{\ubound'''}}}{\sigma'}$
+\end{center}
+we can infer inductively that
+\begin{myequation}\label{eq:obey}
+\jobeys[\denv]{\sigma'}{\listofb{P}}{\listofb{\bigtypeunion \setb{\chi}}}{\listofb{\bigtypeintersection \setb{\eta}}}
+\end{myequation}
+and there exists $1\leq{j}\leq\bigcountofb{\listofb{\lbound'''}}=\bigcountofb{\listofb{\ubound'''}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma'}{\listofb{P}}{\listofb{\lbound'''_{\same{j}}}}{\listofb{\ubound'''_{\same{j}}}}$
+\end{center}
+Therefore, by lemma \ref{lem:cartesianobeys},
+\begin{myequation}\label{eq:obeybound}
+\jobeys[\denv]{\sigma'}{\listofb{P}}{\listofb{\lbound_{\same{i}}}}{\listofb{\ubound_{\same{i}}}}
+\end{myequation}
+and there exist $\rep{1 \le \ind \le \bigcountofb{\listofb{\lbound''}} = \bigcountofb{\listofb{\ubound''}}}[1 \le i' \le m]$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma'}{\listofb{P}}{\listofb{\lbound''_{\same{i'k_{i'}}}}}{\listofb{\ubound''_{\same{i'k_{i'}}}}}$
+\end{center}
+where $m = \Bigcountofb{\biglistofb{\listofb{\lbound''}}} = \Bigcountofb{\biglistofb{\listofb{\ubound''}}}=\countofb{\chi'}$. Therefore, by applying lemma \ref{lem:matchsound} to each {\sf match} judgement premise,
+\begin{center}
+$\rep{\jcompare[\same{\denv}]{\same{g'}}{\same{\sigma'}\chi'}{\bindcontra}}$
+\end{center}
+which implies
+\begin{center}
+$\jsubtype[\denv]{\sigma'\big(\bigtypeunion\setb{\chi'}\big)}{g'}$
+\end{center}
+Since $P'\not\in\FV(\bar{\chi'})$,
+\begin{myequation}\label{eq:chi}
+\jsubtype[\denv]{\sigma\big(\bigtypeunion\setb{\chi'}\big)}{g'}
+\end{myequation}
+Since $\rep{\same{\set{P'}}\cap\FV(\bar{\chi},\bar{\eta},\lbound_{\same{i}},\ubound_{\same{i}})=\emptyset}$,
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listof{\rep{P},P'}}{\listof{\rep{\lbound_{\same{i}}},\lbound'_i}}{\listof{\rep{\ubound_{\same{i}}},\ubound'_i}}$
+\end{center}
+from \eqref{eq:u}, \eqref{eq:l}, and \eqref{eq:obeybound}, and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listof{\rep{P},P'}}{\listof{\rep{\bigtypeunion\setb{\chi}},\bigtypeunion\setb{\chi'}}}{\listof{\rep{\bigtypeintersection\setb{\eta}},\bigtypeintersection\setb{\eta'}}}$
+\end{center}
+from \eqref{eq:eta}, \eqref{eq:obey}, and \eqref{eq:chi}.
+\end{proofcase}
+
+And so all cases are covered.
+\end{proof}
+
+\setcounter{equation}{0}
+{\bf Proof of Lemma \ref{lem:solvecomp}}
+\begin{proof}
+We prove by induction on $\countofb{P}$.\\
+If $\countofb{P}=0$, 
+\begin{center}
+$\jsolve{\ob{}}{\biglistof\emptylist}{\biglistof\emptylist}{\emptysubst}$
+\end{center}
+is satisfied trivially by {\bf Rule} \rncite{Solve-Empty}.\\
+Now, suppose that the statement holds for $\countofb{P}=n$ where $n \geq 0$,
+and we show that it holds for $\countof{\rep{P}, P'} = n+1$.
+Let $\sigma=\substbx{g}{P}{g'}{P'}$ and $\sigma'=\substb{g}{P}$, and suppose that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listof{\rep{P},P'}}{\listof{\rep{\bigtypeunion \setb{\chi}},{\bigtypeunion\setb{\chi'}}}}{\listof{\rep{\bigtypeintersection \setb{\eta}},{\bigtypeintersection\setb{\eta'}}}}$
+\end{center}
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listof{\rep{P},P'}}{\listof{\rep\lbound,\lbound'}}{\listof{\rep\ubound,\ubound'}}$
+\end{center}
+and
+\begin{center}
+$\listof{\rep\lbound,\lbound'}=\listof{\rep{\lbound''_{\same{i}}},\lbound'''_i}$ and $\listof{\rep\ubound,\ubound'}=\listof{\rep{\ubound''_{\same{i}}},\ubound'''_i}$
+\end{center}
+for some $\biglistofb{\listof{\rep{\lbound''},\lbound'''}}$, $\biglistofb{\listof{\rep{\ubound''},\ubound'''}}$ and some $1\leq{i}\leq\countofb{\listof{\rep{\lbound''},\lbound'''}}=\countofb{\listof{\rep{\ubound''},\ubound'''}}$.
+From the hypothesis,
+\begin{center}
+$\jsubtype[\denv]{\sigma{\lbound'}}{g'}$
+and
+$\rep{\jsubtype[\same\denv]{\same\sigma\chi'}{\same{g'}}}$
+\end{center}
+\begin{center}
+$\jsubtype[\denv]{g'}{\sigma{\ubound'}}$
+and
+$\rep{\jsubtype[\same\denv]{\same{g'}}{\same\sigma\eta'}}$
+\end{center}
+Then, since $\FV(\lbound',\ubound',\rep{\eta'})=\emptyset$ and $\set{P'}\cap\FV(\rep{\chi'})=\emptyset$,
+\begin{myequation}\label{eq:lowerbound}
+\jsubtype[\denv]{\lbound'}{g'} \text{ and } \jsubtype[\denv]{g'}{\intersectiontype{u'}{\bigtypeintersection{\setb{\eta'}}}}
+\end{myequation}
+and
+\begin{myequation}\label{eq:comp}
+\rep{\jcompare[\same\denv]{\same{g'}}{\same{\sigma'}\chi'}{\bindcontra}}
+\end{myequation}
+Also, since $\rep{\same{\set{P'}}\cap\FV(\rep\chi,\rep\eta,\lbound,\ubound)=\emptyset}$, $\rep{\lbound=\lbound''_{\same{i}}}$ and $\rep{\ubound=\ubound''_{\same{i}}}$,
+\begin{myequation}\label{eq:bound}
+\jobeys[\denv]{\sigma'}{\listofb{P}}{\listofb{\bigtypeunion\setb{\chi}}}{\listofb{\bigtypeintersection\setb{\eta}}}
+\end{myequation}
+and
+\begin{myequation}\label{eq:lubound}
+\jobeys[\denv]{\sigma'}{\listofb{P}}{\listofb{\lbound''_{\same{i}}}}{\listofb{\ubound''_{\same{i}}}}
+\end{myequation}
+For $\rep{K=\lobindup{\rep\chi}{P}{\rep\eta}}$ and $m=\countofb{\chi'}$, by applying lemma \ref{lem:matchcomp} to \eqref{eq:comp} and \eqref{eq:bound},
+\begin{myequation}\label{eq:match}
+\rep{\jmatch[\same\denv]{\same{g'}}{\same{\obb{K}}}{\chi'}{\bindcontra}{\biglistofb{\listofb{a}}}{\biglistofb{\listofb{b}}}}
+\end{myequation}
+and there exist $\rep{1 \le k \le \bigcountofb{\listofb{a}} = \bigcountofb{\listofb{b}}}[1 \le j \le m]$ such that for each $j$,
+\begin{myequation}\label{eq:lubounds}
+\jobeys[\denv]{\sigma'}{\listofb{P}}{\listofb{a_{\same{jk_j}}}}{\listofb{b_{\same{jk_j}}}}
+\end{myequation}
+By applying lemma \ref{lem:cartesianobeys} to \eqref{eq:lubound} and \eqref{eq:lubounds}, there exists $1 \le j' \le \bigcountofb{\listofb{a'}} = \bigcountofb{\listofb{b'}}$ such that
+\begin{myequation}\label{eq:matchbound}
+\jobeys[\denv]{\sigma'}{\listofb{P}}{\listofb{a'_{\same{j'}}}}{\listofb{b'_{\same{j'}}}}
+\end{myequation}
+where $\biglistofb{\listofb{a'}} = \cartesiantypeunion{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{a}}},\biglistof{\listofb{\lbound''_{\same{i}}}}}$ and $\biglistofb{\listofb{b'}} = \cartesiantypeintersection{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{b}}},\biglistof{\listofb{\ubound''_{\same{i}}}}}$.
+Then we can infer inductively from \eqref{eq:bound} and \eqref{eq:matchbound} that there exists $\sigma''$ such that
+\begin{myequation}\label{eq:solve}
+\jsolve{\obb{K}}{\cartesiantypeunion{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{a}}},\biglistof{\listofb{\lbound''_{\same{i}}}}}}
+  {\cartesiantypeintersection{\rep{K}}\Biglistof{\rep{\biglistofb{\listofb{b}}},\biglistof{\listofb{\ubound''_{\same{i}}}}}}{\sigma''}
+\end{myequation}
+Since $\FV(\ubound',\rep{\eta'})=\emptyset$, $\intersectiontype{u'}{\bigtypeintersection\setb{\eta'}}$ is a ground type. Let $g''=\intersectiontype{u'}{\bigtypeintersection\setb{\eta'}}$, then since $\lbound'''_i=\lbound'$, and $\jsubtype[\denv]{\lbound'}{g'}$ and $\jsubtype[\denv]{g'}{\intersectiontype{u'}{\bigtypeintersection\setb{\eta'}}}$ from \eqref{eq:lowerbound},
+\begin{myequation}\label{eq:newlowerbound}
+\jsubtype[\denv]{\lbound'''_i}{g''}
+\end{myequation}
+By {\bf Rule} \rncite{Solve-Step}, from \eqref{eq:match}, \eqref{eq:solve}, and \eqref{eq:newlowerbound},
+\begin{center}
+$\jsolve{\ob{\rep{K},\lobindup{\rep\chi'}{P'}{\rep\eta'}}}{\biglistofb{\listof{\rep{\lbound''},\lbound'''}}}{\biglistofb{\listof{\rep{\ubound''},\ubound'''}}}{\sigma'''}$
+\end{center}
+where $\sigma'''=\sigma'' \compose \subst{g''}{P'}$.
+\end{proof}
+
+\setcounter{equation}{0}
+{\bf Proof of Theorem \ref{thm:dispatchsound}}
+\begin{proof}
+% Note that for $\arrow(d) = \foralltypeb{K}{\arrowtype{\alpha}{\rho}}$,
+% as mentioned in Section~\ref{sec:prop}, $\alpha$ and $\rho$ do not contain
+% $\Bottom$, and any union types and intersection types they contain
+% do not contain any type parameters.
+% Thus, for all $\T$ and $\T'$,
+% \begin{center}
+% $\alpha\neq\T\context{\Bottom}$,
+% $\rep{(\same\alpha=\T\context{\naryuniontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$, and
+% $\rep{(\same\alpha=\T\context{\naryintersectiontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$\\
+% $\rho\neq\T\context{\Bottom}$,
+% $\rep{(\same\rho=\T\context{\naryuniontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$, and
+% $\rep{(\same\rho=\T\context{\naryintersectiontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$
+% \end{center}
+
+Since $\jdispatch{k}{g}{d}{\sigma}$,
+\begin{center}
+$\jmatch{k}{\obb{K}}{\alpha}{\bindco}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}$
+$\jmatch{g}{\obb{K}}{\rho}{\bindcontra}{\biglistofb{\listofb{\lbound'}}}{\biglistofb{\listofb{\ubound'}}}$
+\end{center}
+and
+\begin{center}
+$\jsolve{\obb{K}}{\cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{\lbound}},\biglistofb{\listofb{\lbound'}}}}{\cartesiantypeintersection{\rep{K}}\Biglistof{\biglistofb{\listofb{\ubound}},\biglistofb{\listofb{\ubound'}}}}{\sigma}$
+\end{center}
+Let
+\begin{center}
+$\biglistofb{\listofb{\lbound''}}=\cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{\lbound}},\biglistofb{\listofb{\lbound'}}}$
+and
+$\biglistofb{\listofb{\ubound''}}=\cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{\ubound}},\biglistofb{\listofb{\ubound'}}}$
+\end{center}
+with $n=\bigcountofb{\listofb{\lbound''}}=\bigcountofb{\listofb{\ubound''}}$.
+By lemma \ref{lem:solvesound},
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\bigtypeunion\bdb{\chi}}}{\listofb{\bigtypeintersection\bdb{\eta}}}$
+\end{center}
+and there exists $1\leq{i}\leq{n}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound''_{\same{i}}}}{\listofb{\ubound''_{\same{i}}}}$
+\end{center}
+By lemma \ref{lem:cartesianobeys}, there exist $1 \le j \le \bigcountofb{\listofb{\lbound}} = \bigcountofb{\listofb{\ubound}}$ and $1 \le j' \le \bigcountofb{\listofb{\lbound'}} = \bigcountofb{\listofb{\ubound'}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{j}}}}{\listofb{\ubound_{\same{j}}}}$
+and
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{j'}}}}{\listofb{\ubound'_{\same{j'}}}}$
+\end{center}
+By lemma \ref{lem:matchsound},
+\begin{center}
+$\jcompare[\denv]{k}{\sigma\alpha}{\bindco}$
+\end{center}
+and
+\begin{center}
+$\jcompare[\denv]{g}{\sigma\rho}{\bindcontra}$
+\end{center}
+\end{proof}
+
+
+\setcounter{equation}{0}
+{\bf Proof of Theorem \ref{thm:dispatchcomp}}
+\begin{proof}
+Note that for $\arrow(d) = \foralltypeb{K}{\arrowtype{\alpha}{\rho}}$,
+as mentioned in Section~\ref{sec:prop}, $\alpha$ and $\rho$ do not contain
+$\Bottom$, and any union types and intersection types they contain
+do not contain any type parameters.
+Thus, for all $\T$ and $\T'$,
+\begin{center}
+$\alpha\neq\T\context{\Bottom}$,
+$\rep{(\same\alpha=\T\context{\naryuniontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$, and
+$\rep{(\same\alpha=\T\context{\naryintersectiontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$\\
+$\rho\neq\T\context{\Bottom}$,
+$\rep{(\same\rho=\T\context{\naryuniontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$, and
+$\rep{(\same\rho=\T\context{\naryintersectiontypeb{\gamma}})\Rightarrow(\rep{\gamma\neq\T'\context{\same{P}}})}$
+\end{center}
+
+Since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\biglistofb{\bigtypeunion \bdb{\chi}}}{\biglistofb{\bigtypeintersection \bdb{\eta}}}$
+\end{center}
+and
+\begin{center}
+$\jcompare[\denv]{k}{\sigma\alpha}{\bindco}$
+\end{center}
+lemma \ref{lem:matchcomp} implies that
+\begin{myequation}\label{eq:match1}
+\jmatch{k}{\obb{K}}{\alpha}{\bindco}{\biglistofb{\listofb{\lbound}}}{\biglistofb{\listofb{\ubound}}}
+\end{myequation}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound_{\same{i}}}}{\listofb{\ubound_{\same{i}}}}$
+\end{center}
+for some $1\leq{i}\leq\countofb{\listofb{\lbound}}=\countofb{\listofb{\ubound}}$.
+Also, since
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\biglistofb{\bigtypeunion \bdb{\chi}}}{\biglistofb{\bigtypeintersection \bdb{\eta}}}$
+\end{center}
+and
+\begin{center}
+$\jcompare[\denv]{g}{\sigma\rho}{\bindcontra}$
+\end{center}
+lemma \ref{lem:matchcomp} implies that
+\begin{myequation}\label{eq:match2}
+\jmatch{g}{\obb{K}}{\rho}{\bindcontra}{\biglistofb{\listofb{\lbound'}}}{\biglistofb{\listofb{\ubound'}}}
+\end{myequation}
+and
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound'_{\same{j}}}}{\listofb{\ubound'_{\same{j}}}}$
+\end{center}
+for some $1\leq{j}\leq\countofb{\listofb{\lbound'}}=\countofb{\listofb{\ubound'}}$. Therefore, by lemma \ref{lem:cartesianobeys}, there exists $1 \le k \le \bigcountofb{\listofb{\lbound''}} = \bigcountofb{\listofb{\ubound''}}$ such that
+\begin{center}
+$\jobeys[\denv]{\sigma}{\listofb{P}}{\listofb{\lbound''_{\same{k}}}}{\listofb{\ubound''_{\same{k}}}}$
+\end{center}
+where
+\begin{center}
+$\biglistofb{\listofb{\lbound''}} = \cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{\lbound}},\biglistofb{\listofb{\lbound'}}}$ and $\biglistofb{\listofb{\ubound''}} = \cartesiantypeintersection{\rep{K}}\Biglistof{\biglistofb{\listofb{\ubound}},\biglistofb{\listofb{\ubound'}}}$
+\end{center}
+By lemma \ref{lem:solvecomp}, there exists a substitution $\sigma'$ such that
+\begin{myequation}\label{eq:solve2}
+\jsolve{\obb{K}}{\cartesiantypeunion{\rep{K}}\Biglistof{\biglistofb{\listofb{\lbound}},\biglistofb{\listofb{\lbound'}}}}{\cartesiantypeintersection{\rep{K}}\Biglistof{\biglistofb{\listofb{\ubound}},\biglistofb{\listofb{\ubound'}}}}{\sigma'}
+\end{myequation}
+Therefore, we can conclude from \eqref{eq:match1}, \eqref{eq:match2}, and \eqref{eq:solve2} that
+\begin{center}
+$\jdispatch{k}{g}{d}{\sigma'}$
+\end{center}
+\end{proof}
+
+\setcounter{equation}{0}
+{\bf Proof of Lemma \ref{lem:instance}}
+\begin{proof}
+Let $\arrow(d) = \foralltypeb{K_1}{\arrowtype{\alpha_1}{\rho_1}}$
+and $\arrow(d_0) = \foralltypeb{K_2}{\arrowtype{\alpha_2}{\rho_2}}$.\\
+Since $\jle{\dom(d)}{\dom(d_0)}$, by \rncite{Return-Test},
+\begin{center}
+$\jleusing{\foralltypeb{K_1}{\arrowtype{\alpha_1}{\rho_1}}}{\foralltype{\rep{K_1},\rep{K_2}}{\arrowtype{\intersectiontype{\alpha_1}{\alpha_2}}{\rho_2}}}{\sigma'}$
+\end{center}
+which implies
+\begin{align}
+  &\jtreds{\foralltype{\rep{K_1},\rep{K_2}}{\arrowtype{\intersectiontype{\alpha_1}{\alpha_2}}{\rho_2}}}{\foralltypeb{K_3}{\arrowtype{\alpha_3}{\rho_3}}}{\sigma_r} \label{eq:red}\\
+  &\jleinnerusing{\foralltypeb{K_1}{\arrowtype{\alpha_1}{\rho_1}}}{\foralltypeb{K_3}{\arrowtype{\alpha_3}{\rho_3}}}{\sigma'} \label{eq:inner}
+\end{align}
+If $D_0 \in \bigsetb{\instantiate{\same{d_0}}{\sigma_0}}$,
+$\arrow(D_0) = \foralltype{}{\arrowtype{\sigma_0\alpha_2}{\sigma_0\rho_2}}$
+for some $\sigma_0 \in \setb{\sigma_0}$ and 
+\begin{center}
+$\jsubtype{\alpha}{\sigma_0\alpha_2}$.
+\end{center}
+For any $\sigma \in \setb{\sigma}$,
+\begin{center}
+$\jsubtype{\alpha}{\sigma\alpha_1}$,
+\end{center}
+thus
+\begin{center}
+$\jsubtype{\alpha}{(\sigma\compose\sigma_0)\intersectiontype{\alpha_1}{\alpha_2}}$,
+\end{center}
+therefore $(\sigma\compose\sigma_0)\intersectiontype{\alpha_1}{\alpha_2}$
+is not $\Bottom$.
+Since $\sigma_r$ represents the minimum requirement that prevents
+$\sigma_r\intersectiontype{\alpha_1}{\alpha_2}$ from being $\Bottom$,
+there exists $\sigma''$ such that
+$\sigma\compose\sigma_0 = \sigma''\compose\sigma_r$.
+Note that it follows from (\ref{eq:red}) that
+\begin{center}
+$\jequivtype[\Delta\cup\setb{K_3}]{\sigma_r\intersectiontype{\alpha_1}{\alpha_2}}{\alpha_3}$
+and $\jequivtype[\Delta\cup\setb{K_3}]{\sigma_r\rho_2}{\rho_3}$,
+\end{center}
+and it follows from (\ref{eq:inner}) that
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K_3}]{\alpha_3}{\sigma'\alpha_1}$ and
+$\jsubtype[\Delta\cup\setb{K_3}]{\sigma'\rho_1}{\rho_3}$.
+\end{center}
+By combining these relations, we have
+\begin{center}
+$\jsubtype[\Delta\cup\setb{K_3}]{\sigma_r\intersectiontype{\alpha_1}{\alpha_2}}{\sigma'\alpha_1}$ and
+$\jsubtype[\Delta\cup\setb{K_3}]{\sigma'\rho_1}{\sigma_r\rho_2}$
+\end{center}
+and by lemma~\ref{lem:substitution},
+\begin{center}
+$\jsubtype{(\sigma\compose\sigma_0)\intersectiontype{\alpha_1}{\alpha_2}}{(\sigma''\compose\sigma')\alpha_1}$ and
+$\jsubtype{(\sigma''\compose\sigma')\rho_1}{(\sigma\compose\sigma_0)\rho_2}$
+\end{center}
+Hence,
+\begin{center}
+$\jsubtype{\alpha}{(\sigma''\compose\sigma')\alpha_1}$ and
+$\jsubtype{(\sigma''\compose\sigma')\rho_1}{\sigma_0\rho_2}$
+\end{center}
+since $\sigma\rho_2 = \rho_2$.
+Therefore, we have $\sigma''\compose\sigma' \in \setb{\sigma}$ and
+there exists $D = \instantiate{d}{\sigma''\compose\sigma'}$
+with $\arrow(D) = \foralltype{}{\arrowtype{\dontcare}{(\sigma''\compose\sigma')\rho_1}}$
+such that
+$\jsubtype{(\sigma''\compose\sigma')\rho_1}{\sigma_0\rho_2}$.
+\end{proof}
+
+
+{\bf Proof of Lemma \ref{lem:runtimeinstance}}
+\begin{proof}
+Since $d_0 \in \setb{d_0'} = \visible{(C,m)}$, $d_0 \in \methods{C'}$
+for some $C' \in \ancestors{C}$.
+Since $\jsubtype[\denv]{G}{\sigma C}$, $\sigma C \in \ancestors[\denv]{G}$,
+and by lemma~\ref{lem:substitution}, $\sigma C' \in \ancestors[\denv]{G}$.
+Hence,
+\begin{center}
+$\sigma d_0 \in \setb{d'} = \visible[\denv]{(G, m)}$.
+\end{center}
+Let $\arrow(d_0) = \foralltypeb{K_2}{\arrowtype{\alpha_2}{\rho_2}}$.
+From $(d_0, \setb{\sigma_0}) \in \applicable{\setb{d_0'}}{\alpha}$,
+it follows that
+\begin{center}
+$\rep{\jleusing[\same\Delta]{\existstype{}{\same\alpha}}{\exists\same{\obb{K_2}}\same{\alpha_2}}{\sigma_0}}$
+\end{center}
+which implies
+\begin{center}
+$\rep{\jsubtype[\same\Delta]{\same\alpha}{\sigma_0 \same{\alpha_2}}}$
+\end{center}
+By lemma~\ref{lem:substitution},
+\begin{center}
+$\rep{\jsubtype[\same\denv]{\same{\sigma\alpha}}{\same\sigma\sigma_0\same{\alpha_2}}}$
+\end{center}
+thus
+\begin{center}
+$\rep{\jleusing[\same\denv]{\existstype{}{\same{k}}}{\exists\same{\obb{K_2}}\same{\sigma\alpha_2}}{\sigma_0}}$.
+\end{center}
+Therefore,
+$(\sigma d_0, \setb{\sigma_0'}) \in \applicable[\denv]{\setb{d'}}{k}$
+with $\setb{\sigma_0} \subseteq \setb{\sigma_0'}$.
+If
+\begin{center}
+$D_0 \in \bigsetb{\instantiate{\same{d_0}}{\sigma_0}}$ with
+$\arrow(D_0) = \foralltype{}{\arrowtype{\dontcare}{\rho_0}}$,
+\end{center}
+then
+\begin{center}
+$\sigma D_0 \in \bigsetb{\instantiate{\same{\sigma d_0}}{\sigma_0'}}$ with
+$\arrow(\sigma D_0) = \foralltype{}{\arrowtype{\dontcare}{\sigma\rho_0}}$,
+\end{center}
+and by lemma~\ref{lem:instance},
+\begin{center}
+$\exists D \in \bigsetb{\instantiate{\same{d}}{\sigma}}$ with
+$\arrow(D) = \foralltype{}{\arrowtype{\dontcare}{h}}$ such that
+$\jsubtype[\denv]{h}{\sigma\rho_0}$.
+\end{center}
+\end{proof}
+
+{\bf Proof of Lemma \ref{lem:fstdisp}}
+\begin{proof}
+Let $\arrow(d) = \foralltypeb{\setb{\chi} \extends P \extends \setb{\eta}}{\arrowtype{\alpha}{\rho}}$.
+If $\arrow(D) = \foralltype{}{\arrowtype{\sigma\alpha}{\sigma\rho}}$
+for some $\sigma \in \setb{\sigma}$ with $\jsubtype[\denv]{\sigma\rho}{g}$,
+since $D \in \bigsetb{\instantiate{\same{d}}{\sigma}}$,
+\begin{center}
+$\jsubtype[\denv]{k}{\sigma\alpha}$ and $\jobeys[\denv]{\sigma}{\listofb{P}}{\biglistofb{\bigtypeunion\setb{\chi}}}{\biglistofb{\bigtypeintersection\setb{\eta}}}$.
+\end{center}
+Therefore, by theorem~\ref{thm:dispatchcomp},
+\begin{center}
+$\jdispatch[\denv]{k}{g}{d}{\sigma'}$
+\end{center}
+for some $\sigma'$.
+Since $d$ is the most specific method declaration among $\setb{d'}$
+that is applicable to $k$ and has an instance whose return type is a subtype
+of $g$,
+\begin{center}
+$\firstdispatchable[\denv]{\topologicalsort[\denv]{\setb{d'}}}{k}{g} = D_1$
+\end{center}
+with $\arrow(D_1) = \foralltype{}{\arrowtype{\sigma'\alpha}{\sigma'\rho}}$.
+By theorem~\ref{thm:dispatchsound},
+\begin{center}
+$\jobeys[\denv]{\sigma'}{\listofb{P}}{\biglistofb{\bigtypeunion\setb{\chi}}}{\biglistofb{\bigtypeintersection\setb{\eta}}}$ and
+$\jsubtype[\denv]{k}{\sigma'\alpha}$ and $\jsubtype[\denv]{\sigma'\rho}{g}$,
+\end{center}
+thus $D_1 \in \bigsetb{\instantiate{\same{d}}{\sigma}}$.
+\end{proof}
+
+{\bf Proof of Theorem \ref{thm:soundinvok}}
+\begin{proof}
+Let $\setb{d'} = \visible[\denv]{(O\obb{g''}, m)}$, and
+$(d, \setb{\sigma}) \in \mostspecific[\denv]{\applicable[\denv]{\setb{d'}}{(O\obb{g''}, \rep{\ilk{v'}}}}$.
+If $\jtype[\denv;\emptyseq]{O\obb{g''}(\rep{v}).m(\rep{v'})}{\tuple{\dontcare, g}}$,
+by rule~\rncite{T-Method},
+\begin{center}
+$\rep{\jtype[\same\denv;\emptyseq]{v'}{\tuple{\dontcare, \alpha}}}$ and
+$\msav[\denv]{(O\obb{g''}, m)}{(O\obb{g''}, \rep{\alpha})} = D_0$
+\end{center}
+where $\arrow(D_0) = \foralltype{}{\arrowtype{\dontcare}{g}}$.
+By rule~\rncite{MSAV},
+\begin{center}
+$(d_0, \setb{\sigma_0}) \in \mostspecific[\denv]{\applicable[\denv]{\setb{d'}}{(O\obb{g''}, \rep{\alpha})}}$
+and $D_0 \in \bigsetb{\instantiate{\same{d_0}}{\sigma_0}}$.
+\end{center}
+Since $\jsubtype[\denv]{(O\obb{g''}, \rep{\ilk{v'}})}{(O\obb{g''}, \rep{\alpha})}$
+by theorem~\ref{thm:typesoundness}, by lemma~\ref{lem:runtimeinstance},
+\begin{center}
+$\exists D_1 \in  \bigsetb{\instantiate{\same{d}}{\sigma}}$ with
+$\arrow(D_1) = \foralltype{}{\arrowtype{\dontcare}{h}}$ such that
+$\jsubtype[\denv]{h}{g}$
+\end{center}
+Therefore, by lemma~\ref{lem:fstdisp},
+\begin{center}
+$D = (\dontcare, \methoddef{m}{}{\rep{x'\COLON \dontcare}}{\dontcare}{\epsilon}) = \firstdispatchable[\denv]{\listofb{d}}{(O\obb{g''}, \rep{\ilk{v'}})}{g}$\\
+with $\arrow(D) = \foralltype{}{\arrowtype{g_1}{g_2}}$ and
+$\jsubtype[\denv]{\tupleb{\ilk{v'}}}{g_1}$ and
+$\jsubtype[\denv]{g_2}{g}$
+\end{center}
+When 
+\begin{center}
+$\jtype[\denv;\emptyseq]{\subst{O\obb{g''}(\bar{v})}{\kwd{self}}\substb{v}{x}\substb{v'}{x'}\epsilon}{\tuple{\dontcare,g'}}$,
+\end{center}
+since substitution preserves type,
+$\jsubtype[\denv]{g'}{g_2}$, therefore $\jsubtype[\denv]{g'}{g}$.
+\end{proof}
+
+{\bf Proof of Theorem \ref{thm:typesoundness}}
+\begin{proof}[Proof Sketch]
+Type soundness follows from subject reduction, that is if
+$\jtype[\denv;\emptyseq]{e}{(\epsilon, g)}$ and $\jevalstep{\epsilon}{\epsilon'}$
+then $\jtype[\denv;\emptyseq]{\epsilon'}{(\dontcare, g'')}$ with $\jsubtype[\denv]{g''}{g}$,
+and progress, that is if $\jtype[\denv;\emptyseq]{e}{(\epsilon, g)}$, then
+either $\epsilon$ is a value or $\exists \epsilon'$ such that
+$\jevalstep{\epsilon}{\epsilon'}$.
+The proof of both subject reduction and progress is a case analysis on
+reduction $\jevalstep{\epsilon}{\epsilon'}$.
+Since the closure application case is conventional, we focus on
+method invocation case, which follows from theorem~\ref{thm:soundinvok}.
+\end{proof}
+\label{app:proofs}
+\end{appendices}

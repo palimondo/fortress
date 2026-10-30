@@ -1,0 +1,68 @@
+\section{Related Work}\label{sec:related}
+This paper extends the work of \citet{oopsla11} with variance for
+polymorphic types and a dynamic dispatch algorithm.
+Allen et al. proposed rules for defining overloaded functions that ensure type safety
+under symmetric multiple dispatch in an object-oriented language with
+multiple inheritance, and showed how to check the rules without requiring
+the entire type hierarchy.
+They proposed the overloading rules in the context of a set of class declarations
+and function declarations without defining a language with complete
+static and dynamic semantics.  Therefore, their work does not guarantee
+that the static overloading rules and the way a language chooses a method
+to invoke at run time match correctly.
+% They did not provide a complete static and dynamic semantics; therefore, their work does not guarantee
+% that the static overloading rules and the way a language chooses a method
+% to invoke at run time match correctly.
+While FGFV does not support features like modularity, nominal exclusion,
+and closed types in their work, they can be added in an obvious way.
+As the related work section of~\citet{oopsla11} discusses in detail,
+most earlier systems like \textit{Dubious}~\cite{dubious99,dubious02,dubious03},
+MultiJava~\cite{multijava06}, and F(E{\footnotesize{ML}})~\cite{FEML06} supported
+overloading with symmetric multiple dynamic dispatch with multiple inheritance,
+but without support for polymorphic methods or types.  While $\text{ML}_\le$~\cite{bm97}
+integrates polymorphism and symmetric multiple dynamic dispatch, it lacks
+multiple inheritance.
+
+ParaSail~\cite{parasail11,parasailweb} is a parallel programming language designed to support
+inherently safe and secure, highly parallel applications.
+It also constrains the scope of type parameters,
+prohibiting a bound on a type parameter from referring to type parameter
+bindings to its left, so that dynamic type inference can be fast.
+However, ParaSail does not support covariant and contravariant
+type parameters, and it does not provide any formal specification.
+
+Julia~\cite{julia15,julia17} is a dynamic programming language with symmetric
+multiple dispatch. It provides a type declaration and type annotation
+sublanguage, but does not have a static type system. Thus, it does not
+check the validity of overloaded methods, and only uses the
+subtype relation to find the most specific method among
+overloaded methods at run time.
+
+Various languages provide different subsets of the FGFV features.
+Scala~\cite{scala} supports polymorphic types
+with variance, but it does not support symmetric multiple dispatch.
+FHJ~\cite{fhj} proposed a dispatch algorithm, which uses static types at run time 
+to resolve overloading conflicts from unrelated methods that happen to have
+the same name and signature due to multiple inheritance.
+\citet{castagna15} presented a statically-typed calculus with dynamic
+(explicit) dispatch through pattern-matching, polymorphism, recursive
+types, semantic subtyping, and union, intersection, and negation type
+connectives.  Their local type inference algorithm computes sets of type
+substitutions to insert in appropriate places in expressions.  While
+their type-case expression and intersection type behave similarly to
+method overloading, they do not have a similar notion of overloading
+rules.  Since the type-case expression executes the first matching
+expression, it does not introduce any ambiguity.
+For OCaml, Garrigue~\citeyearpar{garrigue01,garrigue02} introduced a type
+inference system for structural polymorphism such as polymorphic records,
+polymorphic variants, and accurate matching.  Type constraints are
+described by constraint domains that are defined separately from its
+type system, and the constraints contain some notion of lower and upper
+bounds, which respectively represent required and available labels or cases.
+He also extended his work with CoQ mechanization \cite{garrigue10,garrigue15}.
+The work of Castagna and Garrigue may serve as a possible starting point
+for finding the necessary substitution $\sigma$ to satisfy the rule
+\rncite{E-Sub} for existential subtyping during static analysis.
+We believe that our work opens the gate to adding either variance
+annotation in the work of Castagna or a form of type-case in the work of
+Garrigue.

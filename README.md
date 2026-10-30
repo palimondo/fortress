@@ -133,6 +133,14 @@ Inside [`Papers/`](Papers/):
 - [`Implementation/`](Papers/Implementation/) — implementation notes:
   [*Fortress function and method encodings*](Papers/Implementation/FortressEncodings-rendered.pdf)
   and *Mapping Fortress type relationships onto the JVM type system*.
+- [`Variance/`](Papers/Variance/) — [*Polymorphic Symmetric Multiple
+  Dispatch with Variance*](Papers/Variance/3290324-popl19w.pdf)
+  (Park, Hong, Steele, Ryu — **POPL 2019**), licensed CC BY-NC 4.0 as its
+  first page prints, with its
+  [technical report](Papers/Variance/3290324-popl19-TR.pdf), the paper
+  extended with the formalization, included with Sukyoung Ryu's permission
+  of 2026-10-29, and the report's LaTeX sources, which she sent on
+  2026-10-30 ([`Papers/Variance/README.md`](Papers/Variance/README.md)).
 
 The unpublished drafts all concern one problem: combining generic
 methods, multiple inheritance, and symmetric dispatch requires solving
@@ -141,18 +149,6 @@ on this dispatch machinery
 ([US 8,843,887](https://patents.google.com/patent/US8843887B2/en) and
 siblings) on 31 August 2012, the same day as the original repository's
 [last commits](https://github.com/palimondo/fortress/commit/a874948acb5b4b6aa7791e8d735657437910d879).
-
-### Later papers, as PDFs
-
-Inside [`research/extracts/`](research/extracts/):
-
-- [*Polymorphic Symmetric Multiple Dispatch with
-  Variance*](research/extracts/3290324-popl19w.pdf)
-  (Park, Hong, Steele, Ryu — **POPL 2019**), licensed CC BY-NC 4.0 as its
-  first page prints ([`research/README.md`](research/README.md)).
-- [*Polymorphic Symmetric Multiple Dispatch with Variance*, technical
-  report](research/extracts/3290324-popl19-TR.pdf): the paper extended with
-  the formalization, included with Sukyoung Ryu's permission of 2026-10-29.
 
 ## Repository tour
 

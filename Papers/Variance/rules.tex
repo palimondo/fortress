@@ -1,0 +1,534 @@
+\section{Overloading Rules}\label{sec:rules}
+Now, we formalize the overloading rules informally discussed in Section~\ref{sec:motiv:fgf}
+for FGFV.
+
+\subsection{Formalization of Overloading Rules}\label{sec:rules:formal}
+\begin{figure}[t]
+\small
+\begin{tabular}{@{}c@{\hskip0.02\textwidth}c@{}}
+\begin{minipage}[t]{.48\textwidth}
+\typicallabel{No-Dup-Not-Less}
+
+\newjudge{No Duplicates Rule}{\jnoduplicatesrule{d}{d}}
+
+\infrule[No-Dup-Triv]
+  { \name{d}\not=\name{d'} }
+  { \jnoduplicatesrule{d}{d'} }
+\smallskip
+
+\infrule[No-Dup-Not-Less]
+  { \neg\bigtuple{\jle{\dom(d)}{\dom(d')}} }
+  { \jnoduplicatesrule{d}{d'} }
+\smallskip
+
+\infrule[No-Dup-Not-Gtr]
+  { \neg\bigtuple{\jle{\dom(d')}{\dom(d)}} }
+  { \jnoduplicatesrule{d}{d'} }
+
+\end{minipage}&%
+\begin{minipage}[t]{.5\textwidth}
+
+\newjudge{Meet Rule}{\jmethodmeetrule{d}{d}{\setb{d}}}
+
+\typicallabel{Meet-Third}
+
+\infrule[Meet-Triv]
+  { \name{d}\not=\name{d'} }
+  { \jmethodmeetrule{d}{d'}{\dontcare} }
+\smallskip
+
+\infrule[Meet-Excl]
+  { \jle{\bigtuple{\dom(d)\existentialmeet\dom(d')}}{\existstype{\verythinmathspace}{\Bottom}} }
+  { \jmethodmeetrule{d}{d'}{\dontcare} }
+\smallskip
+
+\infrule[Meet-Less]
+  { \jle{\dom(d)}{\dom(d')} }
+  { \jmethodmeetrule{d}{d'}{\dontcare} }
+\smallskip
+
+\infrule[Meet-Gtr]
+  { \jle{\dom(d')}{\dom(d)} }
+  { \jmethodmeetrule{d}{d'}{\dontcare} }
+\end{minipage}
+\end{tabular}
+
+\vspace*{-.5em}
+\infrule[Meet-Third]
+  { d'''\in\setb{d''}  \quad
+    \name{d}=\name{d'}=\name{d'''} \quad
+    \jequivalent{\dom(d''')}{\bigtuple{\dom(d)\sqcap\dom(d')}} }
+  { \jmethodmeetrule{d}{d'}{\setb{d''}} }
+
+\newjudge{Return Type Rule}{\jreturntyperule{d}{d}}
+
+\typicallabel{Return-Not-Less}
+
+\begin{tabular}{@{}c@{\hskip0.05\textwidth}c@{}}
+\begin{minipage}[t]{.45\textwidth}
+\infrule[Return-Triv]
+  { \name{d}\not=\name{d'} }
+  { \jreturntyperule{d}{d'} }
+\end{minipage}
+&
+\begin{minipage}[t]{.5\textwidth}
+\infrule[Return-Not-Less]
+  { \neg\big(\jle{\dom(d)}{\dom(d')}\big) }
+  { \jreturntyperule{d}{d'} }
+\end{minipage}
+\end{tabular}
+
+\infrule[Return-Test]
+  { \arrow(d) = \foralltypeb{\kappa}{\arrowtype{\alpha}{\rho}}
+    \qquad
+    \rep{\kappa = \lobindup{\rep{\chi}}{P}{\rep{\eta}}}
+    \qquad
+    \arrow(d') = \foralltypeb{\kappa'}{\arrowtype{\alpha'}{\rho'}}
+    \\[3pt]
+    \rep{\kappa' = \lobindup{\rep{\chi'}}{Q}{\rep{\eta'}}}
+    \qquad
+    \mathit{distinct}(\rep{P},\rep{Q})
+    \qquad
+    \jle{\dom(d)}{\dom(d')}
+    \\[3pt]
+    \jle{\foralltypeb{\kappa}{\arrowtype{\alpha}{\rho}}}{\foralltype{\bar{\kappa},\bar{\kappa'}}{\arrowtype{\intersectiontype{\alpha}{\alpha'}}{\rho'}}} }
+  { \jreturntyperule{d}{d'} }
+
+\vspace*{-1.5em}
+\caption{Overloading rules for FGFV}
+\label{fig:overloadingrules}
+\end{figure}
+
+The overloading rules require that every pair in a set of overloaded method
+declarations satisfies all three rules defined in Figure~\ref{fig:overloadingrules}.
+To determine whether one method declaration is more specific than the other,
+while the informal rules in Section~\ref{sec:motiv:fgf} used the subset relation
+of their applicable sets, which is not practically checkable,
+we use the subtype relation of their domain types as in \citet{oopsla11}.
+Note that even though FGFV additionally supports variance annotations of
+trait type parameters, the overloading rules for FGF remain the same
+because covariant or contravariant types affect only the well-formedness of
+method declarations rather than the validity of overloading.
+
+If two method declarations have different names, they vacuously
+satisfy all the rules ({\sc [No-Dup-Triv]}, {\sc [Meet-Triv]}, and
+{\sc [Return-Triv]}).  The No Duplicates Rule also checks whether the
+domain types of two declarations are different; if the domain type of one
+declaration is not a subtype of the domain type of the other, they
+satisfy the rule ({\sc [No-Dup-Not-Less]} and {\sc [No-Dup-Not-Gtr]}).
+The Meet Rule is satisfied if two domain types exclude
+each other ([{\sc Meet-Excl}]), they are in a subtype relation
+({\sc [Meet-Less]} and {\sc [Meet-Gtr]}), or the domain type of a third
+declaration of the same name is the intersection type of the domain types
+of two declarations ({\sc [Meet-Third]}).  The Return Type Rule is
+satisfied if two domain types are not in a subtype relation
+({\sc [Return-Not-Less]}), or if two arrow types derived from the two declarations are
+in a subtype relation ({\sc [Return-Test]}).
+% We discuss the domain types
+% and arrow types of method declarations and their subtype relations in
+% the next subsection.
+
+\subsection{Quantified Types}\label{sec:quant}
+\begin{figure}[t]
+\small
+\newjudge{Well-formed substitution}{ \jobeys{\sigma}{\listofb{P}}{\listofb{\chi}}{\listofb{\eta}} }
+
+\infrule
+  { \sigma=\substb{\alpha}{P}
+    \andalso
+    \rep{\jsubtype[\same{\Delta}]{\same{\sigma}\chi}{\alpha}}
+    \andalso
+    \rep{\jsubtype[\same{\Delta}]{\alpha}{\same{\sigma}\eta}}
+  }
+  { \jobeys{\sigma}{\listofb{P}}{\listofb{\chi}}{\listofb{\eta}} }
+\vspace*{-1em}
+\caption{Well-formed substitution}
+\label{fig:wellformedsubst}
+\end{figure}
+
+\begin{figure}[t]
+\small
+\typicallabel{x}
+\newjudge{Existential inner subtyping}{\jleinnerusing{\Xi}{\Xi}{\sigma}}
+\vspace*{-.5em}
+
+\infrule[E-Sub]
+  { \Delta' = \Delta \cup \setb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}} \andalso
+    \setb{P} \cap \FV(\rep{\rep{\chi'}},\rep{\rep{\eta'}},{\alpha'}) = \emptyset \andalso
+    \sigma = \Bigsubstb{\gamma}{Q} \andalso
+	\rep{\gamma\neq\Bottom} \\[3pt]
+	\jobeys[\Delta']{\sigma}{\listofb{Q}}{\listofb{\bigtypeunion\setb{\chi'}}}{\listofb{\bigtypeintersection\setb{\eta'}}} \andalso
+    \jsubtype[\Delta']{\alpha}{\sigma\alpha'} }
+  { \jleinnerusingtight{\existstypeb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}{\alpha}}{\existstypebigb{\lobindup{\rep{\chi'}}{Q}{\rep{\eta'}}}{\alpha'}}{\sigma} }
+
+\newjudge{Universal inner subtyping}{\jleinnerusing{\Upsilon}{\Upsilon}{\sigma}}
+\vspace*{-.5em}
+
+\infrule[U-Sub]
+  { \Delta' = \Delta \cup \setb{\lobindup{\rep{\chi'}}{Q}{\rep{\eta'}}} \andalso
+    \setb{Q} \cap \FV(\rep{\rep\chi},\rep{\rep\eta},{\alpha}) = \emptyset \andalso
+    \sigma = \Bigsubstb{\gamma}{P} \andalso
+	\rep{\gamma\neq\Bottom} \\[3pt]
+	\jobeys[\Delta']{\sigma}{\listofb{P}}{\listofb{\bigtypeunion\setb{\chi}}}{\listofb{\bigtypeintersection\setb{\eta}}} \andalso
+    \jsubtype[\Delta']{\sigma\alpha}{\alpha'} }
+  { \jleinnerusingtight{\foralltypebigb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}{\alpha}}{\foralltypeb{\lobindup{\rep{\chi'}}{Q}{\rep{\eta'}}}{\alpha'}}{\sigma} }
+
+\newjudge{Intersection of existential types}{\Xi\existentialmeet\Xi}
+\vspace*{-.5em}
+\infrule
+  { \mathit{distinct}(\bar{P},\bar{P'}) \andalso
+    \setb{P'}\cap\FV(\rep{\rep\chi},\rep{\rep\eta},\alpha)=\setb{P}\cap\FV(\rep{\rep{\chi'}},\rep{\rep{\eta'}},\alpha')=\emptyset }
+  { \Bigtuple{\existstypeb{\lobindup{\rep{\chi}}{P}{\rep{\eta}}}{\alpha}} \existentialmeet \Bigtuple{\existstypeb{\lobindup{\rep{\chi'}}{P'}{\rep{\eta'}}}{\alpha'}} = 
+    \existstype{\bar{\lobindup{\rep{\chi}}{P}{\rep{\eta}}},\bar{\lobindup{\rep{\chi'}}{P'}{\rep{\eta'}}}}{\intersectiontype{\alpha}{\alpha'}} }
+
+\newjudge{Existential reduction}{\jtreds{\Xi}{\Xi}{\sigma}}
+\vspace*{.5em}
+
+\begin{tabular}{@{}c@{\hskip0.05\textwidth}c@{}}
+\begin{minipage}[t]{.55\textwidth}
+\infrule
+  {\jcnequiv{\alpha}{\Bottom}{\mathcal{C}} \andalso \toConstraint{\setb{K}}{\mathcal{C}'} \\
+   \junify{\mathcal{C} \wedge \mathcal{C}'}{\sigma}{\mathcal{C}''} \andalso \toBounds{\mathcal{C}''}{\setb{K'}}}
+  {\jtreds{\existstypeb{K}{\alpha}}{\existstypeb{K'}{\sigma\alpha}}{\sigma}}
+\end{minipage}
+&
+\begin{minipage}[t]{.4\textwidth}
+\infrule
+  {\text{otherwise}}
+  {\jtreds{\existstypeb{K}{\alpha}}{\existstypeb{K}{\alpha}}{\emptysubst}}
+\end{minipage}
+\end{tabular}
+\bigskip
+
+\newjudge{Universal reduction}{\jtreds{\Upsilon}{\Upsilon}{\sigma}}
+
+\vspace*{-2em}
+\hspace*{18em}
+\begin{minipage}[t]{.5\textwidth}
+\infrule
+  { \jtreds{\existstypeb{K}{\alpha}}{\existstypeb{K'}{\alpha'}}{\sigma} }
+  { \jtreds{\foralltypeb{K}{\arrowtype{\alpha}{\omega}}}{\foralltypeb{K'}{\arrowtype{\alpha'}{\sigma\omega}}}{\sigma} }
+\end{minipage}
+\bigskip
+
+\newjudge{Existential subtyping}{\jleusing{\Xi}{\Xi}{\sigma} \andalso \jle{\Xi}{\Xi}}
+
+\begin{tabular}{@{}c@{\hskip0.05\textwidth}c@{}}
+\begin{minipage}[t]{.55\textwidth}
+\infrule
+  { \jtreds{\Xi}{\Xi''}{\dontcare} \andalso \jleinnerusing{\Xi''}{\Xi'}{\sigma} }
+  { \jleusing{\Xi}{\Xi'}{\sigma} }
+\end{minipage}
+&
+\begin{minipage}[t]{.4\textwidth}
+\infrule
+  { \jleusing{\Xi}{\Xi'}{\dontcare} }
+  { \jle{\Xi}{\Xi'} }
+\end{minipage}
+\end{tabular}
+\medskip
+
+\newjudge{Universal subtyping}{\jleusing{\Upsilon}{\Upsilon}{\sigma} \andalso \jle{\Upsilon}{\Upsilon}}
+
+\begin{tabular}{@{}c@{\hskip0.05\textwidth}c@{}}
+\begin{minipage}[t]{.55\textwidth}
+\infrule
+  { 
+\jtreds{\Upsilon'}{\Upsilon''}{\dontcare}
+\andalso 
+\jleinnerusing{\Upsilon}{\Upsilon''}{\sigma} 
+ }
+  { \jleusing{\Upsilon}{\Upsilon'}{\sigma} }
+\end{minipage}
+&
+\begin{minipage}[t]{.4\textwidth}
+\infrule
+  { \jleusing{\Upsilon}{\Upsilon'}{\dontcare} }
+  { \jle{\Upsilon}{\Upsilon'} }
+\end{minipage}
+\end{tabular}
+
+\smallskip
+\newjudge{Constraint solving}{\junify{\C}{\sigma}{\C}}
+
+\smallskip
+\newjudge{Conversion of type environment to constraints}{\toConstraint{\Delta}{\C}}
+
+\smallskip
+\newjudge{Conversion of constraints to type environment}{\toBounds{\C}{\Delta}}
+
+\vspace*{-.5em}
+\caption{Subtype relations of quantified types}
+\label{fig:quantified}
+\end{figure}
+
+As proposed by \citet{bm97}, we represent domain types and arrow types
+of generic method declarations as existential types $\Xi$ and universal
+types $\Upsilon$, respectively, collectively called \emph{quantified types}.
+For presentation brevity, we omit $C$ from $d = (C, M)$ where a method declaration
+$M = \methoddef{m}{\rep{K}}{\rep{x\COLON\alpha}}{\rho}{e}$ is declared in
+a class $C$.
+The domain type of $d$ is $\dom(d) =
+\existstypebigb{K}{\tuple{\bar{\alpha}}}$ and its arrow type is
+$\arrow(d) = \foralltypebigb{K}{\arrowtype{\tuple{\bar{\alpha}}}{\rho}}$.
+% Because we compare domain types to see whether one generic method
+% declaration is more specific than the other, which amounts to see whether
+% any instance of the former is more specific than an instance of the latter,
+% an existential type $\existstypebigb{K}{\alpha}$ is a subtype of the other
+% existential type $\existstypebigb{K'}{\alpha'}$ if there exists
+% a substitution $\sigma$ for the type parameters bound in $\rep{K'}$ that makes
+% $\sigma\alpha'$ a supertype of $\alpha$.
+We compare domain types to decide whether one generic method
+declaration is more specific than the other;
+an existential type $\existstypebigb{K}{\alpha}$ is a subtype of another
+existential type $\existstypebigb{K'}{\alpha'}$ if there exists
+a well-formed substitution $\sigma$ for the type parameters bound in $\rep{K'}$ that makes
+$\sigma\alpha'$ a supertype of $\alpha$.
+A substitution is well-formed if it satisfies the bounds of type parameters
+as shown in Figure~\ref{fig:wellformedsubst}.
+In contrast, we compare arrow types to see whether the return type
+of a more specific generic method declaration can be a subtype of the return
+type of a less specific one;
+a universal type $\foralltypebigb{K}{\alpha}$ is a subtype of the other
+universal type $\foralltypebigb{K'}{\alpha'}$ if there exists
+a well-formed substitution $\sigma$ for the type parameters bound in $\rep{K}$ that
+makes $\sigma\alpha$ a subtype of $\alpha'$.
+Figure~\ref{fig:quantified} formally defines these ``inner'' subtyping
+rules for quantified types.  (We assume the usual conventions about
+using $\alpha$-conversion to rename bound variables when necessary
+to satisfy premises that require variable names to be distinct.)
+Finally, the intersection type of two
+existential types $\existstypebigb{K}{\alpha}$ and
+$\existstypebigb{K'}{\alpha'}$ used in [{\sc Meet-Excl}] and [{\sc Meet-Third}] is
+$\exists{\big\llbracket\verythinmathspace \bar{K},\bar{K'} \verythinmathspace\big\rrbracket}{\intersectiontype{\alpha}{\alpha'}}$,
+because whenever both $\sigma\alpha$ and $\sigma'\alpha'$ are supertypes
+of a type $\tau$ for some $\sigma$ and $\sigma'$,
+$(\sigma\compose\sigma')\intersectiontype{\alpha}{\alpha'}$ is a supertype of
+$\tau$ as well.
+
+While the subtype relation of domain types is a sound
+approximation of the subset relation of applicable sets, it is not
+complete; when the applicable set of one declaration is a subset
+of that of the other, their domain types may not be in a subtype relation.
+Consider the following:
+\[
+\begin{array}{l}
+m\ob{P}(x:{\sf ArrayList}\ob{P})\ \dontcare\andalso
+m\ob{Q\extends T}(y:{\sf List}\ob{Q})\ \dontcare\andalso
+m\ob{R\extends T}(z:{\sf ArrayList}\ob{R})\ \dontcare
+\end{array}
+\]
+for some trait $T$ where ${\sf ArrayList}$ extends ${\sf List}$ and both
+are invariant, and call them $d_1$, $d_2$, and $d_3$ in order.
+Even though they are a valid overloading because the applicable set of
+$d_3$ is the intersection of those of $d_1$ and $d_2$,
+the intersection of the two domain types
+$\Xi_{\sqcap}=\existstype{P,Q\extends T}{\intersectiontype{{\sf ArrayList}\ob{P}}{{\sf List}\ob{Q}}}$
+is not a subtype of the domain type of $d_3$, 
+$\Xi_3=\existstype{R\extends T}{{\sf ArrayList}\ob{R}}$.
+However, because ${\sf ArrayList}$ extends ${\sf List}$ and both are
+invariant, any subtypes of theirs are exclusive unless they are both
+${\sf ArrayList}\ob{S}$ for some type $S$ that is a subtype of $T$.
+Thus, $\Xi_{\sqcap}$ denotes the same applicable set as
+$\existstype{S\extends T}{{\sf ArrayList}\ob{S}}$, which is
+a subtype of $\Xi_3$ using $\subst{R}{S}$.
+
+
+Therefore, in order to reduce the gap between the subset relation of
+applicable sets and the subtype relation of domain types,
+we extend the subtype relation of existential types using
+\emph{existential reduction}.  As defined in Figure~\ref{fig:quantified},
+existential reduction infers a simplified existential type from a given
+existential type $\existstype{\rep{K}}{\alpha}$.
+As defined in Figure~\ref{fig:constraints}, it first collects
+constraints $\C$ that make $\alpha$ different from $\Bottom$:
+${\Delta}\turnstile{\alpha}\,{\not\equiv}\,{\Bottom}\Rightarrow{\C}$.
+It then tries to find types that instantiate the type parameters bound in
+$\rep{K}$ or simply collects their bounds by solving $\C$ and the
+constraints on the type parameters; it makes a substitution $\sigma$
+for the type parameters that have types to instantiate with and
+constraints $\C''$ for the type parameters that have only bounds.
+Using the substitution $\sigma$ and type parameter bindings $\rep{K'}$
+generated from $\C''$, it produces a simplified existential type
+$\existstype{\rep{K'}}{\sigma\alpha}$.  Finally, in the extended subtype
+relation, one existential type is a subtype of the other if a reduced
+existential type of the former is a subtype of the latter
+by the inner subtyping rule as shown in Figure~\ref{fig:quantified}.
+
+\begin{figure}[t]
+\small
+\begin{tabular}{@{}l@{}l@{}}
+\begin{minipage}[t]{.4\textwidth}
+\textbf{Constraint grammar} \par
+\smallskip
+\noindent\(
+\begin{array}{@{}lclcl@{}}
+\C &::=& \FALSE &\mid& \TRUE \\
+  &\mid& T <: T &\mid& T \exc T \\
+  &\mid& T \not<: T &\mid& T \nexc T \\
+  &\mid& \C \wedge \C &\mid& \C \vee \C \\
+  \end{array}
+\)
+\end{minipage}
+&
+\hspace*{-1em}
+\begin{minipage}[t]{0.6\textwidth}
+\newjudge{Constraint negation}{\neg \C = \C}
+\noindent\(
+\begin{array}{@{}l@{\hspace{1ex}}c@{\hspace{1ex}}ll@{\hspace{1ex}}c@{\hspace{1ex}}l@{}}
+\neg(\FALSE) &=& \TRUE & \neg(\TRUE) &=& \FALSE \\
+\neg(T \subtypeof T') &=& T \nsubtypeof T' & \neg(T \exc T') &=& T \nexc T'\\
+\neg(T \nsubtypeof T') &=& T \subtypeof T' & \neg(T \nexc T') &=& T \exc T' \\
+\neg(\C \wedge \C) &=& \neg(\C) \vee \neg(\C) & \neg(\C \vee \C) &=& \neg(\C) \wedge \neg(\C) \\
+\end{array}
+\)
+\end{minipage}\\
+
+\begin{minipage}[t]{0.5\textwidth}
+\newjudge{Conditional non-subtyping}{\jnsub{\alpha}{\alpha}{\C}}
+
+\infrule
+  { \jsub{\alpha}{\eta}{\C} }
+  { \jnsub{\alpha}{\eta}{\neg\C} }
+
+\newjudge{Conditional equivalence}{
+\begin{tabular}{l}
+\jequiv{\alpha}{\alpha}{\C}\\
+\jnequiv{\alpha}{\alpha}{\C}
+\end{tabular}
+}
+
+\infrule
+  { \jsub{\alpha}{\eta}{\C} \andalso \jsub{\eta}{\alpha}{\C'} }
+  { \jequiv{\alpha}{\eta}{\C \wedge \C'} }
+
+\medskip
+\infrule
+  { \jequiv{\alpha}{\eta}{\C} }
+  { \jnequiv{\alpha}{\eta}{\neg\C} }
+
+\end{minipage}
+&
+\begin{minipage}[t]{.5\textwidth}
+\newjudge{Conditional variance test}{\jcomp{\alpha}{\alpha}{V}{\C}}
+
+\infrule
+  { \jsub{\alpha}{\eta}{\C} }
+  { \jcomp{\alpha}{\eta}{\bindco}{\C} }
+
+\infrule
+  { \jsub{\eta}{\alpha}{\C} }
+  { \jcomp{\alpha}{\eta}{\bindcontra}{\C} }
+
+\infrule
+  { \jequiv{\alpha}{\eta}{\C} }
+  { \jcomp{\alpha}{\eta}{\bindinv}{\C} }
+\newjudge{Converse non-equivalence}{\jcnequiv{\alpha}{\alpha}{\C}}
+
+\infrule
+  { \jequiv{\alpha}{\eta}{\C} }
+  { \jcnequiv{\alpha}{\eta}{\neg\C} }
+
+\end{minipage}
+\end{tabular}
+
+\vspace*{-.5em}
+\caption{Constraints. The $\wedge$, $\vee$, and $\neg$ operators form a Boolean algebra.}
+\label{fig:constraints}
+\end{figure}
+
+Collecting constraints $\C$ that make a type $\alpha$ different from
+another type $\alpha'$ requires various relations between types such as
+subtype, non-subtype, equivalence, non-equivalence, exclusion, and
+non-exclusion relations.  A constraint is inductively defined with
+boolean literals, true and false, and simple type relations like subtype,
+non-subtype, exclusion, and non-exclusion relations as base cases,
+and conjunction and disjunction of constraints as inductive steps.
+We also defined the various type relations inductively on the structure
+of types.  In addition, we defined all the type relations in a way that
+supports complete and disjoint case analysis for types.  The entire type
+relations are formally defined in Appendix~\ref{app:condrel}.
+
+%Lastly, the subtype relation of arrow types is used only in \rncite{Return-Test}
+Arrow types are compared only in rule \rncite{Return-Test},
+to see whether the return type of a more specific
+generic method declaration can be a subtype of the return type of a less
+specific one.  As the informal rule in Section~\ref{sec:motiv:fgf}
+specifies, Return Type Rule checks that for two declarations
+$d_1$ and $d_2$ where $d_1$ is more specific than $d_2$, and
+for any non-$\Bottom$ type $\gamma$ that $d_1$ is applicable to,
+the return type of an instance of $d_2$ that is applicable to
+$\gamma$ is a supertype of the return type of some instance of
+$d_1$ that is applicable to $\gamma$.
+When the arrow types of $d_1$ and $d_2$ are
+$\foralltypeb{\kappa}{\arrowtype{\alpha}{\rho}}$ and
+$\foralltypeb{\kappa'}{\arrowtype{\alpha'}{\rho'}}$, respectively,
+\rncite{Return-Test} checks this by checking whether the arrow type of
+$d_1$ is a subtype of
+$\foralltype{\bar{\kappa},\bar{\kappa'}}{\arrowtype{\intersectiontype{\alpha}{\alpha'}}{\rho'}}$.
+Since $d_1$ is more specific than $d_2$ and is applicable to $\gamma$,
+there exist substitutions $\sigma_1$ and $\sigma_2$ that make $d_1$ and
+$d_2$ applicable to $\gamma$, respectively, thus both $\sigma_1\alpha$
+and $\sigma_2\alpha'$ are supertypes of $\gamma$, therefore so is
+$(\sigma_1\compose\sigma_2)\intersectiontype{\alpha}{\alpha'}$.
+Thus, if the arrow type of $d_1$ is a subtype of
+$\foralltype{\bar{\kappa},\bar{\kappa'}}{\arrowtype{\intersectiontype{\alpha}{\alpha'}}{\rho'}}$
+using some substitution $\sigma$, it makes $\sigma\alpha$ a supertype of
+$\intersectiontype{\alpha}{\alpha'}$, which makes
+$(\sigma_1\compose\sigma_2\compose\sigma)\alpha$ a supertype of $\gamma$,
+and $\sigma\rho$ a subtype of $\rho'$.
+Hence, $\sigma_1\compose\sigma_2\compose\sigma$ is the
+one that makes the instance of $d_1$ that is applicable to $\gamma$
+and has the return type that is a subtype of the instance of $d_2$.
+In summary, \rncite{Return-Test} ensures that
+for any instance of $d_2$ instantiated with $\sigma_2$
+that is applicable to $\gamma$, there exists an instance of $d_1$
+instantiated with $\sigma_1\compose\sigma_2\compose\sigma$
+that is applicable to $\gamma$ and has a return type that is a subtype
+of the return type of the instance of $d_2$.
+
+% Similarly for the
+In the same manner as for
+existential types, we extend the subtype relation of
+universal types using \emph{universal reduction} as defined in
+Figure~\ref{fig:quantified}.  When [{\sc Return-Test}] checks whether one
+universal type is a subtype of the other, the domain type of the latter
+is an intersection type.  Thus, in order to utilize the extended
+expressivity by existential reduction, universal reduction takes
+a universally quantified arrow type $\foralltypeb{K}{\arrowtype{\alpha}{\omega}}$,
+simplifies its domain type to $\existstypeb{K'}{\alpha'}$ using
+$\sigma$ via existential reduction, and produces a simplified
+universal type $\foralltypeb{K'}{\arrowtype{\alpha'}{\sigma\omega}}$.
+% Finally, in
+In
+the extended subtype relation, one universal type is a subtype
+of the other if the former is a subtype of a reduced universal type of the
+latter by the inner subtyping rule as shown in Figure~\ref{fig:quantified}.
+
+
+\subsection{Unique Existence of the Most Specific Declaration}\label{sec:uniqthm}
+For any method invocation, there always exists a unique most specific
+method declaration in its set of applicable method declarations.
+\begin{theorem}
+\label{thm:mostspecific}
+Let $\setb{d}=\visible{\tuple{C,m}}$ for $\jwftype{C}$.\\
+\begin{tabular}{l@{~}l}
+If &$\applicable{\setb{d}}{\alpha}\neq\emptyset$
+for $\jwftype{\alpha}$ and $\alpha\neq\Bottom$,\\
+then &
+$\left|\mostspecific{\applicable{\setb{d}}{\alpha}}\right|=1$.
+\end{tabular}
+\end{theorem}
+\begin{proof}
+See Appendix~\ref{app:proofs}.
+\end{proof}
+% \begin{proof}[Proof Sketch]
+% We first show that the more specific relation of method declarations
+% is a partial order.  It is clearly reflexive and transitive.  The No
+% Duplicates Rule guarantees anti-symmetricity.  Under the partial order,
+% a set of applicable method declarations is a meet semilattice. The Meet
+% Rule guarantees the existence of a meet for every nonempty subset of
+% the set.  Proving the existence of the most specific method declaration
+% is straightforward by structural induction on the meet semilattice.
+% \end{proof}
+

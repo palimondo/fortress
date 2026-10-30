@@ -1,0 +1,125 @@
+\newdimen\meta@dimen
+
+\newcommand\exprbox[1]{{\setbox1\vbox{\hrule width 0pt}\setbox0\hbox{$\underline{\overline{\hskip\ht1#1\hskip\ht1}}$}\relax
+  \meta@dimen=\ht0\advance\meta@dimen-\ht1\ht0=\meta@dimen
+  \meta@dimen=\dp0\advance\meta@dimen-\ht1\dp0=\meta@dimen
+  \vbox{\vskip\ht1\hbox{\hskip\ht1\vrule\box0\vrule\hskip\ht1}}}}
+
+
+% \repetition{body}
+% \repetition{body}[binding]
+% \repetition{body}+
+% \repetition{body}+[binding]
+% \repetition{body}<separator>
+% \repetition{body}<separator>[binding]
+% \repetition{body}<separator>+
+% \repetition{body}<separator>+[binding]
+% A + can be ? instead.
+
+\newcommand\dontcare{\hbox{$\mskip1mu$\setbox0\hbox{$b$}\relax
+                           \vrule width 0pt height \ht0 depth 0pt
+                           \vrule width 0.5em height 0.5pt depth 0pt
+                           $\mskip1mu$}}
+
+\newcommand\dontcares{\hbox{$\mskip1mu$\relax
+                            \vrule width 1em height 0.5pt depth 0pt
+                            $\mskip1mu$}}
+
+\newcommand\supermathpalette[2]{\mathchoice
+  {#1\displaystyle\textfont{#2}}
+  {#1\textstyle\textfont{#2}}
+  {#1\scriptstyle\scriptfont{#2}}
+  {#1\scriptscriptstyle\scriptscriptfont{#2}}}
+
+\newcommand\rep{\repetition}
+\newcommand\leftrep{\leftrepetition}
+\newcommand\rightrep{\rightrepetition}
+%\newcommand\norep[1]{\mathord{\mskip1mu\underline{#1}\mskip1mu}}
+\newif\if@withinnorep   \@withinnorepfalse
+\newcommand\norep[1]{\mathord{\mskip1mu\supermathpalette\@norep{#1}\mskip1mu}}
+\newcommand\@norep[3]{{\setbox0\vtop{\hbox{\@withinnoreptrue$#1#3$}%
+                                           \kern 2.25\fontdimen 8 #2 3
+                                           \hrule height \fontdimen 8 #2 3}%
+                       \if@withinnorep\else\dimen0=\dp0 \advance \dimen0 by \fontdimen 8 #2 3 \dp0=\dimen0\fi
+                       \box0}}
+\newcommand\same{\norep}
+
+\newcommand\repetition[1]{\@repetition{\repoverline}{#1}}
+\newcommand\leftrepetition[1]{\@repetition{\overleftharpoon}{#1}}
+\newcommand\rightrepetition[1]{\@repetition{\overrightharpoon}{#1}}
+
+\def\@repetition#1#2{\@ifnextchar<{\@repetitionWithSeparator{#1}{#2}}{\@repetitionCheckPlus{#1}{#2}{}}}
+\def\@repetitionWithSeparator#1#2<#3>{\@repetitionCheckPlus{#1}{#2}{#3}}
+\def\@repetitionCheckPlus#1#2#3{\@ifnextchar+{\@repetitionWithPlus{#1}{#2}{#3}}{\@repetitionCheckOptional{#1}{#2}{#3}}}
+\def\@repetitionWithPlus#1#2#3+{\@repetitionCheckBinding{#1}{#2}{#3}{+}}
+\def\@repetitionCheckOptional#1#2#3{\@ifnextchar?{\@repetitionWithOptional{#1}{#2}{#3}}{\@repetitionCheckBinding{#1}{#2}{#3}{}}}
+\def\@repetitionWithOptional#1#2#3?{\@repetitionCheckBinding{#1}{#2}{#3}{?}}
+\def\@repetitionCheckBinding#1#2#3#4{\@ifnextchar[{\@repetitionWithBinding{#1}{#2}{#3}{#4}}{\@repetitionFinal{#1}{#2}{#3}{#4}{}}} %]
+\def\@repetitionWithBinding#1#2#3#4[#5]{\@repetitionFinal{#1}{#2}{#3}{#4}{#5}}
+\def\@repetitionFinal#1#2#3#4#5{{\def\@empty{}\def\@optional{?}\def\arg@overline{#1}\def\arg@body{#2}\relax
+                                 \def\arg@separator{#3}\def\arg@multiplicity{#4}\def\arg@binding{#5}\relax
+  \ifx\arg@separator\@empty
+    \ifx\arg@multiplicity\@empty
+      \ifx\arg@binding\@empty
+        \def\@contents{}\relax
+      \else
+        \def\@contents{\,\arg@binding}\relax
+      \fi
+    \else
+      \ifx\arg@binding\@empty
+        \def\@contents{\ifx\arg@multiplicity\@optional\else\,\fi\arg@multiplicity}\relax
+      \else
+        \def\@contents{\ifx\arg@multiplicity\@optional\else\,\fi\arg@multiplicity\,\arg@binding}\relax
+      \fi
+    \fi
+  \else 
+    \ifx\arg@multiplicity\@empty
+      \ifx\arg@binding\@empty
+        \def\@contents{\mskip 0.5\thinmuskip\arg@separator}\relax
+      \else
+        \def\@contents{\mskip 0.5\thinmuskip\arg@separator\,\arg@binding}\relax
+      \fi
+    \else
+      \ifx\arg@binding\@empty
+        \def\@contents{\mskip 0.5\thinmuskip\arg@separator\mskip 0.5\thinmuskip\arg@multiplicity}\relax
+      \else
+        \def\@contents{\mskip 0.5\thinmuskip\arg@separator\mskip 0.5\thinmuskip\arg@multiplicity\,\arg@binding}\relax
+      \fi
+    \fi
+  \fi
+  \ifx\@contents\@empty
+    \mathord{\mskip1mu\arg@overline{\arg@body}\mskip1mu}\relax
+  \else
+    \setbox0\hbox{$\arg@overline{\arg@body}$}\relax
+    \setbox1\vbox{\hrule width 0pt}\relax
+    \setbox2\hbox{$\scriptstyle\@contents$}\relax
+    \setbox3\vbox{$\scriptstyle\vcenter{}$}\relax
+    \meta@dimen=\ht0\advance\meta@dimen-1.5\ht1\advance\meta@dimen-\ht3
+    \mathord{\mskip1mu\box0}\mathord{\raise\meta@dimen\box2}\relax
+  \fi}}
+
+%\newcommand\repoverline{\overline}
+% \newcommand\repoverline[1]{\mathpalette\@repoverline{#1}}
+% %\def\@repoverline#1#2{{\setbox0\vbox{\hrule}}\vbox{\kern\ht0\hrule height\ht0\kern2\ht0\hbox{$#1#2$}}}
+% \def\@repoverline#1#2{\vbox{\kern\fontdimen8\textfont3\hrule height\fontdimen8\textfont3\kern2.5\fontdimen8\textfont3\hbox{$#1#2$}}}
+
+\newif\if@withinrep   \@withinrepfalse
+\newcommand\repoverline[1]{\supermathpalette\@repoverline{#1}}
+\newcommand\@repoverline[3]{\vbox{\if@withinrep\else \kern\fontdimen 8 #2 3 \fi
+                                  \hrule height\fontdimen 8 #2 3
+                                  \kern 2.25\fontdimen 8 #2 3
+                                  \hbox{\@withinreptrue$#1#3$}}}
+
+\newbox\lowered@leftharpoonup  \setbox\lowered@leftharpoonup\hbox{\lower0.25ex\hbox{$\leftharpoonup$}}\dp\lowered@leftharpoonup=0pt
+\newbox\lowered@rightharpoonup  \setbox\lowered@rightharpoonup\hbox{\lower0.25ex\hbox{$\rightharpoonup$}}\dp\lowered@rightharpoonup=0pt
+\newbox\lowered@relbar  \setbox\lowered@relbar\hbox{\lower0.25ex\hbox{$\relbar$}}\dp\lowered@relbar=0pt
+
+\def\leftharpoonfill@{\arrowfill@{\copy\lowered@leftharpoonup}{\copy\lowered@relbar}{\copy\lowered@relbar}}
+\def\rightharpoonfill@{\arrowfill@{\copy\lowered@relbar}{\copy\lowered@relbar}{\copy\lowered@rightharpoonup}}
+%\def\rightharpoonfill@{\arrowfill@\relbar\relbar\rightharpoonup}
+%\global\let\overleftharpoon\undefined
+%\global\let\overrightharpoon\undefined
+\newcommand\overleftharpoon{\mathpalette{\overarrow@\leftharpoonfill@}}
+\newcommand\overrightharpoon{\mathpalette{\overarrow@\rightharpoonfill@}}
+
+\newcommand\metadots{\hbox{{-}{-}{-}}}
