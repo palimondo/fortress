@@ -143,6 +143,8 @@ Timed as `compiler.md`, "The checker's time", says, with this rung's change comm
 
 ## 5. Whole suites, once each on the final code
 
+Each ran on the code of `720285d7c`, which is the head's code: `681dd8605` adds test files only. The commands: `ant testQuick`, `ant testSystem`, `ant testSpecData`, from the tree's root.
+
 - `ant testQuick` (the checker changed): library 'Tests run: 86, Failures: 0, Errors: 0', othercompiler 'Tests run: 263, Failures: 0, Errors: 0', compiler 'Tests run: 1316, Failures: 0, Errors: 0' (1315 landed, and `ExportVarObjectParameter`); 'BUILD SUCCESSFUL', 'Total time: 12 minutes 0 seconds'.
 - `ant testSystem` (the library changed, P-124): shards 'Tests run: 174', '162', '170', '178', 'Failures: 0, Errors: 0', 684 in all (683 landed, and `CovariantCollectionArmsWalk`); 'BUILD SUCCESSFUL', 'Total time: 5 minutes 50 seconds'.
 - `ant testSpecData`: 'Tests run: 130, Failures: 0, Errors: 0'; 'BUILD SUCCESSFUL'.
