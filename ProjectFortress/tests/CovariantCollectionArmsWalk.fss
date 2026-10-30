@@ -3,7 +3,7 @@ import CovariantCollection.{...}
 import List.{...}
 export Executable
 
-(* Under walk, APPCOV of empty and non-empty covariant collections at a narrower and a wider element type answers a collection at the wider type, whose toImmutableArray, toArray and dirtyIAF give its elements, and a list comprehension, which goes through covariantCompr, holds its elements in order (aggregate.tex, section "List Expressions"). *)
+(* Under walk, APPCOV of empty and non-empty covariant collections at a narrower and a wider element type answers a collection at the wider type, whose toImmutableArray, toArray and dirtyIAF give its elements, and a list comprehension, which goes through covariantCompr, holds its elements in order (aggregate.tex, subsection "List Expressions"). *)
 
 shapeOf(c: AnyCovColl): String =
     typecase c of
