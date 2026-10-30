@@ -4979,3 +4979,7 @@ pointer words refreshed in: F-24
 ### F-294
 
 2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### F-300
+
+2026-10-30 09:39Z · added · from `Papers/Variance/README.md`, "Permission and licence" · commit `b8ae2a702` · by the coordinator's record writer (Opus): no entry said where the paper and its report are or under which permission and licence; the move of b8ae2a702, at his word of 09:27:52 UTC on 2026-10-30, put them in Papers/Variance/ with the report's sources, and its README holds the licences; Sukyoung Ryu permitted the report on 2026-10-29 ("It's okay to include it publicly in the repository.") and sent the sources on 2026-10-30
