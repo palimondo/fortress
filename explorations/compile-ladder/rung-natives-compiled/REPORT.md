@@ -121,7 +121,20 @@ The count, 2026-10-30T04:52:26Z, load at start 4.05 (nproc 4, Intel(R) Xeon(R) P
 
 `diff explorations/compile-ladder/climb-batch-22c/gate/checker-count.txt tmp/rung-natives-compiled/checker-count-postedit.txt` prints nothing: every `#api` row 0, the same thirteen apis, '#shadow matches the tracked StaticChecker'. No string on this tree names a helper, so the rewrite makes no synthetic `import java`, and the table has no `com.sun.fortress.nativeHelpers` row; the planner's run of both texts has one (`explorations/coordinator/CLIMB-BATCH-23.md:233`). The change touches no checker code, so there is no speed pass; the stage took 155 s.
 
-@@DISTANCE@@
+The distance, 2026-10-30T04:55:13Z, after the count, load at start 1.88 5.39 6.59 (the same machine), under `nice -n 19`:
+
+    $ explorations/coordinator/tools/distance/run.sh tmp/rung-natives-compiled/distance-postedit.txt tmp/rung-natives-compiled/dist-post
+    #total	0
+    #crash	none
+    #seconds	205	FortressLibrary 149
+    #shadow	every shadow edit matched the tracked sources
+
+every `#kind` row 0, its fourteen targets each '### done … rc=0', '### all seconds=204 rc=0', under the compile command's own setting ('#distance setting compile'). Against the landed table:
+
+    $ explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-22c/gate/distance.txt tmp/rung-natives-compiled/distance-postedit.txt
+    DISTANCE SAME   0
+
+The stage's per-site file, `dist-post/errors.tsv`, holds its header alone, as the per-site list does (`explorations/compile-ladder/gate/distance-sites.tsv`, its header alone): no site moved, came or went. The landed table took '#seconds 238 FortressLibrary 174' at another load; one run each is no measure of a difference.
 
 ## The ladder subset
 
@@ -165,7 +178,7 @@ Each is reversible; none holds the push.
 
 1. **The planner's text, changed** (Decision 1): the rewrite keyed to the helpers' package (`ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java:95`), for the crash measured on the text ('java.lang.IllegalArgumentException: Undefined API: java.lang'); the varargs test before the alias (`:105`); no provenance in the comments (`:14-33`, `NamingCzar.java:464-468`); the binding test's `sameAs(other:Shape, self)` (`ProjectFortress/compiler_tests/NativeHelperBindingCompiled.fss:9`). Fork 3's description of the text, "The rewrite itself takes any string that names a public static method of a class that loads", no longer holds; its default, the refusal keyed to the package, does.
 2. **The tests before and after, through `junit.sh`**: on the base 'Tests run: 4,  Failures: 4,  Errors: 0' (the three planner tests); on the final code 'OK (5 tests)' (with the guard). The guard: red on the planner's text, green on the base and on the final code.
-3. **The tables on the final tree**: the count table equal to climb batch 22c's, `diff` printing nothing, '#total 0', '#locations 0', '#crash none'; the count stage 155 s; the distance below ("The checker count and the distance"). No site came.
+3. **The tables on the final tree**: the count table equal to climb batch 22c's, `diff` printing nothing, '#total 0', '#locations 0', '#crash none'; the count stage 155 s; the distance '#total 0', '#crash none', 'DISTANCE SAME   0' against climb batch 22c's table, 205 s. No site came.
 4. **The suites on the final tree**: `ant testQuick` and `ant testSystem` 'BUILD SUCCESSFUL'. The verdicts that change: the five new cases, each green; no other.
 5. **A parse of a file that names no helper, and the compiled tests**: no such parse changes. The import collector's hook fires only for a file whose text holds `"com.sun.fortress.nativeHelpers.` (`Parser.java:157-159`), which on this tree only three of my tests do; the rewrite touches only a string under that package (`BuiltinPrimitiveRewriter.java:95`) and returns the unit itself when it rewrites nothing (`:52`). No compiled test but my own changed its verdict (`ant testQuick` above), and the five glue-string programs of the ladder subset kept their phase and first error.
 6. **Sentences made false**: none of the specification; the library's comment on `builtinPrimitive` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:14-17`) for a compiled program's helper string, not for any library string; F-180's "not yet built" and, on the merged tree, F-111's "which only walk resolves" ("Sentences made false").
