@@ -46,7 +46,7 @@ The worker's `REPORT.md` and `record.md` were already on the branch. The journal
 11. **Failure modes.**
    - On the base, a helper string fails loud: walk refuses it at load ('Native class … not found.'). The rung turns two such cases into quiet values.
    - A non-flat `String` argument gives 9 for a 52-character string (row 846, the worker's).
-   - A helper bound in a method of a program's own type passes the object's type name: `Holder.len()` is 2 (row 847).
+   - A helper bound in a method of a program's own type passes the object's type name: `Ob.len()` is 2 (`SkSelfString.fss`, below; row 847).
    - `ZZ32`'s `DIV` by zero turns a run-ending Java exception into the specification's `DivisionByZero`. It is loud unless caught.
    - Neither quiet case is reached by a library binding.
 

@@ -180,6 +180,8 @@ Each landed rung's "Revival change" section, both its parts word for word, in th
 
 **Provenance.** P-58, "Every native binding is a `builtinPrimitive` call naming a static helper"; the batch's forks 2 to 5 (the switch per repository, the refusal under the helpers' package, the import collector's hook, the stand-in reading) and 14 (row 309 closed); the rewrite keyed to the helpers' package is this rung's change of the planner's text, by the crash it measured; climb batch 23, rung C.
 
+**The merged-diff review's note, for the merged tree.** Two clauses of rung C's change above hold of rung C's own tree and need a qualification on `main`. A declaration with a varargs parameter is not read as a call of its helper: its body stays a call of `builtinPrimitive` (`ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java:105`; row 849, `CONTESTED`). And "walk reads every `builtinPrimitive` string as before" holds only without rung W: on `main` walk loads a helper string itself (rung W's change, below; F-299). By reading, not measured, a component that imports a DSL grammar is parsed by `parseWithGrammars`, which does not apply the rewrite (`ProjectFortress/src/com/sun/fortress/compiler/Parser.java:134-135`; `explorations/compile-ladder/rung-natives-compiled/REPORT.md:171`; review-routed.1 in `PLAN.md`).
+
 ### W (`rung-natives-walk`, `640acb4a1`)
 
 #### The change
