@@ -1,0 +1,51 @@
+(* ZZ32's and Int's operators bound to nativeHelpers keep their values and their IntegerOverflow under walk. *)
+component NativeHelperFamilyZZ32Walk
+export Executable
+
+overflows(f: () -> ZZ32): Boolean =
+  try
+    f()
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+run():() = do
+  a: ZZ32 = 2147483647
+  b: ZZ32 = -2147483647 - 1
+  m: ZZ32 = -1
+  assert(3 = 3, true, "=")
+  assert(3 = 4, false, "= unequal")
+  assert(3 < 4, true, "<")
+  assert(4 < 3, false, "< not")
+  assert(-a, -2147483647, "unary -")
+  assert(overflows(fn () => -b), "unary - of the minimum overflows")
+  assert(DOTMINUS b, b, "unary DOTMINUS wraps")
+  assert(a - 1 + 1, a, "+")
+  assert(overflows(fn () => a + 1), "+ overflows")
+  assert(a DOTPLUS 1, b, "DOTPLUS wraps")
+  assert(b + 1 - 1, b, "-")
+  assert(overflows(fn () => b - 1), "- overflows")
+  assert(b DOTMINUS 1, a, "DOTMINUS wraps")
+  assert(46340 DOT 46340, 2147395600, "DOT")
+  assert(overflows(fn () => 65536 DOT 65536), "DOT overflows")
+  assert(7 TIMES 6, 42, "TIMES")
+  assert(overflows(fn () => 65536 TIMES 65536), "TIMES overflows")
+  assert(7 6, 42, "juxtaposition")
+  assert(overflows(fn () => 65536 65536), "juxtaposition overflows")
+  assert(65536 DOTTIMES 65536, 0, "DOTTIMES wraps")
+  assert(7 DIV 2, 3, "DIV")
+  assert((-7) DIV 2, -3, "DIV rounds toward zero")
+  assert(overflows(fn () => b DIV m), "DIV of the minimum by -1 overflows")
+  assert(12 BITAND 10, 8, "BITAND")
+  assert(12 BITOR 10, 14, "BITOR")
+  assert(12 BITXOR 10, 6, "BITXOR")
+  assert(BITNOT 12, -13, "BITNOT")
+  assert(widen(a).asString, "2147483647", "widen")
+  assert(unsigned(m).asString, "4294967295", "unsigned")
+  assert(a.asString, "2147483647", "asString")
+  assert(b.asExprString, "-2147483648", "asExprString")
+  assert(asFloat(m), -1.0, "asFloat")
+end
+
+end
