@@ -11,6 +11,8 @@
 
 api List
 
+import CovariantCollection.{AnyCovColl}
+
 (** Array lists, immutable style (not the mutable Java \texttt{ArrayList} style).
 
     A %List% is an immutable segment of an immutable (really
@@ -111,7 +113,7 @@ end
 (** Vararg factory for lists; provides aggregate list constants: *)
 opr <|[\E\] xs: E... |>: List[\E\]
 (** List comprehensions: *)
-opr BIG <|[\T\]|>:Comprehension[\T,List[\T\],List[\T\],List[\T\]\]
+opr BIG <|[\T\]|>:Comprehension[\T,List[\T\],AnyCovColl,AnyCovColl\]
 opr BIG <|[\T\] g:Generator[\T\]|>:List[\T\]
 
 opr BIG CONCAT[\T\](): BigReduction[\List[\T\],List[\T\]\]

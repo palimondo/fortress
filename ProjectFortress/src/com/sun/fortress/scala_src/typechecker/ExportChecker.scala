@@ -272,14 +272,14 @@ object ExportChecker {
       val fnsInAPI  = api.functions
       val fnsInComp = component.functions
       for ( f <- toSet(fnsInAPI.firstSet) ;
-            if overloadingChecker.isDeclaredName(f) ) {
+            if overloadingChecker.isCheckedName(f) && isDeclarationName(fnsInAPI, f) ) {
         // f should be in this component
         if ( fnsInComp.firstSet.contains(f) ) {
           val overloadingInAPI =
-            overloadingChecker.coverOverloading(toSet(fnsInAPI.matchFirst(f)))
+            uncoveredDeclarations(overloadingChecker, toSet(fnsInAPI.matchFirst(f)))
           val compFns = toSet(fnsInComp.matchFirst(f))
           val overloadingInComp =
-            overloadingChecker.coverOverloading(compFns)
+            uncoveredDeclarations(overloadingChecker, compFns)
 // 	  if (f.isInstanceOf[IdOrOp] && f.asInstanceOf[IdOrOp].getText.contains("println")) {
 // 	        System.out.println("API overloadingInAPI:\n" + overloadingInAPI)
 // 		System.out.println("Component overloading:\n" + overloadingInComp)
@@ -593,6 +593,32 @@ object ExportChecker {
         (idsL, idsR).zipped.forall((l,r) => equalIds(l,r))
       case _ => false
     }
+
+  /* Returns true if f is the name of a function declared in fns, and not the
+   * unambiguous name made from a declaration's span, under which the index
+   * also files each function (IndexBuilder.buildFunction).
+   */
+  private def isDeclarationName(fns: Relation[IdOrOpOrAnonymousName, JavaFunction],
+                                f: IdOrOpOrAnonymousName): Boolean =
+    toSet(fns.matchFirst(f)).exists {
+      case SDeclaredFunction(fd) => NodeUtil.getName(fd).equals(f)
+      case _ => false
+    }
+
+  /* The declared functions of fns that no other function of fns covers, which
+   * is the answer of OverloadingChecker.coverOverloading: its cover test is
+   * made here only for the declared functions, the only ones that the answer
+   * keeps, and not for the functional methods filed under the same name.
+   */
+  private def uncoveredDeclarations(checker: OverloadingChecker,
+                                    fns: Set[JavaFunction]): Set[FnDecl] = {
+    val oracle = checker.globalOracle
+    def coveredBy(f: JavaFunction, g: JavaFunction) =
+      oracle.lteq(f, g) && !oracle.lteq(g, f) && oracle.satisfiesReturnTypeRule(f, g)
+    fns.collect {
+      case f@SDeclaredFunction(fd) if !fns.exists(g => f != g && coveredBy(f, g)) => fd
+    }
+  }
 
   /* Returns true if two names of declarations are same. */
   private def equalNames(left: IdOrOpOrAnonymousName,

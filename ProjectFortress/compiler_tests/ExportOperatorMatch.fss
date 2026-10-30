@@ -1,0 +1,12 @@
+(* A top-level operator declared at its api's header satisfies the api's declaration (components/source-code.tex, section "Export Statements"), so the component that exports the api links and runs. *)
+component ExportOperatorMatch
+export { ExportOperatorMatch, Executable }
+
+opr #(a: String, b: String): String = a || b
+
+run(): () = do
+    assert("x" # "y", "xy", "\"x\" # \"y\"")
+    println("PASS")
+  end
+
+end

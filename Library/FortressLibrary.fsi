@@ -2125,14 +2125,14 @@ end
     its inputs (of type Any) to String if necessary. **)
 opr BIG ||(): Comprehension[\Any,String,String,String\]
 
-opr BIG ||(g: Generator[\Any\]): String
+opr BIG ||[\T\](g: Generator[\T\]): String
 
 (** This operator performs string concatenation, first converting
     its inputs (of type Any) to String if necessary, and separating
     non-empty components by a space. **)
 opr BIG |||(): Comprehension[\Any,String,String,String\]
 
-opr BIG |||(g: Generator[\Any\]): String
+opr BIG |||[\T\](g: Generator[\T\]): String
 
 (** This operator performs string concatenation with newline
     separation, first converting its inputs (of type Any) to String if

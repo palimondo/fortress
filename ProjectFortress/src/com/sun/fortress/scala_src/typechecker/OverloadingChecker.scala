@@ -766,7 +766,7 @@ class OverloadingChecker(compilation_unit: CompilationUnitIndex,
     // the names whose declarations the overloading rules are checked for: every operator,
     // symbolic ones such as + and the subscripts as well as those named by a word of
     // capitals, and each identifier that isDeclaredName admits (overloading.tex,
-    // "Principles of Overloading"); the export check reads isDeclaredName itself
+    // "Principles of Overloading"); the export check reads it too, with isDeclarationName
     def isCheckedName(f: IdOrOpOrAnonymousName) = f match {
         case SOp(_,_,_,_,_) => true
         case _ => isDeclaredName(f)
