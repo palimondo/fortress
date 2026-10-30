@@ -83,14 +83,19 @@ Walk's overload-ambiguity message names its two declarations in an order that va
 
 ## Natives
 
-The library binds each of walk's natives by a string in its `.fss` files: `builtinPrimitive("com.sun.fortress.interpreter.glue.prim.X")`. The classes are in `interpreter/glue/prim/`. They take the evaluator's boxed values, so the compiled path cannot use them. `import java`, the compiled path's way to bind natives, is wired under walk but unfinished, and no test uses it.
+The library binds each of walk's natives by a string in its `.fss` files, in a body `builtinPrimitive("…")`. The string names one of these:
+
+- A glue class, as `com.sun.fortress.interpreter.glue.prim.X`, in `interpreter/glue/prim/`. A glue class takes the evaluator's boxed values, so the compiled path cannot use it. Most bindings name one.
+- A public static method of a helper class, as `com.sun.fortress.nativeHelpers.simpleIntArith.method`. `glue/StaticNativeApp.java` calls it by reflection, with a method's `self` first. The compiled path calls it too (`compiler.md`, "Natives"). If the method does not exist or fits no declared type, walk refuses the binding at load.
+
+A written `import java` is wired under walk but unfinished, and no test uses it.
 
 To raise a Fortress exception that a Fortress `catch` sees, a native throws a `FortressError` that holds the exception's object. `Int.overflow()` in `Int.java` there makes one, and its callers throw it:
 
     FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
     return new FortressError(f);
 
-A `catch` sees no other Java exception, so any other exception from a native ends the run, a division by zero too.
+If a helper throws a compiled exception class, as `fortress.CompilerBuiltin$DivisionByZero`, walk raises the library's exception of the same name in its place. So `ZZ32`'s `DIV` by zero raises `DivisionByZero`. A `catch` sees no other Java exception, so any other exception from a native ends the run, as a division by zero in a glue class does.
 
 ## Running a program
 

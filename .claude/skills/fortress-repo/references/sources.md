@@ -923,3 +923,13 @@ From the cold read of `79e5202ad` and `d8026c1d8` (`cold-read-22c.md`, in the co
 - `specification.md`, "Building it": LaTeX's summary line, since the log wraps a long label's warning (flag 12).
 - `session.md`, "Long commands": the lines after it in the same call (flag 14).
 - `sources.md`: flags 15 to 18.
+
+## Climb batch 23's natives, 2026-10-30
+
+Settled by the coordinator's task after the batch landed at `df71bc585`; each checked on `main`.
+
+- `interpreter.md`, "Natives": the two kinds of string, the helper loaded by `glue/StaticNativeApp.java` from `NativeApp.checkAndLoadNative` (`glue/NativeApp.java:194-201`) and refused at load when it fits nothing, F-299, rung W (`640acb4a1`); the 21 helper bindings counted in `Library/FortressLibrary.fss` and `LibraryBuiltin/FortressBuiltin.fss`.
+- `interpreter.md`, "Natives": the helper's compiled exception raised as the library's, `StaticNativeApp.raised`, F-24, F-299; `tests/ZZ32DivisionByZeroWalk.fss`.
+- `library.md`, "Designing a change": a new native as a helper or a glue class, F-298, F-299.
+- `compiler.md`, "Natives": the rewrite of a helper string at the parse, `compiler/BuiltinPrimitiveRewriter.java:46-123`, switched off for walk's repository at `Shell.java:102-103`, F-298, rung C (`98b04d371`); the three stops, `compiler_tests/XXXNativeHelperMisspeltCompiled.test`, `XXXNativeHelperOutsidePackageCompiled.test`, `XXXNativeHelperVarargsCompiled.test` (row 849).
+- `compiler.md`, "What the two paths share": `nativeHelpers/` run by both paths, F-299.

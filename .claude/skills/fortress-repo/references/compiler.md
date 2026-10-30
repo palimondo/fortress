@@ -16,7 +16,7 @@ The phases' names in the code are parse, PREDISAMBIGUATEDESUGAR, DISAMBIGUATE, G
 After the phases, each path has its own code for these:
 
 - Values: walk's `interpreter/evaluator/values/` (`FInt`, `FFloat`), and the compiled `compiler/runtimeValues/` (`FZZ32`, `FRR64`).
-- Number natives: walk's `interpreter/glue/prim/` (`Int.java`, `Long.java`), and the compiled `nativeHelpers/` (`simpleIntArith.java`).
+- Number natives: walk's `interpreter/glue/prim/` (`Int.java`, `Long.java`), and `nativeHelpers/` (`simpleIntArith.java`), which both paths run.
 - Dispatch: walk searches at run time, in `OverloadedFunction`. The compiled path calls a dispatch method that `OverloadSet` generates.
 - The run: `fortress run` starts a second JVM (`bin/run`), which never enters `Shell.java`.
 
@@ -61,6 +61,12 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 ## Natives
 
 `import java com.sun.fortress.nativeHelpers.{...}` in a `.fss` file binds static Java methods over plain Java values.
+
+A body `builtinPrimitive("com.sun.fortress.nativeHelpers.Class.method")` binds one such method too. At the parse, the compiled path rewrites the body as a call of the method through a generated `import java`, with `self` first in a trait or object (`compiler/BuiltinPrimitiveRewriter.java`). The checker then checks the declaration against the method's Java signature. Walk runs the same binding (`interpreter.md`, "Natives"). The compile stops in these cases:
+
+- If the string is in that package but names no public static method: 'builtinPrimitive names no static helper: …'.
+- If the string names a glue class or anything else outside that package: 'Variable builtinPrimitive is not defined.'
+- If the declaration has a varargs parameter: the same message (ledger row 849).
 
 The wrapper generator wraps every method of a class that it is given, the private methods too. If a type has no Fortress counterpart, it fails the whole import. So give every method of a helper class a signature that maps to Fortress, also a private method.
 
