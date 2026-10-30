@@ -4483,11 +4483,19 @@ Under the interpreter a helper's raise of \TYP{IntegerOverflow} or
 an integer result; \EXP{\mathbb{Z}32}'s \OPR{REM} and \OPR{MOD}, the three on
 \EXP{\mathbb{Z}64}, and \EXP{\div} on \EXP{\mathbb{Z}}, which still name glue
 classes, end the run with a Java exception at a divisor of zero (row~336 of
-the revival's gap ledger).
+the revival's gap ledger), and so do \EXP{\div}, \OPR{REM} and \OPR{MOD} on
+\EXP{\mathbb{N}32} and \EXP{\mathbb{N}64} and \OPR{REM} and \OPR{MOD} on
+\EXP{\mathbb{Z}} (row~NEW-W-3 of the revival's gap ledger).
 The interpreter passes a helper declared over \TYP{String}, as its glue classes
 do, the name of the value's type in place of its characters where the value is
 not a flat string, as a \TYP{String} made by concatenating two long strings
 (row~NEW-W-1 of the revival's gap ledger).
+The interpreter reads the \KWD{self} of a method only by the helper's Java
+type, since it is not told the type that declares the method: a helper bound
+in a method of a type that no Java type carries, as a program's own object,
+is not refused, and its call passes the object as that Java type reads it,
+the name of its type to a helper over \TYP{String} (row~NEW-W-2 of the
+revival's gap ledger).
 \item[Original text] The comment is typeset from the file
 \nolinkurl{ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi} of the revival's
 repository, lines 14--29, unchanged from the team's last commit until this

@@ -117,6 +117,7 @@ The five files whose recorded first error in the baseline names something this r
 
 - `Specification/`: none outside the revised comment, whose original Appendix I keeps.
 - POSITIONS P-58: "Every binding still names a glue class." (`explorations/coordinator/POSITIONS.md:55`): 21 name helpers.
+- FACTS F-24 (`explorations/coordinator/FACTS.md:18`, the skeptic's addition): "Any other Java exception of a native becomes a `ProgramError`, which no `catch` takes, so a division by zero ends the run (row 336).": `ZZ32`'s `DIV` by zero raises `DivisionByZero`.
 - FACTS F-32 (`explorations/coordinator/FACTS.md:28`): its count is of glue bindings; 428 of the 449 live bindings now name glue classes, 21 helpers. F-180 (`FACTS.md:243`): "P-58 chose another way, not yet built": walk's half is built.
 - Ledger row 796's claim (closed by this commit) and row 336's claim, "`DIV` … by zero on `ZZ32`" (rewritten).
 - The skill: `interpreter.md`, "Natives": "The library binds each of walk's natives by a string in its `.fss` files: `builtinPrimitive("com.sun.fortress.interpreter.glue.prim.X")`. The classes are in `interpreter/glue/prim/`." (21 now name helpers), and "A `catch` sees no other Java exception, so any other exception from a native ends the run, a division by zero too." (`ZZ32`'s `DIV` raises `DivisionByZero`, and a helper's compiled raise is translated); `library.md`, "Designing a change": "A new native is a Java class under `interpreter/glue/prim/` …" (a native can be a helper of `nativeHelpers/`).
