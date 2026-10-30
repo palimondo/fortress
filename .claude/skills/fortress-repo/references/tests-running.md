@@ -55,7 +55,7 @@ Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harne
 
 - `ant testNotPassing` runs the interpreter programs of `ProjectFortress/not_passing_yet/`, which are expected to fail. It fails if one of them passes.
 - No suite and no stage of the gate runs the team demos, the programs of `ProjectFortress/demos/`. Keep each of the 52 demos that `DemoTests` lists reaching its end (P-79). Check them with the demo driver below, not with `ant testDemos`, whose test of the output is weaker:
-  - If your change edits walk, the parser, a phase that both paths run, a helper of `nativeHelpers/` that a library string names or the interpreter's library, run the driver once, after your last edit of code.
+  - If your change edits walk, the parser, a phase that both paths run, a class under `nativeHelpers/` that a `builtinPrimitive` string of the interpreter's library names (`interpreter.md`, "Natives") or the interpreter's library, run the driver once, after your last edit of code.
   - Print the driver with `explorations/coordinator/tools/facts-extract.sh 'doc:explorations/compile-ladder/rung-team-demos/REPORT.md#Commands worked out'`. Save the first script that it prints, under "The demo driver", without the text around it, as `tmp/run-demos.sh` in your tree.
   - From the tree's root, after you set up the call, run `bash tmp/run-demos.sh tmp/demos`. It runs long, so run it in the background with a log (`session.md`, "Long commands"). It runs the demos under walk one at a time and writes `tmp/demos/summary.tsv`.
   - The driver's last line of output, before the log's `EXIT=` line, must read 'demos: 52 run, 52 reached their end'. A demo reaches its end if it exits 0 and its output holds no "fail" in upper or lower case.
@@ -65,10 +65,10 @@ Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harne
 ## When to run a whole suite
 
 - The gate runs every suite once, on the tree that lands (`gate.md`). Your brief says whether you run the gate.
-- If your edit changes the Java or Scala of the checker, of walk, of a phase that both paths share or of a helper that a library string names, run all the tests that it reaches. Run them once, after your last edit of code. The run needs no commit.
+- If your edit changes the Java or Scala of the checker, of walk, of a phase that both paths share or of such a class under `nativeHelpers/`, run all the tests that it reaches. Run them once, after your last edit of code. The run needs no commit.
   - For the checker, run `ant testQuick`: the compiler, othercompiler and library tracks at once (below).
   - For walk, run `ant testSystem`. It is the same as its four shards run by hand.
-  - For a shared phase (under `compiler/`: name binding, DSL grammars, desugaring, the marking of overloaded calls in `OverloadRewriter`), the parser or such a helper, run both.
+  - For a shared phase (under `compiler/`: name binding, DSL grammars, desugaring, the marking of overloaded calls in `OverloadRewriter`), the parser or such a class, run both.
 - Quote the verdict lines and the command in your report, with the commit if your code is committed.
 - If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.
 - After an edit of the code generator (`codegen/`, `OverloadSet`) or the run time (`runtimeSystem/`), run your own tests, and the four-thread atomic runs (`gate.md`) if `compiler.md` asks for them. Leave the whole tracks to the gate.

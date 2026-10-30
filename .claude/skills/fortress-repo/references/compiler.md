@@ -3,6 +3,9 @@
 **count stage**
 : Script that runs the compiled checker over the interpreter's library, on the `FortressLibrary` component and the apis that it imports, and prints the errors in a table: `explorations/coordinator/tools/checker-count/run.sh`. Its total is the checker count.
 
+**distance stage**
+: Stage of the gate that runs the compiled checker over fourteen components of the interpreter's library, `FortressLibrary` among them, runs each of the checker's steps on each component whatever the earlier steps report, and prints the errors in a table. Your brief gives its command when you need it.
+
 The code of this area is in these directories:
 
 - `scala_src/typechecker/`: the type checker, in Scala.
@@ -16,9 +19,11 @@ The phases' names in the code are parse, PREDISAMBIGUATEDESUGAR, DISAMBIGUATE, G
 After the phases, each path has its own code for these:
 
 - Values: walk's `interpreter/evaluator/values/` (`FInt`, `FFloat`), and the compiled `compiler/runtimeValues/` (`FZZ32`, `FRR64`).
-- Number natives: walk's `interpreter/glue/prim/` (`Int.java`, `Long.java`), and `nativeHelpers/` (`simpleIntArith.java`), which both paths run.
+- Number natives: walk's glue classes, in `interpreter/glue/prim/` (`Int.java`, `Long.java`).
 - Dispatch: walk searches at run time, in `OverloadedFunction`. The compiled path calls a dispatch method that `OverloadSet` generates.
 - The run: `fortress run` starts a second JVM (`bin/run`), which never enters `Shell.java`.
+
+Both paths run the helpers of `nativeHelpers/` (`simpleIntArith.java`) ("Natives").
 
 The phases differ too: walk turns off some desugarings that the compiled path runs (`interpreter.md`, "Where a fix of walk belongs"). A fix of one of those desugarers changes only the compiled path.
 
@@ -62,18 +67,22 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 
 `import java com.sun.fortress.nativeHelpers.{...}` in a `.fss` file binds static Java methods over plain Java values.
 
-A body `builtinPrimitive("com.sun.fortress.nativeHelpers.Class.method")` binds one such method too. At the parse, the compiled path rewrites the body as a call of the method through a generated `import java`, with `self` first in a trait or object (`compiler/BuiltinPrimitiveRewriter.java`). The checker then checks the declaration against the method's Java signature. Walk runs the same binding (`interpreter.md`, "Natives"). The compile stops in these cases:
+A body `builtinPrimitive("com.sun.fortress.nativeHelpers.Class.method")` binds one such method, a helper, too. At the parse, the compiled path, and not walk, rewrites the body as a call of the method through a generated `import java`, with `self` first in a trait or object (`compiler/BuiltinPrimitiveRewriter.java`). The checker then checks the declaration against the method's Java signature. In a compile, it reads `int` as `ZZ32`, `long` as `ZZ64`, `float` as `RR32`, `double` as `RR64`, `boolean` as `Boolean`, `String` as `JavaString`, `BigInteger` as `ZZ` and `Object` as `Any` (`NamingCzar.fortressTypeForForeignJavaType`). Walk calls the same method by reflection (`interpreter.md`, "Natives"). The compile stops in these cases:
 
 - If the string is in that package but names no public static method: 'builtinPrimitive names no static helper: …'.
 - If the string names a glue class or anything else outside that package: 'Variable builtinPrimitive is not defined.'
 - If the declaration has a varargs parameter: the same message (ledger row 849).
 
+To test a helper on the compiled path, write a compiled test whose own declarations bind it, as `compiler_tests/NativeHelperBindingCompiled.fss` does. Until the switch-over, a compiled test cannot reach the interpreter's library's bindings.
+
 The count stage and the distance stage check the interpreter's library with the same rewrite. There, the checker differs from a compile in these ways:
 
-- A glue string or a varargs declaration does not stop the check. It stays a call of `builtinPrimitive`, typed at the declared result type, and no Java signature checks it (ledger row 849).
-- The checker reads a helper's Java types as the interpreter's library's: `int` as `ZZ32`, `long` as `ZZ64`, `double` as `RR64`, `String` as `String`, `BigInteger` as `ZZ` (`NamingCzar.oneLibraryTypeForForeignJavaType`). It reads `NN32`, `NN64` and `Char` only through the helpers with the special names, as `makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType`. So a binding over `NN32`, `NN64` or `Char` whose helper takes a plain `int` or `long` is an error.
-- The count stage checks only the `FortressLibrary` component's bindings. The distance stage checks the bindings of the other components, as `FortressBuiltin`'s.
-- A component that imports a DSL grammar is parsed by another path (`GraphRepository.syntaxExpand`), so its bindings are not rewritten.
+- A string that names a glue class, or a declaration with a varargs parameter, does not stop the check. The body stays a call of `builtinPrimitive`, typed at the declared result type, and no Java signature checks it (ledger row 849).
+- The checker reads a helper's Java types as the interpreter's library's types: `String` as `String`, not `JavaString`, and the rest as in a compile.
+- A component that imports a DSL grammar is parsed by other code (`GraphRepository.syntaxExpand`), which does not rewrite its bindings. So, as for a glue class, no Java signature checks them.
+- The count stage checks only the `FortressLibrary` component's bindings. A binding of another component, as `FortressBuiltin`'s, only the distance stage checks.
+
+The checker, in a compile and in both stages, reads `int` as `NN32` or `Char`, and `long` as `NN64`, only for six helpers with fixed names (`NamingCzar.java:373-384`, `:494-503`). Examples are `makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType` for a result and `makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType` for a parameter. So a binding over `NN32`, `NN64` or `Char` that names any other helper is a type error for the checker. Walk loads it, because it carries these types in `int` and `long`.
 
 The wrapper generator wraps every method of a class that it is given, the private methods too. If a type has no Fortress counterpart, it fails the whole import. So give every method of a helper class a signature that maps to Fortress, also a private method.
 
