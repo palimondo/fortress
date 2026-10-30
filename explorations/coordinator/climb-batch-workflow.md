@@ -231,7 +231,7 @@ A rung whose every path lies under `explorations/`, `Specification/`, `Documenta
 
 ### The distance stage
 
-The full measurement of the distance to the switch-over, reported and never red (P-39). `tools/distance/run.sh` runs every stage of the checker over the twelve prelude components in one JVM, under shadows made from the tracked sources at each run, with the compiled path's setting and the implicit bound `Any`. An edit that no longer matches stops the run, and `#shadow` says STALE. It starts beside the suites right after `compileAll` and is read last; `compare.sh` prints DISTANCE DOWN, UP or SAME and what moved, and always exits 0. The commit stage lands `distance.txt` and the per-site list, `explorations/compile-ladder/gate/distance-sites.tsv`, which the next batch's rungs read as their before.
+The full measurement of the distance to the switch-over, reported and never red (P-39). `tools/distance/run.sh` runs every stage of the checker over the fourteen components, the twelve prelude components and the two that `List` imports (F-53, F-288), in one JVM, under shadows made from the tracked sources at each run, under the compile command's own setting, read from `Shell.java` at each run, whose implicit bound is `Any` since climb batch 22c (F-289, P-42). An edit that no longer matches stops the run, and `#shadow` says STALE. It starts beside the suites right after `compileAll` and is read last; `compare.sh` prints DISTANCE DOWN, UP or SAME and what moved, and always exits 0. The commit stage lands `distance.txt` and the per-site list, `explorations/compile-ladder/gate/distance-sites.tsv`, which the next batch's rungs read as their before.
 
 ## No skill text
 
