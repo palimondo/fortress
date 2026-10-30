@@ -3254,3 +3254,127 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-58
 
 2026-10-30 02:59Z · noted · from `explorations/coordinator/postmortem-2026-10-28/evidence/p58-answers.md`, "2.5 2026-10-10 05:27: "Item 35, agreed with recommendation, option 1."" · from `explorations/coordinator/postmortem-2026-10-28/evidence/p58-answers.md`, "4. Tonight, for reference" · by the coordinator's record writer (Opus): his informed yes, twice on record. On 2026-10-29 at 22:36:37 UTC, to the coordinator's ask of 22:32:56 UTC, review-queue item 282, "Your informed yes to P-58, the natives' form, before climb batch 23" (option 1, "Yes, P-58 stands. Batch 23 runs as drafted."; recommendation 1), his words: "I recall answering this already as option 1. Run a scout to confirm I am not hallucinating this. In and case, the decision is option 1." The scout confirmed the earlier answer: on 2026-10-10 at 05:27:34 UTC, to the ask of 00:17:43 UTC that day on item 35, P-58's first number, whose recommendation, option 1, keeps `builtinPrimitive("…")` naming a static helper, with each rung's bindings checked as they land, the form that P-58 holds, he wrote "Item 35, agreed with recommendation, option 1." This settles his "I don't recall my decision asking for static methods" of 2026-10-22 22:02 UTC, on which item 282 rested. P-58's text stands
+
+### P-7
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-9
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-12
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-17
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-25
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-27
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-33
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-37
+
+2026-10-30 09:14Z · noted · correcting the 1st block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block and the other block of this entry stamped 2026-10-29 13:01Z landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; they name the corrections' apply files, the held list or the evidence, and no commit
+
+### P-42
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-43
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-44
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-48
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-58
+
+2026-10-30 09:14Z · noted · correcting the 1st block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block and the other block of this entry stamped 2026-10-29 13:01Z landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; they name the corrections' apply files, the held list or the evidence, and no commit
+
+### P-59
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-84
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-152
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; it names the corrections' apply files, the held list or the evidence, and no commit
+
+### P-153
+
+2026-10-30 09:14Z · noted · correcting the 1st block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block and the other block of this entry stamped 2026-10-29 13:01Z landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; they name the corrections' apply files, the held list or the evidence, and no commit
+
+### P-154
+
+2026-10-30 09:14Z · noted · correcting the 1st block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block and the other block of this entry stamped 2026-10-29 13:01Z landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; they name the corrections' apply files, the held list or the evidence, and no commit
+
+### P-158
+
+2026-10-30 09:14Z · noted · correcting the 1st block of 2026-10-29 13:01Z · from `explorations/coordinator/postmortem-2026-10-28/REPORT.md`, "7. What is still open" · commit `8c99e258e` · by the coordinator's record writer (Opus): this block and the other two blocks of this entry stamped 2026-10-29 13:01Z landed on main in `8c99e258e` (2026-10-29T13:02:47Z, "POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29"), the corrections' landing; they name the corrections' apply files, the held list or the evidence, and no commit
+
+### P-10
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:07Z · commit `b87a17de5` · by the coordinator's record writer (Opus): that block, by consolidation chunk P1, names "commit `bc8902f47`", the commit of 2026-09-30, "POSITIONS rewritten as the optimized build: every position as it stands, timeless, under a bold title", an earlier commit, not the rewrite. The rewrite it records is `b87a17de5` (2026-10-13T19:07:21Z, "POSITIONS: chunk P1 consolidated, P-7 to P-33 and P-95 to P-98"), whose diff rewrites the entry's line and adds that block (git show b87a17de5). Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-95
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:07Z · commit `b87a17de5` · by the coordinator's record writer (Opus): that block, by consolidation chunk P1, names "commit `bc8902f47`", the commit of 2026-09-30, "POSITIONS rewritten as the optimized build: every position as it stands, timeless, under a bold title", an earlier commit, not the rewrite. The rewrite it records is `b87a17de5` (2026-10-13T19:07:21Z, "POSITIONS: chunk P1 consolidated, P-7 to P-33 and P-95 to P-98"), whose diff rewrites the entry's line and adds that block (git show b87a17de5). Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-96
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:07Z · commit `b87a17de5` · by the coordinator's record writer (Opus): that block, by consolidation chunk P1, names "commit `bc8902f47`", the commit of 2026-09-30, "POSITIONS rewritten as the optimized build: every position as it stands, timeless, under a bold title", an earlier commit, not the rewrite. The rewrite it records is `b87a17de5` (2026-10-13T19:07:21Z, "POSITIONS: chunk P1 consolidated, P-7 to P-33 and P-95 to P-98"), whose diff rewrites the entry's line and adds that block (git show b87a17de5). Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-97
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:07Z · commit `b87a17de5` · by the coordinator's record writer (Opus): that block, by consolidation chunk P1, names "commit `bc8902f47`", the commit of 2026-09-30, "POSITIONS rewritten as the optimized build: every position as it stands, timeless, under a bold title", an earlier commit, not the rewrite. The rewrite it records is `b87a17de5` (2026-10-13T19:07:21Z, "POSITIONS: chunk P1 consolidated, P-7 to P-33 and P-95 to P-98"), whose diff rewrites the entry's line and adds that block (git show b87a17de5). Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-98
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:07Z · commit `b87a17de5` · by the coordinator's record writer (Opus): that block, by consolidation chunk P1, names "commit `bc8902f47`", the commit of 2026-09-30, "POSITIONS rewritten as the optimized build: every position as it stands, timeless, under a bold title", an earlier commit, not the rewrite. The rewrite it records is `b87a17de5` (2026-10-13T19:07:21Z, "POSITIONS: chunk P1 consolidated, P-7 to P-33 and P-95 to P-98"), whose diff rewrites the entry's line and adds that block (git show b87a17de5). Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-67
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:09Z · commit `ab933086b` · by the coordinator's record writer (Opus): that block, by consolidation chunk P3, names "commit `bc8902f47`", the commit of 2026-09-30, "POSITIONS rewritten as the optimized build: every position as it stands, timeless, under a bold title", an earlier commit, not the rewrite. The rewrite it records is `ab933086b` (2026-10-13T19:10:15Z, "POSITIONS: chunk P3 consolidated, the suites' decisions in a section of their own"), whose diff rewrites the entry's line and adds that block (git show ab933086b). Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-68
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:09Z · commit `ab933086b` · by the coordinator's record writer (Opus): that block, by consolidation chunk P3, names "commit `dd81491fd`", the commit of 2026-09-29, "POSITIONS: the day's decisions from 15:18 to 17:44 UTC", an earlier commit, not the rewrite. The rewrite it records is `ab933086b` (2026-10-13T19:10:15Z, "POSITIONS: chunk P3 consolidated, the suites' decisions in a section of their own"), whose diff rewrites the entry's line and adds that block (git show ab933086b). Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-84
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:09Z · commit `ab933086b` · by the coordinator's record writer (Opus): that block, by consolidation chunk P3, names "commit `bc8902f47`", the commit of 2026-09-30, "POSITIONS rewritten as the optimized build: every position as it stands, timeless, under a bold title", an earlier commit, not the rewrite. The rewrite it records is `ab933086b` (2026-10-13T19:10:15Z, "POSITIONS: chunk P3 consolidated, the suites' decisions in a section of their own"), whose diff rewrites the entry's line and adds that block (git show ab933086b). Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-88
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:09Z · commit `ab933086b` · by the coordinator's record writer (Opus): that block, by consolidation chunk P3, names "commit `bc8902f47`", the commit of 2026-09-30, "POSITIONS rewritten as the optimized build: every position as it stands, timeless, under a bold title", an earlier commit, not the rewrite. The rewrite it records is `ab933086b` (2026-10-13T19:10:15Z, "POSITIONS: chunk P3 consolidated, the suites' decisions in a section of their own"), whose diff rewrites the entry's line and adds that block (git show ab933086b). Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-103
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:09Z · commit `ab933086b` · by the coordinator's record writer (Opus): that block, by consolidation chunk P3, names "commit `d39d6fe75`", the commit of 2026-10-02, "POSITIONS: the suite's verdict is the check, in Pavol's words of 2026-09-29; ...", an earlier commit, not the rewrite. The rewrite it records is `ab933086b` (2026-10-13T19:10:15Z, "POSITIONS: chunk P3 consolidated, the suites' decisions in a section of their own"), whose diff rewrites the entry's line and adds that block (git show ab933086b). The block of 19:10Z that moves the entry landed in the same commit. Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-124
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:09Z · commit `ab933086b` · by the coordinator's record writer (Opus): that block, by consolidation chunk P3, names "commit `23863c1d6`", the commit of 2026-10-04, "POSITIONS: the specification's examples join the gate at zero red", an earlier commit, not the rewrite. The rewrite it records is `ab933086b` (2026-10-13T19:10:15Z, "POSITIONS: chunk P3 consolidated, the suites' decisions in a section of their own"), whose diff rewrites the entry's line and adds that block (git show ab933086b). The block of 19:10Z that moves the entry landed in the same commit. Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
+
+### P-125
+
+2026-10-30 09:14Z · noted · correcting the block of 2026-10-13 19:09Z · commit `ab933086b` · by the coordinator's record writer (Opus): that block, by consolidation chunk P3, names "commit `8c8ace211`", the commit of 2026-10-08, "POSITIONS: the suites run Fortress in parallel; the one-thread pin is a blind spot", an earlier commit, not the rewrite. The rewrite it records is `ab933086b` (2026-10-13T19:10:15Z, "POSITIONS: chunk P3 consolidated, the suites' decisions in a section of their own"), whose diff rewrites the entry's line and adds that block (git show ab933086b). The block of 19:10Z that moves the entry landed in the same commit. Found by the check of the history against git log that the boot note carried from 2026-10-22 ("11 old blocks that name the wrong commit and no writer listed")
