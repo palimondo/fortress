@@ -1,0 +1,9 @@
+(* On the compiled path, a builtinPrimitive string under nativeHelpers that names no static method is a static error. *)
+component XXXNativeHelperMisspeltCompiled
+export Executable
+
+typo(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAddd")
+
+run():() = println(typo(1, 2))
+
+end
