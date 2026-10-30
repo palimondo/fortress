@@ -680,12 +680,18 @@ object ExportChecker {
   /* Returns true if two IntExprs are same. */
   private def equalIntExprs(left: IntExpr, right: IntExpr): Boolean = Formula.nEq(left, right)
 
-  /* Returns true if two parameters are same. */
+  /* Returns true if two parameters are same.
+   * The var modifier is not compared, as equalLValue does not compare it on
+   * a field: an object's value parameter is one of its fields, and an API
+   * cannot write var on it, since the modifiers of a field in an API are
+   * ApiFldMods (objects.tex, "Field Declarations"). A function's parameter
+   * has no modifiers.
+   */
   private def equalParams(left: Param, right: Param): Boolean =
     (left, right) match {
       case (SParam(_, nameL, modsL, typeL, initL, varargsL),
             SParam(_, nameR, modsR, typeR, initR, varargsR)) =>
-        modsL.equals(modsR) &&
+        modsL.remove(Modifiers.Var).equals(modsR.remove(Modifiers.Var)) &&
         ((typeL, typeR) match {
            case (Some(tl@SType(_)), Some(tr@SType(_))) => equalTypes(tl, tr)
            // a varargs parameter has its type in its varargs slot

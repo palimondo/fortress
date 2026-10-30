@@ -1,0 +1,8 @@
+(* An object's value parameter written var satisfies the api's parameter of its name and type, since a field declaration is satisfied by a getter and/or setter as the api declares it hidden and/or settable (source-code.tex, subsection "Export Statements") and var without settable only affects implementations (traits.tex, section "Abstract Field Declarations"), so the component matches its api. *)
+component ExportVarObjectParameter
+export ExportVarObjectParameter
+
+object O(var x: ZZ32)
+end
+
+end

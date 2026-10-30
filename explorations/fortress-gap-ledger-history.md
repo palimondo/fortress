@@ -6359,3 +6359,39 @@ rewritten
 rewritten
 
 | 829 | the compiled export check refuses `Library/OneShotFlag.fss`, which `List` imports and the distance does not check: its `object OneShot( var canTryIt : Boolean )` differs from the api's `OneShot( canTryIt : Boolean )`, 'different parameters for object constructors' | NEGATIVE-VERIFIED | library bug (library) | `basic/components/source-code.tex`, "Export Statements" | none | the phase 3 exit review's zero audit | siblings: 828. `Library/OneShotFlag.fss:15` against `OneShotFlag.fsi:14`. `equalParams` compares a parameter's modifiers (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:658-663`, the team's), where a field matches with its modifiers other than `var` (F-282). Every `ArrayList` holds two `OneShot` fields (`Library/List.fss:253-254`). Not decided: the api writing `var`, or the check reading a constructor's `var` as a field's. Shown by the distance stage's driver with this file as its first target: `#total 1`, 'ObjectDecl OneShot at OneShotFlag.fsi:14.1, due to different parameters for object constructors'. Detail: `reviews/phase3-exit/zero-audit.md`, A.2. |
+
+### Row 96
+
+rewritten
+
+| 96 | a map or list comprehension whose values are two `nat` instantiations of one generic object fails inside the library's covariant collection | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/aggregate.tex`, "Map Expressions", "List Expressions" (the element type is the union of the element types) | none | run-b | siblings: 20. `FAIL: Singleton[\(FlatString,__DefaultMatrix[\RR64,2,3\])\] APPCOV Singleton[\(FlatString,__DefaultMatrix[\RR64,4,3\])\] have no common supertype!`, raised from `Library/CovariantCollection.fss:40`. In the probe (a) and (d) fail, (b) `BIG UNION` and (c) a fold work; also `explorations/run-b/probes/worker/w05_mapcompr.fss`. Explicit static arguments do not help; with uniform shapes the comprehension works, and `update` accepts any shapes. Workaround: build the record by a fold of `union` (row 134). Probe `explorations/run-b/probes/c18_map_of_shapes.fss`, in the parent of `ed6dafb52`. full text: history, row 96 |
+
+### Row 592
+
+rewritten
+
+| 592 | under walk, a type parameter that only the bound of a type parameter the arguments fix mentions takes the arguments' type, not its bound: `ap[\T, A extends T\](a: A): BoxU[\T\]` called `ap(Apple)` is a `BoxU[\Apple\]` under walk and a `BoxU[Any]` compiled | NEGATIVE-VERIFIED | deliberate (walk) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXInferThroughBoundWalk.fss` | climb batch 9 rung W, its skeptic | `apF[\T extends Fruit, A extends T\](Apple)` is a `BoxU[\Apple\]` under walk and a `BoxU[Fruit]` compiled. `fixedThroughBounds` counts `T` as fixed (`EvaluatorBase.java:246-261`), and the recheck of `A`'s bound joins `A`'s instance into `T` (`:443-447`). Kept by rung W's decision D3, a departure from POSITIONS, "A type parameter the arguments do not fix takes its bound, never `Bottom`": `APPCOV[\T, A extends T, B extends T\]` (`Library/CovariantCollection.fss:27`) builds its result at `T`, at the bound `Any`, and `booleanGuard` and `RangePrototype` then fail; walk has no expected type. Open for the curator: whether walk moves once it has one. full text: history, row 592 |
+
+### Row 719
+
+rewritten
+
+| 719 | under walk, a comprehension over a long sequential generator overflows the stack at the suites' 32 MB: `<\| i MOD 7 \| i <- seq(0#50000) \|>` dies with `StackOverflowError`, on the base and after climb batch 15 rung B | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/comprehensions.tex`, "Comprehensions" | none | climb batch 15 rung B's skeptic | siblings: 20. `JAVA_FLAGS='-Xmx768m -Xss32m' bin/fortress P.fss` with `ys = <\| i MOD 7 \| i <- seq(0#50000) \|>` prints 'Caused by: java.lang.StackOverflowError' at ee1aa1a95 and at ef52b7b11. By reading: the sequential range joins left to right (`Library/RangeInternals.fss:1357-1367`), so `CVReduction`'s `APPCOV` builds a chain of `Append` nodes as deep as the list, which `cata` and `dirtyIAF` then recurse down (`Library/CovariantCollection.fss:128-133`). A sum over the same generator runs (`UnwrittenSequentialReductionWalk`). Workaround: the parallel generator `0#50000`. |
+
+### Row 603
+
+rewritten
+
+| 603 | `SimpleMappedSeqIndexed`, the map of the full sequential ranges, is not a `MappedGenerator`, so its `reverse` is `Indexed`'s: `seq(0:6:2).map(fn x => x + 1).reverse.asString` prints `SimpleReversedIndexed(mapped(seq(1,3,5,7)))`, no longer `mapped(7,5,3,1)` | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/RangeDeclarations.fss` | climb batch 9 rung R's skeptic | The object (`Library/FortressLibrary.fss:4155-4156` at 052a7c3fe) lacks `MappedGenerator`'s `reverse`, `reduce`, `g` and `f` (`:3565-3577`): the api does not export `MappedGenerator`, and the export check compares extends clauses (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:727-728`). The parallel twin `SimpleMappedIndexed` (`:3585-3586`) extends it and prints `mapped(6,4,2,0)` for `(0#4).map(f).reverse`. Elements and order are unchanged; the test pins today's string (`:58`). Repair: export `MappedGenerator` and extend it, declare `reverse` as `SimpleMappedIndexed[\E,F,I\](g0.reverse, f0)`, or accept the string. full text: history, row 603 |
+
+### Row 825
+
+rewritten
+
+| 825 | under walk, a list comprehension written at a self-bounded type parameter that nothing fixed ends in `CastError` at its unwrap's cast (`Library/List.fss:179`), and so, since climb batch 22's rung R, does `List`'s range subscript at a stride other than 1 on a list of that open element type | CONTESTED | implementation gap (walk) | silent | `ProjectFortress/tests/OpenParameterListComprehensionWalk.fss` | climb batch 22 rung R | siblings: 663, 716, 824. With `emptyOf[\T extends SelfBound[\T\]\](): List[\T\] = <\|[\T\] \|>` and `xs = emptyOf().addRight(Leaf)`, `<\|[\T\] x \| x <- xs \|>` over `T` stops at `cast[\CovariantCollection[\T\]\](cc)` (`List.fss:179`) at 64386618b and after. Unsettled: the `revival-inference` callout of `basic/inference.tex` has walk admit every value checked against the open type, and is silent on a generic type that holds it, as `CovariantCollection[\OPEN\]`; the checker refuses the call that leaves it open (F-59). `xs[0:2:2]` answered 2 elements at 64386618b, before `List.fss:151` wrote `[\E\]`; stride 1 runs through `drop` and `take`. Workaround: `emptyOf[\Leaf\]()`. |
+
+### Row 592
+
+rewritten
+
+| 592 | under walk, a type parameter that only the bound of a type parameter the arguments fix mentions takes the arguments' type, not its bound: `ap[\T, A extends T\](a: A): BoxU[\T\]` called `ap(Apple)` is a `BoxU[\Apple\]` under walk and a `BoxU[Any]` compiled | NEGATIVE-VERIFIED | deliberate (walk) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXInferThroughBoundWalk.fss` | climb batch 9 rung W, its skeptic | `apF[\T extends Fruit, A extends T\](Apple)` is a `BoxU[\Apple\]` under walk and a `BoxU[Fruit]` compiled. `fixedThroughBounds` counts `T` as fixed (`EvaluatorBase.java:246-261`), and the recheck of `A`'s bound joins `A`'s instance into `T` (`:443-447`). Kept by rung W's decision D3, a departure from POSITIONS, "A type parameter the arguments do not fix takes its bound, never `Bottom`": `APPCOV[\T, A extends T, B extends T\]` (`Library/CovariantCollection.fss:30`) builds its result at `T`, at the bound `Any`, and `booleanGuard` and `RangePrototype` then fail; walk has no expected type. Open for the curator: whether walk moves once it has one. full text: history, row 592 |

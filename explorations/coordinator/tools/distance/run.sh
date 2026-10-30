@@ -1,7 +1,8 @@
 #!/bin/bash
 # The gate's distance stage: the compiled checker over the whole interpreter library, the
-# twelve prelude apis and their twelve components, every stage of every unit run whatever
-# the earlier stages reported, so that nothing hides behind an early return; one table.
+# fourteen components, the prelude's twelve and the two that List imports, and their apis,
+# every stage of every unit run whatever the earlier stages reported, so that nothing hides
+# behind an early return; one table.
 #
 # Why it exists: Pavol's answer 11 (POSITIONS.md, 2026-09-26): the full measurement of the
 # distance to the switch-over "becomes a report-only stage of phase 3's gates, whose job is
@@ -55,9 +56,10 @@
 # and the table then says so in its #shadow row, with no counts.
 #
 # The table, tab-separated, every row tagged:
-#   #distance   the setting, the switches and the twelve targets
+#   #distance   the setting, the switches and the fourteen targets
 #   #total      distinct errors; or "none:" and why, when no total was measured, as when a
-#               target stopped with errors the stage does not count, such as a parse error
+#               target stopped with errors the stage does not count, such as a parse error,
+#               or an api that only a later target checks reported errors (table.py)
 #   #kind       by kind (errors.py): exclusion, comprises, overloading, return-type, ...
 #   #class      by root cause (classify.py, distance-triage.md section 2), with its name
 #   #check      a disagreement: errors.py's and table.py's totals, or sites classify.py cannot
@@ -84,7 +86,8 @@ case "$SETTING" in any|walk|compile) ;; *) echo "distance: unknown setting $SETT
 FLAGS="-Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false"
 COMPONENTS="Library/FortressLibrary.fss Library/RangeInternals.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
  ProjectFortress/LibraryBuiltin/NativeArray.fss Library/List.fss Library/String.fss Library/FlatString.fss Library/Stream.fss
- ProjectFortress/LibraryBuiltin/NatReflect.fss Library/TypeProxy.fss Library/Writer.fss ProjectFortress/LibraryBuiltin/AnyType.fss"
+ ProjectFortress/LibraryBuiltin/NatReflect.fss Library/TypeProxy.fss Library/Writer.fss ProjectFortress/LibraryBuiltin/AnyType.fss
+ Library/CovariantCollection.fss Library/OneShotFlag.fss"
 
 rm -rf "$SCRATCH/shadow-src" "$SCRATCH/shadow-classes" "$SCRATCH/classes" "$SCRATCH/caches" "$SCRATCH/tmp"
 mkdir -p "$SCRATCH/shadow-src" "$SCRATCH/shadow-classes" "$SCRATCH/classes" "$SCRATCH/caches" "$SCRATCH/tmp" \
@@ -112,8 +115,10 @@ elif ! javac -nowarn -cp "$CP" -d "$SCRATCH/classes" "$D/DistanceMulti.java" >> 
     SHADOW="STALE: DistanceMulti.java no longer compiles against the tree; see $SCRATCH/shadows.txt"
 fi
 
-# 2. the run: one JVM, the twelve components, FortressLibrary first so that its run checks
-#    the twelve apis with every stage (DistanceMulti.java's header)
+# 2. the run: one JVM, the fourteen components, FortressLibrary first so that its run checks
+#    the apis that it imports, at any depth, with every stage (DistanceMulti.java's header);
+#    an api that only a later target imports, as OneShotFlag's, is checked as the tracked
+#    method checks it and prints only its count, which table.py reads
 RC=
 case "$SHADOW" in
   STALE*) : > "$SCRATCH/run.txt" ;;

@@ -259,6 +259,56 @@ class Readings(unittest.TestCase):
                                             .replace("rc=-1", "rc=0"))
             self.assertIn("#total\t0\n", out)
 
+    # the shape of a run whose later target imports an api that only that target checks: the
+    # tracked method checks it (probe.componentOnly), so its errors print as its @@TC API
+    # count and no @@SC line of its own; the first target's apis print both
+    LATER_API = "\n".join([
+        "### order=check setting=any (extendsObject=false compiledExpr=true) prelude=INTERPRETER"
+        " targets=[Library/FortressLibrary.fss, Library/List.fss] overloadCache=false",
+        "### target Library/FortressLibrary.fss componentOnly=false",
+        "@@SC STAGE\tapi FortressLibrary\thierarchy\terrors=1",
+        "@@SC ERR\tapi FortressLibrary\thierarchy\t/x/Library/FortressLibrary.fsi:7:1-9: Probe error.",
+        "@@TC API\tFortressLibrary\terrors=1",
+        "@@SC STAGE\tcomponent FortressLibrary\ttypecheck\terrors=0",
+        "@@TC COMPONENT\tFortressLibrary\terrors=0",
+        "### done Library/FortressLibrary.fss rc=0 seconds=1",
+        "### target Library/List.fss componentOnly=true",
+        "@@TC API\tFortressLibrary\terrors=1",
+        "@@TC API\tCovariantCollection\terrors=0",
+        "@@TC API\tOneShotFlag\terrors=%d",
+        "@@SC STAGE\tcomponent List\ttypecheck\terrors=0",
+        "@@TC COMPONENT\tList\terrors=0",
+        "### done Library/List.fss rc=0 seconds=0",
+        "### all seconds=5 rc=0",
+        ""])
+
+    def test_an_api_error_that_prints_no_line_of_its_own_leaves_no_total(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = self.table(d, self.LATER_API % 1)
+            total = [r for r in out.splitlines() if r.startswith("#total\t")]
+            self.assertEqual(len(total), 1, out)
+            self.assertTrue(total[0].startswith("#total\tnone: "), total[0])
+            self.assertIn("OneShotFlag errors=1", total[0])
+            self.assertNotIn("FortressLibrary", total[0])
+            self.assertNotIn("CovariantCollection", total[0])
+            verdict = subprocess.run(["bash", os.path.join(HERE, "compare.sh"), "", write(d, "distance.txt", out)],
+                                     capture_output=True, text=True, check=True).stdout
+            self.assertTrue(verdict.startswith("DISTANCE NO TABLE   none: "), verdict)
+
+    def test_api_errors_with_lines_of_their_own_keep_the_total(self):
+        with tempfile.TemporaryDirectory() as d:
+            out = self.table(d, self.LATER_API % 0)
+            self.assertIn("#total\t1\n", out)
+            self.assertIn("#crash\tnone\n", out)
+
+    def test_an_api_crash_is_a_crash_row(self):
+        crash = "@@TC API-CRASH\tCovariantCollection\tjava.lang.NullPointerException\tX.y(X.java:1)\tno\ttype here"
+        with tempfile.TemporaryDirectory() as d:
+            out = self.table(d, (self.LATER_API % 0).replace("@@TC API\tCovariantCollection\terrors=0", crash))
+            self.assertIn("#crash\tapi\tCovariantCollection\tNullPointerException\tno type here\n", out)
+            self.assertNotIn("#crash\tnone", out)
+            self.assertIn("#total\t1\n", out)
+
     def test_abstract_method_of_a_prefix_operator(self):
         E = {}
         exec(read(os.path.join(HERE, "errors.py")).split("out_path, runs = sys.argv[1], sys.argv[2:]")[0], E)
