@@ -12,18 +12,18 @@
 api FortressBuiltin
 
 (** The %builtinPrimitive% function is actually recognized as a special piece
-    of built-in magic by the Fortress interpreter.  The %javaClass%
-    argument names a Java Class which is a subclass of
+    of built-in magic by the Fortress interpreter and, where its argument names a helper, by the compiler.  The %javaClass%
+    argument names either a glue class, a Java Class which is a subclass of
     \texttt{com.sun.fortress.interpreter.glue.NativeApp}, which provides code
     for the closure which is used in place of the call to
-    %builtinPrimitive%.  Meanwhile all the necessary type information,
-    argument names, etc. must be declared here in Fortress-land.  For
-    examples, see the end of this file.
+    %builtinPrimitive% and which only the interpreter runs, or a helper, a public static method of a Java class of the package \texttt{com.sun.fortress.nativeHelpers}, written \texttt{com.sun.fortress.nativeHelpers.}\textit{Class}\texttt{.}\textit{method}, which both the interpreter and the compiled code call.  The interpreter loads a helper beside its glue classes: among the methods of that name it takes the one whose Java parameter and result types carry the declared types, %self% first, and it carries each value at its declared type.  The compiler, before type checking, rewrites the body into a call of the helper, which the type checker checks against the helper's Java signature.  A string under \texttt{com.sun.fortress.nativeHelpers} that names no such method is an error on both.  Meanwhile all the necessary type information,
+    argument names, etc. must be declared here in Fortress-land.  For examples, see the end of this file.
+    \revision{revival-native-helpers}{The argument names a glue class, which only the interpreter runs, or a static helper of \texttt{com.sun.fortress.nativeHelpers}, which both the interpreter and the compiled code call; and the package that defines the subclasses of the %NativeFn% classes is named as the implementation names it.}
 
     In practice, if you are extending the interpreter you will probably
     want to extend \texttt{com.sun.fortress.interpreter.glue.NativeFn0,1,2,3,4}
     or one of their subclasses defined in
-    \texttt{com.sun.fortress.interpreter.glue.primitive}.  These types are
+    \texttt{com.sun.fortress.interpreter.glue.prim}.  These types are
     generally easier to work with, and the boilerplate packing and
     unpacking of values is done for you.
 **)

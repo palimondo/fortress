@@ -4420,6 +4420,102 @@ a satisfying trait declaration is allowed to provide a concrete declaration.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{A native binding that names a static helper}
+\seclabel{revival-native-helpers}
+
+\begin{description}
+\item[Affected section] \secref{FortressBuiltin}: the comment of
+\VAR{builtinPrimitive} in the \apiN\ \TYP{FortressBuiltin}, which this
+specification typesets from the \apiN's source file.
+\item[Change] The comment says that the argument of \VAR{builtinPrimitive}
+names either a glue class, a subclass of
+\texttt{com.sun.fortress.interpreter.glue.NativeApp}, which only the
+interpreter runs, or a helper, a public static method of a Java class of the
+package \texttt{com.sun.fortress.nativeHelpers}, which both the interpreter
+and the compiled code call; that the interpreter loads a helper beside its glue
+classes, taking among the methods of that name the one whose Java parameter and
+result types carry the declared types, \KWD{self} first, and carrying each value
+at its declared type; that the compiler, before type checking, rewrites such a
+body into a call of the helper, which the type checker checks against the
+helper's Java signature; and that a string under that package that names no
+such method is an error on both.
+It also names the package that defines the subclasses of the classes
+\texttt{NativeFn0} to \texttt{NativeFn4}
+\texttt{com.sun.fortress.interpreter.glue.prim}, where it said
+\texttt{com.sun.fortress.interpreter.glue.primitive}, a package that the
+implementation does not have.
+The comment gains a box.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 10~October 2026 that every native binding of \library\
+keeps the library's own form, a body that is exactly a call of
+\VAR{builtinPrimitive}, and that its string names a static helper of the
+package \texttt{com.sun.fortress.nativeHelpers}, the compiled code's own
+helpers, in place of a glue class, which takes the interpreter's values and
+which the compiled code cannot call.
+The bindings move onto helpers step by step, and the type checker checks each
+moved binding against its helper's Java signature from the step that moves it.
+The alternative not taken was \KWD{import} \KWD{java} declarations written in
+\library\ itself, the compiler's own form for its natives, which the
+interpreter does not run.
+A reversal would restore the original comment, put the moved bindings back on
+their glue classes, and leave the compiled code without a binding of
+\library's natives that it can call.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-natives-walk/decision-record.md}
+in the revival's repository.
+\item[Effect] Twenty-one of the 449 bindings of \library\ name a helper:
+nineteen of the trait \EXP{\mathbb{Z}32}, its operators \EXP{=}, \EXP{<}, the
+prefix and infix \EXP{-} and \EXP{\dotminus}, \EXP{+}, \EXP{\dotplus},
+\EXP{\cdot}, \EXP{\times}, juxtaposition, \EXP{\dottimes}, \EXP{\div},
+\OPR{BITAND}, \OPR{BITOR}, \OPR{BITXOR} and \OPR{BITNOT} and its functions
+\VAR{widen} and \VAR{unsigned}, and the getters \VAR{asString} and
+\VAR{asExprString} of the interpreter's object \TYP{Int}.
+The other 428 still name a glue class, which the compiled code cannot call.
+Among them is \EXP{\mathbb{Z}32}'s \OPR{CHOOSE}: its helper throws a Java
+\texttt{ArrayIndexOutOfBoundsException}, which no \KWD{catch} sees, where the
+binomial coefficient is past the helper's table, instead of an
+\TYP{IntegerOverflow} (row~521 of the revival's gap ledger).
+Until the compiled code moves onto \library, the type checker checks the moved
+bindings, but no compiled program runs them.
+Under the interpreter a helper's raise of \TYP{IntegerOverflow} or
+\TYP{DivisionByZero} is the library's own exception, so \EXP{\mathbb{Z}32}'s
+\EXP{\div} by zero throws a \TYP{DivisionByZero}, as \chapref{operators} says of
+an integer result; \EXP{\mathbb{Z}32}'s \OPR{REM} and \OPR{MOD}, the three on
+\EXP{\mathbb{Z}64}, and \EXP{\div} on \EXP{\mathbb{Z}}, which still name glue
+classes, end the run with a Java exception at a divisor of zero (row~336 of
+the revival's gap ledger).
+The interpreter passes a helper declared over \TYP{String}, as its glue classes
+do, the name of the value's type in place of its characters where the value is
+not a flat string, as a \TYP{String} made by concatenating two long strings
+(row~NEW-W-1 of the revival's gap ledger).
+\item[Original text] The comment is typeset from the file
+\nolinkurl{ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi} of the revival's
+repository, lines 14--29, unchanged from the team's last commit until this
+revision; \nolinkurl{Specification-1.0-frozen/} holds no copy of it, since
+\nolinkurl{Specification-1.0-frozen/library/default-libraries.tex}, line 39,
+inputs a file \nolinkurl{library/apis/FortressBuiltin.tex} that the
+specification's build typesets from that \apiN\ and that neither copy keeps.
+The comment, as written in the file:
+\begin{quote}
+The \texttt{builtinPrimitive} function is actually recognized as a special
+piece of built-in magic by the Fortress interpreter.  The \texttt{javaClass}
+argument names a Java Class which is a subclass of
+\texttt{com.sun.fortress.interpreter.glue.NativeApp}, which provides code
+for the closure which is used in place of the call to
+\texttt{builtinPrimitive}.  Meanwhile all the necessary type information,
+argument names, etc.\ must be declared here in Fortress-land.  For
+examples, see the end of this file.
+
+In practice, if you are extending the interpreter you will probably
+want to extend \texttt{com.sun.fortress.interpreter.glue.NativeFn0,1,2,3,4}
+or one of their subclasses defined in
+\texttt{com.sun.fortress.interpreter.glue.primitive}.  These types are
+generally easier to work with, and the boilerplate packing and
+unpacking of values is done for you.
+\end{quote}
+\item[Route C] The same under route~C.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
