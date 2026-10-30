@@ -18,8 +18,8 @@
 ## Which tier runs what
 
 - Give each worker its tier's alias: `model: 'opus'`, `'sonnet'` or `'fable'`. Write no identifier that an alias resolves to.
-- Use Sonnet for archaeology and retrieval only, never for a judgement.
-- Run every writer on Opus: of skill text, of record entries, and of each longer report or page for the curator, also when this session runs on Fable. The curator dislikes Fable's register.
+- Use Sonnet for archaeology and retrieval of exact words only, never for a judgement or a summary. Have an Opus worker turn the evidence into a report, and condense a large report into a summary or the exact quotes that you need. Run it at extra high effort for a large report.
+- Run every writer on Opus: of skill text, of record entries, and of each longer report or page for the curator, also when this session runs on Fable. Fable writes no text that goes as written into the permanent record, since its compressed register degrades the reasoning. It may give its reasoning as corrections to a text that Opus writes, and its review may edit a batch record in place. This holds while Fable is at 5.1.
 - Take a cross-area question in two steps. First, Opus workers gather cited evidence or a list of ways. Then, if neither the record nor the three principles (`SKILL.md`) settle it, run a Fable judgement, sparingly. If the fork stays consequential, put it to the curator as an ask.
 - Four kinds of Fable work have a go in advance: the Fable judgement on a cross-area question, a judge's second ruling in a batch, the Fable review of each batch record, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
 - If you start a headless session on a tier other than Opus or Fable, set `FORTRESS_HEADLESS=1` in its environment. Otherwise the model check's alarm stops its work (`SKILL.md`, "The boot"). Today only the baseline interview does so.
@@ -28,9 +28,12 @@
 
 ## What a brief holds
 
-- The problem, never the expected answer. On a design choice, ask the worker to list every way that the language and the library offer, and give it none of our notes or options.
+A brief is short: the problem, the question, and where the sources are. The worker picks its own reading.
+
+- The problem and the question, never the expected answer. On a design choice, ask the worker to list every way that the language and the library offer, and give it none of our notes or options.
 - If a rule blocks an option, ask how the library gets around it.
-- A pointer to the research on file, not a restatement of it.
+- An instruction to search the record first. Name only the files that are the task's direct inputs, such as the file under check. List no other files to read, and no time windows of a transcript.
+- If the worker reviews a text, an ask to say for each finding whether it changes what a reader decides or does. Without that ask, a review returns every finding at the same weight.
 - The record's measurements, as findings to cite, not claims to check again, even for a worker kept clean of our options. Name the one new thing to measure. Ask for a new measurement only if the tree has changed under a finding, and say what changed.
 - The entries that it needs, quoted word for word under their numbers. Quote a rule of the curator's whole, with its limit and its example.
 - Before you quote the curator's words from a message, clean them. Fix the obvious typos of the phone's swipe keyboard and of dictation, and keep the meaning. Put `[?]` after each word whose reading is a guess. Quote an entry as the record holds it.
@@ -38,8 +41,9 @@
 - No second reader named in the brief, since that reframes the document.
 - No request to measure or cap its own token spend. The spend is yours to watch.
 - For an Agent-tool worker: every wait under 270 s. A long run is polled in steps, or handed to a script while the agent ends its turn.
+- If the worker commits, a line that its `Co-Authored-By` trailer names its own model, such as `Claude Opus 5.5`.
 
-A worker whose task touches the repository loads `fortress-repo` by itself. That skill tells it which choices are its own.
+A worker whose task touches the repository loads `fortress-repo` by itself. That skill tells it which choices are its own. So quote no skill in a brief. If the worker does part of your work, such as an analysis, name the parts of this skill that the work needs.
 
 ## Watching a run
 
@@ -48,6 +52,7 @@ A worker whose task touches the repository loads `fortress-repo` by itself. That
 - When an overnight or long run starts, arm its check-ins: `send_later` reminders 45 minutes apart, in one turn (`cloud-container`, its stops part). An hourly check-in would let the cache expire.
 - Keep each wait of yours under an hour. The `Monitor` tool can watch a run.
 - If a worker waits on the curator between tasks, run it as a headless session and resume it within the hour (`--resume <id>`).
+- To change the task of a running worker, send it a message (`SendMessage`). If a worker already holds the material of a new question, such as a transcript window, send that worker the question. Launch no fresh worker for it.
 
 ## Interrupts and process stops
 
@@ -58,7 +63,7 @@ An interrupt or a process stop kills every running Workflow agent and Agent-tool
 - The resume reuses the longest unchanged prefix of `agent()` calls, in call order. A hash given short where the launch gave it in full misses from the first call.
 - If the script has changed since launch, resume from a copy as launched: `git show <launch commit>:<path>`. If the call order would differ, wrap `agent()` in the copy, so that the finished calls come in the journal's order of `started` lines. `explorations/coordinator/process-engineering/design-batch10-opus.md` has such a wrapper (`resumeOrder`).
 - If a batch's commit stage was killed before it committed, its edits are in `/home/user/fortress`. Resume with a commit prompt that names them.
-- If a batch's gather was killed mid-work, `git stash` its staged changes and keep the stash before you resume.
+- If a batch's gather was killed mid-work, resume the run with the main tree as the gather left it. The gather's recovery prompt takes the uncommitted changes as its earlier attempt's work.
 - A new session cannot resume another session's run.
 - An Agent-tool worker that a process stop killed goes on from its transcript on a `SendMessage`. One that an interrupt killed cannot. Relaunch it only at the curator's explicit ask, and tell the new worker its predecessor's leftovers.
 - Give a Fable successor the leftovers in the tree, never the transcript: the safety filter can end a Fable worker that prints one.

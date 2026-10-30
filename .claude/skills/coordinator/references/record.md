@@ -17,6 +17,9 @@ An entry reads on its own. A reader who knows the language, or can look it up in
 
 - A FACTS entry holds, after its number and a bold title that states the fact: what is established now, and under which conditions; what it means for the work, such as what it blocks or which row or decision it bears on; its evidence: the test that gates it, or its source, and whether it was observed, read in the code or inferred; the decision it builds, by number and subject; and the report section that holds the detail.
 - A POSITIONS entry holds, after its number and a bold title: what the curator decided about the project, and why, in one or two sentences; where it applies; and what it requires of the work. It may point to a fact that it rests on, in the sentence that needs it. `P-48+` finds every fact that points to it.
+- A POSITIONS entry holds the curator's meaning, not the curator's voice, factually correct. It is the smallest text from which a fresh worker or coordinator, with the skills loaded, decides right. Workers and you decide by it where the curator is not asked, so a wrong premise in it compounds.
+- A correction of a POSITIONS entry rests on the evidence of the design in the repository: the specification, the team's later word, the library and the code. The curator's words are evidence of what the curator decided, not the ground of the design.
+- An entry gives no general rule that holds for every decision, such as P-26, as its reason.
 - POSITIONS holds only the curator's decisions. A choice that a worker made and landed without the curator's word is a fact about the tree. Its FACTS entry says that a worker chose it, and its review-queue item names that entry.
 - An entry states the present, or what holds for all time. It holds no plan and no status: no state words such as "Built." or "Still to build:", no PLAN phase or item, no review-queue item, and no words that it waits for the curator's review. PLAN and the review queue name the entries that their items concern.
 - If the tree does not yet do what a decision or the team's design asks, the missing part is a row of the gap ledger. The entry may name it as "row N", with a few words on what the row holds. In an entry, "row N" always names a row of the gap ledger.
@@ -85,7 +88,7 @@ Run the same pass on POSITIONS at each landing, and when the curator replaces a 
 
 ## A consolidation
 
-A consolidation runs the pass over whole sections. Run it on FACTS before each batch launches, since the batch's workers read it.
+A consolidation runs the pass over whole sections. Before each batch launches, run it on the FACTS entries that the workers of the batch before it added or changed. Their briefs keep their record-keeping short, so that they keep their focus on the code, and the consolidation of the record is your job. Run a consolidation of many entries by the clarity workflow ("The consolidation tools"), with an Opus writer. Write no entry text in it yourself.
 
 - Split each section into chunks of 20 to 32 entries.
 - For each chunk, a Sonnet scout gathers each entry's report sections, its commits and the curator's dated words.
@@ -99,7 +102,7 @@ A consolidation runs the pass over whole sections. Run it on FACTS before each b
 Three Workflow scripts make the record and the worker skill readable again when they drift. Each one's README says how to run it and what to do with its output. Put the open questions of their runs on the review queue.
 
 - The mining workflow finds where each POSITIONS entry came from: the curator's words, or an agent's summary or default. Run it on the entries that it has not traced, before the clarity workflow rewrites them. Its README: `explorations/coordinator/positions-audit/README.md`.
-- The clarity workflow rewrites POSITIONS or FACTS entries so that each reads on its own. For FACTS, it first judges every entry by the six checks of "What an entry is" (scope, present meaning, evidence, comprehension, ownership and consistency), and rewrites only those marked reword or reorganize. Run it when entries no longer read on their own. Its README: `explorations/coordinator/tools/record-clarity/README.md`.
+- The clarity workflow rewrites POSITIONS or FACTS entries so that each reads on its own. For FACTS, it first judges every entry by the six checks of "What an entry is" (scope, present meaning, evidence, comprehension, ownership and consistency), and rewrites only those marked reword or reorganize. Run it when entries no longer read on their own, and to apply what a review of the entries found: given the findings as `findings.md`, it changes only the sentences that a finding names. Its README: `explorations/coordinator/tools/record-clarity/README.md`.
 - The orientation workflow writes `fortress-repo`'s revival part, the short account of how revived Fortress differs from the original, which every worker reads whole. Its consolidate mode rewrites the whole part. Run it when a cold read or the regression quiz shows that the part no longer reads whole, or when an update cannot keep it within the README's budget. Its update mode runs after each landing (`references/batch.md`, "The landing"). Its README: `explorations/coordinator/tools/orientation/README.md`.
 
 ## INDEX and the gap ledger

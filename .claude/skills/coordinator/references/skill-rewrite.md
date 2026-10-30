@@ -1,6 +1,6 @@
 # Rewriting a skill
 
-The skills are written for a reader new to the repository, which every agent is.
+The skills are written for a reader new to the repository, which every agent is. A skill holds only what changes what the model would do by itself, in few rules. A long series of rules and cases confuses a reader whose context is full.
 
 **writer**
 : Headless session that makes every edit of the project skills, started and resumed by `explorations/coordinator/tools/skill-writer.sh`, with its standing brief `explorations/coordinator/skill-writer-brief.md`.
@@ -29,7 +29,7 @@ The skills are written for a reader new to the repository, which every agent is.
 
 This skill is rewritten by a heavier method, since the roles that it holds must not be lost:
 
-- Guide lightly, by a few general principles, among them how to talk to the curator in each situation. Write no set of many small rules that may contradict each other.
+- Guide lightly, by a few general principles, among them how to talk to the curator in each situation.
 - Organize the record as the model organizes knowledge by itself, never against it. This is the rewrite's highest risk.
 - Name the session's modes first: here, the six parts.
 - Run the baseline interview (`explorations/coordinator/baseline-interview/README.md`) for each new model of this session. Keep only what the model would not do by itself.
