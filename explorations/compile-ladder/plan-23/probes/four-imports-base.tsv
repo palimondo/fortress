@@ -1,4 +1,4 @@
-# The compiled checker over the library components microGPT imports outside the distance, on the base e0ec620a9 (code of 2bff2fe23): one run of the distance stage driver (DistanceMulti -order check -setting any, the stage shadows, probe.all) per target, report-only. Columns: target, then errors.py columns.
+# The compiled checker over the library components microGPT imports outside the distance, on the base a1f8c4b8b (main's head after climb batch 22c's landing, b81d86b75, whose code it is): one run of the distance stage driver (DistanceMulti -order check -setting compile, the compile command's own, which since climb batch 22c is extends-Object off and the compiled-expression desugaring on; the stage shadows, probe.all) per target, report-only. Columns: target, then errors.py columns.
 #target	System	2
 #target	File	4
 #target	FileSupport	24

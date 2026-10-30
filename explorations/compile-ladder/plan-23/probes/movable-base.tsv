@@ -82,10 +82,10 @@ FortressLibrary.fss	1067	ZZ	opr BITXOR(self, b: ZZ): ZZ	BigNum$BitXor	A	simpleAr
 FortressLibrary.fss	1069	ZZ	opr LSHIFT(self, b:AnyIntegral): ZZ	BigNum$LShift	B	simpleArbitraryPrecisionArith.shiftLeft	not	AnyIntegral->ZZ32
 FortressLibrary.fss	1073	ZZ	shift(self, k:AnyIntegral): ZZ	BigNum$LShift	B	simpleArbitraryPrecisionArith.shiftLeft	not	AnyIntegral->ZZ32
 FortressLibrary.fss	1075	ZZ	opr BITNOT(self): ZZ	BigNum$BitNot	A	simpleArbitraryPrecisionArith.not	movable	
-FortressLibrary.fss	4523	(top)	random(a:Number):RR64	Float$Random	B	LocalRandom.localRandomDouble	not	Number->RR64
-FortressLibrary.fss	4526	(top)	char(a:ZZ32):Char	Char$Chr	B	simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType	movable	
-FortressLibrary.fss	4618	(top)	printlnWithThread(a:String):()	StringPrim$PrintlnWithThread	B	simplePrintln.nativePrintlnWithThreadInfo	movable	
-FortressLibrary.fss	4624	(top)	opr SEQV(a:Any, b:Any):Boolean	AnyPrim$SEquiv	B	equality.sEquiv	not	Any->fortress.AnyType$Any; Any->fortress.AnyType$Any
+FortressLibrary.fss	4537	(top)	random(a:Number):RR64	Float$Random	B	LocalRandom.localRandomDouble	not	Number->RR64
+FortressLibrary.fss	4540	(top)	char(a:ZZ32):Char	Char$Chr	B	simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType	movable	
+FortressLibrary.fss	4632	(top)	printlnWithThread(a:String):()	StringPrim$PrintlnWithThread	B	simplePrintln.nativePrintlnWithThreadInfo	movable	
+FortressLibrary.fss	4638	(top)	opr SEQV(a:Any, b:Any):Boolean	AnyPrim$SEquiv	B	equality.sEquiv	not	Any->fortress.AnyType$Any; Any->fortress.AnyType$Any
 FortressBuiltin.fss	38	Object	getter ilkName(): String	ObjectPrims$ClassName	B	stringOps.typeName	not	Object->fortress.AnyType$Any
 FortressBuiltin.fss	40	Object	getter asString(): String	ObjectPrims$ToString	A	stringOps.defaultAsString	not	Object->fortress.AnyType$Any
 FortressBuiltin.fss	55	Float	getter asString(): String	Float$ToString	A	simpleDoubleArith.doubleToString	movable	

@@ -113,17 +113,17 @@ FortressLibrary.fss	1075	ZZ	BITNOT	opr BITNOT(self): ZZ	BigNum$BitNot	A	simpleAr
 FortressLibrary.fss	1077	ZZ	^	opr ^(self, b:AnyIntegral):ZZ	BigNum$Pow	C			AnyIntegral
 FortressLibrary.fss	1080	ZZ	narrow	narrow(self):ZZ32	BigNum$ToZZ32	C			
 FortressLibrary.fss	1083	ZZ	widen	widen(self):ZZ64	BigNum$ToZZ64	C			
-FortressLibrary.fss	4508	(top)	nanoTime	nanoTime():ZZ64	Long$NanoTime	C			
-FortressLibrary.fss	4509	(top)	printTaskTrace	printTaskTrace():()	StringPrim$PrintTaskTrace	D2		the interpreter's task structures	
-FortressLibrary.fss	4521	(top)	fromRawBits	fromRawBits(a:ZZ64):RR64	Float$FromRawBits	C			
-FortressLibrary.fss	4523	(top)	random	random(a:Number):RR64	Float$Random	B	LocalRandom.localRandomDouble	the compiler prelude declares this name at another signature: random(i:RR64): RR64 -> LocalRandom.localRandomDouble	Number
-FortressLibrary.fss	4526	(top)	char	char(a:ZZ32):Char	Char$Chr	B	simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType		
-FortressLibrary.fss	4601	(top)	match	match(regex:FlatString,some:FlatString):Boolean	StringPrim$Match	C			
-FortressLibrary.fss	4614	(top)	printThreadInfo	printThreadInfo(a:String):()	StringPrim$PrintThreadInfo	C			
-FortressLibrary.fss	4615	(top)	printThreadInfo	printThreadInfo(a:Number):()	StringPrim$PrintThreadInfo	C			Number
-FortressLibrary.fss	4617	(top)	printWithThread	printWithThread(a:String):()	StringPrim$PrintWithThread	C			
-FortressLibrary.fss	4618	(top)	printlnWithThread	printlnWithThread(a:String):()	StringPrim$PrintlnWithThread	B	simplePrintln.nativePrintlnWithThreadInfo		
-FortressLibrary.fss	4624	(top)	SEQV	opr SEQV(a:Any, b:Any):Boolean	AnyPrim$SEquiv	B	equality.sEquiv		Any,Any
+FortressLibrary.fss	4522	(top)	nanoTime	nanoTime():ZZ64	Long$NanoTime	C			
+FortressLibrary.fss	4523	(top)	printTaskTrace	printTaskTrace():()	StringPrim$PrintTaskTrace	D2		the interpreter's task structures	
+FortressLibrary.fss	4535	(top)	fromRawBits	fromRawBits(a:ZZ64):RR64	Float$FromRawBits	C			
+FortressLibrary.fss	4537	(top)	random	random(a:Number):RR64	Float$Random	B	LocalRandom.localRandomDouble	the compiler prelude declares this name at another signature: random(i:RR64): RR64 -> LocalRandom.localRandomDouble	Number
+FortressLibrary.fss	4540	(top)	char	char(a:ZZ32):Char	Char$Chr	B	simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType		
+FortressLibrary.fss	4615	(top)	match	match(regex:FlatString,some:FlatString):Boolean	StringPrim$Match	C			
+FortressLibrary.fss	4628	(top)	printThreadInfo	printThreadInfo(a:String):()	StringPrim$PrintThreadInfo	C			
+FortressLibrary.fss	4629	(top)	printThreadInfo	printThreadInfo(a:Number):()	StringPrim$PrintThreadInfo	C			Number
+FortressLibrary.fss	4631	(top)	printWithThread	printWithThread(a:String):()	StringPrim$PrintWithThread	C			
+FortressLibrary.fss	4632	(top)	printlnWithThread	printlnWithThread(a:String):()	StringPrim$PrintlnWithThread	B	simplePrintln.nativePrintlnWithThreadInfo		
+FortressLibrary.fss	4638	(top)	SEQV	opr SEQV(a:Any, b:Any):Boolean	AnyPrim$SEquiv	B	equality.sEquiv		Any,Any
 FortressBuiltin.fss	38	Object	ilkName	getter ilkName(): String	ObjectPrims$ClassName	B	stringOps.typeName		
 FortressBuiltin.fss	40	Object	asString	getter asString(): String	ObjectPrims$ToString	A	stringOps.defaultAsString		
 FortressBuiltin.fss	55	Float	asString	getter asString(): String	Float$ToString	A	simpleDoubleArith.doubleToString		
