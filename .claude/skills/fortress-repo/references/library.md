@@ -50,7 +50,7 @@ These functions work on the library's generators and reductions: `trait Generato
   Each entry of the check's error names a trait or object and only its first member that differs. After you fix that member, check again to see the next. These steps run the check:
   - For a component of a compiled program or test: `fortress compile`.
   - For the one library's `FortressLibrary` component: the count stage (`compiler.md`, "The checker's time").
-  - For the other thirteen components that the `COMPONENTS` line of `explorations/coordinator/tools/distance/run.sh` names: that script, the gate's distance stage, in the background. Its header gives its usage.
+  - For the other thirteen components that the gate's distance stage checks: that stage. When a rung needs it, the brief gives its command.
   - For another component of the one library: no step, until the switch-over.
 - A new overload can make walk refuse every program at load. `interpreter.md`, "What walk checks", lists what walk refuses.
 - A new native is a Java class under `interpreter/glue/prim/` (`interpreter.md`, "Natives"), so it is an edit of walk's Java too.
