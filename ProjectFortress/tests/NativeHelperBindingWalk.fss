@@ -13,7 +13,6 @@ nn(a:ZZ32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsigne
 ch(a:ZZ32):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
 code(c:Char):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType")
 upper(c:Char):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
-(* two Java overloads of one name, each declaration taking the one at its own types *)
 bazS(s:String):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
 bazI(n:ZZ32):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
 
