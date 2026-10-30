@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Draft the corrections to his entries as diffs","toolUseId":"toolu_014qxxkDubUpLpcu7eXRpEfE","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Draft the corrections to his entries as diffs","toolUseId":"toolu_014qxxkDubUpLpcu7eXRpEfE","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}

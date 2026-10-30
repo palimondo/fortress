@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"File the corrections runs' open questions","toolUseId":"toolu_01Q26mgkbCgMK517Fuh7M7ru","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"File the corrections runs' open questions","toolUseId":"toolu_01Q26mgkbCgMK517Fuh7M7ru","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
