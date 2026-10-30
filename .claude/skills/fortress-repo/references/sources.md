@@ -958,3 +958,5 @@ From the cold read of `c97a7143f` and `ac4058a84` (`cold-read-23.md`, in the coo
 - `library.md`, "Designing a change": the binding's form, the build and both paths (flag 18); the glue class only where no Java type carries a declared type, F-32 and F-180 (`IntLiteral`'s bindings), settled by the coordinator's task (flag 18).
 - `tests-writing.md`, "How a defect is recorded": "unlike under 3" (flag 20).
 - `sources.md`: flags 21 to 24.
+
+- `committing.md`, "How to commit", the trailer that names the model that writes the commit, in place of "Claude" exactly: the rule in the coordinator's boot note of 2026-10-29, which the commits on `main` follow; drafted on 2026-10-30 for the curator's yes.

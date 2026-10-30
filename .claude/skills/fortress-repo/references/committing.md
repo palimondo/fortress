@@ -26,9 +26,9 @@ Commit as you go, each commit in one command that names its paths:
 - Never commit a copied directory, and never use `git add -A`.
 - Before you commit more than a few hundred lines, stage them and read what you staged: `git add -- <paths> && git diff --cached --stat -- <paths>`.
 - If the commit edits the original tree, say so in its message.
-- End every commit message with this footer, exactly, whatever footer Claude Code suggests:
+- End every commit message with this footer, whatever footer Claude Code suggests. In the first line, name the model that you run on, such as `Claude Opus 5.5`:
 
-      Co-Authored-By: Claude <noreply@anthropic.com>
+      Co-Authored-By: Claude <model> <noreply@anthropic.com>
       Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB
 
   If your brief gives another session line, use it.
