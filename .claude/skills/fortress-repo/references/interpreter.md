@@ -71,7 +71,8 @@ So a library edit can stop every program at load, if it does one of these:
 - adds an overload;
 - leaves an inherited abstract method that no bodies cover, covers it only by a body with a static parameter of its own, or covers it by bodies whose cover walk's search cannot settle;
 - adds an `override` that overrides nothing;
-- gives a member a type that names its trait's `comprises`-clause variable, as `E` in `AnyList`.
+- gives a member a type that names its trait's `comprises`-clause variable, as `E` in `AnyList`;
+- names, in a `builtinPrimitive` string, a helper that walk refuses ("Natives").
 
 Walk checks a program's declarations against the library's only when it analyses the library, not when it loads the library's entries from the cache (ledger row 342). So a program that walk refuses with an empty cache runs with a filled one. Deleting the program's own entries does not bring the check back. To see such a refusal, run with an empty cache, as `COLD_CACHE=1` gives `harness-one.sh`.
 
@@ -86,7 +87,9 @@ Walk's overload-ambiguity message names its two declarations in an order that va
 The library binds each of walk's natives by a string in its `.fss` files, in a body `builtinPrimitive("…")`. The string names one of these:
 
 - A glue class, as `com.sun.fortress.interpreter.glue.prim.X`, in `interpreter/glue/prim/`. A glue class takes the evaluator's boxed values, so the compiled path cannot use it. Most bindings name one.
-- A public static method of a helper class, as `com.sun.fortress.nativeHelpers.simpleIntArith.method`. `glue/StaticNativeApp.java` calls it by reflection, with a method's `self` first. The compiled path calls it too (`compiler.md`, "Natives"). If the method does not exist or fits no declared type, walk refuses the binding at load.
+- A public static method of a helper class, as `com.sun.fortress.nativeHelpers.simpleIntArith.method`. `glue/StaticNativeApp.java` calls it by reflection, with a method's `self` first. The compiled path calls it too (`compiler.md`, "Natives"). If the method does not exist, or fits no declared type of the result or of a parameter other than `self`, walk refuses the binding at load. Walk does not check `self`. So a binding in a method of a program's own type loads, and its call passes the object as the helper's Java type reads it: a `String` parameter receives the type's name (ledger row 847).
+
+A native declared over `String`, glue class or helper alike, receives the wrong text for a string that `||` joined from long strings: the name of its type, `CatString`, not its characters (ledger row 846). Pass such a string as `s.asFlatString`.
 
 A written `import java` is wired under walk but unfinished, and no test uses it.
 
@@ -95,7 +98,7 @@ To raise a Fortress exception that a Fortress `catch` sees, a native throws a `F
     FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
     return new FortressError(f);
 
-If a helper throws a compiled exception class, as `fortress.CompilerBuiltin$DivisionByZero`, walk raises the library's exception of the same name in its place. So `ZZ32`'s `DIV` by zero raises `DivisionByZero`. A `catch` sees no other Java exception, so any other exception from a native ends the run, as a division by zero in a glue class does.
+If a helper that a `builtinPrimitive` string names throws a compiled exception class, as `fortress.CompilerBuiltin$DivisionByZero`, walk raises the library's exception of the same name in its place. So `ZZ32`'s `DIV` by zero raises `DivisionByZero`. A `catch` sees no other Java exception, so any other exception from a native ends the run, as a division by zero in a glue class does.
 
 ## Running a program
 

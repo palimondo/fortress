@@ -53,7 +53,7 @@ These functions work on the library's generators and reductions: `trait Generato
   - For the other thirteen components that the gate's distance stage checks: that stage. When a rung needs it, the brief gives its command.
   - For another component of the one library: no step, until the switch-over.
 - A new overload can make walk refuse every program at load. `interpreter.md`, "What walk checks", lists what walk refuses.
-- A new native is an edit of Java too: a static helper under `nativeHelpers/`, which both paths run, or a glue class under `interpreter/glue/prim/`, which only walk runs (`interpreter.md`, "Natives").
+- Write a new native as a static helper under `nativeHelpers/`, which both paths run. The older bindings name glue classes under `interpreter/glue/prim/`, which only walk runs (`interpreter.md`, "Natives").
 - `interpreter.md`, "The model program", says how to check microGPT under walk.
 
 ## Editing

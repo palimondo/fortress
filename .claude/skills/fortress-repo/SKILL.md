@@ -59,7 +59,7 @@ You work with three things: your brief, the record and the original tree. Buildi
 
 ## How a program runs
 
-Walk and the compiled path share the parser and the phases below. After those, they share almost no code, so a fix on one path does not reach the other. If you edit a phase that both paths run, run your test on both paths. If you record a defect that the record does not hold, and its program can run on the other path, run it there too. Say in the ledger row which paths show the defect. The Java and Scala paths in this skill are under `ProjectFortress/src/com/sun/fortress/`.
+Walk and the compiled path share the parser and the phases below. After those, they share almost no code, so a fix on one path does not reach the other. If you edit a phase that both paths run, or a helper of `nativeHelpers/` that a library string names, run your test on both paths. If you record a defect that the record does not hold, and its program can run on the other path, run it there too. Say in the ledger row which paths show the defect. The Java and Scala paths in this skill are under `ProjectFortress/src/com/sun/fortress/`.
 
 ### The phases
 

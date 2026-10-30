@@ -68,6 +68,13 @@ A body `builtinPrimitive("com.sun.fortress.nativeHelpers.Class.method")` binds o
 - If the string names a glue class or anything else outside that package: 'Variable builtinPrimitive is not defined.'
 - If the declaration has a varargs parameter: the same message (ledger row 849).
 
+The count stage and the distance stage check the interpreter's library with the same rewrite. There, the checker differs from a compile in these ways:
+
+- A glue string or a varargs declaration does not stop the check. It stays a call of `builtinPrimitive`, typed at the declared result type, and no Java signature checks it (ledger row 849).
+- The checker reads a helper's Java types as the interpreter's library's: `int` as `ZZ32`, `long` as `ZZ64`, `double` as `RR64`, `String` as `String`, `BigInteger` as `ZZ` (`NamingCzar.oneLibraryTypeForForeignJavaType`). It reads `NN32`, `NN64` and `Char` only through the helpers with the special names, as `makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType`. So a binding over `NN32`, `NN64` or `Char` whose helper takes a plain `int` or `long` is an error.
+- The count stage checks only the `FortressLibrary` component's bindings. The distance stage checks the bindings of the other components, as `FortressBuiltin`'s.
+- A component that imports a DSL grammar is parsed by another path (`GraphRepository.syntaxExpand`), so its bindings are not rewritten.
+
 The wrapper generator wraps every method of a class that it is given, the private methods too. If a type has no Fortress counterpart, it fails the whole import. So give every method of a helper class a signature that maps to Fortress, also a private method.
 
 ## Traps of the compiled path
