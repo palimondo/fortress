@@ -181,6 +181,8 @@ Made false and outside the rung's files, for the gather and the record pass (eac
 - F-173's "It bounds a type parameter written without an `extends` clause by `Object`, not `Any`, as the chapter's callouts say (row 412, P-42)" (`FACTS.md:229`).
 - The `fortress-repo` skill's `references/compiler.md:69`, the trap "Before disambiguation, the compiled path bounds an unbounded type parameter by `Object`, not `Any`. Walk does not. So the compiled path rejects every generic that is instantiated at a tuple type, until the switch-over (ledger row 412)."
 - Row 412's claim, which the gather closes.
+- Added by the skeptic (`SKEPTIC.md`), the sentences that row 759's repair makes false: Appendix I's revival-overloading Effect, "It accepts one such pair, ... and runs the first for a call to which both apply" (`Specification/appendices/changes.tex:2914-2920` before `1bd87dcf7`, which corrects it); F-274's "and the compiled checker accepts that pair (row 759)" (`explorations/coordinator/FACTS.md:200`); P-45's "walk and the checker disagree on four kinds of pair (rows 759 and 786 to 788)" (`explorations/coordinator/POSITIONS.md:42`); the skill's `references/compiler.md:80`, "It accepts `g[\T\](a: T)` beside `g(a: Any)`, whose declared domains are equal, and runs the generic one (ledger row 759)."; and row 759's claim, which the gather closes.
+- Added by the skeptic, made false by the flip itself: the comment at `ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:1501`, "a size has no bound its descriptor could meet; the compile path gives it extends Object" (the code beside it stays right); row 470's note "So under the compile command's bound `Object` (row 412), ... compile and run"; and the skill's `references/sources.md:383`, "The `Object` bound: ledger row 412 (`compiler_tests/XXXImplicitBoundAny.test`)".
 
 ## 9. Each test line changed
 
@@ -242,6 +244,7 @@ Each edit keeps every assertion. Under the flip:
       Did not see expected failure
       Tests run: 2,  Failures: 1,  Errors: 0
 
+- **Row 759**, the compiled checker's acceptance of `g[\T\](a: T)` beside `g(a: Any)`, whose cause was row 412: home 1, repaired by the same commit. Its test, `compiler_tests/XXXNoDuplicatesRuleUnboundedBesideAny.test` over `NoDuplicatesRuleUnboundedBesideAny.fss`, is the skeptic's (`1bd87dcf7`, `SKEPTIC.md`).
 - **Rows 691, 832, 339 and 653**: the flip touches them and fixes none (section 5). Each keeps its home, and its line is rewritten in `record.md`.
 - **The prelude's `String` concatenation at `Object`** (`CompilerBuiltin.fsi:37`): a limit of the compiler's library until the switch-over, not a defect to fix in the prelude (the skill's `compiler.md`, "The compiler's prelude, until the switch-over"). `CoercionGenericFnCompiledRungC` records it in its comment, and Appendix I's Effect names it.
 
