@@ -389,18 +389,18 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     getter zero(): Number = unsigned(0)
     getter one(): Number = unsigned(1)
     getter asString(): String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToString")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
     getter asExprString(): String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToString")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
 
     asFloat(self): Float =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$AsFloat")
 
     opr |self| : NN32 = self
     opr =(self, b:NN32):Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Eq")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntEQ")
     opr <(self, b:NN32):Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Less")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntLT")
     opr >(self, b:NN32):Boolean = b < self
     opr >=(self, b:NN32):Boolean = NOT (self < b)
     opr <=(self, b:NN32):Boolean = NOT (b < self)
@@ -416,27 +416,27 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr MAXNUM(self, other:NN32): NN32 = self MAX other
 
     opr -(self):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Negate")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingNeg")
     opr DOTMINUS(self):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingNegate")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingNeg")
     opr +(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Add")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAdd")
     opr DOTPLUS(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingAdd")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingAdd")
     opr -(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Sub")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingSub")
     opr DOTMINUS(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingSub")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingSub")
     opr DOT(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Mul")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingMul")
     opr TIMES(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Mul")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingMul")
     opr juxtaposition(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Mul")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingMul")
     opr DOTTIMES(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingMul")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingMul")
     opr DIV(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Div")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingDiv")
     opr REM(self,b:NN32):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Rem")
     opr MOD(self,b:NN32):NN32 =
@@ -448,22 +448,22 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr CHOOSE(self,b:NN32):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Choose")
     opr BITAND(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitAnd")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitAnd")
     opr BITOR(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitOr")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitOr")
     opr BITXOR(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitXor")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitXor")
     opr LSHIFT(self,b:AnyIntegral):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$LShift")
     opr RSHIFT(self,b:AnyIntegral):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$RShift")
     opr BITNOT(self):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitNot")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitNot")
     opr ^(self, b:AnyIntegral):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Pow")
     opr ^(self, b:IntLiteral):NN32 = self^(b.asZZ32)
     widen(self):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToUnsignedLong")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.toLong")
     partitionL(self):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Partition")
     signed(self):ZZ32 =
@@ -610,32 +610,32 @@ myJavaDigit(x:Char, radix:ZZ32): ZZ32 = javaDigit(x, radix)
 
 value object Char extends { StandardTotalOrder[\Char\] }
     getter asString(): String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToString")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToString")
     getter asExprString(): String =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToExprString")
     getter codePoint(): ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$CodePoint")
     opr |self| : ZZ32 = self.codePoint
     opr =(self, other:Char): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$Eq")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charEQ")
     opr <(self, other:Char): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$LessThan")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLT")
 
     opr SIMEQ(self, other:Char): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$SimEq")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charSimEq")
     opr NSIMEQ(self, other:Char): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$NotSimEq")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charNotSimEq")
     opr LNSIM(self, other:Char): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$LessNotSim")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLessNotSim")
     opr LESSSIM(self, other:Char): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$LessSim")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLessSim")
     opr GNSIM(self, other:Char): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GreaterNotSim")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGreaterNotSim")
     opr GTRSIM(self, other:Char): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GreaterSim")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGreaterSim")
 
     javaDigit(self, radix:ZZ32): ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$JavaDigit")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charJavaDigit")
 
     digit(self): Maybe[\ZZ32\] = do
         x:ZZ32 = myJavaDigit(self,10)
@@ -663,63 +663,63 @@ value object Char extends { StandardTotalOrder[\Char\] }
     end
 
     getDirectionality(self): ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GetDirectionality")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGetDirectionality")
     getNumericValue(self): ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GetNumericValue")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGetNumericValue")
     getType(self): ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GetType")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGetType")
     isDefined(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsDefined")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsDefined")
     isDigit(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsDigit")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsDigit")
     isFortressIdentifierPart(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsFortressIdentifierPart")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsFortressIdentifierPart")
     isFortressIdentifierStart(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsFortressIdentifierStart")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsFortressIdentifierStart")
     isHighSurrogate(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsHighSurrogate")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsHighSurrogate")
     isIdentifierIgnorable(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsIdentifierIgnorable")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsIdentifierIgnorable")
     isISOControl(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsISOControl")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsISOControl")
     isJavaIdentifierPart(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsJavaIdentifierPart")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsJavaIdentifierPart")
     isJavaIdentifierStart(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsJavaIdentifierStart")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsJavaIdentifierStart")
     isLetter(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsLetter")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLetter")
     isLetterOrDigit(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsLetterOrDigit")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLetterOrDigit")
     isLowerCase(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsLowerCase")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLowerCase")
     isLowSurrogate(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsLowSurrogate")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLowSurrogate")
     isMirrored(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsMirrored")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsMirrored")
     isSpaceChar(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsSpaceChar")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsSpaceChar")
     isSupplementaryCodePoint(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsSupplementaryCodePoint")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsSupplementaryCodePoint")
     isSurrogatePair(self, low:Char): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsSurrogatePair")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsSurrogatePair")
     isTitleCase(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsTitleCase")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsTitleCase")
     isUnicodeIdentifierPart(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsUnicodeIdentifierPart")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsUnicodeIdentifierPart")
     isUnicodeIdentifierStart(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsUnicodeIdentifierStart")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsUnicodeIdentifierStart")
     isUpperCase(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsUpperCase")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsUpperCase")
     isValidCodePoint(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsValidCodePoint")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsValidCodePoint")
     isWhitespace(self): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsWhitespace")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsWhitespace")
     toLowerCase(self): Char =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToLowerCase")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToLowerCase")
     toTitleCase(self): Char =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToTitleCase")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToTitleCase")
     toUpperCase(self): Char =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToUpperCase")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
 end
 
 object Thread[\T\] (fcn:()->T)
