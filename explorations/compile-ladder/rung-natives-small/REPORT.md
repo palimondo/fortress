@@ -126,7 +126,7 @@ The distance, with load 3.65 at start:
     explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-23/gate/distance.txt tmp/rung-natives-small/distance-postedit.txt
     DISTANCE SAME   0
 
-`diff` of the two distance tables differs only in the `#seconds` and `#machine` rows. In the per-site list, `tmp/rung-natives-small/dist-post/errors.tsv` holds only its header line, as `explorations/compile-ladder/gate/distance-sites.tsv` does. Read by row, no site comes and none goes.
+`diff` of the two distance tables differs only in the `#seconds` and `#machine` rows. The stage's per-site list holds only its header line, as `explorations/compile-ladder/gate/distance-sites.tsv` does: `wc -l < tmp/rung-natives-small/dist-post/errors.tsv` printed '1'. Read by row, no site comes and none goes.
 
 **The control.** The control shows that the stages read these bindings as calls of their helpers. It is one more distance run on the final code with two strings pointed at the wrong helpers, then restored with `git checkout` of the two files:
 
