@@ -170,7 +170,7 @@ P-151's and P-156's sentences, PLAN's `:59` and `:253`, and the skill's lines ar
 
 ## Files written from the journal
 
-None by the gather: every branch carried its `REPORT.md`, `record.md` and `SKEPTIC.md`, no `SKEPTIC.md` is only the word "committed", and no rung had a repair round, so no `textCommands` line was run. On three branches the skeptic wrote the worker's `REPORT.md` and `record.md` from the run's journal, since the harness had refused the worker's write: F (`06d32297f`), K (`755ea104f`) and W (`cd562a9a0`).
+None by the gather: every branch carried its `REPORT.md`, `record.md` and `SKEPTIC.md`, no `SKEPTIC.md` is only the word "committed", and no rung had a repair round, so no `textCommands` line was run. On four branches the skeptic wrote the worker's `REPORT.md` and `record.md` from the run's journal, since the harness had refused the worker's write: F (`06d32297f`), K (`755ea104f`), S (`3163eb21a`) and W (`cd562a9a0`).
 
 ## The rungs that did not land
 
