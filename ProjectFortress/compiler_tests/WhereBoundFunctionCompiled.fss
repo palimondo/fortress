@@ -1,0 +1,19 @@
+(* A function whose where clause bounds its type parameter compiles and runs: a method of the bound is found on a value of that parameter. *)
+component WhereBoundFunctionCompiled
+export Executable
+
+trait T
+  f(): String
+end
+object O extends T
+  f(): String = "O"
+end
+
+g[\U\](u: U): String where { U extends T } = u.f()
+
+run(): () = do
+    assert(g(O), "O", "trait-parameters.tex, section \"Where Clauses\": a where clause bounds a function's static parameter")
+    println("PASS")
+  end
+
+end

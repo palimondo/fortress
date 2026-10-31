@@ -1,0 +1,19 @@
+(* A trait whose comprises clause lists a generic object at a where-clause type variable compiles and runs: its functional method, called through values of the trait's type, runs the trait's body on every listed instance. *)
+component ComprisesWhereFunctionalMethodCompiled
+export Executable
+
+trait AnyBox comprises { Box[\E\] } where [\E\]
+  weight(self): ZZ32 = 1
+  opr ||(self, other: AnyBox): ZZ32 = weight(self) + weight(other)
+end
+object Box[\E\](item: E) extends AnyBox end
+
+run(): () = do
+    a: AnyBox = Box[\ZZ32\](3)
+    b: AnyBox = Box[\String\]("s")
+    assert(weight(a), 1, "trait-parameters.tex, section \"Where Clauses\": a functional method of a trait that comprises a type at a where-clause variable")
+    assert(a || b, 2, "trait-parameters.tex, section \"Where Clauses\": an operator of that trait over two instances")
+    println("PASS")
+  end
+
+end
