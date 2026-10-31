@@ -7,7 +7,8 @@
 # round and a judge. The record's section 5, "The briefings, rung by rung", holds the same keys. No key holds a
 # backslash, a backtick or a double quote, which the script refuses; facts-extract matches a heading without its
 # backticks.
-# The rungs, in the order the gather applies them: F, Z, S, K, W, G. K is the CHOOSE rung, on the CHOOSE probe's
+# The rungs, in the manifest's order: F, Z, S, K, W, G (the gather applies K before Z and S, by its rule on shared
+# files; the record's fork 1). K is the CHOOSE rung, on the CHOOSE probe's
 # finding (plan-24/probes/choose.md, its patch choose.patch beside it): both helpers fixed, both bindings moved.
 # H is the place kept for the hard set's rung (plan-24/probes/hard-set.md):
 # nothing is planned for it, its lists are empty, and gen24.py takes H only once the record's section 3 and
