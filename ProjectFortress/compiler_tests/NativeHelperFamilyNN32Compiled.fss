@@ -1,0 +1,116 @@
+(* On the compiled path, the nativeHelpers that NN32's bindings name compile and run when bound at the Java types the compile reads, an NN32 carried in a ZZ32. *)
+component NativeHelperFamilyNN32Compiled
+export Executable
+
+n32ToString(a:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
+n32Eq(a:ZZ32, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntEQ")
+n32Lt(a:ZZ32, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntLT")
+n32Neg(a:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingNeg")
+n32WrapNeg(a:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingNeg")
+n32Add(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAdd")
+n32WrapAdd(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingAdd")
+n32Sub(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingSub")
+n32WrapSub(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingSub")
+n32Mul(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingMul")
+n32WrapMul(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingMul")
+n32Div(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingDiv")
+n32And(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitAnd")
+n32Or(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitOr")
+n32Xor(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitXor")
+n32Not(a:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitNot")
+n32Widen(a:ZZ32):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.toLong")
+
+overflows(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+dividesByZero(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    DivisionByZero => true
+    Exception => false
+  end
+
+run():() = do
+  n0: ZZ32 = 0
+  n1: ZZ32 = 1
+  n7: ZZ32 = 7
+  n16: ZZ32 = 65536
+  n31: ZZ32 = -2147483647 - 1
+  nmax: ZZ32 = -1
+  assert(n32ToString(n0) = "0", "toString of 0")
+  assert(n32ToString(n7) = "7", "toString of 7")
+  assert(n32ToString(n16) = "65536", "toString of 2^16")
+  assert(n32ToString(n31) = "2147483648", "toString of 2^31")
+  assert(n32ToString(nmax) = "4294967295", "toString of 2^32-1")
+  assert(n32Eq(n7, n7), "Eq")
+  assert(n32Eq(nmax, nmax), "Eq of 2^32-1")
+  assert(NOT n32Eq(nmax, n31), "Eq unequal")
+  assert(NOT n32Eq(n0, n7), "Eq unequal at 0")
+  assert(n32Lt(n7, n16), "Lt")
+  assert(n32Lt(n31, nmax), "Lt above the signed half")
+  assert(NOT n32Lt(nmax, n7), "Lt is unsigned")
+  assert(n32Lt(n7, n31), "Lt below and above the signed half")
+  assert(NOT n32Lt(n0, n0), "Lt not")
+  assert(n32Neg(n0), 0, "Neg of 0")
+  assert(overflows(fn () => n32Neg(n7)), "Neg of 7 overflows")
+  assert(overflows(fn () => n32Neg(nmax)), "Neg of 2^32-1 overflows")
+  assert(n32WrapNeg(n0), 0, "WrapNeg of 0")
+  assert(n32ToString(n32WrapNeg(n7)) = "4294967289", "WrapNeg of 7 wraps")
+  assert(n32ToString(n32WrapNeg(n31)) = "2147483648", "WrapNeg of 2^31 wraps")
+  assert(n32WrapNeg(nmax), 1, "WrapNeg of 2^32-1 wraps")
+  assert(n32Add(n7, n7), 14, "Add")
+  assert(n32ToString(n32Add(n31, n16)) = "2147549184", "Add past the signed half")
+  assert(n32Add(nmax, n0), nmax, "Add of 0")
+  assert(overflows(fn () => n32Add(nmax, n7)), "Add overflows")
+  assert(overflows(fn () => n32Add(n31, n31)), "Add at 2^32 overflows")
+  assert(n32WrapAdd(n7, n7), 14, "WrapAdd")
+  assert(n32WrapAdd(nmax, n7), 6, "WrapAdd wraps")
+  assert(n32WrapAdd(n31, n31), 0, "WrapAdd wraps at 2^32")
+  assert(n32ToString(n32Sub(nmax, n7)) = "4294967288", "Sub")
+  assert(n32Sub(n7, n7), 0, "Sub to 0")
+  assert(overflows(fn () => n32Sub(n0, n7)), "Sub below 0 overflows")
+  assert(overflows(fn () => n32Sub(n7, nmax)), "Sub of 2^32-1 overflows")
+  assert(n32WrapSub(n16, n7), 65529, "WrapSub")
+  assert(n32ToString(n32WrapSub(n0, n7)) = "4294967289", "WrapSub wraps")
+  assert(n32WrapSub(n7, nmax), 8, "WrapSub of 2^32-1 wraps")
+  assert(n32Mul(n16, n7), 458752, "Mul")
+  assert(n32Mul(n7, n7), 49, "Mul of 7")
+  assert(n32ToString(n32Mul(n31, n1)) = "2147483648", "Mul by 1")
+  assert(overflows(fn () => n32Mul(n16, n16)), "Mul at 2^32 overflows")
+  assert(overflows(fn () => n32Mul(nmax, n7)), "Mul overflows")
+  assert(overflows(fn () => n32Mul(n31, n7)), "Mul of 2^31 overflows")
+  assert(n32WrapMul(n16, n16), 0, "WrapMul wraps at 2^32")
+  assert(n32WrapMul(nmax, nmax), 1, "WrapMul of 2^32-1 wraps")
+  assert(n32ToString(n32WrapMul(nmax, n7)) = "4294967289", "WrapMul wraps")
+  assert(n32WrapMul(n16, n7), 458752, "WrapMul")
+  assert(n32Div(nmax, n7), 613566756, "Div is unsigned")
+  assert(n32Div(n31, n16), 32768, "Div of 2^31")
+  assert(n32Div(n7, nmax), 0, "Div by 2^32-1")
+  assert(n32Div(nmax, nmax), 1, "Div of 2^32-1 by itself")
+  assert(dividesByZero(fn () => n32Div(n7, n0)), "Div by 0 throws DivisionByZero")
+  assert(n32And(nmax, n7), 7, "And")
+  assert(n32ToString(n32And(n31, nmax)) = "2147483648", "And of 2^31")
+  assert(n32And(n16, n7), 0, "And to 0")
+  assert(n32ToString(n32Or(n31, n7)) = "2147483655", "Or")
+  assert(n32Or(n16, n0), 65536, "Or of 0")
+  assert(n32ToString(n32Xor(nmax, n7)) = "4294967288", "Xor")
+  assert(n32Xor(n31, n31), 0, "Xor to 0")
+  assert(n32Not(n0), nmax, "Not of 0")
+  assert(n32Not(n31), 2147483647, "Not of 2^31")
+  assert(n32Not(nmax), 0, "Not of 2^32-1")
+  assert(n32Widen(n0) = 0, "Widen of 0")
+  assert(n32Widen(n7) = 7, "Widen of 7")
+  assert(n32Widen(n31) = 2147483648, "Widen of 2^31")
+  assert(n32Widen(nmax) = 4294967295, "Widen of 2^32-1")
+  println("PASS")
+end
+
+end

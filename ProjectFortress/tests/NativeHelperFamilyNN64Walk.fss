@@ -1,0 +1,91 @@
+(* NN64's operators and narrow bound to nativeHelpers keep their values, their wraparound and their IntegerOverflow under walk. *)
+component NativeHelperFamilyNN64Walk
+export Executable
+
+overflows(f: () -> NN64): Boolean =
+  try
+    f()
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+run():() = do
+  m: ZZ64 = -1
+  lo: ZZ64 = -9223372036854775807 - 1
+  z0: ZZ64 = 0
+  z1: ZZ64 = 1
+  z7: ZZ64 = 7
+  z32: ZZ64 = 4294967296
+  n0 = unsigned(z0)
+  n1 = unsigned(z1)
+  n7 = unsigned(z7)
+  n32 = unsigned(z32)
+  n63 = unsigned(lo)
+  nmax = unsigned(m)
+  assert(n63.asString, "9223372036854775808", "2^63")
+  assert(nmax.asString, "18446744073709551615", "2^64-1")
+  assert(n7 = unsigned(z7), true, "=")
+  assert(nmax = nmax, true, "= of 2^64-1")
+  assert(nmax = n63, false, "= unequal")
+  assert(n0 = n7, false, "= unequal at 0")
+  assert(n7 < n32, true, "<")
+  assert(n63 < nmax, true, "< above the signed half")
+  assert(nmax < n7, false, "< is unsigned")
+  assert(n7 < n63, true, "< below and above the signed half")
+  assert(n0 < n0, false, "< not")
+  assert((-n0).asString, "0", "unary - of 0")
+  assert(overflows(fn () => -n7), "unary - of 7 overflows")
+  assert(overflows(fn () => -nmax), "unary - of 2^64-1 overflows")
+  assert((n7 + n7).asString, "14", "+")
+  assert((n63 + n32).asString, "9223372041149743104", "+ past the signed half")
+  assert((nmax + n0).asString, "18446744073709551615", "+ of 0")
+  assert(overflows(fn () => nmax + n7), "+ overflows")
+  assert(overflows(fn () => n63 + n63), "+ at 2^64 overflows")
+  assert((n7 DOTPLUS n7).asString, "14", "DOTPLUS")
+  assert((nmax DOTPLUS n7).asString, "6", "DOTPLUS wraps")
+  assert((n63 DOTPLUS n63).asString, "0", "DOTPLUS wraps at 2^64")
+  assert((nmax - n7).asString, "18446744073709551608", "-")
+  assert((n7 - n7).asString, "0", "- to 0")
+  assert(overflows(fn () => n0 - n7), "- below 0 overflows")
+  assert(overflows(fn () => n7 - nmax), "- of 2^64-1 overflows")
+  assert((n32 DOTMINUS n7).asString, "4294967289", "DOTMINUS")
+  assert((n0 DOTMINUS n7).asString, "18446744073709551609", "DOTMINUS wraps")
+  assert((n7 DOTMINUS nmax).asString, "8", "DOTMINUS of 2^64-1 wraps")
+  assert((n32 DOT n7).asString, "30064771072", "DOT")
+  assert(overflows(fn () => n32 DOT n32), "DOT at 2^64 overflows")
+  assert(overflows(fn () => nmax DOT n7), "DOT overflows")
+  assert((n7 TIMES n7).asString, "49", "TIMES")
+  assert((n63 TIMES n1).asString, "9223372036854775808", "TIMES by 1")
+  assert(overflows(fn () => n32 TIMES n32), "TIMES at 2^64 overflows")
+  assert(overflows(fn () => n63 TIMES n7), "TIMES overflows")
+  j = n7 n32
+  assert(j.asString, "30064771072", "juxtaposition")
+  assert(overflows(fn () => n32 n32), "juxtaposition at 2^64 overflows")
+  assert((n32 DOTTIMES n32).asString, "0", "DOTTIMES wraps at 2^64")
+  assert((nmax DOTTIMES nmax).asString, "1", "DOTTIMES of 2^64-1 wraps")
+  assert((nmax DOTTIMES n7).asString, "18446744073709551609", "DOTTIMES wraps")
+  assert((n32 DOTTIMES n7).asString, "30064771072", "DOTTIMES")
+  assert((nmax DIV n7).asString, "2635249153387078802", "DIV is unsigned")
+  assert((n63 DIV n32).asString, "2147483648", "DIV of 2^63")
+  assert((n7 DIV nmax).asString, "0", "DIV by 2^64-1")
+  assert((nmax DIV nmax).asString, "1", "DIV of 2^64-1 by itself")
+  assert((nmax BITAND n7).asString, "7", "BITAND")
+  assert((n63 BITAND nmax).asString, "9223372036854775808", "BITAND of 2^63")
+  assert((n32 BITAND n7).asString, "0", "BITAND to 0")
+  assert((n63 BITOR n7).asString, "9223372036854775815", "BITOR")
+  assert((n32 BITOR n0).asString, "4294967296", "BITOR of 0")
+  assert((nmax BITXOR n7).asString, "18446744073709551608", "BITXOR")
+  assert((n63 BITXOR n63).asString, "0", "BITXOR to 0")
+  assert((BITNOT n0).asString, "18446744073709551615", "BITNOT of 0")
+  assert((BITNOT n63).asString, "9223372036854775807", "BITNOT of 2^63")
+  assert((BITNOT nmax).asString, "0", "BITNOT of 2^64-1")
+  assert(narrow(n0).asString, "0", "narrow of 0")
+  assert(narrow(n7).asString, "7", "narrow of 7")
+  assert(narrow(n32).asString, "0", "narrow of 2^32 keeps the low 32 bits")
+  assert(narrow(n32 + n7).asString, "7", "narrow of 2^32+7 keeps the low 32 bits")
+  assert(narrow(n63).asString, "0", "narrow of 2^63 keeps the low 32 bits")
+  assert(narrow(nmax).asString, "4294967295", "narrow of 2^64-1 keeps the low 32 bits")
+end
+
+end

@@ -1,0 +1,19 @@
+(* NN32's DIV by zero throws DivisionByZero, which a catch sees; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
+component NN32DivisionByZeroWalk
+export Executable
+
+dividesByZero(f: () -> NN32): Boolean =
+  try
+    f()
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+run():() = do
+  assert(dividesByZero(fn () => unsigned(7) DIV unsigned(0)), "NN32 7 DIV 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert((unsigned(7) DIV unsigned(2)).asString, "3", "NN32 7 DIV 2 is 3")
+  println("NN32 DIV by zero: DivisionByZero")
+end
+
+end
