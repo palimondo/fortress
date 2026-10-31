@@ -12,7 +12,7 @@ The three guards of `compiler/codegen/CodeGen.java` lose their `header.getWhereC
 
 So a function whose `where` clause bounds its type parameter, a method of a generic trait or object whose `where` clause bounds the type's parameter (`SumReduction`'s `distribute`, `BoundedRange.atMost`), an object's own `where` clause, a trait's dotted and functional methods with bodies under such a clause, a generic method's clause on its own parameter, and a trait whose `comprises` clause lists a generic object at a `where`-clause type variable (`AnyList`'s form) all compile, link and run. A trait that lists a type at a `where`-clause size (`NatParam`'s form) now compiles too; a call that opens such a value to its size then fails the JVM's verification (row 307's wall behind this one).
 
-The commits, on `wip/rung-codegen-where`: `eb2aba6b4` (three tests, the promotion), `41b9326ec` (the object test), `11ee497b1` (the fix and the run pair), `9173ceb89` (the contract `XXX` test), `db22125d9` (the trait-method test), and this report's commit.
+The commits, on `wip/rung-codegen-where`: `eb2aba6b4` (three tests, the promotion), `41b9326ec` (the object test), `11ee497b1` (the fix and the run pair), `9173ceb89` (the contract `XXX` test), `db22125d9` (the trait-method test), and the report's and record's commits after them.
 
 ## 2. The tests, failing then passing
 
@@ -176,4 +176,4 @@ F-181 is made false in its first clause; record.md gives its new text. No other 
 ## 12. Commands worked out
 
 - An `XXX` run pair whose failing class must load after `REACHED` prints: put the failing call in an object's method, which the JVM verifies when the object's class first loads (section 5).
-- `python3 explorations/coordinator/tools/ledger.py check --rows FILE` lints a drafted row without writing the ledger; both drafts pass it.
+- `python3 explorations/coordinator/tools/ledger.py check --rows FILE` lints a drafted row without writing the ledger; the four drafts in record.md (rows 701, 307, 812, 677) pass it.
