@@ -132,6 +132,7 @@ The record and the skill (the gather's and the skill writer's):
 - F-181 (`explorations/coordinator/FACTS.md:249`): "The code generator refuses every function, method, object and trait declaration that carries a `where` clause in its own header" (record.md gives its rewrite).
 - F-34 (`FACTS.md:31`): "the kinds include … a header `where` clause (row 701)", a measurement at `2bff2fe23`; the kind is gone from the code generator.
 - F-281 (`FACTS.md:120`): "such a program still stops in the code generator (row 812; row 701)": row 701's half is false; row 812's stands where a listed generic type gives a member's body.
+- F-270 (`FACTS.md:206`): "The code generator does not compile such a trait: "Can't compile TraitDecl NatParamT" (row 307; `compiler_tests/XXXNatOpenRun`).": the trait compiles, and the call that opens its size fails verification (added by the skeptic, `SKEPTIC.md`).
 - P-151 (`POSITIONS.md:63`): "Row 701: the code generator's half."
 - P-156 (`POSITIONS.md:67`): "the code generator refuses a `where` clause in a declaration's header", and "after the switch-over the code generator's refusal of a method with a `where` clause stops it too, as it stops `SumReduction`'s two `distribute`s (row 701)".
 - `PLAN.md:59`: "a header `where` clause (row 701)" among the code generator's kinds; `PLAN.md:249`: "and the code generator's half (row 701), in phase 4 before the names batch".
