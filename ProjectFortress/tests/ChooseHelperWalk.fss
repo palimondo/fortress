@@ -1,0 +1,58 @@
+(* Under walk, the ZZ32 CHOOSE helper gives the exact binomial coefficient, raises IntegerOverflow exactly where it does not fit, and keeps its values when called in parallel. *)
+component ChooseHelperWalk
+export Executable
+
+hChoose(n: ZZ32, k: ZZ32): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingChoose")
+
+overflows(n: ZZ32, k: ZZ32): Boolean =
+  try
+    ignore(hChoose(n, k))
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+pair(n: ZZ32): ZZ32 = if n MOD 2 = 0 then (n DIV 2) (n - 1) else n ((n - 1) DIV 2) end
+
+run():() = do
+  maxI: ZZ32 = 2147483647
+  minI: ZZ32 = -2147483647 - 1
+  (* basic-integers.tex, section "Integers", opr CHOOSE; opr-overview.tex, subsections "GCD, LCM, and CHOOSE Operators" and "Multiplication, Division, Modulo, and Remainder Operators" *)
+  assert(hChoose(10, 3), 120, "10 CHOOSE 3")
+  assert(hChoose(33, 16), 1166803110, "33 CHOOSE 16")
+  assert(hChoose(33, 17), 1166803110, "33 CHOOSE 17")
+  assert(hChoose(34, 14), 1391975640, "34 CHOOSE 14")
+  assert(hChoose(34, 15), 1855967520, "34 CHOOSE 15")
+  assert(hChoose(40, 9), 273438880, "40 CHOOSE 9")
+  assert(hChoose(58, 8), 1916797311, "58 CHOOSE 8")
+  assert(hChoose(1626, 3), 715169000, "1626 CHOOSE 3")
+  assert(hChoose(1627, 3), 716490125, "1627 CHOOSE 3")
+  assert(hChoose(2345, 3), 2146453540, "2345 CHOOSE 3")
+  assert(hChoose(46341, 2), 1073720970, "46341 CHOOSE 2")
+  assert(hChoose(46342, 2), 1073767311, "46342 CHOOSE 2")
+  assert(hChoose(65536, 2), 2147450880, "65536 CHOOSE 2")
+  assert(hChoose(maxI, 1), maxI, "MAX CHOOSE 1")
+  assert(hChoose(maxI, maxI - 1), maxI, "MAX CHOOSE (MAX - 1)")
+  assert(hChoose(maxI, maxI), 1, "MAX CHOOSE MAX")
+  assert(hChoose(3, 5), 0, "3 CHOOSE 5")
+  assert(hChoose(5, -1), 0, "5 CHOOSE -1")
+  assert(hChoose(-5, 2), 0, "-5 CHOOSE 2")
+  assert(hChoose(minI, 0), 0, "MIN CHOOSE 0")
+  assert(overflows(34, 16), "34 CHOOSE 16 throws IntegerOverflow")
+  assert(overflows(34, 17), "34 CHOOSE 17 throws IntegerOverflow")
+  assert(overflows(34, 18), "34 CHOOSE 18 throws IntegerOverflow")
+  assert(overflows(50, 17), "50 CHOOSE 17 throws IntegerOverflow")
+  assert(overflows(66, 33), "66 CHOOSE 33 throws IntegerOverflow")
+  assert(overflows(67, 33), "67 CHOOSE 33 throws IntegerOverflow")
+  assert(overflows(68, 34), "68 CHOOSE 34 throws IntegerOverflow")
+  assert(overflows(59, 8), "59 CHOOSE 8 throws IntegerOverflow")
+  assert(overflows(2346, 3), "2346 CHOOSE 3 throws IntegerOverflow")
+  assert(overflows(65537, 2), "65537 CHOOSE 2 throws IntegerOverflow")
+  assert(overflows(maxI, 2), "MAX CHOOSE 2 throws IntegerOverflow")
+  assert(overflows(maxI, 1073741824), "MAX CHOOSE 2^30 throws IntegerOverflow")
+  for n <- 46342:65536 do
+    assert(hChoose(n, 2), pair(n), n.asString || " CHOOSE 2 in a parallel loop")
+  end
+end
+
+end
