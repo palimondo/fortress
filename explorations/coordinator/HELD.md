@@ -2,6 +2,12 @@
 
 # Held list
 
+## Held in chat (2026-10-31)
+
+- 08:1x A standing rule, in his words: "you don't need my approval to bring the record in line with reality." A correction of a POSITIONS entry that a landing made false, made to reflect the current state of the implementation, is the coordinator's job at the landing, as the record part's pass already says of POSITIONS; it needs no approval of his, and he does not rubber-stamp it; it is "nice to be aware of what changed", so the landing report names each change. A change of a decision of his still goes to him. For the skill writer: `references/record.md`, "The pass", and `references/batch.md`, "The landing"; the batch script's gather, which files such a sentence as "stands until he rewords it", changes with it.
+- 08:1x On why the landing's corrections were mixed into the exit review's page: they were held with the other corrections because that review was open; the ones ruled "changes after the landing" were pre-approved in that sense. The coordinator's answer: the pass on POSITIONS at each landing stands in the skill already; the gather and the coordinator treated his text as waiting for him.
+- 08:2x "All defaults" on review-queue items 306, 307, 308 and 310; the go for preparing climb batch 24, its Fable review, and a pre-approved go for the batch, after the scope is discussed. The hard set's design choice is probed now; if he does not reply within half an hour of the probe's recommendation, the coordinator takes the probe's default into the batch. `widen` (row 502) needs the full ask form before he decides.
+
 ## Held in chat (2026-10-29)
 
 - 22:4x "Your communication must be in the register halfway of ASD-STE100." (his message after my state report of 22:46 UTC, which used shorthand such as "the three pushes", "the flip", "departure sentence", and nested clauses). The third reinforcement of the register rule that night; it stands on this list from 13:4x and 21:0x. For the skill writer, with the others.
