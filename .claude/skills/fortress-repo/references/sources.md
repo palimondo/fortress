@@ -969,3 +969,12 @@ Settled by the coordinator's task after the batch landed at `25238e60c`, from th
 - `compiler.md`, "What the compiled path cannot compile yet": the `where` clause of a declaration's own header compiled and given no code, the contract still refused, rung G (`c324b841c`), row 701; the call that dies, row 867, `compiler_tests/XXXWhereVariableCallCompiled.test`.
 - `compiler.md`, "The checker's gaps": the code generator's refusal cut from the `where` constraint item and the `comprises` item, rung G, `compiler_tests/ComprisesWhereFunctionalMethodCompiled.fss`; the crash of row 812 kept.
 - `sources.md`: the lines of `NativeApp.java`, `StaticNativeApp.java` and `BuiltinPrimitiveRewriter.java` moved by rungs W and H, in the sections on climb batch 23; the test's name without `XXX`.
+
+## The post-batch review of climb batch 24, 2026-10-31
+
+From Part 3 of `explorations/reviews/batch-24-review.md`, items 4 to 7; settled by the coordinator's task; each checked on `main`.
+
+- `compiler.md`, "Natives": the stop for a local function or an object expression's method, `BuiltinPrimitiveRewriter.decl` and `header` (`:75-95`), row 865 (item 4).
+- `compiler.md`, "Natives": no transfer helper for `self` in a generic owner, `BuiltinPrimitiveRewriter.java:91`; the transfer helpers as identities, `nativeHelpers/simpleUnsignedIntArith.java:230-231`, `simpleUnsignedLongArith.java:227-228`, `simpleChar.java:57`, `:63`; the `intLT` binding accepted, `compile-ladder/rung-natives-hard/SKEPTIC.md:112-132`, F-308; the tests of the values on both paths, `compiler_tests/NativeHelperFamilyNN32Compiled.fss`, `tests/NativeHelperFamilyNN32Walk.fss` (item 5).
+- `interpreter.md`, "Natives": the check of `self` only at an instance for a generic type's dotted method, row 864, `tests/NativeHelperUncarriedSelfGenericObjectWalk.fss`; the declaring type read, not the value's, row 551, `compile-ladder/rung-natives-self/SKEPTIC.md:118` (item 6).
+- `interpreter.md`, "Natives": no carrier of `self` for `FlatString` and `JavaString`, `StaticNativeApp.java:88`, `tests/NativeHelperUncarriedSelfFlatStringWalk.fss`, PLAN item 63 (item 7).
