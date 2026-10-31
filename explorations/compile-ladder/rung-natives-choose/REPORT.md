@@ -4,7 +4,7 @@
 
 - problem: past its helper's safe-bound table, the compiled `CHOOSE` on `ZZ32`, `ZZ64` and `NN32` dies with a raw `ArrayIndexOutOfBoundsException` (row 521). Its two helpers share one static scratch array across parallel calls (row 855). Climb batch 23 measured `PowChooseLcmRungE` failing when `ZZ32`'s binding moved onto the unfixed helper: `explorations/fortress-gap-ledger.md:538`, `:548`; `explorations/coordinator/CLIMB-BATCH-23.md:43`
 - spec: `Specification/basic-lib/basic-integers.tex:607-611` (section "Integers", opr `CHOOSE`: the binomial coefficient, 0 where n < 0 or n > m), with `Specification/basic/operators/opr-overview.tex:155` ("For integer results, overflow throws an IntegerOverflow") and `:258-260`
-- precedent: the CHOOSE probe's patch of `simpleIntArith`, taken as written, and its form for `simpleLongArith`: `explorations/compile-ladder/plan-24/probes/choose.patch:76-111`. A helper raises as `simpleIntArith.intOverflowingAdd` does: `ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java:64`. A binding names its helper as climb batch 23's 19 `ZZ32` bindings do: `Library/FortressLibrary.fss:741-810`
+- precedent: the CHOOSE probe's patch of `simpleIntArith`, taken as written, and its form for `simpleLongArith`: `explorations/compile-ladder/plan-24/probes/choose.patch:76-107`. A helper raises as `simpleIntArith.intOverflowingAdd` does: `ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java:64`. A binding names its helper as climb batch 23's 19 `ZZ32` bindings do: `Library/FortressLibrary.fss:741-810`
 - deviation: the `ZZ64` tests compare through a function typed at `ZZ64` (`chk`), where the probe's `ZZ32` tests pass two numerals to `assert`, so that walk compares two `ZZ64` values: `ProjectFortress/tests/ChooseHelperZZ64Walk.fss:17`
 - deviation: `ChooseHelperZZ64Compiled` also asserts the compiled prelude's `NN32` `CHOOSE` past the table; that operator calls the `ZZ64` helper: `ProjectFortress/compiler_tests/ChooseHelperZZ64Compiled.fss:72-75`
 - deviation: the promoted test's first line, a pointer to a report, is now a one-line statement of what it checks: `ProjectFortress/compiler_tests/ChooseTableCompiledRungE.fss:1`
@@ -125,7 +125,7 @@ The whole suites on the final tree (section 7) passed these files again, in thei
 
 **The place.** The defects are in the two helpers under `nativeHelpers/`, which both paths run. Walk calls them through `StaticNativeApp` from this rung on. The compiled path calls them through the prelude's `import java` (`CompilerBuiltin.fss:44`, `:171`) and through the one library's rewrite (`compiler.md`, "Natives"). A fix in walk's glue classes, or in the prelude, would leave one path wrong. The maps have no row for `CHOOSE` (`facts-extract.sh 'map:spec-to-implementation.md#Feature by feature@CHOOSE'` prints 'NOT FOUND'). `modules-and-phases.md`, section B.12, names `StaticNativeApp` as the loader of a helper string.
 
-**The precedent.** The CHOOSE probe's patch repaired both defects in `simpleIntArith` (`plan-24/probes/choose.patch:76-111`). All of `nativeHelpers/*.java` holds six static arrays (`grep -n 'static[^(]*\[\]' *.java`):
+**The precedent.** The CHOOSE probe's patch repaired both defects in `simpleIntArith` (`plan-24/probes/choose.patch:76-107`). All of `nativeHelpers/*.java` holds six static arrays (`grep -n 'static[^(]*\[\]' *.java`):
 - two scratch arrays: `simpleIntArith.java:121` and `simpleLongArith.java:105`, at the base;
 - two Pascal tables, written only by the static initialisers;
 - two constant safe-bound tables.
