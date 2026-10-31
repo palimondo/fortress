@@ -53,9 +53,9 @@ end
 
 value object Float extends RR64
     getter asString(): String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$ToString")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
     getter asExprString(): String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$ToString")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
     (** returns true if the value is an IEEE NaN **)
     getter isNaN(): Boolean =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$isNaN")
@@ -77,19 +77,19 @@ value object Float extends RR64
     narrow(self): RR32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Narrow")
     opr |self| : RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Abs")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAbs")
     opr =(self, b:Float):Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Eq")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleEQ")
     opr =/=(self, b:Float):Boolean =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$NEq")
     opr <(self, b:Float):Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Less")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLT")
     opr <=(self, b:Float):Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$LessEq")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLE")
     opr >(self, b:Float):Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Greater")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleGT")
     opr >=(self, b:Float):Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$GreaterEq")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleGE")
     (** In case of NaN, %MIN% and %MAX% return a NaN, otherwise it respects the
         total order. **)
     opr MIN(self, b:Float):RR64 =
@@ -99,22 +99,22 @@ value object Float extends RR64
     opr MINMAX(self, b:Float): (RR64,RR64) = (self MIN b, self MAX b)
 
     opr -(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Negate")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNeg")
     opr +(self,b:Float):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Add")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
     opr -(self,b:Float):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Sub")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSub")
     opr DOT(self,b:Float):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Mul")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMul")
     opr TIMES(self,b:Float):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Mul")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMul")
     opr juxtaposition
          (self,b:Float):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Mul")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMul")
     opr /(self,b:Float):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Div")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDiv")
     opr SQRT(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Sqrt")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSQRT")
     opr PLUS_UP(self,b:Float):RR64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$AddUpNoNaN")
     opr MINUS_UP(self,b:Float):RR64 =
@@ -152,45 +152,45 @@ value object Float extends RR64
     opr IEEE_SLASH_DOWN(self,b:Float):RR64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$DivDown")
     opr ^(self, b:Float):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePow")
     opr ^(self, b:RR32):RR64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
     opr ^(self, b:RR64):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePow")
     opr ^(self, b:Number):RR64 = self^(asFloat(b))
     (** Shouldn't need this extra declaration. **)
     opr ^(self, b:AnyIntegral):RR64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
     sin(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Sin")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSin")
     cos(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Cos")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleCos")
     tan(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Tan")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleTan")
     asin(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$ASin")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleASin")
     acos(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$ACos")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleACos")
     atan(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$ATan")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleATan")
     atan2(self,x:Number):RR64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$ATan2")
     log(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Log")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLog")
     exp(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Exp")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleExp")
     floor(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Floor")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleFloor")
     opr |\self/| : ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$IFloor")
     ceiling(self):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Ceiling")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleCeiling")
     opr |/self\| : ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$ICeiling")
     truncate(self):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Truncate")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleTruncate")
     round(self):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Round")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRound")
 end
 
 object FloatLiteral extends RR64

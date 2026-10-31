@@ -641,6 +641,12 @@ The items for him that climb batch 23 (`coordinator/CLIMB-BATCH-23.md`, rungs C 
 - The record's points for his sight (`coordinator/CLIMB-BATCH-23.md`, section 2, "Points the batch lists for you, not questions"; `compile-ladder/climb-batch-23/RECORD.md`, "Points to report"), with walk's `ZZ32` `DIV` by zero raising `DivisionByZero` and the two quiet values that a program's own helper binding can now give (rows 846 and 847). Default: as landed. Review-queue item 316.
 - The team's test file to which rung C's skeptic added a method, outside the rung's list: `testForeignOneLibrary` in `ProjectFortress/src/com/sun/fortress/compiler/NamingCzarJUTest.java:40-72`, asserting fork 5's reading. Default: as landed. Review-queue item 317.
 
+### Climb batch 24, listed for his review
+
+The items for him that climb batch 24 (`coordinator/CLIMB-BATCH-24.md`, rungs F, Z, S, K, W, G and H, phase 4's second batch, the natives' next families with the code generator's header `where` clauses) left (`compile-ladder/climb-batch-24/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`"). One line for each point, opening with the ids it holds: what is asked or told, its default, and where its evidence is. Each is built at a default or needs none, and each is reversible.
+
+- F.worker.1 and F.skeptic.1 of climb batch 24's rung F (row 863, `CONTESTED`): does "For floating-point results, division by zero produces a NaN value according to the rules of IEEE 754." (`Specification/basic/operators/opr-overview.tex:167-168`, as in the Working Draft) mean NaN, or IEEE 754's infinity for a nonzero dividend, which both paths give and the team's `infinity : RR64 = 1.0 / 0.0` (`Library/Constants.fss:17`) and `ProjectFortress/tests/realArith.fss:78` rely on? Default: the row `CONTESTED`, neither of rung F's guards asserting a nonzero value divided by zero; if IEEE 754 governs, a later prose rung revises the sentence. Evidence: `compile-ladder/rung-natives-float/REPORT.md:114`.
+
 ### Not classified, to check
 
 Workflow measures of the post-batch reviews that were not built when filed, and whose status this plan's consolidation did not settle: the script was redesigned on 2026-10-08, and the lines they cite no longer resolve (`process-engineering/plan-map.md` section 5). Each is one line with its reason; the full text is in `PLAN-history.md`, "Work that can start now, with no decision".
