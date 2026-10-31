@@ -1,0 +1,22 @@
+file	line	owner	header	glue_before	helper_now
+FortressLibrary.fss	740	ZZ32	opr =(self, b:ZZ32):Boolean	Int$Eq	simpleIntArith.intEQ
+FortressLibrary.fss	742	ZZ32	opr <(self, b:ZZ32):Boolean	Int$Less	simpleIntArith.intLT
+FortressLibrary.fss	758	ZZ32	opr -(self):ZZ32	Int$Negate	simpleIntArith.intOverflowingNeg
+FortressLibrary.fss	760	ZZ32	opr DOTMINUS(self):ZZ32	Int$WrappingNegate	simpleIntArith.intWrappingNeg
+FortressLibrary.fss	762	ZZ32	opr +(self,b:ZZ32):ZZ32	Int$Add	simpleIntArith.intOverflowingAdd
+FortressLibrary.fss	764	ZZ32	opr DOTPLUS(self,b:ZZ32):ZZ32	Int$WrappingAdd	simpleIntArith.intWrappingAdd
+FortressLibrary.fss	766	ZZ32	opr -(self,b:ZZ32):ZZ32	Int$Sub	simpleIntArith.intOverflowingSub
+FortressLibrary.fss	768	ZZ32	opr DOTMINUS(self,b:ZZ32):ZZ32	Int$WrappingSub	simpleIntArith.intWrappingSub
+FortressLibrary.fss	770	ZZ32	opr DOT(self,b:ZZ32):ZZ32	Int$Mul	simpleIntArith.intOverflowingMul
+FortressLibrary.fss	772	ZZ32	opr TIMES(self,b:ZZ32):ZZ32	Int$Mul	simpleIntArith.intOverflowingMul
+FortressLibrary.fss	774	ZZ32	opr juxtaposition(self,b:ZZ32):ZZ32	Int$Mul	simpleIntArith.intOverflowingMul
+FortressLibrary.fss	776	ZZ32	opr DOTTIMES(self,b:ZZ32):ZZ32	Int$WrappingMul	simpleIntArith.intWrappingMul
+FortressLibrary.fss	778	ZZ32	opr DIV(self,b:ZZ32):ZZ32	Int$Div	simpleIntArith.intOverflowingDiv
+FortressLibrary.fss	790	ZZ32	opr BITAND(self,b:ZZ32):ZZ32	Int$BitAnd	simpleIntArith.intBitAnd
+FortressLibrary.fss	792	ZZ32	opr BITOR(self,b:ZZ32):ZZ32	Int$BitOr	simpleIntArith.intBitOr
+FortressLibrary.fss	794	ZZ32	opr BITXOR(self,b:ZZ32):ZZ32	Int$BitXor	simpleIntArith.intBitXor
+FortressLibrary.fss	800	ZZ32	opr BITNOT(self):ZZ32	Int$BitNot	simpleIntArith.intBitNot
+FortressLibrary.fss	805	ZZ32	widen(self):ZZ64	Int$ToLong	simpleLongArith.intToLong
+FortressLibrary.fss	809	ZZ32	unsigned(self):NN32	ZZ32$ToNN32	simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType
+FortressBuiltin.fss	370	Int	getter asString(): String	Int$ToString	simpleIntArith.intToString
+FortressBuiltin.fss	372	Int	getter asExprString(): String	Int$ToString	simpleIntArith.intToString

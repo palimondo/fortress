@@ -1,0 +1,64 @@
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -983,7 +983,7 @@
+     narrow(self):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$FromLong")
+     signed(self):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$ToLong")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType")
+     opr /(self, other:NN64):QQ = do a: ZZ = self; b: ZZ = other; a / b end
+     numerator(self): ZZ = do z: ZZ = self; z end
+ end
+@@ -4537,7 +4537,7 @@
+ random(a:Number):RR64 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Random")
+ randomZZ32(x:ZZ32):ZZ32 = narrow |\random(x)/|
+ 
+-char(a:ZZ32):Char = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$Chr")
++char(a:ZZ32):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
+ 
+ (* First the ones that do the work *)
+ print(a: String):() = do stdOut.write(a); stdOut.flush() end
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -377,9 +377,9 @@
+ 
+ value object Long extends ZZ64
+     getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToString")
+     getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToString")
+     asFloat(self): Float =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$AsFloat")
+ end
+@@ -467,7 +467,7 @@
+     partitionL(self):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Partition")
+     signed(self):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToInt")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")
+     opr /(self, other:NN32):QQ = do a: ZZ = self; b: ZZ = other; a / b end
+     numerator(self): ZZ = do z: ZZ = self; z end
+ end
+@@ -564,9 +564,9 @@
+ 
+ value object BigNum extends ZZ
+     getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toString")
+     getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toString")
+     asFloat(self): Float =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$AsFloat")
+ end
+@@ -614,7 +614,7 @@
+     getter asExprString(): String =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToExprString")
+     getter codePoint(): ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$CodePoint")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType")
+     opr |self| : ZZ32 = self.codePoint
+     opr =(self, other:Char): Boolean =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$Eq")

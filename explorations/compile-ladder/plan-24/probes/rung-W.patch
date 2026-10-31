@@ -1,0 +1,147 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionClosure.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionClosure.java
+index 7b2bd5545..081cb1648 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionClosure.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionClosure.java
+@@ -58,6 +58,18 @@ public class FunctionClosure extends NonPrimitive implements Scope {
+         instArgs = args;
+     }
+ 
++    /** A method of the type declarer: the native loader is told that type, the type of self. */
++    protected FunctionClosure(Environment e, Applicable fndef, boolean isFunctionalMethod, FType declarer) {
++        super(e);
++        def = NativeApp.checkAndLoadNative(fndef, isFunctionalMethod, declarer);
++    }
++
++    protected FunctionClosure(Environment e, Applicable fndef, List<FType> args, FType declarer) {
++        super(e);
++        def = NativeApp.checkAndLoadNative(fndef, false, declarer);
++        instArgs = args;
++    }
++
+     /*
+      * Just like the PartiallyDefinedMethod, but used a specific environemnt
+      */
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionalMethod.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionalMethod.java
+index 401df518d..59b823292 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionalMethod.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionalMethod.java
+@@ -33,7 +33,7 @@ public class FunctionalMethod extends FunctionClosure implements HasSelfParamete
+                             Applicable fndef,
+                             int self_parameter_index,
+                             FTraitOrObjectOrGeneric self_parameter_type) {
+-        super(e, fndef, true);
++        super(e, fndef, true, self_parameter_type);
+         selfParameterIndex = self_parameter_index;
+         selfParameterType = self_parameter_type;
+         mname = NodeUtil.nameAsMethod(getDef());
+@@ -45,7 +45,7 @@ public class FunctionalMethod extends FunctionClosure implements HasSelfParamete
+                                List<FType> static_args,
+                                int self_parameter_index,
+                                FTraitOrObjectOrGeneric self_parameter_type) {
+-        super(e, fndef, static_args);
++        super(e, fndef, static_args, self_parameter_type);
+         selfParameterIndex = self_parameter_index;
+         selfParameterType = self_parameter_type;
+         mname = NodeUtil.nameAsMethod(getDef());
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/MethodClosure.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/MethodClosure.java
+index 36f3a7a86..9c894f148 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/MethodClosure.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/MethodClosure.java
+@@ -33,14 +33,14 @@ public class MethodClosure extends FunctionClosure implements Method {
+     final FType definer;
+ 
+     public MethodClosure(Environment within, Applicable fndef, FType definer) {
+-        super(within, fndef);
++        super(within, fndef, false, definer);
+         this.definer = definer;
+         selfParameterIndex = NodeUtil.selfParameterIndex(getDef());
+ 
+     }
+ 
+     public MethodClosure(Environment within, Applicable fndef, FType definer, List<FType> args) {
+-        super(within, fndef, args);
++        super(within, fndef, args, definer);
+         this.definer = definer;
+         selfParameterIndex = NodeUtil.selfParameterIndex(getDef());
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java
+index 5394edc70..78ccbe6f2 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java
+@@ -162,6 +162,12 @@ public abstract class NativeApp implements Applicable {
+      * library hacker can sort out what is going on when things break.
+      */
+     public static Applicable checkAndLoadNative(Applicable defn, boolean isFunctionalMethod) {
++        return checkAndLoadNative(defn, isFunctionalMethod, null);
++    }
++
++    /** declarer: the type that declares the method, whose value is self, or null for a function. */
++    public static Applicable checkAndLoadNative(Applicable defn, boolean isFunctionalMethod,
++                                                com.sun.fortress.interpreter.evaluator.types.FType declarer) {
+         Option<Expr> optBody = NodeUtil.getBody(defn);
+         if (optBody.isNone()) return defn;
+         Expr body = optBody.unwrap();
+@@ -192,7 +198,7 @@ public abstract class NativeApp implements Applicable {
+             NativeApp res = cache.get(key);
+             if (res != null) return res;
+             if (StaticNativeApp.isHelperString(str)) {
+-                Object found = StaticNativeApp.find(str, defn);
++                Object found = StaticNativeApp.find(str, defn, declarer == null ? null : declarer.getName());
+                 if (found instanceof String) return bug(defn, (String) found);
+                 res = new StaticNativeApp((java.lang.reflect.Method) found, defn);
+                 res.init(defn, isFunctionalMethod);
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java
+index bddb2d61c..8f2649439 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java
+@@ -78,6 +78,17 @@ public class StaticNativeApp extends NativeMeth {
+             || c == boolean.class || c == String.class || c == BigInteger.class;
+     }
+ 
++    /** The Java type that carries self, a value of the declaring type named t, or null. */
++    static Class<?> javaForSelf(String t) {
++        if (t == null) return null;
++        if (t.equals("Int")) return int.class;
++        if (t.equals("Long") || t.equals("UnsignedLong")) return long.class;
++        if (t.equals("Float")) return double.class;
++        if (t.equals("BigNum")) return BigInteger.class;
++        Class<?> c = javaFor(t);
++        return c == void.class ? null : c;
++    }
++
+     /**
+      * The helper that the string s names for the declaration defn, or an error message.  Among the
+      * class's public static methods of that name, it takes the one whose parameters are the
+@@ -85,6 +96,11 @@ public class StaticNativeApp extends NativeMeth {
+      * in front for a dotted method's self, at the Java types that carry the declared types.
+      */
+     static Object find(String s, Applicable defn) {
++        return find(s, defn, null);
++    }
++
++    /** As find(s, defn), where the declaration is a method of the type named declarer, whose value is self. */
++    static Object find(String s, Applicable defn, String declarer) {
+         int dot = s.lastIndexOf('.');
+         String cls = s.substring(0, dot), name = s.substring(dot + 1);
+         Class<?> c;
+@@ -109,6 +125,12 @@ public class StaticNativeApp extends NativeMeth {
+             res = javaFor(declaredResult(defn));
+             if (res == null) return "Native helper " + s + ": no Java type carries the declared result type.";
+         }
++        Class<?> selfJava = null;
++        if (declarer != null) {
++            selfJava = javaForSelf(declarer);
++            if (selfJava == null)
++                return "Native helper " + s + ": no Java type carries " + declarer + ", the type of self.";
++        }
+         List<Method> fits = new ArrayList<Method>();
+         for (Method x : named) {
+             Class<?>[] xs = x.getParameterTypes();
+@@ -120,6 +142,7 @@ public class StaticNativeApp extends NativeMeth {
+                 if (!carried(xs[i])) ok = false;
+                 else if (i >= off && xs[i] != want.get(i - off)) ok = false;
+             }
++            if (ok && selfJava != null && off == 1 && xs[0] != selfJava) ok = false;
+             if (ok) fits.add(x);
+         }
+         if (fits.size() == 1) return fits.get(0);

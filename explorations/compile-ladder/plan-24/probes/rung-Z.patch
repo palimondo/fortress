@@ -1,0 +1,167 @@
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -829,9 +829,9 @@
+     opr |self| : ZZ64 = if self>=0 then self else -self end
+ 
+     opr =(self, b:ZZ64):Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Eq")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longEQ")
+     opr <(self, b:ZZ64):Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Less")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longLT")
+     (* Argh!  Due to method ambiguities with ZZ, these definitions must be given
+        explicitly here. *)
+     opr >(self, b:ZZ64):Boolean = b < self
+@@ -849,27 +849,27 @@
+     opr MAXNUM(self, other:ZZ64): ZZ64 = self MAX other
+ 
+     opr -(self):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Negate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingNeg")
+     opr DOTMINUS(self):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$WrappingNegate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longWrappingNeg")
+     opr +(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingAdd")
+     opr DOTPLUS(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$WrappingAdd")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longWrappingAdd")
+     opr -(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Sub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingSub")
+     opr DOTMINUS(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$WrappingSub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longWrappingSub")
+     opr DOT(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingMul")
+     opr TIMES(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingMul")
+     opr juxtaposition(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingMul")
+     opr DOTTIMES(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$WrappingMul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longWrappingMul")
+     opr DIV(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Div")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingDiv")
+     opr REM(self,b:ZZ64):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Rem")
+     opr MOD(self,b:ZZ64):ZZ64 =
+@@ -881,28 +881,28 @@
+     opr CHOOSE(self,b:ZZ64):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Choose")
+     opr BITAND(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$BitAnd")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitAnd")
+     opr BITOR(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$BitOr")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitOr")
+     opr BITXOR(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$BitXor")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitXor")
+     opr LSHIFT(self,b:AnyIntegral):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$LShift")
+     opr RSHIFT(self,b:AnyIntegral):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$RShift")
+     opr BITNOT(self):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$BitNot")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitNot")
+     opr ^(self, b:AnyIntegral):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Pow")
+     opr ^(self, b:IntLiteral):ZZ64 = self^(b.asZZ32)
+     partitionL(self):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Partition")
+     narrow(self):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$FromLong")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.longWrappingToInt")
+     unsigned(self):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToUnsignedLong")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType")
+     big(self):ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToBigNum")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.makeZZfromZZ64")
+     widen(self):ZZ64 = self
+     opr /(self, other:ZZ64):QQ = big(self) / big(other)
+     numerator(self): ZZ = do z: ZZ = self; z end
+@@ -1005,7 +1005,7 @@
+     numerator(self):ZZ = self
+     opr |self| : ZZ = if self>=0 then self else -self end
+     opr =(self, b: ZZ):Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Eq")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.eq")
+     opr <(self, other:ZZ): Boolean = self.cmp(other) < 0
+     opr <=(self, other:ZZ): Boolean = self.cmp(other) <= 0
+     opr >(self, other:ZZ): Boolean = self.cmp(other) > 0
+@@ -1021,25 +1021,25 @@
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Cmp")
+ 
+     opr -(self): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Negate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.neg")
+     opr DOTMINUS(self): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Negate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.neg")
+     opr +(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.add")
+     opr DOTPLUS(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.add")
+     opr -(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Sub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.sub")
+     opr DOTMINUS(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Sub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.sub")
+     opr DOT(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.mul")
+     opr juxtaposition(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.mul")
+     opr TIMES(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.mul")
+     opr DOTTIMES(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.mul")
+     opr /(self,other:ZZ):QQ = if other < 0 then (-self)/(-other) else
+         g = self GCD other
+         if g=0 then Ratio(0,0) else
+@@ -1049,7 +1049,7 @@
+         end
+     end
+     opr DIV(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Div")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.div")
+     opr REM(self, b: ZZ): ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Rem")
+     opr MOD(self, b: ZZ): ZZ =
+@@ -1061,11 +1061,11 @@
+     opr CHOOSE(self, b: ZZ): ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Choose")
+     opr BITAND(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$BitAnd")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.and")
+     opr BITOR(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$BitOr")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.oor")
+     opr BITXOR(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$BitXor")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.xor")
+     opr LSHIFT(self, b:AnyIntegral): ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$LShift")
+     opr RSHIFT(self, b:AnyIntegral): ZZ =
+@@ -1073,7 +1073,7 @@
+     shift(self, k:AnyIntegral): ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$LShift")
+     opr BITNOT(self): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$BitNot")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.not")
+     opr ^(self, b:AnyIntegral):ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Pow")
+     opr ^(self, b:IntLiteral):ZZ = self^(b.asZZ32)

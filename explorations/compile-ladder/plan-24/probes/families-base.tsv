@@ -1,0 +1,84 @@
+family	file:line	owner	header	class	glue	helper
+F	FortressBuiltin.fss:55	Float	getter asString(): String	A	Float$ToString	simpleDoubleArith.doubleToString
+F	FortressBuiltin.fss:57	Float	getter asExprString(): String	B	Float$ToString	simpleDoubleArith.doubleToString
+F	FortressBuiltin.fss:79	Float	opr |self| : RR64	A	Float$Abs	simpleDoubleArith.doubleAbs
+F	FortressBuiltin.fss:81	Float	opr =(self, b:Float):Boolean	A	Float$Eq	simpleDoubleArith.doubleEQ
+F	FortressBuiltin.fss:85	Float	opr <(self, b:Float):Boolean	A	Float$Less	simpleDoubleArith.doubleLT
+F	FortressBuiltin.fss:87	Float	opr <=(self, b:Float):Boolean	A	Float$LessEq	simpleDoubleArith.doubleLE
+F	FortressBuiltin.fss:89	Float	opr >(self, b:Float):Boolean	A	Float$Greater	simpleDoubleArith.doubleGT
+F	FortressBuiltin.fss:91	Float	opr >=(self, b:Float):Boolean	A	Float$GreaterEq	simpleDoubleArith.doubleGE
+F	FortressBuiltin.fss:101	Float	opr -(self):RR64	A	Float$Negate	simpleDoubleArith.doubleNeg
+F	FortressBuiltin.fss:103	Float	opr +(self,b:Float):RR64	A	Float$Add	simpleDoubleArith.doubleAdd
+F	FortressBuiltin.fss:105	Float	opr -(self,b:Float):RR64	A	Float$Sub	simpleDoubleArith.doubleSub
+F	FortressBuiltin.fss:107	Float	opr DOT(self,b:Float):RR64	A	Float$Mul	simpleDoubleArith.doubleMul
+F	FortressBuiltin.fss:109	Float	opr TIMES(self,b:Float):RR64	B	Float$Mul	simpleDoubleArith.doubleMul
+F	FortressBuiltin.fss:111	Float	opr juxtaposition (self,b:Float):RR64	A	Float$Mul	simpleDoubleArith.doubleMul
+F	FortressBuiltin.fss:114	Float	opr /(self,b:Float):RR64	A	Float$Div	simpleDoubleArith.doubleDiv
+F	FortressBuiltin.fss:116	Float	opr SQRT(self):RR64	A	Float$Sqrt	simpleDoubleArith.doubleSQRT
+F	FortressBuiltin.fss:154	Float	opr ^(self, b:Float):RR64	A	Float$Pow	simpleDoubleArith.doublePow
+F	FortressBuiltin.fss:158	Float	opr ^(self, b:RR64):RR64	A	Float$Pow	simpleDoubleArith.doublePow
+F	FortressBuiltin.fss:164	Float	sin(self):RR64	A	Float$Sin	simpleDoubleArith.doubleSin
+F	FortressBuiltin.fss:166	Float	cos(self):RR64	A	Float$Cos	simpleDoubleArith.doubleCos
+F	FortressBuiltin.fss:168	Float	tan(self):RR64	A	Float$Tan	simpleDoubleArith.doubleTan
+F	FortressBuiltin.fss:170	Float	asin(self):RR64	A	Float$ASin	simpleDoubleArith.doubleASin
+F	FortressBuiltin.fss:172	Float	acos(self):RR64	A	Float$ACos	simpleDoubleArith.doubleACos
+F	FortressBuiltin.fss:174	Float	atan(self):RR64	A	Float$ATan	simpleDoubleArith.doubleATan
+F	FortressBuiltin.fss:178	Float	log(self):RR64	A	Float$Log	simpleDoubleArith.doubleLog
+F	FortressBuiltin.fss:180	Float	exp(self):RR64	A	Float$Exp	simpleDoubleArith.doubleExp
+F	FortressBuiltin.fss:182	Float	floor(self):RR64	A	Float$Floor	simpleDoubleArith.doubleFloor
+F	FortressBuiltin.fss:186	Float	ceiling(self):RR64	A	Float$Ceiling	simpleDoubleArith.doubleCeiling
+F	FortressBuiltin.fss:190	Float	truncate(self):ZZ64	A	Float$Truncate	simpleDoubleArith.doubleTruncate
+F	FortressBuiltin.fss:192	Float	round(self):ZZ64	A	Float$Round	simpleDoubleArith.doubleRound
+Z	FortressLibrary.fss:831	ZZ64	opr =(self, b:ZZ64):Boolean	A	Long$Eq	simpleLongArith.longEQ
+Z	FortressLibrary.fss:833	ZZ64	opr <(self, b:ZZ64):Boolean	A	Long$Less	simpleLongArith.longLT
+Z	FortressLibrary.fss:851	ZZ64	opr -(self):ZZ64	A	Long$Negate	simpleLongArith.longOverflowingNeg
+Z	FortressLibrary.fss:853	ZZ64	opr DOTMINUS(self):ZZ64	B	Long$WrappingNegate	simpleLongArith.longWrappingNeg
+Z	FortressLibrary.fss:855	ZZ64	opr +(self,b:ZZ64):ZZ64	A	Long$Add	simpleLongArith.longOverflowingAdd
+Z	FortressLibrary.fss:857	ZZ64	opr DOTPLUS(self,b:ZZ64):ZZ64	B	Long$WrappingAdd	simpleLongArith.longWrappingAdd
+Z	FortressLibrary.fss:859	ZZ64	opr -(self,b:ZZ64):ZZ64	A	Long$Sub	simpleLongArith.longOverflowingSub
+Z	FortressLibrary.fss:861	ZZ64	opr DOTMINUS(self,b:ZZ64):ZZ64	B	Long$WrappingSub	simpleLongArith.longWrappingSub
+Z	FortressLibrary.fss:863	ZZ64	opr DOT(self,b:ZZ64):ZZ64	A	Long$Mul	simpleLongArith.longOverflowingMul
+Z	FortressLibrary.fss:865	ZZ64	opr TIMES(self,b:ZZ64):ZZ64	B	Long$Mul	simpleLongArith.longOverflowingMul
+Z	FortressLibrary.fss:867	ZZ64	opr juxtaposition(self,b:ZZ64):ZZ64	A	Long$Mul	simpleLongArith.longOverflowingMul
+Z	FortressLibrary.fss:869	ZZ64	opr DOTTIMES(self,b:ZZ64):ZZ64	B	Long$WrappingMul	simpleLongArith.longWrappingMul
+Z	FortressLibrary.fss:871	ZZ64	opr DIV(self,b:ZZ64):ZZ64	A	Long$Div	simpleLongArith.longOverflowingDiv
+Z	FortressLibrary.fss:883	ZZ64	opr BITAND(self,b:ZZ64):ZZ64	A	Long$BitAnd	simpleLongArith.longBitAnd
+Z	FortressLibrary.fss:885	ZZ64	opr BITOR(self,b:ZZ64):ZZ64	A	Long$BitOr	simpleLongArith.longBitOr
+Z	FortressLibrary.fss:887	ZZ64	opr BITXOR(self,b:ZZ64):ZZ64	A	Long$BitXor	simpleLongArith.longBitXor
+Z	FortressLibrary.fss:893	ZZ64	opr BITNOT(self):ZZ64	A	Long$BitNot	simpleLongArith.longBitNot
+Z	FortressLibrary.fss:900	ZZ64	narrow(self):ZZ32	A	Long$FromLong	simpleIntArith.longWrappingToInt
+Z	FortressLibrary.fss:902	ZZ64	unsigned(self):NN64	A	Long$ToUnsignedLong	simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType
+Z	FortressLibrary.fss:904	ZZ64	big(self):ZZ	B	Long$ToBigNum	simpleArbitraryPrecisionArith.makeZZfromZZ64
+Z	FortressLibrary.fss:1007	ZZ	opr =(self, b: ZZ):Boolean	A	BigNum$Eq	simpleArbitraryPrecisionArith.eq
+Z	FortressLibrary.fss:1023	ZZ	opr -(self): ZZ	A	BigNum$Negate	simpleArbitraryPrecisionArith.neg
+Z	FortressLibrary.fss:1025	ZZ	opr DOTMINUS(self): ZZ	A	BigNum$Negate	simpleArbitraryPrecisionArith.neg
+Z	FortressLibrary.fss:1027	ZZ	opr +(self, b: ZZ): ZZ	A	BigNum$Add	simpleArbitraryPrecisionArith.add
+Z	FortressLibrary.fss:1029	ZZ	opr DOTPLUS(self, b: ZZ): ZZ	A	BigNum$Add	simpleArbitraryPrecisionArith.add
+Z	FortressLibrary.fss:1031	ZZ	opr -(self, b: ZZ): ZZ	A	BigNum$Sub	simpleArbitraryPrecisionArith.sub
+Z	FortressLibrary.fss:1033	ZZ	opr DOTMINUS(self, b: ZZ): ZZ	A	BigNum$Sub	simpleArbitraryPrecisionArith.sub
+Z	FortressLibrary.fss:1035	ZZ	opr DOT(self, b: ZZ): ZZ	A	BigNum$Mul	simpleArbitraryPrecisionArith.mul
+Z	FortressLibrary.fss:1037	ZZ	opr juxtaposition(self, b: ZZ): ZZ	A	BigNum$Mul	simpleArbitraryPrecisionArith.mul
+Z	FortressLibrary.fss:1039	ZZ	opr TIMES(self, b: ZZ): ZZ	B	BigNum$Mul	simpleArbitraryPrecisionArith.mul
+Z	FortressLibrary.fss:1041	ZZ	opr DOTTIMES(self, b: ZZ): ZZ	B	BigNum$Mul	simpleArbitraryPrecisionArith.mul
+Z	FortressLibrary.fss:1051	ZZ	opr DIV(self, b: ZZ): ZZ	A	BigNum$Div	simpleArbitraryPrecisionArith.div
+Z	FortressLibrary.fss:1063	ZZ	opr BITAND(self, b: ZZ): ZZ	A	BigNum$BitAnd	simpleArbitraryPrecisionArith.and
+Z	FortressLibrary.fss:1065	ZZ	opr BITOR(self, b: ZZ): ZZ	A	BigNum$BitOr	simpleArbitraryPrecisionArith.oor
+Z	FortressLibrary.fss:1067	ZZ	opr BITXOR(self, b: ZZ): ZZ	A	BigNum$BitXor	simpleArbitraryPrecisionArith.xor
+Z	FortressLibrary.fss:1075	ZZ	opr BITNOT(self): ZZ	A	BigNum$BitNot	simpleArbitraryPrecisionArith.not
+S	FortressBuiltin.fss:379	Long	getter asString(): String	A	Long$ToString	simpleLongArith.longToString
+S	FortressBuiltin.fss:381	Long	getter asExprString(): String	B	Long$ToString	simpleLongArith.longToString
+S	FortressBuiltin.fss:469	NN32	signed(self):ZZ32	A	NN32$ToInt	simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType
+S	FortressBuiltin.fss:566	BigNum	getter asString(): String	A	BigNum$ToString	simpleArbitraryPrecisionArith.toString
+S	FortressBuiltin.fss:568	BigNum	getter asExprString(): String	B	BigNum$ToString	simpleArbitraryPrecisionArith.toString
+S	FortressBuiltin.fss:616	Char	getter codePoint(): ZZ32	A	Char$CodePoint	simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType
+S	FortressLibrary.fss:985	NN64	signed(self):ZZ64	A	UnsignedLong$ToLong	simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType
+S	FortressLibrary.fss:4540	(top)	char(a:ZZ32):Char	B	Char$Chr	simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType
+out:CHOOSE, row 521	FortressLibrary.fss:788	ZZ32	opr CHOOSE(self,b:ZZ32):ZZ32	A	Int$Choose	simpleIntArith.intOverflowingChoose
+out:CHOOSE, row 521	FortressLibrary.fss:881	ZZ64	opr CHOOSE(self,b:ZZ64):ZZ64	A	Long$Choose	simpleLongArith.longOverflowingChoose
+out:FlatString, outside the scope	FlatString.fss:35	FlatString	getter size() : ZZ32	B	FlatString$Size	simpleConcatenate.nativeStrlen
+out:FlatString, outside the scope	FlatString.fss:54	FlatString	opr |self| : ZZ32	A	FlatString$Size	simpleConcatenate.nativeStrlen
+out:FlatString, outside the scope	FlatString.fss:85	FlatString	cmp(other:FlatString): ZZ32	B	FlatString$Cmp	stringOps.compareTo
+out:FlatString, outside the scope	FlatString.fss:89	FlatString	javaSubstr(lo:ZZ32,hi:ZZ32): String	B	FlatString$Substr	stringOps.substring
+out:FlatString, outside the scope	FlatString.fss:94	FlatString	flatConcat(self, b:FlatString):String	B	FlatString$Concat	simpleConcatenate.nativeConcatenate
+out:over String, row 846	FortressLibrary.fss:4632	(top)	printlnWithThread(a:String):()	B	StringPrim$PrintlnWithThread	simplePrintln.nativePrintlnWithThreadInfo
+out:over String, row 846	System.fss:45	(top)	getProperty(name:String, defaultValue:String):String	A	StringPrim$GetProperty	systemOps.getProperty
