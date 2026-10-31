@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","isBuiltIn":true,"description":"preserve","workflowPhase":"Check","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus"}
