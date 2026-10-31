@@ -207,3 +207,9 @@ Drafted on the branch `skill/coordinator-held-rules`. The curator's words are in
 - `record.md`, "The consolidation tools", the clarity workflow's job of applying a review's findings: the curator in chat, 2026-10-28, 12:24; the `findings.md` input from `explorations/coordinator/tools/record-clarity/README.md`.
 - `skill-rewrite.md`, a skill as few rules that change what the model would do by itself: the curator in chat, 2026-10-28, 07:26.
 - Three proposals of the coordinator, not the curator's: `batch.md`, "The checker count and the distance", the distance in every batch until the switch-over, in place of "in phase 3", from climb batch 23's default (review-queue item 306); `batch.md`, "While it runs", `main` pushed from no tree but the main tree, in place of "from any tree", the coordinator's proposal of 2026-10-29, 22:1x; `delegating.md`, "Interrupts and process stops", a killed gather resumed on the tree as it left it, in place of a stash, from `recoverGather` in `explorations/coordinator/climb-batch-workflow.js`.
+
+## Changes drafted on 2026-10-31, for the curator's yes
+
+Drafted on the branch `skill/coordinator-held-rules`. The curator's words are held in `explorations/coordinator/HELD.md`, its section of 2026-10-31.
+
+- `record.md`, "The pass", the pass at a landing brings each POSITIONS sentence that the tree made false in line with the tree, without the curator's approval, and keeps his decision, its reason and its meaning; `batch.md`, "The landing", step 2, that pass, each changed sentence named in the report of the landing, and the gather's item taken up by it: the curator in chat, 2026-10-31, about 08:1x UTC, "you don't need my approval to bring the record in line with reality." The gather's default for such a sentence is from its items of climb batches 22c and 23 (review-queue items 296 and 312).

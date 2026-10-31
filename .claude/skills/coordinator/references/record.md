@@ -84,7 +84,10 @@ The pass owns each entry's final wording. A rung writes its findings as draft en
 4. Cut any plan or status from each entry (above). If the cut text named a PLAN item or a review-queue item, check that the item names the entry.
 5. Report each entry over 600 characters, with the question that keeps its extra sentence.
 
-Run the same pass on POSITIONS at each landing, and when the curator replaces a decision.
+Run the same pass on POSITIONS at each landing, and when the curator replaces a decision. At a landing, the pass brings each POSITIONS sentence that the landed tree made false in line with the tree. This needs no approval of the curator:
+
+- If a sentence states what the tree does, and the landing changed that, rewrite the sentence to state what the tree does now.
+- Keep the curator's decision, its reason and its meaning as they stand. If the landing goes against one of them, put that change to the curator.
 
 ## A consolidation
 
