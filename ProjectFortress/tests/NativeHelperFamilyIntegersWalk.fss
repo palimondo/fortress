@@ -1,0 +1,124 @@
+(* ZZ64's and ZZ's operators bound to nativeHelpers keep their values and their IntegerOverflow under walk. *)
+component NativeHelperFamilyIntegersWalk
+export Executable
+
+overflows(f: () -> ZZ64): Boolean =
+  try
+    f()
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+run():() = do
+  mx: ZZ64 = 9223372036854775807
+  mn: ZZ64 = -9223372036854775807 - 1
+  m1: ZZ64 = -1
+  o1: ZZ64 = 1
+  s2: ZZ64 = 2
+  s6: ZZ64 = 6
+  s7: ZZ64 = 7
+  t10: ZZ64 = 10
+  t12: ZZ64 = 12
+  r: ZZ64 = 3037000499
+  t32: ZZ64 = 4294967296
+  assert(s7 = s7, true, "ZZ64 =")
+  assert(s7 = s6, false, "ZZ64 = unequal")
+  assert(mn = mx, false, "ZZ64 = at the bounds")
+  assert(s6 < s7, true, "ZZ64 <")
+  assert(s7 < s6, false, "ZZ64 < not")
+  assert(s7 < s7, false, "ZZ64 < equal")
+  assert(mn < mx, true, "ZZ64 < at the bounds")
+  assert((-s7).asString, "-7", "ZZ64 unary -")
+  assert((-mx).asString, "-9223372036854775807", "ZZ64 unary - of the maximum")
+  assert(overflows(fn () => -mn), "ZZ64 unary - of the minimum overflows")
+  assert((DOTMINUS s7).asString, "-7", "ZZ64 unary DOTMINUS")
+  assert((DOTMINUS mn).asString, "-9223372036854775808", "ZZ64 unary DOTMINUS wraps")
+  assert((s7 + s6).asString, "13", "ZZ64 +")
+  assert((mx - o1 + o1).asString, "9223372036854775807", "ZZ64 + to the maximum")
+  assert(overflows(fn () => mx + o1), "ZZ64 + overflows")
+  assert(overflows(fn () => mn + m1), "ZZ64 + overflows below")
+  assert((s7 DOTPLUS s6).asString, "13", "ZZ64 DOTPLUS")
+  assert((mx DOTPLUS o1).asString, "-9223372036854775808", "ZZ64 DOTPLUS wraps")
+  assert((s6 - s7).asString, "-1", "ZZ64 -")
+  assert((mn + o1 - o1).asString, "-9223372036854775808", "ZZ64 - to the minimum")
+  assert(overflows(fn () => mn - o1), "ZZ64 - overflows")
+  assert(overflows(fn () => mx - m1), "ZZ64 - overflows above")
+  assert((s6 DOTMINUS s7).asString, "-1", "ZZ64 DOTMINUS")
+  assert((mn DOTMINUS o1).asString, "9223372036854775807", "ZZ64 DOTMINUS wraps")
+  assert((r DOT r).asString, "9223372030926249001", "ZZ64 DOT")
+  assert(overflows(fn () => t32 DOT t32), "ZZ64 DOT overflows")
+  assert(overflows(fn () => mn DOT m1), "ZZ64 DOT of the minimum by -1 overflows")
+  assert((s7 TIMES s6).asString, "42", "ZZ64 TIMES")
+  assert(overflows(fn () => t32 TIMES t32), "ZZ64 TIMES overflows")
+  assert((s7 s6).asString, "42", "ZZ64 juxtaposition")
+  assert(overflows(fn () => t32 t32), "ZZ64 juxtaposition overflows")
+  assert((s7 DOTTIMES s6).asString, "42", "ZZ64 DOTTIMES")
+  assert((t32 DOTTIMES t32).asString, "0", "ZZ64 DOTTIMES wraps")
+  assert((mx DOTTIMES s2).asString, "-2", "ZZ64 DOTTIMES wraps the maximum")
+  assert((s7 DIV s2).asString, "3", "ZZ64 DIV")
+  assert(((-s7) DIV s2).asString, "-3", "ZZ64 DIV rounds toward zero")
+  assert((mn DIV s2).asString, "-4611686018427387904", "ZZ64 DIV of the minimum")
+  assert(overflows(fn () => mn DIV m1), "ZZ64 DIV of the minimum by -1 overflows")
+  assert((t12 BITAND t10).asString, "8", "ZZ64 BITAND")
+  assert((mx BITAND mn).asString, "0", "ZZ64 BITAND at the bounds")
+  assert((t12 BITOR t10).asString, "14", "ZZ64 BITOR")
+  assert((mx BITOR mn).asString, "-1", "ZZ64 BITOR at the bounds")
+  assert((t12 BITXOR t10).asString, "6", "ZZ64 BITXOR")
+  assert((mx BITXOR m1).asString, "-9223372036854775808", "ZZ64 BITXOR at the bounds")
+  assert((BITNOT t12).asString, "-13", "ZZ64 BITNOT")
+  assert((BITNOT mx).asString, "-9223372036854775808", "ZZ64 BITNOT of the maximum")
+  assert(narrow(s7), 7, "ZZ64 narrow")
+  assert(narrow(-s7), -7, "ZZ64 narrow of a negative")
+  assert(narrow(t32 + s7), 7, "ZZ64 narrow keeps the low 32 bits; basic-integers.tex, section \"Integers\"")
+  assert(narrow(mx), -1, "ZZ64 narrow of the maximum keeps the low 32 bits")
+  assert(narrow(mn), 0, "ZZ64 narrow of the minimum keeps the low 32 bits")
+  assert(unsigned(s7).asString, "7", "ZZ64 unsigned")
+  assert(unsigned(mx).asString, "9223372036854775807", "ZZ64 unsigned of the maximum")
+  assert(big(mx).asString, "9223372036854775807", "ZZ64 big of the maximum")
+  assert(big(mn).asString, "-9223372036854775808", "ZZ64 big of the minimum")
+  zm: ZZ = big(mx)
+  zn: ZZ = big(mn)
+  z1: ZZ = big(o1)
+  z2: ZZ = big(s2)
+  z6: ZZ = big(s6)
+  z7: ZZ = big(s7)
+  z10: ZZ = big(t10)
+  z12: ZZ = big(t12)
+  p64: ZZ = 18446744073709551616
+  h: ZZ = 1934791870947204798109283471902037419
+  assert(z7 = z7, true, "ZZ =")
+  assert(z7 = z6, false, "ZZ = unequal")
+  assert(h = h, true, "ZZ = beyond ZZ64")
+  assert(h = p64, false, "ZZ = unequal beyond ZZ64")
+  assert((-z7).asString, "-7", "ZZ unary -")
+  assert((-h).asString, "-1934791870947204798109283471902037419", "ZZ unary - beyond ZZ64")
+  assert((-zn).asString, "9223372036854775808", "ZZ unary - of ZZ64's minimum")
+  assert((DOTMINUS z7).asString, "-7", "ZZ unary DOTMINUS")
+  assert((DOTMINUS zn).asString, "9223372036854775808", "ZZ unary DOTMINUS does not wrap")
+  assert((z7 + z6).asString, "13", "ZZ +")
+  assert((zm + z1).asString, "9223372036854775808", "ZZ + past ZZ64's maximum")
+  assert((h + z7).asString, "1934791870947204798109283471902037426", "ZZ + beyond ZZ64")
+  assert((zm DOTPLUS z1).asString, "9223372036854775808", "ZZ DOTPLUS does not wrap")
+  assert((z6 - z7).asString, "-1", "ZZ -")
+  assert((zn - z1).asString, "-9223372036854775809", "ZZ - past ZZ64's minimum")
+  assert((zn DOTMINUS z1).asString, "-9223372036854775809", "ZZ DOTMINUS does not wrap")
+  assert((p64 DOT p64).asString, "340282366920938463463374607431768211456", "ZZ DOT")
+  assert((z7 z6).asString, "42", "ZZ juxtaposition")
+  assert((p64 p64).asString, "340282366920938463463374607431768211456", "ZZ juxtaposition beyond ZZ64")
+  assert((zm TIMES zm).asString, "85070591730234615847396907784232501249", "ZZ TIMES")
+  assert((p64 DOTTIMES p64).asString, "340282366920938463463374607431768211456", "ZZ DOTTIMES does not wrap")
+  assert((z7 DIV z2).asString, "3", "ZZ DIV")
+  assert(((-z7) DIV z2).asString, "-3", "ZZ DIV rounds toward zero")
+  assert((h DIV p64).asString, "104885277489412658", "ZZ DIV beyond ZZ64")
+  assert((z12 BITAND z10).asString, "8", "ZZ BITAND")
+  assert((h BITAND (p64 - z1)).asString, "10759386263527282091", "ZZ BITAND beyond ZZ64")
+  assert((z12 BITOR z10).asString, "14", "ZZ BITOR")
+  assert((h BITOR z12).asString, "1934791870947204798109283471902037423", "ZZ BITOR beyond ZZ64")
+  assert((z12 BITXOR z10).asString, "6", "ZZ BITXOR")
+  assert((h BITXOR z1).asString, "1934791870947204798109283471902037418", "ZZ BITXOR beyond ZZ64")
+  assert((BITNOT z12).asString, "-13", "ZZ BITNOT")
+  assert((BITNOT h).asString, "-1934791870947204798109283471902037420", "ZZ BITNOT beyond ZZ64")
+end
+
+end

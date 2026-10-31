@@ -1,0 +1,17 @@
+(* ZZ64's REM by zero throws DivisionByZero, which a catch sees; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
+component XXXZZ64RemainderByZeroWalk
+export Executable
+
+dividesByZero(f: () -> ZZ64): Boolean =
+  try
+    f()
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+run():() = do
+  assert(dividesByZero(fn () => widen(8) REM widen(0)), "ZZ64 8 REM 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+end
+
+end
