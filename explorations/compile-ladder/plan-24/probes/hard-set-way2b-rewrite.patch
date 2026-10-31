@@ -1,0 +1,295 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index a243d75ff..983984b3a 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -936,7 +936,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     opr DOTMINUS(self):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingNegate")
+     opr +(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAdd")
+     opr DOTPLUS(self,b:NN64):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingAdd")
+     opr -(self,b:NN64):NN64 =
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 58bf49e59..f20326365 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -420,7 +420,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     opr DOTMINUS(self):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingNegate")
+     opr +(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAdd")
+     opr DOTPLUS(self,b:NN32):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingAdd")
+     opr -(self,b:NN32):NN32 =
+@@ -635,7 +635,7 @@ value object Char extends { StandardTotalOrder[\Char\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GreaterSim")
+ 
+     javaDigit(self, radix:ZZ32): ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$JavaDigit")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charJavaDigit")
+ 
+     digit(self): Maybe[\ZZ32\] = do
+         x:ZZ32 = myJavaDigit(self,10)
+@@ -719,7 +719,7 @@ value object Char extends { StandardTotalOrder[\Char\] }
+     toTitleCase(self): Char =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToTitleCase")
+     toUpperCase(self): Char =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToUpperCase")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
+ end
+ 
+ object Thread[\T\] (fcn:()->T)
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java b/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
+index 52ade2259..f04f75094 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
+@@ -48,7 +48,7 @@ public final class BuiltinPrimitiveRewriter {
+         Component c = (Component) cu;
+         Aliases aliases = new Aliases();
+         List<Decl> decls = new ArrayList<Decl>();
+-        for (Decl d : c.getDecls()) decls.add(decl(d, false, aliases));
++        for (Decl d : c.getDecls()) decls.add(decl(d, null, aliases));
+         if (aliases.isEmpty()) return cu;
+         List<Import> imports = new ArrayList<Import>(c.getImports());
+         Span span = NodeUtil.getSpan(c);
+@@ -63,8 +63,9 @@ public final class BuiltinPrimitiveRewriter {
+         return new Component(c.getInfo(), c.getName(), imports, decls, c.getComprises(), c.is_native(), c.getExports());
+     }
+ 
+-    private static Decl decl(Decl d, boolean inType, Aliases aliases) {
+-        if (d instanceof FnDecl) return fn((FnDecl) d, inType, aliases);
++    /** owner: the simple name of the enclosing trait or object, "" for a generic one, null at the top level */
++    private static Decl decl(Decl d, String owner, Aliases aliases) {
++        if (d instanceof FnDecl) return fn((FnDecl) d, owner, aliases);
+         if (d instanceof TraitDecl) {
+             TraitDecl t = (TraitDecl) d;
+             return new TraitDecl(t.getInfo(), header(t.getHeader(), aliases), t.getSelfType(),
+@@ -79,12 +80,14 @@ public final class BuiltinPrimitiveRewriter {
+ 
+     private static TraitTypeHeader header(TraitTypeHeader h, Aliases aliases) {
+         List<Decl> ds = new ArrayList<Decl>();
+-        for (Decl d : h.getDecls()) ds.add(decl(d, true, aliases));
++        String owner = h.getStaticParams().isEmpty() ? NodeUtil.nameString(h.getName()) : "";
++        for (Decl d : h.getDecls()) ds.add(decl(d, owner, aliases));
+         return new TraitTypeHeader(h.getStaticParams(), h.getMods(), h.getName(), h.getWhereClause(),
+                                    h.getThrowsClause(), h.getContract(), h.getExtendsClause(), h.getParams(), ds);
+     }
+ 
+-    private static FnDecl fn(FnDecl f, boolean inType, Aliases aliases) {
++    private static FnDecl fn(FnDecl f, String owner, Aliases aliases) {
++        boolean inType = owner != null;
+         if (f.getBody().isNone() || !(f.getBody().unwrap() instanceof Juxt)) return f;
+         Juxt body = (Juxt) f.getBody().unwrap();
+         List<Expr> es = body.getExprs();
+@@ -100,28 +103,100 @@ public final class BuiltinPrimitiveRewriter {
+ 
+         Span span = NodeUtil.getSpan(body);
+         List<Expr> args = new ArrayList<Expr>();
++        List<String> declared = new ArrayList<String>();   // each argument's declared type, by simple name
+         boolean hasSelf = false;
+         for (Param p : NodeUtil.getParams(f)) {
+             if (p.getVarargsType().isSome()) return f;
+             if (p.getName().getText().equals("self")) hasSelf = true;
+-            else args.add(ExprFactory.makeVarRef(span, p.getName().getText()));
++            else {
++                args.add(ExprFactory.makeVarRef(span, p.getName().getText()));
++                declared.add(simpleName(p.getIdType().isSome() ? p.getIdType().unwrap() : null));
++            }
++        }
++        if (inType || hasSelf) {
++            args.add(0, ExprFactory.makeVarRef(span, "self"));
++            declared.add(0, owner == null ? null : owner);
+         }
+-        if (inType || hasSelf) args.add(0, ExprFactory.makeVarRef(span, "self"));
+ 
+         String pkg = s.substring(0, k), item = s.substring(k + 1);   // item = Class.method
+-        LinkedHashMap<String, String> inPkg = aliases.get(pkg);
+-        if (inPkg == null) aliases.put(pkg, inPkg = new LinkedHashMap<String, String>());
+-        String alias = inPkg.get(item);
+-        if (alias == null) inPkg.put(item, alias = "builtinPrimitive_" + item.replace('.', '_'));
++        String alias = alias(aliases, pkg, item);
++
++        /* The hard set's way 2b: where the declaration gives a position a type that the helper's Java type
++         * carries but the foreign-type table reads otherwise (an int as NN32 or Char, a long as NN64), the
++         * call goes through the team's transfer helpers, whose special names the table reads (NamingCzar). */
++        Method jm = soleMethod(s.substring(0, m), s.substring(m + 1), args.size());
++        String helperName = s.substring(m + 1);
++        if (jm != null) {
++            Class<?>[] pts = jm.getParameterTypes();
++            for (int i = 0; i < args.size(); i++) {
++                String t = transfer(declared.get(i), pts[i], helperName, false);
++                if (t != null)
++                    args.set(i, ExprFactory.makeTightJuxt(span, ExprFactory.makeVarRef(span, alias(aliases, HELPERS.substring(0, HELPERS.length() - 1), t)),
++                                                          ExprFactory.makeInParentheses(args.get(i))));
++            }
++        }
+ 
+         Expr arg = args.isEmpty() ? ExprFactory.makeVoidLiteralExpr(span)
+                  : args.size() == 1 ? ExprFactory.makeInParentheses(args.get(0))
+                  : ExprFactory.makeTupleExpr(span, args);
+         Expr call = ExprFactory.makeTightJuxt(body, Arrays.asList(ExprFactory.makeVarRef(span, alias), arg));
++        if (jm != null && f.getHeader().getReturnType().isSome()) {
++            String t = transfer(simpleName(f.getHeader().getReturnType().unwrap()), jm.getReturnType(), helperName, true);
++            if (t != null)
++                call = ExprFactory.makeTightJuxt(span, ExprFactory.makeVarRef(span, alias(aliases, HELPERS.substring(0, HELPERS.length() - 1), t)),
++                                                 ExprFactory.makeInParentheses(call));
++        }
+         return new FnDecl(f.getInfo(), f.getHeader(), f.getUnambiguousName(), Option.some(call),
+                           f.getImplementsUnambiguousName());
+     }
+ 
++    private static String alias(Aliases aliases, String pkg, String item) {
++        LinkedHashMap<String, String> inPkg = aliases.get(pkg);
++        if (inPkg == null) aliases.put(pkg, inPkg = new LinkedHashMap<String, String>());
++        String alias = inPkg.get(item);
++        if (alias == null) inPkg.put(item, alias = "builtinPrimitive_" + item.replace('.', '_'));
++        return alias;
++    }
++
++    private static String simpleName(Object t) {
++        if (t instanceof TraitType && ((TraitType) t).getArgs().isEmpty()) return ((TraitType) t).getName().getText();
++        if (t instanceof VarType) return ((VarType) t).getName().getText();
++        return null;
++    }
++
++    /** The transfer helper, Class.method, that carries a declared type in the Java type c where the table reads c otherwise. */
++    private static String transfer(String declared, Class<?> c, String helper, boolean result) {
++        if (declared == null) return null;
++        String desc = c == int.class ? "I" : c == long.class ? "J" : null;
++        if (desc == null) return null;
++        com.sun.fortress.nodes.Type read = NamingCzar.fortressTypeForForeignJavaType(desc, helper, result);
++        String r = simpleName(read);
++        if (declared.equals(r)) return null;
++        if (desc.equals("I") && declared.equals("NN32"))
++            return result ? "simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType"
++                          : "simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType";
++        if (desc.equals("I") && (declared.equals("Char") || declared.equals("Character")))
++            return result ? "simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType"
++                          : "simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType";
++        if (desc.equals("J") && declared.equals("NN64"))
++            return result ? "simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType"
++                          : "simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType";
++        return null;
++    }
++
++    /** The one public static method of that name and arity, or null. */
++    private static Method soleMethod(String cls, String method, int arity) {
++        Method found = null;
++        try {
++            for (Method x : Class.forName(cls, false, BuiltinPrimitiveRewriter.class.getClassLoader()).getMethods())
++                if (x.getName().equals(method) && Modifier.isStatic(x.getModifiers()) && x.getParameterTypes().length == arity) {
++                    if (found != null) return null;
++                    found = x;
++                }
++        } catch (ClassNotFoundException e) { } catch (LinkageError e) { }
++        return found;
++    }
++
+     /** Does the file's text hold a builtinPrimitive string that names a helper? */
+     public static boolean namesHelpers(java.io.File file) {
+         try {
+diff --git a/ProjectFortress/tests/HardSetSampleWalk.fss b/ProjectFortress/tests/HardSetSampleWalk.fss
+new file mode 100644
+index 0000000..4d10e78
+--- /dev/null
++++ b/ProjectFortress/tests/HardSetSampleWalk.fss
+@@ -0,0 +1,56 @@
++(* The hard set's sample under walk: NN32's +, NN64's +, Char's toUpperCase and javaDigit (through digit), and ZZ32's LSHIFT over AnyIntegral, at ordinary values and at their edges. *)
++component HardSetSampleWalk
++export Executable
++
++overflows32(f: () -> NN32): Boolean =
++  try
++    f()
++    false
++  catch e
++    IntegerOverflow => true
++  end
++
++overflows64(f: () -> NN64): Boolean =
++  try
++    f()
++    false
++  catch e
++    IntegerOverflow => true
++  end
++
++run():() = do
++  m: ZZ32 = -1
++  h: ZZ32 = 2147483647
++  top32 = unsigned(m)
++  five32 = unsigned(5)
++  assert((five32 + five32).asString, "10", "NN32 +")
++  assert((unsigned(h) + unsigned(h)).asString, "4294967294", "NN32 + past ZZ32")
++  assert(overflows32(fn () => top32 + five32), "NN32 + overflows")
++  m64: ZZ64 = -1
++  f64: ZZ64 = 5
++  h64: ZZ64 = 9223372036854775807
++  top64 = unsigned(m64)
++  five64 = unsigned(f64)
++  assert((five64 + five64).asString, "10", "NN64 +")
++  assert((unsigned(h64) + unsigned(h64)).asString, "18446744073709551614", "NN64 + past ZZ64")
++  assert(overflows64(fn () => top64 + five64), "NN64 + overflows")
++  assert(toUpperCase('a'), 'A', "toUpperCase")
++  assert(toUpperCase('7'), '7', "toUpperCase of a digit")
++  assert(digit('7').get, 7, "digit, through javaDigit")
++  assert(digit('f', 16).get, 15, "digit radix 16, through javaDigit")
++  assert(digit('z').isEmpty, true, "digit of no digit, through javaDigit")
++  d64: ZZ64 = 3
++  assert(1 LSHIFT 3, 8, "LSHIFT")
++  assert(1 LSHIFT 40, 0, "LSHIFT past 32")
++  assert((-8) LSHIFT (-1), -4, "LSHIFT by a negative count")
++  assert((-5) LSHIFT (-40), -1, "LSHIFT by a negative count past 32")
++  assert(1 LSHIFT d64, 8, "LSHIFT by a ZZ64")
++  assert(1 LSHIFT unsigned(3), 8, "LSHIFT by an NN32")
++  assert(1 LSHIFT unsigned(d64), 8, "LSHIFT by an NN64")
++  assert(1 LSHIFT big(3), 8, "LSHIFT by a ZZ")
++  assert(1 LSHIFT (big(1) LSHIFT 100), 0, "LSHIFT by a ZZ past 2^64")
++  assert(1 LSHIFT unsigned(m64), 0, "LSHIFT by an NN64 past 2^63")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/HardSetSampleCompiled.fss b/ProjectFortress/compiler_tests/HardSetSampleCompiled.fss
+new file mode 100644
+index 0000000..ee8d788
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/HardSetSampleCompiled.fss
+@@ -0,0 +1,24 @@
++(* The hard set's sample on the compiled path: helpers over NN32, NN64 and Character bound by builtinPrimitive bodies, compiled and run. *)
++component HardSetSampleCompiled
++export Executable
++
++addN32(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAdd")
++addN64(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAdd")
++upper(c:Character):Character = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
++
++run():() = do
++  assert(addN32(5, 5) = 10, "addN32(5, 5)")
++  assert(addN32(2147483647, 2147483647) = 4294967294, "addN32 past ZZ32")
++  n: NN32 := 0
++  try
++    n := addN32(4294967295, 1)
++  catch e
++    IntegerOverflow => n := 7
++  end
++  assert(n = 7, "addN32 overflows")
++  assert(addN64(5, 5) = 10, "addN64(5, 5)")
++  assert(upper('a') = 'A', "upper('a')")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/HardSetSampleCompiled.test b/ProjectFortress/compiler_tests/HardSetSampleCompiled.test
+new file mode 100644
+index 0000000..a426860
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/HardSetSampleCompiled.test
+@@ -0,0 +1,4 @@
++tests=HardSetSampleCompiled
++link
++run
++run_out_contains=PASS

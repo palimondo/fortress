@@ -1,0 +1,269 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index a243d75ff..ad0ffb20b 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -936,7 +936,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     opr DOTMINUS(self):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingNegate")
+     opr +(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAddWithSpecialCompilerHackForNN64ArgumentAndResultType")
+     opr DOTPLUS(self,b:NN64):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingAdd")
+     opr -(self,b:NN64):NN64 =
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 58bf49e59..1e0e5c7e0 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -420,7 +420,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     opr DOTMINUS(self):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingNegate")
+     opr +(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAddWithSpecialCompilerHackForNN32ArgumentAndResultType")
+     opr DOTPLUS(self,b:NN32):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingAdd")
+     opr -(self,b:NN32):NN32 =
+@@ -635,7 +635,7 @@ value object Char extends { StandardTotalOrder[\Char\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GreaterSim")
+ 
+     javaDigit(self, radix:ZZ32): ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$JavaDigit")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charJavaDigitWithSpecialCompilerHackForCharacterArgumentType")
+ 
+     digit(self): Maybe[\ZZ32\] = do
+         x:ZZ32 = myJavaDigit(self,10)
+@@ -719,7 +719,7 @@ value object Char extends { StandardTotalOrder[\Char\] }
+     toTitleCase(self): Char =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToTitleCase")
+     toUpperCase(self): Char =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToUpperCase")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCaseWithSpecialCompilerHackForCharacterArgumentAndResultType")
+ end
+ 
+ object Thread[\T\] (fcn:()->T)
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+index b8942647d..acaf9748a 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+@@ -370,17 +370,12 @@ public class NamingCzar {
+ 	    com.sun.fortress.nodes.Type t = oneLibraryTypeForForeignJavaType(s, method_name, isResultType);
+ 	    if (t != null) return t;
+ 	}
+-	if (isResultType && method_name.equals("charMakeCharacterWithSpecialCompilerHackForCharacterResultType") && s.equals("I")) {
++	String hack = specialHackType(s, method_name, isResultType);
++	if ("Character".equals(hack)) {
+ 	    return fortressCharacterType;
+-	} else if ((!isResultType) && method_name.equals("charCodePointWithSpecialCompilerHackForCharacterArgumentType") && s.equals("I")) {
+-	    return fortressCharacterType;
+-	} else if (isResultType && method_name.equals("makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType") && s.equals("I")) {
+-	    return fortressNN32Type;
+-	} else if ((!isResultType) && method_name.equals("makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType") && s.equals("I")) {
++	} else if ("NN32".equals(hack)) {
+ 	    return fortressNN32Type;
+-	} else if (isResultType && method_name.equals("makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType") && s.equals("J")) {
+-	    return fortressNN64Type;
+-	} else if ((!isResultType) && method_name.equals("makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType") && s.equals("J")) {
++	} else if ("NN64".equals(hack)) {
+ 	    return fortressNN64Type;
+ 	} else if (s.equals("[I")) {
+ 	    return fortressZZ32VectorType;
+@@ -491,18 +486,41 @@ public class NamingCzar {
+     }
+ 
+     private static com.sun.fortress.nodes.Type oneLibraryTypeForForeignJavaType(String s, String method_name, boolean isResultType) {
+-        if ((isResultType && method_name.equals("charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
+-             || !isResultType && method_name.equals("charCodePointWithSpecialCompilerHackForCharacterArgumentType")) && s.equals("I"))
+-            return ss(oneBuiltin, "Char");
+-        if ((isResultType && method_name.equals("makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
+-             || !isResultType && method_name.equals("makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")) && s.equals("I"))
+-            return ss(oneBuiltin, "NN32");
+-        if ((isResultType && method_name.equals("makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType")
+-             || !isResultType && method_name.equals("makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType")) && s.equals("J"))
+-            return ss(oneLib, "NN64");
++        String hack = specialHackType(s, method_name, isResultType);
++        if ("Character".equals(hack)) return ss(oneBuiltin, "Char");
++        if ("NN32".equals(hack)) return ss(oneBuiltin, "NN32");
++        if ("NN64".equals(hack)) return ss(oneLib, "NN64");
+         return oneLibraryForeignJavaTranslations.get(s);
+     }
+ 
++    /* The hard set's way 1: the six special names generalised to a suffix.  A helper whose name ends in
++     * WithSpecialCompilerHackFor, then <T>ArgumentType, <T>ResultType, <T>ArgumentAndResultType or
++     * <T>ArgumentTypeAnd<U>ResultType, with T and U each NN32, NN64 or Character, has every parameter of
++     * T's carrier read as T, and its result of U's (or T's) carrier read as U (or T): int carries NN32 and
++     * Character, long NN64.  The six fixed names are cases of the rule.
++     */
++    private static final String HACK = "WithSpecialCompilerHackFor";
++    static String specialHackType(String s, String method_name, boolean isResultType) {
++        int i = method_name.indexOf(HACK);
++        if (i < 0) return null;
++        String tail = method_name.substring(i + HACK.length());
++        String arg = null, res = null;
++        java.util.regex.Matcher m;
++        if ((m = java.util.regex.Pattern.compile("(NN32|NN64|Character)ArgumentAndResultType").matcher(tail)).matches()) {
++            arg = res = m.group(1);
++        } else if ((m = java.util.regex.Pattern.compile("(NN32|NN64|Character)ArgumentTypeAnd(NN32|NN64|Character)ResultType").matcher(tail)).matches()) {
++            arg = m.group(1); res = m.group(2);
++        } else if ((m = java.util.regex.Pattern.compile("(NN32|NN64|Character)ArgumentType").matcher(tail)).matches()) {
++            arg = m.group(1);
++        } else if ((m = java.util.regex.Pattern.compile("(NN32|NN64|Character)ResultType").matcher(tail)).matches()) {
++            res = m.group(1);
++        } else return null;
++        String t = isResultType ? res : arg;
++        if (t == null) return null;
++        String carrier = t.equals("NN64") ? "J" : "I";
++        return s.equals(carrier) ? t : null;
++    }
++
+     private static TraitType fortressCharacterType = ss(fortLib, "Character");
+     private static TraitType fortressZZ32VectorType = ss(fortLib, "ZZ32Vector");
+     private static TraitType fortressStringVectorType = ss(fortLib, "StringVector");
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleChar.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleChar.java
+index afdacb5fb..7f28ac72f 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleChar.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleChar.java
+@@ -61,6 +61,10 @@ public class simpleChar {
+     // the Fortress Character type.  See the method
+     // NamingCzar.fortressTypeForForeignJavaType  for details.
+     public static int charMakeCharacterWithSpecialCompilerHackForCharacterResultType(int x) { return x; }
++
++    // The hard set's way 1: helpers whose names tell the checker that their ints are Characters (NamingCzar.specialHackType).
++    public static int charToUpperCaseWithSpecialCompilerHackForCharacterArgumentAndResultType(int x) { return charToUpperCase(x); }
++    public static int charJavaDigitWithSpecialCompilerHackForCharacterArgumentType(int x, int radix) { return charJavaDigit(x, radix); }
+     
+     public static boolean charLT(int a, int b) {
+         return a < b;
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java
+index 65ada1d6f..1489f9208 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java
+@@ -228,6 +228,10 @@ public class simpleUnsignedIntArith {
+     }
+     
+     public static int makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType(int x) {return x;}
++    // The hard set's way 1: a helper whose name tells the checker that its ints are NN32 (NamingCzar.specialHackType).
++    public static int unsignedIntOverflowingAddWithSpecialCompilerHackForNN32ArgumentAndResultType(int a, int b) {
++        return unsignedIntOverflowingAdd(a, b);
++    }
+     public static int makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType(int x) {return x;}
+ 
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
+index fc6d4bae3..d495ef810 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
+@@ -225,6 +225,10 @@ public class simpleUnsignedLongArith {
+     }
+ 	
+     public static long makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType(long x) {return x;}
++    // The hard set's way 1: a helper whose name tells the checker that its longs are NN64 (NamingCzar.specialHackType).
++    public static long unsignedLongOverflowingAddWithSpecialCompilerHackForNN64ArgumentAndResultType(long a, long b) {
++        return unsignedLongOverflowingAdd(a, b);
++    }
+     public static long makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType(long x) {return x;}
+     
+ }
+\ No newline at end of file
+diff --git a/ProjectFortress/tests/HardSetSampleWalk.fss b/ProjectFortress/tests/HardSetSampleWalk.fss
+new file mode 100644
+index 0000000..4d10e78
+--- /dev/null
++++ b/ProjectFortress/tests/HardSetSampleWalk.fss
+@@ -0,0 +1,56 @@
++(* The hard set's sample under walk: NN32's +, NN64's +, Char's toUpperCase and javaDigit (through digit), and ZZ32's LSHIFT over AnyIntegral, at ordinary values and at their edges. *)
++component HardSetSampleWalk
++export Executable
++
++overflows32(f: () -> NN32): Boolean =
++  try
++    f()
++    false
++  catch e
++    IntegerOverflow => true
++  end
++
++overflows64(f: () -> NN64): Boolean =
++  try
++    f()
++    false
++  catch e
++    IntegerOverflow => true
++  end
++
++run():() = do
++  m: ZZ32 = -1
++  h: ZZ32 = 2147483647
++  top32 = unsigned(m)
++  five32 = unsigned(5)
++  assert((five32 + five32).asString, "10", "NN32 +")
++  assert((unsigned(h) + unsigned(h)).asString, "4294967294", "NN32 + past ZZ32")
++  assert(overflows32(fn () => top32 + five32), "NN32 + overflows")
++  m64: ZZ64 = -1
++  f64: ZZ64 = 5
++  h64: ZZ64 = 9223372036854775807
++  top64 = unsigned(m64)
++  five64 = unsigned(f64)
++  assert((five64 + five64).asString, "10", "NN64 +")
++  assert((unsigned(h64) + unsigned(h64)).asString, "18446744073709551614", "NN64 + past ZZ64")
++  assert(overflows64(fn () => top64 + five64), "NN64 + overflows")
++  assert(toUpperCase('a'), 'A', "toUpperCase")
++  assert(toUpperCase('7'), '7', "toUpperCase of a digit")
++  assert(digit('7').get, 7, "digit, through javaDigit")
++  assert(digit('f', 16).get, 15, "digit radix 16, through javaDigit")
++  assert(digit('z').isEmpty, true, "digit of no digit, through javaDigit")
++  d64: ZZ64 = 3
++  assert(1 LSHIFT 3, 8, "LSHIFT")
++  assert(1 LSHIFT 40, 0, "LSHIFT past 32")
++  assert((-8) LSHIFT (-1), -4, "LSHIFT by a negative count")
++  assert((-5) LSHIFT (-40), -1, "LSHIFT by a negative count past 32")
++  assert(1 LSHIFT d64, 8, "LSHIFT by a ZZ64")
++  assert(1 LSHIFT unsigned(3), 8, "LSHIFT by an NN32")
++  assert(1 LSHIFT unsigned(d64), 8, "LSHIFT by an NN64")
++  assert(1 LSHIFT big(3), 8, "LSHIFT by a ZZ")
++  assert(1 LSHIFT (big(1) LSHIFT 100), 0, "LSHIFT by a ZZ past 2^64")
++  assert(1 LSHIFT unsigned(m64), 0, "LSHIFT by an NN64 past 2^63")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/HardSetSampleCompiled.fss b/ProjectFortress/compiler_tests/HardSetSampleCompiled.fss
+new file mode 100644
+index 0000000..4a2144c
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/HardSetSampleCompiled.fss
+@@ -0,0 +1,24 @@
++(* The hard set's sample on the compiled path: helpers over NN32, NN64 and Character bound by builtinPrimitive bodies, compiled and run. *)
++component HardSetSampleCompiled
++export Executable
++
++addN32(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAddWithSpecialCompilerHackForNN32ArgumentAndResultType")
++addN64(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAddWithSpecialCompilerHackForNN64ArgumentAndResultType")
++upper(c:Character):Character = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCaseWithSpecialCompilerHackForCharacterArgumentAndResultType")
++
++run():() = do
++  assert(addN32(5, 5) = 10, "addN32(5, 5)")
++  assert(addN32(2147483647, 2147483647) = 4294967294, "addN32 past ZZ32")
++  n: NN32 := 0
++  try
++    n := addN32(4294967295, 1)
++  catch e
++    IntegerOverflow => n := 7
++  end
++  assert(n = 7, "addN32 overflows")
++  assert(addN64(5, 5) = 10, "addN64(5, 5)")
++  assert(upper('a') = 'A', "upper('a')")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/HardSetSampleCompiled.test b/ProjectFortress/compiler_tests/HardSetSampleCompiled.test
+new file mode 100644
+index 0000000..a426860
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/HardSetSampleCompiled.test
+@@ -0,0 +1,4 @@
++tests=HardSetSampleCompiled
++link
++run
++run_out_contains=PASS

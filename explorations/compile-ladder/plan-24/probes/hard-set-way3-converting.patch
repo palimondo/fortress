@@ -1,0 +1,254 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index a243d75ff..d28238cfb 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -793,8 +793,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitOr")
+     opr BITXOR(self,b:ZZ32):ZZ32 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitXor")
+-    opr LSHIFT(self,b:AnyIntegral):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$LShift")
++    opr LSHIFT(self,b:AnyIntegral):ZZ32 = zz32BitLeftShift(self, shiftCount32(b))
+     opr RSHIFT(self,b:AnyIntegral):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$RShift")
+     opr BITNOT(self):ZZ32 =
+@@ -900,7 +899,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     narrow(self):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$FromLong")
+     unsigned(self):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToUnsignedLong")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType")
+     big(self):ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$ToBigNum")
+     widen(self):ZZ64 = self
+@@ -935,8 +934,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Negate")
+     opr DOTMINUS(self):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingNegate")
+-    opr +(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Add")
++    opr +(self,b:NN64):NN64 = unsigned(nn64OverflowingAdd(signed(self), signed(b)))
+     opr DOTPLUS(self,b:NN64):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingAdd")
+     opr -(self,b:NN64):NN64 =
+@@ -983,7 +981,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     narrow(self):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$FromLong")
+     signed(self):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$ToLong")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType")
+     opr /(self, other:NN64):QQ = do a: ZZ = self; b: ZZ = other; a / b end
+     numerator(self): ZZ = do z: ZZ = self; z end
+ end
+@@ -4537,7 +4535,32 @@ fromRawBits(a:ZZ64):RR64 = builtinPrimitive("com.sun.fortress.interpreter.glue.p
+ random(a:Number):RR64 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Random")
+ randomZZ32(x:ZZ32):ZZ32 = narrow |\random(x)/|
+ 
+-char(a:ZZ32):Char = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$Chr")
++(* The hard set's way 3: a bare binding at the helper's own Java types, which a public declaration converts to and from. *)
++private nn64OverflowingAdd(a:ZZ64, b:ZZ64):ZZ64 =
++    builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAdd")
++private zz32BitLeftShift(a:ZZ32, d:ZZ32):ZZ32 =
++    builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitLeftShift")
++(* A shift count of any integral type, saturated into -32 to 32, past which a ZZ32 shift saturates; walk's glue reads it so (Int.shiftCount). *)
++private shiftCount32(b:AnyIntegral):ZZ32 =
++    typecase b of
++        b':ZZ32 => b'
++        b':ZZ64 => do
++            lo: ZZ64 = -32
++            hi: ZZ64 = 32
++            if b' < lo then -32 elif hi < b' then 32 else narrow(b') end
++          end
++        b':NN32 => do
++            hi: ZZ32 = 32
++            if unsigned(hi) < b' then 32 else signed(b') end
++          end
++        b':NN64 => do
++            hi: ZZ64 = 32
++            if unsigned(hi) < b' then 32 else narrow(signed(b')) end
++          end
++        b':ZZ => if b' < big(-32) then -32 elif big(32) < b' then 32 else narrow(b') end
++    end
++
++char(a:ZZ32):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
+ 
+ (* First the ones that do the work *)
+ print(a: String):() = do stdOut.write(a); stdOut.flush() end
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 58bf49e59..5a2c3d7b4 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -419,8 +419,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Negate")
+     opr DOTMINUS(self):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingNegate")
+-    opr +(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Add")
++    opr +(self,b:NN32):NN32 = unsigned(nn32OverflowingAdd(signed(self), signed(b)))
+     opr DOTPLUS(self,b:NN32):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingAdd")
+     opr -(self,b:NN32):NN32 =
+@@ -467,7 +466,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     partitionL(self):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Partition")
+     signed(self):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToInt")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")
+     opr /(self, other:NN32):QQ = do a: ZZ = self; b: ZZ = other; a / b end
+     numerator(self): ZZ = do z: ZZ = self; z end
+ end
+@@ -608,13 +607,21 @@ end
+ 
+ myJavaDigit(x:Char, radix:ZZ32): ZZ32 = javaDigit(x, radix)
+ 
++(* The hard set's way 3: a bare binding at the helper's own Java types, which a public declaration converts to and from. *)
++private nn32OverflowingAdd(a:ZZ32, b:ZZ32):ZZ32 =
++    builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAdd")
++private charToUpperCase(c:ZZ32):ZZ32 =
++    builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
++private charJavaDigit(c:ZZ32, radix:ZZ32):ZZ32 =
++    builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charJavaDigit")
++
+ value object Char extends { StandardTotalOrder[\Char\] }
+     getter asString(): String =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToString")
+     getter asExprString(): String =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToExprString")
+     getter codePoint(): ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$CodePoint")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType")
+     opr |self| : ZZ32 = self.codePoint
+     opr =(self, other:Char): Boolean =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$Eq")
+@@ -634,8 +641,7 @@ value object Char extends { StandardTotalOrder[\Char\] }
+     opr GTRSIM(self, other:Char): Boolean =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GreaterSim")
+ 
+-    javaDigit(self, radix:ZZ32): ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$JavaDigit")
++    javaDigit(self, radix:ZZ32): ZZ32 = charJavaDigit(self.codePoint, radix)
+ 
+     digit(self): Maybe[\ZZ32\] = do
+         x:ZZ32 = myJavaDigit(self,10)
+@@ -718,8 +724,7 @@ value object Char extends { StandardTotalOrder[\Char\] }
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToLowerCase")
+     toTitleCase(self): Char =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToTitleCase")
+-    toUpperCase(self): Char =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToUpperCase")
++    toUpperCase(self): Char = char(charToUpperCase(self.codePoint))
+ end
+ 
+ object Thread[\T\] (fcn:()->T)
+diff --git a/ProjectFortress/tests/HardSetSampleWalk.fss b/ProjectFortress/tests/HardSetSampleWalk.fss
+new file mode 100644
+index 0000000..4d10e78
+--- /dev/null
++++ b/ProjectFortress/tests/HardSetSampleWalk.fss
+@@ -0,0 +1,56 @@
++(* The hard set's sample under walk: NN32's +, NN64's +, Char's toUpperCase and javaDigit (through digit), and ZZ32's LSHIFT over AnyIntegral, at ordinary values and at their edges. *)
++component HardSetSampleWalk
++export Executable
++
++overflows32(f: () -> NN32): Boolean =
++  try
++    f()
++    false
++  catch e
++    IntegerOverflow => true
++  end
++
++overflows64(f: () -> NN64): Boolean =
++  try
++    f()
++    false
++  catch e
++    IntegerOverflow => true
++  end
++
++run():() = do
++  m: ZZ32 = -1
++  h: ZZ32 = 2147483647
++  top32 = unsigned(m)
++  five32 = unsigned(5)
++  assert((five32 + five32).asString, "10", "NN32 +")
++  assert((unsigned(h) + unsigned(h)).asString, "4294967294", "NN32 + past ZZ32")
++  assert(overflows32(fn () => top32 + five32), "NN32 + overflows")
++  m64: ZZ64 = -1
++  f64: ZZ64 = 5
++  h64: ZZ64 = 9223372036854775807
++  top64 = unsigned(m64)
++  five64 = unsigned(f64)
++  assert((five64 + five64).asString, "10", "NN64 +")
++  assert((unsigned(h64) + unsigned(h64)).asString, "18446744073709551614", "NN64 + past ZZ64")
++  assert(overflows64(fn () => top64 + five64), "NN64 + overflows")
++  assert(toUpperCase('a'), 'A', "toUpperCase")
++  assert(toUpperCase('7'), '7', "toUpperCase of a digit")
++  assert(digit('7').get, 7, "digit, through javaDigit")
++  assert(digit('f', 16).get, 15, "digit radix 16, through javaDigit")
++  assert(digit('z').isEmpty, true, "digit of no digit, through javaDigit")
++  d64: ZZ64 = 3
++  assert(1 LSHIFT 3, 8, "LSHIFT")
++  assert(1 LSHIFT 40, 0, "LSHIFT past 32")
++  assert((-8) LSHIFT (-1), -4, "LSHIFT by a negative count")
++  assert((-5) LSHIFT (-40), -1, "LSHIFT by a negative count past 32")
++  assert(1 LSHIFT d64, 8, "LSHIFT by a ZZ64")
++  assert(1 LSHIFT unsigned(3), 8, "LSHIFT by an NN32")
++  assert(1 LSHIFT unsigned(d64), 8, "LSHIFT by an NN64")
++  assert(1 LSHIFT big(3), 8, "LSHIFT by a ZZ")
++  assert(1 LSHIFT (big(1) LSHIFT 100), 0, "LSHIFT by a ZZ past 2^64")
++  assert(1 LSHIFT unsigned(m64), 0, "LSHIFT by an NN64 past 2^63")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/HardSetSampleCompiled.fss b/ProjectFortress/compiler_tests/HardSetSampleCompiled.fss
+new file mode 100644
+index 0000000..1da143e
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/HardSetSampleCompiled.fss
+@@ -0,0 +1,34 @@
++(* The hard set's sample on the compiled path, way 3: each operation over NN32, NN64 or Character converts to and from a bare binding at its helper's Java types, through the six transfer helpers. *)
++component HardSetSampleCompiled
++export Executable
++
++add32(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAdd")
++add64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAdd")
++upperZZ32(c:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
++bits32(x:NN32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")
++nn32(x:ZZ32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
++bits64(x:NN64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType")
++nn64(x:ZZ64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType")
++codePoint(c:Character):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType")
++character(x:ZZ32):Character = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
++
++addN32(a:NN32, b:NN32):NN32 = nn32(add32(bits32(a), bits32(b)))
++addN64(a:NN64, b:NN64):NN64 = nn64(add64(bits64(a), bits64(b)))
++upper(c:Character):Character = character(upperZZ32(codePoint(c)))
++
++run():() = do
++  assert(addN32(5, 5) = 10, "addN32(5, 5)")
++  assert(addN32(2147483647, 2147483647) = 4294967294, "addN32 past ZZ32")
++  n: NN32 := 0
++  try
++    n := addN32(4294967295, 1)
++  catch e
++    IntegerOverflow => n := 7
++  end
++  assert(n = 7, "addN32 overflows")
++  assert(addN64(5, 5) = 10, "addN64(5, 5)")
++  assert(upper('a') = 'A', "upper('a')")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/HardSetSampleCompiled.test b/ProjectFortress/compiler_tests/HardSetSampleCompiled.test
+new file mode 100644
+index 0000000..a426860
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/HardSetSampleCompiled.test
+@@ -0,0 +1,4 @@
++tests=HardSetSampleCompiled
++link
++run
++run_out_contains=PASS
