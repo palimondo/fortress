@@ -33,7 +33,7 @@ public class FunctionalMethod extends FunctionClosure implements HasSelfParamete
                             Applicable fndef,
                             int self_parameter_index,
                             FTraitOrObjectOrGeneric self_parameter_type) {
-        super(e, fndef, true);
+        super(e, fndef, true, self_parameter_type);
         selfParameterIndex = self_parameter_index;
         selfParameterType = self_parameter_type;
         mname = NodeUtil.nameAsMethod(getDef());
@@ -45,7 +45,7 @@ public class FunctionalMethod extends FunctionClosure implements HasSelfParamete
                                List<FType> static_args,
                                int self_parameter_index,
                                FTraitOrObjectOrGeneric self_parameter_type) {
-        super(e, fndef, static_args);
+        super(e, fndef, static_args, self_parameter_type);
         selfParameterIndex = self_parameter_index;
         selfParameterType = self_parameter_type;
         mname = NodeUtil.nameAsMethod(getDef());

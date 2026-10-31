@@ -1,0 +1,13 @@
+(* Under walk, a builtinPrimitive helper bound in a method of a trait that no Java type carries stops the program at load, naming the trait. *)
+component NativeHelperUncarriedSelfTraitWalk
+export Executable
+
+trait Shape
+  len(): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+end
+
+object Square extends Shape end
+
+run():() = println(Square.len())
+
+end

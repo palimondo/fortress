@@ -1,0 +1,11 @@
+(* Under walk, a program that binds a builtinPrimitive helper in a dotted method of a generic object that no Java type carries, and makes no instance of the object, loads and runs. *)
+component NativeHelperUncarriedSelfGenericObjectWalk
+export Executable
+
+object Box[\T\](v: T)
+  len(): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+end
+
+run():() = println("loaded")
+
+end

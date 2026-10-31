@@ -58,6 +58,18 @@ public class FunctionClosure extends NonPrimitive implements Scope {
         instArgs = args;
     }
 
+    /** A method of the type declarer: the native loader is told that type, the type of self. */
+    protected FunctionClosure(Environment e, Applicable fndef, boolean isFunctionalMethod, FType declarer) {
+        super(e);
+        def = NativeApp.checkAndLoadNative(fndef, isFunctionalMethod, declarer);
+    }
+
+    protected FunctionClosure(Environment e, Applicable fndef, List<FType> args, FType declarer) {
+        super(e);
+        def = NativeApp.checkAndLoadNative(fndef, false, declarer);
+        instArgs = args;
+    }
+
     /*
      * Just like the PartiallyDefinedMethod, but used a specific environemnt
      */

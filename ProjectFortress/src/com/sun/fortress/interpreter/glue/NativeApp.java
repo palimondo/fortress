@@ -162,6 +162,12 @@ public abstract class NativeApp implements Applicable {
      * library hacker can sort out what is going on when things break.
      */
     public static Applicable checkAndLoadNative(Applicable defn, boolean isFunctionalMethod) {
+        return checkAndLoadNative(defn, isFunctionalMethod, null);
+    }
+
+    /** declarer: the type that declares the method, whose value is self, or null for a function. */
+    public static Applicable checkAndLoadNative(Applicable defn, boolean isFunctionalMethod,
+                                                com.sun.fortress.interpreter.evaluator.types.FType declarer) {
         Option<Expr> optBody = NodeUtil.getBody(defn);
         if (optBody.isNone()) return defn;
         Expr body = optBody.unwrap();
@@ -192,7 +198,7 @@ public abstract class NativeApp implements Applicable {
             NativeApp res = cache.get(key);
             if (res != null) return res;
             if (StaticNativeApp.isHelperString(str)) {
-                Object found = StaticNativeApp.find(str, defn);
+                Object found = StaticNativeApp.find(str, defn, declarer == null ? null : declarer.getName());
                 if (found instanceof String) return bug(defn, (String) found);
                 res = new StaticNativeApp((java.lang.reflect.Method) found, defn);
                 res.init(defn, isFunctionalMethod);
