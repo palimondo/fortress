@@ -17,8 +17,7 @@ pair(n: ZZ32): ZZ32 = if n MOD 2 = 0 then (n DIV 2) (n - 1) else n ((n - 1) DIV 
 run():() = do
   maxI: ZZ32 = 2147483647
   minI: ZZ32 = -2147483647 - 1
-  (* basic-integers.tex, section "Integers", opr CHOOSE; opr-overview.tex, subsections "GCD, LCM, and CHOOSE Operators" and "Multiplication, Division, Modulo, and Remainder Operators" *)
-  assert(hChoose(10, 3), 120, "10 CHOOSE 3")
+  assert(hChoose(10, 3), 120, "10 CHOOSE 3; basic-integers.tex, section \"Integers\", opr CHOOSE; opr-overview.tex, subsection \"GCD, LCM, and CHOOSE Operators\"")
   assert(hChoose(33, 16), 1166803110, "33 CHOOSE 16")
   assert(hChoose(33, 17), 1166803110, "33 CHOOSE 17")
   assert(hChoose(34, 14), 1391975640, "34 CHOOSE 14")
@@ -38,7 +37,7 @@ run():() = do
   assert(hChoose(5, -1), 0, "5 CHOOSE -1")
   assert(hChoose(-5, 2), 0, "-5 CHOOSE 2")
   assert(hChoose(minI, 0), 0, "MIN CHOOSE 0")
-  assert(overflows(34, 16), "34 CHOOSE 16 throws IntegerOverflow")
+  assert(overflows(34, 16), "34 CHOOSE 16 throws IntegerOverflow; opr-overview.tex, subsection \"Multiplication, Division, Modulo, and Remainder Operators\"")
   assert(overflows(34, 17), "34 CHOOSE 17 throws IntegerOverflow")
   assert(overflows(34, 18), "34 CHOOSE 18 throws IntegerOverflow")
   assert(overflows(50, 17), "50 CHOOSE 17 throws IntegerOverflow")

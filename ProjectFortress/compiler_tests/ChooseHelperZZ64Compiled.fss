@@ -29,8 +29,7 @@ chk(got: ZZ64, want: ZZ64, what: String): () = assert(got = want, what)
 run():() = do
   maxL: ZZ64 = 9223372036854775807
   minL: ZZ64 = -maxL - 1
-  (* basic-integers.tex, section "Integers", opr CHOOSE; opr-overview.tex, subsections "GCD, LCM, and CHOOSE Operators" and "Multiplication, Division, Modulo, and Remainder Operators" *)
-  chk(hChoose(10, 3), 120, "10 CHOOSE 3")
+  chk(hChoose(10, 3), 120, "10 CHOOSE 3; basic-integers.tex, section \"Integers\", opr CHOOSE; opr-overview.tex, subsection \"GCD, LCM, and CHOOSE Operators\"")
   chk(hChoose(62, 31), 465428353255261088, "62 CHOOSE 31")
   chk(hChoose(66, 32), 7007092303604022630, "66 CHOOSE 32")
   chk(hChoose(66, 33), 7219428434016265740, "66 CHOOSE 33")
@@ -56,7 +55,7 @@ run():() = do
   chk(hChoose(5, -1), 0, "5 CHOOSE -1")
   chk(hChoose(-5, 2), 0, "-5 CHOOSE 2")
   chk(hChoose(minL, 0), 0, "MIN CHOOSE 0")
-  assert(overflows(67, 33), "67 CHOOSE 33 throws IntegerOverflow")
+  assert(overflows(67, 33), "67 CHOOSE 33 throws IntegerOverflow; opr-overview.tex, subsection \"Multiplication, Division, Modulo, and Remainder Operators\"")
   assert(overflows(67, 34), "67 CHOOSE 34 throws IntegerOverflow")
   assert(overflows(68, 34), "68 CHOOSE 34 throws IntegerOverflow")
   assert(overflows(68, 35), "68 CHOOSE 35 throws IntegerOverflow")
