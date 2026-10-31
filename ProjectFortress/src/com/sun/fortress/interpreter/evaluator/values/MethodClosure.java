@@ -33,14 +33,14 @@ public class MethodClosure extends FunctionClosure implements Method {
     final FType definer;
 
     public MethodClosure(Environment within, Applicable fndef, FType definer) {
-        super(within, fndef);
+        super(within, fndef, false, definer);
         this.definer = definer;
         selfParameterIndex = NodeUtil.selfParameterIndex(getDef());
 
     }
 
     public MethodClosure(Environment within, Applicable fndef, FType definer, List<FType> args) {
-        super(within, fndef, args);
+        super(within, fndef, args, definer);
         this.definer = definer;
         selfParameterIndex = NodeUtil.selfParameterIndex(getDef());
 

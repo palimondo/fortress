@@ -78,6 +78,17 @@ public class StaticNativeApp extends NativeMeth {
             || c == boolean.class || c == String.class || c == BigInteger.class;
     }
 
+    /** The Java type that carries self, a value of the declaring type named t, or null. */
+    static Class<?> javaForSelf(String t) {
+        if (t == null) return null;
+        if (t.equals("Int")) return int.class;
+        if (t.equals("Long") || t.equals("UnsignedLong")) return long.class;
+        if (t.equals("Float")) return double.class;
+        if (t.equals("BigNum")) return BigInteger.class;
+        Class<?> c = javaFor(t);
+        return c == void.class ? null : c;
+    }
+
     /**
      * The helper that the string s names for the declaration defn, or an error message.  Among the
      * class's public static methods of that name, it takes the one whose parameters are the
@@ -85,6 +96,15 @@ public class StaticNativeApp extends NativeMeth {
      * in front for a dotted method's self, at the Java types that carry the declared types.
      */
     static Object find(String s, Applicable defn) {
+        return find(s, defn, null);
+    }
+
+    /**
+     * As find(s, defn), where the declaration is a method of the type named declarer, whose value
+     * is self: it refuses a declarer that no Java type carries, and takes only an overload whose
+     * first Java parameter is the declarer's carrier.
+     */
+    static Object find(String s, Applicable defn, String declarer) {
         int dot = s.lastIndexOf('.');
         String cls = s.substring(0, dot), name = s.substring(dot + 1);
         Class<?> c;
@@ -109,17 +129,24 @@ public class StaticNativeApp extends NativeMeth {
             res = javaFor(declaredResult(defn));
             if (res == null) return "Native helper " + s + ": no Java type carries the declared result type.";
         }
+        Class<?> selfJava = null;
+        if (declarer != null) {
+            selfJava = javaForSelf(declarer);
+            if (selfJava == null)
+                return "Native helper " + s + ": no Java type carries " + declarer + ", the type of self.";
+        }
         List<Method> fits = new ArrayList<Method>();
         for (Method x : named) {
             Class<?>[] xs = x.getParameterTypes();
             int off = xs.length - want.size();          // 1: self first
-            if (off < 0 || off > 1 || (hasSelf && off != 1)) continue;
+            if (off < 0 || off > 1 || ((hasSelf || selfJava != null) && off != 1)) continue;
             boolean ok = (res == null || x.getReturnType() == res)
                          && (x.getReturnType() == void.class || carried(x.getReturnType()));
             for (int i = 0; ok && i < xs.length; i++) {
                 if (!carried(xs[i])) ok = false;
                 else if (i >= off && xs[i] != want.get(i - off)) ok = false;
             }
+            if (ok && selfJava != null && xs[0] != selfJava) ok = false;
             if (ok) fits.add(x);
         }
         if (fits.size() == 1) return fits.get(0);

@@ -1,5 +1,5 @@
 (* Under walk, a builtinPrimitive helper bound in a method whose self has a type that no Java type carries stops the program at load. *)
-component XXXNativeHelperUncarriedSelfWalk
+component NativeHelperUncarriedSelfWalk
 export Executable
 
 object Holder
