@@ -102,7 +102,6 @@ public class simpleLongArith {
 
     // Largest n for which `n CHOOSE k` is guaranteed to be representable as a long
     private final static int maxLongChooseN = 66;
-    private final static long[] tempLongChooseArray = new long[maxLongChooseN/2];
     private final static long[] longChooseTable = new long[chooseAccess(maxLongChooseN + 1, 2)];
 
     // Entry k is the largest n for which `n CHOOSE (k+2)` can be computed by
@@ -134,6 +133,8 @@ public class simpleLongArith {
         if (kk < 2) return (kk == 0) ? 1 : n;
         if (n > maxLongChooseN && (kk << 1) > maxLongChooseN) return -1;
 	int k = (int)kk;
+	// Each call has its own array, since calls can run in parallel.
+	long[] tempLongChooseArray = new long[k];
 	for (int j = 0; j < k; j++) tempLongChooseArray[j] = n - j;
 	for (int j = k; j > 1; j--) {
 	    // You can't just try to find an array element that j divides;
@@ -179,7 +180,9 @@ public class simpleLongArith {
         if (kk > (n >> 1)) kk = n - kk;
         if (kk < 2) return (kk == 0) ? 1 : n;
 	if (n <= maxLongChooseN) return longChooseTable[chooseAccess((int)n, (int)kk)];
-	if (kk > maxLongChooseN)
+	// Here n > maxLongChooseN, so `n CHOOSE k` for a k past the end of maxLongChooseSafeN
+	// is at least `68 CHOOSE 34`, which no long holds.
+	if (kk - 2 >= maxLongChooseSafeN.length)
 	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
 	int k = (int)kk;
 	if (n > maxLongChooseSafeN[k-2]) {
