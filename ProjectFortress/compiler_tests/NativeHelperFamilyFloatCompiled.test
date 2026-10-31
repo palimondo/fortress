@@ -1,0 +1,4 @@
+tests=NativeHelperFamilyFloatCompiled
+link
+run
+run_out_contains=PASS

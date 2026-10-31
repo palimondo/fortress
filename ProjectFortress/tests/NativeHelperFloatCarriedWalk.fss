@@ -1,0 +1,15 @@
+(* Under walk, a builtinPrimitive helper binding whose parameter or result is declared Float carries the value in a Java double. *)
+component NativeHelperFloatCarriedWalk
+export Executable
+
+floatSum(a:Float, b:Float):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
+floatNegated(a:RR64):Float = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNeg")
+
+run():() = do
+  assert(floatSum(asFloat(2.5), asFloat(-0.75)), 1.75, "floatSum")
+  assert(floatNegated(2.5), -2.5, "floatNegated")
+  assert(floatNegated(0.0).asString, "-0.0", "floatNegated of 0.0")
+  assert(floatSum(floatNegated(1.0), floatNegated(2.0)), -3.0, "a Float result passed at a Float parameter")
+end
+
+end
