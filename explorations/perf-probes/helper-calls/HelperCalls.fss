@@ -1,0 +1,139 @@
+(* The probe's program: helpers of nativeHelpers reached in three forms, each in a hot loop of its own.
+   Lib: a body builtinPrimitive("..."), the one library's form, which the compiled path rewrites at the parse.
+   Imp: a written import java alias called in the body, the compiler's prelude's form.
+   Pre: the prelude's own binding, reached through ZZ32's and RR64's operators.
+   Lib2: two Lib calls nested, so that one result flows into the other without a variable.
+   sameLoop: a functional method of a trait bound in the Lib form, self first.
+   The property helper.loop names one loop to run, or "all"; each runs 5 times over n = 20,000,000. *)
+component HelperCalls
+import CompilerSystem.{getProperty}
+import java com.sun.fortress.nativeHelpers.{simpleIntArith.intOverflowingAdd => jAdd,
+                                            simpleDoubleArith.doubleAdd => jDAdd}
+export Executable
+
+addLib(a: ZZ32, b: ZZ32): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingAdd")
+addImp(a: ZZ32, b: ZZ32): ZZ32 = jAdd(a, b)
+daddLib(a: RR64, b: RR64): RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
+daddImp(a: RR64, b: RR64): RR64 = jDAdd(a, b)
+
+trait Shape
+  same(self, other: Shape): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+end
+object Box(v: ZZ32) extends Shape end
+
+loopLib(n: ZZ32): ZZ32 = do
+  acc: ZZ32 := 0
+  i: ZZ32 := 0
+  while i < n do
+    acc := addLib(acc, 3)
+    i := i + 1
+  end
+  acc
+end
+
+loopImp(n: ZZ32): ZZ32 = do
+  acc: ZZ32 := 0
+  i: ZZ32 := 0
+  while i < n do
+    acc := addImp(acc, 3)
+    i := i + 1
+  end
+  acc
+end
+
+loopPre(n: ZZ32): ZZ32 = do
+  acc: ZZ32 := 0
+  i: ZZ32 := 0
+  while i < n do
+    acc := acc + 3
+    i := i + 1
+  end
+  acc
+end
+
+loopLib2(n: ZZ32): ZZ32 = do
+  acc: ZZ32 := 0
+  i: ZZ32 := 0
+  while i < n do
+    acc := addLib(addLib(acc, 1), 2)
+    i := i + 1
+  end
+  acc
+end
+
+dloopLib(n: ZZ32): RR64 = do
+  h: RR64 = 0.5
+  acc: RR64 := 0.0
+  i: ZZ32 := 0
+  while i < n do
+    acc := daddLib(acc, h)
+    i := i + 1
+  end
+  acc
+end
+
+dloopImp(n: ZZ32): RR64 = do
+  h: RR64 = 0.5
+  acc: RR64 := 0.0
+  i: ZZ32 := 0
+  while i < n do
+    acc := daddImp(acc, h)
+    i := i + 1
+  end
+  acc
+end
+
+dloopPre(n: ZZ32): RR64 = do
+  h: RR64 = 0.5
+  acc: RR64 := 0.0
+  i: ZZ32 := 0
+  while i < n do
+    acc := acc + h
+    i := i + 1
+  end
+  acc
+end
+
+dloopLib2(n: ZZ32): RR64 = do
+  h: RR64 = 0.25
+  acc: RR64 := 0.0
+  i: ZZ32 := 0
+  while i < n do
+    acc := daddLib(daddLib(acc, h), h)
+    i := i + 1
+  end
+  acc
+end
+
+sameLoop(n: ZZ32): ZZ32 = do
+  b: Shape = Box(3)
+  k: ZZ32 := 0
+  i: ZZ32 := 0
+  while i < n do
+    if same(b, b) then k := k + 1 end
+    i := i + 1
+  end
+  k
+end
+
+picked(sel: String, name: String): Boolean = (sel = "all") OR (sel = name)
+
+run():() = do
+  sel: String = getProperty("helper.loop", "all")
+  n: ZZ32 = 20000000
+  r: ZZ32 := 0
+  while r < 5 do
+    if picked(sel, "loopLib") then t0 = nanoTime(); x = loopLib(n); println("loopLib " x " ns " (nanoTime() - t0)) end
+    if picked(sel, "loopImp") then t0 = nanoTime(); x = loopImp(n); println("loopImp " x " ns " (nanoTime() - t0)) end
+    if picked(sel, "loopPre") then t0 = nanoTime(); x = loopPre(n); println("loopPre " x " ns " (nanoTime() - t0)) end
+    if picked(sel, "loopLib2") then t0 = nanoTime(); x = loopLib2(n); println("loopLib2 " x " ns " (nanoTime() - t0)) end
+    if picked(sel, "dloopLib") then t0 = nanoTime(); x = dloopLib(n); println("dloopLib " x " ns " (nanoTime() - t0)) end
+    if picked(sel, "dloopImp") then t0 = nanoTime(); x = dloopImp(n); println("dloopImp " x " ns " (nanoTime() - t0)) end
+    if picked(sel, "dloopPre") then t0 = nanoTime(); x = dloopPre(n); println("dloopPre " x " ns " (nanoTime() - t0)) end
+    if picked(sel, "dloopLib2") then t0 = nanoTime(); x = dloopLib2(n); println("dloopLib2 " x " ns " (nanoTime() - t0)) end
+    if picked(sel, "sameLoop") then t0 = nanoTime(); x = sameLoop(n); println("sameLoop " x " ns " (nanoTime() - t0)) end
+    r := r + 1
+  end
+end
+
+end
