@@ -1,0 +1,27 @@
+(* A generic dotted method whose where clause constrains its trait's static parameter loads and runs under walk. *)
+component XXXGenericMethodTraitWhereWalk
+export Executable
+
+trait Named
+  name(): String
+end
+object Cat extends Named
+  name(): String = "cat"
+end
+object Dog extends Named
+  name(): String = "dog"
+end
+trait Pair[\T\]
+  first(): T
+  mixed[\U\](u: U): String where { T extends Named } = "mixed " || first().name()
+end
+object P[\T\](t: T) extends Pair[\T\]
+  first(): T = t
+end
+
+run(): () = do
+    p: Pair[\Cat\] = P[\Cat\](Cat)
+    assert(p.mixed(Dog), "mixed cat", "trait-parameters.tex, section \"Where Clauses\": a generic method's where clause constrains its trait's static parameter")
+  end
+
+end
