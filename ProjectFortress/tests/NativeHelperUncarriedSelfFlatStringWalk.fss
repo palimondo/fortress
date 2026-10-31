@@ -1,0 +1,11 @@
+(* Under walk, a builtinPrimitive helper bound in a method of a program's own object named FlatString stops the program at load, as for any type of a program. *)
+component NativeHelperUncarriedSelfFlatStringWalk
+export Executable
+
+object FlatString
+  len(): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+end
+
+run():() = println(FlatString.len())
+
+end

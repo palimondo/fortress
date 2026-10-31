@@ -78,9 +78,14 @@ public class StaticNativeApp extends NativeMeth {
             || c == boolean.class || c == String.class || c == BigInteger.class;
     }
 
-    /** The Java type that carries self, a value of the declaring type named t, or null. */
+    /**
+     * The Java type that carries self, a value of the declaring type named t, or null: a type of
+     * FortressLibrary or FortressBuiltin, whose names no program can give its own types, that javaFor
+     * names, or the object Int, Long, UnsignedLong, Float or BigNum.  FlatString and JavaString, names
+     * that a program can give its own types, carry no self.
+     */
     static Class<?> javaForSelf(String t) {
-        if (t == null) return null;
+        if (t == null || t.equals("FlatString") || t.equals("JavaString")) return null;
         if (t.equals("Int")) return int.class;
         if (t.equals("Long") || t.equals("UnsignedLong")) return long.class;
         if (t.equals("Float")) return double.class;
