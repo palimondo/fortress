@@ -1,0 +1,20 @@
+(* A method whose where clause introduces a where-clause variable loads and runs under walk, the variable fixed by the call's argument. *)
+component XXXWhereVariableMethodWalk
+export Executable
+
+trait T
+  f(): String
+end
+trait X[\nat n\] extends {T} end
+object O extends {X[\1\]}
+  f() = "O"
+end
+object Q
+  m[\U\](u: U): String where [\nat n\]{U extends {X[\n\]}} = "m" || u.f()
+end
+
+run(): () = do
+    assert(Q.m(O), "mO", "trait-parameters.tex, section \"Where Clauses\": a method's where clause introduces a where-clause variable")
+  end
+
+end

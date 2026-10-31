@@ -1,0 +1,20 @@
+(* An object whose own where clause introduces a where-clause variable is built and runs under walk, the variable fixed by its static argument. *)
+component XXXWhereVariableObjectWalk
+export Executable
+
+trait T
+  f(): String
+end
+trait X[\nat n\] extends {T} end
+object O extends {X[\1\]}
+  f() = "O"
+end
+object W[\U\](u: U) where [\nat n\]{U extends {X[\n\]}}
+  show(): String = "w" || u.f()
+end
+
+run(): () = do
+    assert(W[\O\](O).show(), "wO", "trait-parameters.tex, section \"Where Clauses\": an object's where clause introduces a where-clause variable")
+  end
+
+end

@@ -1,0 +1,20 @@
+(* An object whose own where clause bounds its static parameter compiles and runs: inside its methods a method of the bound is found on a value of that parameter. *)
+component WhereBoundObjectCompiled
+export Executable
+
+trait Shows
+  show(): String
+end
+object S extends Shows
+  show(): String = "s"
+end
+object Wrap[\T\](x: T) where { T extends Shows }
+  twice(): String = x.show() || x.show()
+end
+
+run(): () = do
+    assert(Wrap[\S\](S).twice(), "ss", "trait-parameters.tex, section \"Where Clauses\": an object's where clause bounds its static parameter in its methods")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,30 @@
+(* A function and a method whose where clause introduces a where-clause variable run compiled, the variable fixed by the call's arguments. *)
+component XXXWhereVariableCallCompiled
+export Executable
+
+trait T
+  f(): String
+end
+trait X[\nat n\] extends {T} end
+trait Y[\nat m\] extends {T} end
+object O extends {X[\1\]}
+  f() = "O"
+end
+object P extends {Y[\1\]}
+  f() = "P"
+end
+object Q
+  m[\U\](u: U): String where [\nat n\]{U extends {X[\n\]}} = "m" || u.f()
+end
+
+g[\U, V\](u: U, v: V): String
+    where [\nat n\]{U extends {X[\n\]}, V extends {Y[\n\]}} = u.f() || v.f()
+
+run(): () = do
+    println("REACHED")
+    assert(g(O, P), "OP", "trait-parameters.tex, section \"Where Clauses\": a function's where clause introduces a where-clause variable")
+    assert(Q.m(O), "mO", "trait-parameters.tex, section \"Where Clauses\": a method's where clause introduces a where-clause variable")
+    println("PASS")
+  end
+
+end

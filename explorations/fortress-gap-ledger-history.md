@@ -6551,3 +6551,39 @@ rewritten
 rewritten
 
 | 846 | under walk, a native bound over `String`, glue class or `nativeHelpers` helper alike, receives a non-flat string's type name, not its characters: `slen(s)`, for `slen(a:String):ZZ32` bound to `simpleConcatenate.nativeStrlen` and a 52-character `s` made by `\|\|`, answers 9, the length of `CatString` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | `ProjectFortress/tests/NativeHelperNonFlatStringWalk.fss` | climb batch 23 rung W | `StaticNativeApp.unbox` takes `v.getString()` for a Java `String` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java:199`), as glue's `Util.SS2B` and `S2V` do (`interpreter/glue/prim/Util.java:254`, `:286`); `FObject.getString` answers `type().toString()` (`interpreter/evaluator/values/FObject.java:33-35`). A probe: the glue binding `printWithThread(s)` prints ' Thread 26: CatString'. The library's natives over strings take `FlatString`, but `printThreadInfo`, `printWithThread`, `printlnWithThread` (`Library/FortressLibrary.fss:4628-4632`) and `getProperty` (`Library/System.fss:45`). Fix: flatten the argument first, or bind over `FlatString`. |
+
+### Row 867
+
+rewritten
+
+| 867 | compiled, a call of a function or method whose own `where` clause introduces a `where`-clause variable links and dies, `NoClassDefFoundError` ('wrong name'): `g(O, P)` for `g[\U, V\](u: U, v: V): String where [\nat n\]{U extends {X[\n\]}, V extends {Y[\n\]}}` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/compiler_tests/XXXWhereVariableCallCompiled.test` | climb batch 24 rung G's skeptic | siblings: 701, 749, 307. The call names the instance at the checker's static arguments, `O`, `P` and the inferred `n`, `1`; the template carries the declaration's own static parameters only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/FnNameInfo.java:99` at e1ab927ad), so the class loader names the class it makes at `O` and `P`. A method, `Q.m(O)` for `m[\U\](u: U): String where [\nat n\]{U extends {X[\n\]}}` in `object Q`, does the same. Until rung G the code generator refused both, 'Don't know how to compile this kind of FnDecl.' Walk runs the function, 'OP'; the method, NEW-G-2. Link test: `WhereVariableCallCompiledLink.test`. |
+
+### Row 868
+
+rewritten
+
+| 868 | under walk, an object's method whose own `where` clause introduces a `where`-clause variable stops at the clause, 'Missing type n': `m[\U\](u: U): String where [\nat n\]{U extends {X[\n\]}}` in `object Q`, with `Q.m(O)` for `O extends X[\1\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/XXXWhereVariableMethodWalk.fss` | climb batch 24 rung G's skeptic | siblings: 755, 760, 867. The same clause on a top-level function runs, 'OP' for `g(O, P)`; with `where { U extends T }` the method runs. The compiled checker accepts the method; compiled, its call dies (867). Walk is the same on the base, b0f6cd6b7. |
+
+### Row 701
+
+rewritten
+
+| 701 | the code generator refuses a function, object or trait declaration whose own header carries a `where` clause, and a function with a contract: `forFnDecl` stops with "Don't know how to compile this kind of FnDecl", `forObjectDeclPrePass` and `forTraitDecl` with "Can't compile …" | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/trait-parameters.tex`, "Where Clauses"; `basic/functions.tex`, "Function Contracts" | `ProjectFortress/compiler_tests/XXXNatOpenRun.test` | territory map (spec-to-implementation) | siblings: 304, 650, 677, 774, 781, 823. Guards: `CodeGen.java:2967-2971`, `:4107-4109`, `:5027-5029` at cdb84fba5. An object's `where` and a contract stop it by reading, not run; an `extends` entry's `where` compiles (row 774). Walk runs them. F-181. In the twelve, five walls, four of them lines the revival added to clear checker errors: `SumReduction`'s `distribute`s (`Library/FortressLibrary.fss:3445-3447`), `BoundedRange.atMost` (`:4109`), `AnyList`'s and `NatParam`'s `comprises ... where` (`List.fss:87`, `NatReflect.fss:24`); the fifth is row 823's `test`. `fortress compile` stops first at `distribute`. Detail: `reviews/phase3-exit/zero-audit.md`, B.4. |
+
+### Row 307
+
+rewritten
+
+| 307 | **the compiled checker refuses by name to infer a `bool`, `dim` or `unit` static parameter**, and a size made from a number known only at run time does not run compiled: `ProjectFortress/tests/NatReflectTest.fss` stops at load | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/trait-parameters.tex`, "Bool Parameters", "Nat and Int Parameters"; `Specification/basic/inference.tex`, "Type Inference" | `ProjectFortress/compiler_tests/XXXNatBoolChecker.test` | ours (prelude probe) | siblings: 701, 761, 763, 764. `makeInferenceArg` throws '… bool static parameter b is not supported by the type checker.' (`STypesUtil.scala:585-606` at `63e420a33`) at the declaration's parameter, not the call, hiding the component's other errors; `nat` and `int` ones are inferred. Walk does not unify a `bool` one. `NatReflectTest` stops in the class loader, 'Unable to read serialized data for NatReflect$N??' (at `a1a75716a` and `9d323883f`). To run, the code generator must compile `NatParam`, whose `comprises` clause binds a `where`-clause size (`compiler_tests/XXXNatOpenRun`; row 701), and read a call's size off its argument's descriptor. full text: history, row 307 |
+
+### Row 812
+
+rewritten
+
+| 812 | the code generator crashes, before its refusal of a `where` clause (row 701), on a generic trait that defines a member of a trait listing a type at a type `where`-clause variable in its `comprises` clause: `ComprisesWhereFunctionalMethodChecker`, compiled, stops 'E is not in the kind env [][]' | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/trait-parameters.tex`, "Where Clauses" | none | climb batch 21b rung C's skeptic | siblings: 809, 701, 775. `bin/fortress compile -debug stacktrace` of a copy of the test's program: 'E is not in the kind env [][]' at the object's `extends C[\E\]`, from `TypeAnalyzer.lteq` in `STypesUtil.removeIdenticallyCoveredMethods` (`ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1587` at ed4782762), called by `CodeGen.<init>` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:485`), whose analyzer binds no static parameter of the extender. A dotted member gives the same. With the member in the object only, row 701's 'Can't compile TraitDecl'. Hidden on the base by 809. Walk runs it. No gated test: a crash. |
+
+### Row 677
+
+rewritten
+
+| 677 | the compiled checker reads no where-clause constraint as a bound: in `g[\U\](u: U): String where { U extends T } = u.f()` the call `u.f()` is refused, … | FIXED | implementation gap (checker) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/compiler_tests/WhereBoundMethodChecker.test` | climb batch 13 rung N | fixed `2b1cd8e63`; climb batch 17 rung L (cdd25b95d on its branch): `KindEnv.constraintBounds` and the fold in `makeArrowFromFunctional`. The reproducer `XXXWhereBoundChecker` now stops in the code generator and is keyed on row 701's wall. A call that breaks a function's own constraint is refused (`XXXWhereBoundFunctionCall`). Left: the dotted call (row 748), a `where`-clause variable's constraint (row 749), and a trait's or object's own constraint where its type is used (row 750).; full text: history, row 677 |

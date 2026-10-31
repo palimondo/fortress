@@ -1,0 +1,31 @@
+(* A method whose where clause bounds its trait's or its object's static parameter compiles and runs: inside it a method of the bound is found on a value of that parameter. *)
+component WhereBoundMethodCompiled
+export Executable
+
+trait Named
+  name(): String
+end
+object Cat extends Named
+  name(): String = "cat"
+end
+
+trait Shelf[\T\]
+  item(): T
+  title(): String where { T extends Named }
+end
+object Box[\T\](v: T) extends Shelf[\T\]
+  item(): T = v
+  title(): String where { T extends Named } = "box of " || v.name()
+  bump(k: ZZ32): ZZ32 where { T extends Named } = k + 1
+end
+
+run(): () = do
+    b = Box[\Cat\](Cat)
+    assert(b.title(), "box of cat", "trait-parameters.tex, section \"Where Clauses\": an object's method bounded by its where clause")
+    assert(b.bump(2), 3, "trait-parameters.tex, section \"Where Clauses\": an object's method bounded by its where clause, a ZZ32 result")
+    s: Shelf[\Cat\] = b
+    assert(s.title(), "box of cat", "trait-parameters.tex, section \"Where Clauses\": a trait's method bounded by its where clause, through the trait")
+    println("PASS")
+  end
+
+end

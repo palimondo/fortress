@@ -9,8 +9,13 @@ value object Nt[\nat n\] extends NatParamT end
 mk(): NatParamT = Nt[\3\]
 size[\nat n\](x: Nt[\n\]): ZZ32 = n
 
+object Opener
+  opened(): ZZ32 = size(mk())
+end
+
 run(): () = do
-    assert(size(mk()), 3, "trait-parameters.tex, section \"Nat and Int Parameters\": a value opened to its own size")
+    println("REACHED")
+    assert(Opener.opened(), 3, "trait-parameters.tex, section \"Nat and Int Parameters\": a value opened to its own size")
     println("PASS")
   end
 
