@@ -1,0 +1,63 @@
+# Climb batch 24, rung W: record lines
+
+## Findings
+
+1. **Walk's native loader is told the type that declares a method, and refuses at load a helper bound in a method of a type that no Java type carries.**
+   - **Mechanism:** `MethodClosure` passes its `definer`, and `FunctionalMethod` its self type, through `FunctionClosure`'s new constructors (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FunctionClosure.java:61-71`) and `NativeApp.checkAndLoadNative(defn, isFunctionalMethod, declarer)` (`interpreter/glue/NativeApp.java:169-207`) to `StaticNativeApp.find(s, defn, declarer)` (`interpreter/glue/StaticNativeApp.java:112-160`).
+   - **Refusal:** 'Native helper com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen: no Java type carries Holder, the type of self.' (`:137-141`).
+   - **Selection:** it takes only an overload whose first Java parameter is the declaring type's carrier (`:147`, `:154`).
+   - **Holds for:** a dotted method of an object or trait, a functional method of a trait, a functional method of a generic trait, and a method with static parameters of its own, all at load. A top-level function, a local function and a function expression are told no type and load as before.
+   - **Evidence:** the tests `NativeHelperUncarriedSelfWalk` (promoted from `XXXNativeHelperUncarriedSelfWalk`), `NativeHelperUncarriedSelfTraitWalk`, `NativeHelperUncarriedSelfFunctionalWalk` and `NativeHelperUncarriedSelfGenericWalk`. They failed on the base through the harness ('6' / ' Missing expected refusal at load' / 'Tests run: 5,  Failures: 3,  Errors: 0', and '14' for the generic test on the old code) and pass after (`harness-one.sh ... NativeHelper*Walk.* ZZ32DivisionByZeroWalk.fss`: 'OK (15 tests)').
+   - **Meaning:** a library binding in a method must name a helper whose first Java parameter carries the declaring type. Row 847 closes.
+
+2. **The carrier of `self` is read by the declaring type's name, for fifteen names: the types of `FortressLibrary` and `FortressBuiltin` that `javaFor` names, and `Int`, `Long`, `UnsignedLong`, `Float` and `BigNum`.** (`StaticNativeApp.java:82-96`)
+   - **Why names suffice:** the disambiguator refuses each of the fifteen as the name of a program's own type. Measured, a program's `object T` with a helper-bound method: rc=255, 'Type name may refer to: Int, FortressBuiltin.Int', and the same for `String`, `Boolean`, `RR32`, `Float`, `ZZ32`, `NN32`, `Char`, `ZZ64`, `NN64`, `RR64`, `ZZ`, `Long`, `UnsignedLong` and `BigNum`.
+   - **Left out:** `FlatString` and `JavaString` carry no `self` (`:88`). A program can name its own type so, and on the planner's text such a program loaded and answered 10. Tests: `NativeHelperUncarriedSelfFlatStringWalk`, `NativeHelperUncarriedSelfJavaStringWalk`.
+   - **Meaning:** a later move of `FlatString`'s five glue bindings onto helpers needs an identity check of the declaring type.
+
+3. **The self-first rule's other branches are reached only through the library.** No program can declare a method in a carried type. Each control below ran `x: ZZ32 = 5; println("asString: " x.asString)` from a scratch directory holding a copy of `FortressBuiltin.fss` with `Int.asString` rebound:
+   - **At `simpleLongArith.longToString(long)`:** old code 'asString: 5'; new code refused at load, 'has no overload that fits the declaration's types.'
+   - **At `simpleOverload.bar()`, no `self`:** old code loaded and failed at the call, 'Native public static java.lang.String com.sun.fortress.nativeHelpers.simpleOverload.bar() given 1 arguments'; new code refused at load.
+   - **At `simpleOverload.baz`, overloads `(String)` and `(int)`:** old code refused, 'has 2 overloads that fit'; new code took `baz(int)`, 'asString: baz 5'.
+
+4. **No binding of the merged batch is refused by the check, by reading.** Of the 173 bindings (the batch's 152 in `explorations/compile-ladder/plan-24/probes/families-base.tsv`, plus climb batch 23's 21 in `moved-base.tsv`), the 172 methods each name a helper with an overload whose first Java parameter is the carrier of the method's type (`javap -public` of `ProjectFortress/build/com/sun/fortress/nativeHelpers/*`). The 12 dotted ones each take one parameter more than the declaration. On this tree: `ant testSystem` gave 'Tests run: 171', '176', '168', '185', 'Failures: 0, Errors: 0', 'BUILD SUCCESSFUL' (700 tests); `ant testSpecData` gave 'Tests run: 130, Failures: 0, Errors: 0'. The merged tree's gate is the run that confirms it.
+
+5. **A dotted method of a generic trait or object is refused only where an instance's method is made (NEW-W-1).**
+   - **Instantiated:** `println("before"); println(Box[\ZZ32\](3).len())` prints 'before', then stops with 'no Java type carries Box, the type of self.'
+   - **Not instantiated:** a program that makes no instance loads and runs. Test: `NativeHelperUncarriedSelfGenericObjectWalk`, ' OK' on the old and the new code.
+   - **Meaning:** a library edit that binds such a method stops only the programs that make an instance.
+
+6. **Citations moved by the edit.**
+   - Row 846's `StaticNativeApp.java:199` (`unbox`'s `String` case) is now `:231`.
+   - F-299's `NativeApp.java:194-201` is now `:200-207`.
+   - Row 430's `values/FunctionClosure.java:130-131` is pinned to `d4d454f9d`, so it holds; at `HEAD` the lines are `:142-143`.
+
+## FACTS
+
+F-299, rewritten. Its row-847 sentence is replaced; the counts are the other rungs' and the gather's:
+
+- F-299 **Walk loads a `builtinPrimitive` string that names a static helper of `nativeHelpers/` beside its glue classes, and 21 of the one library's 449 live bindings name one.** The loader (`interpreter/glue/StaticNativeApp.java`, reached from `NativeApp.checkAndLoadNative`, `interpreter/glue/NativeApp.java:200-207`) takes the helper's overload whose Java parameter and result types carry the declared types, `self` first. It carries each value at its declared type. It refuses at load a string under `com.sun.fortress.nativeHelpers.` that names no static method, fits no overload, or has a declared parameter or result type that no Java type carries. For a method it is told the declaring type, `MethodClosure`'s definer or `FunctionalMethod`'s self type. It then refuses at load a type that no Java type carries ('no Java type carries Holder, the type of self.'), and takes only an overload whose first Java parameter is that type's carrier. It reads the carrier by name, for the fifteen types of `FortressLibrary` and `FortressBuiltin` whose names no program can give its own types, `FlatString` and `JavaString` not among them (`StaticNativeApp.java:82-96`). A dotted method of a generic trait or object is refused only where an instance is made (NEW-W-1). It raises a helper's `fortress.<Api>$<Name>` as the library's `<Name>`. The 21: 19 of trait `ZZ32`'s operators and functions (`Library/FortressLibrary.fss:741-810`) and `Int`'s `asString` and `asExprString` (`LibraryBuiltin/FortressBuiltin.fss:371`, `:373`). The other 428 still name glue classes, `ZZ32`'s `CHOOSE` among them (row 521). With F-298, the compiled checker reads the 21 against their helpers' Java signatures from this step on (P-58). A native over `String`, helper or glue class alike, receives a non-flat string's type name (row 846). Test: `tests/NativeHelperBindingWalk.fss`, with `NativeHelperFamilyZZ32Walk`, `NativeHelperRaiseWalk`, `NativeHelperMisspeltWalk`, `NativeHelperMisfitWalk`, `NativeHelperUncarriedWalk`, `ZZ32DivisionByZeroWalk`, `NativeHelperUncarriedSelfWalk`, `NativeHelperUncarriedSelfTraitWalk`, `NativeHelperUncarriedSelfFunctionalWalk`, `NativeHelperUncarriedSelfGenericWalk`, `NativeHelperUncarriedSelfFlatStringWalk`, `NativeHelperUncarriedSelfJavaStringWalk` and `NativeHelperUncarriedSelfGenericObjectWalk`. Detail: `compile-ladder/rung-natives-walk/REPORT.md`, "What changed and why"; `compile-ladder/rung-natives-self/REPORT.md`, "What changed and why".
+
+## Changes to existing ledger rows
+
+- **Row 847:** close, by the commit that lands this rung's code (on the branch: `aa52279ea` and `d1228e1f0`), test `NativeHelperUncarriedSelfWalk`. The `XXX` test it names was renamed by `git mv` to that name.
+- **Row 846:** note: "`StaticNativeApp.unbox`'s `String` case is at `ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java:231` at d1228e1f0."
+
+## New rows
+
+Section "12. The compiled path: constructs, crashes and the switch-over", beside row 847:
+
+| NEW-W-1 | under walk, a `builtinPrimitive` helper bound in a dotted method of a generic trait or object that no Java type carries is refused only where an instance's method is made, not at load: a program that makes no instance loads and runs, and one that makes one stops there | NEGATIVE-VERIFIED | implementation gap (walk) | silent | `ProjectFortress/tests/NativeHelperUncarriedSelfGenericObjectWalk.fss` | climb batch 24 rung W | siblings: 847. The check of `self` (`interpreter/glue/StaticNativeApp.java:137-141`, at d1228e1f0) runs where a closure is made; an instance's dotted methods get theirs when the instance is made (`interpreter/evaluator/values/MethodClosure.java:36`). `println("before"); println(Box[\ZZ32\](3).len())` prints 'before', then stops: 'no Java type carries Box, the type of self.', an `InterpreterBug`. A generic trait's functional method and a method with static parameters of its own are refused at load. Fix: check a generic type's helper bindings where it is declared. |
+
+## Handover
+
+Climb batch 24 rung W, `wip/rung-natives-self` at `d1228e1f0`: walk's native loader is told the declaring type and refuses at load a helper bound in a method of a type that no Java type carries. It takes only a self-first overload at that type's carrier; `FlatString` and `JavaString` carry no self. Row 847 closes with `NativeHelperUncarriedSelfWalk`. NEW-W-1 is filed: a generic type's dotted method is refused only at its instance. testSystem 700 and testSpecData 130, no failure; no stage run.
+
+## Revival change
+
+**The change.**
+- **The team's source:** the team's walk does not check a native's declared types against the Java code that runs it. `interpreter/glue/NativeMeth.java:29-31`: "As with NativeApp we don't check the declared type of the method on the Fortress side against the type of the method implemented in the native class." `StaticNativeApp`, the loader of helper strings, is a `NativeMeth`. `builtinPrimitive`'s comment, as the revival rewrote it, says the interpreter takes "the one whose Java parameter and result types carry the declared types, %self% first" (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:19`).
+- **What the tree now does:** for a helper string bound in a method, walk is told the type that declares the method. It refuses the binding at load where no Java type carries that type ('Native helper com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen: no Java type carries Holder, the type of self.'), and takes only an overload whose first Java parameter carries that type. It reads the carrier by the type's name: `ZZ32`, `NN32`, `Char`, `Int` in `int`; `ZZ64`, `NN64`, `Long`, `UnsignedLong` in `long`; `RR64`, `Float` in `double`; `RR32` in `float`; `Boolean`; `String`; `ZZ`, `BigNum` in `BigInteger`. A program cannot give its own types those names, and no other name carries `self`. Tests: `ProjectFortress/tests/NativeHelperUncarriedSelfWalk.fss` with `.test`, and `NativeHelperUncarriedSelfTraitWalk`, `NativeHelperUncarriedSelfFunctionalWalk`, `NativeHelperUncarriedSelfGenericWalk`, `NativeHelperUncarriedSelfFlatStringWalk` and `NativeHelperUncarriedSelfJavaStringWalk`. A dotted method of a generic trait or object is refused where an instance is made; `NativeHelperUncarriedSelfGenericObjectWalk` shows that such a program loads while it makes no instance.
+- **The reason:** a measured failure. Before the change, `len(): ZZ32` in a program's `object Holder`, bound to `com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen`, loaded, and `Holder.len()` answered 6, the length of the type's name. A trait's method answered 6 (`Square`), a generic trait's functional method 14 (`Square[\ZZ32\]`), and a program's own `object FlatString` or `object JavaString` 10. All ran through the harness with 'Missing expected refusal at load'.
+
+**Provenance.** Ledger row 847 ("Fix: tell the loader the declaring type, and refuse such a binding at load"), under P-58 (walk loads the helper that fits the declaration). The default followed is the planner's design, climb batch 24's fork 4. Rung W of climb batch 24 made two changes to it: the self-first rule for a dotted method, and no carrier for `FlatString` and `JavaString`.
