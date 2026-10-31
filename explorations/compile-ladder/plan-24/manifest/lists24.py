@@ -7,12 +7,13 @@
 # round and a judge. The record's section 5, "The briefings, rung by rung", holds the same keys. No key holds a
 # backslash, a backtick or a double quote, which the script refuses; facts-extract matches a heading without its
 # backticks.
-# The rungs, in the manifest's order: F, Z, S, K, W, G (the gather applies K before Z and S, by its rule on shared
-# files; the record's fork 1). K is the CHOOSE rung, on the CHOOSE probe's
-# finding (plan-24/probes/choose.md, its patch choose.patch beside it): both helpers fixed, both bindings moved.
-# H is the place kept for the hard set's rung (plan-24/probes/hard-set.md):
-# nothing is planned for it, its lists are empty, and gen24.py takes H only once the record's section 3 and
-# section 5 hold its blocks and H_BRIEFING below holds its keys.
+# The rungs, in the manifest's order: F, Z, S, K, W, G, H (the gather applies K before Z and S, by its rule on
+# shared files; the record's fork 1). K is the CHOOSE rung, on the CHOOSE probe's finding (plan-24/probes/choose.md,
+# its patch choose.patch beside it): both helpers fixed, both bindings moved. H is the hard set's rung, at the
+# hard-set probe's way 2b (plan-24/probes/hard-set.md), taken at its default: the rewrite composes a binding over
+# NN32, NN64 or Char with the team's transfers, and 76 bindings move. The fortress-repo skill's natives sections,
+# which H reads, are not keys here: a brief that names a skill path is refused by the scenario checker, and H's
+# section names them in words.
 # `python3 -B lists24.py` checks every key with facts-extract.sh --check (each must match exactly one place) and every
 # reason's form; it is run again on the tree the batch is cut from.
 import os
@@ -52,7 +53,6 @@ Z_BRIEFING = [
   ("F-299", "Walk's loader of a helper string, and its raise of a helper's DivisionByZero as the library's."),
   ("F-32", "The bindings and their classes, whose count your family changes."),
   ("ledger:336", "Your first row: walk's divisions by zero that end the run, of which your family fixes ZZ64's and ZZ's DIV."),
-  ("ledger:848", "Its sibling row, which the batch that edits row 336 gives its XXX test."),
   (P24 + "rung-Z.patch", "Your text as the planner measured it: the 36 strings of ZZ64 and ZZ."),
   (REC + "The planner's probes", "The family's values on the old code and the text, the divisions by zero, the stages and the compiled sample."),
   (REC + "Forks the batch takes, none consequential", "The defaults your rung builds, each with the ways not taken."),
@@ -64,7 +64,7 @@ Z_BRIEFING = [
   GUARD_COMPILED,
 ]
 Z_CHECKS = [
-  "P-58", "ledger:336", "ledger:848", P24 + "rung-Z.patch", REC + "The planner's probes",
+  "P-58", "ledger:336", P24 + "rung-Z.patch", REC + "The planner's probes",
   "code:Library/FortressLibrary.fss#trait ZZ64 extends",
 ]
 
@@ -139,10 +139,26 @@ G_CHECKS = [
   "code:" + SRC + "compiler/codegen/CodeGen.java#public void forFnDecl(FnDecl x)",
 ]
 
-# The place kept for the hard set's rung: filled only after plan-24/probes/hard-set.md lands and the record's
-# section 3 and section 5 hold H's blocks.
-H_BRIEFING = []
-H_CHECKS = []
+HS = "doc:explorations/compile-ladder/plan-24/probes/hard-set.md#"
+H_BRIEFING = [
+  ("P-58", "The decision your rung carries on: each binding keeps the bare form and is checked against its helper from the step that moves it."),
+  ("F-298", "The compiled rewrite your rung extends, and the reading of a helper's int and long as ZZ32 and ZZ64 that it works around."),
+  ("F-299", "Walk's loader, which already carries NN32, NN64 and Char by the declaration, so walk needs no change."),
+  ("ledger:848", "Your row: NN32's and NN64's divisions by zero, whose DIV your moves fix, and the XXX test owed for its rest."),
+  ("ledger:326", "Why UnsignedLong's two getters stay on their glue class: their helper prints an NN64 above the signed half as negative."),
+  ("ledger:860", "Why NN64's prefix DOTMINUS stays: its helper answers its operand; your XXX pair is the reproducer."),
+  ("ledger:861", "Why Char's asExprString stays: its helper writes a character outside ASCII in another form than walk."),
+  (HS + "1. For the curator", "The hard-set probe's findings in short: the problem measured, the team's transfers, the four ways and the recommendation."),
+  (HS + "4.2 Way 2: the binding's declared types", "Way 2b as the probe built and measured it: the transfers at the rewrite, its cost, its residue and its control."),
+  ("doc:explorations/compile-ladder/plan-24/probes/hard-set-way2b-rewrite.patch", "The probe's patch: the rewrite, its four sample strings and its sample tests, the form of your guards and your rewrite test."),
+  (P24 + "rung-H.patch", "Your text as the planner measured it: the probe's rewrite and the 76 strings."),
+  (REC + "The planner's probes", "The 80 tried under walk, the four that moved values, the stages and walk's suite on your text, and W's check beside it."),
+  (REC + "Forks the batch takes, none consequential", "The defaults your rung builds, fork 18 among them, each with the ways not taken."),
+  ("code:" + SRC + "compiler/BuiltinPrimitiveRewriter.java#private static FnDecl fn(FnDecl f, boolean inType, Aliases aliases)", "Where the rewrite makes a binding's call of its helper today, the place your transfers go."),
+]
+H_CHECKS = [
+  "P-58", "F-298", "ledger:848", HS + "4.2 Way 2: the binding's declared types", P24 + "rung-H.patch", REC + "The planner's probes",
+]
 
 ORDER = ('F', 'Z', 'S', 'K', 'W', 'G', 'H')
 _B = {'F': (F_BRIEFING, F_CHECKS), 'Z': (Z_BRIEFING, Z_CHECKS), 'S': (S_BRIEFING, S_CHECKS),

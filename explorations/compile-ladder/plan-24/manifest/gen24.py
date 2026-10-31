@@ -1,9 +1,10 @@
 # Made from plan-23/manifest/gen23.py for climb batch 24: one run; the batch's rungs in the manifest's order, F, Z, S,
-# K, W, G (the gather's rule on shared files puts K before Z and S; the record's fork 1), none landing only with another; K is the CHOOSE rung, on the CHOOSE probe's finding
-# (plan-24/probes/choose.md); H, the
-# place kept for the hard set's rung, joins only once the record's section 3 holds its "### H." block, section 5 its
-# "#### H" block, and lists24.py its keys, which is how lists24.IDS comes to name it. --without <rung> leaves that rung
-# out of the block. A rung's section runs from its heading to the next ### heading, as check24.js reads it.
+# K, W, G, H (the gather's rule on shared files puts K before Z and S; the record's fork 1), none landing only with
+# another; K is the CHOOSE rung, on the CHOOSE probe's finding (plan-24/probes/choose.md); H is the hard set's rung, at
+# the hard-set probe's way 2b (plan-24/probes/hard-set.md), taken as the generator was made to take it: by the
+# record's "### H." block in section 3, its "#### H" block in section 5, and lists24.py's keys, which is how
+# lists24.IDS comes to name it. --without <rung> leaves that rung out of the block. A rung's section runs from its
+# heading to the next ### heading, as check24.js reads it.
 # Generates the MANIFEST block (CLIMB-BATCH-24.md) for the batch workflow
 # (explorations/coordinator/climb-batch-workflow.js; explorations/coordinator/process-engineering/batch-redesign.md)
 # from the record and the briefings of lists24.py, into $OUT24/manifest24.js ($FORTRESS_HOME/tmp by default, which is

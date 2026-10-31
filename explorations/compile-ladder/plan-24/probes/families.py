@@ -6,8 +6,15 @@ exact text, as plan-23/probes/family-edits.py does.
   Z  the 64-bit and big integers: trait ZZ64's 21 less CHOOSE, and trait ZZ's 16.
   S  the small rest: Long's 2, BigNum's 2, the top-level char, and the singletons that fit, NN32's and NN64's
      signed and Char's codePoint.
-  out  ZZ64's and ZZ32's CHOOSE (row 521), the two top-level bindings declared over String (row 846; the record's
+  K  ZZ32's and ZZ64's CHOOSE, which rung K moves with its helpers' fix (rows 521 and 855).
+  out  the two top-level bindings declared over String (row 846; the record's
      question 1), and FlatString's 5 (outside the curator's scope for this batch).
+  H  the hard set's way 2b (plan-24/probes/hard-set.md): of the bindings that do not fit as a bare string (`bare` not),
+     the 82 over Char, NN32 and NN64 (UnsignedLong's among them), less NN32's asFloat (climb batch 23's fork 12) and
+     NN32's CHOOSE (it reaches simpleLongArith.longOverflowingChoose, which rung K fixes), 80, and less the four whose
+     helper moves a value under walk (the planner's run): UnsignedLong's asString and asExprString (row 326), NN64's
+     prefix DOTMINUS (row 860) and Char's asExprString (row 861); 76. With --apply, H also needs the rewrite of
+     rung-H.patch (hard-set-way2b-rewrite.patch's) before the checker reads them.
 Usage: families.py <movable.tsv>                         prints the table, one line a binding
        families.py <movable.tsv> --apply <tree> F,Z,S   moves those families in <tree> (`out` names the nine left
                                                          out); stops before writing if one string does not match"""
@@ -16,9 +23,18 @@ FILES = {'FortressLibrary.fss': 'Library/FortressLibrary.fss', 'FortressBuiltin.
          'FlatString.fss': 'Library/FlatString.fss', 'System.fss': 'Library/System.fss'}
 OVER_STRING = {'printlnWithThread', 'getProperty'}
 
+HARD = ('Char', 'NN32', 'NN64', 'UnsignedLong')
+
 def family(r):
     o, name = r['owner'], r['header'].split('(')[0].split(':')[0].strip()
-    if 'CHOOSE' in r['header']: return 'out:CHOOSE, row 521'
+    if r['bare'] == 'not':
+        if 'CHOOSE' in r['header']: return 'out:CHOOSE over NN32, after rungs H and K'
+        if name.endswith('asFloat'): return 'out:asFloat, fork 12'
+        if o == 'UnsignedLong': return 'out:its helper prints signed, row 326'
+        if o == 'NN64' and r['header'].replace(' ', '').startswith('oprDOTMINUS(self):'): return 'out:its helper answers its operand, row 860'
+        if o == 'Char' and 'asExprString' in r['header']: return 'out:its helper writes another form, row 861'
+        return 'H'
+    if 'CHOOSE' in r['header']: return 'K'
     if o == 'Float': return 'F'
     if o in ('ZZ64', 'ZZ'): return 'Z'
     if o in ('Long', 'BigNum', 'NN32', 'NN64', 'Char'): return 'S'
@@ -27,11 +43,12 @@ def family(r):
     if o == 'FlatString': return 'out:FlatString, outside the scope'
     return 'out:?'
 
-rows = [r for r in csv.DictReader(open(sys.argv[1]), delimiter='\t') if r['bare'] == 'movable' and r['now'] == 'glue']
+rows = [r for r in csv.DictReader(open(sys.argv[1]), delimiter='\t')
+        if r['now'] == 'glue' and (r['bare'] == 'movable' or r['owner'] in HARD)]
 for r in rows: r['fam'] = family(r)
 if '--apply' not in sys.argv:
     print('family\tfile:line\towner\theader\tclass\tglue\thelper')
-    order = {'F': 0, 'Z': 1, 'S': 2}
+    order = {'F': 0, 'Z': 1, 'S': 2, 'K': 3, 'H': 4}
     for r in sorted(rows, key=lambda r: (order.get(r['fam'], 9), r['fam'], r['file'], int(r['line']))):
         print('\t'.join([r['fam'], r['file'] + ':' + r['line'], r['owner'], r['header'], r['class'], r['glue'], r['helper']]))
     from collections import Counter

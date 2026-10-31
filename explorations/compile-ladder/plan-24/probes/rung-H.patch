@@ -1,0 +1,463 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index a243d75ff..c6661023b 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -915,9 +915,9 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     coerce(x: IntLiteral) = x.asNN64
+     opr |self| : NN64 = self
+     opr =(self, b:NN64):Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Eq")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongEQ")
+     opr <(self, b:NN64):Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Less")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongLT")
+     opr >(self, b:NN64):Boolean = b < self
+     opr >=(self, b:NN64):Boolean = NOT (self < b)
+     opr <=(self, b:NN64):Boolean = NOT (b < self)
+@@ -932,27 +932,27 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     opr MINNUM(self, other:NN64): NN64 = self MIN other
+     opr MAXNUM(self, other:NN64): NN64 = self MAX other
+     opr -(self):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Negate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingNeg")
+     opr DOTMINUS(self):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingNegate")
+     opr +(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAdd")
+     opr DOTPLUS(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingAdd")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingAdd")
+     opr -(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Sub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingSub")
+     opr DOTMINUS(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingSub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingSub")
+     opr DOT(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingMul")
+     opr TIMES(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingMul")
+     opr juxtaposition(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingMul")
+     opr DOTTIMES(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingMul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingMul")
+     opr DIV(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Div")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingDiv")
+     opr REM(self,b:NN64):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Rem")
+     opr MOD(self,b:NN64):NN64 =
+@@ -964,24 +964,24 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     opr CHOOSE(self,b:NN64):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Choose")
+     opr BITAND(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$BitAnd")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitAnd")
+     opr BITOR(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$BitOr")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitOr")
+     opr BITXOR(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$BitXor")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitXor")
+     opr LSHIFT(self,b:AnyIntegral):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$LShift")
+     opr RSHIFT(self,b:AnyIntegral):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$RShift")
+     opr BITNOT(self):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$BitNot")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitNot")
+     opr ^(self, b:AnyIntegral):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Pow")
+     opr ^(self, b:IntLiteral):NN64 = self^(b.asZZ32)
+     partitionL(self):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Partition")
+     narrow(self):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$FromLong")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.longWrappingToUnsignedInt")
+     signed(self):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$ToLong")
+     opr /(self, other:NN64):QQ = do a: ZZ = self; b: ZZ = other; a / b end
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 58bf49e59..fe430489a 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -389,18 +389,18 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     getter zero(): Number = unsigned(0)
+     getter one(): Number = unsigned(1)
+     getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
+     getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
+ 
+     asFloat(self): Float =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$AsFloat")
+ 
+     opr |self| : NN32 = self
+     opr =(self, b:NN32):Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Eq")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntEQ")
+     opr <(self, b:NN32):Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Less")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntLT")
+     opr >(self, b:NN32):Boolean = b < self
+     opr >=(self, b:NN32):Boolean = NOT (self < b)
+     opr <=(self, b:NN32):Boolean = NOT (b < self)
+@@ -416,27 +416,27 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     opr MAXNUM(self, other:NN32): NN32 = self MAX other
+ 
+     opr -(self):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Negate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingNeg")
+     opr DOTMINUS(self):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingNegate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingNeg")
+     opr +(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Add")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAdd")
+     opr DOTPLUS(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingAdd")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingAdd")
+     opr -(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Sub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingSub")
+     opr DOTMINUS(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingSub")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingSub")
+     opr DOT(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingMul")
+     opr TIMES(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingMul")
+     opr juxtaposition(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Mul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingMul")
+     opr DOTTIMES(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$WrappingMul")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingMul")
+     opr DIV(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Div")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingDiv")
+     opr REM(self,b:NN32):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Rem")
+     opr MOD(self,b:NN32):NN32 =
+@@ -448,22 +448,22 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     opr CHOOSE(self,b:NN32):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Choose")
+     opr BITAND(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitAnd")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitAnd")
+     opr BITOR(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitOr")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitOr")
+     opr BITXOR(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitXor")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitXor")
+     opr LSHIFT(self,b:AnyIntegral):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$LShift")
+     opr RSHIFT(self,b:AnyIntegral):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$RShift")
+     opr BITNOT(self):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$BitNot")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitNot")
+     opr ^(self, b:AnyIntegral):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Pow")
+     opr ^(self, b:IntLiteral):NN32 = self^(b.asZZ32)
+     widen(self):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$ToUnsignedLong")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.toLong")
+     partitionL(self):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Partition")
+     signed(self):ZZ32 =
+@@ -610,32 +610,32 @@ myJavaDigit(x:Char, radix:ZZ32): ZZ32 = javaDigit(x, radix)
+ 
+ value object Char extends { StandardTotalOrder[\Char\] }
+     getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToString")
+     getter asExprString(): String =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToExprString")
+     getter codePoint(): ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$CodePoint")
+     opr |self| : ZZ32 = self.codePoint
+     opr =(self, other:Char): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$Eq")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charEQ")
+     opr <(self, other:Char): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$LessThan")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLT")
+ 
+     opr SIMEQ(self, other:Char): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$SimEq")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charSimEq")
+     opr NSIMEQ(self, other:Char): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$NotSimEq")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charNotSimEq")
+     opr LNSIM(self, other:Char): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$LessNotSim")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLessNotSim")
+     opr LESSSIM(self, other:Char): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$LessSim")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLessSim")
+     opr GNSIM(self, other:Char): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GreaterNotSim")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGreaterNotSim")
+     opr GTRSIM(self, other:Char): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GreaterSim")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGreaterSim")
+ 
+     javaDigit(self, radix:ZZ32): ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$JavaDigit")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charJavaDigit")
+ 
+     digit(self): Maybe[\ZZ32\] = do
+         x:ZZ32 = myJavaDigit(self,10)
+@@ -663,63 +663,63 @@ value object Char extends { StandardTotalOrder[\Char\] }
+     end
+ 
+     getDirectionality(self): ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GetDirectionality")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGetDirectionality")
+     getNumericValue(self): ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GetNumericValue")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGetNumericValue")
+     getType(self): ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$GetType")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGetType")
+     isDefined(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsDefined")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsDefined")
+     isDigit(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsDigit")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsDigit")
+     isFortressIdentifierPart(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsFortressIdentifierPart")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsFortressIdentifierPart")
+     isFortressIdentifierStart(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsFortressIdentifierStart")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsFortressIdentifierStart")
+     isHighSurrogate(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsHighSurrogate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsHighSurrogate")
+     isIdentifierIgnorable(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsIdentifierIgnorable")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsIdentifierIgnorable")
+     isISOControl(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsISOControl")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsISOControl")
+     isJavaIdentifierPart(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsJavaIdentifierPart")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsJavaIdentifierPart")
+     isJavaIdentifierStart(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsJavaIdentifierStart")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsJavaIdentifierStart")
+     isLetter(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsLetter")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLetter")
+     isLetterOrDigit(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsLetterOrDigit")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLetterOrDigit")
+     isLowerCase(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsLowerCase")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLowerCase")
+     isLowSurrogate(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsLowSurrogate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLowSurrogate")
+     isMirrored(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsMirrored")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsMirrored")
+     isSpaceChar(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsSpaceChar")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsSpaceChar")
+     isSupplementaryCodePoint(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsSupplementaryCodePoint")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsSupplementaryCodePoint")
+     isSurrogatePair(self, low:Char): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsSurrogatePair")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsSurrogatePair")
+     isTitleCase(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsTitleCase")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsTitleCase")
+     isUnicodeIdentifierPart(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsUnicodeIdentifierPart")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsUnicodeIdentifierPart")
+     isUnicodeIdentifierStart(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsUnicodeIdentifierStart")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsUnicodeIdentifierStart")
+     isUpperCase(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsUpperCase")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsUpperCase")
+     isValidCodePoint(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsValidCodePoint")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsValidCodePoint")
+     isWhitespace(self): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$IsWhitespace")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsWhitespace")
+     toLowerCase(self): Char =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToLowerCase")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToLowerCase")
+     toTitleCase(self): Char =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToTitleCase")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToTitleCase")
+     toUpperCase(self): Char =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Char$ToUpperCase")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
+ end
+ 
+ object Thread[\T\] (fcn:()->T)
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java b/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
+index 52ade2259..f04f75094 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
+@@ -48,7 +48,7 @@ public final class BuiltinPrimitiveRewriter {
+         Component c = (Component) cu;
+         Aliases aliases = new Aliases();
+         List<Decl> decls = new ArrayList<Decl>();
+-        for (Decl d : c.getDecls()) decls.add(decl(d, false, aliases));
++        for (Decl d : c.getDecls()) decls.add(decl(d, null, aliases));
+         if (aliases.isEmpty()) return cu;
+         List<Import> imports = new ArrayList<Import>(c.getImports());
+         Span span = NodeUtil.getSpan(c);
+@@ -63,8 +63,9 @@ public final class BuiltinPrimitiveRewriter {
+         return new Component(c.getInfo(), c.getName(), imports, decls, c.getComprises(), c.is_native(), c.getExports());
+     }
+ 
+-    private static Decl decl(Decl d, boolean inType, Aliases aliases) {
+-        if (d instanceof FnDecl) return fn((FnDecl) d, inType, aliases);
++    /** owner: the simple name of the enclosing trait or object, "" for a generic one, null at the top level */
++    private static Decl decl(Decl d, String owner, Aliases aliases) {
++        if (d instanceof FnDecl) return fn((FnDecl) d, owner, aliases);
+         if (d instanceof TraitDecl) {
+             TraitDecl t = (TraitDecl) d;
+             return new TraitDecl(t.getInfo(), header(t.getHeader(), aliases), t.getSelfType(),
+@@ -79,12 +80,14 @@ public final class BuiltinPrimitiveRewriter {
+ 
+     private static TraitTypeHeader header(TraitTypeHeader h, Aliases aliases) {
+         List<Decl> ds = new ArrayList<Decl>();
+-        for (Decl d : h.getDecls()) ds.add(decl(d, true, aliases));
++        String owner = h.getStaticParams().isEmpty() ? NodeUtil.nameString(h.getName()) : "";
++        for (Decl d : h.getDecls()) ds.add(decl(d, owner, aliases));
+         return new TraitTypeHeader(h.getStaticParams(), h.getMods(), h.getName(), h.getWhereClause(),
+                                    h.getThrowsClause(), h.getContract(), h.getExtendsClause(), h.getParams(), ds);
+     }
+ 
+-    private static FnDecl fn(FnDecl f, boolean inType, Aliases aliases) {
++    private static FnDecl fn(FnDecl f, String owner, Aliases aliases) {
++        boolean inType = owner != null;
+         if (f.getBody().isNone() || !(f.getBody().unwrap() instanceof Juxt)) return f;
+         Juxt body = (Juxt) f.getBody().unwrap();
+         List<Expr> es = body.getExprs();
+@@ -100,28 +103,100 @@ public final class BuiltinPrimitiveRewriter {
+ 
+         Span span = NodeUtil.getSpan(body);
+         List<Expr> args = new ArrayList<Expr>();
++        List<String> declared = new ArrayList<String>();   // each argument's declared type, by simple name
+         boolean hasSelf = false;
+         for (Param p : NodeUtil.getParams(f)) {
+             if (p.getVarargsType().isSome()) return f;
+             if (p.getName().getText().equals("self")) hasSelf = true;
+-            else args.add(ExprFactory.makeVarRef(span, p.getName().getText()));
++            else {
++                args.add(ExprFactory.makeVarRef(span, p.getName().getText()));
++                declared.add(simpleName(p.getIdType().isSome() ? p.getIdType().unwrap() : null));
++            }
++        }
++        if (inType || hasSelf) {
++            args.add(0, ExprFactory.makeVarRef(span, "self"));
++            declared.add(0, owner == null ? null : owner);
+         }
+-        if (inType || hasSelf) args.add(0, ExprFactory.makeVarRef(span, "self"));
+ 
+         String pkg = s.substring(0, k), item = s.substring(k + 1);   // item = Class.method
+-        LinkedHashMap<String, String> inPkg = aliases.get(pkg);
+-        if (inPkg == null) aliases.put(pkg, inPkg = new LinkedHashMap<String, String>());
+-        String alias = inPkg.get(item);
+-        if (alias == null) inPkg.put(item, alias = "builtinPrimitive_" + item.replace('.', '_'));
++        String alias = alias(aliases, pkg, item);
++
++        /* The hard set's way 2b: where the declaration gives a position a type that the helper's Java type
++         * carries but the foreign-type table reads otherwise (an int as NN32 or Char, a long as NN64), the
++         * call goes through the team's transfer helpers, whose special names the table reads (NamingCzar). */
++        Method jm = soleMethod(s.substring(0, m), s.substring(m + 1), args.size());
++        String helperName = s.substring(m + 1);
++        if (jm != null) {
++            Class<?>[] pts = jm.getParameterTypes();
++            for (int i = 0; i < args.size(); i++) {
++                String t = transfer(declared.get(i), pts[i], helperName, false);
++                if (t != null)
++                    args.set(i, ExprFactory.makeTightJuxt(span, ExprFactory.makeVarRef(span, alias(aliases, HELPERS.substring(0, HELPERS.length() - 1), t)),
++                                                          ExprFactory.makeInParentheses(args.get(i))));
++            }
++        }
+ 
+         Expr arg = args.isEmpty() ? ExprFactory.makeVoidLiteralExpr(span)
+                  : args.size() == 1 ? ExprFactory.makeInParentheses(args.get(0))
+                  : ExprFactory.makeTupleExpr(span, args);
+         Expr call = ExprFactory.makeTightJuxt(body, Arrays.asList(ExprFactory.makeVarRef(span, alias), arg));
++        if (jm != null && f.getHeader().getReturnType().isSome()) {
++            String t = transfer(simpleName(f.getHeader().getReturnType().unwrap()), jm.getReturnType(), helperName, true);
++            if (t != null)
++                call = ExprFactory.makeTightJuxt(span, ExprFactory.makeVarRef(span, alias(aliases, HELPERS.substring(0, HELPERS.length() - 1), t)),
++                                                 ExprFactory.makeInParentheses(call));
++        }
+         return new FnDecl(f.getInfo(), f.getHeader(), f.getUnambiguousName(), Option.some(call),
+                           f.getImplementsUnambiguousName());
+     }
+ 
++    private static String alias(Aliases aliases, String pkg, String item) {
++        LinkedHashMap<String, String> inPkg = aliases.get(pkg);
++        if (inPkg == null) aliases.put(pkg, inPkg = new LinkedHashMap<String, String>());
++        String alias = inPkg.get(item);
++        if (alias == null) inPkg.put(item, alias = "builtinPrimitive_" + item.replace('.', '_'));
++        return alias;
++    }
++
++    private static String simpleName(Object t) {
++        if (t instanceof TraitType && ((TraitType) t).getArgs().isEmpty()) return ((TraitType) t).getName().getText();
++        if (t instanceof VarType) return ((VarType) t).getName().getText();
++        return null;
++    }
++
++    /** The transfer helper, Class.method, that carries a declared type in the Java type c where the table reads c otherwise. */
++    private static String transfer(String declared, Class<?> c, String helper, boolean result) {
++        if (declared == null) return null;
++        String desc = c == int.class ? "I" : c == long.class ? "J" : null;
++        if (desc == null) return null;
++        com.sun.fortress.nodes.Type read = NamingCzar.fortressTypeForForeignJavaType(desc, helper, result);
++        String r = simpleName(read);
++        if (declared.equals(r)) return null;
++        if (desc.equals("I") && declared.equals("NN32"))
++            return result ? "simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType"
++                          : "simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType";
++        if (desc.equals("I") && (declared.equals("Char") || declared.equals("Character")))
++            return result ? "simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType"
++                          : "simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType";
++        if (desc.equals("J") && declared.equals("NN64"))
++            return result ? "simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType"
++                          : "simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType";
++        return null;
++    }
++
++    /** The one public static method of that name and arity, or null. */
++    private static Method soleMethod(String cls, String method, int arity) {
++        Method found = null;
++        try {
++            for (Method x : Class.forName(cls, false, BuiltinPrimitiveRewriter.class.getClassLoader()).getMethods())
++                if (x.getName().equals(method) && Modifier.isStatic(x.getModifiers()) && x.getParameterTypes().length == arity) {
++                    if (found != null) return null;
++                    found = x;
++                }
++        } catch (ClassNotFoundException e) { } catch (LinkageError e) { }
++        return found;
++    }
++
+     /** Does the file's text hold a builtinPrimitive string that names a helper? */
+     public static boolean namesHelpers(java.io.File file) {
+         try {
