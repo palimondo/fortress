@@ -118,7 +118,6 @@ public class simpleIntArith {
 
     // Largest n for which `n CHOOSE k` is guaranteed to be representable as an int
     private final static int maxIntChooseN = 33;
-    private final static int[] tempIntChooseArray = new int[maxIntChooseN/2];
     private final static int[] intChooseTable = new int[chooseAccess(maxIntChooseN + 1, 2)];
 
     // Entry k is the largest n for which `n CHOOSE (k+2)` can be computed by
@@ -160,6 +159,8 @@ public class simpleIntArith {
         if (k > (n >> 1)) k = n - k;
         if (k < 2) return (k == 0) ? 1 : n;
         if (n > maxIntChooseN && (k << 1) > maxIntChooseN) return -1;
+	// Each call has its own array, since calls can run in parallel.
+	int[] tempIntChooseArray = new int[k];
 	for (int j = 0; j < k; j++) tempIntChooseArray[j] = n - j;
 	for (int j = k; j > 1; j--) {
 	    // You can't just try to find an array element that j divides;
@@ -206,7 +207,9 @@ public class simpleIntArith {
         if (k > (n >> 1)) k = n - k;
         if (k < 2) return (k == 0) ? 1 : n;
 	if (n <= maxIntChooseN) return intChooseTable[chooseAccess(n, k)];
-	if (k > maxIntChooseN)
+	// Here n > maxIntChooseN, so `n CHOOSE k` for a k past the end of maxIntChooseSafeN
+	// is at least `34 CHOOSE 17`, which no int holds.
+	if (k - 2 >= maxIntChooseSafeN.length)
 	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
 	if (n > maxIntChooseSafeN[k-2]) {
 	    int q = intSlowCautiousChoose(n, k);

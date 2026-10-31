@@ -1,5 +1,5 @@
-(* See explorations/compile-ladder/rung-size-range/REPORT.md. *)
-component XXXChooseTableCompiledRungE
+(* On the compiled path, CHOOSE on ZZ32 and on ZZ64 throws IntegerOverflow where k is past its helper's safe-bound table. *)
+component ChooseTableCompiledRungE
 export Executable
 
 cz(a: ZZ32, b: ZZ32): String = try "" || (a CHOOSE b) catch e IntegerOverflow => "OVF" end
