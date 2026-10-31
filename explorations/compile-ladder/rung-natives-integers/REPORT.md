@@ -122,7 +122,7 @@ The distance, 11:29:09 UTC, '#seconds 173 FortressLibrary 131' at load 3.42 (ano
     explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-23/gate/distance.txt tmp/rung-natives-integers/distance-postedit.txt
     DISTANCE SAME   0
 
-Its table differs from climb batch 23's only in the `#seconds` and `#machine` rows. `tmp/rung-natives-integers/dist-post/errors.tsv` holds only its header line, as the per-site list `explorations/compile-ladder/gate/distance-sites.tsv` does: no site came and none went.
+Its table differs from climb batch 23's only in the `#seconds` and `#machine` rows. The run's per-site errors list, read row by row against the landed per-site list `explorations/compile-ladder/gate/distance-sites.tsv:1` (its header only), holds no row either: no site came and none went.
 
 A control, to show that the count reads the moved bindings against their helpers: `ZZ`'s `=` (`Library/FortressLibrary.fss:1008`) set to name `simpleArbitraryPrecisionArith.add` for one run of the count stage, 11:32:31 UTC, then restored (`git status --short` empty after): '#total 1', '#locations 1', and in its full output 'FortressLibrary.fss:1008:9-91:' 'Function body has type ZZ, but declared return type is Boolean.' So the checker reads a moved `ZZ` binding through the helper's Java signature, `BigInteger` read as `ZZ`.
 
