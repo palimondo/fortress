@@ -1,0 +1,10 @@
+(* Today's behaviour, on which the specification is silent: char of a negative code point or one past U+10FFFF answers a Char that holds it, with no exception. *)
+component CharCodePointOutOfRangeWalk
+export Executable
+
+run():() = do
+  assert(char(-1).codePoint, -1, "char(-1).codePoint")
+  assert(char(1114112).codePoint, 1114112, "char(1114112).codePoint")
+end
+
+end

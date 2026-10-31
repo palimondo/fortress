@@ -1,0 +1,41 @@
+(* On the compiled path, top-level bindings of the helpers of Long's and BigNum's string getters, signed, codePoint and char compile into calls that keep their values. *)
+component NativeHelperFamilySmallCompiled
+export Executable
+
+smallLongToString(x:ZZ64):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToString")
+smallBigToString(x:ZZ):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toString")
+smallSigned32(x:NN32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")
+smallSigned64(x:NN64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType")
+smallCodePoint(c:Character):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType")
+smallChar(x:ZZ32):Character = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
+
+run():() = do
+  lMax: ZZ64 = 9223372036854775807
+  lMin: ZZ64 = -lMax - 1
+  lZero: ZZ64 = 0
+  assert(smallLongToString(lMax) = "9223372036854775807", "longToString at the ZZ64 maximum")
+  assert(smallLongToString(lMin) = "-9223372036854775808", "longToString at the ZZ64 minimum")
+  assert(smallLongToString(lZero) = "0", "longToString at 0")
+  past: ZZ = 18446744073709551616
+  negative: ZZ = -123456789012345678901234567890
+  assert(smallBigToString(past) = "18446744073709551616", "toString past ZZ64")
+  assert(smallBigToString(negative) = "-123456789012345678901234567890", "toString of a negative value")
+  zero: ZZ32 = 0
+  seven: ZZ32 = 7
+  top32: ZZ32 = 2147483647
+  assert(smallSigned32(unsigned(zero)), 0, "NN32 signed of 0")
+  assert(smallSigned32(unsigned(seven)), 7, "NN32 signed of 7")
+  assert(smallSigned32(unsigned(top32)), top32, "NN32 signed at the top of the signed range")
+  seven64: ZZ64 = 7
+  assert(smallSigned64(unsigned(lZero)) = lZero, "NN64 signed of 0")
+  assert(smallSigned64(unsigned(seven64)) = seven64, "NN64 signed of 7")
+  assert(smallSigned64(unsigned(lMax)) = lMax, "NN64 signed at the top of the signed range")
+  assert(smallCodePoint('A'), 65, "codePoint of 'A'")
+  assert(smallChar(65), 'A', "char of 65")
+  assert(smallCodePoint(smallChar(65)), 65, "char and codePoint at 65")
+  assert(smallCodePoint(smallChar(0)), 0, "char and codePoint at 0")
+  assert(smallCodePoint(smallChar(128512)), 128512, "char and codePoint past U+FFFF")
+  println("PASS")
+end
+
+end

@@ -1,0 +1,37 @@
+(* Long's and BigNum's string getters, NN32's and NN64's signed, Char's codePoint and char keep their values under walk. *)
+component NativeHelperFamilySmallWalk
+export Executable
+
+run():() = do
+  lMax: ZZ64 = 9223372036854775807
+  lMin: ZZ64 = -9223372036854775807 - 1
+  lZero: ZZ64 = 0
+  assert(lMax.asString, "9223372036854775807", "Long asString at the ZZ64 maximum")
+  assert(lMin.asString, "-9223372036854775808", "Long asString at the ZZ64 minimum")
+  assert(lZero.asString, "0", "Long asString at 0")
+  assert(lMax.asExprString, "9223372036854775807", "Long asExprString at the ZZ64 maximum")
+  assert(lMin.asExprString, "-9223372036854775808", "Long asExprString at the ZZ64 minimum")
+  assert(lZero.asExprString, "0", "Long asExprString at 0")
+  past: ZZ = 18446744073709551616
+  negative: ZZ = -123456789012345678901234567890
+  assert(past.asString, "18446744073709551616", "BigNum asString past ZZ64")
+  assert(negative.asString, "-123456789012345678901234567890", "BigNum asString of a negative value")
+  assert(past.asExprString, "18446744073709551616", "BigNum asExprString past ZZ64")
+  assert(negative.asExprString, "-123456789012345678901234567890", "BigNum asExprString of a negative value")
+  top32: ZZ32 = 2147483647
+  assert(signed(unsigned(0)), 0, "NN32 signed of 0")
+  assert(signed(unsigned(7)), 7, "NN32 signed of 7")
+  assert(signed(unsigned(top32)), top32, "NN32 signed at the top of the signed range")
+  seven64: ZZ64 = 7
+  assert(signed(unsigned(lZero)), lZero, "NN64 signed of 0")
+  assert(signed(unsigned(seven64)), seven64, "NN64 signed of 7")
+  assert(signed(unsigned(lMax)), lMax, "NN64 signed at the top of the signed range")
+  assert('A'.codePoint, 65, "codePoint of 'A'")
+  assert(|'A'|, 65, "|'A'|")
+  assert(char(65), 'A', "char of 65")
+  assert(char(65).codePoint, 65, "char and codePoint at 65")
+  assert(char(0).codePoint, 0, "char and codePoint at 0")
+  assert(char(128512).codePoint, 128512, "char and codePoint past U+FFFF")
+end
+
+end

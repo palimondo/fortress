@@ -1,0 +1,14 @@
+(* Today's behaviour, on which the specification is silent: signed of an NN32 or NN64 above its signed half wraps to a negative value, with no IntegerOverflow. *)
+component SignedAboveSignedRangeWalk
+export Executable
+
+run():() = do
+  m32: ZZ32 = -1
+  min32: ZZ32 = -2147483647 - 1
+  m64: ZZ64 = -1
+  assert(signed(unsigned(m32)), m32, "NN32 signed of 2^32-1")
+  assert(signed(unsigned(min32)), min32, "NN32 signed of 2^31")
+  assert(signed(unsigned(m64)), m64, "NN64 signed of 2^64-1")
+end
+
+end
