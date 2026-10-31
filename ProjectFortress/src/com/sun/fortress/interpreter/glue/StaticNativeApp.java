@@ -48,7 +48,7 @@ public class StaticNativeApp extends NativeMeth {
         if (t == null) return null;
         if (t.equals("ZZ32") || t.equals("NN32") || t.equals("Char")) return int.class;
         if (t.equals("ZZ64") || t.equals("NN64")) return long.class;
-        if (t.equals("RR64")) return double.class;
+        if (t.equals("RR64") || t.equals("Float")) return double.class;
         if (t.equals("RR32")) return float.class;
         if (t.equals("Boolean")) return boolean.class;
         if (t.equals("String") || t.equals("FlatString") || t.equals("JavaString")) return String.class;

@@ -51,7 +51,10 @@ run():() = do
   assert(dToString(nan) = "NaN", "dToString of NaN")
   assert(dToString(b) = "-0.75", "dToString of -0.75")
 
-  assert(dEQ(dAbs(b), 0.75), "dAbs")
+  assert(dEQ(dAbs(a), a), "dAbs")
+  assert(dEQ(dAbs(b), 0.75), "dAbs of a negative")
+  assert(dToString(dAbs(z)) = "0.0", "dAbs of 0.0")
+  assert(dEQ(dAbs(inf), inf), "dAbs of infinity")
   assert(dToString(dAbs(nz)) = "0.0", "dAbs of -0.0")
   assert(dEQ(dAbs(ninf), inf), "dAbs of -infinity")
   assert(dToString(dAbs(nan)) = "NaN", "dAbs of NaN")

@@ -29,7 +29,10 @@ run():() = do
   assert(b.asExprString, "-0.75", "asExprString")
   assert(nz.asExprString, "-0.0", "asExprString of -0.0")
 
+  assert(|a|, 2.5, "|a|")
   assert(|b|, 0.75, "|b|")
+  assert((|z|).asString, "0.0", "|0.0|")
+  assert(|inf|, inf, "|infinity|")
   assert((|nz|).asString, "0.0", "|-0.0|")
   assert(|ninf|, inf, "|-infinity|")
   assert((|nan|).isNaN, true, "|NaN|")
