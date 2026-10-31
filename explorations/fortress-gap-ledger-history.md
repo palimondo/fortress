@@ -6533,3 +6533,15 @@ rewritten
 rewritten
 
 | 336 | under walk, `REM` and `MOD` by zero on `ZZ32`, `DIV`, `REM` and `MOD` by zero on `ZZ64`, and `DIV` by zero on `ZZ` end the run with a Java `ArithmeticException` that no Fortress `catch` sees: `8 REM 0` in a `try` catching `Exception` ends the run, where the compiled path raises `DivisionByZero` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators"; `Specification/basic-lib/basic-integers.tex`, "Integers" | none | climb batch 1 rung N's skeptic | No zero test in their glue classes, at e74428c71: `Int$Rem` ends in `x % y` (`interpreter/glue/prim/Int.java:132`), `Long$Div` and `Long$Rem` in `x / y` and `x % y` (`Long.java:140`, `:146`); both `MOD`s reach `Int.mod`'s `xi % yi` (`Int.java:389`); `BigNum$Div` is `x.divide(y)` (`BigNum.java:160`). Walk makes a native's Java exception a `ProgramError` (F-24). `ZZ32`'s `DIV` names `simpleIntArith.intOverflowingDiv`, whose raise walk translates (`ProjectFortress/tests/ZZ32DivisionByZeroWalk.fss`). Fix: each on its helper, or a zero test throwing `Int.divisionByZero()` (`Int.java:263-266`). full text: history, row 336 |
+
+### Row 856
+
+rewritten
+
+| 856 | under walk, `signed` of an `NN32` or `NN64` above its signed half wraps to a negative value, with no `IntegerOverflow`: `signed(unsigned(-1))` is `-1` on `NN32` and on `NN64`, and `signed` of the `NN32` 2^31 is `-2147483648` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | climb batch 24's planner | siblings: 502. The glue classes `NN32$ToInt` and `UnsignedLong$ToLong` return their `int` or `long` as is (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN32.java:239-243`, `UnsignedLong.java:239-243`, at 1f5c49b4f), and so do the helpers that climb batch 24's rung S moves the two bindings onto (`nativeHelpers/simpleUnsignedIntArith.java:231`, `simpleUnsignedLongArith.java:228`). `bin/fortress` on a program printing the three, on the old code and with the move: '-1', '-2147483648', '-1' both times. The specification names only `narrow`'s wrap (`basic-lib/basic-integers.tex`, "Integers"); keep the low bits or raise is row 502's question, for `widen`. |
+
+### Row 857
+
+rewritten
+
+| 857 | under walk, `char` takes a negative code point or one past U+10FFFF and answers a `Char` that holds it, with no exception: `char(-1).codePoint` is `-1` and `char(1114112).codePoint` is `1114112` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | climb batch 24's planner | `Char$Chr` returns its `int` as is (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Char.java:165-169`, at 1f5c49b4f), and so does the helper that climb batch 24's rung S moves `char` onto (`nativeHelpers/simpleChar.java:63`). The api says of `char` that "we don't presently deal gracefully with %Char%s outside the 16-bit plane" (`Library/FortressLibrary.fsi:2578-2580`). `bin/fortress` on a program printing both, on the old code and with the move: '-1' and '1114112' both times. The specification names no conversion from an integer to a `Char`. |
