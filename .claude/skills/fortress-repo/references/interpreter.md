@@ -91,16 +91,20 @@ The library binds each of walk's natives by a declaration whose body is `builtin
 
 Walk carries each declared type of a helper's binding in one Java type:
 
-- `ZZ32`, `NN32` and `Char` in `int`; `ZZ64` and `NN64` in `long`; `RR64` in `double`; `RR32` in `float`; `Boolean` in `boolean`;
+- `ZZ32`, `NN32` and `Char` in `int`; `ZZ64` and `NN64` in `long`; `RR64` and `Float` in `double`; `RR32` in `float`; `Boolean` in `boolean`;
 - `String`, `FlatString` and `JavaString` in `String`; `ZZ` in `BigInteger`; `()` in `void`.
+
+In a method, walk carries `self` by the type that declares the method:
+
+- a type of the list above, except `FlatString`, `JavaString` and `()`, in the same Java type;
+- the objects `Int` in `int`, `Long` and `UnsignedLong` in `long`, and `BigNum` in `BigInteger`.
 
 Walk refuses a helper's binding at load in these cases. The message names the string, and contains the words below, which a `load_exception_contains` key can match:
 
 - The class or the method does not exist: 'not found' or 'names no static method of'.
-- The result type, or a parameter type other than `self`'s, is not in the list above: 'no Java type carries the declared'.
-- No method of that name, or more than one, has exactly the Java types of the list: 'has no overload that fits the declaration's types', or 'overloads that fit'.
-
-Walk does not check `self`. It passes `self` as the helper's first Java parameter, read as that parameter's Java type. So a binding in a method of a program's own type loads, and a `String` parameter receives the type's name (ledger row 847). Bind a helper in a method only if the helper's first Java parameter carries the type of `self`, as `int` for a method of `ZZ32`.
+- The result type, or a parameter type other than `self`'s, is not in the first list: 'no Java type carries the declared'.
+- The binding is in a method of a type that the second list does not name, as a program's own object `Holder`: 'no Java type carries Holder, the type of self.'
+- No method of that name, or more than one, has exactly the Java types of the lists, with `self`'s first in a method: 'has no overload that fits the declaration's types', or 'overloads that fit'.
 
 A native declared over `String`, glue class or helper alike, receives the wrong text for a `CatString`: the name of the type, not its characters (ledger row 846). `||` builds a `CatString` when the joined string is longer than `maxLeafSize`, 32 characters by default. If a string that reaches such a native can come from `||`, pass it as `s.asFlatString` at the call of the native.
 
@@ -111,7 +115,7 @@ A glue class raises a Fortress exception that a `catch` sees by throwing a `Fort
     FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
     return new FortressError(f);
 
-A helper runs on both paths, so it raises an exception as compiled code does: `throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero")` (`compiler/runtimeValues/Utility.java`). The string names the compiler's prelude's class for the exception. Under walk, that class does not load, and `StaticNativeApp` raises the interpreter's library's object of the same name in its place. So raise from a helper only an exception that both libraries declare as an object, as `DivisionByZero` and `IntegerOverflow`. `ZZ32`'s `DIV` by zero raises `DivisionByZero` in this way. A `catch` sees no other Java exception, so any other exception from a native ends the run, as a division by zero in a glue class does.
+A helper runs on both paths, so it raises an exception as compiled code does: `throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero")` (`compiler/runtimeValues/Utility.java`). The string names the compiler's prelude's class for the exception. Under walk, that class does not load, and `StaticNativeApp` raises the interpreter's library's object of the same name in its place. So raise from a helper only an exception that both libraries declare as an object, as `DivisionByZero` and `IntegerOverflow`. `DIV` by zero on `ZZ32`, `ZZ64`, `ZZ`, `NN32` and `NN64` raises `DivisionByZero` in this way. A `catch` sees no other Java exception, so any other exception from a native ends the run, as a division by zero in a glue class does.
 
 ## Running a program
 
