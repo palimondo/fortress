@@ -1,0 +1,12 @@
+(* A function with a requires clause compiles and runs: a call that meets the clause returns the body's value. *)
+component XXXFunctionContractCodeGeneration
+export Executable
+
+twice(n: ZZ32): ZZ32 requires { n >= 0 } = n + n
+
+run(): () = do
+    assert(twice(3), 6, "functions.tex, section \"Function Contracts\": a call that meets the requires clause")
+    println("PASS")
+  end
+
+end
