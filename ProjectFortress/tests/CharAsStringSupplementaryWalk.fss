@@ -1,0 +1,11 @@
+(* Char's asString of a character past U+FFFF answers the one-character string of its low 16 bits under walk. *)
+component CharAsStringSupplementaryWalk
+export Executable
+
+run():() = do
+  assert(char(66560).asString = char(1024).asString, true, "asString of U+10400 is that of U+0400")
+  assert(char(128512).asString = char(62976).asString, true, "asString of U+1F600 is that of U+F600")
+  assert(char(66560).codePoint, 66560, "the Char of U+10400 keeps its code point")
+end
+
+end

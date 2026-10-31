@@ -1,0 +1,259 @@
+(* On the compiled path, a builtinPrimitive body over NN32, NN64 or Character whose helper takes or answers a Java int or long compiles and runs at the declared types. *)
+component NativeHelperTransferCompiled
+export Executable
+
+n32ToString(a:NN32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
+n32Eq(a:NN32, b:NN32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntEQ")
+n32Lt(a:NN32, b:NN32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntLT")
+n32Neg(a:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingNeg")
+n32WrapNeg(a:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingNeg")
+n32Not(a:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitNot")
+n32Add(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingAdd")
+n32WrapAdd(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingAdd")
+n32Sub(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingSub")
+n32WrapSub(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingSub")
+n32Mul(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingMul")
+n32WrapMul(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntWrappingMul")
+n32Div(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingDiv")
+n32And(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitAnd")
+n32Or(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitOr")
+n32Xor(a:NN32, b:NN32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitXor")
+n32Widen(a:NN32):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.toLong")
+n64Eq(a:NN64, b:NN64):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongEQ")
+n64Lt(a:NN64, b:NN64):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongLT")
+n64Neg(a:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingNeg")
+n64Not(a:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitNot")
+n64Add(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAdd")
+n64WrapAdd(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingAdd")
+n64Sub(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingSub")
+n64WrapSub(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingSub")
+n64Mul(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingMul")
+n64WrapMul(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingMul")
+n64Div(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingDiv")
+n64And(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitAnd")
+n64Or(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitOr")
+n64Xor(a:NN64, b:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitXor")
+n64Narrow(a:NN64):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.longWrappingToUnsignedInt")
+cToString(x:Character):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToString")
+cEq(x:Character, y:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charEQ")
+cLt(x:Character, y:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLT")
+cSimEq(x:Character, y:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charSimEq")
+cNotSimEq(x:Character, y:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charNotSimEq")
+cLessNotSim(x:Character, y:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLessNotSim")
+cLessSim(x:Character, y:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLessSim")
+cGreaterNotSim(x:Character, y:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGreaterNotSim")
+cGreaterSim(x:Character, y:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGreaterSim")
+cIsSurrogatePair(x:Character, y:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsSurrogatePair")
+cJavaDigit(x:Character, radix:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charJavaDigit")
+cGetDirectionality(x:Character):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGetDirectionality")
+cGetNumericValue(x:Character):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGetNumericValue")
+cGetType(x:Character):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charGetType")
+cIsDefined(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsDefined")
+cIsDigit(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsDigit")
+cIsFortressIdentifierPart(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsFortressIdentifierPart")
+cIsFortressIdentifierStart(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsFortressIdentifierStart")
+cIsHighSurrogate(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsHighSurrogate")
+cIsIdentifierIgnorable(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsIdentifierIgnorable")
+cIsISOControl(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsISOControl")
+cIsJavaIdentifierPart(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsJavaIdentifierPart")
+cIsJavaIdentifierStart(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsJavaIdentifierStart")
+cIsLetter(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLetter")
+cIsLetterOrDigit(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLetterOrDigit")
+cIsLowerCase(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLowerCase")
+cIsLowSurrogate(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsLowSurrogate")
+cIsMirrored(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsMirrored")
+cIsSpaceChar(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsSpaceChar")
+cIsSupplementaryCodePoint(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsSupplementaryCodePoint")
+cIsTitleCase(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsTitleCase")
+cIsUnicodeIdentifierPart(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsUnicodeIdentifierPart")
+cIsUnicodeIdentifierStart(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsUnicodeIdentifierStart")
+cIsUpperCase(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsUpperCase")
+cIsValidCodePoint(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsValidCodePoint")
+cIsWhitespace(x:Character):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charIsWhitespace")
+cToLowerCase(x:Character):Character = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToLowerCase")
+cToTitleCase(x:Character):Character = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToTitleCase")
+cToUpperCase(x:Character):Character = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
+n32Of(a:ZZ32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
+z32Of(a:NN32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")
+n64Of(a:ZZ64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType")
+z64Of(a:NN64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType")
+charOf(a:ZZ32):Character = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
+codeOf(c:Character):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType")
+
+overflowsN32(f: () -> NN32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+overflowsN64(f: () -> NN64): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+dividesByZeroN32(f: () -> NN32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    DivisionByZero => true
+    Exception => false
+  end
+
+dividesByZeroN64(f: () -> NN64): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    DivisionByZero => true
+    Exception => false
+  end
+
+run():() = do
+  n0: NN32 = 0
+  n1: NN32 = 1
+  n7: NN32 = 7
+  n16: NN32 = 65536
+  n31: NN32 = 2147483648
+  nmax: NN32 = 4294967295
+  assert(n32ToString(nmax) = "4294967295", "NN32 toString of 2^32-1")
+  assert(n32ToString(n31) = "2147483648", "NN32 toString of 2^31")
+  assert(n32ToString(n0) = "0", "NN32 toString of 0")
+  assert(n32Eq(nmax, nmax), "NN32 Eq")
+  assert(NOT n32Eq(nmax, n31), "NN32 Eq unequal")
+  assert(n32Lt(n31, nmax), "NN32 Lt above the signed half")
+  assert(NOT n32Lt(nmax, n7), "NN32 Lt is unsigned")
+  assert(n32Neg(n0) = 0, "NN32 Neg of 0")
+  assert(overflowsN32(fn () => n32Neg(n7)), "NN32 Neg of 7 overflows")
+  assert(n32WrapNeg(n7) = 4294967289, "NN32 WrapNeg of 7 wraps")
+  assert(n32WrapNeg(nmax) = 1, "NN32 WrapNeg of 2^32-1 wraps")
+  assert(n32Not(n0) = nmax, "NN32 Not of 0")
+  assert(n32Not(n31) = 2147483647, "NN32 Not of 2^31")
+  assert(n32Add(n31, n16) = 2147549184, "NN32 Add past the signed half")
+  assert(overflowsN32(fn () => n32Add(nmax, n7)), "NN32 Add overflows")
+  assert(n32WrapAdd(nmax, n7) = 6, "NN32 WrapAdd wraps")
+  assert(n32Sub(nmax, n7) = 4294967288, "NN32 Sub")
+  assert(overflowsN32(fn () => n32Sub(n0, n7)), "NN32 Sub below 0 overflows")
+  assert(n32WrapSub(n0, n7) = 4294967289, "NN32 WrapSub wraps")
+  assert(n32Mul(n16, n7) = 458752, "NN32 Mul")
+  assert(n32Mul(n31, n1) = n31, "NN32 Mul by 1")
+  assert(overflowsN32(fn () => n32Mul(n16, n16)), "NN32 Mul at 2^32 overflows")
+  assert(n32WrapMul(nmax, n7) = 4294967289, "NN32 WrapMul wraps")
+  assert(n32Div(nmax, n7) = 613566756, "NN32 Div is unsigned")
+  assert(dividesByZeroN32(fn () => n32Div(n7, n0)), "NN32 Div by 0 throws DivisionByZero")
+  assert(n32And(n31, nmax) = n31, "NN32 And")
+  assert(n32Or(n31, n7) = 2147483655, "NN32 Or")
+  assert(n32Xor(nmax, n7) = 4294967288, "NN32 Xor")
+  assert(n32Widen(nmax) = 4294967295, "NN32 Widen of 2^32-1")
+  assert(n32Widen(n31) = 2147483648, "NN32 Widen of 2^31")
+  m0: NN64 = 0
+  m1: NN64 = 1
+  m7: NN64 = 7
+  m32: NN64 = 4294967296
+  m32p7: NN64 = 4294967303
+  m63: NN64 = 9223372036854775808
+  mmax: NN64 = 18446744073709551615
+  assert(n64Eq(mmax, mmax), "NN64 Eq")
+  assert(NOT n64Eq(mmax, m63), "NN64 Eq unequal")
+  assert(n64Lt(m63, mmax), "NN64 Lt above the signed half")
+  assert(NOT n64Lt(mmax, m7), "NN64 Lt is unsigned")
+  assert(n64Neg(m0) = m0, "NN64 Neg of 0")
+  assert(overflowsN64(fn () => n64Neg(m7)), "NN64 Neg of 7 overflows")
+  assert(n64Not(m0) = mmax, "NN64 Not of 0")
+  assert(n64Not(m63) = 9223372036854775807, "NN64 Not of 2^63")
+  assert(n64Add(m63, m32) = 9223372041149743104, "NN64 Add past the signed half")
+  assert(overflowsN64(fn () => n64Add(mmax, m7)), "NN64 Add overflows")
+  assert(n64WrapAdd(mmax, m7) = 6, "NN64 WrapAdd wraps")
+  assert(n64Sub(mmax, m7) = 18446744073709551608, "NN64 Sub")
+  assert(overflowsN64(fn () => n64Sub(m0, m7)), "NN64 Sub below 0 overflows")
+  assert(n64WrapSub(m0, m7) = 18446744073709551609, "NN64 WrapSub wraps")
+  assert(n64Mul(m32, m7) = 30064771072, "NN64 Mul")
+  assert(n64Mul(m63, m1) = m63, "NN64 Mul by 1")
+  assert(overflowsN64(fn () => n64Mul(m32, m32)), "NN64 Mul at 2^64 overflows")
+  assert(n64WrapMul(mmax, m7) = 18446744073709551609, "NN64 WrapMul wraps")
+  assert(n64Div(mmax, m7) = 2635249153387078802, "NN64 Div is unsigned")
+  assert(dividesByZeroN64(fn () => n64Div(m7, m0)), "NN64 Div by 0 throws DivisionByZero")
+  assert(n64And(m63, mmax) = m63, "NN64 And")
+  assert(n64Or(m63, m7) = 9223372036854775815, "NN64 Or")
+  assert(n64Xor(mmax, m7) = 18446744073709551608, "NN64 Xor")
+  assert(n64Narrow(mmax) = nmax, "NN64 Narrow of 2^64-1 keeps the low 32 bits")
+  assert(n64Narrow(m32p7) = n7, "NN64 Narrow of 2^32+7 keeps the low 32 bits")
+  assert(n64Narrow(m63) = n0, "NN64 Narrow of 2^63 keeps the low 32 bits")
+  sigma = makeCharacter(931)
+  sigmaLower = makeCharacter(963)
+  longI = makeCharacter(66560)
+  longILower = makeCharacter(66600)
+  high = makeCharacter(55296)
+  low = makeCharacter(56320)
+  dz = makeCharacter(453)
+  dzUpper = makeCharacter(452)
+  dzLower = makeCharacter(454)
+  unassigned = makeCharacter(888)
+  nul = makeCharacter(0)
+  newline = makeCharacter(10)
+  assert(cToString('a') = "a", "Character toString")
+  assert(cToString(sigma) = "Σ", "Character toString past U+00FF")
+  assert(cEq(longI, longI), "Character Eq past U+FFFF")
+  assert(NOT cEq('a', 'A'), "Character Eq unequal")
+  assert(cLt('A', 'a'), "Character Lt")
+  assert(cLt(sigma, longI), "Character Lt past U+FFFF")
+  assert(cSimEq(sigma, sigmaLower), "Character SimEq")
+  assert(cNotSimEq('a', 'B'), "Character NotSimEq")
+  assert(cLessNotSim('a', 'B'), "Character LessNotSim")
+  assert(cLessSim('A', 'a'), "Character LessSim")
+  assert(cGreaterNotSim('b', 'A'), "Character GreaterNotSim")
+  assert(cGreaterSim('a', 'A'), "Character GreaterSim")
+  assert(cIsSurrogatePair(high, low), "Character IsSurrogatePair")
+  assert(NOT cIsSurrogatePair(low, high), "Character IsSurrogatePair reversed")
+  assert(cJavaDigit('7', 10), 7, "Character JavaDigit")
+  assert(cJavaDigit('F', 16), 15, "Character JavaDigit radix 16")
+  assert(cJavaDigit('z', 10), -1, "Character JavaDigit of a letter")
+  assert(cGetDirectionality('7'), 3, "Character GetDirectionality")
+  assert(cGetDirectionality(unassigned), -1, "Character GetDirectionality of an unassigned code point")
+  assert(cGetNumericValue('Z'), 35, "Character GetNumericValue")
+  assert(cGetType(dz), 3, "Character GetType of a title-case letter")
+  assert(cGetType(longI), 1, "Character GetType past U+FFFF")
+  assert(NOT cIsDefined(unassigned), "Character IsDefined")
+  assert(cIsDigit('7'), "Character IsDigit")
+  assert(cIsFortressIdentifierPart('_'), "Character IsFortressIdentifierPart")
+  assert(cIsFortressIdentifierStart(sigma), "Character IsFortressIdentifierStart")
+  assert(cIsHighSurrogate(high), "Character IsHighSurrogate")
+  assert(cIsIdentifierIgnorable(nul), "Character IsIdentifierIgnorable")
+  assert(cIsISOControl(newline), "Character IsISOControl")
+  assert(cIsJavaIdentifierPart('$'), "Character IsJavaIdentifierPart")
+  assert(NOT cIsJavaIdentifierStart('7'), "Character IsJavaIdentifierStart")
+  assert(cIsLetter(longI), "Character IsLetter past U+FFFF")
+  assert(NOT cIsLetterOrDigit(' '), "Character IsLetterOrDigit")
+  assert(cIsLowerCase(longILower), "Character IsLowerCase past U+FFFF")
+  assert(cIsLowSurrogate(low), "Character IsLowSurrogate")
+  assert(cIsMirrored('('), "Character IsMirrored")
+  assert(NOT cIsSpaceChar(newline), "Character IsSpaceChar")
+  assert(cIsSupplementaryCodePoint(longI), "Character IsSupplementaryCodePoint")
+  assert(cIsTitleCase(dz), "Character IsTitleCase")
+  assert(cIsUnicodeIdentifierPart('7'), "Character IsUnicodeIdentifierPart")
+  assert(NOT cIsUnicodeIdentifierStart('7'), "Character IsUnicodeIdentifierStart")
+  assert(cIsUpperCase(longI), "Character IsUpperCase past U+FFFF")
+  assert(cIsValidCodePoint(high), "Character IsValidCodePoint")
+  assert(cIsWhitespace(newline), "Character IsWhitespace")
+  assert(cToLowerCase('Z') = 'z', "Character ToLowerCase")
+  assert(cToLowerCase(longI) = longILower, "Character ToLowerCase past U+FFFF")
+  assert(cToTitleCase(dzLower) = dz, "Character ToTitleCase")
+  assert(cToUpperCase(dz) = dzUpper, "Character ToUpperCase")
+  assert(cToUpperCase(longILower).codePoint, 66560, "Character ToUpperCase past U+FFFF")
+  assert(z32Of(nmax), -1, "the NN32 transfer to ZZ32")
+  assert(n32Of(-1) = nmax, "the ZZ32 transfer to NN32")
+  assert(z64Of(mmax) = -1, "the NN64 transfer to ZZ64")
+  assert(n64Of(-1) = mmax, "the ZZ64 transfer to NN64")
+  assert(codeOf(longI), 66560, "the Character transfer to ZZ32")
+  assert(charOf(66560) = longI, "the ZZ32 transfer to Character")
+  println("PASS")
+end
+
+end

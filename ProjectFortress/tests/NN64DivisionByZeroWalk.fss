@@ -1,0 +1,22 @@
+(* NN64's DIV by zero throws DivisionByZero, which a catch sees; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
+component NN64DivisionByZeroWalk
+export Executable
+
+dividesByZero(f: () -> NN64): Boolean =
+  try
+    f()
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+run():() = do
+  zero: ZZ64 = 0
+  seven: ZZ64 = 7
+  two: ZZ64 = 2
+  assert(dividesByZero(fn () => unsigned(seven) DIV unsigned(zero)), "NN64 7 DIV 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert((unsigned(seven) DIV unsigned(two)).asString, "3", "NN64 7 DIV 2 is 3")
+  println("NN64 DIV by zero: DivisionByZero")
+end
+
+end

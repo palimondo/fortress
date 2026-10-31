@@ -4466,43 +4466,59 @@ natives of \library\ that it can call.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-natives-walk/decision-record.md}
 in the revival's repository.
-\item[Effect] Twenty-one of the 449 bindings of \library\ name a helper:
-nineteen of the trait \EXP{\mathbb{Z}32}, its operators \EXP{=}, \EXP{<}, the
-prefix and infix \EXP{-} and \EXP{\dotminus}, \EXP{+}, \EXP{\dotplus},
-\EXP{\cdot}, \EXP{\times}, juxtaposition, \EXP{\dottimes}, \EXP{\div},
-\OPR{BITAND}, \OPR{BITOR}, \OPR{BITXOR} and \OPR{BITNOT} and its functions
-\VAR{widen} and \VAR{unsigned}, and the getters \VAR{asString} and
-\VAR{asExprString} of the interpreter's object \TYP{Int}.
-The other 428 still name a glue class, which the compiled code cannot call.
-Among them is \EXP{\mathbb{Z}32}'s \OPR{CHOOSE}: its helper throws a Java
-\texttt{ArrayIndexOutOfBoundsException}, which no \KWD{catch} sees, where the
-binomial coefficient is past the helper's table, instead of an
-\TYP{IntegerOverflow} (row~521 of the revival's gap ledger).
+\item[Effect] 173 of the 449 bindings of \library\ name a helper:
+the operators \EXP{=}, \EXP{<}, the prefix and infix \EXP{-} and
+\EXP{\dotminus}, \EXP{+}, \EXP{\dotplus}, \EXP{\cdot}, \EXP{\times},
+juxtaposition, \EXP{\dottimes}, \EXP{\div}, \OPR{BITAND}, \OPR{BITOR},
+\OPR{BITXOR}, \OPR{BITNOT} and \OPR{CHOOSE} of the traits \EXP{\mathbb{Z}32}
+and \EXP{\mathbb{Z}64}, with the functions \VAR{widen} and \VAR{unsigned} of
+the first and \VAR{narrow}, \VAR{unsigned} and \VAR{big} of the second, and the
+same operators but \EXP{<} and \OPR{CHOOSE} of the trait \EXP{\mathbb{Z}};
+eighteen bindings of the trait \EXP{\mathbb{N}64}, and of the interpreter's
+objects twenty-one of \EXP{\mathbb{N}32}, forty of \TYP{Char} and thirty of
+\TYP{Float}; the getters \VAR{asString} and \VAR{asExprString} of the
+interpreter's objects \TYP{Int}, \TYP{Long} and \TYP{BigNum}; and the function
+\VAR{char}.
+The other 276 still name a glue class, which the compiled code cannot call.
 Until the compiled code moves onto \library, the type checker checks the moved
 bindings, but no compiled program runs them.
+Where a binding declares \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or \TYP{Char}
+at a position at which its helper takes or answers a Java \texttt{int} or
+\texttt{long}, the compiler composes the call with one of six transfer helpers
+at that position, as the compiled library writes its own operations on those
+types, and the type checker checks the composition.
 Under the interpreter a helper's raise of \TYP{IntegerOverflow} or
-\TYP{DivisionByZero} is the library's own exception, so \EXP{\mathbb{Z}32}'s
-\EXP{\div} by zero throws a \TYP{DivisionByZero}, as \chapref{operators} says of
-an integer result; \EXP{\mathbb{Z}32}'s \OPR{REM} and \OPR{MOD}, the three on
-\EXP{\mathbb{Z}64}, and \EXP{\div} on \EXP{\mathbb{Z}}, which still name glue
-classes, end the run with a Java exception at a divisor of zero (row~336 of
-the revival's gap ledger), and so do \EXP{\div}, \OPR{REM} and \OPR{MOD} on
-\EXP{\mathbb{N}32} and \EXP{\mathbb{N}64} and \OPR{REM} and \OPR{MOD} on
-\EXP{\mathbb{Z}} (row~848 of the revival's gap ledger).
+\TYP{DivisionByZero} is the library's own exception, so \EXP{\div} by zero on
+\EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}}, \EXP{\mathbb{N}32}
+and \EXP{\mathbb{N}64} throws a \TYP{DivisionByZero}, as \chapref{operators}
+says of an integer result; \OPR{REM} and \OPR{MOD}, which still name glue
+classes, end the run with a Java exception at a divisor of zero, on
+\EXP{\mathbb{Z}32} and \EXP{\mathbb{Z}64} (row~336 of the revival's gap
+ledger) and on \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} and \EXP{\mathbb{Z}}
+(row~848 of the revival's gap ledger).
 The interpreter passes a helper declared over \TYP{String}, as its glue classes
 do, the name of the value's type in place of its characters where the value is
 not a flat string, as a \TYP{String} made by concatenating two long strings
 (row~846 of the revival's gap ledger).
-The interpreter reads the \KWD{self} of a method only by the helper's Java
-type, since it is not told the type that declares the method: a helper bound
-in a method of a type that no Java type carries, as a program's own object,
-is not refused, and its call passes the object as that Java type reads it,
-the name of its type to a helper over \TYP{String} (row~847 of the
-revival's gap ledger).
+For a method, the interpreter is told the type that declares it: it refuses at
+load a helper bound in a method of a type that no Java type carries, as a
+program's own object, and takes only an overload whose first Java parameter
+carries that type, which it reads by the type's name, for the types of
+\library\ whose names no program can give its own types.
+It refuses such a binding in a dotted method of a generic trait or object only
+where an instance's method is made, so a program that makes no instance loads
+(row~864 of the revival's gap ledger); and it reads the declaring type, not the
+value's, so a program's object that extends a carried trait of \library\
+against its \KWD{comprises} clause, which the interpreter loads (row~551 of the
+revival's gap ledger), still reaches the helper with a value that no Java type
+carries.
 The compiler leaves a declaration with a varargs parameter as a call of
 \VAR{builtinPrimitive}, so the type checker does not check such a binding
 against its helper (row~849 of the revival's gap ledger); no binding of
 \library\ that names a helper has a varargs parameter.
+Nor does it rewrite such a body in a local function or in a method of an object
+expression, which stays a call of \VAR{builtinPrimitive} and does not compile
+(row~865 of the revival's gap ledger); \library\ has no binding in either.
 \item[Original text] The comment is typeset from the file
 \nolinkurl{ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi} of the revival's
 repository, lines 14--29, unchanged from the team's last commit until this

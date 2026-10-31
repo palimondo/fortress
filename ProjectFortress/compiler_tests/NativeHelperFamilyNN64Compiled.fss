@@ -1,0 +1,108 @@
+(* On the compiled path, the nativeHelpers that NN64's bindings name compile and run when bound at the Java types the compile reads, an NN64 carried in a ZZ64. *)
+component NativeHelperFamilyNN64Compiled
+export Executable
+
+n64Eq(a:ZZ64, b:ZZ64):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongEQ")
+n64Lt(a:ZZ64, b:ZZ64):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongLT")
+n64Neg(a:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingNeg")
+n64Add(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAdd")
+n64WrapAdd(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingAdd")
+n64Sub(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingSub")
+n64WrapSub(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingSub")
+n64Mul(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingMul")
+n64WrapMul(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingMul")
+n64Div(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingDiv")
+n64And(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitAnd")
+n64Or(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitOr")
+n64Xor(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitXor")
+n64Not(a:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitNot")
+n64Narrow(a:ZZ64):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.longWrappingToUnsignedInt")
+
+overflows(f: () -> ZZ64): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+dividesByZero(f: () -> ZZ64): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    DivisionByZero => true
+    Exception => false
+  end
+
+run():() = do
+  n0: ZZ64 = 0
+  n1: ZZ64 = 1
+  n7: ZZ64 = 7
+  n32: ZZ64 = 4294967296
+  n32p7: ZZ64 = 4294967303
+  n63: ZZ64 = -9223372036854775807 - 1
+  nmax: ZZ64 = -1
+  assert(n64Eq(n7, n7), "Eq")
+  assert(n64Eq(nmax, nmax), "Eq of 2^64-1")
+  assert(NOT n64Eq(nmax, n63), "Eq unequal")
+  assert(NOT n64Eq(n0, n7), "Eq unequal at 0")
+  assert(n64Lt(n7, n32), "Lt")
+  assert(n64Lt(n63, nmax), "Lt above the signed half")
+  assert(NOT n64Lt(nmax, n7), "Lt is unsigned")
+  assert(n64Lt(n7, n63), "Lt below and above the signed half")
+  assert(NOT n64Lt(n0, n0), "Lt not")
+  assert(n64Neg(n0) = 0, "Neg of 0")
+  assert(overflows(fn () => n64Neg(n7)), "Neg of 7 overflows")
+  assert(overflows(fn () => n64Neg(nmax)), "Neg of 2^64-1 overflows")
+  assert(n64Add(n7, n7) = 14, "Add")
+  assert(n64Add(n63, n32) = -9223372032559808512, "Add past the signed half, 2^63+2^32 carried in a ZZ64")
+  assert(n64Add(nmax, n0) = nmax, "Add of 0")
+  assert(overflows(fn () => n64Add(nmax, n7)), "Add overflows")
+  assert(overflows(fn () => n64Add(n63, n63)), "Add at 2^64 overflows")
+  assert(n64WrapAdd(n7, n7) = 14, "WrapAdd")
+  assert(n64WrapAdd(nmax, n7) = 6, "WrapAdd wraps")
+  assert(n64WrapAdd(n63, n63) = 0, "WrapAdd wraps at 2^64")
+  assert(n64Sub(nmax, n7) = -8, "Sub, 2^64-8 carried in a ZZ64")
+  assert(n64Sub(n7, n7) = 0, "Sub to 0")
+  assert(overflows(fn () => n64Sub(n0, n7)), "Sub below 0 overflows")
+  assert(overflows(fn () => n64Sub(n7, nmax)), "Sub of 2^64-1 overflows")
+  assert(n64WrapSub(n32, n7) = 4294967289, "WrapSub")
+  assert(n64WrapSub(n0, n7) = -7, "WrapSub wraps, 2^64-7 carried in a ZZ64")
+  assert(n64WrapSub(n7, nmax) = 8, "WrapSub of 2^64-1 wraps")
+  assert(n64Mul(n32, n7) = 30064771072, "Mul")
+  assert(n64Mul(n7, n7) = 49, "Mul of 7")
+  assert(n64Mul(n63, n1) = n63, "Mul by 1")
+  assert(overflows(fn () => n64Mul(n32, n32)), "Mul at 2^64 overflows")
+  assert(overflows(fn () => n64Mul(nmax, n7)), "Mul overflows")
+  assert(overflows(fn () => n64Mul(n63, n7)), "Mul of 2^63 overflows")
+  assert(n64WrapMul(n32, n32) = 0, "WrapMul wraps at 2^64")
+  assert(n64WrapMul(nmax, nmax) = 1, "WrapMul of 2^64-1 wraps")
+  assert(n64WrapMul(nmax, n7) = -7, "WrapMul wraps, 2^64-7 carried in a ZZ64")
+  assert(n64WrapMul(n32, n7) = 30064771072, "WrapMul")
+  assert(n64Div(nmax, n7) = 2635249153387078802, "Div is unsigned")
+  assert(n64Div(n63, n32) = 2147483648, "Div of 2^63")
+  assert(n64Div(n7, nmax) = 0, "Div by 2^64-1")
+  assert(n64Div(nmax, nmax) = 1, "Div of 2^64-1 by itself")
+  assert(dividesByZero(fn () => n64Div(n7, n0)), "Div by 0 throws DivisionByZero")
+  assert(n64And(nmax, n7) = 7, "And")
+  assert(n64And(n63, nmax) = n63, "And of 2^63")
+  assert(n64And(n32, n7) = 0, "And to 0")
+  assert(n64Or(n63, n7) = -9223372036854775801, "Or, 2^63+7 carried in a ZZ64")
+  assert(n64Or(n32, n0) = 4294967296, "Or of 0")
+  assert(n64Xor(nmax, n7) = -8, "Xor, 2^64-8 carried in a ZZ64")
+  assert(n64Xor(n63, n63) = 0, "Xor to 0")
+  assert(n64Not(n0) = nmax, "Not of 0")
+  assert(n64Not(n63) = 9223372036854775807, "Not of 2^63")
+  assert(n64Not(nmax) = 0, "Not of 2^64-1")
+  assert(n64Narrow(n0), 0, "Narrow of 0")
+  assert(n64Narrow(n7), 7, "Narrow of 7")
+  assert(n64Narrow(n32), 0, "Narrow of 2^32 keeps the low 32 bits")
+  assert(n64Narrow(n32p7), 7, "Narrow of 2^32+7 keeps the low 32 bits")
+  assert(n64Narrow(n63), 0, "Narrow of 2^63 keeps the low 32 bits")
+  assert(n64Narrow(nmax), -1, "Narrow of 2^64-1 keeps the low 32 bits, 2^32-1 carried in a ZZ32")
+  println("PASS")
+end
+
+end
