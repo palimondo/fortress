@@ -1,0 +1,29 @@
+# Quiz grading, reader 1 (cases 24, 25)
+
+Answers: `explorations/compile-ladder/climb-batch-24/orientation/quiz-answers-1.md`. Key: `explorations/coordinator/tools/orientation/regression/key.md`, cases 24 and 25 (added on `main` at `453898c32`). Orientation read by the reader: `explorations/compile-ladder/climb-batch-24/orientation/orientation.md`.
+
+## Counts
+
+- Right: 2 (24, 25)
+- Right without its path or scope qualification: 0
+- Wrong: 0
+- Failures counted against the orientation: 0
+
+## Case 24: a declaration's own `where` clause on the compiled path. Right.
+
+- (a) Matches the key. The code generator compiles the declaration and emits nothing for the clause, the checker checks `U extends Named` at the call, and the test is a plain compiled test that passes today. No refusal or `XXX` compile test, and no wait for the switch-over. The `.test` file (`link`, `run`, `run_out_WIcontains=PASS`, with no `compile` line) differs from the key's `compile`, `link`, `run`, `run_out_contains=PASS`, but it is valid by `tests-writing.md` ("link compiles, then links"; `WIcontains` is a listed check, and that section's own example uses this form). The key grades the decision, not the wording.
+- (b) Matches the key. It compiles and links, and the call dies at run time with `NoClassDefFoundError` (row 867). It is recorded as a deferred defect (item 2) in the `XXX` run-time pair: `XXXWhereVarCall.fss` prints `REACHED` before the call; `WhereVarCallLink.test` has `tests=XXXWhereVarCall` and `link`; `XXXWhereVarCall.test` has `tests=XXXWhereVarCall` and `run`, no `link`, and `run_out_contains=REACHED`. The two run in one `junit.sh` call, link file first, and the reader expects the link green and the run an expected failure. The red run has the failing call removed (`both(A, B)` replaced by `"AB"`). The pair is promoted on a fix of row 867, in the three-file form. None of the key's Partial defects is present: there is a link file, no `link` in the `XXX` file, and no `PASS` key in it.
+- Scope: compiled path; the tests stay after the switch-over; walk is not involved. This is the key's "the switch-over changes neither".
+- Passages: the orientation's sentences after "Three `where` forms are built (P-151)" (line 67: "The code generator compiles a declaration's own `where` clause and emits nothing for it. A compiled call whose own clause introduces a variable dies at run time (row 867)") gave the reader the rule, accurately. Nothing misled.
+- Note for the quiz's author, not against the reader or the orientation: question 24 (a) names the function `label`, and `label` is a reserved word (`ProjectFortress/src/com/sun/fortress/parser/Keyword.rats:39`), so the program as the question gives it does not parse. The key repeats the name ("asserts `label(Cat)`'s value", `key.md:287`). The reader saw this (`compiler.md:40` lists `label` and `exit`) and renamed the function `nameOf`. The tree's own test uses `g` (`compiler_tests/WhereBoundFunctionCompiled.fss`). `questions.md:65` and `key.md:287` should use another name.
+
+## Case 25: opening a value to a size known only at run time, compiled. Right.
+
+- (a) Matches the key. The checker accepts the program (fresh size at the call). The code generator compiles the trait, the link is clean, and the run fails the JVM's verification (row 307). It is recorded as a deferred defect (item 2, `VerifyError`) in the `XXX` run-time pair, with a link file and an `XXX` run file that has no `link` and no `PASS` key. The reader puts the opening in `run()` itself and keys the file `run_out_does_not_contain=REACHED`, because the component's class fails verification as it loads. If the first harness run shows otherwise, the key becomes `run_out_contains=REACHED`. This is the key's Scope (a): put the call in an object's method or key `run_out_does_not_contain=REACHED`, with the harness runs showing which. The red run removes the opening (`size(L[\3\])`). The switch-over does not change the test: the program uses its own trait, and row 307 holds after the switch-over. The test is promoted only on a fix of row 307. None of the key's Wrong answers (a plain passing test, an `XXX` compile test on a refusal, a pass at the switch-over) is present.
+- (b) Matches the key. Two walls, and only the first ends at the switch-over: (1) the prelude has no `NatReflect` and no array types until the switch-over, so `FlatArrays2` does not compile; (2) after it, `viewN(..., reflect(nr), reflect(nc))` opens `NatParam` values, and the compiled call fails verification (row 307). The reader says outright that row 307's wall holds after the switch-over. The further walls it lists (rows 812, 756, 751, 867, and the code generator's construct walls) are offered as things to check rather than assumed, which the key allows ("Other walls may be listed beside these"). The reader does not list row 701's refusal of `NatParam`'s `where` clause, which is a Wrong answer in the key. Item 4 (no unboxed `double[]`) is marked as not a block. The reader does not say that `reflect`'s own compiled run is unmeasured (key, Open). That point is not required: the Expected answer is the two walls with row 307 outlasting the switch-over, and the reader gives exactly that.
+- Scope: compiled path; item 1 before the switch-over, item 2 (and 3) after it too; walk runs it today. Complete.
+- Passages: the orientation's paragraph "A size known only at run time comes from `reflect` in `NatReflect.fsi`" (line 71, ending "After it too, a compiled call that opens a value of a trait of this shape, a program's own included, fails the JVM's verification (row 307)") is the reader's only source for row 307 (key, Skill), and the reader followed it correctly. The reader did not fall into the trap that the climb-batch-24 correction could bring in, reading "the code generator compiles a declaration's own `where` clause" as "such a trait runs". Nothing misled.
+
+## Failed cases
+
+None.

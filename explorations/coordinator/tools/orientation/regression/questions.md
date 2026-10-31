@@ -60,3 +60,12 @@ If you would look something up before you act, say what you would look up, where
     - (b) In a program of your own, `trait Cell end` stands for a cell. You overload `place(x: Index): String`, which takes one index, with `place(x: (Cell, Cell)): String`, which takes a pair of cells. Is the pair a valid overloading? What does walk do at load, and what does the checker do? If the pair is not valid, what do you change?
 
 23. You port two Java lines into a program that runs under walk, with `lo`, `hi`, `done` and `total` of type `ZZ32`: `int mid = (lo + hi) / 2;` and `double frac = (double) done / total;`. Write the Fortress lines, and say what each gives at `lo = 2`, `hi = 5`, `done = 1` and `total = 4`. Do your lines hold on the compiled path?
+
+24. You write two compiled tests in `compiler_tests/`, each a program of its own that calls one function once in `run()`. Both programs declare `trait Named name(): String end`.
+    - (a) The first declares `object Cat extends Named` with its `name()`, and `tag[\U\](u: U): String where { U extends Named } = u.name()`, and calls `tag(Cat)`.
+    - (b) The second declares `trait X[\nat n\] extends Named end`, `trait Y[\nat m\] extends Named end`, `object A extends X[\1\]` and `object B extends Y[\1\]`, each with its `name()`, and `both[\U, V\](u: U, v: V): String where [\nat n\]{U extends {X[\n\]}, V extends {Y[\n\]}} = u.name() || v.name()`, and calls `both(A, B)`.
+    For each, say what the compiled path does with the program today, before the switch-over. Give the test's `.test` file or files, and the result through the harness that you expect.
+
+25. Two programs pass a value whose size is known only at run time.
+    - (a) A compiled test in `compiler_tests/` declares `trait Len comprises { L[\n\] } where [\nat n\] end`, `value object L[\nat n\] extends Len end`, `mk(): Len = L[\3\]` and `size[\nat n\](x: L[\n\]): ZZ32 = n`, and asserts that `size(mk())` is 3. What does the compiled path do with the program today? Give the test's `.test` file or files, and the result through the harness that you expect. Does the test change at the switch-over?
+    - (b) Your report must list what stands between microGPT's `view` in `explorations/apl/mg/FlatArrays2.fss`, which passes `reflect(nr)` and `reflect(nc)` to `viewN[\nat r, nat c\](base: Array[\RR64,ZZ32\], off: ZZ32, _: N[\r\], _: N[\c\])`, and a compiled run of it. What do you list?

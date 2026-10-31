@@ -1,0 +1,10 @@
+<!-- The orientation update for climb batch 24: the two passages changed in "Static parameters, `where` clauses and sizes", and the entries and source lines behind each, after the fix round. -->
+
+# Sources mapping: climb batch 24
+
+Both changes are in "Static parameters, `where` clauses and sizes". No section was added.
+
+| Changed text | Replaces | Source |
+|---|---|---|
+| "The code generator compiles a declaration's own `where` clause and emits nothing for it: only the checker checks it. A compiled call of a function or method whose own clause introduces a `where`-clause variable, as `where [\nat n\]` does, dies at run time (row 867)." (the paragraph of departures under "Three `where` forms are built (P-151)") | "The code generator refuses a declaration with a `where` clause of its own (row 701)." | F-181 (changed by climb batch 24, rung G, `c324b841c`); ledger rows 701 and 867; `compile-ladder/rung-codegen-where/REPORT.md`, sections 1, 2 and 5; `SKEPTIC.md:101`. Fix round: `preserve.md`, failure 1; `cold-read.md`, item 10. |
+| "Such a call does not run compiled yet. Until the switch-over, compiled programs do not link `NatReflect`, which is part of walk's library. A second wall stays after it. `NatParam` is declared `comprises { N[\n\] } where [\nat n\]`, so its `comprises` clause lists a type at a `where`-clause size. A compiled call fails the JVM's verification if it passes a value of such a trait where a listed type is expected (row 307). This holds for a program's own trait too." (the rule "A size known only at run time comes from `reflect`") | "Such a call runs compiled only after the switch-over." | F-270 (changed by climb batch 24, rung G); ledger row 307; `compiler_tests/XXXNatOpenRun` with `NatOpenRunLink.test`; `rung-codegen-where/REPORT.md:66`, `:105-107`. `NatParam`'s declaration: `ProjectFortress/LibraryBuiltin/NatReflect.fsi:23`. The link: `NatReflect` is in walk's library (`ProjectFortress/LibraryBuiltin/`), which compiled programs do not link yet (`build-and-caches.md`, "After an edit of the library"). Fix round: `preserve.md`, failures 2 and 3 and its note on the prelude; `cold-read.md`, item 9. |
