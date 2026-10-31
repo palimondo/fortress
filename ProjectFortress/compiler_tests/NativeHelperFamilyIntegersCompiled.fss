@@ -1,0 +1,174 @@
+(* On the compiled path, the nativeHelpers that ZZ64's and ZZ's bindings name give their values, their IntegerOverflow and their DivisionByZero. *)
+component NativeHelperFamilyIntegersCompiled
+export Executable
+
+eq64(a:ZZ64, b:ZZ64):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longEQ")
+lt64(a:ZZ64, b:ZZ64):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longLT")
+neg64(a:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingNeg")
+wrapNeg64(a:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longWrappingNeg")
+add64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingAdd")
+wrapAdd64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longWrappingAdd")
+sub64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingSub")
+wrapSub64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longWrappingSub")
+mul64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingMul")
+wrapMul64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longWrappingMul")
+div64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingDiv")
+bitAnd64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitAnd")
+bitOr64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitOr")
+bitXor64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitXor")
+bitNot64(a:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitNot")
+narrow64(a:ZZ64):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.longWrappingToInt")
+unsigned64(a:ZZ64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType")
+big64(a:ZZ64):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.makeZZfromZZ64")
+eqZ(a:ZZ, b:ZZ):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.eq")
+negZ(a:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.neg")
+addZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.add")
+subZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.sub")
+mulZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.mul")
+divZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.div")
+bitAndZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.and")
+bitOrZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.oor")
+bitXorZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.xor")
+bitNotZ(a:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.not")
+
+overflows(f:() -> ZZ64):Boolean = do
+  hit: Boolean := false
+  try
+    hit := eq64(f(), f())
+    hit := false
+  catch e
+    IntegerOverflow => hit := true
+  end
+  hit
+end
+
+dividesByZero64(f:() -> ZZ64):Boolean = do
+  hit: Boolean := false
+  try
+    hit := eq64(f(), f())
+    hit := false
+  catch e
+    DivisionByZero => hit := true
+  end
+  hit
+end
+
+dividesByZeroZ(f:() -> ZZ):Boolean = do
+  hit: Boolean := false
+  try
+    hit := eqZ(f(), f())
+    hit := false
+  catch e
+    DivisionByZero => hit := true
+  end
+  hit
+end
+
+run():() = do
+  mx: ZZ64 = 9223372036854775807
+  mn: ZZ64 = sub64(-9223372036854775807, 1)
+  m1: ZZ64 = -1
+  o1: ZZ64 = 1
+  s0: ZZ64 = 0
+  s2: ZZ64 = 2
+  s6: ZZ64 = 6
+  s7: ZZ64 = 7
+  t10: ZZ64 = 10
+  t12: ZZ64 = 12
+  r: ZZ64 = 3037000499
+  t32: ZZ64 = 4294967296
+  assert(eq64(s7, s7), "ZZ64 =")
+  assert(NOT eq64(s7, s6), "ZZ64 = unequal")
+  assert(NOT eq64(mn, mx), "ZZ64 = at the bounds")
+  assert(lt64(s6, s7), "ZZ64 <")
+  assert(NOT lt64(s7, s6), "ZZ64 < not")
+  assert(NOT lt64(s7, s7), "ZZ64 < equal")
+  assert(lt64(mn, mx), "ZZ64 < at the bounds")
+  assert(neg64(s7).asString, "-7", "ZZ64 unary -")
+  assert(neg64(mx).asString, "-9223372036854775807", "ZZ64 unary - of the maximum")
+  assert(overflows(fn () => neg64(mn)), "ZZ64 unary - of the minimum overflows")
+  assert(wrapNeg64(s7).asString, "-7", "ZZ64 unary DOTMINUS")
+  assert(wrapNeg64(mn).asString, "-9223372036854775808", "ZZ64 unary DOTMINUS wraps")
+  assert(add64(s7, s6).asString, "13", "ZZ64 +")
+  assert(add64(sub64(mx, o1), o1).asString, "9223372036854775807", "ZZ64 + to the maximum")
+  assert(overflows(fn () => add64(mx, o1)), "ZZ64 + overflows")
+  assert(overflows(fn () => add64(mn, m1)), "ZZ64 + overflows below")
+  assert(wrapAdd64(s7, s6).asString, "13", "ZZ64 DOTPLUS")
+  assert(wrapAdd64(mx, o1).asString, "-9223372036854775808", "ZZ64 DOTPLUS wraps")
+  assert(sub64(s6, s7).asString, "-1", "ZZ64 -")
+  assert(sub64(add64(mn, o1), o1).asString, "-9223372036854775808", "ZZ64 - to the minimum")
+  assert(overflows(fn () => sub64(mn, o1)), "ZZ64 - overflows")
+  assert(overflows(fn () => sub64(mx, m1)), "ZZ64 - overflows above")
+  assert(wrapSub64(s6, s7).asString, "-1", "ZZ64 DOTMINUS")
+  assert(wrapSub64(mn, o1).asString, "9223372036854775807", "ZZ64 DOTMINUS wraps")
+  assert(mul64(r, r).asString, "9223372030926249001", "ZZ64 DOT")
+  assert(mul64(s7, s6).asString, "42", "ZZ64 TIMES")
+  assert(overflows(fn () => mul64(t32, t32)), "ZZ64 DOT overflows")
+  assert(overflows(fn () => mul64(mn, m1)), "ZZ64 DOT of the minimum by -1 overflows")
+  assert(wrapMul64(s7, s6).asString, "42", "ZZ64 DOTTIMES")
+  assert(wrapMul64(t32, t32).asString, "0", "ZZ64 DOTTIMES wraps")
+  assert(wrapMul64(mx, s2).asString, "-2", "ZZ64 DOTTIMES wraps the maximum")
+  assert(div64(s7, s2).asString, "3", "ZZ64 DIV")
+  assert(div64(neg64(s7), s2).asString, "-3", "ZZ64 DIV rounds toward zero")
+  assert(div64(mn, s2).asString, "-4611686018427387904", "ZZ64 DIV of the minimum")
+  assert(overflows(fn () => div64(mn, m1)), "ZZ64 DIV of the minimum by -1 overflows")
+  assert(dividesByZero64(fn () => div64(s7, s0)), "ZZ64 7 DIV 0 throws DivisionByZero")
+  assert(bitAnd64(t12, t10).asString, "8", "ZZ64 BITAND")
+  assert(bitAnd64(mx, mn).asString, "0", "ZZ64 BITAND at the bounds")
+  assert(bitOr64(t12, t10).asString, "14", "ZZ64 BITOR")
+  assert(bitOr64(mx, mn).asString, "-1", "ZZ64 BITOR at the bounds")
+  assert(bitXor64(t12, t10).asString, "6", "ZZ64 BITXOR")
+  assert(bitXor64(mx, m1).asString, "-9223372036854775808", "ZZ64 BITXOR at the bounds")
+  assert(bitNot64(t12).asString, "-13", "ZZ64 BITNOT")
+  assert(bitNot64(mx).asString, "-9223372036854775808", "ZZ64 BITNOT of the maximum")
+  assert(narrow64(s7), 7, "ZZ64 narrow")
+  assert(narrow64(neg64(s7)), -7, "ZZ64 narrow of a negative")
+  assert(narrow64(add64(t32, s7)), 7, "ZZ64 narrow keeps the low 32 bits")
+  assert(narrow64(mx), -1, "ZZ64 narrow of the maximum keeps the low 32 bits")
+  assert(narrow64(mn), 0, "ZZ64 narrow of the minimum keeps the low 32 bits")
+  assert(unsigned64(s7).asString, "7", "ZZ64 unsigned")
+  assert(unsigned64(mx).asString, "9223372036854775807", "ZZ64 unsigned of the maximum")
+  assert(big64(mx).asString, "9223372036854775807", "ZZ64 big of the maximum")
+  assert(big64(mn).asString, "-9223372036854775808", "ZZ64 big of the minimum")
+  zm: ZZ = big64(mx)
+  zn: ZZ = big64(mn)
+  z0: ZZ = big64(s0)
+  z1: ZZ = big64(o1)
+  z2: ZZ = big64(s2)
+  z6: ZZ = big64(s6)
+  z7: ZZ = big64(s7)
+  z10: ZZ = big64(t10)
+  z12: ZZ = big64(t12)
+  p64: ZZ = 18446744073709551616
+  h: ZZ = 1934791870947204798109283471902037419
+  assert(eqZ(z7, z7), "ZZ =")
+  assert(NOT eqZ(z7, z6), "ZZ = unequal")
+  assert(eqZ(h, h), "ZZ = beyond ZZ64")
+  assert(NOT eqZ(h, p64), "ZZ = unequal beyond ZZ64")
+  assert(negZ(z7).asString, "-7", "ZZ unary -")
+  assert(negZ(h).asString, "-1934791870947204798109283471902037419", "ZZ unary - beyond ZZ64")
+  assert(negZ(zn).asString, "9223372036854775808", "ZZ unary - of ZZ64's minimum")
+  assert(addZ(z7, z6).asString, "13", "ZZ +")
+  assert(addZ(zm, z1).asString, "9223372036854775808", "ZZ + past ZZ64's maximum")
+  assert(addZ(h, z7).asString, "1934791870947204798109283471902037426", "ZZ + beyond ZZ64")
+  assert(subZ(z6, z7).asString, "-1", "ZZ -")
+  assert(subZ(zn, z1).asString, "-9223372036854775809", "ZZ - past ZZ64's minimum")
+  assert(mulZ(z7, z6).asString, "42", "ZZ DOT")
+  assert(mulZ(p64, p64).asString, "340282366920938463463374607431768211456", "ZZ DOT beyond ZZ64")
+  assert(mulZ(zm, zm).asString, "85070591730234615847396907784232501249", "ZZ TIMES")
+  assert(divZ(z7, z2).asString, "3", "ZZ DIV")
+  assert(divZ(negZ(z7), z2).asString, "-3", "ZZ DIV rounds toward zero")
+  assert(divZ(h, p64).asString, "104885277489412658", "ZZ DIV beyond ZZ64")
+  assert(dividesByZeroZ(fn () => divZ(z7, z0)), "ZZ 7 DIV 0 throws DivisionByZero")
+  assert(bitAndZ(z12, z10).asString, "8", "ZZ BITAND")
+  assert(bitAndZ(h, subZ(p64, z1)).asString, "10759386263527282091", "ZZ BITAND beyond ZZ64")
+  assert(bitOrZ(z12, z10).asString, "14", "ZZ BITOR")
+  assert(bitOrZ(h, z12).asString, "1934791870947204798109283471902037423", "ZZ BITOR beyond ZZ64")
+  assert(bitXorZ(z12, z10).asString, "6", "ZZ BITXOR")
+  assert(bitXorZ(h, z1).asString, "1934791870947204798109283471902037418", "ZZ BITXOR beyond ZZ64")
+  assert(bitNotZ(z12).asString, "-13", "ZZ BITNOT")
+  assert(bitNotZ(h).asString, "-1934791870947204798109283471902037420", "ZZ BITNOT beyond ZZ64")
+  println("PASS")
+end
+
+end
