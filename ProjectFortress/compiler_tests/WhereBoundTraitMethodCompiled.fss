@@ -1,0 +1,30 @@
+(* A trait's dotted and functional methods whose where clause bounds the trait's static parameter, and a generic method whose where clause bounds its own, compile and run with their bodies in the trait or the object. *)
+component WhereBoundTraitMethodCompiled
+export Executable
+
+trait Named
+  name(): String
+end
+object Cat extends Named
+  name(): String = "cat"
+end
+
+trait Shelf[\T\]
+  item(): T
+  describe(): String where { T extends Named } = "shelf of " || item().name()
+  tag(self): String where { T extends Named } = "tag " || item().name()
+end
+object Box[\T\](v: T) extends Shelf[\T\]
+  item(): T = v
+  pick[\U\](u: U): String where { U extends Named } = "pick " || u.name()
+end
+
+run(): () = do
+    s: Shelf[\Cat\] = Box[\Cat\](Cat)
+    assert(s.describe(), "shelf of cat", "trait-parameters.tex, section \"Where Clauses\": a trait's dotted method bounded by its where clause")
+    assert(tag(s), "tag cat", "trait-parameters.tex, section \"Where Clauses\": a trait's functional method bounded by its where clause")
+    assert(Box[\Cat\](Cat).pick(Cat), "pick cat", "trait-parameters.tex, section \"Where Clauses\": a generic method's where clause bounds its own static parameter")
+    println("PASS")
+  end
+
+end
