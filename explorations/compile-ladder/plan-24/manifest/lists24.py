@@ -7,9 +7,9 @@
 # round and a judge. The record's section 5, "The briefings, rung by rung", holds the same keys. No key holds a
 # backslash, a backtick or a double quote, which the script refuses; facts-extract matches a heading without its
 # backticks.
-# The rungs, in the order the gather applies them: F, Z, S, K, W, G. K is the CHOOSE rung, which the record keeps
-# only if the CHOOSE probe (plan-24/probes/choose.md) finds row 521's fix decided and small; its probe's note and
-# patch join its briefing once each is on disk. H is the place kept for the hard set's rung (plan-24/probes/hard-set.md):
+# The rungs, in the order the gather applies them: F, Z, S, K, W, G. K is the CHOOSE rung, on the CHOOSE probe's
+# finding (plan-24/probes/choose.md, its patch choose.patch beside it): both helpers fixed, both bindings moved.
+# H is the place kept for the hard set's rung (plan-24/probes/hard-set.md):
 # nothing is planned for it, its lists are empty, and gen24.py takes H only once the record's section 3 and
 # section 5 hold its blocks and H_BRIEFING below holds its keys.
 # `python3 -B lists24.py` checks every key with facts-extract.sh --check (each must match exactly one place) and every
@@ -22,6 +22,7 @@ GUARD_WALK = ("doc:ProjectFortress/tests/NativeHelperFamilyZZ32Walk.fss", "Climb
 GUARD_COMPILED = ("doc:ProjectFortress/compiler_tests/NativeHelperBindingCompiled.fss", "A compiled program whose own declarations bind helpers, the form of your compiled guard.")
 _ROOT = os.environ.get('FORTRESS_HOME', os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../..')))
 CHOOSE_NOTE = 'explorations/compile-ladder/plan-24/probes/choose.md'
+CHOOSE_PATCH = 'explorations/compile-ladder/plan-24/probes/choose.patch'
 
 F_BRIEFING = [
   ("P-58", "The decision your rung carries on: each binding's string names a helper, checked by the compiled checker from the step that moves it."),
@@ -71,6 +72,8 @@ S_BRIEFING = [
   ("F-299", "Walk's loader of a helper string, and how it carries NN32, NN64 and Char in int and long."),
   ("ledger:846", "Why the two top-level bindings declared over String stay on their glue classes."),
   ("ledger:502", "The open question on a conversion out of range, the sibling of signed above the signed half, which your guard leaves out."),
+  ("ledger:856", "Signed above the signed half, which wraps: your test of today's value is its reproducer."),
+  ("ledger:857", "Char of a code point out of range, which passes: your test of today's value is its reproducer."),
   (P24 + "rung-S.patch", "Your text as the planner measured it: the 8 strings."),
   (REC + "The planner's probes", "The small rest's values on the old code and the text, the stages and the compiled sample."),
   (REC + "Forks the batch takes, none consequential", "The defaults your rung builds, each with the ways not taken."),
@@ -86,23 +89,19 @@ S_CHECKS = [
 
 K_BRIEFING = [
   ("P-58", "The decision your rung carries on: each binding's string names a helper, checked by the compiled checker from the step that moves it."),
-  ("ledger:521", "Your row: the CHOOSE helpers end the run past their table, which your fix turns into IntegerOverflow."),
+  ("P-73", "Fixed-width arithmetic raises IntegerOverflow where its result does not fit, CHOOSE included: the value your helpers must give."),
+  ("ledger:521", "Your first row: the CHOOSE helpers end the run past their table, which your fix turns into IntegerOverflow."),
+  ("ledger:855", "Your second row: the helpers' slow paths share one static scratch array across parallel calls."),
+  ("doc:" + CHOOSE_NOTE, "The CHOOSE probe's finding: the specification's answer, walk's glue, the helper's two faults, the fix and its measurements."),
+  ("doc:" + CHOOSE_PATCH, "The CHOOSE probe's patch, the text your rung takes for ZZ32: the helper's bound and its scratch array, with three tests."),
   ("code:" + SRC + "nativeHelpers/simpleIntArith.java#public static int intOverflowingChoose(int n, int k)", "The ZZ32 helper, whose bound on k is past its table."),
-  ("code:" + SRC + "nativeHelpers/simpleLongArith.java#public static long longOverflowingChoose(long n, long kk)", "The ZZ64 helper, alike."),
-  ("doc:ProjectFortress/compiler_tests/XXXChooseTableCompiledRungE.fss", "The compiled XXX test your fix promotes, with its link test beside it."),
-  (REC + "The planner's probes", "Where the CHOOSE probe's note sits and what the planner read of the helpers."),
+  ("code:" + SRC + "nativeHelpers/simpleLongArith.java#public static long longOverflowingChoose(long n, long kk)", "The ZZ64 helper, with the same two faults and no patch: yours to fix in the patch's form."),
+  ("doc:ProjectFortress/compiler_tests/XXXChooseTableCompiledRungE.fss", "The compiled XXX test your fix promotes, which asserts both helpers, with its link test beside it."),
+  (REC + "The planner's probes", "What the planner read of the helpers and what the probe measured."),
   (REC + "Forks the batch takes, none consequential", "The defaults your rung builds, each with the ways not taken."),
-  GUARD_WALK,
 ]
-K_CHECKS = ["P-58", "ledger:521",
+K_CHECKS = ["P-58", "ledger:521", "ledger:855", "doc:" + CHOOSE_PATCH,
   "code:" + SRC + "nativeHelpers/simpleIntArith.java#public static int intOverflowingChoose(int n, int k)"]
-CHOOSE_PATCH = 'explorations/compile-ladder/plan-24/probes/choose.patch'
-if os.path.exists(os.path.join(_ROOT, CHOOSE_PATCH)):
-    K_BRIEFING.insert(2, ("doc:" + CHOOSE_PATCH, "The CHOOSE probe's patch, the text your rung takes: the ZZ32 helper's bound and its scratch array, with its tests."))
-    K_CHECKS.append("doc:" + CHOOSE_PATCH)
-if os.path.exists(os.path.join(_ROOT, CHOOSE_NOTE)):
-    K_BRIEFING.insert(2, ("doc:" + CHOOSE_NOTE, "The CHOOSE probe's finding, which decides whether your rung stands and what it takes."))
-    K_CHECKS.append("doc:" + CHOOSE_NOTE)
 
 W_BRIEFING = [
   ("P-58", "The decision whose walk half your rung completes: walk loads the helper that fits the declaration, self included."),
@@ -169,7 +168,7 @@ if __name__ == '__main__':
     import subprocess, re, sys
     root = _ROOT
     bad = 0
-    print('rungs', ', '.join(IDS), '| K with the CHOOSE note' if os.path.exists(os.path.join(root, CHOOSE_NOTE)) else '| K without the CHOOSE note, which is not on disk yet', '| K with the CHOOSE patch' if os.path.exists(os.path.join(root, CHOOSE_PATCH)) else '| K without the CHOOSE patch')
+    print('rungs', ', '.join(IDS))
     for rid in IDS:
         b, c = LISTS[rid]
         rp = reason_problems(rid)

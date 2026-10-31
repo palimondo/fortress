@@ -1,6 +1,6 @@
 # Made from plan-23/manifest/gen23.py for climb batch 24: one run; the batch's rungs in the order the gather applies
-# them, F, Z, S, K, W, G, none landing only with another; K, the CHOOSE rung, stands only if the CHOOSE probe
-# (plan-24/probes/choose.md) finds row 521's fix decided and small, and is otherwise left out with --without K; H, the
+# them, F, Z, S, K, W, G, none landing only with another; K is the CHOOSE rung, on the CHOOSE probe's finding
+# (plan-24/probes/choose.md); H, the
 # place kept for the hard set's rung, joins only once the record's section 3 holds its "### H." block, section 5 its
 # "#### H" block, and lists24.py its keys, which is how lists24.IDS comes to name it. --without <rung> leaves that rung
 # out of the block. A rung's section runs from its heading to the next ### heading, as check24.js reads it.
