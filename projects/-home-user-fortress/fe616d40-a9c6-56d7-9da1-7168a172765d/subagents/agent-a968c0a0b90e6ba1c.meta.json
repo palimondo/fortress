@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Audit: shared mutable state in the natives' Java","toolUseId":"toolu_01QEsacr1ZqY5GwpLY1kAJgy","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Audit: shared mutable state in the natives' Java","toolUseId":"toolu_01QEsacr1ZqY5GwpLY1kAJgy","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
