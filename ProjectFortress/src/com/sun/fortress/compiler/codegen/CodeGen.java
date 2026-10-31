@@ -2964,7 +2964,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         List<StaticParam> sparams = header.getStaticParams();
 
         boolean canCompile =
-	    header.getWhereClause().isNone() && // no where clause
 	    // 14 Jul 2011: I think we can now handle throw properly, and throws clauses as such,
 	    // once type-checked, do not require any special handling at the low (Java) level.  --Guy
 	    //	    header.getThrowsClause().isNone() && // no throws clause
@@ -4104,7 +4103,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         boolean canCompile =
             // x.getParams().isNone() &&             // no parameters
             // header.getStaticParams().isEmpty() && // no static parameter
-            header.getWhereClause().isNone() &&   // no where clause
             header.getThrowsClause().isNone() &&  // no throws clause
             header.getContract().isNone() &&      // no contract
             //            header.getDecls().isEmpty() &&        // no members
@@ -5024,7 +5022,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         boolean canCompile =
             // NOTE: Presence of excludes or comprises clauses should not
             // affect code generation once type checking is complete.
-            header.getWhereClause().isNone() &&   // no where clause
             header.getThrowsClause().isNone() &&  // no throws clause
             header.getContract().isNone() &&      // no contract
             Modifiers.TraitMod.containsAll(header.getMods());
