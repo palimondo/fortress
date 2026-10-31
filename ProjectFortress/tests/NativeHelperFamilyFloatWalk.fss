@@ -104,6 +104,7 @@ run():() = do
   assert((nz - z).asString, "-0.0", "-0.0 - 0.0")
   assert(ninf - large, ninf, "-infinity - large")
   assert((inf - inf).isNaN, true, "infinity - infinity")
+  assert((nan - one).isNaN, true, "NaN - 1")
   assert(a DOT b, -1.875, "DOT")
   assert((large DOT large).asString, "1.0E42", "DOT of large values")
   assert((nz DOT a).asString, "-0.0", "-0.0 DOT 2.5")

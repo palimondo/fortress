@@ -120,6 +120,7 @@ run():() = do
   assert(dToString(dSub(nz, z)) = "-0.0", "dSub of -0.0 and 0.0")
   assert(dEQ(dSub(ninf, large), ninf), "dSub of -infinity and a large value")
   assert(dToString(dSub(inf, inf)) = "NaN", "dSub of infinities")
+  assert(dToString(dSub(nan, one)) = "NaN", "dSub of NaN and 1")
   assert(dEQ(dMul(a, b), dNeg(1.875)), "dMul")
   assert(dEQ(dMul(a, a), 6.25), "dMul of a and a")
   assert(dToString(dMul(large, large)) = "1.0E42", "dMul of large values")
