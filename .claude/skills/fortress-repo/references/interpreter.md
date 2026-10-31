@@ -91,29 +91,28 @@ The library binds each of walk's natives by a declaration whose body is `builtin
 
 Walk carries each declared type of a helper's binding in one Java type:
 
-- `ZZ32`, `NN32` and `Char` in `int`; `ZZ64` and `NN64` in `long`; `RR64` and `Float` in `double`; `RR32` in `float`; `Boolean` in `boolean`;
+- `ZZ32`, `NN32` and `Char` in `int`; `ZZ64` and `NN64` in `long`; `RR64` and `Float`, the library's object that extends `RR64`, in `double`; `RR32` in `float`; `Boolean` in `boolean`;
 - `String`, `FlatString` and `JavaString` in `String`; `ZZ` in `BigInteger`; `()` in `void`.
 
 In a method, walk carries `self` by the type that declares the method:
 
 - a type of the list above, except `FlatString`, `JavaString` and `()`, in the same Java type;
-- the objects `Int` in `int`, `Long` and `UnsignedLong` in `long`, and `BigNum` in `BigInteger`.
+- the library's objects that extend number types, not the glue classes of the same names: `Int` (`ZZ32`) in `int`, `Long` (`ZZ64`) and `UnsignedLong` (`NN64`) in `long`, and `BigNum` (`ZZ`) in `BigInteger`.
 
 A program can give its own type the name `FlatString` or `JavaString`, so these names carry no `self`. So a binding in a method of the library's `FlatString` cannot name a helper yet: every program would stop at load.
-
 Walk refuses a helper's binding at load in these cases. The message names the string, and contains the words below, which a `load_exception_contains` key can match:
 
 - The class or the method does not exist: 'not found' or 'names no static method of'.
 - The result type, or a parameter type other than `self`'s, is not in the first list: 'no Java type carries the declared'.
-- The binding is in a method of a type that the second list does not name, as a program's own object `Holder`: 'no Java type carries Holder, the type of self.'
+- The binding is in a method of a type that the second list does not name, as a program's own object: 'no Java type carries T, the type of self.', with the type's name as T. Match ', the type of self.' to tell it from the refusal above.
 - No method of that name, or more than one, has exactly the Java types of the lists, with `self`'s first in a method: 'has no overload that fits the declaration's types', or 'overloads that fit'.
 
 The check has two gaps:
 
-- Walk checks a dotted method of a generic trait or object only when it makes an instance's method. So a program that makes no instance loads, and one that makes an instance stops there (ledger row 864).
-- Walk reads the type that declares the method, not the type of the value. So a program's object that extends `ZZ32` loads, and its call of a helper of `ZZ32` passes a value that no Java type carries (ledger row 551).
+- Walk checks the binding of a dotted method of a generic trait or object only when the program makes an instance, at run time. So a program that makes no instance loads. One that makes an instance stops there with the same message, as an `InterpreterBug` (ledger row 864). Test such a binding with a program that makes an instance.
+- Walk reads the type that declares the method, not the type of the value. So a program's object that extends `ZZ32` loads. A call of a method of `ZZ32` that binds a helper then stops with 'getInt not implemented for FOrdinaryObject' (ledger row 551).
 
-A native declared over `String`, glue class or helper alike, receives the wrong text for a `CatString`: the name of the type, not its characters (ledger row 846). `||` builds a `CatString` when the joined string is longer than `maxLeafSize`, 32 characters by default. If a string that reaches such a native can come from `||`, pass it as `s.asFlatString` at the call of the native.
+A native declared over `String`, glue class or helper alike, receives the wrong text for a `CatString`, as a parameter or as `self` in a method of `String`: the name of the type, not its characters (ledger row 846). `||` builds a `CatString` when the joined string is longer than `maxLeafSize`, 32 characters by default. If a string that reaches such a native can come from `||`, pass it as `s.asFlatString` at the call of the native. In a method of `String`, call a function that binds the helper, with `self.asFlatString`.
 
 An `import java` written in a `.fss` file is wired under walk but unfinished, and no test uses it. The compiled path's generated `import java` (`compiler.md`, "Natives") is not this one.
 
