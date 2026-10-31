@@ -86,6 +86,8 @@ Walk chooses by run-time type and converts an argument by coercion (P-59). So a 
 | `widen` of the `NN64` 2^64-1 | -1 : `ZZ64` | `NN64` coerces into `ZZ`, then `ZZ`'s `widen` keeps the low 64 bits: a silent change of sign |
 | `numerator` of the `NN64` 2^64-1 | 18446744073709551615 : `ZZ` | declared |
 
+Ledger row 858 records `widen` of an `NN64`, and row 859 the conversions that the five types do not all declare.
+
 For each call except `narrow` of an `NN32`, a single declaration applies by coercion. So, by reading, the checker's static choice would be the same declaration. This was not run compiled, because the compiler prelude has none of these routes and the one library compiles only after the switch-over.
 
 ### 1.3 By pair of types, in the one library
@@ -214,13 +216,41 @@ The prelude imports these `long`-to-`int` natives (prelude:33-58, :86-103):
         widen(ZZ -(2^63)-1) = 9223372036854775807 : ZZ64
         ZZ binding of NN64 2^64-1 = 18446744073709551615 : ZZ
         ZZ32 MAX + 1 -> IntegerOverflow
-- **The calls of 1.2.** One program per call, each the same binding block followed by `v = <call>; println("<call> = " v " : " kind(v))`. From the outputs:
+- **The calls of 1.2.** One program per call. Each was run as `bin/fortress <Name>.fss` from the probe folder, with the private caches folder. The whole program for `widen` of an `NN64`, `RWidenNN64.fss`:
 
-      big(nAll) = 4294967295 : ZZ
-      RBigNN64.fss:21:7-14: Failed to find any matching overload, args = (18446744073709551615: NN64), overload = { big(...) ZZ32->ZZ ..., big(...) ZZ64->ZZ ...}
-      RNarrowNN32.fss:21:7-17: Ambiguous coercion, args = (4294967295: NN32), applicable with coercion = {coerced narrow ... ZZ64->ZZ32, coerced narrow ... NN64->NN32, coerced narrow ... ZZ->ZZ32}
-      unsigned(nAll) = 4294967295 : NN64
+      component RWidenNN64
+      export Executable
+      kind(v: Any): String =
+        typecase v of
+          ZZ32 => "ZZ32"
+          ZZ64 => "ZZ64"
+          NN32 => "NN32"
+          NN64 => "NN64"
+          ZZ => "ZZ"
+          else => "other"
+        end
+      run() = do
+        zMOne: ZZ32 = -1
+        zMin: ZZ32 = -2147483647 - 1
+        lMOne: ZZ64 = widen(zMOne)
+        lMin: ZZ64 = -9223372036854775807 - 1
+        nAll: NN32 = unsigned(zMOne)
+        mAll: NN64 = unsigned(lMOne)
+        b2p64p5: ZZ = 18446744073709551621
+        bSmall: ZZ = big(zMOne)
+        v = widen(mAll)
+        println("widen(mAll) = " v " : " kind(v))
+      end
+      end
+
+  The other programs differ only in the component's name and in the call on the line `v = …` and in the printed text: `RUnsignedNN32` with `unsigned(nAll)`, `RNarrowNN32` with `narrow(nAll)`, `RBigNN32` with `big(nAll)`, `RBigNN64` with `big(mAll)`, `RBigZZ` with `big(bSmall)`, and the same for `signed` and the rest of 1.2. From the outputs (the refusals end with rc=1, the others rc=0):
+
       widen(mAll) = -1 : ZZ64
+      unsigned(nAll) = 4294967295 : NN64
+      big(nAll) = 4294967295 : ZZ
+      RNarrowNN32.fss:21:7-17: Ambiguous coercion, args = (4294967295: NN32), applicable with coercion = {coerced narrow ... ZZ64->ZZ32, coerced narrow ... NN64->NN32, coerced narrow ... ZZ->ZZ32}
+      RBigNN64.fss:21:7-14: Failed to find any matching overload, args = (18446744073709551615: NN64), overload = { big(...) ZZ32->ZZ ..., big(...) ZZ64->ZZ ...}
+      RBigZZ.fss:21:7-16: Failed to find any matching overload, args = (-1:ZZ), overload = { big(...) ZZ32->ZZ ..., big(...) ZZ64->ZZ ...}
 - **Reserved names (1.4).** Each program has a single line `<name>: ZZ32 = 3` in `run`, followed by a print. For `asZZ32` the run printed "a local named asZZ32 = 3". For `narrow` and `truncate` the run was refused: "Variable narrow is already declared.", "Variable truncate is already declared."
 - **The compiled run of the prelude (1.5).** `CompiledConv.fss` was run with the worktree's caches copied to a private folder (`FORTRESS_CACHES=$PWD/tmp/ccaches`): `bin/fortress compile CompiledConv.fss` (rc=0), then `bin/fortress run CompiledConv` (rc=0). The checked getter is called through `overflowsZZ32(f: () -> ZZ32)`, in the `try … catch e IntegerOverflow => true; Exception => false end` form of `library_tests/Integer3.fss:17-24`:
 
@@ -505,8 +535,8 @@ P-66 names Julia, X10, Swift and Rust as the peers to compare. X10 was not check
 
 ## 7. Findings new to the record
 
-1. **Under walk, `widen` of an `NN64` reaches `ZZ`'s `widen` by coercion and changes the sign without a word:** `widen` of 2^64-1 is the `ZZ64` -1 (1.2). It is a sibling of rows 502 and 856, and no row holds it.
-2. **The integer conversions are not declared on all five types.** So a call goes by coercion or fails: `unsigned` of an `NN32` answers an `NN64`, `narrow` of an `NN32` is an ambiguous coercion, `big` of an `NN32` works through `ZZ64`, and `big` of an `NN64` or a `ZZ` is refused (1.2). No row holds it.
+1. **Under walk, `widen` of an `NN64` reaches `ZZ`'s `widen` by coercion and changes the sign without a word:** `widen` of 2^64-1 is the `ZZ64` -1 (1.2). It is a sibling of rows 502 and 856. Ledger row 858 records it.
+2. **The integer conversions are not declared on all five types.** So a call goes by coercion or fails: `unsigned` of an `NN32` answers an `NN64`, `narrow` of an `NN32` is an ambiguous coercion, `big` of an `NN32` works through `ZZ64`, and `big` of an `NN64` or a `ZZ` is refused (1.2). Ledger row 859 records it.
 3. **Walk's `narrow` from `ZZ64` to `ZZ32` was checked from the record's first commit**, `72ae6881b` of 2007-01-04, to `a874948ac`. `widen-evidence.md`, 2.4, dated it "since at least `1d2680d4d`" (2008-03-24).
 4. **Steele's `9ce7d8189` wrote the three `long`-to-`int` natives, Overflowing, Wrapping and Saturating, together.** It bound only the Overflowing one to a name, `asZZ32`, and left the low bits without a Fortress name (2.3).
 5. **The prelude's `bitsAs…` getters and `ZZ32`'s `asZZ64` first appear in Steele's snapshot `e177c3e2c` (2012-05-22).** They reached the trunk through `f85e96424`, which a `-S` search credits with them. `ZZ32`'s `asZZ64` is typed `ZZ32` and is not in the api (1.5).
