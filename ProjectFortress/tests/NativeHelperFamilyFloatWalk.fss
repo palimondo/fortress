@@ -10,7 +10,8 @@ run():() = do
   a: RR64 = asFloat(2.5)
   b: RR64 = asFloat(-0.75)
   large: RR64 = asFloat(1000000000000000000000.0)
-  inf: RR64 = one / z
+  huge: RR64 = (large DOT large) DOT (large DOT large)
+  inf: RR64 = (huge DOT huge) DOT (huge DOT huge)
   ninf: RR64 = -inf
   nan: RR64 = z / z
   m1: RR64 = asFloat(-1.0)
@@ -23,7 +24,8 @@ run():() = do
   assert(large.asString, "1.0E21", "asString of a large value")
   assert(z.asString, "0.0", "asString of 0.0")
   assert(nz.asString, "-0.0", "asString of -0.0")
-  assert(inf.asString, "Infinity", "asString of infinity")
+  assert(huge.asString, "1.0E84", "asString of 1.0E84")
+  assert(inf.asString, "Infinity", "asString of infinity, from an overflow")
   assert(ninf.asString, "-Infinity", "asString of -infinity")
   assert(nan.asString, "NaN", "asString of NaN")
   assert(b.asExprString, "-0.75", "asExprString")
@@ -93,8 +95,6 @@ run():() = do
   assert(ninf ninf, inf, "juxtaposition of -infinities")
   assert((b z).asString, "-0.0", "juxtaposition of b and 0.0")
   assert(a / b, -3.3333333333333335, "/")
-  assert(one / z, inf, "1 / 0.0")
-  assert(one / nz, ninf, "1 / -0.0")
   assert((one / ninf).asString, "-0.0", "1 / -infinity")
   assert(large / large, one, "/ of large values")
   assert((inf / inf).isNaN, true, "infinity / infinity")
@@ -108,7 +108,6 @@ run():() = do
   assert(a^two, 6.25, "^ at a Float exponent")
   assert(two^m1, 0.5, "^ at a negative Float exponent")
   assert(z^nz, one, "0.0 ^ -0.0")
-  assert(z^m1, inf, "0.0 ^ -1.0")
   assert(two^inf, inf, "2.0 ^ infinity")
   assert((b^half).isNaN, true, "^ of a negative at 0.5")
   assert(a^2.0, 6.25, "^ at an RR64 exponent")

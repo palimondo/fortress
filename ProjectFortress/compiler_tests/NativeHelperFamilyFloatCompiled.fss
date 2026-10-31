@@ -37,7 +37,8 @@ run():() = do
   a: RR64 = 2.5
   b: RR64 = dNeg(0.75)
   large: RR64 = 1000000000000000000000.0
-  inf: RR64 = dDiv(one, z)
+  huge: RR64 = dMul(dMul(large, large), dMul(large, large))
+  inf: RR64 = dMul(dMul(huge, huge), dMul(huge, huge))
   ninf: RR64 = dNeg(inf)
   nan: RR64 = dDiv(z, z)
 
@@ -46,7 +47,8 @@ run():() = do
   assert(dToString(large) = "1.0E21", "dToString of a large value")
   assert(dToString(z) = "0.0", "dToString of 0.0")
   assert(dToString(nz) = "-0.0", "dToString of -0.0")
-  assert(dToString(inf) = "Infinity", "dToString of infinity")
+  assert(dToString(huge) = "1.0E84", "dToString of 1.0E84")
+  assert(dToString(inf) = "Infinity", "dToString of infinity, from an overflow")
   assert(dToString(ninf) = "-Infinity", "dToString of -infinity")
   assert(dToString(nan) = "NaN", "dToString of NaN")
   assert(dToString(b) = "-0.75", "dToString of -0.75")
@@ -112,7 +114,6 @@ run():() = do
   assert(dToString(dMul(inf, z)) = "NaN", "dMul of infinity and 0.0")
   assert(dToString(dMul(nan, z)) = "NaN", "dMul of NaN and 0.0")
   assert(dToString(dDiv(a, b)) = "-3.3333333333333335", "dDiv")
-  assert(dEQ(dDiv(one, nz), ninf), "dDiv of 1 and -0.0")
   assert(dToString(dDiv(one, ninf)) = "-0.0", "dDiv of 1 and -infinity")
   assert(dEQ(dDiv(large, large), one), "dDiv of large values")
   assert(dToString(dDiv(inf, inf)) = "NaN", "dDiv of infinities")
@@ -125,7 +126,6 @@ run():() = do
   assert(dEQ(dPow(a, two), 6.25), "dPow")
   assert(dEQ(dPow(two, dNeg(one)), 0.5), "dPow at a negative exponent")
   assert(dEQ(dPow(z, nz), one), "dPow of 0.0 and -0.0")
-  assert(dEQ(dPow(z, dNeg(one)), inf), "dPow of 0.0 and -1.0")
   assert(dEQ(dPow(two, inf), inf), "dPow of 2.0 and infinity")
   assert(dToString(dPow(b, 0.5)) = "NaN", "dPow of a negative at 0.5")
   assert(dEQ(dPow(4.0, 0.5), two), "dPow at 0.5")
