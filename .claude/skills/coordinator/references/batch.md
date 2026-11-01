@@ -53,7 +53,7 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 
 ## The checker count and the distance
 
-The gate reports the checker count in every batch, and the distance in phase 3. Neither turns the gate red.
+The gate reports the checker count and the distance in every batch until the switch-over. Neither turns the gate red.
 
 - If a rung's test is the checker count or the distance, it takes the last landed gate's tables as its starting values.
 - If every file that a rung changes lies outside what the two measures read, the rung runs neither and lists those files (`STAGE_BLIND`). Its skeptic checks the list against the branch's diff.
@@ -71,7 +71,7 @@ The gate reports the checker count in every batch, and the distance in phase 3. 
 ## While it runs
 
 - At a boot, read the batch record's sections for the curator, the run's journal (`references/delegating.md`) at the run ID in the check-in file (below), and the times of its agents' transcripts in the session's `subagents/workflows/<run>/`.
-- From the launch until the run ends, by landing, by stopping or by holding its push for the curator, edit no tracked file in the main tree, the boot note included. The gather needs `git status --porcelain` there to print nothing. Push nothing to `main` from any tree, or git refuses the landing's push.
+- From the launch until the run ends, by landing, by stopping or by holding its push for the curator, edit no tracked file in the main tree, the boot note included. The gather needs `git status --porcelain` there to print nothing. Push `main` from no tree but the main tree. A push from another tree makes git refuse the landing's push, which the commit stage makes on top of the main tree's head.
 - Before the launch, name the check-in file in the boot note: `<scratchpad>/batch<N>/checkins.txt`, where `<N>` is the batch's number. After the launch, write the run's ID and each armed check-in's ID in that file. If the scratchpad loses a check-in's ID, find the check-in again with `list_triggers`.
 - Workers push to their own `wip/` branches as they go. A branch holds only what `main` is to hold (`fortress-repo`, its committing part).
 - If a process stop or the usage limit ends the run, resume it (`references/delegating.md`). The limit drops no rung.
