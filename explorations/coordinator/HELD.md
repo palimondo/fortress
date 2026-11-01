@@ -2,6 +2,24 @@
 
 # Held list
 
+## Held from his page comments (2026-11-01)
+
+The skill drafts page (https://claude.ai/artifact/LwjYdr5x6iSVVEgwKMic1m, version 3): the rules he did not comment on are accepted by default and land (1, 3, 5, 6, 7, 8, 9, 10, 14, 16 and the three proposals); the page stays until the commented rules are settled.
+
+- 23:34 The trailer line: dropped whole. He does not care which model a commit names, the harness forbids version numbers in the tree, and the plain "Claude" signage stands.
+- 23:25 Rule 22 (provenance): too broad, with examples that go stale; it missed that `ZZ`'s `widen` and `narrow` were an external contributor's addition, named at a first reading of the Java and reverted twice; a much shorter rule, rewritten from the wider context, with no example.
+- 23:20 Rule 21 (the landing brings POSITIONS in line with the tree): the process is right, but he wanted it encoded in the workflow, not done by the coordinator by hand; a workflow prepares the diff and the coordinator reads it; he is unsure whether that is the right efficiency, and too tired to decide tonight.
+- 23:15 Rule 20 (a skill holds few rules): the draft did the opposite of his point; he is against natural-language spaghetti in a skill, a series of do this, do that, if that, which a full context loses; rewrite.
+- 23:13 Rule 19 (the clarity workflow applies a review): his point of rule 21 is encoded here; he asks why the review was split into so many micro changes.
+- 23:10 Rule 18 (a consolidation by the clarity workflow): measure twice before encoding; is the clarity workflow the right tool after a landing, since its reuse needed a script change for a new input; he wants one reusable workflow after a landing, an evidence stage (as the scouts' chunks were) and the headless Opus writer in the register, which the coordinator launches without reading the record itself; a dedicated worker examines this.
+- 23:03 Rule 17 (which entries a consolidation covers): the whole record, FACTS, POSITIONS and INDEX, not FACTS alone; consolidating the record is the coordinator's job, which it may delegate, so that the workers keep their focus on the code and the worker skill gains no special record-keeping forms; no new point, at most a brief refinement of an existing one.
+- 22:56 Rule 15 (corrections rest on the design's evidence): elevate it to SKILL.md as a high-level principle, not a record.md bullet: he decides the edge cases of the designers' contradictions from their intent and does not redesign the language; capture the meaning, not his voice.
+- 22:51 Rule 13 (a running worker takes a message): the coordinator does this already; the point was to reuse a worker that holds the context, a finished one too, since its cache is paid; maybe no rule is needed.
+- 22:48 Rule 12 (a review weighs each finding): the draft misses the point, a judgement step that weighs the findings, since a worker asked for issues returns consequential and trivial ones alike; needs the wider context.
+- 22:45 Rule 11 (a short brief): the draft missed the point; he saw a brief quoting whole POSITIONS entries and telling the worker which skill parts to load, micromanagement that cost the coordinator's context; a lighter brief points to the record and the files, and the skills' router loads the parts; name a coordinator skill part only when delegating coordinator work; fetch his words and craft the delegating rule from them.
+- 22:27 Rule 4 (small turns for page comments): is it actionable? Which of the four points were the coordinator's choices (duplicating a reply in chat and on the thread, a commit after each held line, re-reading) and which the comment tool's design; he wants no rule the coordinator cannot act on.
+- 22:19 Rule 2 (restate the goal before each step): the intention is good, the grounding in his reasons is not; a scout fetches the context; revert and reground.
+
 ## Held in chat (2026-10-31)
 
 - 09:5x His leaning on `ZZ`'s `narrow` and `widen`, before the inventory lands: they are type-specific conversions between `ZZ32` and `ZZ64` and have no place on `ZZ`; the two on `ZZ` are incorrect code to delete from the interpreter's library, not to redesign now ("a correct design is costly and not on our short path"); explicit conversions from `ZZ` to the 32-bit and 64-bit forms, each in a low-bits form and a raising form, come later. He asks for the full context he was given at the P-72 decision of 2026-09-22 (a Sonnet scout retrieves it, an Opus librarian summarizes), since he was not given it whole then; and why `narrow` came up then and `widen` now.
