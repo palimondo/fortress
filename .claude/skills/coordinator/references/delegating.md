@@ -28,18 +28,20 @@
 
 ## What a brief holds
 
+A brief holds what only you know: the problem, the question, what the answer is for, and where the sources are, the record first. The worker has `fortress-repo` loaded, and its router loads the parts that the work needs. So leave the method to the worker: give no reading list, reading order or steps, and neither quote nor name a part of `fortress-repo`. Each costs your context, and the worker chooses its reading well without it.
+
 - The problem, never the expected answer. On a design choice, ask the worker to list every way that the language and the library offer, and give it none of our notes or options.
 - If a rule blocks an option, ask how the library gets around it.
 - A pointer to the research on file, not a restatement of it.
 - The record's measurements, as findings to cite, not claims to check again, even for a worker kept clean of our options. Name the one new thing to measure. Ask for a new measurement only if the tree has changed under a finding, and say what changed.
-- The entries that it needs, quoted word for word under their numbers. Quote a rule of the curator's whole, with its limit and its example.
+- The entries that it needs, by number. The worker prints them, and their history where it needs it, with `facts-extract.sh`. Quote whole, with its limit and its example, only a rule of the curator's that the record does not hold yet.
 - Before you quote the curator's words from a message, clean them. Fix the obvious typos of the phone's swipe keyboard and of dictation, and keep the meaning. Put `[?]` after each word whose reading is a guess. Quote an entry as the record holds it.
 - For an update of a document: a length cap against the version before. The update adds what landed.
 - No second reader named in the brief, since that reframes the document.
 - No request to measure or cap its own token spend. The spend is yours to watch.
 - For an Agent-tool worker: every wait under 270 s. A long run is polled in steps, or handed to a script while the agent ends its turn.
 
-A worker whose task touches the repository loads `fortress-repo` by itself. That skill tells it which choices are its own.
+A worker whose task touches the repository loads `fortress-repo` by itself. That skill tells it which choices are its own. A worker loads no part of this skill by itself. If it does part of your work, such as an analysis, name the parts of this skill that the work needs.
 
 ## Watching a run
 
@@ -47,7 +49,7 @@ A worker whose task touches the repository loads `fortress-repo` by itself. That
 - Watch its spend: `spend.py <since-epoch> <path>`, where the path is the session's `subagents/` folder for agents, or the project's folder for headless sessions. If it passes the estimate, give the worker an instruction or end it. Watch no other run this way.
 - When an overnight or long run starts, arm its check-ins: `send_later` reminders 45 minutes apart, in one turn (`cloud-container`, its stops part). An hourly check-in would let the cache expire.
 - Keep each wait of yours under an hour. The `Monitor` tool can watch a run.
-- If a worker waits on the curator between tasks, run it as a headless session and resume it within the hour (`--resume <id>`).
+- Send a follow-up question to the worker that already holds its material, with `SendMessage`, also when it has finished: it goes on from its transcript and does not search again. If a worker waits on the curator between tasks, run it as a headless session and resume it within the hour (`--resume <id>`).
 
 ## Interrupts and process stops
 
