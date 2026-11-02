@@ -1,0 +1,184 @@
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index ea53e1542..fd989f25f 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -175,7 +175,7 @@ end
+     This is primarily for floating-point values.  Minimal complete
+     definition: %CMP% or %{ <, = }%. **)
+ trait StandardPartialOrder[\T extends StandardPartialOrder[\T\]\]
+-        extends { Equality[\T\] }
++        extends { Equality[\T\] } comprises T
+     opr CMP(self, other:T): Comparison
+     opr <(self, other:T): Boolean
+     opr >(self, other:T): Boolean
+@@ -229,7 +229,7 @@ end
+     and %MAX% respect the total order and are defined in the obvious
+     way. **)
+ trait StandardTotalOrder[\T extends StandardTotalOrder[\T\]\]
+-        extends { StandardPartialOrder[\T\], StandardMinMax[\T\] }
++        extends { StandardPartialOrder[\T\], StandardMinMax[\T\] } comprises T
+     opr MINMAX(self, other:T): (T,T)
+     opr CMP(self, other:T): TotalComparison
+ end
+@@ -264,7 +264,7 @@ trait AnyAdditiveGroup end
+ 
+ (** Additive group making use of %+%.  Must define %+% and
+     either unary or binary %-%. **)
+-trait AdditiveGroup[\T extends AdditiveGroup[\T\]\] extends AnyAdditiveGroup
++trait AdditiveGroup[\T extends AdditiveGroup[\T\]\] extends AnyAdditiveGroup comprises T
+     getter zero(): T
+     abstract opr +(self, other: T): T
+     opr -(self, other: T): T
+@@ -277,7 +277,7 @@ trait AnyMultiplicativeRing end
+ (** Multiplicative ring using TIMES and juxtaposition.
+     Define opr TIMES; juxtaposition is defined in terms of TIMES. **)
+ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
+-        extends { AdditiveGroup[\T\], AnyMultiplicativeRing }
++        extends { AdditiveGroup[\T\], AnyMultiplicativeRing } comprises T
+     abstract getter one(): T
+     abstract opr TIMES(self, other:T): T
+     opr juxtaposition(self, other:T): T
+@@ -446,7 +446,7 @@ trait AnyIntegral extends { Number } comprises { ZZ, ZZ64, ZZ32, NN64, NN32 }
+ end
+         (** not yet: ``%comprises Integral[\I\] where [\I\]%'' *)
+ 
+-trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], MultiplicativeRing[\I\], AnyIntegral }
++trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], MultiplicativeRing[\I\], AnyIntegral } comprises I
+     abstract getter zero(): I
+     abstract getter one(): I
+     abstract opr -(self):I
+@@ -1374,7 +1374,7 @@ object DefaultZip[\E,F\](e:ZeroIndexed[\E\],f:ZeroIndexed[\F\])
+ end
+ 
+ trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E extends StandardTotalOrder[\E\]\]
+-        extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
++        extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] } comprises T
+     opr CMP(self, other:T): TotalComparison
+     (** We give a specialized version of %=% because it can fail faster
+         than %CMP% by checking sizes early. **)
+@@ -1551,7 +1551,7 @@ end
+ 
+ 
+ trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I extends Index\]
+-        extends { StandardImmutableArrayType[\T,E,I\], Array[\E,I\] }
++        extends { StandardImmutableArrayType[\T,E,I\], Array[\E,I\] } comprises T
+     assign(v:T):T
+     assign(f:I->E):T
+     tabulate(f:I->E):T
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 46e19ec56..9afc8f11f 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -220,7 +220,7 @@ end
+     This is primarily for floating-point values.  Minimal complete
+     definition: CMP or { <, = }. **)
+ trait StandardPartialOrder[\T extends StandardPartialOrder[\T\]\]
+-        extends { Equality[\T\] }
++        extends { Equality[\T\] } comprises T
+     opr CMP(self, other:T): Comparison =
+         if self < other then LessThan
+         elif other < self then GreaterThan
+@@ -279,7 +279,7 @@ end
+     and %MAX% respect the total order and are defined in the obvious
+     way. **)
+ trait StandardTotalOrder[\T extends StandardTotalOrder[\T\]\]
+-        extends { StandardPartialOrder[\T\], StandardMinMax[\T\] }
++        extends { StandardPartialOrder[\T\], StandardMinMax[\T\] } comprises T
+     opr CMP(self, other:T): TotalComparison =
+         if self < other then LessThan
+         elif other < self then GreaterThan
+@@ -356,7 +356,7 @@ end
+ trait AnyAdditiveGroup end
+ 
+ (** Additive group making use of +.  Must define + and either unary or binary -. **)
+-trait AdditiveGroup[\T extends AdditiveGroup[\T\]\] extends AnyAdditiveGroup
++trait AdditiveGroup[\T extends AdditiveGroup[\T\]\] extends AnyAdditiveGroup comprises T
+     getter zero(): T = self - self
+     opr +(self, other: T): T
+     opr -(self, other: T): T = self + (-other)
+@@ -369,7 +369,7 @@ trait AnyMultiplicativeRing end
+ (** Multiplicative ring using TIMES and juxtaposition.
+     Define opr TIMES; juxtaposition is defined in terms of TIMES. **)
+ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
+-        extends { AdditiveGroup[\T\], AnyMultiplicativeRing }
++        extends { AdditiveGroup[\T\], AnyMultiplicativeRing } comprises T
+     getter one(): T
+     opr TIMES(self, other:T): T
+     opr juxtaposition(self, other:T): T = self TIMES other
+@@ -682,7 +682,7 @@ trait AnyIntegral extends { Number } comprises { ZZ, ZZ64, ZZ32, NN64, NN32 }
+ end
+         (** \vspace{-4ex} NOT YET: %comprises Integral[\I\] where [\I\]% *)
+ 
+-trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], MultiplicativeRing[\I\], AnyIntegral }
++trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], MultiplicativeRing[\I\], AnyIntegral } comprises I
+     getter zero(): I
+     getter one(): I
+     getter isNaN(): Boolean = false
+@@ -2068,7 +2068,7 @@ object DefaultZip[\E,F\](e:ZeroIndexed[\E\],f:ZeroIndexed[\F\])
+ end
+ 
+ trait LexicographicOrder[\T extends LexicographicOrder[\T,E\],E extends StandardTotalOrder[\E\]\]
+-        extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] }
++        extends { StandardTotalOrder[\T\], ZeroIndexed[\E\] } comprises T
+     opr CMP(self, other:T): TotalComparison =
+         self.zip[\E\](other).generate[\TotalComparison\](
+             LexicographicReduction,
+@@ -2316,7 +2316,7 @@ end
+ 
+ 
+ trait StandardMutableArrayType[\T extends StandardMutableArrayType[\T,E,I\],E,I extends Index\]
+-        extends { StandardImmutableArrayType[\T,E,I\], Array[\E,I\] }
++        extends { StandardImmutableArrayType[\T,E,I\], Array[\E,I\] } comprises T
+     assign(v:T):T = do
+         for i <- zeroIndices() do put(i,v.get(i)) end
+         self
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+index f64e6986c..e58429b54 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+@@ -922,7 +922,12 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+         Option<List<NamedType>> comprs = NodeUtil.getComprisesClause(x);
+         if (!comprs.isNone()) {
+             List<FType> c = et.getFTypeListFromList(comprs.unwrap());
+-            ftt.setComprises(Useful.<FType>set(c));
++            // A type variable listed in the clause, as T in comprises T, is a symbolic type
++            // in the generic's own symbolic instance: it is left out there, so that exclusion
++            // does not recur through the variable's bound, the trait itself.
++            List<FType> listed = new ArrayList<FType>();
++            for (FType f : c) if (!(f instanceof SymbolicType)) listed.add(f);
++            if (!listed.isEmpty() || c.isEmpty()) ftt.setComprises(Useful.<FType>set(listed));
+         }
+         //List<Decl> fns = NodeUtil.getDecls(x);
+ 
+diff --git a/ProjectFortress/tests/ComprisesOwnTypeParameter.fss b/ProjectFortress/tests/ComprisesOwnTypeParameter.fss
+new file mode 100644
+index 000000000..2931e13e6
+--- /dev/null
++++ b/ProjectFortress/tests/ComprisesOwnTypeParameter.fss
+@@ -0,0 +1,26 @@
++(* Under walk, a trait that lists its own type parameter in its comprises clause loads, with overloads over it beside other types. *)
++component ComprisesOwnTypeParameter
++export Executable
++
++trait Selfish[\T extends Selfish[\T\]\] comprises T
++    tag(self): String = "selfish"
++end
++
++trait Sample extends Selfish[\Sample\] comprises { S } end
++object S extends Sample end
++
++kind(x: Selfish[\Sample\]): String = "selfish"
++kind(x: String): String = "string"
++
++pair[\T extends Selfish[\T\]\](x: T, y: ZZ32): String = "generic"
++pair(x: String, y: String): String = "strings"
++
++run(): () = do
++    assert(tag(S), "selfish", "tag(S)")
++    assert(kind(S), "selfish", "kind(S)")
++    assert(kind("a"), "string", "kind of a string")
++    assert(pair(S, 1), "generic", "pair(S, 1)")
++    assert(pair("a", "b"), "strings", "pair of strings")
++end
++
++end
