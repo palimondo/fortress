@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-02)
 
+- 07:01 Main's own sentence "Read a worker's final message yourself" (SKILL.md, "The standing goal") is a no-op, as he says: the final message comes back whatever the coordinator does. Cut it in the minimal-skill pass, with the fifth writing principle of skill-rewrite.md ("Say what to do ... add a reason only where it helps"), which leans imperative.
+- 07:33 The one place for the delegating.md rule is the boot's step 7; the compaction hook could name delegating.md too, so that the rule stands in one place. His choice.
 - 07:4x The order of the work: correcting the record after a post-mortem, and the coordinator skill's rules, comes before running the next batch, since the record affects every batch and the coordinator's own work; he must trust the process before the work runs ahead. The coordinator weighs its own context size: at about 540K it should propose when to compact, order the work so that the record lands by workers first (their quality does not depend on the coordinator's context), then compact and boot with the new skill in place, and recommend a light or a full boot for the next planning session.
 - 07:38 The drafts page, version 4: the fixes' reasons were listed apart from the texts, so he could not judge a change in context; a page puts each change's new text, old text, and what it changes and why together, one block per topic; another pass of the page is needed with his comments applied.
 - 07:02 The cold read of the coordinator skill read it as a worker would, not as the coordinating session; its fixes misread the rules' intent (the delegating.md rule, the calibration check, the parts to load, the worker's final message). A cold read of the coordinator skill reads as the coordinating session.
