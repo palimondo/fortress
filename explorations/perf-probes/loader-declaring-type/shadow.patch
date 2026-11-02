@@ -1,0 +1,145 @@
+diff --git a/Library/FlatString.fss b/Library/FlatString.fss
+index bb64701d3..3adc697c5 100644
+--- a/Library/FlatString.fss
++++ b/Library/FlatString.fss
+@@ -33,7 +33,7 @@ private LineSeparator(): String =do
+ 
+ object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
+     getter size() : ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FlatString$Size")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+     getter asExprString() : String =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FlatString$ToString")
+     getter asFlatString(): String = self
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java
+index 78ccbe6f2..818d703ed 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java
+@@ -198,7 +198,7 @@ public abstract class NativeApp implements Applicable {
+             NativeApp res = cache.get(key);
+             if (res != null) return res;
+             if (StaticNativeApp.isHelperString(str)) {
+-                Object found = StaticNativeApp.find(str, defn, declarer == null ? null : declarer.getName());
++                Object found = StaticNativeApp.find(str, defn, declarer);
+                 if (found instanceof String) return bug(defn, (String) found);
+                 res = new StaticNativeApp((java.lang.reflect.Method) found, defn);
+                 res.init(defn, isFunctionalMethod);
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java
+index 87cd4e1a5..8cf068142 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java
+@@ -4,9 +4,13 @@ import static com.sun.fortress.exceptions.ProgramError.error;
+ import com.sun.fortress.compiler.runtimeValues.FortressImplementationError;
+ import com.sun.fortress.exceptions.FortressError;
+ import com.sun.fortress.interpreter.Driver;
++import com.sun.fortress.interpreter.evaluator.Environment;
++import com.sun.fortress.interpreter.evaluator.types.FTraitOrObjectOrGeneric;
++import com.sun.fortress.interpreter.evaluator.types.FType;
+ import com.sun.fortress.interpreter.evaluator.values.*;
+ import com.sun.fortress.nodes.*;
+ import com.sun.fortress.nodes_util.NodeUtil;
++import com.sun.fortress.useful.HasAt;
+ import edu.rice.cs.plt.tuple.Option;
+ 
+ import java.lang.reflect.InvocationTargetException;
+@@ -82,7 +86,8 @@ public class StaticNativeApp extends NativeMeth {
+      * The Java type that carries self, a value of the declaring type named t, or null: a type of
+      * FortressLibrary or FortressBuiltin, whose names no program can give its own types, that javaFor
+      * names, or the object Int, Long, UnsignedLong, Float or BigNum.  FlatString and JavaString, names
+-     * that a program can give its own types, carry no self.
++     * that a program can give its own types, carry no self by their names; javaForSelf(FType) carries
++     * the library's own FlatString by its declaration.
+      */
+     static Class<?> javaForSelf(String t) {
+         if (t == null || t.equals("FlatString") || t.equals("JavaString")) return null;
+@@ -94,6 +99,41 @@ public class StaticNativeApp extends NativeMeth {
+         return c == void.class ? null : c;
+     }
+ 
++    /** The component whose own FlatString declares the library's String values. */
++    static final String FLAT_STRING_COMPONENT = "FlatString";
++
++    /**
++     * The Java type that carries self, a value of the declaring type t: by t's name, as
++     * javaForSelf(String), except that the library's own FlatString, the object FlatString that the
++     * component FlatString declares at its top level, carries self in String.  A program's own type
++     * named FlatString or JavaString carries none.
++     */
++    static Class<?> javaForSelf(FType t) {
++        String n = t.getName();
++        if (n != null && n.equals("FlatString"))
++            return FLAT_STRING_COMPONENT.equals(declaringComponent(t)) ? String.class : null;
++        return javaForSelf(n);
++    }
++
++    /**
++     * The name of the component that declares the trait or object t, read from the top level of the
++     * environment in which t was built, whose location is that component's node (CUWrapper); or null.
++     * A native component's object is built in an environment at its own declaration, under the
++     * component's top level.  The linker gives one component to a name, so in a run the component's
++     * name and the type's own name identify its declaration.
++     */
++    static String declaringComponent(FType t) {
++        if (!(t instanceof FTraitOrObjectOrGeneric)) return null;
++        Environment e = ((FTraitOrObjectOrGeneric) t).getWithin();
++        if (e == null) return null;
++        try {
++            HasAt at = (e.isTopLevel() ? e : e.getTopLevel()).getAt();
++            return at instanceof Component ? NodeUtil.nameString(((Component) at).getName()) : null;
++        } catch (RuntimeException x) {    // an environment with no top level
++            return null;
++        }
++    }
++
+     /**
+      * The helper that the string s names for the declaration defn, or an error message.  Among the
+      * class's public static methods of that name, it takes the one whose parameters are the
+@@ -105,11 +145,11 @@ public class StaticNativeApp extends NativeMeth {
+     }
+ 
+     /**
+-     * As find(s, defn), where the declaration is a method of the type named declarer, whose value
++     * As find(s, defn), where the declaration is a method of the type declarer, whose value
+      * is self: it refuses a declarer that no Java type carries, and takes only an overload whose
+      * first Java parameter is the declarer's carrier.
+      */
+-    static Object find(String s, Applicable defn, String declarer) {
++    static Object find(String s, Applicable defn, FType declarer) {
+         int dot = s.lastIndexOf('.');
+         String cls = s.substring(0, dot), name = s.substring(dot + 1);
+         Class<?> c;
+@@ -138,7 +178,7 @@ public class StaticNativeApp extends NativeMeth {
+         if (declarer != null) {
+             selfJava = javaForSelf(declarer);
+             if (selfJava == null)
+-                return "Native helper " + s + ": no Java type carries " + declarer + ", the type of self.";
++                return "Native helper " + s + ": no Java type carries " + declarer.getName() + ", the type of self.";
+         }
+         List<Method> fits = new ArrayList<Method>();
+         for (Method x : named) {
+diff --git a/ProjectFortress/tests/NativeHelperCarriedSelfFlatStringWalk.fss b/ProjectFortress/tests/NativeHelperCarriedSelfFlatStringWalk.fss
+new file mode 100644
+index 000000000..926843223
+--- /dev/null
++++ b/ProjectFortress/tests/NativeHelperCarriedSelfFlatStringWalk.fss
+@@ -0,0 +1,20 @@
++(* Under walk, the library's FlatString answers its size and its |self| through a builtinPrimitive helper that takes self as a Java String. *)
++component NativeHelperCarriedSelfFlatStringWalk
++import FlatString.{...}
++export Executable
++
++run():() = do
++    e = ""
++    w = "hello"
++    long = ("a"^20 || "b"^20).asFlatString
++    assert(e.size, 0, "the empty flat string's size")
++    assert(w.size, 5, "a five-character flat string's size")
++    assert(|w|, 5, "a five-character flat string's |self|")
++    assert(long.size, 40, "the flat form of a forty-character concatenation has size 40")
++    assert(w.javaSubstr(1).size, 4, "javaSubstr(lo) reads self.size")
++    assert((w || "!").size, 6, "a flat concatenation's size")
++    assert("été".size, 3, "a string with accented characters counts its Java chars")
++    println("FlatString sizes: " e.size " " w.size " " |w| " " long.size)
++end
++
++end
