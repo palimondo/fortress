@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Fix the record-landing workflow","toolUseId":"toolu_01CrNbNQH45zZLeTs8BjbumM","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Fix the record-landing workflow","toolUseId":"toolu_01CrNbNQH45zZLeTs8BjbumM","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
