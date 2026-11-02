@@ -994,3 +994,7 @@ From the cold read of `453898c32`, `53a84b2e6` and `ca542e07e`, flags 1 to 24 as
 - `compiler.md`: the example `where [\nat n\]` and the test's form, `compiler_tests/XXXWhereVariableCallCompiled.test` (flags 7, 8); a transfer helper for `self` only where the owner's name is `NN32`, `NN64` or `Char`, `BuiltinPrimitiveRewriter.java:91`, `:126`, `:176-193` (flag 9); the values past the signed half, `rung-natives-hard/SKEPTIC.md:114-132` (flags 10, 11); the checker's words, `compile-ladder/plan-24/probes/hard-set.md:49`, `:87` (flag 12); the compiled code's reading of a type's own constraint (flag 13); the verification failure at a `where`-clause size, row 307, F-270 (flag 14).
 - `revival-changes.md`, line 67 and line 71: no code for the clause (flag 15); the second reason, after the switch-over (flag 16); the interpreter's library (flag 18).
 - `sources.md`: the section's name, the test's two files, one range for `find`, the line on the `where` clause's refusal marked replaced, the review's commit (flags 20 to 24).
+
+## The record-landing replay of climb batch 24, 2026-11-02
+
+- `compiler.md`, "The checker's gaps": an `except` that lists an infix operator leaves it imported on both paths, not on the compiled path alone; row 814, F-281, `process-engineering/record-landing-replay-24.md`, section 3; settled by the coordinator.
