@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-11-02)
+
+- 00:1x "Yes to all eight": the record's landing workflow is built as `process-engineering/record-landing-workflow.md` designs it (`5384a4f35`), with its eight defaults: a new workflow, not a clarity mode; the review's routing part an input; the pass over every entry the batch added or changed; its homes FACTS, POSITIONS, their histories, the named ledger rows, INDEX, PLAN, PLAN-history, the review queue and line fixes in other notes; the orientation update after it; the coordinator lands the branch until two landings' diffs needed no correction; his rule of 10-31 in its briefs; the first run a replay of climb batch 24's landing, compared with the hand-made commits, before a live run at climb batch 25.
+
 ## Held from his page comments (2026-11-01)
 
 The skill drafts page (https://claude.ai/artifact/LwjYdr5x6iSVVEgwKMic1m, version 3): the rules he did not comment on are accepted by default and land (1, 3, 5, 6, 7, 8, 9, 10, 14, 16 and the three proposals); the page stays until the commented rules are settled.
