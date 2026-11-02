@@ -18,8 +18,10 @@
 ## Which tier runs what
 
 - Give each worker its tier's alias: `model: 'opus'`, `'sonnet'` or `'fable'`. Write no identifier that an alias resolves to.
-- Use Sonnet for archaeology and retrieval of exact words only, never for a judgement or a summary. Have an Opus worker turn the evidence into a report, and condense a large report into a summary or the exact quotes that you need. Run it at extra high effort for a large report.
-- Run every writer on Opus: of skill text, of record entries, and of each longer report or page for the curator, also when this session runs on Fable. Fable writes no text that goes as written into the permanent record, since its compressed register degrades the reasoning. It may give its reasoning as corrections to a text that Opus writes, and its review may edit a batch record in place. This holds while Fable is at 5.1.
+- Use Sonnet only for archaeology and to fetch exact words, never for a judgement or a summary. Have an Opus worker turn the evidence into a report, and condense a long report into a summary or the exact quotes that you need.
+- Run an Opus worker that writes or condenses a long report at extra high effort, `xhigh`: the Agent tool's `effort` option, `agent()`'s `opts.effort`, or `--effort xhigh` on a headless session's command line.
+- Run every writer on Opus: of skill text, of record entries, and of each longer report or page for the curator, also when this session runs on Fable. Fable writes no text that goes as written into the record, since its compressed register degrades the reasoning. A Fable worker may give corrections to a text that Opus writes, and Opus words them into the text. A Fable review may edit a batch record in place.
+- The rules on Fable's text hold while Fable is at version 5.1. When this session runs on Fable, `explorations/coordinator/tools/model-now.sh` prints its version.
 - Take a cross-area question in two steps. First, Opus workers gather cited evidence or a list of ways. Then, if neither the record nor the three principles (`SKILL.md`) settle it, run a Fable judgement, sparingly. If the fork stays consequential, put it to the curator as an ask.
 - Four kinds of Fable work have a go in advance: the Fable judgement on a cross-area question, a judge's second ruling in a batch, the Fable review of each batch record, and the comparison of a rewritten skill part with the version that the curator approved. Ask first for any other Fable worker, such as one on your own conduct, one whose answer would reverse the curator's decision, or a Fable and an Opus worker run apart on one question.
 - If you start a headless session on a tier other than Opus or Fable, set `FORTRESS_HEADLESS=1` in its environment. Otherwise the model check's alarm stops its work (`SKILL.md`, "The boot"). Today only the baseline interview does so.
@@ -28,20 +30,21 @@
 
 ## What a brief holds
 
-A brief holds what only you know: the problem, the question, what the answer is for, and where the sources are, the record first. The worker has `fortress-repo` loaded, and its router loads the parts that the work needs. So leave the method to the worker: give no reading list, reading order or steps, and neither quote nor name a part of `fortress-repo`. Each costs your context, and the worker chooses its reading well without it.
+A brief holds what only you know: the problem, the question, what the answer is for, and where the sources are. Give the readings that the task needs and no more, and an order or steps only where they matter. A worker on the repository has `fortress-repo` loaded, and that skill loads the parts that the work needs. So leave the choice of those parts to the worker. Each extra reading costs your context, and the worker chooses well without it.
 
 - The problem, never the expected answer. On a design choice, ask the worker to list every way that the language and the library offer, and give it none of our notes or options.
 - If a rule blocks an option, ask how the library gets around it.
+- For a review, an ask to sort its findings by what each needs. The reviewer names each finding that would change a decision of the curator's, and gives options for those findings only.
 - A pointer to the research on file, not a restatement of it.
 - The record's measurements, as findings to cite, not claims to check again, even for a worker kept clean of our options. Name the one new thing to measure. Ask for a new measurement only if the tree has changed under a finding, and say what changed.
-- The entries that it needs, by number. The worker prints them, and their history where it needs it, with `facts-extract.sh`. Quote whole, with its limit and its example, only a rule of the curator's that the record does not hold yet.
-- Before you quote the curator's words from a message, clean them. Fix the obvious typos of the phone's swipe keyboard and of dictation, and keep the meaning. Put `[?]` after each word whose reading is a guess. Quote an entry as the record holds it.
+- The entries that it needs, by number. If the task needs an entry's linked entries or its history, name `facts-extract.sh`, which prints them. Quote whole, with its limit and its example, only a rule of the curator's that no entry holds yet.
+- Before you quote the curator's words from a message, clean them. Fix the obvious typos of the phone's swipe keyboard and of dictation, and keep the meaning. Put `[?]` after each word whose reading is a guess.
 - For an update of a document: a length cap against the version before. The update adds what landed.
 - No second reader named in the brief, since that reframes the document.
 - No request to measure or cap its own token spend. The spend is yours to watch.
 - For an Agent-tool worker: every wait under 270 s. A long run is polled in steps, or handed to a script while the agent ends its turn.
 
-A worker whose task touches the repository loads `fortress-repo` by itself. That skill tells it which choices are its own. A worker loads no part of this skill by itself. If it does part of your work, such as an analysis, name the parts of this skill that the work needs.
+`fortress-repo` tells a worker on the repository which choices are its own. A worker loads no part of this skill by itself. If it does part of your work, such as an analysis, name the parts of this skill that the work needs.
 
 ## Watching a run
 
@@ -60,7 +63,7 @@ An interrupt or a process stop kills every running Workflow agent and Agent-tool
 - The resume reuses the longest unchanged prefix of `agent()` calls, in call order. A hash given short where the launch gave it in full misses from the first call.
 - If the script has changed since launch, resume from a copy as launched: `git show <launch commit>:<path>`. If the call order would differ, wrap `agent()` in the copy, so that the finished calls come in the journal's order of `started` lines. `explorations/coordinator/process-engineering/design-batch10-opus.md` has such a wrapper (`resumeOrder`).
 - If a batch's commit stage was killed before it committed, its edits are in `/home/user/fortress`. Resume with a commit prompt that names them.
-- If a batch's gather was killed mid-work, resume the run with the main tree as the gather left it. The gather's recovery prompt takes the uncommitted changes as its earlier attempt's work.
+- If a batch's gather was killed mid-work, resume the run, and leave the main tree as the gather left it. On the resume, the batch script's `recoverGather()` gives the gather a prompt that takes the uncommitted changes as its earlier attempt's work, so you write no prompt. Only the gather's first start checks that the main tree is clean.
 - A new session cannot resume another session's run.
 - An Agent-tool worker that a process stop killed goes on from its transcript on a `SendMessage`. One that an interrupt killed cannot. Relaunch it only at the curator's explicit ask, and tell the new worker its predecessor's leftovers.
 - Give a Fable successor the leftovers in the tree, never the transcript: the safety filter can end a Fable worker that prints one.

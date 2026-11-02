@@ -17,8 +17,8 @@ An entry reads on its own. A reader who knows the language, or can look it up in
 
 - A FACTS entry holds, after its number and a bold title that states the fact: what is established now, and under which conditions; what it means for the work, such as what it blocks or which row or decision it bears on; its evidence: the test that gates it, or its source, and whether it was observed, read in the code or inferred; the decision it builds, by number and subject; and the report section that holds the detail.
 - A POSITIONS entry holds, after its number and a bold title: what the curator decided about the project, and why, in one or two sentences; where it applies; and what it requires of the work. It may point to a fact that it rests on, in the sentence that needs it. `P-48+` finds every fact that points to it.
-- A POSITIONS entry holds the curator's meaning, not the curator's voice, factually correct. It is the smallest text from which a fresh worker or coordinator, with the skills loaded, decides right. Workers and you decide by it where the curator is not asked, so a wrong premise in it compounds.
-- An entry gives no general rule that holds for every decision, such as P-26, as its reason.
+- A POSITIONS entry states the curator's meaning in the record's register, and every fact in it is correct. It is the smallest text from which a fresh worker or coordinator, with the skills loaded, decides right. Workers and you decide by it where the curator is not asked, so a wrong premise in it spreads to each of those decisions.
+- Give as an entry's reason the ground of its own case, such as the specification's text, the library's code or a measurement. Never give a rule that holds for every decision, such as the team's later word (P-26).
 - POSITIONS holds only the curator's decisions. A choice that a worker made and landed without the curator's word is a fact about the tree. Its FACTS entry says that a worker chose it, and its review-queue item names that entry.
 - An entry states the present, or what holds for all time. It holds no plan and no status: no state words such as "Built." or "Still to build:", no PLAN phase or item, no review-queue item, and no words that it waits for the curator's review. PLAN and the review queue name the entries that their items concern.
 - If the tree does not yet do what a decision or the team's design asks, the missing part is a row of the gap ledger. The entry may name it as "row N", with a few words on what the row holds. In an entry, "row N" always names a row of the gap ledger.
@@ -87,7 +87,7 @@ Run the same pass on POSITIONS at each landing, and when the curator replaces a 
 
 ## A consolidation
 
-A consolidation runs the pass over whole sections. Run it on FACTS before each batch launches, since the batch's workers read it.
+A consolidation runs the pass over whole sections. After a batch lands, the record-landing workflow consolidates its entries (`references/batch.md`, "The landing").
 
 - Split each section into chunks of 20 to 32 entries.
 - For each chunk, a Sonnet scout gathers each entry's report sections, its commits and the curator's dated words.

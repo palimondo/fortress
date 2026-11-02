@@ -1,6 +1,6 @@
 # Rewriting a skill
 
-The skills are written for a reader new to the repository, which every agent is.
+The skills are written for a reader new to the repository, which every agent is. A skill is a minimal set: it holds only the change to what the model does by itself, and leans on what its training already does well. Each rule states a goal or a principle, with the benefit that it brings, and the reader applies it with judgement. A rule is not a program of steps and conditions. A principle with its reason reaches the cases that it does not name. Many instructions, each for its own case, conflict, and the reader must then settle which one holds.
 
 **writer**
 : Headless session that makes every edit of the project skills, started and resumed by `explorations/coordinator/tools/skill-writer.sh`, with its standing brief `explorations/coordinator/skill-writer-brief.md`.
@@ -23,7 +23,7 @@ The skills are written for a reader new to the repository, which every agent is.
 - After a rule enters a skill from the curator's words, check that the skill caught the meaning, by a cold read or a test.
 - If a practice that a skill states is in question, have a Sonnet scout check what the workers actually did. If they found a better way, write that way into the skill.
 - Keep batch structure out of `fortress-repo`. The workflow or the brief sets which roles exist, and who builds, checks, commits and pushes.
-- After each landing, the orientation workflow updates `fortress-repo`'s `references/revival-changes.md` (`references/batch.md`, "The landing", step 3). `fortress-repo`'s `SKILL.md` keeps only what does not change from batch to batch.
+- After each landing, the orientation workflow updates `fortress-repo`'s `references/revival-changes.md` (`references/batch.md`, "The landing", step 5). `fortress-repo`'s `SKILL.md` keeps only what does not change from batch to batch.
 
 ## The coordinator skill
 

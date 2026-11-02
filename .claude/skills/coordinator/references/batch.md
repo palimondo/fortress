@@ -53,7 +53,7 @@ The batch workflow is `explorations/coordinator/climb-batch-workflow.js` and its
 
 ## The checker count and the distance
 
-The gate reports the checker count and the distance in every batch until the switch-over. Neither turns the gate red.
+Until the switch-over lands, the gate of every batch reports the checker count and the distance. Neither turns the gate red.
 
 - If a rung's test is the checker count or the distance, it takes the last landed gate's tables as its starting values.
 - If every file that a rung changes lies outside what the two measures read, the rung runs neither and lists those files (`STAGE_BLIND`). Its skeptic checks the list against the branch's diff.
@@ -71,7 +71,7 @@ The gate reports the checker count and the distance in every batch until the swi
 ## While it runs
 
 - At a boot, read the batch record's sections for the curator, the run's journal (`references/delegating.md`) at the run ID in the check-in file (below), and the times of its agents' transcripts in the session's `subagents/workflows/<run>/`.
-- From the launch until the run ends, by landing, by stopping or by holding its push for the curator, edit no tracked file in the main tree, the boot note included. The gather needs `git status --porcelain` there to print nothing. Push `main` from no tree but the main tree. A push from another tree makes git refuse the landing's push, which the commit stage makes on top of the main tree's head.
+- From the launch until the run ends, by landing, by stopping or by holding its push for the curator, edit no tracked file in the main tree, the boot note included. The gather needs `git status --porcelain` there to print nothing. Keep `origin/main` at or behind the main tree's head, or git refuses the commit stage's push. So push `main` from no other tree. From the main tree, push nothing that the batch committed: the commit stage pushes it.
 - Before the launch, name the check-in file in the boot note: `<scratchpad>/batch<N>/checkins.txt`, where `<N>` is the batch's number. After the launch, write the run's ID and each armed check-in's ID in that file. If the scratchpad loses a check-in's ID, find the check-in again with `list_triggers`.
 - Workers push to their own `wip/` branches as they go. A branch holds only what `main` is to hold (`fortress-repo`, its committing part).
 - If a process stop or the usage limit ends the run, resume it (`references/delegating.md`). The limit drops no rung.
@@ -83,11 +83,7 @@ The landing check is `ledger.py landing-check BASE`, run by the gather and by th
 If the batch's push is held for the curator, take the steps below at once on the local commits. Only the push waits, and the parts of the routing that need the pushed hashes.
 
 1. Sweep the batch agents' to-dos from the session's shared task list: `explorations/coordinator/tools/sweep-tasks.py --delete`. If another workflow still runs, add `--running`, which removes only the completed tasks. The agents write these to-dos themselves, and the harness shows the whole list to every agent.
-2. Check that the commit stage folded the batch's entries into FACTS (`references/record.md`, "The pass").
-3. Run the orientation workflow in update mode on the landing's new and changed FACTS and POSITIONS entries, since the revival part cites decisions in most rules. `git diff <base> -- explorations/coordinator/FACTS.md explorations/coordinator/POSITIONS.md` lists them. The workflow writes new text for each section of `fortress-repo`'s `revival-changes.md` that they touch. Have the writer install the sections that its judge accepts (`references/skill-rewrite.md`).
-4. Name each decision that landed in one line, and put the items for the curator on the review list.
-5. Have one Opus reviewer, which only reads, check the landed changes against the decisions on record and the library's way; measure misses by kind, the briefing's use and cost, and re-measuring; and run the routing check (the manual, "After the landing: the coordinator's routing").
-6. File what the review finds in PLAN. Then make these moves yourself. The manual's section "After the landing: the coordinator's routing" gives `PLAN-history.md`'s heading for each landing and the form of the one line.
-   - Move word for word into `PLAN-history.md` each item that the batch built, each question that the batch or the curator answered, and each stale item. A stale item is one that a decision or a landed change has made moot.
-   - If another home holds an open item's whole text, cut it in PLAN to one line with a pointer there. If it holds part, first move the rest there. This holds for the review lists too: an entry that `review-queue.md` holds becomes such a line.
-   - Repoint each citation of a moved item: `git grep -n 'PLAN\.md' -- explorations/coordinator/*.md explorations/fortress-gap-ledger.md .claude/skills`.
+2. Name each decision that landed in one line, and put the items for the curator on the review list.
+3. Have one Opus reviewer, which only reads, check the landed changes against the decisions on record and the library's way; measure misses by kind, the briefing's use and cost, and re-measuring; and run the routing check (the manual, "After the landing: the coordinator's routing").
+4. After a batch lands and its review is committed, the record-landing workflow consolidates the record: what the batch added or changed in FACTS, POSITIONS and INDEX, each entry that this repeats or makes false, and the lines of PLAN and the review queue that the landing settles. It hands you one diff to read and land (`explorations/coordinator/tools/record-landing/README.md`).
+5. Run the orientation workflow in update mode on the landing's new and changed FACTS and POSITIONS entries, since the revival part cites decisions in most rules. `git diff <base> -- explorations/coordinator/FACTS.md explorations/coordinator/POSITIONS.md` lists them. The workflow writes new text for each section of `fortress-repo`'s `revival-changes.md` that they touch. Have the writer install the sections that its judge accepts (`references/skill-rewrite.md`).
