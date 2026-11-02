@@ -10,6 +10,11 @@ that the worktree WT was made at:
   sections  each theme heading's count equals the items under it
   head      the head's "**Counts**, N open items ..." line equals the open, consequential and routine items, and the lines
             under it, one per kind of need, add up to it
+  answered  each item new in (a)'s "Answered by a decision of his", filed there or moved there since AT, cites his
+            word on that same item: a POSITIONS entry, a time or an answer of his, and before its "Home:" no default
+            taken without him ("at its default", "by the coordinator", "the coordinator's call") and no word of his
+            on another item ("on item 310"). A default that the coordinator or a batch took leaves the item open in
+            (b) or (c), landed and then reviewed (the coordinator skill, "The curator's role and decisions", way 2).
 Prints each failure and one line per check; exit 1 on any failure.
 """
 import argparse
@@ -23,6 +28,9 @@ ap.add_argument('--root', required=True)
 ap.add_argument('--base', required=True)
 a = ap.parse_args()
 REL = 'explorations/coordinator/review-queue.md'
+ANSWERED = '### Answered by a decision of his'
+DEFAULT = re.compile(r"\b(?:at (?:its|the|their) defaults?|by the coordinator|the coordinator's (?:call|answer|default))\b", re.I)
+HIS = re.compile(r"\bP-\d+\b|\bUTC\b|\bhis (?:answer|yes|no|go|word|words|rule|decision|choice|reply)\b", re.I)
 
 
 def parse(text):
@@ -57,13 +65,35 @@ def parse(text):
     return items, sections, lines
 
 
+def answered(text):
+    """{key: text} of the items under (a)'s "Answered by a decision of his"; the key is the item's number, or its bold title."""
+    out, inside, key = {}, False, None
+    for ln in text.split('\n'):
+        if ln.startswith('#'):
+            inside, key = ln.startswith(ANSWERED), None
+            continue
+        if not inside:
+            continue
+        m = re.match(r'- \*\*(?:Items? )?(\d+)[,.]', ln) or re.match(r'- \*\*(.+?)\*\*', ln)
+        if m:
+            key = int(m.group(1)) if m.group(1).isdigit() else m.group(1)
+            out[key] = ln
+        elif key is not None and ln.startswith('  '):
+            out[key] += '\n' + ln
+        elif ln.strip():
+            key = None
+    return out
+
+
 r = subprocess.run(['git', '-C', a.root, 'show', '%s:%s' % (a.base, REL)], capture_output=True, text=True)
 if r.returncode:
     sys.exit('queue-check.py: no %s at %s' % (REL, a.base))
 old, _, _ = parse(r.stdout)
+old_answered = answered(r.stdout)
 with open(os.path.join(a.root, REL), encoding='utf-8') as f:
-    new, sections, lines = parse(f.read())
-fails = {'numbers': [], 'needed': [], 'sections': [], 'head': []}
+    text_now = f.read()
+new, sections, lines = parse(text_now)
+fails = {'numbers': [], 'needed': [], 'sections': [], 'head': [], 'answered': []}
 for n in sorted(set(old) - set(new)):
     fails['numbers'].append('item %d is gone' % n)
 added = sorted(set(new) - set(old))
@@ -96,6 +126,19 @@ else:
         sums = [x + int(y) for x, y in zip(sums, k.groups())]
     if sums != [n_b + n_c, n_b, n_c]:
         fails['head'].append('the lines under it add up to %d (%d consequential, %d routine)' % tuple(sums))
+for k, text in answered(text_now).items():
+    if k in old_answered:
+        continue
+    body = text.split('Home:')[0]
+    why = ['it names a default taken without him ("%s")' % '", "'.join(sorted(set(m.lower() for m in DEFAULT.findall(body))))] if DEFAULT.search(body) else []
+    other = sorted({int(n) for n in re.findall(r'\bon item (\d+)', body)} - {k}) if isinstance(k, int) else []
+    if other:
+        why.append('it cites his word on item %s, not on item %d' % (', '.join(map(str, other)), k))
+    if not HIS.search(body):
+        why.append('it cites no word of his: no POSITIONS entry, time or answer of his')
+    if why:
+        fails['answered'].append('item %s, new in "Answered by a decision of his": %s; it stays open in (b) or (c), with its default as landed' % (
+            k if isinstance(k, int) else '"%s"' % k[:60], '; '.join(why)))
 for k, v in fails.items():
     for x in v:
         print('FAIL %s: %s' % (k, x))

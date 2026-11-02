@@ -31,15 +31,21 @@ His words: "you don't need my approval to bring the record in line with reality"
 - A row's status. The gather closes rows; you close none.
 - An entry that the pass finds right: no line for it, and "keep" with its reason in your report.
 
+## Bounds, new evidence and length
+
+- An entry keeps the commit or the code state that bounds a one-time measurement, as in "measured once on `2bff2fe23`", and its sentence on what the fact blocks or means for the work. Only how the fact came about goes to the history: the date, the batch or the run that found it, a correction.
+- A change that extends a claim to the landing's batch, as in "from climb batch 22's gate to climb batch 24's", brings that batch's figures into the sentence that the claim rests on, and their source into the entry's Detail. A claim whose figures stop at an earlier batch says more than its evidence.
+- An entry already past 600 characters grows only by the clause that its change owes. Before you add the clause, move other detail out: to the report that the entry names (question 4 of "What an entry is"), or to a pointer to the `fortress-repo` skill's part that already says it (question 5). Detail that belongs in the skill, and that the skill does not hold, goes to your report, for the skill writer. The judge holds an entry past 600 that grows by more.
+
 ## Your files, in the run's folder
 
 You write entries only through `record.py`: you write them into `record.apply`, and `checks.sh` applies that file with `record.py apply` on the worktree. You never edit `FACTS.md`, `POSITIONS.md`, their histories or the ledger.
 
-- `record.apply`: for each entry, its whole new line, then one indented provenance line: `  from: PATH, "HEADING"; commit: LANDING; by: climb batch N landing workflow; note: WHY`. Each `from` names a report section that holds the ground: PATH from the repository root or from `explorations/`, and HEADING held by exactly one heading of it. LANDING is the landing commit. The ground's dates, counts, commits and file names go in the note, not in the entry. Where only the history changes, write `note F-87` and its provenance line. The header of `explorations/coordinator/tools/record.py` gives the whole form of the file.
+- `record.apply`: for each entry, its whole new line, then one indented provenance line: `  from: PATH, "HEADING"; commit: LANDING; note: WHY`. `checks.sh` gives each block `by: climb batch N landing workflow (Opus)`, the tier that wrote the text. Each `from` names a report section that holds the ground: PATH from the repository root or from `explorations/`, and HEADING held by exactly one heading of it. LANDING is the landing commit. How the fact came about goes in the note, not in the entry: its dates, the batch or the run that found it, a correction. Where only the history changes, write `note F-87` and its provenance line. The header of `explorations/coordinator/tools/record.py` gives the whole form of the file.
 - `rows.rewrite`: for each row, its whole new line, with its number in its first cell, in the ledger's template (`facts-extract.sh 'doc:explorations/fortress-gap-ledger.md#The row template'`). Write the file only if a change's home is a row.
 - `cut-only.txt`: the number of each POSITIONS entry whose change only deletes words, one a line. `checks.sh` checks each with `words-subset.py`.
 - `clean.txt`: the new entries alone, one a line. A cold reader gets this file and nothing else.
-- `entries-report.md`, with a header comment of one sentence. For each change: its number and its entry or row; the old line and the new; "Meaning: unchanged", or the change of meaning with its ground; for an entry over 600 characters, the question of "What an entry is" that keeps each sentence past the 600; for a POSITIONS change, "cut only" where it only deletes words, and the decision, its reach and its requirement before and after; the questions for the curator.
+- `entries-report.md`, with a header comment of one sentence. For each change: its number and its entry or row; the old line and the new; "Meaning: unchanged", or the change of meaning with its ground; for an entry over 600 characters, the question of "What an entry is" that keeps each sentence past the 600, and for one that grew, what you moved out first; for a POSITIONS change, "cut only" where it only deletes words, and the decision, its reach and its requirement before and after; the questions for the curator.
 
 ## The fix round
 

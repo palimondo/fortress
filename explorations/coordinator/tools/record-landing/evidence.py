@@ -14,8 +14,10 @@ record.py and ledger.py, and runs WT's record tools. It writes six files into RU
   rows.md      each gap-ledger row that the range opened, closed, rewrote or noted, with its claim
   cites.md     each other entry, review-queue item and INDEX line that names a changed entry or row, with
                its file, its line and the sentence that names it
-  plan.md      PLAN.md's headings, the PLAN lines that the batch added, and the other PLAN lines that name
-               a changed entry or row
+  plan.md      PLAN.md's headings, the PLAN lines that the batch added, the other PLAN lines that name
+               a changed entry or row, and the lines that look stale at AT: plan-moves.py --stale-at AT, each
+               line whose own review-queue item is settled, each list of items that disagrees with the
+               queue, and each review finding that a later commit names
   checks.md    at AT: record.py check --base BASE, ledger.py landing-check BASE, the notes that
                check-index.sh finds without an INDEX line, and the citations of PLAN by line number in the
                record's own files
@@ -46,6 +48,7 @@ A = ap.parse_args()
 WT = os.path.abspath(A.root)
 OUT = os.path.abspath(A.out)
 TOOLS = os.path.join(WT, 'explorations/coordinator/tools')
+HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, TOOLS)
 import record as R      # noqa: E402  the worktree's own record.py: the form of FACTS, POSITIONS and their histories
 import ledger as L      # noqa: E402  the worktree's own ledger.py: the ledger's rows and cells
@@ -449,7 +452,7 @@ def plan_md():
             heads.append((i, 3, h3))
         path[i] = ' > '.join(x for x in (h2, h3) if x)
     starts = [h[0] for h in heads] + [len(lines) + 1]
-    out = ['<!-- The record-landing workflow\'s evidence of PLAN.md at %s: its headings, the lines that the batch added (%s..%s) or that came after the landing, and the other lines that name a changed entry or row, written by evidence.py. -->' % (AT, BASE, LANDING), '',
+    out = ['<!-- The record-landing workflow\'s evidence of PLAN.md at %s: its headings, the lines that the batch added (%s..%s) or that came after the landing, the other lines that name a changed entry or row, and the lines that look stale, written by evidence.py. -->' % (AT, BASE, LANDING), '',
            '# PLAN.md', '', 'Print a section with `facts-extract.sh \'doc:explorations/coordinator/PLAN.md#HEADING\'`, from the worktree.', '',
            '## Its headings, with their lines', '']
     for j, (i, lvl, t) in enumerate(heads):
@@ -484,6 +487,14 @@ def plan_md():
             out.append('- PLAN.md:%d, under "%s", %d characters, names %s: %s' % (i, path[i], len(ln), describe(ents, rows), ' | '.join(sentences_at(ln, spans))))
     if not n:
         out.append('None.')
+    code, looks = run(['python3', os.path.join(HERE, 'plan-moves.py'), '--root', WT, '--base', AT, '--stale-at', AT])
+    out += ['', '## The lines that look stale at %s' % AT, '',
+            'From `plan-moves.py --stale-at %s`. Each line: its place, why it looks stale, and its first words. '
+            '"settled": its own review-queue item is in (a). "list": a list of items that names a settled one, or that '
+            'differs from the queue\'s list that it names. "finding": a commit that changes the tree names the review '
+            'finding that the line holds, so a half of it may be built. Each is a change for `owed.md`: stale, built or '
+            'answered, or weight none with the reason that it stays.' % AT, '',
+            looks if code == 0 else 'plan-moves.py failed: %s' % looks]
     return '\n'.join(out)
 
 

@@ -43,14 +43,17 @@ const SORT = {
   required: ['counts', 'orientation', 'curator', 'summary'],
 }
 
-// One write round: drive.sh starts both streams in the background, waits for both, and runs checks.sh.
+// One write round: drive.sh starts both streams in the background, waits for both, and runs checks.sh. The
+// driver waits in steps of 240 s, under the five minutes that its prompt cache lives, so that no step writes its
+// context again; its marker is under the worktree's tmp/, which git ignores.
+const MARKS = WT + '/tmp/record-landing/'
 const drive = (n) => {
-  const log = `${RUN}drive-${n}.log`, done = `${RUN}drive-${n}.done`
+  const log = `${RUN}drive-${n}.log`, done = `${MARKS}drive-${n}.done`
   return agent(`You drive a long command and report its output; you judge nothing and write nothing else.
 1. If ${done} exists, skip to step 3.
 2. Run this in the background with the Bash tool's run_in_background, exactly:
-   ${T}drive.sh ${RUN} ${n} > ${log} 2>&1; touch ${done}
-3. Run \`python3 ${RC}wait.py ${done} 540\` in the foreground, with a timeout of 600000 ms. If it exits 1, run it again; repeat until it exits 0.
+   mkdir -p ${MARKS}; ${T}drive.sh ${RUN} ${n} > ${log} 2>&1; touch ${done}
+3. Run \`python3 ${RC}wait.py ${done} 240\` in the foreground, with a timeout of 270000 ms. If it exits 1, run it again at once; repeat until it exits 0. Each wait stays under five minutes, so that your prompt cache stays warm.
 4. Your final message: the last 80 lines of ${log}, verbatim.`, { label: n === 1 ? 'write' : 'fix', phase: n === 1 ? 'Write' : 'Fix', model: 'sonnet' })
 }
 
@@ -66,7 +69,7 @@ const w1 = await drive(1)
 phase('Check')
 const checks = await parallel([
   () => agent(`Read your brief and follow it: ${T}check.md\n\n${where}`, { label: 'check', phase: 'Check', model: 'opus' }),
-  () => agent(`Read your brief and follow it: ${RC}coldread.md\n\nThe file to read: ${RUN}clean.txt\nYour report: ${RUN}cold-read.md`, { label: 'cold read', phase: 'Check', model: 'opus' }),
+  () => agent(`Read your brief and follow it: ${RC}coldread.md\n\nThe file to read: ${RUN}clean.txt\nYour report: ${RUN}cold-read.md\nWrite your report in parts of five entries: write the first part to the file, then add each next part to its end, one tool call for each part. So no reply runs for minutes, and your prompt cache stays warm between your calls.`, { label: 'cold read', phase: 'Check', model: 'opus' }),
 ])
 
 phase('Fix')

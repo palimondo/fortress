@@ -10,7 +10,10 @@
 # edits of PLAN, PLAN-history, the review queue, INDEX and other notes stay as they are. Then it runs every
 # check on the worktree: record.py check --base AT; ledger.py check; ledger.py landing-check BASE;
 # check-index.sh; plan-moves.py; queue-check.py; and the length of each changed entry, lengths.py.
-# It writes RUN/mech-ROUND.md: one line per check, pass or fail, then each check's command and output.
+# record.py writes each history block "by climb batch N landing workflow (Opus)", the tier of the agents that
+# wrote the text. It writes RUN/mech-ROUND.md: one line per check, pass or fail, with the PLAN lines that
+# plan-moves.py lists to look at and the entries over 600 that grew (lengths.py), then each check's command
+# and output.
 # Exit 0 when every check passes (the length table only informs), 1 otherwise. The record files stay as
 # applied, so the worktree's git diff shows the round's whole change.
 set -uo pipefail
@@ -30,10 +33,11 @@ mkdir -p "$WT/tmp"
 body=$(mktemp -p "$WT/tmp" mech.XXXXXX); trap 'rm -f "$body"' EXIT
 summary=()
 bad=0
-step() {   # step NAME MUST(1|0) CMD...: run CMD in the worktree, keep its output for the report
+last=''
+step() {   # step NAME MUST(1|0) CMD...: run CMD in the worktree, keep its output for the report (and in $last)
   local name=$1 must=$2; shift 2
   local o code
-  o=$(cd "$WT" && "$@" 2>&1); code=$?
+  o=$(cd "$WT" && "$@" 2>&1); code=$?; last=$o
   if [ "$code" = 0 ]; then summary+=("- $name: pass"); elif [ "$must" = 1 ]; then summary+=("- $name: FAIL (exit $code)"); bad=1; else summary+=("- $name: exit $code (information)"); fi
   { printf '## %s\n\n`%s`, exit %s.\n\n```\n' "$name" "$*" "$code"
     printf '%s\n' "$o" | head -c 12000
@@ -64,7 +68,7 @@ if [ -s "$apply" ]; then
   allp=$(mktemp -p "$WT/tmp" positions.XXXXXX); grep -E '^- P-[0-9]+ ' "$apply" > "$allp" || true
   [ -s "$allp" ] && step "words-subset.py, every POSITIONS line of $(basename "$apply")" 0 python3 "$here/../record-clarity/words-subset.py" "$allp" --root "$WT"
   rm -f "$allp"
-  step "record.py apply $(basename "$apply")" 1 "${rec[@]}" apply "$apply" --by "climb batch $N landing workflow"
+  step "record.py apply $(basename "$apply")" 1 "${rec[@]}" apply "$apply" --by "climb batch $N landing workflow (Opus)"
 else
   summary+=("- record.py apply: no $(basename "$apply"), no entry changed")
 fi
@@ -80,8 +84,12 @@ step "ledger.py check" 1 "${led[@]}" check --summary
 step "ledger.py landing-check $BASE" 1 "${led[@]}" landing-check "$BASE"
 step "check-index.sh" 1 bash explorations/coordinator/check-index.sh
 step "plan-moves.py" 1 python3 "$here/plan-moves.py" --root "$WT" --base "$AT"
+look=$(printf '%s\n' "$last" | grep -c '^LOOK ' || true)
+[ "${look:-0}" -gt 0 ] && summary+=("  - plan-moves.py lists $look PLAN lines to look at (its LOOK lines below)")
 step "queue-check.py" 1 python3 "$here/queue-check.py" --root "$WT" --base "$AT"
 step "lengths.py" 0 python3 "$here/lengths.py" --root "$WT" --base "$AT"
+grew=$(printf '%s\n' "$last" | sed -n 's/^lengths: [0-9]* already over 600 grew: //p')
+[ -n "$grew" ] && summary+=("  - lengths.py: already over 600, and grew: $grew")
 step "git diff --stat $AT" 0 git diff --stat "$AT" -- explorations/
 
 { printf '<!-- The record-landing workflow'"'"'s mechanical checks, round %s, in the worktree %s at %s: one line per check, then each command with its output, written by checks.sh. -->\n\n# The mechanical checks, round %s\n\n' "$ROUND" "$WT" "$AT" "$ROUND"

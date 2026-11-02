@@ -5,10 +5,13 @@
 # Runs checks.sh RUN final: the six record files reset to AT, final.apply and final.rewrite applied, and
 # every check again. If a check fails, it commits nothing and exits 1: the judge holds the change that fails
 # and runs this again. If all pass, it makes two commits on the run's branch in the worktree, each by named
-# paths, each message from its file with the footer of the fortress-repo skill's committing part:
+# paths, each message from its file, then the line "By the climb batch N landing workflow (Opus).", which
+# names the tier of the agents that wrote the text, then the footer of the fortress-repo skill's committing part:
 #   1. FACTS.md, POSITIONS.md, their histories, the gap ledger and its history, where they changed;
 #   2. every other changed file under explorations/ (PLAN, PLAN-history, the review queue, INDEX, other
-#      notes) and the run's folder, its *.log and *.done files left out.
+#      notes) and the run's folder, its *.log files left out (git ignores them; the rounds' .done markers
+#      are in the worktree's tmp/record-landing/, which git ignores too).
+# The judge writes nothing after this script commits, so the worktree stays clean; it prints any file left.
 # A changed file outside explorations/, the boot note or the held list (the coordinator's), or a new file
 # outside the run's folder, stops it before any commit. Once the branch holds commits past AT, it prints
 # them and does nothing more, so a resumed run commits nothing twice. It pushes nothing.
@@ -49,7 +52,7 @@ footer=$(sed -n 's/^ *\(Co-Authored-By: .*\)$/\1/p; s/^ *\(Claude-Session: .*\)$
 [ "$(printf '%s\n' "$footer" | wc -l)" = 2 ] || { echo "final.sh: no footer found in the committing part" >&2; exit 1; }
 commit() {   # commit MSGFILE PATHS...
   local msg=$1; shift
-  { cat "$msg"; printf '\n%s\n' "$footer"; } > "$WT/tmp/final-msg.txt"
+  { cat "$msg"; printf '\nBy the climb batch %s landing workflow (Opus).\n\n%s\n' "$N" "$footer"; } > "$WT/tmp/final-msg.txt"
   git -C "$WT" add -- "$@" && git -C "$WT" commit -q -F "$WT/tmp/final-msg.txt" -- "$@"
 }
 mkdir -p "$WT/tmp"
@@ -63,4 +66,4 @@ echo "final.sh: the commits on $BRANCH:"
 git -C "$WT" log --format='%h %s' "$AT..HEAD"
 git -C "$WT" show --stat --format='== %h %s' "$AT..HEAD" | grep -v '^$'
 left=$(git -C "$WT" status --porcelain=v1 -uall | grep -vE '\.(log|done)$' || true)
-[ -z "$left" ] || { echo "final.sh: left uncommitted:"; echo "$left"; }
+[ -z "$left" ] || { echo "final.sh: the worktree is not clean; left uncommitted:"; echo "$left"; }

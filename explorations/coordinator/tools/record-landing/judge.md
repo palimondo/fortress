@@ -21,7 +21,7 @@ Which changes land? For each change: apply, or hold, once. Then make the branch'
 
 ## The verdicts
 
-Apply a change when its final text keeps the meaning of its ground, the checks that bear on it pass, and what the cold reader still raises changes no action. Hold it when it says more or less than its ground, drops a condition, or fails a check, and nothing in the folder settles it. Where `check.md` named a failure and the fix round claims to settle it, read the sentence and its source yourself. You do not rewrite a text: you judge it as it stands.
+Apply a change when its final text keeps the meaning of its ground, the checks that bear on it pass, and what the cold reader still raises changes no action. Hold it when it says more or less than its ground, drops a condition, or fails a check, and nothing in the folder settles it. Hold an entry already past 600 characters that grows, unless the clause that its change owes alone explains the growth: `lengths.py` in `mech-2.md` names each such entry, and `entries-report.md` says what the writer moved out first. Where `check.md` named a failure and the fix round claims to settle it, read the sentence and its source yourself. You do not rewrite a text: you judge it as it stands.
 
 POSITIONS follows the curator's rule of 2026-10-31. His words: "you don't need my approval to bring the record in line with reality" (`explorations/coordinator/HELD.md`, "Held in chat (2026-10-31)", 08:1x UTC). A sentence that the tree made false changes by the fewest words and lands without his yes, and the landing report names it with its old and its new words. Any change of what he decided, where it applies or what it requires is held, with its question for him.
 
@@ -33,23 +33,23 @@ A held entry keeps its text: its block stays out of `final.apply`. A held row ke
 - `commit-1.txt` and `commit-2.txt`: the two commit messages, without their footer. The first is for FACTS, POSITIONS, their histories and the ledger; the second for PLAN, PLAN-history, the queue, INDEX, the other notes and the run's folder. Each opens with a subject line that says what changed, then the changes, one line each, in plain words.
 - `diff.md`, in the form below.
 
-Then run `/home/user/fortress/explorations/coordinator/tools/record-landing/final.sh RUN`, with RUN the run's folder. It resets the record files to AT, applies your two files, runs every mechanical check again into `mech-final.md`, and only if all pass makes the two commits, with the footer of the `fortress-repo` skill's committing part. If a check fails, hold the change that fails it, update your files, and run it again. It pushes nothing.
+Then run `/home/user/fortress/explorations/coordinator/tools/record-landing/final.sh RUN`, with RUN the run's folder. It resets the record files to AT, applies your two files, runs every mechanical check again into `mech-final.md`, and only if all pass makes the two commits, with the footer of the `fortress-repo` skill's committing part. If a check fails, hold the change that fails it, update your files, and run it again. It pushes nothing. After it commits, you write no file in the worktree, so that the worktree stays clean.
 
 ## `diff.md`
 
-A header comment of one sentence, then one line per change, by home, each with its change number:
+A header comment of one sentence, then one line per change that changed a file, by home, each with its change number. Keep it within 10,000 characters. A change that owed nothing, or an entry kept as it stood, gets no line: `owed.md` holds it.
 
 - **FACTS:** the entry, what changed, and its ground.
 - **POSITIONS:** the entry, the old words and the new, "decision unchanged", and its ground, ready for the landing report.
 - **The ledger:** the row, what changed, and its ground.
-- **PLAN:** each rewritten line; the moved lines by kind (built, answered, stale, cut to a pointer), with their count and the first words of each.
+- **PLAN:** the rewritten, new and moved lines as counts by kind (rewritten, new, built, answered, stale, cut to a pointer), each count with its change numbers; a line in full only where the coordinator must read it. `routing-report.md` holds each line.
 - **The review queue:** each new item's number, its question in a few words, its default and its "Needed by"; each item moved to (a), with what settled it.
 - **INDEX and the other notes:** each line.
 - **Held:** each held change, and why.
-- **For the curator:** each change that needs his word, each default that the record does not hold, each "Needed by" that the workflow set.
+- **For the curator:** each change that needs his word; each default that the record does not hold; each "Needed by" and each kind, consequential or routine, that the workflow set; and each item moved to (a)'s "Answered by a decision of his", with the word of his that it cites.
 - **For the coordinator:** the last section of `owed.md`, and each change that the routing report names for the boot note or the held list.
 - **Checks:** one line for each check of `mech-final.md`.
-- **Next:** the two commits by hash and subject; and the orientation update's call, ready to copy: `Workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/orientation/orientation.js', args: { mode: 'update', out: '/home/user/fortress/explorations/compile-ladder/climb-batch-N/orientation/', stream: 'orientation-bN', facts: [...] } })`, with the entries that the landing and this run added or changed.
+- **Next:** the command that lists the two commits, `git -C WORKTREE log --format='%h %s' AT..BRANCH` with AT and BRANCH from `run.env`, since the committed `diff.md` cannot name its own commits; and the orientation update's call, ready to copy: `Workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/orientation/orientation.js', args: { mode: 'update', out: '/home/user/fortress/explorations/compile-ladder/climb-batch-N/orientation/', stream: 'orientation-bN', facts: [...] } })`, with the entries that the landing and this run added or changed.
 
 The form of three such lines, with the angle brackets filled:
 
@@ -57,4 +57,4 @@ The form of three such lines, with the angle brackets filled:
 - C9, P-N, made false, cut only: "<the words cut>" goes; decision unchanged. Ground: <the landed fact, with its commit or row>.
 - C21, queue item N, new, consequential: <its question in a few words>; default <as landed, or no default on record>; needed by <the point, and "set by the landing workflow" where it is>.
 
-Your final message: the counts applied and held, the two commits, and the path of `diff.md`.
+Your final message: the counts applied and held, the two commits by hash and subject, and the path of `diff.md`.
