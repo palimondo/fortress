@@ -1,0 +1,22 @@
+FACTS and POSITIONS brought to climb batch 24's landing: 16 entries rewritten, F-309 added, three POSITIONS sentences cut
+
+- F-24: REM and MOD by zero on the five integer types end the run (rows 336, 848); the five DivisionByZero tests named by their pattern.
+- F-32: owns the count of the bindings, 276 on glue classes and 173 on helpers, with the 173 by declaring type; the review's section 6 added to its Detail.
+- F-34: the code generator refused 52 declarations, measured once before it compiled a where clause in a declaration's own header; four of the 52 were such clauses; the present count is not measured.
+- F-132: the compiled CHOOSE sentence comes before the compiled path's known gaps.
+- F-181: the title holds the where clause only; the three forms that still fail and the contract refusal (row 701) are in the body.
+- F-220: the stale three errors of the checker count go; the distance stage and the count find no error at the line.
+- F-240: the noise band now reaches climb batch 24's gate; the gate's figures are unchanged.
+- F-281: the line numbers of OverloadingChecker.scala go to the report.
+- F-298: the rewrite's reach (row 865); the glue strings typed in the two stages and stopped in a compile; line numbers cut.
+- F-299: the count and its list by family move to F-32; the loader's rules in shorter sentences; line numbers cut.
+- F-303: the list of the 30 and the line numbers go to the report; F-32 counts the bindings.
+- F-304: row 862 in the title; the code generator's expression in words; the specification's file kept.
+- F-305: line numbers cut; the sweep's result in the CHOOSE probe's words.
+- F-306: REM and MOD by zero point to row 336 for ZZ64 and row 848 for ZZ; the title's counts read as part of each trait's bindings.
+- F-307: the eight binding sites and NamingCzar's lines go to the report.
+- F-308: the checker named as what accepts the composition; the two cases with no transfer stated apart; the six left on glue classes by name; line numbers cut.
+- F-309, new: ForeignJava reads a helper class once per JVM and each compile writes its wrapper anew, so a helper's Fortress type must not depend on the binding that names it (the hard-set probe, section 9).
+- P-73: "and at CHOOSE (row 521)" cut, since rung K; the decision is unchanged.
+- P-151: "Row 701: the code generator's half." cut, since rung G; the decision is unchanged.
+- P-156: the code generator's refusal of a where clause cut from the Why and from BoundedRange's sentence, since rung G; the decision is unchanged.

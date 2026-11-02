@@ -1,0 +1,16 @@
+PLAN, the review queue, INDEX and two notes brought to climb batch 24's landing, with the record-landing run's folder
+
+- PLAN, "Where we stand": the walk check, the live thread, Landed and Next at climb batch 24's landing (25238e60c).
+- PLAN, phase 4: climb batch 24's line built; a new line for climb batch 25, not yet planned.
+- PLAN, phase 4, the natives: 173 bindings on helpers and 276 on glue classes; 97 of the 104 moved; way 2b's 76 of the 82; the 27 with review-queue items 331 and 332; the families that wait, without the built ones; new lines for rows 864 and 872.
+- PLAN, phase 4, the code generator: the 52 in the past and unmeasured since rung G; row 701's where line moved as built; a new line for row 862.
+- PLAN, phase 4's closing paragraph: its first two batches landed.
+- PLAN, phase 3's candidates: row 701's code-generator half built; rows 868 to 870 added to the where clauses' line.
+- PLAN, work that can start now: the commit stage's fold of F-240 moved as built; the review's findings 3, 4 and 5 new; climb batch 20's finding 13 and climb batch 23's finding 8 met again.
+- PLAN, the lists for his review: climb batch 18's X.worker.5 and climb batch 23's finding 7 moved as built; K.worker.1 and gather.1 moved as answered by his rule of 2026-10-31; PLAN item 63 and five items of climb batch 24 cut to pointers; eleven new lines in climb batch 24's list.
+- PLAN-history: "Climb batch 24's landing, 2026-10-31", the 29 earlier texts word for word.
+- Review queue: items 326 to 341 new, 327 in (a); item 182 moved to (a); items 264, 309, 310 and 321 brought to the tree; the head's counts and its next batch, climb batch 25.
+- INDEX: seven lines for the notes of postmortem-2026-10-28/.
+- climb-batch-24/RECORD.md: the skeptics wrote the worker's files on four branches, S's too.
+- map/modules-and-phases.md, B.12: NativeApp.java's lines after rung W.
+- The run's folder, compile-ladder/climb-batch-24/record-landing/: the evidence, the sort, the writers' files and reports, the checks, final.apply and diff.md.
