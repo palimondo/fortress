@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""words-subset.py APPLY [--allow WORD ...]: check that a scrape only deletes.
+"""words-subset.py APPLY [--root DIR] [--allow WORD ...]: check that a scrape only deletes.
 
 For each entry line `- F-87 ...` or `- P-48 ...` of the apply file, compare its
 words with the entry as FACTS.md or POSITIONS.md holds it now: every word of the
@@ -7,13 +7,16 @@ new line must occur in the old one at least as often (case and punctuation
 ignored), so that words can be deleted or reordered but none added. --allow
 names words that may be added (default: none). Prints each entry that adds a
 word, with the words added, and exits 1 if there is any; new entries (`F-?1`)
-are reported as not allowed.
+are reported as not allowed. --root DIR reads FACTS.md and POSITIONS.md from the
+checkout at DIR, such as a worktree, instead of the main tree.
 """
 import re, sys
 from collections import Counter
 
 ROOT = '/home/user/fortress/explorations/coordinator/'
 args = sys.argv[1:]
+if '--root' in args:
+    i = args.index('--root'); ROOT = args[i + 1].rstrip('/') + '/explorations/coordinator/'; args = args[:i] + args[i + 2:]
 allow = set()
 if '--allow' in args:
     i = args.index('--allow'); allow = {w.lower() for w in args[i + 1:]}; args = args[:i]
