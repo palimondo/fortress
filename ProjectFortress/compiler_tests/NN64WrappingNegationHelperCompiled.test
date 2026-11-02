@@ -1,0 +1,4 @@
+tests=NN64WrappingNegationHelperCompiled
+link
+run
+run_out_contains=PASS

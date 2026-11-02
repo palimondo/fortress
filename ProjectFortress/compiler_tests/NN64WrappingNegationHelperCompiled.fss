@@ -1,0 +1,20 @@
+(* The wraparound negation of an NN64, through the helper that NN64's prefix DOTMINUS names, is 0 minus it, wrapped: 1 gives 2^64-1; opr-overview.tex, section "Addition and Subtraction Operators". *)
+component NN64WrappingNegationHelperCompiled
+export Executable
+
+wrappingNeg(a:NN64):NN64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingNeg")
+
+run():() = do
+  zero: NN64 = 0
+  one: NN64 = 1
+  half: NN64 = 9223372036854775808
+  top: NN64 = 18446744073709551615
+  println("REACHED")
+  assert(wrappingNeg(zero) = zero, "the wraparound negation of the NN64 0 is 0")
+  assert(wrappingNeg(one) = 18446744073709551615, "the wraparound negation of the NN64 1 is 2^64-1")
+  assert(wrappingNeg(half) = half, "the wraparound negation of the NN64 2^63 is 2^63")
+  assert(wrappingNeg(top) = one, "the wraparound negation of the NN64 2^64-1 is 1")
+  println("PASS")
+end
+
+end

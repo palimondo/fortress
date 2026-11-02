@@ -1,0 +1,13 @@
+(* On the compiled path, a program's object that extends ZZ32, whose values basic-integers.tex, section "Integers", makes the 32-bit integers, is refused or runs: it does not compile and then die when its class loads. *)
+component XXXObjectExtendsZZ32Compiled
+export Executable
+
+object MyNum extends ZZ32 end
+
+run():() = do
+  println("REACHED")
+  println(MyNum + 1)
+  println("PASS")
+end
+
+end

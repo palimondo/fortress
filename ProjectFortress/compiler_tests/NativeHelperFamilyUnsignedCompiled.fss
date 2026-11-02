@@ -1,0 +1,116 @@
+(* On the compiled path, the nativeHelpers that UnsignedLong's asString, asExprString and asFloat, NN64's prefix DOTMINUS and NN32's CHOOSE name compile and run when bound at the Java types the compile reads, an NN64 carried in a ZZ64 and an NN32 in a ZZ32. *)
+component NativeHelperFamilyUnsignedCompiled
+export Executable
+
+n64ToString(a:ZZ64):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
+n64ToDouble(a:ZZ64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToDouble")
+n64WrapNeg(a:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingNeg")
+n64WrapAdd(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingAdd")
+n32Choose(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingChoose")
+dToString(a:RR64):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
+dAdd(a:RR64, b:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
+dEQ(a:RR64, b:RR64):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleEQ")
+
+overflows(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+run():() = do
+  n0: ZZ64 = 0
+  n1: ZZ64 = 1
+  n7: ZZ64 = 7
+  n63: ZZ64 = -9223372036854775807 - 1
+  n63p1: ZZ64 = -9223372036854775807
+  n63p1024: ZZ64 = -9223372036854774784
+  n63p1025: ZZ64 = -9223372036854774783
+  n63p3072: ZZ64 = -9223372036854772736
+  nmaxm1: ZZ64 = -2
+  nmax: ZZ64 = -1
+
+  assert(n64ToString(n0) = "0", "ToString of 0")
+  assert(n64ToString(n1) = "1", "ToString of 1")
+  assert(n64ToString(n7) = "7", "ToString of 7")
+  assert(n64ToString(n63) = "9223372036854775808", "ToString of 2^63")
+  assert(n64ToString(n63p1) = "9223372036854775809", "ToString of 2^63+1")
+  assert(n64ToString(nmaxm1) = "18446744073709551614", "ToString of 2^64-2")
+  assert(n64ToString(nmax) = "18446744073709551615", "ToString of 2^64-1")
+
+  assert(dToString(n64ToDouble(n0)) = "0.0", "ToDouble of 0")
+  assert(dToString(n64ToDouble(n1)) = "1.0", "ToDouble of 1")
+  assert(dToString(n64ToDouble(n7)) = "7.0", "ToDouble of 7")
+  assert(dToString(n64ToDouble(n63)) = "9.223372036854776E18", "ToDouble of 2^63")
+  assert(dToString(n64ToDouble(n63p1)) = "9.223372036854776E18", "ToDouble of 2^63+1 rounds to 2^63")
+  assert(dToString(n64ToDouble(n63p1024)) = "9.223372036854776E18", "ToDouble of 2^63+1024, a tie, rounds to the even 2^63")
+  assert(dToString(n64ToDouble(n63p1025)) = "9.223372036854778E18", "ToDouble of 2^63+1025 rounds up to 2^63+2048")
+  assert(dToString(n64ToDouble(n63p3072)) = "9.22337203685478E18", "ToDouble of 2^63+3072, a tie, rounds to the even 2^63+4096")
+  assert(dToString(n64ToDouble(nmaxm1)) = "1.8446744073709552E19", "ToDouble of 2^64-2 rounds to 2^64")
+  assert(dToString(n64ToDouble(nmax)) = "1.8446744073709552E19", "ToDouble of 2^64-1 rounds to 2^64")
+  assert(dEQ(n64ToDouble(nmax), dAdd(n64ToDouble(n63), n64ToDouble(n63))), "ToDouble of 2^64-1 is twice ToDouble of 2^63")
+
+  assert(n64WrapNeg(n0) = 0, "WrapNeg of 0")
+  assert(n64WrapNeg(n1) = nmax, "WrapNeg of 1 wraps to 2^64-1, carried in a ZZ64")
+  assert(n64WrapNeg(n7) = -7, "WrapNeg of 7 wraps to 2^64-7, carried in a ZZ64")
+  assert(n64WrapNeg(n63) = n63, "WrapNeg of 2^63 is 2^63")
+  assert(n64WrapNeg(n63p1) = 9223372036854775807, "WrapNeg of 2^63+1 is 2^63-1")
+  assert(n64WrapNeg(nmaxm1) = 2, "WrapNeg of 2^64-2 is 2")
+  assert(n64WrapNeg(nmax) = n1, "WrapNeg of 2^64-1 is 1")
+  assert(n64WrapAdd(n64WrapNeg(n7), n7) = n0, "WrapNeg of 7 plus 7 wraps to 0")
+
+  c0: ZZ32 = 0
+  c1: ZZ32 = 1
+  c2: ZZ32 = 2
+  c7: ZZ32 = 7
+  c8: ZZ32 = 8
+  c17: ZZ32 = 17
+  c34: ZZ32 = 34
+  c35: ZZ32 = 35
+  c65536: ZZ32 = 65536
+  c92682: ZZ32 = 92682
+  c92683: ZZ32 = 92683
+  c31: ZZ32 = -2147483647 - 1
+  c31m1: ZZ32 = 2147483647
+  c31p1: ZZ32 = -2147483647
+  c32m2: ZZ32 = -2
+  cmax: ZZ32 = -1
+
+  assert(n32Choose(c0, c0), 1, "0 CHOOSE 0")
+  assert(n32Choose(c0, c1), 0, "0 CHOOSE 1, k above n")
+  assert(n32Choose(c0, cmax), 0, "0 CHOOSE 2^32-1, k above n")
+  assert(n32Choose(c1, c1), 1, "1 CHOOSE 1")
+  assert(n32Choose(c7, c0), 1, "7 CHOOSE 0")
+  assert(n32Choose(c7, c1), 7, "7 CHOOSE 1")
+  assert(n32Choose(c7, c2), 21, "7 CHOOSE 2")
+  assert(n32Choose(c7, c7), 1, "7 CHOOSE 7")
+  assert(n32Choose(c7, c8), 0, "7 CHOOSE 8, k above n")
+  assert(n32Choose(c7, c31), 0, "7 CHOOSE 2^31, k above n, unsigned")
+  assert(n32Choose(c7, cmax), 0, "7 CHOOSE 2^32-1, k above n, unsigned")
+  assert(n32Choose(c34, c17), -1961361076, "34 CHOOSE 17, 2333606220 carried in a ZZ32")
+  assert(overflows(fn () => n32Choose(c35, c17)), "35 CHOOSE 17 overflows")
+  assert(n32Choose(c65536, c2), 2147450880, "65536 CHOOSE 2")
+  assert(overflows(fn () => n32Choose(c65536, c7)), "65536 CHOOSE 7 overflows")
+  assert(n32Choose(c92682, c2), -37075, "92682 CHOOSE 2, 4294930221 carried in a ZZ32")
+  assert(overflows(fn () => n32Choose(c92683, c2)), "92683 CHOOSE 2 overflows")
+  assert(n32Choose(c31, c0), 1, "2^31 CHOOSE 0")
+  assert(n32Choose(c31, c1), c31, "2^31 CHOOSE 1")
+  assert(overflows(fn () => n32Choose(c31, c2)), "2^31 CHOOSE 2 overflows")
+  assert(n32Choose(c31, c31m1), c31, "2^31 CHOOSE 2^31-1")
+  assert(n32Choose(c31, c31), 1, "2^31 CHOOSE 2^31")
+  assert(n32Choose(c31, c31p1), 0, "2^31 CHOOSE 2^31+1, k above n")
+  assert(n32Choose(c31, cmax), 0, "2^31 CHOOSE 2^32-1, k above n")
+  assert(n32Choose(cmax, c0), 1, "2^32-1 CHOOSE 0")
+  assert(n32Choose(cmax, c1), cmax, "2^32-1 CHOOSE 1")
+  assert(overflows(fn () => n32Choose(cmax, c2)), "2^32-1 CHOOSE 2 overflows")
+  assert(overflows(fn () => n32Choose(cmax, c31)), "2^32-1 CHOOSE 2^31 overflows")
+  assert(overflows(fn () => n32Choose(cmax, c31m1)), "2^32-1 CHOOSE 2^31-1 overflows")
+  assert(n32Choose(cmax, c32m2), cmax, "2^32-1 CHOOSE 2^32-2")
+  assert(n32Choose(cmax, cmax), 1, "2^32-1 CHOOSE 2^32-1")
+  assert(n32Choose(c32m2, cmax), 0, "2^32-2 CHOOSE 2^32-1, k above n")
+  println("PASS")
+end
+
+end
