@@ -16,8 +16,8 @@ public final class FNN32 extends fortress.CompilerBuiltin.NN32.DefaultTraitMetho
     final int val;
 
     private FNN32(int x) { val = x; }
-    public String toString() { return String.valueOf(val);}
-    public FJavaString asString() { return FJavaString.make(String.valueOf(val));}
+    public String toString() { return Integer.toUnsignedString(val);}
+    public FJavaString asString() { return FJavaString.make(Integer.toUnsignedString(val));}
     public int getValue() {return val;}
     public static FNN32 make(int x) {
         return new FNN32(x);
