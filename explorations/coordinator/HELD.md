@@ -2,6 +2,23 @@
 
 # Held list
 
+## Held from his page comments on the drafts page, version 6 (2026-11-02, evening)
+
+The skill drafts page (https://claude.ai/artifact/LwjYdr5x6iSVVEgwKMic1m, version 6). A "send to Claude" on this page reaches another Claude session, not this one (the reply of 21:36 on the cold-read thread is that session's); this session reads the page's comments when he says so.
+
+- 21:34 The cold read's fixes (rules 9, 10, 14, 16, the three proposals): were they re-read with a cold reader in the coordinator's role? If not, why should he read them for approval. (They were not; a cold read of the nine and of the four redrafts of rules 1 to 8, as the coordinating session, runs now; version 7 shows what survives.)
+- 21:27 Rule 11's brief ("Run test now while I read the rest"): test whether a worker given only entry numbers prints them with the record tool, or whether the explicit instruction is needed; find the best wording by experiment; the skill writer's testing process should help. (Three Opus workers run now, one question each, with the entries by number only, by number with the print instruction, and not named.)
+- 21:26 Rule 22: LGTM (landed this morning).
+- 21:24 Rule 20: does the page say that the held list's point should be taken in to resolve the potential contradiction now? A question for the chat.
+- 21:20 Rule 17 with 18, 19 and 21: LGTM.
+- 21:06 Rule 12's version 5 redraft (which version 6 marks as replaced by today's text): LGTM.
+- 21:01 Rule 11's landed sentence "give no reading list, reading order or steps, and neither quote nor name a part of fortress-repo": an overcorrection; a task that needs readings gets them, and an order or steps where they matter; was the coordinator's over-briefing a pre-trained habit that needs this explicit a correction? A question for the chat.
+- 20:57 Rule 4: LGTM.
+- 20:56 Rule 2: LGTM (the block that waits for the coordinator's judgement at its next boot).
+- 20:52 Rule 12's search sentence (an entry's history is part of the search): LGTM.
+- 20:51 Rule 12's brief sentence (delegating.md): why the back reference to "The curator's role and decisions", and not in the ASD-STE100 register.
+- 20:50 Rule 12's new text (the sort of a review's findings): mostly fine, but the register is not yet ASD-STE100; it reads like a Claudism.
+
 ## Held from his page comments (2026-11-02)
 
 The corrections page (https://claude.ai/artifact/5noPHbJmZg41UWT74HGxno, version 14, part 5), on the three positions that his answer "3" to the later-word ask changed; he accepted P-37's change and sent P-26 and P-7 back.
