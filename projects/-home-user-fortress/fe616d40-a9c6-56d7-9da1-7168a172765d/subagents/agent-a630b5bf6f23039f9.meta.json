@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the nine fixes as the coordinator","toolUseId":"toolu_01CRERDiG39g6CDRAhnq359i","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the nine fixes as the coordinator","toolUseId":"toolu_01CRERDiG39g6CDRAhnq359i","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","finished":true}
