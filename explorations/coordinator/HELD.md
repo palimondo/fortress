@@ -2,6 +2,13 @@
 
 # Held list
 
+## Held from his page comments (2026-11-02)
+
+The corrections page (https://claude.ai/artifact/5noPHbJmZg41UWT74HGxno, version 14, part 5), on the three positions that his answer "3" to the later-word ask changed; he accepted P-37's change and sent P-26 and P-7 back.
+
+- 13:49 P-7: its new clause points to P-26, and he doubts the pointer clarifies anything as written; why P-7 defines the Working Draft and the type paper and names the POPL 2019 paper nowhere; P-7 and P-26 suffer from isolation and must be reworded together so that they complement each other.
+- 13:45 P-26: compress it: strike the specific example (the `tail` pair) and the reference to Naden's file; the added sentences read as agentic shorthand with negation (the clause "a stub by its author's words, or a way around a limit ... is not") and need the ASD-STE100 register to read cleanly; he is not happy with the wording or the length; it needs the clarity workflow or the like, and more crystallizing.
+
 ## Held in chat (2026-11-02)
 
 - 07:01 Main's own sentence "Read a worker's final message yourself" (SKILL.md, "The standing goal") is a no-op, as he says: the final message comes back whatever the coordinator does. Cut it in the minimal-skill pass, with the fifth writing principle of skill-rewrite.md ("Say what to do ... add a reason only where it helps"), which leans imperative.
