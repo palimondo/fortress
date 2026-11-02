@@ -1,0 +1,3 @@
+tests=XXXNativeHelperOverloadedNN32Compiled
+compile
+compile_err_contains=ZZ32->JavaString is not applicable to an argument of type NN32

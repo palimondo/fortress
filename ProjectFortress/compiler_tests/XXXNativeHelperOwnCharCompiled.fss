@@ -1,0 +1,15 @@
+(* On the compiled path, a program's own trait named Char is read by its simple name as the library's character type: a declaration over it bound to an int helper is refused through the character transfer, whose type the message names. *)
+component XXXNativeHelperOwnCharCompiled
+export Executable
+
+trait Char end
+object C extends Char end
+
+code(c: Char): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intNeg")
+
+run():() = do
+  println(code(C))
+  println("PASS")
+end
+
+end
