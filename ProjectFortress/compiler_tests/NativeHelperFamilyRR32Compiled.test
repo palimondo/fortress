@@ -1,0 +1,4 @@
+tests=NativeHelperFamilyRR32Compiled
+link
+run
+run_out_contains=PASS
