@@ -10,6 +10,8 @@
 # The rungs, in the manifest's order, which is the gather's applied order: D, P, A, R, U, N, C (the record's fork 1).
 # D, P and N have the planner's samples (plan-25/probes/sample-D.patch, sample-P.patch, sample-N.patch); A, R and U
 # its whole texts (rung-A.patch, rung-R.patch, rung-U.patch); C none.
+# U also carries PLAN's list "Climb batch 24, listed for his review" and rows 865 and 866: the steps PLAN owes the next rung
+# that edits the rewrite (the Fable review's change of 2026-11-02).
 # `python3 -B lists25.py` checks every key with facts-extract.sh --check (each must match exactly one place) and every
 # reason's form; it is run again on the tree the batch is cut from.
 import os
@@ -100,9 +102,12 @@ U_BRIEFING = [
   ("ledger:326", "Your first row: the compiled path prints an NN32 or NN64 above its signed half as negative, by a helper and the run time."),
   ("ledger:860", "Your second row: the NN64 wraparound negation helper answers its operand; its XXX pair is yours to promote."),
   ("ledger:861", "Why Char's asExprString stays on its glue class: its form is open."),
+  ("ledger:865", "Row 865, whose XXX compile test you write: a helper string in a local function is not rewritten on the compiled path."),
+  ("ledger:866", "Row 866, whose XXX run pair you write: a program's object that extends ZZ32 compiles and dies at class load."),
   (P25 + "rung-U.patch", "Your text as the planner measured it: the helpers and run time fixed, the rewrite's condition and five strings."),
   PROBES,
   FORKS,
+  ("doc:explorations/coordinator/PLAN.md#Climb batch 24, listed for his review", "The steps PLAN owes the next rung that edits the rewrite: the seven limits to probe, and the tests owed for rows 865 and 866."),
   ("code:" + SRC + "compiler/BuiltinPrimitiveRewriter.java#private static String transfer(String declared, Class<?> c, String helper, boolean result)", "Where the rewrite picks a transfer by the declared type, the place of your condition."),
   ("code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss#value object UnsignedLong extends NN64", "Walk's object of NN64, whose three bindings your rung moves."),
   ("doc:ProjectFortress/compiler_tests/XXXNN64WrappingNegationHelperCompiled.fss", "Row 860's compiled XXX program, which your fix promotes with its link test."),
@@ -110,6 +115,7 @@ U_BRIEFING = [
   GUARD_NN64_COMPILED,
 ]
 U_CHECKS = ["P-58", "F-308", "ledger:326", "ledger:860", P25 + "rung-U.patch", REC + "The planner's probes",
+  "doc:explorations/coordinator/PLAN.md#Climb batch 24, listed for his review",
   "code:" + SRC + "compiler/BuiltinPrimitiveRewriter.java#private static String transfer(String declared, Class<?> c, String helper, boolean result)"]
 
 N_BRIEFING = [
