@@ -1,0 +1,184 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 46e19ec56..5b0a0b3df 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -778,9 +778,9 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     opr DIV(self,b:ZZ32):ZZ32 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingDiv")
+     opr REM(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Rem")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intRem")
+     opr MOD(self,b:ZZ32):ZZ32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Mod")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intMod")
+     opr GCD(self,b:ZZ32):ZZ32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Gcd")
+     opr LCM(self,b:ZZ32):ZZ32 =
+@@ -871,9 +871,9 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     opr DIV(self,b:ZZ64):ZZ64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingDiv")
+     opr REM(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Rem")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longRem")
+     opr MOD(self,b:ZZ64):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Mod")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longMod")
+     opr GCD(self,b:ZZ64):ZZ64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Gcd")
+     opr LCM(self,b:ZZ64):ZZ64 =
+@@ -954,9 +954,9 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     opr DIV(self,b:NN64):NN64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingDiv")
+     opr REM(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Rem")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongRem")
+     opr MOD(self,b:NN64):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Mod")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongMod")
+     opr GCD(self,b:NN64):NN64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Gcd")
+     opr LCM(self,b:NN64):NN64 =
+@@ -1051,9 +1051,9 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+     opr DIV(self, b: ZZ): ZZ =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.div")
+     opr REM(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Rem")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.rem")
+     opr MOD(self, b: ZZ): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mod")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.mod")
+     opr GCD(self, b: ZZ): ZZ =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Gcd")
+     opr LCM(self, b: ZZ): ZZ =
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index cb518d316..8d958ffb4 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -438,9 +438,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     opr DIV(self,b:NN32):NN32 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingDiv")
+     opr REM(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Rem")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntRem")
+     opr MOD(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Mod")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntMod")
+     opr GCD(self,b:NN32):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Gcd")
+     opr LCM(self,b:NN32):NN32 =
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java
+index 93fa1284d..258108ff6 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java
+@@ -44,6 +44,19 @@ public class simpleArbitraryPrecisionArith {
+     	return a.divide(b);
+     }
+ 
++    /* REM and MOD of ZZ, as walk's BigNum$Rem and BigNum$Mod compute them, raising DivisionByZero at a zero divisor;
++       MOD has the sign of the divisor. */
++    public static BigInteger rem(BigInteger a, BigInteger b) {
++        if (b.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        return a.remainder(b);
++    }
++
++    public static BigInteger mod(BigInteger a, BigInteger b) {
++        if (b.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b.signum() < 0) return a.negate().mod(b.negate()).negate();
++        return a.mod(b);
++    }
++
+     public static BigInteger neg(BigInteger a) { 
+     	return a.negate();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java
+index 235fbc3e5..764ffff5b 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java
+@@ -81,6 +81,18 @@ public class simpleIntArith {
+         return a / b;
+     }
+ 
++    /* REM and MOD of ZZ32, as walk's Int$Rem and Int$Mod compute them, raising DivisionByZero at a zero divisor;
++       MOD has the sign of the divisor. */
++    public static int intRem(int a, int b) {
++        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        return a % b;
++    }
++
++    public static int intMod(int a, int b) {
++        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        return Math.floorMod(a, b);
++    }
++
+     public static int intOverflowingNeg(int a) {
+ 	if (a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+         return -a;
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleLongArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleLongArith.java
+index eefd56abf..a677a980f 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleLongArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleLongArith.java
+@@ -81,6 +81,18 @@ public class simpleLongArith {
+         return a / b;
+     }
+ 
++    /* REM and MOD of ZZ64, as walk's Long$Rem and Long$Mod compute them, raising DivisionByZero at a zero divisor;
++       MOD has the sign of the divisor. */
++    public static long longRem(long a, long b) {
++        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        return a % b;
++    }
++
++    public static long longMod(long a, long b) {
++        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        return Math.floorMod(a, b);
++    }
++
+     public static long longOverflowingNeg(long a) {
+ 	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+         return -a;
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java
+index 65ada1d6f..5ee422aa2 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java
+@@ -64,6 +64,18 @@ public class simpleUnsignedIntArith {
+         return (int) c; 
+     }
+ 
++    /* REM and MOD of NN32, the same for natural numbers, as walk's NN32$Rem and NN32$Mod compute them, raising
++       DivisionByZero at a zero divisor. */
++    public static int unsignedIntRem(int a, int b) {
++        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        return Integer.remainderUnsigned(a, b);
++    }
++
++    public static int unsignedIntMod(int a, int b) {
++        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        return Integer.remainderUnsigned(a, b);
++    }
++
+     public static int unsignedIntOverflowingNeg(int a) {  
+ 	if (a == 0) return 0;
+ 	throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
+index fc6d4bae3..1451fa6ca 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
+@@ -77,6 +77,18 @@ public class simpleUnsignedLongArith {
+     	return divu(n,d);
+     }
+ 
++    /* REM and MOD of NN64, the same for natural numbers, as walk's UnsignedLong$Rem and UnsignedLong$Mod compute
++       them, raising DivisionByZero at a zero divisor. */
++    public static long unsignedLongRem(long a, long b) {
++        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        return Long.remainderUnsigned(a, b);
++    }
++
++    public static long unsignedLongMod(long a, long b) {
++        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        return Long.remainderUnsigned(a, b);
++    }
++
+     public static long unsignedLongOverflowingNeg(long a) {  
+     	if (a == 0) return 0;
+     	throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");

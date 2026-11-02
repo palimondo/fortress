@@ -1,0 +1,174 @@
+file	line	owner	header	glue_before	helper_now
+FortressLibrary.fss	740	ZZ32	opr =(self, b:ZZ32):Boolean	Int$Eq	simpleIntArith.intEQ
+FortressLibrary.fss	742	ZZ32	opr <(self, b:ZZ32):Boolean	Int$Less	simpleIntArith.intLT
+FortressLibrary.fss	758	ZZ32	opr -(self):ZZ32	Int$Negate	simpleIntArith.intOverflowingNeg
+FortressLibrary.fss	760	ZZ32	opr DOTMINUS(self):ZZ32	Int$WrappingNegate	simpleIntArith.intWrappingNeg
+FortressLibrary.fss	762	ZZ32	opr +(self,b:ZZ32):ZZ32	Int$Add	simpleIntArith.intOverflowingAdd
+FortressLibrary.fss	764	ZZ32	opr DOTPLUS(self,b:ZZ32):ZZ32	Int$WrappingAdd	simpleIntArith.intWrappingAdd
+FortressLibrary.fss	766	ZZ32	opr -(self,b:ZZ32):ZZ32	Int$Sub	simpleIntArith.intOverflowingSub
+FortressLibrary.fss	768	ZZ32	opr DOTMINUS(self,b:ZZ32):ZZ32	Int$WrappingSub	simpleIntArith.intWrappingSub
+FortressLibrary.fss	770	ZZ32	opr DOT(self,b:ZZ32):ZZ32	Int$Mul	simpleIntArith.intOverflowingMul
+FortressLibrary.fss	772	ZZ32	opr TIMES(self,b:ZZ32):ZZ32	Int$Mul	simpleIntArith.intOverflowingMul
+FortressLibrary.fss	774	ZZ32	opr juxtaposition(self,b:ZZ32):ZZ32	Int$Mul	simpleIntArith.intOverflowingMul
+FortressLibrary.fss	776	ZZ32	opr DOTTIMES(self,b:ZZ32):ZZ32	Int$WrappingMul	simpleIntArith.intWrappingMul
+FortressLibrary.fss	778	ZZ32	opr DIV(self,b:ZZ32):ZZ32	Int$Div	simpleIntArith.intOverflowingDiv
+FortressLibrary.fss	788	ZZ32	opr CHOOSE(self,b:ZZ32):ZZ32	Int$Choose	simpleIntArith.intOverflowingChoose
+FortressLibrary.fss	790	ZZ32	opr BITAND(self,b:ZZ32):ZZ32	Int$BitAnd	simpleIntArith.intBitAnd
+FortressLibrary.fss	792	ZZ32	opr BITOR(self,b:ZZ32):ZZ32	Int$BitOr	simpleIntArith.intBitOr
+FortressLibrary.fss	794	ZZ32	opr BITXOR(self,b:ZZ32):ZZ32	Int$BitXor	simpleIntArith.intBitXor
+FortressLibrary.fss	800	ZZ32	opr BITNOT(self):ZZ32	Int$BitNot	simpleIntArith.intBitNot
+FortressLibrary.fss	805	ZZ32	widen(self):ZZ64	Int$ToLong	simpleLongArith.intToLong
+FortressLibrary.fss	809	ZZ32	unsigned(self):NN32	ZZ32$ToNN32	simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType
+FortressLibrary.fss	831	ZZ64	opr =(self, b:ZZ64):Boolean	Long$Eq	simpleLongArith.longEQ
+FortressLibrary.fss	833	ZZ64	opr <(self, b:ZZ64):Boolean	Long$Less	simpleLongArith.longLT
+FortressLibrary.fss	851	ZZ64	opr -(self):ZZ64	Long$Negate	simpleLongArith.longOverflowingNeg
+FortressLibrary.fss	853	ZZ64	opr DOTMINUS(self):ZZ64	Long$WrappingNegate	simpleLongArith.longWrappingNeg
+FortressLibrary.fss	855	ZZ64	opr +(self,b:ZZ64):ZZ64	Long$Add	simpleLongArith.longOverflowingAdd
+FortressLibrary.fss	857	ZZ64	opr DOTPLUS(self,b:ZZ64):ZZ64	Long$WrappingAdd	simpleLongArith.longWrappingAdd
+FortressLibrary.fss	859	ZZ64	opr -(self,b:ZZ64):ZZ64	Long$Sub	simpleLongArith.longOverflowingSub
+FortressLibrary.fss	861	ZZ64	opr DOTMINUS(self,b:ZZ64):ZZ64	Long$WrappingSub	simpleLongArith.longWrappingSub
+FortressLibrary.fss	863	ZZ64	opr DOT(self,b:ZZ64):ZZ64	Long$Mul	simpleLongArith.longOverflowingMul
+FortressLibrary.fss	865	ZZ64	opr TIMES(self,b:ZZ64):ZZ64	Long$Mul	simpleLongArith.longOverflowingMul
+FortressLibrary.fss	867	ZZ64	opr juxtaposition(self,b:ZZ64):ZZ64	Long$Mul	simpleLongArith.longOverflowingMul
+FortressLibrary.fss	869	ZZ64	opr DOTTIMES(self,b:ZZ64):ZZ64	Long$WrappingMul	simpleLongArith.longWrappingMul
+FortressLibrary.fss	871	ZZ64	opr DIV(self,b:ZZ64):ZZ64	Long$Div	simpleLongArith.longOverflowingDiv
+FortressLibrary.fss	881	ZZ64	opr CHOOSE(self,b:ZZ64):ZZ64	Long$Choose	simpleLongArith.longOverflowingChoose
+FortressLibrary.fss	883	ZZ64	opr BITAND(self,b:ZZ64):ZZ64	Long$BitAnd	simpleLongArith.longBitAnd
+FortressLibrary.fss	885	ZZ64	opr BITOR(self,b:ZZ64):ZZ64	Long$BitOr	simpleLongArith.longBitOr
+FortressLibrary.fss	887	ZZ64	opr BITXOR(self,b:ZZ64):ZZ64	Long$BitXor	simpleLongArith.longBitXor
+FortressLibrary.fss	893	ZZ64	opr BITNOT(self):ZZ64	Long$BitNot	simpleLongArith.longBitNot
+FortressLibrary.fss	900	ZZ64	narrow(self):ZZ32	Long$FromLong	simpleIntArith.longWrappingToInt
+FortressLibrary.fss	902	ZZ64	unsigned(self):NN64	Long$ToUnsignedLong	simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType
+FortressLibrary.fss	904	ZZ64	big(self):ZZ	Long$ToBigNum	simpleArbitraryPrecisionArith.makeZZfromZZ64
+FortressLibrary.fss	917	NN64	opr =(self, b:NN64):Boolean	UnsignedLong$Eq	simpleUnsignedLongArith.unsignedLongEQ
+FortressLibrary.fss	919	NN64	opr <(self, b:NN64):Boolean	UnsignedLong$Less	simpleUnsignedLongArith.unsignedLongLT
+FortressLibrary.fss	934	NN64	opr -(self):NN64	UnsignedLong$Negate	simpleUnsignedLongArith.unsignedLongOverflowingNeg
+FortressLibrary.fss	938	NN64	opr +(self,b:NN64):NN64	UnsignedLong$Add	simpleUnsignedLongArith.unsignedLongOverflowingAdd
+FortressLibrary.fss	940	NN64	opr DOTPLUS(self,b:NN64):NN64	UnsignedLong$WrappingAdd	simpleUnsignedLongArith.unsignedLongWrappingAdd
+FortressLibrary.fss	942	NN64	opr -(self,b:NN64):NN64	UnsignedLong$Sub	simpleUnsignedLongArith.unsignedLongOverflowingSub
+FortressLibrary.fss	944	NN64	opr DOTMINUS(self,b:NN64):NN64	UnsignedLong$WrappingSub	simpleUnsignedLongArith.unsignedLongWrappingSub
+FortressLibrary.fss	946	NN64	opr DOT(self,b:NN64):NN64	UnsignedLong$Mul	simpleUnsignedLongArith.unsignedLongOverflowingMul
+FortressLibrary.fss	948	NN64	opr TIMES(self,b:NN64):NN64	UnsignedLong$Mul	simpleUnsignedLongArith.unsignedLongOverflowingMul
+FortressLibrary.fss	950	NN64	opr juxtaposition(self,b:NN64):NN64	UnsignedLong$Mul	simpleUnsignedLongArith.unsignedLongOverflowingMul
+FortressLibrary.fss	952	NN64	opr DOTTIMES(self,b:NN64):NN64	UnsignedLong$WrappingMul	simpleUnsignedLongArith.unsignedLongWrappingMul
+FortressLibrary.fss	954	NN64	opr DIV(self,b:NN64):NN64	UnsignedLong$Div	simpleUnsignedLongArith.unsignedLongOverflowingDiv
+FortressLibrary.fss	966	NN64	opr BITAND(self,b:NN64):NN64	UnsignedLong$BitAnd	simpleUnsignedLongArith.unsignedLongBitAnd
+FortressLibrary.fss	968	NN64	opr BITOR(self,b:NN64):NN64	UnsignedLong$BitOr	simpleUnsignedLongArith.unsignedLongBitOr
+FortressLibrary.fss	970	NN64	opr BITXOR(self,b:NN64):NN64	UnsignedLong$BitXor	simpleUnsignedLongArith.unsignedLongBitXor
+FortressLibrary.fss	976	NN64	opr BITNOT(self):NN64	UnsignedLong$BitNot	simpleUnsignedLongArith.unsignedLongBitNot
+FortressLibrary.fss	983	NN64	narrow(self):NN32	UnsignedLong$FromLong	simpleUnsignedIntArith.longWrappingToUnsignedInt
+FortressLibrary.fss	985	NN64	signed(self):ZZ64	UnsignedLong$ToLong	simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType
+FortressLibrary.fss	1007	ZZ	opr =(self, b: ZZ):Boolean	BigNum$Eq	simpleArbitraryPrecisionArith.eq
+FortressLibrary.fss	1023	ZZ	opr -(self): ZZ	BigNum$Negate	simpleArbitraryPrecisionArith.neg
+FortressLibrary.fss	1025	ZZ	opr DOTMINUS(self): ZZ	BigNum$Negate	simpleArbitraryPrecisionArith.neg
+FortressLibrary.fss	1027	ZZ	opr +(self, b: ZZ): ZZ	BigNum$Add	simpleArbitraryPrecisionArith.add
+FortressLibrary.fss	1029	ZZ	opr DOTPLUS(self, b: ZZ): ZZ	BigNum$Add	simpleArbitraryPrecisionArith.add
+FortressLibrary.fss	1031	ZZ	opr -(self, b: ZZ): ZZ	BigNum$Sub	simpleArbitraryPrecisionArith.sub
+FortressLibrary.fss	1033	ZZ	opr DOTMINUS(self, b: ZZ): ZZ	BigNum$Sub	simpleArbitraryPrecisionArith.sub
+FortressLibrary.fss	1035	ZZ	opr DOT(self, b: ZZ): ZZ	BigNum$Mul	simpleArbitraryPrecisionArith.mul
+FortressLibrary.fss	1037	ZZ	opr juxtaposition(self, b: ZZ): ZZ	BigNum$Mul	simpleArbitraryPrecisionArith.mul
+FortressLibrary.fss	1039	ZZ	opr TIMES(self, b: ZZ): ZZ	BigNum$Mul	simpleArbitraryPrecisionArith.mul
+FortressLibrary.fss	1041	ZZ	opr DOTTIMES(self, b: ZZ): ZZ	BigNum$Mul	simpleArbitraryPrecisionArith.mul
+FortressLibrary.fss	1051	ZZ	opr DIV(self, b: ZZ): ZZ	BigNum$Div	simpleArbitraryPrecisionArith.div
+FortressLibrary.fss	1063	ZZ	opr BITAND(self, b: ZZ): ZZ	BigNum$BitAnd	simpleArbitraryPrecisionArith.and
+FortressLibrary.fss	1065	ZZ	opr BITOR(self, b: ZZ): ZZ	BigNum$BitOr	simpleArbitraryPrecisionArith.oor
+FortressLibrary.fss	1067	ZZ	opr BITXOR(self, b: ZZ): ZZ	BigNum$BitXor	simpleArbitraryPrecisionArith.xor
+FortressLibrary.fss	1075	ZZ	opr BITNOT(self): ZZ	BigNum$BitNot	simpleArbitraryPrecisionArith.not
+FortressLibrary.fss	4540	(top)	char(a:ZZ32):Char	Char$Chr	simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType
+FortressBuiltin.fss	55	Float	getter asString(): String	Float$ToString	simpleDoubleArith.doubleToString
+FortressBuiltin.fss	57	Float	getter asExprString(): String	Float$ToString	simpleDoubleArith.doubleToString
+FortressBuiltin.fss	79	Float	opr |self| : RR64	Float$Abs	simpleDoubleArith.doubleAbs
+FortressBuiltin.fss	81	Float	opr =(self, b:Float):Boolean	Float$Eq	simpleDoubleArith.doubleEQ
+FortressBuiltin.fss	85	Float	opr <(self, b:Float):Boolean	Float$Less	simpleDoubleArith.doubleLT
+FortressBuiltin.fss	87	Float	opr <=(self, b:Float):Boolean	Float$LessEq	simpleDoubleArith.doubleLE
+FortressBuiltin.fss	89	Float	opr >(self, b:Float):Boolean	Float$Greater	simpleDoubleArith.doubleGT
+FortressBuiltin.fss	91	Float	opr >=(self, b:Float):Boolean	Float$GreaterEq	simpleDoubleArith.doubleGE
+FortressBuiltin.fss	101	Float	opr -(self):RR64	Float$Negate	simpleDoubleArith.doubleNeg
+FortressBuiltin.fss	103	Float	opr +(self,b:Float):RR64	Float$Add	simpleDoubleArith.doubleAdd
+FortressBuiltin.fss	105	Float	opr -(self,b:Float):RR64	Float$Sub	simpleDoubleArith.doubleSub
+FortressBuiltin.fss	107	Float	opr DOT(self,b:Float):RR64	Float$Mul	simpleDoubleArith.doubleMul
+FortressBuiltin.fss	109	Float	opr TIMES(self,b:Float):RR64	Float$Mul	simpleDoubleArith.doubleMul
+FortressBuiltin.fss	111	Float	opr juxtaposition (self,b:Float):RR64	Float$Mul	simpleDoubleArith.doubleMul
+FortressBuiltin.fss	114	Float	opr /(self,b:Float):RR64	Float$Div	simpleDoubleArith.doubleDiv
+FortressBuiltin.fss	116	Float	opr SQRT(self):RR64	Float$Sqrt	simpleDoubleArith.doubleSQRT
+FortressBuiltin.fss	154	Float	opr ^(self, b:Float):RR64	Float$Pow	simpleDoubleArith.doublePow
+FortressBuiltin.fss	158	Float	opr ^(self, b:RR64):RR64	Float$Pow	simpleDoubleArith.doublePow
+FortressBuiltin.fss	164	Float	sin(self):RR64	Float$Sin	simpleDoubleArith.doubleSin
+FortressBuiltin.fss	166	Float	cos(self):RR64	Float$Cos	simpleDoubleArith.doubleCos
+FortressBuiltin.fss	168	Float	tan(self):RR64	Float$Tan	simpleDoubleArith.doubleTan
+FortressBuiltin.fss	170	Float	asin(self):RR64	Float$ASin	simpleDoubleArith.doubleASin
+FortressBuiltin.fss	172	Float	acos(self):RR64	Float$ACos	simpleDoubleArith.doubleACos
+FortressBuiltin.fss	174	Float	atan(self):RR64	Float$ATan	simpleDoubleArith.doubleATan
+FortressBuiltin.fss	178	Float	log(self):RR64	Float$Log	simpleDoubleArith.doubleLog
+FortressBuiltin.fss	180	Float	exp(self):RR64	Float$Exp	simpleDoubleArith.doubleExp
+FortressBuiltin.fss	182	Float	floor(self):RR64	Float$Floor	simpleDoubleArith.doubleFloor
+FortressBuiltin.fss	186	Float	ceiling(self):RR64	Float$Ceiling	simpleDoubleArith.doubleCeiling
+FortressBuiltin.fss	190	Float	truncate(self):ZZ64	Float$Truncate	simpleDoubleArith.doubleTruncate
+FortressBuiltin.fss	192	Float	round(self):ZZ64	Float$Round	simpleDoubleArith.doubleRound
+FortressBuiltin.fss	370	Int	getter asString(): String	Int$ToString	simpleIntArith.intToString
+FortressBuiltin.fss	372	Int	getter asExprString(): String	Int$ToString	simpleIntArith.intToString
+FortressBuiltin.fss	379	Long	getter asString(): String	Long$ToString	simpleLongArith.longToString
+FortressBuiltin.fss	381	Long	getter asExprString(): String	Long$ToString	simpleLongArith.longToString
+FortressBuiltin.fss	391	NN32	getter asString(): String	NN32$ToString	simpleUnsignedIntArith.unsignedIntToString
+FortressBuiltin.fss	393	NN32	getter asExprString(): String	NN32$ToString	simpleUnsignedIntArith.unsignedIntToString
+FortressBuiltin.fss	400	NN32	opr =(self, b:NN32):Boolean	NN32$Eq	simpleUnsignedIntArith.unsignedIntEQ
+FortressBuiltin.fss	402	NN32	opr <(self, b:NN32):Boolean	NN32$Less	simpleUnsignedIntArith.unsignedIntLT
+FortressBuiltin.fss	418	NN32	opr -(self):NN32	NN32$Negate	simpleUnsignedIntArith.unsignedIntOverflowingNeg
+FortressBuiltin.fss	420	NN32	opr DOTMINUS(self):NN32	NN32$WrappingNegate	simpleUnsignedIntArith.unsignedIntWrappingNeg
+FortressBuiltin.fss	422	NN32	opr +(self,b:NN32):NN32	NN32$Add	simpleUnsignedIntArith.unsignedIntOverflowingAdd
+FortressBuiltin.fss	424	NN32	opr DOTPLUS(self,b:NN32):NN32	NN32$WrappingAdd	simpleUnsignedIntArith.unsignedIntWrappingAdd
+FortressBuiltin.fss	426	NN32	opr -(self,b:NN32):NN32	NN32$Sub	simpleUnsignedIntArith.unsignedIntOverflowingSub
+FortressBuiltin.fss	428	NN32	opr DOTMINUS(self,b:NN32):NN32	NN32$WrappingSub	simpleUnsignedIntArith.unsignedIntWrappingSub
+FortressBuiltin.fss	430	NN32	opr DOT(self,b:NN32):NN32	NN32$Mul	simpleUnsignedIntArith.unsignedIntOverflowingMul
+FortressBuiltin.fss	432	NN32	opr TIMES(self,b:NN32):NN32	NN32$Mul	simpleUnsignedIntArith.unsignedIntOverflowingMul
+FortressBuiltin.fss	434	NN32	opr juxtaposition(self,b:NN32):NN32	NN32$Mul	simpleUnsignedIntArith.unsignedIntOverflowingMul
+FortressBuiltin.fss	436	NN32	opr DOTTIMES(self,b:NN32):NN32	NN32$WrappingMul	simpleUnsignedIntArith.unsignedIntWrappingMul
+FortressBuiltin.fss	438	NN32	opr DIV(self,b:NN32):NN32	NN32$Div	simpleUnsignedIntArith.unsignedIntOverflowingDiv
+FortressBuiltin.fss	450	NN32	opr BITAND(self,b:NN32):NN32	NN32$BitAnd	simpleUnsignedIntArith.unsignedIntBitAnd
+FortressBuiltin.fss	452	NN32	opr BITOR(self,b:NN32):NN32	NN32$BitOr	simpleUnsignedIntArith.unsignedIntBitOr
+FortressBuiltin.fss	454	NN32	opr BITXOR(self,b:NN32):NN32	NN32$BitXor	simpleUnsignedIntArith.unsignedIntBitXor
+FortressBuiltin.fss	460	NN32	opr BITNOT(self):NN32	NN32$BitNot	simpleUnsignedIntArith.unsignedIntBitNot
+FortressBuiltin.fss	465	NN32	widen(self):NN64	NN32$ToUnsignedLong	simpleUnsignedIntArith.toLong
+FortressBuiltin.fss	469	NN32	signed(self):ZZ32	NN32$ToInt	simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType
+FortressBuiltin.fss	566	BigNum	getter asString(): String	BigNum$ToString	simpleArbitraryPrecisionArith.toString
+FortressBuiltin.fss	568	BigNum	getter asExprString(): String	BigNum$ToString	simpleArbitraryPrecisionArith.toString
+FortressBuiltin.fss	612	Char	getter asString(): String	Char$ToString	simpleChar.charToString
+FortressBuiltin.fss	616	Char	getter codePoint(): ZZ32	Char$CodePoint	simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType
+FortressBuiltin.fss	619	Char	opr =(self, other:Char): Boolean	Char$Eq	simpleChar.charEQ
+FortressBuiltin.fss	621	Char	opr <(self, other:Char): Boolean	Char$LessThan	simpleChar.charLT
+FortressBuiltin.fss	624	Char	opr SIMEQ(self, other:Char): Boolean	Char$SimEq	simpleChar.charSimEq
+FortressBuiltin.fss	626	Char	opr NSIMEQ(self, other:Char): Boolean	Char$NotSimEq	simpleChar.charNotSimEq
+FortressBuiltin.fss	628	Char	opr LNSIM(self, other:Char): Boolean	Char$LessNotSim	simpleChar.charLessNotSim
+FortressBuiltin.fss	630	Char	opr LESSSIM(self, other:Char): Boolean	Char$LessSim	simpleChar.charLessSim
+FortressBuiltin.fss	632	Char	opr GNSIM(self, other:Char): Boolean	Char$GreaterNotSim	simpleChar.charGreaterNotSim
+FortressBuiltin.fss	634	Char	opr GTRSIM(self, other:Char): Boolean	Char$GreaterSim	simpleChar.charGreaterSim
+FortressBuiltin.fss	637	Char	javaDigit(self, radix:ZZ32): ZZ32	Char$JavaDigit	simpleChar.charJavaDigit
+FortressBuiltin.fss	665	Char	getDirectionality(self): ZZ32	Char$GetDirectionality	simpleChar.charGetDirectionality
+FortressBuiltin.fss	667	Char	getNumericValue(self): ZZ32	Char$GetNumericValue	simpleChar.charGetNumericValue
+FortressBuiltin.fss	669	Char	getType(self): ZZ32	Char$GetType	simpleChar.charGetType
+FortressBuiltin.fss	671	Char	isDefined(self): Boolean	Char$IsDefined	simpleChar.charIsDefined
+FortressBuiltin.fss	673	Char	isDigit(self): Boolean	Char$IsDigit	simpleChar.charIsDigit
+FortressBuiltin.fss	675	Char	isFortressIdentifierPart(self): Boolean	Char$IsFortressIdentifierPart	simpleChar.charIsFortressIdentifierPart
+FortressBuiltin.fss	677	Char	isFortressIdentifierStart(self): Boolean	Char$IsFortressIdentifierStart	simpleChar.charIsFortressIdentifierStart
+FortressBuiltin.fss	679	Char	isHighSurrogate(self): Boolean	Char$IsHighSurrogate	simpleChar.charIsHighSurrogate
+FortressBuiltin.fss	681	Char	isIdentifierIgnorable(self): Boolean	Char$IsIdentifierIgnorable	simpleChar.charIsIdentifierIgnorable
+FortressBuiltin.fss	683	Char	isISOControl(self): Boolean	Char$IsISOControl	simpleChar.charIsISOControl
+FortressBuiltin.fss	685	Char	isJavaIdentifierPart(self): Boolean	Char$IsJavaIdentifierPart	simpleChar.charIsJavaIdentifierPart
+FortressBuiltin.fss	687	Char	isJavaIdentifierStart(self): Boolean	Char$IsJavaIdentifierStart	simpleChar.charIsJavaIdentifierStart
+FortressBuiltin.fss	689	Char	isLetter(self): Boolean	Char$IsLetter	simpleChar.charIsLetter
+FortressBuiltin.fss	691	Char	isLetterOrDigit(self): Boolean	Char$IsLetterOrDigit	simpleChar.charIsLetterOrDigit
+FortressBuiltin.fss	693	Char	isLowerCase(self): Boolean	Char$IsLowerCase	simpleChar.charIsLowerCase
+FortressBuiltin.fss	695	Char	isLowSurrogate(self): Boolean	Char$IsLowSurrogate	simpleChar.charIsLowSurrogate
+FortressBuiltin.fss	697	Char	isMirrored(self): Boolean	Char$IsMirrored	simpleChar.charIsMirrored
+FortressBuiltin.fss	699	Char	isSpaceChar(self): Boolean	Char$IsSpaceChar	simpleChar.charIsSpaceChar
+FortressBuiltin.fss	701	Char	isSupplementaryCodePoint(self): Boolean	Char$IsSupplementaryCodePoint	simpleChar.charIsSupplementaryCodePoint
+FortressBuiltin.fss	703	Char	isSurrogatePair(self, low:Char): Boolean	Char$IsSurrogatePair	simpleChar.charIsSurrogatePair
+FortressBuiltin.fss	705	Char	isTitleCase(self): Boolean	Char$IsTitleCase	simpleChar.charIsTitleCase
+FortressBuiltin.fss	707	Char	isUnicodeIdentifierPart(self): Boolean	Char$IsUnicodeIdentifierPart	simpleChar.charIsUnicodeIdentifierPart
+FortressBuiltin.fss	709	Char	isUnicodeIdentifierStart(self): Boolean	Char$IsUnicodeIdentifierStart	simpleChar.charIsUnicodeIdentifierStart
+FortressBuiltin.fss	711	Char	isUpperCase(self): Boolean	Char$IsUpperCase	simpleChar.charIsUpperCase
+FortressBuiltin.fss	713	Char	isValidCodePoint(self): Boolean	Char$IsValidCodePoint	simpleChar.charIsValidCodePoint
+FortressBuiltin.fss	715	Char	isWhitespace(self): Boolean	Char$IsWhitespace	simpleChar.charIsWhitespace
+FortressBuiltin.fss	717	Char	toLowerCase(self): Char	Char$ToLowerCase	simpleChar.charToLowerCase
+FortressBuiltin.fss	719	Char	toTitleCase(self): Char	Char$ToTitleCase	simpleChar.charToTitleCase
+FortressBuiltin.fss	721	Char	toUpperCase(self): Char	Char$ToUpperCase	simpleChar.charToUpperCase

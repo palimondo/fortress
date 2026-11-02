@@ -1,0 +1,113 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 46e19ec56..cb767cb9f 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -934,7 +934,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     opr -(self):NN64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingNeg")
+     opr DOTMINUS(self):NN64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$WrappingNegate")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongWrappingNeg")
+     opr +(self,b:NN64):NN64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingAdd")
+     opr DOTPLUS(self,b:NN64):NN64 =
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index cb518d316..198f74981 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -446,7 +446,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     opr LCM(self,b:NN32):NN32 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Lcm")
+     opr CHOOSE(self,b:NN32):NN32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Choose")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingChoose")
+     opr BITAND(self,b:NN32):NN32 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitAnd")
+     opr BITOR(self,b:NN32):NN32 =
+@@ -476,11 +476,11 @@ value object UnsignedLong extends NN64
+     getter zero(): NN64 = widen(unsigned(0))
+     getter one(): NN64 = widen(unsigned(1))
+     getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$ToString")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
+     getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$ToString")
+-    asFloat(self): Float =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$AsFloat")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
++    asFloat(self): RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToDouble")
+ end
+ 
+ object IntLiteral extends Number
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java b/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
+index 3d1880e05..2bcf373eb 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java
+@@ -186,7 +186,8 @@ public final class BuiltinPrimitiveRewriter {
+         if (desc.equals("I") && (declared.equals("Char") || declared.equals("Character")))
+             return result ? "simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType"
+                           : "simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType";
+-        if (desc.equals("J") && declared.equals("NN64"))
++        /* UnsignedLong, walk's object of NN64, is an NN64: its self takes the argument transfer. */
++        if (desc.equals("J") && (declared.equals("NN64") || (!result && declared.equals("UnsignedLong"))))
+             return result ? "simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType"
+                           : "simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType";
+         return null;
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java
+index 75b624f17..8eeecaf4a 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java
+@@ -16,8 +16,8 @@ public final class FNN32 extends fortress.CompilerBuiltin.NN32.DefaultTraitMetho
+     final int val;
+ 
+     private FNN32(int x) { val = x; }
+-    public String toString() { return String.valueOf(val);}
+-    public FJavaString asString() { return FJavaString.make(String.valueOf(val));}
++    public String toString() { return Integer.toUnsignedString(val);}
++    public FJavaString asString() { return FJavaString.make(Integer.toUnsignedString(val));}
+     public int getValue() {return val;}
+     public static FNN32 make(int x) {
+         return new FNN32(x);
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java
+index 22e93355a..224c61ad1 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java
+@@ -17,7 +17,7 @@ public class FNN64  extends fortress.CompilerBuiltin.NN64.DefaultTraitMethods im
+     final long val;
+ 
+     private FNN64(long x) { val = x; }
+-    public String toString() { return "" + val;}
++    public String toString() { return Long.toUnsignedString(val);}
+     public long getValue() {return val;}
+     public static FNN64 make(long x) {return new FNN64(x);}
+     
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
+index fc6d4bae3..f2b9431fd 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
+@@ -21,7 +21,14 @@ public class simpleUnsignedLongArith {
+     }
+ 
+     public static String unsignedLongToString(long x) {
+-        return Long.toString(x);
++        return Long.toUnsignedString(x);
++    }
++
++    /* asFloat of an NN64, rounded to the nearest double, as walk's UnsignedLong$AsFloat computes it: a value above
++       the signed half is halved, its low bit kept as a sticky bit, converted and doubled. */
++    public static double unsignedLongToDouble(long a) {
++        if (a >= 0) return (double) a;
++        return ((double) ((a >>> 1) | (a & 1L))) * 2.0;
+     }
+     
+     public static boolean ltu(long a, long b) {
+@@ -104,7 +111,7 @@ public class simpleUnsignedLongArith {
+     }
+ 
+     public static long unsignedLongWrappingNeg(long a) { 
+-    	return a;
++    	return -a;
+     }
+ 
+     public static long unsignedLongWrappingAbs(long a) {

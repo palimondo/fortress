@@ -1,0 +1,82 @@
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 46e19ec56..0a0ee4db9 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -4532,7 +4532,7 @@ printTime(dummy: Any): () = do
+     println("Operation took " secs "ms")
+   end
+ 
+-fromRawBits(a:ZZ64):RR64 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$FromRawBits")
++fromRawBits(a:ZZ64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleFromRawBits")
+ 
+ random(a:Number):RR64 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Random")
+ randomZZ32(x:ZZ32):ZZ32 = narrow |\random(x)/|
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index cb518d316..1f2cfbe20 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -58,13 +58,13 @@ value object Float extends RR64
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
+     (** returns true if the value is an IEEE NaN **)
+     getter isNaN(): Boolean =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$isNaN")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleIsNaN")
+     (** returns true if the value is an IEEE infinity **)
+     getter isInfinite(): Boolean =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$isInfinite")
+     (** obtain the raw bits of the IEEE floating-point representation of this value. **)
+     getter rawBits():ZZ64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$RawBits")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRawBits")
+     getter signBit():ZZ32 = if self.rawBits < 0 then 1 else 0 end
+     (** next higher IEEE float **)
+     getter nextUp():RR64 =
+@@ -75,7 +75,7 @@ value object Float extends RR64
+     asFloat(self): Float = self
+     (** returns a value of type RR32 **)
+     narrow(self): RR32 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Narrow")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToFloat")
+     opr |self| : RR64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAbs")
+     opr =(self, b:Float):Boolean =
+@@ -116,7 +116,7 @@ value object Float extends RR64
+     opr SQRT(self):RR64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSQRT")
+     opr PLUS_UP(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$AddUpNoNaN")
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAddUpNoNaN")
+     opr MINUS_UP(self,b:Float):RR64 =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$SubUpNoNaN")
+     opr DOT_UP(self,b:Float):RR64 =
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java
+index 9e4a01a06..ed20176da 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java
+@@ -133,4 +133,26 @@ public class simpleDoubleArith {
+         return (long) Math.rint(a);
+     }
+ 
++    /* The planner's sample of rung D: Float's isNaN, rawBits, narrow and PLUS_UP, and fromRawBits, as walk's
++       Float$isNaN, Float$RawBits, Float$Narrow, Float$AddUpNoNaN and Float$FromRawBits. */
++    public static boolean doubleIsNaN(double a) {
++        return Double.isNaN(a);
++    }
++
++    public static long doubleRawBits(double a) {
++        return Double.doubleToRawLongBits(a);
++    }
++
++    public static float doubleToFloat(double a) {
++        return (float) a;
++    }
++
++    public static double doubleAddUpNoNaN(double a, double b) {
++        return com.sun.fortress.numerics.DirectedRounding.addUpNoNaN(a, b);
++    }
++
++    public static double doubleFromRawBits(long a) {
++        return Double.longBitsToDouble(a);
++    }
++
+ }
