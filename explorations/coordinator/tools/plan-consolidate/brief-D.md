@@ -2,7 +2,7 @@
 
 # Chunk D: the lists of climb batches 19 to 22
 
-Your file is `/home/user/fortress-plan/tmp/plan-consolidate/chunk-D.lines`. The common brief of chunk C holds for this chunk too. Your chunk is the 23 lines below: 15 cut to one line (H), 2 dropped as duplicates, 2 split (X) and 4 that stay with one edit (E). The old lines hold 17,102 characters. Each entry gives the line's number at `8ab0dcd48`, its mark, its first words, and what it becomes by the inventory's verdict (its section 1, and its choices 6 and 11 as decided). The script has moved the closed lines of these lists already (lines 544, 547, 554, 561, 567, 569, 587 and 596); write nothing for them.
+Your file is `/home/user/fortress-plan-3/tmp/plan-consolidate/chunk-D.lines`. The common brief of chunk C holds for this chunk too. Your chunk is the 23 lines below: 15 cut to one line (H), 2 dropped as duplicates, 2 split (X) and 4 that stay with one edit (E). The old lines hold 17,102 characters. Each entry gives the line's number at `8ab0dcd48`, its mark, its first words, and what it becomes by the inventory's verdict (its section 1, and its choices 6 and 11 as decided). The script has moved the closed lines of these lists already (lines 544, 547, 554, 561, 567, 569, 587 and 596); write nothing for them.
 
 ## Edits in lists outside the chunk's own
 

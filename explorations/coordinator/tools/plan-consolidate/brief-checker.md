@@ -8,13 +8,13 @@ PLAN is `explorations/coordinator/PLAN.md`: the working plan. Its third consolid
 
 The inventory, `explorations/coordinator/process-engineering/plan-consolidation-2026-11-03/inventory.md`, gives each line of PLAN at `8ab0dcd48` a verdict (section 1) and a mark (its appendix). Its 15 choices (section 6) are decided as it recommends, but for choice 12: line 21 moves to PLAN-history, and nothing is asked.
 
-The pass ran in the worktree `/home/user/fortress-plan`, on its branch:
+The pass ran in the worktree `/home/user/fortress-plan-3`, on its branch:
 
 1. A script moved the 40 closed and duplicate lines (M and D) word for word to PLAN-history, under "Moved at the consolidation of 2026-11-03". It copied there too, word for word, every line that a writer rewrites: 50 cut lines (H), 15 split lines (X) and 13 lines that stay with one edit (E). It replaced the bullets of "Where we stand" by the inventory's section 5. This is the branch's first commit.
-2. Two writers wrote the new lines in four chunks. Their files are `/home/user/fortress-plan/tmp/plan-consolidate/chunk-A.lines` to `chunk-D.lines`, and each writer's brief is beside the script, `explorations/coordinator/tools/plan-consolidate/brief-A.md` to `brief-D.md`, after `brief-common.md`. Read the four briefs and the common brief first: they say, line by line, what each line becomes and which lines are dropped as duplicates (choice 6).
-3. The coordinator filled the lines into PLAN and ran the checks. Their output is in `/home/user/fortress-plan/tmp/plan-consolidate/checks-fill.txt`.
+2. Two writers wrote the new lines in four chunks. Their files are `/home/user/fortress-plan-3/tmp/plan-consolidate/chunk-A.lines` to `chunk-D.lines`, and each writer's brief is beside the script, `explorations/coordinator/tools/plan-consolidate/brief-A.md` to `brief-D.md`, after `brief-common.md`. Read the four briefs and the common brief first: they say, line by line, what each line becomes and which lines are dropped as duplicates (choice 6).
+3. The coordinator filled the lines into PLAN and ran the checks. Their output is in `/home/user/fortress-plan-3/tmp/plan-consolidate/checks-fill.txt`.
 
-The filled PLAN is not committed yet. See the writers' lines with `git -C /home/user/fortress-plan diff HEAD -- explorations/coordinator/PLAN.md`, against the first commit, and the whole change with `git -C /home/user/fortress-plan diff HEAD~1 -- explorations/coordinator/PLAN.md explorations/coordinator/PLAN-history.md`. See an old line with `git show 8ab0dcd48:explorations/coordinator/PLAN.md`.
+The filled PLAN is not committed yet. See the writers' lines with `git -C /home/user/fortress-plan-3 diff HEAD -- explorations/coordinator/PLAN.md`, against the first commit, and the whole change with `git -C /home/user/fortress-plan-3 diff HEAD~1 -- explorations/coordinator/PLAN.md explorations/coordinator/PLAN-history.md`. See an old line with `git show 8ab0dcd48:explorations/coordinator/PLAN.md`.
 
 ## What you check
 
@@ -29,7 +29,7 @@ Check, too, by sampling ten of them, that lines the script moved (M and D) are c
 
 ## Your report
 
-Write it to `/home/user/fortress-plan/tmp/plan-consolidate/check.md`. Put the findings under four headings, "Chunk A" to "Chunk D", so that each writer's fix round reads only its own. Each finding gives:
+Write it to `/home/user/fortress-plan-3/tmp/plan-consolidate/check.md`. Put the findings under four headings, "Chunk A" to "Chunk D", so that each writer's fix round reads only its own. Each finding gives:
 
 - the line's number at `8ab0dcd48` and its mark;
 - the text at issue, quoted;

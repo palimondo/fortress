@@ -2,7 +2,7 @@
 
 # Chunk C: the lists of climb batches 14 to 17
 
-Your file is `/home/user/fortress-plan/tmp/plan-consolidate/chunk-C.lines`. Your chunk is the 13 lines below: 10 cut to one line (H), 2 dropped as duplicates and 1 split (X). The old lines hold 10,842 characters. Each entry gives the line's number at `8ab0dcd48`, its mark, its first words, and what it becomes by the inventory's verdict (its section 1, and its choices 2 and 6 as decided). The script has moved the closed lines of these lists already (lines 425, 442, 449, 451, 452, 458, 460, 467, 475, 476, 494, 495, 496 and 497); write nothing for them. The open lines with no other home in these lists stay as written: the queue never took them in, and its cleanup files them later (choice 7).
+Your file is `/home/user/fortress-plan-3/tmp/plan-consolidate/chunk-C.lines`. Your chunk is the 13 lines below: 10 cut to one line (H), 2 dropped as duplicates and 1 split (X). The old lines hold 10,842 characters. Each entry gives the line's number at `8ab0dcd48`, its mark, its first words, and what it becomes by the inventory's verdict (its section 1, and its choices 2 and 6 as decided). The script has moved the closed lines of these lists already (lines 425, 442, 449, 451, 452, 458, 460, 467, 475, 476, 494, 495, 496 and 497); write nothing for them. The open lines with no other home in these lists stay as written: the queue never took them in, and its cleanup files them later (choice 7).
 
 ## "Climb batch 14, listed for his review"
 

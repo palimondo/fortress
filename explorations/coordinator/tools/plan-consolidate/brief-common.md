@@ -12,11 +12,11 @@ PLAN is `explorations/coordinator/PLAN.md`: the working plan, with its phases, t
 
 The inventory is `explorations/coordinator/process-engineering/plan-consolidation-2026-11-03/inventory.md`. Its section 1 gives each line of PLAN a verdict, with its ground. A line number in the inventory and in your chunk brief is a line of PLAN at commit `8ab0dcd48`. Read the old line with `git show 8ab0dcd48:explorations/coordinator/PLAN.md`. Read the inventory's entry for line N with Grep, pattern `^- Line N `, in the inventory.
 
-You work in the pass's worktree, `/home/user/fortress-plan`, on its branch. The mechanical step has run there. It deleted every closed and duplicate line from PLAN and copied it word for word to PLAN-history. It also copied every line of your chunk word for word to PLAN-history, under "Moved at the consolidation of 2026-11-03". In PLAN, each line of your chunk still stands, with a marker at its end such as ` <!-- consolidate 2026-11-03: H 51 -->`. The letter is the line's mark: H, a line cut to one line; X, a split line; E, a line that stays with one edit. The number is the line's number at `8ab0dcd48`. Find a line in the working PLAN with Grep, pattern `consolidate 2026-11-03: H 51 -->`.
+You work in the pass's worktree, `/home/user/fortress-plan-3`, on its branch. The mechanical step has run there. It deleted every closed and duplicate line from PLAN and copied it word for word to PLAN-history. It also copied every line of your chunk word for word to PLAN-history, under "Moved at the consolidation of 2026-11-03". In PLAN, each line of your chunk still stands, with a marker at its end such as ` <!-- consolidate 2026-11-03: H 51 -->`. The letter is the line's mark: H, a line cut to one line; X, a split line; E, a line that stays with one edit. The number is the line's number at `8ab0dcd48`. Find a line in the working PLAN with Grep, pattern `consolidate 2026-11-03: H 51 -->`.
 
 ## What you write
 
-Write one file, `/home/user/fortress-plan/tmp/plan-consolidate/chunk-X.lines`, where X is your chunk's letter. Do not edit PLAN.md, PLAN-history.md, the review queue or any other file. The coordinator puts your lines into PLAN with the script `plan-consolidate.py fill`, and runs the checks.
+Write one file, `/home/user/fortress-plan-3/tmp/plan-consolidate/chunk-X.lines`, where X is your chunk's letter. Do not edit PLAN.md, PLAN-history.md, the review queue or any other file. The coordinator puts your lines into PLAN with the script `plan-consolidate.py fill`, and runs the checks.
 
 The file holds one entry for each line of your chunk, in the order of the chunk brief. An entry is two lines:
 

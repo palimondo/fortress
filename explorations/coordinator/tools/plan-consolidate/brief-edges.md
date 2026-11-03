@@ -2,7 +2,7 @@
 
 # The edges of PLAN's consolidation of 2026-11-03
 
-The four chunks are written, checked and fixed, and filled into PLAN in the worktree `/home/user/fortress-plan`. The pass's base commit, the commit that the worktree was made at, is AT. The coordinator has run two mechanical steps already:
+The four chunks are written, checked and fixed, and filled into PLAN in the worktree `/home/user/fortress-plan-3`. The pass's base commit, the commit that the worktree was made at, is AT. The coordinator has run two mechanical steps already:
 
 - Line 173 of `8ab0dcd48`, "PLAN's own consolidation" under "Work that can start now, with no decision", has moved word for word to PLAN-history, under the pass's heading. The pass closes it.
 - Each review-queue "Home:" clause that named one moved line under one heading now reads `PLAN-history, "Moved at the consolidation of 2026-11-03", under "HEADING", WORDS`. The script did this.
@@ -11,7 +11,7 @@ The common brief's register, fidelity and report rules hold for this task. You w
 
 ## 1. PLAN's header comment, line 1
 
-Write it in `/home/user/fortress-plan/tmp/plan-consolidate/edges.lines`, as an entry `@1` and then the new line 1, whole. The old line 1 is in PLAN-history, under "The preamble, above the title". Keep it word for word, and add one sentence before its last sentence ("Sizes are in batches and rungs, never days."), in the form that the consolidation of 2026-10-30 used: PLAN was consolidated a third time on 2026-11-03, by the same method, on the inventory `process-engineering/plan-consolidation-2026-11-03/inventory.md`; each line that changed moved word for word to PLAN-history.md, under "Moved at the consolidation of 2026-11-03"; a line citation PLAN.md:N made before it reads from AT (git show AT:explorations/coordinator/PLAN.md). The record cites PLAN by line in about 1,400 places, so this sentence is what keeps those citations readable. Keep the comment one line.
+Write it in `/home/user/fortress-plan-3/tmp/plan-consolidate/edges.lines`, as an entry `@1` and then the new line 1, whole. The old line 1 is in PLAN-history, under "The preamble, above the title". Keep it word for word, and add one sentence before its last sentence ("Sizes are in batches and rungs, never days."), in the form that the consolidation of 2026-10-30 used: PLAN was consolidated a third time on 2026-11-03, by the same method, on the inventory `process-engineering/plan-consolidation-2026-11-03/inventory.md`; each line that changed moved word for word to PLAN-history.md, under "Moved at the consolidation of 2026-11-03"; a line citation PLAN.md:N made before it reads from AT (git show AT:explorations/coordinator/PLAN.md). The record cites PLAN by line in about 1,400 places, so this sentence is what keeps those citations readable. Keep the comment one line.
 
 ## 2. The "Next" bullet of "Where we stand"
 
@@ -19,7 +19,7 @@ Write it in the same file, as an entry `@13` and then the new bullet, whole. The
 
 ## 3. The opening paragraph of the history section
 
-The script wrote one paragraph under "## Moved at the consolidation of 2026-11-03", at the end of `explorations/coordinator/PLAN-history.md`. Extend it with Edit, in that paragraph only, as the consolidation of 2026-10-30 did (`PLAN-history.md`, its paragraph under "## Moved at the consolidation of 2026-10-30, after phase 3's close"). Say, in a few plain sentences, by count and by kind: the closed lines moved (built, answered or stale), with the duplicates; the lines cut to one line, with their homes by kind; the split lines; the lines kept with an edit (the stale citations, lines 45 to 47 cut to their commit and review, the header); "Where we stand" cut by the inventory's section 5; and line 173, closed by this pass. Take the numbers from `/home/user/fortress-plan/tmp/plan-consolidate/checks-edges.txt`, which the coordinator wrote, not from memory. Name no line that stayed. Change nothing else in PLAN-history.
+The script wrote one paragraph under "## Moved at the consolidation of 2026-11-03", at the end of `explorations/coordinator/PLAN-history.md`. Extend it with Edit, in that paragraph only, as the consolidation of 2026-10-30 did (`PLAN-history.md`, its paragraph under "## Moved at the consolidation of 2026-10-30, after phase 3's close"). Say, in a few plain sentences, by count and by kind: the closed lines moved (built, answered or stale), with the duplicates; the lines cut to one line, with their homes by kind; the split lines; the lines kept with an edit (the stale citations, lines 45 to 47 cut to their commit and review, the header); "Where we stand" cut by the inventory's section 5; and line 173, closed by this pass. Take the numbers from `/home/user/fortress-plan-3/tmp/plan-consolidate/checks-edges.txt`, which the coordinator wrote, not from memory. Name no line that stayed. Change nothing else in PLAN-history.
 
 ## 4. The review queue's "Home:" lines that the script left
 

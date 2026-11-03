@@ -2,7 +2,7 @@
 
 # Chunk A: phase 4 and "Pavol's answers"
 
-Your file is `/home/user/fortress-plan/tmp/plan-consolidate/chunk-A.lines`. Your chunk is the 22 lines below: 10 cut to one line (H), 1 dropped as a duplicate, 5 split (X) and 6 that stay with one edit (E). The old lines hold 17,618 characters. Each entry gives the line's number at `8ab0dcd48`, its mark, its first words, and what it becomes by the inventory's verdict (its section 1, and its choices 3, 6 and 11 as decided). The script has moved the closed lines of these sections already (lines 21 and 50); write nothing for them.
+Your file is `/home/user/fortress-plan-3/tmp/plan-consolidate/chunk-A.lines`. Your chunk is the 22 lines below: 10 cut to one line (H), 1 dropped as a duplicate, 5 split (X) and 6 that stay with one edit (E). The old lines hold 17,618 characters. Each entry gives the line's number at `8ab0dcd48`, its mark, its first words, and what it becomes by the inventory's verdict (its section 1, and its choices 3, 6 and 11 as decided). The script has moved the closed lines of these sections already (lines 21 and 50); write nothing for them.
 
 ## "The principle for the batches"
 

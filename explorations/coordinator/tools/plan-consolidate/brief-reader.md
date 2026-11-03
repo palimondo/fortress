@@ -2,7 +2,7 @@
 
 # The reader: ten lines of "Not classified, to check"
 
-PLAN is `explorations/coordinator/PLAN.md`. Its section "Not classified, to check" holds measures that the post-batch reviews proposed for the batch workflow. The inventory of PLAN's third consolidation (`explorations/coordinator/process-engineering/plan-consolidation-2026-11-03/inventory.md`, section 1, "Not classified, to check", and choice 10) leans closed on seven of them, which the script moves. It leans open on ten, but did not check them. Your task is to check those ten. You work in the pass's worktree, `/home/user/fortress-plan`. You read; you change no file of the record.
+PLAN is `explorations/coordinator/PLAN.md`. Its section "Not classified, to check" holds measures that the post-batch reviews proposed for the batch workflow. The inventory of PLAN's third consolidation (`explorations/coordinator/process-engineering/plan-consolidation-2026-11-03/inventory.md`, section 1, "Not classified, to check", and choice 10) leans closed on seven of them, which the script moves. It leans open on ten, but did not check them. Your task is to check those ten. You work in the pass's worktree, `/home/user/fortress-plan-3`. You read; you change no file of the record.
 
 The ten lines, by their numbers at `8ab0dcd48` (`git show 8ab0dcd48:explorations/coordinator/PLAN.md`): 685, 688, 690, 691, 692, 693, 695, 696, 697 and 701. Read the inventory's entry for each (Grep, pattern `^- Line 685 `).
 
@@ -13,6 +13,6 @@ For each line, decide one of two verdicts:
 
 If a line is closed in part only, give it the verdict open, and say which part is closed.
 
-Write your verdicts to `/home/user/fortress-plan/tmp/plan-consolidate/reader.md`: one line for each of the ten, `685 closed: <ground>` or `685 open: <ground>`, in plain full sentences. End the file with one line that names the closed ones for the script, in the form `ADD M:685,690`, or `ADD none`. Write nothing else, and commit nothing. Write no model identifier.
+Write your verdicts to `/home/user/fortress-plan-3/tmp/plan-consolidate/reader.md`: one line for each of the ten, `685 closed: <ground>` or `685 open: <ground>`, in plain full sentences. End the file with one line that names the closed ones for the script, in the form `ADD M:685,690`, or `ADD none`. Write nothing else, and commit nothing. Write no model identifier.
 
 End with a short report: the ten verdicts, one line each.

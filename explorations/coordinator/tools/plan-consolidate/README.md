@@ -17,7 +17,7 @@ The decided choices that shape the run: choice 6 drops one line of each duplicat
 
 Every command runs in the worktree, from its root. Set these first in each call:
 
-    cd /home/user/fortress-plan
+    cd /home/user/fortress-plan-3
     T=explorations/coordinator/tools; P=$T/plan-consolidate; S="python3 $P/plan-consolidate.py"
     W=$T/record-clarity/writer-stream.sh; O=tmp/plan-consolidate
     . $O/run.env    # AT and ADD, from step 1 and step 2
@@ -28,8 +28,8 @@ Run each writer task, and each fill with its checks, in the background with a lo
 
 1. **The worktree**, at `main`'s head, on a branch of its own:
 
-        git -C /home/user/fortress worktree add -b record/plan-consolidation-2026-11-03 /home/user/fortress-plan main
-        cd /home/user/fortress-plan && mkdir -p tmp/plan-consolidate
+        git -C /home/user/fortress worktree add -b record/plan-consolidation-3 /home/user/fortress-plan-3 main
+        cd /home/user/fortress-plan-3 && mkdir -p tmp/plan-consolidate
         echo "AT=$(git rev-parse --short=9 HEAD)" > tmp/plan-consolidate/run.env
 
 2. **The reader** of the ten "Not classified" lines (choice 10 (b)), one fresh stream:
@@ -121,7 +121,7 @@ Run each writer task, and each fill with its checks, in the background with a lo
 
    `check --final` fails a marker left in PLAN and a rewritten line still in PLAN unchanged. `record.py check` and `ledger.py landing-check` are a guard only: the pass writes no FACTS, POSITIONS or ledger line, so each should report nothing.
 
-10. **The landing.** The coordinator reads the branch's diff (`git diff $AT -- explorations/coordinator/`). Then, from the main tree: if `main` is still at AT, fast-forward it to the branch; otherwise cherry-pick the two commits and run step 9's checks on `main`. Push by the `fortress-repo` skill's committing part (its three pushes). Remove the worktree and the branch (`git worktree remove /home/user/fortress-plan`, `git branch -D record/plan-consolidation-2026-11-03`). Update the boot note.
+10. **The landing.** The coordinator reads the branch's diff (`git diff $AT -- explorations/coordinator/`). Then, from the main tree: if `main` is still at AT, fast-forward it to the branch; otherwise cherry-pick the two commits and run step 9's checks on `main`. Push by the `fortress-repo` skill's committing part (its three pushes). Remove the worktree and the branch (`git worktree remove /home/user/fortress-plan-3`, `git branch -D record/plan-consolidation-3`). Update the boot note.
 
 ## The estimate in tokens written
 
