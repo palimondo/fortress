@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Run PLAN consolidation pass","toolUseId":"toolu_01KUg1CKgKtrx4pEu9bQmrcx","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"high","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Run PLAN consolidation pass","toolUseId":"toolu_01KUg1CKgKtrx4pEu9bQmrcx","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"high","pickedEffortModel":"claude-fable-5-1","finished":true}
