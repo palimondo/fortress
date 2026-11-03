@@ -86,8 +86,8 @@ Walk's overload-ambiguity message names its two declarations in an order that va
 
 The library binds each of walk's natives by a declaration whose body is `builtinPrimitive("…")`. The string names one of these:
 
-- A glue class, as `com.sun.fortress.interpreter.glue.prim.X`, in `interpreter/glue/prim/`. A glue class takes the evaluator's boxed values, so the compiled path cannot use it. Most bindings name one.
-- A helper: a public static method of a class under `nativeHelpers/`, as `com.sun.fortress.nativeHelpers.simpleIntArith.<method>`. `glue/StaticNativeApp.java` calls it by reflection, with a method's `self` first. The compiled path calls it too (`compiler.md`, "Natives").
+- A glue class, as `com.sun.fortress.interpreter.glue.prim.X`, in `interpreter/glue/prim/`. A glue class takes the evaluator's boxed values, so the compiled path cannot use it. 161 of the library's 449 bindings in use name one.
+- A helper: a public static method of a class under `nativeHelpers/`, as `com.sun.fortress.nativeHelpers.simpleIntArith.<method>`. `glue/StaticNativeApp.java` calls it by reflection, with a method's `self` first. The compiled path calls it too (`compiler.md`, "Natives"). The other 288 bindings name one.
 
 Walk carries each declared type of a helper's binding in one Java type:
 
@@ -121,7 +121,7 @@ A glue class raises a Fortress exception that a `catch` sees by throwing a `Fort
     FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
     return new FortressError(f);
 
-A helper runs on both paths, so it raises an exception as compiled code does: `throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero")` (`compiler/runtimeValues/Utility.java`). The string names the compiler's prelude's class for the exception. Under walk, that class does not load, and `StaticNativeApp` raises the interpreter's library's object of the same name in its place. So raise from a helper only an exception that both libraries declare as an object, as `DivisionByZero` and `IntegerOverflow`. `DIV` by zero on `ZZ32`, `ZZ64`, `ZZ`, `NN32` and `NN64` raises `DivisionByZero` in this way. A `catch` sees no other Java exception, so any other exception from a native ends the run, as a division by zero in a glue class does.
+A helper runs on both paths, so it raises an exception as compiled code does: `throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero")` (`compiler/runtimeValues/Utility.java`). The string names the compiler's prelude's class for the exception. Under walk, that class does not load, and `StaticNativeApp` raises the interpreter's library's object of the same name in its place. So raise from a helper only an exception that both libraries declare as an object, as `DivisionByZero` and `IntegerOverflow`. `DIV`, `REM` and `MOD` by zero on `ZZ32`, `ZZ64`, `ZZ`, `NN32` and `NN64` raise `DivisionByZero` in this way, on both paths. A `catch` sees no other Java exception, so any other exception from a native ends the run, as a division by zero in a glue class does.
 
 ## Running a program
 

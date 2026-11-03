@@ -998,3 +998,16 @@ From the cold read of `453898c32`, `53a84b2e6` and `ca542e07e`, flags 1 to 24 as
 ## The record-landing replay of climb batch 24, 2026-11-02
 
 - `compiler.md`, "The checker's gaps": an `except` that lists an infix operator leaves it imported on both paths, not on the compiled path alone; row 814, F-281, `process-engineering/record-landing-replay-24.md`, section 3; settled by the coordinator.
+
+## Climb batch 25's landing, 2026-11-03
+
+The landing of climb batch 25 on `main` (`11d2d8764`) made area parts false; settled by the coordinator's task. Each claim checked on `main` at `cf63661a4`.
+
+- `compiler.md`, "What the compiled path cannot compile yet": `test` among the admitted modifiers, F-315, `CodeGen.java:2947-2949`; `override` still refused, row 650; a generic trait extended at `Any`, and not at `Bottom`, `Self` or an abbreviated type, F-315; the crash at a tuple that holds `Any`, F-268, row 889.
+- `compiler.md`, "The compiler's prelude, until the switch-over": a helper that the one library binds is fixed for it, and the prelude's value moves with it, P-38 "The compiler prelude's own text is not repaired", F-313.
+- `compiler.md`, "Natives": the `NN64` transfer for a parameter or `self` of `UnsignedLong`, F-313, F-308, `BuiltinPrimitiveRewriter.java:189-192`; the rewrite switched by the JVM's newest repository, so `parse` and `api` rewrite only after a compile, row 882, F-298.
+- `compiler.md`, "Traps of the compiled path": the `finally` clause skipped when an exception leaves the `try` block, row 890, F-315, `CodeGen.java:2075-2085`.
+- `interpreter.md`, "Natives", and `library.md`, "Designing a change": 161 of the 449 bindings in use name a glue class and 288 a helper, F-299, F-32.
+- `interpreter.md`, "Natives": `REM` and `MOD` by zero raise `DivisionByZero` with `DIV`, on both paths, F-312, F-24.
+- `session.md`, "The Bash tool and waits" and `wait_for`: the cap on an agent's wait lowered from 270 s to 240 s, after climb batch 25's rung U lost its prompt cache after a wait of 270 s (361K tokens); settled by the coordinator.
+- `SKILL.md`, "The parts", and the description: `revival-changes.md` read whole only by a task that reads, changes or reviews Fortress code, the library, the tests or the specification, after 9 of climb batch 25's 20 agents read it; settled by the coordinator.
