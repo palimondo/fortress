@@ -24,6 +24,11 @@ public class simpleLongArith {
         return Long.parseLong(s);
     }
 
+    /* asFloat of a ZZ64: the nearest double, ties to even. */
+    public static double longToDouble(long a) {
+        return (double) a;
+    }
+
 
     // The original "Java-like" arithmetic operators
 

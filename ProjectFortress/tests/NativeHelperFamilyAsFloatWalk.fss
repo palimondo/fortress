@@ -1,0 +1,79 @@
+(* The asFloats of ZZ32, RR32, NN32, ZZ64 and ZZ bound to nativeHelpers answer the nearest RR64 under walk, at ordinary values and at each type's bounds. *)
+component NativeHelperFamilyAsFloatWalk
+export Executable
+
+isRR64(v: Any): Boolean =
+  typecase v of
+    RR64 => true
+    else => false
+  end
+
+run():() = do
+  imax: ZZ32 = 2147483647
+  imin: ZZ32 = -2147483647 - 1
+  im1: ZZ32 = -1
+  i0: ZZ32 = 0
+  i1: ZZ32 = 1
+  i24: ZZ32 = 16777217
+  assert(asFloat(imin).asString, "-2.147483648E9", "ZZ32 asFloat of the minimum")
+  assert(asFloat(im1).asString, "-1.0", "ZZ32 asFloat of -1")
+  assert(asFloat(i0).asString, "0.0", "ZZ32 asFloat of 0")
+  assert(asFloat(i1).asString, "1.0", "ZZ32 asFloat of 1")
+  assert(asFloat(i24).asString, "1.6777217E7", "ZZ32 asFloat of 2^24 + 1 is exact")
+  assert(asFloat(imax).asString, "2.147483647E9", "ZZ32 asFloat of the maximum")
+  assert(asFloat(im1), -1.0, "ZZ32 asFloat of -1 equals -1.0")
+  assert(isRR64(asFloat(imax)), "ZZ32 asFloat is an RR64")
+
+  r1: RR32 = narrow(0.1)
+  r0: RR32 = narrow(0.0)
+  rn0: RR32 = -r0
+  rbig: RR32 = narrow(340282350000000000000000000000000000000.0)
+  rsub: RR32 = narrow(0.0000000000000000000000000000000000000000000014)
+  rinf: RR32 = narrow(1000000000000000000000000000000000000000.0)
+  rninf: RR32 = -rinf
+  assert(asFloat(r1).asString, "0.10000000149011612", "RR32 asFloat of narrow(0.1) is exact")
+  assert(asFloat(r0).asString, "0.0", "RR32 asFloat of 0.0")
+  assert(asFloat(rn0).asString, "-0.0", "RR32 asFloat of -0.0 keeps the sign")
+  assert(asFloat(rbig).asString, "3.4028234663852886E38", "RR32 asFloat of the largest RR32")
+  assert(asFloat(rsub).asString, "1.401298464324817E-45", "RR32 asFloat of the smallest subnormal")
+  assert(asFloat(rinf).asString, "Infinity", "RR32 asFloat of infinity")
+  assert(asFloat(rninf).asString, "-Infinity", "RR32 asFloat of -infinity")
+  assert(isRR64(asFloat(r1)), "RR32 asFloat is an RR64")
+
+  n0: NN32 = unsigned(i0)
+  n1: NN32 = unsigned(i1)
+  n31: NN32 = unsigned(imin)
+  nmax: NN32 = unsigned(im1)
+  assert(asFloat(n0).asString, "0.0", "NN32 asFloat of 0")
+  assert(asFloat(n1).asString, "1.0", "NN32 asFloat of 1")
+  assert(asFloat(n31).asString, "2.147483648E9", "NN32 asFloat of 2^31 is unsigned")
+  assert(asFloat(nmax).asString, "4.294967295E9", "NN32 asFloat of 2^32 - 1 is unsigned")
+  assert(isRR64(asFloat(nmax)), "NN32 asFloat is an RR64")
+
+  lmin: ZZ64 = -9223372036854775807 - 1
+  lm1: ZZ64 = widen(im1)
+  l53: ZZ64 = 9007199254740993
+  lmax: ZZ64 = 9223372036854775807
+  assert(asFloat(lmin).asString, "-9.223372036854776E18", "ZZ64 asFloat of the minimum")
+  assert(asFloat(lm1).asString, "-1.0", "ZZ64 asFloat of -1")
+  assert(asFloat(l53).asString, "9.007199254740992E15", "ZZ64 asFloat of 2^53 + 1 rounds to even")
+  assert(asFloat(lmax).asString, "9.223372036854776E18", "ZZ64 asFloat of the maximum rounds up")
+  assert(isRR64(asFloat(lmax)), "ZZ64 asFloat is an RR64")
+
+  z20: ZZ = 100000000000000000000
+  zneg: ZZ = -123456789012345678901234567890
+  z53: ZZ = big(l53)
+  z40: ZZ = z20 z20
+  z80: ZZ = z40 z40
+  z160: ZZ = z80 z80
+  z320: ZZ = z160 z160
+  zn320: ZZ = -z320
+  assert(asFloat(z20).asString, "1.0E20", "ZZ asFloat of 10^20")
+  assert(asFloat(zneg).asString, "-1.2345678901234568E29", "ZZ asFloat of a negative 30-digit value")
+  assert(asFloat(z53).asString, "9.007199254740992E15", "ZZ asFloat of 2^53 + 1 rounds to even")
+  assert(asFloat(z320).asString, "Infinity", "ZZ asFloat of 10^320, past the RR64 range, is infinity")
+  assert(asFloat(zn320).asString, "-Infinity", "ZZ asFloat of -10^320 is -infinity")
+  assert(isRR64(asFloat(z20)), "ZZ asFloat is an RR64")
+end
+
+end

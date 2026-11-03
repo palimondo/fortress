@@ -238,8 +238,8 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
     getter nextDown():RR32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatNextDown")
 
-    asFloat(self): Float =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.RR32$AsFloat")
+    asFloat(self): RR64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.floatToDouble")
 
     opr |self| : RR32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatAbs")
@@ -371,8 +371,8 @@ value object Int extends ZZ32
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToString")
     getter asExprString(): String =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToString")
-    asFloat(self): Float =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$AsFloat")
+    asFloat(self): RR64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToDouble")
 end
 
 value object Long extends ZZ64
@@ -380,8 +380,8 @@ value object Long extends ZZ64
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToString")
     getter asExprString(): String =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToString")
-    asFloat(self): Float =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$AsFloat")
+    asFloat(self): RR64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToDouble")
 end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
@@ -393,8 +393,8 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     getter asExprString(): String =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
 
-    asFloat(self): Float =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$AsFloat")
+    asFloat(self): RR64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToDouble")
 
     opr |self| : NN32 = self
     opr =(self, b:NN32):Boolean =
@@ -567,8 +567,8 @@ value object BigNum extends ZZ
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toString")
     getter asExprString(): String =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toString")
-    asFloat(self): Float =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$AsFloat")
+    asFloat(self): RR64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toDouble")
 end
 
 

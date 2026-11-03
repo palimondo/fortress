@@ -1,0 +1,75 @@
+(* On the compiled path, the nativeHelpers that the asFloats of ZZ32, RR32, NN32, ZZ64 and ZZ name answer the nearest RR64, at ordinary values and at each type's bounds, an NN32 carried in a ZZ32. *)
+component NativeHelperFamilyAsFloatCompiled
+export Executable
+
+zz32AsFloat(a:ZZ32):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToDouble")
+rr32AsFloat(a:RR32):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.floatToDouble")
+nn32AsFloat(a:ZZ32):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToDouble")
+zz64AsFloat(a:ZZ64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToDouble")
+zzAsFloat(a:ZZ):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toDouble")
+
+dToString(a:RR64):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
+sub64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingSub")
+mulZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.mul")
+negZ(a:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.neg")
+
+run():() = do
+  imax: ZZ32 = 2147483647
+  imin: ZZ32 = -2147483647 - 1
+  im1: ZZ32 = -1
+  i0: ZZ32 = 0
+  i1: ZZ32 = 1
+  i24: ZZ32 = 16777217
+  assert(dToString(zz32AsFloat(imin)) = "-2.147483648E9", "ZZ32 asFloat of the minimum")
+  assert(dToString(zz32AsFloat(im1)) = "-1.0", "ZZ32 asFloat of -1")
+  assert(dToString(zz32AsFloat(i0)) = "0.0", "ZZ32 asFloat of 0")
+  assert(dToString(zz32AsFloat(i1)) = "1.0", "ZZ32 asFloat of 1")
+  assert(dToString(zz32AsFloat(i24)) = "1.6777217E7", "ZZ32 asFloat of 2^24 + 1 is exact")
+  assert(dToString(zz32AsFloat(imax)) = "2.147483647E9", "ZZ32 asFloat of the maximum")
+
+  r1: RR32 = 0.1
+  r0: RR32 = 0.0
+  rbig: RR32 = 340282350000000000000000000000000000000.0
+  rsub: RR32 = 0.0000000000000000000000000000000000000000000014
+  rinf: RR32 = 1000000000000000000000000000000000000000.0
+  assert(dToString(rr32AsFloat(r1)) = "0.10000000149011612", "RR32 asFloat of 0.1 as an RR32 is exact")
+  assert(dToString(rr32AsFloat(r0)) = "0.0", "RR32 asFloat of 0.0")
+  assert(dToString(rr32AsFloat(rbig)) = "3.4028234663852886E38", "RR32 asFloat of the largest RR32")
+  assert(dToString(rr32AsFloat(rsub)) = "1.401298464324817E-45", "RR32 asFloat of the smallest subnormal")
+  assert(dToString(rr32AsFloat(rinf)) = "Infinity", "RR32 asFloat of infinity")
+
+  n0: ZZ32 = 0
+  n1: ZZ32 = 1
+  n31: ZZ32 = -2147483647 - 1
+  nmax: ZZ32 = -1
+  assert(dToString(nn32AsFloat(n0)) = "0.0", "NN32 asFloat of 0")
+  assert(dToString(nn32AsFloat(n1)) = "1.0", "NN32 asFloat of 1")
+  assert(dToString(nn32AsFloat(n31)) = "2.147483648E9", "NN32 asFloat of 2^31 is unsigned")
+  assert(dToString(nn32AsFloat(nmax)) = "4.294967295E9", "NN32 asFloat of 2^32 - 1 is unsigned")
+
+  lmin: ZZ64 = sub64(-9223372036854775807, 1)
+  lm1: ZZ64 = -1
+  l53: ZZ64 = 9007199254740993
+  lmax: ZZ64 = 9223372036854775807
+  assert(dToString(zz64AsFloat(lmin)) = "-9.223372036854776E18", "ZZ64 asFloat of the minimum")
+  assert(dToString(zz64AsFloat(lm1)) = "-1.0", "ZZ64 asFloat of -1")
+  assert(dToString(zz64AsFloat(l53)) = "9.007199254740992E15", "ZZ64 asFloat of 2^53 + 1 rounds to even")
+  assert(dToString(zz64AsFloat(lmax)) = "9.223372036854776E18", "ZZ64 asFloat of the maximum rounds up")
+
+  z20: ZZ = 100000000000000000000
+  zneg: ZZ = -123456789012345678901234567890
+  z53: ZZ = 9007199254740993
+  z40: ZZ = mulZ(z20, z20)
+  z80: ZZ = mulZ(z40, z40)
+  z160: ZZ = mulZ(z80, z80)
+  z320: ZZ = mulZ(z160, z160)
+  zn320: ZZ = negZ(z320)
+  assert(dToString(zzAsFloat(z20)) = "1.0E20", "ZZ asFloat of 10^20")
+  assert(dToString(zzAsFloat(zneg)) = "-1.2345678901234568E29", "ZZ asFloat of a negative 30-digit value")
+  assert(dToString(zzAsFloat(z53)) = "9.007199254740992E15", "ZZ asFloat of 2^53 + 1 rounds to even")
+  assert(dToString(zzAsFloat(z320)) = "Infinity", "ZZ asFloat of 10^320, past the RR64 range, is infinity")
+  assert(dToString(zzAsFloat(zn320)) = "-Infinity", "ZZ asFloat of -10^320 is -infinity")
+  println("PASS")
+end
+
+end

@@ -6629,3 +6629,15 @@ rewritten
 rewritten
 
 | 880 | `Float`'s `nextUp` of `-0.0` is `0.0` and its `nextDown` of `0.0` is `-0.0`, each equal to its argument, where the api's "next higher IEEE float" and IEEE 754-2008's nextUp give `4.9E-324` and `-4.9E-324`; under walk, by the glue classes and by the helpers `doubleNextUp` and `doubleNextDown` alike | CONTESTED | library bug (library) | silent | `ProjectFortress/tests/FloatNextUpSignedZeroWalk.fss` | climb batch 25 rung D | `DirectedRounding.nextUp(double)` answers `0.0` for the bits of `-0.0` and `nextDown(x)` is `-nextUp(-x)` (`ProjectFortress/src/com/sun/fortress/numerics/DirectedRounding.java:111-127` at c0b8dc0ed); the `float` twin (`:25-41`) gives `RR32`'s getters the same under walk, and a compiled program's own binding of the helpers prints `0.0` and `-0.0`. Java's `Math.nextUp(-0.0)` is `4.9E-324`. The api's comments: `Library/FortressLibrary.fsi:323-326`; the specification names no `nextUp`. `0.0` follows `-0.0` in IEEE 754-2008's totalOrder, which the team may have meant. No directed rounding reaches the case. Which reading governs is open. |
+
+### Row 529
+
+rewritten
+
+| 529 | on the compiled path `RR32` with `RR32` answers an `RR64`: `a + b`, `a - b`, `a / b`, `a MIN b`, `a MAX b`, `SQRT a` and `a^2` for two `RR32` values are `RR64`, where walk on the one library answers `RR32` | NEGATIVE-VERIFIED | library gap vs spec (prelude) | silent | none | climb batch 6.5b rung V | siblings: 528. At 052a7c3fe the prelude's `RR32` declares no arithmetic, order or `MIN`/`MAX` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:992-994`), so both operands convert by `RR64`'s `coerce(x: RR32)` (`:933`) and `RR64`'s operator runs. Mixed `RR32` and `RR64` agree on both paths. `a MINMAX f` does not compile, the prelude declaring `MINMAX` only on the integer types; walk answers `(1.5, 3.0) : RR64`. Closes at the switch-over. Probes `explorations/compile-ladder/rung-rr32-sibling/probes/comp/RR32Comp.comp.txt` and `probes/skeptic/SkDiffC.comp.txt`, in the parent of ab067d9b6; full text: history, row 529 |
+
+### Row 529
+
+rewritten
+
+| 529 | on the compiled path `RR32` with `RR32` answers an `RR64`: `a + b`, `a - b`, `a / b`, `a MIN b`, `a MAX b`, `SQRT a` and `a^2` for two `RR32` values are `RR64`, where walk on the one library answers `RR32` | NEGATIVE-VERIFIED | library gap vs spec (prelude) | silent | none | climb batch 6.5b rung V | siblings: 528. At 052a7c3fe the prelude's `RR32` declares no arithmetic, order or `MIN`/`MAX` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:992-994`), so both operands convert by `RR64`'s `coerce(x: RR32)` (`:933`) and `RR64`'s operator runs. Mixed `RR32` and `RR64` agree on both paths. `a MINMAX f` does not compile, the prelude declaring `MINMAX` only on the integer types; walk answers `(1.5, 3.0) : RR64`. Closes at the switch-over. A negated radix-point numeral is refused at `RR32` too: `e: RR32 = -0.0`, 'Right-hand side has type RR64, but declared type is RR32.', the prelude's `FloatLiteral` declaring no prefix `-` (`CompilerBuiltin.fsi:479`). Full text: history, row 529 |
