@@ -1,0 +1,14 @@
+(* A function declared with the modifier test compiles beside the component's run, which runs. *)
+component TestModifierWalk
+export Executable
+
+twice(x: ZZ32): ZZ32 = x + x
+
+test twiceOfTwo(): () = assert(twice(2), 4, "tests.tex, section \"Tests and Properties\": a test function")
+
+run(): () = do
+  assert(twice(3), 6, "tests.tex, section \"Tests and Properties\": run beside a test function")
+  println("PASS")
+end
+
+end

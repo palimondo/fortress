@@ -1,0 +1,118 @@
+(* A forbid clause throws on, as a ForbiddenException chained to it, an exception of a listed type that no catch clause took; a catch clause takes its exception first, and one of no listed type passes on. *)
+component ForbidClauseWalk
+export Executable
+
+object Boom extends UncheckedException end
+object Bang extends UncheckedException end
+object Fizz extends CheckedException end
+
+boom(): () = throw Boom
+bang(): () = throw Bang
+fizz(): () = throw Fizz
+
+chainName(x: Exception): String = typecase x of
+    Boom => "Boom"
+    Bang => "Bang"
+    Fizz => "Fizz"
+    else => "other"
+  end
+
+(* Boom, which the forbid clause lists, is thrown on as a ForbiddenException whose chain is Boom. *)
+forbidden(): String = do
+  seen: String := "none"
+  try
+    try
+      boom()
+    forbid Boom
+    end
+  catch e
+    ForbiddenException => seen := "forbidden " || chainName(e.chain)
+    Boom => seen := "Boom passed on"
+  end
+  seen
+end
+
+(* The forbid clause lists a supertype of Bang, beside a type of no match. *)
+forbiddenBySupertype(): String = do
+  seen: String := "none"
+  try
+    try
+      bang()
+    forbid { CheckedException, UncheckedException }
+    end
+  catch e
+    ForbiddenException => seen := "forbidden " || chainName(e.chain)
+    Bang => seen := "Bang passed on"
+  end
+  seen
+end
+
+(* A catch clause that matches takes the exception before the forbid clause. *)
+caughtFirst(): String = do
+  seen: String := "none"
+  try
+    try
+      boom()
+    catch e
+      Boom => seen := "caught Boom"
+    forbid Boom
+    end
+  catch f
+    ForbiddenException => seen := "forbidden " || chainName(f.chain)
+  end
+  seen
+end
+
+(* A catch clause that does not match leaves the exception to the forbid clause. *)
+catchMissesForbidTakes(): String = do
+  seen: String := "none"
+  try
+    try
+      boom()
+    catch e
+      Bang => seen := "caught Bang"
+    forbid Boom
+    end
+  catch f
+    ForbiddenException => seen := "forbidden " || chainName(f.chain)
+    Boom => seen := "Boom passed on"
+  end
+  seen
+end
+
+(* An exception of no listed type passes on as it is. *)
+passesOn(): String = do
+  seen: String := "none"
+  try
+    try
+      fizz()
+    forbid { Boom, Bang }
+    end
+  catch e
+    ForbiddenException => seen := "forbidden " || chainName(e.chain)
+    Fizz => seen := "Fizz passed on"
+  end
+  seen
+end
+
+(* A body that completes normally ignores the forbid clause. *)
+completesNormally(): String = do
+  seen: String := "none"
+  try
+    seen := "body"
+  forbid Boom
+  end
+  seen
+end
+
+run(): () = do
+  assert(forbidden(), "forbidden Boom", "try.tex, section \"Try Expressions\": a listed type gives a ForbiddenException chained to the thrown exception")
+  assert(forbiddenBySupertype(), "forbidden Bang", "try.tex, section \"Try Expressions\": a subtype of a listed type gives a ForbiddenException")
+  assert(caughtFirst(), "caught Boom", "try.tex, section \"Try Expressions\": an exception matched by both clauses is caught by the catch clause")
+  assert(catchMissesForbidTakes(), "forbidden Boom", "try.tex, section \"Try Expressions\": an exception the catch clause does not match goes to the forbid clause")
+  assert(passesOn(), "Fizz passed on", "try.tex, section \"Try Expressions\": an exception matched by no clause completes the try abruptly")
+  assert(completesNormally(), "body", "try.tex, section \"Try Expressions\": a try block that completes normally ignores the forbid clause")
+  println("PASS")
+end
+
+end
