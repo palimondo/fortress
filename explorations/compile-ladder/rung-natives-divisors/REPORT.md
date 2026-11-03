@@ -99,7 +99,7 @@ The precedent search: climb batch 23 moved `ZZ32`'s first family onto existing h
 
 ## 5. Old against new
 
-`tmp/rung-natives-divisors/probe/ValN.fss`, a scratch program written by a script: every moved binding over pairs of chosen values, each overflow caught and printed, in sequential loops: `GCD` and `LCM` on 24 `ZZ32` values and their `unsigned` images and on 36 `ZZ64` values and their `unsigned` images, `partitionL` on each, `NN64`'s `CHOOSE` on 20 values each way, `ZZ`'s `GCD`, `LCM` and `cmp` on 16 values, its `CHOOSE` on 9 by 7, and `nanoTime`'s order. Run on the old code and on the edit, and compared:
+A scratch program written by a script, not kept, `ValN.fss`: every moved binding over pairs of chosen values, each overflow caught and printed, in sequential loops: `GCD` and `LCM` on 24 `ZZ32` values and their `unsigned` images and on 36 `ZZ64` values and their `unsigned` images, `partitionL` on each, `NN64`'s `CHOOSE` on 20 values each way, `ZZ`'s `GCD`, `LCM` and `cmp` on 16 values, its `CHOOSE` on 9 by 7, and `nanoTime`'s order. Run on the old code and on the edit, and compared:
 
     explorations/coordinator/tools/old-fortress.sh /home/user/fortress-base25 $PWD/tmp/old-caches ValN.fss > valn-old.txt    (rc=0, 8840 lines)
     bin/fortress ValN.fss > valn-new.txt                                                                                      (rc=0, 8840 lines)
@@ -108,7 +108,7 @@ The precedent search: climb batch 23 moved `ZZ32`'s first family onto existing h
 
 1539 of the 8840 lines print `IntegerOverflow` on both. Among them, on both: 'ZZ32 -2147483648 GCD -2147483648 = IntegerOverflow', 'ZZ -5 CHOOSE -1 = 1', 'ZZ 70 CHOOSE 35 = 112186277816662845432', 'nanoTime ordered true'. No walk value moves.
 
-A compiled probe, `tmp/rung-natives-divisors/probe/c/ProbeChooseZZCompiled.fss`, binding `simpleArbitraryPrecisionArith.choose` by its own declaration, compiled and run with a private copy of the caches:
+A compiled scratch probe, `ProbeChooseZZCompiled.fss`, not kept, binding `simpleArbitraryPrecisionArith.choose` by its own declaration, compiled and run with a private copy of the caches:
 
     ../bin/fortress compile .../ProbeChooseZZCompiled.fss ; ../bin/fortress run ProbeChooseZZCompiled
     compiled ZZ 3 CHOOSE 5 =  1
@@ -119,7 +119,7 @@ so the departure of section 9 is the helper's on both paths.
 
 ## 6. The stages, the ladder and the suites
 
-Every path the edit changes (`git diff --name-only 97a416b18 HEAD`): `Library/FortressLibrary.fss`, `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`, the five helper classes, and the three tests. The library and the helper classes are outside the brief's list of paths that cannot move a stage, so both ran once, on the final code (`dcc1ee79b`), into `tmp/rung-natives-divisors/`.
+Every path the edit changes (`git diff --name-only 97a416b18 HEAD`): `Library/FortressLibrary.fss`, `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`, the five helper classes, and the three tests. The library and the helper classes are outside the brief's list of paths that cannot move a stage, so both ran once, on the final code (`dcc1ee79b`), with the brief's commands.
 
 The count stage (started 00:18:43 UTC, beside the distance stage; its table written 00:22:00, so 197 s; load at start 5.60): its table and climb batch 24's landed one are equal, `diff explorations/compile-ladder/climb-batch-24/gate/checker-count.txt tmp/rung-natives-divisors/checker-count-postedit.txt` printing nothing:
 
@@ -138,9 +138,9 @@ The distance stage (started 00:18:43, ended 00:23:02):
     explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-24/gate/distance.txt tmp/rung-natives-divisors/distance-postedit.txt
     DISTANCE SAME   0
 
-The two distance tables differ only in the `#seconds` and `#machine` rows. `tmp/rung-natives-divisors/dist-post/errors.tsv` holds its header only, as `explorations/compile-ladder/gate/distance-sites.tsv` does: no site came, and none went. So the checker reads NN32's three bindings in `FortressBuiltin` and the 15 in `FortressLibrary` against their helpers' Java signatures and accepts them. No checker code changed: no speed pass (fork 15).
+The two distance tables differ only in the `#seconds` and `#machine` rows. The stage's per-site errors table holds its header only, as the landed per-site list `explorations/compile-ladder/gate/distance-sites.tsv:1` does: no site came, and none went. So the checker reads NN32's three bindings in `FortressBuiltin` and the 15 in `FortressLibrary` against their helpers' Java signatures and accepts them. No checker code changed: no speed pass (fork 15).
 
-The ladder subset (`gate.md`, "The ladder regression", the drivers copied to `tmp/rung-natives-divisors/ladder/`): no file's recorded first error in the baseline names a binding, operator or helper class this rung touches, so the rule gives an empty subset; the subset run instead holds the two pass-list programs that use `GCD`, `LCM`, `CHOOSE` or the 64-bit and unsigned types, `tests/chain0.fss` and `tests/varTest.fss`, since the compiler's prelude imports the five helper classes and their wrappers gain the new methods, and the eighteen microGPT components. `chain0.fss` and `varTest.fss` reach `pass`, as in `explorations/compile-ladder/climb-batch-24/gate/ladder/ladder.tsv`; `ladder_compare` prints no DOWN, UP or STDOUT line (and 83 MISSING, the pass-list files outside the subset); their outputs equal the baseline's; `diff <(mg_phases climb-batch-24/gate/ladder/microgpt-phase.md) <(mg_phases tmp/.../microgpt-phase.md)` prints nothing.
+The ladder subset (`gate.md`, "The ladder regression", the drivers copied to the rung's scratch folder): no file's recorded first error in the baseline names a binding, operator or helper class this rung touches, so the rule gives an empty subset; the subset run instead holds the two pass-list programs that use `GCD`, `LCM`, `CHOOSE` or the 64-bit and unsigned types, `tests/chain0.fss` and `tests/varTest.fss`, since the compiler's prelude imports the five helper classes and their wrappers gain the new methods, and the eighteen microGPT components. `chain0.fss` and `varTest.fss` reach `pass`, as in `explorations/compile-ladder/climb-batch-24/gate/ladder/ladder.tsv`; `ladder_compare` prints no DOWN, UP or STDOUT line (and 83 MISSING, the pass-list files outside the subset); their outputs equal the baseline's; the `mg_phases` diff of the subset's microGPT table against `explorations/compile-ladder/climb-batch-24/gate/ladder/microgpt-phase.md` prints nothing.
 
 The suites, once each after the last change of code (`dcc1ee79b`; fork 12):
 
