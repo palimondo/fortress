@@ -31,7 +31,7 @@ The log gets the output, then a last line `EXIT=<status>`. The automatic permiss
 
 The shell function `wait_for` waits for the `EXIT=` line, for 240 s at most. If the line is there, it prints the log's verdict lines and returns 0: ant's `BUILD` and `Total time:`, JUnit's `OK (`, `FAILURES!!!` and `Tests run:`, and `EXIT=`. If not, it returns 1.
 
-Run `wait_for` until it returns 0, each time in a new Bash call. Give that call a `timeout` above 240 s, such as 300000 ms. Define the function in each call that uses it. Grep the log for the lines that you need.
+Run `wait_for` until it returns 0, each time in a new Bash call. Give that call a `timeout` above 240 s, such as 300000 ms: the timeout only guards the call, and `wait_for` itself returns by 240 s. Define the function in each call that uses it. Grep the log for the lines that you need.
 
     wait_for () {    # wait_for <logfile> [max seconds, at most 240]; call again until it returns 0
         local n=0 max=${2:-240}

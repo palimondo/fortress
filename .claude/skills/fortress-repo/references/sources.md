@@ -1011,3 +1011,15 @@ The landing of climb batch 25 on `main` (`11d2d8764`) made area parts false; set
 - `interpreter.md`, "Natives": `REM` and `MOD` by zero raise `DivisionByZero` with `DIV`, on both paths, F-312, F-24.
 - `session.md`, "The Bash tool and waits" and `wait_for`: the cap on an agent's wait lowered from 270 s to 240 s, after climb batch 25's rung U lost its prompt cache after a wait of 270 s (361K tokens); settled by the coordinator.
 - `SKILL.md`, "The parts", and the description: `revival-changes.md` read whole only by a task that reads, changes or reviews Fortress code, the library, the tests or the specification, after 9 of climb batch 25's 20 agents read it; settled by the coordinator.
+
+## The cold read of climb batch 25's skill changes, 2026-11-03
+
+From the cold read of `597537f2e` and `59cc13881`, eleven of its 22 flags as the coordinator's task gave them; settled by the coordinator's task; each checked on `main`.
+
+- `SKILL.md`, "The parts" and the description: the scope as the original tree (its Java and Scala, the library, the tests, the specification) or a review of a change to it, and a failing test's source; `revival-changes.md` in the walk-fix example.
+- `session.md`: the `timeout` only guards the call, and `wait_for` returns by 240 s, from the function's own clamp.
+- `compiler.md`, the prelude part: fix the helper's Java, not the prelude's text, and change a compiled test that pinned the old result, P-38, F-313.
+- `compiler.md`, the `extends` sentence: a refusal at `Bottom`, `Self` or an abbreviated type, `CodeGen.java:5833-5857` (the `CompilerError` 'Only handling some static args of generic types in extends clause'), `rung-codegen-walls/REPORT.md:13`, F-315; the crash at a tuple that holds `Any`, F-268, row 889; the abbreviated type, `Specification/basic/expressions/aggregate.tex:136-137`, the AST's `AbbreviatedType` (`ProjectFortress/astgen/Fortress.ast:1084`).
+- `compiler.md`, "Natives": the rewrite in a JVM with a repository of the compiled path, `BuiltinPrimitiveRewriter.java:46-48`, `Shell.specificRepository` (`Shell.java:101-107`); `compile`, `disambiguate`, `grammar`, `desugar` and `typecheck` through `Shell.compilerPhases` (`:957`); `parse` and `api` through `Parser.parseFileConvertExn` alone (`:561`, `:702`); row 882. No transfer for a result declared `UnsignedLong`, `BuiltinPrimitiveRewriter.java:190`, and none declared in `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:475-484`.
+- `compiler.md`, "Traps of the compiled path": the `forbid` clause, F-315; rows 888, 890 and 891.
+- `interpreter.md`, "Natives", and `library.md`: the counts removed; `interpreter.md`'s divisions by zero, F-24, F-312.
