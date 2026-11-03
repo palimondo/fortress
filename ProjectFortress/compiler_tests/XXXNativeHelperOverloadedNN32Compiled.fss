@@ -1,0 +1,13 @@
+(* On the compiled path, a declaration over NN32 bound to simpleOverload.baz, a helper with two methods of one arity, gets no NN32 transfer, so the checker refuses it, where the same declaration over ZZ32 compiles. *)
+component XXXNativeHelperOverloadedNN32Compiled
+export Executable
+
+bazN(n: NN32): JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
+
+run():() = do
+  m: NN32 = 7
+  assert(bazN(m) = "baz 7", "bazN of the NN32 7")
+  println("PASS")
+end
+
+end

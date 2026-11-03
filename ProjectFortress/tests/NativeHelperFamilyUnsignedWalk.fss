@@ -1,0 +1,127 @@
+(* UnsignedLong's asString, asExprString and asFloat, NN64's prefix DOTMINUS and NN32's CHOOSE keep their values, their wraparound and their IntegerOverflow under walk, above the signed half among them. *)
+component NativeHelperFamilyUnsignedWalk
+export Executable
+
+overflows(f: () -> NN32): Boolean =
+  try
+    f()
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+run():() = do
+  m: ZZ64 = -1
+  lo: ZZ64 = -9223372036854775807 - 1
+  z0: ZZ64 = 0
+  z1: ZZ64 = 1
+  z7: ZZ64 = 7
+  z1024: ZZ64 = 1024
+  z1025: ZZ64 = 1025
+  z3072: ZZ64 = 3072
+  z2: ZZ64 = 2
+  n0 = unsigned(z0)
+  n1 = unsigned(z1)
+  n7 = unsigned(z7)
+  n63 = unsigned(lo)
+  n63p1 = unsigned(lo + z1)
+  n63p1024 = unsigned(lo + z1024)
+  n63p1025 = unsigned(lo + z1025)
+  n63p3072 = unsigned(lo + z3072)
+  nmaxm1 = unsigned(m - z1)
+  nmax = unsigned(m)
+
+  assert(n0.asString, "0", "asString of 0")
+  assert(n1.asString, "1", "asString of 1")
+  assert(n7.asString, "7", "asString of 7")
+  assert(n63.asString, "9223372036854775808", "asString of 2^63")
+  assert(n63p1.asString, "9223372036854775809", "asString of 2^63+1")
+  assert(nmaxm1.asString, "18446744073709551614", "asString of 2^64-2")
+  assert(nmax.asString, "18446744073709551615", "asString of 2^64-1")
+
+  assert(n0.asExprString, "0", "asExprString of 0")
+  assert(n1.asExprString, "1", "asExprString of 1")
+  assert(n7.asExprString, "7", "asExprString of 7")
+  assert(n63.asExprString, "9223372036854775808", "asExprString of 2^63")
+  assert(n63p1.asExprString, "9223372036854775809", "asExprString of 2^63+1")
+  assert(nmaxm1.asExprString, "18446744073709551614", "asExprString of 2^64-2")
+  assert(nmax.asExprString, "18446744073709551615", "asExprString of 2^64-1")
+
+  assert(asFloat(n0).asString, "0.0", "asFloat of 0")
+  assert(asFloat(n1).asString, "1.0", "asFloat of 1")
+  assert(asFloat(n7).asString, "7.0", "asFloat of 7")
+  assert(asFloat(n63).asString, "9.223372036854776E18", "asFloat of 2^63")
+  assert(asFloat(n63p1).asString, "9.223372036854776E18", "asFloat of 2^63+1 rounds to 2^63")
+  assert(asFloat(n63p1024).asString, "9.223372036854776E18", "asFloat of 2^63+1024, a tie, rounds to the even 2^63")
+  assert(asFloat(n63p1025).asString, "9.223372036854778E18", "asFloat of 2^63+1025 rounds up to 2^63+2048")
+  assert(asFloat(n63p3072).asString, "9.22337203685478E18", "asFloat of 2^63+3072, a tie, rounds to the even 2^63+4096")
+  assert(asFloat(nmaxm1).asString, "1.8446744073709552E19", "asFloat of 2^64-2 rounds to 2^64")
+  assert(asFloat(nmax).asString, "1.8446744073709552E19", "asFloat of 2^64-1 rounds to 2^64")
+  assert(asFloat(nmax) = asFloat(n63) + asFloat(n63), true, "asFloat of 2^64-1 is twice asFloat of 2^63")
+
+  assert((DOTMINUS n0).asString, "0", "DOTMINUS of 0")
+  assert((DOTMINUS n1).asString, "18446744073709551615", "DOTMINUS of 1 wraps to 2^64-1")
+  assert((DOTMINUS n7).asString, "18446744073709551609", "DOTMINUS of 7 wraps to 2^64-7")
+  assert((DOTMINUS n63).asString, "9223372036854775808", "DOTMINUS of 2^63 is 2^63")
+  assert((DOTMINUS n63p1).asString, "9223372036854775807", "DOTMINUS of 2^63+1 is 2^63-1")
+  assert((DOTMINUS nmaxm1).asString, "2", "DOTMINUS of 2^64-2 is 2")
+  assert((DOTMINUS nmax).asString, "1", "DOTMINUS of 2^64-1 is 1")
+  assert(((DOTMINUS n7) DOTPLUS n7) = n0, true, "DOTMINUS of 7 plus 7 wraps to 0")
+
+  i31: ZZ32 = -2147483647 - 1
+  i31m1: ZZ32 = 2147483647
+  i31p1: ZZ32 = -2147483647
+  i32m2: ZZ32 = -2
+  i32m1: ZZ32 = -1
+  c0 = unsigned(0)
+  c1 = unsigned(1)
+  c2 = unsigned(2)
+  c7 = unsigned(7)
+  c8 = unsigned(8)
+  c17 = unsigned(17)
+  c34 = unsigned(34)
+  c35 = unsigned(35)
+  c65536 = unsigned(65536)
+  c92682 = unsigned(92682)
+  c92683 = unsigned(92683)
+  c31 = unsigned(i31)
+  c31m1 = unsigned(i31m1)
+  c31p1 = unsigned(i31p1)
+  c32m2 = unsigned(i32m2)
+  cmax = unsigned(i32m1)
+
+  assert((c0 CHOOSE c0).asString, "1", "0 CHOOSE 0")
+  assert((c0 CHOOSE c1).asString, "0", "0 CHOOSE 1, k above n")
+  assert((c0 CHOOSE cmax).asString, "0", "0 CHOOSE 2^32-1, k above n")
+  assert((c1 CHOOSE c1).asString, "1", "1 CHOOSE 1")
+  assert((c7 CHOOSE c0).asString, "1", "7 CHOOSE 0")
+  assert((c7 CHOOSE c1).asString, "7", "7 CHOOSE 1")
+  assert((c7 CHOOSE c2).asString, "21", "7 CHOOSE 2")
+  assert((c7 CHOOSE c7).asString, "1", "7 CHOOSE 7")
+  assert((c7 CHOOSE c8).asString, "0", "7 CHOOSE 8, k above n")
+  assert((c7 CHOOSE c31).asString, "0", "7 CHOOSE 2^31, k above n, unsigned")
+  assert((c7 CHOOSE cmax).asString, "0", "7 CHOOSE 2^32-1, k above n, unsigned")
+  assert((c34 CHOOSE c17).asString, "2333606220", "34 CHOOSE 17, above the signed half")
+  assert(overflows(fn () => c35 CHOOSE c17), "35 CHOOSE 17 overflows")
+  assert((c65536 CHOOSE c2).asString, "2147450880", "65536 CHOOSE 2")
+  assert(overflows(fn () => c65536 CHOOSE c7), "65536 CHOOSE 7 overflows")
+  assert((c92682 CHOOSE c2).asString, "4294930221", "92682 CHOOSE 2, near 2^32")
+  assert(overflows(fn () => c92683 CHOOSE c2), "92683 CHOOSE 2 overflows")
+  assert((c31 CHOOSE c0).asString, "1", "2^31 CHOOSE 0")
+  assert((c31 CHOOSE c1).asString, "2147483648", "2^31 CHOOSE 1")
+  assert(overflows(fn () => c31 CHOOSE c2), "2^31 CHOOSE 2 overflows")
+  assert((c31 CHOOSE c31m1).asString, "2147483648", "2^31 CHOOSE 2^31-1")
+  assert((c31 CHOOSE c31).asString, "1", "2^31 CHOOSE 2^31")
+  assert((c31 CHOOSE c31p1).asString, "0", "2^31 CHOOSE 2^31+1, k above n")
+  assert((c31 CHOOSE cmax).asString, "0", "2^31 CHOOSE 2^32-1, k above n")
+  assert((cmax CHOOSE c0).asString, "1", "2^32-1 CHOOSE 0")
+  assert((cmax CHOOSE c1).asString, "4294967295", "2^32-1 CHOOSE 1")
+  assert(overflows(fn () => cmax CHOOSE c2), "2^32-1 CHOOSE 2 overflows")
+  assert(overflows(fn () => cmax CHOOSE c31), "2^32-1 CHOOSE 2^31 overflows")
+  assert(overflows(fn () => cmax CHOOSE c31m1), "2^32-1 CHOOSE 2^31-1 overflows")
+  assert((cmax CHOOSE c32m2).asString, "4294967295", "2^32-1 CHOOSE 2^32-2")
+  assert((cmax CHOOSE cmax).asString, "1", "2^32-1 CHOOSE 2^32-1")
+  assert((c32m2 CHOOSE cmax).asString, "0", "2^32-2 CHOOSE 2^32-1, k above n")
+end
+
+end

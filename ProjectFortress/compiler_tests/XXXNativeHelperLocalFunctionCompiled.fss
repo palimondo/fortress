@@ -1,0 +1,12 @@
+(* On the compiled path, a local function whose body is a builtinPrimitive string naming a helper becomes a call of the helper, as builtinPrimitive's comment in FortressBuiltin.fsi gives every such body. *)
+component XXXNativeHelperLocalFunctionCompiled
+export Executable
+
+run():() = do
+  g(x: ZZ32): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intNeg")
+  assert(g(4), -4, "the local g bound to intNeg negates 4")
+  println(g(4))
+  println("PASS")
+end
+
+end

@@ -1,0 +1,3 @@
+tests=XXXNativeHelperOwnCharCompiled
+compile
+compile_err_contains=Character->ZZ32 is not applicable to an argument of type Char

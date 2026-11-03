@@ -186,7 +186,8 @@ public final class BuiltinPrimitiveRewriter {
         if (desc.equals("I") && (declared.equals("Char") || declared.equals("Character")))
             return result ? "simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType"
                           : "simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType";
-        if (desc.equals("J") && declared.equals("NN64"))
+        /* UnsignedLong, walk's object of NN64, is an NN64: its self takes the argument transfer. */
+        if (desc.equals("J") && (declared.equals("NN64") || (!result && declared.equals("UnsignedLong"))))
             return result ? "simpleUnsignedLongArith.makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType"
                           : "simpleUnsignedLongArith.makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType";
         return null;

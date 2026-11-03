@@ -1,0 +1,15 @@
+(* On the compiled path, a program's own trait named UnsignedLong is read by its simple name as walk's object of NN64: a declaration over it bound to a long helper is refused through the NN64 transfer, whose type the message names. *)
+component XXXNativeHelperOwnUnsignedLongCompiled
+export Executable
+
+trait UnsignedLong end
+object U extends UnsignedLong end
+
+code(u: UnsignedLong): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longNeg")
+
+run():() = do
+  println(code(U))
+  println("PASS")
+end
+
+end

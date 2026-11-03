@@ -17,7 +17,7 @@ public class FNN64  extends fortress.CompilerBuiltin.NN64.DefaultTraitMethods im
     final long val;
 
     private FNN64(long x) { val = x; }
-    public String toString() { return "" + val;}
+    public String toString() { return Long.toUnsignedString(val);}
     public long getValue() {return val;}
     public static FNN64 make(long x) {return new FNN64(x);}
     

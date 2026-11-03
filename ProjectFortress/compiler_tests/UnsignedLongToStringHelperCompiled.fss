@@ -1,0 +1,26 @@
+(* On the compiled path, simpleUnsignedLongArith.unsignedLongToString writes an NN64 carried in a ZZ64 as its unsigned value, 2^63 and 2^64-1 among them. *)
+component UnsignedLongToStringHelperCompiled
+export Executable
+
+n64ToString(a:ZZ64):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
+
+run():() = do
+  n0: ZZ64 = 0
+  n7: ZZ64 = 7
+  below: ZZ64 = 9223372036854775807
+  n63: ZZ64 = -9223372036854775807 - 1
+  n63p1: ZZ64 = -9223372036854775807
+  nmaxm1: ZZ64 = -2
+  nmax: ZZ64 = -1
+  println("REACHED")
+  assert(n64ToString(n0) = "0", "the string of 0")
+  assert(n64ToString(n7) = "7", "the string of 7")
+  assert(n64ToString(below) = "9223372036854775807", "the string of 2^63-1")
+  assert(n64ToString(n63) = "9223372036854775808", "the string of 2^63, carried in a ZZ64")
+  assert(n64ToString(n63p1) = "9223372036854775809", "the string of 2^63+1, carried in a ZZ64")
+  assert(n64ToString(nmaxm1) = "18446744073709551614", "the string of 2^64-2, carried in a ZZ64")
+  assert(n64ToString(nmax) = "18446744073709551615", "the string of 2^64-1, carried in a ZZ64")
+  println("PASS")
+end
+
+end

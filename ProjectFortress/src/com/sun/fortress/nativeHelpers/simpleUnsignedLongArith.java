@@ -21,7 +21,14 @@ public class simpleUnsignedLongArith {
     }
 
     public static String unsignedLongToString(long x) {
-        return Long.toString(x);
+        return Long.toUnsignedString(x);
+    }
+
+    /* asFloat of an NN64, rounded to the nearest double, as walk's UnsignedLong$AsFloat computes it: a value above
+       the signed half is halved, its low bit kept as a sticky bit, converted and doubled. */
+    public static double unsignedLongToDouble(long a) {
+        if (a >= 0) return (double) a;
+        return ((double) ((a >>> 1) | (a & 1L))) * 2.0;
     }
     
     public static boolean ltu(long a, long b) {
@@ -115,7 +122,7 @@ public class simpleUnsignedLongArith {
     }
 
     public static long unsignedLongWrappingNeg(long a) { 
-    	return a;
+    	return -a;
     }
 
     public static long unsignedLongWrappingAbs(long a) {

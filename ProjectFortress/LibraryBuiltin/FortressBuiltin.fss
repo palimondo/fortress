@@ -446,7 +446,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr LCM(self,b:NN32):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Lcm")
     opr CHOOSE(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Choose")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingChoose")
     opr BITAND(self,b:NN32):NN32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitAnd")
     opr BITOR(self,b:NN32):NN32 =
@@ -476,11 +476,11 @@ value object UnsignedLong extends NN64
     getter zero(): NN64 = widen(unsigned(0))
     getter one(): NN64 = widen(unsigned(1))
     getter asString(): String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$ToString")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
     getter asExprString(): String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$ToString")
-    asFloat(self): Float =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$AsFloat")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
+    asFloat(self): RR64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToDouble")
 end
 
 object IntLiteral extends Number

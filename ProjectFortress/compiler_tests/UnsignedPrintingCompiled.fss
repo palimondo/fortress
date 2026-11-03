@@ -1,0 +1,26 @@
+(* On the compiled path, an NN32 above 2^31 and an NN64 above 2^63 print their unsigned values through the prelude's asString, println and string concatenation. *)
+component UnsignedPrintingCompiled
+export Executable
+
+run():() = do
+  a0: NN32 = 0
+  a31: NN32 = 2147483648
+  amax: NN32 = 4294967295
+  b0: NN64 = 0
+  b63: NN64 = 9223372036854775808
+  bmax: NN64 = 18446744073709551615
+  println("REACHED")
+  assert(a0.asString, "0", "the NN32 0")
+  assert(a31.asString, "2147483648", "the NN32 2^31")
+  assert(amax.asString, "4294967295", "the NN32 2^32-1")
+  assert(b0.asString, "0", "the NN64 0")
+  assert(b63.asString, "9223372036854775808", "the NN64 2^63")
+  assert(bmax.asString, "18446744073709551615", "the NN64 2^64-1")
+  assert("n32 " || amax, "n32 4294967295", "the NN32 2^32-1 concatenated")
+  assert("n64 " || bmax, "n64 18446744073709551615", "the NN64 2^64-1 concatenated")
+  println(amax)
+  println(bmax)
+  println("PASS")
+end
+
+end
