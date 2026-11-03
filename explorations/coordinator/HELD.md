@@ -4,6 +4,7 @@
 
 ## Held in chat (2026-11-03)
 
+- 19:0x He read the 28 October post-mortem's page and checked it again; he did not comment because its lessons went into the skill update (the clarity workflow revised and made part of the post-landing workflow). The docket's item 24, "waiting for your read", was wrong. The page is deleted at his explicit word, since the artifacts accumulate; its report stays in the tree. Deleting a branch from this container is refused by the harness, which the committing part records; the coordinator should not have tried it.
 - 18:3x The eight working rules go on the existing skill drafts page (https://claude.ai/artifact/LwjYdr5x6iSVVEgwKMic1m), recycled: trim the old parts that have landed, and add the eight as items. No new page for a skill review.
 - 18:3x He reads turn by turn from the top; the coordinator's long replies after each comment are a wall of text spiral. Recover: short turns.
 - 18:3x The review queue, about 100K characters and 312 open items, scared him most: it reads as a full history of consequential changes, framed as things for him to review and overturn. That framing is wrong for closing his cognitive gap on what the workers changed in the repository. The consolidation he means is of the review queue, the held list and PLAN.
