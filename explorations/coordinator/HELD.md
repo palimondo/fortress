@@ -2,6 +2,13 @@
 
 # Held list
 
+## Held in chat (2026-11-03)
+
+- 06:1x The register, again: halfway to ASD-STE100; the coordinator's internal references ("the diff", "the two landings", flag names) are hard for him to understand. The fourth reinforcement since 10-29. For the skill writer, with the others.
+- 06:1x At a landing the coordinator reads only what changed in the record, and judges the landing from that. It does not need FACTS and POSITIONS whole then. The full read of the record is for planning the next batch. So a landing never waits for a compaction or a full boot, and he is asked nothing about the boot. For the skill writer: `tools/record-landing/README.md`, "Landing its result", and `SKILL.md`, "The boot".
+- 06:1x The four-point process change the coordinator proposed at 05:5x (the orientation update inside the record-landing workflow, the diff read at any boot state, the full boot by itself, the workflow landing its own branch) is rejected as written: an over-correction, unaware of how the process works; only very light changes.
+- 06:1x The delegating part's clause "a rule of the curator's that no entry holds yet" stays as landed. Its purpose, in his words: when he and the coordinator agree in conversation on a change to how the coordinator works, the change goes onto the held list until the skill rewrite; if a compaction comes between, the coordinator quotes the held rule into the boot note, so that the freshly booted session behaves that way before the skill holds it, and updates the skill at the next opportunity. Offering the other option was pointless: common sense settles it. For the skill writer: `references/delegating.md`, "What a brief holds", and `SKILL.md`, "The record: what goes where", the boot note's bullet.
+
 ## Held from his page comments on the drafts page, version 6 (2026-11-02, evening)
 
 The skill drafts page (https://claude.ai/artifact/LwjYdr5x6iSVVEgwKMic1m, version 6). A "send to Claude" on this page reaches another Claude session, not this one (the reply of 21:36 on the cold-read thread is that session's); this session reads the page's comments when he says so.
