@@ -42,7 +42,7 @@ A brief holds what only you know: the problem, the question, what the answer is 
 - For an update of a document: a length cap against the version before. The update adds what landed.
 - No second reader named in the brief, since that reframes the document.
 - No request to measure or cap its own token spend. The spend is yours to watch.
-- For an Agent-tool worker: every wait under 270 s. A long run is polled in steps, or handed to a script while the agent ends its turn.
+- For an Agent-tool worker: every wait under 240 s. A long run is polled in steps, or handed to a script while the agent ends its turn.
 
 `fortress-repo` tells a worker on the repository which choices are its own. A worker loads no part of this skill by itself. If it does part of your work, such as an analysis, name the parts of this skill that the work needs.
 
