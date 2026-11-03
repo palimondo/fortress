@@ -6689,3 +6689,51 @@ rewritten
 rewritten
 
 | 624 | the code generator does not compile a function or a method with a varargs parameter: a top-level function stops with "Can't compile VarArgs yet", a trait method with `OptionUnwrapException` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/functions.tex`, "Function Declarations", "Function Applications" | `ProjectFortress/compiler_tests/XXXVarargsCodeGeneration.test` | climb batch 10 rung C and its first skeptic | `NamingCzar` throws it (`compiler/NamingCzar.java:1262`, `:1272`, `:1412`, `:1523`); for a method `jvmSignatureFor` unwraps every parameter's type (`NamingCzar.java:899`), called from `CodeGen.dumpTraitMethodSigs` (`compiler/codegen/CodeGen.java:6826`). `trait Tagger` with `tag(x: String, rest: ZZ32...): String = x`, called `T.tag("a") T.tag("b", z) T.tag("c", z, z, z, z, z, z)`, type checks and fails to compile, where walk prints `abc` (`XXXVarargsMethodCodeGeneration`). The JVM signature has no varargs form; walk binds the parameter to an `ImmutableArray1` that `__immutableFactory1` builds (`interpreter/evaluator/values/NonPrimitive.java:224-251`). full text: history, row 624 |
+
+### Row 336
+
+closed by 41830b90c
+
+| 336 | under walk, `REM` and `MOD` by zero on `ZZ32` and `ZZ64` end the run with a Java `ArithmeticException` that no Fortress `catch` sees: `widen(8) REM widen(0)` in a `try` catching `DivisionByZero` ends the run, where the compiled path raises `DivisionByZero` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators"; `Specification/basic-lib/basic-integers.tex`, "Integers" | XXXZZ64RemainderByZeroWalk | climb batch 1 rung N's skeptic | siblings: 848. No zero test in their glue classes, at b0f6cd6b7: `Int$Rem` ends in `x % y` (`interpreter/glue/prim/Int.java:132`), `Long$Rem` in `x % y` (`Long.java:146`); both `MOD`s reach `Int.mod`'s `xi % yi` (`Int.java:389`). Walk makes a native's Java exception a `ProgramError` (F-24). `DIV` on `ZZ32`, `ZZ64` and `ZZ` names a helper whose raise walk translates (`ZZ32DivisionByZeroWalk`, `ZZ64DivisionByZeroWalk`, `ZZDivisionByZeroWalk`). Fix: each on a helper, or a zero test throwing `Int.divisionByZero()` (`Int.java:263-266`). full text: history, row 336 |
+
+### Row 848
+
+closed by 41830b90c
+
+| 848 | under walk, `REM` and `MOD` by zero on `NN32`, `NN64` and `ZZ` end the run with a Java `ArithmeticException` that no Fortress `catch` sees: `unsigned(7) REM unsigned(0)` in a `try` catching `DivisionByZero` ends the run | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators"; `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/tests/XXXNN32RemainderByZeroWalk.fss` | climb batch 23 rung W's skeptic | siblings: 336. `DIV` by zero on `NN32` and `NN64` throws `DivisionByZero` (`NN32DivisionByZeroWalk`, `NN64DivisionByZeroWalk`): their bindings name helpers that raise it (`nativeHelpers/simpleUnsignedIntArith.java:61-62`, `simpleUnsignedLongArith.java:75-76`). No zero test in the glue classes still bound: `NN32$Rem` and `$Mod` (`interpreter/glue/prim/NN32.java:137-141`, `:164-168`), `UnsignedLong$Rem` and `$Mod` (`UnsignedLong.java:138-142`, `:164-168`), `BigNum$Rem` (`BigNum.java:166`) and `BigNum$Mod` (`:205`), at b0f6cd6b7. Fix: each on a helper that raises, or a zero test throwing `Int.divisionByZero()` (`Int.java:263-266`). |
+
+### Row 873
+
+closed by f7a33b97b
+
+| 873 | the compiled path's rewrite gives no transfer to an argument declared UnsignedLong, walk's object of NN64, so the checker refuses a binding in value object UnsignedLong to an NN64 helper: 'ZZ64->String is not applicable to an argument of type UnsignedLong.' | NEGATIVE-VERIFIED | implementation gap (checker) | silent | explorations/compile-ladder/plan-25/probes/NOTES.md | climb batch 25's planner | siblings: 326, 860. BuiltinPrimitiveRewriter.transfer gives the NN64 transfers to a declared NN64 only (ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java:189 at 25238e60c); with UnsignedLong's asString, asExprString and asFloat moved to simpleUnsignedLongArith, the distance stage gave '#total 3' at ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:479, :481, :483; with the condition widened to an argument declared UnsignedLong, 0. Walk carries UnsignedLong in a long (F-299). Rung U of climb batch 25 fixes it. |
+
+### Row 326
+
+closed by f7a33b97b
+
+| 326 | the compiled path renders an `NN32` or `NN64` value above its type's signed half as negative: `n32: NN32 = 4294967295` and `n64: NN64 = 18446744073709551615` both print `-1`, though the values are right | NEGATIVE-VERIFIED | implementation gap (runtime) | silent | none | repair batch R2 | At 052a7c3fe. `NN32`: the runtime class's `asString`, `String.valueOf` of a signed `int` (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java:20`), shadows the prelude getter (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:759`), whose native masks. `NN64`: the getter (`:825`) runs, but its native is `Long.toString(x)` (`nativeHelpers/simpleUnsignedLongArith.java:23-25`), and `FNN64.java:20`'s `toString` is signed. Workaround: `.asZZ.asString`, as `ProjectFortress/library_tests/IntConversionsRungW.fss` does. Probe `explorations/compile-ladder/rung-int-conversions/probes/probe-nn-render.txt`, in the parent of ab067d9b6. full text: history, row 326 |
+
+### Row 860
+
+closed by f7a33b97b
+
+| 860 | the `NN64` helper `simpleUnsignedLongArith.unsignedLongWrappingNeg` answers its operand, where the wraparound negation of `x` is `0 ∸ x`: under walk with `NN64`'s prefix `DOTMINUS` bound to it, `DOTMINUS` of 2^64-1 gives 18446744073709551615, and walk's glue 1 | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic/operators/opr-overview.tex`, "Addition and Subtraction Operators" | `ProjectFortress/compiler_tests/XXXNN64WrappingNegationHelperCompiled.test` | climb batch 24's planner | siblings: 348. Its body is `return a;` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java:106-108`); its `int` sibling `unsignedIntWrappingNeg` is `-a` (`simpleUnsignedIntArith.java:101-103`); walk's `UnsignedLong$WrappingNegate` is `Unsigned.subtract(0, x)` (`interpreter/glue/prim/UnsignedLong.java:365-369`), which `NN64`'s prefix `DOTMINUS` still names (`Library/FortressLibrary.fss:936-937`). The prelude calls it for `NN64`'s prefix `BOXMINUS` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:832`). Compiled, a declaration over `NN64` bound to it links (`NN64WrappingNegationHelperCompiledLink`) and gives 1 for the negation of 1. |
+
+### Row 820
+
+closed by 8833d89c5
+
+| 820 | the code generator stops on a trait or object whose `extends` clause gives a generic trait the static argument `Any`, 'Only handling some static args of generic types in extends clause'; the one library's `MIMapReduceReduction` and `TrivialOpenRange` are refused | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Trait Declarations" | `explorations/perf-probes/codegen-distance/REPORT.md` | the code generator's distance probe | siblings: 411. `generateTypeReference`'s `AnyType`, `BottomType`, `SelfType` and `AbbreviatedType` branches are empty and fall through to the throw (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5786-5805` at 32242b80d), so by reading `Bottom`, `Self` or an abbreviated type there stops it too, not measured. Probe, compiled under the compiler's prelude: `trait Holder[\T extends Any\]` with `object AnyHolder extends Holder[\Any\] end`: 'Only handling some static args of generic types in extends clause'. The library's sites: `Library/FortressLibrary.fss:3723` (`extends MonoidReduction[\Any\]`), `:4064` (`extends OpenRange[\Any\]`). No gated test. |
+
+### Row 821
+
+closed by 8833d89c5
+
+| 821 | the code generator compiles no `try` with a `forbid` clause: `forTry` throws 'NYI: Forbid clauses are not yet implemented', so the one library's `shouldRaise` (`Library/FortressLibrary.fss:339`), which the checker passes, is refused | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/try.tex`, "Try Expressions" | `explorations/perf-probes/codegen-distance/REPORT.md` | the code generator's distance probe | `forTry` throws when the forbid list is not empty (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2029-2030` at 32242b80d). Measured on the library only, by the probe's code generation per declaration with the checker's failures caught (its sections 1 and 3): the twelve components hold one such `try`, `shouldRaise`'s `forbid Exception` at `:345`. Not reproduced apart from the library. Walk evaluates a `forbid` clause (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java:1424`), by reading. No gated test. |
+
+### Row 823
+
+closed by 8833d89c5
+
+| 823 | the code generator refuses a function declared with the modifier `test`, 'Don't know how to compile this kind of FnDecl', since its modifier guard does not hold `test`: the one library's `test stringifyChars()` (`Library/String.fss:337`) is refused | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/tests.tex`, "Tests and Properties" | `explorations/perf-probes/codegen-distance/REPORT.md` | the code generator's distance probe | siblings: 650, 120. `fnDeclCompilableModifiers` holds the getter, setter, `io`, `private` and `abstract` modifiers only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2897-2899` at 32242b80d), and `forFnDecl` refuses a declaration with any other (`:2972`, `:2976`): row 650's guard, whose claim and test name `override` only. Measured on the library only, by the probe's code generation per declaration with the checker's failures caught (its section 3, note (b)); not reproduced apart from it. Walk collects `test` functions (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/CollectTests.java:51`), and they run under `fortress test` (row 120). No gated test. |
