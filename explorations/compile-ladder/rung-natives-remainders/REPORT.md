@@ -135,7 +135,7 @@ The distance, started 01:16:27 UTC:
     #crash	none
     #seconds	207	FortressLibrary 151
 
-`explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-24/gate/distance.txt tmp/rung-natives-remainders/distance-postedit.txt` printed 'DISTANCE SAME   0'. The table equals climb batch 24's but for its `#seconds` and `#machine` rows. `tmp/rung-natives-remainders/dist-post/errors.tsv` holds its header only, and `explorations/compile-ladder/gate/distance-sites.tsv` its header only: no site moved, none came.
+`explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-24/gate/distance.txt tmp/rung-natives-remainders/distance-postedit.txt` printed 'DISTANCE SAME   0'. The table equals climb batch 24's but for its `#seconds` and `#machine` rows. The stage's list of error sites, its `errors.tsv`, held its header only ('1' from `wc -l`), as `explorations/compile-ladder/gate/distance-sites.tsv` does: no site moved, none came.
 
 So the checker reads the ten moved bindings against their helpers, eight of them in `FortressLibrary` (both stages) and `NN32`'s two in `FortressBuiltin` (the distance stage only), and finds no error. No checker code changed, so no speed pass (fork 15).
 
