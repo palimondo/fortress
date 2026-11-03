@@ -1,16 +1,22 @@
-(* Float's nextUp of -0.0 is 0.0, which is not above -0.0, and its nextDown of 0.0 is -0.0, under walk. *)
+(* Under walk, nextUp of -0.0 gives 0.0, which is not above -0.0, and nextDown of 0.0 gives -0.0, for RR32 and RR64 (Float), not the smallest subnormal of the right sign. *)
 component FloatNextUpSignedZeroWalk
 export Executable
 
 run():() = do
-  z: RR64 = asFloat(0.0)
-  nz: RR64 = -z
-  assert((nz.nextUp).asString, "0.0", "nextUp of -0.0")
-  assert(nz.nextUp > nz, false, "nextUp of -0.0 is not above -0.0")
-  assert((z.nextDown).asString, "-0.0", "nextDown of 0.0")
-  assert(z.nextDown < z, false, "nextDown of 0.0 is not below 0.0")
-  assert((z.nextUp).asString, "4.9E-324", "nextUp of 0.0")
-  assert((nz.nextDown).asString, "-4.9E-324", "nextDown of -0.0")
+  z: RR32 = narrow(0.0)
+  nz: RR32 = narrow(-0.0)
+  assert(nz.nextUp.asString, "0.0", "RR32 nextUp of -0.0")
+  assert(z.nextDown.asString, "-0.0", "RR32 nextDown of 0.0")
+  assert(z.nextUp.asString, "1.4E-45", "RR32 nextUp of 0.0")
+  assert(nz.nextDown.asString, "-1.4E-45", "RR32 nextDown of -0.0")
+  zd: RR64 = asFloat(0.0)
+  nzd: RR64 = -zd
+  assert(nzd.nextUp.asString, "0.0", "RR64 nextUp of -0.0")
+  assert(nzd.nextUp > nzd, false, "RR64 nextUp of -0.0 is not above -0.0")
+  assert(zd.nextDown.asString, "-0.0", "RR64 nextDown of 0.0")
+  assert(zd.nextDown < zd, false, "RR64 nextDown of 0.0 is not below 0.0")
+  assert(zd.nextUp.asString, "4.9E-324", "RR64 nextUp of 0.0")
+  assert(nzd.nextDown.asString, "-4.9E-324", "RR64 nextDown of -0.0")
 end
 
 end
