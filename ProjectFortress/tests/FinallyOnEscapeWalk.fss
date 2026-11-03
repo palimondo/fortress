@@ -1,0 +1,53 @@
+(* A try's finally clause runs when an exception leaves the try block, passed on or thrown on as a ForbiddenException. *)
+component FinallyOnEscapeWalk
+export Executable
+
+object Boom extends UncheckedException end
+object Bang extends UncheckedException end
+
+var log: String = ""
+
+catchMisses(): () = do
+  try
+    throw Boom
+  catch e
+    Bang => log := "caught"
+  finally
+    log := log || "finally"
+  end
+end
+
+forbidden(): () = do
+  try
+    throw Boom
+  forbid Boom
+  finally
+    log := log || "finally"
+  end
+end
+
+thrownBy(f: () -> ()): String = do
+  seen: String := "nothing thrown"
+  try
+    f()
+  catch e
+    ForbiddenException => seen := "forbidden"
+    Boom => seen := "Boom passed on"
+  end
+  seen
+end
+
+run(): () = do
+  println("REACHED")
+  log := ""
+  a = thrownBy(fn () => catchMisses())
+  assert(a, "Boom passed on", "try.tex, section \"Try Expressions\": an exception no clause matches completes the try abruptly")
+  assert(log, "finally", "try.tex, section \"Try Expressions\": the finally clause runs after a try block that an exception leaves")
+  log := ""
+  b = thrownBy(fn () => forbidden())
+  assert(b, "forbidden", "try.tex, section \"Try Expressions\": a listed type gives a ForbiddenException")
+  assert(log, "finally", "try.tex, section \"Try Expressions\": the finally clause runs after the forbid clause")
+  println("PASS")
+end
+
+end
