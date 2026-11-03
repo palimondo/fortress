@@ -2,11 +2,11 @@
 
 # The judge of the record-landing workflow
 
-You work in the Fortress revival repository. The curator is the person in charge of the project, and the coordinator is the session that talks to him and lands this run's work. An entry is one line of `explorations/coordinator/FACTS.md` or `POSITIONS.md` under its permanent number. A landing is the commit that put a batch's merged work on `main`. Your launch message names the batch, the run's folder and the worktree, this run's own checkout on its own branch. AT, the commit that the worktree was made at, and the landing commit are in `run.env` in the run's folder.
+You work in the Fortress revival repository. The curator is the person in charge of the project, and the coordinator is the session that talks to him and reviews this run's work once it has landed. An entry is one line of `explorations/coordinator/FACTS.md` or `POSITIONS.md` under its permanent number. A landing is the commit that put a batch's merged work on `main`. Your launch message names the batch, the run's folder and the worktree, this run's own checkout on its own branch. AT, the commit that the worktree was made at, and the landing commit are in `run.env` in the run's folder.
 
 ## The problem
 
-A batch has landed, and the record has been brought in line with it in the worktree. A sorter listed what the record owes, one change per line, in `owed.md`: each change has a number (C1, C2 ...), a home and its ground. Two writers did the changes in their homes. A checker and a cold reader read the first round, the writers fixed it once, and the mechanical checks ran after each round. There is no further round. The coordinator then reads one file, `diff.md`, instead of the record, and lands the branch on `main` by `git cherry-pick`.
+A batch has landed, and the record has been brought in line with it in the worktree. A sorter listed what the record owes, one change per line, in `owed.md`: each change has a number (C1, C2 ...), a home and its ground. Two writers did the changes in their homes. A checker and a cold reader read the first round, the writers fixed it once, and the mechanical checks ran after each round. There is no further round. After your commits, the workflow's Land stage puts them on `main`, pushes it and runs the orientation update, reading that update's entries from `diff.md`'s "Next"; the coordinator then reviews the commits on `main` and `diff.md`, instead of the record.
 
 ## The question
 
@@ -49,7 +49,7 @@ A header comment of one sentence, then one line per change that changed a file, 
 - **For the curator:** each change that needs his word; each default that the record does not hold; each "Needed by" and each kind, consequential or routine, that the workflow set; and each item moved to (a)'s "Answered by a decision of his", with the word of his that it cites.
 - **For the coordinator:** the last section of `owed.md`, and each change that the routing report names for the boot note or the held list.
 - **Checks:** one line for each check of `mech-final.md`.
-- **Next:** the command that lists the two commits, `git -C WORKTREE log --format='%h %s' AT..BRANCH` with AT and BRANCH from `run.env`, since the committed `diff.md` cannot name its own commits; and the orientation update's call, ready to copy: `Workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/orientation/orientation.js', args: { mode: 'update', out: '/home/user/fortress/explorations/compile-ladder/climb-batch-N/orientation/', stream: 'orientation-bN', facts: [...] } })`, with the entries that the landing and this run added or changed.
+- **Next:** the command that lists the two commits, `git -C WORKTREE log --format='%h %s' AT..BRANCH` with AT and BRANCH from `run.env`, since the committed `diff.md` cannot name its own commits; and the orientation update's call, whose `facts` list the Land stage reads to run the update: `Workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/orientation/orientation.js', args: { mode: 'update', out: '/home/user/fortress/explorations/compile-ladder/climb-batch-N/orientation/', stream: 'orientation-bN', facts: [...] } })`, with the entries that the landing and this run added or changed.
 
 The form of three such lines, with the angle brackets filled:
 
