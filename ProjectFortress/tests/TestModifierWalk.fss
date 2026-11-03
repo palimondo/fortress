@@ -4,10 +4,10 @@ export Executable
 
 twice(x: ZZ32): ZZ32 = x + x
 
-test twiceOfTwo(): () = assert(twice(2), 4, "tests.tex, section \"Tests and Properties\": a test function")
+test twiceOfTwo(): () = assert(twice(2), 4, "tests.tex, chapter \"Tests and Properties\": a test function")
 
 run(): () = do
-  assert(twice(3), 6, "tests.tex, section \"Tests and Properties\": run beside a test function")
+  assert(twice(3), 6, "tests.tex, chapter \"Tests and Properties\": run beside a test function")
   println("PASS")
 end
 

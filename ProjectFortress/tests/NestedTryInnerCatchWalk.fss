@@ -5,7 +5,6 @@ export Executable
 object Boom extends UncheckedException end
 object Bang extends UncheckedException end
 
-(* Both catch clauses take Boom: the inner one does. *)
 bothTake(): String = do
   seen: String := "none"
   try
@@ -20,7 +19,6 @@ bothTake(): String = do
   seen
 end
 
-(* Only the inner catch clause takes Boom. *)
 innerTakes(): String = do
   seen: String := "none"
   try

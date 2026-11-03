@@ -17,7 +17,6 @@ chainName(x: Exception): String = typecase x of
     else => "other"
   end
 
-(* The forbid clause lists Boom. *)
 forbidBoom(): () = do
   try
     boom()
@@ -25,7 +24,6 @@ forbidBoom(): () = do
   end
 end
 
-(* The forbid clause lists a supertype of Bang, beside a type of no match. *)
 forbidBySupertype(): () = do
   try
     bang()
@@ -33,7 +31,6 @@ forbidBySupertype(): () = do
   end
 end
 
-(* A catch clause that matches takes the exception before the forbid clause. *)
 catchBeforeForbid(seen: String): String = do
   s: String := seen
   try
@@ -45,7 +42,6 @@ catchBeforeForbid(seen: String): String = do
   s
 end
 
-(* A catch clause that does not match leaves the exception to the forbid clause. *)
 catchMissesForbidTakes(): () = do
   try
     boom()
@@ -55,7 +51,6 @@ catchMissesForbidTakes(): () = do
   end
 end
 
-(* An exception of no listed type passes on as it is. *)
 forbidOthers(): () = do
   try
     fizz()
@@ -63,7 +58,6 @@ forbidOthers(): () = do
   end
 end
 
-(* A body that completes normally ignores the forbid clause. *)
 completesNormally(): String = do
   s: String := "none"
   try
@@ -73,7 +67,6 @@ completesNormally(): String = do
   s
 end
 
-(* What a call of f throws, as the caller's catch clause sees it. *)
 thrownBy(f: () -> ()): String = do
   seen: String := "nothing thrown"
   try
