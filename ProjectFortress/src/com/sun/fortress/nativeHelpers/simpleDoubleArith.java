@@ -133,4 +133,116 @@ public class simpleDoubleArith {
         return (long) Math.rint(a);
     }
 
+    public static boolean doubleIsNaN(double a) {
+        return Double.isNaN(a);
+    }
+
+    public static boolean doubleIsInfinite(double a) {
+        return Double.isInfinite(a);
+    }
+
+    public static long doubleRawBits(double a) {
+        return Double.doubleToRawLongBits(a);
+    }
+
+    public static double doubleNextUp(double a) {
+        return com.sun.fortress.numerics.DirectedRounding.nextUp(a);
+    }
+
+    public static double doubleNextDown(double a) {
+        return com.sun.fortress.numerics.DirectedRounding.nextDown(a);
+    }
+
+    public static float doubleToFloat(double a) {
+        return (float) a;
+    }
+
+    public static boolean doubleNE(double a, double b) {
+        return a != b;
+    }
+
+    public static double doubleMin(double a, double b) {
+        return Math.min(a, b);
+    }
+
+    public static double doubleMax(double a, double b) {
+        return Math.max(a, b);
+    }
+
+    public static double doubleAddUpNoNaN(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.addUpNoNaN(a, b);
+    }
+
+    public static double doubleSubUpNoNaN(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.subtractUpNoNaN(a, b);
+    }
+
+    public static double doubleMulUpNoNaN(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.multiplyUpNoNaN(a, b);
+    }
+
+    public static double doubleDivUpNoNaN(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.divideUpNoNaN(a, b);
+    }
+
+    public static double doubleSqrtUp(double a) {
+        return com.sun.fortress.numerics.DirectedRounding.sqrtUp(a);
+    }
+
+    public static double doubleAddDownNoNaN(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.addDownNoNaN(a, b);
+    }
+
+    public static double doubleSubDownNoNaN(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.subtractDownNoNaN(a, b);
+    }
+
+    public static double doubleMulDownNoNaN(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.multiplyDownNoNaN(a, b);
+    }
+
+    public static double doubleDivDownNoNaN(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.divideDownNoNaN(a, b);
+    }
+
+    public static double doubleSqrtDown(double a) {
+        return com.sun.fortress.numerics.DirectedRounding.sqrtDown(a);
+    }
+
+    public static double doubleAddUp(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.addUp(a, b);
+    }
+
+    public static double doubleSubUp(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.subtractUp(a, b);
+    }
+
+    public static double doubleMulUp(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.multiplyUp(a, b);
+    }
+
+    public static double doubleDivUp(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.divideUp(a, b);
+    }
+
+    public static double doubleAddDown(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.addDown(a, b);
+    }
+
+    public static double doubleSubDown(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.subtractDown(a, b);
+    }
+
+    public static double doubleMulDown(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.multiplyDown(a, b);
+    }
+
+    public static double doubleDivDown(double a, double b) {
+        return com.sun.fortress.numerics.DirectedRounding.divideDown(a, b);
+    }
+
+    public static double doubleFromRawBits(long a) {
+        return Double.longBitsToDouble(a);
+    }
+
 }
