@@ -1,6 +1,6 @@
 ---
 name: fortress-repo
-description: "Use this skill whenever you touch the code of the Fortress language revival (/home/user/fortress or a worktree like fortress-w4): building with ant; recompiling after editing a .fss, .fsi, Java or Scala file; running programs under walk or the bytecode compiler; running or writing tests (testFast, testSystem, harness-one.sh, junit.sh, .test files, XXX expected failures); the gate before landing; editing the interpreter, compiled checker, code generator, Library or Specification; searching the gap ledger or git history; seeding worktrees; committing a code change. Load it before even a small build, test, edit or measurement there, including long background runs you wait on, and when briefing agents for that work; then read references/revival-changes.md whole before work. Skip it for session upkeep (compaction, boot notes, reading batch results, scheduling agents: coordinator skill, read after this file), Stop hooks, disk or container trouble (cloud-container), other repos, and general Fortress history."
+description: "Use this skill whenever you touch the code of the Fortress language revival (/home/user/fortress or a worktree like fortress-w4): building with ant; recompiling after editing a .fss, .fsi, Java or Scala file; running programs under walk or the bytecode compiler; running or writing tests (testFast, testSystem, harness-one.sh, junit.sh, .test files, XXX expected failures); the gate before landing; editing the interpreter, compiled checker, code generator, Library or Specification; searching the gap ledger or git history; seeding worktrees; committing a code change. Load it before even a small build, test, edit or measurement there, including long background runs you wait on, and when briefing agents for that work; then, for work on Fortress code, tests or the specification, read references/revival-changes.md whole. Skip it for session upkeep (compaction, boot notes, reading batch results, scheduling agents: coordinator skill, read after this file), Stop hooks, disk or container trouble (cloud-container), other repos, and general Fortress history."
 ---
 
 # Working in the Fortress revival repository
@@ -191,7 +191,7 @@ The parts, in the order that work meets them:
 - The compiled area: the checker, the code generator, the run time, compiled runs, the `fortress` commands, the checker's time after a change: `references/compiler.md`
 - The library area (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/library.md`
 - The specification area (`Specification/`), Appendix I, citing it: `references/specification.md`
-- How revived Fortress differs from the team's Fortress and from the languages that you know; read it whole, after this file, before work: `references/revival-changes.md`
+- How revived Fortress differs from the team's Fortress and from the languages that you know: `references/revival-changes.md`
 - Exploring: where to search, what to record and report, which choices are yours: `references/exploring.md`
 - Writing a test: `.test` keys, `XXX` expected failures and their promotion, refusals at load, how a defect that you found is recorded: `references/tests-writing.md`
 - Running one test, a few, or a whole suite, and when to run a whole suite; what runs outside the gate: `references/tests-running.md`
@@ -200,6 +200,6 @@ The parts, in the order that work meets them:
 - What every report holds and where it goes, findings and points to report; POSITIONS, FACTS and the gap ledger; the queries of the record and when to run each; writing the ledger with `ledger.py`; the repository's history: `references/records.md`
 - This cloud platform (the machine, the disk, the network, the platform's stops, the transcript backup, a lost container): the `cloud-container` skill.
 
-A task usually needs several parts, and every task needs `revival-changes.md`, read whole before work, and `records.md`, for its queries and its report. For example, a fix of walk needs `build-and-caches.md`, `session.md`, `worktrees.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. An edit of the library needs the same parts and `library.md`.
+A task usually needs several parts. Every task needs `records.md`, for its queries and its report. If a task reads or changes Fortress code, the library, the tests or the specification, or reviews such a change, read `revival-changes.md` whole, after this file, before work. A task that only runs a build, a suite, a stage of the gate or a commit does not need it. For example, a fix of walk needs `build-and-caches.md`, `session.md`, `worktrees.md`, `interpreter.md`, `tests-writing.md`, `tests-running.md` and `committing.md`. An edit of the library needs the same parts and `library.md`.
 
 `references/sources.md` gives the source of each fact in these parts. Use it only to maintain this skill. Do not load it for a task.

@@ -16,7 +16,7 @@
 
 The Bash tool stops a call at 120 s, unless the call passes a longer `timeout`, at most 600 s. It kills the command, or moves it to the background. It also refuses a command that starts with `sleep N` and goes on to another command, such as `sleep 60; tail build.log`. Wait with `wait_for` instead (below).
 
-- In an agent, keep every wait under 270 s.
+- In an agent, keep every wait under 240 s.
 - In the main session, keep every wait under an hour. The main session can also watch a run with the `Monitor` tool.
 
 ## Long commands
@@ -29,13 +29,13 @@ Keep the setup lines and the `nohup` line as separate lines. `A && nohup B &` ru
 
 The log gets the output, then a last line `EXIT=<status>`. The automatic permission check refuses a shell function that passes the command to `bash -c` in a variable, because it cannot read the command.
 
-The shell function `wait_for` waits for the `EXIT=` line, for 270 s at most. If the line is there, it prints the log's verdict lines and returns 0: ant's `BUILD` and `Total time:`, JUnit's `OK (`, `FAILURES!!!` and `Tests run:`, and `EXIT=`. If not, it returns 1.
+The shell function `wait_for` waits for the `EXIT=` line, for 240 s at most. If the line is there, it prints the log's verdict lines and returns 0: ant's `BUILD` and `Total time:`, JUnit's `OK (`, `FAILURES!!!` and `Tests run:`, and `EXIT=`. If not, it returns 1.
 
-Run `wait_for` until it returns 0, each time in a new Bash call. Give that call a `timeout` above 270 s, such as 300000 ms. Define the function in each call that uses it. Grep the log for the lines that you need.
+Run `wait_for` until it returns 0, each time in a new Bash call. Give that call a `timeout` above 240 s, such as 300000 ms. Define the function in each call that uses it. Grep the log for the lines that you need.
 
-    wait_for () {    # wait_for <logfile> [max seconds, at most 270]; call again until it returns 0
-        local n=0 max=${2:-270}
-        case "$max" in ''|*[!0-9]*) max=270 ;; esac ; [ "$max" -gt 270 ] && max=270
+    wait_for () {    # wait_for <logfile> [max seconds, at most 240]; call again until it returns 0
+        local n=0 max=${2:-240}
+        case "$max" in ''|*[!0-9]*) max=240 ;; esac ; [ "$max" -gt 240 ] && max=240
         while ! grep -q '^EXIT=' "$1" 2>/dev/null ; do
             sleep 5 ; n=$((n+5))
             [ "$n" -ge "$max" ] && { echo "still running after ${n}s" ; return 1 ; }
