@@ -4,6 +4,11 @@
 
 ## Held in chat (2026-11-03)
 
+- 18:3x He reads turn by turn from the top; the coordinator's long replies after each comment are a wall of text spiral. Recover: short turns.
+- 18:3x The review queue, about 100K characters and 312 open items, scared him most: it reads as a full history of consequential changes, framed as things for him to review and overturn. That framing is wrong for closing his cognitive gap on what the workers changed in the repository. The consolidation he means is of the review queue, the held list and PLAN.
+- 18:3x The design decisions asked before the batch that needs them: the standing practice, nothing against it.
+- 18:3x "Defaults" for the eight working rules misses the purpose of the review: the precise wording that goes into the skill, whether it has the desired effect, whether the coordinator understood him. He does not trust the coordinator's taste and judgement on changes to the coordinator skill, which has failed repeatedly; he will not surrender control to the flow of the model.
+- 18:3x "The six that wait on events stay where they are" and "name the one you want to see first" are agentic shorthand: he cannot act on them. The executive assistant organises the work and shows judgement.
 - 18:2x The ten design decisions on the docket: the rule's purpose is also to keep him in the loop, not only to let him correct a default. He rarely sees the Fortress source that the workers change, so each decision is his opportunity to learn what changed; telling him to take defaults he has not read is a dereliction of his overseer's duty and widens the cognitive gap. He wants to be included and informed on each one.
 - 18:2x The eight working rules on the docket surprised him: he thought every skill update landed with the drafts page and the post-mortems. He asks for an archaeology scout that pieces together the timeline of the record and skill updates since the post-mortems, as a refresher for him and a memory for the coordinator: which updates landed from which page, and which questions stayed open and why.
 - 18:2x Professor Ryu: the conversation is closed, since the latest POPL 2019 paper and its technical report are in hand. Struck from the docket's section 1, item 23.
