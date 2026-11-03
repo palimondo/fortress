@@ -37,7 +37,8 @@ Modes:
   check      after apply: each M and D line is in the new section of PLAN-history.md byte for byte, under its
              heading, and gone from PLAN.md; each H, X, E and W line is in the new section byte for byte and,
              in PLAN.md, only in its marked form. With --final (after the writers and the edges): no marker
-             is left in PLAN.md and no H, X, E or W line is still in PLAN.md unchanged.
+             is left in PLAN.md and no H, X, E or W line is still in PLAN.md unchanged. A line that its writer
+             kept word for word stays: take its copy out of PLAN-history.md, and check counts it as kept.
   pointers   after the writers: each line new in PLAN.md against --base names review-queue items, rows, F-
              and P- entries that exist (FAIL otherwise), and the items open and the rows not closed (LOOK
              otherwise, for the checker); then each "Home: PLAN, ..." clause of the review queue that found
@@ -389,8 +390,12 @@ def check(where):
     count1 = collections.Counter(plan)
     marked = collections.Counter(MARK_RE.sub('', ln) for ln in plan if MARK_RE.search(ln))
     moved_by_text = collections.Counter(plan0[n - 1] for n in where if marks[n] in MOVE)
+    kept = []
     for n in sorted(where):
         t, h, mk = plan0[n - 1], head0[n - 1], marks[n]
+        if mk not in MOVE and mk != 'W' and t not in subs.get(h, []) and count1[t] >= count0[t] and not marked[t]:
+            kept.append(n)    # its writer kept it word for word, and its copy is out of PLAN-history: it stays
+            continue
         if t not in subs.get(h, []):
             fails.append('line %d (%s) is not under "### %s" of the new section byte for byte' % (n, mk, h))
         if mk in MOVE:
@@ -413,9 +418,11 @@ def check(where):
     for f in fails:
         print('FAIL ' + f)
     nm = sum(1 for n in where if marks[n] in MOVE)
-    print('check%s: %d lines acted on (%d deleted, %d copied and %s); %d markers in PLAN.md; %s' % (
-        ' --final' if a.final else '', len(where), nm, len(where) - nm,
-        'rewritten' if a.final else 'marked or replaced', len(left), 'pass' if not fails else '%d failures' % len(fails)))
+    print('check%s: %d lines acted on (%d deleted, %d copied and %s%s); %d markers in PLAN.md; %s' % (
+        ' --final' if a.final else '', len(where), nm, len(where) - nm - len(kept),
+        'rewritten' if a.final else 'marked or replaced',
+        '; %d kept as written, with no copy in PLAN-history: %s' % (len(kept), ', '.join(map(str, kept))) if kept else '',
+        len(left), 'pass' if not fails else '%d failures' % len(fails)))
     return 1 if fails else 0
 
 
@@ -423,7 +430,7 @@ def check(where):
 
 ITEMS = re.compile(r'[Rr]eview-queue items? (\d+(?:(?:,\s*|,? and |,? or )\d+)*)')
 ROWS = re.compile(r'\b[Rr]ows? (\d{1,4}(?:(?:,\s*|,? and |,? or | to )\d{1,4})*)\b')
-ENTRY = re.compile(r'\b([FP])-(\d+)\b')
+ENTRY = re.compile(r'(?<!history:)\b([FP])-(\d+)\b')    # `history:P-N` cites a retired entry's block, not an entry
 HOME = re.compile(r'(?<![-\w])PLAN, ((?:"[^"]+",? ?)+)(.*?)(?=;|$)')
 
 
