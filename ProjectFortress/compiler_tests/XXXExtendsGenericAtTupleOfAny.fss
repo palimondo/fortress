@@ -1,0 +1,19 @@
+(* An object that extends a generic trait at a tuple static argument that holds Any compiles and runs the trait's methods. *)
+component XXXExtendsGenericAtTupleOfAny
+export Executable
+
+trait Holder[\T extends Any\]
+  keep(x: T): T = x
+  describe(): String
+end
+
+object PairHolder extends Holder[\(Any, ZZ32)\]
+  describe(): String = "pair"
+end
+
+run(): () = do
+  assert(PairHolder.describe(), "pair", "traits.tex, section \"Trait Declarations\": an object that extends a generic trait at a tuple of Any and ZZ32")
+  println("PASS")
+end
+
+end
