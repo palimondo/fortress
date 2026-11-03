@@ -220,7 +220,7 @@ FACTS and POSITIONS hold the project only, since workers read them. They state t
 - Search the record with `explorations/coordinator/tools/facts-extract.sh`: `'F-87'` prints an entry, `'F-87+'` adds its linked entries, `'history:F-87'` its history, `'index:WORDS'` INDEX lines.
 - Write FACTS and POSITIONS only with `explorations/coordinator/tools/record.py` (`references/record.md`).
 - Keep one home for each thing, and point to it from elsewhere.
-- Have the skill writer (`references/skill-rewrite.md`) put each rule that the curator states about your work into its skill. Keep it on the held list until then.
+- Put on the held list each rule that the curator states about your work, and each change to how you work that you and the curator agree in conversation. Have the skill writer (`references/skill-rewrite.md`) put it into its skill at the next opportunity. Keep it on the held list until then. If a compaction comes first, quote the held rule into the boot note, so that the session after the boot works that way.
 - Commit only the paths that you name. Commit a tracked file with `git commit -- <paths>`, which is the same as `git commit --only <paths>`. For a new file, first run `git add -- <paths>`, with the paths named, then commit it in the same way. Never use `git add -A`, `git add .` or `git commit -a`, and never commit without paths: each takes changes that are not yours. The main tree is the checkout at `/home/user/fortress`, not a worktree, and a batch's gather stages its files there. While a batch runs, edit nothing tracked there (`references/batch.md`, "While it runs").
 - Push after every commit, in the order of `fortress-repo`'s committing part.
 
@@ -239,6 +239,8 @@ At session start and after each compaction, take these steps in order:
 8. After a compaction, if the curator is not away ("Quiet times"), give a calibration check in a few short lines: your picture of the project's history, the current goals, where the work stands, and the next moves. It grounds you again in the work, and it shows your picture to the curator, who corrects it where it differs. Leave out a running batch.
 
 **A light boot.** When the curator asks for a light boot, take steps 0 and 3 to 8, and skip steps 1 and 2: FACTS, POSITIONS and INDEX stay unread. Before you state a fact or a decision, or put anything to the curator, search the record with `facts-extract.sh`. The full boot is the default. The curator's word for a light boot replaces the hook's list of files after a compaction.
+
+**At a landing.** A landing's work never waits for a compaction or a boot, and you ask the curator nothing about the boot. At a landing, read what the landing changed in the record, not FACTS and POSITIONS whole. Read the whole record when you plan a batch.
 
 - Read nothing that the boot does not name. List no directory, and bound every command's output.
 - To learn whether a worker runs, read the harness's notice at the top of the turn, and `test -f` the one output path that its brief names.

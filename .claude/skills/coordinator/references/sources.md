@@ -237,3 +237,11 @@ Shown to the curator on the skill drafts page, version 6. He accepted some items
 - `skill-rewrite.md`, the opening paragraph, a skill as a minimal set of goals and principles with their benefit: the same note, rule 20, redrafted from his page comment of 06:51, and his point of that comment on the skills' size and a minimal set that leans on the model's training; settled by the coordinator.
 - The fixes to the lines of "Changes landed on 2026-11-01": the cold read's flags C1 to C4 of 2026-11-01, as the drafts page's version 6 gave them; settled by the coordinator.
 - `delegating.md`, "What a brief holds", the cap on an Agent-tool worker's wait lowered from 270 s to 240 s, in step with `fortress-repo`'s `session.md`, after climb batch 25's rung U lost its prompt cache after a wait of 270 s (2026-11-03); settled by the coordinator.
+
+## Changes landed on 2026-11-03
+
+From the curator's messages of 2026-11-03, 06:1x and 06:2x UTC, as the held list's section "Held in chat (2026-11-03)" gives them.
+
+- `batch.md`, "The landing", steps 4 and 5 made one step: the record-landing workflow lands and pushes its own commits and runs the orientation update itself, with no step of the coordinator's between; then the coordinator reads the commits on `main`, asks whether it would have done anything differently, and names each POSITIONS change to the curator by his rule of 2026-10-31; the review stops once the reviews show the workflow sound. The curator's messages of 06:2x; in step with `explorations/coordinator/tools/record-landing/README.md`, "Landing its result" (`a1d0d63c6`).
+- `SKILL.md`, "The boot", "At a landing": a landing's work never waits for a compaction or a boot, the curator is asked nothing about the boot, and a landing reads only what it changed in the record. The curator's message of 06:1x.
+- `SKILL.md`, "The record: what goes where", the held-list rule: a change to how the coordinator works, agreed in conversation, kept on the held list until the skill writer puts it into the skill, and quoted into the boot note if a compaction comes first. The purpose that the curator gave at 06:1x to `delegating.md`'s clause "a rule of the curator's that no entry holds yet", which stays as landed.
