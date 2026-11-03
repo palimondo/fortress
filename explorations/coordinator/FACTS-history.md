@@ -5429,3 +5429,25 @@ pointer words refreshed in: F-24
 2026-11-03 02:47Z · rewritten · from `explorations/compile-ladder/rung-natives-unsigned/REPORT.md`, "1. What changed and why" · by climb batch 25 gather
 
 - F-305 **`CHOOSE` on `ZZ32` and `ZZ64` names its helper on both paths, and the helper is exact, raises `IntegerOverflow` where the binomial coefficient does not fit, and shares no state between calls.** It builds P-73. Trait `ZZ32`'s and trait `ZZ64`'s `CHOOSE` name `simpleIntArith.intOverflowingChoose` and `simpleLongArith.longOverflowingChoose` (`Library/FortressLibrary.fss:789`, `:882`), which the compiler's prelude binds too, `NN32`'s compiled `CHOOSE` through the `ZZ64` helper; `NN32`'s binding in the one library stays on its glue class. Past their safe-bound tables every coefficient overflows, from `34 CHOOSE 17` on `ZZ32` and `68 CHOOSE 34` on `ZZ64`, and the helpers raise `IntegerOverflow` there (`nativeHelpers/simpleIntArith.java:222-225`, `simpleLongArith.java:200-203`); each slow-path call has its own scratch array (`simpleIntArith.java:174-175`, `simpleLongArith.java:153-154`), so calls in parallel no longer corrupt each other. Swept against the exact value, 64,649,240 `ZZ64` pairs and 6,023,925 `ZZ32` pairs give walk's glue arithmetic. Test: `tests/ChooseHelperWalk.fss`, `tests/ChooseHelperZZ64Walk.fss`, `compiler_tests/ChooseHelperCompiled`, `compiler_tests/ChooseHelperZZ64Compiled`, `compiler_tests/ChooseTableCompiledRungE`; the guards `tests/ChooseZZ32Walk.fss` and `tests/ChooseZZ64Walk.fss`. Detail: `compile-ladder/rung-natives-choose/REPORT.md`, sections 1, 2 and 5.
+
+### F-315
+
+2026-11-03 02:48Z · added · from `explorations/compile-ladder/rung-codegen-walls/REPORT.md`, "1. What changed, and why" · by climb batch 25 gather
+
+### F-268
+
+2026-11-03 02:48Z · rewritten · from `explorations/compile-ladder/rung-codegen-walls/REPORT.md`, "1. What changed, and why" · by climb batch 25 gather
+
+- F-268 **The code generator throws on `Any` as a static argument in an `extends` clause, after the checker has accepted the program.** It stops with "Only handling some static args of generic types in extends clause" (`CodeGen.java:5805`). Observed in the probe `AltEveryContra`; no ledger row or test holds it. Detail: `reviews/spec-refused-examples-judgement.md` sections 3.1 and 9.
+
+### F-34
+
+2026-11-03 02:48Z · rewritten · from `explorations/compile-ladder/rung-codegen-walls/REPORT.md`, "5. Programs run old against new, and the probes" · by climb batch 25 gather
+
+- F-34 **Under the switch-over's setting the code generator refused 52 declarations of the library's twelve components on climb batch 22's code, all of them declarations that the checker passes; on the present code the count is unmeasured.** Measured once on `2bff2fe23`, with the checker's failures caught per declaration and the bound `Any`, the distance stage's setting: `FortressLibrary` 28, `RangeInternals` 11, `List` and `String` 5 each, and `FlatString`, `Stream` and `NatReflect` 1 each. A declaration counted at its first wall, and no emitted class was run. Four of the 52 stopped first at a `where` clause in their own header, which the code generator compiles (F-181); a later wall of theirs is unmeasured. Each other kind has a ledger row, among them a local function (row 304), varargs (row 624), `asif` (row 818) and "Not in the trait table" (row 733), all four open, so after the switch-over the code generator still stands between the library and bytecode. On climb batch 21b's base (`aa5c67d48`) the dispatch generator refused none of `FortressLibrary`'s 178 overload sets. No test checks it, since the gate's distance stage runs no code generation. Detail: `reviews/phase3-exit/zero-audit.md`, "Part C. The debt carried into phase 4", item 4; `perf-probes/codegen-distance/REPORT.md`, sections 2 to 6.
+
+### F-315
+
+2026-11-03 02:48Z · rewritten · from `explorations/compile-ladder/rung-codegen-walls/REPORT.md`, "1. What changed, and why" · by climb batch 25 gather
+
+- F-315 **The code generator compiles a trait or object that extends a generic trait at `Any`, a `try` with a `forbid` clause, and a function declared `test`.** The forbid clause throws on, as a `ForbiddenException` chained to it, an exception of a listed type that no catch clause took, by the library's own constructor; `Bottom`, `Self` or an abbreviated type as such a static argument, a tuple that holds `Any` (row NEW-C-2), and the `override` modifier (row 650) are still refused. With the control of climb batch 25's planner, the library's refusals fall from 50 to 47 and its kinds from 14 to 11; `test stringifyChars` stops next at a call of a varargs function (row 624). Tests: `compiler_tests/ExtendsGenericAtAnyCompiled.test`, `ForbidClauseCompiled.test`, `TestModifierCompiled.test`. Detail: `compile-ladder/rung-codegen-walls/REPORT.md`, sections 1, 2 and 5.

@@ -1,0 +1,3 @@
+tests=XXXFinallyOnEscape
+run
+run_out_contains=REACHED

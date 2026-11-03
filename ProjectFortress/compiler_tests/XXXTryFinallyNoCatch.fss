@@ -1,0 +1,37 @@
+(* A try with a finally clause and no catch or forbid clause passes on the exception its block throws, after the finally clause runs. *)
+component XXXTryFinallyNoCatch
+export Executable
+
+object Boom extends UncheckedException end
+object Bang extends UncheckedException end
+
+var log: String = ""
+
+onlyFinally(): () = do
+  try
+    throw Boom
+  finally
+    log := log || "finally"
+  end
+end
+
+thrownBy(f: () -> ()): String = do
+  seen: String := "nothing thrown"
+  try
+    f()
+  catch e
+    ForbiddenException => seen := "forbidden"
+    Boom => seen := "Boom passed on"
+  end
+  seen
+end
+
+run(): () = do
+  println("REACHED")
+  a = thrownBy(fn () => onlyFinally())
+  assert(a, "Boom passed on", "try.tex, section \"Try Expressions\": an exception no clause matches completes the try abruptly")
+  assert(log, "finally", "try.tex, section \"Try Expressions\": the finally clause runs after a try block that an exception leaves")
+  println("PASS")
+end
+
+end

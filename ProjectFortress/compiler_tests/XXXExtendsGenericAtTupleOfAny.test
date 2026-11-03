@@ -1,0 +1,3 @@
+tests=XXXExtendsGenericAtTupleOfAny
+compile
+compile_exception_contains=NullPointerException

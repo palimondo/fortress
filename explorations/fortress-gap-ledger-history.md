@@ -6671,3 +6671,21 @@ rewritten
 note added
 
 | 75 | `nanoTime()` has a different type on the two paths, `RR64` compiled and `ZZ64` under walk, so a program that passes its result where a `ZZ64` is expected does not compile | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `library/default-libraries.tex`, "FortressLibrary" (subsection Top-level primitives, typeset from `Library/FortressLibrary.fsi`) | `explorations/tparallel.fss` | ours | Compiled, the program's `ms(t0, t1)`, declared over `ZZ64`, is refused: `(ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (RR64, RR64)`. `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:23` declares `nanoTime(): RR64` (body `CompilerBuiltin.fss:352`); `Library/FortressLibrary.fsi:2547` at `63e420a33`, from which the specification's section is typeset, declares `ZZ64`. The prelude is deleted at the switch-over, when the compiled path takes the interpreter's library. |
+
+### Row 891
+
+rewritten
+
+| 891 | on the compiled path a function holding a `try` with a `finally` clause and no `catch` or `forbid` clause, whose block can throw, fails verification at class load: `VerifyError: Bad return type`, the handler's `FException` left on the stack | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/try.tex`, "Try Expressions" | `ProjectFortress/compiler_tests/XXXTryFinallyNoCatch.test` | climb batch 25 rung C's skeptic | siblings: CNUM3. `CodeGen.forTry` installs its handler whatever the clauses, and with neither a `catch` nor a `forbid` clause emits no rethrow, so the handler falls into the `finally` block with the exception on the stack (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2077-2085` after climb batch 25's rung C, the same at 97a416b18). On the old code and after the rung: 'Type 'com/sun/fortress/compiler/runtimeValues/FException' (current frame, stack[0]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FVoid''; walk passes the exception on after the `finally` clause (`tests/TryFinallyNoCatchWalk.fss`). Link test: `compiler_tests/TryFinallyNoCatchLink.test`. |
+
+### Row 650
+
+rewritten
+
+| 650 | the code generator refuses a method declaration with the modifier `override`, "Don't know how to compile this kind of FnDecl", so the team's `tests/disp0.fss`, which the compiled checker accepts, does not compile | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXOverrideModifierCodeGeneration.test` | climb batch 11 rung C | siblings: 610, 823. `CodeGen.fnDeclCompilableModifiers` holds the getter, setter, `io`, `private` and `abstract` modifiers only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2897-2899` at 83b1cae78), and `forFnDecl` calls `sayWhat` on a declaration with any other (`:2966-2976`). The chapter's draft note says the modifier is not yet supported. Whether the compiled dispatch then leaves out a declaration a type does not provide is not measured. Walk prints `f PASS` and `g PASS`. |
+
+### Row 624
+
+rewritten
+
+| 624 | the code generator does not compile a function or a method with a varargs parameter: a top-level function stops with "Can't compile VarArgs yet", a trait method with `OptionUnwrapException` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/functions.tex`, "Function Declarations", "Function Applications" | `ProjectFortress/compiler_tests/XXXVarargsCodeGeneration.test` | climb batch 10 rung C and its first skeptic | `NamingCzar` throws it (`compiler/NamingCzar.java:1262`, `:1272`, `:1412`, `:1523`); for a method `jvmSignatureFor` unwraps every parameter's type (`NamingCzar.java:899`), called from `CodeGen.dumpTraitMethodSigs` (`compiler/codegen/CodeGen.java:6826`). `trait Tagger` with `tag(x: String, rest: ZZ32...): String = x`, called `T.tag("a") T.tag("b", z) T.tag("c", z, z, z, z, z, z)`, type checks and fails to compile, where walk prints `abc` (`XXXVarargsMethodCodeGeneration`). The JVM signature has no varargs form; walk binds the parameter to an `ImmutableArray1` that `__immutableFactory1` builds (`interpreter/evaluator/values/NonPrimitive.java:224-251`). full text: history, row 624 |

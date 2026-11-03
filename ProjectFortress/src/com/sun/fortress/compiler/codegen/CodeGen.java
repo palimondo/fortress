@@ -2026,9 +2026,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          Option<Catch> catchClauses = x.getCatchClause();
          List<BaseType> forbid = x.getForbidClause();
          Option<Block> finallyClause = x.getFinallyClause();
-         if (!forbid.isEmpty())
-             throw new RuntimeException("NYI: Forbid clauses are not yet implemented");
-         
+
          mv.visitTryCatchBlock(l0,l1,l2, "com/sun/fortress/compiler/runtimeValues/FException");
          mv.visitLabel(l0);
          body.accept(this);
@@ -2040,11 +2038,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          mv.visitFrame(Opcodes.F_SAME1, 0, null, 1, new Object[] {"com/sun/fortress/compiler/runtimeValues/FException"});
 
          
+         Label done = new Label(); // first statement after the whole try-catch statement
          if (catchClauses.isSome()) {
              Catch _catch = catchClauses.unwrap();
              Id name = _catch.getName();
 
-             Label done = new Label(); // first statement after the whole try-catch statement
              List<CatchClause> clauses = _catch.getClauses();
              for (CatchClause clause : clauses) {
                  Label end = new Label(); // if catch clause does not match, skip clause body
@@ -2062,6 +2060,22 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                  mv.visitJumpInsn(GOTO, done);
                  mv.visitLabel(end);
              }
+         }
+         // An exception that no catch clause took, of a type that the forbid
+         // clause lists, is thrown on as a ForbiddenException chained to it.
+         for (BaseType forbidden : forbid) {
+             Label next = new Label(); // not of this type: try the next one
+             mv.visitInsn(DUP);
+             mv.visitMethodInsn(INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/FException",
+                                "getValue","()Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+             InstantiatingClassloader.generalizedInstanceOf(mv, NamingCzar.jvmBoxedTypeName(forbidden, thisApi()));
+             mv.visitJumpInsn(IFEQ, next);
+             mv.visitMethodInsn(INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/FException",
+                                "getValue","()Lcom/sun/fortress/compiler/runtimeValues/FValue;");
+             throwForbiddenException(x);
+             mv.visitLabel(next);
+         }
+         if (catchClauses.isSome() || !forbid.isEmpty()) {
              mv.visitInsn(ATHROW); // Rethrow if no match
              mv.visitLabel(done);
          }
@@ -2070,6 +2084,42 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
              finallyClause.unwrap().accept(this);
              popAll(mv, 1);
          }
+    }
+
+    /**
+     * Expects a Fortress exception value on the stack, and throws a new
+     * ForbiddenException whose chain is that value.  The constructor is the
+     * library's, called as a call of it written in the source is; its api
+     * names its own types without qualification.
+     */
+    private void throwForbiddenException(Try x) {
+        Span span = NodeUtil.getSpan(x);
+        String lib = WellKnownNames.fortressLibrary();
+        APIName libApi = NodeFactory.makeAPIName(span, lib);
+        Id ctorName = NodeFactory.makeId(span, WellKnownNames.forbiddenException);
+        Relation<IdOrOpOrAnonymousName, Function> fns =
+            NodeUtil.nameString(thisApi()).equals(lib) ? ci.functions()
+            : env.api(libApi).functions();
+        Set<Function> ctors = fns.matchFirst(ctorName);
+        if (ctors.size() != 1 || ctors.iterator().next().getReturnType().isNone())
+            throw sayWhat(x, "Forbid clause: no single " + WellKnownNames.forbiddenException + " in " + lib);
+        Function ctor = ctors.iterator().next();
+        Type chainType = NodeUtil.getParamType(ctor.parameters(), span);
+        ArrowType arrow = NodeFactory.makeArrowType(span, chainType, ctor.getReturnType().unwrap());
+        Pair<String, String> pkgClassAndMethod =
+            idToPackageClassAndName(NodeFactory.makeId(span, lib, WellKnownNames.forbiddenException));
+
+        InstantiatingClassloader.generalizedCastTo(mv, NamingCzar.jvmBoxedTypeName(chainType, libApi));
+        mv.visitMethodInsn(INVOKESTATIC, pkgClassAndMethod.first(), pkgClassAndMethod.second(),
+                           NamingCzar.jvmMethodDesc(arrow, libApi));
+        // As forThrow throws a value: wrap it in an FException.
+        mv.visitTypeInsn(NEW, "com/sun/fortress/compiler/runtimeValues/FException");
+        mv.visitInsn(DUP_X1);
+        mv.visitInsn(SWAP);
+        mv.visitMethodInsn(INVOKESPECIAL, "com/sun/fortress/compiler/runtimeValues/FException",
+                           "<init>",
+                           "(Lcom/sun/fortress/compiler/runtimeValues/FValue;)V");
+        mv.visitInsn(ATHROW);
     }
 
     private Type getType(TypeOrPattern t) {
@@ -2896,7 +2946,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
     private static final Modifiers fnDeclCompilableModifiers =
         Modifiers.GetterSetter.combine(Modifiers.IO).combine(
-            Modifiers.Private).combine(Modifiers.Abstract);
+            Modifiers.Private).combine(Modifiers.Abstract).combine(Modifiers.Test);
 
     public void forFnDecl(FnDecl x) {
         /*
@@ -5793,7 +5843,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                     } else if (t instanceof BottomType) {
                         
                     } else if (t instanceof AnyType) {
-                        
+                        // Any, as a trait without static arguments: the singleton of its RTTI class
+                        generateTypeReference(mv2, rttiClassName,
+                                NodeFactory.makeId(NodeUtil.getSpan(t), WellKnownNames.anyTypeLibrary(), WellKnownNames.anyTypeName),
+                                Collections.<StaticArg>emptyList(), spns);
+                        continue;
+
                     } else if (t instanceof AbbreviatedType) {
                         
                     } else {

@@ -1,0 +1,93 @@
+(* A forbid clause throws on, as a ForbiddenException chained to it, an exception of a listed type that no catch clause took; a catch clause takes its exception first, and one of no listed type passes on. *)
+component ForbidClauseCompiled
+export Executable
+
+object Boom extends UncheckedException end
+object Bang extends UncheckedException end
+object Fizz extends CheckedException end
+
+boom(): () = throw Boom
+bang(): () = throw Bang
+fizz(): () = throw Fizz
+
+chainName(x: Exception): String = typecase x of
+    Boom => "Boom"
+    Bang => "Bang"
+    Fizz => "Fizz"
+    else => "other"
+  end
+
+forbidBoom(): () = do
+  try
+    boom()
+  forbid Boom
+  end
+end
+
+forbidBySupertype(): () = do
+  try
+    bang()
+  forbid { CheckedException, UncheckedException }
+  end
+end
+
+catchBeforeForbid(seen: String): String = do
+  s: String := seen
+  try
+    boom()
+  catch e
+    Boom => s := "caught Boom"
+  forbid Boom
+  end
+  s
+end
+
+catchMissesForbidTakes(): () = do
+  try
+    boom()
+  catch e
+    Bang => println("caught Bang")
+  forbid Boom
+  end
+end
+
+forbidOthers(): () = do
+  try
+    fizz()
+  forbid { Boom, Bang }
+  end
+end
+
+completesNormally(): String = do
+  s: String := "none"
+  try
+    s := "body"
+  forbid Boom
+  end
+  s
+end
+
+thrownBy(f: () -> ()): String = do
+  seen: String := "nothing thrown"
+  try
+    f()
+  catch e
+    ForbiddenException => seen := "forbidden " || chainName(e.chain)
+    Boom => seen := "Boom passed on"
+    Bang => seen := "Bang passed on"
+    Fizz => seen := "Fizz passed on"
+  end
+  seen
+end
+
+run(): () = do
+  assert(thrownBy(fn () => forbidBoom()), "forbidden Boom", "try.tex, section \"Try Expressions\": a listed type gives a ForbiddenException chained to the thrown exception")
+  assert(thrownBy(fn () => forbidBySupertype()), "forbidden Bang", "try.tex, section \"Try Expressions\": a subtype of a listed type gives a ForbiddenException")
+  assert(catchBeforeForbid("none"), "caught Boom", "try.tex, section \"Try Expressions\": an exception matched by both clauses is caught by the catch clause")
+  assert(thrownBy(fn () => catchMissesForbidTakes()), "forbidden Boom", "try.tex, section \"Try Expressions\": an exception the catch clause does not match goes to the forbid clause")
+  assert(thrownBy(fn () => forbidOthers()), "Fizz passed on", "try.tex, section \"Try Expressions\": an exception matched by no clause completes the try abruptly")
+  assert(completesNormally(), "body", "try.tex, section \"Try Expressions\": a try block that completes normally ignores the forbid clause")
+  println("PASS")
+end
+
+end
