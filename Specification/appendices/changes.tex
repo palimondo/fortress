@@ -4466,36 +4466,36 @@ natives of \library\ that it can call.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-natives-walk/decision-record.md}
 in the revival's repository.
-\item[Effect] 173 of the 449 bindings of \library\ name a helper:
+\item[Effect] 288 of the 449 bindings of \library\ name a helper:
 the operators \EXP{=}, \EXP{<}, the prefix and infix \EXP{-} and
 \EXP{\dotminus}, \EXP{+}, \EXP{\dotplus}, \EXP{\cdot}, \EXP{\times},
-juxtaposition, \EXP{\dottimes}, \EXP{\div}, \OPR{BITAND}, \OPR{BITOR},
-\OPR{BITXOR}, \OPR{BITNOT} and \OPR{CHOOSE} of the traits \EXP{\mathbb{Z}32}
-and \EXP{\mathbb{Z}64}, with the functions \VAR{widen} and \VAR{unsigned} of
-the first and \VAR{narrow}, \VAR{unsigned} and \VAR{big} of the second, and the
-same operators but \EXP{<} and \OPR{CHOOSE} of the trait \EXP{\mathbb{Z}};
-eighteen bindings of the trait \EXP{\mathbb{N}64}, and of the interpreter's
-objects twenty-one of \EXP{\mathbb{N}32}, forty of \TYP{Char} and thirty of
-\TYP{Float}; the getters \VAR{asString} and \VAR{asExprString} of the
-interpreter's objects \TYP{Int}, \TYP{Long} and \TYP{BigNum}; and the function
-\VAR{char}.
-The other 276 still name a glue class, which the compiled code cannot call.
+juxtaposition, \EXP{\dottimes}, \EXP{\div}, \OPR{REM}, \OPR{MOD}, \OPR{GCD},
+\OPR{LCM}, \OPR{BITAND}, \OPR{BITOR}, \OPR{BITXOR}, \OPR{BITNOT} and
+\OPR{CHOOSE} of the traits \EXP{\mathbb{Z}32} and \EXP{\mathbb{Z}64}, with the
+functions \VAR{widen}, \VAR{unsigned} and \VAR{partitionL} of the first and
+\VAR{narrow}, \VAR{unsigned}, \VAR{big} and \VAR{partitionL} of the second, and
+the same operators but \EXP{<} of the trait \EXP{\mathbb{Z}}, with its
+\VAR{cmp}; twenty-five bindings of the trait \EXP{\mathbb{N}64}, and of the
+interpreter's objects twenty-eight of \EXP{\mathbb{N}32}, three of
+\TYP{UnsignedLong}, forty of \TYP{Char}, fifty-seven of \TYP{Float} and fifty
+of \EXP{\mathbb{R}32}; the getters \VAR{asString}, \VAR{asExprString} and
+\VAR{asFloat} of the interpreter's objects \TYP{Int}, \TYP{Long} and
+\TYP{BigNum}; and the functions \VAR{char}, \VAR{fromRawBits} and
+\VAR{nanoTime}.
+The other 161 still name a glue class, which the compiled code cannot call.
 Until the compiled code moves onto \library, the type checker checks the moved
 bindings, but no compiled program runs them.
 Where a binding declares \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or \TYP{Char}
 at a position at which its helper takes or answers a Java \texttt{int} or
-\texttt{long}, the compiler composes the call with one of six transfer helpers
+\texttt{long}, or \TYP{UnsignedLong}, the interpreter's object of
+\EXP{\mathbb{N}64}, at an argument, the compiler composes the call with one of six transfer helpers
 at that position, as the compiled library writes its own operations on those
 types, and the type checker checks the composition.
 Under the interpreter a helper's raise of \TYP{IntegerOverflow} or
-\TYP{DivisionByZero} is the library's own exception, so \EXP{\div} by zero on
-\EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}}, \EXP{\mathbb{N}32}
-and \EXP{\mathbb{N}64} throws a \TYP{DivisionByZero}, as \chapref{operators}
-says of an integer result; \OPR{REM} and \OPR{MOD}, which still name glue
-classes, end the run with a Java exception at a divisor of zero, on
-\EXP{\mathbb{Z}32} and \EXP{\mathbb{Z}64} (row~336 of the revival's gap
-ledger) and on \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} and \EXP{\mathbb{Z}}
-(row~848 of the revival's gap ledger).
+\TYP{DivisionByZero} is the library's own exception, so \EXP{\div}, \OPR{REM} and \OPR{MOD} by zero on \EXP{\mathbb{Z}32},
+\EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}}, \EXP{\mathbb{N}32} and
+\EXP{\mathbb{N}64} throw a \TYP{DivisionByZero}, as \chapref{operators} says
+of an integer result.
 The interpreter passes a helper declared over \TYP{String}, as its glue classes
 do, the name of the value's type in place of its characters where the value is
 not a flat string, as a \TYP{String} made by concatenating two long strings

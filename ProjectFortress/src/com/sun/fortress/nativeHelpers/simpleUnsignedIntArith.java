@@ -241,4 +241,24 @@ public class simpleUnsignedIntArith {
     public static int makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType(int x) {return x;}
     public static int makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType(int x) {return x;}
 
+    // GCD, LCM and partitionL of NN32, as walk's NN32$Gcd, NN32$Lcm and NN32$Partition compute them.
+
+    public static int unsignedIntGcd(int u, int v) {
+        return (int) simpleUnsignedLongArith.unsignedLongGcd(toLong(u), toLong(v));
+    }
+
+    public static int unsignedIntLcm(int u, int v) {
+        if (u == 0 || v == 0) return 0;
+        long a = toLong(u);
+        long b = toLong(v);
+        // The multiple is below 2^64, and one of 2^63 or more reads negative.
+        long m = (a / simpleUnsignedLongArith.unsignedLongGcd(a, b)) * b;
+        if ((m >> 32) != 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        return (int) m;
+    }
+
+    public static int unsignedIntPartition(int u) {
+        return Integer.highestOneBit(u - 1);
+    }
+
 }

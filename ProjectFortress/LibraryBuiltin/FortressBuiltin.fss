@@ -442,9 +442,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr MOD(self,b:NN32):NN32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntMod")
     opr GCD(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Gcd")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntGcd")
     opr LCM(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Lcm")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntLcm")
     opr CHOOSE(self,b:NN32):NN32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingChoose")
     opr BITAND(self,b:NN32):NN32 =
@@ -465,7 +465,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     widen(self):NN64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.toLong")
     partitionL(self):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Partition")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntPartition")
     signed(self):ZZ32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")
     opr /(self, other:NN32):QQ = do a: ZZ = self; b: ZZ = other; a / b end

@@ -6665,3 +6665,9 @@ rewritten
 rewritten
 
 | 856 | under walk, `signed` of an `NN32` or `NN64` above its signed half wraps to a negative value, with no `IntegerOverflow`: `signed(unsigned(-1))` is `-1` on `NN32` and on `NN64`, and `signed` of the `NN32` 2^31 is `-2147483648` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | `ProjectFortress/tests/SignedAboveSignedRangeWalk.fss` | climb batch 24's planner | siblings: 502, 858. The bindings (`LibraryBuiltin/FortressBuiltin.fss:469`, `Library/FortressLibrary.fss:985`) name helpers that return their `int` or `long` as is (`nativeHelpers/simpleUnsignedIntArith.java:242`, `simpleUnsignedLongArith.java:239`), as the glue classes `NN32$ToInt` and `UnsignedLong$ToLong` did. The compiler's prelude binds the same helpers (`LibraryBuiltin/CompilerBuiltin.fss:816`, `:880`), so the compiled path wraps too: a compiled probe printed '-1', '-2147483648', '-1'. The specification names only `narrow`'s wrap (`basic-lib/basic-integers.tex`, "Integers"); keep the low bits or raise is row 502's question, for `widen`. |
+
+### Row 75
+
+note added
+
+| 75 | `nanoTime()` has a different type on the two paths, `RR64` compiled and `ZZ64` under walk, so a program that passes its result where a `ZZ64` is expected does not compile | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `library/default-libraries.tex`, "FortressLibrary" (subsection Top-level primitives, typeset from `Library/FortressLibrary.fsi`) | `explorations/tparallel.fss` | ours | Compiled, the program's `ms(t0, t1)`, declared over `ZZ64`, is refused: `(ZZ64, ZZ64)->ZZ64 is not applicable to an argument of type (RR64, RR64)`. `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:23` declares `nanoTime(): RR64` (body `CompilerBuiltin.fss:352`); `Library/FortressLibrary.fsi:2547` at `63e420a33`, from which the specification's section is typeset, declares `ZZ64`. The prelude is deleted at the switch-over, when the compiled path takes the interpreter's library. |

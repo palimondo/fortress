@@ -1,0 +1,4 @@
+tests=NativeHelperFamilyDivisorsCompiled
+link
+run
+run_out_contains=PASS
