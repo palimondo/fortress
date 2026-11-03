@@ -1,0 +1,4 @@
+tests=NativeHelperFamilyRemainderCompiled
+link
+run
+run_out_contains=PASS
