@@ -1,0 +1,16 @@
+Record after climb batch 25's landing: F-32's IntLiteral count, F-240's cause, F-315's method half and finally, P-38's title, and the landing pass on ten entries
+
+- F-24: the sentence on REM and MOD by zero folded into the one before it; the ten test files named by their pattern.
+- F-32: object IntLiteral holds 29 bindings, 4 of class A and 25 of class C, not 24, 4 and 20 (the review's finding 5).
+- F-34: the fourteen components named by the stage that checks them; the measurement's code state given; climb batch 22's 52 moved to the history.
+- F-118: the closed row 326 moved to the history; the title's printing clause names NN32 and NN64.
+- F-125: the CHOOSE sentence given its condition first and the specification's 0.
+- F-240: the distance stage's rise to 271 s given its circumstance, a start 9 s before testFast against 53 s, one run each; review 25 in Detail; no figure changed.
+- F-268: each half of the title its own sentence; row 889 put with the crash.
+- F-303: "over item 331", a queue item, cut.
+- F-308: the sentence on the one binding left no longer reads as if UnsignedLong's asFloat stayed on a glue class.
+- F-310: the count stated once: 50 of RR32's 51 bindings on helpers.
+- F-311: the citations given a verb; Detail in the record's form.
+- F-314: partitionL limited to the four fixed widths; the 18 line citations left to the report's table.
+- F-315: the test modifier passes on a method too; the forbid path skips the finally clause (row 890).
+- P-38: the title limited to the prelude's own text, with one sentence on a shared helper, under the curator's rule of 2026-10-31; the decision unchanged.

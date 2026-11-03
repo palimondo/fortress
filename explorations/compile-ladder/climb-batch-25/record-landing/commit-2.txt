@@ -1,0 +1,10 @@
+PLAN, the review queue and INDEX after climb batch 25's landing, with the record-landing run's folder
+
+- PLAN "Where we stand": Runs, the live thread, Landed and Next brought to climb batch 25's landing; phase 4's lines for climb batch 25 (landed) and climb batch 26 (not yet planned); the natives at 288 on helpers and 161 on glue; the 109 at one of the 82 and 25 of the 27; N3 at 108 of 158 moved; N5 at IntLiteral's 29; the code generator at 47 refusals in 11 kinds.
+- PLAN: homes for the new rows 874, 875, 881, 882 to 886 and 888 to 892, with a line for the natives' rewrite's limits that stand.
+- PLAN: phase 5's list gains items 323, 324 and 325; the skeptics' half of the resume line added; Question 2's cost reaches UnsignedLong's three.
+- PLAN: climb batch 24's H.worker.1, the rewrite's limits and review-routed.1 and .2 moved to PLAN-history as built or moot by f7a33b97b; climb batch 25's list cut to pointers to the queue.
+- PLAN-history: a section "Climb batch 25's landing, 2026-11-03" with every replaced line word for word.
+- Review queue: new items 344 to 354 for climb batch 25's questions, forks, points and row 861's form; items 309, 326 and 331 brought to the landing; item 343 moved to (a) as moot by f7a33b97b; the head at climb batch 26 and 312 open.
+- INDEX: a line for process-engineering/skill-drafts-2026-11-02.md.
+- The record-landing run's folder for climb batch 25.
