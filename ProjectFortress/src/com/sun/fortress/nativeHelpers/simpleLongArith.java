@@ -349,4 +349,36 @@ public class simpleLongArith {
 	}
     }
 
+    // GCD, LCM and partitionL of ZZ64, as walk's Long$Gcd, Long$Lcm and Long$Partition
+    // compute them, and nanoTime at ZZ64, as Long$NanoTime.
+
+    public static long longGcd(long u, long v) {
+        // The magnitude of Long.MIN_VALUE, read unsigned, is 2^63, a divisor that does not fit.
+        long g = simpleUnsignedLongArith.unsignedLongGcd(u < 0 ? -u : u, v < 0 ? -v : v);
+        if (g < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        return g;
+    }
+
+    public static long longLcm(long u, long v) {
+        if (u == 0 || v == 0) return 0;
+        // Every other multiple of Long.MIN_VALUE is at least 2^63, which does not fit.
+        if (u == Long.MIN_VALUE || v == Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        long a = Math.abs(u);
+        long b = Math.abs(v);
+        try {
+            return Math.multiplyExact(a / simpleUnsignedLongArith.unsignedLongGcd(a, b), b);
+        }
+        catch (ArithmeticException e) {
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        }
+    }
+
+    public static long longPartition(long u) {
+        return Long.highestOneBit(u - 1);
+    }
+
+    public static long longNanoTime() {
+        return System.nanoTime();
+    }
+
 }

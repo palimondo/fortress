@@ -1,0 +1,287 @@
+(* On the compiled path, the nativeHelpers that GCD, LCM, partitionL, NN64's and ZZ's CHOOSE, ZZ's cmp and nanoTime name give their values and their IntegerOverflow, an NN32 carried in a ZZ32 and an NN64 in a ZZ64. *)
+component NativeHelperFamilyDivisorsCompiled
+export Executable
+
+gcd32(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intGcd")
+lcm32(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLcm")
+part32(a:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intPartition")
+gcd64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longGcd")
+lcm64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longLcm")
+part64(a:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longPartition")
+nano64():ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longNanoTime")
+gcdN32(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntGcd")
+lcmN32(a:ZZ32, b:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntLcm")
+partN32(a:ZZ32):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntPartition")
+gcdN64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongGcd")
+lcmN64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongLcm")
+chooseN64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingChoose")
+partN64(a:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongPartition")
+gcdZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.gcd")
+lcmZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.lcm")
+chooseZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.choose")
+cmpZ(a:ZZ, b:ZZ):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.cmp")
+big64(a:ZZ64):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.makeZZfromZZ64")
+negZ(a:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.neg")
+
+ov32(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+ov64(f: () -> ZZ64): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+chk(got: ZZ64, want: ZZ64, what: String): () = assert(got = want, what)
+
+run():() = do
+  a: ZZ32 = 2147483647
+  b: ZZ32 = -2147483647 - 1
+  m1: ZZ32 = -1
+  z0: ZZ32 = 0
+  z1: ZZ32 = 1
+  z2: ZZ32 = 2
+  z3: ZZ32 = 3
+  z4: ZZ32 = 4
+  z6: ZZ32 = 6
+  z12: ZZ32 = 12
+  z18: ZZ32 = 18
+  assert(gcd32(z12, z18), 6, "ZZ32 12 GCD 18")
+  assert(gcd32(-z12, z18), 6, "ZZ32 -12 GCD 18")
+  assert(gcd32(z12, -z18), 6, "ZZ32 12 GCD -18")
+  assert(gcd32(-z12, -z18), 6, "ZZ32 -12 GCD -18")
+  assert(gcd32(z0, -z4), 4, "ZZ32 0 GCD -4 is 4")
+  assert(gcd32(z0, z0), 0, "ZZ32 0 GCD 0")
+  assert(gcd32(a, z0), a, "ZZ32 MAX GCD 0")
+  assert(gcd32(a, b), 1, "ZZ32 MAX GCD MIN")
+  assert(gcd32(b, z2), 2, "ZZ32 MIN GCD 2")
+  assert(gcd32(b, 1073741824), 1073741824, "ZZ32 MIN GCD 2^30")
+  assert(gcd32(b, m1), 1, "ZZ32 MIN GCD -1")
+  assert(gcd32(a, a), a, "ZZ32 MAX GCD MAX")
+  assert(ov32(fn () => gcd32(b, z0)), "ZZ32 MIN GCD 0 overflows")
+  assert(ov32(fn () => gcd32(z0, b)), "ZZ32 0 GCD MIN overflows")
+  assert(ov32(fn () => gcd32(b, b)), "ZZ32 MIN GCD MIN overflows")
+  assert(lcm32(z4, z6), 12, "ZZ32 4 LCM 6")
+  assert(lcm32(-z4, z6), 12, "ZZ32 -4 LCM 6")
+  assert(lcm32(z4, -z6), 12, "ZZ32 4 LCM -6")
+  assert(lcm32(-z4, -z6), 12, "ZZ32 -4 LCM -6")
+  assert(lcm32(z1, -5), 5, "ZZ32 1 LCM -5 is 5")
+  assert(lcm32(z0, z0), 0, "ZZ32 0 LCM 0")
+  assert(lcm32(b, z0), 0, "ZZ32 MIN LCM 0")
+  assert(lcm32(a, z1), a, "ZZ32 MAX LCM 1")
+  assert(lcm32(46341, 46340), 2147441940, "ZZ32 46341 LCM 46340")
+  assert(ov32(fn () => lcm32(a, z2)), "ZZ32 MAX LCM 2 overflows")
+  assert(ov32(fn () => lcm32(b, z1)), "ZZ32 MIN LCM 1 overflows")
+  assert(ov32(fn () => lcm32(b, m1)), "ZZ32 MIN LCM -1 overflows")
+  assert(ov32(fn () => lcm32(b, b)), "ZZ32 MIN LCM MIN overflows")
+  assert(ov32(fn () => lcm32(65536, 65537)), "ZZ32 65536 LCM 65537 overflows")
+  assert(part32(z0), b, "ZZ32 partitionL 0")
+  assert(part32(z1), 0, "ZZ32 partitionL 1")
+  assert(part32(z2), 1, "ZZ32 partitionL 2")
+  assert(part32(z3), 2, "ZZ32 partitionL 3")
+  assert(part32(1024), 512, "ZZ32 partitionL 1024")
+  assert(part32(1025), 1024, "ZZ32 partitionL 1025")
+  assert(part32(a), 1073741824, "ZZ32 partitionL MAX")
+  assert(part32(b), 1073741824, "ZZ32 partitionL MIN")
+  assert(part32(-5), b, "ZZ32 partitionL -5")
+
+  la: ZZ64 = 9223372036854775807
+  lb: ZZ64 = -la - 1
+  lm1: ZZ64 = -1
+  l0: ZZ64 = 0
+  l1: ZZ64 = 1
+  l2: ZZ64 = 2
+  l3: ZZ64 = 3
+  l4: ZZ64 = 4
+  l6: ZZ64 = 6
+  l12: ZZ64 = 12
+  l18: ZZ64 = 18
+  p32: ZZ64 = 4294967296
+  p40: ZZ64 = 1099511627776
+  p62: ZZ64 = 4611686018427387904
+  q35: ZZ64 = 103079215104
+  r: ZZ64 = 3037000499
+  chk(gcd64(l12, l18), 6, "ZZ64 12 GCD 18")
+  chk(gcd64(-l12, l18), 6, "ZZ64 -12 GCD 18")
+  chk(gcd64(l12, -l18), 6, "ZZ64 12 GCD -18")
+  chk(gcd64(-l12, -l18), 6, "ZZ64 -12 GCD -18")
+  chk(gcd64(l0, -l4), 4, "ZZ64 0 GCD -4 is 4")
+  chk(gcd64(l0, l0), 0, "ZZ64 0 GCD 0")
+  chk(gcd64(la, lb), 1, "ZZ64 MAX GCD MIN")
+  chk(gcd64(lb, l2), 2, "ZZ64 MIN GCD 2")
+  chk(gcd64(lb, l6), 2, "ZZ64 MIN GCD 6")
+  chk(gcd64(p62, lb), p62, "ZZ64 2^62 GCD MIN")
+  chk(gcd64(la, la), la, "ZZ64 MAX GCD MAX")
+  chk(gcd64(p40, q35), 34359738368, "ZZ64 2^40 GCD 3 2^35")
+  assert(ov64(fn () => gcd64(lb, l0)), "ZZ64 MIN GCD 0 overflows")
+  assert(ov64(fn () => gcd64(l0, lb)), "ZZ64 0 GCD MIN overflows")
+  assert(ov64(fn () => gcd64(lb, lb)), "ZZ64 MIN GCD MIN overflows")
+  chk(lcm64(l4, l6), 12, "ZZ64 4 LCM 6")
+  chk(lcm64(-l4, l6), 12, "ZZ64 -4 LCM 6")
+  chk(lcm64(l4, -l6), 12, "ZZ64 4 LCM -6")
+  chk(lcm64(-l4, -l6), 12, "ZZ64 -4 LCM -6")
+  chk(lcm64(l1, -l6 + l1), 5, "ZZ64 1 LCM -5 is 5")
+  chk(lcm64(l0, l0), 0, "ZZ64 0 LCM 0")
+  chk(lcm64(lb, l0), 0, "ZZ64 MIN LCM 0")
+  chk(lcm64(la, l1), la, "ZZ64 MAX LCM 1")
+  chk(lcm64(p62, l2), p62, "ZZ64 2^62 LCM 2")
+  chk(lcm64(p62, l4), p62, "ZZ64 2^62 LCM 4")
+  chk(lcm64(r, r - l1), 9223372027889248502, "ZZ64 3037000499 LCM 3037000498")
+  assert(ov64(fn () => lcm64(la, l2)), "ZZ64 MAX LCM 2 overflows")
+  assert(ov64(fn () => lcm64(lb, l1)), "ZZ64 MIN LCM 1 overflows")
+  assert(ov64(fn () => lcm64(l1, lb)), "ZZ64 1 LCM MIN overflows")
+  assert(ov64(fn () => lcm64(lb, lb)), "ZZ64 MIN LCM MIN overflows")
+  assert(ov64(fn () => lcm64(p62, l3)), "ZZ64 2^62 LCM 3 overflows")
+  assert(ov64(fn () => lcm64(p32, p32 + l1)), "ZZ64 2^32 LCM (2^32+1) overflows")
+  chk(part64(l0), lb, "ZZ64 partitionL 0")
+  chk(part64(l1), 0, "ZZ64 partitionL 1")
+  chk(part64(l2), 1, "ZZ64 partitionL 2")
+  chk(part64(p40), 549755813888, "ZZ64 partitionL 2^40")
+  chk(part64(p40 + l1), p40, "ZZ64 partitionL 2^40+1")
+  chk(part64(la), p62, "ZZ64 partitionL MAX")
+  chk(part64(lb), p62, "ZZ64 partitionL MIN")
+
+  n31: ZZ32 = b
+  nmax: ZZ32 = m1
+  n3x30: ZZ32 = -1073741824
+  n16: ZZ32 = 65536
+  assert(gcdN32(z12, z18), 6, "NN32 12 GCD 18")
+  assert(gcdN32(z0, z4), 4, "NN32 0 GCD 4")
+  assert(gcdN32(z0, z0), 0, "NN32 0 GCD 0")
+  assert(gcdN32(nmax, n31), 1, "NN32 2^32-1 GCD 2^31")
+  assert(gcdN32(n31, 1073741824), 1073741824, "NN32 2^31 GCD 2^30")
+  assert(gcdN32(nmax, 65535), 65535, "NN32 2^32-1 GCD 65535")
+  assert(gcdN32(nmax, z0), nmax, "NN32 2^32-1 GCD 0, 2^32-1 carried in a ZZ32")
+  assert(gcdN32(n31, z0), n31, "NN32 2^31 GCD 0, 2^31 carried in a ZZ32")
+  assert(gcdN32(n3x30, n31), 1073741824, "NN32 3 2^30 GCD 2^31")
+  assert(gcdN32(n3x30, z3), 3, "NN32 3 2^30 GCD 3")
+  assert(lcmN32(z4, z6), 12, "NN32 4 LCM 6")
+  assert(lcmN32(z0, z0), 0, "NN32 0 LCM 0")
+  assert(lcmN32(nmax, z1), nmax, "NN32 2^32-1 LCM 1")
+  assert(lcmN32(n31, z2), n31, "NN32 2^31 LCM 2")
+  assert(lcmN32(nmax, 65535), nmax, "NN32 2^32-1 LCM 65535")
+  assert(lcmN32(n31, n16), n31, "NN32 2^31 LCM 2^16")
+  assert(lcmN32(n31, n31), n31, "NN32 2^31 LCM 2^31")
+  assert(lcmN32(n16, 65535), -65536, "NN32 65536 LCM 65535, 4294901760 carried in a ZZ32")
+  assert(ov32(fn () => lcmN32(n31, z3)), "NN32 2^31 LCM 3 overflows")
+  assert(ov32(fn () => lcmN32(n16, 65537)), "NN32 65536 LCM 65537 overflows")
+  assert(ov32(fn () => lcmN32(nmax, z2)), "NN32 2^32-1 LCM 2 overflows")
+  assert(ov32(fn () => lcmN32(nmax, -2)), "NN32 2^32-1 LCM 2^32-2 overflows")
+  assert(partN32(z0), n31, "NN32 partitionL 0")
+  assert(partN32(z1), 0, "NN32 partitionL 1")
+  assert(partN32(z2), 1, "NN32 partitionL 2")
+  assert(partN32(1024), 512, "NN32 partitionL 1024")
+  assert(partN32(1025), 1024, "NN32 partitionL 1025")
+  assert(partN32(n31), 1073741824, "NN32 partitionL 2^31")
+  assert(partN32(n31 + 1), n31, "NN32 partitionL 2^31+1")
+  assert(partN32(nmax), n31, "NN32 partitionL 2^32-1")
+
+  u63: ZZ64 = lb
+  umax: ZZ64 = lm1
+  u3x62: ZZ64 = -4611686018427387904
+  chk(gcdN64(l12, l18), 6, "NN64 12 GCD 18")
+  chk(gcdN64(l0, l4), 4, "NN64 0 GCD 4")
+  chk(gcdN64(l0, l0), 0, "NN64 0 GCD 0")
+  chk(gcdN64(umax, u63), 1, "NN64 2^64-1 GCD 2^63")
+  chk(gcdN64(u63, l0), u63, "NN64 2^63 GCD 0, 2^63 carried in a ZZ64")
+  chk(gcdN64(umax, l0), umax, "NN64 2^64-1 GCD 0, 2^64-1 carried in a ZZ64")
+  chk(gcdN64(u63, l6), 2, "NN64 2^63 GCD 6")
+  chk(gcdN64(u63, p40), p40, "NN64 2^63 GCD 2^40")
+  chk(gcdN64(umax, p32 - l1), 4294967295, "NN64 2^64-1 GCD 2^32-1")
+  chk(gcdN64(umax, p32 + l1), 4294967297, "NN64 2^64-1 GCD 2^32+1")
+  chk(gcdN64(u3x62, u63), p62, "NN64 3 2^62 GCD 2^63")
+  chk(lcmN64(l4, l6), 12, "NN64 4 LCM 6")
+  chk(lcmN64(l0, l0), 0, "NN64 0 LCM 0")
+  chk(lcmN64(umax, l1), umax, "NN64 2^64-1 LCM 1")
+  chk(lcmN64(u63, l2), u63, "NN64 2^63 LCM 2")
+  chk(lcmN64(p32, p32 - l1), -4294967296, "NN64 2^32 LCM 2^32-1, 18446744069414584320 carried in a ZZ64")
+  chk(lcmN64(umax, p32 - l1), umax, "NN64 2^64-1 LCM 2^32-1")
+  assert(ov64(fn () => lcmN64(u63, l3)), "NN64 2^63 LCM 3 overflows")
+  assert(ov64(fn () => lcmN64(p32, p32 + l1)), "NN64 2^32 LCM 2^32+1 overflows")
+  assert(ov64(fn () => lcmN64(umax, l2)), "NN64 2^64-1 LCM 2 overflows")
+  chk(chooseN64(67, 33), -4220223336089263246, "NN64 67 CHOOSE 33, 14226520737620288370 carried in a ZZ64")
+  chk(chooseN64(66, 33), 7219428434016265740, "NN64 66 CHOOSE 33")
+  chk(chooseN64(p32 + l1, l2), -9223372034707292160, "NN64 (2^32+1) CHOOSE 2, 9223372039002259456 carried in a ZZ64")
+  chk(chooseN64(10, l3), 120, "NN64 10 CHOOSE 3")
+  chk(chooseN64(l0, l0), 1, "NN64 0 CHOOSE 0")
+  chk(chooseN64(5, l0), 1, "NN64 5 CHOOSE 0")
+  chk(chooseN64(5, 5), 1, "NN64 5 CHOOSE 5")
+  chk(chooseN64(umax, l1), umax, "NN64 2^64-1 CHOOSE 1")
+  chk(chooseN64(umax, -l2), umax, "NN64 2^64-1 CHOOSE 2^64-2")
+  chk(chooseN64(umax, umax), 1, "NN64 2^64-1 CHOOSE 2^64-1")
+  chk(chooseN64(u63, l1), u63, "NN64 2^63 CHOOSE 1")
+  chk(chooseN64(l3, 5), 0, "NN64 3 CHOOSE 5 is 0")
+  chk(chooseN64(5, umax), 0, "NN64 5 CHOOSE 2^64-1 is 0")
+  chk(chooseN64(u63, umax), 0, "NN64 2^63 CHOOSE 2^64-1 is 0")
+  assert(ov64(fn () => chooseN64(68, 34)), "NN64 68 CHOOSE 34 overflows")
+  assert(ov64(fn () => chooseN64(umax, l2)), "NN64 2^64-1 CHOOSE 2 overflows")
+  assert(ov64(fn () => chooseN64(u63, l2)), "NN64 2^63 CHOOSE 2 overflows")
+  chk(partN64(l0), u63, "NN64 partitionL 0")
+  chk(partN64(l1), 0, "NN64 partitionL 1")
+  chk(partN64(l2), 1, "NN64 partitionL 2")
+  chk(partN64(p40), 549755813888, "NN64 partitionL 2^40")
+  chk(partN64(u63), p62, "NN64 partitionL 2^63")
+  chk(partN64(u63 + l1), u63, "NN64 partitionL 2^63+1")
+  chk(partN64(umax), u63, "NN64 partitionL 2^64-1")
+
+  h: ZZ = 1934791870947204798109283471902037419
+  b0: ZZ = big64(l0)
+  b1: ZZ = big64(l1)
+  b3: ZZ = big64(l3)
+  b4: ZZ = big64(l4)
+  b5: ZZ = big64(5)
+  b6: ZZ = big64(l6)
+  b12: ZZ = big64(l12)
+  b18: ZZ = big64(l18)
+  b63: ZZ = 9223372036854775808
+  b64: ZZ = 18446744073709551616
+  b64p1: ZZ = 18446744073709551617
+  assert(cmpZ(b3, b5), -1, "ZZ 3 cmp 5")
+  assert(cmpZ(b5, b3), 1, "ZZ 5 cmp 3")
+  assert(cmpZ(negZ(b5), b3), -1, "ZZ -5 cmp 3")
+  assert(cmpZ(negZ(b5), negZ(b5)), 0, "ZZ -5 cmp -5")
+  assert(cmpZ(h, negZ(h)), 1, "ZZ cmp beyond ZZ64")
+  assert(cmpZ(negZ(h), h), -1, "ZZ cmp beyond ZZ64, negative")
+  assert(cmpZ(h, h), 0, "ZZ cmp beyond ZZ64, equal")
+  assert(gcdZ(b12, b18).asString, "6", "ZZ 12 GCD 18")
+  assert(gcdZ(negZ(b12), b18).asString, "6", "ZZ -12 GCD 18")
+  assert(gcdZ(b12, negZ(b18)).asString, "6", "ZZ 12 GCD -18")
+  assert(gcdZ(negZ(b12), negZ(b18)).asString, "6", "ZZ -12 GCD -18")
+  assert(gcdZ(b0, negZ(b4)).asString, "4", "ZZ 0 GCD -4 is 4")
+  assert(gcdZ(b0, b0).asString, "0", "ZZ 0 GCD 0")
+  assert(gcdZ(big64(lb), b0).asString, "9223372036854775808", "ZZ -2^63 GCD 0")
+  assert(gcdZ(b64, big64(3298534883328)).asString, "1099511627776", "ZZ 2^64 GCD 3 2^40")
+  assert(gcdZ(h, negZ(h)).asString, "1934791870947204798109283471902037419", "ZZ GCD beyond ZZ64")
+  assert(lcmZ(b4, b6).asString, "12", "ZZ 4 LCM 6")
+  assert(lcmZ(negZ(b4), b6).asString, "12", "ZZ -4 LCM 6")
+  assert(lcmZ(b4, negZ(b6)).asString, "12", "ZZ 4 LCM -6")
+  assert(lcmZ(negZ(b4), negZ(b6)).asString, "12", "ZZ -4 LCM -6")
+  assert(lcmZ(b1, negZ(b5)).asString, "5", "ZZ 1 LCM -5 is 5")
+  assert(lcmZ(b0, b0).asString, "0", "ZZ 0 LCM 0")
+  assert(lcmZ(b63, b3).asString, "27670116110564327424", "ZZ 2^63 LCM 3")
+  assert(lcmZ(b64, b64p1).asString, "340282366920938463481821351505477763072", "ZZ 2^64 LCM (2^64+1)")
+  assert(lcmZ(h, b1).asString, "1934791870947204798109283471902037419", "ZZ LCM beyond ZZ64")
+  assert(chooseZ(big64(70), big64(35)).asString, "112186277816662845432", "ZZ 70 CHOOSE 35")
+  assert(chooseZ(big64(68), big64(34)).asString, "28453041475240576740", "ZZ 68 CHOOSE 34")
+  assert(chooseZ(big64(100), big64(50)).asString, "100891344545564193334812497256", "ZZ 100 CHOOSE 50")
+  assert(chooseZ(big64(10), b3).asString, "120", "ZZ 10 CHOOSE 3")
+  assert(chooseZ(b0, b0).asString, "1", "ZZ 0 CHOOSE 0")
+  assert(chooseZ(b5, b0).asString, "1", "ZZ 5 CHOOSE 0")
+  assert(chooseZ(b5, b5).asString, "1", "ZZ 5 CHOOSE 5")
+
+  t0: ZZ64 = nano64()
+  t1: ZZ64 = nano64()
+  assert(t0 <= t1, "nanoTime twice, the second not less than the first")
+  println("PASS")
+end
+
+end

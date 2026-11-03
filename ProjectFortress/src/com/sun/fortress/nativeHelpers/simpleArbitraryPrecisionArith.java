@@ -126,4 +126,40 @@ public class simpleArbitraryPrecisionArith {
 	else return BigInteger.valueOf((k << 1) >>> 1).setBit(63);
     }
 
+    // GCD, LCM, CHOOSE and cmp of ZZ, as walk's BigNum$Gcd, BigNum$Lcm, BigNum$Choose and
+    // BigNum$Cmp compute them.
+
+    public static BigInteger gcd(BigInteger u, BigInteger v) {
+        return u.gcd(v);
+    }
+
+    public static BigInteger lcm(BigInteger u, BigInteger v) {
+        if (u.signum() == 0 || v.signum() == 0) return BigInteger.ZERO;
+        u = u.abs();
+        v = v.abs();
+        // The smaller divided by the divisor, then multiplied.
+        return u.min(v).divide(u.gcd(v)).multiply(u.max(v));
+    }
+
+    // Each call keeps its state in its own locals, so calls can run in parallel.
+    // Where k < 0 or k > n, it answers 1, as BigNum$Choose does.
+    public static BigInteger choose(BigInteger n, BigInteger k) {
+        BigInteger nmk = n.subtract(k);
+        if (nmk.compareTo(k) < 0) {
+            BigInteger t = k;
+            k = nmk;
+            nmk = t;
+        }
+        BigInteger accum = BigInteger.ONE;
+        for (BigInteger j = BigInteger.ONE; j.compareTo(k) <= 0; j = j.add(BigInteger.ONE)) {
+            nmk = nmk.add(BigInteger.ONE);
+            accum = accum.multiply(nmk).divide(j);
+        }
+        return accum;
+    }
+
+    public static int cmp(BigInteger a, BigInteger b) {
+        return a.compareTo(b);
+    }
+
 }

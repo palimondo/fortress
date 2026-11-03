@@ -1,0 +1,14 @@
+(* ZZ's CHOOSE gives 0 where k is negative or above a natural n, as the binomial coefficient's zero rule says; basic-integers.tex, section "Integers", opr CHOOSE. *)
+component XXXChooseZZOutOfRangeWalk
+export Executable
+
+run():() = do
+  n0: ZZ = big(0)
+  n3: ZZ = big(3)
+  n5: ZZ = big(5)
+  assert((n3 CHOOSE n5).asString, "0", "ZZ 3 CHOOSE 5 is 0")
+  assert((n0 CHOOSE big(1)).asString, "0", "ZZ 0 CHOOSE 1 is 0")
+  assert((n5 CHOOSE big(-1)).asString, "0", "ZZ 5 CHOOSE -1 is 0")
+end
+
+end

@@ -412,4 +412,25 @@ public class simpleIntArith {
         return (double) a;
     }
     
+    // GCD, LCM and partitionL of ZZ32, as walk's Int$Gcd, Int$Lcm and Int$Partition compute them.
+
+    public static int intGcd(int u, int v) {
+        long g = simpleUnsignedLongArith.unsignedLongGcd(Math.abs((long) u), Math.abs((long) v));
+        if (g > Integer.MAX_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        return (int) g;
+    }
+
+    public static int intLcm(int u, int v) {
+        if (u == 0 || v == 0) return 0;
+        long a = Math.abs((long) u);
+        long b = Math.abs((long) v);
+        long m = (a / simpleUnsignedLongArith.unsignedLongGcd(a, b)) * b;
+        if (m > Integer.MAX_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        return (int) m;
+    }
+
+    public static int intPartition(int u) {
+        return Integer.highestOneBit(u - 1);
+    }
+
 }

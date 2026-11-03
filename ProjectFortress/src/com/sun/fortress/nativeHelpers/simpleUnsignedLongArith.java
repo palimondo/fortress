@@ -227,4 +227,42 @@ public class simpleUnsignedLongArith {
     public static long makeNN64FromZZ64WithSpecialCompilerHackForNN64ResultType(long x) {return x;}
     public static long makeZZ64FromNN64WithSpecialCompilerHackForNN64ArgumentType(long x) {return x;}
     
+    // GCD, LCM, CHOOSE and partitionL of NN64, as walk's UnsignedLong$Gcd, UnsignedLong$Lcm,
+    // UnsignedLong$Choose and UnsignedLong$Partition compute them.
+
+    public static long unsignedLongGcd(long u, long v) {
+        while (v != 0) {
+            long t = Long.remainderUnsigned(u, v);
+            u = v;
+            v = t;
+        }
+        return u;
+    }
+
+    public static long unsignedLongLcm(long u, long v) {
+        if (u == 0 || v == 0) return 0;
+        return unsignedLongOverflowingMul(Long.divideUnsigned(u, unsignedLongGcd(u, v)), v);
+    }
+
+    // Each call keeps its state in its own locals, so calls can run in parallel.
+    public static long unsignedLongOverflowingChoose(long n, long k) {
+        if (Long.compareUnsigned(k, n) > 0) return 0;
+        if (Long.compareUnsigned(k, n >>> 1) > 0) k = n - k;
+        if (k == 0) return 1;
+        if (k == 1) return n;
+        // Here k <= n/2 < 2^63. Dividing by g = gcd(accum, j) first leaves j/g dividing m,
+        // so a step overflows only if its coefficient, which grows with j, does.
+        long accum = 1;
+        for (long j = 1; j <= k; j++) {
+            long m = n - k + j;
+            long g = unsignedLongGcd(accum, j);
+            accum = unsignedLongOverflowingMul(Long.divideUnsigned(accum, g), Long.divideUnsigned(m, j / g));
+        }
+        return accum;
+    }
+
+    public static long unsignedLongPartition(long u) {
+        return Long.highestOneBit(u - 1);
+    }
+
 }

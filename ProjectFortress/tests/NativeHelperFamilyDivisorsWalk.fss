@@ -1,0 +1,288 @@
+(* GCD, LCM and partitionL on the five integer types, CHOOSE on NN64 and ZZ, ZZ's cmp and nanoTime, bound to nativeHelpers, keep their values and their IntegerOverflow under walk. *)
+component NativeHelperFamilyDivisorsWalk
+export Executable
+
+ovZ32(f: () -> ZZ32): Boolean =
+  try
+    f()
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+ovZ64(f: () -> ZZ64): Boolean =
+  try
+    f()
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+ovN32(f: () -> NN32): Boolean =
+  try
+    f()
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+ovN64(f: () -> NN64): Boolean =
+  try
+    f()
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+run():() = do
+  a: ZZ32 = 2147483647
+  b: ZZ32 = -2147483647 - 1
+  m1: ZZ32 = -1
+  z0: ZZ32 = 0
+  z1: ZZ32 = 1
+  z2: ZZ32 = 2
+  z3: ZZ32 = 3
+  z4: ZZ32 = 4
+  z6: ZZ32 = 6
+  z12: ZZ32 = 12
+  z18: ZZ32 = 18
+  assert((z12 GCD z18).asString, "6", "ZZ32 12 GCD 18")
+  assert(((-z12) GCD z18).asString, "6", "ZZ32 -12 GCD 18")
+  assert((z12 GCD (-z18)).asString, "6", "ZZ32 12 GCD -18")
+  assert(((-z12) GCD (-z18)).asString, "6", "ZZ32 -12 GCD -18")
+  assert((z0 GCD (-z4)).asString, "4", "ZZ32 0 GCD -4 is 4")
+  assert((z0 GCD z0).asString, "0", "ZZ32 0 GCD 0")
+  assert((a GCD z0).asString, "2147483647", "ZZ32 MAX GCD 0")
+  assert((a GCD b).asString, "1", "ZZ32 MAX GCD MIN")
+  assert((b GCD z2).asString, "2", "ZZ32 MIN GCD 2")
+  assert((b GCD 1073741824).asString, "1073741824", "ZZ32 MIN GCD 2^30")
+  assert((b GCD m1).asString, "1", "ZZ32 MIN GCD -1")
+  assert((a GCD a).asString, "2147483647", "ZZ32 MAX GCD MAX")
+  assert(ovZ32(fn () => b GCD z0), "ZZ32 MIN GCD 0 overflows")
+  assert(ovZ32(fn () => z0 GCD b), "ZZ32 0 GCD MIN overflows")
+  assert(ovZ32(fn () => b GCD b), "ZZ32 MIN GCD MIN overflows")
+  assert((z4 LCM z6).asString, "12", "ZZ32 4 LCM 6")
+  assert(((-z4) LCM z6).asString, "12", "ZZ32 -4 LCM 6")
+  assert((z4 LCM (-z6)).asString, "12", "ZZ32 4 LCM -6")
+  assert(((-z4) LCM (-z6)).asString, "12", "ZZ32 -4 LCM -6")
+  assert((z1 LCM (-5)).asString, "5", "ZZ32 1 LCM -5 is 5")
+  assert((z0 LCM z0).asString, "0", "ZZ32 0 LCM 0")
+  assert((b LCM z0).asString, "0", "ZZ32 MIN LCM 0")
+  assert((a LCM z1).asString, "2147483647", "ZZ32 MAX LCM 1")
+  assert((46341 LCM 46340).asString, "2147441940", "ZZ32 46341 LCM 46340")
+  assert(ovZ32(fn () => a LCM z2), "ZZ32 MAX LCM 2 overflows")
+  assert(ovZ32(fn () => b LCM z1), "ZZ32 MIN LCM 1 overflows")
+  assert(ovZ32(fn () => b LCM m1), "ZZ32 MIN LCM -1 overflows")
+  assert(ovZ32(fn () => b LCM b), "ZZ32 MIN LCM MIN overflows")
+  assert(ovZ32(fn () => 65536 LCM 65537), "ZZ32 65536 LCM 65537 overflows")
+  assert(partitionL(z0).asString, "-2147483648", "ZZ32 partitionL 0")
+  assert(partitionL(z1).asString, "0", "ZZ32 partitionL 1")
+  assert(partitionL(z2).asString, "1", "ZZ32 partitionL 2")
+  assert(partitionL(z3).asString, "2", "ZZ32 partitionL 3")
+  assert(partitionL(1024).asString, "512", "ZZ32 partitionL 1024")
+  assert(partitionL(1025).asString, "1024", "ZZ32 partitionL 1025")
+  assert(partitionL(a).asString, "1073741824", "ZZ32 partitionL MAX")
+  assert(partitionL(b).asString, "1073741824", "ZZ32 partitionL MIN")
+  assert(partitionL(-5).asString, "-2147483648", "ZZ32 partitionL -5")
+
+  la: ZZ64 = 9223372036854775807
+  lb: ZZ64 = -9223372036854775807 - 1
+  lm1: ZZ64 = -1
+  l0: ZZ64 = 0
+  l1: ZZ64 = 1
+  l2: ZZ64 = 2
+  l3: ZZ64 = 3
+  l4: ZZ64 = 4
+  l6: ZZ64 = 6
+  l12: ZZ64 = 12
+  l18: ZZ64 = 18
+  p32: ZZ64 = 4294967296
+  p40: ZZ64 = 1099511627776
+  p62: ZZ64 = 4611686018427387904
+  q35: ZZ64 = 103079215104
+  r: ZZ64 = 3037000499
+  assert((l12 GCD l18).asString, "6", "ZZ64 12 GCD 18")
+  assert(((-l12) GCD l18).asString, "6", "ZZ64 -12 GCD 18")
+  assert((l12 GCD (-l18)).asString, "6", "ZZ64 12 GCD -18")
+  assert(((-l12) GCD (-l18)).asString, "6", "ZZ64 -12 GCD -18")
+  assert((l0 GCD (-l4)).asString, "4", "ZZ64 0 GCD -4 is 4")
+  assert((l0 GCD l0).asString, "0", "ZZ64 0 GCD 0")
+  assert((la GCD lb).asString, "1", "ZZ64 MAX GCD MIN")
+  assert((lb GCD l2).asString, "2", "ZZ64 MIN GCD 2")
+  assert((lb GCD l6).asString, "2", "ZZ64 MIN GCD 6")
+  assert((p62 GCD lb).asString, "4611686018427387904", "ZZ64 2^62 GCD MIN")
+  assert((la GCD la).asString, "9223372036854775807", "ZZ64 MAX GCD MAX")
+  assert((p40 GCD q35).asString, "34359738368", "ZZ64 2^40 GCD 3 2^35")
+  assert(ovZ64(fn () => lb GCD l0), "ZZ64 MIN GCD 0 overflows")
+  assert(ovZ64(fn () => l0 GCD lb), "ZZ64 0 GCD MIN overflows")
+  assert(ovZ64(fn () => lb GCD lb), "ZZ64 MIN GCD MIN overflows")
+  assert((l4 LCM l6).asString, "12", "ZZ64 4 LCM 6")
+  assert(((-l4) LCM l6).asString, "12", "ZZ64 -4 LCM 6")
+  assert((l4 LCM (-l6)).asString, "12", "ZZ64 4 LCM -6")
+  assert(((-l4) LCM (-l6)).asString, "12", "ZZ64 -4 LCM -6")
+  assert((l1 LCM (-l6 + l1)).asString, "5", "ZZ64 1 LCM -5 is 5")
+  assert((l0 LCM l0).asString, "0", "ZZ64 0 LCM 0")
+  assert((lb LCM l0).asString, "0", "ZZ64 MIN LCM 0")
+  assert((la LCM l1).asString, "9223372036854775807", "ZZ64 MAX LCM 1")
+  assert((p62 LCM l2).asString, "4611686018427387904", "ZZ64 2^62 LCM 2")
+  assert((p62 LCM l4).asString, "4611686018427387904", "ZZ64 2^62 LCM 4")
+  assert((r LCM (r - l1)).asString, "9223372027889248502", "ZZ64 3037000499 LCM 3037000498")
+  assert(ovZ64(fn () => la LCM l2), "ZZ64 MAX LCM 2 overflows")
+  assert(ovZ64(fn () => lb LCM l1), "ZZ64 MIN LCM 1 overflows")
+  assert(ovZ64(fn () => l1 LCM lb), "ZZ64 1 LCM MIN overflows")
+  assert(ovZ64(fn () => lb LCM lb), "ZZ64 MIN LCM MIN overflows")
+  assert(ovZ64(fn () => p62 LCM l3), "ZZ64 2^62 LCM 3 overflows")
+  assert(ovZ64(fn () => p32 LCM (p32 + l1)), "ZZ64 2^32 LCM (2^32+1) overflows")
+  assert(partitionL(l0).asString, "-9223372036854775808", "ZZ64 partitionL 0")
+  assert(partitionL(l1).asString, "0", "ZZ64 partitionL 1")
+  assert(partitionL(l2).asString, "1", "ZZ64 partitionL 2")
+  assert(partitionL(p40).asString, "549755813888", "ZZ64 partitionL 2^40")
+  assert(partitionL(p40 + l1).asString, "1099511627776", "ZZ64 partitionL 2^40+1")
+  assert(partitionL(la).asString, "4611686018427387904", "ZZ64 partitionL MAX")
+  assert(partitionL(lb).asString, "4611686018427387904", "ZZ64 partitionL MIN")
+
+  n0 = unsigned(z0)
+  n1 = unsigned(z1)
+  n2 = unsigned(z2)
+  n31 = unsigned(b)
+  nmax = unsigned(m1)
+  n3x30 = unsigned(-1073741824)
+  n16 = unsigned(65536)
+  assert(n3x30.asString, "3221225472", "NN32 3 2^30")
+  assert((unsigned(z12) GCD unsigned(z18)).asString, "6", "NN32 12 GCD 18")
+  assert((n0 GCD unsigned(z4)).asString, "4", "NN32 0 GCD 4")
+  assert((n0 GCD n0).asString, "0", "NN32 0 GCD 0")
+  assert((nmax GCD n31).asString, "1", "NN32 2^32-1 GCD 2^31")
+  assert((n31 GCD unsigned(1073741824)).asString, "1073741824", "NN32 2^31 GCD 2^30")
+  assert((nmax GCD unsigned(65535)).asString, "65535", "NN32 2^32-1 GCD 65535")
+  assert((nmax GCD n0).asString, "4294967295", "NN32 2^32-1 GCD 0")
+  assert((n31 GCD n0).asString, "2147483648", "NN32 2^31 GCD 0")
+  assert((n3x30 GCD n31).asString, "1073741824", "NN32 3 2^30 GCD 2^31")
+  assert((n3x30 GCD unsigned(z3)).asString, "3", "NN32 3 2^30 GCD 3")
+  assert((unsigned(z4) LCM unsigned(z6)).asString, "12", "NN32 4 LCM 6")
+  assert((n0 LCM n0).asString, "0", "NN32 0 LCM 0")
+  assert((nmax LCM n1).asString, "4294967295", "NN32 2^32-1 LCM 1")
+  assert((n31 LCM n2).asString, "2147483648", "NN32 2^31 LCM 2")
+  assert((nmax LCM unsigned(65535)).asString, "4294967295", "NN32 2^32-1 LCM 65535")
+  assert((n31 LCM n16).asString, "2147483648", "NN32 2^31 LCM 2^16")
+  assert((n31 LCM n31).asString, "2147483648", "NN32 2^31 LCM 2^31")
+  assert((n16 LCM unsigned(65535)).asString, "4294901760", "NN32 65536 LCM 65535")
+  assert(ovN32(fn () => n31 LCM unsigned(z3)), "NN32 2^31 LCM 3 overflows")
+  assert(ovN32(fn () => n16 LCM unsigned(65537)), "NN32 65536 LCM 65537 overflows")
+  assert(ovN32(fn () => nmax LCM n2), "NN32 2^32-1 LCM 2 overflows")
+  assert(ovN32(fn () => nmax LCM unsigned(-2)), "NN32 2^32-1 LCM 2^32-2 overflows")
+  assert(partitionL(n0).asString, "2147483648", "NN32 partitionL 0")
+  assert(partitionL(n1).asString, "0", "NN32 partitionL 1")
+  assert(partitionL(n2).asString, "1", "NN32 partitionL 2")
+  assert(partitionL(unsigned(1024)).asString, "512", "NN32 partitionL 1024")
+  assert(partitionL(unsigned(1025)).asString, "1024", "NN32 partitionL 1025")
+  assert(partitionL(n31).asString, "1073741824", "NN32 partitionL 2^31")
+  assert(partitionL(unsigned(b + 1)).asString, "2147483648", "NN32 partitionL 2^31+1")
+  assert(partitionL(nmax).asString, "2147483648", "NN32 partitionL 2^32-1")
+
+  u0 = unsigned(l0)
+  u1 = unsigned(l1)
+  u2 = unsigned(l2)
+  u63 = unsigned(lb)
+  umax = unsigned(lm1)
+  u3x62 = unsigned(-4611686018427387904)
+  u32 = unsigned(p32)
+  assert(u3x62.asString, "13835058055282163712", "NN64 3 2^62")
+  assert((unsigned(l12) GCD unsigned(l18)).asString, "6", "NN64 12 GCD 18")
+  assert((u0 GCD unsigned(l4)).asString, "4", "NN64 0 GCD 4")
+  assert((u0 GCD u0).asString, "0", "NN64 0 GCD 0")
+  assert((umax GCD u63).asString, "1", "NN64 2^64-1 GCD 2^63")
+  assert((u63 GCD u0).asString, "9223372036854775808", "NN64 2^63 GCD 0")
+  assert((umax GCD u0).asString, "18446744073709551615", "NN64 2^64-1 GCD 0")
+  assert((u63 GCD unsigned(l6)).asString, "2", "NN64 2^63 GCD 6")
+  assert((u63 GCD unsigned(p40)).asString, "1099511627776", "NN64 2^63 GCD 2^40")
+  assert((umax GCD unsigned(p32 - l1)).asString, "4294967295", "NN64 2^64-1 GCD 2^32-1")
+  assert((umax GCD unsigned(p32 + l1)).asString, "4294967297", "NN64 2^64-1 GCD 2^32+1")
+  assert((u3x62 GCD u63).asString, "4611686018427387904", "NN64 3 2^62 GCD 2^63")
+  assert((unsigned(l4) LCM unsigned(l6)).asString, "12", "NN64 4 LCM 6")
+  assert((u0 LCM u0).asString, "0", "NN64 0 LCM 0")
+  assert((umax LCM u1).asString, "18446744073709551615", "NN64 2^64-1 LCM 1")
+  assert((u63 LCM u2).asString, "9223372036854775808", "NN64 2^63 LCM 2")
+  assert((u32 LCM unsigned(p32 - l1)).asString, "18446744069414584320", "NN64 2^32 LCM 2^32-1")
+  assert((umax LCM unsigned(p32 - l1)).asString, "18446744073709551615", "NN64 2^64-1 LCM 2^32-1")
+  assert(ovN64(fn () => u63 LCM unsigned(l3)), "NN64 2^63 LCM 3 overflows")
+  assert(ovN64(fn () => u32 LCM unsigned(p32 + l1)), "NN64 2^32 LCM 2^32+1 overflows")
+  assert(ovN64(fn () => umax LCM u2), "NN64 2^64-1 LCM 2 overflows")
+  assert((unsigned(widen(67)) CHOOSE unsigned(widen(33))).asString, "14226520737620288370", "NN64 67 CHOOSE 33")
+  assert((unsigned(widen(66)) CHOOSE unsigned(widen(33))).asString, "7219428434016265740", "NN64 66 CHOOSE 33")
+  assert((unsigned(p32 + l1) CHOOSE u2).asString, "9223372039002259456", "NN64 (2^32+1) CHOOSE 2")
+  assert((unsigned(widen(10)) CHOOSE unsigned(l3)).asString, "120", "NN64 10 CHOOSE 3")
+  assert((u0 CHOOSE u0).asString, "1", "NN64 0 CHOOSE 0")
+  assert((unsigned(widen(5)) CHOOSE u0).asString, "1", "NN64 5 CHOOSE 0")
+  assert((unsigned(widen(5)) CHOOSE unsigned(widen(5))).asString, "1", "NN64 5 CHOOSE 5")
+  assert((umax CHOOSE u1).asString, "18446744073709551615", "NN64 2^64-1 CHOOSE 1")
+  assert((umax CHOOSE unsigned(-l2)).asString, "18446744073709551615", "NN64 2^64-1 CHOOSE 2^64-2")
+  assert((umax CHOOSE umax).asString, "1", "NN64 2^64-1 CHOOSE 2^64-1")
+  assert((u63 CHOOSE u1).asString, "9223372036854775808", "NN64 2^63 CHOOSE 1")
+  assert((unsigned(l3) CHOOSE unsigned(widen(5))).asString, "0", "NN64 3 CHOOSE 5 is 0")
+  assert((unsigned(widen(5)) CHOOSE umax).asString, "0", "NN64 5 CHOOSE 2^64-1 is 0")
+  assert((u63 CHOOSE umax).asString, "0", "NN64 2^63 CHOOSE 2^64-1 is 0")
+  assert(ovN64(fn () => unsigned(widen(68)) CHOOSE unsigned(widen(34))), "NN64 68 CHOOSE 34 overflows")
+  assert(ovN64(fn () => umax CHOOSE u2), "NN64 2^64-1 CHOOSE 2 overflows")
+  assert(ovN64(fn () => u63 CHOOSE u2), "NN64 2^63 CHOOSE 2 overflows")
+  assert(partitionL(u0).asString, "9223372036854775808", "NN64 partitionL 0")
+  assert(partitionL(u1).asString, "0", "NN64 partitionL 1")
+  assert(partitionL(u2).asString, "1", "NN64 partitionL 2")
+  assert(partitionL(unsigned(p40)).asString, "549755813888", "NN64 partitionL 2^40")
+  assert(partitionL(u63).asString, "4611686018427387904", "NN64 partitionL 2^63")
+  assert(partitionL(unsigned(lb + l1)).asString, "9223372036854775808", "NN64 partitionL 2^63+1")
+  assert(partitionL(umax).asString, "9223372036854775808", "NN64 partitionL 2^64-1")
+
+  h: ZZ = 1934791870947204798109283471902037419
+  b0: ZZ = big(z0)
+  b1: ZZ = big(z1)
+  b3: ZZ = big(z3)
+  b4: ZZ = big(z4)
+  b5: ZZ = big(5)
+  b6: ZZ = big(z6)
+  b12: ZZ = big(z12)
+  b18: ZZ = big(z18)
+  b63: ZZ = -big(lb)
+  b64: ZZ = big(p32) DOT big(p32)
+  assert(b3.cmp(b5), -1, "ZZ 3 cmp 5")
+  assert(b5.cmp(b3), 1, "ZZ 5 cmp 3")
+  assert((-b5).cmp(b3), -1, "ZZ -5 cmp 3")
+  assert((-b5).cmp(-b5), 0, "ZZ -5 cmp -5")
+  assert(h.cmp(-h), 1, "ZZ cmp beyond ZZ64")
+  assert((-h).cmp(h), -1, "ZZ cmp beyond ZZ64, negative")
+  assert(h.cmp(h), 0, "ZZ cmp beyond ZZ64, equal")
+  assert(b3 < b5, true, "ZZ < through cmp")
+  assert(b5 < b3, false, "ZZ < not, through cmp")
+  assert(h >= h, true, "ZZ >= through cmp")
+  assert((b12 GCD b18).asString, "6", "ZZ 12 GCD 18")
+  assert(((-b12) GCD b18).asString, "6", "ZZ -12 GCD 18")
+  assert((b12 GCD (-b18)).asString, "6", "ZZ 12 GCD -18")
+  assert(((-b12) GCD (-b18)).asString, "6", "ZZ -12 GCD -18")
+  assert((b0 GCD (-b4)).asString, "4", "ZZ 0 GCD -4 is 4")
+  assert((b0 GCD b0).asString, "0", "ZZ 0 GCD 0")
+  assert((big(lb) GCD b0).asString, "9223372036854775808", "ZZ -2^63 GCD 0")
+  assert((b64 GCD (b3 DOT big(p40))).asString, "1099511627776", "ZZ 2^64 GCD 3 2^40")
+  assert((h GCD (-h)).asString, "1934791870947204798109283471902037419", "ZZ GCD beyond ZZ64")
+  assert((b4 LCM b6).asString, "12", "ZZ 4 LCM 6")
+  assert(((-b4) LCM b6).asString, "12", "ZZ -4 LCM 6")
+  assert((b4 LCM (-b6)).asString, "12", "ZZ 4 LCM -6")
+  assert(((-b4) LCM (-b6)).asString, "12", "ZZ -4 LCM -6")
+  assert((b1 LCM (-b5)).asString, "5", "ZZ 1 LCM -5 is 5")
+  assert((b0 LCM b0).asString, "0", "ZZ 0 LCM 0")
+  assert((b63 LCM b3).asString, "27670116110564327424", "ZZ 2^63 LCM 3")
+  assert((b64 LCM (b64 + b1)).asString, "340282366920938463481821351505477763072", "ZZ 2^64 LCM (2^64+1)")
+  assert((h LCM b1).asString, "1934791870947204798109283471902037419", "ZZ LCM beyond ZZ64")
+  assert((big(70) CHOOSE big(35)).asString, "112186277816662845432", "ZZ 70 CHOOSE 35")
+  assert((big(68) CHOOSE big(34)).asString, "28453041475240576740", "ZZ 68 CHOOSE 34")
+  assert((big(100) CHOOSE big(50)).asString, "100891344545564193334812497256", "ZZ 100 CHOOSE 50")
+  assert((big(10) CHOOSE b3).asString, "120", "ZZ 10 CHOOSE 3")
+  assert((b0 CHOOSE b0).asString, "1", "ZZ 0 CHOOSE 0")
+  assert((b5 CHOOSE b0).asString, "1", "ZZ 5 CHOOSE 0")
+  assert((b5 CHOOSE b5).asString, "1", "ZZ 5 CHOOSE 5")
+
+  t0: ZZ64 = nanoTime()
+  t1: ZZ64 = nanoTime()
+  assert(t0 <= t1, true, "nanoTime twice, the second not less than the first")
+end
+
+end

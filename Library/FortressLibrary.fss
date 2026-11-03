@@ -782,9 +782,9 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     opr MOD(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Mod")
     opr GCD(self,b:ZZ32):ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Gcd")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intGcd")
     opr LCM(self,b:ZZ32):ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Lcm")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLcm")
     opr CHOOSE(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingChoose")
     opr BITAND(self,b:ZZ32):ZZ32 =
@@ -805,7 +805,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     widen(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.intToLong")
     partitionL(self):ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Partition")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intPartition")
     unsigned(self):NN32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
     narrow(self):ZZ32 = self
@@ -875,9 +875,9 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr MOD(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Mod")
     opr GCD(self,b:ZZ64):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Gcd")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longGcd")
     opr LCM(self,b:ZZ64):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Lcm")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longLcm")
     opr CHOOSE(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingChoose")
     opr BITAND(self,b:ZZ64):ZZ64 =
@@ -896,7 +896,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Pow")
     opr ^(self, b:IntLiteral):ZZ64 = self^(b.asZZ32)
     partitionL(self):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Partition")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longPartition")
     narrow(self):ZZ32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.longWrappingToInt")
     unsigned(self):NN64 =
@@ -958,11 +958,11 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr MOD(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Mod")
     opr GCD(self,b:NN64):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Gcd")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongGcd")
     opr LCM(self,b:NN64):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Lcm")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongLcm")
     opr CHOOSE(self,b:NN64):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Choose")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingChoose")
     opr BITAND(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitAnd")
     opr BITOR(self,b:NN64):NN64 =
@@ -979,7 +979,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Pow")
     opr ^(self, b:IntLiteral):NN64 = self^(b.asZZ32)
     partitionL(self):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Partition")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongPartition")
     narrow(self):NN32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.longWrappingToUnsignedInt")
     signed(self):ZZ64 =
@@ -1018,7 +1018,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr MINNUM(self, other:ZZ): ZZ = self MIN other
     opr MAXNUM(self, other:ZZ): ZZ = self MAX other
     cmp(b:ZZ): ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Cmp")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.cmp")
 
     opr -(self): ZZ =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.neg")
@@ -1055,11 +1055,11 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr MOD(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mod")
     opr GCD(self, b: ZZ): ZZ =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Gcd")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.gcd")
     opr LCM(self, b: ZZ): ZZ =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Lcm")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.lcm")
     opr CHOOSE(self, b: ZZ): ZZ =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Choose")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.choose")
     opr BITAND(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.and")
     opr BITOR(self, b: ZZ): ZZ =
@@ -4519,7 +4519,7 @@ reverse(sequence:String):String = BIG || [c<-sequence.reverse] c
 * Numeric primitives
 ************************************************************)
 
-nanoTime():ZZ64 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$NanoTime")
+nanoTime():ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longNanoTime")
 printTaskTrace():() = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$PrintTaskTrace")
 
 __globalTimeInformation: ZZ64 := 0
