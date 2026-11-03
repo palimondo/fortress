@@ -4,6 +4,7 @@
 
 ## Held in chat (2026-11-03)
 
+- 18:3x The eight working rules go on the existing skill drafts page (https://claude.ai/artifact/LwjYdr5x6iSVVEgwKMic1m), recycled: trim the old parts that have landed, and add the eight as items. No new page for a skill review.
 - 18:3x He reads turn by turn from the top; the coordinator's long replies after each comment are a wall of text spiral. Recover: short turns.
 - 18:3x The review queue, about 100K characters and 312 open items, scared him most: it reads as a full history of consequential changes, framed as things for him to review and overturn. That framing is wrong for closing his cognitive gap on what the workers changed in the repository. The consolidation he means is of the review queue, the held list and PLAN.
 - 18:3x The design decisions asked before the batch that needs them: the standing practice, nothing against it.
