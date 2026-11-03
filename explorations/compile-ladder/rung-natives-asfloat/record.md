@@ -1,0 +1,42 @@
+<!-- Climb batch 25, rung A, rung-natives-asfloat: the record lines the gather folds into FACTS, the gap ledger and the handover. Detail in REPORT.md beside it. -->
+
+# Rung A's record
+
+## Findings
+
+1. **The `asFloat`s of `Int`, `RR32`, `NN32`, `Long` and `BigNum` are declared at `RR64`, the type of the library's abstract `asFloat` on `Number`, and name static helpers of `nativeHelpers/`.** `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:241-242` (`simpleDoubleArith.floatToDouble`), `:374-375` (`simpleIntArith.intToDouble`), `:383-384` (`simpleLongArith.longToDouble`, new), `:396-397` (`simpleUnsignedIntArith.unsignedIntToDouble`, through the rewrite's `NN32` transfer) and `:570-571` (`simpleArbitraryPrecisionArith.toDouble`, new); the abstract at `Library/FortressLibrary.fsi:290-291`; the specification's conversion into `RR64`, `Specification/basic-lib/numbers.tex:47-49`. Holds on this rung's tree: 178 of the 449 live bindings name a helper (173 before, F-299), 271 a glue class. Evidence: the distance stage on the final tree, '#total 0', '#crash none', 'DISTANCE SAME   0' against climb batch 24's table; the count stage '#total 0', its table equal to climb batch 24's. Meaning: the move climb batch 23's fork 12 left open is made at the declared type, as fork 3 of climb batch 25 defaults; `UnsignedLong`'s is rung U's, so after the batch only `Float`'s own (`self`), `FloatLiteral`'s and `IntLiteral`'s `asFloat` stay off helpers.
+2. **The two new helpers compute as their glue classes, and walk's values do not move.** `simpleLongArith.longToDouble` is `(double) a` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleLongArith.java:27-30`), as `Long$AsFloat` (`interpreter/glue/prim/Long.java:268-271`); `simpleArbitraryPrecisionArith.toDouble` is `a.doubleValue()` (`simpleArbitraryPrecisionArith.java:30-33`), as `BigNum$AsFloat` (`BigNum.java:280-283`), an infinity past the double range. Walk boxes each helper's `double` at the declared `RR64` as the same `Float` object as before (F-303). Evidence: `ProjectFortress/tests/NativeHelperFamilyAsFloatWalk.fss`, 32 assertions at the five types' bounds (2^24 + 1, 2^31, 2^32 - 1, 2^53 + 1, the `ZZ64` bounds, the `RR32` subnormal and infinities, -0.0, 10^320), passing through `harness-one.sh` on the base's code ('OK (1 test)', 01:37:37Z) and on the edit (01:40:10Z), red on a deliberate change ('FAIL: J13/0:4.294967295E9 =/= J4/0:-1.0; NN32 asFloat of 2^32 - 1 is unsigned'); `ProjectFortress/compiler_tests/NativeHelperFamilyAsFloatCompiled.test`, the five helpers bound by its own declarations, refused on the base ('builtinPrimitive names no static helper: com.sun.fortress.nativeHelpers.simpleLongArith.longToDouble') and passing after ('OK (2 tests)'). Meaning: the compiled path can call the five once it runs the one library; under walk nothing changes.
+3. **On the compiled path a negated radix-point numeral is refused at a typed binding of `RR32`.** `e: RR32 = -0.0` and `g: RR32 = -1000000000000000000000000000000000000000.0` give 'Right-hand side has type RR64, but declared type is RR32.', where `0.0` and `1000000000000000000000000000000000000000.0` at `RR32` compile. Holds against the compiler's prelude: its `FloatLiteral` declares no prefix `-` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:479`), so the numeral converts to `RR64` (`:434`), whose `-` answers `RR64` (`:438`), and `RR32` declares no `-` (row 529). Evidence: a probe program of this rung, `fortress compile` on this tree, its output in REPORT.md, "Decisions", 4; no gated test. Meaning: the compiled guard asserts `floatToDouble` at `RR32`'s -0.0 and -infinity only under walk; it closes with the prelude at the switch-over.
+
+## For FACTS
+
+- **`Int`'s, `RR32`'s, `NN32`'s, `Long`'s and `BigNum`'s `asFloat` answer `RR64`, as `Number`'s abstract `asFloat` declares, and name `nativeHelpers`' `intToDouble`, `floatToDouble`, `unsignedIntToDouble`, `longToDouble` and `toDouble`; walk's values are unchanged.** `LibraryBuiltin/FortressBuiltin.fss:241`, `:374`, `:383`, `:396`, `:570`; the abstract at `Library/FortressLibrary.fsi:291`, the specification's `numbers.tex:49`. At `Float`, the team's declared result, the checker refused the move ('Function body has type RR64, but declared return type is Float.', climb batch 23's fork 12); walk carries both in a `double` and answers the same `Float` object (F-303). `longToDouble` and `toDouble` are new, `(double) a` and `a.doubleValue()`. Tests: `tests/NativeHelperFamilyAsFloatWalk`, `compiler_tests/NativeHelperFamilyAsFloatCompiled`. Detail: `explorations/compile-ladder/rung-natives-asfloat/REPORT.md`.
+- F-32's "of its 449 live bindings, 276 name one" and F-299's "173 of the one library's 449 live bindings name one" with its count by type: 271 and 178 on this rung's tree alone; by F-299's types, `Int` 2 to 3 and `NN32` 20 to 21, and the five as their own entry (`RR32`'s, `Long`'s and `BigNum`'s are in none of F-299's groups); the gather counts the merged tree. F-299's tests gain the two guards.
+- F-308's "Six of the 82 bindings over these types stay on glue classes: `NN32`'s `asFloat` and `CHOOSE`, …": `NN32`'s `asFloat` names `simpleUnsignedIntArith.unsignedIntToDouble` through the `NN32` transfer, so `NN32`'s count is 21 on this rung's tree; its tests gain `compiler_tests/NativeHelperFamilyAsFloatCompiled` (`nn32AsFloat`, carried in a `ZZ32`, asserted at 2^31 and 2^32 - 1).
+- PLAN.md:52, the natives line, "The families that wait on a known obstacle": the `asFloat`s of `Int`, `RR32` and `NN32` no longer wait; with `Long`'s and `BigNum`'s they are at `RR64` on helpers.
+
+## Ledger: rows closed
+
+None.
+
+## Ledger: notes (a fact added)
+
+- Row 529, the note: "On the compiled path a negated radix-point numeral is refused at `RR32` too: `e: RR32 = -0.0`, 'Right-hand side has type RR64, but declared type is RR32.', the prelude's `FloatLiteral` declaring no prefix `-` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:479`); climb batch 25 rung A." If the row is at its notes limit, the gather's `ledger.py rewrite` cuts it as D4 says.
+
+## Ledger: rows rewritten
+
+None.
+
+## Ledger: new rows
+
+None.
+
+## Handover
+
+Climb batch 25's rung A declared the `asFloat`s of `Int`, `RR32`, `NN32`, `Long` and `BigNum` at `RR64`, the type of `Number`'s abstract `asFloat`, and moved them onto helpers, two of them new (`longToDouble`, `toDouble`): 178 of 449 bindings name a helper on its tree, walk's values unchanged, the count and the distance 0.
+
+## Revival change
+
+**The change.** The team's library declared `asFloat(self): RR64` on the numbers' trait (`git show a874948ac:Library/FortressLibrary.fss`, `:355`), and in walk's value objects `Int`, `Long`, `NN32`, `RR32` and `BigNum` declared it `asFloat(self): Float`, walk's float object, bound to the glue classes `Int$AsFloat`, `Long$AsFloat`, `NN32$AsFloat`, `RR32$AsFloat` and `BigNum$AsFloat` (`git show a874948ac:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`, `:238`, `:374`, `:383`, `:395`, `:533`). The tree now declares these five `asFloat(self): RR64` and binds them to static helpers that both paths call, `simpleIntArith.intToDouble`, `simpleLongArith.longToDouble`, `simpleUnsignedIntArith.unsignedIntToDouble`, `simpleDoubleArith.floatToDouble` and `simpleArbitraryPrecisionArith.toDouble` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:241`, `:374`, `:383`, `:396`, `:570`); under walk each still answers the same `Float` object at the same value (`ProjectFortress/tests/NativeHelperFamilyAsFloatWalk.fss`), and on the compiled path the helpers answer those values (`ProjectFortress/compiler_tests/NativeHelperFamilyAsFloatCompiled.test`). The reason: the library's api declares `abstract asFloat(self): RR64` on `Number`, "the explicit conversion into %RR64%" (`Library/FortressLibrary.fsi:290-291`), as the specification's text does (`Specification/basic-lib/numbers.tex:47-49`); no Java type is read by the checker as `Float`, so a helper answers `RR64`, and with the declaration at `Float` the checker refuses the binding: 'Function body has type RR64, but declared return type is Float.' at `FortressBuiltin.fss:375`.
+
+**Provenance.** Climb batch 23's fork 12, which left the declared type open with two ways named; P-58; climb batch 25's fork 3 at its default, the declaration at `RR64` (`explorations/coordinator/CLIMB-BATCH-25.md`, "Forks the batch takes, none consequential"); climb batch 25, rung A.
