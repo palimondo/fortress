@@ -1,0 +1,169 @@
+(* REM and MOD on ZZ32, ZZ64, NN32, NN64 and ZZ give the truncating and the floor remainder at every pair of signs and at the bounds under walk; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
+component NativeHelperFamilyRemainderWalk
+export Executable
+
+run():() = do
+  p7: ZZ32 = 7
+  n7: ZZ32 = -7
+  p3: ZZ32 = 3
+  n3: ZZ32 = -3
+  p6: ZZ32 = 6
+  n6: ZZ32 = -6
+  z0: ZZ32 = 0
+  m1: ZZ32 = -1
+  mx: ZZ32 = 2147483647
+  mn: ZZ32 = -2147483647 - 1
+  assert(p7 REM p3, 1, "ZZ32 7 REM 3")
+  assert(p7 MOD p3, 1, "ZZ32 7 MOD 3")
+  assert(n7 REM p3, -1, "ZZ32 -7 REM 3")
+  assert(n7 MOD p3, 2, "ZZ32 -7 MOD 3")
+  assert(p7 REM n3, 1, "ZZ32 7 REM -3")
+  assert(p7 MOD n3, -2, "ZZ32 7 MOD -3")
+  assert(n7 REM n3, -1, "ZZ32 -7 REM -3")
+  assert(n7 MOD n3, -1, "ZZ32 -7 MOD -3")
+  assert(p6 REM p3, 0, "ZZ32 6 REM 3")
+  assert(p6 MOD n3, 0, "ZZ32 6 MOD -3")
+  assert(n6 REM p3, 0, "ZZ32 -6 REM 3")
+  assert(n6 MOD p3, 0, "ZZ32 -6 MOD 3")
+  assert(z0 REM n7, 0, "ZZ32 0 REM -7")
+  assert(z0 MOD n7, 0, "ZZ32 0 MOD -7")
+  assert(mn REM m1, 0, "ZZ32 minimum REM -1")
+  assert(mn MOD m1, 0, "ZZ32 minimum MOD -1")
+  assert(mx REM mn, 2147483647, "ZZ32 maximum REM minimum")
+  assert(mx MOD mn, -1, "ZZ32 maximum MOD minimum")
+  assert(mn REM mx, -1, "ZZ32 minimum REM maximum")
+  assert(mn MOD mx, 2147483646, "ZZ32 minimum MOD maximum")
+  assert(mn REM mn, 0, "ZZ32 minimum REM minimum")
+  assert(mn MOD mn, 0, "ZZ32 minimum MOD minimum")
+  assert(mn REM p3, -2, "ZZ32 minimum REM 3")
+  assert(mn MOD p3, 1, "ZZ32 minimum MOD 3")
+  assert(mx REM (-2), 1, "ZZ32 maximum REM -2")
+  assert(mx MOD (-2), -1, "ZZ32 maximum MOD -2")
+
+  q7: ZZ64 = 7
+  r7: ZZ64 = -7
+  q3: ZZ64 = 3
+  r3: ZZ64 = -3
+  q5: ZZ64 = -5
+  w0: ZZ64 = 0
+  w1: ZZ64 = -1
+  t10: ZZ64 = 10000000000
+  t32: ZZ64 = 4294967296
+  lx: ZZ64 = 9223372036854775807
+  ln: ZZ64 = -9223372036854775807 - 1
+  assert((q7 REM q3).asString, "1", "ZZ64 7 REM 3")
+  assert((q7 MOD q3).asString, "1", "ZZ64 7 MOD 3")
+  assert((r7 REM q3).asString, "-1", "ZZ64 -7 REM 3")
+  assert((r7 MOD q3).asString, "2", "ZZ64 -7 MOD 3")
+  assert((q7 REM r3).asString, "1", "ZZ64 7 REM -3")
+  assert((q7 MOD r3).asString, "-2", "ZZ64 7 MOD -3")
+  assert((r7 REM r3).asString, "-1", "ZZ64 -7 REM -3")
+  assert((r7 MOD r3).asString, "-1", "ZZ64 -7 MOD -3")
+  assert((w0 REM r7).asString, "0", "ZZ64 0 REM -7")
+  assert((w0 MOD r7).asString, "0", "ZZ64 0 MOD -7")
+  assert((t10 REM q3).asString, "1", "ZZ64 10^10 REM 3")
+  assert((t10 MOD q3).asString, "1", "ZZ64 10^10 MOD 3")
+  assert(((-t10) REM q7).asString, "-4", "ZZ64 -10^10 REM 7")
+  assert(((-t10) MOD q7).asString, "3", "ZZ64 -10^10 MOD 7")
+  assert((t32 REM q5).asString, "1", "ZZ64 2^32 REM -5")
+  assert((t32 MOD q5).asString, "-4", "ZZ64 2^32 MOD -5")
+  assert((ln REM w1).asString, "0", "ZZ64 minimum REM -1")
+  assert((ln MOD w1).asString, "0", "ZZ64 minimum MOD -1")
+  assert((lx REM ln).asString, "9223372036854775807", "ZZ64 maximum REM minimum")
+  assert((lx MOD ln).asString, "-1", "ZZ64 maximum MOD minimum")
+  assert((ln REM lx).asString, "-1", "ZZ64 minimum REM maximum")
+  assert((ln MOD lx).asString, "9223372036854775806", "ZZ64 minimum MOD maximum")
+  assert((ln REM q3).asString, "-2", "ZZ64 minimum REM 3")
+  assert((ln MOD q3).asString, "1", "ZZ64 minimum MOD 3")
+
+  a0 = unsigned(z0)
+  a3 = unsigned(p3)
+  a7 = unsigned(p7)
+  a10 = unsigned(p7 + p3)
+  a31 = unsigned(mn)
+  amax = unsigned(m1)
+  assert(a31.asString, "2147483648", "NN32 2^31")
+  assert(amax.asString, "4294967295", "NN32 2^32-1")
+  assert((a7 REM a3).asString, "1", "NN32 7 REM 3")
+  assert((a7 MOD a3).asString, "1", "NN32 7 MOD 3")
+  assert((amax REM a31).asString, "2147483647", "NN32 2^32-1 REM 2^31")
+  assert((amax MOD a31).asString, "2147483647", "NN32 2^32-1 MOD 2^31")
+  assert((a31 REM amax).asString, "2147483648", "NN32 2^31 REM 2^32-1")
+  assert((a31 MOD amax).asString, "2147483648", "NN32 2^31 MOD 2^32-1")
+  assert((amax REM a10).asString, "5", "NN32 2^32-1 REM 10")
+  assert((amax MOD a10).asString, "5", "NN32 2^32-1 MOD 10")
+  assert((amax REM a7).asString, "3", "NN32 2^32-1 REM 7")
+  assert((amax MOD a7).asString, "3", "NN32 2^32-1 MOD 7")
+  assert((a31 REM a3).asString, "2", "NN32 2^31 REM 3")
+  assert((a31 MOD a3).asString, "2", "NN32 2^31 MOD 3")
+  assert((a31 REM a7).asString, "2", "NN32 2^31 REM 7")
+  assert((a31 MOD a7).asString, "2", "NN32 2^31 MOD 7")
+  assert((a7 REM a31).asString, "7", "NN32 7 REM 2^31")
+  assert((a7 MOD a31).asString, "7", "NN32 7 MOD 2^31")
+  assert((amax REM amax).asString, "0", "NN32 2^32-1 REM 2^32-1")
+  assert((amax MOD amax).asString, "0", "NN32 2^32-1 MOD 2^32-1")
+  assert((a0 REM amax).asString, "0", "NN32 0 REM 2^32-1")
+  assert((a0 MOD amax).asString, "0", "NN32 0 MOD 2^32-1")
+
+  b3 = unsigned(q3)
+  b7 = unsigned(q7)
+  b10 = unsigned(q7 + q3)
+  b32 = unsigned(t32)
+  b63 = unsigned(ln)
+  bmax = unsigned(w1)
+  assert(b63.asString, "9223372036854775808", "NN64 2^63")
+  assert(bmax.asString, "18446744073709551615", "NN64 2^64-1")
+  assert((b7 REM b3).asString, "1", "NN64 7 REM 3")
+  assert((b7 MOD b3).asString, "1", "NN64 7 MOD 3")
+  assert((bmax REM b63).asString, "9223372036854775807", "NN64 2^64-1 REM 2^63")
+  assert((bmax MOD b63).asString, "9223372036854775807", "NN64 2^64-1 MOD 2^63")
+  assert((b63 REM bmax).asString, "9223372036854775808", "NN64 2^63 REM 2^64-1")
+  assert((b63 MOD bmax).asString, "9223372036854775808", "NN64 2^63 MOD 2^64-1")
+  assert((bmax REM b10).asString, "5", "NN64 2^64-1 REM 10")
+  assert((bmax MOD b10).asString, "5", "NN64 2^64-1 MOD 10")
+  assert((bmax REM b7).asString, "1", "NN64 2^64-1 REM 7")
+  assert((bmax MOD b7).asString, "1", "NN64 2^64-1 MOD 7")
+  assert((b63 REM b3).asString, "2", "NN64 2^63 REM 3")
+  assert((b63 MOD b3).asString, "2", "NN64 2^63 MOD 3")
+  assert((b63 REM b7).asString, "1", "NN64 2^63 REM 7")
+  assert((b63 MOD b7).asString, "1", "NN64 2^63 MOD 7")
+  assert((b32 REM b10).asString, "6", "NN64 2^32 REM 10")
+  assert((b32 MOD b10).asString, "6", "NN64 2^32 MOD 10")
+  assert((b7 REM bmax).asString, "7", "NN64 7 REM 2^64-1")
+  assert((b7 MOD bmax).asString, "7", "NN64 7 MOD 2^64-1")
+  assert((bmax REM bmax).asString, "0", "NN64 2^64-1 REM 2^64-1")
+  assert((bmax MOD bmax).asString, "0", "NN64 2^64-1 MOD 2^64-1")
+
+  c0: ZZ = big(0)
+  c7: ZZ = big(7)
+  d7: ZZ = big(-7)
+  t20: ZZ = 100000000000000000000
+  u20: ZZ = -t20
+  v21: ZZ = 123456789012345678901
+  assert((t20 REM c7).asString, "2", "ZZ 10^20 REM 7")
+  assert((t20 MOD c7).asString, "2", "ZZ 10^20 MOD 7")
+  assert((u20 REM c7).asString, "-2", "ZZ -10^20 REM 7")
+  assert((u20 MOD c7).asString, "5", "ZZ -10^20 MOD 7")
+  assert((t20 REM d7).asString, "2", "ZZ 10^20 REM -7")
+  assert((t20 MOD d7).asString, "-5", "ZZ 10^20 MOD -7")
+  assert((u20 REM d7).asString, "-2", "ZZ -10^20 REM -7")
+  assert((u20 MOD d7).asString, "-2", "ZZ -10^20 MOD -7")
+  assert((c7 REM t20).asString, "7", "ZZ 7 REM 10^20")
+  assert((c7 MOD t20).asString, "7", "ZZ 7 MOD 10^20")
+  assert((d7 REM t20).asString, "-7", "ZZ -7 REM 10^20")
+  assert((d7 MOD t20).asString, "99999999999999999993", "ZZ -7 MOD 10^20")
+  assert((c7 REM u20).asString, "7", "ZZ 7 REM -10^20")
+  assert((c7 MOD u20).asString, "-99999999999999999993", "ZZ 7 MOD -10^20")
+  assert((d7 REM u20).asString, "-7", "ZZ -7 REM -10^20")
+  assert((d7 MOD u20).asString, "-7", "ZZ -7 MOD -10^20")
+  assert((v21 REM t20).asString, "23456789012345678901", "ZZ 21 digits REM 10^20")
+  assert((v21 MOD t20).asString, "23456789012345678901", "ZZ 21 digits MOD 10^20")
+  assert(((-v21) REM t20).asString, "-23456789012345678901", "ZZ -21 digits REM 10^20")
+  assert(((-v21) MOD t20).asString, "76543210987654321099", "ZZ -21 digits MOD 10^20")
+  assert((u20 REM t20).asString, "0", "ZZ -10^20 REM 10^20")
+  assert((t20 MOD u20).asString, "0", "ZZ 10^20 MOD -10^20")
+  assert((c0 REM u20).asString, "0", "ZZ 0 REM -10^20")
+  assert((c0 MOD u20).asString, "0", "ZZ 0 MOD -10^20")
+end
+
+end

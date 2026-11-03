@@ -209,7 +209,7 @@ Line numbers are those of the base, 25238e60c, whose Library/, ProjectFortress/ 
 - The planner's rung-R.patch: git apply explorations/compile-ladder/plan-25/probes/rung-R.patch in your tree. Take the text, or improve it and say why. It holds:
   - ten new helpers, each right after its class's overflowing division helper (fork 2), each raising fortress.CompilerBuiltin$DivisionByZero at a zero divisor and computing every other value as the glue class does (fork 4): simpleIntArith.intRem (a % b) and intMod (Math.floorMod); simpleLongArith.longRem and longMod, the same at long; simpleUnsignedIntArith.unsignedIntRem and unsignedIntMod (both Integer.remainderUnsigned, MOD and REM being the same for natural numbers); simpleUnsignedLongArith.unsignedLongRem and unsignedLongMod (Long.remainderUnsigned); simpleArbitraryPrecisionArith.rem (BigInteger.remainder) and mod (BigInteger.mod, of the divisor's sign as walk's BigNum$Mod);
   - ten strings: trait ZZ32's REM and MOD (Library/FortressLibrary.fss:780, :782), trait ZZ64's (:873, :875), trait NN64's (:956, :958, through the NN64 transfers), trait ZZ's (:1053, :1055), and value object NN32's (ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:440, :442, through the NN32 transfers).
-- Not yours: GCD, LCM, CHOOSE and partitionL (rung N); IntLiteral's REM and MOD, which wait for N5 (P-76); DIVREM and DIVMOD, which the library writes in Fortress; the Appendix I entry (the gather, fork 10).
+- Not yours: GCD, LCM, CHOOSE and partitionL (rung N); IntLiteral's REM and MOD, which wait for N5 (P-76); DIVREM and DIVMOD, which neither library declares (row 881); the Appendix I entry (the gather, fork 10).
 
 **Rows.**
 - Row 336: the gather closes it with your commit, its test the promoted ZZ64RemainderByZeroWalk.

@@ -1,0 +1,20 @@
+(* NN32's REM and MOD by zero throw DivisionByZero, which a catch sees; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
+component NN32RemainderByZeroWalk
+export Executable
+
+dividesByZero(f: () -> NN32): Boolean =
+  try
+    f()
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+run():() = do
+  assert(dividesByZero(fn () => unsigned(7) REM unsigned(0)), "NN32 7 REM 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert(dividesByZero(fn () => unsigned(7) MOD unsigned(0)), "NN32 7 MOD 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert((unsigned(7) REM unsigned(2)).asString, "1", "NN32 7 REM 2 is 1")
+  assert((unsigned(7) MOD unsigned(2)).asString, "1", "NN32 7 MOD 2 is 1")
+end
+
+end

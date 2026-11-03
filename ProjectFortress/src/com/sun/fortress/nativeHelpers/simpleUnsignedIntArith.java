@@ -64,6 +64,17 @@ public class simpleUnsignedIntArith {
         return (int) c; 
     }
 
+    /* REM and MOD, the same for natural numbers; each raises DivisionByZero at a zero divisor. */
+    public static int unsignedIntRem(int a, int b) {
+        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        return Integer.remainderUnsigned(a, b);
+    }
+
+    public static int unsignedIntMod(int a, int b) {
+        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        return Integer.remainderUnsigned(a, b);
+    }
+
     public static int unsignedIntOverflowingNeg(int a) {  
 	if (a == 0) return 0;
 	throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");

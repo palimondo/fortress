@@ -778,9 +778,9 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     opr DIV(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intOverflowingDiv")
     opr REM(self,b:ZZ32):ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Rem")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intRem")
     opr MOD(self,b:ZZ32):ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Mod")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intMod")
     opr GCD(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Gcd")
     opr LCM(self,b:ZZ32):ZZ32 =
@@ -871,9 +871,9 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr DIV(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingDiv")
     opr REM(self,b:ZZ64):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Rem")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longRem")
     opr MOD(self,b:ZZ64):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Mod")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longMod")
     opr GCD(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Gcd")
     opr LCM(self,b:ZZ64):ZZ64 =
@@ -954,9 +954,9 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr DIV(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongOverflowingDiv")
     opr REM(self,b:NN64):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Rem")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongRem")
     opr MOD(self,b:NN64):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Mod")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongMod")
     opr GCD(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Gcd")
     opr LCM(self,b:NN64):NN64 =
@@ -1051,9 +1051,9 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr DIV(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.div")
     opr REM(self, b: ZZ): ZZ =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Rem")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.rem")
     opr MOD(self, b: ZZ): ZZ =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Mod")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.mod")
     opr GCD(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Gcd")
     opr LCM(self, b: ZZ): ZZ =

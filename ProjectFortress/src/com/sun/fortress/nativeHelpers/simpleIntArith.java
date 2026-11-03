@@ -81,6 +81,18 @@ public class simpleIntArith {
         return a / b;
     }
 
+    /* REM, the remainder of the truncating division, and MOD, the remainder of the floor division, which has the
+       sign of the divisor; each raises DivisionByZero at a zero divisor. */
+    public static int intRem(int a, int b) {
+        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        return a % b;
+    }
+
+    public static int intMod(int a, int b) {
+        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        return Math.floorMod(a, b);
+    }
+
     public static int intOverflowingNeg(int a) {
 	if (a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
         return -a;

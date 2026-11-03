@@ -1,0 +1,22 @@
+(* ZZ32's REM and MOD by zero throw DivisionByZero, which a catch sees; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
+component ZZ32RemainderByZeroWalk
+export Executable
+
+dividesByZero(f: () -> ZZ32): Boolean =
+  try
+    f()
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+run():() = do
+  zero: ZZ32 = 0
+  seven: ZZ32 = 7
+  assert(dividesByZero(fn () => seven REM zero), "ZZ32 7 REM 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert(dividesByZero(fn () => seven MOD zero), "ZZ32 7 MOD 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert((-seven) REM 2, -1, "ZZ32 -7 REM 2 is -1")
+  assert((-seven) MOD 2, 1, "ZZ32 -7 MOD 2 is 1")
+end
+
+end

@@ -49,6 +49,19 @@ public class simpleArbitraryPrecisionArith {
     	return a.divide(b);
     }
 
+    /* REM, the remainder of the truncating division, and MOD, the remainder of the floor division, which has the
+       sign of the divisor; each raises DivisionByZero at a zero divisor. */
+    public static BigInteger rem(BigInteger a, BigInteger b) {
+        if (b.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        return a.remainder(b);
+    }
+
+    public static BigInteger mod(BigInteger a, BigInteger b) {
+        if (b.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        if (b.signum() < 0) return a.negate().mod(b.negate()).negate();
+        return a.mod(b);
+    }
+
     public static BigInteger neg(BigInteger a) { 
     	return a.negate();
     }

@@ -1,0 +1,23 @@
+(* NN64's REM and MOD by zero throw DivisionByZero, which a catch sees; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
+component NN64RemainderByZeroWalk
+export Executable
+
+dividesByZero(f: () -> NN64): Boolean =
+  try
+    f()
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+run():() = do
+  zero: ZZ64 = 0
+  seven: ZZ64 = 7
+  two: ZZ64 = 2
+  assert(dividesByZero(fn () => unsigned(seven) REM unsigned(zero)), "NN64 7 REM 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert(dividesByZero(fn () => unsigned(seven) MOD unsigned(zero)), "NN64 7 MOD 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert((unsigned(seven) REM unsigned(two)).asString, "1", "NN64 7 REM 2 is 1")
+  assert((unsigned(seven) MOD unsigned(two)).asString, "1", "NN64 7 MOD 2 is 1")
+end
+
+end
