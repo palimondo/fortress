@@ -81,6 +81,18 @@ public class simpleLongArith {
         return a / b;
     }
 
+    /* REM, the remainder of the truncating division, and MOD, the remainder of the floor division, which has the
+       sign of the divisor; each raises DivisionByZero at a zero divisor. */
+    public static long longRem(long a, long b) {
+        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        return a % b;
+    }
+
+    public static long longMod(long a, long b) {
+        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        return Math.floorMod(a, b);
+    }
+
     public static long longOverflowingNeg(long a) {
 	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
         return -a;

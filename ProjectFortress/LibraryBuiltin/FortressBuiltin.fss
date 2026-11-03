@@ -438,9 +438,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr DIV(self,b:NN32):NN32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntOverflowingDiv")
     opr REM(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Rem")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntRem")
     opr MOD(self,b:NN32):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Mod")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntMod")
     opr GCD(self,b:NN32):NN32 =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Gcd")
     opr LCM(self,b:NN32):NN32 =

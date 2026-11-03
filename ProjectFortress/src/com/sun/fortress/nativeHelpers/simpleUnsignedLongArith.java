@@ -77,6 +77,17 @@ public class simpleUnsignedLongArith {
     	return divu(n,d);
     }
 
+    /* REM and MOD, the same for natural numbers; each raises DivisionByZero at a zero divisor. */
+    public static long unsignedLongRem(long a, long b) {
+        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        return Long.remainderUnsigned(a, b);
+    }
+
+    public static long unsignedLongMod(long a, long b) {
+        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+        return Long.remainderUnsigned(a, b);
+    }
+
     public static long unsignedLongOverflowingNeg(long a) {  
     	if (a == 0) return 0;
     	throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
