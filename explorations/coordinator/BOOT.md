@@ -28,55 +28,11 @@
 
 ## Waiting on him
 
-Each item is one of the closing docket's 24 items that need his word; the docket item named holds its state and its default.
-
-- The coordinator's proposal in place of the docket's page: the design decisions one at a time, the working rules by his one word "defaults" (item 3 under "Next").
-- P-146, the self type in a self-typed trait, with the self-type probe's result (docket 1.1). Its default: the library stays as it is, row 407's repair lands as a small rung, and the two checker ways are probed.
-- The integer conversions, `narrow`, `widen` and their kin, with items 331 and 332, before climb batch 26 is planned (docket 1.2; HELD.md, "Held in chat (2026-10-31)"). Its default is option 3.
-- `CompilerSystem` at the switch-over, item 319 (docket 1.3; HELD.md, "Held from his page comments (2026-10-29)", 05:22).
-- Who decides changes to the coordinator skill, ask 6 of the 10-19 post-mortem (docket 1.4).
-- P-42's two questions on the corrections page, version 16, part 1, sections 1 and 12 (docket 1.5; HELD.md, 10-29 07:44).
-- The skill writer's three decisions not taken, on the drafts page's version 8 (docket 1.6).
-- The revival page's restoration and how to keep it current; it is due, since phase 3 has closed (docket 1.7; `postmortem-2026-10-28/revival-page-drift.md`).
-- The second half of his rule of 10-31, that the landing report names each change it makes to the record (docket 1.8; HELD.md, 10-31 08:1x).
-- The type-decisions page's six asks: now that climb batch 25 has landed, only what the walk-leaning review leaves open is put to him (docket 1.9).
-- The review queue's items 327 to 342 of climb batch 24 and 344 to 354 of climb batch 25, with item 326 at its default, one item a message after the queue's cleanup (docket 1.10).
-- The `AnyList` of P-151, built otherwise than his option 3, item 188 (docket 1.11).
-- Whether a push notification names its batch and what it waits on (docket 1.12).
-- Whether each batch's landing gets a page (docket 1.13).
-- P-26's sentence on unfinished text, item 215 (docket 1.14).
-- Whether the chain from scout to report writer to coordinator loses information (docket 1.15).
-- P-152's reason, item 228 (docket 1.16).
-- His lean toward the class loader for array decision A, item 320, until phase 5's array design (docket 1.17).
-- The INDEX ask of 10-20, which the docket proposes to drop (docket 1.18).
-- The apply file of the rejected rewrite of 10-26 (docket 1.19).
-- The branch `record/landing-24-replay` and its worktree: the default deletes them after climb batch 25's live run of the record-landing workflow, which is done (docket 1.20).
-- The headless writers' "Ignoring 6 permissions.allow entries": the fix changes `/root/.claude.json`, which is his to allow, and it stays open until a writer is blocked by it (docket 1.21).
-- The cleaner pass, the two noise commits and the history rewrite (docket 1.22; HELD.md, "Smaller items he still owns").
-- Professor Ryu's answer on the LaTeX sources, and his learning queue (docket 1.23; HELD.md, "Smaller items he still owns").
-- The 10-28 post-mortem's page, which is struck once he has read the docket (docket 1.24).
+The closing docket's section 1 holds the 24 items that need his word, each with its state and its default. At 18:0x UTC on 11-03 the coordinator sorted them into ten design decisions, eight working rules that his one word "defaults" settles, and six that wait on events. Of the design decisions, the integer conversions come first, before climb batch 26; P-146 and `CompilerSystem` come before the switch-over; the rest come later or never. The pages: the drafts page's version 8 (https://claude.ai/artifact/LwjYdr5x6iSVVEgwKMic1m), the corrections page's two questions on P-42 (https://claude.ai/artifact/5noPHbJmZg41UWT74HGxno, version 16), the type-decisions page's six asks (https://claude.ai/artifact/WELD6kRbiHPPzq7hLb8G4Z) and the 10-28 post-mortem (https://claude.ai/artifact/EHHQiET94YTmEH4MNYgjKg). The review queue's items of climb batch 24 (326 to 343) and climb batch 25 (344 to 354) also wait on him.
 
 ## Still open, smaller
 
-Each item is one of the docket's items for the coordinator's work or for a workflow run; the docket item named holds its state and its close.
-
-- The five lessons of the 10-28 post-mortem that no skill holds: the skill writer drafts them as items on the drafts page's next version for his yes, and then the branch `skill/consolidation-tools` is deleted (docket 2.1; HELD.md, 10-28 12:24).
-- PLAN's consolidation, the rest (docket 2.2; item 0 (b) under "Next").
-- The skills' minimal pass, after PLAN's consolidation lands (docket 2.3; item 0 (d) under "Next"; HELD.md, 11-02 06:51 and 07:01).
-- The review queue's cleanup (docket 2.4; item 0 (c) under "Next"; HELD.md, 10-29 21:0x).
-- The corrections runs' questions and the cold reader's two faults: one record writer strikes the three overtaken questions, files P-154's as one item, and corrects P-44, with the F-121 error, and P-84's title (docket 2.5).
-- The house style's reference page is to carry the corrections page's Select script (docket 2.6; HELD.md, 10-28 22:5x).
-- The standing cold-read brief is to say that a cold read of the coordinator skill reads as the coordinating session, with the next skill change (docket 2.7; HELD.md, 11-02 07:02).
-- The order of the work and the context's size go to the skill writer in the minimal pass (docket 2.8; HELD.md, 11-02 07:4x).
-- His two questions of 21:01 and 21:24 on 11-02 are each answered in one line in chat (docket 2.9; HELD.md, the drafts page's version 6).
-- Whether the coordinator's delegation declined since the early Fable sessions: one analysis worker measures it after the minimal pass lands (docket 2.10; HELD.md, 10-28 10:39).
-- The small owed fixes, listed in docket 2.11: one record writer makes the line fixes, and the script and manual changes go in between batches. Item 2 under "Next" overlaps them.
-- The gap ledger's repair, about 180 open rows, after PLAN's consolidation lands (docket 2.12).
-- The probe of item 31, one bound on the whole array family or one per operation, before phase 5 is planned (docket 2.13).
-- The record-landing workflow's first live run is done, at climb batch 25's landing (the state line above); its Land stage has not yet run against a live landing (item 1 under "Next"; docket 3.1).
-- The orientation workflow's consolidate mode: `revival-changes.md` is 19.8K against the 8K to 12K budget, and the run is due now that climb batch 25's update run is done (docket 3.2).
-- Where an object's value parameters fall under a conditional extension, item 177, waits for the batch that repairs row 773 (docket 3.3).
-- Ledger rows 321 and 348, the class-name half of row 320 and the gate's thread count wait for the batches that reach them (docket 3.4; HELD.md, "Smaller items he still owns").
+The docket's section 2 holds the coordinator's 14 items, and its section 3 the 4 workflow runs, each with its state and its close. The docket does not hold one point: the record-landing workflow's first live run (section 3, item 1) is done, at climb batch 25's landing (the state line above), but its Land stage has not yet run against a live landing (item 1 under "Next").
 
 ## The record, the machine, the pages
 
