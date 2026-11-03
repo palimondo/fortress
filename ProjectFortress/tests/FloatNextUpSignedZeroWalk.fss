@@ -1,0 +1,16 @@
+(* Float's nextUp of -0.0 is 0.0, which is not above -0.0, and its nextDown of 0.0 is -0.0, under walk. *)
+component FloatNextUpSignedZeroWalk
+export Executable
+
+run():() = do
+  z: RR64 = asFloat(0.0)
+  nz: RR64 = -z
+  assert((nz.nextUp).asString, "0.0", "nextUp of -0.0")
+  assert(nz.nextUp > nz, false, "nextUp of -0.0 is not above -0.0")
+  assert((z.nextDown).asString, "-0.0", "nextDown of 0.0")
+  assert(z.nextDown < z, false, "nextDown of 0.0 is not below 0.0")
+  assert((z.nextUp).asString, "4.9E-324", "nextUp of 0.0")
+  assert((nz.nextDown).asString, "-4.9E-324", "nextDown of -0.0")
+end
+
+end
