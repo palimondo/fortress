@@ -41,7 +41,9 @@ Rows whose line citations the helpers' insertion moves, after this rung alone, f
 
 Rows 350, 441, 523, 524 and 525 cite these classes' lines at a named commit, which stay true.
 
-No new row.
+One new row, the skeptic's, for section "6. Integer arithmetic" (`ledger.py add`, its # cell `?`):
+
+| NEW-R-1 | `DIVREM` and `DIVMOD`, which the operators chapter specifies on the integers as the pair of quotient and remainder of the truncating and of the floor division, are declared by neither library: `m DIVREM two` on `ZZ32` is refused, 'Operator DIVREM is not defined.', under walk and on the compiled path | NEGATIVE-VERIFIED | library gap vs spec (library) | `basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators" | XXXDivRemDivModWalk | climb batch 25 rung R's skeptic | siblings: 792. At 97a416b18 no `opr DIVREM` or `opr DIVMOD` in `Library/` or `ProjectFortress/LibraryBuiltin/` (`git grep -n DIVREM`), but for `Library/incomplete/basic/Fortress.Number.fsi:130-131`, which no build reads. The same refusal on the compiled path (`bin/fortress compile` of the test's program). Workaround: `(a DIV b, a REM b)`, and for `DIVMOD` the floor quotient `(a - a MOD b) DIV b` with `a MOD b`. |
 
 ## Handover
 

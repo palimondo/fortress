@@ -1,0 +1,27 @@
+(* DIVREM and DIVMOD on ZZ32 return the quotient and the remainder of the truncating and of the floor division, and throw DivisionByZero at a zero divisor; opr-overview.tex, section "Multiplication, Division, Modulo, and Remainder Operators". *)
+component XXXDivRemDivModWalk
+export Executable
+
+dividesByZero(f: () -> (ZZ32, ZZ32)): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+run():() = do
+  m: ZZ32 = -7
+  two: ZZ32 = 2
+  zero: ZZ32 = 0
+  (tq, tr) = m DIVREM two
+  assert(tq, -3, "ZZ32 -7 DIVREM 2 has the quotient -3; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert(tr, -1, "ZZ32 -7 DIVREM 2 has the remainder -1; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  (fq, fr) = m DIVMOD two
+  assert(fq, -4, "ZZ32 -7 DIVMOD 2 has the quotient -4; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert(fr, 1, "ZZ32 -7 DIVMOD 2 has the remainder 1; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert(dividesByZero(fn () => m DIVREM zero), "ZZ32 -7 DIVREM 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+  assert(dividesByZero(fn () => m DIVMOD zero), "ZZ32 -7 DIVMOD 0 throws DivisionByZero; opr-overview.tex, section \"Multiplication, Division, Modulo, and Remainder Operators\"")
+end
+
+end

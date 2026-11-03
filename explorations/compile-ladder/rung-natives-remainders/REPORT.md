@@ -24,7 +24,7 @@ The change is the planner's `explorations/compile-ladder/plan-25/probes/rung-R.p
 
 Each helper's name is unique at its arity in its class (`grep -n -E 'public static' ProjectFortress/src/com/sun/fortress/nativeHelpers/simple*Arith.java`), so the rewrite adds its transfers for `NN32` and `NN64` (the `fortress-repo` skill's `references/compiler.md`, "Natives"). Every parameter and result is `int`, `long` or `BigInteger`, which the compiled prelude's wrapper generator maps, and the library order built the five jars after the edit ('compile LibraryBuiltin/CompilerBuiltin.fss rc=0', the five jars listed).
 
-Not moved, as the brief has it: `GCD`, `LCM`, `CHOOSE` and `partitionL` (rung N); `IntLiteral`'s `DIV`, `REM` and `MOD` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:530-535`), which wait for N5 (P-76); `DIVREM` and `DIVMOD`, which the library writes in Fortress over `DIV`, `REM` and `MOD`. After the rung, 183 of the 449 live bindings name a helper and 266 a glue class (173 and 276 at climb batch 24's gate, F-299, F-32): two more each on `ZZ32`, `ZZ64`, `NN64`, `ZZ` and `NN32`.
+Not moved, as the brief has it: `GCD`, `LCM`, `CHOOSE` and `partitionL` (rung N); `IntLiteral`'s `DIV`, `REM` and `MOD` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:530-535`), which wait for N5 (P-76); `DIVREM` and `DIVMOD`, which neither library declares (row NEW-R-1 in `record.md`, the skeptic's). After the rung, 183 of the 449 live bindings name a helper and 266 a glue class (173 and 276 at climb batch 24's gate, F-299, F-32): two more each on `ZZ32`, `ZZ64`, `NN64`, `ZZ` and `NN32`.
 
 Commits on `wip/rung-natives-remainders`: `d0aaf39e5`, the tests; `411436878`, the fix; then this report and `record.md`.
 
