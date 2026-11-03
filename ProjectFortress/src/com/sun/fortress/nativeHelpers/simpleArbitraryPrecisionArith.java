@@ -27,6 +27,11 @@ public class simpleArbitraryPrecisionArith {
     	return b.toString();
     }
     
+    /* asFloat of a ZZ: the nearest double, ties to even, and an infinity past the double range. */
+    public static double toDouble(BigInteger a) {
+        return a.doubleValue();
+    }
+
     public static BigInteger add(BigInteger a, BigInteger b) {
     	return a.add(b);
     }
