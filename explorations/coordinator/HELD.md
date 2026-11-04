@@ -4,6 +4,9 @@
 
 ## Held in chat (2026-11-04)
 
+- 20:0x The revival page's goals, his word: of the coordinator's seven goals (one question; people and rule first; each change told once; every term defined before use; stakes and turns; few numbers explained once; current without drift) he struck "stakes and turns", the page tells no process failures, and said go to the rest, with the blinded reviewer's order. The rebuild runs: an Opus writer, a blinded fresh reader, then the page for his read.
+- 19:5x A blinded worker reviews the current and the proposed story orders as a fresh reader, then applies the principles of Simplified Technical English to the review (done, `f26e53c35`).
+- 19:4x He asked who made the proposal's structure: the coordinator's frame (the readers, the script-written block, the chapter at a phase's close) and the writer's order from the two versions and the outlines; answered.
 - 19:3x The revival page proposal's sentence "An outsider who knows programming languages and a little of Fortress, such as Professor Ryu": his objection, "Who wrote that sentence?". She designed Fortress's front end. The coordinator's brief described the outside reader in those words, and the worker put her name to them. Corrected on the page (version 2) and in the note: the outside reader includes the team's own designers, who know Fortress far better than the revival does. For the skill writer: a brief names the people of the project by their roles as the record gives them.
 
 ## Held in chat (2026-11-03)
