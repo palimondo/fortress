@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Blind review of the page's two orders","toolUseId":"toolu_0171PHVjtaJqV1qzaHHYeEQr","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","pickedEffortModel":"claude-fable-5-1"}
