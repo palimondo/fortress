@@ -4,6 +4,7 @@
 
 ## Held in chat (2026-11-04)
 
+- 20:1x The revival page keeps a minimal number of numbers: no distance or checker count repeated for the climbs, since no reader of the page cares; most numbers cut. The coordinator's reading, sent to the writer: no per-batch measure in prose or chart, so the proposed batches chart goes and the record chart stays; dates, the batches per phase, the two measures once with their start and their zero, and microGPT's timings stay.
 - 20:0x The revival page's goals, his word: of the coordinator's seven goals (one question; people and rule first; each change told once; every term defined before use; stakes and turns; few numbers explained once; current without drift) he struck "stakes and turns", the page tells no process failures, and said go to the rest, with the blinded reviewer's order. The rebuild runs: an Opus writer, a blinded fresh reader, then the page for his read.
 - 19:5x A blinded worker reviews the current and the proposed story orders as a fresh reader, then applies the principles of Simplified Technical English to the review (done, `f26e53c35`).
 - 19:4x He asked who made the proposal's structure: the coordinator's frame (the readers, the script-written block, the chapter at a phase's close) and the writer's order from the two versions and the outlines; answered.
