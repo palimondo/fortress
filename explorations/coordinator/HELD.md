@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-11-04)
+
+- 19:3x The revival page proposal's sentence "An outsider who knows programming languages and a little of Fortress, such as Professor Ryu": his objection, "Who wrote that sentence?". She designed Fortress's front end. The coordinator's brief described the outside reader in those words, and the worker put her name to them. Corrected on the page (version 2) and in the note: the outside reader includes the team's own designers, who know Fortress far better than the revival does. For the skill writer: a brief names the people of the project by their roles as the record gives them.
+
 ## Held in chat (2026-11-03)
 
 - 19:4x The revival page's purpose, in his words: made for his orientation, to close his cognitive gap on what happened since the tree was unsealed; then a second duty, to introduce the project to Professor Ryu; now it is to grow into an overview for every external reader and still for him, of what goes on in this repository. The README is about the original language; this page is about the revival. Little internal lingo. It explains the process of batches, since the chart shows them; the part on the record's growth with its chart stays; parts may be reordered and cut so that it works as a story. It stays one page, kept up to date after each landing, or at least after each phase ends. The drift note's hybrid missed the mark on all of these. He asks for a better proposal.
