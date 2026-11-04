@@ -8,7 +8,7 @@ Proposal for the curator, not done. "v20" is the text at `9556daf62`, which Prof
 
 The page has two readers:
 
-- An outsider who knows programming languages and a little of Fortress, such as Professor Ryu. The repository's README is about the language as the team left it. This page is about the revival.
+- A reader from outside the project who knows programming languages: among them the team's own designers, such as Professor Ryu, who know Fortress far better than the revival does, and readers who know only its name. The repository's README is about the language as the team left it. This page is about the revival.
 - The curator, who reads it to close his gap on what happened since the tree was unsealed on 17 September.
 
 Its one job: tell what the revival did and why, as a story in plain words, and where it stands now. It stays one page, kept current after each landing and each phase's close.
