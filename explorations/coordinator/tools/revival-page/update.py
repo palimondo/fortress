@@ -6,8 +6,9 @@
 Reads every value from the record (PLAN.md's "Where we stand" and phase lines, the
 batch's gate summary, FACTS' F-299), rewrites the block between <!-- stand:begin -->
 and <!-- stand:end --> in revival-story.md and revival-story.html in its fixed form,
-adds the landing's row to record-growth/landings.csv if it is missing, and runs
-record-growth/measure.py and chart.py.  With --check it reads the values and prints
+adds the landing's row to record-growth/landings.csv if it is missing, runs
+record-growth/measure.py and chart.py, and sets the end of the date range in the
+HTML's chart alt text to the data's last day.  With --check it reads the values and prints
 the block it would write, and changes no file.  It never publishes: it prints the
 commit and the republish that the coordinator then runs.
 
@@ -35,6 +36,7 @@ MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
 LABELS = ['Phase', 'Checker count', 'Distance', 'Native bindings that both implementations can call',
           'microGPT under the interpreter', 'microGPT on the compiler', 'Next']
 NUMBER_WORDS = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5}
+ALT = re.compile(r'(<img src="record-growth\.png" alt="[^"]*commit by commit from \d{2}-\d{2} to )(\d{2}-\d{2})([^"]*")')
 
 
 class Stop(Exception):
@@ -250,6 +252,34 @@ def landing_row(v, run_start):
     return [name, start, v['commit'][:9], ' '.join(c[:9] for c in commits), note % (how, v['batch'])]
 
 
+# ---------------------------------------------------------------- the chart's alt text
+
+def alt_match(text):
+    ms = list(ALT.finditer(text))
+    if len(ms) != 1:
+        stop('%s: expected one <img src="record-growth.png"> whose alt text reads "commit by commit from MM-DD to MM-DD", found %d'
+             % (rel(PAGE_HTML), len(ms)))
+    return ms[0]
+
+
+def data_last_day():
+    """The last commit's UTC day in series.csv, as MM-DD (the day chart.py's title ends with)."""
+    rows = list(csv.DictReader(open(DATA[0], encoding='utf-8')))
+    if not rows or not re.match(r'\d{4}-\d{2}-\d{2} ', rows[-1]['utc']):
+        stop('%s has no last row with a UTC time' % rel(DATA[0]))
+    return rows[-1]['utc'][5:10]
+
+
+def rewrite_alt():
+    """Set the alt text's last day to the data's; nothing else of the file changes.  Returns (was, now)."""
+    text = open(PAGE_HTML, encoding='utf-8').read()
+    m, last = alt_match(text), data_last_day()
+    if m.group(2) != last:
+        with open(PAGE_HTML, 'w', encoding='utf-8', newline='') as f:
+            f.write(text[:m.start(2)] + last + text[m.end(2):])
+    return m.group(2), last
+
+
 # ---------------------------------------------------------------- main
 
 def digest(p):
@@ -284,6 +314,8 @@ def main():
         check_form(path, text[s:e], is_html)
         same = text[s:e].strip('\n') == new
         print('%s: the block %s' % (rel(path), 'is the same, word for word' if same else 'differs and would be rewritten'))
+    m = alt_match(open(PAGE_HTML, encoding='utf-8').read())
+    print('%s: the chart\'s alt text runs to %s; %s ends at %s' % (rel(PAGE_HTML), m.group(2), os.path.basename(DATA[0]), data_last_day()))
     row = landing_row(v, a.run_start) if not a.check else None
     if a.check:
         rows = [r for r in csv.DictReader(open(LANDINGS, encoding='utf-8')) if r['batch'] == 'batch %s' % v['batch']]
@@ -310,6 +342,9 @@ def main():
             sys.stderr.write(r.stderr)
             stop('%s failed (rc %d)' % (script, r.returncode))
 
+    old, last = rewrite_alt()
+    if old != last:
+        print('%s: the chart\'s alt text now runs to %s (was %s)' % (rel(PAGE_HTML), last, old))
     print()
     print('Changed:')
     for p in tracked:
