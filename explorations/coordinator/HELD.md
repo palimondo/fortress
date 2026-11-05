@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held in chat (2026-11-05)
+
+- 2x:xx His read of the revival page's version 25: "Excellent rewrite", with two notes. The record chart ends at batch 22 and needs no separate update now (he recalled batch 23 as the current one; it is 25; the script that rewrites the state block at each landing regenerates the chart too). The glossary moves to the beginning of the document flow, unobtrusive: collapsed by default on a phone, with a short preamble that invites a reader to skim it if a term is new; on a desktop beside the opening paragraphs. Then the next step of the outlined order.
+
 ## Held in chat (2026-11-04)
 
 - 20:1x The revival page keeps a minimal number of numbers: no distance or checker count repeated for the climbs, since no reader of the page cares; most numbers cut. The coordinator's reading, sent to the writer: no per-batch measure in prose or chart, so the proposed batches chart goes and the record chart stays; dates, the batches per phase, the two measures once with their start and their zero, and microGPT's timings stay.
