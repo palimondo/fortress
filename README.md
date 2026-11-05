@@ -109,9 +109,10 @@ sources of the specification and of several papers live in this repository.
 
 ### The language specification
 
-- [`Specification-1.0-frozen/`](Specification-1.0-frozen/) — the frozen
-  [**Fortress 1.0 specification**](Specification-1.0-frozen/fortress.1.0.pdf)
-  (March 2008).
+- [`Specification-1.0-frozen/`](Specification-1.0-frozen/) — an unrevised
+  copy of the Working Draft of February 2011; only its
+  [**`fortress.1.0.pdf`**](Specification-1.0-frozen/fortress.1.0.pdf) is the
+  Fortress 1.0 specification (March 2008).
 - [`Specification/`](Specification/) — the post-1.0 evolving specification
   LaTeX, a [Working Draft](Specification/fortress.pdf) richer in places
   than any published PDF.
