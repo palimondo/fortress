@@ -1,74 +1,105 @@
-<!-- The items waiting for Pavol's word or review across the record (PLAN's nine lists "listed for his review" and its open answers, the review queue of 2026-10-02, and the process study's "Waiting on Pavol"), sorted on 2026-10-10 into consequential and routine items by theme, each with what landed, the other way, its cost and its home, and into settled or stale ones with what answered them; kept current as he answers. Sorted by the `coordinator` skill's `SKILL.md`, "The curator's role and decisions": an item is consequential when it reverses, bends or reads anew a decision on record, changes a line of the model program, touches two or more of the specification, the library and the implementation, chooses among ways the record does not settle, or cannot be undone. A defect the text settles whose route of repair alone is open, a changed walk value, a file outside a rung's list, or a text choice inside decided ground is routine. Built by a worker at `79c2a5602`; PLAN is unchanged there since `046207371`. Each settled entry was checked against its source: the commit by `git log -1`, the row's status by `ledger.py heads`, the file or line in the tree, the POSITIONS entry by its title. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript. The coordinator keeps this file current as items are answered. Since 2026-10-20 each open item ends with a last sub-bullet "Needed by: <point>; <reason>.", the point one of the next batch, before a named later piece of work, before the switch-over, before microGPT compiles, before microGPT runs fast, or never, and the section "When each item is needed" counts them; that sort, by an Opus worker on `d0870885a`, also moved ten stale items to (a). Climb batch 20's routing brought it to that landing: batch 20's items moved to their later points, items 195 to 204 added, 12, 43 and 151 settled, and 189 merged into 9. Climb batch 21's first run's routing brought it to that landing: 11, 191, 199 and 247 moved to the next batch, climb batch 21b; 40 given the coordinator's call as its default; 76, 153, 224 and 246 brought to row 774's wait; 12's home moved with PLAN's items 38 and 59. The POSITIONS audit, applied to `main` at `6b560762f`, brought items 205 to 234: 205 to 214 are the parts that left POSITIONS for this list, drafted by the audit's writers (`coordinator/positions-audit/full/evidence/review-queue-items-c1.md` to `-c7.md`); 215 to 234 are the audit's open questions on POSITIONS entries, each with the entry as it now reads as its default (the writers' `corrections-c1.md` to `-c8.md`, the trial's `coordinator/positions-audit/trial/evidence/corrections.md` and `takeaway-check.md`, and the clarity pilot's `coordinator/positions-audit/clarity/evidence/pilot/proposals.md`). Their line numbers are those of `main` at `6b560762f`. The same pass brought items 9, 21, 30, 36, 67, 99 and 165, and the settled entries of items 12, 14, 17, 26 and 43 and of row 582, to the applied text. The clarity pass of 2026-10-22, which rewrote POSITIONS entries and three FACTS entries so that each reads on its own, applied to `main` at `09e1338df`, `265a60711` and `f1b427c16`, brought items 235 to 249 from its judges' `queue.md` files (`coordinator/consolidation-2026-10-22/evidence/positions/p1/` to `p8/`; `evidence/facts/f0/` filed none): 237, 238, 241, 242, 246 and 249 for the six entries that it held, each with the entry as POSITIONS holds it as its default and the rewrite as the other way, and the other nine for its questions on entries that it applied. The same pass gave items 221 and 227 new text; brought items 2, 21, 81, 188, 210, 215, 216, 217, 222, 223, 225, 228, 229 and 230 to the applied entries; pointed items 216, 217, 219, 220 and 224 to the rewrites that wait on them; and requoted every entry title that no longer matched POSITIONS, those that the pass changed (items 2, 21, 27, 109 and 169 and the settled entries) and a few older ones (item 60 and the settled entries). The FACTS clarity pass of 2026-10-22, applied to `main` at `bb39dbee3`, `0ae072be7`, `16bbe6072` and `e06bd068e`, brought items 250 to 264 from its judges' `queue.md` files and its assessors' questions marked investigate (`coordinator/consolidation-2026-10-22/evidence/facts/f1/` to `f16/`, `queue.md` and `assessment.md`; `f0/` filed none): ten for the entries that it held, each with the entry as FACTS holds it as its default and the rewrite as the other way (250 to 255, 257 to 259 and 262; the entries split from F-125, F-259 and F-156 go with their items), three for its questions on entries that it applied (256, 260 and 261), and two for the entries F-36 and F-94, which its assessors marked investigate and which stand as FACTS holds them (263 and 264); F-155's investigate question asks for the same run as two judged questions, and is item 260. Judged items that ask one thing are one item: F-125 and its split (251); F-238 and F-252 (256); F-155, F-252 and F-257 (260). Chunk f12's question on F-144 was settled by chunk f13, which applied the entry. The same pass's notes on items 36, 58, 212 and 249 are folded into them. The gap ledger's health check of 2026-10-22 (`coordinator/ledger-health-2026-10-22/REPORT.md`, section 7) brought items 265 to 267, each with the report's default, and item 165 was settled by the `ledger.py` routes built at `1ac7028b4`, which the batch workflow's landing check runs since `c9b5beb36`. The scrape of 2026-10-22 (`382289832`), at his word, took the PLAN and review-queue pointers out of FACTS and POSITIONS, so the items that the entries pointed to now name them (`coordinator/consolidation-2026-10-22/evidence/scrape/backlinks.md`): items 4, 18, 21, 30, 31, 36, 39, 40, 57, 58, 60, 80, 85, 209, 210 and 212. The POSITIONS follow-up of 2026-10-22 (`coordinator/consolidation-2026-10-22/evidence/positions-followup/`) brought items 268 to 276, each with the coordinator's default, at his yes of 22:08 UTC; the coordinator filed five drafted rows as rows 795 to 799 and dropped three that repeat what rows 19, 69, 305 and 306 and the `fortress-repo` skill already hold; at his word of 22:12 UTC every drafted change was applied (`4d7df29c3`, P-12 and P-17 unchanged), and the nine items stay for his later review. The gap ledger's clarity run of 2026-10-22 (`coordinator/ledger-health-2026-10-22/evidence/clarity/l1/` to `l5/`, applied at `e553d8949`) brought item 277, its one held row, 533, from chunk l3's `queue.md`; its other chunks filed none. The corrections runs of POSITIONS of 2026-10-28 and 10-29 (`reviews/foundations/evidence/corrections/p/`, `c1/` and `c2/`, their `queue.md` files; 13 questions) and the cold read of the final corrections (`corrections/final/cold-read.md`, its two faults that `coordinator/postmortem-2026-10-28/REPORT.md`, section 7, names) brought items 318 to 322 on 2026-10-30, each checked first against section (a), POSITIONS' history and his page comments of 2026-10-29: 318 merges seven questions that ask one thing, chunk p's on P-37's prelude designs and its four on P-26, and chunk c1's on P-7 and P-153; 319 is chunk p's on `CompilerSystem`; 320 chunk c2's on P-85; 321 and 322 the cold reader's faults in P-44 and P-84. Four questions were answered before filing and are not added: chunk c1's on P-17, by his page comment of 07:18 UTC on 2026-10-29 (P-17's history); on P-154, by his comment of 07:02 and the text landed at `8c99e258e`; and chunk c2's two on P-33, the fourteen components and the compile command's setting, by climb batch 22c's question 1 (his framing of 2026-10-26, his go of 22:08 UTC on 2026-10-29; rungs L and B; F-53, F-289). The chunks' notes on items already here were not applied. The POPL 2019 rules map (`reviews/popl2019-rules-map.md`, `0ea0b43c5`), read against the technical report's sources in `Papers/Variance/`, brought items 323 to 325 on 2026-10-30, its questions 2, 3 and 4, each consequential and needed before microGPT compiles, each checked first against this file's items, section (a), POSITIONS, its history and the held list: its question 1 is item 9's (row 786), its question 5 item 60's and its question 6 item 286's, and the map's reading was added to those three; the judgement's V6, which its question 2 names as weighed before, is a verdict of `reviews/type-decisions-review/judgement.md`, not an item here; its five findings, readings with no run, went to the gap ledger as rows 850 to 854. -->
+<!-- The items waiting for Pavol's word or review across the record (PLAN's nine lists "listed for his review" and its open answers, the review queue of 2026-10-02, and the process study's "Waiting on Pavol"), sorted on 2026-10-10 into consequential and routine items by theme, each with what landed, the other way, its cost and its home, and into settled or stale ones with what answered them; kept current as he answers. Sorted by the `coordinator` skill's `SKILL.md`, "The curator's role and decisions": an item is consequential when it reverses, bends or reads anew a decision on record, changes a line of the model program, touches two or more of the specification, the library and the implementation, chooses among ways the record does not settle, or cannot be undone. A defect the text settles whose route of repair alone is open, a changed walk value, a file outside a rung's list, or a text choice inside decided ground is routine. Built by a worker at `79c2a5602`; PLAN is unchanged there since `046207371`. Each settled entry was checked against its source: the commit by `git log -1`, the row's status by `ledger.py heads`, the file or line in the tree, the POSITIONS entry by its title. Before an entry is put to him, his words on it are searched in POSITIONS, its history and the transcript. The coordinator keeps this file current as items are answered. Since 2026-10-20 each open item ends with a last sub-bullet "Needed by: <point>; <reason>.", the point one of the next batch, before a named later piece of work, before the switch-over, before microGPT compiles, before microGPT runs fast, or never, and the section "When each item is needed" counts them; that sort, by an Opus worker on `d0870885a`, also moved ten stale items to (a). Climb batch 20's routing brought it to that landing: batch 20's items moved to their later points, items 195 to 204 added, 12, 43 and 151 settled, and 189 merged into 9. Climb batch 21's first run's routing brought it to that landing: 11, 191, 199 and 247 moved to the next batch, climb batch 21b; 40 given the coordinator's call as its default; 76, 153, 224 and 246 brought to row 774's wait; 12's home moved with PLAN's items 38 and 59. The POSITIONS audit, applied to `main` at `6b560762f`, brought items 205 to 234: 205 to 214 are the parts that left POSITIONS for this list, drafted by the audit's writers (`coordinator/positions-audit/full/evidence/review-queue-items-c1.md` to `-c7.md`); 215 to 234 are the audit's open questions on POSITIONS entries, each with the entry as it now reads as its default (the writers' `corrections-c1.md` to `-c8.md`, the trial's `coordinator/positions-audit/trial/evidence/corrections.md` and `takeaway-check.md`, and the clarity pilot's `coordinator/positions-audit/clarity/evidence/pilot/proposals.md`). Their line numbers are those of `main` at `6b560762f`. The same pass brought items 9, 21, 30, 36, 67, 99 and 165, and the settled entries of items 12, 14, 17, 26 and 43 and of row 582, to the applied text. The clarity pass of 2026-10-22, which rewrote POSITIONS entries and three FACTS entries so that each reads on its own, applied to `main` at `09e1338df`, `265a60711` and `f1b427c16`, brought items 235 to 249 from its judges' `queue.md` files (`coordinator/consolidation-2026-10-22/evidence/positions/p1/` to `p8/`; `evidence/facts/f0/` filed none): 237, 238, 241, 242, 246 and 249 for the six entries that it held, each with the entry as POSITIONS holds it as its default and the rewrite as the other way, and the other nine for its questions on entries that it applied. The same pass gave items 221 and 227 new text; brought items 2, 21, 81, 188, 210, 215, 216, 217, 222, 223, 225, 228, 229 and 230 to the applied entries; pointed items 216, 217, 219, 220 and 224 to the rewrites that wait on them; and requoted every entry title that no longer matched POSITIONS, those that the pass changed (items 2, 21, 27, 109 and 169 and the settled entries) and a few older ones (item 60 and the settled entries). The FACTS clarity pass of 2026-10-22, applied to `main` at `bb39dbee3`, `0ae072be7`, `16bbe6072` and `e06bd068e`, brought items 250 to 264 from its judges' `queue.md` files and its assessors' questions marked investigate (`coordinator/consolidation-2026-10-22/evidence/facts/f1/` to `f16/`, `queue.md` and `assessment.md`; `f0/` filed none): ten for the entries that it held, each with the entry as FACTS holds it as its default and the rewrite as the other way (250 to 255, 257 to 259 and 262; the entries split from F-125, F-259 and F-156 go with their items), three for its questions on entries that it applied (256, 260 and 261), and two for the entries F-36 and F-94, which its assessors marked investigate and which stand as FACTS holds them (263 and 264); F-155's investigate question asks for the same run as two judged questions, and is item 260. Judged items that ask one thing are one item: F-125 and its split (251); F-238 and F-252 (256); F-155, F-252 and F-257 (260). Chunk f12's question on F-144 was settled by chunk f13, which applied the entry. The same pass's notes on items 36, 58, 212 and 249 are folded into them. The gap ledger's health check of 2026-10-22 (`coordinator/ledger-health-2026-10-22/REPORT.md`, section 7) brought items 265 to 267, each with the report's default, and item 165 was settled by the `ledger.py` routes built at `1ac7028b4`, which the batch workflow's landing check runs since `c9b5beb36`. The scrape of 2026-10-22 (`382289832`), at his word, took the PLAN and review-queue pointers out of FACTS and POSITIONS, so the items that the entries pointed to now name them (`coordinator/consolidation-2026-10-22/evidence/scrape/backlinks.md`): items 4, 18, 21, 30, 31, 36, 39, 40, 57, 58, 60, 80, 85, 209, 210 and 212. The POSITIONS follow-up of 2026-10-22 (`coordinator/consolidation-2026-10-22/evidence/positions-followup/`) brought items 268 to 276, each with the coordinator's default, at his yes of 22:08 UTC; the coordinator filed five drafted rows as rows 795 to 799 and dropped three that repeat what rows 19, 69, 305 and 306 and the `fortress-repo` skill already hold; at his word of 22:12 UTC every drafted change was applied (`4d7df29c3`, P-12 and P-17 unchanged), and the nine items stay for his later review. The gap ledger's clarity run of 2026-10-22 (`coordinator/ledger-health-2026-10-22/evidence/clarity/l1/` to `l5/`, applied at `e553d8949`) brought item 277, its one held row, 533, from chunk l3's `queue.md`; its other chunks filed none. The corrections runs of POSITIONS of 2026-10-28 and 10-29 (`reviews/foundations/evidence/corrections/p/`, `c1/` and `c2/`, their `queue.md` files; 13 questions) and the cold read of the final corrections (`corrections/final/cold-read.md`, its two faults that `coordinator/postmortem-2026-10-28/REPORT.md`, section 7, names) brought items 318 to 322 on 2026-10-30, each checked first against section (a), POSITIONS' history and his page comments of 2026-10-29: 318 merges seven questions that ask one thing, chunk p's on P-37's prelude designs and its four on P-26, and chunk c1's on P-7 and P-153; 319 is chunk p's on `CompilerSystem`; 320 chunk c2's on P-85; 321 and 322 the cold reader's faults in P-44 and P-84. Four questions were answered before filing and are not added: chunk c1's on P-17, by his page comment of 07:18 UTC on 2026-10-29 (P-17's history); on P-154, by his comment of 07:02 and the text landed at `8c99e258e`; and chunk c2's two on P-33, the fourteen components and the compile command's setting, by climb batch 22c's question 1 (his framing of 2026-10-26, his go of 22:08 UTC on 2026-10-29; rungs L and B; F-53, F-289). The chunks' notes on items already here were not applied. The POPL 2019 rules map (`reviews/popl2019-rules-map.md`, `0ea0b43c5`), read against the technical report's sources in `Papers/Variance/`, brought items 323 to 325 on 2026-10-30, its questions 2, 3 and 4, each consequential and needed before microGPT compiles, each checked first against this file's items, section (a), POSITIONS, its history and the held list: its question 1 is item 9's (row 786), its question 5 item 60's and its question 6 item 286's, and the map's reading was added to those three; the judgement's V6, which its question 2 names as weighed before, is a verdict of `reviews/type-decisions-review/judgement.md`, not an item here; its five findings, readings with no run, went to the gap ledger as rows 850 to 854. The cleanup of 2026-11-05, the curator's item of 21:0x UTC on 2026-10-29 (held list), gave each of the 312 open items one of four verdicts, by three sort workers and a judge: 77 settled or stale moved to (a); 117 landed defaults that no planned work needs his word on again moved to `coordinator/review-queue-learning-2026-11-05.md`; 53 items of the coordinator's own work moved to `coordinator/coordinator-work-2026-11-05.md`; 65 asks stay, and the first section was rewritten from them. Each item that left keeps its number in (a). -->
 
 ## When each item is needed
 
-Each open item ends with a line "Needed by": the point by which the work needs his word on it, and why, sorted on 2026-10-20 against PLAN (its phases, and phase 3's item 18, the next batches' candidates), climb batch 20's record (`coordinator/CLIMB-BATCH-20.md`, rungs I and A) and POSITIONS through P-154, and brought to climb batch 20's landing by its routing (phase 3's item 19, P-155 and P-79), and to climb batch 21's first run's by its routing (phase 3's item 19; the next batch, its second run, climb batch 21b), and to climb batch 21b's by its routing (phase 3's item 19; the next batch, the one for the distance's last 5 errors, to be drafted), and to climb batch 22's by its routing (phase 3 at its exit, its candidates moved to PLAN, "Off the path, parked", "Phase 3's candidates at its end"; the next batch, phase 4's first, the natives' mechanism, to be drafted), and to climb batch 22c's by its routing (phase 3 closed at its landing; the next batch, phase 4's first, climb batch 23, the natives' mechanism, its record re-checked on the new base and its go given), and to climb batch 23's by its routing (phase 4's first batch landed; the next batch, phase 4's second, climb batch 24, N1's next families, not yet planned), and to climb batch 24's by its routing (phase 4's second batch landed; the next batch, phase 4's third, climb batch 25, the natives' next families, not yet planned), and to climb batch 25's by its routing (phase 4's third batch landed; the next batch, phase 4's fourth, climb batch 26, the natives' next families, not yet planned). The points: **the next batch**, where its record builds on the item or changes it; **before** a later piece of work, named by its PLAN item, row or candidate; **before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library, natives then names); **before microGPT compiles** (phase 5) or **runs fast** (phase 6); and **never**: nothing later builds on it, the landed default can stand, and it can be undone at any time. A line that starts "kind:" says the item sits under the wrong kind by the `coordinator` skill's test of a consequential decision; the item is not moved.
+The asks that stay after the cleanup of 2026-11-05, grouped by the work that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) or (c) gives the other way, the cost, the home and its "Needed by" line. The cleanup gave each of the 312 open items one verdict: 77 settled or stale, now in (a); 117 decisions that landed at a default that no planned work needs his word on again, moved to `coordinator/review-queue-learning-2026-11-05.md`, the material for a page that he reads to learn what was decided; 53 items of the coordinator's own work, moved to `coordinator/coordinator-work-2026-11-05.md`; and the 65 asks below. Each item that left keeps its number in (a), with the file it went to. A landing files its new items for him by the routing (`coordinator/tools/record-landing/routing.md`), each with its "Needed by" line, and brings this section and its counts in line.
 
-**Counts**, 312 open items, 107 consequential and 205 routine:
-- The next batch, climb batch 26, phase 4's fourth, the natives' next families, not yet planned: 0 (0 consequential, 0 routine).
-- Before a named later piece of work: 40 (18 consequential, 22 routine).
-- Before the switch-over: 17 (14 consequential, 3 routine).
-- Before microGPT compiles: 22 (15 consequential, 7 routine).
-- Before microGPT runs fast: 3 (1 consequential, 2 routine).
-- Never: 230 (59 consequential, 171 routine).
+**Counts**, 65 open items, 43 consequential and 22 routine:
+- Before the ledger's repair: 2 (0 consequential, 2 routine).
+- Climb batch 26 and the natives' batches: 8 (7 consequential, 1 routine).
+- Before the switch-over: 14 (13 consequential, 1 routine).
+- Before microGPT compiles: 13 (10 consequential, 3 routine).
+- Before microGPT runs fast: 2 (1 consequential, 1 routine).
+- Walk's questions: 8 (3 consequential, 5 routine).
+- Parked rungs: 10 (5 consequential, 5 routine).
+- No work needs them, but each departs from his word, or may: 8 (4 consequential, 4 routine).
 
-**Needed by the next batch**, climb batch 26, phase 4's fourth, the natives' next families, not yet planned (PLAN, phase 4, its fourth line): none. Its planner needs none of his answers to write its record; its launch needs his go, after the Fable review of its record (the `coordinator` skill's `references/batch.md`, "The go"). The record meets 310 and 340 if it takes the string family; 331 and 332 if it takes the rest of the 109; 338 if it builds the integer conversions; and 354 if it moves `Char`'s `asExprString`. At climb batch 25's landing (`reviews/batch-25-review.md`, Part 4 and finding 3): the next batch was climb batch 25 (`coordinator/CLIMB-BATCH-25.md`), and none was needed by it: its record asked no question, and it launched on his go of 22:0x UTC on 2026-11-02 with 326 at its default; 326 stays open, its default as landed, since no word of his on its own question is on record, and its "Needed by" moved to never (set by the landing workflow), since climb batch 25 was the batch that it named; 343 moved to (a), since rung U took the steps it asked about (`f7a33b97b`); the batch's items for him added as 344 to 354: 354, row 861's form, before the batch that moves `Char`'s `asExprString`; the others never. At climb batch 24's landing (`reviews/batch-24-review.md`, Part 4 and finding 1): the next batch was climb batch 24 (`coordinator/CLIMB-BATCH-24.md`), and none was needed by it: its Question 1 was answered at its default by the coordinator from his scope, and its Question 2 taken at the hard-set probe's default under his half-hour rule (the record's section 2); 306, 307 and 308, by his "all defaults" of 08:21 UTC on 2026-10-31, and 312, by his go of 08:19 UTC, had moved to (a) before the launch (`40f08d22e`); the batch's items for him added as 326 to 343: 326, its Question 2, before the next batch that moves a binding over `NN32`, `NN64` or `Char`; 331 and 332, the hard-set probe's Q2 and Q3, before the batch that moves the rest of the 109; 335, the audit's systematic check, before N3's new helpers; 338, Z.worker.1, with his answer on the integer conversions; 340, PLAN's item 63, before `FlatString`'s five bindings move; 339, S.worker.1, before the switch-over; 337 and 342, K.worker.1 and gather.1, answered at once by the record pass under his standing rule of 08:1x UTC on 2026-10-31 (`be3b07aac`) and filed in (a); the others never; and 182 moved to (a), since rung G rewrote row 701 to its contract half (`c324b841c`). At climb batch 23's landing (`reviews/batch-23-review.md`, Part 4 and finding 1): the next batch was climb batch 23 (`coordinator/CLIMB-BATCH-23.md`), and none was needed by it, 282, his informed yes to P-58, answered and moved to (a) before the launch, and the record's two questions answered at their defaults with his go of 22:36:37 UTC on 2026-10-29 (the record's section 1); those two questions added as 306 and 307, never; and the batch's other items for him added as 308 to 317: 308, the readings that the zero with the moved bindings rests on, before the switch-over; 310, PLAN's item 62, before the batch that moves the first binding over `String`; the others never; none moved to (a). At climb batch 22c's landing (`reviews/batch-22c-review.md`, Part 4 and finding 3): 279 and 280, its questions 2 and 3, added 2026-10-28 from the boot note with the other open asks of the phase 3 exit review (`reviews/phase3-exit/README.md`), had been answered by P-155 and P-158 and moved to (a) before the launch; 288 moved to (a), its sentence gone in P-155's rewrite at his answer to 279; 262 moved to (a), since rung B closed row 759 (`1bc0a9083`) and both paths now refuse its pair, so no checker rung on it will come; and the batch's items for him added as 291 to 305, 295 before the switch-over, since phase 3's zero rests on its reading, and the others never. At climb batch 22's landing (`reviews/batch-22-review.md`, Part 4 and finding 11): 40, item 46's fused arm, moved from here to never, since rung R built its default, `cast[\O0\]` (`bd00ad997`; row 632 closed), having moved here from before the switch-over at climb batch 21b's landing; 51, row 731's unwritten reduction arguments, from before the switch-over to the probe of the checker's driver over each demo, since rung R wrote the library's three sites (F-285) and the gap is now user programs' and the demos'; and 29 kept before microGPT compiles, its text brought to the api's `^(self, b:Number)` and to row 533's tie, which does not reproduce. Climb batch 21b's four (`coordinator/CLIMB-BATCH-21.md`, rungs C, E and D) moved at its landing: 11 and 191 to never, since rung C turned the symbolic-operator check on with no error from a mixed family and closed row 726; 199 to never, since rung E built its default; 247 to the probe of the checker's driver over each demo, since rung D built its default for walk and for row 710 (`reviews/batch-21b-review.md`, Part 4). They had moved there from the named pieces of work below at climb batch 21's first run's landing. Batch 20's seven moved at its landing: 43 settled by P-79; 29 and 31 to before microGPT compiles; 95 to Q-walk; 165 to climb batch 21's gather; 112 and 113 to never.
+**Before the ledger's repair** (PLAN, "Where we stand", "Next": the gap ledger's full pass over about 180 open rows, the last of the record's work before climb batch 26).
+- **265.** Which status a ledger row takes for a defect where the specification is silent: `NEGATIVE-VERIFIED` widened, `CONTESTED`, or `POSITIVE-VERIFIED`. Default: the rows as they are.
+- **267.** Whether the ledger's full pass, about 180 row rewrites, runs, or only the landing checks that stop new staleness. Default: no pass.
 
-**Needed by the next named pieces of work:**
-- Row 773's rung, the members of a conditional extension scoped to the condition, a candidate of climb batch 21 that waits on his answer to ask 8 (PLAN, "Off the path, parked", "Phase 3's candidates at its end"): 175, 176, 177, 178, 179.
-- The tint rung, row 786, held for his answer (PLAN, "Off the path, parked", "Phase 3's candidates at its end"): 9, 192.
-- Row 774's walk rung, walk's half of conditional extension, out of climb batch 21: it waits until walk runs the checker (P-12) or row 364 is fixed (`coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, "Off the path, parked", "Phase 3's candidates at its end"): 76, 153, 224, 246.
-- The next rung that edits the integer chapter, `Specification/basic-lib/basic-integers.tex`: 195.
-- The probe of the compiled checker's driver over each team demo, with row 731's demo half and row 817, `trips.fss`'s other refusals (P-79; PLAN, "Off the path, parked", "Phase 3's candidates at its end", the demos' line): 247, 51.
-- The rung on rows 763 and 757, with the `bool` family: 180.
-- The next walk rung, whichever it is: 185.
-- The next walk rung on the load check's refusals, such as row 779 among climb batch 21's candidates (PLAN, "Off the path, parked", "Phase 3's candidates at its end"): 260.
-- Q-walk, the walk half of the numeral switch, in the batch whose step gives walk the checker's static types (PLAN, phase 4): 27, 34, 80, 81, 90, 91, 95, 209, 232, 252.
-- The array decisions of item 37, after the switch-over, if they choose `RR32` as the element width (PLAN item 13, fork 4): 245.
-- A rung that builds an immutable or read-only matrix (`perf-probes/immutable-arrays/REPORT.md`, its question 1): 248.
-- The next rung whose specification build needs a change to `Fortify/fortify.sty`: 235.
-- The gap ledger's full pass, the last job, after the orientation, if the week's budget allows (`coordinator/ledger-health-2026-10-22/REPORT.md`, section 6.1): 265, 267.
-- The rung that builds row 352's `throws` check, which no PLAN item names yet: 278.
-- The batch that moves the first binding over `String`, which climb batch 26's planner may name (PLAN, phase 4, its fourth line, and item 62): 310.
-- The batch that moves `Char`'s `asExprString`, the last of rung H's four (PLAN, phase 4, the natives line, "The families that wait on a known obstacle"): 354.
-- The batch that moves the rest of the 109 bindings that cannot name their helper as a bare string (PLAN, phase 4, the natives line): 331, 332.
-- N3, the natives' new helpers (PLAN, phase 4, the natives line), if the static check is to see their state as they are written: 335.
-- The integer conversions, after his answer on their ask (`reviews/integer-conversions-evidence.md`; PLAN, phase 4, its third line): 338.
-- `FlatString`'s five bindings moved onto helpers, with the string family (PLAN, phase 4, the natives line, and item 63): 340.
+**Climb batch 26 and the natives' batches** (PLAN, phase 4, its fourth line and the natives line). The planner of climb batch 26 needs none of these to write its record. The record meets 310 and 340 if it takes the string family, 331 and 332 if it takes the rest of the 109, and 354 if it moves `Char`'s `asExprString`; 20 and 338 come with the ask on the integer conversions, which the closing docket of 2026-11-03 puts before the batch is planned (section 1, item 2); 335 comes before N3's new helpers. The launch needs his go, after the Fable review of its record.
+- **310.** Under walk a native bound over `String` gets a non-flat string's type name (row 846): the loader flattens the argument, or such bindings take `FlatString`. Default: neither, until the string family moves.
+- **340.** Walk's loader tells the library's `FlatString` by its declaring component, the probe's way, before `FlatString`'s five bindings move. Default: the probe's way.
+- **331.** The way for the 25 bindings that no bare string reaches: a converting declaration, new helpers, new carriers, or the glue classes kept. No default.
+- **332.** Whether a public declaration that converts around a private bare binding keeps P-58's form. No default.
+- **20.** `widen` of a `ZZ` too large for `ZZ64`: the low bits, `IntegerOverflow`, or `ZZ`'s `widen` deleted, with the ask on the integer conversions. Default: the low bits, as today.
+- **338.** `unsigned` of a negative `ZZ64` or `ZZ32`: the low bits or `IntegerOverflow`, with the integer conversions. Default: the low bits, as today.
+- **354.** `Char`'s `asExprString` for a character outside ASCII: walk's form or the compiled helper's (row 861). No default.
+- **335.** A static check of the natives' shared state in the gate, a parallel test for each helper that holds state, both, or neither, before N3. Default: neither.
 
-**Needed before the switch-over:** 2, 20, 21, 30, 35, 36, 39, 108, 194, 212, 214, 229, 230, 281, 295, 319, 339. **Before microGPT compiles:** 3, 6, 29, 31, 37, 50, 54, 58, 93, 158, 159, 206, 216, 223, 237, 263, 277, 284, 320, 323, 324, 325. **Before it runs fast:** 22, 205, 250.
+**Before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library).
+- **2.** The checker's two extra attempts at a call beside the two of P-49: kept or dropped. Default: kept, as built.
+- **21.** `NN32` into `RR64` against answer 8: the way to build P-75's coercion if it stays; one question with item 281. Default: not built.
+- **281.** Withdraw P-75, `NN32` into `RR64` implicitly, so that item 21 is settled. Default: withdraw.
+- **30.** Way 4a, by which the checker reads a size known only at run time as fixed for one call, under his decision on sizes. Default: way 4a, as built.
+- **229.** Whether P-85's third question still waits until after the switch-over, or comes with item 30. Default: it waits.
+- **230.** What "the whole prep for the arrays" covers. Default: plain explainers of the array decisions, before the switch-over.
+- **35.** A call above a sized declaration's domain (row 446): refused at the call, at the declaration, or a Fortress run-time error. No default.
+- **36.** The 9 api declarations' dead sizes, row 41 and walk's unused unknown size, as diffs with the switch-over's design. Default: left until that design.
+- **39.** A generator's size: the counted `opr |self|` as built, or the three size bodies deleted. Default: as built.
+- **212.** The self-typed rule widened to the team's `Containment` mixins (P-146), or the mixins refused or edited. Default: widened, as built.
+- **295.** The export rule lets a component's object add `var` to a value parameter that its api writes plain (row 844). Default: the text as rung A wrote it.
+- **319.** `CompilerSystem` deleted at the switch-over, its 28 programs taking the one library's `System`, and when `getProgramArgsPrim` moves. Default: nothing deletes it until he answers.
+- **339.** `char` of a code point outside 0 to 1114111: the value kept, or an exception (row 857). Default: the value kept, as today.
+- **108.** An api form that makes the one library's strided `:` a generator, so that `seq(0:10:3)` is accepted (rows 514, 661). Default: the declaration unchanged.
 
-**Kind.** Items 60 and 194 sit under (c) and are consequential by the skill's test. Item 188 acts against his word (P-151's option 3), which the skill brings to him at once as a hold, not by the review list; item 43, on the demos, is settled by P-79.
+**Before microGPT compiles** (PLAN, phase 5).
+- **3.** The specification's sentence that a statically chosen declaration keeps its inferred instance, against the POPL 2019 rule. Default: the sentence as written.
+- **6.** The Meet Rule's closed-trait case for declarations with static parameters: kept in the text, or scoped out until proved. Default: the text as written.
+- **31.** One bound `T extends { Number, MultiplicativeRing[\T\] }` for the whole array family, or one per operation. Default: the one bound, as built.
+- **37.** The array decisions: the element width, the model's sized types (decision D, each model line shown as a diff) and decision A. Default: `RR64`, nothing built.
+- **245.** Whether `RR32` lacks a conversion from an integer numeral on purpose, with item 37's width. Default: as it reads.
+- **223.** Whether P-87's "any repair that changes a line of the model is shown to the curator as a diff" is his standing rule. Default: kept.
+- **284.** The team's `AnyIntegral comprises Integral[\I\] where [\I\]` made live, which closes row 487. Default: it stays a comment.
+- **320.** Whether his lean of 2026-09-20 toward the class loader decides array decision A (P-85). Default: it stays a lean.
+- **323.** P-60's coverage of a meet by several declarations, against the POPL 2019 paper's one declaration at the meet. Default: P-60 as it reads.
+- **325.** P-78's F-bounded `SUM` and `PROD` against the POPL 2019 paper's rule. Default: as they are.
+- **58.** Typing a call between two closed traits by the intersection of return types, widened to the paper's boundary once row 540 is fixed. Default: the narrower condition, as built.
+- **60.** Answer 9's positional rule, which the paper's [Return-Test] does not have and phase 5's dispatcher can lift. Default: as built.
+- **248.** Whether P-88 fixes the read-only matrix's shape as `ReadableArray2` above `Array2`, or only that a read-only matrix is wanted. Default: as it reads.
 
-**Moved to (a) as stale on 2026-10-20:** 1, 14, 16, 17, 26, 33, 42, answered by a decision of his; 78, 123, 124, answered by a landed fix. **Moved to (a) at climb batch 20's landing:** 12, by P-155; 43 and 151, by P-79; 189, merged into 9, one question. **Moved to (a) on 2026-10-22:** 165, by the `ledger.py` routes built at `1ac7028b4`. **Moved to (a) at climb batch 21b's landing:** 183, answered by row 775's close (rung C, `108ab82d6`). **Moved to (a) on 2026-10-29:** 279, by P-155; 280, by P-158, his informed yes. **Moved to (a) on 2026-10-30:** 282, by P-58, his informed yes; 283, by P-33. **Moved to (a) at climb batch 22c's landing:** 288, by P-155's rewrite; 262, by row 759's close. **Moved to (a) on 2026-10-31:** 285, 286, 287, 289, 290, 296 and 312, by the drafted corrections applied at his go (`a58b0a2c4`); 306, 307 and 308, by his "all defaults". **Moved to (a) at climb batch 24's landing:** 182, by row 701's rewrite to its contract half (rung G, `c324b841c`); 337 and 342, filed in (a) at once, answered by the record pass under his standing rule of 08:1x UTC on 2026-10-31 (`be3b07aac`). **Moved to (a) on 2026-11-02:** 318, by P-26, P-37 and P-7 at his answer, option 3. **Moved to (a) at climb batch 25's landing:** 343, by rung U's probes of the rewrite's limits and its `XXX` test for row 865 (`f7a33b97b`; rows 882 to 886).
+**Before microGPT runs fast** (PLAN, phase 6).
+- **22.** `Number`'s one catch-all `=` for `z = 0`, an `=` with a numeral on each integer type, or `Number`'s `=` gone. Default: the catch-all kept.
+- **205.** Whether "measure boxing on microGPT-shaped kernels" is his rule, or phase 6 times microGPT itself, or both. Default: as stated.
 
-What waits for Pavol's review, 2026-10-10
+**Walk's questions** (PLAN, phase 4, the Q-walk line: Q-walk, the walk half of the numeral switch, in the batch whose step gives walk the checker's static types after the switch-over (P-12)).
+- **27.** A numeral above 2^53 into `RR64`, which the text marks "(exact)": excluded from the implicit conversion, or rounded. No default.
+- **34.** Where a size from 2^31 to 2^32−1 used as a `ZZ32` value is refused: at the return, at the binding, or where it becomes a value. No default.
+- **232.** After the switch-over, the checker an option of a walk run, or walk refusing every program that the checker refuses (P-12). Default: as P-12 reads.
+- **80.** Once walk has an expected type, a parameter that only another parameter's bound mentions takes its bound (row 592). Default: the departure until then.
+- **81.** Walk's missing intersection type (rows 591, 616): closed by the checker's static types, or a lattice of walk's own. Default: expected failures until then.
+- **90.** The numeral type gains additive algebra, so that `SUM <|1, 2, 3|>` runs under walk (row 432). Default: none.
+- **95.** The numeral type's own ten declarations, `^` among them, kept when walk runs them. Default: as landed.
+- **209.** A numeral whose conversions tie is read as `ZZ32` (or `ZZ64` or `ZZ` by its value), or such a call is refused as ambiguous. Default: as landed.
 
-Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `main` at `6b560762f`, and in items 235 to 249, and in the text that the clarity pass brought, those of `main` at `aa1c14230`, and in items 250 to 267, and in the text that the FACTS clarity pass and the scrape brought, those of `main` at `382289832`, whose tree outside `explorations/` is the same as at the FACTS chunks' bases; in items 279 to 290, those of `main` at `66f6b3d19`; in items 318 to 322, those of `main` at `ef099f7e4`; in items 323 to 325, and in the POPL 2019 rules map's readings added to items 9, 60 and 286, those of `main` at `501140f96`, the map's base. A home in PLAN is named by its heading and its item number or opening words, since PLAN's consolidation of 2026-10-15; before it a home was PLAN's line number at `046207371`. "PLAN" is `explorations/coordinator/PLAN.md`, "PLAN-history" is `explorations/coordinator/PLAN-history.md`, which holds PLAN's closed items word for word, "POSITIONS" is `explorations/coordinator/POSITIONS.md`; report paths without a folder are under `explorations/`. A row is a row of the gap ledger. "(10-02: N)" names the entry of this file's version of 2026-10-02. The page for him is built from the same text (`scratchpad/review-backlog/page.html` in the coordinator's session).
+**Parked rungs** (PLAN, "Off the path, parked", "Phase 3's candidates at its end"). The last two wait for rungs that PLAN does not name yet.
+- **177.** Row 773's rung: an object's value parameters checked under the condition with the members, or with the header; one question with item 178. Default: with the members, as repaired.
+- **178.** Row 773's rung: a conditional extension's members scoped to its condition, as Swift, Rust and Haskell do. Default: scoped.
+- **9.** The tint rung (row 786): `tint`'s two declarations, whose bounds meet only at a type that cannot be written, exclude each other or not. Default: both paths as they are.
+- **192.** The tint rung: the exclusion passage's clause "or their elements at one position". Default: the words as written.
+- **224.** Row 774's walk rung: whether the bare `Nothing` waits for `where` clauses (P-90), or is never tried. Default: as P-90 reads.
+- **76.** Row 774's walk rung: walk refuses an `override` over a declaration whose bounds it lost (row 693). Default: the lenience.
+- **247.** The demos' checker probe: a demo "runs" when walk runs it, or also when the compiled checker accepts it (P-79). Default: both owed.
+- **51.** The demos' checker probe: a clause-form reduction's unwritten static argument fixed from the clauses, or written by the program (row 731). Default: written.
+- **235.** The next rung whose specification build needs `Fortify/fortify.sty` changed: whether P-11's "no work on the 2D notation" covers that repair. Default: it waits for his ask.
+- **278.** The rung for row 352's `throws` check, which PLAN does not name yet: `CastError` made unchecked, or `cast` and its callers declare it. No default.
 
-**Counts**
-- (b) Consequential: 66 items. By theme: The checker's typing and inference 9; Overloading and the Meet Rule 8; Walk's checks at load 2; Walk's choice of declaration and instance 3; Numbers and numerals 13; Sizes and arrays 9; The library's generators, strings and comparisons 8; The specification's text 3; Tests and the team's demos 1; Code generation and the run time 3; How batches run 7.
-- (c) Routine, kept as landed unless he says otherwise: 181 items. By theme: The checker's typing and inference 11; Overloading and the Meet Rule 13; Walk's checks at load 15; Walk's choice of declaration and instance 10; Numbers and numerals 15; Sizes and arrays 11; Ranges 8; The library's generators, strings and comparisons 27; The specification's text 21; Tests and the team's demos 13; Code generation and the run time 6; How batches run 15; The record, its tools and the repository 16.
-- Items 215 to 234 are the POSITIONS audit's questions: each asks whether an entry's sentence is his position, and its default is the entry as it now reads.
-- Items 235 to 249 are the clarity pass's of 2026-10-22. Six ask whether an entry that it held takes its rewrite (237, 238, 241, 242, 246 and 249), with the entry as POSITIONS holds it as the default. Nine ask about an entry as the pass applied it, with that text as the default.
-- Items 250 to 264 are the FACTS clarity pass's of 2026-10-22. Ten ask whether an entry that it held takes its rewrite, with the entry as FACTS holds it as the default (250 to 255, 257 to 259 and 262). Three ask about entries as the pass applied them (256, 260 and 261). Two hold the narrow questions of the entries that its assessors marked investigate, F-36 and F-94, which stand as FACTS holds them (263 and 264); F-155's is in 260.
-- Items 265 to 267 are the gap ledger's health check's three questions of 2026-10-22, each with the report's default.
-- (a) Settled or stale, leaving the lists: 95 entries, several of which bundle lines.
-- PLAN's nine batch lists hold 202 entries: 32 in (b), 94 in (c), 76 in (a), each counted where it first appears.
-- Every one of the 116 entries of 10-02 is placed; the last section maps them.
+**No work needs them, but each departs from his word, or may.** 188 was built against his option 3 in P-151 (the closing docket, section 1, item 11). Each of the others asks whether a sentence of POSITIONS that the coordinator or an audit wrote says more than his words, which only he can tell; each has the entry as it reads as its default, and each can change at any time.
+- **188.** P-151's `addLeft` and `addRight`, built in `AnyList` against his option 3: they stay, with P-151 reworded, or move into `List`. Default: as built.
+- **215.** P-26's sentence "The implementers' later word also outweighs unfinished text.", which no word of his states. Default: as it reads.
+- **219.** P-43's reason for route A, which quotes his words that were about the other side. Default: as it reads.
+- **220.** P-43's "He cares that specialised code runs fast, not how a specialisation is chosen", from a message that he called no answer. Default: kept.
+- **225.** P-95's "The unrevised copy, `Specification-1.0-frozen/`, is never touched." as a standing rule, from his yes for one rung. Default: kept.
+- **227.** P-124's rule that no specification example is respelled around a gap in walk, from his choice for five examples. Default: the rule for every example.
+- **236.** P-19: a file's account of the tree's lineage corrected when a worker edits it, or every such file waits for the lineage cleanup. Default: it waits.
+- **240.** Whether P-32's "kept current" covers the territory map, so that its refresh is work to plan. Default: as it reads.
 
-**Five to take first**, each because it holds work or acts on his word:
-- 43, Team demo lines changed by the batches. It acted against POSITIONS' reading of his word on the demos, "stay as they are"; his word of 2026-09-29 was that the demos run again. Settled 2026-10-20 by P-79, his word that every team demo is kept running.
-- 1, The self-typed bodies. Answered 2026-10-13, way 6 (P-146).
-- 30, A size known only at run time: way 4a and his decision on sizes. It reads his decision on sizes anew, and was built on the standing go while his answer is pending. The POPL check of the same judgements (item 33) is a new ask today.
-- 14, Does coverage define an inherited abstract method? (item 51). Answered 2026-10-13, coverage (P-147).
-- 17, Unwritten reductions whose parameter has a plain bound. Settled 2026-10-14 by the coordinator's call under P-48 and built by climb batch 15's rung B (`20474c144`).
-
-**Checked against his words.** The check of 2026-10-02 stands for the entries it covered. His messages in this session's transcript since 2026-10-08 12:56 UTC, where it begins (113 user turns, compaction summaries among them), were searched for the words of every (b) item: none answers one. Two bear on them: on 10-09 at 15:10 UTC he sent rung W's two questions to a Fable check instead of answering them (`reviews/walk-load-readings-check.md`; items 14 and 73), and on 10-10 at 05:27 and 05:35 UTC his "land it now" settled item 52's route, not fork 2's bound.
+**Reading an item.** Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `main` at `6b560762f`, and in items 235 to 249, and in the text that the clarity pass brought, those of `main` at `aa1c14230`, and in items 250 to 267, and in the text that the FACTS clarity pass and the scrape brought, those of `main` at `382289832`, whose tree outside `explorations/` is the same as at the FACTS chunks' bases; in items 279 to 290, those of `main` at `66f6b3d19`; in items 318 to 322, those of `main` at `ef099f7e4`; in items 323 to 325, and in the POPL 2019 rules map's readings added to items 9, 60 and 286, those of `main` at `501140f96`, the map's base. A home in PLAN is named by its heading and its item number or opening words, since PLAN's consolidation of 2026-10-15; before it a home was PLAN's line number at `046207371`. "PLAN" is `explorations/coordinator/PLAN.md`, "PLAN-history" is `explorations/coordinator/PLAN-history.md`, which holds PLAN's closed items word for word, "POSITIONS" is `explorations/coordinator/POSITIONS.md`; report paths without a folder are under `explorations/`. A row is a row of the gap ledger. "(10-02: N)" names the entry of this file's version of 2026-10-02. The page for him is built from the same text (`scratchpad/review-backlog/page.html` in the coordinator's session).
 
 ## (b) Consequential, by theme
 
-### The checker's typing and inference (14)
+### The checker's typing and inference (8)
 
 2. **The checker's third and fourth attempts at a call.** His decision on the order of the checker's attempts at a call names two: by subtyping without the expected type first, then by coercion with it. Batch 8's rung I kept a third between them, by subtyping with the expected type, so that a call whose untyped function argument only the expected type can fix still type-checks. It also kept a fourth, last: coercion without the expected type (`compile-ladder/rung-instance-bound/decision-record.md:57`, D4, the built order; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:733-737`). P-49 states the two attempts of his decision, and F-78 gives all four in order and says which two an agent chose. No source says whether his review of this item covers the fourth; a cold reader of P-49 took the fourth as approved, since only the third is marked.
    - Landed: Four attempts where the call has an expected type: subtyping without it, subtyping with it, coercion with it, then coercion without it. Five calls moved instance; `c: ZZ64 = idt(3)` now runs `idt` at the numeral type and converts the result, the inference chapter's own example.
@@ -84,47 +115,19 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: PLAN, "Pavol's answers, in the order they are needed", Item 30's clause that a declaration the static call; the fold `086875900` on `wip/7b-popl-fold`; `compile-ladder/rung-spec-overloading/decision-record.md`; P-48, "A type parameter that a call's arguments do not ..." (10-02: 24)
    - Needed by: before microGPT compiles; phase 5's dispatcher, which receives the call's static return type, builds the paper's rule that this sentence departs from (PLAN, phase 5, its third line).
 
-4. **Does the inference chapter solve a call's type parameters together?** For `loneT[\S, T extends S\](a: T, b: T, s: S)` over an Apple, a Pear and a Pear, walk gives both parameters `Fruit`. Read one parameter at a time, the chapter gives `S` the type of `s` alone, and then `T` has no instance.
-   - Landed: No default on record. Walk's answer is pinned by a plain test (row 613), and the chapter's box for the interpreter says nothing of the case.
-   - The other way: Yes, jointly: the chapter gains a rule that walk already follows. No: the per-parameter reading stands, and walk's answer becomes a departure with a row.
-   - Its cost: Either answer is new text in the inference chapter; one of them also changes walk. Row 612, walk keeping `Bottom` where such a bound mentions another parameter, sits beside it.
-   - Home: PLAN, "Climb batch 9, listed for his review", D5's reach; Row 612; `compile-ladder/rung-walk-instance/REPORT.md:322` (section 9), `SKEPTIC.md:48`; `compile-ladder/rung-walk-meet/REPORT.md:291`; F-141, walk's instance of a type parameter that nothing at a call fixes, which names this question
-   - Needed by: never; no candidate of PLAN's phase 3 item 19 and no line of phases 4 to 6 builds on joint solving, and walk's answer stays pinned (row 613).
-
-5. **Do `try`, `catch` and `atomic` bodies take the expected type?** He ruled that a `typecase` clause and a `label` body take the expected type of the whole. A `try` and an `atomic` have the same shape in the text: the type of a `try` is the union of its block's and its `catch` clauses' types, and an `atomic` has its body's type.
-   - Landed: No: the checker gives them no expected type, and joins the `finally` block's type into the `try`'s, which the text does not. The chapter's "not yet described" item names them.
-   - The other way: Yes: a checker rung measures and repairs them, and the chapter's list of contexts gains them, as for `typecase` and `label`.
-   - Its cost: One checker rung, not measured, and an amended Appendix I entry.
-   - Home: PLAN, "Climb batch 12, listed for his review", Do a `try` block and its `catch` clauses; `compile-ladder/rung-checker-contexts/REPORT.md:189` (section 10); `reviews/batch-12-review.md`, Part 4
-   - Needed by: never; no candidate of PLAN's phase 3 item 19 edits the checker's contexts, and none of the 5 sites left after batch 20 is a `try` or an `atomic` (`coordinator/CLIMB-BATCH-20.md`, section 1).
-
-175. **Where a conditional extension's condition holds: the other `extends` entries.** A trait or object may extend a type under a `where` clause, as `object Bad[\E\](x: E) extends { Wrap[\E\], Shows where { E extends Ord[\E\] } }` does. Climb batch 18's rung X first checked the whole `extends` clause under every condition, so it accepted that declaration, which the base refuses and whose run died at link time. Its skeptic's contested fix `bd18b6a47` checks each entry with its own conditions, and the members with all of them. The judge upheld the fix.
-   - Landed: As ruled: a conditional entry's condition holds in that entry and in the members only (P-151; `Specification/basic/trait-parameters.tex:371-378`). Default, taken: as ruled.
-   - The other way: The probe's reading, which checks the whole `extends` clause under every condition (`perf-probes/where-clauses/REPORT.md:343`).
-   - Its cost: Reverting `bd18b6a47`, and filing the row the skeptic drafted (`compile-ladder/rung-checker-conditional-extension/SKEPTIC.md` section 4.2).
-   - Home: PLAN, "Climb batch 18, listed for his review", X.skeptic.1 and X.judge.1; `compile-ladder/rung-checker-conditional-extension/JUDGE.md` section 2; `ProjectFortress/compiler_tests/XXXCondExtendUnconditionalEntryChecker.fss:10`
-   - Needed by: before row 773's rung; that rung scopes the members to the condition, and builds on this ruling that the members hold under every condition and each entry under its own (PLAN, "Off the path, parked", "Phase 3's candidates at its end").
-
-176. **Where a conditional extension's condition holds: the header.** After rung X, the checker still checked a declaration's static parameters, its own `where` clause, its `throws` clause and contract, and its `excludes` and `comprises` clauses with every conditional entry's condition holding. So it accepted three programs that the base refuses, 'Ill-formed type: W[\E\] ... does not satisfy the corresponding bound Shows.': an `excludes` entry, a `comprises` entry and a static parameter's bound, each well formed only under the condition. Rung X's judge saw it by reading (X.judge.2), and the merged-diff review ran it (review.1).
-   - Landed: Ruled by the review's judge and repaired (`5b11849c6`): the header is checked with the declaration's own `where` clause only, and the entries, the value parameters and the members with the conditions (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:192-236`). An object's contract never reaches the checker, since the disambiguator drops it (row 781), so `Decls` is unchanged and the ruling's contract test waits on that row. Default, taken: as repaired.
-   - The other way: Read "Within the declaration" (`trait-parameters.tex:375`) as taking in the header, which the judge did not hold, and check the header under every condition, as before the repair.
-   - Its cost: A revert of the repair's edit. No library declaration has the shape, so the count and the distance move neither way.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.judge.2 of climb batch 18's rung X and review.1; `compile-ladder/climb-batch-18/JUDGE-review.md`; `compile-ladder/climb-batch-18/REPAIR-review.md` section 2; tests `XXXCondExtendExcludesChecker`, `XXXCondExtendComprisesChecker`, `XXXCondExtendParamBoundChecker`, `XXXCondExtendExcludesWhereChecker`
-   - Needed by: before row 773's rung; item 177's other way moves the value parameters into the header's analyzer that this repair made (`TypeWellFormedChecker.scala:192-236`), so the two are answered together (PLAN, "Off the path, parked", "Phase 3's candidates at its end").
-
 177. **Where an object's value parameters fall under a conditional extension.** Nothing on record settles it. A value parameter that is not transient is a field (`Specification/basic/objects.tex:271-272`), and P-151 puts the members under the condition. The constructor's arrow type holds at every instance (`objects.tex:204-206`).
    - Landed: As repaired: they are checked with the conditions, with the members. So a parameter typed only under the condition is accepted, and the object can be made where the condition fails: row 773's hole, which a member already has. Default, taken: as repaired.
    - The other way: Check them with the header: `walk(params)` moves to the header's analyzer in `TypeWellFormedChecker.scala`'s object case (`:235`), and `Decls.scala`'s object case (`:135-136`) binds them without the conditions, so a field typed only under the condition is refused.
    - Its cost: The count moves neither way: by reading, no library declaration or test has such a parameter. It belongs with row 773's scoping of members (item 178); a reversal is that edit, with one expected failure promoted.
    - Home: PLAN, "Climb batch 18, listed for his review", judge-review.1; `compile-ladder/climb-batch-18/JUDGE-review.md` sections 3 and 6; row 773
-   - Needed by: before row 773's rung; PLAN's phase 3 item 19 holds row 773 until this answer (ask 8), as climb batch 20 left the row out for it (`coordinator/CLIMB-BATCH-20.md`, section 4); the count moves neither way.
+   - Needed by: before row 773's rung; PLAN holds row 773 for this answer ("Off the path, parked", "Phase 3's candidates at its end"), as climb batch 20 left the row out for it (`coordinator/CLIMB-BATCH-20.md`, section 4); the count moves neither way.
 
 178. **The members of a conditional extension scoped to the condition (row 773).** The checker checks a member under a conditional extension's condition, as P-151 says. The member stays callable where the condition fails, since the members a type inherits are read at every instance: `Lst[\Fn\](Fn(inc), Fn(inc)).lt(...)` compiles, and its run dies at link time, 'NoSuchMethodError: ... CondExtendMember$Fn.lt(CondExtendMember$Fn)'. Swift, Rust and Haskell scope such members to the condition. The scoping waited on row 748's check at a dotted call, which rung K landed in the same batch; that check reads a method's own `where` clause only, so row 773 holds.
    - Landed: The members checked under the condition and not scoped to it; row 773 open. Default, taken: the scoping in a later batch, among the next batch's candidates (PLAN, "Off the path, parked", "Phase 3's candidates at its end").
    - The other way: Leave the members unscoped, with the row as the record of the hole.
    - Its cost: A checker rung beside row 748's check, with item 177's value parameters.
    - Home: PLAN, "Climb batch 18, listed for his review", X.worker.2; PLAN, "Off the path, parked", "Phase 3's candidates at its end"; `compile-ladder/rung-checker-conditional-extension/REPORT.md:170`, `:225`; `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1829`; row 773
-   - Needed by: before row 773's rung; this is whether that rung, the candidate PLAN's phase 3 item 19 holds, scopes the members at all.
+   - Needed by: before row 773's rung; this is whether that rung, which PLAN holds among phase 3's candidates at its end ("Off the path, parked"), scopes the members at all.
 
 212. **How far a self-typed trait reaches: the team's `Containment` mixins (P-146).** A self-typed trait is a trait `C[\X\]` whose parameter `X` extends `C[\X\]`, such as `Integral[\I extends Integral[\I\]\]`. P-146's text refuses a type that extends such a trait at another type. The team's 2009 mixins `ContainmentBySubset[\T extends Containment[\T\]\] extends Containment[\T\]` and `ContainmentByComparison` extend `Containment` at their parameter `T`, not at themselves, so the text refuses them. Yet their `T` is the implementing type: `Relation[\T\]` extends `ContainmentBySubset[\Relation[\T\]\]`. The questions that he answered with "1." on 2026-10-13 (23:06 UTC and after) defined a self-typed trait as "a generic trait whose parameter stands for the type that implements it", with `Integral` as the example; the entry's wording is the self-typed bodies judgement's. On 2026-10-13 at 23:59 UTC the coordinator put this to him as a separate choice. On 2026-10-14 at 00:07 UTC he did not recall wording anything about mixins, and said that he was far out of his depth. At 00:08 UTC the coordinator took the widening itself, on his review list, by the method that he approved at 00:12 UTC ("Yes, that's how I want it.").
    - Landed: The widening, built by climb batch 14's rung S (`1c32ccffd`): a parameter also counts as the trait's self parameter when its bound is a self-typed trait that the trait extends at that parameter. The mixins and their extenders `Relation` and `ContainmentGenerator` check with no error (`Library/Containment.fss:42`, `:57`, `:66`; `Library/Relation.fsi:17`), tested in one component, through an api and through a chain of three apis (`ProjectFortress/compiler_tests/SelfTypeMixinBound.fss`, `SelfTypeMixinApi.fss`, `SelfTypeChainMixOfMix.fsi`). The specification states it (`Specification/basic/traits.tex:285-302`, `Specification/basic/expressions/var-ref.tex:74`), and so does the `fortress-repo` skill (`references/revival-changes.md`, "`self` in a self-typed trait"). The trips demo's object (row 710) and `PureList`'s `List` (row 355) stay refused under either reading. Default: as built.
@@ -133,26 +136,12 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: POSITIONS P-146; `coordinator/positions-audit/full/evidence/corrections-c5.md`, "P-146"; `coordinator/positions-audit/full/evidence/review-queue-items-c5.md`; PLAN, "Climb batch 14, listed for his review", S.worker.1 and S.skeptic.1 of climb batch 14's rung S; `coordinator/CLIMB-BATCH-14.md:86`; `compile-ladder/rung-self-type/REPORT.md:101` (section 7); FACTS F-225, which states the widening as built; if he takes (a) or (b), its sentence on the mixins changes with the code or the library (`coordinator/consolidation-2026-10-22/evidence/facts/f7/queue.md`)
    - Needed by: before the switch-over; under P-146's text the team's `Containment` would be refused once the compiled path reads the one library (the coordinator's text of 2026-10-13 at 23:59 UTC: "The refusal would show at the switch-over").
 
-309. **P-58's "refuse a string that names no helper", read by climb batch 23's fork 3: only a string under the helpers' package is refused. Does he take that reading?** P-58 has the compiled path "rewrite each such body into a synthetic `import java` of the helper and a call, and ... refuse a string that names no helper" (`coordinator/POSITIONS.md:55`). Fork 3 refuses a string under `com.sun.fortress.nativeHelpers.` that names no public static method, 'builtinPrimitive names no static helper: …'; every other string, each of the 161 glue strings left since climb batch 25 among them (F-32), stays a call of `builtinPrimitive`, which the checker types at the declared return type and checks against no Java signature (F-298). Refusing the glue strings too would refuse all of them before they move (`coordinator/CLIMB-BATCH-23.md:103`). Rung C keyed the rewrite itself to the package as well, after a crash on the planner's text ('IllegalArgumentException: Undefined API: java.lang', `compile-ladder/rung-natives-compiled/REPORT.md:25-33`), so fork 3's sentence that the rewrite takes any string naming a public static method no longer holds. The stages read every glue string so before the batch too, so the zero rests on this reading no more than before (`reviews/batch-23-review.md`, section 6, and Part 1, split 5).
-   - Landed: Fork 3's reading, the rewrite and the refusal both keyed to the helpers' package. Default: as landed.
-   - The other way: Refuse every string that names no helper, once the glue strings have moved.
-   - Its cost: Until N1 to N4 move the 161 glue strings, the other way would refuse them all; once they have moved, both readings refuse the same strings.
-   - Home: PLAN, "Climb batch 23, listed for his review", fork 3; POSITIONS P-58; `coordinator/CLIMB-BATCH-23.md`, section 2, fork 3; `reviews/batch-23-review.md`, Part 1, "Where the text, the brief or the principles split", 5, and finding 1; F-298
-   - Needed by: never; until the glue strings move only this reading can stand, and after it the two refuse the same strings.
-
 325. **P-78's F-bounded reductions against the POPL 2019 paper's rule that no method type parameter occurs in an upper bound: do they stay, with or without a checker rule that such a parameter be fixed at the call, or move their F-bounds onto traits' parameters (P-78, F-271)?** The rule: restriction (2) of [Binding-Step], "no reference to a method type parameter appears in any of the upper bounds" (`Papers/Variance/lang.tex:440`), so that dispatch can solve a call's parameters in one right-to-left pass (`resolve.tex:509-523`, `:1105-1112`); the proofs cover nothing else (F-271). The decision: P-78 makes `SUM` and `PROD` one generic reduction each over the library's algebra (`coordinator/POSITIONS.md:85`), as `opr SUM[\T extends AdditiveGroup[\T\]\](g: Generator[\T\]): T` (`Library/FortressLibrary.fsi:1993`), F-bounded as the team's `BIG MIN` and `BIG MAX` are (`:2008-2018`); the checker checks no restriction of [Binding-Step] (`reviews/popl2019-rules-map.md`, section 4; row 854 holds restriction (1)). The type-decisions judgement of 2026-10-23 bounded the risk: where an invariant argument position, as `Generator[\T\]`, fixes the parameter, the bound is checked and never solved, so microGPT's reductions carry none, and a generic reached only by dispatch whose F-bounded parameter no argument fixes would carry it (`reviews/type-decisions-review/judgement.md`, section 5 (a)); the extract records "no decision yet" on the library's F-bounded functions (`research/extracts/ParkPOPL2019-extract.md`, section 8). The POPL 2019 rules map, read against the technical report's sources, gives three ways (`reviews/popl2019-rules-map.md`, question 4).
    - Landed: P-78 as it reads, with no checker rule. Default: as it reads, the map's way (b): the F-bounds stay without a rule, and phase 5's dispatcher must solve F-bounds that the paper does not, with no proof.
    - The other way: (a) Keep the F-bounds and add to the checker a rule that an F-bounded type parameter be fixed by an invariant position of an argument or written at the call: the risk goes to zero, and the library is unchanged where its reductions take a generator; the forms without one already write their static argument (P-78, row 731). (c) Follow the rule: move each F-bound onto a trait's parameter, which the rule admits (P-146's self-typed traits), changing P-78 and the library.
    - Its cost: Under the default, nothing now, and the risk stays with phase 5's dispatcher. Under (a), a checker rung and its tests. Under (c), P-78, the library's reductions and its functions over `T extends Integral[\T\]` (`reviews/type-decisions-review/judgement.md`, section 5 (a)).
    - Home: POSITIONS P-78; F-271; `reviews/popl2019-rules-map.md`, question 4 and sections 4 and 23; `reviews/type-decisions-review/judgement.md`, section 5 (a); `research/extracts/ParkPOPL2019-extract.md`, section 8; `coordinator/postmortem-2026-10-28/ryu-claims-check.md`, claim 2; rows 731 and 854
    - Needed by: before microGPT compiles; phase 5's dispatcher solves the parameters of a generic declaration that only dispatch reaches (PLAN, phase 5), and under the default it meets F-bounds that the paper's solve does not take.
-
-326. **Climb batch 24's question 2, taken at the hard-set probe's default under his half-hour rule: the 76 bindings over `NN32`, `NN64` and `Char` read through the team's six transfers (way 2b). Does he take it, with its cost that the checker no longer checks which helper such a binding names?** The 82 bindings over these types name helpers whose Java `int` or `long` the checker reads as `ZZ32` or `ZZ64`, so as bare strings they are type errors for the checker, where walk loads them unchanged (`compile-ladder/plan-24/probes/hard-set.md`, section 1). Way 2b has the compiled path's rewrite read each position's declared type and put the matching transfer around an argument or around the call (F-308): the team's later word, Steele's composition through "two trivial transfer functions" (`c2c769094`, 2011-06-24), and the library's one bare body at the declared types meet there (`coordinator/CLIMB-BATCH-24.md:98`). It was asked at 09:54 UTC on 2026-10-31, had no answer by 10:26, and so was taken by his word of 08:2x UTC that day: "if he does not reply within half an hour of the probe's recommendation, the coordinator takes the probe's default into the batch" (`:92`; `coordinator/HELD.md`). Rung H moved 76 of the 82 (`b71495ca4`); six stay on glue classes (its fork 18). The cost the question did not weigh (`reviews/batch-24-review.md`, Part 1, split 1, and finding 2): the six transfers return their argument unchanged (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java:230-231`), so the checker accepts a binding over `NN32`, `NN64` or `Char` whatever helper it names, and only the guards check the sign. Rung H's skeptic showed it: a binding over `NN32` named to the signed `simpleIntArith.intLT` is refused on the old code ('(ZZ32, ZZ32)->Boolean is not applicable to an argument of type (NN32, NN32)'), and compiles and answers `true` for 2^31 < 1 on the new code (`compile-ladder/rung-natives-hard/SKEPTIC.md:112-134`). For the 76, the walk and compiled guards check that each names the unsigned helper, and they do (F-308). Climb batch 25 launched with this item at its default, on his go for the batch of 22:0x UTC on 2026-11-02; its rung U gave `UnsignedLong`'s `self` the `NN64` transfer, so the cost reaches `UnsignedLong`'s three bindings too, and U's guards assert values at and above 2^63 (`coordinator/CLIMB-BATCH-25.md`, fork 6; `reviews/batch-25-review.md`, Part 1, split 7).
-   - Landed: Way 2b, 93 bindings over `NN32`, `NN64`, `Char` and `UnsignedLong` moved, 76 by climb batch 24 and 17 by climb batch 25 (F-308); the count 0 and the distance 0 with them read through the transfers (`reviews/batch-25-review.md`, sections 1 and 6). Default: as landed.
-   - The other way: The probe's other ways (`hard-set.md`, section 4): 1, a helper with a special name per binding; 2a, the foreign-type table reading the binding's declared types; 3, a second declaration that converts around a private bare binding, which needs a yes to item 332. Or, to keep the checker's check of the helper, transfers that are not identities (the reviewer's proposal, finding 2).
-   - Its cost: Undoing way 2b is `ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java` and the 76 strings (`CLIMB-BATCH-24.md:100`). On the probe's sample of four, way 1 gave the distance 1, way 2a 1 (0 with one unrelated binding put back) and way 3 0 (`hard-set.md`, section 5); transfers that are not identities are not measured. Under the default, every later binding over `NN32`, `NN64` or `Char` is checked by its guards only, so a family rung over these types needs its guards to check the helper's sign (`reviews/batch-24-review.md`, step 6).
-   - Home: PLAN, "Climb batch 24, listed for his review", Question 2; `coordinator/CLIMB-BATCH-24.md`, section 2, "Question 2, consequential: the hard set's way"; `compile-ladder/plan-24/probes/hard-set.md`, sections 1 and 4 to 7; `compile-ladder/rung-natives-hard/SKEPTIC.md:112-134`; `reviews/batch-24-review.md`, Part 1, "Where the text, the brief or the principles split", 1, and findings 1 and 2; `reviews/batch-25-review.md`, Part 1, split 7; F-308
-   - Needed by: never (set by the landing workflow); climb batch 25 was the batch that moved bindings over these types at this default, and under it each later such binding is checked by its guards, which a family rung over these types writes to check the sign.
 
 331. **The rest of the 109 bindings that cannot name their helper as a bare string, the 25 that no way of climb batches 24 and 25 reaches: which way does each take?** The 27 of the probe (`compile-ladder/plan-24/probes/hard-set.md`, section 2), of which climb batch 25's rung A moved `Int`'s and `RR32`'s `asFloat`, declared at `RR64` (`d2501afef`; F-311): `AnyIntegral` 7 (the shifts of `ZZ32`, `ZZ64` and `ZZ`, `ZZ`'s `shift`, and `ZZ32`'s `big` over a `long` helper), `Float` 5, `RR32` 2, `Int`'s `asFloat`, `FlatString`'s `=` and `flatConcat(self, b:Char)`, `Object` 2, `SEQV` and `random`, `IntLiteral` 4, and `FlatString`'s `get` and `javaIndexOf`. Of these, `get` and `javaIndexOf`, which fit way 2b by the probe's reading, go with the string family, and `IntLiteral`'s 4 wait for N5 (P-76; `coordinator/CLIMB-BATCH-24.md`, section 4, "Left out, each with its home"); the probe's Q2 asks the way for the rest (its section 8). No bare string admits them: a helper over plain Java values cannot take an `AnyIntegral`, which may be a `ZZ`, and walk's glue converts inside (`Int.shiftCount`); the prelude never bound these at `AnyIntegral`, its shifts taking `ZZ32` or `ZZ64` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:736-737`), while the one library's api requires `AnyIntegral` (`Library/FortressLibrary.fsi:473-474`) (the probe's section 4.4). No principle says where the conversion of an `AnyIntegral` goes once the glue goes, and the peers split, foreign-function marshalling or library source (its section 6). Climb batch 25's planner found that `ZZ32`'s `big(self): ZZ` (`Library/FortressLibrary.fss:812`) fits an existing helper as a bare string, `simpleArbitraryPrecisionArith.makeZZfromZZ32(int)`, where the classifier had named the prelude's `makeZZfromZZ64`; to move it is this item's to decide (`coordinator/CLIMB-BATCH-25.md:410`).
    - Landed: Nothing: the 25 still name glue classes (F-32). Default: no default on record; keeping the glue keeps today's behaviour.
@@ -168,7 +157,7 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: PLAN, phase 4, the natives line, the 109, and "Climb batch 24, listed for his review", the hard-set probe's Q3; `compile-ladder/plan-24/probes/hard-set.md`, sections 4.3, 6 and 8; POSITIONS P-58; items 326 and 331
    - Needed by: before the batch that moves the rest of the 109, with item 331.
 
-### Overloading and the Meet Rule (9)
+### Overloading and the Meet Rule (3)
 
 6. **The Meet Rule's closed-trait case for generic families.** Item 26 gave the Meet Rule a case for two closed traits: declarations over the listed types cover their intersection. The text applies it to declarations with static parameters too; the checker refuses it there. Since batch 8, the functional-method form is accepted and dies at run time (row 566); the function form is still refused.
    - Landed: The text as batch 7b's rung S wrote it; the checker's refusal gated by expected failures; Appendix I names row 546 among the checker's departures.
@@ -177,54 +166,12 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: PLAN, "Climb batch 7b, listed for his review", gather.1; PLAN, "Climb batch 8, listed for his review", Stop met and lifted; PLAN-history, "Climb batch 7b, listed for his review", Stop met and lifted; `compile-ladder/climb-batch-7b/RECORD.md`, rung S; `compile-ladder/rung-overloading-checker/REPORT.md:80` (section 5); row 546 (10-02: 27)
    - Needed by: before microGPT compiles; keeping the text commits a checker rung beside row 566's run-time dispatch defect, which is phase 5's line (PLAN, phase 5).
 
-7. **An identical coercion on every candidate.** `choose(S, ZZ64)`, `choose(T, ZZ64)` and `choose(V, ZZ64)` called with a `ZZ32` need the same coercion for every candidate. Does that count as the conversion being fixed, so that the call is typed by the intersection of the return types?
-   - Landed: No: an "Ambiguous coercion" error, batch N's rule. The text also says that covering does not choose between two coercions, so the three declarations are not a valid overloading; the checker accepts them (row 391) and refuses the call.
-   - The other way: Yes: such a call is typed by the intersection.
-   - Its cost: A yes also changes the Meet Rule's sentence for functions and a checker rule.
-   - Home: PLAN, "Climb batch 7b, listed for his review", A call between two closed traits whose other argument; `compile-ladder/rung-return-type-rule/REPORT.md:354`, `JUDGE.md:78`; `Specification/advanced/overloading.tex:320-322` (10-02: 28)
-   - Needed by: never; no PLAN item builds on the call's typing, and the refusal can be lifted at any time with the Meet Rule's sentence (row 391).
-
-8. **Coverage of functional methods below the providing type.** A functional method is a method called as a function, `f(x)`, with `self` among its parameters. The checker judges coverage in each type that provides the two methods, over what that type provides. A trait between the two closed traits that provides both and declares nothing (`SkFnBetween`) is refused compiled and runs under walk.
-   - Landed: As the text and the checker have it.
-   - The other way: Coverage also reads the declarations of the types below the provider, as the value reading would allow.
-   - Its cost: Either answer is new text for the chapter. The checker's verdict on this program also depends on what the same JVM compiled before (row 547), so it has no pinned test.
-   - Home: PLAN, "Climb batch 7b, listed for his review", The Meet Rule's closed-trait case on the compiled path; `compile-ladder/rung-return-type-rule/SKEPTIC.md:151` (10-02: 29)
-   - Needed by: never; no PLAN item builds on coverage below the provider, and `SkFnBetween` has no pinned test (row 547).
-
 9. **Exclusion through a bound, and `tint` (row 786).** Do two parameter types exclude each other when the only static arguments at which they could meet are ones a bound rules out? Walk loads `tint[\T extends Red\](x: Box[\T\])` beside `tint[\T extends Blue\](x: Box[\T\])`, reading two type parameters whose bounds exclude as never one type, and the checker refuses the pair; `Bottom` lies within both bounds and cannot be written, so which path moves is his. The POPL 2019 rules map reads the paper's rules on it, by reading only: [Meet-Excl] goes through existential reduction, which collects the "constraints C that make α different from Bottom" (`Papers/Variance/rules.tex:343-345`), with `unify` and `toBounds` named but given no rules (`rules.tex:252-258`), and no instance is `Bottom` (`rules.tex:159`; `resolve.tex:239-241`, `:773-774`). If `unify` fails on the merged parameter, whose only instance would be `Bottom`, the meet stays unreduced and [Exc-Object-Same] over the two parameters gives exclusion, so the pair is valid; if it returns the merged parameter bounded by both, the pair is refused. The rules state neither, and the Working Draft left the same point open (`Specification-1.0-frozen/appendices/future.tex:265`). Its two ways are this item's: the checker's reduction treats an existential whose parameter's bounds meet only at `Bottom` as empty and agrees with walk, or walk's `mayBeEqual` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:1448-1472`) admits `Bottom` as the two parameters' common argument and refuses the pair at load as the checker does; neither alone keeps today's behaviour (`reviews/popl2019-rules-map.md`, question 1).
    - Landed: The checker as it is: yes for a named forced argument, and it cannot conclude it through ancestors (the `CAP` shape); for `tint`, both paths as they are, row 786 `CONTESTED`. The text names the question in Appendix I's "Passages not yet revised".
    - The other way: The text answers it: rung S's "no", which the gather removed, or a "yes"; and walk refuses `tint`, or the checker accepts it.
    - Its cost: A sentence of the overloading chapter, and a walk rung or a checker rung to match it.
    - Home: PLAN, "Climb batch 7b, listed for his review", Whether two parameter types exclude each other when the; `compile-ladder/rung-spec-overloading/SKEPTIC.md:140` (10-02: 31); PLAN, "Climb batch 19, listed for his review", P.worker.1 and P.skeptic.1; row 786; POSITIONS-history, P-152, its block of 2026-10-22 08:30Z, the former "Left:" list, which named `tint` (row 786); `reviews/popl2019-rules-map.md`, question 1 and sections 11, 16 and 18
    - Needed by: before the tint rung (row 786); climb batch 21's candidates hold the row for his answer (PLAN, "Off the path, parked", "Phase 3's candidates at its end"), and item 192 writes a sentence in the same passage of `overloading.tex`.
-
-10. **A written static argument on a name with a generic and a plain declaration.** For `op[\ZZ64\](z, w)`, where `op` has a generic and a plain declaration, walk runs the generic declaration's instance and the compiled run dispatches to the plain one. The text says nothing of a static argument written on such a name.
-   - Landed: No rule. Walk's answer is pinned by a test.
-   - The other way: A rule: a written static argument selects the generic declarations only, or the call dispatches as if it were not written.
-   - Its cost: A sentence of the overloading chapter; one path changes.
-   - Home: PLAN, "Climb batch 7b, listed for his review", A written static argument on a name with a generic and a ...; `compile-ladder/rung-walk-dispatch/REPORT.md:233`; `ProjectFortress/tests/DispatchWrittenStaticArgWalk.fss:18`; row 504's note (10-02: 30)
-   - Needed by: never; no PLAN item builds on a written static argument at such a name, and walk's answer is pinned (`ProjectFortress/tests/DispatchWrittenStaticArgWalk.fss`; row 504's note).
-
-11. **A family that mixes a function with functional methods.** Over two closed traits, a family that mixes a top-level function with functional methods is refused on both paths. The chapter's rule for functions and its rule for functional methods both apply to it, and neither says which governs.
-   - Landed: The Working Draft's text; the ledger row alone records it. Climb batch 21's rung S made `String`'s four families top-level operators alone, not beside `String`'s abstract functional `||`, since both paths refuse that mix (row 545; `compile-ladder/rung-symbolic-library/REPORT.md`, section 12, decision 2).
-   - The other way: The text says which rule governs, here or in a later specification rung, and the checker's mixed-family rule follows.
-   - Its cost: A text revision. The answer also decides the way batch 8 did not take for `String`'s juxtaposition (the next item).
-   - Home: PLAN, "Climb batch 7b, listed for his review", Row 545; PLAN, "Climb batch 8, listed for his review", `String`'s juxtaposition is three top-level operators since climb batch 8's rung M; `reviews/batch-7b-review.md`, Part 3; row 545 (10-02: 33)
-   - Needed by: never; climb batch 21b's rung C turned the symbolic-operator check on (P-155; F-281), and no family of the library that mixes a function with functional methods gave an error, the distance staying at its 5 (F-53); `String`'s families, the device that turned on this mixed-family rule, took the top-level form that avoids the mix (row 545), so nothing waits on the text's answer.
-
-13. **The approved `comprises` check decides by names.** The 14 lines of the checker's `comprises` check that he approved decide by how a type that extends the trait spells its type variable, and by simple names: an unrelated trait of the same name counts, and a false clause can pass.
-   - Landed: The code as approved; one face gated by an expected failure (row 489).
-   - The other way: Repair it: put the extending type's arguments into the clause, and match declarations, not simple names.
-   - Its cost: It changes the 14 lines he approved. A sketch of the first half keeps every verdict measured but is not right inside the check's recursion. Nothing on the path waits on it.
-   - Home: PLAN, "Off the path, parked", The `comprises` check he approved; `compile-ladder/rung-comprises-checker/SKEPTIC.md:322` (section 18); rows 489, 490 (10-02: 78)
-   - Needed by: never; nothing on the path waits on it (its cost line), and rows 489 and 490 keep its faces.
-
-228. **Is the type group's paper of 2011 the reason for P-152?** P-152 has walk and the checker read exclusion between two generic declarations over the whole parameter type. On 2026-10-17 at 11:36 UTC he chose it: "Agreed. Only one option makes sense. The option one." He gave no reason. The question put to him gave the specification's text as the reason. The review that he ordered on 2026-10-19 at 21:38 UTC, of every design decision taken on the recommendation of the cheaper Haiku model, found that this text is the revival's own (`576b4c287`), which restates the type group's paper of 2011. So `ba93d28ec` replaced the reason with the paper. A Fable judge found that the decision stands (`coordinator/postmortem-2026-10-19-haiku/fable-judgement.md:23`). No message of his reviews the new reason.
-   - Landed: The entry's reason as it reads: "Why: the type group's 2011 paper decides exclusion between parameter types with static parameters by existential reduction (`Papers/Types/exc-reduction.tick`; P-26, the type group's later word outweighs the specification's early text), as the revised specification states (`Specification/advanced/overloading.tex`, "Declarations with Static Parameters")." Default: as it reads, until he answers.
-   - The other way: Strike the reason. The entry then keeps his decision with no reason.
-   - Its cost: One sentence of P-152. The reading is built on both paths either way (climb batch 19's rung P, `14e91723f`).
-   - Home: POSITIONS P-152; `coordinator/positions-audit/full/evidence/corrections-c5.md`, "P-152", "Questions for him", question 1; `coordinator/postmortem-2026-10-19-haiku/part-1-evening-and-morning.md`, entries E21 and E22, where the post-mortem found the old reason's source; `Papers/Types/exc-reduction.tick`, the paper's reduction of exclusion
-   - Needed by: never; the reading is built, and its stated reason can change at any time.
 
 323. **P-60's coverage against the POPL 2019 paper's Meet Rule: does the meet of two overloads over closed traits stay covered by several declarations, or does it take one declaration, as [Meet-Third] and the paper's theorem of one most specific declaration ask (P-60)?** The rule: a pair whose domains overlap and do not nest needs a third declaration whose domain is equivalent to their meet, [Meet-Third] (`Papers/Variance/rules.tex:57-61`), so that every call has one most specific declaration statically (`thm:mostspecific`, `rules.tex:509-524`). The decision: P-60 lets several declarations below both cover the meet through `comprises` clauses, so a static call may have several most specific declarations, typed by the intersection of their return types, the declaration that runs unique only at run time (`coordinator/POSITIONS.md:57`); the checker builds it for declarations without static parameters (`coverageRule`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:676-694`; `coversOverlap`, `scala_src/overloading/OverloadingOracle.scala:188-239`). The type-decisions judgement of 2026-10-23 weighed it: "P-60 is the one step outside the designers' proven model, and it is recorded as such; it stands" (`reviews/type-decisions-review/judgement.md`, V6), and Appendix I says so (`Specification/appendices/changes.tex:3514-3525`). The POPL 2019 rules map, read against the technical report's sources, sets the rule beside P-60 as a decision not taken, with the same two ways (`reviews/popl2019-rules-map.md`, question 2, sections 18 and 23). The Working Draft's passage that the other way cites ends "We agreed to revise the Meet rule to address this with the coverage check." (`Specification-1.0-frozen/appendices/future.tex:285`), which Appendix I quotes (`changes.tex:3485`).
    - Landed: P-60 as it reads, its coverage case built in the checker. Default: P-60 as it reads.
@@ -233,14 +180,7 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: POSITIONS P-60; `reviews/popl2019-rules-map.md`, question 2 and sections 18 and 23; `reviews/type-decisions-review/judgement.md`, V6 and section 5 (b); `reviews/decisions-review/popl-recheck.md`, section 1.5; `Specification/appendices/changes.tex:3485`, `:3514-3525`; rows 487, 540, 543, 546, 547, 559 and 566; items 6 and 276
    - Needed by: before microGPT compiles; under the default phase 5 builds the code generation of the calls that coverage types by an intersection (rows 540 and 559, PLAN, phase 5), and the other way removes them.
 
-### Walk's checks at load (3)
-
-15. **Which `comprises` clauses walk checks at load.** Since batch 9, walk checks `comprises` clauses when it loads a program, but only the main component's. The text and the checker read every clause.
-   - Landed: The main component only.
-   - The other way: (i) Every clause: then every program importing `Reflect` is refused, because of the library's own `Reflect` object (row 595), and so are four team tests and two demos that extend `Number` or `Exception` (row 596). (ii) Every component outside the library, a scope the rung did not weigh: it refuses neither, and checks a program's own other components (row 551).
-   - Its cost: (i) needs a library edit and team-test edits first. (ii) is one line, not measured. Walk's check of object expressions (row 597) goes with the choice.
-   - Home: PLAN, "Climb batch 9, listed for his review", The scope of walk's closure check since climb batch 9's rung K; Row 597; PLAN, "Climb batch 7b, listed for his review", Rung W's walk half of row 492 trusted `comprises` clauses that walk ...; `compile-ladder/rung-walk-load-check/REPORT.md:315` (section 12), `:307`, `SKEPTIC.md:78`; rows 551, 595, 596, 597 (10-02: 43)
-   - Needed by: never; no PLAN item edits the scope of walk's check at load, and the compiled checker reads every clause already (rows 551, 595, 596).
+### Walk's checks at load (2)
 
 232. **After the switch-over, does walk refuse a program that the checker refuses (P-12)?** P-12 says that after the switch-over walk runs the compiled type checker on its programs, gains their static types, and then uses the coercions that the checker inserts. Its reason: "The curator wants the checker usable on the programs that walk runs." On 2026-09-15 at 10:42 UTC he asked to run the type checker "optionally" in walk. No message of his says which of two things he wants: a checker that walk runs only when asked, or a walk that refuses every program that the checker refuses.
    - Landed: The entry as it reads ("usable"). Default: as it reads; the choice is made with the design of the batch that gives walk the checker's static types.
@@ -250,43 +190,20 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Needed by: before Q-walk; the batch whose step gives walk the checker's static types (PLAN, phase 4) builds one way or the other.
 
 340. **Before `FlatString`'s five bindings move onto helpers: should walk's loader identify the declaring type of a method by its declaration rather than by its name?** W.worker.1 and W.skeptic.1 of climb batch 24's rung W (PLAN item 63). The loader takes `self`'s carrier from the declaring type's name, for fifteen types whose names no program can give its own types, and gives `FlatString` and `JavaString` no carrier of `self`, since a program can give its own type either name and the name check would let it pass (`ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java:81-95`; `ProjectFortress/tests/NativeHelperUncarriedSelfFlatStringWalk.fss:5-7`; F-299). On the planner's patch a program's own `object FlatString` with a helper bound to `nativeStrlen` loaded and answered 10 (`compile-ladder/rung-natives-self/REPORT.md:27`). So on this tree a library binding to a helper in a method of `FlatString` would stop every program at load, and `FlatString`'s five, `size`, `|self|`, `cmp`, `javaSubstr` and `flatConcat` (the record's fork 17), cannot move as they are (`reviews/batch-24-review.md`, Part 1, split 4). Beside it, row 864: a dotted method of a generic trait or object is refused only where an instance's method is made. Probed on 2026-11-02 (`explorations/perf-probes/loader-declaring-type/REPORT.md`): walk can tell the library's `FlatString` by its declaring component, read from the top level of the type's environment, since the linker gives one component to a name (`Specification/basic/components/apis.tex`, "Component and API Identity"); a shadow of 44 lines added and 4 changed in `StaticNativeApp.java` and 1 in `NativeApp.java`, with `size` moved onto `simpleConcatenate.nativeStrlen`, passed the 25 gating walk tests, `ant testSystem` at 724 and the 52 team demos, and a program's own `object FlatString` with a helper binding stays refused at load (`shadow.patch` beside the report). Since the probe the item has a default, the report's solution 2, the loader change as built; rows 877 (a parameter at a program's own `FlatString` carried by its name) and 878 (a component named for a library component crashes the linker) hold what it found beside.
-   - Landed: The reading by name, `FlatString` and `JavaString` with no carrier of `self`. Default: no default on record.
+   - Landed: The reading by name, `FlatString` and `JavaString` with no carrier of `self`. Default: the probe's way, the loader telling the library's `FlatString` by its declaring component (`perf-probes/loader-declaring-type/REPORT.md`, solution 2; `e8be5845e`).
    - The other way: An identity check of the declaring type, by its declaration's file or against the library's environment, the way the rung did not take.
    - Its cost: The rung judged the identity check heavier, and dependent on the source path or on the order of loading (`rung-natives-self/REPORT.md:252`); not measured. Under the reading by name, `FlatString`'s five stay on their glue classes.
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 63; `compile-ladder/rung-natives-self/REPORT.md:252`; `compile-ladder/rung-natives-self/SKEPTIC.md`, "For the curator"; `reviews/batch-24-review.md`, Part 1, "Where the text, the brief or the principles split", 4; F-299; row 864
    - Needed by: before `FlatString`'s five bindings move onto helpers, with the string family (`reviews/batch-24-review.md`, step 6); their move needs his answer first.
 
-### Walk's choice of declaration and instance (3)
-
-18. **Walk's choice when another declaration applies without coercion.** `g(a: Any, b: Any)` beside `g[\T\](a: T, b: T)`, called with an Apple and a Cherry, which share more than one closest supertype: walk ran the plain declaration, as the base did. Since climb batch 17's rung G, walk refuses this unbounded pair at load by the No Duplicates Rule; the choice stays for the pair with `T extends Fruit`, which row 589's test `ProjectFortress/tests/XXXDispatchTwoCommonParentsWalk.fss` now writes.
-   - Landed: The base's choice, gated by an expected failure (row 589).
-   - The other way: Pass the bound into walk's choice, so that the generic declaration is weighed at its bound.
-   - Its cost: It changes which declaration walk runs, which the record leaves to him.
-   - Home: PLAN, "Climb batch 9, listed for his review", Row 589; `compile-ladder/rung-walk-instance/REPORT.md:295` (section 8), `:311` (section 9); row 589; F-141, walk's instance of a type parameter that nothing at a call fixes, which names this choice (row 589)
-   - Needed by: never; no PLAN item edits walk's choice for this pair, and its expected failure keeps it in sight (row 589).
-
-19. **The open type wins at dispatch.** Since batch 11, walk leaves open a parameter whose bound names itself, when nothing fixes it. A declaration whose parameter has the open type is then the most specific: in a `Holder[\OPEN\]`, `take(x: T)` runs for 3 where `take(x: ZZ32)` ran, and accepts a string it used to refuse. For tuples (row 663) it goes the other way: `pick(x: Any)` wins over `pick(x: (T,T))`.
-   - Landed: As landed; the tuple face pinned by a test.
-   - The other way: The open type ranks as least specific, or as its bound, when declarations are compared.
-   - Its cost: A walk edit that changes which declaration runs. A program avoids it by writing the static argument.
-   - Home: PLAN, "Climb batch 11, listed for his review", At dispatch under walk; `compile-ladder/rung-walk-open-param/SKEPTIC.md:61`, `:80`; `reviews/batch-12-review.md`, Part 4; row 663
-   - Needed by: never; no PLAN item edits how walk ranks the open type, and a program avoids it by writing the static argument (row 663).
-
-210. **Walk fixes an unwritten reduction's type parameter by its elements.** A reduction, such as `SUM[j <- 0#3] j`, or a comprehension may leave its big operator's static argument unwritten. At such a call, climb batch 15's rung B has walk fix the parameter by the declared type of the expression's value, else by the join of its elements' run-time types, else at the bound, in place of `Bottom` (ways 6 and 7 of the walk probe, `perf-probes/walk-plain-bound/REPORT.md`, section 1). It is the coordinator's first call in climb batch 15's record. The call reads P-48's "never ... the value's type alone" as not reaching a parameter that the desugaring fixes by the expression's type, for which walk's elements stand in, and P-59, walk's choice of coercions by the value, as covering this choice too. The record says so itself: "Call 1 reads past the letter of one, P-48's last clause" (`coordinator/CLIMB-BATCH-15.md`, section 2). The clarity pass of 2026-10-22 kept that clause in P-48 and added: "Under walk, dispatch takes the value's type, and always will, since walk has no static types." A cold reader of the new text read the two as a contradiction unless the clause holds only on the compiled path; that reading bears on this item's question. He has not seen it. Item 17 (unwritten reductions whose parameter has a plain bound) was settled by the coordinator under P-48 on 2026-10-14, after his message of 07:10 UTC, in which he did not recall the question.
-   - Landed: As built (`20474c144`; F-228). Walk values that change, each to the specification's: an empty unwritten list comprehension is a `List[\Any\]`; `xs: List[\ZZ32\] = <| 2 k | k <- 0#3 |>` runs where walk refused it; `emptyRSum(0)`, declared `RR64`, is `0.0` where it was the integer `0`; `Set`'s unwritten `BIG UNION` runs where it stopped. Not yet before him: a hint that does not fit falls back quietly to the unhinted instance, so `u: Number = SUM[j <- 0#3] j` is `3 : Int`. Default: as built.
-   - The other way: P-48's letter, the walk probe's way 4: such a parameter takes its bound under walk.
-   - Its cost: Seven tests and one specification example red, each a value that the specification gives (`coordinator/CLIMB-BATCH-15.md`, section 2, its first call).
-   - Home: POSITIONS-history, P-48, its block of 2026-10-22 08:30Z, the former sentence "Built under walk for a reduction or comprehension that writes no static argument by climb batch 15 (`20474c144`)."; `coordinator/positions-audit/full/evidence/corrections-c3.md`, "P-48"; PLAN, "Climb batch 15, listed for his review", Call 1, rung B; `coordinator/CLIMB-BATCH-15.md`, section 2, call 1; F-228, walk's instance as built; item 17 (settled); `coordinator/consolidation-2026-10-22/evidence/positions/p3/judgement.md`, "P-48", the cold reader's reading; F-141, walk's instance of an unwritten type parameter, the coordinator's call that this item holds
-   - Needed by: never; PLAN schedules no change to walk's instance for an unwritten clause form, and the default can be undone.
-
-### Numbers and numerals (20)
+### Numbers and numerals (11)
 
 20. **`widen` of a `ZZ` too large for `ZZ64` (item 31).** `widen` turns an unbounded integer into a 64-bit one. No passage says what it does when the value does not fit.
    - Landed: Walk keeps the low 64 bits: `widen(2^64+5)` is 5. The compiled prelude has no `widen` on `ZZ`.
    - The other way: Raise `IntegerOverflow`, by the general sentence on integer results.
    - Its cost: No default on record. The switch-over's natives meet it.
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 31; `compile-ladder/rung-spec-integer-rules/SKEPTIC.md:103` (section 14), `decision-record.md` section 4, decision 4; rows 349, 502 (10-02: 13)
-   - Needed by: before the switch-over; the switch-over's natives bind `widen` (row 502), and PLAN item 31 places the answer there.
+   - Needed by: with the ask on the integer conversions, which the closing docket of 2026-11-03 (section 1, item 2) puts before climb batch 26 is planned, `ZZ`'s conversions coming after that answer (PLAN, phase 4, its fourth line); at the latest before the switch-over, whose natives bind `widen` (row 502; PLAN item 31).
 
 21. **`NN32` into `RR64` against answer 8 (item 37).** He decided that `NN32` converts into `RR64`, since it fits exactly. Built, that makes a `ZZ32` with an `NN32` ambiguous between `RR64`'s and `ZZ64`'s operators on both paths, where answer 8 gives `ZZ64`; two team tests go red.
    - Landed: Not built.
@@ -302,47 +219,12 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: PLAN, "Climb batch 8, listed for his review", `z = 0` for a `ZZ32` `z` resolves on; PLAN-history, "Pavol's answers, in the order they are needed", F's `=` on `Number`; `reviews/batch-6-conformance.md:60` (D1); `compile-ladder/rung-numeral-library/JUDGE.md:254`; `compile-ladder/climb-batch-8/JUDGE-review.md` (10-02: 94)
    - Needed by: before microGPT runs fast; the fast shape of `=` behind a compiled `i = 0` is phase 6's question (its cost line; PLAN, phase 6).
 
-23. **May a program extend `Number`?** The team's test says "We ought to be able to extend the builtin type Number." The one library has closed `Number` with a `comprises` clause since 2012; the compiled prelude leaves it open; the specification gives `Number` no clause.
-   - Landed: The library's clause kept; walk does not check it yet.
-   - The other way: Open `Number`, as the team's test says; or edit the test to extend a listed type, against its stated intent.
-   - Its cost: It touches the library, a team test and the scope of walk's check at load (the item there).
-   - Home: PLAN, "Climb batch 9, listed for his review", Whether a user may extend `Number`; `compile-ladder/rung-walk-load-check/SKEPTIC.md:123` (section 5); `ProjectFortress/tests/extendNumber.fss:15`; rows 596, 551
-   - Needed by: never; no PLAN item edits `Number`'s clause or walk's check of it (`ProjectFortress/tests/extendNumber.fss`; rows 551, 596).
-
-24. **A float compared with NaN.** NaN is the float value "not a number". The overview of operators says a comparison with NaN raises `FloatingComparisonError`; the rational chapter answers false "for compatibility with floating-point arithmetic". Neither path raises; both libraries declare the error and nothing throws it.
-   - Landed: False, as `RR64`'s own `<` does; the tuple comparisons follow it (row 672).
-   - The other way: Raise the error, as the overview says.
-   - Its cost: Two passages disagree: either the overview is revised in the S1 form, or the library and both paths change.
-   - Home: PLAN, "Climb batch 13, listed for his review", Which passage governs a float compared with a NaN; `compile-ladder/rung-tuple-orders/REPORT.md:292` (decision 2), `:266` (section 7); `Specification/basic/operators/opr-overview.tex:287-288`; `Specification/basic-lib/numbers.tex:372-376`; row 672
-   - Needed by: never; no PLAN item builds on the answer, and the overview's revision or the library's change can come at any time (row 672).
-
-25. **ℚ's infinities, and `check` on `QQ`.** The revised number chapter reads ℚ as holding +∞, −∞ and 0/0, so ℚ is neither a field nor totally ordered. And `QQ` no longer inherits `check` and `check_star` from `RR64`.
-   - Landed: No default. The chapter as batch 6 revised it; `QQ` as it is. His later ruling that `QQ`'s `ceiling` and `truncate` raise at the infinities stands.
-   - The other way: ℚ without the infinities; `QQ` declaring `check` and `check_star`.
-   - Its cost: The number chapters and the library's `QQ`.
-   - Home: PLAN, "Off the path, parked", Raised by climb batch 6's rung T; `reviews/batch-6-conformance.md`, finding 1; `compile-ladder/climb-batch-6/RECORD.md`, rung T (10-02: 101)
-   - Needed by: never; no PLAN item builds on ℚ's infinities or on `QQ`'s `check` (PLAN, "Off the path, parked").
-
 27. **What "(exact)" means for a numeral above 2^53.** The coercion of an integer numeral into `RR64` is marked "(exact)", but a double holds every integer only up to 2^53.
    - Landed: No default. Walk does not convert a numeral outside `ZZ32`'s range into `RR64` at all; that goes to Q-walk.
    - The other way: Exclude such numerals from the implicit conversion; or round them.
    - Its cost: A sentence of the coercion chapter, and Q-walk's conversion.
    - Home: PLAN, "Off the path, parked", Raised by climb batch 6's rung T; row 443; P-76, "An integer numeral has a type of its own, `IntLiteral`, ...", which lists row 443 among walk's gaps (10-02: 101)
    - Needed by: before Q-walk; walk's conversion of a numeral outside `ZZ32`'s range into `RR64` is on Q-walk's line (row 443; PLAN, phase 4).
-
-28. **A numeral within half an ulp of a tie.** A numeral with a decimal point is rounded as its nearest double, not as the rational it denotes: `round(2.50000000000000001)` is 2, not 3.
-   - Landed: As both paths do it, gated by an expected failure.
-   - The other way: (a) A narrow patch of about 30 lines; (b) numerals as rationals; (c) the team's design recorded as a decision.
-   - Its cost: No default. It interacts with the float ruling on `floor` and `ceiling` and with the float hot paths.
-   - Home: PLAN, "Off the path, parked", Row 360; row 360; `compile-ladder/rung-round-half-even/REPORT.md`; `open-items-2026-09-26.md` item 23 (10-02: 102)
-   - Needed by: never; no PLAN item builds on the rounding of such numerals, and its expected failure keeps it (row 360).
-
-29. **The checker refuses the model's numeral powers.** Row 533 has the checker refuse microGPT's powers of numerals as an ambiguous coercion. Climb batch 20's fork 7 rewrote both declarations of the tie, and climb batch 22's rung E the api's `RR64` power: `MultiplicativeRing`'s api power is `abstract opr ^(self, other:AnyIntegral): T` (`Library/FortressLibrary.fsi:285`), and `RR64`'s api declares `opr ^(self, b:Number):RR64` (`:367`). Measured at climb batch 22's base (`64386618b`) and after its rung E, the distance stage's driver checks `10.0^(-5)` and `10.0^(-8)` against the interpreter's library with no error, so the tie does not reproduce; the gather rewrote row 533 to say so (gather.1), and whether to close it is E.worker.2's entry under PLAN's "Climb batch 22, listed for his review" (`compile-ladder/rung-export-last/SKEPTIC.md`, section 3).
-   - Landed: No model line changed; fork 7's api lines and rung E's `^` as landed; row 533 open, its tie not reproduced against the one library.
-   - The other way: Repair it on the checker side, or on the library side.
-   - Its cost: Phase 5 meets it. No model line changes either way.
-   - Home: PLAN, "Phase 5. microGPT compiles", Row 533; PLAN, "Climb batch 20, listed for his review", Fork 7; `reviews/batch-20-review.md`, finding 3 and "For the curator", 4; PLAN, "Climb batch 22, listed for his review", E.worker.2; row 533 (10-02: 107)
-   - Needed by: before microGPT compiles; row 533 is measured when the model is first checked against the one library (phase 5; the review's default), and the model's lines move neither way.
 
 219. **Why did he choose the flat number tower, route A (P-43)?** Route A keeps the exclusion rule, that no type extends two instantiations of one generic trait, and makes the number types siblings under `Number`. Route C, the other way, is a nested number tower under the patents' forest rule, which lets a self-typed generic trait stand at several instantiations along a chain (F-45); F-46 prices a return to it, and P-95 keeps it open. P-43 gives route A's reason: "the flattened prelude is the team's last record of the Fortress way, and its route leads to the POPL 2019 paper, which keeps the rule." His words "the team's last record" were about the other side. On 2026-09-24 at 01:02 UTC, in a message that began "I'm not deciding yet", he weighed the patents' forest rule above the team's implemented flattening, "because that was the teams last record", which pointed to route C. The coordinator then corrected the fact under it: the POPL 2019 paper did not continue the forest route. He chose route A at 14:41 UTC ("Agreed. Route A it is.") and gave no reason. On 2026-09-29 at 12:17 UTC he recalled that the flattening was taken from the compiler's library for performance. Is that why he chose route A? He held P-43 for his answer, so the entry is unchanged.
    - Landed: The entry's reason as it reads. Default: as it reads, until he answers.
@@ -358,26 +240,12 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: POSITIONS P-43; `coordinator/positions-audit/full/evidence/corrections-c3.md`, "P-43", "Questions for him", question 2; P-95, which keeps route C open; item 241, the clarity pass's rewrite of P-43, which waits for this answer and item 219's
    - Needed by: never; route A is built, and the sentence weighs only when route C is weighed (F-46).
 
-241. **Once he answers items 219 and 220, does P-43 take the clarity pass's rewrite (P-43)?** P-43 records route A: the compiled checker keeps the exclusion rule, so the number types are siblings under `Number`, not a nested tower. He held P-43 for his answers to items 219 (the entry's reason) and 220 (the sentence "He cares that specialised code runs fast, not how a specialisation is chosen"). The clarity pass of 2026-10-22 keeps those two sentences, so its rewrite waits with them. The rest of the rewrite adds no decision. It states the rule and why a nested tower breaks it: a `ZZ32` inside `ZZ64` would be `Equality` at its own type and at each wider type. It names the sibling types by F-131, where the record's list "The fixed widths, `ZZ`, `QQ` and `RR64`" can be read as calling `ZZ` and `QQ` fixed-width. It says what route C is: the nested tower kept, the rule softened by the forest rule of the team's 2012 patents (F-45). It adds the state: built, except that `Number` keeps its `=` (item 22). A second cold reader still could not place "the ask that he answered", the question on the two routes that he answered on 2026-09-24, and could not tell how the sentence of item 220 favours route A over route C.
-   - Landed: The entry as POSITIONS holds it. Default: as it reads, until he answers items 219 and 220.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/positions/p3/proposals.apply`, the block for P-43), with its two held sentences as his answers to items 219 and 220 leave them, and "the ask that he answered" said in plain words.
-   - Its cost: One entry's wording. Route A stays built either way.
-   - Home: POSITIONS P-43; items 219, 220 and 22; `coordinator/consolidation-2026-10-22/evidence/positions/p3/proposals.md`, "P-43", the rewrite and its sources; `check.md`, `cold-read-2.md` and `judgement.md` beside it, "P-43", the fidelity check, the second cold reader and the hold; F-45 and F-46, the prices of the two routes; F-131, the library's number types
-   - Needed by: never; route A is built, and the entry's wording weighs only when route C is weighed again (F-46).
-
 245. **Does `RR32` convert from `IntLiteral`, the type of an integer numeral (P-76)?** P-76 says that an integer numeral has a type of its own, `IntLiteral`, "which each number type converts from". The interpreter's library gives that conversion only to the five integer types, `QQ` and `RR64`. Neither library declares a conversion from `IntLiteral` into `RR32`, and in the interpreter's library `RR32` converts implicitly from no type (`Library/FortressLibrary.fss:416`, `:586`, `:678`, `:732`, `:822`, `:914`, `:1000` and `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:386`, the conversions from `IntLiteral`; `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:475-477`, the compiler prelude's `RR32`, which converts from `FloatLiteral` only). The words put to him varied. On 2026-09-27 at 09:53 UTC, the coordinator's question said "one type, `IntLiteral`, which each integer type converts from". On 2026-09-29 at 14:51 UTC, its reminder of that decision said "each number type converts from it", and at 15:18 UTC he said yes to the option that followed it. The specification's callout says "from which each number type converts", and the sentence above it lists the five integer types, `QQ` and `RR64` (`Specification/basic/expressions/literals.tex:149-158`). No message of his names `RR32`. Is `RR32` left out on purpose?
    - Landed: The entry as it reads, "each number type", with no conversion into `RR32` in either library. Default: as it reads, until he answers.
    - The other way: If `RR32` is left out on purpose, the title reads "which each number type but `RR32` converts from". If it is not, the conversion from `IntLiteral` into `RR32` is still to build, in the library and in the callout's list.
    - Its cost: One phrase of P-76, or one coercion in the library with its test and one line of the callout. Under walk no numeral reaches `IntLiteral` today, so neither way changes a walk value. MicroGPT's flat program names no `RR32` (`run-c4/src/MicroGptFlat.fss`, by grep).
    - Home: POSITIONS P-76; `coordinator/consolidation-2026-10-22/evidence/positions/p6/proposals.md`, "P-76", question 1, the clarity writer's question; `check.md` beside it, "P-76", the fidelity check; `Specification/basic/expressions/literals.tex`, the callout `revival-numeral-type`; item 37, the arrays' element width
    - Needed by: before the array decisions of item 37 (PLAN item 13, fork 4), if they choose `RR32` as the element width; nothing else waits on it.
-
-277. **Does the compiled checker still refuse the model's numeral powers, and over which tie (row 533)?** Row 533 says that the compiled checker refuses `10.0^(-5)` (`explorations/run-c4/src/MicroGptFlat.fss:18`) and `-(10.0^10)` (`:29`) as an ambiguous coercion, a tie between `RR64`'s `opr ^(self, b:RR64)` and `MultiplicativeRing`'s `opr ^(self, other:ZZ64)`. The second declaration is gone: the ring's power is now `abstract opr ^(self, other:AnyIntegral): T` (`Library/FortressLibrary.fsi:283`), and `RR64` declares `opr ^(self, b:AnyIntegral):RR64` beside its `RR64` power (`:365-366`), since `5ad4a9957`. The row's own notes say "Not measured since batch 8's numeral library", and F-58 says whether the powers still tie, and between which two declarations, is not measured. Two readings disagree. Item 29 says by reading that the checker still refuses `10.0^(-5)`. F-73 says that where the tied declarations differ only at positions where the call passes a numeral, the checker reads the numeral as `ZZ32`, which would choose `RR64`'s `^(self, b:AnyIntegral)` and refuse nothing. The gap ledger's clarity pass of 2026-10-22 held the row, with its line as the ledger holds it, because only a run can say what its claim should be. The gate's distance stage checks the library's twelve components and no program, and no component among them writes a float base with a numeral exponent (`compile-ladder/climb-batch-20/gate/distance.txt`), so no landed run has measured it.
-   - Landed: Row 533 as the ledger holds it, its claim naming the declaration that is gone, until the model is first checked against the one library (phase 5; item 29's default).
-   - The other way: Run the probe now: after `ant compileAll`, a copy of `coordinator/tools/distance/run.sh` with a probe component `PowTie` (`10.0^(-5)`, `-(10.0^10)`, `0.85^t` at `t: ZZ32`) appended to its `COMPONENTS`, one JVM of about 3 to 15 minutes (`questions.md` gives the probe's lines and the command). If no error is shown at `PowTie`, the claim is false: the row closes with `5ad4a9957` and a compiled test of the three powers, or is retired if no test can be added before the switch-over; item 29 is then settled. If "Ambiguous coercion" names two declarations, the claim is rewritten to name them, and item 29 asks which of those the repair changes.
-   - Its cost: One build, one probe run of up to 15 minutes, and one row's rewrite or close. No model line changes either way.
-   - Home: row 533; `coordinator/ledger-health-2026-10-22/evidence/clarity/l3/questions.md`, "Row 533", and `assessment.md`, "533: investigate"; `compile-ladder/climb-batch-20/RECORD.md:133`, the refused note; FACTS F-58 and F-73; item 29
-   - Needed by: before microGPT compiles; phase 5 checks the model against the one library, and a worker there reads row 533 for whether the model's lines 18 and 29 are refused.
 
 281. **Shall P-75, `NN32` into `RR64` implicitly, be withdrawn?** P-75 says that `NN32` coerces into `RR64` implicitly, since every `NN32` value fits. Every way to build it breaks P-74's rule for a `ZZ32` with an `NN32` and turns two team tests red (row 575; item 21). The compiler's prelude declares no coercion from an integer type to a float type, and the specification's general sentence is early text. The review of 2026-10-23 asked for the withdrawal, and it was not made. The phase 3 exit judgement asks again.
    - Landed: Not built; P-75 stands in POSITIONS. Default: withdraw P-75. Item 21 is then settled, and the callout in `Specification/basic/conversions-coercions.tex` stays.
@@ -393,13 +261,6 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: `perf-probes/anyintegral-comprises-where/REPORT.md`, "Question for the curator"; `reviews/phase3-exit/judgement.md`, section 3.2, item 10; POSITIONS P-44 and P-60; rows 487, 804 and 831; F-121
    - Needed by: before microGPT compiles, by the judgement's preference; not before the names batch.
 
-336. **Does the specification's "division by zero produces a NaN value" for floating-point results mean NaN, or IEEE 754's infinity for a nonzero dividend, which both paths give and the team's code relies on (row 863)?** F.worker.1 and F.skeptic.1 of climb batch 24's rung F. "For floating-point results, division by zero produces a NaN value according to the rules of IEEE 754." (`Specification/basic/operators/opr-overview.tex:167-168`, as in the Working Draft). IEEE 754 gives an infinity for a nonzero dividend; both paths do, and the team's `infinity : RR64 = 1.0 / 0.0` (`Library/Constants.fss:17`) and `ProjectFortress/tests/realArith.fss:78` rely on it. Row 863 is `CONTESTED`, its reproducer `realArith.fss:78`; neither of rung F's guards asserts a nonzero value divided by zero, by the record's fork 5 (`reviews/batch-24-review.md`, Part 1, split 6).
-   - Landed: The row `CONTESTED`; both paths give the infinity. Default: the row as it is; if IEEE 754 governs, a later prose rung revises the sentence.
-   - The other way: (a) IEEE 754 governs: the sentence is revised. (b) The sentence governs: both paths give NaN, and the team's `infinity` and `realArith.fss:78` change with them.
-   - Its cost: (a) One sentence of the specification, in the revision form. (b) A change of value on both paths and in the team's constant and test; not measured.
-   - Home: PLAN, "Climb batch 24, listed for his review", F.worker.1; `compile-ladder/rung-natives-float/REPORT.md:114`; `reviews/batch-24-review.md`, Part 1, "Where the text, the brief or the principles split", 6; row 863
-   - Needed by: never; both paths give the infinity, before the switch-over and after it, and no guard asserts it.
-
 338. **Is walk's `unsigned` of a negative `ZZ64` (and `ZZ32`) specified?** Z.worker.1 and Z.skeptic.1 of climb batch 24's rung Z. `Specification/basic-lib/basic-integers.tex:36-45` names only `narrow`'s wrap and says that every other conversion is written explicitly, with no result for `unsigned` of a negative value. Today `unsigned(-1)` on `ZZ64` is 18446744073709551615 on both codes, and climb batch 23's guard asserts `unsigned(-1) = 4294967295` on `ZZ32` (`ProjectFortress/tests/NativeHelperFamilyZZ32Walk.fss:45`), where rung Z's guard leaves it unasserted, by the record's fork 5 (`ProjectFortress/tests/NativeHelperFamilyIntegersWalk.fss:76-77`). It sits beside item 20 (row 502, `widen` of a `ZZ` too large for `ZZ64`) and row 856, `signed` above the signed range, whose notes leave keep-the-low-bits-or-raise to row 502; and his ask on the integer conversions reads `unsigned(-1)` among the conversions that keep the low bits (`reviews/integer-conversions-evidence.md`).
    - Landed: Today's values, the low bits, on both codes. Default: none on record; today's values stand.
    - The other way: Raise `IntegerOverflow` where the value does not fit, as row 502 asks for `widen`.
@@ -414,14 +275,7 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: PLAN, "Climb batch 24, listed for his review", S.worker.1; `compile-ladder/rung-natives-small/REPORT.md:223`; `reviews/batch-24-review.md`, Part 1, "The decisions consequential for him, and the readings he has not confirmed"; row 857; F-307
    - Needed by: before the switch-over; then the compiled `char` takes the one library's answer, which keeps the value where the prelude raises.
 
-344. **Which reading of `nextUp` and `nextDown` at a signed zero governs on `RR64` and `RR32` (row 880)?** D.worker.1 and D.skeptic.2 of climb batch 25's rung D, with P.worker.2 and the second question of P.skeptic.1 of its rung P. IEEE 754-2008's nextUp of `-0.0` is the smallest subnormal, as Java's `Math.nextUp` gives and as the apis' "next higher IEEE float" reads (`Library/FortressLibrary.fsi:323-326`). The team's `DirectedRounding.nextUp`, which both glue classes and both rungs' helpers call, gives the successor in IEEE's totalOrder, under which `nextUp` of `-0.0` is `0.0` (`ProjectFortress/src/com/sun/fortress/numerics/DirectedRounding.java:111-127`, the `float` twin `:25-41`). The specification names no `nextUp`; its operators chapter orders `-0` below `+0` for `MIN` and `MAX` (`Specification/basic/operators/opr-overview.tex:252`). Row 880 is `CONTESTED`.
-   - Landed: Today's values, asserted by `ProjectFortress/tests/FloatNextUpSignedZeroWalk.fss`. Default: today's values.
-   - The other way: IEEE 754-2008's nextUp, the smallest subnormal, on both types.
-   - Its cost: Not measured. The other way changes one case of each of the four helpers, `doubleNextUp`, `doubleNextDown`, `floatNextUp` and `floatNextDown`, or of `DirectedRounding`, and the guard's assertions; no directed rounding reaches the case (row 880's notes).
-   - Home: PLAN, "Climb batch 25, listed for his review", D.worker.1; `compile-ladder/rung-natives-float-bits/REPORT.md:111`, `SKEPTIC.md:37`; `reviews/batch-25-review.md`, Part 1, "Where the text, the brief or the principles split", 2; row 880
-   - Needed by: never (set by the landing workflow); no line of the library or of microGPT depends on the case, and the default can be undone at any time.
-
-### Sizes and arrays (10)
+### Sizes and arrays (9)
 
 30. **A size known only at run time: way 4a and his decision on sizes.** A size is a number used as a static parameter, as in `Array1[\RR64, n\]`. The library's `reflect` turns a number known only at run time into a value that carries it. Way 4a lets the checker read such an argument as a size fixed for that call.
    - Landed: Way 4a, built by batch 13 after his question of 2026-10-09T15:10:56Z whether forks 2 and 3 could go into the next batch, at the judgement's default; it waits for his review; ten library calls cleared. It reads an opened size as bound for the call, not as unknown.
@@ -438,13 +292,6 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Its cost: the other ways undo what batch 13b landed. The Fable check against the POPL 2019 paper finds that the bound stands (the item on that check).
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 13, fork 2; PLAN-history, "Pavol's answers, in the order they are needed", item 52; `reviews/array-fork2-judgement.md`; `compile-ladder/rung-array-bound/REPORT.md` section 10; `compile-ladder/climb-batch-13b/RECORD.md` (`749ec523e`, `d96bc7776`); P-55, "A size may hold arithmetic, compared by its written ..."; F-151, the bound as the interpreter's library holds it
    - Needed by: before microGPT compiles; the array questions of phase 5 read the bound (PLAN item 13, fork 2), and climb batch 20's casts and their guard at the eight element types are written against it (`ProjectFortress/tests/VectorMatrixCastsWalk.fss`).
-
-32. **Two size parameters that may be equal.** In `two[\nat a, nat b\]`, the checker counts `a` and `b` as different sizes, so a `typecase` arm that needs them equal is refused as unreachable. The team's own Q&A reasons that a parameter may equal what it may be instantiated at.
-   - Landed: Kept, gated by an expected failure (row 683, contested).
-   - The other way: Only two different numerals are known to differ.
-   - Its cost: His answer to item 15 named a size name beside a numeral only; this extends it.
-   - Home: PLAN, "Climb batch 13, listed for his review", Row 683; `compile-ladder/rung-size-expressions/REPORT.md:178` (decision 2), `SKEPTIC.md:22`; row 683
-   - Needed by: never; no PLAN item builds on it, and rung A leaves row 683 out (`coordinator/CLIMB-BATCH-20.md`, rung A, "Not yours").
 
 34. **Where a size too large for `ZZ32`, used as a value, is refused.** He decided that a size used as a value converts to `ZZ32`. Under walk a function declared `ZZ32` that returns a size from 2^31 to 2^32−1 quietly answers 2147483648 as a `ZZ64`; the compiled run raises "Not in range for ZZ32".
    - Landed: No place on record.
@@ -495,7 +342,7 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: POSITIONS P-85 and P-84; F-18; item 37; `reviews/array-design-ways.md`, section 3; `reviews/foundations/judgement.md`, tenet 7 and section 7; `reviews/foundations/evidence/salvage-findings.md`, "P-85"; `reviews/foundations/evidence/corrections/c2/queue.md`, its question on P-85, and `proposals.md` beside it, "P-85"
    - Needed by: before microGPT compiles; decision A returns after the switch-over, with phase 5's array design (item 37).
 
-### The library's generators, strings and comparisons (10)
+### The library's generators, strings and comparisons (5)
 
 39. **A generator's size (item 45).** Library code read a size from a value typed `Generator`, which declares none.
    - Landed: The judgement's ways, built on the standing go while his answer is pending: `Generator` gains a counted size, a new api declaration; the relational predicate is one reduction; `Indexed`'s default pairs get an object of their own. Nine sites cleared.
@@ -504,13 +351,6 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 45; `reviews/generator-size-judgement.md`; `compile-ladder/rung-generator-size/REPORT.md:317` (section 12); F-93, the counted default as built
    - Needed by: before the switch-over; PLAN item 45 places it there, and the other way deletes three size bodies of the library that the switch-over carries.
 
-40. **The fused big operator's declared type (item 46).** `__bigOperator2`'s fused arm answers its input type where its output type is declared, one site of the distance.
-   - Landed: The arm's result passed through `cast[\O0\]` (`Library/FortressLibrary.fss:1476`), the coordinator's call by the record, 2026-10-23, built by climb batch 22's rung R at `bd00ad997`; row 632 closed. Default: as built, the library's device for a branch whose type the `typecase` cannot show (F-264); the team's pattern stays, and so does when the arm fuses; no desugaring calls the function.
-   - The other way: Widen the arm's pattern, which types it and changes when the compiled path fuses an outer operator whose output type differs from its input.
-   - Its cost: The worker, both skeptics and the judge left it to him. The default is one cast in the library's text.
-   - Home: PLAN, "Climb batch 21, listed for his review", Item 46; PLAN-history, "Climb batch 22's landing, 2026-10-24", item 46, which stood under "Pavol's answers, in the order they are needed"; `compile-ladder/rung-generator-slips/REPORT.md:161`, `:229`, `JUDGE.md:144`; `compile-ladder/rung-body-arguments/REPORT.md`; row 632; F-285, the arm's cast
-   - Needed by: never; climb batch 22's rung R built the default and closed row 632, and the distance is 0 (`compile-ladder/climb-batch-22/gate/distance.txt`; F-53); the other way, the widened pattern, can be taken at any time.
-
 188. **P-151's `AnyList`, built otherwise.** His option 3 of 16:42 UTC on 2026-10-16 moves "the rest of `AnyList` into `List`"; climb batch 17's rung A made the team's `comprises` clause live and respelled `addLeft` and `addRight` within `AnyList` instead (`Library/List.fss:87-90`; `reviews/batch-17-review.md` finding 6); the four sites are gone either way.
    - Landed: As built. Default: as built. P-151's sentence "its other operations, `addLeft` and `addRight`, move into `List`" is to read that they stay in `AnyList`, respelled under the live clause, and the move is to leave its "still to build"; that edit of P-151 waits on his yes. P-151 keeps his option 3 and names row 799 for the move, and F-243 holds climb batch 17's departure; no worker makes the move before he answers.
    - The other way: Move the bodies into `List` in the next library rung.
@@ -518,40 +358,12 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: POSITIONS, P-151; FACTS F-243; row 799 (`CONTESTED`); `reviews/batch-17-review.md`, finding 6; `coordinator/postmortem-2026-10-19-haiku/part-2-batches.md`, entry 18; `coordinator/postmortem-2026-10-19-haiku/fable-judgement.md`, part 2, 18
    - Needed by: never; no later rung builds on the respelling (its cost line), and the bodies can move into `List` in any library rung; but the build acts against his option 3 in P-151, which the skill brings to him at once as a hold, not by the review list (ask 7).
 
-213. **The tuple comparisons, reopened (PLAN item 43; this list's item 38 until 2026-10-20).** The library's ten tuple comparison operators compared elements of any type. Since climb batch 13's rung O (`9ba86f7da`) they require each element to be partially ordered, and `Comparison` gains a lazy `LEXICO`. On 2026-10-20 `27722cd3f` settled the item as answered by P-154. But the question that the coordinator put to him at 06:02 UTC that day asked whether a list of floats should have a `<`. It showed the tuples only as context, "Tuples work differently (item 43, already built): a pair of floats does get a partial order", without the costs below. His "Agreed." (06:18 UTC) took the mismatch that a pair of floats is ordered and a list of floats is not. It did not weigh what the tuples' bound refuses.
-   - Landed: The tuple-comparisons judgement's way 1b (`reviews/tuple-comparisons-judgement.md`), built on the standing go while his answer was pending; 17 sites cleared. Two costs it did not weigh: `(1,()) < (2,())` answered true and is now refused; and walk refuses `(1,2) < (1,2.5)`, numbers of two types at one position. A pinned nested comparison, `((1,2),3) < ((1,3),0)`, is now refused too. Default: as built.
-   - The other way: A `where` clause or conditional member that the checker reads, now buildable since conditional extension landed in the compiled checker (P-151; climb batch 18's rung X, `372b9bf6a`); walk promoting the position first (an edit under row 511, walk's mixed widths through varargs or a tuple); or other bounds.
-   - Its cost: It changes answers that walk printed. A pair of floats stays ordered under each way.
-   - Home: POSITIONS P-154; `coordinator/positions-audit/full/evidence/corrections-c5.md`, "P-154"; `coordinator/positions-audit/full/evidence/review-queue-items-c5.md`; PLAN-history, "Ask 4 answered, 2026-10-20", item 43, where the item was settled; PLAN, "Climb batch 13, listed for his review", Extensions and pins of climb batch 13 (point 4); `reviews/tuple-comparisons-judgement.md`; `compile-ladder/rung-tuple-orders/REPORT.md:295`, `SKEPTIC.md:300`; row 634, the tuple and list comparisons
-   - Needed by: never; no PLAN item builds on what a tuple asks of its elements, and the default can be undone. It is reopened because the yes that settled it did not see its costs.
-
-216. **Does the standard library take only extensions with a precedent in it (P-27)?** P-27's first sentence is his words of 2026-09-19 at 18:31 UTC: "What microGPT invented goes into the standard library, in the library's own style." His later words narrow it. On 2026-09-20 at 07:20 UTC he said that he does not want the library extended with forms specific to the flat microGPT program, C4; an extension with a precedent in the library itself is fine, such as patterns of the integers extended to floats, and he wants to judge each one. On 2026-10-09 at 05:20 UTC, in a page comment on the `fortress-repo` skill's bullet built on the sentence, he said that the record's citations of him contradict his position. He would extend the library for C4 only where it misses an obvious extension, a form that a lower-rank `Array` or `Matrix` has and a higher one lacks; scalar addition on `Matrix` is his example. Is the narrower sentence below his position? He held P-27 for his answer, so the entry is unchanged.
-   - Landed: The entry as it reads. Default: as it reads, until he answers.
-   - The other way: The audit writer's sentence: "What microGPT needs goes into the standard library only as an extension with a precedent in the library itself, a form that it has for one number type or rank and lacks for another, such as scalar addition on `Matrix`; a form specific to microGPT stays in the model's own components, and he judges each extension."
-   - Its cost: One sentence of P-27. Under the default, P-27 and the skill's bullet agree with each other and not with his later words. Under the other way, item 50 (the library-extension bullet in the skill) holds only the skill's bullet, whose revised form says the same as the new sentence. P-9 glosses P-27 by this sentence ("P-27: what microGPT invented goes into the library"), so a narrower P-27 takes that gloss with it.
-   - Home: POSITIONS P-27; `coordinator/positions-audit/full/evidence/corrections-c2.md`, "P-27", "Questions for him", question 1; item 50; `process-engineering/library-extension-rule-archaeology.md`, sections 5 and 7; `.claude/skills/fortress-repo/references/library.md`, "Designing a change", its first bullet; item 237, the clarity pass's rewrite of P-27, which waits for this answer
-   - Needed by: before microGPT compiles; phase 5's vocabulary for the model's sized types (PLAN item 13, fork 5) is where a form that only the model needs meets the rule, as for item 50.
-
-237. **Once he answers item 216, does P-27 take the clarity pass's rewrite (P-27)?** P-27 says that the library's own practice is the standard. It is held for his answer to item 216: does the standard library take only extensions with a precedent in it? The clarity pass of 2026-10-22 rewrote P-27 so that a reader who never saw the conversation can tell what it says. The rewrite opens with the rule: whoever extends the library first studies how it already does the same kind of thing, and follows that pattern. It names the pattern, `excludes` clauses, and what they do for overloads: they say that no value has both of two types, so that the checker accepts overloads on the two types side by side. It says that the refused workaround was a rename in microGPT's own code. It says what he had to find by himself: microGPT's diagonal as a subtype of the library's `Matrix` that overrides `mul`, the method that the library's matrix product calls (P-88). It keeps the sentence that item 216 asks about, reworded: "The extensions of the library that microGPT's code invented go into the standard library, in the library's own style." A cold reader took that sentence at its full breadth, and could not tell whether it is a rule or work still to do. So the rewrite waits with the entry.
-   - Landed: The entry as POSITIONS holds it. Default: as it reads, until he answers item 216.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.apply`, the block for P-27), with the sentence on microGPT's extensions as his answer to item 216 gives it.
-   - Its cost: The wording of one entry. The rest of the rewrite keeps the entry's meaning (`check.md` and `judgement.md` beside it, "P-27", the fidelity check and the hold).
-   - Home: POSITIONS P-27; item 216; `coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md`, "P-27", the rewrite and its sources; `cold-read-2.md` beside it, "P-27", the second cold reader
-   - Needed by: before microGPT compiles; with item 216, whose rule phase 5's vocabulary for the model's sized types meets (PLAN item 13, fork 5).
-
 224. **Does the bare `Nothing` wait for `where` clauses, or is it never tried (P-90)?** `Maybe`'s empty case is the team's parametric `Nothing[\T\]` (P-90). On 2026-09-21 at 21:20 UTC he kept that spelling and had the bare `Nothing`, one object for every `T`, recorded as future work, gated on `where` clauses. P-90 says so: "it needs a `where` clause that binds a type variable in an `extends` clause, which neither path implements, and it is not tried before then." The specification that his yes of 2026-09-26 ordered refuses the bare `Nothing` by instantiation exclusion, with or without a `where` clause, since one object would be a `Maybe` of every type at once (`Specification/basic-lib/convenience.tex`, its callout on `Nothing`; F-21, F-167). And the team's `where` forms are now being built (P-151), so the entry reads as if the gate were about to open. He held P-90 for his answer, so the entry is unchanged.
    - Landed: The entry as it reads: the bare form waits for `where` clauses. Default: as it reads, until he answers.
    - The other way: The audit writer's sentence: "The bare `Nothing`, one object for every `T`, is not tried: instantiation exclusion forbids it with or without a `where` clause, and the specification marks it "Not allowed" (F-21, F-167)." The entry's last sentence, the parked re-gating of row 331 on static-argument inference, then leaves for item 167, which holds it.
    - Its cost: Two sentences of P-90, and PLAN's line on the `where` clauses (phase 3), which names "`Maybe`'s bare `Nothing`" as still open beside them. Item 41 (the rules chapter's sentence on a `where`-clause variable in an `extends` clause) bears on the general sentence, not on this case, which instantiation exclusion refuses.
    - Home: POSITIONS P-90; `coordinator/positions-audit/full/evidence/corrections-c7.md`, "P-90", "Questions for him", question 1; item 41, the rules chapter's sentence on a `where`-clause variable; item 167, the parked re-gating of row 331; F-21, the specification's own `Nothing`, which compiles on neither path; F-167, the specification's statement of instantiation exclusion; item 246, the clarity pass's rewrite of P-90, which waits for this answer
    - Needed by: before row 774's walk rung; with walk's half of conditional extension built, both paths implement the `where` form that the entry names as the gate, and a worker there could read the gate as open. The rung is out of climb batch 21: it waits until walk runs the checker (P-12) or row 364 is fixed (`coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, "Off the path, parked", "Phase 3's candidates at its end").
-
-246. **Once he answers item 224, does P-90 take the clarity pass's rewrite (P-90)?** P-90 says that `Maybe`'s empty case is the team's parametric `Nothing[\T\]`, in the one library and the specification. It also says that the bare `Nothing`, one object for every `T`, is future work, gated on `where` clauses. He held P-90 for his answer to item 224: does the bare `Nothing` wait for `where` clauses, or is it never tried? The clarity pass of 2026-10-22 keeps the gate. It also names the `where` form by an example: "it needs an object declaration whose own `where` clause binds a type variable of its `extends` clause, as in `object Nothing extends Maybe[\T\] where {T extends Object}`". That example is the specification's own declaration without its `excludes` clause, which the specification marks "Not allowed!" (`Specification/basic-lib/convenience.tex:55-72`). The specification refuses one `Nothing` for every `T` by instantiation exclusion, with or without a `where` clause, so the example sharpens the claim that item 224 disputes. The rest of the rewrite adds no decision. It says what `Maybe[\T\]` is, what "the one library" is, and that neither path implements the form (F-21). It replaces "Gating row 331 on static-argument inference" with what the parked proposal was: that `Nothing` written where a `Maybe[\String\]` is expected means `Nothing[\String\]`. Its words, a declaration's own `where` clause, are meant to set the form apart from the conditional `extends` entry that the code generator compiles. A second cold reader still could not tell the two forms apart from the skill as it is.
-   - Landed: The entry as POSITIONS holds it. Default: as it reads, until he answers item 224.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/positions/p7/proposals.apply`, the block for P-90). If he keeps the gate, the text goes in as written. If he drops the gate, its future-work sentences follow item 224's other way, and the rest of the text stays.
-   - Its cost: One entry's wording. Nothing built changes.
-   - Home: POSITIONS P-90; items 224 and 167; `coordinator/consolidation-2026-10-22/evidence/positions/p7/proposals.md`, "P-90", the rewrite and its sources; `check.md`, `cold-read-2.md` and `judgement.md` beside it, "P-90", the fidelity check, the second cold reader and the hold; `concepts.md` beside it, the two `where` forms; F-21, the specification's own `Nothing`, which compiles on neither path; `Specification/basic-lib/convenience.tex`, its callout on `Nothing`
-   - Needed by: before row 774's walk rung, with item 224; a worker there reads the gate. The rung is out of climb batch 21: it waits until walk runs the checker (P-12) or row 364 is fixed (`coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, "Off the path, parked", "Phase 3's candidates at its end").
 
 310. **Under walk a native bound over `String`, glue class or helper alike, receives a non-flat string's type name in place of its characters (row 846). Should walk's loader flatten such an argument before the call, or should such bindings be declared over `FlatString`?** W.worker.1 and W.skeptic.1 of climb batch 23's rung W. `StaticNativeApp.unbox` takes `v.getString()` for a Java `String` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java:199`), as the glue classes' `Util.SS2B` and `S2V` do (`interpreter/glue/prim/Util.java:254`, `:286`), and `FObject.getString` answers its type's name, so `slen(s)` over a 52-character string made by `||` answers 9, the length of `CatString` (`ProjectFortress/tests/NativeHelperNonFlatStringWalk.fss:11`). So the movable bindings over `String`, `printlnWithThread` (`Library/FortressLibrary.fss:4632`) and `getProperty` (`Library/System.fss:45`), cannot move as they are. The revised comment of `builtinPrimitive` says walk "carries each value at its declared type". The library's other natives over strings take `FlatString` (F-299), its own practice for the second way.
    - Landed: Neither; row 846 open, `NativeHelperNonFlatStringWalk` asserting today's value. Default: neither; the next family that moves such a binding meets row 846.
@@ -568,21 +380,7 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: PLAN, "Climb batch 25, listed for his review", row 861, and phase 4, the natives line, "The families that wait on a known obstacle"; `coordinator/CLIMB-BATCH-24.md`, section 4, "Left out, each with its home" (its fork 18); `reviews/batch-25-review.md`, finding 3; row 861
    - Needed by: before the batch that moves `Char`'s `asExprString` (set by the landing workflow); the binding's helper writes the answer's form.
 
-### The specification's text (12)
-
-41. **A `where`-clause variable in an `extends` clause (item 14).** Batch 5's rung S wrote that a `where`-clause variable may not appear as a static argument in an `extends` clause. The sentence refuses more than the rule does.
-   - Landed: The sentence stands.
-   - The other way: Narrow it to the rule.
-   - Its cost: He asked for a plain explainer first.
-   - Home: PLAN, "Pavol's answers, in the order they are needed", item 14; `reviews/batch-5-conformance.md` (10-02: 99)
-   - Needed by: never; no PLAN item builds on the sentence, and PLAN's heading over its item 14, "Before batch 7b", is stale.
-
-190. **`extends Any` read as `Object`, against the specification's own `Tuple`.** Rung S's desugaring makes every trait or object declared `extends Any` an `Object`, as the traits chapter's rule says; the specification also declares `trait Tuple extends Any excludes { Object }` and its algebraic roots, such as `BinaryPredicate`, `extends Any` beside `Object`. Nothing reaches it today.
-   - Landed: The rule as built; name `Tuple` beside `Any` and `Object` when a library first declares it, and decide the algebraic roots with row 37 (the coordinator's default, as the post-batch review proposes).
-   - The other way: Read `extends Any` as written, as the team's code did and Scala's universal traits do.
-   - Its cost: A desugaring edit and a specification sentence.
-   - Home: PLAN, "Climb batch 19, listed for his review", gather.2
-   - Needed by: never; nothing reaches it today (its text), and no PLAN item declares `Tuple` in a library; climb batch 20 lists it as held, though no rung waits on it (`coordinator/CLIMB-BATCH-20.md`, section 4).
+### The specification's text (2)
 
 215. **Does the implementers' later word also outweigh unfinished text (P-26)?** P-26 says that where the type group's later positions conflict with the specification's early text, the later positions win: the early text was a wish, and the type group then worked to make the language run and learned what is feasible. Near its end it adds: "The implementers' later word also outweighs unfinished text." Read plainly, what the implementers did later wins over text that the team left unfinished. The coordinator added the sentence on 2026-09-30 (`bc8902f47`), with no source named, and no message of his says it. Two of his words come near it, and neither says it. On 2026-09-24 at 01:02 UTC he weighed the patents' forest rule, a later team text that was never built, above the flattening that the team implemented, "because that was the teams last record"; he then chose route A, the implemented flattening, at 14:41 UTC. On 2026-10-12 at 23:15 UTC he wrote that where later work in the compiler or the type papers contradicts the original specification, the revival updates the specification; that is the early text of P-26's title, not unfinished text. Confirm the sentence, or strike it?
    - Landed: The entry as it reads, the sentence in it. Default: as it reads, until he answers.
@@ -591,68 +389,12 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: POSITIONS P-26; `coordinator/positions-audit/full/evidence/corrections-c1.md`, "P-26", "Questions for him", question 1; `coordinator/consolidation-2026-10-22/evidence/positions/p1/judgement.md`, "P-26", the second cold reader's point; the `coordinator` skill's `SKILL.md`, "The curator's role and decisions", whose three principles name P-26
    - Needed by: never; no decision on record rests on the sentence, and it can be struck at any time.
 
-291. **May a component's function or method answer a narrower return type than its api declaration, as the specification allows (climb batch 22c's question 4, row 834)?** The export check asks a component's top-level function or method at its api declaration's own header, its return type included (`existsMatching`, the team's, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:431-437`), where the text accepts a declaration whose return type is a subtype (`Specification/basic/components/source-code.tex:356-361`, methods `:413-418`). A compiled call names the api's header, so a narrower one dies with `NoSuchMethodError` (row 827's probe). Climb batch 22c's rung O carried the check's rule to the top-level operators, and the merged-diff review's judge had Appendix I's "An abstract method of an exported trait" name its method half among the compiled departures (`Specification/appendices/changes.tex:4390-4409`). Raised by O.worker.1 and O.skeptic.1 of the rung; the record's question 4, landed at its default and then reviewed.
-   - Landed: The check's rule, as built, with row 834 (`CONTESTED`) and its reproducer `ProjectFortress/compiler_tests/XXXExportOperatorHeader.test`. Default: as landed.
-   - The other way: The text's rule, with the code generator emitting a bridge at the api's descriptor, which no probe has designed.
-   - Its cost: A checker change and a code-generator design. The library's 9 lines satisfy both rules, so no library line moves either way.
-   - Home: PLAN, "Climb batch 22c, listed for his review", O.worker.1; `coordinator/CLIMB-BATCH-22c.md`, section 2, "Question 4"; `compile-ladder/rung-export-operators/REPORT.md:298` (section 10) and `:349` (section 15); `reviews/batch-22c-review.md`, Part 1, "Where the text, the brief or the principles split", 2; row 834
-   - Needed by: never; the library satisfies both rules, and the check's rule can be relaxed at any time.
-
-292. **May a component rename an exported declaration's static parameter (row 836)?** The export check compares static parameters by name (`equalStaticParams`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:654-662`), and the text's "Export Statements" names no static parameter. The rule is load-bearing today: the code generator names a generic template by its static parameters, so on the base a client's call through the api dies at a renamed one ('Unable to read serialized data for' the template). Raised by O.skeptic.2 of climb batch 22c's rung O, a question of the same kind as item 291.
-   - Landed: Equal names, as today, with row 836 (`CONTESTED`) and `ProjectFortress/compiler_tests/XXXExportOperatorStaticParamName.test` asserting the refusal. Default: as landed. The library writes one name on both sides.
-   - The other way: Allow a renaming, with the template named at the api's names.
-   - Its cost: A checker change and a code-generator change; no library line moves.
-   - Home: PLAN, "Climb batch 22c, listed for his review", O.skeptic.2; `compile-ladder/rung-export-operators/SKEPTIC.md:81` (section 5), the program at `:61` (section 4); row 836
-   - Needed by: never; the library writes one name on both sides, and either rule can be built at any time.
-
-293. **May an api write `var` on an object's value parameter (row 838)?** The specification's api grammar takes the component's `ObjectHeader` (`Specification/basic/components/apis.tex:87-88`), whose `ObjectParam` admits `var` (`Specification/basic/objects.tex:104-109`; the same in `Specification-1.0-frozen/`), while the team's syntax check allows only `ApiFldMod` there (`ProjectFortress/src/com/sun/fortress/parser_util/SyntaxChecker.java:154-157`) and the prose says that abstract field declarations do not include `var` (`Specification/basic/traits.tex:759-761`). Climb batch 22c's record (fork 8) states the refusal as the grammar's; it holds for the syntax check, not the grammar. Raised by L.worker.1 and L.skeptic.1 of the batch's rung L.
-   - Landed: The syntax check's refusal stands, as row 838 (`CONTESTED`, reproducer `none`; the gated test it is owed is review-routed.2 under PLAN's "Climb batch 22c, listed for his review"). Default: none on record; the refusal stands. The post-batch review proposes as its default "the syntax check's refusal stands until he answers item 295", since the two are one question (its Part 4).
-   - The other way: The parser admits `var` on an api object's value parameter, as the grammar does.
-   - Its cost: One check of the team's parser. Not consequential for the batch: the export check compares a parameter less `var` on both sides (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:694`), so either answer matches `OneShot`.
-   - Home: PLAN, "Climb batch 22c, listed for his review", L.worker.1; `compile-ladder/rung-list-imports/REPORT.md:164` (section 7); `compile-ladder/rung-list-imports/SKEPTIC.md:87` (section 7); `reviews/batch-22c-review.md`, Part 1, "Where the text, the brief or the principles split", 1; row 838; item 295
-   - Needed by: never; neither answer moves a library line, and item 295 holds the reading that phase 3's zero rests on.
-
-294. **Does a component trait's field satisfy an api's abstract getter, and an api's field a component's getter (row 842)?** A decision taken where nothing on record settles it, by climb batch 22c's rung A's skeptic and upheld by the rung's judge (A.skeptic.1 and A.judge.1). Without it, the restored count of every api member refused a component trait whose field `x: ZZ32` declares the api's `abstract getter x(): ZZ32`, a program the base compiled and ran. The other direction, an api's field met by a component's getter, stays refused on the base and after, against the text's 'A field declaration is satisfied by a (possibly implicit) getter and/or setter declaration' (`Specification/basic/components/source-code.tex:407-408`).
-   - Landed: Way (a): an api getter written `abstract`, with no static parameters, parameters or `throws`, is matched by a component trait field of its name and type that is neither `hidden` nor `private` (the skeptic's `eee518f60`; `equalAbstractMember`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:864-870`; `ProjectFortress/compiler_tests/ExportAbstractGetterField`), on `Specification/basic/traits.tex:722-723` ('abstract field declarations that are implicit declarations of abstract getter methods'); the other direction refused, row 842 with `ProjectFortress/compiler_tests/XXXExportFieldByGetter`. Default: (a), as landed, and row 842 open.
-   - The other way: (b) refuse the first too, as the team's 2012 check did (`5a68404fd:ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:790-803`), refusing a program the base compiled and ran and the text accepts; (c) defer it with a row, the same refusal landing meanwhile.
-   - Its cost: Way (b) or (c) is a checker change that refuses a program the base ran. No library site depends on either direction (skeptic A's grep of the 71 'abstract getter' lines).
-   - Home: PLAN, "Climb batch 22c, listed for his review", A.skeptic.1; `compile-ladder/rung-abstract-declared/JUDGE.md:10` (section 1) and `:36` (section 3); `compile-ladder/rung-abstract-declared/SKEPTIC.md:78` (section 4); `reviews/batch-22c-review.md`, Part 1, "Where the text, the brief or the principles split", 4; F-297; row 842
-   - Needed by: never; no library site depends on either direction.
-
 295. **Should the export rule let a satisfying object declaration add `var` to a value parameter, or should the check compare `var` again (row 844)? Phase 3's zero rests on it.** A text mismatch the decisions on record do not settle (gather.1 of climb batch 22c). Rung A's revised export rule keeps the team's 'A trait or object declaration is satisfied by a declaration that has the same header' (`Specification/basic/components/source-code.tex:373-375`), as `apis.tex:256` does, and an object's header holds its value parameters with their modifiers (`Specification/basic/objects.tex:104-109`), while rung L's check compares a value parameter less `var` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:694`; fork 8 of `coordinator/CLIMB-BATCH-22c.md`), so `OneShot( var canTryIt : Boolean )` (`Library/OneShotFlag.fss:15`) matches its api's plain parameter (`Library/OneShotFlag.fsi:14`). Phase 3's zero over the fourteen holds only under the check's reading: under the text's, `OneShotFlag` has one export error, 'different parameters for object constructors' (the planner's run b14, `coordinator/CLIMB-BATCH-22c.md:310`), and the api cannot write `var`, since the parser refuses it (row 838, item 293) (`reviews/batch-22c-review.md`, section 6, and finding 1). For the check: the team's own library writes the `var`, the team's parser refuses it in the api, a field is matched less `var` already (F-282), and `var` without `settable` affects only implementations (`Specification/basic/traits.tex:759-761`).
    - Landed: The text stands as rung A wrote it; the departure is row 844 (`CONTESTED`), named in Appendix I's entry "An abstract method of an exported trait" (`Specification/appendices/changes.tex:4382-4389`); no gated test can hold the text's rule while the check accepts, and `ProjectFortress/compiler_tests/ExportVarObjectParameter` asserts today's acceptance. Default: as landed.
    - The other way: (1) Revise the rule in the revision form, so that a satisfying object declaration may add `var` to a value parameter; or (2) have the check compare `var` again, and repair `OneShot` another way, since the parser refuses `var` in the api.
    - Its cost: (1) One sentence of the specification and its Appendix I entry; nothing built changes. (2) A checker change and a library repair, with the distance 1 until it lands.
    - Home: PLAN, "Climb batch 22c, listed for his review", gather.1; `compile-ladder/climb-batch-22c/RECORD.md`, "Text mismatches"; `compile-ladder/rung-list-imports/SKEPTIC.md:106-107` (section 9); `reviews/batch-22c-review.md`, section 6, Part 1, "Where the text, the brief or the principles split", 1, and finding 1; F-282; F-294; rows 838 and 844; item 293
    - Needed by: before the switch-over; phase 3's zero over the fourteen, which the switch-over uses, holds only under the landed reading.
-
-297. **When an Appendix I entry revises one sentence of a subsection, which is the "new text" whose departures its Effect names?** A decision taken where nothing on record settles it, by the judge of climb batch 22c's merged-diff review (judge-review.2). The revision form asks the Effect to name "each departure: each way in which walk or the compiled path does not do what the new text says" (`.claude/skills/fortress-repo/references/specification.md:22`, `:58`).
-   - Landed: Way (a), which the judge's repair built: the revised sentence with the rules for fields and methods that it invokes (`Specification/basic/components/source-code.tex:407-411`, `:413-418`), so the Effect of "An abstract method of an exported trait" names rows 839, 842, 844 and row 834's method half (`Specification/appendices/changes.tex:4382-4409`), and not row 834's top-level half, row 835, row 768 or row 769, which depart from the top-level function sentence (`source-code.tex:356-361`) that the entry does not revise. Default: (a), as landed.
-   - The other way: (b) Every sentence of the subsection that the Affected section names, which would add those four rows in about 8 more lines and set a precedent that every entry lists every departure of its section; or (c) only the clause the revision added (`source-code.tex:385-388`), which would drop rows 839, 842 and 844, reverse the gather's row-844 sentences and leave no clear reason to keep walk's row 841.
-   - Its cost: About 8 lines of Appendix I for (b), and a rule for later entries; (c) removes sentences.
-   - Home: PLAN, "Climb batch 22c, listed for his review", judge-review.2; `compile-ladder/climb-batch-22c/JUDGE-review.md`, sections 2.2 and 2.3; `reviews/batch-22c-review.md`, Part 1, "Where the text, the brief or the principles split", 3
-   - Needed by: never; the Effect can be widened or narrowed at any time, and later entries follow way (a) until he answers.
-
-311. **The revised comment of `builtinPrimitive` has the compiler rewrite every body whose string names a helper, but rung C's rewrite leaves a declaration with a varargs parameter alone (row 849). Should the rewrite take, or refuse, such a declaration, or should the text name the exception?** A text mismatch the decisions on record do not settle (gather.1 of climb batch 23). Rung W's revised comment: "The compiler, before type checking, rewrites the body into a call of the helper, which the type checker checks against the helper's Java signature." (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:19`), as P-58 has the compiled path rewrite "each such body". Rung C's `BuiltinPrimitiveRewriter.fn` returns a declaration with a varargs parameter unchanged (`ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java:105`), as the batch's design gave it (`coordinator/CLIMB-BATCH-23.md:139`) and rung C's decision 6 kept (`compile-ladder/rung-natives-compiled/REPORT.md:198`). In the compiler's world such a body stops, 'Variable builtinPrimitive is not defined.'; in the one library's world, where the stages run, it stays a call of `builtinPrimitive`, checked against no helper. No library binding with a varargs parameter names a helper: the three name glue classes (`Library/Reflect.fss:313`, `:319`, `:389`).
-   - Landed: The text stands as rung W wrote it; the departure is row 849 (`CONTESTED`), named in the Effect of Appendix I's entry "A native binding that names a static helper" (`Specification/appendices/changes.tex:4499-4502`); `ProjectFortress/compiler_tests/XXXNativeHelperVarargsCompiled.test` pins today's refusal, since no test of the text's rule can pass while the departure shows (the review's finding 8). Default: as landed.
-   - The other way: (1) The rewrite takes a declaration with a varargs parameter; (2) it refuses one with a static error; or (3) the comment names the exception, in the revision form.
-   - Its cost: (1) or (2) an edit of `BuiltinPrimitiveRewriter.java` and its tests; (3) one sentence of the comment and of its Appendix I entry. No library line moves either way.
-   - Home: PLAN, "Climb batch 23, listed for his review", gather.1; `compile-ladder/climb-batch-23/RECORD.md`, "Text mismatches"; `compile-ladder/rung-natives-compiled/SKEPTIC.md:19`, `:30`; `reviews/batch-23-review.md`, Part 1, "Where the text, the brief or the principles split", 1, and findings 1 and 8; row 849
-   - Needed by: never; no library binding with a varargs parameter names a helper, and any of the three ways can be built at any time.
-
-333. **The specification's `CHOOSE` property is false at `m = n = −1`. Restrict it to `m ≥ 0`, keep the text and record the conflict, or change the zero rule at a negative `m`?** The CHOOSE probe's question (`compile-ladder/plan-24/probes/choose.md`, sections 2 and 9). The entry for `opr CHOOSE` (`Specification/basic-lib/basic-integers.tex:606-616`) gives the property `FORALL (m,n: ZZ) (m CHOOSE n) + (m CHOOSE (n+1)) = ((m+1) CHOOSE (n+1))`, and its own zero rule, "If n<0 or n>m, the result is 0.", makes it false at `m = n = −1`: `(-1) CHOOSE (-1)` and `(-1) CHOOSE 0` are 0, but `0 CHOOSE 0` is 1. It holds at every other pair, every `m ≥ 0` among them. Both paths give the zero rule's values (`interpreter/glue/prim/Int.java:361`; `nativeHelpers/simpleIntArith.java:205`). The Working Draft has the same text (`Specification-1.0-frozen/basic-lib/basic-integers.tex:567-574`). The entry's "defined only for natural number types" seems to mean the property for `m ≥ 0`. A defect of the text, not of either path: no program of the tree states the property, so no test reproduces it, and a ledger row for it would be `CONTESTED` until this is answered.
-   - Landed: Nothing; the text stands. Default: no default on record.
-   - The other way: The probe's three: (1) restrict the property to `m ≥ 0`, in the revision form; (2) keep the text and record the conflict, as a `CONTESTED` row; (3) change the zero rule at a negative `m`, a change of value on both paths.
-   - Its cost: (1) and (2) keep both paths' behaviour; (3) changes values on both paths. None is measured.
-   - Home: PLAN, "Climb batch 24, listed for his review", the CHOOSE probe's question; `compile-ladder/plan-24/probes/choose.md`, sections 2 and 9; `coordinator/CLIMB-BATCH-24.md`, section 4, "Left out, each with its home"
-   - Needed by: never; no program of the tree states the property, and both paths give the zero rule's values.
-
-348. **Should a later rung give `ZZ`'s `CHOOSE` the specification's 0 at `k < 0` or `k > n` for a natural `n` (row 887)?** N.worker.1 of climb batch 25's rung N, beside item 333. The specification's binomial coefficient is 0 there (`Specification/basic-lib/basic-integers.tex:611`). Walk's glue class `BigNum` answered 1, and rung N's helper keeps it by the batch's fork 7, that the helpers keep walk's values (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java:164-177`). The four fixed widths answer 0 (F-125). The repair is one guard in `simpleArbitraryPrecisionArith.choose`; it would move walk's values at those pairs, and at a negative `n` it would answer item 333.
-   - Landed: The glue's 1 kept, pinned by `ProjectFortress/tests/XXXChooseZZOutOfRangeWalk.fss:9`. Default: as landed.
-   - The other way: The guard, so that `ZZ`'s `CHOOSE` answers 0 as the specification and the fixed widths do.
-   - Its cost: One guard and its test, the `XXX` test promoted; walk's values at those pairs change from 1 to 0. Not measured.
-   - Home: PLAN, "Climb batch 25, listed for his review", N.worker.1; `compile-ladder/rung-natives-divisors/REPORT.md:188`; `reviews/batch-25-review.md`, Part 1, "Where the text, the brief or the principles split", 5; row 887; item 333
-   - Needed by: never (set by the landing workflow); the default can be undone at any time, and no later piece of work builds on the value.
 
 ### Tests and the team's demos (1)
 
@@ -663,28 +405,7 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: POSITIONS P-79; `coordinator/consolidation-2026-10-22/evidence/positions/p7/proposals.md`, "P-79", question 1, the clarity writer's question; `check.md` beside it, "P-79", the fidelity check; `coordinator/positions-audit/full/evidence/judgement-c6.md`, "P-79", the audit's judgement on the entry; PLAN, "Off the path, parked", "Phase 3's candidates at its end", the demos' line; rows 670, 710, 731 and 791, the four failures; PLAN, "Climb batch 21b, listed for his review", D.worker.1; row 817
    - Needed by: before the probe of the compiled checker's driver over each team demo, with row 731's demo half (PLAN, "Off the path, parked", "Phase 3's candidates at its end", the demos' line); climb batch 21b's rung D built the default for walk and for row 710, and that probe is where the checker's half of "running", row 817's `trips.fss` and row 731's reductions, is next met.
 
-### Code generation and the run time (7)
-
-44. **`override` in the code generator.** The code generator refuses a method declared `override`, so the team's `disp0.fss`, which the checker now accepts, does not compile. What compiled dispatch does with a declaration a type no longer provides is open.
-   - Landed: Refused; no default. A dotted call whose numeral needs a coercion keeps an overridden declaration (row 694).
-   - The other way: Accept `override`, and decide compiled dispatch for it.
-   - Its cost: Neither the library nor microGPT declares an `override`. Two owed compiled tests wait on it.
-   - Home: PLAN, "Climb batch 11, listed for his review", Should the code generator accept the modifier `override`; `compile-ladder/rung-checker-overloading/REPORT.md:257` (section 15), `SKEPTIC.md:179`; `reviews/batch-13-review.md`, Part 4; rows 650, 694
-   - Needed by: never; neither the library nor microGPT declares an `override` (its cost line), and no PLAN item edits the code generator's check of the modifier (rows 650, 694).
-
-217. **Is no defect of the compiler prelude repaired before the switch-over, or only five (P-38)?** The compiler prelude is the compiled path's own library (`CompilerLibrary`, `CompilerBuiltin`, `CompilerAlgebra`), which the switch-over deletes (P-37). P-38's title reads: "The compiler prelude's defects are not repaired: they go with it at the switch-over." His five answers behind it each covered one item: the `Maybe` block, the `REM` guard, the reversed wrapping and saturating operators (row 348), `ZZ64`'s compiled shift (row 381) and the specification's `shift` (row 383). Each stays as it is, at no cost now, because the prelude goes. Two prelude repairs landed at his decisions: `6bec1b004` on 2026-09-23 (row 321) and `ce0c7f453` on 2026-09-24 (his integer rules on the compiled path). The consolidation of 2026-10-13 (`55f1a1352`) wrote the title as a rule, and no message of his says it. Is it his rule for every defect of the prelude, so that each new one also waits for the switch-over? He held P-38 for his answer, so the entry is unchanged.
-   - Landed: The entry as it reads: no prelude defect is repaired. Default: as it reads, until he answers. PLAN's line "The compiler prelude's own defects retire with it, each gated" (phase 4) plans the same for the prelude's range and `RR32` defects.
-   - The other way: The audit writer's title, which names the five only: "The compiler prelude keeps these five items as they are until the switch-over deletes it." A new prelude defect is then decided on its own, as the two repairs of September were, and PLAN's line stays the coordinator's plan.
-   - Its cost: One title of P-38. Under the default, a prelude defect found before the switch-over is gated by an expected failure, not repaired. P-69 cites P-38 as "the compiler's prelude is not repaired before then", for rows 381, 383 and 442. Rows 381 and 383 are among the five, so that pointer holds for them under either answer; row 442 rests on its own note, "Closes at the switch-over".
-   - Home: POSITIONS P-38; `coordinator/positions-audit/full/evidence/corrections-c2.md`, "P-38", "Questions for him", question 1; PLAN, "Phase 4. The switch-over", "The compiler prelude's own defects retire with it, each gated"; `6bec1b004`; `ce0c7f453`; item 238, the clarity pass's rewrite of P-38, which waits for this answer
-   - Needed by: never; the prelude goes at the switch-over, and either answer can be applied to a prelude defect when one is found.
-
-238. **Once he answers item 217, does P-38 take the clarity pass's rewrite (P-38)?** P-38 says that the compiler prelude's defects are not repaired: they go with it at the switch-over. It is held for his answer to item 217: is no defect of the compiler prelude repaired before the switch-over, or only five? The clarity pass of 2026-10-22 rewrote P-38's body. It names the five items that his five answers covered, each by what it is: the `Maybe` block's `Nothing` without a type parameter (row 331); the guard for a divisor of -1 in the `REM` of `ZZ64` and `ZZ32`; the wrapping and saturating spellings, swapped against the specification's (row 348); the compiled shift of a `ZZ32` value by a `ZZ64` count (row 381); and the missing `shift` (row 383). It says that the tests of the `Maybe` block and of the guard stay after the prelude is deleted. It says that `XXXShiftDeclRungI`, row 383's expected-failure test, turns red and is promoted when `shift` is defined. It keeps the title that item 217 asks about, a rule for every defect of the prelude, which no message of his says. So the rewrite waits with the entry.
-   - Landed: The entry as POSITIONS holds it. Default: as it reads, until he answers item 217.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.apply`, the block for P-38), with the title that his answer to item 217 gives.
-   - Its cost: The wording of one entry. The new body keeps the entry's meaning, and the two faults that the fidelity check found in its first draft are fixed (`check.md` and `judgement.md` beside it, "P-38").
-   - Home: POSITIONS P-38; item 217; `coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md`, "P-38", the rewrite and its sources; `cold-read-2.md` beside it, "P-38", the second cold reader
-   - Needed by: never; with item 217, and the prelude goes at the switch-over.
+### Code generation and the run time (1)
 
 319. **Is `CompilerSystem` deleted at the switch-over with the compiler's prelude, and do the programs that import it take the one library's `System` (P-37, F-293)?** `Library/CompilerSystem.fsi` and `.fss` are the compiled path's own `System` api, outside its prelude; 27 programs of `ProjectFortress/compiler_tests/` and one of `ProjectFortress/other_compiler_tests/` import it (F-293). P-37 deletes the prelude's three files at the switch-over and keeps their tests, and of this file says only "F-293 holds the compiler's fourth file, `CompilerSystem`" (`coordinator/POSITIONS.md:34`). His words name the compiler's second library as a whole, never a file: "the compiler second library is just a bootstrap and we need to get rid of it" (2026-09-20 14:39 UTC). A cold read of the worker skill raised the file on 2026-10-05, and the ask left the boot note on 10-08 without being put to him; on 2026-10-29 at 05:22 UTC he recalled discussing it, and the scout found no word of his on it (`coordinator/postmortem-2026-10-28/evidence/compilersystem-words.md`). His answer of 22:29 UTC that day to item 283 ties `System` to the switch-over: "But I think System is needed for the switchover, because of the compilers tests, so that is the need arising." P-33 now reads "`System` by the switch-over, since the compiler's tests need it (F-293)" (`:30`), and the history block that wrote it reads his answer as dropping the ask's "if the compiler's own `System` file goes with the prelude" (`coordinator/POSITIONS-history.md`, P-33, the block of 2026-10-30 02:58Z). No entry says in words that the file goes.
    - Landed: P-37 and F-293 as they read; P-33 has `System` cleared by the switch-over for the compiler's tests. Default: nothing deletes `CompilerSystem` on P-37's strength until he answers; P-33's history reads his answer to item 283 as the file going with the prelude, and a yes confirms that reading.
@@ -693,70 +414,7 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: POSITIONS P-37 and P-33; F-293; F-290; item 283; `reviews/foundations/evidence/corrections/p/queue.md`, its question on `CompilerSystem`, and `proposals.md` beside it, "P-37", question 2; `reviews/foundations/evidence/salvage-findings.md`, "P-37" (d); `coordinator/postmortem-2026-10-28/evidence/compilersystem-words.md`; `coordinator/postmortem-2026-10-28/evidence/other-components-discussion.md`, sections 13 and 14; `reviews/phase3-exit/zero-audit.md`, "A.2 Scope"
    - Needed by: before the switch-over; the 28 programs need a `System` then.
 
-324. **P-156's tuple rule against the POPL 2019 paper's matching rule [M-Tuple-Trait]: does a tuple of indices stay an `Index`, with phase 5's dispatcher matching a tuple against `Index` element by element, or does no tuple lie below a trait type, as the paper's rules have it (P-156)?** The rule: no subtyping rule of the paper puts a tuple below a trait type (`Papers/Variance/appendix.tex:6-114`), and [M-Tuple-Trait] makes a tuple ilk fail to match any trait type (`appendix.tex:559-560`), so the paper's dispatcher would not apply a declaration over `Index` to a pair; its tuples are domain types, not values, "trivial to add" (`lang.tex:233-235`). The decision: P-156 makes a tuple type whose elements are all `Index` types an `Index`, on both paths and in the specification (`coordinator/POSITIONS.md:67`); the checker builds it (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:332-333`, `:566-567`). The type-decisions judgement of 2026-10-23 found the rule a departure from the Working Draft and the 2012 Types chapter, and the paper silent on it (`reviews/type-decisions-review/judgement.md`, V2 and section 5); the POPL 2019 rules map, read against the technical report's sources, finds one explicit rule of the paper, in the matching rules, that bears on it (`reviews/popl2019-rules-map.md`, question 3, sections 10 and 21).
-   - Landed: P-156 as it reads; no dispatcher of the paper's form is built yet (row 538). Default: P-156 as it reads; phase 5's dispatcher then needs a case that matches a tuple ilk against `Index` element by element, a departure from [M-Tuple-Trait] in one case, after which the completeness of matching (`lem:matchcomp`, `Papers/Variance/resolve.tex:723-747`) is checked again for it.
-   - The other way: Follow the rule: no tuple lies below a trait type, and a matrix subscript by a pair goes another way among those the probe weighed (`reviews/type-decisions-review/judgement.md`, V2), which changes P-156 and the library's subscripts.
-   - Its cost: Under the default, one case of phase 5's dispatcher and a check of the lemma for it. Under the other way, P-156, the checker's two tuple cases, the specification's sentence and the library's subscripts by a pair.
-   - Home: POSITIONS P-156; `reviews/popl2019-rules-map.md`, question 3 and sections 10 and 21; `reviews/type-decisions-review/judgement.md`, V2 and section 5; rows 538, 805 and 806; item 285, on P-156's reason
-   - Needed by: before microGPT compiles; phase 5's dispatcher, which receives the call's static return type and instantiates by the paper's rules (PLAN, phase 5), needs the case under the default.
-
-334. **The compiled `drandom` gives values that depend on the schedule above one thread. Must it be deterministic?** The natives' shared-state audit (`reviews/natives-shared-state-audit.md`, section 3.2; `723cb707c`), written beside climb batch 24's preparation. `DeterministicRandom.deterministicRandomDouble` advances the current task's pedigree counter (`ProjectFortress/src/com/sun/fortress/nativeHelpers/DeterministicRandom.java:52-56`; `runtimeSystem/BaseTask.java:108-111`). A compiled `compute` sets the current task and never restores it (`compiler/codegen/CodeGen.java:4753-4757`), and `joinOrRun` restores it only round a forked task's join (`BaseTask.java:165-173`), so which counters a draw advances depends on whether a task was forked, which depends on the pool's queue. A binary tree of tasks that draws at every node summed to 4111.755423548555, 4111.368862987949 and 4110.961144549375 in three runs at `FORTRESS_THREADS=4`. It is no data race. Only the compiler's prelude binds it (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:1631-1632`); walk's `random` is `Math.random()`, not reproducible by design; microGPT draws no random numbers; the specification says nothing of random numbers; the promise of determinism is the helper's name and the team's pedigree comment (`BaseTask.java:57-61`). Row 876 holds it, as the audit drafted it, `CONTESTED`, since the specification is silent.
-   - Landed: The audit's (b): its draft row filed as row 876, and nothing else done. Default: as landed.
-   - The other way: (a) Restore the current task after an inline child too, in `joinOrRun` round `this.compute()` (`BaseTask.java:148-149`), as the forked branch does. (c) Decide when the one library gains a deterministic generator, since `drandom` leaves with the prelude at the switch-over.
-   - Its cost: (a) An edit of the compiled run time's task code, and a test that compares runs at four threads; not measured. (b) None more: row 876 is filed. (c) None now.
-   - Home: PLAN, "Climb batch 24, listed for his review", the audit's `drandom`; `reviews/natives-shared-state-audit.md`, sections 3.2 and 6, "Questions for the curator", 1; row 876
-   - Needed by: never; only the compiler's prelude binds `drandom`, which leaves with it at the switch-over, and microGPT draws no random numbers.
-
-341. **A function or method whose own `where` clause introduces a `where`-clause variable compiles since climb batch 24's rung G, and its compiled call dies at run time (row 867). Should the code generator keep refusing that form until the template carries the variable?** G.skeptic.1 of climb batch 24's rung G. On the base the code generator refused such a declaration, 'Don't know how to compile this kind of FnDecl.'; with the guard's condition gone it compiles and links, and its compiled call dies with `NoClassDefFoundError` (`ProjectFortress/compiler_tests/XXXWhereVariableCallCompiled.fss:16-21`), since the call names the instance at the checker's static arguments, the inferred size among them, and the template carries the declaration's own static parameters only (row 867). The refusal could stay by testing `header.getWhereClause().unwrap().getBindings()` in `forFnDecl`'s guard (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2966`). No library declaration has the form (`Library/SkipList.fss:103` holds one in a comment). A loud failure stays loud, but moves from the compile to the run (`reviews/batch-24-review.md`, Part 1, split 2).
-   - Landed: The form compiles; the deferred `XXX` run pair pins the crash, the record's course for the trait guard's `VerifyError` (fork 13). Default: as landed.
-   - The other way: Keep the compile-time refusal of a `where` clause that introduces a variable, by its bindings in `forFnDecl`'s guard, until the template carries the variable.
-   - Its cost: The other way is one condition of the guard, with its test; not measured. Under the default, a program with the form fails when it runs, not when it compiles.
-   - Home: PLAN, "Climb batch 24, listed for his review", G.skeptic.1; `compile-ladder/rung-codegen-where/SKEPTIC.md:115`; `reviews/batch-24-review.md`, Part 1, "Where the text, the brief or the principles split", 2; row 867; F-181
-   - Needed by: never; no library declaration has the form, and the refusal can be put back at any time.
-
-### How batches run (8)
-
-45. **One fixed batch workflow, or one designed per batch?** Whether a coordinator that designs a workflow for each batch should replace the fixed batch workflow.
-   - Landed: The fixed workflow, redesigned. It wrote 5.03M, 5.43M and 7.22M tokens in batches 11 to 13.
-   - The other way: A workflow designed for each batch by a coordinator.
-   - Its cost: The two such designs made without a cost limit were priced at about 31M and 37M a batch; the number of agents moved cost most.
-   - Home: `process-engineering/README.md`, "Waiting on Pavol"; `process-engineering/design-pricing.md`; held list, 10:59 UTC 2026-10-03
-   - Needed by: never; the fixed workflow runs each batch and can be replaced at any batch's preparation (`process-engineering/README.md`, "Waiting on Pavol").
-
-46. **A rule on engineering taste.** An obstacle gets an attempt to engineer around it, and its recurring cost priced, before anyone calls it impossible. Drafted from the study of why build sharing was called impossible.
-   - Landed: Not a rule.
-   - The other way: Add the rule.
-   - Its cost: One line of the protocol.
-   - Home: `process-engineering/README.md`, "Waiting on Pavol"; `process-engineering/cache-sharing.md`
-   - Needed by: never; a protocol line can be added at any time (`process-engineering/cache-sharing.md`).
-
-47. **The gate, the commit and the microGPT check on Sonnet.** Whether the batch's gate, commit and microGPT measure run on the cheaper Sonnet tier.
-   - Landed: Opus, as his decision on tiers pins workers.
-   - The other way: Sonnet for those three stages.
-   - Its cost: Saves about 0.13M to 0.28M of the Opus pool a batch.
-   - Home: `process-engineering/README.md`, "Waiting on Pavol"; `process-engineering/batch-redesign.md` section 9, item 13; the `coordinator` skill's `references/delegating.md`, "Which tier runs what"
-   - Needed by: never; the tier can change at any batch's launch (the `coordinator` skill's `references/delegating.md`, "Which tier runs what").
-
-48. **A clean test of the skill.** The `fortress-repo` skill costs 0.47M to 0.65M a batch to read, and the six batches measured cannot say whether it buys quality.
-   - Landed: Not run.
-   - The other way: One batch in which two rungs of one kind get the same lean brief, one with the skill and one with the old prefix.
-   - Its cost: About a rung's tokens extra.
-   - Home: `process-engineering/README.md`, "Waiting on Pavol"; `process-engineering/skill-effect.md`
-   - Needed by: never; the test can run in any batch (`process-engineering/skill-effect.md`).
-
-49. **A test-name comparison in the gate.** A gate step that goes red when a test that passed before is missing or failing.
-   - Landed: Not built.
-   - The other way: Build it.
-   - Its cost: A script change, which his decision on the gate's comparisons puts to him on its own.
-   - Home: PLAN-history, "Off the path, parked", Workflow option (b), the review's second script change, and ...; the `fortress-repo` skill, `references/gate.md`, "Comparing with an earlier run"; the `coordinator` skill, `references/batch.md`, "The checker count and the distance"; P-123's history, its block of 2026-10-13 20:01Z, where the clause on the name comparison stood under the old title "The gate's comparisons." (10-02: 9)
-   - Needed by: never; the gate step can be added at any batch (P-123's history, the name comparison a script change put to him on its own).
-
-50. **The library-extension bullet in the skill.** The skill's rule on extending the library, re-read from his words: extend it where its own text has a form for one number type, rank or sibling trait and lacks it for another; a form only the model needs, with no precedent, stays in the model's components.
-   - Landed: The skill's current bullet, which he read as contradicting his position.
-   - The other way: The revised bullet from the re-reading of his words.
-   - Its cost: A skill edit by the writer.
-   - Home: `process-engineering/library-extension-rule-archaeology.md` sections 5 and 7; held list, 2026-10-09 04:21 to 05:20 UTC; page thread `7311a875`
-   - Needed by: before microGPT compiles; the revised bullet keeps a form that only the model needs in the model's components, which phase 5's model vocabulary meets (decision D, PLAN item 13, fork 5); batch 20's library extensions have precedents under both readings.
+### How batches run (1)
 
 223. **Is "Any repair that changes a line of the model is shown to the curator as a diff before it is built" his standing rule (P-87)?** P-87 says that no operator in microGPT's model is replaced by a function call to pass an overload check, and that the vocabulary, the operations the model is written in, is repaired around the model's text. The sentence in this item's title follows. He never stated it as a rule. Its seed is his request of 2026-09-19 at 18:02 UTC to see a minimal fix of C4, the flat microGPT program. The coordinator wrote it as a rule (`bd84d76d9`). On 2026-09-27 at 19:31 UTC it called it "your rule of 09-19" in the question on writing C4's sized types as a diff, which he took without contesting the rule. Confirm it, or strike it?
    - Landed: The rule, as the entry reads. Default: kept, until he answers.
@@ -765,151 +423,16 @@ Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `m
    - Home: POSITIONS P-87; `coordinator/positions-audit/full/evidence/corrections-c7.md`, "P-87", "Questions for him", question 1; item 37; PLAN item 13, fork 5, the model's sized types
    - Needed by: before microGPT compiles; phase 5 changes the model's lines for its sized types (PLAN item 13, fork 5), and the rule decides how each change reaches him.
 
-327. **Climb batch 24's question 1, answered at its default by the coordinator from his scope: the two top-level bindings declared over `String` left out of the batch. Does he take it?** His scope of 2026-10-31 named the small rest's "top level 3" and left out "the bindings over `String` (row 846; review-queue item 310, his default 'neither yet')". Two of the three top-level bindings that fit, `printlnWithThread(a:String):()` (`Library/FortressLibrary.fss:4632`) and `getProperty(name:String, defaultValue:String):String` (`Library/System.fss:45`), are declared over `String`, and row 846 names both (`coordinator/CLIMB-BATCH-24.md:76-88`). The coordinator answered with option 1 at 09:4x UTC on 2026-10-31 (`:78`). Rung S moved the third, `char`, with seven others (F-307); the two still name `StringPrim` (`reviews/batch-24-review.md`, Part 1, split 7).
-   - Landed: Option 1: the two stay on their glue class, and his exclusion of the bindings over `String` stands until item 310 is asked again. Default: as landed.
-   - The other way: Option 2: rung S moves both, with item 310 asked again before its launch.
-   - Its cost: Option 2: one more question before the launch; the two keep row 846's defect, as their glue class has it, and neither stage checks `getProperty`, which sits in `System`, outside the fourteen (`CLIMB-BATCH-24.md:86`). The default: none now; the two move with the string family, after item 310 is asked again.
-   - Home: PLAN, "Climb batch 24, listed for his review", Question 1; `coordinator/CLIMB-BATCH-24.md`, section 2, "Question 1, consequential: the two top-level bindings declared over `String`"; `reviews/batch-24-review.md`, Part 1, split 7; item 310; row 846; F-307
-   - Needed by: never; the two move only after item 310 is asked again, which is needed before the batch that moves the first binding over `String`.
-
-### POSITIONS entries that state something false or hold a worker's choice (10)
-
-The cold read of POSITIONS of 2026-10-22 (`coordinator/consolidation-2026-10-22/evidence/coldread-positions-final.md`) found these entries partly clear, and a worker drafted a change for each (`evidence/positions-followup/proposals.md`, under the entry's number; the lines in `proposals.apply`, checked in `check.md`; shown with its diff on version 14 of the audit page, https://claude.ai/artifact/XSW5Pz56938NcmCPg4GMZb). All drafted changes were applied at `4d7df29c3`, at his word of 22:12 UTC ("apply all the improvements drafted"; he has no capacity for a review of each now), P-12 and P-17 left unchanged since their drafted rows were dropped; the items stay for his later review. Each default below was the coordinator's, not a decision of his: at 22:02 UTC on 2026-10-22 he said that none of his answers on this follow-up is a decision for POSITIONS, and at 22:08 he agreed that the coordinator takes a default on each and lists it here, with POSITIONS unchanged until he takes it up. Items 271 to 275 follow the coordinator's proposal of about 16:45 UTC that a choice a worker made and landed is a fact about the tree, held in FACTS, which waits for his word.
-
-268. **P-48 says that walk will never have static types; P-12 gives walk the compiled checker after the switch-over. Which holds?** P-48, on a type parameter that a call does not fix, says that under walk dispatch takes the value's type "and always will, since walk has no static types". P-12 says that after the switch-over walk runs the compiled checker and uses the static coercions that it inserts. P-48's parenthesis that walk's `Bottom` for row 591 is "kept without the curator's word" also reads as his.
-   - Landed: Applied at `4d7df29c3`, at his word of 22:12 UTC, without his review of each change. The coordinator's default, as applied: the drafted text, "Under walk, which has no static types, dispatch takes the value's type.", which states the present only; the parenthesis on row 591 goes, since row 591 holds it.
-   - The other way: P-48 as it reads, which contradicts P-12.
-   - Its cost: Two sentences of P-48, applied with `record.py` from `proposals.apply`.
-   - Home: POSITIONS P-48 and P-12; `positions-followup/proposals.md`, "P-48"; row 591
-   - Needed by: never; applied, so no work waits on his review.
-
-269. **P-78 says to write a reduction's static argument only where nothing fixes the element type; the worker skill and row 731 say to write it in every clause form. Which holds?** P-78 says that a reduction written with generators writes its static argument where its generators and body do not fix the element type. `fortress-repo`'s `references/revival-changes.md` says to write it in every clause form, and row 731 calls the checker's refusal a gap whose workaround is to write it always.
-   - Landed: Applied at `4d7df29c3`, at his word of 22:12 UTC, without his review of each change. The coordinator's default, as applied: the drafted text, which keeps his rule (write it where nothing at the call fixes the element type), says that the compiled checker fixes it from none of the generators, the body or a declared type and refuses every such `SUM` or `PROD` (row 731), and gives writing it in every clause form as row 731's workaround, apart from his rule.
-   - The other way: P-78 as it reads, which a worker cannot square with the skill.
-   - Its cost: Two sentences of P-78.
-   - Home: POSITIONS P-78; `positions-followup/proposals.md`, "P-78"; row 731
-   - Needed by: never; applied, so no work waits on his review.
-
-270. **P-25 says that P-97 holds how the revision uses a passage that P-97 does not cover. Shall the pointer be narrowed?** P-25 cites three passages of a paper's chapter and says that P-97 holds their use; P-97 covers only exclusion and `covariant`, not the third passage, that `Bottom` cannot be written in a program.
-   - Landed: Applied at `4d7df29c3`, at his word of 22:12 UTC, without his review of each change. The coordinator's default, as applied: the drafted text, "Three of the chapter's passages bear on the specification; P-97 holds how the revision uses the first two.", and the third said as the specification already says of `BottomType` (`Specification/basic/types-vals-vars.tex`).
-   - The other way: P-25 as it reads, with a pointer that sends a worker to an entry that does not hold the claim.
-   - Its cost: Two sentences of P-25.
-   - Home: POSITIONS P-25 and P-97; `positions-followup/proposals.md`, "P-25"
-   - Needed by: never; applied, so no work waits on his review.
-
-271. **P-33 holds batch history and an agent's paragraph on row 320 beside his phase order. Shall they go?** P-33 holds the order of the work's phases. It also holds "Other work has gone in beside that order", a sentence on the repair batch, his words of 2026-09-27 quoted as history, and an agent's paragraph on row 320 that gives no ruling. Its "phase 3 … phase 6" reads as the compiler's phases.
-   - Landed: Applied at `4d7df29c3`, at his word of 22:12 UTC, without his review of each change. The coordinator's default, as applied: the drafted text: a new second sentence, "These phases are steps of the work, not the compiler's phases, and they are numbered 3 to 6, after two earlier ones."; the history and the agent's paragraph go; kept as his: "Code-generator work goes on beside that order, under either library (P-37). Row 320, an api implemented by a component of another name does not link, is part of the switch-over's design."
-   - The other way: P-33 as it reads.
-   - Its cost: Three sentences and a paragraph of P-33.
-   - Home: POSITIONS P-33; `positions-followup/proposals.md`, "P-33"; row 320
-   - Needed by: never; applied, so no work waits on his review.
-
-272. **P-46 holds walk's promotion from the run-time types as "a choice taken without the curator's word". Shall it move to FACTS?** P-46, on which declaration a call runs, says that walk promotes from the arguments' run-time types, and calls that a choice taken without his word; a reader cannot tell whether it binds.
-   - Landed: Applied at `4d7df29c3`, at his word of 22:12 UTC, without his review of each change. The coordinator's default, as applied: the sentence leaves P-46, and F-137 states it as a fact about walk: "Walk, which has no static types, promotes from the run-time types."
-   - The other way: P-46 as it reads, with the choice marked as not his inside his entry.
-   - Its cost: One sentence of P-46 and one of F-137.
-   - Home: POSITIONS P-46; FACTS F-137; `positions-followup/proposals.md`, "P-46" and "F-137"
-   - Needed by: never; applied, so no work waits on his review.
-
-273. **P-49 holds two of the checker's four attempts at a call as "a choice taken without the curator's word". Shall they move to FACTS?** P-49 defines a call's expected type. It says that, between his two attempts, the checker tries subtyping with the expected type, a choice taken without his word, and last tries coercion without the expected type.
-   - Landed: Applied at `4d7df29c3`, at his word of 22:12 UTC, without his review of each change. The coordinator's default, as applied: those two sentences leave P-49, and F-78, on how the compiled checker instantiates a type parameter that a call does not fix, gives the four attempts in order and says which two P-49 decides and which two an agent chose (the instance-bound rung's decision record, D4).
-   - The other way: P-49 as it reads.
-   - Its cost: Two sentences of P-49 and one of F-78.
-   - Home: POSITIONS P-49; FACTS F-78; `positions-followup/proposals.md`, "P-49" and "F-78"; row 507
-   - Needed by: never; applied, so no work waits on his review.
-
-274. **P-85 holds way 4a of the array design, which "is not the curator's answer". Shall it move to FACTS?** P-85 leaves the array design's three questions open. It also holds way 4a, a size known only at run time read as fixed for that call, which an agent landed and which it says is not his answer.
-   - Landed: Applied at `4d7df29c3`, at his word of 22:12 UTC, without his review of each change. The coordinator's default, as applied: the two sentences on way 4a leave P-85, and F-270 states way 4a as the one way built on the third question's ground; P-85's decision A is said as in P-84, with a pointer.
-   - The other way: P-85 as it reads.
-   - Its cost: Three sentences of P-85 and one of F-270.
-   - Home: POSITIONS P-85 and P-84; FACTS F-270; `positions-followup/proposals.md`, "P-85" and "F-270"
-   - Needed by: never; applied, so no work waits on his review.
-
-275. **P-151 holds a batch's departure from his option, and a measurement. Shall they go?** P-151 says that climb batch 17 kept `addLeft` and `addRight` in `AnyList`, against the option he chose, without saying whether the move is still owed; it also holds the measurement of the team's generic `distribute`.
-   - Landed: Applied at `4d7df29c3`, at his word of 22:12 UTC, without his review of each change. The coordinator's default, as applied: the drafted text: the batch's sentence goes, and the move names row 799 (`CONTESTED`; item 188 holds whether the departure stands); the fusion sentence keeps that a method's `where` condition clears four of the six type errors and that the team's `distribute` is the fix measured for the other two, with the measurement in F-242 alone.
-   - The other way: P-151 as it reads.
-   - Its cost: Two sentences of P-151.
-   - Home: POSITIONS P-151; FACTS F-242; row 799; item 188; `positions-followup/proposals.md`, "P-151"
-   - Needed by: never; applied, so no work waits on his review.
-
-276. **Is the coverage condition in P-60's reasoning a requirement?** P-60 reads a `comprises` clause at the level of values. Its "Why" holds the proof addendum's condition, that the compiled checker uses coverage only in its overloading rules and not in its general subtype test, so a reader cannot tell whether the checker must keep to it.
-   - Landed: Applied at `4d7df29c3`, at his word of 22:12 UTC, without his review of each change. The coordinator's default, as applied: the drafted text: the condition moves before the "Why" as a requirement; the "Why" says that the addendum shows soundness for coverage used only so, and that a call that needs a coercion is outside the proof too (F-76); the entry ends with rows 543 and 551, the parts that the tree lacks.
-   - The other way: The condition stays as reasoning only, and the checker may use coverage more widely without his word.
-   - Its cost: Three sentences of P-60.
-   - Home: POSITIONS P-60; FACTS F-76; rows 543 and 551; `positions-followup/proposals.md`, "P-60"; `reviews/comprises-type-level-proof-addendum.md`
-   - Needed by: never; applied, so no work waits on his review.
-
-321. **P-44 says that the `where` form of `AnyIntegral`'s commented clause is not built, but P-151 builds that form. Shall the sentence say what keeps the clause a comment?** P-44: "Beside the clause stays a comment in the team's `NOT YET` form, by which the team's library records a clause that it cannot write yet: here `comprises Integral[\I\] where [\I\]`, whose `where` form is not built." (`coordinator/POSITIONS.md:41`; the comment at `Library/FortressLibrary.fss:683`). P-151 builds that form, a type variable of a `where` clause in a `comprises` clause: `AnyList`'s `comprises { List[\E\] } where [\E\]` is live (`Library/List.fsi:58`), and the `fortress-repo` skill says that the checker reads it (`references/revival-changes.md`, "Three `where` forms are built (P-151)"; `references/compiler.md`, on a `comprises` clause at a `where`-clause variable); since climb batch 24's rung G the code generator compiles a declaration's own `where` clause too (F-181; row 701 keeps the contract half). What keeps `AnyIntegral`'s clause a comment is narrower: the front end of both paths refuses it on a trait that declares a coercion (row 831), walk refuses the library at load under every variant tried (row 804), and with the bound `[\I extends Integral[\I\]\]` the checker runs out of memory at the stages' 4 GB heap (item 284). The cold reader of the corrections' final texts read the sentence against the skill and asked whether the comment can become code, marking it high, as a sentence that sends a reader wrong (`reviews/foundations/evidence/corrections/final/cold-read.md`, "P-44").
-   - Landed: Not applied; P-44 as it reads. Default: none on record; the sentence stands until he rewords it.
-   - The other way: The sentence states the present: the form is built (P-151), and neither path takes this clause yet (rows 831 and 804), so it stays a comment until item 284 is answered.
-   - Its cost: One clause of P-44. Nothing built changes; whether the clause is made live is item 284.
-   - Home: POSITIONS P-44 and P-151; `reviews/foundations/evidence/corrections/final/cold-read.md`, "P-44" and its summary; `coordinator/postmortem-2026-10-28/REPORT.md`, section 7; rows 701, 804 and 831; item 284
-   - Needed by: never; no work waits on the text.
-
 ## (c) Routine, by theme
 
 Each is kept as landed unless he says otherwise.
 
-### The checker's typing and inference (15)
+### The checker's typing and inference (2)
 
 51. A clause-form reduction whose big operator's static argument is unwritten is instantiated by the checker at its bound or, since climb batch 14's rung A, at the expected type where the bound's type does not fit it, so `s: ZZ32 = BIG LAST[j <- lo#n] (3 j)` at the bound `Number` runs; one whose bound names its parameter, as `SUM`'s, `PROD`'s and `BIG MIN`'s do, has no instance and is refused (row 731, row 425's corrected text).
    - Landed: Refused where the bound names the parameter; the expected type taken otherwise (`InferBigOperatorExpectedType`). The library's three sites, once of the distance, write the argument since climb batch 22's rung R (`bd00ad997`; F-285), so the gap is user programs' and the team demos' (row 731's demo half). The other way: The desugaring fixes the big operator's static argument from the clauses. Its cost: A desugarer change, a checker project that no probe has designed.
    - Home: PLAN, "Climb batch 8, listed for his review", Row 425 after climb batch 8's rung I; `compile-ladder/rung-instance-bound/REPORT.md:90` (section 4); PLAN, "Climb batch 22, listed for his review", R.worker.1; row 731
    - Needed by: before the probe of the compiled checker's driver over each team demo, with row 731's demo half (PLAN, "Off the path, parked", "Phase 3's candidates at its end", the demos' line); the library's sites are written (F-285), so the gap no longer stands between the library and the switch-over, and that probe is where it is next met (`reviews/batch-22-review.md`, Part 4).
-
-52. How the checker ranks a generic declaration among those reached only by coercion: by declared domains where they compare, by the coercion chapter's order on instances otherwise.
-   - Landed: As built, a judge's choice under a silent text, on the ground of his conversion decision. The other way: The instances alone, the overloading checker's order alone, or a new full order. Its cost: Instances alone would let a generic's narrow instance outrank a plain declaration, against his conversion decision; the checker's order alone loses `ZZ32` over `ZZ64` at some positions.
-   - Home: PLAN, "Off the path, parked", How climb batch N's rung I ranks a generic; `compile-ladder/rung-inference-checker/REPORT.md:585` (section 10.4), `JUDGE.md:152` (10-02: 55)
-   - Needed by: never; no PLAN item edits the ranking, a judge's choice under a silent text (`compile-ladder/rung-inference-checker/REPORT.md` section 10.4).
-
-53. What the checker reports when no attempt at a call holds: the first attempt that has a candidate.
-   - Landed: As built, so that a binding reports a call the rule accepts. The other way: The first of all four attempts, the judge's first order, which changed a pinned message. Its cost: One message of a compiled test.
-   - Home: PLAN, "Off the path, parked", Rung I's fallback for a call no attempt keeps; `compile-ladder/rung-inference-checker/REPORT.md:570` (section 10.3) (10-02: 56)
-   - Needed by: never; one message of a compiled test, which no PLAN item changes.
-
-54. Four gated inference gaps: the 64-combination cap (row 506), an untyped lambda argument in the coercion attempt (507), walk's mixed widths through varargs or a tuple (511), a generic trait's own coercion parameter under walk (513).
-   - Landed: Each gated by an expected failure, off the path until the distance or microGPT meets one. Rows 515 and 518 of the same list are fixed. The other way: A repair each, named in its row. Its cost: Row 507 is the first to measure in phase 5.
-   - Home: PLAN, "Off the path, parked", Climb batch N's gated inference gaps; PLAN-history, "Off the path, parked", Row 506 to Row 518; `reviews/batch-N-review.md`, finding 4 (10-02: 65)
-   - Needed by: before microGPT compiles; row 507 is the first to measure in phase 5 (its cost line), and the others wait until the distance or microGPT meets them.
-
-55. A `spawn` inside an `atomic` body is refused also inside a typed function expression there, by where the code is written, as the team's checker reads it.
-   - Landed: Refused; the program crashed the checker before. The other way: Check a typed function expression's body with a plain checker. Its cost: A change to the team's checker; no program gains a run, since the code generator has no `spawn`.
-   - Home: PLAN, "Climb batch 12, listed for his review", A `spawn` inside an `atomic` body; `compile-ladder/rung-checker-contexts/JUDGE.md:55` (section 7)
-   - Needed by: never; the code generator has no `spawn`, so no program gains a run (its cost line).
-
-56. Against the compiled prelude, which declares no `ImmutableArray`, the checker refuses every use of a varargs parameter (row 604); ten string sites wait on it.
-   - Landed: Refused at the variable's use, until the switch-over brings the one library. The other way: Per site, or at the binding. Its cost: Goes away at the switch-over.
-   - Home: PLAN, "Climb batch 10, listed for his review", Under the compiled library; PLAN, "Climb batch 9, listed for his review", Stop met and lifted; `compile-ladder/rung-checker-defects/REPORT.md:415`, `JUDGE.md:44`
-   - Needed by: never; the switch-over brings the one library's `ImmutableArray` and removes it (row 604).
-
-208. **How the checker represents a size that inference leaves unknown.** On 2026-09-21 at 03:09 UTC the coordinator put two decisions on unknown sizes to him. At 16:57 UTC he chose a way for the first, wrote that he did not understand the second, and asked what decision he was making. The coordinator answered at 16:58 UTC: it was a choice inside the checker's code, how to represent an unknown size while solving. The clean way adds a new node to the syntax tree's definition and regenerates generated code. The other way reuses an existing node with a reserved name. The choice was his only if he cared about that regenerated diff; otherwise it was the coordinator's. He did not reply. P-40 stated "How the checker represents it is not his choice." until the audit.
-   - Landed: A new node, `_InferenceVarInt(Object id)`, as the checker's other inference variables are nodes, with 26 generated files changed and 4 new. It is the checker rung's first decision ("Pavol left this to the rung"; `compile-ladder/rung-nat-checker/REPORT.md`, "Decision 1: the unknown size is a node, `_InferenceVarInt(Object id)`, not a reserved name."). Default: as built.
-   - The other way: The reserved name, an `IntRef` named `$nat$k`, with no regenerated code (`reviews/nat-checking-plan.md`, option B).
-   - Its cost: Undoing it regenerates the generated files again and changes the checker's solver.
-   - Home: POSITIONS-history, P-40, its block of 2026-10-22 08:30Z, the former sentence "How the checker represents it is not his choice."; `coordinator/positions-audit/full/evidence/corrections-c2.md`, "P-40"; `coordinator/positions-audit/full/evidence/review-queue-items-c2.md`; `compile-ladder/rung-nat-checker/REPORT.md`, decision 1
-   - Needed by: never; built and gated, and no later work builds on the choice. The item is spent, so it can move to (a), "Information only", once he has seen it.
-
-218. **Should P-42 keep "functions" among what `Any` holds and `Object` does not?** P-42 makes `Any` the implicit bound of an unbounded type parameter, not `Object`, and gives the reason: "`Any` holds tuples, functions and `()`, which `Object` does not". The team's own texts disagree on functions. The specification in the tree puts arrow types beside `Object` under `Any` (`Specification/basic/types-vals-vars.tex:153`), and walk agrees: it stops on a tuple, `()` or a function where `Object` is written as a bound (F-70). The team's 2012 Types chapter makes `Object` a supertype of every arrow type (`Documentation/Specification/Prose/Language/types.tick:232-236`). The text that he answered on 2026-09-29 at 13:58 UTC told him the opposite of what that chapter says. His yes rested on the tuples: the library instantiates its generic containers at tuples, arrays indexed by pairs among them. Keep "functions" in the sentence, or drop it, so that the sentence holds under both texts?
-   - Landed: The entry as it reads, "functions" in it. Default: as it reads, until he answers.
-   - The other way: "`Any` holds tuples and `()`, which `Object` does not", as the specification's callout on the bound says (`Specification/basic/trait-parameters.tex:56-57`).
-   - Its cost: One word of P-42, and the same words in the `fortress-repo` skill's `SKILL.md`, "Fortress as a language", the static parameters' bullet. The bound stays `Any` either way.
-   - Home: POSITIONS P-42; `coordinator/positions-audit/full/evidence/corrections-c3.md`, "P-42", "Questions for him", question 1; `Specification/basic/trait-parameters.tex:52-65`, the bound and its callout; F-70, walk's stop where `Object` is written
-   - Also open on P-42, from item 296 (`reviews/phase3-exit/corrections-draft.md`, section 1, "Question for him: the example of arrays indexed by pairs"): whether its example, "its arrays indexed by pairs, such as `(ZZ32,ZZ32)`, are among them", stays, since a pair of `ZZ32` is an `Index` (P-156) and so is no case of the implicit bound; the other way is the draft's `zip`, which gives a `ZeroIndexed[\(E,F)\]` whose element type is a pair. Default: as it reads, until he answers.
-   - Needed by: never; the bound is `Any` under either text, and the word can change at any time.
-
-234. **Should P-146 name the widening for the team's `Containment` mixins, or leave it to item 212?** As built, P-146's rule also accepts a trait that extends a self-typed trait at its own bounded parameter, as the team's `ContainmentBySubset` and `ContainmentByComparison` do. The coordinator took that widening on 2026-10-14 at 00:08 UTC, and it waits for his review as item 212. Read alone, the entry's sentence "The checker refuses a type that extends such a trait at another type" refuses those two traits.
-   - Landed: The entry as it reads, with no word on the widening. Default: left to item 212.
-   - The other way: The entry names the widening as the coordinator's call, built and waiting for his review: "a trait that extends it at a parameter bounded by it, as the team's `Containment` mixins do, stays valid, the coordinator's call" (`coordinator/positions-audit/full/evidence/takeaway-c5.md:40`).
-   - Its cost: One sentence of P-146. If he takes item 212's default, P-146's rule sentence is widened in any case.
-   - Home: POSITIONS P-146; `coordinator/positions-audit/clarity/evidence/pilot/proposals.md`, "P-146", its question; item 212
-   - Needed by: never; the widening is built, and item 212 holds the decision itself.
-
-244. **Is the case for building a feature that the team's work barely supports his to decide (P-151)?** P-151 builds only the `where`-clause forms that the team wrote down. Its reason said: "a feature with little support in the team's work bends the language beyond what he can review; one is built where the team left enough design intent for it, or where it is on the critical path to running fast compiled." He approved that wording on the audit's page on 2026-10-21 at 23:33 UTC. A cold reader took "one is built" as leave for a worker to build such a feature on its own judgement. His words of 2026-10-16 at 11:18 UTC put each such case to him: "If you say like it is easy thing and there are enough breadcrumbs or design intention from the original team, we might as well do it. If you say it is on the critical path to having it run fast in a compiler, we will do it." The clarity pass of 2026-10-22 applied: "He has such a feature built where the team left enough design intent for it, or where it is on the critical path to running fast compiled."
-   - Landed: The clarity pass's wording, "He has such a feature built where ...". Default: as it reads; the case for going past the team's forms is put to him.
-   - The other way: The wording that he approved on 2026-10-21, "one is built where ...", which names no one who decides.
-   - Its cost: One sentence of P-151's reason. Nothing built changes. For `where` clauses he chose the team's forms only, and nothing past them (2026-10-16 at 16:42 UTC).
-   - Home: POSITIONS P-151; `coordinator/consolidation-2026-10-22/evidence/positions/p5/proposals.md`, "P-151", question 1, the clarity writer's question; `check.md` beside it, "P-151", the fidelity check; `coordinator/positions-audit/trial/evidence/takeaway-check.md`, "P-151", the cold reading of the wording that he approved; `coordinator/positions-audit/evidence/curator-comments-2026-10-21.md`, "On P-151", his page comments
-   - Needed by: never; no planned rung builds a feature past the team's forms, and either wording can stand until he answers.
 
 278. **Once the checker checks `throws` clauses (row 352), does the one library's cast failure stay a checked exception, where the compiler's prelude has an unchecked one?** The compiler's prelude declares `object CastException extends UncheckedException` (`Library/CompilerLibrary.fsi:103`). The one library's `cast` throws `CastError`, a `CheckedException` (`Library/FortressLibrary.fsi:1198`), with no `throws` clause (`Library/FortressLibrary.fss:32-37`, the team's). The revival added about 50 casts to the one library. Neither path checks a `throws` clause (row 352), so the kind costs nothing today. A built check would refuse `cast` and each caller of it that neither declares nor handles `CastError` (`reviews/phase3-exit/zero-audit.md`, A.4, the row 352 line). No decision on record covers it.
    - Landed: `CastError` checked, as the one library declares it; no `throws` check on either path. Default: none yet.
@@ -918,186 +441,26 @@ Each is kept as landed unless he says otherwise.
    - Home: `reviews/foundations/prelude-lens.md`, section 6, "A cast's exception kind differs between the two libraries"; `reviews/foundations/judgement.md`, section 3, "Two side findings", and section 8, "Decisions not taken, for later"; `reviews/phase3-exit/zero-audit.md`, A.4; row 352
    - Needed by: before the rung that builds row 352's `throws` check, which no PLAN item names yet; the choice changes what that rung writes.
 
-300. **A component trait field declaration of several names is not matched against several abstract api getters. Leave it?** Unmeasured, not a finding (A.judge.3 of climb batch 22c's rung A): the upheld arm of item 294 matches a field declaration of one name only (`List(SLValue(...))`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:866`), so a component trait field declaration of several names, against several abstract api getters, is still not matched, as it was not on the worker's head.
-   - Landed: As landed. Default: as landed; nothing waits on it.
-   - The other way: Match each name of such a declaration.
-   - Its cost: A few lines of `equalAbstractMember`, and a test. The library has no such site (the skeptic's grep of the 71 'abstract getter' lines).
-   - Home: PLAN, "Climb batch 22c, listed for his review", A.judge.3; `compile-ladder/rung-abstract-declared/JUDGE.md:32` (section 2); `compile-ladder/rung-abstract-declared/SKEPTIC.md:72` (section 3); item 294
-   - Needed by: never; the library has no such site.
-
-301. **The export check's comment quotes the Working Draft's export rule as "From the spec". Correct it in the next change that edits the file?** The comment over the export check's loop on traits and objects quotes the sentence that asks a satisfying declaration only for each field and non-abstract method (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:327-332`); rung A's revision adds the clause on abstract methods after "(or a set of declarations)" (`Specification/basic/components/source-code.tex:381-388`), which `equalListMembers` checks (`ExportChecker.scala:826-834`), so the quotation is no longer the text. Rung A's `REPORT.md` section 8 does not list it (review.1 of climb batch 22c's merged-diff review).
-   - Landed: The comment as it stands. Default: the next change that edits `ExportChecker.scala` quotes the revised sentence; no gate runs for the comment alone, as for climb batch 21b's review.1 (its entry under PLAN's "Climb batch 21b, listed for his review").
-   - The other way: A change for the comment alone, now.
-   - Its cost: Six comment lines; made alone, a build for a comment.
-   - Home: PLAN, "Climb batch 22c, listed for his review", review.1; `compile-ladder/rung-abstract-declared/REPORT.md:206` (section 8); `reviews/batch-22c-review.md`, Part 2, "Misses, by kind", 779
-   - Needed by: never; a comment, which any later change of the file corrects.
-
-313. **Fork 5's reading of a Java type as the one library's also reaches walk's own written `import java` (row 845). Keep the reading as the fork gives it, or key it to the checker's runs only?** C.skeptic.1 of climb batch 23's rung C. The reading applies whenever the world is walk's (`coordinator/CLIMB-BATCH-23.md:105`), and walk's repository hands a written `import java` to `ForeignJava` in that world (`ProjectFortress/src/com/sun/fortress/repository/GraphRepository.java:957`), so such an import under walk, which stopped at F-180's gap 1, 'FortressBuiltin.ZZ32 is undefined.', now ends at gap 3 with `InterpreterBug` 'Non-top-level reference to imported …' (F-180). No suite, demo or library component writes `import java` under walk, and P-58 does not take that form. The planner's "code that walk does not run" was false and is corrected (`CLIMB-BATCH-23.md:267`).
-   - Landed: The reading as the fork gives it; row 845 open, reproducer `none`. Default: as landed.
-   - The other way: The reading keyed to the checker's runs only, so that a written `import java` under walk stops at gap 1 again.
-   - Its cost: An edit of the world test in `NamingCzar.java`'s three-argument reading. Either way a written `import java` does not run under walk while F-180's other gaps stand.
-   - Home: PLAN, "Climb batch 23, listed for his review", C.skeptic.1; `compile-ladder/rung-natives-compiled/SKEPTIC.md:31-33` ("My programs, old against new"); `reviews/batch-23-review.md`, Part 1, "Where the text, the brief or the principles split", 4; row 845; F-180; item 308
-   - Needed by: never; no component under walk writes `import java`, and the key can change at any time.
-
-347. **Should a binding over `NN32`, `NN64` or `Char` to a helper with several methods of one name and arity compile on the compiled path (row 885)?** U.worker.1 and U.skeptic.1 of climb batch 25's rung U. The rewrite composes the transfers only where it finds one method of the name (`ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java:135-145`, `:196-206`, `soleMethod`), so the checker refuses such a binding, 'ZZ32->JavaString is not applicable to an argument of type NN32.'. Walk takes the overload whose Java types carry the declared types (F-299). No library binding names such a helper. Row 885 is `CONTESTED`: no decision says whether such a binding must compile, and F-308 states the limit.
-   - Landed: Refused, pinned by `ProjectFortress/compiler_tests/XXXNativeHelperOverloadedNN32Compiled.test:3`. Default: as landed.
-   - The other way: The rewrite picks the overload whose Java types carry the declared types, as walk does, and composes its transfers.
-   - Its cost: An edit of the rewrite and its test; not measured.
-   - Home: PLAN, "Climb batch 25, listed for his review", U.worker.1, and phase 4, the rewrite's limits; `compile-ladder/rung-natives-unsigned/REPORT.md:147`; `reviews/batch-25-review.md`, Part 1, "Where the text, the brief or the principles split", 7; row 885; F-308
-   - Needed by: never (set by the landing workflow); no library binding names an overloaded helper.
-
-### Overloading and the Meet Rule (12)
-
-57. The checker's Return Type Rule is stricter than the paper where the more specific declaration's domain is an object type (row 542).
-   - Landed: The refusal, his decided construction for answer 9; gated. The other way: Set aside the instances whose domains cannot meet. Its cost: A change to a decided rule.
-   - Home: PLAN, "Climb batch 7b, listed for his review", The compiled Return Type Rule is stricter than the; `compile-ladder/rung-return-type-rule/JUDGE.md:49`, `REPORT.md:347` (10-02: 34); F-75, the checker's Return Type Rule over every instance, with this difference
-   - Needed by: never; the refusal is his decided construction for answer 9, and no PLAN item edits it (row 542).
+### Overloading and the Meet Rule (2)
 
 58. Typing a call between two closed traits by the intersection of return types is limited to families with no static parameters (row 543), narrower than the text's boundary.
    - Landed: The judge's narrower condition; gated. The other way: The proof addendum's boundary, as the text states it. Its cost: A checker change; the rejected narrowing sends the intersection into ties the code generator crashes on (row 540).
    - Home: PLAN, "Climb batch 7b, listed for his review", Typing a call between two closed traits by the; `compile-ladder/rung-return-type-rule/JUDGE.md:59`, `REPORT.md:350` (10-02: 35); F-76, the checker's typing of such a call by the intersection, with row 543's limit; if he takes the other way, F-76's sentence on row 543 changes with the code (`coordinator/consolidation-2026-10-22/evidence/facts/f6/queue.md`)
    - Needed by: before microGPT compiles; the text's boundary sends the intersection into row 540's crash, phase 5's line (PLAN, phase 5).
 
-59. The coverage check reads a functional method's self type by its trait, so that functional methods declared in the closed traits are covered.
-   - Landed: As built; it worked. The other way: Narrow the rung's claim instead. Its cost: None measured.
-   - Home: PLAN, "Climb batch 7b, listed for his review", The coverage check reads a functional method's self type by its trait; `compile-ladder/rung-return-type-rule/JUDGE.md:39` (10-02: 36)
-   - Needed by: never; as built it worked, and no PLAN item edits the coverage check's self type.
-
 60. Answer 9's positional rule compares two declarations only when they have as many static parameters of their own. The POPL 2019 rules map finds no counterpart of the rule in the paper: [Return-Test] alone decides a more specific declaration's return type (`Papers/Variance/rules.tex:81-95`), and the paper's calls write no static arguments (`lang.tex:77-81`). By reading, the rule refuses sets that [Return-Test] accepts: `unwrap[\T\](x: Box[\Box[\T\]\]): Box[\T\]` beside `unwrap[\U\](x: Box[\U\]): U`, `Box` invariant, passes [Return-Test] at `U = Box[\T\]`, while read position by position, `T` for `U`, `Box[\T\]` is not below `T`. P-45's reason is a call that writes its static argument, `unwrap[\ZZ32\](b)`, which dispatch would hand by position to either declaration (row 499). No decision has weighed the sets the rule refuses (`reviews/popl2019-rules-map.md`, question 5, section 19).
    - Landed: As built; applied to every pair it refused a team test. His answer 9 lists this scope for his review. The other way: Every pair; or, by the map, the rule moved to the call, so that such a set stands and a call that writes static arguments to a family whose declarations do not line up is refused or resolved statically without dispatch; or the rule dropped, so that a written static argument binds only the statically chosen declaration and dispatch infers the others'. Its cost: The team's `Compiled12.invariantInference` refused, for every pair; the map's two ways change the checker's rule and row 499's dispatcher (item 159).
    - Home: PLAN, "Climb batch 7b, listed for his review", Answer 9's positional rule compares two declarations only when; `compile-ladder/rung-return-type-rule/REPORT.md:191`; P-45, "Overloaded declarations may differ in their static parameters." (10-02: 37); F-75, the positional rule as built, with this scope; `reviews/popl2019-rules-map.md`, question 5 and section 19; `reviews/decisions-review/popl-recheck.md`, section 1.3; row 499; item 159
-   - Needed by: never; the rule refuses nothing in the library, and phase 5's dispatcher lifts it (`reviews/decisions-review/popl-recheck.md` section 1.3); kind: his answer 9 reserves this scope for his review, so by the skill's first test it is consequential, not routine.
+   - Needed by: before microGPT compiles; phase 5's dispatcher, which receives the call's static return type, can lift the rule's restriction (PLAN, phase 5, the dispatcher's line; `reviews/decisions-review/popl-recheck.md` section 1.3); kind: his answer 9 reserves this scope for his review, so by the skill's first test it is consequential, not routine.
 
-61. A compiled verdict on an overload set can depend on the components compiled before it in the same JVM (row 547); batch 8's re-keyed memo is the candidate cause, not proven.
-   - Landed: The row, for the checker phase. The other way: Trace the carried state now. Its cost: A checker investigation.
-   - Home: PLAN, "Climb batch 7b, listed for his review", gather.2; PLAN, "Climb batch 8, listed for his review", Row 547 after rung O re-keyed the overloading memo; `compile-ladder/rung-overloading-checker/REPORT.md:158` (10-02: 45)
-   - Needed by: never; the row holds it for the checker phase, and no PLAN item traces it (row 547).
-
-63. The per-provider Meet Rule compares the `self` parameter as the dotted rule compares a receiver, wherever it sits.
-   - Landed: As built; it cleared six `IN` sites. The other way: Compute what a type does not inherit in `allMethods`. Its cost: That needed another rung's file.
-   - Home: PLAN, "Climb batch 8, listed for his review", The self parameter in rung O's per-provider meet; `compile-ladder/rung-overloading-checker/JUDGE.md:103`
-   - Needed by: never; no PLAN item edits the per-provider meet.
-
-64. The per-provider check visits declared traits and objects only, so a pair only an object expression provides passes (row 570).
-   - Landed: Gated; no compiled program runs an object expression yet (row 375). The other way: Lift object expressions into named objects, the team's plan. Its cost: A checker rung.
-   - Home: PLAN, "Climb batch 8, listed for his review", Stop met and lifted; `compile-ladder/rung-overloading-checker/REPORT.md:354`
-   - Needed by: never; no compiled program runs an object expression yet (row 375), and no PLAN item lifts them (row 570).
-
-65. The checker's half of row 597 reads every closed trait above an object expression, one step beyond the row.
-   - Landed: As built, upheld under the traits chapter. The other way: Only the traits the expression names. Its cost: None.
-   - Home: PLAN, "Climb batch 10, listed for his review", Row 597's checker half reads every closed trait above an object expression; `compile-ladder/rung-checker-defects/REPORT.md:430`
-   - Needed by: never; no PLAN item edits row 597's checker half.
-
-66. Since batch 11 the checker checks a widening `override`'s return type at every instance, and refuses an object below a trait that re-declares an inherited method abstract.
-   - Landed: As built, read from the traits chapter; pinned. The other way: The base's behaviour, which refused every widening `override`. Its cost: None on the library.
-   - Home: PLAN, "Climb batch 11, listed for his review", The return type of a widening `override` is checked; `compile-ladder/rung-checker-overloading/REPORT.md:258`
-   - Needed by: never; it refuses no library declaration (its cost line).
-
-67. Naden's return-type-restricted instantiation is recorded as future work in the decision record, with no ledger row.
-   - Landed: As recorded. The other way: A ledger row. Its cost: One row.
-   - Home: `reviews/overloading-judgement.md` section 10, item 7; POSITIONS-history, P-45, its block of 2026-10-22 08:30Z, the former sentence on the judgement's smaller choices (10-02: 25)
-   - Needed by: never; a row can be filed at any time (`reviews/overloading-judgement.md` section 10, item 7).
-
-231. **Should P-45 name the library's devices for its refused overload sets?** P-45 lets overloaded declarations differ in their static parameters. On 2026-09-26 at 12:08 UTC he took a recommendation that let the library repair the overload sets that the checker refused "with its own techniques": marker traits, `excludes` clauses, named helpers chosen by a type test, and one declaration slip corrected. The audit's text said "with its own exclusions". The clarity pass's text, now applied, says "by declarations of its own", which names no device.
-   - Landed: The entry as it reads: "The library repairs, by declarations of its own, the overload sets that the checker refused". Default: as it reads, until he answers.
-   - The other way: "with its own devices, such as `excludes` clauses and helpers chosen by a type test" (`coordinator/positions-audit/full/evidence/takeaway-c3.md:94`).
-   - Its cost: A few words of P-45.
-   - Home: POSITIONS P-45; `coordinator/positions-audit/clarity/evidence/pilot/proposals.md`, "P-45", its question; `reviews/overloading-judgement.md`, section 1
-   - Needed by: never; a wording, which can change at any time.
-
-257. **Does F-258 take the clarity pass's rewrite, whose clause on the pairs that walk does not read is wrong for two of its three kinds (F-258)?** F-258 says that walk and the compiled checker read exclusion between two declarations, one or both with static parameters, over the whole parameter type, by existential reduction. The clarity pass of 2026-10-22 rewrote it. It left walk's methods and their lines to the report, bounded the 691 meets to their one measurement at `a93fb3bfd`, excepted the generic constructor, defined the reduction's first premise, and gave each row where the paths differ its class. One clause says too much: "Walk does not read so a pair where either declaration has a `where` clause of its own or a varargs parameter, or whose parameter lists differ in length; such a pair keeps the Meet Rule's refusal." That holds for the `where` clause: row 787's pair is refused, "fails the Meet Rule". A pair with a varargs parameter is never read on its declared domains, so it keeps the parameter check's message (`OverloadedFunction.java:782-783`, `:897`), as F-252 and F-257 say. Two lists of different lengths without varargs are never compared (`:376-381`). A second cold reader found the contradiction. `OverloadedFunction.java` is `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java`.
-   - Landed: F-258 stands as FACTS holds it; the rewrite is not applied. Default: as it reads.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/facts/f14/proposals.apply`, the block for F-258), with that clause limited to the `where` clause. A varargs pair, or one of different lengths, then keeps the parameter check's message (F-257).
-   - Its cost: One entry's wording. Nothing built changes.
-   - Home: FACTS F-258; `coordinator/consolidation-2026-10-22/evidence/facts/f14/proposals.md`, "F-258", the rewrite and its sources; `check.md`, `cold-read-2.md` and `judgement.md` beside it, "F-258", the check, the second cold reader and the hold; `compile-ladder/rung-existential-reduction/REPORT.md` sections 1 and 7; `OverloadedFunction.java:376-381`, `:782-783`, `:897`, `:936-945`
-   - Needed by: never; nothing builds on the clause, and either way can be undone at any time.
-
-### Walk's checks at load (15)
-
-68. Walk does not check a `comprises` clause's other half, that each listed type extends the trait at every instantiation (row 598).
-   - Landed: Gated; the rung argues walk's soundness does not need it. The other way: Check it at load. Its cost: A walk edit.
-   - Home: PLAN, "Climb batch 9, listed for his review", Row 598; `compile-ladder/rung-walk-load-check/REPORT.md` section 5
-   - Needed by: never; no PLAN item adds the check at load (row 598).
-
-69. Which reading of "overridden" decides what a type inherits: walk counts only what the type's own `override` declarations override (row 615); the checker now agrees.
-   - Landed: As landed, pinned on both paths. The other way: Any `override` anywhere hides the declaration. Its cost: Both paths change.
-   - Home: PLAN, "Climb batch 10, listed for his review", Which reading of "overridden" governs what a type inherits; `compile-ladder/rung-walk-meet/SKEPTIC.md:82`
-   - Needed by: never; both paths agree, and both are pinned (row 615).
-
-70. The chapter's clause on equal parameter types names no `self` position; walk reads it at the same position, as the checker does.
-   - Landed: As landed. The other way: Another position rule. Its cost: None measured.
-   - Home: PLAN, "Climb batch 10, listed for his review", Decision W2; `compile-ladder/rung-walk-meet/decision-record.md:29` (W2)
-   - Needed by: never; no PLAN item edits the position rule (decision W2).
-
-71. Walk refuses at load a program that names an undeclared type in a `typecase` arm, where it failed at run time only when the arm ran.
-   - Landed: As landed, through the shared disambiguator; the suites stayed green. The other way: Walk's late failure. Its cost: None.
-   - Home: PLAN, "Climb batch 11, listed for his review", Walk refuses at load; `compile-ladder/rung-checker-overloading/REPORT.md:205`
-   - Needed by: never; the suites stayed green, and no PLAN item edits it.
-
-72. A program's own reduction whose `simpleJoin` is declared at `Any`, the team's old spelling, is now refused at load; it ran on the base.
-   - Landed: As landed; no gated test or demo declares one, and a test pins the refusal. The other way: Keep accepting the old spelling. Its cost: None in the tree.
-   - Home: PLAN, "Climb batch 12, listed for his review", gather.3; PLAN-history, "Climb batch 12, listed for his review", review-routed.1; `ProjectFortress/tests/ReductionSimpleJoinAtAnyWalk.fss`
-   - Needed by: never; no gated test or demo declares such a reduction (its Landed line).
-
-73. An `override` at the inherited declaration's own parameter types overrides nothing, as the chapter's "strict subtype" says. Since batch 13 walk refuses it at load; the checker, which has no check of the modifier, does not (row 653).
-   - Landed: Strict, built at the default given on the standing go; the top-tier check reads it as the standard as written, needing no decision. The other way: Allow it: "strict subtype" becomes "subtype" in the S1 form, and walk's check is undone. Its cost: A specification revision; no program in the tree writes such an `override`.
-   - Home: PLAN, "Climb batch 12, listed for his review", Q2 of climb batch 12's rung W; `reviews/walk-load-readings-check.md` section 3 and "For Pavol"; `compile-ladder/rung-walk-override/REPORT.md:21`, `:294`; `CLIMB-BATCH-13.md`, QW2
-   - Needed by: never; no program in the tree writes such an `override` (its cost line), and no PLAN item takes row 653's checker half.
-
-74. At an instance of a generic trait, an `override` whose types equal the inherited declaration's only there is not an error: the declaration is checked at its static parameters.
-   - Landed: As built. The other way: Check each instance strictly. Its cost: The chapter says nothing of instances.
-   - Home: PLAN, "Climb batch 13, listed for his review", QW-a of climb batch 13's rung W; `compile-ladder/rung-walk-override/REPORT.md:282`
-   - Needed by: never; no PLAN item edits walk's check of an `override` at an instance.
-
-75. A generic declaration's `override` at its parameter `T`, over an inherited declaration at a type below `T`'s bound, is a static error.
-   - Landed: As built; no program in the tree writes it. The other way: Accept it where some instance overrides. Its cost: None in the tree.
-   - Home: PLAN, "Climb batch 13, listed for his review", QW-b; `compile-ladder/rung-walk-override/REPORT.md:287`
-   - Needed by: never; no program in the tree writes it (its Landed line).
+### Walk's checks at load (1)
 
 76. Walk does not refuse an `override` over a declaration whose parameter types mention a static parameter whose bounds walk has lost (row 693).
    - Landed: This lenience, the base's behaviour for one shape. The other way: Carry the enclosing `where` clauses into object expressions (a rung of its own); or refuse, with false errors on programs the base loads. Its cost: One expected failure records it.
    - Home: PLAN, "Climb batch 13, listed for his review", Walk does not refuse an `override` over a declaration; `compile-ladder/rung-walk-override/JUDGE.md:145`
    - Needed by: before row 774's walk rung; that rung makes walk read an `extends` entry's `where` clause, which row 693's notes name as one of the two causes of this lenience (`coordinator/CLIMB-BATCH-20.md`, fork 19). The rung is out of climb batch 21: it waits until walk runs the checker (P-12) or row 364 is fixed (`coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, "Off the path, parked", "Phase 3's candidates at its end").
 
-77. Walk refuses at load the POPL 2019 paper's valid `ArrayList`/`List` overload set (row 539).
-   - Landed: Gated on both paths. The other way: A walk repair. Its cost: A walk rung.
-   - Home: PLAN, "Climb batch 7b, listed for his review", Walk refuses the POPL 2019 paper's valid `ArrayList`/`List` set at load; `compile-ladder/rung-return-type-rule/REPORT.md:218` (10-02: 44)
-   - Needed by: never; no PLAN item repairs walk on row 539.
-
-79. Walk's return rule for a generic beside a plain declaration keeps `pickFirst` refused, stricter than answer 9 (row 550).
-   - Landed: Gated. The other way: Answer 9's rule over every instance. Its cost: A walk rung.
-   - Home: PLAN, "Climb batch 7b, listed for his review", Row 550; `compile-ladder/rung-walk-dispatch/REPORT.md:261` (10-02: 42)
-   - Needed by: never; no PLAN item edits walk's return rule (row 550).
-
-253. **Does F-145 take the clarity pass's rewrite, whose clause on the compiled checker says too much (F-145)?** F-145 says that walk refuses at load an object that leaves an inherited abstract method uncovered. Its title also names the `override` check and the Meet Rule check, which F-147 and F-142 hold. The clarity pass of 2026-10-22 narrowed the title to coverage. It said that row 728's refusal is a defect of walk, and that the compiled path runs that object. It also said what the compiled checker does at row 725: "where the abstract method or a body below it has static parameters of its own, it splits nothing and refuses the object." That says too much. Row 725 says that the checker does not split the parameter types there, so it refuses an object whose cover needs a split. Row 728 says that the compiled path runs an object whose one body has a static parameter of its own and covers the method alone. A second cold reader concluded that the compiled checker refuses such an object too.
-   - Landed: F-145 stands as FACTS holds it; the rewrite is not applied. Default: as it reads.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/facts/f13/proposals.apply`, the block for F-145), with the row 725 clause limited to an object whose cover needs a split.
-   - Its cost: One entry's wording. Nothing built changes.
-   - Home: FACTS F-145, F-147 and F-142; rows 725 and 728; `coordinator/consolidation-2026-10-22/evidence/facts/f13/proposals.md`, "F-145", the rewrite and its sources; `check.md`, `cold-read-2.md` and `judgement.md` beside it, "F-145", the check, the second cold reader and the hold
-   - Needed by: never; nothing builds on the clause, and either way can be undone at any time.
-
-254. **Does F-147 take the clarity pass's rewrite, whose rule leaves out that the self parameter is not counted (F-147)?** F-147 says that walk reads an `override` by the traits chapter's strict subtype, and checks the `override` of a type with static parameters once, at its declaration. The clarity pass of 2026-10-22 wrote the rule into the title: "an inherited declaration is overridden where each of its parameter types is a subtype of the `override`'s and not all are equal." It added the exception at an instance of a generic trait. It limited the row 693 clause to inherited types that differ from the `override`'s, and named its two cases. The chapter's rule does not count the type of the self parameter (`Specification/basic/traits.tex:661-665`), and walk's check does not count it either (`Constructor.checkOverrides`). The rewrite leaves this out. A functional method has its self parameter in its parameter list. For one, the rule as written would refuse a valid `override`, such as `override tag(self, x: Number)` over `tag(self, x: ZZ32)` in `ProjectFortress/tests/OverrideInTraitWalk.fss`, which the entry's own gates load. A second cold reader could not tell whether self counts.
-   - Landed: F-147 stands as FACTS holds it; the rewrite is not applied. Default: as it reads.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/facts/f13/proposals.apply`, the block for F-147), with "not counting the self parameter" in the rule.
-   - Its cost: One entry's wording. Nothing built changes.
-   - Home: FACTS F-147; rows 614, 649 and 693; items 73 and 74, walk's strict subtype and its exception at an instance; `coordinator/consolidation-2026-10-22/evidence/facts/f13/proposals.md`, "F-147", the rewrite and its sources; `cold-read-2.md` and `judgement.md` beside it, "F-147", the second cold reader and the hold; `compile-ladder/rung-walk-override/REPORT.md` section 1; `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:661-662`, the comment on `checkOverrides`
-   - Needed by: never; nothing builds on the wording, and either way can be undone at any time.
-
-256. **How do F-238 and F-252 divide walk's second reading of a refused pair: does F-238 merge into F-252, and does F-252 say how the Meet Rule's search reads F-bounds and sizes (F-238, F-252)?** F-252 says how walk's load check reads again, on the declared domains, a pair of declarations with static parameters of their own that its parameter-by-parameter check refuses. F-238 holds the same reading for the pairs whose exclusion walk withdrew, a subset of F-252's pairs, and also the rule of that withdrawal, which F-252 does not. F-238's text before the clarity pass also said how the Meet Rule's search reads such a pair: it reads bounds that name their own parameter from the declarations, so they meet, and it unifies a symbolic size with a size parameter. The clarity pass of 2026-10-22 kept F-238 to the withdrawal and left the reading on declared domains to F-252, which does not state those two details; chunk f13's writer left them in the report, as detail of the search (`compile-ladder/rung-walk-overload-if/REPORT.md` section 1, `meetParams`). Chunk f14's writer left the merge of F-238 into F-252 as a decision not taken, since F-238 is in another chunk. The two chunks' items ask how the two entries divide one subject, and are one item here.
-   - Landed: Two entries, as the clarity pass applied them: F-238 holds the withdrawal, F-252 the reading on declared domains; the two details of the search are in the report only. Default: as they stand.
-   - The other way: (a) F-238 merged into F-252, with its withdrawal rule. (b) F-252 states the two details of the search, with or without the merge.
-   - Its cost: Two entries' wording. Nothing built changes.
-   - Home: FACTS F-238 and F-252; `coordinator/consolidation-2026-10-22/evidence/facts/f13/proposals.md`, "F-238", the decision not taken; `coordinator/consolidation-2026-10-22/evidence/facts/f14/proposals.md`, "Across the chunk", and `assessment.md` beside it, the cross-entry points; `compile-ladder/rung-walk-overload-if/REPORT.md` section 1, "Row 373"
-   - Needed by: never; either way can be undone at any time.
-
-260. **Does walk now load two generic declarations that differ only in the element type, and what then do F-155, F-252 and F-257 say (F-155, F-252, F-257)?** F-155 says that under walk two declarations of one name that differ only in the element type are refused at load, "fails the Meet Rule", as `h[\I\](a: Array[\RR64,I\])` beside `h[\J\](a: Array[\ZZ32,J\])` is. The FACTS clarity pass of 2026-10-22 marked F-155 investigate and left it as FACTS holds it. Every measurement that it cites comes before climb batch 19's rung P (`a93fb3bfd`), which added `domainsExcludeTogether` to the Meet branch: `compile-ladder/rung-walk-generic-pairs/REPORT.md` section 5, and climb batch 18's two runs (`compile-ladder/rung-walk-trait-method-bounds/SKEPTIC.md` section 3, `SkF155`; `REPORT.md` section 3). Rung P's table has no pair that differs in the element type, and no gated test holds the `h` pair. A reading of the code gives the other answer: `domainsExcludeTogether` finds the two instances of `Array` apart, since `RR64` and `ZZ32` cannot be equal (`OverloadedFunction.java:936`; `mayBeEqual`, `:1458`), so the Meet branch (`:912`) answers valid. The applied F-252 says that walk's parameter check does not find two instances of one generic type at different ground static arguments excluding, such as `Tg[\3\]` and `Tg[\4\]`, so two plain declarations so typed are refused (row 416); it says nothing of two generic declarations so typed. F-257 lists rows 539, 550, 416 and 779 as valid pairs that walk refuses. Row 416's own pair is two plain declarations, `g(b: Tg[\3\])` beside `g(b: Tg[\4\])`, which walk refuses with the parameter check's "are unrelated" (`XXXNatSizeExclusionWalk`), and a second cold reader read F-252 and F-257 as disagreeing on row 416. One walk run of the two-line `h` pair settles all three: it needs a run, not a ruling. The assessor's investigate question on F-155 and the judge's two questions on F-252 and F-257 ask for the same run, and are one item here. `OverloadedFunction.java` is `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java`.
-   - Landed: F-155 stands as FACTS holds it, the pair refused; F-252 and F-257 as the clarity pass applied them, F-252 bounded to plain declarations and F-257 listing row 416. Default: as they read, until the run.
-   - The other way: If the pair loads: F-155's first claim holds only for plain declarations (row 416); F-252 adds that the whole-type reading sees such an exclusion for two declarations with static parameters of their own; and row 416 leaves F-257's list. If it is refused: F-155 stands, and F-257's list says that row 416's own pair is plain and keeps the parameter check's message. Either way, F-155's claim on the overloads that two imported apis declare, a subject apart, can move to an entry of its own (`coordinator/consolidation-2026-10-22/evidence/facts/f14/assessment.md`, "F-155", ownership).
-   - Its cost: One walk run of a two-line program, and the wording of up to three entries.
-   - Home: FACTS F-155, F-252, F-257 and F-258; row 416; `coordinator/consolidation-2026-10-22/evidence/facts/f14/assessment.md`, "F-155", the investigate question; `proposals.md` beside it, "F-252", "F-257" and "Across the chunk"; `check.md` and `cold-read-2.md` beside it, "F-252" and "F-257"; `compile-ladder/rung-walk-trait-method-bounds/REPORT.md` sections 3 and 10; `apl/mg/NOTES-swap.md`, "Departures, each with its evidence", items 5 and 6
-   - Needed by: before the next walk rung on the load check's refusals, such as row 779 among climb batch 21's candidates (PLAN, "Off the path, parked", "Phase 3's candidates at its end"); that rung reads F-155, F-252 and F-257 for which pairs walk refuses. The run can be made at any time.
-
-### Walk's choice of declaration and instance (10)
+### Walk's choice of declaration and instance (2)
 
 80. Under walk, a type parameter that only another parameter's bound mentions takes the arguments' type, not its bound (row 592).
    - Landed: The departure, gated, because the library's `APPCOV` builds its result there and walk has no expected type. The other way: Walk moves once it has an expected type. Its cost: After the switch-over gives walk static types.
@@ -1109,108 +472,17 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 9, listed for his review", Row 591; Row 616; PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `compile-ladder/rung-walk-instance/REPORT.md:319`; `compile-ladder/rung-walk-meet/SKEPTIC.md:122`; P-48, which names walk's three `Bottom` cases, rows 587, 591 and 612; F-141, walk's instance of a type parameter that nothing fixes, which lists row 591 with its expected failure
    - Needed by: before Q-walk; its expected failures wait until walk has the checker's static types (rows 591, 616; PLAN, phase 4).
 
-82. Under walk, a parameter bounded only from above whose bound mentions another parameter keeps `Bottom` (row 612).
-   - Landed: Gated; the fix is named for a walk rung. The other way: The fix now. Its cost: A walk rung; it sits beside the joint-solving question.
-   - Home: PLAN, "Climb batch 9, listed for his review", Row 612; PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `compile-ladder/rung-walk-meet/REPORT.md:142`
-   - Needed by: never; no walk rung of PLAN's phase 3 item 19 takes row 612.
-
-83. Walk prints the open type as `OPEN`, as in `BoxU[\OPEN\]`.
-   - Landed: `OPEN`. The other way: Another word; the judgement says "you may want another word". Its cost: A rename in walk.
-   - Home: PLAN, "Climb batch 11, listed for his review", The name `OPEN`; `reviews/p1-judgement.md:53`
-   - Needed by: never; a rename in walk at any time (`reviews/p1-judgement.md:53`).
-
-84. With a `where` bound on an unbounded static parameter, walk now runs `p(x: ZZ32)` for `p(3)` where it ran the generic (row 692, fixed).
-   - Landed: As landed, following the overloading chapter. The other way: The old choice. Its cost: None against a decision.
-   - Home: PLAN, "Climb batch 13, listed for his review", Climb batch 13's rung W's skeptic's fix `7b625cdf9`; `compile-ladder/rung-walk-override/JUDGE.md:144`
-   - Needed by: never; it follows the overloading chapter, and row 692 is fixed.
-
-85. Walk promotes from run-time types, so where a variable is declared wider than its value the two paths run a generic at different instances (row 509).
-   - Landed: As landed; the values agree. The other way: Record the split in the text. Its cost: None.
-   - Home: PLAN, "Off the path, parked", Taken as a default by the conversion judgement and listed with items ...; `reviews/conversion-overloading-judgement.md`, section 3 (10-02: 26); P-46, the decision; F-137, walk's promotion from run-time types, the choice, and walk's inference with coercion by that promotion
-   - Needed by: never; the two paths' values agree (row 509).
-
-86. Walk leaves a generic `coerce` out of the sources it ranks, so a choice between two coercions into a generic trait can only be ambiguous.
-   - Landed: Left; nothing in the tree reaches it. The other way: Rank it. Its cost: A walk edit.
-   - Home: PLAN, "Off the path, parked", `Coercions.addSource` under walk leaves a generic `coerce` out of the sources it ...; `compile-ladder/rung-inference-walk/REPORT.md:276` (10-02: 60)
-   - Needed by: never; nothing in the tree reaches it (its Landed line).
-
-87. Answer 8's promotion reaches user-declared coercions, so a call's arguments can be converted by a program's own `coerce`.
-   - Landed: As landed; both paths agree. The other way: Narrow walk to library coercions, a heuristic walk cannot ground. Its cost: A walk edit.
-   - Home: PLAN, "Off the path, parked", Answer 8's promotion reaches user-declared coercions under walk; `compile-ladder/rung-inference-walk/REPORT.md:139` (10-02: 61)
-   - Needed by: never; both paths agree (its Landed line).
-
-88. Walk's inference trace switch stays in a 2012 file, inert unless set, but for one eager list.
-   - Landed: Kept. The other way: Remove it. Its cost: One edit and an interpreter-suite run.
-   - Home: PLAN, "Climb batch 9, listed for his review", The trace switch `fortress.inference.trace` stays in a 2012 file; `compile-ladder/rung-walk-instance/REPORT.md:324`
-   - Needed by: never; one edit at any time.
-
-221. **"MicroGPT's static types are concrete, each the type of the value itself and not a trait above it, so on microGPT walk's choice and the static choice agree": keep, mark unmeasured, or strike (P-59)?** P-59 accepts that walk chooses a coercion by the value's run-time type, where the specification and the compiled path choose it by the static type. The limit lasts until walk runs the checker on its programs, after the switch-over. The quoted sentence, the last before the entry's state line, says why this limit does not touch microGPT. "Concrete" means that each of microGPT's static types is the type of the value itself. In the coercion chapter's printed example the static type is not: in `c: C = D`, the static type `C` is a trait above `D`, the value's type, and walk answers 4 where the text gives 3 (`ProjectFortress/tests/XXXCoercionStaticRungC.fss`). The coordinator wrote the premise on the review page that he answered on 2026-09-29 at 14:07 UTC (`reviews/decisions-review/judgement.md:356`), as background, not as the option he took. Nothing has measured it, and it cannot be measured until the compiled path runs microGPT.
-   - Landed: The sentence as the entry reads. Default: as it reads, until he answers.
-   - The other way: The sentence kept but marked as not measured until the compiled path runs microGPT; or struck.
-   - Its cost: One sentence of P-59. No line of PLAN or the skills rests on it (the audit writer's check of the pointers).
-   - Home: POSITIONS P-59; `coordinator/consolidation-2026-10-22/evidence/positions/p4/proposals.md`, "P-59", question 1, the clarity writer's question; `coordinator/positions-audit/full/evidence/corrections-c4.md`, "P-59", "Questions for him", question 1, the audit's question; `reviews/decisions-review/judgement.md:354-360`, the review page with the premise; `ProjectFortress/tests/XXXCoercionStaticRungC.fss`, the chapter's example under walk
-   - Needed by: never; nothing builds on the sentence, and the compiled path's first run of microGPT (phase 5) is where it can be measured.
-
-### Numbers and numerals (17)
-
-89. A `ZZ32` with an `NN32` promotes to `ZZ64` on the one library (answer 8); `ZZ` on the compiled prelude until the switch-over.
-   - Landed: As landed on both paths. The other way: None proposed. Its cost: None.
-   - Home: PLAN, "Climb batch N's first run, listed for his review", `ZZ32` with `NN32` gives `ZZ64` on the one library; `compile-ladder/rung-inference-walk/REPORT.md` section 6 (10-02: 48)
-   - Needed by: never; answer 8's result on the one library, and the prelude's goes with the switch-over (P-38).
+### Numbers and numerals (3)
 
 90. Row 432 does not close by the numeral switch: under walk `SUM <|1, 2, 3|>` stays refused, since the numeral type carries no additive algebra. Row 437, read with it, closes with batch 13b's library half.
    - Landed: As the record reads it. The other way: Give the numeral type additive algebra. Its cost: A library choice for Q-walk.
    - Home: PLAN, "Climb batch N's first run, listed for his review", Row 432 does not close by the numeral switch; `compile-ladder/plan-n/probe-q/PROBE-Q.md`; `compile-ladder/climb-batch-13b/RECORD.md`, "Decisions taken here" (10-02: 49)
    - Needed by: before Q-walk; the numeral type's additive algebra is a library choice for Q-walk (its cost line; row 432).
 
-91. Q-walk makes walk convert a body to its declared return type (row 387).
-   - Landed: As the record reads it, for Q-walk. The other way: None proposed. Its cost: Part of Q-walk.
-   - Home: PLAN, "Climb batch N's first run, listed for his review", Q-walk makes walk convert a body to its declared return type (10-02: 50)
-   - Needed by: before Q-walk; it is part of Q-walk (row 387; PLAN, phase 4).
-
-92. The float numeral is unchanged by the numeral switch.
-   - Landed: As landed. The other way: A float numeral type. Its cost: None now.
-   - Home: PLAN, "Climb batch N's first run, listed for his review", `FloatLiteral` unchanged by the numeral switch (10-02: 51)
-   - Needed by: never; no PLAN item adds a float numeral type.
-
-93. Two cases are named so they are not lost: a self-naming bound beside a catch-all, and the fast shape of `=`.
-   - Landed: Left. The other way: None proposed. Its cost: The model's sized types (phase 5) and phase 6 meet them.
-   - Home: PLAN, "Climb batch N's first run, listed for his review", What run 1 left out with no line elsewhere (10-02: 52)
-   - Needed by: before microGPT compiles; phase 5's sized types meet the self-naming bound beside a catch-all, and phase 6 the fast shape of `=` (its cost line).
-
-94. `Integral`'s api `unsigned` was removed, and `ZZ64`'s api states its body's type.
-   - Landed: As landed, kept by the judge. The other way: Widen `Integral`'s return type, which refuses a valid program. Its cost: One api line.
-   - Home: PLAN, "Climb batch 8, listed for his review", Climb batch 8's rung Q's `unsigned` stop; `compile-ladder/rung-numeral-library/REPORT.md:125`
-   - Needed by: never; one api line, which no PLAN item edits.
-
 95. The numeral type declares its own `zero`, `one`, `even`, `odd`, `floor`, `ceiling`, `truncate`, `DIVIDES`, `TIMES` and `^`.
    - Landed: As landed: every operation numerals support is declared on the numeral type. The other way: Ledger rows, per-type declarations, or a checker change. Its cost: Ten api declarations.
    - Home: PLAN, "Climb batch 8, listed for his review", `IntLiteral` declares its own `zero`; `compile-ladder/rung-numeral-library/REPORT.md:66`, `JUDGE.md:11`
    - Needed by: before Q-walk; Q-walk makes walk's numeral an `IntLiteral` (row 578), which then runs these ten declarations, `^` among them, which climb batch 20's fork 10 types at the numeral type (item 201; PLAN, phase 4).
-
-96. A numeral too large for every declaration of a call is refused.
-   - Landed: Refused. The other way: The narrowest declaration whose type holds the value. Its cost: A checker rule.
-   - Home: PLAN, "Off the path, parked", A numeral too large for every declaration of a call is refused; `compile-ladder/rung-inference-checker/REPORT.md:158` (10-02: 54)
-   - Needed by: never; no PLAN item changes the rule.
-
-97. A numeral converts only into a type that holds its value (row 325's faces).
-   - Landed: As gated. The other way: A static error reading. Its cost: Its link test turns red.
-   - Home: PLAN, "Off the path, parked", Row 325's faces; `compile-ladder/climb-batch-N/JUDGE-review.md` section 2 (10-02: 63)
-   - Needed by: never; no PLAN item changes the gated reading (row 325).
-
-196. **A `ZZ` power beyond the 32-bit range raises `IntegerOverflow` under walk.** After climb batch 20's rung I, a `ZZ` or numeral power whose exponent lies beyond the int's range, or whose result a `BigInteger` cannot hold, raises `IntegerOverflow` for every base but 0, 1 and -1, though `ZZ` has no fixed width.
-   - Landed: As built. The skeptic reads the text as giving it already: "For integer results, overflow throws an IntegerOverflow", and the shift entry on `ZZ`, "a result too large for the implementation to represent throws an IntegerOverflow".
-   - The other way: Another exception, or a result computed past the int's range.
-   - Its cost: Walk's `BigNum` power native.
-   - Home: PLAN, "Climb batch 20, listed for his review", I.worker.3 and I.skeptic.3; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/BigNum.java:308-324`; `Specification/basic/operators/opr-overview.tex:155`; `Specification/basic-lib/basic-integers.tex:738-739`; `compile-ladder/rung-integer-power/REPORT.md:264`; `compile-ladder/rung-integer-power/SKEPTIC.md:178`
-   - Needed by: never; walk only, the text gives it, and it can be undone at any time.
-
-201. **The numeral type's `^` answers the numeral type (fork 10).** Climb batch 20's rung I has `IntLiteral`'s `^` answer `IntLiteral`, P-153's "each integer type's `^` answers its own type" applied to the numeral's type (P-76), so `2^(-1)` throws, as for every integer type.
-   - Landed: As probed and landed.
-   - The other way: The numeral's power answers another type, such as `ZZ32` or `RR64`.
-   - Its cost: Two declarations of `FortressBuiltin`.
-   - Home: PLAN, "Climb batch 20, listed for his review", Fork 10; `coordinator/CLIMB-BATCH-20.md`, section 2, fork 10; `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:552-554`, `.fsi:213-214`; `reviews/batch-20-review.md`, "For the curator", 3; item 95
-   - Needed by: never; under walk a numeral is a `ZZ32` value, whose `^` follows the same contract, so no value turns on it, and it can be undone at any time.
 
 209. **A numeral whose conversions tie is read as `ZZ32`, or as `ZZ64` or `ZZ` by its value.** Where the types to which a numeral converts are incomparable, as `ZZ32` and `NN32` are, the numeral is read as a `ZZ32`, or as a `ZZ64` or a `ZZ` when its value does not fit. This holds in the choice among declarations and in the instantiation of a type parameter that only numerals fix (`Specification/basic/inference.tex`, "A Numeral Whose Conversions Tie"). It is the default that the conversion judgement took for its first question, one of those "taken as defaults, listed for your review" (`reviews/conversion-overloading-judgement.md`, sections 3 and 4). His "C-O. Both recommendations for batch N accepted." on 2026-09-28 at 19:06 UTC took the judgement's two decisions, not its defaults. P-46 stated the rule until the audit, labelled a default by `54208c796` and unlabelled since `bc8902f47`.
    - Landed: As stated. The compiled checker builds it, by climb batch N's rung I (PLAN-history, "Climb batch N's first run, listed for his review", the line on rung I's reading of the default); walk takes it with Q-walk, walk's half of the numeral switch. Item 96 holds rung I's one reading past the text: a numeral too large for every declaration is refused. Default: as landed.
@@ -1219,387 +491,23 @@ Each is kept as landed unless he says otherwise.
    - Home: POSITIONS-history, P-46, its block of 2026-10-22 08:30Z, the former sentence on the numeral; `coordinator/positions-audit/full/evidence/corrections-c3.md`, "P-46"; `coordinator/positions-audit/full/evidence/review-queue-items-c3.md`; `reviews/conversion-overloading-judgement.md`, sections 3 and 4; `coordinator/CLIMB-BATCH-N.md`, its first question and the peers' ways; PLAN, phase 4, Q-walk; item 96, a numeral too large for every declaration; F-73, the checker's inference with coercion, whose reading of a tie is this default
    - Needed by: before Q-walk; Q-walk builds the default into walk's `narrowest` and `bestMatchWithCoercion` (PLAN, phase 4).
 
-214. **The compiled path's integer powers follow P-153 only when phase 4's natives bind the one library's `^`.** P-153's rule, contract E in the record: an integer base gives an integer or raises an error, and a float or rational base gives the fraction. Climb batch 20's rung I built it in the one library and under walk (`5ad4a9957`; F-263). The compiled prelude's `ZZ32` `^` still binds `jIntExp` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:744`), which casts `Math.pow` to `int` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java:400-406`). So compiled, `2^(-1)` is `0`, and `0^(-1)` a raw Java exception (rows 441 and 523). Climb batch 20's routing put the compiled half at phase 4, when the natives bind the one library's `^` (POSITIONS-history, P-153, the block of 2026-10-20 12:51Z). It was not put to him: the coordinator's text of 2026-10-20 at 11:58 UTC told him only that P-153 was to be marked built. PLAN's phase 4 binds the positive half there (rows 523 to 525) and still says "negative exponents left to row 441".
-   - Landed: As described; `ProjectFortress/compiler_tests/XXXIntegerPowerContractCompiled.test` holds the target as an expected failure. Default (climb batch 20's routing): the compiled half with phase 4's natives, the negative branch of the one library's `^` bound with the rest.
-   - The other way: A checked power in the compiled prelude before the switch-over, the fix that row 523 names ("bind a checked power for a nonnegative exponent in the compiler prelude"), with the rule's negative branch beside it, so that the compiled path agrees with walk before phase 4.
-   - Its cost: A Java helper and its binding in the compiled prelude, which the switch-over replaces (PLAN, phase 4, "The names"); and the expected-failure test promoted.
-   - Home: POSITIONS P-153, "Still to build"; POSITIONS-history, P-153, its block of 2026-10-22 08:30Z, where the timing clause left the entry; `coordinator/positions-audit/full/evidence/corrections-c7.md`, "P-153"; `coordinator/positions-audit/full/evidence/review-queue-items-c7.md`; PLAN, phase 4, "The natives"; F-263, the rule as built under walk; rows 441 and 523, the compiled powers; `compile-ladder/climb-batch-20/RECORD.md`, "FACTS and POSITIONS left for the coordinator"
-   - Needed by: before the switch-over; phase 4's natives are where the default builds it, and the other way is work before them.
-
-242. **May P-66 say that it is a way of weighing, and what the team corrected with rounding?** P-66, the integer principle, says that Java's and the JVM's defaults stay where they make sense, and are corrected where they fail high performance or mathematical precision. It goes on: "The team did so with rounding." He called the entry, read whole, "a correct and precise expression of my position" (page comment, 2026-10-21 at 20:18 UTC). At 23:21 UTC he asked that correct wording not be touched. The entry comes from his message of 2026-09-22 at 07:17 UTC on a question of shift semantics: "I don't feel informed yet to make a call on this but this is my thinking process how I would weigh the options". A cold reader without the conversation could not tell that the entry is a way of weighing and not a decision of a case. The reader could not tell either which rounding the team corrected, or whether the principle reaches past the integers. The clarity pass of 2026-10-22 held the entry, since only his answer settles whether two sentences that correct no fact belong in it.
-   - Landed: The entry as POSITIONS holds it. Default: as it reads, until he answers.
-   - The other way: The clarity pass's form. It adds one sentence after the title: "It is a way to weigh each choice of integer semantics, not a decision of any one case." Its rounding sentence becomes: "The team did so with rounding: Java's `Math.round` rounds an exact half up, while the specification rounds a rational's exact half to the even integer (P-67 takes that rule to the float types)."
-   - Its cost: Two sentences of P-66. Nothing built changes.
-   - Home: POSITIONS P-66; `coordinator/consolidation-2026-10-22/evidence/positions/p5/proposals.md`, "P-66", the proposed form, its sources and question 1; `check.md` and `judgement.md` beside it, "P-66", the fidelity check and the hold; `coordinator/positions-audit/trial/evidence/takeaway-check.md`, "P-66", the first cold reading; `coordinator/positions-audit/evidence/curator-comments-2026-10-21.md`, his page comments; `Specification/basic-lib/numbers.tex:461-463`, the rational `round`
-   - Needed by: never; the entry is a way of weighing, nothing is built on the two sentences, and either text can stand.
-
-251. **Does F-125 take the clarity pass's rewrite, with its sentence on the shift's overflow limited to a nonzero value, and with the new entry split from it on walk's `GCD`, `LCM` and `CHOOSE` (F-125)?** F-125 is the fact on walk's integer shifts. FACTS holds that `LSHIFT` and `RSHIFT` on the four fixed widths give 0 or the sign at or beyond the width and reverse on a negative count, and that `ZZ`'s `shift` is exact. In the same entry it gives the signs of `GCD` and `LCM` and the answers of `CHOOSE`. The clarity pass of 2026-10-22 rewrote it. The rewrite says which shift gives 0 and which gives the sign, and that "the sign" is 0 or -1. It gives `ZZ`'s `shift(x, k)` as ⌊x·2^k⌋, with the case where it raises, and points to F-126 for the prelude's missing `shift`. One sentence says more than its source: "It raises a catchable `IntegerOverflow` on a positive count beyond 2^31 - 1, or on a result that the JVM's `BigInteger` cannot hold." A zero value shifted stays zero at every count: the rung's report says the raise is "on a nonzero value", the code returns a zero value before it tests the count, and the gated test asserts that `0 LSHIFT 4294967296` is 0, by the same code. The rewrite moves `GCD`, `LCM` and `CHOOSE` to a new entry. Under walk `GCD` and `LCM` are nonnegative on the four fixed widths and on `ZZ`, `0 LCM 0` is 0, and `n CHOOSE k` is 0 for `k < 0` or `k > n`. A result that its type cannot hold, such as a fixed width's minimum `GCD` 0, raises `IntegerOverflow`. Since `LCM` has no sign, the team's `ProjectFortress/tests/RangePrototype.fss` computes its signed stride with `GCD`, and the library's ranges do not depend on that sign. The new entry matches its sources, and corrects one test name: `CHOOSE` is tested by `ProjectFortress/tests/PowChooseLcmRungE.fss`, where F-125 names only `ProjectFortress/tests/IntSemanticsRungI.fss`. The judge held it only because F-125 is held: beside F-125's current text, the record would say the same sentences twice. The judge's two items ask one thing, and are one item here.
-   - Landed: F-125 stands as FACTS holds it, with the `GCD`, `LCM` and `CHOOSE` sentences in it; no new entry. Default: as it reads.
-   - The other way: The clarity pass's two blocks (`coordinator/consolidation-2026-10-22/evidence/facts/f11/proposals.apply`, the blocks for F-125 and F-?1), applied together. F-125's has the overflow sentence limited to a nonzero value: a nonzero value shifted by a positive count beyond 2^31 - 1 raises a catchable `IntegerOverflow`, as does any result that the JVM's `BigInteger` cannot hold, and zero shifted stays zero. The new entry goes under "Landed semantics" after F-125.
-   - Its cost: One FACTS entry's wording and one new entry. Nothing built changes.
-   - Home: FACTS F-125; `coordinator/consolidation-2026-10-22/evidence/facts/f11/proposals.md`, "F-125" and "F-?1 (new, from F-125)", the texts and their sources; `check.md`, `cold-read-2.md` and `judgement.md` beside it, "F-125" and "F-?1", the fidelity check, the second cold reader and the holds; `compile-ladder/rung-int-semantics-walk/REPORT.md` sections 4.2, 4.4 (the raise "on a nonzero value") and 7; `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/BigNum.java:240-254`, the shift's code; `ProjectFortress/tests/IntSemanticsRungI.fss:96-99` and `:112-159`; `ProjectFortress/tests/PowChooseLcmRungE.fss:66-72`
-   - Needed by: never; a worker who changes these shifts works from the report and the test, which both have the zero case, and either text can be replaced at any time.
-
-345. **Climb batch 25 spells its square-root roundings two ways. Should one spelling be chosen?** D.skeptic.1 of climb batch 25's rung D. Under the batch's fork 2 (`coordinator/CLIMB-BATCH-25.md:81`), rung D named its helpers `doubleSqrtUp` and `doubleSqrtDown` after the glue classes, and rung P named its `floatSQRTUp` and `floatSQRTDown` after `floatSQRT` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java:188`, `:208`; `simpleFloatArith.java:111`, `:131`). A naming question in the library's way: no value depends on it.
-   - Landed: Both spellings. Default: both as landed.
-   - The other way: One spelling for both classes, the other two helpers and their strings renamed.
-   - Its cost: Two helpers, two strings and their guards renamed; not measured.
-   - Home: PLAN, "Climb batch 25, listed for his review", D.skeptic.1; `compile-ladder/rung-natives-float-bits/SKEPTIC.md:36`; `reviews/batch-25-review.md`, Part 1, "Where the text, the brief or the principles split", 6
-   - Needed by: never (set by the landing workflow); nothing builds on the names, and they can change at any time.
-
-346. **Which ASCII operator is the specification's "round toward positive infinity" addition (and product): `PLUS_UP` or `IEEE_PLUS_UP`?** P.worker.1 and the first question of P.skeptic.1 of climb batch 25's rung P. The text names `\upplus` with no ASCII spelling (`Specification/basic/operators/opr-overview.tex:216-218`, `:184-186`). The team binds two families: `PLUS_UP` to the NaN-free helper, which answers `+Infinity` at `inf + -inf`, and `IEEE_PLUS_UP` to the IEEE one, which answers NaN (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:291`, `:311`). Rung P keeps both.
-   - Landed: The team's two families as they bind, the guards asserting walk's values for both (`ProjectFortress/tests/NativeHelperFamilyRR32Walk.fss:335`, `:429`). Default: as landed.
-   - The other way: Name one family the specification's operator, in the text or in the library.
-   - Its cost: Not measured; the default changes nothing.
-   - Home: PLAN, "Climb batch 25, listed for his review", P.worker.1; `compile-ladder/rung-natives-rr32/REPORT.md:128`; `reviews/batch-25-review.md`, Part 1, "Where the text, the brief or the principles split", 6
-   - Needed by: never (set by the landing workflow); both families stand, and either can be named later.
-
-### Sizes and arrays (12)
-
-98. Under walk, a size written as arithmetic is refused at any operation that leaves `ZZ64`. Its stated premise, that the checker refuses all such arithmetic, no longer holds since batch 13.
-   - Landed: As landed. The other way: An exact big-integer size, or the silent wrap. Its cost: A walk edit for expressions no program writes.
-   - Home: PLAN, "Climb batch 6.5b, listed for his review", The judge's decision on walk's static arithmetic; `compile-ladder/rung-size-range/JUDGE.md:62`; `7fd8fddc8` (10-02: 66)
-   - Needed by: never; no program writes such expressions (its cost line).
-
-99. Under walk, an array of a static size from 2^31 to 2^32−1 dies with a raw Java exception (row 527).
-   - Landed: As landed; no batch named. The other way: Read the size as a `long` in three natives. Its cost: Three lines.
-   - Home: PLAN, "Climb batch 6.5b, listed for his review", Under walk an array of a static size from; `compile-ladder/rung-size-range/REPORT.md:127`; P-40, "Sizes are checked ...", whose length check refuses a JVM array length over 2^31-1 where the array design creates the array (PLAN, phase 5), the refusal that row 527's fix places there (10-02: 67)
-   - Needed by: never; no PLAN item names row 527, and its fix is three lines at any time.
-
-100. An expected failure gives 16 checker errors for 7 written sites.
-   - Landed: Recorded, not repaired. The other way: De-duplicate the errors. Its cost: A checker edit.
-   - Home: PLAN, "Climb batch 6.5b, listed for his review", `XXXNatRangeChecker` gives 16 errors for 7 written sites (10-02: 69)
-   - Needed by: never; no PLAN item edits the duplicated errors.
-
-101. The compiled class loader computes a size without checking its kind, so it makes 4294967296 where walk refuses a `nat` above 4294967295 (row 675).
-   - Landed: No refusal; a test asserts today's value. The other way: A refusal at run time. Its cost: A loader edit.
-   - Home: PLAN, "Climb batch 13, listed for his review", Row 675; `compile-ladder/rung-size-expressions/REPORT.md:184`
-   - Needed by: never; no PLAN item edits the class loader's reading of a size's kind (row 675).
-
-198. **The casts of `Vector` and `Matrix` rely on `replica`.** Since climb batch 20's rung A, the cast bodies of `Vector` and `Matrix` rely on a vector's or matrix's `replica` at its element type being a vector or matrix; a user extender whose `replica` answers a plain array gets `CastError` at its `+`, `-`, unary `-`, `scale` or `pmul`, where the base answered that array.
-   - Landed: As landed. Default (the post-batch review's; none on record): no new statement in the library.
-   - The other way: The library states the requirement; or the ways note's way 1b, the bodies through the factory's own `tabulate`, which would not rely on it and waits on P-85.
-   - Its cost: A sentence of the api; way 1b, the array design after the switch-over.
-   - Home: PLAN, "Climb batch 20, listed for his review", A.skeptic.3; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Library/FortressLibrary.fss:2463`, `:2536`; `compile-ladder/rung-array-sites/SKEPTIC.md:95` and its section 2, `SkOddView`; F-264
-   - Needed by: never; the default adds nothing, and the other way, way 1b, waits on the array decisions after the switch-over (P-85).
-
-199. **`Array2`'s column and row subscripts not in the api.** Walk runs `opr[_:TrivialOpenRange, i1:ZZ32]` and `opr[i0:ZZ32, _:TrivialOpenRange]`, and the api's `Array2` lacks them, so a checker that reads the api does not see them (row 465's other case).
-   - Landed: Declared by climb batch 21b's rung E with the second export error's work, which aligned the api with the component trait by trait, as the default (climb batch 20's post-batch review's) asked (`Library/FortressLibrary.fsi:1730-1731`; `coordinator/CLIMB-BATCH-21.md`, section 2, fork 22).
-   - The other way: Add them now, as rung A declared `array3(v)`; or leave them out of the api.
-   - Its cost: Two api lines.
-   - Home: PLAN-history, "Climb batch 21b's landing, 2026-10-23" and "Climb batch 20's landing, 2026-10-20", each under "Climb batch 20, listed for his review", A.skeptic.4; `Library/FortressLibrary.fss:2707`, `:2711`; `Library/FortressLibrary.fsi:1730-1731`; `compile-ladder/rung-array-sites/SKEPTIC.md:96`; row 465
-   - Needed by: never; climb batch 21b's rung E built the default, and the two subscripts come out of the api again in two lines.
-
-202. **The api's `immutableArray` of rank 2 and 3 put in a comment (fork 5).** The component has had them in a comment since the team's last commit, and the library has no `ImmutableArray2` or `ImmutableArray3`, so no program can call them; they leave the library chapter, Part IV, which renders the api.
-   - Landed: As the patch: the built side wins, by the library's own standard.
-   - The other way: The two ranks kept in the api, and the types they name declared.
-   - Its cost: The comment removed; the other way, two traits.
-   - Home: PLAN, "Climb batch 20, listed for his review", Fork 5; `coordinator/CLIMB-BATCH-20.md`, section 2, fork 5; `Library/FortressLibrary.fsi:1501-1504`; `Specification/library/default-libraries.tex:27-37`; `reviews/batch-20-review.md`, "For the curator", 6
-   - Needed by: never; no program can call the two ranks, and the comment comes off at any time.
-
-233. **What does "a name" cover in P-40's "an error only when it reaches a type, a name or a value"?** P-40 says that a size that inference leaves unknown is an error only when it reaches a type, a name or a value. That is his choice of 2026-09-21 at 16:57 UTC, among the ways that the coordinator gave. The checker's rung read "a name" as every static argument of a call, and so refuses a call of a declaration that has an unused size (`compile-ladder/rung-nat-checker/REPORT.md:72-73`). His yes of 2026-09-26 at 12:20 UTC, that a call which cannot fix a size of the declaration it would choose is refused, asks the same. If that reading is his, the entry can drop "a name".
-   - Landed: The entry as it reads, "a name" in it, and the checker as built. Default: as it reads, until he answers.
-   - The other way: Drop "a name", if the rung's reading is his; or another reading of "a name", which the checker then follows.
-   - Its cost: Two words of P-40 if the rung's reading is his. Another reading is a checker change, not measured.
-   - Home: POSITIONS P-40; `coordinator/positions-audit/clarity/evidence/pilot/proposals.md`, "P-40", its question; `coordinator/positions-audit/clarity/evidence/pilot/check.md`, "P-40"; `compile-ladder/rung-nat-checker/REPORT.md:72-73`
-   - Needed by: never; the checker is built, and its refusal of such a call stands by his yes of 2026-09-26 under either reading.
+### Sizes and arrays (1)
 
 248. **Does P-88 fix the read-only matrix's shape as `ReadableArray2`, or only that a read-only matrix is wanted?** P-88 says that microGPT's diagonal is read-only, so a read-only matrix trait is wanted in the library. It names the trait `ReadableArray2`, which `Array2` would extend as `Array1` extends `ReadableArray1`. On the audit's page, 2026-10-21 at 23:29 UTC, he kept that sentence as his position: "we wish to write readable array to. So like a read-only matrix." The immutable-arrays probe of 2026-10-20 sketched another shape: a standalone `ImmutableArray2` and `ImmutableArray3`, "not a `ReadableArray2`/`ReadableArray3` above both kinds". It left `Array2` and `Matrix` untouched except `freeze`, and said that no decision of the curator covers the choice (`perf-probes/immutable-arrays/REPORT.md`, "Decisions", 1). Its sketch (`5667c5ae8`) is not on `main`. Its own questions for him, among them whether ranks 2 and 3 are built at all, are in its report and not in this list.
    - Landed: The entry as the clarity pass of 2026-10-22 applied it, with the name `ReadableArray2`. Default: as it reads; no row is filed and nothing is built.
    - The other way: P-88 says only that a read-only matrix is wanted in the library. Its shape, a `ReadableArray2` above `Array2` or a standalone `ImmutableArray2`, comes with the probe's questions.
    - Its cost: One clause of P-88. Nothing built changes either way.
    - Home: POSITIONS P-88; row 798, no read-only matrix trait; `coordinator/consolidation-2026-10-22/evidence/positions/p7/proposals.md`, "P-88", question 1, the clarity writer's question; `coordinator/positions-audit/evidence/curator-comments-2026-10-21.md`, his page comments; `perf-probes/immutable-arrays/REPORT.md`, "Decisions" and "Questions for the curator", the probe's shape and its four questions
-   - Needed by: before a rung that builds an immutable or read-only matrix (the probe's question 1, whether ranks 2 and 3 are built, if he takes it); nothing else waits on it.
+   - Needed by: before microGPT compiles; phase 5's array design builds the read-only matrix trait that P-88 wants for microGPT's read-only diagonal (PLAN, phase 5, the array design's line), and the immutable-arrays probe's question 1, whether ranks 2 and 3 are built, meets it there.
 
-252. **Does F-140 take the clarity pass's rewrite, once its note from row 325 on the compiled path is corrected (F-140)?** F-140 is the fact on sizes beyond `NN32` or `ZZ32`. A size is a `nat` or `int` static parameter. FACTS holds: "A size beyond `NN32` or `ZZ32` is refused on both paths, and walk reads a size exactly", and lists row 325 as open with no detail. The clarity pass of 2026-10-22 rewrote it so that a reader who never saw the batch can tell what it says. The title now says that the compiled checker refuses only a literal size, or one folded from literals: the compiled class loader checks no size that it computes at instantiation (row 675). The rewrite says that walk refuses such a size at run time, where it binds it. It names the three tests that were missing, and says that each `XXX` test passes because its program is refused. It also brings in row 325's two size cases. One of them goes past its source: "on the compiled path a `nat` size above `ZZ32`'s range fails at run time, where the specification refuses it statically". Row 325 measured such a size used as a range component, where a `ZZ32` is needed. The compiled run reads the same sizes into `ZZ64` and runs (`NatRtBigSize`). And climb batch N's judge ruled that neither his decision on sizes nor the specification says where such a size is refused. A second cold reader read the sentence as clashing with the checker's range for `nat`.
-   - Landed: F-140 stands as FACTS holds it; the rewrite is not applied. Default: as it reads.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/facts/f12/proposals.apply`, the block for F-140), with that sentence corrected: on the compiled path, a `nat` size above `ZZ32`'s range used where a `ZZ32` is needed, as in a range, fails at run time, as a numeral beyond `ZZ32` does; where such a size is refused is not decided.
-   - Its cost: One FACTS entry's wording. Nothing built changes.
-   - Home: FACTS F-140; P-40; item 34, where a size too large for `ZZ32`, used as a value, is refused; item 101, row 675; `coordinator/consolidation-2026-10-22/evidence/facts/f12/proposals.md`, "F-140"; `check.md`, `cold-read-2.md` and `judgement.md` beside it, "F-140"; row 325 and its history; `compile-ladder/rung-size-range/REPORT.md` sections 8 and 12 (item 15); `compile-ladder/climb-batch-N/JUDGE-review.md` section 2.3; `ProjectFortress/compiler_tests/NatRtBigSize.fss`
-   - Needed by: before Q-walk, with item 34; Q-walk places the refusal of a size too large for `ZZ32` used as a value, which the corrected sentence calls not decided (PLAN, phase 4), and a fix of row 675 (item 101) would change the title's compiled half. Until then the title says that both paths refuse an oversized size, and the compiled class loader does not refuse one that it computes.
-
-259. **Does F-156 say that a program declares itself the array operations that the library lacks (F-156)?** F-156 says that the library has no reshape, plane, gather, outer product or ravel, and that the comment on its scalar-extension block is the revival's, not the team's. The clarity pass of 2026-10-22 moved the comment's authorship to a new entry. It also added: "So a program that needs one of these declares it itself, as Run C4's vocabulary (`explorations/run-c4/src/FlatArrays.fsi`) declares `view`, `heads`, `plane`, `gather`, `onehot` and `flat`." The source says that C4's vocabulary had to declare these, on the library as it stood (`run-c4/probes/vocabulary/REPORT.md`, question 5). That is a fact about C4. A second cold reader also read the sentence as a rule. As a rule it goes against the skill: "Put each extension into this library ... Fix a gap in the library, not by a workaround in the program" (`.claude/skills/fortress-repo/references/library.md`). The writer also proposed merging the new entry into F-119, which owns the block.
-   - Landed: F-156 stands as FACTS holds it, with the comment's authorship in it; the split is not applied. Default: as it reads.
-   - The other way: The clarity pass's two entries (`coordinator/consolidation-2026-10-22/evidence/facts/f14/proposals.apply`, the blocks for F-156 and F-?4). Or the same, with the sentence said as a fact about C4's vocabulary, and the library named as where such an operation goes; the new entry can merge into F-119.
-   - Its cost: Two entries' wording. Where a missing operation goes is the skill's rule, which neither way changes.
-   - Home: FACTS F-156 and F-119; `coordinator/consolidation-2026-10-22/evidence/facts/f14/proposals.md`, "F-156" and "F-?4"; `cold-read-2.md` and `judgement.md` beside it, "F-156"; `run-c4/probes/vocabulary/REPORT.md`, question 5 and section A; `reviews/array-design-ways.md` section 9; `.claude/skills/fortress-repo/references/library.md`
-   - Needed by: never; a worker follows the skill's rule either way, and either text can be undone at any time.
-
-322. **P-84's title says that an `RR64` array "is stored" as a Java `double[]`, which no array is yet. Shall the title say that this is the design to build?** P-84's title: "An `RR64` array is stored as a Java `double[]`, unboxed, and arrays keep the team's `nat` sizes in their types." (`coordinator/POSITIONS.md:92`). Its last sentence says that the class loader gives no instance a `double[]` field and that way A4 is unmeasured (F-18), and the code generator boxes every number (F-11). The cold reader of the corrections' final texts read the title as a fact about the tree, marking it high, as a sentence that sends a reader wrong; it found the same pattern in P-58's title (`reviews/foundations/evidence/corrections/final/cold-read.md`, "P-84" and its summary). On 2026-10-29 at 07:56 UTC, on P-84's new text, he called a position "a statement of future intent", and on reflection accepted the sentence on what is not yet built (`coordinator/HELD.md`, "Held from his page comments (2026-10-29)").
-   - Landed: P-84 as it reads. Default: as it reads, the title read as his intent, as his comment of 07:56 reads a position.
-   - The other way: The title states the target, as "An `RR64` array is to be stored as a Java `double[]`, unboxed, ...".
-   - Its cost: A few words of P-84's title. Nothing built changes.
-   - Home: POSITIONS P-84; F-11; F-18; `reviews/foundations/evidence/corrections/final/cold-read.md`, "P-84"; `coordinator/postmortem-2026-10-28/REPORT.md`, section 7; item 312, on P-58's sentences
-   - Needed by: never; no work waits on the text.
-
-### Ranges (8)
-
-102. `MIN # 0` builds the library's own empty range, so its printed bounds are not the ones written.
-   - Landed: As landed. The other way: Two other empty-range spellings. Its cost: Printed bounds change.
-   - Home: PLAN, "Climb batch 6.5b, listed for his review", `MIN # 0` and its siblings build the library's own empty range; `compile-ladder/rung-size-range/REPORT.md:139` (10-02: 68)
-   - Needed by: never; printed bounds only, and no PLAN item edits the empty ranges.
-
-103. Batch 9's range repairs turned runs that stopped into values: `flip`, rank-2 and rank-3 subscripts and `bounds`, `indices`, a strided `seq`, shifts, `UniformDistribution`.
-   - Landed: As landed. The other way: Leave each declaration with a row. Its cost: Walk values.
-   - Home: PLAN, "Climb batch 9, listed for his review", Stop met and lifted; `compile-ladder/rung-range-meets/REPORT.md:241`
-   - Needed by: never; walk values kept since climb batch 9, with no PLAN item on them.
-
-104. The map of the full sequential ranges is a new object, not a `MappedGenerator`, so a reversed mapped range prints differently (row 603).
-   - Landed: The new string, elements and order unchanged. The other way: Export `MappedGenerator`, or declare `reverse` on the object. Its cost: An api export.
-   - Home: PLAN, "Climb batch 9, listed for his review", Row 603 and row 583's device; `compile-ladder/rung-range-meets/REPORT.md:251`
-   - Needed by: never; the elements and their order are unchanged (row 603).
-
-105. `(:) CMP (:)` answers `EqualTo`, where walk stopped.
-   - Landed: As landed. The other way: A `fail` body. Its cost: None.
-   - Home: PLAN, "Climb batch 11, listed for his review", `(:) CMP (:)` answers `EqualTo`, where walk stopped; default ...; `compile-ladder/rung-range-types/REPORT.md:156`
-   - Needed by: never; no PLAN item edits it.
-
-106. `truncL` and `truncR` are declared to return a bounded range, where the team declared ranges with a left or right end.
-   - Landed: As landed; the team's type is true, but no body can show it to the checker. The other way: The team's types. Its cost: A typing loss.
-   - Home: PLAN, "Climb batch 11, listed for his review", `Range.truncL` and `truncR` are declared `BoundedRange[\I\]` where the team; `compile-ladder/rung-range-types/REPORT.md:154`
-   - Needed by: never; no PLAN item edits the two declarations.
-
-107. A rank-2 or rank-3 range strided backwards on some axes has no range kind and stops walk (row 659).
-   - Landed: A stop. The other way: Ask for a design. Its cost: The text is silent on such ranges.
-   - Home: PLAN, "Climb batch 11, listed for his review", A bounded range of rank 2 or 3 strided; `compile-ladder/rung-range-types/REPORT.md:180`
-   - Needed by: never; no PLAN item designs such ranges (row 659).
+### Ranges (1)
 
 108. The one library's strided `:` returns a range, which is no generator, so `seq(a:b:c)` is refused against it (row 661); the compiled prelude has no strided range at all (row 514).
    - Landed: The declaration unchanged; the switch-over meets it. The other way: An api form, perhaps the team's commented one. Its cost: One api declaration.
    - Home: PLAN, "Climb batch 12, listed for his review", Row 661; PLAN, "Off the path, parked", The compiled path has no strided range; `compile-ladder/rung-library-slips/REPORT.md:252`
    - Needed by: before the switch-over; the switch-over meets the one library's strided `:` (its Landed line; rows 514, 661).
 
-222. **Do the public range traits stay generic in their index type (P-77)?** P-77 makes scalar ranges `ZZ32` only, his "Option 1, ZZ32" of 2026-09-27 at 19:23 UTC. Its clause before "Built." adds: "The public range traits, such as `Range[\I\]`, stay generic in their index type: the ranges of rank 2 and 3 extend them at pairs and triples of `ZZ32`". The coordinator wrote the clause's first half from the numerics plan when it recorded his yes (`38047f033`, `reviews/numerics-plan-synthesis.md:40`); the question put to him did not name it. It keeps the team's generic `trait Range[\I\]` (`Library/FortressLibrary.fss:3993`), which the rank-2 and rank-3 ranges need; the clarity pass of 2026-10-22 added that reason after the colon. On 2026-10-09 at 07:05 UTC he worried that his decision had broken a generic indexing design. The review that answered him said that the team's generic layer is untouched (`reviews/ranges-and-index-types.md`, "The short answer"), and he went on. Confirm the clause, or strike it?
-   - Landed: The clause, as the entry reads. Default: kept, until he answers.
-   - The other way: Strike it, with its explanation after the colon. The clause goes to POSITIONS' history, and the library stays as built; no other entry states it.
-   - Its cost: One clause of P-77. Neither answer changes the library.
-   - Home: POSITIONS P-77; `coordinator/positions-audit/full/evidence/corrections-c6.md`, "P-77", "Questions for him", question 1; `reviews/ranges-and-index-types.md`, the review that answered his worry; F-133, the `ZZ32` ranges as built
-   - Needed by: never; the library is built either way, and the clause can change at any time.
-
-### The library's generators, strings and comparisons (27)
-
-109. `TotalComparison` extends `StandardMinMax`: he took it on recommendation and asked for a fuller explanation when he has the energy.
-   - Landed: As built; an explanation owed. The other way: None. Its cost: None.
-   - Home: PLAN, "Pavol's answers, in the order they are needed", Item 22; P-98, "`TotalComparison` extends `StandardMinMax[\TotalComparison\]`, so that the library's `BIG MIN` and `BIG MAX` work over total comparisons." (10-02: 22)
-   - Needed by: never; an explanation owed, no decision (P-98).
-
-110. `LessThan`'s and `GreaterThan`'s `CMP` answer the converse of their `<` (row 456), and `LEXICO Unordered` answers `Unordered` (row 457).
-   - Landed: Not repaired, since each repair changes a value walk prints. The other way: Repair both. Its cost: Walk values.
-   - Home: PLAN, "Off the path, parked", `LessThan`'s and `GreaterThan`'s `CMP` answer the converse of their own `<` (10-02: 88)
-   - Needed by: never; no PLAN item repairs rows 456 and 457.
-
-111. A program's own `p1 ANDCOND p2` of two relational predicates is no longer a relational predicate under walk (row 458).
-   - Landed: As landed. The other way: Restore it. Its cost: A library edit.
-   - Home: PLAN, "Off the path, parked", Climb batch 7's rung H's repair of the `Condition` site (10-02: 87)
-   - Needed by: never; no PLAN item restores it (row 458).
-
-112. `fill` and `tabulate` sit where the array diamond meets, not in each leaf trait; since climb batch 20's rung A, `Vector` and `Matrix` also declare them at their own type.
-   - Landed: As landed; "his to confirm". The other way: The leaf placement, which leaves the meet refused. Its cost: A library edit.
-   - A.worker.2 and A.skeptic.2 of climb batch 20's rung A: the meet's bodies stay beside the leaves' (F-158, F-264), so the item is restated here before he answers it (`Library/FortressLibrary.fss:2527-2534`, `:2848-2855`; `compile-ladder/rung-array-sites/REPORT.md:161`; `compile-ladder/rung-array-sites/SKEPTIC.md:94`). Home: PLAN, "Climb batch 20, listed for his review", A.worker.2 and A.skeptic.2.
-   - Home: PLAN, "Off the path, parked", `fill` and `tabulate` sit where the array diamond meets (10-02: 89)
-   - Needed by: never; the leaves' declarations stand beside the meet's, the default can stand, and a move of the meet's bodies is a library edit at any time.
-
-113. The factories' function forms are named `tabulatedArray1` to `tabulatedArray3` and `tabulatedVector`.
-   - Landed: As landed; "his to change". The other way: `tabulate1` to `tabulate3`, or no function factories. Its cost: 4 declarations and 8 calls.
-   - Home: PLAN, "Off the path, parked", The factories' function forms are named `tabulatedArray1` to `tabulatedArray3` (10-02: 90)
-   - Needed by: never; no PLAN item renames the factories, and a rename touches one more test since climb batch 20's guard calls `tabulatedVector` (`ProjectFortress/tests/VectorMatrixCastsWalk.fss`).
-
-114. Batch 8's slip repairs changed walk values: mapped generators, `BIG MINMAX`, `split`, `avFlat`, `UniformDistribution`.
-   - Landed: As landed. The other way: Leave them with rows. Its cost: Walk values.
-   - Home: PLAN, "Climb batch 8, listed for his review", Stop met and lifted
-   - Needed by: never; walk values, with no PLAN item on them.
-
-115. `lift`'s api and component disagree after batch 8's device.
-   - Landed: As landed. The other way: The api declares `lift(r: Any)`, not measured. Its cost: One api line.
-   - Home: PLAN, "Climb batch 8, listed for his review", `lift`'s api and its component disagree after batch 8's device
-   - Needed by: never; one api line, which no PLAN item edits.
-
-116. Batch 9's string repairs changed five walk values, and an implicit `:b:c` slice completes from the right end (row 609).
-   - Landed: As landed. The other way: Leave them with rows. Its cost: Walk values.
-   - Home: PLAN, "Climb batch 9, listed for his review", Stop met and lifted
-   - Needed by: never; walk values, with no PLAN item on them (row 609).
-
-117. `String`'s default case-insensitive comparison uses the library's own `ensures` clause.
-   - Landed: As landed. The other way: A character case folding no library string uses. Its cost: None.
-   - Home: PLAN, "Climb batch 9, listed for his review", `String`'s default `CASE_INSENSITIVE_CMP` is the library's own `ensures` clause
-   - Needed by: never; no PLAN item edits it.
-
-118. `FlatString.rangeContains` finds only the first occurrence of a character (row 607).
-   - Landed: Pinned. The other way: A one-line repair. Its cost: A walk value changes.
-   - Home: PLAN, "Climb batch 9, listed for his review", Row 607
-   - Needed by: never; no PLAN item repairs row 607.
-
-119. `uncheckedSubstring` stays unguarded against a strided range.
-   - Landed: As landed; no caller passes one. The other way: A guard in three bodies. Its cost: Three lines.
-   - Home: PLAN, "Climb batch 9, listed for his review", `uncheckedSubstring` stays unguarded against a strided range
-   - Needed by: never; no caller passes a strided range (its Landed line).
-
-120. The `String` api exports `Concatenable`, `Balanceable` and `SubString`'s constructor header.
-   - Landed: As landed. The other way: Leave `SubString` out of the api. Its cost: Removes a team api object.
-   - Home: PLAN, "Climb batch 9, listed for his review", The `String` api exports `Concatenable`
-   - Needed by: never; no PLAN item edits the `String` api's exports.
-
-121. Batch 10's rung N changed walk values: `shouldRaise` with nothing raised now throws a `ForbiddenException` no catch of its own takes; `assert` on tuples prints a `FAIL` line; `partition` at `ZZ64` refuses.
-   - Landed: As landed. The other way: A bare `TestFailure`, `fail`, or the text's flag. Its cost: Walk values.
-   - Home: PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `shouldRaise` when its expression raises nothing throws `ForbiddenException(TestFailure)`
-   - Needed by: never; walk values, with no PLAN item on them.
-
-122. Batch 10's rung G made six declarations print what their bodies state, and turned an ill-typed reduction's 3 into a refusal.
-   - Landed: As landed. The other way: Leave them with rows. Its cost: Walk values.
-   - Home: PLAN, "Climb batch 10, listed for his review", Stop met and lifted
-   - Needed by: never; walk values, with no PLAN item on them.
-
-125. `TransposedMatrix`'s `add`, `subtract` and `negate` type-check but nothing calls them.
-   - Landed: Kept as methods. The other way: Overrides of `Matrix`'s operators again, or removed. Its cost: Which declaration walk runs, or team declarations removed.
-   - Home: PLAN, "Climb batch 12, listed for his review", `TransposedMatrix`'s `add`, `subtract` and `negate` type-check since climb batch ...
-   - Needed by: never; nothing calls the three methods (its text), and rung A's guard asserts a transposed matrix's `+` by its value, which either way keeps.
-
-126. A team declaration was removed: `__ImmutableSubArray1`'s `put`, which nothing calls.
-   - Landed: Removed. The other way: Keep it. Its cost: A call that found it now stops at the call.
-   - Home: PLAN, "Climb batch 12, listed for his review", Three points a decision on record makes his (point 2)
-   - Needed by: never; nothing calls it (its text).
-
-127. New library declarations, each shown its precedent line: batch 12's 16 range api declarations; batch 13's lazy `LEXICO` on `Comparison` and its `SimpleIndexValuePairs`.
-   - Landed: As landed. The other way: Each declaration left out, with its sites. Its cost: Sites on the distance.
-   - Home: PLAN, "Climb batch 12, listed for his review", Three points a decision on record makes his (point 1); PLAN, "Climb batch 13, listed for his review", Extensions and pins of climb batch 13 (point 1, point 2); `coordinator/process-engineering/library-extension-rule-archaeology.md` section 5, point 4
-   - Needed by: never; each declaration has its precedent, and no PLAN item removes one.
-
-128. `Reflect`'s `members` is now a list in declaration order, not a sorted set.
-   - Landed: As landed; the tuple bound required it. The other way: The rung's other ways. Its cost: The order of a reflective listing.
-   - Home: PLAN, "Climb batch 13, listed for his review", `Reflect`'s `members` is now a list in declaration order
-   - Needed by: never; no PLAN item edits `Reflect`.
-
-129. A slice of the default index-value pairs keeps each pair's index.
-   - Landed: Kept, as on the base. The other way: Renumber from 0, as `Set`'s own pairs do. Its cost: Index values.
-   - Home: PLAN, "Climb batch 13, listed for his review", Should a slice of the default index-value pairs keep each pair's index? ...
-   - Needed by: never; no PLAN item edits the pairs' indices.
-
-130. The default index-value pairs of a value indexed above 0 are indexed as the value is, while `ReadableArray`'s stay positional; the skeptic's fix changed two answers.
-   - Landed: As landed, which follows the arrays' own range subscript and the ranges chapter. The other way: Positional throughout; or the arrays' pairs indexed as the array. Its cost: Two answers.
-   - Home: PLAN, "Climb batch 13, listed for his review", Two conventions for the index-value pairs of a value indexed above 0
-   - Needed by: never; no PLAN item edits the pairs' indices.
-
-131. The api's advice for a range subscript, `(bounds())[r]`, reads `r` as positions for bounds above 0 (row 674).
-   - Landed: The advice unchanged. The other way: Name `narrowToRange`. Its cost: A comment.
-   - Home: PLAN, "Climb batch 13, listed for his review", Row 674
-   - Needed by: never; a comment, at any time (row 674).
-
-132. The relational predicate reads its target in its natural order, so `increasing((0#4).reverse)` now fails.
-   - Landed: As landed. The other way: Read positions 0 to n−1 as before. Its cost: One answer.
-   - Home: PLAN, "Climb batch 13, listed for his review", The relational predicate reads its target in its natural order
-   - Needed by: never; one answer, which no PLAN item edits.
-
-181. **`PureList`'s `List` without an element-wise `=`.** `PureList`'s `List` extends `LexicographicOrder` under the same condition as `List`'s, but keeps no element-wise `=` beside it. So on the checker a `PureList` list of pairs would have only the identity `=`, the day `PureList` is checked. The rung's brief named `List.fsi` and `List.fss` only, and `PureList`'s api is ill formed (row 355).
-   - Landed: None added, the rung's decision 6. Default, taken: as landed.
-   - The other way: The element-wise `=` in `PureList` too.
-   - Its cost: A library line; no gated program reads `PureList` on the checker.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.4; `Library/PureList.fss:41-42`; `compile-ladder/rung-checker-conditional-extension/REPORT.md:207`; row 355
-   - Needed by: never; no gated program reads `PureList` on the checker (its cost line; row 355).
-
-191. **`FlatString`'s api pair `opr ||(a:FlatString, self)` dropped.** Rung S dropped it from the api, where climb batch 15's default kept it for item 38's answer; the component never declared it.
-   - Landed: Dropped; the component wins over its api. Climb batch 21's first run left `FlatString`'s api as it was, each `||` with `self` first (row 726).
-   - The other way: The pair kept in the api, and declared in the component.
-   - Its cost: Two api lines and a component declaration.
-   - Home: PLAN, "Climb batch 19, listed for his review", review.1
-   - Needed by: never; climb batch 21b's rung C turned the symbolic-operator check on and closed row 726, which names the pair (`coordinator/CLIMB-BATCH-21.md`, section 2, fork 18), and the api no longer declares it; the landed default can stand and can be undone.
-
-211. **`LexicographicReduction.isLeftZero(Unordered)` is refused under walk since row 582's fix.** Before the fix, the team's overload `isLeftZero(_:Comparison)` answered `true` for every comparison but `EqualTo`, and so for `Unordered`. His answer on row 582 declared that overload over `TotalComparison`, so that `LessThan` and `GreaterThan` are reached (P-57). `Unordered` extends `Comparison` only (`Library/FortressLibrary.fss:151`), so no declaration takes it now, and walk refuses the call: "Failed to find any matching overload, args = (Unordered)". The question that he answered did not name `Unordered`.
-   - Landed: The refusal (climb batch 13's rung O, `9ba86f7da`; its skeptic found it, `compile-ladder/rung-tuple-orders/SKEPTIC.md:142`, `:245`). Default: as landed.
-   - The other way: An overload `isLeftZero(_:Unordered)` that keeps the team's `true`.
-   - Its cost: One library line and its api line, and a test to pin it. Nothing in the library calls `isLeftZero`; only its three pins do (`ProjectFortress/tests/LibraryMeetDeclarations.fss:33-35`).
-   - Home: POSITIONS-history, P-57, its block of 2026-10-22 08:30Z, the former sentence "`isLeftZero(Unordered)` is refused under walk."; `coordinator/positions-audit/full/evidence/corrections-c4.md`, "P-57"; `coordinator/positions-audit/full/evidence/review-queue-items-c4.md`; PLAN-history, "Climb batch 13, listed for his review", Extensions and pins of climb batch 13, point 3; PLAN, "Climb batch 13, listed for his review", Extensions and pins of climb batch 13; `compile-ladder/climb-batch-13/RECORD.md:209`; row 582
-   - Needed by: never; nothing in the library calls `isLeftZero`, and no PLAN item edits it.
-
-255. **Does F-248 take the clarity pass's rewrite, whose definition of a fused reduction has the direction reversed, and do its three pairs still take the fused path (F-248)?** F-248 says that under walk the library's generic `distribute` keeps every fused answer, and that `MAX` and `MIN` over `SUM` and `SUM` over `PROD` "still fuse". The clarity pass of 2026-10-22 put the present state first. It gave the result type written over `K` to the probe's variant, not to the team, who wrote `PossibleReductionPair[\R\]`. It named the five pairs that `NestedReductionFusion` asserts, and stated the fused path as the probe's measurement, made before F-253. It also added a definition: "A nested reduction is fused where the outer reduction distributes over the inner one." The library reads it the other way. `generate2` takes its fast path when `distributes(q, r)` holds, with `q` the outer reduction and `r` the inner one (`Library/FortressLibrary.fss:1475`; `Library/Generator2.fss:159`). `distributes(q, r)` is `r.distribute(q).holds`, "checking distributivity of r over q" (`Library/Generator2.fss:72-73`). So `MAX` over `SUM` fuses because `SumReduction` declares `distribute` over `MaxReduction` (`Library/FortressLibrary.fss:3435`). A second cold reader found the inversion from the entry's own numbers. The writer also left a question that needs a run: do these three pairs still take the fused path on today's tree? The only trace is the probe's, from before F-253, and the current text states the path in the present. A walk run of `GeneratorDeclarations` and `NestedReductionFusion` with the team's trace lines in `generate2` made live would settle it.
-   - Landed: F-248 stands as FACTS holds it; the rewrite is not applied. Default: as it reads.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/facts/f13/proposals.apply`, the block for F-248), with the definition turned: the inner reduction distributes over the outer one. After the run, the fused path stated as that run finds it.
-   - Its cost: One entry's wording; for the fused path, one walk run of two tests with the trace made live.
-   - Home: FACTS F-248 and F-253; rows 21 and 744; `coordinator/consolidation-2026-10-22/evidence/facts/f13/proposals.md`, "F-248", the rewrite, its sources and the writer's question; `check.md`, `cold-read-2.md` and `judgement.md` beside it, "F-248"; `perf-probes/generic-distribute/REPORT.md` sections 1 and 5
-   - Needed by: never; nothing builds on the definition or on the path's trace, and the run can be made at any time.
-
-258. **Does F-259 take the clarity pass's split, now that F-246 is merged into it (F-259)?** F-259 says that an object or a trait whose `extends` clause names only `Any` is an `Object` on both paths, and that `String`'s two `||` members over `Any` convert by the library's own way. The clarity pass of 2026-10-22 split it in two. F-259 keeps the desugaring, on both paths, and the object expression, under walk. A new entry takes the conversion, under walk only, since the compiled path links its own prelude (`compile-ladder/rung-string-conversion/REPORT.md` section 5). The split also drops `FlatString`'s api line, and moves the distance to the note, "since F-246 holds it". But the same pass's judged text for chunk f8 merged F-246 into F-259, with F-259 kept as it stood, and that merge is applied (`0ae072be7`). F-83 and F-245 point to F-259 for `FlatString`'s api line. Applied together, no entry would hold that line, and the new entry would point to F-246, which is gone.
-   - Landed: F-259 stands as FACTS holds it, with F-246 merged into it; the split is not applied. Default: as it reads.
-   - The other way: The clarity pass's two entries (`coordinator/consolidation-2026-10-22/evidence/facts/f14/proposals.apply`, the blocks for F-259 and F-?3), with `FlatString`'s api line kept in F-259 and the new entry's pointer to F-246 turned to F-259.
-   - Its cost: Two entries' wording. Nothing built changes.
-   - Home: FACTS F-259, F-83 and F-245; `coordinator/consolidation-2026-10-22/evidence/facts/f14/proposals.md`, "F-259" and "F-?3"; `judgement.md` beside it, "F-259"; `coordinator/consolidation-2026-10-22/evidence/facts/f8/proposals.md`, "F-246, merged into F-259", and `final.apply` beside it; `compile-ladder/rung-string-conversion/REPORT.md` sections 1, 5 and 6
-   - Needed by: never; nothing builds on the split, and either way can be undone at any time.
-
-### The specification's text (23)
-
-133. The Meet Rule for dotted methods keeps its exact-meet form; Appendix I names the question.
-   - Landed: The Working Draft's form. The other way: Coverage satisfies it. Its cost: A text revision.
-   - Home: PLAN, "Climb batch 7b, listed for his review", The Meet Rule for dotted methods keeps its exact-meet form (10-02: 32)
-   - Needed by: never; a text revision at any time.
-
-134. The `makeSet` example keeps the Working Draft's explanation, though under the chapter's rules the Return Type Rule refuses the pair.
-   - Landed: Unchanged. The other way: Reword the explanation. Its cost: A text revision.
-   - Home: PLAN, "Climb batch 7b, listed for his review", The naked-`Any` rule's example (10-02: 38)
-   - Needed by: never; a text revision at any time.
-
-135. Batch 7b's rung S revised three passages beyond its brief, as the decisions settle them.
-   - Landed: As landed. The other way: Revert them. Its cost: Text contradicting the decisions.
-   - Home: PLAN, "Climb batch 7b, listed for his review", Rung S revised three passages beyond its brief's named list (10-02: 39)
-   - Needed by: never; the passages follow the decisions, and no PLAN item edits them.
-
-136. The POPL recheck's five smaller sentences, as rung S wrote them.
-   - Landed: As landed; his decision on the instance lists them for review. The other way: Each reworded. Its cost: Text.
-   - Home: PLAN, "Climb batch 7b, listed for his review", The POPL recheck's five smaller defaults as rung S wrote them (10-02: 40)
-   - Needed by: never; text, and no PLAN item edits it.
-
-137. Should the list of contexts name a block's non-last element, which the checker has always checked against `()`?
-   - Landed: The list unchanged. The other way: The list gains it. Its cost: Text and an Appendix I note.
-   - Home: PLAN, "Climb batch 12, listed for his review", Should the inference chapter's list of contexts gain a block's non-last element
-   - Needed by: never; text and an Appendix I note at any time.
-
-138. The text keeps `HeapSequence` as the varargs parameter's type, with a box saying both implementations give `ImmutableArray`.
-   - Landed: The sentence unchanged. The other way: Revise it to `ImmutableArray`. Its cost: Text.
-   - Home: PLAN, "Climb batch 10, listed for his review", The varargs parameter's type
-   - Needed by: never; text at any time, and the box states what both implementations give.
-
-139. Batch 7C's three wording choices in the `comprises` text, and the `SkTwoLevel` program the text refuses while walk runs it.
-   - Landed: As landed. The other way: Each alternative in the decision record. Its cost: Text.
-   - Home: PLAN, "Off the path, parked", Climb batch 7C's rung X's three wording decisions in the `comprises` text (10-02: 80)
-   - Needed by: never; text, and no PLAN item edits it.
-
-140. Two notations: ℤ's factorial as a recurrence, and a midpoint as `lo + (hi − lo) DIV 2`.
-   - Landed: As landed. The other way: The Working Draft's product, and `floorAverage`. Its cost: `floorAverage` in the one library.
-   - Home: PLAN, "Off the path, parked", Climb batch 7R's rung U's two notations (10-02: 86)
-   - Needed by: never; text, and no PLAN item edits it.
-
-141. A third passage, the adapted `BlockedRange`, was respelled over `ZZ32`.
-   - Landed: As landed. The other way: Leave it at `ZZ64`. Its cost: Text.
-   - Home: PLAN, "Off the path, parked", Climb batch 7R's rung U respelled over `ZZ32` a third passage (10-02: 85)
-   - Needed by: never; text, and no PLAN item edits it.
-
-142. ℚ's listing gained four algebraic traits, with a sentence on where their laws hold.
-   - Landed: As landed. The other way: Nothing replaces them. Its cost: Text.
-   - Home: PLAN, "Off the path, parked", Climb batch 6.5's rung P made ℚ's listing extend (10-02: 72)
-   - Needed by: never; text, and no PLAN item edits it.
-
-143. `narrow` is stated on `ZZ`; `MaybeRungM`'s comment was reworded.
-   - Landed: As landed. The other way: Leave `ZZ`'s `narrow` unstated. Its cost: Text and one expected failure.
-   - Home: PLAN, "Off the path, parked", Climb batch 6.5's rung P stated `narrow` on `ZZ` (10-02: 73)
-   - Needed by: never; text, and no PLAN item edits it.
-
-144. Three `shift` properties of the integer chapter are wrong or garbled (row 500).
-   - Landed: Left for whoever gives the library these methods. The other way: Fix the text now. Its cost: Text.
-   - Home: PLAN, "Off the path, parked", Row 500 (10-02: 76)
-   - Needed by: never; it is left for whoever gives the library these methods, which no PLAN item does (row 500).
-
-145. The text says a fixed-size `GCD` or `LCM` result that does not fit raises `IntegerOverflow`; walk does, the compiled half at the switch-over.
-   - Landed: As landed. The other way: None. Its cost: None.
-   - Home: PLAN, "Off the path, parked", Climb batch 6.5's rung P's met stop (10-02: 75)
-   - Needed by: never; no other way is proposed, and the compiled half comes with the switch-over's natives (PLAN, phase 4).
-
-146. The inference chapter describes type and size parameters only, naming `bool`, `dim`, `unit` and operator parameters as not described.
-   - Landed: As landed. The other way: The general rule with refusals in a box. Its cost: Text.
-   - Home: PLAN, "Off the path, parked", The kinds of static parameter climb batch N's rung T's chapter describes (10-02: 62)
-   - Needed by: never; text, and no PLAN item describes the other kinds.
-
-147. Batch N's rung T's six text decisions in the inference chapter.
-   - Landed: As landed. The other way: Each in the decision record. Its cost: Text.
-   - Home: PLAN, "Off the path, parked", Climb batch N's rung T's six text decisions in the inference chapter (10-02: 64)
-   - Needed by: never; text, and no PLAN item edits it.
+### The specification's text (1)
 
 192. **Rung P's words in `overloading.tex`.** The revised passage reads exclusion "where the two parameter types, or their elements at one position, are or extend instances of one parameterized trait", the last clause beyond the words its brief gave, after the type group's paper, which reads a tuple element by element.
    - Landed: The words as written.
@@ -1608,122 +516,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 19, listed for his review", rung P's words
    - Needed by: before the tint rung (row 786); that rung writes a sentence in the same exclusion passage of `overloading.tex` (item 9's cost line).
 
-195. **`IntegerDivisionByZero` in the integer listing (row 792).** The integer chapter's listing writes `throws IntegerDivisionByZero` on division, `REM`, `MOD`, `DIVREM` and `DIVMOD`, an exception neither library declares, while the operators chapter, the completion chapter, both libraries and the power's new sentence name `DivisionByZero` (P-153).
-   - Landed: The listing as the team wrote it; row 792 `CONTESTED`. Default: `DivisionByZero`, the libraries' and the prose's, written into the listing by the next rung that edits that chapter.
-   - The other way: `IntegerDivisionByZero` declared in both libraries, and the prose and the power's sentence respelled.
-   - Its cost: A word in five entries of the listing; the other way, a new exception in both libraries.
-   - Home: PLAN, "Climb batch 20, listed for his review", I.worker.1 and I.skeptic.1; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Specification/basic-lib/basic-integers.tex:246-250`; `Specification/basic/operators/opr-overview.tex:165`; `Library/FortressLibrary.fsi:1114`; `compile-ladder/rung-integer-power/REPORT.md:269`, `:286`; `reviews/batch-20-review.md`, "For the curator", 1; row 792
-   - Needed by: before the next rung that edits `Specification/basic-lib/basic-integers.tex`; the default is that rung's edit of the listing (row 792).
-
-197. **No decision record for contract E.** Climb batch 20's rung I wrote no `decision-record.md`; the Appendix I entry cites the Fable judgement and the integer-power probe's report as its reasoning, which may meet P-96's "a repository document holds the full reasoning", as climb batch 19's `14e91723f` met it with its rung's report.
-   - Landed: None, as climb batch 19's rungs did.
-   - The other way: A decision record for contract E, beside the rung's report.
-   - Its cost: One note.
-   - Home: PLAN, "Climb batch 20, listed for his review", I.worker.4 and I.skeptic.4; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Specification/appendices/changes.tex:917-920`; `compile-ladder/rung-integer-power/REPORT.md:268`; `compile-ladder/rung-integer-power/SKEPTIC.md:181`
-   - Needed by: never; a decision record can be written at any time, and Appendix I already cites the reasoning (`Specification/appendices/changes.tex:917-920`).
-
-200. **The dimensions chapter's unit factors at a negative integer power.** The chapter writes its unit factors with an integer numeral base at a negative exponent: `inch` as `2.54 \times 10^{-2}` meter, its conversion of miles, and the SI prefixes `deci` to `yocto` as `10^{-1}` to `10^{-24}`. The integer chapter's revised power entry, which the numeral type follows, now makes each such power throw `IntegerOverflow` (P-153). Dimensions and units are not built, so no test or extracted example runs them.
-   - Landed: The chapter as the team wrote it. Default (the post-batch review's; none on record): leave it so, with a revision box that names the new rule, until a batch builds units.
-   - The other way: Respell them with a rational or float base, as rung I did the team's tests and demos.
-   - Its cost: A revision box, or about 15 respelled factors.
-   - Home: PLAN, "Climb batch 20, listed for his review", gather.2; PLAN-history, "Climb batch 20's landing, 2026-10-20", "Climb batch 20, listed for his review"; `Specification/advanced/defining-dimensions.tex:217`, `:224-225`, `:310-319`; `Specification/basic-lib/basic-integers.tex:534-537`; `reviews/batch-20-review.md`, "For the curator", 2
-   - Needed by: never; dimensions and units are not built, so nothing runs these factors, and the default's revision box can go with any rung that edits the chapter.
-
-226. **Does route C stay out of the specification's Proposed Features as a standing rule (P-123, struck)?** Route C is the way back to a nested number tower under the patents' forest rule (P-95; F-46 prices it; item 219). P-123 held two defaults that his go for climb batch 5 took on 2026-09-26 at 11:08 UTC: row 366's three-line fix waits for a rung of its own, and the specification gets no extra entry for route C, since its changes appendix and the decision record keep it. The audit struck P-123 on 2026-10-22 as a one-time approval carried out: climb batch 5's rung S wrote route C into Appendix I (`3924e7ec3`) and not into the chapter of proposed features (`Specification/appendices/future.tex`), and P-96 gives route C its place in Appendix I. Was the second default for that batch only, or is it a standing rule that route C never goes into Proposed Features?
-   - Landed: P-123 struck. Default: no such rule; P-96 gives route C its place in Appendix I's revival section.
-   - The other way: A standing rule, written as a clause of P-96: route C gets no entry in Proposed Features.
-   - Its cost: One clause of P-96.
-   - Home: POSITIONS-history, P-123, its block of 2026-10-22 08:30Z; `coordinator/positions-audit/full/evidence/corrections-c8.md`, "P-123", "Questions for him", question 1; POSITIONS P-96
-   - Needed by: never; no PLAN item writes the chapter of proposed features.
-
-261. **Does the specification's coercion example stand as an entry of its own, F-272, or go back into F-172 (F-172, F-272)?** F-172 is the fact on the specification's integer chapter: `narrow`, the shifts, `GCD` and `LCM`, and the power at a negative exponent. Until 2026-10-22 it also held the coercion example of the chapter "Coercion Resolution". The example's own traits `ZZ32`, `ZZ64` and `ZZ128` now declare the exclusions that the chapter's definitions of rejection and "no less specific" need. The example ran on both paths in a probe, and no gated test runs it. The clarity pass of 2026-10-22 moved the example to a new entry, F-272, and moved ℚ's four traits to F-168. Its writer left the other way as a decision not taken: the chunk's assessment allowed either, and the example changes apart from the integer rules.
-   - Landed: Two entries, as applied: F-172 holds the integer rules, and F-272 the coercion example. Default: as they stand.
-   - The other way: One entry, F-172, with the integer rules and the coercion example, as before the pass.
-   - Its cost: Two entries' wording. Nothing built changes.
-   - Home: FACTS F-172, F-272 and F-168; `coordinator/consolidation-2026-10-22/evidence/facts/f15/proposals.md`, "F-?2", the decision not taken; `assessment.md` beside it, "F-172", ownership and disposition; `compile-ladder/rung-spec-integer-rules/decision-record.md`, section 2, the rules, and section 4, decision 6, the example
-   - Needed by: never; either way can be undone at any time.
-
-299. **Should the revised export clause say "(possibly implicit)" for the method declaration it asks?** Wording, not a false sentence (A.judge.2 of climb batch 22c's rung A): the revised clause says 'a method declaration with the same header' (`Specification/basic/components/source-code.tex:386`), which covers a field through `Specification/basic/traits.tex:722-723`; where the subsection means to count implicit getters it writes '(possibly implicit)' (`source-code.tex:408`). A later revision could add those two words to the clause.
-   - Landed: The clause as written. Default: as landed; no repair round asked.
-   - The other way: 'a (possibly implicit) method declaration with the same header'.
-   - Its cost: Two words of the specification, and the Appendix I entry's quotation of the clause.
-   - Home: PLAN, "Climb batch 22c, listed for his review", A.judge.2; `compile-ladder/rung-abstract-declared/JUDGE.md:42` (section 3); item 294
-   - Needed by: never; a wording, for any later revision of the passage.
-
-314. **`builtinPrimitive`'s printed comment says "For examples, see the end of this file.", but its api holds no example. Correct it in a later revision of the comment, or keep the team's sentence?** W.worker.2 and W.skeptic.2 of climb batch 23's rung W, wording. The sentence is the team's (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:20`); the api's only `builtinPrimitive` text is the comment and the declaration (`grep -c builtinPrimitive` of the `.fsi` prints 3), and the bindings are in `FortressBuiltin.fss`. The library's typeset api prints the comment (`Specification/library/default-libraries.tex:37-39`).
-   - Landed: The team's sentence, as the rung left it. Default: none on record; the sentence stands.
-   - The other way: The sentence points to `FortressBuiltin.fss`, or goes, in a later revision of the comment.
-   - Its cost: One sentence of the comment, in the revision form.
-   - Home: PLAN, "Climb batch 23, listed for his review", W.worker.2; `compile-ladder/rung-natives-walk/REPORT.md:164` ("Questions for the curator", 2)
-   - Needed by: never; a wording, for any later revision of the comment.
-
-### Tests and the team's demos (17)
-
-148. Batch N's rung M added a compiled test pair outside its file list, for row 442's face.
-   - Landed: The pair as landed. The other way: Remove it. Its cost: Two files.
-   - Home: PLAN, "Climb batch N's first run, listed for his review", Rung M's list (10-02: 53)
-   - Needed by: never; two files, which no PLAN item edits.
-
-149. Row 587's expected failure asserts only a supertype, leaving the typed control ungated.
-   - Landed: As landed. The other way: A plain test keeps the control. Its cost: One test.
-   - Home: PLAN, "Climb batch 9, listed for his review", Row 587's expected failure asserts only a supertype of `Apple`
-   - Needed by: never; one test at any time (row 587).
-
-150. A rung's test asserted walk's numeral reading as the text's answer; the gather rewrote its two calls so both paths agree.
-   - Landed: As rewritten. The other way: None. Its cost: None.
-   - Home: PLAN, "Climb batch 10, listed for his review", Walk's numeral departure in rung W's test
-   - Needed by: never; no other way is proposed.
-
-152. Batch 13's crash test for two-bound overloading adds an object outside the shared trait, since the brief's shape did not crash on the base.
-   - Landed: As landed; asked for confirmation only. The other way: None. Its cost: None.
-   - Home: PLAN, "Climb batch 13, listed for his review", Q-V2 of climb batch 13's rung V
-   - Needed by: never; asked for confirmation only.
-
-153. Row 693's second shape, a generic object, owes an expected failure beside the row's reproducer.
-   - Landed: Owed by row 774's walk rung. The other way: None. Its cost: One test.
-   - Home: PLAN, "Climb batch 13, listed for his review", review-routed.1
-   - Needed by: before row 774's walk rung; that rung reads the `where` clause that row 693's notes say walk ignores, so it is where the owed test goes (`coordinator/CLIMB-BATCH-20.md`, fork 19). The rung is out of climb batch 21: it waits until walk runs the checker (P-12) or row 364 is fixed (`coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, "Off the path, parked", "Phase 3's candidates at its end").
-
-154. Row 452's test was restated to a `ZZ32` range of converted bounds and renamed.
-   - Landed: As landed. The other way: The original test. Its cost: None.
-   - Home: PLAN, "Off the path, parked", Climb batch 7R's rung J restated row 452's test (10-02: 84)
-   - Needed by: never; no PLAN item edits the test.
-
-155. Rung P showed its first walk expected failure red on a copy, not on a deliberate local fix.
-   - Landed: As landed. The other way: None. Its cost: None.
-   - Home: PLAN, "Off the path, parked", Climb batch 6.5's rung P showed its first `XXX` walk test red ... (10-02: 74)
-   - Needed by: never; no other way is proposed.
-
-156. Why `PowChooseLcmRungE` has 50 checks: an answer owed.
-   - Landed: The test as landed. The other way: None. Its cost: None.
-   - Home: `postmortem-2026-09-29/characterization.md:2003`; held list, 18:25 UTC 2026-09-29 (10-02: 111)
-   - Needed by: never; an answer owed, no decision.
-
-157. An earlier exploration's probe, `NotationGenericBigSum.fss`, uses a retired spelling.
-   - Landed: Left as a historical probe. The other way: Respell it. Its cost: One file.
-   - Home: PLAN, "Climb batch 12, listed for his review", `explorations/astra/worker/notation/NotationGenericBigSum.fss`, an earlier exploration's program, uses the reduction spelling ...
-   - Needed by: never; a historical probe, outside the suites.
-
-179. **Row 773 recorded by its row alone.** Row 773 (item 178) has no test, as the rung's brief asked, though its program compiles and its run dies at link time. `tests-writing.md`'s home 2 covers that case with a gated run-time pair.
-   - Landed: The row alone. Default, taken: as landed.
-   - The other way: A plain `link` test and an `XXX` `run` test.
-   - Its cost: Two test files.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.1; `compile-ladder/rung-checker-conditional-extension/REPORT.md:209` (decision 8), `:224`; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala:134-136`
-   - Needed by: before row 773's rung; the rung that repairs row 773 writes its reproducer first, and this decides its form (PLAN, "Off the path, parked", "Phase 3's candidates at its end").
-
-185. **An expected failure that is green while walk is right.** `ProjectFortress/tests/XXXGenericBesidePlainReturnRule.fss` is an expected failure with no `.test` file. It is green exactly while walk refuses the program, which the specification requires (its comment, `:4`, "Must be refused at load"; the "Not allowed!" `ident` pair, `Specification/advanced/overloading.tex:596-602`). Walk's refusal now says "fails the Return Type Rule".
-   - Landed: The expected failure as it is. Default, taken: a later walk rung makes it a plain refusal test keyed on that message, as `GenericBesidePlainReturnRuleWalk.test:1` is; the rename moves row 550's note that cites it.
-   - The other way: Leave it an expected failure.
-   - Its cost: A rename and a `.test` file.
-   - Home: PLAN, "Climb batch 18, listed for his review", W.worker.1 and W.skeptic.1; `compile-ladder/rung-walk-trait-method-bounds/REPORT.md:89`
-   - Needed by: before the next walk rung; its default is that rung's rename (`compile-ladder/rung-walk-trait-method-bounds/REPORT.md:89`).
-
-194. **microGPT's APL port: a new first compile error.** It stops at the same compile phase with "DelegatedIndexed is undefined.", from rung S's `FlatString` api header; the ladder stage compares phases only.
-   - Landed: As it stands; it moves with the switch-over.
-   - The other way: The port's import changed now.
-   - Its cost: One line of the port.
-   - Home: PLAN, "Climb batch 19, listed for his review", the APL port's first error
-   - Needed by: before the switch-over; its default moves the port with the switch-over, whose names step respells what the port imports (PLAN, phase 4); kind: its other way changes a line of microGPT's APL port, which by the skill's second test is consequential.
+### Tests and the team's demos (1)
 
 227. **Is "the example is not respelled to get around a gap in walk" a rule for every specification example (P-124)?** `ant testSpecData` runs the examples extracted from the specification under walk. On 2026-10-04 at 20:27 UTC he chose that it joins the gate once its five red examples are green ("Yep. Option one."). He did not take the way that respelled the five, "a text change in the revision form, to cover a gap in walk". Nor did he take a list of known red names. P-124 makes his refusal of the respelling a rule for every example: "When an example fails, the implementation is fixed: the example is not respelled to get around a gap in walk, and no list of examples allowed to fail is kept." The consolidation of 2026-10-13 (`ab933086b`) wrote the general form and gave no reason. Keep it as a rule for every example, strike it as done with the five, or let it wait in this list?
    - Landed: The entry as it reads. Default: the rule for every example, until he answers. No example has failed since `369982d85` (130 of 130).
@@ -1732,55 +525,7 @@ Each is kept as landed unless he says otherwise.
    - Home: POSITIONS P-124; `coordinator/positions-audit/full/evidence/corrections-c8.md`, "P-124", "Questions for him", question 1; `coordinator/positions-audit/full/evidence/review-queue-items-c8.md`, the item drafted for the case where the sentence waits here; `coordinator/consolidation-2026-10-22/evidence/positions/p8/proposals.md`, "P-124", question 1, where the clarity pass carried the question
    - Needed by: never; no example fails today, and a failing example stops the gate, so the question comes back then.
 
-304. **Three lines of the team's tests that climb batch 22c's rung B rewrote to keep their checked values under the bound `Any`: does he accept each?** The rule that each line of the team's tests a rung rewrote to keep its checked value goes on his list, with its before and after, is the `coordinator` skill's `references/batch.md:61`. The lines, from `compile-ladder/rung-bound-any/REPORT.md`, section 9:
-   - `ProjectFortress/compiler_tests/XXX6bu.test:16`, the team's (`5a68404fd`, 2012), a pinned diagnostic that prints the bound: before `\ - [\\T extends Object\\](T, T)->T is not applicable to an argument of type (ZZ32, ZZ32).\n\`, after `\ - [\\T\\](T, T)->T is not applicable to an argument of type (ZZ32, ZZ32).\n\`.
-   - `ProjectFortress/compiler_tests/XXX6bv.test:16`, the team's (the same): before `\ - [\\T extends Object\\](T, String)->T is not applicable ...`, after `\ - [\\T\\](T, String)->T is not applicable ...`.
-   - `ProjectFortress/tests/doubledOverloading.fss:36-41`, the team's file of 2007: a comment line added at `:36`, "The bound Object keeps a(v) apart from a(), and b(v) from b(): under the bound Any, v may be (), the argument that a() and b() take."; `a[\E\](v: E): A[\E\] = fail("a(v)")` (`:37`) now `a[\E extends Object\](v: E): A[\E\] = fail("a(v)")`, and `b[\F\](v: F): A[\F\] = fail("b(v)")` (`:41`) now `b[\F extends Object\](v: F): A[\F\] = fail("b(v)")`. As the team wrote it, the bound `Any` refuses the file, 'For a, the return type of ()->() @ doubledOverloading.fss:37:1-39:70 should be a subtype of the return type of [\E\]E->A[\E\]', and its ladder row would move from `pass` to `typecheck`; respelled, it stays `pass` and keeps its subject, a doubled overloading table, and its walk run (fork 12 of `coordinator/CLIMB-BATCH-22c.md`; `compile-ladder/climb-batch-22c/RECORD.md`, "Points to report", rung B).
-   - Landed: Rewritten, each assertion kept (`1bc0a9083`); rung B also respelled nine of the revival's own compiled tests (the same section). Default: as landed.
-   - The other way: For the two `.test` files, none: the message they pin names the bound. For `doubledOverloading.fss`, a declared `DOWN` move of its ladder row, which would recur at every later gate against the fixed baseline (fork 12).
-   - Its cost: None; nothing built changes.
-   - Home: PLAN, "Climb batch 22c, listed for his review", the team's test lines; `compile-ladder/rung-bound-any/REPORT.md`, section 9; `coordinator/CLIMB-BATCH-22c.md`, fork 12; `reviews/batch-22c-review.md`, finding 3
-   - Needed by: never; each line can be restored or rewritten at any time.
-
-305. **The gate's comparison hid a change of the first compile error in three rows of the APL microGPT program. Accept it as landed?** In `compile-ladder/climb-batch-22c/gate/ladder/microgpt-phase.md` against climb batch 22's, `AplMgSyntax.fsi`, `AplMgSyntax.fss` and `MicroGptApl.fss` change their first error from 'DelegatedIndexed is undefined.' to 'ImmutableArray is undefined.', at the same phase, `disambiguate`; `mg_phases` compares phases only, so the gate printed nothing. By the review's reading, not run: `AplMgSyntax.fsi:40` imports `FortressAst`, whose api imports `List` (`Library/FortressAst.fsi:5`), whose api now imports `CovariantCollection` first (`Library/List.fsi:14`, rung O), and that api names `ImmutableArray` (`Library/CovariantCollection.fsi:19`, rung L's line), which the compiler's prelude lacks; rung O measured the same move in 20 ladder programs that import `List` (`compile-ladder/rung-export-operators/REPORT.md` section 6). The flat program's rows do not change: they import no `List`. The rule that every difference a comparison hides goes on his list is the `coordinator` skill's `references/batch.md:61`.
-   - Landed: As landed; no phase moved. Default: as landed.
-   - The other way: None asked: the move follows from `List`'s new import while the compiled path reads the compiler's prelude.
-   - Its cost: None.
-   - Home: PLAN, "Climb batch 22c, listed for his review", the difference the gate's comparison hid; `reviews/batch-22c-review.md`, section 1 and finding 3
-   - Needed by: never; the phase is unchanged, and the switch-over replaces the prelude that lacks `ImmutableArray`.
-
-317. **Rung C's skeptic added a test method to the team's `NamingCzarJUTest`, a file outside the rung's list. Does he accept it?** `testForeignOneLibrary` (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzarJUTest.java:40-72`; `6243147f4` on the rung's branch) asserts fork 5's reading of a foreign type in walk's world, which no other test reached on the rung's tree, where no library string names a helper; no line of the team's changed (`compile-ladder/rung-natives-compiled/SKEPTIC.md:39-51`). A file outside a rung's list goes on his list (the `coordinator` skill's `references/batch.md`, "The roles").
-   - Landed: The method as landed, so the misc track went from 439 to 440 tests. Default: as landed.
-   - The other way: The test moved to a file of the revival's own.
-   - Its cost: One test method.
-   - Home: PLAN, "Climb batch 23, listed for his review", the team's test file; `compile-ladder/climb-batch-23/RECORD.md`, "Points to report", rung C; `reviews/batch-23-review.md`, section 1 and Part 4, "What the record listed for him, and PLAN lacks"; item 308
-   - Needed by: never; the method can be moved at any time.
-
-330. **Rung G's worker and skeptic added seven test files outside the rung's lists. Does he accept them?** The worker's `ProjectFortress/compiler_tests/WhereBoundObjectCompiled.fss` and `WhereBoundTraitMethodCompiled.fss`, two run tests beside the rung's own, and `XXXFunctionContractCodeGeneration.fss`, row 701's new reproducer; the skeptic's `compiler_tests/XXXWhereVariableCallCompiled.fss` (row 867) and, in `ProjectFortress/tests/`, `XXXWhereVariableMethodWalk.fss`, `XXXWhereVariableObjectWalk.fss` and `XXXGenericMethodTraitWhereWalk.fss` (rows 868, 869 and 870) (`compile-ladder/climb-batch-24/RECORD.md`, "Points to report", rung G). Each is a new file of the rung; no line of the team's changed in them. A file outside a rung's list goes on his list (the `coordinator` skill's `references/batch.md`, "The roles").
-   - Landed: The seven files as landed. Default: as landed.
-   - The other way: Any of them moved to a later rung's list, or dropped with its row's reproducer set to `none`.
-   - Its cost: Seven test files; five of them are their rows' reproducers.
-   - Home: PLAN, "Climb batch 24, listed for his review", the test files outside rung G's lists; `compile-ladder/climb-batch-24/RECORD.md`, "Points to report", rung G; `reviews/batch-24-review.md`, Part 4, "What the record listed for him, and PLAN lacks", and finding 3; item 317, climb batch 23's like item
-   - Needed by: never; each file can be moved at any time.
-
-### Code generation and the run time (8)
-
-158. Batch 8 made two program shapes that ran die at load: the compiled run time cannot load an instance at an intersection type (row 559).
-   - Landed: Gated by two expected failures; the repair is the run time's. The other way: Repair the run time. Its cost: A run-time rung.
-   - Home: PLAN, "Climb batch 8, listed for his review", Row 559; `compile-ladder/rung-instance-bound/SKEPTIC.md:69`
-   - Needed by: before microGPT compiles; row 559 is phase 5's line (PLAN, phase 5).
-
-159. The compiled template dispatcher answers differently for a class it was not measured on (row 499), until phase 5.
-   - Landed: As landed. The other way: The repair beside row 496's. Its cost: Phase 5.
-   - Home: PLAN, "Off the path, parked", Climb batch 6.5's rung G's dispatch change answers differently (10-02: 71)
-   - Needed by: before microGPT compiles; its repair goes beside row 496's in phase 5 (its Landed line; PLAN, phase 5).
-
-180. **A compile after a typecheck writes no jar.** `fortress compile P.fss` after `fortress typecheck P.fss` of the same unchanged program writes no jar and exits 0, and `fortress run P` then says 'Could not load P'. Removing the program's `analyzed_cache` entry makes the compile write the jar. It is row 757, opened by climb batch 17, so no row was added.
-   - Landed: Row 757 open, among phase 3's waiting rows. Default, taken: as row 757 waits.
-   - The other way: A repair of the compile command's reuse of the analyzed cache.
-   - Its cost: Not traced.
-   - Home: PLAN, "Climb batch 18, listed for his review", X.worker.3; PLAN, "Off the path, parked", "Phase 3's candidates at its end", its other candidates; `compile-ladder/rung-checker-conditional-extension/REPORT.md:220`, `:226`; row 757
-   - Needed by: before the rung on rows 763 and 757; PLAN's phase 3 item 19 lists the two together, with the `bool` family (`coordinator/CLIMB-BATCH-20.md`, section 4).
+### Code generation and the run time (1)
 
 205. **Boxing is measured on microGPT-shaped kernels, not on a scalar loop with literals and a `:=` accumulator, which microGPT's kernels do not run.** A measurement of what boxing costs on the compiled path uses code shaped like microGPT's kernels: the dot product over the flat parameter vector, the matrix product, the row lift (`perf-probes/kernels/REPORT.md`, section 2). It does not use a scalar loop that keeps float literals inside the hot loop and a `:=` accumulator, as the first boxing probe did (`perf-probes/boxing/REPORT.md`, section 2). His only word was one instruction. On 2026-09-15 at 22:34 UTC, on that probe, he said that the test seemed to meet an edge case that the microGPT experiments had not met, float literals parsed from strings, and asked for a fairer and better test. The kernels probe did that. P-17 told this as history until the consolidation of 2026-10-13 (`b87a17de5`) kept it "as the rule on what to measure". He was never asked about the rule. The text it stood in said "which microGPT never runs". MicroGPT's kernels run no such loop, but C4's weight loader does: `parseFloat` keeps `m: RR64 := 0.0` and runs `m := 10.0 m + ...` in a `while` loop (`run-c4/src/FlatData.fss:16-30`). So the item says "which microGPT's kernels do not run".
    - Landed: As stated, in P-17 from 2026-10-13 until the audit. The one measurement it describes is the kernels probe of 2026-09-15 (F-11, boxing the main cost of microGPT-shaped array code). Default: as stated.
@@ -1789,184 +534,7 @@ Each is kept as landed unless he says otherwise.
    - Home: POSITIONS-history, P-17, its block of 2026-10-22 08:30Z, the former measuring sentence; `coordinator/positions-audit/full/evidence/corrections-c1.md`, "P-17"; `coordinator/positions-audit/full/evidence/review-queue-items-c1.md`; `perf-probes/kernels/REPORT.md`, sections 1 and 2; `perf-probes/boxing/REPORT.md`, section 2; F-11, boxing on the compiled path; PLAN, "Phase 6. microGPT fast"
    - Needed by: before microGPT runs fast; unboxed arithmetic and the timing against a pure-Java microGPT are PLAN's phase 6 (P-33).
 
-250. **Does F-19 take the clarity pass's rewrite, once its account of the compiled path's `also do` blocks is corrected (F-19)?** F-19 is the fact on implicit parallelism. FACTS holds: "a `for` loop is parallel unless every generator is `seq`, and a tuple's elements and an operator's operands are evaluated in parallel." That gives the specification's rule as what the tree does. The clarity pass of 2026-10-22 rewrote it as the specification's rule: a program must assume that these parts run in parallel, and may not count on it either, since an implementation may run them one after another (`Specification/basic/evaluation/parallelism.tex:88-90`). It adds a call's arguments to the list, and bounds the grep for `spawn` and `also do` to `explorations/`. It also says how each path starts tasks. One sentence of that goes past the code: "both paths run every such block as a task". Under walk, every block of a `do … also do … end` is a task (`Evaluator.forDo`). Compiled, the first block runs in place. Each other block is a task that forks only when `BaseTask.forkIfProfitable` finds more than one thread and at most `FORTRESS_SPAWN_THRESHOLD` surplus queued tasks, 5 by default; otherwise it runs in the thread that waits for it. Compiled tuple elements pass the same test. And `FORTRESS_LOOP_CHUNK` is 1 by default, so the compiled `parloop` splits down to single elements unless it is set. A second cold reader took "Compiled, tasks are chunks" from the rewrite.
-   - Landed: F-19 stands as FACTS holds it; the rewrite is not applied. Default: as it reads.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/facts/f1/proposals.apply`, the block for F-19), with its loop sentence corrected: under walk every block is a task; compiled, the first block runs in place and each other block forks only where `forkIfProfitable` judges it worth it, as tuple elements do; `parloop` splits down to `FORTRESS_LOOP_CHUNK` elements, 1 by default.
-   - Its cost: One FACTS entry's wording. Nothing built changes.
-   - Home: FACTS F-19; `coordinator/consolidation-2026-10-22/evidence/facts/f1/proposals.md`, "F-19"; `check.md`, `cold-read-2.md`, `judgement.md` and `concepts.md` beside it, "F-19" and the compiled `for` loop; under `ProjectFortress/src/com/sun/fortress/`, `compiler/codegen/CodeGen.java:1594-1669`, `runtimeSystem/BaseTask.java:113-116` and `:136-150`, `runtimeSystem/FortressExecutable.java:26` and `:47-57`, and `interpreter/evaluator/Evaluator.java:239-281`
-   - Needed by: before microGPT runs fast; a worker who tunes or debugs the compiled path's parallel loops reads F-19's account of tasks (PLAN, phase 6, compiled parallelism).
-
-263. **Does only a numeral size still reach the class loader for a descriptor, now that sizes hold arithmetic (F-36)?** F-36 says that the code generator's `FnNameInfo.boundsFor` gives a size parameter a size argument and every other kind a type argument, and ends: "A size symbol stays in the mangled name and needs no descriptor. Only a literal size reaches the class loader, which takes its descriptor from `RTTIsize.of` (F-129)." Its detail, `perf-probes/nat/java.md`, was written under the rule "symbols and literals, equality, no arithmetic" (its section 1). Since sizes hold arithmetic (F-146), the class loader folds a size spelled as an operation at instantiation (`ProjectFortress/src/com/sun/fortress/runtimeSystem/InstantiationMap.java:394`, by `Naming.foldSize`; row 675, the compiled class loader makes a size computed at instantiation). The FACTS clarity pass of 2026-10-22 marked F-36 investigate, with a narrow question, and left the entry as FACTS holds it: does every descriptor request (`MethodInstantiater.rttiReference`, `CodeGen.generateTypeReference`) still receive only a numeral? If yes, the sentence holds and needs only rewording. If no, it is false. The assessment also found that the entry does not say what `boundsFor`'s argument is for, the erased bound with which a method's schema is normalized, or what the latent defect, a type argument for a `bool`, `dim`, `unit` or `opr` parameter, would do.
-   - Landed: F-36 stands as FACTS holds it; no rewrite was written. Default: as it reads, until the question is settled.
-   - The other way: Settle the question by a bounded reading of the two descriptor requests, or one compiled run of a size spelled as an operation, then rewrite F-36: if only a numeral reaches `RTTIsize.of`, the sentence reworded, with what `boundsFor`'s argument is for; if not, the sentence corrected to say which computed sizes reach it.
-   - Its cost: A reading of two methods, or one compiled run, and one entry's wording.
-   - Home: FACTS F-36, F-129 and F-146; row 675; `coordinator/consolidation-2026-10-22/evidence/facts/f2/assessment.md`, "F-36" and "Investigate"; `perf-probes/nat/java.md` sections 1 to 3; under `ProjectFortress/src/com/sun/fortress/`, `compiler/codegen/FnNameInfo.java:168-183`, `runtimeSystem/MethodInstantiater.java` and `compiler/runtimeValues/RTTIsize.java`
-   - Needed by: before microGPT compiles; phase 5 compiles the model's sized types (decision D), and a worker who debugs a size's descriptor there reads F-36 for which sizes reach the class loader.
-
-349. **The code generator's modifier guard now admits `test` on methods as well as on top-level functions. Keep the wider guard, or a narrower check?** C.worker.1 and C.skeptic.2 of climb batch 25's rung C (its D6). Rung C added `Test` to the guard that functions and methods both pass (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2947-2949`), so `test mt()` on an object compiles and runs, 'O 7'. The specification's note speaks only of a top-level function of type `() -> ()` (`Specification/basic/tests.tex:36-55`), and the parser's method modifiers admit `test` (`ProjectFortress/src/com/sun/fortress/nodes_util/Modifiers.java:151-154`).
-   - Landed: The wider guard, as the trait guard admits `test` for traits and objects (`Modifiers.java:146-149`). Default: as landed.
-   - The other way: A narrower check that admits `test` on a top-level function only.
-   - Its cost: One condition of the guard and its test; not measured.
-   - Home: PLAN, "Climb batch 25, listed for his review", C.worker.1; `compile-ladder/rung-codegen-walls/REPORT.md:128`, `SKEPTIC.md:27`; `reviews/batch-25-review.md`, Part 1, "Where the text, the brief or the principles split", 3; F-315
-   - Needed by: never (set by the landing workflow); the default can be undone at any time.
-
-350. **Should the new `forbid` path run a `try`'s `finally` clause now, ahead of the general repair (row 890)?** C.skeptic.1 of climb batch 25's rung C. The specification runs the `finally` clause whatever leaves the `try` (`Specification/basic/expressions/try.tex`, "Try Expressions"). The base's compiled `try` already skips it when an exception leaves the `try` block, and rung C's new `forbid` path inherits that order (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2075-2085`).
-   - Landed: Recorded by `ProjectFortress/compiler_tests/XXXFinallyOnEscape.test`, not fixed for one abrupt path of three. Default: as landed.
-   - The other way: Fix the `forbid` path now, before the general repair, `forTry`'s emission of `finally` on every abrupt path.
-   - Its cost: Not measured; the general repair fixes all three paths at once.
-   - Home: PLAN, "Climb batch 25, listed for his review", C.skeptic.1, and phase 4, the code generator's line; `compile-ladder/rung-codegen-walls/SKEPTIC.md:63`; `reviews/batch-25-review.md`, Part 1, "Where the text, the brief or the principles split", 4; row 890
-   - Needed by: never (set by the landing workflow); the row goes with the code generator's next rungs.
-
-### How batches run (25)
-
-160. Rung edits outside their file lists: batch 6b's ten test files; batch N's `Init.java`; batch 8's `ReflectiveQuickCheck.fss`; batch 9's two compiler tests and walk files; batch 10's checker files; batch 13's `ComponentWrapper.java` and `Functionals.scala` hunk.
-   - Landed: Each as landed. The other way: Revert and redo each in the rung that owns the file. Its cost: One rung's work each.
-   - Home: PLAN-history, "Off the path, parked", Climb batch 6b's items for Pavol; PLAN, "Off the path, parked", Climb batch N's rung K edited `Init.java`; PLAN, "Climb batch 8, listed for his review", Climb batch 8's rung Q edited `Library/ReflectiveQuickCheck.fss:147`; PLAN, "Climb batch 9, listed for his review", Files outside rung W's list; Two expected-failure compile tests of rung S outside its record's files; PLAN, "Climb batch 10, listed for his review", Rung C's files beyond its section's list; PLAN, "Climb batch 13, listed for his review", Two rung edits outside their sections' file lists (10-02: 93, 58)
-   - Needed by: never; each edit landed in its rung, and no later work needs it redone.
-
-161. A skeptic's fix may edit a file of its rung's area that the file list neither names nor rules out.
-   - Landed: As landed: such a fix is within the rung when the row's claim needs it. The other way: The file list is exhaustive. Its cost: Such fixes reverted.
-   - Home: PLAN, "Climb batch 12, listed for his review", The scope of a skeptic's fix
-   - Needed by: never; a rule of the batch manual, which any batch can change.
-
-162. The checker count reads 1 while the component's first error stops it, then about 99, before it falls.
-   - Landed: The count read as it is. The other way: Read it by the apis' rows, which are all 0. Its cost: None.
-   - Home: PLAN, "Climb batch 13, listed for his review", How is the checker count's zero read once every; `reviews/batch-13-review.md` section 2
-   - Needed by: never; the count is read as it is, and every api row is 0.
-
-163. A project agent type per role.
-   - Landed: Deferred; it needs a restart of the session's process. The other way: Register them. Its cost: A restart.
-   - Home: `process-engineering/batch-redesign.md` section 9, item 14
-   - Needed by: never; it waits on a restart of the session's process, at any time.
-
-164. The whole-project designs.
-   - Landed: Not done; dropped from the order. The other way: Run them. Its cost: Two design runs.
-   - Home: `process-engineering/README.md`, pending item 3
-   - Needed by: never; dropped from the order (`process-engineering/README.md`, pending item 3).
-
-184. **P-148's second pass after climb batch 18's rung K, not taken.** The profile shows no sample in the rung's added code. The one share above 1 % inside its declarations is the bound check that was already in the trait-type case, 4.94 % of 5,385 samples, all in `TypeAnalyzer.subtype`. A memo of it keyed on the analyzer, the argument and the bound would remove at most 945 of its 2,177 checks, about 2 % of the run, which is under the difference between two runs (75.1 s and 77.0 s).
-   - Landed: No memo, the rung's decision 9. Default, taken: as landed.
-   - The other way: The memo, as the pass.
-   - Its cost: An audit of the memo's key, for about 2 % of the count stage at most.
-   - Home: PLAN, "Climb batch 18, listed for his review", K.worker.1; `compile-ladder/rung-checker-where-checks/REPORT.md:171-185`, `:267-269`; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:258-274`
-   - Needed by: never; the memo saves about 2 % of the count stage at most (its text), and P-148 puts speed after correctness.
-
-193. **Climb batch 19's sixteen forks at their defaults, and its points for his sight.** The record's forks (`coordinator/CLIMB-BATCH-19.md`, section 2) and the team lines changed in the checker's exclusion test, in `String`, in `FlatString`'s api and in the desugaring.
-   - Landed: As the record set them.
-   - The other way: Any one of them changed in a later batch.
-   - Its cost: By fork.
-   - Home: PLAN, "Climb batch 19, listed for his review", the sixteen forks
-   - Needed by: never; each fork can change in a later batch (its other way).
-
-203. **Climb batch 20's twenty forks at their defaults, and its points for his sight.** The record's forks (`coordinator/CLIMB-BATCH-20.md`, section 2), fork 13 among them, row 441 kept open with its first half fixed, which the post-batch review's finding 7 would close beside a new row for its compiled half; and its points for his sight (the same section, "Points the batch lists for you, not questions"): the team lines changed in the integer powers, `QQ`'s body, walk's six power natives, three tests and three demos, and in the vector and matrix bodies, factories and api lines; and what walk, the checker and the specification now do differently.
-   - Landed: As the record set them.
-   - The other way: Any one of them changed in a later batch.
-   - Its cost: By fork.
-   - Home: PLAN, "Climb batch 20, listed for his review", the twenty forks; `compile-ladder/climb-batch-20/RECORD.md`, "Points to report"; `reviews/batch-20-review.md`, findings 2 and 7 and "For the curator", 10
-   - Needed by: never; each fork can change in a later batch (its other way).
-
-204. **Three sites the gate's comparisons hid as moved.** `BIG MIN` moved from `Library/FortressLibrary.fss:4368` and `:4374` to `:4386` and `:4392`, and item 46's arm from `:1463` to `:1465`, by lines alone: rung I's `typecase` adds two lines above them, and rung A's hunks sixteen above `strToInt`. `coordinator`'s `references/batch.md`, "The checker count and the distance", puts every hidden difference on the review list.
-   - Landed: As landed; no error changed.
-   - The other way: None for the sites; the review proposes that the rule exempt such moves (PLAN, "Work that can start now, with no decision").
-   - Its cost: None.
-   - Home: PLAN, "Climb batch 20, listed for his review", the three sites; `reviews/batch-20-review.md`, section 1 and finding 9
-   - Needed by: never; the moves change no error.
-
-206. **The gate compiles the two microGPT programs, and a run of them, once possible, goes to a stage that does not gate.** On 2026-09-19 at 14:53 UTC the coordinator sent six process decisions. One read "The two microGPT programs will be part of the ladder check": the ladder check is the gate's stage that compiles a fixed list of programs and compares the phase that each reaches. He answered that text at 14:54 UTC with "I am not reading this, but go." At 16:39 UTC he quoted that decision. He wrote that the two programs did not yet compile, so he did not understand the idea. Once the compiled path runs, a ladder check makes sense to him, but not with the microGPT programs, which are too long running to be tests. The coordinator answered at once that the stage only compiles them and never runs them, and that once they compile and run, the run belongs to a separate stage that does not gate. He did not reply. P-29 stated both until the audit.
-   - Landed: The ladder-regression stage compiles the eighteen components of the two programs in every gate and holds them at the phase that they reach, disambiguation (F-97; the `fortress-repo` skill, `references/gate.md`, "The ladder regression"). No stage runs them. Default: as landed.
-   - The other way: The gate leaves the two programs out until they compile. Or, once they run, a run of them gates.
-   - Its cost: One gate step either way. A gating run would add the programs' run time to every gate.
-   - Home: POSITIONS-history, P-29, its block of 2026-10-22 08:30Z, the former sentences on the stage; `coordinator/positions-audit/full/evidence/corrections-c2.md`, "P-29"; `coordinator/positions-audit/full/evidence/review-queue-items-c2.md`; F-97, the ladder stage's baseline; `compile-ladder/baseline-2026-09-19/microgpt-phase.md`, the phase each microGPT component reaches
-   - Needed by: before microGPT compiles; once its components compile, a run becomes possible, and its stage is built then (PLAN, phase 5).
-
-207. **The full microGPT check programs run only when asked.** The batch's walk check runs the quick pair of microGPT programs, about two forward-and-backward passes each (P-30). The full pair, 40 checks each, runs only when a brief asks for it. It is the coordinator's wording, in its worker brief of 2026-10-08 at 17:49 UTC ("The full 40-check programs stay as they are, for when someone asks for them") and in its reply of the same minute. He answered neither. It keeps his "Not a full training that takes ages." of 16:20 UTC that day. P-30 stated it until the audit.
-   - Landed: `coordinator/tools/mg-run.sh` runs the quick pair by default, with a 600 s limit, and the full pair only with the word `full`, with a 5,400 s limit. The skill says the same: "Add the word `full` only if your brief asks for it" (the `fortress-repo` skill, `references/interpreter.md`, the model program). Default: as landed.
-   - The other way: Run the full pair at set points, such as the end of a phase. Or retire it.
-   - Its cost: About 11 minutes a program under walk (668 s and 691 s after batch 10; the audit's scout report on P-30, `coordinator/positions-audit/full/evidence/P-30.md`, section 1).
-   - Home: POSITIONS-history, P-30, its block of 2026-10-22 08:30Z, the former sentence; `coordinator/positions-audit/full/evidence/corrections-c2.md`, "P-30"; `coordinator/positions-audit/full/evidence/review-queue-items-c2.md`; `coordinator/tools/mg-run.sh`
-   - Needed by: never; a default of the script, which can change at any time.
-
-239. **When the microGPT walk check after a batch takes more than a minute, is that a fault or a figure to look into (P-30)?** P-30 says that the check of microGPT under walk after a batch must take less than a minute. It holds his words of 2026-10-08 at 17:49 UTC: the check "needs to run under a minute, okay? That's the goal. Otherwise, it's useless waste of time." They say nothing of what follows when it takes longer. Each batch's commit stage runs the check, the quick versions of microGPT's two programs, outside the gate (`coordinator/tools/mg-run.sh`). At climb batch 16's landing it took 65 s for one program and 58 s for the other. The coordinator listed that for his review, with the default of one idle run of the pair to find the cause. Must a batch whose check takes more than a minute repair it before it lands, or is the time reported and looked into?
-   - Landed: The commit stage lists the check for the coordinator only when a program does not print `ALL PASS`; the time decides nothing. Default: P-30 keeps his words, and a check past the minute is reported and looked into, as for climb batch 16.
-   - The other way: A check past the minute is a fault, and the batch repairs it before it lands.
-   - Its cost: Under the default, a batch can land with a check that has grown slow. Under the other way, such a batch waits for a repair. The skill gives about 56 s for the pair, so the margin is small (the `fortress-repo` skill, `references/interpreter.md`, the model program).
-   - Home: POSITIONS P-30; `coordinator/consolidation-2026-10-22/evidence/positions/p2/proposals.md`, "P-30", question 1, the clarity writer's question; PLAN, "Climb batch 16, listed for his review", the quick walk check, its two times and its default; `coordinator/climb-batch-workflow.md`, "Commit, and the push held", step 0, what the commit stage does with the check; `coordinator/tools/mg-run.sh`, the check's script
-   - Needed by: never; the coordinator's default for climb batch 16 stands, and a rule can be added at any batch.
-
-243. **Should P-148 say again that the rung's skeptic checks the time and the results, and that the results are the same errors at the same places?** P-148 says that a rung that changes the compiled checker times it, makes the change correct, and then, in the same rung, makes it fast, "without changing which programs the checker accepts or refuses". The skeptic is the agent of a batch that reviews a rung's work. Until 2026-10-21 the entry also said "The rung's skeptic checks the time and the results", from his "validated by the skeptic" (2026-10-14 at 19:16 UTC). It said "with the same errors at the same places" too, the coordinator's gloss of 19:18 UTC that day. The coordinator's text of 2026-10-21 at 22:29 UTC dropped both, and he approved that text at 22:41 UTC ("Yes, apply P-148 and P-150 now."). The `fortress-repo` skill still asks both of a rung and its reviewer: in `references/compiler.md`, "The checker's time", the checker's results are the programs that it accepts and refuses and each error with its text and its place. A cold reader of the applied text found "accepts or refuses" narrower than those results.
-   - Landed: The entry as the clarity pass applied it, without the two clauses. Default: as it reads; a rung and its skeptic follow `compiler.md`, which asks both.
-   - The other way: The entry says again that the rung's skeptic checks the time and the results, and that the results stay the same errors at the same places.
-   - Its cost: One or two clauses of P-148. Nothing built changes: the skill and the batch's rung and skeptic prompts ask both either way.
-   - Home: POSITIONS P-148; `coordinator/consolidation-2026-10-22/evidence/positions/p5/proposals.md`, "P-148", question 1, the clarity writer's question; `check.md` beside it, "P-148", the fidelity check; `coordinator/positions-audit/trial/evidence/P-148.md`, sections 2 and 3, where the two clauses came from; `.claude/skills/fortress-repo/references/compiler.md`, "The checker's time", the rung's steps and the results that it compares
-   - Needed by: never; the skill asks both of a rung and its reviewer today, and the entry's wording can change at any time.
-
-249. **Does P-150's "not tried again" also rule out measuring what a resident compiler could save inside the suites and builds?** P-150 says that no resident compiler is built. A resident compiler is a JVM that stays running in the background and serves each Fortress command, as Scala 2's `fsc` did. On 2026-10-16 at 08:56 UTC the coordinator summed up a measurement over 267 worker transcripts and concluded that one is not worth building. At 09:15 UTC he asked that this be recorded "so that we do not reattempt it unless something significant changes". The measurement counted only the Fortress commands that workers run one at a time, each in a fresh JVM. They took 6.4 % of the workers' time, and their start-up at most 1.8 %. It did not look inside the suites, builds and stages, which took 47.8 % of the command time. On that part the report wrote that "the bound would change by a factor I did not measure", and it left the choice to look to his word. The summary he read named the 47.8 % but did not say that it was left unexamined. The clarity pass of 2026-10-22 rewrote P-150's reason to say what was measured and what was not, and held the rewrite. A cold reader of the new text could not tell whether a worker may propose to measure the rest. Keep the reason as it reads, or take the new text? And does "not tried again" also cover that measurement?
-   - Landed: The entry as POSITIONS holds it: "A background JVM that serves Fortress commands, as Scala 2's `fsc` did, would save too little of the workers' time to be worth building (F-234), so the speed work goes to the checker itself (P-148). It is not tried again unless something significant changes." Default: as it reads, until he answers.
-   - The other way: The clarity pass's text (`coordinator/consolidation-2026-10-22/evidence/positions/p8/proposals.apply`, the block for P-150). Its reason ends: "The suites already run many tests in each of their JVMs, and what a resident compiler could save inside the suites and builds was not measured." It would stand with his answer: either that measurement is also not taken up, or a worker may propose it.
-   - Its cost: The wording of one entry. A measurement inside the suites would need a read of the stage scripts and the ant targets (the report, "Decisions not taken").
-   - Home: POSITIONS P-150; F-234, the measurement's figures; `coordinator/process-engineering/fresh-jvm-commands.md`, "Summary" and "Decisions not taken", the report; `coordinator/positions-audit/trial/evidence/corrections.md`, "P-150", the audit's correction; `coordinator/consolidation-2026-10-22/evidence/positions/p8/proposals.md`, "P-150", the rewrite, and `check.md`, `cold-read-2.md` and `judgement.md` beside it, "P-150", the fidelity check, the second cold reader and the hold; `coordinator/consolidation-2026-10-22/evidence/facts/f10/proposals.md`, "F-234": the FACTS clarity pass's text of F-234 says "What runs inside the suites and the stages was not measured", where F-234 said that the suites already run each suite in one JVM, which is false; it states a fact of the measurement, does not answer this item, and needs no change either way
-   - Needed by: never; no PLAN item builds or measures a resident compiler, and the speed work goes to the checker (P-148).
-
-264. **Does the count stage still pass its 900-second limit with the trait table's memo off (F-94)?** F-94 says that the compiled checker checks the array family under the bound `T extends { Number, MultiplicativeRing[\T\] }`, and calls through a parameter so bounded, and that "a memo on the trait table keeps the count stage within its 900-second limit (row 688)". The memo exists (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala:138`, `fortress.analyzer.ground.cache`, on by default), and the limit is still 900 s (`coordinator/tools/checker-count/run.sh:69`). The sentence warns that a repair that turns the memo off misses the limit. That warning rests on the 17 minutes measured without the memo before climb batch 15's rung C, the checker's normal form over a variable, which stopped the expansion of `Number`'s `comprises` clause over a variable's bound, the cost that the memo bounded (`perf-probes/checker-speed/REPORT.md` sections 1 to 3). That rung's runs were made with the memo on (`compile-ladder/rung-checker-bounds/REPORT.md` section 6), and no run since has timed the count stage without it. The FACTS clarity pass of 2026-10-22 marked F-94 investigate, with this narrow question, and left the entry as FACTS holds it. Its assessment also found that F-227 owns the calls through such a parameter, and F-151 the bound and its `squaredNorm(me)` call, so that the memo and the count stage's time are the one subject left to F-94, and that the entry's detail misses the memo's fix, `perf-probes/checker-speed/REPORT.md` section 6.
-   - Landed: F-94 stands as FACTS holds it, with the warning; no rewrite was written. Default: as it reads, until the run.
-   - The other way: One run of the count stage with `-Dfortress.analyzer.ground.cache=false` on today's tree. If it still passes 900 s, the warning stays, scoped to that run; if not, the 17 minutes are stated as a measurement from before climb batch 15's rung C. Then F-94 is reorganized: the memo's subject alone, with `perf-probes/checker-speed/REPORT.md` section 6 cited, and the calls left to F-227.
-   - Its cost: One run of the count stage, about 150 s with the memo on (F-240) and up to its 900-second limit without, and one entry's wording.
-   - Home: FACTS F-94, F-227, F-151 and F-240; row 688; `coordinator/consolidation-2026-10-22/evidence/facts/f7/assessment.md`, "F-94" and "The investigate question"; `compile-ladder/rung-array-bound/REPORT.md` sections 1 and 9; `compile-ladder/rung-checker-bounds/REPORT.md` section 6; `perf-probes/checker-speed/REPORT.md` sections 1 to 3 and 6
-   - Needed by: never; the warning keeps the memo on, the safe side, and the run can be made at any time.
-
-302. **Climb batch 22c's record took its forks 1 to 18 at their defaults: does he take each?** The forks (`coordinator/CLIMB-BATCH-22c.md`, section 2, "Forks the batch takes, none consequential"): one run, four rungs, applied O, L, B, A by the gather's rule (1); rung A's check at P-158's letter, through the team's `ignoreAbstract` (2); the 12 declarations bodyless, with no `abstract` written (3); `ExportAbstractMemberAbsent` turned to `XXXExportAbstractMemberAbsent`, closing row 816 (4); rung O's double key fixed in the export check, not in `IndexBuilder` (5); row 827's 9 headers by the library's rule (6); `CovariantCollection` by the team's devices in that file (7); `OneShot`'s parameter by the export check, compared less `var` (8; item 295); the checker's refusal of a field with no type as a new row, row 837 (9); the distance stage reading every api's own count (10; F-295); `CoercionGenericFnCompiledRungC` given `T extends Object` (11); `tests/doubledOverloading.fss` respelled `extends Object` (12; item 304); the stage's compile setting read from `Shell.java`, so that the gate's distance stage runs under the compile command's own setting from then on (13); rung B not a checker rung, with no speed pass (14); three speed passes, for A, O and L (15); the count stage keeping walk's setting (16); nothing declared (17); the 52 demos run by the gather (18).
-   - Landed: Each built at its default. The post-batch review found each built: fork 2 with the skeptic's field arm (item 294); fork 7 moving where walk raises two failures (item 303); fork 8 the reading that phase 3's zero rests on (item 295); fork 10 with the `COMPONENT-CRASH` lines unread (item 298); fork 15's passes, O's halving its loop and L's and A's finding no gain; fork 18's 52 of 52 (`reviews/batch-22c-review.md`, Part 1, "The record's questions and forks, against what landed"). Default: as landed.
-   - The other way: Any fork's other way, as the record gives it.
-   - Its cost: Each default can be undone, and none reverses a decision of his or touches a line of microGPT (the record's section 2).
-   - Home: PLAN, "Climb batch 22c, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-22c.md:105-127`; `reviews/batch-22c-review.md`, finding 3
-   - Needed by: never; each default can be undone at any time.
-
-303. **What climb batch 22c changed that its record lists for his sight, not as questions.** From `coordinator/CLIMB-BATCH-22c.md`, section 2, "Points the batch lists for you, not questions", and `compile-ladder/climb-batch-22c/RECORD.md`, "Points to report", with what the post-batch review added:
-   - Team lines changed: the export check's count of every api member, restored to the team's 2009 comparison, and 12 declarations added to five of the component's traits (A); the export check's admission of names, 6 component headers, 2 api headers, `List.fsi`'s comprehension type and one import (O); `CovariantCollection.fsi` and `.fss`, the team's text unchanged since 2012, and the export check's `equalParams` (L); `Shell.java:372`, Steele's 2012 setting, and 11 test files, the team's three of item 304 among them (B).
-   - What walk does differently, where the record said "nothing" (`coordinator/CLIMB-BATCH-22c.md:135`): only where a failure is raised. An open element type's `CastError` now comes from `upward`'s new cast arm (`Library/CovariantCollection.fss:17`), where it came from `List`'s unwrap (`Library/List.fss:179`; row 825); a user's `NonEmpty` object's `toArray` now fails in `iaf`'s new arm, 'FAIL: initArrayFrom: NonEmpty but not Singleton/Append', where dispatch failed at the trait's `|self|` (skeptic L's `SkCovUserNE`); a user object extending `AnyMaybe` without `holds` is refused at load as before, its message naming `AnyMaybe` at `Library/FortressLibrary.fss:1614` where it named `AnyUniqueItem` (skeptic A's `SkMaybeObject`). No decision covers these, each is the team's device or a message, and no gated test pins the old text (the review's Part 1, split 5).
-   - What the checker does differently: it refuses a component that leaves out an `abstract` api member or declares it at another header (A); it reads every top-level operator in the export check (O); it accepts an object parameter written `var` against the api's plain one (L); the compile command bounds a type parameter by `Any` (B), so tuple and arrow static arguments compile, and `id((3, 4))` is refused where it compiled as `id(3)` (row 691). With the bound `Any`, until the switch-over, a compiled generic that prints a value of a type parameter declared without a bound, or concatenates it onto a `String`, is refused, since the compiler's prelude declares `print`, `println` and `||` at `Object` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37`, `:55`, `:61`; skeptic B's `SkPrintUnbounded`, rung B's `ConcatAny`), P-42's cost, named in Appendix I's Effect (`Specification/appendices/changes.tex:3101`ff.) and F-296; `CoercionGenericFnCompiledRungC` writes `T extends Object` for it (fork 11; the review's split 6).
-   - The zero, reached with rows 832 and 339 open, which the bound reaches and does not cause.
-   - Landed: As landed. Default: as landed.
-   - The other way: None asked; any point can become a question.
-   - Its cost: None.
-   - Home: PLAN, "Climb batch 22c, listed for his review", the record's points; `coordinator/CLIMB-BATCH-22c.md:128-137`; `reviews/batch-22c-review.md`, Part 1, splits 5 and 6, and finding 3
-   - Needed by: never; for his review, and nothing builds on it.
-
-315. **Climb batch 23's record took its forks 1 to 20 at their defaults: does he take each?** The forks (`coordinator/CLIMB-BATCH-23.md`, section 2, "Forks the batch takes, none consequential"): two rungs, W landing only with C (1); the rewrite's switch per repository, the gate's stages included (2; item 308); the refusal under the helpers' package (3; item 309); the import collector's hook only for a component whose text names a helper (4); the stand-in reading in walk's world (5; item 308); walk's overload chosen by the declared types (6); values carried at the declared types (7); a functional method's `self` first (8); a dotted method told by the helper's arity (9); the refusal at load (10); the raise translation in the loader (11); the family of 21, `CHOOSE` and `Int`'s `asFloat` out (12); row 336 rewritten, not closed (13); rows 796 and 309 closed (14); the comment revised by W in the revision form (15); no rung's test a stage, both stages once on each final tree (16); no speed pass (17); expected errors as `XXX` compile tests (18); the 52 demos at the gather (19); nothing declared (20).
-   - Landed: Each built at its default. The post-batch review found each built: fork 3 with the rewrite keyed to the package too (item 309); fork 5 reaching walk's own `import java` (row 845, item 313); fork 7 with a declared type that no Java type carries refused at load, rung W's improvement on the planner's patch; forks 9 and 10 leaving row 847's case, a binding in a method of a type that no Java type carries, which loads; fork 13 with row 336's siblings on `NN32`, `NN64` and `ZZ` filed as row 848; fork 15 keeping the comment's sixteen lines, with two of 841 and 333 characters, so that the 354 citations of the api's later lines stay right; fork 16 equal to climb batch 22c's tables; fork 18 with the gather's test pinning today's message (item 311); fork 19's 52 of 52 (`reviews/batch-23-review.md`, Part 1, "The record's questions and forks, against what landed", and splits 2, 4, 5 and 8). Default: as landed.
-   - The other way: Any fork's other way, as the record gives it.
-   - Its cost: Each default can be undone; the record says that none reverses a decision of his or touches a line of microGPT (its section 2), and items 308 and 309 hold the two readings that the review puts before him.
-   - Home: PLAN, "Climb batch 23, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-23.md:97-120`; `reviews/batch-23-review.md`, finding 1
-   - Needed by: never; each default can be undone at any time.
-
-316. **What climb batch 23 changed that its record lists for his sight, not as questions.** From `coordinator/CLIMB-BATCH-23.md`, section 2, "Points the batch lists for you, not questions", and `compile-ladder/climb-batch-23/RECORD.md`, "Points to report", with what the post-batch review added:
-   - Team lines changed: 21 strings of the library's bindings, 19 in `Library/FortressLibrary.fss:741-810` and 2 at `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:371` and `:373`; `builtinPrimitive`'s comment in `FortressBuiltin.fsi:14-29`, its `glue.primitive` corrected to `glue.prim`, a package the tree has; 8 lines added to `NativeApp.checkAndLoadNative` (W). `Parser.importCollector` and `parseFileConvertExn`, `Shell.specificRepository`, and `NamingCzar`'s three-argument reading of a foreign type (C); the method that rung C's skeptic added to the team's `NamingCzarJUTest` is item 317.
-   - What walk does differently: `ZZ32`'s `DIV` by zero raises `DivisionByZero`, where the run ended (row 336; `ProjectFortress/tests/ZZ32DivisionByZeroWalk.fss`), as `Specification/basic/operators/opr-overview.tex:164-165` says. The family's other values print the same on the old code and the new (`NativeHelperFamilyZZ32Walk`). Where a program's own code binds a helper string, a refusal at load can become a quiet value, where the record said that no other value moves (`CLIMB-BATCH-23.md:125`): row 846's 9 for a binding over `String` given a non-flat string, and row 847's 'Ob.len() = 2' for a binding in a method of a program's own object.
-   - What the checker does differently: it reads a moved binding as a call of its helper, so a misfitting helper is an error at the binding (the planner's control: a misfitting string at `ZZ32`'s `<` gave the count 1); the count's table gains the row `com.sun.fortress.nativeHelpers 0`.
-   - The first family under walk runs by reflection, where its glue classes were compiled calls. Walk's speed is no measure (P-29); the quick microGPT check passed 7 of 7 on both programs at the commit stage (`reviews/batch-23-review.md`, section 5).
-   - Landed: As landed. Default: as landed.
-   - The other way: None asked; any point can become a question.
-   - Its cost: None.
-   - Home: PLAN, "Climb batch 23, listed for his review", the record's points; `coordinator/CLIMB-BATCH-23.md:122-127`; `compile-ladder/climb-batch-23/RECORD.md`, "Points to report"; `reviews/batch-23-review.md`, Part 1, "Rung C, `98b04d371`" and "Rung W, `640acb4a1`", standard 2, and finding 1; rows 336, 846 and 847
-   - Needed by: never; for his review, and nothing builds on it.
-
-328. **Climb batch 24's record took its forks 1 to 18 at their defaults: does he take each?** The forks (`coordinator/CLIMB-BATCH-24.md`, section 2, "Forks the batch takes, none consequential"): seven rungs, none landing only with another, applied F, K, Z, S, W, G, H (1); K takes `CHOOSE` on both `ZZ32` and `ZZ64`, in a rung of its own (2); F carries walk's carry of `Float`, one line of `javaFor` (3); W's check of `self`, the declaring type told to the loader (4); two guards per family (5); the divisions by zero, and the `XXX` tests for rows 336 and 848 (6); the Appendix I Effect the gather's, the specification built once and reused (7); the 52 demos at the gather (8); the suites once after a rung's last change of code (9); the stages once on each final tree, W, G and the gather none (10); `truncate` and `round` at `ZZ64` (11); row 701's `where` half only (12); G's tests (13); no speed pass (14); no declared count, crash or ladder move (15); the rows (16); `FlatString`'s 5 left out (17); H moves 76 of the 82 (18).
-   - Landed: Each built at its default. The post-batch review found (`reviews/batch-24-review.md`, Part 1, "The record's questions and forks, against what landed"): fork 4 with the self-first rule and no carrier for `FlatString` and `JavaString` (split 4; item 340); fork 5's float guards completed by rung F's skeptic; fork 7's reuse not in the script, so the commit stage built the specification again (finding 4; the script reuses the gather's build since `7abc5c21c`); fork 9 kept but for rung W, which ran its suites twice (finding 4); fork 10 with two controls on a misfit string, restored after; fork 12's reach: G dropped the condition at all three guards, so an object's or a trait's own `where` clause on its own static parameters compiles too, beyond P-151's three forms, though the code generator emits nothing for any clause (split 3); fork 13 with three tests beyond its list and the skeptic's four `XXX` tests (item 330); fork 16 with rows 307, 812 and 677 also rewritten by G; fork 18 with its six left on glue classes and their rows. Default: as landed.
-   - The other way: Any fork's other way, as the record gives it.
-   - Its cost: Each default can be undone; the record says that none reverses a decision of his or touches a line of microGPT (its section 2).
-   - Home: PLAN, "Climb batch 24, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-24.md:102-123`; `reviews/batch-24-review.md`, Part 1, splits 3 and 4, and findings 1 and 4
-   - Needed by: never; each default can be undone at any time.
-
-329. **What climb batch 24 changed that its record lists for his sight, not as questions.** From `coordinator/CLIMB-BATCH-24.md`, section 2, "Points the batch lists for him, not questions", and `compile-ladder/climb-batch-24/RECORD.md`, "Points to report", with what the post-batch review added:
-   - Team lines changed: 76 strings of `value object NN32`, `trait NN64` and `value object Char` (H), and the revival's `BuiltinPrimitiveRewriter`; 30 strings of `value object Float` (F, `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:55-193`); 36 strings of `trait ZZ64` and `trait ZZ` (Z, `Library/FortressLibrary.fss:831-905`, `:1007-1076`); 8 strings in both files (S); the two `CHOOSE` strings and two lines in each of the team's `simpleIntArith` and `simpleLongArith` (K); the constructors of the team's `MethodClosure` and `FunctionalMethod`, two constructors added to `FunctionClosure`, and `NativeApp.checkAndLoadNative` (W); three conditions of the team's `CodeGen` (G). `StaticNativeApp` is the revival's. Rung G's test files outside its lists are item 330.
-   - What walk does differently: `DIV` by zero on `ZZ64`, `ZZ`, `NN32` and `NN64` raises `DivisionByZero`, where the run ended (F-24; rows 336 and 848 now hold `REM` and `MOD` only), as `Specification/basic/operators/opr-overview.tex:164-165` says; a helper bound in a method of a type that no Java type carries is refused at load (row 847, closed; F-299), and in a dotted method of a generic type only where an instance is made (row 864); a declared `Float` is carried in a Java `double` (F-303). `CHOOSE` keeps its values. No other value moves, by the workers' and the skeptics' runs, old code against new (`reviews/batch-24-review.md`, Part 1, "The global questions").
-   - What the compiled path does differently: a binding over `NN32`, `NN64` or `Char` is checked through the team's transfers, where the checker refused it (H; item 326); a header `where` clause compiles (G; F-181), and a call of a function or method whose own clause introduces a `where`-clause variable, which the code generator refused, now dies at run time (row 867; item 341); the compiled `CHOOSE` past its table raises `IntegerOverflow` (row 521), and parallel calls of it no longer corrupt each other (row 855), on `ZZ32`, `ZZ64` and, through the `ZZ64` helper, `NN32` (F-305).
-   - Walk's float arithmetic runs through reflection since rung F, where its glue classes were compiled calls: the operations of microGPT's two programs. Walk's speed is no measure (P-29); the quick microGPT check passed 7 of 7 on both programs at the commit stage (`reviews/batch-24-review.md`, section 5).
-   - Landed: As landed. Default: as landed.
-   - The other way: None asked; any point can become a question.
-   - Its cost: None.
-   - Home: PLAN, "Climb batch 24, listed for his review", the record's points; `coordinator/CLIMB-BATCH-24.md:125-130`; `compile-ladder/climb-batch-24/RECORD.md`, "Points to report"; `reviews/batch-24-review.md`, Part 1, each rung's standard 2, and finding 1; rows 336, 521, 847, 848, 855, 864 and 867
-   - Needed by: never; for his review, and nothing builds on it.
+### How batches run (1)
 
 335. **A systematic check of the natives' shared state, the coordinator's proposal: a static field check in the gate and a parallel test for each helper with state. Build it, a part of it, or neither?** The natives' shared-state audit (`reviews/natives-shared-state-audit.md`, section 7; `723cb707c`) found one slip in the natives' own state, the two `CHOOSE` scratch arrays (row 855, fixed by climb batch 24's rung K), and the pattern in the checking: no test calls a native from parallel tasks and compares the results with a sequential answer, which is why row 855 waited for a probe. Its proposal, which the coordinator puts to him as its own, not built: (1) a static check in the gate, one `javap -p` over the built classes of `nativeHelpers/` and `interpreter/glue/`, that fails on a static field that is not final or is of an array or collection type, or on an instance field of a glue class, not in an allow-list taken from the audit's section 2; (2) for each helper that the check lets through with state, or that calls into run-time state, a compiled test that calls its binding from a parallel loop at four threads and asserts each value against a sequential answer, as the CHOOSE probe's tests do. A pure helper needs none.
    - Landed: Nothing built. Default: neither part built, as today; the proposal stays the coordinator's until he says yes.
@@ -1975,75 +543,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 24, listed for his review", the audit's systematic check; `reviews/natives-shared-state-audit.md`, sections 6 and 7; row 855; item 334
    - Needed by: before N3's new helpers (PLAN, phase 4, the natives line), if the static check is to see their state as they are written; nothing else builds on it.
 
-351. **An allow rule for walk guards run with the base build's own `harness-one.sh`?** C.worker.2 and C.skeptic.3 of climb batch 25's rung C, a step refused, not a question of the language. The automatic permission check refused running walk guards with the base build's `harness-one.sh` (`FORTRESS_HOME=/home/user/fortress-base25`), the route that the `fortress-repo` skill's `references/worktrees.md`, "Running the old code", gives for interpreter tests on the old code. An allow rule would let a later rung show a walk guard on the old code that way. A permission setting is his.
-   - Landed: No rule; the rung showed its walk guards on the base's build in its own tree before the edit. Default: no default on record.
-   - The other way: An allow rule for that command.
-   - Its cost: One permission entry; not measured.
-   - Home: PLAN, "Climb batch 25, listed for his review", C.worker.2; `compile-ladder/rung-codegen-walls/REPORT.md:116`; `reviews/batch-25-review.md`, Part 4, "The items of the rungs, the gather and the review"
-   - Needed by: never (set by the landing workflow); the rung showed its guards another way.
-
-352. **Climb batch 25's record took its forks 1 to 17 at their defaults: does he take each?** The forks (`coordinator/CLIMB-BATCH-25.md`, section 2, "Forks the batch takes, none consequential"): seven rungs, the manifest's order (1); each new helper in its type's class, `RR32`'s in a new `simpleFloatArith` (2); the five `asFloat`s declared at `RR64` (3); R's helpers raise `DivisionByZero` (4); U fixes the two helpers and the compiled run time's printing (5); U widens the `NN64` transfer to `UnsignedLong`'s `self` (6); N's helpers keep walk's values (7); no new helper holds state (8); two guards per family rung (9); the Appendix I Effect the gather's (10); the 52 demos at the gather (11); the suites once after a rung's last change of code (12); the stages (13); C takes rows 820, 821 and 823 (14); no speed pass (15); no declared count, crash or ladder move (16); the rows (17). The record puts three first for him (`CLIMB-BATCH-25.md:44-46`): fork 3, five of the team's headers changed from walk's `Float` to `RR64`; fork 6, the cost of item 326 reaching three more bindings; fork 5, the compiled printing of `NN32` and `NN64` fixed.
-   - Landed: Each built at its default. The post-batch review found (`reviews/batch-25-review.md`, Part 1, "The record's questions and forks, against what landed"): fork 5's fix moved the compiler prelude's `NN64` printing and prefix `BOXMINUS` with the shared helpers, where P-38's title says that the prelude's defects are not repaired, a reading of P-38 that the record does not name (split 1); fork 2 with two spellings of the square-root roundings (split 6; item 345); fork 6 with row 886's simple-name reading (split 7); fork 7 with `ZZ`'s `CHOOSE` out of range at 1 (split 5; item 348); fork 13 with the gather's run of the distance stage for row 873 (finding 6). Default: as landed.
-   - The other way: Any fork's other way, as the record gives it.
-   - Its cost: Each default can be undone; the record says that none reverses a decision of his or touches a line of microGPT (its section 2).
-   - Home: PLAN, "Climb batch 25, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-25.md`, section 2; `reviews/batch-25-review.md`, Part 1, splits 1, 5, 6 and 7, and findings 3, 4 and 6
-   - Needed by: never (set by the landing workflow); each default can be undone at any time.
-
-353. **What climb batch 25 changed that its record lists for his sight, not as questions.** From `coordinator/CLIMB-BATCH-25.md`, section 2, "Points the batch lists for him, not questions", and `compile-ladder/climb-batch-25/RECORD.md`, "Points to report", with gather.1:
-   - Team lines changed: 28 strings of `value object Float` and the top-level `fromRawBits` (D); 49 strings of `value object RR32` (P); five strings and five headers of `asFloat` in `FortressBuiltin` (A); 10 strings of the five integer types (R); five strings and one header in `value object UnsignedLong`, trait `NN64` and `value object NN32`, the team's `unsignedLongToString` and `unsignedLongWrappingNeg`, and the compiled run time's `FNN32` and `FNN64` (U); 18 strings (N); three methods of the team's `CodeGen` (C). `BuiltinPrimitiveRewriter` is the revival's.
-   - What walk does differently: `REM` and `MOD` by zero raise `DivisionByZero` on all five integer types, where the run ended (rows 336 and 848; F-312). No other value moves, by the planner's and the rungs' runs.
-   - What the compiled path does differently: a compiled `NN32` above 2^31 and an `NN64` above 2^63 print unsigned, and the compiled `NN64` wraparound negation of `x` is `0 - x` (rows 326 and 860; F-313), and the compiler prelude's `NN64` printing and prefix `BOXMINUS` moved with the shared helpers (item 352); the checker reads 115 more bindings against their helpers; a compiled trait or object may extend a generic trait at `Any`, a `try` may carry a `forbid` clause, and a function may be declared `test` (rows 820, 821 and 823; F-315).
-   - Walk's arithmetic on `RR32`, the directed roundings and the integer divisors runs through reflection since the batch, where its glue classes were compiled calls; microGPT's `MOD` and `nanoTime` among them. Walk's speed is no measure (P-29); the quick microGPT check passed 7 of 7 on both programs at the commit stage (`reviews/batch-25-review.md`, section 5).
-   - gather.1: rungs D and P met one defect, `nextUp` at a signed zero, and each wrote a reproducer of one file name and a row; the gather merged the two files into one with both sides' assertions and made the rows one, row 880, its claim widened to `RR32` (`ProjectFortress/tests/FloatNextUpSignedZeroWalk.fss:1-22`; `compile-ladder/climb-batch-25/RECORD.md`, "Conflicts").
-   - Landed: As landed. Default: as landed.
-   - The other way: None asked; any point can become a question.
-   - Its cost: None.
-   - Home: PLAN, "Climb batch 25, listed for his review", the record's points and gather.1; `coordinator/CLIMB-BATCH-25.md`, section 2; `compile-ladder/climb-batch-25/RECORD.md`, "Points to report" and "Conflicts"; `reviews/batch-25-review.md`, Part 1, split 1, and finding 3; rows 326, 336, 820, 821, 823, 848, 860 and 880
-   - Needed by: never (set by the landing workflow); for his review, and nothing builds on it.
-
-### The record, its tools and the repository (16)
-
-166. How the ledger numbers rows during parallel batches (D7).
-   - Landed: Provisional numbers folded at the gather. The other way: A lock and numbers in call order. Its cost: A rung edits the ledger.
-   - Home: `facts-extract.sh 'history:P-133'`; `process-engineering/gap-ledger-archaeology.md:435`
-   - Needed by: never; provisional numbers are folded at each gather.
-
-167. Row 331's re-gating on inference, and the decisions judgement's candidate rows 2, 3 and 5.
-   - Landed: Parked. The other way: Open the rows. Its cost: Rows.
-   - Home: PLAN, "Off the path, parked", Row 331's bare `Nothing` re-gated on type inference (10-02: 103)
-   - Needed by: never; row 331 is the compiled prelude's, which the switch-over deletes (P-38), and the parked rows can open at any time.
-
-168. `checkDeclComprises`'s header comment lists three cases, not the fourth.
-   - Landed: The comment as landed. The other way: A two-line addition. Its cost: Two lines.
-   - Home: PLAN, "Off the path, parked", `checkDeclComprises`'s header comment lists the eligibility rule's three cases; `TypeHierarchyChecker.scala:176-191` (10-02: 81)
-   - Needed by: never; a two-line comment at any time.
-
-169. The root README calls `Specification-1.0-frozen/` the frozen 1.0 specification; only its PDF is 1.0.
-   - Landed: The line as it stands. The other way: Reword it. Its cost: A line.
-   - Home: `README.md:105-107`; P-96, "A change of the specification is shown in layers, ...", the S1 form (10-02: 108)
-   - Needed by: never; one line at any time.
-
-170. The inventory's move list waits on his reading.
-   - Landed: Nothing moved. The other way: Move it. Its cost: Re-check it after the cleaning first.
-   - Home: PLAN, "Off the path, parked", The root README's line on `Specification-1.0-frozen/`; `facts-extract.sh 'history:P-128'` (10-02: 109)
-   - Needed by: never; it waits on his reading, and nothing moves meanwhile.
-
-171. The tracked jars (36 MB) fetched by a setup step, and the built PDFs as release artifacts.
-   - Landed: Nothing done. The other way: Do it. Its cost: One of the PDFs sits in `Specification-1.0-frozen/`, which nothing touches; removing files shrinks a checkout only with the cleaner pass of `main`.
-   - Home: the transcript only; review queue of 2026-10-02, entry 97 (10-02: 97)
-   - Needed by: never; nothing touches `Specification-1.0-frozen/`, and the cleaner pass of `main` is not planned.
-
-172. `explorations/astra/README.md` links an archive that is only on the branch `codex/astra-microgpt`.
-   - Landed: The branch kept. The other way: Tag the branch, or restore the archive. Its cost: None.
-   - Home: `explorations/astra/README.md:109-127`
-   - Needed by: never; the branch is kept.
-
-187. **Row 539's claim quotes walk's old refusal.** The claim says the set "gives 'at least one pair of parameters must have excluding types'". Climb batch 18's rung W makes that false: the refusal now says "fails the Meet Rule" (`XXXOverloadExistentialMeetWalk`). The row is open, its notes are full, and until `1ac7028b4` only `ledger.py close --claim` rewrote a claim, as for row 589 (climb batch 17's gather.2); `ledger.py rewrite` now does.
-   - Landed: The claim as it stands. Default: the coordinator's hand edit of the claim to the new message; since `1ac7028b4`, `ledger.py rewrite` can carry it out (item 165, settled); row 539 is among the 40 open rows with a refused note, which wait for the ledger's full pass (item 267).
-   - The other way: A `ledger.py` route for an open row's claim (item 165), now built: `ledger.py rewrite` (`1ac7028b4`).
-   - Its cost: Tool work, or one line by hand.
-   - Home: PLAN, "Climb batch 18, listed for his review", gather.3; `compile-ladder/rung-walk-trait-method-bounds/REPORT.md:85-89`; `compile-ladder/climb-batch-18/RECORD.md:147`; row 539
-   - Needed by: never; no PLAN item edits row 539, and its new message is in the rung's report.
+### The record, its tools and the repository (6)
 
 225. **Is "The unrevised copy, `Specification-1.0-frozen/`, is never touched" his standing rule (P-95)?** P-95 says that every change to the specification is recorded with its reason, and adds: "The unrevised copy, `Specification-1.0-frozen/`, is never touched." He agreed to that for one rung: the route A rung of batch 4, in the question of 2026-09-24 at 14:36 UTC ("the frozen copy untouched"), which he answered with "Agreed. Route A it is." The coordinator made it a standing rule. It fits his wish of the same morning (07:03 UTC) to keep the original historic record. Confirm it, or strike it?
    - Landed: The sentence, as the entry reads. Default: kept, until he answers. The tree keeps it: the folder is the same tree as at the team's commit `5a68404fd` of 2012-07-19 (`coordinator/positions-audit/full/evidence/P-95.md`, section 2).
@@ -2078,30 +578,278 @@ Each is kept as landed unless he says otherwise.
    - The other way: (a) Keep `NEGATIVE-VERIFIED`, and widen its definition in the legend to cover a defect where the specification is silent. (b) Use `CONTESTED` for such a row. (c) Use `POSITIVE-VERIFIED` for a behaviour that is a choice.
    - Its cost: One line of the legend, and the status of up to 76 rows in the full pass.
    - Home: `coordinator/ledger-health-2026-10-22/REPORT.md`, section 3.1, the signal, section 5.4, row 141, and section 7, "Questions for the curator", 1; `explorations/fortress-gap-ledger.md:15`, the legend; item 267, the full pass
-   - Needed by: before the gap ledger's full pass; the pass sets the status of each of the 76 rows by this answer.
-
-266. **Is a new gap-ledger row held to 900 characters when it is written?** A row's limit is 1,200 characters, and its notes' 700 (`explorations/coordinator/tools/ledger.py`, its header). A row at its limit takes no note; since `1ac7028b4`, `ledger.py rewrite` can cut it back. The gap ledger's health check of 2026-10-22 found that new rows are written near the limit: of the 92 open rows added since the ledger's rework of 2026-10-08 (`ae4f8e38a`), 43 already stand at 1,100 characters or more, or at 600 characters of notes or more, so they have little room for what later batches learn. It proposed a size budget: a new row written at 900 characters at most.
-   - Landed: No new limit (the report's default).
-   - The other way: A new row is written at 900 characters at most, so that it can take later notes; `ledger.py add` or the landing check can enforce it.
-   - Its cost: A sentence of the batch manual and of the `fortress-repo` skill, or a check in `ledger.py add`; rows written shorter.
-   - Home: `coordinator/ledger-health-2026-10-22/REPORT.md`, section 4, the sizes and growth, section 6.3, the size budget, and section 7, "Questions for the curator", 2
-   - Needed by: never; the default can stand, a limit can be set at any gather, and `ledger.py rewrite` cuts back a full row.
+   - Needed by: before the ledger's repair, the gap ledger's full pass, the last of the record's work that PLAN puts before climb batch 26 ("Where we stand", "Next"); the pass sets the status of each of the 76 rows by this answer.
 
 267. **Is the gap ledger's full pass worth about 180 row rewrites and 30 to 40 measurements again?** The gap ledger's health check of 2026-10-22 recommends a reading of all 439 open rows, about 529K characters and about 170K tokens to read, by the record rubric. By the rates of its sample of 43 open rows, about 180 rows need a change (between about 120 and 250), and about 30 to 40 need a measurement again first, in a later run. A pass over the 60 rows that a signal flags would miss most of the work: 9 of the 23 sampled rows that need action carry no signal. The routes that the pass needs are built (`1ac7028b4`; item 165, settled), and the landing check, which stops new staleness at each landing, runs in the batch workflow (`c9b5beb36`). On 2026-10-22 at about 11:45 UTC he put the ledger's repair last: after FACTS, the ledger's tool and landing check, the scrape, the skills and the orientation, as the last job before the weekly reset if the week's budget allows (`coordinator/BOOT.md` at `382289832`). The 40 open rows with a refused note (`coordinator/ledger-health-2026-10-22/refused-notes.tsv`) wait for the pass: their texts are in the batch records, so its writer can start from them.
    - Landed: No pass has run. The report's default: no pass; the landing checks still stop new staleness, but the 180 or so rows stay as they are. His word of about 11:45 UTC puts the pass last, after the orientation, if the week's budget allows; this item asks whether it is worth its cost when that point comes.
    - The other way: The full pass as section 6.1 orders it: the 10 template rows and the 2 owed closes first (done, `30872d93c`), then the 60 flagged rows, then the rest by section, each rewritten row checked by a reader who knows Fortress but not the batches; the rows whose evidence is too old to trust listed for a later probe.
    - Its cost: About 180 row rewrites through `ledger.py rewrite`, a reading of about 170K tokens, and 30 to 40 measurements again in a later run.
    - Home: `coordinator/ledger-health-2026-10-22/REPORT.md`, sections 5 and 6.1, and section 7, "Questions for the curator", 3; `refused-notes.tsv` and `flagged-rows.tsv` beside it; `coordinator/BOOT.md` at `382289832`, his word of about 11:45 UTC; items 165 (settled) and 265
-   - Needed by: before the gap ledger's full pass, the last job, after the orientation, if the week's budget allows; the pass waits on this answer.
-
-298. **Should the distance stage also read the `@@TC COMPONENT-CRASH` lines?** They are the third kind the zero audit names (`explorations/reviews/phase3-exit/zero-audit.md:72`). `explorations/coordinator/tools/distance/shadow-patch.py:111-113` prints them, and `table.py` reads the api lines only, as climb batch 22c's rung L's brief asked (`explorations/coordinator/tools/distance/table.py:61-67`; F-295), so a component crash outside every caught stage would still print no row. A tool's gap with no ledger row (L.worker.2 and L.skeptic.2 of the rung).
-   - Landed: The stage as landed. Default: none on record; as landed.
-   - The other way: `table.py` reads the `COMPONENT-CRASH` lines into a `#crash` row, as rung L made it read an `API-CRASH` line.
-   - Its cost: A few lines of `table.py` and a canned case in `test_classify.py`.
-   - Home: PLAN, "Climb batch 22c, listed for his review", L.worker.2; `compile-ladder/rung-list-imports/REPORT.md:232` (section 13); F-295
-   - Needed by: never; the tool can change between any two batches.
+   - Needed by: before the ledger's repair, the last of the record's work that PLAN puts before climb batch 26 ("Where we stand", "Next"), as his word of about 11:45 UTC on 2026-10-22 put it last, if the week's budget allows; the pass waits on this answer.
 
 ## (a) Settled or stale: these leave the lists
+
+### Settled or stale at the cleanup of 2026-11-05 (77)
+
+Each with the ground that settles it: a decision of his, a landed fix, a row that holds it, or the item that it repeats. Verdicts of three sort workers on the queue of `40826f355`, checked by a judge; each line names the item's old title.
+
+- **29, The checker refuses the model's numeral powers.** It repeats item 277, whose one run decides it; the tie does not reproduce against the one library since climb batch 22's base (row 533's notes), and no model line changes either way.
+- **45, One fixed batch workflow, or one designed per batch?** The fixed batch workflow, redesigned, has run every batch since, climb batches 14 to 25, at 5.03M to 7.22M a batch against the per-batch designs' priced 31M and 37M (`process-engineering/design-pricing.md`), and his rules of 06:2x UTC on 2026-11-03 rely on the workflows as encoded (held list).
+- **54, Four gated inference gaps.** Each gap is gated by an expected failure and held by its row, 506, 507, 511 and 513, with its repair; phase 5 measures row 507 first (PLAN, "Off the path, parked", the gated inference gaps), and no choice is left to him.
+- **56, Against the compiled prelude, which declares no `ImmutableArray`, the checker…** Row 604 holds the refusal, which comes from the compiler's prelude, with no `ImmutableArray`, and goes with it at the switch-over.
+- **61, A compiled verdict on an overload set can depend on the components compiled…** Row 547 holds the defect; the item repeats it.
+- **64, The per-provider check visits declared traits and objects only, so a pair…** Row 570 holds the gap; no compiled program runs an object expression yet (row 375).
+- **68, Walk does not check a `comprises` clause's other half, that each listed type…** Row 598 holds the gap.
+- **77, Walk refuses at load the POPL 2019 paper's valid `ArrayList`/`List` overload…** Row 539 holds the defect, which P-45 names among its pairs.
+- **79, Walk's return rule for a generic beside a plain declaration keeps `pickFirst`…** Row 550 holds the defect.
+- **82, Under walk, a parameter bounded only from above whose bound mentions another…** Row 612 holds the defect.
+- **91, Q-walk makes walk convert a body to its declared return type (row 387).** PLAN's Q-walk line (phase 4) holds row 387's return conversion, and no other way is proposed, so the item repeats PLAN and row 387.
+- **99, Under walk, an array of a static size from 2^31 to 2^32−1 dies with a raw…** Row 527 holds the defect and its fix; P-40's length check, where the array design creates the array, is its home.
+- **101, The compiled class loader computes a size without checking its kind, so it…** Row 675 holds the defect, with a test that asserts today's value.
+- **107, A rank-2 or rank-3 range strided backwards on some axes has no range kind and…** Row 659 holds the gap.
+- **110, `LessThan`'s and `GreaterThan`'s `CMP` answer the converse of their `<` (row…** Rows 456 and 457 hold the team library's two defects, left as they are since each repair changes a value that walk prints.
+- **118, `FlatString.rangeContains` finds only the first occurrence of a character…** Row 607 holds the defect, pinned by a test.
+- **131, The api's advice for a range subscript, `(bounds())[r]`, reads `r` as…** Row 674 holds the comment fix: the advice names `narrowToRange`.
+- **144, Three `shift` properties of the integer chapter are wrong or garbled (row…** Row 500 holds the defect and its route; `property` declarations are not built, so nothing checks or runs the three lines.
+- **148, Batch N's rung M added a compiled test pair outside its file list, for row…** A file outside a rung's list lands with its rung and is listed only for sight (`coordinator` skill, `references/batch.md`); the pair landed gated and nothing builds on it.
+- **150, A rung's test asserted walk's numeral reading as the text's answer; the…** No other way was proposed; the gather's rewrite of the two calls, on which both paths agree, landed (PLAN-history, "Climb batch 10, listed for his review").
+- **152, Batch 13's crash test for two-bound overloading adds an object outside the…** A confirmation with no other way; the test landed and gates.
+- **154, Row 452's test was restated to a `ZZ32` range of converted bounds and renamed.** Row 452 is FIXED at `3be1fecd7`, with the restated `RangeSizeRungO.fss` as its reproducer.
+- **155, Rung P showed its first walk expected failure red on a copy, not on a…** No other way was proposed; the test landed and gates.
+- **157, An earlier exploration's probe, `NotationGenericBigSum.fss`, uses a retired…** The probe is a historical record under `explorations/astra/worker/notation/`, outside every suite; nothing runs it.
+- **158, Batch 8 made two program shapes that ran die at load: the compiled run time…** Row 559 holds the defect, gated by two expected failures, and PLAN's phase 5 repairs it; no choice is left to him.
+- **159, The compiled template dispatcher answers differently for a class it was not…** Row 499 holds it, and PLAN's phase 5 repairs it beside row 496's dispatcher; no choice is left to him.
+- **160, Rung edits outside their file lists.** Each edit landed in its rung and gated; a file outside a rung's list lands with it (`references/batch.md`), and no later work needs one redone.
+- **161, A skeptic's fix may edit a file of its rung's area that the file list neither…** The batch manual states the rule: a file outside the rung's section does not make a settled fix contested (`references/batch.md`).
+- **162, The checker count reads 1 while the component's first error stops it, then…** The count is 0 over the fourteen components at climb batch 25's gate (F-53), so its interim readings no longer arise.
+- **164, The whole-project designs.** Dropped from the order when the process study closed on 2026-10-10; batches run on the batch-scope redesign (`process-engineering/README.md`).
+- **166, How the ledger numbers rows during parallel batches (D7).** The tools hold the practice: `ledger.py` locks every write and numbers a row on `add`, and the landing check leaves no provisional number where a row is cited.
+- **167, Row 331's re-gating on inference, and the decisions judgement's candidate…** Row 331 is the compiler prelude's `Maybe` block, which P-38 keeps as landed until the prelude is deleted at the switch-over.
+- **170, The inventory's move list waits on his reading.** It repeats PLAN's parked line on the root README, the lineage cleanup and the move list, and the cleaner pass that the boot note holds.
+- **171, The tracked jars (36 MB) fetched by a setup step, and the built PDFs as…** It belongs to the cleaner pass of `main`, parked in PLAN ("Off the path, parked", housekeeping).
+- **172, `explorations/astra/README.md` links an archive that is only on the branch…** The branch is on the remote (`origin/codex/astra-microgpt`), so the link holds.
+- **180, A compile after a typecheck writes no jar.** Row 757 holds it, among phase 3's candidates in PLAN; its repair is a tool fix with no decision in it.
+- **184, P-148's second pass after climb batch 18's rung K, not taken.** The memo would save about 2 % of the count stage, under the spread of two runs, and P-148 takes a small difference as noise.
+- **187, Row 539's claim quotes walk's old refusal.** Row 539's claim now reads "fails the Meet Rule", rewritten by the ledger's clarity run (`e553d8949`).
+- **191, `FlatString`'s api pair `opr ||(a:FlatString, self)` dropped.** Row 726 is FIXED (climb batch 21b, rung C), and the api declares only the `||` with `self` first, as the component does.
+- **194, microGPT's APL port: a new first compile error.** Stale: the APL program's first compile error is now "ImmutableArray is undefined." at climb batch 25's gate (`climb-batch-25/gate/ladder/microgpt-phase.md`); item 305 holds that move.
+- **197, No decision record for contract E.** P-96 asks for a document that holds the reasoning; the Appendix I entry cites the integer-power probe's report and the judgement, which hold it.
+- **204, Three sites the gate's comparisons hid as moved.** No error changed: the sites moved by lines only, and the gate's comparisons hide moved library positions by design (`references/batch.md`).
+- **206, The gate compiles the two microGPT programs, and a run of them, once…** P-29 settles the run half ("The gate never runs microGPT's two programs"); the compile half had his go of 14:54 UTC on 2026-09-19 and is built (F-97).
+- **207, The full microGPT check programs run only when asked.** P-30 states it, from his words of 2026-10-08; `tools/mg-run.sh` runs the full pair only when a brief asks.
+- **208, How the checker represents a size that inference leaves unknown.** Information only, spent: built as `_InferenceVarInt` (`ProjectFortress/astgen/Fortress.ast`), gated, and nothing later builds on the choice.
+- **214, The compiled path's integer powers follow P-153 only when phase 4's natives…** The other way, a checked power bound in the compiler's prelude, is excluded by P-37 (no declaration is added to the prelude) and P-38 (its text is not repaired); the compiled power comes with phase 4's natives (rows 441, 523).
+- **216, Does the standard library take only extensions with a precedent in it (P-27)?** P-27 was rewritten whole around his refinement, at his page comments of 06:39 and 06:42 UTC and his yes of 12:5x UTC on 2026-10-29 (`8c99e258e`); the sentence that the item asks about is gone.
+- **221, "MicroGPT's static types are concrete ..." (P-59).** Struck from P-59 at his "Agreed with this edit." of 07:51 UTC on 2026-10-29 (POSITIONS-history, P-59).
+- **222, Do the public range traits stay generic in their index type (P-77)?** The clause is true of the library as built (`trait Range[\I\]`, F-133); by his rule of 23:21 UTC on 2026-10-21 a correct sentence stays.
+- **226, Does route C stay out of the specification's Proposed Features as a standing…** P-123 was struck at the audit as a one-time approval carried out, and P-96 gives route C its place in Appendix I's revival section.
+- **231, Should P-45 name the library's devices for its refused overload sets?** Both wordings are true of the tree, so by his rule of 23:21 UTC on 2026-10-21 P-45 stays as it reads; the devices are in `reviews/overloading-judgement.md`, section 1.
+- **233, What does "a name" cover in P-40's "an error only when it reaches a type, a…** P-40 states his decision, his yes of 12:20 UTC on 2026-09-26; by his rule of 23:21 UTC on 2026-10-21 the true sentence stays.
+- **234, Should P-146 name the widening for the team's `Containment` mixins, or leave…** It repeats item 212, which stays open: under 212's default P-146's rule sentence is widened in any case.
+- **237, Once he answers item 216, does P-27 take the clarity pass's rewrite (P-27)?** The rewrite was drafted against P-27's text of 2026-10-22, which the rewrite of 2026-10-29 at his word replaced whole (`8c99e258e`).
+- **239, When the microGPT walk check after a batch takes more than a minute, is that…** His ruling of 18:58 and 19:03 UTC on 2026-10-23 rules out timing walk (PLAN-history, "The timed pairs of the walk check dropped, 2026-10-23").
+- **242, May P-66 say that it is a way of weighing, and what the team corrected with…** His words settle it: P-66 is "a correct and precise expression of my position" (20:18 UTC on 2026-10-21), and his rule of 23:21 that evening keeps correct wording.
+- **243, Should P-148 say again that the rung's skeptic checks the time and the…** He approved P-148's text without the two clauses at 22:41 UTC on 2026-10-21, and the `fortress-repo` skill asks both of a rung and its reviewer.
+- **244, Is the case for building a feature that the team's work barely supports his…** The landed sentence states his words of 11:18 UTC on 2026-10-16, which put each such case to him; it reverses nothing, and nothing built changes (P-151's history, blocks of 2026-10-21 23:36Z and 2026-10-22 09:47Z).
+- **249, Does P-150's "not tried again" also rule out measuring what a resident…** He approved P-150's text at 22:41 UTC on 2026-10-21, and F-234 states what was not measured.
+- **261, Does the specification's coercion example stand as an entry of its own…** FACTS holds the split as applied, F-172 and F-272; the shape of FACTS entries is the record's, under his standing rule of 08:1x UTC on 2026-10-31.
+- **268, P-48 says that walk will never have static types; P-12 gives walk the…** Applied at `4d7df29c3` at his word of 22:12 UTC on 2026-10-22; P-48 now states only the present, which agrees with P-12, a record edit under his standing rule of 2026-10-31.
+- **270, P-25 says that P-97 holds how the revision uses a passage that P-97 does not…** Applied at `4d7df29c3` at his word; P-25's pointer now covers the first two passages only, a pointer fix under his standing rule of 2026-10-31.
+- **271, P-33 holds batch history and an agent's paragraph on row 320 beside his phase…** Applied at `4d7df29c3` at his word; the history and the agent's paragraph left P-33, a record edit under his standing rule of 2026-10-31.
+- **272, P-46 holds walk's promotion from the run-time types as "a choice taken…** Applied at `4d7df29c3` at his word; the sentence left P-46 for F-137, a fact about the interpreter.
+- **273, P-49 holds two of the checker's four attempts at a call as "a choice taken…** Applied at `4d7df29c3` at his word; the sentences left P-49 for F-78. Whether the two extra attempts stay is item 2, which this item repeats.
+- **274, P-85 holds way 4a of the array design, which "is not the curator's answer".…** Applied at `4d7df29c3` at his word; way 4a left P-85 for F-270. Whether it stands is items 30 and 229, which this item repeats.
+- **275, P-151 holds a batch's departure from his option, and a measurement. Shall…** Applied at `4d7df29c3` at his word; the batch's sentence left P-151 and the measurement is in F-242. Whether the departure stands is item 188, which this item repeats.
+- **302, Climb batch 22c's record took its forks 1 to 18 at their defaults: does he…** The forks that change what a program does are items 303, 294, 295, 298 and 304; the rest are the batch's mechanics, built as the review found (`reviews/batch-22c-review.md`, Part 1).
+- **313, Fork 5's reading of a Java type also reaches walk's own written `import java`…** Row 845 holds it; no suite, demo or library component writes `import java` under walk, and N5 drops the world test (PLAN, phase 4).
+- **315, Climb batch 23's record took its forks 1 to 20 at their defaults: does he…** The forks that change what a program does are items 316, 308 and 309; the rest are the batch's mechanics (`reviews/batch-23-review.md`, Part 1).
+- **317, Rung C's skeptic added a test method to the team's `NamingCzarJUTest`, a file…** A file outside a rung's list lands with its rung (`references/batch.md`); the method is new, and climb batch 23 landed gated at `df71bc585`.
+- **324, P-156's tuple rule against the POPL 2019 paper's matching rule…** His decision of 18:0x UTC on 2026-11-02 that the tuple rule stays, option 1 of `reviews/walk-leaning-decisions.md`, section 2 (P-156's history, block of 2026-11-02 18:03Z).
+- **327, Climb batch 24's question 1, answered at its default by the coordinator from…** It repeats item 310: the two bindings stayed on their glue class and move with the string family after item 310's answer.
+- **328, Climb batch 24's record took its forks 1 to 18 at their defaults: does he…** The visible effects are items 329, 330 and 340; the rest are the batch's mechanics (`reviews/batch-24-review.md`, Part 1).
+- **330, Rung G's worker and skeptic added seven test files outside the rung's lists.…** A file outside a rung's list lands with its rung (`references/batch.md`); each file is new, and climb batch 24 landed gated at `25238e60c`.
+- **350, Should the new `forbid` path run a `try`'s `finally` clause now, ahead of the…** Row 890 holds the defect, with `XXXFinallyOnEscape.test`; PLAN's phase 4 code-generator line repairs the three paths at once.
+- **352, Climb batch 25's record took its forks 1 to 17 at their defaults: does he…** The visible effects are item 353, and fork 5's reading is now P-38's own text (F-313).
+
+### Moved to the learning file at the cleanup of 2026-11-05 (117)
+
+117 items moved to the learning file at the cleanup of 2026-11-05: `coordinator/review-queue-learning-2026-11-05.md`, by theme, each with its title, the default as landed and what was decided. Each landed at a default that no planned work needs his word on again; one word of his still changes any of them. Their numbers stay below, one line each, so that a pointer to one finds where it went.
+
+- **4, Does the inference chapter solve a call's type parameters together?**
+- **5, Do `try`, `catch` and `atomic` bodies take the expected type?**
+- **7, An identical coercion on every candidate.**
+- **8, Coverage of functional methods below the providing type.**
+- **10, A written static argument on a name with a generic and a plain declaration.**
+- **11, A family that mixes a function with functional methods.**
+- **13, The approved `comprises` check decides by names.**
+- **15, Which `comprises` clauses walk checks at load.**
+- **18, Walk's choice when another declaration applies without coercion.**
+- **19, The open type wins at dispatch.**
+- **23, May a program extend `Number`?**
+- **24, A float compared with NaN.**
+- **25, ℚ's infinities, and `check` on `QQ`.**
+- **28, A numeral within half an ulp of a tie.**
+- **32, Two size parameters that may be equal.**
+- **40, The fused big operator's declared type (item 46).**
+- **41, A `where`-clause variable in an `extends` clause (item 14).**
+- **44, `override` in the code generator.**
+- **52, How the checker ranks a generic declaration among those reached only by…**
+- **53, What the checker reports when no attempt at a call holds: the first attempt…**
+- **55, A `spawn` inside an `atomic` body is refused also inside a typed function…**
+- **57, The checker's Return Type Rule is stricter than the paper where the more…**
+- **59, The coverage check reads a functional method's self type by its trait, so…**
+- **63, The per-provider Meet Rule compares the `self` parameter as the dotted rule…**
+- **65, The checker's half of row 597 reads every closed trait above an object…**
+- **66, The checker checks a widening `override`'s return type at every instance.**
+- **69, Which reading of "overridden" decides what a type inherits: walk counts only…**
+- **70, The chapter's clause on equal parameter types names no `self` position; walk…**
+- **71, Walk refuses at load a program that names an undeclared type in a `typecase`…**
+- **72, A program's own reduction whose `simpleJoin` is declared at `Any`, the team's…**
+- **73, An `override` at the inherited declaration's own parameter types overrides…**
+- **74, At an instance of a generic trait, an `override` whose types equal the…**
+- **75, A generic declaration's `override` at its parameter `T`, over an inherited…**
+- **83, Walk prints the open type as `OPEN`, as in `BoxU[\OPEN\]`.**
+- **84, With a `where` bound on an unbounded static parameter, walk now runs `p(x…**
+- **85, Walk promotes from run-time types, so where a variable is declared wider than…**
+- **87, Answer 8's promotion reaches user-declared coercions, so a call's arguments…**
+- **89, A `ZZ32` with an `NN32` promotes to `ZZ64` on the one library (answer 8)…**
+- **92, The float numeral is unchanged by the numeral switch.**
+- **94, `Integral`'s api `unsigned` was removed, and `ZZ64`'s api states its body's…**
+- **96, A numeral too large for every declaration of a call is refused.**
+- **97, A numeral converts only into a type that holds its value (row 325's faces).**
+- **98, Under walk, a size written as arithmetic is refused at any operation that…**
+- **102, `MIN # 0` builds the library's own empty range, so its printed bounds are not…**
+- **103, Batch 9's range repairs turned runs that stopped into values.**
+- **104, The map of the full sequential ranges is a new object, not a…**
+- **105, `(:) CMP (:)` answers `EqualTo`, where walk stopped.**
+- **106, `truncL` and `truncR` are declared to return a bounded range, where the team…**
+- **109, `TotalComparison` extends `StandardMinMax`: he took it on recommendation and…**
+- **111, A program's own `p1 ANDCOND p2` of two relational predicates is no longer a…**
+- **112, `fill` and `tabulate` sit where the array diamond meets, not in each leaf…**
+- **113, The factories' function forms are named `tabulatedArray1` to…**
+- **114, Batch 8's slip repairs changed walk values: mapped generators, `BIG MINMAX`…**
+- **116, Batch 9's string repairs changed five walk values, and an implicit `:b:c`…**
+- **117, `String`'s default case-insensitive comparison uses the library's own…**
+- **120, The `String` api exports `Concatenable`, `Balanceable` and `SubString`'s…**
+- **121, Batch 10's rung N changed walk values.**
+- **122, Batch 10's rung G made six declarations print what their bodies state, and…**
+- **125, `TransposedMatrix`'s `add`, `subtract` and `negate` type-check but nothing…**
+- **126, A team declaration was removed: `__ImmutableSubArray1`'s `put`, which nothing…**
+- **127, New library declarations, each shown its precedent line: batch 12's 16 range…**
+- **128, `Reflect`'s `members` is now a list in declaration order, not a sorted set.**
+- **129, A slice of the default index-value pairs keeps each pair's index.**
+- **130, The default index-value pairs of a value indexed above 0 are indexed as the…**
+- **132, The relational predicate reads its target in its natural order, so…**
+- **133, The Meet Rule for dotted methods keeps its exact-meet form; Appendix I names…**
+- **134, The `makeSet` example keeps the Working Draft's explanation, though under the…**
+- **135, Batch 7b's rung S revised three passages beyond its brief, as the decisions…**
+- **136, The POPL recheck's five smaller sentences, as rung S wrote them.**
+- **137, Should the list of contexts name a block's non-last element, which the…**
+- **138, The text keeps `HeapSequence` as the varargs parameter's type, with a box…**
+- **139, Batch 7C's three wording choices in the `comprises` text, and the…**
+- **140, Two notations: ℤ's factorial as a recurrence, and a midpoint as `lo + (hi −…**
+- **141, A third passage, the adapted `BlockedRange`, was respelled over `ZZ32`.**
+- **142, ℚ's listing gained four algebraic traits, with a sentence on where their laws…**
+- **143, `narrow` is stated on `ZZ`; `MaybeRungM`'s comment was reworded.**
+- **145, The text says a fixed-size `GCD` or `LCM` result that does not fit raises…**
+- **146, The inference chapter describes type and size parameters only, naming `bool`…**
+- **147, Batch N's rung T's six text decisions in the inference chapter.**
+- **175, Where a conditional extension's condition holds: the other `extends` entries.**
+- **176, Where a conditional extension's condition holds: the header.**
+- **190, `extends Any` read as `Object`, against the specification's own `Tuple`.**
+- **193, Climb batch 19's sixteen forks at their defaults, and its points for his…**
+- **196, A `ZZ` power beyond the 32-bit range raises `IntegerOverflow` under walk.**
+- **198, The casts of `Vector` and `Matrix` rely on `replica`.**
+- **199, `Array2`'s column and row subscripts not in the api.**
+- **200, The dimensions chapter's unit factors at a negative integer power.**
+- **201, The numeral type's `^` answers the numeral type (fork 10).**
+- **202, The api's `immutableArray` of rank 2 and 3 put in a comment (fork 5).**
+- **203, Climb batch 20's twenty forks at their defaults, and its points for his sight.**
+- **210, Walk fixes an unwritten reduction's type parameter by its elements.**
+- **211, `LexicographicReduction.isLeftZero(Unordered)` is refused under walk since…**
+- **213, The tuple comparisons, reopened (PLAN item 43; this list's item 38 until…**
+- **217, Is no defect of the compiler prelude repaired before the switch-over, or only…**
+- **228, Is the type group's paper of 2011 the reason for P-152?**
+- **269, P-78 says to write a reduction's static argument only where nothing fixes the…**
+- **276, Is the coverage condition in P-60's reasoning a requirement?**
+- **291, May a component's function or method answer a narrower return type than its…**
+- **292, May a component rename an exported declaration's static parameter (row 836)?**
+- **293, May an api write `var` on an object's value parameter (row 838)?**
+- **294, Does a component trait's field satisfy an api's abstract getter, and an api's…**
+- **303, What climb batch 22c changed that its record lists for his sight, not as…**
+- **304, Three lines of the team's tests that climb batch 22c's rung B rewrote to keep…**
+- **305, The gate's comparison hid a change of the first compile error in three rows…**
+- **309, P-58's "refuse a string that names no helper", read by climb batch 23's fork…**
+- **311, The revised comment of `builtinPrimitive` has the compiler rewrite every body…**
+- **316, What climb batch 23 changed that its record lists for his sight, not as…**
+- **326, Climb batch 24's question 2, taken at the hard-set probe's default under his…**
+- **329, What climb batch 24 changed that its record lists for his sight, not as…**
+- **333, The specification's `CHOOSE` property is false at `m = n = −1`. Restrict it…**
+- **334, The compiled `drandom` gives values that depend on the schedule above one…**
+- **336, Does the specification's "division by zero produces a NaN value" for…**
+- **341, A function or method whose own `where` clause introduces a `where`-clause…**
+- **344, Which reading of `nextUp` and `nextDown` at a signed zero governs on `RR64`…**
+- **348, Should a later rung give `ZZ`'s `CHOOSE` the specification's 0 at `k < 0` or…**
+- **349, The code generator's modifier guard now admits `test` on methods as well as…**
+- **353, What climb batch 25 changed that its record lists for his sight, not as…**
+
+### Moved to the coordinator's work file at the cleanup of 2026-11-05 (53)
+
+53 items moved to the coordinator's work file at the cleanup of 2026-11-05: `coordinator/coordinator-work-2026-11-05.md`, by kind, each with the work in one line. None asks a decision of his. Their numbers stay below, one line each.
+
+- **46, A rule on engineering taste.**
+- **47, The gate, the commit and the microGPT check on Sonnet.**
+- **48, A clean test of the skill.**
+- **49, A test-name comparison in the gate.**
+- **50, The library-extension bullet in the skill.**
+- **67, Naden's return-type-restricted instantiation is recorded as future work in…**
+- **86, Walk leaves a generic `coerce` out of the sources it ranks, so a choice…**
+- **88, Walk's inference trace switch stays in a 2012 file, inert unless set, but for…**
+- **93, Two cases are named so they are not lost: a self-naming bound beside a…**
+- **100, An expected failure gives 16 checker errors for 7 written sites.**
+- **115, `lift`'s api and component disagree after batch 8's device.**
+- **119, `uncheckedSubstring` stays unguarded against a strided range.**
+- **149, Row 587's expected failure asserts only a supertype, leaving the typed…**
+- **153, Row 693's second shape, a generic object, owes an expected failure beside the…**
+- **156, Why `PowChooseLcmRungE` has 50 checks: an answer owed.**
+- **163, A project agent type per role.**
+- **168, `checkDeclComprises`'s header comment lists three cases, not the fourth.**
+- **169, The root README calls `Specification-1.0-frozen/` the frozen 1.0…**
+- **179, Row 773 recorded by its row alone.**
+- **181, `PureList`'s `List` without an element-wise `=`.**
+- **185, An expected failure that is green while walk is right.**
+- **195, `IntegerDivisionByZero` in the integer listing (row 792).**
+- **218, Should P-42 keep "functions" among what `Any` holds and `Object` does not?**
+- **238, Once he answers item 217, does P-38 take the clarity pass's rewrite (P-38)?**
+- **241, Once he answers items 219 and 220, does P-43 take the clarity pass's rewrite…**
+- **246, Once he answers item 224, does P-90 take the clarity pass's rewrite (P-90)?**
+- **250, Does F-19 take the clarity pass's rewrite, once its account of the compiled…**
+- **251, Does F-125 take the clarity pass's rewrite?**
+- **252, Does F-140 take the clarity pass's rewrite, once its note from row 325 on the…**
+- **253, Does F-145 take the clarity pass's rewrite, whose clause on the compiled…**
+- **254, Does F-147 take the clarity pass's rewrite, whose rule leaves out that the…**
+- **255, Does F-248 take the clarity pass's rewrite, whose definition of a fused…**
+- **256, How do F-238 and F-252 divide walk's second reading of a refused pair?**
+- **257, Does F-258 take the clarity pass's rewrite, whose clause on the pairs that…**
+- **258, Does F-259 take the clarity pass's split, now that F-246 is merged into it…**
+- **259, Does F-156 say that a program declares itself the array operations that the…**
+- **260, Does walk now load two generic declarations that differ only in the element…**
+- **263, Does only a numeral size still reach the class loader for a descriptor, now…**
+- **264, Does the count stage still pass its 900-second limit with the trait table's…**
+- **266, Is a new gap-ledger row held to 900 characters when it is written?**
+- **277, Does the compiled checker still refuse the model's numeral powers, and over…**
+- **297, When an Appendix I entry revises one sentence of a subsection, which is the…**
+- **298, Should the distance stage also read the `@@TC COMPONENT-CRASH` lines?**
+- **299, Should the revised export clause say "(possibly implicit)" for the method…**
+- **300, A component trait field declaration of several names is not matched against…**
+- **301, The export check's comment quotes the Working Draft's export rule as "From…**
+- **314, `builtinPrimitive`'s printed comment says "For examples, see the end of this…**
+- **321, P-44 says that the `where` form of `AnyIntegral`'s commented clause is not…**
+- **322, P-84's title says that an `RR64` array "is stored" as a Java `double[]`…**
+- **345, Climb batch 25 spells its square-root roundings two ways. Should one spelling…**
+- **346, Which ASCII operator is the specification's "round toward positive infinity"…**
+- **347, Should a binding over `NN32`, `NN64` or `Char` to a helper with several…**
+- **351, An allow rule for walk guards run with the base build's own `harness-one.sh`?**
 
 ### Answered by a decision of his (63)
 
