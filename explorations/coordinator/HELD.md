@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 16:54 His comment on the `fortress-repo` page's change 9: he trusts that the reword landed, but "the page does not say so"; the page was not updated to reflect it. The reword was on the page as change 13, below changes 10 to 12, while change 9 kept its old text under his threads: the wrong call. Answered on the thread; the page's next version drops changes 9 to 12, which he read, by his rule of 16:49, and starts at change 13.
+
 - 16:49 His comment on the drafts page (version 5, "Proposed changes"): he has read everything up to item 19 and assumes he read the items before 15; the page grows endlessly; when he gives the word that he read up to an item, the next update must remove it and everything before it; with 19 items he cannot tell what he read; "it worked well while there were a few things; it must remain that way"; 20 items must be 20 new things. Rule for the skill writer: the page holds only what he has not read; his word that he read up to an item removes it and all before it at the next update; the landed form of a draft he approved is not shown again unless the landing changed his approved words, and then only the change.
 - 16:45 His comment on change 18 (a brief names people by their roles): not sure the point is needed; `research/authorship.md` lists who worked on the repository and how much; the incident was a worker calling Professor Ryu new to the repository, "utterly ridiculous", she is its most prolific author; if kept, the pointer to the authorship note would spare a worker long research; "not really convinced we need this point, but maybe".
 - 16:42 His comment on change 17 (the backup check at every boot): "LGTM".
