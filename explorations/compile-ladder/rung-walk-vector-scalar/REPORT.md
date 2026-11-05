@@ -107,6 +107,8 @@ The ways that the language and the code offer, and the one taken:
 - F-277: "walk refuses at load the vector pairs' shape in a program's own component (row 804)".
 - `.claude/skills/fortress-repo/references/interpreter.md:53`, "What walk checks": the bullet "Where a program's own component declares both, it refuses a generic operator between an array of a number type and a number, ... (ledger row 804)."
 - `.claude/skills/fortress-repo/references/revival-changes.md:43`, "Traits and objects": "Walk loads the library's pairs, but refuses such a pair where a program's own component declares both (row 804)."
+- `.claude/skills/fortress-repo/references/interpreter.md:43`, "What walk checks": walk keeps the team's check and messages for "a pair that is neither two generic declarations nor a generic one beside a plain one"; a generic function beside a functional method of a generic trait without static parameters of its own is now read on the declared domains (added by the skeptic).
+- F-252's title, "where the parameter-by-parameter check refuses two declarations with static parameters of their own": the reading now also takes such a functional method beside an own generic (added by the skeptic).
 - P-160's "The clause stays until the first step lands" stays true as written.
 
 ## 9. Points to report
@@ -134,6 +136,7 @@ The ways that the language and the code offer, and the one taken:
 
 - Row 804, walk's half: home 1, repaired; `ExclusionVectorScalarWalk` and `ExclusionArrayScalarLibraryShapeWalk` assert it. The gather closes row 804 with commit `2fd5d653e` and test `ExclusionVectorScalarWalk`.
 - No new defect measured. The two readings left out (decisions 3 and 4) were not met by any program run here; no row is filed for them.
+- Added by the skeptic (`SKEPTIC.md`): NEW-W-1, walk loads an object that extends a self-typed trait at a type it is not a subtype of, and since this rung a call that two declarations fit then runs one of them: home 2, `ProjectFortress/tests/XXXSelfTypeExtenderOtherTypeWalk.fss` with its `.test`, and the row in `record.md`. NEW-W-2, the compiled checker's `checkFancyRule` refuses a generic function more specific than a self-typed trait's functional method, which walk now loads: home 3, `ProjectFortress/tests/GenericInsideTraitMethodWalk.fss` and the row in `record.md`.
 
 ## For FACTS
 

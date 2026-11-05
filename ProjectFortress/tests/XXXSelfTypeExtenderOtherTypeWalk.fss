@@ -1,0 +1,21 @@
+component XXXSelfTypeExtenderOtherTypeWalk
+export Executable
+
+(* An object that extends a self-typed trait at a type it is not a subtype of is a static error, so the program, whose call both the trait's operator and the generic array operator fit, is refused at load (traits.tex, section "Trait Declarations"). *)
+
+trait AddG[\T extends AddG[\T\]\]
+    opr MINUS(self, other: T): String = "group difference"
+end
+trait Numb end
+trait HasRk excludes { Numb } end
+object Rr extends { Numb, AddG[\Rr\] } end
+trait Arry[\E\] extends HasRk end
+object Bad extends { Arry[\Rr\], AddG[\Rr\] } end
+
+opr MINUS[\T extends { Numb, AddG[\T\] }\](x: Arry[\T\], y: T): String = "array minus number"
+
+run(): () = do
+    println(Bad MINUS Rr)
+  end
+
+end
