@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 10:3x His read of the drafts page's version 10, all eleven items: "Everything as it stands is fully approved and can be incorporated into the skill"; "excellent work". He wants the page reused for similar changes in the future, with its comment history cleaned: he has resolved every comment, and does not want the garbage carried forward.
+
 - 08:2x His decision on who decides changes to the coordinator skill: way c of the context note. Every change to the coordinator skill lands after a cold read and is reported in the coordinator's next message with its old and new words, so that he can reverse it; only a change that touches his role, the asks, the held list, the review list or the register waits for his yes to its exact words. Draft 1 of the drafts page's version 9 is rewritten to this and comes back on the page for his yes to the wording.
 
 - 08:0x His comment on the drafts page's draft 1 (who decides changes to the coordinator skill), sent to Claude at 08:09: it reads as a reversal of his earlier position and he does not recall what triggered it; he wants the coordinator able to optimise its flow after a landing; he recalls a clause that changes land by default while he is informed; he asks what changes, whether he must approve every change or only those that change the cooperation, and fears a review burden and drafts that wait while the behaviour stays suboptimal, against uncontrolled drift. He asks for the wider context, then a second review of this step; he listened to the section while doing something else. He also asks that the comments landed before be closed, 18 outstanding, with his permission. His "Send to Claude" opened another session, which he stopped: this session must listen to the page.
