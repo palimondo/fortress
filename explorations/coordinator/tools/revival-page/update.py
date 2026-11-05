@@ -8,14 +8,15 @@ batch's gate summary, FACTS' F-299), rewrites the block between <!-- stand:begin
 and <!-- stand:end --> in revival-story.md and revival-story.html in its fixed form,
 adds the landing's row to record-growth/landings.csv if it is missing, runs
 record-growth/measure.py and chart.py, and sets the end of the date range in the
-HTML's chart alt text to the data's last day.  With --check it reads the values and prints
+HTML's chart alt text to the data's last day; then it writes the GitHub Pages copy
+(docs/revival-story/).  --pages writes only that copy.  With --check it reads the values and prints
 the block it would write, and changes no file.  It never publishes: it prints the
 commit and the republish that the coordinator then runs.
 
 Where a source's form is not the one this script parses, it says so and stops.
 The README beside this script names the source of each value.
 """
-import argparse, csv, hashlib, html, os, re, subprocess, sys
+import argparse, csv, hashlib, html, os, re, shutil, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = subprocess.run(['git', 'rev-parse', '--show-toplevel'], cwd=HERE, capture_output=True, text=True).stdout.strip()
@@ -30,12 +31,17 @@ LANDINGS = os.path.join(RG, 'landings.csv')
 CHART = os.path.join(RG, 'record-growth.png')
 DATA = [os.path.join(RG, f) for f in ('series.csv', 'changes.csv', 'by-day.csv', 'top-additions.csv', 'per-batch.csv')]
 PAGE_URL = 'https://claude.ai/artifact/8Gg1f2ZRXg462qmhcwx1T5'   # the revival page (coordinator/BOOT.md, version 26)
+DOCS = os.path.join(ROOT, 'docs')                                  # GitHub Pages: branch main, folder /docs
+PAGES_DIR = os.path.join(DOCS, 'revival-story')
+PAGES_HTML, PAGES_CHART = os.path.join(PAGES_DIR, 'index.html'), os.path.join(PAGES_DIR, 'record-growth.png')
+PAGES_FILES = [PAGES_HTML, PAGES_CHART, os.path.join(DOCS, '.nojekyll'), os.path.join(DOCS, 'index.html')]
+PAGES_URL = 'https://palimondo.github.io/fortress/revival-story/'
 BEGIN, END = '<!-- stand:begin -->', '<!-- stand:end -->'
 MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
           'September', 'October', 'November', 'December']
 LABELS = ['Phase', 'Checker count', 'Distance', 'Native bindings that both implementations can call',
           'microGPT under the interpreter', 'microGPT on the compiler', 'Next']
-NUMBER_WORDS = {'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5}
+NUMBER_WORDS = {'one': 1, 'two': 2, 'three': 3, 'paths': 4, 'five': 5}
 ALT = re.compile(r'(<img src="record-growth\.png" alt="[^"]*commit by commit from \d{2}-\d{2} to )(\d{2}-\d{2})([^"]*")')
 
 
@@ -280,6 +286,30 @@ def rewrite_alt():
     return m.group(2), last
 
 
+# ---------------------------------------------------------------- the Pages copy
+
+def write_pages():
+    """docs/revival-story/index.html: the page's HTML, which the artifact service wraps, as a whole document,
+    its <title> in the head and the rest of the file, unchanged, as the body; the chart beside it; docs/.nojekyll;
+    docs/index.html, a refresh to revival-story/."""
+    text = open(PAGE_HTML, encoding='utf-8').read()
+    m = re.match(r'<title>([^<]*)</title>\n?', text)
+    if not m or text.count('<title>') != 1:
+        stop('%s does not open with its one <title>; the Pages copy takes its title from there' % rel(PAGE_HTML))
+    doc = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+           '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+           '<title>%s</title>\n</head>\n<body>\n%s%s</body>\n</html>\n'
+           % (m.group(1), text[m.end():], '' if text.endswith('\n') else '\n'))
+    index = ('<!doctype html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+             '<meta http-equiv="refresh" content="0; url=revival-story/">\n<title>%s</title>\n</head>\n'
+             '<body>\n<p><a href="revival-story/">%s</a></p>\n</body>\n</html>\n' % (m.group(1), m.group(1)))
+    os.makedirs(PAGES_DIR, exist_ok=True)
+    for path, content in ((PAGES_HTML, doc), (PAGES_FILES[2], ''), (PAGES_FILES[3], index)):
+        with open(path, 'w', encoding='utf-8', newline='') as f:
+            f.write(content)
+    shutil.copyfile(CHART, PAGES_CHART)
+
+
 # ---------------------------------------------------------------- main
 
 def digest(p):
@@ -291,7 +321,15 @@ def main():
     ap.add_argument('--check', action='store_true', help='read the values and print the block; change no file')
     ap.add_argument('--landing', metavar='N', help='the landed batch (default: the last that PLAN.md names)')
     ap.add_argument('--run-start', metavar='T', help='the run start for a new landings.csv row: YYYY-MM-DDTHH:MM UTC, or base')
+    ap.add_argument('--pages', action='store_true', help='write only the GitHub Pages copy from the HTML and the chart as they are')
     a = ap.parse_args()
+    if a.pages:
+        before = {p: digest(p) for p in PAGES_FILES}
+        write_pages()
+        for p in PAGES_FILES:
+            print('  %-50s %s' % (rel(p), 'changed' if digest(p) != before[p] else 'unchanged'))
+        print('The Pages copy is served at %s once main is pushed.' % PAGES_URL)
+        return
     v = read_values(a.landing)
     md, ht = block(v)
 
@@ -323,7 +361,7 @@ def main():
         print('--check: no file changed.')
         return
 
-    tracked = [PAGE_MD, PAGE_HTML, LANDINGS, CHART] + DATA
+    tracked = [PAGE_MD, PAGE_HTML, LANDINGS, CHART] + DATA + PAGES_FILES
     before = {p: digest(p) for p in tracked}
     for path, new, _ in files:
         text, s, e = current_block(path)
@@ -345,18 +383,20 @@ def main():
     old, last = rewrite_alt()
     if old != last:
         print('%s: the chart\'s alt text now runs to %s (was %s)' % (rel(PAGE_HTML), last, old))
+    write_pages()
     print()
     print('Changed:')
     for p in tracked:
         print('  %-75s %s' % (rel(p), 'changed' if digest(p) != before[p] else 'unchanged'))
-    four = [rel(p) for p in (PAGE_MD, PAGE_HTML, LANDINGS, CHART)]
+    paths = [rel(p) for p in (PAGE_MD, PAGE_HTML, LANDINGS, CHART, PAGES_HTML, PAGES_CHART)]
     print()
     print('The coordinator then runs, from the repository root:')
     print('  1. git add -- %s && git commit -m "Revival page: where it stands at the landing of climb batch %s, the record chart regenerated" -- %s'
-          % (' '.join(four), v['batch'], ' '.join(four)))
+          % (' '.join(paths), v['batch'], ' '.join(paths)))
     print('     (with the footer of the fortress-repo skill\'s committing part; measure.py also rewrote its data, %s: name them too to keep the chart\'s data with it)'
           % ', '.join(os.path.basename(p) for p in DATA))
     print('  2. Artifact publish, url %s, file_path %s, files {"record-growth.png": "%s"}' % (PAGE_URL, rel(PAGE_HTML), rel(CHART)))
+    print('  (the Pages copy, %s, is served at %s once main is pushed)' % (rel(PAGES_DIR), PAGES_URL))
 
 
 if __name__ == '__main__':

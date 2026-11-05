@@ -10,9 +10,19 @@ Run from the repository root:
 
 - `--check` reads the values, prints them with their sources and the block in the Markdown form, says for each file whether its block is the same word for word, and gives the alt text's last day beside the data's. It writes nothing.
 - `--landing N` names the batch; by default, the last landed batch that PLAN names. For a batch that is not PLAN's last, the count and the distance come from its gate summary alone, and the phase and the native bindings are today's.
+- `--pages` writes only the GitHub Pages copy (below) from the HTML and the chart as they are, and changes nothing else.
 - `--run-start` gives the run start of a landing that `landings.csv` does not hold yet: `YYYY-MM-DDTHH:MM` (UTC), the first line of the run's first agent in its transcripts, as the other rows have it; or `base`, the time of the base commit that the batch's gather record names, a proxy that the row's note then states. Without it, a missing row stops the script.
 
-A real run rewrites the block in both files (the HTML's heading and bullets keep their tags: `<p><strong>`, `<ul>`, `<li><strong>Label:</strong>`), adds the landing's row to `process-engineering/record-growth/landings.csv` if it is missing, runs `record-growth/measure.py` and then `chart.py` (`record-growth/README.md`), sets the end of the date range in the alt text of the HTML's chart, "commit by commit from 09-08 to MM-DD", to the last day of `series.csv` (the day the chart's title ends with) and leaves the rest of the alt text as it is, and prints what changed and the two steps for the coordinator: the commit of the page's two files, `landings.csv` and `record-growth.png`, named; and the page's republish with the Artifact tool, `revival-story.html` with `record-growth.png` as its supporting file, to the page's URL (`PAGE_URL` in the script). `measure.py` also rewrites its five data files (`series.csv`, `changes.csv`, `by-day.csv`, `top-additions.csv`, `per-batch.csv`); the printed note names them for the same commit. The script does not commit and does not publish.
+A real run rewrites the block in both files (the HTML's heading and bullets keep their tags: `<p><strong>`, `<ul>`, `<li><strong>Label:</strong>`), adds the landing's row to `process-engineering/record-growth/landings.csv` if it is missing, runs `record-growth/measure.py` and then `chart.py` (`record-growth/README.md`), sets the end of the date range in the alt text of the HTML's chart, "commit by commit from 09-08 to MM-DD", to the last day of `series.csv` (the day the chart's title ends with) and leaves the rest of the alt text as it is, writes the GitHub Pages copy (below), and prints what changed and the two steps for the coordinator: the commit of the page's two files, `landings.csv`, `record-growth.png` and the Pages copy's page and chart, named; and the page's republish with the Artifact tool, `revival-story.html` with `record-growth.png` as its supporting file, to the page's URL (`PAGE_URL` in the script). `measure.py` also rewrites its five data files (`series.csv`, `changes.csv`, `by-day.csv`, `top-additions.csv`, `per-batch.csv`); the printed note names them for the same commit. The script does not commit and does not publish.
+
+## The GitHub Pages copy
+
+GitHub Pages serves the repository's `docs/` folder from `main`, at https://palimondo.github.io/fortress/revival-story/ once `main` is pushed. `revival-story.html` has no doctype, `html`, `head` or `body` tags, since the artifact service wraps it, so every time the script rewrites the HTML it also writes, under `docs/`:
+
+- `revival-story/index.html`: the page as a whole document: `<!doctype html>`, `<html lang="en">`, a head with the charset, a viewport meta with `viewport-fit=cover` and the `<title>` taken from the file, then the rest of the file, unchanged, as the body (its `<style>`, the font links, the page, the scripts);
+- `revival-story/record-growth.png`: a copy of the chart, so that the page's relative `src` works;
+- `.nojekyll`, empty, so that GitHub serves the files as they are;
+- `index.html`: a meta refresh to `revival-story/`.
 
 ## Where each value comes from
 

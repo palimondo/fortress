@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fortress Revival So Far</title>
+</head>
+<body>
+<style>
+:root {
+  --bg: #f6f7f6; --surface: #ffffff; --fg: #1d2421; --muted: #5b6661; --rule: #d8dedb;
+  --accent: #1f6f5c; --code-bg: #eef1ef; --note-bg: #fbf4e4; --note-rule: #d9b45c;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141917; --surface: #1b211f; --fg: #e3e8e5; --muted: #9aa6a0; --rule: #2d3632;
+  --accent: #6cc4a8; --code-bg: #222a27; --note-bg: #2a2518; --note-rule: #8a7333; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #141917; --surface: #1b211f; --fg: #e3e8e5; --muted: #9aa6a0; --rule: #2d3632;
+  --accent: #6cc4a8; --code-bg: #222a27; --note-bg: #2a2518; --note-rule: #8a7333; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.55; padding-inline: 16px; padding-block: 24px 64px; }
+.page { max-width: 46rem; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+h1 { font-size: 1.9rem; line-height: 1.2; margin: 0; text-wrap: balance; }
+h2 { font-size: 1.35rem; margin: 0 0 .6rem; text-wrap: balance; }
+h4 { font-size: 1rem; margin: 1.1rem 0 .3rem; }
+h3 { font-size: 1.08rem; margin: 1.3rem 0 .3rem; text-wrap: balance; }
+p { margin: 0 0 .8rem; }
+p, li { max-width: 65ch; }
+ul, ol { margin: 0 0 .9rem; padding-left: 1.2rem; }
+li { margin-bottom: .35rem; }
+a { color: var(--accent); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code { font-family: var(--mono); font-size: .86em; background: var(--code-bg); padding: .08em .3em; border-radius: 3px; overflow-wrap: anywhere; }
+strong { font-weight: 700; }
+
+header.masthead { display: flex; flex-direction: column; gap: .4rem; }
+.eyebrow { font-family: var(--mono); font-size: .78rem; color: var(--muted); letter-spacing: .02em; margin: 0; }
+.standfirst { color: var(--muted); margin: 0; }
+
+nav.parts { border-top: 1px solid var(--rule); padding-top: 14px; }
+nav.parts h2 { font-size: 1rem; margin: 0 0 .3rem; }
+nav.parts ol { columns: 2 16rem; margin: 0; }
+nav.parts li { break-inside: avoid; }
+
+.intro { background: var(--note-bg); border: 1px solid var(--note-rule); border-radius: 8px; padding: 14px 18px; }
+.intro p { margin: 0 0 .4rem; font-weight: 700; }
+dl.gloss { margin: 0; }
+dl.gloss dt { font-weight: 700; margin-top: .5em; }
+dl.gloss dd { margin: .1em 0 0 1.5em; max-width: 65ch; }
+
+section.part { border-top: 1px solid var(--rule); padding-top: 18px; min-width: 0; }
+section.part h2 .num { display: block; font-family: var(--mono); font-size: .78rem; font-weight: 400; color: var(--muted); letter-spacing: .02em; }
+section.part h2 .num::before { content: "Part "; }
+
+figure { margin: 1rem 0; display: flex; flex-direction: column; gap: .4rem; }
+figure img { display: block; width: 100%; max-width: 100%; height: auto; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; }
+figcaption { font-size: .88rem; color: var(--muted); }
+
+.figures-title { font-weight: 700; margin: .9rem 0 .3rem; }
+.figures { list-style: none; padding: 0; margin: 0 0 .9rem; border-top: 1px solid var(--rule); }
+.figures li { display: grid; grid-template-columns: 7.5rem 3.5rem minmax(0, 1fr); gap: .6rem; align-items: baseline; margin: 0; padding: 4px 0; border-bottom: 1px solid var(--rule); max-width: none; }
+.figures .val { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.figures .note { font-size: .88rem; color: var(--muted); }
+
+p.sources { font-size: .85rem; color: var(--muted); border-top: 1px dashed var(--rule); padding-top: .6rem; margin-top: 1rem; }
+p.sources .label { font-weight: 700; margin-right: .3rem; }
+p.sources code { background: none; padding: 0; }
+
+footer.colophon { border-top: 1px solid var(--rule); padding-top: 12px; font-size: .88rem; color: var(--muted); }
+button.sel { font-family: var(--mono); font-size: .72rem; font-weight: 600; color: var(--accent); background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: .2em .6em; margin-left: .6rem; vertical-align: .15em; cursor: pointer; -webkit-user-select: none; user-select: none; }
+button.sel::before { content: "Select"; }
+button.sel:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+details.words { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 14px; font-size: .9rem; min-width: 0; }
+details.words > summary { cursor: pointer; color: var(--muted); line-height: 1.4; padding: 2px 0; }
+details.words > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+details.words > summary .w-head { font-weight: 700; color: var(--fg); margin-right: .4rem; }
+details.words[open] > summary { margin-bottom: .4rem; }
+details.words dl.gloss dd { margin-left: 1em; }
+@media (min-width: 64rem) {
+  .page { display: grid; max-width: 68rem; grid-template-columns: minmax(0, 1fr) 19rem; column-gap: 2.5rem; row-gap: 24px; align-items: start; }
+  .page > * { grid-column: 1; min-width: 0; }
+  .page > details.words { grid-column: 2; grid-row: 2 / span 2; position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; overscroll-behavior: contain; }
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+
+<div class="page">
+<header class="masthead">
+<p class="eyebrow"><time datetime="2026-11-05">5 November 2026</time></p>
+<h1>Fortress: the revival so far</h1>
+</header>
+
+<details class="words" id="glossary">
+<summary><strong class="w-head">Glossary</strong> <span class="w-lead">The words below have one meaning on this page. Skim them if a term is new to you.</span></summary>
+<dl class="gloss">
+<div><dt>batch</dt><dd>Set of tasks that agents carry out at once and land together.</dd></div>
+<div><dt>checker</dt><dd>Compiler's static type checker.</dd></div>
+<div><dt>checker count</dt><dd>Checker's errors on <code>FortressLibrary</code>, up to the first stage with an error.</dd></div>
+<div><dt>closed trait</dt><dd>Trait with a <code>comprises</code> clause.</dd></div>
+<div><dt>code generator</dt><dd>Part of the compiler that writes bytecode.</dd></div>
+<div><dt>coercion</dt><dd>Declared conversion from one type into another.</dd></div>
+<div><dt>compiler</dt><dd>Team's implementation that compiles to JVM bytecode.</dd></div>
+<div><dt>component</dt><dd>File of Fortress code that implements apis.</dd></div>
+<div><dt>core</dt><dd>Components of the library that every program loads.</dd></div>
+<div><dt>curator</dt><dd>Person in charge of the revival.</dd></div>
+<div><dt>dispatch</dt><dd>Run-time choice among overloads.</dd></div>
+<div><dt>distance</dt><dd>Checker's errors on the core, with every stage run.</dd></div>
+<div><dt>exclude</dt><dd>Relation of two types that no value has together.</dd></div>
+<div><dt>functional method</dt><dd>Method with <code>self</code> among its parameters, called as <code>f(x)</code>.</dd></div>
+<div><dt>gap</dt><dd>Something missing or broken.</dd></div>
+<div><dt>gap ledger</dt><dd>File with one numbered row for each known gap.</dd></div>
+<div><dt>gate</dt><dd>Full build and test of a batch before it lands.</dd></div>
+<div><dt>instantiation rule</dt><dd>Rule that no type extends two instantiations of one generic trait.</dd></div>
+<div><dt>interpreter</dt><dd>Team's implementation that runs programs without static types.</dd></div>
+<div><dt>library</dt><dd>Interpreter's library.</dd></div>
+<div><dt>microGPT</dt><dd>Karpathy's small GPT, in two Fortress programs.</dd></div>
+<div><dt>native binding</dt><dd>Library function whose body is Java code.</dd></div>
+<div><dt>phase</dt><dd>One of the six parts of the curator's plan.</dd></div>
+<div><dt>quick check</dt><dd>Short run of microGPT under the interpreter.</dd></div>
+<div><dt>reading</dt><dd>One of several interpretations of a rule.</dd></div>
+<div><dt>record</dt><dd>Project's notes.</dd></div>
+<div><dt>reduction</dt><dd>Library object that combines the values of a big operator.</dd></div>
+<div><dt>self-typed trait</dt><dd>Trait whose parameter stands for its implementing type.</dd></div>
+<div><dt>siblings</dt><dd>Number types of which none is a subtype of another.</dd></div>
+<div><dt>stage</dt><dd>One kind of check in the checker's sequence.</dd></div>
+<div><dt>static parameter</dt><dd>Type or size parameter of a declaration.</dd></div>
+<div><dt>switch-over</dt><dd>Step at which the compiler starts to use the library.</dd></div>
+<div><dt>tower</dt><dd>Number types in which each is a subtype of the next.</dd></div>
+<div><dt>type group</dt><dd>Part of the team that built the checker and the compiler.</dd></div>
+<div><dt>Working Draft</dt><dd>Team's last full specification, of 2 February 2011.</dd></div>
+</dl>
+</details>
+<section id="fortress-the-revival-and-who-does-the-work" class="part">
+<h2>1. Fortress, the revival and who does the work</h2>
+<p>Fortress was an experimental language for high-performance computing. A team at Sun Labs designed and built it from 2003 to 2012, led by Guy L. Steele Jr. and Eric Allen. Sukyoung Ryu, David Chase, Jan-Willem Maessen and Christine Flood were at its core. On this page, "the team" means that group. The <a href="https://github.com/palimondo/fortress">repository's README</a> tells its history.</p>
+<p>The team's lab, by then Oracle Labs, ended the project in summer 2012. Its hardest problem was still open: instantiating generic code at run time at a low cost. The team left a specification with features that it never built, an interpreter, and a partial compiler to JVM bytecode. By 2026 that code no longer built on current Java.</p>
+<p>The revival began on 18 August 2026. It finishes the team's design and doesn't redesign it. Its aim is one model, Andrej Karpathy's microGPT, a small GPT in Python. The revival wants it compiled from Fortress to JVM bytecode, and as fast as a version written in plain Java.</p>
+<p>In Fortress, microGPT is two programs. The flat program holds the model's data in flat, unnested arrays, after Aaron Hsu's style of APL. The APL program is written in an APL notation, which a grammar that the program imports turns into Fortress code.</p>
+<p>AI agents do the work: sessions of Anthropic's Claude, each started with written instructions for one task. They write the code, the tests and the project's notes, and one of them coordinates the others. The curator, the person in charge of the revival, directs them. He sets the goals and their order, decides what the team's sources leave open, and approves each step of the work before it starts.</p>
+</section>
+<section id="the-rule-and-the-teams-sources" class="part">
+<h2>2. The rule and the team's sources</h2>
+<h3>The rule</h3>
+<p>One rule judges every change, the revival's first: "We are custodians of their language, not its authors." The revival finishes what the team intended. It adds a design of its own only where the team's sources leave a question open, and then the curator decides it. Four practices follow from the rule:</p>
+<ul>
+<li>The revival changes the team's Fortress for one of two reasons only: two of the team's sources contradict each other, or a program fails.</li>
+<li>Where two sources contradict each other, the team's later choice wins (below).</li>
+<li>An agent checks every claim against the team's sources or a command's output.</li>
+<li>No committed file claims credit for the revival. Where git doesn't record who wrote something, an agent works it out from the history and never guesses.</li>
+</ul>
+<h3>The team's three sources</h3>
+<ul>
+<li><strong>The specification.</strong> The team published version 1.0 in March 2008, and its last full text is the Working Draft of 2 February 2011. The repository keeps that text unchanged, beside a copy that agents revise.</li>
+<li><strong>The type papers.</strong> The type group, the part of the team that built the type checker and the compiler, wrote them. The chief ones are the OOPSLA 2011 paper of Allen and others, Karl Naden's notes of 2012, and the POPL 2019 paper of Park, Hong, Steele and Ryu.</li>
+<li><strong>The code.</strong> It holds two implementations, each with its own library. The interpreter, run by <code>fortress walk</code>, runs a program without static types. The compiler, run by <code>fortress compile</code>, checks a program's types with its type checker, here called the checker, and writes JVM bytecode. From here on, "the library" alone means the interpreter's library.</li>
+</ul>
+<h3>How a contradiction is decided</h3>
+<p>The team's later choice wins over its earlier one, in a text or in code. Code counts as a choice where the team built it the same way for all its types. It also counts where the team stated its rule in a commit message, a comment or the checker. Code that its author called a stub, or that works around a limit of the JVM, doesn't count.</p>
+<p>Much of the Working Draft came before the implementations. The type group later learned what could be built and made fast, and put that into the type papers and the compiler's library. So the revival follows those where they depart from the Working Draft. Where two later choices conflict, or the sources settle nothing, the curator decides by the revival's aim: microGPT compiled and fast.</p>
+<p>An agent marks each changed passage of the specification with a box headed "Revised by the 2026 revival", as the team marked its own changes. The box points to an entry in Appendix I, which gives the change, its reason and the original text.</p>
+</section>
+<section id="how-the-work-runs" class="part">
+<h2>3. How the work runs</h2>
+<h3>Components and the plan</h3>
+<p>Fortress code comes in components. A component is a file of code that implements apis, its interfaces, and imports the apis that it uses. The library's core is the components that a program imports by default, and the components that those import. Every program that the interpreter runs loads the core, and so will every compiled program once the compiler uses the library.</p>
+<p>On 26 September the curator approved a plan of six phases. Phases 1 and 2 carried out work that he had already decided. The other four:</p>
+<ol start="3">
+<li>The checker reports no error on the library's core.</li>
+<li>The switch-over, the step at which the compiler starts to use the library and its own library is deleted, and the work it needs first.</li>
+<li>microGPT compiles. This needs its static types, the design of its arrays, and the end of the code generator's gaps. The code generator is the part of the compiler that writes bytecode, and a gap is something missing or broken. Phase 5 also takes on the team's open problem: the compiler will instantiate generic code at run time by the POPL 2019 paper's rule.</li>
+<li>microGPT runs fast, with unboxed numbers, measured against the plain Java version.</li>
+</ol>
+<p>A native binding, the subject of much of phase 4, is a library function whose body is Java code.</p>
+<h3>A batch</h3>
+<p>The agents work in batches. A batch is a set of tasks that agents carry out at the same time and land together. To land is to commit to <code>main</code> and push it.</p>
+<p>Batches are numbered in sequence. A letter or a decimal, as in 6b or 6.5, marks a batch added between two numbers. So a batch's number is not a count. Each batch has seven steps:</p>
+<ol>
+<li>One agent drafts the batch: its tasks, their reasons, and the curator's questions with proposed defaults.</li>
+<li>The curator reads the draft and approves it.</li>
+<li>An agent does each task in its own copy of the repository, writing a failing test first.</li>
+<li>A second agent reads each change against the specification, the decisions and the team's code, and repairs what it finds. A third settles any dispute.</li>
+<li>One agent applies the changes to <code>main</code> and writes the findings into the record: the project's notes on what it has established, decided and measured.</li>
+<li>The gate runs: a full build and test of the combined changes. If it passes, the batch lands.</li>
+<li>An agent reviews the landed batch against the team's intent, and lists what it left open.</li>
+</ol>
+<p>The gate runs both implementations' test suites and counts the two measures below. After the gate, the quick check runs the flat and the APL program under the interpreter for a few training steps, against reference values.</p>
+<h3>The two measures</h3>
+<p>Two numbers measure how far the checker is from the switch-over. Both count its errors on the library's core. The checker works in stages: it runs one kind of check after another.</p>
+<ul>
+<li><strong>The checker count</strong> reads one component, <code>FortressLibrary</code>, with the apis that it imports. The checker stops at the first stage that reports an error in a component, so the count misses the errors of the later stages. A repair that lets the checker reach a later stage can therefore raise the count. It began at about 100 errors on 23 September.</li>
+<li><strong>The distance</strong>, short for the distance to the switch-over, counts every error in the core, which it has covered whole since 30 October. It runs every stage, whatever the earlier stages found, so a repair can't raise it by uncovering errors. It began at 1.7K errors on 27 September.</li>
+</ul>
+<p>The measures matter because the compiler can start to use the library only once its checker finds no error in the core. The plan repairs the library's other components, outside both measures, before the first program that needs each one.</p>
+<p>A reading is one interpretation of a rule where the specification's text allows more than one. A measure's zero can depend on one reading. Then the curator decides whether that reading stands.</p>
+</section>
+<section id="where-it-stands" class="part">
+<h2>4. Where it stands</h2>
+<p>A script rewrites the block below at each landing, from the plan and the gate. The rest of the page changes only when a phase ends.</p>
+<div class="intro">
+<!-- stand:begin -->
+<p><strong>Where it stands, at the landing of batch 25 on 3 November 2026</strong></p>
+<ul>
+<li><strong>Phase:</strong> 4 of 6, which ends with the switch-over, since 30 October.</li>
+<li><strong>Checker count:</strong> 0.</li>
+<li><strong>Distance:</strong> 0, under one reading that the curator has still to decide (section 5, phase 3).</li>
+<li><strong>Native bindings that both implementations can call:</strong> 288 of 449.</li>
+<li><strong>microGPT under the interpreter:</strong> the flat and the APL program pass the quick check.</li>
+<li><strong>microGPT on the compiler:</strong> both programs stop at names that only the library declares, until the switch-over.</li>
+<li><strong>Next:</strong> batch 26, more native bindings and the code generator's gaps, once the curator approves it.</li>
+</ul>
+<!-- stand:end -->
+</div>
+</section>
+<section id="what-happened" class="part">
+<h2>5. What happened</h2>
+<h3>Running the 2012 code again, 18 August to 16 September</h3>
+<p>In August an agent made the team's code build again on current Java and Scala, with no change a Fortress programmer sees.</p>
+<p>Agents then ported microGPT to Fortress and ran it under the interpreter. The first port took 10.9 s for one training step, against 22 ms in Python. The interpreter is the team's reference implementation, not a fast one, so the curator judges speed on the compiler only.</p>
+<p>Later ports, each in a fresh session, listed the gaps they met, and the flat and the APL program came out of them.</p>
+<p>An agent put the gaps into the gap ledger, a file with one numbered row for each known gap. The ledger, a list of facts and a list of the curator's decisions were the first parts of the record.</p>
+<h3>Before the plan, to 26 September: seven batches</h3>
+<p>The first batches added missing names to the compiler's library, so that more of the team's test programs compile and run.</p>
+<p>On 21 September the curator chose one library for both implementations: the interpreter's, the fuller one. Making the checker accept it costs less than porting it into the compiler's library, which the switch-over deletes. From then on, batches removed the checker's errors on the library instead of adding to the compiler's library.</p>
+<p>The next batches started on those errors. One of them gave the interpreter coercion, a declared conversion from one type into another. The specification says that a call converts its arguments when that makes it apply. At that place the interpreter had a note, "TODO add checks for COERCE". The interpreter now converts at calls, typed bindings and assignments.</p>
+<h3>Phases 1 and 2, 26 to 29 September: five batches</h3>
+<p>The team's sources contradicted each other on the number types. <code>ZZ32</code>, <code>ZZ64</code> and <code>ZZ</code> are the 32-bit, the 64-bit and the unbounded integers.</p>
+<ul>
+<li>The team's interpreter library put them in a tower: <code>ZZ32</code> was a subtype of <code>ZZ64</code>, and <code>ZZ64</code> of <code>ZZ</code>.</li>
+<li>In 2009 the compiler's library made them siblings, of which none is a subtype of another. Sukyoung Ryu wrote its first exclusion, <code>ZZ32 excludes ZZ64</code>: no value has both types. Maessen and Eric Allen added coercions, such as the one from <code>ZZ32</code> into <code>ZZ64</code>.</li>
+<li>Justin Hilburn built the instantiation rule into the checker: no type may extend two instantiations of one generic trait. In the tower, <code>ZZ32</code> is an <code>Integral[\ZZ32\]</code> and, through <code>ZZ64</code>, an <code>Integral[\ZZ64\]</code>, so the rule refuses it. The OOPSLA 2011 paper states the rule; the Working Draft doesn't.</li>
+</ul>
+<p>The return-type rule says that the more specific of two overloads returns a subtype of the other's return type. The curator kept the instantiation rule for two reasons. It's the team's later choice, which the POPL 2019 paper keeps. And without it, the checker's return-type rule passes programs that fail with <code>IncompatibleClassChangeError</code>. So agents made the library's number types siblings, as in the compiler's library, and revised the specification's text on numbers.</p>
+<p>Phase 1 carried out two decisions. A Fortress type can carry a size, such as an array's length, through a size parameter, written <code>nat</code>. The compiler couldn't carry a size at run time, though the team's code generator already wrote an empty field for it in each run-time type descriptor. An agent filled that field in the team's pattern for type arguments, so a program with sizes now compiles and runs.</p>
+<p>The second decision concerns overflow. The specification and the compiler raise <code>IntegerOverflow</code> when a 32-bit or 64-bit integer result doesn't fit, but the interpreter wrapped the result. Now the interpreter raises the error too. Code meant to wrap uses the specification's own wrapping operators, ∔, ∸ and ⨰.</p>
+<h3>Phase 3, 28 September to 30 October: the checker at zero, 22 batches</h3>
+<p>The aim was a zero in both measures. The errors were defects of the checker, small errors in the library, and contradictions between the sources. Agents repaired the first two kinds, and settled most contradictions for the type group's later work.</p>
+<p><strong>Overloading.</strong> The largest group of decisions follows the OOPSLA 2011 paper. It lets two overloads differ only in their static parameters: the type and size parameters, such as <code>T</code> in <code>Box[\T\]</code>. One sentence of the Working Draft forbids such pairs, but neither implementation enforced it, and the library has many of them. So the curator kept the paper's rule, and an agent revised the sentence. Three more changes follow the paper:</p>
+<ul>
+<li>The checker tested the return-type rule at one instantiation of a generic declaration, so some programs passed it and failed the JVM's verification of the bytecode. Now it tests every instantiation.</li>
+<li>Two generic declarations may coexist where no argument fits both, even if no single parameter type excludes its counterpart.</li>
+<li>The checker checks symbolic operators such as <code>+</code>, which it had skipped, a gap that the specification's appendix of proposed features names.</li>
+</ul>
+<p><strong>Inference.</strong> Where a call determines no type for a type parameter, both implementations gave it the empty type <code>Bottom</code>, and some compiled calls then failed the JVM's verification. Following the POPL 2019 paper, the checker now gives such a parameter its bound, and so does the interpreter in almost every case.</p>
+<p><strong>Self types.</strong> A self-typed trait is one whose type parameter stands for the type that implements it, as <code>I</code> in <code>Integral[\I\]</code>. The checker now types <code>self</code> in such a trait as the implementing type, a rule that Scala also has. So it accepts the library's integer traits as the team wrote them.</p>
+<p>The team's vectors are additive groups, and the library also adds an array and a number. The checker refused these overloads of <code>+</code>, though no call fits both. The curator kept the vectors as the team wrote them. The checker's test of exclusion now reads the self type, which shows that the overloads exclude each other.</p>
+<p><strong>The team's later code.</strong> The Working Draft gives an integer power a rational value, which the team never built. The team's later code gives the power its base's type, and the library now follows it. At a negative exponent only 1 and -1 give a power, so a fraction needs a float base, as in <code>2.0^(-1)</code>.</p>
+<p>An array's index type is bounded by a trait <code>Index</code>, which ranges exclude, as the specification's appendix of proposed features asks. So a subscript by one index and a subscript by a range never apply to the same value.</p>
+<p><strong>Decided by the curator.</strong> The sources didn't settle two questions, and the curator decided them by the revival's aim:</p>
+<ul>
+<li>Ranges took any integer type in the interpreter's library, and only <code>ZZ32</code> in the compiler's. They're now over <code>ZZ32</code> only, because a JVM array holds at most as many elements as the largest <code>ZZ32</code>.</li>
+<li>For an index such as <code>m[i, j]</code>, the team asked for "a magic" to convert the tuple into an <code>Index</code>, and named no way to do it. A tuple of <code>Index</code> types is now itself an <code>Index</code>, which changes no value. This departs from the team's text on tuples, and the specification says so.</li>
+</ul>
+<p><strong>The close.</strong> Both measures reached 0 on 24 October. The phase's last batch closed it on 30 October with three changes, and both stayed at 0:</p>
+<ul>
+<li>The checker compares each api with its component at every member and operator. A compiled call of a member that the component lacks fails at run time.</li>
+<li>The compile command bounds a type parameter without a written bound by <code>Any</code>, the type of every value. The Working Draft says <code>Object</code>, but the library uses its generic containers with tuples, which <code>Object</code> doesn't hold.</li>
+<li>The distance covers the whole core, because <code>List</code>, a core component, compiles only with the components that it imports.</li>
+</ul>
+<p>The distance's zero holds under one reading, which the curator has still to decide. An object's value parameter is a field set by its constructor, and <code>var</code> makes it changeable. Under this reading, a component's object may add <code>var</code> to a value parameter that its api declares without it. Under the other reading, the distance finds one error.</p>
+<h3>Phase 4, from 30 October: before the switch-over, open</h3>
+<p>The curator set the phase's order: the native bindings first, then the switch-over. Work on the code generator goes on beside that order, since the compiler must then write bytecode for the library, not only check it.</p>
+<p>Each native binding named a Java class of the interpreter, which takes the interpreter's boxed values, and compiled code can't pass those. So each binding now names a static Java method over plain Java values, which both implementations call. Fortress has no foreign-function interface, so the binding keeps the library's own form: a call of <code>builtinPrimitive</code> with the method's name.</p>
+<p>The first batch of the phase built that form; later batches move the bindings group by group.</p>
+</section>
+<section id="the-changes-by-area" class="part">
+<h2>6. The changes by area</h2>
+<p>Section 5 tells the main changes with their reasons. This section adds the others, by area, at phase 3's close.</p>
+<h3>Numbers</h3>
+<ul>
+<li><code>SUM</code> and <code>PROD</code> are each one generic declaration over the operators of the element type. The team's <code>SUM</code> relied on operators that <code>Number</code> declared for any two numbers, and the sibling number types have none.</li>
+<li>An integer numeral has its own type, <code>IntLiteral</code>, which the number types convert from. This is the compiler library's design, since the specification's numeral types were unfinished. The interpreter still types a numeral by its value.</li>
+</ul>
+<h3>Order and reductions</h3>
+<ul>
+<li>A list is ordered only where its element type is totally ordered. So to the checker a list of <code>RR64</code>, the 64-bit floats, has no <code>&lt;</code>, because NaN compares with nothing.</li>
+<li>A big operator, such as <code>SUM</code>, applies an operator across a range of values. A reduction is the library object behind it, which combines the values. The checker can't infer a reduction's element type from its clauses. So the library writes the type, and so must a program, as in <code>SUM[\ZZ32\][j &lt;- 0#n] f(j)</code>.</li>
+</ul>
+<h3>The interpreter</h3>
+<p>Three terms first. A functional method is a method with <code>self</code> among its parameters, called as <code>f(x)</code>. A closed trait is a trait with a <code>comprises</code> clause, which lists the types that its values belong to. The meet of two overloads is the intersection of their parameter types.</p>
+<ul>
+<li>Among the declarations that fit a call, the interpreter now prefers the more specific by their declared types, as the specification says. It no longer goes by their order in the file.</li>
+<li>When it loads a program, it refuses what breaks the specification's rules on overloading and on closed traits, as the checker does. Examples are an object that extends two closed traits without being listed in them, and two functional methods with no declaration on their meet.</li>
+</ul>
+<h3>The checker and the code generator</h3>
+<ul>
+<li>The checker checks sizes, also sums and products in a size, because the team's arrays carry their sizes in their types.</li>
+<li>A <code>comprises</code> clause speaks of values: every value of the closed trait is a value of a listed type. Some passages of the Working Draft read it as a statement about types, and are then false. The team's partial restart of the specification, begun in 2012, reads it by values, and the revival follows it.</li>
+<li>A top-level <code>var</code> compiles, as some of the team's test programs need, and an <code>atomic</code> block, Fortress's transaction, covers it.</li>
+</ul>
+<h3>Left as the team had it</h3>
+<ul>
+<li>Dispatch by the run-time types of every argument, and functional methods.</li>
+<li>Juxtaposition as an operator, the rules on whitespace, and the grammar. The APL notation comes from a grammar that a program imports, a feature that the team built.</li>
+<li>Loops and reductions are library code: a <code>for</code> loop and <code>SUM</code> become calls of a generator, which produces the values, and of a reduction.</li>
+<li>Evaluation is parallel by default. Only the compiler checks the types of expressions; the interpreter's checks at load concern declarations.</li>
+<li>What the specification describes and the team never built is still unbuilt: dimensions and units, <code>property</code> declarations, regions and complex numbers.</li>
+</ul>
+</section>
+<section id="the-record" class="part">
+<h2>7. The record</h2>
+<p>The record is the project's notes, kept in the repository beside the team's code. Its main parts are the gap ledger (section 5), the list of facts, the list of the curator's decisions, and an index of all notes. An agent reads the parts its task needs before it starts, so no agent works out again what the record holds.</p>
+<figure><img src="record-growth.png" alt="The gap ledger&#x27;s characters and rows, and FACTS, POSITIONS and INDEX, commit by commit from 09-08 to 11-05, with each batch&#x27;s landing marked" width="1080" height="1620"></figure>
+<p>The chart has three panels on one time axis, with a vertical line at each batch's landing. They show the ledger's characters, its rows, and the sizes of the facts, the decisions and the index. The ledger grows mostly while batches run, and the index by one line for each new note. Each sharp fall is a rewrite that shortened the entries, with the earlier text kept in history.</p>
+</section>
+<footer>
+<section id="sources" class="part">
+<h2>Sources</h2>
+<ul>
+<li>The repository's README: <a href="https://github.com/palimondo/fortress">https://github.com/palimondo/fortress</a>.</li>
+<li>The Fortress Language Specification, version 1.0 (March 2008), and its Working Draft of 2 February 2011.</li>
+<li>The revised specification: "Overloading and Multiple Dispatch", "Types", "Static Parameters", "Conversions and Coercions", "Numbers", "Components and APIs", Appendix I and "Proposed Features".</li>
+<li>The team's partial restart of the specification, 2012.</li>
+<li>E. Allen, J. Hilburn, S. Kilpatrick, V. Luchangco, S. Ryu, D. Chase and G. L. Steele Jr., "Type Checking Modular Multiple Dispatch with Parametric Polymorphism and Multiple Inheritance", OOPSLA 2011.</li>
+<li>K. Naden, "Enforcing Fortress' Return Type Rule at Runtime", notes, 2012.</li>
+<li>Park, Hong, G. L. Steele Jr. and S. Ryu, "Polymorphic Symmetric Multiple Dispatch with Variance", POPL 2019.</li>
+<li>A. Karpathy, microGPT (Python).</li>
+</ul>
+</section>
+</footer>
+</div>
+
+<script>
+document.querySelectorAll('section.part').forEach(function (sec) {
+  var h = sec.querySelector(':scope > h2, :scope > h3');
+  if (!h) return;
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'sel';
+  b.setAttribute('aria-label', 'Select this section to have it read aloud');
+  h.appendChild(b);
+  b.addEventListener('click', function (e) {
+    e.preventDefault();
+    var r = document.createRange();
+    r.setStart(h, 0);
+    var src = sec.querySelector(':scope > details.old, :scope > .reasons, :scope > .sources, :scope > section.sub');
+    if (src) r.setEndBefore(src); else r.setEnd(sec, sec.childNodes.length);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+  });
+});
+</script>
+<script>
+(function () {
+  var d = document.getElementById('glossary');
+  if (!d) return;
+  if (window.matchMedia('(min-width: 64rem)').matches) d.open = true;
+  var s = d.querySelector(':scope > summary');
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'sel';
+  b.setAttribute('aria-label', 'Select the glossary to have it read aloud');
+  s.appendChild(b);
+  b.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var r = document.createRange();
+    r.setStart(s, 0);
+    r.setEnd(d, d.childNodes.length);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+  });
+})();
+</script>
+</body>
+</html>
