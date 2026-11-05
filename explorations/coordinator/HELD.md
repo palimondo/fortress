@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 11:5x The report of the cold read's 17 landed changes in chat, one line each, was useless to him: context-free references he cannot connect to the text. The medium for skill changes is the drafts page, not chat. The page he approved shows the landed changes as diffs against the previous text of the relevant part, with the reasons from the cold read; he skims it when needed. Whenever the autonomous procedure changes the skill, a worker updates the page to show the last landed changes, or the proposed changes, depending on the phase; this goes into the skill. The chat message gives one line and the link.
+
 - 10:4x The drafts page's comment history cannot be deleted, so the next round of skill drafts goes on a fresh page with the same layout and a new link, and the old page (https://claude.ai/artifact/LwjYdr5x6iSVVEgwKMic1m) is deleted then, at his word of 10:4x. Nothing to do until the next round.
 
 - 10:3x His read of the drafts page's version 10, all eleven items: "Everything as it stands is fully approved and can be incorporated into the skill"; "excellent work". He wants the page reused for similar changes in the future, with its comment history cleaned: he has resolved every comment, and does not want the garbage carried forward.
