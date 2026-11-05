@@ -23,7 +23,7 @@ private package="com.sun.fortress.interpreter.glue.prim"
 lineSeparator: String = LineSeparator()
 
 private natLineSeparator(): String = builtinPrimitive(
-            "com.sun.fortress.nativeHelpers.systemOps.lineSeparator")
+            "com.sun.fortress.nativeHelpers.stringOps.lineSeparator")
 
 private LineSeparator(): String =do
     ignore(FlatString); (* This initializes the constructor for FlatString

@@ -25,10 +25,6 @@ public class systemOps {
         String result = System.getenv(name);
         return result == null ? ifMissing : result;
     }
-
-    public static String lineSeparator() {
-        return System.getProperty("line.separator");
-    }
     
     public static FStringVector getArgs() {
         return new FStringVector(MainWrapper.cachedArgs);

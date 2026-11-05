@@ -67,6 +67,11 @@ public class stringOps {
     public static boolean match(String regex, String some) {
         return some.matches(regex);
     }
+
+    /* The JVM's line separator, FlatString's lineSeparator. */
+    public static String lineSeparator() {
+        return System.getProperty("line.separator");
+    }
     
     public static String asString(fortress.AnyType.Any a) { // this can't be right! DRC
         //        return "<" + a.getClass() + ">";
