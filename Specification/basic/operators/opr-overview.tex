@@ -281,11 +281,23 @@ produce boolean (\VAR{true}/\VAR{false}) results.
 The operators $<$, \EXP{\leq}, \EXP{\geq}, and $>$ are
   used for numerical comparisons
 and are supported by integer, rational, and floating-point types.
-Comparison of rational values throws \TYP{RationalComparisonError}
-if either argument is the rational infinity \EXP{1/0} or the
-rational indefinite \EXP{0/0}.
-Comparison of floating-point values throws \TYP{FloatingComparisonError}
-if either argument is a \TYP{NaN}.
+Comparison of rational values by these four operators returns \VAR{false}
+if either argument is the rational indefinite \EXP{0/0}, for compatibility
+with floating-point arithmetic, and the rational infinities are ordered:
+\EXP{-1/0} is less than and \EXP{1/0} is greater than every finite rational
+value (\secref{basic-rationals}).
+Comparison of floating-point values by these four operators returns
+\VAR{false} if either argument is a \TYP{NaN}, and \OPR{CMP} returns
+\TYP{Unordered}.
+\revision{revival-nan-comparison}{The Working Draft of February 2011 said that a
+comparison of rational values throws \TYP{RationalComparisonError} if either
+argument is \EXP{1/0} or \EXP{0/0}, and that a comparison of floating-point
+values throws \TYP{FloatingComparisonError} if either argument is a \TYP{NaN}.
+The text now gives the answers of the chapter on rational numbers, which the
+interpreter computes, and for floating-point values those of both
+implementations; both exception types stay declared, and nothing throws them.
+The interpreter still answers \VAR{true} for \EXP{0/0 \leq 0/0} and
+\EXP{0/0 \geq 0/0} (row~440 of the revival's gap ledger).}
 
 The operators $<$, \EXP{\leq}, \EXP{\geq}, and \EXP{>} may also be
 used to compare characters
