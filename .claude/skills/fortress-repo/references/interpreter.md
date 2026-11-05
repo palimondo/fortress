@@ -86,8 +86,8 @@ Walk's overload-ambiguity message names its two declarations in an order that va
 
 The library binds each of walk's natives by a declaration whose body is `builtinPrimitive("…")`. The string names one of these:
 
-- A glue class, as `com.sun.fortress.interpreter.glue.prim.X`, in `interpreter/glue/prim/`. A glue class takes the evaluator's boxed values, so the compiled path cannot use it.
-- A helper: a public static method of a class under `nativeHelpers/`, as `com.sun.fortress.nativeHelpers.simpleIntArith.<method>`. `glue/StaticNativeApp.java` calls it by reflection, with a method's `self` first. The compiled path calls it too (`compiler.md`, "Natives"). Most bindings name a helper. The others name a glue class. The record counts both kinds (`records.md`, "Reading the record").
+- A glue class, as `com.sun.fortress.interpreter.glue.prim.X`, in `interpreter/glue/prim/`. A glue class takes walk's `FValue` objects, so the compiled path cannot use it.
+- A helper: a public static method of a class under `nativeHelpers/`, as `com.sun.fortress.nativeHelpers.simpleIntArith.<method>`. `interpreter/glue/StaticNativeApp.java` calls it by reflection, with a method's `self` first. The compiled path calls it too (`compiler.md`, "Natives"). Most bindings name a helper. The others name a glue class. F-299 counts both kinds (`records.md`, "Reading the record").
 
 Walk carries each declared type of a helper's binding in one Java type:
 
@@ -100,6 +100,7 @@ In a method, walk carries `self` by the type that declares the method:
 - the library's objects that extend number types, not the glue classes of the same names: `Int` (`ZZ32`) in `int`, `Long` (`ZZ64`) and `UnsignedLong` (`NN64`) in `long`, and `BigNum` (`ZZ`) in `BigInteger`.
 
 A program can give its own type the name `FlatString` or `JavaString`, so these names carry no `self`. So a binding in a method of the library's `FlatString` cannot name a helper yet: every program would stop at load.
+
 Walk refuses a helper's binding at load in these cases. The message names the string, and contains the words below, which a `load_exception_contains` key can match:
 
 - The class or the method does not exist: 'not found' or 'names no static method of'.
@@ -116,7 +117,7 @@ A native declared over `String`, glue class or helper alike, receives the wrong 
 
 An `import java` written in a `.fss` file is wired under walk but unfinished, and no test uses it. The compiled path's generated `import java` (`compiler.md`, "Natives") is not this one.
 
-A glue class raises a Fortress exception that a `catch` sees by throwing a `FortressError` that holds the exception's object. `Int.overflow()` in `Int.java` there makes one, and its callers throw it:
+A glue class raises a Fortress exception that a `catch` sees by throwing a `FortressError` that holds the exception's object. `Int.overflow()` in `interpreter/glue/prim/Int.java` makes one, and its callers throw it:
 
     FObject f = (FObject) Driver.getFortressLibrary().getRootValue(WellKnownNames.integerOverflowException);
     return new FortressError(f);
