@@ -27,7 +27,8 @@ languages have been absorbing ever since:
 life: the team's design finished, judged by their own sources, with one
 program as the measure. [The revival so far](explorations/coordinator/process-engineering/revival-story.md)
 tells the story for readers outside the project: its purpose, its rule, and
-where it stands.
+where it stands; [the same story as a web page](https://palimondo.github.io/fortress/revival-story/)
+has the richer presentation.
 
 It looked like this — the heart of
 [`buffons.fss`](ProjectFortress/demos/buffons.fss), one of the original Sun
