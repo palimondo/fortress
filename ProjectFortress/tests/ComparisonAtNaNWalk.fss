@@ -1,0 +1,82 @@
+(* A float compared with a NaN, or a rational with 0/0, answers false for <, <=, > and >=, and CMP answers Unordered; the rational infinities are ordered (opr-overview.tex, subsection "Comparisons Operators"; numbers.tex, section "Rational Numbers"). *)
+component ComparisonAtNaNWalk
+export Executable
+
+floats64(): () = do
+    nan: RR64 = 0.0/0.0
+    one: RR64 = 1.0
+    assert(nan < one, false, "RR64: a NaN is not less than a number")
+    assert(nan <= one, false, "RR64: a NaN is not at most a number")
+    assert(nan > one, false, "RR64: a NaN is not greater than a number")
+    assert(nan >= one, false, "RR64: a NaN is not at least a number")
+    assert(one < nan, false, "RR64: a number is not less than a NaN")
+    assert(one <= nan, false, "RR64: a number is not at most a NaN")
+    assert(one > nan, false, "RR64: a number is not greater than a NaN")
+    assert(one >= nan, false, "RR64: a number is not at least a NaN")
+    assert(nan < nan, false, "RR64: a NaN is not less than a NaN")
+    assert(nan <= nan, false, "RR64: a NaN is not at most a NaN")
+    assert(nan > nan, false, "RR64: a NaN is not greater than a NaN")
+    assert(nan >= nan, false, "RR64: a NaN is not at least a NaN")
+    assert(nan CMP one, Unordered, "RR64: a NaN and a number are unordered")
+    assert(one CMP nan, Unordered, "RR64: a number and a NaN are unordered")
+    assert(nan CMP nan, Unordered, "RR64: two NaNs are unordered")
+  end
+
+floats32(): () = do
+    z: RR32 = narrow(0.0)
+    nan: RR32 = z / z
+    one: RR32 = narrow(1.0)
+    assert(nan < one, false, "RR32: a NaN is not less than a number")
+    assert(nan <= one, false, "RR32: a NaN is not at most a number")
+    assert(nan > one, false, "RR32: a NaN is not greater than a number")
+    assert(nan >= one, false, "RR32: a NaN is not at least a number")
+    assert(one < nan, false, "RR32: a number is not less than a NaN")
+    assert(one <= nan, false, "RR32: a number is not at most a NaN")
+    assert(one > nan, false, "RR32: a number is not greater than a NaN")
+    assert(one >= nan, false, "RR32: a number is not at least a NaN")
+    assert(nan < nan, false, "RR32: a NaN is not less than a NaN")
+    assert(nan <= nan, false, "RR32: a NaN is not at most a NaN")
+    assert(nan > nan, false, "RR32: a NaN is not greater than a NaN")
+    assert(nan >= nan, false, "RR32: a NaN is not at least a NaN")
+    assert(nan CMP one, Unordered, "RR32: a NaN and a number are unordered")
+    assert(one CMP nan, Unordered, "RR32: a number and a NaN are unordered")
+    assert(nan CMP nan, Unordered, "RR32: two NaNs are unordered")
+  end
+
+rationals(): () = do
+    ind: QQ = 0/0
+    inf: QQ = 1/0
+    ninf: QQ = -1/0
+    two: QQ = 2
+    assert(ind < two, false, "QQ: 0/0 is not less than a finite value")
+    assert(ind <= two, false, "QQ: 0/0 is not at most a finite value")
+    assert(ind > two, false, "QQ: 0/0 is not greater than a finite value")
+    assert(ind >= two, false, "QQ: 0/0 is not at least a finite value")
+    assert(two < ind, false, "QQ: a finite value is not less than 0/0")
+    assert(two <= ind, false, "QQ: a finite value is not at most 0/0")
+    assert(two > ind, false, "QQ: a finite value is not greater than 0/0")
+    assert(two >= ind, false, "QQ: a finite value is not at least 0/0")
+    assert(ind CMP two, Unordered, "QQ: 0/0 and a finite value are unordered")
+    assert(two CMP ind, Unordered, "QQ: a finite value and 0/0 are unordered")
+    assert(ninf < two, true, "QQ: -1/0 is less than a finite value")
+    assert(two > ninf, true, "QQ: a finite value is greater than -1/0")
+    assert(two < inf, true, "QQ: a finite value is less than 1/0")
+    assert(inf >= two, true, "QQ: 1/0 is at least a finite value")
+    assert(inf <= two, false, "QQ: 1/0 is not at most a finite value")
+    assert(ninf >= two, false, "QQ: -1/0 is not at least a finite value")
+    assert(ninf < inf, true, "QQ: -1/0 is less than 1/0")
+    assert(inf > ninf, true, "QQ: 1/0 is greater than -1/0")
+    assert(inf < ninf, false, "QQ: 1/0 is not less than -1/0")
+    assert(ninf CMP two, LessThan, "QQ: -1/0 compares less than a finite value")
+    assert(inf CMP two, GreaterThan, "QQ: 1/0 compares greater than a finite value")
+    assert(ninf CMP inf, LessThan, "QQ: -1/0 compares less than 1/0")
+  end
+
+run(): () = do
+    floats64()
+    floats32()
+    rationals()
+    println("PASS")
+  end
+
+end

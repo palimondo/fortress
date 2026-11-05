@@ -4547,6 +4547,80 @@ unpacking of values is done for you.
 \item[Route C] The same under route~C.
 \end{description}
 
+\subsection{A comparison at a NaN or at the rational indefinite}
+\seclabel{revival-nan-comparison}
+
+\begin{description}
+\item[Affected section] The subsection ``Comparisons Operators'' of the
+overview of operators in \chapref{operators}.
+\item[Change] Its two sentences on the comparison of rational and of
+floating-point values by the operators $<$, \EXP{\leq}, \EXP{\geq} and $>$
+said that a comparison of rational values throws
+\TYP{RationalComparisonError} if either argument is \EXP{1/0} or \EXP{0/0},
+and that a comparison of floating-point values throws
+\TYP{FloatingComparisonError} if either argument is a \TYP{NaN}.
+They now say that a comparison of rational values by these four operators
+returns \VAR{false} if either argument is \EXP{0/0}, for compatibility with
+floating-point arithmetic, and that \EXP{-1/0} is less than and \EXP{1/0}
+greater than every finite rational value (\secref{basic-rationals}); and that a
+comparison of floating-point values by these four operators returns
+\VAR{false} if either argument is a \TYP{NaN}, and \OPR{CMP} returns
+\TYP{Unordered}.
+The two sentences gain one box.
+\TYP{RationalComparisonError} and \TYP{FloatingComparisonError} stay declared in
+\library, and nothing throws them.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 5~November 2026 that a floating-point value compared with
+a \TYP{NaN} answers \VAR{false} for these four operators and \TYP{Unordered} for
+\OPR{CMP}, on both implementations, and that the overview's two sentences are
+revised to the reading of the chapter on rational numbers.
+The team built these answers for both floating-point types on both
+implementations and threw \TYP{FloatingComparisonError} nowhere.
+The chapter on rational numbers gives \EXP{0/0} \VAR{false} ``for
+compatibility with floating-point arithmetic'' and orders the infinities
+(\secref{basic-rationals}); the trait \TYP{Comparison} of the library chapters
+gives \OPR{CMP} the fourth value \TYP{Unordered} for values of a partial order;
+and the overview's own subsection on \OPR{MAX} and \OPR{MIN} answers a
+\TYP{NaN} with a value, not an exception.
+Java, Swift, Python's floating-point numbers, Julia and Haskell all answer
+\VAR{false}.
+A test for a \TYP{NaN} in software, which a throw would need, costs 15 to 20
+percent of a comparison on unboxed values of Java's \texttt{double}
+(\nolinkurl{explorations/perf-probes/nan-check-cost/REPORT.md} in the
+revival's repository); whether it would stop the vectorisation of a loop is not
+measured.
+The full reasoning is in
+\nolinkurl{explorations/compile-ladder/rung-spec-nan-comparison/decision-record.md}
+in the revival's repository.
+\item[Effect] No program changes: both implementations already answered so.
+The interpreter departs from the new text in one case: it answers \EXP{0/0}
+compared with itself with \VAR{true} for \EXP{=}, \EXP{\leq} and \EXP{\geq}, and
+with \TYP{EqualTo} for \OPR{CMP}, where the chapter on rational numbers gives
+\VAR{false} and \TYP{Unordered} (row~440 of the revival's gap ledger).
+The compiled path's own library, used until the one library replaces it,
+declares no rational type and no \OPR{CMP} on floating-point values.
+The answers are gated by
+\nolinkurl{ProjectFortress/tests/ComparisonAtNaNWalk.fss} and, for the
+compiled helpers of the floating-point comparisons, by
+\nolinkurl{ProjectFortress/compiler_tests/NativeHelperFamilyFloatCompiled.fss}
+and \nolinkurl{ProjectFortress/compiler_tests/NativeHelperFamilyRR32Compiled.fss}.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/operators/opr-overview.tex},
+lines 274--278:
+\begin{quote}
+Comparison of rational values throws \TYP{RationalComparisonError}
+if either argument is the rational infinity \EXP{1/0} or the
+rational indefinite \EXP{0/0}.
+Comparison of floating-point values throws \TYP{FloatingComparisonError}
+if either argument is a \TYP{NaN}.
+\end{quote}
+\item[Route C] The same under route~C.
+A reversal to the original sentences would need the four operators to throw
+\TYP{FloatingComparisonError} at a \TYP{NaN} on both implementations, and the
+rational operators \TYP{RationalComparisonError} at \EXP{1/0} and \EXP{0/0}:
+a test for a \TYP{NaN} in every compiled floating-point comparison, at the cost
+above, and in the interpreter's.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 
