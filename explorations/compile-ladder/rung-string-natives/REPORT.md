@@ -186,6 +186,8 @@ Files whose first error in `explorations/compile-ladder/ladder.tsv` names what t
 - `explorations/coordinator/FACTS.md:30`, F-32: "161 of the one library's 449 live native bindings" (now 143).
 - `.claude/skills/fortress-repo/references/interpreter.md:95` ("`String`, `FlatString` and `JavaString` in `String`": for a parameter, `String` is refused), `:99` ("except `FlatString`, `JavaString` and `()`"), `:102` ("So a binding in a method of the library's `FlatString` cannot name a helper yet: every program would stop at load."), `:116` ("A native declared over `String`, glue class or helper alike, receives the wrong text for a `CatString`"); the refusal list at `:107` gains a parameter declared `String`.
 - `explorations/coordinator/PLAN.md:10` and `:46`, "288 ... and 161 still name glue classes"; `:47`, "the 7 left wait on review-queue items 327 ... and 310 (over `String`, row 846) and review-queue item 340 (`FlatString`'s five)".
+- `explorations/coordinator/FACTS.md:137`, F-307: "The top-level `printlnWithThread` and `getProperty`, declared over `String`, stay on their glue class (row 846)." (each is now a native over `FlatString` on a helper, beside an overload over `String`; added by the skeptic).
+- `explorations/coordinator/PLAN.md:49`: "those over `String` (review-queue items 310 and 327 ..., row 846); `FlatString`'s five (review-queue item 340, row 864)" (both families moved; added by the skeptic).
 - Row 846's claim, which record.md rewrites.
 
 ## Points to report

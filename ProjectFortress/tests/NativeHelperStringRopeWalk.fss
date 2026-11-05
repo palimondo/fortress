@@ -15,7 +15,6 @@ run():() = do
   assert(long.depth, 1, "the concatenation is a rope")
   unset: String = "FORTRESS_NO_SUCH_VARIABLE_OR_PROPERTY"
 
-  (* a name that is set, flat, as a rope and as a SubString *)
   pathFlat = getEnvironment("PATH", "?")
   assert(pathFlat =/= "?", true, "PATH is set")
   pathRope: String = CatString("PA", "TH")

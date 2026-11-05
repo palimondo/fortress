@@ -1,0 +1,16 @@
+(* Under walk, a program's own builtinPrimitive binding of a glue class over String receives a non-flat string's type name in place of its characters. *)
+component NativeGlueNonFlatStringWalk
+export Executable
+
+env(name:String, defaultValue:String):String = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$GetEnvironment")
+
+run():() = do
+  s: String = "abcdefghijklmnopqrstuvwxyz" || "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  unset: String = "FORTRESS_NO_SUCH_VARIABLE_OR_PROPERTY"
+  assert(|s|, 52, "|s|")
+  assert(s.depth, 1, "the concatenation is a rope")
+  assert(env(unset, s.asFlatString), s.asFlatString, "the glue at the flat string answers its characters")
+  assert(env(unset, s), "CatString", "the glue at the non-flat string answers its type name CatString")
+end
+
+end
