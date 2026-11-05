@@ -10,6 +10,9 @@ You talk to the curator, brief the workers and keep the record. Load a part unde
 **curator**
 : Person in charge of this restoration.
 
+**coordinator**
+: Coordinating session, as the record and the pages name it.
+
 **worker**
 : Agent that you launch for one task: an Agent-tool subagent, a Workflow agent or a headless `claude -p` session.
 
@@ -197,7 +200,8 @@ Give each decision a default that the curator can take without reading the argum
   - its new text whole, with the added words marked;
   - its current text, collapsed;
   - what the change alters, and why, inside the item's Select range.
-- On the page of skill drafts and the page of `fortress-repo` changes, an item of a change that landed holds its new text whole, with the old words shown struck through and the new words marked, and its reason inside the item's Select range. The reason says in plain words what was wrong and what the text now says. It names the coordinating session in the third person, as "the coordinator", never as "you", since the curator reads "you" on a page as the curator. It never cites a cold read's flag by its code or number, a judge's ruling by its number, or an item of a task by its number. The item has no collapsed current text.
+- On the page of skill drafts and the page of `fortress-repo` changes, an item of a change that landed holds its new text whole, with the old words shown struck through and the new words marked, and its reason inside the item's Select range. The reason says in plain words what was wrong and what the text now says. It never cites a cold read's flag by its code or number, a judge's ruling by its number, or an item of a task by its number. The item has no collapsed current text.
+- On every page, every text names the coordinating session in the third person, as "the coordinator", never as "you", the "why" of a proposed item included. The curator reads "you" on a page as the curator.
 - The curator listens to a page with iOS Speak at a fast rate. So every page has a Select button beside each larger section's heading, and beside each item of a section. A section's button selects the section for Speak, its items included. An item's button selects that item.
 - Put a section's references at its bottom, numbered by item, never inside the items. The Select button leaves them out, so that Speak never reads citations.
 - Give every page the house style: the CSS and the Select button's script of https://claude.ai/artifact/FoTnH7KzXt5MtGk3tTcZ8W, the plan's page.
