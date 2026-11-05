@@ -273,3 +273,8 @@ The cold read of `f898915bc`, 2026-11-05, read as the coordinating session, chan
 - `batch.md`, "The landing", step 3: the spans end at the commit stage's last commit, which stands while a push is held, and are counted as the difference of two runs of `spend.py`.
 - `record.md`: the pilot's reason as the form it shows, its rest on the curator's go; `findings.md` in the form of its README.
 - `skill-rewrite.md`, "The method", steps 4 and 6, and the pointer to the page of the change, made to point to `SKILL.md` for the coordinator skill; "The coordinator skill", the list of kept rules and the cold reader named.
+
+The curator's approval in chat, 2026-11-05, 11:53 UTC ("proposal approved"), of the drafts page's version 11, draft 12, from his rule of 11:5x UTC that the report of landed skill changes goes on the page of skill drafts, not in chat:
+
+- `SKILL.md`, "The curator's role and decisions", the report bullet: after a change lands, a worker updates the page of skill drafts, and the chat gives one line and the page's link; a reversal may come by a comment on the change's item. The waiting bullet: its item goes under the page's proposed changes.
+- `skill-rewrite.md`, "The method", step 7: the page's two sections, the landed changes of the last landing as diffs with their reasons, and the proposed changes; the bullet after the steps points to step 7. POSITIONS changes stay reported in chat ("Quiet times"), and "Pages" stays as it is, the struck-through words being its marking of a change.
