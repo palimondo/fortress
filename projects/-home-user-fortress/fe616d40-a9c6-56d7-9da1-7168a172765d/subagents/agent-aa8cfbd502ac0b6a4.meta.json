@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Wire the skills' update into the landing workflow","toolUseId":"toolu_01V3bvn4v26mxfghBUs6Crsi","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"high","pickedEffortModel":"claude-fable-5-1"}
