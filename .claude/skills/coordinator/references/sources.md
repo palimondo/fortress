@@ -236,7 +236,9 @@ Shown to the curator on the skill drafts page, version 6. He accepted some items
 - `record.md`, "What an entry is", a POSITIONS entry in the record's register with every fact correct, without the added step to bring a wrong fact to the curator first; and an entry's reason as the ground of its own case: the cold read's flags R1 to R3 of 2026-11-01, with the second cold read's changes; settled by the coordinator.
 - `skill-rewrite.md`, the opening paragraph, a skill as a minimal set of goals and principles with their benefit: the same note, rule 20, redrafted from his page comment of 06:51, and his point of that comment on the skills' size and a minimal set that leans on the model's training; settled by the coordinator.
 - The fixes to the lines of "Changes landed on 2026-11-01": the cold read's flags C1 to C4 of 2026-11-01, as the drafts page's version 6 gave them; settled by the coordinator.
-- `delegating.md`, "What a brief holds", the cap on an Agent-tool worker's wait lowered from 270 s to 240 s, in step with `fortress-repo`'s `session.md`, after climb batch 25's rung U lost its prompt cache after a wait of 270 s (2026-11-03); settled by the coordinator.
+## The wait cap, 2026-11-03
+
+- `delegating.md`, "What a brief holds", the cap on an Agent-tool worker's wait lowered from 270 s to 240 s, in step with `fortress-repo`'s `session.md`, after climb batch 25's rung U lost its prompt cache after a wait of 270 s (2026-11-03); settled by the coordinator. Committed in `3e3a5aef6`, 2026-11-03, 06:01 UTC; filed under the evening of 2026-11-02 until 2026-11-05.
 
 ## Changes landed on 2026-11-03
 
@@ -298,3 +300,12 @@ The cold read of `e6bc2b83c`, 2026-11-05, read as the coordinating session, chan
 - `batch.md`, "The landing", step 4: the writer's pass inside the workflow brings in line only the sentences that the landing's changes to FACTS and POSITIONS made false; a new rule or a change of meaning is listed for the coordinator, who puts it to the curator; the workflow pushes the writer's commits; until the workflow's README lists a step of the chain, the coordinator runs that step itself, a sentence to remove when the script lands; the one line waits as "Quiet times" says.
 - `skill-rewrite.md`, "The method": step 7's landed section starts, on the page of `fortress-repo` changes, from the curator's last word that he has read it; "the orientation workflow, in update mode"; the bullet after the steps names the push inside the workflow, the two pages kept by a worker, and the part's page for `cloud-container`.
 - `SKILL.md`, "Pages", and `skill-rewrite.md`, step 7: "a judge's ruling by its number, or an item of a task by its number" in place of "a ruling's number or a task's item number".
+
+## Changes of 2026-11-05, evening
+
+- `batch.md`, "The landing", step 4: the sentence on steps that the coordinator runs until the workflow's README lists them removed; the worker's page update, then the push, and the result's one line with the commits and the page's link. In step with `explorations/coordinator/tools/record-landing/README.md`, "The skill update" (`6edff99a7`); settled by the coordinator.
+- `batch.md`, "The landing", the paragraph on a held push: steps 1 to 3 at once, and the record-landing workflow only after the batch is pushed, since it pushes `main` itself. The coordinator's reading, told to the curator at 06:3x UTC on 2026-11-03.
+- `skill-rewrite.md`, "The method", step 4: for `fortress-repo`, a whole part that waits for the curator's yes goes as a page, and its landed changes show on the page of `fortress-repo` changes; step 7 names which page is kept in step for each skill, `cloud-container` included, and the bullet after the steps no longer repeats it. Settled by the coordinator.
+- `SKILL.md`, "The boot", the transcript backup checked at every boot and after every VM restart, and re-armed first if its last snapshot is older than the machine's last start: the curator's rule of 19:0x UTC on 2026-11-03, after the backup had failed with no message for about 18 hours and a full boot had not noticed.
+- `delegating.md`, "What a brief holds", the people of the project named by their roles as the record gives them: the curator's objection of 19:3x UTC on 2026-11-04, after a brief's own description of a designer of Fortress's front end reached a page under that designer's name.
+- The line on the wait cap moved from "Changes landed on 2026-11-02, evening" to a heading of its own, by its commit's date (`git log -S`); settled by the coordinator.

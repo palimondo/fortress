@@ -129,16 +129,16 @@ The tokens written are those that `writer-stream.sh` counts: the input and the c
 
 | Step | Tokens written |
 |---|---|
-| 2. The reader, a fresh stream on ten lines | about 60,000 |
+| 2. The reader, a fresh stream on ten lines | 79,000, measured |
 | 4. Stream 1, chunk A, fresh | about 40,000 |
 | 4. Stream 1, chunk B, resumed | about 25,000 |
 | 4. Stream 2, chunk C, fresh | about 40,000 |
 | 4. Stream 2, chunk D, resumed | about 25,000 |
-| 6. The checker, fresh: the diff, the briefs, the inventory's entries, spot reads of homes | about 80,000 |
+| 6. The checker, fresh: the diff, the briefs, the inventory's entries, spot reads of homes | 150,000, measured |
 | 7. The fix round, two streams resumed | about 30,000 |
 | 8. The edges' writer, stream 1 resumed | about 30,000 |
 | 10. The coordinator: the steps' commands and output, and its review of the diff | about 40,000 |
-| **All** | **about 370,000**, between 300,000 and 450,000 |
+| **All** | **509,000**, measured in the run of 2026-11-03 |
 
 The mechanical steps (1, 3, 5, 8 and 9) write no tokens. The inventory's own estimate is about 300,000, between 250,000 and 400,000 (its section 4). This one adds the reader of choice 10 (b), about 60,000, which the inventory's total leaves out. Its writer streams come to 160,000, the sum of the parts that the inventory gives, where the inventory writes 130,000.
 

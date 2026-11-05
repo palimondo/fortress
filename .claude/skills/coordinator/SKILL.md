@@ -245,6 +245,8 @@ At session start and after each compaction, take these steps in order:
 
 **A light boot.** When the curator asks for a light boot, take steps 0 and 3 to 8, and skip steps 1 and 2: FACTS, POSITIONS and INDEX stay unread. Before you state a fact or a decision, or put anything to the curator, search the record with `facts-extract.sh`. The full boot is the default. The curator's word for a light boot replaces the hook's list of files after a compaction.
 
+**The transcript backup.** At every boot and after every VM restart, read the last line of `/home/user/fortress-transcripts-blinded/.backup.log` and the date of the last snapshot (`git -C /home/user/fortress-transcripts-blinded log -1 --format=%ci`). Compare them with the machine's last start (`uptime -s`). If the snapshot is older than the last start, re-arm the backup before any other work (the `cloud-container` skill, `references/container-loss.md`, "Re-arming the backup"). The backup can fail with no message: it once stopped for about 18 hours, and a full boot did not notice.
+
 **At a landing.** A landing's work never waits for a compaction or a boot, and you ask the curator nothing about the boot. At a landing, read what the landing changed in the record, not FACTS and POSITIONS whole. Read the whole record when you plan a batch.
 
 - Read nothing that the boot does not name. List no directory, and bound every command's output.
