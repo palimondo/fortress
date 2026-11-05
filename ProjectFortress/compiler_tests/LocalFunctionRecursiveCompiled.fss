@@ -1,0 +1,24 @@
+(* A local function calls itself, and two local functions of one block call each other, whichever is declared first (functions.tex, section "Local Function Declarations": local functions are mutually recursive). *)
+component LocalFunctionRecursiveCompiled
+export Executable
+
+factorial(m: ZZ32): ZZ32 = do
+    fact(n: ZZ32): ZZ32 = if n = 0 then 1 else n fact(n - 1) end
+    fact(m)
+  end
+
+run(): () = do
+    assert(factorial(5), 120, "fact calls itself")
+    ev(n: ZZ32): Boolean = if n = 0 then true else od(n - 1) end
+    od(n: ZZ32): Boolean = if n = 0 then false else ev(n - 1) end
+    assert(ev(10), "ev(10) calls od, declared after it")
+    assert(od(7), "od(7) calls ev, declared before it")
+    assert(NOT ev(7), "ev(7) is false")
+    step: ZZ32 = 3
+    down(n: ZZ32): ZZ32 = if n <= 0 then 0 else 1 + up(n - step) end
+    up(n: ZZ32): ZZ32 = if n <= 0 then 0 else 1 + down(n + 1) end
+    assert(down(6), 5, "down and up call each other and read the local step")
+    println("PASS")
+  end
+
+end

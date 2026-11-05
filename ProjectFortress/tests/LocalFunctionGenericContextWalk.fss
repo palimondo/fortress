@@ -1,0 +1,58 @@
+(* A local function in a generic function reads a value of the function's type parameter, one in a method of a trait generic in a type and a size calls a method of self, and one is called from both arms of a do ... also block (functions.tex, section "Local Function Declarations"; also.tex, section "Parallel Do Expressions"). *)
+component LocalFunctionGenericContextWalk
+export Executable
+
+keep[\T extends Object\](x: T, n: ZZ32): T = do
+    pick(i: ZZ32): T = if i = 0 then x else pick(i - 1) end
+    pick(n)
+  end
+
+trait Hold[\E extends Object, nat n\]
+    size(): ZZ32
+    sumTo(k: ZZ32): ZZ32 = do
+        step(i: ZZ32): ZZ32 = i + size()
+        step(k) + step(0)
+      end
+end
+
+object H3 extends Hold[\String, 3\]
+    size(): ZZ32 = 3
+end
+
+bothArms(n: ZZ32): String = do
+    lbl(x: ZZ32): String = (x + n).asString
+    var r1: String := ""
+    var r2: String := ""
+    do
+        r1 := lbl(1)
+    also do
+        r2 := lbl(2)
+    end
+    r1 || r2
+  end
+
+splitSum(lo: ZZ32, m: ZZ32): ZZ32 = do
+    part(a: ZZ32, k: ZZ32): ZZ32 =
+        if k = 1 then a
+        else
+            var left: ZZ32 := 0
+            var right: ZZ32 := 0
+            do
+                left := part(a, k DIV 2)
+            also do
+                right := part(a + k DIV 2, k - k DIV 2)
+            end
+            left + right
+        end
+    part(lo, m)
+  end
+
+run(): () = do
+    assert(keep[\String\]("a", 3), "a", "pick reads x of type T")
+    assert(H3.sumTo(4), 10, "step calls size of self in Hold")
+    assert(bothArms(10), "1112", "lbl called from both arms")
+    assert(splitSum(0, 8), 28, "part calls itself from both arms")
+    println("PASS")
+  end
+
+end

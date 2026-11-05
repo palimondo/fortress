@@ -1,0 +1,32 @@
+(* A local function is a value: it is passed to a higher-order function, stored by a tabulate of the program's own, and given as the value of its block (functions.tex, section "Local Function Declarations"). *)
+component LocalFunctionValueCompiled
+export Executable
+
+twice(f: ZZ32 -> ZZ32, x: ZZ32): ZZ32 = f(f(x))
+
+object Table(n: ZZ32, f: ZZ32 -> ZZ32)
+    get(i: ZZ32): ZZ32 = f(i)
+end
+
+tabulate(n: ZZ32, f: ZZ32 -> ZZ32): Table = Table(n, f)
+
+adder(k: ZZ32): ZZ32 -> ZZ32 = do
+    add(x: ZZ32): ZZ32 = x + k
+    add
+  end
+
+run(): () = do
+    k: ZZ32 = 10
+    add(x: ZZ32): ZZ32 = x + k
+    assert(twice(add, 3), 23, "add passed to twice")
+    row(i: ZZ32): ZZ32 = i i
+    t = tabulate(4, row)
+    assert(t.get(3), 9, "row stored by tabulate")
+    assert(t.get(2) + t.n, 8, "the table's own n beside row")
+    a5 = adder(5)
+    assert(a5(1), 6, "the local add as the value of adder's block")
+    assert(twice(adder(2), 1), 5, "adder's value passed on")
+    println("PASS")
+  end
+
+end

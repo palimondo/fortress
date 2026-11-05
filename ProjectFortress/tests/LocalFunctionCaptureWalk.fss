@@ -1,0 +1,33 @@
+(* A local function assigns a mutable local of its block, reads a field and calls a method of self in an object's method, and takes the return type of its body when it leaves its own out (functions.tex, section "Local Function Declarations"). *)
+component LocalFunctionCaptureWalk
+export Executable
+
+counted(n: ZZ32): ZZ32 = do
+    var acc: ZZ32 := 0
+    bump(x: ZZ32): () = do acc := acc + x end
+    for i <- seq(1#n) do bump(i) end
+    bump(100)
+    acc
+  end
+
+object Scaler(factor: ZZ32)
+    offset(): ZZ32 = 1
+    scaleAll(a: ZZ32, b: ZZ32): ZZ32 = do
+        sc(x: ZZ32): ZZ32 = x factor + offset()
+        sc(a) + sc(b)
+      end
+end
+
+untyped(k: ZZ32): ZZ32 = do
+    plus(x: ZZ32) = x + k
+    plus(1) + plus(2)
+  end
+
+run(): () = do
+    assert(counted(4), 110, "bump assigns the captured acc")
+    assert(Scaler(3).scaleAll(2, 5), 23, "sc reads factor and calls offset of self")
+    assert(untyped(10), 23, "plus leaves its return type out")
+    println("PASS")
+  end
+
+end
