@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 12:19 His comment on the drafts page's version 2, sent to Claude: (1) the landed items' reasons use internal references to the cold read's flags ("F9"); that is noise he does not want in his explanations, new behaviour he does not want to see again: a reason describes the facts. (2) Draft 13 approved with a caveat: its explanation reads as if changes to `fortress-repo` would now wait on his word, which was not his intention; the page's purpose is only a good working surface to check the changes whenever he wants, and it must not change how the `fortress-repo` skill is updated.
+
 - 12:3x He has too many artifacts (41 shown in his client, 64 published): he wants a stable small set of pages that are reviewed after each landing and linked from the boot note, and the rest cleaned up. For the `fortress-repo` page he prefers the diff-only form for review; the earlier whole-skill page was also useful, and he is torn.
 
 - 12:0x His ask: the same page treatment for the `fortress-repo` skill, so that when the post-landing process updates it (the orientation workflow's update of the revival part, the skill writer's changes to the area parts, their cold read), a page shows him the landed diffs with reasons; and make it part of the landing workflow, after the skill writer has updated the skills from the landed changes. The coordinator's plan: the rule drafted for his yes (a page per skill, updated by a worker after each change lands, the landing workflow included); the first `fortress-repo` page from the changes after climb batch 25's landing; then the chain wired into the record-landing workflow.
