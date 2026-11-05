@@ -1,0 +1,63 @@
+(* Under walk, getEnvironment, getProperty and the three thread prints read the characters of a rope made by ||, a SubString and EmptyString, and match those of flat strings. *)
+component NativeHelperStringRopeWalk
+import String.{CatString, SubString, EmptyString}
+import System.{getEnvironment, getProperty}
+export Executable
+
+isSubString(s: String): Boolean = typecase s of
+    SubString => true
+    else => false
+  end
+
+run():() = do
+  long: String = "abcdefghijklmnopqrstuvwxyz" || "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  assert(|long|, 52, "|long|")
+  assert(long.depth, 1, "the concatenation is a rope")
+  unset: String = "FORTRESS_NO_SUCH_VARIABLE_OR_PROPERTY"
+
+  (* a name that is set, flat, as a rope and as a SubString *)
+  pathFlat = getEnvironment("PATH", "?")
+  assert(pathFlat =/= "?", true, "PATH is set")
+  pathRope: String = CatString("PA", "TH")
+  pathWide: String = CatString("xPA", "THx")
+  pathSub: String = pathWide[1#4]
+  assert(isSubString(pathSub), true, "pathSub is a SubString")
+  assert(getEnvironment(pathRope, "?"), pathFlat, "getEnvironment at a rope name")
+  assert(getEnvironment(pathSub, "?"), pathFlat, "getEnvironment at a SubString name")
+  assert(getEnvironment(unset, long), long.asFlatString, "getEnvironment at a rope default")
+  assert(getEnvironment(unset, pathSub), "PATH", "getEnvironment at a SubString default")
+  assert(getEnvironment(unset, EmptyString), "", "getEnvironment at an EmptyString default")
+  assert(getEnvironment(EmptyString, "?"), "?", "getEnvironment at an EmptyString name")
+
+  versionFlat = getProperty("java.version", "?")
+  assert(versionFlat =/= "?", true, "java.version is set")
+  versionRope: String = CatString("java.", "version")
+  versionWide: String = CatString("xjava.", "versionx")
+  versionSub: String = versionWide[1#12]
+  assert(isSubString(versionSub), true, "versionSub is a SubString")
+  assert(getProperty(versionRope, "?"), versionFlat, "getProperty at a rope name")
+  assert(getProperty(versionSub, "?"), versionFlat, "getProperty at a SubString name")
+  assert(getProperty(unset, long), long.asFlatString, "getProperty at a rope default")
+  assert(getProperty(unset, versionSub), "java.version", "getProperty at a SubString default")
+  assert(getProperty(unset, EmptyString), "", "getProperty at an EmptyString default")
+  assert(getProperty(EmptyString, "?"), "?", "getProperty at an EmptyString name")
+
+  assert(match("a.c", "abc"), true, "match")
+  assert(match("a.c", "abd"), false, "match not")
+  assert(match("", ""), true, "match of the empty strings")
+
+  printThreadInfo(long)
+  printThreadInfo(pathSub)
+  printThreadInfo(EmptyString)
+  printWithThread(long)
+  println("")
+  printWithThread(pathSub)
+  println("")
+  printWithThread(EmptyString)
+  println("")
+  printlnWithThread(long)
+  printlnWithThread(pathSub)
+  printlnWithThread(EmptyString)
+end
+
+end
