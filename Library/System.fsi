@@ -11,6 +11,8 @@
 
 api System
 
+import FlatString.{FlatString}
+
 (**
 Access to configuration information specific to a run of a Fortress program.
 
@@ -29,11 +31,13 @@ args : ImmutableArray[\String,ZZ32\]
 programName : String
 
 (** A way to get environment information from inside of fortress **)
+getEnvironment(name:FlatString, defaultValue:FlatString):String
 getEnvironment(name:String, defaultValue:String):String
 
 (** A way to get fortress-style property information (that can be
     overridden by environment variable settings; uses the same code as
     property settings for the fortress implementation itself). **)
+getProperty(name:FlatString, defaultValue:FlatString):String
 getProperty(name:String, defaultValue:String):String
 
 (** Turn string into properly-terminated directory name

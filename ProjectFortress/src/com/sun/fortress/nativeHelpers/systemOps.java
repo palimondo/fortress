@@ -20,6 +20,15 @@ public class systemOps {
     public static String getProperty(String what, String ifMissing) {
         return ProjectProperties.get(what, ifMissing);
     }
+
+    public static String getEnvironment(String name, String ifMissing) {
+        String result = System.getenv(name);
+        return result == null ? ifMissing : result;
+    }
+
+    public static String lineSeparator() {
+        return System.getProperty("line.separator");
+    }
     
     public static FStringVector getArgs() {
         return new FStringVector(MainWrapper.cachedArgs);

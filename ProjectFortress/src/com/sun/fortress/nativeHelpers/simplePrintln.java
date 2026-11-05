@@ -37,6 +37,18 @@ public class simplePrintln {
         System.out.println(Thread.currentThread() + " " + String.valueOf(i));
     }
 
+    public static void printThreadInfo(String s) {
+        System.out.println(" Thread " + Thread.currentThread().getName() + " operating on value " + s);
+    }
+
+    public static void printWithThread(String s) {
+        System.out.print(" Thread " + Thread.currentThread().getId() + ": " + s);
+    }
+
+    public static void printlnWithThread(String s) {
+        System.out.println(" Thread " + Thread.currentThread().getId() + ": " + s);
+    }
+
     public static void nativeErrorPrint(String s) {
         System.err.print(s);
     }

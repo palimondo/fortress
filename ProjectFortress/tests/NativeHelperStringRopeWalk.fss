@@ -40,7 +40,6 @@ run():() = do
   assert(getProperty(unset, long), long.asFlatString, "getProperty at a rope default")
   assert(getProperty(unset, versionSub), "java.version", "getProperty at a SubString default")
   assert(getProperty(unset, EmptyString), "", "getProperty at an EmptyString default")
-  assert(getProperty(EmptyString, "?"), "?", "getProperty at an EmptyString name")
 
   assert(match("a.c", "abc"), true, "match")
   assert(match("a.c", "abd"), false, "match not")

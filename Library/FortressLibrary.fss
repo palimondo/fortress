@@ -4612,7 +4612,7 @@ end
 
 
 
-match(regex:FlatString,some:FlatString):Boolean = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$Match")
+match(regex:FlatString,some:FlatString):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.match")
 
 (** postfix %//% appends a single line separator.  The postfix version
     performs implicit conversion to String, which is why it's a
@@ -4625,11 +4625,23 @@ opr (x:Any)// : String = x || newline
 opr (x:Any)/// : String = x || doubleNewline
 
 (* These are useful temporary hacks for debugging multi-threaded programs *)
-printThreadInfo(a:String):() = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$PrintThreadInfo")
+printThreadInfo(a:FlatString):() = builtinPrimitive("com.sun.fortress.nativeHelpers.simplePrintln.printThreadInfo")
+printThreadInfo(a:String):() = typecase a.asFlatString of
+    f:FlatString ⇒ printThreadInfo(f)
+    f:String ⇒ fail("printThreadInfo: asFlatString answered a string that is not flat")
+  end
 printThreadInfo(a:Number):() = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$PrintThreadInfo")
 
-printWithThread(a:String):() = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$PrintWithThread")
-printlnWithThread(a:String):() = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$PrintlnWithThread")
+printWithThread(a:FlatString):() = builtinPrimitive("com.sun.fortress.nativeHelpers.simplePrintln.printWithThread")
+printWithThread(a:String):() = typecase a.asFlatString of
+    f:FlatString ⇒ printWithThread(f)
+    f:String ⇒ fail("printWithThread: asFlatString answered a string that is not flat")
+  end
+printlnWithThread(a:FlatString):() = builtinPrimitive("com.sun.fortress.nativeHelpers.simplePrintln.printlnWithThread")
+printlnWithThread(a:String):() = typecase a.asFlatString of
+    f:FlatString ⇒ printlnWithThread(f)
+    f:String ⇒ fail("printlnWithThread: asFlatString answered a string that is not flat")
+  end
 
 (* time to get rid of this:
 throwError(a:String):() = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$ThrowError")
