@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Write the learning page","toolUseId":"toolu_01C2vHQDMtKRzZ1gzUe8p7oX","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Write the learning page","toolUseId":"toolu_01C2vHQDMtKRzZ1gzUe8p7oX","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","effort":"xhigh","pickedEffortModel":"claude-fable-5-1","finished":true}
