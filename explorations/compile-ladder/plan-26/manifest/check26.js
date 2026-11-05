@@ -3,7 +3,7 @@
 // of the workflow script, $OUT26/wf-spliced-26.js, and with --write splices it into the tracked script. As
 // check25.js: node --check on the original and the spliced copy; both parsed as the body of an async function, as the
 // Workflow harness parses them, their export made const; every line outside the block byte-identical; the block
-// evaluated with the script's own load checks and scatter order; the batch's rungs (lists26.py's IDS, W, S and L, in
+// evaluated with the script's own load checks and scatter order; the batch's rungs (lists26.py's IDS, W, S, L and T, in
 // that order, less any that --without names), their fields, no rung bringing a gate step, declaring a checker count,
 // a crash or a ladder move, or landing only with another; each section equal to the rung's section 3 of the record
 // (backticks dropped, the ellipsis character as three full stops, the minus sign as a hyphen-minus); briefing,
@@ -17,7 +17,10 @@
 // say "no speed pass" (no rung changes the checker: the record's forks 13 and 14); and the briefings against the
 // record's section 5, "The briefings, rung by rung": each rung's bullet giving lists26.py's number of keys and of
 // checks, and holding each of its reasons, its first letter either case and its full stop dropped, but those of the
-// keys lists26.py's OWN_REASONS names, whose reason the record does not give. Its last lines say whether the tracked
+// keys lists26.py's OWN_REASONS names, whose reason the record does not give.
+// For rung T, added to the record after the Fable review: T, and only T, runs the count stage and the distance stage
+// once each on its tree, its section saying "Run the count stage and the distance stage once each", as climb batch
+// 25's natives rungs' sections did, and naming a speed pass only to say it makes none; W, S and L keep "run neither". Its last lines say whether the tracked
 // script's block equals the generated one, and count the problems.
 //   node check26.js [--without <rung>]... [--write] [RECORD]      RECORD defaults to explorations/coordinator/CLIMB-BATCH-26.md
 // --without <rung> checks the block that gen26.py writes with the same argument: the batch's rungs less that one.
@@ -38,6 +41,9 @@ const RUN_IDS = ALL_IDS.filter(x => !WITHOUT.includes(x))
 if (WITHOUT.some(x => !ALL_IDS.includes(x))) { console.log('--without names a rung not in the batch'); process.exit(2) }
 const STAGE_RUNGS = []
 const CHECKER_RUNGS = []
+// The rungs that run the count stage and the distance stage once each on their own tree, as climb batch 25's natives
+// rungs did: T, whose library edits are text the stages read. Every other rung names both as stages it does not run.
+const STAGES_RUNGS = ['T']
 const LANDS_ONLY_WITH = Object.fromEntries(ALL_IDS.map(x => [x, []]))
 const REC = argv.filter((a, i) => !a.startsWith('--') && argv[i - 1] !== '--without')[0] || path.join(ROOT, 'explorations/coordinator/CLIMB-BATCH-26.md')
 const block = fs.readFileSync(path.join(HERE, 'manifest' + BATCH_NAME + '.js'), 'utf8')
@@ -133,9 +139,10 @@ if (r) {
     say(!texts.some(t => /[^\x00-\x7f`]/.test(t) || /`/.test(t)), x.id + ': no backtick or non-ASCII character')
     say(!texts.some(t => rerun.test(t)), x.id + ': nothing asks a skeptic to see a failure again, rebuild, re-run or re-anchor')
     say(x.testIsStage === STAGE_RUNGS.includes(x.id), x.id + ': its test is the stage: ' + x.testIsStage + (STAGE_RUNGS.includes(x.id) ? ', its every edit is library text that only the checker reads differently' : ', a test first'))
-    say(/distance stage/.test(x.section) && /count stage/.test(x.section) && /run neither/.test(x.section), x.id + ': its section names the count stage and the distance stage as stages its rung does not run')
+    if (STAGES_RUNGS.includes(x.id)) say(/[Rr]un the count stage and the distance stage once each/.test(x.section) && !/run neither/.test(x.section), x.id + ': its section names the count stage and the distance stage as stages it runs once each on its tree')
+    else say(/distance stage/.test(x.section) && /count stage/.test(x.section) && /run neither/.test(x.section), x.id + ': its section names the count stage and the distance stage as stages its rung does not run')
     if (CHECKER_RUNGS.includes(x.id)) say(/P-148/.test(x.section) && /speed pass/.test(x.section) && !/no speed pass/.test(x.section), x.id + ': a rung that changes the checker, its section names P-148 and its speed pass')
-    else say(!/speed pass/.test(x.section) && !/P-148/.test(x.section), x.id + ': a rung outside the checker, its section names no speed pass and no P-148')
+    else say(!/P-148/.test(x.section) && (STAGES_RUNGS.includes(x.id) ? !/speed pass/.test(x.section.replace(/no speed pass/g, '')) : !/speed pass/.test(x.section)), x.id + ': a rung outside the checker, its section names no speed pass' + (STAGES_RUNGS.includes(x.id) ? ' but to say it makes none' : '') + ' and no P-148')
     // The record's section 5, "The briefings, rung by rung": the rung's bullet, its counts and its reasons.
     const bl = briefingBullet(x.id)
     const cm = bl && /^- \*\*[A-Z]\*\*, ([0-9]+) keys, ([0-9]+) checks: /.exec(bl)

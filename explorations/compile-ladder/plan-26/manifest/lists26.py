@@ -11,9 +11,9 @@
 # the checks those the record marks (check); check26.js compares the reasons and the counts of keys and checks with
 # the record. Where the record gives a key no reason (W's forks and OverloadedFunction.java, S's probes and forks,
 # L's forks and the map), the reason is this file's, from lists25.py's or from the rung's section 3, and OWN_REASONS
-# names the key. The rungs, in the manifest's order, which is the gather's applied order: W, S, L (the record's fork 1);
-# a string rung, if a resume of the planner adds one, goes after them. No rung has a planner's text or sample, so no
-# key names plan-26/probes/; the shared guards of the native rungs are gone.
+# names the key. The rungs, in the manifest's order, which is the gather's applied order: W, S, L, T (the record's
+# fork 1), T the string rung that a resume of the planner added after the Fable review. No rung has a planner's text
+# or sample, so no key names plan-26/probes/; the shared guards of climb batch 25's native rungs are gone.
 # `python3 -B lists26.py` checks every key with facts-extract.sh --check (each must match exactly one place) and every
 # reason's form, in $FORTRESS_HOME (this checkout by default); it is run again on the tree the batch is cut from.
 import os
@@ -83,8 +83,30 @@ L_CHECKS = ["F-34", "F-233", "ledger:304", PROBES, REC + "The question for the c
   "doc:Specification/basic/functions.tex#Local Function Declarations",
   "code:" + SRC + "compiler/codegen/CodeGen.java#public void forFnExpr(FnExpr x)"]
 
-ORDER = ('W', 'S', 'L')
-_B = {'W': (W_BRIEFING, W_CHECKS), 'S': (S_BRIEFING, S_CHECKS), 'L': (L_BRIEFING, L_CHECKS)}
+T_BRIEFING = [
+  ("P-58", "The binding's form, and the step that moves a binding checked against the helper's Java signature."),
+  ("F-299", "Walk's loader, its carriers, and FlatString's self, which your change carries."),
+  ("F-32", "The bindings that still name a glue class, which your rung lowers."),
+  ("ledger:846", "The row your rung narrows."),
+  ("ledger:877", "A parameter at a program's own FlatString, which stays open."),
+  ("ledger:878", "A component named for a library component, which stays open."),
+  ("doc:explorations/reviews/string-natives-2026-11-05.md#6. The options", "Options (b) and (c), the files and the tests of each."),
+  ("doc:explorations/perf-probes/loader-declaring-type/REPORT.md#3. The way built, and why", "The loader's way as the probe built it."),
+  ("doc:explorations/perf-probes/loader-declaring-type/shadow.patch", "The probe's Java and its test, which you take."),
+  ("code:" + SRC + "interpreter/glue/StaticNativeApp.java#static Object find(String s, Applicable defn, String declarer)", "The loader's find, which your change tells the declaring type."),
+  ("doc:Library/FlatString.fss", "The bindings you move and the typecase form your overloads follow."),
+  ("doc:ProjectFortress/tests/NativeHelperNonFlatStringWalk.fss", "Row 846's test, which the last step makes a refusal test."),
+  ("doc:ProjectFortress/compiler_tests/NativeHelperBindingCompiled.fss", "A compiled guard's form, a helper bound over JavaString."),
+  FORKS,
+  ("doc:" + SRC + "interpreter/glue/prim/StringPrim.java", "The glue of match, the three prints, getProperty and getEnvironment, which your helpers compute as."),
+]
+T_CHECKS = ["P-58", "F-299", "ledger:846", "doc:explorations/reviews/string-natives-2026-11-05.md#6. The options",
+  "doc:explorations/perf-probes/loader-declaring-type/REPORT.md#3. The way built, and why",
+  "doc:explorations/perf-probes/loader-declaring-type/shadow.patch",
+  "code:" + SRC + "interpreter/glue/StaticNativeApp.java#static Object find(String s, Applicable defn, String declarer)"]
+
+ORDER = ('W', 'S', 'L', 'T')
+_B = {'W': (W_BRIEFING, W_CHECKS), 'S': (S_BRIEFING, S_CHECKS), 'L': (L_BRIEFING, L_CHECKS), 'T': (T_BRIEFING, T_CHECKS)}
 IDS = tuple(r for r in ORDER if _B[r][0])
 LISTS = {r: ([k for k, _ in _B[r][0]], _B[r][1]) for r in IDS}
 REASONS = {r: _B[r][0] for r in IDS}

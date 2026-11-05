@@ -1,6 +1,6 @@
 # Made from plan-25/manifest/gen25.py for climb batch 26: one run; the batch's rungs from lists26.IDS in the manifest's
-# order, W, S, L, which is also the order in which the gather applies them (the record's fork 1), and a string rung
-# after them if a resume of the planner adds one; none landing only with another. --without <rung> leaves any rung
+# order, W, S, L, T, which is also the order in which the gather applies them (the record's fork 1), T the string
+# rung that a resume of the planner added; none landing only with another. --without <rung> leaves any rung
 # out of the block. A rung's section runs from its heading to the next ### heading, as check26.js reads it.
 # Changed from gen25.py: the batch's values (BATCH 26, the record CLIMB-BATCH-26.md, the lists lists26.py, the
 # output manifest26.js under $OUT26); the minus sign U+2212, which section 3 writes in S's -1/0, written as a
