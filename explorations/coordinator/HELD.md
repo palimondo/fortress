@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 08:0x His comment on the drafts page's draft 1 (who decides changes to the coordinator skill), sent to Claude at 08:09: it reads as a reversal of his earlier position and he does not recall what triggered it; he wants the coordinator able to optimise its flow after a landing; he recalls a clause that changes land by default while he is informed; he asks what changes, whether he must approve every change or only those that change the cooperation, and fears a review burden and drafts that wait while the behaviour stays suboptimal, against uncontrolled drift. He asks for the wider context, then a second review of this step; he listened to the section while doing something else. He also asks that the comments landed before be closed, 18 outstanding, with his permission. His "Send to Claude" opened another session, which he stopped: this session must listen to the page.
+
 - 07:2x His read of the revival page's version 25: "Excellent rewrite", with two notes. The record chart ends at batch 22; he recalled batch 23 as the current one, it is 25, and at 07:3x he ruled that a small update of the chart is needed now, not with the later script. The glossary moves to the beginning of the document flow, unobtrusive: collapsed by default on a phone, with a short preamble that invites a reader to skim it if a term is new; on a desktop beside the opening paragraphs. Then the next step of the outlined order.
 
 ## Held in chat (2026-11-04)
