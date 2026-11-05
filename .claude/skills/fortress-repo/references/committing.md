@@ -41,12 +41,10 @@ Push after every commit, so that a lost container loses nothing.
 - If you work on `main`, other agents commit to it too. Push only your own commits:
   1. Run `git log origin/main..main`. Your commits are those whose hashes your own `git commit` printed.
   2. If it lists another agent's commit, run the command again shortly: that agent pushes right after it commits. If the commit stays, push nothing, and say so in your report.
-  3. If it lists only your commits, push three times, in this order:
+  3. If it lists only your commits, push the three refs in one command, in this order, in the foreground, and read its output. A loop that piped each push through `tail` once hid every failure.
 
-         git push origin main
-         git push origin main:claude/worker-brief-fable-vnnuv8
-         git push origin main:blinded-fable
+         git push origin main main:claude/worker-brief-fable-vnnuv8 main:blinded-fable
 
-     The third push keeps `blinded-fable` current. If the container is lost, the platform rebuilds it from that branch.
+     The third ref keeps `blinded-fable` current. If the container is lost, the platform rebuilds it from that branch.
 - Push no branch that this section does not name, unless your brief names it.
 - If a push is refused, push nothing more, and say so in your report.

@@ -1028,3 +1028,7 @@ From the cold read of `597537f2e` and `59cc13881`, eleven of its 22 flags as the
 
 - `interpreter.md`, "Natives", the two bullets: "The bindings that name no helper name one." and "Most bindings name one." became "Most bindings name a helper. The others name a glue class.", after the comment that the first "one" was unclear. Every `builtinPrimitive` string in `Library/` and `ProjectFortress/LibraryBuiltin/` names a glue class or a helper (`git grep`, 2026-11-05).
 - `interpreter.md`, "Natives", from a cold read of that change on 2026-11-05: the paths `interpreter/glue/StaticNativeApp.java` and `interpreter/glue/prim/Int.java` from the root that `SKILL.md` sets, settled by the coordinator; the glue class's argument type `FValue` (`interpreter/glue/prim/FlatString.java:32-55`); the count of both kinds as F-299; a blank line that parts the `FlatString` paragraph from the refusals.
+
+## The push in one command, 2026-11-05
+
+- `committing.md`, "Pushing", step 3: the three refs in one `git push`, in the same order, in the foreground, with its output read. The coordinator's practice since 19:0x UTC on 2026-11-03, when each request to GitHub took 5 to 6 s, and a loop that piped each push through `tail` hid every failure; settled by the coordinator.
