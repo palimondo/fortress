@@ -3459,3 +3459,5 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 3457,2026-11-04 21:10:24Z,7c72206bb,891,741521,277506,78810,299065,743562,277600,78863,299181,,Boot note: the revival page's version 25 published for his read
 3458,2026-11-05 07:29:51Z,771d4503d,891,741521,277506,78810,299065,743562,277600,78863,299181,,"Held list: his read of the revival page's version 25, two notes"
 3459,2026-11-05 07:31:27Z,d186ebbb3,891,741521,277506,78810,299065,743562,277600,78863,299181,,"Held list: his word of 07:3x on 11-05, the chart's update now"
+3460,2026-11-05 07:39:04Z,713b16f3f,891,741521,277506,78810,299065,743562,277600,78863,299181,,"Revival page, version 26: the story rebuilt to the curator's goals, the glossary first, the record chart to batch 25, wi"
+3461,2026-11-05 07:39:49Z,de6e51170,891,741521,277506,78810,299065,743562,277600,78863,299181,,Boot note: the revival page rebuilt and landed at version 26; the update script's worker running
