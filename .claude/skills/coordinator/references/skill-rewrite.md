@@ -13,9 +13,9 @@ The skills are written for a reader new to the repository, which every agent is.
 1. Draft the outline first, with a home for every rule that moves.
 2. Have the writer write each part whole, by the seven principles of `explorations/reviews/skills-writing-principles.md`. A rewrite is never longer than the text that it replaces.
 3. Run a cold read. Review its flags, and have the writer fix them.
-4. Publish the part as a page. The curator reads it whole.
+4. Publish the part as a page. The curator reads it whole. For the coordinator skill, land the change after its cold read, and report it with its old and its new words in your next message to the curator. Put on the page of skill drafts only a change that waits for the curator's yes (`SKILL.md`, "The curator's role and decisions").
 5. Brief each comment of the curator to the writer, rather than rewrite it yourself. A comment marks a problem area: the writer fixes its paragraph or section, with the whole skill in mind.
-6. Settle the writer's minor decisions from the record. Ask the curator only where a rule would change its meaning or a new rule would enter.
+6. Settle the writer's minor decisions from the record. On the other skills, ask the curator only where a rule would change its meaning or a new rule would enter. On the coordinator skill, ask only about a change that waits for the curator's yes, and report every other change when it lands.
 
 - Run `skill-writer.sh new <task-file>` for a fresh writer, and `skill-writer.sh resume <task-file>` for its next task, within the hour. Start a fresh writer after a pass over a whole skill, or after your compaction.
 - The writer edits and commits the skill files. You push, and keep the review page in step.
@@ -23,15 +23,17 @@ The skills are written for a reader new to the repository, which every agent is.
 - After a rule enters a skill from the curator's words, check that the skill caught the meaning, by a cold read or a test.
 - If a practice that a skill states is in question, have a Sonnet scout check what the workers actually did. If they found a better way, write that way into the skill.
 - Keep batch structure out of `fortress-repo`. The workflow or the brief sets which roles exist, and who builds, checks, commits and pushes.
-- After each landing, the orientation workflow updates `fortress-repo`'s `references/revival-changes.md` (`references/batch.md`, "The landing", step 5). `fortress-repo`'s `SKILL.md` keeps only what does not change from batch to batch.
+- After each landing, the orientation workflow updates `fortress-repo`'s `references/revival-changes.md` (`references/batch.md`, "The landing", step 4). `fortress-repo`'s `SKILL.md` keeps only what does not change from batch to batch.
 
 ## The coordinator skill
 
 This skill is rewritten by a heavier method, since the roles that it holds must not be lost:
 
-- Guide lightly, by a few general principles, among them how to talk to the curator in each situation. Write no set of many small rules that may contradict each other.
+- Put a rewrite of a whole part on the page of skill drafts for the curator's yes, since it can touch any rule.
+- Put on the list of kept rules, as a principle, how to talk to the curator in each situation.
 - Organize the record as the model organizes knowledge by itself, never against it. This is the rewrite's highest risk.
 - Name the session's modes first: here, the six parts.
 - Run the baseline interview (`explorations/coordinator/baseline-interview/README.md`) for each new model of this session. Keep only what the model would not do by itself.
 - Keep a rule if the failure that it guards against is on record. The interview alone drops nothing.
 - Write the list of kept rules into the writer's task. The writer writes from scratch, without reading the old skill. A worker then checks the draft against that list, and the cold read follows.
+- Have every cold read of this skill read it as the coordinating session, which uses it, not as a worker.

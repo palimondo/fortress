@@ -89,6 +89,7 @@ Run the same pass on POSITIONS at each landing, and when the curator replaces a 
 
 A consolidation runs the pass over whole sections. After a batch lands, the record-landing workflow consolidates its entries (`references/batch.md`, "The landing").
 
+- In a consolidation, by hand or by the clarity or mining workflow, run a pilot of three or four entries first. Show their new texts to the curator as a page, each with its old text (`SKILL.md`, "Pages"). Run the rest at the curator's word. The checks of each entry against its source, the cold read and the quiz test the meaning, not the form: the length, the register, and what belongs in the history. The record-landing workflow takes no pilot, since it lands with no step of yours.
 - Split each section into chunks of 20 to 32 entries.
 - For each chunk, a Sonnet scout gathers each entry's report sections, its commits and the curator's dated words.
 - An Opus writer reads this part, the chunk and the scout's file, and writes an apply file. It runs `apply` and `check --base` in its own worktree.
@@ -98,11 +99,15 @@ A consolidation runs the pass over whole sections. After a batch lands, the reco
 
 ## The consolidation tools
 
-Three Workflow scripts make the record and the worker skill readable again when they drift. Each one's README says how to run it and what to do with its output. Put the open questions of their runs on the review queue.
+Four Workflow scripts keep the record and the worker skill current and readable. Each one's README says how to run it and what to do with its output. Give a run only its arguments and the input files that its README names. Add no rules of your own over the tool's briefs, and change the briefs only where its README says to, such as their paths. If the briefs do not fit the job, propose their change to the curator. Put the open questions of the runs on the review queue.
 
-- The mining workflow finds where each POSITIONS entry came from: the curator's words, or an agent's summary or default. Run it on the entries that it has not traced, before the clarity workflow rewrites them. Its README: `explorations/coordinator/positions-audit/README.md`.
-- The clarity workflow rewrites POSITIONS or FACTS entries so that each reads on its own. For FACTS, it first judges every entry by the six checks of "What an entry is" (scope, present meaning, evidence, comprehension, ownership and consistency), and rewrites only those marked reword or reorganize. Run it when entries no longer read on their own. Its README: `explorations/coordinator/tools/record-clarity/README.md`.
-- The orientation workflow writes `fortress-repo`'s revival part, the short account of how revived Fortress differs from the original, which every worker reads whole. Its consolidate mode rewrites the whole part. Run it when a cold read or the regression quiz shows that the part no longer reads whole, or when an update cannot keep it within the README's budget. Its update mode runs after each landing (`references/batch.md`, "The landing"). Its README: `explorations/coordinator/tools/orientation/README.md`.
+Pick the tool by the job:
+
+- To bring the record in line with a landing: the record-landing workflow (`references/batch.md`, "The landing"). Its README: `explorations/coordinator/tools/record-landing/README.md`.
+- To find whether a POSITIONS entry comes from the curator's words or from an agent's summary or default: the mining workflow. Its writer changes only a sentence that is false, stale or not the curator's. Run it on the entries that it has not traced, before the clarity workflow rewrites them. Its README: `explorations/coordinator/positions-audit/README.md`.
+- To make entries read on their own, with their meaning kept: the clarity workflow. For FACTS, it first judges every entry by the six checks of "What an entry is", and rewrites only those marked reword or reorganize. Its README: `explorations/coordinator/tools/record-clarity/README.md`.
+- To correct the entries that a review's findings name: the clarity workflow, with `findings.md` in each chunk's folder. An entry changes only where a finding names it, and grows only by what the correction needs.
+- To keep `fortress-repo`'s revival part short enough to read whole: the orientation workflow. Its update mode runs after each landing. Run its consolidate mode when a cold read or the regression quiz shows that the part no longer reads whole, or when an update cannot keep it within the README's budget. Its README: `explorations/coordinator/tools/orientation/README.md`.
 
 ## INDEX and the gap ledger
 
