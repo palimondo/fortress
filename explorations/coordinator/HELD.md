@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 17:2x His doubt on the wait-cap ask: is the root cause right, since thinking is part of the model's regular response; are we designing the wrong solution for the wrong problem? Otherwise he takes option 3, though he does not understand what a self-measuring wait is: does it need a script that checks the transcript, which the workers would have to learn to call, confusing them? Answered at 17:3x: the cause stands (the cache's clock runs from the request's start, and the response's generation counts); the real problem is a five-minute cache against six-minute builds, so the clean fix would be the hour-long cache that the main and headless sessions get, which a worker now checks for subagents; the self-measuring wait is the same shell function the workers already paste and call, with a timestamp file, no script and no transcript; his "3" is held until the check answers.
+
 - 17:20 His comment on the drafts page's version 7, sent to Claude: "Read. LGTM." He read up to item 23; the next version drops items 20 to 23.
 
 - 17:16 His comment on the drafts page's item 23 (the people of the project), sent to Claude: does the bullet need to name `research/authorship.md` twice; it confuses him. Answered on the thread: once is enough; the bullet names the file only where it points a worker to who wrote what; lands after its cold read as the next item.
