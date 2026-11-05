@@ -263,3 +263,13 @@ From the drafts page's version 10, which the curator approved whole in chat, 202
 - `SKILL.md`, "The standing goal", a worker's report taken as evidence, and a tool checked in its own documents before it is named: lesson 2 of the same report, the coordinator's proposal of 2026-10-29, 09:12 UTC.
 - `record.md`, "The consolidation tools", a run given only its arguments and input files, and the tools picked by their job: lesson 1 of the same report, and the curator's word in chat, 2026-10-28, 12:24 UTC.
 - `record.md`, "A consolidation", a pilot of three or four entries that the curator reads, with none for the record-landing workflow: lesson 6 of the same report, and the curator's word in chat, 2026-10-28, 21:12 UTC.
+
+The cold read of `f898915bc`, 2026-11-05, read as the coordinating session, changed the lines above; its flags settled by the coordinator:
+
+- `SKILL.md`, "The curator's role and decisions": a rewrite of `SKILL.md` or of a whole part waits for the yes, moved here from `skill-rewrite.md`, "The coordinator skill", where it stood alone; the register named as the head bullets of "Talking to the curator"; the skill writer makes the change; a path fix is a change; the flags' fixes need no second cold read; a change of the coordinator's own proposal lands without the yes; for the other skills, a new rule or a changed meaning waits, by `skill-rewrite.md`'s step 6.
+- `SKILL.md`, "The standing goal", a tool checked when it is chosen, in a brief, a launch or a proposal.
+- `SKILL.md`, "Talking to the curator", the recheck: neither side taken, the pointer to its section, and its precedence over the bullet before it; `delegating.md`, the recheck set against the report, the entry or the summary.
+- `SKILL.md`, "Quiet times": past three POSITIONS changes, one line each and the commit's link; a decision stated in this conversation left out; a push notification says what the work waits on.
+- `batch.md`, "The landing", step 3: the spans end at the commit stage's last commit, which stands while a push is held, and are counted as the difference of two runs of `spend.py`.
+- `record.md`: the pilot's reason as the form it shows, its rest on the curator's go; `findings.md` in the form of its README.
+- `skill-rewrite.md`, "The method", steps 4 and 6, and the pointer to the page of the change, made to point to `SKILL.md` for the coordinator skill; "The coordinator skill", the list of kept rules and the cold reader named.

@@ -13,12 +13,12 @@ The skills are written for a reader new to the repository, which every agent is.
 1. Draft the outline first, with a home for every rule that moves.
 2. Have the writer write each part whole, by the seven principles of `explorations/reviews/skills-writing-principles.md`. A rewrite is never longer than the text that it replaces.
 3. Run a cold read. Review its flags, and have the writer fix them.
-4. Publish the part as a page. The curator reads it whole. For the coordinator skill, land the change after its cold read, and report it with its old and its new words in your next message to the curator. Put on the page of skill drafts only a change that waits for the curator's yes (`SKILL.md`, "The curator's role and decisions").
+4. For the other skills, publish the part as a page; the curator reads it whole. For the coordinator skill, land the change after its cold read, or put it on the page of skill drafts, as `SKILL.md`, "The curator's role and decisions", says.
 5. Brief each comment of the curator to the writer, rather than rewrite it yourself. A comment marks a problem area: the writer fixes its paragraph or section, with the whole skill in mind.
-6. Settle the writer's minor decisions from the record. On the other skills, ask the curator only where a rule would change its meaning or a new rule would enter. On the coordinator skill, ask only about a change that waits for the curator's yes, and report every other change when it lands.
+6. Settle the writer's minor decisions from the record. On the other skills, ask the curator only where a rule would change its meaning or a new rule would enter. On the coordinator skill, `SKILL.md`, "The curator's role and decisions", says what waits.
 
 - Run `skill-writer.sh new <task-file>` for a fresh writer, and `skill-writer.sh resume <task-file>` for its next task, within the hour. Start a fresh writer after a pass over a whole skill, or after your compaction.
-- The writer edits and commits the skill files. You push, and keep the review page in step.
+- The writer edits and commits the skill files. You push, and keep the page of the change in step: the part's page for the other skills, the page of skill drafts for the coordinator skill.
 - If a part that the curator approved is written again, have a Fable reviewer compare the two. Where it finds a regression, it writes a synthesis of both, never a wholesale revert.
 - After a rule enters a skill from the curator's words, check that the skill caught the meaning, by a cold read or a test.
 - If a practice that a skill states is in question, have a Sonnet scout check what the workers actually did. If they found a better way, write that way into the skill.
@@ -29,11 +29,10 @@ The skills are written for a reader new to the repository, which every agent is.
 
 This skill is rewritten by a heavier method, since the roles that it holds must not be lost:
 
-- Put a rewrite of a whole part on the page of skill drafts for the curator's yes, since it can touch any rule.
-- Put on the list of kept rules, as a principle, how to talk to the curator in each situation.
+- In the list of kept rules that goes into the writer's task (below), put how to talk to the curator in each situation, as a principle.
 - Organize the record as the model organizes knowledge by itself, never against it. This is the rewrite's highest risk.
 - Name the session's modes first: here, the six parts.
 - Run the baseline interview (`explorations/coordinator/baseline-interview/README.md`) for each new model of this session. Keep only what the model would not do by itself.
 - Keep a rule if the failure that it guards against is on record. The interview alone drops nothing.
 - Write the list of kept rules into the writer's task. The writer writes from scratch, without reading the old skill. A worker then checks the draft against that list, and the cold read follows.
-- Have every cold read of this skill read it as the coordinating session, which uses it, not as a worker.
+- Have every cold reader of this skill read it as the coordinating session, which uses it, not as a worker new to the repository.
