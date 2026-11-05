@@ -1,19 +1,20 @@
 (* Under walk, a builtinPrimitive body whose string names a static helper of nativeHelpers runs that helper, its arguments and result carried at the declared types. *)
 component NativeHelperBindingWalk
+import FlatString.{FlatString}
 export Executable
 
 less(a:ZZ32, b:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLT")
 plus(a:RR64, b:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
 ladd(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingAdd")
 both(a:Boolean, b:Boolean):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleBoolean.booleanAnd")
-cat(a:String, b:String):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeConcatenate")
-len(a:String):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+cat(a:FlatString, b:FlatString):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeConcatenate")
+len(a:FlatString):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
 wide(a:ZZ64):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.makeZZfromZZ64")
 nn(a:ZZ32):NN32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType")
 ch(a:ZZ32):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
 code(c:Char):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charCodePointWithSpecialCompilerHackForCharacterArgumentType")
 upper(c:Char):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToUpperCase")
-bazS(s:String):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
+bazS(s:FlatString):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
 bazI(n:ZZ32):String = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleOverload.baz")
 
 run():() = do

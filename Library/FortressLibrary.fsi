@@ -2630,9 +2630,12 @@ opr (x:Any)/// : String
 
 (** The following three functions are useful temporary hacks for
     debugging multi-threaded programs. **)
+printThreadInfo(a:FlatString):()
 printThreadInfo(a:String):()
 printThreadInfo(a:Number):()
+printWithThread(a:FlatString):()
 printWithThread(a:String):()
+printlnWithThread(a:FlatString):()
 printlnWithThread(a:String):()
 
 (* time to get rid of this:

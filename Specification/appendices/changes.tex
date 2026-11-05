@@ -4472,7 +4472,7 @@ natives of \library\ that it can call.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-natives-walk/decision-record.md}
 in the revival's repository.
-\item[Effect] 288 of the 449 bindings of \library\ name a helper:
+\item[Effect] 306 of the 449 bindings of \library\ name a helper:
 the operators \EXP{=}, \EXP{<}, the prefix and infix \EXP{-} and
 \EXP{\dotminus}, \EXP{+}, \EXP{\dotplus}, \EXP{\cdot}, \EXP{\times},
 juxtaposition, \EXP{\dottimes}, \EXP{\div}, \OPR{REM}, \OPR{MOD}, \OPR{GCD},
@@ -4486,9 +4486,13 @@ interpreter's objects twenty-eight of \EXP{\mathbb{N}32}, three of
 \TYP{UnsignedLong}, forty of \TYP{Char}, fifty-seven of \TYP{Float} and fifty
 of \EXP{\mathbb{R}32}; the getters \VAR{asString}, \VAR{asExprString} and
 \VAR{asFloat} of the interpreter's objects \TYP{Int}, \TYP{Long} and
-\TYP{BigNum}; and the functions \VAR{char}, \VAR{fromRawBits} and
-\VAR{nanoTime}.
-The other 161 still name a glue class, which the compiled code cannot call.
+\TYP{BigNum}; eleven methods of the object \TYP{FlatString} of \library\ and
+its line separator; and the functions \VAR{char}, \VAR{fromRawBits},
+\VAR{nanoTime} and \VAR{match}, with \VAR{printThreadInfo},
+\VAR{printWithThread}, \VAR{printlnWithThread}, \VAR{getEnvironment} and
+\VAR{getProperty}, each of these five declared over \TYP{FlatString} beside an
+overload over \TYP{String} that flattens its argument.
+The other 143 still name a glue class, which the compiled code cannot call.
 Until the compiled code moves onto \library, the type checker checks the moved
 bindings, but no compiled program runs them.
 Where a binding declares \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or \TYP{Char}
@@ -4502,15 +4506,18 @@ Under the interpreter a helper's raise of \TYP{IntegerOverflow} or
 \EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}}, \EXP{\mathbb{N}32} and
 \EXP{\mathbb{N}64} throw a \TYP{DivisionByZero}, as \chapref{operators} says
 of an integer result.
-The interpreter passes a helper declared over \TYP{String}, as its glue classes
-do, the name of the value's type in place of its characters where the value is
-not a flat string, as a \TYP{String} made by concatenating two long strings
-(row~846 of the revival's gap ledger).
+The interpreter refuses at load a helper bound with a parameter declared
+\TYP{String}, since such a value need not be a flat string; a glue class bound
+over \TYP{String} is passed the name of the value's type in place of its
+characters where the value is not a flat string, as a \TYP{String} made by
+concatenating two long strings (row~846 of the revival's gap ledger).
+No binding of \library\ takes a parameter declared \TYP{String}.
 For a method, the interpreter is told the type that declares it: it refuses at
 load a helper bound in a method of a type that no Java type carries, as a
 program's own object, and takes only an overload whose first Java parameter
-carries that type, which it reads by the type's name, for the types of
-\library\ whose names no program can give its own types.
+carries that type, which it reads by the type's name for the types of
+\library\ whose names no program can give its own types, and for the object
+\TYP{FlatString} of \library\ by the component that declares it.
 It refuses such a binding in a dotted method of a generic trait or object only
 where an instance's method is made, so a program that makes no instance loads
 (row~864 of the revival's gap ledger); and it reads the declaring type, not the

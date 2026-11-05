@@ -3,7 +3,7 @@ component NativeHelperUncarriedSelfFlatStringWalk
 export Executable
 
 object FlatString
-  len(): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+  len(): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeSmartConcatenate")
 end
 
 run():() = println(FlatString.len())

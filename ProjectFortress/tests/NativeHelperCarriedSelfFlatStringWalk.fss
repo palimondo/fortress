@@ -1,0 +1,72 @@
+(* Under walk, the library's FlatString answers its natives, and the operations built on them, at flat strings, the empty one among them, with self carried as a Java String. *)
+component NativeHelperCarriedSelfFlatStringWalk
+import FlatString.{...}
+export Executable
+
+run():() = do
+  e = ""
+  w = "hello"
+  long = ("a"^20 || "b"^20).asFlatString
+  assert(e.size, 0, "the empty flat string's size")
+  assert(w.size, 5, "a five-character flat string's size")
+  assert(|e|, 0, "the empty flat string's |self|")
+  assert(|w|, 5, "a five-character flat string's |self|")
+  assert(long.size, 40, "the flat form of a forty-character concatenation has size 40")
+  assert(w.javaSubstr(1).size, 4, "javaSubstr(lo) reads self.size")
+  assert((w || "!").size, 6, "a flat concatenation's size")
+  assert("été".size, 3, "a string with accented characters counts its Java chars")
+
+  assert("a\"b\\c".asExprString, "\"a\\\"b\\\\c\"", "asExprString quotes and escapes")
+  assert(e.asExprString, "\"\"", "asExprString of the empty string")
+
+  assert(w.get(0), 'h', "get(0)")
+  assert(w.get(4), 'o', "get(4)")
+
+  assert(w.cmp(w), 0, "cmp of equal strings")
+  assert("abc".cmp("abd"), -1, "cmp below")
+  assert("b".cmp("a"), 1, "cmp above")
+  assert("a".cmp("abc"), -2, "cmp of a prefix")
+  assert(e.cmp(w), -5, "cmp of the empty string")
+
+  assert("ABC".cicmp("abc"), 0, "cicmp of strings equal but for case")
+  assert("ABC".cicmp("abd"), -1, "cicmp below")
+  assert("b".cicmp("A"), 1, "cicmp above")
+  assert(e.cicmp(e), 0, "cicmp of the empty strings")
+
+  assert(w.javaSubstr(1, 3), "el", "javaSubstr(1, 3)")
+  assert(w.javaSubstr(0, 5), "hello", "javaSubstr of the whole")
+  assert(w.javaSubstr(2, 2), "", "javaSubstr of an empty range")
+  assert(e.javaSubstr(0, 0), "", "javaSubstr of the empty string")
+
+  assert(w.javaIndexOf('l'), 2, "javaIndexOf found")
+  assert(w.javaIndexOf('h'), 0, "javaIndexOf at the start")
+  assert(w.javaIndexOf('z'), -1, "javaIndexOf not found")
+  assert(e.javaIndexOf('a'), -1, "javaIndexOf in the empty string")
+  assert("aΣb".javaIndexOf('Σ'), 1, "javaIndexOf past U+00FF")
+
+  assert(flatConcat("ab", "cd"), "abcd", "flatConcat")
+  assert(flatConcat(e, w), "hello", "flatConcat of the empty string")
+  assert(flatConcat(e, e), "", "flatConcat of two empty strings")
+
+  assert("abc".javaRegExpMatches("a.c"), true, "javaRegExpMatches")
+  assert("abc".javaRegExpMatches("b"), false, "javaRegExpMatches of a part")
+  assert(e.javaRegExpMatches(""), true, "javaRegExpMatches of the empty string")
+  assert("a,b,c".javaRegExpSplit(",", 0), "a", "javaRegExpSplit, the first piece")
+  assert("a,b,c".javaRegExpSplit(",", 2), "c", "javaRegExpSplit, the last piece")
+  assert("a,b,c".javaRegExpSplit(",", 3), "", "javaRegExpSplit past the last piece")
+  assert(e.javaRegExpSplit(",", 0), "", "javaRegExpSplit of the empty string")
+
+  assert(w.uncheckedSubstring(1#3), "ell", "uncheckedSubstring")
+  assert(w.indexOf('l').holds, true, "indexOf found")
+  assert(w.indexOf('l').get, 2, "indexOf's index")
+  assert(w.indexOf('z').holds, false, "indexOf not found")
+  assert("abc" < "abd", true, "<")
+  assert("abd" < "abc", false, "< not")
+  assert(("ABC" CASE_INSENSITIVE_CMP "abc") = EqualTo, true, "CASE_INSENSITIVE_CMP equal")
+  assert(("abc" CASE_INSENSITIVE_CMP "ABD") = LessThan, true, "CASE_INSENSITIVE_CMP below")
+  assert("ab" || "cd", "abcd", "||")
+  assert(e || e, "", "|| of the empty strings")
+  println("FlatString sizes: " e.size " " w.size " " |w| " " long.size)
+end
+
+end

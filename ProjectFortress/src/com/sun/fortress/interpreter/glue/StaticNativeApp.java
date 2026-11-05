@@ -4,9 +4,13 @@ import static com.sun.fortress.exceptions.ProgramError.error;
 import com.sun.fortress.compiler.runtimeValues.FortressImplementationError;
 import com.sun.fortress.exceptions.FortressError;
 import com.sun.fortress.interpreter.Driver;
+import com.sun.fortress.interpreter.evaluator.Environment;
+import com.sun.fortress.interpreter.evaluator.types.FTraitOrObjectOrGeneric;
+import com.sun.fortress.interpreter.evaluator.types.FType;
 import com.sun.fortress.interpreter.evaluator.values.*;
 import com.sun.fortress.nodes.*;
 import com.sun.fortress.nodes_util.NodeUtil;
+import com.sun.fortress.useful.HasAt;
 import edu.rice.cs.plt.tuple.Option;
 
 import java.lang.reflect.InvocationTargetException;
@@ -57,6 +61,16 @@ public class StaticNativeApp extends NativeMeth {
         return null;
     }
 
+    /**
+     * The Java type that carries an argument of the named declared parameter type, or null: as javaFor,
+     * except that no Java type carries a parameter declared String, whose value can be a string that is
+     * not flat, whose characters the loader cannot take.  A result declared String is carried, as a
+     * flat string.
+     */
+    static Class<?> javaForParameter(String t) {
+        return "String".equals(t) ? null : javaFor(t);
+    }
+
     static String typeName(TypeOrPattern t) {
         if (t instanceof TupleType && ((TupleType) t).getElements().isEmpty()) return "()";
         if (t instanceof NamedType) return ((NamedType) t).getName().getText();
@@ -81,8 +95,10 @@ public class StaticNativeApp extends NativeMeth {
     /**
      * The Java type that carries self, a value of the declaring type named t, or null: a type of
      * FortressLibrary or FortressBuiltin, whose names no program can give its own types, that javaFor
-     * names, or the object Int, Long, UnsignedLong, Float or BigNum.  FlatString and JavaString, names
-     * that a program can give its own types, carry no self.
+     * names, or the object Int, Long, UnsignedLong, Float or BigNum.  Read by its name alone,
+     * FlatString or JavaString, a name that a program can give its own type, carries no self; the
+     * loader reads the declaring type through javaForSelf(FType), which carries the library's own
+     * FlatString, told by the component that declares it.
      */
     static Class<?> javaForSelf(String t) {
         if (t == null || t.equals("FlatString") || t.equals("JavaString")) return null;
@@ -92,6 +108,41 @@ public class StaticNativeApp extends NativeMeth {
         if (t.equals("BigNum")) return BigInteger.class;
         Class<?> c = javaFor(t);
         return c == void.class ? null : c;
+    }
+
+    /** The component whose own FlatString declares the library's String values. */
+    static final String FLAT_STRING_COMPONENT = "FlatString";
+
+    /**
+     * The Java type that carries self, a value of the declaring type t: by t's name, as
+     * javaForSelf(String), except that the library's own FlatString, the object FlatString that the
+     * component FlatString declares at its top level, carries self in String.  A program's own type
+     * named FlatString or JavaString carries none.
+     */
+    static Class<?> javaForSelf(FType t) {
+        String n = t.getName();
+        if (n != null && n.equals("FlatString"))
+            return FLAT_STRING_COMPONENT.equals(declaringComponent(t)) ? String.class : null;
+        return javaForSelf(n);
+    }
+
+    /**
+     * The name of the component that declares the trait or object t, read from the top level of the
+     * environment in which t was built, whose location is that component's node (CUWrapper); or null.
+     * A native component's object is built in an environment at its own declaration, under the
+     * component's top level.  The linker gives one component to a name, so in a run the component's
+     * name and the type's own name identify its declaration.
+     */
+    static String declaringComponent(FType t) {
+        if (!(t instanceof FTraitOrObjectOrGeneric)) return null;
+        Environment e = ((FTraitOrObjectOrGeneric) t).getWithin();
+        if (e == null) return null;
+        try {
+            HasAt at = (e.isTopLevel() ? e : e.getTopLevel()).getAt();
+            return at instanceof Component ? NodeUtil.nameString(((Component) at).getName()) : null;
+        } catch (RuntimeException x) {    // an environment with no top level
+            return null;
+        }
     }
 
     /**
@@ -105,11 +156,11 @@ public class StaticNativeApp extends NativeMeth {
     }
 
     /**
-     * As find(s, defn), where the declaration is a method of the type named declarer, whose value
+     * As find(s, defn), where the declaration is a method of the type declarer, whose value
      * is self: it refuses a declarer that no Java type carries, and takes only an overload whose
      * first Java parameter is the declarer's carrier.
      */
-    static Object find(String s, Applicable defn, String declarer) {
+    static Object find(String s, Applicable defn, FType declarer) {
         int dot = s.lastIndexOf('.');
         String cls = s.substring(0, dot), name = s.substring(dot + 1);
         Class<?> c;
@@ -124,7 +175,7 @@ public class StaticNativeApp extends NativeMeth {
         for (Param p : NodeUtil.getParams(defn)) {
             String pn = p.getName().getText();
             if (pn.equals("self")) { hasSelf = true; continue; }
-            Class<?> j = javaFor(p.getIdType().isSome() ? typeName(p.getIdType().unwrap()) : null);
+            Class<?> j = javaForParameter(p.getIdType().isSome() ? typeName(p.getIdType().unwrap()) : null);
             if (j == null || j == void.class)
                 return "Native helper " + s + ": no Java type carries the declared type of parameter " + pn + ".";
             want.add(j);
@@ -138,7 +189,7 @@ public class StaticNativeApp extends NativeMeth {
         if (declarer != null) {
             selfJava = javaForSelf(declarer);
             if (selfJava == null)
-                return "Native helper " + s + ": no Java type carries " + declarer + ", the type of self.";
+                return "Native helper " + s + ": no Java type carries " + declarer.getName() + ", the type of self.";
         }
         List<Method> fits = new ArrayList<Method>();
         for (Method x : named) {

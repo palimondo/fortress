@@ -39,6 +39,39 @@ public class stringOps {
     public static int lastIndexOf(String s, int t) {
 	return s.lastIndexOf(t);
     }
+
+    /* The string quoted and escaped as walk's FString.toString renders it: FlatString's asExprString. */
+    public static String asExprString(String s) {
+        return "\"" + com.sun.fortress.nodes_util.Unprinter.enQuote(s) + "\"";
+    }
+
+    public static int compareToIgnoreCase(String s, String t) {
+        return s.compareToIgnoreCase(t);
+    }
+
+    /* Java's substring, which raises out of range, unlike substring above, which clamps. */
+    public static String javaSubstr(String s, int lo, int hi) {
+        return s.substring(lo, hi);
+    }
+
+    public static boolean javaRegExpMatches(String s, String regex) {
+        return java.util.regex.Pattern.matches(regex, s);
+    }
+
+    /* The piece at index i of s split at regex, or the empty string past the last piece. */
+    public static String javaRegExpSplit(String s, String regex, int i) {
+        String[] pieces = java.util.regex.Pattern.compile(regex).split(s);
+        return i < pieces.length ? pieces[i] : "";
+    }
+
+    public static boolean match(String regex, String some) {
+        return some.matches(regex);
+    }
+
+    /* The JVM's line separator, FlatString's lineSeparator. */
+    public static String lineSeparator() {
+        return System.getProperty("line.separator");
+    }
     
     public static String asString(fortress.AnyType.Any a) { // this can't be right! DRC
         //        return "<" + a.getClass() + ">";

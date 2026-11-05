@@ -198,7 +198,7 @@ public abstract class NativeApp implements Applicable {
             NativeApp res = cache.get(key);
             if (res != null) return res;
             if (StaticNativeApp.isHelperString(str)) {
-                Object found = StaticNativeApp.find(str, defn, declarer == null ? null : declarer.getName());
+                Object found = StaticNativeApp.find(str, defn, declarer);
                 if (found instanceof String) return bug(defn, (String) found);
                 res = new StaticNativeApp((java.lang.reflect.Method) found, defn);
                 res.init(defn, isFunctionalMethod);
