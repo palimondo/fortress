@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 12:2x Draft 12 landed (`23f18f024`, its cold read's fix `f1dff89b4`); the drafts page recreated with a fresh history at https://claude.ai/artifact/9tX3rwtAgYHgbu8XZQtNhr and the old page deleted, at his word of 10:4x and 11:53. His rule of 11:5x is in the skill: done.
+
 - 11:53 His comment on the drafts page's draft 12 (the landed skill changes are shown on the page as diffs, chat gives one line and the link): "proposal approved"; when it lands, the page is recreated with a fresh history and the old one removed.
 
 - 11:5x The report of the cold read's 17 landed changes in chat, one line each, was useless to him: context-free references he cannot connect to the text. The medium for skill changes is the drafts page, not chat. The page he approved shows the landed changes as diffs against the previous text of the relevant part, with the reasons from the cold read; he skims it when needed. Whenever the autonomous procedure changes the skill, a worker updates the page to show the last landed changes, or the proposed changes, depending on the phase; this goes into the skill. The chat message gives one line and the link.
