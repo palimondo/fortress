@@ -6737,3 +6737,21 @@ closed by 8833d89c5
 closed by 8833d89c5
 
 | 823 | the code generator refuses a function declared with the modifier `test`, 'Don't know how to compile this kind of FnDecl', since its modifier guard does not hold `test`: the one library's `test stringifyChars()` (`Library/String.fss:337`) is refused | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/tests.tex`, "Tests and Properties" | `explorations/perf-probes/codegen-distance/REPORT.md` | the code generator's distance probe | siblings: 650, 120. `fnDeclCompilableModifiers` holds the getter, setter, `io`, `private` and `abstract` modifiers only (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2897-2899` at 32242b80d), and `forFnDecl` refuses a declaration with any other (`:2972`, `:2976`): row 650's guard, whose claim and test name `override` only. Measured on the library only, by the probe's code generation per declaration with the checker's failures caught (its section 3, note (b)); not reproduced apart from it. Walk collects `test` functions (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/CollectTests.java:51`), and they run under `fortress test` (row 120). No gated test. |
+
+### Row 792
+
+note added
+
+| 792 | the integer chapter's listing writes `throws IntegerDivisionByZero` on ÷, `REM`, `MOD`, `DIVREM` and `DIVMOD`, an exception neither library declares; the operators chapter, the completion chapter and both libraries name `DivisionByZero` | CONTESTED | library gap vs spec (specification) | `basic-lib/basic-integers.tex`, "Integers" | none | climb batch 20 rung I | The listing: `Specification/basic-lib/basic-integers.tex:246-250`. 'For integer results, division by zero throws a DivisionByZero' (`Specification/basic/operators/opr-overview.tex:165`); `Specification/basic/evaluation/completion.tex:31`. `Library/FortressLibrary.fsi:1114` and `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:747` declare `DivisionByZero` only, and the method entry of the integer power names it (P-153). Which name the listing takes is not settled. |
+
+### Row 885
+
+rewritten
+
+| 885 | on the compiled path, a binding over `NN32`, `NN64` or `Char` to a helper with two methods of one name and arity gets no transfer, and the checker refuses it: `bazN(n: NN32): JavaString` on `simpleOverload.baz`, 'ZZ32->JavaString is not applicable to an argument of type NN32.', walk prints 'baz -1' | CONTESTED | design limit (parser) | silent | `ProjectFortress/compiler_tests/XXXNativeHelperOverloadedNN32Compiled.test` | climb batch 25 rung U | siblings: 849. The transfers are composed only where `BuiltinPrimitiveRewriter.soleMethod` finds one method (`ProjectFortress/src/com/sun/fortress/compiler/BuiltinPrimitiveRewriter.java:135-145`, `:196-206`); `simpleOverload.baz` takes a `String` or an `int`. Walk takes the overload whose Java types carry the declared types (F-299). The same declaration over `ZZ32` compiles (`NativeHelperBindingCompiled`). Contested: no decision says whether such a binding must compile, and F-308 states the limit. No library binding names an overloaded helper. |
+
+### Row 533
+
+closed by 5ad4a9957
+
+| 533 | the compiled checker refuses the model's numeral powers as an ambiguous coercion, and a refused power ends the check of its block: `10.0^(-5)` (`explorations/run-c4/src/MicroGptFlat.fss:18`) tied `RR64`'s `opr ^(self, b:RR64)` with `MultiplicativeRing`'s `opr ^(self, other:ZZ64)` when measured | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/conversions-coercions.tex`, "Coercion Resolution" | `explorations/run-c4/src/MicroGptFlat.fss` | array-design-ways review | Not reproduced at 64386618b: the distance stage's driver (`DistanceMulti -order check -setting any`) checks a component of `10.0^(-5)` and `10.0^(-8)` against the interpreter's library with no error, on 64386618b and after climb batch 22 rung E (`explorations/compile-ladder/rung-export-last/SKEPTIC.md`, section 3). The api's `RR64` power is `opr ^(self, b:Number)`, the component's header (`Library/FortressLibrary.fsi:367`), beside `^(self, b:AnyIntegral)` (`:368`); `MultiplicativeRing`'s takes `AnyIntegral` (`:285`). Also refused then: `10.0^(-8)`, `-(10.0^10)` (`MicroGptFlat.fss:29`), and decision D's `beta1^t` and `beta2^t`. Walk takes every one. full text: history, row 533 |
