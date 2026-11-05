@@ -1,0 +1,20 @@
+component GenericInsideTraitMethodReturnRuleWalk
+export Executable
+
+(* A generic function over Sub[T] and T inside the declared domain of a functional method of a self-typed generic trait that returns T breaks the Return Type Rule, since its return type String is not below T, so walk refuses the pair at load (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait AddG[\T extends AddG[\T\]\]
+    opr PLUS(self, other: T): T
+end
+trait Sub[\T extends AddG[\T\]\] extends AddG[\T\] end
+object Wg extends Sub[\Wg\]
+    opr PLUS(self, other: Wg): Wg = self
+end
+
+opr PLUS[\T extends AddG[\T\]\](x: Sub[\T\], y: T): String = "sub"
+
+run(): () = do
+    println(Wg PLUS Wg)
+  end
+
+end

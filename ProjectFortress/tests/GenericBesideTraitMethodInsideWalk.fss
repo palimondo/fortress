@@ -1,0 +1,21 @@
+component GenericBesideTraitMethodInsideWalk
+export Executable
+
+(* A functional method of a self-typed generic trait whose declared domain lies inside that of a generic function over Any and the trait's type parameter, with the same return type, is a valid overloading, and each call runs the declaration its arguments select (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait AddG[\T extends AddG[\T\]\]
+    opr PLUS(self, other: T): String
+end
+object Vg extends AddG[\Vg\]
+    opr PLUS(self, other: Vg): String = "group's own"
+end
+
+opr PLUS[\T extends AddG[\T\]\](x: Any, y: T): String = "any and group"
+
+run(): () = do
+    assert(Vg PLUS Vg, "group's own", "two group values run the group's own operator")
+    assert(3 PLUS Vg, "any and group", "a number and a group value run the generic function")
+    println("PASS")
+  end
+
+end

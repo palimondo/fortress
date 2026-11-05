@@ -29,12 +29,14 @@ import com.sun.fortress.nodes.FnDecl;
 import com.sun.fortress.nodes.Id;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
 import com.sun.fortress.nodes.IntRef;
+import com.sun.fortress.nodes.NamedType;
 import com.sun.fortress.nodes.NodeDepthFirstVisitor_void;
 import com.sun.fortress.nodes.Op;
 import com.sun.fortress.nodes.Param;
 import com.sun.fortress.nodes.StaticArg;
 import com.sun.fortress.nodes.StaticParam;
 import com.sun.fortress.nodes.Type;
+import com.sun.fortress.nodes.TraitDecl;
 import com.sun.fortress.nodes.TupleType;
 import com.sun.fortress.nodes.TypeOrPattern;
 import com.sun.fortress.nodes.VarType;
@@ -760,14 +762,19 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * generics that the check refuses is read on the two declared domains,
      * each over its own instances (genericPairValid), whether or not some
      * pair of its parameter types excluded in the check's reading of each
-     * at a symbolic instantiation of its static parameters.  The reading
-     * names the rule that refuses the pair, or says that the pair is not
-     * read on its declared domains.
+     * at a symbolic instantiation of its static parameters.  A pair of an
+     * own generic and a functional method of a generic trait, without static
+     * parameters of its own, is read as two own generics are, the trait's
+     * static parameters standing for the method's own (traitMethodPairValid).
+     * The reading names the rule that refuses the pair, or says that the
+     * pair is not read on its declared domains.
      */
     static private DomainReading validOnDeclaredDomains(Overload o1, Overload o2, Collection<Overload> all) {
         SingleFcn f1 = o1.getFn();
         SingleFcn f2 = o2.getFn();
         if (ownGeneric(f1) && ownGeneric(f2)) return genericPairValid(o1, o2, all);
+        if (ownGeneric(f1) && traitMethod(f2)) return traitMethodPairValid(o1, o2, all, false);
+        if (ownGeneric(f2) && traitMethod(f1)) return traitMethodPairValid(o2, o1, all, true);
         Overload gen;
         Overload plain;
         if (ownGeneric(f1) && !(f2 instanceof GenericFunctionOrMethod)) {
@@ -797,6 +804,65 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         catch (FortressException ex) {
             return DomainReading.NOT_READ;
         }
+    }
+
+    /**
+     * A functional method of a generic trait or object, declared without
+     * static parameters of its own: generic in the static parameters of its
+     * trait alone, which its self argument instantiates.
+     */
+    static private boolean traitMethod(SingleFcn f) {
+        return f instanceof GenericFunctionalMethod
+               && NodeUtil.getStaticParams(((GenericFunctionalMethod) f).getFnDecl()).isEmpty();
+    }
+
+    /**
+     * The own generic gen beside the functional method meth of a generic
+     * trait, read as genericPairValid reads two own generics, gen first, the
+     * trait's static parameters standing for the method's own, renamed apart
+     * from gen's (Apart).  swapped: meth is the first of the pair as the
+     * check met it, so a Return Type Rule reading is turned to that order.
+     */
+    static private DomainReading traitMethodPairValid(Overload gen, Overload meth, Collection<Overload> all,
+                                                      boolean swapped) {
+        DomainReading read = genericPairValid(gen, meth, all);
+        if (!swapped) return read;
+        if (read == DomainReading.FIRST_RETURN_TYPE) return DomainReading.SECOND_RETURN_TYPE;
+        if (read == DomainReading.SECOND_RETURN_TYPE) return DomainReading.FIRST_RETURN_TYPE;
+        return read;
+    }
+
+    /**
+     * The static parameter X, among args, the symbolic static arguments of
+     * the functional method m of a generic trait at which d is its declared
+     * domain, by which the trait is self-typed: the trait has no comprises
+     * clause, or one that lists only ..., and X is bounded by the trait at
+     * X, as T in AdditiveGroup[\T extends AdditiveGroup[\T\]\].  In the
+     * trait's bodies a value of the self parameter has both the trait's type
+     * and X.  Null where there is none; a parameter bounded by another
+     * self-typed trait that the trait extends at it is not read.
+     */
+    static private FType selfTypeParameter(GenericFunctionalMethod m, List<FType> args, List<FType> d) {
+        int k = m.getSelfParameterIndex();
+        if (k < 0 || k >= d.size()) return null;
+        if (!(m.getSelfParameterTypeAsGeneric().getDef() instanceof TraitDecl)) return null;
+        TraitDecl td = (TraitDecl) m.getSelfParameterTypeAsGeneric().getDef();
+        Option<List<NamedType>> comprises = td.getComprisesClause();
+        if (comprises.isSome() && !(comprises.unwrap().isEmpty() && td.isComprisesEllipses())) return null;
+        FType self = deRest(d.get(k));
+        if (!(self instanceof GenericTypeInstance)) return null;
+        List<FType> selfArgs = ((GenericTypeInstance) self).getTypeParams();
+        if (selfArgs.size() != args.size()) return null;
+        for (int j = 0; j < args.size(); j++) {
+            FType x = args.get(j);
+            if (!(x instanceof SymbolicType) || selfArgs.get(j) != x) continue;
+            for (FType b : x.getExtends()) {
+                if (b instanceof GenericTypeInstance && sameGeneric(b, self)
+                    && ((GenericTypeInstance) b).getTypeParams().size() == args.size()
+                    && ((GenericTypeInstance) b).getTypeParams().get(j) == x) return x;
+            }
+        }
+        return null;
     }
 
     /**
@@ -931,7 +997,11 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * so made equal read as one (meetParams), the two parameter types at some
      * position exclude at every instance of the static parameters they still
      * mention (excludesAtMeet).  Static arguments that may be equal but do not
-     * match so are left apart, which shows less.
+     * match so are left apart, which shows less.  Where g is a functional
+     * method of a self-typed trait (selfTypeParameter), its self parameter
+     * type at the meet is the intersection of the trait's instance and the
+     * self-type parameter X there, which excludes a type where one of its
+     * members does.
      */
     static private boolean domainsExcludeTogether(Overload o1, Overload o2) {
         if (!(o1.getFn() instanceof FGenericFunction)) return false;
@@ -1008,8 +1078,18 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             List<FType> m1 = f.typeApply(fMeet).getNormalizedDomain();
             List<FType> m2 = plain ? d2 : g.typeApply(gMeet).getNormalizedDomain();
             if (m1.size() != m2.size()) return false;
+            int selfAt = -1;
+            FType selfX = null;
+            if (g instanceof GenericFunctionalMethod) {
+                FType x = selfTypeParameter((GenericFunctionalMethod) g, gArgs, d2);
+                if (x != null) {
+                    selfAt = ((GenericFunctionalMethod) g).getSelfParameterIndex();
+                    selfX = gMeet.get(gArgs.indexOf(x));
+                }
+            }
             for (int k = 0; k < m1.size(); k++) {
                 if (excludesAtMeet(deRest(m1.get(k)), deRest(m2.get(k)))) return true;
+                if (k == selfAt && excludesAtMeet(deRest(m1.get(k)), selfX)) return true;
             }
             return false;
         }
@@ -1350,7 +1430,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             if (shared == null) return declared;
             FGenericFunction fg = (FGenericFunction) g;
             FnDecl d = fg.getFnDecl();
-            List<FType> fresh = SingleFcn.createSymbolicInstantiation(fg.getWithin(), NodeUtil.getStaticParams(d),
+            /* getStaticParams: a functional method of a generic trait is generic in its trait's. */
+            List<FType> fresh = SingleFcn.createSymbolicInstantiation(fg.getWithin(), fg.getStaticParams(),
                                                                       NodeUtil.getWhereClause(d), d);
             return new Apart(shared, fresh, fg.typeApply(fresh, d).getNormalizedDomain());
         }

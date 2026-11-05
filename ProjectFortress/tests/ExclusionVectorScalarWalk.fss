@@ -1,4 +1,4 @@
-component XXXExclusionVectorScalarWalk
+component ExclusionVectorScalarWalk
 export Executable
 
 (* Operators on an array of a number type and a number, on either side, beside the additive group's own operator are a valid overloading where a vector is both an array and an additive group, since no value is both an array and a number, and each call runs the declaration its arguments select (traits.tex, section "Trait Declarations"; overloading.tex, sections "Incompatibility Rule" and "Declarations with Static Parameters"). *)

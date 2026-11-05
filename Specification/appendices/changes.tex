@@ -2957,11 +2957,17 @@ beside \EXP{\VAR{f}(x\COLON{}Z)}, where \VAR{K} comprises \VAR{A}, \VAR{B} and
 \VAR{C}, \VAR{Z} excludes \VAR{A} and \VAR{B}, and \VAR{C} extends \VAR{Z}
 but not \VAR{R}, which the interpreter refuses at load as failing the Meet Rule
 (row~713 of the revival's gap ledger).
-The interpreter refuses at load the first of these shapes in a program's own
-component, generic operators between an array of a number type and a number,
-on either side, beside the operator of a trait with a self-type parameter, as
-having no pair of parameters whose types exclude each other, which the compiled
-type checker accepts and runs (row~804 of the revival's gap ledger).
+The interpreter loads and runs the first of these shapes in a program's own
+component too, generic operators between an array of a number type and a
+number, on either side, beside the operator of a trait with a self-type
+parameter: where the operator declares no static parameters of its own, it
+reads the two declared domains as it reads two generic functions, and in its
+test of exclusion reads the trait's \KWD{self} as the trait met with its
+self-type parameter, for a trait whose own parameter is bounded by the trait
+at that parameter.
+Since it does not check that a type extending such a trait at a type argument
+is of that type, it loads an object that breaks that rule, and runs one of the
+two declarations that fit a call on it (row~893 of the revival's gap ledger).
 The interpreter does not so read a declaration with a \KWD{where} clause of its
 own, and refuses such a pair, which the compiled type checker accepts and its
 code generator does not compile (row~787 of the revival's gap ledger).
@@ -4103,7 +4109,7 @@ or object declaration or an object expression that the new paragraph of
 ``\VAR{D} extends \EXP{C\llbracket{}A\rrbracket}, whose self parameter is \VAR{A},
 but \VAR{D} is not a subtype of \VAR{A}.''.
 The interpreter has no static types: it runs the bodies as before, and loads a
-declaration that the paragraph refuses.
+declaration that the paragraph refuses (row~893 of the revival's gap ledger).
 The code generator compiles a default body that returns \KWD{self} as the self
 parameter with no conversion to the type of the instance, so a program that
 runs such a body, which the compiled type checker now accepts, with the parameter at an object type

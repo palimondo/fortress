@@ -1,0 +1,25 @@
+component GenericInsideTraitMethodWalk
+export Executable
+
+(* A generic function over Sub[T] and T inside the declared domain of a functional method of a self-typed generic trait, each returning T, loads under walk, and each call runs its object's own operator (overloading.tex, section "Declarations with Static Parameters"). *)
+
+trait AddG[\T extends AddG[\T\]\]
+    opr PLUS(self, other: T): T
+end
+trait Sub[\T extends AddG[\T\]\] extends AddG[\T\] end
+object Wg(n: ZZ32) extends Sub[\Wg\]
+    opr PLUS(self, other: Wg): Wg = Wg(n + other.n)
+end
+object Vg(n: ZZ32) extends AddG[\Vg\]
+    opr PLUS(self, other: Vg): Vg = Vg(n + other.n + 100)
+end
+
+opr PLUS[\T extends AddG[\T\]\](x: Sub[\T\], y: T): T = y
+
+run(): () = do
+    assert((Wg(1) PLUS Wg(2)).n, 3, "two Sub values run their object's own operator")
+    assert((Vg(1) PLUS Vg(2)).n, 103, "two group values run their object's own operator")
+    println("PASS")
+  end
+
+end

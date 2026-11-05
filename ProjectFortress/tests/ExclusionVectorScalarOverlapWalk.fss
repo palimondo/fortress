@@ -1,0 +1,27 @@
+component ExclusionVectorScalarOverlapWalk
+export Executable
+
+(* Operators on an array of a number type and a number beside the additive group's own operator are refused where an array may also be a number, since a value of both is in both domains and no declaration covers their meet (overloading.tex, section "Declarations with Static Parameters", the Meet Rule). *)
+
+trait AnyAddG end
+trait AddG[\T extends AddG[\T\]\] extends AnyAddG
+    opr PLUS(self, other: T): String
+end
+trait Numb end
+trait HasRk end
+object Rr extends { Numb, AddG[\Rr\] }
+    opr PLUS(self, other: Rr): String = "number"
+end
+trait Arry[\E\] extends HasRk end
+object Vv extends { Arry[\Rr\], AddG[\Vv\] }
+    opr PLUS(self, other: Vv): String = "vector"
+end
+
+opr PLUS[\T extends { Numb, AddG[\T\] }\](x: Arry[\T\], y: T): String = "array and number"
+
+run(): () = do
+    assert(Vv PLUS Rr, "array and number", "a vector and a number")
+    println("PASS")
+  end
+
+end

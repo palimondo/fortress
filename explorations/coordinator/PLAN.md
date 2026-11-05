@@ -634,6 +634,13 @@ The items for him that climb batch 25 (`coordinator/CLIMB-BATCH-25.md`, rungs D,
 - The record's points for his sight (`coordinator/CLIMB-BATCH-25.md`, section 2, "Points the batch lists for him, not questions"; `compile-ladder/climb-batch-25/RECORD.md`, "Points to report"), with gather.1. Default: as landed. Review-queue item 353 (closed at the cleanup of 2026-11-05: learning).
 - Row 861 (`CONTESTED`), from the record's "After the landing": which form does `Char`'s `asExprString` write for a character outside ASCII, the form of walk's glue or that of its helper? No default on record. Review-queue item 354, before the batch that moves `Char`'s `asExprString`.
 
+### Climb batch 26, listed for his review
+
+The items for him that climb batch 26 (`coordinator/CLIMB-BATCH-26.md`, rungs W, S, L and T, phase 4's fourth batch on a reduced scope: walk's half of row 804, the overview's NaN sentences, the code generator's local functions and the string family) left (`compile-ladder/climb-batch-26/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`"). Each is reversible, and the default is what landed.
+
+- W.skeptic.1 of climb batch 26's rung W (row 894, `CONTESTED`): is `checkFancyRule`, the compiled checker's refusal of a top-level function more specific than a functional method of its name, a rule of the language? `advanced/overloading.tex` applies only the Meet Rule for functions to such a pair, and walk now loads it (`ProjectFortress/tests/GenericInsideTraitMethodWalk.fss`). No default on record. Evidence: `compile-ladder/rung-walk-vector-scalar/SKEPTIC.md:74`; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:413-424`.
+- W.skeptic.2 of climb batch 26's rung W (row 893): should walk's load check apply P-146's extender rule, now that its overloading check reads `self` of a self-typed trait as `C[\X\] & X` and so relies on it? Default: P-146's "walk is unchanged", the gap gated by `ProjectFortress/tests/XXXSelfTypeExtenderOtherTypeWalk.fss`. Evidence: `compile-ladder/rung-walk-vector-scalar/SKEPTIC.md:75`; `Specification/basic/traits.tex:306-312`.
+
 ### Not classified, to check
 
 Workflow measures of the post-batch reviews that were not built when filed, and whose status this plan's consolidation did not settle: the script was redesigned on 2026-10-08, and the lines they cite no longer resolve (`process-engineering/plan-map.md` section 5). Each is one line with its reason; the full text is in `PLAN-history.md`, "Work that can start now, with no decision".
