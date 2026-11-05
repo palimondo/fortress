@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 17:16 His comment on the drafts page's item 23 (the people of the project), sent to Claude: does the bullet need to name `research/authorship.md` twice; it confuses him. Answered on the thread: once is enough; the bullet names the file only where it points a worker to who wrote what; lands after its cold read as the next item.
+
 - 17:13 His comment on the drafts page's item 20, sent to Claude: the rule is mostly fine, but he worries about the ping-pong with a proposal: he approves, the landing's cold read changes the words, and the change waits for him again; the proposal should go through its cold read before it is shown to him, so that the back and forth goes. Answered on the thread: yes; the skill writer drafts it (a change that waits for his yes is cold-read and fixed before it goes under "Proposed changes"; what lands is the approved words; only a lint hit or a wrong path found at the landing may change them, shown alone), and since it touches how changes reach him, the exact words come to him under "Proposed changes", cold-read first.
 
 - 17:06 His comment on the `fortress-repo` page's version 5, sent to Claude: "Reading done. LGTM." He read up to change 17; by his rule of 16:49 the page's next version drops changes 13 to 17.
