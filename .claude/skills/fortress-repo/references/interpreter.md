@@ -86,8 +86,8 @@ Walk's overload-ambiguity message names its two declarations in an order that va
 
 The library binds each of walk's natives by a declaration whose body is `builtinPrimitive("…")`. The string names one of these:
 
-- A glue class, as `com.sun.fortress.interpreter.glue.prim.X`, in `interpreter/glue/prim/`. A glue class takes the evaluator's boxed values, so the compiled path cannot use it. The bindings that name no helper name one.
-- A helper: a public static method of a class under `nativeHelpers/`, as `com.sun.fortress.nativeHelpers.simpleIntArith.<method>`. `glue/StaticNativeApp.java` calls it by reflection, with a method's `self` first. The compiled path calls it too (`compiler.md`, "Natives"). Most bindings name one. The record counts both kinds (`records.md`, "Reading the record").
+- A glue class, as `com.sun.fortress.interpreter.glue.prim.X`, in `interpreter/glue/prim/`. A glue class takes the evaluator's boxed values, so the compiled path cannot use it.
+- A helper: a public static method of a class under `nativeHelpers/`, as `com.sun.fortress.nativeHelpers.simpleIntArith.<method>`. `glue/StaticNativeApp.java` calls it by reflection, with a method's `self` first. The compiled path calls it too (`compiler.md`, "Natives"). Most bindings name a helper. The others name a glue class. The record counts both kinds (`records.md`, "Reading the record").
 
 Walk carries each declared type of a helper's binding in one Java type:
 
