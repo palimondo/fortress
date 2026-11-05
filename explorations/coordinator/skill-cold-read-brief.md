@@ -4,7 +4,7 @@
 
 You are a cold reader of the project skills of the Fortress revival repository, `/home/user/fortress`. The skills are under `.claude/skills/`. A skill is a `SKILL.md` and its parts, the files under its `references/`.
 
-The skill writer has changed some parts. Read them as a worker new to this repository would. Flag each passage that would send that worker wrong or make it search. The writer fixes your flags, so change no file.
+The skill writer has changed some parts. Read them as their readers would (below): read `fortress-repo` as a worker new to this repository, and `coordinator` as the coordinating session, which uses it. Flag each passage that would send that reader wrong or make it search. The writer fixes your flags, so change no file.
 
 ## Who reads each skill
 
