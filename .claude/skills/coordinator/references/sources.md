@@ -317,3 +317,9 @@ The cold read of `7aefb06ac`, 2026-11-05, read as the coordinating session, chan
 - `batch.md`, "The landing", step 4: the Land stage defined; the writer's lists in `writer-1.md` and `writer-2.md` (`explorations/coordinator/tools/record-landing/skills.sh`, its header); no writer and no page when no skill sentence was made false and the orientation judge did not run; no skill-writer task of the coordinator's on `fortress-repo` during the run; a `stopped` result, a page that the agent could not publish, and the held sections of `queue.md`, each left to the coordinator by the README, "Landing its result" and "The skill update".
 - `skill-rewrite.md`, "The method", steps 4 and 7: a `fortress-repo` change that waits for no yes gets no page of its own; the `cloud-container` page's URL in the boot note's "Pages".
 - `delegating.md`, "What a brief holds": where the roles are given, and the incident cut.
+
+## The curator's comments of 16:38 to 16:49 UTC, 2026-11-05, on the page of skill drafts
+
+- `skill-rewrite.md`, "The method", step 7, "Landed changes": the section holds only what the curator has not read; the curator's word that they read up to an item removes it and every item before it at the next update; an approved draft that landed gets no item unless the landing changed the approved words, and then shows only that change; any other item stays. "Proposed changes" no longer moves an approved item to the landed changes. The page had grown to nineteen items, and the curator could not tell what they had read.
+- `SKILL.md`, "Pages", the landed item: its reason names the coordinating session as "the coordinator", never "you". Two reasons on the page had copied the skill's "you", and the curator read it as the curator.
+- `delegating.md`, "What a brief holds", the people of the project: cut to one sentence that points to `research/authorship.md`, the authorship map compiled from the git history; the incident cut.

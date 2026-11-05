@@ -39,7 +39,7 @@ A brief holds what only you know: the problem, the question, what the answer is 
 - A pointer to the research on file, not a restatement of it.
 - The record's measurements, as findings to cite, not claims to check again, even for a worker kept clean of our options. Name the one new thing to measure. Ask for a new measurement only if the tree has changed under a finding, and say what changed.
 - The entries that it needs, by number. If the task needs an entry's linked entries or its history, name `facts-extract.sh`, which prints them. Quote whole, with its limit and its example, only a rule of the curator's that no entry holds yet.
-- The people of the project by their roles as the skills' glossaries and the record's entries give them, never by a description of your own: the curator, each of the team's designers by name and role, a worker. A worker copies your description, and can put it on a page under the person's name.
+- Name the people of the project by their roles as the record gives them; `research/authorship.md` says who wrote what.
 - Before you quote the curator's words from a message, clean them. Fix the obvious typos of the phone's swipe keyboard and of dictation, and keep the meaning. Put `[?]` after each word whose reading is a guess.
 - For an update of a document: a length cap against the version before. The update adds what landed.
 - No second reader named in the brief, since that reframes the document.
