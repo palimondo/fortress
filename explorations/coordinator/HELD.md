@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 17:30 His decision on the agent's wait: the cap stays at 240 s as landed; no self-measuring wait, no hour-long cache for the agents (an hour's cache write costs more than a five-minute one, for every session that takes it); "let's not overcomplicate things". The ask of 16:2x is closed; the thread on change 12 of the `fortress-repo` page is resolved.
+
 - 17:2x His doubt on the wait-cap ask: is the root cause right, since thinking is part of the model's regular response; are we designing the wrong solution for the wrong problem? Otherwise he takes option 3, though he does not understand what a self-measuring wait is: does it need a script that checks the transcript, which the workers would have to learn to call, confusing them? Answered at 17:3x: the cause stands (the cache's clock runs from the request's start, and the response's generation counts); the real problem is a five-minute cache against six-minute builds, so the clean fix would be the hour-long cache that the main and headless sessions get, which a worker now checks for subagents; the self-measuring wait is the same shell function the workers already paste and call, with a timestamp file, no script and no transcript; his "3" is held until the check answers.
 
 - 17:20 His comment on the drafts page's version 7, sent to Claude: "Read. LGTM." He read up to item 23; the next version drops items 20 to 23.
