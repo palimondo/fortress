@@ -138,9 +138,9 @@ The tokens written are those that `writer-stream.sh` counts: the input and the c
 | 7. The fix round, two streams resumed | about 30,000 |
 | 8. The edges' writer, stream 1 resumed | about 30,000 |
 | 10. The coordinator: the steps' commands and output, and its review of the diff | about 40,000 |
-| **All** | **509,000**, measured in the run of 2026-11-03 |
+| **All** | **509,000**, measured in the run of 2026-11-03; the rows sum to 459,000 |
 
-The mechanical steps (1, 3, 5, 8 and 9) write no tokens. The inventory's own estimate is about 300,000, between 250,000 and 400,000 (its section 4). This one adds the reader of choice 10 (b), about 60,000, which the inventory's total leaves out. Its writer streams come to 160,000, the sum of the parts that the inventory gives, where the inventory writes 130,000.
+The rows that say "about" are estimates; the two measured rows and the total are the run's. So the steps estimated at 230,000 wrote about 280,000. The mechanical steps (1, 3, 5, 8 and 9) write no tokens. The inventory's own estimate is about 300,000 (its section 4), and leaves out the reader of choice 10 (b), measured at 79,000. The checker, measured at 150,000, wrote nearly twice its estimate of 80,000.
 
 ## What the dry run of 2026-11-03 found
 

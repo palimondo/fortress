@@ -233,7 +233,7 @@ FACTS and POSITIONS hold the project only, since workers read them. They state t
 
 At session start and after each compaction, take these steps in order:
 
-0. Check the serving model: run `explorations/coordinator/tools/model-now.sh`, which prints the model of this turn's reply. If it prints nothing, use the `get_session` tool with no session ID: its `session_context.model` and `external_metadata.last_served_model`. If the model is neither Opus nor Fable, act as on the model check's alarm (below).
+0. Check the serving model: run `explorations/coordinator/tools/model-now.sh`, which prints the model of this turn's reply. If it prints nothing, use the `get_session` tool with no session ID: its `session_context.model` and `external_metadata.last_served_model`. If the model is neither Opus nor Fable, act as on the model check's alarm (below). Then check the transcript backup (below).
 1. `FACTS.md`, `POSITIONS.md` and `INDEX.md`, each whole. Read `FACTS.md` in pages: it is larger than one page of the Read tool.
 2. Run `explorations/coordinator/check-index.sh`. Add an INDEX line for each note that it reports.
 3. `PLAN.md`, its first section.
@@ -245,7 +245,11 @@ At session start and after each compaction, take these steps in order:
 
 **A light boot.** When the curator asks for a light boot, take steps 0 and 3 to 8, and skip steps 1 and 2: FACTS, POSITIONS and INDEX stay unread. Before you state a fact or a decision, or put anything to the curator, search the record with `facts-extract.sh`. The full boot is the default. The curator's word for a light boot replaces the hook's list of files after a compaction.
 
-**The transcript backup.** At every boot and after every VM restart, read the last line of `/home/user/fortress-transcripts-blinded/.backup.log` and the date of the last snapshot (`git -C /home/user/fortress-transcripts-blinded log -1 --format=%ci`). Compare them with the machine's last start (`uptime -s`). If the snapshot is older than the last start, re-arm the backup before any other work (the `cloud-container` skill, `references/container-loss.md`, "Re-arming the backup"). The backup can fail with no message: it once stopped for about 18 hours, and a full boot did not notice.
+**The transcript backup.** Check it right after step 0 at every boot, a light boot included, and after every VM restart, since the backup fails with no message:
+
+- If the backup's worktree, `/home/user/fortress-transcripts-blinded`, is missing or not on its branch `transcripts-blinded`, re-arm the backup before the rest of the boot (the `cloud-container` skill, `references/container-loss.md`, "Re-arming the backup").
+- Otherwise, read the last line of its `.backup.log`. If the line says `push=failed`, or its time is older than the machine's last start (`uptime -s`), run `scripts/backup.sh --run` in the worktree by hand, and read the new last line. A sound line ends `push=ok`.
+- Re-arm only a worktree that is missing or broken. A snapshot, the backup's commit of the transcripts, older than the last restart is normal at the first boot after it: the backup runs only at a turn's end.
 
 **At a landing.** A landing's work never waits for a compaction or a boot, and you ask the curator nothing about the boot. At a landing, read what the landing changed in the record, not FACTS and POSITIONS whole. Read the whole record when you plan a batch.
 
