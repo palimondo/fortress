@@ -1,6 +1,6 @@
 export const meta = {
   name: 'record-landing',
-  description: 'The record brought in line with a landed batch, in a worktree of its own: the evidence script and an Opus sort by home and weight; the entries and routing writers as two headless Opus streams with the mechanical checks; a checker and a cold read; one fix round; a judge who applies or holds each change once, makes two commits on the branch and writes diff.md; then, past the judge\'s checks, the commits landed on main and pushed, the worktree and branch removed, and the orientation update run as a child workflow on the entries the landing changed',
+  description: 'The record brought in line with a landed batch, in a worktree of its own: the evidence script and an Opus sort by home and weight; the entries and routing writers as two headless Opus streams with the mechanical checks; a checker and a cold read; one fix round; a judge who applies or holds each change once, makes two commits on the branch and writes diff.md; then, past the judge\'s checks, the commits landed on main and pushed, the worktree and branch removed, and the orientation update run as a child workflow on the entries the landing changed; then the skill writer installs what the orientation judge accepts and brings fortress-repo in line with the landing, a cold read of its commits, the writer\'s fixes, the page of fortress-repo\'s changes, and the pushes, ending in one line for the coordinator\'s chat message',
   phases: [
     { title: 'Sort', detail: 'prepare.sh makes the worktree and the evidence; the sorter writes owed.md, one line per change', model: 'opus' },
     { title: 'Write', detail: 'a Sonnet driver starts the entries and routing writers, two headless Opus streams, then checks.sh 1', model: 'sonnet' },
@@ -8,6 +8,11 @@ export const meta = {
     { title: 'Fix', detail: 'both writers once more, in the same streams, then checks.sh 2', model: 'sonnet' },
     { title: 'Judge', detail: 'apply or hold each change once; final.sh checks and commits twice on the branch; diff.md', model: 'opus' },
     { title: 'Land', detail: 'the two commits onto main (a fast-forward, or a cherry-pick if main moved), the checks on main, the three pushes, the worktree and branch removed; then the orientation update, a child workflow', model: 'sonnet' },
+    { title: 'Skills', detail: 'skills.sh writes the task from the landed diff.md and the orientation judgement; the skill writer, a headless Opus session, installs and edits fortress-repo and commits on main', model: 'sonnet' },
+    { title: 'Cold read', detail: 'the changed parts read as a worker new to the repository', model: 'opus' },
+    { title: 'Fixes', detail: 'the same writer fixes the cold read\'s flags and commits', model: 'sonnet' },
+    { title: 'Page', detail: 'the page of fortress-repo\'s landed changes updated and published by its URL', model: 'opus' },
+    { title: 'Push', detail: 'the run\'s folders committed, then the three pushes; the one line for the coordinator', model: 'sonnet' },
   ],
 }
 
@@ -21,7 +26,8 @@ export const meta = {
 // workflow data, never rules of its own. Every agent up to the judge works in the worktree. The judge commits twice
 // on the branch; the lander, only when the judge's checks pass, puts the two commits on main, checks main, pushes
 // it and removes the worktree and the branch; then the orientation workflow runs in update mode, as a child, on
-// the entries the landing changed (README.md, "Landing its result"). A replay lands nothing and runs no update.
+// the entries the landing changed (README.md, "Landing its result"); then the skill update, its cold read, its
+// fixes, the page and the pushes (README.md, "The skill update"). A replay lands nothing and runs no update.
 const T = '/home/user/fortress/explorations/coordinator/tools/record-landing/'
 const RC = '/home/user/fortress/explorations/coordinator/tools/record-clarity/'
 if (!args || !args.batch || !args.base || !args.landing) throw new Error('args: { batch, base, landing, at (a replay only) }')
@@ -128,14 +134,138 @@ result.land = l
 if (!l || !l.landed) return Object.assign(result, { stopped: 'nothing landed: ' + (l ? l.stopped : 'the lander returned nothing; read its transcript, git -C ' + MAIN + ' log origin/main..main and the branch before a resume') })
 if (l.stopped) return Object.assign(result, { stopped: 'landed on the local main, not all pushed, no orientation update: ' + l.stopped })
 
-// The orientation update, the child workflow (one level deep), on the entries diff.md's "Next" names.
+// The orientation update, the child workflow (one level deep), on the entries diff.md's "Next" names. With no
+// entry there, the update has nothing to judge, and the skill update below still runs on diff.md's skill lines.
 const facts = (l.facts || []).filter(f => /^[FP]-\d+$/.test(f))
-if (!facts.length) return Object.assign(result, { stopped: 'landed and pushed; no orientation update: diff.md, "Next", names no entry' })
-log('landed by ' + l.how + ': ' + l.commits.join('; ') + '; the orientation update on ' + facts.join(', '))
-try {
-  result.orientation = await workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/orientation/orientation.js' },
-    { mode: 'update', out: '/home/user/fortress/explorations/compile-ladder/climb-batch-' + N + '/orientation/', stream: 'orientation-b' + N, facts })
-} catch (e) {
-  result.stopped = 'landed and pushed; the orientation update failed to start: ' + e.message
+log('landed by ' + l.how + ': ' + l.commits.join('; ') + (facts.length ? '; the orientation update on ' + facts.join(', ') : '; diff.md, "Next", names no entry for the orientation update'))
+if (facts.length) {
+  try {
+    result.orientation = await workflow({ scriptPath: '/home/user/fortress/explorations/coordinator/tools/orientation/orientation.js' },
+      { mode: 'update', out: '/home/user/fortress/explorations/compile-ladder/climb-batch-' + N + '/orientation/', stream: 'orientation-b' + N, facts })
+  } catch (e) {
+    return Object.assign(result, { stopped: 'landed and pushed; the orientation update failed to start, and no skill update ran: ' + e.message })
+  }
+} else {
+  result.orientation = { skipped: 'diff.md, "Next", names no entry' }
 }
+
+// The skill update (the coordinator skill's batch.md, "The landing", step 4, and skill-rewrite.md, "The method",
+// step 7): the skill writer, a headless Opus session through ../skill-writer.sh, installs the sections that the
+// orientation judge accepts and brings fortress-repo's other parts in line with the landing, from the landing's
+// own list of the sentences it made false (skills.sh writes the task from skill-task.md and the landed files);
+// a cold read of its commits; the writer's fixes of the flags, in the same session; the page of fortress-repo's
+// changes; then the commits pushed as the Land stage pushes. The writer commits on main in the main tree. Its
+// folder is climb-batch-N/skills/ there; the drivers' markers are under the main tree's tmp/, which git ignores.
+// Each driver waits in steps of 230 s, under the five minutes of its prompt cache. No step of the coordinator's
+// comes between: the result ends with one line for its chat message.
+const CB = 'explorations/compile-ladder/climb-batch-' + N + '/'
+const SK = MAIN + '/' + CB + 'skills/'
+const OUTD = MAIN + '/' + CB + 'orientation/'
+const SMARKS = MAIN + '/tmp/record-landing-' + N + '/'
+const SKILLS = {
+  type: 'object',
+  properties: {
+    nothing: { type: 'boolean', description: 'true when the log has a line that starts NOTHING' },
+    exit: { type: 'string', description: 'the exit on the log line "== the writer\'s round R: exit X", or "finished before", or "none"' },
+    base: { type: 'string', description: 'the hash on the log\'s BASE line' },
+    commits: { type: 'array', items: { type: 'string' }, description: 'each COMMIT line, without the word COMMIT, in order' },
+    parts: { type: 'array', items: { type: 'string' }, description: 'each PART line, without the word PART' },
+    tail: { type: 'string', description: 'the last 60 lines of the log, verbatim' },
+  },
+  required: ['nothing', 'exit', 'base', 'commits', 'parts', 'tail'],
+}
+const skills = (n) => {
+  const lg = SK + 'skills-' + n + '.log', done = SMARKS + 'skills-' + n + '.done'
+  return agent(['You drive a long command and report its output; you judge nothing and write nothing else.',
+    '1. If ' + done + ' exists, skip to step 3.',
+    '2. Run this in the background with the Bash tool\'s run_in_background, exactly:',
+    '   mkdir -p ' + SK + ' ' + SMARKS + '; ' + T + 'skills.sh ' + N + ' ' + n + ' > ' + lg + ' 2>&1; touch ' + done,
+    '3. Run python3 ' + RC + 'wait.py ' + done + ' 230 in the foreground, with a timeout of 270000 ms. If it exits 1, run it again at once; repeat until it exits 0. Each wait stays under 240 s, so that your prompt cache stays warm.',
+    '4. Read ' + lg + ' and return the structured result from its lines.'].join('\n'),
+    { label: n === 1 ? 'skill writer' : 'skill fixes', phase: n === 1 ? 'Skills' : 'Fixes', model: 'sonnet', schema: SKILLS })
+}
+
+phase('Skills')
+const s1 = await skills(1)
+result.skills = s1 ? { nothing: s1.nothing, exit: s1.exit, base: s1.base, commits: s1.commits, parts: s1.parts, tail: cut(s1.tail, 1500) } : null
+const changed = !!(s1 && !s1.nothing && s1.commits.length && s1.parts.length)
+let s2 = null, page = null
+if (!s1) result.skillsStopped = 'the skill driver returned nothing: read ' + SK + 'skills-1.log and ' + SK + 'writer-1.md'
+else if (s1.nothing) log('the skill update: nothing names the skill, and the orientation judge did not run')
+else if (!s1.commits.length) result.skillsStopped = 'the skill writer committed nothing: read ' + SK + 'writer-1.md'
+else if (!s1.parts.length) log('the skill update changed only provenance lines: no cold read and no page item')
+
+if (changed) {
+  phase('Cold read')
+  const cr = await agent('Read your brief and follow it: /home/user/fortress/explorations/coordinator/skill-cold-read-brief.md\n\n' +
+    'The task. The skill: fortress-repo, read as a worker new to the repository; a part under .claude/skills/coordinator/, if one is named, read as the coordinating session. The base commit: ' + s1.base +
+    '. The parts that changed: ' + s1.parts.join(', ') + '. Your report: ' + SK + 'cold-read.md. ' +
+    'If that file already holds your report whole, ending with its count, write nothing and return the count. ' +
+    'Write your report in parts: write the first part to the file, then add each next part to its end, one tool call for each part. So no reply runs for minutes, and your prompt cache stays warm between your calls.',
+    { label: 'skill cold read', phase: 'Cold read', model: 'opus' })
+  result.coldRead = cut(cr, 800)
+
+  if (cr) {
+    phase('Fixes')
+    s2 = await skills(2)
+    result.fixes = s2 ? { exit: s2.exit, commits: s2.commits, parts: s2.parts, tail: cut(s2.tail, 1500) } : null
+    if (!s2) result.skillsStopped = 'the fix driver returned nothing: read ' + SK + 'skills-2.log and ' + SK + 'writer-2.md'
+  } else result.skillsStopped = 'the cold read returned nothing: no fixes; read ' + SK + 'cold-read.md'
+
+  phase('Page')
+  const PAGE = {
+    type: 'object',
+    properties: {
+      published: { type: 'boolean' }, url: { type: 'string' }, version: { type: 'string' }, source: { type: 'string' },
+      items: { type: 'integer' }, newItems: { type: 'integer' },
+      why: { type: 'string', description: 'why the page was not published; empty when it was' },
+      summary: { type: 'string' },
+    },
+    required: ['published', 'url', 'source', 'items', 'newItems', 'why', 'summary'],
+  }
+  const final = (s2 && s2.commits.length ? s2 : s1).commits
+  page = await agent('Read your brief and follow it: ' + T + 'page.md\n\nYour batch: climb batch ' + N + '. The skill run\'s folder: ' + SK +
+    ' (task-1.md, writer-1.md, cold-read.md, task-2.md, writer-2.md). The base commit before the changes: ' + s1.base + '. The commits: ' + final.join('; ') + '.',
+    { label: 'page', phase: 'Page', model: 'opus', schema: PAGE })
+  result.page = page
+}
+
+// The pushes, as the Land stage's: the skill folder and the orientation's folder committed by named paths, then
+// main pushed only when every commit past the skill base is the run's own.
+phase('Push')
+const PUSH = {
+  type: 'object',
+  properties: {
+    committed: { type: 'string', description: 'the folders\' commit, "hash subject", or empty if nothing was left to commit' },
+    commits: { type: 'array', items: { type: 'string' }, description: 'the run\'s commits past the skill base, "hash subject", in order' },
+    pushed: { type: 'array', items: { type: 'string' } },
+    stopped: { type: 'string', description: 'why something was not committed or pushed, with the output; empty when all went through' },
+    summary: { type: 'string' },
+  },
+  required: ['committed', 'commits', 'pushed', 'stopped', 'summary'],
+}
+const SBASE = (s1 && s1.base) || l.mainBefore || 'origin/main'
+const p = await agent([
+  'You commit and push the end of the record-landing run of climb batch ' + N + '. You run commands and report; you judge nothing and edit no file. You work in the main tree, ' + MAIN + ', on the branch main. Another agent may commit there meanwhile: on an index.lock error, wait five seconds and retry, up to four times; leave other uncommitted edits alone.',
+  '',
+  '1. The folders. Run ' + T + 'folders.sh ' + N + '. It commits the run\'s two folders by named paths and prints COMMITTED with the commit\'s hash and subject, which you return in committed, or NOTHING, and then committed is empty. If it fails, push nothing and return its output in stopped.',
+  '2. The run\'s commits. For each hash of git -C ' + MAIN + ' log --format=%h ' + SBASE + '..main, git -C ' + MAIN + ' show --name-only --format= HASH lists its paths. The commit is the run\'s if every path is under .claude/skills/, ' + CB + 'skills/ or ' + CB + 'orientation/. Return the run\'s commits in commits, as "hash subject" from git log --format="%h %s".',
+  '3. The pushes, as the fortress-repo skill\'s committing part says: git -C ' + MAIN + ' log --format="%h %s" origin/main..main must list only the run\'s commits of step 2 and the record\'s landed commits; if it lists nothing, push nothing and leave stopped empty. If it lists another agent\'s commit, run it again in a minute, and if that commit stays, push nothing and say so in stopped. Then git push origin main, git push origin main:claude/worker-brief-fable-vnnuv8, git push origin main:blinded-fable, in that order; a push that fails on the network you retry up to four times, 2, 4, 8 and 16 seconds apart; a push refused, you push nothing more and say so in stopped.',
+].join('\n'), { label: 'push', phase: 'Push', model: 'sonnet', schema: PUSH })
+result.push = p
+
+// The one line for the coordinator's chat message: the commits and the page's link.
+const shown = (p ? p.commits : ((s2 && s2.commits.length ? s2 : s1) || { commits: [] }).commits).filter(c => !/skill update after its landing/.test(c))
+const pushedAll = !!(p && !p.stopped)
+const pageLine = !s1 ? 'no page update, since the skill driver returned nothing'
+  : s1.nothing ? 'no page update, since the skill did not change'
+  : !s1.commits.length ? 'no page update, since the writer committed nothing'
+  : !s1.parts.length ? 'no page update, since no rule of the skill changed'
+  : !page ? 'the page worker returned nothing; the page is as it was'
+  : page.published ? 'the page: ' + page.url + (page.version ? ' (' + page.version + ')' : '')
+  : 'the page\'s source ' + page.source + ' waits to be published by its URL, ' + page.url + (page.why ? ' (' + page.why + ')' : '')
+result.line = 'fortress-repo after climb batch ' + N + '\'s landing: ' + (shown.length ? shown.join('; ') : 'no skill commit') +
+  (pushedAll ? (p.pushed.length ? ', pushed' : ', nothing left to push') : ', not all pushed' + (p && p.stopped ? ': ' + p.stopped : '')) + '; ' + pageLine + '.'
+if (!pushedAll) result.stopped = 'landed; the skill update\'s commits are not all pushed: ' + (p ? p.stopped || 'the pusher pushed ' + p.pushed.join(', ') : 'the pusher returned nothing; read git -C ' + MAIN + ' log origin/main..main')
+else if (result.skillsStopped) result.stopped = 'landed and pushed; the skill update stopped: ' + result.skillsStopped
 return result

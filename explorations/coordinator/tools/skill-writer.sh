@@ -10,11 +10,13 @@
 #   skill-writer.sh resume <task-file>  the task, sent to the current writer
 #
 # The session id and each task's JSON output are kept under the repository's
-# tmp/skill-writer/, which is ignored. The script prints the writer's report,
+# tmp/skill-writer/, which is ignored, or under SKILL_WRITER_STATE if it is set:
+# the record-landing workflow keeps its writer there, so that its run leaves the
+# coordinator's writer session as it was. The script prints the writer's report,
 # its session id and the tokens the task wrote to the cache.
 set -euo pipefail
 repo=$(cd "$(dirname "$0")/../../.." && pwd)
-state="$repo/tmp/skill-writer"
+state="${SKILL_WRITER_STATE:-$repo/tmp/skill-writer}"
 mkdir -p "$state"
 mode=${1:?new or resume}
 task=$(cd "$(dirname "${2:?task file}")" && pwd)/$(basename "$2")
