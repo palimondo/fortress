@@ -1,0 +1,13 @@
+(* Two local functions of one name in one block are overloaded, and each call runs the declaration of its argument's type (functions.tex, section "Local Function Declarations": local functions in one scope may be overloaded). *)
+component XXXLocalFunctionOverloadedCompiled
+export Executable
+
+run(): () = do
+    show(x: ZZ32): String = "int"
+    show(x: String): String = "string"
+    assert(show(3), "int", "show at ZZ32")
+    assert(show("a"), "string", "show at String")
+    println("PASS")
+  end
+
+end

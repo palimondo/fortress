@@ -1,0 +1,3 @@
+tests=XXXLocalFunctionOverloadedCompiled
+compile
+compile_exception_contains=Can't compile overloaded local functions yet

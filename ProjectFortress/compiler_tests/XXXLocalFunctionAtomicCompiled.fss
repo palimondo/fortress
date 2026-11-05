@@ -1,0 +1,13 @@
+(* A local function with the atomic modifier runs its body as an atomic block, so calls from the iterations of a parallel loop each add once (functions.tex, section "Local Function Declarations": LocalFnMod is atomic or io). *)
+component XXXLocalFunctionAtomicCompiled
+export Executable
+
+run(): () = do
+    var acc: ZZ32 := 0
+    atomic bump(x: ZZ32): () = do acc := acc + x end
+    for i <- 1#10 do bump(i) end
+    assert(acc, 55, "each bump adds its i once")
+    println("PASS")
+  end
+
+end

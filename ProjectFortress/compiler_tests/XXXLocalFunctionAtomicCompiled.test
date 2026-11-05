@@ -1,0 +1,3 @@
+tests=XXXLocalFunctionAtomicCompiled
+compile
+compile_exception_contains=Can't compile a local function with this modifier yet

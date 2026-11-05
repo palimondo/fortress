@@ -5653,3 +5653,19 @@ pointer words refreshed in: F-24
 ### F-319
 
 2026-11-05 21:37Z · added · from `explorations/compile-ladder/rung-spec-nan-comparison/REPORT.md`, "1. What changed and why" · by climb batch 26 gather
+
+### F-320
+
+2026-11-05 21:39Z · added · from `explorations/compile-ladder/rung-codegen-local-functions/REPORT.md`, "1. What changed and why" · by climb batch 26 gather
+
+### F-34
+
+2026-11-05 21:39Z · rewritten · from `explorations/compile-ladder/rung-codegen-local-functions/REPORT.md`, "6. Sentences made false" · by climb batch 26 gather
+
+- F-34 **Under the switch-over's setting the code generator refuses 47 declarations of the fourteen components that the distance stage checks, in 11 kinds, all of them declarations that the checker passes.** The setting is the distance stage's (F-53): the checker's failures caught per declaration, and the bound `Any`. Measured once, on climb batch 25's base (`97a416b18`) with the code generator as landed, by `compile-ladder/plan-25/probes/codegen.sh` with the base's 173 helper strings put back on their glue classes; the base's code generator gave 50 in 14 kinds in the same session. The three kinds that F-315 removes, `Any` in an `extends` clause, `forbid` and the `test` modifier, no longer occur. A declaration counted at its first wall, and no emitted class was run. Each kind left has a ledger row or a plan line, among them a local function (row 304), varargs (row 624), `asif` (row 818) and "Not in the trait table" (row 733), so after the switch-over the code generator still stands between the library and bytecode. On climb batch 21b's base (`aa5c67d48`) the dispatch generator refused none of `FortressLibrary`'s 178 overload sets. No test checks it, since the gate's distance stage runs no code generation. Detail: `compile-ladder/rung-codegen-walls/REPORT.md`, "5. Programs run old against new, and the probes"; `reviews/phase3-exit/zero-audit.md`, "Part C. The debt carried into phase 4", item 4; `perf-probes/codegen-distance/REPORT.md`, sections 2 to 6.
+
+### F-181
+
+2026-11-05 21:39Z · rewritten · from `explorations/compile-ladder/rung-codegen-local-functions/REPORT.md`, "6. Sentences made false" · by climb batch 26 gather
+
+- F-181 **The code generator compiles a function, method, object or trait declaration that carries a `where` clause in its own header, emitting nothing for the clause, and refuses every function or method with a contract (row 701).** The clause's constraints are the checker's. A trait's or object's contract does not reach the refusal: the disambiguator drops it (row 781); F-255 says how each path reads a `where` clause on an `extends` entry (row 774). Walk checks a function's `requires` clause and raises `CallerViolation`. The `fortress-repo` skill's `references/compiler.md`, "What the compiled path cannot compile yet", gives the refusal and the constructs that the code generator has no case for, a local function among them (row 304); an array comprehension has no case either. A trait whose `comprises` clause lists a type at a `where`-clause size, of `NatParam`'s shape, compiles; a call that opens its value to the size fails verification (row 307). Where a generic type that such a clause lists gives a member's body, the code generator crashes first (row 812). A function's or method's own clause that introduces a `where`-clause variable compiles, and the compiled call dies with `NoClassDefFoundError` (row 867). Tests: `compiler_tests/WhereBoundFunctionCompiled`, `WhereBoundMethodCompiled`, `WhereBoundObjectCompiled`, `WhereBoundTraitMethodCompiled`, `ComprisesWhereFunctionalMethodCompiled`; `XXXFunctionContractCodeGeneration`; the `XXXNatOpenRun` pair; the `XXXWhereVariableCallCompiled` pair. Detail: `compile-ladder/rung-codegen-where/REPORT.md`, sections 1, 2 and 5.

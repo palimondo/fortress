@@ -1,0 +1,12 @@
+(* A local function with a static parameter of its own is called at two instances (functions.tex, section "Local Function Declarations": local functions have the syntax of top-level ones). *)
+component XXXLocalFunctionGenericCompiled
+export Executable
+
+run(): () = do
+    ident[\T extends Object\](x: T): T = x
+    assert(ident[\String\]("a"), "a", "ident at String")
+    assert(ident[\ZZ32\](3), 3, "ident at ZZ32")
+    println("PASS")
+  end
+
+end

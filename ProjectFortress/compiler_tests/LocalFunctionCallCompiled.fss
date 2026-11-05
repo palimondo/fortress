@@ -1,0 +1,24 @@
+(* A local function is called within its block, and reads a parameter, a local and a top-level value of its context (functions.tex, section "Local Function Declarations"). *)
+component LocalFunctionCallCompiled
+export Executable
+
+base: ZZ32 = 100
+
+shifted(p: ZZ32): ZZ32 = do
+    k: ZZ32 = 10
+    add(x: ZZ32): ZZ32 = x + k + p + base
+    add(3) + add(4)
+  end
+
+run(): () = do
+    assert(shifted(1), 229, "add reads the parameter p, the local k and the top-level base")
+    m: ZZ32 = 7
+    neg(x: ZZ32): ZZ32 = m - x
+    assert(neg(2), 5, "neg reads the local m of run")
+    seven(): ZZ32 = m
+    sum3(a: ZZ32, b: ZZ32, c: ZZ32): ZZ32 = a + b + c + seven()
+    assert(sum3(1, 2, 3), 13, "sum3 takes three parameters and calls seven, which takes none")
+    println("PASS")
+  end
+
+end

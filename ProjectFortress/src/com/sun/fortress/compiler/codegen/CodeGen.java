@@ -105,6 +105,7 @@ import com.sun.fortress.nodes.IntersectionType;
 import com.sun.fortress.nodes.KindOp;
 import com.sun.fortress.nodes.Lhs;
 import com.sun.fortress.nodes.LValue;
+import com.sun.fortress.nodes.LetFn;
 import com.sun.fortress.nodes.Link;
 import com.sun.fortress.nodes.LocalVarDecl;
 import com.sun.fortress.nodes.MethodInfo;
@@ -371,6 +372,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         this.typeLevelOverloadedNamesAndSigs = c.typeLevelOverloadedNamesAndSigs;
 
         this.lexEnv = new BATree<String,VarCodeGen>(c.lexEnv);
+        this.localFunctionNames = c.localFunctionNames;
 
         this.inATrait = c.inATrait;
         this.inAnObject = c.inAnObject;
@@ -391,6 +393,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                    TypeAnalyzer ta, ParallelismAnalyzer pa, FreeVariables fv,
                    FreeVarTypes fvt, ComponentIndex ci, GlobalEnvironment env) {
         component = c;
+        localFunctionNames = new HashSet<String>();
         packageAndClassName = NamingCzar.javaPackageClassForApi(c.getName());
         String dotted = NamingCzar.javaPackageClassForApi(c.getName(), ".");
         JarOutputStream jos;
@@ -3566,6 +3569,209 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         constructWithFreeVars(className, freeVars, init);
     }
 
+    /**
+     * A block's local functions, each compiled as a closure of its own class,
+     * made as forFnExpr makes a function expression's.  The closures of the
+     * group are all made before the block's body runs; each reaches itself
+     * as the closure's own this, and each sibling that it names through a
+     * field of its class, set once, right after the whole group is made.
+     * The block's body then runs with each name bound to its closure.
+     */
+    public void forLetFn(LetFn x) {
+        debug("forLetFn ", x);
+        List<FnDecl> fns = x.getFns();
+
+        Set<String> seen = new HashSet<String>();
+        for (FnDecl f : fns) {
+            FnHeader h = f.getHeader();
+            if (!h.getStaticParams().isEmpty())
+                throw sayWhat(f, "Can't compile a local function with static parameters of its own yet");
+            if (!seen.add(NodeUtil.nameString(h.getName())))
+                throw sayWhat(f, "Can't compile overloaded local functions yet");
+            if (!Modifiers.IO.containsAll(h.getMods()))
+                throw sayWhat(f, "Can't compile a local function with this modifier yet");
+            if (h.getContract().isSome())
+                throw sayWhat(f, "Can't compile a local function with a contract yet");
+            for (Param p : h.getParams())
+                if (p.getVarargsType().isSome())
+                    throw new CompilerError(f, "Can't compile VarArgs yet");
+            if (f.getBody().isNone())
+                throw sayWhat(f, "A local function without a body");
+            if (h.getReturnType().isNone())
+                throw sayWhat(f, "Return type is not inferred.");
+        }
+
+        CodeGen cg = new CodeGen(this);
+
+        // Bind each name of the group to a local of the function's arrow type.
+        int n = fns.size();
+        List<VarCodeGen> group = new ArrayList<VarCodeGen>(n);
+        for (FnDecl f : fns) {
+            localFunctionNames.add(f.getUnambiguousName().getText());
+            VarCodeGen v = new VarCodeGen.LocalVar((IdOrOp) f.getHeader().getName(),
+                                                   localFunctionArrowType(f), cg);
+            group.add(v);
+            cg.addLocalVar(v);
+        }
+
+        // Make each closure, its siblings left null for now.
+        List<String> classNames = new ArrayList<String>(n);
+        List<List<VarCodeGen>> siblings = new ArrayList<List<VarCodeGen>>(n);
+        for (int i = 0; i < n; i++) {
+            List<VarCodeGen> sibs = new ArrayList<VarCodeGen>();
+            classNames.add(cg.localFunctionClosure(fns.get(i), group.get(i), group, sibs));
+            siblings.add(sibs);
+            group.get(i).assignValue(mv);
+        }
+
+        // Tie the group: give each closure the siblings that it names.
+        for (int i = 0; i < n; i++) {
+            for (VarCodeGen s : siblings.get(i)) {
+                group.get(i).pushValue(mv);
+                mv.visitTypeInsn(CHECKCAST, classNames.get(i));
+                s.pushValue(mv);
+                mv.visitFieldInsn(PUTFIELD, classNames.get(i), s.getName(),
+                                  NamingCzar.jvmBoxedTypeDesc(s.fortressType, thisApi()));
+            }
+        }
+
+        x.getBody().accept(cg);
+
+        for (int i = n - 1; i >= 0; i--)
+            group.get(i).outOfScope(mv);
+    }
+
+    /** The arrow type of a local function, from its parameters' declared
+     *  types to its return type, written or inferred by the checker. */
+    private Type localFunctionArrowType(FnDecl f) {
+        FnHeader h = f.getHeader();
+        Span span = NodeUtil.getSpan(f);
+        List<Type> domain = new ArrayList<Type>();
+        for (Param p : h.getParams())
+            domain.add(NodeUtil.optTypeOrPatternToType(p.getIdType()).unwrap());
+        Type d = domain.size() == 0 ? NodeFactory.makeVoidType(span)
+            : domain.size() == 1 ? domain.get(0)
+            : NodeFactory.makeTupleType(span, domain);
+        return NodeFactory.makeArrowType(span, d, h.getReturnType().unwrap());
+    }
+
+    /**
+     * Emits the closure class of one local function, as forFnExpr emits a
+     * function expression's, and leaves a new closure on the stack.  The
+     * closure captures the free variables of its body that the block's
+     * context binds; of its group, it reaches itself as this, and each
+     * sibling that it names through a field that the caller sets once the
+     * whole group is made (forLetFn).  Those siblings go in sibsOut.
+     */
+    private String localFunctionClosure(FnDecl f, VarCodeGen me, List<VarCodeGen> group,
+                                        List<VarCodeGen> sibsOut) {
+        FnHeader header = f.getHeader();
+        List<Param> params = header.getParams();
+        Type rt = header.getReturnType().unwrap();
+        Expr body = f.getBody().unwrap();
+
+        BASet<VarType> fvts = new BASet<VarType>(NodeComparator.varTypeComparer);
+        BASet<VarType> declared = fvt.freeVarTypes(f);
+        if (declared != null) fvts.addAll(declared);
+        List<VarCodeGen> allFree = getFreeVars(body, fvts);
+
+        List<VarCodeGen> freeVars = new ArrayList<VarCodeGen>();
+        boolean namesItself = false;
+        for (VarCodeGen v : allFree) {
+            if (v == me) namesItself = true;
+            else if (group.contains(v)) sibsOut.add(v);
+            else freeVars.add(v);
+        }
+
+        String desc = NamingCzar.makeAbstractArrowDescriptor(params, rt, thisApi());
+        String idesc = NamingCzar.makeArrowDescriptor(params, rt, thisApi());
+        CodeGen cg = new CodeGen(this);
+        cg.cw = new CodeGenClassWriter(ClassWriter.COMPUTE_FRAMES, cw);
+        cg.cw.visitSource(NodeUtil.getSpan(f).begin.getFileName(), null);
+
+        String className = NamingCzar.gensymArrowClassName(Naming.deDot(thisApi().getText()), f.getInfo().getSpan());
+        String classFileName = className;
+        Naming.XlationData xldata = null;
+        if (fvts.size() > 0) {
+            className += Useful.listInDelimiters(Naming.LEFT_OXFORD, fvts, Naming.RIGHT_OXFORD);
+            classFileName += Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD;
+            xldata = xlationData(Naming.FUNCTION_GENERIC_TAG);
+            for (VarType v : fvts)
+                xldata.addKindAndNameToStaticParams(Naming.XL_TYPE, v.getName().getText());
+        }
+        debug("forLetFn className = ", className, " desc = ", desc);
+
+        cg.lexEnv = cg.createTaskLexEnvVariables(className, freeVars);
+        for (VarCodeGen s : sibsOut)
+            cg.lexEnv.put(s.getName(), new LocalFunctionSiblingVar(s, className, thisApi(), cg.cw));
+        if (namesItself)
+            cg.lexEnv.put(me.getName(), new LocalFunctionSelfVar(me));
+
+        cg.cw.visit(InstantiatingClassloader.JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER,
+                    className, null, desc, new String[] {idesc});
+
+        String init = taskConstructorDesc(freeVars);
+        cg.generateFnExprInit(desc, init, freeVars);
+
+        String applyDesc = NamingCzar.jvmSignatureFor(params, NamingCzar.jvmBoxedTypeDesc(rt, thisApi()),
+                                                      thisApi());
+        cg.mv = cg.cw.visitCGMethod(ACC_PUBLIC, Naming.APPLY_METHOD, applyDesc, null, null);
+        cg.mv.visitCode();
+        cg.mv.reserveSlot0();
+        cg.addParams(params, Naming.NO_SELF);
+
+        body.accept(cg);
+
+        cg.methodReturnAndFinish();
+        cg.cw.dumpClass(classFileName, xldata);
+        constructWithFreeVars(className, freeVars, init);
+        return className;
+    }
+
+    /** In a local function's closure, a sibling of its group: a field of the
+     *  closure, which the block sets once, right after the group is made. */
+    private static final class LocalFunctionSiblingVar extends VarCodeGen {
+        private final String closureClass;
+        private final String desc;
+
+        LocalFunctionSiblingVar(VarCodeGen v, String closureClass, APIName api, ClassVisitor cw) {
+            super(v.getName(), v.fortressType);
+            this.closureClass = closureClass;
+            this.desc = NamingCzar.jvmBoxedTypeDesc(v.fortressType, api);
+            cw.visitField(ACC_PUBLIC, v.getName(), desc, null, null);
+        }
+
+        public void pushValue(CodeGenMethodVisitor mv) {
+            mv.visitVarInsn(ALOAD, mv.getThis());
+            mv.visitFieldInsn(GETFIELD, closureClass, getName(), desc);
+        }
+
+        public void assignValue(CodeGenMethodVisitor mv) {
+            throw new CompilerError("Invalid assignment to the local function " + getName());
+        }
+
+        public void outOfScope(CodeGenMethodVisitor mv) {
+        }
+    }
+
+    /** In a local function's closure, the function itself: the closure's this. */
+    private static final class LocalFunctionSelfVar extends VarCodeGen {
+        LocalFunctionSelfVar(VarCodeGen v) {
+            super(v.getName(), v.fortressType);
+        }
+
+        public void pushValue(CodeGenMethodVisitor mv) {
+            mv.visitVarInsn(ALOAD, mv.getThis());
+        }
+
+        public void assignValue(CodeGenMethodVisitor mv) {
+            throw new CompilerError("Invalid assignment to the local function " + getName());
+        }
+
+        public void outOfScope(CodeGenMethodVisitor mv) {
+        }
+    }
+
 
     /**
      * Creates a name that will not collide with any overloaded functions
@@ -3620,9 +3826,30 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         return b.toString();
     }
 
+    /** The unambiguous names of the local functions that forLetFn has bound,
+     *  shared by every CodeGen of one component. */
+    private Set<String> localFunctionNames;
+
+    /** The binding of a reference to a local function, which names only
+     *  local functions of a block, or null. */
+    private VarCodeGen localFunctionOrNull(FnRef x) {
+        if (!x.getStaticArgs().isEmpty() || x.getNames().isEmpty())
+            return null;
+        for (IdOrOp n : x.getNames())
+            if (n.getApiName().isSome() || !localFunctionNames.contains(n.getText()))
+                return null;
+        return getLocalVarOrNull(x.getOriginalName());
+    }
+
     // Setting up the alias table which we will refer to at runtime.
     public void forFnRef(FnRef x) {
         debug("forFnRef ", x);
+        // A local function's name: its closure, bound in the block's lexical environment.
+        VarCodeGen local = localFunctionOrNull(x);
+        if (local != null) {
+            local.pushValue(mv);
+            return;
+        }
         if (fnRefIsApply) {
             forFunctionalRef(x);
             return;
@@ -6567,6 +6794,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             boolean useClosure =
                 !(fn instanceof FunctionalRef) 
                 || ((FunctionalRef) fn).getStaticArgs().size() > 0
+                || (fn instanceof FnRef && localFunctionOrNull((FnRef) fn) != null)
                 ;
                 
             if (useClosure) {
