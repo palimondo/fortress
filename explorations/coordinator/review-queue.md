@@ -671,9 +671,9 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **350, Should the new `forbid` path run a `try`'s `finally` clause now, ahead of the…** Row 890 holds the defect, with `XXXFinallyOnEscape.test`; PLAN's phase 4 code-generator line repairs the three paths at once.
 - **352, Climb batch 25's record took its forks 1 to 17 at their defaults: does he…** The visible effects are item 353, and fork 5's reading is now P-38's own text (F-313).
 
-### Moved to the learning file at the cleanup of 2026-11-05 (117)
+### Moved to the learning file at the cleanup of 2026-11-05 (115)
 
-117 items moved to the learning file at the cleanup of 2026-11-05: `coordinator/review-queue-learning-2026-11-05.md`, by theme, each with its title, the default as landed and what was decided. Each landed at a default that no planned work needs his word on again; one word of his still changes any of them. Their numbers stay below, one line each, so that a pointer to one finds where it went.
+117 items moved to the learning file at the cleanup of 2026-11-05: `coordinator/review-queue-learning-2026-11-05.md`, by theme, each with its title, the default as landed and what was decided. Each landed at a default that no planned work needs his word on again; one word of his still changes any of them. Their numbers stay below, one line each, so that a pointer to one finds where it went. Items 23 and 24 were since answered by his decisions of 2026-11-05, and stand under "Answered by a decision of his".
 
 - **4, Does the inference chapter solve a call's type parameters together?**
 - **5, Do `try`, `catch` and `atomic` bodies take the expected type?**
@@ -685,8 +685,6 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **15, Which `comprises` clauses walk checks at load.**
 - **18, Walk's choice when another declaration applies without coercion.**
 - **19, The open type wins at dispatch.**
-- **23, May a program extend `Number`?**
-- **24, A float compared with NaN.**
 - **25, ℚ's infinities, and `check` on `QQ`.**
 - **28, A numeral within half an ulp of a tie.**
 - **32, Two size parameters that may be equal.**
@@ -851,8 +849,10 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **347, Should a binding over `NN32`, `NN64` or `Char` to a helper with several…**
 - **351, An allow rule for walk guards run with the base build's own `harness-one.sh`?**
 
-### Answered by a decision of his (63)
+### Answered by a decision of his (65)
 
+- **23, May a program extend `Number`?** Decided 2026-11-05: P-160, "The one library's `Number` opens: its `comprises` clause goes, ...", his "2" of 18:1x UTC on 2026-11-05 to the ask on `Number`'s closure (option (b) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 23; `reviews/number-closure-2026-11-05.md`, section 8; rows 596, 551 and 804.
+- **24, A float compared with NaN.** Decided 2026-11-05: P-159, "A float compared with a NaN answers: ...", his "1" of 18:1x UTC on 2026-11-05 to the ask on the NaN comparison (option (a) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 24; `reviews/nan-comparison-2026-11-05.md`, section 8; `perf-probes/nan-check-cost/REPORT.md`; row 672.
 - **PLAN's answers settled before 10-02: items 1 to 11, item 12's first part, and items 16, 18, 19, 22, 23, 24 to 30, 33 and 34.** Items 2 to 11 by P-40, "Sizes are checked, and a size that inference leaves unknown is an error only where it is used.", P-97, "The specification's examples that break the exclusion rule take the library's shapes, ...", P-41, "On the compiled path, a size static argument travels at run time as a descriptor object, ...", P-73, "Under walk, fixed-width integer arithmetic raises `IntegerOverflow` when its result does not fit, ...", P-80, "The specification's sign-refined number types are a superseded design: ...", answers 7, 8, 9 and 10, and P-39, "Every batch's gate measures the checker count, and its total never turns the gate red."; item 12's first part by P-40 (its decision; row 400 keeps an open compiled half); 16 by P-59, "Walk chooses a coercion by the run-time value until it runs the checker, after the switch-over."; 18 and 34 built by batch 8's rung I (rows 447 and 508 fixed); 19 to Q-walk; 33 built (row 517 fixed); the others marked answered in PLAN. Home: PLAN-history, "Pavol's answers, in the order they are needed", items 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 16, 22, 23, 26, 30, 27, 33, 18, 19 and 34; Decided 2026-09-28 before batch N; PLAN, "Pavol's answers, in the order they are needed", item 12.
 - **Item 15, arithmetic in a size (array fork 1).** P-55, "A size may hold arithmetic, compared by its written ..."; built `7fd8fddc8`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 15; item 13, fork 1.
 - **Item 20, the written `Object` bounds of batch 7's rung B.** P-48, "A type parameter that a call's arguments do not ..."; built `a1b5c253d`. Home: PLAN-history, "Pavol's answers, in the order they are needed", item 20 (10-02: 1).
