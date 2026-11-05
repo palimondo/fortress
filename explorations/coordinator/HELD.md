@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 18:56 His amendment to the strings rule: the pattern of climb batch 24's preparation (his word of 08:2x on 10-31): a Fable judge reads the review's probe result and recommendation when it lands; if he does not answer within 30 minutes of the ping, the batch takes the judge's default and the choice goes on the review list for him.
+
 - 18:5x His word on the strings: the fork of items 310 and 340 needs a proper ask, with the string design's primer, since he wants to learn how Fortress does strings; the review runs; "ping me when the strings review is ready; if I don't decide in 30 minutes, leave it out and run the batch without it." So: a push notification when the review lands; his decision within 30 minutes puts the string rung into the batch through the planner; otherwise the batch launches without the strings and the ask waits.
 
 - 18:1x His words: "go, pre-approved, 1, 2": the go for climb batch 26's preparation tonight on the reduced scope; a pre-approved go for the launch once the Fable review of the batch's record is applied; the NaN comparison decided as option 1 (false stays, the specification's overview sentence revised); `Number`'s closure decided as option 2 (open `Number` in two steps, walk's half of row 804 first, in this batch). He asks for a quick way to unblock the string family too. On 18:0x he asked why we open `Number` and took the coordinator's use: a vector or matrix of a program's complex numbers needs a type below `Number`, since the library bounds `Vector` and `Matrix` by `Number`. On 18:1x he wants the batch to run so that he can stop procrastinating, but meaningful.
