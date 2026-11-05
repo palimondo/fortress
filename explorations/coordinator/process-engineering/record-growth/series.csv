@@ -3033,3 +3033,429 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 3031,2026-10-24 11:40:48Z,9fe165e4e,825,685565,235874,77789,255437,687532,235962,77842,255553,,Boot note: the hold's time from the transcript
 3032,2026-10-24 11:59:36Z,e62489ef4,825,685565,235874,77789,255437,687532,235962,77842,255553,,"Revival story brought to 2026-10-24: climb batches 19 to 22 with their counts, distances and tokens, phase 3's end and w"
 3033,2026-10-24 12:01:01Z,ef425379e,825,685565,235874,77789,255437,687532,235962,77842,255553,,The revival page published at version 23; its switch-over gloss brought to the zero
+3034,2026-10-24 13:53:11Z,703d005d1,825,685565,235874,77789,255437,687532,235962,77842,255553,,"The record-growth chart carried to 2026-10-24: batches 14 to 22 in its landings, its labels moved clear of the longer li"
+3035,2026-10-24 13:57:51Z,a95ba0ff4,825,685565,235874,77789,255437,687532,235962,77842,255553,,Boot note: the phase 3 exit review's steps 1 and 2 running
+3036,2026-10-24 13:58:06Z,30373c041,825,685565,235874,77789,255437,687532,235962,77842,255553,,Boot note: the launch times from the clock
+3037,2026-10-24 13:58:21Z,9ddf068fd,825,685565,235874,77789,255437,687532,235962,77842,255553,,Boot note: the process restarted at 13:45 UTC; the next stop
+3038,2026-10-24 14:23:01Z,ef103a417,825,685565,235874,77789,256246,687532,235962,77842,256362,,"The phase 3 exit review's decisions evidence map, with its INDEX line"
+3039,2026-10-24 14:52:39Z,6c4a07d67,825,685565,235874,77789,257318,687532,235962,77842,257434,,"The phase 3 exit review's audit of the zero, with its INDEX line"
+3040,2026-10-24 14:53:16Z,656135b16,825,685565,235874,77789,257318,687532,235962,77842,257434,,Boot note: steps 1 and 2 in; the Fable judgement running
+3041,2026-10-24 15:09:52Z,2be634867,825,685565,235874,77789,258288,687532,235962,77842,258404,,"The phase 3 exit review's Fable judgement, with its INDEX line"
+3042,2026-10-24 15:33:15Z,e21ab5389,829,689282,238816,77789,258288,691251,238908,77842,258404,,The phase 3 exit review's audit filed in the record: the ledger and FACTS
+3043,2026-10-24 15:34:20Z,081099714,829,689282,238904,77789,258288,691251,238996,77842,258404,,"F-281: row 782 measured, not latent"
+3044,2026-10-24 16:23:44Z,b99ee0e6e,829,689282,238904,77789,259405,691251,238996,77842,259521,,"The AnyIntegral comprises-where probe's report, with its INDEX line"
+3045,2026-10-24 16:24:24Z,34931a54e,829,689282,238904,77789,259405,691251,238996,77842,259521,,"Boot note: the review's judgement in, the asks under way, the AnyIntegral probe's report committed"
+3046,2026-10-24 16:25:10Z,6aa8d3509,829,689282,238904,77789,259405,691251,238996,77842,259521,,Boot note: the probe's filing running
+3047,2026-10-24 16:32:24Z,e15da7608,830,690484,239807,77789,259405,692453,239899,77842,259521,,"The AnyIntegral comprises-where probe filed: row 831, notes on rows 804 and 487, F-121"
+3048,2026-10-24 16:33:08Z,a8db4d6bb,830,690484,239807,77789,259405,692453,239899,77842,259521,,Boot note: the probe filed at e15da7608
+3049,2026-10-25 18:54:40Z,348dda23a,830,690484,239807,77789,259405,692453,239899,77842,259521,,Boot note: the boot done after the VM restart; the items the eight asks do not take listed again
+3050,2026-10-25 19:11:36Z,edbd0d4f5,830,690577,239967,78438,259405,692546,240059,78491,259521,,"Row 816 decided: P-158, a member that an api writes abstract is declared in the component"
+3051,2026-10-25 19:12:33Z,05a4fdb11,830,690577,239967,78438,259405,692546,240059,78491,259521,,Model check: a boot check after a compaction
+3052,2026-10-25 19:13:06Z,ba0c7b32a,830,690577,239967,78438,259405,692546,240059,78491,259521,,"Boot note: row 816 decided, the boot check added; the asks renumbered"
+3053,2026-10-26 04:31:23Z,5da8144e4,830,690577,239967,78657,259405,692546,240059,78710,259521,,P-158 with his reason; row 816's repair into the next batch
+3054,2026-10-26 06:13:25Z,967214d95,830,690577,239967,78657,259405,692546,240059,78710,259521,,Boot note: the foundations review's step 1 running
+3055,2026-10-26 06:54:22Z,ab2ee0c29,830,690577,239967,78657,260587,692546,240059,78710,260703,,"The foundations review's bound archaeology, with its INDEX line"
+3056,2026-10-26 06:54:37Z,47d356ef7,830,690577,239967,78657,260587,692546,240059,78710,260703,,Boot note: the bound archaeology in
+3057,2026-10-26 07:01:47Z,4b3d91cb4,830,690577,239967,78657,261757,692546,240059,78710,261873,,"The foundations review's bound-Any compiled probe, with its INDEX line"
+3058,2026-10-26 07:02:51Z,24314b0b9,830,690577,239967,78657,261757,692546,240059,78710,261873,,"Boot note: the foundations review's step 1 in, step 2 running"
+3059,2026-10-26 07:37:36Z,72e113b2c,830,690577,239967,78657,261757,692546,240059,78710,261873,,Boot note: the prelude-lens sweep running; his framing of phase 3's close as climb batch 22c
+3060,2026-10-26 07:39:26Z,6c6437dfc,830,690577,239967,78657,262994,692546,240059,78710,263110,,"The foundations review's evidence map of the nine tenets, with its INDEX line"
+3061,2026-10-26 07:39:32Z,b9528ff2c,830,690577,239967,78657,262994,692546,240059,78710,263110,,Boot note: step 2 in; the two wordings held for the judgement
+3062,2026-10-26 07:39:51Z,7846604f7,830,690577,239967,78657,262994,692546,240059,78710,263110,,Boot note: the wordings' time from the transcript
+3063,2026-10-26 07:49:11Z,9da6126fd,830,690577,239967,78657,262994,692546,240059,78710,263110,,Boot note: the POSITIONS rewrite plan at his yes
+3064,2026-10-26 07:57:24Z,fcadc7781,830,690577,239967,78657,263815,692546,240059,78710,263931,,"Before a compaction: the dialogue of the phase 3 exit and the foundations review, and the boot note rewritten"
+3065,2026-10-26 07:58:26Z,5a1179f7e,830,690577,239967,78657,263815,692546,240059,78710,263931,,Boot note: the trap writer started
+3066,2026-10-26 07:59:07Z,1ace433d8,830,690577,239967,78657,263815,692546,240059,78710,263931,,Boot note: the judge's brief drafted
+3067,2026-10-26 08:10:23Z,536dba2ff,830,690577,239967,78657,265128,692546,240059,78710,265244,,"The foundations review's prelude-lens sweep, with its INDEX line"
+3068,2026-10-26 08:11:04Z,38ce5b895,830,690577,239967,78657,265128,692546,240059,78710,265244,,"Boot note: the sweep in, the Fable judgement running"
+3069,2026-10-26 08:11:18Z,ffcca5db9,830,690577,239967,78657,265128,692546,240059,78710,265244,,Boot note: the state's time from the clock
+3070,2026-10-26 08:23:29Z,b007f65ff,830,690577,239967,78657,265765,692546,240059,78710,265881,,"The foundations review's Fable judgement, with its INDEX line"
+3071,2026-10-26 08:24:12Z,fbd5a466f,830,690577,239967,78657,265765,692546,240059,78710,265881,,Boot note: the foundations judgement in; its asks in order; the page writer and trap writer running
+3072,2026-10-26 08:24:40Z,d23349944,830,690577,239967,78657,265765,692546,240059,78710,265881,,Boot note: times from the clock
+3073,2026-10-26 08:27:51Z,529fde368,830,690577,239967,78657,265765,692546,240059,78710,265881,,"The foundations review's trap test: four scenarios and their key, kept in evidence/ away from the clarity writer"
+3074,2026-10-26 08:34:57Z,837cabc32,830,690577,239967,78657,265765,692546,240059,78710,265881,,The trap key's scenario 2 reconciled with the foundations judgement's ruling on prelude designs: the order traits' compr
+3075,2026-10-26 08:37:54Z,bedc80b01,830,690577,239967,78657,265765,692546,240059,78710,265881,,"The clarity workflow takes a run's own brief (args.extra) for the writer, the fix round, the checker and the judge"
+3076,2026-10-26 08:40:28Z,b22359b0c,830,690577,239967,78657,265765,692546,240059,78710,265881,,"Boot note: after the compaction, the page published, the trap key reconciled, the rewrite workflow and the routing worke"
+3077,2026-10-26 08:56:26Z,0d2206c5f,832,692992,244985,78657,265765,694977,245081,78710,265881,,"The foundations review's findings filed: rows 832 (tuple-typed dotted method) and 833 (walk cannot run the checker), row"
+3078,2026-10-26 08:56:49Z,e6171e763,832,692992,244985,78657,265765,694977,245081,78710,265881,,Boot note: the routing landed
+3079,2026-10-26 09:29:51Z,3ac9fcea7,832,692992,244985,78657,265765,694977,245081,78710,265881,,"The foundations rewrite's run (clarity workflow wf_36572c60-a05): thirteen POSITIONS texts after the judgement, both chu"
+3080,2026-10-26 09:30:21Z,156553503,832,692992,244985,78657,265765,694977,245081,78710,265881,,"Boot note: the rewrite in, the trap test's readers running"
+3081,2026-10-26 09:30:35Z,6be262308,832,692992,244985,78657,265765,694977,245081,78710,265881,,Boot note: the times from the clock
+3082,2026-10-26 10:03:54Z,f1e66f229,832,692992,244985,78657,266200,694977,245081,78710,266316,,"The foundations rewrite's trap test: the new texts 12 of 12, today's 10 of 12 (blind Opus grading); its results note wit"
+3083,2026-10-26 10:05:14Z,b6a60617b,832,692992,244985,78657,266200,694977,245081,78710,266316,,Boot note: the trap test passed; the texts page being written
+3084,2026-10-26 10:18:32Z,55abe99bd,832,692992,244985,78657,266200,694977,245081,78710,266316,,"Boot note: the texts page published, its link held for the next ask"
+3085,2026-10-26 10:21:00Z,2c39b1147,832,692992,244985,78657,266200,694977,245081,78710,266316,,Boot note: climb batch 22c's planner running
+3086,2026-10-26 11:38:43Z,313c23b59,832,692992,244985,78657,267763,694977,245081,78710,267879,,"Climb batch 22c's record, the batch that closes phase 3, with its manifest generator and probes"
+3087,2026-10-26 11:44:10Z,0230803b6,832,692992,244985,78657,267763,694977,245081,78710,267879,,"The foundations rewrite's P-158 corrected after the trap test: the specification's export rule exempts abstract members,"
+3088,2026-10-26 11:44:49Z,fc6c127e4,832,692992,244985,78657,267763,694977,245081,78710,267879,,The rewrite's results: the fourteen defined; P-158's correction after the trap test recorded
+3089,2026-10-26 11:45:40Z,dbc4875b4,832,692992,244985,78657,267763,694977,245081,78710,267879,,"Boot note: 22c's planner in, its Fable review running; P-158's correction"
+3090,2026-10-26 12:10:10Z,bc284834c,832,692992,244985,78657,268376,694977,245081,78710,268492,,"Climb batch 22c's record reviewed in place before the launch: the method rule's lines placed, the team's count dated, th"
+3091,2026-10-26 12:13:32Z,60aaeb6bb,832,693006,244985,78657,268376,694991,245081,78710,268492,,"The export check's member count dated: Sukyoung Ryu, ac0d41de0, 2009-05-08, three months after the team's checker quoted"
+3092,2026-10-26 12:14:06Z,d7a9711fb,832,693006,244985,78657,268376,694991,245081,78710,268492,,Boot note: 22c's record reviewed and ready on his answers; the count's date corrected; the asks in order
+3093,2026-10-26 17:37:11Z,d22b54a27,832,693006,244985,78657,268376,694991,245081,78710,268492,,Boot note: question 1 answered by his framing of 07:30; the texts page is the next ask; the VM restart of 17:32
+3094,2026-10-26 17:43:52Z,cbb91aef4,832,693006,244985,78657,268573,694991,245081,78710,268689,,"Boot note rewritten whole for recovery at his word of 17:37 UTC: the texts page the one ask, the asks after it in order,"
+3095,2026-10-27 05:47:19Z,76106880e,832,693006,244985,78657,268573,694991,245081,78710,268689,,Boot note: the next boot skips INDEX at his word of 05:44 UTC; the 13 rewritten texts rejected; his aim of 07:37 on 10-2
+3096,2026-10-27 07:15:56Z,a457844c1,832,693006,244985,78657,268573,694991,245081,78710,268689,,"Held list: his rule that Fable writes no record text, and loading the skill's parts after a boot (07:12 and 07:13 UTC)"
+3097,2026-10-27 07:29:32Z,94ce5a71c,832,693006,244985,78657,268573,694991,245081,78710,268689,,"The foundations review's salvage inventory: each piece of work since 06:11 UTC on 10-26, its author and tier, what it ho"
+3098,2026-10-27 07:49:26Z,8aadd994a,832,693006,244985,78657,268573,694991,245081,78710,268689,,The clarity run's brief of 10-26 kept as evidence; the held line on Fable narrowed at his word of 07:47 UTC
+3099,2026-10-27 22:14:42Z,18788035c,832,693006,244985,78657,268573,694991,245081,78710,268689,,The clarity workflow restored to its form before bedc80b01: no run brief (args.extra) can override its own briefs
+3100,2026-10-27 22:16:16Z,6e429a15d,832,693006,244985,78657,268573,694991,245081,78710,268689,,"Boot note: the salvage of the foundations review is the work in hand; the inventory, the refused plan, the clarity scrip"
+3101,2026-10-27 22:56:04Z,94798a33d,832,693006,244985,78657,268573,694991,245081,78710,268689,,"Boot note: the corrections are the coordinator's pass, not a workflow; a retrieval worker lists the review's findings pe"
+3102,2026-10-27 23:35:07Z,28dac4d39,832,693006,244985,78657,268573,694991,245081,78710,268689,,"The foundations review's findings per POSITIONS entry, by a retrieval worker; the boot note: the list is in, its sorting"
+3103,2026-10-28 05:39:09Z,bab575705,832,693006,244985,78657,268573,694991,245081,78710,268689,,"The foundations review's findings sorted by the record's rules, for his yes on the scope of the corrections; the boot no"
+3104,2026-10-28 05:57:28Z,327bfa035,832,693006,244985,78657,268573,694991,245081,78710,268689,,"Boot note: the scope ask of 05:4x UTC refused whole; no ask waits; the model Fable 5.1 at his word, a reboot under Fable"
+3105,2026-10-28 06:07:07Z,2b3796bb9,832,693006,244985,78657,268573,694991,245081,78710,268689,,Boot note: the reboot under Fable done by a light boot at his word; the corrections' text comes from an Opus worker unde
+3106,2026-10-28 07:47:00Z,6fc613459,832,693006,244985,78657,268573,694991,245081,78710,268689,,Boot note and held list: his go of 07:42 UTC for the process analysis before any correction; four archaeology workers ru
+3107,2026-10-28 07:47:58Z,c5c9a9ce0,832,693006,244985,78657,268573,694991,245081,78710,268689,,Boot note: the state line's time read from the clock
+3108,2026-10-28 07:53:17Z,0a168a49f,832,693006,244985,78657,268573,694991,245081,78710,268689,,"Post-mortem of 2026-10-28: the librarian's map of the record's documents on the consolidations, the post-mortems, the pr"
+3109,2026-10-28 08:02:58Z,3a411a233,832,693006,244985,78657,268573,694991,245081,78710,268689,,"Post-mortem of 2026-10-28: the timeline of 10-26 to 10-28 by a Sonnet scout, his words on the rewrite and the coordinato"
+3110,2026-10-28 08:05:11Z,eef07a200,832,693006,244985,78657,268573,694991,245081,78710,268689,,"Post-mortem of 2026-10-28: how the consolidation of 10-21 to 10-22 ran, by a Sonnet scout: its steps, tiers, briefs, his"
+3111,2026-10-28 08:06:38Z,dada42a55,832,693006,244985,78657,268573,694991,245081,78710,268689,,"Post-mortem of 2026-10-28: every commit to the record's tools and the skills since the consolidation began, by a Sonnet "
+3112,2026-10-28 08:07:38Z,40a0126b2,832,693006,244985,78657,268573,694991,245081,78710,268689,,Boot note: the four evidence files in; the Opus synthesizer writes the account; what to do when it ends
+3113,2026-10-28 08:07:53Z,d62724e79,832,693006,244985,78657,268573,694991,245081,78710,268689,,Boot note: the synthesizer's start time read from the clock
+3114,2026-10-28 08:25:05Z,4f3a2e2d7,832,693006,244985,78657,268953,694991,245081,78710,269069,,Post-mortem of 2026-10-28: the account of why the POSITIONS rewrite of 10-26 failed where the consolidation of 10-21 to 
+3115,2026-10-28 10:12:25Z,fbb663686,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Post-mortem of 2026-10-28: the scope recheck by a Sonnet scout, his seven messages of 10-26 07:30 to 07:54 whole, the co"
+3116,2026-10-28 10:41:59Z,d8f44ec20,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Boot note and held list: his corrections to the account, the process steps right and the brief the question; the Haiku h"
+3117,2026-10-28 10:43:14Z,d8d738a9f,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Post-mortem of 2026-10-28: the run brief's lineage by a Sonnet scout, its 29 instructions each traced to the judgement, "
+3118,2026-10-28 10:47:12Z,2dd2ab277,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Post-mortem of 2026-10-28: the map of the phase 3 exit review's records across ten places, by an Opus worker, with a pro"
+3119,2026-10-28 10:49:13Z,d9ca11c4a,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Post-mortem of 2026-10-28: the account revised after his recheck, the steps up to the launch right, the causes re-ranked"
+3120,2026-10-28 10:50:14Z,4dd04c15a,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Post-mortem of 2026-10-28: the Haiku window and row 816 do not connect, by an Opus worker: the weakened export check lan"
+3121,2026-10-28 10:50:20Z,d9127b6fa,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Boot note: all post-mortem workers finished, every file committed; what was given to him and what waits"
+3122,2026-10-28 11:02:10Z,e4f8495ba,832,693006,244985,78657,268953,694991,245081,78710,269069,,Boot note: the row 816 recheck running at his word; the process question to answer after it
+3123,2026-10-28 11:12:03Z,7eb28fe68,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Post-mortem of 2026-10-28: the row 816 recheck by an Opus worker, the skeptics' raises of 10-23 and 10-24, the default t"
+3124,2026-10-28 11:14:48Z,b6901821b,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Post-mortem of 2026-10-28: the Haiku and row 816 file revised after the recheck, the skeptics' raises, the default taken"
+3125,2026-10-28 11:19:59Z,66f6b3d19,832,693006,244985,78657,268953,694991,245081,78710,269069,,"Post-mortem of 2026-10-28: the account's pronouns named, the coordinator and the curator, after he read its you as himse"
+3126,2026-10-28 11:23:45Z,41c3b3491,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The phase 3 exit review as one process: its README under reviews/phase3-exit, the open asks moved into the review queue "
+3127,2026-10-28 11:58:34Z,33e3be18d,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Post-mortem of 2026-10-28: which tool fits the corrections unchanged, by an Opus worker from the tools' own documents: n"
+3128,2026-10-28 12:07:53Z,052ff1ca9,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Post-mortem of 2026-10-28: the review's findings as an input of the mining workflow, weighed by the worker that read the"
+3129,2026-10-28 12:14:34Z,3ad4b8be1,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note: his correction of the premise, the corrections rest on the repository's evidence, not his words; the worker r"
+3130,2026-10-28 12:26:01Z,0376bac88,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Post-mortem of 2026-10-28: what the review's findings are, by an Opus worker that read the review: readings of the team'"
+3131,2026-10-28 12:52:30Z,d3a380a22,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Post-mortem of 2026-10-28: his calibration check after compactions, by a Sonnet scout: 16 asks after 149 compactions, al"
+3132,2026-10-28 20:45:21Z,35b82314c,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Post-mortem of 2026-10-28: the three additions to the clarity workflow's briefs, written out as exact edits for his yes,"
+3133,2026-10-28 20:56:36Z,b721f9dcb,832,693006,244985,78657,269326,694991,245081,78710,269442,,Boot note and held list: his yes to the three brief additions and to the pilot's preparation; his framing of the correct
+3134,2026-10-28 20:59:50Z,9a37e8401,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The clarity workflow takes a review's findings: three additions to its own briefs at his yes of 20:42 UTC, a findings in"
+3135,2026-10-28 21:01:16Z,88ff8ceea,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note: the pilot prepared and committed, its launch waiting for his go; the baseline page being rebuilt"
+3136,2026-10-28 21:15:25Z,d4d5fa990,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The corrections' pilot re-cut at his word: four entries (P-37, P-26, P-43, P-158), then two chunks of seven; the run not"
+3137,2026-10-28 21:18:36Z,3d323a5bf,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note: the corrections' pilot running on the clarity workflow at his go, its check-ins; the page worker relaunched; "
+3138,2026-10-28 21:30:04Z,360e884cc,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note: the side quest at his word, the revival page's drift and the ask to Professor Ryu on her technical report; th"
+3139,2026-10-28 21:33:02Z,6863786fe,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The brief additions' header: applied, not pending"
+3140,2026-10-28 22:01:15Z,ec2db3e24,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The corrections' pilot run on P-37, P-26, P-43 and P-158: the writer's proposals, two cold reads, the check, the judge's"
+3141,2026-10-28 22:02:32Z,67b4f773c,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note: the pilot has run, its results and the judge's finding on the export check's date; the checks, the scenarios "
+3142,2026-10-28 22:04:13Z,789dc3627,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The revival page's history and the letters to Professor Ryu, by a Sonnet scout: his first ask of 10-08, 24 versions and "
+3143,2026-10-28 22:05:33Z,cf4f0e32d,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The trap test gains five scenarios at his word, for the export rule, the self-typed traits, the integer power, list orde"
+3144,2026-10-28 22:09:44Z,af486f691,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The revival page's drift from his first purpose and from the version sent to Professor Ryu, with a restoration proposal,"
+3145,2026-10-28 22:13:52Z,65ebc0bf3,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The pilot's checks: the record check, the length table and trap scenarios 3, 2 and 5 pass by the run note; the export ch"
+3146,2026-10-28 22:18:17Z,d3a0318bc,832,693006,244985,78657,269326,694991,245081,78710,269442,,The reply to Professor Ryu cut to the ask alone at his word; the two claims of the first draft verified for his learning
+3147,2026-10-28 22:20:17Z,27d56aee5,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The team's export check dated right: it refused a missing member from 2009-03-10 (edb516dba, Sukyoung Ryu), five weeks a"
+3148,2026-10-28 22:30:56Z,98d4ef682,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Two more sentences for the clarity workflow's writer and checker, keeping a finding's ground out of the entry, written a"
+3149,2026-10-28 22:38:43Z,9a2721125,832,693006,244985,78657,269326,694991,245081,78710,269442,,The clarity workflow's writer and checker keep a finding's ground out of the entry: the corrected reading as the decisio
+3150,2026-10-28 22:40:03Z,91d8556ec,832,693006,244985,78657,269326,694991,245081,78710,269442,,Boot note: the pilot's second run after the two sentences; his letter to Professor Ryu sent; the export check's date cor
+3151,2026-10-28 22:40:22Z,a6a5968f7,832,693006,244985,78657,269326,694991,245081,78710,269442,,Boot note: the date correction's commit named
+3152,2026-10-28 22:50:22Z,f9addb455,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The revival page's drift, part 2: what the restoration removes passage by passage, a standing procedure for keeping the "
+3153,2026-10-28 23:07:51Z,1f8f32130,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note and held list: he is asleep, the morning's items in order; his clarification of the consolidation before a bat"
+3154,2026-10-28 23:08:15Z,13760cde7,832,693006,244985,78657,269326,694991,245081,78710,269442,,Boot note: the state line's time read from the clock
+3155,2026-10-28 23:12:47Z,8609834af,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The pilot's second run after the two sentences: the corrected readings as decisions with pointers, the grounds' dates an"
+3156,2026-10-28 23:13:28Z,d52036b58,832,693006,244985,78657,269326,694991,245081,78710,269442,,Boot note: the pilot's second run ended; his go for the overnight run of the two chunks under the coordinator's gate; th
+3157,2026-10-28 23:22:53Z,986341ae3,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The pilot's second run checked: the record check and the grounds grep pass, the lengths grow 13 to 57 percent, trap scen"
+3158,2026-10-28 23:28:16Z,8e3c10cd3,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Scenario 3 read a second time: new and old entries both 3 of 3; the first reading's point came from the grading, not the"
+3159,2026-10-28 23:29:03Z,7c0bbe800,832,693006,244985,78657,269326,694991,245081,78710,269442,,Boot note: the pilot passed the gate on a second reading of scenario 3; chunk c1 launched under his overnight go; what f
+3160,2026-10-29 00:15:55Z,9ac8b7810,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The corrections' chunk c1 run on P-7, P-27, P-146, P-153, P-154, P-12 and P-17: the writer's proposals, two cold reads, "
+3161,2026-10-29 00:30:34Z,0f4908f00,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Chunk c1 checked: the record check and the grounds grep pass, three short entries grew by half to two thirds, each by it"
+3162,2026-10-29 00:31:14Z,baf3c8014,832,693006,244985,78657,269326,694991,245081,78710,269442,,Boot note: chunk c1 passed the gate and chunk c2 runs; what follows when it ends
+3163,2026-10-29 01:13:03Z,303f360b2,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The corrections' chunk c2 run on P-33, P-42, P-58, P-59, P-84, P-85 and P-155: the writer's proposals, two cold reads, t"
+3164,2026-10-29 01:13:35Z,4a41a94e1,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note: all three chunks have run; the c2 checks, the summary and the page fill under way; the morning's order"
+3165,2026-10-29 01:29:42Z,236dff445,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Chunk c2 checked: every check passes but trap scenario 4, which traces to two new sentences, P-37's on CompilerSystem an"
+3166,2026-10-29 01:30:39Z,18cc49a17,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note rewritten for his morning: all three chunks run and checked, nothing applied, the one failed scenario and its "
+3167,2026-10-29 05:24:44Z,14c30c954,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list and boot note: his page comment of 05:22 UTC on P-37, CompilerSystem's fate discussed before and lost, the ent"
+3168,2026-10-29 05:36:05Z,844ea238b,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 05:35 UTC on P-43, a grounding correction belongs in the history, not the entry; a possib"
+3169,2026-10-29 05:50:00Z,8fb63eb2c,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 05:49 UTC on P-158, the corrections forced into the wrong part of the record"
+3170,2026-10-29 05:53:48Z,69bcaae83,832,693006,244985,78657,269326,694991,245081,78710,269442,,"His words on CompilerSystem's fate, by a Sonnet scout: no decision stated; the question raised on 10-05 by a skill write"
+3171,2026-10-29 05:55:17Z,fcfba6521,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The thirty findings sorted into their homes by the record's rules, by an Opus worker: 8 in the entry's text, 7 in the hi"
+3172,2026-10-29 06:19:24Z,ab55a9796,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 06:18 UTC on P-158, a past decision's grounding against an actionable principle"
+3173,2026-10-29 06:40:27Z,6cab6dafa,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 06:39 UTC on P-27, the diagonal sentence is history, his refinement of the library extens"
+3174,2026-10-29 06:43:04Z,ae3158202,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 06:42 UTC on P-27, the whole entry to be rewritten with the emphasis on his refinement"
+3175,2026-10-29 06:45:40Z,5df011869,832,693006,244985,78657,269326,694991,245081,78710,269442,,"P-27's archaeology of September and October gathered with his refinement of 10-29, by an Opus worker: a proposal to rewr"
+3176,2026-10-29 06:51:02Z,20563d883,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 06:49 UTC on P-146, the dropped library clause and his doubt of the date test and the sce"
+3177,2026-10-29 06:56:57Z,cb8e0cf1d,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 06:56 UTC on P-153, strike P-26 as a cited reason everywhere in POSITIONS"
+3178,2026-10-29 06:57:56Z,1262d32a1,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 06:57 UTC on P-153's finding, the prelude's power as the team's later word"
+3179,2026-10-29 07:01:14Z,7c96cf488,832,693006,244985,78657,269326,694991,245081,78710,269442,,P-146's history by a Sonnet scout: the library sentence and its Why stand since the entry's first line of 10-13; the aud
+3180,2026-10-29 07:03:27Z,7fe2d942d,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 07:02 UTC on P-154, keep the traits, strike what the path says"
+3181,2026-10-29 07:13:00Z,4fab0c25d,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 07:12 UTC on P-12, the step's parts are plan and FACTS material"
+3182,2026-10-29 07:19:03Z,39f462309,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 07:18 UTC on P-17, the review found every issue without weighing significance"
+3183,2026-10-29 07:20:22Z,3cca4953e,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The thirty findings sorted a second time, by significance: 11 consequential, 16 minor, 3 none; only four need new words "
+3184,2026-10-29 07:35:38Z,b50416518,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 07:34 UTC on P-33, the rewrite encodes an unrecorded decision faithfully"
+3185,2026-10-29 07:45:21Z,514f39a6a,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 07:44 UTC on P-42, to discuss separately"
+3186,2026-10-29 07:49:13Z,8105d61b5,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 07:48 UTC on P-58, the missing foreign-function interface stated short"
+3187,2026-10-29 07:51:59Z,0a3ee46b5,832,693006,244985,78657,269326,694991,245081,78710,269442,,Held list: his yes of 07:51 UTC to P-59's edit
+3188,2026-10-29 07:57:39Z,b2631ab58,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his page comment of 07:56 UTC on P-84, fine as rewritten with his doubt on status in a position"
+3189,2026-10-29 07:58:44Z,05e915c38,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: his revision of 07:58 UTC on P-84, cut the tail that restates P-85"
+3190,2026-10-29 08:01:36Z,6a0cd38a7,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The POPL 2019 paper's technical report, extended with the formalization, included beside the paper with Sukyoung Ryu's p"
+3191,2026-10-29 08:01:51Z,cb9e4267c,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The draft of his ask to Professor Ryu for the report's LaTeX sources, for his edit"
+3192,2026-10-29 08:14:09Z,0c034c9a7,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The POPL 2019 paper and its technical report named by the DOI and the conference, 3290324-popl19w.pdf and 3290324-popl19"
+3193,2026-10-29 08:19:57Z,0c62b5722,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note: his read of the corrections page done, his yeses, cuts and doubts, the sorts, the paper and the report placed"
+3194,2026-10-29 08:38:47Z,f7bba7262,832,693006,244985,78657,269326,694991,245081,78710,269442,,"P-146's history, section 7: his yes of 10-13 went to the decision; the Why text appeared 54 seconds later; his yes of 10"
+3195,2026-10-29 09:04:42Z,7ecda2d44,832,693006,244985,78657,269326,694991,245081,78710,269442,,"P-146's history, section 8: his messages naming AnyIntegral, the one his memory most likely holds is the seal and closur"
+3196,2026-10-29 09:06:46Z,f125a9653,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note: his go to the corrective measure, option a; the writer running; what follows"
+3197,2026-10-29 09:15:16Z,49801cda3,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Boot note: the compaction near, the light boot after it, the root cause as read at 09:1x and the two steps proposed for "
+3198,2026-10-29 09:23:35Z,5dbea6a6b,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The corrections written by their homes, by the Opus writer: fifteen entry changes in an apply file, seven history notes,"
+3199,2026-10-29 09:26:03Z,20ee39168,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The corrections' files updated on the coordinator's answers: the one library's two history sentences out, the export rul"
+3200,2026-10-29 09:28:31Z,4cc66cc39,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The cold read of the sixteen corrected entries: none blocked; four high flags, three on sentences this pass did not touc"
+3201,2026-10-29 09:31:05Z,e55f1eaeb,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The checker's report on the sixteen corrected entries: fourteen pass; P-37's Why to condense, P-154's dangling reference"
+3202,2026-10-29 09:32:20Z,675d44c10,832,693006,244985,78657,269326,694991,245081,78710,269442,,"The corrections' files with the checker's two fixes: the one library's Why condensed, the list-order entry's reference f"
+3203,2026-10-29 09:33:08Z,5d07903a3,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Where this session's context went since the light boot of 10-28, by a Sonnet scout: 586K of growth, 45 percent the coord"
+3204,2026-10-29 09:33:56Z,1d5d39a74,832,693006,244985,78657,269326,694991,245081,78710,269442,,Boot note: the corrections checked and on the page as version 10 for his yes; the apply steps in order
+3205,2026-10-29 12:36:36Z,8c23b0c94,832,693006,244985,78657,269326,694991,245081,78710,269442,,"Held list: guidance on page comments for the coordinator skill, from the context analysis"
+3206,2026-10-29 12:37:12Z,5da547a14,832,693006,244985,78657,269326,694991,245081,78710,269442,,Held list: the time of the page-comments line read from the clock
+3207,2026-10-29 13:02:47Z,8c99e258e,832,693006,246170,79026,269326,694991,246266,79079,269442,,"POSITIONS corrected from the phase 3 exit review, each finding in its home, at his yes of 12:5x UTC on 10-29: sixteen en"
+3208,2026-10-29 13:03:18Z,5e5be77ed,832,693006,246170,79026,269326,694991,246266,79079,269442,,"Boot note: the corrections landed, the salvage closed; the light boot after the compaction; part 2's questions in order"
+3209,2026-10-29 13:32:09Z,84a4958a0,832,693006,246170,79026,269326,694991,246266,79079,269442,,"Boot note: the compaction and the light boot done; the salvage closes with part 2, at his word"
+3210,2026-10-29 21:09:11Z,1dc3f2437,832,693006,246170,79026,269326,694991,246266,79079,269442,,Held list: the review queue's size is his item for after the batch; the register of the P-42 ask
+3211,2026-10-29 21:10:07Z,54495d965,832,693006,246170,79026,269326,694991,246266,79079,269442,,"Boot note: the plan narrowed to the three questions climb batch 22c needs, on the page; the page worker resumed; P-42 un"
+3212,2026-10-29 21:30:48Z,a903d5113,832,693006,246170,79026,269326,694991,246266,79079,269442,,"Evidence: the export rule's sentence is in the 2008 release (403afbe0b, 2008-03-31) and its first LaTeX copy is a bulk i"
+3213,2026-10-29 21:33:57Z,50a4aac17,832,693006,246170,79093,269326,694991,246266,79146,269442,,"P-155 covers the export check too: his ""Of course, it's option one."" to review-queue item 279, about 21:2x UTC on 2026-1"
+3214,2026-10-29 21:34:46Z,38b404470,832,693006,246170,79093,269326,694991,246266,79146,269442,,"Review-queue item 279 moved to (a), answered by P-155 (his option 1, about 21:2x UTC on 2026-10-29); climb batch 22c's q"
+3215,2026-10-29 21:37:21Z,b78d9a8a4,832,693006,246170,79093,269326,694991,246266,79146,269442,,"P-158 stands as his informed yes: his option 1 to review-queue item 280, 21:34 UTC on 2026-10-29, knowing the specificat"
+3216,2026-10-29 21:37:49Z,b7978cdae,832,693006,246170,79093,269326,694991,246266,79146,269442,,"Review-queue item 280 moved to (a), answered by P-158 at his informed yes (21:34 UTC on 2026-10-29); item 12's quote of "
+3217,2026-10-29 21:52:27Z,197351fb8,832,693006,246170,79093,269326,694991,246266,79146,269442,,Evidence: the curator's words on the library's other components and the switch-over
+3218,2026-10-29 22:05:08Z,7a1bed180,832,693006,246170,79093,269326,694991,246266,79146,269442,,Held list: the librarian brief of 21:5x micromanaged the worker; a scout gathers his words on briefing for the skill wri
+3219,2026-10-29 22:11:40Z,ec886fe2f,832,693006,246170,79093,269326,694991,246266,79146,269442,,"Climb batch 22c's block spliced into the batch workflow script, from the manifest generator; the scenarios check passes"
+3220,2026-10-29 22:11:40Z,c3c22817c,832,693006,246170,79093,269326,694991,246266,79146,269442,,Boot note: climb batch 22c launches at his go; its two questions answered; the check-in file named; what follows the lan
+3221,2026-10-29 22:19:01Z,16190b24f,832,693006,246170,79093,269326,694991,246266,79146,269442,,"The curator's discussions of the library's other components, read whole for review-queue item 283: each exchange from 20"
+3222,2026-10-29 22:25:19Z,e4ea7bcec,832,693006,246170,79093,269326,694991,246266,79146,269442,,"Evidence: the curator's words on briefing workers, and the briefs he corrected or praised, 2026-10-27 to 10-29"
+3223,2026-10-29 22:53:49Z,c49290093,832,693006,246170,79093,269326,694991,246266,79146,269442,,"Evidence: the curator's answers on the natives' binding form (P-58), 2026-09-20 to 2026-10-29: each occasion with its ti"
+3224,2026-10-30 01:18:33Z,bb3925156,835,696417,246505,79093,269326,698402,246599,79146,269442,,"The export check reads every top-level operator under its declared name, and the library's 9 operator headers match"
+3225,2026-10-30 01:23:50Z,96fcd051f,838,699640,248033,79093,269326,701625,248127,79146,269442,,"List's two imports enter the distance stage and pass the checker: CovariantCollection by its own api and arms, OneShotFl"
+3226,2026-10-30 01:26:37Z,1bc0a9083,839,700762,247897,79093,269326,702761,247989,79146,269442,,"fortress compile bounds a type parameter declared without a bound by Any, as walk does, and the distance stage runs unde"
+3227,2026-10-30 01:34:14Z,cc47b637d,843,704962,249344,79093,269326,706961,249436,79146,269442,,"The export check counts every api member again, and the library's components declare the 12 members their apis write abs"
+3228,2026-10-30 01:35:31Z,1fa64360e,843,699794,249344,79093,269326,701806,249436,79146,269442,,Close the rows climb batch 22c fixed
+3229,2026-10-30 01:51:05Z,a0c48211c,843,699794,249344,79093,269326,701806,249436,79146,269442,,"Climb batch 22c's gather record: the four rungs landed in the order O, L, B, A, their rows, points and items for the cur"
+3230,2026-10-30 02:16:26Z,f8bb64872,843,699801,249401,79093,269326,701813,249493,79146,269442,,Fold the review's corrections
+3231,2026-10-30 02:33:54Z,19f3bc397,843,699801,249401,79093,269326,701813,249493,79146,269442,,Climb batch 22c: the judge's ruling on the merged-diff review
+3232,2026-10-30 02:42:03Z,39f28f2f4,843,699801,249401,79093,269326,701813,249493,79146,269442,,"Climb batch 22c, the judge's repair: Appendix I's export entry names rows 839, 842 and 834's method half in its Effect"
+3233,2026-10-30 02:48:51Z,b81d86b75,843,699801,249402,79093,269326,701813,249494,79146,269442,batch 22c,Record the gate's tables and the microGPT walk check
+3234,2026-10-30 02:51:46Z,a1f8c4b8b,843,699801,249402,79093,272747,701813,249494,79146,272863,,Merge branch 'postmortem/final-reports'
+3235,2026-10-30 02:58:42Z,a67baf950,843,699801,249402,79093,272747,701813,249494,79146,272863,,"Boot note: climb batch 22c landed; the night's runs (the review, the orientation update, the record writer, the base bui"
+3236,2026-10-30 02:59:24Z,5feeedd9f,843,699801,249402,79280,272747,701813,249494,79333,272863,,"P-33: the library's other components cleared as the need arises, by walk's checker step at the latest, System by the swi"
+3237,2026-10-30 03:00:04Z,effb41db6,843,699801,249402,79280,272747,701813,249494,79333,272863,,"Review-queue items 282 and 283 moved to (a): 282 by P-58, his informed yes (22:36 UTC on 2026-10-29, confirming 2026-10-"
+3238,2026-10-30 03:01:18Z,bf63fcb31,843,699801,249402,79280,272747,701813,249494,79333,272863,,Climb batch 22c's orientation update: no entry admitted; the landing removes two departures (the compile command's bound
+3239,2026-10-30 03:02:43Z,79e5202ad,843,699801,249402,79280,272747,701813,249494,79333,272863,,fortress-repo: the sentences that climb batch 22c made false
+3240,2026-10-30 03:08:00Z,ea220f03e,843,699801,249402,79280,272747,701813,249494,79333,272863,,"Regression quiz, case 10: the compiled path bounds an unbounded type parameter by Any, so a generic at a tuple compiles"
+3241,2026-10-30 03:34:31Z,e0c8e9dfe,843,699801,249402,79280,272747,701813,249494,79333,272863,,"Climb batch 22c's post-batch review: conformance, the tables tied to the rungs, phase 3's end and the reading it rests o"
+3242,2026-10-30 03:37:43Z,d8026c1d8,843,699801,249402,79280,272747,701813,249494,79333,272863,,"fortress-repo: climb batch 22c review list, items 1 to 6"
+3243,2026-10-30 03:40:22Z,6985743ce,843,699801,250187,79280,272747,701813,250279,79333,272863,,"FACTS after climb batch 22c's landing, by its post-batch review's finding 4: F-240 at 22c's gate (count about 170 s, dis"
+3244,2026-10-30 03:44:43Z,c1a7c7eb0,843,699801,250187,79280,272747,701813,250279,79333,272863,,"Climb batch 23's record re-checked on its new base, a1f8c4b8b (main after climb batch 22c's landing): nothing changes in"
+3245,2026-10-30 03:46:47Z,99968c134,843,699801,250187,79280,272747,701813,250279,79333,272863,,"Climb batch 23's block spliced into the batch workflow script, from the manifest generator re-checked on the new base; t"
+3246,2026-10-30 03:51:06Z,03e3ac399,843,699801,250187,79280,272747,701813,250279,79333,272863,,fortress-repo: the cold read flags on the climb batch 22c changes
+3247,2026-10-30 03:54:57Z,1fcd754af,843,699801,250187,79280,272747,701813,250279,79333,272863,,"fortress-repo: library.md names the gate distance stage, with no command"
+3248,2026-10-30 03:58:18Z,9e8159379,843,699801,250187,79280,272747,701813,250279,79333,272863,,"Climb batch 22c's routing: phase 3 closed, phase 4 opens with climb batch 23; the batch's items for him in the review qu"
+3249,2026-10-30 03:58:18Z,702b62240,843,699801,250187,79280,272747,701813,250279,79333,272863,,"The batch manual's distance stage: the fourteen components under the compile command's own setting, read from Shell.java"
+3250,2026-10-30 04:00:19Z,3cd653815,843,699801,250187,79280,272747,701813,250279,79333,272863,,"Boot note: climb batch 23 launches on his go, its check-in file named; climb batch 22c's landing work done and pushed; w"
+3251,2026-10-30 05:43:35Z,98b04d371,844,700903,252238,79280,272747,702915,252334,79333,272863,,"The compiled path reads a builtinPrimitive body naming a helper of nativeHelpers as a call of that helper, and refuses a"
+3252,2026-10-30 06:05:15Z,640acb4a1,848,705508,254823,79280,272747,707520,254919,79333,272863,,"Walk loads a builtinPrimitive string that names a static helper of nativeHelpers, and ZZ32's first family of bindings mo"
+3253,2026-10-30 06:06:00Z,4548bfb63,848,704261,254823,79280,272747,706273,254919,79333,272863,,Close the rows climb batch 23 fixed
+3254,2026-10-30 06:25:26Z,3f0347fb7,848,704261,254823,79280,272747,706273,254919,79333,272863,,"Climb batch 23's gather record: rungs C and W applied in that order, their commits, the rows opened and closed, the merg"
+3255,2026-10-30 06:42:19Z,d836122e2,848,704265,254833,79280,272747,706277,254929,79333,272863,,Fold the review's corrections
+3256,2026-10-30 06:55:49Z,df71bc585,848,704265,254832,79280,272747,706277,254928,79333,272863,batch 23,Record the gate's tables and the microGPT walk check
+3257,2026-10-30 07:00:06Z,960142697,848,704265,254832,79280,272747,706277,254928,79333,272863,,"Boot note: climb batch 23 landed after two VM restarts; its landing work running (the review, the orientation update); w"
+3258,2026-10-30 07:02:43Z,c97a7143f,848,704265,254832,79280,272747,706277,254928,79333,272863,,fortress-repo: the natives after climb batch 23 (helper strings on both paths)
+3259,2026-10-30 07:06:54Z,79f5c4ce1,848,704265,254832,79280,272747,706277,254928,79333,272863,,"Climb batch 23's orientation update: no entry admitted; the natives' mechanism is area-part machinery, already rewritten"
+3260,2026-10-30 07:11:30Z,b5103253a,848,704265,255182,79280,272747,706277,255278,79333,272863,,"FACTS after climb batch 23's landing: F-32 at the planner's count of 449 live bindings (154, 59, 158, 78), the 24 IntLit"
+3261,2026-10-30 07:11:30Z,f2714393a,848,704265,255182,79280,272747,706277,255278,79333,272863,,Map B.12: walk loads a builtinPrimitive string under com.sun.fortress.nativeHelpers as a static helper through StaticNat
+3262,2026-10-30 07:37:05Z,473a3b864,848,704265,255182,79280,272747,706277,255278,79333,272863,,"Climb batch 23's post-batch review: conformance, the tables tied to the rungs, the restarts in the measures, the routing"
+3263,2026-10-30 07:39:58Z,1e6a93a04,848,704265,255319,79280,272747,706277,255415,79333,272863,,"F-240 at climb batch 23's gate, by its post-batch review's finding 3: the count stage about 155 s by the gate's call tim"
+3264,2026-10-30 07:40:54Z,ac4058a84,848,704265,255319,79280,272747,706277,255415,79333,272863,,"fortress-repo: climb batch 23 review list, items 2 to 9, and the flag 13 source dated"
+3265,2026-10-30 07:58:12Z,19605be4a,848,704265,255319,79280,272856,706277,255415,79333,272972,,"Climb batch 23's routing: phase 4's first batch landed, climb batch 24 next; the batch's items for him in the review que"
+3266,2026-10-30 07:58:21Z,29b4e5107,848,704275,255319,79280,272856,706287,255415,79333,272972,,"Row 845's found-by: climb batch 23 rung C's skeptic, who found it, in place of rung C (the post-batch review's finding 9"
+3267,2026-10-30 07:59:38Z,fead8e24c,848,704275,255319,79280,274342,706287,255415,79333,274458,,INDEX: the post-batch reviews of climb batches 22c and 23
+3268,2026-10-30 07:59:50Z,c70c7cc1f,848,704275,255319,79280,274342,706287,255415,79333,274458,,fortress-repo: the cold read flags on the climb batch 23 changes
+3269,2026-10-30 08:18:59Z,c3b566efc,848,704275,255319,79280,274342,706287,255415,79333,274458,,"Boot note: both batches of the night landed, their landing work done and pushed; nothing runs; the morning message, his "
+3270,2026-10-30 09:14:51Z,ef099f7e4,848,704275,255319,79280,274342,706287,255415,79333,274458,,"History notes: 21 blocks of 2026-10-29 13:01Z named to their landing, 8c99e258e (19 POSITIONS entries, F-293, F-294); 12"
+3271,2026-10-30 09:20:59Z,40302280c,848,704275,255319,79280,274342,706287,255415,79333,274458,,Batch script and manual: the commit stage folds F-240's seconds by record.py set; a resumed rung worker is told its earl
+3272,2026-10-30 09:28:14Z,9033a0de0,848,704275,255319,79280,274342,706287,255415,79333,274458,,Review queue: the corrections runs' open questions and the final cold read's two faults filed as items 318 to 322
+3273,2026-10-30 09:30:15Z,71720ae94,848,704275,255319,79280,274342,706287,255415,79333,274458,,"Corrections to POSITIONS drafted for his yes or no, nothing applied: old text beside new text for P-42, P-45 and P-158 ("
+3274,2026-10-30 09:31:23Z,96c642df9,848,704275,255319,79280,275048,706287,255415,79333,275164,,INDEX: the drafted corrections of POSITIONS after the phase 3 exit review
+3275,2026-10-30 09:36:55Z,19cc0223f,848,704275,255319,79280,275048,706287,255415,79333,275164,,"PLAN consolidated after phase 3's close: phase 3's lines to PLAN-history.md, phases 4 to 6 rewritten to the record"
+3276,2026-10-30 09:38:33Z,b8ae2a702,848,704275,255319,79280,275048,706287,255415,79333,275164,,"Papers/Variance/: the POPL 2019 paper, its technical report and the report's LaTeX sources, moved beside the team's othe"
+3277,2026-10-30 09:39:28Z,c040df488,848,704275,256185,79387,275048,706287,256281,79440,275164,,"P-26: the POPL 2019 paper with its technical report, the team's last word and work, kept in Papers/ with their other pap"
+3278,2026-10-30 09:50:18Z,501140f96,848,704275,256185,79387,275048,706287,256281,79440,275164,,"Boot note: the morning's autonomous work landed (the corrections drafted, PLAN consolidated, the questions filed, the hi"
+3279,2026-10-30 10:28:10Z,0ea0b43c5,848,704275,256185,79387,275741,706287,256281,79440,275857,,The POPL 2019 rules mapped to the checker and the record: 22 rule groups of the technical report's sources (Papers/Varia
+3280,2026-10-30 10:51:20Z,f84260617,853,709919,256185,79387,275741,711931,256281,79440,275857,,"Gap ledger: the POPL 2019 rules map's five findings filed as rows 850 to 854, each a reading of the code with no run"
+3281,2026-10-30 10:51:30Z,1f5c49b4f,853,709919,256185,79387,275741,711931,256281,79440,275857,,"Review queue: the POPL 2019 rules map's questions filed, three as items 323 to 325 and three as readings added to items "
+3282,2026-10-31 08:34:28Z,0476cd439,853,709919,256185,79387,275741,711931,256281,79440,275857,,Held list: his standing rule of 2026-10-31 that bringing the record in line with the implementation after a landing need
+3283,2026-10-31 08:39:52Z,a58b0a2c4,853,709919,256185,78824,275741,711931,256281,78877,275857,,"POSITIONS brought to the tree after climb batches 22c and 23, the drafted corrections applied at his go of 08:19 UTC on "
+3284,2026-10-31 08:41:19Z,40f08d22e,853,709919,256185,78824,275741,711931,256281,78877,275857,,"Review queue: items 285, 286, 287, 289, 290, 296 and 312 to (a), answered by the corrections applied at his go of 08:19 "
+3285,2026-10-31 09:06:11Z,6c006d74e,853,709919,256185,78824,276281,711931,256281,78877,276397,,"The evidence for widen of a ZZ too large for ZZ64, for the curator's decision (row 502, review-queue item 20, PLAN item "
+3286,2026-10-31 09:14:49Z,e77bbed46,853,709919,256185,78824,276281,711931,256281,78877,276397,,"The helper-calls probe's program and commands, for the curator's question on the natives' form (P-58): HelperCalls.fss, "
+3287,2026-10-31 09:18:40Z,999a1f6d2,853,709919,256185,78824,277098,711931,256281,78877,277214,,"Probe of the compiled path's calls of a native helper: the wrapper over the box classes, C2 inlines the whole path, one "
+3288,2026-10-31 09:21:04Z,70e335bf1,853,709919,259551,78824,277098,711931,259647,78877,277214,,"FACTS from the helper-calls probe (999a1f6d2): F-301, a native helper's call through its generated wrapper, inlined whol"
+3289,2026-10-31 09:29:14Z,0f6f48dbd,853,709919,259551,78824,277098,711931,259647,78877,277214,,"Climb batch 24's record, phase 4's second batch of the natives, with its manifest generator and the planner's probes: ru"
+3290,2026-10-31 09:29:58Z,0a5197c2b,853,709919,259551,78824,277098,711931,259647,78877,277214,,"Held list: his weighing of widen and narrow by consistency and provenance, and the refinement of the ask's weighing for "
+3291,2026-10-31 09:30:37Z,99a36e364,853,709919,259551,78824,278027,711931,259647,78877,278143,,INDEX: climb batch 24's record
+3292,2026-10-31 09:38:59Z,971e089f1,853,709919,259551,78824,278027,711931,259647,78877,278143,,"Probe for climb batch 24: ZZ32's CHOOSE, its helper's raw exception past its table (row 521) and a scratch array its par"
+3293,2026-10-31 09:43:31Z,c6d8069b6,853,709919,259551,78824,278027,711931,259647,78877,278143,,"Held list: his leaning to delete ZZ's narrow and widen rather than redesign them now, and his ask for the context of the"
+3294,2026-10-31 09:47:12Z,ee1dfd08e,856,712945,259551,78824,278027,714957,259647,78877,278143,,"Climb batch 24's record after the CHOOSE probe: rung K decided, the probe's patch for simpleIntArith and the same two fi"
+3295,2026-10-31 09:51:39Z,6cc2bcd7b,856,712945,259551,78824,278027,714957,259647,78877,278143,,"Probe for climb batch 24: the hard set, the 109 bindings that cannot name their helper as a bare string, three ways and "
+3296,2026-10-31 10:04:39Z,7cd6f8ee4,856,712945,259551,78824,278801,714957,259647,78877,278917,,"The evidence for a consistent set of integer conversions, for the curator's decision: the inventory of every conversion "
+3297,2026-10-31 10:08:12Z,bb11c7f69,858,714760,259551,78824,278801,716772,259647,78877,278917,,"Gap-ledger rows 858 (under walk, widen of an NN64 reaches ZZ's widen by coercion: 2^64-1 gives -1, a sibling of rows 502"
+3298,2026-10-31 10:09:46Z,4e37f47cb,858,714760,259551,78824,278801,716772,259647,78877,278917,,Evidence for the curator's ask of 2026-10-31: what he was told and what he answered when he decided P-72 (narrow keeps t
+3299,2026-10-31 10:11:39Z,49120b473,858,714760,259551,78824,279480,716772,259647,78877,279596,,"Fable review of climb batch 24's record before the launch: ready to launch, no question open (Question 1 answered at its"
+3300,2026-10-31 10:12:20Z,97b497a9d,858,714760,259551,78824,279846,716772,259647,78877,279962,,"QuickCheck and ZZ's widen, for the curator: what the library's QuickCheck is (a port with generators by type, properties"
+3301,2026-10-31 10:19:36Z,723cb707c,858,714760,259551,78824,280305,716772,259647,78877,280421,,"Natives shared-state audit, for the curator: the helpers under nativeHelpers/ and walk's glue under interpreter/glue/ ho"
+3302,2026-10-31 10:50:28Z,8e337b1b6,860,716792,259551,78824,280305,718807,259647,78877,280421,,"Climb batch 24's record with rung H, the hard set at the hard-set probe's way 2b, taken at its default on the curator's "
+3303,2026-10-31 10:53:21Z,e332e9df5,860,716792,259551,78824,280305,718807,259647,78877,280421,,Boot note: climb batch 24 launches after the Fable review of rung H; the check-in file named; the morning's work; what w
+3304,2026-10-31 11:08:55Z,5b4ad3d9d,860,716792,259551,78824,280805,718807,259647,78877,280921,,"Fable review of climb batch 24's rung H before the launch, as section 5 of the record's review: the whole batch ready to"
+3305,2026-10-31 11:10:04Z,b0f6cd6b7,860,716792,259551,78824,280805,718807,259647,78877,280921,,"Climb batch 24's block spliced into the batch workflow script, seven rungs, from the manifest generator after the Fable "
+3306,2026-10-31 15:14:29Z,5ecb7a841,862,718988,261683,78824,280805,721003,261779,78877,280921,,"Float's 30 native bindings name their static helpers, and walk carries a declared Float in a double"
+3307,2026-10-31 15:15:59Z,71249bf55,862,718988,263101,78824,280805,721003,263197,78877,280921,,"CHOOSE on ZZ32 and ZZ64: the helpers raise IntegerOverflow past their tables and give each call its own scratch array, a"
+3308,2026-10-31 15:17:33Z,3308aad55,862,718913,264508,78824,280805,720928,264604,78877,280921,,"ZZ64's 20 and ZZ's 16 native bindings name their static helpers, so their DIV by zero raises DivisionByZero under walk"
+3309,2026-10-31 15:18:28Z,ca1498628,862,719116,265501,78824,280805,721131,265597,78877,280921,,"The small rest's eight native bindings name their static helpers: Long's and BigNum's string getters, NN32's and NN64's "
+3310,2026-10-31 15:20:21Z,9f65d60e2,865,722414,266380,78824,280805,724429,266476,78877,280921,,"Walk's native loader is told the type that declares a method, and refuses at load a helper bound in a method of a type t"
+3311,2026-10-31 15:23:34Z,c324b841c,870,727070,266919,78824,280805,729089,267015,78877,280921,,"The code generator compiles a function, method, object or trait whose own header carries a where clause, and keeps its r"
+3312,2026-10-31 15:29:51Z,b71495ca4,871,728291,269658,78824,280805,730310,269766,78877,280921,,"The compiled path's rewrite composes a native binding over NN32, NN64 or Char with the six transfer helpers, and 76 such"
+3313,2026-10-31 15:30:55Z,0fcc1cab6,871,726146,269658,78824,280805,728171,269766,78877,280921,,Close the rows climb batch 24 fixed
+3314,2026-10-31 15:39:37Z,0ce8448a0,871,726146,269658,78824,280805,728171,269766,78877,280921,,"Climb batch 24's gather record: the seven rungs landed in the order F, K, Z, S, W, G, H, rows 862 to 872 opened and 521,"
+3315,2026-10-31 15:59:15Z,84ae87a27,871,726146,269831,78824,280805,728171,269939,78877,280921,,Fold the review's corrections
+3316,2026-10-31 16:10:19Z,25238e60c,871,726146,269852,78824,280805,728171,269960,78877,280921,batch 24,Record the gate's tables and the microGPT walk check
+3317,2026-10-31 16:20:00Z,b468b9d62,871,726146,269852,78824,280805,728171,269960,78877,280921,,"Boot note: climb batch 24 landed and pushed; the landing's three workers running (the orientation update, the post-batch"
+3318,2026-10-31 16:22:09Z,453898c32,871,726146,269852,78824,280805,728171,269960,78877,280921,,fortress-repo: the natives and the where clause after climb batch 24
+3319,2026-10-31 16:55:11Z,43cd61b62,871,726146,269852,78824,281544,728171,269960,78877,281660,,"Climb batch 24's post-batch review: conformance of the seven rungs, the tables equal to climb batch 23's with 152 more b"
+3320,2026-10-31 16:56:31Z,53a84b2e6,871,726146,269852,78824,281544,728171,269960,78877,281660,,fortress-repo: the natives' gaps from climb batch 24's post-batch review
+3321,2026-10-31 17:07:25Z,ca542e07e,871,726146,269852,78824,281544,728171,269960,78877,281660,,fortress-repo: install climb batch 24's orientation update
+3322,2026-10-31 17:07:50Z,6d4e58a3b,871,726146,269852,78824,281544,728171,269960,78877,281660,,"Climb batch 24's orientation update: two of the seventeen landed entries admitted (F-181, the code generator compiles a "
+3323,2026-10-31 17:07:58Z,7abc5c21c,871,726146,269852,78824,281544,728171,269960,78877,281660,,"Batch script and manual: a skeptic's test where the skill puts it, the gather's PDF reused, reports by heredoc, scratch "
+3324,2026-10-31 17:10:42Z,be3b07aac,871,726146,268037,78644,281544,728171,268131,78697,281660,,"FACTS and POSITIONS after climb batch 24's landing: the entries that the post-batch review found false, stale or past th"
+3325,2026-10-31 17:10:53Z,08cc69e2d,871,726146,268037,78644,281544,728171,268131,78697,281660,,Climb batch 24's gather record and the map's B.12: the four journal commits and NativeApp.java's lines after rung W
+3326,2026-10-31 17:18:34Z,f00fd0c2b,871,726146,268037,78644,281544,728171,268131,78697,281660,,fortress-repo: the cold read's flags on climb batch 24's skill changes
+3327,2026-10-31 17:25:58Z,b49631cb4,871,726146,268037,78644,281544,728171,268131,78697,281660,,"Climb batch 24's routing: phase 4's second batch landed, climb batch 25 next; the batch's items for him in the review qu"
+3328,2026-10-31 17:25:58Z,85b2998e9,871,726146,268037,78644,283541,728171,268131,78697,283657,,INDEX: lines for the seven notes of the post-mortem of 2026-10-28 that check-index.sh reports without one
+3329,2026-10-31 17:29:16Z,d6075d302,871,726146,268037,78644,283541,728171,268131,78697,283657,,"Boot note: climb batch 24's landing work done and pushed (the review, the orientation update, the skill writer's four ta"
+3330,2026-11-01 23:42:02Z,9311b0967,871,726146,268037,78644,283541,728171,268131,78697,283657,,coordinator skill: the curator's accepted rules from skill/coordinator-held-rules
+3331,2026-11-01 23:44:24Z,c765cc3dd,871,726146,268037,78644,283541,728171,268131,78697,283657,,"Held list: his comments on the skill drafts page of 2026-11-01, one line each; boot note: the 13 accepted rules landing,"
+3332,2026-11-02 00:04:47Z,052c96dcd,871,726146,268037,78644,284094,728171,268131,78697,284210,,"The nine commented skill rules grounded again in the curator's words, with new texts and recommendations, and its INDEX "
+3333,2026-11-02 00:07:30Z,161022be8,871,726146,268037,78644,284094,728171,268131,78697,284210,,"Boot note: the accepted rules landed, the cold read's fixes on a branch for his yes, the regrounding note pushed, the pa"
+3334,2026-11-02 00:08:31Z,5384a4f35,871,726146,268037,78644,284936,728171,268131,78697,285052,,"Design of one workflow for the record after a landing: what the record's tools take and check, where the clarity workflo"
+3335,2026-11-02 00:30:36Z,dc571c1f3,871,726146,268037,78644,284936,728171,268131,78697,285052,,"Held list: his yes to the record-landing workflow's eight defaults; boot note: the builder running, the page's version 4"
+3336,2026-11-02 00:39:58Z,0f27b2f5f,871,726146,268037,78644,284936,728171,268131,78697,285052,,"Boot note: climb batch 25's planner running on his go of 00:3x, the base build fortress-base25 in the making"
+3337,2026-11-02 00:58:03Z,f44cf4ec2,871,726146,268037,78644,285396,728171,268131,78697,285512,,"The record-landing workflow, its first version: the script, the evidence, five briefs, the mechanical checks, the driver"
+3338,2026-11-02 01:42:30Z,c08100d6b,871,726146,268037,78644,286802,728171,268131,78697,286918,,"Climb batch 25's record, by its planner: seven rungs, D (Float's 27 bit and rounding operations and fromRawBits), P (RR3"
+3339,2026-11-02 01:44:55Z,891d5b44a,871,726146,268037,78644,286802,728171,268131,78697,286918,,"Boot note: climb batch 25's record written, its Fable review running; the record-landing replay running; the base build "
+3340,2026-11-02 02:13:22Z,b90356f4a,874,728997,268037,78644,287839,731022,268131,78697,287955,,"Climb batch 25's record reviewed before the launch: ready, no question open; rung U takes the steps PLAN owes the next r"
+3341,2026-11-02 02:15:58Z,607efcfd2,874,728997,268037,78644,287839,731022,268131,78697,287955,,"Climb batch 25's block spliced into the batch workflow script, seven rungs D, P, A, R, U, N, C, from the manifest genera"
+3342,2026-11-02 02:16:45Z,cd500ae2f,874,728997,268037,78644,287839,731022,268131,78697,287955,,"Boot note: climb batch 25 ready to launch on his go (reviewed, spliced, base built and proven); the replay's comparison "
+3343,2026-11-02 02:31:01Z,b0a2a261c,874,728997,268037,78644,288707,731022,268131,78697,288823,,"The record-landing workflow's replay of climb batch 24's landing compared with the hand route, change by change, with it"
+3344,2026-11-02 02:33:42Z,93e5bf98d,874,728997,268037,78644,288707,731022,268131,78697,288823,,fortress-repo: an except that lists an infix operator leaves it imported on both paths
+3345,2026-11-02 02:41:56Z,d9f2fdfd0,875,730031,268984,78644,288707,732056,269078,78697,288823,,"Climb batch 24's landing, the four items the record-landing replay found and main lacked: F-309 added, F-220's stale sen"
+3346,2026-11-02 02:57:13Z,575d55594,875,730031,268984,78644,288707,732056,269078,78697,288823,,"The record-landing workflow after its replay: the comparison's eight fixes in its briefs and scripts, with the README an"
+3347,2026-11-02 02:59:46Z,870a79a8d,875,730031,268984,78644,288707,732056,269078,78697,288823,,"Boot note: the night's work done and pushed; climb batch 25 ready on his go; the replay compared, its fixes in and its f"
+3348,2026-11-02 07:52:14Z,4b000cb7f,875,730031,268984,78644,288707,732056,269078,78697,288823,,"Held list: his points of 2026-11-02 on the order of the work, the drafts page, the cold read's reading, the skills' size"
+3349,2026-11-02 08:20:08Z,fedef2836,875,730031,268984,78644,288707,732056,269078,78697,288823,,Held list: two more lines from his comments of 2026-11-02 (the no-op sentence on the worker's final message; the delegat
+3350,2026-11-02 08:21:02Z,41213e2d3,875,730031,268984,78644,288707,732056,269078,78697,288823,,"Coordinator skill: land the curator's accepted items from the drafts page, version 5"
+3351,2026-11-02 08:55:29Z,4f4f5b5c5,875,730031,268984,78644,288707,732056,269078,78697,288823,,"Boot note: ready for the compaction, a full boot after it; where the skill drafts stand (13 and 7 items landed, 11 flags"
+3352,2026-11-02 09:12:27Z,fd7c5614b,875,730031,268984,78644,288707,732056,269078,78697,288823,,"Boot note: the full boot after the compaction done; two Opus workers running, the later-word ask's preparation (item 318"
+3353,2026-11-02 09:39:04Z,df6ac1701,875,730031,268984,78644,288707,732056,269078,78697,288823,,"The ask on the team's later word: which rule P-26 states and how ""later"" is dated (review-queue item 318), three options"
+3354,2026-11-02 09:40:28Z,4870e2c27,875,730031,268984,78644,289326,732056,269078,78697,289442,,INDEX: the later-word ask's line
+3355,2026-11-02 10:04:40Z,a204ab81d,875,730031,268984,78644,289326,732056,269078,78697,289442,,"Probe of review-queue item 340: the shadow patch, walk's loader told the library's FlatString by its declaring component"
+3356,2026-11-02 10:09:10Z,e8be5845e,877,732175,268984,78644,290373,734200,269078,78697,290489,,"Probe of review-queue item 340: its report from the worker's returned text, rows 877 and 878 filed, the item given the p"
+3357,2026-11-02 12:39:29Z,f68a3a6d3,877,732175,268984,78644,290373,734200,269078,78697,290489,,"Boot note: his answer to the later-word ask, option 3; the record writer and the review of the walk-leaning decisions ru"
+3358,2026-11-02 12:46:02Z,091265de2,877,732175,268984,79387,290373,734200,269078,79440,290489,,"POSITIONS: option 3 of the later-word ask entered in P-26, P-37 and P-7 at his answer ""3"" of 12:3x UTC on 2026-11-02; re"
+3359,2026-11-02 13:10:38Z,05def1603,877,732175,268984,79387,290373,734200,269078,79440,290489,,Review: the walk-leaning decisions under the rule of the team's later word (option 3 of the later-word ask): 50 confirme
+3360,2026-11-02 13:11:39Z,aae99d919,877,732175,268984,79387,291537,734200,269078,79440,291653,,INDEX: the walk-leaning decisions review's line
+3361,2026-11-02 13:12:52Z,3f8edbdc9,877,732175,268984,79387,291537,734200,269078,79440,291653,,"Boot note: the walk-leaning review landed, the self-type idiom probe running, the asks in order"
+3362,2026-11-02 13:13:09Z,432749a69,877,732175,268984,79387,291537,734200,269078,79440,291653,,Boot note: the times of 13:1x UTC read from the clock
+3363,2026-11-02 13:51:55Z,234312523,877,732175,268984,79387,291537,734200,269078,79440,291653,,Held list: his two page comments of 2026-11-02 on P-26 and P-7 as rewritten (P-37 accepted)
+3364,2026-11-02 14:09:15Z,bff7e4e0c,877,732175,268984,79387,291537,734200,269078,79440,291653,,Review note: P-26 and P-7 reworded together for the curator's yes
+3365,2026-11-02 14:10:06Z,09e7eaafa,877,732175,268984,79387,292117,734200,269078,79440,292233,,INDEX: the later-word texts note's line
+3366,2026-11-02 14:24:43Z,96b92dba9,877,732175,268984,79387,292117,734200,269078,79440,292233,,"Probe: the self-type idiom on the flat library, comprises T on the seven self-typed traits with walk's row 407 repair, m"
+3367,2026-11-02 14:25:01Z,c08ea88d8,878,733201,268984,79387,293110,735226,269078,79440,293226,,"Probe of the self-type idiom: row 879 filed from its report, its INDEX line"
+3368,2026-11-02 14:25:25Z,e6fbbdaa9,878,733201,268984,79387,293110,735226,269078,79440,293226,,"Boot note: the self-type idiom probe done, the proposed rewordings of P-26 and P-7 on the page for his yes"
+3369,2026-11-02 16:46:30Z,f9d14484f,878,733201,268984,78745,293110,735226,269078,78798,293226,,"POSITIONS: P-26 and P-7 reworded as later-word-texts.md proposed, at the curator's acceptance of 16:4x UTC"
+3370,2026-11-02 18:04:09Z,4ee3eb38c,878,733201,268984,78670,293110,735226,269078,78723,293226,,"POSITIONS: P-156's Why cut of the clause on the code generator refusing a header's where clause, false since c324b841c, "
+3371,2026-11-02 18:04:45Z,85fb3394a,878,733201,268984,78670,293110,735226,269078,78723,293226,,"Boot note: the tuple rule stays at his decision, its stale clause cut; the review's remaining items held for his word"
+3372,2026-11-02 18:04:59Z,bdb68a577,878,733201,268984,78670,293110,735226,269078,78723,293226,,Boot note: the time read from the clock
+3373,2026-11-02 18:39:25Z,2b4431592,878,733201,268984,78670,293110,735226,269078,78723,293226,,"Coordinator skill drafts of 2026-11-02: rule 12 as the sort of a review's findings, a reviewer's brief, and an entry's h"
+3374,2026-11-02 18:40:21Z,41b725ff5,878,733201,268984,78670,293110,735226,269078,78723,293226,,Boot note: the drafts page's version 6 published with today's three drafts and the cold-read flags
+3375,2026-11-02 21:49:24Z,625e7ba3b,878,733201,268984,78670,293110,735226,269078,78723,293226,,"Held list: his comments of the evening of 2026-11-02 on the drafts page, version 6"
+3376,2026-11-02 22:01:18Z,fa1a8c016,878,733201,268984,78670,293110,735226,269078,78723,293226,,"Boot note: ready for the compaction, a light boot after it; the skill writer landing the drafts page's remaining items; "
+3377,2026-11-02 22:03:56Z,5114bfece,878,733201,268984,78670,293110,735226,269078,78723,293226,,Coordinator skill: land the drafts page's version 6 items
+3378,2026-11-02 23:03:37Z,97a416b18,878,733201,268984,78670,293110,735226,269078,78723,293226,,"Boot note: the skill landed and pushed, climb batch 25 launching on his go of 22:0x, the page worker building the drafts"
+3379,2026-11-03 02:35:32Z,17b9f6b58,879,734277,269423,78670,293110,736302,269517,78723,293226,,Float's bit and rounding operations and fromRawBits call 28 new simpleDoubleArith helpers that both paths can run
+3380,2026-11-03 02:38:18Z,43f130022,879,734323,270393,78670,293110,736348,270487,78723,293226,,"RR32's 49 bindings call 46 new helpers of a new class, simpleFloatArith, that both paths can run"
+3381,2026-11-03 02:39:42Z,d2501afef,879,734388,271501,78670,293110,736413,271595,78723,293226,,"The asFloats of Int, RR32, NN32, Long and BigNum answer RR64 and call static helpers, two of them new"
+3382,2026-11-03 02:41:58Z,41830b90c,880,735322,273033,78670,293110,737347,273127,78723,293226,,"REM and MOD by zero on ZZ32, ZZ64, NN32, NN64 and ZZ throw DivisionByZero under walk, through ten new helpers (rows 336 "
+3383,2026-11-03 02:44:20Z,f7a33b97b,885,740537,274768,78670,293110,742562,274862,78723,293226,,"The compiled path prints NN32 and NN64 unsigned and negates NN64 by wrapping; UnsignedLong's three, NN64's prefix DOTMIN"
+3384,2026-11-03 02:47:32Z,d85bac271,886,741769,276220,78670,293110,743794,276314,78723,293226,,"GCD, LCM, partitionL, NN64's and ZZ's CHOOSE, ZZ's cmp and nanoTime call 18 new nativeHelpers helpers; Appendix I's Effe"
+3385,2026-11-03 02:49:55Z,8833d89c5,891,746928,277471,78670,293110,748953,277565,78723,293226,,"The code generator compiles an extends clause at Any, a try with a forbid clause and a function declared test (rows 820,"
+3386,2026-11-03 02:57:01Z,b1149e218,891,741521,277471,78670,293110,743562,277565,78723,293226,,Close the rows climb batch 25 fixed
+3387,2026-11-03 03:23:53Z,a0ec6bc13,891,741521,277471,78670,293110,743562,277565,78723,293226,,"Climb batch 25's gather record: the seven rungs on main, their rows, the merged tree's tests and the items for the curat"
+3388,2026-11-03 03:32:55Z,20eab4036,891,741521,277494,78670,293110,743562,277588,78723,293226,,Fold the review's corrections
+3389,2026-11-03 03:49:44Z,11d2d8764,891,741521,277494,78670,293110,743562,277588,78723,293226,batch 25,Record the gate's tables and the microGPT walk check
+3390,2026-11-03 03:55:13Z,3c4db3cef,891,741521,277494,78670,293110,743562,277588,78723,293226,,"Boot note: climb batch 25 landed and pushed, its gate green; the post-batch reviewer running; the landing's record work "
+3391,2026-11-03 04:28:33Z,c3a16b0bc,891,741521,277494,78670,293971,743562,277588,78723,294087,,"Climb batch 25's post-batch review, with its INDEX line"
+3392,2026-11-03 04:31:08Z,c092539c1,891,741521,277494,78670,293971,743562,277588,78723,294087,,"Boot note: the post-batch review of climb batch 25 committed and pushed, its findings sorted; the record-landing workflo"
+3393,2026-11-03 05:06:32Z,34c0275da,891,741521,277494,78670,293971,743562,277588,78723,294087,,"Boot note: the record-landing run done, its branch ready to read and land after a full boot; a script worker on the revi"
+3394,2026-11-03 05:11:51Z,888712bb6,891,741521,277494,78670,293971,743562,277588,78723,294087,,"Batch script and manual: the gather waits with wait_for and runs no stage for a row, a skeptic resumes on its earlier la"
+3395,2026-11-03 05:12:51Z,4c831fd8a,891,741521,277494,78670,293971,743562,277588,78723,294087,,Boot note: the batch script's fixes from the review landed and pushed; nothing runs; the record landing waits for the fu
+3396,2026-11-03 05:36:47Z,429fd63c7,891,741521,277494,78670,293971,743562,277588,78723,294087,,"Boot note: his usage of 05:3x on 11-03, the compaction now, a full boot after it"
+3397,2026-11-03 05:42:51Z,9342ddbb2,891,741521,277506,78810,293971,743562,277600,78863,294087,,"Record after climb batch 25's landing: F-32's IntLiteral count, F-240's cause, F-315's method half and finally, P-38's t"
+3398,2026-11-03 05:42:51Z,784104683,891,741521,277506,78810,294633,743562,277600,78863,294749,,"PLAN, the review queue and INDEX after climb batch 25's landing, with the record-landing run's folder"
+3399,2026-11-03 05:46:30Z,fac7e1d31,891,741521,277506,78810,294633,743562,277600,78863,294749,,Boot note: the full boot done; climb batch 25's record landing on main and pushed; the orientation update running
+3400,2026-11-03 05:48:07Z,cf63661a4,891,741521,277506,78810,294633,743562,277600,78863,294749,,Climb batch 25's orientation update: the admission test admits none of the landing's 21 entries
+3401,2026-11-03 05:50:25Z,5ed02c3ca,891,741521,277506,78810,294633,743562,277600,78863,294749,,"Boot note: the orientation update done, nothing admitted; the skill writer on the landing's false sentences"
+3402,2026-11-03 05:52:10Z,597537f2e,891,741521,277506,78810,294633,743562,277600,78863,294749,,fortress-repo: the area parts after climb batch 25's landing
+3403,2026-11-03 05:52:12Z,59cc13881,891,741521,277506,78810,294633,743562,277600,78863,294749,,"fortress-repo: the scope of revival-changes.md, and an agent's wait under 240 s"
+3404,2026-11-03 05:52:58Z,328402e94,891,741521,277506,78810,295210,743562,277600,78863,295326,,"The closing docket of 2026-11-03: the open items of the post-mortems and the held list, with its INDEX line"
+3405,2026-11-03 05:54:31Z,e15f3b846,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Boot note: the skill writer's two commits on main, their cold read running; the closing docket in the tree; his usage of"
+3406,2026-11-03 05:54:57Z,3c641d17d,891,741521,277506,78810,295210,743562,277600,78863,295326,,Boot note: the state line names the writer's commits and the cold read
+3407,2026-11-03 06:00:08Z,cc17441c8,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Boot note: the cold read done, the skill writer's fix task running"
+3408,2026-11-03 06:01:35Z,f11ad4602,891,741521,277506,78810,295210,743562,277600,78863,295326,,fortress-repo: the cold read of climb batch 25's skill changes
+3409,2026-11-03 06:01:37Z,3e3a5aef6,891,741521,277506,78810,295210,743562,277600,78863,295326,,"coordinator: an Agent-tool worker's wait under 240 s, as fortress-repo's session.md"
+3410,2026-11-03 06:03:11Z,8d62a942f,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Boot note: nothing runs; the skill changes after the landing cold-read, fixed and pushed; the process change proposed to"
+3411,2026-11-03 06:12:03Z,bca88632b,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Held list and boot note: his rules of 06:1x on 11-03, a landing reads only what changed, the quoting clause stays, the f"
+3412,2026-11-03 06:22:21Z,85043b609,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Held list and boot note: his rules of 06:2x on 11-03, the record-landing workflow lands and runs the orientation update "
+3413,2026-11-03 06:26:49Z,a1d0d63c6,891,741521,277506,78810,295210,743562,277600,78863,295326,,Record-landing workflow: land its commits on main and run the orientation update itself
+3414,2026-11-03 06:28:41Z,b18a3a06d,891,741521,277506,78810,295210,743562,277600,78863,295326,,Record-landing judge brief and design note: the workflow lands on main itself
+3415,2026-11-03 06:29:08Z,9df988bf4,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Record-landing judge brief: ""Next"" names the landed commits by the result's land.commits"
+3416,2026-11-03 06:29:20Z,9d3ac8bad,891,741521,277506,78810,295210,743562,277600,78863,295326,,"coordinator: the landing in one step, a landing that waits for no boot, and the held list's purpose"
+3417,2026-11-03 06:30:28Z,7ed4ccfd6,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Boot note: his landing rules in the record-landing workflow and the coordinator skill, pushed; two leftovers for the ski"
+3418,2026-11-03 07:14:02Z,16fba66e7,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Boot note: his goal of 07:1x, the record in order before climb batch 26, the work in order; a light boot recommended aft"
+3419,2026-11-03 17:45:16Z,8ab0dcd48,891,741521,277506,78810,295210,743562,277600,78863,295326,,Boot note: the light boot after the compaction done at 17:4x UTC on 11-03
+3420,2026-11-03 17:48:22Z,f251fe6df,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Boot note: PLAN's inventory worker running, for the third consolidation"
+3421,2026-11-03 18:04:45Z,e144661c6,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Held list: his rule of 18:0x on 11-03, the coordinator's context is for coordinating; summaries come from workers"
+3422,2026-11-03 18:11:37Z,bc4ba9c99,891,741521,277506,78810,295210,743562,277600,78863,295326,,Held list and boot note brought in line with the closing docket of 2026-11-03
+3423,2026-11-03 18:14:50Z,717c41ead,891,741521,277506,78810,295210,743562,277600,78863,295326,,"Boot note: ""Waiting on him"" and ""Still open, smaller"" point to the docket"
+3424,2026-11-03 18:20:17Z,0c2855796,891,741521,277506,78810,295981,743562,277600,78863,296097,,"PLAN's third consolidation: the inventory that the writing pass works from, with its INDEX line"
+3425,2026-11-03 18:22:32Z,ec8c03ae7,891,741521,277506,78810,295981,743562,277600,78863,296097,,"Boot note: PLAN's inventory done, the consolidation pass's preparation running"
+3426,2026-11-03 18:26:52Z,7e8d2e260,891,741521,277506,78810,295981,743562,277600,78863,296097,,"Held list and boot note: his word of 18:2x on 11-03, the design decisions keep him in the loop; the archaeology scout; R"
+3427,2026-11-03 18:28:31Z,a7c016a7d,891,741521,277506,78810,295981,743562,277600,78863,296097,,"Boot note: his word of 18:2x on 11-03 on the design decisions, the archaeology scout running, Ryu struck"
+3428,2026-11-03 18:30:51Z,b8112c668,891,741521,277506,78810,295981,743562,277600,78863,296097,,"Held list: his points of 18:3x on 11-03, read turn by turn"
+3429,2026-11-03 18:41:15Z,94a491633,891,741521,277506,78810,295981,743562,277600,78863,296097,,"Held list: his word of 18:3x on 11-03, the skill drafts page is recycled for the eight rules"
+3430,2026-11-03 18:42:20Z,d6bcecd1b,891,741521,277506,78810,295981,743562,277600,78863,296097,,"PLAN's third consolidation, the run's preparation: the mechanical script and the briefs"
+3431,2026-11-03 18:46:27Z,d6d742ed5,891,741521,277506,78810,295981,743562,277600,78863,296097,,Boot note: PLAN's consolidation pass running; its preparation landed
+3432,2026-11-03 18:49:21Z,33a148533,891,741521,277506,78810,295981,743562,277600,78863,296097,,Remove the rejected rewrite's apply file of 2026-10-26 at the curator's word; git history keeps it
+3433,2026-11-03 18:58:30Z,2926c1b4d,891,741521,277506,78810,295981,743562,277600,78863,296097,,Boot note: the running workers at 19:0x on 11-03; the pushes' cause and the one-command push; the backup broken since th
+3434,2026-11-03 19:01:35Z,9b965a9e4,891,741521,277506,78810,295981,743562,277600,78863,296097,,Held list and boot note: he read the 10-28 post-mortem's page; it is deleted at his word; the docket's item 24 was wrong
+3435,2026-11-03 19:01:52Z,b82cebb99,891,741521,277506,78810,296829,743562,277600,78863,296945,,"Timeline of the record and the skills, 2026-10-17 to 2026-11-03, at the curator's ask of 18:20 UTC on 11-03, with its IN"
+3436,2026-11-03 19:07:05Z,6c5268cf2,891,741521,277506,78810,296829,743562,277600,78863,296945,,"Boot note: the drafts cold-read and fixed, the page worker, the timeline report landed, the revival page's outlines work"
+3437,2026-11-03 19:08:45Z,20944c083,891,741521,277506,78810,296829,743562,277600,78863,296945,,Held list and boot note: the transcript backup re-armed; it had failed since the restart of 01:42; a backup check at eve
+3438,2026-11-03 19:08:49Z,3514bc80f,891,741521,277506,78810,297350,743562,277600,78863,297466,,"The revival page as outlines for the curator's choice of its shape: version 20, the text Professor Ryu received, and ver"
+3439,2026-11-03 19:10:48Z,d8e80710d,891,741521,277506,78810,297350,743562,277600,78863,297466,,Timeline note: item 12's push-notification words read as asks at a landing or when work is ready
+3440,2026-11-03 19:11:07Z,323207d33,891,741521,277506,78810,297350,743562,277600,78863,297466,,"PLAN's third consolidation: the run's worktree is /home/user/fortress-plan-3, on record/plan-consolidation-3"
+3441,2026-11-03 19:11:07Z,156ef75b5,891,741521,277506,78810,297350,743562,277600,78863,297466,,"PLAN's third consolidation, the mechanical step: 42 lines moved, 83 copied and marked for the writers"
+3442,2026-11-03 19:11:07Z,a64e24e6e,891,741521,277506,78810,297350,743562,277600,78863,297466,,"plan-consolidate.py: a line kept word for word stays, and a history:P-N citation is not an entry"
+3443,2026-11-03 19:11:07Z,40826f355,891,741521,277506,78810,297350,743562,277600,78863,297466,,"PLAN's third consolidation, the writing pass: 77 lines rewritten in four chunks, the edges, line 173 moved"
+3444,2026-11-03 19:11:27Z,7eba9a55b,891,741521,277506,78810,297350,743562,277600,78863,297466,,Boot note: the revival page's outlines done and published; he chooses the shape
+3445,2026-11-03 19:12:07Z,10880b463,891,741521,277506,78810,297350,743562,277600,78863,297466,,Boot note: the timeline refresher done and published
+3446,2026-11-03 19:12:58Z,dc355298b,891,741521,277506,78810,297350,743562,277600,78863,297466,,"Boot note: PLAN's third consolidation done and pushed, PLAN at 186K characters"
+3447,2026-11-03 19:15:35Z,7f222f889,891,741521,277506,78810,297350,743562,277600,78863,297466,,Boot note: the drafts page's version 9 published with the twelve working-rule drafts; nothing runs
+3448,2026-11-03 19:29:09Z,6dad66307,891,741521,277506,78810,297350,743562,277600,78863,297466,,Held list: his word of 19:4x on 11-03 on the revival page's purpose and shape
+3449,2026-11-03 19:38:17Z,f2414fe63,891,741521,277506,78810,298374,743562,277600,78863,298490,,Revival page: proposal for its new shape after his word of 19:4x on 11-03
+3450,2026-11-03 19:39:36Z,6a8093498,891,741521,277506,78810,298374,743562,277600,78863,298490,,Boot note: the revival page's proposal done and published; the rebuild waits on his word
+3451,2026-11-04 19:40:20Z,92e07b7ce,891,741521,277506,78810,298374,743562,277600,78863,298490,,Revival page proposal: the outside reader includes the team's own designers; the wrong sentence on Professor Ryu correct
+3452,2026-11-04 19:41:24Z,d91bfa153,891,741521,277506,78810,298374,743562,277600,78863,298490,,"Held list and boot note: his objection of 19:3x on 11-04 to the proposal's sentence on Professor Ryu, corrected; the VM "
+3453,2026-11-04 19:53:57Z,f26e53c35,891,741521,277506,78810,299065,743562,277600,78863,299181,,"Revival page: a blinded reader's review of the current text and the proposed order, with its INDEX line"
+3454,2026-11-04 19:54:42Z,b6d8f73ae,891,741521,277506,78810,299065,743562,277600,78863,299181,,Boot note: the blinded review of the revival page's orders
+3455,2026-11-04 20:11:13Z,19ec59a39,891,741521,277506,78810,299065,743562,277600,78863,299181,,"Held list and boot note: his go of 20:0x on 11-04 for the revival page's rebuild, without stakes and turns"
+3456,2026-11-04 20:25:41Z,14126172e,891,741521,277506,78810,299065,743562,277600,78863,299181,,"Held list and boot note: his word of 20:1x on 11-04, a minimal number of numbers on the revival page"
+3457,2026-11-04 21:10:24Z,7c72206bb,891,741521,277506,78810,299065,743562,277600,78863,299181,,Boot note: the revival page's version 25 published for his read
+3458,2026-11-05 07:29:51Z,771d4503d,891,741521,277506,78810,299065,743562,277600,78863,299181,,"Held list: his read of the revival page's version 25, two notes"
+3459,2026-11-05 07:31:27Z,d186ebbb3,891,741521,277506,78810,299065,743562,277600,78863,299181,,"Held list: his word of 07:3x on 11-05, the chart's update now"

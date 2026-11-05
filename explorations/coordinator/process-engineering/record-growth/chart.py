@@ -106,7 +106,7 @@ ax3.annotate('FACTS peak %dK\nat batch 7b (09-30)' % round(float(pk['facts_chars
              bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
 d = by_commit['d4ddb06c4']
 ax3.annotate('-92K: rung entries\ncut to the fact (10-02)', (T(d['utc']), float(d['facts_chars']) / 1e3),
-             xytext=(dt.datetime(2026, 10, 14, 12), 352), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
+             xytext=(dt.datetime(2026, 10, 24, 12), 352), textcoords='data', ha='center', fontsize=9, color=INK2, zorder=8,
              bbox=dict(fc=SURFACE, ec='none', pad=1.5), arrowprops=dict(arrowstyle='-', color=INK2, lw=0.8, shrinkA=0, shrinkB=2))
 # the consolidation of 10-13: FACTS and POSITIONS together, from just before 55f1a1352 to the last commit
 # (the chunks 55f1a1352 to ab933086b, then the entries that moved to the skills, 1632b5dfa to b67abe3d2: one drop at this scale)
@@ -141,7 +141,7 @@ for i, (b, tm) in enumerate(land):
     axL.text(slot, 0.50, label(b), rotation=90, ha='center', va='bottom', fontsize=8.5, color=INK, clip_on=False)
     axL.plot([slot, tm], [0.46, 0.0], color='#9b9a92', lw=0.8, clip_on=False, zorder=2)
 
-ax3.xaxis.set_major_locator(md.DayLocator(interval=4))
+ax3.xaxis.set_major_locator(md.DayLocator(interval=7))
 ax3.xaxis.set_major_formatter(md.DateFormatter('%m-%d'))
 plt.setp(ax3.get_xticklabels(), fontsize=9)
 ax3.set_xlabel('UTC date, 2026 (first-parent commits of main; nothing of the four existed before 09-08)', fontsize=9, color=INK2, labelpad=6)
