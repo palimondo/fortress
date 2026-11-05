@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 12:45 His comment on the page of `fortress-repo` changes, sent to Claude, on change 9 (`interpreter.md`, "Natives"): he has read everything above that point on the page, and the page helps him get a sense of what changes in the Fortress language after a landing; the sentence "The bindings that name no helper name one." confuses him, and he asks whether it is clear to the workers. Answered on the thread at 12:5x: not clear enough; the skill writer rewords it with a cold read, and the page then shows the change.
+
 - 12:5x The published pages (41 in his client, 64 in all) go on the queue for a manual review, not now: substantial work went into them and they informed him; some are one-offs, some may become a permanent record (the numerics pages will come up again), and those could move to the `docs/` folder so that GitHub Pages publishes their formatted form openly. He asks for a sort first: one-offs against candidates for the permanent record, and which are up to date and which obsolete, to help his decisions on what to publish and what to delete.
 
 - 12:19 His comment on the drafts page's version 2, sent to Claude: (1) the landed items' reasons use internal references to the cold read's flags ("F9"); that is noise he does not want in his explanations, new behaviour he does not want to see again: a reason describes the facts. (2) Draft 13 approved with a caveat: its explanation reads as if changes to `fortress-repo` would now wait on his word, which was not his intention; the page's purpose is only a good working surface to check the changes whenever he wants, and it must not change how the `fortress-repo` skill is updated.
