@@ -249,7 +249,7 @@ Three terms first. A functional method is a method with `self` among its paramet
 
 The record is the project's notes, kept in the repository beside the team's code. Its main parts are the gap ledger (section 5), the list of facts, the list of the curator's decisions, and an index of all notes. An agent reads the parts its task needs before it starts, so no agent works out again what the record holds.
 
-[chart: record growth]
+![Growth of the record, commit by commit, with a vertical line at each batch's landing](record-growth/record-growth.png)
 
 The chart has three panels on one time axis, with a vertical line at each batch's landing. They show the ledger's characters, its rows, and the sizes of the facts, the decisions and the index. The ledger grows mostly while batches run, and the index by one line for each new note. Each sharp fall is a rewrite that shortened the entries, with the earlier text kept in history.
 

@@ -23,6 +23,12 @@ languages have been absorbing ever since:
   overloading checked by the Meet Rule — plus algebraic traits (`Monoid`,
   `Ring`, …) and design-by-contract woven into the type system.
 
+**The revival.** Since August 2026 this repository is being brought back to
+life: the team's design finished, judged by their own sources, with one
+program as the measure. [The revival so far](explorations/coordinator/process-engineering/revival-story.md)
+tells the story for readers outside the project: its purpose, its rule, and
+where it stands.
+
 It looked like this — the heart of
 [`buffons.fss`](ProjectFortress/demos/buffons.fss), one of the original Sun
 Labs demos, estimating π by Buffon's needle. The `for` loop runs its
