@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 12:0x His ask: the same page treatment for the `fortress-repo` skill, so that when the post-landing process updates it (the orientation workflow's update of the revival part, the skill writer's changes to the area parts, their cold read), a page shows him the landed diffs with reasons; and make it part of the landing workflow, after the skill writer has updated the skills from the landed changes. The coordinator's plan: the rule drafted for his yes (a page per skill, updated by a worker after each change lands, the landing workflow included); the first `fortress-repo` page from the changes after climb batch 25's landing; then the chain wired into the record-landing workflow.
+
 - 12:2x Draft 12 landed (`23f18f024`, its cold read's fix `f1dff89b4`); the drafts page recreated with a fresh history at https://claude.ai/artifact/9tX3rwtAgYHgbu8XZQtNhr and the old page deleted, at his word of 10:4x and 11:53. His rule of 11:5x is in the skill: done.
 
 - 11:53 His comment on the drafts page's draft 12 (the landed skill changes are shown on the page as diffs, chat gives one line and the link): "proposal approved"; when it lands, the page is recreated with a fresh history and the old one removed.
