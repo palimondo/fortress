@@ -1,6 +1,6 @@
 # Fortress: the revival so far
 
-## Words used on this page
+## Glossary
 
 The words below have one meaning on this page. Skim them if a term is new to you.
 

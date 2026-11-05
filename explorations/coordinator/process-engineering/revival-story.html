@@ -70,9 +70,6 @@ details.words > summary { cursor: pointer; color: var(--muted); line-height: 1.4
 details.words > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 details.words > summary .w-head { font-weight: 700; color: var(--fg); margin-right: .4rem; }
 details.words[open] > summary { margin-bottom: .4rem; }
-details.words[open] > summary .w-head { display: none; }
-details.words section.part { border-top: 0; padding-top: 0; }
-details.words section.part h2 { font-size: 1rem; margin: 0 0 .3rem; }
 details.words dl.gloss dd { margin-left: 1em; }
 @media (min-width: 64rem) {
   .page { display: grid; max-width: 68rem; grid-template-columns: minmax(0, 1fr) 19rem; column-gap: 2.5rem; row-gap: 24px; align-items: start; }
@@ -89,10 +86,8 @@ details.words dl.gloss dd { margin-left: 1em; }
 <h1>Fortress: the revival so far</h1>
 </header>
 
-<details class="words" id="words">
-<summary><span class="w-head">Words used on this page</span> <span class="w-lead">The words below have one meaning on this page. Skim them if a term is new to you.</span></summary>
-<section id="words-used-on-this-page" class="part">
-<h2>Words used on this page</h2>
+<details class="words" id="glossary">
+<summary><strong class="w-head">Glossary</strong> <span class="w-lead">The words below have one meaning on this page. Skim them if a term is new to you.</span></summary>
 <dl class="gloss">
 <div><dt>batch</dt><dd>Set of tasks that agents carry out at once and land together.</dd></div>
 <div><dt>checker</dt><dd>Compiler's static type checker.</dd></div>
@@ -130,7 +125,6 @@ details.words dl.gloss dd { margin-left: 1em; }
 <div><dt>type group</dt><dd>Part of the team that built the checker and the compiler.</dd></div>
 <div><dt>Working Draft</dt><dd>Team's last full specification, of 2 February 2011.</dd></div>
 </dl>
-</section>
 </details>
 <section id="fortress-the-revival-and-who-does-the-work" class="part">
 <h2>1. Fortress, the revival and who does the work</h2>
@@ -343,5 +337,25 @@ document.querySelectorAll('section.part').forEach(function (sec) {
 });
 </script>
 <script>
-if (window.matchMedia('(min-width: 64rem)').matches) document.getElementById('words').open = true;
+(function () {
+  var d = document.getElementById('glossary');
+  if (!d) return;
+  if (window.matchMedia('(min-width: 64rem)').matches) d.open = true;
+  var s = d.querySelector(':scope > summary');
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'sel';
+  b.setAttribute('aria-label', 'Select the glossary to have it read aloud');
+  s.appendChild(b);
+  b.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var r = document.createRange();
+    r.setStart(s, 0);
+    r.setEnd(d, d.childNodes.length);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(r);
+  });
+})();
 </script>
