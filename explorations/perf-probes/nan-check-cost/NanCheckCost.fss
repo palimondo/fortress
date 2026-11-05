@@ -1,0 +1,30 @@
+(* The probe's program for REPORT.md beside it: 50,000,000 comparisons x < y
+   of two RR64 variables on the compiled path, counting the true results.
+   x and y follow two logistic maps, so they never become a NaN, the count
+   depends on every comparison, and the branch on it is not predictable.
+   The loop runs twice in one JVM; each round prints its count and its
+   time by nanoTime, and the second round shows the loop after warm-up. *)
+component NanCheckCost
+export Executable
+
+round(r: ZZ32): () = do
+  x: RR64 := 0.3
+  y: RR64 := 0.6
+  count: ZZ32 := 0
+  i: ZZ32 := 0
+  t0 = nanoTime()
+  while i < 50000000 do
+    if x < y then count := count + 1 end
+    x := 3.9 x (1.0 - x)
+    y := 3.8 y (1.0 - y)
+    i := i + 1
+  end
+  t1 = nanoTime()
+  println("NanCheckCost round " || r || " count " || count || " loop_ns " || (t1 - t0))
+end
+
+run() = do
+  round(1)
+  round(2)
+end
+end
