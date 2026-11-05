@@ -31,6 +31,12 @@ bothArms(n: ZZ32): String = do
     r1 || r2
   end
 
+alternate[\T extends Object\](x: T, y: T, n: ZZ32): T = do
+    first(i: ZZ32): T = if i = 0 then x else second(i - 1) end
+    second(i: ZZ32): T = if i = 0 then y else first(i - 1) end
+    first(n)
+  end
+
 splitSum(lo: ZZ32, m: ZZ32): ZZ32 = do
     part(a: ZZ32, k: ZZ32): ZZ32 =
         if k = 1 then a
@@ -49,6 +55,7 @@ splitSum(lo: ZZ32, m: ZZ32): ZZ32 = do
 
 run(): () = do
     assert(keep[\String\]("a", 3), "a", "pick reads x of type T")
+    assert(alternate[\String\]("x", "y", 3), "y", "first and second call each other and read x and y of type T")
     assert(H3.sumTo(4), 10, "step calls size of self in Hold")
     assert(bothArms(10), "1112", "lbl called from both arms")
     assert(splitSum(0, 8), 28, "part calls itself from both arms")

@@ -26,6 +26,13 @@ run(): () = do
     a5 = adder(5)
     assert(a5(1), 6, "the local add as the value of adder's block")
     assert(twice(adder(2), 1), 5, "adder's value passed on")
+    mp(y: ZZ32): ZZ32 -> ZZ32 = fn (z: ZZ32): ZZ32 => add(y) + z
+    assert(mp(1)(2), 13, "a function expression in mp calls its sibling add")
+    outer(y: ZZ32): ZZ32 = do
+        inner(z: ZZ32): ZZ32 = add(z) + y
+        twice(inner, 0)
+      end
+    assert(outer(1), 22, "inner, local to outer, calls outer's sibling add and is passed to twice")
     println("PASS")
   end
 

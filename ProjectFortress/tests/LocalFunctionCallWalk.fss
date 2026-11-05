@@ -15,6 +15,9 @@ run(): () = do
     m: ZZ32 = 7
     neg(x: ZZ32): ZZ32 = m - x
     assert(neg(2), 5, "neg reads the local m of run")
+    seven(): ZZ32 = m
+    sum3(a: ZZ32, b: ZZ32, c: ZZ32): ZZ32 = a + b + c + seven()
+    assert(sum3(1, 2, 3), 13, "sum3 takes three parameters and calls seven, which takes none")
     println("PASS")
   end
 

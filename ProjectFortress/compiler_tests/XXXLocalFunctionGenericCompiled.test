@@ -1,0 +1,3 @@
+tests=XXXLocalFunctionGenericCompiled
+compile
+compile_exception_contains=Can't compile a local function with static parameters of its own yet
