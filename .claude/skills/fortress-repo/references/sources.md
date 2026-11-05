@@ -1031,4 +1031,5 @@ From the cold read of `597537f2e` and `59cc13881`, eleven of its 22 flags as the
 
 ## The push in one command, 2026-11-05
 
-- `committing.md`, "Pushing", step 3: the three refs in one `git push`, in the same order, in the foreground, with its output read. The coordinator's practice since 19:0x UTC on 2026-11-03, when each request to GitHub took 5 to 6 s, and a loop that piped each push through `tail` hid every failure; settled by the coordinator.
+- `committing.md`, "Pushing", step 3: the three refs in one `git push`, in the same order, in the foreground, with its output read. The coordinator's practice since the evening of 2026-11-03, when each request to GitHub took 5 to 6 s, and a loop that piped each push through `tail` hid every failure; settled by the coordinator.
+- The same step, from a cold read of `d7d81a2f1`, 2026-11-05, settled by the coordinator: `--atomic`, so that the three refs update together or not at all; the `tail` sentence as a rule against a pipe, which hides a refusal; how a refusal shows, a line that starts with `!` and a non-zero exit (git's own output); "wait for it to end" in place of "in the foreground"; a refused push reported with its ref and message, and not run again.
