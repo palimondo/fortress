@@ -1,0 +1,38 @@
+component ExclusionArrayScalarLibraryShapeWalk
+export Executable
+
+(* Generic operators between an array over an open number trait and a number, on either side, with two static parameters, beside a self-typed additive group's own operators, are a valid overloading, since no value is both an array and a number, and each call runs the declaration its arguments select (overloading.tex, sections "Incompatibility Rule" and "Declarations with Static Parameters"). *)
+
+trait AnyAddG end
+trait AddG[\T extends AddG[\T\]\] extends AnyAddG
+    opr PLUS(self, other: T): String
+    opr MINUS(self, other: T): String = "group difference"
+end
+trait Numb end
+trait HasRk excludes { Numb } end
+trait Arry[\E, I extends Index\] extends HasRk end
+object Rr extends { Numb, AddG[\Rr\] }
+    opr PLUS(self, other: Rr): String = "number sum"
+end
+object Vv extends { Arry[\Rr, ZZ32\], AddG[\Vv\] }
+    opr PLUS(self, other: Vv): String = "vector sum"
+end
+
+opr PLUS[\T extends { Numb, AddG[\T\] }, I extends Index\](x: Arry[\T,I\], y: T): String = "array plus number"
+opr PLUS[\T extends { Numb, AddG[\T\] }, I extends Index\](y: T, x: Arry[\T,I\]): String = "number plus array"
+opr MINUS[\T extends { Numb, AddG[\T\] }, I extends Index\](x: Arry[\T,I\], y: T): String = "array minus number"
+opr MINUS[\T extends { Numb, AddG[\T\] }, I extends Index\](y: T, x: Arry[\T,I\]): String = "number minus array"
+
+run(): () = do
+    assert(Rr PLUS Rr, "number sum", "two numbers run the number's own PLUS")
+    assert(Vv PLUS Vv, "vector sum", "two vectors run the vector's own PLUS")
+    assert(Vv PLUS Rr, "array plus number", "a vector and a number run the array's PLUS")
+    assert(Rr PLUS Vv, "number plus array", "a number and a vector run the array's PLUS")
+    assert(Rr MINUS Rr, "group difference", "two numbers run the group's MINUS")
+    assert(Vv MINUS Vv, "group difference", "two vectors run the group's MINUS")
+    assert(Vv MINUS Rr, "array minus number", "a vector and a number run the array's MINUS")
+    assert(Rr MINUS Vv, "number minus array", "a number on the left runs the array's MINUS with the number on the left")
+    println("PASS")
+  end
+
+end
