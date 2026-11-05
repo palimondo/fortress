@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the Natives change","toolUseId":"toolu_01SyXdU5BuTA34sT6FgsfxaV","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the Natives change","toolUseId":"toolu_01SyXdU5BuTA34sT6FgsfxaV","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1","finished":true}
