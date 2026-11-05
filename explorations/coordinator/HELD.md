@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 17:13 His comment on the drafts page's item 20, sent to Claude: the rule is mostly fine, but he worries about the ping-pong with a proposal: he approves, the landing's cold read changes the words, and the change waits for him again; the proposal should go through its cold read before it is shown to him, so that the back and forth goes. Answered on the thread: yes; the skill writer drafts it (a change that waits for his yes is cold-read and fixed before it goes under "Proposed changes"; what lands is the approved words; only a lint hit or a wrong path found at the landing may change them, shown alone), and since it touches how changes reach him, the exact words come to him under "Proposed changes", cold-read first.
+
 - 17:06 His comment on the `fortress-repo` page's version 5, sent to Claude: "Reading done. LGTM." He read up to change 17; by his rule of 16:49 the page's next version drops changes 13 to 17.
 
 - 16:54 His comment on the `fortress-repo` page's change 9: he trusts that the reword landed, but "the page does not say so"; the page was not updated to reflect it. The reword was on the page as change 13, below changes 10 to 12, while change 9 kept its old text under his threads: the wrong call. Answered on the thread; the page's next version drops changes 9 to 12, which he read, by his rule of 16:49, and starts at change 13.
