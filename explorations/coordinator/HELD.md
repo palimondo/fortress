@@ -4,6 +4,8 @@
 
 ## Held in chat (2026-11-05)
 
+- 10:4x The drafts page's comment history cannot be deleted, so the next round of skill drafts goes on a fresh page with the same layout and a new link, and the old page (https://claude.ai/artifact/LwjYdr5x6iSVVEgwKMic1m) is deleted then, at his word of 10:4x. Nothing to do until the next round.
+
 - 10:3x His read of the drafts page's version 10, all eleven items: "Everything as it stands is fully approved and can be incorporated into the skill"; "excellent work". He wants the page reused for similar changes in the future, with its comment history cleaned: he has resolved every comment, and does not want the garbage carried forward.
 
 - 08:2x His decision on who decides changes to the coordinator skill: way c of the context note. Every change to the coordinator skill lands after a cold read and is reported in the coordinator's next message with its old and new words, so that he can reverse it; only a change that touches his role, the asks, the held list, the review list or the register waits for his yes to its exact words. Draft 1 of the drafts page's version 9 is rewritten to this and comes back on the page for his yes to the wording.
