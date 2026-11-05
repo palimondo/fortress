@@ -78,3 +78,24 @@ The base commit of the worktree is `dc571c1f3`.
     JAVA_FLAGS="$JAVA_FLAGS -XX:+UnlockDiagnosticVMOptions -XX:+PrintCompilation -XX:+PrintInlining" ../../../bin/fortress run NanCheckCost
 
 `/usr/bin/time` is not installed in the container, so the shell's `date` timed each run.
+
+## The same check on unboxed doubles, in Java
+
+The curator asked what the check would cost once floats are unboxed, as in a future `double[]` array store (P-84), where the boxing that dominates the measurement above is gone. Java is the stand-in: the compiled code is JVM bytecode, and HotSpot optimises both the same way. A second Opus worker wrote and ran `NanVec.java`, beside this report, in `tmp/nan-java/`, and returned this text, which the coordinating session wrote here word for word in its substance.
+
+Three loops over two `double[]` arrays of 16M elements, filled from a logistic map so that no NaN occurs and the branch is not predictable, each counting how many `a[i] < b[i]` (the count is 8,387,782 in every run): (1) the plain comparison; (2) the comparison guarded by a NaN check that throws `ArithmeticException("FloatingComparisonError")`, as the Fortress helper would; (3) the comparison with a check that records a NaN in a flag, tested once after the loop. Each loop warmed up for 20 passes, then 10 timed passes; the median per element, in nanoseconds, two runs of the whole set:
+
+- (1) plain, default flags: 1.852 and 1.742. With `-XX:-UseSuperWord`: 1.764 and 1.741.
+- (2) the throwing check, default flags: 2.064 and 2.173. With `-XX:-UseSuperWord`: 2.049 and 2.033.
+- (3) the flag check, default flags: 2.030 and 2.036. With `-XX:-UseSuperWord`: 2.035 and 2.044.
+
+What it means:
+
+- Turning SuperWord off, which turns off auto-vectorisation, changes no loop beyond the noise. So HotSpot 25's C2 vectorised none of the three loops, the plain one included: it does not vectorise this loop shape, a conditional count over double compares. So the throwing check could not stop a vectorisation here, because there was none to stop. That question stays open.
+- Both checks cost about 0.3 ns per element over the plain loop, 15 to 20 percent, from the two extra loads and compares and the branch. The flag variant costs the same as the throwing one here.
+- At 16M elements a pass reads 256 MB in about 29 ms, about 9 GB/s, near memory bandwidth, which hides compute differences. With 64K elements, which sit in cache, and a branchless count (`c += (a[i] < b[i]) ? 1 : 0`, `NanVecB`), the plain loop runs 0.93 ns per element and both checks about 1.33, about 40 percent more; SuperWord still makes no difference to the plain loop.
+- C2 compiled every loop at tier 4; no deoptimisation in the timed phase. `-XX:+PrintAssembly` is unavailable (no hsdis), so the machine code was not read, and the claim that nothing was vectorised rests on the `-UseSuperWord` timings alone.
+- A control, an add-and-store loop `r[i] = a[i] + b[i]` (`NanVecS`), did not separate cleanly and gets no weight.
+- Open for a later probe: whether a loop that HotSpot does vectorise, an element-wise store loop in a method of its own on cache-resident arrays, loses its vector form when a throwing NaN check is added.
+
+Machine: 4 cores, Intel Xeon at 2.10 GHz with AVX-512; OpenJDK 25.0.4.1; load under 0.3; no other work ran. Commands, in `tmp/nan-java/`: `javac -d . NanVec.java`; `java -Xmx1g NanVec` and `java -Xmx1g -XX:-UseSuperWord NanVec`, twice each; `java -Xmx1g -XX:+UnlockDiagnosticVMOptions -XX:+PrintCompilation NanVec <k>` for each loop.
