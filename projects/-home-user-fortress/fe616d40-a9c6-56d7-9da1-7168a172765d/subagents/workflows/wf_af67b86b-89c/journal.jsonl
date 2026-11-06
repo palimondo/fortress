@@ -1,2 +1,5 @@
 {"type":"launched"}
 {"type":"started","key":"v2:99021e039906e331b2c47e2c69dbc8817cdbc30f4f7478b85176c4fd073c767a","agentId":"afd5c8cdd32402555","label":"evidence c-run4","phase":"Evidence"}
+{"type":"result","key":"v2:99021e039906e331b2c47e2c69dbc8817cdbc30f4f7478b85176c4fd073c767a","agentId":"afd5c8cdd32402555","result":"chunk c4: 12 rows\nchunk c8: 12 rows\nchunk c12: 12 rows\nchunk c16: 12 rows\nchunk c20: 12 rows\nchunk c24: 11 rows\nchunk c27: 12 rows\nchunk c31: 7 rows\nchunk c34: 12 rows\nchunk c39: 12 rows\nchunk c44: 12 rows\nEVIDENCE DONE 11 chunks, 126 rows, base c124c6b65, gate a12ab5c60 holds","remoteControlDeviceReport":false,"toolsUsed":["Skill","Bash"]}
+{"type":"started","key":"v2:f4602b38873328da0f17db59f61459eff4944879e2d1fb867007c31b1d99ecf5","agentId":"ae5ee4b5b9004bef9","label":"write c4","phase":"Write"}
+{"type":"started","key":"v2:f1001a7b8fde92247b44aed12657fc5c4b65fa43afe5098e5c76784c3a398888","agentId":"a83e7c9f157e17cdf","label":"write c8","phase":"Write"}
