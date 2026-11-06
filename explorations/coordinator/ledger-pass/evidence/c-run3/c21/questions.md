@@ -1,0 +1,5 @@
+# c21: questions for the prober
+
+No row of c21 is given `measure`. No `XXX` test of the chunk is believed to pass now: the cited dispatcher code (`OverloadSet.java:1342-1353`, `:1484`, `:2048`, `:2393-2414`), `OverloadingChecker.scala:252-255` and the import grammar (`Identifier.rats:95-104`, `Compilation.rats:308-336`) stand at c124c6b65 as the rows describe them, and the walk test `XXXGenericInstanceReturnOnlyWalk` ran as an expected failure in gate `a12ab5c60`, which holds for the base.
+
+Optional, not a disposition: row 499's note that walk's answer for `XXXGenericPositionalFixed`'s pair (`grab` on `Tag[\X\]` and on `Fixed[\Y\] extends Tag[\Blue\]`) is not measured since row 159's fix (`6d187d069`). Program: `ProjectFortress/compiler_tests/XXXGenericPositionalFixed.fss`, whole, under walk: `bin/fortress ProjectFortress/compiler_tests/XXXGenericPositionalFixed.fss`. If it prints `fixed`, row 499's notes can say "walk answers `fixed`"; if `tag`, walk shares the defect and row 499 says "on both paths"; a refusal at load means row 159's fix does not cover it, a new row.

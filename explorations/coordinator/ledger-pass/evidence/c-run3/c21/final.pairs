@@ -1,0 +1,1 @@
+706	510	706 (walk) names 510 as a sibling: both are a static argument that only a call's result mentions, which walk does not fix; 510 at a typed binding, 706 at dispatch. Check 510 names 706 in siblings

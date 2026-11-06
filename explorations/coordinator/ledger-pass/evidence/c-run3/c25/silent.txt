@@ -1,0 +1,2 @@
+257	choice	`_` is listed among the macro language's SpecialChars on purpose (`Syntax.rats:395-398`) with a backtick escape for it, and the closed-set order is the ordered choice of a PEG; both follow the team's grammar design, not a slip
+286	defect	a template that drops an operand with no diagnostic gives a wrong program silently; no reading of the template language chooses that

@@ -1,0 +1,32 @@
+# Queue items from chunk c10, run c-run3
+
+- **Row 135, held: does `BIG UNION` over a generator of maps still need its static arguments under walk since `20474c144`?** `20474c144` (2026-10-14) instantiates an unwritten big operator by its value's declared type, else its elements' join; the row's failing probe declares `b: Map[\String,ZZ32\]`, so it may now pass. No prober ran it in this pass. The program (the old probe from `22ea0cd90^:explorations/run-b2/probes/g1e_bigunion1.fss` with an untyped binding added), command and each outcome's close or line are in `tmp/ledger-pass/c-run3/c10/questions.md`, "Row 135". Whatever the outcome, the sentence on the library's eleven clause-form sums (`d846e3644`) goes, a repair note (home: history, row 135).
+   - Landed: the row's present line (`tmp/ledger-pass/c-run3/c10/evidence/135.md`, the guard's line, sha dc318a12ff62fe7f). Default: the row's present line.
+   - The other way: run the probe under walk, then close against `20474c144`, narrow the claim to the untyped binding, or rewrite with the program and its output in the notes.
+   - Its cost: one walk run of a 15-line program, under a minute.
+   - Home: `tmp/ledger-pass/c-run3/c10/questions.md`, `assessment.md` and `check.md`, row 135; row 135.
+   - Needed by: the ledger's repair; the next prober run of the pass.
+- **Row 104, held: the check's correction overruns the notes.** The check replaces "It swallows even a paste that succeeds with a literal-sized type (row 107; ...)", which reads two ways, with "A 2×2 grid of square blocks, which pastes under a literal-sized type (row 107), binds nothing under `Array[\RR64,(ZZ32,ZZ32)\]` too (probe `explorations/gap-ledger-probes/g19.fss`, in the parent of `e879b6a44`)."; with it the notes are 719 of 700, and no source gives the cut. The writer's re-pin (`LHSEvaluator.java:179-203`, at c124c6b65) and probe parents (`ed6dafb52`) hold.
+   - Landed: the row's present line (`tmp/ledger-pass/c-run3/c10/evidence/104.md`, sha fc4e8a3ac889b54c). Default: the row's present line.
+   - The other way: `tmp/ledger-pass/c-run3/c10/rows.rewrite`'s row 104 with the check's sentence and 19 characters cut elsewhere.
+   - Its cost: one rewrite and `ledger.py check`.
+   - Home: `tmp/ledger-pass/c-run3/c10/check.md` and `judgement.md`, row 104.
+   - Needed by: the ledger's repair.
+- **Row 343, held: the check's corrections overrun the row and notes.** The check's three corrections (the claim to "walk fails at run time, not with the static error of two declarations of one name in one namespace"; "The compiled path has no clash, its prelude declaring no `shared` (row 344)"; `getValueRaw` on the exporting component's environment, `:129`, and `putValueRaw` into the api's, `:132`, "which step loses the variable is not traced") give a row of 1290 of 1,200 and notes of 787 of 700. The old claim's "neither path reports" overstates the compiled half.
+   - Landed: the row's present line (`tmp/ledger-pass/c-run3/c10/evidence/343.md`, sha 55968ba297fd6b6f). Default: the row's present line.
+   - The other way: the writer's line with the check's corrections and about 90 characters of notes cut (the probe sentence or the workaround shortened).
+   - Its cost: one rewrite and `ledger.py check`.
+   - Home: `tmp/ledger-pass/c-run3/c10/check.md` and `judgement.md`, row 343.
+   - Needed by: the ledger's repair.
+- **Row 344, held: the check's corrections overrun the notes.** The check cites "the prelude takes no new declaration" to `references/compiler.md`, "The compiler's prelude, until the switch-over", and writes "the switch-over brings the library's `shared` into its reach, the clash of row 343" for "the switch-over breaks it"; the notes are then 748 of 700.
+   - Landed: the row's present line (`tmp/ledger-pass/c-run3/c10/evidence/344.md`, sha d4b31cd0ab8956af). Default: the row's present line.
+   - The other way: the writer's line with the check's corrections and about 50 characters cut (the six citations written as `Library/FortressLibrary.fsi:45-49` and `.fss:65-69`).
+   - Its cost: one rewrite and `ledger.py check`.
+   - Home: `tmp/ledger-pass/c-run3/c10/check.md` and `judgement.md`, row 344.
+   - Needed by: the ledger's repair; the switch-over (the `ExportVarRungXApi.fsi` clash).
+- **Row 841, held: the check's corrections overrun the row and notes.** The row's pin `733d73574` is not in the base's history and `WalkAbsent.fss` is no path; the writer's line fixes both. The check's four corrections (Home: P-12, walk not changed before the switch-over; "when the object defines the method"; the spec cell's `Specification/` root; the second output named `WalkOther`) give a row of 1263 of 1,200 and notes of 816 of 700.
+   - Landed: the row's present line (`tmp/ledger-pass/c-run3/c10/evidence/841.md`, sha dbd63fe8ccf22ace). Default: the row's present line.
+   - The other way: the writer's line with the check's corrections and the api and component spelled out in the notes cut to a pointer to `explorations/compile-ladder/rung-abstract-declared/REPORT.md`, section 7.
+   - Its cost: one rewrite and `ledger.py check`.
+   - Home: `tmp/ledger-pass/c-run3/c10/check.md` and `judgement.md`, row 841; POSITIONS P-12.
+   - Needed by: the ledger's repair.

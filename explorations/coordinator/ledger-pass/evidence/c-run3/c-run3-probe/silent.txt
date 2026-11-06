@@ -1,0 +1,2 @@
+184	defect	an internal-bug stop ("Expect all oprefs to be top level") where a dispatch error belongs is a fault of walk, not a behaviour the team chose
+235	choice	PEG greed inside a delimited rule follows from the parser the team chose

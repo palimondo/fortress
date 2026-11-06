@@ -1,0 +1,2 @@
+135	20474c144	none	no gated test asserts a BIG UNION over a generator of maps without static arguments; at c124c6b65 the row's probe explorations/run-b2/probes/g1e_bigunion1.fss (in the parent of 22ea0cd90), with an untyped binding c = BIG UNION[ m <- seq(ss) ] m added, prints typed = {a|->1, b|->2, c|->30} and untyped = the same under walk, exit 0; 20474c144 instantiates an unwritten big operator by its value's declared type, else by its elements' join (by reading, not bisected)
+240	8f7e183d4	ProjectFortress/tests/GenericReturningAny.fss

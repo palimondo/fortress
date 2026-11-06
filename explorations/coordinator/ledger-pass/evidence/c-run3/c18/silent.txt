@@ -1,0 +1,2 @@
+864	defect	the loader is meant to refuse an uncarried self at load, as it does for a functional method; the instance-time stop is a gap in where the check runs, not a chosen behaviour
+883	defect	the repeated parse is a cost of where the rewriter hooks into importCollector, not a behaviour the team chose; no specification text governs parse counts

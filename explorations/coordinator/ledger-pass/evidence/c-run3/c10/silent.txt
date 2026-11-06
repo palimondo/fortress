@@ -1,0 +1,2 @@
+900	defect	the api writes FileWriteStream with WriteStream's members and File.fss:79 calls writeOn with it, so the object's own method fails on a rope: the library contradicts itself, no choice of the team
+901	defect	Library/File.fsi:131 declares flush() and the component defines none: an api and its component disagree, which the text's export rule refuses

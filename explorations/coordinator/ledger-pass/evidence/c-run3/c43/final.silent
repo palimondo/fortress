@@ -1,0 +1,9 @@
+181	defect	the preparser rejects an escape that the macro language itself defines (Syntax.rats EscapedSpecialChars); its delimiter check pairs the backtick only with a quote
+183	choice	greedy PEG gaps with no re-entry for a shorter match are how Rats! and the team's macro design work
+196	defect	a gap left of = reaches the IdOrOp constructor with null text: an exception, not a designed refusal
+211	defect	the delimiter check silently stops at the first ** token: an unanchored token loop, not a chosen rule
+235	choice	PEG greed inside a delimited rule follows from the parser the team chose
+236	choice	ordered choice among alternatives is PEG's defined behaviour
+239	defect	a well-formed use of the expander fails to parse in one expression position where it parses in others
+250	choice	the SpecialChars list in Syntax.rats is the team's design; `\` and `.` need no escape and are plain items
+287	choice	PEG commits to the first succeeding alternative inside a nonterminal, by design

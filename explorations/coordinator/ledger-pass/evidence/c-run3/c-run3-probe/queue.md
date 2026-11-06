@@ -1,0 +1,59 @@
+# Queue items of c-run3-probe (judge), from the prober's, with row 297 updated
+
+- **Row 747, not run: the count stage on an edited copy of the library.** The question (`tmp/ledger-pass/c-run3/c10/questions.md`, row 747) needs `Library/FortressLibrary.fss:4597`'s `fail[\ZZ32\](` written `fail(` in a seeded worktree and `explorations/coordinator/tools/checker-count/run.sh` there (about 150 s, in the background); this prober writes only in its folder and runs each command in the foreground under 230 s.
+   - Landed: the judge's line in `c10/final.rewrite` (NEGATIVE-BOUNDED). Default: that line.
+   - The other way: a worker seeds a worktree, makes the one edit, runs the count stage, and gives the line or close by the question's outcomes.
+   - Its cost: a seeded worktree and one count-stage run, under ten minutes.
+   - Home: `tmp/ledger-pass/c-run3/c10/questions.md`, row 747.
+   - Needed by: the ledger's repair.
+- **Row 297, close owed: walk now accepts the `^T` pair over `Matrix[\RR64,r,c\]` and `Array[\RR64,(ZZ32,ZZ32,ZZ32)\]`.** `probe/p297/V18PairT.fss` loads and prints both, cold and warm; the plain pair over `Array[\RR64,(ZZ32,ZZ32)\]` and the rank-3 array is still refused (`V18PairPlain.fss`, 'are unrelated', row 97's and row 416's shape). The close needs the commit, by bisect, which this prober may not do (it builds nothing).
+   - Landed: the check's rewrite of row 297 (`final.rewrite`), status kept, "Not reproduced at c124c6b65", the close waiting on its commit. Default: that rewrite.
+   - The other way: bisect walk on `V18PairT.fss` between the row's line and c124c6b65, candidates `6d187d069`, `14e91723f`, `c41c3d2b0`; then `ledger.py close 297` with that commit and a gated walk test of the pair; row 97's `siblings: 297` goes with it. Whether walk accepting the generic `Matrix` member but refusing the plain rank-2 `Array` member is consistent is row 416's question.
+   - Its cost: a bisect of a few builds, about an hour of a worker.
+   - Home: `runs.md` and `assessment.md` here, row 297.
+   - Needed by: the ledger's repair.
+- **Row 240's close names `8f7e183d4` by reading, not by bisect.** `A01AnyResultT.fss` dispatches the `Any`-result `nat`-generic family; `8f7e183d4` adds `MakeInferenceSpecific.forAnyType` (row 157's `Missing visitor … AnyType`), through which every generic candidate's declared result passes; its test `GenericReturningAny.fss` asserts a generic `Any`-result declaration chosen beside a plain one.
+   - Landed: the close in `closes.txt`. Default: the close.
+   - The other way: run `A01AnyResultT.fss` at `8f7e183d4^` and `8f7e183d4` in a worktree; if the parent also dispatches, find the commit by bisect.
+   - Its cost: two builds and two runs.
+   - Home: `runs.md` here, row 240.
+   - Needed by: the ledger's repair.
+- **Row 135, a gated test owed for its close.** The close names `20474c144` (by reading: it instantiates an unwritten big operator by its value's declared type, else its elements' join) and test `none`; no gated test asserts a `BIG UNION` over a generator of maps without static arguments (`UnwrittenBigOperatorsWalk.fss` reduces one-entry map literals over a range).
+   - Landed: the close with `none`. Default: the close with `none`.
+   - The other way: a worker adds a walk test from `probe/p135/G1eBigUnion1.fss` with asserts, and the close names it.
+   - Its cost: one small test and its harness run.
+   - Home: `runs.md` here, row 135.
+   - Needed by: the ledger's repair.
+- **Row 83 (CONTESTED): every case it names is now tried and none reproduces.** Walk prints `first 3.0`, `second 10.0`, `first again 3.0` for a `nat`-generic function declared in an api's own signature. The question's outcome: the row becomes `RETIRED`, class `—`; a `CONTESTED` row's status is the curator's, so the rewrite keeps `CONTESTED` and states the run.
+   - Landed: the rewrite, `CONTESTED`. Default: the rewrite.
+   - The other way: the curator retires the row on this run (`ledger.py` with status `RETIRED`).
+   - Its cost: one decision.
+   - Home: `runs.md` and `rows.rewrite` here, row 83.
+   - Needed by: the curator.
+- **Rows 184 and 444, `XXX` walk tests owed for their reproducers.** Both rewrites keep reproducer `none` with the program in the notes; the outcomes ask an `XXX` test under `ProjectFortress/tests/` (row 184 from `probe/p184/EqvUser.fss`, `run_err_contains=bug!` or a dispatch error expected; row 444 from `probe/p444/Sk2InheritedPlain.fss`, `load_exception_contains=Invalid overloading of m`), a change of the tree.
+   - Landed: the rewrites with `none`. Default: the rewrites.
+   - The other way: a worker adds the two tests, sees them fail through the harness, and the rows' reproducers name them.
+   - Its cost: two tests and their harness runs.
+   - Home: `runs.md` here, rows 184 and 444.
+   - Needed by: the ledger's repair.
+- **Row 235's reproducer stops at load at the base.** `explorations/apl/rung-3/t02_gram.fss` is refused: the APL base's `opr ×(a: RR64, b: RR64)` (`explorations/apl/base/AplCore.fss:1209`) and the library's `RR64` `TIMES` (`Library/FortressLibrary.fss:462`, since `d846e3644`) have the same parameter types. The c-run1 prober queued the same pair for `v04_lib.fss`, with the APL base's `fill` port. The rewrite makes the reproducer `none` and states the stop.
+   - Landed: the rewrite. Default: the rewrite.
+   - The other way: the curator's choice, as in c-run1's queue, whether to port the APL base; then rerun `t02_gram.fss` for `TA gaps: 5 5 5`.
+   - Its cost: unmeasured; deleting one line of `AplCore.fss` may suffice.
+   - Home: `runs.md` here, row 235; `tmp/ledger-pass/c-run1/c-run1-probe/queue.md`.
+   - Needed by: rows whose reproducers are APL rung programs.
+- **Probe programs that call `fill` with a function.** The questions for rows 164, 240 and 297 gave programs written before `f3b62bc83`; each stops at `fill param 1 (v:RR64) got arg FnExpr` until `fill(` is made `tabulate(`. Not a row: `fill` takes a value by the library's design.
+   - Landed: nothing. Default: nothing.
+   - The other way: the writer's brief tells writers to port a probe's `fill` of a function to `tabulate`.
+   - Its cost: one sentence.
+   - Home: `runs.md` here.
+   - Needed by: later ledger-pass runs.
+
+- **Row 30, a lead, not measured: walk runs `SumReduction` at `W`, outside its bound `AdditiveGroup[\W\]`.** Read at `Library/FortressLibrary.fss:3445` at c124c6b65; the rewrite states it as a reading, not a row.
+   - Landed: the sentence in row 30's notes. Default: that sentence, no row.
+   - The other way: a prober checks whether walk enforces a reduction's type bound and, if not, a new row.
+   - Its cost: one probe program.
+   - Home: `assessment.md` and `check.md` here, row 30.
+   - Needed by: the ledger's repair.
+
+`XXX` tests that now pass: none found. `XXXGenericPositionalFixed` passes under walk, but it is a compiled test (`compiler_tests/`), whose expected failure is the compiled answer; this run did not run it compiled.

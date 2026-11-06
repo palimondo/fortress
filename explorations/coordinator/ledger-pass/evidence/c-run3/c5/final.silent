@@ -1,0 +1,2 @@
+434	choice	the float half of Number's = is the library's stated rule in its doc comment, kept by decision; the alternative needs a conversion the library lacks
+407	defect	walk overflows its stack on a clause the compiler library itself uses; a crash is no chosen behaviour, whatever the clause's validity

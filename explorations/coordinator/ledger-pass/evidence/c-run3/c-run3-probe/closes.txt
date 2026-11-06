@@ -1,0 +1,2 @@
+135	20474c144	none	no gated test asserts a BIG UNION over a generator of maps without static arguments; at c124c6b65 bin/fortress G1eBigUnion1.fss (the row old probe g1e_bigunion1.fss) prints typed = {a|->1, b|->2, c|->30} and, with no declared type, untyped = the same, exit 0; 20474c144 instantiates an unwritten big operator by its value declared type, else its elements join (by reading, not bisected)
+240	8f7e183d4	ProjectFortress/tests/GenericReturningAny.fss
