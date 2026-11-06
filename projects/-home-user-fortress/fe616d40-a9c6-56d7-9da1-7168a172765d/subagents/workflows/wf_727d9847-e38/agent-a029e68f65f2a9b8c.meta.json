@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","isBuiltIn":true,"description":"write c40","workflowPhase":"Write","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1"}
