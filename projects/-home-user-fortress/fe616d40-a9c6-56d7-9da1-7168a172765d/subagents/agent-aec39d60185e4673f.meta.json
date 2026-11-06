@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"PLAN: the curator's two stress tests","toolUseId":"toolu_017ax7GXhtg4rSRWmeRd5rE8","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"PLAN: the curator's two stress tests","toolUseId":"toolu_017ax7GXhtg4rSRWmeRd5rE8","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1","finished":true}
