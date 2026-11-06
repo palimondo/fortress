@@ -36,7 +36,7 @@ Fields common to the six rungs:
   - The count table and the distance table on your final tree, and any site that comes.
   - Every sentence made false.
   - A file edited beyond those named, any edit of walk or the checker, and any line of a team test changed.
-- **briefing** (14 keys, 9 checks):
+- **briefing** (14 keys, 8 checks):
   - P-160 (check): the decision whose second step you build.
   - P-44: AnyIntegral's clause, which stays.
   - F-318 (check): the first step as landed, and the programs it loaded without the clause.
@@ -93,7 +93,7 @@ Fields common to the six rungs:
   - The three rational cases before and after, printThreadInfo's printed line among them.
   - Your tests before and after through the harness and junit.sh.
   - The count table and the distance table on your final tree, and any site that comes.
-  - Each value that moves, flatConcat at a Char past U+FFFF among them, and each test whose verdict changes in ant testSystem or ant testQuick.
+  - Each value that moves, and each test whose verdict changes in ant testSystem or ant testQuick; whether flatConcat at a Char past U+FFFF keeps the glue's answer (fork F4).
   - Every sentence made false.
   - A file edited beyond those named, any edit of Object's or SEQV's bindings, the checker or the compiler.
 - **briefing** (16 keys, 9 checks):
@@ -158,7 +158,7 @@ Fields common to the six rungs:
   - Writer.fsi and File.fsi as changed, and whether you took the last step, FileWriteStream as a WriteStream.
   - Your tests before and after through the harness and junit.sh, the printed lines under walk, and ConcurrentPrinting at four threads on the old code and the new.
   - The count table and the distance table on your final tree, and any site that comes, fileOps read whole for the first time.
-  - Each printed line that changes in any program, and each test whose verdict changes in ant testSystem or ant testQuick.
+  - Each printed line that changes, in your tests or in a program you run, with both outputs; the gather's demos and the commit stage's quick check see the rest. Each test whose verdict changes in ant testSystem or ant testQuick.
   - Every sentence made false, and each defect of the review's section 2 repaired or filed.
   - A file edited beyond those named, any edit of the reader side, of the prelude or of the run-time classes.
 - **briefing** (17 keys, 9 checks):
@@ -217,6 +217,7 @@ Fields common to the six rungs:
 - **The count** and **the distance** are the checker's errors on the one library: the count on its main component, the distance on its fourteen core components. Both are 0 (F-53).
 - A **rung** is one change, built by one worker and checked by a second agent, the skeptic. A **batch** is a few rungs landed together after the **gate**. The **gather** composes the rungs on `main`. A **guard** is a test that passes before the change and after it.
 - **Appendix I** is the specification's appendix of changes. A revised passage carries a **callout** that names its entry there.
+- **microGPT** is the model program, by which the revival is measured: two Fortress programs, each with a quick check beside it. A **model line** is a source line of either; no rung of this batch changes one.
 
 ### The scope: six rungs now, four in climb batch 28
 
@@ -240,7 +241,7 @@ The reasons, one by one:
 
 1. **The natives come first.** They are on the switch-over's critical path (P-33). Five of the six rungs are natives: I, F, C, W and S. Together they take 43 bindings off glue classes (below, "Where the natives stand").
 2. **The reader rung cannot run beside the writer rung.** A rung cannot build on another rung of its own batch (PLAN, "The principle for the batches"). The writer rung declares both Java-backed traits and adds both table entries, since the checker reads the whole helper class `fileOps` (F-321; the I/O review, section 6 (b), point 19). The reader rung binds its methods on the trait that the writer rung declares, and edits the same loader methods. So it is climb batch 28's, as P-164 orders it: "The writer side, with `stdOut`, moves before the reader side."
-3. **The integer conversions conflict with rung I.** Both rungs edit the same five integer traits, in the component and in the api. On the base, the powers that rung I rewrites stand one unchanged line above the conversions that the conversions' rung rewrites or deletes: `ZZ32`'s power at `Library/FortressLibrary.fss:801-802` and its `widen` at `:804`; `ZZ`'s power at `:1076-1077` and its `narrow` at `:1079-1080`; `NN32`'s power at `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:462-463` and its `widen` at `:465` (section 5, "The planner's probes", probe 5). Both rungs also add helpers to the same five helper classes. And rung I's conversion of a `ZZ` count calls `ZZ`'s `narrow`, which the conversions' rung deletes (section 3, fork I2). On one merged tree that call would fail. In climb batch 28 the conversions' rung moves it onto `.asZZ32` with the other callers, its values unchanged (P-161).
+3. **The integer conversions conflict with rung I.** Both rungs edit the same five integer traits, in the component and in the api. On the base, the powers that rung I rewrites stand one unchanged line above the conversions that the conversions' rung rewrites or deletes: `ZZ32`'s power at `Library/FortressLibrary.fss:802-803` and its `widen` at `:805`; `ZZ`'s power at `:1077-1078` and its `narrow` at `:1080-1081`; `NN32`'s power at `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:462-463` and its `widen` at `:465` (section 5, "The planner's probes", probe 5). Both rungs also add helpers to the same five helper classes. And rung I's conversion of a `ZZ` count calls `ZZ`'s `narrow`, which the conversions' rung deletes (section 3, fork I2). On one merged tree that call would fail. In climb batch 28 the conversions' rung moves it onto `.asZZ32` with the other callers, its values unchanged (P-161).
 4. **P-162 asks for its two rungs in one batch.** So rungs I and F run together, and the conversions wait, not rung I.
 5. **N joins the natives, since it shares no declaration with them.** It edits `Number` (`Library/FortressLibrary.fss:381`, `:386-408`) and the reflective generator, far from every other rung's site. PLAN puts it in "the next batch" (phase 4, its line on P-160). Its tests run under walk only, and it adds no Java. The probe on the base shows that walk loads nine library-heavy programs without the clause (section 5, probe 4).
 6. **The code generator's walls weigh least.** They are off the natives' path. Neither shares a file with any other rung, so either could join later without a conflict. Climb batch 28, with four rungs, takes both.
@@ -258,7 +259,7 @@ One, and his go sets it: **Question 1. The scope.** Default: the six rungs above
 
 - **(a) Six rungs, N, I, F, C, W, S.** About 3.9M tokens written and about 4 hours (below, "Cost").
 - **(b) Five rungs, without N.** About 3.3M and 3 h 30 min. N then goes to climb batch 28, which has five rungs. This holds the library's `Number` closed one batch longer. Nothing waits on N but programs' own number types.
-- **(c) Seven rungs, with one code-generator wall added to (a).** About 4.5M and 4 h 30 min. The wall shares no file. The record has no brief for it; a resume of the planner would write one, as climb batch 26's planner added rung T.
+- **(c) Seven rungs, with one code-generator wall added to (a).** About 4.5M and 4 h 30 min. The wall shares no file. The record has no brief for it; a fresh planning worker, briefed with this record's sections, would write one, not a resume of the planner, whose rewrite of its whole context cost 749K at climb batch 26 (`reviews/batch-26-review.md`, process finding 1).
 
 The record recommends (a). The consequential test of the `coordinator` skill: no answer reverses a decision of his, touches a model line or cannot be undone, and every rung is decided on record. So the scope is his call on cost and order only.
 
@@ -273,7 +274,7 @@ The record recommends (a). The consequential test of the `coordinator` skill: no
 ### Before the batch runs
 
 - **His go** for the launch, with Question 1's answer or its default.
-- **The Fable review of this record,** which edits it in place with one reason per change.
+- **The Fable review of this record:** done; its changes are in the commit that carries this text, and its report went to the coordinator.
 - **The manifest's generator,** `compile-ladder/plan-27/manifest/`, made by the coordinator from `plan-26/manifest/` with this record's values (section 6, "The generator").
 - **One row filed by plan** (section 5).
 - The gather runs the 52 team demos on the merged tree, since rungs N, I, F, C and W change what walk loads or what its natives compute, and W changes every program's printing (P-79; F-283).
@@ -321,8 +322,8 @@ Each default can be undone, none reverses a decision of his, and none touches a 
 
 **Rung I**
 
-14. **I1. The public spelling, with the private spelling where a stage refuses a pair** (P-162). Default: each narrow header public and in the api. The narrow types are the prelude's where it declares one: a `ZZ32` count on `ZZ32`, a `ZZ64` count on `ZZ64` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:736-737`, `:647-648`). Elsewhere they are the signed type of the receiver's width: a `ZZ32` count on `NN32`, a `ZZ64` count on `NN64`, and a `ZZ32` count on `ZZ`, which `shiftLeft(BigInteger, int)` takes. Every exponent is a `ZZ32`, with its sign and parity kept (the review, section 6, (a), point 3).
-15. **I2. A `ZZ` count or exponent is clamped in `ZZ`, then converted by `ZZ`'s `narrow`.** Default: so. `narrow` keeps its glue binding in this batch (`Library/FortressLibrary.fss:1079-1080`). No helper converts a `BigInteger` to an `int` today (`nativeHelpers/simpleArbitraryPrecisionArith.java`, its public methods). P-161's rung, in climb batch 28, moves these calls onto `.asZZ32` with the other callers, their values unchanged, since each clamped value fits. The way not taken: a new private helper over `BigInteger.intValueExact`, which would choose a helper that P-161's rung designs.
+14. **I1. The public spelling, with the private spelling where a stage refuses a pair** (P-162). Default: each narrow header public and in the api. The narrow types are the prelude's where it declares one: a `ZZ32` count on `ZZ32`, a `ZZ64` count on `ZZ64` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:736-737`, `:647-648`). Elsewhere they are the signed type of the receiver's width: a `ZZ32` count on `NN32`, a `ZZ64` count on `NN64`, and a `ZZ32` count on `ZZ`, which `shiftLeft(BigInteger, int)` takes. Every exponent is a `ZZ32`, with its sign and parity kept (the review, section 6, (a), point 3). The prelude's powers on `NN32` and `NN64` take an exponent of their own type (`CompilerBuiltin.fss:809`, `:878`), so at those two the bare half departs from the prelude's header: a signed exponent must reach the helper for P-153's run-time test of its sign, and the review's option (a), which P-162 took, reads every exponent into a `ZZ32`.
+15. **I2. A `ZZ` count or exponent is clamped in `ZZ`, then converted by `ZZ`'s `narrow`.** Default: so. `narrow` keeps its glue binding in this batch (`Library/FortressLibrary.fss:1080-1081`). No helper converts a `BigInteger` to an `int` today (`nativeHelpers/simpleArbitraryPrecisionArith.java`, its public methods). P-161's rung, in climb batch 28, moves these calls onto `.asZZ32` with the other callers, their values unchanged, since each clamped value fits. The way not taken: a new private helper over `BigInteger.intValueExact`, which would choose a helper that P-161's rung designs.
 16. **I3. A helper that exists where it computes as the glue does; a new one otherwise, at the end of the class of its kind.** Default: so. Each existing helper is checked against the glue's values at the review's counts (section 2.1, point 7) before it is bound. No other rung of the batch edits the five integer helper classes.
 
 **Rung F**
@@ -330,7 +331,7 @@ Each default can be undone, none reverses a decision of his, and none touches a 
 17. **F1. `Float`'s power over `AnyIntegral`.** Default: a public bare `opr ^(self, b:ZZ32):RR64` on a new helper, `Math.pow` with the exponent read as a `double`, as `Float$Pow` reads it, beside `opr ^(self, b:AnyIntegral):RR64 = self^(asFloat(b))`, the team's own text for `Number` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:160`). The model's power calls, all at a `ZZ32` exponent, then go straight to a bare binding (P-162). The way not taken: the private spelling, one more dispatch at each of the model's 18K power calls (the review, section 6, (a), point 11).
 18. **F2. `random`'s helper.** Default: new, `scale * Math.random()`, as `Float$Random` computes. Not `LocalRandom.localRandomDouble`, which refuses a bound that is not positive, where walk answers `random(0)` with 0.0 (the review, section 6, (a), point 4).
 19. **F3. Where each helper goes.** Default: `Float`'s three and its power in `simpleDoubleArith`; `RR32`'s mixed power in `simpleFloatArith`; `FlatString`'s `=` in `stringOps`, right after `compareTo` (`nativeHelpers/stringOps.java:23-25`); `flatConcat` at a `Char` in `simpleConcatenate`, right after `nativeConcatenate` (`simpleConcatenate.java:16-18`); `random`'s in the class of its kind. Rung S adds to `stringOps` after `lineSeparator` (`:72-74`), another place in the class.
-20. **F4. `flatConcat` at a `Char` past U+FFFF keeps the glue's answer.** Default: the helper appends the character's low 16 bits, as the glue reads a `Char`'s text (row 872), so no value moves. Row 872 holds 1,197 of its 1,200 characters, so give it no note. The way not taken: the whole code point, a value that moves, which row 872's own fix would take for every `Char` at once.
+20. **F4. `flatConcat` at a `Char` past U+FFFF keeps the glue's answer.** Default: the helper appends the character's low 16 bits, as the glue reads a `Char`'s text (row 872), so no value moves. Row 872's notes have about 70 characters of room and its row 156 (`ledger.py note 872 TEXT --check`; its 1,197 is a count of bytes, not of characters), so give it one short note through your `record.md`, that `flatConcat`'s new helper reads a `Char` past U+FFFF as the glue does, a sibling site of the row's; the gather rewrites the row if the note does not fit. The way not taken: the whole code point, a value that moves, which row 872's own fix would take for every `Char` at once.
 21. **F5. `printThreadInfo` over `Number` calls climb batch 26's pair through `asString`.** Default: `printThreadInfo(a:Number):() = printThreadInfo(a.asString)`, with no native of its own (the review, section 6, (a), point 4). So the live bindings fall by one.
 
 **Rung C**
@@ -344,12 +345,12 @@ Each default can be undone, none reverses a decision of his, and none touches a 
 25. **W1. Both traits and both table entries in this rung; the reader trait declared without its methods.** Default: so. `fileOps` takes both Java types, and the checker reads the whole class (F-321; the I/O review, section 6, (b), point 19). The reader trait's methods, its factories, its native object and its carrier are the reader rung's, in climb batch 28.
 26. **W2. `stdOut` stays a `Writer`; `Writer` gains a value parameter for its Java writer, and its one-argument form becomes a factory function.** Default: so (P-164; the review, (b), point 13). `Library/Writer.fsi:18` changes. The way not taken: `object Writer(fileName: String)` kept, with the field filled from the name, which makes the standard streams objects of another type.
 27. **W3. `File` stays a native component while `FileReadStream` keeps its glue.** Default: so. `FileWriteStream` becomes a plain object inside it. The reader rung ends the native component.
-28. **W4. A missing file raises the library's `FileNotFoundException`.** Default: declare it in `FortressLibrary` beside `IOFailure` (`Library/FortressLibrary.fsi:1201`, `.fss:1870`), as the prelude declares it, so that walk raises it where `fileOps.jbwOpen` raises it (the review, (b), point 15). The way not taken: new helpers for opening that raise `IOFailure`.
+28. **W4. A missing file raises the library's `FileNotFoundException`.** Default: declare it in `FortressLibrary` beside `IOFailure` (`Library/FortressLibrary.fsi:1201`, `.fss:1870`), a singleton object below `CheckedException`, as `IOFailure` is, under the prelude's name: walk's loader raises a helper's `fortress.CompilerBuiltin$FileNotFoundException`, which `fileOps.jbwOpen` throws, as the library's root value of that name (F-299), and cannot pass the message that the prelude's `FileNotFoundException(s: String)` takes (`CompilerBuiltin.fsi:766`; the review, (b), point 15). The way not taken: new helpers for opening that raise `IOFailure`.
 29. **W5. `FileWriteStream` as a `WriteStream`, with its `flush`, as a last step that the worker can leave out.** Default: taken, after the rest passes (the review, (b), point 16). It changes `Library/File.fsi:102`, lets a rope write itself on the stream, and adds the `flush` that its api declares (row 841). If the rung runs long, the worker leaves it out and files the two defects as rows.
 
 **Rung S**
 
-30. **S1. `getEnvironment` moves; `getProperty` is copied.** Default: `stringOps` gains both, each computing as `systemOps`' does (`nativeHelpers/systemOps.java:20-27`). `systemOps.getEnvironment` goes, since only the revival's bindings name it. `systemOps.getProperty` stays, since the compiler's `Library/CompilerSystem.fss:13-14` imports it and the prelude does not change (P-37). The way not taken: both deleted from `systemOps`, which breaks the prelude's import.
+30. **S1. `getEnvironment` moves; `getProperty` is copied.** Default: `stringOps` gains both, each computing as `systemOps`' does (`nativeHelpers/systemOps.java:20-27`). `systemOps.getEnvironment` goes, since only the revival's bindings name it. `systemOps.getProperty` stays, since the compiler's `Library/CompilerSystem.fss:13-14` imports it and the prelude does not change (P-37). The ways not taken: both deleted from `systemOps`, which breaks the prelude's import; both moved and `Library/CompilerSystem.fss:13-14` retargeted to `stringOps.getProperty`, an edit of the compiler's own `System` file while review-queue item 319, its fate at the switch-over, is open.
 31. **S2. Row 895 closes with no gated test.** Default: `ledger.py close 895 --commit HASH --test none --note` naming the rung's two checker runs over `System`, before and after. No compiled program checks against the one library before the switch-over, and neither stage reads `System` (F-321). Row 896 stays open; the rung's `record.md` gives its whole new line, since its notes cite `systemOps.java:20-21`.
 
 ### Points the batch lists for him, not questions
@@ -361,7 +362,7 @@ Each default can be undone, none reverses a decision of his, and none touches a 
 
 ## 4. The rungs
 
-Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortress/` and `Specification/` are climb batch 26's landing. Each section is the worker's brief for its rung. Each rung's tests come first: written, run through the harness on the base and seen failing, or for a guard seen passing, and committed before the edit or with it (the `fortress-repo` skill's `tests-writing.md`, "The order"). Assert each value that matters inside the test (P-103). Record each defect that you meet in one of the three ways of `tests-writing.md`, "How a defect is recorded". The planner's runs on the base are in section 5, "The planner's probes": each is your before, so run it on your own tree only. The count and the distance before your change are climb batch 26's gate tables, 0 and 0.
+Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortress/` and `Specification/` are climb batch 26's landing. Each section is the worker's brief for its rung. Each rung's tests come first: written, run through the harness on the base and seen failing, or for a guard seen passing, and committed before the edit or with it (the `fortress-repo` skill's `tests-writing.md`, "The order: the test, its failure, the fix, the pass"). Assert each value that matters inside the test (P-103). Record each defect that you meet in one of the three ways of `tests-writing.md`, "How a defect is recorded". The planner's runs on the base are in section 5, "The planner's probes": each is your before, so run it on your own tree only. The count and the distance before your change are climb batch 26's gate tables, 0 and 0.
 
 ### N. `Number` opened: its `comprises` clause removed, with the reflective generator, `Number`'s `=` and the clause's tests (P-160)
 
@@ -406,7 +407,7 @@ Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortr
 
 **Reserved points.** A line of a team test that you would change; a program that loads today and is refused after. Report either, with its evidence.
 
-**Overlaps by file.** `FortressLibrary.fss` and `.fsi` with rungs I, F and W, each at other declarations; the nearest, rung I's api lines from `.fsi:524`, are about 230 lines from yours (section 4, "The rule the rungs keep").
+**Overlaps by file.** `FortressLibrary.fss` and `.fsi` with rungs I, F and W, each at other declarations; the nearest, rung I's api lines from `.fsi:525`, are about 230 lines from yours (section 4, "The rule the rungs keep").
 
 ### I. The integers' 16 shifts and powers onto helpers, each a converting declaration around a bare binding (P-162)
 
@@ -417,15 +418,15 @@ Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortr
 **What you build.**
 - The tests first (below).
 - The 16 declarations, each over `AnyIntegral`:
-  - `ZZ32`: `LSHIFT` and `RSHIFT` (`Library/FortressLibrary.fss:795-798`), `^` (`:801-802`);
-  - `ZZ64`: `LSHIFT` and `RSHIFT` (`:888-891`), `^` (`:894-895`);
-  - `NN64`: `LSHIFT` and `RSHIFT` (`:971-974`), `^` (`:977-978`);
-  - `ZZ`: `LSHIFT`, `RSHIFT` and `shift` (`:1068-1073`), `^` (`:1076-1077`);
+  - `ZZ32`: `LSHIFT` and `RSHIFT` (`Library/FortressLibrary.fss:796-799`), `^` (`:802-803`);
+  - `ZZ64`: `LSHIFT` and `RSHIFT` (`:889-892`), `^` (`:895-896`);
+  - `NN64`: `LSHIFT` and `RSHIFT` (`:972-975`), `^` (`:978-979`);
+  - `ZZ`: `LSHIFT`, `RSHIFT` and `shift` (`:1069-1074`), `^` (`:1077-1078`);
   - `NN32`: `LSHIFT` and `RSHIFT` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:456-459`), `^` (`:462-463`).
-- For each, a public bare binding at the narrow header (fork I1), and the declaration over `AnyIntegral` converting its count or exponent and calling it. The narrow headers go into the api: `Library/FortressLibrary.fsi:524-528` (`NN64`), `:578-582` (`ZZ32`), `:637-641` (`ZZ64`), `:691-699` (`ZZ`), and `ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:164-168` (`NN32`). Where a stage refuses a pair, give the bare half the private spelling and name the pair and the stage's message.
+- For each, a public bare binding at the narrow header (fork I1), and the declaration over `AnyIntegral` converting its count or exponent and calling it. The narrow headers go into the api: `Library/FortressLibrary.fsi:525-529` (`NN64`), `:579-583` (`ZZ32`), `:638-642` (`ZZ64`), `:692-700` (`ZZ`), and `ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:164-168` (`NN32`). Where a stage refuses a pair, give the bare half the private spelling and name the pair and the stage's message.
 - Private conversion functions that keep the glue's readings: a count as `Int.shiftCount` reads it, saturating a wide count (`interpreter/glue/prim/Int.java:295-306`); an exponent as `Int.powCount` reads it, its sign and parity kept beyond 64 bits (`:271-283`). The review's probe spelled one as a `typecase` over the five types (`reviews/hard-set-natives-2026-11-06.md`, section 6, (a), reference 2). A `ZZ` count or exponent is clamped in `ZZ` and then converted by `ZZ`'s `narrow` (fork I2).
 - The helpers (fork I3): `ZZ32`'s shifts on `simpleIntArith.intBitLeftShift` and `intBitRightShift` (`nativeHelpers/simpleIntArith.java:369`, `:374`); `ZZ64`'s on `simpleLongArith.longBitLeftShift` and `longBitRightShift` (`simpleLongArith.java:343`, `:348`); `ZZ`'s on `simpleArbitraryPrecisionArith.shiftLeft` (`:111`) where it computes as `BigNum$LShift` and `$RShift` do, else a new one; new helpers for the shifts of `NN32` and `NN64` (4, row 442) and the five powers (5), each holding P-153. The existing `intExp` casts `Math.pow` to an `int` and breaks P-153 (row 441), so do not bind it.
-- `IntLiteral`'s exponent overloads, as `opr ^(self, b:IntLiteral):ZZ32 = self^(b.asZZ32)` (`:803`), stay; they then reach the bare power.
+- `IntLiteral`'s exponent overloads, as `opr ^(self, b:IntLiteral):ZZ32 = self^(b.asZZ32)` (`:804`), stay; they then reach the bare power.
 - Not yours: `ZZ32`'s `big` and `ZZ`'s `narrow` and `widen` (P-161's rung, climb batch 28); every conversion member of the five types; `Float`'s power (rung F); `IntLiteral`'s own bindings (N5); the prelude.
 
 **Tests, first.**
@@ -438,7 +439,7 @@ Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortr
 
 **The stages.** Both, once each on your final tree, as rung N's section gives the commands (fork 3). The count reads every binding of `FortressLibrary` that you move against its helper's Java signature (P-58), and the distance those of `FortressBuiltin` too. List for your skeptic each binding with its helper's signature.
 
-**Rows.** Rows 441 and 442: notes through your `record.md`, if your helpers change what they say of the one library; read each with `ledger.py show N` against the tool's limits first. Rows 523 to 525 stay with the prelude (P-38).
+**Rows.** Rows 441 and 442: where your helpers change what they say of the one library, your `record.md` gives each its whole new line, in `ledger.py`'s row template, since neither has room for a note: row 441's notes hold 699 of 700 characters and its row 1,188 of 1,200, and row 442's row 1,197 of 1,200 (`ledger.py note N TEXT --check` refuses both). Read each with `ledger.py show N` first. Rows 523 to 525 stay with the prelude (P-38).
 
 **Specification.** None of yours. List every sentence made false: Appendix I's entry "A native binding that names a static helper", its list and its "The other 143 still name a glue class" (`Specification/appendices/changes.tex:4495`), which the gather corrects (fork 7); F-32's 143 and F-299's 306 of 449; PLAN's natives line on the integers' rung.
 
@@ -447,11 +448,11 @@ Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortr
 - `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss` and `.fsi`: `NN32`'s three, their narrow headers and api lines, only.
 - `ProjectFortress/src/com/sun/fortress/nativeHelpers/`: `simpleIntArith.java`, `simpleLongArith.java`, `simpleUnsignedIntArith.java`, `simpleUnsignedLongArith.java` and `simpleArbitraryPrecisionArith.java`, your new helpers at each class's end, only.
 - `ProjectFortress/tests/` and `ProjectFortress/compiler_tests/`: your tests.
-- Not: the conversion members of the five types, `widen`, `narrow`, `unsigned`, `signed`, `big` and their neighbours one line below your powers (`:804-813`, `:1079-1083`, `FortressBuiltin.fss:465-470`); walk; the checker and the compiler; `Specification/`; the tools.
+- Not: the conversion members of the five types, `widen`, `narrow`, `unsigned`, `signed`, `big` and their neighbours one line below your powers (`:805-813`, `:1080-1084`, `FortressBuiltin.fss:465-470`); walk; the checker and the compiler; `Specification/`; the tools.
 
 **Reserved points.** A model value that moves; a step that would edit a conversion member. Report either, with its evidence.
 
-**Overlaps by file.** `FortressLibrary.fss` and `.fsi` with rungs N (`:381`), F (`:4536`, `:4632`) and W (beside `IOFailure`); `FortressBuiltin.fss` with rungs F (`:154-189`, `:328-329`), C (`:615`) and W (at the component's end). Each at other declarations. No other rung edits your five helper classes.
+**Overlaps by file.** `FortressLibrary.fss` and `.fsi` with rungs N (`:381`), F (`:4537`, `:4633`) and W (beside `IOFailure`); `FortressBuiltin.fss` with rungs F (`:154-189`, `:328-329`), C (`:615`) and W (at the component's end). Each at other declarations. No other rung edits your five helper classes.
 
 ### F. The floats' and `Number`'s four, and group 3's six, onto helpers (P-162)
 
@@ -463,9 +464,9 @@ Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortr
 - The tests first (below).
 - Group 1's `Float` power: `opr ^(self, b:AnyIntegral):RR64` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:162-163`) beside a public bare `opr ^(self, b:ZZ32):RR64` on a new helper (fork F1).
 - Group 2:
-  - `random(a:Number):RR64` (`Library/FortressLibrary.fss:4536`) becomes `random(a:Number):RR64 = random(asFloat(a))` beside a public bare `random(a:RR64):RR64` on a new helper (fork F2), with its api line beside `Library/FortressLibrary.fsi:2572`.
-  - `Float`'s `atan2(self,x:Number):RR64` (`FortressBuiltin.fss:176-177`) becomes `atan2(self, x:RR64):RR64` on `simpleDoubleArith.doubleATan2`. The `RR64` trait's own `atan2(self,x:Number):RR64 = atan2(asFloat(self), asFloat(x))` (`Library/FortressLibrary.fss:493`), which `Float` inherits, converts both and calls it. `Float`'s members are not in its api.
-  - `printThreadInfo(a:Number):()` (`Library/FortressLibrary.fss:4632`) becomes `printThreadInfo(a.asString)`, with no native (fork F5). Its api line (`.fsi:2634`) stays.
+  - `random(a:Number):RR64` (`Library/FortressLibrary.fss:4537`) becomes `random(a:Number):RR64 = random(asFloat(a))` beside a public bare `random(a:RR64):RR64` on a new helper (fork F2), with its api line beside `Library/FortressLibrary.fsi:2573`.
+  - `Float`'s `atan2(self,x:Number):RR64` (`FortressBuiltin.fss:176-177`) becomes `atan2(self, x:RR64):RR64` on `simpleDoubleArith.doubleATan2`. The `RR64` trait's own `atan2(self,x:Number):RR64 = atan2(asFloat(self), asFloat(x))` (`Library/FortressLibrary.fss:494`), which `Float` inherits, converts both and calls it. `Float`'s members are not in its api.
+  - `printThreadInfo(a:Number):()` (`Library/FortressLibrary.fss:4633`) becomes `printThreadInfo(a.asString)`, with no native (fork F5). Its api line (`.fsi:2635`) stays.
 - Group 3, each on a new one-line helper that computes as its glue does:
   - `Float`'s `opr ^(self, b:RR32):RR64` (`FortressBuiltin.fss:156-157`) and `RR32`'s `opr ^(self, b:Float):RR64` (`:328-329`), both `Float$Pow` today;
   - `Float`'s floor and ceiling brackets, `opr |\self/| : ZZ64` (`:184-185`) and `opr |/self\| : ZZ64` (`:188-189`), `Float$IFloor` and `Float$ICeiling`, which saturate at `Long.MAX_VALUE` and give 0 at a NaN;
@@ -476,7 +477,7 @@ Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortr
 
 **Tests, first.**
 - `ProjectFortress/tests/NativeHelperRationalArgumentWalk.fss`: the three at a rational, `third: QQ = 1/3`: `random(third)` in range, `atan2(one, third)` with `one = 0.5 + 0.5` a `Float`, at `1.2490457723982544`, and `printThreadInfo(third)` run. Seen failing on the base: `random(third)` ends the run with 'getFloat not implemented for FOrdinaryObject', an `InterpreterBug` (the review, section 2.2, point 12; the planner's run gave the same at a program's own number, section 5, probe 4). Passing after. Walk's harness checks no printed text but 'fail', so quote `printThreadInfo`'s line on the base and after in your report: ' Thread ForkJoinPool-1-worker-1 operating on value Ratio' today, the rational's text after.
-- `ProjectFortress/tests/NativeHelperFloatMixedWalk.fss`: the other values, each asserted at today's glue answer (the review, section 2.2, point 11, and section 2.3, point 15): `2.0^RR32 0.5` 1.4142135623730951; `RR32 3.0^Float 2.0` 9.0; the brackets at 2.5 and -2.5 (2, 3, -3, -2), at `10.0^300` (9223372036854775807) and at a NaN (0 and 0); `FlatString`'s `=` at flat strings and at a rope flattened; `flatConcat` at a `Char` below and past U+FFFF; `Float`'s power at a `ZZ32`, an `NN32` and a `ZZ` exponent; `atan2` at a `ZZ32`, an `RR64` and a `ZZ` `x`; `random` at a `ZZ32`, an `RR64`, 0 and -1 in range. A guard: passing on the base and after.
+- `ProjectFortress/tests/NativeHelperFloatMixedWalk.fss`: the other values, each asserted at today's glue answer (the review, section 2.2, point 11, and section 2.3, point 15): `2.0^RR32 0.5` 1.4142135623730951; `RR32 3.0^Float 2.0` 9.0; the brackets at 2.5 and -2.5 (2, 3, -3, -2), at `10.0^300` (9223372036854775807) and at a NaN (0 and 0); `FlatString`'s `=` at flat strings and at a rope flattened; `flatConcat` at a `Char` below U+FFFF, and past it asserted at today's answer with a message that names row 872, as `CharAsStringSupplementaryWalk` pins `asString`, not as the right value; `Float`'s power at a `ZZ32`, an `NN32` and a `ZZ` exponent; `atan2` at a `ZZ32`, an `RR64` and a `ZZ` `x`; `random` at a `ZZ32`, an `RR64`, 0 and -1 in range. A guard: passing on the base and after.
 - `ProjectFortress/compiler_tests/NativeHelperFamilyFloatMixedCompiled.fss` with its `.test` (`tests=`, `link`, `run`, `run_out_contains=PASS`): each new helper bound in the program's own declarations at the Java types that the compile reads, `FlatString`'s over `JavaString` and a `Char` in a `ZZ32`, as `compiler_tests/NativeHelperFamilyCharCompiled.fss` binds them; each value asserted as the walk tests assert it. Seen failing on the base through `junit.sh`, and passing after.
 - Keep their verdicts: walk's `NativeHelperFamilyFloatWalk`, `NativeHelperCarriedSelfFlatStringWalk` and `NativeHelperStringRopeWalk`, the library's string tests, the compiler track's `NativeHelperFamilyFloatCompiled` and `NativeHelperFamilyRR32Compiled`.
 - After the change: `ant testSystem` and `ant testQuick` once each; your compiled guard through `junit.sh` (fork 2).
@@ -485,7 +486,7 @@ Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortr
 
 **The stages.** Both, once each on your final tree, as rung N's section gives the commands (fork 3). `FlatString` is one of the distance's fourteen components. List for your skeptic each binding with its helper's Java signature.
 
-**Rows.** None by plan: the three cases at a rational have no row (the review, section 2.2, point 12), and your test repairs them. Row 872: no note (fork F4). A defect that you meet and do not repair gets its row through your `record.md`.
+**Rows.** None by plan: the three cases at a rational have no row (the review, section 2.2, point 12), and your test repairs them. Row 872: one short note through your `record.md` (fork F4). A defect that you meet and do not repair gets its row through your `record.md`.
 
 **Specification.** None of yours. List every sentence made false: Appendix I's entry "A native binding that names a static helper", its list and its "The other 143 still name a glue class" (fork 7); F-32's 143 and F-299's 306 of 449; F-299's "the native over `String`" where it names `printThreadInfo`; PLAN's natives line on the floats' rung and on item 363.
 
@@ -529,9 +530,9 @@ Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortr
 
 **Rows.**
 - Row 861: the gather closes it with your commit, `--settled` naming P-163, its test your extended walk guard.
-- `NEW-C-1`: the parser's two gaps, in your `record.md` in `ledger.py`'s row template, in the parser's section: a code of six digits, and in lower case a code of five whose first four are decimal digits, do not parse (the review, section 2.4, point 12). Lint it with `ledger.py check --rows`. The gather numbers it and closes it with your commit.
+- `NEW-C-1`: the parser's two gaps, in your `record.md` in `ledger.py`'s row template, for the ledger's section "1. Syntax: lexing, expressions and declarations": a code of six digits, and in lower case a code of five whose first four are decimal digits, do not parse (the review, section 2.4, point 12). Lint it with `ledger.py check --rows`. The gather numbers it and closes it with your commit.
 
-**Specification.** Yours, above. List every other sentence made false: Appendix I's "forty of \TYP{Char}" (`changes.tex:4486`), which the gather corrects with the entry (fork 7); F-308's last clause, "only `Char`'s `asExprString` stays on a glue class"; F-299's 306 and F-32's 143, each by one; the `fortress-repo` skill's text on the two forms, if any.
+**Specification.** Yours, above. List every other sentence made false: Appendix I's count of `Char`'s bindings on helpers, "forty of \TYP{Char}" (`changes.tex:4486`), where your move changes what it counts, which the gather corrects with the entry (fork 7); F-308's last clause, "only `Char`'s `asExprString` stays on a glue class"; F-299's 306 and F-32's 143, each by one; the `fortress-repo` skill's text on the two forms, if any.
 
 **Files.**
 - `ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleChar.java`: `charToExprString`, only.
@@ -643,8 +644,8 @@ Line numbers are those of the base, `551b02858`, whose `Library/`, `ProjectFortr
   - W: two traits, their factories and `FileNotFoundException` in `FortressLibrary`, a native object in `FortressBuiltin`, the loader's carrier, two table entries, two helpers, `Writer`, `BufferedWriter` and `FileWriteStream`.
   - S: two helpers, `getEnvironment` out of `systemOps`, two strings and one guard.
 - The files that two rungs share, and each rung's place:
-  - `Library/FortressLibrary.fss`: N `:381`, `:386-408`; I `:795-1078`; F `:4536`, `:4632`; W beside `IOFailure` (`:1870`).
-  - `Library/FortressLibrary.fsi`: N `:289`; I `:524-699`; F beside `:2572`; W beside `IOFailure` (`:1201`).
+  - `Library/FortressLibrary.fss`: N `:381`, `:386-408`; I `:796-1079`; F `:4537`, `:4633`; W beside `IOFailure` (`:1870`).
+  - `Library/FortressLibrary.fsi`: N `:289`; I `:525-700`; F beside `:2573`; W beside `IOFailure` (`:1201`).
   - `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`: F `:154-189`, `:328-329`; I `:456-463`; C `:614-615`; W at the component's end.
   - `nativeHelpers/stringOps.java`: F right after `compareTo` (`:23-25`); S right after `lineSeparator` (`:72-74`).
 - They meet on the merged tree. Walk's suite runs every rung's walk tests. The compiler track runs I's, F's, C's, W's and S's compiled guards. The stages read the library as N, I, F, C and W leave it, `stringOps` as F and S leave it, and the parser as C leaves it, so a site there is to be traced to one rung's edit, against 0 and 0. The specification's build reads C's entry and the generated apis that N, I, F and W change. The gather's 52 demos and the commit stage's quick check of the model see every program's printing and every native at once.
@@ -687,7 +688,7 @@ Every run below was in `/home/user/fortress-p27`, with the setup lines of the sk
     char-asexprstring-2026-11-06 added at aa6ab9368: no code change to 551b02858
     io-objects-carrier-2026-11-06 added at a4f3a4c31: no code change to 551b02858
 
-So the runs of the reviews of the hard-set natives, `Char` and the I/O objects are the befores of rungs I, F, C and W, on this base. Rung N's before is probe 4. The hard-set review cites lines of the library one above the base's in places (`ZZ32`'s `LSHIFT` at `:796` against the base's `:795`): this record cites the base's lines throughout.
+So the runs of the reviews of the hard-set natives, `Char` and the I/O objects are the befores of rungs I, F, C and W, on this base. Rung N's before is probe 4. The hard-set review's line citations into the library are the base's (`ZZ32`'s `LSHIFT` at `Library/FortressLibrary.fss:796`); the drafted record's were one below them at the integer and float sites, and the Fable review put the base's lines in, read with `git show 551b02858:Library/FortressLibrary.fss`.
 
 **Probe 3. The checker over `System` against the one library (rung S).** The count stage's driver, built as `tools/checker-count/run.sh` builds it, with `Library/System.fss` as its target:
 
@@ -754,12 +755,12 @@ Then `git checkout -- Library/FortressLibrary.fss Library/FortressLibrary.fsi`, 
 
 **Probe 5. The sites, by reading at `551b02858`.** The line numbers of section 4 are read with `grep -n` and `sed -n` on the base. Among them, where rung I's powers meet the conversions that P-161's rung changes (section 2, reason 3):
 
-    Library/FortressLibrary.fss:801  opr ^(self, b:AnyIntegral):ZZ32 =               (rung I)
-    Library/FortressLibrary.fss:803  opr ^(self, b:IntLiteral):ZZ32 = self^(b.asZZ32)
-    Library/FortressLibrary.fss:804  widen(self):ZZ64 =                                (P-161's rung)
-    Library/FortressLibrary.fss:1076 opr ^(self, b:AnyIntegral):ZZ =                  (rung I)
-    Library/FortressLibrary.fss:1078 opr ^(self, b:IntLiteral):ZZ = self^(b.asZZ32)
-    Library/FortressLibrary.fss:1079 narrow(self):ZZ32 =                               (P-161 deletes it)
+    Library/FortressLibrary.fss:802  opr ^(self, b:AnyIntegral):ZZ32 =               (rung I)
+    Library/FortressLibrary.fss:804  opr ^(self, b:IntLiteral):ZZ32 = self^(b.asZZ32)
+    Library/FortressLibrary.fss:805  widen(self):ZZ64 =                                (P-161's rung)
+    Library/FortressLibrary.fss:1077 opr ^(self, b:AnyIntegral):ZZ =                  (rung I)
+    Library/FortressLibrary.fss:1079 opr ^(self, b:IntLiteral):ZZ = self^(b.asZZ32)
+    Library/FortressLibrary.fss:1080 narrow(self):ZZ32 =                               (P-161 deletes it)
     ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:462 opr ^(self, b:AnyIntegral):NN32 =   (rung I)
     ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:464 opr ^(self, b:IntLiteral):NN32 = self^(b.asZZ32)
     ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:465 widen(self):NN64 =                  (P-161's rung)
@@ -779,7 +780,7 @@ And `grep -n 'public static' nativeHelpers/simpleArbitraryPrecisionArith.java` l
     :1749 "LSHIFT and RSHIFT … lines 459--460"                  fsi:459-460  abstract opr DOT(self,b:I):I; abstract opr TIMES(self,b:I):I
     :1861 "the exclusions of their integer types … 510--511"    fsi:510-511  opr -(self,b:NN64):NN64; opr DOTMINUS(self,b:NN64):NN64
     :1902 "these four traits on Q … lines 387--388"             fsi:387-388  opr MAXNUM(self, b:RR64):RR64 …
-    :2684 "R32's algebraic traits … lines 291--296"             fsi:291-296  Number's asFloat and =
+    :2684 "RR64's coercion from RR32 … lines 291--296"       fsi:291-296  Number's asFloat and =
 
 The other four were not read. Rungs N, I and W shift those lines again (section 3, fork 8).
 
@@ -791,9 +792,9 @@ The other four were not read. Rungs N, I and W shift those lines again (section 
 
 One, drafted here in the row template for the coordinator to file with `ledger.py add` before the launch, as climb batch 25's Fable review filed that batch's rows. Its section: 6, "Integer arithmetic", where four of the five declarations it names stand; the ledger files the specification's rows by topic.
 
-    | ? | Appendix I cites the library's apis by line in nine places, and at least five of its seven citations of `Library/FortressLibrary.fsi` name other declarations than their sentences claim: lines 459--460, cited for `LSHIFT` and `RSHIFT` on every integer type, hold `DOT` and `TIMES` | NEGATIVE-VERIFIED | implementation gap (specification) | `appendices/changes.tex`, "Changes Made by the 2026 Revival to the Working Draft" | none | climb batch 27's planner | Read at 551b02858 (`Specification/appendices/changes.tex:1613`, `:1749`, `:1861`, `:1902`, `:2684`): 433--436, cited for `AnyIntegral`, hold `QQ`'s `^`, `floor` and `ceiling`; 510--511, for the integers' exclusions, `NN64`'s `-` and `DOTMINUS`; 387--388, for `QQ`'s four traits, `RR64`'s `MAXNUM`; 291--296, for `RR32`'s traits, `Number`'s `=`. Each library edit shifts them. A fix cites the declaration by name, as the tests cite the specification by section. |
+    | ? | Appendix I cites the library's apis by line in nine places, and at least five of its seven citations of `Library/FortressLibrary.fsi` name other declarations than their sentences claim: lines 459--460, cited for `LSHIFT` and `RSHIFT` on every integer type, hold `DOT` and `TIMES` | NEGATIVE-VERIFIED | implementation gap (specification) | `appendices/changes.tex`, "Changes Made by the 2026 Revival to the Working Draft" | none | climb batch 27's planner | Read at 551b02858 (`Specification/appendices/changes.tex:1613`, `:1749`, `:1861`, `:1902`, `:2684`): 433--436, cited for `AnyIntegral`, hold `QQ`'s `^`, `floor` and `ceiling`; 510--511, for the integers' exclusions, `NN64`'s `-` and `DOTMINUS`; 387--388, for `QQ`'s four traits, `RR64`'s `MAXNUM`; 291--296, for `RR64`'s coercion from `RR32`, `Number`'s `asFloat` and `=`. Each library edit shifts them. A fix cites the declaration by name, as the tests cite the specification by section. |
 
-The planner linted the line: `ledger.py check --rows` on it with the number 9999 printed '1 rows, 0 fail the template'; with `?` only the number rule fails, which `ledger.py add` fills. The row is 925 characters.
+The planner linted the line: `ledger.py check --rows` on it with the number 9999 printed '1 rows, 0 fail the template'; with `?` only the number rule fails, which `ledger.py add` fills. The row is 953 characters.
 
 ### Left out, each with its home
 
@@ -827,7 +828,7 @@ The planner checked every key of section 1 with `facts-extract.sh --check` on `m
 
 ### What every agent reads first
 
-This run is climb batch 27, the fifth batch of the plan's phase 4, the switch-over. It moves 43 of the 143 bindings that still name a glue class onto helpers, and it opens the library's `Number`. Its rungs:
+This run is climb batch 27, the fifth batch of the plan's phase 4, the switch-over. It takes 43 of the 143 bindings that still name a glue class off them, so that 339 of the library's 439 live bindings then name helpers (section 2, the natives' count), and it opens the library's `Number`. Its rungs:
 
 - N, P-160's second step: `Number`'s `comprises` clause removed, the reflective generator given a fixed choice of the library's number types, and `Number`'s `=` comparing a program's own number by `asFloat`;
 - I, P-162's integers' rung: the 16 shifts and powers of the five integer types, each a converting declaration around a bare binding at the narrow header, with about 9 new helpers;
@@ -842,7 +843,7 @@ Each rung has tests that fail on the base and pass after, and guards that pass o
 
 The coordinator:
 
-1. **The curator's go,** with Question 1's answer or its default (the `coordinator` skill's `references/batch.md`, "The go"). The Fable review of this record comes first, with its changes applied.
+1. **The curator's go,** with Question 1's answer or its default (the `coordinator` skill's `references/batch.md`, "The go"). The Fable review of this record is done; its changes are in the commit that carries this text.
 2. **The row filed by plan** (section 5), with `ledger.py add`.
 3. **The generator,** made and committed as "The generator" above gives it; its checks run on this record as reviewed: `python3 -B explorations/compile-ladder/plan-27/manifest/lists27.py`, every key matching one place on the base; `gen27.py`; `check27.js` on a scratch splice; `check27.js --write`; `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced script; the commit. The base is `main`'s head after that commit, its full hash, passed as `args.base`.
 4. **The base build:** `/home/user/fortress-base27`, at `551b02858`, serves if the base differs from it only in record and tool files (`git diff --stat 551b02858 <base> -- Library ProjectFortress Specification build.xml bin` empty). Its trial seed and the old code's run, as the manual's "Before the launch", step 3.
@@ -875,7 +876,8 @@ New rows go into `explorations/fortress-gap-ledger.md` only through `ledger.py a
 - **New by plan:** `NEW-C-1`, the parser's two gaps, closed with rung C's commit.
 - **Closed:** 861 (C), `--settled` naming P-163; 895 (S), `--test none` with its note (fork S2).
 - **Rewritten:** 596 (N), its claim narrowed to its `Exception` half; 551 (N), its notes; 896 (S), its notes' helper path.
-- **Noted, where a rung's change alters what they say:** 441 and 442 (I).
+- **Rewritten where I's helpers alter what they say:** 441 and 442 (I), whose rows have no room for a note (12 and 3 characters), so I's `record.md` gives each its whole new line.
+- **Noted:** 872 (F), a short note that `flatConcat`'s new helper is a sibling site of the row's; by a rewrite if it does not fit.
 - Where `ledger.py` refuses a note for length, the gather writes it by a rewrite.
 
 ### After the landing
