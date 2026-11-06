@@ -2,6 +2,10 @@
 
 # Held list
 
+## Held on the drafts page (2026-11-06)
+
+- 05:28 His comment on draft 14 (thread `51673da6`): he wants the maintenance of the two pages that show him the diffs of `fortress-repo` and the coordinator skill unified, not the process that guides when and how the skills change; he does not want to be in the loop blocking changes to `fortress-repo`, only an up-to-date review surface for them; the coordinator skill is self-instructing too, with its own guardrails for what needs his explicit approval. So no change of `fortress-repo` or `cloud-container` waits for his yes; draft 14 is being revised that way (version 3), cold-read, and put back on the page for his yes.
+
 ## Held in chat (2026-11-05)
 
 - 18:56 His amendment to the strings rule: the pattern of climb batch 24's preparation (his word of 08:2x on 10-31): a Fable judge reads the review's probe result and recommendation when it lands; if he does not answer within 30 minutes of the ping, the batch takes the judge's default and the choice goes on the review list for him.
