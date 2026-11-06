@@ -1,0 +1,12 @@
+Record landing of climb batch 26: FACTS, POSITIONS and the ledger brought in line with the landing
+
+- F-34: the probe's output lines and the nine to the report; the measure bounded by dbf4825e0; the review's correction of its ground (rung L's tree, rung T's overloads unmeasured) in its history.
+- F-299: the latent self half of row 846 added to the departures; code names, family pointers and family tests moved out; the 306 unchanged.
+- F-320: method names to the report; the nine that emit measured once on dbf4825e0's code.
+- F-252: the size unification's code name and F-253's case cut to a pointer; F-318's reading kept.
+- F-257: the load check's reach widened to a generic trait's functional method with no static parameters of its own (F-318); the messages to their report.
+- F-181: local functions compile except F-320's four forms, the varargs one among them.
+- F-322, new: the compiled checker reads a helper's Java String parameter as String, which walk refuses at load.
+- P-159: "are to be revised" becomes "are revised (F-319)"; "Row 672: that edit, which closes the row" becomes "Row 672 closed with that edit"; decision unchanged.
+- Row 846: its notes add that a self declared String is taken by getString().
+- Held, kept as they stood: F-240, F-318, F-319, F-321 and P-160, each past 600 characters and grown by more than its owed clause; the new row for getProperty at an empty name, which no step of this run applies.

@@ -1,0 +1,12 @@
+Record landing of climb batch 26: PLAN, the review queue, INDEX and the maps routed for the landing
+
+- PLAN, "Where we stand": Runs, the live thread, Landed and Next brought to climb batch 26's landing at a12ab5c60.
+- PLAN, phase 4: climb batch 26's line cut to one line; N1 and N2, N5, the names line and the phase's close rewritten; his answers needed before the switch-over brought to the queue's group; new lines for P-160's second step, row 304's three forms, row 440 and getProperty at an empty name.
+- PLAN, "Pavol's answers": items 62 and 63 moved, built by rung T at the Fable judge's default; item 64 cut to a pointer to review-queue item 355.
+- PLAN, climb batch 26's list: its opening rewritten; six of its lines cut to pointers to items 356 to 361; gather.2 moved, its fixes made; seven new lines for items 310 and 340 and items 362 to 367.
+- PLAN, older lists: row 672's line answered by P-159; row 804's line and climb batch 24's Question 1 built; the headers of climb batches 23 and 24 rewritten.
+- Review queue: items 355 to 367 new; items 310, 340, 331 and 284 rewritten to the landing; the head's groups and counts rewritten.
+- PLAN-history: every moved or rewritten line, word for word.
+- INDEX: the line on the Number closure design cites PLAN by heading.
+- The maps: compile-path-walkthrough and spec-to-implementation say that a local function compiles, but for four forms.
+- The run's folder of the climb batch 26 record landing.

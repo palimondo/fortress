@@ -466,14 +466,16 @@ load (`modules-and-phases.md` B.9, B.11). Section 6.
 
 | site | requires |
 |---|---|
-| `FnDecl` (`CodeGen.java:2948-2957`) | no where clause, no contract, no unhandled modifiers, **not inside a block** — so no local functions |
+| `FnDecl` (`CodeGen.java:2948-2957`) | no where clause, no contract, no unhandled modifiers, **not inside a block**; a local function compiles through `forLetFn` instead, as a closure (F-320) |
 | `ObjectDecl` (`:4086-4097`) | no where clause, no throws clause, no contract |
 | `TraitDecl` (`:4997-5006`) | the same three |
 | `SubscriptExpr` (`:4939-4940`) | no static arguments, an operator present, the object a plain `VarRef` |
 
 Where clauses are therefore refused outright on all three declaration forms
-(`:2949`, `:4089`, `:5000`), and a local function is refused with
-`Can't compile LetFn` (FACTS, execution model; ledger 304). A `throws` clause
+(`:2949`, `:4089`, `:5000`). Since climb batch 26's rung L a local function
+compiles as a closure, but for three forms, each refused with its own message
+(ledger 304), and a varargs one, which stops at 'Can't compile VarArgs yet'
+(ledger 624) (F-320). A `throws` clause
 on a function has been accepted since 2011 by a comment in the code, but is
 still refused on traits and objects (`:4089`, `:5000`;
 `spec-to-implementation.md` chapter 14 row).
