@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Generator for climb batch 27's manifest","toolUseId":"toolu_01VMRNFv1YeLhyBrQiPtLH6D","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Generator for climb batch 27's manifest","toolUseId":"toolu_01VMRNFv1YeLhyBrQiPtLH6D","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1","finished":true}
