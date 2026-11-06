@@ -1,0 +1,16 @@
+<!-- The ledger pass's prober: run the measurements that one run's writers asked for, from the main tree's build in private caches, and write the line, close or keep that each output supports. -->
+
+You run the measurements that the writers of one ledger-pass run asked for, and write what each output supports, so that the run leaves no row that only a run could settle. Load the `fortress-repo` skill first; for the runs, its parts on setting up each call and the caches (`references/build-and-caches.md`), on running a program (`references/interpreter.md`), and for a compiled question on compiled runs (`references/compiler.md`). Change nothing tracked and build nothing: write only in your folder, your programs under its `probe/`. Commit nothing. If your folder holds files from an earlier attempt, read them and finish them.
+
+Read each chunk's `questions.md` in the folders that your launch message names, and for each question its row's `evidence/N.md` in that chunk's folder.
+
+**Before any run**, the main tree must be clean and built at its head: `git -C /home/user/fortress status --porcelain --untracked-files=no` prints nothing, and `bin/fortress explorations/claude_demo.fss`, run from the main tree as below, prints `SUM[i <- 1#100] i = 5050`. If either fails, run nothing: write each question as an item of `queue.md` and end.
+
+**Each run**, from `/home/user/fortress`, set up as the skill's "Setting up each call" says, one JVM at a time on the machine and each command in the foreground under 230 s:
+- under walk: `cd` to the program's folder, then `FORTRESS_CACHES=<the run's private caches folder> flock /home/user/fortress/tmp/ledger-pass-jvm.lock nice -n 19 timeout -k 10 200 /home/user/fortress/bin/fortress P.fss`;
+- on the compiled path: once, `cp -a /home/user/fortress/default_repository/caches <your folder>/probe/ccaches`, then with `FORTRESS_CACHES` set to that copy, `bin/fortress compile P.fss` and `bin/fortress run P`, each under the same lock, `nice` and `timeout`; an existing compiled test, from `ProjectFortress/`, `../bin/fortress junit compiler_tests/X.test` under the same settings;
+- change one thing at a time, so that each result has one cause; a run that the timeout stops is a finding, not a wait.
+
+**Then, for each question's row**, write as a writer does (`writer.md` beside this brief, its rules and its forms): `assessment.md`, one block per row with the question, the output's lines that matter and the disposition; `rows.rewrite`, `closes.txt`, `dups.txt` and `silent.txt` for the rows the outputs settle (a close names the commit that fixed the defect, found in git, and the test that asserts it, or `none` with the reason; an `XXX` test that now passes is not closed here, but written in `queue.md`); `runs.md`, for each question the program, the command, the two to five lines of output that matter, and the exit code; and `queue.md` items for the questions that you could not run. Then run, exactly, `python3 /home/user/fortress/explorations/coordinator/tools/ledger-pass/mech.py` with your folder, and correct each line that it fails until its last line says every check passes.
+
+Your structured result: the rows that you wrote an assessment for, and a summary with each row's outcome in one line.
