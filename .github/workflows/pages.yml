@@ -1,0 +1,37 @@
+# Publishes the docs/ folder to GitHub Pages, only when that folder changes.
+# To use it, set the repository's Pages source to "GitHub Actions"
+# (Settings, Pages, Build and deployment, Source). Until then the branch
+# deployment stays in force and this workflow's deploy step is refused.
+name: Publish docs
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: docs
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - id: deployment
+        uses: actions/deploy-pages@v4
