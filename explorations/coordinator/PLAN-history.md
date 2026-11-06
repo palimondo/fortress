@@ -1904,3 +1904,9 @@ Moved or rewritten on 2026-11-06, after his decision between 08:5x and 09:3x UTC
 
   - N1 and N2, A's 154 and B's 59: those moved are in F-299, F-303 and F-305 to F-307, the string family's 18 with climb batch 26's rung T (F-299); `FlatString`'s `=` and `flatConcat` at a `Char` stay on glue with review-queue item 331; B's 23 with a name the prelude gives another helper are in row 348 and F-32.
   - The 109 that cannot name their helper as a bare string: the 76 and the 5 moved are in F-308, F-313 and F-311. The way for each of the 25 left, `ZZ32`'s `big` among them, and the bare form's reach: no default (review-queue items 331 and 332; way 2b's cost, review-queue item 326 (closed at the cleanup of 2026-11-05: learning)).
+
+Moved or rewritten on 2026-11-06, after his decision at about 10:1x UTC on `Char`'s `asExprString` (P-163; review-queue item 354, now in (a)): phase 4's natives line, its line on the families that wait on a known obstacle, which no longer names `Char`'s `asExprString`, now `Char`'s rung beside it; and item 66 under "Pavol's answers", added as answered. The earlier text word for word, under the heading it stood under.
+
+### Phase 4. The switch-over
+
+  - The families that wait on a known obstacle, each with its home: `Char`'s `asExprString` (review-queue item 354, row 861); row 872; varargs (row 849, review-queue item 311 (closed at the cleanup of 2026-11-05: learning)).
