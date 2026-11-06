@@ -14,7 +14,7 @@
 6. **Reread**: a second cold read of the fixed entries.
 7. **Judge**: once, per entry, apply or hold (`judge.md`), so that no chunk loops; it writes `final.apply` and `queue.md`.
 
-**The writer stream.** One headless Opus session per Workflow run takes its chunks in turn (`flock`), resumed while its context stays under 400K tokens written and its cache is warm (under 50 minutes idle), and started fresh otherwise. In the pilot its fix round wrote 61K tokens, where a fresh writer would read everything again. A Workflow runs at most two agents at once on this machine: run several side by side, each with its own stream.
+**The writer stream.** One headless Opus session per Workflow run takes its chunks in turn (`flock`), resumed while its context stays under 400K tokens written and its cache is warm (under 50 minutes idle), and started fresh otherwise. In the pilot its fix round wrote 61K tokens, where a fresh writer would read everything again. The Workflow tool runs at most two agents at once in each run, not on the machine: run several runs side by side, each with its own stream.
 
 ## Running it
 
