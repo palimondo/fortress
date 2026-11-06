@@ -1,0 +1,1 @@
+293	371	293's notes carry walk's unchecked `excludes` on a Matrix-and-MultiplicativeRing carrier and its dead inherited `+`, which is row 371's defect; decide whether that half moves to 371 and 293 keeps only the design limit

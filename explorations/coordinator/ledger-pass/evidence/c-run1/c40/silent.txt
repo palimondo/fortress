@@ -1,0 +1,1 @@
+405	defect	the compiled refusal and walk's InterpreterBug both reject the specification's own example Cons (SpecData/examples/basic/Object.Decl.Cons.fss), and walk's failure is an internal error, not a chosen rule

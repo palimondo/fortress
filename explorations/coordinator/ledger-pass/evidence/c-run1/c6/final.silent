@@ -1,0 +1,3 @@
+140	defect	strToFloat counting the sign as a digit and overflowing a ZZ32 power of ten is a bug of a "quick and dirty" body, not a behaviour anyone chose.
+363	defect	the compiled asDebugString lacks walk's article form only for want of a compiled ilkName (the article body is commented out), and POSITIONS (What an object with no asString prints) keeps the debug marker in asDebugString.
+458	choice	the component-only ANDCOND overload was removed on purpose because the checker refuses its self-excluding type; relational answering false is the accepted cost, and the value and the fusion are unchanged.

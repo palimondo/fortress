@@ -1,0 +1,1 @@
+223	choice	the rung fixes the rank in the grammar by choice (r15_runtimerank.fss header: "Keeping it a FAIL is the deliberate choice: a runtime-rank carrier is what the redesign removes"); the specification is silent on a user sub-grammar of APL

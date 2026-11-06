@@ -1,0 +1,3 @@
+674	defect	the api advice gives a wrong range for bounds above 0, and the library's own subscripts avoid it by narrowToRange
+109	defect	Vector has pmul and Matrix lacks it with no stated reason; no text of the team chooses the absence
+254	defect	a size mismatch that the shared nat detects ends as an uncatchable ProgramError, an error class no design chose

@@ -1,0 +1,27 @@
+# Queue items from the judge of c-run1-probe
+
+- **Row 219, close owed: walk now accepts a `Char` array beside an `RR64` vector in one family.** `probe/p219/r07t_edge.fss` (`r07_edge.fss` with `fill` of a function made `tabulate`) prints `tally(c) = 5.0` under walk at the base; the compiled path cannot state the family (its prelude has no `Array`, `Vector` or `Char`). The close needs the commit that changed it, by bisect, which the prober may not do (it builds nothing).
+   - Landed: the judge's rewrite (`POSITIVE-VERIFIED`, `final.rewrite`), stating the present. Default: that line, the row open until the close.
+   - The other way: bisect walk on `r07t_edge.fss` between the row's line (ae4f8e38a) and c124c6b65, candidates `6d187d069`, `5262a2412`, `14e91723f` and the `Vector` bound change; then `ledger.py close 219` with that commit and a gated walk test that asserts `tally(c)`.
+   - Its cost: a bisect of a few builds, about an hour of a worker.
+   - Home: `tmp/ledger-pass/c-run1/c-run1-probe/runs.md` and `assessment.md`, row 219.
+   - Needed by: the ledger's repair.
+- **Row 44, a gated test owed for its close.** The close (`closes.txt`) names `d846e3644` and test `none`: no gated test asserts a `SUM` over arrays of `RR64`. `probe/p44/T44.fss` gives `[0#3][ 5.0 7.0 9.0 ]`.
+   - Landed: nothing; the close is held (test `none` fails the check). Default: the row's present line (`tmp/ledger-pass/c-run1/c32/evidence/44.md`).
+   - The close to apply once the test lands: `44	d846e3644	TEST	SUM bounded by AdditiveGroup, no cast to Number, since d846e3644; T44 prints [0#3][ 5.0 7.0 9.0 ]`.
+   - The other way: a worker adds a walk test asserting `SUM[ u <- seq(n) ] u` of two RR64 arrays, then the close names it.
+   - Its cost: one small test and its harness run.
+   - Home: `tmp/ledger-pass/c-run1/c-run1-probe/runs.md`, row 44.
+   - Needed by: the ledger's repair.
+- **Row 853, an `XXX` compiled test owed.** The rewrite makes it `NEGATIVE-VERIFIED` with reproducer `none`; the writer's outcome asks `probe/p853/BottomSpec.fss` as an `XXX` compiled test (`compile_err_contains=Invalid overloading`), a change of the tree.
+   - Landed: the rewrite with `none`. Default: the rewrite.
+   - The other way: a worker adds `ProjectFortress/compiler_tests/XXXBottomSpecificity.test` from the probe, sees it fail through the harness, and the row's reproducer names it.
+   - Its cost: one test and one harness run.
+   - Home: `tmp/ledger-pass/c-run1/c23/questions.md`, row 853; `runs.md` here.
+   - Needed by: the ledger's repair.
+- **The APL base no longer runs under walk at the base: `AplCore.fss:52` calls `.fill(f)` with a function.** Since `f3b62bc83` (2026-09-28) `fill` takes a value and `tabulate` a function. `r14_nested.fss` stops at `AplCore.fss:52:56-78`, 'fill param 1 (v:RR64) got arg FnExpr', before its own code; every reproducer that imports `AplCore` and calls `aplVec` or `aplMat` meets it, so those rows' runs settle nothing until the base is ported. `v04_lib.fss` is refused at load before that, cold and warm, on two other pairs (`AplCore.fss:280`, `:1209`).
+   - Landed: nothing. Default: nothing.
+   - The other way: a curator's choice whether to port the APL base to `tabulate` (and its two refused overloads), or to mark its rungs' reproducers stale in their rows.
+   - Its cost: unmeasured; the port of `fill` is a few lines, the two overload refusals a design question each.
+   - Home: `tmp/ledger-pass/c-run1/c-run1-probe/runs.md`, rows 44 and 342.
+   - Needed by: every ledger row whose reproducer is an APL rung program that imports `AplCore`.

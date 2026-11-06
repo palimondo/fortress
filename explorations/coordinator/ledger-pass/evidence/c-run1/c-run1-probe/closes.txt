@@ -1,0 +1,1 @@
+44	d846e3644	none	no gated test asserts a SUM of RR64 arrays; at c124c6b65 bin/fortress walk T44.fss, SUM[ u <- seq(n) ] over two Array[\RR64,ZZ32\] cells, prints [0#3][ 5.0 7.0 9.0 ], exit 0; SUM is bounded by AdditiveGroup with no cast to Number since d846e3644

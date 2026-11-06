@@ -1,0 +1,2 @@
+188	choice	the failure was a dotted call of a functional method, which basic/traits.tex, "Method Declarations", makes a top-level function, called truncate(v); the row is rewritten RETIRED with that spec cell
+283	choice	the failure was a dotted call f.narrow() of a functional method, which basic/traits.tex, "Method Declarations", makes a top-level function; the row is rewritten RETIRED with that spec cell

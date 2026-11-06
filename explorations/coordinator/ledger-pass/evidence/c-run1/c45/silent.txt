@@ -1,0 +1,8 @@
+268	defect	the nine tests use a spelling the parser no longer accepts and the build never runs them; a gap of the tests, not a choice
+271	defect	the import requirement is undocumented and no diagnostic names it; the defect is the missing diagnostic
+275	defect	Transform.java:760 says "Nothing else implemented yet": an unfinished feature, not a choice
+291	defect	the checker lacks template cases that walk handles; unfinished work
+702	defect	the generated files are never deleted; a leak, not a design
+67	choice	the 256 MB default is a setting the launcher deliberately overrides with JAVA_FLAGS; nothing in the tree needs changing
+532	defect	a hazard of the comparison runner's fixed limit, not a language behaviour the team chose
+757	defect	a staleness test that ignores the missing jar; no design asks for it

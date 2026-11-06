@@ -1,0 +1,1 @@
+384	defect	The specification is silent on the cost of dispatch, but the eager message is built and thrown away on a candidate walk rejects; nothing in the team's code or record chooses that cost.

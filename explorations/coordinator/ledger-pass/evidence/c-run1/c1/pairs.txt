@@ -1,0 +1,1 @@
+442	349	442 lists "narrow on ZZ" among the prelude gaps, which is row 349's defect (the prelude's trait ZZ declares neither widen nor narrow, CompilerBuiltin.fsi:103); one of the two should hold that half, the other name it in siblings
