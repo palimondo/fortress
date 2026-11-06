@@ -123,7 +123,7 @@
 20. **The branch `record/landing-24-replay`.**
     - Source: the boot note, "Next", item 5 (kept until you read `process-engineering/record-landing-replay-24.md`).
     - State: the comparison's fixes landed (`575d55594`, `d9f2fdfd0`).
-    - Close: answer with the default (the docket's proposal): delete the branch after climb batch 25's live run of the workflow.
+    - Close: no ask. The branch stays on GitHub until the curator deletes it, by his order of 12:3x UTC on 2026-11-06; nobody asks him or reminds him of it.
 
 21. **"Ignoring 6 permissions.allow entries" in the headless writers.**
     - Source: the boot note, "Still open, smaller".
@@ -155,7 +155,7 @@
      - a small pilot that you read is the check of form, not the trap test (lesson 6; on the branch only);
      - recheck a disputed memory at the source (lesson 11);
      - which job each record tool fits (12:24; on the branch only; `record.md`'s tool lines are still those of 10-22, `b6f5268e1`).
-   - Close: brief the skill writer to draft the five as items on the drafts page's next version, for your yes; then delete the branch.
+   - Close: brief the skill writer to draft the five as items on the drafts page's next version, for your yes. The branch stays on GitHub until the curator deletes it (his order of 12:3x UTC on 2026-11-06).
 
 2. **PLAN's own consolidation, the rest.**
    - Source: PLAN, "Work that can start now, with no decision", its first line; the boot note, "Still open, smaller".
