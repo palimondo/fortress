@@ -1066,3 +1066,7 @@ From the cold read of `d5cd3bc2c` and `a48c389b7` (`explorations/compile-ladder/
 From the cold read of the `note --check` sentence, 2026-11-06; settled by the coordinator's task; checked against the header of `explorations/coordinator/tools/ledger.py` and a run of `note --check`.
 
 - `records.md`, "To change a row", the `note` bullet: the two pairs of counts, the separator counted, the exit status, the check before a long note or a note on a row near its limits, and a note that does not fit shortened, or the notes cut with `rewrite` (the header: "A row at its length limit takes no note: rewrite cuts it back").
+
+## The curator's standing order on branches, 2026-11-06
+
+- `committing.md`, "Pushing": no deletion of a branch tried, local or remote, since the harness refuses it from this container; the branch stays until the curator removes it. The curator's words in chat at 12:3x UTC on 2026-11-06: "We already know that branches cannot be deleted from your cloud container. And I will get to them when I get to them."
