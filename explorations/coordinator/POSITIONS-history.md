@@ -3598,3 +3598,13 @@ pointer words refreshed in: F-27, F-76, F-175
 ### P-166
 
 2026-11-06 17:37Z · noted · by curator: his words in chat on 2026-11-06 at about 17:3x UTC, dictation slips cleaned: "I agree that we can convert the big integer into bits and compare those, and we should update the specification to say that arbitrary-precision numbers are not reference objects but value objects, because that is how they are declared in the library. Let's bring the spec in line with the reality of the code."
+
+### P-166
+
+2026-11-06 19:00Z · rewritten · by curator: widened to QQ at his decision in chat on 2026-11-06 at about 18:4x UTC: Ratio becomes a value object; the clause that left Ratio open removed; row 911 settled by it
+
+- P-166 **`ZZ`'s values are value objects, as the library declares them, and the specification's list of reference objects stops naming arbitrary-precision numbers.** The library declares `value object BigNum extends ZZ` (`LibraryBuiltin/FortressBuiltin.fss:565`, `.fsi:223`), so every `ZZ` value is a value object. By the specification's rule two value objects of one type are strictly equivalent when their fields are, so two `ZZ` values built apart are `SEQV` when their integers are equal: `SEQV` converts each into its bits and compares those. The specification's list in `Specification/basic/objects.tex` ("Reference objects include arbitrary-precision numbers") is revised to name them among the value objects, in the revision form (P-96) with an Appendix I entry, in the rung that fixes what `SEQV` means (P-162). This does not settle `QQ`'s `Ratio`, a plain object today (row 911, the two arbitrary-precision declarations disagree). Why: the library's `value` declaration is the deliberate word, and where it is, the curator's rule brings the specification's example in line with the code. Detail: `reviews/any-carrier-2026-11-06.md`, section 2.4, point 11, which found the split.
+
+### P-166
+
+2026-11-06 19:00Z · noted · by curator: his words in chat on 2026-11-06 at about 18:4x UTC: "Agreed, Ratio should become a value object."

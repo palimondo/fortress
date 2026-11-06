@@ -9155,3 +9155,9 @@ rewritten
 rewritten
 
 | 905 | Appendix I cites the library's apis by line in nine places, and at least five of its seven citations of `Library/FortressLibrary.fsi` name other declarations than their sentences claim: lines 459--460, cited for `LSHIFT` and `RSHIFT` on every integer type, hold `DOT` and `TIMES` | NEGATIVE-VERIFIED | implementation gap (specification) | `appendices/changes.tex`, "Changes Made by the 2026 Revival to the Working Draft" | none | climb batch 27's planner | Read at 551b02858 (`Specification/appendices/changes.tex:1613`, `:1749`, `:1861`, `:1902`, `:2684`): 433--436, cited for `AnyIntegral`, hold `QQ`'s `^`, `floor` and `ceiling`; 510--511, for the integers' exclusions, `NN64`'s `-` and `DOTMINUS`; 387--388, for `QQ`'s four traits, `RR64`'s `MAXNUM`; 291--296, for `RR32`'s traits, `Number`'s `=`. Each library edit shifts them. A fix cites the declaration by name, as the tests cite the specification by section. |
+
+### Row 911
+
+rewritten
+
+| 911 | `QQ`'s `Ratio` is declared a plain object, not `value object`, while `ZZ`'s `BigNum` is a `value object`; the specification's list makes arbitrary-precision numbers reference objects, so the two library declarations of its arbitrary-precision numbers disagree | CONTESTED | library gap vs spec (library) | `basic/objects.tex`, "Objects"; `basic/objects.tex`, "Value Objects" | none | review any-carrier-2026-11-06 | siblings: 910. By reading, at caa0ffc61: `object Ratio(num: ZZ, den: ZZ) extends { QQ }` (`Library/FortressLibrary.fss:664`) and `value object BigNum extends ZZ` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:565`). The chapter: "Reference objects include arbitrary-precision numbers", and also "integers are value objects". Contested: by the list `Ratio` is right and `BigNum` wrong; by the other number objects, all `value`, `Ratio` is the odd one. Which carries the curator decides. |
