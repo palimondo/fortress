@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Archaeology: how the clarity passes scaled","toolUseId":"toolu_01464QKiJRes4PHvQPUvJ3ei","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Archaeology: how the clarity passes scaled","toolUseId":"toolu_01464QKiJRes4PHvQPUvJ3ei","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-1","finished":true}
