@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the branch order's two rules","toolUseId":"toolu_0153e3kmDqDAJ2pmGSESeCZf","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the branch order's two rules","toolUseId":"toolu_0153e3kmDqDAJ2pmGSESeCZf","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1","finished":true}
