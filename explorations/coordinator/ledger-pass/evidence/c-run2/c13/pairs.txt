@@ -1,0 +1,1 @@
+414	489	414 notes a case of row 489 (name capture in the comprises rule, 079f54ea9 accepting Odd[\T\] but refusing Odd[\V\]); the reconcile run decides whether that sentence moves to 489

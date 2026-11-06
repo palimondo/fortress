@@ -1,0 +1,3 @@
+845	defect	walk reaches its own bug() call (InterpreterBug) for an import form its parser accepts; no design chose that
+294	choice	the library allocates products and transposes by name (matrix[\T,s0,s2\](), TransposedMatrix) by its design, a limit rather than an error
+798	defect	P-88 wants ReadableArray2 as a library change, beside the ReadableArray1 the team built; its absence is unbuilt work

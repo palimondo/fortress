@@ -6941,3 +6941,549 @@ rewritten
 rewritten
 
 | 792 | the integer chapter's listing writes `throws IntegerDivisionByZero` on ÷, `REM`, `MOD`, `DIVREM` and `DIVMOD`, an exception neither library declares; the operators chapter, the completion chapter and both libraries name `DivisionByZero` | CONTESTED | library gap vs spec (specification) | `basic-lib/basic-integers.tex`, "Integers" | none | climb batch 20 rung I | The listing: `Specification/basic-lib/basic-integers.tex:246-250`. 'For integer results, division by zero throws a DivisionByZero' (`Specification/basic/operators/opr-overview.tex:165`); `Specification/basic/evaluation/completion.tex:31`. `Library/FortressLibrary.fsi:1114` and `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:747` declare `DivisionByZero` only, and the method entry of the integer power names it (P-153). Which name the listing takes is not settled. Route, climb batch 20's review's default (`reviews/batch-20-review.md`): `DivisionByZero`, written into the listing by the next rung that edits `basic-integers.tex`. |
+
+### Row 850
+
+rewritten
+
+| 850 | the compiled checker's exclusion test reads each static parameter as invariant: in `trait C[\covariant S\]`, for traits `Dog`, `Cat` below `Animal`, it counts `C[\Dog\]` and `C[\Cat\]` as excluding and refuses `object D extends { C[\Dog\], C[\Animal\] }`, which the POPL 2019 paper admits; by reading | CONTESTED | implementation gap (checker) | `Specification/basic/trait-parameters.tex`, "Where Clauses" | none | the POPL 2019 rules map | siblings: 404, 406. By reading, not run (`explorations/reviews/popl2019-rules-map.md`, finding 1, at 501140f96): `checkP` (`scala_src/types/TypeAnalyzer.scala:541-555`) excludes wherever an argument pair is not equivalent (`:547-551`); the subtype test reads the declared variance (`:274-280`). The rules: constructability (`Papers/Variance/appendix.tex:203-206`), [Anc-Same-Trait] (`lang.tex:393-397`). So the overloading check also takes `f(x: C[\Dog\])` beside `f(x: C[\Cat\])` as excluding, though `object DC extends C[\DogCat\]` is below both. Only under `covariant` or `contravariant`, future work (P-62); no library or microGPT line uses them. Settles it: a probe of `D` and of the `f` pair. |
+
+### Row 465
+
+rewritten
+
+| 465 | under walk, a program can call an overload that only the component declares, where the api declares others of the same name: on an `Array2`, `m[:, j]` and `m[i, :]` run, though the api's `Array2` declares neither subscript | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/components/source-code.tex`, "Import Statements" | none | climb batch 7 rung A | The component's `Array2` declares `opr[_:TrivialOpenRange, i1:ZZ32]` and `opr[i0:ZZ32, _:TrivialOpenRange]` (`Library/FortressLibrary.fss:2707`, `:2711`, at d4d454f9d); the api's `Array2` (`Library/FortressLibrary.fsi:1695-1732`) does not, and `VectorMatrixCastsWalk` runs both (`ProjectFortress/tests/VectorMatrixCastsWalk.fss:158-165`). A name only the component declares is refused: `__thrower`, 'Function __thrower is not defined' (probe `explorations/compile-ladder/rung-tabulate/probes/ComponentOnly.fss`, in the parent of `9269f7bd2`). Where walk takes the component's overloads over the api's is not located. Declaring them in the api makes the calls legal. full text: history, row 465 |
+
+### Row 789
+
+rewritten
+
+| 789 | the compiled checker refuses an overlapping pair with 'V is not in the kind env' in place of 'Invalid overloading': `h[\T extends R[\ZZ32\]\](x: Box[\T\], y: T)` beside `h[\U, V\](x: Box[\V\], y: Ob[\U\])`, `object Ob[\U\] extends R[\U\]` | NEGATIVE-VERIFIED | implementation gap (checker) | `advanced/overloading.tex`, "Declarations with Static Parameters" | none | climb batch 19 rung P's skeptic | siblings: 557, 788. `bin/fortress compile` of the pair with `trait R[\T\]`, `trait Box[\T\]` and a call `h(BoxOb, Ob[\ZZ32\])`, `object BoxOb extends Box[\Ob[\ZZ32\]\]`, prints 'P.fss:8:19: V is not in the kind env [][][]' and 'File P.fss has 1 error.', on 612869b4a and the rung's head; the second declaration alone, or beside `h[\T\](x: Box[\T\], y: ZZ32)`, compiles and runs. Walk loads the pair (788). |
+
+### Row 390
+
+rewritten
+
+| 390 | on the compiled path, an overloaded call that one declaration takes without coercion and another only with it dies with `NoSuchMethodError`: with `p(x: Wide)`, `p(x: Any)` and a `coerce` in `Wide`, `p(NarrowOf(1))` names a dispatcher, `=p{...}(Any)`, that is never emitted | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/conversions-coercions.tex`, "Coercion Resolution" | `ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.test` | climb batch 4 rung C | The checker keeps the candidates applicable only with coercion beside one applicable without (`checkApplication`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:430-453`), where the specification drops them; rung I (`8dc1a74d9`) kept that ranking. Without the `coerce` it prints `p(Any)`, as walk does. A numeral, an `IntLiteral` converting to `ZZ32` (`CompilerBuiltin.fss:883`), reaches it with no user coercion: `g1(5)` for `g1(y: Object)` beside `g1(y: ZZ32)`, and `h(Circle, 3)` for `h[\T extends Shape\](x: T, y: ZZ32)` beside `h(x: Circle, y: Any)` and `h(x: Circle, y: ZZ32)`. full text: history, row 390 |
+
+### Row 23
+
+rewritten
+
+| 23 | `T[n]` with a `nat` parameter does not unify with a runtime-built array; a literal size does | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Nat and Int Parameters" | none | blinded | `Cannot unify __DefaultVector[\RR64,3\] with ArrayType`. Probe `explorations/fable-review-probes/RvwNatArray.fss`, in the parent of `e879b6a44`. |
+
+### Row 393
+
+rewritten
+
+| 393 | a cycle of coercion declarations is accepted on both paths: with `P` declaring `coerce(x: Q)` and `Q` declaring `coerce(x: P)`, `fp(QOf(1))` and `fq(POf(2))` print 1 and 2, compiled and under walk | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/conversions-coercions.tex`, "Restrictions on Coercion Declarations" | none | climb batch 4 rung C's skeptic | The specification rejects such cycles statically. The compiled checker, beside its coercion-overloading checks, does not check the extends-plus-coerce graph for cycles; walk has no checker. The answer is a static error, so no test can gate it. Walk refused the program before rung C only because it had no coercion. Probe `explorations/compile-ladder/rung-interp-coercion/probes/skeptic/SkCycle.fss`, no longer in the tree. full text: history, row 393 |
+
+### Row 852
+
+rewritten
+
+| 852 | no check was found that a declaration's parameter names, or its static parameter names, are distinct: the disambiguator keeps equal names apart by their spans, and its pairwise test never reaches the last name; whether `f(x: ZZ32, x: ZZ32)` or `g[\T, T\](x: T)` loads is not established; by reading | CONTESTED | implementation gap (checker) | `Specification/basic/declarations.tex`, "Reach and Scope of Declarations" | none | the POPL 2019 rules map | By reading, not run (`explorations/reviews/popl2019-rules-map.md`, finding 3, at 501140f96): `ExprDisambiguator.scala:837-841` gathers the names into a `Set[Id]`, whose `equals` compares the node's info, span with it (`nodes/Id.java:54-72`); `checkForShadowingVars` (`ExprDisambiguator.scala:766-783`) loops `i` below `size - 2`, `j` below `size - 1` (`:776-777`). The paper's premises: `distinct` in [D-Method], [T-Closure], [D-Trait] and [D-Object] (`Papers/Variance/lang.tex:168`, `:187`, `:211`, `:215`; `resolve.tex:10`). Another phase may refuse both. Settles it: those two one-line programs on both paths; one that loads breaks the section's static error. |
+
+### Row 341
+
+closed by c41c3d2b0
+
+| 341 | under walk, two or more declarations of a library operator name in a program are checked with the library's only on a cold cache, and refused beside its generic declarations, a more specific one too: C4's `opr MAX[\I\](s: RR64, a: Array[\RR64,I\])` pair, a sized `+` over `Array3` or `Vector` | NEGATIVE-VERIFIED | design limit (walk) | `Specification/advanced/overloading.tex`, "Declarations with Static Parameters" | none | ours, c4-parallelism measurements | siblings: 98, 159. Fixed: C4's own failure, its declarations dropped once `02d09a39f` generalised the library's scalar extension (test `ArrayOperatorsBesideLibrary.fss`). Open: one user declaration is not merged with the library's, two are; a pair neither excluding nor ordered sets `sawSymbolic` (`OverloadedFunction.java:472-474` at `052a7c3fe`), `overloadOk` refuses (`:523-524`); a cache hit skips it (row 98). It leaves decision D's `adamN` on the unsized `+`, so the `/` it feeds has no sized form (`reviews/decision-d-diff.md` § 6). Workaround: declare the family in the library. Probe `explorations/run-c4/cold-cache/p4/`, parent of `11bf69c39`; full text: history, row 341 |
+
+### Row 790
+
+rewritten
+
+| 790 | on the compiled path an object whose `extends` clause lists one trait twice compiles and links, and its class fails to load: `object Twice extends { Tr, Tr } end` dies with `ClassFormatError` 'Duplicate interface name', where walk runs it as a `Tr` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXDuplicateExtendsEntry.test` | climb batch 19 rung S's skeptic | siblings: 414. The clause is "a set of trait references" (`Specification/basic/traits.tex`, "Trait Declarations"). `NamingCzar.extendsClauseToInterfaces` writes one JVM interface for each entry and checks for no repeat (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:733-755` at 84a17f4bd); the same on the base. `extends { Any, Any }` died so on the base ('Duplicate interface name "fortress/AnyType$Any"'); the pre-disambiguation desugaring now gives that clause `{Object}`. |
+
+### Row 889
+
+rewritten
+
+| 889 | the code generator crashes with a `NullPointerException` on a trait or object whose `extends` clause gives a generic trait a tuple static argument that holds `Any`, as `object PairHolder extends Holder[\(Any, ZZ32)\]`, which the checker accepts | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXExtendsGenericAtTupleOfAny.test` | climb batch 25 rung C | siblings: 820. `generateTypeReference`'s tuple branch passes an element that is neither a trait type nor a type variable back to itself with a null name (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5747` at 97a416b18), which `NamingCzar.repairedApiName` dereferences (`compiler/NamingCzar.java:1720`): 'Cannot invoke "com.sun.fortress.nodes.IdOrOp.getApiName()" because "id_or_op" is null', on the old code and after climb batch 25's rung C. The arrow branch makes the same call (`:5774`), not measured. |
+
+### Row 366
+
+rewritten
+
+| 366 | **a generic object with an `opr` static parameter cannot be instantiated on the compiled path**: for `object Op[\opr ODOT\]() end`, `println(Op[\+\]())` compiles and dies at run time with `NoSuchMethodError` on `Op❮+❯$RTTIc.factory()`; walk prints `Op[\+\]` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/trait-parameters.tex`, "Operator Parameters" | `ProjectFortress/compiler_tests/XXXOprParamRungS.test` | climb batch 3 rung S's skeptic | The RTTI class of the `❮+❯` instance lacks `factory()`; its generator is not located. Of the `"factory"` calls in `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java` (`:5756`, `:5783`, `:5831` at 052a7c3fe), the last skips `OpArg` arguments when emitting an extends clause's RTTI (`:5822-5823`), a related shape not verified to be this path. The test asserts walk's spelling `Op[\+\]` (POSITIONS, "What an object with no `asString` prints"); once repaired, `stringOps.typeName` renders the `❮+❯` stem verbatim, so the test will then report the spelling. full text: history, row 366 |
+
+### Row 404
+
+rewritten
+
+| 404 | **the compiled checker accepts declaration-site variance (`covariant`, `contravariant`) and neither path carries it to run time**: binding a `CImpl[\Dog\]` to `a: C[\Animal\]` under `trait C[\covariant S\]` type-checks and the compiled run dies with `IncompatibleClassChangeError`; walk refuses it | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/trait-parameters.tex`, "Where Clauses" | none | ours (S2 of batch 4's specification rung) | A contravariant `D` bound the same way dies alike. Probes `AltCovariantVariance.fss`, `AltEveryContraObject.fss`: in the parent of `84aef6a4f`, under `explorations/reviews/spec-refused-examples/probes/`. The team's design: keywords `26718e298`, subtyping by variance `20a8febe9`, `Documentation/Specification/Prose/Language/types.tick:320-339`; the ten `compiler_tests/VarianceTest*` test the checker only. No library or microGPT line uses them. Workaround: widening functions (`Library/CovariantCollection.fss`). Future work, worklist item 12 (POSITIONS, "The `covariant` keyword is future work"); design: `research/extracts/ParkPOPL2019-extract.md` sections 3 and 5. full text: history, row 404 |
+
+### Row 406
+
+rewritten
+
+| 406 | **the compiled checker's instantiation exclusion does not compare boolean arguments**: `object F extends { Flag[\true\], Flag[\false\] }` with `trait Flag[\bool b\]` passes the checker and the compile dies in code generation, "Only emitting RTTI for types right now"; walk runs it | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/types-vals-vars.tex`, "Trait Types"; `Specification/basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXBoolExtendsTwice.test` | climb batch 5 rung S's skeptic | siblings: 402, 414. `checkP`'s `cP` returns no exclusion for a pair of arguments that are neither types nor two literal sizes (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:460-468` at 052a7c3fe, "Todo: Handle bool args" at `:462`); code generation then throws at `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5829`. Fix: a `bool` case in `cP` beside the size case; the rung that adds it also decides what code generation does with a boolean static argument in an `extends` clause. full text: history, row 406 |
+
+### Row 414
+
+rewritten
+
+| 414 | **the declaration rule is not applied when an extended instantiation's argument is a static parameter**: `object O[\nat n\] extends { Vec[\n\], Vec[\3\] }` and the type twin with `Vt[\T\], Vt[\ZZ32\]` pass the compiled checker and die at load, `ClassFormatError` "Duplicate interface name" | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXNatExtendsTwice.test` | climb batch 5 rung Z (D4) | siblings: 406. The extends check asks `definitelyExcludes` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:216` at 052a7c3fe), which means "provably different" because overloading uses it, where the rule needs "not provably the same"; fix: a declaration-rule check of its own there. Walk prints both (row 371). Through row 489's name capture, `079f54ea9` accepts in this class `trait Odd[\T\] extends { Full[\T\], Tag[\ZZ32, T\] }` over `trait Box[\T\] comprises { Full[\T\] }` and `Tag[\T, U\] extends Box[\T\]`, its run printing a `Box[\ZZ32\]` that is no `Full[\ZZ32\]`; renamed `Odd[\V\]` it is refused. full text: history, row 414 |
+
+### Row 768
+
+rewritten
+
+| 768 | the compiled export check never matches a declaration whose parameter type has a `bool` static argument: `f(x: Flag[\true\]): ZZ32` in an api and the same declaration in its component are refused, 'does not define all declarations', where walk runs the program | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/source-code.tex`, "Export Statements" | `ProjectFortress/compiler_tests/XXXExportBoolStaticArg.test` | climb batch 17 rung C's skeptic | siblings: 406, 737. `ExportChecker.equalStaticArgs` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:636-643` at ca4bc4d88) is true only for two type or two size arguments, as the team's header lists BoolArg, OpArg, DimArg and UnitArg 'ignored for now' (`:73-78`); the opr, dim and unit cases by reading. Row 737's repair compares parameter types with the same `equalTypes`, so such a declaration that leaves out its return type takes none from the api; the export check refuses it either way. Identity of types: `basic/types-vals-vars.tex`, "Types". Workaround: none on the compiled path. |
+
+### Row 769
+
+rewritten
+
+| 769 | the compiled export check refuses an exported function satisfied by a set of declarations: `pick(q: Q): ZZ32` with `trait Q comprises { R1, R2 }`, met by `pick(r: R1): ZZ32` and `pick(r: R2): ZZ32`, is refused, 'does not define all declarations', where walk runs the program | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/source-code.tex`, "Export Statements" | `ProjectFortress/compiler_tests/XXXExportSetOfDeclarations.test` | climb batch 17 rung C's skeptic | siblings: 737. `existsMatching` asks of each api declaration one component declaration with an equal header (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:431-437`, `:290` at ca4bc4d88); the text asks a set the union of whose parameter types is the exported one's, and the union of R1 and R2 is Q (`basic/types-vals-vars.tex`, "Intersection and Union Types"). Row 737's repair gives a left-out return type only from the api declaration of the function's own parameter types, so a member of such a set that leaves its return type out takes none (its body's type, IntLiteral, measured). Workaround: export `pick(q: Q)` itself. |
+
+### Row 834
+
+rewritten
+
+| 834 | the compiled export check asks a component's top-level function or method at its api declaration's own header, where the text accepts a declaration whose return type is a subtype: a component's `opr #(a: String, b: String): B`, `B` extending `A`, does not satisfy its api's `#` answering `A` | CONTESTED | design limit (specification) | `basic/components/source-code.tex`, "Export Statements" | `ProjectFortress/compiler_tests/XXXExportOperatorHeader.test` | climb batch 22c's planner | siblings: 768, 769, 827. `existsMatching` asks one component declaration with an equal header, return type included (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:431-437` at 95f31de40); the text asks only that each return type be a subtype (`source-code.tex:356-361`, methods `:413-418`). A compiled call names the api's header, so a narrower one dies: row 827's probe, `NoSuchMethodError: 'P782Api$A P782Api.#(...)'`. Not decided: the check's rule, or the text's with the code generator emitting a bridge at the api's descriptor, which no probe has designed. The library states one header on both sides, so either rule passes it. |
+
+### Row 835
+
+rewritten
+
+| 835 | the compiled export check never lets a component's functional method satisfy an api's top-level function or operator: an api's `opr <->(a: T, b: T): ZZ32` met by `object T opr <->(self, o: T): ZZ32 = 5 end` is refused, 'does not define all declarations', where the text accepts it | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/source-code.tex`, "Export Statements" | `ProjectFortress/compiler_tests/XXXExportOperatorFunctionalMethod.test` | climb batch 22c rung O's skeptic | siblings: 769, 834. The check matches an api declaration only with a declared function: `uncoveredDeclarations` keeps `SDeclaredFunction`s only (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:618-620` at 95f31de40), as `coverOverloading` does (`OverloadingChecker.scala:848-852`, `ExportChecker.scala:251`); the text's function "is satisfied by a set of top-level function and functional method declarations" (`source-code.tex:356-361`). On the base, which skips operators, it compiles and a client's call through the api prints PASS; a named function alike is refused there too. Walk runs both. Workaround: a top-level declaration. |
+
+### Row 836
+
+rewritten
+
+| 836 | the compiled export check compares static parameters by name: a component's `opr <->[\U\](a: U, b: U): U` does not satisfy its api's `opr <->[\T\](a: T, b: T): T`, 'does not define all declarations' | CONTESTED | design limit (checker) | silent | `ProjectFortress/compiler_tests/XXXExportOperatorStaticParamName.test` | climb batch 22c rung O's skeptic | siblings: 768, 834. `equalStaticParams` asks equal names (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:654-662` at 95f31de40), read by `equalFnHeaders` (`:632-645`); a named function alike is refused on the base too. "Export Statements" names no static parameter. The code generator names a generic template by them: on the base, which skips operators, the component compiles and a client's call through the api dies, 'Unable to read serialized data for' the template at the api's `T`; at one name it prints PASS. Walk runs it. Not decided: equal names, or a renaming with the template named at the api's. The library writes one name. |
+
+### Row 305
+
+rewritten
+
+| 305 | the compiled path has no array type: `Array`, `Array1`/`2`/`3` and `Vector` are undefined and there is no generic `array[\T\]` constructor; the prelude ships only `ZZ32Vector` and `StringVector` | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `library/default-libraries.tex`, "FortressLibrary" (subsection Array support, typeset from `Library/FortressLibrary.fsi`) | `explorations/run-c4/src/FlatArrays.fss` | kernels probe | siblings: 310. `fortress compile` of `FlatArrays.fss` stops in DISAMBIGUATE (77 errors at `b176a4b79`: `Array is undefined.` 60, `Array3` 11, `Vector` 6), and so do three microGPT-shaped kernels, whose `SQRT`, `^` and `RR64` juxtaposition compile. `array[\RR64\](4)` gives `Function array is not defined.` No minimal shim: `FlatArrays` uses the array protocol (`fill`, `map`, `ivmap`, `t()`, `get`/`put`/`init0`/`replica`, `import NatReflect`), `NativeArray.fss` plus about 1,000 lines of `FortressLibrary` (row 310). Vectors: `CompilerBuiltin.fsi:563`, `:582`. The prelude is deleted at the switch-over. Report `explorations/perf-probes/kernels/REPORT.md`. full text: history, row 305 |
+
+### Row 733
+
+rewritten
+
+| 733 | the code generator crashes, 'Not in the trait table: C', on an object whose first supertrait is an imported api's trait and whose later supertrait defines a method of a name that the api's trait declares, also where the two overload validly | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | none | climb batch 16's Q1 probe | siblings: the row of the api body not forwarded. `dumpMethodChaining` compares the trait of each same-named method of the first supertrait with the body's trait (`typeAnalyzer.equiv`, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1006` at 423958063), and the api trait's type is not in the code generator's trait table. Probe: api `Q1ApiC` with `trait C abstract tag(self, n: ZZ32): String end`; a program with `trait D tag(self, s: String): String = s end`, `object O extends { C, D } tag(self, n: ZZ32): String = "c" end`: the compile stops with the RuntimeException; walk prints `cd`. |
+
+### Row 837
+
+rewritten
+
+| 837 | the compiled checker refuses an object's field declared without a type, 'Must provide type for initializer', and the distance driver's tolerant run then leaves the object unchecked ('Cannot handle (LValue ...'), where the grammar's `FldDecl` lets a field leave out its type | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/objects.tex`, "Field Declarations" | `ProjectFortress/compiler_tests/XXXObjectFieldWithoutType.test` | climb batch 22c rung L | siblings: 828. Thrown by `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Thunker.scala:91` (the team's) for an object's `SVarDecl` whose lvalue has no type. `XXXObjectFieldWithoutType`, `object Pair(a: ZZ32, b: ZZ32)` with `sz = a + b`: 'Must provide type for initializer List(sz)' at `:6:5-14`; under walk the program prints PASS, so only the compiled path shows it. Met at `Library/CovariantCollection.fss:125` at c3c22817c by the zero audit (row 828), the 'Cannot handle (LValue ...' crash on `Append` there. Workaround: write the field's type, as `sz: ZZ32 = \|a\| + \|b\|` (`Library/CovariantCollection.fss:135`). |
+
+### Row 840
+
+rewritten
+
+| 840 | on the compiled path, a component whose name begins with `Tuple` fails verification at the call of a generic function whose one parameter has a generic type of the component: `count[\T\](b: Box[\T\]): ZZ32 = 1` called as `count(Box[\ZZ32\](7))` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/components/source-code.tex`, "Components" | `ProjectFortress/compiler_tests/XXXTupleNamedComponentGenericParam.test` | climb batch 22c rung B | 'java.lang.VerifyError: Bad type on operand stack' in the closure `count⟦FZZ32⟧`: a `Tuple⟦FZZ32⟧` on the stack where the component's `Box⟦FZZ32⟧` is expected; at a pair alike. The same program runs as `component PairBoxCount`, and so do the function with a second parameter and `id[\T\](x: T)` in a component named `Tuple...`, as the team's two-parameter `other_compiler_tests/TupleCastGeneric` does. The old code fails the same, so the bound is not its cause. Not traced: the tree tests no `Tuple` prefix by name; `Naming.TUPLE_OX` is `Tuple⟦` (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java:1196`). Workaround: another name. |
+
+### Row 845
+
+rewritten
+
+| 845 | under walk, a component that writes `import java` of a `nativeHelpers` method does not run: a call of the imported name ends with `InterpreterBug` 'Non-top-level reference to imported com.sun.fortress.nativeHelpers.simpleIntArith.intLT', after walk prints a line for each method of the helper's class | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | climb batch 23 rung C's skeptic | F-180's gap 3: `bug` at `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BaseEnv.java:535-537`; the printed lines are `ProjectFortress/src/com/sun/fortress/interpreter/env/ClosureMaker.java:99`, 55 for `simpleIntArith`. At `3cd653815` the same program stopped at gap 1, 'FortressBuiltin.ZZ32 is undefined.'; rung C's foreign-type reading in walk's world (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:369-372`) passes it. P-58 takes no `import java` for the library; no library, test or demo component under walk writes one. Command: `bin/fortress P.fss`, P holding `import java com.sun.fortress.nativeHelpers.{simpleIntArith.intLT => jLT}` and `println(jLT(1, 2))`; rc 1. |
+
+### Row 890
+
+rewritten
+
+| 890 | on the compiled path a `try`'s `finally` clause does not run when an exception leaves the `try` block: one that no `catch` clause takes is passed on, and one the `forbid` clause lists is thrown on as a `ForbiddenException`, both before the `finally` clause runs | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/try.tex`, "Try Expressions" | `ProjectFortress/compiler_tests/XXXFinallyOnEscape.test` | climb batch 25 rung C's skeptic | `CodeGen.forTry` emits the `finally` block only after the label that the body's normal completion and a taken `catch` clause reach; the rethrow (`ATHROW`) and `throwForbiddenException` throw before it (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2075-2085` after climb batch 25's rung C). On the old code a `catch` that misses and a `finally` that appends to a log leave the log empty; walk prints `finally` (`tests/FinallyOnEscapeWalk.fss`). The `forbid` half is climb batch 25's rung C's path, the same order. Link test: `compiler_tests/FinallyOnEscapeLink.test`. |
+
+### Row 891
+
+rewritten
+
+| 891 | on the compiled path a function holding a `try` with a `finally` clause and no `catch` or `forbid` clause, whose block can throw, fails verification at class load: `VerifyError: Bad return type`, the handler's `FException` left on the stack | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/try.tex`, "Try Expressions" | `ProjectFortress/compiler_tests/XXXTryFinallyNoCatch.test` | climb batch 25 rung C's skeptic | siblings: 890. `CodeGen.forTry` installs its handler whatever the clauses, and with neither a `catch` nor a `forbid` clause emits no rethrow, so the handler falls into the `finally` block with the exception on the stack (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2077-2085` after climb batch 25's rung C, the same at 97a416b18). On the old code and after the rung: 'Type 'com/sun/fortress/compiler/runtimeValues/FException' (current frame, stack[0]) is not assignable to 'com/sun/fortress/compiler/runtimeValues/FVoid''; walk passes the exception on after the `finally` clause (`tests/TryFinallyNoCatchWalk.fss`). Link test: `compiler_tests/TryFinallyNoCatchLink.test`. |
+
+### Row 719
+
+rewritten
+
+| 719 | under walk, a comprehension over a long sequential generator overflows the stack at the suites' 32 MB: `<\| i MOD 7 \| i <- seq(0#50000) \|>` dies with `StackOverflowError`, on the base and after climb batch 15 rung B | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/comprehensions.tex`, "Comprehensions" | none | climb batch 15 rung B's skeptic | siblings: 20. `JAVA_FLAGS='-Xmx768m -Xss32m' bin/fortress P.fss` with `ys = <\| i MOD 7 \| i <- seq(0#50000) \|>` prints 'Caused by: java.lang.StackOverflowError' at ee1aa1a95 and at ef52b7b11. By reading: the sequential range joins left to right (`Library/RangeInternals.fss:1357-1367`), so `CVReduction`'s `APPCOV` builds a chain of `Append` nodes as deep as the list, which `cata` and `dirtyIAF` then recurse down (`Library/CovariantCollection.fss:138-143`). A sum over the same generator runs (`UnwrittenSequentialReductionWalk`). Workaround: the parallel generator `0#50000`. |
+
+### Row 294
+
+rewritten
+
+| 294 | a user carrier extending `Matrix` and a user trait loses its type through the library's algebra: `.t()` and the products return bare library matrices, so a user operator on the carrier fails on a product's result | NEGATIVE-VERIFIED | design limit (library) | silent | none | run-c4 vocabulary | With `replica` overridden to return the carrier, the type survives `map`, `ivmap`, `+` and scalar scaling, but `mul`, `rmul`, `lmul` and `t()` allocate by name, not through `replica`: `mul` begins `res = matrix[\T,s0,s2\]()` (`Library/FortressLibrary.fss:2709-2751`), `rmul`/`lmul` at `:2752-2761`, and `t()` builds a `TransposedMatrix` (`:2762`, `:2774-2792`). Row 161's wrapper alternative quantified: the price is every library operation that allocates, and every value entering from a loader. Probe `explorations/run-c4/probes/vocabulary/v03_carrier_shed.fss` (`.out.2` lines 4-5 keep, 6-8 shed), in the parent of `11bf69c39`. full text: history, row 294 |
+
+### Row 798
+
+rewritten
+
+| 798 | the library declares no read-only matrix trait: `Array2` extends no `ReadableArray2`, as `Array1` extends `ReadableArray1`, so a read-only matrix such as microGPT's diagonal `Diag` extends the mutable `Matrix` | NEGATIVE-VERIFIED | implementation gap (library) | silent | none | POSITIONS cold read | siblings: 299. At d4d454f9d, `Library/FortressLibrary.fsi:1591-1593` has `Array1` extend `ReadableArray1`, and `:1695-1697` has `Array2` extend `Indexed1`, `Indexed2`, `Rank2` and `StandardMutableArrayType` only; `grep -n ReadableArray2 Library/FortressLibrary.fsi` prints nothing. `Diag` is `explorations/run-c4/src/FlatArrays.fss:36`. The immutable-arrays probe sketched another shape, a standalone `ImmutableArray2` (`explorations/perf-probes/immutable-arrays/REPORT.md`, "Decisions", 1). Decided: P-88. |
+
+### Row 808
+
+rewritten
+
+| 808 | under walk, every subscript of a shifted `Array2` reads the wrong elements, and a shift of a slice, a column, a row or a shifted `Array2` ends in Java's `ArrayIndexOutOfBoundsException`: for `s = a.shift((1,1))` of a 0-based array, `(s[(1,2)#(2,2)])[0,0]` is `a[1,2]`, not `a[0,1]` | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/tests/XXXArray2ShiftedSlice.fss` | climb batch 21 rung N | siblings: 793, 794. `SubArray2.subarray` subtracts the output base, `index(on0 - bo0, on1 - bo1)`, where its own base belongs (`Library/FortressLibrary.fss:2825`), as `__SimpleSubArray1.subarray` subtracts its own `b0` (`:2512`); the team's. `Array2.shift` makes such a view (`:2724-2731`); `Array1.shift` of a `Col` or `Row` (`:2445-2450`) asks it for an output based above zero: `(m[:,1]).shift(5)` raises 'Index -11 out of bounds for length 6'. `Array3` has no such override. With `index(on0 - b0, on1 - b1)` the test passes. Workaround: slice the unshifted array; shift a `copy()` of a view. |
+
+### Row 318
+
+rewritten
+
+| 318 | the compiler world's `trait IntLiteral` declares arithmetic operators whose bodies throw `CompilerFailureDetectedAtRunTime`; the applicable overload stops coercion to `ZZ32` or `ZZ64`, so such an operator on two undeclared integer literals compiles clean and throws at run time | NEGATIVE-VERIFIED | implementation gap (prelude) | silent | `ProjectFortress/library_tests/IntLiteralArithRung7.test` | ladder rung 7 | Fixed for `opr -(self)`, `+`, `-` and `juxtaposition` by 2027f519b (the test checks them) through a native helper over `IntLiteral`'s generated interface (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntLiteralArith.java`) and a clause in `NamingCzar.fortressTypeForForeignJavaType` (`NamingCzar.java:343`), as the prelude has no way in. Still stubbed (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:896-928` at 052a7c3fe): `DOT`, `BOXDOT`, `CROSS`, `BOXCROSS`, `DOTCROSS`, `BOXPLUS`, `DOTPLUS`, `BOXMINUS`, `DOTMINUS`, `DIV`, `\|self\|`, `BITAND`, `BITOR`, `BITXOR`, `BITNOT`, `MINMAX`, `CHOOSE`, `even`, `odd`, untested. Row 19 is walk's side. full text: history, row 318 |
+
+### Row 453
+
+rewritten
+
+| 453 | on the compiled path the compiler prelude's range generators split at the midpoint `z = lo+hi`, so a range whose bounds sum beyond `ZZ32` raises `IntegerOverflow` before its first element; its `#` raises on `MAX # 1` and `MIN # 0` | NEGATIVE-VERIFIED | library bug (prelude) | `Specification/basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/compiler_tests/XXXSeqMidpointRungO.fss` | climb batch 6b rung O's skeptic | siblings: 450, 451. At 052a7c3fe the splits are `Library/CompilerLibrary.fss:363`, `:377`, `:387`, `:395`, `:404`, `:414`, each under "Danger of overflow here", and `#` is `lo : (lo+sz-1)` (`:446`). `seq(1073741824:1073741826)` raises at `:377`, where walk counts 3; so do ranges near the minimum and the parallel form. `#` is gated by `ProjectFortress/compiler_tests/XXXSeqHashBoundsRungO.fss`. Fix: the overflow-free `floorAverage` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:746-747`, not exported for `ZZ32`), and `#` as `lo : (lo+(sz-1))` with the empty range built without `lo-1`; or the switch-over. full text: history, row 453 |
+
+### Row 570
+
+rewritten
+
+| 570 | the compiled overloading checker checks no object expression per provider, so a pair of functional methods that only an object expression provides together is checked by no rule: `object extends { A, B } end`, with `A` and `B` each declaring `pick(self)`, passes the checker | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/advanced/overloading.tex`, "The Meet Rule for Functional Methods" | `ProjectFortress/compiler_tests/XXXFunctionalMethodMeetObjectExpression.fss` | climb batch 8 rung O's repair round | siblings: 375. The per-provider loop visits the unit's named traits and objects (`typeConses`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/OverloadingChecker.scala:367-368`, at d4d454f9d). The team planned to lift object expressions to named top-level objects (`AbstractMethodChecker.scala:217`; row 375). Code generation then stops, 'CompilerError: emitDesc of type AND(A,B) failed' (row 375), as the reproducer's keys assert, so no compiled program runs with the ambiguity. Walk refuses the pair at load, 'Invalid overloading of pick' (`tests/FunctionalMethodMeetObjectExpressionWalk`). full text: history, row 570 |
+
+### Row 416
+
+rewritten
+
+| 416 | **walk's overloading check applies no instantiation exclusion**: it refuses `g(b: Tg[\3\])` beside `g(b: Tg[\4\])`, "first parameters b:[Tg[\4\]] and b:[Tg[\3\]] are unrelated", the type twin, and overloads on two traits extending `Tg[\3\]` and `Tg[\4\]`; the compiled run prints 3 and 4 | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/types-vals-vars.tex`, "Trait Types" | `ProjectFortress/tests/XXXNatSizeExclusionWalk.fss` | climb batch 5 rung Z | Instantiation exclusion makes the two parameter types exclude each other, so the pair is a valid overloading. The refusal is raised in `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:587-602` at d4d454f9d; by reading, `FType.excludesOther` (`FType.java:197-209`) has no case for two instances of one generic type. Generic declarations that differ only in an element type fail the Meet Rule instead (F-155). So the library's bounds check is named by rank, `checkSelection`, `checkSelection2D`, `checkSelection3D` (`Library/RangeInternals.fss:125-172`; F-91): walk refuses one name over `Range[\ZZ32\]` and `Range[\(ZZ32,ZZ32)\]`. full text: history, row 416 |
+
+### Row 697
+
+rewritten
+
+| 697 | walk's load check counts two parameter lists as excluding when every parameter at which one differs is an object type, even an object below the other's type: `f(x: B): C` beside `f(x: C): B`, with `object C extends B`, loads and runs | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Subtype Rule" | `ProjectFortress/tests/XXXReturnRuleObjectParamWalk.fss` | POPL 2019 examples sorting | siblings: 99, 788. The team's `distinct \|= unequal && (allObjInstance1 \|\| allObjInstance2)` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:509` at cdb84fba5; not for instances of one generic object that may coincide, `:437-442`) calls the pair excluding though `C` extends `B`, so return types go unchecked. Walk prints `C`; the checker refuses it. Reproducer: the talk's slide 4, `m1(x: C, y: C): B` beside `m1(x: C, y: B): C` (`reviews/popl2019-examples.md`); with `trait C` and an object below, walk refuses. By reading, removing the shortcut met `SumReduction`'s `distribute` pair (`coordinator/CLIMB-BATCH-16.md` § 4), since rewritten (row 433). |
+
+### Row 785
+
+rewritten
+
+| 785 | walk's load check refuses a pair whose more specific declaration writes no return type: f(x: C) = 1 beside f(x: B): ZZ32 = 2, trait C extends B, 'the second result is not a subtype of the first'; with object C it loads, by row 697's shortcut | NEGATIVE-VERIFIED | implementation gap (walk) | advanced/overloading.tex, "Subtype Rule" | none | climb batch 19's planner | siblings: 697, 587. The declaration's result reads as BOTTOM ('C->BOTTOM') and is found no subtype of the other's in completeOverloadingCheck's subtype branch (OverloadedFunction.java at ce752ed20); the checker infers the body's type. With row 697's shortcut removed, Nothing's and NotUnique's opr = (Library/FortressLibrary.fss:1684, :1731), Pairs.fss:85-91's BOXPLUS and the team test FileConversion's OPLUS (:76) are refused so (CLIMB-BATCH-19.md section 4). Workaround: write the return type. |
+
+### Row 788
+
+rewritten
+
+| 788 | walk's load check reads an object type over a static parameter as excluding a type it may be at some instance: `g[\T\](x: Box[\T\], y: ZZ32)` beside `g(x: Box[\ZZ32\], y: Any)`, `Box` an object, loads and runs the first for `g(Box[\ZZ32\], 3)`; the checker refuses it, 'Invalid overloading of g' | NEGATIVE-VERIFIED | implementation gap (walk) | `advanced/overloading.tex`, "Declarations with Static Parameters" | `ProjectFortress/tests/XXXGenericObjectInstanceBesidePlainWalk.fss` | climb batch 19 rung P's skeptic | siblings: 697. Two object types exclude in `FType.excludesOtherSimply` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FType.java:214`), and an object type excludes every type not among its supertypes as written (`:236-245`); the parameter check withdraws neither for a generic beside a plain declaration (`OverloadedFunction.java:439`, `:468`, at 84957e6ef). Through a bound: `XXXGenericBoundObjectOverlapWalk`, 'Invalid overloading of h' compiled. Both on 612869b4a and the rung's head. |
+
+### Row 522
+
+rewritten
+
+| 522 | under walk, a strided range whose elements all fit raises `IntegerOverflow` at construction when a difference of its bounds leaves `ZZ32`: `MAX:MIN:1` (empty), `MIN:MAX:3` and `0:MIN:MIN` (two elements) raise | NEGATIVE-VERIFIED | library bug (library) | `Specification/basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/tests/XXXStridedSpanWalk.fss` | climb batch 6.5b rung E and its skeptic | siblings: 450, 451. In `Library/RangeInternals.fss` at 052a7c3fe: `imposeStride` computes `dist = r-l` before it tests the stride's sign (`:846-856`, `:849`); `ScalarRange.check()` computes `(l-r) MOD str` (`:155-163`, `:159`), which `fullScalarRange` (`:1449-1455`) reaches for every stride, 1 included; by reading, `StridedFullScalarRange.size`'s `right-left` (`:1196`) overflows on a nonempty span beyond `ZZ32` whose size fits. Fix, without leaving `ZZ32` and keeping the checked operators (POSITIONS, "Fixed-width overflow raises `IntegerOverflow` under `walk`"): sign before distance; divisibility without `l-r`, stride `MIN` included; size split at zero. full text: history, row 522 |
+
+### Row 127
+
+rewritten
+
+| 127 | the fields of an object expression are registered as top-level names, so two object expressions declaring the same field name collide, and so does such a field with a top-level variable | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/expressions/object.tex`, "Object Expressions" | none | run-b2 | `Top-level variable data is already declared.` `ExprDisambiguator`'s `SVarDecl` case (`ExprDisambiguator.scala:308-313`) adds every variable declaration outside a trait or object to `topVars`, and its `SObjectExpr` case (`:329-348`), unlike `SObjectDecl` (`:185-190`), never sets `inTraitOrObject`. The specification shadows an enclosing declaration of the name, so the field is local to the expression. Workaround: give each object expression distinct field names. Probes `explorations/run-b2/probes/g4b_two_same.fss`, `g4b_pollute.fss`, `g4b_one.fss` (one alone works), in the parent of `22ea0cd90`; full text: history, row 127 |
+
+### Row 128
+
+rewritten
+
+| 128 | a getter declared in an object expression that sits inside a `do` block is rejected as a local function declaration | NEGATIVE-VERIFIED | implementation gap (parser) | `basic/expressions/object.tex`, "Object Expressions" | none | run-b2 | `getter cannot modify a local function, data`. `SyntaxChecker` sets `inBlock` for the duration of any `Block` (`SyntaxChecker.java:339-345`) and then rejects modifiers outside `LocalFnMod` on every `FnDecl` it meets (`:283-289`), without consulting the `inObject` flag it keeps for object expressions. Workaround: drop the `do` block, or use plain methods. Probes `explorations/run-b2/probes/g4b_capture.fss` (fails), `g4b_capture2.fss`, `g4b_methodonly.fss` (work), in the parent of `22ea0cd90`; full text: history, row 128 |
+
+### Row 375
+
+rewritten
+
+| 375 | the compiled path cannot compile an object expression: `o: Shape = object extends Shape end` stops `fortress compile` with `CompilerError: Can't compile ObjectExpr at file:line` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/object.tex`, "Object Expressions" | `ProjectFortress/compiler_tests/XXXObjExprRungS.test` | climb batch 3 rung S's skeptic | `CodeGen.defaultCase` throws it (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1672-1673`, `throw sayWhat(x)`): `CodeGen` has no `forObjectExpr`, and the desugaring that would lift an object expression into a declaration runs only under `fortress desugar` (`Shell.getObjExprDesugaring()`, `ProjectFortress/src/com/sun/fortress/Shell.java:260-262`, set at `:444`). Walk runs the same program. An object expression extending two traits stops code generation earlier, `CompilerError: emitDesc of type AND(A,B) failed` (`XXXFunctionalMethodMeetObjectExpression`, row 570). Rows 127 and 128 are walk's object-expression defects. full text: history, row 375 |
+
+### Row 353
+
+rewritten
+
+| 353 | the compiled path cannot compile a `tryatomic` expression: `fortress compile` dies with `CompilerError: Can't compile TryAtomicExpr`, while walk runs it | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/atomic.tex`, "Atomic Expressions"; `Specification/advanced/parallelism-locality/transactions.tex`, "Abortable Atomicity" | `ProjectFortress/compiler_tests/XXXTryAtomicCodegenRungB.test` | climb batch 2 rung B's skeptic | `CodeGen.java` has no `forTryAtomicExpr`, so the expression falls through `NodeAbstractVisitor_void.forTryAtomicExpr` to `CodeGen.defaultCase` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1672-1673`, `throw sayWhat(x)`), rc=1. Walk: `tryatomic do 1 + 1 end` yields 2, and `tryatomic do n += 1 end` in a `try` commits, `n=1`, at one and four threads (`explorations/compile-ladder/rung-tryatomic/probes/skeptic/SkepTryAtomicVal.fss`, `SkepTryAtomicState.fss`). `atomic` is definable by `tryatomic` (`SpecData/examples/advanced/Parallel.Abort.b.fss`). It is all `ProjectFortress/tests/tryatomicTest.fss` and `nestedTransactions3.fss` wait on. full text: history, row 353 |
+
+### Row 754
+
+rewritten
+
+| 754 | under walk, the comprises check at load reads a listed type at every type of a bounded type `where`-clause variable: it loads `object NBox[\E\](item: E) extends AnyNumBox` for `trait AnyNumBox comprises { NBox[\E\] } where [\E extends Number\]`, and runs `b: AnyNumBox = NBox[\String\]("s")` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/tests/XXXComprisesWhereBoundExtender.fss` | climb batch 17 rung A's skeptic | siblings: 753. Since rung A the check reads a `where`-clause variable as a variable for any type, before the environment (`BuildEnvironments.java:1463-1467`, `named` at `:1513`), without its binding's bound; a size has none. The base refuses the clause, 'E is undefined.' The text lists the type at every value of the variable, the types below its bound, and an object that extends the trait must be a subtype of a listed type. Climb batch 18 rung K: the compiled sibling, row 753, is fixed; walk is unchanged. |
+
+### Row 755
+
+rewritten
+
+| 755 | under walk, a trait whose `comprises` clause lists a type at a `where`-clause variable is refused at load when a member's type names the variable: `getter item(): E` in `trait AnyBox comprises { Box[\E\] } where [\E\]` stops with 'Missing type E', and a size's `Nt[\n\]` with 'Missing type n' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/XXXWhereVariableMemberWalk.fss` | climb batch 17 rung A's skeptic | siblings: 756. The size face is on the base (3aea3da53) too, in `trait NatParamT comprises { Nt[\n\] } where [\nat n\]`; the type face since rung A, which puts the variable in scope in the members. The member's type is read by `BuildTraitEnvironment.forFnDecl3` (`BuildTraitEnvironment.java:148`), which the binding of `processWhereClauses` (`BuildEnvironments.java:948-970`) does not reach. The compiled checker accepts both declarations. The text: every static variable of a trait is a static parameter or a `where`-clause variable of its declaration. |
+
+### Row 756
+
+rewritten
+
+| 756 | the compiled checker crashes on a call, outside its trait, of a member whose type names a type `where`-clause variable: `println(mk().item)`, with `getter item(): E` in `trait AnyBox comprises { Box[\E\] } where [\E extends Object\]`, stops with 'E is not in the kind env' | CONTESTED | implementation gap (checker) | silent | none | climb batch 17 rung A's skeptic | siblings: 755. Since rung A; the base refuses the clause, 'E is undefined.' `TypeAnalyzer.staticParam` calls `bug` (`TypeAnalyzer.scala:1077` at 08c95c708) from the variable case of `pSubInner` (`:208`), under `Functionals.checkApplicableWithoutInference` (`Functionals.scala:458`): the call's type keeps the unopened variable; without the outside call the program checks. Tried on main at 08c95c708 (climb batch 22's planner): the crash stands; row 809's repair does not reach it. The size face is accepted, on the base too: `sz(mk().me)` with `getter me(): Nt[\n\]`. The text does not say what type such a call has, an opened type or none; a crash is neither. No gated test: the refusal is a crash. |
+
+### Row 777
+
+rewritten
+
+| 777 | under walk, a dotted call of a method whose `where` clause constrains its object's static parameter runs where the receiver's static argument breaks the constraint: with `showIt(): String where { T extends Shows } = "h"` in `object Holder[\T\](x: T)`, `Holder[\String\]("s").showIt()` prints `h` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/XXXWhereBoundDottedCallWalk.fss` | climb batch 18 rung K | siblings: 748, 750, 754. The compiled checker refuses the call since climb batch 18 rung K: 'Method Holder[\String\].showIt is not applicable: its where clause requires String to extend Shows.' Walk refuses an object's own constraint at a use of its type, 'String must subtype Shows' (row 750). With a body that needs the bound, `x.show()`, walk stops in the body instead: 'Cannot find definition for method show' (row 748). |
+
+### Row 805
+
+rewritten
+
+| 805 | the compiled checker refuses a tuple expression of indices at a function whose one parameter's type is `Index`: `takesIndex((i, j))` and `takesIndex(i, j)` for `takesIndex(x: Index)`, `i, j: ZZ32`: 'Index->ZZ32 is not applicable to an argument of type (ZZ32, ZZ32).', yet takes `p: (ZZ32, ZZ32)` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/types-vals-vars.tex`, "Tuple Types" | none | climb batch 21 rung B | siblings: 783. `checkApplicableWithoutInference` zips the call's separate arguments with the domain's types, one for a non-tuple domain, and refuses unless as many remain (`Functionals.scala:452`, `:494` at 20138d56c); only a domain `Any` keeps the whole list (`:481`). A generic `[\I extends Index\](x: I)` takes the tuple. Walk runs both calls. No gated test can hold it: compiled tests use the prelude, which has no `Index`, and no library line makes the call. Probe: the count stage's `WorldFlip -stop typecheck` on such a call under the interpreter's library: 'Could not check call to function takesIndex'. Workaround: a typed variable for the tuple. |
+
+### Row 831
+
+rewritten
+
+| 831 | the front end of both paths refuses, 'X is undefined.', a trait whose `comprises` clause lists a type at a type `where`-clause variable when the trait declares a coercion: the lifted coercion takes the trait's self type, which names the variable outside the trait | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/traits.tex`, "Trait Declarations" | `explorations/perf-probes/anyintegral-comprises-where/REPORT.md` | the AnyIntegral comprises-where probe | siblings: 17, 513, 754. `CoercionLifter.makeLiftedCoercion` returns `t.getSelfType` (`compiler/desugarer/CoercionLifter.scala:156` at 2be634867), here `T & (listed types)` (`scala_src/disambiguator/SelfParamDisambiguator.scala:77-78`), before `TypeDisambiguator` binds the variable in the trait only (`compiler/Disambiguator.java:149`, `:304`). `trait T comprises G[\X\] where [\X\] coerce(x: ZZ32) = Gz end`, `trait G[\X\] extends T end`, `object Gz extends G[\ZZ32\] end`: walk and `fortress disambiguate` give 'X is undefined.' at the clause; without the `coerce`, 'ok'. A `nat` variable loads. The tree has no such trait; the team's `AnyIntegral` clause would be one. Probe fix: the report's end. |
+
+### Row 869
+
+rewritten
+
+| 869 | under walk, an object or trait whose own `where` clause introduces a `where`-clause variable is refused at its use: `W[\O\](O)` for `object W[\U\](u: U) where [\nat n\]{U extends {X[\n\]}}`, with `O extends X[\1\]`, stops 'O must subtype X[\n\]' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/XXXWhereVariableObjectWalk.fss` | climb batch 24 rung G's skeptic | siblings: 750, 754, 777, 868. A trait does the same at `S[\O\](O)` for `trait Shelf[\U\] where [\nat n\]{U extends {X[\n\]}}` and `object S[\U\](u: U) extends Shelf[\U\]`. P-151 lists neither form among those built; the compiled checker accepts both, and since rung G both run compiled, 'w O' and 'shelf O'. With `where { U extends T }` the object runs under walk. Walk is the same on the base, b0f6cd6b7. |
+
+### Row 17
+
+closed by 3924e7ec3
+
+| 17 | the spec's declaration-site covariance idiom `trait C[\S\] extends C[\T\] where {S extends T}` is rejected: where-clause type variables are not bound in an `extends` clause | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/basic/trait-parameters.tex:339-346`, "Where Clauses" | none | ours | `T is undefined.` Root cause of most static-argument ascriptions; `Library/CovariantCollection.fss` is the hand-rolled workaround. Probe `explorations/spec-probes/p16_covar.fss`, in the parent of `e879b6a44`. A `where` clause on an `extends` entry that binds a variable is not read as a condition (`KindEnv.extendsConditions`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/staticenv/KindEnv.scala:184-188` at e8a842d97): the entry is extended at every instance, as before (climb batch 18 rung X). |
+
+### Row 27
+
+rewritten
+
+| 27 | `dim X` without a `default` unit is unwritable — a null dereference in the error path of an *optional* clause | NEGATIVE-VERIFIED | implementation gap (parser) | `Specification-1.0-frozen/advanced/defining-dimensions.tex:23-25, 97-100`, "Dimension and Unit Declarations" | none | ours | `null is not a valid unit name.` One line in `OtherDecl.rats:73-78`. Probe `explorations/alias-units-probes/q3_bare_dim.fss`, in the parent of `e879b6a44`. |
+
+### Row 387
+
+rewritten
+
+| 387 | under `walk`, a body whose return type is declared is not converted by coercion: `r(): Wide = NarrowOf(3)` returns the `NarrowOf`, and `r().big` ends the run with "Cannot find definition for method", where the compiled run converts and answers `3` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Principles of Coercion" | `ProjectFortress/tests/XXXCoercionReturnRungC.fss` | climb batch 4 rung C | The team switched the interpreter's return check off: `if (true \|\| t.typeMatch(x))` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java:42-54`, at `:45`), so no conversion runs at a return. Walk converts at a variable, field, assignment, element and argument, not here: `retR64(x: RR32): RR64 = x` answers `1.5 : RR32`, and `ret(): ZZ64 = 2147483647; ret() + 1` is `-2147483648`, where the compiled run gives an `RR64` and `2147483648`. `Library/String.fss:529`'s `avFlat(): RR32` over an `RR64` body is a declaration the specification refuses, row 531, not this. full text: history, row 387 |
+
+### Row 486
+
+rewritten
+
+| 486 | **under `walk`, a `nat` static parameter in value position is an `Int`, so `u: NN32 = n` with `nat n = 3` is refused, while `u: ZZ32 = n` answers 3**: "RHS expression type Int is not assignable to LHS type NN32"; the compiled run accepts both | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification-1.0-frozen/basic/trait-parameters.tex:83-86`, "Nat and Int Parameters" (a `nat` parameter may appear in any context that a variable of type ℕ32 can) | `ProjectFortress/tests/XXXNatValueNN32RungK.fss` | climb batch 7R rung U | siblings: 454. Row 454's mechanism under walk: the value is an `Int`, from which `NN32` declares no coercion; unlike row 454's numeral, the compiled run accepts it. Probe: `explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkNatType.fss` (`differential2.txt:58-97`, both paths at 1 and 4 threads). Rung K's inference does not reach it: the refusal is the binding's, not a call's. Related: row 485 (a `nat` parameter as a range's component). full text: history, row 486 |
+
+### Row 509
+
+rewritten
+
+| 509 | where a static type is wider than its value, the compiled run and `walk` run one generic body at different instances: `op(n, m)`, with `n: Number` holding a `ZZ32` and `m: Number` a `ZZ64`, is `op generic[ ZZ32 , ZZ64 ]` compiled and `op generic[ZZ64,ZZ64]` under `walk` | NEGATIVE-VERIFIED | deliberate (walk) | silent | none | climb batch N rung K | Walk promotes from run-time types, the default of `explorations/reviews/conversion-overloading-judgement.md` section 3; the specification resolves coercion statically ("Coercion Resolution") and is silent on walk. The value stays inside the declared type in the number tower; with concrete static types, as microGPT's, the paths agree. For an argument typed `Any` the compiled run takes the plain arm and walk the generic one: the compiled dispatcher joins two run-time types only when one is a supertype of the other (`compiler/OverloadSet.java:1609`). Programs `explorations/reviews/option-2-soundness/O2Wide.fss`, `O2Lone.fss`, no longer in the tree. full text: history, row 509 |
+
+### Row 527
+
+rewritten
+
+| 527 | **under walk an array of a static size from 2^31 to 2^32-1 dies with a raw `java.lang.NegativeArraySizeException`**: `array1[\ZZ32, 3000000000\](7)` stops with `NegativeArraySizeException: -1294967296` from `AtomicArray.<init>` and no Fortress location | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | climb batch 6.5b rung E | siblings: 418. Since row 418's fix such a size is a `ZZ64` value, and walk's array glue reads `s0` with `getInt()` (`PrimitiveArray.java:40`, `PrimImmutableArray.java:43`, `PrimImmutableRR64Array.java:36` in `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/`), where `FLong.getInt()` is `(int) val` (`FLong.java:23-26`). Fix: read `s0` as a `long` in the three `oneTimeInit` methods and raise a Fortress error naming a size above 2147483647; POSITIONS, "a size's range", places that refusal where the array design makes storage. No gated test can tell a raw exception from a refusal. probe and full text: history, row 527 |
+
+### Row 575
+
+rewritten
+
+| 575 | `NN32` into `RR64` (R9) conflicts with answer 8: with `RR64`'s `coerce(x: NN32)`, every operator both `RR64` and `ZZ64` declare is ambiguous for an `NN32` with a `ZZ32`, on both paths, where answer 8 gives `ZZ64` | CONTESTED | design limit (library) | `basic/conversions-coercions.tex`, "Coercion Resolution"; `basic/inference.tex`, "A Numeral Whose Conversions Tie" | `explorations/compile-ladder/rung-numeral-library/REPORT.md` | climb batch 8 rung Q | Neither `ZZ64` nor `RR64` coerces into the other, so neither is more specific, and a non-numeral tie is a static error. Measured with the coercion on a copy of the library (the reproducer's section 8): under walk 5 of the 18 interpreter tests that use `NN32` go red, `UnsignedTest.fss:51` and `fib13.fss:17` (the team's), `IntegerMinMaxRungM.fss:59`, `InferCoercionRungK` (`pick(z, u)` at `ZZ32`, not `ZZ64`) and `IntegerOrderNumerals`; the checker refuses `z + u` and `u MAX z`. Not built; the candidates and their costs are in that section, for the curator. The specification still says the conversion is explicit ("Principles of Coercion", the callout). full text: history, row 575 |
+
+### Row 683
+
+rewritten
+
+| 683 | the compiled checker counts two different size parameters as different sizes: in `two[\nat a, nat b\]()`, `typecase Nt[\a\] of Nt[\b\]` is refused, 'The typecase clause, Nt[\b\], is unreachable.', where walk runs `two[\3, 3\]()` to that clause | CONTESTED | implementation gap (checker) | `basic/types-vals-vars.tex`, "Types" | `ProjectFortress/compiler_tests/XXXNatTwoParamArmChecker.test` | climb batch 13 rung N's skeptic | Unsettled: the revision of 9 October says a size parameter is not known to differ from a numeral and says nothing of two parameters, and the team's Q&A (`Specification/appendices/internal-document.tex`, "Overloaded operators") reads a parameter as possibly equal to what it may be instantiated at. `Formula.nDiffer` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/Formula.scala:135-139` at 7dd0adf0c) keeps the base's rule for two parameters; the base a1a75716a refuses it alike. Rung N lists it for the curator. Unchanged by row 681's repair (climb batch 17 rung C): `Formula.nDiffer` still counts two different static parameters as different sizes (`XXXNatTwoParamArmChecker`). |
+
+### Row 767
+
+rewritten
+
+| 767 | neither path infers a static parameter that a parameter type writes inside an operation: `getp[\int i\](b: IBox[\i + 1\])` called with an `IBox[\3\]` is refused, 'is not applicable to an argument of type IBox[\3\]', and fails under walk, 'Cannot unify IBox[\3\]', where the instance at 2 fits | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/compiler_tests/XXXNatArithInferFromSum.test` | climb batch 17 rung C | siblings: 681, 683. `IBox[\2 + 1\]` is `IBox[\3\]` by the identity of sizes (`basic/types-vals-vars.tex`, "Types"). Compiled: `TypeAnalyzer.pEqv` answers False for two sizes neither of which is a bare inference variable and which are not written alike, as `$i+1` and `3` (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:390-397` at 9697e3838); the revival has no solver of arithmetic in a size (Appendix I, "When two sizes are the same"). Walk: `ProjectFortress/tests/XXXNatArithInferFromSumWalk.fss`, a unification error at the call. Workaround: write `getp[\2\]`; both paths then print 2. |
+
+### Row 153
+
+duplicate of row 387
+
+| 153 | the declared return type of a `fill` function is not enforced: `array[\RR64\](4,4).fill(fn (i: ZZ32, j: ZZ32): RR64 => 100 bb + 10 hh + 2 i + j)` stores `ZZ32` values, and the matrix prints `0 1 10 11` without fractions | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/function.tex`, "Function Expressions" (the return type of a function expression) | none | run-c | siblings: 22. Walk does not check the declared return type (row 22's mechanism). The probe's cases (d,g) print `[0#4,0#4]` with rows `0 1 10 11` / `2 3 12 13` / `100 101 110 111` / `102 103 112 113`, integers in a matrix declared `RR64`. Workaround (row 51's trap): make integer-valued expressions floats explicitly (`1.0 headDim`, `1.0`/`0.0` in masks), or a later `RR64` operation meets a `ZZ32`. Probe `explorations/run-c/probes/p06_idioms.fss`, in the parent of `4ebf80aec`. full text: history, row 153 |
+
+### Row 35
+
+rewritten
+
+| 35 | the library ships none of the three matrix operators the specification promises: transpose `M^T`, power `M^k` and norm `‖M‖` | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification-1.0-frozen/basic/operators/opr-overview.tex:56-57, 75-81, 87-91`, "Enclosing Operators", "Exponentiation", "Superscript Operators" | none | ours | The errors, in that order: `Operator postfix ^T is not defined.`; `Failed to find any matching overload … (__DefaultMatrix,2)`; `Cannot unify __DefaultMatrix with Vector[\T,k\]`. Transpose ships only as the method `.t()`. Probes `explorations/libvector-probes/p25_spec_gaps.fss` and `p26_matrix_norm.fss`, in the parent of `e879b6a44`. |
+
+### Row 50
+
+rewritten
+
+| 50 | array comprehensions `[ i \|-> e \| i <- g ]` are dead at two layers and have no library big operator | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/appendices/grammars/concrete-syntax.tex`, "Expressions Enclosed by Keywords or Symbols"; `Specification/preliminaries/overview.tex`, "Comprehensions"; `Specification/fortress/preamble.tex`, its list of not-yet-supported features | none | ours, blinded | `Variable i is not defined.`: `ExprDisambiguator.scala` has no case, `Evaluator.java:885-887` is `NI(…)`, and `grep 'BIG \[' Library/` is empty. Second probe: `explorations/fable-review-probes/RvwArrayCompr.fss`. Probe `explorations/libvector-probes/p06_rr64_arraycomp.fss`, in the parent of `e879b6a44`. |
+
+### Row 58
+
+rewritten
+
+| 58 | a bare `RR64` scalar cannot scale a `Vector` of a user element type | NEGATIVE-VERIFIED | design limit (library) | silent | none | ours | The scaling overloads are typed `(T, Vector[\T,n\])` and `(Vector[\T,n\], T)` (`Library/FortressLibrary.fss:2470-2480`), so the scalar must have the element type. Workaround: `Value(2.0) u` works. Probe `explorations/libvector-probes/p29_mixing.fss`, in the parent of `e879b6a44`. |
+
+### Row 466
+
+rewritten
+
+| 466 | **under `walk`, a second initialization of an array element is silently ignored, and the element keeps its first value**: `a = array[\ZZ32\](2).fill(3); a.fill(4)` leaves `3 3` | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/advanced/parallelism-locality/arrays-distributed.tex`, "Distributed Arrays", puts the duty on the programmer; silent on what an implementation does | none | climb batch 7 rung A's skeptic | `PrimitiveArray.init0` discards `init00`'s result (`ProjectFortress/LibraryBuiltin/NativeArray.fss:25-29`), under the team's comment that validating it fails for an element initialized in a failed transaction. It predates rung A: `fill` behaves the same on both trees. The normative sentence says "the programmer must assure" at most one initialization; the footnote "The present implementation signals a fatal error in case of duplicate initialization" describes the 2012 implementation, not a required behaviour. Capture: `explorations/compile-ladder/rung-tabulate/probes/skeptic/old-spelling.txt:56-63`. probe and full text: history, row 466 |
+
+### Row 122
+
+rewritten
+
+| 122 | `property` declarations are unimplemented, at top level and inside an object | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/tests.tex`, "Property Declarations" | none | run-b2, run-b | At top level, named or not: `** bug! Not yet implemented: PropertyDecl at …:11.1`. In an object, an uncaught `java.lang.Error: Not yet implemented` from `NI.nyi` at `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/IndexBuilder.scala:349`, with no Fortress-level diagnostic or source span. The production is `ProjectFortress/src/com/sun/fortress/parser/OtherDecl.rats:132`. Workaround: the property as a Boolean function that a `test` function `assert`s. Probes `explorations/run-b2/probes/g1c_property{,_anon,_plain,_obj}.fss`, in the parent of `22ea0cd90`; `explorations/run-b/probes/c07_contracts_tests.fss` (property variant), in the parent of `ed6dafb52`; full text: history, row 122 |
+
+### Row 124
+
+rewritten
+
+| 124 | in an object body, field, getter and setter declarations must precede every method declaration | NEGATIVE-VERIFIED | design limit (parser) | `basic/objects.tex`, "Object Declarations"; `appendices/grammars/concrete-syntax.tex`, "Trait and Object Declarations" | none | run-b2, run-b | siblings: 125. `Field/getter/setter declarations should come before method declarations.`; reordering fixes it (`bump = 4  twice = 6`). The grammar orders them: `GoInAnObject ::= Coercions? GoFrontInAnObject GoBackInAnObject?`, with `FldDecl` and `GetterSetterDef` only in the front group and `MdDef` only in the back. The error surfaces far from its cause as an object grows. Probes `explorations/run-b2/probes/g4g_field_after.fss`, `g4g_getter_after.fss` (fail), `g4g_getter_before.fss` (works), in the parent of `22ea0cd90`; `explorations/run-b/probes/c14_lazy_grad_generators.fss`, in the parent of `ed6dafb52`; full text: history, row 124 |
+
+### Row 125
+
+rewritten
+
+| 125 | a `property` placed after a method is rejected by row 124's ordering check, although the grammar allows `PropertyDecl` in both groups and the prose lets properties be freely commingled | NEGATIVE-VERIFIED | implementation gap (parser) | `appendices/grammars/concrete-syntax.tex`, "Trait and Object Declarations"; `basic/objects.tex`, "Object Declarations" | none | run-b2 | siblings: 124. `Field/getter/setter declarations should come before method declarations.` is reported at the property's span. Academic while row 122 (properties unimplemented) stands, but a separate defect, in the ordering check, that would have to be fixed too. Probe `explorations/run-b2/probes/g4g_prop_after.fss`, in the parent of `22ea0cd90`. |
+
+### Row 354
+
+rewritten
+
+| 354 | the compiled checker refuses, in an api, every declared type that extends a trait whose `comprises` clause has `...`, listed or not, so the grammar's listed-plus-ellipsis form cannot be written in an api that declares the listed type | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/components/source-code.tex`, "Export Statements"; `Specification/basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXX3q.test` | climb batch 3 rung L | siblings: 357. The refusal, 'Invalid comprises clause: a trait with a comprises ..., such as T, should not be extended', is `TypeHierarchyChecker.scala:247-250`. The team's `ProjectFortress/test_library/Compiled3.q.fsi:12-15` has the shape; `compiler_tests/XXX3q.test` and `XXX10p.test` gate it. Fix: (a) skip the refusal when the extender is listed (`comprisesContains`); (b) refuse a non-listed extension declared outside a component exporting `T`'s api (`explorations/compile-ladder/rung-library-defects/REPORT.md`). A red/green run must clear the component's `analyzed_cache` and `bytecode_cache` entries between runs, or a stale cache shows the `XXX` test red. full text: history, row 354 |
+
+### Row 357
+
+rewritten
+
+| 357 | `Library/IntMap.fsi` declares `trait IntMap … comprises { ... }` (`:19-21`) and, in the same api, `trait NonEmptyIntMap[\Val\] extends IntMap[\Val\]` (`:63`), against the ellipsis rule; the compiled checker refuses it at `:63` | NEGATIVE-VERIFIED | library bug (library) | `Specification/basic/traits.tex`, "Trait Declarations"; `Specification/basic/components/source-code.tex`, "Export Statements" | none | climb batch 3 rung L's skeptic | siblings: 354. The refusal: 'Invalid comprises clause: a trait with a comprises ..., such as IntMap.IntMap, should not be extended'. The component's clause is `{ EmptyIM[\Val\], NonEmptyIntMap[\Val\] }` (`Library/IntMap.fss:26`) and `EmptyIM` is private, so the specification's form is `comprises { NonEmptyIntMap[\Val\], ... }`, which row 354 then refuses: the repair waits on row 354's part (a). No gated test compiles `IntMap`: the count stage compiles `Library/FortressLibrary.fss` alone (`explorations/coordinator/tools/checker-count/run.sh:51`). Capture `explorations/compile-ladder/rung-library-defects/probes/skeptic/intmap-api-run.txt`, gone. full text: history, row 357 |
+
+### Row 762
+
+rewritten
+
+| 762 | under walk, an object that extends a generic trait whose dotted method has a static parameter of its own bounded by the trait's stops, 'Missing type R': `pick[\K extends R\](x: K)` in `trait Picker[\R\]`, `object ShapePicker extends Picker[\Shape\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/tests/XXXTraitBoundGenericMethod.fss` | walk-generic-static probe | siblings: 567, 21. `Constructor.finishInitializing` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:216` at 3aea3da53) makes the method's symbolic instance by `SingleFcn.createSymbolicInstantiation` (`SingleFcn.java:215`), which evaluates the bound `R` without the trait's static parameters: at load for an object, at its first instance for a generic object. A bound that names no trait parameter, `N extends Number`, loads and runs. The dotted sibling of row 567, fixed for functional methods by 669b77d03. The compiled path runs the test: PASS. |
+
+### Row 838
+
+rewritten
+
+| 838 | the parser's syntax check refuses `var` on an api object's value parameter, 'var cannot modify an object parameter', where the api grammar's `AbsObjectDecl` takes the component's `ObjectHeader`, whose `ObjectParam` admits `var` | CONTESTED | implementation gap (parser) | `basic/objects.tex`, "Object Declarations" | none | climb batch 22c rung L | `ProjectFortress/src/com/sun/fortress/parser_util/SyntaxChecker.java:154-157` (the team's) allows only `ApiFldMod` there. `Specification/basic/components/apis.tex:87-88` takes `ObjectHeader`, whose `ObjectParam` admits `var` (`Specification/basic/objects.tex:104-109`); the same in `Specification-1.0-frozen/`. Against: `basic/traits.tex`, "Abstract Field Declarations", abstract field declarations do not include `var`. Open: may an api write it? Climb batch 22c's planner, `OneShot`'s api parameter written `var`: 'var cannot modify an object parameter, canTryIt'. The export check reads a parameter less `var` (`ExportVarObjectParameter`), so either answer matches `OneShot`. |
+
+### Row 839
+
+rewritten
+
+| 839 | the compiled export check never compares an object's value parameter names: an api's `object Np(a: ZZ32)` is satisfied by a component's `object Np(z: ZZ32)`, and a client's `Np(3).a` dies at run time with `NoSuchMethodError`; swapped names, `Tq(b: ZZ32, a: ZZ32)` for `Tq(a: ZZ32, b: ZZ32)`, pass too | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/source-code.tex`, "Export Statements" | none | climb batch 22c rung L's skeptic | siblings: 800, 801, 829. `equalParams` binds both parameters' names and compares neither (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:658-669` at c3c22817c, the team's), for an object's parameters through `equalOptListParams` (`:372-374`, `:703-704`). Old code and rung L's head alike: both pairs compile rc 0; `Tq(1, 2).a` is 2, compiled and under walk; walk refuses `Np(3).a`, 'Cannot find definition for method a given receiver Np'. A function's parameter names do not count, so a repair compares them for an object's parameters only. Workaround: name them as the api does. |
+
+### Row 870
+
+rewritten
+
+| 870 | under walk, an object extending a generic trait whose generic dotted method has a `where` clause on the trait's static parameter stops, 'ClassCastException: … FTypeObject cannot be cast to … SymbolicInstantiatedType': `mixed[\U\](u: U): String where { T extends Named }` in `trait Pair[\T\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/XXXGenericMethodTraitWhereWalk.fss` | climb batch 24 rung G's skeptic | siblings: 762. It stops in `SingleFcn.createSymbolicInstantiation` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/SingleFcn.java:231` at e1ab927ad), called by `Constructor.finishInitializing` (`Constructor.java:216`), row 762's site. With the clause on the method's own parameter, `where { U extends Named }`, it runs, 'own dog'. Compiled, since rung G, it runs, 'mixed cat'. Walk is the same on the base, b0f6cd6b7. |
+
+### Row 376
+
+rewritten
+
+| 376 | **a static argument written as an arrow type whose domain is itself an arrow type fails on both paths**: `Tag[\(ZZ32 -> ZZ32) -> ZZ32\]()`, for a `Tag[\T extends Any\]` | NEGATIVE-VERIFIED | implementation gap (parser) | `appendices/grammars/concrete-syntax.tex`, "Headers" (a `StaticArg` is a `BoolExpr` or a `Type`); `appendices/operators.tex`, "Boolean Operators" (U+2192 is `->` or `IMPLIES`) | none | climb batch 3 rung S | Walk: `InterpreterBug: EvalType: … BoolBinaryOp is not a subtype of BoolExpr`, wrong under either reading; the checker: "Wrong number or kind of static arguments for function: Tag". The parser reads a Boolean implication: `->` is `IMPLIES` (`Symbol.rats:222`, `:226`; `Literal.rats:365-366`) and `StaticArg` tries `BoolExpr` before `Type` (`MayNewlineHeader.rats:462-490`), behind a lookahead that keeps a `QualifiedName` before `->` out of the Boolean reading (`:474-476`) but not a parenthesized domain (`:347-351`). The grammar admits both readings, the spec choosing neither; the lookahead intends the type reading. `ZZ32 -> (ZZ32 -> ZZ32)` works. probe and full text: history, row 376 |
+
+### Row 59
+
+rewritten
+
+| 59 | a bare `acc := acc + c` inside a parallel `for` **silently loses updates** above one thread, and the specification's reduction-variable form `acc += e` is unimplemented; `atomic do … end` around the update is correct | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/evaluation/reduction.tex`, "Reduction Variables" | none | ours | At `FORTRESS_THREADS=4` the probe's unguarded loop gave `2968 …`, `1505 …`, `3213 …` in three runs against `5050 10100 15150`; invisible at one thread. The specification's example `Expr.Do.mySum` has this shape: at four threads `mySum(100000)` gave 3343924325 under walk and 4986607299 compiled, 5000050000 at one (`explorations/compile-ladder/rung-spec-ranges/probes/skeptic/SkMySumThreads.fss`). Reduction variables, which would make it right, are marked not yet supported (`reduction.tex`). Fixed half: `atomic` on a top-level variable lost updates on the compiled path until repair batch R1 (`AtomicTopLevelVar`). Workaround: `atomic` or a reduction (row 60). probe and full text: history, row 59 |
+
+### Row 79
+
+rewritten
+
+| 79 | an integer literal takes a different `typecase` clause, and a different overload, on the two paths, silently: walk treats `7` as a `ZZ32`, the compiled path as an `IntLiteral` that matches no `ZZ32` clause | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals"; `Specification/basic/conversions-coercions.tex`, "Coercion Resolution" | none | ours | Through one `typecase x: Object` with `ZZ32`, `String`, singleton and `else` clauses, the literal `7` answers `other` compiled and `ZZ32` under walk; a `ZZ32` variable, a string and a singleton agree. With `ee[\nat n\](x: ZZ32): ZZ32 = 1` beside `ee(x: Any): ZZ32 = 2`, `ee(5)` and `ee(a)` for `a: Any = 5` give walk 1, compiled 2; defect 4 of `explorations/reviews/overload-static-params-ways.md` is this split. The specification favours the compiled run. POSITIONS, "The numeral switch, split by where the static types are", sends this row to Q-walk. Probe `explorations/compiler-probes/p33.fss`, gone. full text: history, row 79 |
+
+### Row 82
+
+rewritten
+
+| 82 | on the compiled path `spawn` yields a thread handle with no methods: `t.val()` fails with `No such method Thread[\IntLiteral\].val.` | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic/expressions/spawn.tex`, "Spawn Expressions" | none | ours | `object Thread[\T\](fcn:()->T)` is declared only in the interpreter's builtin (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:286`, `FortressBuiltin.fss:722`); neither `CompilerBuiltin` nor `CompilerLibrary` declares it. Under walk the probe prints `p32 42` (row 61). G12 of `explorations/compiled-path-gaps.md`. Probe `explorations/compiler-probes/p32.fss`, in the parent of `c69cb2064`. |
+
+### Row 319
+
+rewritten
+
+| 319 | a mutable field of an object is outside the transaction on the compiled path: `atomic do n := n + 1 end` on a field loses updates above one thread, while walk is exact | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/atomic.tex`, "Atomic Expressions"; `Specification/basic/memory-model.tex`, "Programming Discipline" | none | ours | `VarCodeGen.MutableFieldVar` reads with a bare `GETFIELD` and writes with a bare `PUTFIELD` on a non-volatile field (`ProjectFortress/src/com/sun/fortress/compiler/codegen/VarCodeGen.java:202-231`); walk's `ReferenceCell` holds fields and variables alike (`interpreter/env/ReferenceCell.java:25-29`). Compiled at `FORTRESS_THREADS=4`: 34481 to 38910 of 40000 in five runs; exact at one thread, and under walk at one and four. `MutableFieldVar` is built for every `VarDecl` field, mutable or not (`CodeGen.java:4343-4360`, the team's TODO "need to spot for 'final' fields"), so moving fields into the transaction changes every compiled object's fields. probe and full text: history, row 319 |
+
+### Row 463
+
+rewritten
+
+| 463 | on the compiled path, `if x <- e then … else … end` is refused, 'Variable __cond is not defined', and `while v <- e do … end` likewise for `__whileCond`, where walk runs both | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification-1.0-frozen/basic/expressions/if.tex:29-34, 49`, "If Expressions"; `Specification/basic/expressions/while.tex`, "While Loops" | `ProjectFortress/compiler_tests/XXXIfGeneratorClause.test` | climb batch 7 rung H's skeptic | The `while` form's test is `XXXWhileGeneratorClause`. The pre-typecheck desugaring rewrites a generator-binding `if` into a call of `__cond` (`ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreTypeCheckDesugaringVisitor.java:249-289`, at d4d454f9d) and the `while` into a call of `__whileCond` (`:306-317`). The interpreter's library declares both over `Condition[\E\]` (`Library/FortressLibrary.fss:1269-1273`); the compiler library declares neither, and with `__cond` declared in the program that refusal goes. Walk: `Just(3)` as the condition gives 13; the `while` prints `6`. Fix: declare both in `Library/CompilerLibrary.fss`. full text: history, row 463 |
+
+### Row 480
+
+rewritten
+
+| 480 | in the one-library world the compiled checker's `case` without a comparison operator picks `=`, where the specification gives ∈, for a guard typed by a type variable bounded by a `Contains` or by a union of `Contains` types | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/basic/expressions/case.tex:47-51`, "Case Expressions" | none | climb batch 7R rung J's skeptic | Row 476's rule tests `ancestors(tt) + tt` for `Contains` only for a `TraitType` and answers false otherwise (`Functionals.scala:1216-1223`, `Types.isContainsType`, `Types.java:145-148`, at 052a7c3fe). For `varGuard[\R extends Range[\ZZ32\]\](r: R, x: ZZ32) = case x of r => … end` and a guard `(if b then 1:3 else 5#)` it picks `=`, which applies without error, so such a compiled clause never matches. Walk tests the guard's value (`Evaluator.java:415`) and picks ∈; the compiler's world picks ∈ for the type variable. Fix: answer a type variable through its bounds, a union through all members, an intersection through any. Probes `SkCaseGuards*.fss`, gone. full text: history, row 480 |
+
+### Row 482
+
+rewritten
+
+| 482 | an extremum expression, `case most > of … end`, stops the compiled checker with `java.lang.Error: Not yet implemented`, where walk picks the clause | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/basic/expressions/case.tex:74-115`, "Extremum Expressions" | `ProjectFortress/compiler_tests/XXXExtremumRungJ.test` | climb batch 7R rung J's skeptic | The `case` rule's extremum branch (`Functionals.scala:1233-1242` at 052a7c3fe) calls `Types.makeTotalOperatorOrder`, whose body is `NI.nyi()` (`Types.java:372-377`), in both worlds; neither library declares a `TotalOperatorOrder`, so fixing that alone fails the rule's subtype test. By reading, `CaseExprDesugarer` throws for a `case` with no condition expression (`CaseExprDesugarer.java:89-92`, on by default), so a fix of the checker alone moves the failure there and the test's key must change with it. `ProjectFortress/tests/caseTest.fss:33-85` runs extremum expressions under walk only. full text: history, row 482 |
+
+### Row 746
+
+rewritten
+
+| 746 | walk's `if` takes a clause without a binding whose value is a `Just` or a `Nothing` of a trait named `Maybe` as true or false, where the chapter says such a clause "must be an expression of type Boolean"; every other value that is not a `Boolean` is refused | NEGATIVE-VERIFIED | deliberate (walk) | `basic/expressions/if.tex`, "If Expressions" | `ProjectFortress/tests/maybeTest.fss` | climb batch 16 rung W | The coordinator's call 6 (`explorations/coordinator/CLIMB-BATCH-16.md` section 2), listed for the curator's review: `forIf` and `maybeType` test the names `Just`, `Nothing` and `Maybe` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/Evaluator.java:595`, `:617-621` at 9879d4386); the team's `maybeTest` and `naturalsTest` (`:21-22`, 5a68404fd) write `if` on a `Maybe`. The chapter is `Specification/basic/expressions/if.tex:54`. No gated test asserts the chapter's rule yet; its revision box waits for the next rung that edits `if.tex`. |
+
+### Row 328
+
+rewritten
+
+| 328 | `IntLiteral` comparison on the compiled path is performed at `ZZ64`, so comparing a numeral outside `ZZ64` throws where the specification requires an answer: `a = 18446744073709551615` then `a < 5` dies with `Not in range for ZZ64` | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/basic/expressions/literals.tex`, "Literals" | none | repair batch R2's skeptic | `trait IntLiteral`'s six comparisons are each `self.asZZ64 <op> other.asZZ64` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:912-917` at 052a7c3fe), and `FIntLiteral.asZZ64` raises for a numeral carried as a decimal string (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FIntLiteral.java:74-77`, message at `:63-65`). Walk prints `false`. Exposed by row 317's repair, which turned a silent `true` into this error. Probe `explorations/compiler-probes/p37.fss`, in the parent of c69cb2064; its outputs `explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/p37.walk.skeptic` and `p37.compiled.skeptic`, in the parent of ab067d9b6. full text: history, row 328 |
+
+### Row 440
+
+rewritten
+
+| 440 | under `walk`, `QQ` answers 0/0 compared with itself with `true` for `=`, `<=` and `>=`, and with `EqualTo` for `CMP`, where the specification makes 0/0 unordered with itself, so that the five comparisons are false and `CMP` answers `Unordered` | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic-lib/numbers.tex`, "Rational Numbers"; `basic/operators/opr-overview.tex`, "Comparisons Operators" | `ProjectFortress/tests/XXXRationalUnorderedRungP.fss` | climb batch 6 rung T and its skeptic | `QQ`'s `opr =` (`Library/FortressLibrary.fss:597-598` at 4d27fbcc5) compares numerators and denominators, under the team's comment "0/0 = 0/0 is supposed to be true (//unlike// the behavior of floating-point NaN)" (`:596`); its `<=` and `>=` (`:605`, `:607`) and `StandardPartialOrder`'s `CMP` (`:224-229`) answer from it, while `0/0 < 0/0` is `false` and `0/0 CMP 1` `Unordered`. `MIN`, `MAX` and `MINMAX` (`:610-619`), `MINNUM` and `MAXNUM` (`:658-661`) find 0/0 by `=`. The prelude has no `QQ`. `<=`, `>=`: '0/0 <= 0/0 true 0/0 >= 0/0 true' (`NanQQ.fss` at a3252d568). Full text: history, row 440 |
+
+### Row 456
+
+rewritten
+
+| 456 | under `walk`, `LessThan`'s and `GreaterThan`'s `CMP` against another total comparison answer the converse of their own `<`: `LessThan < EqualTo` is `true` and `LessThan CMP EqualTo` is `GreaterThan` | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/ExclusionRemainderRungH.fss:24-30` | climb batch 7 rung H | The bodies are `LessThan.CMP(self, other:TotalComparison) = GreaterThan` and `GreaterThan`'s `= LessThan` (`Library/FortressLibrary.fss:185`, `:197` at 052a7c3fe); the prelude's answer `LessThan` and `GreaterThan` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:1551`, `:1571`). `TotalComparison` is no longer a `StandardTotalOrder` since rung H, so these are the only `CMP` bodies walk chooses for two total comparisons. The test asserts today's values (`:24-30`, `:55`); a fix changes five of them. The api's `Comparison` result on them is another slip (`explorations/perf-probes/nat/triage.md:67`); full text: history, row 456 |
+
+### Row 462
+
+rewritten
+
+| 462 | walk's library and the compiled prelude disagree on a total comparison against `Unordered`: under walk `LessThan < Unordered` is `false` and `LessThan CMP Unordered` is `Unordered`; compiled, `true` and `LessThan` | NEGATIVE-VERIFIED | library bug (library) | silent | none | climb batch 7 rung H's skeptic | Walk's `TotalComparison` answers `Unordered` and `false` (`Library/FortressLibrary.fss:166-167` at 052a7c3fe); the prelude's `CMP` and `<` against `Unordered` answer `LessThan` and `true` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:1530`, `:1537`), which puts every total comparison below `Unordered`. The same probe shows the prelude's `CMP` between total comparisons agreeing with its own `<` and its `LEXICO` against `Unordered` giving the specification's answer, where walk's do not (rows 456, 457). Probe `explorations/compile-ladder/rung-exclusion-remainder/probes/skeptic/SkCmpTable.fss`, in the parent of ab067d9b6; full text: history, row 462 |
+
+### Row 484
+
+rewritten
+
+| 484 | under `walk`, an `NN32` operator with a numeral answers a `ZZ64`, not the `NN32` the specification gives: `u + 1`, `u MAX 1` and `u MAXNUM 1` for an `NN32` `u`; the `ZZ64` half, `b MAX 1` stopping the run with "Ambiguous coercion", is fixed | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Coercion Resolution" | `ProjectFortress/tests/XXXNumeralWithNN32.fss` | climb batch 7R rung U | siblings: 517. The `ZZ64` half: `QQ`'s `MAX` tied with the one `ZZ64` inherits from `StandardMax`, `StandardMinMax` and `StandardTotalOrder`, incomparable when the inherited method's self parameter is read as its declaring trait; fixed `2770550c3` (climb batch N, rung M) and `9d2e4c856` (climb batch 8, rung Q), each integer type declaring its own `MIN`, `MAX` and `MINMAX` (`ProjectFortress/tests/IntegerMinMaxRungM.fss`), rung Q adding `CMP`, the order operators, `MAXNUM` and `MINNUM`. Open: walk's numeral is a `ZZ32`, so an `NN32` with a numeral answers a `ZZ64` and an `NN64` with one a `ZZ`, until walk's numeral switch (Q-walk). full text: history, row 484 |
+
+### Row 607
+
+rewritten
+
+| 607 | **`FlatString.rangeContains` finds only the first occurrence of the character**: under walk `"abca".rangeContains(3#1, 'a')` answers `false`, and so do `'a' IN` a substring whose `a` lies past the string's first and a `CatString`'s `rangeContains` through its flat halves | NEGATIVE-VERIFIED | library bug (library) | silent | `ProjectFortress/tests/StringPieces.fss` | climb batch 9 rung S's skeptic | `self.javaIndexOf(c) ∈ self.bounds[r]` (`Library/FlatString.fss:117`, 650263804) misses a later occurrence in `r`: `'a' IN sub` is `false` for the substring `aabcd` of `("a"^20) \|\| "bcdefghijklmnopqrstu"` at `18#5`, through SubString's `∈` (`Library/String.fss:426-436`), and `cat.rangeContains(10#10, 'a')` for `"abcdefghijklmnopqrsa" \|\| "ABCDEFGHIJKLMNOPQRST"`, through CatString's (`:128-133`). The answer: Generator's comment (`Library/FortressLibrary.fsi:854-855`). `StringPieces.fss` pins two `false`s. Repair: `BIG ∨ [i ← self.bounds[r]] (self.get(i) = c)`, the curator's (`explorations/compile-ladder/rung-string-slips/JUDGE.md` section 2). full text: history, row 607 |
+
+### Row 846
+
+rewritten
+
+| 846 | under walk, a native that a program binds over `String` to a glue class receives a non-flat string's type name, not its characters: `p(a:String):()` bound to `StringPrim$PrintlnWithThread` prints ' Thread 26: CatString' at a string made by `\|\|` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | `ProjectFortress/tests/NativeGlueNonFlatStringWalk.fss` | climb batch 23 rung W | `StringPrim$GetEnvironment` answers `CatString` too. The glue's `Util.SS2B` and `S2V` take `v.getString()` (`interpreter/glue/prim/Util.java:254`, `:286`), which `FObject.getString` answers with `type().toString()` (`interpreter/evaluator/values/FObject.java:33-35`); `NativeApp` hands a glue class walk's values as they come (`interpreter/glue/NativeApp.java:208-212`). A helper parameter declared `String` is refused at load (`interpreter/glue/StaticNativeApp.java:70`, `:178`), but a `self` declared `String` is taken by `getString()` (`:282`): a helper bound in a method of the trait `String` would get the type's name. The library binds neither. Fix: flatten first, or bind over `FlatString`. |
+
+### Row 857
+
+rewritten
+
+| 857 | under walk, `char` takes a negative code point or one past U+10FFFF and answers a `Char` that holds it, with no exception: `char(-1).codePoint` is `-1` and `char(1114112).codePoint` is `1114112` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | `ProjectFortress/tests/CharCodePointOutOfRangeWalk.fss` | climb batch 24's planner | `char` (`Library/FortressLibrary.fss:4540`) names a helper that returns its `int` as is (`nativeHelpers/simpleChar.java:63`), as the glue class `Char$Chr` did. The api: "we don't presently deal gracefully with %Char%s outside the 16-bit plane" (`Library/FortressLibrary.fsi:2578-2580`). The compiler's prelude has no `char`; its `makeCharacter` raises `IntegerOverflow` outside 0 to 1114111, "Really should be IndexOutOfRange" (`LibraryBuiltin/CompilerBuiltin.fss:1058-1062`, `:1638-1639`): a compiled probe printed 'makeCharacter(-1): IntegerOverflow'. A compiled binding of the helper itself passes -1 and 1114112. The specification names no conversion from an integer to a `Char`. |
+
+### Row 861
+
+rewritten
+
+| 861 | walk's `Char` `asExprString` and the compiled path's helper write a character outside ASCII differently: for `char(233)` walk's glue gives `'\'0e9''` and `simpleChar.charToExprString` gives `'é 00e9'`; for `char(128512)`, `'\'0f600''` and `'1f600'` | CONTESTED | implementation gap (runtime) | silent | none | climb batch 24's planner | Walk's `Char$ToExprString` is `FChar.toString`, `"'" + Unprinter.enQuote(getString()) + "'"` (`interpreter/glue/prim/Char.java:177-181`, `interpreter/evaluator/values/FChar.java:104-106`); the helper, which the prelude binds, writes the character and its hex code, or the code alone past U+FFFF (`nativeHelpers/simpleChar.java:21-44`). The two agree only at printable ASCII other than `\` and `"`, and at the five escapes: `\` gives `'\\'` and `'\'`, `"` `'\"'` and `'"'`, U+0005 `'\'05''` and `'0005'` (`bin/fortress`, at c141e7f6a; review `char-asexprstring-2026-11-06.md`, 2.3). Which form is the one library's is open: the specification names no form. |
+
+### Row 877
+
+rewritten
+
+| 877 | under walk, a `builtinPrimitive` helper binding with a parameter declared at a program's own type named `FlatString` or `JavaString` loads, and its call passes the type's name: `slen(x: FlatString): ZZ32` bound to `simpleConcatenate.nativeStrlen`, beside `object FlatString end`, answers 10 | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/library/default-libraries.tex`, "FortressBuiltin" | none | probe of review-queue item 340 | siblings: 847, 846. `StaticNativeApp.javaFor` carries a parameter's declared type by its name, `FlatString` and `JavaString` in `String` (`interpreter/glue/StaticNativeApp.java:54`, at dc571c1f3); `unbox` takes `v.getString()` (`:231`), which `FObject.getString` answers with the type's name (`interpreter/evaluator/values/FObject.java:33-35`). Probe in `explorations/perf-probes/loader-declaring-type/REPORT.md`, section 4: prints 'before', '10', rc=0, on the base and on the shadow; the same with `object JavaString`. Fix: read the parameter's type by its declaration, as the probe's way 1 reads `self`'s. |

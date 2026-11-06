@@ -1,0 +1,1 @@
+58	choice	the team typed the scaling overloads (T, Vector[\T,n\]) on purpose, as for Matrix; the specification says nothing on mixing a scalar of another type, and a user element type can declare its own coerce or juxtaposition

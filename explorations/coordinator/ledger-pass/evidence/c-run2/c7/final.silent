@@ -1,0 +1,2 @@
+456	defect	the library contradicts itself: LessThan < EqualTo is true while LessThan CMP EqualTo is GreaterThan, and the compiled prelude gives the consistent answer
+462	defect	the two libraries of one language give opposite answers for one expression, and neither comment nor specification records a choice

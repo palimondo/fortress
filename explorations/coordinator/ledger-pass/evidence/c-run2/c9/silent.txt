@@ -1,0 +1,9 @@
+141	choice	The api documents split as a structural subdivision that may be empty (Library/FortressLibrary.fsi:2482-2493); the team chose it.
+607	defect	Generator's comment says x IN self holds if x is generated; rangeContains misses a later occurrence.
+846	defect	The glue takes a CatString's type name for its characters; no design wants that.
+857	defect	The api itself says char does not deal gracefully outside the plane; the prelude raises outside 0 to 1114111.
+872	defect	The helper's own comment calls it incorrect for supplementary characters.
+897	defect	A library value reaching a glue that reads a Java value throws an InterpreterBug or prints a type name.
+899	defect	Missing value: $under is a walk failure on a well-formed getter.
+903	defect	The helpers raise an exception the one library does not declare.
+904	defect	Non-ASCII text is lost on output, where walk's own Writer writes UTF-8.

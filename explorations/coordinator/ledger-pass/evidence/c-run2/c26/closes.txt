@@ -1,0 +1,1 @@
+17	3924e7ec3	none	the revised specification forbids a where-clause variable as a static argument in an extends clause and marks the covariance idiom "Not allowed" (basic/trait-parameters.tex, "Where Clauses"; P-97); both paths refuse it, T is undefined, as the text now requires

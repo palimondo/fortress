@@ -1,0 +1,2 @@
+341	342	the cold-cache half of 341 (a refusal shown only on a cold cache, checked only when walk analyses the library again) is 342's mechanism; 341 should keep only the refusal beside the library's generic declarations and name 342
+341	804	804 (FIXED, c41c3d2b0) made walk read a program's generic operators between an array and a number beside a self-typed group's own on their declared domains; that may be the fix of 341's sized + over an array beside the library, pending the measure in questions.md

@@ -1,0 +1,5 @@
+# Queue, chunk c41 (run c-run2)
+
+- **Row 852, held: a measure that no prober settled.** Does a declaration with two parameters of one name, or two static parameters of one name, load on walk and on the compiled path? Programs (whole, from `tmp/ledger-pass/c-run2/c41/questions.md`): `DupParam` with `f(x: ZZ32, x: ZZ32): ZZ32 = x` and `run(): () = println(f(1, 2))`; `DupStaticParam` with `g[\T, T\](x: T): T = x` and `run(): () = println(g[\ZZ32, ZZ32\](3))`. Commands: `bin/fortress P.fss` (walk), `bin/fortress compile P.fss && bin/fortress run P` (compiled), each in a scratch folder with private caches; record rc and the first error line. Outcomes: every run refused with a static error naming the duplicate: `RETIRED`, the notes naming the phase that refuses, routed to the curator since the row is CONTESTED; any run loads: `NEGATIVE-VERIFIED` for the loading path(s), an `XXX` test of that program as reproducer; mixed: as the latter, naming the refusing phase on the other path. Default: the row's present line (CONTESTED, by reading).
+
+No `XXX` test of the chunk is believed to pass.
