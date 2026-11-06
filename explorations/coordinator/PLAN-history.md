@@ -1910,3 +1910,13 @@ Moved or rewritten on 2026-11-06, after his decision at about 10:1x UTC on `Char
 ### Phase 4. The switch-over
 
   - The families that wait on a known obstacle, each with its home: `Char`'s `asExprString` (review-queue item 354, row 861); row 872; varargs (row 849, review-queue item 311 (closed at the cleanup of 2026-11-05: learning)).
+
+Moved or rewritten on 2026-11-06, after his decision at about 10:4x UTC on the I/O objects' carrier and Java type (P-164; no review-queue item held it): "Where we stand"'s "Next" line, which no longer waits on a design review of N4; phase 4's natives line, its N4 line, replaced by N4's two rungs; and item 67 under "Pavol's answers", added as answered. The earlier texts word for word, each under the heading it stood under.
+
+### Where we stand
+
+- **Next.** Climb batch 26 landed (phase 4's fourth line), and its post-batch review is committed. Its record-landing routes the review's list, and then the orientation update and the skill update run (`coordinator/climb-batch-workflow.md`, "After the landing: the coordinator's routing", steps 2 to 5). Then the next batch, phase 4's fifth, not yet planned, by the review's "The steps due before the next batch", 5: P-160's second step (phase 4's fifth line); the two rungs of the natives that no bare helper reaches, which his decision of 2026-11-06 sets (P-162; phase 4, the natives line, the 109); the natives' families after his answer to review-queue item 354; the integer conversions' rung, which his answer of 05:51 UTC on 2026-11-06 sets (P-161; phase 4, its line on the integer conversions); N4 after a design review of its carrier and its Java type; the literals with N5; and the next code-generator rungs, `asif` (row 818) and the 2-D and 3-D ranges (row 733). It needs its record, the Fable review and his go (the `coordinator` skill's `references/batch.md`, "The go"). The gap ledger's repair waits on review-queue items 265 and 267. What is in flight is `coordinator/BOOT.md`.
+
+### Phase 4. The switch-over
+
+  - N4, D1's 36, the I/O objects: a Java-backed writer type and `stdOut` first, since every program's `println` writes through `Writer`'s natives (F-32), then `File`'s 15 and `Reader`'s 10 (`natives-shape.md`, section 3).
