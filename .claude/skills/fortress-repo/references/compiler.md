@@ -1,4 +1,4 @@
-# The compiled checker, the code generator and the run time
+# The compiled checker, the code generator and the runtime
 
 **count stage**
 : Script that runs the compiled checker over the interpreter's library, on the `FortressLibrary` component and the apis that it imports, and prints the errors in a table: `explorations/coordinator/tools/checker-count/run.sh`. Its total is the checker count.
@@ -55,16 +55,16 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 
 ## What the code generator does
 
-`SKILL.md`, "The compiled run time", gives the jars, the dispatch methods, the templates and the boxed numbers.
+`SKILL.md`, "The compiled runtime", gives the jars, the dispatch methods, the templates and the boxed numbers.
 
 - It emits no primitive `double` arithmetic.
 - The class loader rewrites a template's bytes with ASM. The emitted classfiles stay at version 1.6, because this rewriting keeps no stack-map frames. Do not raise the version.
 - The `value` modifier has no effect on the representation.
-- An array of `RR64` values is to be stored as an unboxed `double[]`. The code generator does not build it yet (`SKILL.md`, "The compiled run time"). If your task touches how arrays are stored, print the two POSITIONS entries on arrays first (about 2 KB):
+- An array of `RR64` values is to be stored as an unboxed `double[]`. The code generator does not build it yet (`SKILL.md`, "The compiled runtime"). If your task touches how arrays are stored, print the two POSITIONS entries on arrays first (about 2 KB):
 
       explorations/coordinator/tools/facts-extract.sh 'positions:array is stored as' 'positions:array design'
 
-## The run time
+## The runtime
 
 - The class loader is `runtimeSystem/InstantiatingClassloader.java`. The revival has changed it for sizes and for the lock on a class's first load (ledger row 417). Before you investigate a failure while a class loads, read ledger rows 408 and 559, which name it (`records.md`, "Reading the record").
 - The compiled code keeps each mutable variable in a cell (`compiler/runtimeValues/MutableFValue.java`). Before each read and write of the cell, the generated code asks `BaseTask.inATransaction()` (`runtimeSystem/`). Inside an `atomic` block, the access goes through the transaction. So the transaction tracks the variables that the block touches.
@@ -148,7 +148,7 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
       explorations/coordinator/tools/facts-extract.sh 'map:spec-to-implementation.md#Feature by feature@WORD'
 
-- If your edit is in one phase, and you need what runs before and after it on each path, print that phase's section. Name the section by its number and the first word of its title. A section is 1 to 3 KB. B.1 is the phase list, B.4 disambiguation, B.5 desugaring, B.6 type checking, B.7 overloading, B.10 the caches, B.11 the run time and B.12 the natives.
+- If your edit is in one phase, and you need what runs before and after it on each path, print that phase's section. Name the section by its number and the first word of its title. A section is 1 to 3 KB. B.1 is the phase list, B.4 disambiguation, B.5 desugaring, B.6 type checking, B.7 overloading, B.10 the caches, B.11 the runtime and B.12 the natives.
 
       explorations/coordinator/tools/facts-extract.sh 'map:modules-and-phases.md#B.5 Desugaring'
 

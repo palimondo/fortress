@@ -123,3 +123,7 @@ From `cold-read-2.md` (the coordinator's scratchpad, `skill-outline/checks/`), w
 - `hooks.md`, "The platform's git-check hook", and `stops.md`, "What a stop kills and keeps here": the switch `.claude/hooks/git-check-off.sh`, run at every SessionStart and Stop from `.claude/settings.json`, which the curator approved on 2026-10-19. It replaced the step by hand and its manual approval. Its behaviour, the `.orig` copy and the missed turn are read from its header comment and body; the `grep -c` test stays from 2026-10-13.
 - `SKILL.md`, the parts' list, `hooks.md`'s line: "how to turn it off" became "how it is turned off". Settled by the coordinator, 2026-10-19.
 - The cold read of `c3e2b8e1f` to `3c8b6d5e7`, each fix settled by the coordinator, 2026-10-19: `SKILL.md`, the git-check hook on a turn the switch misses (K1); `hooks.md`, the three Stop hooks (H1), the switch's paths, body and runs, the `.orig` copy undone at the next turn's end, the hook turned back on only by the curator's decision (H2 to H5), the check and the switch run by hand after a reminder (H6), the Stop hooks run at the same time (H7), and a reminder answered as the `coordinator` skill says (H8); `stops.md`, the script written again and turned off (S1).
+
+## One spelling of "runtime", 2026-11-06
+
+- The skill checked for "runtime", "run time" and "run-time", by the curator's word in chat at 13:5x UTC on 2026-11-06: it uses none of them, and no line changed.

@@ -38,7 +38,7 @@ The team at Sun Labs built the Fortress language from 2003 to 2012 and left it u
 : Interface, in a `.fsi` file of its own name.
 
 **area**
-: One part of the system: the interpreter, the compiled path (the checker, the code generator and the run time), the library, or the specification.
+: One part of the system: the interpreter, the compiled path (the checker, the code generator and the runtime), the library, or the specification.
 
 **base**
 : Commit that your work starts from.
@@ -78,7 +78,7 @@ Walk then interprets the tree. The tree has no static types, so walk finds a typ
 
 Each path has its own library today. At the switch-over, the compiled path moves onto the interpreter's library, and the compiler's prelude, three files of its library, is deleted (`references/compiler.md`). The compiled checker already finds no error in the interpreter's library. For the `FortressLibrary` component, the count stage shows this as a total of 0 (`references/compiler.md`). The switch-over waits for walk's natives: each function that the interpreter's library binds with `builtinPrimitive` (`references/interpreter.md`, "Natives") must first have a binding that the compiled path runs.
 
-### The compiled run time
+### The compiled runtime
 
 `fortress run` compiles no Fortress source. It runs the jars of the program and of the library on the JVM. A jar holds JVM class files:
 
@@ -188,7 +188,7 @@ The parts, in the order that work meets them:
 - The base and its build, worktrees seeded from it, the old code beside the new: `references/worktrees.md`
 - The build failing, JDKs, scalac and ASM traps, generated sources: `references/toolchain.md`
 - The interpreter area: walk's code (`interpreter/`), where a fix of walk belongs, its checks at load, its natives, running programs under walk, the microGPT check: `references/interpreter.md`
-- The compiled area: the checker, the code generator, the run time, compiled runs, the `fortress` commands, the checker's time after a change: `references/compiler.md`
+- The compiled area: the checker, the code generator, the runtime, compiled runs, the `fortress` commands, the checker's time after a change: `references/compiler.md`
 - The library area (`Library/`, `ProjectFortress/LibraryBuiltin/`): `references/library.md`
 - The specification area (`Specification/`), Appendix I, citing it: `references/specification.md`
 - How revived Fortress differs from the team's Fortress and from the languages that you know: `references/revival-changes.md`

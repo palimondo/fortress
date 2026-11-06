@@ -71,7 +71,7 @@ Put a `-D` switch on the `java` line of a run by hand; the `java` line in `harne
   - For a shared phase (under `compiler/`: name binding, DSL grammars, desugaring, the marking of overloaded calls in `OverloadRewriter`), the parser or such a class, run both.
 - Quote the verdict lines and the command in your report, with the commit if your code is committed.
 - If the gate later runs on a tree that holds other changes too, that tree is another code state. Your run and the gate's run do not repeat each other.
-- After an edit of the code generator (`codegen/`, `OverloadSet`) or the run time (`runtimeSystem/`), run your own tests, and the four-thread atomic runs (`gate.md`) if `compiler.md` asks for them. Leave the whole tracks to the gate.
+- After an edit of the code generator (`codegen/`, `OverloadSet`) or the runtime (`runtimeSystem/`), run your own tests, and the four-thread atomic runs (`gate.md`) if `compiler.md` asks for them. Leave the whole tracks to the gate.
 - After every other change, run only your own tests, through the scripts below, and the demos where "Outside the gate" asks for them. Leave the rest to the gate. This includes an edit of either library, though it reaches many tests.
 
 The suites do not check these:

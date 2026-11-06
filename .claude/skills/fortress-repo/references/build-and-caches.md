@@ -43,7 +43,7 @@ With the lines above, your runs that import a DSL grammar put their parser direc
 
 The repository holds two layers of code. Different tools build them, at different times, so "compile" means a different thing in each layer.
 
-The implementation is the parser, walk, the compiled checker, the code generator and the run time. It is the Java and Scala under `ProjectFortress/src/`, with the parser grammars (`parser/*.rats`) and the syntax tree generated from `ProjectFortress/astgen/Fortress.ast`. `ant compileAll` builds it into `ProjectFortress/build/` ("Building", below). `ant compile` is another name for it.
+The implementation is the parser, walk, the compiled checker, the code generator and the runtime. It is the Java and Scala under `ProjectFortress/src/`, with the parser grammars (`parser/*.rats`) and the syntax tree generated from `ProjectFortress/astgen/Fortress.ast`. `ant compileAll` builds it into `ProjectFortress/build/` ("Building", below). `ant compile` is another name for it.
 
 The Fortress code is the library, the tests and the programs: the `.fss` and `.fsi` files. The `fortress` commands run the phases on it and keep the results in the caches:
 
