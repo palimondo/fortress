@@ -1893,3 +1893,14 @@ Before the switch-over's checker reads `System`, raised by climb batch 26 (`comp
 Before the switch-over, raised by climb batch 6.5 (`compile-ladder/climb-batch-6.5/RECORD.md`, rung P's skeptic):
 
 31. `widen` of a `ZZ` too large for `ZZ64`: keep the low 64 bits, as walk does today, or raise `IntegerOverflow` by the general sentence (row 349); the switch-over's natives meet it (row 502); no default on record. Review-queue item 20.
+
+Moved or rewritten on 2026-11-06, after his decision between 08:5x and 09:3x UTC on the natives that no bare helper reaches (P-162; review-queue items 331, 332 and 361, now in (a), and 363): "Where we stand"'s "Next" line, which no longer waits on items 331 and 332; phase 4's natives line, its N1 and N2 line, which no longer leaves `FlatString`'s two with item 331, and its line on the 109, replaced by the 30's way and its two rungs; and item 65 under "Pavol's answers", added as answered. The earlier texts word for word, each under the heading it stood under.
+
+### Where we stand
+
+- **Next.** Climb batch 26 landed (phase 4's fourth line), and its post-batch review is committed. Its record-landing routes the review's list, and then the orientation update and the skill update run (`coordinator/climb-batch-workflow.md`, "After the landing: the coordinator's routing", steps 2 to 5). Then the next batch, phase 4's fifth, not yet planned, by the review's "The steps due before the next batch", 5: P-160's second step (phase 4's fifth line); the natives' families after his answers to review-queue items 331, 332 and 354; the integer conversions' rung, which his answer of 05:51 UTC on 2026-11-06 sets (P-161; phase 4, its line on the integer conversions); N4 after a design review of its carrier and its Java type; the literals with N5; and the next code-generator rungs, `asif` (row 818) and the 2-D and 3-D ranges (row 733). It needs its record, the Fable review and his go (the `coordinator` skill's `references/batch.md`, "The go"). The gap ledger's repair waits on review-queue items 265 and 267. What is in flight is `coordinator/BOOT.md`.
+
+### Phase 4. The switch-over
+
+  - N1 and N2, A's 154 and B's 59: those moved are in F-299, F-303 and F-305 to F-307, the string family's 18 with climb batch 26's rung T (F-299); `FlatString`'s `=` and `flatConcat` at a `Char` stay on glue with review-queue item 331; B's 23 with a name the prelude gives another helper are in row 348 and F-32.
+  - The 109 that cannot name their helper as a bare string: the 76 and the 5 moved are in F-308, F-313 and F-311. The way for each of the 25 left, `ZZ32`'s `big` among them, and the bare form's reach: no default (review-queue items 331 and 332; way 2b's cost, review-queue item 326 (closed at the cleanup of 2026-11-05: learning)).
