@@ -1060,3 +1060,9 @@ From the cold read of `d5cd3bc2c` and `a48c389b7` (`explorations/compile-ladder/
 - `interpreter.md`, "What walk checks": the method, not the trait, without static parameters of its own, `OverloadedFunction.traitMethod`; row 893's call run without an ambiguity error and the type made an `A`; row 894's top-level function, its message and the check, `OverloadingChecker.scala:413-424`, with the clause on the decision cut.
 - `interpreter.md`, "Natives": a program's own `FlatString` parameter carried in `String` without a refusal, row 877; a method of `String` calls the overload over `String`, `Library/FortressLibrary.fss:4641-4644`.
 - `revival-changes.md`: row 416's example as two overloads, as in `interpreter.md`; `T`'s method in walk's second refusal, F-318; P-12's plan in the future tense.
+
+## The cold read of `36ce6e303`, 2026-11-06
+
+From the cold read of the `note --check` sentence, 2026-11-06; settled by the coordinator's task; checked against the header of `explorations/coordinator/tools/ledger.py` and a run of `note --check`.
+
+- `records.md`, "To change a row", the `note` bullet: the two pairs of counts, the separator counted, the exit status, the check before a long note or a note on a row near its limits, and a note that does not fit shortened, or the notes cut with `rewrite` (the header: "A row at its length limit takes no note: rewrite cuts it back").
