@@ -6,7 +6,8 @@ a batch's merged work committed to main; BASE is the batch's base, LANDING its l
 commit that WT was made at. The range is BASE..AT: the batch, and what the landing's own steps changed after
 it, such as the post-batch review. The script reads FACTS.md, POSITIONS.md, their histories, the gap ledger,
 PLAN.md, the review queue and INDEX.md at the three commits with git show, through the classes of WT's
-record.py and ledger.py, and runs WT's record tools. It writes six files into RUN and nothing else:
+record.py and ledger.py, and runs WT's record tools. It writes six files into RUN, and a seventh only when
+plan.md's stale list is cut:
 
   entries.md   each FACTS and POSITIONS entry that the range added, changed or removed: its line at BASE
                and at AT, its size, the history blocks of the range with who wrote each, and the report
@@ -17,7 +18,9 @@ record.py and ledger.py, and runs WT's record tools. It writes six files into RU
   plan.md      PLAN.md's headings, the PLAN lines that the batch added, the other PLAN lines that name
                a changed entry or row, and the lines that look stale at AT: plan-moves.py --stale-at AT, each
                line whose own review-queue item is settled, each list of items that disagrees with the
-               queue, and each review finding that a later commit names
+               queue, and each review finding that a later commit names; that list is cut at STALE_CHARS
+               (40,000 characters, about 250 LOOK lines), and only then is the whole list written to
+               plan-stale.txt beside it, which the cut line of plan.md names
   checks.md    at AT: record.py check --base BASE, ledger.py landing-check BASE, the notes that
                check-index.sh finds without an INDEX line, and the citations of PLAN by line number in the
                record's own files
@@ -39,6 +42,7 @@ import tempfile
 SECTION_BYTES = 2500      # of each cited report section that entries.md prints
 SENTENCE = 420            # characters of a sentence that cites.md and plan.md print
 FX_PAGE = 28000
+STALE_CHARS = 40000       # of plan-moves.py's stale list that plan.md prints; the whole list goes to plan-stale.txt past it
 
 ap = argparse.ArgumentParser()
 for opt in ('--root', '--batch', '--base', '--landing', '--at', '--out'):
@@ -184,7 +188,7 @@ def fx_check(q):
 def run(cmd, limit=8000):
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=WT)
     out = (r.stdout + r.stderr).strip()
-    if len(out) > limit:
+    if limit is not None and len(out) > limit:
         out = out[:limit] + '\n... (cut at %d of %d characters)' % (limit, len(out))
     return r.returncode, out
 
@@ -487,7 +491,12 @@ def plan_md():
             out.append('- PLAN.md:%d, under "%s", %d characters, names %s: %s' % (i, path[i], len(ln), describe(ents, rows), ' | '.join(sentences_at(ln, spans))))
     if not n:
         out.append('None.')
-    code, looks = run(['python3', os.path.join(HERE, 'plan-moves.py'), '--root', WT, '--base', AT, '--stale-at', AT])
+    code, looks = run(['python3', os.path.join(HERE, 'plan-moves.py'), '--root', WT, '--base', AT, '--stale-at', AT], limit=None)
+    if code == 0 and len(looks) > STALE_CHARS:
+        write('plan-stale.txt', looks)
+        cut = looks[:STALE_CHARS].rsplit('\n', 1)[0]
+        looks = cut + '\n... (cut at %d of %d characters, %d of %d LOOK lines; the whole list is `plan-stale.txt` in this folder)' % (
+            len(cut), len(looks), cut.count('\nLOOK ') + cut.startswith('LOOK '), looks.count('\nLOOK ') + looks.startswith('LOOK '))
     out += ['', '## The lines that look stale at %s' % AT, '',
             'From `plan-moves.py --stale-at %s`. Each line: its place, why it looks stale, and its first words. '
             '"settled": its own review-queue item is in (a). "list": a list of items that names a settled one, or that '

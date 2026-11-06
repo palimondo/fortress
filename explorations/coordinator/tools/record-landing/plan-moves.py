@@ -10,7 +10,11 @@ that PLAN-history.md gained, and each failure; exit 1 on any.
 Then, for information only (they never fail), the PLAN lines to look at, one `LOOK` line each with its
 reason, read against the working review queue and the history of AT:
   settled   a list line whose own pointer, a sentence "Review-queue item 296.", names items that are each
-            settled in the queue's part (a), and that names no item open in (b) or (c)
+            settled in the queue's part (a), and that names no item open in (b) or (c); it skips a line that
+            already carries a cleanup's mark, "closed at the cleanup of DATE" in any of the queue cleanup's
+            forms ("(closed at the cleanup of 2026-11-05: learning)", "item 127, closed at the cleanup of
+            2026-11-05: settled", "are closed at the cleanup of 2026-11-05 (learning)"): the cleanup marked
+            it in place, and moving it out of PLAN is PLAN's consolidation, not a landing's change
   list      a list line that names three or more items, some of them settled; or one that ties its items
             to a list of the queue's head (the queue's "Needed before the switch-over") and does not name
             the same items
@@ -52,6 +56,7 @@ def now(rel):
 
 ITEMS = re.compile(r'[Rr]eview-queue items? (\d+(?:(?:,\s*|,? and |,? or )\d+)*)')
 OWN = re.compile(r'(?:^\s*- |[.;]\s+)Review-queue items? (\d+(?:(?:,\s*|,? and |,? or )\d+)*)')
+CLEANUP_MARK = re.compile(r'\bclosed at the cleanup of \d{4}-\d{2}-\d{2}\b')
 HEAD_LIST = re.compile(r'\*\*([^*]+?):\*\*\s*(\d[\d,\s]*)')
 FINDING_LINE = re.compile(r"\s*- [Cc]limb batch (\w+)'s review, finding (\d+)\b")
 RECORD = re.compile(r'explorations/(coordinator/(PLAN|PLAN-history|review-queue|INDEX|FACTS|POSITIONS|FACTS-history|POSITIONS-history|BOOT|HELD)\.md$|reviews/|fortress-gap-ledger)')
@@ -121,8 +126,10 @@ def stale(plan, queue, rev):
             nums += [int(x) for x in re.findall(r'\d+', m.group(1))]
         own = [int(x) for m in OWN.finditer(ln) for x in re.findall(r'\d+', m.group(1))]
         s = sorted({n for n in nums if n in settled})
+        marked = bool(CLEANUP_MARK.search(ln))
         if own and all(n in settled for n in own) and not any(n in opened for n in nums):
-            why.append('settled: its own review-queue item is in (a): %s' % ', '.join(map(str, sorted(set(own)))))
+            if not marked:
+                why.append('settled: its own review-queue item is in (a): %s' % ', '.join(map(str, sorted(set(own)))))
         elif s and len(set(nums)) >= 3:
             why.append('list: it names items in (a) among open ones: %s' % ', '.join(map(str, s)))
         q = re.search(r"the queue's \"([^\"]+)\"", ln)

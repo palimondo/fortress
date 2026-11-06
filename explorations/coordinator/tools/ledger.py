@@ -62,12 +62,17 @@ usage: ledger.py COMMAND [ARGS] [--root DIR] [--ledger FILE] [--history FILE]
                              seven cells after it); numbers it max + 1 and
                              inserts it in that section's table in number
                              order
-  note N TEXT                adds TEXT to row N's notes, before the row's own
+  note N TEXT [--check]      adds TEXT to row N's notes, before the row's own
                              "full text: history, row N" marker where it has
                              one, else at their end (notes of `none` are
                              replaced); checks the notes cell and the row's
                              length only, so a failure in another cell does
-                             not block it; a row keeps its own cells
+                             not block it; a row keeps its own cells. With
+                             --check it writes nothing: it prints whether
+                             TEXT fits, and the characters that the notes
+                             (700) and the row (1,200) would have left with
+                             it and have left now; exit 0 if it fits, 1 if
+                             not, so a note is sized before it is written
   rewrite N FILE             FILE holds row N's whole new line (its # cell N
                              or ?, or the seven cells after it); checks it
                              against the template and writes it in the row's
@@ -898,11 +903,26 @@ def cmd_note(a, p):
                 r.num, len(r.table.names)))
         cells = list(r.cells)
         i = r.table.names.index('notes')
+        old_notes, old_line = cells[i], r.line
         cells[i] = insert_note(cells[i], text, r.num)
         line = join_cells(cells)
+        if a.check:
+            return note_room(r, old_notes, old_line, cells[i], line, len(text))
         changed_cells_row(r, line, {'notes'}, {x.num for x in led.rows}, p.root)
         replace_rows(p, led, [(r, line, 'note added')])
     print('row %d: note added (%d characters)' % (r.num, len(line)))
+
+
+def note_room(r, old_notes, old_line, notes, line, n):
+    """note --check: whether the note fits row r's limits, and the room left in its notes and in the row; writes nothing."""
+    limits = dict(LIMITS)
+    left_notes, left_row = limits['notes'] - len(notes), limits['row'] - len(line)
+    fits = left_notes >= 0 and left_row >= 0
+    print('row %d: the note (%d characters) %s; with it the notes have %d characters left of %d and the row %d of %d; '
+          'now the notes have %d left and the row %d; nothing written' % (
+              r.num, n, 'fits' if fits else 'does not fit', left_notes, limits['notes'], left_row, limits['row'],
+              limits['notes'] - len(old_notes), limits['row'] - len(old_line)))
+    return 0 if fits else 1
 
 
 def commit_in_head(root, h):
@@ -1271,6 +1291,7 @@ def main(argv):
     s = sp('note', cmd_note)
     s.add_argument('n', type=int)
     s.add_argument('text')
+    s.add_argument('--check', action='store_true')
     s = sp('rewrite', cmd_rewrite)
     s.add_argument('n', type=int)
     s.add_argument('file')

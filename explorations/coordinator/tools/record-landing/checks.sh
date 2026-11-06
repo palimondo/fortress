@@ -6,7 +6,11 @@
 # POSITIONS.md, their histories, the gap ledger and its history to AT, the commit that the worktree was made
 # at; checks the POSITIONS lines that cut-only.txt names with words-subset.py, against the reset files; then
 # applies the entries writer's file with record.py apply (record.apply, or for final the judge's final.apply)
-# and its row lines with ledger-clarity/apply.py (rows.rewrite, or final.rewrite). The routing writer's
+# and its row lines with ledger-clarity/apply.py (rows.rewrite, or final.rewrite); then its new rows with
+# ledger.py add (rows.add; for final, final.add if the judge wrote one, else rows.add). In rows.add each
+# row line, `| ? | ...`, goes in the section that the nearest `## TITLE` line above it names, a title of
+# `ledger.py sections`; a row with no such line above it is not added, and the summary says so (the
+# coordinator files it). The routing writer's
 # edits of PLAN, PLAN-history, the review queue, INDEX and other notes stay as they are. Then it runs every
 # check on the worktree: record.py check --base AT; ledger.py check; ledger.py landing-check BASE;
 # check-index.sh; plan-moves.py; queue-check.py; and the length of each changed entry, lengths.py.
@@ -25,6 +29,7 @@ tools="$WT/explorations/coordinator/tools"
 rec=(python3 "$tools/record.py")
 led=(python3 "$tools/ledger.py")
 if [ "$ROUND" = final ]; then apply="$RUN/final.apply"; rows="$RUN/final.rewrite"; else apply="$RUN/record.apply"; rows="$RUN/rows.rewrite"; fi
+adds="$RUN/rows.add"; [ "$ROUND" = final ] && [ -e "$RUN/final.add" ] && adds="$RUN/final.add"
 out="$RUN/mech-$ROUND.md"
 record_files=(explorations/coordinator/FACTS.md explorations/coordinator/POSITIONS.md
   explorations/coordinator/FACTS-history.md explorations/coordinator/POSITIONS-history.md
@@ -78,6 +83,34 @@ if [ -s "$rows" ]; then
   rm -rf "$d"
 else
   summary+=("- ledger-clarity/apply.py: no $(basename "$rows"), no row changed")
+fi
+if [ -s "$adds" ]; then
+  d=$(mktemp -d -p "$WT/tmp" adds.XXXXXX)
+  # one file per row line, row-K.txt, and d/list: K, a tab, its section ('' when no ## line is above it)
+  python3 - "$adds" "$d" <<'PY'
+import os, sys
+sec, k, out = '', 0, []
+for ln in open(sys.argv[1], encoding='utf-8'):
+    t = ln.strip()
+    if t.startswith('## '):
+        sec = t[3:].strip()
+    elif t.startswith('|'):
+        k += 1
+        open(os.path.join(sys.argv[2], 'row-%d.txt' % k), 'w', encoding='utf-8').write(t + '\n')
+        out.append('%d\t%s' % (k, sec))
+open(os.path.join(sys.argv[2], 'list'), 'w', encoding='utf-8').write(''.join(x + '\n' for x in out))
+PY
+  nosec=()
+  while IFS=$'\t' read -r k sec; do
+    if [ -z "$sec" ]; then nosec+=("$k"); continue; fi
+    step "ledger.py add, row line $k of $(basename "$adds"), in \"$sec\"" 1 "${led[@]}" add "$d/row-$k.txt" --section "$sec"
+    summary+=("  - $(printf '%s\n' "$last" | head -1)")
+  done < "$d/list"
+  [ ${#nosec[@]} -gt 0 ] && summary+=("- ledger.py add: not added, no \`## TITLE\` line above them in $(basename "$adds"): row line(s) ${nosec[*]}; file each with ledger.py add FILE --section TITLE")
+  [ -s "$d/list" ] || summary+=("- ledger.py add: $(basename "$adds") holds no row line")
+  rm -rf "$d"
+else
+  summary+=("- ledger.py add: no $(basename "$adds"), no row added")
 fi
 step "record.py check --base $AT" 1 "${rec[@]}" check --base "$AT"
 step "ledger.py check" 1 "${led[@]}" check --summary

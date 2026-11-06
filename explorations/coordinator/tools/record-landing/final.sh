@@ -2,8 +2,8 @@
 # final.sh RUN: the record-landing workflow's last step, which its judge runs after it writes final.apply,
 # final.rewrite (if a row changes), diff.md, commit-1.txt and commit-2.txt in the run's folder RUN.
 #
-# Runs checks.sh RUN final: the six record files reset to AT, final.apply and final.rewrite applied, and
-# every check again. If a check fails, it commits nothing and exits 1: the judge holds the change that fails
+# Runs checks.sh RUN final: the six record files reset to AT, final.apply and final.rewrite applied, the new
+# rows of final.add (or, without it, rows.add) added with ledger.py add, and every check again. If a check fails, it commits nothing and exits 1: the judge holds the change that fails
 # and runs this again. If all pass, it makes two commits on the run's branch in the worktree, each by named
 # paths, each message from its file, then the line "By the climb batch N landing workflow (Opus).", which
 # names the tier of the agents that wrote the text, then the footer of the fortress-repo skill's committing part:
