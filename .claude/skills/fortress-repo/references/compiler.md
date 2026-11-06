@@ -38,8 +38,14 @@ Do not add a declaration to the three prelude files: they are deleted at the swi
 For a construct that it cannot compile yet, the code generator calls `sayWhat` or throws another `CompilerError`. Such a call or throw is a code-generator wall. The code generator has no case for these constructs:
 
 - `label` and `exit`, `spawn`, and `atomic` used as an expression;
-- a local function declaration, and an object expression;
+- an object expression;
 - an array literal, such as `[1 2 3]`.
+
+It compiles a local function as a closure, also a recursive one, but refuses these forms (ledger row 304):
+
+- a local function with static parameters of its own;
+- two local functions of one name in a block;
+- a local function with the `atomic` modifier.
 
 It also refuses a function or method with a contract (`requires`, `ensures`, `invariant`). It compiles a declaration whose own header or `extends` entry has a `where` clause, and emits nothing for the clause. A call of a function or method whose own clause introduces a `where`-clause variable, as `where [\nat n\]` does, links, but dies at run time with `NoClassDefFoundError` (ledger row 867). `compiler_tests/XXXWhereVariableCallCompiled.test` records it: copy its form for such a call. The disambiguator, which both paths run, drops a trait's or object's contract, so the code generator never sees one, and walk does not check one either (ledger row 781). It refuses a function or method with a modifier other than `getter`, `setter`, `io`, `private`, `abstract` and `test`, such as `override` (ledger row 650). A trait or object that extends a generic trait compiles with `Any` as the static argument. With `Bottom`, `Self` or an abbreviated type there, the code generator refuses the declaration. An abbreviated type is a short form that the specification gives for a type, such as `RR64[3]` for an array type. With a tuple that holds `Any` there, the code generator crashes (ledger row 889).
 
@@ -87,7 +93,7 @@ The count stage and the distance stage check the interpreter's library with the 
 
 The checker, in a compile and in both stages, reads `int` as `NN32` or `Char`, and `long` as `NN64`, only for six transfer helpers with fixed names (`NamingCzar.java:373-384`, `:494-503`). Examples are `makeNN32FromZZ32WithSpecialCompilerHackForNN32ResultType` for a result and `makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType` for a parameter. Where a binding gives a parameter, `self` or the result the type `NN32`, `NN64` or `Char`, or a parameter or `self` the type `UnsignedLong` (the one library's object that extends `NN64`), and the helper has `int` or `long` there, the rewrite passes that value through the matching transfer helper. A result declared `UnsignedLong` gets none, and the library declares no such result. `self` gets a transfer helper only in a method of one of these four types itself. The transfer helpers return their argument unchanged. So the checker accepts such a binding whatever helper it names, a signed one included, as `simpleIntArith.intLT` for `NN32`'s `<`. If you move a binding over these types onto a helper, test it on both paths at values where a signed and an unsigned reading differ (2^31 and above for `NN32`, 2^63 and above for `NN64`), as `compiler_tests/NativeHelperFamilyNN32Compiled.fss` and `tests/NativeHelperFamilyNN32Walk.fss` do. If the class has more than one method of the helper's name and number of parameters, the rewrite adds no transfer helper. The checker then reports 'Could not check call to function builtinPrimitive_<Class>_<method>', followed by '… is not applicable to an argument of type …'.
 
-The wrapper generator wraps every method of a class that it is given, the private methods too. If a type has no Fortress counterpart, it fails the whole import. So give every method of a helper class a signature that maps to Fortress, also a private method.
+The wrapper generator wraps every method of a class that it is given, the private methods too. If a type has no Fortress counterpart, it fails the whole import. So give every method of a helper class a signature that maps to Fortress, also a private method. In the count stage and the distance stage, a type maps only if the interpreter's library declares it. So there, a binding that names any helper of `nativeHelpers/systemOps` stops its component: 'FortressBuiltin.StringVector is undefined.' (ledger row 895).
 
 ## Traps of the compiled path
 
