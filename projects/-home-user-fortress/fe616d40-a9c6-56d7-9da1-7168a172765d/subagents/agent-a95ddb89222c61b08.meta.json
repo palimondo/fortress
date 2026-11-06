@@ -1,1 +1,1 @@
-{"agentType":"claude","isBuiltIn":true,"description":"Cold read of draft 14 version 4","toolUseId":"toolu_01TWuw1xkVsAmY3kmomv4E8Y","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"claude","isBuiltIn":true,"description":"Cold read of draft 14 version 4","toolUseId":"toolu_01TWuw1xkVsAmY3kmomv4E8Y","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1","finished":true}
