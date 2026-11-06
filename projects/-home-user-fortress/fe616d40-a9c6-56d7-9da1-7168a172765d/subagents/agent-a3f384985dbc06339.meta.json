@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Fable review of rungs N and F rewritten","toolUseId":"toolu_01MLw2P852ZSYhww7ZtEboEd","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Fable review of rungs N and F rewritten","toolUseId":"toolu_01MLw2P852ZSYhww7ZtEboEd","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","pickedEffortModel":"claude-fable-5-1","finished":true}
