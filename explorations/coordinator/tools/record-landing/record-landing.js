@@ -153,7 +153,7 @@ if (facts.length) {
 
 // The skill update (the coordinator skill's batch.md, "The landing", step 4, and skill-rewrite.md, "The method",
 // step 7): the skill writer, a headless Opus session through ../skill-writer.sh, installs the sections that the
-// orientation judge accepts and brings fortress-repo's other parts in line with the landing, from the landing's
+// orientation judge accepts and brings the fortress-repo skill in line with the landing, from the landing's
 // own list of the sentences it made false (skills.sh writes the task from skill-task.md and the landed files);
 // a cold read of its commits; the writer's fixes of the flags, in the same session; the page of fortress-repo's
 // changes; then the commits pushed as the Land stage pushes. The writer commits on main in the main tree. Its
