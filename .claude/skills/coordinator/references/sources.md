@@ -330,3 +330,9 @@ The cold read of `9449ed5aa`, 2026-11-05, read as the coordinating session, chan
 - `SKILL.md`, "Pages": the rule against "you" a bullet of its own, for every page and every text on it. The glossary's "coordinator".
 - `delegating.md`, "What a brief holds", the people of the project: one reading, the roles as the record and `research/authorship.md` name them, the pointer to that file where the task needs who wrote what, and the reason in one clause.
 - `delegating.md`, the same bullet: the path named once, and "the authorship map" after it; "by name and role"; the record and the map both sources of the roles. The curator's comment of 17:16 UTC on 2026-11-05 on the page of skill drafts, that the bullet named `research/authorship.md` twice; the cold read of the draft's wording, settled by the coordinator.
+
+The cold read of `b88d26f52`, 2026-11-06, read as the coordinating session; settled by the coordinator's task; checked against `explorations/coordinator/tools/record-landing/README.md`, "The revival page", and `record-landing.js`:
+
+- `batch.md`, the glossary: "revival page", its source, its rendered page, its URL in `update.py`, and its GitHub Pages copy.
+- `batch.md`, "The landing", step 4: the revival page's stage in a sentence of its own, run only if every push went through; the line's two parts; the line names only the revival page when no writer starts, since the stage waits only on the pushes (`record-landing.js`).
+- `batch.md`, "The landing", the paragraph after step 4: a stop of the revival page under the README's "The revival page"; a page that its agent could not publish, by the files and URL that the line names.
