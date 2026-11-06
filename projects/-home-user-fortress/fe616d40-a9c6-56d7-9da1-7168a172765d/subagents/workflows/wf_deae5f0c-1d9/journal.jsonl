@@ -1,2 +1,5 @@
 {"type":"launched"}
 {"type":"started","key":"v2:025ec026de5103e97e201de3aa892560acae114ba0dfbd4b5e3ac770959d2945","agentId":"a59300cd80d669dbb","label":"evidence p-run1","phase":"Evidence"}
+{"type":"result","key":"v2:025ec026de5103e97e201de3aa892560acae114ba0dfbd4b5e3ac770959d2945","agentId":"a59300cd80d669dbb","result":"chunk p1: 12 rows\nchunk p2: 12 rows\nEVIDENCE DONE 2 chunks, 24 rows, base de6d905f5, gate a12ab5c60 holds","remoteControlDeviceReport":false,"toolsUsed":["Bash"]}
+{"type":"started","key":"v2:2df7017a613110749d3301d220602757d56530c79e725942bd8f6af257b6259d","agentId":"a192cfb96061ea9ef","label":"write p1","phase":"Write"}
+{"type":"started","key":"v2:ce7d5c6a2176a6f40b156d66e9c88627b64b7d3cb877b6fce0c67f920d14aad0","agentId":"a04d33920d51957eb","label":"write p2","phase":"Write"}
