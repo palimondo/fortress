@@ -4,6 +4,7 @@
 
 ## Held on the drafts page (2026-11-06)
 
+- 11:41 "LGTM" on item 27 (thread `4ca89a3d`, sent to Claude, resolved): he read the page-comments rule in its three sentences; read up to item 27, so the next page update drops it and the next landed change comes as item 28.
 - 10:59 His comment on item 26 (thread `ea201552`): he had written "LGTM." on it at 10:29, not sent to Claude, and version 14 still showed it unread: "Why are you bothering me with this point? Can't you read the comments?" Rule: before each page update, the page worker reads every comment on the page, sent to Claude or not, and a plain LGTM on an item is his word that he read up to it. Version 15 drops item 26; the skill writer puts the rule into `skill-rewrite.md`'s step 7 (task `<scratchpad>/skill-tasks/page-comments-rule.md`).
 - 09:57 His question on draft 14: does relaxing the whole-part rule let the other passages be compacted, since they "dance around this forbidden edit"? The skill writer answers it in draft 14's version 4 (task `<scratchpad>/skill-tasks/draft-14-v4.md`).
 - 09:55 His comment on draft 14's sentence "So does every rewrite of SKILL.md or of a whole part": the whole-part clause is a holdover; the rule on changing `fortress-repo`'s `SKILL.md` is relaxed; the review surface keeps him in the loop; a landing may change `fortress-repo`'s `SKILL.md` when needed. Into version 4.
