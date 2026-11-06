@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","isBuiltIn":true,"description":"check r2","workflowPhase":"Check","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1"}
