@@ -1,0 +1,5 @@
+502	defect	P-161 calls ZZ's widen wrong code (it can narrow) and deletes it, its callers moving onto the raising .asZZ64
+581	choice	the numeral type IntLiteral is unbounded by design, so a numeral having no minimum or maximum may be the intended behaviour; the row itself names that open question
+856	choice	P-161 rules that signed keeps the low bits, with asZZ32 and asZZ64 as the raising forms, so the wrap the row records is now the chosen behaviour
+858	defect	P-161 rules that no call reaches a conversion through a coercion (it names rows 858 and 859), so widen of an NN64 reaching ZZ's widen is a defect
+859	defect	P-161 rules that each conversion is declared on every type where it applies, naming rows 858 and 859

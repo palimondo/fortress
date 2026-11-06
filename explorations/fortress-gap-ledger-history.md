@@ -6827,3 +6827,117 @@ rewritten
 rewritten
 
 | 861 | walk's `Char` `asExprString` and the compiled path's helper write a character outside ASCII differently: for `char(233)` walk's glue gives `'\'0e9''` and `simpleChar.charToExprString` gives `'é 00e9'`; for `char(128512)`, `'\'0f600''` and `'1f600'` | CONTESTED | implementation gap (runtime) | silent | none | climb batch 24's planner | Walk's `Char$ToExprString` is `FChar.toString`, `"'" + Unprinter.enQuote(getString()) + "'"` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Char.java:177-181`, `interpreter/evaluator/values/FChar.java:104-106`, at 1f5c49b4f); the helper, which the prelude binds, writes the character and its hex code, or the hex code alone past U+FFFF (`nativeHelpers/simpleChar.java:21-44`). `bin/fortress` on a program printing `asExprString` of 14 characters, with the binding moved for one run: 8 differ, the ASCII ones agree. Which form is the one library's is open: the specification names no form. |
+
+### Row 349
+
+rewritten
+
+| 349 | the compiler prelude's `trait ZZ` declares neither `widen` nor `narrow`, so `widen` of a `ZZ64` and `narrow` of a `ZZ`, which `walk` answers, are refused compiled; `narrow` of a `ZZ32` compiles by coercion and gives 43 on both paths | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/compiler_tests/XXXZZNarrowRungP.test` | climb batch 2 rung W's skeptic | At 052a7c3fe the interpreter declares `widen` on `trait ZZ64` and `widen` and `narrow` on `trait ZZ` (`Library/FortressLibrary.fsi:634`, `:670-671`); the prelude's `trait ZZ` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:103-145`) has neither, and its fixed-size traits exclude each other: "Could not check call to function widen". `narrow(z)` for `z: ZZ32` goes through `ZZ64`'s `coerce(x: ZZ32)` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:580`). The specification is silent on `widen` (row 502). Closes at the switch-over with row 442. Probe `explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK3Tower.fss`, in the parent of ab067d9b6. full text: history, row 349 |
+
+### Row 381
+
+rewritten
+
+| 381 | the two paths choose different methods when a `ZZ32` receiver is shifted by a `ZZ64` count: `3 LSHIFT` a `ZZ64` 33 is `0` under `walk` and `25769803776` compiled, by `ZZ64`'s method; a `ZZ`, `NN32` or `NN64` count is refused compiled | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic-lib/basic-integers.tex`, "Integers" | none | climb batches 3.5 (rung I) and 4 (rung K), skeptics | siblings: 380. At 052a7c3fe the prelude's `LSHIFT`/`RSHIFT` take only a count of the receiver's width (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:647-648` on `ZZ64`, `:736-737` on `ZZ32`): a `ZZ64` count takes `ZZ64`'s pair by coercing the receiver (`:580`); a `ZZ`, `NN32` or `NN64` count coerces to neither, "Could not check call to operator LSHIFT". Workaround: a count of the receiver's type. Closes at the switch-over (POSITIONS, "`LSHIFT`/`RSHIFT` are bit operators; `shift` is exact on ℤ"). Probes `SkCountType.fss` and `SkShiftCountZZK.fss` under `explorations/compile-ladder/rung-int-semantics-walk/` and `rung-shift-count/`, in the parent of ab067d9b6. full text: history, row 381 |
+
+### Row 383
+
+rewritten
+
+| 383 | the specification's `shift(self, k: IndexInt): ZZ` is declared under `walk` only: compiled, `shift(3, 33)` fails with `Variable shift is not defined.`, and a program may bind `shift` as a local or a parameter, which `walk` rejects | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic-lib/basic-integers.tex`, "Integers"; `Specification/basic/declarations.tex`, "Reach and Scope of Declarations" | `ProjectFortress/compiler_tests/XXXShiftDeclRungI.test` | climb batch 3.5 rung I's skeptic | At 052a7c3fe `shift(self, k:AnyIntegral): ZZ` is on the interpreter's `trait ZZ` (`Library/FortressLibrary.fsi:672`); the compiler prelude declares no `shift`. Workaround compiled: `ZZ`'s `<<<` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:551`) computes the same shift. Closes at the switch-over, with no prelude declaration (POSITIONS, "`LSHIFT`/`RSHIFT` are bit operators; `shift` is exact on ℤ"). Probes `SkShiftCall.fss`, `SkShiftLocal.fss` and `SkShiftParam.fss` in `explorations/compile-ladder/rung-int-semantics-walk/probes/skeptic/`, in the parent of ab067d9b6. full text: history, row 383 |
+
+### Row 441
+
+rewritten
+
+| 441 | on the compiled path, the `ZZ32` `^` at a negative exponent breaks the integer power's contract: `2^(-1)` answers `0` where it throws `IntegerOverflow`, and `0^(-1)` throws a raw `java.lang.RuntimeException` that no Fortress `catch` sees, where it throws `DivisionByZero` | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/compiler_tests/XXXIntegerPowerContractCompiled.test` | climb batch 6 rung T's skeptic | siblings: 523, 524, 525. `^` is bound as `jIntExp` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:744`, at d4d454f9d) to `simpleIntArith.intExp`, which casts `Math.pow` to `int` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java:400-406`): a fraction truncates to 0, and `0^(-1)` is infinite and takes the overflow branch. The bases 1 and -1 give their power. Walk follows the contract (`IntegerPowerContractWalk`). The unbound `intToIntPower` (`:380-398`) answers 0 at `2^(-1)` and `0^(-1)` and raises `DivisionByZero` at every negative base (`perf-probes/integer-power/REPORT.md` §7). Workaround: a float base, `2.0^(-1)`. full text: history, row 441 |
+
+### Row 502
+
+rewritten
+
+| 502 | under walk, `widen` of a `ZZ` outside `ZZ64`'s range keeps the low 64 bits silently: `widen(2^64+5)` is `5` and `widen(-(2^63)-1)` is `9223372036854775807` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | climb batch 6.5 rung P's skeptic | `BigNum$ToZZ64` is `x.longValue()` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/BigNum.java:292-296`, at 052a7c3fe). The compiled prelude has no `big` and no `widen` on `ZZ` (row 349). Whether it truncates as `narrow` does or throws `IntegerOverflow` by the general sentence of `Specification/basic/operators/opr-overview.tex`, "For integer results, overflow throws an `IntegerOverflow`", is the curator's (`explorations/coordinator/PLAN.md`, item 31); the switch-over's natives meet it. Probe `explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkZZWiden.fss`, in the parent of ab067d9b6. full text: history, row 502 |
+
+### Row 523
+
+rewritten
+
+| 523 | the compiled `ZZ32` `^` overflows unchecked: `2^31` throws a raw `RuntimeException` that no Fortress `catch` sees, and `(-3)^21` and `(-2)^33` saturate to `-2147483648`, where each throws `IntegerOverflow` | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/basic-integers.tex`, "Integers"; `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators" | `ProjectFortress/compiler_tests/XXXPowZZ32CompiledRungE.test` | climb batch 6.5b rung E's skeptic | siblings: 441, 524, 525. `^` is bound as `jIntExp` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:744`, at d4d454f9d) to `simpleIntArith.intExp` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java:400-406`), which throws a plain `RuntimeException` above `Integer.MAX_VALUE` and casts the rest of a `double` to `int`, saturating below. Walk raises `IntegerOverflow` (`PowChooseLcmRungE`). Fix: bind a checked power in the compiler prelude. The unbound `intToIntPower` (`:380-398`) checks overflow, but breaks row 441's contract at a negative exponent (`perf-probes/integer-power/REPORT.md` §7). full text: history, row 523 |
+
+### Row 524
+
+rewritten
+
+| 524 | the compiled `NN32` `^` saturates at 2147483647 for every result in [2^31, 2^32): `2^31`, `65535^2` and `(2^31)^1` answer 2147483647, where walk answers 2147483648, 4294836225 and 2147483648 | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/basic-integers.tex`, "Integers"; `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators" | `ProjectFortress/compiler_tests/XXXPowNN32CompiledRungE.test` | climb batch 6.5b rung E's skeptic | siblings: 523, 525. `simpleUnsignedIntArith.unsignedIntExp` computes in `double` and casts to `int`, which saturates; bound at `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:809` (imported at `:118`, at 052a7c3fe) to `ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java:218-224`. Results above 2^32-1 raise `IntegerOverflow` on both paths. The value is wrong, not its rendering (row 326). Fix: bind a checked power for `NN32`, computing in unsigned 64 bits and checking before the narrowing, as the compiled `NN32` multiply does. full text: history, row 524 |
+
+### Row 525
+
+rewritten
+
+| 525 | the compiled `NN64` `^` adds: `3^2` is 5 and `2^63` is 65, where walk answers 9 and 9223372036854775808 | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/basic-integers.tex`, "Integers"; `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators" | `ProjectFortress/compiler_tests/XXXPowNN64CompiledRungE.test` | climb batch 6.5b rung E's skeptic | siblings: 523, 524. `simpleUnsignedLongArith.unsignedLongExp`, marked "NIY", is `return a + b;` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java:222-225`, at 052a7c3fe), bound at `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:878` (imported at `:156`). Fix: an unsigned checked power, as walk's `UnsignedLong.powExact` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/UnsignedLong.java:327`) computes it. full text: history, row 525 |
+
+### Row 581
+
+rewritten
+
+| 581 | under the compiled checker over the one library, `(3).minimum` and `(3).maximum` are refused, "IntLiteral has no getter called minimum" | NEGATIVE-VERIFIED | library gap vs spec (library) | silent | none | climb batch 8 rung Q's second skeptic | They are `ZZ32`'s getters (`Library/FortressLibrary.fsi:534-535`, at 052a7c3fe), which a numeral reached as a `ZZ32` before rung Q; neither the one library's `IntLiteral` nor the compiler library's (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:390-431`) declares them. The open question is whether a numeral has range bounds at all, which its own type, being unbounded, suggests it has not. Probe: the second skeptic's `SkqR2f.fss`, `check.sh SkqR2f base` (0 errors) against `edit3` (2 errors) (`explorations/compile-ladder/rung-numeral-library/SKEPTIC.md`, second judgement, differential 5). full text: history, row 581 |
+
+### Row 856
+
+rewritten
+
+| 856 | under walk, `signed` of an `NN32` or `NN64` above its signed half wraps to a negative value, with no `IntegerOverflow`: `signed(unsigned(-1))` is `-1` on `NN32` and on `NN64`, and `signed` of the `NN32` 2^31 is `-2147483648` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | `ProjectFortress/tests/SignedAboveSignedRangeWalk.fss` | climb batch 24's planner | siblings: 502, 858. The bindings (`LibraryBuiltin/FortressBuiltin.fss:469`, `Library/FortressLibrary.fss:985`) name helpers that return their `int` or `long` as is (`nativeHelpers/simpleUnsignedIntArith.java:242`, `simpleUnsignedLongArith.java:246`), as the glue classes `NN32$ToInt` and `UnsignedLong$ToLong` did. The compiler's prelude binds the same helpers (`LibraryBuiltin/CompilerBuiltin.fss:816`, `:880`), so the compiled path wraps too: a compiled probe printed '-1', '-2147483648', '-1'. The specification names only `narrow`'s wrap (`basic-lib/basic-integers.tex`, "Integers"); keep the low bits or raise is row 502's question, for `widen`. |
+
+### Row 327
+
+rewritten
+
+| 327 | `ProjectFortress/library_tests/ChooseTest3.fss:125` tests a negative binomial coefficient where its comment at `:122-123` means the `ZZ64` algorithm's fast/slow boundary: in `verifyChoose(3037000500+j, 2)` the numeral is coerced at `ZZ32`, `j`'s type, which does not hold it | NEGATIVE-VERIFIED | library bug (tests) | silent | `ProjectFortress/library_tests/ChooseTest3.fss:125` | repair batch R2 | Under the code generator's wrap the call was `verifyChoose(-1257966796+j, 2)`, so the boundary the file names was never tested, and both sides of `verifyChoose`'s assertions used the same wrong value, so nothing showed. Fix: bind the constant at `ZZ64` first, the file's own idiom, as on the identical line of `library_tests/IntegerChoose2.fss` (`fastSlowBoundary`). `ChooseTest3.fss` is named in no `.test` file and `LibraryJUTest.java:36` sweeps `.test` files only, so no gate runs it. full text: history, row 327 |
+
+### Row 348
+
+rewritten
+
+| 348 | the compiler prelude inverts the specification's wraparound and saturating spellings on its four fixed-size integer types: `BOXPLUS`, `BOXMINUS`, `BOXDOT` and `BOXCROSS` wrap, and `DOTPLUS`, `DOTMINUS` and `DOTCROSS` saturate | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators", "Addition and Subtraction Operators" | `ProjectFortress/compiler_tests/XXXBoxDotSpellingsRungW.test` | climb batch 2 rung W's skeptic | Interpreter half fixed ab914b6e0 (climb batch 5, rung D): the one library declares ∔ `DOTPLUS`, ∸ `DOTMINUS` and ⨰ `DOTTIMES` wrapping (`ProjectFortress/tests/WrapOperatorsRungD.fss`). Open, the compiled half, at `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:587-599` (`ZZ64`), `:672-684` (`ZZ32`), `:766-778` (`NN32`), `:832-844` (`NN64`), at 052a7c3fe: the `NN32` maximum `BOXPLUS 1` is 0 and `DOTPLUS 1` is 4294967295. By POSITIONS 2026-09-26 (rung O of climb batch 4), the prelude's spellings, in 10 compiled test files, are respelled at the switch-over; the saturating family waits for a step of its own. full text: history, row 348 |
+
+### Row 350
+
+rewritten
+
+| 350 | the compiled path's `IntegerOverflow` carries no value, so a program that catches an overflow cannot say which number overflowed | NEGATIVE-VERIFIED | implementation gap (runtime) | silent | none | climb batch 2 rung W's skeptic | Every `IntegerOverflow` throw of `ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java`, `simpleLongArith.java` and their unsigned twins (e.g. `simpleIntArith.java:96`, at 052a7c3fe) uses the one-argument `Utility.makeFortressException(name)` (`compiler/runtimeValues/Utility.java:45`), which calls the no-argument constructor; the two-argument form (`:28`) is used elsewhere. Walk's `Int.overflow()` (`interpreter/glue/prim/Int.java:258`) raises a catchable one, with no value either. Probe `explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK4Bounds.fss`, in the parent of ab067d9b6: compiled, it prints only "IntegerOverflow caught". full text: history, row 350 |
+
+### Row 429
+
+rewritten
+
+| 429 | the one library declares no unary ∔ (`DOTPLUS`), which the specification lists on `ZZ`, nor unary `+` or ⊞ beside it | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic-lib/basic-integers.tex`, "Integers" | none | climb batch 5 rung D's judge | By reading: `Library/FortressLibrary.fsi` and `.fss` declare none of the three; rung D's branch declares unary `DOTMINUS` and binary `DOTPLUS` only (`git show 7f57b836e:Library/FortressLibrary.fsi`, `:416-420`). The specification: "The unary addition operator + simply returns its argument. The operators ⊞ and ∔ do exactly the same thing". Nothing to do now: the decision on the wrapping operators (POSITIONS-history, rung O of climb batch 4) names neither unary ∔ nor unary `+`. ⊞ is a saturating spelling, which the one library does not declare at all (row 348). full text: history, row 429 |
+
+### Row 431
+
+rewritten
+
+| 431 | `genZZ.perturb` in `Library/QuickCheck.fss` recurses on its argument shifted left by 32 where peeling 32 bits at a time needs a right shift, so a `ZZ` beyond `ZZ32`'s range is not peeled, and on a `BigNum` the unwidened shift never terminates | NEGATIVE-VERIFIED | library bug (library) | silent | none | climb batch 6 rung F | `Library/QuickCheck.fss:322` (at 052a7c3fe) is `perturb(big(widen(obj) LSHIFT 32), ...)`, decision D10 of `explorations/compile-ladder/rung-flat-tower/REPORT.md`, keeping the base's 64-bit behaviour: the nested tower gave it `Long`s, which the shift wraps to `0`; on the flat tower `genQQ`'s parts are `BigNum`s, and the base's `obj LSHIFT 32` never ends on them. Probe `perturb-probe.sh` beside that report, in the parent of ab067d9b6: with the base's line, `ReflectiveQuickCheckTest` dies at `propMapSizeInvariant2` with `OutOfMemoryError` in `BigInteger.shiftLeft`. Fix: `perturb(obj RSHIFT 32, ...)`, which changes every QuickCheck test's generated data. full text: history, row 431 |
+
+### Row 500
+
+rewritten
+
+| 500 | three `property` lines of the integer chapter that use `shift` are wrong or garbled: `countBits(shift(x,1)) = countBits(x)` is false for every negative `x`, the next adds 1 to both its sides, and `countFactorsOfTwo(shift(x,1)) + 1 = 0` is false for every `x` | NEGATIVE-VERIFIED | design limit (specification) | `Specification/basic-lib/basic-integers.tex`, "Integers" (the Working Draft's `Specification-1.0-frozen/basic-lib/basic-integers.tex:760-761`, `:782`) | none | climb batch 6.5 rung P and its skeptic | At 052a7c3fe they are `Specification/basic-lib/basic-integers.tex:788-789` and `:810`. `:788` measured under walk with `countBits` as the chapter defines it: at `-1`, `-2` and `-3` the left side is one more than the right. `:788-789` read as a garbled case split (`x >= 0`: equal; `x < 0`: `countBits(x) + 1`). No program runs a `property`, the library declares none of `countBits`, `countFactorsOfTwo` and `integerLength`, and nothing settles the intended properties. Probe `explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkCountBits.fss`, in the parent of ab067d9b6. full text: history, row 500 |
+
+### Row 501
+
+rewritten
+
+| 501 | the specification names `GCD` and `LCM` among the idempotent (semilattice) operators, which they are on the nonnegative integers only: `-4 GCD -4` and `-4 LCM -4` are `4` on `ZZ32` and `ZZ64`, on both paths | NEGATIVE-VERIFIED | design limit (specification) | `Specification/advanced-lib/algebraic-constraints.tex`, "Lattices"; `Specification/basic-lib/basic-integers.tex`, "Integers" | none | climb batch 6.5 rung P's skeptic | The passage is `Specification/advanced-lib/algebraic-constraints.tex:1153-1154`; the results are nonnegative by `Specification/basic-lib/basic-integers.tex:541-547`. The repair is text, for example 'on the natural numbers'. No program gates a passage of the specification. Probe `explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkGcdIdem.fss`, in the parent of ab067d9b6. full text: history, row 501 |
+
+### Row 700
+
+rewritten
+
+| 700 | the library's `LinearCongruential[\N\]` gives wrong numbers for a modulus that is not a power of two: `random` and `perturbed` compute `(mult DOTTIMES widen(…)) DOTPLUS add`, which wraps for a fixed-width N, and only then take `MOD modulus` | NEGATIVE-VERIFIED | library bug (library) | silent | none | wrap-dependent-code review | siblings: 348, 403. The object is generic in its modulus (`Library/Random.fss:222` at 7e4fcb562); `:235` and `:241` wrap and then reduce, so the state agrees with the true one modulo `modulus` only where no step overflows or where `modulus` divides 2^w, w being N's width. The library builds it only with 2^48 (`:252-253`), where it is right. By reading, not run: `explorations/reviews/wrap-dependent-code.md` section 11; FACTS, "The specification's wrapping operators ∔, ∸ and ⨰ are declared in the interpreter's library ...". |
+
+### Row 792
+
+rewritten
+
+| 792 | the integer chapter's listing writes `throws IntegerDivisionByZero` on ÷, `REM`, `MOD`, `DIVREM` and `DIVMOD`, an exception neither library declares; the operators chapter, the completion chapter and both libraries name `DivisionByZero` | CONTESTED | library gap vs spec (specification) | `basic-lib/basic-integers.tex`, "Integers" | none | climb batch 20 rung I | The listing: `Specification/basic-lib/basic-integers.tex:246-250`. 'For integer results, division by zero throws a DivisionByZero' (`Specification/basic/operators/opr-overview.tex:165`); `Specification/basic/evaluation/completion.tex:31`. `Library/FortressLibrary.fsi:1114` and `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:747` declare `DivisionByZero` only, and the method entry of the integer power names it (P-153). Which name the listing takes is not settled. Route, climb batch 20's review's default (`reviews/batch-20-review.md`): `DivisionByZero`, written into the listing by the next rung that edits `basic-integers.tex`. |

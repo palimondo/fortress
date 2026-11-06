@@ -1,0 +1,4 @@
+327	defect	the test means to cover the ZZ64 boundary its own comment names and does not; no source chose a negative argument
+350	defect	the team's walk named the overflowing value in its message, and the compiled throw drops it through the no-argument constructor where a message-taking form exists; no source chose an empty exception
+431	defect	the recursion is meant to feed 32 bits at a time and shifts the wrong way; nothing in the code or its history chooses dropping the high bits
+700	defect	the generator is generic in its modulus, and a wrong state for a modulus that is not a power of two is no chosen behaviour; the library only happens to avoid it

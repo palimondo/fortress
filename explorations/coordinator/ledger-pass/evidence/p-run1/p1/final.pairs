@@ -1,0 +1,1 @@
+349	442	the narrow-of-ZZ half: row 442 lists `narrow` on `ZZ` among the prelude's missing operations and gates `XXXZZNarrowRungP`, the reproducer of row 349; P-161 closes that half by deleting ZZ's narrow and moving the test onto .asZZ32, so one row should hold it and the other point to it
