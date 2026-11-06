@@ -1,6 +1,6 @@
 export const meta = {
   name: 'record-landing',
-  description: 'The record brought in line with a landed batch, in a worktree of its own: the evidence script and an Opus sort by home and weight; the entries and routing writers as two headless Opus streams with the mechanical checks; a checker and a cold read; one fix round; a judge who applies or holds each change once, makes two commits on the branch and writes diff.md; then, past the judge\'s checks, the commits landed on main and pushed, the worktree and branch removed, and the orientation update run as a child workflow on the entries the landing changed; then the skill writer installs what the orientation judge accepts and brings fortress-repo in line with the landing, a cold read of its commits, the writer\'s fixes, the page of fortress-repo\'s changes, and the pushes, ending in one line for the coordinator\'s chat message',
+  description: 'The record brought in line with a landed batch, in a worktree of its own: the evidence script and an Opus sort by home and weight; the entries and routing writers as two headless Opus streams with the mechanical checks; a checker and a cold read; one fix round; a judge who applies or holds each change once, makes two commits on the branch and writes diff.md; then, past the judge\'s checks, the commits landed on main and pushed, the worktree and branch removed, and the orientation update run as a child workflow on the entries the landing changed; then the skill writer installs what the orientation judge accepts and brings fortress-repo in line with the landing, a cold read of its commits, the writer\'s fixes, the page of fortress-repo\'s changes, and the pushes; then the revival page\'s update script, its commit and push, and the page republished by its URL, ending in one line for the coordinator\'s chat message',
   phases: [
     { title: 'Sort', detail: 'prepare.sh makes the worktree and the evidence; the sorter writes owed.md, one line per change', model: 'opus' },
     { title: 'Write', detail: 'a Sonnet driver starts the entries and routing writers, two headless Opus streams, then checks.sh 1', model: 'sonnet' },
@@ -13,6 +13,7 @@ export const meta = {
     { title: 'Fixes', detail: 'the same writer fixes the cold read\'s flags and commits', model: 'sonnet' },
     { title: 'Page', detail: 'the page of fortress-repo\'s landed changes updated and published by its URL', model: 'opus' },
     { title: 'Push', detail: 'the run\'s folders committed, then the three pushes; the one line for the coordinator', model: 'sonnet' },
+    { title: 'Revival page', detail: 'update.py rewrites the page\'s "Where it stands" and its chart; the files it names committed and pushed; the page republished by its URL', model: 'sonnet' },
   ],
 }
 
@@ -27,7 +28,8 @@ export const meta = {
 // on the branch; the lander, only when the judge's checks pass, puts the two commits on main, checks main, pushes
 // it and removes the worktree and the branch; then the orientation workflow runs in update mode, as a child, on
 // the entries the landing changed (README.md, "Landing its result"); then the skill update, its cold read, its
-// fixes, the page and the pushes (README.md, "The skill update"). A replay lands nothing and runs no update.
+// fixes, the page and the pushes (README.md, "The skill update"); then the revival page's update, its commit, its
+// push and its republish (README.md, "The revival page"). A replay lands nothing and runs no update.
 const T = '/home/user/fortress/explorations/coordinator/tools/record-landing/'
 const RC = '/home/user/fortress/explorations/coordinator/tools/record-clarity/'
 if (!args || !args.batch || !args.base || !args.landing) throw new Error('args: { batch, base, landing, at (a replay only) }')
@@ -245,12 +247,13 @@ const PUSH = {
   required: ['committed', 'commits', 'pushed', 'stopped', 'summary'],
 }
 const SBASE = (s1 && s1.base) || l.mainBefore || 'origin/main'
+const PUSHES = 'Then git push origin main, git push origin main:claude/worker-brief-fable-vnnuv8, git push origin main:blinded-fable, in that order; a push that fails on the network you retry up to four times, 2, 4, 8 and 16 seconds apart; a push refused, you push nothing more and say so in stopped.'
 const p = await agent([
   'You commit and push the end of the record-landing run of climb batch ' + N + '. You run commands and report; you judge nothing and edit no file. You work in the main tree, ' + MAIN + ', on the branch main. Another agent may commit there meanwhile: on an index.lock error, wait five seconds and retry, up to four times; leave other uncommitted edits alone.',
   '',
   '1. The folders. Run ' + T + 'folders.sh ' + N + '. It commits the run\'s two folders by named paths and prints COMMITTED with the commit\'s hash and subject, which you return in committed, or NOTHING, and then committed is empty. If it fails, push nothing and return its output in stopped.',
   '2. The run\'s commits. For each hash of git -C ' + MAIN + ' log --format=%h ' + SBASE + '..main, git -C ' + MAIN + ' show --name-only --format= HASH lists its paths. The commit is the run\'s if every path is under .claude/skills/, ' + CB + 'skills/ or ' + CB + 'orientation/. Return the run\'s commits in commits, as "hash subject" from git log --format="%h %s".',
-  '3. The pushes, as the fortress-repo skill\'s committing part says: git -C ' + MAIN + ' log --format="%h %s" origin/main..main must list only the run\'s commits of step 2 and the record\'s landed commits; if it lists nothing, push nothing and leave stopped empty. If it lists another agent\'s commit, run it again in a minute, and if that commit stays, push nothing and say so in stopped. Then git push origin main, git push origin main:claude/worker-brief-fable-vnnuv8, git push origin main:blinded-fable, in that order; a push that fails on the network you retry up to four times, 2, 4, 8 and 16 seconds apart; a push refused, you push nothing more and say so in stopped.',
+  '3. The pushes, as the fortress-repo skill\'s committing part says: git -C ' + MAIN + ' log --format="%h %s" origin/main..main must list only the run\'s commits of step 2 and the record\'s landed commits; if it lists nothing, push nothing and leave stopped empty. If it lists another agent\'s commit, run it again in a minute, and if that commit stays, push nothing and say so in stopped. ' + PUSHES,
 ].join('\n'), { label: 'push', phase: 'Push', model: 'sonnet', schema: PUSH })
 result.push = p
 
@@ -268,4 +271,79 @@ result.line = 'fortress-repo after climb batch ' + N + '\'s landing: ' + (shown.
   (pushedAll ? (p.pushed.length ? ', pushed' : ', nothing left to push') : ', not all pushed' + (p && p.stopped ? ': ' + p.stopped : '')) + '; ' + pageLine + '.'
 if (!pushedAll) result.stopped = 'landed; the skill update\'s commits are not all pushed: ' + (p ? p.stopped || 'the pusher pushed ' + p.pushed.join(', ') : 'the pusher returned nothing; read git -C ' + MAIN + ' log origin/main..main')
 else if (result.skillsStopped) result.stopped = 'landed and pushed; the skill update stopped: ' + result.skillsStopped
+if (!pushedAll || args.at) return result   // a replay returned after the judge already; the revival page waits on the pushes
+
+// The revival page (README.md, "The revival page"): what the coordinator did by hand after climb batch 26's
+// landing (0868faa51). update.py, run from the main tree, rewrites the page's "Where it stands" and its chart and
+// prints the paths to commit and the URL to publish by; a Sonnet agent runs it, commits those paths by name with
+// the committing part's footer, as folders.sh commits, and pushes as the Push stage pushes; one more agent then
+// publishes the page by its URL. The landings.csv row's run start is update.py's documented proxy, --run-start
+// base, the time of the base commit that the gather record names, which the row's note then states: the tree
+// holds no record of the batch run's first agent line (only the transcripts do). A resume skips the script and
+// the commit once the page's commit is on main, and its marker is under the main tree's tmp/, which git ignores.
+phase('Revival page')
+const PAGEDIR = MAIN + '/explorations/coordinator/process-engineering/'
+const RLOG = SMARKS + 'revival.log', RDONE = SMARKS + 'revival.done'
+const RSUBJ = 'Revival page: where it stands at the landing of climb batch ' + N + ', '
+const REVIVAL = {
+  type: 'object',
+  properties: {
+    exit: { type: 'string', description: 'the EXIT= value on the log\'s last line, or "skipped" when the page\'s commit was already on main' },
+    message: { type: 'string', description: 'when exit is neither 0 nor skipped: the log\'s "update.py stops:" line, or else its last 20 lines, verbatim; otherwise empty' },
+    url: { type: 'string', description: 'the url on the log\'s line "2. Artifact publish, url URL, ...", or else PAGE_URL in update.py' },
+    committed: { type: 'string', description: 'the page\'s commit, "hash subject", or empty if nothing was committed' },
+    paths: { type: 'array', items: { type: 'string' }, description: 'the paths committed' },
+    pushed: { type: 'array', items: { type: 'string' } },
+    stopped: { type: 'string', description: 'why something was not committed or pushed, with the output; empty when all went through' },
+  },
+  required: ['exit', 'message', 'url', 'committed', 'paths', 'pushed', 'stopped'],
+}
+const rv = await agent([
+  'You update the revival page at the end of the record-landing run of climb batch ' + N + ': you run its script, commit the files that it names, and push. You run commands and report; you judge nothing and edit no file but the commit message\'s. You work in the main tree, ' + MAIN + ', on the branch main. Another agent may commit there meanwhile: on an index.lock error, wait five seconds and retry, up to four times; leave other uncommitted edits alone.',
+  '',
+  '1. A take-over. If git -C ' + MAIN + ' log --format="%h %s" -F --grep="' + RSUBJ + '" ' + l.mainBefore + '..main lists a commit, the script and the commit are done: return that commit in committed and exit "skipped", take url as step 3 says, and go to step 5.',
+  '2. The script. If ' + RDONE + ' exists, go to step 3. Otherwise run this in the background with the Bash tool\'s run_in_background, exactly:',
+  '   mkdir -p ' + SMARKS + '; cd ' + MAIN + ' && python3 explorations/coordinator/tools/revival-page/update.py --landing ' + N + ' --run-start base > ' + RLOG + ' 2>&1; echo EXIT=$? >> ' + RLOG + '; touch ' + RDONE,
+  '   Then run python3 ' + RC + 'wait.py ' + RDONE + ' 230 in the foreground, with a timeout of 270000 ms; if it exits 1, run it again at once; repeat until it exits 0.',
+  '3. Its output. Read ' + RLOG + '. Return the EXIT= value of its last line in exit (on a take-over, "skipped"), and the url on its line "2. Artifact publish, url URL, ..." in url, or, if the log or the line is missing, the URL on the line PAGE_URL = of ' + MAIN + '/explorations/coordinator/tools/revival-page/update.py. If exit is neither 0 nor skipped, commit and push nothing: return the log\'s "update.py stops:" line (exit 2: a source\'s form changed), or else its last 20 lines, in message and in stopped, and end.',
+  '4. The commit, as ' + T + 'folders.sh commits. The paths: those that the log\'s line "1. git add -- PATHS && git commit ..." names after git add --, and the five data files that the note under it names (series.csv, changes.csv, by-day.csv, top-additions.csv, per-batch.csv), each under explorations/coordinator/process-engineering/record-growth/. Keep each that git -C ' + MAIN + ' status --porcelain -- PATH lists; if none is left, committed is empty: go to step 5. The message, written to ' + MAIN + '/tmp/revival-msg-' + N + '.txt: the subject inside that line\'s -m "...", a blank line, "By the climb batch ' + N + ' landing workflow.", a blank line, and the footer, the two lines that grep -E "^ *(Co-Authored-By|Claude-Session): " .claude/skills/fortress-repo/references/committing.md | sed "s/^ *//" | head -2 prints in ' + MAIN + '. Then, from ' + MAIN + ': git add -- PATHS && git commit -q -F tmp/revival-msg-' + N + '.txt -- PATHS, each path named, never -a or a folder. Return the commit, "hash subject" from git log -1 --format="%h %s", in committed, and the paths in paths.',
+  '5. The pushes, as the fortress-repo skill\'s committing part says: git -C ' + MAIN + ' log --format="%h %s" origin/main..main must list only the page\'s commit of step 1 or 4; if it lists nothing, push nothing and leave stopped empty. If it lists another agent\'s commit, run it again in a minute, and if that commit stays, push nothing and say so in stopped. ' + PUSHES,
+].join('\n'), { label: 'revival page', phase: 'Revival page', model: 'sonnet', schema: REVIVAL })
+result.revival = rv
+// a stop here adds to the skill update's, if it stopped; landed and pushed either way
+const stopAlso = (m) => { result.stopped = (result.stopped ? result.stopped + '; ' : 'landed and pushed; ') + m }
+const pageFiles = PAGEDIR + 'revival-story.html, with ' + PAGEDIR + 'record-growth/record-growth.png as its supporting file record-growth.png'
+if (!rv) {
+  result.line += ' The revival page: its agent returned nothing; read ' + RLOG + ' and git -C ' + MAIN + ' log origin/main..main.'
+  stopAlso('the revival page\'s agent returned nothing: read ' + RLOG + ' and git -C ' + MAIN + ' log origin/main..main')
+  return result
+}
+if (rv.exit !== '0' && rv.exit !== 'skipped') {
+  result.line += ' The revival page: not updated, since update.py stopped (exit ' + rv.exit + '): ' + rv.message
+  stopAlso('the revival page\'s script stopped (exit ' + rv.exit + '), nothing of it committed: ' + rv.message)
+  return result
+}
+if (rv.stopped) {
+  result.line += ' The revival page: ' + (rv.committed || 'nothing committed') + ', not pushed: ' + rv.stopped
+  stopAlso('the revival page\'s commit is not pushed: ' + rv.stopped)
+  return result
+}
+
+// The republish, as the page stage publishes fortress-repo's page: one agent, by the URL that update.py names,
+// after reading the artifact's published chart, which the Artifact tool asks for before it replaces that file.
+const REPUB = {
+  type: 'object',
+  properties: {
+    published: { type: 'boolean' }, url: { type: 'string' }, version: { type: 'string' },
+    why: { type: 'string', description: 'why the page was not published; empty when it was' },
+  },
+  required: ['published', 'url', 'why'],
+}
+const pub = await agent('Read your brief and follow it: ' + T + 'revival-publish.md\n\nYour batch: climb batch ' + N + '. The commit: ' + (rv.committed || 'none, the page\'s files were already as committed') +
+  '. The URL: ' + rv.url + '. The page: ' + PAGEDIR + 'revival-story.html. Its chart: ' + PAGEDIR + 'record-growth/record-growth.png.',
+  { label: 'revival publish', phase: 'Revival page', model: 'sonnet', schema: REPUB })
+result.revivalPublish = pub
+result.line += ' The revival page: ' + (rv.committed || 'no new commit') + (rv.pushed.length ? ', pushed' : '') + '; ' +
+  (pub && pub.published ? 'published at ' + pub.url + (pub.version ? ', version ' + pub.version : '') + '.'
+    : 'not published' + (pub && pub.why ? ' (' + pub.why + ')' : pub ? '' : ' (its agent returned nothing)') + ': publish ' + pageFiles + ', by its URL, ' + rv.url + '.')
 return result
