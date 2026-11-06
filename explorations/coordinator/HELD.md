@@ -4,6 +4,10 @@
 
 ## Held on the drafts page (2026-11-06)
 
+- 09:57 His question on draft 14: does relaxing the whole-part rule let the other passages be compacted, since they "dance around this forbidden edit"? The skill writer answers it in draft 14's version 4 (task `<scratchpad>/skill-tasks/draft-14-v4.md`).
+- 09:55 His comment on draft 14's sentence "So does every rewrite of SKILL.md or of a whole part": the whole-part clause is a holdover; the rule on changing `fortress-repo`'s `SKILL.md` is relaxed; the review surface keeps him in the loop; a landing may change `fortress-repo`'s `SKILL.md` when needed. Into version 4.
+- 09:52 His answer to version 3's open question: "Let the coordinator be the judge. Do not blindly follow the writer's recommendations." The coordinator weighs each rule that the record-landing writer lists and drops one whose cost outweighs its protection. Into version 4.
+- 05:15 and 05:12 "LGTM" on the drafts page's landed items, read up to item 24 (and the page as it stood at 05:15); the next page update drops the items he read.
 - 05:28 His comment on draft 14 (thread `51673da6`): he wants the maintenance of the two pages that show him the diffs of `fortress-repo` and the coordinator skill unified, not the process that guides when and how the skills change; he does not want to be in the loop blocking changes to `fortress-repo`, only an up-to-date review surface for them; the coordinator skill is self-instructing too, with its own guardrails for what needs his explicit approval. So no change of `fortress-repo` or `cloud-container` waits for his yes; draft 14 is being revised that way (version 3), cold-read, and put back on the page for his yes.
 
 ## Held in chat (2026-11-06)
