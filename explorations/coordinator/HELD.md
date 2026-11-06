@@ -4,6 +4,7 @@
 
 ## Held on the drafts page (2026-11-06)
 
+- 16:17 "Mark as read." on the `fortress-repo` page's version 10 (thread `06c1fa65`, sent to Claude, resolved): he read changes 34 and 35; the next update drops them.
 - 13:32 His comment on item 28 (thread `5f7021ae`, sent to Claude): he had said the order belongs in the coordinator skill, but was it not already in the cloud-container skill, unknown to the coordinator? Answered on the thread: in no skill; the words appear first in today's two commits; the rule lived only on the held list (11-03) and in the boot note, which itself carried an "ask him to delete it" line.
 - 11:41 "LGTM" on item 27 (thread `4ca89a3d`, sent to Claude, resolved): he read the page-comments rule in its three sentences; read up to item 27, so the next page update drops it and the next landed change comes as item 28.
 - 10:59 His comment on item 26 (thread `ea201552`): he had written "LGTM." on it at 10:29, not sent to Claude, and version 14 still showed it unread: "Why are you bothering me with this point? Can't you read the comments?" Rule: before each page update, the page worker reads every comment on the page, sent to Claude or not, and a plain LGTM on an item is his word that he read up to it. Version 15 drops item 26; the skill writer puts the rule into `skill-rewrite.md`'s step 7 (task `<scratchpad>/skill-tasks/page-comments-rule.md`).
