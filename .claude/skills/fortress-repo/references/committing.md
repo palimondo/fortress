@@ -38,7 +38,7 @@ Commit as you go, each commit in one command that names its paths:
 Push after every commit, so that a lost container loses nothing.
 
 - If you work on your own branch, push it: `git push -u origin <branch>` the first time, then `git push`. Your brief says how the branch reaches `main`.
-- Do not try to delete a branch, local or remote: the harness refuses it from this container. The branch stays until the curator removes it.
+- Do not try to delete a branch on GitHub: the automatic permission check refuses it, and the curator deletes it. Removing a worktree does not delete its branch, which stays. Ask nobody in your report to delete a branch.
 - If you work on `main`, other agents commit to it too. Push only your own commits:
   1. Run `git log origin/main..main`. Your commits are those whose hashes your own `git commit` printed.
   2. If it lists another agent's commit, run the command again shortly: that agent pushes right after it commits. If the commit stays, push nothing, and say so in your report.

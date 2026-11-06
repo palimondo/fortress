@@ -1070,3 +1070,4 @@ From the cold read of the `note --check` sentence, 2026-11-06; settled by the co
 ## The curator's standing order on branches, 2026-11-06
 
 - `committing.md`, "Pushing": no deletion of a branch tried, local or remote, since the harness refuses it from this container; the branch stays until the curator removes it. The curator's words in chat at 12:3x UTC on 2026-11-06: "We already know that branches cannot be deleted from your cloud container. And I will get to them when I get to them."
+- The cold read of `68efa8f06`, 2026-11-06; settled by the coordinator: the sentence bound to the branches on GitHub, since the record-landing workflow's lander deletes its local branch by its brief; the automatic permission check named; "deletes", as in the coordinator skill; a removed worktree leaves its branch; no report asks to delete a branch.
