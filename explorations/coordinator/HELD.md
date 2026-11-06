@@ -8,6 +8,9 @@
 
 ## Held in chat (2026-11-06)
 
+- 09:3x His decision on the hard set, the 30 native bindings that no bare helper reaches (review-queue items 331, 332, 361; the review `explorations/reviews/hard-set-natives-2026-11-06.md`): option (e), with Java for group 3: the 20 bindings over `AnyIntegral` and `Number` become public declarations that convert in Fortress around bare bindings at the narrow headers (the team's pair; his words of 09:0x: "This clearly sounds like the right way, all the signal from the original team. Why aren't we doing this everywhere?"); the six over carried types with no fitting helper get one-line Java helpers, for the compiled path's inlining ("I'd probably go with the group of six with native Java. You told me that it might affect inlining if we keep them in Fortress due to deboxing. So let's make it Java there."); `ZZ32`'s `big` names its existing helper; `Object`'s `asString` and `ilkName` and `SEQV` over `Any` stay on glue until a carrier of `Any` is designed. Item 332 yes (the pair keeps P-58's form), item 361 yes (climb batch 26's five string pairs stand). To POSITIONS by the record worker; this line is the record until then.
+- 09:5x His word on the check-ins: start the check-in right at the weekly reset, 11:00 his time, 10:00 UTC, not minutes after.
+
 - 05:51 His decision on the integer conversions: option 6 of the review of 2026-11-06, 'OPtIoN 6! The one sane option.'; recorded as P-161.
 
 ## Held in chat (2026-11-05)
