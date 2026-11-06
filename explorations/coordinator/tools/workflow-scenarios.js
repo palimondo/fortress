@@ -349,7 +349,7 @@ function check(sc, out) {
   // Every brief.
   for (const c of calls) {
     const p = c.prompt
-    const m = /.{0,60}((?<!\bis )\bundefined\b(?! name)|\[object Object\]|(?<!\ba )(?<!`)\bNaN\b).{0,60}/.exec(p)   // a templating slip; the manifest's own text speaks of an undefined name, quotes the checker's 'X is undefined.' and names the float value 'a NaN' or `NaN` in code marks
+    const m = /.{0,60}((?<!\bis )\bundefined\b(?! name)|\[object Object\]|(?:[:=]\s*|\bis\s+)NaN\b|\bNaN\s+(?:minutes|min|tokens|K|M)\b).{0,60}/.exec(p)   // a templating slip: an undefined or NaN where a value or a count was. The manifest's own text speaks of an undefined name, quotes the checker's 'X is undefined.' and names the float value NaN in prose, which passes.
     if (m) probs.push(c.label + ' prompt holds: ' + JSON.stringify(m[0]))
     if (/global\.map/.test(p)) probs.push(c.label + ' still restores or names global.map')
     if (/-base - |WORKTREE-base|private copy of the base/.test(p)) probs.push(c.label + ' still names a per-rung copy of the base')
