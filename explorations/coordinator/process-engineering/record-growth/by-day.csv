@@ -93,6 +93,9 @@ FACTS,2026-10-31,coordinator edit,3366,-1815,1551,2
 FACTS,2026-11-02,worker (probe/judgement/review),947,0,947,1
 FACTS,2026-11-03,batch,8510,0,8510,9
 FACTS,2026-11-03,coordinator edit,12,0,12,1
+FACTS,2026-11-05,batch,7378,0,7378,6
+FACTS,2026-11-05,coordinator edit,5501,0,5501,1
+FACTS,2026-11-06,coordinator edit,211,0,211,2
 INDEX,2026-09-15,worker (probe/judgement/review),12328,0,12328,1
 INDEX,2026-09-16,worker (probe/judgement/review),1774,0,1774,2
 INDEX,2026-09-17,coordinator edit,2547,0,2547,4
@@ -182,6 +185,9 @@ INDEX,2026-11-02,worker (probe/judgement/review),3342,0,3342,4
 INDEX,2026-11-03,coordinator edit,3826,0,3826,5
 INDEX,2026-11-03,worker (probe/judgement/review),1438,0,1438,2
 INDEX,2026-11-04,worker (probe/judgement/review),691,0,691,1
+INDEX,2026-11-05,coordinator edit,2727,0,2727,3
+INDEX,2026-11-05,worker (probe/judgement/review),5227,0,5227,8
+INDEX,2026-11-06,worker (probe/judgement/review),81,0,81,1
 POSITIONS,2026-09-15,coordinator edit,3846,0,3846,1
 POSITIONS,2026-09-15,worker (probe/judgement/review),836,0,836,3
 POSITIONS,2026-09-16,worker (probe/judgement/review),1357,0,1357,1
@@ -245,6 +251,8 @@ POSITIONS,2026-10-30,worker (probe/judgement/review),294,0,294,2
 POSITIONS,2026-10-31,coordinator edit,0,-743,-743,2
 POSITIONS,2026-11-02,coordinator edit,743,-717,26,3
 POSITIONS,2026-11-03,coordinator edit,140,0,140,1
+POSITIONS,2026-11-05,coordinator edit,2755,0,2755,2
+POSITIONS,2026-11-06,coordinator edit,8,-9,-1,2
 ledger,2026-09-09,worker (probe/judgement/review),39643,0,39643,1
 ledger,2026-09-14,coordinator edit,5748,0,5748,1
 ledger,2026-09-14,worker (probe/judgement/review),195996,0,195996,7
@@ -323,3 +331,6 @@ ledger,2026-10-31,worker (probe/judgement/review),1815,0,1815,1
 ledger,2026-11-02,coordinator edit,2851,0,2851,1
 ledger,2026-11-02,worker (probe/judgement/review),4204,0,4204,3
 ledger,2026-11-03,batch,13727,-5407,8320,8
+ledger,2026-11-05,batch,3348,-1424,1924,5
+ledger,2026-11-05,coordinator edit,161,-448,-287,2
+ledger,2026-11-06,coordinator edit,1052,0,1052,2
