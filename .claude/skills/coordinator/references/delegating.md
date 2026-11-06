@@ -72,7 +72,7 @@ An interrupt or a process stop kills every running Workflow agent and Agent-tool
 
 ## The Workflow tool
 
-- The tool runs at most two agents at once on this machine. The others wait.
+- The tool runs at most two agents at once in each Workflow run. The run's other agents wait. Several runs go side by side, each with its own two.
 - Across agents, the cache serves the first message only when the whole prompt is identical. A project agent type's system prompt is cached for every agent of the type, so put text that every agent needs there.
 - A project agent type written during the session is found only after a process stop. A project skill appears at once.
 - `agent()` can return null for an agent that the harness marks failed after it delivered its result. Read its branch before you run it again.
@@ -80,12 +80,16 @@ An interrupt or a process stop kills every running Workflow agent and Agent-tool
 
 ## A long writing pass
 
-Run a long writing pass, such as a run of the clarity or orientation workflow, as writer streams.
+A long writing pass, such as a run of the clarity or orientation workflow, rewrites many entries, rows or sections in chunks. To make it fast, run several Workflow runs side by side. In October 2026 the machine took four or five runs, eight or nine agents at once.
 
+- Split the items into chunks of about ten. Give each Workflow run a list of chunks as its argument.
+- If the workflow writes with writer streams, give each run its own stream.
 - The script resumes a stream while its context is small and its prompt cache is warm. Its header gives the limits. Otherwise it starts a fresh session.
 - So the round that fixes a chunk after its checks resumes the session that wrote it, with its evidence still in the cache. A fresh writer would read everything again.
-- Give each Workflow run its own stream. Several such runs can go side by side.
 - End each round with one judge. It applies each item that a chunk's checks raise, or holds it out and puts it on the review queue. No chunk goes through a second fix round.
+- Each run writes only into its own folder. Only you write the record files, so the runs do not conflict.
+- When the runs end, apply their judged outputs to the record one run at a time, and commit. For FACTS and POSITIONS, follow "After a chunk" in `explorations/coordinator/tools/record-clarity/README.md`. For the gap ledger, use `explorations/coordinator/tools/ledger-clarity/apply.py`.
+- If a stop kills the runs, resume each one from its own run ID, with its arguments as at launch.
 
 ## A second session
 
