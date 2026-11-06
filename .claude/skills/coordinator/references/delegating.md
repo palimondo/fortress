@@ -80,16 +80,20 @@ An interrupt or a process stop kills every running Workflow agent and Agent-tool
 
 ## A long writing pass
 
-A long writing pass, such as a run of the clarity or orientation workflow, rewrites many entries, rows or sections in chunks. To make it fast, run several Workflow runs side by side. In October 2026 the machine took four or five runs, eight or nine agents at once.
+A long writing pass, such as a run of the record or ledger clarity workflow, rewrites many entries or rows in chunks. To make it fast, run several Workflow runs side by side. In October 2026, four or five runs at once, eight or nine agents, ran to the end on this machine. More has not been tried. The orientation workflow takes no chunks, so it runs as one run.
 
-- Split the items into chunks of about ten. Give each Workflow run a list of chunks as its argument.
-- If the workflow writes with writer streams, give each run its own stream.
+- Split the items into chunks of about ten, or of the size that the workflow's README gives.
+- Share the chunks evenly among the runs. Pass each run its share in its `chunks` argument.
+- Give the chunks names that differ across all the runs. Each chunk writes only into its own folder, the run's `out` plus the chunk's name.
+- If the workflow writes with writer streams, give each run its own `stream` name. Runs that share a stream take turns.
+- Before the launch, write each run's exact arguments into a `runs.json` file in the pass's folder, and name that file in the boot note. After the launch, add each run's ID to it.
 - The script resumes a stream while its context is small and its prompt cache is warm. Its header gives the limits. Otherwise it starts a fresh session.
 - So the round that fixes a chunk after its checks resumes the session that wrote it, with its evidence still in the cache. A fresh writer would read everything again.
-- End each round with one judge. It applies each item that a chunk's checks raise, or holds it out and puts it on the review queue. No chunk goes through a second fix round.
-- Each run writes only into its own folder. Only you write the record files, so the runs do not conflict.
-- When the runs end, apply their judged outputs to the record one run at a time, and commit. For FACTS and POSITIONS, follow "After a chunk" in `explorations/coordinator/tools/record-clarity/README.md`. For the gap ledger, use `explorations/coordinator/tools/ledger-clarity/apply.py`.
-- If a stop kills the runs, resume each one from its own run ID, with its arguments as at launch.
+- End each round with one judge. For each item that a chunk's checks raise, it rules apply or hold, and writes the held items for the review queue. No chunk goes through a second fix round.
+- Only you write the record files, so the runs do not conflict.
+- As each run ends, apply its judged chunks to the record, check the record, commit and push, by "After a chunk" in the workflow's README. Then take the next run that has ended.
+- If a chunk splits or merges an entry that another chunk also changes, apply that chunk first.
+- If an interrupt or a process stop kills the runs, resume each one from its ID in `runs.json`, as "Interrupts and process stops" says.
 
 ## A second session
 
