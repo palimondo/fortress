@@ -1050,3 +1050,13 @@ The landing of climb batch 26 on `main` made area parts false, from the list in 
 - `interpreter.md`, "Natives": the wrong text for a `CatString` in a glue class bound over `String` and in a helper bound as `self` of `String`, `StaticNativeApp.unbox` (`:282`), row 846; the library's form, a native over `FlatString` beside an overload over `String`, `Library/FortressLibrary.fss:4640-4644`, F-299, F-307.
 - `compiler.md`, "What the compiled path cannot compile yet": local functions compiled as closures, three forms refused, F-320, row 304, `CodeGen.forLetFn` (`:3580-3592`).
 - `compiler.md`, "Natives": a binding of any `systemOps` helper stops its component in the count and distance stages, F-321, row 895.
+
+## The cold read of climb batch 26's skill changes, 2026-11-06
+
+From the cold read of `d5cd3bc2c` and `a48c389b7` (`explorations/compile-ladder/climb-batch-26/skills/cold-read.md`); settled by the coordinator's task; each checked on `main`.
+
+- `compiler.md`, local functions: the three messages, `CodeGen.java:3588-3592`, row 304; a local function that calls another of its block, F-320.
+- `compiler.md`, the `systemOps` sentence: any method of the helper's class, F-321; the distance stage's stopped target and the workaround, row 895.
+- `interpreter.md`, "What walk checks": the method, not the trait, without static parameters of its own, `OverloadedFunction.traitMethod`; row 893's call run without an ambiguity error and the type made an `A`; row 894's top-level function, its message and the check, `OverloadingChecker.scala:413-424`, with the clause on the decision cut.
+- `interpreter.md`, "Natives": a program's own `FlatString` parameter carried in `String` without a refusal, row 877; a method of `String` calls the overload over `String`, `Library/FortressLibrary.fss:4641-4644`.
+- `revival-changes.md`: row 416's example as two overloads, as in `interpreter.md`; `T`'s method in walk's second refusal, F-318; P-12's plan in the future tense.

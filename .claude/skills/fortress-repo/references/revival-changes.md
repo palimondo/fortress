@@ -25,7 +25,7 @@ The Meet Rule asks for a declaration that covers the meet of two overloads that 
 
 ## Traits and objects
 
-**The compiled checker applies the exclusion rule (P-43, P-97).** It refuses a type that extends two instantiations of one generic trait. Walk does not apply the rule: it runs such a type, and refuses overloads on two instantiations, as `Tg[\3\]` and `Tg[\4\]`, as not excluding (row 416). The specification marks the Working Draft's examples that break the rule "Not allowed": do not copy them.
+**The compiled checker applies the exclusion rule (P-43, P-97).** It refuses a type that extends two instantiations of one generic trait. Walk does not apply the rule: it runs such a type, and refuses overloads on two instantiations, as `g(b: Tg[\3\])` beside `g(b: Tg[\4\])`, because it does not read them as excluding (row 416). The specification marks the Working Draft's examples that break the rule "Not allowed": do not copy them.
 
 **A `comprises` clause speaks of values (P-60).** Every value of the trait that declares it is a value of a listed type. So a generic trait need not be listed if every type below it is below a listed type, as `Integral[\I\]` below `AnyIntegral`. A Java `permits` list names each direct subtype; this clause need not. Read so, several declarations can together cover the meet of two overloads. At load, walk checks extenders only against the clauses of the program's main component (row 551).
 
@@ -43,7 +43,7 @@ In `T`'s bodies, `self` has the intersection type of `T[\X\]` and `X`. So `floor
 When the checker applies the overloading rules to a method of `T`, `self` has the type `T[\X\]`, except in its test of whether two domains exclude each other. There `self` has the intersection type of `T[\X\]` and `X` (P-157). With this reading and the bounds that the test reads ("Dispatch and overloading"), the library's generic `+` and `-` between an array and a number are valid beside `AdditiveGroup`'s own. Walk reads `self` in the same way, so it loads such a pair in the library and in a program's own component. Walk's load check, which is not the verdict ("Dispatch and overloading"), still refuses the pair in two cases:
 
 - `T` is self-typed only through another self-typed trait that it extends;
-- the method has static parameters of its own.
+- `T`'s method has static parameters of its own.
 
 **An indexed type's index parameter is bounded by `Index` (P-156).** An indexed type is a type whose values `a[i]` subscripts, such as an array. Its index parameter is the static parameter that gives the type of `i`. In the library, and in your own generic over such a type, write `I extends Index`. Walk runs the code without the bound. The checker refuses it when it checks against the interpreter's library, as the count stage does (`compiler.md`). Of the integer types, only `ZZ32` extends `Index`, and `Range` excludes `Index`. To the checker a numeral is an `IntLiteral`, which is no `Index`. So it refuses `f(3)` for `f(x: Index)`. Walk takes it (row 364). Pass a `ZZ32` value there instead. `a[3]` stays valid, because an array indexed by `ZZ32` takes a `ZZ32`. The Working Draft lets no trait type hold a tuple, but here a tuple whose element types are all `Index` types is an `Index`. So `m[i, j]` passes the pair `(i, j)` as one index. `Index` extends only `Any`, so such a tuple is still no `Object`. The empty tuple `()` is no `Index`. A function over `Index` and one over a tuple of `Index` types do not exclude each other. Until the switch-over, the compiler's prelude declares no `Index`, so a program that names it does not compile. Two departures:
 
@@ -99,6 +99,6 @@ A clause form is a reduction or comprehension with generators in brackets, as `S
 
 ## Implementation limits
 
-**Walk has no static types.** It is to run the checker only after the switch-over (P-12). So walk runs programs that the checker refuses. Besides a `Boolean`, it takes a `Maybe` as an `if` condition, `Just` as true and `Nothing` as false. It refuses any other value. The specification and the checker take only a `Boolean`, so do not write a `Maybe` condition. The compiled path's own limits are in `compiler.md`.
+**Walk has no static types.** Walk will run the checker only after the switch-over (P-12). So walk runs programs that the checker refuses. Besides a `Boolean`, it takes a `Maybe` as an `if` condition, `Just` as true and `Nothing` as false. It refuses any other value. The specification and the checker take only a `Boolean`, so do not write a `Maybe` condition. The compiled path's own limits are in `compiler.md`.
 
 **Write every parameter type.** The compiled path refuses a parameter without a type, of a function, a method or a local function: "Missing parameter type for". Walk runs it, except in a method that implements an abstract one (row 405). A component's function that leaves out its return type takes the api's declaration at its parameter types. With none or several, the checker types the body.
