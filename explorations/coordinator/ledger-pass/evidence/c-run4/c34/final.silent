@@ -1,0 +1,4 @@
+255	choice	the host library chose a Boolean result for comparison, and the APL base chose to declare no (RR64, RR64) comparison (row 218); the workaround maps it
+430	defect	an error message whose order depends on hash codes from a global counter and identity hashes is not a behaviour anyone chose
+603	defect	the parallel twin SimpleMappedIndexed is a MappedGenerator and the sequential one is not only because the api does not export the trait
+659	defect	the library itself fails with "shouldn't happen" for a range it can construct

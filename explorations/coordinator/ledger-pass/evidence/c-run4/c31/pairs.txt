@@ -1,0 +1,1 @@
+592	825	Row 592 old notes held "`upward`'s arms do not rest on it: their `R` is fixed by `Empty[\R\]` (`Library/CovariantCollection.fss:15-28`)", cut from 592 for length; it bears on 825's CastError at `upward`'s cast and may belong in 825's notes. Not one defect.

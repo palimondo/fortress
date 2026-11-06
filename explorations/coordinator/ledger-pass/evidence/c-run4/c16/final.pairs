@@ -1,0 +1,1 @@
+288	71	288 names as part of its fix the List names that the compiler's prelude lacks (LexicographicOrder, Comprehension, BigReduction, MonoidReduction, still absent from Library/CompilerLibrary.fsi at c124c6b65), which is row 71's defect; 288 now points at row 71 for them: siblings, not one defect

@@ -1,0 +1,1 @@
+432	defect	walk instantiates the list display at the numerals' run-time class and the reduction then finds no overload; the specification leaves a numeral's relation to the integer types open, but no one chose this refusal

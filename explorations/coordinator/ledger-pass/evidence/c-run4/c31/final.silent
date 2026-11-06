@@ -1,0 +1,1 @@
+776	defect	The checker means to report each ill-formed call type once; losing the outer call's distinct error is a side effect of keying by message and place, not a chosen behaviour (the row's own fix sketch says a call-span key reports both).

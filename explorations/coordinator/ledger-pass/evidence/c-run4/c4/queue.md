@@ -1,0 +1,8 @@
+# Queue items from chunk c4, run c-run4
+
+- **Row 330, held: which types the float types' brackets, `round` and `truncate` answer today, measured, before the row's rewrite lands.** The present line states as a gap that `floor` and `ceiling` return a float, which P-68 (POSITIONS.md:76) decided to keep, and names a plain test that passes (`library_tests/RR64FunctionsRungF.fss:75-82`) as its reproducer. The writer's rewrite (`tmp/ledger-pass/c-run4/c4/rows.rewrite`, line 1) restates the claim as P-68's own sentence, but sets the reproducer to `none` with no command and output, and the check (`check.md`, "330", item 1) asks for a measurement that no prober ran: under walk and compiled, for `x: RR64 = 2.5` and for the numeral `2.5`, print the `ilkName` of `|\x/|`, `|/x\|`, `round(x)` and `truncate(x)`. The check's corrections 2 and 3 (which `round` a radix-point numeral runs; "Decision: P-68, built on the one library after the switch-over") are exact and go with any new line.
+   - Landed: the row's present line (`tmp/ledger-pass/c-run4/c4/evidence/330.md`, sha f0e5bc1796e52b17). Default: the row's present line.
+   - The other way: run the probe; if its output matches the writer's claim, apply the writer's line with the check's corrections 2 and 3 and the command and output in place of "No test reproduces it: ..."; if not, correct the claim to the output.
+   - Its cost: one walk run and one compile and run of a ten-line probe, a few minutes of a prober's time.
+   - Home: `tmp/ledger-pass/c-run4/c4/assessment.md`, `check.md` and `judgement.md`, row 330; P-68; row 330.
+   - Needed by: the ledger's repair; the next prober run of the pass.

@@ -1,0 +1,3 @@
+100	defect	The mix-in declares an abstract range subscript that its documentation does not ask a carrier to define; walk now refuses such a carrier at load: a library documentation defect, not a chosen behaviour.
+377	defect	a code-generator crash on a program the checker passes is no behaviour the team chose
+432	defect	walk instantiates the list display at the numerals run-time class and the reduction then finds no overload; the specification leaves a numeral relation to the integer types open, but no one chose this refusal

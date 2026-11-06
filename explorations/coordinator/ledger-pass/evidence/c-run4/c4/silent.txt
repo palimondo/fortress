@@ -1,0 +1,3 @@
+528	defect	the checker accepts a program that dies with AbstractMethodError in the JVM; the prelude omits the = that Equality[\RR32\] asks for, no team choice
+529	defect	the prelude simply declares no RR32 arithmetic, so RR32 operands widen to RR64 where the one library answers RR32; it closes at the switch-over
+578	defect	the one library declares IntLiteral's arithmetic to answer IntLiteral, and walk answers ZZ32 only because FIntLiteral.make normalises to an Int

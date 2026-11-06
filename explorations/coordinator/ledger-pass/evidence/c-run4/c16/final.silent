@@ -1,0 +1,5 @@
+882	defect	the rewrite's on/off state leaks between repositories in one JVM through a static flag, so parse and api give different verdicts on one file by what ran before: an accident of Shell.specificRepository, not a chosen behaviour
+885	defect	walk resolves an overloaded helper by the Java types that carry the declared types (F-299); the compiled rewrite gives up where soleMethod finds two, a limit of its implementation that F-308 records, not a choice the team made
+886	defect	the rewrite reads a declared type by its simple name, so a program's own Char or UnsignedLong takes the library's transfer and is refused by the transfer's message; the refusal is right but its reason is wrong, an accident of simpleName
+288	defect	the two preludes are the compiler's own stop-gap (WellKnownNames.useCompilerLibraries, "Hopefully temporary hack"), so a grammar api cannot reach the compiler's world: a defect of the switch-over, not a design
+290	defect	the template translator drops isParenthesized, so the same template compiles as a variable's value and fails as an argument; nothing chooses that

@@ -1,0 +1,5 @@
+368	defect	the wrapper generator dies on a helper class it was meant to bind; nothing in the team's design asks a private helper to carry a Fortress type
+377	defect	a code-generator crash on a program the checker passes is no behaviour the team chose
+874	defect	the one library cannot be compiled at all; the switch-over plan names it as work owed (N5)
+895	defect	a checker stop on a type mapping the interpreter prelude lacks; unrelated to any language choice
+498	defect	the parser and checker accept a pattern-bound name and both paths fail at run time; the deferral of patterns does not make an accepted program unbound by choice

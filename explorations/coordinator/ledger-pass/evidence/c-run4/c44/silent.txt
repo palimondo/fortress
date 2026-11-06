@@ -1,0 +1,6 @@
+187	defect	PEG semantics bound a repetition by a NOT predicate inside its group; the generated parser ignoring it is a fault, not a stated choice
+203	choice	ParserMaker.java:296-316 deliberately registers every identifier-shaped terminal in FORTRESS_KEYWORDS; the reservation is the team's mechanism, its reach a consequence
+210	choice	a space between symbols is emitted as w = Whitespace* on purpose (ComposingSyntaxDefTranslator.java:147-148); greediness across lines is PEG's, which the paper endorses
+244	choice	a newline in a production is deliberately the host's br (ComposingSyntaxDefTranslator.java:152-153), which row 208 relies on to separate statements
+273	defect	forListDepth returns the raw list with its conversion commented out: an unfinished implementation that crashes with a ClassCastException
+274	defect	forOptionDepth throws not supported now with its implementation commented out: unfinished, not chosen

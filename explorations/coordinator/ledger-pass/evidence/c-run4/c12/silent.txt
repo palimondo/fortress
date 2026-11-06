@@ -1,0 +1,2 @@
+100	defect	The mix-in declares an abstract range subscript that its documentation does not ask a carrier to define, and it wins dispatch over the carrier's own Generator subscript: a library defect, not a chosen behaviour.
+639	choice	The harness rule that fails any run printing fail or FAIL, with its QuickCheckTest exemption, is the team's design of the test runner (FileTests.java:382-385), so the limit follows from a chosen behaviour.
