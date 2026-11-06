@@ -5,7 +5,7 @@
 // Workflow harness parses them, their export made const; every line outside the block byte-identical; the block
 // evaluated with the script's own load checks and scatter order; the batch's rungs (lists27.py's IDS, N, I, F, C, W
 // and S, in that order, less any that --without names), their fields, no rung bringing a gate step, declaring a
-// checker count, a crash or a ladder move, or landing only with another; each section equal to the rung's section of
+// checker count, a crash or a ladder move, or landing only with another but N with F; each section equal to the rung's section of
 // the record (backticks dropped, the ellipsis character as three full stops, the minus sign as a hyphen-minus);
 // briefing, reasons and checks equal to lists27.py's, one reason per key, checks a sub-list of the briefing; no
 // rung's test the stage; no backtick in any string the agents read; no text asking a skeptic to see a failure again
@@ -49,7 +49,9 @@ const STAGES_RUNGS = ALL_IDS.slice()
 // The characters outside ASCII that a section keeps from the record, as gen27.py's KEPT: written as \u escapes.
 const KEPT = '\u00e9\u03a3\u03bb\u2192\u2211'
 const nonAscii = (t, keep) => [...t].filter(c => c.charCodeAt(0) > 127 && !(keep || '').includes(c))
-const LANDS_ONLY_WITH = Object.fromEntries(ALL_IDS.map(x => [x, []]))
+// N lands only with F (the record's fork 1, N's block in section 1), as check17.js expected for rung L; no other rung
+// lands only with another.
+const LANDS_ONLY_WITH = Object.fromEntries(ALL_IDS.map(x => [x, x === 'N' ? ['F'] : []]))
 const REC = argv.filter((a, i) => !a.startsWith('--') && argv[i - 1] !== '--without')[0] || path.join(ROOT, 'explorations/coordinator/CLIMB-BATCH-27.md')
 const block = fs.readFileSync(path.join(HERE, 'manifest' + BATCH_NAME + '.js'), 'utf8')
 const orig = fs.readFileSync(SRC, 'utf8')
@@ -104,7 +106,7 @@ if (r) {
   say(r.BATCH === BATCH_NAME && r.BATCH_RECORD === 'explorations/coordinator/CLIMB-BATCH-27.md' && r.BRIEFING_LISTS === 'explorations/compile-ladder/plan-27/manifest/lists27.py' && ids === RUN_IDS.join(', ') && r.SCATTER.map(x => x.id).join('') === order, 'batch ' + BATCH_NAME + ', its record and lists, the rungs ' + RUN_IDS.join(', ') + ' and the scatter by expected minutes, ' + order)
   say(r.ledgerFrom === 'undefined', 'no LEDGER_FROM: the gather numbers the new rows through ledger.py')
   say(r.RUNGS.every(x => Array.isArray(x.gateJoins) && !x.gateJoins.length), 'no rung brings a gate step: testSpecData runs from the last landed summary')
-  say(r.RUNGS.every(x => JSON.stringify(x.landsOnlyWith || []) === JSON.stringify(LANDS_ONLY_WITH[x.id])), 'no rung lands only with another: ' + r.RUNGS.map(x => x.id + ' [' + (x.landsOnlyWith || []).join(', ') + ']').join(', '))
+  say(r.RUNGS.every(x => JSON.stringify(x.landsOnlyWith || []) === JSON.stringify(LANDS_ONLY_WITH[x.id])), 'N lands only with F, and no other rung with another: ' + r.RUNGS.map(x => x.id + ' [' + (x.landsOnlyWith || []).join(', ') + ']').join(', '))
   say(r.RUNGS.every(x => x.expectedCheckerCrash === undefined && Array.isArray(x.expectedMoves) && !x.expectedMoves.length), 'no rung declares a crash or a ladder move')
   say(r.RUNGS.every(x => x.expectedCheckerCount === undefined), 'no rung declares a checker count: it is reported, never red')
 
@@ -148,13 +150,13 @@ if (r) {
       const key = k[1].startsWith('REC `') ? REC_KEY + k[1].slice(5, -1) : k[1].replace(/`/g, '')
       return { key, check: !!k[2], reason: k[3] }
     }) : []
-    return { slug: field('slug'), worktree: field('worktree'), section: field('section'), blurb: field('blurb'),
+    return { slug: field('slug'), worktree: field('worktree'), section: field('section'), blurb: field('blurb'), landsOnlyWith: field('lands only with'),
       points: pts ? pts.items.map(p => asAscii(p.trim())) : [], counts: cm ? [+cm[1], +cm[2]] : null, keys }
   }
   const common = (() => { const a = s1.indexOf('\nFields common to the six rungs:\n'); return a < 0 ? '' : s1.slice(a, s1.indexOf('\n### ', a)) })()
   say(/\*\*writes state:\*\* no\./.test(common) && /\*\*its test is the stage:\*\* no\./.test(common) && /\*\*joins the gate:\*\* none\./.test(common) &&
-    /\*\*expected moves:\*\* none\./.test(common) && /\*\*lands only with:\*\* none\./.test(common) && /\*\*expected checker count:\*\* none declared/.test(common) &&
-    /\*\*expected checker crash:\*\* none\./.test(common), 'the record\'s fields common to the six rungs: no state, no stage as the test, no gate step, no move, none landed only with, no count or crash declared')
+    /\*\*expected moves:\*\* none\./.test(common) && /\*\*lands only with:\*\* none; N's block below names F \(section 3, fork 1\)\./.test(common) && /\*\*expected checker count:\*\* none declared/.test(common) &&
+    /\*\*expected checker crash:\*\* none\./.test(common), 'the record\'s fields common to the six rungs: no state, no stage as the test, no gate step, no move, none landed only with but N\'s, no count or crash declared')
   // lists27.py's briefings, reasons and checks.
   const py = cp.spawnSync('python3', ['-B', '-c', 'import json, sys; sys.path.insert(0, sys.argv[1]); from lists27 import LISTS, REASONS, IDS, OWN_REASONS; ' +
     'print(json.dumps({r: {"briefing": LISTS[r][0], "checks": LISTS[r][1], "reasons": [x for _, x in REASONS[r]], "own": OWN_REASONS.get(r, [])} for r in IDS}))', __dirname], { encoding: 'utf8' })
@@ -171,6 +173,8 @@ if (r) {
     say(!!b && !!row && x.slug === row.slug && b.slug === row.slug && x.path === b.worktree && x.path === '/home/user/fortress-' + x.slug.replace(/^rung-/, '') &&
       x.expectedMinutes === row.minutes && x.blurb === b.blurb && JSON.stringify(x.pointsToReport) === JSON.stringify(b.points),
       x.id + ': slug, worktree, ' + x.expectedMinutes + ' minutes, blurb and ' + x.pointsToReport.length + ' points as section 1 gives them')
+    const own = b && b.landsOnlyWith !== null ? b.landsOnlyWith.replace(/\s*\(.*?\)\.?$/, '').replace(/\.$/, '').split(',').map(s => s.trim()) : []
+    say(JSON.stringify(own) === JSON.stringify(LANDS_ONLY_WITH[x.id]) && JSON.stringify(x.landsOnlyWith || []) === JSON.stringify(own), x.id + ': lands only with [' + own.join(', ') + '], as its block in section 1 gives it')
     say(!!b && b.section === heading(x.id) && x.title === heading(x.id).slice(3) && x.title.startsWith(row.title), x.id + ': its section field and title are its section 4 heading, the table\'s title its start')
     const l = lists && lists[x.id]
     say(!!l && JSON.stringify(x.briefing) === JSON.stringify(l.briefing) && JSON.stringify(x.checks) === JSON.stringify(l.checks) &&

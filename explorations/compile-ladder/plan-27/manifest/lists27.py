@@ -9,10 +9,10 @@
 # backticks.
 # Changed from lists26.py: the keys are the record's section 1, each rung's briefing bullets in their order, each key
 # as the record writes it, its backticks dropped and REC spelled out, each with the record's reason, its first letter
-# capitalized but where it opens with a code name (random's, flatConcat's, getProperty), and the checks those the
+# capitalized but where it opens with a code name (random's, flatConcat's, getProperty, asFloat), and the checks those the
 # record marks (check). The record gives every key its reason, so OWN_REASONS is empty; check27.js compares every
 # key, reason and check, and the record's counts, with this file. The rungs, in the manifest's order: N, I, F, C, W,
-# S. No rung has a planner's text or sample, so no key names plan-27/probes/.
+# S, as section 1 stands after the rewrite of rungs N and F (N's 22 keys and F's 22). No rung has a planner's text or sample, so no key names plan-27/probes/.
 # `python3 -B lists27.py` checks every key with facts-extract.sh --check (each must match exactly one place) and every
 # reason's form, in $FORTRESS_HOME (this checkout by default); it is run again on the tree the batch is cut from.
 import os
@@ -24,24 +24,36 @@ FORKS = (REC + "Forks the batch takes, none consequential", "The defaults your r
 
 N_BRIEFING = [
   ('P-160', 'The decision whose second step you build.'),
+  ('P-165', "asFloat and the = built on it off Number, each type's own asFloat, the norm's bound and the rule for a mixed =."),
   ('P-44', "AnyIntegral's clause, which stays."),
   ('F-318', 'The first step as landed, and the programs it loaded without the clause.'),
-  ('F-151', "The vectors' bound by Number, whose stated reason your change removes."),
+  ('F-131', "The flat tower and Number's = by asFloat, which your change rewrites, and its test."),
+  ('F-151', "The vectors' bound by Number, whose two reasons, the clause and the norm's asFloat, your change removes."),
+  ('F-311', "Each type's own asFloat binding, which stays and which your api lines declare."),
   ('ledger:551', 'The row whose test you retarget.'),
   ('ledger:596', 'The row whose Number half closes.'),
-  ('ledger:440', "0/0 equal to itself, which Number's = reaches today at a program's type."),
+  ('ledger:434', "Number's = between a float and an exact number, which closes with your strike."),
   ('doc:explorations/reviews/number-closure-2026-11-05.md#6. The options', 'Option (b), its step 2 and its files.'),
   ('doc:explorations/reviews/number-closure-2026-11-05.md#2. What the clause does', 'What leans on the clause, measured.'),
   ('code:Library/ReflectiveQuickCheck.fss#object genType(top:Type)', 'The generator you give a way to make a Number.'),
-  ('code:Library/FortressLibrary.fss#exactValue(x: Number): QQ', "The unlisted case that Number's = reaches."),
+  ('code:Library/FortressLibrary.fss#exactValue(x: Number): QQ', "The function you delete with Number's =."),
+  ('code:Library/FortressLibrary.fss#opr =(a:Any, b:Any)', 'The fallback that answers a mixed = which no pair carries.'),
+  ('code:Library/FortressLibrary.fss#SQRT asFloat(squaredNorm(me))', 'The norm you declare at each number type.'),
+  ('code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss#trait Number excludes', "The prelude's Number, which declares nothing."),
+  ('code:Specification/basic-lib/numbers.tex#Some conversions between them are coercions..revival-rr32', 'The passage you revise, with its callout.'),
   ('doc:ProjectFortress/tests/XXXComprisesLibraryTraitUnlistedExtender.fss', 'The test you retarget.'),
-  (PROBES, 'The walk runs without the clause on this base.'),
+  (PROBES, "The walk runs without the clause on this base, and Number's = in the team's library."),
+  (REC + "The planner's probes for rungs N and F", "The strike's walk runs, the checker's sites, the prototype of the pairs and the demos on this base."),
   FORKS,
 ]
-N_CHECKS = ['P-160', 'F-318', 'ledger:551', 'doc:explorations/reviews/number-closure-2026-11-05.md#6. The options',
+N_CHECKS = ['P-160', 'P-165', 'F-318', 'F-131', 'ledger:551', 'ledger:434',
+  'doc:explorations/reviews/number-closure-2026-11-05.md#6. The options',
   'doc:explorations/reviews/number-closure-2026-11-05.md#2. What the clause does',
   'code:Library/ReflectiveQuickCheck.fss#object genType(top:Type)',
-  'code:Library/FortressLibrary.fss#exactValue(x: Number): QQ', PROBES]
+  'code:Library/FortressLibrary.fss#opr =(a:Any, b:Any)',
+  'code:Library/FortressLibrary.fss#SQRT asFloat(squaredNorm(me))',
+  'code:Specification/basic-lib/numbers.tex#Some conversions between them are coercions..revival-rr32', PROBES,
+  REC + "The planner's probes for rungs N and F"]
 
 I_BRIEFING = [
   ('P-162', "The decision whose integers' rung you build."),
@@ -68,6 +80,7 @@ I_CHECKS = ['P-162', 'P-69', 'P-153', 'P-58', 'doc:explorations/reviews/hard-set
 
 F_BRIEFING = [
   ('P-162', "The decision whose floats' rung you build."),
+  ('P-165', 'asFloat off Number, and the four over Number at RR64.'),
   ('P-58', "The binding's form, and the check from the step that moves a binding."),
   ('F-299', "The loader's carriers, FlatString's self and a Char in an int among them."),
   ('F-308', 'The Char transfer on the compiled path.'),
@@ -79,16 +92,24 @@ F_BRIEFING = [
   ('doc:explorations/reviews/hard-set-natives-2026-11-06.md#(e) The mix by group', 'The option the decision took.'),
   ('code:' + SRC + 'interpreter/glue/prim/Float.java#public static final class IFloor extends R2L', "A bracket's glue."),
   ('code:' + SRC + 'interpreter/glue/prim/Float.java#public static final class Random extends Util.R2R', "random's glue, which your helper computes as."),
+  ('code:' + SRC + 'interpreter/glue/prim/Float.java#public static final class Pow extends RR2R', "The power's glue, which reads an integer exponent as a double, as your conversion does."),
+  ('code:Library/FortressLibrary.fss#atan2(self,x:Number):RR64 = atan2(asFloat(self), asFloat(x))', "The RR64 trait's atan2, which you narrow to RR64."),
+  ('code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss#opr ^(self, b:Number):RR64 = self^(asFloat(b))', "Float's power at Number, which you delete."),
+  ('code:Library/FortressLibrary.fss#opr ^(self, b:Number):RR64 = (asFloat(self))^b', "The RR64 trait's power, which you narrow to RR64."),
   ('code:' + SRC + 'interpreter/glue/prim/FlatString.java#public static final class Concat extends ss2S', "flatConcat's glue at a Char."),
   ('map:compile-path-walkthrough.md#7. Native bindings in both worlds', "The territory map's two binding mechanisms."),
   (PROBES, "The base's sites."),
+  (REC + "The planner's probes for rungs N and F", "The checker's refusals once Number has no asFloat."),
   FORKS,
 ]
-F_CHECKS = ['P-162', 'P-58', 'F-299', 'doc:explorations/reviews/hard-set-natives-2026-11-06.md#2.2 Group 2',
+F_CHECKS = ['P-162', 'P-165', 'P-58', 'F-299', 'doc:explorations/reviews/hard-set-natives-2026-11-06.md#2.2 Group 2',
   'doc:explorations/reviews/hard-set-natives-2026-11-06.md#2.3 Group 3',
   'doc:explorations/reviews/hard-set-natives-2026-11-06.md#(b) New helpers',
   'doc:explorations/reviews/hard-set-natives-2026-11-06.md#(e) The mix by group',
-  'code:' + SRC + 'interpreter/glue/prim/Float.java#public static final class Random extends Util.R2R', PROBES]
+  'code:' + SRC + 'interpreter/glue/prim/Float.java#public static final class Random extends Util.R2R',
+  'code:Library/FortressLibrary.fss#atan2(self,x:Number):RR64 = atan2(asFloat(self), asFloat(x))',
+  'code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss#opr ^(self, b:Number):RR64 = self^(asFloat(b))', PROBES,
+  REC + "The planner's probes for rungs N and F"]
 
 C_BRIEFING = [
   ('P-163', 'The decision you build.'),
