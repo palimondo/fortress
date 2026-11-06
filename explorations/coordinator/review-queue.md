@@ -4,10 +4,10 @@
 
 The asks that stay after the cleanup of 2026-11-05, grouped by the work that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) or (c) gives the other way, the cost, the home and its "Needed by" line. The cleanup gave each of the 312 open items one verdict: 77 settled or stale, now in (a); 117 decisions that landed at a default that no planned work needs his word on again, moved to `coordinator/review-queue-learning-2026-11-05.md`, the material for a page that he reads to learn what was decided; 53 items of the coordinator's own work, moved to `coordinator/coordinator-work-2026-11-05.md`; and the 65 asks below. Each item that left keeps its number in (a), with the file it went to. A landing files its new items for him by the routing (`coordinator/tools/record-landing/routing.md`), each with its "Needed by" line, and brings this section and its counts in line. Climb batch 26's routing added items 355 to 367, and moved 310 and 340, landed at a default, to that batch's group.
 
-**Counts**, 74 open items, 42 consequential and 32 routine:
+**Counts**, 76 open items, 44 consequential and 32 routine:
 - Before the ledger's repair: 5 (0 consequential, 5 routine).
-- The next batch and the natives' batches: 2 (0 consequential, 2 routine).
-- Before the switch-over: 15 (14 consequential, 1 routine).
+- The next batch and the natives' batches: 3 (1 consequential, 2 routine).
+- Before the switch-over: 16 (15 consequential, 1 routine).
 - Before microGPT compiles: 13 (10 consequential, 3 routine).
 - Before microGPT runs fast: 2 (1 consequential, 1 routine).
 - Walk's questions: 8 (3 consequential, 5 routine).
@@ -25,6 +25,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 **The next batch and the natives' batches** (PLAN, phase 4, P-160's second step and the natives line). The next batch takes P-160's second step, which waits on no item here (357, settled by P-12 on 2026-11-06, stands with climb batch 26's defaults), and `System`'s rung, which his answer to 355 of 2026-11-06 sets (now in (a)). A batch that moves the rest of the 109 meets 363, whose way P-162 sets (331, 332 and 361 are answered by P-162, his decision of 2026-11-06 on the hard-set natives, now in (a)), and one that moves `Char`'s `asExprString` takes P-163's way (354 is answered by P-163, his decision of 2026-11-06 on `Char`'s `asExprString`, now in (a)); 20 and 338 are answered by P-161, his option 6 of 05:51 UTC on 2026-11-06 on the integer conversions (now in (a)); 335 comes before N3's new helpers. Each launch needs his go, after the Fable review of its record.
 - **363.** `FlatString`'s `=` and `flatConcat` at a `Char` left on glue with item 331. Default: as landed; P-162 sets its other way, a new helper for each, with group 3.
 - **335.** A static check of the natives' shared state in the gate, a parallel test for each helper that holds state, both, or neither, before N3. Default: neither.
+- **371.** `value trait ZZ32` and the same for the other number traits, so that a compiled number is a value object by declaration. Default: decided with the rung that fixes what `SEQV` means (P-162).
 
 **Before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library).
 - **2.** The checker's two extra attempts at a call beside the two of P-49: kept or dropped. Default: kept, as built.
@@ -42,6 +43,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **339.** `char` of a code point outside 0 to 1114111: the value kept, or an exception (row 857). Default: the value kept, as today.
 - **108.** An api form that makes the one library's strided `:` a generator, so that `seq(0:10:3)` is accepted (rows 514, 661). Default: the declaration unchanged.
 - **360.** Walk refuses a helper parameter declared `String` at load, while the checker reads it as `String` (climb batch 26's fork 21). Default: the step taken, as landed.
+- **372.** Walk's five native number objects, `Int` among them, made private below their traits, as P-164 does for the I/O objects. Default: decided at the switch-over batch, after a count of the programs that name them.
 
 **Before microGPT compiles** (PLAN, phase 5).
 - **3.** The specification's sentence that a statically chosen declaration keeps its inferred instance, against the POPL 2019 rule. Default: the sentence as written.
@@ -215,7 +217,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 26, listed for his review", T.worker.2; PLAN, phase 4, the names; F-322; `compile-ladder/rung-string-natives/REPORT.md:208`; `coordinator/CLIMB-BATCH-26.md`, section 2, forks 20 and 21; `reviews/batch-26-review.md`, Part 1, "Where the text, the brief or the principles split", 5, and Part 4, "Two notes owed", (i); row 846; F-299
    - Needed by: before the switch-over's names batch (set by the landing workflow, from the review's note (i)); its design meets the two readings.
 
-### Numbers and numerals (9)
+### Numbers and numerals (11)
 
 21. **`NN32` into `RR64` against answer 8 (item 37).** He decided that `NN32` converts into `RR64`, since it fits exactly. Built, that makes a `ZZ32` with an `NN32` ambiguous between `RR64`'s and `ZZ64`'s operators on both paths, where answer 8 gives `ZZ64`; two team tests go red.
    - Landed: Not built.
@@ -279,6 +281,20 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Its cost: Not measured. Under the default, the compiled `char` of such a code point stops raising at the switch-over, when the prelude goes.
    - Home: PLAN, "Climb batch 24, listed for his review", S.worker.1; `compile-ladder/rung-natives-small/REPORT.md:223`; `reviews/batch-24-review.md`, Part 1, "The decisions consequential for him, and the readings he has not confirmed"; row 857; F-307
    - Needed by: before the switch-over; then the compiled `char` takes the one library's answer, which keeps the value where the prelude raises.
+
+371. **`value trait ZZ32`, and the same for the other number traits, so that a number is a value object on both paths by its declaration.** The one library pairs a number trait with walk's native object below it: `trait ZZ32` with `value object Int extends ZZ32` (`LibraryBuiltin/FortressBuiltin.fsi:125`), and the same for `Long`, `BigNum`, `Float` and `UnsignedLong`. The `value` modifier sits on walk's object, not on the trait. The compiler prelude declares a bare trait that the Java class `FZZ32` implements (`LibraryBuiltin/CompilerBuiltin.fss:663`; `compiler/runtimeValues/FZZ32.java:14`), so a compiled `ZZ32` value is by declaration no value object. From the curator's reading with the coordinator on 2026-11-06.
+   - Landed: The modifier on walk's five objects only. Default: decide with the rung that fixes what `SEQV` means (P-162; `reviews/any-carrier-2026-11-06.md`).
+   - The other way: `value trait ZZ32` and the same for the other number traits, the form that the library already uses for `Maybe` (`Library/FortressLibrary.fss:1628`) and that both paths enforce (row 115, the trait rule the one valueness rule enforced).
+   - Its cost: A line in each number trait of the library and its api, and a reference object below a number trait refused on both paths; the `SEQV` rung's tests read numbers through it.
+   - Home: P-162; `reviews/any-carrier-2026-11-06.md`; row 115
+   - Needed by: before the rung that fixes what `SEQV` means (P-162); that rung settles what `SEQV` means for a number, which the trait's valueness states.
+
+372. **Walk's five native number objects made private below their traits.** `Int`, `Long`, `BigNum`, `Float` and `UnsignedLong` are public names in `FortressBuiltin`'s api (`LibraryBuiltin/FortressBuiltin.fsi:41`, `:125`, `:128`, `:176`, `:223`), so a program can name `Int` in a `typecase` or as a static argument (row 364, walk's static argument read from the run-time class): it means something under walk and nothing on the compiled path, whose prelude has no such objects. From the curator's reading with the coordinator on 2026-11-06.
+   - Landed: The five public. Default: decide at the switch-over batch, after a count of the programs under `ProjectFortress/` and `explorations/` that name them.
+   - The other way: The five private below their traits, as P-164's design does for the I/O objects.
+   - Its cost: The api's five declarations made private, and each program that names one respelled at its trait; the count sizes it.
+   - Home: P-164; row 364; PLAN, phase 4, the names line
+   - Needed by: before the switch-over; the switch-over batch makes the one library the compiled path's, where the five names mean nothing.
 
 ### Sizes and arrays (9)
 
