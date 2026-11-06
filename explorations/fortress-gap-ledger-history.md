@@ -9089,3 +9089,63 @@ rewritten
 rewritten
 
 | 598 | under walk, the load check does not check a `comprises` clause's other half, that each listed type extends the trait at every instantiation: `Expr[\T\] comprises { IntE, BoolE }` with `object IntE extends Expr[\ZZ32\]` and `object BoolE extends Expr[\Boolean\]` loads | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/traits.tex`, "Trait Declarations" | `ProjectFortress/tests/XXXComprisesListedTypeExtendsEachInstance.fss` | climb batch 9 rung K's skeptic | siblings: 551. The compiled checker refuses the program: 'Invalid comprises clause: IntE is included in the comprises clause of Expr but IntE does not extend Expr[\T\]' (`explorations/compile-ladder/rung-walk-load-check/SKEPTIC.md` section 3). Rung K's report argues that walk's soundness does not need this half, since a listed type outside `T` only widens the overlap walk must cover (`explorations/compile-ladder/rung-walk-load-check/REPORT.md` section 5). full text: history, row 598 |
+
+### Row 349
+
+rewritten
+
+| 349 | compiled, the prelude declares no `widen` on `ZZ64` and neither `widen` nor `narrow` on `ZZ`, so `widen` of a `ZZ64` and `narrow` of a `ZZ`, which `walk` answers, are refused; `narrow` of a `ZZ32` 43 compiles by coercion and gives 43 on both paths | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/compiler_tests/XXXZZNarrowRungP.test` | climb batch 2 rung W's skeptic | siblings: 502, 859. Walk has `widen` on `ZZ64` and both on `ZZ` (`Library/FortressLibrary.fsi:646`, `:698-699`, at de6d905f5); the prelude's `trait ZZ` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:103-145`) has neither, its `trait ZZ64` (`:147-208`) only `narrow`. `narrow` of a `ZZ32` goes through `ZZ64`'s `coerce(x: ZZ32)` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:580`). P-161, not landed at de6d905f5, deletes `ZZ`'s `narrow` and `widen`, which closes the `narrow` half; the `widen` half closes at the switch-over with row 442, its probe `explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK3Tower.fss`, in the parent of ab067d9b6. full text: history, row 349 |
+
+### Row 71
+
+rewritten
+
+| 71 | `import List` fails on the compiled path: the compiler's prelude has no `ZeroIndexed`, `LexicographicOrder`, `Comprehension`, `BigReduction`, `MonoidReduction`, `Indexed`, `ImmutableArray` or `Array`, which `Library/List.fsi` and the `Library/CovariantCollection.fsi` that it imports name | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/library/optional-libraries.tex`, "List" | none | ours | The refusals (12 errors, rc=255, `tests/ListTest.fss` at `cc47b637d`) are raised inside the two apis: `CovariantCollection.fsi`'s first, `ImmutableArray` (`:19`, `:25`), `Array` (`:26`, `:27`), `MonoidReduction` (`:53`), `Comprehension` (`:61`), then `List.fsi`'s `ZeroIndexed` (`:69`), `LexicographicOrder` (`:70`), `Comprehension` (`:116`), `BigReduction` (`:119`), `Indexed` (`:126`) and `MonoidReduction` (`:137`); walk runs the same file to `PASS`. `HasRank` and `Maybe` are declared (`Library/CompilerLibrary.fsi:272`, `:221`). The prelude is deleted at the switch-over. full text: history, row 71 |
+
+### Row 442
+
+rewritten
+
+| 442 | the compiled path's prelude lacks conversions and operations the revised number chapters state: `ZZ32` and integer numerals into `RR64`, `NN32` into `ZZ64`, `RR64`'s `check`/`check_star`, `/` on `ZZ32`, `^` on `ZZ64`, shifts, `GCD` and `LCM` on `NN32`/`NN64`, `narrow` on `ZZ` | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/basic-lib/numbers.tex`, "Rational Numbers"; `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/compiler_tests/XXXInferPromoteNN32.test` | climb batch 6 rung T's skeptic | Closes at the switch-over (POSITIONS, "The library route."). `RR64` coerces from `FloatLiteral` and `RR32` only, `ZZ64` from `IntLiteral` and `ZZ32` only (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:433-435`, `:147-149`): `half(3)` for an `RR64` parameter is refused, and `MAX` or promotion of an `NN32` with a `ZZ32` gives `ZZ`, not `ZZ64`. `ZZ`, `ZZ64`, `NN64` lack `asRR64` and `asFloat`; `StandardTotalOrder` (`Library/CompilerAlgebra.fsi:16-22`) lacks `MIN`/`MAX`, and `ZZ64`, `NN32`, `NN64` do not extend it. Also gated: `XXXNNShiftRungP`, `XXXNNGcdLcmRungP`, `XXXZZNarrowRungP`, `XXXMaxNN32IntoZZ64RungM`. full text: history, row 442 |
+
+### Row 732
+
+rewritten
+
+| 732 | the code generator gives an object no forwarder for a method body that it inherits from an imported api's trait that is not first in its extends clause, so a call of that method on the object dies with `AbstractMethodError` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | none | climb batch 16's Q1 probe | `dumpMethodChaining` forwards only a declaration with a body (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:968`, at c124c6b65), and an imported api's trait's methods come from the api, whose declarations have no body; the first extended trait's need none, as they come through the class hierarchy (`:934-940`). Probe: api `Q1ApiB` with `trait B pick(self): String end`, its component giving the body `"b"`; a program with `trait C other(self): String = "c" end`, `object O extends { C, B } end`, `pick(O)`: 'Receiver class ...$O does not define or inherit an implementation of ... pick?0()' of interface `Q1ApiB$B`. With `extends { B, C }` it runs `b`, as walk does either way. |
+
+### Row 414
+
+rewritten
+
+| 414 | **the declaration rule is not applied when an extended instantiation's argument is a static parameter**: `object O[\nat n\] extends { Vec[\n\], Vec[\3\] }` and the type twin with `Vt[\T\], Vt[\ZZ32\]` pass the compiled checker and die at load, `ClassFormatError` "Duplicate interface name" | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXNatExtendsTwice.test` | climb batch 5 rung Z (D4) | siblings: 406, 790. The extends check asks `definitelyExcludes` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeHierarchyChecker.scala:297` at c124c6b65), which means "provably different" because overloading uses it, where the rule needs "not provably the same"; fix: a declaration-rule check of its own there. Walk runs both programs (row 371). Through row 489's name capture, `079f54ea9` accepts by the same gap `trait Odd[\T\] extends { Full[\T\], Tag[\ZZ32, T\] }` over `trait Box[\T\] comprises { Full[\T\] }` and `Tag[\T, U\] extends Box[\T\]`; renamed `Odd[\V\]` it is refused. full text: history, row 414 |
+
+### Row 416
+
+rewritten
+
+| 416 | **walk's overloading check applies no instantiation exclusion**: it refuses `g(b: Tg[\3\])` beside `g(b: Tg[\4\])`, "first parameters b:[Tg[\4\]] and b:[Tg[\3\]] are unrelated", and overloads on two traits extending `Tg[\3\]` and `Tg[\4\]`; the compiled run prints 3 and 4 | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/types-vals-vars.tex`, "Trait Types" | `ProjectFortress/tests/XXXNatSizeExclusionWalk.fss` | climb batch 5 rung Z | Instantiation exclusion makes the two parameter types exclude each other, so the pair is a valid overloading. The refusal is raised in `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/OverloadedFunction.java:589-604` at c124c6b65; by reading, `FType.excludesOther` (`FType.java:197-210`) has no case for two instances of one generic type. Two generic declarations that differ only in an element type load (F-155). The library's bounds check is named by rank, `checkSelection`, `checkSelection2D`, `checkSelection3D` (`Library/RangeInternals.fss:125-172`; F-91): walk refuses one name over `Range[\ZZ32\]` and `Range[\(ZZ32,ZZ32)\]`. full text: history, row 416 |
+
+### Row 510
+
+rewritten
+
+| 510 | under `walk`, a typed binding does not fix a static argument that only a call's result mentions: `a: BoxK[\ZZ64\] = wrapK(3)` is refused, 'RHS expression type BoxK[\Int\] is not assignable to LHS type BoxK[\ZZ64\]', and a method's `a: BoxT[\ZZ64\] = Fac.mk()` takes `BoxT[\Any\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/var-ref.tex`, "Identifier References"; `Specification/basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXInferExpectedTypeRungK.fss` | climb batch N rung K | siblings: 705. `i: ZZ64 = idK(3)` answers `3 : ZZ64`, since the binding converts a result that is the type parameter itself, and no coercion converts a `BoxK[\Int\]` (F-55). The method form is `XXXExpectedTypeFixRungT`, which also asserts an assignment and a field declaration. A clause form takes the binding's declared type (F-228); a generic call does not. The compiled checker fixes `T = ZZ64` by the expected type. Repair: pass the declared type into the call's inference (`LHSEvaluator`, `BuildEnvironments`); whether before the switch-over (P-12) is the curator's. Workaround: `wrapK[\ZZ64\](3)`. full text: history, row 510 |
+
+### Row 489
+
+rewritten
+
+| 489 | the compiled checker's `comprises` rule for a generic subtrait of a generic closed trait reads the clause in the subtrait's own type-variable names, so its verdict on an extender changes when the extender renames its type variable | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/traits.tex`, "Trait Declarations" | `ProjectFortress/compiler_tests/XXXComprisesGenericRenamed.test` | climb batch 7C rung Y's skeptic | siblings: 487, 490. The test's `trait Paired[\S\] extends { Filled[\S\], Marked[\S, ZZ32\] }`, under `Crate[\T\] comprises { Filled[\T\] }`, is refused ('immediate subtype Marked is not eligible'), and accepted spelled `Paired[\T\]`; walk runs both. Cause: `TypeHierarchyChecker.scala:333` (at c124c6b65) checks the extender against `subst_comprises` (`:327`), in the subtrait's variables, not substituting the extender's arguments to the subtrait. It also hides a false clause in row 414's gap. Repair: `explorations/compile-ladder/rung-comprises-checker/SKEPTIC.md`; it changes approved code (POSITIONS P-44, P-60), so it is the curator's. full text: history, row 489 |
+
+### Row 371
+
+rewritten
+
+| 371 | under walk, an `excludes` clause is not checked against an `extends` clause: `object Both extends { A, B }` with `trait A excludes { B }` runs, as do the generic and size forms, where the compiled checker refuses each | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/traits.tex`, "Trait Declarations"; `Specification/basic/types-vals-vars.tex`, "Relationships between Types" | none | climb batch 3 rung M's skeptic | siblings: 551. Walk skips `TypeHierarchyChecker` (`ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java:166-190`), which refuses with 'Types A and B exclude each other' (`TypeHierarchyChecker.scala:298-300` at d4d454f9d) and 'Type Both excludes A but it extends A' (`:307-308`). Fix: that check under walk, or an exclusion check where walk orders a trait's extends (`FTraitOrObject.java:236-251`). Forms that run: `U[\T\] excludes { V[\T\] }`; `Vec[\3\]`, `Vec[\4\]` (`object O[\nat n\] extends { Vec[\n\], Vec[\3\] }` passes the checker too, row 414); `trait Tx extends Any excludes { Object }`, whose object is an `Object`. full text: history, row 371 |
+
+### Row 293
+
+rewritten
+
+| 293 | no elementwise `×` reaches `Vector` or `Matrix`, by design: both are declared `excludes { AnyMultiplicativeRing }` because their juxtaposition is the inner product | NEGATIVE-VERIFIED | design limit (library) | `Specification/basic/traits.tex`, "Trait Declarations" | none | run-c4 vocabulary | siblings: 371. Exclusions at `Library/FortressLibrary.fsi:1647`, `:1759`. Walk accepts a carrier extending both `Matrix` and `MultiplicativeRing` (row 371): its `×` works, `h h` is the ring's elementwise product, and the inherited `+` fails with `** bug! MethodClosure +(…) … has neither body nor def instanceof Method` (two `AdditiveGroup` instantiations). The checker refuses such a type. Cause of row 109. Workaround: a top-level `×` (row 161). Probes `explorations/run-c4/probes/vocabulary/v01c_matrix_times.fss`, `explorations/run-c4/probes/vocabulary/v02_ring_excluded.fss`, `explorations/run-c4/probes/vocabulary/v02b_ring_juxt.fss`, in the parent of `11bf69c39`. full text: history, row 293 |

@@ -1,0 +1,1 @@
+288	defect	the compiled path cannot compile a program that imports a user grammar that walk runs; an implementation gap of the compiled path, no design choice of the team
