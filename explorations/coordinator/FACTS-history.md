@@ -5811,3 +5811,27 @@ pointer words refreshed in: F-24
 ### F-330
 
 2026-11-07 09:51Z · added · from `explorations/compile-ladder/rung-io-writer/REPORT.md`, "What changed and why" · by climb batch 27 gather
+
+### F-327
+
+2026-11-07 10:33Z · rewritten · from `explorations/compile-ladder/climb-batch-27/RECORD.md`, "The landed commits" · by climb batch 27 merged-diff review: re-anchored to main after the batch merge
+
+- F-327 **The integers' shifts and powers over `AnyIntegral` convert their count or exponent in Fortress and call public bare bindings at narrow headers.** `ZZ32`, `ZZ64`, `NN32`, `NN64` and `ZZ` keep `LSHIFT`, `RSHIFT` and `^` over `AnyIntegral` (and `ZZ`'s `shift`) as plain Fortress around a public bare `builtinPrimitive` binding at a `ZZ32` count (`ZZ32`, `NN32`, `ZZ`) or a `ZZ64` count (`ZZ64`, `NN64`) and a `ZZ32` exponent, declared in the api; private functions `shiftCount32`, `shiftCount64`, `powerCount32` (`Library/FortressLibrary.fss:733-777`) and `countNN32`, `exponentNN32` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:389-415`) keep `Int.shiftCount`'s saturation and `Int.powCount`'s sign and parity, a `ZZ` count or exponent clamped in `ZZ` and then read by `ZZ`'s `narrow`. Ten new helpers and five existing; every value of the walk guard is the glue's. Meaning: the 16 count among the helper bindings (F-299, F-32 change by 16), a `ZZ32` count or exponent reaches its bare binding directly, and P-69 and P-153 hold on both paths at these declarations. Test: `tests/NativeHelperShiftPowerWalk`, `compiler_tests/NativeHelperFamilyShiftPowerCompiled`. Detail: `compile-ladder/rung-natives-shift-power/REPORT.md`, "What changed and why".
+
+### F-330
+
+2026-11-07 10:33Z · rewritten · from `explorations/compile-ladder/climb-batch-27/RECORD.md`, "The landed commits" · by climb batch 27 merged-diff review: re-anchored to main after the batch merge
+
+- F-330 **Walk carries `FortressLibrary`'s `JavaBufferedWriter` in a Java `FortressBufferedWriter`, and `stdOut`, `stdErr`, `Writer` and `BufferedWriter` are plain Fortress objects over it.** The trait's `write`s, `flush` and `close` and its three factories, over a file name, standard output and standard error, are natives on `nativeHelpers/fileOps` (`Library/FortressLibrary.fss:1878-1897`); walk's loader carries the trait by its name through `FortressBuiltin`'s private native object `JavaBufferedWriterObject` (`interpreter/glue/StaticNativeApp.java:67`), and the checker's walk-world table reads `FortressBufferedWriter` and `FortressBufferedReader` as the one library's traits (`compiler/NamingCzar.java:490-491`). A missing file raises the library's `FileNotFoundException`, which a `catch` sees. `FileWriteStream` stays on its glue: under walk no object of a native component holds a field. Test: `tests/NativeHelperWriterWalk`, `compiler_tests/NativeHelperFamilyWriterCompiled`. Detail: `compile-ladder/rung-io-writer/REPORT.md`, "What changed and why".
+
+### F-283
+
+2026-11-07 10:33Z · rewritten · from `explorations/compile-ladder/climb-batch-27/RECORD.md`, "The tests on the merged tree" · by climb batch 27 merged-diff review: the merged tree of climb batch 27: 51 of 52
+
+- F-283 **All 52 programs of the team's `DemoTests` reach their end under walk.** Run one at a time from `ProjectFortress/demos`, each exits 0 and prints no "fail", within a 600 s limit and on an empty input, with `wordcount2` run from the tree's root and `tennisRanking` given the three files of `ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:806-815`. The demos run in no suite, so a batch that changes walk or its library runs them again (P-79). The compiled checker still refuses `trips.fss` (row 817). No gated test: the command is the driver in `compile-ladder/rung-team-demos/REPORT.md` section 13, and its output is 'demos: 52 run, 52 reached their end'. Detail: the same report, section 3.
+
+### F-283
+
+2026-11-07 10:33Z · rewritten · from `explorations/compile-ladder/climb-batch-27/RECORD.md`, "The tests on the merged tree" · by climb batch 27 merged-diff review: each of the 51; the batch run cited
+
+- F-283 **51 of the 52 programs of the team's `DemoTests` reach their end under walk; `turnersParaffins0` stops.** Run one at a time from `ProjectFortress/demos`, each exits 0 and prints no "fail", within a 600 s limit and on an empty input, with `wordcount2` run from the tree's root and `tennisRanking` given the three files of `ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:806-815`. The demos run in no suite, so a batch that changes walk or its library runs them again (P-79). The compiled checker still refuses `trips.fss` (row 817). No gated test: the command is the driver in `compile-ladder/rung-team-demos/REPORT.md` section 13, and its output on climb batch 27's merged tree is 'demos: 52 run, 51 reached their end'. `turnersParaffins0` writes its expected map's keys `0 asif ZZ32` (`ProjectFortress/demos/turnersParaffins0.fss:403-408`) and stops at `Library/Map.fss:165`, since walk keeps the assumption on the key (row 919) and cannot call the overloaded `=` of `ZZ32` on an assumed receiver (row 921; `Library/FortressLibrary.fss:776-780`); whether it is respelled or walk fixed first is PLAN's item 73. Detail: the same report, section 3.

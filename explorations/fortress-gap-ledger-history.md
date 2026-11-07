@@ -9323,3 +9323,33 @@ closed by 5ae581c4a
 note added
 
 | 921 | under walk an overloaded dotted method called on an assumed receiver stops: `(Leaf asif Named).pick(Leaf asif Named)`, with `pick` at `Named` and at `Leaf` in trait `Named`, gives 'Unexpected method value {...}:OverloadedFunction when invoking method pick given receiver (Leaf asif Named)' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/type-annotation.tex`, "Type Assumption" | XXXAsIfOverloadedMethodWalk | the walk guard of the code generator's asif | The message is `interpreter/evaluator/values/DottedMethodApplication.java:106`. A method of one declaration on an assumed receiver runs (AsIfCallsWalk). The compiled path runs `Named`'s body at `Named` (AsIfCallsCompiled). |
+
+### Row 918
+
+rewritten
+
+| 918 | the compiled checker over the one library accepts a program's trait that declares its own functional `+` and excludes neither `Number` nor arrays beside the library's `+` between an array and a number, a pair that it refuses inside one component and walk refuses at load | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/overloading.tex`, "Principles of Overloading" | `ProjectFortress/tests/NumberOpenTraitPlusBesideArrayWalk.fss` | climb batch 27 rung N | With `Number` open, walk's load check: 'fails the Meet Rule: neither is found to be more specific than the other or to exclude it' (the reproducer, `Library/FortressLibrary.fss:4969`). The count stage's driver over the reproducer: '### rc=0'; over a copy with the library's `opr +` declared in the program as `PLUS`: 'Invalid overloading of PLUS in component OpenPlusControl', 1 error. `tests/CoercionOverloadRungC.fss:6` now excludes `Number`. Its compiled half waits for the switch-over. |
+
+### Row 919
+
+rewritten
+
+| 919 | under walk a type assumption outlives its enclosing call: bound to a name, `n = Leaf asif Named`, or as an `if` branch's value, the value keeps the assumed type, so `n.name` runs `Named`'s getter and `who(n)` the overload at `Named` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/type-annotation.tex`, "Type Assumption" | XXXAsIfBoundWalk | the walk guard of the code generator's asif | Walk wraps the value in an `FAsIf` (`interpreter/evaluator/Evaluator.java:109-116`) and a local binding keeps the wrapper. A parameter drops it: `caption(Leaf asif Named)` reads `Leaf`'s getter in the body (AsIfCallsWalk). A probe printing `n.name` and `who(n)` printed `Named` and `Named`. The compiled path gives the value (AsIfCallsCompiled). Library forms: `ReflectiveQuickCheck.fss:68`, `:84`, `:246`, `:303` bind an assumption to a name. |
+
+### Row 923
+
+rewritten
+
+| 923 | the library declares `=` on pairs and triples only, so a tuple of four or more elements compares by the fallback `a SEQV b`: under walk two such tuples whose strings are equal but built apart are not equal, `(s1, 1, 2, 3) = (s2, 1, 2, 3)` is `false` for `s1 = s2` | NEGATIVE-VERIFIED | design limit (library) | silent | `ProjectFortress/tests/StrictEquivalenceRuleWalk.fss` | climb batch 27 rung E | `opr =[\A,B\]` and `opr =[\A,B,C\]` over tuples (`Library/FortressLibrary.fss:4668`, `:4724`); a longer tuple reaches `opr =(a:Any, b:Any) = a SEQV b` (`:96`), element by element (`interpreter/evaluator/values/FTupleLike.java:78`), and strings are reference objects (P-168). The test asserts the pair and the triple `true` and the 4-tuple `false`. Before strings were reference objects walk answered `true`. Workaround: compare the elements, or nest a pair or triple. Compiled: the prelude declares no tuple `=`. |
+
+### Row 928
+
+rewritten
+
+| 928 | under walk, a program's object that extends `JavaBufferedWriter` loads, and its first call of an inherited `write`, `flush` or `close` stops, since those are natives over a Java writer and the trait has no `comprises` clause to name its private native object | NEGATIVE-VERIFIED | design limit (library) | silent | none | climb batch 27 rung W's skeptic | siblings: 551. The trait (`Library/FortressLibrary.fss:1878-1887`) has no `comprises` clause, unlike `ZZ32`'s `comprises { Int }` (`Library/FortressLibrary.fsi:538`), since its native object `JavaBufferedWriterObject` is private to `FortressBuiltin` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:740`); the loader's `unbox` refuses any other value (`ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java:292-295`), at af5953d00. Probe `object Fake extends JavaBufferedWriter end` with `Fake.write("x")`: 'No Java FortressBufferedWriter carries Fake', rc=1; on the base, 'JavaBufferedWriter is undefined.'. Workaround: a program's own writer extends `WriteStream`. |
+
+### Row 916
+
+rewritten
+
+| 916 | top-level `match(regex:FlatString, some:FlatString)` has no overload over `String`, so walk refuses a rope, a `SubString` or a program's own string at … | FIXED | library gap vs spec (library) | silent | `ProjectFortress/tests/AnyNativesIntrinsicWalk.fss` | review strings-in-fortress-2026-11-07 | fixed `5ae581c4a`; Repaired by match(regex:String, some:String) flattening both arguments by typecase on the pair of asFlatStrings, Library/FortressLibrary.fss:4693-4697, .fsi:2631; its repair settled by the coordinator's rider of 2026-11-07 under the curator's rule of a batch's scope (climb batch 27, fork A6).; full text: history, row 916 |
