@@ -1,0 +1,17 @@
+(* A generic method called on an assumed receiver runs the body that the assumed trait gives it (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfGenericMethodWalk
+export Executable
+
+trait Named
+    gm[\X extends Object\](x: X): String = "Named gm"
+end
+
+object Leaf extends Named
+    gm[\X extends Object\](x: X): String = "Leaf gm"
+end
+
+run(): () = do
+    assert((Leaf asif Named).gm[\String\]("a"), "Named gm", "the generic method that Named gives")
+  end
+
+end

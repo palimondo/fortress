@@ -1,0 +1,22 @@
+(* An overloaded generic function called with every dispatched argument under a type assumption runs the declaration at the assumed types (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfGenericFunctionCompiled
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+end
+
+object Leaf extends Named
+    getter name(): String = "Leaf"
+end
+
+gw[\X extends Object\](x: Named, y: X): String = "Named gw"
+gw[\X extends Object\](x: Leaf, y: X): String = "Leaf gw"
+
+run(): () = do
+    assert(gw[\String\](Leaf, "a"), "Leaf gw", "the overload at Leaf")
+    assert(gw[\String\](Leaf asif Named, "a" asif String), "Named gw", "the overload at Named, under the assumptions")
+    println("PASS")
+  end
+
+end

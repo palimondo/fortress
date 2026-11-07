@@ -1,0 +1,24 @@
+(* An assumption bound to a name, or the value of an if branch, is the value, whose getter and overloaded calls then dispatch on its own type (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfBoundWalk
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+end
+
+object Leaf extends Named
+    getter name(): String = "Leaf"
+end
+
+who(x: Named): String = "Named"
+who(x: Leaf): String = "Leaf"
+
+run(): () = do
+    n = Leaf asif Named
+    assert(n.name, "Leaf", "a bound assumption is the value, whose getter dispatches")
+    assert(who(n), "Leaf", "a bound assumption is the value, whose overload dispatches")
+    v = if true then Leaf asif Named else Leaf end
+    assert(v.name, "Leaf", "an assumption as an if branch's value is the value, whose getter dispatches")
+  end
+
+end

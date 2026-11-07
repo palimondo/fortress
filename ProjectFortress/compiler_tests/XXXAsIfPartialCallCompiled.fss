@@ -1,0 +1,22 @@
+(* An overloaded call with one argument under a type assumption and one not dispatches on the assumed type and on the other argument's own type (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfPartialCallCompiled
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+end
+
+object Leaf extends Named
+    getter name(): String = "Leaf"
+end
+
+pair(x: Named, y: Named): String = "Named, Named"
+pair(x: Leaf, y: Leaf): String = "Leaf, Leaf"
+
+run(): () = do
+    assert(pair(Leaf, Leaf), "Leaf, Leaf", "the overload at two Leafs")
+    assert(pair(Leaf asif Named, Leaf), "Named, Named", "the first argument is assumed a Named")
+    println("PASS")
+  end
+
+end

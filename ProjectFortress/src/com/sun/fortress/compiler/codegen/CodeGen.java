@@ -62,6 +62,7 @@ import com.sun.fortress.nodes.Assignment;
 import com.sun.fortress.nodes.ASTNode;
 import com.sun.fortress.nodes.AbbreviatedType;
 import com.sun.fortress.nodes.AnyType;
+import com.sun.fortress.nodes.AsIfExpr;
 import com.sun.fortress.nodes.ArrowType;
 import com.sun.fortress.nodes.BaseType;
 import com.sun.fortress.nodes.Block;
@@ -4032,7 +4033,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             // System.err.println("At " + x.getInfo().getSpan() + ", " + pkgClass);
         }
 
-        callStaticSingleOrOverloaded(x, arrow, pkgClass, theFunction);
+        List<Expr> assumptionArgs = callArgsForAssumption;
+        callArgsForAssumption = null;
+        if (assumptionArgs == null ||
+            !assumedArgumentsCall(x, arrow, pkgClass, theFunction, assumptionArgs, decoration.length() > 0))
+            callStaticSingleOrOverloaded(x, arrow, pkgClass, theFunction);
         if (arrow.getRange() instanceof BottomType) {
             infiniteLoop(); // prevent bottoms from reaching other code and generating verify errors.
         }
@@ -5170,7 +5175,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         
         evaluateSubExprsAppropriately(x, domain_type, args);
 
-        op.accept(this);
+        callArgsForAssumption = args;
+        try {
+            op.accept(this);
+        } finally {
+            callArgsForAssumption = null;
+        }
     }
 
     /**
@@ -6394,6 +6404,216 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         
     };
     
+    /*
+     * A type assumption, e asif T (type-annotation.tex, section "Type Assumption").
+     * At a call that it fixes, the call runs the declaration that T gives;
+     * elsewhere it is the value of e, at T's type.
+     */
+
+    private static final String ASSUMPTION_PARTIAL_CALL =
+        "Can't compile a dispatched call whose arguments are not all type assumptions";
+
+    private static final String ASSUMPTION_GENERIC_METHOD =
+        "Can't compile a type assumption at the receiver of a generic method yet";
+
+    /* The arguments of the call whose callee forFunctionalRef emits next; set by its caller. */
+    private List<Expr> callArgsForAssumption = null;
+
+    public void forAsIfExpr(AsIfExpr x) {
+        Expr e = x.getExpr();
+        e.accept(this);
+        conditionallyCastParameter(e, x.getAnnType());
+    }
+
+    private static List<Expr> callArgList(Expr arg) {
+        if (arg instanceof TupleExpr)
+            return ((TupleExpr) arg).getExprs();
+        if (arg instanceof VoidLiteralExpr)
+            return Collections.<Expr>emptyList();
+        return Collections.singletonList(arg);
+    }
+
+    private static int assumptionCount(List<Expr> args) {
+        int n = 0;
+        for (Expr a : args)
+            if (a instanceof AsIfExpr) n++;
+        return n;
+    }
+
+    /* The parameters of a JVM signature without its result, as "(...)". */
+    private static String sigParams(String sig) {
+        return sig.substring(0, sig.indexOf(')') + 1);
+    }
+
+    /* The trait that an assumption names, or null where it names no trait. */
+    private TraitType assumedTrait(AsIfExpr x) {
+        Type t = x.getAnnType();
+        if (!(t instanceof TraitType)) return null;
+        TraitType tt = (TraitType) t;
+        if (!(typeAnalyzer.typeCons(tt.getName()).ast() instanceof TraitDecl)) return null;
+        return tt;
+    }
+
+    /* The methods that trait t has or inherits under name, at self position selfIndex. */
+    private List<scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
+        methodsNamed(TraitType t, IdOrOp name, int selfIndex) {
+        List<scala.Tuple3<Functional, StaticTypeReplacer, TraitType>> result =
+            new ArrayList<scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>();
+        Relation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>> all =
+            STypesUtil.allMethodsNotIdenticallyCovered(t, typeAnalyzer);
+        String text = name.getText();
+        for (edu.rice.cs.plt.tuple.Pair<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
+                 assoc : all) {
+            Functional fnl = assoc.second()._1();
+            if (!(fnl instanceof HasSelfType)) continue;
+            if (((HasSelfType) fnl).selfPosition() != selfIndex) continue;
+            IdOrOpOrAnonymousName n = fnl.name();
+            if (n instanceof IdOrOp && ((IdOrOp) n).getText().equals(text))
+                result.add(assoc.second());
+        }
+        return result;
+    }
+
+    /* The JVM signature of the static body that a trait's springboard holds, self first. */
+    private String staticBodySig(scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m) {
+        Functional fnl = m._1();
+        StaticTypeReplacer inst = m._2();
+        TraitType declaring = m._3();
+        IdOrOp name = (IdOrOp) fnl.name();
+        Type ret = fnl.getReturnType().unwrap();
+        Type params = NodeUtil.getParamType(fnl.parameters(), NodeUtil.getSpan(name));
+        if (inst != null) {
+            ret = inst.replaceIn(ret);
+            params = inst.replaceIn(params);
+        }
+        String sig = NamingCzar.jvmSignatureFor(params,
+                NamingCzar.jvmBoxedTypeDesc(ret, component.getName()), 0, declaring, component.getName());
+        int selfIndex = ((HasSelfType) fnl).selfPosition();
+        if (selfIndex != Naming.NO_SELF)
+            sig = Naming.removeNthSigParameter(sig, selfIndex + 1);
+        return sig;
+    }
+
+    /*
+     * Emits the static call of the body that trait t gives the method named name,
+     * declared in t or inherited by it, for a call whose parameters other than self
+     * have the JVM signature callParams; self and the arguments are on the stack, self first.
+     * Answers false, emitting nothing, where t gives the method no body.
+     */
+    private boolean emitBodyGivenBy(ASTNode x, TraitType t, IdOrOp name, int selfIndex, String callParams) {
+        List<scala.Tuple3<Functional, StaticTypeReplacer, TraitType>> found =
+            new ArrayList<scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>();
+        boolean anyBody = false;
+        for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m : methodsNamed(t, name, selfIndex)) {
+            if (!m._1().body().isSome()) continue;
+            anyBody = true;
+            String sig = staticBodySig(m);
+            if (sigParams(Naming.removeNthSigParameter(sig, 0)).equals(callParams))
+                found.add(m);
+        }
+        if (found.isEmpty()) {
+            if (anyBody)
+                throw sayWhat(x, "Can't find the body that " + t + " gives " + name.getText() + " at " + callParams);
+            return false;
+        }
+        /* The most specific body: the one whose trait lies below every other's. */
+        scala.Tuple3<Functional, StaticTypeReplacer, TraitType> best = found.get(0);
+        for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m : found)
+            if (typeAnalyzer.lteq(m._3(), best._3())) best = m;
+        String owner = NamingCzar.jvmTypeDescAsTrait(best._3(), component.getName()) + NamingCzar.springBoard;
+        String mname = Naming.fmDottedName(singleName(best._1().name()), selfIndex);
+        addLineNumberInfo(x);
+        mv.visitMethodInsn(INVOKESTATIC, owner, mname, staticBodySig(best));
+        return true;
+    }
+
+    /* Whether trait t has more than one method named name at self position selfIndex. */
+    private boolean methodIsOverloaded(TraitType t, IdOrOp name, int selfIndex) {
+        return methodsNamed(t, name, selfIndex).size() > 1;
+    }
+
+    /*
+     * A dotted call whose receiver is an assumption, (e asif T).m(args): the body that T
+     * gives m, called with the value as self.  Answers false where it emits nothing.
+     */
+    private boolean assumedReceiverCall(MethodInvocation x, AsIfExpr obj, Type domain_type, Type range_type) {
+        TraitType t = assumedTrait(obj);
+        if (t == null) return false;
+        IdOrOp method = x.getMethod();
+        List<Expr> args = callArgList(x.getArg());
+        if (assumptionCount(args) != args.size() && methodIsOverloaded(t, method, Naming.NO_SELF))
+            throw sayWhat(x, ASSUMPTION_PARTIAL_CALL);
+        String callParams = sigParams(NamingCzar.jvmSignatureFor(domain_type, range_type, thisApi()));
+        boolean hasBody = false;
+        for (scala.Tuple3<Functional, StaticTypeReplacer, TraitType> m : methodsNamed(t, method, Naming.NO_SELF))
+            if (m._1().body().isSome()) hasBody = true;
+        if (!hasBody) return false;
+        obj.accept(this);
+        evalArg(x, domain_type, x.getArg());
+        return emitBodyGivenBy(x, t, method, Naming.NO_SELF, callParams);
+    }
+
+    /*
+     * A call of a function or functional method with an assumption among its arguments,
+     * whose arguments are on the stack.  Answers true where it emitted the call.
+     */
+    private boolean assumedArgumentsCall(FunctionalRef x, ArrowType arrow, String pkgClass, String theFunction,
+                                         List<Expr> args, boolean generic) {
+        int assumed = assumptionCount(args);
+        if (assumed == 0) return false;
+        boolean all = assumed == args.size();
+        Option<MethodInfo> omi = arrow.getMethodInfo();
+        if (omi.isSome()) {
+            /* A functional method: dispatched on self, and on the others where it is overloaded. */
+            if (!all) throw sayWhat(x, ASSUMPTION_PARTIAL_CALL);
+            int selfIndex = omi.unwrap().getSelfPosition();
+            if (selfIndex != 0)
+                throw sayWhat(x, "Can't compile a type assumption at a functional method whose self is not its first parameter yet");
+            TraitType t = assumedTrait((AsIfExpr) args.get(0));
+            if (t == null) return false;
+            String sig = NamingCzar.jvmSignatureFor(arrow.getDomain(), arrow.getRange(), thisApi());
+            String callParams = sigParams(Naming.removeNthSigParameter(sig, selfIndex));
+            return emitBodyGivenBy(x, t, x.getOriginalName(), selfIndex, callParams);
+        }
+        IdOrOp n = x.getNames().get(0);
+        if (n.getApiName().isSome()) {
+            ApiIndex ai = env.api(n.getApiName().unwrap());
+            if (ai.functions().matchFirst(NodeFactory.makeLocalIdOrOp(n)).size() > 1)
+                throw sayWhat(x, "Can't compile a type assumption at a call of an overloaded function of another component yet");
+            return false;
+        }
+        if (generic) {
+            refuseGenericAssumption(x);
+            return false;
+        }
+        Pair<String, String> method_and_signature = resolveMethodAndSignature(x, arrow, theFunction);
+        String mname = method_and_signature.first();
+        String sig = method_and_signature.second();
+        if (!topLevelOverloadedNamesAndSigs.contains(mname + sig))
+            return false; // a call of one declaration, which no argument's type changes
+        if (!all) throw sayWhat(x, ASSUMPTION_PARTIAL_CALL);
+        /* Every argument's type is known: call the declaration that the checker resolved, not its dispatch. */
+        addLineNumberInfo(x);
+        mv.visitMethodInsn(INVOKESTATIC, pkgClass, NamingCzar.mangleAwayFromOverload(mname), sig);
+        return true;
+    }
+
+    /*
+     * A generic function or functional method called with an assumption among its arguments:
+     * refused where the call dispatches, since the closure that it calls dispatches again.
+     */
+    private void refuseGenericAssumption(FunctionalRef x) {
+        Option<Type> ot = x.getInfo().getExprType();
+        if (ot.isSome() && ot.unwrap() instanceof ArrowType &&
+            ((ArrowType) ot.unwrap()).getMethodInfo().isSome())
+            throw sayWhat(x, ASSUMPTION_GENERIC_METHOD);
+        IdOrOp n = x.getNames().get(0);
+        Relation<IdOrOpOrAnonymousName, Function> fns =
+            n.getApiName().isSome() ? env.api(n.getApiName().unwrap()).functions() : ci.functions();
+        if (x.getNames().size() > 1 || fns.matchFirst(NodeFactory.makeLocalIdOrOp(x.getOriginalName())).size() > 1)
+            throw sayWhat(x, "Can't compile a type assumption at a call of an overloaded generic function yet");
+    }
+
     public void forMethodInvocation(MethodInvocation x) {
         debug("forMethodInvocation ", x,
               " obj = ", x.getObj(),
@@ -6431,6 +6651,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         try {
             
             if (method_sargs.size() > 0) {
+                if (obj instanceof AsIfExpr && assumedTrait((AsIfExpr) obj) != null)
+                    throw sayWhat(x, ASSUMPTION_GENERIC_METHOD);
                 /* Have to emit some interesting code.
                  * 
                  * Want to call object.methodnameSCHEMA
@@ -6507,7 +6729,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 emitInvokeGenericMethodClosure(sig, castToArrowType);
 
                 
+            } else if (obj instanceof AsIfExpr &&
+                       assumedReceiverCall(x, (AsIfExpr) obj, domain_type, range_type)) {
+                // the body that the assumed trait gives the method, called statically
             } else {
+                if (assumptionCount(callArgList(arg)) > 0 && receiverType instanceof TraitType &&
+                    methodIsOverloaded((TraitType) receiverType, method, Naming.NO_SELF))
+                    throw sayWhat(x, ASSUMPTION_PARTIAL_CALL); // the receiver dispatches too
                 // put object on stack
                 obj.accept(this);
                 // put args on stack
@@ -6798,6 +7026,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 ;
                 
             if (useClosure) {
+                if (fn instanceof FunctionalRef && ((FunctionalRef) fn).getStaticArgs().size() > 0 &&
+                    assumptionCount(callArgList(arg)) > 0)
+                    refuseGenericAssumption((FunctionalRef) fn);
                 // Higher-order call.
                 fn.accept(this); // Puts the VarRef function on the stack.
             }
@@ -6808,7 +7039,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             if (useClosure) {
                 generateHigherOrderCall(exprType(fn));
             } else {
-                x.getFunction().accept(this);
+                callArgsForAssumption = callArgList(arg);
+                try {
+                    x.getFunction().accept(this);
+                } finally {
+                    callArgsForAssumption = null;
+                }
             }
         } finally {
             paramCount = savedParamCount;

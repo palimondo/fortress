@@ -1,0 +1,19 @@
+(* An assumption on a tuple is the tuple, which a binding takes apart (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfTupleWalk
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+end
+
+object Leaf extends Named
+    getter name(): String = "Leaf"
+end
+
+run(): () = do
+    (a, k) = (Leaf, 3) asif (Named, ZZ32)
+    assert(a.name, "Leaf", "an assumption on a tuple holds the values")
+    assert(k, 3, "an assumption on a tuple holds the number")
+  end
+
+end
