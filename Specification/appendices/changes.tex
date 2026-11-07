@@ -4788,6 +4788,80 @@ a test for a \TYP{NaN} in every compiled floating-point comparison, at the cost
 above, and in the interpreter's.
 \end{description}
 
+\subsection{A character literal that writes a character with its code}
+\seclabel{revival-char-redundant-literal}
+
+\begin{description}
+\item[Affected section] The list of the forms of the sequence of enclosed
+characters of a character literal, in \secref{preprocessing-character-literals}.
+\item[Change] The list named a single character, a sequence of four or more
+hexadecimal digits identifying the code point of a Unicode character, the
+names \txt{TAB}, \txt{NEWLINE} and \txt{RETURN}, a sequence that ASCII
+conversion converts to one character, a \unicode\ name, and an escape sequence.
+It now also names a single character followed by a space and a sequence of four
+or more hexadecimal digits identifying the code point of that same character,
+as \txt{'$\alpha$ 03B1'}.
+The passage gains one box.
+\item[Rationale] This change does not follow from route~A; it follows the
+revival's decision of 6~November 2026 that the text by which a \TYP{Char}
+writes itself as an expression, its getter \VAR{asExprString}, reads back as
+the same character at every code point, on both implementations: it writes
+\txt{'{\char'134}"'} and \txt{'{\char'134}{\char'134}'} for the quotation mark
+and the reverse solidus, the code point alone for the control characters,
+U+201C, U+201D, U+2028, U+2029 and the surrogates, and for every code point
+past U+FFFF, and otherwise the character itself followed by a space and its code
+point, as \txt{'\'e 00e9'} for U+00E9.
+The form with the character and its code was built by the team in 2011, in one
+commit with the parser's rule that reads it, but the list did not name it.
+A printable character written as itself stays legible, where the code alone
+hides it; Python and Swift also write a printable character outside ASCII as
+itself.
+The full reasoning is in
+\nolinkurl{explorations/reviews/char-asexprstring-2026-11-06.md} in the
+revival's repository.
+\item[Effect] The parser already read the form.
+The text of \VAR{asExprString} changes in the interpreter at every code point
+but the printable ASCII characters and the five escapes \txt{{\char'134}b},
+\txt{{\char'134}t}, \txt{{\char'134}n}, \txt{{\char'134}f} and
+\txt{{\char'134}r}, and in the compiled path's helper at 2,054 code points: the
+quotation mark, the reverse solidus, U+201C, U+201D, U+2028, U+2029 and the
+2,048 surrogates.
+No code of \library, no test of the suites and no line of the revival's model
+program calls the \VAR{asExprString} of a \TYP{Char}.
+The parser's rule for a code point in hexadecimal digits now tries six digits,
+then five, then four, so that a code of six digits, and in lower case a code of
+five digits whose first four are decimal digits, as \txt{'1000a'}, read as their
+character (row~898 of the revival's gap ledger); every literal that the parser
+read before reads as the same character.
+A surrogate written alone cannot be stored in a source file in UTF-8, so the
+text of a surrogate reads back from a string given to the parser, not from a
+file.
+The parser departs from the text in one case: it
+reads a single 16-bit unit as the character of a character literal, so it
+refuses a character past U+FFFF written as itself, alone or followed by its code
+(row~924); \VAR{asExprString} writes the code alone there.
+The texts are gated by
+\nolinkurl{ProjectFortress/tests/NativeHelperFamilyCharWalk.fss} and
+\nolinkurl{ProjectFortress/compiler_tests/NativeHelperFamilyCharCompiled.fss},
+and the forms that they write are read back by
+\nolinkurl{ProjectFortress/tests/CharExprStringReadBack.fss}.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/lexical-structure.tex},
+lines 861--866:
+\begin{quote}
+The sequence of enclosed characters may be
+a single character
+(e.g., `\txt{a}', \txt{'\$'}, `\txt{$\alpha$}', \txt{`$\oplus$'}),
+a sequence of four or more hexadecimal digits
+identifying the code point of a Unicode character
+(e.g., `\txt{001C}', \txt{`FBAB'}, `\txt{1D11E}'), \ldots
+\end{quote}
+\item[Route C] The same under route~C.
+A reversal to the original list would need the parser to refuse the form, and
+\VAR{asExprString} to write another form at the printable characters outside
+ASCII, such as the code point alone, which reads back at every code point but
+hides the character.
+\end{description}
+
 \subsection{Passages not yet revised}
 \seclabel{revival-notrevised}
 

@@ -1,0 +1,10 @@
+(* A character past U+FFFF written as itself in a character literal, alone or followed by a space and its code, reads as that character. *)
+component XXXCharLiteralSupplementary
+export Executable
+
+run():() = do
+  assert('😀'.codePoint, 128512, "a character past U+FFFF written as itself")
+  assert('😀 1f600'.codePoint, 128512, "a character past U+FFFF followed by its code")
+end
+
+end

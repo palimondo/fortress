@@ -1,0 +1,23 @@
+(* Character literals in the forms that a Char's asExprString writes read back as their character, codes of five and six hexadecimal digits in either case among them. *)
+component CharExprStringReadBack
+export Executable
+
+run():() = do
+  assert('é 00e9'.codePoint, 233, "a printable character with its code")
+  assert('Σ 03a3'.codePoint, 931, "a printable character past U+00FF with its code")
+  assert('\"'.codePoint, 34, "the escaped double quote")
+  assert('\\'.codePoint, 92, "the escaped backslash")
+  assert('0005'.codePoint, 5, "the code alone of a control character")
+  assert('2028'.codePoint, 8232, "the code alone of the line separator")
+  assert('1f600'.codePoint, 128512, "a code of five digits in lower case")
+  assert('10400'.codePoint, 66560, "a code of five decimal digits")
+  assert('1000a'.codePoint, 65546, "a code of five digits in lower case whose first four are decimal digits")
+  assert('1000A'.codePoint, 65546, "a code of five digits in upper case whose first four are decimal digits")
+  assert('10FFFF'.codePoint, 1114111, "a code of six digits in upper case")
+  assert('10ffff'.codePoint, 1114111, "a code of six digits in lower case")
+  assert('100000'.codePoint, 1048576, "a code of six decimal digits")
+  assert('1f600' = char(128512), true, "a code of five digits equals the character")
+  assert('10FFFF' = char(1114111), true, "a code of six digits equals the character")
+end
+
+end

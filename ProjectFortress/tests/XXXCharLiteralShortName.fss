@@ -1,0 +1,10 @@
+(* A character literal of a short name that begins with two hexadecimal digits of one case reads as the character that the name stands for. *)
+component XXXCharLiteralShortName
+export Executable
+
+run():() = do
+  assert('BETA'.codePoint, 914, "the short name BETA")
+  assert('delta'.codePoint, 948, "the short name delta")
+end
+
+end

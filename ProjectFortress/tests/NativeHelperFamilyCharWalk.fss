@@ -1,4 +1,4 @@
-(* Char's comparisons, Unicode queries and case maps bound to nativeHelpers keep their values under walk, on ASCII and on characters past U+00FF and U+FFFF. *)
+(* Char's comparisons, Unicode queries and case maps bound to nativeHelpers keep their values under walk, on ASCII and on characters past U+00FF and U+FFFF, and asExprString writes a literal that reads back. *)
 component NativeHelperFamilyCharWalk
 export Executable
 
@@ -129,6 +129,20 @@ run():() = do
   assert(toUpperCase(' ') = ' ', true, "toUpperCase of a space")
   assert(toUpperCase(dz).codePoint, 452, "toUpperCase of a title-case letter")
   assert(toUpperCase(longILower).codePoint, 66560, "toUpperCase past U+FFFF")
+  assert('a'.asExprString, "'a'", "asExprString of a letter")
+  assert(char(39).asExprString, "'''", "asExprString of the apostrophe")
+  assert(char(92).asExprString, "'\\\\'", "asExprString of the backslash")
+  assert(char(34).asExprString, "'\\\"'", "asExprString of the double quote")
+  assert(newline.asExprString, "'\\n'", "asExprString of the line feed")
+  assert(char(5).asExprString, "'0005'", "asExprString of a control character")
+  assert(char(127).asExprString, "'007f'", "asExprString of DELETE")
+  assert(char(233).asExprString, "'é 00e9'", "asExprString past U+007F")
+  assert(sigma.asExprString, "'Σ 03a3'", "asExprString past U+00FF")
+  assert(char(8220).asExprString, "'201c'", "asExprString of the left double quotation mark")
+  assert(char(8232).asExprString, "'2028'", "asExprString of the line separator")
+  assert(char(128512).asExprString, "'1f600'", "asExprString past U+FFFF")
+  assert(longI.asExprString, "'10400'", "asExprString of a letter past U+FFFF")
+  assert(high.asExprString, "'d800'", "asExprString of a surrogate")
 end
 
 end

@@ -5803,3 +5803,7 @@ pointer words refreshed in: F-24
 ### F-328
 
 2026-11-07 09:47Z · added · from `explorations/compile-ladder/rung-any-carrier/REPORT.md`, "What changed and why" · by climb batch 27 gather
+
+### F-329
+
+2026-11-07 09:49Z · added · from `explorations/compile-ladder/rung-char-expr-string/REPORT.md`, "Old against new: every code point in six forms" · by climb batch 27 gather

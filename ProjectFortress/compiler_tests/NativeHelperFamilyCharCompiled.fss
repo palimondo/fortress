@@ -3,6 +3,7 @@ component NativeHelperFamilyCharCompiled
 export Executable
 
 cToString(x:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToString")
+cToExprString(x:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToExprString")
 cEq(x:ZZ32, y:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charEQ")
 cLt(x:ZZ32, y:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charLT")
 cSimEq(x:ZZ32, y:ZZ32):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charSimEq")
@@ -183,6 +184,29 @@ run():() = do
   assert(cToUpperCase(space), space, "ToUpperCase of a space")
   assert(cToUpperCase(dz), dzUpper, "ToUpperCase of a title-case letter")
   assert(cToUpperCase(longILower), longI, "ToUpperCase past U+FFFF")
+  apostrophe: ZZ32 = 39
+  backslash: ZZ32 = 92
+  quote: ZZ32 = 34
+  control: ZZ32 = 5
+  delete: ZZ32 = 127
+  eAcute: ZZ32 = 233
+  leftQuote: ZZ32 = 8220
+  lineSeparator: ZZ32 = 8232
+  emoji: ZZ32 = 128512
+  assert(cToExprString(a) = "'a'", "ToExprString of a letter")
+  assert(cToExprString(apostrophe) = "'''", "ToExprString of the apostrophe")
+  assert(cToExprString(backslash) = "'\\\\'", "ToExprString of the backslash")
+  assert(cToExprString(quote) = "'\\\"'", "ToExprString of the double quote")
+  assert(cToExprString(newline) = "'\\n'", "ToExprString of the line feed")
+  assert(cToExprString(control) = "'0005'", "ToExprString of a control character")
+  assert(cToExprString(delete) = "'007f'", "ToExprString of DELETE")
+  assert(cToExprString(eAcute) = "'é 00e9'", "ToExprString past U+007F")
+  assert(cToExprString(sigma) = "'Σ 03a3'", "ToExprString past U+00FF")
+  assert(cToExprString(leftQuote) = "'201c'", "ToExprString of the left double quotation mark")
+  assert(cToExprString(lineSeparator) = "'2028'", "ToExprString of the line separator")
+  assert(cToExprString(emoji) = "'1f600'", "ToExprString past U+FFFF")
+  assert(cToExprString(longI) = "'10400'", "ToExprString of a letter past U+FFFF")
+  assert(cToExprString(high) = "'d800'", "ToExprString of a surrogate")
   println("PASS")
 end
 
