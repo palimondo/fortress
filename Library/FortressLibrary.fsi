@@ -364,7 +364,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     opr IEEE_SLASH_DOWN(self,b:RR64):RR64
     opr IEEE_SLASH_UP(self,b:RR64):RR64
     opr |self| : RR64
-    opr ^(self, b:Number):RR64
+    opr ^(self, b:RR64):RR64
     opr ^(self, b:AnyIntegral):RR64
     sin(self):RR64
     cos(self):RR64
@@ -372,7 +372,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     asin(self):RR64
     acos(self):RR64
     atan(self):RR64
-    atan2(self,x:Number):RR64
+    atan2(self, x:RR64):RR64
     log(self):RR64
     exp(self):RR64
     floor(self):RR64
@@ -2570,7 +2570,7 @@ printTime(dummy: Any): ()
 
 fromRawBits(a:ZZ64):RR64
 
-random(a:Number):RR64
+random(a:RR64):RR64
 randomZZ32(x:ZZ32): ZZ32
 
 match(regex:FlatString,some:FlatString):Boolean
@@ -2632,7 +2632,7 @@ opr (x:Any)/// : String
     debugging multi-threaded programs. **)
 printThreadInfo(a:FlatString):()
 printThreadInfo(a:String):()
-printThreadInfo(a:Number):()
+printThreadInfo(a:RR64):()
 printWithThread(a:FlatString):()
 printWithThread(a:String):()
 printlnWithThread(a:FlatString):()

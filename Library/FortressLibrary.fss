@@ -482,7 +482,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     opr IEEE_MINUS_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_MINUS_DOWN asFloat(b)
     opr IEEE_DOT_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_DOT_DOWN asFloat(b)
     opr IEEE_SLASH_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_SLASH_DOWN asFloat(b)
-    opr ^(self, b:Number):RR64 = (asFloat(self))^b
+    opr ^(self, b:RR64):RR64 = (asFloat(self))^b
     (** Shouldn't need this extra declaration. **)
     opr ^(self, b:AnyIntegral):RR64 = (asFloat(self))^b
     sin(self):RR64 = sin(asFloat(self))
@@ -491,7 +491,7 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     asin(self):RR64 = asin(asFloat(self))
     acos(self):RR64 = acos(asFloat(self))
     atan(self):RR64 = atan(asFloat(self))
-    atan2(self,x:Number):RR64 = atan2(asFloat(self), asFloat(x))
+    atan2(self, x:RR64):RR64 = atan2(asFloat(self), x)
     log(self):RR64 = log(asFloat(self))
     exp(self):RR64 = exp(asFloat(self))
     floor(self):RR64 = floor(asFloat(self))
@@ -4534,7 +4534,7 @@ printTime(dummy: Any): () = do
 
 fromRawBits(a:ZZ64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleFromRawBits")
 
-random(a:Number):RR64 = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Random")
+random(a:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.LocalRandom.scaledRandomDouble")
 randomZZ32(x:ZZ32):ZZ32 = narrow |\random(x)/|
 
 char(a:ZZ32):Char = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charMakeCharacterWithSpecialCompilerHackForCharacterResultType")
@@ -4630,7 +4630,7 @@ printThreadInfo(a:String):() = typecase a.asFlatString of
     f:FlatString ⇒ printThreadInfo(f)
     f:String ⇒ fail("printThreadInfo: asFlatString answered a string that is not flat")
   end
-printThreadInfo(a:Number):() = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$PrintThreadInfo")
+printThreadInfo(a:RR64):() = printThreadInfo(a.asString)
 
 printWithThread(a:FlatString):() = builtinPrimitive("com.sun.fortress.nativeHelpers.simplePrintln.printWithThread")
 printWithThread(a:String):() = typecase a.asFlatString of

@@ -17,6 +17,10 @@ public class simpleConcatenate {
         return s1 + s2;
     }
 
+    public static String nativeConcatenateChar(String s, int c) {
+        return s + String.valueOf((char) c);
+    }
+
     public static String nativeSmartConcatenate(String s1, String s2) {
         if (s1.length() == 0) return s2;
         else if (s2.length() == 0) return s1;
