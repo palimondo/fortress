@@ -9239,3 +9239,81 @@ note added
 note added
 
 | 902 | under walk, opening a missing file stops the run with an error that no `catch` sees: `FileReadStream("…/no-such-file.txt")` inside a `try` whose `catch` names `IOFailure` ends 'ProgramError: … FileNotFound: …', rc=1 | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/try.tex`, "Try Expressions" | none | review io-objects-carrier-2026-11-06 | siblings: 903. The glue answers `error("FileNotFound: " + name)` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/FileReadStream.java:43-44`, at c141e7f6a), a walk error, not a Fortress exception. `bin/fortress` on that `try`: 'FileNotFound: tmp/review-rows/no-such-file.txt', and 'after the try' never printed. The compiled helpers raise `fortress.CompilerBuiltin$FileNotFoundException` (`nativeHelpers/fileOps.java:37`, `:82`). |
+
+### Row 434
+
+closed by a97d60dc6
+
+| 434 | `Number`'s `=` between a float and an exact number compares after `asFloat`, so it calls unequal values equal and is not transitive: `1/3 = asFloat(1/3)` is `true`, and so is `((widen(1) LSHIFT 60) + widen(1)) = asFloat(widen(1) LSHIFT 60)` | NEGATIVE-VERIFIED | design limit (library) | silent | none | climb batch 6 rung F's skeptic | `Number`'s one `opr =` (`Library/FortressLibrary.fss:386-392` at c124c6b65) compares a pair with an `RR64` or `RR32` side by `asFloat(self) = asFloat(other)` and two exact numbers as rationals; its doc comment (`:383-385`) states the rule. Comparing a float by its exact rational value is transitive but needs a float-to-rational conversion the library lacks; the curator chose to keep the `asFloat` rule. The specification compares only a rational with a rational (`Specification/basic-lib/numbers.tex`, "Rational Numbers"). Probe `explorations/compile-ladder/rung-flat-tower/probes/skeptic/sk-exprs-equality.txt:19-26`, in the parent of ab067d9b6; full text: history, row 434 |
+
+### Row 897
+
+closed by e4872ad93
+
+| 897 | under walk, three glue natives over `Number` cannot read a `QQ`: `random(1/3)` and `atan2(0.5 + 0.5, 1/3)` end the run with 'getFloat not implemented for FOrdinaryObject', an `InterpreterBug`, and `printThreadInfo(1/3)` prints 'operating on value Ratio', the type's name | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | review hard-set-natives-2026-11-06 | siblings: 846. `random(a:Number)` (`Library/FortressLibrary.fss:4537`), `printThreadInfo(a:Number)` (`:4633`) and `Float`'s `atan2(self,x:Number)` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:176-177`) name `Float$Random`, `StringPrim$PrintThreadInfo` and `Float$ATan2`, which read a Java value; a library object gets `FValue.getFloat`'s throw (`interpreter/evaluator/values/FValue.java:74`) or its type name, at c141e7f6a. Maessen moved this conversion into Fortress in 2008 (`e109c9812`). Fix: convert in Fortress, `printThreadInfo(a.asString)`, `asFloat(x)` (review section 2.2, point 12). `bin/fortress` on a scratch program at `third: QQ = 1/3`: the outputs quoted. |
+
+### Row 113
+
+closed by 598331c0d
+
+| 113 | `SEQV` (`===`) on two value objects compares only the fields that the object body declares; with none, it answers `true` for unequal objects | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/objects.tex`, "Object Equivalence" | none | run-b2, run-b | `VPlain(1,2) SEQV VPlain(1,3) = true` and `P(1.0) === P(2.0) : true`, while `1.0 === 2.0 : false`. `FOrdinaryObject.seqv` (`FOrdinaryObject.java:46-57`) walks `ftype.getFieldNames()`, and `FTypeObject`'s constructor adds the constructor parameters to `fields` only inside its `if (v instanceof VarDecl)` branch (`FTypeObject.java:53-63`). Workaround: declare one field in the body (`VField(1,2) SEQV VField(1,3) = false`). The library meets it: `Just[\T\](x:T)` (`Library/FortressLibrary.fss:1640`) declares no body field, so `Just(1) SEQV Just(2)` is `true` (row 114). Probes `explorations/run-b2/probes/g1a_equality{,2,3}.fss`, in the parent of `22ea0cd90`; full text: history, row 113 |
+
+### Row 909
+
+closed by 598331c0d
+
+| 909 | under walk `SEQV` answers `true` for numbers of different types and for tuples of them: `3 SEQV 3.0`, `x SEQV z` for `x: ZZ32 = 3`, `z: ZZ64 = 3`, and `(1,2) SEQV (1,2.0)`, where values of different types are never equivalent | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/objects.tex`, "Object Equivalence" | none | review any-carrier-2026-11-06 | Walk scratch program: `3 SEQV 3.0: true`, `3 SEQV w (w: ZZ64): true`, `ZZ32 3 SEQV RR64 3.0: true`, `(1,2) SEQV (1,2.0): true`, `(x,x) SEQV (z,r): true`. `FInt.seqv` accepts an `FLong`, `FFloat` or `FFloatLiteral` and compares the values (`interpreter/evaluator/values/FInt.java:53-61`, at caa0ffc61); `FTupleLike.seqv` compares element by element (`FTupleLike.java:71-81`). The compiled path answers `false` for `3 === 3.0`, for a `ZZ32` and a `ZZ64` 3, and for a `ZZ32` 3 and an `RR64` 3.0, all three as `Any`. |
+
+### Row 910
+
+closed by 598331c0d
+
+| 910 | the library declares the numeral objects `FloatLiteral` and `IntLiteral` as plain objects, not `value object`, though the specification lists numeric literals among the value objects and the library's other number objects are value objects | NEGATIVE-VERIFIED | library gap vs spec (library) | `basic/objects.tex`, "Objects"; `basic/objects.tex`, "Value Objects" | none | review any-carrier-2026-11-06 | By reading, at caa0ffc61: `object FloatLiteral extends RR64` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:196`) and `object IntLiteral extends Number` (`:486`), beside `value object Float`, `RR32`, `Int`, `Long`, `NN32`, `UnsignedLong` and `BigNum` (`:54`, `:205`, `:369`, `:378`, `:387`, `:475`, `:565`). The chapter: "booleans, numeric literals, IEEE floating-point numbers, and integers are value objects". Strings (`object FlatString`, `Library/FlatString.fss:34`) are not a defect: the rule does not name them. |
+
+### Row 911
+
+closed by 598331c0d
+
+| 911 | `QQ`'s `Ratio` is declared a plain object, not `value object`, while `ZZ`'s `BigNum` is a `value object`; the specification's list makes arbitrary-precision numbers reference objects, so the two library declarations of its arbitrary-precision numbers disagree | NEGATIVE-VERIFIED | library gap vs spec (library) | `basic/objects.tex`, "Objects"; `basic/objects.tex`, "Value Objects" | none | review any-carrier-2026-11-06 | siblings: 910. By reading, at caa0ffc61: `object Ratio(num: ZZ, den: ZZ) extends { QQ }` (`Library/FortressLibrary.fss:664`) and `value object BigNum extends ZZ` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:565`). The chapter: "Reference objects include arbitrary-precision numbers", and also "integers are value objects". Settled by P-166, the curator's decision of 2026-11-06: `Ratio` becomes a `value object`, and the specification's list names arbitrary-precision numbers among the value objects. |
+
+### Row 906
+
+closed by 598331c0d
+
+| 906 | on the compiled path `SEQV` (`===`) compares two value objects by reference, so the `value` modifier has no effect on it: for `value object Vpt(a: ZZ32, b: ZZ32)`, `Vpt(1,2) === Vpt(1,2)` is `false` | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/objects.tex`, "Object Equivalence"; `basic/objects.tex`, "Value Objects" | none | review any-carrier-2026-11-06 | Compiled scratch program: `value Vpt(1,2) SEQV Vpt(1,2):  false`, `v1 SEQV v1:  true`, as for a plain `object Rpt`. The prelude's `opr ===(a:Any, b:Any) = jSEQUIV(a,b)` (`Library/CompilerLibrary.fss:63`, family `:62-71`, at caa0ffc61) binds `equality.sEquiv`, which is `a == b` (`nativeHelpers/equality.java:14-19`). Walk's departure is row 113. |
+
+### Row 907
+
+closed by 598331c0d
+
+| 907 | on the compiled path `SEQV` (`===`) compares two equal tuples by reference, where the rule compares them element by element: `t1 === t2` for `t1, t2: (ZZ32, ZZ32) = (1, 2)` is `false` | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/objects.tex`, "Object Equivalence"; `basic/objects.tex`, "Objects" | none | review any-carrier-2026-11-06 | siblings: 906. A tuple is a value object (`basic/objects.tex`, "Objects"). Compiled scratch program: `tuple (1,2) SEQV (1,2):  false`. No member of the prelude's `===` family takes a tuple, so the call reaches `opr ===(a:Any, b:Any) = jSEQUIV(a,b)` (`Library/CompilerLibrary.fss:63`, at caa0ffc61), whose `equality.sEquiv` is `a == b` (`nativeHelpers/equality.java:14-19`). Walk answers `true` (`FTupleLike.java:71-81`). |
+
+### Row 861
+
+closed by fc860b655
+
+| 861 | walk's `Char` `asExprString` and the compiled path's helper write a character outside ASCII differently: for `char(233)` walk's glue gives `'\'0e9''` and `simpleChar.charToExprString` gives `'é 00e9'`; for `char(128512)`, `'\'0f600''` and `'1f600'` | CONTESTED | implementation gap (runtime) | silent | none | climb batch 24 | Walk's `Char$ToExprString` is `FChar.toString`, `"'" + Unprinter.enQuote(getString()) + "'"` (`interpreter/glue/prim/Char.java:177-181`, `interpreter/evaluator/values/FChar.java:104-106`); the helper, which the prelude binds, writes the character and its hex code, or the code alone past U+FFFF (`nativeHelpers/simpleChar.java:21-44`). They agree only at printable ASCII other than `\` and `"`, and at the five escapes `\b`, `\t`, `\n`, `\f`, `\r`; they differ at `\`, `'\\'` and `'\'`, at `"`, `'\"'` and `'"'`, and at U+0005, `'\'05''` and `'0005'` (`bin/fortress`, at c141e7f6a; review `char-asexprstring-2026-11-06.md`, 2.3). Which form is the one library's is open: the specification names none. |
+
+### Row 898
+
+closed by fc860b655
+
+| 898 | the parser's hexadecimal character literal reads no code of six digits and no lower-case five-digit code whose first four are decimal digits: `'10FFFF'` and `'1000a'` (U+1000A) are refused, "a numeral contains letters and does not have a radix specifier", while `'1000A'` reads 65546 | NEGATIVE-VERIFIED | implementation gap (parser) | `basic/lexical-structure.tex`, "Character Literals" | CharExprStringReadBack | review char-asexprstring-2026-11-06 | `UnicodeHexChar` (`ProjectFortress/src/com/sun/fortress/parser/Literal.rats:460-464`, at c141e7f6a) tries four or five digits before `10` and four, and commits to the first choice that matches: `10FFF` of `10FFFF`, `1000` of `1000a` (the optional fifth is upper case in the first choice). The specification allows four or more digits. The review's sweep: plane 16 (65.5K) fails in either case, and 54K lower-case codes of planes 1 to 9. Fix: try six, then five, then four digits. `bin/fortress` on `c = '10FFFF'`, `'1000a'`, `'1000A'`: 'Syntax Error' twice, rc=1; 'RrHexUpper 65546', rc=0. |
+
+### Row 899
+
+closed by c21780408
+
+| 899 | under walk, `BufferedWriter`'s `asString` stops the run: "Missing value: $under in environment", at `Library/Writer.fss:53:54-57` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | review io-objects-carrier-2026-11-06 | `object BufferedWriter(under: WriteStream, size: ZZ32)` has `getter asString(): String = "BufferedWriter on " under.asString` (`Library/Writer.fss:52-53`, at c141e7f6a); it is a native object, whose value parameter is bound as no field. `bin/fortress` on `b = BufferedWriter(Writer("tmp/review-rows/buf-out.txt"), 8)` then `println(b.asString)`: 'ProgramError: …Library/Writer.fss:53:54-57: Missing value: $under in environment', rc=1. The review's option (b) makes it a plain object. |
+
+### Row 903
+
+closed by c21780408
+
+| 903 | the one library declares no `FileNotFoundException`, which the file helpers raise (`fortress.CompilerBuiltin$FileNotFoundException`, `nativeHelpers/fileOps.java:37`, `:82`); walk turns a helper's raise into the library's object of that name, so a file opened through a helper cannot raise its error | NEGATIVE-VERIFIED | library gap vs spec (library) | silent | none | review io-objects-carrier-2026-11-06 | siblings: 902. `grep -rn FileNotFoundException Library/*.fsi Library/*.fss ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi` prints only a comment, `Library/CompilerLibrary.fss:173`, at c141e7f6a; the one library declares `IOFailure` as a singleton (`Library/FortressLibrary.fsi:1201`); the prelude declares `FileNotFoundException` with a message. Walk maps a raise by name (`interpreter/glue/StaticNativeApp.java:265-274`). No library binding names these helpers today, so nothing runs it; it meets the move of the file streams onto helpers (review section 2.3, point 17). |
+
+### Row 916
+
+closed by 5ae581c4a
+
+| 916 | top-level `match(regex:FlatString, some:FlatString)` has no overload over `String`, so walk refuses a rope, a `SubString` or a program's own string at the call: `match("abc.*", c)` for a rope `c` of 52 characters stops: 'Closure/Constructor for match parameter 2 (some:FlatString) got type CatString' | NEGATIVE-VERIFIED | library gap vs spec (library) | silent | none | review strings-in-fortress-2026-11-07 | siblings: 846. Only the native over `FlatString` is declared (`Library/FortressLibrary.fss:4615`, `.fsi:2576`, at 4ea5167e0), unlike the five natives over `FlatString` beside overloads over `String` that flatten by `typecase` on `asFlatString` (F-299; `printlnWithThread`, `:4640-4644`). A `SubString` gives 'got type SubString', the review's `Rep` 'got type Rep'; `match("abc.*", c.asFlatString)` answers 'true'. Fix, the library's own pattern: an overload `match(regex: String, some: String)` that flattens both by `typecase` on `asFlatString` and calls the native, in the component and the api. |
