@@ -1,0 +1,19 @@
+(* A Char past U+FFFF written to a file Writer is the whole character when the file is read back (lexical-structure.tex, "Character Literals"). *)
+component XXXWriterCharSupplementaryWalk
+import File.{...}
+import Writer.{...}
+export Executable
+
+run():() = do
+  name = "XXXWriterCharSupplementaryWalk.out"
+  w = Writer(name)
+  w.write(char(128512))
+  w.write('\n')
+  w.close()
+  r = FileReadStream(name)
+  line = r.readLine()
+  r.close()
+  assert(line, "😀", "the character U+1F600 read back")
+end
+
+end

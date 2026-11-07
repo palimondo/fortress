@@ -5807,3 +5807,7 @@ pointer words refreshed in: F-24
 ### F-329
 
 2026-11-07 09:49Z · added · from `explorations/compile-ladder/rung-char-expr-string/REPORT.md`, "Old against new: every code point in six forms" · by climb batch 27 gather
+
+### F-330
+
+2026-11-07 09:51Z · added · from `explorations/compile-ladder/rung-io-writer/REPORT.md`, "What changed and why" · by climb batch 27 gather

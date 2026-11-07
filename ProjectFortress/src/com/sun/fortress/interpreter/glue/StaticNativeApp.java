@@ -1,6 +1,7 @@
 package com.sun.fortress.interpreter.glue;
 
 import static com.sun.fortress.exceptions.ProgramError.error;
+import com.sun.fortress.compiler.runtimeValues.FortressBufferedWriter;
 import com.sun.fortress.compiler.runtimeValues.FortressImplementationError;
 import com.sun.fortress.exceptions.FortressError;
 import com.sun.fortress.interpreter.Driver;
@@ -8,6 +9,7 @@ import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.types.FTraitOrObjectOrGeneric;
 import com.sun.fortress.interpreter.evaluator.types.FType;
 import com.sun.fortress.interpreter.evaluator.values.*;
+import com.sun.fortress.interpreter.glue.prim.JavaBufferedWriterObject;
 import com.sun.fortress.nodes.*;
 import com.sun.fortress.nodes_util.NodeUtil;
 import com.sun.fortress.useful.HasAt;
@@ -47,7 +49,11 @@ public class StaticNativeApp extends NativeMeth {
     private final int selfAt;        // index of self among the declared parameters, or -1
     private int arity;
 
-    /** The Java type that carries a value of the named Fortress type, or null. */
+    /**
+     * The Java type that carries a value of the named Fortress type, or null.  FortressLibrary's trait
+     * JavaBufferedWriter, a name that no program can give its own type, is carried by its name in the
+     * compiled run time's FortressBufferedWriter, which walk's value JavaBufferedWriterObject.Value holds.
+     */
     static Class<?> javaFor(String t) {
         if (t == null) return null;
         if (t.equals("ZZ32") || t.equals("NN32") || t.equals("Char")) return int.class;
@@ -58,6 +64,7 @@ public class StaticNativeApp extends NativeMeth {
         if (t.equals("String") || t.equals("FlatString") || t.equals("JavaString")) return String.class;
         if (t.equals("ZZ")) return BigInteger.class;
         if (t.equals("()")) return void.class;
+        if (t.equals("JavaBufferedWriter")) return FortressBufferedWriter.class;
         return null;
     }
 
@@ -89,13 +96,14 @@ public class StaticNativeApp extends NativeMeth {
 
     static boolean carried(Class<?> c) {
         return c == int.class || c == long.class || c == double.class || c == float.class
-            || c == boolean.class || c == String.class || c == BigInteger.class;
+            || c == boolean.class || c == String.class || c == BigInteger.class
+            || c == FortressBufferedWriter.class;
     }
 
     /**
      * The Java type that carries self, a value of the declaring type named t, or null: a type of
      * FortressLibrary or FortressBuiltin, whose names no program can give its own types, that javaFor
-     * names, or the object Int, Long, UnsignedLong, Float or BigNum.  Read by its name alone,
+     * names, JavaBufferedWriter among them, or the object Int, Long, UnsignedLong, Float or BigNum.  Read by its name alone,
      * FlatString or JavaString, a name that a program can give its own type, carries no self; the
      * loader reads the declaring type through javaForSelf(FType), which carries the library's own
      * FlatString, told by the component that declares it.
@@ -281,6 +289,10 @@ public class StaticNativeApp extends NativeMeth {
         if (c == boolean.class) return ((FBool) v).getBool();
         if (c == String.class) return v.getString();
         if (c == BigInteger.class) return v.getBigInteger();
+        if (c == FortressBufferedWriter.class) {
+            if (v instanceof JavaBufferedWriterObject.Value) return ((JavaBufferedWriterObject.Value) v).getWriter();
+            return error("No Java FortressBufferedWriter carries " + v);
+        }
         return error("No interpreter value for a Java " + c.getName());
     }
 
@@ -303,6 +315,7 @@ public class StaticNativeApp extends NativeMeth {
         if (c == boolean.class) return FBool.make((Boolean) r);
         if (c == String.class) return FString.make((String) r);
         if (c == BigInteger.class) return FBigNum.make((BigInteger) r);
+        if (c == FortressBufferedWriter.class) return JavaBufferedWriterObject.make((FortressBufferedWriter) r);
         return error("No interpreter value for a Java " + c.getName());
     }
 }

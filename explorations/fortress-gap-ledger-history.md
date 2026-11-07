@@ -9227,3 +9227,15 @@ rewritten
 rewritten
 
 | 898 | the parser's hexadecimal character literal reads no code of six digits and no lower-case five-digit code whose first four are decimal digits: `'10FFFF'` and `'1000a'` (U+1000A) are refused, "a numeral contains letters and does not have a radix specifier", while `'1000A'` reads 65546 | NEGATIVE-VERIFIED | implementation gap (parser) | `basic/lexical-structure.tex`, "Character Literals" | none | review char-asexprstring-2026-11-06 | `UnicodeHexChar` (`ProjectFortress/src/com/sun/fortress/parser/Literal.rats:460-464`, at c141e7f6a) tries four or five digits before `10` and four, and commits to the first choice that matches: `10FFF` of `10FFFF`, `1000` of `1000a` (the optional fifth is upper case in the first choice). The specification allows four or more digits. The review's sweep: plane 16 (65.5K) fails in either case, and 54K lower-case codes of planes 1 to 9. Fix: try six, then five, then four digits. `bin/fortress` on `c = '10FFFF'`, `'1000a'`, `'1000A'`: 'Syntax Error' twice, rc=1; 'RrHexUpper 65546', rc=0. |
+
+### Row 901
+
+note added
+
+| 901 | the one library's `FileWriteStream` has no `flush()`, though `Library/File.fsi:131` declares it: under walk `o.flush()` stops the run, "Cannot find definition for method flush given receiver <Write handle to …>" | NEGATIVE-VERIFIED | library bug (library) | silent | none | review io-objects-carrier-2026-11-06 | siblings: 841, 900. `object FileWriteStream` in `Library/File.fss:66` declares no `flush`, at c141e7f6a; walk does not check a component against its api (row 841). Extending `WriteStream` (row 900) asks for it too: `abstract flush()`, `Library/Stream.fsi:64`. `bin/fortress` on `o = FileWriteStream("out"); o.write("x\n"); o.flush()`: the error quoted, rc=1. |
+
+### Row 902
+
+note added
+
+| 902 | under walk, opening a missing file stops the run with an error that no `catch` sees: `FileReadStream("…/no-such-file.txt")` inside a `try` whose `catch` names `IOFailure` ends 'ProgramError: … FileNotFound: …', rc=1 | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/try.tex`, "Try Expressions" | none | review io-objects-carrier-2026-11-06 | siblings: 903. The glue answers `error("FileNotFound: " + name)` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/FileReadStream.java:43-44`, at c141e7f6a), a walk error, not a Fortress exception. `bin/fortress` on that `try`: 'FileNotFound: tmp/review-rows/no-such-file.txt', and 'after the try' never printed. The compiled helpers raise `fortress.CompilerBuiltin$FileNotFoundException` (`nativeHelpers/fileOps.java:37`, `:82`). |

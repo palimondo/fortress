@@ -4622,7 +4622,7 @@ natives of \library\ that it can call.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-natives-walk/decision-record.md}
 in the revival's repository.
-\item[Effect] 306 of the 449 bindings of \library\ name a helper:
+\item[Effect] 341 of the 443 bindings of \library\ name a helper:
 the operators \EXP{=}, \EXP{<}, the prefix and infix \EXP{-} and
 \EXP{\dotminus}, \EXP{+}, \EXP{\dotplus}, \EXP{\cdot}, \EXP{\times},
 juxtaposition, \EXP{\dottimes}, \EXP{\div}, \OPR{REM}, \OPR{MOD}, \OPR{GCD},
@@ -4631,22 +4631,31 @@ juxtaposition, \EXP{\dottimes}, \EXP{\div}, \OPR{REM}, \OPR{MOD}, \OPR{GCD},
 functions \VAR{widen}, \VAR{unsigned} and \VAR{partitionL} of the first and
 \VAR{narrow}, \VAR{unsigned}, \VAR{big} and \VAR{partitionL} of the second, and
 the same operators but \EXP{<} of the trait \EXP{\mathbb{Z}}, with its
-\VAR{cmp}; twenty-five bindings of the trait \EXP{\mathbb{N}64}, and of the
-interpreter's objects twenty-eight of \EXP{\mathbb{N}32}, three of
-\TYP{UnsignedLong}, forty of \TYP{Char}, fifty-seven of \TYP{Float} and fifty
-of \EXP{\mathbb{R}32}; the getters \VAR{asString}, \VAR{asExprString} and
-\VAR{asFloat} of the interpreter's objects \TYP{Int}, \TYP{Long} and
-\TYP{BigNum}; eleven methods of the object \TYP{FlatString} of \library\ and
-its line separator; and the functions \VAR{char}, \VAR{fromRawBits},
-\VAR{nanoTime} and \VAR{match}, with \VAR{printThreadInfo},
+\VAR{cmp}; the shifts \OPR{LSHIFT} and \OPR{RSHIFT} and the power of these
+three traits, of the trait \EXP{\mathbb{N}64} and of the interpreter's object
+\EXP{\mathbb{N}32}, with the \VAR{shift} of \EXP{\mathbb{Z}}, each bound at a
+count or exponent of type \EXP{\mathbb{Z}32} or \EXP{\mathbb{Z}64} beside a
+declaration over \TYP{AnyIntegral} that converts its count or exponent and calls
+it; twenty-eight bindings of the trait \EXP{\mathbb{N}64}, and of the
+interpreter's objects thirty-one of \EXP{\mathbb{N}32}, three of
+\TYP{UnsignedLong}, forty-one of \TYP{Char}, sixty-two of \TYP{Float} and
+fifty-one of \EXP{\mathbb{R}32}; the getters \VAR{asString}, \VAR{asExprString}
+and \VAR{asFloat} of the interpreter's objects \TYP{Int}, \TYP{Long} and
+\TYP{BigNum}; the thirteen methods of the object \TYP{FlatString} of \library\
+and its line separator; the method \VAR{ilkName} of the trait \TYP{Object} and
+\EXP{\sequiv} over \TYP{Any}; the four methods of the trait
+\TYP{JavaBufferedWriter} and its three factories, over a file's name, standard
+output and standard error; and the functions \VAR{char}, \VAR{fromRawBits},
+\VAR{nanoTime}, \VAR{random} and \VAR{match}, with \VAR{printThreadInfo},
 \VAR{printWithThread}, \VAR{printlnWithThread}, \VAR{getEnvironment} and
 \VAR{getProperty}, each of these five declared over \TYP{FlatString} beside an
-overload over \TYP{String} that flattens its argument.
+overload over \TYP{String} that flattens its argument, and \VAR{match} beside
+one over two \TYP{String}s that flattens both.
 Two of the helpers named, \texttt{stringOps.typeName} for the method
 \VAR{ilkName} of the trait \TYP{Object} and \texttt{equality.sEquiv} for
 \EXP{\sequiv} over \TYP{Any}, the interpreter does not load: it answers each
 with an operation of its own, and the compiled code calls the helper.
-The other 143 still name a glue class, which the compiled code cannot call.
+The other 102 still name a glue class, which the compiled code cannot call.
 Until the compiled code moves onto \library, the type checker checks the moved
 bindings, but no compiled program runs them.
 Where a binding declares \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or \TYP{Char}

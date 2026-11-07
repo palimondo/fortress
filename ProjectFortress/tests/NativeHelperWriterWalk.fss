@@ -1,0 +1,64 @@
+(* The writer side: stdOut, stdErr, a file Writer and a BufferedWriter write and name themselves, and a missing file raises FileNotFoundException. *)
+component NativeHelperWriterWalk
+import File.{...}
+import Writer.{...}
+export Executable
+
+fileLines(name: String): String = do
+  r = FileReadStream(name)
+  acc: String := ""
+  while NOT r.eof do
+    acc := acc || "[" || r.readLine() || "]"
+  end
+  r.close()
+  acc
+end
+
+run():() = do
+  println("1 println of a literal")
+  println("2 non-ASCII through println: héllo λ → ∑")
+  stdOut.write("3 stdOut.write of a flat string")
+  stdOut.write('!')
+  stdOut.write('\n')
+  rope = "4 a rope: abcdefghijklmnopqrstuvwxyz" || "ABCDEFGHIJKLMNOPQRSTUVWXYZ" || "\n"
+  assert(rope.depth > 0, true, "the rope is not flat")
+  stdOut.write(rope)
+  stdOut.flush()
+  assert(stdOut.asString, "Writer on \"<stdout>\"", "stdOut.asString")
+  assert(stdOut.fileName, "<stdout>", "stdOut.fileName")
+  stdErr.write("5 stdErr.write, on the error stream\n")
+  stdErr.flush()
+  assert(stdErr.asString, "Writer on \"<stderr>\"", "stdErr.asString")
+  assert(stdErr.fileName, "<stderr>", "stdErr.fileName")
+
+  name = "NativeHelperWriterWalk.out"
+  w = Writer(name)
+  assert(w.fileName, name, "a file Writer's fileName")
+  assert(w.asString, "Writer on \"NativeHelperWriterWalk.out\"", "a file Writer's asString")
+  w.write("line one\n")
+  w.write('x')
+  w.write('\n')
+  w.write("a rope in a file: abcdefghijklmnopqrstuvwxyz" || "0123456789" || "\n")
+  w.flush()
+  b = BufferedWriter(w, 8)
+  assert(b.asString, "BufferedWriter on Writer on \"NativeHelperWriterWalk.out\"", "BufferedWriter's asString")
+  b.write("buffered through a BufferedWriter of size 8\n")
+  b.write('y')
+  b.flush()
+  b.close()
+  assert(fileLines(name),
+         "[line one][x][a rope in a file: abcdefghijklmnopqrstuvwxyz0123456789][buffered through a BufferedWriter of size 8][y][]",
+         "the file's contents")
+
+  caught: String := "nothing"
+  try
+    m = Writer("no-such-dir-NativeHelperWriterWalk/missing.txt")
+    m.close()
+  catch e
+    FileNotFoundException => caught := "FileNotFoundException"
+  end
+  assert(caught, "FileNotFoundException", "a missing file")
+  println("6 the writer side wrote and named itself")
+end
+
+end

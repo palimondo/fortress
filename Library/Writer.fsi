@@ -15,8 +15,9 @@ import Stream.{...}
 stdOut: Writer
 stdErr: Writer
 
-object Writer(fileName: String) extends WriteStream
-    getter fileName(): String
+Writer(fileName: String): Writer
+
+object Writer(fileName: String, under: JavaBufferedWriter) extends WriteStream
 end
 
 object BufferedWriter(under: WriteStream, size: ZZ32) extends WriteStream
