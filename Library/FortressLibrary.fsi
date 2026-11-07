@@ -2628,6 +2628,7 @@ random(a:RR64):RR64
 randomZZ32(x:ZZ32): ZZ32
 
 match(regex:FlatString,some:FlatString):Boolean
+match(regex:String, some:String):Boolean
 
 (** %char% converts an integer unicode code point into the
     corresponding 16-bit %Char%.  Note that we don't presently deal

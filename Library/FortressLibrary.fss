@@ -4690,6 +4690,11 @@ end
 
 
 match(regex:FlatString,some:FlatString):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.match")
+match(regex:String, some:String):Boolean =
+    typecase (regex.asFlatString, some.asFlatString) of
+        (r:FlatString, f:FlatString) ⇒ match(r, f)
+        (r:String, f:String) ⇒ fail[\Boolean\]("match: asFlatString answered a string that is not flat")
+    end
 
 (** postfix %//% appends a single line separator.  The postfix version
     performs implicit conversion to String, which is why it's a
@@ -4725,7 +4730,7 @@ throwError(a:String):() = builtinPrimitive("com.sun.fortress.interpreter.glue.pr
 *)
 
 opr SEQV(a:Any, b:Any):Boolean =
-    builtinPrimitive("com.sun.fortress.interpreter.glue.prim.AnyPrim$SEquiv")
+    builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
 
 opr XOR(a:Boolean, b:Boolean):Boolean = if a then NOT b else b end
 opr OR(a:Boolean, b:Boolean):Boolean = if a then true else b end

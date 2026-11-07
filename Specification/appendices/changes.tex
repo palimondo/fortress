@@ -4642,6 +4642,10 @@ its line separator; and the functions \VAR{char}, \VAR{fromRawBits},
 \VAR{printWithThread}, \VAR{printlnWithThread}, \VAR{getEnvironment} and
 \VAR{getProperty}, each of these five declared over \TYP{FlatString} beside an
 overload over \TYP{String} that flattens its argument.
+Two of the helpers named, \texttt{stringOps.typeName} for the method
+\VAR{ilkName} of the trait \TYP{Object} and \texttt{equality.sEquiv} for
+\EXP{\sequiv} over \TYP{Any}, the interpreter does not load: it answers each
+with an operation of its own, and the compiled code calls the helper.
 The other 143 still name a glue class, which the compiled code cannot call.
 Until the compiled code moves onto \library, the type checker checks the moved
 bindings, but no compiled program runs them.
