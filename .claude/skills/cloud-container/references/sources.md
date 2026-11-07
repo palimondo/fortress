@@ -127,3 +127,7 @@ From `cold-read-2.md` (the coordinator's scratchpad, `skill-outline/checks/`), w
 ## One spelling of "runtime", 2026-11-06
 
 - The skill checked for "runtime", "run time" and "run-time", by the curator's word in chat at 13:5x UTC on 2026-11-06: it uses none of them, and no line changed.
+
+## Branches on GitHub, 2026-11-07
+
+- `SKILL.md`, "Rules for every agent": a session in this cloud container cannot delete a branch on GitHub, since the platform's automatic permission check refuses it; the curator deletes branches outside the cloud. The refusals: the coordinator's boot note and held list of 2026-11-03 and 2026-11-06. The curator's comments of 06:13 and 06:15 UTC on 2026-11-07 on the page of skill drafts: "This is a work of the cloud container." and "Again, this is a problem in cloud container only."

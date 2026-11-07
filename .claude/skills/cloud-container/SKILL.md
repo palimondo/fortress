@@ -37,6 +37,7 @@ The platform stops the session's process about every 13 hours and when the sessi
 - If your brief lets you push, push your work as you go, as `fortress-repo`'s `references/committing.md` says. Only what is pushed survives a rollback of the disk or a lost container.
 - After a process stop, a VM restart or a lost container, run `git status` and `git log origin/<branch>..<branch>` in each tree that you work in, before you start anything again.
 - The platform's git-check Stop hook can still ask the main session to commit and push on a turn that the git-check switch misses (`references/hooks.md`). Treat its reminders as advisory. Never commit or push unready work to answer one.
+- A session in this cloud container cannot delete a branch on GitHub: the platform's automatic permission check refuses it. The curator deletes branches outside the cloud, so no report asks for a deletion.
 
 ## The parts
 
