@@ -17,13 +17,11 @@ run():() = do
   z: RR64 = asFloat(0.0)
   nan: RR64 = z / z
 
-  (* Float's power at an RR32 exponent, and RR32's at a Float exponent *)
   assert((two^h32).asString, "1.4142135623730951", "Float 2.0^RR32 0.5")
   assert((two^three32).asString, "8.0", "Float 2.0^RR32 3.0")
   assert((three32^two).asString, "9.0", "RR32 3.0^Float 2.0")
   assert((h32^half).asString, "0.7071067811865476", "RR32 0.5^Float 0.5")
 
-  (* the floor and ceiling brackets saturate, and give 0 at a NaN *)
   a: RR64 = asFloat(2.5)
   na: RR64 = asFloat(-2.5)
   assert((|\a/|).asString, "2", "floor bracket of 2.5")
@@ -33,10 +31,14 @@ run():() = do
   assert((|\huge/|).asString, "9223372036854775807", "floor bracket of 10.0^300 saturates")
   assert((|/huge\|).asString, "9223372036854775807", "ceiling bracket of 10.0^300 saturates")
   assert((|\(-huge)/|).asString, "-9223372036854775808", "floor bracket of -10.0^300 saturates")
+  inf: RR64 = one / z
+  assert((|\inf/|).asString, "9223372036854775807", "floor bracket of +infinity saturates")
+  assert((|/inf\|).asString, "9223372036854775807", "ceiling bracket of +infinity saturates")
+  assert((|\(-inf)/|).asString, "-9223372036854775808", "floor bracket of -infinity saturates")
+  assert((|/(-inf)\|).asString, "-9223372036854775808", "ceiling bracket of -infinity saturates")
   assert((|\nan/|).asString, "0", "floor bracket of NaN")
   assert((|/nan\|).asString, "0", "ceiling bracket of NaN")
 
-  (* FlatString's = at flat strings, and at a rope flattened *)
   abc = "abc"
   assert(abc = ("ab" || "c"), true, "FlatString =")
   assert(abc = "abd", false, "FlatString = unequal")
@@ -46,15 +48,12 @@ run():() = do
   assert(rope.asFlatString = flat, true, "FlatString = at a rope flattened")
   assert(flat = rope.asFlatString, true, "FlatString = at a rope flattened, on the right")
 
-  (* flatConcat at a Char *)
   assert(flatConcat("ab", char(99)), "abc", "flatConcat at a Char")
   assert(flatConcat("", char(931)), "Σ", "flatConcat at a Char past U+00FF")
   assert(("ab" || char(99)).size, 3, "|| at a Char")
-  (* row 872: past U+FFFF the glue appends the Char's low 16 bits; this pins today's answer, not the right one *)
   assert(flatConcat("a", char(66560)) = ("a" || char(1024).asString), true,
          "row 872: flatConcat at U+10400 appends U+0400, its low 16 bits")
 
-  (* Float's power at each integer type's exponent *)
   e32: ZZ32 = 10
   n2: ZZ32 = -2
   e64: ZZ64 = 3
@@ -78,7 +77,6 @@ run():() = do
   assert((4.0^0.5).asString, "2.0", "a float numeral's power at a float numeral")
   assert((4.0^2).asString, "16.0", "a float numeral's power at a numeral")
 
-  (* atan2 at each kind of x *)
   one32x: ZZ32 = 1
   assert(atan2(one, one32x).asString, "0.7853981633974483", "atan2 at a ZZ32 x")
   assert(atan2(one, one32).asString, "0.7853981633974483", "atan2 at an RR32 x")
@@ -87,7 +85,6 @@ run():() = do
   assert(atan2(1.0, 1.0).asString, "0.7853981633974483", "atan2 of two float numerals")
   assert(atan2(two, h32).asString, "1.3258176636680326", "atan2 of 2.0 at an RR32 0.5")
 
-  (* random at each kind of bound *)
   r1 = random(e32)
   assert(0.0 <= r1 AND r1 < 10.0, true, "random at a ZZ32 is in range")
   r2 = random(asFloat(2.5))

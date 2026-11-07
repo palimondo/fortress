@@ -46,6 +46,11 @@ run():() = do
   assert(dICeiling(huge) = 9223372036854775807, "doubleICeiling of 10.0^300 saturates")
   lo: ZZ64 = -9223372036854775807
   assert(dIFloor(dNeg(huge)) = lo - 1, "doubleIFloor of -10.0^300 saturates")
+  inf: RR64 = dDiv(one, z)
+  assert(dIFloor(inf) = 9223372036854775807, "doubleIFloor of +infinity saturates")
+  assert(dICeiling(inf) = 9223372036854775807, "doubleICeiling of +infinity saturates")
+  assert(dIFloor(dNeg(inf)) = lo - 1, "doubleIFloor of -infinity saturates")
+  assert(dICeiling(dNeg(inf)) = lo - 1, "doubleICeiling of -infinity saturates")
   assert(dIFloor(nan) = 0, "doubleIFloor of NaN")
   assert(dICeiling(nan) = 0, "doubleICeiling of NaN")
 
