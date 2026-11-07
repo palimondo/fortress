@@ -57,6 +57,8 @@ On `c21780408`, after `ant compileAll` ('BUILD SUCCESSFUL', 'Caches /home/user/f
 - The 52 team demos, by the demo driver of `compile-ladder/rung-team-demos/REPORT.md`, "Commands worked out" (`tmp/run-demos.sh`), `bash tmp/run-demos.sh tmp/gather/b27-demos`, from 09:59Z to 10:22Z, `FORTRESS_THREADS=1`, nproc 4: 'demos: 52 run, 51 reached their end'. `turnersParaffins0` stops: its line in the summary 'turnersParaffins0	STOP	rc=1	fail-in-output', its output 'Unexpected method value {', '=(self:(FortressLibrary.ZZ32 & {FortressBuiltin.Int}),b:FortressBuiltin.IntLiteral):FortressBuiltin.Boolean/home/user/fortress/Library/FortressLibrary.fss:776:5-69', '... when invoking method =(native StaticNativeApp) given receiver (0: ZZ32 asif ZZ32)', at `Library/Map.fss:165:12-17`. The demo writes its expected map's keys `0 asif ZZ32` (`ProjectFortress/demos/turnersParaffins0.fss:403-408`); walk keeps the assumption on the bound key (row 919) and cannot call an overloaded method on an assumed receiver (row 921), and `ZZ32`'s `=` is overloaded since rung N's pairs (`Library/FortressLibrary.fss:776-780`). The gather found no respelling it could show and rewrote nothing; row 921 is noted, and the question is PLAN's item 73 (P-79).
 - The count stage and the distance stage were not run by the gather (its brief); each rung that ran them gives its tables in its REPORT.md, and rung C, which ran neither, leaves them to the gate.
 
+**The repair after the merged-diff review.** The review held the push on rung N, since landing with `turnersParaffins0` stopped acts against P-79; the judge's ruling (`compile-ladder/climb-batch-27/JUDGE-review.md`) took its way (b), and the repair (`compile-ladder/climb-batch-27/REPAIR-review.md`) settles that point. Walk now calls an overloaded method on an assumed receiver among the assumed trait's overloads (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/DottedMethodApplication.java:96-97`, `:119-138`; `4445d848b`), gated by `ProjectFortress/tests/AsIfOverloadedMethodWalk.fss`, promoted from `XXXAsIfOverloadedMethodWalk`; row 921 is closed, and row 919 noted and open. The demo driver on the repaired tree: 'demos: 52 run, 52 reached their end' (F-283); a first run had `Generator2Demo` stop on a random draw, `IntegerOverflow` in `PROD`, as it did once in five runs.
+
 ## The count of the bindings
 
 A count of the `builtinPrimitive` strings of walk's library, comments struck, gives 305 of 447 naming a helper and 142 a glue class at the base, against F-299's and F-32's 306 of 449 and 143: the same deltas on each branch as the rungs' own counts (I +16 helpers, -16 glue; F +9, -10, one binding fewer; C +1, -1; A +2, -3, one fewer; W +7, -11, four fewer). On the merged tree it gives 340 of 441 and 101, so by F-299's count 341 of the one library's 443 live bindings name a helper and 102 a glue class. The batch's brief planned 341 of 438: rung W left `FileWriteStream`'s 5 bindings on their glue (row 926). The gather revised Appendix I's natives effect to these numbers in rung W's commit (`Specification/appendices/changes.tex:4625-4658`).
@@ -171,7 +173,7 @@ None between one rung's specification text and another's code: rung N's `revival
 
 Six ask for an answer before work on the path goes on and are under "Pavol's answers, in the order they are needed", in three new groups before "Before the switch-over:"; the rest are under "Off the path, parked", in the new group "Climb batch 27, listed for his review" (`PLAN.md:679`).
 - N.skeptic.1, N.judge.1, C.worker.2, C.skeptic.1, S.worker.1, S.skeptic.1, S.judge.1, S.judge.2, A.worker.1, A.skeptic.1, T.worker.1, T.skeptic.1, T.judge.1, T.judge.2 and gather.2 (the disk, and rungs S and T): item 68, "N.skeptic.1, N.judge.1, ... of climb batch 27: the container's disk allowance was spent through the batch ..." (`PLAN.md:136`).
-- gather.5 (the demo `turnersParaffins0`, row 921, P-79): item 73, "gather.5 of climb batch 27 (row 921; P-79): on the merged tree 51 of the 52 team demos reach their end ..." (`PLAN.md:138`).
+- gather.5 (the demo `turnersParaffins0`, row 921, P-79): item 73, "Answered: gather.5 of climb batch 27 (row 921; P-79) ..." (`PLAN.md:138`), answered by the judge's ruling on the merged-diff review and its repair.
 - W.worker.1 and W.skeptic.1 (row 926): item 69, "W.worker.1 and W.skeptic.1 of climb batch 27's rung W (row 926): does `FileWriteStream` ..." (`PLAN.md:142`).
 - N.worker.2 (row 918): item 70 (`PLAN.md:146`).
 - G.worker.1 and G.skeptic.1: item 71 (`PLAN.md:147`).
@@ -187,8 +189,10 @@ Six ask for an answer before work on the path goes on and are under "Pavol's ans
 - E.worker.2: (`PLAN.md:691`).
 - E.worker.3: (`PLAN.md:692`).
 - N.worker.1, N.skeptic.2, N.judge.3, W.worker.3, S.worker.2, S.judge.3, E.worker.1, E.skeptic.1, G.worker.2, G.skeptic.3 and gather.4 (the relayed user request): "The relayed user request of the batch's run ..." (`PLAN.md:693`).
-- gather.1 (the order): (`PLAN.md:694`).
-- gather.3 (the stale FACTS and PLAN lines, the merged count): (`PLAN.md:695`).
+- gather.1 (the order): (`PLAN.md:695`).
+- gather.3 (the stale FACTS and PLAN lines, the merged count): (`PLAN.md:696`).
+- judge.1 of the merged-diff review (row 921 fixed before row 919): "judge.1 of climb batch 27's merged-diff review, told, not asked ..." (`PLAN.md:694`).
+- judge.2 of the merged-diff review (the copy at `.claude/skills/fortress-repo/references/sources.md:1072`): already in "The relayed user request of the batch's run ..." (`PLAN.md:693`).
 
 ## Left for the coordinator and the skill writer
 

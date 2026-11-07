@@ -9353,3 +9353,15 @@ rewritten
 rewritten
 
 | 916 | top-level `match(regex:FlatString, some:FlatString)` has no overload over `String`, so walk refuses a rope, a `SubString` or a program's own string at … | FIXED | library gap vs spec (library) | silent | `ProjectFortress/tests/AnyNativesIntrinsicWalk.fss` | review strings-in-fortress-2026-11-07 | fixed `5ae581c4a`; Repaired by match(regex:String, some:String) flattening both arguments by typecase on the pair of asFlatStrings, Library/FortressLibrary.fss:4693-4697, .fsi:2631; its repair settled by the coordinator's rider of 2026-11-07 under the curator's rule of a batch's scope (climb batch 27, fork A6).; full text: history, row 916 |
+
+### Row 921
+
+closed by 4445d848b
+
+| 921 | under walk an overloaded dotted method called on an assumed receiver stops: `(Leaf asif Named).pick(Leaf asif Named)`, with `pick` at `Named` and at `Leaf` in trait `Named`, gives 'Unexpected method value {...}:OverloadedFunction when invoking method pick given receiver (Leaf asif Named)' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/type-annotation.tex`, "Type Assumption" | XXXAsIfOverloadedMethodWalk | the walk guard of the code generator's asif | The message is `interpreter/evaluator/values/DottedMethodApplication.java:106`. A method of one declaration on an assumed receiver runs (AsIfCallsWalk). The compiled path runs `Named`'s body at `Named` (AsIfCallsCompiled). The team demo turnersParaffins0 meets it on the merged tree of climb batch 27: its map keys `0 asif ZZ32` reach `pk = ck` (`Library/Map.fss:165`) since rung N gave `ZZ32` a pair of `=` per coercion (`Library/FortressLibrary.fss:776-780`), 'Unexpected method value ... when invoking method = ... given receiver (0: ZZ32 asif ZZ32)'; 51 of the 52 demos reach their end. |
+
+### Row 919
+
+note added
+
+| 919 | under walk a type assumption outlives its enclosing call: bound to a name, `n = Leaf asif Named`, or as an `if` branch's value, the value keeps the assumed type, so `n.name` runs `Named`'s getter and `who(n)` the overload at `Named` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/type-annotation.tex`, "Type Assumption" | XXXAsIfBoundWalk | the walk guard of the code generator's asif | Walk wraps the value in an `FAsIf` (`interpreter/evaluator/Evaluator.java:109-116`) and a local binding keeps the wrapper. A parameter drops it: `caption(Leaf asif Named)` reads `Leaf`'s getter in the body (AsIfCallsWalk). A probe printing `n.name` and `who(n)` printed `Named` and `Named`. The compiled path gives the value (AsIfCallsCompiled). Library forms: `ReflectiveQuickCheck.fss:78`, `:94`, `:256`, `:313` bind an assumption to a name. |
