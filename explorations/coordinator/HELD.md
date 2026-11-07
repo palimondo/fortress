@@ -23,6 +23,9 @@
 
 ## Held in chat (2026-11-07)
 
+- 14:19 His word on commit footers: he does not care whether a footer names a model, and wants no report of it (his words of 05:17 and 05:19 fetched by a scout). Landed in `fortress-repo`'s committing part (`da13260ed`, `b1cdb209d`): a commit already made whose footer names a model is left as it is, never checked, reported or listed; the batch script's footer check dropped (`3ef9a5fc9`); the review-queue item removed (`51c30d263`).
+- 14:1x His choice on the hold question of 12:0x, option 2: a held push goes out once the post-batch review finds nothing against it, with no second ask. Draft 33 on the drafts page for his yes (it touches holds).
+- 14:1x His word on the held push: "When it was fixed, then it should land." The skill already said so; the batch script's `pushHeldBy` now drops a hold that its repair settled (`3ef9a5fc9`).
 - 14:0x His go lifting the hold on climb batch 27's push ("You have a go."), after the post-batch review found the hold's ground gone and the probe found that the distance stage's two crashes hide no error; pushed at `209192b67`.
 - 10:5x His word on Q1 of the natives review: he cannot judge walk's own code under the helpers' names against shared carriers; an independent Fable review decides it, he takes its decision as it lands, and it is reviewed in detail after. The judgement: yes for all 45 names with three amendments, Q2 reframed to the store's shape (`explorations/reviews/natives-device-2026-11-07.md`); to POSITIONS as his decision after the record-landing, with a review-queue item for his detailed review.
 - 10:3x His word on the main-tree rule of `8937a5af0`: "Just let it write. It was never a problem." Simplified at once, at his "Fix it now": until the gather starts, commit as usual; from the gather's start to the batch's push, nothing (`bd7efb95b`, item 31 on the drafts page at version 23).
