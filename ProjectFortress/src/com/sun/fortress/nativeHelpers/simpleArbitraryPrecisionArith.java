@@ -180,13 +180,8 @@ public class simpleArbitraryPrecisionArith {
         return a.compareTo(b);
     }
 
-    // floor(a 2^k) at every int count; shiftLeft cannot negate the count Integer.MIN_VALUE.
-    public static BigInteger bigBitLeftShift(BigInteger a, int k) {
-        if (k == Integer.MIN_VALUE) return (a.signum() < 0) ? BigInteger.ONE.negate() : BigInteger.ZERO;
-        return shiftLeft(a, k);
-    }
-
-    // floor(a 2^-k) at every int count; the count Integer.MIN_VALUE shifts left by 2^31.
+    // floor(a 2^-k) at every int count, as shiftLeft(a, -k) where -k is an int; the count
+    // Integer.MIN_VALUE shifts left by 2^31, which overflows unless a is 0.
     public static BigInteger bigBitRightShift(BigInteger a, int k) {
         if (k == Integer.MIN_VALUE) {
             if (a.signum() == 0) return a;

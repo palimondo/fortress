@@ -1125,13 +1125,13 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr BITXOR(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.xor")
     opr LSHIFT(self, b:ZZ32): ZZ =
-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigBitLeftShift")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.shiftLeft")
     opr LSHIFT(self, b:AnyIntegral): ZZ = self LSHIFT shiftCount32(b)
     opr RSHIFT(self, b:ZZ32): ZZ =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigBitRightShift")
     opr RSHIFT(self, b:AnyIntegral): ZZ = self RSHIFT shiftCount32(b)
     shift(self, k:ZZ32): ZZ =
-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigBitLeftShift")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.shiftLeft")
     shift(self, k:AnyIntegral): ZZ = shift(self, shiftCount32(k))
     opr BITNOT(self): ZZ =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.not")
