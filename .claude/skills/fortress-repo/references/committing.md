@@ -31,7 +31,7 @@ Commit as you go, each commit in one command that names its paths:
       Co-Authored-By: Claude <noreply@anthropic.com>
       Claude-Session: https://claude.ai/code/session_01AmiXNpJxQ6TBwec4vJZHDB
 
-  If your brief gives another session line, use it.
+  If your brief gives another session line, use it. If a commit's footer names a model, leave the commit as it is. Such a footer is not a defect: do not check for it, report it or list it.
 
 ## Pushing
 

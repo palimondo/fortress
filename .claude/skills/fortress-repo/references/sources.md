@@ -1113,3 +1113,7 @@ From the cold read of `eb0dfd81a` and `6d6142f3c` (`explorations/compile-ladder/
 - `revival-changes.md`, "Traits and objects": integers, characters and booleans by value, `Specification/basic/objects.tex:443-449`, `nativeHelpers/equalityRule.java`; an object not declared `value`; the string and tuple examples; walk's `FloatLiteral` pointed to; `===` as the ASCII spelling of `SEQV`, `Specification/appendices/operators.tex:419`; the `Index` sentences merged.
 - `revival-changes.md`, "Dispatch and overloading": why the trait overlaps the library's `+`, P-160.
 - `revival-changes.md`, "Numbers": the printed names as `ZZ32`, `ZZ64` and `ZZ`; `Cell[\ZZ32\](3)`, from row 364's workaround; `=` across a coercion, `Library/FortressLibrary.fss:780` and the pairs of F-324; the generic function declared at each type.
+
+## A footer that names a model, 2026-11-07
+
+- `committing.md`, the footer: a footer that names a model is no defect, and no agent checks for it, reports it, lists it, or rewords or amends a commit for it; the plain footer stays the default. The curator's words in chat on 2026-11-07: at 05:17 UTC, that he prefers the footer with the model's name; at 05:19 UTC, that tracking which model did which work would be messy, so no model name is better than a wrong one; at 14:19 UTC, that he does not care, and is not to be bothered with reports of a model's name in a footer.
