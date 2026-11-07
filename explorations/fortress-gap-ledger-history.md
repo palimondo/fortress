@@ -9365,3 +9365,9 @@ closed by 4445d848b
 note added
 
 | 919 | under walk a type assumption outlives its enclosing call: bound to a name, `n = Leaf asif Named`, or as an `if` branch's value, the value keeps the assumed type, so `n.name` runs `Named`'s getter and `who(n)` the overload at `Named` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/type-annotation.tex`, "Type Assumption" | XXXAsIfBoundWalk | the walk guard of the code generator's asif | Walk wraps the value in an `FAsIf` (`interpreter/evaluator/Evaluator.java:109-116`) and a local binding keeps the wrapper. A parameter drops it: `caption(Leaf asif Named)` reads `Leaf`'s getter in the body (AsIfCallsWalk). A probe printing `n.name` and `who(n)` printed `Named` and `Named`. The compiled path gives the value (AsIfCallsCompiled). Library forms: `ReflectiveQuickCheck.fss:78`, `:94`, `:256`, `:313` bind an assumption to a name. |
+
+### Row 52
+
+rewritten
+
+| 52 | the library's `Vector` and `Matrix` carry a user element type in full, but only under the illegal `extends Number`: construction, indexing, `M v`, `v M`, `M N`, `.t()`, `+`, `scale`, `pmul`, `SUM`, comprehensions, mutation, runtime sizes | POSITIVE-VERIFIED | — | `Specification-1.0-frozen/basic/expressions/aggregate.tex:152-170`, "Array Expressions" | none | ours | It works only because walk never checks `comprises` (row 22); the `Number` bound is the specification's own. Shown by a runtime-sized 3→4→2 forward pass over `Vector`/`Matrix` of a user `Value`, with ordinary `RR64` arithmetic still working alongside. Probe `explorations/libvector-probes/p30_capstone.fss`, in the parent of `e879b6a44`. |
