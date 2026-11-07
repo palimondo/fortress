@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Fix the batch script's push hold","toolUseId":"toolu_017FMd8JLUwAWVDTiTsBD2cY","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Fix the batch script's push hold","toolUseId":"toolu_017FMd8JLUwAWVDTiTsBD2cY","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
