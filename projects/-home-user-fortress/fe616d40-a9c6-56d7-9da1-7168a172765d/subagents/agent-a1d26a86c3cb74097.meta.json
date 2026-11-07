@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the footer rule and draft","toolUseId":"toolu_015s266r4jTHSN1kthYdDLum","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the footer rule and draft","toolUseId":"toolu_015s266r4jTHSN1kthYdDLum","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
