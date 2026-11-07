@@ -68,7 +68,7 @@ object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
     end
 
     opr =(self, other: FlatString): Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FlatString$Eq")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.stringEquals")
     opr <(self, other: FlatString): Boolean = self.cmp(other) < 0
     opr <=(self, other: FlatString): Boolean = self.cmp(other) ≤ 0
     opr >(self, other: FlatString): Boolean = self.cmp(other) > 0
@@ -94,7 +94,7 @@ object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
     flatConcat(self, b:FlatString):String =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeConcatenate")
     flatConcat(self, b:Char):String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FlatString$Concat")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeConcatenateChar")
     javaRegExpMatches(m:FlatString): Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.javaRegExpMatches")
     javaRegExpSplit(m:FlatString, i:ZZ32): String =

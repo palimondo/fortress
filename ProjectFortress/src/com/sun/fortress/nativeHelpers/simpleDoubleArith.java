@@ -69,6 +69,14 @@ public class simpleDoubleArith {
         return Math.pow(a,b);
     }
 
+    public static double doublePowFloat(double a, float b) {
+        return Math.pow(a, b);
+    }
+
+    public static double doublePowInt(double a, int b) {
+        return Math.pow(a, b);
+    }
+
     public static double doubleNanoTime() {
         return (double)System.nanoTime();
     }
@@ -87,6 +95,14 @@ public class simpleDoubleArith {
 
     public static double doubleCeiling(double a) {
         return Math.ceil(a);
+    }
+
+    public static long doubleIFloor(double a) {
+        return (long) Math.floor(a);
+    }
+
+    public static long doubleICeiling(double a) {
+        return (long) Math.ceil(a);
     }
 
     public static double doubleSin(double a) {

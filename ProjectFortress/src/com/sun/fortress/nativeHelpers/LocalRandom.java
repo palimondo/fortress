@@ -25,4 +25,8 @@ public class LocalRandom {
     public static int localRandomInt(int least, int exclusiveMost) {
         return ThreadLocalRandom.current().nextInt(least, exclusiveMost);
     }
+
+    public static double scaledRandomDouble(double scale) {
+        return scale * Math.random();
+    }
 }

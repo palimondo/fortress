@@ -9161,3 +9161,15 @@ rewritten
 rewritten
 
 | 911 | `QQ`'s `Ratio` is declared a plain object, not `value object`, while `ZZ`'s `BigNum` is a `value object`; the specification's list makes arbitrary-precision numbers reference objects, so the two library declarations of its arbitrary-precision numbers disagree | CONTESTED | library gap vs spec (library) | `basic/objects.tex`, "Objects"; `basic/objects.tex`, "Value Objects" | none | review any-carrier-2026-11-06 | siblings: 910. By reading, at caa0ffc61: `object Ratio(num: ZZ, den: ZZ) extends { QQ }` (`Library/FortressLibrary.fss:664`) and `value object BigNum extends ZZ` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:565`). The chapter: "Reference objects include arbitrary-precision numbers", and also "integers are value objects". Contested: by the list `Ratio` is right and `BigNum` wrong; by the other number objects, all `value`, `Ratio` is the odd one. Which carries the curator decides. |
+
+### Row 872
+
+note added
+
+| 872 | `Char`'s `asString` of a character past U+FFFF answers the one-character string of its low 16 bits, under walk's glue, the helper `simpleChar.charToString` and the compiled prelude alike: `char(66560).asString`, U+10400, equals `char(1024).asString`, U+0400 | NEGATIVE-VERIFIED | implementation gap (runtime) | silent | `ProjectFortress/tests/CharAsStringSupplementaryWalk.fss` | climb batch 24 rung H | Walk's glue `Char$ToString` is `String.valueOf((char) val)` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FChar.java:100-102`); the helper `Char`'s `asString` names is `Character.toString((char)x)` (`nativeHelpers/simpleChar.java:16-19`); the prelude's `Character` `asString` calls it (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:1065`). `FlatString.javaIndexOf` names `stringOps.indexOf`, which searches for the code point: in `"a" \|\| char(128512).asString \|\| "b"` it answers -1 for `char(128512)`, where the glue's low 16 bits answered 1. A compiled program: 'true' for U+10400 and for U+1F600. |
+
+### Row 915
+
+note added
+
+| 915 | `\|\|` of a string and a `Char` past U+FFFF keeps only the character's low 16 bits: under walk `"x" \|\| '1F600'` is two units, `x` and U+F600, and compiled the same | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/lexical-structure.tex`, "Character Literals" | none | review strings-in-fortress-2026-11-07 | siblings: 872. Walk: `FlatString`'s `\|\|(self, b:Char)` calls `flatConcat(self, b)`, bound to the glue `FlatString$Concat`, which takes `other.getString()`, and `FChar.getString` is `String.valueOf((char) val)` (`Library/FlatString.fss:96-97`, `:144-149`; `interpreter/glue/prim/FlatString.java:173-178`; `interpreter/evaluator/values/FChar.java:97-102`, at 1176c7979). Compiled: `JavaString`'s `\|\|` takes `b.asString`, row 872's helper (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:432`). Workaround: join the two surrogates as `Char`s, `("x" \|\| e[1]) \|\| e[2]`. `bin/fortress` on `"x" \|\| '1F600'`, each unit's code point: '120 62976'. |

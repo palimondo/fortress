@@ -154,13 +154,18 @@ value object Float extends RR64
     opr ^(self, b:Float):RR64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePow")
     opr ^(self, b:RR32):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePowFloat")
     opr ^(self, b:RR64):RR64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePow")
-    opr ^(self, b:Number):RR64 = self^(asFloat(b))
-    (** Shouldn't need this extra declaration. **)
-    opr ^(self, b:AnyIntegral):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
+    opr ^(self, b:ZZ32):RR64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePowInt")
+    opr ^(self, b:AnyIntegral):RR64 = typecase b of
+        c:ZZ32 ⇒ self^(asFloat(c))
+        c:ZZ64 ⇒ self^(asFloat(c))
+        c:NN32 ⇒ self^(asFloat(c))
+        c:NN64 ⇒ self^(asFloat(c))
+        c:ZZ ⇒ self^(asFloat(c))
+      end
     sin(self):RR64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSin")
     cos(self):RR64 =
@@ -173,8 +178,8 @@ value object Float extends RR64
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleACos")
     atan(self):RR64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleATan")
-    atan2(self,x:Number):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$ATan2")
+    atan2(self, x:RR64):RR64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleATan2")
     log(self):RR64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLog")
     exp(self):RR64 =
@@ -182,11 +187,11 @@ value object Float extends RR64
     floor(self):RR64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleFloor")
     opr |\self/| : ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$IFloor")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleIFloor")
     ceiling(self):RR64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleCeiling")
     opr |/self\| : ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$ICeiling")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleICeiling")
     truncate(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleTruncate")
     round(self):ZZ64 =
@@ -326,7 +331,7 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
     opr ^(self, b:RR32):RR32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatPow")
     opr ^(self, b:Float):RR64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Float$Pow")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatPowDouble")
     opr ^(self, b:AnyIntegral):RR32 = narrow((asFloat(self))^b)
     floor(self):RR32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatFloor")

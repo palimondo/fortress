@@ -168,6 +168,10 @@ public class simpleFloatArith {
         return (float) Math.pow(a, b);
     }
 
+    public static double floatPowDouble(float a, double b) {
+        return Math.pow(a, b);
+    }
+
     public static float floatFloor(float a) {
         return (float) Math.floor(a);
     }

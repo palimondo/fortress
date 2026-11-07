@@ -23,6 +23,10 @@ public class stringOps {
     public static int compareTo(String s, String t) {
         return s.compareTo(t);
     }
+
+    public static boolean stringEquals(String s, String t) {
+        return s.equals(t);
+    }
     
     public static String substring(String s, int start, int finish) {
         return Useful.substring(s, start, finish);
