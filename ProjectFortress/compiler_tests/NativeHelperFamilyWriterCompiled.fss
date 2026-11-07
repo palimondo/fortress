@@ -1,0 +1,38 @@
+(* On the compiled path, the fileOps helpers of the writer side, the standard streams' among them, compile and run when bound over the JavaBufferedWriter that the compile reads. *)
+component NativeHelperFamilyWriterCompiled
+export Executable
+
+wOpen(name:JavaString):JavaBufferedWriter = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwOpen")
+wStdOut():JavaBufferedWriter = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwStdOut")
+wStdErr():JavaBufferedWriter = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwStdErr")
+wString(w:JavaBufferedWriter, s:JavaString):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwWriteString")
+wChar(w:JavaBufferedWriter, c:ZZ32):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwWriteChar")
+wFlush(w:JavaBufferedWriter):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwFlush")
+wClose(w:JavaBufferedWriter):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwClose")
+
+run():() = do
+  name = "NativeHelperFamilyWriterCompiled.out"
+  f = wOpen(name.asJavaString)
+  wString(f, "line one".asJavaString)
+  wChar(f, 10)
+  wChar(f, 120)
+  wChar(f, 10)
+  wFlush(f)
+  wString(f, "after the flush".asJavaString)
+  wClose(f)
+  r = makeJavaBufferedReader(name)
+  assert(r.readLine() = "line one", "the first line")
+  assert(r.readLine() = "x", "the line of one character")
+  assert(r.readLine() = "after the flush", "the line written after the flush")
+  r.close()
+  e = wStdErr()
+  wString(e, "written through jbwStdErr".asJavaString)
+  wChar(e, 10)
+  wFlush(e)
+  o = wStdOut()
+  wString(o, "PASS through jbwStdOut".asJavaString)
+  wChar(o, 10)
+  wFlush(o)
+end
+
+end

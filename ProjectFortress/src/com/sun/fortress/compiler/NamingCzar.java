@@ -462,8 +462,8 @@ public class NamingCzar {
 	// and it relies on the following static field definition.
      }
     /* The same reading in walk's world, where the checker reads a helper that a builtinPrimitive body names against
-     * the one library's types: ZZ32, ZZ64, RR64, String, ZZ and NN64 are FortressLibrary's, Boolean, RR32, NN32
-     * and Char FortressBuiltin's.  A type the one library lacks keeps the prelude's reading above, and the
+     * the one library's types: ZZ32, ZZ64, RR64, String, ZZ, NN64, JavaBufferedReader and JavaBufferedWriter are
+     * FortressLibrary's, Boolean, RR32, NN32 and Char FortressBuiltin's.  A type the one library lacks keeps the prelude's reading above, and the
      * compiler's world keeps the prelude's names.
      */
     private static final APIName oneLib = NodeFactory.makeAPIName(span, "FortressLibrary");
@@ -487,6 +487,8 @@ public class NamingCzar {
         o(Type.getType(Object.class), anyLib, "Any");
         o(Type.getType(String.class), oneLib, "String");
         o(Type.getType(BigInteger.class), oneLib, "ZZ");
+        o(Type.getType(FortressBufferedReader.class), oneLib, "JavaBufferedReader");
+        o(Type.getType(FortressBufferedWriter.class), oneLib, "JavaBufferedWriter");
         oneLibraryForeignJavaTranslations.put("V", NodeFactory.makeVoidType(span));
     }
 

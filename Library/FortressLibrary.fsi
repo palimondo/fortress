@@ -1201,6 +1201,28 @@ end
 object IOFailure extends CheckedException
 end
 
+object FileNotFoundException extends CheckedException
+end
+
+(** A %JavaBufferedWriter% writes through a buffered Java writer, in UTF-8: of a file, of the standard
+    output or of the standard error.  %makeJavaBufferedWriter% opens the file that it names, and raises
+    %FileNotFoundException% where it cannot.  An I/O error raises %IOFailure%. **)
+trait JavaBufferedWriter excludes { String, Number, Boolean, Char, JavaBufferedReader }
+    write(s: FlatString): ()
+    write(s: String): ()
+    write(c: Char): ()
+    flush(): ()
+    close(): ()
+end
+
+(** A %JavaBufferedReader% reads through a buffered Java reader. **)
+trait JavaBufferedReader excludes { String, Number, Boolean, Char, JavaBufferedWriter }
+end
+
+makeJavaBufferedWriter(name: FlatString): JavaBufferedWriter
+makeJavaBufferedStdOut(): JavaBufferedWriter
+makeJavaBufferedStdErr(): JavaBufferedWriter
+
 (* SetsNotDisjoint? *)
 object DisjointUnionError extends CheckedException
 end

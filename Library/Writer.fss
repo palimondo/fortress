@@ -9,61 +9,38 @@
 
  ******************************************************************************)
 
-native component Writer
+component Writer
 import FlatString.FlatString
 import Stream.{...}
 export Writer
 
-private language="java"
-private package="com.sun.fortress.interpreter.glue.prim"
+stdOut: Writer = Writer("<stdout>", makeJavaBufferedStdOut())
+stdErr: Writer = Writer("<stderr>", makeJavaBufferedStdErr())
 
-stdOut: Writer = OutWriter()
-stdErr: Writer = ErrWriter()
+Writer(fileName: String): Writer = typecase fileName.asFlatString of
+    f:FlatString ⇒ Writer(fileName, makeJavaBufferedWriter(f))
+    f:String ⇒ fail[\Writer\]("Writer: asFlatString answered a string that is not flat")
+  end
 
-private OutWriter(): Writer =  builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.Writer$outputWriter")
-private ErrWriter(): Writer = builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.Writer$errorWriter")
-
-object Writer(fileName: String) extends { WriteStream }
+object Writer(fileName: String, under: JavaBufferedWriter) extends { WriteStream }
     getter asString(): String = "Writer on " self.fileName.asExprString
-    getter fileName(): String =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.Writer$fileName")
-    write(s:FlatString):() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.Writer$write")
-    write(c:Char):() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.Writer$write")
-    flush():() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.Writer$flush")
-    close():() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.Writer$close")
+    write(s:FlatString):() = under.write(s)
+    write(c:Char):() = under.write(c)
+    flush():() = under.flush()
+    close():() = under.close()
+    (* A string that is not flat reaches the stream in one write, then a flush. *)
     write(s: String): () = do
-        buff = BufferedWriter(self, |s|)
-        s.writeOn(buff)
-        buff.flush()
+        under.write(s)
+        under.flush()
     end
 end Writer
 
 object BufferedWriter(under: WriteStream, size: ZZ32) extends { WriteStream }
     getter asString(): String = "BufferedWriter on " under.asString
-    write(s: String): () = s.writeOn(self)
-    write(s: FlatString):() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.BufferedWriter$write")
-    write(c: Char):() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.BufferedWriter$write")
-    flush():() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.BufferedWriter$flush")
-    close():() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.BufferedWriter$close")
+    write(s: String): () = under.write(s)
+    write(c: Char):() = under.write(c)
+    flush():() = under.flush()
+    close():() = under.close()
 end BufferedWriter
 
 end

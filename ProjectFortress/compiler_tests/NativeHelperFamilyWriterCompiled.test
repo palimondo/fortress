@@ -1,0 +1,5 @@
+tests=NativeHelperFamilyWriterCompiled
+link
+run
+run_out_contains=PASS through jbwStdOut
+run_err_contains=written through jbwStdErr

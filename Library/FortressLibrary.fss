@@ -1871,6 +1871,31 @@ object IOFailure extends CheckedException
     getter asString(): String = "I/O error"
 end
 
+object FileNotFoundException extends CheckedException
+    getter asString(): String = "File not found"
+end
+
+trait JavaBufferedWriter excludes { String, Number, Boolean, Char, JavaBufferedReader }
+    write(s: FlatString): () = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwWriteString")
+    write(s: String): () = typecase s.asFlatString of
+        f:FlatString ⇒ self.write(f)
+        f:String ⇒ fail("JavaBufferedWriter.write: asFlatString answered a string that is not flat")
+      end
+    write(c: Char): () = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwWriteChar")
+    flush(): () = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwFlush")
+    close(): () = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwClose")
+end
+
+trait JavaBufferedReader excludes { String, Number, Boolean, Char, JavaBufferedWriter }
+end
+
+makeJavaBufferedWriter(name: FlatString): JavaBufferedWriter =
+    builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwOpen")
+makeJavaBufferedStdOut(): JavaBufferedWriter =
+    builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwStdOut")
+makeJavaBufferedStdErr(): JavaBufferedWriter =
+    builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwStdErr")
+
 (* SetsNotDisjoint? *)
 object DisjointUnionError extends CheckedException
     getter asString(): String = "Disjoint union error"

@@ -83,6 +83,16 @@ public class fileOps {
 	}
     }
 
+    /** A writer over standard output, in UTF-8, named "<stdout>". */
+    public static FortressBufferedWriter jbwStdOut() {
+        return new FortressBufferedWriter("<stdout>", new BufferedWriter(new OutputStreamWriter(System.out, Charset.forName("UTF-8"))));
+    }
+
+    /** A writer over standard error, in UTF-8, named "<stderr>". */
+    public static FortressBufferedWriter jbwStdErr() {
+        return new FortressBufferedWriter("<stderr>", new BufferedWriter(new OutputStreamWriter(System.err, Charset.forName("UTF-8"))));
+    }
+
     public static String jbwAsString(FortressBufferedWriter w) {
         return "[buffered writer " + w.toString() + "]";
     }
