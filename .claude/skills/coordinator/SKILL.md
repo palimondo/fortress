@@ -232,7 +232,7 @@ FACTS and POSITIONS hold the project only, since workers read them. They state t
 - Keep one home for each thing, and point to it from elsewhere.
 - Put on the held list each rule that the curator states about your work, and each change to how you work that you and the curator agree in conversation. Have the skill writer (`references/skill-rewrite.md`) put it into its skill at the next opportunity, as "The curator's role and decisions" says. The curator's rule in conversation is not a yes to the skill's wording. Keep it on the held list until then. If a compaction comes first, quote the held rule into the boot note, so that the session after the boot works that way.
 - Commit only the paths that you name. Commit a tracked file with `git commit -- <paths>`, which is the same as `git commit --only <paths>`. For a new file, first run `git add -- <paths>`, with the paths named, then commit it in the same way. Never use `git add -A`, `git add .` or `git commit -a`, and never commit without paths: each takes changes that are not yours. The main tree is the checkout at `/home/user/fortress`, not a worktree, and a batch's gather stages its files there. While a batch runs, edit nothing tracked there (`references/batch.md`, "While it runs").
-- Push after every commit, in the order of `fortress-repo`'s committing part. A cloud session cannot delete a branch on GitHub (`cloud-container`, "Rules for every agent").
+- Push after every commit, in the order of `fortress-repo`'s committing part. From a session in a cloud container, do not try to delete a branch on GitHub, or retry a refusal with another tool (`cloud-container`, "Rules for every agent").
 
 ## The boot
 
