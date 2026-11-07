@@ -53,14 +53,8 @@ public class FNN32 extends FNativeObject implements HasIntValue {
     }
 
     public boolean seqv(FValue v) {
-        if (!(v instanceof FNativeObject)) return false;
-        if (v instanceof FNN32) {
-            return (getNN32() == v.getNN32());
-        }
-        if (v instanceof FNN64) {
-            return (getNN64() == v.getNN64());
-        }
-        return false;
+        if (!(v instanceof FNN32)) return false;
+        return getNN32() == v.getNN32();
     }
 
     public static final FNN32 ZERO = new FNN32(0);

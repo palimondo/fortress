@@ -193,7 +193,7 @@ value object Float extends RR64
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRound")
 end
 
-object FloatLiteral extends RR64
+value object FloatLiteral extends RR64
     getter asString(): String =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FloatLiteral$ToString")
     getter asExprString(): String =
@@ -483,7 +483,7 @@ value object UnsignedLong extends NN64
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToDouble")
 end
 
-object IntLiteral extends Number
+value object IntLiteral extends Number
     getter zero(): IntLiteral = 0
     getter one(): IntLiteral = 1
     getter asZZ32(): ZZ32 =

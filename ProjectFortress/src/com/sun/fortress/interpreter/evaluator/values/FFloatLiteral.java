@@ -43,14 +43,8 @@ public class FFloatLiteral extends FNativeObject {
     public boolean seqv(FValue v) {
         // HACK that's only sort-of correct.  If we care about all the digits,
         // there must be some sort of normalization.
-        if (!(v instanceof FNativeObject)) return false;
-        if (v instanceof FFloat || v instanceof FFloatLiteral) {
-            return (Double.doubleToRawLongBits(getFloat()) == Double.doubleToRawLongBits(v.getFloat()));
-        }
-        if (v instanceof FInt || v instanceof FIntLiteral || v instanceof FLong) {
-            return (getFloat() == v.getFloat());
-        }
-        return false;
+        if (!(v instanceof FFloatLiteral)) return false;
+        return Double.doubleToRawLongBits(getFloat()) == Double.doubleToRawLongBits(v.getFloat());
     }
 
     public static void setConstructor(NativeConstructor con) {

@@ -4519,8 +4519,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         // Until we resolve the directory hierarchy problem.
         //            cw.visit( V1_5, ACC_PUBLIC + ACC_SUPER+ ACC_FINAL,
         //                      classFile, null, NamingCzar.internalObject, new String[] { parent });
+        String [] classInterfaces = superInterfaces;
+        if (header.getMods().isValue()) {
+            classInterfaces = java.util.Arrays.copyOf(superInterfaces, superInterfaces.length + 1);
+            classInterfaces[superInterfaces.length] = org.objectweb.asm.Type.getInternalName(
+                com.sun.fortress.compiler.runtimeValues.ValueObjectMark.class);
+        }
         cw.visit( InstantiatingClassloader.JVM_BYTECODE_VERSION, ACC_PUBLIC + ACC_SUPER + ACC_FINAL,
-                cnb.className, null, abstractSuperclass, superInterfaces);
+                cnb.className, null, abstractSuperclass, classInterfaces);
 
         if (isSingletonObject) {
             

@@ -56,13 +56,13 @@ public class FTypeObject extends FTraitOrObject {
                 for (LValue lhs : ((VarDecl) v).getLhs()) {
                     fields.add(lhs.getName());
                 }
-                if (params.isSome()) {
-                    for (Param p : params.unwrap()) {
-                        fields.add(p.getName());
-                    }
-                }
             } else if (v instanceof FnDecl) {
                 methods.add(NodeUtil.getName((FnDecl) v));
+            }
+        }
+        if (params.isSome()) {
+            for (Param p : params.unwrap()) {
+                fields.add(p.getName());
             }
         }
         cannotBeExtended = true;

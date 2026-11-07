@@ -55,11 +55,8 @@ public class FNN64 extends FNativeObject implements HasIntValue {
     }
 
     public boolean seqv(FValue v) {
-        if (!(v instanceof FNativeObject)) return false;
-        if (v instanceof FNN32 || v instanceof FNN64) {
-            return (getNN64() == v.getNN64());
-        }
-        return false;
+        if (!(v instanceof FNN64)) return false;
+        return getNN64() == v.getNN64();
     }
 
     public static final FNN64 ZERO = new FNN64(0);

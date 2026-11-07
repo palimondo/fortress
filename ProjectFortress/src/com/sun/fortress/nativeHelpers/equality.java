@@ -13,7 +13,6 @@ package com.sun.fortress.nativeHelpers;
 
 public class equality {
     public static boolean sEquiv(fortress.AnyType.Any a, fortress.AnyType.Any b) {
-        // Eventually need to deal with tuples, value types, etc.
-        return a == b;
+        return equalityRule.sEquiv(a, b);
     }
 }
