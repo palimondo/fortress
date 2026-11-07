@@ -1099,3 +1099,17 @@ The landing of climb batch 27 on `main` made area parts false, from the list in 
 - `compiler.md`, "What the compiled path cannot compile yet": `asif` compiled at a receiver, at a call whose every dispatched argument is one, and as a value; three forms refused, with their messages. F-325; ledger row 818; `CodeGen.java:6419-6423`, `:6620`.
 - `compiler.md`, "The checker's time": the count stage about 80 to 180 seconds. F-240.
 - This file, the curator's standing order on branches: "from a container", not "from this container", at the curator's word of 06:31 UTC on 2026-11-07, relayed in `explorations/reviews/batch-27-review.md`, Part 3.
+
+## The cold read of climb batch 27's skill changes, 2026-11-07
+
+From the cold read of `eb0dfd81a` and `6d6142f3c` (`explorations/compile-ladder/climb-batch-27/skills/cold-read.md`); settled by the record-landing workflow's writer task; each checked on `main` at `6d6142f3c`.
+
+- `compiler.md`, the type assumption: its meaning, `Specification/basic/expressions/type-annotation.tex`, "Type Assumption"; the refused partial call is a call of a functional method or an overloaded function, `CodeGen.assumedArgumentsCall`; ledger row 818.
+- `compiler.md`, the `value` modifier: the compiled `SEQV` in `nativeHelpers/equality.java` and `equalityRule.java`; the fields not inlined, `CodeGen.java:4527-4531`.
+- `compiler.md`, "The checker's time": the stage can pass the Bash tool's 120-second limit, `session.md`.
+- `interpreter.md`, the `FloatLiteral` paragraph: the numeral kept also at a parameter or field, the `false` as the rule's answer with no ledger row, and the tuple's form, `explorations/compile-ladder/climb-batch-27/orientation/judgement.md`'s walk measurement and `explorations/compile-ladder/rung-seqv-meaning/SKEPTIC.md:60`; `Equality` for `assert` and `=/=`, ledger row 807.
+- `interpreter.md`, "Natives": `FortressBufferedWriter`'s path and the checker's reading, `compiler/NamingCzar.java:454`, `:491`.
+- `tests-writing.md`, the `assert` bullet: the `SEQV` rule pointed to, not restated.
+- `revival-changes.md`, "Traits and objects": integers, characters and booleans by value, `Specification/basic/objects.tex:443-449`, `nativeHelpers/equalityRule.java`; an object not declared `value`; the string and tuple examples; walk's `FloatLiteral` pointed to; `===` as the ASCII spelling of `SEQV`, `Specification/appendices/operators.tex:419`; the `Index` sentences merged.
+- `revival-changes.md`, "Dispatch and overloading": why the trait overlaps the library's `+`, P-160.
+- `revival-changes.md`, "Numbers": the printed names as `ZZ32`, `ZZ64` and `ZZ`; `Cell[\ZZ32\](3)`, from row 364's workaround; `=` across a coercion, `Library/FortressLibrary.fss:780` and the pairs of F-324; the generic function declared at each type.

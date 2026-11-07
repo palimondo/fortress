@@ -15,7 +15,7 @@ At a call of a generic function, walk infers the static arguments from the run-t
 
 Walk chooses a coercion by the value at run time. The specification and the compiled path choose it statically. Walk has no static types, so it cannot choose statically. The expected-failure tests `ProjectFortress/tests/XXXCoercionStaticRungC.fss` and `XXXCoercionStaticNarrowRungC.fss` record the difference.
 
-Walk keeps a float numeral bound to `RR64` as a `FloatLiteral`, a type of its own, so `SEQV` finds it unequal to a computed `RR64` of the same bits (F-326). For `value object V(f: RR64)` with no `=` of its own, and `x: RR64 = 0.25 + 0.25`, `V(0.5) = V(x)` is `false`, and so is a tuple of four or more elements that holds such a numeral. Give the value object its own `=`, or compare the parts.
+Walk keeps a float numeral as a `FloatLiteral`, a type of its own, also where it is bound to an `RR64` variable, parameter or field. So `SEQV` finds it unequal to a computed `RR64` of the same bits. This `false` follows the rule that values of different types are never equivalent, and no ledger row holds it (F-326). For `value object V(f: RR64)` with no `=` of its own, `x: RR64 = 0.25 + 0.25` and `y: RR64 = 0.5`, `V(0.5) = V(x)` is `false`. So is `(y, 1, 2, 3) = (x, 1, 2, 3)`, since the library declares `=` on pairs and triples only. Give the value object its own `=` and make it extend `Equality[\V\]`, or compare the parts.
 
 ## Where a fix of walk belongs
 
@@ -95,7 +95,7 @@ The library binds each of walk's natives by a declaration whose body is `builtin
 Walk carries each declared type of a helper's binding in one Java type:
 
 - `ZZ32`, `NN32` and `Char` in `int`; `ZZ64` and `NN64` in `long`; `RR64` and `Float`, the library's object that extends `RR64`, in `double`; `RR32` in `float`; `Boolean` in `boolean`;
-- `FlatString` and `JavaString` in `String`, and `String` too, except as a parameter other than `self`; `ZZ` in `BigInteger`; `()` in `void`; `JavaBufferedWriter`, the library's writer trait, in `FortressBufferedWriter`.
+- `FlatString` and `JavaString` in `String`, and `String` too, except as a parameter other than `self`; `ZZ` in `BigInteger`; `()` in `void`; `JavaBufferedWriter`, the library's writer trait, in `compiler/runtimeValues/FortressBufferedWriter`, which the checker reads back as `JavaBufferedWriter`.
 
 In a method, walk carries `self` by the type that declares the method:
 

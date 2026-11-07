@@ -47,11 +47,11 @@ It compiles a local function as a closure, also one that calls itself or another
 - two local functions of one name in a block: 'Can't compile overloaded local functions yet';
 - a local function with the `atomic` modifier: 'Can't compile a local function with this modifier yet'.
 
-It compiles a type assumption `e asif T` at a dotted call's receiver, at a call whose every dispatched argument is an assumption, and as a value. It refuses these forms (ledger row 818):
+A type assumption `e asif T` has the value of `e`, but the call around it chooses its declaration as if `e` were a `T`, a supertype of `e`'s type (`Specification/basic/expressions/type-annotation.tex`). The code generator compiles one at a dotted call's receiver, at a call of a functional method or an overloaded function whose every argument is an assumption, and elsewhere as the value of `e`. It refuses these forms (ledger row 818):
 
-- a dispatched call with an assumption at only some of its dispatched arguments: 'Can't compile a dispatched call whose arguments are not all type assumptions';
+- a call of a functional method or an overloaded function with an assumption at some of its arguments but not all: 'Can't compile a dispatched call whose arguments are not all type assumptions';
 - a generic method on an assumed receiver: 'Can't compile a type assumption at the receiver of a generic method yet';
-- an overloaded generic function under an assumption: 'Can't compile a type assumption at a call of an overloaded generic function yet'.
+- a call of an overloaded generic function with an assumption at an argument: 'Can't compile a type assumption at a call of an overloaded generic function yet'.
 
 It also refuses a function or method with a contract (`requires`, `ensures`, `invariant`). It compiles a declaration whose own header or `extends` entry has a `where` clause, and emits nothing for the clause. A call of a function or method whose own clause introduces a `where`-clause variable, as `where [\nat n\]` does, links, but dies at run time with `NoClassDefFoundError` (ledger row 867). `compiler_tests/XXXWhereVariableCallCompiled.test` records it: copy its form for such a call. The disambiguator, which both paths run, drops a trait's or object's contract, so the code generator never sees one, and walk does not check one either (ledger row 781). It refuses a function or method with a modifier other than `getter`, `setter`, `io`, `private`, `abstract` and `test`, such as `override` (ledger row 650). A trait or object that extends a generic trait compiles with `Any` as the static argument. With `Bottom`, `Self` or an abbreviated type there, the code generator refuses the declaration. An abbreviated type is a short form that the specification gives for a type, such as `RR64[3]` for an array type. With a tuple that holds `Any` there, the code generator crashes (ledger row 889).
 
@@ -65,7 +65,7 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 
 - It emits no primitive `double` arithmetic.
 - The class loader rewrites a template's bytes with ASM. The emitted classfiles stay at version 1.6, because this rewriting keeps no stack-map frames. Do not raise the version.
-- The `value` modifier adds the mark interface `ValueObjectMark` to the object's class. The compiled `SEQV` reads the mark. The fields stay as they are.
+- The `value` modifier adds the mark interface `ValueObjectMark` to the object's class. The compiled `SEQV` (`nativeHelpers/equality.java`) reads the mark. The modifier does not inline or unbox the fields.
 - An array of `RR64` values is to be stored as an unboxed `double[]`. The code generator does not build it yet (`SKILL.md`, "The compiled runtime"). If your task touches how arrays are stored, print the two POSITIONS entries on arrays first (about 2 KB):
 
       explorations/coordinator/tools/facts-extract.sh 'positions:array is stored as' 'positions:array design'
@@ -177,7 +177,7 @@ Two notes under `explorations/coordinator/map/` help you find where a fix belong
 
 This section is for a change of the checker: its Scala under `scala_src/`, or `ProjectFortress/astgen/Fortress.ast` and the generators under `ProjectFortress/src/com/sun/fortress/astgen/`, from which the build generates the checker's syntax tree and `Walker`.
 
-The count stage takes `<out-file> <scratch>` and about 80 to 180 seconds, more under load. That is longer than the Bash tool's default time limit, so run it in the background (`session.md`). It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`, and its caches in `<scratch>`, so a run from the base build leaves the base build as it was.
+The count stage takes `<out-file> <scratch>` and about 80 to 180 seconds, more under load. It can run past the Bash tool's 120-second limit, so run it in the background (`session.md`). It writes a table to the out-file: the errors of each api, the total, the number of places with errors, and the first crash. It keeps the checker's whole output in `<scratch>/run.txt`, and its caches in `<scratch>`, so a run from the base build leaves the base build as it was.
 
 The checker checks every api first, and the component only if no api has an error. In each api or component, it stops at the first of its stages that finds errors. The stages run in this order (`compiler/StaticChecker.java`, `checkCompilationUnit`):
 
