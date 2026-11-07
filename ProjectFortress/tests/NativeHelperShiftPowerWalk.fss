@@ -1,0 +1,448 @@
+(* The shifts and powers of ZZ32, ZZ64, NN32, NN64 and ZZ give their values at a count or an exponent of each integer type: negative, at and beyond the width, beyond 64 bits, and at unsigned values with the top bit set. *)
+component NativeHelperShiftPowerWalk
+export Executable
+
+overflows(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+dividesByZero(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    DivisionByZero => true
+  end
+
+shown(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    NN64 => v.asString || " : NN64"
+    ZZ => v.asString || " : ZZ"
+    else => v.asString || " : another type"
+  end
+
+shiftsZZ32(): () = do
+    five: ZZ32 = 5
+    mfive: ZZ32 = -5
+    one: ZZ32 = 1
+    mforty: ZZ32 = -40
+    c32: ZZ32 = 3
+    c64: ZZ64 = widen(3)
+    n32: NN32 = unsigned(3)
+    n64: NN64 = unsigned(widen(3))
+    cz: ZZ = big(3)
+    w32: ZZ32 = 32
+    w40: ZZ64 = widen(40)
+    m40: ZZ64 = widen(-40)
+    min32: ZZ32 = -2147483647 - 1
+    top32: NN32 = unsigned(min32)
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    p70: ZZ = 1180591620717411303424
+    m70: ZZ = -1180591620717411303424
+    assert(shown(five LSHIFT c32), "40 : ZZ32", "ZZ32 5 LSHIFT a ZZ32 3")
+    assert(shown(five LSHIFT c64), "40 : ZZ32", "ZZ32 5 LSHIFT a ZZ64 3")
+    assert(shown(five LSHIFT n32), "40 : ZZ32", "ZZ32 5 LSHIFT an NN32 3")
+    assert(shown(five LSHIFT n64), "40 : ZZ32", "ZZ32 5 LSHIFT an NN64 3")
+    assert(shown(five LSHIFT cz), "40 : ZZ32", "ZZ32 5 LSHIFT a ZZ 3")
+    assert((five LSHIFT (-1)).asString, "2", "ZZ32 5 LSHIFT -1 shifts right")
+    assert((mforty LSHIFT (-3)).asString, "-5", "ZZ32 -40 LSHIFT -3 shifts right by the sign")
+    assert((one LSHIFT 31).asString, "-2147483648", "ZZ32 1 LSHIFT 31")
+    assert((one LSHIFT w32).asString, "0", "ZZ32 1 LSHIFT 32")
+    assert((five LSHIFT w40).asString, "0", "ZZ32 5 LSHIFT a ZZ64 40")
+    assert((mfive LSHIFT (-32)).asString, "-1", "ZZ32 -5 LSHIFT -32")
+    assert((mfive LSHIFT m40).asString, "-1", "ZZ32 -5 LSHIFT a ZZ64 -40")
+    assert((five LSHIFT p70).asString, "0", "ZZ32 5 LSHIFT a ZZ 2^70")
+    assert((five LSHIFT m70).asString, "0", "ZZ32 5 LSHIFT a ZZ -2^70")
+    assert((mfive LSHIFT m70).asString, "-1", "ZZ32 -5 LSHIFT a ZZ -2^70")
+    assert((five LSHIFT top32).asString, "0", "ZZ32 5 LSHIFT an NN32 2^31")
+    assert((five LSHIFT top64).asString, "0", "ZZ32 5 LSHIFT an NN64 2^63")
+    assert((mfive LSHIFT min32).asString, "-1", "ZZ32 -5 LSHIFT the ZZ32 minimum")
+    assert(shown(five RSHIFT (-2)), "20 : ZZ32", "ZZ32 5 RSHIFT -2 shifts left")
+    assert((mforty RSHIFT c32).asString, "-5", "ZZ32 -40 RSHIFT a ZZ32 3")
+    assert((mforty RSHIFT n64).asString, "-5", "ZZ32 -40 RSHIFT an NN64 3")
+    assert((mforty RSHIFT w40).asString, "-1", "ZZ32 -40 RSHIFT a ZZ64 40")
+    assert((five RSHIFT w32).asString, "0", "ZZ32 5 RSHIFT 32")
+    assert((mforty RSHIFT top64).asString, "-1", "ZZ32 -40 RSHIFT an NN64 2^63")
+    assert((mforty RSHIFT top32).asString, "-1", "ZZ32 -40 RSHIFT an NN32 2^31")
+    assert((mforty RSHIFT p70).asString, "-1", "ZZ32 -40 RSHIFT a ZZ 2^70")
+    assert((five RSHIFT m70).asString, "0", "ZZ32 5 RSHIFT a ZZ -2^70")
+    assert((five RSHIFT min32).asString, "0", "ZZ32 5 RSHIFT the ZZ32 minimum")
+  end
+
+shiftsZZ64(): () = do
+    five: ZZ64 = widen(5)
+    one: ZZ64 = widen(1)
+    mforty: ZZ64 = widen(-40)
+    c32: ZZ32 = 40
+    c64: ZZ64 = widen(40)
+    n32: NN32 = unsigned(40)
+    n64: NN64 = unsigned(widen(40))
+    cz: ZZ = big(40)
+    w64: ZZ32 = 64
+    min32: ZZ32 = -2147483647 - 1
+    top32: NN32 = unsigned(min32)
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    p70: ZZ = 1180591620717411303424
+    m70: ZZ = -1180591620717411303424
+    assert(shown(five LSHIFT c32), "5497558138880 : ZZ64", "ZZ64 5 LSHIFT a ZZ32 40")
+    assert(shown(five LSHIFT c64), "5497558138880 : ZZ64", "ZZ64 5 LSHIFT a ZZ64 40")
+    assert(shown(five LSHIFT n32), "5497558138880 : ZZ64", "ZZ64 5 LSHIFT an NN32 40")
+    assert(shown(five LSHIFT n64), "5497558138880 : ZZ64", "ZZ64 5 LSHIFT an NN64 40")
+    assert(shown(five LSHIFT cz), "5497558138880 : ZZ64", "ZZ64 5 LSHIFT a ZZ 40")
+    assert((one LSHIFT 63).asString, "-9223372036854775808", "ZZ64 1 LSHIFT 63")
+    assert((one LSHIFT w64).asString, "0", "ZZ64 1 LSHIFT 64")
+    assert((five LSHIFT (-1)).asString, "2", "ZZ64 5 LSHIFT -1 shifts right")
+    assert((mforty LSHIFT (-70)).asString, "-1", "ZZ64 -40 LSHIFT -70")
+    assert((five LSHIFT top32).asString, "0", "ZZ64 5 LSHIFT an NN32 2^31")
+    assert((five LSHIFT top64).asString, "0", "ZZ64 5 LSHIFT an NN64 2^63")
+    assert((five LSHIFT p70).asString, "0", "ZZ64 5 LSHIFT a ZZ 2^70")
+    assert((mforty LSHIFT m70).asString, "-1", "ZZ64 -40 LSHIFT a ZZ -2^70")
+    assert((mforty LSHIFT min64).asString, "-1", "ZZ64 -40 LSHIFT the ZZ64 minimum")
+    assert(shown(mforty RSHIFT 3), "-5 : ZZ64", "ZZ64 -40 RSHIFT 3")
+    assert((five RSHIFT (-2)).asString, "20", "ZZ64 5 RSHIFT -2 shifts left")
+    assert((mforty RSHIFT w64).asString, "-1", "ZZ64 -40 RSHIFT 64")
+    assert((five RSHIFT w64).asString, "0", "ZZ64 5 RSHIFT 64")
+    assert((mforty RSHIFT top64).asString, "-1", "ZZ64 -40 RSHIFT an NN64 2^63")
+    assert((mforty RSHIFT p70).asString, "-1", "ZZ64 -40 RSHIFT a ZZ 2^70")
+    assert((five RSHIFT m70).asString, "0", "ZZ64 5 RSHIFT a ZZ -2^70")
+    assert((five RSHIFT min64).asString, "0", "ZZ64 5 RSHIFT the ZZ64 minimum")
+  end
+
+shiftsNN32(): () = do
+    three: NN32 = unsigned(3)
+    min32: ZZ32 = -2147483647 - 1
+    top32: NN32 = unsigned(min32)
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    c64: ZZ64 = widen(1)
+    n64: NN64 = unsigned(widen(1))
+    n32: NN32 = unsigned(31)
+    cz: ZZ = big(31)
+    w32: ZZ32 = 32
+    p70: ZZ = 1180591620717411303424
+    m70: ZZ = -1180591620717411303424
+    assert(shown(three LSHIFT 31), "2147483648 : NN32", "NN32 3 LSHIFT 31")
+    assert(shown(three LSHIFT n32), "2147483648 : NN32", "NN32 3 LSHIFT an NN32 31")
+    assert(shown(three LSHIFT cz), "2147483648 : NN32", "NN32 3 LSHIFT a ZZ 31")
+    assert(shown(three RSHIFT n64), "1 : NN32", "NN32 3 RSHIFT an NN64 1")
+    assert(shown(three RSHIFT c64), "1 : NN32", "NN32 3 RSHIFT a ZZ64 1")
+    assert((top32 RSHIFT 31).asString, "1", "NN32 2^31 RSHIFT 31 is logical")
+    assert((top32 LSHIFT (-31)).asString, "1", "NN32 2^31 LSHIFT -31 is logical")
+    assert((three RSHIFT (-1)).asString, "6", "NN32 3 RSHIFT -1 shifts left")
+    assert((three LSHIFT w32).asString, "0", "NN32 3 LSHIFT 32")
+    assert((top32 RSHIFT w32).asString, "0", "NN32 2^31 RSHIFT 32")
+    assert((three LSHIFT top32).asString, "0", "NN32 3 LSHIFT an NN32 2^31")
+    assert((top32 RSHIFT top64).asString, "0", "NN32 2^31 RSHIFT an NN64 2^63")
+    assert((three LSHIFT p70).asString, "0", "NN32 3 LSHIFT a ZZ 2^70")
+    assert((top32 LSHIFT m70).asString, "0", "NN32 2^31 LSHIFT a ZZ -2^70")
+    assert((top32 RSHIFT min32).asString, "0", "NN32 2^31 RSHIFT the ZZ32 minimum")
+  end
+
+shiftsNN64(): () = do
+    three: NN64 = unsigned(widen(3))
+    min32: ZZ32 = -2147483647 - 1
+    top32: NN32 = unsigned(min32)
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    c32: ZZ32 = 63
+    n32: NN32 = unsigned(63)
+    n64: NN64 = unsigned(widen(63))
+    cz: ZZ = big(63)
+    w64: ZZ64 = widen(64)
+    p70: ZZ = 1180591620717411303424
+    m70: ZZ = -1180591620717411303424
+    assert(shown(three LSHIFT c32), "9223372036854775808 : NN64", "NN64 3 LSHIFT a ZZ32 63")
+    assert(shown(three LSHIFT n32), "9223372036854775808 : NN64", "NN64 3 LSHIFT an NN32 63")
+    assert(shown(three LSHIFT n64), "9223372036854775808 : NN64", "NN64 3 LSHIFT an NN64 63")
+    assert(shown(three LSHIFT cz), "9223372036854775808 : NN64", "NN64 3 LSHIFT a ZZ 63")
+    assert(shown(three RSHIFT 1), "1 : NN64", "NN64 3 RSHIFT 1")
+    assert((top64 RSHIFT 63).asString, "1", "NN64 2^63 RSHIFT 63 is logical")
+    assert((top64 LSHIFT (-1)).asString, "4611686018427387904", "NN64 2^63 LSHIFT -1 is logical")
+    assert((three RSHIFT (-1)).asString, "6", "NN64 3 RSHIFT -1 shifts left")
+    assert((three LSHIFT w64).asString, "0", "NN64 3 LSHIFT 64")
+    assert((top64 RSHIFT w64).asString, "0", "NN64 2^63 RSHIFT 64")
+    assert((three LSHIFT top64).asString, "0", "NN64 3 LSHIFT an NN64 2^63")
+    assert((top64 RSHIFT top32).asString, "0", "NN64 2^63 RSHIFT an NN32 2^31")
+    assert((three LSHIFT p70).asString, "0", "NN64 3 LSHIFT a ZZ 2^70")
+    assert((top64 RSHIFT m70).asString, "0", "NN64 2^63 RSHIFT a ZZ -2^70")
+    assert((top64 LSHIFT min64).asString, "0", "NN64 2^63 LSHIFT the ZZ64 minimum")
+  end
+
+shiftsZZ(): () = do
+    five: ZZ = big(5)
+    mfive: ZZ = big(-5)
+    zero: ZZ = big(0)
+    c32: ZZ32 = 100
+    c64: ZZ64 = widen(100)
+    n32: NN32 = unsigned(100)
+    n64: NN64 = unsigned(widen(100))
+    cz: ZZ = big(100)
+    min32: ZZ32 = -2147483647 - 1
+    top32: NN32 = unsigned(min32)
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    p70: ZZ = 1180591620717411303424
+    m70: ZZ = -1180591620717411303424
+    assert(shown(five LSHIFT c32), "6338253001141147007483516026880 : ZZ", "ZZ 5 LSHIFT a ZZ32 100")
+    assert(shown(five LSHIFT c64), "6338253001141147007483516026880 : ZZ", "ZZ 5 LSHIFT a ZZ64 100")
+    assert(shown(five LSHIFT n32), "6338253001141147007483516026880 : ZZ", "ZZ 5 LSHIFT an NN32 100")
+    assert(shown(five LSHIFT n64), "6338253001141147007483516026880 : ZZ", "ZZ 5 LSHIFT an NN64 100")
+    assert(shown(five LSHIFT cz), "6338253001141147007483516026880 : ZZ", "ZZ 5 LSHIFT a ZZ 100")
+    assert(shown(shift(five, -1)), "2 : ZZ", "ZZ shift(5, -1)")
+    assert(shift(mfive, widen(-2)).asString, "-2", "ZZ shift(-5, a ZZ64 -2) rounds down")
+    assert(shift(five, n32).asString, "6338253001141147007483516026880", "ZZ shift(5, an NN32 100)")
+    assert(shown(five RSHIFT 1), "2 : ZZ", "ZZ 5 RSHIFT 1")
+    assert((mfive RSHIFT 1).asString, "-3", "ZZ -5 RSHIFT 1 rounds down")
+    assert((five RSHIFT (-2)).asString, "20", "ZZ 5 RSHIFT -2 shifts left")
+    assert((five LSHIFT m70).asString, "0", "ZZ 5 LSHIFT a ZZ -2^70")
+    assert((mfive LSHIFT m70).asString, "-1", "ZZ -5 LSHIFT a ZZ -2^70")
+    assert((mfive RSHIFT p70).asString, "-1", "ZZ -5 RSHIFT a ZZ 2^70")
+    assert((mfive RSHIFT top64).asString, "-1", "ZZ -5 RSHIFT an NN64 2^63")
+    assert((zero LSHIFT p70).asString, "0", "ZZ 0 LSHIFT a ZZ 2^70")
+    assert((zero LSHIFT top32).asString, "0", "ZZ 0 LSHIFT an NN32 2^31")
+    assert(overflows(fn () => five LSHIFT p70), "ZZ 5 LSHIFT a ZZ 2^70 throws IntegerOverflow")
+    assert(overflows(fn () => five LSHIFT top32), "ZZ 5 LSHIFT an NN32 2^31 throws IntegerOverflow")
+    assert(overflows(fn () => five LSHIFT top64), "ZZ 5 LSHIFT an NN64 2^63 throws IntegerOverflow")
+    assert(overflows(fn () => five RSHIFT m70), "ZZ 5 RSHIFT a ZZ -2^70 throws IntegerOverflow")
+    assert(overflows(fn () => shift(five, p70)), "ZZ shift(5, a ZZ 2^70) throws IntegerOverflow")
+    assert((five LSHIFT min32).asString, "0", "ZZ 5 LSHIFT the ZZ32 minimum")
+    assert((mfive LSHIFT min32).asString, "-1", "ZZ -5 LSHIFT the ZZ32 minimum")
+    assert(shift(mfive, min32).asString, "-1", "ZZ shift(-5, the ZZ32 minimum)")
+    assert((mfive LSHIFT min64).asString, "-1", "ZZ -5 LSHIFT the ZZ64 minimum")
+    assert(overflows(fn () => five RSHIFT min32), "ZZ 5 RSHIFT the ZZ32 minimum throws IntegerOverflow")
+    assert((zero RSHIFT min32).asString, "0", "ZZ 0 RSHIFT the ZZ32 minimum")
+  end
+
+powersZZ32(): () = do
+    two: ZZ32 = 2
+    seven: ZZ32 = 7
+    one: ZZ32 = 1
+    mone: ZZ32 = -1
+    zero: ZZ32 = 0
+    mtwo: ZZ32 = -2
+    e32: ZZ32 = 10
+    e64: ZZ64 = widen(10)
+    n32: NN32 = unsigned(10)
+    n64: NN64 = unsigned(widen(10))
+    ez: ZZ = big(10)
+    min32: ZZ32 = -2147483647 - 1
+    top32: NN32 = unsigned(min32)
+    top32odd: NN32 = unsigned(min32 + 1)
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    top64odd: NN64 = unsigned(min64 + widen(1))
+    p70: ZZ = 1180591620717411303424
+    p70odd: ZZ = 1180591620717411303425
+    m70: ZZ = -1180591620717411303424
+    m70odd: ZZ = -1180591620717411303425
+    big64: ZZ64 = 9223372036854775807
+    assert(shown(two^e32), "1024 : ZZ32", "ZZ32 2^(a ZZ32 10)")
+    assert(shown(two^e64), "1024 : ZZ32", "ZZ32 2^(a ZZ64 10)")
+    assert(shown(two^n32), "1024 : ZZ32", "ZZ32 2^(an NN32 10)")
+    assert(shown(two^n64), "1024 : ZZ32", "ZZ32 2^(an NN64 10)")
+    assert(shown(two^ez), "1024 : ZZ32", "ZZ32 2^(a ZZ 10)")
+    assert(shown(seven^2), "49 : ZZ32", "ZZ32 7^2")
+    assert(shown(seven^1), "7 : ZZ32", "ZZ32 7^1")
+    assert(shown(seven^0), "1 : ZZ32", "ZZ32 7^0")
+    assert(shown(zero^0), "1 : ZZ32", "ZZ32 0^0")
+    assert(overflows(fn () => seven^(-1)), "ZZ32 7^(-1) throws IntegerOverflow")
+    assert(shown(one^(-3)), "1 : ZZ32", "ZZ32 1^(-3)")
+    assert(shown(mone^(-3)), "-1 : ZZ32", "ZZ32 (-1)^(-3)")
+    assert(shown(mone^(-4)), "1 : ZZ32", "ZZ32 (-1)^(-4)")
+    assert(overflows(fn () => two^(-1)), "ZZ32 2^(-1) throws IntegerOverflow")
+    assert(dividesByZero(fn () => zero^(-1)), "ZZ32 0^(-1) throws DivisionByZero")
+    assert(overflows(fn () => two^31), "ZZ32 2^31 throws IntegerOverflow")
+    assert((two^30).asString, "1073741824", "ZZ32 2^30")
+    assert((mtwo^31).asString, "-2147483648", "ZZ32 (-2)^31")
+    assert((mone^top32).asString, "1", "ZZ32 (-1)^(an NN32 2^31)")
+    assert((mone^top32odd).asString, "-1", "ZZ32 (-1)^(an NN32 2^31+1)")
+    assert((mone^top64).asString, "1", "ZZ32 (-1)^(an NN64 2^63)")
+    assert((mone^top64odd).asString, "-1", "ZZ32 (-1)^(an NN64 2^63+1)")
+    assert((mone^p70).asString, "1", "ZZ32 (-1)^(a ZZ 2^70)")
+    assert((mone^p70odd).asString, "-1", "ZZ32 (-1)^(a ZZ 2^70+1)")
+    assert((mone^m70odd).asString, "-1", "ZZ32 (-1)^(a ZZ -2^70-1)")
+    assert((mone^big64).asString, "-1", "ZZ32 (-1)^(the ZZ64 maximum)")
+    assert((mone^min64).asString, "1", "ZZ32 (-1)^(the ZZ64 minimum)")
+    assert((one^m70).asString, "1", "ZZ32 1^(a ZZ -2^70)")
+    assert((zero^p70).asString, "0", "ZZ32 0^(a ZZ 2^70)")
+    assert(dividesByZero(fn () => zero^m70), "ZZ32 0^(a ZZ -2^70) throws DivisionByZero")
+    assert(overflows(fn () => two^p70), "ZZ32 2^(a ZZ 2^70) throws IntegerOverflow")
+    assert(overflows(fn () => two^m70), "ZZ32 2^(a ZZ -2^70) throws IntegerOverflow")
+    assert(overflows(fn () => two^top64), "ZZ32 2^(an NN64 2^63) throws IntegerOverflow")
+    assert((mone^min32).asString, "1", "ZZ32 (-1)^(the ZZ32 minimum)")
+  end
+
+powersZZ64(): () = do
+    two: ZZ64 = widen(2)
+    five: ZZ64 = widen(5)
+    one: ZZ64 = widen(1)
+    mone: ZZ64 = widen(-1)
+    zero: ZZ64 = widen(0)
+    mtwo: ZZ64 = widen(-2)
+    e64: ZZ64 = widen(20)
+    n32: NN32 = unsigned(20)
+    n64: NN64 = unsigned(widen(20))
+    ez: ZZ = big(20)
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    p70odd: ZZ = 1180591620717411303425
+    m70: ZZ = -1180591620717411303424
+    assert(shown(five^20), "95367431640625 : ZZ64", "ZZ64 5^20")
+    assert(shown(five^e64), "95367431640625 : ZZ64", "ZZ64 5^(a ZZ64 20)")
+    assert(shown(five^n32), "95367431640625 : ZZ64", "ZZ64 5^(an NN32 20)")
+    assert(shown(five^n64), "95367431640625 : ZZ64", "ZZ64 5^(an NN64 20)")
+    assert(shown(five^ez), "95367431640625 : ZZ64", "ZZ64 5^(a ZZ 20)")
+    assert(shown(five^1), "5 : ZZ64", "ZZ64 5^1")
+    assert(shown(five^0), "1 : ZZ64", "ZZ64 5^0")
+    assert(shown(five^2), "25 : ZZ64", "ZZ64 5^2")
+    assert(overflows(fn () => two^63), "ZZ64 2^63 throws IntegerOverflow")
+    assert((mtwo^63).asString, "-9223372036854775808", "ZZ64 (-2)^63")
+    assert(overflows(fn () => two^(-1)), "ZZ64 2^(-1) throws IntegerOverflow")
+    assert(dividesByZero(fn () => zero^(-1)), "ZZ64 0^(-1) throws DivisionByZero")
+    assert((one^(-5)).asString, "1", "ZZ64 1^(-5)")
+    assert((mone^(-5)).asString, "-1", "ZZ64 (-1)^(-5)")
+    assert((mone^(-2)).asString, "1", "ZZ64 (-1)^(-2)")
+    assert((mone^top64).asString, "1", "ZZ64 (-1)^(an NN64 2^63)")
+    assert((mone^p70odd).asString, "-1", "ZZ64 (-1)^(a ZZ 2^70+1)")
+    assert((mone^min64).asString, "1", "ZZ64 (-1)^(the ZZ64 minimum)")
+    assert(dividesByZero(fn () => zero^m70), "ZZ64 0^(a ZZ -2^70) throws DivisionByZero")
+    assert(overflows(fn () => two^top64), "ZZ64 2^(an NN64 2^63) throws IntegerOverflow")
+  end
+
+powersNN32(): () = do
+    two: NN32 = unsigned(2)
+    three: NN32 = unsigned(3)
+    one: NN32 = unsigned(1)
+    zero: NN32 = unsigned(0)
+    big16: NN32 = unsigned(65535)
+    nmax: NN32 = unsigned(-1)
+    e64: NN64 = unsigned(widen(3))
+    e32: ZZ32 = 3
+    ez: ZZ = big(3)
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    p70: ZZ = 1180591620717411303424
+    assert(shown(three^e64), "27 : NN32", "NN32 3^(an NN64 3)")
+    assert(shown(three^e32), "27 : NN32", "NN32 3^(a ZZ32 3)")
+    assert(shown(three^ez), "27 : NN32", "NN32 3^(a ZZ 3)")
+    assert(shown(two^31), "2147483648 : NN32", "NN32 2^31")
+    assert(overflows(fn () => two^32), "NN32 2^32 throws IntegerOverflow")
+    assert((big16^2).asString, "4294836225", "NN32 65535^2")
+    assert(overflows(fn () => nmax^2), "NN32 (2^32-1)^2 throws IntegerOverflow")
+    assert((nmax^1).asString, "4294967295", "NN32 (2^32-1)^1")
+    assert((three^0).asString, "1", "NN32 3^0")
+    assert((three^1).asString, "3", "NN32 3^1")
+    assert((three^2).asString, "9", "NN32 3^2")
+    assert((one^(-1)).asString, "1", "NN32 1^(-1)")
+    assert(dividesByZero(fn () => zero^(-1)), "NN32 0^(-1) throws DivisionByZero")
+    assert(overflows(fn () => two^(-1)), "NN32 2^(-1) throws IntegerOverflow")
+    assert(overflows(fn () => nmax^(-1)), "NN32 (2^32-1)^(-1) throws IntegerOverflow")
+    assert((one^top64).asString, "1", "NN32 1^(an NN64 2^63)")
+    assert((zero^p70).asString, "0", "NN32 0^(a ZZ 2^70)")
+    assert(overflows(fn () => two^top64), "NN32 2^(an NN64 2^63) throws IntegerOverflow")
+  end
+
+powersNN64(): () = do
+    two: NN64 = unsigned(widen(2))
+    three: NN64 = unsigned(widen(3))
+    one: NN64 = unsigned(widen(1))
+    zero: NN64 = unsigned(widen(0))
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    e32: ZZ32 = 5
+    e64: ZZ64 = widen(5)
+    n32: NN32 = unsigned(5)
+    ez: ZZ = big(5)
+    p70: ZZ = 1180591620717411303424
+    assert(shown(three^5), "243 : NN64", "NN64 3^5")
+    assert(shown(three^e32), "243 : NN64", "NN64 3^(a ZZ32 5)")
+    assert(shown(three^e64), "243 : NN64", "NN64 3^(a ZZ64 5)")
+    assert(shown(three^n32), "243 : NN64", "NN64 3^(an NN32 5)")
+    assert(shown(three^ez), "243 : NN64", "NN64 3^(a ZZ 5)")
+    assert((two^63).asString, "9223372036854775808", "NN64 2^63")
+    assert((three^0).asString, "1", "NN64 3^0")
+    assert((three^1).asString, "3", "NN64 3^1")
+    assert((three^2).asString, "9", "NN64 3^2")
+    assert(overflows(fn () => two^64), "NN64 2^64 throws IntegerOverflow")
+    assert((top64^1).asString, "9223372036854775808", "NN64 (2^63)^1")
+    assert(overflows(fn () => top64^2), "NN64 (2^63)^2 throws IntegerOverflow")
+    assert((one^(-1)).asString, "1", "NN64 1^(-1)")
+    assert(dividesByZero(fn () => zero^(-1)), "NN64 0^(-1) throws DivisionByZero")
+    assert(overflows(fn () => two^(-1)), "NN64 2^(-1) throws IntegerOverflow")
+    assert(overflows(fn () => top64^(-1)), "NN64 (2^63)^(-1) throws IntegerOverflow")
+    assert((one^top64).asString, "1", "NN64 1^(an NN64 2^63)")
+    assert((zero^p70).asString, "0", "NN64 0^(a ZZ 2^70)")
+    assert(overflows(fn () => two^p70), "NN64 2^(a ZZ 2^70) throws IntegerOverflow")
+  end
+
+powersZZ(): () = do
+    two: ZZ = big(2)
+    one: ZZ = big(1)
+    mone: ZZ = big(-1)
+    zero: ZZ = big(0)
+    e32: ZZ32 = 100
+    e64: ZZ64 = widen(100)
+    n32: NN32 = unsigned(100)
+    n64: NN64 = unsigned(widen(100))
+    ez: ZZ = big(100)
+    min64: ZZ64 = -9223372036854775807 - 1
+    top64: NN64 = unsigned(min64)
+    top64odd: NN64 = unsigned(min64 + widen(1))
+    p70: ZZ = 1180591620717411303424
+    p70odd: ZZ = 1180591620717411303425
+    m70: ZZ = -1180591620717411303424
+    m70odd: ZZ = -1180591620717411303425
+    assert(shown(two^e32), "1267650600228229401496703205376 : ZZ", "ZZ 2^(a ZZ32 100)")
+    assert(shown(two^e64), "1267650600228229401496703205376 : ZZ", "ZZ 2^(a ZZ64 100)")
+    assert(shown(two^n32), "1267650600228229401496703205376 : ZZ", "ZZ 2^(an NN32 100)")
+    assert(shown(two^n64), "1267650600228229401496703205376 : ZZ", "ZZ 2^(an NN64 100)")
+    assert(shown(two^ez), "1267650600228229401496703205376 : ZZ", "ZZ 2^(a ZZ 100)")
+    assert(shown(two^100), "1267650600228229401496703205376 : ZZ", "ZZ 2^100")
+    assert((two^1).asString, "2", "ZZ 2^1")
+    assert((two^2).asString, "4", "ZZ 2^2")
+    assert((two^0).asString, "1", "ZZ 2^0")
+    assert((zero^0).asString, "1", "ZZ 0^0")
+    assert(overflows(fn () => two^(-1)), "ZZ 2^(-1) throws IntegerOverflow")
+    assert(dividesByZero(fn () => zero^(-1)), "ZZ 0^(-1) throws DivisionByZero")
+    assert((one^(-3)).asString, "1", "ZZ 1^(-3)")
+    assert((mone^(-3)).asString, "-1", "ZZ (-1)^(-3)")
+    assert((mone^(-2)).asString, "1", "ZZ (-1)^(-2)")
+    assert((mone^p70).asString, "1", "ZZ (-1)^(a ZZ 2^70)")
+    assert((mone^p70odd).asString, "-1", "ZZ (-1)^(a ZZ 2^70+1)")
+    assert((mone^m70odd).asString, "-1", "ZZ (-1)^(a ZZ -2^70-1)")
+    assert((mone^top64).asString, "1", "ZZ (-1)^(an NN64 2^63)")
+    assert((mone^top64odd).asString, "-1", "ZZ (-1)^(an NN64 2^63+1)")
+    assert((one^m70).asString, "1", "ZZ 1^(a ZZ -2^70)")
+    assert((zero^p70).asString, "0", "ZZ 0^(a ZZ 2^70)")
+    assert(dividesByZero(fn () => zero^m70), "ZZ 0^(a ZZ -2^70) throws DivisionByZero")
+    assert(overflows(fn () => two^p70), "ZZ 2^(a ZZ 2^70) throws IntegerOverflow")
+    assert(overflows(fn () => two^p70odd), "ZZ 2^(a ZZ 2^70+1) throws IntegerOverflow")
+    assert(overflows(fn () => two^m70), "ZZ 2^(a ZZ -2^70) throws IntegerOverflow")
+    assert(overflows(fn () => two^top64), "ZZ 2^(an NN64 2^63) throws IntegerOverflow")
+    assert(overflows(fn () => two^min64), "ZZ 2^(the ZZ64 minimum) throws IntegerOverflow")
+  end
+
+run(): () = do
+    shiftsZZ32()
+    shiftsZZ64()
+    shiftsNN32()
+    shiftsNN64()
+    shiftsZZ()
+    powersZZ32()
+    powersZZ64()
+    powersNN32()
+    powersNN64()
+    powersZZ()
+    println("shifts and powers done")
+  end
+
+end
