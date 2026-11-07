@@ -1117,3 +1117,4 @@ From the cold read of `eb0dfd81a` and `6d6142f3c` (`explorations/compile-ladder/
 ## A footer that names a model, 2026-11-07
 
 - `committing.md`, the footer: a footer that names a model is no defect, and no agent checks for it, reports it, lists it, or rewords or amends a commit for it; the plain footer stays the default. The curator's words in chat on 2026-11-07: at 05:17 UTC, that he prefers the footer with the model's name; at 05:19 UTC, that tracking which model did which work would be messy, so no model name is better than a wrong one; at 14:19 UTC, that he does not care, and is not to be bothered with reports of a model's name in a footer.
+- The cold read of `da13260ed`, 2026-11-07; settled by the coordinator: the sentence bounded to a commit already made, so that the plain footer stays what an agent writes; "by any name or identifier", so that the rule on model identifiers in "What to commit" does not make such a footer a defect.
