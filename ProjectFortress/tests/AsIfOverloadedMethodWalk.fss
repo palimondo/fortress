@@ -1,0 +1,29 @@
+(* An overloaded method called on an assumed receiver with an assumed argument runs the declaration at the assumed types (type-annotation.tex, section "Type Assumption"). *)
+component AsIfOverloadedMethodWalk
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+    pick(x: Named): String = "Named picks Named"
+    pick(x: Leaf): String = "Named picks Leaf"
+end
+
+object Leaf extends Named
+    getter name(): String = "Leaf"
+end
+
+firstKeysEqual(xs: (ZZ32, ZZ32)...): Boolean = do
+    (k0, _) = xs[0]
+    (k1, _) = xs[1]
+    (k0 = k1)
+  end
+
+run(): () = do
+    assert((Leaf asif Named).pick(Leaf asif Named), "Named picks Named", "the overloaded method at Named, over two assumptions")
+    assert((0 asif ZZ32) = (0 asif ZZ32), true, "the overloaded = of ZZ32 over two assumptions, equal")
+    assert((0 asif ZZ32) = (1 asif ZZ32), false, "the overloaded = of ZZ32 over two assumptions, unequal")
+    assert(firstKeysEqual((3 asif ZZ32, 1), (3 asif ZZ32, 2)), true, "assumed keys of pairs through varargs, equal")
+    assert(firstKeysEqual((3 asif ZZ32, 1), (4 asif ZZ32, 1)), false, "assumed keys of pairs through varargs, unequal")
+  end
+
+end

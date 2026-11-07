@@ -93,6 +93,8 @@ public final class DottedMethodApplication extends Fcn {
                 if (cl == null) {
                     // We're going to fail; set selfEnv to root of search.
                     selfEnv = tr.getMembers();
+                } else if (cl instanceof OverloadedFunction && !(cl instanceof Method)) {
+                    cl = asMethodOverloads((OverloadedFunction) cl, mname, selfEnv);
                 }
             } else {
                 selfEnv = self.getSelfEnv();
@@ -112,6 +114,26 @@ public final class DottedMethodApplication extends Fcn {
         }
         // Step 4: package it all up into a DottedMethodApplication.
         return new DottedMethodApplication(self, ((Method) cl), selfEnv);
+    }
+
+    /**
+     * A trait's members hold an overloaded method name as an
+     * OverloadedFunction.  Under a type assumption the trait's overloads
+     * are the candidates, so they are gathered into an OverloadedMethod,
+     * which chooses among them by the arguments, assumed ones at their
+     * assumed types.  If an overload is not a method closure, of is
+     * returned as it is.
+     */
+    private static FValue asMethodOverloads(OverloadedFunction of, String mname, Environment selfEnv) {
+        of.finishInitializing();
+        OverloadedMethod om = new OverloadedMethod(mname, selfEnv);
+        for (Overload o : of.getOverloads()) {
+            SingleFcn fn = o.getFn();
+            if (!(fn instanceof MethodClosure)) return of;
+            om.addOverload(fn);
+        }
+        om.bless();
+        return om;
     }
 
     /**
