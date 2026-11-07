@@ -22,7 +22,9 @@
 // merged tree's paths carried over from the earlier checker (the review routing, a code finding repaired
 // with and without a second gate, a red gate and its repair, a review that returns nothing, the judge's
 // land, the paths no gate stage reads); the push held by a step that cannot be undone and not by a
-// reversible point; no skill text written and no cold read in any run (the batch's revival-change material
+// reversible point, nor by a point against a decision that the review's repair settled with its evidence (climb
+// batch 27's demo), but by one marked as one that cannot be undone or settled with no evidence; the disk under its
+// floor, or no reading of it, stopping the run before the scatter; no skill text written and no cold read in any run (the batch's revival-change material
 // goes into its RECORD.md for the skill writer: reviews/skills-agenda-audit.md), a path under .claude/ that
 // changed listed as skill-touched, and a gather's stray deltaEntries routed nowhere; testSpecData in the gate
 // when the rung that brings it lands, and not when it is dropped; the stops on a usage limit and the resumes.
@@ -128,6 +130,11 @@ const gatherStub = (x) => () => Object.assign({ unresolved: false, summary: 'stu
 const SKILL_PATH = '.claude/skills/fortress-repo/references/revival-changes.md'
 const commitStub = (x) => () => Object.assign({ mainHead: 'h', pushed: ['main', 'claude/worker-brief-fable-vnnuv8', 'blinded-fable'], pushHeld: false, microgptWalk: MG_PASS, skillTouched: [], summary: 's' }, x || {})
 const nul = () => null
+// df -P's output: 38 G free, over the floor of any batch of up to 22 rungs, and 2 G free.
+const DF_OK = 'Filesystem     1024-blocks     Used Available Capacity Mounted on\n/dev/vda         264212084 25456108  40000000      39% /'
+const DF_LOW = 'Filesystem     1024-blocks     Used Available Capacity Mounted on\n/dev/vda         264212084 25456108   2000000      93% /'
+const HOLD = { point: 'a team demo that reached its end stops on the merged tree, against P-79', evidence: 'x:1', holdsPush: true, cannotBeUndone: false }
+const settles = (x) => Object.assign({ holdsSettled: [{ id: 'hold.1', settled: true, evidence: 'demos: 52 run, 52 reached their end' }] }, x || {})
 const LIMIT_MESSAGE = 'You\'ve hit your weekly limit, resets Oct 2, 10am (UTC)'
 
 // after: the agents after the scatter, in order. agentsPrefix: every agent, in order (S<n> is the n-th rung of the
@@ -171,6 +178,16 @@ const SCEN = [
     after: 'gather, gate, review, commit', landed: true, held: false },
   { name: 'H3 a malformed point holds the push', over: { review: review({ pointsReached: ['not an object'] }) },
     after: 'gather, gate, review, commit', landed: false, held: true },
+  { name: 'H4 the review\'s point against a decision, settled by its repair with evidence: the push not held', over: Object.assign({}, codeFinding, { review: review({ approved: false, blockingCode: ['stub code finding'], pointsReached: [HOLD] }), 'repair:review': repairStub(CODE, [RUN_OK], [], settles()) }),
+    after: 'gather, gate, review, judge:review, repair:review, gate:after-review, commit', landed: true, held: false, promptHas: { 'repair:review': ['## The points that hold the push', '"id": "hold.1"'] } },
+  { name: 'H5 as H4, the point marked as one that cannot be undone: not given to the repair, the push held', over: Object.assign({}, codeFinding, { review: review({ approved: false, blockingCode: ['stub code finding'], pointsReached: [Object.assign({}, HOLD, { cannotBeUndone: true })] }), 'repair:review': repairStub(CODE, [RUN_OK], [], settles()) }),
+    after: 'gather, gate, review, judge:review, repair:review, gate:after-review, commit', landed: false, held: true, promptLacks: { 'repair:review': ['## The points that hold the push'] } },
+  { name: 'H6 as H4, the repair says settled with no evidence: the push held', over: Object.assign({}, codeFinding, { review: review({ approved: false, blockingCode: ['stub code finding'], pointsReached: [HOLD] }), 'repair:review': repairStub(CODE, [RUN_OK], [], settles({ holdsSettled: [{ id: 'hold.1', settled: true, evidence: ' ' }] })) }),
+    after: 'gather, gate, review, judge:review, repair:review, gate:after-review, commit', landed: false, held: true },
+  { name: 'H7 a rung\'s point against a decision, settled by the gate\'s repair after the review\'s left it: the push not held', over: { 'rung:R0': worker({ pointsReached: [HOLD] }), gate: red(), 'judge:gate': () => ({ decision: 'repair', forCurator: [], instructions: ['1. fix'], ruling: 'r', kind: 'gate', summary: 's' }), 'repair:gate': repairStub(CODE, [RUN_OK], [], settles()) },
+    after: 'gather, gate, review, judge:gate, repair:gate, gate2, commit', landed: true, held: false },
+  { name: 'K1 the disk under its floor: the run stops before the scatter', over: { disk: () => ({ dfOutput: DF_LOW }) }, agents: 'disk', threwWith: 'under the floor of' },
+  { name: 'K2 the disk check returns nothing three times: the run stops before the scatter', over: { disk: nul }, agents: 'disk, disk:attempt2, disk:attempt3', threwWith: 'returned no line of df -P' },
   // The merged tree's paths, as the earlier checker had them.
   { name: 'R2 the review routes a tests-only finding, no judge', over: { review: review({ routed: ['XXXFoo owed'] }) }, after: 'gather, gate, review, commit', landed: true, items: ['review-routed.1'] },
   { name: 'R5 a code finding, its repair changes a checker source: the gate runs again', over: Object.assign({}, codeFinding, { 'repair:review': repairStub(CODE, [RUN_OK]) }), after: 'gather, gate, review, judge:review, repair:review, gate:after-review, commit', landed: true },
@@ -202,11 +219,11 @@ const SCEN = [
     after: 'gather, gate, review, commit', landed: true, step1a: true, ungatedIn1a: 'Specification/basic/types.tex', notIn1a: '.claude/', items: ['skill-touched.1'] },
   { name: 'B1 launched without args.baseBuild', over: {}, args: { base: 'BASE' }, agents: '', threwWith: 'args.baseBuild is required' },
   { name: 'L1 the weekly limit as a null from the second rung\'s skeptic on', over: {}, limitAt: 'skeptic:S1', limitAs: 'null',
-    agentsPrefix: 'rung:S0, skeptic:S0, rung:S1, skeptic:S1, skeptic:S1:attempt2, skeptic:S1:attempt3', halts: 'skeptic:S1' },
+    agentsPrefix: 'disk, rung:S0, skeptic:S0, rung:S1, skeptic:S1, skeptic:S1:attempt2, skeptic:S1:attempt3', halts: 'skeptic:S1' },
   { name: 'L2 a usage limit thrown at a skeptic: no second attempt', over: {}, limitAt: 'skeptic:S1', limitAs: 'throw',
-    agentsPrefix: 'rung:S0, skeptic:S0, rung:S1, skeptic:S1', halts: 'skeptic:S1' },
+    agentsPrefix: 'disk, rung:S0, skeptic:S0, rung:S1, skeptic:S1', halts: 'skeptic:S1' },
   { name: 'L3 a usage limit thrown at the gate, beside the review', over: {}, limitAt: 'gate', limitAs: 'throw', after: 'gather, gate, review', halts: 'gate' },
-  { name: 'A19 the first worker returns nothing three times: the run stops', over: { 'rung:S0': nul }, agentsPrefix: 'rung:S0, rung:S0:attempt2, rung:S0:attempt3', halts: 'rung:S0' },
+  { name: 'A19 the first worker returns nothing three times: the run stops', over: { 'rung:S0': nul }, agentsPrefix: 'disk, rung:S0, rung:S0:attempt2, rung:S0:attempt3', halts: 'rung:S0' },
 ]
 
 // landsOnlyWith: a scenario that drops or stops a rung expects every rung that lands only with it, in the
@@ -252,6 +269,7 @@ function mkAgent(sc, calls, journal, replay) {
     let r
     if (over[L]) r = over[L]()
     else if (/:attempt\d$/.test(L) && over[L.replace(/:attempt\d$/, '')]) r = over[L.replace(/:attempt\d$/, '')]()
+    else if (/^disk(:attempt\d)?$/.test(L)) r = { dfOutput: DF_OK }
     else if (/^repair:(review|gate)/.test(L)) r = repairStub([], [])()
     else if (/^(rung|resume|repair):/.test(L)) r = worker()()
     else if (L.startsWith('judge:')) r = judge('stop')()
@@ -296,7 +314,7 @@ async function run(sc, journal, replay) {
 }
 
 const HALT_TEXT = /nothing decided/i
-const SCATTER_LABEL = /^(rung|skeptic|resume|repair:(?!review|gate)|judge:(?!review|gate))/
+const SCATTER_LABEL = /^(disk|rung|skeptic|resume|repair:(?!review|gate)|judge:(?!review|gate))/
 // What the quick pair prints when both programs pass (MicroGptFlatQuick.fss:57, MicroGptAplQuick.fss:59).
 const MG_PASS = 'VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS\nrc=0 secs=31\nVERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS\nrc=0 secs=33'
 const PERSON = /Pavol/g
@@ -322,6 +340,8 @@ function check(sc, out) {
   if (sc.agentsPrefix !== undefined && labels.join(', ') !== subst2(sc.agentsPrefix)) probs.push('agents: ' + labels.join(', ') + ' (expected ' + subst2(sc.agentsPrefix) + ')')
   for (const a of (sc.agentsHas || [])) if (!labels.includes(subst(a))) probs.push('no agent ' + subst(a))
   for (const a of (sc.agentsLack || [])) if (labels.includes(subst(a))) probs.push('an agent ' + subst(a) + ' ran')
+  for (const [l, ts] of Object.entries(sc.promptHas || {})) { const c = calls.find(x => x.label === l); for (const t of ts) if (!c || c.prompt.indexOf(t) < 0) probs.push(l + '\'s brief lacks ' + JSON.stringify(t)) }
+  for (const [l, ts] of Object.entries(sc.promptLacks || {})) { const c = calls.find(x => x.label === l); for (const t of ts) if (c && c.prompt.indexOf(t) >= 0) probs.push(l + '\'s brief holds ' + JSON.stringify(t)) }
   if (sc.landed !== undefined && (!result || !!result.landed !== sc.landed)) probs.push('landed ' + (result && result.landed) + ' (expected ' + sc.landed + ')')
   if (sc.held !== undefined && result && !!result.pushHeld !== sc.held) probs.push('pushHeld ' + result.pushHeld + ' (expected ' + sc.held + ')')
   if (commit && /1a\. The gate below ran/.test(commit.prompt) !== !!sc.step1a) probs.push('step 1a ' + !sc.step1a)
@@ -358,6 +378,10 @@ function check(sc, out) {
     if (/stopsMet|liftedBy|second judgement/.test(p)) probs.push(c.label + ' names the old stops or the second skeptic')
     const persons = (p.replace(PLAN_HEADING, '').match(PERSON) || []).length
     if (persons) probs.push(c.label + ' names the curator by name ' + persons + ' time(s) outside PLAN.md\'s heading')
+    if (/^disk/.test(c.label)) {
+      if (p.indexOf('df -P /home/user') < 0) probs.push(c.label + ' does not run df -P /home/user')
+      continue
+    }
     if (p.indexOf('# Fortress climb batch ') < 0 || p.indexOf('The fortress-repo skill says how to work in this repository') < 0 || p.indexOf('## Points to report') < 0) probs.push(c.label + ' lacks the head, its pointer to the skill, or the points to report')
     if (/revival-changes\.md|\.claude\/skills\//.test(p)) probs.push(c.label + ' names the skill\'s revival-changes part or a skill path: no stage of a batch writes skill text')
     if (/^(rung|resume|repair):/.test(c.label) && !/^repair:(review|gate)/.test(c.label)) {

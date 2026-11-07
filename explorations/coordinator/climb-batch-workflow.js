@@ -35,6 +35,7 @@ export const meta = {
   name: 'fortress-climb-batch',
   description: 'One batch of Fortress compile-ladder rungs in seeded worktrees: each rung done test first by its worker and checked by a skeptic that fixes what it finds, a judge only on a contested fix or a refusal; gathered onto main, reviewed beside one gate, landed and pushed; its revival-change material left in the batch record for the skill writer',
   phases: [
+    { title: 'Disk', detail: 'df -P /home/user read before the scatter; under the floor of 1.5 G a rung and 4 G for the main tree, the run stops before any rung starts' },
     { title: 'Rung', detail: 'the rung done test first in its own seeded worktree, committed and pushed to its wip/ branch as it goes' },
     { title: 'Skeptic', detail: 'the rung checked by reading and by programs of its own on the old and new code; what it finds it fixes, test first, and it marks a fix contested when nothing on record settles it' },
     { title: 'Judge', detail: 'Opus for a first ruling, Fable for a second on the same rung or tree: only on a contested fix, a refusal, a worker that stopped, a blocking review or a red gate' },
@@ -1113,6 +1114,16 @@ const LOG_DIR = 'tmp/gate-batch-' + BATCH          // untracked: .gitignore igno
 const GATE_OUT = LOG_DIR + '/out'   // the gate writes here; the commit stage copies it to GATE_DIR
 const SPEC_PDF = MAIN + '/tmp/gather/fortress-batch-' + BATCH + '.pdf'   // the gather's build of the specification, which the commit stage takes when no later commit changes Specification/
 
+// The disk free on /home/user that the run needs before its scatter, in GiB: 1.5 a rung and 4 for the
+// main tree. A rung worktree is seeded at about 206 MB (the skill's worktrees.md) and grows with its
+// builds, its test runs and the old code's private caches: du -sh gave 0.28 to 1.1 G each in climb
+// batch 27's agents. The main tree's stages write the gather's builds and demos, the gate's
+// TEST-RESULTS and the ladder's two copies of the caches, and the specification's build. Climb batch
+// 27 started its ten rungs without that margin: the allowance ran out (31 MB to 443 MB free through
+// the batch), rungs S and T never started, and other stages skipped their measures (its RECORD.md,
+// "Not landed"; PLAN.md item 68). The figures are the coordinator's of 2026-11-07, after that batch.
+const DISK_FLOOR_G = { perRung: 1.5, mainTree: 4 }
+
 // The scatter order: longest expected worker first. Manifest order is kept for the gather.
 const SCATTER = RUNGS.slice().sort((a, b) => (b.expectedMinutes || 0) - (a.expectedMinutes || 0))
 
@@ -1213,7 +1224,7 @@ RUNGS.map(r => '- ' + r.id + ', slug ' + r.slug + ', worktree ' + r.path + ', br
 '',
 '## Points to report',
 '',
-'A point to report is a kind of change the curator reviews after the landing; the rung\'s list says which. A rung that reaches one finishes its work, lists the point with its evidence as file:line, and lands: it is reversible, and neither the push nor the next batch waits for it (POSITIONS.md, "Reversible stops do not hold a batch."). One kind holds the push: a step that cannot be undone, or that acts against a decision on record. Do not take such a step; report it as a decision not taken. If one was taken, list it with holdsPush true. A question for the curator goes in forCurator, with its evidence.',
+'A point to report is a kind of change the curator reviews after the landing; the rung\'s list says which. A rung that reaches one finishes its work, lists the point with its evidence as file:line, and lands: it is reversible, and neither the push nor the next batch waits for it (POSITIONS.md, "Reversible stops do not hold a batch."). One kind holds the push: a step that cannot be undone, or that acts against a decision on record. Do not take such a step; report it as a decision not taken. If one was taken, list it with holdsPush true, and cannotBeUndone true for a step that cannot be undone, false for one a later commit can take back: a repair on the merged tree that settles one of the second kind lifts its hold, and only the curator lifts one of the first. A question for the curator goes in forCurator, with its evidence.',
 '',
 '## Citing',
 '',
@@ -1545,8 +1556,9 @@ const STATE_SCHEMA_POINTS = { type: 'array', description: 'every point to report
     rung: { type: 'string', description: 'the rung id; may be empty in a rung\'s own result' },
     point: { type: 'string', description: 'the point, in the words of the list where it is on it' },
     evidence: { type: 'string', description: 'file:line, or the command and its line' },
-    holdsPush: { type: 'boolean', description: 'true only for a step taken that cannot be undone, or that acts against a decision on record: it holds the push until the curator lifts it; false for every reversible point' },
-  }, required: ['point', 'evidence', 'holdsPush'] } }
+    holdsPush: { type: 'boolean', description: 'true only for a step taken that cannot be undone, or that acts against a decision on record: it holds the push until the curator lifts it, or a repair on the merged tree settles one that can be undone; false for every reversible point' },
+    cannotBeUndone: { type: 'boolean', description: 'with holdsPush true: true for a step that cannot be undone, which only the curator lifts; false for a step against a decision on record that a later commit can take back, which a repair on the merged tree can settle. false with holdsPush false' },
+  }, required: ['point', 'evidence', 'holdsPush', 'cannotBeUndone'] } }
 
 const RUNG_SCHEMA = {
   type: 'object',
@@ -1800,7 +1812,7 @@ JSON.stringify(checkingByRung, null, 2),
 '2. Each fix above, as the gather applied it: it does what its finding says and only that; a defect fix has its test, seen failing through the harness on the worker\'s head and then passing, in its maker\'s transcript (the run\'s directory: ' + runDirLine('review').trim() + '; then grep for its label in "$D"/agent-*.meta.json and read the transcript with jq, never whole); a settled fix cites a sentence that settles it; a fix a judge reverted is gone from the tree.',
 '3. The folded record as a whole: every FACTS line true as written, sourced and checkable; every ledger note, rewrite and new row in place (' + LEDGER + ' landing-check ' + BASE + ' prints no finding, with no allowance for a failure the base already had: each finding is a record defect you fix in your corrections commit, through ' + LEDGER + ' rewrite, close or note, or the entry reworded; no NEW- placeholder left where a row is cited: grep -rn "NEW-[A-Z]-[0-9]" explorations/fortress-gap-ledger.md explorations/coordinator/FACTS.md explorations/coordinator/PLAN.md explorations/compile-ladder/ ProjectFortress/, where a line of the batch\'s RECORD.md that gives a placeholder beside its number is not a finding, and the batch record and the synthesis under explorations/coordinator/, which name the form as an example, are not searched); every row the gather closed fixed by a landed commit; the handover\'s first section consistent; the revival-change material the gather copied into ' + BATCH_DIR + '/RECORD.md, under "Revival changes, for the skill writer", true of the code as landed.',
 '4. Each sentence of the specification a rung\'s REPORT.md lists as made false: corrected, by the rung or the gather, to what the code does.',
-'5. The points to report: every one a landed rung reaches, in its hunks or where its REPORT.md or SKEPTIC.md says so, in your pointsReached with the rung, the evidence and holdsPush; true only for a step taken that cannot be undone or acts against a decision on record. It is not a blocking finding.',
+'5. The points to report: every one a landed rung reaches, in its hunks or where its REPORT.md or SKEPTIC.md says so, in your pointsReached with the rung, the evidence and holdsPush; true only for a step taken that cannot be undone or acts against a decision on record, with cannotBeUndone true only for the first. It is not a blocking finding.',
 '6. The items for the curator: for each id below, the PLAN.md entry the gather\'s curatorItems names is in explorations/coordinator/PLAN.md, under one of the two sections, and says what the item says; one missing or misplaced you put in yourself in your corrections commit. Your own points go in forCurator, as ' + label + '.1, ' + label + '.2. ' + PLAN_RULE + ' It is not a blocking finding.',
 '',
 'The items for the curator from the rungs and the gather, by id:',
@@ -2006,7 +2018,22 @@ JSON.stringify(strings(failing), null, 2),
   ]
 }
 
-function mergedRepairRole(decision, kind, failing) {
+// The points that hold the push and that this repair can settle (holdState), each by its id: the
+// repair says of each whether it settled it, with the evidence, and pushHeldBy decides from that.
+function holdsStep(holding, kind) {
+  if (!holding.length) return []
+  return [
+'',
+'## The points that hold the push',
+'',
+'These points to report hold the push: each is a step taken against a decision on record that a later commit can take back. One is settled when the tree after your commit no longer acts against the decision it names, as that decision\'s own check, run on the repaired tree, shows: for a team demo that stopped, the demos run again on it and every one reaching its end. For each, return in holdsSettled its id, settled, and evidence: the command you ran on the repaired tree and two to five lines it printed. Where your ruling\'s instructions do not reach a point, run no check for it, and return it settled false with the reason. The script lifts the hold of a point only when your repair lands and you return it settled with its evidence; every other point holds the push for the curator. Name in ' + BATCH_DIR + '/REPAIR-' + kind + '.md each point you settled, with the same lines.',
+'',
+JSON.stringify(holding.map(h => ({ id: h.id, from: h.from, point: h.s.point, evidence: h.s.evidence })), null, 2),
+'',
+  ]
+}
+
+function mergedRepairRole(decision, kind, failing, holding) {
   return MAIN_TREE_ROLE + [
 '# Your role: repair on the merged tree (' + kind + ')',
 '',
@@ -2021,6 +2048,7 @@ JSON.stringify(decision, null, 2),
   ? 'The judge marked these for the curator. ' + PLAN_RULE + ' The entries go in your commit, and curatorItems lists each by its id.\n\n' + JSON.stringify(numbered('judge-' + kind, decision.forCurator), null, 2) + '\n\n'
   : '') + 'Its full ruling is ' + BATCH_DIR + '/JUDGE-' + kind + '.md. Carry out the instructions in order; where one turns out wrong against a primary source, do what the source says and record the deviation in ' + BATCH_DIR + '/REPAIR-' + kind + '.md with the file:line that settles it. Every edit of code is test first, as the skill\'s tests-writing.md says; build what your edit needs (build-and-caches.md); commit locally, one commit, the records updated where the ruling says, a historical: line in the body if the commit touches a file of the 2012 tree. Do not run the full gate and do not push.',
 ...repairTestsStep(kind, failing),
+...holdsStep(holding || [], kind),
   ].join('\n')
 }
 
@@ -2041,8 +2069,14 @@ const MERGED_REPAIR_SCHEMA = Object.assign({}, RUNG_SCHEMA, {
       }, required: ['file', 'paths', 'suite', 'cases', 'verdict', 'capture'] } },
     failingAnswered: { type: 'array', description: 'one entry per line of the gate\'s failing list when it is in your role; otherwise empty',
       items: { type: 'object', properties: { failing: { type: 'string' }, file: { type: 'string' } }, required: ['failing', 'file'] } },
+    holdsSettled: { type: 'array', description: 'one entry per point of your brief\'s "The points that hold the push"; empty when it lists none',
+      items: { type: 'object', properties: {
+        id: { type: 'string', description: 'the point\'s id, as hold.1' },
+        settled: { type: 'boolean', description: 'true only when the repaired tree no longer acts against the decision the point names, as the evidence shows' },
+        evidence: { type: 'string', description: 'the command run on the repaired tree and two to five lines it printed; for a point not settled, why' },
+      }, required: ['id', 'settled', 'evidence'] } },
   }),
-  required: ['slug', 'landed', 'stopped', 'filesChanged', 'pointsReached', 'summary', 'headBefore', 'headAfter', 'pathsChanged', 'testRuns'],
+  required: ['slug', 'landed', 'stopped', 'filesChanged', 'pointsReached', 'summary', 'headBefore', 'headAfter', 'pathsChanged', 'testRuns', 'holdsSettled'],
 })
 
 // Whether the gate runs again after a repair on the merged tree (repairRerun): when the repair,
@@ -2076,20 +2110,44 @@ function repairRerun(repair, reviewPaths, redGate) {
   return { rerun: false, runs: passing, answered: lines.length ? repair.failingAnswered : [], ungated, why: (kinds.length ? kinds.join(', ') + ' and ' : '') + 'records only' }
 }
 
-// The push is held only by a step taken that cannot be undone, or that acts against a decision
-// on record (POSITIONS.md, "Reversible stops do not hold a batch."; the curator's comment of
-// 2026-10-06: points to report, not stops). Read from each landed rung's last worker and its
-// skeptic, the review, and the repairs on the merged tree; an entry that is not an object with a
-// boolean holdsPush holds too.
-function pushHeldBy(landed, review, repairs) {
-  const holds = (s) => !(s && typeof s === 'object' && typeof s.holdsPush === 'boolean') || s.holdsPush
-  const line = (id, s) => id + ': ' + ((s && s.point) || String(s)) + ((s && s.evidence) ? ' (' + s.evidence + ')' : '')
-  const own = [].concat.apply([], landed.map(r => [].concat((r.worker && r.worker.pointsReached) || [], (r.verdict && r.verdict.pointsReached) || [])
-    .filter(holds).map(s => line(r.rung, s))))
-  const reviewed = ((review && review.pointsReached) || []).filter(holds).map(s => line((s && s.rung) || 'review', s))
-  const repaired = [].concat.apply([], Object.keys(repairs || {}).filter(k => repairs[k]).map(k => (repairs[k].pointsReached || []).filter(holds).map(s => line(k, s))))
-  return own.concat(reviewed, repaired)
+// The push is held only by a step taken that cannot be undone, or that still acts against a
+// decision on record after the repairs (POSITIONS.md, "Reversible stops do not hold a batch."; the
+// curator's comment of 2026-10-06: points to report, not stops; and of 2026-11-07, on climb batch
+// 27's demo that its repair made run again: "When it was fixed, then it should land."). The points
+// are read from each landed rung's last worker and its skeptic, the review, and the repairs on the
+// merged tree; an entry that is not an object with a boolean holdsPush holds too. Each repair on the
+// merged tree, in order, is given the points that still hold and can be undone (cannotBeUndone
+// false), each by its id, and returns in holdsSettled whether it settled each, with the evidence: a
+// point a landed repair settled with evidence no longer holds. One that cannot be undone, or is not
+// marked false, is never dropped. A gate red after its repair stops the batch before this.
+const holds = (s) => !(s && typeof s === 'object' && typeof s.holdsPush === 'boolean') || s.holdsPush
+const undoable = (s) => !!(s && typeof s === 'object' && s.cannotBeUndone === false)
+function holdState(landed, review, repairs) {
+  const points = []
+  const add = (fromOf, list) => [].concat(list === undefined || list === null ? [] : list).filter(holds)
+    .forEach(s => points.push({ id: 'hold.' + (points.length + 1), from: fromOf(s), s }))
+  landed.forEach(r => add(() => r.rung, [].concat((r.worker && r.worker.pointsReached) || [], (r.verdict && r.verdict.pointsReached) || [])))
+  if (review) add(s => (s && s.rung) || 'review', review.pointsReached)
+  for (const k of Object.keys(repairs || {})) {
+    const rp = repairs[k]
+    if (!rp) continue
+    const given = points.filter(h => !h.settledBy && undoable(h.s))
+    if (rp.landed === true && rp.stopped !== true && Array.isArray(rp.holdsSettled)) for (const a of rp.holdsSettled) {
+      const h = a && a.settled === true && typeof a.evidence === 'string' && a.evidence.trim() && given.find(g => g.id === String(a.id).trim())
+      if (h) { h.settledBy = k; h.settledEvidence = a.evidence.trim() }
+    }
+    add(() => k, rp.pointsReached)
+  }
+  return points
 }
+const holdLine = (h) => h.from + ': ' + ((h.s && h.s.point) || String(h.s)) + ((h.s && h.s.evidence) ? ' (' + h.s.evidence + ')' : '')
+// The points a repair on the merged tree is given: those that hold before it and can be undone.
+const settleable = (landed, review, repairs) => holdState(landed, review, repairs).filter(h => !h.settledBy && undoable(h.s))
+function pushHeldBy(landed, review, repairs) {
+  return holdState(landed, review, repairs).filter(h => !h.settledBy).map(holdLine)
+}
+const holdsSettledBy = (landed, review, repairs) => holdState(landed, review, repairs).filter(h => h.settledBy)
+  .map(h => holdLine(h) + ', settled by ' + h.settledBy + ': ' + h.settledEvidence)
 
 // The repairs whose tests, or whose paths no gate stage reads, stand beside the gate's summary
 // instead of a second gate: each { kind, runs, answered, ungated, commits }.
@@ -2136,7 +2194,7 @@ tree + (held ? ' Land it on the local main; the script holds the push (step 3).'
 '   The tool runs the quick pair, MicroGptFlatQuick and MicroGptAplQuick, under walk, both at once, each from an empty private cache: two passes against the reference values, about a minute in all. Never pass it full.',
 '1. Copy the gate\'s outputs into the tree: mkdir -p ' + GATE_DIR + ' && cp -R ' + GATE_OUT + '/. ' + GATE_DIR + '/, and ' + LOG_DIR + '/distance/errors.tsv to ' + SITES + ' (mkdir -p its folder), the per-site list the next batch\'s rungs read as their before. Write the landed figures into explorations/coordinator/FACTS.md, numbers only, by python3 ' + TOOLS + '/record.py set N FILE (its header gives the form), FILE the entry\'s whole new line under ' + LOG_DIR + '/, one call per entry, with --by "climb batch ' + BATCH + ' commit stage" and a --note naming the lines read; the tool writes FACTS-history.md beside it, and python3 ' + TOOLS + '/record.py check --base <the commit before your edits> prints 0 failures before the commit. In F-53, from ' + GATE_DIR + '/distance.txt and checker-count.txt: every figure it gives of the last landed gate, the lines of distance.txt it cites and the batch number in its title and in the paths it cites. In F-240, in its own form, the two stages\' seconds at the last landed gate: the count stage\'s, which its table does not record, from the gate\'s log, echo $(( $(stat -c %Y ' + LOG_DIR + '/checker-count/run.txt) - $(stat -c %Y ' + LOG_DIR + '/checker-count/javac.txt) )), the stage\'s start to its last write, written "about N s" to the nearest 5 s (where F-240 names the gate\'s call times as that figure\'s source, name the file times of the gate\'s log; where the two files are gone, leave the figure and say so in your summary); the distance stage\'s from distance.txt, its #seconds line\'s total and FortressLibrary figure, the first load of its #machine line and the components its first line counts; the figures F-240 gave of the gate before, as the figures it now compares them against, with that gate\'s batch; and the batch number in its title and in the path it cites. Change no other word; a sentence the new figures make false you name in your summary for the coordinator. When a landed commit changed a file under Specification/ (git diff --name-only ' + BASE + '..HEAD -- Specification/), Specification/fortress.pdf takes the PDF of the landed text: where the gather kept its build, ' + SPEC_PDF + ', and git diff --name-only <the gather\'s head, in its result below> HEAD -- Specification/ prints nothing, copy that file to Specification/fortress.pdf and build nothing, since it is the same text; otherwise build the PDF once, in Specification/fortress/, ./ant genSource then ./ant tex, each logged under ' + LOG_DIR + '/, and copy Specification/fortress/fortress.pdf to Specification/fortress.pdf. Then wait for step 0 with wait_for ' + MG_LOG + ', called again until it prints EXIT= (or 10 minutes have passed, which you then report), and append to ' + GATE_DIR + '/summary.txt its verdict lines, each prefixed "# microgpt-walk ": grep -h "VERDICT\\|^rc=" ' + MG_DIR + '/*.txt for the run\'s folder. A FAIL there is reported, and holds nothing. One commit, titled "' + COMMIT_TITLE + '": the summary, the two tables, ladder/, the per-site list, FACTS.md with FACTS-history.md, and the PDF; the logs under ' + LOG_DIR + '/ are never committed. When the PDF is in it, its message carries the line "historical: Specification/fortress.pdf, built from the landed text", which step 2 asks of a commit that touches a path outside explorations/ (climb batches 25 and 26 amended their commit for it).',
 ...besideStep(beside),
-'2. Check every commit since ' + BASE + ' (git log ' + BASE + '..HEAD --format=%B): each ends with the skill\'s two footer lines, none holds a model identifier, and each whose diff touches a path outside explorations/ and .claude/ carries a historical: line. Then run git diff --name-only ' + BASE + ' HEAD -- .claude/: it should print nothing, since a batch writes no skill text (the skill writer writes the skill from ' + BATCH_DIR + '/RECORD.md after the landing). Return every path it prints in skillTouched, for the coordinator; it holds nothing.',
+'2. Check every commit since ' + BASE + ' (git log ' + BASE + '..HEAD --format=%B): each ends with the skill\'s two footer lines, a model\'s name in its Co-Authored-By line being fine and never reported, and each whose diff touches a path outside explorations/ and .claude/ carries a historical: line. Then run git diff --name-only ' + BASE + ' HEAD -- .claude/: it should print nothing, since a batch writes no skill text (the skill writer writes the skill from ' + BATCH_DIR + '/RECORD.md after the landing). Return every path it prints in skillTouched, for the coordinator; it holds nothing.',
 held
   ? '3. Do NOT push: not main and no other branch. The script holds the push, because the batch took steps that cannot be undone or that act against a decision on record, and only the curator lifts them:\n\n' + heldBy.map(h => '- ' + h).join('\n') + '\n\n   Append to ' + BATCH_DIR + '/RECORD.md a paragraph headed "Not pushed." naming each, with its rung and evidence and the hash origin/main stays at; commit it locally.'
   : '3. Push main to its three branches, as the skill\'s committing.md says: git push origin main, then ' + PUSH_BRANCHES.map(b => 'git push origin main:' + b).join(', then ') + '. Retry a failed push up to four times, 2, 4, 8 and 16 seconds apart.',
@@ -2337,8 +2395,41 @@ function recoverCommit(held) {
 }
 
 // ---------------------------------------------------------------------------
+// The disk before the scatter (climb-batch-workflow.md, "The disk before the scatter"). The script
+// cannot run a command, so one agent reads df -P and returns its output; the script reads the
+// Available column of the line for /home/user and decides. Under the floor (DISK_FLOOR_G) the run
+// stops before any rung starts: the coordinator frees disk and launches again. A launch, not a
+// resume: a resume would return this reading from the journal.
+// ---------------------------------------------------------------------------
+
+const DISK_PATH = '/home/user'
+const DISK_COMMAND = 'df -P ' + DISK_PATH
+const DISK_SCHEMA = { type: 'object', properties: { dfOutput: { type: 'string', description: 'everything the command printed, word for word' } }, required: ['dfOutput'] }
+const diskPrompt = () => 'You are the disk check of climb batch ' + BATCH + ' of the Fortress revival, which runs before any rung starts. Run this one command, alone, and nothing else: no skill, no file, no other command.\n\n    ' + DISK_COMMAND + '\n\nReturn in dfOutput everything it printed, word for word. Delete nothing and free nothing: the script reads the figure and decides.'
+// The Available column, in 1024-blocks, of the line of df -P's output for the mount; null if no such line.
+function dfAvailableKB(out) {
+  for (const l of String(out || '').split('\n')) {
+    const m = /^\S+\s+(\d+)\s+(\d+)\s+(\d+)\s+\d+%\s+(\/\S*)\s*$/.exec(l.trim())
+    if (m) return { kb: Number(m[3]), line: l.trim() }
+  }
+  return null
+}
+
+// ---------------------------------------------------------------------------
 // The run.
 // ---------------------------------------------------------------------------
+
+{
+  const floorG = DISK_FLOOR_G.perRung * RUNGS.length + DISK_FLOOR_G.mainTree
+  const floorText = floorG + ' G (' + DISK_FLOOR_G.perRung + ' G for each of the ' + RUNGS.length + ' rungs and ' + DISK_FLOOR_G.mainTree + ' G for the main tree)'
+  const disk = await callAgent(diskPrompt(), { label: 'disk', phase: 'Disk', schema: DISK_SCHEMA, model: OPUS, effort: 'low' }, ['Nothing is left to take over: run the one command again and return its output.'])
+  const read = dfAvailableKB(disk && disk.dfOutput)
+  const relaunch = ' No rung has started. Free disk by the cloud-container skill\'s machine.md, "The disk allowance", then launch the batch again with the same args: a new launch, not resumeFromRunId, which would return this reading from the journal.'
+  if (!read) throw new Error('Run stopped before the scatter: the disk check of ' + DISK_PATH + ' returned no line of ' + DISK_COMMAND + ' to read (' + JSON.stringify(String((disk && disk.dfOutput) || 'nothing').slice(0, 200)) + '), and the run needs ' + floorText + ' free.' + relaunch)
+  const freeG = Math.round(read.kb / 1048576 * 10) / 10
+  if (read.kb < floorG * 1048576) throw new Error('Run stopped before the scatter: ' + DISK_PATH + ' has ' + freeG + ' G free, under the floor of ' + floorText + '; ' + DISK_COMMAND + ' printed "' + read.line + '".' + relaunch)
+  log('The disk: ' + DISK_PATH + ' has ' + freeG + ' G free, at or above the floor of ' + floorText + ' ("' + read.line + '")')
+}
 
 log('Climb batch ' + BATCH + ': ' + RUNGS.length + ' rungs (' + RUNGS.map(r => r.id).join(', ') + '), two agents at a time, the workers in the order '
     + SCATTER.map(r => r.id).join(', ') + '; each rung checked by a skeptic that fixes what it finds; then gather, review beside the gate, commit. Base ' + BASE + '.')
@@ -2540,7 +2631,7 @@ if (reviewBlocks) {
   } else if (!decision || decision.decision !== 'repair') {
     return finish({ landed: false, reason: 'review blocking, judge did not order a repair' })
   } else {
-    report.repairReview = await callAgent(head('repair on the merged tree') + mergedRepairRole(decision, 'review', redBeside ? gate.failing : undefined), { label: 'repair:review', phase: 'Review', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
+    report.repairReview = await callAgent(head('repair on the merged tree') + mergedRepairRole(decision, 'review', redBeside ? gate.failing : undefined, settleable(approved, review, {})), { label: 'repair:review', phase: 'Review', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('review'))
     routers.push(report.repairReview)
     const rr = report.repairReview
     if (!rr || rr.stopped || rr.landed === false) {
@@ -2589,7 +2680,7 @@ if (!gate.green && !redAnswered) {
   report.gateJudge = decision
   mergedItems.push(...numbered('judge-gate', decision && decision.forCurator))
   if (decision.decision !== 'repair') return finish({ landed: false, reason: 'gate red, judge did not order a repair' })
-  report.repairGate = await callAgent(head('repair on the merged tree') + mergedRepairRole(decision, 'gate', gate.failing), { label: 'repair:gate', phase: 'Gate', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('gate'))
+  report.repairGate = await callAgent(head('repair on the merged tree') + mergedRepairRole(decision, 'gate', gate.failing, settleable(approved, review, { 'repair:review': report.repairReview })), { label: 'repair:gate', phase: 'Gate', schema: MERGED_REPAIR_SCHEMA, model: OPUS }, recoverMergedRepair('gate'))
   routers.push(report.repairGate)
   const after = repairRerun(report.repairGate, [], gate)
   report.repairGateRerun = after
@@ -2612,8 +2703,11 @@ const notInPlan = curatorStatus().filter(i => !i.inPlan)
 if (notInPlan.length) log('Items for the curator not in PLAN.md, for the coordinator: ' + notInPlan.map(i => i.id).join(', ')
     + ((gather && Array.isArray(gather.curatorUnrouted) && gather.curatorUnrouted.length) ? '; the gather says why: ' + gather.curatorUnrouted.map(u => u && (u.id + ': ' + u.why)).join('; ') : ''))
 
-const heldBy = pushHeldBy(approved, review, { 'repair:review': report.repairReview, 'repair:gate': report.repairGate })
-if (heldBy.length) log('Push held: ' + heldBy.length + ' step(s) that cannot be undone or act against a decision on record: ' + heldBy.join('; '))
+const mergedRepairs = { 'repair:review': report.repairReview, 'repair:gate': report.repairGate }
+const heldBy = pushHeldBy(approved, review, mergedRepairs)
+const holdsSettled = holdsSettledBy(approved, review, mergedRepairs)
+if (holdsSettled.length) log('Settled by a repair on the merged tree, so no longer holding the push: ' + holdsSettled.join('; '))
+if (heldBy.length) log('Push held: ' + heldBy.length + ' step(s) that cannot be undone or still act against a decision on record: ' + heldBy.join('; '))
 const commit = await callAgent(head('commit') + commitRole(gather, gate, heldBy, beside), { label: 'commit', phase: 'Commit', schema: COMMIT_SCHEMA, model: OPUS }, recoverCommit(heldBy.length > 0))
 report.commit = commit
 // A batch writes no skill text (skills-agenda-audit.md): a path under .claude/ that changed since the
@@ -2623,4 +2717,4 @@ if (commit) mergedItems.push(...numbered('skill-touched', strings(commit.skillTo
 // else, a failing check, a run cut off or refused, is listed for the coordinator; it holds nothing.
 const mgPassed = (t) => typeof t === 'string' && (t.match(/-- ALL PASS/g) || []).length >= 2 && !/-- FAILED|rc=[1-9]/.test(t)
 if (commit && !mgPassed(commit.microgptWalk)) mergedItems.push(...numbered('microgpt-walk', ['The microGPT walk check on the landed tree did not show both quick programs passing: ' + ((commit.microgptWalk || '').trim() || 'no lines returned')]))
-return finish({ landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy, besideGate: beside, microgptWalk: commit && commit.microgptWalk })
+return finish({ landed: !!(commit && commit.pushed && commit.pushed.length), pushHeld: heldBy.length > 0, heldBy, holdsSettled, besideGate: beside, microgptWalk: commit && commit.microgptWalk })
