@@ -16,6 +16,7 @@
 
 ## Held on the drafts page (2026-11-07)
 
+- 23:24 "Read all. LGTM" at the drafts page's "Proposed changes" heading (version 24, thread `f6488bdd`, sent to Claude, answered and resolved): taken as his yes to the exact words of drafts 32 and 33, which landed word for word at `c6122149`; version 25 holds nothing.
 - 23:20 "LGTM" at the drafts page's heading "Landed since your last approval" (version 24, thread `8a6bedd6`, sent to Claude, answered and resolved): he read landed items 30 and 31; the next update drops both. Drafts 32 and 33 still wait for his yes.
 - 06:42 "All read. LGTM" at the drafts page's "Proposed changes" heading (version 21, thread `8e0ba9df`, sent to Claude, resolved): he read items 28 and 29; version 22 dropped both.
 - 06:40 "LGTM" on item 28 (version 21, thread `d2b3d4aa`, sent to Claude, resolved).
