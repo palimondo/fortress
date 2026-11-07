@@ -1,0 +1,11 @@
+Record landing of climb batch 27: PLAN, the review queue and the notes routed for the landing
+
+- PLAN, "Where we stand": brought to climb batch 27's landing at a2f0b5cf2, pushed at 209192b67, with the distance's two crash rows.
+- PLAN, phase 4: climb batch 27's line; the built lines moved; the natives' counts, N4's reader rung with FileWriteStream, the code generator's line and row 321's line rewritten; new lines for walk's rows 919, 920 and 922 and for row 929.
+- PLAN, "Pavol's answers": item 73 answered by his go; items 65 and 66 built; items 68 to 72 cut to pointers to review-queue items 377 and 373 to 376.
+- PLAN, the lists for his review: the answered and built lines moved; climb batch 27's lines cut to pointers; new lines for the record's forks, fork E7, findings A and B and the points for his sight.
+- Review queue: items 373 to 405 new; 363 and 378 in (a); 371 and 372 brought to the landing; the head's groups and counts.
+- PLAN-history: every moved or rewritten line, word for word.
+- Climb batch 27's RECORD.md: two dated notes, on the hold and on the push.
+- The map spec-to-implementation: the code generator's asif forms and row 818.
+- The run's folder of the climb batch 27 record landing.

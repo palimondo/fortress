@@ -1,0 +1,11 @@
+Record landing of climb batch 27: FACTS, POSITIONS and the ledger brought in line with the landing
+
+- F-53, F-54, F-281, F-288: the distance's two crash rows at climb batch 27's gate, where the check of value object Char does not finish (row 929); F-54's class rows only for a class that occurs.
+- F-240: both stages about halved at climb batch 27's gate, with no measured cause.
+- F-32, F-299, F-308: 341 of the 443 live bindings name helpers and 102 glue classes; the counts by type; NN32 30, NN64 27, Char 40.
+- F-283, F-323, F-327, F-329: the pass on the batch's entries; F-283's account of the repair moved to its history.
+- F-325: walk's rows 919, 920 and 922 each with its pointer, since row 921 is fixed.
+- F-29, F-34, F-57, F-123, F-131, F-151, F-311, F-318: brought in line with Number opened, walk's printed names, row 818 narrowed and rows 321 and 596 rewritten.
+- F-324: a history note that rung N landed with no skeptic.
+- P-160, P-163, P-165, P-166, P-167, P-168: the sentences that the batch made false, by the fewest words under the curator's rule of 2026-10-31; each decision unchanged.
+- Row 52: Number has no comprises clause, so a program's type may extend it.
