@@ -1,0 +1,26 @@
+component NumberEqualityOwnTypeWalk
+export Executable
+
+(*) A program's own number types below Number compare by their own = where they declare one, and otherwise by the fallback = through SEQV, never by a float of their values.
+
+object Cx(re: RR64, im: RR64) extends Number
+    asFloat(self): RR64 = re
+    opr =(self, other: Cx): Boolean = (re = other.re) AND (im = other.im)
+end
+
+object Cy(re: RR64, im: RR64) extends Number
+    asFloat(self): RR64 = re
+end
+
+run(): () = do
+    assert(Cx(1.0, 2.0) = Cx(1.0, 2.0), "a program's number type compares by its own =: equal parts")
+    deny(Cx(1.0, 2.0) = Cx(1.0, 5.0), "a program's number type compares by its own =, not by its asFloat: other imaginary parts")
+    deny(Cx(1.0, 2.0) = Cx(3.0, 4.0), "a program's number type compares by its own =: other parts")
+    y = Cy(1.0, 2.0)
+    assert(y = y, "objects.tex, trait Any, opr SEQV: a value of a program's number type with no = of its own equals itself by the fallback =")
+    deny(Cy(1.0, 2.0) = Cy(3.0, 4.0), "objects.tex, trait Any, opr SEQV: two distinct values of a program's number type with no = of its own are unequal")
+    deny(Cy(1.0, 2.0) = Cy(1.0, 5.0), "objects.tex, trait Any, opr SEQV: values with one asFloat and other parts are unequal")
+    assert(asFloat(Cy(1.0, 2.0)), 1.0, "a program's number type converts by its own asFloat")
+  end
+
+end

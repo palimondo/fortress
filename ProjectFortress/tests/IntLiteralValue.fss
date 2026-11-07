@@ -32,7 +32,7 @@ run(): () = do
     assert(shown(v), "0 : NN64", "literals.tex, section \"Literals\": the libraries define a coercion from the numeral type IntLiteral to NN64; IntLiteral at an NN64 binding is the NN64 zero")
     r: RR64 = x
     assert(shown(r), "0.0 : RR64", "conversions-coercions.tex, section \"Principles of Coercion\": an integer numeral converts to RR64 by coercion; IntLiteral at an RR64 binding is the RR64 zero")
-    assert(x = widen(0), "pins the library: the numeral case of exactValue makes IntLiteral equal to the ZZ64 zero")
+    assert(x = widen(0), "pins the library: ZZ64 coerces from IntLiteral, so IntLiteral's = at ZZ64 makes IntLiteral equal to the ZZ64 zero")
     assert(even(x) AND NOT odd(x), "pins the library: IntLiteral's own even and odd find the object IntLiteral even")
     assert(shown(floor(x)) || " " || shown(ceiling(x)) || " " || shown(truncate(x)), "0 : IntLiteral 0 : IntLiteral 0 : IntLiteral", "pins the library: IntLiteral's own floor, ceiling and truncate give the object IntLiteral itself")
     assert(x^x = 1, "basic-integers.tex, section \"Integers\", opr ^: a power 0 gives 1 even when the base is 0; the object IntLiteral to the power IntLiteral is 1")

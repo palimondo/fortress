@@ -63,9 +63,9 @@ run() = do
     assert(pairV(a, f), "1.5 : RR64, 2.5 : RR64", "inference.tex, section \"The Static Arguments of a Call\": T is RR64 for an RR32 and an RR64")
     assert(pairV(a, b), "1.5 : RR32, 2.5 : RR32", "inference.tex, section \"The Static Arguments of a Call\": control, T is RR32 for two RR32 arguments")
 
-    assert(a = g, "FortressLibrary.fsi:285-288: RR32 = RR64 compares after asFloat")
-    assert(g = a, "FortressLibrary.fsi:285-288: RR64 = RR32 compares after asFloat")
-    assert(a = 1.5, "FortressLibrary.fsi:285-288: RR32 = a float numeral compares after asFloat")
+    assert(a = g, "conversions-coercions.tex, section \"Coercion Resolution\": RR64 coerces from RR32, so RR32 = RR64 compares at RR64 by RR32's = at RR64")
+    assert(g = a, "conversions-coercions.tex, section \"Coercion Resolution\": RR64 coerces from RR32, so RR64 = RR32 compares at RR64 by RR64's = at RR32")
+    assert(a = 1.5, "conversions-coercions.tex, section \"Coercion Resolution\": RR64 coerces from RR32, so RR32 = a float numeral compares at RR64 by RR32's = at RR64")
     deny(a = b, "conversions-coercions.tex, section \"Automatic Widening\": RR32 = RR32 by RR32's own =")
     assert(a < f, "conversions-coercions.tex, section \"Automatic Widening\": RR32 < RR64 by RR64's < after the coercion")
     assert(a < 2.5, "conversions-coercions.tex, section \"Automatic Widening\": RR32 < a float numeral by RR64's <")

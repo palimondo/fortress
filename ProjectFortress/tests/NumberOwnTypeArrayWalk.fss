@@ -1,0 +1,32 @@
+component NumberOwnTypeArrayWalk
+export Executable
+
+(*) A program's own number type below Number and an additive group at itself is an array's element type, and the library's scalar + and - between such an array and a number run in both orders.
+
+object Pt(n: ZZ32) extends { Number, AdditiveGroup[\Pt\] }
+    getter zero(): Pt = Pt(0)
+    asFloat(self): RR64 = n
+    opr +(self, other: Pt): Pt = Pt(n + other.n)
+    opr -(self, other: Pt): Pt = Pt(n - other.n)
+    opr -(self): Pt = Pt(-n)
+end
+
+run(): () = do
+    a = array[\Pt\](2)
+    a[0] := Pt(1)
+    a[1] := Pt(2)
+    s = a + Pt(10)
+    assert(s[0].n, 11, "array plus number: element 0")
+    assert(s[1].n, 12, "array plus number: element 1")
+    t = Pt(10) + a
+    assert(t[0].n, 11, "number plus array: element 0")
+    assert(t[1].n, 12, "number plus array: element 1")
+    u = a - Pt(10)
+    assert(u[0].n, -9, "array minus number: element 0")
+    assert(u[1].n, -8, "array minus number: element 1")
+    v = Pt(10) - a
+    assert(v[0].n, 9, "number minus array, the number on the left: element 0")
+    assert(v[1].n, 8, "number minus array, the number on the left: element 1")
+  end
+
+end

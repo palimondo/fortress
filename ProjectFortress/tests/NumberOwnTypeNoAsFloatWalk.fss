@@ -1,0 +1,17 @@
+component NumberOwnTypeNoAsFloatWalk
+export Executable
+
+(*) A program's own object below Number, with no asFloat and no =, loads, and its values compare by the library's fallback = through SEQV.
+
+object Tally(n: ZZ32) extends Number end
+
+run(): () = do
+    a = Tally(2)
+    b = Tally(2)
+    assert(a = a, "objects.tex, trait Any, opr SEQV: a value of a program's number type with no = of its own equals itself by the fallback =")
+    deny(a = b, "objects.tex, trait Any, opr SEQV: two objects Tally(2) made apart are two objects, so the fallback = finds them unequal")
+    deny(a = 2, "objects.tex, trait Any, opr SEQV: a program's number type with no = of its own is unequal to a library number")
+    assert(a.n + b.n, 4, "a program's number type below Number keeps its fields")
+  end
+
+end
