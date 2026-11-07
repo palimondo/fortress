@@ -384,3 +384,7 @@ The same landing brought in line the record-landing workflow's `README.md`, stag
 ## One spelling of "runtime", 2026-11-06
 
 - The skill checked for "runtime", "run time" and "run-time", by the curator's word in chat at 13:5x UTC on 2026-11-06: it uses none of them, and no line changed.
+
+## The full read at a landing after a light boot, 2026-11-07
+
+- `SKILL.md`, "The boot", "A light boot" and "At a landing": after a light boot, the first landing of a batch, when its commit stage ends, starts a read of `FACTS.md` and `POSITIONS.md` whole; INDEX stays searched; the landing bullet's partial read holds after a full boot. The curator's words in chat at 05:5x UTC on 2026-11-07: "We should just add instruction to coordinator skill that landing should trigger full load of POSITIONS and FACTS in coordinator in light boot mode." His reason in the same message: a long chat in a cold context had cost much of the week's budget, so he boots light for the climb, and the landing's record work and the planning of the batch after it need the whole record.
