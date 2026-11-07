@@ -1,0 +1,19 @@
+(* An overloaded method called on an assumed receiver with an assumed argument runs the declaration at the assumed types (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfOverloadedMethodWalk
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+    pick(x: Named): String = "Named picks Named"
+    pick(x: Leaf): String = "Named picks Leaf"
+end
+
+object Leaf extends Named
+    getter name(): String = "Leaf"
+end
+
+run(): () = do
+    assert((Leaf asif Named).pick(Leaf asif Named), "Named picks Named", "the overloaded method at Named, over two assumptions")
+  end
+
+end

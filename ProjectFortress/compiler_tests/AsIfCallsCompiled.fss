@@ -1,0 +1,75 @@
+(* A type assumption, e asif T, runs the body that T gives a method or getter, and fixes the declaration that an overloaded call takes (type-annotation.tex, section "Type Assumption"). *)
+component AsIfCallsCompiled
+export Executable
+
+trait Named
+    getter name(): String = "Named"
+    greet(s: String): String = "Named greets " || s
+    tag(self): String = "Named tag"
+    opr PLUS(self, other: Named): String = "Named PLUS"
+    pick(x: Named): String = "Named picks Named"
+    pick(x: Leaf): String = "Named picks Leaf"
+end
+
+trait Titled extends Named
+    getter title(): String = "Titled " || self.name
+end
+
+object Leaf extends Titled
+    getter name(): String = "Leaf"
+    greet(s: String): String = "Leaf greets " || s
+    tag(self): String = "Leaf tag"
+    opr PLUS(self, other: Named): String = "Leaf PLUS"
+end
+
+trait Shown[\T extends Object\]
+    getter caption(): String = "Shown"
+end
+
+trait Listed[\T extends Object\] extends Shown[\T\]
+    getter caption(): String = "Listed, " || (self asif Shown[\T\]).caption
+end
+
+object Digits extends Listed[\ZZ32\]
+end
+
+who(x: Named): String = "Named"
+who(x: Leaf): String = "Leaf"
+
+opr ODOT(a: Named, b: Named): String = "Named ODOT Named"
+opr ODOT(a: Leaf, b: Leaf): String = "Leaf ODOT Leaf"
+
+caption(x: Named): String = "caption " || x.name
+
+run(): () = do
+    assert(Leaf.name, "Leaf", "Leaf's own getter")
+    assert((Leaf asif Named).name, "Named", "the getter that Named gives")
+    assert(Leaf.greet("you"), "Leaf greets you", "Leaf's own method")
+    assert((Leaf asif Named).greet("you"), "Named greets you", "the method that Named gives")
+    assert(Leaf.pick(Leaf), "Named picks Leaf", "the overloaded method at Leaf")
+    assert((Leaf asif Named).pick(Leaf asif Named), "Named picks Named", "the overloaded method at Named, over two assumptions")
+    assert((Leaf asif Titled).name, "Named", "the getter that Titled inherits from Named")
+    assert((Leaf asif Titled).title, "Titled Leaf", "Titled's own getter, whose self.name dispatches")
+    assert(who(Leaf), "Leaf", "the overload at Leaf")
+    assert(who(Leaf asif Named), "Named", "the overload at Named, under the assumption")
+    assert(Digits.caption, "Listed, Shown", "a generic trait's getter over self asif its supertrait")
+    assert((Digits asif Shown[\ZZ32\]).caption, "Shown", "the getter that a generic supertrait gives")
+    assert(tag(Leaf), "Leaf tag", "Leaf's own functional method")
+    assert(tag(Leaf asif Named), "Named tag", "the functional method that Named gives")
+    assert(Leaf PLUS Leaf, "Leaf PLUS", "Leaf's own operator method")
+    assert((Leaf asif Named) PLUS (Leaf asif Named), "Named PLUS", "the operator method that Named gives, over two assumptions")
+    assert(Leaf ODOT Leaf, "Leaf ODOT Leaf", "the operator at two Leafs")
+    assert((Leaf asif Named) ODOT (Leaf asif Named), "Named ODOT Named", "the operator at two Nameds, over two assumptions")
+    n = Leaf asif Named
+    assert(n.name, "Leaf", "a bound assumption is the value, whose getter dispatches")
+    assert(who(n), "Leaf", "a bound assumption is the value, whose overload dispatches")
+    assert(caption(Leaf asif Named), "caption Leaf", "a function of one declaration takes the value, whose getter dispatches in its body")
+    (a, k) = (Leaf, 3) asif (Named, ZZ32)
+    assert(a.name, "Leaf", "an assumption on a tuple holds the values")
+    assert(k = 3, "an assumption on a tuple holds the number")
+    v = if k = 3 then Leaf asif Named else Leaf end
+    assert(v.name, "Leaf", "an assumption as an if branch's value is the value")
+    println("PASS")
+  end
+
+end
