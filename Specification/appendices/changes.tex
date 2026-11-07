@@ -3977,11 +3977,14 @@ The departures:
 the interpreter gives a floating-point numeral bound to a variable of type
 \EXP{\mathbb{R}64} the type of the numeral object, so it is not strictly
 equivalent to a computed \EXP{\mathbb{R}64} value of the same bits;
-an integer numeral is a \EXP{\mathbb{Z}32} value in the interpreter, by its
-magnitude, and a numeral object to the compiled type checker, so a numeral
+an integer numeral is a \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64} or
+\EXP{\mathbb{Z}} value in the interpreter, by its magnitude, and a numeral
+object to the compiled type checker, so a numeral
 compared with a typed value can answer differently on the two paths;
 the compiled path's own library, used until the one library replaces it,
-answers \EXP{\sequiv} on numbers, strings and booleans by \EXP{=} before it
+answers \EXP{\sequiv} on values of \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64},
+\EXP{\mathbb{R}32} and \EXP{\mathbb{R}64}, on strings and on booleans by
+\EXP{=} before it
 reaches the rule, so there two equal strings built apart are strictly
 equivalent and \EXP{0.0} is strictly equivalent to \EXP{-0.0} (row~908 of the
 revival's gap ledger);
