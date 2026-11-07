@@ -43,7 +43,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **339.** `char` of a code point outside 0 to 1114111: the value kept, or an exception (row 857). Default: the value kept, as today.
 - **108.** An api form that makes the one library's strided `:` a generator, so that `seq(0:10:3)` is accepted (rows 514, 661). Default: the declaration unchanged.
 - **360.** Walk refuses a helper parameter declared `String` at load, while the checker reads it as `String` (climb batch 26's fork 21). Default: the step taken, as landed.
-- **372.** Walk's five native number objects, `Int` among them, made private below their traits, as P-164 does for the I/O objects. Default: decided at the switch-over batch, after a count of the programs that name them.
+- **372.** Walk's five native number objects, `Int` among them, made private below their traits, as P-164 does for the I/O objects. Default: the ilk is the trait's name on both paths (P-167); the way is the rung's.
 
 **Before microGPT compiles** (PLAN, phase 5).
 - **3.** The specification's sentence that a statically chosen declaration keeps its inferred instance, against the POPL 2019 rule. Default: the sentence as written.
@@ -290,7 +290,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Needed by: before the rung that fixes what `SEQV` means (P-162); that rung settles what `SEQV` means for a number, which the trait's valueness states.
 
 372. **Walk's five native number objects made private below their traits.** `Int`, `Long`, `BigNum`, `Float` and `UnsignedLong` are public names in `FortressBuiltin`'s api (`LibraryBuiltin/FortressBuiltin.fsi:41`, `:125`, `:128`, `:176`, `:223`), so a program can name `Int` in a `typecase` or as a static argument (row 364, walk's static argument read from the run-time class): it means something under walk and nothing on the compiled path, whose prelude has no such objects. From the curator's reading with the coordinator on 2026-11-06.
-   - Landed: The five public. Default: decide at the switch-over batch, after a count of the programs under `ProjectFortress/` and `explorations/` that name them.
+   - Landed: The five public. Default: the ilk is the trait's name on both paths (P-167); the way is the rung's.
    - The other way: The five private below their traits, as P-164's design does for the I/O objects.
    - Its cost: The api's five declarations made private, and each program that names one respelled at its trait; the count sizes it.
    - Home: P-164; row 364; PLAN, phase 4, the names line
