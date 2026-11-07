@@ -95,7 +95,7 @@ def read_values(landing):
     live = one(r'^- \*\*The live thread\.\*\* (.*)$', stand, 'PLAN.md, "Where we stand", the live thread', re.M).group(1)
     m = one(r'^Phase (\d+), ([^:]+): ', live, 'PLAN.md, the live thread\'s opening')
     v['phase'], v['phase_name'] = int(m.group(1)), m.group(2)
-    m = one(r'At the last landed gate, climb batch (\S+?)\'s \(`([0-9a-f]{7,40})`\)', live, 'PLAN.md, the live thread\'s last landed gate')
+    m = one(r'At the last landed gate, climb batch (\S+?)\'s \(`([0-9a-f]{7,40})`[^)]*\)', live, 'PLAN.md, the live thread\'s last landed gate')
     plan_last, plan_commit = m.group(1), m.group(2)
     v['batch'] = landing or plan_last
     current = v['batch'] == plan_last

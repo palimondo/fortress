@@ -124,15 +124,15 @@ A reading is one interpretation of a rule where the specification's text allows 
 A script rewrites the block below at each landing, from the plan and the gate. The rest of the page changes only when a phase ends.
 
 <!-- stand:begin -->
-**Where it stands, at the landing of batch 26 on 5 November 2026**
+**Where it stands, at the landing of batch 27 on 7 November 2026**
 
 - **Phase:** 4 of 6, which ends with the switch-over, since 30 October.
 - **Checker count:** 0.
 - **Distance:** 0, under one reading that the curator has still to decide (section 5, phase 3).
-- **Native bindings that both implementations can call:** 306 of 449.
+- **Native bindings that both implementations can call:** 341 of 443.
 - **microGPT under the interpreter:** the flat and the APL program pass the quick check.
 - **microGPT on the compiler:** both programs stop at names that only the library declares, until the switch-over.
-- **Next:** batch 27, more native bindings and the code generator's gaps, once the curator approves it.
+- **Next:** batch 28, more native bindings and the code generator's gaps, once the curator approves it.
 <!-- stand:end -->
 
 ## 5. What happened
