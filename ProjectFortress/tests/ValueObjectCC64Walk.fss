@@ -1,0 +1,23 @@
+(* A value object with no = of its own compares by SEQV, field by field, under walk: by =, =/=, SEQV and the three-argument assert; a reference object with the same fields equals only itself. *)
+component ValueObjectCC64Walk
+export Executable
+
+value object CC64(re: RR64, im: RR64) end
+object RC64(re: RR64, im: RR64) end
+
+run(): () = do
+    assert(CC64(1, 2) = CC64(1, 2), "CC64(1,2) = CC64(1,2)")
+    assert(NOT (CC64(1, 2) = CC64(1, 3)), "CC64(1,2) = CC64(1,3) is false")
+    assert(CC64(1, 2) SEQV CC64(1, 2), "CC64(1,2) SEQV CC64(1,2)")
+    assert(NOT (CC64(1, 2) SEQV CC64(1, 3)), "CC64(1,2) SEQV CC64(1,3) is false")
+    assert(CC64(1, 2) =/= CC64(1, 3), "CC64(1,2) =/= CC64(1,3)")
+    assert(NOT (CC64(1, 2) =/= CC64(1, 2)), "CC64(1,2) =/= CC64(1,2) is false")
+    assert(CC64(1, 2), CC64(1, 2), "the three-argument assert of two equal CC64s")
+    r = RC64(1, 2)
+    assert(NOT (RC64(1, 2) = RC64(1, 2)), "two RC64(1,2) built apart are not equal")
+    assert(r = r, "an RC64 equals itself")
+    assert(RC64(1, 2) =/= RC64(1, 2), "two RC64(1,2) built apart differ by =/=")
+    println("PASS")
+end
+
+end

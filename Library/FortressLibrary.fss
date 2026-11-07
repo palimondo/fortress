@@ -645,7 +645,7 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
         if self > other then self elif other > self then other elif self = 0/0 then other else self end
 end
 
-object Ratio(num: ZZ, den: ZZ) extends { QQ }
+value object Ratio(num: ZZ, den: ZZ) extends { QQ }
     getter asString(): String = if den = 1 then num.asString else num.asString || "/" || den.asString end
     getter isNaN(): Boolean = (numerator(self) = 0 AND denominator(self) = 0)
     getter isInfinite(): Boolean = (numerator(self) =/= 0 AND denominator(self) = 0)

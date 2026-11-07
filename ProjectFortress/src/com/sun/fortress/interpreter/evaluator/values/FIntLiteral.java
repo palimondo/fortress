@@ -76,10 +76,8 @@ public class FIntLiteral extends FNativeObject implements HasIntValue {
     }
 
     public boolean seqv(FValue v) {
-        if (!(v instanceof FNativeObject)) return false;
-        if (v instanceof FIntLiteral) return value.equals(((FIntLiteral) v).value);
-        if (v instanceof FFloat || v instanceof FFloatLiteral) return getFloat() == v.getFloat();
-        return false;
+        if (!(v instanceof FIntLiteral)) return false;
+        return value.equals(((FIntLiteral) v).value);
     }
 
 

@@ -43,14 +43,8 @@ public class FRR32 extends FNativeObject {
     }
 
     public boolean seqv(FValue v) {
-        if (!(v instanceof FNativeObject)) return false;
-        if (v instanceof FRR32) {
-            return (Float.floatToRawIntBits(getRR32()) == Float.floatToRawIntBits(v.getRR32()));
-        }
-        if (v instanceof FInt || v instanceof FIntLiteral || v instanceof FLong) {
-            return (getFloat() == v.getFloat());
-        }
-        return false;
+        if (!(v instanceof FRR32)) return false;
+        return Float.floatToRawIntBits(getRR32()) == Float.floatToRawIntBits(v.getRR32());
     }
 
     public static void setConstructor(NativeConstructor con) {

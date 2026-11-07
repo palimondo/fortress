@@ -41,7 +41,7 @@ end
 value object Float extends RR64
 end
 
-object FloatLiteral extends RR64
+value object FloatLiteral extends RR64
 end
 
 value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
@@ -184,7 +184,7 @@ end
 value object UnsignedLong extends NN64
 end
 
-object IntLiteral extends { Number }
+value object IntLiteral extends { Number }
     getter zero(): IntLiteral
     getter one(): IntLiteral
     getter asZZ32(): ZZ32

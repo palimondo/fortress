@@ -1,0 +1,62 @@
+(* The compiled helper of SEQV answers by the rule of objects.tex, section "Object Equivalence": values of different types are never equivalent, value objects and tuples compare field by field, floats by their bits, and reference objects, strings among them, only with themselves. *)
+component StrictEquivalenceRuleCompiled
+export Executable
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+
+object Pt(x: ZZ32, y: ZZ32) end
+value object VPlain(a: ZZ32, b: ZZ32) end
+value object CC64(re: RR64, im: RR64) end
+object RC64(re: RR64, im: RR64) end
+
+numbers(): () = do
+  i: ZZ32 = 3
+  j: ZZ32 = 3
+  l: ZZ64 = 3
+  r: RR64 = 3.0
+  assert(sEq(i, j), "two ZZ32 3s")
+  assert(NOT sEq(i, l), "a ZZ32 3 and a ZZ64 3")
+  assert(NOT sEq(i, r), "a ZZ32 3 and an RR64 3.0")
+  zero: RR64 = 0.0
+  nz: RR64 = -0.0
+  nan: RR64 = zero / zero
+  assert(NOT sEq(zero, nz), "0.0 and -0.0")
+  assert(sEq(nan, nan), "a NaN with itself")
+end
+
+tuples(): () = do
+  t1: (ZZ32, ZZ32) = (1, 2)
+  t2: (ZZ32, ZZ32) = (1, 2)
+  a: Any = t1
+  b: Any = t2
+  assert(sEq(a, b), "two (1,2)")
+end
+
+strings(): () = do
+  s1: String = "ab" || "cd"
+  s2: String = "abc" || "d"
+  assert(NOT sEq(s1, s2), "two strings built apart")
+  assert(sEq(s1, s1), "a string with itself")
+end
+
+objects(): () = do
+  p = Pt(1, 2)
+  q = Pt(1, 2)
+  assert(NOT sEq(p, q), "two Pt(1,2)")
+  assert(sEq(p, p), "a Pt with itself")
+  assert(NOT sEq(VPlain(1, 2), VPlain(1, 3)), "VPlain(1,2) and VPlain(1,3)")
+  assert(sEq(VPlain(1, 2), VPlain(1, 2)), "two VPlain(1,2)")
+  assert(sEq(CC64(1.0, 2.0), CC64(1.0, 2.0)), "two CC64(1.0, 2.0)")
+  assert(NOT sEq(CC64(1.0, 2.0), CC64(1.0, 3.0)), "CC64(1.0, 2.0) and CC64(1.0, 3.0)")
+  assert(NOT sEq(RC64(1.0, 2.0), RC64(1.0, 2.0)), "two RC64(1.0, 2.0)")
+end
+
+run(): () = do
+  numbers()
+  tuples()
+  strings()
+  objects()
+  println("PASS")
+end
+
+end

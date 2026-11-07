@@ -9191,3 +9191,9 @@ rewritten
 rewritten
 
 | 818 | the code generator compiles no type assumption, `e asif T`: it has no case for `AsIfExpr` and stops, "Can't compile AsIfExpr"; declarations of the one library that the checker passes are refused at it, `SequentialGenerator`'s `asString` (`Library/FortressLibrary.fss:1496`) among them | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/type-annotation.tex`, "Type Assumption" | none | the code generator's distance probe | `CodeGen.defaultCase` throws `sayWhat` for a node it has no visitor for (`compiler/codegen/CodeGen.java:1675-1677` at c124c6b65). Probe AsIfProbe.fss, uncommitted, under the compiler's prelude: `trait Named getter name(): String = "Named" end`, `object Leaf extends Named getter name(): String = "Leaf" end`, `run():() = println((Leaf asif Named).name)`: 'AsIfProbe.fss:11:25-35: Can't compile AsIfExpr'. At 32242b80d it refused 7 declarations; the parsed trees held 13 `asif` sites: `FortressLibrary` 4, `RangeInternals` 1, `String` 8 (`explorations/perf-probes/codegen-distance/REPORT.md`, 3). Walk has a case for it (`interpreter/evaluator/Evaluator.java:109`), by reading. No gated test. |
+
+### Row 908
+
+rewritten
+
+| 908 | on the compiled path `SEQV` (`===`) on two floats is `=`, not a comparison of bit patterns: `0.0 === -0.0` is `true` and a NaN `===` itself is `false`; walk answers both by the rule | NEGATIVE-VERIFIED | implementation gap (prelude) | `basic/objects.tex`, "Object Equivalence" | none | review any-carrier-2026-11-06 | The rule: "two binary words are strictly equivalent if and only if they contain the same bit pattern". Compiled scratch program, `RR64` variables, `nan = zero / zero`: `1/nz:  -Infinity`, `0.0 SEQV -0.0:  true`, `NaN SEQV NaN:  false`. The prelude declares `opr ===(a:RR64, b:RR64) = a=b` and the same for `RR32` (`Library/CompilerLibrary.fss:66-67`, at caa0ffc61). Walk, the same values: `0.0 SEQV -0.0: false`, `NaN SEQV NaN: true`. |

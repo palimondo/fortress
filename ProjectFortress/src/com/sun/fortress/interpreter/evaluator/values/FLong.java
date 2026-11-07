@@ -52,14 +52,8 @@ public class FLong extends FNativeObject implements HasIntValue {
     }
 
     public boolean seqv(FValue v) {
-        if (!(v instanceof FNativeObject)) return false;
-        if (v instanceof FLong || v instanceof FInt) {
-            return (getLong() == v.getLong());
-        }
-        if (v instanceof FFloat || v instanceof FFloatLiteral) {
-            return (getFloat() == v.getFloat());
-        }
-        return false;
+        if (!(v instanceof FLong)) return false;
+        return getLong() == v.getLong();
     }
 
     static final long negCached = 128;

@@ -16,10 +16,12 @@ run(): () = do
 
     ia = immutableArray1[\ZZ32,3\]().fill(7)
     words = ia.map[\String\](fn (e: ZZ32): String => "v" e)
-    assert((words.mutability, |words|, words[0], words[2]), ("(immutable)", 3, "v7", "v7"), "an immutable array's map fills an immutable replica of three strings")
+    assert(words.mutability, "(immutable)", "an immutable array's map answers an immutable replica")
+    assert((|words|, words[0], words[2]), (3, "v7", "v7"), "an immutable array's map fills its replica with three strings")
     a = array1[\ZZ32,3\]().tabulate(fn (i: ZZ32): ZZ32 => 10 i)
     frozen = a.freeze()
-    assert((frozen.mutability, |frozen|, frozen[0], frozen[1], frozen[2]), ("(immutable)", 3, 0, 10, 20), "an array's freeze answers an immutable array of its elements")
+    assert(frozen.mutability, "(immutable)", "an array's freeze answers an immutable array")
+    assert((|frozen|, frozen[0], (frozen[1], frozen[2])), (3, 0, (10, 20)), "an array's freeze keeps its elements")
     sub = frozen[1#2]
     assert((sub[0], sub[1]), (10, 20), "a subarray of an immutable array reads its elements")
 

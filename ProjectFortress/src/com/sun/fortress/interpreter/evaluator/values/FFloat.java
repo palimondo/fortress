@@ -40,14 +40,8 @@ public class FFloat extends FNativeObject {
     }
 
     public boolean seqv(FValue v) {
-        if (!(v instanceof FNativeObject)) return false;
-        if (v instanceof FFloat || v instanceof FFloatLiteral) {
-            return (Double.doubleToRawLongBits(getFloat()) == Double.doubleToRawLongBits(v.getFloat()));
-        }
-        if (v instanceof FInt || v instanceof FIntLiteral || v instanceof FLong) {
-            return (getFloat() == v.getFloat());
-        }
-        return false;
+        if (!(v instanceof FFloat)) return false;
+        return Double.doubleToRawLongBits(getFloat()) == Double.doubleToRawLongBits(v.getFloat());
     }
 
     public static void setConstructor(NativeConstructor con) {

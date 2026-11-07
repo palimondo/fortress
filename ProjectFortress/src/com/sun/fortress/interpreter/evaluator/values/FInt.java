@@ -51,14 +51,8 @@ public class FInt extends FNativeObject implements HasIntValue {
     }
 
     public boolean seqv(FValue v) {
-        if (!(v instanceof FNativeObject)) return false;
-        if (v instanceof FInt || v instanceof FLong) {
-            return (getLong() == v.getLong());
-        }
-        if (v instanceof FFloat || v instanceof FFloatLiteral) {
-            return (getFloat() == v.getFloat());
-        }
-        return false;
+        if (!(v instanceof FInt)) return false;
+        return getInt() == v.getInt();
     }
 
     public static final FInt ZERO = new FInt(0);

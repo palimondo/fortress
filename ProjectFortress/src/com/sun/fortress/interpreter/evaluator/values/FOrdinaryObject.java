@@ -14,6 +14,7 @@ package com.sun.fortress.interpreter.evaluator.values;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.types.FType;
 import com.sun.fortress.interpreter.evaluator.types.FTypeObject;
+import com.sun.fortress.interpreter.glue.prim.AnyPrim;
 import com.sun.fortress.nodes.Id;
 
 public class FOrdinaryObject extends FObject {
@@ -51,7 +52,7 @@ public class FOrdinaryObject extends FObject {
         if (getLexicalEnv() != o.getLexicalEnv()) return false;
         for (Id fld : ftype.getFieldNames()) {
             String name = fld.getText();
-            if (!(select(name).seqv(o.select(name)))) return false;
+            if (!(AnyPrim.sequiv(select(name), o.select(name)))) return false;
         }
         return true;
     }

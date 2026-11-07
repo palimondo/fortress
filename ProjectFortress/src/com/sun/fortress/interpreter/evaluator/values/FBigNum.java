@@ -58,10 +58,8 @@ public class FBigNum extends FNativeObject implements HasIntValue {
     }
 
     public boolean seqv(FValue v) {
-        if (!(v instanceof FNativeObject)) return false;
-        if (v instanceof FBigNum) return value.equals(((FBigNum) v).value);
-        if (v instanceof FFloat || v instanceof FFloatLiteral || v instanceof FRR32) return getFloat() == v.getFloat();
-        return false;
+        if (!(v instanceof FBigNum)) return false;
+        return value.equals(((FBigNum) v).value);
     }
 
 
