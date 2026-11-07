@@ -1,0 +1,4 @@
+tests=StrictEquivalenceRuleCompiled
+link
+run
+run_out_contains=PASS
