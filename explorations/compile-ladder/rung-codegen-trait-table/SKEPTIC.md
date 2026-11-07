@@ -1,0 +1,1 @@
+SKEPTIC.md was not written or committed. The worktree it would go in does not exist, and the disk is full.

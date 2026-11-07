@@ -9317,3 +9317,9 @@ closed by c21780408
 closed by 5ae581c4a
 
 | 916 | top-level `match(regex:FlatString, some:FlatString)` has no overload over `String`, so walk refuses a rope, a `SubString` or a program's own string at the call: `match("abc.*", c)` for a rope `c` of 52 characters stops: 'Closure/Constructor for match parameter 2 (some:FlatString) got type CatString' | NEGATIVE-VERIFIED | library gap vs spec (library) | silent | none | review strings-in-fortress-2026-11-07 | siblings: 846. Only the native over `FlatString` is declared (`Library/FortressLibrary.fss:4615`, `.fsi:2576`, at 4ea5167e0), unlike the five natives over `FlatString` beside overloads over `String` that flatten by `typecase` on `asFlatString` (F-299; `printlnWithThread`, `:4640-4644`). A `SubString` gives 'got type SubString', the review's `Rep` 'got type Rep'; `match("abc.*", c.asFlatString)` answers 'true'. Fix, the library's own pattern: an overload `match(regex: String, some: String)` that flattens both by `typecase` on `asFlatString` and calls the native, in the component and the api. |
+
+### Row 921
+
+note added
+
+| 921 | under walk an overloaded dotted method called on an assumed receiver stops: `(Leaf asif Named).pick(Leaf asif Named)`, with `pick` at `Named` and at `Leaf` in trait `Named`, gives 'Unexpected method value {...}:OverloadedFunction when invoking method pick given receiver (Leaf asif Named)' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/type-annotation.tex`, "Type Assumption" | XXXAsIfOverloadedMethodWalk | the walk guard of the code generator's asif | The message is `interpreter/evaluator/values/DottedMethodApplication.java:106`. A method of one declaration on an assumed receiver runs (AsIfCallsWalk). The compiled path runs `Named`'s body at `Named` (AsIfCallsCompiled). |

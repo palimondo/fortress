@@ -1,0 +1,1 @@
+Not written. The worktree that would hold REPORT.md does not exist, and the round stopped at the disk check (instruction 0): `df -h /home/user` printed '/dev/vda 252G 39G 67M 100% /'.

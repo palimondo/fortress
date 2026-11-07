@@ -1,0 +1,1 @@
+Not written: the worktree could not be made because the disk allowance is full.
