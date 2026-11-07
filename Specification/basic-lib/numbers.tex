@@ -46,7 +46,12 @@ the others are these:
 Every other conversion between number types is written explicitly;
 in particular, a conversion into \EXP{\mathbb{R}64} from
 \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}64}, \EXP{\mathbb{N}32}, or \EXP{\mathbb{Q}}
-is explicit, written \EXP{\VAR{asFloat}(x)} with the method that \library\ declare on \TYP{Number}.
+is explicit, written \EXP{\VAR{asFloat}(x)} with the method that each of these types declares;
+\TYP{Number} itself declares no conversion.
+\revision{revival-asfloat}{Before this revision the passage said that \library\ declare
+\VAR{asFloat} on \TYP{Number}. Each number type now declares its own, and
+\TYP{Number} declares none, so that a number type of a program's own need not
+convert into \EXP{\mathbb{R}64}.}
 \revision{revival-rr32}{Before this revision the passage named \EXP{\mathbb{R}64}
 as the one floating-point type, and \library\ declared \EXP{\mathbb{R}32} a
 subtype of it, so that a value of \EXP{\mathbb{R}32} was also a value of

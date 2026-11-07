@@ -286,13 +286,6 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
 end
 
 trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
-        comprises { RR64, RR32, QQ, AnyIntegral, IntLiteral }
-    (** The value as a float, the explicit conversion into %RR64%. **)
-    abstract asFloat(self): RR64
-    (** Two exact numbers of different types compare as rationals; a float
-        compares with any number after %asFloat%, so an exact value equals
-        its nearest float. **)
-    opr =(self, other:Number):Boolean
 end
 
 trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
@@ -324,7 +317,12 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     getter nextUp():RR64
     (** next lower IEEE float **)
     getter nextDown():RR64
+    (** The value as a float, the explicit conversion into %RR64%. **)
+    abstract asFloat(self): RR64
     opr =(self, b:RR64):Boolean
+    opr =(self, b:ZZ32):Boolean
+    opr =(self, b:RR32):Boolean
+    opr =(self, b:IntLiteral):Boolean
     opr <(self, b:RR64):Boolean
     opr <=(self, b:RR64):Boolean
     opr >(self, b:RR64):Boolean
@@ -413,7 +411,15 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     abstract numerator(self): ZZ
     abstract denominator(self): ZZ  (* Ideally would be NN *)
     opr |self| : QQ
+    (** The value as a float, the explicit conversion into %RR64%. **)
+    abstract asFloat(self): RR64
     opr =(self, other:QQ):Boolean
+    opr =(self, b:ZZ32):Boolean
+    opr =(self, b:ZZ64):Boolean
+    opr =(self, b:NN32):Boolean
+    opr =(self, b:NN64):Boolean
+    opr =(self, b:ZZ):Boolean
+    opr =(self, b:IntLiteral):Boolean
     opr =/=(self, other:QQ):Boolean
     opr <(self, other:QQ):Boolean
     opr <=(self, other:QQ):Boolean
@@ -492,7 +498,13 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     coerce(x: NN32)
     coerce(x: IntLiteral)
     opr |self| : NN64
+    (** The value as a float, the explicit conversion into %RR64%. **)
+    abstract asFloat(self): RR64
     opr =(self, b:NN64):Boolean
+    opr =(self, b:NN32):Boolean
+    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:QQ):Boolean
+    opr =(self, b:ZZ):Boolean
     opr <(self, b:NN64):Boolean
     opr >(self, b:NN64):Boolean
     opr >=(self, b:NN64):Boolean
@@ -545,7 +557,14 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
 
 
     opr |self| : ZZ32
+    (** The value as a float, the explicit conversion into %RR64%. **)
+    abstract asFloat(self): RR64
     opr =(self, b:ZZ32):Boolean
+    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:RR64):Boolean
+    opr =(self, b:QQ):Boolean
+    opr =(self, b:ZZ):Boolean
+    opr =(self, b:ZZ64):Boolean
     opr <(self, b:ZZ32):Boolean
     opr >(self, b:ZZ32):Boolean
     opr >=(self, b:ZZ32):Boolean
@@ -604,7 +623,14 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
 
     opr |self| : ZZ64
 
+    (** The value as a float, the explicit conversion into %RR64%. **)
+    abstract asFloat(self): RR64
     opr =(self, b:ZZ64):Boolean
+    opr =(self, b:ZZ32):Boolean
+    opr =(self, b:NN32):Boolean
+    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:QQ):Boolean
+    opr =(self, b:ZZ):Boolean
     opr <(self, b:ZZ64):Boolean
     opr >(self, b:ZZ64):Boolean
     opr >=(self, b:ZZ64):Boolean
@@ -658,7 +684,15 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     coerce(x: IntLiteral)
     getter zero(): ZZ
     getter one(): ZZ
+    (** The value as a float, the explicit conversion into %RR64%. **)
+    abstract asFloat(self): RR64
     opr =(self, b: ZZ):Boolean
+    opr =(self, b:ZZ32):Boolean
+    opr =(self, b:ZZ64):Boolean
+    opr =(self, b:NN32):Boolean
+    opr =(self, b:NN64):Boolean
+    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:QQ):Boolean
     opr <(self, other:ZZ): Boolean
     opr <=(self, other:ZZ): Boolean
     opr >(self, other:ZZ): Boolean
@@ -1703,7 +1737,14 @@ opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
 
 squaredNorm[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](a:Vector[\T,s0\]):T
 
-opr ||[\ T extends { Number, MultiplicativeRing[\T\] }, nat k \]me : Vector[\T,k\]|| : RR64
+opr ||[\nat k\] me: Vector[\ZZ32,k\]|| : RR64
+opr ||[\nat k\] me: Vector[\ZZ64,k\]|| : RR64
+opr ||[\nat k\] me: Vector[\NN32,k\]|| : RR64
+opr ||[\nat k\] me: Vector[\NN64,k\]|| : RR64
+opr ||[\nat k\] me: Vector[\ZZ,k\]|| : RR64
+opr ||[\nat k\] me: Vector[\QQ,k\]|| : RR64
+opr ||[\nat k\] me: Vector[\RR32,k\]|| : RR64
+opr ||[\nat k\] me: Vector[\RR64,k\]|| : RR64
 
 (** %Array2[\T,b0,s0,b1,s1\]%
     is the type of 2-dimensional arrays of element type %T%, with

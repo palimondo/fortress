@@ -67,7 +67,9 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
     (** next lower IEEE float **)
     getter nextDown():RR32
     opr |self| : RR32
+    asFloat(self): RR64
     opr =(self, b:RR32):Boolean
+    opr =(self, b:RR64):Boolean
     opr =/=(self, b:RR32):Boolean
     opr <(self, b:RR32):Boolean
     opr <=(self, b:RR32):Boolean
@@ -131,7 +133,13 @@ end
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     coerce(x: IntLiteral)
     opr |self| : NN32
+    asFloat(self): RR64
     opr =(self, b:NN32):Boolean
+    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:QQ):Boolean
+    opr =(self, b:ZZ):Boolean
+    opr =(self, b:ZZ64):Boolean
+    opr =(self, b:NN64):Boolean
     opr <(self, b:NN32):Boolean
     opr >(self, b:NN32):Boolean
     opr >=(self, b:NN32):Boolean
@@ -185,7 +193,15 @@ object IntLiteral extends { Number }
     getter asNN64(): NN64
     getter asZZ(): ZZ
     opr |self| : IntLiteral
+    asFloat(self): Float
     opr =(self, b: IntLiteral):Boolean
+    opr =(self, b:RR64):Boolean
+    opr =(self, b:QQ):Boolean
+    opr =(self, b:ZZ):Boolean
+    opr =(self, b:ZZ64):Boolean
+    opr =(self, b:NN64):Boolean
+    opr =(self, b:ZZ32):Boolean
+    opr =(self, b:NN32):Boolean
     opr <(self, other:IntLiteral): Boolean
     opr <=(self, other:IntLiteral): Boolean
     opr >(self, other:IntLiteral): Boolean

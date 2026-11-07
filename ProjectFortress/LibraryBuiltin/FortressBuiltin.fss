@@ -245,6 +245,7 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatAbs")
     opr =(self, b:RR32):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatEQ")
+    opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
     opr =/=(self, b:RR32):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatNE")
     opr <(self, b:RR32):Boolean =
@@ -399,6 +400,11 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr |self| : NN32 = self
     opr =(self, b:NN32):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntEQ")
+    opr =(self, b:IntLiteral):Boolean = do c: NN32 = b; (self = c) end
+    opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+    opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
+    opr =(self, b:ZZ64):Boolean = do c: ZZ64 = self; (c = b) end
+    opr =(self, b:NN64):Boolean = do c: NN64 = self; (c = b) end
     opr <(self, b:NN32):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntLT")
     opr >(self, b:NN32):Boolean = b < self
@@ -507,6 +513,13 @@ object IntLiteral extends Number
     opr |self| : IntLiteral = if self>=0 then self else -self end
     opr =(self, b: IntLiteral):Boolean =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Eq")
+    opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
+    opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+    opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
+    opr =(self, b:ZZ64):Boolean = do c: ZZ64 = self; (c = b) end
+    opr =(self, b:NN64):Boolean = do c: NN64 = self; (c = b) end
+    opr =(self, b:ZZ32):Boolean = do c: ZZ32 = self; (c = b) end
+    opr =(self, b:NN32):Boolean = do c: NN32 = self; (c = b) end
     opr <(self, other:IntLiteral): Boolean = self.cmp(other) < 0
     opr <=(self, other:IntLiteral): Boolean = self.cmp(other) <= 0
     opr >(self, other:IntLiteral): Boolean = self.cmp(other) > 0

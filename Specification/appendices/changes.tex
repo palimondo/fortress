@@ -575,7 +575,7 @@ coercions the library declares: \EXP{\mathbb{Z}64} from \EXP{\mathbb{Z}32} and
 \EXP{\mathbb{N}32}; \EXP{\mathbb{N}64} from \EXP{\mathbb{N}32}; \EXP{\mathbb{Z}}
 from the four fixed-size types; \EXP{\mathbb{Q}} from the five integer types;
 \EXP{\mathbb{R}64} from \EXP{\mathbb{Z}32} and from integer numerals.
-Every other conversion between them is explicit, the one into \EXP{\mathbb{R}64} written \EXP{\VAR{asFloat}(x)} with the method the library declares on \TYP{Number}.
+Every other conversion between them is explicit, the one into \EXP{\mathbb{R}64} written \EXP{\VAR{asFloat}(x)} with the method that each number type declares (\secref{revival-asfloat}).
 \EXP{\mathbb{Q}} includes \EXP{+\infty}, \EXP{-\infty} and \EXP{0/0}; the integer
 types hold no infinite value.
 A subset such as the positive values is tested at run time, and the two checks
@@ -2732,6 +2732,70 @@ value object that adds no instantiation of its own.
 \end{quote}
 \item[Route C] The same under route~C: the numeric types are mutually exclusive
 whichever rule on instantiations the compiled type checker keeps.
+\end{description}
+
+\subsection{The conversion into a float, declared by each number type}
+\seclabel{revival-asfloat}
+
+\begin{description}
+\item[Affected sections] \secref{basic-rationals}; \secref{revival-numbers}.
+\item[Change] The passage on the conversions between number types says that
+the explicit conversion into \EXP{\mathbb{R}64}, \EXP{\VAR{asFloat}(x)}, is the
+method that each number type declares, and that \TYP{Number} itself declares
+no conversion, where it said that \library\ declare the method on
+\TYP{Number}.
+The change of \secref{revival-numbers} says the same.
+\item[Rationale] The revival decided on 6~November 2026 that \VAR{asFloat}, and
+the \EXP{=} that the library built on it, leave the trait \TYP{Number}, and that
+each of the library's number types keeps its own \VAR{asFloat}.
+The team's later compiler library declares \TYP{Number} with nothing in it
+(\nolinkurl{ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss}, lines
+510--511, in the revival's repository), and declares its conversion into
+\EXP{\mathbb{R}64} on each of its number types, not on a shared trait; the
+Working Draft names no such method.
+With \TYP{Number} open to a program's own number types, an abstract
+\VAR{asFloat} would oblige a program's complex number to give a float, and an
+\EXP{=} on \TYP{Number} built on it would call two different complex numbers
+equal.
+\Library\ now declare \VAR{asFloat} on \EXP{\mathbb{R}64}, \EXP{\mathbb{R}32},
+\EXP{\mathbb{Q}}, \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}32},
+\EXP{\mathbb{N}64}, \EXP{\mathbb{Z}} and the numeral type \TYP{IntLiteral}
+(\nolinkurl{Library/FortressLibrary.fsi};
+\nolinkurl{ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi}), and the vector
+norm at each of the eight number types as its element type.
+A reversal would declare \VAR{asFloat} on \TYP{Number} again, abstract, with an
+\EXP{=} built on it, so that every type below \TYP{Number} must give a float, or
+declare it on a new trait that the number types extend.
+\item[Effect] \EXP{\VAR{asFloat}(x)} is unchanged at every number type of the
+library.
+Two numbers of different types compare by \EXP{=} where a coercion carries one
+into the other: for each of the library's 21 coercions between number types,
+the type converted to declares \EXP{=} at the type converted from, and that type
+declares \EXP{=} at the first, each converting the narrower operand as the
+coercion does.
+Two numbers of different types that no coercion joins, as a \EXP{\mathbb{Q}}
+and an \EXP{\mathbb{R}64}, compare by the library's fallback \EXP{=} over
+\TYP{Any}, which answers \EXP{a \sequiv b}; a program that means their values
+writes the conversion, \EXP{\VAR{asFloat}(x) = y}.
+The interpreter's \EXP{\sequiv} calls numbers of different types equal by value,
+so there that fallback answers by value (row~909 of the revival's gap ledger).
+A number type of a program's own compares by the \EXP{=} it declares, or else by
+the fallback.
+\item[Original text] The Working Draft of February 2011 has no such sentence:
+the revival added it in its own text of 27~September 2026, not the Working
+Draft's.
+The passage said, in \nolinkurl{Specification/basic-lib/numbers.tex}, lines
+46--49, before this revision:
+\begin{quote}
+Every other conversion between number types is written explicitly;
+in particular, a conversion into \EXP{\mathbb{R}64} from
+\EXP{\mathbb{Z}}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}64}, \EXP{\mathbb{N}32}, or \EXP{\mathbb{Q}}
+is explicit, written \EXP{\VAR{asFloat}(x)} with the method that \library\ declare on \TYP{Number}.
+\end{quote}
+and the change of \secref{revival-numbers} said that the conversion into
+\EXP{\mathbb{R}64} is written ``with the method the library declares on
+\TYP{Number}''.
+\item[Route C] The same under route~C.
 \end{description}
 
 \subsection{Overloading with static parameters}
