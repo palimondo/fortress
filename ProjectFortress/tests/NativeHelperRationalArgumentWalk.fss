@@ -1,0 +1,19 @@
+(* random, atan2, a float's power and printThreadInfo take a rational through its written conversion asFloat, and printThreadInfo takes a numeral. *)
+component NativeHelperRationalArgumentWalk
+export Executable
+
+run():() = do
+  third: QQ = 1/3
+  one = 0.5 + 0.5
+  two = 1.5 + 0.5
+  f = asFloat(third)
+  r = random(asFloat(third))
+  assert(0.0 <= r AND r < f, true, "random(asFloat(third)) is in [0, 1/3)")
+  assert(atan2(one, asFloat(third)).asString, "1.2490457723982544", "atan2(1.0, asFloat(third))")
+  assert((one^(asFloat(third))).asString, "1.0", "1.0^(asFloat(third))")
+  assert((two^(asFloat(third))).asString, "1.2599210498948732", "2.0^(asFloat(third))")
+  printThreadInfo(asFloat(third))
+  printThreadInfo(3)
+end
+
+end

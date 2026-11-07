@@ -1,0 +1,100 @@
+(* A float's mixed powers, its floor and ceiling brackets, random, atan2, and FlatString's = and flatConcat at a Char keep their values under walk. *)
+component NativeHelperFloatMixedWalk
+import FlatString.{...}
+export Executable
+
+run():() = do
+  two: RR64 = asFloat(2.0)
+  half: RR64 = asFloat(0.5)
+  m1: RR64 = asFloat(-1.0)
+  m2: RR64 = asFloat(-2.0)
+  one: RR64 = asFloat(1.0)
+  h32: RR32 = narrow(0.5)
+  three32: RR32 = narrow(3.0)
+  one32: RR32 = narrow(1.0)
+  ten: RR64 = asFloat(10.0)
+  huge: RR64 = ten^300
+  z: RR64 = asFloat(0.0)
+  nan: RR64 = z / z
+
+  (* Float's power at an RR32 exponent, and RR32's at a Float exponent *)
+  assert((two^h32).asString, "1.4142135623730951", "Float 2.0^RR32 0.5")
+  assert((two^three32).asString, "8.0", "Float 2.0^RR32 3.0")
+  assert((three32^two).asString, "9.0", "RR32 3.0^Float 2.0")
+  assert((h32^half).asString, "0.7071067811865476", "RR32 0.5^Float 0.5")
+
+  (* the floor and ceiling brackets saturate, and give 0 at a NaN *)
+  a: RR64 = asFloat(2.5)
+  na: RR64 = asFloat(-2.5)
+  assert((|\a/|).asString, "2", "floor bracket of 2.5")
+  assert((|/a\|).asString, "3", "ceiling bracket of 2.5")
+  assert((|\na/|).asString, "-3", "floor bracket of -2.5")
+  assert((|/na\|).asString, "-2", "ceiling bracket of -2.5")
+  assert((|\huge/|).asString, "9223372036854775807", "floor bracket of 10.0^300 saturates")
+  assert((|/huge\|).asString, "9223372036854775807", "ceiling bracket of 10.0^300 saturates")
+  assert((|\(-huge)/|).asString, "-9223372036854775808", "floor bracket of -10.0^300 saturates")
+  assert((|\nan/|).asString, "0", "floor bracket of NaN")
+  assert((|/nan\|).asString, "0", "ceiling bracket of NaN")
+
+  (* FlatString's = at flat strings, and at a rope flattened *)
+  abc = "abc"
+  assert(abc = ("ab" || "c"), true, "FlatString =")
+  assert(abc = "abd", false, "FlatString = unequal")
+  assert("" = "", true, "FlatString = of the empty string")
+  rope = "abcdefghijklmnopqrstuvwxyz0123456789" || "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  flat = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  assert(rope.asFlatString = flat, true, "FlatString = at a rope flattened")
+  assert(flat = rope.asFlatString, true, "FlatString = at a rope flattened, on the right")
+
+  (* flatConcat at a Char *)
+  assert(flatConcat("ab", char(99)), "abc", "flatConcat at a Char")
+  assert(flatConcat("", char(931)), "Σ", "flatConcat at a Char past U+00FF")
+  assert(("ab" || char(99)).size, 3, "|| at a Char")
+  (* row 872: past U+FFFF the glue appends the Char's low 16 bits; this pins today's answer, not the right one *)
+  assert(flatConcat("a", char(66560)) = ("a" || char(1024).asString), true,
+         "row 872: flatConcat at U+10400 appends U+0400, its low 16 bits")
+
+  (* Float's power at each integer type's exponent *)
+  e32: ZZ32 = 10
+  n2: ZZ32 = -2
+  e64: ZZ64 = 3
+  m32: ZZ32 = -1
+  u32 = unsigned(m32)
+  lo: ZZ64 = -9223372036854775807 - 1
+  m64: ZZ64 = -1
+  u63 = unsigned(lo)
+  u64 = unsigned(m64)
+  bigTwo: ZZ = big(2)
+  zbig: ZZ = bigTwo^65
+  assert((two^e32).asString, "1024.0", "Float 2.0^ZZ32 10")
+  assert((two^n2).asString, "0.25", "Float 2.0^ZZ32 -2")
+  assert((m2^e64).asString, "-8.0", "Float -2.0^ZZ64 3")
+  assert((half^u32).asString, "0.0", "Float 0.5^NN32 2^32-1")
+  assert((half^u63).asString, "0.0", "Float 0.5^NN64 2^63")
+  assert((m1^u64).asString, "1.0", "Float -1.0^NN64 2^64-1, read as the even 2^64")
+  assert((m1^zbig).asString, "1.0", "Float -1.0^ZZ 2^65")
+  assert((two^(-zbig)).asString, "0.0", "Float 2.0^ZZ -2^65")
+  assert((two^half).asString, "1.4142135623730951", "Float 2.0^RR64 0.5")
+  assert((4.0^0.5).asString, "2.0", "a float numeral's power at a float numeral")
+  assert((4.0^2).asString, "16.0", "a float numeral's power at a numeral")
+
+  (* atan2 at each kind of x *)
+  one32x: ZZ32 = 1
+  assert(atan2(one, one32x).asString, "0.7853981633974483", "atan2 at a ZZ32 x")
+  assert(atan2(one, one32).asString, "0.7853981633974483", "atan2 at an RR32 x")
+  assert(atan2(one, 1).asString, "0.7853981633974483", "atan2 at a numeral x")
+  assert(atan2(one, one).asString, "0.7853981633974483", "atan2 at an RR64 x")
+  assert(atan2(1.0, 1.0).asString, "0.7853981633974483", "atan2 of two float numerals")
+  assert(atan2(two, h32).asString, "1.3258176636680326", "atan2 of 2.0 at an RR32 0.5")
+
+  (* random at each kind of bound *)
+  r1 = random(e32)
+  assert(0.0 <= r1 AND r1 < 10.0, true, "random at a ZZ32 is in range")
+  r2 = random(asFloat(2.5))
+  assert(0.0 <= r2 AND r2 < 2.5, true, "random at an RR64 is in range")
+  assert(random(0).asString, "0.0", "random(0)")
+  r3 = random(-1)
+  assert(-1.0 < r3 AND r3 <= 0.0, true, "random(-1) is in (-1, 0]")
+end
+
+end

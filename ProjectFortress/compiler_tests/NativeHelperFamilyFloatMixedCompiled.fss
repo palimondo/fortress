@@ -1,0 +1,76 @@
+(* On the compiled path, the nativeHelpers for a float's mixed powers, its brackets, random, and FlatString's = and flatConcat at a Char compile and run when bound at the Java types the compile reads, a string as a JavaString and a Char in a ZZ32 code point. *)
+component NativeHelperFamilyFloatMixedCompiled
+export Executable
+
+dPowFloat(a:RR64, b:RR32):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePowFloat")
+dPowInt(a:RR64, b:ZZ32):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePowInt")
+dIFloor(a:RR64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleIFloor")
+dICeiling(a:RR64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleICeiling")
+dDiv(a:RR64, b:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDiv")
+dNeg(a:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNeg")
+dToString(a:RR64):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
+fPowDouble(a:RR32, b:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatPowDouble")
+rScaled(a:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.LocalRandom.scaledRandomDouble")
+sEquals(a:JavaString, b:JavaString):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.stringEquals")
+sConcatChar(s:JavaString, c:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeConcatenateChar")
+sConcat(a:JavaString, b:JavaString):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeConcatenate")
+cToString(x:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToString")
+
+run():() = do
+  two: RR64 = 2.0
+  half: RR64 = 0.5
+  one: RR64 = 1.0
+  a: RR64 = 2.5
+  na: RR64 = dNeg(a)
+  z: RR64 = 0.0
+  nan: RR64 = dDiv(z, z)
+  huge: RR64 = dPowInt(10.0, 300)
+  h32: RR32 = 0.5
+  three32: RR32 = 3.0
+  e10: ZZ32 = 10
+  n2: ZZ32 = -2
+
+  assert(dToString(dPowFloat(two, h32)) = "1.4142135623730951", "doublePowFloat 2.0^0.5")
+  assert(dToString(dPowFloat(two, three32)) = "8.0", "doublePowFloat 2.0^3.0")
+  assert(dToString(fPowDouble(three32, two)) = "9.0", "floatPowDouble 3.0^2.0")
+  assert(dToString(fPowDouble(h32, half)) = "0.7071067811865476", "floatPowDouble 0.5^0.5")
+  assert(dToString(dPowInt(two, e10)) = "1024.0", "doublePowInt 2.0^10")
+  assert(dToString(dPowInt(two, n2)) = "0.25", "doublePowInt 2.0^-2")
+  assert(dToString(huge) = "1.0E300", "doublePowInt 10.0^300")
+
+  assert(dIFloor(a) = 2, "doubleIFloor of 2.5")
+  assert(dICeiling(a) = 3, "doubleICeiling of 2.5")
+  assert(dIFloor(na) = -3, "doubleIFloor of -2.5")
+  assert(dICeiling(na) = -2, "doubleICeiling of -2.5")
+  assert(dIFloor(huge) = 9223372036854775807, "doubleIFloor of 10.0^300 saturates")
+  assert(dICeiling(huge) = 9223372036854775807, "doubleICeiling of 10.0^300 saturates")
+  lo: ZZ64 = -9223372036854775807
+  assert(dIFloor(dNeg(huge)) = lo - 1, "doubleIFloor of -10.0^300 saturates")
+  assert(dIFloor(nan) = 0, "doubleIFloor of NaN")
+  assert(dICeiling(nan) = 0, "doubleICeiling of NaN")
+
+  r = rScaled(10.0)
+  assert(0.0 <= r AND r < 10.0, "scaledRandomDouble at 10.0 is in range")
+  assert(dToString(rScaled(z)) = "0.0", "scaledRandomDouble at 0.0")
+  r1 = rScaled(dNeg(one))
+  assert(dNeg(one) < r1 AND r1 <= z, "scaledRandomDouble at -1.0 is in (-1, 0]")
+
+  abc = "abc".asJavaString
+  assert(sEquals(abc, sConcat("ab".asJavaString, "c".asJavaString)), "stringEquals")
+  assert(NOT sEquals(abc, "abd".asJavaString), "stringEquals unequal")
+  assert(sEquals("".asJavaString, "".asJavaString), "stringEquals of the empty string")
+
+  c: ZZ32 = 99
+  sigma: ZZ32 = 931
+  longI: ZZ32 = 66560
+  low: ZZ32 = 1024
+  assert(sConcatChar("ab".asJavaString, c) = "abc", "nativeConcatenateChar")
+  assert(sConcatChar("".asJavaString, sigma) = "Σ", "nativeConcatenateChar past U+00FF")
+  assert(sEquals(sConcatChar("a".asJavaString, longI), sConcatChar("a".asJavaString, low)),
+         "nativeConcatenateChar past U+FFFF appends the low 16 bits, as the glue does")
+  assert(sEquals(sConcatChar("a".asJavaString, longI), sConcat("a".asJavaString, cToString(longI))),
+         "nativeConcatenateChar past U+FFFF appends what charToString gives")
+  println("PASS")
+end
+
+end
