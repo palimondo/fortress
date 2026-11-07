@@ -180,4 +180,35 @@ public class simpleArbitraryPrecisionArith {
         return a.compareTo(b);
     }
 
+    // floor(a 2^-k) at every int count, as shiftLeft(a, -k) where -k is an int; the count
+    // Integer.MIN_VALUE shifts left by 2^31, which overflows unless a is 0.
+    public static BigInteger bigBitRightShift(BigInteger a, int k) {
+        if (k == Integer.MIN_VALUE) {
+            if (a.signum() == 0) return a;
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        }
+        return shiftLeft(a, -k);
+    }
+
+    // a^b as a ZZ: at a negative exponent the bases 1 and -1 give their power, 0 throws
+    // DivisionByZero and any other base IntegerOverflow; a power beyond BigInteger's range throws
+    // IntegerOverflow, tested before the power is built where |a|^b reaches 2^(2^31-1).
+    public static BigInteger bigPower(BigInteger a, int b) {
+        if (b < 0) {
+            if (a.equals(BigInteger.ONE)) return a;
+            if (a.equals(BigInteger.ONE.negate())) return ((b & 1) == 0) ? BigInteger.ONE : a;
+            if (a.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        }
+        BigInteger m = a.abs();
+        if (m.compareTo(BigInteger.ONE) > 0 && (long) (m.bitLength() - 1) * b >= Integer.MAX_VALUE)
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        try {
+            return a.pow(b);
+        }
+        catch (ArithmeticException e) {
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        }
+    }
+
 }

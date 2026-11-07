@@ -398,4 +398,29 @@ public class simpleLongArith {
         return System.nanoTime();
     }
 
+    // a^b as a ZZ64: at a negative exponent the bases 1 and -1 give their power, 0 throws
+    // DivisionByZero and any other base IntegerOverflow; a power outside the long's range throws IntegerOverflow.
+    public static long longPower(long a, int b) {
+        if (b < 0) {
+            if (a == 1) return 1;
+            if (a == -1) return ((b & 1) == 0) ? 1 : -1;
+            if (a == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        }
+        try {
+            long r = 1;
+            long x = a;
+            int y = b;
+            while (y > 0) {
+                if ((y & 1) != 0) r = Math.multiplyExact(r, x);
+                y >>>= 1;
+                if (y > 0) x = Math.multiplyExact(x, x);
+            }
+            return r;
+        }
+        catch (ArithmeticException e) {
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        }
+    }
+
 }

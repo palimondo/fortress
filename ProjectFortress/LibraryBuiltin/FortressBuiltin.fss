@@ -390,6 +390,36 @@ value object Long extends ZZ64
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToDouble")
 end
 
+(* A shift's count of any integer type as a ZZ32, for the shifts of an NN32: a
+   count beyond the ZZ32 range saturates at 2^31-1 in magnitude. *)
+private countNN32(b:AnyIntegral):ZZ32 =
+    typecase b of
+        c:ZZ32 => c
+        c:ZZ64 => narrow((c MAX (-2147483647)) MIN 2147483647)
+        c:NN32 => do m:ZZ32 = 2147483647; signed(c MIN unsigned(m)) end
+        c:NN64 => do m:ZZ64 = 2147483647; narrow(signed(c MIN unsigned(m))) end
+        c:ZZ => narrow((c MAX (-2147483647)) MIN 2147483647)
+    end
+
+(* A power's exponent of any integer type as a ZZ32 of its sign, for the power
+   of an NN32: beyond the ZZ32 range it keeps its parity. *)
+private exponentNN32(b:AnyIntegral):ZZ32 =
+    typecase b of
+        c:ZZ32 => c
+        c:ZZ64 => if c > 2147483647 then (if odd(c) then 2147483647 else 2147483646 end)
+                  elif c < -2147483647 - 1 then (if odd(c) then -2147483647 else -2147483647 - 1 end)
+                  else narrow(c) end
+        c:NN32 => do s:ZZ32 = signed(c); if s >= 0 then s elif odd(c) then 2147483647 else 2147483646 end end
+        c:NN64 => do
+                    s:ZZ64 = signed(c)
+                    if s < 0 OR: s > 2147483647 then (if odd(c) then 2147483647 else 2147483646 end)
+                    else narrow(s) end
+                  end
+        c:ZZ => if c > 2147483647 then (if odd(c) then 2147483647 else 2147483646 end)
+                elif c < -2147483647 - 1 then (if odd(c) then -2147483647 else -2147483647 - 1 end)
+                else narrow(c) end
+    end
+
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     coerce(x: IntLiteral) = x.asNN32
     getter zero(): Number = unsigned(0)
@@ -464,14 +494,17 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitOr")
     opr BITXOR(self,b:NN32):NN32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitXor")
-    opr LSHIFT(self,b:AnyIntegral):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$LShift")
-    opr RSHIFT(self,b:AnyIntegral):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$RShift")
+    opr LSHIFT(self,b:ZZ32):NN32 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitLeftShift")
+    opr LSHIFT(self,b:AnyIntegral):NN32 = self LSHIFT countNN32(b)
+    opr RSHIFT(self,b:ZZ32):NN32 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitRightShift")
+    opr RSHIFT(self,b:AnyIntegral):NN32 = self RSHIFT countNN32(b)
     opr BITNOT(self):NN32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntBitNot")
-    opr ^(self, b:AnyIntegral):NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.NN32$Pow")
+    opr ^(self, b:ZZ32):NN32 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntPower")
+    opr ^(self, b:AnyIntegral):NN32 = self^(exponentNN32(b))
     opr ^(self, b:IntLiteral):NN32 = self^(b.asZZ32)
     widen(self):NN64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.toLong")

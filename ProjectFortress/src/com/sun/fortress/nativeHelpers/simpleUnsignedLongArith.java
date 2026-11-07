@@ -283,4 +283,35 @@ public class simpleUnsignedLongArith {
         return Long.highestOneBit(u - 1);
     }
 
+    // The shifts of an NN64 by a signed count: the bits shifted out are lost, a count at or
+    // beyond 64 gives 0, and a negative count shifts the other way.
+    public static long unsignedLongBitLeftShift(long a, long b) {
+        if (b < 0) return (b > -64) ? (a >>> (-b)) : 0;
+        return (b < 64) ? (a << b) : 0;
+    }
+
+    public static long unsignedLongBitRightShift(long a, long b) {
+        if (b < 0) return (b > -64) ? (a << (-b)) : 0;
+        return (b < 64) ? (a >>> b) : 0;
+    }
+
+    // a^b as an NN64, a read unsigned: at a negative exponent the base 1 gives 1, 0 throws
+    // DivisionByZero and any other base IntegerOverflow; a power of 2^64 or more throws IntegerOverflow.
+    public static long unsignedLongPower(long a, int b) {
+        if (b < 0) {
+            if (a == 1) return 1;
+            if (a == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        }
+        long r = 1;
+        long x = a;
+        int y = b;
+        while (y > 0) {
+            if ((y & 1) != 0) r = unsignedLongOverflowingMul(r, x);
+            y >>>= 1;
+            if (y > 0) x = unsignedLongOverflowingMul(x, x);
+        }
+        return r;
+    }
+
 }

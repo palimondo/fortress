@@ -5795,3 +5795,7 @@ pointer words refreshed in: F-24
 ### F-326
 
 2026-11-07 09:46Z · added · from `explorations/compile-ladder/rung-seqv-meaning/REPORT.md`, "What changed and why" · by climb batch 27 gather
+
+### F-327
+
+2026-11-07 09:46Z · added · from `explorations/compile-ladder/rung-natives-shift-power/REPORT.md`, "What changed and why" · by climb batch 27 gather
