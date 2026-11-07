@@ -1,0 +1,3 @@
+tests=XXXAsIfGenericMethodCompiled
+compile
+compile_exception_contains=Can't compile a type assumption at the receiver of a generic method yet

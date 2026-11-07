@@ -4035,8 +4035,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
         List<Expr> assumptionArgs = callArgsForAssumption;
         callArgsForAssumption = null;
-        if (assumptionArgs == null || decoration.length() > 0 ||
-            !assumedArgumentsCall(x, arrow, pkgClass, theFunction, assumptionArgs))
+        if (assumptionArgs == null ||
+            !assumedArgumentsCall(x, arrow, pkgClass, theFunction, assumptionArgs, decoration.length() > 0))
             callStaticSingleOrOverloaded(x, arrow, pkgClass, theFunction);
         if (arrow.getRange() instanceof BottomType) {
             infiniteLoop(); // prevent bottoms from reaching other code and generating verify errors.
@@ -6413,6 +6413,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     private static final String ASSUMPTION_PARTIAL_CALL =
         "Can't compile a dispatched call whose arguments are not all type assumptions";
 
+    private static final String ASSUMPTION_GENERIC_METHOD =
+        "Can't compile a type assumption at the receiver of a generic method yet";
+
     /* The arguments of the call whose callee forFunctionalRef emits next; set by its caller. */
     private List<Expr> callArgsForAssumption = null;
 
@@ -6555,7 +6558,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
      * whose arguments are on the stack.  Answers true where it emitted the call.
      */
     private boolean assumedArgumentsCall(FunctionalRef x, ArrowType arrow, String pkgClass, String theFunction,
-                                         List<Expr> args) {
+                                         List<Expr> args, boolean generic) {
         int assumed = assumptionCount(args);
         if (assumed == 0) return false;
         boolean all = assumed == args.size();
@@ -6579,6 +6582,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 throw sayWhat(x, "Can't compile a type assumption at a call of an overloaded function of another component yet");
             return false;
         }
+        if (generic) {
+            refuseGenericAssumption(x);
+            return false;
+        }
         Pair<String, String> method_and_signature = resolveMethodAndSignature(x, arrow, theFunction);
         String mname = method_and_signature.first();
         String sig = method_and_signature.second();
@@ -6589,6 +6596,22 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         addLineNumberInfo(x);
         mv.visitMethodInsn(INVOKESTATIC, pkgClass, NamingCzar.mangleAwayFromOverload(mname), sig);
         return true;
+    }
+
+    /*
+     * A generic function or functional method called with an assumption among its arguments:
+     * refused where the call dispatches, since the closure that it calls dispatches again.
+     */
+    private void refuseGenericAssumption(FunctionalRef x) {
+        Option<Type> ot = x.getInfo().getExprType();
+        if (ot.isSome() && ot.unwrap() instanceof ArrowType &&
+            ((ArrowType) ot.unwrap()).getMethodInfo().isSome())
+            throw sayWhat(x, ASSUMPTION_GENERIC_METHOD);
+        IdOrOp n = x.getNames().get(0);
+        Relation<IdOrOpOrAnonymousName, Function> fns =
+            n.getApiName().isSome() ? env.api(n.getApiName().unwrap()).functions() : ci.functions();
+        if (x.getNames().size() > 1 || fns.matchFirst(NodeFactory.makeLocalIdOrOp(x.getOriginalName())).size() > 1)
+            throw sayWhat(x, "Can't compile a type assumption at a call of an overloaded generic function yet");
     }
 
     public void forMethodInvocation(MethodInvocation x) {
@@ -6628,6 +6651,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         try {
             
             if (method_sargs.size() > 0) {
+                if (obj instanceof AsIfExpr && assumedTrait((AsIfExpr) obj) != null)
+                    throw sayWhat(x, ASSUMPTION_GENERIC_METHOD);
                 /* Have to emit some interesting code.
                  * 
                  * Want to call object.methodnameSCHEMA
@@ -7001,6 +7026,9 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 ;
                 
             if (useClosure) {
+                if (fn instanceof FunctionalRef && ((FunctionalRef) fn).getStaticArgs().size() > 0 &&
+                    assumptionCount(callArgList(arg)) > 0)
+                    refuseGenericAssumption((FunctionalRef) fn);
                 // Higher-order call.
                 fn.accept(this); // Puts the VarRef function on the stack.
             }

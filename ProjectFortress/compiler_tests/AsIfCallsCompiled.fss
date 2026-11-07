@@ -24,6 +24,7 @@ end
 
 trait Shown[\T extends Object\]
     getter caption(): String = "Shown"
+    fcap(self): String = "Shown fcap"
 end
 
 trait Listed[\T extends Object\] extends Shown[\T\]
@@ -31,6 +32,7 @@ trait Listed[\T extends Object\] extends Shown[\T\]
 end
 
 object Digits extends Listed[\ZZ32\]
+    fcap(self): String = "Digits fcap"
 end
 
 who(x: Named): String = "Named"
@@ -56,6 +58,8 @@ run(): () = do
     assert((Digits asif Shown[\ZZ32\]).caption, "Shown", "the getter that a generic supertrait gives")
     assert(tag(Leaf), "Leaf tag", "Leaf's own functional method")
     assert(tag(Leaf asif Named), "Named tag", "the functional method that Named gives")
+    assert(fcap(Digits), "Digits fcap", "Digits' own functional method")
+    assert(fcap(Digits asif Shown[\ZZ32\]), "Shown fcap", "the functional method that a generic supertrait gives")
     assert(Leaf PLUS Leaf, "Leaf PLUS", "Leaf's own operator method")
     assert((Leaf asif Named) PLUS (Leaf asif Named), "Named PLUS", "the operator method that Named gives, over two assumptions")
     assert(Leaf ODOT Leaf, "Leaf ODOT Leaf", "the operator at two Leafs")
