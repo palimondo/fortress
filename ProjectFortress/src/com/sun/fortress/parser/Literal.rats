@@ -458,10 +458,12 @@ private String UnicodeCharLiteralContent =
    / "U+" a1:UnicodeHexChar { yyValue = a1; };
 
 private String UnicodeHexChar =
-     [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F]?
-   / [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f]?
-   / "10" [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F]
-   / "10" [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f] 
+     "10" [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F]
+   / "10" [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f]
+   / [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F]
+   / [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f]
+   / [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F]
+   / [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f]
    / <ErrorProduction1> ( [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F] [0-9A-F]+
                         / [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f] [0-9a-f]+ )
      { Span span = createSpan(yyStart,yyCount);

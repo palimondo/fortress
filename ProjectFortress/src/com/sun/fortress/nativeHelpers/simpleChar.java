@@ -21,8 +21,7 @@ public class simpleChar {
     public static String charToExprString(int x) {
         if (x <= 0xFFFF) {
 	    if (Character.isValidCodePoint(x)) {
-		if (0x20 <= x && x < 0x7F) return "'" + ((char) x) + "'";
-		if (Character.isISOControl(x)) {
+		if (x == '\"' || x == '\\' || Character.isISOControl(x)) {
 		    switch ((char) x) {
 		    case '\b': return "'\\b'";
 		    case '\t': return "'\\t'";
@@ -34,6 +33,10 @@ public class simpleChar {
 		    default: return "'" + charToHexString(x) + "'";
 		    }
 		}
+		if (0x20 <= x && x < 0x7F) return "'" + ((char) x) + "'";
+		if (x == 0x201C || x == 0x201D || x == 0x2028 || x == 0x2029
+		    || Character.isSurrogate((char) x))
+		    return "'" + charToHexString(x) + "'";
 		return "'" + ((char) x) + " " + charToHexString(x) + "'";
 	    }
 	    else return "'" + charToHexString(x) + "'";

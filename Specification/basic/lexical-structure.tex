@@ -864,6 +864,10 @@ a single character
 a sequence of four or more hexadecimal digits
 identifying the code point of a Unicode character
 (e.g., `\txt{001C}', \txt{`FBAB'}, `\txt{1D11E}'),
+a single character as above, followed by a space and
+a sequence of four or more hexadecimal digits
+identifying the code point of that same character
+(e.g., `\txt{$\alpha$ 03B1}', \txt{`$\oplus$ 2295'}),
 one of \txt{TAB}, \txt{NEWLINE} or \txt{RETURN},
 a sequence of ASCII characters
 that would be converted by the second step of ASCII conversion
@@ -875,6 +879,11 @@ with spaces and hyphens intact
 (e.g., `\txt{PLUS-MINUS SIGN}'),
 or
 a \emph{character-literal escape sequence}.
+\revision{revival-char-redundant-literal}{The Working Draft of February 2011
+did not list the form of a single character followed by a space and its code
+point in hexadecimal digits, which the parser has read since 2011.
+The list now names it, since the text by which a character writes itself as a
+literal uses it for most printable characters outside ASCII.}
 The character-literal escape sequences,
 and the characters such character literals evaluate to,
 are:
