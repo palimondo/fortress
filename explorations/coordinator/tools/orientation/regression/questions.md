@@ -69,3 +69,17 @@ If you would look something up before you act, say what you would look up, where
 25. Two programs pass a value whose size is known only at run time.
     - (a) A compiled test in `compiler_tests/` declares `trait Len comprises { L[\n\] } where [\nat n\] end`, `value object L[\nat n\] extends Len end`, `mk(): Len = L[\3\]` and `size[\nat n\](x: L[\n\]): ZZ32 = n`, and asserts that `size(mk())` is 3. What does the compiled path do with the program today? Give the test's `.test` file or files, and the result through the harness that you expect. Does the test change at the switch-over?
     - (b) Your report must list what stands between microGPT's `view` in `explorations/apl/mg/FlatArrays2.fss`, which passes `reflect(nr)` and `reflect(nc)` to `viewN[\nat r, nat c\](base: Array[\RR64,ZZ32\], off: ZZ32, _: N[\r\], _: N[\c\])`, and a compiled run of it. What do you list?
+
+26. Two comparisons across number types.
+    - (a) You port the Java condition `if (count == limit)`, where `count` is a `long` and `limit` a `double`, into a program that runs under walk, with `count: ZZ64` and `limit: RR64`. Write the condition. What does `count = limit` give for a `count` of 3 and a `limit` of 3.0? Is your condition the same for `count: ZZ32`, and for `count: QQ`?
+    - (b) In the interpreter's library you add `near[\T extends Number\](a: T, b: RR64): Boolean`, which tells whether `a`, taken as a float, lies within `1.0E-9` of `b`, for an `a` of any number type of the library. The library must pass the compiled checker's count stage and run under walk. Write the declaration or declarations.
+
+27. Your walk test declares `trait Wide excludes { String }` with `getter big(): ZZ32` and `opr +(self, other: Wide): Wide = WideOf(self.big + other.big)`, and `object WideOf(b: ZZ32) extends Wide` with `getter big(): ZZ32 = b`. Its `run()` asserts that `(WideOf(1) + WideOf(2)).big` is 3. Does the test load and pass under walk? Would the compiled checker accept the program once it checks against the interpreter's library? If either path has a problem, what do you change?
+
+28. Your walk test declares `value object Point(x: ZZ32, y: ZZ32) end` and `value object Run(name: String, steps: ZZ32) end`, neither with an `=` of its own, and binds `s: String = "ab" || "c"`. Its `run()` asserts:
+    - `assert(Point(1, 2), Point(1, 2), "point")`;
+    - `assert(Run(s, 3), Run("abc", 3), "run")`;
+    - `assert((1, 2, 3, s), (1, 2, 3, "abc"), "four")`.
+    Which assertions pass under walk? For each that fails, say whether it shows a defect, and write the check that you would keep.
+
+29. Your brief asks you to fix walk's inference so that, for `object Cell[\T extends Any\](v: T) end` and `z: ZZ32 = 3`, the call `Cell(z)` makes the instance `Cell[\ZZ32\]`. Before you change walk, you check which instance it makes today. How do you check it, and what does `Cell(z).asString` give under walk today? Write the assertion of the test that fails before your fix and passes after.
