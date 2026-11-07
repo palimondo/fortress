@@ -248,7 +248,12 @@ At session start and after each compaction, take these steps in order:
 7. Load `references/delegating.md`, so that you give the work to workers and do not slip into doing it yourself.
 8. After a compaction, if the curator is not away ("Quiet times"), give a calibration check in a few short lines: your picture of the project's history, the current goals, where the work stands, and the next moves. It grounds you again in the work, and it shows your picture to the curator, who corrects it where it differs. Leave out a running batch.
 
-**A light boot.** When the curator asks for a light boot, take steps 0 and 3 to 8, and skip steps 1 and 2: FACTS, POSITIONS and INDEX stay unread. Before you state a fact or a decision, or put anything to the curator, search the record with `facts-extract.sh`. INDEX stays unread whole: search it with `facts-extract.sh 'index:WORDS'`. At the first batch landing after that boot, before step 1 of `references/batch.md`, "The landing", read `FACTS.md` and `POSITIONS.md` whole. Naming each decision that landed and putting the items on the review list (its step 2), and planning the batch after it, rest on the whole record. Read `FACTS.md` in pages, as step 1 says. After the record-landing workflow of its step 4 ends, read what it changed in FACTS and POSITIONS: with the whole read, this gives you the current record for the planning. A context that has read the two files whole holds them, so a later landing in the same context reads only what the landing changed, as after a full boot. The full boot, steps 0 to 8, is the default. The curator's word for a light boot replaces the hook's list of files after a compaction.
+**A light boot.** When the curator asks for a light boot, take steps 0 and 3 to 8, and skip steps 1 and 2: FACTS, POSITIONS and INDEX stay unread. Before you state a fact or a decision, or put anything to the curator, search the record with `facts-extract.sh`. The full boot, steps 0 to 8, is the default. The curator's word for a light boot replaces the hook's list of files after a compaction. After a light boot:
+
+1. Search INDEX only, with `facts-extract.sh 'index:WORDS'`.
+2. At the first batch landing after the boot, read `FACTS.md` and `POSITIONS.md` whole, `FACTS.md` in pages. Do it before step 1 of `references/batch.md`, "The landing". Naming the decisions that landed and planning the batch after it need the whole record.
+3. When the record-landing workflow of that section's step 4 ends, read what it changed in the two files.
+4. At a later landing in the same context, read only what the landing changed, as after a full boot.
 
 **The transcript backup.** Check it right after step 0 at every boot, a light boot included, and after every VM restart, since the backup fails with no message:
 
@@ -256,7 +261,7 @@ At session start and after each compaction, take these steps in order:
 - Otherwise, read the last line of its `.backup.log`. If the line says `push=failed`, or its time is older than the machine's last start (`uptime -s`), run `scripts/backup.sh --run` in the worktree by hand, and read the new last line. A sound line ends `push=ok`.
 - Re-arm only a worktree that is missing or broken. A snapshot, the backup's commit of the transcripts, older than the last restart is normal at the first boot after it: the backup runs only at a turn's end.
 
-**At a landing.** A landing's work never waits for a compaction or a boot, and you ask the curator nothing about the boot. After a full boot, read at a landing what the landing changed in the record, not FACTS and POSITIONS whole. After a light boot, read FACTS and POSITIONS whole at the first batch landing after that boot, and at a later landing in the same context only what the landing changed ("A light boot"). Read the whole record when you plan a batch. After a light boot, the whole read at the landing serves the planning of the batch after it, and INDEX stays searched with `facts-extract.sh 'index:WORDS'`.
+**At a landing.** A landing's work never waits for a compaction or a boot, and you ask the curator nothing about the boot. After a full boot, read what the landing changed in the record, not FACTS and POSITIONS whole. After a light boot, follow the list under "A light boot".
 
 - Read nothing that the boot does not name. List no directory, and bound every command's output.
 - To learn whether a worker runs, read the harness's notice at the top of the turn, and `test -f` the one output path that its brief names.
