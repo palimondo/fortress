@@ -1,18 +1,20 @@
 # Made from plan-26/manifest/gen26.py for climb batch 27: one run; the batch's rungs from lists27.IDS in the manifest's
-# order, N, I, F, C, W, S (the record's fork 1); N landing only with F, by the "lands only with" field of its block in
+# order, N, I, F, C, W, S, A, E, G, T (the record's fork 1); N landing only with F, by the "lands only with" field of its block in
 # section 1, the common field giving none for the others. --without <rung> leaves any rung out of the block, but not F
 # while N stays. A rung's section runs from its heading to the next ### heading, as check27.js reads it.
 # Changed from gen26.py: the batch's values (BATCH 27, the record CLIMB-BATCH-27.md, the lists lists27.py, the
 # output manifest27.js under $OUT27); the record's new layout: the rungs' sections are its section 4, "The rungs",
 # each opening with "The mission."; the manifest fields are its section 1, "The manifest, rung by rung", where the
-# table gives the expected minutes, the "Fields common to the six rungs" give writes state, the test as the stage,
+# table gives the expected minutes, the "Fields common to the ten rungs" give writes state, the test as the stage,
 # the gate step, the ladder moves, the rungs landed only with and the checker count and crash, and each rung's ###
 # block gives slug, worktree, section (its section 4 heading, checked word for word), blurb and points to report;
 # the intro is section 6's "What every agent reads first". The characters of the record's sections outside ASCII
 # that are not an ellipsis or a minus sign (C's and W's e with acute, Sigma, lambda, the arrow and the n-ary sum,
-# which C's and W's tests assert) are kept and written as \u escapes, so the script stays ASCII and the agents read
+# which C's and W's tests assert, and the left arrows of T's stack) are kept and written as \u escapes, so the script stays ASCII and the agents read
 # the record's characters. Every section names the count stage and the distance stage as stages its rung runs once
-# on its final tree (fork 3), and none names a speed pass (fork 4): check27.js checks both.
+# on its final tree but G's and T's, which name neither (fork 3), and none names a speed pass (fork 4), T's naming
+# P-148's measure only should its fix reach the checker (fork T1): check27.js checks both. Every briefing keeps the
+# one forks key, the forks section whole (lists27.py's header gives why).
 # Generates the MANIFEST block (CLIMB-BATCH-27.md) for the batch workflow
 # (explorations/coordinator/climb-batch-workflow.js; explorations/coordinator/process-engineering/batch-redesign.md)
 # from the record, read at run time, and the briefings of lists27.py, into $OUT27/manifest27.js ($FORTRESS_HOME/tmp
@@ -44,7 +46,7 @@ OUT = os.path.join(os.environ.get('OUT27', os.path.join(ROOT, 'tmp')), 'manifest
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 rec = open(REC, encoding='utf-8').read()
 # The characters outside ASCII that a section may keep, each written as a \u escape by js().
-KEPT = 'éΣλ→∑'
+KEPT = 'éΣλ→∑←'
 
 
 def ascii_text(t, keep=''):
@@ -77,7 +79,7 @@ for i, h in enumerate(heads):
     sections[rid] = ascii_text(body, KEPT)
     titles[rid] = ascii_text(h.group(2))
 
-# Section 1: the table, the fields common to the six rungs, and each rung's block.
+# Section 1: the table, the fields common to the ten rungs, and each rung's block.
 s1 = between(rec, '\n## 1. The manifest, rung by rung\n', '\n## 2. ')
 table = {}
 for line in s1.split('\n'):
@@ -85,7 +87,7 @@ for line in s1.split('\n'):
     if m:
         table[m.group(1)] = {'slug': m.group(2), 'title': ascii_text(m.group(3)), 'minutes': int(m.group(4))}
 assert list(table) == list(ALL_IDS), list(table)
-common_text = between(s1, '\nFields common to the six rungs:\n', '\n### ')
+common_text = between(s1, '\nFields common to the ten rungs:\n', '\n### ')
 COMMON = {}
 for m in re.finditer(r'\*\*([a-z ]+):\*\* ([^.;]*)', common_text):
     COMMON[m.group(1)] = ascii_text(m.group(2).strip())

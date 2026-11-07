@@ -3,8 +3,8 @@
 // of the workflow script, $OUT27/wf-spliced-27.js, and with --write splices it into the tracked script. As
 // check26.js: node --check on the original and the spliced copy; both parsed as the body of an async function, as the
 // Workflow harness parses them, their export made const; every line outside the block byte-identical; the block
-// evaluated with the script's own load checks and scatter order; the batch's rungs (lists27.py's IDS, N, I, F, C, W
-// and S, in that order, less any that --without names), their fields, no rung bringing a gate step, declaring a
+// evaluated with the script's own load checks and scatter order; the batch's rungs (lists27.py's IDS, N, I, F, C, W,
+// S, A, E, G and T, in that order, less any that --without names), their fields, no rung bringing a gate step, declaring a
 // checker count, a crash or a ladder move, or landing only with another but N with F; each section equal to the rung's section of
 // the record (backticks dropped, the ellipsis character as three full stops, the minus sign as a hyphen-minus);
 // briefing, reasons and checks equal to lists27.py's, one reason per key, checks a sub-list of the briefing; no
@@ -22,7 +22,9 @@
 // key, in order, its (check) mark and its reason (its first letter either case), and the bullet's counts of keys and
 // checks, with no OWN_REASONS, since the record gives every reason; the strings the agents read hold no character
 // outside ASCII but the few that a section keeps from the record (KEPT), and the spliced script holds none, those
-// being \u escapes. Its last lines say whether the tracked script's block equals the generated one, and count the
+// being \u escapes. Then for rungs A, E, G and T: ten rungs; every section but G's and T's naming the two stages as
+// above, G's and T's opening "The stages." with "Neither" (fork 3); T's section naming P-148 only in its sentence
+// for a fix that must change the checker (fork T1), and no other naming it or a speed pass. Its last lines say whether the tracked script's block equals the generated one, and count the
 // problems.
 //   node check27.js [--without <rung>]... [--write] [RECORD]      RECORD defaults to explorations/coordinator/CLIMB-BATCH-27.md
 // --without <rung> checks the block that gen27.py writes with the same argument: the batch's rungs less that one.
@@ -45,9 +47,10 @@ const STAGE_RUNGS = []
 const CHECKER_RUNGS = []
 // The rungs that run the count stage and the distance stage once each on their final tree: every rung (fork 3), each
 // changing text that both stages read. None names them as stages it does not run.
-const STAGES_RUNGS = ALL_IDS.slice()
+// G and T change only the code generator, which neither stage runs, and say "Neither".
+const STAGES_RUNGS = ALL_IDS.filter(x => x !== 'G' && x !== 'T')
 // The characters outside ASCII that a section keeps from the record, as gen27.py's KEPT: written as \u escapes.
-const KEPT = '\u00e9\u03a3\u03bb\u2192\u2211'
+const KEPT = '\u00e9\u03a3\u03bb\u2192\u2211\u2190'
 const nonAscii = (t, keep) => [...t].filter(c => c.charCodeAt(0) > 127 && !(keep || '').includes(c))
 // N lands only with F (the record's fork 1, N's block in section 1), as check17.js expected for rung L; no other rung
 // lands only with another.
@@ -153,10 +156,10 @@ if (r) {
     return { slug: field('slug'), worktree: field('worktree'), section: field('section'), blurb: field('blurb'), landsOnlyWith: field('lands only with'),
       points: pts ? pts.items.map(p => asAscii(p.trim())) : [], counts: cm ? [+cm[1], +cm[2]] : null, keys }
   }
-  const common = (() => { const a = s1.indexOf('\nFields common to the six rungs:\n'); return a < 0 ? '' : s1.slice(a, s1.indexOf('\n### ', a)) })()
+  const common = (() => { const a = s1.indexOf('\nFields common to the ten rungs:\n'); return a < 0 ? '' : s1.slice(a, s1.indexOf('\n### ', a)) })()
   say(/\*\*writes state:\*\* no\./.test(common) && /\*\*its test is the stage:\*\* no\./.test(common) && /\*\*joins the gate:\*\* none\./.test(common) &&
     /\*\*expected moves:\*\* none\./.test(common) && /\*\*lands only with:\*\* none; N's block below names F \(section 3, fork 1\)\./.test(common) && /\*\*expected checker count:\*\* none declared/.test(common) &&
-    /\*\*expected checker crash:\*\* none\./.test(common), 'the record\'s fields common to the six rungs: no state, no stage as the test, no gate step, no move, none landed only with but N\'s, no count or crash declared')
+    /\*\*expected checker crash:\*\* none\./.test(common), 'the record\'s fields common to the ten rungs: no state, no stage as the test, no gate step, no move, none landed only with but N\'s, no count or crash declared')
   // lists27.py's briefings, reasons and checks.
   const py = cp.spawnSync('python3', ['-B', '-c', 'import json, sys; sys.path.insert(0, sys.argv[1]); from lists27 import LISTS, REASONS, IDS, OWN_REASONS; ' +
     'print(json.dumps({r: {"briefing": LISTS[r][0], "checks": LISTS[r][1], "reasons": [x for _, x in REASONS[r]], "own": OWN_REASONS.get(r, [])} for r in IDS}))', __dirname], { encoding: 'utf8' })
@@ -190,8 +193,9 @@ if (r) {
     say(x.testIsStage === STAGE_RUNGS.includes(x.id), x.id + ': its test is the stage: ' + x.testIsStage + (STAGE_RUNGS.includes(x.id) ? ', its every edit is library text that only the checker reads differently' : ', a test first'))
     const stages = /\*\*The stages\.\*\* (Run the count stage and the distance stage once each on your final tree|Both, once each on your final tree, as rung N's section gives the commands \(fork 3\))/
     if (STAGES_RUNGS.includes(x.id)) say(stages.test(x.section) && !/run neither/.test(x.section), x.id + ': its section names the count stage and the distance stage as stages its rung runs once on its final tree' + (x.id === 'N' ? '' : ', by rung N\'s commands'))
-    else say(/distance stage/.test(x.section) && /count stage/.test(x.section) && /run neither/.test(x.section), x.id + ': its section names the count stage and the distance stage as stages its rung does not run')
+    else say(/\*\*The stages\.\*\* Neither[:,] /.test(x.section) && !stages.test(x.section), x.id + ': its section says it runs neither stage (fork 3)')
     if (CHECKER_RUNGS.includes(x.id)) say(/P-148/.test(x.section) && /speed pass/.test(x.section) && !/no speed pass/.test(x.section), x.id + ': a rung that changes the checker, its section names P-148 and its speed pass')
+    else if (x.id === 'T') say(!/speed pass/.test(x.section) && (x.section.match(/P-148/g) || []).length === 1 && /If the fix must change the checker's trait table, it is a change of checking code: take P-148's measure/.test(x.section), x.id + ': its section names no speed pass, and P-148 only for a fix that must change the checker (fork T1)')
     else say(!/P-148/.test(x.section) && !/speed pass/.test(x.section), x.id + ': a rung outside the checker, its section names no speed pass and no P-148')
     // The record's section 1: the rung's briefing bullets, key by key, and their counts.
     const bk = b ? b.keys : []
