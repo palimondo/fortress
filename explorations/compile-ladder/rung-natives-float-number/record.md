@@ -22,7 +22,13 @@ Row 872, a note (`ledger.py note 872 TEXT --check`: fits, 3 characters of the no
 
     flatConcat at a Char too: simpleConcatenate.nativeConcatenateChar.
 
-No new row. The three defects at a rational had no row (the review, section 2.2, point 12) and are repaired by this change: none of the three takes a `QQ`.
+Row 915, a note (`ledger.py note 915 TEXT --check`: fits, 4 characters of the notes left), since its notes name the glue `FlatString$Concat` as `flatConcat`'s binding:
+
+    flatConcat: now nativeConcatenateChar, same.
+
+Row 897, closed: the three defects at a rational are repaired by this change, none of the three taking a `QQ` (`ledger.py close 897 --commit cc792329c --test NativeHelperRationalArgumentWalk`). The row was filed from the review's section 2.2, point 12, which the brief read as having no row.
+
+No new row.
 
 ## Handover
 
