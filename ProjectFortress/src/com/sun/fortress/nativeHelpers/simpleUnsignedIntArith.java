@@ -261,4 +261,24 @@ public class simpleUnsignedIntArith {
         return Integer.highestOneBit(u - 1);
     }
 
+    // The shifts of an NN32 by a signed count: the bits shifted out are lost, a count at or
+    // beyond 32 gives 0, and a negative count shifts the other way.
+    public static int unsignedIntBitLeftShift(int a, int b) {
+        if (b < 0) return (b > -32) ? (a >>> (-b)) : 0;
+        return (b < 32) ? (a << b) : 0;
+    }
+
+    public static int unsignedIntBitRightShift(int a, int b) {
+        if (b < 0) return (b > -32) ? (a << (-b)) : 0;
+        return (b < 32) ? (a >>> b) : 0;
+    }
+
+    // a^b as an NN32, a read unsigned: at a negative exponent the base 1 gives 1, 0 throws
+    // DivisionByZero and any other base IntegerOverflow; a power of 2^32 or more throws IntegerOverflow.
+    public static int unsignedIntPower(int a, int b) {
+        long r = simpleUnsignedLongArith.unsignedLongPower(toLong(a), b);
+        if ((r >> 32) != 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        return (int) r;
+    }
+
 }

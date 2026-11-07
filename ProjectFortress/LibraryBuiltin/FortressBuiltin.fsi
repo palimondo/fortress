@@ -161,9 +161,12 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr BITAND(self,b:NN32):NN32
     opr BITOR(self,b:NN32):NN32
     opr BITXOR(self,b:NN32):NN32
+    opr LSHIFT(self,b:ZZ32):NN32
     opr LSHIFT(self,b:AnyIntegral):NN32
+    opr RSHIFT(self,b:ZZ32):NN32
     opr RSHIFT(self,b:AnyIntegral):NN32
     opr BITNOT(self):NN32
+    opr ^(self, b:ZZ32):NN32
     opr ^(self, b:AnyIntegral):NN32
     opr ^(self, b:IntLiteral):NN32
     opr /(self, other:NN32):QQ

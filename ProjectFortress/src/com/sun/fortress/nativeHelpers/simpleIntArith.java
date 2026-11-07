@@ -445,4 +445,18 @@ public class simpleIntArith {
         return Integer.highestOneBit(u - 1);
     }
 
+    // a^b as a ZZ32: at a negative exponent the bases 1 and -1 give their power, 0 throws
+    // DivisionByZero and any other base IntegerOverflow; a power outside the int's range throws IntegerOverflow.
+    public static int intPower(int a, int b) {
+        if (b < 0) {
+            if (a == 1) return 1;
+            if (a == -1) return ((b & 1) == 0) ? 1 : -1;
+            if (a == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        }
+        long r = simpleLongArith.longPower(a, b);
+        if (r != (int) r) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+        return (int) r;
+    }
+
 }

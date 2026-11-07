@@ -727,6 +727,55 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
     round(self): I = self
 end
 
+(* A shift's count of any integer type as a ZZ32: a count beyond the ZZ32 range
+   saturates at 2^31-1 in magnitude, which each shift of a ZZ32 or a ZZ reads as
+   a count beyond the width of what it shifts. *)
+private shiftCount32(b:AnyIntegral):ZZ32 =
+    typecase b of
+        c:ZZ32 => c
+        c:ZZ64 => narrow((c MAX (-2147483647)) MIN 2147483647)
+        c:NN32 => do m:ZZ32 = 2147483647; signed(c MIN unsigned(m)) end
+        c:NN64 => do m:ZZ64 = 2147483647; narrow(signed(c MIN unsigned(m))) end
+        c:ZZ => narrow((c MAX (-2147483647)) MIN 2147483647)
+    end
+
+(* A shift's count of any integer type as a ZZ64, for the shifts of a ZZ64 and
+   an NN64: an NN64 count of 2^63 or more saturates at 2^63-1. *)
+private shiftCount64(b:AnyIntegral):ZZ64 =
+    typecase b of
+        c:ZZ32 => widen(c)
+        c:ZZ64 => c
+        c:NN32 => signed(widen(c))
+        c:NN64 => do m:ZZ64 = 9223372036854775807; signed(c MIN unsigned(m)) end
+        c:ZZ => widen(shiftCount32(c))
+    end
+
+(* A power's exponent of any integer type as a ZZ32 of its sign. Beyond the
+   ZZ32 range only the bases 0, 1 and -1 have a power, so there an exponent
+   keeps its parity, and where unitBase is false it becomes 2^31-1, at which
+   every other base overflows. *)
+private powerCount32(b:AnyIntegral, unitBase:Boolean):ZZ32 =
+    typecase b of
+        c:ZZ32 => c
+        c:ZZ64 => if c > 2147483647 then highExponent32(odd(c), unitBase)
+                  elif c < -2147483647 - 1 then lowExponent32(odd(c))
+                  else narrow(c) end
+        c:NN32 => do s:ZZ32 = signed(c); if s < 0 then highExponent32(odd(c), unitBase) else s end end
+        c:NN64 => do
+                    s:ZZ64 = signed(c)
+                    if s < 0 OR: s > 2147483647 then highExponent32(odd(c), unitBase) else narrow(s) end
+                  end
+        c:ZZ => if c > 2147483647 then highExponent32(odd(c), unitBase)
+                elif c < -2147483647 - 1 then lowExponent32(odd(c))
+                else narrow(c) end
+    end
+
+private highExponent32(isOdd:Boolean, unitBase:Boolean):ZZ32 =
+    if isOdd OR: (NOT unitBase) then 2147483647 else 2147483646 end
+
+private lowExponent32(isOdd:Boolean):ZZ32 =
+    if isOdd then -2147483647 else -2147483647 - 1 end
+
 trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
         excludes { ZZ64, ZZ, NN64, NN32 }
         comprises { Int }
@@ -793,14 +842,17 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitOr")
     opr BITXOR(self,b:ZZ32):ZZ32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitXor")
-    opr LSHIFT(self,b:AnyIntegral):ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$LShift")
-    opr RSHIFT(self,b:AnyIntegral):ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$RShift")
+    opr LSHIFT(self,b:ZZ32):ZZ32 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitLeftShift")
+    opr LSHIFT(self,b:AnyIntegral):ZZ32 = self LSHIFT shiftCount32(b)
+    opr RSHIFT(self,b:ZZ32):ZZ32 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitRightShift")
+    opr RSHIFT(self,b:AnyIntegral):ZZ32 = self RSHIFT shiftCount32(b)
     opr BITNOT(self):ZZ32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intBitNot")
-    opr ^(self, b:AnyIntegral):ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Int$Pow")
+    opr ^(self, b:ZZ32):ZZ32 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intPower")
+    opr ^(self, b:AnyIntegral):ZZ32 = self^(powerCount32(b, true))
     opr ^(self, b:IntLiteral):ZZ32 = self^(b.asZZ32)
     widen(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.intToLong")
@@ -886,14 +938,17 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitOr")
     opr BITXOR(self,b:ZZ64):ZZ64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitXor")
-    opr LSHIFT(self,b:AnyIntegral):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$LShift")
-    opr RSHIFT(self,b:AnyIntegral):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$RShift")
+    opr LSHIFT(self,b:ZZ64):ZZ64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitLeftShift")
+    opr LSHIFT(self,b:AnyIntegral):ZZ64 = self LSHIFT shiftCount64(b)
+    opr RSHIFT(self,b:ZZ64):ZZ64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitRightShift")
+    opr RSHIFT(self,b:AnyIntegral):ZZ64 = self RSHIFT shiftCount64(b)
     opr BITNOT(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longBitNot")
-    opr ^(self, b:AnyIntegral):ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Long$Pow")
+    opr ^(self, b:ZZ32):ZZ64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longPower")
+    opr ^(self, b:AnyIntegral):ZZ64 = self^(powerCount32(b, true))
     opr ^(self, b:IntLiteral):ZZ64 = self^(b.asZZ32)
     partitionL(self):ZZ64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longPartition")
@@ -969,14 +1024,17 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitOr")
     opr BITXOR(self,b:NN64):NN64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitXor")
-    opr LSHIFT(self,b:AnyIntegral):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$LShift")
-    opr RSHIFT(self,b:AnyIntegral):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$RShift")
+    opr LSHIFT(self,b:ZZ64):NN64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitLeftShift")
+    opr LSHIFT(self,b:AnyIntegral):NN64 = self LSHIFT shiftCount64(b)
+    opr RSHIFT(self,b:ZZ64):NN64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitRightShift")
+    opr RSHIFT(self,b:AnyIntegral):NN64 = self RSHIFT shiftCount64(b)
     opr BITNOT(self):NN64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongBitNot")
-    opr ^(self, b:AnyIntegral):NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.UnsignedLong$Pow")
+    opr ^(self, b:ZZ32):NN64 =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongPower")
+    opr ^(self, b:AnyIntegral):NN64 = self^(powerCount32(b, true))
     opr ^(self, b:IntLiteral):NN64 = self^(b.asZZ32)
     partitionL(self):NN64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongPartition")
@@ -1066,16 +1124,20 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.oor")
     opr BITXOR(self, b: ZZ): ZZ =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.xor")
-    opr LSHIFT(self, b:AnyIntegral): ZZ =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$LShift")
-    opr RSHIFT(self, b:AnyIntegral): ZZ =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$RShift")
-    shift(self, k:AnyIntegral): ZZ =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$LShift")
+    opr LSHIFT(self, b:ZZ32): ZZ =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigBitLeftShift")
+    opr LSHIFT(self, b:AnyIntegral): ZZ = self LSHIFT shiftCount32(b)
+    opr RSHIFT(self, b:ZZ32): ZZ =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigBitRightShift")
+    opr RSHIFT(self, b:AnyIntegral): ZZ = self RSHIFT shiftCount32(b)
+    shift(self, k:ZZ32): ZZ =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigBitLeftShift")
+    shift(self, k:AnyIntegral): ZZ = shift(self, shiftCount32(k))
     opr BITNOT(self): ZZ =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.not")
-    opr ^(self, b:AnyIntegral):ZZ =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$Pow")
+    opr ^(self, b:ZZ32):ZZ =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigPower")
+    opr ^(self, b:AnyIntegral):ZZ = self^(powerCount32(b, |self| <= 1))
     opr ^(self, b:IntLiteral):ZZ = self^(b.asZZ32)
     narrow(self):ZZ32 = 
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.BigNum$ToZZ32")

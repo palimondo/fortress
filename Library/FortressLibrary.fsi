@@ -522,9 +522,12 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr BITAND(self,b:NN64):NN64
     opr BITOR(self,b:NN64):NN64
     opr BITXOR(self,b:NN64):NN64
+    opr LSHIFT(self,b:ZZ64):NN64
     opr LSHIFT(self,b:AnyIntegral):NN64
+    opr RSHIFT(self,b:ZZ64):NN64
     opr RSHIFT(self,b:AnyIntegral):NN64
     opr BITNOT(self):NN64
+    opr ^(self, b:ZZ32):NN64
     opr ^(self, b:AnyIntegral):NN64
     opr ^(self, b:IntLiteral):NN64
     opr /(self, other:NN64):QQ
@@ -576,9 +579,12 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     opr BITAND(self,b:ZZ32):ZZ32
     opr BITOR(self,b:ZZ32):ZZ32
     opr BITXOR(self,b:ZZ32):ZZ32
+    opr LSHIFT(self,b:ZZ32):ZZ32
     opr LSHIFT(self,b:AnyIntegral):ZZ32
+    opr RSHIFT(self,b:ZZ32):ZZ32
     opr RSHIFT(self,b:AnyIntegral):ZZ32
     opr BITNOT(self):ZZ32
+    opr ^(self, b:ZZ32):ZZ32
     opr ^(self, b:AnyIntegral):ZZ32
     opr ^(self, b:IntLiteral):ZZ32
     opr /(self, other:ZZ32):QQ
@@ -635,9 +641,12 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr BITAND(self,b:ZZ64):ZZ64
     opr BITOR(self,b:ZZ64):ZZ64
     opr BITXOR(self,b:ZZ64):ZZ64
+    opr LSHIFT(self,b:ZZ64):ZZ64
     opr LSHIFT(self,b:AnyIntegral):ZZ64
+    opr RSHIFT(self,b:ZZ64):ZZ64
     opr RSHIFT(self,b:AnyIntegral):ZZ64
     opr BITNOT(self):ZZ64
+    opr ^(self, b:ZZ32):ZZ64
     opr ^(self, b:AnyIntegral):ZZ64
     opr ^(self, b:IntLiteral):ZZ64
     opr /(self, other:ZZ64):QQ
@@ -689,14 +698,18 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr BITAND(self, b: ZZ): ZZ
     opr BITOR(self, b: ZZ): ZZ
     opr BITXOR(self, b: ZZ): ZZ
+    opr LSHIFT(self, b:ZZ32): ZZ
     opr LSHIFT(self, b:AnyIntegral): ZZ
+    opr RSHIFT(self, b:ZZ32): ZZ
     opr RSHIFT(self, b:AnyIntegral): ZZ
     opr BITNOT(self): ZZ
+    opr ^(self, b:ZZ32):ZZ
     opr ^(self, b:AnyIntegral):ZZ
     opr ^(self, b:IntLiteral):ZZ
     numerator(self): ZZ
     narrow(self): ZZ32
     widen(self): ZZ64
+    shift(self, k:ZZ32): ZZ
     shift(self, k:AnyIntegral): ZZ
 end
 
