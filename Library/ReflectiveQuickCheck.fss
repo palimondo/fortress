@@ -30,6 +30,16 @@ object genType(top:Type) extends Gen[\Type\]
         if top = anyType then
             (* Special case: Any doesn't have any comprises clause by definition! *)
             genAnyType.generate(c)
+        elif top = theType[\Number\]() then
+            (* Special case: Number has no comprises clause, so a fixed choice among the library's number types. *)
+            t = case c.random(5) of
+                    0 => theType[\RR64\]()
+                    1 => theType[\RR32\]()
+                    2 => theType[\QQ\]()
+                    3 => theType[\AnyIntegral\]()
+                    4 => theType[\IntLiteral\]()
+                end
+            genType(t).generate(c)
         elif subtypes <- top.typeComprises then
             if subtypes.isEmpty then
                 top

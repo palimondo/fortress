@@ -72,8 +72,8 @@ coercions(): () = do
     assert(shown(three 0.5), "1.5 : Float", "POSITIONS.md:159: a ZZ32 meets an RR64 by RR64's coerce")
     assert(widen(three) = big(3), "numbers.tex, section \"Rational Numbers\", opr <, <=, =, >= and >: a ZZ64 and a ZZ of one value are equal")
     assert(6/2 = w, "numbers.tex, section \"Rational Numbers\", opr <, <=, =, >= and >: a QQ and an NN64 of one value are equal")
-    assert(1/2 = 0.5, "row 434, POSITIONS.md:92: a QQ equals the float of its value")
-    deny(big(3) = 3.5, "row 434: a ZZ and a float of other values are unequal")
+    assert(asFloat(1/2) = 0.5, "numbers.tex, section \"Rational Numbers\": no coercion carries a QQ into RR64, so a QQ meets a float through its written asFloat")
+    deny(asFloat(big(3)) = 3.5, "numbers.tex, section \"Rational Numbers\": no coercion carries a ZZ into RR64, so a ZZ meets a float through its written asFloat; other values are unequal")
   end
 
 matCount(j: ZZ32): ZZ32 = j + 1

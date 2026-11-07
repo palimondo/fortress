@@ -378,34 +378,7 @@ trait MultiplicativeRing[\T extends MultiplicativeRing[\T\]\]
 end
 
 trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
-        comprises { RR64, RR32, QQ, AnyIntegral, IntLiteral }
-    asFloat(self): RR64
-    (** Two exact numbers of different types compare as rationals; a float
-        compares with any number after %asFloat%, so an exact value equals
-        its nearest float. **)
-    opr =(self, other:Number):Boolean =
-        typecase self of
-            RR64 => (asFloat(self) = asFloat(other))
-            RR32 => (asFloat(self) = asFloat(other))
-            else => typecase other of
-                        RR64 => (asFloat(self) = asFloat(other))
-                        RR32 => (asFloat(self) = asFloat(other))
-                        else => (exactValue(self) = exactValue(other))
-                    end
-        end
 end
-
-exactValue(x: Number): QQ =
-    typecase x of
-        q: QQ => q
-        z: ZZ32 => do q: QQ = z; q end
-        z: ZZ64 => do q: QQ = z; q end
-        z: NN32 => do q: QQ = z; q end
-        z: NN64 => do q: QQ = z; q end
-        z: ZZ => do q: QQ = z; q end
-        z: IntLiteral => do q: QQ = z; q end
-        else => Ratio(0, 0)
-    end
 
 trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
                      AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
@@ -438,7 +411,11 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     (** next lower IEEE float **)
     getter nextDown():RR64 = asFloat(self).nextDown
     opr |self| : RR64 = |asFloat(self)|
+    asFloat(self): RR64
     opr =(self, b:RR64):Boolean = asFloat(self) = asFloat(b)
+    opr =(self, b:ZZ32):Boolean = do c: RR64 = b; (self = c) end
+    opr =(self, b:RR32):Boolean = do c: RR64 = b; (self = c) end
+    opr =(self, b:IntLiteral):Boolean = do c: RR64 = b; (self = c) end
     opr <(self, b:RR64):Boolean = asFloat(self) < asFloat(b)
     opr <=(self, b:RR64):Boolean = asFloat(self) <= asFloat(b)
     opr >(self, b:RR64):Boolean = asFloat(self) > asFloat(b)
@@ -593,9 +570,16 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     numerator(self): ZZ
     denominator(self): ZZ  (* Ideally would be NN *)
     opr |self| : QQ = |numerator(self)| / denominator(self)
+    asFloat(self): RR64
     (* Note that 0/0 = 0/0 is supposed to be true (//unlike// the behavior of floating-point NaN) *)
     opr =(self, other:QQ):Boolean =
         numerator(self) = numerator(other) AND: denominator(self) = denominator(other)
+    opr =(self, b:ZZ32):Boolean = do c: QQ = b; (self = c) end
+    opr =(self, b:ZZ64):Boolean = do c: QQ = b; (self = c) end
+    opr =(self, b:NN32):Boolean = do c: QQ = b; (self = c) end
+    opr =(self, b:NN64):Boolean = do c: QQ = b; (self = c) end
+    opr =(self, b:ZZ):Boolean = do c: QQ = b; (self = c) end
+    opr =(self, b:IntLiteral):Boolean = do c: QQ = b; (self = c) end
     opr =/=(self, other:QQ):Boolean = NOT (self = other)
     opr <(self, other:QQ):Boolean = do
         (a, b) = (numerator(self), denominator(self))
@@ -737,8 +721,14 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     getter maximum(): ZZ32 = 2147483647
 
     opr |self| : ZZ32 = if self>=0 then self else -self end
+    asFloat(self): RR64
     opr =(self, b:ZZ32):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intEQ")
+    opr =(self, b:IntLiteral):Boolean = do c: ZZ32 = b; (self = c) end
+    opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
+    opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+    opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
+    opr =(self, b:ZZ64):Boolean = do c: ZZ64 = self; (c = b) end
     opr <(self, b:ZZ32):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intLT")
     opr >(self, b:ZZ32):Boolean = b < self
@@ -828,8 +818,14 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
 
     opr |self| : ZZ64 = if self>=0 then self else -self end
 
+    asFloat(self): RR64
     opr =(self, b:ZZ64):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longEQ")
+    opr =(self, b:ZZ32):Boolean = do c: ZZ64 = b; (self = c) end
+    opr =(self, b:NN32):Boolean = do c: ZZ64 = b; (self = c) end
+    opr =(self, b:IntLiteral):Boolean = do c: ZZ64 = b; (self = c) end
+    opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+    opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
     opr <(self, b:ZZ64):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longLT")
     (* Argh!  Due to method ambiguities with ZZ, these definitions must be given
@@ -914,8 +910,13 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     coerce(x: NN32) = widen(x)
     coerce(x: IntLiteral) = x.asNN64
     opr |self| : NN64 = self
+    asFloat(self): RR64
     opr =(self, b:NN64):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongEQ")
+    opr =(self, b:NN32):Boolean = do c: NN64 = b; (self = c) end
+    opr =(self, b:IntLiteral):Boolean = do c: NN64 = b; (self = c) end
+    opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+    opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
     opr <(self, b:NN64):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongLT")
     opr >(self, b:NN64):Boolean = b < self
@@ -1004,8 +1005,15 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     getter one(): ZZ = self.zero + 1
     numerator(self):ZZ = self
     opr |self| : ZZ = if self>=0 then self else -self end
+    asFloat(self): RR64
     opr =(self, b: ZZ):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.eq")
+    opr =(self, b:ZZ32):Boolean = do c: ZZ = b; (self = c) end
+    opr =(self, b:ZZ64):Boolean = do c: ZZ = b; (self = c) end
+    opr =(self, b:NN32):Boolean = do c: ZZ = b; (self = c) end
+    opr =(self, b:NN64):Boolean = do c: ZZ = b; (self = c) end
+    opr =(self, b:IntLiteral):Boolean = do c: ZZ = b; (self = c) end
+    opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
     opr <(self, other:ZZ): Boolean = self.cmp(other) < 0
     opr <=(self, other:ZZ): Boolean = self.cmp(other) <= 0
     opr >(self, other:ZZ): Boolean = self.cmp(other) > 0
@@ -2642,7 +2650,14 @@ opr juxtaposition[\ T extends { Number, MultiplicativeRing[\T\] }, nat n \]
 
 squaredNorm[\T extends { Number, MultiplicativeRing[\T\] }, nat s0\](a:Vector[\T,s0\]):T = a.dot(a)
 
-opr ||[\ T extends { Number, MultiplicativeRing[\T\] }, nat k \]me : Vector[\T,k\]|| : RR64 = SQRT asFloat(squaredNorm(me))
+opr ||[\nat k\] me: Vector[\ZZ32,k\]|| : RR64 = SQRT asFloat(squaredNorm(me))
+opr ||[\nat k\] me: Vector[\ZZ64,k\]|| : RR64 = SQRT asFloat(squaredNorm(me))
+opr ||[\nat k\] me: Vector[\NN32,k\]|| : RR64 = SQRT asFloat(squaredNorm(me))
+opr ||[\nat k\] me: Vector[\NN64,k\]|| : RR64 = SQRT asFloat(squaredNorm(me))
+opr ||[\nat k\] me: Vector[\ZZ,k\]|| : RR64 = SQRT asFloat(squaredNorm(me))
+opr ||[\nat k\] me: Vector[\QQ,k\]|| : RR64 = SQRT asFloat(squaredNorm(me))
+opr ||[\nat k\] me: Vector[\RR32,k\]|| : RR64 = SQRT asFloat(squaredNorm(me))
+opr ||[\nat k\] me: Vector[\RR64,k\]|| : RR64 = SQRT squaredNorm(me)
 
 (** Array2[\T,b0,s0,b1,s1\] is the type of 2-dimensional arrays of
     element type T, with size s0 in the first dimension and s1 in the

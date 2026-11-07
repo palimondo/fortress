@@ -5783,3 +5783,7 @@ pointer words refreshed in: F-24
 ### F-323
 
 2026-11-07 09:40Z · added · from `explorations/compile-ladder/rung-natives-float-number/REPORT.md`, "1. What changed and why" · by climb batch 27 gather
+
+### F-324
+
+2026-11-07 09:44Z · added · from `explorations/compile-ladder/rung-number-open/REPORT.md`, "What changed and why" · by climb batch 27 gather

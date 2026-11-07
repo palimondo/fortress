@@ -1,0 +1,41 @@
+component VectorNormElementTypesWalk
+export Executable
+
+(*) The vector norm ||v|| answers an RR64 at each of the library's eight number types as element type.
+
+run(): () = do
+    a: Vector[\ZZ32,2\] = vector[\ZZ32,2\]()
+    a[0] := 3
+    a[1] := 4
+    assert(||a||, 5.0, "the vector norm of a ZZ32 vector of 3 and 4 is 5.0")
+    b: Vector[\ZZ64,2\] = vector[\ZZ64,2\]()
+    b[0] := widen(3)
+    b[1] := widen(4)
+    assert(||b||, 5.0, "the vector norm of a ZZ64 vector of 3 and 4 is 5.0")
+    c: Vector[\NN32,2\] = vector[\NN32,2\]()
+    c[0] := unsigned(3)
+    c[1] := unsigned(4)
+    assert(||c||, 5.0, "the vector norm of an NN32 vector of 3 and 4 is 5.0")
+    d: Vector[\NN64,2\] = vector[\NN64,2\]()
+    d[0] := widen(unsigned(3))
+    d[1] := widen(unsigned(4))
+    assert(||d||, 5.0, "the vector norm of an NN64 vector of 3 and 4 is 5.0")
+    e: Vector[\ZZ,2\] = vector[\ZZ,2\]()
+    e[0] := big(3)
+    e[1] := big(4)
+    assert(||e||, 5.0, "the vector norm of a ZZ vector of 3 and 4 is 5.0")
+    f: Vector[\QQ,2\] = vector[\QQ,2\]()
+    f[0] := 3/5
+    f[1] := 4/5
+    assert(||f||, 1.0, "the vector norm of a QQ vector of 3/5 and 4/5 is 1.0")
+    g: Vector[\RR32,2\] = vector[\RR32,2\]()
+    g[0] := narrow(3.0)
+    g[1] := narrow(4.0)
+    assert(||g||, 5.0, "the vector norm of an RR32 vector of 3 and 4 is 5.0")
+    h: Vector[\RR64,2\] = vector[\RR64,2\]()
+    h[0] := 3.0
+    h[1] := 4.0
+    assert(||h||, 5.0, "the vector norm of an RR64 vector of 3 and 4 is 5.0")
+  end
+
+end

@@ -19,9 +19,9 @@ run() = do
     rr : RR64 = 4.0
     rz : ZZ64 = 4
     rh : RR64 = 0.5
-    assert(xr^rz,1/256)
+    assert(xr^rz,asFloat(1/256))
     assert(xz^rz,256)
-    assert(xr^rr,1/256)
+    assert(xr^rr,asFloat(1/256))
     assert((asFloat(xz))^rr,256)
     assert(xr^rh,0.5)
     assert((asFloat(xz))^rh,2)

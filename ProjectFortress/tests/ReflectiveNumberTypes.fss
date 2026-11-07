@@ -4,7 +4,7 @@ import ReflectiveQuickCheck.{...}
 import Reflect.{...}
 export Executable
 
-(*) The reflective generator finds a generator for every type that Number's comprises clause lists.
+(*) The reflective generator finds a generator for every number type of the library among which it chooses a Number.
 
 found(t: Type): Boolean = if _ <- reflectiveArbitrary.genFromType(false, t) then true else false end
 

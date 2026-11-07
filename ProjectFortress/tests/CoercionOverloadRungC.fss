@@ -3,7 +3,7 @@ export Executable
 
 (*) explorations/compile-ladder/rung-interp-coercion/REPORT.md
 
-trait Wide excludes { Narrow, String }
+trait Wide excludes { Narrow, String, Number }
   coerce(x: Narrow) = WideOf(widen(x.small))
   getter big(): ZZ64
   opr +(self, other: Wide): Wide = WideOf(self.big + other.big)
