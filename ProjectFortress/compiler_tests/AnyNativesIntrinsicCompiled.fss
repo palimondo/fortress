@@ -1,0 +1,41 @@
+(* On the compiled path, stringOps.typeName and equality.sEquiv bound at Any name a value's type and tell two reference objects apart as walk's ilkName and SEQV do, an asString over typeName beside a toString member prints, and stringOps.match matches. *)
+component AnyNativesIntrinsicCompiled
+export Executable
+
+tName(a: Any): String = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.typeName")
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+sMatch(regex: JavaString, some: JavaString): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.match")
+
+object Pt(x: ZZ32, y: ZZ32) end
+object Box[\T\](v: T) end
+
+trait ByName
+  getter asString(): String = tName(self)
+  getter toString(): String = self.asString
+end
+object Named extends ByName end
+
+run(): () = do
+  p = Pt(1, 2)
+  q = Pt(1, 2)
+  assert(tName(p), "Pt", "an object's type name")
+  i: ZZ32 = 3
+  assert(tName(Box[\ZZ32\](3)), "Box[\\ZZ32\\]", "a written static argument")
+  assert(tName(Box(i)), "Box[\\ZZ32\\]", "an inferred static argument")
+  l: ZZ64 = 3
+  r: RR64 = 1.5 + 1.5
+  assert(tName(i), "ZZ32", "a ZZ32's type name")
+  assert(tName(l), "ZZ64", "a ZZ64's type name")
+  assert(tName(r), "RR64", "a computed RR64's type name")
+  assert(sEq(p, p), "an object is equivalent to itself")
+  assert(NOT sEq(p, q), "two reference objects built apart are not equivalent")
+  assert(NOT sEq(p, i), "an object and a number are not equivalent")
+  assert(Named.asString, "Named", "asString over typeName beside a toString member")
+  println(Named)
+  s = "aaaaaaaaaa"
+  forty = s || s || s || s
+  assert(sMatch("a+".asJavaString, forty.asJavaString), "match of forty characters")
+  println("PASS")
+end
+
+end

@@ -40,6 +40,19 @@ public abstract class NativeApp implements Applicable {
     protected Applicable a;
 
     /**
+     * The helpers whose names walk answers with its own operations, each to the glue class that
+     * answers it: the library binds these over Any, which no Java type carries for walk's values,
+     * and the compiled path calls the helpers themselves.
+     */
+    static final java.util.Map<String, String> OWN_OPERATIONS = new java.util.HashMap<String, String>();
+    static {
+        OWN_OPERATIONS.put("com.sun.fortress.nativeHelpers.stringOps.typeName",
+                           "com.sun.fortress.interpreter.glue.prim.ObjectPrims$ClassName");
+        OWN_OPERATIONS.put("com.sun.fortress.nativeHelpers.equality.sEquiv",
+                           "com.sun.fortress.interpreter.glue.prim.AnyPrim$SEquiv");
+    }
+
+    /**
      * A NativeApp has a fixed arity by default.  This defines that
      * fixed arity.  This is used in the checking performed by
      * setParams and by applyInner.  If you need a multi-arity
@@ -193,6 +206,8 @@ public abstract class NativeApp implements Applicable {
         Id name = ((VarRef) fn).getVarId();
         if (!name.getText().equals("builtinPrimitive")) return defn;
         String str = ((StringLiteralExpr) arg).getText();
+        String own = OWN_OPERATIONS.get(str);
+        if (own != null) str = own;
         Pair<String, Applicable> key = new Pair<String, Applicable>(str, defn);
         synchronized (cache) {
             NativeApp res = cache.get(key);

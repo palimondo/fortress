@@ -1,0 +1,4 @@
+tests=AnyNativesIntrinsicCompiled
+link
+run
+run_out_contains=PASS

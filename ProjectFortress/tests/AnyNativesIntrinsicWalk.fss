@@ -1,0 +1,38 @@
+(* Under walk, Object's ilkName and asString name a value's type by the library's trait names, also inside static arguments, SEQV over Any tells two reference objects apart, and match reads a rope. *)
+component AnyNativesIntrinsicWalk
+export Executable
+
+object Pt(x: ZZ32, y: ZZ32) end
+object Box[\T\](v: T) end
+
+run(): () = do
+  p = Pt(1, 2)
+  q = Pt(1, 2)
+  assert(p.ilkName, "Pt", "an object's ilkName is its type name; Specification/basic-lib/objects.tex, trait Object")
+  assert(p.asString, "Pt", "an object with no asString of its own prints its type name")
+  i: ZZ32 = 3
+  assert(Box[\ZZ32\](3).ilkName, "Box[\\ZZ32\\]", "a written static argument")
+  assert(Box(i).ilkName, "Box[\\ZZ32\\]", "an inferred static argument is named by the trait")
+  assert(Box(i).asString, "Box[\\ZZ32\\]", "asString of a generic object names its static argument by the trait")
+  l: ZZ64 = 3
+  b: ZZ = 3
+  r: RR64 = 1.5 + 1.5
+  u: NN64 = widen(unsigned(4))
+  assert(i.ilkName, "ZZ32", "a ZZ32's ilk")
+  assert(l.ilkName, "ZZ64", "a ZZ64's ilk")
+  assert(b.ilkName, "ZZ", "a ZZ's ilk")
+  assert(r.ilkName, "RR64", "a computed RR64's ilk")
+  assert(u.ilkName, "NN64", "an NN64's ilk")
+  assert(i.asDebugString, "a ZZ32: 3", "asDebugString names the trait")
+  assert(p SEQV p, "an object is equivalent to itself; Specification/basic-lib/objects.tex, opr SEQV")
+  assert(NOT (p SEQV q), "two reference objects built apart are not equivalent")
+  assert(NOT (p SEQV i), "an object and a number are not equivalent")
+  s = "aaaaaaaaaa"
+  rope: String = s || s || s || s
+  assert(|rope|, 40, "|rope|")
+  assert(rope.depth > 0, "the concatenation past maxLeafSize is a rope")
+  assert(match("a+", rope), "match reads the characters of a rope")
+  assert(match(rope, rope), "match reads the characters of a rope as the pattern")
+end
+
+end
