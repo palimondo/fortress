@@ -16,6 +16,7 @@
 
 ## Held on the drafts page (2026-11-07)
 
+- 23:20 "LGTM" at the drafts page's heading "Landed since your last approval" (version 24, thread `8a6bedd6`, sent to Claude, answered and resolved): he read landed items 30 and 31; the next update drops both. Drafts 32 and 33 still wait for his yes.
 - 06:42 "All read. LGTM" at the drafts page's "Proposed changes" heading (version 21, thread `8e0ba9df`, sent to Claude, resolved): he read items 28 and 29; version 22 dropped both.
 - 06:40 "LGTM" on item 28 (version 21, thread `d2b3d4aa`, sent to Claude, resolved).
 - 06:38 "LGTM" on the `fortress-repo` page's change 36 (version 11, thread `fe113a1a`, sent to Claude, resolved): the next update of that page drops it, and the next change comes as change 37.
