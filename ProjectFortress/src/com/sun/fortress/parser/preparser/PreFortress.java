@@ -15145,11 +15145,277 @@ public final class PreFortress extends ParserBase {
     int        yyC;
     int        yyIndex;
     Result     yyResult;
-    int        yyOption1;
     String     yyValue;
     ParseError yyError = ParseError.DUMMY;
 
     // Alternative 1.
+
+    yyC = character(yyStart);
+    if (-1 != yyC) {
+      yyIndex = yyStart + 1;
+
+      switch (yyC) {
+      case '1':
+        {
+          yyC = character(yyIndex);
+          if (-1 != yyC) {
+            yyIndex = yyIndex + 1;
+            if ('0' == yyC) {
+
+              final int yyChoice1 = yyIndex;
+
+              // Nested alternative 1.
+
+              yyC = character(yyChoice1);
+              if (-1 != yyC) {
+                yyIndex = yyChoice1 + 1;
+
+                switch (yyC) {
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                case 'A':
+                case 'B':
+                case 'C':
+                case 'D':
+                case 'E':
+                case 'F':
+                  {
+                    yyC = character(yyIndex);
+                    if (-1 != yyC) {
+                      yyIndex = yyIndex + 1;
+
+                      switch (yyC) {
+                      case '0':
+                      case '1':
+                      case '2':
+                      case '3':
+                      case '4':
+                      case '5':
+                      case '6':
+                      case '7':
+                      case '8':
+                      case '9':
+                      case 'A':
+                      case 'B':
+                      case 'C':
+                      case 'D':
+                      case 'E':
+                      case 'F':
+                        {
+                          yyC = character(yyIndex);
+                          if (-1 != yyC) {
+                            yyIndex = yyIndex + 1;
+
+                            switch (yyC) {
+                            case '0':
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                            case '5':
+                            case '6':
+                            case '7':
+                            case '8':
+                            case '9':
+                            case 'A':
+                            case 'B':
+                            case 'C':
+                            case 'D':
+                            case 'E':
+                            case 'F':
+                              {
+                                yyC = character(yyIndex);
+                                if (-1 != yyC) {
+                                  yyIndex = yyIndex + 1;
+
+                                  switch (yyC) {
+                                  case '0':
+                                  case '1':
+                                  case '2':
+                                  case '3':
+                                  case '4':
+                                  case '5':
+                                  case '6':
+                                  case '7':
+                                  case '8':
+                                  case '9':
+                                  case 'A':
+                                  case 'B':
+                                  case 'C':
+                                  case 'D':
+                                  case 'E':
+                                  case 'F':
+                                    {
+                                      yyValue = difference(yyStart, yyIndex);
+
+                                      return new SemanticValue(yyValue, yyIndex, yyError);
+                                    }
+
+                                  default:
+                                    /* No match. */
+                                  }
+                                }
+                              }
+                              break;
+
+                            default:
+                              /* No match. */
+                            }
+                          }
+                        }
+                        break;
+
+                      default:
+                        /* No match. */
+                      }
+                    }
+                  }
+                  break;
+
+                default:
+                  /* No match. */
+                }
+              }
+
+              // Nested alternative 2.
+
+              yyC = character(yyChoice1);
+              if (-1 != yyC) {
+                yyIndex = yyChoice1 + 1;
+
+                switch (yyC) {
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                case 'a':
+                case 'b':
+                case 'c':
+                case 'd':
+                case 'e':
+                case 'f':
+                  {
+                    yyC = character(yyIndex);
+                    if (-1 != yyC) {
+                      yyIndex = yyIndex + 1;
+
+                      switch (yyC) {
+                      case '0':
+                      case '1':
+                      case '2':
+                      case '3':
+                      case '4':
+                      case '5':
+                      case '6':
+                      case '7':
+                      case '8':
+                      case '9':
+                      case 'a':
+                      case 'b':
+                      case 'c':
+                      case 'd':
+                      case 'e':
+                      case 'f':
+                        {
+                          yyC = character(yyIndex);
+                          if (-1 != yyC) {
+                            yyIndex = yyIndex + 1;
+
+                            switch (yyC) {
+                            case '0':
+                            case '1':
+                            case '2':
+                            case '3':
+                            case '4':
+                            case '5':
+                            case '6':
+                            case '7':
+                            case '8':
+                            case '9':
+                            case 'a':
+                            case 'b':
+                            case 'c':
+                            case 'd':
+                            case 'e':
+                            case 'f':
+                              {
+                                yyC = character(yyIndex);
+                                if (-1 != yyC) {
+                                  yyIndex = yyIndex + 1;
+
+                                  switch (yyC) {
+                                  case '0':
+                                  case '1':
+                                  case '2':
+                                  case '3':
+                                  case '4':
+                                  case '5':
+                                  case '6':
+                                  case '7':
+                                  case '8':
+                                  case '9':
+                                  case 'a':
+                                  case 'b':
+                                  case 'c':
+                                  case 'd':
+                                  case 'e':
+                                  case 'f':
+                                    {
+                                      yyValue = difference(yyStart, yyIndex);
+
+                                      return new SemanticValue(yyValue, yyIndex, yyError);
+                                    }
+
+                                  default:
+                                    /* No match. */
+                                  }
+                                }
+                              }
+                              break;
+
+                            default:
+                              /* No match. */
+                            }
+                          }
+                        }
+                        break;
+
+                      default:
+                        /* No match. */
+                      }
+                    }
+                  }
+                  break;
+
+                default:
+                  /* No match. */
+                }
+              }
+            }
+          }
+        }
+        break;
+
+      default:
+        /* No match. */
+      }
+    }
+
+    // Alternative 2.
 
     yyC = character(yyStart);
     if (-1 != yyC) {
@@ -15239,11 +15505,9 @@ public final class PreFortress extends ParserBase {
                         case 'E':
                         case 'F':
                           {
-                            yyOption1  = yyIndex;
-
-                            yyC = character(yyOption1);
+                            yyC = character(yyIndex);
                             if (-1 != yyC) {
-                              yyIndex = yyOption1 + 1;
+                              yyIndex = yyIndex + 1;
 
                               switch (yyC) {
                               case '0':
@@ -15263,18 +15527,17 @@ public final class PreFortress extends ParserBase {
                               case 'E':
                               case 'F':
                                 {
-                                  yyOption1  = yyIndex;
+                                  yyValue = difference(yyStart, yyIndex);
+
+                                  return new SemanticValue(yyValue, yyIndex, yyError);
                                 }
 
                               default:
                                 /* No match. */
                               }
                             }
-
-                            yyValue = difference(yyStart, yyOption1);
-
-                            return new SemanticValue(yyValue, yyOption1, yyError);
                           }
+                          break;
 
                         default:
                           /* No match. */
@@ -15302,7 +15565,7 @@ public final class PreFortress extends ParserBase {
       }
     }
 
-    // Alternative 2.
+    // Alternative 3.
 
     yyC = character(yyStart);
     if (-1 != yyC) {
@@ -15392,11 +15655,9 @@ public final class PreFortress extends ParserBase {
                         case 'e':
                         case 'f':
                           {
-                            yyOption1  = yyIndex;
-
-                            yyC = character(yyOption1);
+                            yyC = character(yyIndex);
                             if (-1 != yyC) {
-                              yyIndex = yyOption1 + 1;
+                              yyIndex = yyIndex + 1;
 
                               switch (yyC) {
                               case '0':
@@ -15416,17 +15677,137 @@ public final class PreFortress extends ParserBase {
                               case 'e':
                               case 'f':
                                 {
-                                  yyOption1  = yyIndex;
+                                  yyValue = difference(yyStart, yyIndex);
+
+                                  return new SemanticValue(yyValue, yyIndex, yyError);
                                 }
 
                               default:
                                 /* No match. */
                               }
                             }
+                          }
+                          break;
 
-                            yyValue = difference(yyStart, yyOption1);
+                        default:
+                          /* No match. */
+                        }
+                      }
+                    }
+                    break;
 
-                            return new SemanticValue(yyValue, yyOption1, yyError);
+                  default:
+                    /* No match. */
+                  }
+                }
+              }
+              break;
+
+            default:
+              /* No match. */
+            }
+          }
+        }
+        break;
+
+      default:
+        /* No match. */
+      }
+    }
+
+    // Alternative 4.
+
+    yyC = character(yyStart);
+    if (-1 != yyC) {
+      yyIndex = yyStart + 1;
+
+      switch (yyC) {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case 'A':
+      case 'B':
+      case 'C':
+      case 'D':
+      case 'E':
+      case 'F':
+        {
+          yyC = character(yyIndex);
+          if (-1 != yyC) {
+            yyIndex = yyIndex + 1;
+
+            switch (yyC) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+              {
+                yyC = character(yyIndex);
+                if (-1 != yyC) {
+                  yyIndex = yyIndex + 1;
+
+                  switch (yyC) {
+                  case '0':
+                  case '1':
+                  case '2':
+                  case '3':
+                  case '4':
+                  case '5':
+                  case '6':
+                  case '7':
+                  case '8':
+                  case '9':
+                  case 'A':
+                  case 'B':
+                  case 'C':
+                  case 'D':
+                  case 'E':
+                  case 'F':
+                    {
+                      yyC = character(yyIndex);
+                      if (-1 != yyC) {
+                        yyIndex = yyIndex + 1;
+
+                        switch (yyC) {
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                        case 'A':
+                        case 'B':
+                        case 'C':
+                        case 'D':
+                        case 'E':
+                        case 'F':
+                          {
+                            yyValue = difference(yyStart, yyIndex);
+
+                            return new SemanticValue(yyValue, yyIndex, yyError);
                           }
 
                         default:
@@ -15455,263 +15836,124 @@ public final class PreFortress extends ParserBase {
       }
     }
 
-    // Alternative 3.
+    // Alternative 5.
 
     yyC = character(yyStart);
     if (-1 != yyC) {
       yyIndex = yyStart + 1;
-      if ('1' == yyC) {
 
-        yyC = character(yyIndex);
-        if (-1 != yyC) {
-          yyIndex = yyIndex + 1;
-          if ('0' == yyC) {
+      switch (yyC) {
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case 'a':
+      case 'b':
+      case 'c':
+      case 'd':
+      case 'e':
+      case 'f':
+        {
+          yyC = character(yyIndex);
+          if (-1 != yyC) {
+            yyIndex = yyIndex + 1;
 
-            final int yyChoice1 = yyIndex;
+            switch (yyC) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+              {
+                yyC = character(yyIndex);
+                if (-1 != yyC) {
+                  yyIndex = yyIndex + 1;
 
-            // Nested alternative 1.
+                  switch (yyC) {
+                  case '0':
+                  case '1':
+                  case '2':
+                  case '3':
+                  case '4':
+                  case '5':
+                  case '6':
+                  case '7':
+                  case '8':
+                  case '9':
+                  case 'a':
+                  case 'b':
+                  case 'c':
+                  case 'd':
+                  case 'e':
+                  case 'f':
+                    {
+                      yyC = character(yyIndex);
+                      if (-1 != yyC) {
+                        yyIndex = yyIndex + 1;
 
-            yyC = character(yyChoice1);
-            if (-1 != yyC) {
-              yyIndex = yyChoice1 + 1;
+                        switch (yyC) {
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '4':
+                        case '5':
+                        case '6':
+                        case '7':
+                        case '8':
+                        case '9':
+                        case 'a':
+                        case 'b':
+                        case 'c':
+                        case 'd':
+                        case 'e':
+                        case 'f':
+                          {
+                            yyValue = difference(yyStart, yyIndex);
 
-              switch (yyC) {
-              case '0':
-              case '1':
-              case '2':
-              case '3':
-              case '4':
-              case '5':
-              case '6':
-              case '7':
-              case '8':
-              case '9':
-              case 'A':
-              case 'B':
-              case 'C':
-              case 'D':
-              case 'E':
-              case 'F':
-                {
-                  yyC = character(yyIndex);
-                  if (-1 != yyC) {
-                    yyIndex = yyIndex + 1;
-
-                    switch (yyC) {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                    case 'A':
-                    case 'B':
-                    case 'C':
-                    case 'D':
-                    case 'E':
-                    case 'F':
-                      {
-                        yyC = character(yyIndex);
-                        if (-1 != yyC) {
-                          yyIndex = yyIndex + 1;
-
-                          switch (yyC) {
-                          case '0':
-                          case '1':
-                          case '2':
-                          case '3':
-                          case '4':
-                          case '5':
-                          case '6':
-                          case '7':
-                          case '8':
-                          case '9':
-                          case 'A':
-                          case 'B':
-                          case 'C':
-                          case 'D':
-                          case 'E':
-                          case 'F':
-                            {
-                              yyC = character(yyIndex);
-                              if (-1 != yyC) {
-                                yyIndex = yyIndex + 1;
-
-                                switch (yyC) {
-                                case '0':
-                                case '1':
-                                case '2':
-                                case '3':
-                                case '4':
-                                case '5':
-                                case '6':
-                                case '7':
-                                case '8':
-                                case '9':
-                                case 'A':
-                                case 'B':
-                                case 'C':
-                                case 'D':
-                                case 'E':
-                                case 'F':
-                                  {
-                                    yyValue = difference(yyStart, yyIndex);
-
-                                    return new SemanticValue(yyValue, yyIndex, yyError);
-                                  }
-
-                                default:
-                                  /* No match. */
-                                }
-                              }
-                            }
-                            break;
-
-                          default:
-                            /* No match. */
+                            return new SemanticValue(yyValue, yyIndex, yyError);
                           }
+
+                        default:
+                          /* No match. */
                         }
                       }
-                      break;
-
-                    default:
-                      /* No match. */
                     }
+                    break;
+
+                  default:
+                    /* No match. */
                   }
                 }
-                break;
-
-              default:
-                /* No match. */
               }
-            }
+              break;
 
-            // Nested alternative 2.
-
-            yyC = character(yyChoice1);
-            if (-1 != yyC) {
-              yyIndex = yyChoice1 + 1;
-
-              switch (yyC) {
-              case '0':
-              case '1':
-              case '2':
-              case '3':
-              case '4':
-              case '5':
-              case '6':
-              case '7':
-              case '8':
-              case '9':
-              case 'a':
-              case 'b':
-              case 'c':
-              case 'd':
-              case 'e':
-              case 'f':
-                {
-                  yyC = character(yyIndex);
-                  if (-1 != yyC) {
-                    yyIndex = yyIndex + 1;
-
-                    switch (yyC) {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                    case 'a':
-                    case 'b':
-                    case 'c':
-                    case 'd':
-                    case 'e':
-                    case 'f':
-                      {
-                        yyC = character(yyIndex);
-                        if (-1 != yyC) {
-                          yyIndex = yyIndex + 1;
-
-                          switch (yyC) {
-                          case '0':
-                          case '1':
-                          case '2':
-                          case '3':
-                          case '4':
-                          case '5':
-                          case '6':
-                          case '7':
-                          case '8':
-                          case '9':
-                          case 'a':
-                          case 'b':
-                          case 'c':
-                          case 'd':
-                          case 'e':
-                          case 'f':
-                            {
-                              yyC = character(yyIndex);
-                              if (-1 != yyC) {
-                                yyIndex = yyIndex + 1;
-
-                                switch (yyC) {
-                                case '0':
-                                case '1':
-                                case '2':
-                                case '3':
-                                case '4':
-                                case '5':
-                                case '6':
-                                case '7':
-                                case '8':
-                                case '9':
-                                case 'a':
-                                case 'b':
-                                case 'c':
-                                case 'd':
-                                case 'e':
-                                case 'f':
-                                  {
-                                    yyValue = difference(yyStart, yyIndex);
-
-                                    return new SemanticValue(yyValue, yyIndex, yyError);
-                                  }
-
-                                default:
-                                  /* No match. */
-                                }
-                              }
-                            }
-                            break;
-
-                          default:
-                            /* No match. */
-                          }
-                        }
-                      }
-                      break;
-
-                    default:
-                      /* No match. */
-                    }
-                  }
-                }
-                break;
-
-              default:
-                /* No match. */
-              }
+            default:
+              /* No match. */
             }
           }
         }
+        break;
+
+      default:
+        /* No match. */
       }
     }
 
@@ -15745,7 +15987,7 @@ public final class PreFortress extends ParserBase {
       return yyResult.createValue(yyValue, yyError);
     }
 
-    // Alternative 6.
+    // Alternative 8.
 
     yyC = character(yyStart);
     if (-1 != yyC) {
