@@ -1,7 +1,7 @@
 # Rung C, climb batch 27: Char's asExprString on the completed helper, the parser's hexadecimal codes, the list of character-literal forms
 
 - problem: row 861, walk's glue and the compiled helper write a `Char`'s `asExprString` differently, and walk's text outside printable ASCII never reads back (`explorations/reviews/char-asexprstring-2026-11-06.md:116-149`, section 2.4); row 898, the parser refuses six-digit codes and lower-case five-digit codes whose first four are decimal digits (`ProjectFortress/src/com/sun/fortress/parser/Literal.rats:460-464` at the base)
-- spec: `Specification/basic/lexical-structure.tex:797-925`, section "Character Literals", its list of forms at `:861-881`
+- spec: `Specification/basic/lexical-structure.tex:797-931`, section "Character Literals", its list of forms at `:861-881`
 - precedent: the compiled prelude's binding of the same helper, `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:232`; the other 39 `Char` bindings on `simpleChar` helpers, as `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:612-613`; the Appendix I entry form of `Specification/appendices/changes.tex:4563-4635`
 - deviation: none from the precedent; the specification's list gains one form (the revision callout at `Specification/basic/lexical-structure.tex:882`)
 - historical: `ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleChar.java`, `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`, `ProjectFortress/src/com/sun/fortress/parser/Literal.rats`, the generated `parser/Fortress.java`, `parser/preparser/PreFortress.java`, `parser/templateparser/TemplateParser.java`, `Specification/basic/lexical-structure.tex`, `Specification/appendices/changes.tex`, `ProjectFortress/tests/NativeHelperFamilyCharWalk.fss`, `ProjectFortress/compiler_tests/NativeHelperFamilyCharCompiled.fss` (the last two are revival tests in the original tree's folders)
@@ -14,7 +14,7 @@ After `ant testSystem` passed, `ant testQuick` ran out of disk: "java.io.FileNot
 
 ## What changed and why
 
-1. `nativeHelpers/simpleChar.java:21-48`, `charToExprString`, as P-163 gives it. The quotation mark and the reverse solidus now enter the branch of the switch with the controls (`:24`), so they reach the switch's own cases (`:31-32`), `'\"'` and `'\\'`, which no character reached before; the printable-ASCII line moves after it (`:36`); and U+201C, U+201D, U+2028, U+2029 and U+D800 to U+DFFF get the code alone (`:37-39`), as the invalid code points do (`:42`). Every other character keeps its text: the printable characters outside ASCII as themselves with their code, `'é 00e9'`, and past U+FFFF the code alone, `'1f600'`.
+1. `nativeHelpers/simpleChar.java:21-47`, `charToExprString`, as P-163 gives it. The quotation mark and the reverse solidus now enter the branch of the switch with the controls (`:24`), so they reach the switch's own cases (`:31-32`), `'\"'` and `'\\'`, which no character reached before; the printable-ASCII line moves after it (`:36`); and U+201C, U+201D, U+2028, U+2029 and U+D800 to U+DFFF get the code alone (`:37-39`), as the invalid code points do (`:42`). Every other character keeps its text: the printable characters outside ASCII as themselves with their code, `'é 00e9'`, and past U+FFFF the code alone, `'1f600'`.
 2. `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:615`: walk's binding of `Char`'s `asExprString` names `com.sun.fortress.nativeHelpers.simpleChar.charToExprString`. Walk carries the `Char` in an `int` (F-308), so no transfer is needed. The glue class `Char$ToExprString` (`interpreter/glue/prim/Char.java:177`) stays, unbound. This was the last `Char` binding on glue.
 3. `parser/Literal.rats:460-466`, `UnicodeHexChar`: `"10"` and four digits first, then exactly five digits, then exactly four, each in upper case and then in lower case; the error productions after them unchanged. Before, the first choice took four digits and an optional fifth, and the parser committed to it, so `'10FFFF'` took `10FFF` and `'1000a'` took `1000` and then met a digit where the closing mark must be. The template parser's `Literal.rats` modifies this module and has no copy of the rule (`parser/templateparser/Literal.rats:21`), so no second edit. `ant compileAll` regenerated the three committed parsers (`85c982f03`).
 4. `Specification/basic/lexical-structure.tex:867-870`: the list of forms names "a single character as above, followed by a space and a sequence of four or more hexadecimal digits identifying the code point of that same character (e.g., `α 03B1`, `⊕ 2295`)"; the callout at `:882-887`.
@@ -73,7 +73,7 @@ and on the base, `helper 0..FFFF ... not read back 6`, `helper 10000..1FFFF ... 
 
 ## Where the fix belongs, and the precedent
 
-`map/spec-to-implementation.md:159-168`, "Chapter 4, Lexical Structure": character literals are `Literal.rats:125` `CharLiteralExpr`, read by both paths' parser. P-163 names the three places. The precedent for the binding is the prelude's own binding of the helper (`CompilerBuiltin.fss:232`) and the 39 other `Char` bindings on `simpleChar` (F-308); the precedent for the escapes is the helper's own switch, whose two cases the edit reaches. Ways the language and library offer for the text: the helper's form completed (taken, P-163); the code alone everywhere (the review's option (c)); walk's glue form (it never reads back); a Fortress body in `Char` building the text from `codePoint` and `asString` (no precedent in the library for a `Char` getter in Fortress, and the compiled path would keep its own helper). For the parser: reorder the choices (taken, P-163); a semantic predicate on the closing mark (no precedent in `Literal.rats`).
+`explorations/coordinator/map/spec-to-implementation.md:159-168`, "Chapter 4, Lexical Structure": character literals are `Literal.rats:125` `CharLiteralExpr`, read by both paths' parser. P-163 names the three places. The precedent for the binding is the prelude's own binding of the helper (`CompilerBuiltin.fss:232`) and the 39 other `Char` bindings on `simpleChar` (F-308); the precedent for the escapes is the helper's own switch, whose two cases the edit reaches. Ways the language and library offer for the text: the helper's form completed (taken, P-163); the code alone everywhere (the review's option (c)); walk's glue form (it never reads back); a Fortress body in `Char` building the text from `codePoint` and `asString` (no precedent in the library for a `Char` getter in Fortress, and the compiled path would keep its own helper). For the parser: reorder the choices (taken, P-163); a semantic predicate on the closing mark (no precedent in `Literal.rats`).
 
 ## What the specification settles
 
@@ -94,7 +94,7 @@ Empty: no file of the baseline's `raw/` names a character literal, a hexadecimal
 ## Sentences made false
 
 - `Specification/appendices/changes.tex:4486`, entry "A native binding that names a static helper": "forty of \TYP{Char}" now undercounts by one, and `:4495` "The other 143 still name a glue class" by one; the gather corrects the entry (fork 7).
-- `explorations/coordinator/FACTS.md:138`, F-308: "only `Char`'s `asExprString` stays on a glue class (row 861)" and "`Char`'s 39 bindings"; F-299 (`FACTS.md:134`), 306 becomes 307; F-32 (`FACTS.md:30`), 143 becomes 142.
+- `explorations/coordinator/FACTS.md:138`, F-308: "only `Char`'s `asExprString` stays on a glue class (row 861)" and "`Char`'s 39 bindings", and with them its two counts "each of the 93" and "the 93 keep the glue classes' values", which become 94; F-299 (`FACTS.md:134`), 306 becomes 307; F-32 (`FACTS.md:30`), 143 becomes 142.
 - Row 861's claim, closed by the gather; row 898's claim, closed by the gather.
 - The `fortress-repo` skill: no text on the two forms (`grep -rn "asExprString\|redundant" .claude/skills/fortress-repo/references/` outside `sources.md` prints nothing).
 - No note on walk or the compiled path in the specification names the text.
@@ -104,7 +104,7 @@ Empty: no file of the baseline's `raw/` names a character literal, a hexadecimal
 - The helper's change as written, and the binding's string: `simpleChar.java:24-39`; `FortressBuiltin.fss:615`.
 - The parser's rule before and after: `Literal.rats:460-466`; its gap was already row 898 (see decisions), now closed by `CharExprStringReadBack`; the new row is NEW-C-1 with `XXXCharLiteralSupplementary`.
 - The tests before and after through the harness and `junit.sh`: above.
-- The revised list and callout, and the entry's Effect: `lexical-structure.tex:867-870`, `:882-887`; `changes.tex:4668-4694`.
+- The revised list and callout, and the entry's Effect: `lexical-structure.tex:867-870`, `:882-887`; `changes.tex:4668-4693`.
 - The specification's build: not run (disk).
 - The count and distance tables: not run (disk).
 - Verdicts changed in `ant testSystem`: none, 758 pass; `ParserJUTest` 188 pass; `ant testQuick` not measured.
