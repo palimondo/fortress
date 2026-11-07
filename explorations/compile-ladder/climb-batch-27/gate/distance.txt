@@ -1,0 +1,16 @@
+#distance	setting compile; -Dprobe.tolerant=true -Dprobe.all=true -Dfortress.analyzer.overload.cache=false; 14 components in one JVM (DistanceMulti -order check)
+#total	0
+#kind	exclusion	0
+#kind	comprises	0
+#kind	overloading	0
+#kind	return-type	0
+#kind	abstract-method	0
+#kind	bound-Object	0
+#kind	wellformed	0
+#kind	typecheck	0
+#kind	export	0
+#crash	decl	ObjectDecl FortressBuiltin.fss:661:1-773:2	IllegalArgumentException	Comparison method violates its general contract!
+#crash	stage	component FortressBuiltin leftover	InterpreterBug	** bug! Result of typechecking still contains intermediate nodes. Component at FortressBuiltin.fss:12.1
+#seconds	144	FortressLibrary 90
+#machine	nproc=4; Intel(R) Xeon(R) Processor @ 2.10GHz; 2100.000 MHz; load at start 0.28 0.89 1.32; openjdk version "25.0.4.1" 2026-08-18; FORTRESS_THREADS=1
+#shadow	every shadow edit matched the tracked sources
