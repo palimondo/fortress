@@ -1,0 +1,18 @@
+component NumberOpenTraitPlusBesideArrayWalk
+export Executable
+
+(*) Under walk, a program's trait that excludes neither Number nor arrays and declares its own functional + is refused at load beside the library's + between an array and a number, now that Number is open.
+
+trait Wide excludes { String }
+  getter big(): ZZ32
+  opr +(self, other: Wide): Wide = WideOf(self.big + other.big)
+end
+object WideOf(b: ZZ32) extends Wide
+  getter big(): ZZ32 = b
+end
+
+run(): () = do
+    assert((WideOf(1) + WideOf(2)).big, 3, "a program's trait's own + runs where walk loads it")
+  end
+
+end
