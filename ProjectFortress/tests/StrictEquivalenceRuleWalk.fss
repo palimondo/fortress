@@ -46,6 +46,9 @@ run(): () = do
     rope2: String = "abcdefghijklmnopqrstuvwxyzABCD" || "EFGHIJKLMN"
     assert(rope1 = rope2, "two ropes of one text are equal")
     assert(same(rope1, rope2), false, "two equal ropes are not equivalent")
+    assert((s1, 1) = (s2, 1), "pairs compare their strings by =")
+    assert((s1, 1, 2) = (s2, 1, 2), "triples compare their strings by =")
+    assert((s1, 1, 2, 3) = (s2, 1, 2, 3), false, "a tuple of four has no = of its own and compares by SEQV")
 
     p = Pt(1, 2)
     q = Pt(1, 2)

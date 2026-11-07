@@ -3932,6 +3932,87 @@ declare a rational result, against their entries' \EXP{\mathbb{Z}}, or would
 leave them returning a value outside the type they declare.
 \end{description}
 
+\subsection{Which objects are value objects}
+\seclabel{revival-object-kinds}
+
+\begin{description}
+\item[Affected section] The opening section of \chapref{objects}, its list of
+the kinds of objects.
+\item[Change] Its sentence on the value objects named booleans, numeric
+literals, IEEE floating-point numbers and integers; it now names integers of
+every precision and rational numbers too.
+Its sentence on the reference objects named arbitrary-precision numbers and
+aggregates such as arrays, lists and sets; it now names strings and the
+aggregates.
+The passage gains one box.
+The rule of strict equivalence (\secref{equivalence}) is unchanged: values of
+different types are never strictly equivalent, value objects of one type are
+when their fields are, a binary word by its bit pattern, and reference objects
+only when they are one object.
+\item[Rationale] This change does not follow from route~A; it follows two
+decisions of the revival.
+By the first, of 6~November 2026, the values of the arbitrary-precision integer
+and rational types are value objects: \library\ declare the arbitrary-precision
+integer as a value object, and the sentence's own list called integers value
+objects and arbitrary-precision numbers reference objects, so the text
+disagreed with itself and with the library; the library's declaration is the
+deliberate word.
+By the second, of 6 and 7~November 2026, strictly equivalent means the rule of
+\secref{equivalence} on both implementations, with no special case for any type,
+and strings are reference objects: \library\ declare every kind of string as an
+object without the \KWD{value} modifier, so two strings are strictly equivalent
+only when they are one object, and their text equality is their own \EXP{=}.
+The Working Draft of February 2011 named no kind for strings, and the
+team's implementations compared two flat strings by their text and two ropes
+by identity.
+The full reasoning is in
+\nolinkurl{explorations/reviews/any-carrier-2026-11-06.md}, section~2.4, and
+\nolinkurl{explorations/reviews/string-equivalence-2026-11-06.md} in the
+revival's repository.
+\item[Effect] Both implementations answer \EXP{\sequiv} by the rule, and both
+read the \KWD{value} modifier.
+\Library\ declare the rational type's object and the two numeral objects of the
+interpreter as value objects.
+The departures:
+the interpreter gives a floating-point numeral bound to a variable of type
+\EXP{\mathbb{R}64} the type of the numeral object, so it is not strictly
+equivalent to a computed \EXP{\mathbb{R}64} value of the same bits;
+an integer numeral is a \EXP{\mathbb{Z}32} value in the interpreter, by its
+magnitude, and a numeral object to the compiled type checker, so a numeral
+compared with a typed value can answer differently on the two paths;
+the compiled path's own library, used until the one library replaces it,
+answers \EXP{\sequiv} on numbers, strings and booleans by \EXP{=} before it
+reaches the rule, so there two equal strings built apart are strictly
+equivalent and \EXP{0.0} is strictly equivalent to \EXP{-0.0} (row~908 of the
+revival's gap ledger);
+and \library\ declare \EXP{=} on pairs and triples only, so two tuples of four
+or more elements are equal only when they are strictly equivalent, and two such
+tuples of equal strings built apart are not equal (row~NEW-E-1 of the revival's
+gap ledger).
+The answers are gated by \nolinkurl{ProjectFortress/tests/StrictEquivalenceRuleWalk.fss},
+\nolinkurl{ProjectFortress/tests/ValueObjectCC64Walk.fss} and, for the compiled
+helper, by \nolinkurl{ProjectFortress/compiler_tests/StrictEquivalenceRuleCompiled.fss}.
+\item[Original text] \nolinkurl{Specification-1.0-frozen/basic/objects.tex},
+lines 39--43 and 52--54:
+\begin{quote}
+Most objects with simple standard types,
+such as booleans,
+numeric literals,
+IEEE floating-point numbers,
+and integers are value objects.
+\end{quote}
+\begin{quote}
+Reference objects include
+arbitrary-precision numbers
+and aggregates such as arrays, lists and sets.
+\end{quote}
+\item[Route C] The same under route~C.
+A return to the original sentences would need \library\ to declare the
+arbitrary-precision integer and the rational object without the \KWD{value}
+modifier, so that two of their values built apart are never strictly
+equivalent, and would leave the kind of strings unnamed.
+\end{description}
+
 \subsection{When two sizes are the same}
 \seclabel{revival-sizes}
 

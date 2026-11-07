@@ -40,7 +40,8 @@ Most objects with simple standard types,
 such as booleans,
 numeric literals,
 IEEE floating-point numbers,
-and integers are value objects.
+integers of every precision,
+and rational numbers are value objects.
 %
 In contrast,
 reference objects are thought to ``reside in memory'',
@@ -50,8 +51,16 @@ whenever a reference object is constructed,
 so that reference objects constructed separately are always distinct.
 What about reference objects that have no mutable fields?
 Reference objects include
-arbitrary-precision numbers
+strings
 and aggregates such as arrays, lists and sets.
+\revision{revival-object-kinds}{The Working Draft of February 2011 named
+arbitrary-precision numbers among the reference objects and gave strings no
+kind.
+The revival decided on 6~November 2026 that the values of the
+arbitrary-precision integer and rational types are value objects, as \library\
+declare them, and on 6 and 7~November 2026 that strings are reference objects:
+two strings are strictly equivalent only when they are one object, and their
+text equality is their \EXP{=}.}
 %
 Function objects are immutable and have no fields.  Identity is not
 well-defined for function objects, and attempting to check whether two
