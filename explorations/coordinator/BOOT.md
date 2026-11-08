@@ -6,7 +6,7 @@
 
 ## Running
 
-- Nothing runs. No check-in is armed.
+- Nothing runs. No check-in is armed. The record writer for his float-numeral answer finished at 13:0x (P-172, `663b5f95c`).
 - **His reading of the `fortress-repo` page**: read up to change 38 at 07:45; changes 39 to 67 unread (version 17, version id `1794138573-243a`); his threads on 39 to 44 may move to chat with their context. His rule of 07:15 (held list): an item shows the skill's current text, a later change folded in.
 
 ## The container, rebuilt at 23:09 UTC on 11-07
@@ -57,7 +57,7 @@ The per-push deploys of `docs/` failed from 11-05 by GitHub's soft limit of abou
 
 ## The record, the machine, the pages
 
-- **The model:** Opus 5.5 since about 06:45 UTC on 11-07, his choice, for Fable's weekly limit. Every writer of record entries, skill text and pages is Opus. Every brief says that the committing footer names plain "Claude", no model name.
+- **The model:** Fable 5.1 since 13:2x UTC on 11-08, his choice, for the remaining asks and climb batch 29's planning (the model plan under "The week's budget"); Opus 5.5 from about 06:45 UTC on 11-07 until then. Every writer of record entries, skill text and pages is Opus. Every brief says that the committing footer names plain "Claude", no model name.
 - **Commits:** by named paths only (`git add -- PATHS` for a new file, then `git commit -m MSG -- PATHS`), each ending with `fortress-repo`'s footer exactly: `Co-Authored-By: Claude <noreply@anthropic.com>` and the `Claude-Session` line, whatever footer the harness suggests. Push after every commit, in the foreground: `sha=$(git rev-parse HEAD) && git push --atomic origin $sha:main $sha:claude/worker-brief-fable-vnnuv8 $sha:blinded-fable`. A worker commits by named paths and does not push.
 - **The skill writer:** none since the rebuild; start a fresh one (`tools/skill-writer.sh new <task>`), its tasks in `<scratchpad>/skill-tasks/`.
 - **The register:** plain, halfway to ASD-STE100, lists not tables, numbers as K or M, each term defined where it is used, one ask per message with its pushed review linked, no AskUserQuestion, no closing offer, "the coordinator" and never "you" on a page. His profile was read at 06:4x.
