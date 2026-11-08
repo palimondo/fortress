@@ -4,6 +4,8 @@
 
 ## Held on the `fortress-repo` page (2026-11-08)
 
+- 07:15 Thread `4e0493d3`, his rule: a page of skill changes always shows the skill's current text. An unread item whose passage a later change touched gets that change folded in, not a new item: "Why wasn't the page updated to reflect the current state of the skill?" Change 39 showed climb batch 27's words while change 51 had changed them again. The cause was the coordinator's brief to keep changes 37 to 48 as they were. The page worker folds 50 into 37 and 51 into 39 (07:1x). For the skill writer: the `coordinator` skill's "Pages" bullet on the page of `fortress-repo` changes, and `references/skill-rewrite.md`, "The method", step 7.
+- 07:01 Thread `4e0493d3`: all three spellings in the skill, `≣`, `SEQV` and `===`, with `≣` told apart from `≡`. Answered: change 51's text already has them (revival-changes.md:55).
 - 01:07 On change 39's thread `4e0493d3`: put the updates discussed and clarified so far into the skill now, for climb batch 28; he continues reading in the morning (2:00 his time). So the skill writer's task of 01:08 (the three fixes below), its cold read, then the launch; the page's changes 49 and on for his morning read.
 - 01:03 and 01:00 Thread `596631fe`: is `EQV` spelled `=`? Answered: no; `≡` is `EQV` or `EQUIV`, the boolean "if and only if" with `↔` and `=` on booleans. The ligatures of the page's code font stay, now that he knows of them.
 - 00:58 Thread `596631fe`: the fix gives both spellings and tells "strictly equivalent" (`≣`, `SEQV`, `===`) from "identical to" (`≡`, `EQV`); `≠` is `=/=`. For the skill writer (task of 01:08, fix 1).
