@@ -6,7 +6,7 @@
 
 ## 1. The manifest, rung by rung
 
-The batch's generator writes the workflow's manifest from this section. Each rung's `section` is its section 4 heading, word for word. The rungs are in the manifest's order, V, R, A, Q, H, S, T. The expected minutes order the scatter only. REC stands for `doc:explorations/coordinator/CLIMB-BATCH-28.md#`, and PROBES for `doc:explorations/compile-ladder/plan-28/PROBES.md#`. A briefing key marked (check) is also in the rung's `checks` list, which its skeptic, a judge and a repair round read.
+The batch's generator writes the workflow's manifest from this section. Each rung's `section` is its section 4 heading, word for word. The rungs are in the manifest's order, V, R, A, K, H, S, T. The expected minutes order the scatter only. REC stands for `doc:explorations/coordinator/CLIMB-BATCH-28.md#`, and PROBES for `doc:explorations/compile-ladder/plan-28/PROBES.md#`. A briefing key marked (check) is also in the rung's `checks` list, which its skeptic, a judge and a repair round read.
 
 **Two rungs wait on his answers before the launch** (section 2, "The questions for the curator"): A, the arrays' store, on Q2; and the second half of S, `System`'s arguments, on Q3. Without Q2's answer, A is left out of the manifest. Without Q3's answer, S runs its first half only, as its section says.
 
@@ -15,7 +15,7 @@ The batch's generator writes the workflow's manifest from this section. Each run
 | V | `rung-integer-conversions` | The integer conversions: the checked getters, `bitsAs…`, the low-bits names on every type, `ZZ`'s `narrow` and `widen` deleted, `big` on its helper, and `IntLiteral`'s 8 over `asZZ` | 60 |
 | R | `rung-io-reader` | N4's reader rung: `FileReadStream`, `Reader` and `FileWriteStream` over the Java-backed traits, and `File` and `Reader` plain components | 50 |
 | A | `rung-array-store` | The arrays' store: `PrimitiveArray` and `PrimImmutableArray` over a compiled store in a field, walk's `AtomicArray` behind P-167's device, and `PrimImmutableRR64Array` over a `double[]` class | 60 |
-| Q | `rung-checker-partial-order` | The checker's four sorts by a partial order made a linear extension, read once a pair | 50 |
+| K | `rung-checker-partial-order` | The checker's four sorts by a partial order made a linear extension, read once a pair | 50 |
 | H | `rung-runtime-threads` | The run time's own threads, `abort` and the task trace on compiled helpers that walk's loader answers with its glue | 40 |
 | S | `rung-system-natives` | `System`'s natives: `getEnvironment` and `getProperty` onto `stringOps`, and, with Q3's answer, `args` built in Fortress over two scalar helpers | 30 |
 | T | `rung-codegen-trait-table` | The code generator's trait table: an object whose first supertrait is an imported api's trait | 35 |
@@ -24,7 +24,7 @@ Fields common to the seven rungs:
 
 - **path:** `/home/user/fortress-<slug without its rung- prefix>`, as `/home/user/fortress-io-reader`; **branch:** `wip/<slug>`.
 - **writes state:** no. **its test is the stage:** no. **joins the gate:** none. **expected moves:** none. **lands only with:** none: no rung builds on another (section 4, "The rule the rungs keep").
-- **expected checker count:** none declared; the count stays 0. **expected checker crash:** none declared. Every rung but T runs both stages on its own tree (section 3, fork 3). On a rung's own tree, without rung Q, the distance shows climb batch 27's two crash rows in `value object Char`, or none, or a crash elsewhere: the crash depends on the hash order of the overloadings' names, which hold declaration lines, so a line moved in `FortressBuiltin.fss` before `Char` can move it (row 929's notes). A rung reports the rows it sees and declares none; a crash with the message 'Comparison method violates its general contract!' is row 929's, not the rung's. Rung Q's tree, and the merged tree, read `#crash none` (PROBES `Probe 2. Row 929: a sort that is correct on a partial order, and its time`).
+- **expected checker count:** none declared; the count stays 0. **expected checker crash:** none declared. Every rung but T runs both stages on its own tree (section 3, fork 3). On a rung's own tree, without rung K, the distance shows climb batch 27's two crash rows in `value object Char`, or none, or a crash elsewhere: the crash depends on the hash order of the overloadings' names, which hold declaration lines, so a line moved in `FortressBuiltin.fss` before `Char` can move it (row 929's notes). A rung reports the rows it sees and declares none; a crash with the message 'Comparison method violates its general contract!' is row 929's, not the rung's. Rung K's tree, and the merged tree, read `#crash none` (PROBES `Probe 2. Row 929: a sort that is correct on a partial order, and its time`).
 
 ### V
 - **slug:** `rung-integer-conversions`
@@ -140,10 +140,10 @@ Fields common to the seven rungs:
   - `code:Library/FortressLibrary.fss#(** Casting *)..else => throw CastError`: the cast at a read.
   - REC `Forks the batch takes, none consequential`: the defaults your rung builds, each with the ways not taken.
 
-### Q
+### K
 - **slug:** `rung-checker-partial-order`
 - **worktree:** `/home/user/fortress-checker-partial-order`
-- **section:** `Q. The checker's four sorts by a partial order made a linear extension, read once a pair (row 929; P-148)`
+- **section:** `K. The checker's four sorts by a partial order made a linear extension, read once a pair (row 929; P-148)`
 - **blurb:** row 929: the compiled checker sorts a call's candidates, a coercion's candidates and a trait's ancestors with sortWith over a partial order, which Java's TimSort refuses at 32 elements or more; a class over a list and a strict order gives the minimal elements and a linear extension, reading each pair at most once; the four sites use it, and the call's sort shares its answers with minimal; a compiled test of 64 candidates that stops the checker on the base; P-148's timing before and after, and its second pass.
 - **points to report:**
   - The class as written, and each site's change.
@@ -254,4 +254,115 @@ Fields common to the seven rungs:
   - `doc:explorations/perf-probes/codegen-distance/REPORT.md#3. The kinds of refusal`: the library's sites of each kind.
   - PROBES `Probe 4. Rung T's wall on today's tree` (check): the wall on this base, with its stack.
   - REC `Forks the batch takes, none consequential`: the defaults your rung builds, each with the ways not taken.
+
+## 2. For the curator
+
+### The words this record uses
+
+- **Walk** is the interpreter. The **compiled path** checks a program's types with the **checker**, then makes JVM bytecode with the **code generator**, and runs it on the compiled **run time**. Until the **switch-over**, the compiled path uses its own small library, the **prelude**. After it, the compiled path uses the interpreter's library, the **one library**.
+- A **native binding** is a library declaration whose body is `builtinPrimitive("…")`. Its string names a **glue class**, which only walk can call, or a **helper**, a static Java method in `nativeHelpers/`, which both paths call (P-58). A **carrier** is the Java type in which walk passes a declared type to a helper. **P-167's device**: the binding names a compiled helper, and walk's loader answers that name with walk's own glue, as for `ilkName` and `SEQV`; P-169 makes it the rule for the run time's own operations.
+- A **Java-backed trait** is a trait of the one library whose values a Java class holds, as `JavaBufferedWriter` holds a Java writer: walk's private native object below it, and the compiled run-time class that implements it (P-164).
+- **The count** and **the distance** are the checker's errors on the one library: the count on its main component, the distance on its fourteen core components. Both are 0 at the last gate, and the distance has two **crash rows**, where the checker stopped inside `value object Char` (F-53, F-54; row 929).
+- The compiled **transaction** is the compiled run time's software transactional memory, which a compiled `atomic` block starts and ends; it tracks each mutable **cell** that the block reads or writes. **Decision A** is the array decision that gives an `RR64` array an unboxed `double[]` store (P-84).
+- A **rung** is one change, built by one worker and checked by a second agent, the skeptic. A **batch** is a few rungs landed together after the **gate**. The **gather** composes the rungs on `main`. A **guard** is a test that passes before the change and after it.
+- **Appendix I** is the specification's appendix of changes. A revised passage carries a **callout** that names its entry there.
+- **microGPT** is the model program, by which the revival is measured. A **model line** is a source line of either of its programs; no rung of this batch changes one.
+
+### The scope: seven rungs, two of them waiting on his answers
+
+The record proposes seven rungs for climb batch 28:
+
+- **V**, P-161, his option 6: the integer conversions, with `ZZ32`'s `big` on its helper and `ZZ`'s `narrow` and `widen` deleted; and, by P-169, `IntLiteral`'s 8 conversions and comparisons as Fortress text over its `asZZ`.
+- **R**, P-164's reader rung, with `FileWriteStream` (item 373): the reader objects over `JavaBufferedReader`, and `File` and `Reader` plain components.
+- **A**, P-169's arrays' store, **waiting on Q2**, the store's shape.
+- **K**, row 929: the checker's four sorts by a partial order, which crash at 32 elements or more, made a linear extension, as fast as today (P-148).
+- **H**, P-169's threads: `Thread`'s four, `abort` and `printTaskTrace` on compiled helpers that walk's loader answers with its glue.
+- **S**, item 355's option 1, which never started in climb batch 27 (item 377): `System`'s two natives onto `stringOps`; and, **waiting on Q3**, `args` built in Fortress over two scalar helpers.
+- **T**, row 733, which never started in climb batch 27 (item 377): the code generator's trait table.
+
+The reasons, one by one:
+
+1. **The natives come first** (P-33). V, R, H, A and S take bindings off glue classes: 50 of the 102, or 42 without A and Q3's half (below, "Where the natives stand").
+2. **The reader rung can run now.** Climb batch 27's rung W declared both Java-backed traits and both table entries (F-330), so the reader rung builds on the base, not on another rung. It takes `FileWriteStream` too: an object of a native component cannot hold a field under walk (row 926), so `File` stops being native only when all its objects leave their glue together (item 373; PLAN item 69).
+3. **The conversions no longer meet a rung of their batch.** Climb batch 27's rung I, which edited the same five integer traits, landed. Four of `IntLiteral`'s 8 (`asZZ32`, `asZZ64`, `asNN32`, `asNN64`) are written over `ZZ`'s checked getters, which V adds, and a rung cannot build on another rung of its own batch (PLAN, "The principle for the batches"); so the 8 sit in V, with their siblings (section 3, fork V2).
+4. **S and T are climb batch 27's,** rebased: their files did not change in the lines they edit, and their walls reproduce on this base (section 5, probes 3 and 4).
+5. **K makes the distance whole again.** Since climb batch 27 the distance does not check `value object Char`'s body, its 41 helper bindings among them (F-54). The prototype of K's linear extension removes both crash rows, checks `Char` with no error, keeps every other result, and takes 145 s against the base's 140 s for the distance and 88.9 s against 88.9 s for the count (probe 2). The brief records a rank sort at 299 s against 137 s.
+6. **H and A both use P-167's device, at two places of walk's loader.** H adds six names to the table that rung A of climb batch 27 made (`interpreter/glue/NativeApp.java:47-53`); A answers every name of its new helper class by one rule, where the loader reads the string (`:209`), about 150 lines apart (fork A4). So they merge.
+7. **A and S's second half wait,** each on a question that is consequential by the `coordinator` skill's test (below). Without Q2's answer, A goes to climb batch 29; without Q3's, S builds its first half only.
+8. **Seven rungs, each at its own declarations, keep the gather and the gate in bounds.** Section 4, "The rule the rungs keep", gives each rung's place in each shared file: four share `FortressBuiltin.fss`, four `FortressLibrary.fss` and three its api, each at other declarations. Climb batch 27 applied eight patches over the same two files with no conflict (`reviews/batch-27-review.md`, section 4).
+
+### Where the natives stand, and where the batch leaves them
+
+- **Today: 443 live bindings, 341 on helpers and 102 on glue classes** (F-299, F-32; section 5, probe 6). The 102: the literals 32 (`IntLiteral` 29, `FloatLiteral` 3), `Reflect` 28, the reader side 20 and `FileWriteStream` 5, `NativeArray` 7, `Thread` 5 and `printTaskTrace` 1, the conversions 3, `getProgramArgsPrim` 1.
+- **After the batch, by reading:**
+  - R takes 25 off glue and adds 10 helper bindings: the reader trait's 8 methods and its two factories.
+  - V takes 11 off glue: `big` onto its helper, `ZZ`'s two deleted, and `IntLiteral`'s 8 written in Fortress; it adds 1 helper binding, and one more for each checked getter that it binds to a helper rather than writes in Fortress (fork V1).
+  - H moves 6 from glue onto helpers.
+  - A moves 7 from glue onto helpers: the store trait's methods and factories.
+  - S moves none in its first half; with Q3, `getProgramArgsPrim` goes and two helper bindings come.
+  - K and T move none.
+- **So the glue count falls from 102 to 52 with all seven rungs, to 59 without A, and to 60 without A and Q3's half.** The live bindings and the helpers come to 419 and 367 with all seven, 418 and 358 without A and Q3, before V's own helper bindings. The gather counts the merged tree.
+- **What stays on glue:** `Reflect`'s 28, which wait for his answer to Q4 of the natives review; the literals' 24, `IntLiteral`'s 21 and `FloatLiteral`'s 3, at N5 in the names batch (P-169); and, without their answers, `NativeArray`'s 7 and `getProgramArgsPrim`.
+
+### The questions for the curator, before the launch
+
+Two, each consequential by the `coordinator` skill's test. Without his answer, the go rule of the `coordinator` skill's `references/batch.md` applies: while he is away overnight, its default lands and goes on the review list, since neither default reverses a decision of his.
+
+**Q2. Should the compiled array store hold each element in a cell of its own, or a plain array with the transaction extended to an array and an index?** (Review-queue item 407.)
+
+- **What it is.** P-169 moves the one library's arrays onto a compiled store before the switch-over: every array, vector, varargs list and `args` of the one library is built on `PrimitiveArray` or `PrimImmutableArray`, and a body left on glue raises at the first compiled array (`reviews/natives-remainder-2026-11-07.md`, section 1, finding 1). P-169 leaves the store's shape inside the compiled transaction open. A Fortress `atomic` block must see a consistent array: `atomic do a[i] := a[i] + 1 end` from many tasks must not lose an update. Walk's store does this with one transactional cell per element (`AtomicArray`, Christine Flood's, 2007). The compiled transaction tracks only cells (`runtimeSystem/Transaction.java`, `TXRead` and `TXWrite`, over a `MutableFValue`).
+- **The two shapes.** (i) One `MutableFValue` cell per element, which the compiled transaction tracks as it is: walk's own shape, no change to the transaction. (ii) A plain `Object[]`, and the transaction's read and write sets keyed by an array and an index as well as by a cell: one box fewer per element, and new code inside the transaction that every compiled `atomic` runs.
+- **The measurement** (section 5, probe 1; a Java model on the compiled run time's own `BaseTask`, task pool and `Transaction`, an `RR64` element boxed as the compiled `FRR64`, one JVM per shape, five rounds, medians):
+  - memory: (i) 44 bytes per element, (ii) 28; a `double[]`, decision A's shape, 8;
+  - a read outside a transaction: (i) 2.2 ns, (ii) 1.7 ns plain, 1.8 ns volatile; `double[]` 0.6 ns;
+  - a read and a write outside a transaction: (i) 24 ns, (ii) 18 ns plain, 24 ns volatile; `double[]` 0.3 ns: the box that each write makes dominates both shapes;
+  - inside one transaction over 100,000 elements, a read and a write: (i) 209 ns, (ii) 118 ns;
+  - with a transaction for each element: (i) 182 ns, (ii) 182 ns, since the transaction's own work dominates.
+- **What touches microGPT.** Its lines use no `atomic` (`grep -n atomic` over its sources prints nothing), so its arrays run outside a transaction: per read 2.2 against 1.7 ns, and 44 against 28 bytes per element, until decision A gives `RR64` its `double[]`. microGPT does not compile before phase 5 (F-97).
+- **What each changes in the tree.** Both share the library's text, walk's half, the helper class `nativeHelpers/arrayOps` and the checker's table entry. (i) adds a compiled store class over a `MutableFValue[]`, whose helpers call `TXRead` and `TXWrite` on the element's cell, as compiled code does for a variable; `runtimeSystem/Transaction.java` and `BaseTask.java` do not change. (ii) adds a store class over an `Object[]` and about 70 lines to `Transaction.java`: a location key, `TXReadSlot` and `TXWriteSlot`, and slot cases in its two validations and its two commits, tested at four threads. Either can follow the other later by a change of the store class, and of `Transaction.java` for (ii); the library and walk stay.
+- **The team's sources.** Flood's 2011 vectors hold a Java array inside a run-time class (`compiler/runtimeValues/FZZ32Vector.java`), with no transaction; her 2007 `AtomicArray` holds a cell per element. The peers store a generic array in an `Object[]` (Java's `ArrayList`, Scala's `ArrayBuffer`) and keep transactions out of the array itself: Haskell's STM arrays (`TArray`) hold a `TVar` per element, shape (i).
+- **The options.**
+  1. **Shape (i), a cell per element.** The judgement's default (`reviews/natives-device-2026-11-07.md`, section 3.5). Rung A as section 4 gives it. The smaller change; 44 bytes an element.
+  2. **Shape (ii), a slot API.** Rung A with the change to `Transaction.java` that its section names, and the four-thread runs of the new transactional code. 28 bytes an element, and 45 % less inside a long transaction; about 0.1M more for the rung.
+  3. **Neither now:** rung A goes to climb batch 29, and `NativeArray`'s 7 stay on glue one batch longer.
+- **The record recommends 1:** walk's own shape and the team's, no change to the compiled transaction, and the difference outside a transaction is a third of a write at most; (ii) can follow if phase 6's numbers ask before decision A replaces the `RR64` store. It is consequential because it touches microGPT's speed until decision A.
+
+**Q3. Does `getProgramArgsPrim` leave glue now, with `args` built in Fortress over two scalar helpers?** (PLAN, phase 4, its line on `CompilerSystem`; the natives review's Q3; review-queue item 319 holds the deletion of `CompilerSystem`, which this question does not decide.)
+
+- **What it is.** `System`'s `args` is the program's command-line arguments. The one library builds it from `getProgramArgsPrim`, a glue binding that walk answers with a `PrimImmutableArray` (`Library/System.fss:29-35`; `interpreter/glue/prim/StringPrim.java:113-140`); `System` evaluates it as it loads, and both microGPT programs import `System`. The prelude's `CompilerSystem` reads `systemOps.getArgs`, a Java-backed vector that the one library does not declare.
+- **The probe** (section 5, probe 3). With rung S's strings off `systemOps`, the checker reaches `System`'s component and finds 2 errors, at `args` and `getProgramArgs`. With Q3's default as well, `args = immutableArray[\String\](programArgCount()).tabulate(fn (i:ZZ32): String => programArg(i))` over two scalar bindings, the checker reads `System` whole with no error, and walk runs it.
+- **The options.**
+  1. **Yes, now, in rung S** (the natives review's default, section 2.5 (a)): two helpers of a new class, a count and the i-th argument, over one static that walk's driver and the compiled main both fill; `args` built in Fortress by the library's immutable-array factory; `getProgramArgsPrim` and `getProgramArgs` deleted, neither in the api. On the compiled path, `args` then needs the arrays' store (rung A).
+  2. **With `NativeArray`, after the switch-over** (`perf-probes/prelude/natives-shape.md`, section 3): a compiled `System`, and so microGPT, raises as it loads.
+  3. **A Java-backed vector, as the prelude has:** a second store type beside rung A's.
+- **The record recommends 1.** It is consequential because it decides whether `System`, and so microGPT's import of it, loads compiled at the switch-over.
+
+**No other fork of the record is consequential** (section 3).
+
+### What the batch leaves out (section 5, "Left out, each with its home")
+
+- `IntLiteral`'s other 21 and `FloatLiteral`'s 3, at N5 (P-169); `Reflect`'s 28, on Q4.
+- The raise-string resolver (the natives review, section 3, point 2): it edits every helper class that raises, V's five integer classes among them, so it would put the merge at risk; climb batch 29.
+- F-34's other kinds of the code generator's refusals (rows 624, 819, 822, 875, 888 to 892, 832) and row 862: each needs a planner's probe of its fix, which this planner did not take; a later batch's record.
+- Row 732, the trait table's sibling (fork T2); rows 896, 928, 466 and 578, each beside its rung, unchanged.
+- Item 403, whether an undeclared crash in the distance turns a gate red: his; K removes the crash it was asked for.
+
+### Before the batch runs
+
+- **His answers to Q2 and Q3,** or their defaults by the go rule, and his go for the launch.
+- **The Fable review of this record,** with a go in advance (`references/batch.md`, "The go").
+- **The manifest's generator,** `compile-ladder/plan-28/manifest/`, made by the coordinator from `plan-27/manifest/` with this record's values (section 6, "The generator"); A's block left out without Q2's answer.
+- **The base build,** at `main`'s head after the generator, by the manual's "Before the launch", step 2.
+- **The disk.** The script stops under 1.5G a rung plus 4G (`climb-batch-workflow.js`, `DISK_FLOOR_G`): 14.5G for seven rungs, 13G for six. Free at 00:03 UTC on 2026-11-08 (01:03 his time): 23G, with the planner's two worktrees (0.6G) still standing; they are removed before this record's last commit. Climb batch 27 used about 0.65G a rung, 1.1G where `ant testQuick` ran, and about 1G for the gather and the gate (`reviews/batch-27-review.md`, section 7, point 2), so about 9G for seven.
+- The gather runs the 52 team demos on the merged tree (P-79; F-283): R changes every program that reads a file or standard input, V the library's integer conversions, H walk's loader, A every array.
+
+### Cost
+
+- **About 4.6M tokens written for the seven rungs; about 4.0M without A.** From 4.1M if the workers write as climb batch 27's did, to 5.5M with a judge and a repair round on one rung. About 5 hours 15 minutes at two agents at a time, 4 hours 30 minutes without A.
+- **Workers, about 2.25M:** V 0.45M, R 0.35M, A 0.45M, K 0.3M, H 0.3M, S 0.2M, T 0.2M.
+- **Skeptics, about 1.3M:** 0.18M each; K's 0.22M, since it runs the count stage itself (P-148).
+- **The fixed roles, about 1.05M:** the gather 0.45M with seven rungs, the demos, one Appendix I entry and one build of the specification; the merged-diff review 0.28M; the gate 0.2M; the commit stage 0.12M.
+- **The evidence.** Climb batch 27's run wrote 5.17M over its own 30 transcripts for eight landed rungs of ten, 0.65M a landed rung, and its span 5.97M with the coordinator's agents beside it (`reviews/batch-27-review.md`, section 3): its eight landed workers 2.21M, 221K to 338K each (W 294K, I 338K, G 286K); its seven skeptics 1.27M, 157K to 225K; the gather 390K, the review 271K, the gate 213K, the commit 118K; 0.60M of rulings and repairs, which no estimate held.
+- **The figures.** V is the largest: 25 getters, the low-bits names, the callers, `IntLiteral`'s 8, a specification revision with the build; above rung I (338K). R mirrors rung W (294K) on three objects and two components. A is walk Java, a run-time class, a helper class, the library's arrays and a four-thread test: W's size and more. K is a 60-line Scala class at four sites with P-148's three count runs and a profile, about rung G (286K). H is six helpers, six table entries, a pair and two tests. S is two helpers, two strings and a guard, with Q3 two more helpers and `args`. T is one method and two tests with an api.
+- **Minutes, for the scatter:** V 60, R 50, A 60, K 50, H 40, S 30, T 35, against climb batch 27's workers' 24 to 49.
 
