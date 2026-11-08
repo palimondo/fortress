@@ -14,6 +14,7 @@ The platform lost the container and rebuilt it from `claude/worker-brief-fable-v
 
 ## Waiting on him
 
+- His standing go of 00:13 UTC on 11-08: if he does not answer an ask within 30 minutes of it, the default that the Fable review recommends stands, and the launch follows with no further word of his. He is reading the `fortress-repo` page (from change 37).
 - Before climb batch 28's launch, one per message, each with the planner's measurement: Q2 (item 407, the compiled array store's shape, default a cell per element) and Q3 (`getProgramArgsPrim` as two scalar helpers, `args` built in Fortress, default yes). Later: Q4 (`Reflect`'s 28, default stay walk-only); PLAN's items 69 to 72; item 68 (the coordinator's defaults: the disk freed, S and T moved to climb batch 28); the strings question; the ledger pass review's decisions once written.
 
 ## Next, in order

@@ -2,6 +2,11 @@
 
 # Held list
 
+## Held in chat (2026-11-08)
+
+- 00:13 His standing go for climb batch 28: if he does not answer an ask within 30 minutes of it, take the default that the Fable review recommends, and launch. So Q2 and Q3 go to him one per message; on his answer, or 30 minutes after each ask with no answer, its Fable-recommended default stands; then the launch, with no further word of his.
+- 00:00 His question on the `fortress-repo` page's change 37 (thread `f6115171`, sent to Claude): is it about `CC64`, the program's complex type for `Vector` and `Matrix`? Answered on the thread: not directly; opening `Number` was for that case, and change 37 is its side effect on a program's trait that is not a number but declares its own `+`. He is still reading the page.
+
 ## Held on the drafts page (2026-11-06)
 
 - 16:17 "Mark as read." on the `fortress-repo` page's version 10 (thread `06c1fa65`, sent to Claude, resolved): he read changes 34 and 35; the next update drops them.
