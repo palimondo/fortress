@@ -83,3 +83,9 @@ If you would look something up before you act, say what you would look up, where
     Which assertions pass under walk? For each that fails, say whether it shows a defect, and write the check that you would keep.
 
 29. Your brief asks you to fix walk's inference so that, for `object Cell[\T extends Any\](v: T) end` and `z: ZZ32 = 3`, the call `Cell(z)` makes the instance `Cell[\ZZ32\]`. Before you change walk, you check which instance it makes today. How do you check it, and what does `Cell(z).asString` give under walk today? Write the assertion of the test that fails before your fix and passes after.
+
+30. You port three Java helpers into a program that runs under walk.
+    - (a) `static int toInt(long n) { return Math.toIntExact(n); }`, with `n: ZZ64` and a `ZZ32` result.
+    - (b) The same for an arbitrary-precision integer, `static int toInt(BigInteger n) { return n.intValueExact(); }`, with `n: ZZ`.
+    - (c) A hash's last step, `static int fold(long h) { return (int) h; }`, with `h: ZZ64`.
+    Write each Fortress function. Say what (a) and (b) do at 2^31, and what (c) gives at 2^32 + 7. Do your three functions compile on the compiled path today?
