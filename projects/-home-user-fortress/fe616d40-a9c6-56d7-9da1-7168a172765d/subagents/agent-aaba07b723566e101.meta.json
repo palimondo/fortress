@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout: recover the literals back-and-forth","toolUseId":"toolu_01QqDgQLLL5rfFE7VRodAFW3","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout: recover the literals back-and-forth","toolUseId":"toolu_01QqDgQLLL5rfFE7VRodAFW3","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-1","finished":true}
