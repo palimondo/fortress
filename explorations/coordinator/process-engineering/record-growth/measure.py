@@ -157,7 +157,7 @@ def main():
 
     # first-parent line from START
     fmt = '%H|%h|%cI|%P|%s'
-    lines = git('log', '--first-parent', '--reverse', '--format=' + fmt, START + '^..HEAD').splitlines()
+    lines = git('log', '--first-parent', '--reverse', '--abbrev=9', '--format=' + fmt, START + '^..HEAD').splitlines()
     meta = []
     for ln in lines:
         H, h, ci, P, s = ln.split('|', 4)
@@ -267,7 +267,7 @@ def main():
         nn, nl, top = entry_delta('ledger' if name == 'ledger' else 'x', old, new)
         sub = clean(git('log', '-1', '--format=%s', side).strip())
         ut = git('log', '-1', '--format=%cI', side).strip()
-        h = git('log', '-1', '--format=%h', side).strip()
+        h = git('log', '-1', '--abbrev=9', '--format=%h', side).strip()
         cf, bt = label(h, sub, ut, set(git('diff-tree', '--no-commit-id', '--name-only', '-r', '--root', side).split()))
         rows.append(dict(file=name, utc=ut[:19].replace('T', ' ') + 'Z', commit=h, kind='branch_commit',
                          chars=size(sha, 'chars'), delta_chars=size(sha, 'chars') - size(psha, 'chars'),

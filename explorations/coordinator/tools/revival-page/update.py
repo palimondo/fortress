@@ -166,7 +166,7 @@ def read_values(landing):
     entry = one(r'^- F-299 \*\*(.*?)\*\*(.*)$', r.stdout, 'FACTS F-299, its entry', re.M)
     m = one(r'\band (\d+) of the one library\'s (\d+) live bindings name one\.$', entry.group(1), 'FACTS F-299, its headline sentence')
     v['bindings'], v['bindings_of'] = int(m.group(1)), int(m.group(2))
-    glue = one(r'the other (\d+) name glue classes', entry.group(2), 'FACTS F-299, its glue classes')
+    glue = one(r'[Tt]he other (\d+) name glue classes', entry.group(2), 'FACTS F-299, its glue classes')
     if v['bindings'] + int(glue.group(1)) != v['bindings_of']:
         stop('F-299: %d helpers and %s glue classes do not make %d' % (v['bindings'], glue.group(1), v['bindings_of']))
 

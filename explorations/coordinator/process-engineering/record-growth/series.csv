@@ -3784,3 +3784,67 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 3782,2026-11-07 16:42:36Z,da13260ed,928,777796,301192,95414,319476,779884,301301,95480,319594,,fortress-repo: a commit footer that names a model is not a defect
 3783,2026-11-07 16:48:42Z,b1cdb209d,928,777796,301192,95414,319476,779884,301301,95480,319594,,fortress-repo: the footer sentence bounded to a commit already made
 3784,2026-11-07 16:50:13Z,51c30d263,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Record the curator's decision on Q1 of the natives review: P-169, the runtime's own 45 natives by P-167's device"
+3785,2026-11-07 16:51:28Z,2c3c669f8,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Revival page: where it stands at the landing of climb batch 27, the record chart regenerated"
+3786,2026-11-07 16:52:12Z,5d5c95dfe,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Route P-169 through PLAN and the review queue: N3, N5, getProgramArgsPrim, and item 407 for Q2"
+3787,2026-11-07 16:53:02Z,3abe23dce,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Boot note: climb batch 27 landed and routed, P-169, the planner of climb batch 28 running"
+3788,2026-11-07 16:53:15Z,1de032aa8,928,777796,301192,98283,319476,779884,301301,98351,319594,,Held list: his words of 14:1x on the held push and of 14:19 on footers
+3789,2026-11-07 23:21:41Z,c0caaf486,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Boot note: the container rebuilt at 23:09, the backup re-armed, the planner of climb batch 28 relaunched"
+3790,2026-11-07 23:22:32Z,2436f6f25,928,777796,301192,98283,319476,779884,301301,98351,319594,,Boot note and held list: his read mark of 23:20 on the drafts page
+3791,2026-11-07 23:29:16Z,c61221492,928,777796,301192,98283,319476,779884,301301,98351,319594,,Coordinator skill: land drafts 32 (held list before a writer task) and 33 (held push lifted on a clean review)
+3792,2026-11-07 23:32:15Z,01ff727b5,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Boot note and held list: drafts 32 and 33 approved and landed, the drafts page at version 25"
+3793,2026-11-07 23:44:56Z,07443647d,928,777796,301192,98283,319476,779884,301301,98351,319594,,Boot note: the armed check-in while the planner runs
+3794,2026-11-07 23:55:16Z,dadbcc515,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Climb batch 28's planner: its probes, Q2's two store shapes measured, row 929's sort made correct and fast, System with "
+3795,2026-11-08 00:02:05Z,f0b899042,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Climb batch 28's record, section 1: the manifest of seven rungs, A on Q2 and S's second half on Q3"
+3796,2026-11-08 00:04:52Z,6c47645fd,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Climb batch 28's record, section 2: the scope, the natives' count, Q2 with its measurement and Q3, the disk and the cost"
+3797,2026-11-08 00:05:58Z,6c604e7f9,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Climb batch 28's record, section 3: the forks with their defaults, none consequential beyond Q2 and Q3"
+3798,2026-11-08 00:09:04Z,0069c9bfc,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Climb batch 28's record, section 4: rungs V, R, A, K and H"
+3799,2026-11-08 00:09:54Z,6ff9e0c19,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Climb batch 28's record, section 4: rungs S and T, and how the rungs meet"
+3800,2026-11-08 00:11:27Z,71a89e803,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Climb batch 28's record, sections 5 to 7: the candidates, the probes, what waits, how it is run, the files cited"
+3801,2026-11-08 00:12:44Z,11a579a10,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Climb batch 28's record: P-169's history and item 406 named, V's specification key narrowed to its passage"
+3802,2026-11-08 00:14:00Z,bcd93660c,928,777796,301192,98283,319476,779884,301301,98351,319594,,"Boot note and held list: his standing go of 00:13 for climb batch 28's asks, and his question on change 37"
+3803,2026-11-08 00:14:56Z,d5cc626cc,928,777796,301192,98283,320817,779884,301301,98351,320935,,"Climb batch 28's record: the ledger notes that do not fit briefed as rewrites, V briefed with the shifts entry of Append"
+3804,2026-11-08 00:16:01Z,d71d8124e,928,777796,301192,98283,320817,779884,301301,98351,320935,,"Climb batch 28's record: V's three helper bindings counted, K's sentences made false and its tie fork worded"
+3805,2026-11-08 00:19:05Z,78a59926b,928,777796,301192,98283,320817,779884,301301,98351,320935,,"Boot note: climb batch 28's planner ended, its Fable review and generator running, the check-in renamed"
+3806,2026-11-08 00:34:56Z,ef450502f,928,777796,301192,98283,320817,779884,301301,98351,320935,,Climb batch 28: the manifest generator and the block for seven rungs
+3807,2026-11-08 00:38:44Z,7934836ec,928,777796,301192,98283,321977,779884,301301,98351,322095,,"Climb batch 28's record reviewed before the launch: the Fable review, its fixes in place (rung A's walk timing struck fo"
+3808,2026-11-08 00:38:56Z,5619e4ad3,928,777796,301192,98283,321977,779884,301301,98351,322095,,"Change 37 against POPL 2019: the Meet Rule, exclusion and the object fix"
+3809,2026-11-08 00:39:07Z,104be0b65,928,777796,301192,98283,321977,779884,301301,98351,322095,,Climb batch 28's review: its note on the tree's state after its first commit
+3810,2026-11-08 00:39:50Z,e0a8abf4f,928,777796,301192,98283,322695,779884,301301,98351,322813,,INDEX: the note on change 37 against POPL 2019
+3811,2026-11-08 00:41:26Z,a58b6e097,928,777796,301192,98283,322695,779884,301301,98351,322813,,"Climb batch 28: the generator on the reviewed record, K's skill key struck, the block spliced again"
+3812,2026-11-08 00:45:27Z,2cd3c9038,928,777796,301192,98283,322695,779884,301301,98351,322813,,"Boot note: the Fable review and generator done, the base build made, Q2 asked, his page threads"
+3813,2026-11-08 00:58:47Z,02d85f6b7,928,777796,301192,98283,322695,779884,301301,98351,322813,,"Boot note: his page points of 00:49 and 00:58, the ligature fix for the house style"
+3814,2026-11-08 01:00:26Z,136a90a4c,928,777796,301192,98283,322695,779884,301301,98351,322813,,"Boot note: the ligatures stay, at his word of 01:00"
+3815,2026-11-08 01:09:32Z,1756edec3,928,777796,301192,98283,322695,779884,301301,98351,322813,,"Held list: his points on the fortress-repo page tonight, and his word of 01:07"
+3816,2026-11-08 01:09:59Z,e9f828f30,928,777796,301192,98283,322695,779884,301301,98351,322813,,"fortress-repo: spell out strict equivalence, define reference object, name the object fix"
+3817,2026-11-08 01:41:14Z,445dda5be,928,777796,301192,98283,322695,779884,301301,98351,322813,,"Boot note: Q2's timed default delayed at his word, the skill writer running"
+3818,2026-11-08 02:06:07Z,4ccaeaaf5,928,777796,301192,98283,322695,779884,301301,98351,322813,,fortress-repo: fix the cold read flags on e9f828f3
+3819,2026-11-08 02:19:45Z,bd1174a2c,928,777796,301193,98616,322695,779884,301302,98684,322813,,"POSITIONS: P-84 and P-85 widened to every number type's unboxed store, at his word of 02:0x UTC on 11-08"
+3820,2026-11-08 02:25:40Z,945db5203,928,777796,301193,98616,322695,779884,301302,98684,322813,,"Climb batch 28's record: his answers to Q2, shape (ii), and Q3, option 1, the block spliced again; the held list"
+3821,2026-11-08 02:26:46Z,682eb7e81,928,777796,301193,98616,322695,779884,301302,98684,322813,,"Boot note: climb batch 28 ready to launch, its steps, the two workers running"
+3822,2026-11-08 02:29:25Z,7ba33066b,928,777796,301197,100053,322695,779884,301306,100121,322813,,"POSITIONS: his answers to Q2, shape (ii), in P-169, and to Q3, option 1, as P-170; item 407 closed; NativeArray's senten"
+3823,2026-11-08 02:31:15Z,157323e51,928,777796,301197,100053,322695,779884,301306,100121,322813,,"Boot note: climb batch 28 launched, its check-in file, the two workers done"
+3824,2026-11-08 07:16:47Z,043f31752,928,777796,301197,100053,322695,779884,301306,100121,322813,,"Held list: his rule of 07:15 on the fortress-repo page, an item shows the skill's current text"
+3825,2026-11-08 07:22:05Z,2b5cc182c,928,777796,301197,100053,322695,779884,301306,100121,322813,,"Boot note: the fortress-repo page at version 15, his reading, the row 364 probe"
+3826,2026-11-08 07:32:36Z,45868b113,928,777686,302663,100053,322695,779774,302776,100121,322813,,"The integer types convert by checked getters that raise IntegerOverflow, bitsAs getters keep the bits, the low-bits name"
+3827,2026-11-08 07:35:10Z,71d1018d1,930,779969,303978,100053,322695,782059,304091,100121,322813,,"FileReadStream, Reader, stdIn and FileWriteStream are plain Fortress objects over JavaBufferedReader and JavaBufferedWri"
+3828,2026-11-08 07:37:22Z,a6c884cd8,933,783180,305424,100053,322695,785270,305537,100121,322813,,The one library's arrays hold their elements in a Java-backed store in a field: PrimitiveArray and PrimImmutableArray ov
+3829,2026-11-08 07:38:15Z,a3eba5067,935,785261,306363,100053,322695,787351,306476,100121,322813,,"The checker sorts a call's and a coercion's candidates and a trait's ancestors by a partial order, read once a pair, so "
+3830,2026-11-08 07:40:03Z,70c26e3fd,937,787765,308187,100053,322695,789855,308300,100121,322813,,"Thread's four, abort and printTaskTrace name helpers of nativeHelpers/runtime, which walk answers with its glue, and a c"
+3831,2026-11-08 07:43:43Z,8ff5cb7ff,938,788057,309885,100053,322695,790149,309998,100121,322813,,"System's getEnvironment and getProperty name stringOps, and args is built in Fortress over two scalar helpers, so no bin"
+3832,2026-11-08 07:44:51Z,d839b7421,941,791478,310710,100053,322695,793580,310823,100121,322813,,"The code generator compiles an object or trait whose first supertrait is an imported api's trait, also where a later sup"
+3833,2026-11-08 07:48:47Z,cb51060dc,941,783804,310710,100053,322695,785918,310823,100121,322813,,Close the rows climb batch 28 fixed
+3834,2026-11-08 08:19:14Z,4347cc949,941,783804,310710,100053,322695,785918,310823,100121,322813,,"Climb batch 28's record: seven rungs gathered in the manifest's order, the rows opened and closed, the items for the cur"
+3835,2026-11-08 08:39:18Z,5c5ec47e9,941,783804,310757,100053,322695,785918,310870,100121,322813,,Fold the review's corrections
+3836,2026-11-08 08:46:24Z,f56d6516c,941,783804,310758,100053,322695,785918,310871,100121,322813,batch 28,Record the gate's tables and the microGPT walk check
+3837,2026-11-08 08:50:37Z,b7ec9d75a,941,783804,310758,100053,323914,785918,310871,100121,324032,,"Reviews: row 364's probe and the literals study, at his questions of 07:20 and 07:5x on 11-08; INDEX, the held list, the"
+3838,2026-11-08 08:50:46Z,150c25067,941,783804,310758,100053,323914,785918,310871,100121,324032,,Boot note: the state's time
+3839,2026-11-08 09:22:39Z,367e9f73a,941,783804,310758,100053,324490,785918,310871,100121,324608,,"Climb batch 28's post-batch review: no finding against a decision of his, the routing for the record-landing, the cost i"
+3840,2026-11-08 09:23:07Z,d3cd65a81,941,783804,310758,100053,324490,785918,310871,100121,324608,,"Boot note: climb batch 28's post-batch review committed, the record-landing workflow running"
+3841,2026-11-08 10:30:55Z,bec01c578,941,783841,310487,99880,324490,785955,310602,99948,324608,,"Record landing of climb batch 28: FACTS, POSITIONS and the ledger brought in line with the landing"
+3842,2026-11-08 10:30:55Z,72bad2e25,941,783841,310487,99880,324490,785955,310602,99948,324608,,"Record landing of climb batch 28: PLAN, the review queue and the run's folder routed for the landing"
+3843,2026-11-08 10:52:18Z,f5aa647de,941,783841,310487,99880,324490,785955,310602,99948,324608,,Boot note: the parallelism review running at his request
+3844,2026-11-08 11:23:17Z,1baf51120,941,783841,310487,99880,324490,785955,310602,99948,324608,,fortress-repo: install climb batch 28's orientation update after its landing
+3845,2026-11-08 11:27:37Z,6415622f9,941,783841,310487,99880,324490,785955,310602,99948,324608,,fortress-repo: bring the area parts in line with climb batch 28's landing
+3846,2026-11-08 11:36:11Z,623d6912d,941,783841,310487,99880,324490,785955,310602,99948,324608,,fortress-repo: the cold read of climb batch 28's landing
+3847,2026-11-08 11:50:04Z,da68ac567,941,783841,310487,99880,324490,785955,310602,99948,324608,,"Climb batch 28's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
+3848,2026-11-08 11:51:12Z,1cf2375e0,941,783841,310487,99880,325429,785955,310602,99948,325547,,"Review: the foundations of Fortress's parallelism, at his question of 10:41 UTC on 11-08; the orientation quiz's case 30"
