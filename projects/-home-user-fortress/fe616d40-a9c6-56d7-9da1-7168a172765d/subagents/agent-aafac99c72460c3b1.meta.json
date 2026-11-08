@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout: what the frozen specification copy is","toolUseId":"toolu_0144zEiJeH5S3b4FSoX15mU4","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout: what the frozen specification copy is","toolUseId":"toolu_0144zEiJeH5S3b4FSoX15mU4","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-fable-5-1","finished":true}
