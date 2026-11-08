@@ -9431,3 +9431,75 @@ rewritten
 duplicate of row 932
 
 | 939 | under walk, a subscript outside a 0-based primitive array, a `PrimitiveArray` or a `PrimImmutableArray` such as `System`'s `args`, ends the run with an `InterpreterBug` over Java's 'Array index N out of bounds', which no `catch` sees, not with the library's bounds check | NEGATIVE-BOUNDED | library bug (prelude) | silent | none | climb batch 28 rung S skeptic | siblings: 808. `PrimitiveArray`'s and `PrimImmutableArray`'s `opr []` call `get` directly (`LibraryBuiltin/NativeArray.fss:19`, `:33`), not `get(offset(i))` as `ReadableArray`'s does (`Library/FortressLibrary.fss:2248`), whose `offset` checks the bounds and calls `oops`, a `fail` (`:2471-2475`, `:2003-2006`), at 157323e51. Run: `args[\|args\|]` in a `try` with `catch e IndexOutOfBounds[\ZZ32\]`, under `bin/fortress` with four arguments: 'com.sun.fortress.exceptions.InterpreterBug: .../NativeArray.fss:33:20-29:', 'Array index 4 out of bounds, length=4', the same on the base's code. Workaround: test the index against `bounds`. |
+
+### Row 858
+
+closed by 45868b113
+
+| 858 | under walk, `widen` of an `NN64` reaches `ZZ`'s `widen` by coercion and keeps the low 64 bits as a signed value: `widen` of the `NN64` 2^64-1 is the `ZZ64` -1, with no `IntegerOverflow` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | integer-conversions evidence | siblings: 502, 856. `NN64` declares no `widen` (`Library/FortressLibrary.fsi:489-534`); of the `widen`s only `ZZ`'s takes an `NN64`, through `ZZ`'s `coerce(x: NN64)` (`Library/FortressLibrary.fss:997-1000`), and its glue `BigNum$ToZZ64` is `x.longValue()` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/BigNum.java:292-296`), at 1f5c49b4f. `bin/fortress RWidenNN64.fss`, the program quoted whole in `explorations/reviews/integer-conversions-evidence.md`, "1.6 The runs", prints 'widen(mAll) = -1 : ZZ64'. |
+
+### Row 859
+
+closed by 45868b113
+
+| 859 | under walk, the one library's integer conversions are not declared on all five integer types, so a call on a type without the member goes by coercion or fails: `unsigned` of an `NN32` answers an `NN64`, `narrow` of an `NN32` is an ambiguous coercion, `big` of an `NN64` or a `ZZ` finds no overload | NEGATIVE-VERIFIED | library bug (library) | silent | none | integer-conversions evidence | siblings: 349, 502. `narrow` is on `ZZ32`, `ZZ64`, `NN64` and `ZZ`; `widen` on `ZZ32`, `ZZ64`, `NN32` and `ZZ`; `big` and `unsigned` on `ZZ32` and `ZZ64`; `signed` on `NN32` and `NN64` (`Library/FortressLibrary.fsi:532-533`, `:586-590`, `:645-648`, `:698-699`; `ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:171-173`), at 1f5c49b4f. `bin/fortress` on `RUnsignedNN32.fss`, `RNarrowNN32.fss`, `RBigNN64.fss` and `RBigZZ.fss` (`explorations/reviews/integer-conversions-evidence.md`, "1.6 The runs"): 'unsigned(nAll) = 4294967295 : NN64', 'Ambiguous coercion', 'Failed to find any matching overload'. |
+
+### Row 502
+
+closed by 45868b113
+
+| 502 | under walk, `widen` of a `ZZ` outside `ZZ64`'s range keeps the low 64 bits silently: `widen(2^64+5)` is `5` and `widen(-(2^63)-1)` is `9223372036854775807` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | climb batch 6.5 rung P's skeptic | siblings: 349, 858. `ZZ`'s `widen` (`Library/FortressLibrary.fsi:699`) is the glue `BigNum$ToZZ64`, `x.longValue()` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/BigNum.java:292-296`, at de6d905f5). P-161, not landed at de6d905f5, deletes `ZZ`'s `narrow` and `widen`; their callers move onto `.asZZ32` or `.asZZ64`, which raise `IntegerOverflow` where the value does not fit, and its landing closes this row. The values: `explorations/reviews/integer-conversions-evidence.md`, "1.1 The one library, by owner type". Probe `explorations/compile-ladder/rung-spec-integer-rules/probes/skeptic/SkZZWiden.fss`, in the parent of ab067d9b6. full text: history, row 502 |
+
+### Row 856
+
+closed by 45868b113
+
+| 856 | on both paths, `signed` of an `NN32` or `NN64` above its signed half wraps to a negative value, with no `IntegerOverflow`: `signed(unsigned(-1))` is `-1` on `NN32` and on `NN64`, and `signed` of the `NN32` 2^31 is `-2147483648` | NEGATIVE-VERIFIED | deliberate (library) | silent | `ProjectFortress/tests/SignedAboveSignedRangeWalk.fss` | climb batch 24's planner | siblings: 502, 858. The bindings (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:469`, `Library/FortressLibrary.fss:985`, at de6d905f5) name helpers that return their `int` or `long` as is (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java:242`, `simpleUnsignedLongArith.java:246`). The prelude binds them too (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:816`, `:880`): a compiled probe printed '-1', '-2147483648', '-1'. P-161 keeps the low bits in `signed`, as the test asserts; its checked `asZZ32`/`asZZ64`, which raise, are not on `NN32` or `NN64` at de6d905f5, and the row closes when they land. full text: history, row 856 |
+
+### Row 900
+
+closed by 71d1018d1
+
+| 900 | under walk, writing a rope (a string past 32 characters made by `\|\|`) to a `FileWriteStream` stops the run: "Unification error: Closure/Constructor for writeOn param 1 (stream:WriteStream) got arg <Write handle to …> of type FileWriteStream", at `Library/File.fss:79` | NEGATIVE-VERIFIED | library bug (library) | silent | none | review io-objects-carrier-2026-11-06 | siblings: 901. `FileWriteStream` extends only `FileStream` (`Library/File.fsi:102`, `Library/File.fss:66`, at c141e7f6a), not `WriteStream`, so `write(x:String)`'s `x.writeOn(self)` (`Library/File.fss:79`) finds no `writeOn` that takes it. A flat string writes. `bin/fortress` on `o.write("a rope: abc…xyz" \|\| "ABC…XYZ\n")`: the error quoted, rc=1. Fix: extend `WriteStream`, a step that option (b) of `explorations/reviews/io-objects-carrier-2026-11-06.md` (point 16) allows and its rung may leave out; `WriteStream` declares `abstract flush()` (`Library/Stream.fsi:64`), which the object lacks (row 901). |
+
+### Row 901
+
+closed by 71d1018d1
+
+| 901 | the one library's `FileWriteStream` has no `flush()`, though `Library/File.fsi:131` declares it: under walk `o.flush()` stops the run, "Cannot find definition for method flush given receiver <Write handle to …>" | NEGATIVE-VERIFIED | library bug (library) | silent | none | review io-objects-carrier-2026-11-06 | siblings: 841, 900. `object FileWriteStream` in `Library/File.fss:66` declares no `flush`, at c141e7f6a; walk does not check a component against its api (row 841). Extending `WriteStream` (row 900) asks for it too: `abstract flush()`, `Library/Stream.fsi:64`. `bin/fortress` on `o = FileWriteStream("out"); o.write("x\n"); o.flush()`: the error quoted, rc=1. The writer rung of climb batch 27 left `FileWriteStream` on its glue, since an object of a native component holds no field under walk (row 926); the fix waits for the reader rung, which ends `File`'s nativeness. |
+
+### Row 902
+
+closed by 71d1018d1
+
+| 902 | under walk, opening a missing file stops the run with an error that no `catch` sees: `FileReadStream("…/no-such-file.txt")` inside a `try` whose `catch` names `IOFailure` ends 'ProgramError: … FileNotFound: …', rc=1 | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/try.tex`, "Try Expressions" | none | review io-objects-carrier-2026-11-06 | siblings: 903. The glue answers `error("FileNotFound: " + name)` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/FileReadStream.java:43-44`, at c141e7f6a), a walk error, not a Fortress exception. `bin/fortress` on that `try`: 'FileNotFound: tmp/review-rows/no-such-file.txt', and 'after the try' never printed. The compiled helpers raise `fortress.CompilerBuiltin$FileNotFoundException` (`nativeHelpers/fileOps.java:37`, `:82`). `Writer(name)` now raises the library's `FileNotFoundException`, which a `catch` sees (`tests/NativeHelperWriterWalk`); `FileWriteStream`'s glue still answers the walk error (`interpreter/glue/prim/FileWriteStream.java:43-44`). |
+
+### Row 926
+
+closed by 71d1018d1
+
+| 926 | under walk, no object of a `native component` can be a plain Fortress object: walk builds each one through a glue class of its name and evaluates its fields once, without the object, so `FileWriteStream` cannot hold its Java writer in a field while `File` stays native | NEGATIVE-BOUNDED | design limit (walk) | silent | none | climb batch 27 rung W | `CUWrapper` builds every native component by `BuildNativeEnvironment` (`ProjectFortress/src/com/sun/fortress/interpreter/env/CUWrapper.java:122`), whose `forObjectDecl1` makes each object's constructor from the class `<package>.<Name>` (`interpreter/evaluator/BuildNativeEnvironment.java:99-150`); `NativeConstructor.initializeSelfEnv` evaluates the fields once per constructor (`interpreter/evaluator/values/NativeConstructor.java:71-88`), at 85236bf98. A probe `FileWriteStream` in `Library/File.fss` with the field `under: JavaBufferedWriter = makeJavaBufferedWriter(fileName)`: 'File.fss:67:56-62: undefined variable [$self]', rc=1. Way through: end `File`'s nativeness, the reader rung's step. |
+
+### Row 929
+
+closed by a3eba5067
+
+| 929 | the compiled checker crashes, 'Comparison method violates its general contract!', at a call with 32 or more applicable candidates: it sorts them by `moreSpecific`, a partial order, with `sortWith`, and Java's TimSort refuses some orders; on climb batch 27's tree, `x = -1` in `Char`'s `digit` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/overloading.tex`, "Overloading Resolution" | explorations/coordinator/tools/distance/run.sh | climb batch 27 gate | siblings: `Functionals.scala:728`, `CoercionOracle.scala:255`, `Formula.scala:609`. `Functionals.scala:761`, at a2f0b5cf2: `Ordering.fromLessThan` reads incomparable candidates as equal, which is not transitive; TimSort checks only on 32 or more. `FortressBuiltin.fss:692` meets 33 candidates of `=`, 24 of them rung N's pairs; their order is the hash order of the overloadings' names (`ExprDisambiguator.scala:870-874`), which hold declaration lines, so one blank line at `FortressBuiltin.fss:14` hides it. The distance's two `#crash` rows; the stage keeps `Char` unchecked. Way through: order by rank, at a cost in time. |
+
+### Row 930
+
+closed by 70c26e3fd
+
+| 930 | on the compiled path no `catch` sees a raise of `IOFailure` or `FileNotFoundException` by `fileOps` or a `FortressBuffered…` class: `Utility.makeFortressException(name, msg)` seeks a constructor at `java.lang.String`, which the prelude's class lacks, and the run ends in `FortressImplementationError` | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/expressions/try.tex`, "Try Expressions" | XXXFileOpsRaiseCaughtCompiled | climb batch 28 rung R | siblings: 902. `Class.forName(name).getConstructor(new Class[]{ String.class })` (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java:30`, at 157323e51); `javap` of `fortress.CompilerBuiltin$IOFailure` shows `IOFailure(fortress.CompilerBuiltin$String)`. A compiled reader's `jbrWhenUnconsumed` after `jbrConsume`: 'FortressImplementationError: fortress.CompilerBuiltin$IOFailure.<init>(java.lang.String)', exit 1; `makeJavaBufferedReader` on a missing file in a `try` that catches `FileNotFoundException`: the same at `FileNotFoundException`, rc=1, on the base and on the edit. Walk is not hit: there the class does not load, and the loader raises the library's object. |
+
+### Row 733
+
+closed by d839b7421
+
+| 733 | the code generator crashes, 'Not in the trait table: C', on an object whose first supertrait is an imported api's trait and whose later supertrait defines a method of a name that the api's trait declares, also where the two overload validly | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | none | climb batch 16's Q1 probe | siblings: 732. `dumpMethodChaining` compares the trait of each same-named method of the first supertrait with the body's trait (`typeAnalyzer.equiv`, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1009` at c124c6b65), and the api trait's type is not in the code generator's trait table. Probe, run at 423958063 (`explorations/perf-probes/abstract-sibling-body/REPORT.md`, section 2): api `Q1ApiC` with `trait C abstract tag(self, n: ZZ32): String end`; a program with `trait D tag(self, s: String): String = s end`, `object O extends { C, D } tag(self, n: ZZ32): String = "c" end`: the compile stops with the RuntimeException; walk prints `cd`. No workaround is recorded. |
+
+### Row 895
+
+closed by 8ff5cb7ff
+
+| 895 | checked against the interpreter's prelude, a binding that names any helper of `nativeHelpers/systemOps` stops its component with 'FortressBuiltin.StringVector is undefined.': the checker reads the whole class, and `systemOps.getArgs` answers an `FStringVector` | NEGATIVE-VERIFIED | implementation gap (checker) | silent | none | climb batch 26 rung T | siblings: 368. `getArgs` (`nativeHelpers/systemOps.java:29`, at 93884be8d); `NamingCzar` maps `FStringVector` to `FortressBuiltin.StringVector` (`compiler/NamingCzar.java:339-340`), which the interpreter's `FortressBuiltin` does not declare. Run before 93884be8d moved `lineSeparator` from `systemOps` to `stringOps`: the distance stage with `Library/FlatString.fss:25-26` naming `systemOps.lineSeparator`: 'FortressBuiltin.StringVector is undefined.', 'File FlatString.fss has 1 error.', '#total none: 1 target(s) stopped'. `System`'s `getEnvironment` and `getProperty` name `systemOps` (`Library/System.fss:41`, `:51`); neither stage reads `System`. Workaround: name a helper of another class. |
