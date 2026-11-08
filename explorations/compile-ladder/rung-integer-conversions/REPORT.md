@@ -134,7 +134,7 @@ The build's files were removed with `git clean -fXq -- Specification`.
 ## Programs run old against new
 
 - `ProjectFortress/demos/sudoku.fss` under walk, old (`old-fortress.sh` on the base build's copy) and new: the same 27 lines after `Operation took` is masked ('SAME').
-- The probe of `explorations/reviews/quickcheck-widen.md`, 7.3, with a `catch` and three more values, `tmp/rung-integer-conversions/probe/PerturbLowBits.fss`: old '2^40 + 7: 1001751898', '2^70 + 7: 1001751898', '2^63: 1543497436', '-2^63: 1543497436', '7: 1428495430'; new the same but '2^70 + 7: IntegerOverflow' and '2^63: IntegerOverflow'.
+- The probe of `explorations/reviews/quickcheck-widen.md`, 7.3, its `after` wrapped in a `try` that answers "IntegerOverflow" on that exception, with three more values, 2^63, -2^63 and 7, run under walk from a scratch folder: old '2^40 + 7: 1001751898', '2^70 + 7: 1001751898', '2^63: 1543497436', '-2^63: 1543497436', '7: 1428495430'; new the same but '2^70 + 7: IntegerOverflow' and '2^63: IntegerOverflow'.
 - `NarrowOfZZ` and `WidenOfZZ`, a ZZ's narrow of 2^32+5 and widen of 2^63: old 'narrow: 5' and 'widen: -9223372036854775808'; new 'Failed to find any matching overload, args = (4294967301:ZZ)' and '(9223372036854775808:ZZ)'.
 - IntLiteralTextWalk through the harness on the base and on the edit: 'PASS' on both, so the eight answer alike at the object IntLiteral.
 
@@ -157,9 +157,9 @@ The distance stage (`explorations/coordinator/tools/distance/run.sh tmp/rung-int
         crash gone   stage	component FortressBuiltin leftover	InterpreterBug	** bug! Result of typechecking still contains intermediate nodes. Component at FortressBuiltin.fss:12.1
         crash new    none
 
-The per-site list `dist-post/errors.tsv` holds no row, as `explorations/compile-ladder/gate/distance-sites.tsv` holds none, so no site moved. The two crash rows of value object Char, row 929's, go on this tree: Char, now `FortressBuiltin.fss:669:1-781:2`, reads '@@TC DECL-OK ObjectDecl ... FortressBuiltin.fss:669:1-781:2 errors=0' in `dist-post/run.txt`. Char's body calls no conversion; the edit changes the overload sets of narrow, widen, signed, unsigned and big and the members of the five integer types, which the sorts of row 929 read, but the cause is not analysed here. No crash row is declared.
+The stage's per-site list holds no row, as `explorations/compile-ladder/gate/distance-sites.tsv` holds none, so no site moved. The two crash rows of value object Char, row 929's, go on this tree: Char, now `FortressBuiltin.fss:669:1-781:2`, reads '@@TC DECL-OK ObjectDecl ... FortressBuiltin.fss:669:1-781:2 errors=0' in the stage's full output. Char's body calls no conversion; the edit changes the overload sets of narrow, widen, signed, unsigned and big and the members of the five integer types, which the sorts of row 929 read, but the cause is not analysed here. No crash row is declared.
 
-**The ladder subset** (gate.md, "The ladder regression", own subset): the eight files whose recorded first error in the baseline names something this rung touched (big, unsigned, widen, narrow, IntLiteral's asNN32), run after the edit with the drivers copied under `tmp/rung-integer-conversions/ladder/`. None is in climb batch 27's `ladder.tsv` (the 85 of the pass list), so each is compared with the baseline's `explorations/compile-ladder/baseline-2026-09-19/ladder.tsv`:
+**The ladder subset** (gate.md, "The ladder regression", own subset): the eight files whose recorded first error in the baseline names something this rung touched (big, unsigned, widen, narrow, IntLiteral's asNN32), run after the edit with the drivers copied into the rung's scratch, as gate.md gives them. None is in climb batch 27's `ladder.tsv` (the 85 of the pass list), so each is compared with the baseline's `explorations/compile-ladder/baseline-2026-09-19/ladder.tsv`:
 
 | file | baseline phase, first error | now |
 |---|---|---|
@@ -187,7 +187,7 @@ None moved DOWN. These compile against the compiler's prelude, which this rung d
 
 - Each getter as declared, helper or Fortress body: the table of "What changed"; the two new helpers' signatures at `simpleArbitraryPrecisionArith.java:148`, `:154`.
 - The 25 getters' answers at their edges, the 13 that can raise, and the compiled guard's answers: "The failing run and the passing run".
-- The low-bits names newly declared: NN32 narrow, unsigned, big; NN64 widen, unsigned, big; ZZ32 signed; ZZ64 signed; ZZ big. No call in the library, the tests, the demos or the model reached one through a coercion before, by a grep that pairs each call's argument with its declared type (`tmp/rung-integer-conversions/find-coerced.py` printed only these tests' own calls and same-type calls); the calls that did were the evidence's probes (rows 858, 859).
+- The low-bits names newly declared: NN32 narrow, unsigned, big; NN64 widen, unsigned, big; ZZ32 signed; ZZ64 signed; ZZ big. No call in the library, the tests, the demos or the model reached one through a coercion before, by a script that pairs each call's argument with the types its name is declared at (it printed only this rung's own test calls and calls on a type that already declared the member); the calls that did were the evidence's probes (rows 858, 859).
 - Each caller of ZZ's narrow or widen, before and after: the callers' table; the team's lines among them are Format's three, QuickCheck's three (whose `widen` at `:322` the revival wrote, `explorations/reviews/quickcheck-widen.md`, 4.2) and sudoku's two (`ProjectFortress/demos/sudoku.fss:42-43`), and rung I's count functions at `FortressLibrary.fss:723`, `:754` and `FortressBuiltin.fss:400`, `:419`.
 - IntLiteral's 8 as written, and their answers at the object IntLiteral before and after: "What changed" and "Programs run old against new".
 - The revised sentences, callouts, the Appendix I entry's Effect and the build: "What the specification settles".
@@ -222,4 +222,4 @@ None moved DOWN. These compile against the compiler's prelude, which this rung d
 
 ## Commands
 
-- `tmp/rung-integer-conversions/find-coerced.py`: pairs each call of narrow, widen, signed, unsigned and big in the library, the tests, the demos and the model with the declared types of its argument's name, to list calls on a type that lacked the member. Not committed.
+- A scratch script, not committed: for each `.fss` file of `ProjectFortress/tests`, `test_library`, `demos`, `not_passing_yet`, `Library` and `explorations/run-c4/src`, it collects each name declared `: NN32`, `: NN64`, `: ZZ32`, `: ZZ64` or `: ZZ` or bound to `unsigned(…)`, and prints each call `unsigned(v)` or `big(v)` with v an NN32, NN64 or ZZ, `widen(v)` with v an NN64, `narrow(v)` with v an NN32 and `signed(v)` with v a ZZ32 or ZZ64.
