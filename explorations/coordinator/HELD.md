@@ -4,6 +4,8 @@
 
 ## Held on the `fortress-repo` page (2026-11-08)
 
+- 07:51 Thread `546f5ec4` (change 40, walk's `Int` behind the printed `ZZ32`): it reads as a walk defect, not a rule of revived Fortress; fix walk now so that its internals do not leak to workers who write Fortress, not extend the skill with them. Answered on the thread from the row 364 probe (`reviews/row-364-walk-generics-2026-11-08.md`): neither the switch-over nor walk running the checker closes it whole; way A is one walk rung. An ask after his reading.
+- 07:45 Thread `90536a40`: changes 37 and 38 read; their threads resolved; the page at version 16 starts at change 39. The discussions of 39 to 44 or 45 stay open and may move to chat, with the threads' context.
 - 07:15 Thread `4e0493d3`, his rule: a page of skill changes always shows the skill's current text. An unread item whose passage a later change touched gets that change folded in, not a new item: "Why wasn't the page updated to reflect the current state of the skill?" Change 39 showed climb batch 27's words while change 51 had changed them again. The cause was the coordinator's brief to keep changes 37 to 48 as they were. The page worker folds 50 into 37 and 51 into 39 (07:1x). For the skill writer: the `coordinator` skill's "Pages" bullet on the page of `fortress-repo` changes, and `references/skill-rewrite.md`, "The method", step 7.
 - 07:01 Thread `4e0493d3`: all three spellings in the skill, `≣`, `SEQV` and `===`, with `≣` told apart from `≡`. Answered: change 51's text already has them (revival-changes.md:55).
 - 01:07 On change 39's thread `4e0493d3`: put the updates discussed and clarified so far into the skill now, for climb batch 28; he continues reading in the morning (2:00 his time). So the skill writer's task of 01:08 (the three fixes below), its cold read, then the launch; the page's changes 49 and on for his morning read.
@@ -16,6 +18,7 @@
 
 ## Held in chat (2026-11-08)
 
+- 07:5x His request: a study of how numerals and string literals are represented on each path and how that meets equivalence, the complement of the strings report; literals interfering with equivalence surprise him (`FloatLiteral`; `"ab" SEQV "ab"` false); two string constants in the source should be strictly equivalent, as Java interns them, keeping P-168; changes 39 to 44 of the page read for the same pattern. Done: `reviews/literals-2026-11-08.md`. The discussion after the landing: three asks, string literals, float numerals, integer numerals where nothing fixes the type.
 - 02:2x His answer to Q3: option 1 (`args` in Fortress over two scalar helpers, in rung S).
 - 02:1x His answer to Q2: (ii), the slot API. With it, his word on the array goal: decisions are made in the generic way; all numerical code in HPC settings must eventually run unboxed on the compiled path, and all arrays must have the most efficient store possible, or Fortress stays a research toy; P-84's wording already meant this, and the narrow reading (only `RR64` leaves the boxed store), by the natives judgement, the planner, the Fable review and the coordinator's Q2 ask, was the error. P-84 and P-85 reworded at `bd1174a2`. He asked whether (ii) needs a probe and a new plan: no, the planner modelled it and rung A's brief names it, with a four-task contention test.
 - 01:10 He delayed the timed default of Q2 while he read it.
