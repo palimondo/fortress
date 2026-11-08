@@ -122,7 +122,7 @@ The specification asks that updates of shared elements be made inside `atomic` a
 
 ## The demos
 
-The team's 52 demos under walk, by the driver of `rung-team-demos/REPORT.md`, section 13, on `fe19fdad` (`bash tmp/run-demos.sh tmp/rung-array-store/demos`): running when this report was first committed; the result follows in the next commit.
+The team's 52 demos under walk, by the driver of `rung-team-demos/REPORT.md`, section 13, on `fe19fdad` (`bash tmp/run-demos.sh tmp/rung-array-store/demos`), 03:28:54 to 03:57:09 UTC: 'demos: 52 run, 52 reached their end'. The brief leaves the demos to the gather; this run is the rung's own, since the change edits walk and its library (`tests-running.md`, "Outside the gate").
 
 ## Sentences made false
 
