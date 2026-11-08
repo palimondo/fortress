@@ -1,6 +1,6 @@
 <!-- The record of climb batch 28, the sixth batch of the plan's phase 4, the switch-over, for the coordinating session, the curator and the batch's workers. Drafted 2026-11-07 and 2026-11-08 by an Opus planning worker against `main` at `2436f6f25`, whose code is climb batch 27's landed code (`git diff --stat 29e52a3dc 2436f6f25 -- Library ProjectFortress Specification build.xml bin` prints nothing), so climb batch 27's gate tables (`compile-ladder/climb-batch-27/gate/`) describe the base. A first planner, started about 16:45 UTC on 2026-11-07, was lost with the container at 23:09 UTC before it committed anything; this record starts fresh. Its candidates: the reader rung with `FileWriteStream` (P-164; review-queue item 373), the integer conversions (P-161), climb batch 27's rungs S and T, which never started (item 377), the runtime's own natives by P-169 (threads, the arrays' store under Q2, `IntLiteral`'s 8), `getProgramArgsPrim` under Q3, and row 929's sort under P-148. It proposes seven rungs, two of them waiting on his answers to Q2 and Q3 (section 2). -->
 <!-- Sources: PLAN.md, "Where we stand" and phase 4 whole, and "Climb batch 27, listed for his review"; POSITIONS P-169 and its history, P-164, P-161, P-167, P-58, P-148, P-162, P-37, P-38, P-84, P-85, P-76, P-33, cited by number; FACTS F-32, F-34, F-53, F-54, F-298, F-299, F-321, F-328, F-330; the ledger rows 82, 318, 349, 466, 502, 578, 732, 733, 841, 858, 859, 895, 896, 900, 901, 902, 926, 928, 929; review-queue items 373, 377, 403, 406, 407, 319, 355, 380, 383, 384, 385; the reviews `reviews/natives-device-2026-11-07.md`, `reviews/natives-remainder-2026-11-07.md`, `reviews/integer-conversions-2026-11-06.md`, `reviews/io-objects-carrier-2026-11-06.md`; the post-batch review `reviews/batch-27-review.md`, sections 1 to 7 and Part 4; rung W's report `compile-ladder/rung-io-writer/REPORT.md`; `CLIMB-BATCH-27.md` as the form, its rungs S and T and its probes 3 and 21; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; the `coordinator` skill's `references/batch.md`; the code at the sites; the specification's sections cited. -->
-<!-- The planner's probes: `compile-ladder/plan-28/PROBES.md`, in two worktrees of the planner's own at `2436f6f25`, built in place, since no base build survived the container's loss, and removed after. Machine: nproc 4, Intel Xeon Processor @ 2.10 GHz, 2100 MHz, openjdk 25.0.4.1, `FORTRESS_THREADS=1`, loads 0.04 to 1.76. -->
+<!-- The planner's probes: `compile-ladder/plan-28/PROBES.md`, in two worktrees of the planner's own at `2436f6f25`, `/home/user/fortress-p28` and `/home/user/fortress-p28b`, built in place, since no base build survived the container's loss, and removed at 00:14 UTC on 2026-11-08. Machine: nproc 4, Intel Xeon Processor @ 2.10 GHz, 2100 MHz, openjdk 25.0.4.1, `FORTRESS_THREADS=1`, loads 0.04 to 1.76. -->
 
 # Climb batch 28
 
@@ -42,7 +42,7 @@ Fields common to the seven rungs:
   - Each test whose verdict changes in ant testSystem or ant testQuick.
   - Every sentence made false.
   - A file edited beyond those named, any edit of the prelude, of walk or of the checker, and any other line of a team test or demo changed.
-- **briefing** (22 keys, 11 checks):
+- **briefing** (23 keys, 12 checks):
   - P-161 (check): the decision you build, option 6 of the review.
   - P-169 (check): IntLiteral's 8 as Fortress text over asZZ, before the names batch.
   - P-162: the pair pattern and ZZ32's big onto makeZZfromZZ32.
@@ -63,6 +63,7 @@ Fields common to the seven rungs:
   - `code:Library/FortressLibrary.fss#private shiftCount32(b:AnyIntegral):ZZ32 =` (check): rung I's private count functions, whose calls of ZZ's narrow you move.
   - `code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss#value object IntLiteral extends Number` (check): the object whose 8 you write in Fortress.
   - `code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss#trait IntLiteral`: the prelude's IntLiteral, whose conversions and comparisons are Fortress over its getters, the form of yours.
+  - `doc:Specification/appendices/changes.tex#Shifts and narrowing on the integer types` (check): the Appendix I entry whose sentences on narrow of a ZZ your deletion makes false, with its callout revival-shifts.
   - `code:Specification/basic-lib/basic-integers.tex#Like every number type, each of them is a subtype..TYP{IntegerOverflow} is thrown.`: the sentences you revise, narrow's among them.
   - REC `Forks the batch takes, none consequential`: the defaults your rung builds, each with the ways not taken.
 
@@ -70,7 +71,7 @@ Fields common to the seven rungs:
 - **slug:** `rung-io-reader`
 - **worktree:** `/home/user/fortress-io-reader`
 - **section:** `R. N4's reader rung: FileReadStream, Reader and FileWriteStream over the Java-backed traits, and File and Reader plain components (P-164)`
-- **blurb:** P-164's reader rung, with FileWriteStream (item 373): FortressLibrary's JavaBufferedReader gains the prelude's eight methods on existing fileOps helpers, its factory over a file name on jbrOpen and one for standard input on a new jbrStdIn; walk carries the trait by name as FortressBufferedReader through a private native object in FortressBuiltin; FileReadStream, Reader and FileWriteStream become plain Fortress objects over a field, and File and Reader plain components, so their 25 glue bindings go; FileWriteStream becomes a WriteStream with its flush (rows 900, 901, 841); a missing file and a read after consume raise the library's exceptions, which a catch sees (row 902); the -1 at the end of a file kept.
+- **blurb:** P-164's reader rung, with FileWriteStream (item 373): FortressLibrary's JavaBufferedReader gains the prelude's eight methods on existing fileOps helpers, its factory over a file name on jbrOpen and one for standard input on a new jbrStdIn; walk carries the trait by name as FortressBufferedReader through a private native object in FortressBuiltin; FileReadStream, Reader and FileWriteStream become plain Fortress objects over a field, and File and Reader plain components, so their 25 glue bindings go; FileWriteStream becomes a WriteStream with its flush (rows 900, 901); a missing file and a read after consume raise the library's exceptions, which a catch sees (row 902); the -1 at the end of a file kept.
 - **points to report:**
   - Each method changed in StaticNativeApp and each class added under interpreter/; the new helper and its Java signature.
   - Each binding moved with the helper it names; each method that became Fortress text.
@@ -79,7 +80,7 @@ Fields common to the seven rungs:
   - Your tests before and after through the harness and junit.sh; FileReadWrite, WordCountSmall, FileConversion and LongStringTests; ConcurrentPrinting at four threads.
   - The count table and the distance table on your final tree, and any site that comes; the crash rows you see.
   - Each test whose verdict changes in ant testSystem or ant testQuick.
-  - Every sentence made false, and each of rows 900, 901, 902, 926 and 841 closed or noted.
+  - Every sentence made false, and each of rows 900, 901, 902 and 926 closed, and row 928 rewritten.
   - A file edited beyond those named, any edit of the prelude, of the run-time classes or of the writer side.
 - **briefing** (19 keys, 10 checks):
   - P-164 (check): the decision whose reader rung you build.
@@ -355,7 +356,7 @@ Two, each consequential by the `coordinator` skill's test. Without his answer, t
 - **The Fable review of this record,** with a go in advance (`references/batch.md`, "The go").
 - **The manifest's generator,** `compile-ladder/plan-28/manifest/`, made by the coordinator from `plan-27/manifest/` with this record's values (section 6, "The generator"); A's block left out without Q2's answer.
 - **The base build,** at `main`'s head after the generator, by the manual's "Before the launch", step 2.
-- **The disk.** The script stops under 1.5G a rung plus 4G (`climb-batch-workflow.js`, `DISK_FLOOR_G`): 14.5G for seven rungs, 13G for six. Free at 00:03 UTC on 2026-11-08 (01:03 his time): 23G, with the planner's two worktrees (0.6G) still standing; they are removed before this record's last commit. Climb batch 27 used about 0.65G a rung, 1.1G where `ant testQuick` ran, and about 1G for the gather and the gate (`reviews/batch-27-review.md`, section 7, point 2), so about 9G for seven.
+- **The disk.** The script stops under 1.5G a rung plus 4G (`climb-batch-workflow.js`, `DISK_FLOOR_G`): 14.5G for seven rungs, 13G for six. Free at 00:14 UTC on 2026-11-08 (01:14 his time), after the planner's two worktrees were removed: 23.1G by `df -P` (24,176,504 KB), above the floor for seven rungs by 8.6G. Climb batch 27 used about 0.65G a rung, 1.1G where `ant testQuick` ran, and about 1G for the gather and the gate (`reviews/batch-27-review.md`, section 7, point 2), so about 9G for seven.
 - The gather runs the 52 team demos on the merged tree (P-79; F-283): R changes every program that reads a file or standard input, V the library's integer conversions, H walk's loader, A every array.
 
 ### Cost
@@ -401,7 +402,7 @@ Each default can be undone, none reverses a decision of his, and none touches a 
 **Rung R**
 
 13. **R1. The reader trait's `read(): Char` on `jbrRead`, the prelude's method, and the -1 at the end in Fortress.** Default: `JavaBufferedReader.read(): Char` is a bare binding on `fileOps.jbrRead`, which answers 0 at the end and sets `eof` (`compiler/runtimeValues/FortressBufferedReader.java:55-70`); walk carries `Char` in an `int`, and the compiled rewrite passes the result through its transfer helper. `FileReadStream`'s and `Reader`'s `uncheckedReadChar(): ZZ32` answer -1 where `under.eof` is set after the read, else the character's `codePoint`, so the library's `characters` generator still ends (section 5, probe 5). The ways not taken: a fourth new helper that answers -1, beside P-164's three; `read(): ZZ32`, which leaves the prelude's method.
-14. **R2. `FileWriteStream` a `WriteStream`, with its `flush`** (fork W5's last step; rows 900, 901, 841). Default: so: `object FileWriteStream(fileName: String, under: JavaBufferedWriter) extends { FileStream, WriteStream }`, its `write`s, `flush` and `close` over `under`, as `Writer`'s are. The library's way: `Writer` is a `WriteStream` over the same trait. The way not taken: `FileStream` alone, as the team declared it, with rows 900 and 901 left open.
+14. **R2. `FileWriteStream` a `WriteStream`, with its `flush`** (fork W5's last step; rows 900, 901). Default: so: `object FileWriteStream(fileName: String, under: JavaBufferedWriter) extends { FileStream, WriteStream }`, its `write`s, `flush` and `close` over `under`, as `Writer`'s are. The library's way: `Writer` is a `WriteStream` over the same trait. The way not taken: `FileStream` alone, as the team declared it, with rows 900 and 901 left open.
 15. **R3. The glue classes of the three objects stay in the tree, unused,** as rung W left `interpreter/glue/prim/Writer.java` and `BufferedWriter.java`. Default: so; their removal belongs to the names batch's clean-up. The way not taken: delete them in this rung.
 16. **R4. The factories `makeJavaBufferedReader(name: FlatString)` on `jbrOpen`, the prelude's name, and `makeJavaBufferedStdIn()` on a new `jbrStdIn`, in UTF-8,** as rung W named the writer's (its decision 3). Default: so; `stdIn` is `Reader("<stdin>", makeJavaBufferedStdIn())`.
 17. **R5. The printed texts kept:** `FileReadStream`'s `asString` `<Read handle to "…">`, `FileWriteStream`'s `<Write handle to "…">`, `Reader`'s `Reader on "…"`, each in Fortress over `fileName`. Default: so.
@@ -469,7 +470,7 @@ Each rung's section is its worker's brief. The skill's `revival-changes.md` give
 - `ZZ`'s `narrow` and `widen` (`Library/FortressLibrary.fss:1150-1154`, `.fsi`) deleted; `ZZ32`'s `big` (`:854-855`) onto `makeZZfromZZ32`.
 - The callers moved, each value unchanged (fork V4): `Library/Format.fss:70`, `:117`, `:122`; `Library/QuickCheck.fss:320`, `:322`, `:323`; `ProjectFortress/demos/sudoku.fss:42-43`; `ProjectFortress/compiler_tests/XXXZZNarrowRungP.fss`; `Library/FortressLibrary.fss:723` and `:754`, in rung I's private count functions. Find every other call of a `ZZ`'s `narrow` or `widen` with `git grep` and by the walk suite; name each in your report.
 - `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`, `value object IntLiteral` (`:529`): `asZZ32`, `asZZ64`, `asNN32`, `asNN64` as `self.asZZ` followed by `ZZ`'s getter; `asString` and `asExprString` as `self.asZZ.asString`; `=` at `IntLiteral` as `self.asZZ = b.asZZ`; `cmp` as -1, 0 or 1 by `ZZ`'s order (forks V2, V3). Their api lines (`FortressBuiltin.fsi:179-197`) stay.
-- `Specification/basic-lib/basic-integers.tex:39-45`: the getters' sentences beside `narrow`'s, `ZZ` dropped from it, with a callout and an Appendix I entry in `Specification/appendices/changes.tex`, in the revision form (P-96; fork V6).
+- `Specification/basic-lib/basic-integers.tex:39-45`: the getters' sentences beside `narrow`'s, `ZZ` dropped from it, with a callout and an Appendix I entry in `Specification/appendices/changes.tex`, in the revision form (P-96; fork V6). The entry "Shifts and narrowing on the integer types" (`changes.tex:1725`, label `revival-shifts`) and its callout (`basic-integers.tex:63-66`) state `narrow` on `ZZ`: amend the clauses that your deletion makes false, as climb batch 27's rung N amended one clause of another entry, and name each in your report.
 - Not yours: the prelude; `IntLiteral`'s other 21 and `FloatLiteral`'s 3 (N5); the saturating operators (row 797); Appendix I's natives effect, which the gather revises (fork 5).
 
 **Tests, first.**
@@ -528,7 +529,7 @@ Compare each with climb batch 27's gate table by `diff`, and the distance with `
 
 **The stages.** Both, once each on your final tree, as rung V's section gives the commands with your slug (fork 3). They read `FortressLibrary`'s trait and `FortressBuiltin`'s native object; neither reads `File` or `Reader`.
 
-**Rows.** Rows 926, 900, 901 and 902 close with your commit, each with your walk test; row 841 is about walk's want of an export check, so your `record.md` gives a note that `FileWriteStream`'s `flush` now exists, after `ledger.py note 841 TEXT --check`. Row 928 holds the writer trait's limit: your `record.md` gives a note that the reader trait has the same, after the same check.
+**Rows.** Rows 926, 900, 901 and 902 close with your commit, each with your walk test. Row 841, walk's want of an export check, stays as it is. Row 928 holds the writer trait's limit, and the reader trait has the same; its notes have 23 characters left of 700, so your `record.md` gives its whole new line, its claim naming both traits, after you read it with `ledger.py show 928`.
 
 **Specification.** None: the specification names none of the I/O objects (rung W's report, "What the specification settles"). List every sentence made false: F-330's and F-32's counts, P-164's "The writer side … moves before the reader side" as a statement of what is to come, PLAN's N4 reader line, the `fortress-repo` skill's `references/interpreter.md` list of carriers.
 
@@ -574,7 +575,7 @@ Compare each with climb batch 27's gate table by `diff`, and the distance with `
 
 **The stages.** Both, once each on your final tree, as rung V's section gives the commands with your slug (fork 3). They read `NativeArray`, `FortressLibrary`, `FortressBuiltin` and `arrayOps` whole.
 
-**Rows.** Row 466 stays; your `record.md` gives a note that the store keeps its rule, after `ledger.py note 466 TEXT --check`.
+**Rows.** Row 466's claim stays; its notes cite the glue's `init0`, which your change moves, and have 31 characters left of 700, so your `record.md` gives its whole new line, its notes citing the store's `init`, after you read it with `ledger.py show 466`.
 
 **Specification.** None. List every sentence made false: F-32 and F-299's counts, F-11 and F-18 where they say what holds an array's elements, PLAN's D2 line, the `fortress-repo` skill's `references/compiler.md` and `library.md` where they name the arrays' store.
 
@@ -888,8 +889,8 @@ New rows go into `explorations/fortress-gap-ledger.md` only through `ledger.py a
 
 - **Filed by plan:** none.
 - **Closed:** 858, 859 and 502 (V), their test `IntegerConversionsWalk`; 926, 900, 901 and 902 (R), their test `NativeHelperReaderWalk`; 929 (K), its test `PartialOrderCandidatesCompiled`; 895 (S), `--test none` with its note (fork S2); 733 (T), its test `TraitTableApiTraitCompiled`.
-- **Rewritten:** 349 (V), its half on `narrow` of a `ZZ` closed; 896 (S), its notes' helper path.
-- **Noted:** 841 and 928 (R), 466 (A), 82 (H), each after `ledger.py note N TEXT --check`; by a rewrite where it does not fit.
+- **Rewritten,** each row's whole new line in its rung's `record.md`, since none has room for a note (`ledger.py note N TEXT --check` on the base: 4, 23, 31 and 3 characters left of 700): 349 (V), its half on `narrow` of a `ZZ` closed; 928 (R), its claim naming both traits; 466 (A), its notes on the store's `init`; 896 (S), its notes' helper path.
+- **Noted:** 82 (H), 293 characters left, after `ledger.py note 82 TEXT --check`.
 
 ### After the landing
 
