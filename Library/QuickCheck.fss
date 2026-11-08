@@ -317,11 +317,11 @@ object genZZ extends Gen[\ZZ\]
 
     perturb(obj:ZZ, g:AnySeededRandomGen): AnySeededRandomGen =
         if -2147483648 <= obj < 2147483648 then
-            g.perturbed(0, narrow(obj))
+            g.perturbed(0, obj.asZZ32)
         else
-            perturb(big(widen(obj) LSHIFT 32),
-                    g.perturbed(1, narrow((obj BITAND 4294967295 (* 2^32-1 *)) -
-                                          2147483648 (* 2^31 *))))
+            perturb(big(obj.asZZ64 LSHIFT 32),
+                    g.perturbed(1, ((obj BITAND 4294967295 (* 2^32-1 *)) -
+                                    2147483648 (* 2^31 *)).asZZ32))
         end
 end
 

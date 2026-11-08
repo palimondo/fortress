@@ -1,0 +1,197 @@
+(* The integer types' checked getters asZZ32, asZZ64, asNN32, asNN64 and asZZ answer at their edges and raise IntegerOverflow one past them, bitsAs keeps the bits, and the low-bits names answer on every type that declares them. *)
+component IntegerConversionsWalk
+export Executable
+
+shown(v: Any): String =
+  typecase v of
+    IntLiteral => v.asString || " : IntLiteral"
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    NN64 => v.asString || " : NN64"
+    ZZ => v.asString || " : ZZ"
+    else => v.asString || " : another type"
+  end
+
+raises(f: () -> Any): Boolean =
+  try
+    ignore(f())
+    false
+  catch e
+    IntegerOverflow => true
+  end
+
+run(): () = do
+  (* ZZ32 values *)
+  aMin: ZZ32 = -2147483647 - 1
+  aMax: ZZ32 = 2147483647
+  aZero: ZZ32 = 0
+  aMOne: ZZ32 = -1
+  (* ZZ64 values *)
+  bMin: ZZ64 = -9223372036854775807 - 1
+  bMax: ZZ64 = 9223372036854775807
+  bZero: ZZ64 = 0
+  bMOne: ZZ64 = -1
+  b31: ZZ64 = 2147483648
+  b31m: ZZ64 = 2147483647
+  bN31: ZZ64 = -2147483648
+  bN31m: ZZ64 = -2147483649
+  b32: ZZ64 = 4294967296
+  b32m: ZZ64 = 4294967295
+  (* NN32 values *)
+  cZero = unsigned(aZero)
+  c31m = unsigned(aMax)
+  c31 = unsigned(aMin)
+  cMax = unsigned(aMOne)
+  (* NN64 values *)
+  dZero = unsigned(bZero)
+  d31m = unsigned(b31m)
+  d31 = unsigned(b31)
+  d32m = unsigned(b32m)
+  d32 = unsigned(b32)
+  d63m = unsigned(bMax)
+  d63 = unsigned(bMin)
+  dMax = unsigned(bMOne)
+  (* ZZ values *)
+  eZero: ZZ = 0
+  eMOne: ZZ = -1
+  eN31: ZZ = -2147483648
+  eN31m: ZZ = -2147483649
+  e31m: ZZ = 2147483647
+  e31: ZZ = 2147483648
+  e32m: ZZ = 4294967295
+  e32: ZZ = 4294967296
+  eN63: ZZ = -9223372036854775808
+  eN63m: ZZ = -9223372036854775809
+  e63m: ZZ = 9223372036854775807
+  e63: ZZ = 9223372036854775808
+  e64m: ZZ = 18446744073709551615
+  e64: ZZ = 18446744073709551616
+  e32p5: ZZ = 4294967301
+  e64p5: ZZ = 18446744073709551621
+
+  (* ZZ32's five: asZZ32 is the identity, asZZ64 and asZZ equal the coercions, asNN32 and asNN64 raise below 0 *)
+  assert(shown(aMin.asZZ32), "-2147483648 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ32 -2^31 is itself")
+  assert(shown(aMax.asZZ32), "2147483647 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ32 2^31-1 is itself")
+  assert(shown(aMin.asZZ64), "-2147483648 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ32 -2^31")
+  assert(shown(aMax.asZZ64), "2147483647 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ32 2^31-1")
+  assert(shown(aZero.asNN32), "0 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the ZZ32 0")
+  assert(shown(aMax.asNN32), "2147483647 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the ZZ32 2^31-1")
+  assert(raises(fn () => aMOne.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the ZZ32 -1 throws IntegerOverflow")
+  assert(raises(fn () => aMin.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the ZZ32 -2^31 throws IntegerOverflow")
+  assert(shown(aZero.asNN64), "0 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the ZZ32 0")
+  assert(shown(aMax.asNN64), "2147483647 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the ZZ32 2^31-1")
+  assert(raises(fn () => aMOne.asNN64), "basic-integers.tex, section \"Integers\": asNN64 of the ZZ32 -1 throws IntegerOverflow")
+  assert(shown(aMin.asZZ), "-2147483648 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the ZZ32 -2^31")
+  assert(shown(aMax.asZZ), "2147483647 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the ZZ32 2^31-1")
+
+  (* ZZ64's five *)
+  assert(shown(bN31.asZZ32), "-2147483648 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ64 -2^31")
+  assert(shown(b31m.asZZ32), "2147483647 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ64 2^31-1")
+  assert(raises(fn () => bN31m.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ64 -2^31-1 throws IntegerOverflow")
+  assert(raises(fn () => b31.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ64 2^31 throws IntegerOverflow")
+  assert(raises(fn () => bMin.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ64 -2^63 throws IntegerOverflow")
+  assert(shown(bMin.asZZ64), "-9223372036854775808 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ64 -2^63 is itself")
+  assert(shown(bMax.asZZ64), "9223372036854775807 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ64 2^63-1 is itself")
+  assert(shown(bZero.asNN32), "0 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the ZZ64 0")
+  assert(shown(b31.asNN32), "2147483648 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the ZZ64 2^31")
+  assert(shown(b32m.asNN32), "4294967295 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the ZZ64 2^32-1")
+  assert(raises(fn () => bMOne.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the ZZ64 -1 throws IntegerOverflow")
+  assert(raises(fn () => b32.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the ZZ64 2^32 throws IntegerOverflow")
+  assert(raises(fn () => bMin.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the ZZ64 -2^63 throws IntegerOverflow")
+  assert(shown(bZero.asNN64), "0 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the ZZ64 0")
+  assert(shown(bMax.asNN64), "9223372036854775807 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the ZZ64 2^63-1")
+  assert(raises(fn () => bMOne.asNN64), "basic-integers.tex, section \"Integers\": asNN64 of the ZZ64 -1 throws IntegerOverflow")
+  assert(raises(fn () => bMin.asNN64), "basic-integers.tex, section \"Integers\": asNN64 of the ZZ64 -2^63 throws IntegerOverflow")
+  assert(shown(bMin.asZZ), "-9223372036854775808 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the ZZ64 -2^63")
+  assert(shown(bMax.asZZ), "9223372036854775807 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the ZZ64 2^63-1")
+
+  (* NN32's five, at values where a signed and an unsigned reading differ *)
+  assert(shown(cZero.asZZ32), "0 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the NN32 0")
+  assert(shown(c31m.asZZ32), "2147483647 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the NN32 2^31-1")
+  assert(raises(fn () => c31.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the NN32 2^31 throws IntegerOverflow")
+  assert(raises(fn () => cMax.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the NN32 2^32-1 throws IntegerOverflow")
+  assert(shown(c31.asZZ64), "2147483648 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the NN32 2^31")
+  assert(shown(cMax.asZZ64), "4294967295 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the NN32 2^32-1")
+  assert(shown(cZero.asNN32), "0 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the NN32 0 is itself")
+  assert(shown(cMax.asNN32), "4294967295 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the NN32 2^32-1 is itself")
+  assert(shown(c31.asNN64), "2147483648 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the NN32 2^31")
+  assert(shown(cMax.asNN64), "4294967295 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the NN32 2^32-1")
+  assert(shown(c31.asZZ), "2147483648 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the NN32 2^31")
+  assert(shown(cMax.asZZ), "4294967295 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the NN32 2^32-1")
+
+  (* NN64's five, at values where a signed and an unsigned reading differ *)
+  assert(shown(dZero.asZZ32), "0 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the NN64 0")
+  assert(shown(d31m.asZZ32), "2147483647 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the NN64 2^31-1")
+  assert(raises(fn () => d31.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the NN64 2^31 throws IntegerOverflow")
+  assert(raises(fn () => d63.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the NN64 2^63 throws IntegerOverflow")
+  assert(raises(fn () => dMax.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the NN64 2^64-1 throws IntegerOverflow")
+  assert(shown(dZero.asZZ64), "0 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the NN64 0")
+  assert(shown(d63m.asZZ64), "9223372036854775807 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the NN64 2^63-1")
+  assert(raises(fn () => d63.asZZ64), "basic-integers.tex, section \"Integers\": asZZ64 of the NN64 2^63 throws IntegerOverflow")
+  assert(raises(fn () => dMax.asZZ64), "basic-integers.tex, section \"Integers\": asZZ64 of the NN64 2^64-1 throws IntegerOverflow")
+  assert(shown(dZero.asNN32), "0 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the NN64 0")
+  assert(shown(d31.asNN32), "2147483648 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the NN64 2^31")
+  assert(shown(d32m.asNN32), "4294967295 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the NN64 2^32-1")
+  assert(raises(fn () => d32.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the NN64 2^32 throws IntegerOverflow")
+  assert(raises(fn () => d63.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the NN64 2^63 throws IntegerOverflow")
+  assert(raises(fn () => dMax.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the NN64 2^64-1 throws IntegerOverflow")
+  assert(shown(d63.asNN64), "9223372036854775808 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the NN64 2^63 is itself")
+  assert(shown(dMax.asNN64), "18446744073709551615 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the NN64 2^64-1 is itself")
+  assert(shown(d63.asZZ), "9223372036854775808 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the NN64 2^63")
+  assert(shown(dMax.asZZ), "18446744073709551615 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the NN64 2^64-1")
+
+  (* ZZ's five *)
+  assert(shown(eN31.asZZ32), "-2147483648 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ -2^31")
+  assert(shown(e31m.asZZ32), "2147483647 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ 2^31-1")
+  assert(raises(fn () => eN31m.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ -2^31-1 throws IntegerOverflow")
+  assert(raises(fn () => e31.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ 2^31 throws IntegerOverflow")
+  assert(shown(eN63.asZZ64), "-9223372036854775808 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ -2^63")
+  assert(shown(e63m.asZZ64), "9223372036854775807 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ 2^63-1")
+  assert(raises(fn () => eN63m.asZZ64), "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ -2^63-1 throws IntegerOverflow")
+  assert(raises(fn () => e63.asZZ64), "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ 2^63 throws IntegerOverflow")
+  assert(shown(eZero.asNN32), "0 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the ZZ 0")
+  assert(shown(e31.asNN32), "2147483648 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the ZZ 2^31")
+  assert(shown(e32m.asNN32), "4294967295 : NN32", "basic-integers.tex, section \"Integers\": asNN32 of the ZZ 2^32-1")
+  assert(raises(fn () => eMOne.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the ZZ -1 throws IntegerOverflow")
+  assert(raises(fn () => e32.asNN32), "basic-integers.tex, section \"Integers\": asNN32 of the ZZ 2^32 throws IntegerOverflow")
+  assert(shown(eZero.asNN64), "0 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the ZZ 0")
+  assert(shown(e63.asNN64), "9223372036854775808 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the ZZ 2^63")
+  assert(shown(e64m.asNN64), "18446744073709551615 : NN64", "basic-integers.tex, section \"Integers\": asNN64 of the ZZ 2^64-1")
+  assert(raises(fn () => eMOne.asNN64), "basic-integers.tex, section \"Integers\": asNN64 of the ZZ -1 throws IntegerOverflow")
+  assert(raises(fn () => e64.asNN64), "basic-integers.tex, section \"Integers\": asNN64 of the ZZ 2^64 throws IntegerOverflow")
+  assert(shown(e64.asZZ), "18446744073709551616 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the ZZ 2^64 is itself")
+  assert(shown(eN63m.asZZ), "-9223372036854775809 : ZZ", "basic-integers.tex, section \"Integers\": asZZ of the ZZ -2^63-1 is itself")
+
+  (* The four bitsAs getters keep the bits *)
+  assert(shown(aMOne.bitsAsNN32), "4294967295 : NN32", "basic-integers.tex, section \"Integers\": bitsAsNN32 of the ZZ32 -1 keeps the bits")
+  assert(shown(aMin.bitsAsNN32), "2147483648 : NN32", "basic-integers.tex, section \"Integers\": bitsAsNN32 of the ZZ32 -2^31 keeps the bits")
+  assert(shown(bMOne.bitsAsNN64), "18446744073709551615 : NN64", "basic-integers.tex, section \"Integers\": bitsAsNN64 of the ZZ64 -1 keeps the bits")
+  assert(shown(bMin.bitsAsNN64), "9223372036854775808 : NN64", "basic-integers.tex, section \"Integers\": bitsAsNN64 of the ZZ64 -2^63 keeps the bits")
+  assert(shown(cMax.bitsAsZZ32), "-1 : ZZ32", "basic-integers.tex, section \"Integers\": bitsAsZZ32 of the NN32 2^32-1 keeps the bits")
+  assert(shown(c31.bitsAsZZ32), "-2147483648 : ZZ32", "basic-integers.tex, section \"Integers\": bitsAsZZ32 of the NN32 2^31 keeps the bits")
+  assert(shown(dMax.bitsAsZZ64), "-1 : ZZ64", "basic-integers.tex, section \"Integers\": bitsAsZZ64 of the NN64 2^64-1 keeps the bits")
+  assert(shown(d63.bitsAsZZ64), "-9223372036854775808 : ZZ64", "basic-integers.tex, section \"Integers\": bitsAsZZ64 of the NN64 2^63 keeps the bits")
+
+  (* The low-bits names on the types that now declare them: no call goes through a coercion *)
+  assert(shown(narrow(cMax)), "4294967295 : NN32", "basic-integers.tex, section \"Integers\": narrow of the NN32 2^32-1 is itself")
+  assert(shown(widen(dMax)), "18446744073709551615 : NN64", "basic-integers.tex, section \"Integers\": widen of the NN64 2^64-1 is itself, with no change of sign")
+  assert(shown(big(cMax)), "4294967295 : ZZ", "basic-integers.tex, section \"Integers\": big of the NN32 2^32-1")
+  assert(shown(big(c31)), "2147483648 : ZZ", "basic-integers.tex, section \"Integers\": big of the NN32 2^31")
+  assert(shown(big(dMax)), "18446744073709551615 : ZZ", "basic-integers.tex, section \"Integers\": big of the NN64 2^64-1")
+  assert(shown(big(d63)), "9223372036854775808 : ZZ", "basic-integers.tex, section \"Integers\": big of the NN64 2^63")
+  assert(shown(big(e64)), "18446744073709551616 : ZZ", "basic-integers.tex, section \"Integers\": big of the ZZ 2^64 is itself")
+  assert(shown(signed(aMOne)), "-1 : ZZ32", "basic-integers.tex, section \"Integers\": signed of the ZZ32 -1 is itself")
+  assert(shown(signed(bMin)), "-9223372036854775808 : ZZ64", "basic-integers.tex, section \"Integers\": signed of the ZZ64 -2^63 is itself")
+  assert(shown(unsigned(cMax)), "4294967295 : NN32", "basic-integers.tex, section \"Integers\": unsigned of the NN32 2^32-1 is itself")
+  assert(shown(unsigned(dMax)), "18446744073709551615 : NN64", "basic-integers.tex, section \"Integers\": unsigned of the NN64 2^64-1 is itself")
+
+  (* A ZZ that took narrow or widen now takes asZZ32 or asZZ64: the same value in range, IntegerOverflow out of it *)
+  assert(shown(eMOne.asZZ32), "-1 : ZZ32", "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ -1, which narrow gave")
+  assert(shown(e31m.asZZ64), "2147483647 : ZZ64", "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ 2^31-1, which widen gave")
+  assert(raises(fn () => e32p5.asZZ32), "basic-integers.tex, section \"Integers\": asZZ32 of the ZZ 2^32+5 throws IntegerOverflow, where narrow kept the low bits")
+  assert(raises(fn () => e64p5.asZZ64), "basic-integers.tex, section \"Integers\": asZZ64 of the ZZ 2^64+5 throws IntegerOverflow, where widen kept the low bits")
+  println "PASS"
+end
+
+end

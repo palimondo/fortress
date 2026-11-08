@@ -39,8 +39,8 @@ propagateColumn(b:Set[\ZZ32\][9,9],i:ZZ32, j:ZZ32, elem:ZZ32):() =
    end
 
 propagateSquare(b:Set[\ZZ32\][9,9],i:ZZ32, j:ZZ32, elem:ZZ32):() = do
-   starti:ZZ32 = narrow(truncate(i/3)) 3
-   startj:ZZ32 = narrow(truncate(j/3)) 3
+   starti:ZZ32 = (truncate(i/3)).asZZ32 3
+   startj:ZZ32 = (truncate(j/3)).asZZ32 3
    for k <-starti#3, l <- startj#3 do
       if i=/=k OR j=/=l then removeElement(b,k,l,elem) end
    end

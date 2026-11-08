@@ -497,6 +497,12 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
         comprises { UnsignedLong }
     coerce(x: NN32)
     coerce(x: IntLiteral)
+    getter asZZ32(): ZZ32
+    getter asZZ64(): ZZ64
+    getter asNN32(): NN32
+    getter asNN64(): NN64
+    getter asZZ(): ZZ
+    getter bitsAsZZ64(): ZZ64
     opr |self| : NN64
     (** The value as a float, the explicit conversion into %RR64%. **)
     abstract asFloat(self): RR64
@@ -546,6 +552,9 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     numerator(self): ZZ
     narrow(self):NN32
     signed(self):ZZ64
+    widen(self):NN64
+    unsigned(self):NN64
+    big(self):ZZ
 end
 
 trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
@@ -556,6 +565,12 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     getter one(): ZZ32
     getter minimum(): ZZ32
     getter maximum(): ZZ32
+    getter asZZ32(): ZZ32
+    getter asZZ64(): ZZ64
+    getter asNN32(): NN32
+    getter asNN64(): NN64
+    getter asZZ(): ZZ
+    getter bitsAsNN32(): NN32
 
 
 
@@ -613,6 +628,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     unsigned(self):NN32
     narrow(self):ZZ32
     big(self):ZZ
+    signed(self):ZZ32
 end
 
 trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
@@ -625,6 +641,12 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     getter one(): ZZ64
     getter minimum(): ZZ64
     getter maximum(): ZZ64
+    getter asZZ32(): ZZ32
+    getter asZZ64(): ZZ64
+    getter asNN32(): NN32
+    getter asNN64(): NN64
+    getter asZZ(): ZZ
+    getter bitsAsNN64(): NN64
 
 
     opr |self| : ZZ64
@@ -681,6 +703,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     widen(self):ZZ64
     unsigned(self):NN64
     big(self):ZZ
+    signed(self):ZZ64
 end
 
 trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
@@ -693,6 +716,11 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     coerce(x: IntLiteral)
     getter zero(): ZZ
     getter one(): ZZ
+    getter asZZ32(): ZZ32
+    getter asZZ64(): ZZ64
+    getter asNN32(): NN32
+    getter asNN64(): NN64
+    getter asZZ(): ZZ
     (** The value as a float, the explicit conversion into %RR64%. **)
     abstract asFloat(self): RR64
     opr =(self, b: ZZ):Boolean
@@ -741,8 +769,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr ^(self, b:AnyIntegral):ZZ
     opr ^(self, b:IntLiteral):ZZ
     numerator(self): ZZ
-    narrow(self): ZZ32
-    widen(self): ZZ64
+    big(self): ZZ
     shift(self, k:ZZ32): ZZ
     shift(self, k:AnyIntegral): ZZ
 end

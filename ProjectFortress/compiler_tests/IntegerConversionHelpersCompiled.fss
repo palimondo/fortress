@@ -1,0 +1,76 @@
+(* On the compiled path, the nativeHelpers that the integer types' checked getters name answer a value that the target type holds and raise IntegerOverflow on one that it does not, an NN32 carried in a ZZ32 and an NN64 in a ZZ64. *)
+component IntegerConversionHelpersCompiled
+export Executable
+
+toZZ32(a:ZZ64):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.longOverflowingToInt")
+toNN32(a:ZZ64):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.longOverflowingToUnsignedInt")
+toZZ64(a:ZZ):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
+toNN64(a:ZZ):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToUnsignedLong")
+big64(a:ZZ64):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.makeZZfromZZ64")
+sub64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingSub")
+addZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.add")
+subZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.sub")
+negZ(a:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.neg")
+
+overflows32(f: () -> ZZ32): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+overflows64(f: () -> ZZ64): Boolean =
+  try
+    ignore f()
+    false
+  catch e
+    IntegerOverflow => true
+    Exception => false
+  end
+
+run():() = do
+  s0: ZZ64 = 0
+  s1: ZZ64 = 1
+  m1: ZZ64 = -1
+  mx: ZZ64 = 9223372036854775807
+  mn: ZZ64 = sub64(-9223372036854775807, 1)
+  h31m: ZZ64 = 2147483647
+  h31: ZZ64 = 2147483648
+  l31: ZZ64 = sub64(-2147483647, 1)
+  l31m: ZZ64 = sub64(-2147483647, 2)
+  h32m: ZZ64 = 4294967295
+  h32: ZZ64 = 4294967296
+  assert(toZZ32(h31m).asString, "2147483647", "ZZ64 2^31-1 to ZZ32")
+  assert(toZZ32(l31).asString, "-2147483648", "ZZ64 -2^31 to ZZ32")
+  assert(overflows32(fn () => toZZ32(h31)), "ZZ64 2^31 to ZZ32 overflows")
+  assert(overflows32(fn () => toZZ32(l31m)), "ZZ64 -2^31-1 to ZZ32 overflows")
+  assert(toNN32(s0).asString, "0", "ZZ64 or NN64 0 to NN32")
+  assert(toNN32(h31).asString, "-2147483648", "ZZ64 or NN64 2^31 to NN32, the bits of the NN32 2^31")
+  assert(toNN32(h32m).asString, "-1", "ZZ64 or NN64 2^32-1 to NN32, the bits of the NN32 2^32-1")
+  assert(overflows32(fn () => toNN32(h32)), "ZZ64 or NN64 2^32 to NN32 overflows")
+  assert(overflows32(fn () => toNN32(m1)), "ZZ64 -1, the NN64 2^64-1, to NN32 overflows")
+  assert(overflows32(fn () => toNN32(mn)), "ZZ64 -2^63, the NN64 2^63, to NN32 overflows")
+  z0: ZZ = big64(s0)
+  z1: ZZ = big64(s1)
+  zm1: ZZ = negZ(z1)
+  z63m: ZZ = big64(mx)
+  z63: ZZ = addZ(z63m, z1)
+  zn63: ZZ = big64(mn)
+  zn63m: ZZ = subZ(zn63, z1)
+  z64: ZZ = 18446744073709551616
+  z64m: ZZ = subZ(z64, z1)
+  assert(toZZ64(z63m).asString, "9223372036854775807", "ZZ 2^63-1 to ZZ64")
+  assert(toZZ64(zn63).asString, "-9223372036854775808", "ZZ -2^63 to ZZ64")
+  assert(overflows64(fn () => toZZ64(z63)), "ZZ 2^63 to ZZ64 overflows")
+  assert(overflows64(fn () => toZZ64(zn63m)), "ZZ -2^63-1 to ZZ64 overflows")
+  assert(toNN64(z0).asString, "0", "ZZ 0 to NN64")
+  assert(toNN64(z63).asString, "-9223372036854775808", "ZZ 2^63 to NN64, the bits of the NN64 2^63")
+  assert(toNN64(z64m).asString, "-1", "ZZ 2^64-1 to NN64, the bits of the NN64 2^64-1")
+  assert(overflows64(fn () => toNN64(z64)), "ZZ 2^64 to NN64 overflows")
+  assert(overflows64(fn () => toNN64(zm1)), "ZZ -1 to NN64 overflows")
+  println("PASS")
+end
+
+end
