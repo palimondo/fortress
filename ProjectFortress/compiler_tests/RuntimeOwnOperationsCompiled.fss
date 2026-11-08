@@ -1,0 +1,46 @@
+(* On the compiled path, runtime.abort has no effect outside atomic and runs the atomic block that calls it again, runtime.printTaskTrace prints the compiled task chain from a for loop's task, and runtime.threadVal raises FailCalled until spawn compiles. *)
+component RuntimeOwnOperationsCompiled
+export Executable
+
+abortC(): () = builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.abort")
+traceC(): () = builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.printTaskTrace")
+valC(t: Any): Any = builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.threadVal")
+nano(): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longNanoTime")
+
+object Handle end
+
+valRaises(): Boolean =
+  try
+    ignore valC(Handle)
+    false
+  catch e
+    FailCalled => true
+    Exception => false
+  end
+
+run(): () = do
+  var after: ZZ32 := 0
+  abortC()
+  after := 1
+  assert(after = 1, "abort outside an atomic block has no effect")
+
+  var x: ZZ32 := 0
+  var committedAt: ZZ64 := 0
+  deadline: ZZ64 = nano() + 20000000
+  atomic do
+    x := x + 10
+    if nano() < deadline then
+      abortC()
+      x := x + 1000
+    end
+    committedAt := nano()
+  end
+  assert(x = 10, "abort rolls back the try that calls it, and the atomic block runs again")
+  assert(committedAt >= deadline, "the try that commits runs once the clock has passed the deadline")
+
+  for i <- 0#4 do traceC() end
+  assert(valRaises(), "Thread's val helper raises FailCalled until spawn compiles")
+  println("PASS")
+end
+
+end
