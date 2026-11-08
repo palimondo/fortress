@@ -2,6 +2,16 @@
 
 # Held list
 
+## Held on the `fortress-repo` page (2026-11-08)
+
+- 01:07 On change 39's thread `4e0493d3`: put the updates discussed and clarified so far into the skill now, for climb batch 28; he continues reading in the morning (2:00 his time). So the skill writer's task of 01:08 (the three fixes below), its cold read, then the launch; the page's changes 49 and on for his morning read.
+- 01:03 and 01:00 Thread `596631fe`: is `EQV` spelled `=`? Answered: no; `≡` is `EQV` or `EQUIV`, the boolean "if and only if" with `↔` and `=` on booleans. The ligatures of the page's code font stay, now that he knows of them.
+- 00:58 Thread `596631fe`: the fix gives both spellings and tells "strictly equivalent" (`≣`, `SEQV`, `===`) from "identical to" (`≡`, `EQV`); `≠` is `=/=`. For the skill writer (task of 01:08, fix 1).
+- 00:49 Thread `f6115171`: "we are OK as is?" Answered: yes; row 918 is the checker's gap; change 37 also names the object fix (task of 01:08, fix 3).
+- 00:44 Thread `4e0493d3`: "reference object" is the peers' and the specification's term (`basic/objects.tex:24-29`): define it in the skill and use it in place of "an object not declared `value`"; no specification change. For the skill writer (task of 01:08, fix 2).
+- 00:35 Thread `596631fe`: the Unicode spelling of `SEQV` and `=/=`: single characters, `≣` and `≠`; checked at the source and answered.
+- 00:22 Thread `f6115171`: change 37 against the POPL 2019 paper, research delegated; answered at 00:40 from `explorations/reviews/meet-rule-popl2019-2026-11-08.md`.
+
 ## Held in chat (2026-11-08)
 
 - 00:13 His standing go for climb batch 28: if he does not answer an ask within 30 minutes of it, take the default that the Fable review recommends, and launch. So Q2 and Q3 go to him one per message; on his answer, or 30 minutes after each ask with no answer, its Fable-recommended default stands; then the launch, with no further word of his.
