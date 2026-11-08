@@ -392,7 +392,7 @@ Each default can be undone, none reverses a decision of his, and none touches a 
 7. **V1. The checked getters: a Fortress body where no helper exists, the existing helper where one does.** Default: a getter that can raise is a Fortress body, a range test and `throw IntegerOverflow` around the low-bits form, as `QQ`'s `truncate` throws `DivisionByZero`; the three pairs that have a helper bind it, `ZZ64` to `ZZ32` on `simpleIntArith.longOverflowingToInt` and `NN64` and `ZZ64` to `NN32` on `simpleUnsignedIntArith.longOverflowingToUnsignedInt`, as Steele's prelude binds `asZZ32`. The ways not taken: every getter a Java helper, about four new helpers by the review's reading, up to ten (`reviews/integer-conversions-2026-11-06.md`, option 3, "Helpers"); every getter in Fortress. The review leaves it to the rung; this default adds no Java beyond the review's three pairs.
 8. **V2. `IntLiteral`'s 8 in rung V.** Default: so: four of them, `asZZ32`, `asZZ64`, `asNN32` and `asNN64`, are `self.asZZ` followed by `ZZ`'s checked getters, which V adds, so they cannot sit in another rung of this batch; the other four, `asString`, `asExprString`, `=` at `IntLiteral` and `cmp`, are written beside them. The ways not taken: the four that need no getter in a small rung of their own, two rungs on adjacent lines of one object; all 8 in climb batch 29. P-169 asks for them "before the names batch".
 9. **V3. `IntLiteral`'s 8 over `asZZ`, not over `ZZ64`** (the judgement's 3.3, row 328): `asString` and `asExprString` both `self.asZZ.asString`, as walk's glue answers both by `IntLiteral$ToString`; `=` as `self.asZZ = b.asZZ`; `cmp` -1, 0 or 1 by `ZZ`'s order, as the glue's `compareTo`. Default: so. `asZZ`, `asFloat` and the 19 that answer an `IntLiteral` stay on glue until N5.
-10. **V4. The callers of `ZZ`'s `narrow` and `widen`, moved as the review gives them** (option 6, "Callers moved"): `Library/Format.fss:70`, `:117`, `:122`; `Library/QuickCheck.fss:320`, `:322`, `:323`; the demo `ProjectFortress/demos/sudoku.fss:42-43`, two lines of the team's demo, which become `(truncate(i/3)).asZZ32`; the test `compiler_tests/XXXZZNarrowRungP.fss`, rewritten for `.asZZ32`; and rung I's private count functions in `Library/FortressLibrary.fss`, `shiftCount32`'s and `powerCount32`'s calls of a `ZZ`'s `narrow` (`:723`, `:756`), each under a guard that keeps the value in range, which become `.asZZ32`. Default: so, each value unchanged. Each line is a point for his sight.
+10. **V4. The callers of `ZZ`'s `narrow` and `widen`, moved as the review gives them** (option 6, "Callers moved"): `Library/Format.fss:70`, `:117`, `:122`; `Library/QuickCheck.fss:320`, `:322`, `:323`; the demo `ProjectFortress/demos/sudoku.fss:42-43`, two lines of the team's demo, which become `(truncate(i/3)).asZZ32`; the test `compiler_tests/XXXZZNarrowRungP.fss`, rewritten for `.asZZ32`; and rung I's private count functions in `Library/FortressLibrary.fss`, `shiftCount32`'s and `powerCount32`'s calls of a `ZZ`'s `narrow` (`:723`, `:754`), each under a guard that keeps the value in range, which become `.asZZ32`. Default: so, each value unchanged. Each line is a point for his sight.
 11. **V5. The low-bits names declared on every type where they apply,** by the review's option 1 list of nine identities and owners, `ZZ` excepted for `narrow` and `widen` (option 6). Default: so; rows 858 and 859 close.
 12. **V6. The specification:** the getters' sentences beside `Specification/basic-lib/basic-integers.tex:39-45`, `ZZ` dropped from `narrow`'s sentence, an Appendix I entry in the revision form (P-96). Default: so, as P-161 asks.
 
@@ -450,4 +450,225 @@ Each default can be undone, none reverses a decision of his, and none touches a 
 - **What the compiled path does differently, once it reads the one library:** `abort` works and `Thread`'s four raise (H2, H3); arrays run on the compiled store (A); `System` loads (S with Q3).
 - **What the checker does differently:** a call with 32 candidates or more is checked; `Char`'s body is checked again (K).
 - **The specification:** the integers' sentences and their Appendix I entry (V6).
+
+## 4. The rungs
+
+Each rung's section is its worker's brief. The skill's `revival-changes.md` gives the rules of revived Fortress; the briefing keys of section 1 give the decisions, rows and code the rung rests on. A line citation is the base's, `2436f6f25`.
+
+### V. The integer conversions: the checked getters, `bitsAs…`, the low-bits names on every type, `ZZ`'s `narrow` and `widen` deleted, `big` on its helper, and `IntLiteral`'s 8 over `asZZ` (P-161, P-169)
+
+**The mission.** The one library's integer types convert by names that keep the low bits, and a call of one on a type that lacks it falls through a coercion to another type's (rows 858, 859). `ZZ`'s `narrow` and `widen` are wrong code: its `widen` can narrow, and turns 2^63 negative (row 502). P-161 gives every integer type the checked getters, which raise `IntegerOverflow` where the value does not fit, and keeps the low-bits names as what they are. `ZZ32`'s `big` and `ZZ`'s two are 3 of the 102 bindings left on glue. P-169 adds `IntLiteral`'s 8 conversions and comparisons, written in Fortress over its `asZZ`, before the names batch; four of them read the checked getters that this rung adds.
+
+**The decisions this rung builds.** P-161, his option 6 of `reviews/integer-conversions-2026-11-06.md`, whole: on each of `ZZ32`, `ZZ64`, `NN32`, `NN64` and `ZZ`, the getters `asZZ32`, `asZZ64`, `asNN32`, `asNN64` and `asZZ`, 25 in all, of which 5 are identities, 7 equal the coercions and 13 can raise; the four fixed widths' `bitsAs…` getters, which equal `signed` and `unsigned`; `narrow`, `widen`, `unsigned`, `signed` and `big` kept as the low-bits forms, declared on every type where they apply, `ZZ` excepted for `narrow` and `widen`; `ZZ`'s `narrow` and `widen` deleted, their callers moved onto `.asZZ32` or `.asZZ64`; `ZZ32`'s `big` onto `nativeHelpers/simpleArbitraryPrecisionArith.makeZZfromZZ32` (`:130`; P-162); the specification's sentences and an Appendix I entry. P-72 (`narrow` keeps the low 32 bits on the fixed widths), P-73 (fixed-width arithmetic raises) and P-74 (an exact conversion is implicit) stand. P-169: `IntLiteral`'s 8 become Fortress text over its `asZZ`. P-37: no declaration is added to the prelude. This record's section 3, forks 1 to 5 and V1 to V6 (7 to 12), give the defaults you build.
+
+**What you build.**
+- The tests first (below).
+- `Library/FortressLibrary.fss` and `.fsi`, in the traits `ZZ32` (`:763`), `ZZ64` (`:860`), `NN64` (`:962`) and `ZZ` (`:1050`); `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss` and `.fsi`, in `value object NN32` (`:422`): the 25 getters, each in the api; the four `bitsAs…`; the low-bits names where a type lacks one (fork V5). A getter that can raise is a Fortress body with a range test and `throw IntegerOverflow`, except the three pairs that bind an existing helper (fork V1). A new binding over `NN32` or `NN64` is tested on both paths at values where a signed and an unsigned reading differ, 2^31 and up for `NN32`, 2^63 and up for `NN64` (the review's 6.0).
+- `ZZ`'s `narrow` and `widen` (`Library/FortressLibrary.fss:1150-1154`, `.fsi`) deleted; `ZZ32`'s `big` (`:854-855`) onto `makeZZfromZZ32`.
+- The callers moved, each value unchanged (fork V4): `Library/Format.fss:70`, `:117`, `:122`; `Library/QuickCheck.fss:320`, `:322`, `:323`; `ProjectFortress/demos/sudoku.fss:42-43`; `ProjectFortress/compiler_tests/XXXZZNarrowRungP.fss`; `Library/FortressLibrary.fss:723` and `:754`, in rung I's private count functions. Find every other call of a `ZZ`'s `narrow` or `widen` with `git grep` and by the walk suite; name each in your report.
+- `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`, `value object IntLiteral` (`:529`): `asZZ32`, `asZZ64`, `asNN32`, `asNN64` as `self.asZZ` followed by `ZZ`'s getter; `asString` and `asExprString` as `self.asZZ.asString`; `=` at `IntLiteral` as `self.asZZ = b.asZZ`; `cmp` as -1, 0 or 1 by `ZZ`'s order (forks V2, V3). Their api lines (`FortressBuiltin.fsi:179-197`) stay.
+- `Specification/basic-lib/basic-integers.tex:39-45`: the getters' sentences beside `narrow`'s, `ZZ` dropped from it, with a callout and an Appendix I entry in `Specification/appendices/changes.tex`, in the revision form (P-96; fork V6).
+- Not yours: the prelude; `IntLiteral`'s other 21 and `FloatLiteral`'s 3 (N5); the saturating operators (row 797); Appendix I's natives effect, which the gather revises (fork 5).
+
+**Tests, first.**
+- `ProjectFortress/tests/IntegerConversionsWalk.fss`: each of the 25 getters at its edges, in range and one past each end, the 13 that can raise caught as `IntegerOverflow`; the four `bitsAs…`; each low-bits name on each type that now declares it; a `ZZ` that once took `narrow` or `widen`, now `asZZ32` or `asZZ64`, in range and out. Seen failing on the base through the harness: the getters do not exist.
+- `ProjectFortress/tests/IntLiteralTextWalk.fss`: the 8 at the object `IntLiteral` (its value 0; P-76: no walk numeral is an `IntLiteral`), and `ZZ32`'s `big` of 2^31-1 and -2^31. A guard: the same answers on the base and after, since walk answers them today by glue.
+- A compiled test of each new helper binding, if fork V1 adds one, bound in its own declarations as `compiler_tests/NativeHelperBindingCompiled.fss` binds a helper (`compiler.md`, "Natives").
+- `XXXZZNarrowRungP` rewritten (fork V4): its run before and after through `junit.sh`.
+- Keep their verdicts: walk's integer tests, `FlatTowerRungF`, `NativeHelperFamilyZZ32Walk` and the other families' tests; the demo driver at the gather.
+- After the change: `ant testSystem` and `ant testQuick` once each; your compiled tests through `junit.sh` (fork 2).
+
+**The stages.** Both, once each on your final tree (fork 3), from the tree's root after `ant compileAll`:
+
+    explorations/coordinator/tools/checker-count/run.sh tmp/rung-integer-conversions/checker-count-postedit.txt tmp/rung-integer-conversions/cc-post
+    explorations/coordinator/tools/distance/run.sh tmp/rung-integer-conversions/distance-postedit.txt tmp/rung-integer-conversions/dist-post
+
+Compare each with climb batch 27's gate table by `diff`, and the distance with `explorations/coordinator/tools/distance/compare.sh`; tie every new row to an edit. The crash rows: section 1's common fields.
+
+**Rows.** Rows 858, 859 and 502 close with your commit, each with its test; row 349's half on `narrow` of a `ZZ` closes, so your `record.md` gives its whole new line after you read it with `ledger.py show 349`. Row 578 stays.
+
+**Specification.** Yours: fork V6. List every sentence made false: F-172 and every FACTS entry on `ZZ`'s `narrow` or `widen` (`facts-extract.sh 'narrow'`), the `fortress-repo` skill's `references/library.md` and `revival-changes.md` where they name the conversions, PLAN's line on P-161.
+
+**Files.**
+- `Library/FortressLibrary.fss` and `.fsi`: the four integer traits, rung I's two count functions, only.
+- `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss` and `.fsi`: `value object NN32`, `value object IntLiteral`, only.
+- `Library/Format.fss`, `Library/QuickCheck.fss`, `ProjectFortress/demos/sudoku.fss`: the callers, only.
+- `ProjectFortress/src/com/sun/fortress/nativeHelpers/`: a helper only where fork V1 needs one.
+- `Specification/basic-lib/basic-integers.tex`, `Specification/appendices/changes.tex`: your entry, only.
+- `ProjectFortress/tests/`, `ProjectFortress/compiler_tests/`: your tests and `XXXZZNarrowRungP`.
+- Not: the prelude, walk, the checker, the tools, the natives effect of Appendix I.
+
+**Reserved points.** A step that would edit the prelude. A model line: none reaches a conversion (the review, section 5).
+
+**Overlaps by file.** `FortressLibrary.fss` with R (the reader trait, `:1959-1967`), A (its store trait, before `__parr`, `:2392`) and H (`printTaskTrace`, `:4625`): other declarations. `FortressBuiltin.fss` with R and A (native objects at other places) and H (`Thread`, `:775-786`). `FortressLibrary.fsi` with R and A. `changes.tex`: yours is the batch's only Appendix I entry.
+
+### R. N4's reader rung: `FileReadStream`, `Reader` and `FileWriteStream` over the Java-backed traits, and `File` and `Reader` plain components (P-164)
+
+**The mission.** Every file a program reads, microGPT's data among them (`explorations/run-c4/src/FlatData.fss:69-86`), goes through `FileReadStream`, an object of the native component `File` whose 10 methods name glue classes that only walk can call; `Reader` and `stdIn` are the same in `Reader`'s component, 10 more; `FileWriteStream`'s 5 stayed on glue in climb batch 27, since an object of a native component cannot hold a field under walk (row 926). This rung makes the three objects plain Fortress objects over a Java-backed value in a field, as rung W made `Writer`, and ends both components' nativeness, so their 25 glue bindings go.
+
+**The decisions this rung builds.** P-164: the two traits take the prelude's names and methods; each method is a public native binding in P-58's form on a helper of `nativeHelpers/fileOps`; walk's loader carries `JavaBufferedReader` by name as the Java class `FortressBufferedReader`, through a private native object below the trait; `FileReadStream` and `Reader` leave their native components and each holds its Java-backed value in a field, as the team's `BirdyLib` `FileReadStream` does; the reader side's helpers are 9 existing and one new one for standard input. Item 373: `FileWriteStream` moves with this rung. F-330 gives the writer side as landed: both traits, both table entries (`compiler/NamingCzar.java:453-454`, `:490-491`), `FileNotFoundException`. No model line changes. This record's section 3, forks 1 to 5 and R1 to R7 (13 to 19), give the defaults you build.
+
+**What you build.**
+- The tests first (below).
+- `Library/FortressLibrary.fss:1959-1960` and `.fsi:1265-1266`: `trait JavaBufferedReader` gains the prelude's eight methods (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:592-601`), each a public binding on its `fileOps` helper: `read(): Char` on `jbrRead` (fork R1), `readLine(): String` on `jbrReadLine`, `readk(k: ZZ32): String` on `jbrReadk`, `eof(): Boolean`, `ready(): Boolean`, `close()`, `whenUnconsumed()` and `consume()` on theirs. After `makeJavaBufferedStdErr` (`:1966-1967`, `.fsi:1271`): `makeJavaBufferedReader(name: FlatString)` on `jbrOpen`, and `makeJavaBufferedStdIn()` on a new `jbrStdIn` (fork R4).
+- `ProjectFortress/src/com/sun/fortress/nativeHelpers/fileOps.java`: `jbrStdIn()`, a `FortressBufferedReader` over `System.in` in UTF-8, named `<stdin>`, beside `jbwStdErr` (`:91-94`), as `jbwStdOut` is made.
+- `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`, right after `JavaBufferedWriterObject` (`:788-791`): `private object JavaBufferedReaderObject extends JavaBufferedReader end`, its native constructor a new `interpreter/glue/prim/JavaBufferedReaderObject.java` with its nested `Value` holding a `FortressBufferedReader`, as `JavaBufferedWriterObject.java` is.
+- `ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java`: `javaFor` carries `JavaBufferedReader` by name in `FortressBufferedReader` (beside `:67`), `carried` admits it (`:100`), `unbox` takes the reader out of a `JavaBufferedReaderObject.Value` (beside `:292-295`), `box` makes one (beside `:318`).
+- `Library/File.fss` and `.fsi`: `component File`, no longer native; `object FileReadStream(fileName: String, under: JavaBufferedReader) extends { ReadStream, FileStream }`, its methods in Fortress over `under`, `uncheckedReadChar` answering -1 at the end by `under.eof` (fork R1), `asString` as today's text (fork R5); its factory `FileReadStream(filename: String)` flattens the name and calls `makeJavaBufferedReader`, as `Writer(fileName)` does (`Library/Writer.fss:21-24`); `object FileWriteStream(fileName: String, under: JavaBufferedWriter) extends { FileStream, WriteStream }`, its `write`s, `flush` and `close` over `under` (fork R2), with its factory.
+- `Library/Reader.fss` and `.fsi`: `component Reader`, no longer native; `stdIn` is `Reader("<stdin>", makeJavaBufferedStdIn())`; `object Reader(fileName: String, under: JavaBufferedReader)`, its methods over `under`; its one-argument factory.
+- Not yours: the writer side's text; the prelude; `FortressBufferedReader` and the other run-time classes; the glue classes, which stay unused (fork R3); N5's run-time class and raise strings.
+
+**Tests, first.**
+- `ProjectFortress/tests/NativeHelperReaderWalk.fss`: a file that the test writes through `FileWriteStream` (a flat string, two characters, a rope past 32 characters, `flush`), read back through `FileReadStream`: `readLine`, `readChar`, `read(k)`, `eof` and `ready`, `uncheckedReadChar` -1 at the end, `lines()` and `characters()` counted, a read after `consume` caught as `IOFailure`, a missing file caught as `FileNotFoundException`; the same through a `Reader` on the file, `isReady` among them; `stdIn.fileName` and its `asString`; each object's `asString`. Seen failing on the base through the harness: the rope stops (row 900), `flush` is missing (row 901), and no `catch` sees the missing file (row 902).
+- `ProjectFortress/compiler_tests/NativeHelperFamilyReaderCompiled.fss` and its `.test`: `jbrStdIn` and the reader helpers bound in its own declarations over the prelude's `JavaBufferedReader`, on a file it writes: the 0 at the end with `eof` set, `readk`, the refusal after `consume`. Seen failing on the base through `junit.sh`: `fileOps` has no `jbrStdIn`.
+- Keep their verdicts: `FileReadWrite`, `WordCountSmall`, `FileConversion`, `LongStringTests`, `NativeHelperWriterWalk`, `NativeHelperFamilyWriterCompiled`; `tests/printing/ConcurrentPrinting.fss` at four threads, on the old code and the new.
+- After the change: `ant testSystem` and `ant testQuick` once each; your compiled guard through `junit.sh` (fork 2).
+
+**The stages.** Both, once each on your final tree, as rung V's section gives the commands with your slug (fork 3). They read `FortressLibrary`'s trait and `FortressBuiltin`'s native object; neither reads `File` or `Reader`.
+
+**Rows.** Rows 926, 900, 901 and 902 close with your commit, each with your walk test; row 841 is about walk's want of an export check, so your `record.md` gives a note that `FileWriteStream`'s `flush` now exists, after `ledger.py note 841 TEXT --check`. Row 928 holds the writer trait's limit: your `record.md` gives a note that the reader trait has the same, after the same check.
+
+**Specification.** None: the specification names none of the I/O objects (rung W's report, "What the specification settles"). List every sentence made false: F-330's and F-32's counts, P-164's "The writer side … moves before the reader side" as a statement of what is to come, PLAN's N4 reader line, the `fortress-repo` skill's `references/interpreter.md` list of carriers.
+
+**Files.**
+- `Library/FortressLibrary.fss` and `.fsi`: `JavaBufferedReader` and the two factories, only.
+- `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`: the native object after `JavaBufferedWriterObject`, only.
+- `ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java`: the four methods, only; `interpreter/glue/prim/JavaBufferedReaderObject.java`, new.
+- `ProjectFortress/src/com/sun/fortress/nativeHelpers/fileOps.java`: `jbrStdIn`, only.
+- `Library/File.fss`, `File.fsi`, `Reader.fss`, `Reader.fsi`.
+- Your tests.
+- Not: `Library/Writer.fss`, the prelude, `compiler/runtimeValues/`, `NamingCzar.java`, the glue classes of the three objects, the checker.
+
+**Reserved points.** A printed line of microGPT's quick check that changes. An edit of a run-time class.
+
+**Overlaps by file.** `FortressLibrary.fss` and `.fsi` with V (the integer traits), A (its store trait, near the arrays' factories) and H (`printTaskTrace`): other declarations. `FortressBuiltin.fss` with A, whose native objects go right after `trait Object`'s end (fork A5), and with V and H: other declarations. No other rung edits `StaticNativeApp.java`, `fileOps.java`, `File` or `Reader`.
+
+### A. The arrays' store: `PrimitiveArray` and `PrimImmutableArray` over a compiled store in a field, walk's `AtomicArray` behind P-167's device, and `PrimImmutableRR64Array` over a `double[]` class (P-169; Q2)
+
+**This rung runs only with his answer to Q2, or its default under the go rule** (section 2). Its default shape is (i), a cell per element; the shape (ii) line of "What you build" applies if he takes the slot API.
+
+**The mission.** Every array, vector, matrix, varargs list and `args` of the one library is built on `PrimitiveArray` or `PrimImmutableArray` (`Library/FortressLibrary.fss:2392-2398`, `:2655`, `:2702`, `:2708`, `:2879`, `:3051`, `:3281`; `Library/List.fss:488`; `Library/System.fss:34`; `compiler/WellKnownNames.java:53-56`), objects of the native component `NativeArray` whose 7 methods name glue classes. A body left on glue compiles to the one library's own `builtinPrimitive`, which fails, so by reading a compiled program would raise at its first array (`reviews/natives-remainder-2026-11-07.md`, section 1, finding 1). This rung puts the elements in a compiled store behind a Java-backed trait, and keeps walk's store as it is.
+
+**The decisions this rung builds.** P-169, its arrays: a store trait in `FortressLibrary` whose bindings name helpers of a new `nativeHelpers/arrayOps` over a compiled class that holds the elements; `PrimitiveArray` and `PrimImmutableArray` leave the native component and hold the store in a field; walk's native object below the trait holds an `AtomicArray`, and walk answers the `arrayOps` names with its glue, re-targeted, P-167's device; `PrimImmutableRR64Array`'s two move onto a compiled `double[]` class that no factory chooses until decision A (P-84, P-85). Q2's answer gives the compiled store's shape. P-164 gives the pattern of a Java-backed trait, its native object and its table entry. This record's section 3, forks 1 to 5 and A1 to A7 (20 to 26), give the defaults you build.
+
+**What you build.**
+- The tests first (below).
+- `Library/FortressLibrary.fss` and `.fsi`, right before `__parr` (`:2392`) and in the api beside the array factories (`.fsi:1594-1604`): `trait JavaArrayStore excludes { String, Number, Boolean, Char, JavaBufferedReader, JavaBufferedWriter }` with `get(i: ZZ32): Any`, `put(i: ZZ32, v: Any): ()` and `init(i: ZZ32, v: Any): Boolean`, each a binding on `arrayOps`, and `makeJavaArrayStore(n: ZZ32): JavaArrayStore`; `trait JavaRR64ArrayStore` with `get(i: ZZ32): RR64`, `init(i: ZZ32, v: RR64): Boolean` and `makeJavaRR64ArrayStore(n: ZZ32)` (fork A2).
+- `ProjectFortress/LibraryBuiltin/NativeArray.fss` and `.fsi`: `component NativeArray`, no longer native (fork A5); `PrimitiveArray[\T, nat s0\]()` with the field `mem: JavaArrayStore = makeJavaArrayStore(s0)`, `get(i) = cast[\T\](mem.get(i))` (fork A3), `put` and `init00` over `mem`; `PrimImmutableArray` likewise without `put`; `PrimImmutableRR64Array` over a `JavaRR64ArrayStore`. Their `opr [ ]`, `init0` and the comment on a failed transaction stay.
+- `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`, right after `trait Object`'s end (`:52`): `private object JavaArrayStoreObject extends JavaArrayStore end` and `private object JavaRR64ArrayStoreObject extends JavaRR64ArrayStore end`, each with a native constructor under `interpreter/glue/prim/` whose value holds walk's store: an `AtomicArray` for the first, as `PrimitiveArray.java:26-36` makes one, and walk's `double[]` for the second, as `PrimImmutableRR64Array.java:39-46` does.
+- `ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java`, where the loader reads the string (`:209`): every name of `com.sun.fortress.nativeHelpers.arrayOps` answered by walk's store glue by one rule, the method's name to the glue class's operation; a name that the rule does not hold is refused at load, as today (fork A4). The glue operations are today's `get`, `put` and `init0` of `PrimitiveArray.java`, `PrimImmutableArray.java` and `PrimImmutableRR64Array.java`, re-targeted to the new native objects' values.
+- `ProjectFortress/src/com/sun/fortress/nativeHelpers/arrayOps.java`, new: `make(int)`, `get(store, int)`, `put(store, int, Any)`, `init(store, int, Any)`, and the `RR64` store's three over `double`. Every method's types map to the one library (`compiler.md`, "Natives"), since the checker reads the class whole (F-321).
+- `ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/`, new: the store class and the `RR64` store class over a `double[]`. **Shape (i):** the store holds a `MutableFValue[]`, its cells made with it; `get` and `put` test `BaseTask.inATransaction()` and call `TXRead` and `TXWrite` on the element's cell, else `getValue` and `setValue`, as `compiler/codegen/VarCodeGen.java:310-371` emits for a variable. **Shape (ii):** the store holds an `Object[]`; `runtimeSystem/Transaction.java` gains a location key, `TXReadSlot(Object[], int)` and `TXWriteSlot(Object[], int, Any)`, and slot cases in `TXValidateHelperTopLevelTransaction`, `TXValidateHelperNestedTransaction` and both branches of `TXCommit`, its element accesses by a volatile `VarHandle` (the planner's model, section 5, probe 1); `BaseTask` unchanged.
+- `ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java`, the walk-world table, after `:491`: the two store classes to `JavaArrayStore` and `JavaRR64ArrayStore`.
+- Not yours: decision A (no factory chooses the `RR64` store); the code generator and the class loader; the prelude; `Thread` and H's table entries.
+
+**Tests, first.**
+- `ProjectFortress/tests/ArrayStoreWalk.fss`: arrays of each rank, vectors and an immutable array made, written, read, filled twice (row 466's answer, unchanged), subscripted out of bounds; writes to distinct elements from a parallel `for`, and `atomic` read-modify-writes of one element from a parallel `for`, whose sum is exact; `PrimImmutableRR64Array` made through its own constructor and read. A guard on the base, and passing after; run it at four threads too.
+- `ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/ArrayStoreJUTest.java` (fork A6): `arrayOps` over the store class outside a transaction, inside one, and from four tasks on the compiled task pool each adding into one element inside `atomic`, whose total is exact; the `RR64` store. Seen failing on the base: the classes do not exist. Run it with `ant testOnly -DtestPattern=ArrayStoreJUTest`.
+- Keep their verdicts: the walk suite's array, vector, matrix and `atomic` tests; the demos at the gather.
+- After the change: `ant testSystem` and `ant testQuick` once each (fork 2).
+
+**The measure.** One timed pair of a walk program's array reads, on the old code through `old-fortress.sh` and on your tree, a loop of 10^6 reads of a `Vector[\RR64,…\]`: a slowdown of several times is a point to report (fork A3).
+
+**The stages.** Both, once each on your final tree, as rung V's section gives the commands with your slug (fork 3). They read `NativeArray`, `FortressLibrary`, `FortressBuiltin` and `arrayOps` whole.
+
+**Rows.** Row 466 stays; your `record.md` gives a note that the store keeps its rule, after `ledger.py note 466 TEXT --check`.
+
+**Specification.** None. List every sentence made false: F-32 and F-299's counts, F-11 and F-18 where they say what holds an array's elements, PLAN's D2 line, the `fortress-repo` skill's `references/compiler.md` and `library.md` where they name the arrays' store.
+
+**Files.**
+- `Library/FortressLibrary.fss` and `.fsi`: the two traits and their factories, only.
+- `ProjectFortress/LibraryBuiltin/NativeArray.fss` and `.fsi`.
+- `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`: the two native objects after `trait Object`, only.
+- `ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java`: the rule, only; new classes under `interpreter/glue/prim/`; the three store glue classes, re-targeted.
+- `nativeHelpers/arrayOps.java` and the two store classes, new; `NamingCzar.java`'s two entries; `runtimeSystem/Transaction.java` with shape (ii) only.
+- Your tests.
+- Not: the code generator, the class loader, the prelude, `StaticNativeApp.java`, `NativeApp.java`'s table.
+
+**Reserved points.** A change of the compiled transaction beyond shape (ii)'s; a model line; a slowdown of walk's array reads of several times.
+
+**Overlaps by file.** `NativeApp.java` with H, whose six names go into the table (`:47-53`): your rule is at `:209`. `FortressLibrary.fss` and `.fsi` with V, R and H: other declarations. `FortressBuiltin.fss` with V, R and H: your objects after `trait Object`, R's at the component's end. `NamingCzar.java`: yours alone.
+
+### K. The checker's four sorts by a partial order made a linear extension, read once a pair (row 929; P-148)
+
+**The mission.** The compiled checker sorts with Scala's `sortWith` by an order that is partial: a call's candidates by `moreSpecific`, the coercions' candidates by `moreSpecificCandidate`, and a trait's ancestors by subtyping. `sortWith` reads two elements that neither precedes as equal, which is not transitive, and Java's TimSort, which checks the order's contract when it merges 32 elements or more, raises 'Comparison method violates its general contract!'. Since climb batch 27 the distance stage stops so inside `value object Char`, at `x = -1` in `digit`, which meets 33 candidates of `=`, and does not check the rest of `Char`'s body, its 41 helper bindings among it (row 929; F-54). This rung makes the four sorts correct on a partial order, and by P-148 as fast as today.
+
+**The answers this rung follows.** Row 929: the four sites, `Functionals.scala:761` (the call's sort) and `:728` (`callType`), `CoercionOracle.scala:255`, `Formula.scala:609`. P-148: the rung times the checker before and after, makes the change correct first, then fast, in the same rung, without changing which programs the checker accepts or refuses. The brief records a rank sort that fixed the crash at 299 s of the distance stage against 137 s. The planner's prototype (section 5, probe 2) removed both crash rows, kept every other result of both stages, and took 145 s against 140 s for the distance and 88.9 s against 88.9 s for the count. This record's section 3, forks 1 to 3, 6 and K1 to K5 (27 to 31), give the defaults you build.
+
+**What you build.**
+- The test first (below).
+- `ProjectFortress/src/com/sun/fortress/scala_src/useful/PartialOrder.scala`, new (fork K1): `class PartialOrder[T](xs: List[T], lt: (T, T) => Boolean)` that reads `lt` at most once a pair through a memo, with `minimal`, the elements that no other element is `lt`, in `xs`'s order, and `linear`, a linear extension, each element after every element `lt` it and otherwise in `xs`'s order; on a cycle, the rest in `xs`'s order. An element is compared with each other element, not with itself; where `xs` holds one object twice, the two are not each other's predecessors, as the old `minimal`'s `!(d eq c)` reads them.
+- `scala_src/typechecker/impls/Functionals.scala`: `minimal` (`:717`) over the class; `callType` (`:727-728`) the head of `minimal`, or `cs.head` where it is empty (fork K3); the call's sort (`:761`) and `top` (`:776`) from one `PartialOrder` over the candidates, so they share its memo; the tie at `:824-833` keeps `sorted.headOption`, now the first minimal candidate (fork K2).
+- `scala_src/typechecker/CoercionOracle.scala:255` and `Formula.scala:609`: the class's linear extension with each site's own predicate.
+- The second pass: a profile of the count stage's checker with JFR (`compiler.md`, "The checker's time"); take any gain that it shows, and audit the memo on one full run in an instrumented copy (fork K5).
+- Not yours: which candidate the rules make most specific; `moreSpecificCandidate` itself; item 403.
+
+**Test, first.** `ProjectFortress/compiler_tests/PartialOrderCandidatesCompiled.fss` and its `.test` (`compile`, `link`, `run`, `run_out_contains=PASS`): two chains of traits `T0` to `T7` and `U0` to `U7`, each extending the one before, `object A extends T7`, `object B extends U7`, and the 64 declarations `f(x: Ti, y: Uj): ZZ32 = 100 i + j` in an order that stops the base's checker, with `run` asserting `f(A, B)` is 707 and printing `PASS` (fork K4). The order follows the overloadings' names, so find it at the test's own name and path: generate shuffles with the planner's generator below, each written to `compiler_tests/PartialOrderCandidatesCompiled.fss`, and compile each on the base through `old-fortress.sh` until one stops with 'Comparison method violates its general contract!' at `Functionals.scala:761`; in probe 2, one of twelve did. Seen failing on the base through `junit.sh`; passing after.
+
+    import random, sys      # gen.py SEED: the 64 declarations in a shuffled order, blank lines between
+    seed, n, name = int(sys.argv[1]), 8, "PartialOrderCandidatesCompiled"
+    rnd = random.Random(seed)
+    out = ["component " + name, "export Executable", ""]
+    for c in "TU":
+        out += ["trait %s%d%s end" % (c, i, "" if i == 0 else " extends %s%d" % (c, i - 1)) for i in range(n)]
+    out += ["object A extends T%d end" % (n - 1), "object B extends U%d end" % (n - 1), ""]
+    decls = ["f(x: T%d, y: U%d): ZZ32 = %d" % (i, j, 100 * i + j) for i in range(n) for j in range(n)]
+    rnd.shuffle(decls)
+    for d in decls: out += [d] + [""] * rnd.randint(0, 2)
+    out += ["run():() = do", "  assert(f(A, B), 707, \"the most specific of 64\")", "  println(\"PASS\")", "end", "", "end"]
+    open(name + ".fss", "w").write("\n".join(out) + "\n")
+
+Keep their verdicts: the compiler track and the library track, `ant testQuick` once after the second pass (`compiler.md`, "The checker's time", step 4).
+
+**The measure.** P-148's, as `compiler.md`, "The checker's time", gives it: the count stage on the base build and on your change, `base` and `change`, then `pass` after the second pass; each run's seconds, the diff of the `base` and `change` tables, the comparison of their `run.txt` files with each tree's path replaced, and that `pass` has `change`'s results. Then the distance stage once on your final tree, as rung V's section gives the command with your slug: `#crash none`, and `@@TC DECL-OK` on `FortressBuiltin.fss:661:1-773:2` in its `run.txt`; compare with climb batch 27's gate table by `compare.sh`, which prints the two crash rows as gone.
+
+**Rows.** Row 929 closes with your commit, its test `PartialOrderCandidatesCompiled`.
+
+**Specification.** None. List every sentence made false: F-54's two crash rows, F-53's "the distance holds two crash rows" if it says so, PLAN's line on row 929, `reviews/batch-27-review.md`'s point 6 as a statement of today.
+
+**Files.**
+- `scala_src/useful/PartialOrder.scala`, new; `scala_src/typechecker/impls/Functionals.scala`, `CoercionOracle.scala`, `Formula.scala`: the four sites, only.
+- `ProjectFortress/compiler_tests/`: your test.
+- Not: the rest of the checker, the code generator, walk, the library, the tools.
+
+**Reserved points.** A change of any error, its text or its place, on the one library, or of a compiled test's verdict: the change is then not only a sort.
+
+**Overlaps by file.** None: no other rung edits the checker.
+
+### H. The run time's own threads, `abort` and the task trace on compiled helpers that walk's loader answers with its glue (P-169)
+
+**The mission.** `Thread`'s `val`, `wait`, `ready` and `stop` and the top-level `abort` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:775-786`), and `printTaskTrace` (`Library/FortressLibrary.fss:4625`), name glue classes. After the names batch a compiled body left on glue falls through to the library's `builtinPrimitive`, which fails. Walk desugars every `spawn` into `Thread` (`interpreter/rewrite/DesugarerVisitor.java:1004-1030`), and `abort` reruns the innermost `atomic` (`Specification/advanced/parallelism-locality/transactions.tex`, "Abortable Atomicity"). This rung names compiled helpers for all six and keeps walk's answers.
+
+**The decisions this rung builds.** P-169, its threads: helpers in a `nativeHelpers` class over the compiled run time, as the team's `nativeHelpers/runtime.java` is; `Thread`'s four raise until the code generator compiles `spawn` (row 82); walk's loader answers the names with today's glue, P-167's device. P-58: the binding's form. F-298: the compiled rewrite checks a binding against the helper's Java signature, so `val(): T` cannot name a helper that answers `Object`: a pair (P-162). This record's section 3, forks 1 to 5 and H1 to H4 (32 to 35), give the defaults you build.
+
+**What you build.**
+- The tests first (below).
+- `ProjectFortress/src/com/sun/fortress/nativeHelpers/runtime.java` (fork H1): `abort()`, which throws `runtimeSystem.TransactionAbortException` when `BaseTask.inATransaction()` and else returns; `printTaskTrace()`, the compiled task chain from `BaseTask.getCurrentTask()` through its `parent` (`runtimeSystem/BaseTask.java:46`), one line a task, as walk's `BaseTask.printTaskTrace` prints (`interpreter/evaluator/tasks/BaseTask.java:171-177`); `threadVal`, `threadWait`, `threadReady` and `threadStop`, each over `fortress.AnyType.Any` and raising `FailCalled` "spawn is not compiled yet" by `Utility.makeFortressException("fortress.CompilerLibrary$FailCalled", …)` (fork H2).
+- `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:775-786`: `Thread`'s `val(): T = cast[\T\](valAny())` over a bare binding `valAny(): Any` on `runtime.threadVal`; `wait`, `ready` and `stop` bare on theirs; `abort` on `runtime.abort`. `Library/FortressLibrary.fss:4625`: `printTaskTrace` on `runtime.printTaskTrace`. The apis do not change, but for `valAny` if the api must declare it.
+- `ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java:47-53`: six entries in `OWN_OPERATIONS`, each helper's name to today's glue: `Thread$val`, `Thread$wait`, `Thread$ready`, `Thread$stop`, `Thread$abort`, `StringPrim$PrintTaskTrace` (fork H4). Walk's `Thread` constructor stays glue.
+- Not yours: compiled `spawn` (row 82); walk's tasks and transactions; the compiled transaction; A's rule at `NativeApp.java:209`.
+
+**Tests, first.**
+- `ProjectFortress/tests/RuntimeOwnOperationsWalk.fss`: `spawn` with `val`, `wait`, `ready` and `stop`; `abort()` outside `atomic`, which does nothing; `abort()` inside `atomic` on the first try of a block that counts its tries in a variable outside it, whose second try commits; `printTaskTrace()` from a spawned task. A guard on the base and after: walk answers each as today.
+- `ProjectFortress/compiler_tests/RuntimeOwnOperationsCompiled.fss` and its `.test`: `runtime.abort` bound in its own declarations, called outside `atomic` and inside one on its first try; `runtime.printTaskTrace` from a compiled `for`'s task, `run_out_contains` its first line; `runtime.threadVal` caught as `FailCalled`. Seen failing on the base through `junit.sh`: `runtime` has no such helper.
+- Keep their verdicts: `tests/taskTrace2.fss`, `taskTrace3.fss`; the walk suite's `spawn` and `atomic` tests; `Library/Lazy.fss`'s `abort` by any test that reaches it.
+- After the change: `ant testSystem` and `ant testQuick` once each; your compiled test through `junit.sh` (fork 2).
+
+**The stages.** Both, once each on your final tree, as rung V's section gives the commands with your slug (fork 3): `runtime.java` is read whole for the first time.
+
+**Rows.** Row 82 stays; your `record.md` gives a note that `Thread`'s helpers raise until `spawn` compiles, after `ledger.py note 82 TEXT --check`.
+
+**Specification.** None. List every sentence made false: F-32 and F-299's counts, F-328's table of two names, PLAN's D2 line.
+
+**Files.**
+- `ProjectFortress/src/com/sun/fortress/nativeHelpers/runtime.java`.
+- `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss` (and `.fsi` for `valAny` only if needed): `Thread` and `abort`, only.
+- `Library/FortressLibrary.fss`: `printTaskTrace`, only.
+- `ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java`: `OWN_OPERATIONS`' static block, only.
+- Your tests.
+- Not: the code generator, walk's tasks, `runtimeSystem/`, `NativeApp.java` beyond the table.
+
+**Reserved points.** A change of walk's `spawn` or `atomic`; a compiled run that the helpers change beyond the six names.
+
+**Overlaps by file.** `NativeApp.java` with A, whose rule is at `:209`. `FortressBuiltin.fss` with V (`NN32`, `IntLiteral`), R (its object at the end) and A (its objects after `trait Object`). `FortressLibrary.fss` with V, R and A: other declarations.
 
