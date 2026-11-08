@@ -1,0 +1,13 @@
+(* The component of the api TraitTableApiTraitWalkApi. *)
+component TraitTableApiTraitWalkApi
+export TraitTableApiTraitWalkApi
+
+trait C
+    abstract tag(self, n: ZZ32): String
+end
+
+trait G[\T\]
+    abstract gtag(self, n: ZZ32): String
+end
+
+end
