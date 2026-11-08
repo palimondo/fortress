@@ -195,7 +195,7 @@ Walk on the same program (rc=0): `TV1 g(3000000000) g ZZ64`, `TV2 g(bigN) g ZZ64
 
 - The cause, by reading. `isNumeral` counts any expression of type `IntLiteral` as a numeral (`scala_src/typechecker/impls/Functionals.scala:418-421`). `numeralReading` reads values only from `IntLiteralExpr` nodes, so for a variable its list is empty and reads `ZZ32` (`:428-436`).
 - Under A this holds for every name or expression of type `IntLiteral`. Under B the variable is a `ZZ64` at its binding, and no tie arises.
-- No ledger row holds it. A drafted row is in the appendix.
+- No ledger row held it. It is filed as row 946 (the appendix).
 
 ## 4. What each reading changes (by reading)
 
@@ -465,7 +465,7 @@ The open question is what type a numeral has where nothing fixes one: an untyped
   - `x + 1` computes on `IntLiteral`s at run time.
 - **Walk** is Reading B for integers: `ZZ32` by value, `x SEQV z` `true`. But it builds generics at its class `Int`, and keeps `FloatLiteral` for floats.
 - **Ties.** `1 - b`, `b^2` and `1.0 s` are `RR64` today on walk and on the one library. The prelude refuses two of them.
-- **A defect.** A variable bound from `3000000000` reads as `ZZ32` at a numeral tie on the compiled path. The run dies with "Not in range for ZZ32". A row is drafted.
+- **A defect.** A variable bound from `3000000000` reads as `ZZ32` at a numeral tie on the compiled path. The run dies with "Not in range for ZZ32". It is row 946.
 
 The team's sources split. The Working Draft and the type group's prelude keep a numeral's own type, which is A. The interpreter's library and walk compute it as its default, which is B at run time. The restart gives `QQ` or `NN`, which is neither.
 
@@ -483,9 +483,9 @@ microGPT keeps its meaning and bits under both readings if a float tie reads `RR
 
 ## Appendix: for the record
 
-**Defects.** One new, with a drafted row. It passed `ledger.py check --rows` except for the `?` in its number cell (`/tmp/claude-0/-home-user-fortress/fe616d40-a9c6-56d7-9da1-7168a172765d/scratchpad/literal-fork/row-draft.md`):
+**Defects.** One new, filed as row 946 by `ledger.py add`, in section 7, "Numerals, floats and comparisons":
 
-    | ? | on the compiled path a variable bound from an integer numeral reads as a `ZZ32` at a numeral tie whatever its value: for `bigN = 3000000000` and `g` over `ZZ32`, `NN32`, `ZZ64`, `g(bigN)` picks `g(ZZ32)` and dies at run time, where `g(3000000000)` picks `g(ZZ64)` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "A Numeral Whose Conversions Tie" | none | review literal-fork | siblings: 325, 391. `isNumeral` takes any expression of type `IntLiteral` (`scala_src/typechecker/impls/Functionals.scala:418-421` at 157323e5), but `numeralReading` reads values only from `IntLiteralExpr` nodes, so a variable's list is empty and reads `ZZ32` (`:428-436`); the coercion then raises `java.lang.Error: Not in range for ZZ32: 3000000000`, which no `catch` sees. Walk answers `g ZZ64`. Probe: compile and run of `LitForkTieValue.fss`: 'TV1 g(3000000000) g ZZ64', then the error. Workaround: declare the variable's type. |
+    | 946 | on the compiled path a variable bound from an integer numeral reads as a `ZZ32` at a numeral tie whatever its value: for `bigN = 3000000000` and `g` over `ZZ32`, `NN32`, `ZZ64`, `g(bigN)` picks `g(ZZ32)` and dies at run time, where `g(3000000000)` picks `g(ZZ64)` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "A Numeral Whose Conversions Tie" | none | review literal-fork-2026-11-08 | siblings: 325, 391. `isNumeral` takes any expression of type `IntLiteral` (`scala_src/typechecker/impls/Functionals.scala:418-421` at 157323e5), but `numeralReading` reads values only from `IntLiteralExpr` nodes, so a variable's list is empty and reads `ZZ32` (`:428-436`); the coercion then raises `java.lang.Error: Not in range for ZZ32: 3000000000`, which no `catch` sees. Walk answers `g ZZ64`. Probe: the review's section 3.7 program, compiled and run: 'TV1 g(3000000000) g ZZ64', then the error. Workaround: declare the variable's type. |
 
 **Sentences of the specification made false:** none. Nothing was changed.
 
