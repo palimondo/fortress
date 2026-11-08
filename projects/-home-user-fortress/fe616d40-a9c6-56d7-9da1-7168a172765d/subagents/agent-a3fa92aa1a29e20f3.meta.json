@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Fable judge: the literal design's coherence","toolUseId":"toolu_01UE1iqYmsCAzNKbB6e9jNwW","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Fable judge: the literal design's coherence","toolUseId":"toolu_01UE1iqYmsCAzNKbB6e9jNwW","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","pickedEffortModel":"claude-fable-5-1","finished":true}
