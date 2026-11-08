@@ -137,7 +137,6 @@ K_BRIEFING = [
   ('F-54', "The distance's two crash rows, which go.", CHECK),
   ('F-53', 'The count and the distance at the last gate.'),
   ('F-66', 'An undeclared crash is red only from the count.'),
-  ("doc:.claude/skills/fortress-repo/references/compiler.md#The checker's time", "The timing's steps, the audit and what you report.", CHECK),
   (PROBES + 'Probe 2. Row 929: a sort that is correct on a partial order, and its time', 'The reproducer, the prototype, its tables and its times.', CHECK),
   ('code:' + SRC + 'scala_src/typechecker/impls/Functionals.scala#// The candidates no other candidate is more specific than.', 'minimal and callType, two of your sites.', CHECK),
   ('code:' + SRC + 'scala_src/typechecker/impls/Functionals.scala#// Sort the arrows and instantiations to find the statically most', 'The sort that stops.', CHECK),
