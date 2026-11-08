@@ -672,3 +672,108 @@ Keep their verdicts: the compiler track and the library track, `ant testQuick` o
 
 **Overlaps by file.** `NativeApp.java` with A, whose rule is at `:209`. `FortressBuiltin.fss` with V (`NN32`, `IntLiteral`), R (its object at the end) and A (its objects after `trait Object`). `FortressLibrary.fss` with V, R and A: other declarations.
 
+### S. `System`'s natives: `getEnvironment` and `getProperty` onto `stringOps`, and, with Q3's answer, `args` built in Fortress over two scalar helpers (item 355; row 895; Q3)
+
+**Its second half runs only with his answer to Q3, or its default under the go rule** (section 2). Without it, build the first half and stop there.
+
+**The mission.** The territory map's table of what moves with what gives the rule behind this rung: the compiled path's wrapper generator wraps every method of a helper class that it is given, and fails the import on a type that it cannot map (`map/README.md`, section 7, its row on `nativeHelpers/`). Against the one library, the checker reads a helper class in the same way (F-321). `System`'s two bindings name `systemOps`, whose `getArgs` answers a type that the one library does not declare, so the checker cannot read `System`, which both microGPT programs import. With the first half the checker reaches `System`'s component and finds two errors, at `args` and `getProgramArgs`; with the second half it reads `System` whole with no error (section 5, probe 3).
+
+**The decisions this rung builds.** Review-queue item 355, answered with option 1: the two helpers moved from `systemOps` into `stringOps`, the class of the other string helpers, with the two binding strings and a compiled guard; row 895 closes when this lands. F-321: a binding passes the checker only where every method of its helper class maps to the one library's types. P-37: the compiler's prelude is not changed before it is deleted. Row 896 stays. With Q3's answer: its option 1, two scalar helpers outside `systemOps`, a count and the i-th argument, and `args` built in Fortress by the library's immutable-array factory (`reviews/natives-remainder-2026-11-07.md`, section 2.5 (a)). This record's section 3, forks 1 to 5 and S1 to S4 (36 to 39), give the defaults you build.
+
+**What you build, the first half.**
+- The tests first (below).
+- `ProjectFortress/src/com/sun/fortress/nativeHelpers/stringOps.java`: `getProperty(String, String)` and `getEnvironment(String, String)`, each computing as `systemOps`' does (`nativeHelpers/systemOps.java:20-27`), right after `lineSeparator` (`stringOps.java:76-78`).
+- `Library/System.fss:41` and `:51`: their strings name `stringOps`.
+- `nativeHelpers/systemOps.java`: `getEnvironment` removed; `getProperty` and `getArgs` stay (fork S1).
+- `ProjectFortress/compiler_tests/NativeHelperFamilyStringCompiled.fss:16-17`: the two bindings name `stringOps`.
+
+**What you build, the second half (Q3).**
+- `ProjectFortress/src/com/sun/fortress/nativeHelpers/programArgs.java`, new (fork S3): a static `String[]`, `count()` and `at(int)`. `interpreter/glue/prim/StringPrim.java`'s `GetProgramArgs.registerProgramArgs` (`:121-123`) and `runtimeSystem/MainWrapper.java` (`cachedArgs`, `:21`, `:67`) each set it from the arguments that they already hold.
+- `Library/System.fss:29-35` (fork S4): `args : ImmutableArray[\String,ZZ32\] = immutableArray[\String\](programArgCount()).tabulate(fn (i:ZZ32): String => programArg(i))`, over two private bindings `programArgCount(): ZZ32` and `programArg(i: ZZ32): String` on the two helpers; `getProgramArgsPrim` and `getProgramArgs` deleted. `System.fsi` declares only `args` (`:28`), and does not change.
+- Not yours: `Library/CompilerSystem.fss` and its deletion (item 319); `systemOps.getArgs`; row 896; the arrays' store, which a compiled `args` needs (rung A).
+
+**Tests, first.**
+- The compiled guard, `NativeHelperFamilyStringCompiled`, retargeted: seen failing on the base through `junit.sh`, where `stringOps` has no `getProperty`, and passing after.
+- With Q3: `ProjectFortress/tests/SystemArgsWalk.fss`, which prints `|args|` and its elements; its `.test` passes two arguments, as the harness's tests with arguments do, and asserts their text; seen as a guard on the base and after, and a compiled test binding `programArgs.count` and `at` in its own declarations, run with two arguments, seen failing on the base through `junit.sh`.
+- Keep their verdicts: walk's `NativeHelperStringRopeWalk`, which calls `getEnvironment` and `getProperty` at ropes and flat strings; every test that reads `args`; the compiler track's tests that import `CompilerSystem`.
+- After the change: `ant testSystem` and `ant testQuick` once each; your compiled tests through `junit.sh` (fork 2).
+
+**The measure.** The checker over `System` against the one library, once on your final tree, by the planner's command (section 5, probe 3, and `CLIMB-BATCH-27.md`, section 5, probe 3):
+
+    SCR=$PWD/tmp/sys-check; mkdir -p $SCR/classes $SCR/caches
+    CP=$(bin/fortress_classpath | tail -1)
+    javac -nowarn -cp "$CP" -d $SCR/classes explorations/coordinator/tools/checker-count/WorldFlip.java \
+        explorations/coordinator/tools/checker-count/shadow-src/com/sun/fortress/compiler/StaticChecker.java
+    java -Xmx4g -Xss64m -Dfortress.caches=$SCR/caches -Dfortress.analyzer.overload.cache=false \
+        -cp $SCR/classes:$CP WorldFlip -stop check Library/System.fss
+
+Its before: 'FortressBuiltin.StringVector is undefined.', 'File System.fss has 1 error.'. After the first half: the two errors at `System.fss:29` and `:35`, as probe 3's control A. After the second half: `### rc=0`, as control B. Report the run's error lines.
+
+**The stages.** Both, once each on your final tree, as rung V's section gives the commands with your slug (fork 3): both read `stringOps` whole. Neither reads `System` or `programArgs`.
+
+**Rows.** Row 895: the gather closes it with your commit, `--test none` with a note that names your runs of the checker over `System` (fork S2). Row 896: your `record.md` gives its whole new line, its notes' helper path `stringOps`, after you read it with `ledger.py show 896`; its claim stays.
+
+**Specification.** None. List every sentence made false: F-321's "`System`'s `getEnvironment` and `getProperty` name `systemOps`, and neither stage reads `System`"; row 895's claim; PLAN's lines on `System`'s rung and on `getProgramArgsPrim`.
+
+**Files.**
+- `nativeHelpers/stringOps.java`: the two helpers after `lineSeparator`, only; `nativeHelpers/systemOps.java`: `getEnvironment` removed, only.
+- `Library/System.fss`: the two strings, and with Q3 `args` and its two bindings.
+- With Q3: `nativeHelpers/programArgs.java`, new; `interpreter/glue/prim/StringPrim.java`'s `registerProgramArgs` and `runtimeSystem/MainWrapper.java`, each one line that sets the static.
+- `compiler_tests/NativeHelperFamilyStringCompiled.fss`: its two bindings; your tests.
+- Not: `Library/CompilerSystem.fss`, `System.fsi`, the checker, the tools.
+
+**Reserved points.** A step that would edit the prelude.
+
+**Overlaps by file.** None: no other rung edits `stringOps`, `systemOps`, `System`, `StringPrim.java` or `MainWrapper.java`.
+
+### T. The code generator's trait table: an object whose first supertrait is an imported api's trait (row 733)
+
+**The mission.** Another of F-34's kinds, and the wall of the library's 2-D and 3-D ranges: `OpenRange2D` (`Library/RangeInternals.fss:380`) extends `{ OpenRange[\(ZZ32,ZZ32)\], ActualRange2D[…] }`, and the code generator stops, 'Not in the trait table: OpenRange', at 8 declarations of `RangeInternals` (`perf-probes/codegen-distance/REPORT.md`, section 3). This rung lets such an object compile.
+
+**The answers this rung follows.** Row 733: the code generator crashes on an object whose first supertrait is an imported api's trait and whose later supertrait defines a method of a name that the api's trait declares, also where the two overload validly; `dumpMethodChaining` compares the trait of each same-named method of the first supertrait with the body's trait (`typeAnalyzer.equiv`, `compiler/codegen/CodeGen.java:1010`), and the table does not find the api's trait. On this base the stack runs `TypeAnalyzer.typeCons` (`ProjectFortress/src/com/sun/fortress/scala_src/types/TypeAnalyzer.scala:884`) ← … ← `dumpMethodChaining` (`CodeGen.java:1010`) ← `forObjectDeclPrePass` (`:4691`) (section 5, probe 4). The code generator's table is made over the component and the api environment (`compiler/phases/CodeGenerationPhase.java:179`, `:206-210`), so the trait is in the environment and the type that the comparison reads names it in a way that the table does not find. Walk runs row 733's form and prints `cd`. The two `tag` methods overload validly: their parameter types exclude each other. Row 732, the sibling in the same method, is not yours (fork T2). This record's section 3, forks 1, 2, T1 and T2 (40, 41), give the defaults you build.
+
+**What you build.**
+- The tests first (below).
+- The comparison in `dumpMethodChaining` (`CodeGen.java:916-1022`) reads an imported api's trait (fork T1): the fix where the compared type is made or read, with the reason, in your report. If the fix must change the checker's trait table, it is a change of checking code: take P-148's measure as `compiler.md`, "The checker's time", gives it, run the count stage and the distance stage, and list it as a point to report.
+- Not yours: row 732 (fork T2); `RangeInternals` itself; the checker unless fork T1 sends you there.
+
+**Tests, first.**
+- `ProjectFortress/compiler_tests/TraitTableApiTraitCompiled.fss` with an api `ProjectFortress/compiler_tests/TraitTableApiTraitApi.fsi` and its component, and its `.test` (`tests=`, `compile`, `link`, `run`, `run_out_contains=PASS`), as `compiler_tests/RecursiveApiTest3.test` drives a program with its own apis: row 733's form, the api's `trait C abstract tag(self, n: ZZ32): String end`, the program's `trait D tag(self, s: String): String = s end` and `object O extends { C, D } tag(self, n: ZZ32): String = "c" end`, with `tag(O, 1)` asserted `"c"` and `tag(O, "d")` asserted `"d"`; and a second object whose first supertrait is a generic api trait at a tuple static argument, as `OpenRange2D`'s is. Seen failing on the base through `junit.sh`: 'Not in the trait table: C' (probe 4). Passing after.
+- `ProjectFortress/tests/TraitTableApiTraitWalk.fss`, with its api in `ProjectFortress/test_library/`: the same program under walk, a guard passing on the base and after.
+- Keep their verdicts: the compiler track.
+- After the change: your tests through `junit.sh`, in one JVM, and the walk guard through the harness; the tracks to the gate (fork 2).
+
+**Rows.** Row 733: the gather closes it with your commit, its test `TraitTableApiTraitCompiled`. Row 732: no change, unless your fix reaches it; then your `record.md` gives its whole new line.
+
+**The stages.** Neither, unless your fix changes the checker (fork T1): list your files (`STAGE_BLIND`; fork 3).
+
+**Specification.** None. List every sentence made false: F-34's kinds, row 733's claim, and any sentence of the `fortress-repo` skill's `compiler.md` that lists what the code generator refuses.
+
+**Files.**
+- `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java`: `dumpMethodChaining`, only, and anything the comparison needs, named in your report; the checker's trait table only by fork T1.
+- `ProjectFortress/compiler_tests/`, `ProjectFortress/tests/` and `ProjectFortress/test_library/`: your tests and their apis.
+- Not: `forObjectDeclPrePass` and the call visitors; `interpreter/`; `Library/`; `ProjectFortress/LibraryBuiltin/`; `nativeHelpers/`; `Specification/`; the tools.
+
+**Reserved points.** A change of the checker's code (fork T1). Report it, with its evidence and the count stage's times.
+
+**Overlaps by file.** None: no other rung edits the code generator. K edits the checker's Scala, which a T fix by fork T1 would also reach: other files, `TypeAnalyzer.scala` against K's four.
+
+### The rule the rungs keep, and how they meet
+
+- No two rungs change one declaration, and no rung builds on another (PLAN, "The principle for the batches"). Each rung's tests pass on its own tree. None lands only with another. A's compiled `args`, which S's second half builds, runs only on the merged tree, where both stand; S's tests run under walk and over its own helper bindings, so they pass without A.
+- The declarations each rung changes:
+  - V: the getters, the `bitsAs…` and the low-bits names in `ZZ32`, `ZZ64`, `NN64`, `ZZ` and `NN32`, with their api lines; `ZZ`'s `narrow` and `widen` struck; `ZZ32`'s `big`; rung I's two private count functions; `IntLiteral`'s 8; the callers in `Format`, `QuickCheck`, `sudoku` and `XXXZZNarrowRungP`; any new helper; `basic-integers.tex` and an Appendix I entry; two tests.
+  - R: `JavaBufferedReader`'s eight methods and two factories; a native object; four methods of `StaticNativeApp`; a new glue class; `jbrStdIn`; `File` and `Reader` whole; two tests.
+  - A: two store traits and their factories; `NativeArray` whole; two native objects; a rule in walk's loader; three glue classes re-targeted and two new; `arrayOps` and two store classes, new; two table entries; with shape (ii), `Transaction.java`; two tests.
+  - K: a new Scala class and four sites of the checker; one test.
+  - H: six helpers in `runtime.java`; `Thread`'s four, `abort` and `printTaskTrace`; six table entries; two tests.
+  - S: two helpers, `getEnvironment` out of `systemOps`, two strings and one guard; with Q3, `args`, `getProgramArgsPrim` and `getProgramArgs` struck, a new helper class, two one-line setters, two tests.
+  - T: the code generator's `dumpMethodChaining`, and two tests with an api.
+- The files that two rungs share, and each rung's place:
+  - `Library/FortressLibrary.fss`: V `:714-756`, `:763-1155`; R `:1959-1967`; A before `:2392`; H `:4625`.
+  - `Library/FortressLibrary.fsi`: V the integer traits, `:450-760`; R `:1265-1271`; A beside `:1594-1604`.
+  - `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss`: A after `:52`; V `:422-517` and `:529-614`; H `:775-786`; R after `:791`.
+  - `ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi`: V `NN32`'s lines; H only for `valAny`, `:306-313`.
+  - `ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java`: H `:47-53`; A `:209`.
+- They meet on the merged tree. Walk's suite runs every rung's walk tests. The compiler track runs V's, R's, K's, H's, S's and T's compiled tests, and `ant testQuick` A's unit test. The stages read the library as V, R, A and H leave it, the helper classes as R, A, H and S leave them, and the checker as K leaves it: so the merged distance reads `#crash none`, and every site there is to be traced to one rung's edit, against 0. The specification's build reads V's entry. The gather's 52 demos and the commit stage's quick check of the model see every array, every file read, every conversion and every `spawn` at once. No rung's test asserts the crash rows, a glue string that another rung moves, or walk's uncatchable message at a missing file (section 6, "What every agent reads first").
+
