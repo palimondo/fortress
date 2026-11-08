@@ -789,17 +789,18 @@ value object Char extends { StandardTotalOrder[\Char\] }
 end
 
 object Thread[\T\] (fcn:()->T)
-    val():T         =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Thread$val")
+    val():T         = cast[\T\](valAny())
+    private valAny():Any =
+        builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.threadVal")
     wait():()       =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Thread$wait")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.threadWait")
     ready():Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Thread$ready")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.threadReady")
     stop():()       =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Thread$stop")
+        builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.threadStop")
 end
 
-abort():() = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.Thread$abort")
+abort():() = builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.abort")
 
 (* Walk's value of FortressLibrary's JavaBufferedWriter, which holds a Java writer; a helper of
    nativeHelpers.fileOps makes it. *)

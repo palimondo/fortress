@@ -1,0 +1,4 @@
+tests=RuntimeOwnOperationsCompiled
+link
+run
+run_out_matches=(?s).*Task: [^\n]*task[0-9]+\nTask: RuntimeOwnOperationsCompiled\n.*PASS.*

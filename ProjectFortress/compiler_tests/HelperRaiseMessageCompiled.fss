@@ -1,0 +1,19 @@
+(* On the compiled path, a helper's raise of an exception that carries a message reaches a catch: opening a missing file raises FileNotFoundException. *)
+component HelperRaiseMessageCompiled
+export Executable
+
+opensMissing(name: String): Boolean =
+  try
+    ignore makeJavaBufferedReader(name)
+    false
+  catch e
+    FileNotFoundException => true
+    Exception => false
+  end
+
+run(): () = do
+  assert(opensMissing("/no-such-folder-for-this-test/no-such-file.txt"), "a missing file raises FileNotFoundException, which a catch sees")
+  println("PASS")
+end
+
+end

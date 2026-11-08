@@ -9413,3 +9413,9 @@ rewritten
 rewritten
 
 | 324 | a Fortress exception thrown out of an `atomic` block leaves the block's writes visible on the compiled path: `atomic do g := 7; throw Boom end`, caught and read, gives 7 compiled and 100 under walk, at one thread and at four | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/atomic.tex`, "Atomic Expressions" | none | ours | Also for a local and an object. The mechanism, by reading, not measured: `CodeGen.forAtomicBlock` handles only `TransactionAbortException` (`CodeGen.java:1742-1745`), so an `FException` leaves without `BaseTask.cleanupTransaction`, and `Transaction.TXRead` returns an ancestral write (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:144-149,159-168`), which a later read finds; a second implicit thread reads it too (a child task takes its parent's transaction, `ProjectFortress/src/com/sun/fortress/runtimeSystem/BaseTask.java:83-86`). An `exit` to an enclosing `label` keeps the writes (`atomic.tex`). Workaround: throw before the block. probes and full text: history, row 324 |
+
+### Row 82
+
+note added
+
+| 82 | on the compiled path `spawn` yields a thread handle with no methods: `t.val()` fails with `No such method Thread[\IntLiteral\].val.` | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic/expressions/spawn.tex`, "Spawn Expressions" | none | ours | `object Thread[\T\](fcn:()->T)` is declared only in the interpreter's builtin (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:287`, `FortressBuiltin.fss:725`, at c124c6b65); neither `CompilerBuiltin` nor `CompilerLibrary` declares it. Under walk the probe prints `p32 42` (row 61). G12 of `explorations/compiled-path-gaps.md`. Probe `explorations/compiler-probes/p32.fss`, in the parent of `c69cb2064`. |

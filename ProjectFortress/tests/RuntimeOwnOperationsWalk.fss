@@ -1,0 +1,35 @@
+(* Under walk, a spawned thread's val, wait, ready and stop answer, abort has no effect outside atomic and runs the atomic block that calls it again, and printTaskTrace prints from a spawned task. *)
+component RuntimeOwnOperationsWalk
+export Executable
+
+run(): () = do
+  t = spawn do 6 7 end
+  t.wait()
+  assert(t.ready(), "a thread is ready once wait returns; thread.tex, method ready")
+  assert(t.val(), 42, "val is the value of the thread's expression; thread.tex, method val")
+  t.stop()
+
+  var after: ZZ32 := 0
+  abort()
+  after := 1
+  assert(after, 1, "abort outside an atomic expression has no effect; transactions.tex, section Abortable Atomicity")
+
+  var x: ZZ32 := 0
+  var committedAt: ZZ64 := 0
+  deadline: ZZ64 = nanoTime() + 20000000
+  atomic do
+    x += 10
+    if nanoTime() < deadline then
+      abort()
+      x += 1000
+    end
+    committedAt := nanoTime()
+  end
+  assert(x, 10, "abort rolls back the try that calls it, and the atomic block runs again")
+  assert(committedAt >= deadline, "the try that commits runs once the clock has passed the deadline")
+
+  u = spawn do printTaskTrace(); 1 end
+  assert(u.val(), 1, "a spawned thread that prints its task trace still gives its value")
+end
+
+end

@@ -1,2 +1,2 @@
-tests=XXXFileOpsRaiseCaughtCompiled
+tests=FileOpsRaiseCaughtCompiled
 link

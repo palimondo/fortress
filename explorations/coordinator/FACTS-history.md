@@ -6017,3 +6017,17 @@ pointer words refreshed in: F-24
 ### F-334
 
 2026-11-08 07:37Z · added · from `explorations/compile-ladder/rung-checker-partial-order/REPORT.md`, "1. What changed and why" · by climb batch 28 gather
+
+### F-335
+
+2026-11-08 07:39Z · added · from `explorations/compile-ladder/rung-runtime-threads/REPORT.md`, "1. What changed and why" · by climb batch 28 gather
+
+### F-336
+
+2026-11-08 07:39Z · added · from `explorations/compile-ladder/rung-runtime-threads/REPORT.md`, "1. What changed and why" · by climb batch 28 gather
+
+### F-332
+
+2026-11-08 07:39Z · rewritten · by climb batch 28 gather: rung H of the same batch repairs row 930, so the compiled path now catches the raises; the XXX pair is promoted to FileOpsRaiseCaughtCompiled
+
+- F-332 **Walk carries `FortressLibrary`'s `JavaBufferedReader` in a Java `FortressBufferedReader`, and `FileReadStream`, `Reader`, `stdIn` and `FileWriteStream` are plain Fortress objects over the two Java-backed traits.** The trait's eight methods and its two factories, over a file name and for standard input, are natives on `nativeHelpers/fileOps` (`Library/FortressLibrary.fss:1994-2014`); walk's loader carries the trait by its name through `FortressBuiltin`'s private native object `JavaBufferedReaderObject` (`interpreter/glue/StaticNativeApp.java:71`). `File` and `Reader` are plain components: each object holds its Java-backed value in its field `under`; `uncheckedReadChar` answers -1 at the end by the reader's `eof`, since `jbrRead` answers 0 there; `FileWriteStream` is a `WriteStream` with its `flush`. A missing file raises `FileNotFoundException` and a read after `consume` `IOFailure`, which a `catch` sees under walk; on the compiled path no `catch` sees them (row 930). Of the one library's live bindings, 25 leave glue classes and 10 helper bindings come (F-299 holds the count). Test: `tests/NativeHelperReaderWalk`, `compiler_tests/NativeHelperFamilyReaderCompiled`, `compiler_tests/XXXFileOpsRaiseCaughtCompiled`. Detail: `compile-ladder/rung-io-reader/REPORT.md`, "What changed and why".

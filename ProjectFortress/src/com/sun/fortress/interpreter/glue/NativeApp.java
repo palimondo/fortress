@@ -50,6 +50,19 @@ public abstract class NativeApp implements Applicable {
                            "com.sun.fortress.interpreter.glue.prim.ObjectPrims$ClassName");
         OWN_OPERATIONS.put("com.sun.fortress.nativeHelpers.equality.sEquiv",
                            "com.sun.fortress.interpreter.glue.prim.AnyPrim$SEquiv");
+        // The run time's own: walk's spawn handle, abort and task trace run on walk's own tasks.
+        OWN_OPERATIONS.put("com.sun.fortress.nativeHelpers.runtime.threadVal",
+                           "com.sun.fortress.interpreter.glue.prim.Thread$val");
+        OWN_OPERATIONS.put("com.sun.fortress.nativeHelpers.runtime.threadWait",
+                           "com.sun.fortress.interpreter.glue.prim.Thread$wait");
+        OWN_OPERATIONS.put("com.sun.fortress.nativeHelpers.runtime.threadReady",
+                           "com.sun.fortress.interpreter.glue.prim.Thread$ready");
+        OWN_OPERATIONS.put("com.sun.fortress.nativeHelpers.runtime.threadStop",
+                           "com.sun.fortress.interpreter.glue.prim.Thread$stop");
+        OWN_OPERATIONS.put("com.sun.fortress.nativeHelpers.runtime.abort",
+                           "com.sun.fortress.interpreter.glue.prim.Thread$abort");
+        OWN_OPERATIONS.put("com.sun.fortress.nativeHelpers.runtime.printTaskTrace",
+                           "com.sun.fortress.interpreter.glue.prim.StringPrim$PrintTaskTrace");
     }
 
     /**
