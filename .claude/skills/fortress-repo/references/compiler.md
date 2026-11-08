@@ -23,7 +23,7 @@ After the phases, each path has its own code for these:
 - Dispatch: walk searches at run time, in `OverloadedFunction`. The compiled path calls a dispatch method that `OverloadSet` generates.
 - The run: `fortress run` starts a second JVM (`bin/run`), which never enters `Shell.java`.
 
-Both paths run the helpers, the public static methods of classes under `nativeHelpers/`, as in `simpleIntArith.java`.
+Both paths run the helpers, the public static methods of classes under `nativeHelpers/`.
 
 The phases differ too: walk turns off some desugarings that the compiled path runs (`interpreter.md`, "Where a fix of walk belongs"). A fix of one of those desugarers changes only the compiled path.
 
@@ -103,7 +103,7 @@ The wrapper generator wraps every method of a class that it is given, the privat
 
 - The compiler's prelude declares `print`, `println` and `String`'s `||` at `Object`, not `Any` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37`, `:55`, `:61`). So until the switch-over, the checker refuses a generic that prints a value of a type parameter written without a bound, or concatenates it onto a `String`. The message names `Object`, as 'Object->() is not applicable to an argument of type T.' does for `println`. In such a generic of a compiled program or test, write `T extends Object`. The generic then takes no tuple, function or `()`. The one library declares these operations at `Any` or `String`, so do not change its text for this limit.
 - A `try`'s `forbid` clause lists exception types: an exception of a listed type that no `catch` clause took is wrapped in a `ForbiddenException`, which the `try` throws. A `try`'s `finally` clause does not run when an exception leaves the `try` block: one that no `catch` clause takes, or that `ForbiddenException` (ledger row 890). So write no compiled program that relies on `finally` after an exception leaves the `try`. A test that needs it is an `XXX` test (`tests-writing.md`). In a `try` nested in another `try` of one body, the outer `try`'s `catch` clause is matched first (ledger row 888). A `try` whose block can throw, with a `finally` clause and no `catch` or `forbid` clause, fails with a `VerifyError` at class load (ledger row 891).
-- Each evaluation of a string literal makes a new string object, so `"ab" SEQV "ab"` is `false` (ledger row 945). A test asserts `true`, as an `XXX` test.
+- Each evaluation of a string literal makes a new string object, so `"ab" SEQV "ab"` is `false` (ledger row 945). A test of it asserts `true`, as an `XXX` test.
 - An api and the component that implements it must have the same name. If there is none, the link fails ("Could not find an implementation for API"), and the run dies with `NoClassDefFoundError`.
 - The compiled dispatch ignores the contravariance of a parameter of arrow type. The property `fortress.disable.contravariance` is true by default, so `OverloadSet` passes no variance. If a compiled call with function arguments picks another declaration than walk does, look here first.
 - A clean link does not prove that every call has its method. Two calls die at run time with `NoSuchMethodError`:
@@ -141,7 +141,7 @@ The wrapper generator wraps every method of a class that it is given, the privat
 A small program compiles in about 5 s and runs in about 1 s.
 
 - A crash of the checker prints one line and hides the Java stack. To see the stack, put `-debug stacktrace` before the file: `../bin/fortress compile -debug stacktrace <path>/P.fss`.
-- A failed compile of a program leaves a 0-byte jar in `bytecode_cache/`. A run of the program then prints "Could not load P" and "Resource not found". Read the compile's error instead: it gives the cause.
+- A failed compile of a program leaves a 0-byte jar in `bytecode_cache/`. A run of the program then prints "Could not load P" and "Resource not found". Read the compile's error instead.
 
 ## Before an edit
 
@@ -197,7 +197,7 @@ The checker's results are the programs that it accepts and refuses, and each err
 - The two tables are equal: `diff` prints nothing.
 - The two `run.txt` files are equal after you replace each run's own tree path with one word, such as `TREE`. Any difference fails.
 
-A move of an order in the output, such as the apis' checks or a union's members, is a difference: keep the old order, or report the difference, as for any other.
+A node's hash starts from its class name, so an order in the output, such as the apis' checks, does not vary from run to run. A moved order is a difference: keep the old order, or report it.
 
 `Walker`, in the generated `ProjectFortress/src/com/sun/fortress/scala_src/nodes/FortressAst.scala`, is split into methods under 8,000 bytes of bytecode. HotSpot does not compile a longer method, and the walker runs on every node. `MethodSizeJUTest` fails if a method of the build grows past the limit, except the methods that its source lists in `listed(...)` entries. Run it alone with `ant testOnly -DtestPattern=MethodSizeJUTest`. If a method of `Walker` fails, lower `WALKER_CASES_PER_METHOD` in `ProjectFortress/src/com/sun/fortress/astgen/ScalaAstGenerator.java`. If another method fails, split it under the limit. List it only if nothing in the checker or a compiled run calls it, with its size and what runs it, and name it in your report.
 

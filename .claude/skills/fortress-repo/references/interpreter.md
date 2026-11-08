@@ -15,13 +15,14 @@ At a call of a generic function, walk infers the static arguments from the run-t
 
 Walk chooses a coercion by the value at run time. The specification and the compiled path choose it statically. Walk has no static types, so it cannot choose statically. The expected-failure tests `ProjectFortress/tests/XXXCoercionStaticRungC.fss` and `XXXCoercionStaticNarrowRungC.fss` record the difference.
 
-Walk departs from the language's literals (`revival-changes.md`, "Traits and objects" and "Numbers") in these ways, until each fix lands. A test of one of these cases asserts the language's answer, as an `XXX` test (`tests-writing.md`).
+Walk departs from the rules on literals in `revival-changes.md` ("Traits and objects" and "Numbers") in these ways, until each fix lands. A test of one of these cases asserts the rules' answer, as an `XXX` test (`tests-writing.md`).
 
 - Walk keeps a float numeral bound to an `RR64` variable, parameter or field as a `FloatLiteral`. So `SEQV` finds it unequal to a computed `RR64` of the same bits (ledger row 943).
 - Walk refuses `q: QQ = 0.5`, and answers `false` to `1/2 = 0.5` (ledger row 944).
 - Each evaluation of a string literal makes a new string object, so `"ab" SEQV "ab"` is `false` (ledger row 945).
-- Walk gives an integer numeral the Java class `Int`, `Long` or `BigNum` by its value, and a generic built from a number value instantiates at that class. So `Cell(3)` is a `Cell[\Int\]`, no `Cell[\ZZ32\]`, and dispatches apart from one. Walk prints the class as `ZZ32`, `ZZ64` or `ZZ`, also in a static argument, but its error messages say `Int` (ledger row 364). For the same reason, `array1` and `array2` at an inferred element type give a plain array, not a `Vector` or `Matrix`, and its `+` and unary `-` fail dispatch (ledger row 721). They give a plain array at a program's own subtype of `Number` too. In a program, write the static argument, as `Cell[\ZZ32\](3)`.
-- Walk answers `IntLiteral`'s own arithmetic as a `ZZ32` (ledger row 578).
+- Walk gives an integer numeral the Java class `Int`, `Long` or `BigNum` by its value, and a generic built from a number value instantiates at that class. So `Cell(3)` is a `Cell[\Int\]`, not a `Cell[\ZZ32\]`, and an overload declared on `Cell[\ZZ32\]` does not take it. Walk prints the class as `ZZ32`, `ZZ64` or `ZZ`, also in a static argument, but its error messages say `Int` (ledger row 364). For the same reason, `array1` and `array2` at an inferred element type give a plain array, not a `Vector` or `Matrix`, and its `+` and unary `-` fail dispatch (ledger row 721). In a program, write the static argument, as `Cell[\ZZ32\](3)`.
+
+Until walk runs the checker (P-12), walk computes arithmetic on numerals, as `3 + 4`, at `ZZ32`, where the checker types it `IntLiteral`, and so does the arithmetic of the value `IntLiteral` itself (ledger row 578): interim answers, which no test asserts against.
 
 ## Where a fix of walk belongs
 

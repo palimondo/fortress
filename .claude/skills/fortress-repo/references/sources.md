@@ -1172,3 +1172,12 @@ From the curator's comment of 2026-11-08, about 15:00 UTC, on changes 39 to 44 o
 - `revival-changes.md`, "Numbers", "`Number` declares nothing": the example `1/2 = 0.5` is `false` removed (row 944, against P-172).
 - `interpreter.md`, "How walk evaluates a program": the paragraph on a float numeral kept as a `FloatLiteral` became a list of walk's departures from the language's literals, rows 943, 944, 945, 364, 721 and 578, with a test of each asserting the language's answer as an `XXX` test.
 - `compiler.md`, "Traps of the compiled path": the defect note for row 945. To keep the part under 30,000 characters, three sentences of reason in "The checker's time" were shortened: the node's hash, the long walker method, the smoke test.
+
+## The cold read of `6ec749a8eb`, 2026-11-08
+
+From the cold read of `6ec749a8eb` and `71272d7484`; settled by the coordinator.
+
+- `revival-changes.md`, "Numbers": the sentence on a numeral where nothing fixes its type cut. Walk's integer numeral given in order: the specification's revised text, then walk's class today (row 364). The pointer to `interpreter.md` made a sentence, with rows 364, 721, 943, 944. The factories `array1` and `array2` at a program's own number type restored as the library's rule.
+- `revival-changes.md`, "Traits and objects", the rule on `SEQV`: the fold named as `||`, with `("a" || "b") SEQV "ab"` (P-171; `Specification-1.0-frozen/basic/expressions/constant.tex:75-79`). The pointer gives each path's rows. The four-tuple names the interpreter's library and its fallback to `SEQV`, with row 923.
+- `interpreter.md`, "How walk evaluates a program": "the rules on literals in `revival-changes.md`" for an undefined phrase; row 364's overload on `Cell[\ZZ32\]`; the factories at a program's own number type moved out; row 578 and walk's `ZZ32` arithmetic on numerals made one sentence of interim answers until walk runs the checker (P-12).
+- `compiler.md`, "The checker's time": the reason that an order does not vary from run to run restored. "Traps of the compiled path": "A test of it". To stay under 30,000 characters, two clauses that state no rule were cut, in "What the two paths share" and "Running".
