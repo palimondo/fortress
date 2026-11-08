@@ -1,4 +1,4 @@
-(* An object whose first supertrait is an imported api's trait, plain or generic at a tuple static argument, and whose later supertrait gives a method of the same name that overloads it validly, compiles and runs each body. *)
+(* An object or trait whose first supertrait is an imported api's trait, plain or generic at a tuple static argument, and whose later supertrait gives a method of the same name that overloads it validly, compiles and runs each body. *)
 component TraitTableApiTraitCompiled
 import TraitTableApiTraitApi.{ C, G, tag, gtag }
 export Executable
@@ -9,6 +9,12 @@ end
 
 object O extends { C, D }
     tag(self, n: ZZ32): String = "c"
+end
+
+trait T extends { C, D } end
+
+object Q extends T
+    tag(self, n: ZZ32): String = "q"
 end
 
 trait E
@@ -26,6 +32,11 @@ run(): () = do
     assert(tag(c, 2), "c", "tag(c, 2) with c: C")
     d: D = O
     assert(tag(d, "x"), "x", "tag(d, x) with d: D")
+    assert(tag(Q, 1), "q", "tag(Q, 1)")
+    assert(tag(Q, "d"), "d", "tag(Q, d)")
+    t: T = Q
+    assert(tag(t, 2), "q", "tag(t, 2) with t: T")
+    assert(tag(t, "x"), "x", "tag(t, x) with t: T")
     assert(gtag(P, 1), "g", "gtag(P, 1)")
     assert(gtag(P, "e"), "e", "gtag(P, e)")
     g: G[\(ZZ32, ZZ32)\] = P
