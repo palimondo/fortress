@@ -1,0 +1,28 @@
+(* On the compiled path, abort in an atomic block nested in another abandons and reruns only the inner block, so the outer block's write is made once. *)
+component XXXNestedAtomicAbortCompiled
+export Executable
+
+abortC(): () = builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.abort")
+nano(): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longNanoTime")
+
+run(): () = do
+  println("REACHED")
+  var o: ZZ32 := 0
+  var i: ZZ32 := 0
+  deadline: ZZ64 = nano() + 50000000
+  atomic do
+    o := o + 1
+    atomic do
+      i := i + 1
+      if nano() < deadline then
+        abortC()
+        i := i + 100
+      end
+    end
+  end
+  assert(i = 1, "the inner block commits once, with only its own write")
+  assert(o = 1, "abort abandons only the innermost atomic block; transactions.tex, section Abortable Atomicity")
+  println("PASS")
+end
+
+end
