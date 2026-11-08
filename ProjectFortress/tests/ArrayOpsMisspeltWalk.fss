@@ -1,0 +1,12 @@
+(* Under walk, a builtinPrimitive string that names no helper of nativeHelpers.arrayOps is refused at load. *)
+component ArrayOpsMisspeltWalk
+export Executable
+
+store(n: ZZ32): Any = builtinPrimitive("com.sun.fortress.nativeHelpers.arrayOps.makeStore")
+
+run(): () = do
+    _ = store(3)
+    println("PASS")
+end
+
+end

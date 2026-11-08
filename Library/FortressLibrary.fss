@@ -2388,6 +2388,23 @@ __imm3[\E, nat n, nat m, nat p\](w:()->E,x:N[\n\],y:N[\m\],z:N[\p\]):
     ImmutableArray3[\E,0,n,0,m,0,p\] = immutableArray3[\E,n,m,p\]()
 *)
 
+trait JavaArrayStore excludes { String, Number, Boolean, Char, JavaBufferedReader, JavaBufferedWriter }
+    get(i: ZZ32): Any = builtinPrimitive("com.sun.fortress.nativeHelpers.arrayOps.get")
+    put(i: ZZ32, v: Any): () = builtinPrimitive("com.sun.fortress.nativeHelpers.arrayOps.put")
+    init(i: ZZ32, v: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.arrayOps.init")
+end
+
+trait JavaRR64ArrayStore excludes { String, Number, Boolean, Char, JavaBufferedReader, JavaBufferedWriter,
+                                    JavaArrayStore }
+    get(i: ZZ32): RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.arrayOps.getRR64")
+    init(i: ZZ32, v: RR64): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.arrayOps.initRR64")
+end
+
+makeJavaArrayStore(n: ZZ32): JavaArrayStore =
+    builtinPrimitive("com.sun.fortress.nativeHelpers.arrayOps.make")
+makeJavaRR64ArrayStore(n: ZZ32): JavaRR64ArrayStore =
+    builtinPrimitive("com.sun.fortress.nativeHelpers.arrayOps.makeRR64")
+
 primitiveArray[\E\](x:ZZ32):Array[\E,ZZ32\] = __parr(__thrower[\E\],reflect(x))
 __parr[\E, nat n\](w:()->E,x:N[\n\]):PrimitiveArray[\E,n\] =
     PrimitiveArray[\E,n\]()

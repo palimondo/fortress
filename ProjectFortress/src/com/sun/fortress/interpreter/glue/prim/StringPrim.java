@@ -23,6 +23,7 @@ import com.sun.fortress.interpreter.evaluator.values.FValue;
 import com.sun.fortress.interpreter.evaluator.values.FVoid;
 import com.sun.fortress.interpreter.evaluator.values.Simple_fcn;
 import com.sun.fortress.interpreter.glue.Glue;
+import com.sun.fortress.interpreter.glue.IndexedArrayWrapper;
 import com.sun.fortress.interpreter.glue.NativeFn0;
 
 import java.util.List;
@@ -132,12 +133,9 @@ public class StringPrim {
                                                                   stringType,
                                                                   natParams);
             FValue result = mkArr.applyToArgs();
-            if (!(result instanceof PrimImmutableArray.PrimImmutableArrayObject)) {
-                return bug("registerProgramArgs: unexpected varargs array type " + result);
-            }
-            PrimImmutableArray.PrimImmutableArrayObject arr = (PrimImmutableArray.PrimImmutableArrayObject) result;
+            IndexedArrayWrapper arr = new IndexedArrayWrapper(result);
             for (int i = 0; i < args.size(); i++) {
-                arr.init(i, FString.make(args.get(i)));
+                arr.put(FString.make(args.get(i)), i);
             }
             return result;
         }

@@ -1607,6 +1607,25 @@ primitiveArray[\E\](x:ZZ32):Array[\E,ZZ32\]
 
 primitiveImmutableArray[\E\](x:ZZ32):ImmutableArray[\E,ZZ32\]
 
+(** A %JavaArrayStore% holds the elements of one of %NativeArray%'s arrays, each at %Any%, in a
+    Java-backed value.  %init% stores an element that holds nothing yet and answers %true%; it leaves
+    an element that holds a value as it is and answers %false%.  Inside an %atomic% block, a read and a
+    write of an element are part of the transaction.  A %JavaRR64ArrayStore% holds %RR64% elements. **)
+trait JavaArrayStore excludes { String, Number, Boolean, Char, JavaBufferedReader, JavaBufferedWriter }
+    get(i: ZZ32): Any
+    put(i: ZZ32, v: Any): ()
+    init(i: ZZ32, v: Any): Boolean
+end
+
+trait JavaRR64ArrayStore excludes { String, Number, Boolean, Char, JavaBufferedReader, JavaBufferedWriter,
+                                    JavaArrayStore }
+    get(i: ZZ32): RR64
+    init(i: ZZ32, v: RR64): Boolean
+end
+
+makeJavaArrayStore(n: ZZ32): JavaArrayStore
+makeJavaRR64ArrayStore(n: ZZ32): JavaRR64ArrayStore
+
 (** NOTE: %StandardImmutableArrayType% is a parent of
     %StandardMutableArrayType%.  It therefore does not extend
     %ImmutableArray% as you might expect.  Other types that extend

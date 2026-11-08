@@ -15,4 +15,6 @@ object PrimitiveArray[\T, nat s0\]() extends Array1[\T,0,s0\] end
 
 object PrimImmutableArray[\T, nat s0\]() extends ImmutableArray1[\T,0,s0\] end
 
+object PrimImmutableRR64Array[\nat s0\]() extends ImmutableArray1[\RR64,0,s0\] end
+
 end

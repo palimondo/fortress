@@ -10,6 +10,8 @@
  ******************************************************************************/
 package com.sun.fortress.runtimeSystem;
 
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.Hashtable;
 import java.util.Map;
@@ -21,11 +23,60 @@ import fortress.AnyType.Any;
 
 public class Transaction {
 
+    /**
+     * A location that a transaction reads and writes: a cell, the MutableFValue of a mutable variable,
+     * or a Slot, one element of the Object[] of a compiled array store.  The read and write sets key
+     * both kinds; a slot is its array and its index.
+     */
+    static final class Slot {
+        private static final VarHandle ELEMENT = MethodHandles.arrayElementVarHandle(Object[].class);
+
+        final Object[] array;
+        final int index;
+
+        Slot(Object[] array, int index) {
+            this.array = array;
+            this.index = index;
+        }
+
+        /** The element, read with the memory semantics of a cell's volatile value. */
+        Any getValue() {
+            return (Any) ELEMENT.getVolatile(array, index);
+        }
+
+        void setValue(Any v) {
+            ELEMENT.setVolatile(array, index, v);
+        }
+
+        public boolean equals(Object o) {
+            return o instanceof Slot && ((Slot) o).array == array && ((Slot) o).index == index;
+        }
+
+        public int hashCode() {
+            return System.identityHashCode(array) * 31 + index;
+        }
+
+        public String toString() {
+            return "Slot " + index + " of array@" + Integer.toHexString(System.identityHashCode(array));
+        }
+    }
+
+    /** The committed value of a location, a cell or a slot. */
+    private static Any committedValue(Object location) {
+        if (location instanceof Slot) return ((Slot) location).getValue();
+        return ((MutableFValue) location).getValue();
+    }
+
+    private static void commitValue(Object location, Any v) {
+        if (location instanceof Slot) ((Slot) location).setValue(v);
+        else ((MutableFValue) location).setValue(v);
+    }
+
     private Transaction parent;
     private static AtomicInteger global_lock = new AtomicInteger(0);
     private AtomicInteger snapshot;
-    Hashtable<MutableFValue, Any> reads;
-    Hashtable<MutableFValue, Any> writes;
+    Hashtable<Object, Any> reads;
+    Hashtable<Object, Any> writes;
     private Transaction topLevelTransaction;
     private static boolean debug = false;
     private static AtomicInteger counter = new AtomicInteger(0);
@@ -109,8 +160,8 @@ public class Transaction {
     private Transaction(Transaction parent) {
         this.parent = parent;
         this.snapshot = new AtomicInteger(parent.snapshot.get());
-        this.reads = new Hashtable<MutableFValue, Any>();
-        this.writes = new Hashtable<MutableFValue, Any>();
+        this.reads = new Hashtable<Object, Any>();
+        this.writes = new Hashtable<Object, Any>();
         this.topLevelTransaction = parent.topLevelTransaction;
         this.transactionNumber = counter.getAndIncrement();
     }
@@ -118,8 +169,8 @@ public class Transaction {
     private Transaction(int snapshot) {
         this.parent = null;
         this.snapshot = new AtomicInteger(snapshot);
-        this.reads = new Hashtable<MutableFValue, Any>();
-        this.writes = new Hashtable<MutableFValue, Any>();
+        this.reads = new Hashtable<Object, Any>();
+        this.writes = new Hashtable<Object, Any>();
         this.topLevelTransaction = this;
         this.transactionNumber = counter.getAndIncrement();
     }        
@@ -141,7 +192,7 @@ public class Transaction {
         return result;
     }
 
-    private Any AncestrialWrite(MutableFValue v) {
+    private Any AncestrialWrite(Object v) {
         if (writes.containsKey(v))
             return writes.get(v);
         else if (parent == null)
@@ -150,12 +201,21 @@ public class Transaction {
     }
 
     public Any TXRead(MutableFValue v) {
+        return TXReadLocation(v);
+    }
 
-        Any val = v.getValue();
+    /** A read of element index of a compiled array store's array; null where the element holds nothing. */
+    public Any TXReadSlot(Object[] array, int index) {
+        return TXReadLocation(new Slot(array, index));
+    }
+
+    private Any TXReadLocation(Object v) {
+
+        Any val = committedValue(v);
 
         while (snapshot.get() != global_lock.get()) {
             snapshot.set(TXValidate());
-            val = v.getValue();
+            val = committedValue(v);
         }
         Any AncestrialValue = AncestrialWrite(v);
         if (AncestrialValue != null) {
@@ -164,6 +224,7 @@ public class Transaction {
             return AncestrialValue;
         } else {
             if (debug) debug("TXRead: v = " + v + " val = " + val);
+            if (val == null) return null;  // an element that holds nothing yet: the store refuses the read
             reads.put(v, val);
             return val;
         }
@@ -179,11 +240,11 @@ public class Transaction {
         int time = waitForGlobalLock();
         if (debug) debug("TXValidateTopLevel: time = " + time);
 
-        for (Map.Entry<MutableFValue,Any> entry : reads.entrySet()) {
-            MutableFValue key = entry.getKey();
+        for (Map.Entry<Object,Any> entry : reads.entrySet()) {
+            Object key = entry.getKey();
             Any val = entry.getValue();
             if (debug) debug("TXValidate: key = " + key + " val = " + val);
-            if (key.getValue() != val)
+            if (committedValue(key) != val)
                 TXAbort();
         }
 
@@ -196,13 +257,13 @@ public class Transaction {
     public int TXValidateHelperNestedTransaction() {
         int time = waitForGlobalLock();
         if (debug) debug("TXValidateNested: time = " + time);
-        for (Map.Entry<MutableFValue,Any> entry : reads.entrySet()) {
-            MutableFValue key = entry.getKey();
+        for (Map.Entry<Object,Any> entry : reads.entrySet()) {
+            Object key = entry.getKey();
             Any val = entry.getValue();
             Any ancestrialWrite = parent.AncestrialWrite(key);
             if (debug) debug("TXValidateNested: key = " + key + " val = " + val + " ancestrialWrite = " + ancestrialWrite);
             if (ancestrialWrite == null) {
-                if (key.getValue() != val)
+                if (committedValue(key) != val)
                     TXAbort();
             } else {
                 if (ancestrialWrite != val)
@@ -227,6 +288,13 @@ public class Transaction {
         if (debug) debug("TXWrite: v = " + v + " f = " + f + " reads.getValue = " + reads.get(v) + " writes.getValue = " + writes.get(v));
         writes.put(v, f);
     }
+
+    /** A write of element index of a compiled array store's array, which the commit stores. */
+    public void TXWriteSlot(Object[] array, int index, Any f) {
+        Slot v = new Slot(array, index);
+        if (debug) debug("TXWriteSlot: v = " + v + " f = " + f);
+        writes.put(v, f);
+    }
     
     public void TXCommit() {
         if (debug) debug("TXCommit: reads = " + reads + " writers = " + writes);
@@ -243,17 +311,17 @@ public class Transaction {
             
         if (this == topLevelTransaction) {
        
-            for (Map.Entry<MutableFValue,Any> entry : writes.entrySet()) {
-                MutableFValue key = entry.getKey();
+            for (Map.Entry<Object,Any> entry : writes.entrySet()) {
+                Object key = entry.getKey();
                 Any val = entry.getValue();
                 if (debug) debug("TXCommitting:  time = " + time + " key = " + key + " val = " + val);
-                key.setValue(val);
+                commitValue(key, val);
             }
        
         } else {
 
-            for (Map.Entry<MutableFValue,Any> entry : reads.entrySet()) {
-                MutableFValue key = entry.getKey();
+            for (Map.Entry<Object,Any> entry : reads.entrySet()) {
+                Object key = entry.getKey();
                 Any val = entry.getValue();
                 Any ancestrialValue = parent.AncestrialWrite(key);
 
@@ -267,8 +335,8 @@ public class Transaction {
             }
 
 
-            for (Map.Entry<MutableFValue,Any> entry : writes.entrySet()) {
-                MutableFValue key = entry.getKey();
+            for (Map.Entry<Object,Any> entry : writes.entrySet()) {
+                Object key = entry.getKey();
                 Any val = entry.getValue();
                 parent.writes.put(key, val);
                 if (debug) debug("TXCommitting: write to parent: snapshot = " + snapshot.get() + " time = " + time + " key = " + key + " val = " + val);
