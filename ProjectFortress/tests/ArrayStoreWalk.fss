@@ -1,0 +1,97 @@
+(* Under walk, the library's arrays of each rank, vectors, matrices, immutable arrays, lists, varargs and the program's arguments are made, written and read, a second fill keeps the first values, and parallel writes and atomic updates of one element are exact. *)
+component ArrayStoreWalk
+import NativeArray.{...}
+import List.{...}
+import System.{args}
+export Executable
+
+object Box(n: ZZ32) end
+
+sumAll(xs: ZZ32...): ZZ32 = SUM[\ZZ32\][x <- xs] x
+
+run(): () = do
+    (* One dimension: a vector, and a PrimitiveArray of strings *)
+    v = array[\ZZ32\](3).fill(7)
+    v[1] := 8
+    assert(v[0], 7, "vector element 0")
+    assert(v[1], 8, "vector element 1")
+    assert(|v|, 3, "vector size")
+    s = array[\String\](3).fill("a")
+    s[2] := "c"
+    assert(s[0], "a", "string array element 0")
+    assert(s[2], "c", "string array element 2")
+    z: Array1[\String, 0, 3\] = PrimitiveArray[\String, 3\]()
+    z.init(0, "cat")
+    z.init(1, "dog")
+    z.init(2, "bat")
+    z[1] := "cow"
+    assert(z[0], "cat", "PrimitiveArray element 0")
+    assert(z.get(1), "cow", "PrimitiveArray element 1")
+    b = array[\Box\](2).fill(Box(4))
+    b[1] := Box(5)
+    assert(b[0].n + b[1].n, 9, "array of objects")
+
+    (* Two and three dimensions, and a matrix *)
+    m = array[\ZZ32\](2, 3).fill(0)
+    m[1, 2] := 5
+    assert(m[1, 2], 5, "2-D element written")
+    assert(m[0, 2], 0, "2-D element filled")
+    c = array[\String\](2, 2, 2).fill("z")
+    c[1, 0, 1] := "q"
+    assert(c[1, 0, 1], "q", "3-D element written")
+    assert(c[0, 1, 1], "z", "3-D element filled")
+    mx = matrix[\ZZ32, 2, 2\]().fill(1)
+    mx[0, 1] := 3
+    assert(mx[0, 1] + mx[1, 1], 4, "matrix elements")
+    tc = tabulatedArray1[\RR64, 4\](fn (i: ZZ32): RR64 => 0.5 i)
+    assert(tc[3] = 1.5, "tabulated vector of RR64")
+
+    (* Immutable arrays, frozen and thawed *)
+    im = immutableArray[\ZZ32\](3).tabulate(fn (i: ZZ32): ZZ32 => 10 i)
+    assert(im[2], 20, "immutable array element")
+    pim: ImmutableArray1[\String, 0, 2\] = PrimImmutableArray[\String, 2\]()
+    pim.init(0, "x")
+    pim.init(1, "y")
+    assert(pim[1], "y", "PrimImmutableArray element")
+    fr = v.freeze()
+    assert(fr[1], 8, "frozen vector")
+    th = im.thaw()
+    th[0] := 1
+    assert(th[0] + th[2], 21, "thawed array")
+
+    (* Lists, varargs and the program's arguments *)
+    l = <|[\ZZ32\] 1, 2, 3|>
+    l2 = l.addRight(4)
+    assert(l2[3], 4, "list element")
+    assert(|l2|, 4, "list size")
+    assert(sumAll(1, 2, 3), 6, "varargs")
+    assert(SUM[\ZZ32\][a <- args] 1, |args|, "program arguments")
+
+    (* A second fill keeps the first values of a mutable array *)
+    a = array[\ZZ32\](2).fill(3)
+    a.fill(4)
+    assert(a[0] + a[1], 6, "vector filled twice")
+    t = array[\String\](2).fill("x")
+    t.fill("y")
+    assert(t[0] t[1], "xx", "string array filled twice")
+
+    (* Parallel writes of distinct elements *)
+    p = array[\ZZ32\](100).fill(0)
+    for i <- 0#100 do p[i] := i end
+    assert(SUM[\ZZ32\][i <- 0#100] p[i], 4950, "parallel writes to a vector")
+    q = array[\Box\](50).fill(Box(0))
+    for i <- 0#50 do q[i] := Box(i) end
+    assert(SUM[\ZZ32\][i <- 0#50] q[i].n, 1225, "parallel writes to an array of objects")
+
+    (* Atomic read-modify-writes of one element from a parallel loop *)
+    acc = array[\ZZ32\](1).fill(0)
+    for i <- 1#100 do atomic do acc[0] := acc[0] + i end end
+    assert(acc[0], 5050, "atomic updates of a vector element")
+    boxes = array[\Box\](1).fill(Box(0))
+    for i <- 1#100 do atomic do boxes[0] := Box(boxes[0].n + i) end end
+    assert(boxes[0].n, 5050, "atomic updates of an element of an array of objects")
+
+    println("PASS")
+end
+
+end

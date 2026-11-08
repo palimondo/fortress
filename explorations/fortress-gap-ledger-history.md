@@ -9395,3 +9395,21 @@ rewritten
 note added
 
 | 927 | a `Char` past U+FFFF written through a `Writer` keeps only its low 16 bits: under walk `w.write(char(128512))` to a file reads back as U+F600, on the glue before the writer moved and on `fileOps.jbwWriteChar` after | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/lexical-structure.tex`, "Character Literals" | XXXWriterCharSupplementaryWalk | climb batch 27 rung W | siblings: 915. `jbwWriteChar` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/fileOps.java:100`) calls `FortressBufferedWriter.write(int)`, which calls `java.io.BufferedWriter.write(int)`, one 16-bit unit (`compiler/runtimeValues/FortressBufferedWriter.java:38-40`), at 85236bf98; the glue took `FChar.getString`, `String.valueOf((char) val)` (row 915). The old and the new code wrote the same bytes, 'ed 84 9e', for `stdOut.write(char(119070))` and to a file (probe `WriterOldNew.fss`). Workaround: write the character as a string literal. |
+
+### Row 466
+
+rewritten
+
+| 466 | **under `walk`, a second initialization of an array element is silently ignored, and the element keeps its first value**: `a = array[\ZZ32\](2).fill(3); a.fill(4)` leaves `3 3` | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/advanced/parallelism-locality/arrays-distributed.tex`, "Distributed Arrays" | none | climb batch 7 rung A | `PrimitiveArray.init0` discards the `Boolean` that `init00` returns (`ProjectFortress/LibraryBuiltin/NativeArray.fss:25-29` at c124c6b65): the team's comment says validating it fails for an element initialized in a failed transaction. The specification allows at most one initialization; its footnote says the present implementation signals a fatal error on a duplicate, which walk does not. Fix: validate outside a transaction, or revise the footnote. Workaround: `a[i] := v`, which calls `put` (`NativeArray.fss:22`). Probe `explorations/compile-ladder/rung-tabulate/probes/skeptic/SkTwiceInit.fss`, in the parent of `ab067d9b6`. probe and full text: history, row 466 |
+
+### Row 527
+
+rewritten
+
+| 527 | under walk an array of a static size from 2^31 to 2^32-1 dies with a raw `java.lang.NegativeArraySizeException`: `array1[\ZZ32, 3000000000\](7)` stops with `NegativeArraySizeException: -1294967296` from `AtomicArray.<init>` and no Fortress location | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | climb batch 6.5b rung E | Such a size is a `ZZ64` value (row 418), and walk's array glue reads `s0` with `getInt()` (`PrimitiveArray.java:40`, `PrimImmutableArray.java:43`, `PrimImmutableRR64Array.java:36` in `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/`, at c124c6b65), where `FLong.getInt()` is `(int) val` (`FLong.java:23-26`). Fix: read `s0` as a `long` in the three `oneTimeInit` methods and raise a Fortress error naming a size above 2147483647, the refusal P-40 places with the array design. No gated test can tell a raw exception from a refusal. Probe `explorations/compile-ladder/rung-size-range/probes/skeptic/SkArraySize.fss`, in the parent of `ab067d9b6`. full text: history, row 527 |
+
+### Row 324
+
+rewritten
+
+| 324 | a Fortress exception thrown out of an `atomic` block leaves the block's writes visible on the compiled path: `atomic do g := 7; throw Boom end`, caught and read, gives 7 compiled and 100 under walk, at one thread and at four | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/atomic.tex`, "Atomic Expressions" | none | ours | Also for a local and an object. The mechanism, by reading, not measured: `CodeGen.forAtomicBlock` handles only `TransactionAbortException` (`CodeGen.java:1742-1745`), so an `FException` leaves without `BaseTask.cleanupTransaction`, and `Transaction.TXRead` returns an ancestral write (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:144-149,159-168`), which a later read finds; a second implicit thread reads it too (a child task takes its parent's transaction, `ProjectFortress/src/com/sun/fortress/runtimeSystem/BaseTask.java:83-86`). An `exit` to an enclosing `label` keeps the writes (`atomic.tex`). Workaround: throw before the block. probes and full text: history, row 324 |

@@ -50,6 +50,14 @@ trait Object extends Any
     getter toString(): String = self.asString             (* deprecated *)
 end
 
+(* Walk's values of FortressLibrary's JavaArrayStore and JavaRR64ArrayStore, which hold walk's AtomicArray
+   and double[]; walk's answers to the helpers of nativeHelpers.arrayOps make them. *)
+private object JavaArrayStoreObject extends JavaArrayStore
+end
+
+private object JavaRR64ArrayStoreObject extends JavaRR64ArrayStore
+end
+
 value object Float extends RR64
     getter asString(): String =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")

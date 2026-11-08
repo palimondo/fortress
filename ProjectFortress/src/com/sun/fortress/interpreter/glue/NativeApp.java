@@ -178,6 +178,15 @@ public abstract class NativeApp implements Applicable {
         return checkAndLoadNative(defn, isFunctionalMethod, null);
     }
 
+    /**
+     * The helper class whose every name walk answers with its own store's operation of the same name, the
+     * nested class of ARRAY_OPERATIONS: the library's array stores bind these helpers, and walk keeps its
+     * own stores, which the compiled path's helpers do not hold.  A name that no operation answers is
+     * refused at load, as a glue class that does not exist is.
+     */
+    static final String ARRAY_HELPERS = "com.sun.fortress.nativeHelpers.arrayOps.";
+    static final String ARRAY_OPERATIONS = "com.sun.fortress.interpreter.glue.prim.ArrayOps$";
+
     /** declarer: the type that declares the method, whose value is self, or null for a function. */
     public static Applicable checkAndLoadNative(Applicable defn, boolean isFunctionalMethod,
                                                 com.sun.fortress.interpreter.evaluator.types.FType declarer) {
@@ -208,6 +217,7 @@ public abstract class NativeApp implements Applicable {
         String str = ((StringLiteralExpr) arg).getText();
         String own = OWN_OPERATIONS.get(str);
         if (own != null) str = own;
+        else if (str.startsWith(ARRAY_HELPERS)) str = ARRAY_OPERATIONS + str.substring(ARRAY_HELPERS.length());
         Pair<String, Applicable> key = new Pair<String, Applicable>(str, defn);
         synchronized (cache) {
             NativeApp res = cache.get(key);
