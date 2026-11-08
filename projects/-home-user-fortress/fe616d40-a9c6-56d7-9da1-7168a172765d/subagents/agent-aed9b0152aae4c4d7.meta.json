@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Reword P-84 and P-85 to the general goal","toolUseId":"toolu_01JP3mdyma5GGNSvkmpyw6n6","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Reword P-84 and P-85 to the general goal","toolUseId":"toolu_01JP3mdyma5GGNSvkmpyw6n6","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
