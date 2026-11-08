@@ -1,0 +1,15 @@
+(* A call whose every argument is a type assumption, of a functional method that an imported api's trait declares twice, runs the body that the assumed types choose (type-annotation.tex, section "Type Assumption"). *)
+component XXXAsIfApiTraitCompiled
+import AsIfApiTraitApi.{ S, tag }
+export Executable
+
+object O extends S end
+
+run(): () = do
+    k: ZZ32 = 1
+    assert(tag(O asif S, "d" asif String), "sd", "tag(O asif S, d asif String)")
+    assert(tag(O asif S, k asif ZZ32), "n", "tag(O asif S, k asif ZZ32)")
+    println("PASS")
+end
+
+end

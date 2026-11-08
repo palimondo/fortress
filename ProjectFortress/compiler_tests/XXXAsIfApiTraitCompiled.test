@@ -1,0 +1,3 @@
+tests=XXXAsIfApiTraitCompiled
+compile
+compile_exception_contains=Not in the trait table: S
