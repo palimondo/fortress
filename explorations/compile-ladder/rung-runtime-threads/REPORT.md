@@ -159,7 +159,12 @@ The two moves are the base's, not this rung's: the old code gives the same first
 
 ## 7. The team demos
 
-DEMOS_PLACEHOLDER
+The demo driver of `explorations/compile-ladder/rung-team-demos/REPORT.md`, "Commands worked out", once on 180751e1 under walk, since the edit changes walk's loader and the interpreter's library (`tests-running.md`, "Outside the gate"):
+
+    bash <the driver> <out-dir>
+    demos: 52 run, 52 reached their end
+
+No demo calls `spawn`, `abort` or `printTaskTrace` (`grep -ln 'spawn\|abort()\|printTaskTrace\|Thread\[' ProjectFortress/demos/*.fss` prints nothing); every demo loads the edited `FortressBuiltin`.
 
 ## 8. Programs run old against new
 
@@ -209,3 +214,17 @@ None of the specification: no passage says what the compiled path does with `abo
 - **Compiled `spawn`** stays row 82, with a note (record.md).
 
 No other defect was measured.
+
+## 13. Questions for the curator, as decisions not taken
+
+- **A public accessor for a task's parent.** `printTaskTrace` reads `runtimeSystem.BaseTask`'s package-private `parent` by reflection (`ProjectFortress/src/com/sun/fortress/nativeHelpers/runtime.java:71-90`; the field, `runtimeSystem/BaseTask.java:46`), since the brief kept `runtimeSystem/` out of this rung. Default: as landed. The way not taken: a one-line `public BaseTask parent()` on `BaseTask`, and `runtime.java` calling it, when a later rung edits `runtimeSystem/`.
+- **The message of a compiled helper's raise against walk's (item 384).** With `Utility.java:30` repaired, a compiled helper's raise carries the Java message into the prelude's exception, whose constructor takes it (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:762`, `:766`; `Library/CompilerLibrary.fsi:66`), while under walk the library's object carries none (`interpreter/glue/StaticNativeApp.java:277-282`), item 384's default. The paths agree on the exception's type and differ on its message until N5 names the one library's classes. Default: as landed; item 384 stays his.
+
+## 14. Commands worked out
+
+- Whether a stage read a helper class whole: `grep -o "runtime[^ ()]*" <scratch>/caches/analyzed_cache/com.sun.fortress.nativeHelpers-*.tfi | sort -u` lists every method of the class that the stage's generated api holds.
+- The ladder subset against the landed table and the baseline: a 20-line Python reading `ladder.tsv` of the subset, of `explorations/compile-ladder/climb-batch-27/gate/ladder/ladder.tsv` and of `explorations/compile-ladder/baseline-2026-09-19/ladder.tsv` by (corpus, file), and printing each file's phase and first error against the landed row where one exists, else the baseline's.
+
+## 15. For FACTS
+
+Two entries, in `record.md`, "FACTS.md": the six names on `nativeHelpers/runtime` with walk's table of eight, and the compiled raise with a message.
