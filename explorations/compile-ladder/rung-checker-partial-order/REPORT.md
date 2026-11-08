@@ -89,7 +89,7 @@ Machine: nproc 4, Intel(R) Xeon(R) Processor @ 2.10GHz, 2100.000 MHz, openjdk 25
 
 - The tables: `diff base.txt change.txt` prints nothing; `diff change.txt checker-count-postedit.txt` prints nothing; and each equals climb batch 27's `gate/checker-count.txt` (`#total 0`, `#locations 0`, `#crash none`).
 - The `run.txt` files, each tree's path replaced by `TREE`: base against change, `diff` prints nothing; change against pass, nothing.
-- So the results of `pass` are `change`'s, which are `base`'s. The seconds differ by 7.6 % and 12 %, and change and pass, on one code, by 4 %; within P-148's smoke test.
+- So the results of `pass` are `change`'s, which are `base`'s. The seconds differ by 7.7 % and 12 %, and change and pass, on one code, by 4 %; within P-148's smoke test.
 
 **The profile.** JFR (`settings=profile`, stack depth 2,048) on the count stage's checker run (`run.sh`'s step 2 by hand) on `9dc409c3`, 6,620 execution samples. The top self frames: `Walker.walkCases7$` 8.4 %, `Walker.walkCases0` 4.6 %, `walkCases2` 4.6 %, `walkCases4` 4.5 %, `walkCases5` 4.4 %, `walkCases3` 4.2 %, `walkCases1` 3.6 %, `walkCases6` 3.5 %, `ASTGenHelper$.scalaify` 2.6 %. Inclusive: `OverloadingChecker` 45.6 %, `STypeChecker.checkExpr` 40.7 %, `typedApplicationOfChecked` 16.5 %, `CoercionOracle.checkCoercionTrait` 9.8 %, `moreSpecificCandidate` 9.2 %. Under the class, 613 samples (9.3 %; 9 more matched by name are `scala.math.PartialOrdering` frames of `TypeAnalyzer`): 607 in the order's `lt` (`moreSpecific`), 1 in the class's own code; by caller, `linear` at `Functionals.scala:768` 543, `minimal` at `:783` 33, `callType`'s `minimal` at `:718` 32, `Formula.scala:610` 1, `CoercionOracle.scala:258` 1.
 
