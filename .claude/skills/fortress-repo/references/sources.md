@@ -1148,3 +1148,17 @@ The landing of climb batch 28 on `main` made area parts false, from the list in 
 - `compiler.md`, "The checker's time", step 4: `pass` runs only where the second pass changed code; otherwise `change` is cited. The review's process finding 9.
 - `compiler.md`, its size: from 30,794 characters after the changes above to 29,995, under the 30,000 past which a `cat` of it is saved to a file, by cutting back references, a provenance clause, the transfer helpers' two example names, a case that the library does not have, and a consequence that the sentence before states. The review's process finding 7.
 - `compiler.md`, "Natives", the wrapper generator: F-321 cited in place of the fixed row 895. POSITIONS, P-170, as changed by the landing.
+
+## The cold read of climb batch 28's skill changes, 2026-11-08
+
+From the cold read of `1baf51120` and `6415622f9` (`explorations/compile-ladder/climb-batch-28/skills/cold-read.md`); settled by the record-landing workflow's writer task; each checked on `main` at `6415622f9`.
+
+- `SKILL.md`, "Parallelism and mutable state": the variables and the array elements in two sentences.
+- `compiler.md`, "The runtime": `TXReadSlot` and `TXWriteSlot` as methods of the transaction (`runtimeSystem/Transaction.java:208`, `:293`); walk does not run `FortressArrayStore`, its arrays being an `AtomicArray` (F-333); the test `compiler/runtimeValues/ArrayStoreJUTest.java`.
+- `compiler.md`, "What the two paths share": "helper" defined where it is first used.
+- `compiler.md`, "Natives": the sentence on `parse` and `api` in a suite and the sentence on a result declared `UnsignedLong`, both cut in `6415622f9`, restored.
+- `compiler.md`, "The checker's time", step 4: neither run when the second pass changed nothing, and `change`'s results reported for `pass`.
+- `compiler.md`, its size: kept under 30,000 by cutting the notes' date, the quick loop's reason, the smoke test's second example, the linker's lookup and the specification's role in the abbreviated type.
+- `interpreter.md`, "Natives": the call that raises `FailCalled` with a message, `nativeHelpers/runtime.java:29`, `:53`; `FailCalled` an object in both libraries, `Library/FortressLibrary.fsi:1209`, `Library/CompilerLibrary.fsi:66`.
+- `records.md`, "The repository's history": the check first; a header marks the file's maker, not its lines; a task that needs the lines reports the shallow clone.
+- `revival-changes.md`, "Numbers", the conversion rule: the call form `x.asZZ32`; the fixed-width types and the result type of each low-bits function (`Library/FortressLibrary.fsi:553-557`, `:626-631`, `:702-706`, `ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:188-193`); "In the interpreter's library" for "Under walk", and "functions" for the ambiguous "five"; the `bitsAs…` getters equal to `unsigned` or `signed` (F-331); the prelude's 8 getters listed (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:150-151`, `:212-213`, `:275-276`, `:335-336`).

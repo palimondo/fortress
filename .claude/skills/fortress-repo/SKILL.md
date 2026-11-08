@@ -120,7 +120,7 @@ Parallel code stays free of races in these ways:
 
 So `acc := acc + x` inside a parallel `for`, with no `atomic`, is a race. The suites run at four threads, once each, so a race can show in them. A passing run does not prove that there is none.
 
-Inside an `atomic` block, the compiled code tracks each mutable variable, and from the switch-over each array element, that the block reads or writes (`references/compiler.md`).
+Inside an `atomic` block, the compiled code tracks each mutable variable that the block reads or writes. From the switch-over, it also tracks each array element that the block reads or writes (`references/compiler.md`).
 
 ## Fortress as a language
 
