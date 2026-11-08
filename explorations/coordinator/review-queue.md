@@ -4,13 +4,14 @@
 
 The asks that stay after the cleanup of 2026-11-05, grouped by the work that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) or (c) gives the other way, the cost, the home and its "Needed by" line. The cleanup gave each of the 312 open items one verdict: 77 settled or stale, now in (a); 117 decisions that landed at a default that no planned work needs his word on again, moved to `coordinator/review-queue-learning-2026-11-05.md`, the material for a page that he reads to learn what was decided; 53 items of the coordinator's own work, moved to `coordinator/coordinator-work-2026-11-05.md`; and the 65 asks below. Each item that left keeps its number in (a), with the file it went to. A landing files its new items for him by the routing (`coordinator/tools/record-landing/routing.md`), each with its "Needed by" line, and brings this section and its counts in line. Climb batch 26's routing added items 355 to 367, and moved 310 and 340, landed at a default, to that batch's group. Climb batch 27's routing added items 373 to 405, 378 answered and the rest open; moved 363, built, to (a); and moved 371 to the switch-over's group, since its rung landed without it. His decision of 10:5x UTC on 2026-11-07 on Q1 of the natives review added item 406, for his detailed review of it, and item 407, the judgement's Q2, which the decision leaves open; his word of 14:19 UTC that day moved 404 to (a). His answer of 02:1x UTC on 2026-11-08 to Q2 moved 407 to (a). Climb batch 28's routing added items 408 to 437, all open; moved 373 and 377, whose defaults that batch built, to its group, still open for his review; and brought 319, 335, 380, 384, 385, 403 and 406 in line with its landing.
 
-**Counts**, 137 open items, 55 consequential and 82 routine:
+**Counts**, 142 open items, 61 consequential and 81 routine:
 - Before the ledger's repair: 5 (0 consequential, 5 routine).
 - The next batch and the natives' batches: 3 (2 consequential, 1 routine).
+- Climb batch 29's numeral defaults, for his review: 10 (8 consequential, 2 routine).
 - Before the switch-over: 22 (19 consequential, 3 routine).
-- Before microGPT compiles: 13 (10 consequential, 3 routine).
+- Before microGPT compiles: 12 (9 consequential, 3 routine).
 - Before microGPT runs fast: 2 (1 consequential, 1 routine).
-- Walk's questions: 8 (3 consequential, 5 routine).
+- Walk's questions: 4 (2 consequential, 2 routine).
 - Parked rungs: 11 (6 consequential, 5 routine).
 - No work needs them, but each departs from his word, or may: 8 (4 consequential, 4 routine).
 - Climb batch 26's defaults, for his review; no planned work waits on them: 10 (4 consequential, 6 routine).
@@ -28,6 +29,18 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **403.** For later gates, the distance stage report-only, as P-39 has it, or a crash that no rung declared red in the distance as in the count (row 929, closed by climb batch 28's rung K). Default: report-only, the record's.
 - **335.** A static check of the natives' shared state in the gate, a parallel test for each helper that holds state, both, or neither, before N3. Default: neither.
 - **406.** His detailed review of P-169, the runtime's own 45 native bindings named as compiled helpers that walk's loader answers with its own operations, which he took from the independent Fable judgement as it landed; climb batch 28 built 21 of the 45. Default: as decided.
+
+**Climb batch 29's numeral defaults, for his review** (PLAN, "Climb batch 29, listed for his review"). The defaults that he took at 23:3x UTC on 2026-11-08, "Yeah. Option one.", with the numeral design (P-173, P-174) for the open items of `reviews/literal-design-judgement-2026-11-08.md`, section 6; climb batch 29's rungs build each, so each is needed before its rung lands.
+- **438.** A numeral outside its type's range at a typed place: refused statically, or at run time as today (row 325). Default: statically.
+- **439.** A program's type with no coercion from the numeral type: a numeral refused, or the default then the type's own coercion. Default: refused.
+- **440.** A numeral at a program's type: one object per site, or the coercion hoisted for value types only. Default: one object per site.
+- **441.** A `nat` parameter used as a value: a `ZZ32` (P-40), or the Working Draft's `NN32`. Default: a `ZZ32`.
+- **442.** The fold's result: a signed constant with three defaults, or the Working Draft's constant traits. Default: the signed constant.
+- **443.** A value of a numeral type in a coercion's body bound by inference, `t = x`, or only the parameter. Default: written only as a parameter type; none on record for the inferred binding.
+- **444.** The team's tests that the design changes, `NumberPrintTest.fss:16` and the 9 that write `IntLiteral`: respelled, or kept red. Default: respelled.
+- **445.** Two numeral values in a coercion's body: strictly equivalent by their reduced value, or by their fields (P-168). Default: by the reduced value.
+- **446.** Walk before it runs the checker: a numeral converted place by place, or a float numeral defaulted at evaluation. Default: place by place.
+- **447.** The binary chapter's `opr ||` with a numeral dropped; the constant chapter's concatenation of two natural numerals. Default: the first dropped; none on record for the second.
 
 **Before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library).
 - **2.** The checker's two extra attempts at a call beside the two of P-49: kept or dropped. Default: kept, as built.
@@ -51,14 +64,13 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **375.** The code generator compiles a call with an assumption at some of its dispatched arguments as the declaration that the checker resolves (row 818). Default: refused, fork G2, as landed.
 - **376.** The code generator builds the generic forms under an assumption. Default: refused, each with its message, as landed.
 - **408.** Which rung repairs the compiled transaction's livelock when a block reads its own write across a nested commit (row 933), and whether that repair holds a switch-over step; needed before work on the compiled transaction goes on. No default on record.
-- **437.** `Reflect`'s 28 bindings, the last on glue beside N5's 24, kept on glue, walk only, as an exception to P-58 (the natives review's Q4). Default: yes, until a compiled reflection is designed or walk runs the checker.
+- **437.** `Reflect`'s 28 bindings, the last on glue beside the numerals' 24, which leave with climb batch 29's rename (P-169), kept on glue, walk only, as an exception to P-58 (the natives review's Q4). Default: yes, until a compiled reflection is designed or walk runs the checker.
 
 **Before microGPT compiles** (PLAN, phase 5).
 - **3.** The specification's sentence that a statically chosen declaration keeps its inferred instance, against the POPL 2019 rule. Default: the sentence as written.
 - **6.** The Meet Rule's closed-trait case for declarations with static parameters: kept in the text, or scoped out until proved. Default: the text as written.
 - **31.** One bound `T extends { Number, MultiplicativeRing[\T\] }` for the whole array family, or one per operation. Default: the one bound, as built.
 - **37.** The array decisions: the element width, the model's sized types (decision D, each model line shown as a diff) and decision A. Default: `RR64`, nothing built.
-- **245.** Whether `RR32` lacks a conversion from an integer numeral on purpose, with item 37's width. Default: as it reads.
 - **223.** Whether P-87's "any repair that changes a line of the model is shown to the curator as a diff" is his standing rule. Default: kept.
 - **284.** The team's `AnyIntegral comprises Integral[\I\] where [\I\]` made live, which closes row 487. Default: it stays a comment.
 - **320.** Whether his lean of 2026-09-20 toward the class loader decides array decision A (P-85). Default: it stays a lean.
@@ -72,15 +84,11 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **22.** `Number`'s one catch-all `=` for `z = 0`, an `=` with a numeral on each integer type, or `Number`'s `=` gone. Default: the catch-all kept.
 - **205.** Whether "measure boxing on microGPT-shaped kernels" is his rule, or phase 6 times microGPT itself, or both. Default: as stated.
 
-**Walk's questions** (PLAN, phase 4, the Q-walk line: Q-walk, the walk half of the numeral switch, in the batch whose step gives walk the checker's static types after the switch-over (P-12)).
-- **27.** A numeral above 2^53 into `RR64`, which the text marks "(exact)": excluded from the implicit conversion, or rounded. No default.
+**Walk's questions** (PLAN, phase 4, the Q-walk line: Q-walk, walk's work in the batch whose step gives walk the checker's static types after the switch-over (P-12)).
 - **34.** Where a size from 2^31 to 2^32−1 used as a `ZZ32` value is refused: at the return, at the binding, or where it becomes a value. No default.
 - **232.** After the switch-over, the checker an option of a walk run, or walk refusing every program that the checker refuses (P-12). Default: as P-12 reads.
 - **80.** Once walk has an expected type, a parameter that only another parameter's bound mentions takes its bound (row 592). Default: the departure until then.
 - **81.** Walk's missing intersection type (rows 591, 616): closed by the checker's static types, or a lattice of walk's own. Default: expected failures until then.
-- **90.** The numeral type gains additive algebra, so that `SUM <|1, 2, 3|>` runs under walk (row 432). Default: none.
-- **95.** The numeral type's own ten declarations, `^` among them, kept when walk runs them. Default: as landed.
-- **209.** A numeral whose conversions tie is read as `ZZ32` (or `ZZ64` or `ZZ` by its value), or such a call is refused as ambiguous. Default: as landed.
 
 **Parked rungs** (PLAN, "Off the path, parked", "Phase 3's candidates at its end"). The last three wait for rungs that PLAN does not name yet.
 - **177.** Row 773's rung: an object's value parameters checked under the condition with the members, or with the header; one question with item 178. Default: with the members, as repaired.
@@ -298,7 +306,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 26, listed for his review", T.worker.2; PLAN, phase 4, the names; F-322; `compile-ladder/rung-string-natives/REPORT.md:208`; `coordinator/CLIMB-BATCH-26.md`, section 2, forks 20 and 21; `reviews/batch-26-review.md`, Part 1, "Where the text, the brief or the principles split", 5, and Part 4, "Two notes owed", (i); row 846; F-299
    - Needed by: before the switch-over's names batch (set by the landing workflow, from the review's note (i)); its design meets the two readings.
 
-### Numbers and numerals (12)
+### Numbers and numerals (18)
 
 21. **`NN32` into `RR64` against answer 8 (item 37).** He decided that `NN32` converts into `RR64`, since it fits exactly. Built, that makes a `ZZ32` with an `NN32` ambiguous between `RR64`'s and `ZZ64`'s operators on both paths, where answer 8 gives `ZZ64`; two team tests go red.
    - Landed: Not built.
@@ -314,13 +322,6 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 8, listed for his review", `z = 0` for a `ZZ32` `z` resolves on; PLAN-history, "Pavol's answers, in the order they are needed", F's `=` on `Number`; `reviews/batch-6-conformance.md:60` (D1); `compile-ladder/rung-numeral-library/JUDGE.md:254`; `compile-ladder/climb-batch-8/JUDGE-review.md` (10-02: 94)
    - Needed by: before microGPT runs fast; the fast shape of `=` behind a compiled `i = 0` is phase 6's question (its cost line; PLAN, phase 6).
 
-27. **What "(exact)" means for a numeral above 2^53.** The coercion of an integer numeral into `RR64` is marked "(exact)", but a double holds every integer only up to 2^53.
-   - Landed: No default. Walk does not convert a numeral outside `ZZ32`'s range into `RR64` at all; that goes to Q-walk.
-   - The other way: Exclude such numerals from the implicit conversion; or round them.
-   - Its cost: A sentence of the coercion chapter, and Q-walk's conversion.
-   - Home: PLAN, "Off the path, parked", Raised by climb batch 6's rung T; row 443; P-76, "An integer numeral has a type of its own, `IntLiteral`, ...", which lists row 443 among walk's gaps (10-02: 101)
-   - Needed by: before Q-walk; walk's conversion of a numeral outside `ZZ32`'s range into `RR64` is on Q-walk's line (row 443; PLAN, phase 4).
-
 219. **Why did he choose the flat number tower, route A (P-43)?** Route A keeps the exclusion rule, that no type extends two instantiations of one generic trait, and makes the number types siblings under `Number`. Route C, the other way, is a nested number tower under the patents' forest rule, which lets a self-typed generic trait stand at several instantiations along a chain (F-45); F-46 prices a return to it, and P-95 keeps it open. P-43 gives route A's reason: "the flattened prelude is the team's last record of the Fortress way, and its route leads to the POPL 2019 paper, which keeps the rule." His words "the team's last record" were about the other side. On 2026-09-24 at 01:02 UTC, in a message that began "I'm not deciding yet", he weighed the patents' forest rule above the team's implemented flattening, "because that was the teams last record", which pointed to route C. The coordinator then corrected the fact under it: the POPL 2019 paper did not continue the forest route. He chose route A at 14:41 UTC ("Agreed. Route A it is.") and gave no reason. On 2026-09-29 at 12:17 UTC he recalled that the flattening was taken from the compiler's library for performance. Is that why he chose route A? He held P-43 for his answer, so the entry is unchanged.
    - Landed: The entry's reason as it reads. Default: as it reads, until he answers.
    - The other way: The audit writer's reason: "it is the compiler prelude's shape, taken for performance: with the rule kept, every type keeps its own specialised body." That is his recollection of 2026-09-29 and the reason of the question that he answered on 2026-09-24. The POPL clause leaves; P-26 already names the flattened prelude and the POPL 2019 paper among the team's later word.
@@ -334,13 +335,6 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Its cost: One sentence of P-43. A later weighing of route C then has no stated rule that puts speed above how a specialisation is chosen.
    - Home: POSITIONS P-43; `coordinator/positions-audit/full/evidence/corrections-c3.md`, "P-43", "Questions for him", question 2; P-95, which keeps route C open; item 241, the clarity pass's rewrite of P-43, which waits for this answer and item 219's
    - Needed by: never; route A is built, and the sentence weighs only when route C is weighed (F-46).
-
-245. **Does `RR32` convert from `IntLiteral`, the type of an integer numeral (P-76)?** P-76 says that an integer numeral has a type of its own, `IntLiteral`, "which each number type converts from". The interpreter's library gives that conversion only to the five integer types, `QQ` and `RR64`. Neither library declares a conversion from `IntLiteral` into `RR32`, and in the interpreter's library `RR32` converts implicitly from no type (`Library/FortressLibrary.fss:416`, `:586`, `:678`, `:732`, `:822`, `:914`, `:1000` and `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:386`, the conversions from `IntLiteral`; `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:475-477`, the compiler prelude's `RR32`, which converts from `FloatLiteral` only). The words put to him varied. On 2026-09-27 at 09:53 UTC, the coordinator's question said "one type, `IntLiteral`, which each integer type converts from". On 2026-09-29 at 14:51 UTC, its reminder of that decision said "each number type converts from it", and at 15:18 UTC he said yes to the option that followed it. The specification's callout says "from which each number type converts", and the sentence above it lists the five integer types, `QQ` and `RR64` (`Specification/basic/expressions/literals.tex:149-158`). No message of his names `RR32`. Is `RR32` left out on purpose?
-   - Landed: The entry as it reads, "each number type", with no conversion into `RR32` in either library. Default: as it reads, until he answers.
-   - The other way: If `RR32` is left out on purpose, the title reads "which each number type but `RR32` converts from". If it is not, the conversion from `IntLiteral` into `RR32` is still to build, in the library and in the callout's list.
-   - Its cost: One phrase of P-76, or one coercion in the library with its test and one line of the callout. Under walk no numeral reaches `IntLiteral` today, so neither way changes a walk value. MicroGPT's flat program names no `RR32` (`run-c4/src/MicroGptFlat.fss`, by grep).
-   - Home: POSITIONS P-76; `coordinator/consolidation-2026-10-22/evidence/positions/p6/proposals.md`, "P-76", question 1, the clarity writer's question; `check.md` beside it, "P-76", the fidelity check; `Specification/basic/expressions/literals.tex`, the callout `revival-numeral-type`; item 37, the arrays' element width
-   - Needed by: before the array decisions of item 37 (PLAN item 13, fork 4), if they choose `RR32` as the element width; nothing else waits on it.
 
 281. **Shall P-75, `NN32` into `RR64` implicitly, be withdrawn?** P-75 says that `NN32` coerces into `RR64` implicitly, since every `NN32` value fits. Every way to build it breaks P-74's rule for a `ZZ32` with an `NN32` and turns two team tests red (row 575; item 21). The compiler's prelude declares no coercion from an integer type to a float type, and the specification's general sentence is early text. The review of 2026-10-23 asked for the withdrawal, and it was not made. The phase 3 exit judgement asks again.
    - Landed: Not built; P-75 stands in POSITIONS. Default: withdraw P-75. Item 21 is then settled, and the callout in `Specification/basic/conversions-coercions.tex` stays.
@@ -383,6 +377,62 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Its cost: One line of `Library/QuickCheck.fss`. The default reads P-161's "with their values unchanged" anew, for a value that does not fit.
    - Home: PLAN, "Climb batch 28, listed for his review", V.worker.1; `compile-ladder/rung-integer-conversions/SKEPTIC.md`; `reviews/batch-28-review.md`, Part 1, split 2; POSITIONS P-161; rows 431 and 387
    - Needed by: no planned work (set by the landing workflow); under walk no gated run reaches the line (row 387).
+
+438. **Is a numeral outside its type's range at a typed place refused statically (P-173)?** Open item 1 of `reviews/literal-design-judgement-2026-11-08.md`, section 6. P-173 converts a numeral at a typed place at compile time from its exact value, so `z: ZZ32 = 3000000000` is refused then. Today the compiled run raises `Not in range for ZZ32` at run time, and walk refuses the binding when it runs (row 325; F-57); the prototype kept the run-time error (`compile-ladder/plan-29/probes/literal-default.md`, section 2).
+   - Landed: Not built; climb batch 29's library and checker rung builds it. Default: refused statically, which he took at 23:3x UTC on 2026-11-08.
+   - The other way: The run-time error, as the compiled path raises it today.
+   - Its cost: A range check where the checker converts a numeral; row 325's `XXXNumeralBeyondZZ32Range` is promoted.
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-173; the judgement, sections 5 and 6; row 325
+   - Needed by: before climb batch 29's library and checker rung lands; after it, the other way is a rung of its own.
+
+439. **Does a program's own type with no coercion from the numeral type refuse a numeral (P-174)?** Open item 2 of the judgement, section 6. The prototype gave such a numeral its default and then the type's own coercion from that default, a chain of two conversions (`compile-ladder/plan-29/probes/literal-default.md`, section 10, decision 3); the Working Draft says that coercion does not chain (`Specification-1.0-frozen/basic/conversions-coercions.tex:407-408`).
+   - Landed: Not built. Default: refused, which he took at 23:3x UTC on 2026-11-08.
+   - The other way: The chain, named as the one exception to the rule that coercion does not chain.
+   - Its cost: Under the default, a program's type declares `coerce(x: NaturalNumeral)` or `coerce(x: RadixPointNumeral)` to take a numeral; a type with only `coerce(x: ZZ32)` refuses `c: CC64 = 3`.
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174; the judgement, sections 1 and 6
+   - Needed by: before climb batch 29's library and checker rung lands; after it, the other way is a rung of its own.
+
+440. **Is a numeral at a program's own type one object per site (P-174)?** Open item 3 of the judgement, section 6. The compiler calls a program's coercion from the numeral type once per class, at load, so two evaluations of `c: CC64 = 3` give one object, which `SEQV` tells from two for a reference object (`Specification/basic/objects.tex:51-53`), and a coercion that raises fails at load.
+   - Landed: Not built. Default: one object per site, as a string literal is (P-171), which he took at 23:3x UTC on 2026-11-08.
+   - The other way: The call hoisted for value types only, and made at each evaluation for a reference object.
+   - Its cost: Under the default, a coercion's effects and exceptions happen when the class loads.
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174 and P-171; the judgement, sections 1 and 6
+   - Needed by: before climb batch 29's fold rung lands; after it, the other way is a rung of its own.
+
+441. **Is a `nat` parameter used as a value a `ZZ32` (P-173)?** Open item 4 of the judgement, section 6. The default applies to a numeral, never to an expression of a numeral type, so a size used as a value needs a type of its own. The Working Draft lets a `nat` parameter appear wherever a variable of type `NN32` can (`Specification-1.0-frozen/basic/trait-parameters.tex:84-86`); P-40 converts a size used as a number to `ZZ32` where one is needed.
+   - Landed: Not built; the compiled path builds such a size as an `IntLiteral` constant (the prototype, section 8), walk as an `Int` (row 486). Default: a `ZZ32`, by P-40, which he took at 23:3x UTC on 2026-11-08.
+   - The other way: An `NN32`, as the Working Draft gives it.
+   - Its cost: Under the default, `u: NN32 = n` for `nat n` is refused, as walk refuses it today (row 486), where the compiled path accepts it; the Working Draft's sentence goes into Appendix I as contradicted (P-173).
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-173 and P-40; the judgement, sections 1 and 6; row 486
+   - Needed by: before climb batch 29's library and checker rung lands; after it, the other way is a rung of its own.
+
+442. **Is the fold's result a signed constant that takes a default (P-173)?** Open item 5 of the judgement, section 6. An expression of numerals alone folds before the checker, and a quotient or a negative result has no written numeral: the prototype made `1/3` a numeral of radix 3 (`compile-ladder/plan-29/probes/literal-default.md`, section 1, step 3). The Working Draft types a constant expression by a constant trait, `IntegerConstant[\false, 3+5\]` (`Specification-1.0-frozen/basic/expressions/constant.tex:44-74`).
+   - Landed: Not built. Default: a signed constant that defaults as an integer numeral, as a `QQ` for a quotient and as an `RR64` with a radix point, so `x = 7/2` is a `QQ`, which he took at 23:3x UTC on 2026-11-08.
+   - The other way: The Working Draft's constant traits, which no library declares.
+   - Its cost: Under the default, the constant chapter's constant traits change in form, for Appendix I (the judgement, section 3).
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-173; the judgement, sections 1, 3 and 6
+   - Needed by: before climb batch 29's fold rung lands; after it, the other way is a rung of its own.
+
+443. **May a value of a numeral type be bound by inference inside a coercion's body (P-174)?** Open item 6 of the judgement, section 6. A numeral type is written only as a parameter type, of a coercion or an operator; inside `coerce(x: RadixPointNumeral)`, `t = x` would bind `t` at the parameter's type by inference, since the default never applies to an expression of a numeral type (P-173).
+   - Landed: Not built. Default: the numeral type written only as a parameter type, which he took at 23:3x UTC on 2026-11-08; no default on record for the inferred binding.
+   - The other way: `t = x` allowed, so that a body may hold a numeral value in a local; or refused, so that only the parameter holds one.
+   - Its cost: One rule in the checker's check that a numeral type is written only as a parameter type.
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174; the judgement, sections 1 and 6
+   - Needed by: before climb batch 29's library and checker rung lands; the rung meets the case when it writes that check.
+
+445. **Are two numeral values inside a coercion's body strictly equivalent by their reduced value (P-174, P-168)?** Open item 8 of the judgement, section 6. By P-168's rule two value objects of one type are strictly equivalent when their fields are, so `2.5` and `2.50`, whose four numbers differ, would differ inside a body; the prototype's hybrid compares by the reduced value (`compile-ladder/plan-29/probes/literal-default.md`, section 7.1). Outside a body both are the `RR64` 2.5 (P-173).
+   - Landed: Not built; walk's `FFloatLiteral.seqv` compares nearest doubles, under the team's "HACK that's only sort-of correct" (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FFloatLiteral.java:43-48`). Default: by the reduced value, the one exception to P-168's rule, which he took at 23:3x UTC on 2026-11-08.
+   - The other way: By the fields, as P-168 has every value object.
+   - Its cost: A comparison of reduced rationals on each path, about 5 lines each by the prototype's reading (section 7.1).
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174 and P-168; the judgement, sections 1 and 6
+   - Needed by: before climb batch 29's library and checker rung lands; after it, the other way is a rung of its own.
+
+447. **Is the binary chapter's `opr ||` with a numeral dropped (P-174), and what of the constant chapter's concatenation of two natural numerals?** Open item 10 of the judgement, section 6. The binary chapter declares a coercion from `NaturalNumeral[\m,radix,v\]` and an `opr ||` whose result width is a static size computed from the numeral's digit count (`Specification-1.0-frozen/advanced-lib/binary.tex:1620-1621`, `:1659-1662`), which fields cannot give. The constant chapter makes the concatenation of two natural numerals of one radix a numeral (`Specification-1.0-frozen/basic/expressions/constant.tex:80-82`); his answer does not name it.
+   - Landed: Not built. Default: the binary chapter's `opr ||` with a numeral dropped, which he took at 23:3x UTC on 2026-11-08; no default on record for the constant chapter's concatenation.
+   - The other way: Each folded at compile time, or given a written size.
+   - Its cost: Text of the specification only; no library declares the binary words.
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174; the judgement, sections 3 and 6
+   - Needed by: before climb batch 29's specification rung lands.
 
 ### Sizes and arrays (10)
 
@@ -565,7 +615,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 28, listed for his review", T.worker.1; `Specification/basic/expressions/type-annotation.tex:45-48`; `compile-ladder/rung-codegen-trait-table/REPORT.md`, section 11; row 941
    - Needed by: before a rung repairs row 941 (set by the landing workflow).
 
-437. **Do `Reflect`'s 28 bindings stay on glue, walk only, as an exception to P-58?** Q4 of the natives review (`reviews/natives-remainder-2026-11-07.md`, section 4). Since climb batch 28 they are the last glue bindings outside the 24 of `IntLiteral` and `FloatLiteral` that N5 moves (`reviews/batch-28-review.md`, section 6). They are off microGPT's path (F-32). P-58 has every native binding name a helper that both paths run.
+437. **Do `Reflect`'s 28 bindings stay on glue, walk only, as an exception to P-58?** Q4 of the natives review (`reviews/natives-remainder-2026-11-07.md`, section 4). Since climb batch 28 they are the last glue bindings outside the 24 of `IntLiteral` and `FloatLiteral`, which leave the library with climb batch 29's rename of the numeral types (P-169) (`reviews/batch-28-review.md`, section 6). They are off microGPT's path (F-32). P-58 has every native binding name a helper that both paths run.
    - Landed: `Reflect`'s 28 on glue. Default: yes, until a compiled reflection is designed or walk runs the checker (the natives review, section 4).
    - The other way: `Reflect`'s 28 moved onto helpers before the switch-over, as P-58 has it.
    - Its cost: Not sized by any source. A yes is an exception to P-58.
@@ -651,24 +701,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 9, listed for his review", Row 591; Row 616; PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `compile-ladder/rung-walk-instance/REPORT.md:319`; `compile-ladder/rung-walk-meet/SKEPTIC.md:122`; P-48, which names walk's three `Bottom` cases, rows 587, 591 and 612; F-141, walk's instance of a type parameter that nothing fixes, which lists row 591 with its expected failure
    - Needed by: before Q-walk; its expected failures wait until walk has the checker's static types (rows 591, 616; PLAN, phase 4).
 
-### Numbers and numerals (6)
-
-90. Row 432 does not close by the numeral switch: under walk `SUM <|1, 2, 3|>` stays refused, since the numeral type carries no additive algebra. Row 437, read with it, closes with batch 13b's library half.
-   - Landed: As the record reads it. The other way: Give the numeral type additive algebra. Its cost: A library choice for Q-walk.
-   - Home: PLAN, "Climb batch N's first run, listed for his review", Row 432 does not close by the numeral switch; `compile-ladder/plan-n/probe-q/PROBE-Q.md`; `compile-ladder/climb-batch-13b/RECORD.md`, "Decisions taken here" (10-02: 49)
-   - Needed by: before Q-walk; the numeral type's additive algebra is a library choice for Q-walk (its cost line; row 432).
-
-95. The numeral type declares its own `zero`, `one`, `even`, `odd`, `floor`, `ceiling`, `truncate`, `DIVIDES`, `TIMES` and `^`.
-   - Landed: As landed: every operation numerals support is declared on the numeral type. The other way: Ledger rows, per-type declarations, or a checker change. Its cost: Ten api declarations.
-   - Home: PLAN, "Climb batch 8, listed for his review", `IntLiteral` declares its own `zero`; `compile-ladder/rung-numeral-library/REPORT.md:66`, `JUDGE.md:11`
-   - Needed by: before Q-walk; Q-walk makes walk's numeral an `IntLiteral` (row 578), which then runs these ten declarations, `^` among them, which climb batch 20's fork 10 types at the numeral type (item 201; PLAN, phase 4).
-
-209. **A numeral whose conversions tie is read as `ZZ32`, or as `ZZ64` or `ZZ` by its value.** Where the types to which a numeral converts are incomparable, as `ZZ32` and `NN32` are, the numeral is read as a `ZZ32`, or as a `ZZ64` or a `ZZ` when its value does not fit. This holds in the choice among declarations and in the instantiation of a type parameter that only numerals fix (`Specification/basic/inference.tex`, "A Numeral Whose Conversions Tie"). It is the default that the conversion judgement took for its first question, one of those "taken as defaults, listed for your review" (`reviews/conversion-overloading-judgement.md`, sections 3 and 4). His "C-O. Both recommendations for batch N accepted." on 2026-09-28 at 19:06 UTC took the judgement's two decisions, not its defaults. P-46 stated the rule until the audit, labelled a default by `54208c796` and unlabelled since `bc8902f47`.
-   - Landed: As stated. The compiled checker builds it, by climb batch N's rung I (PLAN-history, "Climb batch N's first run, listed for his review", the line on rung I's reading of the default); walk takes it with Q-walk, walk's half of the numeral switch. Item 96 holds rung I's one reading past the text: a numeral too large for every declaration is refused. Default: as landed.
-   - The other way: Refuse such a call as ambiguous, as the specification's coercion resolution does for every other tie; or another default type (Haskell defaults an integer literal to `Integer`, Julia to a 64-bit `Int`).
-   - Its cost: The inference chapter's section and rung I's check rewritten. The calls that only the default resolves, such as the library's `widen(0)` in its identity functions, would then need a written type (`coordinator/CLIMB-BATCH-N.md`, its first question).
-   - Home: POSITIONS-history, P-46, its block of 2026-10-22 08:30Z, the former sentence on the numeral; `coordinator/positions-audit/full/evidence/corrections-c3.md`, "P-46"; `coordinator/positions-audit/full/evidence/review-queue-items-c3.md`; `reviews/conversion-overloading-judgement.md`, sections 3 and 4; `coordinator/CLIMB-BATCH-N.md`, its first question and the peers' ways; PLAN, phase 4, Q-walk; item 96, a numeral too large for every declaration; F-73, the checker's inference with coercion, whose reading of a tie is this default
-   - Needed by: before Q-walk; Q-walk builds the default into walk's `narrowest` and `bestMatchWithCoercion` (PLAN, phase 4).
+### Numbers and numerals (5)
 
 359. **Row 440's change went in as a rewrite of its line, not as a note; told, not asked.** S.worker.2 and S.skeptic.2 of climb batch 26's rung S. The rung's brief asked for a note to row 440. The row's notes cell held 676 of its 700 characters, so the rung rewrote the whole line by `ledger.py rewrite`. The new line names `<=` and `>=` beside `=` and `CMP`: under walk `QQ`'s 0/0 compared with itself answers `true` for the three and `EqualTo` for `CMP`, where the rationals chapter gives `false` and `Unordered` (F-319).
    - Landed: The row rewritten. Default: as landed.
@@ -690,6 +723,20 @@ Each is kept as landed unless he says otherwise.
    - Its cost: None.
    - Home: PLAN, "Climb batch 28, listed for his review", V.worker.2; `coordinator/CLIMB-BATCH-28.md:396`, fork V1; `reviews/batch-28-review.md`, Part 1, split 1; P-162; item 429
    - Needed by: no planned work (set by the landing workflow); told, not asked.
+
+444. **The team's tests that the numeral design changes, respelled (P-172, P-174).** Open item 7 of `reviews/literal-design-judgement-2026-11-08.md`, section 6. `tests/NumberPrintTest.fss:16` asserts that `"" 3.1415926535897932384000000000001` prints the numeral as written; by P-173 the numeral is an `RR64` there and prints `3.141592653589793`. Nine team tests write `IntLiteral`, which P-174 removes: `compiler_tests/Compiled5.ah:17`, `Compiled5.aj:18-19`, `Compiled5.ak:21`, `Compiled6.az:15`, `Compiled9.g:18-19`, `Compiled9.j:17`, `Compiled9.p:18-19` and `:26`, `Compiled9.t:24` and `:37`, and `Compiled9.u:27`; the team's pinned messages of `XXX6at`, `XXX6bw` and `XXXApplicationErrors` change with them (`compile-ladder/plan-29/probes/literal-default.md`, section 4.3).
+   - Landed: Not built. Default: respelled at the rung that changes each, each changed line shown to him.
+   - The other way: Kept as the team wrote them, as expected failures.
+   - Its cost: Lines of 10 team test files and 3 pinned messages.
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-172 and P-174; the judgement, section 6; the prototype, section 4.3
+   - Needed by: before climb batch 29's library and checker rung lands.
+
+446. **Walk, before it runs the checker, converts a numeral place by place (P-173).** Open item 9 of the judgement, section 6. The fork review's way F-c makes walk's float numeral an `RR64` at evaluation, about one line; the place-by-place way converts a numeral from its exact value at each binding, parameter and field that fixes a type, 40 to 60 lines (`reviews/literal-fork-2026-11-08.md`, section 6.3, rung 5).
+   - Landed: Not built. Default: place by place, which he took at 23:3x UTC on 2026-11-08.
+   - The other way: Way F-c, the default at evaluation.
+   - Its cost: Walk's rung, 40 to 60 lines by the fork review, landing with the library's rung.
+   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-173, P-76 and P-172; the judgement, section 6; the fork review, section 6.3
+   - Needed by: before climb batch 29's walk rung lands.
 
 ### Sizes and arrays (4)
 
@@ -1435,7 +1482,7 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **347, Should a binding over `NN32`, `NN64` or `Char` to a helper with several…**
 - **351, An allow rule for walk guards run with the base build's own `harness-one.sh`?**
 
-### Answered by a decision of his (76)
+### Answered by a decision of his (81)
 
 - **23, May a program extend `Number`?** Decided 2026-11-05: P-160, "The one library's `Number` opens: its `comprises` clause goes, ...", his "2" of 18:1x UTC on 2026-11-05 to the ask on `Number`'s closure (option (b) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 23; `reviews/number-closure-2026-11-05.md`, section 8; rows 596, 551 and 804.
 - **24, A float compared with NaN.** Decided 2026-11-05: P-159, "A float compared with a NaN answers: ...", his "1" of 18:1x UTC on 2026-11-05 to the ask on the NaN comparison (option (a) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 24; `reviews/nan-comparison-2026-11-05.md`, section 8; `perf-probes/nan-check-cost/REPORT.md`; row 672.
@@ -1513,6 +1560,11 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **404, A commit footer that names a model.** Decided 2026-11-07: his word in chat at 14:19 UTC, that he does not care about a model name in a commit's footer and wants no report of it. Home: PLAN-history, "Moved on 2026-11-07, after his decision on Q1 of the natives review and his word on the footer".
 - **407, The compiled array store's shape, which P-169 leaves open.** Decided 2026-11-08: P-169, "The runtime's own 45 native bindings, ...", his answer of 02:1x UTC on 2026-11-08 to Q2 of climb batch 28's record, asked in chat at 00:4x UTC: (ii), the slot API, on P-84 as he widened it at 02:0x. The compiled store is an `Object[]`, and the compiled transaction tracks its reads and writes by the array and the index (`TXReadSlot`, `TXWriteSlot`). The default (i), the judgement's and the Fable review's, rested on only `RR64` leaving the boxed store. Home: `coordinator/CLIMB-BATCH-28.md`, "The questions for the curator, before the launch", Q2; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 02:1x; `reviews/natives-device-2026-11-07.md`, section 3.5; POSITIONS P-169 and P-84.
 - **92, The float numeral is unchanged by the numeral switch.** Decided 2026-11-08: P-172, "A numeral with a radix point has a type of its own, ...", his answer in chat between 12:3x and 12:4x UTC on 2026-11-08 to the ask on float numerals of `reviews/literals-2026-11-08.md`, sections 1.1, 2.3, 6.2 and 6.4: option 1(a), "I think we are aligned on 1A.", the review's way F-b with walk's half by way F-d, and way F-e, with one rounding. The numeral switch left `FloatLiteral` as the team left it in the interpreter's library, below `RR64`; it becomes a type of its own beside the number types, as the compiler's prelude declares it, holding the numeral's exact value, which `QQ` converts from exactly and `RR64` and `RR32` with one rounding. Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 92; PLAN-history, "Moved on 2026-11-08, after his answer on float numerals"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 12:4x; rows 360 and 862.
+- **27, What "(exact)" means for a numeral above 2^53.** Decided 2026-11-08: P-173, "A numeral converts where it stands: ...", his decision on numerals of 22:3x UTC on 2026-11-08 and his yes of 23:3x, "Yeah. Option one.", to the repairs and defaults of `reviews/literal-design-judgement-2026-11-08.md`: at a typed place a numeral converts at compile time from its exact value, with one rounding into `RR64`, so a numeral above 2^53 rounds once; walk converts at the same places, place by place. Home: PLAN-history, "Moved on 2026-11-08, after his decisions on numerals and on parallel reductions", "Off the path, parked"; row 443.
+- **90, Row 432 does not close by the numeral switch, the numeral type having no additive algebra.** Decided 2026-11-08: P-173, "A numeral converts where it stands: ...", and P-174, "A numeral's own type is the Working Draft's, ...", his decision of 22:3x UTC and his yes of 23:3x on 2026-11-08: the numeral types carry no arithmetic, since an expression of numerals alone folds before the checker, and `<|1, 2, 3|>` is a `List[\ZZ32\]` by the default; under walk, row 432's list at `Int` meets row 364's way A in climb batch 29. Home: PLAN-history, "Moved on 2026-11-08, after his decisions on numerals and on parallel reductions", "Climb batch N's first run, listed for his review"; row 432.
+- **95, The numeral type declares its own `zero`, `one`, `even`, `odd`, `floor`, `ceiling`, `truncate`, `DIVIDES`, `TIMES` and `^`.** Decided 2026-11-08: P-174, "A numeral's own type is the Working Draft's, ...", and P-76, his decision of 22:3x UTC and his yes of 23:3x on 2026-11-08: `IntLiteral` and its own arithmetic go, the Working Draft's numeral types carry the four numbers as fields, and a numeral where nothing fixes a type takes its default (P-173), so `(3).zero` is `ZZ32`'s. Home: PLAN-history, "Moved on 2026-11-08, after his decisions on numerals and on parallel reductions", "Climb batch 8, listed for his review".
+- **209, A numeral whose conversions tie is read as `ZZ32`, or as `ZZ64` or `ZZ` by its value.** Decided 2026-11-08: P-173, "A numeral converts where it stands: ...", his decision of 22:3x UTC and his yes of 23:3x on 2026-11-08: the reading is the rule, on both paths, and a tied float numeral reads `RR64`. Home: PLAN-history, "Climb batch N's first run, listed for his review", the line on rung I's reading of the default; F-73.
+- **245, Does `RR32` convert from `IntLiteral`, the type of an integer numeral (P-76)?** Decided 2026-11-08: P-76, "An integer numeral has the Working Draft's type `NaturalNumeral` ...", and P-173, his decision of 22:3x UTC and his yes of 23:3x on 2026-11-08: each of the eight number types converts from the numeral type, `RR32` with one rounding. Home: POSITIONS P-76; item 37, the arrays' element width.
 
 ### Answered by a landed fix or a closed row (44)
 
