@@ -1,0 +1,9 @@
+(* The component of the api ApiTraitOverloadApi. *)
+component ApiTraitOverloadApi
+export ApiTraitOverloadApi
+
+trait B
+    tag(self, s: String): String = s
+end
+
+end

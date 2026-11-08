@@ -938,7 +938,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                              scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>();
         } else {
 //          alreadyIncluded = STypesUtil.inheritedMethods(extendsClause.subList(0,1), typeAnalyzer);
-            alreadyIncluded = STypesUtil.allMethods((TraitType)(extendsClause.get(0).getBaseType()), typeAnalyzer);
+            alreadyIncluded = firstSupertraitMethods((TraitType)(extendsClause.get(0).getBaseType()));
 	    debug("Already included: ", alreadyIncluded);
         }
 	//        System.err.println("For " + currentTraitObjectType + " the already included methods are " + alreadyIncluded);
@@ -1019,6 +1019,43 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 		}
 	    }
         }
+    }
+
+    /*
+     * The methods of the first supertrait, as STypesUtil.allMethods gives them, except that the
+     * trait of each declaration that the supertrait itself makes is named as the extends clause
+     * names it.  allMethods names that trait as the trait's own declaration does, and the
+     * declaration of a trait of an imported api names it without the api; the trait table, made
+     * over this component, does not find that name.  A declaration of a supertrait of the first
+     * one keeps the name that allMethods gives it, the name of an extends clause.
+     */
+    private Relation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
+        firstSupertraitMethods(TraitType first) {
+        Relation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>> methods =
+            STypesUtil.allMethods(first, typeAnalyzer);
+        Option<TypeConsIndex> index = typeAnalyzer.traits().typeCons(first.getName());
+        if (index.isNone() || !(index.unwrap() instanceof TraitIndex)) return methods;
+        TraitIndex ti = (TraitIndex) index.unwrap();
+        Set<Functional> own = Collections.newSetFromMap(new java.util.IdentityHashMap<Functional, Boolean>());
+        own.addAll(ti.dottedMethods().secondSet());
+        own.addAll(ti.functionalMethods().secondSet());
+        own.addAll(ti.getters().values());
+        own.addAll(ti.setters().values());
+        Relation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>> result =
+            new IndexedRelation<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>(false);
+        for (edu.rice.cs.plt.tuple.Pair<IdOrOpOrAnonymousName, scala.Tuple3<Functional, StaticTypeReplacer, TraitType>>
+                 assoc : methods) {
+            scala.Tuple3<Functional, StaticTypeReplacer, TraitType> tup = assoc.second();
+            if (own.contains(tup._1())) {
+                TraitType declared = tup._3();
+                TraitType named = NodeFactory.makeTraitType(NodeUtil.getSpan(declared), NodeUtil.isParenthesized(declared),
+                                                            first.getName(), declared.getArgs(),
+                                                            declared.getTraitStaticParams());
+                tup = new scala.Tuple3<Functional, StaticTypeReplacer, TraitType>(tup._1(), tup._2(), named);
+            }
+            result.add(assoc.first(), tup);
+        }
+        return result;
     }
 
     /**

@@ -1,0 +1,12 @@
+(* The component of the api AsIfApiTraitApi. *)
+component AsIfApiTraitApi
+export AsIfApiTraitApi
+
+trait S
+    tag(self, n: ZZ32): String = "n"
+    tag(self, s: String): String = "s" || s
+    m(n: ZZ32): String = "n"
+    m(s: String): String = "s" || s
+end
+
+end

@@ -1,0 +1,18 @@
+(* An object that declares a functional method beside one of the same name that it inherits from an imported api's trait, the two overloading validly, runs each body (traits.tex, section "Method Declarations"). *)
+component XXXApiTraitOverloadCompiled
+import ApiTraitOverloadApi.{ B, tag }
+export Executable
+
+object O extends B
+    tag(self, n: ZZ32): String = "o"
+end
+
+run(): () = do
+    assert(tag(O, 1), "o", "tag(O, 1)")
+    assert(tag(O, "b"), "b", "tag(O, b)")
+    b: B = O
+    assert(tag(b, "c"), "c", "tag(b, c) with b: B")
+    println("PASS")
+end
+
+end

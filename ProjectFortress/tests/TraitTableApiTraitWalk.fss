@@ -1,0 +1,49 @@
+(* Under walk, an object or trait whose first supertrait is an imported api's trait, plain or generic at a tuple static argument, and whose later supertrait gives a method of the same name that overloads it validly, runs each body. *)
+component TraitTableApiTraitWalk
+import TraitTableApiTraitWalkApi.{ C, G, tag, gtag }
+export Executable
+
+trait D
+    tag(self, s: String): String = s
+end
+
+object O extends { C, D }
+    tag(self, n: ZZ32): String = "c"
+end
+
+trait T extends { C, D } end
+
+object Q extends T
+    tag(self, n: ZZ32): String = "q"
+end
+
+trait E
+    gtag(self, s: String): String = s
+end
+
+object P extends { G[\(ZZ32, ZZ32)\], E }
+    gtag(self, n: ZZ32): String = "g"
+end
+
+run(): () = do
+    assert(tag(O, 1), "c", "tag(O, 1)")
+    assert(tag(O, "d"), "d", "tag(O, d)")
+    c: C = O
+    assert(tag(c, 2), "c", "tag(c, 2) with c: C")
+    d: D = O
+    assert(tag(d, "x"), "x", "tag(d, x) with d: D")
+    assert(tag(Q, 1), "q", "tag(Q, 1)")
+    assert(tag(Q, "d"), "d", "tag(Q, d)")
+    t: T = Q
+    assert(tag(t, 2), "q", "tag(t, 2) with t: T")
+    assert(tag(t, "x"), "x", "tag(t, x) with t: T")
+    assert(gtag(P, 1), "g", "gtag(P, 1)")
+    assert(gtag(P, "e"), "e", "gtag(P, e)")
+    g: G[\(ZZ32, ZZ32)\] = P
+    assert(gtag(g, 3), "g", "gtag(g, 3) with g: G")
+    e: E = P
+    assert(gtag(e, "y"), "y", "gtag(e, y) with e: E")
+    println("PASS")
+end
+
+end
