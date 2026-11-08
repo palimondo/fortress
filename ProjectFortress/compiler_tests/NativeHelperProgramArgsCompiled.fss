@@ -1,0 +1,17 @@
+(* On the compiled path, the two helpers that hold a program's command-line arguments, a count and the i-th argument, answer a count of 0 for a run without arguments. *)
+component NativeHelperProgramArgsCompiled
+export Executable
+
+argCount():ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.programArgs.count")
+argAt(i:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.programArgs.at")
+
+run():() = do
+  n = argCount()
+  assert(n, 0, "the count of a run without arguments")
+  for i <- 0 # n do
+    println(argAt(i))
+  end
+  println("PASS")
+end
+
+end

@@ -9419,3 +9419,15 @@ rewritten
 note added
 
 | 82 | on the compiled path `spawn` yields a thread handle with no methods: `t.val()` fails with `No such method Thread[\IntLiteral\].val.` | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic/expressions/spawn.tex`, "Spawn Expressions" | none | ours | `object Thread[\T\](fcn:()->T)` is declared only in the interpreter's builtin (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:287`, `FortressBuiltin.fss:725`, at c124c6b65); neither `CompilerBuiltin` nor `CompilerLibrary` declares it. Under walk the probe prints `p32 42` (row 61). G12 of `explorations/compiled-path-gaps.md`. Probe `explorations/compiler-probes/p32.fss`, in the parent of `c69cb2064`. |
+
+### Row 896
+
+rewritten
+
+| 896 | under walk, `getProperty` at an empty name, `""` or an `EmptyString`, raises Java's `java.lang.IllegalArgumentException: key can't be empty`, which reaches the program as a Java exception, not as one of the library's exceptions | NEGATIVE-BOUNDED | implementation gap (runtime) | silent | none | climb batch 26 rung T | `getProperty(name:FlatString, ...)` (`Library/System.fss:51`) names `systemOps.getProperty` (`nativeHelpers/systemOps.java:20-21`), whose `ProjectProperties.get` (`repository/ProjectProperties.java:207-208`) reaches Java's `System.getProperty` (`useful/StringMap.java:164`), which refuses an empty key; walk's loader rethrows a helper's `RuntimeException` as it is (`glue/StaticNativeApp.java:252-257`), at 61f1c6a93, by reading. An `EmptyString` name reaches that binding through `asFlatString` (`Library/System.fss:52-56`), by reading. Run before 93884be8d, through `StringPrim$GetProperty`: `getProperty("", "?")` under `bin/fortress` printed that line. Workaround: test the name for emptiness. |
+
+### Row 939
+
+duplicate of row 932
+
+| 939 | under walk, a subscript outside a 0-based primitive array, a `PrimitiveArray` or a `PrimImmutableArray` such as `System`'s `args`, ends the run with an `InterpreterBug` over Java's 'Array index N out of bounds', which no `catch` sees, not with the library's bounds check | NEGATIVE-BOUNDED | library bug (prelude) | silent | none | climb batch 28 rung S skeptic | siblings: 808. `PrimitiveArray`'s and `PrimImmutableArray`'s `opr []` call `get` directly (`LibraryBuiltin/NativeArray.fss:19`, `:33`), not `get(offset(i))` as `ReadableArray`'s does (`Library/FortressLibrary.fss:2248`), whose `offset` checks the bounds and calls `oops`, a `fail` (`:2471-2475`, `:2003-2006`), at 157323e51. Run: `args[\|args\|]` in a `try` with `catch e IndexOutOfBounds[\ZZ32\]`, under `bin/fortress` with four arguments: 'com.sun.fortress.exceptions.InterpreterBug: .../NativeArray.fss:33:20-29:', 'Array index 4 out of bounds, length=4', the same on the base's code. Workaround: test the index against `bounds`. |

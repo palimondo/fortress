@@ -1,0 +1,15 @@
+(* On the compiled path, the two helpers that hold a program's command-line arguments answer the arguments that the run passes, in order, a space kept inside one. *)
+component NativeHelperProgramArgsPassedCompiled
+export Executable
+
+argCount():ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.programArgs.count")
+argAt(i:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.programArgs.at")
+
+run():() = do
+  assert(argCount(), 2, "the count of a run with two arguments")
+  assert(argAt(0) = "a", "the first argument")
+  assert(argAt(1) = "b c", "the second argument, which holds a space")
+  println("PASS")
+end
+
+end

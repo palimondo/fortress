@@ -1,0 +1,14 @@
+(* Under walk, System's args holds the program's command-line arguments, in order: none when the harness runs a program. *)
+component SystemArgsWalk
+import System.{args}
+export Executable
+
+run():() = do
+  println("|args| = " |args|)
+  for i <- seq(0 # |args|) do
+    println("args[" i "] = " args[i])
+  end
+  assert(|args|, 0, "|args| of a run without arguments")
+end
+
+end

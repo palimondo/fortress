@@ -122,6 +122,7 @@ public class StringPrim {
         public static void registerProgramArgs(List<String> args) {
             GetProgramArgs.convertedArgs = null;
             GetProgramArgs.args = args;
+            com.sun.fortress.runtimeSystem.MainWrapper.cachedArgs = args.toArray(new String[0]);
         }
 
         private static FValue grindProgramArgs() {
