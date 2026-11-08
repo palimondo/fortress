@@ -1,0 +1,1432 @@
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index c7f6a92e0d..f4a98b7457 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -291,10 +291,11 @@ end
+ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
+                      AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
+         excludes { QQ, AnyIntegral, RR32 }
+-        comprises { Float, FloatLiteral }
++        comprises { Float }
+     coerce(x: ZZ32)
+     coerce(x: RR32)
+     coerce(x: IntLiteral)
++    coerce(x: FloatLiteral)
+     getter zero(): RR64
+     getter one(): RR64
+     (** returns true if the value is an IEEE NaN **)
+@@ -322,7 +323,6 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
+     opr =(self, b:RR64):Boolean
+     opr =(self, b:ZZ32):Boolean
+     opr =(self, b:RR32):Boolean
+-    opr =(self, b:IntLiteral):Boolean
+     opr <(self, b:RR64):Boolean
+     opr <=(self, b:RR64):Boolean
+     opr >(self, b:RR64):Boolean
+@@ -402,6 +402,7 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+     coerce(x: NN64)
+     coerce(x: ZZ)
+     coerce(x: IntLiteral)
++    coerce(x: FloatLiteral)
+     getter zero(): QQ
+     getter one(): QQ
+     abstract getter isNaN(): Boolean
+@@ -419,7 +420,6 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+     opr =(self, b:NN32):Boolean
+     opr =(self, b:NN64):Boolean
+     opr =(self, b:ZZ):Boolean
+-    opr =(self, b:IntLiteral):Boolean
+     opr =/=(self, other:QQ):Boolean
+     opr <(self, other:QQ):Boolean
+     opr <=(self, other:QQ):Boolean
+@@ -508,7 +508,6 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     abstract asFloat(self): RR64
+     opr =(self, b:NN64):Boolean
+     opr =(self, b:NN32):Boolean
+-    opr =(self, b:IntLiteral):Boolean
+     opr =(self, b:QQ):Boolean
+     opr =(self, b:ZZ):Boolean
+     opr <(self, b:NN64):Boolean
+@@ -578,7 +577,6 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     (** The value as a float, the explicit conversion into %RR64%. **)
+     abstract asFloat(self): RR64
+     opr =(self, b:ZZ32):Boolean
+-    opr =(self, b:IntLiteral):Boolean
+     opr =(self, b:RR64):Boolean
+     opr =(self, b:QQ):Boolean
+     opr =(self, b:ZZ):Boolean
+@@ -656,7 +654,6 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     opr =(self, b:ZZ64):Boolean
+     opr =(self, b:ZZ32):Boolean
+     opr =(self, b:NN32):Boolean
+-    opr =(self, b:IntLiteral):Boolean
+     opr =(self, b:QQ):Boolean
+     opr =(self, b:ZZ):Boolean
+     opr <(self, b:ZZ64):Boolean
+@@ -728,7 +725,6 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+     opr =(self, b:ZZ64):Boolean
+     opr =(self, b:NN32):Boolean
+     opr =(self, b:NN64):Boolean
+-    opr =(self, b:IntLiteral):Boolean
+     opr =(self, b:QQ):Boolean
+     opr <(self, other:ZZ): Boolean
+     opr <=(self, other:ZZ): Boolean
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 9e5cad1c15..55dd9ed742 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -383,10 +383,11 @@ end
+ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
+                      AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
+         excludes { QQ, AnyIntegral, RR32 }
+-        comprises { Float, FloatLiteral }
++        comprises { Float }
+     coerce(x: ZZ32) = asFloat(x)
+     coerce(x: RR32) = asFloat(x)
+     coerce(x: IntLiteral) = asFloat(x)
++    coerce(x: FloatLiteral) = asFloat(x)
+     getter zero(): RR64 = 0.0
+     getter one(): RR64 = 1.0
+     (** returns true if the value is an IEEE NaN **)
+@@ -415,7 +416,6 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
+     opr =(self, b:RR64):Boolean = asFloat(self) = asFloat(b)
+     opr =(self, b:ZZ32):Boolean = do c: RR64 = b; (self = c) end
+     opr =(self, b:RR32):Boolean = do c: RR64 = b; (self = c) end
+-    opr =(self, b:IntLiteral):Boolean = do c: RR64 = b; (self = c) end
+     opr <(self, b:RR64):Boolean = asFloat(self) < asFloat(b)
+     opr <=(self, b:RR64):Boolean = asFloat(self) <= asFloat(b)
+     opr >(self, b:RR64):Boolean = asFloat(self) > asFloat(b)
+@@ -504,6 +504,21 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
+     narrow(self): RR32 = narrow(asFloat(self))
+ end
+ 
++(* The exact value of a numeral's decimal text, as a rational: 3.125 is 3125/1000. *)
++private numeralRatio(t: String): QQ = do
++    var n: ZZ := 0
++    var d: ZZ := 1
++    var point: Boolean := false
++    for c <- seq(t) do
++        if c = '.' then point := true
++        else
++            n := 10 n + (c.codePoint - 48)
++            if point then d := 10 d end
++        end
++    end
++    n / d
++  end
++
+ simplestRationalBetween(a:QQ, b:QQ): QQ = label done
+     n0 : ZZ := numerator(a)
+     d0 : ZZ := denominator(a)
+@@ -561,6 +576,7 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+     coerce(x: NN64) = Ratio(x, 1)
+     coerce(x: ZZ) = Ratio(x, 1)
+     coerce(x: IntLiteral) = Ratio(x.asZZ, 1)
++    coerce(x: FloatLiteral) = numeralRatio(x.asString)
+     getter zero(): QQ = Ratio(0, 1)
+     getter one(): QQ = Ratio(1, 1)
+     getter isNaN(): Boolean
+@@ -579,7 +595,6 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+     opr =(self, b:NN32):Boolean = do c: QQ = b; (self = c) end
+     opr =(self, b:NN64):Boolean = do c: QQ = b; (self = c) end
+     opr =(self, b:ZZ):Boolean = do c: QQ = b; (self = c) end
+-    opr =(self, b:IntLiteral):Boolean = do c: QQ = b; (self = c) end
+     opr =/=(self, other:QQ):Boolean = NOT (self = other)
+     opr <(self, other:QQ):Boolean = do
+         (a, b) = (numerator(self), denominator(self))
+@@ -659,10 +674,12 @@ value object Ratio(num: ZZ, den: ZZ) extends { QQ }
+ end
+ 
+ trait AnyIntegral extends { Number } comprises { ZZ, ZZ64, ZZ32, NN64, NN32 }
+-    coerce(x: IntLiteral) =
+-        if (x >= -2147483648) AND (x <= 2147483647) then x.asZZ32
+-        elif (x >= -9223372036854775808) AND (x <= 9223372036854775807) then x.asZZ64
+-        else x.asZZ end
++    coerce(x: IntLiteral) = do
++        z = x.asZZ
++        if (z >= -2147483648) AND (z <= 2147483647) then z.asZZ32
++        elif (z >= -9223372036854775808) AND (z <= 9223372036854775807) then z.asZZ64
++        else z end
++      end
+ end
+         (** \vspace{-4ex} NOT YET: %comprises Integral[\I\] where [\I\]% *)
+ 
+@@ -779,7 +796,6 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     asFloat(self): RR64
+     opr =(self, b:ZZ32):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intEQ")
+-    opr =(self, b:IntLiteral):Boolean = do c: ZZ32 = b; (self = c) end
+     opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
+     opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+     opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
+@@ -890,7 +906,6 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longEQ")
+     opr =(self, b:ZZ32):Boolean = do c: ZZ64 = b; (self = c) end
+     opr =(self, b:NN32):Boolean = do c: ZZ64 = b; (self = c) end
+-    opr =(self, b:IntLiteral):Boolean = do c: ZZ64 = b; (self = c) end
+     opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+     opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
+     opr <(self, b:ZZ64):Boolean =
+@@ -998,7 +1013,6 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     opr =(self, b:NN64):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongEQ")
+     opr =(self, b:NN32):Boolean = do c: NN64 = b; (self = c) end
+-    opr =(self, b:IntLiteral):Boolean = do c: NN64 = b; (self = c) end
+     opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+     opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
+     opr <(self, b:NN64):Boolean =
+@@ -1109,7 +1123,6 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+     opr =(self, b:ZZ64):Boolean = do c: ZZ = b; (self = c) end
+     opr =(self, b:NN32):Boolean = do c: ZZ = b; (self = c) end
+     opr =(self, b:NN64):Boolean = do c: ZZ = b; (self = c) end
+-    opr =(self, b:IntLiteral):Boolean = do c: ZZ = b; (self = c) end
+     opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+     opr <(self, other:ZZ): Boolean = self.cmp(other) < 0
+     opr <=(self, other:ZZ): Boolean = self.cmp(other) <= 0
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+index 1a05af27a8..a1434677cc 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+@@ -41,11 +41,13 @@ end
+ value object Float extends RR64
+ end
+ 
+-value object FloatLiteral extends RR64
++value object FloatLiteral extends Number
++    asFloat(self): Float
+ end
+ 
+ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
++    coerce(x: FloatLiteral)
+     (** returns true if the value is an IEEE NaN **)
+     getter isNaN(): Boolean
+     (** returns true if the value is an IEEE infinity **)
+@@ -141,7 +143,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     opr |self| : NN32
+     asFloat(self): RR64
+     opr =(self, b:NN32):Boolean
+-    opr =(self, b:IntLiteral):Boolean
+     opr =(self, b:QQ):Boolean
+     opr =(self, b:ZZ):Boolean
+     opr =(self, b:ZZ64):Boolean
+@@ -196,56 +197,15 @@ end
+ value object UnsignedLong extends NN64
+ end
+ 
+-value object IntLiteral extends { Number }
++trait IntLiteral extends { Number } excludes { AnyIntegral, QQ, RR64 }
+     getter zero(): IntLiteral
+     getter one(): IntLiteral
+     getter asZZ32(): ZZ32
+     getter asZZ64(): ZZ64
+     getter asNN32(): NN32
+     getter asNN64(): NN64
+-    getter asZZ(): ZZ
+-    opr |self| : IntLiteral
+-    asFloat(self): Float
+-    opr =(self, b: IntLiteral):Boolean
+-    opr =(self, b:RR64):Boolean
+-    opr =(self, b:QQ):Boolean
+-    opr =(self, b:ZZ):Boolean
+-    opr =(self, b:ZZ64):Boolean
+-    opr =(self, b:NN64):Boolean
+-    opr =(self, b:ZZ32):Boolean
+-    opr =(self, b:NN32):Boolean
+-    opr <(self, other:IntLiteral): Boolean
+-    opr <=(self, other:IntLiteral): Boolean
+-    opr >(self, other:IntLiteral): Boolean
+-    opr >=(self, other:IntLiteral): Boolean
+-    opr CMP(self, other:IntLiteral): TotalComparison
+-
+-    opr -(self): IntLiteral
+-    opr +(self, b: IntLiteral): IntLiteral
+-    opr -(self, b: IntLiteral): IntLiteral
+-    opr DOT(self, b: IntLiteral): IntLiteral
+-    opr juxtaposition(self, b: IntLiteral): IntLiteral
+-    opr TIMES(self, b: IntLiteral): IntLiteral
+-    opr DIV(self, b: IntLiteral): IntLiteral
+-    opr REM(self, b: IntLiteral): IntLiteral
+-    opr MOD(self, b: IntLiteral): IntLiteral
+-    opr GCD(self, b: IntLiteral): IntLiteral
+-    opr LCM(self, b: IntLiteral): IntLiteral
+-    opr CHOOSE(self, b: IntLiteral): IntLiteral
+-    opr BITAND(self, b: IntLiteral): IntLiteral
+-    opr BITOR(self, b: IntLiteral): IntLiteral
+-    opr BITXOR(self, b: IntLiteral): IntLiteral
+-    opr LSHIFT(self, b:AnyIntegral): IntLiteral
+-    opr RSHIFT(self, b:AnyIntegral): IntLiteral
+-    opr BITNOT(self): IntLiteral
+-    opr ^(self, b:AnyIntegral):IntLiteral
+-    opr ^(self, b: IntLiteral): IntLiteral
+-    opr DIVIDES(self, b: IntLiteral): Boolean
+-    floor(self): IntLiteral
+-    ceiling(self): IntLiteral
+-    truncate(self): IntLiteral
+-    even(self): Boolean
+-    odd(self): Boolean
++    abstract getter asZZ(): ZZ
++    asFloat(self): RR64
+ end
+ 
+ value object BigNum extends ZZ end
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index c9ea8e299b..18ca75b330 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -79,7 +79,7 @@ value object Float extends RR64
+     (** next lower IEEE float **)
+     getter nextDown():RR64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNextDown")
+-    asFloat(self): Float = self
++    asFloat(self): RR64 = self
+     (** returns a value of type RR32 **)
+     narrow(self): RR32 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToFloat")
+@@ -205,7 +205,7 @@ value object Float extends RR64
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRound")
+ end
+ 
+-value object FloatLiteral extends RR64
++value object FloatLiteral extends Number
+     getter asString(): String =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FloatLiteral$ToString")
+     getter asExprString(): String =
+@@ -216,6 +216,7 @@ end
+ 
+ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
++    coerce(x: FloatLiteral) = narrow(asFloat(x))
+     getter zero(): RR32 = narrow(0.0)
+     getter one(): RR32 = narrow(1.0)
+     getter asString(): String =
+@@ -451,7 +452,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     opr |self| : NN32 = self
+     opr =(self, b:NN32):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntEQ")
+-    opr =(self, b:IntLiteral):Boolean = do c: NN32 = b; (self = c) end
+     opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+     opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
+     opr =(self, b:ZZ64):Boolean = do c: ZZ64 = self; (c = b) end
+@@ -546,86 +546,17 @@ value object UnsignedLong extends NN64
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToDouble")
+ end
+ 
+-value object IntLiteral extends Number
++trait IntLiteral extends Number excludes { AnyIntegral, QQ, RR64 }
+     getter zero(): IntLiteral = 0
+     getter one(): IntLiteral = 1
+     getter asZZ32(): ZZ32 = self.asZZ.asZZ32
+     getter asZZ64(): ZZ64 = self.asZZ.asZZ64
+     getter asNN32(): NN32 = self.asZZ.asNN32
+     getter asNN64(): NN64 = self.asZZ.asNN64
+-    getter asZZ(): ZZ =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToZZ")
++    getter asZZ(): ZZ
+     getter asString(): String = self.asZZ.asString
+     getter asExprString(): String = self.asZZ.asString
+-
+-    asFloat(self): Float =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$AsFloat")
+-
+-    opr |self| : IntLiteral = if self>=0 then self else -self end
+-    opr =(self, b: IntLiteral):Boolean = self.asZZ = b.asZZ
+-    opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
+-    opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
+-    opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
+-    opr =(self, b:ZZ64):Boolean = do c: ZZ64 = self; (c = b) end
+-    opr =(self, b:NN64):Boolean = do c: NN64 = self; (c = b) end
+-    opr =(self, b:ZZ32):Boolean = do c: ZZ32 = self; (c = b) end
+-    opr =(self, b:NN32):Boolean = do c: NN32 = self; (c = b) end
+-    opr <(self, other:IntLiteral): Boolean = self.cmp(other) < 0
+-    opr <=(self, other:IntLiteral): Boolean = self.cmp(other) <= 0
+-    opr >(self, other:IntLiteral): Boolean = self.cmp(other) > 0
+-    opr >=(self, other:IntLiteral): Boolean = self.cmp(other) >= 0
+-    opr CMP(self, other:IntLiteral): TotalComparison = self.cmp(other) CMP 0
+-    cmp(b:IntLiteral): ZZ32 = do
+-        x = self.asZZ
+-        y = b.asZZ
+-        if x < y then -1 elif y < x then 1 else 0 end
+-      end
+-
+-    opr -(self): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Negate")
+-    opr +(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Add")
+-    opr -(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Sub")
+-    opr DOT(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Mul")
+-    opr juxtaposition(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Mul")
+-    opr TIMES(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Mul")
+-    opr DIV(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Div")
+-    opr REM(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Rem")
+-    opr MOD(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Mod")
+-    opr GCD(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Gcd")
+-    opr LCM(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Lcm")
+-    opr CHOOSE(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Choose")
+-    opr BITAND(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$BitAnd")
+-    opr BITOR(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$BitOr")
+-    opr BITXOR(self, b: IntLiteral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$BitXor")
+-    opr LSHIFT(self, b:AnyIntegral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$LShift")
+-    opr RSHIFT(self, b:AnyIntegral): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$RShift")
+-    opr BITNOT(self): IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$BitNot")
+-    opr ^(self, b:AnyIntegral):IntLiteral =
+-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Pow")
+-    opr ^(self, b: IntLiteral): IntLiteral = self^(b.asZZ32)
+-    opr DIVIDES(self, b: IntLiteral): Boolean = self.asZZ DIVIDES b.asZZ
+-    floor(self): IntLiteral = self
+-    ceiling(self): IntLiteral = self
+-    truncate(self): IntLiteral = self
+-    even(self): Boolean = even(self.asZZ)
+-    odd(self): Boolean = odd(self.asZZ)
++    asFloat(self): RR64 = asFloat(self.asZZ)
+ end
+ 
+ value object BigNum extends ZZ
+diff --git a/ProjectFortress/compiler_tests/XXXFloatNumeralOneRounding.fss b/ProjectFortress/compiler_tests/FloatNumeralOneRounding.fss
+similarity index 84%
+rename from ProjectFortress/compiler_tests/XXXFloatNumeralOneRounding.fss
+rename to ProjectFortress/compiler_tests/FloatNumeralOneRounding.fss
+index d62e638f13..546828edcf 100644
+--- a/ProjectFortress/compiler_tests/XXXFloatNumeralOneRounding.fss
++++ b/ProjectFortress/compiler_tests/FloatNumeralOneRounding.fss
+@@ -1,9 +1,8 @@
+ (* On the compiled path, a numeral with a radix point becomes an RR64 by one rounding of its rational value, so 0.9999999999999999 is below 1.0. *)
+-component XXXFloatNumeralOneRounding
++component FloatNumeralOneRounding
+ export Executable
+ 
+ run():() = do
+-  println("REACHED")
+   x: RR64 = 0.9999999999999999
+   assert(x < 1.0, "0.9999999999999999 rounds to the double below 1.0")
+   println("PASS")
+diff --git a/ProjectFortress/compiler_tests/FloatNumeralOneRounding.test b/ProjectFortress/compiler_tests/FloatNumeralOneRounding.test
+new file mode 100644
+index 0000000000..71a65159d7
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/FloatNumeralOneRounding.test
+@@ -0,0 +1,4 @@
++tests=FloatNumeralOneRounding
++link
++run
++run_out_contains=PASS
+diff --git a/ProjectFortress/compiler_tests/FloatNumeralOneRoundingLink.test b/ProjectFortress/compiler_tests/FloatNumeralOneRoundingLink.test
+index c345a783e2..27b548b22b 100644
+--- a/ProjectFortress/compiler_tests/FloatNumeralOneRoundingLink.test
++++ b/ProjectFortress/compiler_tests/FloatNumeralOneRoundingLink.test
+@@ -1,2 +1,2 @@
+-tests=XXXFloatNumeralOneRounding
++tests=FloatNumeralOneRounding
+ link
+diff --git a/ProjectFortress/compiler_tests/InferCoercionShapes.fss b/ProjectFortress/compiler_tests/InferCoercionShapes.fss
+index f7a574db11..241fbfb8cc 100644
+--- a/ProjectFortress/compiler_tests/InferCoercionShapes.fss
++++ b/ProjectFortress/compiler_tests/InferCoercionShapes.fss
+@@ -41,7 +41,7 @@ typeOf(x: Any): String = typecase x of
+     ZZ64 => "ZZ64"
+     NN32 => "NN32"
+     ZZ => "ZZ"
+-    IntLiteral => "IntLiteral"
++    Boolean => "Boolean"
+     R => "R"
+     P => "P"
+     Q => "Q"
+@@ -69,7 +69,7 @@ run(): () = do
+     pp: P = POf(1)
+     qq: Q = QOf(2)
+     assert(pick(pp, qq), "R,R", "answer 8 (POSITIONS 2026-09-26): the narrowest type both arguments convert into, neither argument's own")
+-    assert(pick(3, 4), "IntLiteral,IntLiteral", "numerals alone keep their own type where it meets the bound")
++    assert(pick(3, 4), "ZZ32,ZZ32", "numerals alone fix the static argument at their default")
+     assert(lohi32(2, 46), "ZZ32,ZZ32", "numerals at a bound the numeral's type does not meet")
+     a: BoxV[\ZZ64\] = wrapV(3)
+     assert(typeOf(a.v), "ZZ64", "row 455: the expected type fixes the static argument at a call written f(x)")
+diff --git a/ProjectFortress/compiler_tests/InferO2Num.fss b/ProjectFortress/compiler_tests/InferO2Num.fss
+index d164f6fa61..dde501912b 100644
+--- a/ProjectFortress/compiler_tests/InferO2Num.fss
++++ b/ProjectFortress/compiler_tests/InferO2Num.fss
+@@ -7,7 +7,7 @@ op(a: Any, b: Any): String = "op plain[" || typeOf(a) || "," || typeOf(b) || "]"
+ typeOf(x: Any): String = typecase x of
+     ZZ32 => "ZZ32"
+     ZZ64 => "ZZ64"
+-    IntLiteral => "IntLiteral"
++    Boolean => "Boolean"
+     else => "other"
+   end
+ 
+@@ -17,7 +17,7 @@ run(): () = do
+     assert(op(1, w), "op generic[ZZ64,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral beside a ZZ64")
+     assert(op(w, 1), "op generic[ZZ64,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral beside a ZZ64")
+     assert(op(1, z), "op generic[ZZ32,ZZ32]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a numeral beside a ZZ32")
+-    assert(op(1, 2), "op generic[IntLiteral,IntLiteral]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): numerals alone")
++    assert(op(1, 2), "op generic[ZZ32,ZZ32]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): numerals alone")
+     println("PASS")
+   end
+ end
+diff --git a/ProjectFortress/compiler_tests/InferO2Pos.fss b/ProjectFortress/compiler_tests/InferO2Pos.fss
+index db61f2db2c..8f37d4711d 100644
+--- a/ProjectFortress/compiler_tests/InferO2Pos.fss
++++ b/ProjectFortress/compiler_tests/InferO2Pos.fss
+@@ -9,13 +9,13 @@ ee(x: Any): ZZ32 = 2
+ typeOf(x: Any): String = typecase x of
+     ZZ32 => "ZZ32"
+     ZZ64 => "ZZ64"
+-    IntLiteral => "IntLiteral"
++    Boolean => "Boolean"
+     else => "other"
+   end
+ 
+ run(): () = do
+     w: ZZ64 = 4
+-    assert(gg(5, w), "gg plain[IntLiteral,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a declaration that fits the call as it is runs")
++    assert(gg(5, w), "gg plain[ZZ32,ZZ64]", "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a declaration that fits the call as it is runs")
+     assert(ee(5), 2, "the conversion judgement's decision 1 (POSITIONS 2026-09-28): a declaration that fits the call as it is runs")
+     println("PASS")
+   end
+diff --git a/ProjectFortress/compiler_tests/LiteralDefaultCompiled.fss b/ProjectFortress/compiler_tests/LiteralDefaultCompiled.fss
+new file mode 100644
+index 0000000000..4b35e970ad
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/LiteralDefaultCompiled.fss
+@@ -0,0 +1,48 @@
++(* Where nothing fixes a type, a numeral takes ZZ32, or ZZ64 or ZZ by its value, and a float numeral RR64: at an untyped binding, a parameter of type Any and a static argument that only the numeral fixes. *)
++component LiteralDefaultCompiled
++export Executable
++
++tName(a: Any): String = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.typeName")
++sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
++
++object Cell[\T\](v: T) end
++kind(c: Cell[\ZZ32\]): String = "Cell ZZ32"
++kind(c: Cell[\RR64\]): String = "Cell RR64"
++kind(c: Any): String = "other"
++
++f(a: Any): String = tName(a)
++pick[\T\](a: T, b: T): String = tName(a) || "," || tName(b)
++
++g(a: ZZ32): String = "g ZZ32"
++g(a: NN32): String = "g NN32"
++g(a: ZZ64): String = "g ZZ64"
++
++x = 3
++y = 0.5
++bigN = 3000000000
++
++run(): () = do
++  z: ZZ32 = 3
++  w: RR64 = 0.5
++  assert(tName(x), "ZZ32", "x = 3 binds a ZZ32")
++  assert(tName(y), "RR64", "y = 0.5 binds an RR64")
++  lx = 3
++  ly = 0.5
++  assert(tName(lx), "ZZ32", "a local lx = 3 binds a ZZ32")
++  assert(tName(ly), "RR64", "a local ly = 0.5 binds an RR64")
++  assert(tName(bigN), "ZZ64", "bigN = 3000000000 binds a ZZ64")
++  assert(kind(Cell(3)), "Cell ZZ32", "Cell(3) is a Cell of ZZ32")
++  assert(kind(Cell(x)), "Cell ZZ32", "Cell(x) is a Cell of ZZ32")
++  assert(kind(Cell(0.5)), "Cell RR64", "Cell(0.5) is a Cell of RR64")
++  assert(f(3), "ZZ32", "a numeral at a parameter of type Any")
++  assert(f(0.5), "RR64", "a float numeral at a parameter of type Any")
++  assert(pick(3, 4), "ZZ32,ZZ32", "numerals alone fix a static argument")
++  assert(sEq(3, z), "3 SEQV z for z: ZZ32 = 3")
++  assert(sEq(x, z), "x SEQV z")
++  assert(sEq(y, w), "y SEQV w for w: RR64 = 0.5")
++  assert(g(bigN), "g ZZ64", "a variable bound from 3000000000 at a tie of g")
++  assert(g(3000000000), "g ZZ64", "the numeral 3000000000 at a tie of g")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/LiteralDefaultCompiled.test b/ProjectFortress/compiler_tests/LiteralDefaultCompiled.test
+new file mode 100644
+index 0000000000..6730154c71
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/LiteralDefaultCompiled.test
+@@ -0,0 +1,4 @@
++tests=LiteralDefaultCompiled
++link
++run
++run_out_contains=PASS
+diff --git a/ProjectFortress/compiler_tests/LiteralFoldCompiled.fss b/ProjectFortress/compiler_tests/LiteralFoldCompiled.fss
+new file mode 100644
+index 0000000000..91afd1750f
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/LiteralFoldCompiled.fss
+@@ -0,0 +1,24 @@
++(* An expression of numerals alone folds exactly into one numeral before the checker, and a numeral converts to its type's constant with one rounding of its exact value. *)
++component LiteralFoldCompiled
++export Executable
++
++tName(a: Any): String = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.typeName")
++sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
++
++run(): () = do
++  assert(tName(3 + 4), "ZZ32", "3 + 4 folds into the numeral 7")
++  assert(3 + 4, 7, "3 + 4 is 7")
++  p = 2^40
++  big: ZZ64 = 1099511627776
++  assert(tName(p), "ZZ64", "2^40 folds into a numeral that takes ZZ64")
++  assert(sEq(p, big), "2^40 is 1099511627776")
++  assert(1/2 = 0.5, "1/2 folds into the numeral 0.5")
++  r: RR64 = 0.77425264282026984
++  assert(r = 0.7742526428202698, "a 17-digit numeral at RR64 rounds once")
++  assert(r > 0.7742526428202697, "a 17-digit numeral at RR64 rounds once, not to the double below")
++  u = 0.77425264282026984
++  assert(sEq(u, r), "an untyped 17-digit numeral rounds once too")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/LiteralFoldCompiled.test b/ProjectFortress/compiler_tests/LiteralFoldCompiled.test
+new file mode 100644
+index 0000000000..554234e42e
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/LiteralFoldCompiled.test
+@@ -0,0 +1,4 @@
++tests=LiteralFoldCompiled
++link
++run
++run_out_contains=PASS
+diff --git a/ProjectFortress/compiler_tests/LiteralOwnNumberCompiled.fss b/ProjectFortress/compiler_tests/LiteralOwnNumberCompiled.fss
+new file mode 100644
+index 0000000000..b7b766809f
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/LiteralOwnNumberCompiled.fss
+@@ -0,0 +1,42 @@
++(* A program's own number type takes a numeral through coercions from the numeral's default types: an integer numeral arrives as a ZZ32, or a ZZ64 or ZZ by its value, and a float numeral as an RR64, already rounded once to a double, so an interval or a bfloat16 type receives the double, not the numeral's exact value. *)
++component LiteralOwnNumberCompiled
++export Executable
++
++value object CC64(re: RR64, im: RR64, src: String)
++  coerce(x: ZZ32) = CC64(0.0, 0.0, "ZZ32 " || x.asString)
++  coerce(x: ZZ64) = CC64(0.0, 0.0, "ZZ64 " || x.asString)
++  coerce(x: ZZ) = CC64(0.0, 0.0, "ZZ " || x.asString)
++  coerce(x: RR64) = CC64(x, 0.0, "RR64 " || x.asString)
++end
++
++sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
++
++value object Iv(lo: RR64, hi: RR64)
++  coerce(x: RR64) = Iv(x, x)
++end
++
++value object BF16(from: RR64)
++  coerce(x: RR64) = BF16(x)
++end
++
++run(): () = do
++  a: CC64 = 3
++  assert(a.src, "ZZ32 3", "an integer numeral arrives as a ZZ32")
++  b: CC64 = 3000000000
++  assert(b.src, "ZZ64 3000000000", "a numeral beyond ZZ32 arrives as a ZZ64")
++  c: CC64 = 12345678901234567890
++  assert(c.src, "ZZ 12345678901234567890", "a 20-digit numeral arrives as a ZZ")
++  d: CC64 = 0.5
++  assert(d.src, "RR64 0.5", "a float numeral arrives as an RR64")
++  e: CC64 = 3.1415926535897932384
++  assert(e.src, "RR64 3.141592653589793", "the Working Draft's numeral arrives rounded once to an RR64")
++  i: Iv = 0.1
++  tenth: RR64 = 0.1
++  assert(sEq(i.lo, tenth), "an interval receives the double nearest 0.1, not 1/10")
++  h: BF16 = 1.00390625000000000001
++  mid: RR64 = 1.00390625
++  assert(sEq(h.from, mid), "a bfloat16 type receives the double 1 + 2^-8, the bfloat16 midpoint, not the numeral above it")
++  println("PASS")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/LiteralOwnNumberCompiled.test b/ProjectFortress/compiler_tests/LiteralOwnNumberCompiled.test
+new file mode 100644
+index 0000000000..f08bc07b06
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/LiteralOwnNumberCompiled.test
+@@ -0,0 +1,4 @@
++tests=LiteralOwnNumberCompiled
++link
++run
++run_out_contains=PASS
+diff --git a/ProjectFortress/compiler_tests/XXXFloatNumeralOneRounding.test b/ProjectFortress/compiler_tests/XXXFloatNumeralOneRounding.test
+deleted file mode 100644
+index 56c091c655..0000000000
+--- a/ProjectFortress/compiler_tests/XXXFloatNumeralOneRounding.test
++++ /dev/null
+@@ -1,3 +0,0 @@
+-tests=XXXFloatNumeralOneRounding
+-run
+-run_out_contains=REACHED
+diff --git a/ProjectFortress/compiler_tests/XXXLiteralTypeUnwritable.fss b/ProjectFortress/compiler_tests/XXXLiteralTypeUnwritable.fss
+new file mode 100644
+index 0000000000..df682b5dc6
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXLiteralTypeUnwritable.fss
+@@ -0,0 +1,10 @@
++(* A program cannot write IntLiteral or FloatLiteral as a type: a numeral has its own type only while the checker types the program. *)
++component XXXLiteralTypeUnwritable
++export Executable
++
++run(): () = do
++  x: IntLiteral = 5
++  assert(x.asZZ32, 5, "x")
++end
++
++end
+diff --git a/ProjectFortress/compiler_tests/XXXLiteralTypeUnwritable.test b/ProjectFortress/compiler_tests/XXXLiteralTypeUnwritable.test
+new file mode 100644
+index 0000000000..885703a1a1
+--- /dev/null
++++ b/ProjectFortress/compiler_tests/XXXLiteralTypeUnwritable.test
+@@ -0,0 +1,3 @@
++tests=XXXLiteralTypeUnwritable
++compile
++compile_err_contains=IntLiteral cannot be written in a program
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+index 06849abe9c..b556e1385d 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+@@ -2034,9 +2034,21 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+     // truncate, but we want to warn if we lose bits I expect).
+     public void forFloatLiteralExpr(FloatLiteralExpr x) {
+         debug("forFloatLiteral ", x);
+-        double val = x.getIntPart().doubleValue() +
+-            (x.getNumerator().doubleValue() /
+-             Math.pow(x.getDenomBase(), x.getDenomPower()));
++        java.math.BigInteger[] exact = com.sun.fortress.compiler.desugarer.IntegerLiteralFoldingVisitor.exactValue(x);
++        String typed = numeralTarget(x);
++        if (typed.equals("RR32")) {
++            mv.visitLdcInsn(Float.valueOf(roundToFloat(exact[0], exact[1])));
++            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR32, NamingCzar.make,
++                               Naming.makeMethodDesc(NamingCzar.descFloat, NamingCzar.descFortressRR32));
++            return;
++        }
++        double val = roundToDouble(exact[0], exact[1]);
++        if (typed.equals("RR64")) {
++            mv.visitLdcInsn(Double.valueOf(val));
++            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR64, NamingCzar.make,
++                               Naming.makeMethodDesc(NamingCzar.descDouble, NamingCzar.descFortressRR64));
++            return;
++        }
+         mv.visitLdcInsn(val);
+         mv.visitMethodInsn(INVOKESTATIC,
+                            NamingCzar.internalFortressFloatLiteral, NamingCzar.make,
+@@ -4204,9 +4216,80 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+         // No longer need to set up alias table; rely on ForeignJava exclusively instead.
+     }
+ 
++    /**
++     * The number type at which the coercion desugarer typed a numeral, or ""
++     * for a numeral of its own type.
++     */
++    private static String numeralTarget(Expr x) {
++        Option<Type> t = x.getInfo().getExprType();
++        if (t.isSome() && t.unwrap() instanceof TraitType) {
++            TraitType tt = (TraitType) t.unwrap();
++            if (tt.getArgs().isEmpty()) return tt.getName().getText();
++        }
++        return "";
++    }
++
++    /** The double nearest the rational n/d, d positive: one rounding, to nearest even. */
++    static double roundToDouble(BigInteger n, BigInteger d) {
++        if (n.signum() == 0) return 0.0;
++        BigInteger m = n.abs();
++        int shift = 56 - (m.bitLength() - d.bitLength());
++        BigInteger[] qr = (shift >= 0 ? m.shiftLeft(shift) : m).divideAndRemainder(shift >= 0 ? d : d.shiftLeft(-shift));
++        BigInteger q = qr[1].signum() == 0 ? qr[0] : qr[0].setBit(0);
++        double v = Math.scalb(q.doubleValue(), -shift);
++        return n.signum() < 0 ? -v : v;
++    }
++
++    /** The float nearest the rational n/d, d positive: one rounding, to nearest even. */
++    static float roundToFloat(BigInteger n, BigInteger d) {
++        if (n.signum() == 0) return 0.0f;
++        BigInteger m = n.abs();
++        int shift = 28 - (m.bitLength() - d.bitLength());
++        BigInteger[] qr = (shift >= 0 ? m.shiftLeft(shift) : m).divideAndRemainder(shift >= 0 ? d : d.shiftLeft(-shift));
++        BigInteger q = qr[1].signum() == 0 ? qr[0] : qr[0].setBit(0);
++        float v = Math.scalb(q.floatValue(), -shift);
++        return n.signum() < 0 ? -v : v;
++    }
++
+     public void forIntLiteralExpr(IntLiteralExpr x) {
+         debug("forIntLiteral ", x);
+         BigInteger bi = x.getIntVal();
++        String typed = numeralTarget(x);
++        if (typed.equals("ZZ32") || typed.equals("NN32")) {
++            addLineNumberInfo(x);
++            pushInteger(bi.intValue());
++            boolean zz = typed.equals("ZZ32");
++            mv.visitMethodInsn(INVOKESTATIC, zz ? NamingCzar.internalFortressZZ32 : NamingCzar.internalFortressNN32, NamingCzar.make,
++                               Naming.makeMethodDesc(NamingCzar.descInt, zz ? NamingCzar.descFortressZZ32 : NamingCzar.descFortressNN32));
++            return;
++        }
++        if (typed.equals("ZZ64") || typed.equals("NN64")) {
++            addLineNumberInfo(x);
++            mv.visitLdcInsn(Long.valueOf(bi.longValue()));
++            boolean zz = typed.equals("ZZ64");
++            mv.visitMethodInsn(INVOKESTATIC, zz ? NamingCzar.internalFortressZZ64 : NamingCzar.internalFortressNN64, NamingCzar.make,
++                               Naming.makeMethodDesc(NamingCzar.descLong, zz ? NamingCzar.descFortressZZ64 : NamingCzar.descFortressNN64));
++            return;
++        }
++        if (typed.equals("ZZ")) {
++            addLineNumberInfo(x);
++            mv.visitLdcInsn(bi.toString());
++            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressZZ, NamingCzar.make,
++                               Naming.makeMethodDesc(NamingCzar.descString, NamingCzar.descFortressZZ));
++            return;
++        }
++        if (typed.equals("RR64")) {
++            mv.visitLdcInsn(Double.valueOf(roundToDouble(bi, BigInteger.ONE)));
++            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR64, NamingCzar.make,
++                               Naming.makeMethodDesc(NamingCzar.descDouble, NamingCzar.descFortressRR64));
++            return;
++        }
++        if (typed.equals("RR32")) {
++            mv.visitLdcInsn(Float.valueOf(roundToFloat(bi, BigInteger.ONE)));
++            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR32, NamingCzar.make,
++                               Naming.makeMethodDesc(NamingCzar.descFloat, NamingCzar.descFortressRR32));
++            return;
++        }
+         // bitLength() counts no sign bit, so l <= 31 is exactly the int range
+         // and l <= 63 exactly the long range, for both signs.
+         int l = bi.bitLength();
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/CoercionDesugarer.scala b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/CoercionDesugarer.scala
+index d025fcfc52..db75c20fa6 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/CoercionDesugarer.scala
++++ b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/CoercionDesugarer.scala
+@@ -25,6 +25,34 @@ import com.sun.fortress.scala_src.useful.SExprUtil._
+ import com.sun.fortress.scala_src.useful.STypesUtil._
+ import com.sun.fortress.useful.Useful
+ 
++/**
++ * A coercion of a numeral into a number type whose constant the code
++ * generator emits folds into the numeral typed at that type: an integer
++ * numeral in the type's range, or any numeral into RR64 or RR32, which the
++ * code generator rounds once from its exact value.
++ */
++object CoercionDesugarer {
++  private val ints = Map("ZZ32" -> (BigInt(Int.MinValue), BigInt(Int.MaxValue)),
++                         "ZZ64" -> (BigInt(Long.MinValue), BigInt(Long.MaxValue)),
++                         "NN32" -> (BigInt(0), BigInt(4294967295L)),
++                         "NN64" -> (BigInt(0), (BigInt(1) << 64) - 1))
++  private val libraries = Set("CompilerBuiltin", "FortressBuiltin", "FortressLibrary")
++  def foldsTo(e: Expr, t: Type): Boolean = t match {
++    case tt: TraitType if tt.getArgs.isEmpty &&
++         tt.getName.getApiName.isSome && libraries(tt.getName.getApiName.unwrap.getText) =>
++      val name = tt.getName.getText
++      e match {
++        case i: IntLiteralExpr =>
++          val v = BigInt(i.getIntVal)
++          name == "ZZ" || name == "RR64" || name == "RR32" ||
++          ints.get(name).exists { case (lo, hi) => lo <= v && v <= hi }
++        case _: FloatLiteralExpr => name == "RR64" || name == "RR32"
++        case _ => false
++      }
++    case _ => false
++  }
++}
++
+ /**
+  * Desugars all CoercionInvocation nodes into function applications or
+  * expressions composed thereof. No CoercionInvocation nodes of any kind will
+@@ -62,7 +90,8 @@ class CoercionDesugarer extends Walker {
+    */
+   protected def desugarTraitCoercion(coercion: TraitCoercionInvocation, expr: Expr): Expr = {
+     val STraitCoercionInvocation(info, _, toType, fnRef) = coercion
+-    addType(EF.make_RewriteFnApp(info.getSpan, fnRef, expr), toType)
++    if (CoercionDesugarer.foldsTo(expr, toType)) addType(expr, toType)
++    else addType(EF.make_RewriteFnApp(info.getSpan, fnRef, expr), toType)
+   }
+ 
+   /**
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java
+index 4ce9aa5400..0807652650 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java
+@@ -55,7 +55,89 @@ public class IntegerLiteralFoldingVisitor extends NodeUpdateVisitor {
+ 		return n_fact.divide(k_fact.multiply(nminusk_fact));
+ 	}
+ 	
++	/** A numeral's exact value, numerator and positive denominator in lowest terms; null for any other expression. */
++	public static BigInteger[] exactValue(Expr e) {
++		if (e instanceof IntLiteralExpr) return new BigInteger[] { ((IntLiteralExpr) e).getIntVal(), BigInteger.ONE };
++		if (e instanceof FloatLiteralExpr) {
++			FloatLiteralExpr f = (FloatLiteralExpr) e;
++			BigInteger den = BigInteger.valueOf(f.getDenomBase()).pow(f.getDenomPower());
++			return lowest(f.getIntPart().multiply(den).add(f.getNumerator()), den);
++		}
++		return null;
++	}
++
++	private static BigInteger[] lowest(BigInteger n, BigInteger d) {
++		if (d.signum() < 0) { n = n.negate(); d = d.negate(); }
++		BigInteger g = n.gcd(d);
++		if (g.signum() != 0 && !g.equals(BigInteger.ONE)) { n = n.divide(g); d = d.divide(g); }
++		return new BigInteger[] { n, d };
++	}
++
++	private static final BigInteger TWO = BigInteger.valueOf(2), FIVE = BigInteger.valueOf(5);
++
++	/**
++	 * The numeral of an exact value: an integer numeral, or, where an operand had
++	 * a radix point or the value is not an integer, a numeral with one, in
++	 * decimal where the denominator divides a power of ten.
++	 */
++	static Expr numeralOf(ExprInfo info, BigInteger n, BigInteger d, boolean point) {
++		if (!point && d.equals(BigInteger.ONE)) return ExprFactory.makeIntLiteralExpr(info, n);
++		int twos = 0, fives = 0;
++		BigInteger r = d;
++		while (r.mod(TWO).signum() == 0) { r = r.divide(TWO); twos++; }
++		while (r.mod(FIVE).signum() == 0) { r = r.divide(FIVE); fives++; }
++		if (r.equals(BigInteger.ONE)) {
++			int k = Math.max(Math.max(twos, fives), 1);
++			BigInteger scaled = n.multiply(BigInteger.TEN.pow(k)).divide(d);
++			String text = new java.math.BigDecimal(scaled, k).toPlainString();
++			return new FloatLiteralExpr(info, text, BigInteger.ZERO, scaled, 10, k);
++		}
++		if (d.bitLength() > 31) return null;
++		return new FloatLiteralExpr(info, n + "/" + d, BigInteger.ZERO, n, d.intValue(), 1);
++	}
++
++	/**
++	 * Numeral arithmetic folds exactly into one numeral, the Working Draft's
++	 * static expressions (constant.tex, "Static Expressions"; literals.tex): +, -,
++	 * multiplication, / by a nonzero numeral, and ^ by an integer numeral, where
++	 * an integer base takes no negative exponent. A result that IEEE arithmetic
++	 * could make a negative zero does not fold. Null where nothing folds.
++	 */
++	private static Expr foldExact(String op, ExprInfo info, Expr arg0, Expr arg1) {
++		BigInteger[] a = exactValue(arg0), b = exactValue(arg1);
++		if (a == null || b == null) return null;
++		boolean point = arg0 instanceof FloatLiteralExpr || arg1 instanceof FloatLiteralExpr;
++		BigInteger[] r;
++		if (op.equals("+")) r = lowest(a[0].multiply(b[1]).add(b[0].multiply(a[1])), a[1].multiply(b[1]));
++		else if (op.equals("-")) r = lowest(a[0].multiply(b[1]).subtract(b[0].multiply(a[1])), a[1].multiply(b[1]));
++		else if (op.equals("juxtaposition") || op.equals("DOT") || op.equals("TIMES") || op.equals("\u00B7") || op.equals("\u00D7")) {
++			if (point && (a[0].signum() == 0 || b[0].signum() == 0) && (a[0].signum() < 0 || b[0].signum() < 0)) return null;
++			r = lowest(a[0].multiply(b[0]), a[1].multiply(b[1]));
++		} else if (op.equals("/")) {
++			if (b[0].signum() == 0) return null;
++			if (a[0].signum() == 0 && b[0].signum() < 0) return null;
++			r = lowest(a[0].multiply(b[1]), a[1].multiply(b[0]));
++			point = true;
++		} else if (op.equals("^")) {
++			if (!(arg1 instanceof IntLiteralExpr)) return null;
++			BigInteger e = ((IntLiteralExpr) arg1).getIntVal();
++			if (e.abs().compareTo(BigInteger.valueOf(4096)) > 0) return null;
++			if ((long) e.abs().intValue() * Math.max(a[0].bitLength(), a[1].bitLength()) > 65536) return null;
++			int k = e.intValue();
++			if (k < 0) {
++				if (!(arg0 instanceof FloatLiteralExpr) || a[0].signum() == 0) return null;
++				r = lowest(a[1].pow(-k), a[0].pow(-k));
++			} else r = new BigInteger[] { a[0].pow(k), a[1].pow(k) };
++			point = arg0 instanceof FloatLiteralExpr;
++		} else return null;
++		return numeralOf(info, r[0], r[1], point);
++	}
++
+ 	private Node foldBinaryOperator(FunctionalRef op_result, ExprInfo info_result, Expr arg0, Expr arg1) {
++		Expr exact = foldExact(op_result.toString(), info_result, arg0, arg1);
++		if (exact != null) return exact;
++		if (!(arg0 instanceof IntLiteralExpr && arg1 instanceof IntLiteralExpr))
++			return new OpExpr(info_result, op_result, Arrays.asList(arg0, arg1));
+ 		
+ 		BigInteger v0 = ((IntLiteralExpr)arg0).getIntVal();
+ 		BigInteger v1 = ((IntLiteralExpr)arg1).getIntVal();
+@@ -157,6 +239,13 @@ public class IntegerLiteralFoldingVisitor extends NodeUpdateVisitor {
+ 					return ExprFactory.makeIntLiteralExpr(info_result,v.not());
+ 				
+ 			}
++			if (arg instanceof FloatLiteralExpr && op_result.toString().equals("prefix -")) {
++				BigInteger[] v = exactValue(arg);
++				if (v[0].signum() != 0) {
++					Expr folded = numeralOf(info_result, v[0].negate(), v[1], true);
++					if (folded != null) return folded;
++				}
++			}
+ 			
+ 		}	
+ 
+@@ -164,7 +253,7 @@ public class IntegerLiteralFoldingVisitor extends NodeUpdateVisitor {
+ 			
+ 			Expr arg0 = args_result.get(0);
+ 			Expr arg1 = args_result.get(1);
+-			if (arg0 instanceof IntLiteralExpr && arg1 instanceof IntLiteralExpr) 
++			if (exactValue(arg0) != null && exactValue(arg1) != null)
+ 				return foldBinaryOperator(op_result,info_result,arg0,arg1);
+ 							
+ 		}
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala
+index 49629e4049..a2417dd38c 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala
+@@ -164,8 +164,41 @@ class CoercionOracle(traits: TraitTable,
+   def coercesTo(t: Type, u: Type): Boolean = checkCoercion(t, u, None).isSome
+ 
+   /** Determines if e:T ~~> U and if so returns the FnRefs for that coercion. */
+-  def buildCoercion(e: Expr, u: Type): Option[CoercionInvocation]
+-    = checkCoercion(getType(e).get, u, Some(e)).flatMap(o => o)
++  def buildCoercion(e: Expr, u: Type): Option[CoercionInvocation] = {
++    val c = checkCoercion(getType(e).get, u, Some(e)).flatMap(o => o)
++    // A numeral converted into its own default type ranks as no coercion: the
++    // numeral is that type where nothing narrower fixes it.
++    (c, u) match {
++      case (Some(ci), tu: TraitType) if defaultName(e).exists(_ == tu.getName.getText) =>
++        com.sun.fortress.scala_src.typechecker.impls.LiteralDefaults.mark(ci)
++      case _ =>
++    }
++    c.orElse(viaDefault(e, u))
++  }
++
++  /** The name of a numeral's default type: ZZ32, or ZZ64 or ZZ by its value, or RR64 with a radix point. */
++  private def defaultName(e: Expr): Option[String] = e match {
++    case i: IntLiteralExpr =>
++      val l = i.getIntVal.bitLength
++      Some(if (l < 32) "ZZ32" else if (l < 64) "ZZ64" else "ZZ")
++    case _: FloatLiteralExpr => Some("RR64")
++    case _ => None
++  }
++
++  /**
++   * A numeral at a type that declares no coercion from the numeral's own type
++   * but one from its default, ZZ32, or ZZ64 or ZZ by its value, or RR64 with a
++   * radix point: the default's coercion, then the type's own.
++   */
++  private def viaDefault(e: Expr, u: Type): Option[CoercionInvocation] = {
++    val name = defaultName(e).getOrElse(return None)
++    val from = getType(e).get
++    getCoercionTargetsFrom(from).find(_.getName.getText == name).flatMap { r =>
++      checkCoercion(from, r, Some(e)).flatMap(o => o).flatMap { inner =>
++        checkCoercion(r, u, Some(inner)).flatMap(o => o)
++      }
++    }
++  }
+ 
+   /** Determines if T ~~> U and possibly builds a coercion. */
+   private def checkCoercion(t: Type,
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/STypeChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/STypeChecker.scala
+index 15046d077a..5278b2d760 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/STypeChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/STypeChecker.scala
+@@ -417,6 +417,12 @@ abstract class STypeChecker(val current: CompilationUnitIndex,
+    */
+   def checkExpr(expr: Expr, expected: Option[Type]): Expr
+ 
++  /** A numeral where nothing fixes a type takes its default (Functionals). */
++  def defaultNumeral(e: Expr, place: => String): Expr
++
++  /** A numeral written as a dotted receiver takes its default (Functionals). */
++  def defaultReceiver(e: Expr, has: Type => Boolean): Expr
++
+   // ---------------------------------------------------------------------------
+   // CONCRETE DEFINITIONS ------------------------------------------------------
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala
+index e4d0870cc8..fa34e0e2b6 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala
+@@ -13,6 +13,7 @@ package com.sun.fortress.scala_src.typechecker
+ 
+ import _root_.java.util.ArrayList
+ import com.sun.fortress.compiler.GlobalEnvironment
++import com.sun.fortress.compiler.Types
+ import com.sun.fortress.compiler.index.CompilationUnitIndex
+ import com.sun.fortress.compiler.index.TraitIndex
+ import com.sun.fortress.compiler.typechecker.StaticTypeReplacer
+@@ -34,6 +35,18 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
+   val errors = new ArrayList[StaticError]()
+   var analyzer = typeAnalyzer
+ 
++  // A numeral's own type, written outside the library's own files.
++  private val unitFile = NodeUtil.getSpan(compilation_unit.ast).getFileName
++  private val libraryUnit = {
++    val f = "/" + unitFile.replace('\\', '/')
++    f.contains("/LibraryBuiltin/") || f.contains("/Library/")
++  }
++  private def literalTypeWritten(t: TraitType, name: Id): Boolean =
++    !libraryUnit && NodeUtil.getSpan(t).getFileName == unitFile &&
++    (name.getText == "IntLiteral" || name.getText == "FloatLiteral") &&
++    (name.getApiName.isNone ||
++     Set("FortressBuiltin", "CompilerBuiltin")(name.getApiName.unwrap.getText))
++
+   def check() = {
+     walk(compilation_unit.ast)
+     // An error placed at an expression, at each place that holds no other place of the same
+@@ -253,6 +266,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
+       case t@STraitSelfType(_, named, tys) => walk(named); tys.foreach(walk)
+       case t@SObjectExprType(_, tys) => tys.foreach(walk)
+       case t@STraitType(_, name, sargs, _) =>
++      if (literalTypeWritten(t, name))
++        error(name.getText + " cannot be written in a program: a numeral has its own type only while the checker types the program.", t)
+       getTypes(name) match {
+         case si:TraitIndex => // Trait name should be defined.
+         // Static arguments should satisfy the corresponding bounds.
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala
+index 9ed707d2f4..b440194fa5 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Decls.scala
+@@ -76,9 +76,10 @@ trait Decls { self: STypeChecker with Common =>
+   def checkDecls(node: Node): Node = node match {
+ 
+     case SComponent(info, name, imports, decls, comprises, isNative, exports) =>
++      LiteralDefaults.report(
+       SComponent(info, name, imports,
+                  decls.map((n:Decl) => check(n).asInstanceOf[Decl]), comprises,
+-                 isNative, exports)
++                 isNative, exports))
+ 
+     case t@STraitDecl(info,
+                       STraitTypeHeader(sparams, mods, name, where,
+@@ -249,7 +250,7 @@ trait Decls { self: STypeChecker with Common =>
+             }
+             case None => lv match {
+               case SLValue(info, name, mods, None, mut) =>
+-                val newR = checkExpr(r, None)
++                val newR = defaultNumeral(checkExpr(r, None), "an untyped binding of " + name)
+                 (SLValue(info, name, mods,
+                          Some(getType(newR).getOrElse(return node)), mut),
+                  newR)
+@@ -286,7 +287,7 @@ trait Decls { self: STypeChecker with Common =>
+         // from that.
+         case None =>
+           // Check the RHS.
+-          val newRhs = checkExpr(rhs, None)
++          val newRhs = defaultNumeral(checkExpr(rhs, None), "an untyped binding")
+           val rhsType = getType(newRhs).getOrElse(return node)
+           // Get all the LHSes and their corresponding RHS type.
+           val lhsAndRhsTypes = lhses match {
+@@ -340,7 +341,7 @@ trait Decls { self: STypeChecker with Common =>
+             }
+             case None => lv match {
+               case SLValue(info, name, mods, None, mut) =>
+-                val newR = checkExpr(r, None)
++                val newR = defaultNumeral(checkExpr(r, None), "an untyped binding of " + name)
+                 (SLValue(info, name, mods,
+                          Some(getType(newR).getOrElse(return expr)), mut),
+                  newR)
+@@ -381,7 +382,7 @@ trait Decls { self: STypeChecker with Common =>
+         // from that.
+         case None =>
+           // Check the RHS.
+-          val newRhs = checkExpr(rhs, None)
++          val newRhs = defaultNumeral(checkExpr(rhs, None), "an untyped binding")
+           val rhsType = getType(newRhs).getOrElse(return expr)
+           // Get all the LHSes and their corresponding RHS type.
+           val lhsAndRhsTypes = lhses match {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
+index 0b8ebdb172..f18e4f889e 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala
+@@ -34,6 +34,41 @@ import com.sun.fortress.exceptions.StaticError
+ import com.sun.fortress.useful.{HasAt, NI}
+ import com.sun.fortress.repository.ProjectProperties
+ import com.sun.fortress.compiler.codegen.FnNameInfo
++/**
++ * The coercions that a numeral's default made, so that a checked component
++ * can list those it keeps: one line each, on standard error, when the
++ * environment sets FORTRESS_LITERAL_TRACE.
++ */
++object LiteralDefaults {
++  private val on = System.getenv("FORTRESS_LITERAL_TRACE") != null
++  private val places = java.util.Collections.synchronizedMap(new java.util.IdentityHashMap[Node, String]())
++  private val defaults = java.util.Collections.synchronizedMap(new java.util.IdentityHashMap[Node, java.lang.Boolean]())
++  def made(c: Node, e: Expr, r: Type, place: => String): scala.Unit = {
++    defaults.put(c, java.lang.Boolean.TRUE)
++    if (on) places.put(c, NU.getSpan(e) + " " + r + " at " + place)
++    ()
++  }
++  /** Whether the coercion is a numeral's default, which ranks as no coercion. */
++  def isDefault(c: Node): Boolean = defaults.containsKey(c)
++  /** A coercion of a numeral into its default type, which ranks as no coercion too. */
++  def mark(c: Node): scala.Unit = { defaults.put(c, java.lang.Boolean.TRUE); () }
++  def report(n: Node): Node = {
++    if (on) {
++      object finder extends Walker {
++        override def walk(node: Any): Any = {
++          node match {
++            case c: Node if places.containsKey(c) => System.err.println("LITERAL-DEFAULT " + places.get(c))
++            case _ =>
++          }
++          super.walk(node)
++        }
++      }
++      finder.walk(n)
++    }
++    n
++  }
++}
++
+ /**
+  * Provides the implementation of cases relating to functionals and functional
+  * application.
+@@ -164,8 +199,13 @@ trait Functionals { self: STypeChecker with Common =>
+       if (hasStaticParams(liftedArrow))
+         if (coerce || promote.isDefined)
+           checkApplicableWithCoercion(liftedArrow, preCandidate, context, args, promote)
+-        else
+-          checkApplicableWithInference(liftedArrow, preCandidate, context, args)
++        else checkApplicableWithInference(liftedArrow, preCandidate, context, args) match {
++          // A static argument that only numerals fix is no numeral's own type:
++          // the attempt with coercion reads them by their default.
++          case Left(c) if c.sargs.exists { case STypeArg(_, _, t) => isLiteralType(t); case _ => false } =>
++            Right(errorFactory.makeNotApplicableError(arrow, args))
++          case r => r
++        }
+       else
+         checkApplicableWithoutInference(liftedArrow, preCandidate, args)
+ 
+@@ -183,12 +223,23 @@ trait Functionals { self: STypeChecker with Common =>
+           arrow: ArrowType,
+           preCandidate: PreAppCandidate,
+           context: Option[Type],
+-          args: List[Either[Expr, FnExpr]])
++          args0: List[Either[Expr, FnExpr]])
+           (implicit errorFactory: ApplicationErrorFactory)
+            : Either[AppCandidate, OverloadingError] = {
+ 
+     val originalArrow = preCandidate.arrow
+ 
++    // A numeral at a parameter whose type is a bare static parameter takes its
++    // default before the inference, so that no static argument is a numeral's
++    // own type; the attempt with coercion reads the numerals by their default
++    // where other arguments fix the parameter wider.
++    val sparamNames = getStaticParams(arrow).map(_.getName).toSet
++    val args = zipWithDomain(args0, arrow.getDomain).map {
++      case (Left(e@(_: IntLiteralExpr | _: FloatLiteralExpr)), v: VarType) if context.isEmpty && sparamNames(v.getName) =>
++        Left(defaultNumeral(e, "an inferred static argument of " + originalArrow))
++      case (a, _) => a
++    }
++
+     // Try to check the unchecked args, constructing a new list of
+     // (checked, unchecked) arg pairs.
+     def updateArgs(argsAndParam: (Either[Expr, FnExpr], Type))
+@@ -354,7 +405,7 @@ trait Functionals { self: STypeChecker with Common =>
+                     flatMap(sp => toListFromImmutable(sp.getExtendsClause)).
+                     filter(b => b.isInstanceOf[TraitType] && mentioned(b).isEmpty &&
+                                 !Set("Object", "Any")(b.asInstanceOf[TraitType].getName.getText))
+-      (ts ++ ts.flatMap(coercions.getCoercionTargetsFrom(_)) ++ bound).distinct
++      (ts ++ ts.flatMap(coercions.getCoercionTargetsFrom(_)) ++ bound).distinct.filterNot(isLiteralType)
+     }
+     val choices: List[List[Option[Type]]] = chosen.map { n =>
+       promote match {
+@@ -362,6 +413,9 @@ trait Functionals { self: STypeChecker with Common =>
+           case Some(_: UnionType) => None :: named(n).map(Some(_))
+           case v => List(v)
+         }
++        // A parameter that numerals alone fix takes their default.
++        case None if context.isEmpty && own(n).nonEmpty && own(n).forall(p => isNumeral(p._2)) =>
++          numeralReading(own(n).map(_._2)).toList.map(Some(_))
+         case None => None :: named(n).map(Some(_))
+       }
+     }
+@@ -384,7 +438,8 @@ trait Functionals { self: STypeChecker with Common =>
+         inferStaticParamsHelper(arrow, constraint, false, true, true).getOrElse(return None)
+       if (hasInferenceVars(resultArrow) || hasSizeInferenceVars(sargs)) return None
+       val newArgs = zipWithDomain(checked.zip(argTypes), resultArrow.getDomain).map { case ((e, a), p) =>
+-        if (isSubtype(a, p)) e else coercions.buildCoercion(e, p).getOrElse(return None)
++        if (isSubtype(a, p)) defaultAtUnfixed(e, p, "inferred parameter " + p + " of " + arrow)
++        else coercions.buildCoercion(e, p).getOrElse(return None)
+       }
+       val newArgTypes = newArgs.zip(checked.zip(argTypes)).map { case (n, (e, a)) => if (n eq e) a else getType(n).get }
+       if (!isSubtype(NF.makeMaybeTupleType(NF.typeSpan, toJavaList(newArgTypes)), resultArrow.getDomain)) return None
+@@ -415,25 +470,79 @@ trait Functionals { self: STypeChecker with Common =>
+     }
+   }
+ 
++  /** Whether the type is a numeral's own type, IntLiteral or FloatLiteral. */
++  def isLiteralType(t: Type): Boolean =
++    Formula.isTrue(analyzer.equivalent(t, Types.INT_LITERAL)) ||
++    Formula.isTrue(analyzer.equivalent(t, Types.FLOAT_LITERAL))
++
++  private def isFloatLiteralType(t: Type): Boolean =
++    Formula.isTrue(analyzer.equivalent(t, Types.FLOAT_LITERAL))
++
+   /** Whether the expression is a numeral, or a size used as a value, which the checker types as one. */
+   def isNumeral(e: Expr): Boolean = getType(e) match {
+-    case Some(t) => Formula.isTrue(analyzer.equivalent(t, Types.INT_LITERAL))
++    case Some(t) => isLiteralType(t)
+     case None => false
+   }
+ 
+   /**
+    * The type numerals are read as when nothing narrower fixes them: ZZ32, or
+-   * ZZ64 or ZZ when a numeral's value does not fit; the supertype or coercion
+-   * target of the numeral type with that name.
++   * ZZ64 or ZZ when a numeral's value does not fit, and RR64 when one has a
++   * radix point; the supertype or coercion target of the numeral type with
++   * that name.
+    */
+   def numeralReading(es: List[Expr]): Option[Type] = {
+     val big = es.collect { case l: IntLiteralExpr => l.getIntVal }
++    val float = es.exists(e => getType(e).exists(isFloatLiteralType))
+     val name =
+-      if (big.forall(v => v.bitLength < 32)) "ZZ32"
++      if (float) "RR64"
++      else if (big.forall(v => v.bitLength < 32)) "ZZ32"
+       else if (big.forall(v => v.bitLength < 64)) "ZZ64"
+       else "ZZ"
+-    (analyzer.ancestors(Types.INT_LITERAL).toList.collect { case t: TraitType => t } ++
+-     coercions.getCoercionTargetsFrom(Types.INT_LITERAL)).find(_.getName.getText == name)
++    val from = if (float) Types.FLOAT_LITERAL else Types.INT_LITERAL
++    (analyzer.ancestors(from).toList.collect { case t: TraitType => t } ++
++     coercions.getCoercionTargetsFrom(from) ++
++     (if (float) coercions.getCoercionTargetsFrom(Types.INT_LITERAL) else Nil)).find(_.getName.getText == name)
++  }
++
++  /**
++   * Where nothing fixes a type, a numeral takes its default: ZZ32, or ZZ64 or
++   * ZZ by its value, or RR64 with a radix point, as a coercion that the
++   * coercion desugarer folds into the default type's constant.
++   */
++  def defaultNumeral(e: Expr, place: => String): Expr = getType(e) match {
++    case Some(t) if isLiteralType(t) => numeralReading(List(e)) match {
++      case Some(r) => coercions.buildCoercion(e, r) match {
++        case Some(c) => LiteralDefaults.made(c, e, r, place); c
++        case None => e
++      }
++      case None => e
++    }
++    case _ => e
++  }
++
++  /**
++   * A numeral at a parameter that it fits without conversion, such as one of
++   * type Any, takes its default there, where the default fits the parameter
++   * too; at a parameter of the numeral's own type it stays.
++   */
++  def defaultAtUnfixed(e: Expr, p: Type, place: => String): Expr = getType(e) match {
++    case Some(t) if isLiteralType(t) && !isLiteralType(p) => numeralReading(List(e)) match {
++      case Some(r) if isSubtype(r, p) => defaultNumeral(e, place)
++      case _ => e
++    }
++    case _ => e
++  }
++
++  /**
++   * A numeral written as a dotted receiver takes its default where the
++   * default type has the member; otherwise it stays, as for the prelude's
++   * own (1).asNN32.
++   */
++  def defaultReceiver(e: Expr, has: Type => Boolean): Expr = e match {
++    case _: IntLiteralExpr | _: FloatLiteralExpr =>
++      val d = defaultNumeral(e, "a dotted receiver")
++      if ((d ne e) && getType(d).exists(has)) d else e
++    case _ => e
+   }
+ 
+   /**
+@@ -457,7 +566,7 @@ trait Functionals { self: STypeChecker with Common =>
+       // to the param type, this is a NotApplicableError.
+       case (Left(checked), paramType) =>
+         if (isSubtype(getType(checked).get, paramType))
+-          (Left(checked), None)
++          (Left(defaultAtUnfixed(checked, paramType, "parameter " + paramType + " of " + originalArrow)), None)
+         else coercions.buildCoercion(checked, paramType) match {
+           case Some(coercion) => (Left(coercion), None)
+           case None =>
+@@ -479,7 +588,10 @@ trait Functionals { self: STypeChecker with Common =>
+     // Make sure that all the args were checked. If any remain unchecked, gather
+     // up all the inference errors into an overloading error.
+     val (newArgs, maybeErrors) = arrow.getDomain match {
+-          case _:AnyType => (args, None)
++          case d:AnyType => (args.map {
++                               case Left(e) => Left(defaultAtUnfixed(e, d, "parameter Any of " + originalArrow))
++                               case a => a
++                             }, None)
+           case _ => (newArgsAndErrors).unzip
+         }
+     if (newArgs.count(_.isRight) != 0) {
+@@ -706,7 +818,7 @@ trait Functionals { self: STypeChecker with Common =>
+     }
+     def candidatesOf(es: Attempt): List[Ranked] = es.collect { case (Left(c), d, p) => (c, d, p) }
+     // A coercion the call needs, not one the promotion introduced.
+-    def counted(c: Ranked) = !c._3 && c._1.args.exists(_.isInstanceOf[CoercionInvocation])
++    def counted(c: Ranked) = !c._3 && c._1.args.exists(a => a.isInstanceOf[CoercionInvocation] && !LiteralDefaults.isDefault(a))
+     // An attempt by subtyping holds the candidates that fit the call without a
+     // coercion it needs; an attempt with coercion holds all it finds.
+     def holds(es: Attempt, coerce: Boolean) =
+@@ -791,6 +903,29 @@ trait Functionals { self: STypeChecker with Common =>
+     def numeralTie(): Option[Ranked] = {
+       val exprs = args.map(_.left.toOption)
+       val n = exprs.size
++      // Each numeral read at its default: of the candidates that the arguments
++      // so read fit without coercion, the one more specific than the others.
++      val read = exprs.map(_.flatMap(e => if (isNumeral(e)) numeralReading(List(e)) else getType(e)))
++      if (exprs.exists(_.exists(isNumeral)) && read.forall(_.isDefined)) {
++        val ts = read.map(_.get)
++        val fit = candidates.filter(c => paramTypes(c).size == n &&
++                                         ts.zip(paramTypes(c)).forall { case (a, p) => isSubtype(a, p) })
++        fit.filter(c => !fit.exists(d => !(d eq c) && moreSpecific(d, c))) match {
++          case List(c) => return Some(c)
++          case _ =>
++        }
++        // Else the candidates that the numerals so read fit without coercion
++        // and the other arguments fit, by coercion where need be.
++        val numeralFit = candidates.filter(c => paramTypes(c).size == n &&
++          (0 until n).forall(i => exprs(i).exists(isNumeral) match {
++            case true => isSubtype(ts(i), paramTypes(c)(i))
++            case false => coercions.substitutableFor(ts(i), paramTypes(c)(i))
++          }))
++        numeralFit.filter(c => !numeralFit.exists(d => !(d eq c) && moreSpecific(d, c))) match {
++          case List(c) => return Some(c)
++          case _ =>
++        }
++      }
+       if (top.exists(c => paramTypes(c).size != n)) return None
+       val tiedTypes = top.map(paramTypes)
+       val differ = (0 until n).filter(i =>
+@@ -1131,7 +1266,8 @@ trait Functionals { self: STypeChecker with Common =>
+     }
+ 
+     case SMethodInvocation(SExprInfo(span, paren, _), obj, method, sargs, arg, _, _) =>{
+-      val checkedObj = checkExpr(obj)
++      val checkedObj = defaultReceiver(checkExpr(obj),
++        t => getCandidatesForMethod(t, method, sargs, expr).exists(_.nonEmpty))
+       val recvrType = getType(checkedObj).getOrElse(return expr)
+       val preCandidates = getCandidatesForMethod(recvrType, method, sargs, expr).getOrElse(return expr)
+       if (preCandidates.isEmpty) {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala
+index 6d4a137da0..130f9599e0 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala
+@@ -344,7 +344,7 @@ trait Misc { self: STypeChecker with Common =>
+   def checkExprMisc(expr: Expr, expected: Option[Type]): Expr = expr match {
+ 
+     case fr@SFieldRef(SExprInfo(span, parens, _),obj,field) => {
+-      val checkedObj = checkExpr(obj)
++      val checkedObj = defaultReceiver(checkExpr(obj), t => getGetterType(field, t).isDefined)
+       val recvrType = getType(checkedObj).getOrElse(return expr)
+       val fieldType = getGetterType(field, recvrType)
+       fieldType match {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala b/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
+index 0034d113cb..6efe3110fc 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala
+@@ -1143,8 +1143,11 @@ object STypesUtil {
+     }
+ 
+     // Determine if a coercion occurred.
+-    val coercion1 = !promoted1 && args1.exists(_.isInstanceOf[CoercionInvocation])
+-    val coercion2 = !promoted2 && args2.exists(_.isInstanceOf[CoercionInvocation])
++    // A numeral's default is no coercion here.
++    def coerced(a: Expr) = a.isInstanceOf[CoercionInvocation] &&
++      !com.sun.fortress.scala_src.typechecker.impls.LiteralDefaults.isDefault(a)
++    val coercion1 = !promoted1 && args1.exists(coerced)
++    val coercion2 = !promoted2 && args2.exists(coerced)
+     lazy val d1 = declared1.getOrElse(candidate1.arrow)
+     lazy val d2 = declared2.getOrElse(candidate2.arrow)
+ 
