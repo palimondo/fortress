@@ -26,19 +26,17 @@ registry parameters, and the like.
     args does *not* include the program name.  Programmers should use
     programName to access this information.
 **)
-args : ImmutableArray[\String,ZZ32\] = getProgramArgs(getProgramArgsPrim())
+args : ImmutableArray[\String,ZZ32\] =
+    immutableArray[\String\](programArgCount()).tabulate(fn (i:ZZ32): String => programArg(i))
 
-getProgramArgsPrim(): ImmutableArray[\String,ZZ32\] = builtinPrimitive("com.sun.fortress.interpreter.glue.prim.StringPrim$GetProgramArgs")
-
-(* Impedence matcher to get types right.  Sigh. *)
-getProgramArgs[\T extends String, int n\](r0:PrimImmutableArray[\T,n\]): PrimImmutableArray[\String,n\] =
-    r0.replica[\String\]().tabulate(fn (i:ZZ32): String => r0.get(i))
+private programArgCount(): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.programArgs.count")
+private programArg(i: ZZ32): String = builtinPrimitive("com.sun.fortress.nativeHelpers.programArgs.at")
 
 (** programName is the name by which the Fortress program was invoked. **)
 programName : String = ""
 
 (** A way to get environment information from inside of fortress *)
-getEnvironment(name:FlatString, defaultValue:FlatString):String = builtinPrimitive("com.sun.fortress.nativeHelpers.systemOps.getEnvironment")
+getEnvironment(name:FlatString, defaultValue:FlatString):String = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.getEnvironment")
 getEnvironment(name:String, defaultValue:String):String =
     typecase (name.asFlatString, defaultValue.asFlatString) of
         (n:FlatString, d:FlatString) ⇒ getEnvironment(n, d)
@@ -48,7 +46,7 @@ getEnvironment(name:String, defaultValue:String):String =
 (** A way to get fortress-style property information (that can be
    overridden by environment variable settings; uses the same code as
    property settings for the fortress implementation itself). *)
-getProperty(name:FlatString, defaultValue:FlatString):String = builtinPrimitive("com.sun.fortress.nativeHelpers.systemOps.getProperty")
+getProperty(name:FlatString, defaultValue:FlatString):String = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.getProperty")
 getProperty(name:String, defaultValue:String):String =
     typecase (name.asFlatString, defaultValue.asFlatString) of
         (n:FlatString, d:FlatString) ⇒ getProperty(n, d)

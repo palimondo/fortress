@@ -76,6 +76,17 @@ public class stringOps {
     public static String lineSeparator() {
         return System.getProperty("line.separator");
     }
+
+    /* The run's property what, or ifMissing where it is not set: System's getProperty. */
+    public static String getProperty(String what, String ifMissing) {
+        return com.sun.fortress.repository.ProjectProperties.get(what, ifMissing);
+    }
+
+    /* The environment variable name, or ifMissing where it is not set: System's getEnvironment. */
+    public static String getEnvironment(String name, String ifMissing) {
+        String result = System.getenv(name);
+        return result == null ? ifMissing : result;
+    }
     
     public static String asString(fortress.AnyType.Any a) { // this can't be right! DRC
         //        return "<" + a.getClass() + ">";
