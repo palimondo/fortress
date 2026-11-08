@@ -29,6 +29,7 @@ import com.sun.fortress.scala_src.useful.Iterators._
 import com.sun.fortress.scala_src.useful.ErrorLog
 import com.sun.fortress.scala_src.useful.Lists._
 import com.sun.fortress.scala_src.useful.Options._
+import com.sun.fortress.scala_src.useful.PartialOrder
 import com.sun.fortress.scala_src.useful.Sets._
 import com.sun.fortress.scala_src.useful.SExprUtil._
 import com.sun.fortress.scala_src.useful.SNodeUtil._
@@ -236,8 +237,9 @@ class CoercionOracle(traits: TraitTable,
     val arg = maybeArg.get
     val argSpan = NU.getSpan(arg)
 
-    // Build app candidates and sort them to find the SMA.
-    val candidates = coercionsAndArgs.map { caa => {
+    // Build app candidates and sort them to find the SMA, in a linear
+    // extension of the partial order moreSpecificCandidate.
+    val built = coercionsAndArgs.map { caa => {
       if (false) {
           AppCandidate(caa._2, caa._3, List(arg), None, None)
       } else {
@@ -252,9 +254,9 @@ class CoercionOracle(traits: TraitTable,
                        Some(caa._4))), None)
           }
       }
-    }.toList.sortWith { (c1, c2) =>
-      moreSpecificCandidate(c1, c2)(this)
-    }
+    }.toList
+    val candidates = new PartialOrder[AppCandidate](built, (c1, c2) =>
+      moreSpecificCandidate(c1, c2)(this)).linear
     val AppCandidate(bestArrow, bestSargs, _, bestOverload, bestFnl) = candidates.head
     val coercionId = makeCoercionId(u)
     
