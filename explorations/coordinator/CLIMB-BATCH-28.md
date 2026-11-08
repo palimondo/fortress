@@ -366,3 +366,88 @@ Two, each consequential by the `coordinator` skill's test. Without his answer, t
 - **The figures.** V is the largest: 25 getters, the low-bits names, the callers, `IntLiteral`'s 8, a specification revision with the build; above rung I (338K). R mirrors rung W (294K) on three objects and two components. A is walk Java, a run-time class, a helper class, the library's arrays and a four-thread test: W's size and more. K is a 60-line Scala class at four sites with P-148's three count runs and a profile, about rung G (286K). H is six helpers, six table entries, a pair and two tests. S is two helpers, two strings and a guard, with Q3 two more helpers and `args`. T is one method and two tests with an api.
 - **Minutes, for the scatter:** V 60, R 50, A 60, K 50, H 40, S 30, T 35, against climb batch 27's workers' 24 to 49.
 
+## 3. The forks, with their defaults
+
+**Consequential** means what the `coordinator` skill's `SKILL.md`, "The curator's role and decisions", gives: it reverses, bends or reads anew a decision of his; it touches microGPT's lines, speed or readability; it chooses among ways that the record does not settle, where the three principles split or are silent; or it cannot be undone.
+
+### The questions for the curator
+
+Q2, the store's shape, and Q3, `System`'s arguments, are in section 2. Their defaults: Q2 (1), a cell per element; Q3 (1), now, in rung S. Both are consequential: Q2 touches microGPT's speed until decision A, and Q3 decides whether `System`, which microGPT imports, loads compiled at the switch-over.
+
+### Forks the batch takes, none consequential
+
+Each default can be undone, none reverses a decision of his, and none touches a model line or the model's speed. Where the record leaves a choice open, the default follows the team's own source or the library's way, which the fork names.
+
+**For the whole batch**
+
+1. **Seven rungs, V, R, A, K, H, S, T, in the manifest's order; none lands only with another; no two change one declaration.** Default: so. A leaves the manifest without Q2's answer, and S builds its first half without Q3's. The files that two rungs share, and each rung's place in each, are in section 4, "The rule the rungs keep, and how they meet". The gather orders the rungs that share a file by its own rule.
+2. **The suites each rung runs, once, after its last change of code** (the `fortress-repo` skill's `tests-running.md`, "When to run a whole suite"). Default: V, R, A, H and S edit the library and a helper class that a binding names, and R, A and H walk too, so each runs `ant testSystem` and `ant testQuick` once, and its compiled guards through `junit.sh`; A also runs its compiled store's test at four threads. K edits the checker, so it runs `ant testQuick` once after its second pass (`compiler.md`, "The checker's time", step 4), and its compiled test through `junit.sh`. T edits the code generator only, so it runs its own tests through `junit.sh` and the harness and leaves the tracks to the gate, as climb batch 27's rung G did.
+3. **Every rung but T runs the count stage and the distance stage once each, on its final tree, after its edit and rebuild.** Default: so; the before is climb batch 27's gate tables, the count 0 and the distance 0 with two crash rows (`compile-ladder/climb-batch-27/gate/checker-count.txt` and `distance.txt`): run neither stage on the base. K runs the count stage three times by P-148 (base, change, pass) and the distance once on its final tree. On a rung's own tree the crash rows may stay, go or move (section 1, the common fields); the rung reports them and declares none. T changes only the code generator, which neither stage runs, so it lists its files (`STAGE_BLIND`), unless its fix changes the checker (fork T1).
+4. **No new helper holds shared state but S's arguments, written once before the program runs** (review-queue item 335). Default: item 335's default, neither a static check nor a parallel test, stands; S's static is set by walk's driver and by the compiled main before the program's first task.
+5. **Appendix I's natives effect** (`Specification/appendices/changes.tex:4625-4658`, "341 of the 443 bindings") is made false by every natives rung. Default: no rung edits it; the gather writes the merged tree's count there, as climb batch 27's gather did (item 380).
+6. **Item 403 stays his.** K removes the crash; whether a later undeclared crash in the distance turns a gate red is not decided here.
+
+**Rung V**
+
+7. **V1. The checked getters: a Fortress body where no helper exists, the existing helper where one does.** Default: a getter that can raise is a Fortress body, a range test and `throw IntegerOverflow` around the low-bits form, as `QQ`'s `truncate` throws `DivisionByZero`; the three pairs that have a helper bind it, `ZZ64` to `ZZ32` on `simpleIntArith.longOverflowingToInt` and `NN64` and `ZZ64` to `NN32` on `simpleUnsignedIntArith.longOverflowingToUnsignedInt`, as Steele's prelude binds `asZZ32`. The ways not taken: every getter a Java helper, about four new helpers by the review's reading, up to ten (`reviews/integer-conversions-2026-11-06.md`, option 3, "Helpers"); every getter in Fortress. The review leaves it to the rung; this default adds no Java beyond the review's three pairs.
+8. **V2. `IntLiteral`'s 8 in rung V.** Default: so: four of them, `asZZ32`, `asZZ64`, `asNN32` and `asNN64`, are `self.asZZ` followed by `ZZ`'s checked getters, which V adds, so they cannot sit in another rung of this batch; the other four, `asString`, `asExprString`, `=` at `IntLiteral` and `cmp`, are written beside them. The ways not taken: the four that need no getter in a small rung of their own, two rungs on adjacent lines of one object; all 8 in climb batch 29. P-169 asks for them "before the names batch".
+9. **V3. `IntLiteral`'s 8 over `asZZ`, not over `ZZ64`** (the judgement's 3.3, row 328): `asString` and `asExprString` both `self.asZZ.asString`, as walk's glue answers both by `IntLiteral$ToString`; `=` as `self.asZZ = b.asZZ`; `cmp` -1, 0 or 1 by `ZZ`'s order, as the glue's `compareTo`. Default: so. `asZZ`, `asFloat` and the 19 that answer an `IntLiteral` stay on glue until N5.
+10. **V4. The callers of `ZZ`'s `narrow` and `widen`, moved as the review gives them** (option 6, "Callers moved"): `Library/Format.fss:70`, `:117`, `:122`; `Library/QuickCheck.fss:320`, `:322`, `:323`; the demo `ProjectFortress/demos/sudoku.fss:42-43`, two lines of the team's demo, which become `(truncate(i/3)).asZZ32`; the test `compiler_tests/XXXZZNarrowRungP.fss`, rewritten for `.asZZ32`; and rung I's private count functions in `Library/FortressLibrary.fss`, `shiftCount32`'s and `powerCount32`'s calls of a `ZZ`'s `narrow` (`:723`, `:756`), each under a guard that keeps the value in range, which become `.asZZ32`. Default: so, each value unchanged. Each line is a point for his sight.
+11. **V5. The low-bits names declared on every type where they apply,** by the review's option 1 list of nine identities and owners, `ZZ` excepted for `narrow` and `widen` (option 6). Default: so; rows 858 and 859 close.
+12. **V6. The specification:** the getters' sentences beside `Specification/basic-lib/basic-integers.tex:39-45`, `ZZ` dropped from `narrow`'s sentence, an Appendix I entry in the revision form (P-96). Default: so, as P-161 asks.
+
+**Rung R**
+
+13. **R1. The reader trait's `read(): Char` on `jbrRead`, the prelude's method, and the -1 at the end in Fortress.** Default: `JavaBufferedReader.read(): Char` is a bare binding on `fileOps.jbrRead`, which answers 0 at the end and sets `eof` (`compiler/runtimeValues/FortressBufferedReader.java:55-70`); walk carries `Char` in an `int`, and the compiled rewrite passes the result through its transfer helper. `FileReadStream`'s and `Reader`'s `uncheckedReadChar(): ZZ32` answer -1 where `under.eof` is set after the read, else the character's `codePoint`, so the library's `characters` generator still ends (section 5, probe 5). The ways not taken: a fourth new helper that answers -1, beside P-164's three; `read(): ZZ32`, which leaves the prelude's method.
+14. **R2. `FileWriteStream` a `WriteStream`, with its `flush`** (fork W5's last step; rows 900, 901, 841). Default: so: `object FileWriteStream(fileName: String, under: JavaBufferedWriter) extends { FileStream, WriteStream }`, its `write`s, `flush` and `close` over `under`, as `Writer`'s are. The library's way: `Writer` is a `WriteStream` over the same trait. The way not taken: `FileStream` alone, as the team declared it, with rows 900 and 901 left open.
+15. **R3. The glue classes of the three objects stay in the tree, unused,** as rung W left `interpreter/glue/prim/Writer.java` and `BufferedWriter.java`. Default: so; their removal belongs to the names batch's clean-up. The way not taken: delete them in this rung.
+16. **R4. The factories `makeJavaBufferedReader(name: FlatString)` on `jbrOpen`, the prelude's name, and `makeJavaBufferedStdIn()` on a new `jbrStdIn`, in UTF-8,** as rung W named the writer's (its decision 3). Default: so; `stdIn` is `Reader("<stdin>", makeJavaBufferedStdIn())`.
+17. **R5. The printed texts kept:** `FileReadStream`'s `asString` `<Read handle to "…">`, `FileWriteStream`'s `<Write handle to "…">`, `Reader`'s `Reader on "…"`, each in Fortress over `fileName`. Default: so.
+18. **R6. A missing file raises `FileNotFoundException`, and a read after `consume` or a write after `close` raises `IOFailure`, each of the library, which a `catch` sees** (rows 902 and 903's form; fork W4). Default: so, as the helpers raise them; a program that stopped with walk's uncatchable error now stops with the exception's text, or catches it. A point for his sight. Item 384, whether the exceptions carry the helper's message, stays his, at its default: they carry none.
+19. **R7. The objects' api headers:** `object FileReadStream(fileName: String, under: JavaBufferedReader)`, `object Reader(fileName: String, under: JavaBufferedReader)` and `FileWriteStream`'s, with the one-argument factories kept, `FileReadStream(filename: String)` as the team named its parameter. Default: so; `Reader`'s `isReady` keeps its name.
+
+**Rung A, if Q2 is answered**
+
+20. **A1. The store's shape: Q2's answer, by default a cell per element.**
+21. **A2. The store trait, `JavaArrayStore`, with `get(i: ZZ32): Any`, `put(i: ZZ32, v: Any): ()`, `init(i: ZZ32, v: Any): Boolean` and the factory `makeJavaArrayStore(n: ZZ32)`; and `JavaRR64ArrayStore` with `get(i: ZZ32): RR64`, `init(i: ZZ32, v: RR64): Boolean` and its factory, for `PrimImmutableRR64Array`.** Default: so, in the family of the I/O traits' names, a trait whose values a Java class holds. The ways not taken: a generic trait, whose read at `T` the checker refuses against the helper's `Object` (`compiler/NamingCzar.java:487`); one trait for both stores, which a `double[]` class cannot implement at `Any`.
+22. **A3. A read is `cast[\T\](mem.get(i))`, by P-162's pair.** Default: so (P-169, "Gives up"); the rung times one walk program's array reads before and after, since every walk read now passes a Fortress method and a `typecase`. The way not taken: a checker rule for a binding at a type parameter.
+23. **A4. Walk's loader answers every name of `nativeHelpers.arrayOps` by one rule, the method's name to walk's store glue, where the loader reads the string** (`interpreter/glue/NativeApp.java:209`), apart from H's table entries (`:47-53`). Default: so, as P-169 has walk's loader answer the numerals' names by a rule per class; a misspelt name is still refused at load. The way not taken: table entries beside H's, which would put the merge at risk.
+24. **A5. `NativeArray` a plain component; walk's two native objects in `FortressBuiltin`, right after `trait Object`'s end.** Default: so, apart from R's native object at the component's end.
+25. **A6. The compiled store's test is a Java unit test** (a `*JUTest` under `ProjectFortress/src/`) of `arrayOps` and the store class, outside and inside compiled transactions on the compiled task pool at four threads. Default: so: the wrapper generator wraps every method of a helper class and fails the import on a type that the prelude does not declare (`fortress-repo`, `compiler.md`, "Natives"), and no declaration may be added to the prelude (P-37), so no compiled Fortress program can bind `arrayOps` before the switch-over. A walk test holds walk's half; the two halves meet at N5.
+26. **A7. Row 466 stays:** the store keeps today's rule that a second initialisation of an element is ignored. Default: so.
+
+**Rung K**
+
+27. **K1. One class, `scala_src/useful/PartialOrder.scala`, used at the four sites,** over a list and a strict order, reading each pair at most once: `minimal` and a linear extension `linear`. Default: so, the prototype of section 5, probe 2. The ways not taken: a rank sort, correct and twice as slow by the brief's measurement; Java's legacy merge sort, which raises nothing and is still wrong on a partial order.
+28. **K2. A tie keeps the first minimal candidate in the list's order,** where the old code kept the head of TimSort's order. Default: so; on the one library the probe's tables and `run.txt` files are equal outside the crash. The way not taken: none that is deterministic.
+29. **K3. `callType` takes the head of `minimal`, and sorts nothing.** Default: so.
+30. **K4. The compiled test: 64 candidates of two chains of traits, in an order that stops the base's checker,** found by the planner's generator at the test's own name and path (section 4, rung K). Default: so; the shuffle that stopped the base in probe 2 may not stop it under another name, since the order follows the names.
+31. **K5. The memo is audited on one full run,** by `compiler.md`, "The checker's time", step 5, in an instrumented copy. Default: so.
+
+**Rung H**
+
+32. **H1. The six helpers in `nativeHelpers/runtime.java`,** the team's class over the compiled run time (`loopChunk`, `numThreads`). Default: so; the checker reads the class whole, and every method maps. The way not taken: a new class.
+33. **H2. `Thread`'s four raise `FailCalled` on the compiled path, "spawn is not compiled yet", by the prelude's name `fortress.CompilerLibrary$FailCalled`, as the raise strings name the prelude's types until N5; `val` is a pair, `val(): T = cast[\T\](valAny())` over a bare binding at `Any`.** Default: so (P-169). Walk answers all four with today's glue, so walk's `spawn` does not change.
+34. **H3. Compiled `abort` throws the compiled `TransactionAbortException` when `BaseTask.inATransaction()`, and does nothing outside a transaction; `printTaskTrace` prints the compiled task chain, one line a task, as walk's does.** Default: so (`Specification/advanced/parallelism-locality/transactions.tex`, "Abortable Atomicity").
+35. **H4. The six names in walk's table** (`NativeApp.java:47-53`), each to its glue class. Default: so.
+
+**Rung S**
+
+36. **S1. `systemOps` keeps `getProperty`, which the prelude imports, and `getArgs`; `getEnvironment` leaves it.** Default: so, climb batch 27's fork S1.
+37. **S2. Row 895 closes with `--test none` and a note that names the rung's two runs of the checker over `System`.** Default: so, climb batch 27's fork S2.
+38. **S3 (with Q3). The two helpers in a new class `nativeHelpers/programArgs`, `count()` and `at(int)`, over one static `String[]` that walk's driver (`StringPrim.GetProgramArgs.registerProgramArgs`) and the compiled main (`runtimeSystem/MainWrapper.java`, `cachedArgs`) both set.** Default: so; not `stringOps`, beside S's first half, and not `systemOps`, which the checker cannot read (row 895).
+39. **S4 (with Q3). `args` by `immutableArray[\String\](count).tabulate(…)`; `getProgramArgsPrim` and `getProgramArgs` deleted, neither in `System.fsi`.** Default: so, probe 3's control B.
+
+**Rung T**
+
+40. **T1. The fix is in the comparison that stops, in `dumpMethodChaining`.** Default: so; if it must change the checker's trait table, that is a change of checking code, and T takes P-148's measure.
+41. **T2. Row 732, the sibling in the same method, is not T's.** Default: so.
+
+### Points the batch lists for him, not questions
+
+- **The team's lines changed:** `sudoku.fss:42-43` (V4); the library's `Format.fss` and `QuickCheck.fss` callers (V4); `File.fsi`'s and `Reader.fsi`'s headers (R7); `NativeArray.fss` whole (A).
+- **What walk does differently:** a missing file and a read after `consume` raise the library's exceptions, which a `catch` sees (R6); `FileWriteStream` takes a rope and has `flush` (R2); walk's array reads pass a Fortress method and a cast (A3).
+- **What the compiled path does differently, once it reads the one library:** `abort` works and `Thread`'s four raise (H2, H3); arrays run on the compiled store (A); `System` loads (S with Q3).
+- **What the checker does differently:** a call with 32 candidates or more is checked; `Char`'s body is checked again (K).
+- **The specification:** the integers' sentences and their Appendix I entry (V6).
+
