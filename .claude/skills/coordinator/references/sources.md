@@ -416,3 +416,10 @@ The same landing brought in line the record-landing workflow's `README.md`, stag
 ## An unread page item shows the current text, 2026-11-08
 
 - `SKILL.md`, "Pages", the bullet on the page of skill drafts and the page of `fortress-repo` changes, and `references/skill-rewrite.md`, "The method", step 7, "Landed changes": an unread item always shows the skill's current text, and a later change to its passage is folded into the item, with its own reason beside the earlier one, not made a new item. From the curator's comment of 2026-11-08, about 07:15 UTC, on the page of `fortress-repo` changes, when change 39 showed words that a later change had rewritten: "Why wasn't the page updated to reflect the current state of the skill? That's a violation of all that is holy."
+
+## The cold read of `71272d7484`, 2026-11-08
+
+From the cold read of `6ec749a8eb` and `71272d7484`; settled by the coordinator.
+
+- `SKILL.md`, "Pages": the rule on a folded change kept there alone, with "an item that the curator has not said they read" in place of the undefined "unread item".
+- `references/skill-rewrite.md`, "The method", step 7, "Landed changes": the sentence that repeated the rule replaced by the form of a folded item: the text before its first change struck through, every word added since marked, each change's reason in order; the curator's read word drops it only if the fold was published before the word's time; a change across two such items folded into each, its part outside them an item of its own; a draft's landing fix folded too.
