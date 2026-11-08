@@ -1,0 +1,42 @@
+<!-- Preservation check, update mode, of climb batch 28's orientation update: `orientation.md` against the skill's current `references/revival-changes.md` (last changed at `4ccaeaaf5`; `main` at `72bad2e25`) and `admission.md`, with the admitted and folded entries' FACTS and POSITIONS text, ledger row 349, the rung report, the batch record's section V and the tree. Nothing was run but reads and searches. -->
+
+# Climb batch 28: preservation check
+
+The diff against the current part is one addition, the new rule at `orientation.md:93` (763 characters), placed after "Arguments convert by declared coercions, and a generic call promotes" as the admission asked. Nothing of the old part was changed or removed. Two failures, both of low weight. Neither gives a wrong value under walk.
+
+## Failures
+
+### 1. "Each is declared on every type where it applies" is true under walk only, and the compiled half of row 349 is dropped
+
+- **Source.** F-331: "`narrow`, `widen`, `signed`, `unsigned` and `big` keep the bits, each on every type where it applies; on a value that already has its result type, as `widen` of a `ZZ64`, each returns the value. ... Meaning: under walk no conversion goes through a coercion". Row 349, which the new rule cites: "compiled, the prelude has 8 of the 25 checked getters ..., none on `ZZ`, no `big`, and no `narrow`, `widen`, `signed` or `unsigned` that returns its argument". Its notes add: "`narrow` of a `ZZ32` 43 compiles by coercion through `ZZ64`'s `coerce(x: ZZ32)` (`CompilerBuiltin.fss:580`) and gives 43."
+- **New.** `orientation.md:93`: "Each is declared on every type where it applies." The sentence has no path qualifier. The rule's one compiled sentence reads: "Until the switch-over, the compiler's prelude has 8 of the 25 getters, none on `ZZ`, and no `big` (row 349)." F-331's identity clause ("each returns the value") is not kept.
+- **Tree.** `CompilerBuiltin.fsi` declares only `narrow` and `unsigned` on `ZZ64` (`:206-207`), `widen` and `unsigned` on `ZZ32` (`:269-270`), `widen` and `signed` on `NN32` (`:328-329`), and `narrow` and `signed` on `NN64` (`:386-387`). Its coercions are `ZZ32` to `ZZ64`, `NN32` to `NN64`, and every integer type to `ZZ` (`CompilerBuiltin.fss:518-522`, `:580`, `:821`).
+- **Consequence.** Until the switch-over, a compiled `widen` of a `ZZ64` or an `NN64`, a `signed` of a `ZZ32` or a `ZZ64`, and an `unsigned` of an `NN32` or an `NN64` find no declaration and no coercion, so the checker refuses them. I derived this from the declarations and did not run it. A compiled `narrow` of a `ZZ32` or an `NN32` reaches the wider type's `narrow` by coercion and gives the same value (row 349). So no value is wrong. Some per-type code that compiles under walk is refused compiled, and the rule's limit sentence does not cover it. Without F-331's identity clause, "where it applies" is also ambiguous. A reader can take it to exclude the types where the name changes nothing, such as `widen` of a `ZZ64`. **Fix:** end the limit sentence with "..., no `big`, and no `narrow`, `widen`, `signed` or `unsigned` that returns its argument (row 349)". Or open the sentence with "Under walk," at 12 characters, and leave the rest to row 349.
+
+### 2. The wrap example covers only half of the values that do not fit
+
+- **Source.** F-172: "`narrow` converts a `ZZ64` to `ZZ32`, and an `NN64` to `NN32`, by keeping the low 32 bits, so a value that does not fit wraps." The admission's guidance: "give one example of a silent wrap: `narrow` of a `ZZ64` beyond `ZZ32`".
+- **New.** `orientation.md:93`: "So `narrow` of a `ZZ64` above 2^31-1 wraps silently."
+- **Consequence.** A `ZZ64` below -2^31 wraps too. That is true under walk, where `narrow` is `simpleIntArith.longWrappingToInt` (`Library/FortressLibrary.fss:966-967`), and on the compiled path (`jLongWrappingToInt`, `CompilerBuiltin.fss:659`). The rule's previous sentence, "keep the low bits", implies it. But the example names only the positive bound. A worker who narrows a difference that may be negative, as the quiz's case 17 does with `narrow(hi - lo)`, can take negative values to be safe. **Fix:** "So `narrow` of a `ZZ64` outside `ZZ32`'s range wraps silently." The length is about the same.
+
+## Checked and kept
+
+- **P-161, F-331.** These parts of the rule are kept:
+  - The five getters keep the value or raise `IntegerOverflow`, and they are the way to convert a value. All 25 are in the tree, checked at `Library/FortressLibrary.fsi:500-504`, `:568-572`, `:644-648`, `:719-723` and `LibraryBuiltin/FortressBuiltin.fsi:135-139`.
+  - The five low-bits names keep the bits and never raise.
+  - `ZZ` has `big` only (`FortressLibrary.fsi:772`).
+  - The remedy `z.asZZ32` is kept, with walk's "no declaration" for `narrow(z)`. The rung report's "Programs run old against new" gives walk's actual message: 'Failed to find any matching overload, args = (4294967301:ZZ)'.
+  - The `bitsAs…` getters are kept. They are on all four fixed widths on both paths (`FortressLibrary.fss:776`, `:884`, `:995`, `FortressBuiltin.fss:446`; `CompilerBuiltin.fsi:152`, `:214`, `:277`, `:337`), so the rule rightly gives them no path qualifier.
+  - The limit "8 of the 25, none on `ZZ`, no `big`" matches row 349 and `CompilerBuiltin.fsi:150-151`, `:212-213`, `:275-276`, `:335-336`.
+  - On the compiled path the 8 getters raise as walk's do: `asZZ32` of a `ZZ64` is `jLongOverflowingToInt` (`CompilerBuiltin.fss:581`), and the other seven are identities or `asZZ`. So "keeps the value or raises" needs no qualifier for them.
+  - The rule leaves out these, as the admission asked: the counts of 5, 7 and 13, `IntLiteral`'s eight, the helpers' names, the respelled callers and the team's raising `narrow`.
+  - The rule also leaves out P-161's "`unsigned` of a negative value keeps the low bits, with `x.asNN32` or `x.asNN64` as its check". The admission's guidance allowed one wrap example, and the general rule implies this case. The writer's log records the choice.
+- **F-132 (folded).** "Three kinds of operation raise nothing: ... the low-bits conversions `narrow`, `widen`, `signed`, `unsigned` and `big`" is kept in "never raise". The core's "Overflow raises `IntegerOverflow`" (`SKILL.md:133`) now has this exception stated in the orientation.
+- **F-172 (folded).** These are kept: the getters, "keep the bits and throw nothing", and "`ZZ` has neither `narrow` nor `widen`". Its `basic-integers.tex:39-98` citation is in `sources-mapping.md`. Its shift, `GCD` and power sentences did not change, and P-153 still states the power rule (`orientation.md:97`).
+- **F-307 (folded).** "`signed` above the signed half wraps, as a low-bits name does" is covered by "keep the low bits and never raise". The bindings go to the destination `interpreter.md`, "Natives". That part has no line for the small rest's bindings, but they are natives detail, which the admission did not admit to the orientation.
+- **"as Java's `(int)` does".** P-161 and F-331 do not contain this phrase. It comes from the admission's default ("Java's `(int)` cast ... wrap silently"). Java's `(int)` of a `long` keeps the low 32 bits and throws nothing, so the comparison holds for the names that narrow. For `widen` and `big` it is an analogy, not a claim about what they compute. I do not count it as a failure.
+- **`sources-mapping.md`.** It holds every item that the admission routes to `sources.md`: P-161 and F-331; the rung report's "What changed and why" and "Programs run old against new"; `basic-integers.tex:39-98`; row 349; and the history. The history's raising `narrow`, "Overflow of ZZ32", matches `climb-batch-28/RECORD.md`, section V (`:177`). The tree citations match the lines I read.
+
+## Count
+
+The disposition table has 53 rows. I checked the 2 admitted rows (P-161, F-331) and the 3 rows folded into the edit (F-172, F-132, F-307), each against the new rule and against the destinations the table names. The other 48 rows were not admitted. As in climb batch 27's check, they are the area parts' work, under "Elsewhere", and I did not check them. The diff removes no passage of the old part. Failures: 2. Both are one-clause wording changes to `orientation.md:93`. Failure 1 is a compiled-path qualifier. Failure 2 widens the example's bound. Apart from preservation, the rule is 763 characters, against the admission's 600, in a part that was already 24,152 characters against a budget of 8K to 12K. The writer's log reports this.
