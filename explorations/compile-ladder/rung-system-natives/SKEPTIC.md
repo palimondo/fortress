@@ -38,7 +38,7 @@ On the compiled path (`bin/fortress compile P.fss` then `run P`, and `old-fortre
 
 ## The fixes
 
-1. **`3932dee8`, a test (correction).** Finding: `ProjectFortress/compiler_tests/NativeHelperProgramArgsCompiled.fss:9` asserts the count 0 only, so no gated test checks that the compiled main's arguments reach `programArgs`, the point the worker measured by hand. The new `compiler_tests/NativeHelperProgramArgsPassedCompiled.fss` and `.test` pass `arg1=a` and `arg2=b c` and assert the count 2 and both arguments. Failing on the base's code: `old-fortress.sh /home/user/fortress-base28 .../tmp/old-caches junit .../NativeHelperProgramArgsPassedCompiled.test`:
+1. **`3932dee8`, a test (correction).** Finding: `ProjectFortress/compiler_tests/NativeHelperProgramArgsCompiled.fss:10` asserts the count 0 only, so no gated test checks that the compiled main's arguments reach `programArgs`, the point the worker measured by hand. The new `compiler_tests/NativeHelperProgramArgsPassedCompiled.fss` and `.test` pass `arg1=a` and `arg2=b c` and assert the count 2 and both arguments. Failing on the base's code: `old-fortress.sh /home/user/fortress-base28 .../tmp/old-caches junit .../NativeHelperProgramArgsPassedCompiled.test`:
 
        . link .../NativeHelperProgramArgsPassedCompiled .../NativeHelperProgramArgsPassedCompiled.fss:5:36-83:
            builtinPrimitive names no static helper: com.sun.fortress.nativeHelpers.programArgs.count
