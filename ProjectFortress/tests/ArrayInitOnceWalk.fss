@@ -1,0 +1,26 @@
+(* Under walk, a second initialisation of an element keeps the element's first value, in a mutable array and in an immutable one. *)
+component ArrayInitOnceWalk
+import NativeArray.{...}
+export Executable
+
+run(): () = do
+    a = array[\ZZ32\](2).fill(3)
+    a.fill(4)
+    assert(a[0] + a[1], 6, "a vector filled twice")
+    s = array[\String\](2).fill("x")
+    s.fill("y")
+    assert(s[0] s[1], "xx", "an array of strings filled twice")
+    im = immutableArray[\ZZ32\](2).fill(3)
+    im.fill(4)
+    assert(im[0] + im[1], 6, "an immutable array of ZZ32 filled twice")
+    ims = immutableArray[\String\](2).fill("x")
+    ims.fill("y")
+    assert(ims[0] ims[1], "xx", "an immutable array of strings filled twice")
+    p: ImmutableArray1[\String, 0, 1\] = PrimImmutableArray[\String, 1\]()
+    p.init(0, "first")
+    p.init(0, "second")
+    assert(p[0], "first", "a PrimImmutableArray initialised twice")
+    println("PASS")
+end
+
+end

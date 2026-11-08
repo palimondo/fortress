@@ -1,0 +1,19 @@
+(* Under walk, NativeArray's PrimImmutableRR64Array, made through its own constructor, reads back the RR64 values that it was initialised with. *)
+component ArrayStoreRR64Walk
+import NativeArray.{...}
+export Executable
+
+run(): () = do
+    r = PrimImmutableRR64Array[\3\]()
+    r.init0(0, 1.5)
+    r.init0(1, 2.5)
+    r.init0(2, 0.25)
+    assert(r[0] + r[1] + r[2] = 4.25, "the sum of the elements")
+    assert(r.get(1) = 2.5, "get")
+    assert(|r|, 3, "size")
+    w: ImmutableArray1[\RR64, 0, 2\] = PrimImmutableRR64Array[\2\]().fill(0.5)
+    assert(w[0] + w[1] = 1.0, "filled")
+    println("PASS")
+end
+
+end
