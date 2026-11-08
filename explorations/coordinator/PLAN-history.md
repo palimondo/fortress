@@ -2126,3 +2126,14 @@ The items for him that climb batch 28 (`coordinator/CLIMB-BATCH-28.md`, rungs V,
 - gather.4 of climb batch 28, told, not asked: the entries and lines the landing makes false that the gather does not write, left for the coordinator's routing: F-32 and F-299, at the merged count of 372 of 424 bindings on helpers and 52 on glue, the 52 being `IntLiteral`'s 21, `FloatLiteral`'s 3 and `Reflect`'s 28; F-34, F-53, F-54, F-172, F-281, F-288, F-327, F-328 and F-330; P-164; PLAN's "Where we stand" and phase 4's lines on the natives, N4's reader rung, D2, `System`, P-161, row 929 and the code generator's kinds, and item 69; the skill's `interpreter.md`, "Natives", its carriers, and `compiler.md:76`; and the javadoc of `OWN_OPERATIONS`. Evidence: `explorations/coordinator/FACTS.md:30`, `:134`; `explorations/coordinator/PLAN.md:10`, `:47`, `:130`; `ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java:42-46`; `Specification/appendices/changes.tex:4627`, `:4672-4674`.
 - review.1 of climb batch 28's merged-diff review, told, not asked: beyond gather.4's list, 22 FACTS entries and about 90 open ledger rows that the batch did not write cite, without the commit they were true at, lines of a file the batch edited that the landing moved (each cited line read at `157323e51` and at `HEAD`): F-35, F-44, F-63, F-78, F-85, F-175, F-180, F-255, F-268, F-276, F-279, F-285, F-286, F-302, F-303, F-304, F-305, F-306, F-307, F-310, F-312 and F-315, and rows such as 147 and 315. The review re-anchored only the batch's own lines (F-321; rows 324 and 928; this list's entries A.skeptic.1 and gather.2). No default on record; the record landing can re-anchor the FACTS entries as it brings them in line. Evidence: `explorations/coordinator/FACTS.md:137` (F-307's `LibraryBuiltin/FortressBuiltin.fss:380`, now `:388`); `explorations/fortress-gap-ledger.md:65` (row 147's `Library/FortressLibrary.fsi:590`).
 
+## Moved on 2026-11-08, after his answer on float numerals
+
+Moved on 2026-11-08, after his answer of 12:3x to 12:4x UTC on float numerals (P-172; `coordinator/HELD.md`, "Held in chat (2026-11-08)"), word for word, each under the heading it stood under: phase 4's line on row 862, whose one rounding climb batch 29's rung on float numerals now builds (phase 4, the line "Float numerals, answered"), and climb batch N's review-list line on `FloatLiteral` unchanged by the numeral switch, a default that his answer replaces (review-queue item 92, now under "Answered by a decision of his").
+
+### Phase 4. The switch-over
+
+- Row 862, from climb batch 24's rung F: a compiled numeral with a radix point is rounded two or three times, not once; with the code generator's rungs of phase 4 (row 862; F-304).
+
+### Climb batch N's first run, listed for his review
+
+- `FloatLiteral` unchanged by the numeral switch; default as landed. Review-queue item 92 (closed at the cleanup of 2026-11-05: learning).

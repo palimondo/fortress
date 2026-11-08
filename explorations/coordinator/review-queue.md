@@ -1258,9 +1258,9 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **350, Should the new `forbid` path run a `try`'s `finally` clause now, ahead of the…** Row 890 holds the defect, with `XXXFinallyOnEscape.test`; PLAN's phase 4 code-generator line repairs the three paths at once.
 - **352, Climb batch 25's record took its forks 1 to 17 at their defaults: does he…** The visible effects are item 353, and fork 5's reading is now P-38's own text (F-313).
 
-### Moved to the learning file at the cleanup of 2026-11-05 (115)
+### Moved to the learning file at the cleanup of 2026-11-05 (114)
 
-117 items moved to the learning file at the cleanup of 2026-11-05: `coordinator/review-queue-learning-2026-11-05.md`, by theme, each with its title, the default as landed and what was decided. Each landed at a default that no planned work needs his word on again; one word of his still changes any of them. Their numbers stay below, one line each, so that a pointer to one finds where it went. Items 23 and 24 were since answered by his decisions of 2026-11-05, and stand under "Answered by a decision of his".
+117 items moved to the learning file at the cleanup of 2026-11-05: `coordinator/review-queue-learning-2026-11-05.md`, by theme, each with its title, the default as landed and what was decided. Each landed at a default that no planned work needs his word on again; one word of his still changes any of them. Their numbers stay below, one line each, so that a pointer to one finds where it went. Items 23 and 24 were since answered by his decisions of 2026-11-05, and item 92 by his decision of 2026-11-08, and they stand under "Answered by a decision of his".
 
 - **4, Does the inference chapter solve a call's type parameters together?**
 - **5, Do `try`, `catch` and `atomic` bodies take the expected type?**
@@ -1298,7 +1298,6 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **85, Walk promotes from run-time types, so where a variable is declared wider than…**
 - **87, Answer 8's promotion reaches user-declared coercions, so a call's arguments…**
 - **89, A `ZZ32` with an `NN32` promotes to `ZZ64` on the one library (answer 8)…**
-- **92, The float numeral is unchanged by the numeral switch.**
 - **94, `Integral`'s api `unsigned` was removed, and `ZZ64`'s api states its body's…**
 - **96, A numeral too large for every declaration of a call is refused.**
 - **97, A numeral converts only into a type that holds its value (row 325's faces).**
@@ -1436,7 +1435,7 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **347, Should a binding over `NN32`, `NN64` or `Char` to a helper with several…**
 - **351, An allow rule for walk guards run with the base build's own `harness-one.sh`?**
 
-### Answered by a decision of his (75)
+### Answered by a decision of his (76)
 
 - **23, May a program extend `Number`?** Decided 2026-11-05: P-160, "The one library's `Number` opens: its `comprises` clause goes, ...", his "2" of 18:1x UTC on 2026-11-05 to the ask on `Number`'s closure (option (b) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 23; `reviews/number-closure-2026-11-05.md`, section 8; rows 596, 551 and 804.
 - **24, A float compared with NaN.** Decided 2026-11-05: P-159, "A float compared with a NaN answers: ...", his "1" of 18:1x UTC on 2026-11-05 to the ask on the NaN comparison (option (a) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 24; `reviews/nan-comparison-2026-11-05.md`, section 8; `perf-probes/nan-check-cost/REPORT.md`; row 672.
@@ -1513,6 +1512,7 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **378, Climb batch 27's question 1: the scope.** Decided 2026-11-07: his go of 05:5x UTC on 2026-11-07, "The batch is pre-approved for launch after Fable review." (`coordinator/HELD.md`, 2026-11-07, 05:5x), took the record's (a), ten rungs, N, I, F, C, W, S, A, E, G and T, launched after the Fable review. Eight landed; rungs S and T never started, since the disk was full (item 377). Home: `coordinator/CLIMB-BATCH-27.md`, section 2, "The question for the curator"; `reviews/batch-27-review.md`, Part 1 and Part 4, "Record defaults the batch took".
 - **404, A commit footer that names a model.** Decided 2026-11-07: his word in chat at 14:19 UTC, that he does not care about a model name in a commit's footer and wants no report of it. Home: PLAN-history, "Moved on 2026-11-07, after his decision on Q1 of the natives review and his word on the footer".
 - **407, The compiled array store's shape, which P-169 leaves open.** Decided 2026-11-08: P-169, "The runtime's own 45 native bindings, ...", his answer of 02:1x UTC on 2026-11-08 to Q2 of climb batch 28's record, asked in chat at 00:4x UTC: (ii), the slot API, on P-84 as he widened it at 02:0x. The compiled store is an `Object[]`, and the compiled transaction tracks its reads and writes by the array and the index (`TXReadSlot`, `TXWriteSlot`). The default (i), the judgement's and the Fable review's, rested on only `RR64` leaving the boxed store. Home: `coordinator/CLIMB-BATCH-28.md`, "The questions for the curator, before the launch", Q2; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 02:1x; `reviews/natives-device-2026-11-07.md`, section 3.5; POSITIONS P-169 and P-84.
+- **92, The float numeral is unchanged by the numeral switch.** Decided 2026-11-08: P-172, "A numeral with a radix point has a type of its own, ...", his answer in chat between 12:3x and 12:4x UTC on 2026-11-08 to the ask on float numerals of `reviews/literals-2026-11-08.md`, sections 1.1, 2.3, 6.2 and 6.4: option 1(a), "I think we are aligned on 1A.", the review's way F-b with walk's half by way F-d, and way F-e, with one rounding. The numeral switch left `FloatLiteral` as the team left it in the interpreter's library, below `RR64`; it becomes a type of its own beside the number types, as the compiler's prelude declares it, holding the numeral's exact value, which `QQ` converts from exactly and `RR64` and `RR32` with one rounding. Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 92; PLAN-history, "Moved on 2026-11-08, after his answer on float numerals"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 12:4x; rows 360 and 862.
 
 ### Answered by a landed fix or a closed row (44)
 
