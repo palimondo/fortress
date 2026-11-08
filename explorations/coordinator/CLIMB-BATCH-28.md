@@ -63,7 +63,7 @@ Fields common to the seven rungs:
   - `code:Library/FortressLibrary.fss#private shiftCount32(b:AnyIntegral):ZZ32 =` (check): rung I's private count functions, whose calls of ZZ's narrow you move.
   - `code:ProjectFortress/LibraryBuiltin/FortressBuiltin.fss#value object IntLiteral extends Number` (check): the object whose 8 you write in Fortress.
   - `code:ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss#trait IntLiteral`: the prelude's IntLiteral, whose conversions and comparisons are Fortress over its getters, the form of yours.
-  - `doc:Specification/basic-lib/basic-integers.tex`: the sentences you revise.
+  - `code:Specification/basic-lib/basic-integers.tex#Like every number type, each of them is a subtype..TYP{IntegerOverflow} is thrown.`: the sentences you revise, narrow's among them.
   - REC `Forks the batch takes, none consequential`: the defaults your rung builds, each with the ways not taken.
 
 ### R
@@ -338,6 +338,8 @@ Two, each consequential by the `coordinator` skill's test. Without his answer, t
 - **The record recommends 1.** It is consequential because it decides whether `System`, and so microGPT's import of it, loads compiled at the switch-over.
 
 **No other fork of the record is consequential** (section 3).
+
+**A point for his sight, not a question.** Rungs V, H and A build P-169, which he took from the independent Fable judgement as it landed, with his detailed review to come (review-queue item 406, default "as decided"). Each of the three can be undone by its rung's commit; none touches a model line.
 
 ### What the batch leaves out (section 5, "Left out, each with its home")
 
@@ -786,7 +788,7 @@ The brief's candidates, each with its ground and its home here:
 - **The reader rung, 20, with `FileWriteStream`'s 5** (P-164; review-queue item 373; PLAN item 69, its default that they move with the reader rung): rung R. Climb batch 27's record placed it in this batch (`CLIMB-BATCH-27.md`, section 5, "Left out, each with its home").
 - **The conversions, 3** (P-161; P-162 for `big`): rung V.
 - **Climb batch 27's rungs S and T**, which never started for want of disk (item 377; `reviews/batch-27-review.md`, section 7, point 2): rungs S and T, rebased on this tree: `System.fss:41` and `:51` and `systemOps.java:20-27` stand; `stringOps.java`'s `lineSeparator` is now at `:76-78`; `CodeGen.java`'s comparison at `:1010` and its caller at `:4691` (probes 3 and 4).
-- **The runtime's own natives by P-169** (`reviews/natives-device-2026-11-07.md`): `Thread`'s four, `abort` and `printTaskTrace`, rung H; the arrays' store with `PrimImmutableRR64Array`'s 2, rung A, waiting on Q2 (item 407), with its default as fork A1 and Q2's measurement (probe 1); `IntLiteral`'s 8, in rung V, since four of them read V's getters (fork V2). P-169's history holds no ground beyond the review (`facts-extract.sh 'history:P-169'`).
+- **The runtime's own natives by P-169** (`reviews/natives-device-2026-11-07.md`): `Thread`'s four, `abort` and `printTaskTrace`, rung H; the arrays' store with `PrimImmutableRR64Array`'s 2, rung A, waiting on Q2 (item 407), with its default as fork A1 and Q2's measurement (probe 1); `IntLiteral`'s 8, in rung V, since four of them read V's getters (fork V2). P-169's history gives his words of 10:5x UTC on 2026-11-07: he takes the independent Fable judgement as it lands, and reviews it in detail after it lands (`facts-extract.sh 'history:P-169'`; review-queue item 406, default "as decided"); rungs V, H and A build it as decided.
 - **`getProgramArgsPrim`** (PLAN's line on `CompilerSystem`; the natives review's Q3): S's second half, waiting on Q3.
 - **Row 929** and P-148: rung K, with the planner's prototype measured (probe 2).
 - **What else the natives review's order of work and PLAN's phase 4 put before the switch-over:** the raise-string resolver (the review's section 3, point 2), left out, since it edits every raising helper class, V's among them; `Reflect`'s 28, on Q4; F-34's other kinds and row 862, not probed here.
