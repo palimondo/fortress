@@ -6,10 +6,10 @@
 
 ## Running
 
-- **The planner of climb batch 28 ended** at 00:15 UTC on 11-08: `explorations/coordinator/CLIMB-BATCH-28.md` (seven rungs V, R, A, K, H, S, T; 102 glue bindings to 52 with all seven; Q2 and Q3 the only consequential forks; about 4.6M tokens written, 5 h 15 min), its probes `explorations/compile-ladder/plan-28/PROBES.md`; all pushed at `d71d8124`.
-- **The Fable review of that record** (an Agent-tool worker on Fable, launched 00:18 UTC, its go in advance; estimate 0.4M Fable tokens written): `explorations/coordinator/climb-batch-28-review.md`, edits to the record in place, committed on `main`, not pushed. It gives its own recommendation on Q2 and Q3, which by his standing go of 00:13 is the default that stands 30 minutes after each ask.
-- **The generator worker** (Opus, launched 00:18 UTC): `explorations/compile-ladder/plan-28/manifest/` from `plan-27/manifest/`, all seven rungs, a per-rung forks key, spliced into `climb-batch-workflow.js`, committed, not pushed; its checks rerun after the Fable review's edits.
-- One check-in armed, "Batch 28 prep check-in", at 00:54 UTC (`trig_016nPNxtM1F7z1GXGZpVqdph`).
+- **Climb batch 28's preparation.** The planner's record (`CLIMB-BATCH-28.md`, seven rungs V, R, A, K, H, S, T; pushed). The Fable review ended at 00:3x UTC (`explorations/coordinator/climb-batch-28-review.md`, `7934836e`, `104be0b6`): ready to launch, Q2 and Q3 at (1) and (1), no other consequential fork; its fixes in the record. The generator `plan-28/manifest/` (`ef450502`), run again on the reviewed record with K's skill key struck (`a58b6e09`): `lists28.py` 0 bad, `check28.js` 0 problems, the scenarios 0 problems. The base build `/home/user/fortress-base28` built at `e0a8abf4` (same code as `2436f6f25`), clean, its five jars, walk's run 0; its HEAD moves to the final base before the trial seed.
+- **Q2 asked at 00:4x UTC** in chat. By his standing go of 00:13, option 1 (a cell per element) stands at 01:1x with no answer. Then Q3, its default (1) 30 minutes after its ask. Then the record's A and S lines that say "only with his answer" rewritten to the answers taken, the generator's five commands again, the commit (the base), the base build's HEAD moved there, the trial seed and the old code's run, the disk, the launch.
+- One check-in armed, "Q2 default check-in", at 01:14 UTC (`trig_016nPNxtM1F7z1GXGZpVqdph`).
+- **His reading of the `fortress-repo` page** (from change 37): three threads answered (37 on `CC64`, then POPL 2019, `explorations/reviews/meet-rule-popl2019-2026-11-08.md`; 39 on `≣` and `≠`; 39 on "reference object"). For the skill writer when he says the reading is done: `revival-changes.md`'s sentence on `===` names `≣` and `≠` beside their ASCII spellings; "value object" and "reference object" defined in `fortress-repo` in the specification's words (`basic/objects.tex:24-29`), and "a reference object" put back in change 39's rule.
 
 ## The container, rebuilt at 23:09 UTC on 11-07
 
