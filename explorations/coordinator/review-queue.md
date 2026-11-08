@@ -2,12 +2,12 @@
 
 ## When each item is needed
 
-The asks that stay after the cleanup of 2026-11-05, grouped by the work that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) or (c) gives the other way, the cost, the home and its "Needed by" line. The cleanup gave each of the 312 open items one verdict: 77 settled or stale, now in (a); 117 decisions that landed at a default that no planned work needs his word on again, moved to `coordinator/review-queue-learning-2026-11-05.md`, the material for a page that he reads to learn what was decided; 53 items of the coordinator's own work, moved to `coordinator/coordinator-work-2026-11-05.md`; and the 65 asks below. Each item that left keeps its number in (a), with the file it went to. A landing files its new items for him by the routing (`coordinator/tools/record-landing/routing.md`), each with its "Needed by" line, and brings this section and its counts in line. Climb batch 26's routing added items 355 to 367, and moved 310 and 340, landed at a default, to that batch's group. Climb batch 27's routing added items 373 to 405, 378 answered and the rest open; moved 363, built, to (a); and moved 371 to the switch-over's group, since its rung landed without it. His decision of 10:5x UTC on 2026-11-07 on Q1 of the natives review added item 406, for his detailed review of it, and item 407, the judgement's Q2, which the decision leaves open; his word of 14:19 UTC that day moved 404 to (a). His answer of 02:1x UTC on 2026-11-08 to Q2 moved 407 to (a).
+The asks that stay after the cleanup of 2026-11-05, grouped by the work that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) or (c) gives the other way, the cost, the home and its "Needed by" line. The cleanup gave each of the 312 open items one verdict: 77 settled or stale, now in (a); 117 decisions that landed at a default that no planned work needs his word on again, moved to `coordinator/review-queue-learning-2026-11-05.md`, the material for a page that he reads to learn what was decided; 53 items of the coordinator's own work, moved to `coordinator/coordinator-work-2026-11-05.md`; and the 65 asks below. Each item that left keeps its number in (a), with the file it went to. A landing files its new items for him by the routing (`coordinator/tools/record-landing/routing.md`), each with its "Needed by" line, and brings this section and its counts in line. Climb batch 26's routing added items 355 to 367, and moved 310 and 340, landed at a default, to that batch's group. Climb batch 27's routing added items 373 to 405, 378 answered and the rest open; moved 363, built, to (a); and moved 371 to the switch-over's group, since its rung landed without it. His decision of 10:5x UTC on 2026-11-07 on Q1 of the natives review added item 406, for his detailed review of it, and item 407, the judgement's Q2, which the decision leaves open; his word of 14:19 UTC that day moved 404 to (a). His answer of 02:1x UTC on 2026-11-08 to Q2 moved 407 to (a). Climb batch 28's routing added items 408 to 437, all open; moved 373 and 377, whose defaults that batch built, to its group, still open for his review; and brought 319, 335, 380, 384, 385, 403 and 406 in line with its landing.
 
-**Counts**, 107 open items, 49 consequential and 58 routine:
+**Counts**, 137 open items, 55 consequential and 82 routine:
 - Before the ledger's repair: 5 (0 consequential, 5 routine).
-- The next batch and the natives' batches: 5 (3 consequential, 2 routine).
-- Before the switch-over: 20 (17 consequential, 3 routine).
+- The next batch and the natives' batches: 3 (2 consequential, 1 routine).
+- Before the switch-over: 22 (19 consequential, 3 routine).
 - Before microGPT compiles: 13 (10 consequential, 3 routine).
 - Before microGPT runs fast: 2 (1 consequential, 1 routine).
 - Walk's questions: 8 (3 consequential, 5 routine).
@@ -15,6 +15,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - No work needs them, but each departs from his word, or may: 8 (4 consequential, 4 routine).
 - Climb batch 26's defaults, for his review; no planned work waits on them: 10 (4 consequential, 6 routine).
 - Climb batch 27's defaults, for his review; no planned work waits on them but 390: 25 (1 consequential, 24 routine).
+- Climb batch 28's defaults, for his review; later work needs a few of them: 30 (5 consequential, 25 routine).
 
 **Before the ledger's repair** (PLAN, "Where we stand", "Next": the gap ledger's full pass over about 180 open rows, which PLAN had put before climb batch 26; that batch landed without it).
 - **265.** Which status a ledger row takes for a defect where the specification is silent: `NEGATIVE-VERIFIED` widened, `CONTESTED`, or `POSITIVE-VERIFIED`. Default: the rows as they are.
@@ -23,12 +24,10 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **369.** Row 852, `CONTESTED`, made `NEGATIVE-VERIFIED` now that its run shows both paths loading a declaration with two parameters of one name. Default: `CONTESTED`, as landed.
 - **370.** The APL side quest's base, which stops since the library's `fill` and `RR64` operators changed: ported, or its rung programs left as they stop. Default: not ported.
 
-**The next batch and the natives' batches** (PLAN, phase 4, the natives line, and "Where we stand", "Next"). Climb batch 27 took P-160's second step and the hard-set natives (363, built, now in (a)); its rungs S and T did not start, and `System`'s rung, which his answer to 355 of 2026-11-06 sets (now in (a)), goes with climb batch 28, as landed under 377. The batch that moves N4's reader side meets 373. 335 comes before N3's new helpers. Each launch needs his go, after the Fable review of its record.
-- **377.** The container's disk, spent through climb batch 27, and its rungs S and T, which never started: who frees the disk, and are S and T relaunched or moved to climb batch 28. Default: no default on record for the disk; as landed, the coordinator freed it and moved S and T to climb batch 28.
-- **403.** For later gates, the distance stage report-only, as P-39 has it, or a crash that no rung declared red in the distance as in the count (row 929). Default: report-only, the record's.
-- **373.** `FileWriteStream`, left on its glue while `File` stays native (row 926), moved with the reader rung. No default on record for fork W5; as landed, it moves with the reader rung.
+**The next batch and the natives' batches** (PLAN, phase 4, the natives line, and "Where we stand", "Next"). Climb batch 28 built `System`'s rung, the reader side with `FileWriteStream`, and P-169's arrays, threads and `IntLiteral`'s 8; 373 and 377 went to its group. 403 comes before climb batch 29's gate, and 335 before N3's new helpers. Each launch needs his go, after the Fable review of its record.
+- **403.** For later gates, the distance stage report-only, as P-39 has it, or a crash that no rung declared red in the distance as in the count (row 929, closed by climb batch 28's rung K). Default: report-only, the record's.
 - **335.** A static check of the natives' shared state in the gate, a parallel test for each helper that holds state, both, or neither, before N3. Default: neither.
-- **406.** His detailed review of P-169, the runtime's own 45 native bindings named as compiled helpers that walk's loader answers with its own operations, which he took from the independent Fable judgement as it landed. Default: as decided.
+- **406.** His detailed review of P-169, the runtime's own 45 native bindings named as compiled helpers that walk's loader answers with its own operations, which he took from the independent Fable judgement as it landed; climb batch 28 built 21 of the 45. Default: as decided.
 
 **Before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library).
 - **2.** The checker's two extra attempts at a call beside the two of P-49: kept or dropped. Default: kept, as built.
@@ -51,6 +50,8 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **374.** The checker over the one library accepts a program trait's functional `+` beside the library's imported array `+` (row 918): a gap to fix, or overloading across an import outside the rules. No default on record.
 - **375.** The code generator compiles a call with an assumption at some of its dispatched arguments as the declaration that the checker resolves (row 818). Default: refused, fork G2, as landed.
 - **376.** The code generator builds the generic forms under an assumption. Default: refused, each with its message, as landed.
+- **408.** Which rung repairs the compiled transaction's livelock when a block reads its own write across a nested commit (row 933), and whether that repair holds a switch-over step; needed before work on the compiled transaction goes on. No default on record.
+- **437.** `Reflect`'s 28 bindings, the last on glue beside N5's 24, kept on glue, walk only, as an exception to P-58 (the natives review's Q4). Default: yes, until a compiled reflection is designed or walk runs the checker.
 
 **Before microGPT compiles** (PLAN, phase 5).
 - **3.** The specification's sentence that a statically chosen declaration keeps its inferred instance, against the POPL 2019 rule. Default: the sentence as written.
@@ -143,6 +144,38 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **402.** The coordinator's rider, `match` over `String` (fork A6), which closed row 916. Default: as landed.
 - **405.** The record's points for his sight. Default: as landed.
 
+**Climb batch 28's defaults, for his review; later work needs a few of them** (PLAN, "Climb batch 28, listed for his review"). Each landed as it stands, at its default where it has one, and each can be undone by a later rung or edit. 413 is needed before the switch-over, 427 before the ledger's repair, 415 by the names batch's clean-up, and 420 to 423 by the next rung that edits their code or repairs their row; no planned work waits on the others.
+- **377.** Climb batch 27's disk and its rungs S and T: who frees the disk, and are S and T relaunched or moved to climb batch 28. No default on record for the disk; as landed, the coordinator freed it, and S and T moved to climb batch 28 and landed there.
+- **373.** `FileWriteStream`, left on glue by climb batch 27, moved with the reader rung. No default on record for fork W5; as landed, it moved with climb batch 28's reader rung.
+- **409.** QuickCheck's `genZZ.perturb` raises `IntegerOverflow` beyond `ZZ64`, where P-161 reads "with their values unchanged" (row 431). Default: `.asZZ64`, as landed.
+- **410.** Two new helpers for `ZZ`'s `asZZ64` and `asNN64`, departing from fork V1. Default: as landed.
+- **411.** Rung H's repair of `Utility.makeFortressException`, which rung R had asked about (row 930). Default: keep H's repair, as landed.
+- **412.** `FileWriteStream`'s write of a rope makes no flush, against fork R2's "as Writer's are". Default: option 1, no flush, as landed.
+- **413.** Which code-generator rung takes the outer handler's catch of a nested `atomic` block's abort (row 934). No default on record.
+- **414.** Under walk an immutable array's second initialisation keeps the first value, one rule for both arrays (row 466). Default: one rule, as landed.
+- **415.** The three old array glue classes left unused, for the names batch's clean-up. Default: left, as landed.
+- **416.** Rungs A and S both edited `StringPrim.java`, and `GetProgramArgs` is unused, told. Default: as landed.
+- **417.** Under walk a primitive array's subscript out of bounds ends the run with a raw Java exception (row 932). Default: as landed.
+- **418.** A compiled transaction does not record `FortressArrayStore.init`'s read of an empty element. Default: left under row 466.
+- **419.** The order of a call's overloadings, which a tie follows, made a property of the program (row 935). No default on record.
+- **420.** `Common.scala`'s two minimums over self types moved onto `PartialOrder.minimal`. No default on record.
+- **421.** `printTaskTrace` reads `BaseTask`'s `parent` by reflection. Default: as landed.
+- **422.** Whether a type assumption may choose an abstract declaration, and what the call runs then (row 941). No default on record.
+- **423.** Row 940 fixed in `CodeGen.methodsNamed`, or once in `STypesUtil.gatherMethods` (row 942 beside it). No default on record.
+- **424.** The gather's order V, R, A, K, H, S, T, the manifest's, told. Default: as landed.
+- **425.** Rows 934 and 937, one mechanism, kept as two rows. Default: two rows, as landed.
+- **426.** Row 939 made a duplicate of row 932, told. Default: as landed.
+- **427.** About 90 open ledger rows that cite lines the landing moved, without their commit, re-anchored or not. No default on record.
+- **428.** The record's forks for the whole batch, 1 to 6. Default: as landed.
+- **429.** Rung V's forks V1 to V6, V1's departure named. Default: as landed.
+- **430.** Rung R's forks R1 to R7, R2's departure named. Default: as landed.
+- **431.** Rung A's forks A2 to A7, A7's departure named; A1 is his answer to Q2. Default: as landed.
+- **432.** Rung K's forks K1 to K5. Default: as landed.
+- **433.** Rung H's forks H1 to H4. Default: as landed.
+- **434.** Rung S's forks S1 to S4, S3 named; no default departs. Default: as landed.
+- **435.** Rung T's forks T1 and T2. Default: as landed.
+- **436.** The record's points for his sight. Default: as landed.
+
 **Reading an item.** Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `main` at `6b560762f`, and in items 235 to 249, and in the text that the clarity pass brought, those of `main` at `aa1c14230`, and in items 250 to 267, and in the text that the FACTS clarity pass and the scrape brought, those of `main` at `382289832`, whose tree outside `explorations/` is the same as at the FACTS chunks' bases; in items 279 to 290, those of `main` at `66f6b3d19`; in items 318 to 322, those of `main` at `ef099f7e4`; in items 323 to 325, and in the POPL 2019 rules map's readings added to items 9, 60 and 286, those of `main` at `501140f96`, the map's base. A home in PLAN is named by its heading and its item number or opening words, since PLAN's consolidation of 2026-10-15; before it a home was PLAN's line number at `046207371`. "PLAN" is `explorations/coordinator/PLAN.md`, "PLAN-history" is `explorations/coordinator/PLAN-history.md`, which holds PLAN's closed items word for word, "POSITIONS" is `explorations/coordinator/POSITIONS.md`; report paths without a folder are under `explorations/`. A row is a row of the gap ledger. "(10-02: N)" names the entry of this file's version of 2026-10-02. The page for him is built from the same text (`scratchpad/review-backlog/page.html` in the coordinator's session).
 
 ## (b) Consequential, by theme
@@ -191,7 +224,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: POSITIONS P-78; F-271; `reviews/popl2019-rules-map.md`, question 4 and sections 4 and 23; `reviews/type-decisions-review/judgement.md`, section 5 (a); `research/extracts/ParkPOPL2019-extract.md`, section 8; `coordinator/postmortem-2026-10-28/ryu-claims-check.md`, claim 2; rows 731 and 854
    - Needed by: before microGPT compiles; phase 5's dispatcher solves the parameters of a generic declaration that only dispatch reaches (PLAN, phase 5), and under the default it meets F-bounds that the paper's solve does not take.
 
-### Overloading and the Meet Rule (5)
+### Overloading and the Meet Rule (6)
 
 6. **The Meet Rule's closed-trait case for generic families.** Item 26 gave the Meet Rule a case for two closed traits: declarations over the listed types cover their intersection. The text applies it to declarations with static parameters too; the checker refuses it there. Since batch 8, the functional-method form is accepted and dies at run time (row 566); the function form is still refused.
    - Landed: The text as batch 7b's rung S wrote it; the checker's refusal gated by expected failures; Appendix I names row 546 among the checker's departures.
@@ -228,6 +261,13 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 70; `compile-ladder/rung-number-open/REPORT.md:147`; `ProjectFortress/tests/NumberOpenTraitPlusBesideArrayWalk.fss`; row 918
    - Needed by: before the switch-over; PLAN item 70 places it there, when the compiled path checks programs against the one library.
 
+419. **Should a later rung make the order of a call's overloadings a property of the program, for instance by declaration position (row 935)?** K.worker.1 and K.skeptic.1 of climb batch 28's rung K. In the compiled checker this order now decides only a tie among the most specific candidates, and the order of the rest. It follows the hash order of the overloadings. So two builds of one commit at two tree paths give two orders, and so do one build by a direct compile and one through the harness.
+   - Landed: The hash order; since rung K a tie keeps the first minimal candidate in it (`a3eba5067`; F-334). Default: no default on record.
+   - The other way: An order that the program fixes, such as declaration position. Such a change moves tie choices and message orders once.
+   - Its cost: Not sized by any source.
+   - Home: PLAN, "Climb batch 28, listed for his review", K.worker.1; `ProjectFortress/src/com/sun/fortress/scala_src/disambiguator/ExprDisambiguator.scala:870-874`; `compile-ladder/rung-checker-partial-order/REPORT.md`, section 3; `reviews/batch-28-review.md`, Part 1, split 8; row 935
+   - Needed by: no planned work (set by the landing workflow); which declaration a tie runs follows the build until he answers.
+
 ### Walk's checks at load (4)
 
 232. **After the switch-over, does walk refuse a program that the checker refuses (P-12)?** P-12 says that after the switch-over walk runs the compiled type checker on its programs, gains their static types, and then uses the coercions that the checker inserts. Its reason: "The curator wants the checker usable on the programs that walk runs." On 2026-09-15 at 10:42 UTC he asked to run the type checker "optionally" in walk. No message of his says which of two things he wants: a checker that walk runs only when asked, or a walk that refuses every program that the checker refuses.
@@ -258,7 +298,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 26, listed for his review", T.worker.2; PLAN, phase 4, the names; F-322; `compile-ladder/rung-string-natives/REPORT.md:208`; `coordinator/CLIMB-BATCH-26.md`, section 2, forks 20 and 21; `reviews/batch-26-review.md`, Part 1, "Where the text, the brief or the principles split", 5, and Part 4, "Two notes owed", (i); row 846; F-299
    - Needed by: before the switch-over's names batch (set by the landing workflow, from the review's note (i)); its design meets the two readings.
 
-### Numbers and numerals (11)
+### Numbers and numerals (12)
 
 21. **`NN32` into `RR64` against answer 8 (item 37).** He decided that `NN32` converts into `RR64`, since it fits exactly. Built, that makes a `ZZ32` with an `NN32` ambiguous between `RR64`'s and `ZZ64`'s operators on both paths, where answer 8 gives `ZZ64`; two team tests go red.
    - Landed: Not built.
@@ -337,7 +377,14 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: P-164; row 364; PLAN, phase 4, the names line
    - Needed by: before the switch-over; the switch-over batch makes the one library the compiled path's, where the five names mean nothing.
 
-### Sizes and arrays (9)
+409. **Should QuickCheck's `genZZ.perturb` keep the low 64 bits of a `ZZ` beyond `ZZ64`, as P-161's "with their values unchanged" reads, or raise `IntegerOverflow`, as landed?** V.worker.1 and V.skeptic.1 of climb batch 28's rung V (row 431). Rung V moved the line onto the checked getter `.asZZ64`, which the review of the integer conversions names for it in its option 6. A `ZZ` beyond `ZZ64` now raises `IntegerOverflow` where the old line kept 64 bits: old 'perturb 2^70+7: 1001751898', new 'perturb 2^70+7: IntegerOverflow'. Every other line that the rung moved keeps each value that fits. Under walk no gated run reaches such a value (row 387).
+   - Landed: `.asZZ64` (`Library/QuickCheck.fss:322`; `45868b113`; F-331). Default: `.asZZ64`, as landed.
+   - The other way: The low-bits form, `signed((obj BITAND 18446744073709551615).asNN64)`, until row 431's right-shift fix.
+   - Its cost: One line of `Library/QuickCheck.fss`. The default reads P-161's "with their values unchanged" anew, for a value that does not fit.
+   - Home: PLAN, "Climb batch 28, listed for his review", V.worker.1; `compile-ladder/rung-integer-conversions/SKEPTIC.md`; `reviews/batch-28-review.md`, Part 1, split 2; POSITIONS P-161; rows 431 and 387
+   - Needed by: no planned work (set by the landing workflow); under walk no gated run reaches the line (row 387).
+
+### Sizes and arrays (10)
 
 30. **A size known only at run time: way 4a and his decision on sizes.** A size is a number used as a static parameter, as in `Array1[\RR64, n\]`. The library's `reflect` turns a number known only at run time into a value that carries it. Way 4a lets the checker read such an argument as a size fixed for that call.
    - Landed: Way 4a, built by batch 13 after his question of 2026-10-09T15:10:56Z whether forks 2 and 3 could go into the next batch, at the judgement's default; it waits for his review; ten library calls cleared. It reads an opened size as bound for the call, not as unknown.
@@ -404,6 +451,13 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: POSITIONS P-85 and P-84; F-18; item 37; `reviews/array-design-ways.md`, section 3; `reviews/foundations/judgement.md`, tenet 7 and section 7; `reviews/foundations/evidence/salvage-findings.md`, "P-85"; `reviews/foundations/evidence/corrections/c2/queue.md`, its question on P-85, and `proposals.md` beside it, "P-85"
    - Needed by: before microGPT compiles; decision A returns after the switch-over, with phase 5's array design (item 37).
 
+414. **Under walk an immutable array's second initialisation now keeps the first value, as a mutable array's does: accept row 466's one rule for both arrays, or keep the overwrite for immutable arrays?** A.worker.2 and A.skeptic.5 of climb batch 28's rung A (row 466). Both arrays now share one store. The base's glue overwrote an immutable array's element at a second initialisation. Fork A7, "the store keeps today's rule that a second initialisation of an element is ignored", reads as settling it. The batch's review lists this reading among those he has not confirmed.
+   - Landed: One rule (`ProjectFortress/tests/ArrayInitOnceWalk.fss`; `a6c884cd`; F-333). Default: one rule, as landed.
+   - The other way: The overwrite kept for immutable arrays.
+   - Its cost: Not sized by any source. What a program's immutable array holds after a second initialisation follows the answer.
+   - Home: PLAN, "Climb batch 28, listed for his review", A.worker.2; `coordinator/CLIMB-BATCH-28.md:421`, fork A7; the base's `interpreter/glue/prim/PrimImmutableArray.java:73-82`; `reviews/batch-28-review.md`, Part 1, split 5, and "The decisions consequential for him, and the readings he has not confirmed"; row 466; item 418
+   - Needed by: no planned work (set by the landing workflow).
+
 ### The library's generators, strings and comparisons (4)
 
 39. **A generator's size (item 45).** Library code read a size from a value typed `Generator`, which declares none.
@@ -467,19 +521,19 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 27, listed for his review", judge.1; `compile-ladder/climb-batch-27/JUDGE-review.md`, "What each side got right"; `reviews/batch-27-review.md`, Part 1, split 3; rows 919 and 921; F-283
    - Needed by: before the batch that fixes row 919 (set by the landing workflow); that batch builds on the choice.
 
-### Code generation and the run time (4)
+### Code generation and the run time (7)
 
 373. **Does `FileWriteStream` move to N4's reader rung, which ends `File`'s nativeness (row 926)?** W.worker.1 and W.skeptic.1 of climb batch 27's rung W. The writer rung made `Writer` and `BufferedWriter` plain Fortress objects over a Java writer (F-330). `FileWriteStream` stayed on its glue with its 5 bindings, since walk builds every object of a native component through a glue class and evaluates its fields once without the object, and `File` is still a native component. The record's fork W5, which would have made it a `WriteStream`, was not taken. The way of P-164 is the writer side whole first; this leaves one writer object for the reader side.
-   - Landed: `FileWriteStream` on its glue (row 926). Default: no default on record for the fork; as landed, it moves with the reader rung.
+   - Landed: Climb batch 27 left `FileWriteStream` on its glue (row 926). Climb batch 28's rung R moved it with the reader side, a `WriteStream` with its `flush` (fork R2), and row 926 closed (`71d1018d1`; F-332). Default: no default on record for the fork; as landed, it moved with the reader rung.
    - The other way: A rung of its own before the reader rung, which ends `File`'s nativeness for `FileWriteStream` alone, or a change of how walk builds a native component's objects.
-   - Its cost: Under the default, 5 bindings stay on glue until the reader rung. The other way: not sized by any source.
-   - Home: PLAN, "Pavol's answers, in the order they are needed", item 69; PLAN, phase 4, N4's reader rung; `compile-ladder/rung-io-writer/REPORT.md:138`; `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/NativeConstructor.java:71-93`; `reviews/batch-27-review.md`, Part 1, split 1; P-164; row 926
-   - Needed by: before the batch that moves N4's reader side; PLAN item 69 places it there.
+   - Its cost: Built at the default, so a change now costs a rung that undoes R's move. The other way: not sized by any source.
+   - Home: PLAN-history, "Climb batch 28's landing, 2026-11-08", "Pavol's answers, in the order they are needed", item 69; PLAN, "Climb batch 28, listed for his review"; `compile-ladder/rung-io-writer/REPORT.md:138`; `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/NativeConstructor.java:71-93`; `reviews/batch-27-review.md`, Part 1, split 1; P-164; row 926; F-332
+   - Needed by: no planned work (set by the landing workflow); climb batch 28 built its default.
 
 319. **Is `CompilerSystem` deleted at the switch-over with the compiler's prelude, and do the programs that import it take the one library's `System` (P-37, F-293)?** `Library/CompilerSystem.fsi` and `.fss` are the compiled path's own `System` api, outside its prelude; 27 programs of `ProjectFortress/compiler_tests/` and one of `ProjectFortress/other_compiler_tests/` import it (F-293). P-37 deletes the prelude's three files at the switch-over and keeps their tests, and of this file says only "F-293 holds the compiler's fourth file, `CompilerSystem`" (`coordinator/POSITIONS.md:34`). His words name the compiler's second library as a whole, never a file: "the compiler second library is just a bootstrap and we need to get rid of it" (2026-09-20 14:39 UTC). A cold read of the worker skill raised the file on 2026-10-05, and the ask left the boot note on 10-08 without being put to him; on 2026-10-29 at 05:22 UTC he recalled discussing it, and the scout found no word of his on it (`coordinator/postmortem-2026-10-28/evidence/compilersystem-words.md`). His answer of 22:29 UTC that day to item 283 ties `System` to the switch-over: "But I think System is needed for the switchover, because of the compilers tests, so that is the need arising." P-33 now reads "`System` by the switch-over, since the compiler's tests need it (F-293)" (`:30`), and the history block that wrote it reads his answer as dropping the ask's "if the compiler's own `System` file goes with the prelude" (`coordinator/POSITIONS-history.md`, P-33, the block of 2026-10-30 02:58Z). No entry says in words that the file goes.
    - Landed: P-37 and F-293 as they read; P-33 has `System` cleared by the switch-over for the compiler's tests. Default: nothing deletes `CompilerSystem` on P-37's strength until he answers; P-33's history reads his answer to item 283 as the file going with the prelude, and a yes confirms that reading.
    - The other way: `CompilerSystem` is deleted at the switch-over with the prelude's three files, and its 28 programs import the one library's `System`; P-37 or F-293 says so.
-   - Its cost: One api and its component deleted, and the imports of 28 programs changed, at the switch-over; checked alone, the one library's `System` has 2 checker errors (F-290). If the file stays, the compiled path keeps a second `System` beside P-37's one library.
+   - Its cost: One api and its component deleted, and the imports of 28 programs changed, at the switch-over; the checker reads the one library's `System` whole with no error on climb batch 28's rung S tree (F-290 held 2 errors before), and `systemOps` keeps `getProperty` and `getArgs` for `CompilerSystem` (`coordinator/CLIMB-BATCH-28.md`, fork S1). If the file stays, the compiled path keeps a second `System` beside P-37's one library.
    - Home: POSITIONS P-37 and P-33; F-293; F-290; item 283; `reviews/foundations/evidence/corrections/p/queue.md`, its question on `CompilerSystem`, and `proposals.md` beside it, "P-37", question 2; `reviews/foundations/evidence/salvage-findings.md`, "P-37" (d); `coordinator/postmortem-2026-10-28/evidence/compilersystem-words.md`; `coordinator/postmortem-2026-10-28/evidence/other-components-discussion.md`, sections 13 and 14; `reviews/phase3-exit/zero-audit.md`, "A.2 Scope"
    - Needed by: before the switch-over; the 28 programs need a `System` then.
 
@@ -491,15 +545,36 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Needed by: no planned work (set by the landing workflow); nothing compiles against the one library before the switch-over, and phase 6 times microGPT compiled.
 
 406. **P-169, the runtime's own 45 native bindings named as compiled helpers that walk's loader answers with its own operations: his detailed review of the decision that he took from an independent Fable judgement as it landed.** Q1 of the natives review (`reviews/natives-remainder-2026-11-07.md`, section 4) asked whether P-167's device, a binding that names a compiled helper whose name walk's loader answers with walk's own operation, is the rule for the runtime's own operations, about 45 more names. In chat at 10:5x UTC on 2026-11-07 he could not answer it with the devices for 45 names or for shared carriers, asked for an independent Fable review, took its decision as it lands, and asked to review it in detail after it lands (`coordinator/HELD.md`). The judgement, worded by an Opus writer with its citations checked (`reviews/natives-device-2026-11-07.md`, summary and section 3): yes for all 45, with three amendments: the arrays' store, its compiled half by P-164's device, walk keeping its `AtomicArray`; threads, `abort` and the task trace on a `nativeHelpers` class over the compiled runtime, `Thread`'s four raising until compiled `spawn`; `IntLiteral`'s 8 as Fortress text over `asZZ` before the names batch, and the other 24 numerals at the names batch after a carrier review. It bends P-58's walk half for these names and makes P-167's table of two names a rule, one rule per helper class for the numerals. The judgement's reframed Q2, the compiled store's shape, was asked apart, item 407, now in (a) (PLAN, phase 4, the natives line, D2).
-   - Landed: P-169, with P-58's bend and P-167's pointer, as the judgement decides; no rung has built it. Default: as decided.
+   - Landed: P-169, with P-58's bend and P-167's pointer, as the judgement decides. Climb batch 28 built 21 of the 45 before his detailed review: `IntLiteral`'s 8 (rung V; F-331), the arrays' 7 on a compiled store of shape (ii) (rung A; F-333), and threads, `abort` and the task trace (rung H; F-335). `IntLiteral`'s and `FloatLiteral`'s other 24 wait for the names batch. Default: as decided.
    - The other way: An amendment changed at his review, or Q1 answered no, by a way that the judgement weighed and did not take (its section 1): walk carriers, an `Object` pass-through for array elements, which takes walk's array writes out of walk's transactions, or a `BigInteger` carrier with a transfer pair for the literals; or the glue kept, with the compiled fallback raising `FailCalled` at the first array.
-   - Its cost: Before a rung builds it, a rewrite of P-169 and of P-58's sentence. The rungs that build it, by the judgement's summary: the arrays about 0.5M plus the four-thread atomic runs, threads about 0.4M, `IntLiteral`'s 8 about 0.3M, the other 24 about 0.4M of N5's rung; a reversal after one lands costs that rung again.
-   - Home: POSITIONS P-169, P-58 and P-167; `reviews/natives-device-2026-11-07.md`; `reviews/natives-remainder-2026-11-07.md`, sections 1, 2.3, 2.4, 2.6 and 4; `coordinator/HELD.md`, "Held in chat (2026-11-07)", 10:5x; PLAN, phase 4, the natives line, D2
-   - Needed by: the natives' batches; no work waits on it, since the decision stands at his word, but a review before the batch whose rungs build it, climb batch 29 by the natives review's order, or climb batch 28 if `Thread`'s and `printTaskTrace`'s rung joins it (its section 5), lets an amendment land before a rung is built.
+   - Its cost: A rewrite of P-169 and of P-58's sentence. The rungs that build it, by the judgement's summary: the arrays about 0.5M plus the four-thread atomic runs, threads about 0.4M, `IntLiteral`'s 8 about 0.3M, the other 24 about 0.4M of N5's rung. Three of those rungs have landed, so a reversal of their part costs each rung again.
+   - Home: POSITIONS P-169, P-58 and P-167; `reviews/natives-device-2026-11-07.md`; `reviews/natives-remainder-2026-11-07.md`, sections 1, 2.3, 2.4, 2.6 and 4; `coordinator/HELD.md`, "Held in chat (2026-11-07)", 10:5x; PLAN, phase 4, the natives line, D2; `reviews/batch-28-review.md`, Part 1, "The decisions consequential for him, and the readings he has not confirmed"; F-331, F-333, F-335
+   - Needed by: the natives' batches; no work waits on it, since the decision stands at his word, but a review before the names batch, which builds the other 24, lets an amendment land before that rung is built.
+
+408. **Which rung repairs the compiled transaction's livelock when an `atomic` block reads its own write across a nested commit (row 933), and does the repair hold any switch-over step?** A.worker.1 and A.skeptic.4 of climb batch 28's rung A, a reserved point. On the compiled path, an `atomic` block that reads a variable that it wrote, then commits a nested `atomic` block and reads again, never ends. Its read of its own write enters the read set. The nested commit moves the global clock, so the next read validates that entry against the committed value and aborts, and each retry repeats it. The base does the same. The compiled array store shares the path once arrays run compiled. The repair is a change of the compiled transaction beyond P-169's shape (ii).
+   - Landed: Nothing repaired; row 933 is open, with no gated test, since the compiled run step has no timeout. Its program ends with exit 124 under `timeout 30`, at the base and on the rung. Default: no default on record.
+   - The other way: The question asks which rung takes the repair, a rung of its own or a step of the switch-over; no source names a way of repair.
+   - Its cost: Not sized by any source.
+   - Home: PLAN, "Pavol's answers, in the order they are needed", item 74; `ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:212-228`; row 933; `reviews/batch-28-review.md`, section 6, and "The steps due before the next batch", 4; P-169
+   - Needed by: before work on the compiled transaction goes on, and before the switch-over; PLAN item 74 places it before the switch-over, and the review puts his answer before that work.
+
+422. **May a type assumption choose an abstract declaration, and what does the call run then (row 941)?** T.worker.1 and T.skeptic.1 of climb batch 28's rung T. In `tag(O asif S, "d" asif String)`, `S`'s `tag` is abstract and its body is in the object `O`. The compiled path runs the object's body and prints 'd'. Walk stops with an `InterpreterBug`, 'has neither body nor def instanceof Method'. The specification's section on type assumptions does not say.
+   - Landed: Each path as described; row 941 open. Default: no default on record.
+   - The other way: The question has two halves: whether such an assumption may choose the abstract declaration, and, if it may, what the call runs. No source names a way.
+   - Its cost: Not sized by any source. The answer sets what the language runs where the text is silent.
+   - Home: PLAN, "Climb batch 28, listed for his review", T.worker.1; `Specification/basic/expressions/type-annotation.tex:45-48`; `compile-ladder/rung-codegen-trait-table/REPORT.md`, section 11; row 941
+   - Needed by: before a rung repairs row 941 (set by the landing workflow).
+
+437. **Do `Reflect`'s 28 bindings stay on glue, walk only, as an exception to P-58?** Q4 of the natives review (`reviews/natives-remainder-2026-11-07.md`, section 4). Since climb batch 28 they are the last glue bindings outside the 24 of `IntLiteral` and `FloatLiteral` that N5 moves (`reviews/batch-28-review.md`, section 6). They are off microGPT's path (F-32). P-58 has every native binding name a helper that both paths run.
+   - Landed: `Reflect`'s 28 on glue. Default: yes, until a compiled reflection is designed or walk runs the checker (the natives review, section 4).
+   - The other way: `Reflect`'s 28 moved onto helpers before the switch-over, as P-58 has it.
+   - Its cost: Not sized by any source. A yes is an exception to P-58.
+   - Home: PLAN, phase 4, the natives line, D2; `reviews/natives-remainder-2026-11-07.md`, section 4; `reviews/batch-28-review.md`, section 6, "`Reflect`'s 28 (Q4)"; POSITIONS P-58; F-32
+   - Needed by: before the names batch (set by the landing workflow); after it, `Reflect`'s 28 are the only bindings on glue.
 
 ### How batches run (2)
 
-403. **Does a crash in the distance stage that no rung declared make a later gate red, as it does in the checker count?** The post-batch review's finding A. At climb batch 27's gate the distance holds two `#crash` rows: the compiled checker crashed while it typed `value object Char`, so the zero does not cover `Char`'s body (row 929; F-54). The distance stage is report-only until the switch-over (P-39), so it cannot fail a gate. The finding's first half, the push, is answered: his go of 14:0x UTC on 2026-11-07, "You have a go.", given after the probe of the crash (`coordinator/HELD.md`), and the row is filed as row 929.
+403. **Does a crash in the distance stage that no rung declared make a later gate red, as it does in the checker count?** The post-batch review's finding A. At climb batch 27's gate the distance held two `#crash` rows: the compiled checker crashed while it typed `value object Char`, so the zero did not cover `Char`'s body (row 929; F-54). Climb batch 28's rung K closed row 929 (`a3eba5067`; F-334), and that batch's gate reads `#crash none`; the question stays for later gates. The distance stage is report-only until the switch-over (P-39), so it cannot fail a gate. The finding's first half, the push, is answered: his go of 14:0x UTC on 2026-11-07, "You have a go.", given after the probe of the crash (`coordinator/HELD.md`), and the row is filed as row 929.
    - Landed: (i), the distance report-only, as P-39 has it. Default: (i), the record's.
    - The other way: (ii) A crash that no rung declared is red in the distance as in the count (F-66): a change of P-39 and of the gate's step 9. The review proposes (ii) at the next change of the script, since only the distance reads the `FortressBuiltin` component.
    - Its cost: (ii) One step of the batch script's gate and one clause of P-39. Under (i), a crash such as row 929's never stops a push.
@@ -517,7 +592,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 
 Each is kept as landed unless he says otherwise.
 
-### The checker's typing and inference (2)
+### The checker's typing and inference (3)
 
 51. A clause-form reduction whose big operator's static argument is unwritten is instantiated by the checker at its bound or, since climb batch 14's rung A, at the expected type where the bound's type does not fit it, so `s: ZZ32 = BIG LAST[j <- lo#n] (3 j)` at the bound `Number` runs; one whose bound names its parameter, as `SUM`'s, `PROD`'s and `BIG MIN`'s do, has no instance and is refused (row 731, row 425's corrected text).
    - Landed: Refused where the bound names the parameter; the expected type taken otherwise (`InferBigOperatorExpectedType`). The library's three sites, once of the distance, write the argument since climb batch 22's rung R (`bd00ad997`; F-285), so the gap is user programs' and the team demos' (row 731's demo half). The other way: The desugaring fixes the big operator's static argument from the clauses. Its cost: A desugarer change, a checker project that no probe has designed.
@@ -530,6 +605,13 @@ Each is kept as landed unless he says otherwise.
    - Its cost: One library declaration under the first way; under the second, `cast`'s header and its callers, among them the about 50 casts that the revival added. Nothing until the check is built.
    - Home: `reviews/foundations/prelude-lens.md`, section 6, "A cast's exception kind differs between the two libraries"; `reviews/foundations/judgement.md`, section 3, "Two side findings", and section 8, "Decisions not taken, for later"; `reviews/phase3-exit/zero-audit.md`, A.4; row 352
    - Needed by: before the rung that builds row 352's `throws` check, which no PLAN item names yet; the choice changes what that rung writes.
+
+420. **Should `Common.scala`'s two `min(Ordering.fromLessThan(smaller))` move onto `PartialOrder.minimal`?** K.worker.2 of climb batch 28's rung K, noticed by reading, not measured. The two take a minimum over the subtyping of self types, which is also a partial order. So their answer follows the list's order where two getters' self types are unrelated. Rung K moved the checker's four sorts onto that class.
+   - Landed: Unchanged. Default: no default on record.
+   - The other way: Both onto `PartialOrder.minimal`, the class that rung K wrote.
+   - Its cost: Not sized by any source.
+   - Home: PLAN, "Climb batch 28, listed for his review", K.worker.2; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Common.scala:69`, `:82`; `ProjectFortress/src/com/sun/fortress/scala_src/useful/PartialOrder.scala`; F-334
+   - Needed by: the next rung that edits `Common.scala` (set by the landing workflow).
 
 ### Overloading and the Meet Rule (3)
 
@@ -569,7 +651,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 9, listed for his review", Row 591; Row 616; PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `compile-ladder/rung-walk-instance/REPORT.md:319`; `compile-ladder/rung-walk-meet/SKEPTIC.md:122`; P-48, which names walk's three `Bottom` cases, rows 587, 591 and 612; F-141, walk's instance of a type parameter that nothing fixes, which lists row 591 with its expected failure
    - Needed by: before Q-walk; its expected failures wait until walk has the checker's static types (rows 591, 616; PLAN, phase 4).
 
-### Numbers and numerals (5)
+### Numbers and numerals (6)
 
 90. Row 432 does not close by the numeral switch: under walk `SUM <|1, 2, 3|>` stays refused, since the numeral type carries no additive algebra. Row 437, read with it, closes with batch 13b's library half.
    - Landed: As the record reads it. The other way: Give the numeral type additive algebra. Its cost: A library choice for Q-walk.
@@ -596,13 +678,20 @@ Each is kept as landed unless he says otherwise.
    - Needed by: no planned work (set by the landing workflow); the item is told, not asked.
 
 380. **The integers' rung wrote ten new helpers, not nine, and Appendix I's natives effect now reads 341 of 443; told, not asked.** I.worker.1 and I.worker.2 of climb batch 27's rung I. `ZZ`'s right shift needs a helper of its own at the count `Integer.MIN_VALUE`, so the rung wrote ten new helpers where the plan said about nine. The gather corrected the effect of Appendix I's entry on the natives to the merged tree: 341 of 443 live bindings name a helper, and 102 a glue class.
-   - Landed: As described (`0122a399a`; F-327). Default: as landed.
+   - Landed: As described (`0122a399a`; F-327). Climb batch 28's gather revised the effect again, to 372 of 424, in rung S's commit (`Specification/appendices/changes.tex:4627-4674`; `compile-ladder/climb-batch-28/RECORD.md`, "The count of the bindings"). Default: as landed.
    - The other way: None asked; the item is told for his sight.
    - Its cost: None.
    - Home: PLAN, "Climb batch 27, listed for his review", I.worker.1; `compile-ladder/rung-natives-shift-power/REPORT.md:34`; `Specification/appendices/changes.tex:4625`; F-299; F-327
    - Needed by: no planned work (set by the landing workflow); told, not asked.
 
-### Sizes and arrays (1)
+410. **`ZZ`'s `asZZ64` and `asNN64` bind two new helpers, departing from fork V1's default; told, not asked.** V.worker.2 and V.skeptic.2 of climb batch 28's rung V. Fork V1 gave a checked getter a Fortress body where no helper exists, and added no Java beyond its three pairs. `ZZ` has no low-bits form to wrap once its `narrow` and `widen` went, so the rung bound these two getters to new helpers. P-162 supports new helpers for carried types.
+   - Landed: Two new helpers (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java:146-157`; `45868b113`; F-331). Default: as landed.
+   - The other way: None asked; the departure is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 28, listed for his review", V.worker.2; `coordinator/CLIMB-BATCH-28.md:396`, fork V1; `reviews/batch-28-review.md`, Part 1, split 1; P-162; item 429
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
+
+### Sizes and arrays (4)
 
 248. **Does P-88 fix the read-only matrix's shape as `ReadableArray2`, or only that a read-only matrix is wanted?** P-88 says that microGPT's diagonal is read-only, so a read-only matrix trait is wanted in the library. It names the trait `ReadableArray2`, which `Array2` would extend as `Array1` extends `ReadableArray1`. On the audit's page, 2026-10-21 at 23:29 UTC, he kept that sentence as his position: "we wish to write readable array to. So like a read-only matrix." The immutable-arrays probe of 2026-10-20 sketched another shape: a standalone `ImmutableArray2` and `ImmutableArray3`, "not a `ReadableArray2`/`ReadableArray3` above both kinds". It left `Array2` and `Matrix` untouched except `freeze`, and said that no decision of the curator covers the choice (`perf-probes/immutable-arrays/REPORT.md`, "Decisions", 1). Its sketch (`5667c5ae8`) is not on `main`. Its own questions for him, among them whether ranks 2 and 3 are built at all, are in its report and not in this list.
    - Landed: The entry as the clarity pass of 2026-10-22 applied it, with the name `ReadableArray2`. Default: as it reads; no row is filed and nothing is built.
@@ -611,6 +700,27 @@ Each is kept as landed unless he says otherwise.
    - Home: POSITIONS P-88; row 798, no read-only matrix trait; `coordinator/consolidation-2026-10-22/evidence/positions/p7/proposals.md`, "P-88", question 1, the clarity writer's question; `coordinator/positions-audit/evidence/curator-comments-2026-10-21.md`, his page comments; `perf-probes/immutable-arrays/REPORT.md`, "Decisions" and "Questions for the curator", the probe's shape and its four questions
    - Needed by: before microGPT compiles; phase 5's array design builds the read-only matrix trait that P-88 wants for microGPT's read-only diagonal (PLAN, phase 5, the array design's line), and the immutable-arrays probe's question 1, whether ranks 2 and 3 are built, meets it there.
 
+415. **The old array glue classes are left unused: does their removal belong to the names batch's clean-up?** A.worker.3 and A.skeptic.6 of climb batch 28's rung A. `PrimitiveArray.java`, `PrimImmutableArray.java` and `PrimImmutableRR64Array.java` under `interpreter/glue/prim/` are unused since the arrays moved onto the store, as fork R3 leaves the reader's glue classes.
+   - Landed: Left. Default: left, as landed.
+   - The other way: Their removal, in the names batch's clean-up or sooner.
+   - Its cost: Not sized by any source.
+   - Home: PLAN, "Climb batch 28, listed for his review", A.worker.3; `coordinator/CLIMB-BATCH-28.md:407`, fork R3; `ProjectFortress/LibraryBuiltin/NativeArray.fss:12-45`
+   - Needed by: the names batch's clean-up, which the item names (set by the landing workflow).
+
+417. **Under walk a primitive array's subscript out of bounds ends the run with a raw Java exception (row 932): subscript through `offset(i)` in a later rung, or restore a located error in `ArrayOps` now?** A.worker.5 and A.skeptic.2 of climb batch 28's rung A. A `PrimitiveArray`'s or `PrimImmutableArray`'s `opr [ ]` calls the unchecked `get` and `put`, not `offset`. So the run ends with a raw `ArrayIndexOutOfBoundsException` and no Fortress location. An immutable array lost the base glue's located error, 'Array index 7 out of bounds, length=3', and the message of a read before initialisation now names `JavaArrayStoreObject`. Row 939, from rung S's skeptic, is its duplicate, with `System`'s `args` among the arrays (item 426).
+   - Landed: `opr [ ]` as written, which the brief kept. Default: as landed.
+   - The other way: A subscript through `offset(i)` in a later rung, as the row's fix gives it, or a located error restored in `ArrayOps` now.
+   - Its cost: Not sized by any source.
+   - Home: PLAN, "Climb batch 28, listed for his review", A.worker.5; `ProjectFortress/LibraryBuiltin/NativeArray.fss:17`, `:19`, `:29`; `ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/ArrayOps.java:31-41`; `reviews/batch-28-review.md`, Part 1, split 6; rows 932 and 939
+   - Needed by: no planned work (set by the landing workflow).
+
+418. **Inside a compiled transaction `FortressArrayStore.init`'s read of an empty element is not in the read set: record it with a sentinel, or leave the case under row 466?** A.skeptic.3 of climb batch 28's rung A, by reading, not measured. Two transactions that initialise one element at once both answer true, and the later commit's value stays. Walk's `AtomicArray.init` reads through its transactional cell. A second initialisation is the program's error either way.
+   - Landed: Left under row 466, the worker's decision 4. Default: as landed.
+   - The other way: The empty read recorded with a sentinel.
+   - Its cost: Not sized by any source.
+   - Home: PLAN, "Climb batch 28, listed for his review", A.skeptic.3; `ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressArrayStore.java:60-66`; `ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:212-228`; `reviews/batch-28-review.md`, Part 1, split 7; row 466; item 414
+   - Needed by: no planned work (set by the landing workflow).
+
 ### Ranges (1)
 
 108. The one library's strided `:` returns a range, which is no generator, so `seq(a:b:c)` is refused against it (row 661); the compiled prelude has no strided range at all (row 514).
@@ -618,7 +728,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 12, listed for his review", Row 661; PLAN, "Off the path, parked", The compiled path has no strided range; `compile-ladder/rung-library-slips/REPORT.md:252`
    - Needed by: before the switch-over; the switch-over meets the one library's strided `:` (its Landed line; rows 514, 661).
 
-### The library's generators, strings and comparisons (8)
+### The library's generators, strings and comparisons (9)
 
 364. **Rung T's helpers: `javaSubstr` on a new helper that raises, and the line separator in `stringOps` (fork 22).** Climb batch 26's rung T bound 7 of its 18 bindings to 6 existing helpers and 11 to new ones. `javaSubstr` takes a new helper over Java's `substring`, which raises out of range as the glue does, not `stringOps.substring`, which clamps and reads a negative index from the end. The record put the line separator in `systemOps`. The rung moved it into `stringOps` (`8b6fca9b5`), since the checker cannot read `systemOps` against the interpreter's prelude (F-321).
    - Landed: As described. Default: as landed.
@@ -648,14 +758,14 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 27, listed for his review", W.worker.2; `Library/Writer.fss:38`; `Library/Writer.fsi:24`; F-330
    - Needed by: no planned work (set by the landing workflow).
 
-384. **Should the library's exceptions carry the helper's message?** W.skeptic.3 of climb batch 27's rung W. Under walk an uncaught missing file now prints `FileNotFoundException` at `Library/Writer.fss:21` and no longer names the file. The same holds for `IOFailure` after a close.
-   - Landed: The library's exceptions with no message. Default: as landed.
-   - The other way: The library's exceptions take the helper's message, as the prelude's `FileNotFoundException(s: String)` does.
+384. **Should the library's exceptions carry the helper's message?** W.skeptic.3 of climb batch 27's rung W. Under walk an uncaught missing file now prints `FileNotFoundException` at `Library/Writer.fss:21` and no longer names the file. The same holds for `IOFailure` after a close. Since climb batch 28's rung H the two paths raise the same exception and differ on its message: a compiled helper's raise carries it, as 'IOFailure [I/O failure:  Stream closed ]', and walk's carries none. So the question is now the paths' divergence. H.worker.2 and H.skeptic.2's second question point here.
+   - Landed: Under walk, the library's exceptions with no message; on the compiled path, with the helper's message (`70c26e3fd`; F-336). Default: as landed.
+   - The other way: The library's exceptions take the helper's message on both paths, as the prelude's `FileNotFoundException(s: String)` does.
    - Its cost: Not sized by any source.
-   - Home: PLAN, "Climb batch 27, listed for his review", W.skeptic.3; `compile-ladder/rung-io-writer/SKEPTIC.md`, "My programs"; `coordinator/CLIMB-BATCH-27.md`, fork W4
+   - Home: PLAN, "Climb batch 27, listed for his review", W.skeptic.3; `compile-ladder/rung-io-writer/SKEPTIC.md`, "My programs"; `coordinator/CLIMB-BATCH-27.md`, fork W4; `ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java:28-31`; `ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java:277-282`; `reviews/batch-28-review.md`, Part 1, split 4; F-336
    - Needed by: no planned work (set by the landing workflow).
 
-385. **A program's object below `JavaBufferedWriter` loads, and stops at its first inherited native (row 928).** W.skeptic.4 of climb batch 27's rung W. The trait's natives work over a Java writer, and the trait cannot name its private native object in a `comprises` clause, so the loader refuses any other value: 'No Java FortressBufferedWriter carries Fake'.
+385. **A program's object below `JavaBufferedWriter` or `JavaBufferedReader` loads, and stops at its first inherited native (row 928).** W.skeptic.4 of climb batch 27's rung W; climb batch 28's rung R added the reader trait to the row. Each trait's natives work over a Java writer or reader, and neither trait can name its private native object in a `comprises` clause, so the loader refuses any other value: 'No Java FortressBufferedWriter carries Fake', and the same for the reader.
    - Landed: Gated as a design limit (row 928). Default: as landed.
    - The other way: Another carrier design, in which the trait can be closed to its native object.
    - Its cost: Not sized by any source. A program's own writer extends `WriteStream`.
@@ -674,6 +784,13 @@ Each is kept as landed unless he says otherwise.
    - The other way: The one-line `match(regex.asFlatString, some.asFlatString)`, which reaches the native by dispatch and calls itself again on a string that does not flatten; or no overload, row 916 open.
    - Its cost: Two lines and their api line undo it.
    - Home: `coordinator/CLIMB-BATCH-27.md`, fork A6; `reviews/batch-27-review.md`, Part 1, split 4; `reviews/strings-in-fortress-2026-11-07.md`, section 5; row 916
+   - Needed by: no planned work (set by the landing workflow).
+
+412. **`FileWriteStream`'s write of a string that is not flat makes no flush, where fork R2 says "as Writer's are".** R.judge.1 of climb batch 28's rung R. `Writer`'s write of a rope flushes after it. `FileWriteStream`'s makes one write and no flush.
+   - Landed: Option 1, no flush, which keeps the file stream's buffering, so its other writes behave as before (`Library/File.fss:57`; `71d1018d1`). Default: option 1, as landed.
+   - The other way: Option 2, a flush after it, as `Writer` and the team's `Writer` did, so that a rope's write flushes where a flat string's does not. Lines stay whole either way.
+   - Its cost: Option 2 is one line.
+   - Home: PLAN, "Climb batch 28, listed for his review", R.judge.1; `Library/Writer.fss:32-35`; `coordinator/CLIMB-BATCH-28.md:406`, fork R2; `compile-ladder/rung-io-reader/JUDGE.md`; `reviews/batch-28-review.md`, Part 1, split 3; item 430
    - Needed by: no planned work (set by the landing workflow).
 
 ### The specification's text (3)
@@ -715,7 +832,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 27, listed for his review", E.worker.2; `ProjectFortress/tests/TransposedMatrixAndFreeze.fss:23-24`; item 401; row 923
    - Needed by: no planned work (set by the landing workflow); told, not asked.
 
-### Code generation and the run time (4)
+### Code generation and the run time (8)
 
 205. **Boxing is measured on microGPT-shaped kernels, not on a scalar loop with literals and a `:=` accumulator, which microGPT's kernels do not run.** A measurement of what boxing costs on the compiled path uses code shaped like microGPT's kernels: the dot product over the flat parameter vector, the matrix product, the row lift (`perf-probes/kernels/REPORT.md`, section 2). It does not use a scalar loop that keeps float literals inside the hot loop and a `:=` accumulator, as the first boxing probe did (`perf-probes/boxing/REPORT.md`, section 2). His only word was one instruction. On 2026-09-15 at 22:34 UTC, on that probe, he said that the test seemed to meet an edge case that the microGPT experiments had not met, float literals parsed from strings, and asked for a fairer and better test. The kernels probe did that. P-17 told this as history until the consolidation of 2026-10-13 (`b87a17de5`) kept it "as the rule on what to measure". He was never asked about the rule. The text it stood in said "which microGPT never runs". MicroGPT's kernels run no such loop, but C4's weight loader does: `parseFloat` keeps `m: RR64 := 0.0` and runs `m := 10.0 m + ...` in a `while` loop (`run-c4/src/FlatData.fss:16-30`). So the item says "which microGPT's kernels do not run".
    - Landed: As stated, in P-17 from 2026-10-13 until the audit. The one measurement it describes is the kernels probe of 2026-09-15 (F-11, boxing the main cost of microGPT-shaped array code). Default: as stated.
@@ -745,10 +862,38 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 72; `Library/ChunkedSparseArray.fss:124`; `ProjectFortress/compiler_tests/XXXAsIfGenericMethodCompiled.test:3`, `XXXAsIfGenericFunctionCompiled.test:3`; row 922, walk's half; F-325
    - Needed by: before the switch-over; PLAN item 72 places it there, when the code generator compiles the one library.
 
-### How batches run (16)
+411. **A compiled helper's raise with a message now reaches a `catch`, by rung H's repair of `Utility.makeFortressException`, a run-time class that rung R had asked about (row 930).** R.worker.1, R.skeptic.1 and H.skeptic.1 of climb batch 28's rungs R and H, a reserved point. On the compiled path no `catch` saw a helper's raise of `IOFailure` or `FileNotFoundException`. `Utility.makeFortressException(name, msg)` sought a constructor at `java.lang.String`, which the prelude's exception lacks. Rung R's brief reserved an edit of a run-time class, so R asked which change takes the repair: a run-time rung before N5, or N5. Rung H's brief named neither, and H repaired it, since its own `FailCalled` test needs it. The specification settles the behaviour (`basic/expressions/try.tex`, "Try Expressions"), so only the rung that took the repair is open. The 13 compiled raises with a message now reach a `catch`.
+   - Landed: H's repair (`70c26e3fd`; F-336); the gather promoted R's pair to `FileOpsRaiseCaughtCompiled` and closed row 930 by H's commit. Default: keep H's repair, as landed.
+   - The other way: H's repair reverted, and `FailCalled` built by reflection in `runtime.java`, which leaves those raises uncatchable.
+   - Its cost: Not sized by any source.
+   - Home: PLAN, "Climb batch 28, listed for his review", R.worker.1; `ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java:28-31`; `ProjectFortress/compiler_tests/FileOpsRaiseCaughtCompiled.fss`; `ProjectFortress/compiler_tests/HelperRaiseMessageCompiled.fss`; `coordinator/CLIMB-BATCH-28.md:544`, `:546`, `:673-675`; row 930; item 384
+   - Needed by: no planned work (set by the landing workflow).
+
+413. **Which rung of the code generator takes the outer handler's catch of a nested `atomic` block's abort (row 934), with row 888's `forTry`?** A.skeptic.1 of climb batch 28's rung A. On the compiled path the outer handler of an `atomic` block nested in another in one body takes the inner block's abort. `CodeGen.forAtomicBlock` writes its exception-table entry before it visits its body. So updates are lost at four threads, on the base and on the rung alike. The compiled array store will share the path. It is row 888's mechanism for `atomic`.
+   - Landed: Nothing repaired; rows 934 and 937 open. Default: no default on record.
+   - The other way: The question asks only which rung takes it; no source names a way of repair beyond row 888's.
+   - Its cost: Not sized by any source.
+   - Home: PLAN, "Climb batch 28, listed for his review", A.skeptic.1; `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1774-1786`; `compile-ladder/rung-array-store/SKEPTIC.md`; rows 934, 937 and 888; item 425
+   - Needed by: before the switch-over, when the compiled array store meets nested `atomic` blocks (set by the landing workflow).
+
+421. **`printTaskTrace` reads `BaseTask`'s package-private `parent` by reflection.** H.worker.1 and the first question of H.skeptic.2, of climb batch 28's rung H. The brief kept `runtimeSystem/` out of the rung.
+   - Landed: Reflection (`ProjectFortress/src/com/sun/fortress/nativeHelpers/runtime.java:71-90`; `70c26e3fd`; F-335). Default: as landed.
+   - The other way: A one-line public `parent()` on `BaseTask`, used by `runtime.java`, when a later rung edits `runtimeSystem/`.
+   - Its cost: One line under the other way.
+   - Home: PLAN, "Climb batch 28, listed for his review", H.worker.1; `ProjectFortress/src/com/sun/fortress/runtimeSystem/BaseTask.java:46`; `reviews/batch-28-review.md`, Part 1, split 9
+   - Needed by: the next rung that edits `runtimeSystem/` (set by the landing workflow).
+
+423. **Fix row 940 in `CodeGen.methodsNamed`, or once in `STypesUtil.gatherMethods`?** T.worker.2 and T.skeptic.2 of climb batch 28's rung T (rows 940 and 942). The rung fixed row 733 in `dumpMethodChaining`. Row 940 stands at `methodsNamed`, and row 942 meets the same api-header name at the dispatch generator. A fix in `STypesUtil.gatherMethods` would cover every site of the code generator. But that method is also the checker's code (`OverloadingChecker.scala:394`, `AbstractMethodChecker.scala:90`), so that fix takes P-148's measure.
+   - Landed: Rows 940 and 942 open (`d839b7421`; F-338). Default: no default on record.
+   - The other way: The two ways that the question names: each site in the code generator, as the rung fixed `dumpMethodChaining`, or one fix in `STypesUtil.gatherMethods`.
+   - Its cost: Not sized by any source; the shared fix takes P-148's measure of the checker's time.
+   - Home: PLAN, "Climb batch 28, listed for his review", T.worker.2; `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:6502`; `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1651`; `compile-ladder/rung-codegen-trait-table/REPORT.md`, sections 4 and 11; `reviews/batch-28-review.md`, Part 1, split 11; rows 940 and 942
+   - Needed by: before the code-generator rung that takes row 940 (set by the landing workflow).
+
+### How batches run (27)
 
 335. **A systematic check of the natives' shared state, the coordinator's proposal: a static field check in the gate and a parallel test for each helper with state. Build it, a part of it, or neither?** The natives' shared-state audit (`reviews/natives-shared-state-audit.md`, section 7; `723cb707c`) found one slip in the natives' own state, the two `CHOOSE` scratch arrays (row 855, fixed by climb batch 24's rung K), and the pattern in the checking: no test calls a native from parallel tasks and compares the results with a sequential answer, which is why row 855 waited for a probe. Its proposal, which the coordinator puts to him as its own, not built: (1) a static check in the gate, one `javap -p` over the built classes of `nativeHelpers/` and `interpreter/glue/`, that fails on a static field that is not final or is of an array or collection type, or on an instance field of a glue class, not in an allow-list taken from the audit's section 2; (2) for each helper that the check lets through with state, or that calls into run-time state, a compiled test that calls its binding from a parallel loop at four threads and asserts each value against a sequential answer, as the CHOOSE probe's tests do. A pure helper needs none.
-   - Landed: Nothing built. Default: neither part built, as today; the proposal stays the coordinator's until he says yes.
+   - Landed: Nothing built. Climb batch 28's new helpers hold no state of their own: `programArgs` reads `MainWrapper.cachedArgs`, set once before the run (`coordinator/CLIMB-BATCH-28.md`, fork 4; F-337), so the default stands. Default: neither part built, as today; the proposal stays the coordinator's until he says yes.
    - The other way: (1) alone, (2) alone, or both.
    - Its cost: (1) One small worker session, about forty lines of script and the allow-list, then one `javap` run in each gate, well inside 100 seconds in the audit's run (not timed). (2) Nothing beyond rung K's tests today, one test for `drandom` if item 334 asks for its determinism, and one for each helper with state that appears later.
    - Home: PLAN, "Climb batch 24, listed for his review", the audit's systematic check; `reviews/natives-shared-state-audit.md`, sections 6 and 7; row 855; item 334
@@ -769,11 +914,11 @@ Each is kept as landed unless he says otherwise.
    - Needed by: no planned work (set by the landing workflow); told, not asked.
 
 377. **Climb batch 27's disk, and its rungs S and T, which never started.** N.skeptic.1, N.judge.1, C.worker.2, C.skeptic.1, S.worker.1, S.skeptic.1, S.judge.1, S.judge.2, A.worker.1, A.skeptic.1, T.worker.1, T.skeptic.1, T.judge.1, T.judge.2 and gather.2 of climb batch 27. The container's disk allowance was spent through the batch (31 MB to 443 MB free). So rungs S and T never started, rung N's skeptic never ran, rung C ran neither stage nor `ant testQuick`, and the gather's first build of the specification died 'No space left on device'. Who frees the disk, by the `cloud-container` skill's rules? Are S and T relaunched from the start of their briefs, or moved to climb batch 28? S's judge ruled a repair round. T's judge gave (a) relaunch before this batch's gate, or (b) carry T unchanged to climb batch 28, which no conflict prevents.
-   - Landed: The coordinator freed the disk between 10:45 and 10:52 (`reviews/batch-27-review.md`, section 7, point 2), and moved S and T to climb batch 28, the coordinator's call, on his review list (`coordinator/BOOT.md`). Default: no default on record for the disk; for T, (b) costs nothing in conflicts.
+   - Landed: The coordinator freed the disk between 10:45 and 10:52 (`reviews/batch-27-review.md`, section 7, point 2), and moved S and T to climb batch 28, the coordinator's call, on his review list (`coordinator/BOOT.md`). Both landed in climb batch 28 (`8ff5cb7ff`, `d839b7421`), so no work waits on the item. Default: no default on record for the disk; for T, (b) costs nothing in conflicts.
    - The other way: S and T relaunched in climb batch 27 before its gate, from the start of their briefs.
-   - Its cost: Under the default, `System`'s rung and the trait table's wait one batch. The review's process finding 2 asks for a check of the free disk at launch and a cleanup inside the run.
-   - Home: PLAN, "Pavol's answers, in the order they are needed", item 68; `compile-ladder/rung-system-string-ops/SKEPTIC.md:1`; `compile-ladder/rung-codegen-trait-table/SKEPTIC.md:1`; `compile-ladder/rung-number-open/JUDGE.md`; `compile-ladder/climb-batch-27/RECORD.md`, "Not landed"; `reviews/batch-27-review.md`, section 7, point 2
-   - Needed by: before the next batch; PLAN item 68 places it there, since climb batch 28 runs S and T or leaves them.
+   - Its cost: Under the default, `System`'s rung and the trait table's waited one batch. The review's process finding 2 asks for a check of the free disk at launch and a cleanup inside the run.
+   - Home: PLAN-history, "Climb batch 28's landing, 2026-11-08", "Pavol's answers, in the order they are needed", item 68; PLAN, "Climb batch 28, listed for his review"; `compile-ladder/rung-system-string-ops/SKEPTIC.md:1`; `compile-ladder/rung-codegen-trait-table/SKEPTIC.md:1`; `compile-ladder/rung-number-open/JUDGE.md`; `compile-ladder/climb-batch-27/RECORD.md`, "Not landed"; `reviews/batch-27-review.md`, section 7, point 2
+   - Needed by: no planned work (set by the landing workflow); climb batch 28 ran S and T.
 
 389. **The relayed user request of climb batch 27's run, "this cloud container" read as "a cloud container".** N.worker.1, N.skeptic.2, N.judge.3, W.worker.3, S.worker.2, S.judge.3, E.worker.1, E.skeptic.1, G.worker.2, G.skeptic.3 and gather.4 of climb batch 27, and judge.2 of its merged-diff review. A chat message of his reached every agent of the run as "the user request", since the run was launched in the same turn. Its sentence, "A session in this cloud container cannot delete a branch on GitHub", takes "a" for "this", so that the rule holds for a session in any cloud container. The skills and the boot note already say "a cloud container"; the merged-diff review applied it to the held list. One copy stays under `.claude/`, which no agent of the batch edits.
    - Landed: As applied; the copy at `.claude/skills/fortress-repo/references/sources.md:1072` is left for the skill writer. Default: as applied.
@@ -859,7 +1004,84 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 27, listed for his review", the record's points; `coordinator/CLIMB-BATCH-27.md:597-602`; `reviews/batch-27-review.md`, Part 4
    - Needed by: no planned work (set by the landing workflow); told, not asked.
 
-### The record, its tools and the repository (10)
+416. **Rungs A and S both edited `StringPrim.java`, and S's Fortress `args` leaves `GetProgramArgs` unused; told, not asked.** A.worker.4 and A.skeptic.7 of climb batch 28's rung A. A edits `grindProgramArgs`, and S edits `registerProgramArgs`. The hunks differ, and they applied cleanly in the gather.
+   - Landed: As described (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/StringPrim.java:122-151`). Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 28, listed for his review", A.worker.4; F-337
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
+
+424. **The gather applied the manifest's order, V, R, A, K, H, S, T; told, not asked.** gather.1 of climb batch 28. Every pair of rungs that two shared files ordered both ways (V and A, R and A, A and H, R and H) kept the manifest's order. Every pair that one file ordered agreed with it. Where the gather folded A's lines that V's and R's hunks shifted, it re-anchored them by symbol. The landed REPORT.md files cite their branches' lines.
+   - Landed: The order V, R, A, K, H, S, T. Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 28, listed for his review", gather.1; `compile-ladder/climb-batch-28/RECORD.md`, "The rungs applied: the order and why"; `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:53-60`; `Library/FortressLibrary.fss:2438-2453`
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
+
+428. **The record's forks for the whole of climb batch 28, 1 to 6, taken at their defaults.** `coordinator/CLIMB-BATCH-28.md`, section 3, "Forks the batch takes, none consequential", "For the whole batch": seven rungs in the manifest's order, none landing only with another, no two changing one declaration (1); the suites that each rung runs, once, after its last change of code (2); the count stage and the distance stage once each on each rung's final tree, but T's (3); no new helper with shared state but S's arguments, written once before the program runs, so item 335's default stands (4); Appendix I's natives effect written by the gather, not by the rungs (5); item 403 stays his, while rung K removes the crash (6).
+   - Landed: Each at its default. Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone, and none reverses a decision of his or touches a line of microGPT (the record's section 3).
+   - Home: PLAN, "Climb batch 28, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-28.md`, section 3; `reviews/batch-28-review.md`, Part 4, "Record defaults the batch took"; items 335, 380 and 403
+   - Needed by: no planned work (set by the landing workflow).
+
+429. **Rung V's forks V1 to V6 of climb batch 28, taken at their defaults, with V1's departure.** The record's forks 7 to 12: a checked getter a Fortress body where no helper exists, and the existing helper where one does (V1); `IntLiteral`'s 8 in rung V (V2), over `asZZ` (V3); the callers of `ZZ`'s `narrow` and `widen` moved, among them two lines of the team's demo `sudoku.fss` (V4); the low-bits names declared on every type where they apply (V5); the specification's sentences with an Appendix I entry (V6). V1 departs: `ZZ`'s `asZZ64` and `asNN64` bind two new helpers (item 410).
+   - Landed: Each at its default, V1 with its departure (`45868b113`; F-331). Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone.
+   - Home: PLAN, "Climb batch 28, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-28.md`, section 3, "Rung V"; `reviews/batch-28-review.md`, Part 1, split 1; item 410; F-331
+   - Needed by: no planned work (set by the landing workflow).
+
+430. **Rung R's forks R1 to R7 of climb batch 28, taken at their defaults, with R2's departure.** The record's forks 13 to 19: the reader trait's `read(): Char` on `jbrRead`, with the -1 at the end in Fortress (R1); `FileWriteStream` a `WriteStream` with its `flush` (R2); the glue classes of the three objects left in the tree, unused (R3); the factories on `jbrOpen` and a new `jbrStdIn`, in UTF-8 (R4); the printed texts kept (R5); a missing file and a read after `consume` or a write after `close` raise the library's exceptions, which a `catch` sees (R6); the objects' api headers (R7). R2 departs: a rope's write makes no flush (item 412).
+   - Landed: Each at its default, R2 with its departure (`71d1018d1`; F-332). Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone.
+   - Home: PLAN, "Climb batch 28, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-28.md`, section 3, "Rung R"; `reviews/batch-28-review.md`, Part 1, split 3; items 412 and 415; F-332
+   - Needed by: no planned work (set by the landing workflow).
+
+431. **Rung A's forks A2 to A7 of climb batch 28, taken at their defaults, with A7's departure; A1 by his answer to Q2.** The record's forks 21 to 26: the store traits `JavaArrayStore` and `JavaRR64ArrayStore` (A2); a read as `cast[\T\](mem.get(i))`, by P-162's pair (A3); walk's loader answers every name of `arrayOps` by one rule (A4); `NativeArray` a plain component, with walk's two native objects in `FortressBuiltin` (A5); the compiled store's test a Java unit test (A6); row 466's rule kept (A7). Fork A1, the store's shape, took his answer to Q2, shape (ii), not its default (P-169). A7 departs: the rule now holds for immutable arrays too (item 414).
+   - Landed: A2 to A7 at their defaults, A7 with its departure (`a6c884cd`; F-333). Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone.
+   - Home: PLAN, "Climb batch 28, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-28.md`, section 3, "Rung A, if Q2 is answered"; `reviews/batch-28-review.md`, Part 1, split 5; item 414; P-169; F-333
+   - Needed by: no planned work (set by the landing workflow).
+
+432. **Rung K's forks K1 to K5 of climb batch 28, taken at their defaults.** The record's forks 27 to 31: one class, `PartialOrder.scala`, at the four sites, reading each pair at most once (K1); a tie keeps the first minimal candidate in the list's order (K2); `callType` takes the head of `minimal` and sorts nothing (K3); the compiled test of 64 candidates over two chains of traits (K4); the memo audited on one full run (K5).
+   - Landed: Each at its default (`a3eba5067`; F-334). Default: as landed.
+   - The other way: The way not taken that each fork names; for K2, TimSort's head wherever TimSort succeeds, which no sort that is correct on a partial order reproduces.
+   - Its cost: Each can be undone.
+   - Home: PLAN, "Climb batch 28, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-28.md`, section 3, "Rung K"; `reviews/batch-28-review.md`, Part 1, split 8; item 419; F-334
+   - Needed by: no planned work (set by the landing workflow).
+
+433. **Rung H's forks H1 to H4 of climb batch 28, taken at their defaults.** The record's forks 32 to 35: the six helpers in `nativeHelpers/runtime.java` (H1); `Thread`'s four raise `FailCalled` on the compiled path until `spawn` compiles (H2); compiled `abort` and `printTaskTrace` over the compiled run time (H3); the six names in walk's table (H4).
+   - Landed: Each at its default (`70c26e3fd`; F-335). Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone.
+   - Home: PLAN, "Climb batch 28, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-28.md`, section 3, "Rung H"; P-169; F-335; row 82
+   - Needed by: no planned work (set by the landing workflow).
+
+434. **Rung S's forks S1 to S4 of climb batch 28, taken at their defaults, S3 named; no default departs.** The record's forks 36 to 39: `systemOps` keeps `getProperty` and `getArgs`, and `getEnvironment` leaves it (S1); row 895 closes with `--test none` and a note of the rung's two runs of the checker over `System` (S2); the two helpers in a new class, `nativeHelpers/programArgs` (S3); `args` built in Fortress, with `getProgramArgsPrim` and `getProgramArgs` deleted (S4). S3 named: the helpers read `MainWrapper.cachedArgs`, not a static of `programArgs`' own, and P-170's letter holds.
+   - Landed: Each at its default (`8ff5cb7ff`; F-337). Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone.
+   - Home: PLAN, "Climb batch 28, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-28.md`, section 3, "Rung S"; `reviews/batch-28-review.md`, Part 1, split 10; items 319 and 335; P-170; F-337
+   - Needed by: no planned work (set by the landing workflow).
+
+435. **Rung T's forks T1 and T2 of climb batch 28, taken at their defaults.** The record's forks 40 and 41: the fix in the comparison that stops, in `dumpMethodChaining` (T1); row 732, the sibling in the same method, not T's (T2).
+   - Landed: Each at its default (`d839b7421`; F-338). Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone.
+   - Home: PLAN, "Climb batch 28, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-28.md`, section 3, "Rung T"; item 423; F-338
+   - Needed by: no planned work (set by the landing workflow).
+
+436. **The record's points for his sight of climb batch 28.** `coordinator/CLIMB-BATCH-28.md`, section 3, "Points the batch lists for him, not questions". The team's lines changed: `sudoku.fss:42-43`, the library's callers in `Format.fss` and `QuickCheck.fss`, the headers of `File.fsi` and `Reader.fsi`, and `NativeArray.fss` whole. Under walk, a missing file and a read after `consume` raise the library's exceptions, which a `catch` sees; `FileWriteStream` takes a rope and has `flush`; an array read passes a Fortress method and a cast. On the compiled path, once it reads the one library: `abort` works and `Thread`'s four raise; arrays run on the compiled store; `System` loads. In the checker: a call with 32 candidates or more is checked, and `Char`'s body is checked again. In the specification: the integers' sentences and their Appendix I entry. The review found the list missing from PLAN (Part 4, "Missing from PLAN").
+   - Landed: As listed. Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 28, listed for his review", the record's points; `coordinator/CLIMB-BATCH-28.md:450-456`; `reviews/batch-28-review.md`, Part 4
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
+
+### The record, its tools and the repository (13)
 
 225. **Is "The unrevised copy, `Specification-1.0-frozen/`, is never touched" his standing rule (P-95)?** P-95 says that every change to the specification is recorded with its reason, and adds: "The unrevised copy, `Specification-1.0-frozen/`, is never touched." He agreed to that for one rung: the route A rung of batch 4, in the question of 2026-09-24 at 14:36 UTC ("the frozen copy untouched"), which he answered with "Agreed. Route A it is." The coordinator made it a standing rule. It fits his wish of the same morning (07:03 UTC) to keep the original historic record. Confirm it, or strike it?
    - Landed: The sentence, as the entry reads. Default: kept, until he answers. The tree keeps it: the folder is the same tree as at the team's commit `5a68404fd` of 2012-07-19 (`coordinator/positions-audit/full/evidence/P-95.md`, section 2).
@@ -930,6 +1152,27 @@ Each is kept as landed unless he says otherwise.
    - Its cost: One row rewrite.
    - Home: PLAN, "Climb batch 27, listed for his review", A.worker.2; `coordinator/CLIMB-BATCH-27.md`, fork A4; row 321; F-328
    - Needed by: no planned work (set by the landing workflow); the row goes with the prelude either way.
+
+425. **Rows 934 and 937 record one mechanism: two rows, or one a duplicate of the other?** gather.2 of climb batch 28. Rung A's skeptic and rung H's skeptic each recorded the compiled `atomic` block nested in another, whose abort the outer handler takes. A's shows it through a conflict's abort and lost updates, and H's through `abort` and a rerun outer block. Both stand at the exception-table entry that `CodeGen.forAtomicBlock` writes before its body.
+   - Landed: Two rows, row 937 naming row 934 among its siblings, since row 934's notes are full. Default: two rows, as landed.
+   - The other way: One row, the other its duplicate.
+   - Its cost: One row rewrite.
+   - Home: PLAN, "Climb batch 28, listed for his review", gather.2; `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1774-1786`; `ProjectFortress/compiler_tests/XXXNestedAtomicAbortCompiled.fss`; rows 934 and 937; item 413
+   - Needed by: no planned work (set by the landing workflow).
+
+426. **Row 939, rung S's skeptic's row of a subscript outside a primitive array, made a duplicate of rung A's row 932; told, not asked.** gather.3 of climb batch 28. S's skeptic measured it on the base's glue, with `System`'s `args` among the arrays: 'Array index 4 out of bounds, length=4' in an `InterpreterBug`. On the merged tree it is row 932, where A's store answers with a raw `ArrayIndexOutOfBoundsException`. It is one defect: `opr [ ]` calls `get`, not `offset`. Row 932's notes have no room for S's `args`.
+   - Landed: Row 939 a duplicate of row 932. Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 28, listed for his review", gather.3; `ProjectFortress/LibraryBuiltin/NativeArray.fss:17`, `:19`, `:29`; `Library/System.fss:29-33`; rows 932 and 939; item 417
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
+
+427. **About 90 open ledger rows cite lines that climb batch 28's landing moved, without the commit at which each line was true: are they re-anchored, and when?** review.1 of climb batch 28's merged-diff review, told. Beyond gather.4's list, 22 FACTS entries and about 90 open rows that the batch did not write cite lines of a file that the batch edited, and the landing moved those lines. The review read each cited line at `157323e51` and at `HEAD`; the rows include 147 and 315. It re-anchored only the batch's own lines (F-321; rows 324 and 928). The record landing of climb batch 28 re-anchored the 22 FACTS entries, so this item asks about the rows only.
+   - Landed: The rows as they are. Default: no default on record.
+   - The other way: The rows re-anchored, in a pass of their own or in the ledger's full pass (item 267).
+   - Its cost: Not sized by any source; about 90 row rewrites through `ledger.py rewrite`.
+   - Home: PLAN, "Climb batch 28, listed for his review", review.1; `explorations/fortress-gap-ledger.md:65`, row 147's `Library/FortressLibrary.fsi:590`; `reviews/batch-28-review.md`, Findings, C; items 265 and 267
+   - Needed by: before the ledger's repair (set by the landing workflow); the ledger's full pass, or the answer of no pass, meets the same rows.
 
 ## (a) Settled or stale: these leave the lists
 

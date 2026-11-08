@@ -1,0 +1,9 @@
+Record landing of climb batch 28: PLAN, the review queue and the run's folder routed for the landing
+
+- PLAN, "Where we stand": brought to climb batch 28's landing at f56d6516c, with no crash row, 372 of 424 bindings on helpers, and climb batch 29 next.
+- PLAN, phase 4: climb batch 28's line; the built lines moved or cut to what stays (the 109, IntLiteral's 8, N4's two rungs, D2's 42, row 929, System's rung, getProgramArgsPrim, P-161); the natives' count, row 931, the code generator's kinds and the components outside the distance rewritten; new lines for the OWN_OPERATIONS javadoc, rows 82 and 938, and row 936.
+- PLAN, "Pavol's answers": item 67 built; items 68 and 69 out of the list, open as review-queue items 377 and 373; item 74 cut to a pointer to item 408.
+- PLAN, the lists for his review: rung P's narrow on ZZ answered by P-161; row 527's line and climb batch 27's lines on items 384, 385 and 403 brought to the tree; climb batch 28's lines cut to pointers to items 409 to 427, new lines for its forks and points, gather.4 moved.
+- Review queue: items 408 to 437 new; 373 and 377 brought to the tree and kept open; 319, 335, 380, 384, 385, 403 and 406 brought to the landing; the head's groups and counts.
+- PLAN-history: every moved or rewritten line, word for word.
+- The run's folder of the climb batch 28 record landing.
