@@ -2,7 +2,7 @@
 
 # Boot note
 
-**State at 09:0x UTC on 2026-11-08** (10:0x his time). **Climb batch 28 landed**: all seven rungs approved (R after a judge's ruling), gate green, pushed at `f56d6516` by its commit stage (base `157323e5`), microGPT's quick walk check 7 of 7 on both programs; 35 items for him, all in PLAN's list. Its landing steps run (the `coordinator` skill's `references/batch.md`, "The landing"). The coordinator booted light after the compaction of 02:2x and read FACTS and POSITIONS whole at 08:5x, at this landing. Climb batch 27's landing is done (its record-landing at `d131d92c5` to `2c3c669f8`).
+**State at 08:5x UTC on 2026-11-08** (09:5x his time). **Climb batch 28 landed**: all seven rungs approved (R after a judge's ruling), gate green, pushed at `f56d6516` by its commit stage (base `157323e5`), microGPT's quick walk check 7 of 7 on both programs; 35 items for him, all in PLAN's list. Its landing steps run (the `coordinator` skill's `references/batch.md`, "The landing"). The coordinator booted light after the compaction of 02:2x and read FACTS and POSITIONS whole at 08:5x, at this landing. Climb batch 27's landing is done (its record-landing at `d131d92c5` to `2c3c669f8`).
 
 ## Running
 
