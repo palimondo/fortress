@@ -1,0 +1,119 @@
+(* The reader side: a FileWriteStream writes a file, a rope and a flush among it; a FileReadStream and a Reader read it back to its end; a read after consume raises IOFailure and a missing file FileNotFoundException. *)
+component NativeHelperReaderWalk
+import File.{...}
+import FileSupport.{...}
+import Reader.{...}
+export Executable
+
+linesOf(name: String): ZZ32 = SUM[\ZZ32\][l <- FileReadStream(name).lines()] 1
+
+charactersOf(name: String): ZZ32 = SUM[\ZZ32\][c <- FileReadStream(name).characters()] 1
+
+consumedRead(r: ReadStream): String =
+  try
+    s = r.readLine()
+    "read " || s
+  catch e
+    IOFailure => "IOFailure"
+  end
+
+consumedReader(r: Reader): String =
+  try
+    r.whenUnconsumed()
+    "unconsumed"
+  catch e
+    IOFailure => "IOFailure"
+  end
+
+missingFile(opener: String -> Any, name: String): String =
+  try
+    ignore(opener(name))
+    "opened"
+  catch e
+    FileNotFoundException => "FileNotFoundException"
+  end
+
+run():() = do
+  name = "NativeHelperReaderWalk.out"
+  w = FileWriteStream(name)
+  assert(w.fileName, name, "the FileWriteStream's fileName")
+  assert(w.asString, "<Write handle to \"NativeHelperReaderWalk.out\">", "the FileWriteStream's asString")
+  w.write("alpha\n")
+  w.write('b')
+  w.write('\n')
+  rope = "a rope in a file: abcdefghijklmnopqrstuvwxyz" || "0123456789" || "\n"
+  assert(rope.depth > 0, true, "the rope is not flat")
+  w.write(rope)
+  w.flush()
+  early = FileReadStream(name)
+  assert(early.readLine(), "alpha", "the first line, read after the flush and before the close")
+  early.close()
+  w.write("gamma")
+  w.write("\ndelta\n")
+  w.close()
+
+  r = FileReadStream(name)
+  assert(r.fileName, name, "the FileReadStream's fileName")
+  assert(r.asString, "<Read handle to \"NativeHelperReaderWalk.out\">", "the FileReadStream's asString")
+  assert(r.eof, false, "eof at the start")
+  assert(r.ready, true, "ready at the start")
+  assert(r.readLine(), "alpha", "readLine")
+  assert(r.readChar(), 'b', "readChar")
+  assert(r.readLine(), "", "readLine of the rest of a line")
+  assert(r.read(5), "a rop", "read(5)")
+  assert(r.readLine(), "e in a file: abcdefghijklmnopqrstuvwxyz0123456789", "readLine of the rope's line")
+  assert(r.readLine(), "gamma", "readLine of gamma")
+  assert(r.readLine(), "delta", "readLine of the last line")
+  assert(r.eof, false, "eof before the end is read")
+  assert(r.readLine(), "", "readLine at the end")
+  assert(r.eof, true, "eof at the end")
+  assert(r.uncheckedReadChar(), -1, "uncheckedReadChar at the end")
+  assert(r.readChar(), char(0), "readChar at the end")
+  assert(r.read(4), "", "read(4) at the end")
+  r.close()
+  assert(r.eof, true, "eof after the close")
+
+  assert(linesOf(name), 5, "lines() counted")
+  assert(charactersOf(name), |"alpha\n"| + 2 + |rope| + |"gamma"| + |"\ndelta\n"|, "characters() counted")
+
+  c = FileReadStream(name)
+  ignore(c.lines())
+  assert(consumedRead(c), "IOFailure", "a read after consume")
+  c.close()
+
+  rd = Reader(name)
+  assert(rd.fileName, name, "the Reader's fileName")
+  assert(rd.asString, "Reader on \"NativeHelperReaderWalk.out\"", "the Reader's asString")
+  assert(rd.eof, false, "a Reader's eof at the start")
+  assert(rd.isReady, true, "a Reader's isReady at the start")
+  assert(rd.uncheckedReadChar(), 97, "a Reader's uncheckedReadChar")
+  assert(rd.uncheckedReadLine(), "lpha", "a Reader's uncheckedReadLine")
+  assert(rd.uncheckedRead(4), "b\na ", "a Reader's uncheckedRead(4)")
+  assert(consumedReader(rd), "unconsumed", "a Reader before consume")
+  rd.consume()
+  assert(consumedReader(rd), "IOFailure", "a Reader after consume")
+  rd.close()
+  assert(rd.eof, true, "a Reader's eof after the close")
+
+  rd2 = Reader(name)
+  n: ZZ32 := 0
+  while NOT rd2.eof do
+    ignore(rd2.uncheckedReadLine())
+    n += 1
+  end
+  assert(n, 6, "a Reader's lines to its end")
+  assert(rd2.uncheckedReadChar(), -1, "a Reader's uncheckedReadChar at the end")
+  assert(rd2.uncheckedRead(3), "", "a Reader's uncheckedRead(3) at the end")
+  rd2.close()
+
+  assert(stdIn.fileName, "<stdin>", "stdIn's fileName")
+  assert(stdIn.asString, "Reader on \"<stdin>\"", "stdIn's asString")
+
+  missing = "no-such-dir-NativeHelperReaderWalk/missing.txt"
+  assert(missingFile(fn (s: String): Any => FileReadStream(s), missing), "FileNotFoundException", "a FileReadStream on a missing file")
+  assert(missingFile(fn (s: String): Any => Reader(s), missing), "FileNotFoundException", "a Reader on a missing file")
+  assert(missingFile(fn (s: String): Any => FileWriteStream(s), missing), "FileNotFoundException", "a FileWriteStream in a missing folder")
+  println("the reader side read its file back")
+end
+
+end

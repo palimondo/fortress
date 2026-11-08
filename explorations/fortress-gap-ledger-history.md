@@ -9383,3 +9383,15 @@ rewritten
 rewritten
 
 | 431 | `genZZ.perturb` in `Library/QuickCheck.fss` recurses on its argument shifted left by 32 where peeling 32 bits at a time needs a right shift, so only a large `ZZ`'s low 32 bits reach the generator: under walk a random function of a `ZZ` answers 2^40+7, 2^50+7 and 2^70+7 alike | NEGATIVE-VERIFIED | library bug (library) | silent | none | climb batch 6 rung F | `Library/QuickCheck.fss:322` (at de6d905f5) is `perturb(big(widen(obj) LSHIFT 32), ...)`, which stays within 64 bits and ends; the team's `obj LSHIFT 32`, with no `widen`, never ends on a `BigNum` (`OutOfMemoryError` in `BigInteger.shiftLeft` in `ReflectiveQuickCheckTest`). Measured by probes since removed: `explorations/reviews/quickcheck-widen.md`, sections 3 and 7.3. No test sees it: `genZZ.generate` makes no value beyond 64 bits under walk (row 387). Fix: `perturb(obj RSHIFT 32, ...)`, which changes every QuickCheck test's generated data. full text: history, row 431 |
+
+### Row 928
+
+rewritten
+
+| 928 | under walk, a program's object that extends `JavaBufferedWriter` loads, and its first call of an inherited `write`, `flush` or `close` stops, since those are natives over a Java writer and the trait has no `comprises` clause to name its private native object | NEGATIVE-VERIFIED | design limit (library) | silent | none | climb batch 27 rung W's skeptic | siblings: 551. The trait (`Library/FortressLibrary.fss:1948-1957`) has no `comprises` clause, unlike `ZZ32`'s `comprises { Int }` (`Library/FortressLibrary.fsi:553`), since its native object `JavaBufferedWriterObject` is private to `FortressBuiltin` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:790`); the loader's `unbox` refuses any other value (`ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java:292-295`). Probe `object Fake extends JavaBufferedWriter end` with `Fake.write("x")`: 'No Java FortressBufferedWriter carries Fake', rc=1; on the base, 'JavaBufferedWriter is undefined.'. Workaround: a program's own writer extends `WriteStream`. |
+
+### Row 927
+
+note added
+
+| 927 | a `Char` past U+FFFF written through a `Writer` keeps only its low 16 bits: under walk `w.write(char(128512))` to a file reads back as U+F600, on the glue before the writer moved and on `fileOps.jbwWriteChar` after | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/lexical-structure.tex`, "Character Literals" | XXXWriterCharSupplementaryWalk | climb batch 27 rung W | siblings: 915. `jbwWriteChar` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/fileOps.java:100`) calls `FortressBufferedWriter.write(int)`, which calls `java.io.BufferedWriter.write(int)`, one 16-bit unit (`compiler/runtimeValues/FortressBufferedWriter.java:38-40`), at 85236bf98; the glue took `FChar.getString`, `String.valueOf((char) val)` (row 915). The old and the new code wrote the same bytes, 'ed 84 9e', for `stdOut.write(char(119070))` and to a file (probe `WriterOldNew.fss`). Workaround: write the character as a string literal. |

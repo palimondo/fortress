@@ -1,0 +1,3 @@
+tests=XXXFileOpsRaiseCaughtCompiled
+run
+run_out_contains=REACHED

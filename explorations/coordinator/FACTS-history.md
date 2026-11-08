@@ -6005,3 +6005,7 @@ pointer words refreshed in: F-24
 ### F-331
 
 2026-11-08 07:31Z · added · from `explorations/compile-ladder/rung-integer-conversions/REPORT.md`, "What changed and why" · by climb batch 28 gather
+
+### F-332
+
+2026-11-08 07:34Z · added · from `explorations/compile-ladder/rung-io-reader/REPORT.md`, "What changed and why" · by climb batch 28 gather

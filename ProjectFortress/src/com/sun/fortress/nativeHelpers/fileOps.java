@@ -93,6 +93,11 @@ public class fileOps {
         return new FortressBufferedWriter("<stderr>", new BufferedWriter(new OutputStreamWriter(System.err, Charset.forName("UTF-8"))));
     }
 
+    /** A reader over standard input, in UTF-8, named "<stdin>". */
+    public static FortressBufferedReader jbrStdIn() {
+        return new FortressBufferedReader("<stdin>", new BufferedReader(new InputStreamReader(System.in, Charset.forName("UTF-8"))));
+    }
+
     public static String jbwAsString(FortressBufferedWriter w) {
         return "[buffered writer " + w.toString() + "]";
     }

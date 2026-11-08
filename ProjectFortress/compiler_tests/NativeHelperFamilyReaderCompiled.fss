@@ -1,0 +1,49 @@
+(* On the compiled path, the fileOps helpers of the reader side, the standard input's among them, compile and run when bound over the JavaBufferedReader that the compile reads: 0 with eof set at the end, readk, and consume. *)
+component NativeHelperFamilyReaderCompiled
+export Executable
+
+rOpen(name:JavaString):JavaBufferedReader = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrOpen")
+rStdIn():JavaBufferedReader = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrStdIn")
+rAsString(r:JavaBufferedReader):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrAsString")
+rRead(r:JavaBufferedReader):ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrRead")
+rReadLine(r:JavaBufferedReader):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrReadLine")
+rReadk(r:JavaBufferedReader, k:ZZ32):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrReadk")
+rEof(r:JavaBufferedReader):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrEof")
+rReady(r:JavaBufferedReader):Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrReady")
+rClose(r:JavaBufferedReader):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrClose")
+rWhenUnconsumed(r:JavaBufferedReader):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrWhenUnconsumed")
+rConsume(r:JavaBufferedReader):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrConsume")
+
+run():() = do
+  name = "NativeHelperFamilyReaderCompiled.out"
+  w = makeJavaBufferedWriter(name)
+  w.write("alpha\nbeta\nxy")
+  w.close()
+  r = rOpen(name.asJavaString)
+  assert(rAsString(r) = "[buffered reader [Buffered reader NativeHelperFamilyReaderCompiled.out]]", "jbrAsString names the file")
+  assert(NOT rEof(r), "eof at the start")
+  assert(rReady(r), "ready at the start")
+  assert(rReadLine(r) = "alpha", "jbrReadLine")
+  assert(rRead(r), 98, "jbrRead answers the code point")
+  assert(rReadk(r, 3) = "eta", "jbrReadk")
+  assert(rReadLine(r) = "", "jbrReadLine of the rest of a line")
+  assert(rReadk(r, 0) = "xy", "jbrReadk with no count reads what remains")
+  assert(NOT rEof(r), "eof before the end is read")
+  assert(rRead(r), 0, "jbrRead at the end answers 0")
+  assert(rEof(r), "eof is set at the end")
+  assert(rReadLine(r) = "", "jbrReadLine at the end")
+  assert(rReadk(r, 4) = "", "jbrReadk at the end")
+  rClose(r)
+  c = rOpen(name.asJavaString)
+  rWhenUnconsumed(c)
+  rConsume(c)
+  assert(rReadLine(c) = "alpha", "jbrReadLine after consume")
+  rClose(c)
+  assert(rEof(c), "eof after the close")
+  i = rStdIn()
+  assert(rAsString(i) = "[buffered reader [Buffered reader <stdin>]]", "jbrStdIn names the standard input")
+  assert(NOT rEof(i), "the standard input before a read")
+  println("PASS")
+end
+
+end

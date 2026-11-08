@@ -12,12 +12,11 @@
 api File
 import FlatString.FlatString
 import FileSupport.{...}
+import Stream.{ WriteStream }
 
 FileReadStream(filename: String): FileReadStream
 
-object FileReadStream(filename:String) extends { FileStream, ReadStream }
-    getter fileName():String
-
+object FileReadStream(fileName: String, under: JavaBufferedReader) extends { FileStream, ReadStream }
     (** %eof% returns true if an end-of-file (EOF) condition has been
         encountered on the stream. **)
     getter eof():Boolean
@@ -99,9 +98,7 @@ end
 
 FileWriteStream(fileName:String):  FileWriteStream
 
-object FileWriteStream(fileName:FlatString) extends { FileStream }
-    getter fileName(): String
-
+object FileWriteStream(fileName: String, under: JavaBufferedWriter) extends { FileStream, WriteStream }
     (** %write(FlatString)% and %write(Char)% are the primitive mechanisms for writing
         characters to the end of a %FileWriteStream%. **)
     write(x:FlatString):()

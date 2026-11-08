@@ -1,6 +1,7 @@
 package com.sun.fortress.interpreter.glue;
 
 import static com.sun.fortress.exceptions.ProgramError.error;
+import com.sun.fortress.compiler.runtimeValues.FortressBufferedReader;
 import com.sun.fortress.compiler.runtimeValues.FortressBufferedWriter;
 import com.sun.fortress.compiler.runtimeValues.FortressImplementationError;
 import com.sun.fortress.exceptions.FortressError;
@@ -9,6 +10,7 @@ import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.types.FTraitOrObjectOrGeneric;
 import com.sun.fortress.interpreter.evaluator.types.FType;
 import com.sun.fortress.interpreter.evaluator.values.*;
+import com.sun.fortress.interpreter.glue.prim.JavaBufferedReaderObject;
 import com.sun.fortress.interpreter.glue.prim.JavaBufferedWriterObject;
 import com.sun.fortress.nodes.*;
 import com.sun.fortress.nodes_util.NodeUtil;
@@ -50,9 +52,10 @@ public class StaticNativeApp extends NativeMeth {
     private int arity;
 
     /**
-     * The Java type that carries a value of the named Fortress type, or null.  FortressLibrary's trait
-     * JavaBufferedWriter, a name that no program can give its own type, is carried by its name in the
-     * compiled run time's FortressBufferedWriter, which walk's value JavaBufferedWriterObject.Value holds.
+     * The Java type that carries a value of the named Fortress type, or null.  FortressLibrary's traits
+     * JavaBufferedWriter and JavaBufferedReader, names that no program can give its own types, are
+     * carried by their names in the compiled run time's FortressBufferedWriter and FortressBufferedReader,
+     * which walk's values JavaBufferedWriterObject.Value and JavaBufferedReaderObject.Value hold.
      */
     static Class<?> javaFor(String t) {
         if (t == null) return null;
@@ -65,6 +68,7 @@ public class StaticNativeApp extends NativeMeth {
         if (t.equals("ZZ")) return BigInteger.class;
         if (t.equals("()")) return void.class;
         if (t.equals("JavaBufferedWriter")) return FortressBufferedWriter.class;
+        if (t.equals("JavaBufferedReader")) return FortressBufferedReader.class;
         return null;
     }
 
@@ -97,7 +101,7 @@ public class StaticNativeApp extends NativeMeth {
     static boolean carried(Class<?> c) {
         return c == int.class || c == long.class || c == double.class || c == float.class
             || c == boolean.class || c == String.class || c == BigInteger.class
-            || c == FortressBufferedWriter.class;
+            || c == FortressBufferedWriter.class || c == FortressBufferedReader.class;
     }
 
     /**
@@ -293,6 +297,10 @@ public class StaticNativeApp extends NativeMeth {
             if (v instanceof JavaBufferedWriterObject.Value) return ((JavaBufferedWriterObject.Value) v).getWriter();
             return error("No Java FortressBufferedWriter carries " + v);
         }
+        if (c == FortressBufferedReader.class) {
+            if (v instanceof JavaBufferedReaderObject.Value) return ((JavaBufferedReaderObject.Value) v).getReader();
+            return error("No Java FortressBufferedReader carries " + v);
+        }
         return error("No interpreter value for a Java " + c.getName());
     }
 
@@ -316,6 +324,7 @@ public class StaticNativeApp extends NativeMeth {
         if (c == String.class) return FString.make((String) r);
         if (c == BigInteger.class) return FBigNum.make((BigInteger) r);
         if (c == FortressBufferedWriter.class) return JavaBufferedWriterObject.make((FortressBufferedWriter) r);
+        if (c == FortressBufferedReader.class) return JavaBufferedReaderObject.make((FortressBufferedReader) r);
         return error("No interpreter value for a Java " + c.getName());
     }
 }

@@ -1289,13 +1289,27 @@ trait JavaBufferedWriter excludes { String, Number, Boolean, Char, JavaBufferedR
     close(): ()
 end
 
-(** A %JavaBufferedReader% reads through a buffered Java reader. **)
+(** A %JavaBufferedReader% reads through a buffered Java reader, in UTF-8: of a file or of the standard
+    input.  %makeJavaBufferedReader% opens the file that it names, and raises %FileNotFoundException%
+    where it cannot.  %read% answers %char(0)% at the end and sets %eof%; %readLine% and %readk% answer
+    %""% there.  After %consume%, %whenUnconsumed% and %consume% raise %IOFailure%, as an I/O error
+    does. **)
 trait JavaBufferedReader excludes { String, Number, Boolean, Char, JavaBufferedWriter }
+    read(): Char
+    readLine(): String
+    readk(k: ZZ32): String
+    eof(): Boolean
+    ready(): Boolean
+    close(): ()
+    whenUnconsumed(): ()
+    consume(): ()
 end
 
 makeJavaBufferedWriter(name: FlatString): JavaBufferedWriter
 makeJavaBufferedStdOut(): JavaBufferedWriter
 makeJavaBufferedStdErr(): JavaBufferedWriter
+makeJavaBufferedReader(name: FlatString): JavaBufferedReader
+makeJavaBufferedStdIn(): JavaBufferedReader
 
 (* SetsNotDisjoint? *)
 object DisjointUnionError extends CheckedException

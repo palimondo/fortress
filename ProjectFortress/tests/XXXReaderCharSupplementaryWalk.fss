@@ -1,0 +1,19 @@
+(* A character past U+FFFF in a file is one character to readChar and to characters() (lexical-structure.tex, "Character Literals"). *)
+component XXXReaderCharSupplementaryWalk
+import File.{...}
+import FileSupport.{...}
+export Executable
+
+run():() = do
+  name = "XXXReaderCharSupplementaryWalk.out"
+  w = FileWriteStream(name)
+  w.write("😀\n")
+  w.close()
+  r = FileReadStream(name)
+  first = r.readChar()
+  r.close()
+  assert(first.codePoint, 128512, "readChar of U+1F600")
+  assert(SUM[\ZZ32\][c <- FileReadStream(name).characters()] 1, 2, "characters() of U+1F600 and a newline")
+end
+
+end
