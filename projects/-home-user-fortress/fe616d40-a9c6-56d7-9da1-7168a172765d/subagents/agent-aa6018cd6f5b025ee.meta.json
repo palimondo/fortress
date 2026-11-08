@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Fable review of climb batch 28's record","toolUseId":"toolu_01JGPpBgJs3hCPwNsomhQz7M","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Fable review of climb batch 28's record","toolUseId":"toolu_01JGPpBgJs3hCPwNsomhQz7M","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","pickedEffortModel":"claude-opus-5-5","finished":true}
