@@ -694,7 +694,7 @@ Keep their verdicts: the compiler track and the library track, `ant testQuick` o
 
 **Tests, first.**
 - The compiled guard, `NativeHelperFamilyStringCompiled`, retargeted: seen failing on the base through `junit.sh`, where `stringOps` has no `getProperty`, and passing after.
-- With Q3: `ProjectFortress/tests/SystemArgsWalk.fss`, which prints `|args|` and its elements; its `.test` passes two arguments, as the harness's tests with arguments do, and asserts their text; seen as a guard on the base and after, and a compiled test binding `programArgs.count` and `at` in its own declarations, run with two arguments, seen failing on the base through `junit.sh`.
+- With Q3: `ProjectFortress/tests/SystemArgsWalk.fss`, which asserts `|args|` is 0, as the harness passes no argument, and prints each element; a guard on the base and after. Run it once by hand with two arguments on the old code and the new (`bin/fortress ProjectFortress/tests/SystemArgsWalk.fss a b`), and report both outputs: no harness key passes arguments (`grep` of the `.test` files finds none). A compiled test binding `programArgs.count` and `at` in its own declarations, asserting the count 0; seen failing on the base through `junit.sh`.
 - Keep their verdicts: walk's `NativeHelperStringRopeWalk`, which calls `getEnvironment` and `getProperty` at ropes and flat strings; every test that reads `args`; the compiler track's tests that import `CompilerSystem`.
 - After the change: `ant testSystem` and `ant testQuick` once each; your compiled tests through `junit.sh` (fork 2).
 
@@ -777,3 +777,124 @@ Its before: 'FortressBuiltin.StringVector is undefined.', 'File System.fss has 1
   - `ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java`: H `:47-53`; A `:209`.
 - They meet on the merged tree. Walk's suite runs every rung's walk tests. The compiler track runs V's, R's, K's, H's, S's and T's compiled tests, and `ant testQuick` A's unit test. The stages read the library as V, R, A and H leave it, the helper classes as R, A, H and S leave them, and the checker as K leaves it: so the merged distance reads `#crash none`, and every site there is to be traced to one rung's edit, against 0. The specification's build reads V's entry. The gather's 52 demos and the commit stage's quick check of the model see every array, every file read, every conversion and every `spawn` at once. No rung's test asserts the crash rows, a glue string that another rung moves, or walk's uncatchable message at a missing file (section 6, "What every agent reads first").
 
+## 5. The candidates, the probes, and what waits
+
+### What the record owes
+
+The brief's candidates, each with its ground and its home here:
+
+- **The reader rung, 20, with `FileWriteStream`'s 5** (P-164; review-queue item 373; PLAN item 69, its default that they move with the reader rung): rung R. Climb batch 27's record placed it in this batch (`CLIMB-BATCH-27.md`, section 5, "Left out, each with its home").
+- **The conversions, 3** (P-161; P-162 for `big`): rung V.
+- **Climb batch 27's rungs S and T**, which never started for want of disk (item 377; `reviews/batch-27-review.md`, section 7, point 2): rungs S and T, rebased on this tree: `System.fss:41` and `:51` and `systemOps.java:20-27` stand; `stringOps.java`'s `lineSeparator` is now at `:76-78`; `CodeGen.java`'s comparison at `:1010` and its caller at `:4691` (probes 3 and 4).
+- **The runtime's own natives by P-169** (`reviews/natives-device-2026-11-07.md`): `Thread`'s four, `abort` and `printTaskTrace`, rung H; the arrays' store with `PrimImmutableRR64Array`'s 2, rung A, waiting on Q2 (item 407), with its default as fork A1 and Q2's measurement (probe 1); `IntLiteral`'s 8, in rung V, since four of them read V's getters (fork V2). P-169's history holds no ground beyond the review (`facts-extract.sh 'history:P-169'`).
+- **`getProgramArgsPrim`** (PLAN's line on `CompilerSystem`; the natives review's Q3): S's second half, waiting on Q3.
+- **Row 929** and P-148: rung K, with the planner's prototype measured (probe 2).
+- **What else the natives review's order of work and PLAN's phase 4 put before the switch-over:** the raise-string resolver (the review's section 3, point 2), left out, since it edits every raising helper class, V's among them; `Reflect`'s 28, on Q4; F-34's other kinds and row 862, not probed here.
+- **Climb batch 27's review list** (PLAN, "Climb batch 27, listed for his review"; `reviews/batch-27-review.md`, Part 4): item 373 and row 926, rung R; item 377, rungs S and T; item 380, the natives effect, which the gather revises again (fork 5); item 384, the exceptions' message, stays his at its default (fork R6); item 385 and row 928, a note from R; item 403, his (fork 6). Items 374 to 376, 379, 381 to 383 and 386 to 402 meet no rung of this batch.
+
+### The planner's probes
+
+`compile-ladder/plan-28/PROBES.md` holds each with its commands and output. In short:
+
+1. **Q2's two store shapes,** in a Java model on the compiled run time's own classes: 44 bytes an `RR64` element with a cell per element against 28 with a slot API; outside a transaction a read 2.2 ns against 1.7 to 1.8 ns and a read and a write 24 ns against 18 to 24 ns; inside a long transaction 209 ns against 118 ns; with a transaction per element both about 180 ns. The model's cell path costs what the tree's does.
+2. **Row 929:** the distance's two crash rows reproduce on the base; a compiled program of 64 candidates over two chains of traits stops the base's checker at `Functionals.scala:761` in one shuffle of twelve; the prototype of fork K1 removes both crash rows, checks `Char` with no error, keeps the count's tables and `run.txt`, and compiles and runs the reproducer; 145 s against 140 s for the distance, 88.9 s against 88.9 s for the count.
+3. **The checker over `System`:** on the base, 'FortressBuiltin.StringVector is undefined.'; with S's strings off `systemOps`, 2 errors at `args` and `getProgramArgs`; with Q3's default too, no error, and walk runs the text.
+4. **Rung T's wall** on this base: 'Not in the trait table: C' at `CodeGen.java:1010`; walk prints `cd`.
+5. **The reader at the end of a file,** by reading: walk's glue answers -1, the compiled `FortressBufferedReader.read()` 0 with `eof` set, and the library's `characters` ends only at -1; `eof` after the read tells the two apart on both paths (fork R1).
+6. **The bindings:** 443, 341 on helpers and 102 on glue, by file.
+
+**Not run:** the suites, the stages and the gate's other steps on the base, which climb batch 27's gate measured on this code; the demos; a prototype of any rung but K's; the four-thread runs of a store.
+
+### Rows filed by plan
+
+None. Probe 5's difference at the end of a file is not a defect of either path: each answers its own library's contract, and fork R1 meets it.
+
+### Left out, each with its home
+
+- **The arrays' store without Q2's answer:** climb batch 29, as rung A stands here.
+- **`IntLiteral`'s other 21 and `FloatLiteral`'s 3:** N5, in the names batch, after a reading review designs their carrier (P-169).
+- **`Reflect`'s 28:** his Q4 of the natives review, before the names batch; the count stops at 28 by its default.
+- **The raise-string resolver:** climb batch 29, after V's helpers land; it changes no behaviour and edits the same five helper classes.
+- **F-34's other kinds** (rows 624, 819, 822, 875, 888 to 892, with 832 beside them) and row 862: a later batch's record, with a planner's probe of each fix.
+- **Beside rung R:** item 383, `BufferedWriter`'s buffer; item 384, the exceptions' message; N5's run-time classes and raise strings (P-164).
+- **Beside rung K:** item 403.
+- **Beside rung S:** row 896; item 319, `CompilerSystem`'s deletion.
+- **Beside rung T:** row 732.
+- **Beside rung V:** the saturating operators (row 797); rows 441, 442 and 523 to 525, the prelude's own, which retire with it (P-38).
+
+## 6. How it is run
+
+The batch runs on the workflow of climb batches 22 to 27: `coordinator/climb-batch-workflow.js` and its manual `coordinator/climb-batch-workflow.md`. Section 4 is each worker's brief word for word; section 1 holds the rest of the manifest, which the batch's generator reads.
+
+### The generator
+
+`compile-ladder/plan-28/manifest/` (`gen28.py`, `lists28.py`, `check28.js`) is the coordinator's, made from `plan-27/manifest/`. It changes from climb batch 27's in these ways:
+
+- the batch's values: `BATCH` `28`, its folder `compile-ladder/climb-batch-28/`, the output `manifest28.js`;
+- the rungs from `lists28.IDS` in the manifest's order V, R, A, K, H, S, T, with `--without A` where Q2 has no answer;
+- the briefings and checks of section 1, with their reasons; no key holds a backslash, a backtick or a double quote, and each matched one place by `facts-extract.sh --check` on `main` at `2436f6f25`, the keys into this record against it as written;
+- no rung landing only with another, none declaring a count, a crash or a move;
+- every section but T's naming the count stage and the distance stage as stages its rung runs once on its final tree, K's also naming P-148's three count runs; T's naming neither (fork 3);
+- the forks key: section 3's blocks are bold paragraphs, so a per-rung forks key, as climb batch 27's second Fable review proposed, needs `####` headings or the `@WORDS` filter on the fork labels; the coordinator's call.
+
+### What every agent reads first
+
+This run is climb batch 28, the sixth batch of the plan's phase 4, the switch-over. It takes up to 50 of the 102 bindings that still name a glue class off them (section 2, "Where the natives stand"), makes the checker's sorts correct on a partial order, and takes one wall of the code generator. Its rungs:
+
+- V, P-161 and P-169: the checked integer getters, `bitsAs…`, the low-bits names on every type, `ZZ`'s `narrow` and `widen` deleted with their callers moved, `ZZ32`'s `big` on its helper, `IntLiteral`'s 8 in Fortress over `asZZ`, and the specification's sentences;
+- R, P-164's reader rung: `FileReadStream`, `Reader`, `stdIn` and `FileWriteStream` as plain objects over the Java-backed `JavaBufferedReader` and `JavaBufferedWriter`, and `File` and `Reader` plain components;
+- A, P-169's arrays, if Q2 is answered: `PrimitiveArray` and `PrimImmutableArray` over a compiled store in a field, walk's `AtomicArray` behind P-167's device, `PrimImmutableRR64Array` over a `double[]` class;
+- K, row 929: the checker's four sorts by a partial order made a linear extension, read once a pair, as fast as today (P-148);
+- H, P-169's threads: `Thread`'s four, `abort` and `printTaskTrace` on compiled helpers that walk's loader answers with its glue;
+- S, item 355's option 1 and, if Q3 is answered, Q3's: `System`'s two natives onto `stringOps`, and `args` built in Fortress over two scalar helpers;
+- T, row 733: the code generator compiles an object whose first supertrait is an imported api's trait.
+
+Each rung has tests that fail on the base and pass after, and guards that pass on both. Only K changes the checker's checking code, and it makes P-148's speed pass. Every rung but T changes text that the stages read, so each runs the count stage and the distance stage once on its final tree, against climb batch 27's landed 0 and 0 (F-53); the distance's two crash rows in `value object Char` are row 929's, and on a rung's own tree they may stay, go or move: report them, declare none. Three rules hold for every rung's tests, since other rungs change what tests can meet: assert no crash row; assert no glue string, since V, R, A, H and S move them; and assert no walk message that no `catch` sees at a missing file or a consumed reader, which R makes the library's exceptions. No rung builds on another, none lands only with another, and no two change one declaration. The gather composes them, revises Appendix I's natives effect to the merged count, builds the specification once for V's entry, and runs the 52 team demos on the merged tree. `ant testSpecData` runs in the gate because the landed summary has it.
+
+### Before the launch
+
+The coordinator:
+
+1. **The curator's go,** with Q2's and Q3's answers or their defaults by the go rule (the `coordinator` skill's `references/batch.md`, "The go"). The Fable review of this record first.
+2. **No row is filed by plan** (section 5).
+3. **The generator,** made as "The generator" above gives it, and committed; its checks run on this record as reviewed: `python3 -B explorations/compile-ladder/plan-28/manifest/lists28.py`, every key matching one place on the base; `gen28.py`; `check28.js` on a scratch splice; `check28.js --write`; `node explorations/coordinator/tools/workflow-scenarios.js` on the spliced script; the commit. The base is `main`'s head after that commit, its full hash, passed as `args.base`.
+4. **The base build:** no base build of climb batch 27 survived the container's loss, so one is built at the base, `/home/user/fortress-base28`, by the manual's "Before the launch", step 2; its trial seed and the old code's run, step 3.
+5. **The disk:** `df -P /home/user`, its Available column at or above the script's floor, 14.5G for seven rungs or 13G for six (section 2, "Before the batch runs"); before the launch, the main tree's old `tmp/gate-batch-*` and `tmp/gather/` scratch, the pip and uv caches and loose git objects cleared, as climb batch 27's review asks (section 7, point 2). `git status --porcelain` empty in the main tree, and no other agent writing there or pushing `main` while the run gathers and commits. The session's permission rules let the commit stage run `explorations/coordinator/tools/mg-run.sh`, and the gather the demo driver.
+6. **Check-ins** armed for the run's length, about 5 hours 15 minutes, 45 minutes apart.
+
+### The launch arguments
+
+`Workflow({scriptPath: 'explorations/coordinator/climb-batch-workflow.js', args: {base: '<the full hash of main after step 3>', baseBuild: '/home/user/fortress-base28'}})`. The arguments are kept byte for byte in the session's scratchpad, as `batch28/launch-args.json`, since a resume needs them.
+
+### The gate, and what it should show
+
+The comparands are climb batch 27's `summary.txt`, `checker-count.txt` (0) and `distance.txt` (0, over the fourteen, setting compile, with two crash rows), in `compile-ladder/climb-batch-27/gate/`.
+
+- `testSystem`: 778, the comparand's, plus the planner's named walk tests: V 2, R 1, A 1, H 1, S 1 with Q3, T 1, so about 785, and any more that the rungs add.
+- `testFast`: the compiler track 1,447 plus V's compiled tests if fork V1 binds a new helper, R's guard (a link and a run, 2), K's test (a compile, a link and a run, 3), H's (2), S's retargeted guard in place and Q3's test (2), T's run test (3), so about 1,457; A's unit test in `CompilerJUTest`'s count or beside it; the library track 86, the other-compiler track 263 and the misc track as landed.
+- `testSpecData`: 130 green; V's entry adds no example.
+- The four-thread atomic runs, 42 lines: unchanged; with Q2's shape (ii), they are the first runs of the new transactional code on the merged tree.
+- The ladder: no rung declares a move.
+- The checker count: 0, reported, not declared. Every rung but T changes what it reads, so a site is to be traced to one rung's edit.
+- The distance, reported and never red (P-39): 0 over the fourteen, and `#crash none` by rung K; `compare.sh` prints 'DISTANCE SAME   0' and the two crash rows as gone. `Char`'s body is checked for the first time since climb batch 27's gate.
+- The 52 team demos at the gather, each reaching its end (F-283): R changes every file read, V every integer conversion, A every array.
+- microGPT's quick pair at the commit stage, both programs `ALL PASS`, 7 of 7 each (P-30). Rung R's reader reads the model's data files, and rung A, if it runs, holds every array the model makes.
+
+### The ledger
+
+New rows go into `explorations/fortress-gap-ledger.md` only through `ledger.py add`, by the gather; until then a worker or a skeptic writes each new row in its `record.md` in the row template with the placeholder `NEW-<rung>-<n>`.
+
+- **Filed by plan:** none.
+- **Closed:** 858, 859 and 502 (V), their test `IntegerConversionsWalk`; 926, 900, 901 and 902 (R), their test `NativeHelperReaderWalk`; 929 (K), its test `PartialOrderCandidatesCompiled`; 895 (S), `--test none` with its note (fork S2); 733 (T), its test `TraitTableApiTraitCompiled`.
+- **Rewritten:** 349 (V), its half on `narrow` of a `ZZ` closed; 896 (S), its notes' helper path.
+- **Noted:** 841 and 928 (R), 466 (A), 82 (H), each after `ledger.py note N TEXT --check`; by a rewrite where it does not fit.
+
+### After the landing
+
+The landing report; the routing of every item for the curator into PLAN, this record's questions and forks among them; FACTS: F-32 and F-299 (the counts, by the gather's count of the merged tree), F-330 (the reader side), F-328 (the loader's table and A's rule), F-54 and F-53 (the crash rows gone), F-321 (`System` read), F-172 (the conversions), F-34 (T's kind), and the facts the rungs hand over; the skill writer's task with the batch's sentences made false, `interpreter.md`'s carriers and `revival-changes.md`'s numbers among them; the post-batch review. Then climb batch 29: the raise-string resolver, rung A if it waited, and what the natives review's order of work leaves before the names batch.
+
+## 7. Files cited, with their links
+
+- Records: [PLAN.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/PLAN.md), [POSITIONS.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/POSITIONS.md), [FACTS.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/FACTS.md), [the gap ledger](https://github.com/palimondo/fortress/blob/main/explorations/fortress-gap-ledger.md), [the review queue](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/review-queue.md), [CLIMB-BATCH-27.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/CLIMB-BATCH-27.md), [climb batch 27's review](https://github.com/palimondo/fortress/blob/main/explorations/reviews/batch-27-review.md), [climb batch 27's gate](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/climb-batch-27/gate/summary.txt), [climb-batch-workflow.md](https://github.com/palimondo/fortress/blob/main/explorations/coordinator/climb-batch-workflow.md), [this planner's probes](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/plan-28/PROBES.md).
+- Reviews: [the runtime's own 45 natives](https://github.com/palimondo/fortress/blob/main/explorations/reviews/natives-device-2026-11-07.md), [the natives left after climb batch 27](https://github.com/palimondo/fortress/blob/main/explorations/reviews/natives-remainder-2026-11-07.md), [the integer conversions](https://github.com/palimondo/fortress/blob/main/explorations/reviews/integer-conversions-2026-11-06.md), [the I/O objects](https://github.com/palimondo/fortress/blob/main/explorations/reviews/io-objects-carrier-2026-11-06.md), [rung W's report](https://github.com/palimondo/fortress/blob/main/explorations/compile-ladder/rung-io-writer/REPORT.md).
+- Code: [Functionals.scala](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala), [Transaction.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java), [NativeApp.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/interpreter/glue/NativeApp.java), [NativeArray.fss](https://github.com/palimondo/fortress/blob/main/ProjectFortress/LibraryBuiltin/NativeArray.fss), [File.fss](https://github.com/palimondo/fortress/blob/main/Library/File.fss), [Reader.fss](https://github.com/palimondo/fortress/blob/main/Library/Reader.fss), [System.fss](https://github.com/palimondo/fortress/blob/main/Library/System.fss), [fileOps.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/nativeHelpers/fileOps.java), [runtime.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/nativeHelpers/runtime.java), [CodeGen.java](https://github.com/palimondo/fortress/blob/main/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java).
