@@ -53,7 +53,8 @@ object FileWriteStream(fileName: String, under: JavaBufferedWriter) extends { Fi
     getter asString(): String = "<Write handle to \"" || fileName || "\">"
     write(s:FlatString):() = under.write(s)
     write(c:Char):() = under.write(c)
-    write(x:String):() = x.writeOn(self)
+    (* A string that is not flat reaches the Java writer in one write, so lines from parallel tasks stay whole. *)
+    write(x:String):() = under.write(x)
     write(x:Any): () = write("" x)
     writes(x:Generator[\Any\], r:String):() =
         write((BIG ||[e <- x]

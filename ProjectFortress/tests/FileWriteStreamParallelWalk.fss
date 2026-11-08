@@ -1,0 +1,44 @@
+(* Lines that parallel tasks write to one FileWriteStream, each a string past a flat string's size, by write, println and writes, read back whole and unbroken. *)
+component FileWriteStreamParallelWalk
+import File.{...}
+import FileSupport.{...}
+import List.{...}
+export Executable
+
+body: String = "abcdefghijklmnopqrstuvwxyz" || "ABCDEFGHIJKLMNOPQRSTUVWXYZ" || "0123456789"
+
+unbroken(name: String): ZZ32 = do
+  r = FileReadStream(name)
+  good: ZZ32 := 0
+  while NOT r.eof do
+    l = r.readLine()
+    if (|l| = (6 + |body|)) AND: (l[0] = 't') AND: (l[6#|body|] = body) then good += 1 end
+  end
+  r.close()
+  good
+end
+
+run():() = do
+  n: ZZ32 = 600
+  w1 = FileWriteStream("FileWriteStreamParallelWalk1.out")
+  for i <- 1000#n do
+    w1.write("t" i " " body "\n")
+  end
+  w1.close()
+  assert(unbroken("FileWriteStreamParallelWalk1.out"), n, "lines written by write from parallel tasks")
+  w2 = FileWriteStream("FileWriteStreamParallelWalk2.out")
+  for i <- 1000#n do
+    w2.println("t" i " " body)
+  end
+  w2.close()
+  assert(unbroken("FileWriteStreamParallelWalk2.out"), n, "lines written by println from parallel tasks")
+  w3 = FileWriteStream("FileWriteStreamParallelWalk3.out")
+  for i <- 1000#n do
+    w3.writes(<|[\Any\] "t", i, " ", body, "\n"|>)
+  end
+  w3.close()
+  assert(unbroken("FileWriteStreamParallelWalk3.out"), n, "lines written by writes from parallel tasks")
+  println("every line came back unbroken")
+end
+
+end
