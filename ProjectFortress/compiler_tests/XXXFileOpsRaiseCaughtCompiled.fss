@@ -1,0 +1,30 @@
+(* On the compiled path, a fileOps helper's raise of IOFailure, a reader's after consume, is an exception that a catch sees. *)
+component XXXFileOpsRaiseCaughtCompiled
+export Executable
+
+rOpen(name:JavaString):JavaBufferedReader = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrOpen")
+rWhenUnconsumed(r:JavaBufferedReader):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrWhenUnconsumed")
+rConsume(r:JavaBufferedReader):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrConsume")
+rClose(r:JavaBufferedReader):() = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrClose")
+
+refused(r:JavaBufferedReader):Boolean =
+  try
+    rWhenUnconsumed(r)
+    false
+  catch e
+    IOFailure => true
+  end
+
+run():() = do
+  name = "XXXFileOpsRaiseCaughtCompiled.out"
+  w = makeJavaBufferedWriter(name)
+  w.write("alpha")
+  w.close()
+  r = rOpen(name.asJavaString)
+  rConsume(r)
+  println("REACHED")
+  assert(refused(r), "a reader after consume raises IOFailure, which a catch sees")
+  rClose(r)
+end
+
+end

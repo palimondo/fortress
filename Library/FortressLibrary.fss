@@ -1957,6 +1957,14 @@ trait JavaBufferedWriter excludes { String, Number, Boolean, Char, JavaBufferedR
 end
 
 trait JavaBufferedReader excludes { String, Number, Boolean, Char, JavaBufferedWriter }
+    read(): Char = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrRead")
+    readLine(): String = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrReadLine")
+    readk(k: ZZ32): String = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrReadk")
+    eof(): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrEof")
+    ready(): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrReady")
+    close(): () = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrClose")
+    whenUnconsumed(): () = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrWhenUnconsumed")
+    consume(): () = builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrConsume")
 end
 
 makeJavaBufferedWriter(name: FlatString): JavaBufferedWriter =
@@ -1965,6 +1973,10 @@ makeJavaBufferedStdOut(): JavaBufferedWriter =
     builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwStdOut")
 makeJavaBufferedStdErr(): JavaBufferedWriter =
     builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbwStdErr")
+makeJavaBufferedReader(name: FlatString): JavaBufferedReader =
+    builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrOpen")
+makeJavaBufferedStdIn(): JavaBufferedReader =
+    builtinPrimitive("com.sun.fortress.nativeHelpers.fileOps.jbrStdIn")
 
 (* SetsNotDisjoint? *)
 object DisjointUnionError extends CheckedException

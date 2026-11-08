@@ -9,73 +9,50 @@
 
  ******************************************************************************)
 
-native component File
+component File
 import FlatString.FlatString
 import FileSupport.{...}
+import Stream.{ WriteStream }
 export File
 
-private language="java"
-private package="com.sun.fortress.interpreter.glue.prim"
+FileReadStream(filename: String): FileReadStream = typecase filename.asFlatString of
+    f:FlatString ⇒ FileReadStream(filename, makeJavaBufferedReader(f))
+    f:String ⇒ fail[\FileReadStream\]("FileReadStream: asFlatString answered a string that is not flat")
+  end
 
-FileReadStream(filename: String): FileReadStream = FileReadStream(filename.asFlatString)
-
-object FileReadStream(filename: FlatString)
+object FileReadStream(fileName: String, under: JavaBufferedReader)
         extends { ReadStream, FileStream }
-    getter fileName():String =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$fileName")
+    getter asString():String = "<Read handle to \"" || fileName || "\">"
 
-    getter asString():String =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$toString")
+    getter eof():Boolean = under.eof()
 
-    getter eof():Boolean =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$eof")
+    getter ready():Boolean = under.ready()
 
-    getter ready():Boolean =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$ready")
+    whenUnconsumed():() = under.whenUnconsumed()
+    consume():() = under.consume()
 
-    whenUnconsumed():() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$whenUnconsumed")
-    consume():() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$consume")
+    uncheckedReadLine():String = under.readLine()
 
-    uncheckedReadLine():String =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$readLine")
+    (* The reader answers char(0) at the end and sets eof; the stream answers -1 there. *)
+    uncheckedReadChar():ZZ32 = do
+        c = under.read()
+        if under.eof() then -1 else c.codePoint end
+      end
 
-    uncheckedReadChar():ZZ32 =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$readChar")
+    uncheckedRead(k:ZZ32):String = under.readk(k)
 
-    uncheckedRead(k:ZZ32):String =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$readk")
-
-    close():() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileReadStream$close")
+    close():() = under.close()
 end
 
-FileWriteStream(fileName:String):FileWriteStream = FileWriteStream(fileName.asFlatString)
+FileWriteStream(fileName:String):FileWriteStream = typecase fileName.asFlatString of
+    f:FlatString ⇒ FileWriteStream(fileName, makeJavaBufferedWriter(f))
+    f:String ⇒ fail[\FileWriteStream\]("FileWriteStream: asFlatString answered a string that is not flat")
+  end
 
-object FileWriteStream(fileName:FlatString) extends { FileStream }
-    getter fileName(): String =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileWriteStream$fileName")
-    getter asString(): String =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileWriteStream$toString")
-    write(s:FlatString):() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileWriteStream$write")
-    write(c:Char):() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileWriteStream$write")
+object FileWriteStream(fileName: String, under: JavaBufferedWriter) extends { FileStream, WriteStream }
+    getter asString(): String = "<Write handle to \"" || fileName || "\">"
+    write(s:FlatString):() = under.write(s)
+    write(c:Char):() = under.write(c)
     write(x:String):() = x.writeOn(self)
     write(x:Any): () = write("" x)
     writes(x:Generator[\Any\], r:String):() =
@@ -88,9 +65,8 @@ object FileWriteStream(fileName:FlatString) extends { FileStream }
     writes(x:Generator[\Any\]):() = writes(x,"")
     print(x:Any...):() = writes(x)
     println(x:Any...):() = writes(x,"\n")
-    close():() =
-      builtinPrimitive(
-        "com.sun.fortress.interpreter.glue.prim.FileWriteStream$close")
+    flush():() = under.flush()
+    close():() = under.close()
 end
 
 end

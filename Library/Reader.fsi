@@ -14,9 +14,10 @@ import FlatString.FlatString
 import Stream.{...}
 stdIn: Reader
 
-object Reader(fileName: String) (* extends ReadStream *)
+Reader(fileName: String): Reader
+
+object Reader(fileName: String, under: JavaBufferedReader) (* extends ReadStream *)
     getter asString(): String
-    getter fileName(): String
     getter eof(): Boolean
     getter isReady(): Boolean
 
