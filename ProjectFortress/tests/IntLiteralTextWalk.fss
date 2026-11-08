@@ -15,11 +15,11 @@ shown(v: Any): String =
 
 run(): () = do
     x = IntLiteral
-    assert(shown(x.asZZ32), "0 : ZZ32", "literals.tex, section \"Literals\": the object IntLiteral as a ZZ32 is 0")
-    assert(shown(x.asZZ64), "0 : ZZ64", "literals.tex, section \"Literals\": the object IntLiteral as a ZZ64 is 0")
-    assert(shown(x.asNN32), "0 : NN32", "literals.tex, section \"Literals\": the object IntLiteral as an NN32 is 0")
-    assert(shown(x.asNN64), "0 : NN64", "literals.tex, section \"Literals\": the object IntLiteral as an NN64 is 0")
-    assert(shown(x.asZZ), "0 : ZZ", "literals.tex, section \"Literals\": the object IntLiteral as a ZZ is 0")
+    assert(shown(x.asZZ32), "0 : ZZ32", "pins the library: the object IntLiteral's asZZ32 is 0")
+    assert(shown(x.asZZ64), "0 : ZZ64", "pins the library: the object IntLiteral's asZZ64 is 0")
+    assert(shown(x.asNN32), "0 : NN32", "pins the library: the object IntLiteral's asNN32 is 0")
+    assert(shown(x.asNN64), "0 : NN64", "pins the library: the object IntLiteral's asNN64 is 0")
+    assert(shown(x.asZZ), "0 : ZZ", "pins the library: the object IntLiteral's asZZ is 0")
     assert(x.asString, "0", "pins the library: the object IntLiteral's asString is 0")
     assert(x.asExprString, "0", "pins the library: the object IntLiteral's asExprString is 0")
     assert(x = x, "pins the library: the object IntLiteral equals itself")
