@@ -14,6 +14,9 @@
 
 ## Held in chat (2026-11-08)
 
+- 02:2x His answer to Q3: option 1 (`args` in Fortress over two scalar helpers, in rung S).
+- 02:1x His answer to Q2: (ii), the slot API. With it, his word on the array goal: decisions are made in the generic way; all numerical code in HPC settings must eventually run unboxed on the compiled path, and all arrays must have the most efficient store possible, or Fortress stays a research toy; P-84's wording already meant this, and the narrow reading (only `RR64` leaves the boxed store), by the natives judgement, the planner, the Fable review and the coordinator's Q2 ask, was the error. P-84 and P-85 reworded at `bd1174a2`. He asked whether (ii) needs a probe and a new plan: no, the planner modelled it and rung A's brief names it, with a four-task contention test.
+- 01:10 He delayed the timed default of Q2 while he read it.
 - 00:13 His standing go for climb batch 28: if he does not answer an ask within 30 minutes of it, take the default that the Fable review recommends, and launch. So Q2 and Q3 go to him one per message; on his answer, or 30 minutes after each ask with no answer, its Fable-recommended default stands; then the launch, with no further word of his.
 - 00:00 His question on the `fortress-repo` page's change 37 (thread `f6115171`, sent to Claude): is it about `CC64`, the program's complex type for `Vector` and `Matrix`? Answered on the thread: not directly; opening `Number` was for that case, and change 37 is its side effect on a program's trait that is not a number but declares its own `+`. He is still reading the page.
 

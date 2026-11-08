@@ -8,7 +8,7 @@
 
 The batch's generator writes the workflow's manifest from this section. Each rung's `section` is its section 4 heading, word for word. The rungs are in the manifest's order, V, R, A, K, H, S, T. The expected minutes order the scatter only. REC stands for `doc:explorations/coordinator/CLIMB-BATCH-28.md#`, and PROBES for `doc:explorations/compile-ladder/plan-28/PROBES.md#`. A briefing key marked (check) is also in the rung's `checks` list, which its skeptic, a judge and a repair round read.
 
-**Two rungs wait on his answers before the launch** (section 2, "The questions for the curator"): A, the arrays' store, on Q2; and the second half of S, `System`'s arguments, on Q3. Without Q2's answer, A is left out of the manifest. Without Q3's answer, S runs its first half only, as its section says.
+**His answers to the two questions** (section 2, "The questions for the curator"), at 02:1x and 02:2x UTC on 2026-11-08: Q2, shape (ii), the slot API, so A builds the compiled store over an `Object[]` and the compiled transaction's slot calls; Q3, option 1, so S builds both halves. His Q2 answer rests on P-84 as widened at 02:1x: every number type's array is to be stored unboxed on the compiled path, so the slot mechanism is the one every unboxed array will need, and the ground of the record's and the Fable review's recommendation of shape (i), that only `RR64` leaves the boxed store, no longer holds.
 
 | id | slug | title | expected minutes |
 |---|---|---|---|
@@ -107,7 +107,7 @@ Fields common to the seven rungs:
 - **slug:** `rung-array-store`
 - **worktree:** `/home/user/fortress-array-store`
 - **section:** `A. The arrays' store: PrimitiveArray and PrimImmutableArray over a compiled store in a field, walk's AtomicArray behind P-167's device, and PrimImmutableRR64Array over a double[] class (P-169; Q2)`
-- **waits on:** his answer to Q2 (section 2). Its default is shape (i), a cell per element; with shape (ii), the section's "What you build" names the change.
+- **takes:** Q2's answer, shape (ii), the slot API (section 2).
 - **blurb:** P-169's arrays: FortressLibrary declares a store trait whose bindings name helpers of a new nativeHelpers/arrayOps over a compiled store class, in the shape that Q2's answer gives; PrimitiveArray and PrimImmutableArray become plain objects over a field of that trait, each read a cast to T, and NativeArray a plain component; walk's private native object below the trait holds an AtomicArray, and walk's loader answers the arrayOps names with walk's glue by one rule for the class, so walk's arrays and their transactions do not change; PrimImmutableRR64Array's two move onto a compiled double[] class that no factory chooses; the checker's walk-world table gains the store classes; a test of the compiled store outside and inside the compiled transaction at four threads.
 - **points to report:**
   - The store trait, its factories and walk's native object as declared; the loader's rule as written.
@@ -203,7 +203,7 @@ Fields common to the seven rungs:
 - **slug:** `rung-system-natives`
 - **worktree:** `/home/user/fortress-system-natives`
 - **section:** `S. System's natives: getEnvironment and getProperty onto stringOps, and, with Q3's answer, args built in Fortress over two scalar helpers (item 355; row 895; Q3)`
-- **waits on, for its second half:** his answer to Q3 (section 2). Without it, the rung builds its first half only.
+- **takes, for its second half:** Q3's answer, option 1 (section 2).
 - **blurb:** item 355, option 1, and row 895: System's getEnvironment and getProperty name two new helpers of stringOps that compute as systemOps' do, so that no binding of the one library names systemOps; systemOps keeps getProperty and getArgs for the compiler's prelude; the compiled guard retargeted. With Q3's default: args built in Fortress by immutableArray and tabulate over two scalar helpers of a new class, a count and the i-th argument, which walk's driver and the compiled main both fill, so that getProgramArgsPrim and getProgramArgs go and the checker reads System whole with no error; the checker run over System before and after.
 - **points to report:**
   - The helpers and their Java signatures; what systemOps keeps and why.
@@ -326,6 +326,7 @@ Two, each consequential by the `coordinator` skill's test. Without his answer, t
   2. **Shape (ii), a slot API.** Rung A with the change to `Transaction.java` that its section names, and the four-thread runs of the new transactional code. 28 bytes an element, and 45 % less inside a long transaction; about 0.1M more for the rung.
   3. **Neither now:** rung A goes to climb batch 29, and `NativeArray`'s 7 stay on glue one batch longer.
 - **The record recommends 1:** walk's own shape and the team's, no change to the compiled transaction, and the difference outside a transaction is a third of a write at most; (ii) can follow if phase 6's numbers ask before decision A replaces the `RR64` store. It is consequential because it touches microGPT's speed until decision A. **The Fable review recommends 1 too** (`climb-batch-28-review.md`, section 1): the team's word that speaks is walk's 2007 store, the later word is silent on a transactional element, and shape (ii) would key the transaction by an array and an index, the design decision A's `double[]` will need, ahead of P-85's questions.
+- **His answer, 02:1x UTC on 2026-11-08: 2, shape (ii).** P-84, as he widened it at 02:1x, stores every number type's array unboxed on the compiled path, so an `atomic` write into any of them needs the transaction to track an array and an index, shape (ii)'s mechanism, and arrays of objects keep one box fewer than in shape (i). The recommendation of 1 rested on only `RR64` leaving the boxed store.
 
 **Q3. Does `getProgramArgsPrim` leave glue now, with `args` built in Fortress over two scalar helpers?** (PLAN, phase 4, its line on `CompilerSystem`; the natives review's Q3; review-queue item 319 holds the deletion of `CompilerSystem`, which this question does not decide.)
 
@@ -336,6 +337,7 @@ Two, each consequential by the `coordinator` skill's test. Without his answer, t
   2. **With `NativeArray`, after the switch-over** (`perf-probes/prelude/natives-shape.md`, section 3): a compiled `System`, and so microGPT, raises as it loads.
   3. **A Java-backed vector, as the prelude has:** a second store type beside rung A's.
 - **The record recommends 1.** It is consequential because it decides whether `System`, and so microGPT's import of it, loads compiled at the switch-over. **The Fable review recommends 1 too** (`climb-batch-28-review.md`, section 1): `args` keeps the team's declared type over the library's own factory, and option 2 would make a compiled microGPT raise as `System` loads.
+- **His answer, 02:2x UTC on 2026-11-08: 1.**
 
 **No other fork of the record is consequential** (section 3).
 
@@ -547,7 +549,7 @@ Compare each with climb batch 27's gate table by `diff`, and the distance with `
 
 ### A. The arrays' store: `PrimitiveArray` and `PrimImmutableArray` over a compiled store in a field, walk's `AtomicArray` behind P-167's device, and `PrimImmutableRR64Array` over a `double[]` class (P-169; Q2)
 
-**This rung runs only with his answer to Q2, or its default under the go rule** (section 2). Its default shape is (i), a cell per element; the shape (ii) line of "What you build" applies if he takes the slot API.
+**This rung builds shape (ii), the slot API: Q2's answer** (section 2). The shape (i) line of "What you build" does not apply. The store holds an `Object[]`, and `runtimeSystem/Transaction.java` gains the slot calls that "What you build" names; your four-task test inside `atomic` is the first run of that code at four threads.
 
 **The mission.** Every array, vector, matrix, varargs list and `args` of the one library is built on `PrimitiveArray` or `PrimImmutableArray` (`Library/FortressLibrary.fss:2392-2398`, `:2655`, `:2702`, `:2708`, `:2879`, `:3051`, `:3281`; `Library/List.fss:488`; `Library/System.fss:34`; `compiler/WellKnownNames.java:53-56`), objects of the native component `NativeArray` whose 7 methods name glue classes. A body left on glue compiles to the one library's own `builtinPrimitive`, which fails, so by reading a compiled program would raise at its first array (`reviews/natives-remainder-2026-11-07.md`, section 1, finding 1). This rung puts the elements in a compiled store behind a Java-backed trait, and keeps walk's store as it is.
 
@@ -676,7 +678,7 @@ Keep their verdicts: the compiler track and the library track, `ant testQuick` o
 
 ### S. `System`'s natives: `getEnvironment` and `getProperty` onto `stringOps`, and, with Q3's answer, `args` built in Fortress over two scalar helpers (item 355; row 895; Q3)
 
-**Its second half runs only with his answer to Q3, or its default under the go rule** (section 2). Without it, build the first half and stop there.
+**Its second half runs: Q3's answer is option 1** (section 2). Build both halves.
 
 **The mission.** The territory map's table of what moves with what gives the rule behind this rung: the compiled path's wrapper generator wraps every method of a helper class that it is given, and fails the import on a type that it cannot map (`map/README.md`, section 7, its row on `nativeHelpers/`). Against the one library, the checker reads a helper class in the same way (F-321). `System`'s two bindings name `systemOps`, whose `getArgs` answers a type that the one library does not declare, so the checker cannot read `System`, which both microGPT programs import. With the first half the checker reaches `System`'s component and finds two errors, at `args` and `getProgramArgs`; with the second half it reads `System` whole with no error (section 5, probe 3).
 
@@ -845,10 +847,10 @@ This run is climb batch 28, the sixth batch of the plan's phase 4, the switch-ov
 
 - V, P-161 and P-169: the checked integer getters, `bitsAs…`, the low-bits names on every type, `ZZ`'s `narrow` and `widen` deleted with their callers moved, `ZZ32`'s `big` on its helper, `IntLiteral`'s 8 in Fortress over `asZZ`, and the specification's sentences;
 - R, P-164's reader rung: `FileReadStream`, `Reader`, `stdIn` and `FileWriteStream` as plain objects over the Java-backed `JavaBufferedReader` and `JavaBufferedWriter`, and `File` and `Reader` plain components;
-- A, P-169's arrays, if Q2 is answered: `PrimitiveArray` and `PrimImmutableArray` over a compiled store in a field, walk's `AtomicArray` behind P-167's device, `PrimImmutableRR64Array` over a `double[]` class;
+- A, P-169's arrays, in Q2's answer, shape (ii), the slot API: `PrimitiveArray` and `PrimImmutableArray` over a compiled store in a field, walk's `AtomicArray` behind P-167's device, `PrimImmutableRR64Array` over a `double[]` class;
 - K, row 929: the checker's four sorts by a partial order made a linear extension, read once a pair, as fast as today (P-148);
 - H, P-169's threads: `Thread`'s four, `abort` and `printTaskTrace` on compiled helpers that walk's loader answers with its glue;
-- S, item 355's option 1 and, if Q3 is answered, Q3's: `System`'s two natives onto `stringOps`, and `args` built in Fortress over two scalar helpers;
+- S, item 355's option 1 and Q3's option 1: `System`'s two natives onto `stringOps`, and `args` built in Fortress over two scalar helpers;
 - T, row 733: the code generator compiles an object whose first supertrait is an imported api's trait.
 
 Each rung has tests that fail on the base and pass after, and guards that pass on both. Only K changes the checker's checking code, and it makes P-148's speed pass. Every rung but T changes text that the stages read, so each runs the count stage and the distance stage once on its final tree, against climb batch 27's landed 0 and 0 (F-53); the distance's two crash rows in `value object Char` are row 929's, and on a rung's own tree they may stay, go or move: report them, declare none. Three rules hold for every rung's tests, since other rungs change what tests can meet: assert no crash row; assert no glue string, since V, R, A, H and S move them; and assert no walk message that no `catch` sees at a missing file or a consumed reader, which R makes the library's exceptions. No rung builds on another, none lands only with another, and no two change one declaration. The gather composes them, revises Appendix I's natives effect to the merged count, builds the specification once for V's entry, and runs the 52 team demos on the merged tree. `ant testSpecData` runs in the gate because the landed summary has it.
