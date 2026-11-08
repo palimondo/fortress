@@ -297,12 +297,12 @@ The reasons, one by one:
 - **Today: 443 live bindings, 341 on helpers and 102 on glue classes** (F-299, F-32; section 5, probe 6). The 102: the literals 32 (`IntLiteral` 29, `FloatLiteral` 3), `Reflect` 28, the reader side 20 and `FileWriteStream` 5, `NativeArray` 7, `Thread` 5 and `printTaskTrace` 1, the conversions 3, `getProgramArgsPrim` 1.
 - **After the batch, by reading:**
   - R takes 25 off glue and adds 10 helper bindings: the reader trait's 8 methods and its two factories.
-  - V takes 11 off glue: `big` onto its helper, `ZZ`'s two deleted, and `IntLiteral`'s 8 written in Fortress; it adds 1 helper binding, and one more for each checked getter that it binds to a helper rather than writes in Fortress (fork V1).
+  - V takes 11 off glue: `big` onto its helper, `ZZ`'s two deleted, and `IntLiteral`'s 8 written in Fortress; it adds 1 helper binding, and one more for each checked getter that it binds to a helper rather than writes in Fortress: three by fork V1's default.
   - H moves 6 from glue onto helpers.
   - A moves 7 from glue onto helpers: the store trait's methods and factories.
   - S moves none in its first half; with Q3, `getProgramArgsPrim` goes and two helper bindings come.
   - K and T move none.
-- **So the glue count falls from 102 to 52 with all seven rungs, to 59 without A, and to 60 without A and Q3's half.** The live bindings and the helpers come to 419 and 367 with all seven, 418 and 358 without A and Q3, before V's own helper bindings. The gather counts the merged tree.
+- **So the glue count falls from 102 to 52 with all seven rungs, to 59 without A, and to 60 without A and Q3's half.** The live bindings and the helpers come to 422 and 370 with all seven, 421 and 361 without A and Q3, with fork V1's three. The gather counts the merged tree.
 - **What stays on glue:** `Reflect`'s 28, which wait for his answer to Q4 of the natives review; the literals' 24, `IntLiteral`'s 21 and `FloatLiteral`'s 3, at N5 in the names batch (P-169); and, without their answers, `NativeArray`'s 7 and `getProgramArgsPrim`.
 
 ### The questions for the curator, before the launch
@@ -422,7 +422,7 @@ Each default can be undone, none reverses a decision of his, and none touches a 
 **Rung K**
 
 27. **K1. One class, `scala_src/useful/PartialOrder.scala`, used at the four sites,** over a list and a strict order, reading each pair at most once: `minimal` and a linear extension `linear`. Default: so, the prototype of section 5, probe 2. The ways not taken: a rank sort, correct and twice as slow by the brief's measurement; Java's legacy merge sort, which raises nothing and is still wrong on a partial order.
-28. **K2. A tie keeps the first minimal candidate in the list's order,** where the old code kept the head of TimSort's order. Default: so; on the one library the probe's tables and `run.txt` files are equal outside the crash. The way not taken: none that is deterministic.
+28. **K2. A tie keeps the first minimal candidate in the list's order,** where the old code kept the head of TimSort's order. Default: so; on the one library the probe's tables and `run.txt` files are equal outside the crash. The way not taken: TimSort's head wherever TimSort succeeds, which no sort that is correct on a partial order reproduces.
 29. **K3. `callType` takes the head of `minimal`, and sorts nothing.** Default: so.
 30. **K4. The compiled test: 64 candidates of two chains of traits, in an order that stops the base's checker,** found by the planner's generator at the test's own name and path (section 4, rung K). Default: so; the shuffle that stopped the base in probe 2 may not stop it under another name, since the order follows the names.
 31. **K5. The memo is audited on one full run,** by `compiler.md`, "The checker's time", step 5, in an instrumented copy. Default: so.
@@ -627,7 +627,7 @@ Keep their verdicts: the compiler track and the library track, `ant testQuick` o
 
 **Rows.** Row 929 closes with your commit, its test `PartialOrderCandidatesCompiled`.
 
-**Specification.** None. List every sentence made false: F-54's two crash rows, F-53's "the distance holds two crash rows" if it says so, PLAN's line on row 929, `reviews/batch-27-review.md`'s point 6 as a statement of today.
+**Specification.** None. List every sentence made false: F-54's two crash rows; F-53's "its check of `value object Char` did not finish, so the 0 holds no completed check of that declaration's body"; PLAN's line on row 929 and its "Where we stand".
 
 **Files.**
 - `scala_src/useful/PartialOrder.scala`, new; `scala_src/typechecker/impls/Functionals.scala`, `CoercionOracle.scala`, `Formula.scala`: the four sites, only.
