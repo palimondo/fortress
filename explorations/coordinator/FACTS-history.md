@@ -6013,3 +6013,7 @@ pointer words refreshed in: F-24
 ### F-333
 
 2026-11-08 07:36Z · added · from `explorations/compile-ladder/rung-array-store/REPORT.md`, "What changed and why" · by climb batch 28 gather
+
+### F-334
+
+2026-11-08 07:37Z · added · from `explorations/compile-ladder/rung-checker-partial-order/REPORT.md`, "1. What changed and why" · by climb batch 28 gather

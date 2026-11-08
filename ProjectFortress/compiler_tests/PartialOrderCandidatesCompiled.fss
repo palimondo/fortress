@@ -1,0 +1,152 @@
+component PartialOrderCandidatesCompiled
+export Executable
+(* A call among 64 overloadings that only a partial order ranks: the checker finds the most specific. *)
+trait T0 end
+trait T1 extends T0 end
+trait T2 extends T1 end
+trait T3 extends T2 end
+trait T4 extends T3 end
+trait T5 extends T4 end
+trait T6 extends T5 end
+trait T7 extends T6 end
+trait U0 end
+trait U1 extends U0 end
+trait U2 extends U1 end
+trait U3 extends U2 end
+trait U4 extends U3 end
+trait U5 extends U4 end
+trait U6 extends U5 end
+trait U7 extends U6 end
+object A extends T7 end
+object B extends U7 end
+
+f(x: T1, y: U5): ZZ32 = 105
+
+f(x: T3, y: U4): ZZ32 = 304
+
+f(x: T7, y: U3): ZZ32 = 703
+
+
+f(x: T5, y: U3): ZZ32 = 503
+f(x: T5, y: U6): ZZ32 = 506
+
+
+f(x: T0, y: U7): ZZ32 = 7
+f(x: T0, y: U2): ZZ32 = 2
+f(x: T7, y: U7): ZZ32 = 707
+f(x: T5, y: U7): ZZ32 = 507
+
+
+f(x: T7, y: U6): ZZ32 = 706
+f(x: T0, y: U1): ZZ32 = 1
+
+f(x: T1, y: U0): ZZ32 = 100
+
+
+f(x: T4, y: U6): ZZ32 = 406
+
+f(x: T0, y: U4): ZZ32 = 4
+
+f(x: T7, y: U0): ZZ32 = 700
+
+
+f(x: T5, y: U5): ZZ32 = 505
+
+
+f(x: T5, y: U1): ZZ32 = 501
+f(x: T1, y: U7): ZZ32 = 107
+
+
+f(x: T6, y: U5): ZZ32 = 605
+f(x: T4, y: U2): ZZ32 = 402
+f(x: T2, y: U1): ZZ32 = 201
+
+
+f(x: T1, y: U4): ZZ32 = 104
+
+
+f(x: T0, y: U5): ZZ32 = 5
+f(x: T6, y: U6): ZZ32 = 606
+
+f(x: T5, y: U0): ZZ32 = 500
+
+
+f(x: T2, y: U7): ZZ32 = 207
+
+f(x: T3, y: U6): ZZ32 = 306
+
+f(x: T6, y: U7): ZZ32 = 607
+
+
+f(x: T4, y: U0): ZZ32 = 400
+f(x: T4, y: U3): ZZ32 = 403
+
+
+f(x: T3, y: U2): ZZ32 = 302
+
+f(x: T2, y: U4): ZZ32 = 204
+
+f(x: T0, y: U3): ZZ32 = 3
+
+f(x: T2, y: U0): ZZ32 = 200
+f(x: T7, y: U1): ZZ32 = 701
+f(x: T7, y: U2): ZZ32 = 702
+f(x: T1, y: U3): ZZ32 = 103
+
+f(x: T1, y: U6): ZZ32 = 106
+f(x: T3, y: U7): ZZ32 = 307
+
+f(x: T3, y: U5): ZZ32 = 305
+
+
+f(x: T3, y: U0): ZZ32 = 300
+
+f(x: T4, y: U7): ZZ32 = 407
+f(x: T3, y: U3): ZZ32 = 303
+f(x: T7, y: U5): ZZ32 = 705
+f(x: T6, y: U3): ZZ32 = 603
+
+f(x: T3, y: U1): ZZ32 = 301
+f(x: T5, y: U2): ZZ32 = 502
+f(x: T7, y: U4): ZZ32 = 704
+f(x: T1, y: U1): ZZ32 = 101
+
+f(x: T6, y: U0): ZZ32 = 600
+f(x: T6, y: U4): ZZ32 = 604
+
+
+f(x: T2, y: U6): ZZ32 = 206
+
+
+f(x: T1, y: U2): ZZ32 = 102
+f(x: T2, y: U2): ZZ32 = 202
+
+
+f(x: T2, y: U5): ZZ32 = 205
+
+f(x: T4, y: U4): ZZ32 = 404
+
+f(x: T6, y: U1): ZZ32 = 601
+f(x: T4, y: U1): ZZ32 = 401
+
+f(x: T2, y: U3): ZZ32 = 203
+
+
+f(x: T0, y: U0): ZZ32 = 0
+
+
+f(x: T0, y: U6): ZZ32 = 6
+
+
+f(x: T6, y: U2): ZZ32 = 602
+
+f(x: T4, y: U5): ZZ32 = 405
+f(x: T5, y: U4): ZZ32 = 504
+
+
+run():() = do
+  assert(f(A, B), 707, "the most specific of 64")
+  println("PASS")
+end
+
+end

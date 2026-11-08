@@ -1,0 +1,31 @@
+component TieAmongMostSpecificCompiled
+export Executable
+(* A call whose argument's type sits between two closed traits, one more specific than a third candidate, runs the declaration below them. *)
+trait S comprises { U, S2 } end
+trait S2 extends S comprises { V } end
+trait T comprises { V, W } end
+trait U extends S excludes W end
+trait M extends { S2, T } comprises { V } end
+trait V extends M end
+trait W extends T end
+object Vo extends V end
+object Uo extends U end
+object Wo extends W end
+
+f(v: V): ZZ32 = 4
+f(s: S2): ZZ32 = 2
+f(s: S): ZZ32 = 1
+f(t: T): ZZ32 = 3
+
+
+run(): () = do
+  m: M = Vo
+  assert(f(m), 4, "a value of M is a V, so f(V), the most specific declaration applicable to it, runs; overloading.tex, section \"Overloading Resolution\"")
+  s: S = Uo
+  assert(f(s), 1, "a U through S")
+  t: T = Wo
+  assert(f(t), 3, "a W through T")
+  println("PASS")
+end
+
+end

@@ -25,6 +25,7 @@ import com.sun.fortress.nodes_util.Span
 import com.sun.fortress.scala_src.nodes._
 import com.sun.fortress.scala_src.useful.Lists._
 import com.sun.fortress.scala_src.useful.Options._
+import com.sun.fortress.scala_src.useful.PartialOrder
 import com.sun.fortress.scala_src.useful.SExprUtil._
 import com.sun.fortress.scala_src.useful.SNodeUtil._
 import com.sun.fortress.scala_src.useful.STypesUtil._
@@ -714,7 +715,7 @@ trait Functionals { self: STypeChecker with Common =>
     def sameTypes(a: List[Type], b: List[Type]) =
       a.size == b.size && a.zip(b).forall(p => Formula.isTrue(analyzer.equivalent(p._1, p._2)))
     // The candidates no other candidate is more specific than.
-    def minimal(cs: List[Ranked]) = cs.filter(c => !cs.exists(d => !(d eq c) && moreSpecific(d, c)))
+    def minimal(cs: List[Ranked]) = new PartialOrder[Ranked](cs, moreSpecific).minimal
     val groundFamily = preCandidates.forall(pc => getStaticParams(pc.arrow).isEmpty)
     // The type of a tie among declarations without static parameters that fit
     // the call as it is, in a family without static parameters.
@@ -724,8 +725,12 @@ trait Functionals { self: STypeChecker with Common =>
           !top.forall(c => sameTypes(paramTypes(c), paramTypes(top.head))))
         Some(analyzer.meet(top.map(_._1.arrow.getRange)))
       else None
-    def callType(cs: List[Ranked]): Type =
-      (if (groundFamily) tieType(minimal(cs)) else None).getOrElse(cs.sortWith(moreSpecific).head._1.arrow.getRange)
+    // The first candidate no other is more specific than, or the first where
+    // each has one more specific.
+    def callType(cs: List[Ranked]): Type = {
+      val top = minimal(cs)
+      (if (groundFamily) tieType(top) else None).getOrElse(top.headOption.getOrElse(cs.head)._1.arrow.getRange)
+    }
     def kept(es: Attempt, coerce: Boolean) = holds(es, coerce) && context.forall(c =>
       coercions.substitutableFor(callType(candidatesOf(es)), c))
     // Each attempt: whether it is given the context, whether it coerces, and
@@ -757,8 +762,10 @@ trait Functionals { self: STypeChecker with Common =>
     }
 
     // Sort the arrows and instantiations to find the statically most
-    // applicable. Then update each candidate's Overloading node.
-    val sorted = candidates.sortWith(moreSpecific)
+    // applicable. Then update each candidate's Overloading node. The sort and
+    // the minimal candidates below read one order.
+    val order = new PartialOrder[Ranked](candidates, moreSpecific)
+    val sorted = order.linear
 
     // An overloading more specific than every candidate, whose size the call
     // does not fix, makes the call an error.
@@ -773,7 +780,7 @@ trait Functionals { self: STypeChecker with Common =>
 
     // Ensure that the head is the most specific: the one candidate no other
     // is more specific than.
-    val top = minimal(candidates)
+    val top = order.minimal
 
     // A tie whose tied candidates differ only where the argument is a numeral:
     // each numeral is read as ZZ32 (ZZ64 or ZZ by magnitude), and the call

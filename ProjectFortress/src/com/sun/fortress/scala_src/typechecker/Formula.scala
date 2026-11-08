@@ -28,6 +28,7 @@ import com.sun.fortress.compiler.Types.OBJECT
 import com.sun.fortress.exceptions.InterpreterBug.bug
 import com.sun.fortress.scala_src.types.TypeAnalyzer
 import com.sun.fortress.scala_src.types.{TypeAnalyzerUtil => TAU}
+import com.sun.fortress.scala_src.useful.PartialOrder
 import com.sun.fortress.scala_src.useful.{STypesUtil => TU}
 
 /* CFormulas express inequalities and negations of inequalities involving 
@@ -606,7 +607,7 @@ object Formula{
                 if (pl.size == 1) {
                   pl.head match {
                     case tt:TraitType =>
-                      for (a <- (ta.ancestors(tt) ++ List(uni)).toList.sortWith((a,b) => isTrue(ta.subtype(b,a)))) {
+                      for (a <- new PartialOrder[Type]((ta.ancestors(tt) ++ List(uni)).toList, (a,b) => isTrue(ta.subtype(b,a))).linear) {
 		        val proposedMap = cMap(nc, TU.killIvars compose tSubstitution(Map((k,p)).map(_=>(k,a))))
 //			println("For ancestor " + a + " proposed map is " + proposedMap)
                         if (isTrue(proposedMap)) {
