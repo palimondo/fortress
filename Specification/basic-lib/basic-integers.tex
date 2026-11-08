@@ -36,13 +36,44 @@ number type (\secref{basic-rationals}), and each coerces into \EXP{\mathbb{Q}}.
 An integer type coerces from each other integer type all of whose values it holds,
 as listed above; every other conversion between integer types is written explicitly.
 
-Among the explicit conversions, the method \VAR{narrow} converts a value of
-\EXP{\mathbb{Z}64} or \EXP{\mathbb{Z}} to \EXP{\mathbb{Z}32}, and a value of
-\EXP{\mathbb{N}64} to \EXP{\mathbb{N}32}, by keeping its low 32 bits: the result
-is the value of the narrower type that is congruent to the argument modulo
-\EXP{2^{32}}.
-A value that the narrower type holds is unchanged; any other wraps, and no
-\TYP{IntegerOverflow} is thrown.
+Among the explicit conversions, each of the five integer types has the getters
+\VAR{asZZ32}, \VAR{asZZ64}, \VAR{asNN32}, \VAR{asNN64} and \VAR{asZZ}, which
+convert a value to \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}32},
+\EXP{\mathbb{N}64} and \EXP{\mathbb{Z}} and keep the value: where the type
+converted to does not hold the value, \TYP{IntegerOverflow} is thrown.
+The getter to a value's own type returns the value, and a getter to a type that
+coerces from the value's type gives the value of the coercion.
+Each fixed-size type also has a getter that keeps the bits of a value and reads
+them at the same width with the other sign: \VAR{bitsAsNN32} of
+\EXP{\mathbb{Z}32}, \VAR{bitsAsNN64} of \EXP{\mathbb{Z}64}, \VAR{bitsAsZZ32} of
+\EXP{\mathbb{N}32} and \VAR{bitsAsZZ64} of \EXP{\mathbb{N}64}.
+
+The methods \VAR{narrow}, \VAR{widen}, \VAR{signed}, \VAR{unsigned} and
+\VAR{big} also convert, and throw no \TYP{IntegerOverflow}.
+The method \VAR{narrow} converts a value of \EXP{\mathbb{Z}64} to
+\EXP{\mathbb{Z}32}, and a value of \EXP{\mathbb{N}64} to \EXP{\mathbb{N}32}, by
+keeping its low 32 bits: the result is the value of the narrower type that is
+congruent to the argument modulo \EXP{2^{32}}.
+A value that the narrower type holds is unchanged; any other wraps.
+The method \VAR{widen} converts a value of \EXP{\mathbb{Z}32} to
+\EXP{\mathbb{Z}64} and a value of \EXP{\mathbb{N}32} to \EXP{\mathbb{N}64}, and
+\VAR{big} a value of any integer type to \EXP{\mathbb{Z}}, each keeping the value.
+The method \VAR{unsigned} converts a value of \EXP{\mathbb{Z}32} to
+\EXP{\mathbb{N}32} and a value of \EXP{\mathbb{Z}64} to \EXP{\mathbb{N}64}, and
+\VAR{signed} converts the other way, each keeping the bits as the getters
+\VAR{bitsAsNN32}, \VAR{bitsAsNN64}, \VAR{bitsAsZZ32} and \VAR{bitsAsZZ64} do.
+Each of the five methods is declared on every integer type to which it applies,
+and returns a value of its result type unchanged: \VAR{narrow} of
+\EXP{\mathbb{Z}32} and of \EXP{\mathbb{N}32}, \VAR{widen} of \EXP{\mathbb{Z}64}
+and of \EXP{\mathbb{N}64}, \VAR{signed} of \EXP{\mathbb{Z}32} and of
+\EXP{\mathbb{Z}64}, \VAR{unsigned} of \EXP{\mathbb{N}32} and of
+\EXP{\mathbb{N}64}, and \VAR{big} of \EXP{\mathbb{Z}}.
+\EXP{\mathbb{Z}} has neither \VAR{narrow} nor \VAR{widen}: a value of
+\EXP{\mathbb{Z}} converts to a fixed-size type only by a getter.
+\revision{revival-int-conversions}{The Working Draft of February 2011 named
+none of these conversions, which \library\ declare on the integer types; the
+two paragraphs above state the getters and the methods the revival decided for
+them, and \VAR{narrow} no longer converts a value of \EXP{\mathbb{Z}}.}
 
 The operators \OPR{LSHIFT} and \OPR{RSHIFT} shift the bits of an integer of any of
 the five types by a count of any integer type, and return a value of the type of
@@ -62,8 +93,9 @@ The count is read by its value, whatever its type: an \EXP{\mathbb{N}64} count o
 \EXP{2^{63}} or more is beyond the width, not negative.
 \revision{revival-shifts}{The Working Draft of February 2011 named neither
 \VAR{narrow} nor \OPR{LSHIFT} and \OPR{RSHIFT}, which \library\ declare on the
-integer types; the two paragraphs above state the rules the revival decided for
-them.}
+integer types; the paragraph above states the rules the revival decided for the
+shifts, and the paragraph on the methods that keep bits, before it, the rule for
+\VAR{narrow} (\secref{revival-int-conversions}).}
 
 It is often desirable to know that an integer lies in a subset of its type,
 such as the positive values or the nonzero values.
