@@ -177,7 +177,7 @@ None moved DOWN. These compile against the compiler's prelude, which this rung d
 ## Sentences made false
 
 - Appendix I's natives effect, `Specification/appendices/changes.tex:4627-4660` ("341 of the 443 bindings of \library\ name a helper: …", "The other 102 still name a glue class"): the counts move by +6 helpers and -11 glue (finding 7 of record.md), the list gains ZZ32's big and the getters' helper bindings, and ZZ's two glue bindings are gone. Not edited: fork 5, the gather's.
-- F-172, F-327 and F-299, as record.md gives.
+- F-172, F-327, F-299 and F-32, as record.md gives.
 - `explorations/coordinator/PLAN.md:49` ("`big` moves onto `makeZZfromZZ32` with P-161's rung") and `:75` (P-161 "Answered"): both are now done.
 - The comment line of `ProjectFortress/tests/SignedAboveSignedRangeWalk.fss:1` ("Today's behaviour, on which the specification is silent"): the revised `basic-integers.tex` now states that signed keeps the bits. Not edited: not this rung's file.
 - Row 856's "spec citation" cell, "silent", and its notes' "are not on NN32 or NN64": the row closes.
