@@ -1,0 +1,28 @@
+component XXXComprisesCoverNestedWalk
+export Executable
+(* Two overloads on closed traits load when declarations below both together cover their overlap through a comprises clause of a trait below both. *)
+
+trait P comprises { X, Pv } end
+trait Q comprises { X, Qv } end
+trait X extends { P, Q } comprises { Xa, Xb } end
+object Pv extends P end
+object Qv extends Q end
+object Xa extends X end
+object Xb extends X end
+
+f(x: P): ZZ32 = 1
+f(x: Q): ZZ32 = 2
+f(x: Xa): ZZ32 = 3
+f(x: Xb): ZZ32 = 4
+
+run(): () = do
+    a: X = Xa
+    assert(f(a), 3, "every value of both P and Q is an Xa or an Xb, so f(Xa) and f(Xb) together cover the overlap, and f(Xa) runs for an Xa; Specification/advanced/overloading.tex, paragraph \"The Meet Rule for Functions\"")
+    b: X = Xb
+    assert(f(b), 4, "f(Xb) runs for an Xb")
+    assert(f(Pv), 1, "a Pv lies outside Q and takes f(P)")
+    assert(f(Qv), 2, "a Qv lies outside P and takes f(Q)")
+    println("PASS")
+  end
+
+end
