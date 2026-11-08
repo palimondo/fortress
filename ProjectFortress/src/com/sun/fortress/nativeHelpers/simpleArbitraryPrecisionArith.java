@@ -144,6 +144,18 @@ public class simpleArbitraryPrecisionArith {
 	else return BigInteger.valueOf((k << 1) >>> 1).setBit(63);
     }
 
+    // asZZ64 of a ZZ: the value where ZZ64 holds it, else IntegerOverflow.
+    public static long bigOverflowingToLong(BigInteger a) {
+	if (a.bitLength() > 63) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	return a.longValue();
+    }
+
+    // asNN64 of a ZZ: the bits of the value where NN64 holds it, else IntegerOverflow.
+    public static long bigOverflowingToUnsignedLong(BigInteger a) {
+	if (a.signum() < 0 || a.bitLength() > 64) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
+	return a.longValue();
+    }
+
     // GCD, LCM, CHOOSE and cmp of ZZ, as walk's BigNum$Gcd, BigNum$Lcm, BigNum$Choose and
     // BigNum$Cmp compute them.
 

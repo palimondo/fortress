@@ -67,7 +67,7 @@ end
  * -128 ^ 0xff + 1 = 127 + 1 = -128
  *)
 radixHelper(base:ZZ64,val:ZZ64):String = do
-    n = widen(|/(val / base)\|)
+    n = (|/(val / base)\|).asZZ64
     if n =/= 0 then
         radixHelper(base, n) radixConvert(-narrow(val REM base))
     else
@@ -114,12 +114,12 @@ scientific(number:RR64):String = do
 end
 
 digitSeparator(num:String,nth:ZZ32,separator:String):String = do
-    total = narrow(|\((|num|)-1) / nth/|)
+    total = (|\((|num|)-1) / nth/|).asZZ32
     num[0#((|num|)-(total nth))] (BIG || [index <- 0#total] (separator num[((|num|) - ((total - index)nth))#nth]))
 end
 
 digitSeparatorRight(num:String,nth:ZZ32,separator:String):String = do
-    total = narrow(|\((|num|)-1) / nth/|)
+    total = (|\((|num|)-1) / nth/|).asZZ32
     (BIG || [index <- 0#total] (num[(index nth)#nth] separator)) num[(total nth):]
 end
 

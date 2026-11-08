@@ -132,6 +132,12 @@ end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     coerce(x: IntLiteral)
+    getter asZZ32(): ZZ32
+    getter asZZ64(): ZZ64
+    getter asNN32(): NN32
+    getter asNN64(): NN64
+    getter asZZ(): ZZ
+    getter bitsAsZZ32(): ZZ32
     opr |self| : NN32
     asFloat(self): RR64
     opr =(self, b:NN32):Boolean
@@ -182,6 +188,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     widen(self):NN64
     partitionL(self):NN32
     signed(self):ZZ32
+    narrow(self):NN32
+    unsigned(self):NN32
+    big(self):ZZ
 end
 
 value object UnsignedLong extends NN64

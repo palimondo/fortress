@@ -680,6 +680,13 @@ The items for him that climb batch 27 (`coordinator/CLIMB-BATCH-27.md`, rungs F,
 - The record's points for his sight (`coordinator/CLIMB-BATCH-27.md`, section 3, "Points the batch lists for him, not questions"): the team lines changed, and what walk, the compiled path and the specification now do differently. Default: as landed. Review-queue item 405.
 - Finding A of the post-batch review, the distance's two crash rows in `Char` (row 929): for later gates, the distance report-only, as P-39 has it, or a crash that no rung declared red in the distance as in the count? Default: report-only, the record's. Review-queue item 403.
 
+### Climb batch 28, listed for his review
+
+The items for him that climb batch 28 (`coordinator/CLIMB-BATCH-28.md`, rungs V, R, A, K, H, S and T landed of seven, phase 4's sixth batch: the integer conversions, the reader side, the arrays' store, the checker's partial order, the run time's threads, `System`'s natives and `args`, and the code generator's api trait) left (`compile-ladder/climb-batch-28/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`").
+
+- V.worker.1 and V.skeptic.1 of climb batch 28's rung V: should QuickCheck's `genZZ.perturb` keep the low 64 bits of a `ZZ` beyond `ZZ64` (`signed((obj BITAND 18446744073709551615).asNN64)`) until row 431's right-shift fix, as P-161's "with their values unchanged" reads, instead of raising `IntegerOverflow` on `.asZZ64`, which the review's option 6 names for this line? Default: `.asZZ64`, as landed; no gated run reaches such a value under walk (row 387). Evidence: `Library/QuickCheck.fss:322`; row 431; old 'perturb 2^70+7: 1001751898', new 'perturb 2^70+7: IntegerOverflow' (`compile-ladder/rung-integer-conversions/SKEPTIC.md`).
+- V.worker.2 and V.skeptic.2 of climb batch 28's rung V: `ZZ`'s `asZZ64` and `asNN64` bind two new helpers, departing from fork V1's default of no Java beyond its three pairs, since `ZZ` has no low-bits form to wrap after its `narrow` and `widen` went; P-162 supports new helpers for carried types. Default: as landed. Evidence: `ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java:146-157`; `coordinator/CLIMB-BATCH-28.md:396`.
+
 ### Not classified, to check
 
 Workflow measures of the post-batch reviews that were not built when filed, and whose status this plan's consolidation did not settle: the script was redesigned on 2026-10-08, and the lines they cite no longer resolve (`process-engineering/plan-map.md` section 5). Each is one line with its reason; the full text is in `PLAN-history.md`, "Work that can start now, with no decision".

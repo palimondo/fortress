@@ -9371,3 +9371,15 @@ note added
 rewritten
 
 | 52 | the library's `Vector` and `Matrix` carry a user element type in full, but only under the illegal `extends Number`: construction, indexing, `M v`, `v M`, `M N`, `.t()`, `+`, `scale`, `pmul`, `SUM`, comprehensions, mutation, runtime sizes | POSITIVE-VERIFIED | — | `Specification-1.0-frozen/basic/expressions/aggregate.tex:152-170`, "Array Expressions" | none | ours | It works only because walk never checks `comprises` (row 22); the `Number` bound is the specification's own. Shown by a runtime-sized 3→4→2 forward pass over `Vector`/`Matrix` of a user `Value`, with ordinary `RR64` arithmetic still working alongside. Probe `explorations/libvector-probes/p30_capstone.fss`, in the parent of `e879b6a44`. |
+
+### Row 349
+
+rewritten
+
+| 349 | compiled, the prelude declares no `widen` on `ZZ64` and neither `widen` nor `narrow` on `ZZ`, so `widen` of a `ZZ64` and `narrow` of a `ZZ`, which `walk` answers, are refused; `narrow` of a `ZZ32` 43 compiles by coercion and gives 43 on both paths | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/compiler_tests/XXXZZNarrowRungP.test` | climb batch 2 rung W's skeptic | siblings: 442, 502, 859. Walk has `widen` on `ZZ64` and both on `ZZ` (`Library/FortressLibrary.fsi:646`, `:698-699`, at de6d905f5); the prelude's `trait ZZ` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:103-145`) has neither, its `trait ZZ64` (`:147-208`) only `narrow`. `narrow` of a `ZZ32` goes through `ZZ64`'s `coerce(x: ZZ32)` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:580`). P-161 (not landed) deletes walk's `ZZ` `narrow`/`widen`, moving its test off them: the `narrow` half closes. The untested `widen` half (probe `explorations/compile-ladder/rung-int-conversions/probes/skeptic/SK3Tower.fss`, parent of ab067d9b6) closes at the switch-over. full text: history, row 349 |
+
+### Row 431
+
+rewritten
+
+| 431 | `genZZ.perturb` in `Library/QuickCheck.fss` recurses on its argument shifted left by 32 where peeling 32 bits at a time needs a right shift, so only a large `ZZ`'s low 32 bits reach the generator: under walk a random function of a `ZZ` answers 2^40+7, 2^50+7 and 2^70+7 alike | NEGATIVE-VERIFIED | library bug (library) | silent | none | climb batch 6 rung F | `Library/QuickCheck.fss:322` (at de6d905f5) is `perturb(big(widen(obj) LSHIFT 32), ...)`, which stays within 64 bits and ends; the team's `obj LSHIFT 32`, with no `widen`, never ends on a `BigNum` (`OutOfMemoryError` in `BigInteger.shiftLeft` in `ReflectiveQuickCheckTest`). Measured by probes since removed: `explorations/reviews/quickcheck-widen.md`, sections 3 and 7.3. No test sees it: `genZZ.generate` makes no value beyond 64 bits under walk (row 387). Fix: `perturb(obj RSHIFT 32, ...)`, which changes every QuickCheck test's generated data. full text: history, row 431 |

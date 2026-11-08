@@ -397,7 +397,7 @@ private countNN32(b:AnyIntegral):ZZ32 =
         c:ZZ64 => narrow((c MAX (-2147483647)) MIN 2147483647)
         c:NN32 => do m:ZZ32 = 2147483647; signed(c MIN unsigned(m)) end
         c:NN64 => do m:ZZ64 = 2147483647; narrow(signed(c MIN unsigned(m))) end
-        c:ZZ => narrow((c MAX (-2147483647)) MIN 2147483647)
+        c:ZZ => ((c MAX (-2147483647)) MIN 2147483647).asZZ32
     end
 
 (* A power's exponent of any integer type as a ZZ32 of its sign, for the power
@@ -416,7 +416,7 @@ private exponentNN32(b:AnyIntegral):ZZ32 =
                   end
         c:ZZ => if c > 2147483647 then (if odd(c) then 2147483647 else 2147483646 end)
                 elif c < -2147483647 - 1 then (if odd(c) then -2147483647 else -2147483647 - 1 end)
-                else narrow(c) end
+                else c.asZZ32 end
     end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
@@ -427,6 +427,15 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
     getter asExprString(): String =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
+    getter asZZ32(): ZZ32 = do
+        s:ZZ32 = signed(self)
+        if s < 0 then throw IntegerOverflow else s end
+      end
+    getter asZZ64(): ZZ64 = signed(widen(self))
+    getter asNN32(): NN32 = self
+    getter asNN64(): NN64 = widen(self)
+    getter asZZ(): ZZ = big(self)
+    getter bitsAsZZ32(): ZZ32 = signed(self)
 
     asFloat(self): RR64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToDouble")
@@ -511,6 +520,9 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntPartition")
     signed(self):ZZ32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.makeZZ32FromNN32WithSpecialCompilerHackForNN32ArgumentType")
+    narrow(self):NN32 = self
+    unsigned(self):NN32 = self
+    big(self):ZZ = big(signed(widen(self)))
     opr /(self, other:NN32):QQ = do a: ZZ = self; b: ZZ = other; a / b end
     numerator(self): ZZ = do z: ZZ = self; z end
 end
@@ -529,27 +541,20 @@ end
 value object IntLiteral extends Number
     getter zero(): IntLiteral = 0
     getter one(): IntLiteral = 1
-    getter asZZ32(): ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToZZ32")
-    getter asZZ64(): ZZ64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToZZ64")
-    getter asNN32(): NN32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToNN32")
-    getter asNN64(): NN64 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToNN64")
+    getter asZZ32(): ZZ32 = self.asZZ.asZZ32
+    getter asZZ64(): ZZ64 = self.asZZ.asZZ64
+    getter asNN32(): NN32 = self.asZZ.asNN32
+    getter asNN64(): NN64 = self.asZZ.asNN64
     getter asZZ(): ZZ =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToZZ")
-    getter asString(): String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToString")
-    getter asExprString(): String =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$ToString")
+    getter asString(): String = self.asZZ.asString
+    getter asExprString(): String = self.asZZ.asString
 
     asFloat(self): Float =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$AsFloat")
 
     opr |self| : IntLiteral = if self>=0 then self else -self end
-    opr =(self, b: IntLiteral):Boolean =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Eq")
+    opr =(self, b: IntLiteral):Boolean = self.asZZ = b.asZZ
     opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
     opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
     opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
@@ -562,8 +567,11 @@ value object IntLiteral extends Number
     opr >(self, other:IntLiteral): Boolean = self.cmp(other) > 0
     opr >=(self, other:IntLiteral): Boolean = self.cmp(other) >= 0
     opr CMP(self, other:IntLiteral): TotalComparison = self.cmp(other) CMP 0
-    cmp(b:IntLiteral): ZZ32 =
-        builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Cmp")
+    cmp(b:IntLiteral): ZZ32 = do
+        x = self.asZZ
+        y = b.asZZ
+        if x < y then -1 elif y < x then 1 else 0 end
+      end
 
     opr -(self): IntLiteral =
         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.IntLiteral$Negate")

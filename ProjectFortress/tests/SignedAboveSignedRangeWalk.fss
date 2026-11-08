@@ -1,4 +1,4 @@
-(* Today's behaviour, on which the specification is silent: signed of an NN32 or NN64 above its signed half wraps to a negative value, with no IntegerOverflow. *)
+(* signed of an NN32 or NN64 above its signed half keeps the bits, a negative value, with no IntegerOverflow, as basic-integers.tex, section "Integers", gives. *)
 component SignedAboveSignedRangeWalk
 export Executable
 

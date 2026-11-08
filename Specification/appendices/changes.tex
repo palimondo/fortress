@@ -1731,7 +1731,8 @@ its two arguments as lists (row~636).
 \item[Change] Two paragraphs after the coercions of \secref{basic-integers} state
 the method \VAR{narrow} and the operators \OPR{LSHIFT} and \OPR{RSHIFT}, which this
 working draft did not name: \VAR{narrow} keeps the low 32 bits of a value of
-\EXP{\mathbb{Z}64}, \EXP{\mathbb{Z}} or \EXP{\mathbb{N}64}; on a fixed-size type the
+\EXP{\mathbb{Z}64} or \EXP{\mathbb{N}64}, and \EXP{\mathbb{Z}} has no \VAR{narrow}
+(\secref{revival-int-conversions}); on a fixed-size type the
 two operators lose the bits shifted out, give \EXP{0}, or \EXP{-1} for a negative
 value shifted right, at a count at or beyond the width, and shift the other way for
 a negative count; on \EXP{\mathbb{Z}} they are \VAR{shift}; the count may be of any
@@ -1747,7 +1748,8 @@ operators.
 integer type.
 \Library\ declare \OPR{LSHIFT} and \OPR{RSHIFT} on every integer type with a count of
 any integer type (\nolinkurl{Library/FortressLibrary.fsi}, lines 459--460), and
-\VAR{narrow} on \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}64} and \EXP{\mathbb{Z}}
+\VAR{narrow} on \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}64} and, until
+\secref{revival-int-conversions} removed it, \EXP{\mathbb{Z}}
 (lines 506, 594 and 608), and this working draft said nothing of them.
 In the languages the revival compared a shift is an operation on bits whose bits
 shifted out are lost, and the revival kept it one on the fixed-size types, with an
@@ -1773,8 +1775,8 @@ Both implementations of the revival compute these results on \EXP{\mathbb{Z}32} 
 on all five types for a count of any integer type; the compiled path, which until it
 is built on \library\ compiles against a smaller library of its own, declares
 \OPR{LSHIFT} and \OPR{RSHIFT} on \EXP{\mathbb{Z}32} and \EXP{\mathbb{Z}64} only, with
-a count of the shifted value's own type, and neither \VAR{narrow} on
-\EXP{\mathbb{Z}} nor \VAR{shift} (rows~381, 383 and~442 of the revival's gap ledger).
+a count of the shifted value's own type, and no \VAR{shift} (rows~381, 383 and~442
+of the revival's gap ledger).
 \item[Original text] None for the two paragraphs and for the sentence of the
 overview: no chapter of this working draft names \OPR{LSHIFT}, \OPR{RSHIFT} or
 \VAR{narrow}.
@@ -4869,6 +4871,79 @@ A reversal to the original list would need the parser to refuse the form, and
 \VAR{asExprString} to write another form at the printable characters outside
 ASCII, such as the code point alone, which reads back at every code point but
 hides the character.
+\end{description}
+
+\subsection{The conversions between the integer types}
+\seclabel{revival-int-conversions}
+
+\begin{description}
+\item[Affected sections] \secref{basic-integers}; \secref{revival-shifts}.
+\item[Change] The passage on the explicit conversions between the integer types
+states the getters \VAR{asZZ32}, \VAR{asZZ64}, \VAR{asNN32}, \VAR{asNN64} and
+\VAR{asZZ} of each of the five integer types, which keep the value and throw
+\TYP{IntegerOverflow} where the type converted to does not hold it, and the
+getters \VAR{bitsAsNN32}, \VAR{bitsAsNN64}, \VAR{bitsAsZZ32} and \VAR{bitsAsZZ64}
+of the four fixed-size types, which keep the bits.
+It states \VAR{narrow}, \VAR{widen}, \VAR{signed}, \VAR{unsigned} and \VAR{big} as
+the methods that convert without throwing \TYP{IntegerOverflow}, each declared on
+every integer type to which it applies and returning a value of its result type
+unchanged, and it drops \EXP{\mathbb{Z}} from the sentence on \VAR{narrow}:
+\EXP{\mathbb{Z}} has neither \VAR{narrow} nor \VAR{widen}, and converts to a
+fixed-size type only by a getter.
+The passage gains one box, and the box of \secref{revival-shifts} beside it names
+the paragraph that now states \VAR{narrow}.
+The change of \secref{revival-shifts} no longer gives \VAR{narrow} on
+\EXP{\mathbb{Z}}.
+\item[Rationale] This change does not follow from route~A; the revival decided on
+6~November 2026 that each integer type has getters that convert and throw
+\TYP{IntegerOverflow} where the value does not fit, that the fixed-size types
+have getters for the bit pattern, that \VAR{narrow}, \VAR{widen}, \VAR{signed},
+\VAR{unsigned} and \VAR{big} stay as the conversions that keep bits, declared on
+every type to which they apply, and that the \VAR{narrow} and \VAR{widen} of
+\EXP{\mathbb{Z}} go.
+The team's later compiler library declares the getter \VAR{asZZ32} of
+\EXP{\mathbb{Z}64}, which throws \TYP{IntegerOverflow} for a value that does not
+fit, and the four getters \VAR{bitsAsNN32}, \VAR{bitsAsNN64}, \VAR{bitsAsZZ32}
+and \VAR{bitsAsZZ64} (\nolinkurl{ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi},
+in the revival's repository); this working draft says in general that an
+integer result too large for its type throws \TYP{IntegerOverflow}; and a plain
+name that checks beside a name that says it keeps bits is the pattern of Swift
+and Julia.
+Before the revision \library\ declared each of the five methods on some of the
+integer types only, so that a call on another type went through a coercion to
+another type's method: \VAR{widen} of the \EXP{\mathbb{N}64} \EXP{2^{64}-1} gave
+the \EXP{\mathbb{Z}64} \EXP{-1}, and \VAR{unsigned} of an \EXP{\mathbb{N}32} gave
+an \EXP{\mathbb{N}64}.
+The \VAR{narrow} and \VAR{widen} of \EXP{\mathbb{Z}} kept the low 32 and 64 bits,
+so that \VAR{widen}, under the name of a widening, narrowed, and turned
+\EXP{2^{63}} negative.
+A reversal would declare \VAR{narrow} and \VAR{widen} on \EXP{\mathbb{Z}} again,
+keeping the low bits, beside the getters or in their place, and would remove the
+methods that return their argument unchanged.
+The full reasoning is in
+\nolinkurl{explorations/reviews/integer-conversions-2026-11-06.md} in the
+revival's repository.
+\item[Effect] The interpreter computes each getter and each method as the text
+states, on all five types, and refuses \VAR{narrow} or \VAR{widen} of a value of
+\EXP{\mathbb{Z}} at the call, which finds no declaration.
+The compiled path, which until it is built on \library\ compiles against a
+smaller library of its own, declares of the getters only \VAR{asZZ32} of
+\EXP{\mathbb{Z}32} and of \EXP{\mathbb{Z}64}, \VAR{asNN32} of \EXP{\mathbb{N}32},
+\VAR{asNN64} of \EXP{\mathbb{N}64}, \VAR{asZZ} of the four fixed-size types and
+the four getters that keep the bits, none on \EXP{\mathbb{Z}}; and of the
+methods only \VAR{narrow} of \EXP{\mathbb{Z}64} and of \EXP{\mathbb{N}64},
+\VAR{widen} of \EXP{\mathbb{Z}32} and of \EXP{\mathbb{N}32}, \VAR{unsigned} of
+\EXP{\mathbb{Z}32} and of \EXP{\mathbb{Z}64}, and \VAR{signed} of
+\EXP{\mathbb{N}32} and of \EXP{\mathbb{N}64}, with no \VAR{big} (row~349 of the
+revival's gap ledger).
+The getters are gated by \nolinkurl{ProjectFortress/tests/IntegerConversionsWalk.fss},
+and the helpers that five of them name by
+\nolinkurl{ProjectFortress/compiler_tests/IntegerConversionHelpersCompiled.fss}.
+No line of the revival's model program calls any of these conversions.
+\item[Original text] None: no chapter of this working draft names \VAR{asZZ32},
+\VAR{asZZ64}, \VAR{asNN32}, \VAR{asNN64}, \VAR{asZZ}, the four getters that keep
+the bits, \VAR{narrow}, \VAR{widen}, \VAR{signed}, \VAR{unsigned} or \VAR{big}.
+\item[Route C] The same under route~C.
 \end{description}
 
 \subsection{Passages not yet revised}

@@ -1,4 +1,4 @@
-(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
+(* asZZ32 of a ZZ answers a value that ZZ32 holds and throws IntegerOverflow on one that it does not. *)
 component XXXZZNarrowRungP
 export Executable
 
@@ -13,12 +13,17 @@ run(): () = do
   zk: ZZ = k
   zfive: ZZ = five
   zwide: ZZ = zk DOT zk + zfive
-  n1: ZZ32 = narrow(z1)
-  nm1: ZZ32 = narrow(zm1)
-  nwide: ZZ32 = narrow(zwide)
-  assert(n1, 1, "narrow on ZZ keeps a value ZZ32 holds, row 349; Specification/basic-lib/basic-integers.tex, section \"Integers\"")
-  assert(nm1, -1, "narrow on ZZ, row 349; Specification/basic-lib/basic-integers.tex, section \"Integers\"")
-  assert(nwide, 5, "narrow on ZZ keeps the low 32 bits, 2^32+5 gives 5, row 349; Specification/basic-lib/basic-integers.tex, section \"Integers\"")
+  n1: ZZ32 = z1.asZZ32
+  nm1: ZZ32 = zm1.asZZ32
+  assert(n1, 1, "asZZ32 of a ZZ keeps a value ZZ32 holds; Specification/basic-lib/basic-integers.tex, section \"Integers\"")
+  assert(nm1, -1, "asZZ32 of a ZZ keeps a value ZZ32 holds; Specification/basic-lib/basic-integers.tex, section \"Integers\"")
+  r: ZZ32 := 0
+  try
+    r := zwide.asZZ32
+  catch e
+    IntegerOverflow => r := 7
+  end
+  assert(r, 7, "asZZ32 of the ZZ 2^32+5 throws IntegerOverflow; Specification/basic-lib/basic-integers.tex, section \"Integers\"")
   println("PASS")
 end
 
