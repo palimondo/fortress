@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the de-mixing skill changes","toolUseId":"toolu_012cSqkJaX5d7r4ifd8sJY86","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Cold read of the de-mixing skill changes","toolUseId":"toolu_012cSqkJaX5d7r4ifd8sJY86","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-fable-5-1","finished":true}
