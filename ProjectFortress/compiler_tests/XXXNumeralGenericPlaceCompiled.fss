@@ -1,0 +1,26 @@
+(* A numeral at a place whose type names a type parameter of its generic declaration is one value for each instance: two evaluations at one instance's type are one object, two instances' types two objects. *)
+component XXXNumeralGenericPlaceCompiled
+export Executable
+
+object Gen[\T\](v: ZZ32)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](bigToZZ64(v).asZZ32)
+end
+
+object Box[\T\]()
+  m(): Gen[\T\] = 3
+end
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
+
+run(): () = do
+  a = Box[\RR64\]()
+  b = Box[\String\]()
+  assert(a.m().v, 3, "m() of Box of RR64 sees the value 3")
+  assert(NOT sEq(a.m(), b.m()), "two instances' types give two objects")
+  println("REACHED")
+  assert(sEq(a.m(), a.m()), "two evaluations at one instance's type are one object")
+  println("PASS")
+end
+
+end
