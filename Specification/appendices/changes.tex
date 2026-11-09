@@ -5276,9 +5276,9 @@ through a tuple or a varargs parameter (rows~395 and~511).
 The compiled type checker does not apply the rule that a numeral type is written
 only as a parameter type to the libraries' own files.
 A numeral type declares no \EXP{=} with a number type, so a numeral compared by
-\EXP{=} with a number of a type other than its default meets the top-level
-\EXP{=} of \library, whose parameters are of type \TYP{Any} and which takes the
-numeral at its default: the interpreter answers \EXP{u = 0} \VAR{false}, and
+\EXP{=} with a number of a type that declares no \EXP{=} with the numeral's
+default type meets the top-level \EXP{=} of \library, whose parameters are of
+type \TYP{Any} and which takes the numeral at its default: the interpreter answers \EXP{u = 0} \VAR{false}, and
 \EXP{u \neq 0} \VAR{true}, for a zero \VAR{u} of \EXP{\mathbb{N}32},
 \EXP{\mathbb{N}64} or \EXP{\mathbb{R}32}, none of which declares \EXP{=} with
 \EXP{\mathbb{Z}32} (rows~966 and~NEW-A-1 of the revival's gap ledger; the
@@ -5302,9 +5302,9 @@ the coercion at each evaluation of the place (row~957); a coercion from a
 numeral type whose body spawns a task, as an operator applied to two calls may,
 stops the load of the class that holds the place, which the compiled program
 loads before it starts its tasks (row~971); where a \KWD{nat} or \KWD{int}
-parameter of $2^{31}$ or more is used as a value, the compiled path stops with
-an error that no \KWD{catch} sees, and the interpreter makes it a
-\EXP{\mathbb{Z}64} (row~962); and both leave an expression of numerals alone
+parameter of $2^{31}$ or more, other than one of a numeral type's four numbers,
+is used as a value, the compiled path stops with an error that no \KWD{catch}
+sees, and the interpreter makes it a \EXP{\mathbb{Z}64} (row~962); and both leave an expression of numerals alone
 as written where the form of its result needs a prefix \EXP{-} or a \EXP{/}
 that its component writes nowhere (row~956).
 No line of the revival's model program changes, and by reading none of its
