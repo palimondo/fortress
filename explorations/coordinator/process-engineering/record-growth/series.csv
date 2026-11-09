@@ -3848,3 +3848,98 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 3846,2026-11-08 11:36:11Z,623d6912d,941,783841,310487,99880,324490,785955,310602,99948,324608,,fortress-repo: the cold read of climb batch 28's landing
 3847,2026-11-08 11:50:04Z,da68ac567,941,783841,310487,99880,324490,785955,310602,99948,324608,,"Climb batch 28's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
 3848,2026-11-08 11:51:12Z,1cf2375e0,941,783841,310487,99880,325429,785955,310602,99948,325547,,"Review: the foundations of Fortress's parallelism, at his question of 10:41 UTC on 11-08; the orientation quiz's case 30"
+3849,2026-11-08 11:56:28Z,48d7f1fb8,941,783841,310487,99880,325429,785955,310602,99948,325547,,"Revival page: where it stands at the landing of climb batch 28, the record chart regenerated"
+3850,2026-11-08 11:58:06Z,620530274,941,783841,310487,99880,325429,785955,310602,99948,325547,,"Boot note: climb batch 28's landing chain done, the asks in order"
+3851,2026-11-08 12:27:13Z,a82efe8cc,941,783841,310487,99880,325429,785955,310602,99948,325547,,"Boot note: ask 1 answered and being recorded, ask 2 put, before a compaction"
+3852,2026-11-08 12:27:24Z,f7f65972d,941,783841,310487,99880,325429,785955,310602,99948,325547,,Boot note: the times
+3853,2026-11-08 12:33:35Z,8f0bfb2f6,941,783841,310487,101767,325429,785955,310602,101835,325547,,"Record: P-171, two string literals of one text are one object, his answer of 12:0x to 12:2x UTC on 2026-11-08"
+3854,2026-11-08 12:34:09Z,cbee32a80,941,783841,310487,101767,325429,785955,310602,101835,325547,,Boot note: ask 1 recorded as P-171
+3855,2026-11-08 12:53:26Z,fd63625f3,941,783841,310487,101767,325429,785955,310602,101835,325547,,Boot note: the week's budget at 12:4x and the model plan
+3856,2026-11-08 12:53:38Z,c50d54eac,941,783841,310487,101767,325429,785955,310602,101835,325547,,Boot note: the budget reading's time
+3857,2026-11-08 12:59:11Z,663b5f95c,941,783841,310487,104194,325429,785955,310602,104262,325547,,"Record: P-172, a numeral with a radix point has a type of its own, his answer of 12:3x to 12:4x UTC on 2026-11-08"
+3858,2026-11-08 13:00:35Z,cefb8f1a5,941,783841,310487,104194,325429,785955,310602,104262,325547,,Boot note: ask 2 recorded as P-172
+3859,2026-11-08 13:23:21Z,3f274f3c9,941,783841,310487,104194,325429,785955,310602,104262,325547,,Boot note: the session on Fable from 13:2x
+3860,2026-11-08 14:23:59Z,88c13b472,941,783841,310487,104194,325429,785955,310602,104262,325547,,"Boot note and held list: his objection of 13:4x to the piecewise literal asks, the two recovery workers"
+3861,2026-11-08 14:26:33Z,ed690687c,941,783841,310487,104194,325429,785955,310602,104262,325547,,Boot note and held list: the times from the transcript (08:03 and 14:21)
+3862,2026-11-08 14:31:12Z,e2ee44a21,941,783841,310487,104194,325429,785955,310602,104262,325547,,Boot note: the push notification and the synthesis when the literals writer ends
+3863,2026-11-08 14:46:24Z,855d8c1c9,941,783841,310487,104194,325429,785955,310602,104262,325547,,"Review: literals in revived Fortress, one picture, at his word of 14:21 UTC on 11-08 (Opus writer; the scout's evidence "
+3864,2026-11-08 14:48:16Z,21aa96837,941,783841,310487,104194,326125,785955,310602,104262,326243,,INDEX: the one-picture review of literals
+3865,2026-11-08 15:05:17Z,e26351475,941,783841,310487,104194,326125,785955,310602,104262,326243,,"Boot note and held list: his refusal of the fork at 14:5x, the recovery done"
+3866,2026-11-08 15:22:46Z,533098f3d,941,783841,310487,104194,326125,785955,310602,104262,326243,,"Boot note: his confirmation of 15:0x, the fork probe and the record worker, the de-mixing task"
+3867,2026-11-08 15:25:00Z,9aa65eed0,944,787172,310555,104194,326125,789286,310670,104262,326243,,"Record: rows 943-945 for literal behaviours the decisions settle, F-326 cites row 943"
+3868,2026-11-08 15:25:48Z,2dac82be0,944,787172,310555,104194,326125,789286,310670,104262,326243,,PLAN: name rows 943-945 for the literal drafts R2 to R4
+3869,2026-11-08 15:28:33Z,ba5f46eee,944,787172,310555,104194,326125,789286,310670,104262,326243,,"Boot note: the rows filed, the skill writer on the de-mixing task"
+3870,2026-11-08 15:32:02Z,6ec749a8e,944,787172,310555,104194,326125,789286,310670,104262,326243,,"fortress-repo: path behaviours out of the language parts, as defects with their rows"
+3871,2026-11-08 15:32:30Z,71272d748,944,787172,310555,104194,326125,789286,310670,104262,326243,,coordinator: an unread page item shows the current text; a later change folds into it
+3872,2026-11-08 15:37:50Z,6d7a9b1ad,944,787172,310555,104194,326125,789286,310670,104262,326243,,fortress-repo: fix the cold read of 6ec749a8eb
+3873,2026-11-08 15:38:01Z,624b7a79e,944,787172,310555,104194,326125,789286,310670,104262,326243,,"coordinator: one home for the folded-item rule, and the form of a folded item"
+3874,2026-11-08 15:40:00Z,70e061d79,944,787172,310555,104194,326125,789286,310670,104262,326243,,"Boot note: the de-mixing pushed, the page worker running"
+3875,2026-11-08 15:49:54Z,14f109bf1,944,787172,310555,104194,326125,789286,310670,104262,326243,,Boot note: the two pages updated after the de-mixing
+3876,2026-11-08 15:54:35Z,731487975,944,787172,310555,104194,326125,789286,310670,104262,326243,,"Review: a numeral where nothing fixes a type, two readings measured on both paths, at his question of 15:0x UTC on 11-08"
+3877,2026-11-08 15:55:30Z,4062eae7b,944,787172,310555,104194,326125,789286,310670,104262,326243,,"Boot note: the fork probe done, the ask put"
+3878,2026-11-08 15:55:44Z,856dd870b,945,788141,310555,104194,326927,790255,310670,104262,327045,,"Ledger row 946 from the literal-fork review, its number in the review, and the review's INDEX line"
+3879,2026-11-08 15:56:38Z,3e86861d0,945,788141,310555,104194,326927,790255,310670,104262,327045,,Boot note: row 946 and the review's INDEX line pushed
+3880,2026-11-08 19:37:24Z,8cde0b2c4,945,788141,310555,104194,326927,790255,310670,104262,327045,,"Boot note and held list: the prototype of reading B launched at his word, his rule on committing a probe's patch"
+3881,2026-11-08 20:44:34Z,01517b6bd,945,788141,310555,104194,326927,790255,310670,104262,327045,,"Boot note: the radix numeral probe, the prelude's bare FloatLiteral gap"
+3882,2026-11-08 20:48:04Z,38fff865c,945,788141,310555,104194,326927,790255,310670,104262,327045,,"Held list: his correction of 20:4x, a found defect goes to the ledger at once"
+3883,2026-11-08 20:49:01Z,7b372460f,945,788140,310555,104194,326927,790254,310670,104262,327045,,Ledger: row 362 also covers a bare radix float numeral's asString
+3884,2026-11-08 20:49:23Z,72517f2f5,945,788140,310555,104194,326927,790254,310670,104262,327045,,Boot note: the bare FloatLiteral gap is row 362
+3885,2026-11-08 21:58:29Z,ecf918d41,945,788140,310555,104194,327966,790254,310670,104262,328084,,"Probe for climb batch 29: reading B's compiled side built in a prototype and measured, its report and patch (the code no"
+3886,2026-11-08 22:00:04Z,6a49e34ef,945,788140,310555,104194,327966,790254,310670,104262,328084,,"Boot note: the prototype of reading B done, its headline, the ask"
+3887,2026-11-08 22:00:19Z,4ee200620,945,788140,310555,104194,327966,790254,310670,104262,328084,,Boot note: the ask's time
+3888,2026-11-08 22:41:07Z,e9e03d6fe,945,788140,310555,104194,327966,790254,310670,104262,328084,,"Held list and boot note: his decision on literals of 22:3x, machine defaults and the Draft's numeral types"
+3889,2026-11-08 23:04:47Z,818a3bb52,945,788140,310555,104194,327966,790254,310670,104262,328084,,"Boot note: the scout's finding on the two names, the Fable judge running"
+3890,2026-11-08 23:21:43Z,b0e6b8970,945,788140,310555,104194,327966,790254,310670,104262,328084,,"Review: the Fable judgement of his numeral design of 22:3x UTC on 11-08, coherent with six repairs"
+3891,2026-11-08 23:22:07Z,cba87265e,945,788140,310555,104194,327966,790254,310670,104262,328084,,"Boot note: the judgement in, its six repairs put to him"
+3892,2026-11-08 23:24:29Z,9871008c0,945,788140,310555,104194,327966,790254,310670,104262,328084,,"Held list: his yes to the six repairs and his option 1 on D3, with his remark on the grain size"
+3893,2026-11-08 23:25:55Z,d4591ed34,945,788140,310555,104194,327966,790254,310670,104262,328084,,"Boot note: his yes and his option 1, the record writer running"
+3894,2026-11-08 23:31:53Z,75119d34b,945,788140,310555,104194,327966,790254,310670,104262,328084,,"Boot note: the chain for climb batch 29's overnight run, for the session after the compaction"
+3895,2026-11-08 23:33:41Z,51aa28922,945,788140,310555,104194,327966,790254,310670,104262,328084,,Held list and boot note: his pre-approved go for climb batch 29 after the Fable review
+3896,2026-11-08 23:52:36Z,69427e942,945,788140,310701,111451,327966,790254,310816,111519,328084,,"Record: P-173 and P-174, the numeral design, and P-175, parallel reductions, his decisions of 22:3x and 23:3x UTC on 202"
+3897,2026-11-08 23:52:46Z,1001bff8a,945,788140,310701,111451,328808,790254,310816,111519,328926,,"PLAN, review queue and INDEX: climb batch 29's literals rungs, its review list, parallel reductions, after his decisions"
+3898,2026-11-08 23:56:48Z,f03e6c117,945,788140,310701,111451,328808,790254,310816,111519,328926,,"Boot note: the record writer's entries pushed, the planner and a small record writer running for climb batch 29"
+3899,2026-11-09 00:10:56Z,f495e545b,945,787987,310701,111451,328808,790099,310816,111519,328926,,"Ledger: rows 79 and 486 state their gaps against P-173, on the compiled path; row 360 closed, settled by P-173"
+3900,2026-11-09 00:11:48Z,7da318db4,952,795325,310701,111432,328808,797439,310816,111500,328926,,"Ledger and POSITIONS: the parallelism review's draft rows filed, N1 to N6 and N8 as rows 947 to 953, N7 under row 466; P"
+3901,2026-11-09 00:15:06Z,54ac6a6ee,952,795325,310701,111432,328808,797439,310816,111500,328926,,"PLAN: ""Next"" names climb batch 29, the literals, launched at his pre-approved go after the Fable review; the parallelism"
+3902,2026-11-09 00:15:06Z,d2b3f6c98,952,795325,310701,111432,328808,797439,310816,111500,328926,,"Review queue: item 406 at P-169's 13 native bindings, not 45; item 407's pointer words to P-169's title"
+3903,2026-11-09 00:17:24Z,05cf94236,952,795325,310701,111432,328808,797439,310816,111500,328926,,"Evidence: the scout's file behind P-174's ""no team word calls the names temporary or final"", beside the numeral design's"
+3904,2026-11-09 00:19:24Z,40680b856,952,795325,310701,111549,328808,797439,310816,111617,328926,,"P-172 and PLAN: a numeral's round near a tie is P-173's answer, not an open item, in line with row 360's closure"
+3905,2026-11-09 00:19:54Z,54a53d986,952,795325,310701,111549,328808,797439,310816,111617,328926,,"Boot note: the small record writer done, the planner running"
+3906,2026-11-09 00:37:06Z,65c47187c,952,795325,310701,111549,328808,797439,310816,111617,328926,,"Climb batch 29's planner: probes of the numeral equality pairs kept, the fold in walk's phase order and the base fold's "
+3907,2026-11-09 00:49:13Z,56814c92a,952,795325,310701,111549,328808,797439,310816,111617,328926,,"Climb batch 29's record: six rungs for the literals, N, C, F, G, S and T, the three points with no default named as fork"
+3908,2026-11-09 00:49:37Z,127f6509c,952,795325,310701,111549,328808,797439,310816,111617,328926,,"Climb batch 29's record: C's landing only with N, its reason stated by the batch rule"
+3909,2026-11-09 00:51:47Z,cd76dadf4,952,795325,310701,111549,328808,797439,310816,111617,328926,,"Boot note: climb batch 29's record written; its Fable review, generator and row writer running"
+3910,2026-11-09 00:56:28Z,2f4b3d7d0,954,797627,310701,111549,329535,799757,310816,111617,329653,,"Climb batch 29's planner's two fold defects as ledger rows 954 and 955, and INDEX lines for the batch's record and the p"
+3911,2026-11-09 01:02:47Z,75451ee35,954,797627,310701,111549,329535,799757,310816,111617,329653,,"Climb batch 29: the manifest generator, the block not yet spliced"
+3912,2026-11-09 01:03:40Z,d2703377b,954,797627,310701,111549,329535,799757,310816,111617,329653,,"Boot note: rows 954 and 955 filed, the generator waiting on the review's edits"
+3913,2026-11-09 01:18:48Z,9900408dc,954,797627,310701,111549,329535,799757,310816,111617,329653,,"Climb batch 29's Fable review: C4 keeps the prototype's step 5 in its narrow form by P-173's reading of P-49, rows 954 a"
+3914,2026-11-09 01:19:25Z,fefd1ed44,954,797627,310701,111549,329535,799757,310816,111617,329653,,"Climb batch 29's Fable review: the key counts and the prototype's hunk lines corrected, the twelve XXX walk tests"
+3915,2026-11-09 01:20:45Z,db667226f,954,797627,310701,111549,330043,799757,310816,111617,330161,,"Climb batch 29: the review's change of fork C4 noted in the planner's probe 1, and the review's INDEX line"
+3916,2026-11-09 01:22:29Z,75cfc2683,954,797627,310701,111549,330043,799757,310816,111617,330161,,"Climb batch 29: the generator on the reviewed record, T reading the forks of N, C, F and S, the block spliced"
+3917,2026-11-09 01:23:16Z,b430f9f42,954,797627,310701,111549,330043,799757,310816,111617,330161,,"Boot note: climb batch 29 prepared and launching on his go, its check-in file"
+3918,2026-11-09 06:59:57Z,955cad76d,956,799789,313135,111549,330043,801919,313250,111617,330161,,Fold numerals alone exactly on both paths; round a compiled numeral constant once
+3919,2026-11-09 07:06:53Z,3de571bac,959,802720,314110,111549,330043,804850,314225,111617,330161,,"Give numerals the types NaturalNumeral and RadixPointNumeral, and convert them where walk's places fix a type"
+3920,2026-11-09 07:09:48Z,53a6074ed,963,806258,315798,111549,330043,808388,315913,111617,330161,,"Convert a numeral that nothing fixes into its default in the compiled checker, and refuse one out of range"
+3921,2026-11-09 07:11:08Z,e53480fc6,964,807395,317176,111549,330043,809527,317291,111617,330161,,"Make two string literals of one text one object on both paths, and fold a concatenation of literals"
+3922,2026-11-09 07:16:03Z,12292add2,964,807678,318044,111549,330043,809808,318159,111617,330161,,Read a number or string value at its trait in walk's inference and messages
+3923,2026-11-09 07:27:02Z,4978a9b16,966,809851,319791,111549,330043,811981,319906,111617,330161,,"Specify the numeral types, their conversion and default, the fold, and a string literal as one object"
+3924,2026-11-09 07:52:33Z,8d93b7d19,966,809927,319791,111549,330043,812057,319906,111617,330161,,Expect a float numeral's print failure before run() in its compiled expected-failure test
+3925,2026-11-09 07:53:21Z,a711ca76b,966,796974,319791,111549,330043,799126,319906,111617,330161,,Close the rows climb batch 29 fixed
+3926,2026-11-09 07:54:59Z,1d50c6bbb,966,796974,319791,111549,330043,799126,319906,111617,330161,,Climb batch 29: the gather's record
+3927,2026-11-09 08:22:55Z,6a654baa1,967,798315,319931,111549,330043,800467,320046,111617,330161,,Fold the review's corrections
+3928,2026-11-09 08:31:49Z,13005a573,967,798315,319931,111549,330043,800467,320046,111617,330161,,Climb batch 29: the judge's ruling on the merged-diff review
+3929,2026-11-09 08:43:05Z,58860ed41,967,798315,319931,111549,330043,800467,320046,111617,330161,,"Name walk's halves of rows 968 and 962 in the numerals entry's Effect, and qualify the two boxes on a size used as a val"
+3930,2026-11-09 08:44:07Z,e82f3ef17,967,798315,319931,111549,330043,800467,320046,111617,330161,,"Climb batch 29: the repair after the merged-diff review, recorded"
+3931,2026-11-09 08:49:18Z,7daf51fe8,967,798315,319932,111549,330043,800467,320047,111617,330161,batch 29,Record the gate's tables and the microGPT walk check
+3932,2026-11-09 08:54:21Z,ec4fab25a,967,798315,319932,111549,330043,800467,320047,111617,330161,,"Boot note: climb batch 29 landed, its post-batch review running, the landing's next steps"
+3933,2026-11-09 09:23:16Z,882422979,967,798315,319932,111549,330043,800467,320047,111617,330161,,"Boot note: his fidelity inquiry on the numeral design, its scouts running, the record-landing after it"
+3934,2026-11-09 09:27:19Z,095290b2b,967,798315,319932,111549,330043,800467,320047,111617,330161,,"Boot note: his word, the landing is not held; the fidelity review waits for the record-landing's changes"
+3935,2026-11-09 09:29:49Z,bedcfc4a1,967,798315,319932,111549,330557,800467,320047,111617,330675,,"Review: climb batch 29's post-batch review, and its INDEX line"
+3936,2026-11-09 09:30:11Z,bfbd660ed,967,798315,319932,111549,330557,800467,320047,111617,330675,,"Boot note: the post-batch review committed, the record-landing launching"
+3937,2026-11-09 09:30:24Z,fa630b65f,967,798315,319932,111549,330557,800467,320047,111617,330675,,Boot note: the times of the review and the launch
+3938,2026-11-09 11:00:51Z,2db561918,967,798328,318752,111255,330557,800480,318867,111323,330675,,"Record landing of climb batch 29: FACTS, POSITIONS and the ledger brought in line with the landing"
+3939,2026-11-09 11:00:51Z,5febd82a7,967,798328,318752,111255,330557,800480,318867,111323,330675,,"Record landing of climb batch 29: PLAN, the review queue and the run's folder routed for the landing"
+3940,2026-11-09 12:20:38Z,523a69054,967,798328,318752,111255,330557,800480,318867,111323,330675,,"fortress-repo: climb batch 29 landing, the orientation update installed"
+3941,2026-11-09 12:24:16Z,dfcb7eb18,967,798328,318752,111255,330557,800480,318867,111323,330675,,"fortress-repo: climb batch 29 landing, the area parts brought in line"
+3942,2026-11-09 12:34:51Z,a41378d7a,967,798328,318752,111255,330557,800480,318867,111323,330675,,fortress-repo: the cold read of climb batch 29 landing
+3943,2026-11-09 12:52:11Z,69071b0db,967,798328,318752,111255,330557,800480,318867,111323,330675,,"Climb batch 29's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
