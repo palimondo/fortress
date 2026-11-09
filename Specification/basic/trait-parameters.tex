@@ -102,6 +102,16 @@ An \KWD{int} parameter may be used to instantiate other
 \KWD{int} parameters, or to appear in any context that a
 variable of type \EXP{\mathbb{Z}32} can appear,
 except that it cannot be assigned to.
+\revision{revival-numerals}{The revival decided on 28~September 2026 that a
+\KWD{nat} parameter used as a value converts to \EXP{\mathbb{Z}32} as a numeral
+does (\secref{revival-inference}), and on 8~November 2026 that a \KWD{nat} or
+\KWD{int} parameter used as a value is a \EXP{\mathbb{Z}32}, as a numeral
+without a radix point is where nothing fixes its type and its value fits
+(\secref{literals}).
+This contradicts the sentence above on a \KWD{nat} parameter, which stands:
+used as a value, it is not accepted where only an \EXP{\mathbb{N}32} is, as by
+a variable declared of type \EXP{\mathbb{N}32}, since \EXP{\mathbb{N}32}
+declares no coercion from \EXP{\mathbb{Z}32}.}
 An argument whose type is a trait whose \KWD{comprises} clause lists a type at a
 \KWD{nat} or \KWD{int} \KWD{where}-clause variable (\secref{trait-decls}),
 passed where that listed type is expected

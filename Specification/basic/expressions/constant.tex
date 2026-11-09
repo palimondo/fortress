@@ -77,6 +77,38 @@ For example, a static expression \EXP{2(3+m)} where \VAR{m} is a
 \KWD{nat} parameter has trait \TYP{NaturalStatic}.
 \end{enumerate}
 
+\Library\ declare none of the constant traits.
+An expression composed only of numerals and operators is folded, before the
+static check and on both implementations, into a \emph{signed constant}, which
+holds its value exactly: an integer, written as an integer numeral or a negated
+one; a value computed from a numeral with a radix point whose denominator
+divides a power of ten, written as a numeral with a radix point or a negated
+one; or any other quotient, written as the reduced quotient of two numerals,
+whose numerator has a radix point where an operand had one.
+Where nothing fixes the type of a signed constant (\secref{literals}), an
+integer takes the default of an integer numeral, a quotient of integers the
+type \EXP{\mathbb{Q}}, and a constant computed from a numeral with a radix point
+the type \EXP{\mathbb{R}64}; where a place fixes a type, the constant is
+converted into it as a numeral is, with at most one rounding.
+So \EXP{2147483647 + 1} is the \EXP{\mathbb{Z}64} \EXP{2147483648},
+\EXP{-2147483648} is a \EXP{\mathbb{Z}32}, \EXP{x = 7/2} binds the
+\EXP{\mathbb{Q}} \EXP{7/2}, and \EXP{0.1 + 0.2 = 0.3} is \VAR{true}.
+The operators whose result depends on the width of a type, the wrapping and
+saturating operators, the bitwise operators and the shifts, are not folded, nor
+is a division by zero, nor an operation whose floating-point result could be a
+negative zero: their operands take their types, and the operator its meaning
+there.
+\revision{revival-numerals}{The Working Draft of February 2011 gave a constant
+expression a constant trait whose static arguments encode its value, as
+\EXP{\TYP{IntegerConstant}\llbracket\VAR{false}, 3+5\rrbracket}, and no library
+declares those traits.
+The revival decided on 8~November 2026 that an expression of numerals alone is
+folded exactly into a signed constant, which takes one of three defaults where
+nothing fixes its type: the value that a constant trait would encode in its
+static arguments is held in the constant itself, written as numerals, so that a
+coercion of a program's own sees only the four numbers of a numeral as written
+(\secref{literals}).}
+
 
 The only operation on literals that produces a new literal (as opposed
 to a constant) is concatenation by using the operator \EXP{\|}.
@@ -86,6 +118,18 @@ For example, ``\txt{foo}''\EXP{\|}''\txt{bar}'' yields ``\txt{foobar}''.
 One may also concatenate two natural numerals
 of the same radix, producing a new natural numeral of that radix.
 For example, \EXP{\mathtt{deadc}_{16} \| \mathtt{0de}_{16}} yields \EXP{\mathtt{deadc0de}_{16}}.
+\revision{revival-string-literals}{The Working Draft of February 2011 states
+the concatenation of string literals, which neither of the team's
+implementations built.
+The revival decided on 8~November 2026 that a concatenation of two string
+literals, as of a string and a character literal, is folded into one string
+literal before the static check, on both implementations, and so denotes one
+object (\secref{literals}).}
+\revision{revival-numerals}{The concatenation of two natural numerals of the
+same radix is built as written: before the static check, on both
+implementations, it is folded into one natural numeral, whose digits are the
+digits of both numerals in order, leading zeros among them, so that its four
+numbers (\secref{literals}) count them.}
 
 Every literal trait extends an appropriate constant trait, and every
 constant trait extends an appropriate static trait.  So every
