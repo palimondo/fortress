@@ -107,9 +107,9 @@ The Working Draft gives numerals types of their own so that a library decides by
 
 ## 5. Programs run old against new
 
-- `tmp` scratch `Probe1.fss`, numerals at each prelude type with `r: RR64 = 3` and `g: RR32 = 16777217`: the base (`old-fortress.sh /home/user/fortress-base30 ... compile`) "Right-hand side has type IntLiteral, but declared type is RR32." and "... RR64."; the probe's commit "Right-hand side has type NaturalNumeral[\8,10,16777217\], but declared type is RR32." and "NaturalNumeral[\1,10,3\] ... RR64.": both paths refuse an integer numeral at `RR32` and `RR64`, the prelude's limit (row 442).
-- `WalkProbe1.fss` under walk, `q: QQ = 0.1 - 0.5`: the base and the probe's commit both refuse it, "RHS expression type RR64 is not assignable to LHS type QQ"; the fold leaves the subtraction of two radix-point numerals (batch 29's rule on a possible `-0.0`), so it is no folded constant. Not this rung's.
-- `Probe2.fss`, the same values as the library tests: identical printed output on the probe's commit and after the fold, "2147483647 / 4294967295 / 9223372036854775807 / 18446744073709551615 / 123456789012345678901234567890 / 0.1 / 1.6777216E7 / 4591870180066957722 / 1036831949 / 0.5".
+- A scratch program of numerals at each prelude type with `r: RR64 = 3` and `g: RR32 = 16777217`: the base (`old-fortress.sh /home/user/fortress-base30 ... compile`) "Right-hand side has type IntLiteral, but declared type is RR32." and "... RR64."; the probe's commit "Right-hand side has type NaturalNumeral[\8,10,16777217\], but declared type is RR32." and "NaturalNumeral[\1,10,3\] ... RR64.": both commits refuse an integer numeral at `RR32` and `RR64`, the prelude's limit (row 442).
+- A scratch program under walk, `q: QQ = 0.1 - 0.5`: the base and the probe's commit both refuse it, "RHS expression type RR64 is not assignable to LHS type QQ"; the fold leaves the subtraction of two radix-point numerals (batch 29's rule on a possible `-0.0`), so it is no folded constant. Not this rung's.
+- A scratch program of the library tests' values: identical printed output on the probe's commit and after the fold, "2147483647 / 4294967295 / 9223372036854775807 / 18446744073709551615 / 123456789012345678901234567890 / 0.1 / 1.6777216E7 / 4591870180066957722 / 1036831949 / 0.5".
 
 ## 6. Sentences made false
 
@@ -158,7 +158,7 @@ The rung's build makes these false beyond what the patch already did (the probe'
 
 ## 9. The count and the distance
 
-Both ran once on the final tree, commit dde414aba4, after its build, with nothing of this rung's beside them, in the background chain `tmp/rung-static-numerals/final-chain.sh` under `nice -n 19`; machine `nproc` 4, Intel Xeon @ 2.10 GHz, OpenJDK 25.0.4.1.
+Both ran once on the final tree, commit dde414aba4, after its build, with nothing of this rung's beside them, in one background chain of the suites, the stages, microGPT's checks and the demos, under `nice -n 19`; machine `nproc` 4, Intel Xeon @ 2.10 GHz, OpenJDK 25.0.4.1.
 
 - Count: `explorations/coordinator/tools/checker-count/run.sh tmp/rung-static-numerals/checker-count-postedit.txt tmp/rung-static-numerals/cc-post`: "#total 0 / #locations 0 / #crash none", "real 1m48.479s". `diff` of its table against `explorations/compile-ladder/climb-batch-29/gate/checker-count.txt`, tree paths masked: no output.
 - Distance: `explorations/coordinator/tools/distance/run.sh tmp/rung-static-numerals/distance-postedit.txt tmp/rung-static-numerals/dist-post`: "#total 0", every `#kind` 0, "#crash none", "#seconds 177 FortressLibrary 108", "real 2m59.962s". `explorations/coordinator/tools/distance/compare.sh explorations/compile-ladder/climb-batch-29/gate/distance.txt tmp/rung-static-numerals/distance-postedit.txt` printed "DISTANCE SAME   0". Sites: `dist-post/errors.tsv` holds its header only, as `explorations/compile-ladder/gate/distance-sites.tsv` does: no site moved.
