@@ -16,9 +16,9 @@
 # @WORDS filter on that heading's bold leads ("For the whole batch", "Rung N", ...), each paragraph matched by its
 # lead alone and each key one place. forks_keys() builds them from LEAD and SHARED, section 4's "The files that two
 # rungs share", which check29.js reads again from the record; that list's last line, TupleOrderMixedRefused.test, is
-# G's alone and shares nothing. T shares no file, so it reads the batch's forks and its own. lists(ids) gives the
-# lists of the rungs ids, a rung left out by --without dropping from the others' forks; LISTS and REASONS are
-# lists(IDS).
+# G's alone and shares nothing. T shares no file, but writes the text of what N, C, F and S build, so it reads their
+# forks too, after its own (WRITES; the coordinator's call after the Fable review). lists(ids) gives the lists of the
+# rungs ids, a rung left out by --without dropping from the others' forks; LISTS and REASONS are lists(IDS).
 # `python3 -B lists29.py` checks every key with facts-extract.sh --check (each must match exactly one place) and every
 # reason's form, in $FORTRESS_HOME (this checkout by default), and prints the bytes of each rung's forks keys, and of
 # section 3's forks whole beside them; it is run again on the tree the batch is cut from.
@@ -46,6 +46,9 @@ SHARED = (
   (SRC + 'compiler/codegen/CodeGen.java', 'FC'),
   ('ProjectFortress/tests/TupleOrderMixedRefused.test', 'G'),
 )
+# The rungs whose behaviour a rung's text states, whose forks it reads although it shares no file with them: T's
+# specification text of N's, C's, F's and S's design (the coordinator's call after the Fable review).
+WRITES = {'T': 'NCFS'}
 
 
 def _and(xs):
@@ -54,13 +57,15 @@ def _and(xs):
 
 def forks_keys(rid, ids):
     """The forks keys of rung rid among the rungs ids: the batch's, its own, then each other rung of ids, in the
-    manifest's order, that edits a file of SHARED with it."""
+    manifest's order, that edits a file of SHARED with it or whose behaviour its text states (WRITES)."""
     out = [(FORKS_SECTION + '@' + LEAD['batch'], 'The defaults for the whole batch, which every rung keeps, each with the ways not taken.'),
            (FORKS_SECTION + '@' + LEAD[rid], FORKS_REASON)]
     for o in ids:
         files = [os.path.basename(f) for f, rs in SHARED if rid in rs and o in rs and o != rid]
         if files:
             out.append((FORKS_SECTION + '@' + LEAD[o], "Rung %s's defaults: it also edits %s, at other declarations." % (o, _and(files))))
+        elif o != rid and o in WRITES.get(rid, ''):
+            out.append((FORKS_SECTION + '@' + LEAD[o], "Rung %s's defaults, whose behaviour your text states." % o))
     return out
 
 
@@ -115,7 +120,7 @@ C_BRIEFING = [
   (JUDGE + 'Appendix: the test list and citations', 'The compiled answers your tests assert.'),
   (PROTO + 'Step 2, the checker', "The prototype's checker, which you complete.", CHECK),
   (PROTO + '4.3 The compiled suites', 'The tests that flip or break, and how the prototype respelled three.', CHECK),
-  (PROBES + 'Probe 1. The', 'Step 5 and the chain not needed once the pairs are kept.', CHECK),
+  (PROBES + 'Probe 1. The', 'The chain not needed once the pairs are kept; the library clean with step 5 and without it.', CHECK),
   ('doc:explorations/reviews/literal-fork-2026-11-08.md#3.7 A defect found on the way', "Row 946's mechanism."),
   ('code:' + SRC + 'scala_src/typechecker/staticenv/KindEnv.scala#def getType(x: Name)', 'Where a nat value is typed IntLiteral.'),
   ('doc:Specification/basic/inference.tex#A Numeral Whose Conversions Tie', 'The tie rule, which the default widens.'),
@@ -130,6 +135,8 @@ F_BRIEFING = [
   ('F-262', "Today's fold of prefix minus, the one sign a numeral node carries."),
   ('F-118', "How the code generator carries a numeral's value today."),
   ('ledger:862', 'Two or three roundings, which closes with XXXFloatNumeralOneRounding promoted.', CHECK),
+  ('ledger:954', 'The fold stopping the compile at a CHOOSE of two numerals where the answer is 0, which closes.', CHECK),
+  ('ledger:955', 'The fold taking the wrapping and saturating operators on two numerals as exact + and -, which closes.', CHECK),
   (JUDGE + '1. Coherence', "Repair 3, the fold's signed constant, and a program's coercion seeing written numerals only.", CHECK),
   (JUDGE + '4. The sub-choices', 'x = 7/2 a QQ, and the fold free and favoured by the Draft.'),
   (PROTO + 'Step 3, the fold', "The prototype's fold, which you complete and correct.", CHECK),

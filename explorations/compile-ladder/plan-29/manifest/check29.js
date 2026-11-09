@@ -16,8 +16,9 @@
 // (its first letter either case), and the bullet's counts; the record's one forks key standing in each briefing for
 // its forks keys, read here from the record, not from lists29.py: the key of section 3's bold lead "For the whole
 // batch", the rung's own lead, then the lead of each rung of the block, in the manifest's order, that section 4's
-// "The files that two rungs share" lists beside it, each lead's words held by that lead alone, the own key with the
-// record's reason and each other rung's reason naming the files they share; no string the agents read naming a path
+// "The files that two rungs share" lists beside it, or whose behaviour its text states (T's of N, C, F and S, the
+// coordinator's call), each lead's words held by that lead alone, the own key with the record's reason and each other
+// rung's reason naming the files they share, or none for a rung it writes of; no string the agents read naming a path
 // under .claude/skills/ or revival-changes.md, which tools/workflow-scenarios.js refuses in every brief.
 // Changed from check28.js: the batch's values (29, CLIMB-BATCH-29.md, lists29.py, $OUT29, manifest29.js); six rungs;
 // landsOnlyWith as the record's fork 1 gives it, C with N and T with N, C, F and S, in the "Fields common to the six
@@ -209,8 +210,10 @@ if (r) {
   say(shared.length > 0 && shared.every(f => f && f.rungs.every(x => ALL_IDS.includes(x))) && shared.some(f => f.rungs.length > 1),
     'section 4: the files that two rungs share, ' + shared.map(f => f ? path.basename(f.file) + ' ' + f.rungs.join('') + (f.rungs.length > 1 ? '' : ' (alone, shares nothing)') : 'an unread line').join(', '))
   const sharedFiles = (id, o) => shared.filter(f => f && f.rungs.includes(id) && f.rungs.includes(o)).map(f => path.basename(f.file))
+  // T writes the specification of what N, C, F and S build, and reads their forks though it shares no file with them.
+  const WRITES = { T: ['N', 'C', 'F', 'S'] }
   const forksOf = (id) => [FORKS_KEY + '@' + leadWords('batch'), FORKS_KEY + '@' + leadWords(id)].concat(
-    RUN_IDS.filter(o => o !== id && sharedFiles(id, o).length).map(o => FORKS_KEY + '@' + leadWords(o)))
+    RUN_IDS.filter(o => o !== id && (sharedFiles(id, o).length || (WRITES[id] || []).includes(o))).map(o => FORKS_KEY + '@' + leadWords(o)))
   const rerun = /sees? it fail again|re-?run by the skeptic|skeptic re-?runs|run the stage yourself|skeptic rebuilds|re-anchor/i
   const nSection = section('N')
   say(!!nSection && /\*\*The stages\.\*\* Both, once each on your final tree \(fork 3\), from the tree's root after ant compileAll, the count timed as P-148's change against the prototype's base of 122 s:/.test(nSection) &&

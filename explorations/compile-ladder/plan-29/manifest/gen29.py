@@ -13,7 +13,7 @@
 # name the two stages as stages their rung runs once on its final tree, N's with the commands and the count timed as
 # P-148's change, C's under "The stages and the timing" with P-148's change and pass; G's and T's name neither
 # (fork 3): check29.js checks them. Each briefing's forks are the batch's, the rung's own and those of each rung that
-# shares a file with it (lists29.py's header gives why).
+# shares a file with it, and T's also those of N, C, F and S, whose behaviour its text states (lists29.py's header).
 # Generates the MANIFEST block (CLIMB-BATCH-29.md) for the batch workflow
 # (explorations/coordinator/climb-batch-workflow.js; explorations/coordinator/process-engineering/batch-redesign.md)
 # from the record, read at run time, and the briefings of lists29.py, into $OUT29/manifest29.js ($FORTRESS_HOME/tmp
@@ -197,7 +197,8 @@ A('// writesState, testIsStage, gateJoins (a gate step the rung brings), blurb (
 A('// for the batch table), section (the rung\'s section of the record, read by every role')
 A('// on the rung), pointsToReport, briefing and reasons (the facts-extract.sh keys the')
 A('// worker reads first, each with its reason; of section 3\'s forks, the batch\'s, the')
-A('// rung\'s own and those of each rung that shares a file with it), checks (the sub-list')
+A('// rung\'s own and those of each rung that shares a file with it, T\'s also those of')
+A('// N, C, F and S, whose behaviour its text states), checks (the sub-list')
 A('// the skeptic, a judge and a repair round read), expectedMoves (ladder moves declared,')
 A('// none here), and the optional landsOnlyWith, expectedCheckerCount and')
 A('// expectedCheckerCrash: C lands only with N and T only with N, C, F and S (fork 1);')
