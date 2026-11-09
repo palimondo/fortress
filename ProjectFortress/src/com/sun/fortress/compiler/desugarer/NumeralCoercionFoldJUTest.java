@@ -35,6 +35,8 @@ public class NumeralCoercionFoldJUTest extends TestCaseWrapper {
     /** The analyzed prelude, compiled first where the caches lack it. */
     private static synchronized Component prelude() throws Throwable {
         if (prelude != null) return prelude;
+        // The compiled path's library names, before any class reads them.
+        com.sun.fortress.Shell.useCompilerLibraries();
         components = NumeralCoercionFold.components(null);
         prelude = components.get(api("CompilerBuiltin"));
         if (prelude == null) {
