@@ -291,10 +291,11 @@ end
 trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
                      AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
         excludes { QQ, AnyIntegral, RR32 }
-        comprises { Float, FloatLiteral }
+        comprises { Float }
     coerce(x: ZZ32)
     coerce(x: RR32)
-    coerce(x: IntLiteral)
+    coerce(x: NaturalNumeral)
+    coerce(x: RadixPointNumeral)
     getter zero(): RR64
     getter one(): RR64
     (** returns true if the value is an IEEE NaN **)
@@ -322,7 +323,8 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
     opr =(self, b:RR64):Boolean
     opr =(self, b:ZZ32):Boolean
     opr =(self, b:RR32):Boolean
-    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:NaturalNumeral):Boolean
+    opr =(self, b:RadixPointNumeral):Boolean
     opr <(self, b:RR64):Boolean
     opr <=(self, b:RR64):Boolean
     opr >(self, b:RR64):Boolean
@@ -401,7 +403,8 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     coerce(x: NN32)
     coerce(x: NN64)
     coerce(x: ZZ)
-    coerce(x: IntLiteral)
+    coerce(x: NaturalNumeral)
+    coerce(x: RadixPointNumeral)
     getter zero(): QQ
     getter one(): QQ
     abstract getter isNaN(): Boolean
@@ -419,7 +422,8 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     opr =(self, b:NN32):Boolean
     opr =(self, b:NN64):Boolean
     opr =(self, b:ZZ):Boolean
-    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:NaturalNumeral):Boolean
+    opr =(self, b:RadixPointNumeral):Boolean
     opr =/=(self, other:QQ):Boolean
     opr <(self, other:QQ):Boolean
     opr <=(self, other:QQ):Boolean
@@ -447,8 +451,49 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
     opr MAXNUM(self, other:QQ):QQ
 end
 
+(** A numeral's own type (\secref{literals}).  Its four numbers are the
+    digit count %digits%, the digits after the radix point %fractionDigits%,
+    the radix %radix%, and the digits read as one integer in that radix,
+    %digitValue%.  A numeral type is written only as a parameter type. **)
+trait Numeral extends Number comprises { NaturalNumeral, RadixPointNumeral }
+    abstract getter digits(): ZZ32
+    abstract getter fractionDigits(): ZZ32
+    abstract getter radix(): ZZ32
+    abstract getter digitValue(): ZZ
+end
+
+(** A numeral without a radix point. **)
+value object NaturalNumeral(digits: ZZ32, radix: ZZ32, digitValue: ZZ) extends Numeral
+    getter fractionDigits(): ZZ32
+    (** The numeral as the Working Draft writes one: its digits in its radix,
+        and %_r% where the radix %r% is not ten. **)
+    getter asString(): String
+    (** The value as a float, by one rounding. **)
+    asFloat(self): RR64
+    opr =(self, b:RR64):Boolean
+    opr =(self, b:QQ):Boolean
+    opr =(self, b:ZZ):Boolean
+    opr =(self, b:ZZ64):Boolean
+    opr =(self, b:NN64):Boolean
+    opr =(self, b:ZZ32):Boolean
+    opr =(self, b:NN32):Boolean
+    opr =(self, b:RR32):Boolean
+end
+
+(** A numeral with a radix point. **)
+value object RadixPointNumeral(digits: ZZ32, fractionDigits: ZZ32, radix: ZZ32, digitValue: ZZ) extends Numeral
+    (** The numeral as the Working Draft writes one, with the radix point
+        after %digits - fractionDigits% of its digits. **)
+    getter asString(): String
+    (** The value as a float, by one rounding. **)
+    asFloat(self): RR64
+    opr =(self, b:RR64):Boolean
+    opr =(self, b:QQ):Boolean
+    opr =(self, b:RR32):Boolean
+end
+
 trait AnyIntegral extends { Number } comprises { ZZ, ZZ64, ZZ32, NN64, NN32 }
-    coerce(x: IntLiteral)
+    coerce(x: NaturalNumeral)
 end
         (** not yet: ``%comprises Integral[\I\] where [\I\]%'' *)
 
@@ -496,7 +541,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
         excludes { ZZ, NN32 }
         comprises { UnsignedLong }
     coerce(x: NN32)
-    coerce(x: IntLiteral)
+    coerce(x: NaturalNumeral)
     getter asZZ32(): ZZ32
     getter asZZ64(): ZZ64
     getter asNN32(): NN32
@@ -508,7 +553,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     abstract asFloat(self): RR64
     opr =(self, b:NN64):Boolean
     opr =(self, b:NN32):Boolean
-    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:NaturalNumeral):Boolean
     opr =(self, b:QQ):Boolean
     opr =(self, b:ZZ):Boolean
     opr <(self, b:NN64):Boolean
@@ -547,7 +592,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
     opr BITNOT(self):NN64
     opr ^(self, b:ZZ32):NN64
     opr ^(self, b:AnyIntegral):NN64
-    opr ^(self, b:IntLiteral):NN64
+    opr ^(self, b:NaturalNumeral):NN64
     opr /(self, other:NN64):QQ
     numerator(self): ZZ
     narrow(self):NN32
@@ -560,7 +605,7 @@ end
 trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
         excludes { ZZ64, ZZ, NN64, NN32 }
         comprises { Int }
-    coerce(x: IntLiteral)
+    coerce(x: NaturalNumeral)
     getter zero(): ZZ32
     getter one(): ZZ32
     getter minimum(): ZZ32
@@ -578,7 +623,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     (** The value as a float, the explicit conversion into %RR64%. **)
     abstract asFloat(self): RR64
     opr =(self, b:ZZ32):Boolean
-    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:NaturalNumeral):Boolean
     opr =(self, b:RR64):Boolean
     opr =(self, b:QQ):Boolean
     opr =(self, b:ZZ):Boolean
@@ -620,7 +665,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
     opr BITNOT(self):ZZ32
     opr ^(self, b:ZZ32):ZZ32
     opr ^(self, b:AnyIntegral):ZZ32
-    opr ^(self, b:IntLiteral):ZZ32
+    opr ^(self, b:NaturalNumeral):ZZ32
     opr /(self, other:ZZ32):QQ
     numerator(self): ZZ
     widen(self):ZZ64
@@ -636,7 +681,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
         comprises { Long }
     coerce(x: ZZ32)
     coerce(x: NN32)
-    coerce(x: IntLiteral)
+    coerce(x: NaturalNumeral)
     getter zero(): ZZ64
     getter one(): ZZ64
     getter minimum(): ZZ64
@@ -656,7 +701,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr =(self, b:ZZ64):Boolean
     opr =(self, b:ZZ32):Boolean
     opr =(self, b:NN32):Boolean
-    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:NaturalNumeral):Boolean
     opr =(self, b:QQ):Boolean
     opr =(self, b:ZZ):Boolean
     opr <(self, b:ZZ64):Boolean
@@ -696,7 +741,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
     opr BITNOT(self):ZZ64
     opr ^(self, b:ZZ32):ZZ64
     opr ^(self, b:AnyIntegral):ZZ64
-    opr ^(self, b:IntLiteral):ZZ64
+    opr ^(self, b:NaturalNumeral):ZZ64
     opr /(self, other:ZZ64):QQ
     numerator(self): ZZ
     narrow(self):ZZ32
@@ -713,7 +758,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     coerce(x: ZZ64)
     coerce(x: NN32)
     coerce(x: NN64)
-    coerce(x: IntLiteral)
+    coerce(x: NaturalNumeral)
     getter zero(): ZZ
     getter one(): ZZ
     getter asZZ32(): ZZ32
@@ -728,7 +773,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr =(self, b:ZZ64):Boolean
     opr =(self, b:NN32):Boolean
     opr =(self, b:NN64):Boolean
-    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:NaturalNumeral):Boolean
     opr =(self, b:QQ):Boolean
     opr <(self, other:ZZ): Boolean
     opr <=(self, other:ZZ): Boolean
@@ -767,7 +812,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
     opr BITNOT(self): ZZ
     opr ^(self, b:ZZ32):ZZ
     opr ^(self, b:AnyIntegral):ZZ
-    opr ^(self, b:IntLiteral):ZZ
+    opr ^(self, b:NaturalNumeral):ZZ
     numerator(self): ZZ
     big(self): ZZ
     shift(self, k:ZZ32): ZZ

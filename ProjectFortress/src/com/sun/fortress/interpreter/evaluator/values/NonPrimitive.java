@@ -244,7 +244,7 @@ public abstract class NonPrimitive extends Simple_fcn {
                 int j = 0;
                 while (argsIter.hasNext()) {
                     arg = argsIter.next();
-                    iaw.put(arg.getValue(), j);  // strip asif
+                    iaw.put(Numerals.plain(arg.getValue()), j);  // strip asif, and a numeral's own type
                     j++;
                 }
                 // Do the copy.
@@ -269,7 +269,7 @@ public abstract class NonPrimitive extends Simple_fcn {
                                               arg.type()));
                     arg = c;
                 }
-                arg = arg.getValue(); // Strip asif
+                arg = Numerals.plain(arg.getValue()); // Strip asif, and a numeral's own type
                 try {
                     if (param.getMutable()) {
                         env.putValueRaw(param.getName(), arg, param.getType());

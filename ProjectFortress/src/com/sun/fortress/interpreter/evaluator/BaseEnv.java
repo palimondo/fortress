@@ -329,7 +329,7 @@ abstract public class BaseEnv implements Environment, Iterable<String> {
                     value = coerced;
                 }
             }
-            rc.assignValue(value);
+            rc.assignValue(Numerals.plain(value));
             return;
         }
         if (v == null) error(loc, this, "Cannot assign to unbound variable " + str);

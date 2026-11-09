@@ -58,8 +58,8 @@ public final class Types {
     public static final ArrowType BOTTOM_ARROW = NodeFactory.makeArrowType(NodeFactory.typeSpan, ANY, BOTTOM);
 
     public static final TupleType VOID = NodeFactory.makeVoidType(span);
-    public static final TraitType FLOAT_LITERAL = makeTraitType(span, fortressBuiltin(), "FloatLiteral");
-    public static final TraitType INT_LITERAL = makeTraitType(span, fortressBuiltin(), "IntLiteral");
+    public static TraitType FLOAT_LITERAL = makeTraitType(span, fortressBuiltin(), "FloatLiteral");
+    public static TraitType INT_LITERAL = makeTraitType(span, fortressBuiltin(), "IntLiteral");
     public static final TraitType ZZ32 = makeTraitType(span, fortressLibrary(), "ZZ32");
     public static final TraitType BOOLEAN = makeTraitType(span, fortressBuiltin(), "Boolean");
     public static TraitType CHARACTER = makeTraitType(span, fortressBuiltin(), "Character");
@@ -72,8 +72,9 @@ public final class Types {
     /**
      * It's necessary to set STRING when using the compiler libraries because the location of String
      * in the compiler libraries differs from its location in the full libraries.
-     * Similarly for JavaString and Exception and CheckedException, and for the character type,
-     * which the full libraries name Char.
+     * Similarly for JavaString and Exception and CheckedException, for the character type,
+     * which the full libraries name Char, and for the two numeral types, which the full
+     * libraries name NaturalNumeral and RadixPointNumeral.
      */
     public static void useCompilerLibraries() {
         CHARACTER = makeTraitType(span, fortressBuiltin(), "Character");
@@ -81,6 +82,8 @@ public final class Types {
         JAVASTRING = makeTraitType(span, fortressBuiltin(), "JavaString");
         EXCEPTION = makeTraitType(span, fortressBuiltin(), "Exception");
         CHECKED_EXCEPTION = makeTraitType(span, fortressBuiltin(), "CheckedException");
+        INT_LITERAL = makeTraitType(span, fortressBuiltin(), "IntLiteral");
+        FLOAT_LITERAL = makeTraitType(span, fortressBuiltin(), "FloatLiteral");
     }
     public static void useFortressLibraries() {
         CHARACTER = makeTraitType(span, fortressBuiltin(), "Char");
@@ -88,6 +91,8 @@ public final class Types {
         JAVASTRING = makeTraitType(span, fortressLibrary(), "JavaString");
         EXCEPTION = makeTraitType(span, fortressLibrary(), "Exception");
         CHECKED_EXCEPTION = makeTraitType(span, fortressLibrary(), "CheckedException");
+        INT_LITERAL = makeTraitType(span, fortressLibrary(), "NaturalNumeral");
+        FLOAT_LITERAL = makeTraitType(span, fortressLibrary(), "RadixPointNumeral");
     }
 
     public static void useTypeCheckerLibraries() {

@@ -16,6 +16,7 @@ import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.Evaluator;
 import com.sun.fortress.interpreter.evaluator.values.Coercions;
 import com.sun.fortress.interpreter.evaluator.values.FValue;
+import com.sun.fortress.interpreter.evaluator.values.Numerals;
 import com.sun.fortress.nodes.Expr;
 import com.sun.fortress.nodes.Type;
 import com.sun.fortress.nodes_util.NodeUtil;
@@ -65,7 +66,7 @@ public class LazilyEvaluatedCell extends IndirectionCell {
                     e = null;
                     FValue v = (new Evaluator(e0)).eval(exp0);
                     if (declared != null) v = Coercions.coerceToDeclared(declared, e0, v);
-                    theValue = v;
+                    theValue = Numerals.plain(v);
                 }
             }
         }

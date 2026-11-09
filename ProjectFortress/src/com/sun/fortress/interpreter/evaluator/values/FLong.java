@@ -15,7 +15,7 @@ public class FLong extends FNativeObject implements HasIntValue {
     private final long val;
     private static volatile NativeConstructor con;
 
-    private FLong(long x) {
+    FLong(long x) {
         super(null);
         val = x;
     }

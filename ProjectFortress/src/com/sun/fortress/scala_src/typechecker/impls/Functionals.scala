@@ -415,25 +415,33 @@ trait Functionals { self: STypeChecker with Common =>
     }
   }
 
-  /** Whether the expression is a numeral, or a size used as a value, which the checker types as one. */
+  /**
+   * Whether the expression is a numeral, with or without a radix point, or a
+   * size used as a value, which the checker types as one.
+   */
   def isNumeral(e: Expr): Boolean = getType(e) match {
-    case Some(t) => Formula.isTrue(analyzer.equivalent(t, Types.INT_LITERAL))
+    case Some(t) => Formula.isTrue(analyzer.equivalent(t, Types.INT_LITERAL)) ||
+                    Formula.isTrue(analyzer.equivalent(t, Types.FLOAT_LITERAL))
     case None => false
   }
 
   /**
    * The type numerals are read as when nothing narrower fixes them: ZZ32, or
-   * ZZ64 or ZZ when a numeral's value does not fit; the supertype or coercion
-   * target of the numeral type with that name.
+   * ZZ64 or ZZ when a numeral's value does not fit, and RR64 when one has a
+   * radix point; the supertype or coercion target of the numeral type with
+   * that name.
    */
   def numeralReading(es: List[Expr]): Option[Type] = {
     val big = es.collect { case l: IntLiteralExpr => l.getIntVal }
+    val point = es.exists(e => getType(e).exists(t => Formula.isTrue(analyzer.equivalent(t, Types.FLOAT_LITERAL))))
     val name =
-      if (big.forall(v => v.bitLength < 32)) "ZZ32"
+      if (point) "RR64"
+      else if (big.forall(v => v.bitLength < 32)) "ZZ32"
       else if (big.forall(v => v.bitLength < 64)) "ZZ64"
       else "ZZ"
-    (analyzer.ancestors(Types.INT_LITERAL).toList.collect { case t: TraitType => t } ++
-     coercions.getCoercionTargetsFrom(Types.INT_LITERAL)).find(_.getName.getText == name)
+    val from = if (point) Types.FLOAT_LITERAL else Types.INT_LITERAL
+    (analyzer.ancestors(from).toList.collect { case t: TraitType => t } ++
+     coercions.getCoercionTargetsFrom(from)).find(_.getName.getText == name)
   }
 
   /**

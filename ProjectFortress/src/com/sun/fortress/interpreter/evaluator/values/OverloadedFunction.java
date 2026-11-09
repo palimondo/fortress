@@ -96,7 +96,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     }
 
     BATreeEC<List<FValue>, List<FType>, SingleFcn> cache =
-            new BATreeEC<List<FValue>, List<FType>, SingleFcn>(FValue.asTypesList);
+            new BATreeEC<List<FValue>, List<FType>, SingleFcn>(Numerals.keys);
 
     @Override
     public boolean needsInference() {
@@ -2275,6 +2275,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
     public SingleFcn bestMatch(List<FValue> args, List<Overload> someOverloads) throws Error {
         if (!finishedSecond && InstantiationLock.L.isHeldByCurrentThread()) bug("Cannot call before 'setFinished()'");
 
+        if (Numerals.anyNumeral(args)) return bestMatchForNumerals(args, someOverloads);
+
         SingleFcn best = bestMatchInternal(args, someOverloads, true);
         if (best == null) {
             best = bestMatchWithCoercion(args, someOverloads);
@@ -2282,6 +2284,54 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         if (best == null) {
             // Replay the test for debugging
             // best = bestMatchInternal(args, someOverloads);
+            error(errorMsg("Failed to find any matching overload, args = ",
+                           Useful.listInParens(args),
+                           ", overload = ",
+                           this));
+        }
+        return best;
+    }
+
+    /**
+     * The best match where some argument is a numeral, read as the checker
+     * reads one.  A declaration fits a numeral as it is where its parameter is
+     * the numeral's own type or admits its default, and the default ranks as
+     * no coercion: of the declarations that fit as they are, the most
+     * specific, unless the one that the defaults alone fit is no less
+     * specific.  Where none fits as it is, the coercion attempt runs, each
+     * numeral converting from its own type; and a tie among the declarations
+     * that it finds, which only the numerals make, reads each numeral at its
+     * default (inference.tex, "A Numeral Whose Conversions Tie").
+     */
+    private SingleFcn bestMatchForNumerals(List<FValue> args, List<Overload> someOverloads) {
+        SingleFcn f = bestMatchForNumeralsInternal(args, someOverloads);
+        return this instanceof OverloadedMethod ? f : Coercions.withNumeralObjects(f, args, this);
+    }
+
+    private SingleFcn bestMatchForNumeralsInternal(List<FValue> args, List<Overload> someOverloads) {
+        List<FValue> plain = Numerals.plain(args);
+        SingleFcn best = bestMatchInternal(args, someOverloads, true);
+        if (best != null) {
+            SingleFcn atDefault = bestMatchInternal(plain, someOverloads, true);
+            if (atDefault == null || atDefault == best) return best;
+            List<FType> bd = best.getDomain();
+            List<FType> dd = atDefault.getDomain();
+            boolean below = bd.size() == dd.size() && FTypeTuple.make(bd).subtypeOf(FTypeTuple.make(dd)) &&
+                            !FTypeTuple.make(dd).subtypeOf(FTypeTuple.make(bd));
+            return below ? best : atDefault;
+        }
+        try {
+            best = bestMatchWithCoercion(args, someOverloads);
+        }
+        catch (FortressException tie) {
+            try {
+                return bestMatch(plain, someOverloads);
+            }
+            catch (FortressException ex) {
+                throw tie;
+            }
+        }
+        if (best == null) {
             error(errorMsg("Failed to find any matching overload, args = ",
                            Useful.listInParens(args),
                            ", overload = ",
@@ -2659,7 +2709,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             FValue a = args.get(j);
             FType t = Useful.clampedGet(l, j).deRest();
             try {
-                if (!t.typeMatch(a)) {
+                if (!t.typeMatch(a) && !Numerals.fitsAsIs(t, a)) {
                     return false;
                 }
             }

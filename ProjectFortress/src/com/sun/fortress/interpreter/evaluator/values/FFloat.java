@@ -16,7 +16,7 @@ public class FFloat extends FNativeObject {
     private final double val;
     private static volatile NativeConstructor con;
 
-    private FFloat(double x) {
+    FFloat(double x) {
         super(null);
         val = x;
     }

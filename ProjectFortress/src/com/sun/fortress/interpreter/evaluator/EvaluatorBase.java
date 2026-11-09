@@ -87,6 +87,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                                                          GenericFunctionOrMethod appliedThing,
                                                          Environment envForInference,
                                                          BigOperatorHint h) throws ProgramError {
+        args = Numerals.forInference(args, appliedThing);
         Simple_fcn sfcn = h != null && bigOperator(appliedThing) ?
                           inferWithCoercion(args, appliedThing, envForInference, h) : null;
         if (sfcn == null) sfcn = inferWithCoercion(args, appliedThing, envForInference, null);

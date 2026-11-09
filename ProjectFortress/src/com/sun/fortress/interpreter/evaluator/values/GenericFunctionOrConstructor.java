@@ -21,7 +21,7 @@ import java.util.List;
 abstract public class GenericFunctionOrConstructor extends SingleFcn implements GenericFunctionOrMethod {
 
     BATreeEC<List<FValue>, List<FType>, Simple_fcn> cache =
-            new BATreeEC<List<FValue>, List<FType>, Simple_fcn>(FValue.asTypesList);
+            new BATreeEC<List<FValue>, List<FType>, Simple_fcn>(Numerals.keys);
 
     volatile Simple_fcn symbolicInstantiation;
 
