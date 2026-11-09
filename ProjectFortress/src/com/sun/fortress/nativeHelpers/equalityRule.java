@@ -8,6 +8,7 @@ import com.sun.fortress.compiler.runtimeValues.FBoolean;
 import com.sun.fortress.compiler.runtimeValues.FCharacter;
 import com.sun.fortress.compiler.runtimeValues.FFloatLiteral;
 import com.sun.fortress.compiler.runtimeValues.FIntLiteral;
+import com.sun.fortress.compiler.runtimeValues.FJavaString;
 import com.sun.fortress.compiler.runtimeValues.FNN32;
 import com.sun.fortress.compiler.runtimeValues.FNN64;
 import com.sun.fortress.compiler.runtimeValues.FRR32;
@@ -59,7 +60,10 @@ final class equalityRule {
             return Double.doubleToRawLongBits(((FFloatLiteral) a).asRR64().getValue())
                 == Double.doubleToRawLongBits(((FFloatLiteral) b).asRR64().getValue());
         if (a instanceof ValueObjectMark) return fields(ca, a, b);
-        // Every other value, a string among them, is a reference object.
+        // A string is a reference object, one with the Java string it carries:
+        // two string literals of one text carry one interned Java string.
+        if (a instanceof FJavaString) return ((FJavaString) a).getValue() == ((FJavaString) b).getValue();
+        // Every other value is a reference object.
         return false;
     }
 

@@ -37,13 +37,17 @@ run(): () = do
     assert(same(t1, t2), true, "two (1,2) are equivalent")
     assert(same(t1, t3), false, "(1,2) and (1,2.0) differ in an element's type")
 
-    s1: String = "ab" || "cd"
-    s2: String = "abc" || "d"
+    cdText: String = "cd"
+    dText: String = "d"
+    s1: String = "ab" || cdText
+    s2: String = "abc" || dText
     assert(s1 = s2, "two flat strings of one text are equal")
     assert(same(s1, s2), false, "two flat strings built apart are not equivalent")
     assert(same(s1, s1), true, "a string is equivalent to itself")
-    rope1: String = "abcdefghij" || "klmnopqrstuvwxyzABCDEFGHIJKLMN"
-    rope2: String = "abcdefghijklmnopqrstuvwxyzABCD" || "EFGHIJKLMN"
+    ropeTail1: String = "klmnopqrstuvwxyzABCDEFGHIJKLMN"
+    ropeTail2: String = "EFGHIJKLMN"
+    rope1: String = "abcdefghij" || ropeTail1
+    rope2: String = "abcdefghijklmnopqrstuvwxyzABCD" || ropeTail2
     assert(rope1 = rope2, "two ropes of one text are equal")
     assert(same(rope1, rope2), false, "two equal ropes are not equivalent")
     assert((s1, 1) = (s2, 1), "pairs compare their strings by =")
