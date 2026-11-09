@@ -43,8 +43,8 @@ end
 
 value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
-    coerce(x: NaturalNumeral)
-    coerce(x: RadixPointNumeral)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
     (** returns true if the value is an IEEE NaN **)
     getter isNaN(): Boolean
     (** returns true if the value is an IEEE infinity **)
@@ -69,8 +69,6 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
     asFloat(self): RR64
     opr =(self, b:RR32):Boolean
     opr =(self, b:RR64):Boolean
-    opr =(self, b:NaturalNumeral):Boolean
-    opr =(self, b:RadixPointNumeral):Boolean
     opr =/=(self, b:RR32):Boolean
     opr <(self, b:RR32):Boolean
     opr <=(self, b:RR32):Boolean
@@ -132,7 +130,7 @@ value object Long extends ZZ64
 end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
-    coerce(x: NaturalNumeral)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     getter asZZ32(): ZZ32
     getter asZZ64(): ZZ64
     getter asNN32(): NN32
@@ -142,7 +140,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr |self| : NN32
     asFloat(self): RR64
     opr =(self, b:NN32):Boolean
-    opr =(self, b:NaturalNumeral):Boolean
     opr =(self, b:QQ):Boolean
     opr =(self, b:ZZ):Boolean
     opr =(self, b:ZZ64):Boolean
@@ -183,7 +180,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr BITNOT(self):NN32
     opr ^(self, b:ZZ32):NN32
     opr ^(self, b:AnyIntegral):NN32
-    opr ^(self, b:NaturalNumeral):NN32
     opr /(self, other:NN32):QQ
     numerator(self): ZZ
     widen(self):NN64

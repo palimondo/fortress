@@ -1,0 +1,9 @@
+(* A numeral type exists only at compile time: a program's object that extends one is refused. *)
+component NumeralTypeExtendedRefused
+export Executable
+
+object O extends NaturalNumeral[\1, 10, 3\] end
+
+run(): () = println("O")
+
+end

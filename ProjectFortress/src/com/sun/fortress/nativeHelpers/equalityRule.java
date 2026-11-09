@@ -6,8 +6,6 @@ import java.lang.reflect.Modifier;
 
 import com.sun.fortress.compiler.runtimeValues.FBoolean;
 import com.sun.fortress.compiler.runtimeValues.FCharacter;
-import com.sun.fortress.compiler.runtimeValues.FFloatLiteral;
-import com.sun.fortress.compiler.runtimeValues.FIntLiteral;
 import com.sun.fortress.compiler.runtimeValues.FJavaString;
 import com.sun.fortress.compiler.runtimeValues.FNN32;
 import com.sun.fortress.compiler.runtimeValues.FNN64;
@@ -44,21 +42,12 @@ final class equalityRule {
         if (a instanceof FNN64) return ((FNN64) a).getValue() == ((FNN64) b).getValue();
         if (a instanceof FBoolean) return ((FBoolean) a).getValue() == ((FBoolean) b).getValue();
         if (a instanceof FCharacter) return ((FCharacter) a).getValue() == ((FCharacter) b).getValue();
-        if (a instanceof FIntLiteral) {
-            FIntLiteral x = (FIntLiteral) a;
-            FIntLiteral y = (FIntLiteral) b;
-            return x.smallerVal == y.smallerVal
-                && (x.largerVal == null ? y.largerVal == null : x.largerVal.equals(y.largerVal));
-        }
         if (a instanceof FRR64)
             return Double.doubleToRawLongBits(((FRR64) a).getValue())
                 == Double.doubleToRawLongBits(((FRR64) b).getValue());
         if (a instanceof FRR32)
             return Float.floatToRawIntBits(((FRR32) a).getValue())
                 == Float.floatToRawIntBits(((FRR32) b).getValue());
-        if (a instanceof FFloatLiteral)
-            return Double.doubleToRawLongBits(((FFloatLiteral) a).asRR64().getValue())
-                == Double.doubleToRawLongBits(((FFloatLiteral) b).asRR64().getValue());
         if (a instanceof ValueObjectMark) return fields(ca, a, b);
         // A string is a reference object, one with the Java string it carries:
         // two string literals of one text carry one interned Java string.

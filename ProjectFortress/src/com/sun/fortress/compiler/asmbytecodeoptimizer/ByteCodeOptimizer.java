@@ -134,7 +134,6 @@ class ByteCodeOptimizer {
             ByteCodeVisitor bcv = (ByteCodeVisitor) pairs.getValue();
             System.out.println("About to start optimizing " + bcv.name);
             AddString.optimize(bcv);
-            RemoveLiteralCoercions.optimize(bcv);
             CalculateLabels.optimize(bcv);
             Inlining.optimize(bcv);
             AbstractInterpretation.optimize((String) pairs.getKey(), bcv);

@@ -1,0 +1,3 @@
+tests=NumeralNegativeNoMinusCompiled
+compile
+compile_err_contains=The numeral -3 at Plain needs a prefix minus on Plain, which it does not declare.

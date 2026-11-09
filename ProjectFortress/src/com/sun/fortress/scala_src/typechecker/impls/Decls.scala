@@ -18,6 +18,7 @@ import com.sun.fortress.compiler.index.Method
 import com.sun.fortress.compiler.index.TraitIndex
 import com.sun.fortress.compiler.index.TypeConsIndex
 import com.sun.fortress.compiler.Types
+import com.sun.fortress.scala_src.typechecker.staticenv.KindEnv
 import com.sun.fortress.exceptions.InterpreterBug.bug
 import com.sun.fortress.exceptions.StaticError.errorMsg
 import com.sun.fortress.nodes._
@@ -199,6 +200,15 @@ trait Decls { self: STypeChecker with Common =>
     case f@SFnDecl(info,
                    SFnHeader(statics,mods,name,wheres,throws,contract,params,rType),
                    unambiguousName, Some(body), implementsUnambiguousName) => {
+      // The four numbers of a numeral type at a parameter are exact integers.
+      params.foreach(p => toOption(p.getIdType) match {
+        case Some(t: TraitType) if Types.isNumeralType(t) =>
+          toListFromImmutable(t.getArgs).foreach {
+            case SIntArg(_, _, r: IntRef) => statics.find(_.getName.getText == r.getName.getText).foreach(KindEnv.markExact)
+            case _ =>
+          }
+        case _ =>
+      })
       val newChecker = this.extend(statics, Some(params), wheres)
       val newContract = contract.map(c => newChecker.check(c))
 

@@ -1937,8 +1937,17 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             d.accept(this);
         }
 
+        // Each numeral coercion as one method of the four numbers.
+        for (FnDecl d : numeralCoercionMethods(x)) {
+            d.accept(this);
+        }
+
+        // Each numeral's place that holds no JVM constant: its field and the
+        // method that fills it, called from the static initializer below.
+        emitNumeralSiteInitializers();
+
         // Static initializer for this class, emitted after the declarations, whose
-        // numeral sites at a program's type it initializes (forNumeralCoercionSite).
+        // numeral places it fills (emitNumeralCoercionSites).
         // Since all top-level fields and singleton objects are singleton inner classes,
         // this does nothing for these.
         mv = cw.visitCGMethod(ACC_STATIC,
@@ -1976,7 +1985,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                         String tableName = Naming.cacheTableName(def.unambiguousName().getText());
                         
                         //owning class is the component class
-                        String className =  Naming.dotToSep(x.getName().getText());
+                        String className = packageAndClassName;
                         
                         //A) declare static field
                         //B) in static initializer:
@@ -2051,24 +2060,29 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         BigInteger den = BigInteger.valueOf(x.getDenomBase()).pow(x.getDenomPower());
         BigInteger num = x.getIntPart().multiply(den).add(x.getNumerator());
         String typed = numeralTarget(x);
+        // prefix minus on a numeral as written: the node holds the magnitude, so
+        // that -0.0 is IEEE's negative zero
+        boolean negated = com.sun.fortress.nodes_util.NumeralNumbers.kindOf(x.getText()) ==
+                          com.sun.fortress.nodes_util.NumeralNumbers.Kind.NEGATED;
         if (typed.equals("RR32")) {
-            mv.visitLdcInsn(Float.valueOf(roundToFloat(num, den)));
+            mv.visitLdcInsn(Float.valueOf(negated ? -roundToFloat(num, den) : roundToFloat(num, den)));
             mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR32, NamingCzar.make,
                                Naming.makeMethodDesc(NamingCzar.descFloat, NamingCzar.descFortressRR32));
             return;
         }
         double val = roundToDouble(num, den);
+        if (negated) val = -val;
         if (typed.equals("RR64")) {
             mv.visitLdcInsn(Double.valueOf(val));
             mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR64, NamingCzar.make,
                                Naming.makeMethodDesc(NamingCzar.descDouble, NamingCzar.descFortressRR64));
             return;
         }
-        mv.visitLdcInsn(val);
-        mv.visitMethodInsn(INVOKESTATIC,
-                           NamingCzar.internalFortressFloatLiteral, NamingCzar.make,
-                           Naming.makeMethodDesc(NamingCzar.descDouble,
-                                                     NamingCzar.descFortressFloatLiteral));
+        // No numeral value exists at run time: a numeral that no place typed
+        // is its default, an RR64.
+        mv.visitLdcInsn(Double.valueOf(val));
+        mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR64, NamingCzar.make,
+                           Naming.makeMethodDesc(NamingCzar.descDouble, NamingCzar.descFortressRR64));
     }
 
     public void forThrow(Throw x) {
@@ -4325,37 +4339,24 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                                Naming.makeMethodDesc(NamingCzar.descFloat, NamingCzar.descFortressRR32));
             return;
         }
-        // bitLength() counts no sign bit, so l <= 31 is exactly the int range
-        // and l <= 63 exactly the long range, for both signs.
+        // No numeral value exists at run time: a numeral that no place typed is
+        // its default, a ZZ32, or a ZZ64 or ZZ by its value. bitLength() counts
+        // no sign bit, so l <= 31 is exactly the int range and l <= 63 exactly
+        // the long range, for both signs.
         int l = bi.bitLength();
+        addLineNumberInfo(x);
         if (l <= 31) {
-            int y = bi.intValue();
-            addLineNumberInfo(x);
-            pushInteger(y);
-            addLineNumberInfo(x);
-
-            mv.visitMethodInsn(INVOKESTATIC,
-                    NamingCzar.internalFortressIntLiteral, NamingCzar.make,
-                    Naming.makeMethodDesc(NamingCzar.descInt,
-                                              NamingCzar.descFortressIntLiteral));
+            pushInteger(bi.intValue());
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressZZ32, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descInt, NamingCzar.descFortressZZ32));
         } else if (l <= 63) {
-            long yy = bi.longValue();
-            addLineNumberInfo(x);
-            mv.visitLdcInsn(yy);
-            addLineNumberInfo(x);
-            mv.visitMethodInsn(INVOKESTATIC,
-                    NamingCzar.internalFortressIntLiteral, NamingCzar.make,
-                    Naming.makeMethodDesc(NamingCzar.descLong,
-                                              NamingCzar.descFortressIntLiteral));
+            mv.visitLdcInsn(Long.valueOf(bi.longValue()));
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressZZ64, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descLong, NamingCzar.descFortressZZ64));
         } else {
-            String s = bi.toString();
-            addLineNumberInfo(x);
-            mv.visitLdcInsn(s);
-            addLineNumberInfo(x);
-            mv.visitMethodInsn(INVOKESTATIC,
-                    NamingCzar.internalFortressIntLiteral, NamingCzar.make,
-                    Naming.makeMethodDesc(NamingCzar.descString,
-                                              NamingCzar.descFortressIntLiteral));
+            mv.visitLdcInsn(bi.toString());
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressZZ, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descString, NamingCzar.descFortressZZ));
         }
     }
 
@@ -5329,6 +5330,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     public void forOpExpr(OpExpr x) {
         debug("forOpExpr ", x, " op = ", x.getOp(),
                      " of class ", x.getOp().getClass(),  " args = ", x.getArgs());
+        // A negative constant at a program's type: its minus on the coercion's
+        // result is one value for the place, made once with the coercion (P-176).
+        _RewriteFnApp negated = negatedNumeralSite(x);
+        if (negated != null && negated != emittingNumeralSite) {
+            numeralSite(x, negated, NamingCzar.jvmBoxedTypeDesc(x.getInfo().getExprType().unwrap(), thisApi()));
+            return;
+        }
         FunctionalRef op = x.getOp();
         List<Expr> args = x.getArgs();
 
@@ -6478,8 +6486,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             String loadNat = Naming.opForString(Naming.natMethod,
                     Naming.LEFT_OXFORD + id.getText() + Naming.RIGHT_OXFORD);
             mv.visitMethodInsn(INVOKESTATIC, Naming.magicInterpClass, loadNat,
-                    "()" + NamingCzar.descFortressIntLiteral);
-            mv.visitMethodInsn(INVOKEVIRTUAL, NamingCzar.internalFortressIntLiteral, "asZZ32",
                     "()" + NamingCzar.descFortressZZ32);
             return;
         }
@@ -7171,68 +7177,291 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                            Naming.APPLY_METHOD, sig);
     }
 
-    /** A numeral site at a program's own type: its call, and the static field of the component's class that holds the result. */
+    /**
+     * A numeral's place whose value the component's class makes once, when it
+     * loads (P-176): the expression it computes, the call of the numeral's
+     * coercion or a program's type's own minus on that call, and the static
+     * field of the component's class that holds the result.
+     */
     private static final class NumeralCoercionSite {
+        final Expr whole;
         final _RewriteFnApp app;
         final String field;
+        final String init;
         final String desc;
-        NumeralCoercionSite(_RewriteFnApp app, String field, String desc) {
-            this.app = app; this.field = field; this.desc = desc;
+        NumeralCoercionSite(Expr whole, _RewriteFnApp app, int k, String desc) {
+            this.whole = whole; this.app = app; this.desc = desc;
+            this.field = "numeral$coercion$" + k;
+            this.init = "numeral$init$" + k;
         }
     }
 
-    /** The components of the libraries, whose coercions from a numeral the sites leave called at each evaluation. */
-    private static final Set<String> LIBRARY_APIS = new HashSet<String>(Arrays.asList(
-        "AnyType", "CompilerBuiltin", "CompilerLibrary", "CompilerAlgebra", "CompilerSystem",
-        "FortressBuiltin", "FortressLibrary"));
+    /** A new numeral's place of this component, read here. */
+    private void numeralSite(Expr whole, _RewriteFnApp app, String desc) {
+        NumeralCoercionSite site = new NumeralCoercionSite(whole, app, numeralCoercionSites.size(), desc);
+        numeralCoercionSites.add(site);
+        // The static initializer fills each place in turn; a place that code
+        // run there reads before its turn is filled at that read.
+        org.objectweb.asm.Label have = new org.objectweb.asm.Label();
+        mv.visitFieldInsn(GETSTATIC, packageAndClassName, site.field, site.desc);
+        mv.visitInsn(DUP);
+        mv.visitJumpInsn(IFNONNULL, have);
+        mv.visitInsn(POP);
+        mv.visitMethodInsn(INVOKESTATIC, packageAndClassName, site.init, "()" + site.desc);
+        mv.visitLabel(have);
+    }
+
+    /** The coercion call that the static initializer is computing for its site, which it calls in place. */
+    private _RewriteFnApp emittingNumeralSite = null;
 
     /**
-     * The JVM descriptor of the result where x is a numeral at a program's own
-     * type, the call of the program's coercion on a numeral of its own type;
-     * null for any other application.
+     * The JVM descriptor of the result where x is a numeral's place: the call
+     * of a coercion from the numeral's own type, NaturalNumeral or
+     * RadixPointNumeral, into a type, the library's or a program's; null for
+     * any other application, and where the type names a type variable, whose
+     * value differs from instance to instance.
      */
     private String numeralCoercionSiteDesc(_RewriteFnApp x) {
         Expr fn = x.getFunction();
         Expr arg = x.getArgument();
         if (!(fn instanceof FnRef)) return null;
         FnRef ref = (FnRef) fn;
-        if (!ref.getStaticArgs().isEmpty() || localFunctionOrNull(ref) != null) return null;
-        if (!(arg instanceof IntLiteralExpr || arg instanceof FloatLiteralExpr) || !numeralTarget(arg).matches("IntLiteral|FloatLiteral")) return null;
+        if (localFunctionOrNull(ref) != null) return null;
+        if (!(arg instanceof IntLiteralExpr || arg instanceof FloatLiteralExpr) || !numeralTyped(arg)) return null;
         if (!ref.getOriginalName().getText().startsWith(NamingCzar.LIFTED_COERCION_PREFIX)) return null;
-        if (LIBRARY_APIS.contains(component.getName().getText())) return null;
         Option<Type> ft = ref.getInfo().getExprType();
         if (ft.isNone() || !(ft.unwrap() instanceof ArrowType)) return null;
         Type range = ((ArrowType) ft.unwrap()).getRange();
-        if (!(range instanceof TraitType) || !((TraitType) range).getArgs().isEmpty()) return null;
-        Option<APIName> api = ((TraitType) range).getName().getApiName();
-        if (api.isSome() && LIBRARY_APIS.contains(api.unwrap().getText())) return null;
+        if (!(range instanceof TraitType) || mentionsTypeVariable(range)) return null;
         return NamingCzar.jvmBoxedTypeDesc(range, thisApi());
     }
 
+    /** Whether x calls a coercion generic over a numeral's four numbers on a numeral. */
+    private static boolean isNumeralCoercionCall(_RewriteFnApp x) {
+        if (!(x.getFunction() instanceof FnRef)) return false;
+        FnRef ref = (FnRef) x.getFunction();
+        Expr arg = x.getArgument();
+        if (!(arg instanceof IntLiteralExpr || arg instanceof FloatLiteralExpr) || !numeralTyped(arg)) return false;
+        if (!ref.getOriginalName().getText().startsWith(NamingCzar.LIFTED_COERCION_PREFIX)) return false;
+        return ref.getStaticArgs().size() >= (arg instanceof FloatLiteralExpr ? 4 : 3);
+    }
+
     /**
-     * Each site of a numeral at a program's own type is one object (P-174):
-     * the component's class calls the program's coercion once for the site,
-     * in its static initializer, when it loads, and keeps the result in a
-     * static field that each evaluation of the site reads. A coercion that
-     * raises fails the load of the component's class.
+     * Whether x is a program's type's own prefix minus on the coercion of a
+     * numeral, which the checker makes of a negative constant at that type
+     * (P-174): one operand, a numeral's place, at the operand's own span.
+     */
+    private _RewriteFnApp negatedNumeralSite(OpExpr x) {
+        if (x.getArgs().size() != 1 || !(x.getArgs().get(0) instanceof _RewriteFnApp)) return null;
+        _RewriteFnApp app = (_RewriteFnApp) x.getArgs().get(0);
+        if (!x.getOp().getOriginalName().getText().equals("-")) return null;
+        if (!NodeUtil.getSpan(x).equals(NodeUtil.getSpan(app))) return null;
+        if (numeralCoercionSiteDesc(app) == null) return null;
+        Option<Type> t = x.getInfo().getExprType();
+        if (t.isNone() || !(t.unwrap() instanceof TraitType) || mentionsTypeVariable(t.unwrap())) return null;
+        return app;
+    }
+
+    /**
+     * Each numeral's place is one value (P-176), made once: the component's
+     * class computes it in its static initializer, when it loads, and keeps it
+     * in a static field that each evaluation of the place reads. A coercion
+     * that raises fails the load of the component's class.
      */
     private void emitNumeralCoercionSites() {
         for (NumeralCoercionSite site : numeralCoercionSites) {
-            cw.visitField(ACC_PUBLIC + ACC_STATIC + ACC_FINAL, site.field, site.desc, null, null);
-            emitFnApp(site.app);
-            mv.visitFieldInsn(PUTSTATIC, packageAndClassName, site.field, site.desc);
+            mv.visitMethodInsn(INVOKESTATIC, packageAndClassName, site.init, "()" + site.desc);
+            mv.visitInsn(POP);
         }
+    }
+
+    /**
+     * Each place's static field, and the method that fills it once, where it
+     * is not yet filled, and answers it.
+     */
+    private void emitNumeralSiteInitializers() {
+        CodeGenMethodVisitor savedMv = mv;
+        try {
+            for (NumeralCoercionSite site : numeralCoercionSites) {
+                cw.visitField(ACC_PUBLIC + ACC_STATIC + ACC_FINAL, site.field, site.desc, null, null);
+                mv = cw.visitCGMethod(ACC_PUBLIC + ACC_STATIC, site.init, "()" + site.desc, null, null);
+                mv.visitCode();
+                org.objectweb.asm.Label done = new org.objectweb.asm.Label();
+                mv.visitFieldInsn(GETSTATIC, packageAndClassName, site.field, site.desc);
+                mv.visitJumpInsn(IFNONNULL, done);
+                _RewriteFnApp saved = emittingNumeralSite;
+                emittingNumeralSite = site.app;
+                try {
+                    if (site.whole == site.app) emitNumeralCoercionCall(site.app);
+                    else site.whole.accept(this);
+                } finally {
+                    emittingNumeralSite = saved;
+                }
+                mv.visitFieldInsn(PUTSTATIC, packageAndClassName, site.field, site.desc);
+                mv.visitLabel(done);
+                mv.visitFieldInsn(GETSTATIC, packageAndClassName, site.field, site.desc);
+                methodReturnAndFinish();
+            }
+        } finally {
+            mv = savedMv;
+        }
+    }
+
+    /** Whether the numeral node is typed by its own numeral type, NaturalNumeral or RadixPointNumeral. */
+    private static boolean numeralTyped(Expr x) {
+        Option<Type> t = x.getInfo().getExprType();
+        return t.isSome() && com.sun.fortress.compiler.Types.isNumeralType(t.unwrap());
+    }
+
+    /** Whether the type names a type variable anywhere. */
+    private static boolean mentionsTypeVariable(Type t) {
+        final boolean[] found = { false };
+        t.accept(new com.sun.fortress.nodes.NodeDepthFirstVisitor_void() {
+            @Override public void forVarType(VarType v) { found[0] = true; }
+        });
+        return found[0];
+    }
+
+    /** The name of the method of a numeral coercion over a natural numeral's or a radix-point numeral's numbers. */
+    static String numeralMethodName(String coercion, boolean radixPoint) {
+        return coercion + (radixPoint ? "№point" : "№natural");
+    }
+
+    /** The type of the four numbers as values: ZZ, exact integers (P-174, P-40). */
+    private static Type numeralNumberType() {
+        return com.sun.fortress.scala_src.typechecker.staticenv.KindEnv$.MODULE$.exactValueType();
+    }
+
+    private static Type withoutSelfType(Type t) {
+        return t instanceof TraitSelfType ? ((TraitSelfType) t).getNamed() : t;
+    }
+
+    /**
+     * The numeral coercions of this component, each as one function whose
+     * value parameters are the numeral's numbers as ZZ values, n, r and v, or
+     * n, m, r and v, and whose static parameters are only those of the
+     * coercion's type: the coercion of Gen[\T\] stays generic in T alone, so
+     * the class loader makes a class for each type argument and none for a
+     * numeral. Each place calls it once, from this component or another.
+     */
+    private List<FnDecl> numeralCoercionMethods(Component x) {
+        List<FnDecl> out = new ArrayList<FnDecl>();
+        for (Decl d : x.getDecls()) {
+            if (!(d instanceof FnDecl)) continue;
+            FnDecl f = (FnDecl) d;
+            FnHeader h = f.getHeader();
+            String name = NodeUtil.nameString(NodeUtil.getName(f));
+            if (!name.startsWith(NamingCzar.LIFTED_COERCION_PREFIX) || f.getBody().isNone()) continue;
+            List<Param> ps = h.getParams();
+            if (ps.size() != 1 || ps.get(0).getIdType().isNone() || h.getReturnType().isNone()) continue;
+            Type pt = (Type) ps.get(0).getIdType().unwrap();
+            if (!com.sun.fortress.compiler.Types.isNumeralType(pt)) continue;
+            boolean point = com.sun.fortress.compiler.Types.isRadixPointNumeralType(pt);
+            int k = point ? 4 : 3;
+            List<StaticParam> sps = h.getStaticParams();
+            if (sps.size() < k) continue;
+            List<StaticParam> kept = new ArrayList<StaticParam>(sps.subList(0, sps.size() - k));
+            List<Param> numbers = new ArrayList<Param>();
+            for (StaticParam sp : sps.subList(sps.size() - k, sps.size())) {
+                Id n = NodeFactory.makeId(NodeUtil.getSpan(sp), sp.getName().getText());
+                numbers.add(NodeFactory.makeParam(NodeUtil.getSpan(sp), Modifiers.None, n, numeralNumberType()));
+            }
+            Span span = NodeUtil.getSpan(f);
+            Id mname = NodeFactory.makeId(span, numeralMethodName(name, point));
+            out.add(NodeFactory.makeFnDecl(span, Modifiers.None, mname, kept, numbers,
+                                           Option.<Type>some(withoutSelfType(h.getReturnType().unwrap())),
+                                           Option.<List<Type>>none(), Option.<com.sun.fortress.nodes.WhereClause>none(),
+                                           Option.<com.sun.fortress.nodes.Contract>none(), f.getBody()));
+        }
+        return out;
+    }
+
+    /**
+     * The call of a numeral's coercion, as the call of its method of the four
+     * numbers (numeralCoercionMethods) on the numeral's numbers as ZZ
+     * constants, with the coercion type's own static arguments; the call of a
+     * coercion that is not generic over the numbers stays as it is.
+     */
+    private void emitNumeralCoercionCall(_RewriteFnApp app) {
+        if (!isNumeralCoercionCall(app)) {
+            emitFnApp(app);
+            return;
+        }
+        FnRef ref = (FnRef) app.getFunction();
+        boolean point = app.getArgument() instanceof FloatLiteralExpr;
+        int k = point ? 4 : 3;
+        Span span = NodeUtil.getSpan(app);
+        List<StaticArg> sas = ref.getStaticArgs();
+        List<StaticArg> kept = new ArrayList<StaticArg>(sas.subList(0, sas.size() - k));
+        Type zz = numeralNumberType();
+        List<Expr> lits = new ArrayList<Expr>();
+        List<Type> domain = new ArrayList<Type>();
+        for (StaticArg a : sas.subList(sas.size() - k, sas.size())) {
+            if (!(a instanceof IntArg) || !(((IntArg) a).getIntVal() instanceof IntBase))
+                throw sayWhat(app, "A numeral coercion's static argument is not a number: " + a);
+            BigInteger b = ((IntBase) ((IntArg) a).getIntVal()).getIntVal().getIntVal();
+            lits.add(ExprFactory.makeIntLiteralExpr(NodeFactory.makeExprInfo(span, false, Option.<Type>some(zz)), b));
+            domain.add(zz);
+        }
+        TupleType dt = NodeFactory.makeTupleType(span, domain);
+        TupleExpr tuple = ExprFactory.makeTupleExpr(span, false, Option.<Type>some(dt), lits);
+        Type range = withoutSelfType(((ArrowType) ref.getInfo().getExprType().unwrap()).getRange());
+        ArrowType arrow = NodeFactory.makeArrowType(span, dt, range);
+        IdOrOp n0 = ref.getNames().size() == 1 ? ref.getNames().get(0) : ref.getOriginalName();
+        String mname = numeralMethodName(ref.getOriginalName().getText(), point);
+        Id local = NodeFactory.makeId(span, mname);
+        Id named = n0.getApiName().isSome() ? NodeFactory.makeId(n0.getApiName().unwrap(), local) : local;
+        Option<Type> schema = Option.<Type>none();
+        if (!kept.isEmpty()) {
+            Type sr = ref.getOverloadingSchema().isSome() && ref.getOverloadingSchema().unwrap() instanceof ArrowType
+                ? withoutSelfType(((ArrowType) ref.getOverloadingSchema().unwrap()).getRange()) : range;
+            schema = Option.<Type>some(NodeFactory.makeArrowType(span, dt, sr));
+        }
+        FnRef m = ExprFactory.makeFnRef(span, false, Option.<Type>some(arrow), kept,
+                                        ExprFactory.defaultLexicalDepth, local,
+                                        Collections.<IdOrOp>singletonList(named),
+                                        Collections.<com.sun.fortress.nodes.Overloading>emptyList(),
+                                        Collections.<com.sun.fortress.nodes.Overloading>emptyList(),
+                                        Option.<Type>some(arrow), schema);
+        emitFnApp(ExprFactory.make_RewriteFnApp(span, m, tuple));
+    }
+
+    /**
+     * The constant of a numeral's place where the fold of its coercion
+     * (NumeralCoercionFold) ends in a JVM int, long, float or double: that
+     * value, boxed as the place's type is.
+     */
+    private boolean emitFoldedNumeral(_RewriteFnApp x, String desc) {
+        Object k = NumeralCoercionFold.fold((FnRef) x.getFunction(), x.getArgument(), component);
+        if (k == null) return false;
+        String prim = k instanceof Integer ? NamingCzar.descInt : k instanceof Long ? NamingCzar.descLong
+                    : k instanceof Float ? NamingCzar.descFloat : NamingCzar.descDouble;
+        if (!desc.startsWith("L") || !desc.endsWith(";")) return false;
+        addLineNumberInfo(x);
+        if (k instanceof Integer) pushInteger(((Integer) k).intValue());
+        else mv.visitLdcInsn(k);
+        mv.visitMethodInsn(INVOKESTATIC, desc.substring(1, desc.length() - 1), NamingCzar.make,
+                           Naming.makeMethodDesc(prim, desc));
+        return true;
     }
 
     public void for_RewriteFnApp(_RewriteFnApp x) {
         debug("for_RewriteFnApp ", x,
                      " args = ", x.getArgument(), " function = ", x.getFunction(),
               " function class = ", x.getFunction());
+        if (x == emittingNumeralSite) {
+            emitNumeralCoercionCall(x);
+            return;
+        }
         String siteDesc = numeralCoercionSiteDesc(x);
         if (siteDesc != null) {
-            String field = "numeral$coercion$" + numeralCoercionSites.size();
-            numeralCoercionSites.add(new NumeralCoercionSite(x, field, siteDesc));
-            mv.visitFieldInsn(GETSTATIC, packageAndClassName, field, siteDesc);
+            if (emitFoldedNumeral(x, siteDesc)) return;
+            numeralSite(x, x, siteDesc);
+            return;
+        }
+        if (isNumeralCoercionCall(x)) {
+            // A place whose value depends on a type variable: the call runs at each evaluation.
+            emitNumeralCoercionCall(x);
             return;
         }
         emitFnApp(x);

@@ -1,0 +1,22 @@
+(* A numeral as written at each integer type of the library converts there exactly from its value, at the type's bounds and beyond 64 bits at ZZ. *)
+component NumeralFoldIntegers
+export Executable
+
+run(): () = do
+    a: ZZ32 = 2147483647
+    a0: ZZ32 = 0
+    b: NN32 = 4294967295
+    b0: NN32 = 0
+    c: ZZ64 = 9223372036854775807
+    d: NN64 = 18446744073709551615
+    e: ZZ = 123456789012345678901234567890
+    println(a)
+    println(a0)
+    println(b)
+    println(b0)
+    println(c)
+    println(d)
+    println(e)
+end
+
+end

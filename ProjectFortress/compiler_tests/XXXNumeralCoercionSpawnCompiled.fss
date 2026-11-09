@@ -1,0 +1,19 @@
+(* A numeral's place at a program's type whose coercion spawns a task is one value made when the component's class loads, as at any other place: the program runs. *)
+component XXXNumeralCoercionSpawnCompiled
+export Executable
+
+object Cell(s: String)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Cell(part("a") || part("b"))
+end
+
+part(t: String): String = t || t
+
+made(): Cell = 3
+
+run(): () = do
+  println("REACHED")
+  assert(made().s, "aabb", "the coercion's value at the place")
+  println("PASS")
+end
+
+end

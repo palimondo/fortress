@@ -26,11 +26,14 @@ import com.sun.fortress.scala_src.useful.STypesUtil._
 import com.sun.fortress.useful.Useful
 
 /**
- * A coercion of a numeral into a library number type whose constant the code
- * generator emits folds into the numeral typed at that type: an integer
- * numeral in the range of ZZ32, ZZ64, NN32 or NN64, any integer numeral into
- * ZZ, and any numeral into RR64 or RR32, which the code generator rounds once
- * from its exact value. A numeral out of range keeps its coercion call.
+ * A coercion of a folded constant into a library number type, a negative
+ * constant among them, folds into the constant typed at that type, which
+ * the code generator converts from its exact value (P-173): an integer in the
+ * range of ZZ32, ZZ64, NN32 or NN64, any integer into ZZ, and any constant
+ * into RR64 or RR32, rounded once. A numeral as written keeps its call of
+ * the type's own numeral coercion, which the code generator folds from the
+ * coercion's body (NumeralCoercionFold); only a numeral as written reaches a
+ * numeral coercion. A constant out of range keeps its coercion call.
  */
 object CoercionDesugarer {
   private val ranges = Map("ZZ32" -> (BigInt(Int.MinValue), BigInt(Int.MaxValue)),
@@ -42,7 +45,9 @@ object CoercionDesugarer {
     case tt: TraitType if tt.getArgs.isEmpty && tt.getName.getApiName.isSome &&
                           libraries(tt.getName.getApiName.unwrap.getText) =>
       val name = tt.getName.getText
-      e match {
+      val numbers = com.sun.fortress.nodes_util.NumeralNumbers.of(e)
+      if (numbers != null && numbers.kind == com.sun.fortress.nodes_util.NumeralNumbers.Kind.WRITTEN) false
+      else e match {
         case i: IntLiteralExpr =>
           val v = BigInt(i.getIntVal)
           name == "ZZ" || name == "RR64" || name == "RR32" ||

@@ -1,0 +1,124 @@
+(* The static numerals compiled: a program's types take a numeral through coercions generic over its four numbers, a negative constant through the type's own minus, one value per place, and the defaults. *)
+component NumeralStaticDesignCompiled
+export Executable
+
+tName(a: Any): String = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.typeName")
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+oneRounding(v: ZZ, r: ZZ32, m: ZZ32): RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToDouble")
+small(z: ZZ): ZZ32 = bigToZZ64(z).asZZ32
+
+value object CC64(re: RR64, im: RR64)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = CC64(oneRounding(v, small(r), 0), 0.0)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = CC64(oneRounding(v, small(r), small(m)), 0.0)
+  opr -(self): CC64 = CC64(-re, -im)
+  opr +(self, other: CC64): CC64 = CC64(re + other.re, im + other.im)
+  opr -(self, other: CC64): CC64 = CC64(re - other.re, im - other.im)
+  opr juxtaposition(self, other: CC64): CC64 = CC64(re other.re - im other.im, re other.im + im other.re)
+end
+
+i: CC64 = CC64(0.0, 1.0)
+
+value object Dec(unscaled: ZZ, scale: ZZ32)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Dec(v, small(m))
+end
+
+powZZ(b: ZZ, e: ZZ32): ZZ = if e = 0 then 1 else b powZZ(b, e - 1) end
+
+value object BF16(bits: ZZ32)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
+    den: ZZ = powZZ(r, small(m))
+    s: ZZ = v 128
+    k0: ZZ = s DIV den
+    rest: ZZ = s - k0 den
+    twice: ZZ = rest + rest
+    half: ZZ32 = small(k0) DIV 2
+    up: Boolean = if twice > den then true elif twice < den then false else NOT (half + half = small(k0)) end
+    k: ZZ32 = if up then small(k0) + 1 else small(k0) end
+    BF16(k - 128 + 16256)
+  end
+end
+
+hexDigit(d: ZZ32): String = "0123456789ABCDEF".substring(d, d + 1)
+digitsOf(v: ZZ32, r: ZZ32, n: ZZ32): String = if n = 0 then "" else do front: String = digitsOf(v DIV r, r, n - 1); last: String = hexDigit(v MOD r); front || last end end
+
+value object Written(text: String)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
+    sv: ZZ32 = small(v)
+    sr: ZZ32 = small(r)
+    sn: ZZ32 = small(n)
+    sm: ZZ32 = small(m)
+    t: String = digitsOf(sv, sr, sn)
+    w: ZZ32 = sn - sm
+    suffix: String = if sr = 10 then "" else "_" || sr.asString end
+    front: String = t.substring(0, w)
+    back: String = t.substring(w, sn)
+    Written(front || "." || back || suffix)
+  end
+end
+
+value object Tally(k: ZZ32, seen: ZZ, negated: Boolean)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(small(v), v, false)
+  opr -(self): Tally = Tally(-k, seen, true)
+end
+
+object Gen[\T\](v: ZZ32)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](small(v))
+end
+
+site(): Gen[\RR64\] = 3
+
+value object Byte(b: ZZ32)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(small(v))
+end
+
+object Cell[\T\](c: T) end
+kind(c: Cell[\ZZ32\]): String = "Cell ZZ32"
+kind(c: Any): String = "other"
+
+run(): () = do
+  c: CC64 = 3 + 4 i
+  assert(sEq(c.re, 3.0) AND sEq(c.im, 4.0), "3 + 4 i is CC64(3.0, 4.0)")
+  d: CC64 = 3.78 + 3.243 i
+  assert(sEq(d.re, 3.78) AND sEq(d.im, 3.243), "3.78 + 3.243 i is CC64(3.78, 3.243)")
+  c2: CC64 = -3 - 4 i
+  assert(sEq(c2.re, -3.0) AND sEq(c2.im, -4.0), "-3 - 4 i is CC64(-3.0, -4.0)")
+  c3: CC64 = -3.5
+  assert(sEq(c3.re, -3.5) AND sEq(c3.im, -0.0), "-3.5 at CC64 is CC64's minus on the coercion of 3.5")
+  p: Dec = 3.14159
+  assert(p.unscaled = 314159, "Dec(3.14159) has the unscaled value 314159")
+  assert(p.scale, 5, "Dec(3.14159) has the scale 5")
+  b: BF16 = 1.00390625000000000001
+  assert(b.bits, 16257, "BF16(1.00390625000000000001) rounds once, to 0x3F81")
+  b0: BF16 = 1.00390625
+  assert(b0.bits, 16256, "BF16(1.00390625), the midpoint, rounds to even, 0x3F80")
+  h: Written = C.8_16
+  assert(h.text, "C.8_16", "C.8_16 is written back from its four numbers")
+  t: Tally = -3
+  assert(t.k, -3, "-3 at Tally is Tally's minus on the coercion of 3")
+  assert(t.seen = 3, "the coercion sees the written numeral 3")
+  assert(t.negated, "Tally's own minus ran on -3")
+  z: ZZ32 = -2147483648
+  zz: ZZ32 = z + 2147483647
+  assert(zz, -1, "-2147483648 at ZZ32 folds exactly, then converts")
+  r: RR64 = -0.0
+  one: RR64 = 1.0
+  assert((one / r) < 0.0, "1/r is -Infinity for r: RR64 = -0.0")
+  assert(sEq(site(), site()), "a numeral at a program's generic type is one object per place")
+  g1: Gen[\RR64\] = 3
+  g2: Gen[\RR64\] = 3
+  assert(NOT sEq(g1, g2), "two places at a program's generic type give two objects")
+  y: Byte = 255
+  assert(y.b, 255, "255 at a byte type whose coercion holds v < 256")
+  assert(sEq(0.1_2, 0.5), "0.1_2 SEQV 0.5")
+  assert(NOT (0.1 = 0.1_16), "0.1 = 0.1_16 is false")
+  u: NN32 = 0
+  assert(u = 0, "u = 0 for u: NN32 = 0")
+  x = 3
+  assert(tName(x), "ZZ32", "x = 3 is a ZZ32")
+  assert(kind(Cell(3)), "Cell ZZ32", "Cell(3) is a Cell of ZZ32")
+  println("PASS")
+end
+
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
+end

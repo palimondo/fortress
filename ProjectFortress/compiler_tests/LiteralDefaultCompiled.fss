@@ -29,7 +29,7 @@ ee[\nat n\](e: ZZ32): ZZ32 = 1
 ee(e: Any): ZZ32 = 2
 
 object Tally(n: ZZ32)
-  coerce(lit: IntLiteral) = do t = lit; Tally(t.asZZ32) end
+  coerce[\nat n, nat r, nat v\](lit: NaturalNumeral[\n, r, v\]) = Tally(bigToZZ64(v).asZZ32)
 end
 
 x = 3
@@ -79,8 +79,10 @@ run(): () = do
   a: Any = 5
   assert(tName(a), "ZZ32", "a numeral at a binding of type Any")
   tt: Tally = 3
-  assert(tt.n, 3, "a program's coercion from IntLiteral receives the numeral")
+  assert(tt.n, 3, "a program's coercion generic over the four numbers receives the numeral")
   println("PASS")
 end
 
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

@@ -1,0 +1,14 @@
+(* A numeral has no sign: -3 at a program's type that declares no prefix minus is refused at compile time. *)
+component NumeralNegativeNoMinusCompiled
+export Executable
+
+value object Plain(k: ZZ)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Plain(v)
+end
+
+run(): () = do
+  p: Plain = -3
+  println("PASS")
+end
+
+end

@@ -158,6 +158,27 @@ abstract class STypeChecker(val current: CompilationUnitIndex,
   /** Oracle for determining coercions between types. */
   protected implicit val coercions = new CoercionOracle(traits, current)
 
+  // A negative constant at a program's own type: the type's own prefix minus,
+  // checked on a stand-in of the type, applied to the coercion's result.
+  coercions.negator = (c: Expr, u: Type) => {
+    val span = com.sun.fortress.nodes_util.NodeUtil.getSpan(c)
+    val dummy = makeDummyFor(u, span)
+    val ref = com.sun.fortress.compiler.desugarer.IntegerLiteralFoldingVisitor.prefixMinusOf(current.ast.getName.getText, span)
+    val op = if (ref == null) None
+             else Some(new OpExpr(NodeFactory.makeExprInfo(span), ref, java.util.Collections.singletonList(dummy)))
+    op.flatMap(o => STypeCheckerFactory.makeTryChecker(this).tryCheckExpr(o)).
+      filter(x => getType(x).exists(t => isSubtype(t, u))).
+      map { x =>
+        object put extends Walker {
+          override def walk(n: Any): Any = n match {
+            case _: DummyExpr => c
+            case _ => super.walk(n)
+          }
+        }
+        put(x).asInstanceOf[Expr]
+      }
+  }
+
   /**
    * This method simply creates a new instance of the class in which it is defined. We need this
    * so that subclasses will extend themselves properly. This MUST be overriden in every subclass of
@@ -438,6 +459,13 @@ abstract class STypeChecker(val current: CompilationUnitIndex,
   def defaultFits(e: Expr, p: Type): Option[Expr]
 
   /**
+   * A join whose every result is a numeral, each converted at the type t:
+   * numerals of different values have different types, so the join converts
+   * branch by branch.
+   */
+  def numeralJoinInto(e: Expr, t: Type): Option[Expr]
+
+  /**
    * A numeral written as a dotted receiver takes its default where the
    * default type has the member (Functionals).
    */
@@ -507,10 +535,12 @@ abstract class STypeChecker(val current: CompilationUnitIndex,
       case Some(typ) =>
         // Try to build a coercion of checkedExpr to the expected type, or, for
         // a numeral at a type that declares none from its own, its default.
-        coercions.buildCoercion(checkedExpr, expected).orElse(defaultFits(checkedExpr, expected)).getOrElse {
+        numeralJoinInto(checkedExpr, expected).orElse(
+        coercions.buildCoercion(checkedExpr, expected)).orElse(defaultFits(checkedExpr, expected)).getOrElse {
           msgAndLoc match {
             case Some((message, location)) =>
-              NumeralConversion.outOfRangeAt(checkedExpr, expected) match {
+              NumeralConversion.outOfRangeAt(checkedExpr, expected).orElse(
+                coercions.numeralRefusal(checkedExpr, expected).map((checkedExpr, _))) match {
                 case Some((at, range)) => signal(at, range)
                 case None =>
                   val someE = Some(expected)

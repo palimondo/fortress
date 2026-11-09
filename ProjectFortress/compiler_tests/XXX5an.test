@@ -14,10 +14,10 @@ compile_err_equals=\
 ${STATIC_TESTS_DIR}/Compiled5.an.fss:14:12-19:2:\n\
 \ Function body has type String, but declared return type is ZZ32.\n\
 ${STATIC_TESTS_DIR}/Compiled5.an.fss:15:32:\n\
-\ Right-hand side has type IntLiteral, but declared type is String.\n\
+\ Right-hand side has type NaturalNumeral[\\1,10,4\\], but declared type is String.\n\
 ${STATIC_TESTS_DIR}/Compiled5.an.fss:16:15:\n\
-\ Right-hand side has type IntLiteral, but declared type is String.\n\
+\ Right-hand side has type NaturalNumeral[\\1,10,0\\], but declared type is String.\n\
 ${STATIC_TESTS_DIR}/Compiled5.an.fss:17:28:\n\
-\ Right-hand side has type IntLiteral, but declared type is (ZZ32, String).\n\
+\ Right-hand side has type NaturalNumeral[\\1,10,3\\], but declared type is (ZZ32, String).\n\
 File Compiled5.an.fss has 4 errors.\n
 compile_out_equals=

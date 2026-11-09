@@ -9905,3 +9905,111 @@ rewritten
 rewritten
 
 | 579 | against the one library the compiled checker refuses the floor and ceiling brackets of a `ZZ32` and of a numeral as an ambiguous coercion, and types `round` of a `ZZ32` at `QQ`'s `ZZ` | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic-lib/basic-integers.tex`, "Integers" | none | climb batch 8 rung Q's skeptic and repair round | `Integral`'s body declares both brackets and `round(self)` (`Library/FortressLibrary.fss:725-727` at c124c6b65) and its api (`Library/FortressLibrary.fsi:449`) does not, so only `RR64`'s and `QQ`'s apply: "Ambiguous coercion ... (RR64 & {Float, FloatLiteral})->ZZ64; QQ->ZZ." and "Function body has type ZZ, but declared return type is ZZ32.". Repair: `Integral`'s api states the three, `IntLiteral`'s api its own three. No gated program sees it before the switch-over: `explorations/reviews/numerics-plan-coordinator/probes-B/check.sh FloorBracketCk base` and `edit3` (84aef6a4f^), 5 errors each (`explorations/compile-ladder/rung-numeral-library/REPORT.md` section 6). full text: history, row 579 |
+
+### Row 957
+
+rewritten
+
+| 957 | on the compiled path a numeral at a program's own generic type calls the program's coercion at each evaluation of its site: for `site(): Gen[\String\] = 3`, two calls of `site()` give two objects, where a numeral at a program's type is one object per site (P-174) | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNumeralCoercionGenericTypeCompiled.test` | climb batch 29 rung F's skeptic | siblings: 318. The once-per-site call takes a coercion without static arguments into a trait type without static arguments (`numeralCoercionSiteDesc`, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java`, at 5c68eb91ac); `coerce_Gen[\String\]` has one, so the call stays at the site. A site whose type names a type parameter of its generic declaration, as `m(): Gen[\T\] = 3` in `object Box[\T\]`, has no one class to hold its object. Workaround: bind the value once, at a top-level variable. |
+
+### Row 962
+
+rewritten
+
+| 962 | on the compiled path a `nat` or `int` parameter of size 2^31 or more read as a value raises `java.lang.Error`, 'Not in range for ZZ32', at run time, which no `catch` sees: `sz64[\nat k\](b: Box[\k\]): ZZ64 = k` dies at `Box[\2147483648\](0)`, since a size read as a value is a `ZZ32` (P-173, P-40) | CONTESTED | implementation gap (codegen) | `basic/trait-parameters.tex`, "Nat and Int Parameters" | none | climb batch 29 rung C | siblings: 675, 325. The code generator converts the class loader's `IntLiteral` constant by `FIntLiteral.asZZ32` (`compiler/codegen/CodeGen.java:6364` at fa13e6383c), which throws `outOfRange` (`compiler/runtimeValues/FIntLiteral.java:63-71`). Open: whether such a read is refused where the class loads, raises `IntegerOverflow`, or is not a `ZZ32`. Probe: `NatRtBigSize` before its respelling, compiled and run at 7bd7c7dfc7: '2147483647', then 'java.lang.Error: Not in range for ZZ32: 2147483648'. Workaround: read the size through its type, by dispatch on `Box[\n\]`. Walk reads such a size as a ZZ64 (F-140): sizeValue[\3000000000\]() typed ZZ64 at 1d50c6bbbf. |
+
+### Row 963
+
+rewritten
+
+| 963 | on the compiled path a numeral as a `typecase`'s selector keeps its own type `IntLiteral`, where P-173 gives it its default: `typecase 7 of ZZ32 => ...` is refused, 'The typecase clause, ZZ32, is unreachable.', where walk takes the `ZZ32` clause | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNumeralTypecaseSelector.test` | climb batch 29 rung C's skeptic | siblings: 79. The selector is checked with no expected type and no default (`scala_src/typechecker/impls/Misc.scala:660` at b212f67a0e). The default there changes two team tests: the pinned span of `XXX5r.test`'s unreachable clauses, and `XXXPatternMatchingc.test`, whose `typecase (3, 4) of (x, y: ZZ32)` becomes reachable and then stops the code generator (964). Workaround: bind the selector to a variable first. |
+
+### Row 960
+
+rewritten
+
+| 960 | a numeral with a radix point loses all but one of its leading zeros before walk reads its four numbers: `00.5`'s numeral object has 2 digits, where the Working Draft counts 3; an integer numeral keeps them, `007` has 3 | NEGATIVE-VERIFIED | implementation gap (parser) | `Specification-1.0-frozen/basic/expressions/literals.tex:110-116`, "Literals" | `ProjectFortress/tests/XXXRadixPointLeadingZerosWalk.fss` | climb batch 29 rung N's skeptic | `ExprFactory.makeFloatLiteralExpr` trims leading zeroes from the text it keeps (`ProjectFortress/src/com/sun/fortress/nodes_util/ExprFactory.java:1640-1643`), and walk counts the digits of that text (`interpreter/evaluator/values/Numerals.java`, `radixPoint`); `makeIntLiteralExpr` trims none. Only a program's coercion that reads `digits` sees it. |
+
+### Row 966
+
+rewritten
+
+| 966 | under walk, the library's `=/=` between a number and a numeral is `true` where their `=` is: `u =/= 0` for a zero `u` of `NN32`, `NN64` or `RR32`, and `q =/= 0.5` for `q: QQ = 1/2`, since `=/=` over `Any` takes the numeral at its default before it calls `=` | NEGATIVE-VERIFIED | implementation gap (library) | `basic/operators/opr-overview.tex`, "GCD, LCM, and CHOOSE Operators" | `ProjectFortress/tests/XXXNotEqualNumeral.fss` | climb batch 29 rung T | siblings: 807. `opr =/=(a:Any, b:Any) = NOT (a=b)` (`Library/FortressLibrary.fss:98` at b430f9f428) has no pair beside the `=` pairs (P-165), so `=` gets the numeral at its default (P-173), with which these types declare no `=`, and `SEQV` answers `false`. At b430f9f428 walk answers `u = 0` `false` too; rung N's pairs make it `true`. Compiled, the prelude's `opr =/=(self, other: NN32)` converts the numeral: `u =/= 0` is `false` at b430f9f428. Fix: a `=/=` beside each `=` pair, or `=/=` on each number type as `NOT (self = other)`. Workaround: `NOT (u = 0)` |
+
+### Row 513
+
+rewritten
+
+| 513 | under `walk`, a generic trait's coercion that declares its own static parameter is not applied: `fR(x: WideR[\ZZ32\])` with a `TagROf[\String\]`, where `trait WideR[\T\]` declares `coerce[\S\](x: TagR[\S\])`, is refused, "Unification error"; the compiled run converts | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Coercion Declarations" | `ProjectFortress/tests/XXXCoercionOwnStaticRungK.fss` | climb batch N rung K's second skeptic | siblings: 389. The lifted coercion's static parameters are the trait's followed by its own (`ProjectFortress/src/com/sun/fortress/compiler/desugarer/CoercionLifter.scala:151-153`); `Coercions.genericCoercionFor` skips one whose static parameters outnumber the target's (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:117`), so `coercionFor` infers from the value alone and fails. The checker fixes the leading ones from the target's arguments, the rest from the value (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala:217-220`). No declaration of the library or the tests has such a coercion. full text: history, row 513 |
+
+### Row 971
+
+rewritten
+
+| 971 | on the compiled path a numeral site's coercion that spawns a task, as `Cell(part(1) \|\| part(2))` does, fails the load of the component's class: its static initializer runs on the main thread before the task pool, `ClassCastException: Thread cannot be cast to FortressTaskRunner` | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/expressions/literals.tex`, "Literals" | none | the static numerals probe | siblings: 313, 957. `MainWrapper.main` loads the component class with `Class.forName(whatToRun, true, icl)` before `main` starts the task pool (`ProjectFortress/src/com/sun/fortress/runtimeSystem/MainWrapper.java:61-63` at dd00743d9e); `emitNumeralCoercionSites` emits each site's call in `<clinit>` (`compiler/codegen/CodeGen.java`); a spawned operand reaches `BaseTask.getCurrentTask` (`runtimeSystem/BaseTask.java:241`). Probe at dd00743d9e, `object Cell(s: String)` with `coerce(x: IntLiteral) = Cell(part(1) \|\| part(2))` and `made(): Cell = 3`: `ExceptionInInitializerError`. Workaround: bind the operands to locals first. |
+
+### Row 82
+
+rewritten
+
+| 82 | on the compiled path `spawn` yields a thread handle with no methods: `t.val()` fails with `No such method Thread[\IntLiteral\].val.` | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic/expressions/spawn.tex`, "Spawn Expressions" | none | ours | `object Thread[\T\](fcn:()->T)` is declared only in the interpreter's builtin (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:287`, `FortressBuiltin.fss:725`, at c124c6b65); neither `CompilerBuiltin` nor `CompilerLibrary` declares it. Under walk the probe prints `p32 42` (row 61). G12 of `explorations/compiled-path-gaps.md`. Probe `explorations/compiler-probes/p32.fss`, in the parent of `c69cb2064`. `Thread`'s four name `nativeHelpers/runtime` helpers (`val` over a private `valAny(): Any`), which walk answers with its glue (`NativeApp.java`, `OWN_OPERATIONS`); compiled, each raises `FailCalled` "spawn is not compiled yet" (`compiler_tests/RuntimeOwnOperationsCompiled`). |
+
+### Row 314
+
+rewritten
+
+| 314 | the compiled path's prelude lacks the specification's comparing `assert(x: Any, y: Any, failMsg: Any...)` and its `deny`, declaring them only at `ZZ32`, `String` and `Character`, so a call such as `assert(3 IN C, true, "...")` is refused: `Could not check call to function assert` | NEGATIVE-VERIFIED | implementation gap (prelude) | `library/default-libraries.tex`, "FortressLibrary" (subsection Assertions, typeset from `Library/FortressLibrary.fsi`) | none | ladder rung 4 | siblings: 604. `Library/CompilerLibrary.fsi:45-58` declare `assert` at `(ZZ32, ZZ32)` and `(String, String)`, with or without a message, and at `(Character, Character, String)`, and `deny` at the three-argument shapes; a `(Boolean, Boolean, String)` call, a pair of objects or a second message value is refused, as in the team's four `objectCC_*mutVar*` tests (`explorations/compile-ladder/baseline-2026-09-19/ladder.tsv:315-318`). The `Any` form cannot be copied: `opr ===` over `Any` compares boxes, an `Any` parameter blocks the `IntLiteral`-to-`ZZ32` coercion, and a varargs parameter's use is refused there (row 604). Workaround: `assert(3 IN C, "...")` (`:36`). full text: history, row 314 |
+
+### Row 316
+
+rewritten
+
+| 316 | the compiled path's `String` declares `\|\|`, `\|\|\|`, `//` and `juxtaposition` with `self` on the left only, so `1 \|\| "a"` is refused on the compiled path, where walk answers `1a`, and `1 "a"` meets the same one-sided form | NEGATIVE-VERIFIED | implementation gap (prelude) | `basic/operators/juxtameaning.tex`, "Juxtaposition"; `library/default-libraries.tex`, "FortressLibrary" (subsection Ranges, trait `String`, typeset from `Library/FortressLibrary.fsi`) | none | ladder rung 5 | siblings: 76. `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37-40` declare each as `opr OP(self, b:Object)`: `(String, Object)->String is not applicable to an argument of type (IntLiteral, String)`. Walk's library has top-level `opr \|\|(a:Any, b:String)` and its kin, as for `juxtaposition`. The compiled `//` puts `makeCharacter(10)` between its operands (`CompilerBuiltin.fss:407`), where walk's `newline` is `lineSeparator` (`Library/String.fss:578`). The prelude goes at the switch-over. Probe `SkCompiledLeft.fss`, never committed: `explorations/compile-ladder/rung-library-meets/SKEPTIC.md` section 5. full text: history, row 316 |
+
+### Row 442
+
+rewritten
+
+| 442 | the compiled path's prelude lacks conversions and operations the revised number chapters state: `ZZ32` and integer numerals into `RR64`, `NN32` into `ZZ64`, `RR64`'s `check`/`check_star`, `/` on `ZZ32`, `^` on `ZZ64`, shifts, `GCD` and `LCM` on `NN32`/`NN64` | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/basic-lib/numbers.tex`, "Rational Numbers"; `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/compiler_tests/XXXInferPromoteNN32.test` | climb batch 6 rung T's skeptic | siblings: 349. Closes at the switch-over (POSITIONS, "The library route."). `RR64` coerces from `FloatLiteral` and `RR32` only, `ZZ64` from `IntLiteral` and `ZZ32` only (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:433-435`, `:147-149`). `ZZ`, `ZZ64`, `NN64` lack `asRR64` and `asFloat`; `StandardTotalOrder` (`Library/CompilerAlgebra.fsi:16-22`) lacks `MIN`/`MAX`. The one library binds `NN32`'s and `NN64`'s shifts at a signed count and `ZZ64`'s `^` to new helpers that both paths run (`NativeHelperFamilyShiftPowerCompiled`). Also gated: `XXXNNShiftRungP`, `XXXNNGcdLcmRungP`, `XXXMaxNN32IntoZZ64RungM`. full text: history, row 442 |
+
+### Row 514
+
+rewritten
+
+| 514 | the compiled path has no strided range: `seq(0:10:3)` is refused by the checker, "(ZZ32, ZZ32)->Range is not applicable to an argument of type (Range, IntLiteral)", while walk runs it (4 elements) | NEGATIVE-VERIFIED | library gap vs spec (prelude) | `Specification/basic/expressions/ranges.tex`, "Ranges" | `ProjectFortress/compiler_tests/XXXStridedRangeRungT.fss` | climb batch N rung T | siblings: 661, 71, 74, 314. The compiler library declares `opr :(lo:ZZ32, hi:ZZ32)` and `opr #(lo:ZZ32, sz:ZZ32)` only (`Library/CompilerLibrary.fsi:171-172`, at c124c6b65), so `0:10:3` parses as `(0:10):3`; with a `nat` stride `0:10:n` the same. The one library declares the strided `:` at `Range[\ZZ32\]`, which is no generator, so the checker refuses `seq(a:b:c)` against it too (row 661). The test is a `compile` `.test` pinned by `compile_err_contains`. Workaround: a `#` or `:` range and a stride computed in the body. full text: history, row 514 |
+
+### Row 652
+
+rewritten
+
+| 652 | keyword parameters are built on neither path: the compiled checker reads a keyword parameter as a positional one, so a call that leaves out its argument is refused, and refuses one written without a type; walk stops on such a call | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/functions.tex`, "Function Declarations" | `ProjectFortress/compiler_tests/XXXKeywordParamOmitted.test` | climb batch 11 rung C | siblings: 405. `k(x: ZZ32, y: ZZ32 = 3)` called as `k(4)`: compiled, 'Could not check call to function k - (ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type IntLiteral.'; with `y = 3`, 'Missing parameter type for y' (`STypeEnv.scala:199-200`), where `functions.tex:171-172` takes the type of the default expression; walk, 'InterpreterBug ... The number of parameters (2) does not match with the number of arguments (1).' The chapter's draft note says keyword parameters are not supported yet. |
+
+### Row 691
+
+rewritten
+
+| 691 | the compiled checker accepts a call of a generic function with more arguments than parameters and the code drops the extra ones: `g(a, a, a, a)` for `g[\T\](a: K, b: K, c: K)` runs `g(a, a, a)`; a tight juxtaposition `a(b)(c)(d)` runs a generic ternary `opr juxtaposition` on `a`, `b`, `c` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/expressions/function-calls.tex`, "Function Calls" | none | climb batch 13 rung V's skeptic | Under the bound `Any`, `q = id((3, 4))` for `id[\T\](x: T): T` binds the pair and `q + 1` is refused, '(ZZ32, ZZ32)->ZZ32 is not applicable to an argument of type ((IntLiteral, IntLiteral), IntLiteral)', where `Object` ran `id(3)`; with `T extends Object` written, `idO((z, w))` still runs `idO(z)` (`compile-ladder/rung-bound-any/SKEPTIC.md`). A non-generic `g(a: K, b: K, c: K)` is refused. Measured on a1a75716a: `g` returning `900 + 100 a.i + 10 b.i + c.i`, `a.i = 1`, prints `1011`; `(a(b)(c)(d)).i` prints `1023`, where binary applications give `1234`. Walk stops: '** bug! The number of parameters (3) does not match with the number of arguments (4).' Not traced. full text: history, row 691 |
+
+### Row 769
+
+rewritten
+
+| 769 | the compiled export check refuses an exported function satisfied by a set of declarations: `pick(q: Q): ZZ32` with `trait Q comprises { R1, R2 }`, met by `pick(r: R1): ZZ32` and `pick(r: R2): ZZ32`, is refused, 'does not define all declarations', where walk runs the program | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/components/source-code.tex`, "Export Statements" | `ProjectFortress/compiler_tests/XXXExportSetOfDeclarations.test` | climb batch 17 rung C's skeptic | siblings: 834, 835. `existsMatching` asks of each api declaration one component declaration with an equal header (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/ExportChecker.scala:431-437`, `:290` at c124c6b65); the text asks a set the union of whose parameter types is the exported one's (`source-code.tex:356-361`), and the union of R1 and R2 is Q (`basic/types-vals-vars.tex`, "Intersection and Union Types"). A left-out return type is taken only from the api declaration of the function's own parameter types, so a member of such a set that leaves its return type out takes none (its body's type, IntLiteral, measured). Workaround: export `pick(q: Q)` itself. |
+
+### Row 694
+
+rewritten
+
+| 694 | the compiled checker's choice for a dotted call whose numeral arguments need a coercion keeps a declaration that the receiver's `override` overrides: with object `B`'s `override f(x: Number, y: ZZ32)` over trait `A`'s `f(x: ZZ32, y: ZZ32)`, `B.f(3, 4)` is refused as an ambiguous coercion | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/traits.tex`, "Method Declarations" | none | climb batch 13 rung W's skeptic | siblings: 391, 610, 650, 653. `bin/fortress typecheck` at c124c6b65, rc=255: 'Ambiguous coercion in method invocation B.f: of the declarations applicable to an argument of type (IntLiteral, IntLiteral) only by coercion, none is more specific than every other: (ZZ32, ZZ32)->String; (Number, ZZ32)->String.', the same message as without `override` on a1a75716a. There, with `ZZ32` arguments the override drops `A`'s `f`: `f(x: ZZ32, y: ZZ32): Any` beside `override f(x: Number, y: ZZ32): String` and `s: String = B.f(z, z)` check (without `override`, 'Invalid overloading of f in trait B'). Walk prints `B`. A `typecheck` test needs no code generator, so row 650 does not stop a reproducer. |
+
+### Row 959
+
+rewritten
+
+| 959 | on both paths a `typecase` arm that names a type no declaration defines loads, compiles and matches every value: with no `IntLiteral` declared, `typecase v of IntLiteral => ... ZZ32 => ... end` takes the first arm for a `ZZ32` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/expressions/typecase.tex`, "Typecase Expressions" | `ProjectFortress/tests/XXXTypecaseUndefinedArmWalk.fss` | climb batch 29 rung N | The parser makes the arm `Id =>` a `VarType` (`parser/DelimitedExpr.rats:241-248`), and no phase of either path reports the undefined name: the compiled path on the base compiles and runs the test's program, 'the undefined arm', 'PASS'. Met when `IntLiteral` left the one library: `tests/IntegerConversionsWalk.fss`'s `shown` printed '-2147483648 : IntLiteral' for the `ZZ32` -2^31 ('FAIL: J24/0:-2147483648 : IntLiteral =/= J18/0:-2147483648 : ZZ32'), and `tests/IntegerPowerContractWalk.fss` '1 : IntLiteral' for a `ZZ32` 1, until the arms were removed. A type name elsewhere, as `theType[\IntLiteral\]()`, is refused: 'IntLiteral is undefined.' |
+
+### Row 581
+
+rewritten
+
+| 581 | under the compiled checker over the one library, `(3).minimum` and `(3).maximum` are refused, "IntLiteral has no getter called minimum" | NEGATIVE-VERIFIED | library gap vs spec (library) | silent | none | climb batch 8 rung Q's second skeptic | They are `ZZ32`'s getters (`Library/FortressLibrary.fsi:542-543`, at de6d905f5), which a numeral reached as a `ZZ32` before rung Q; neither the one library's `IntLiteral` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:179`) nor the compiler library's (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:390-431`) declares them. The open question is whether a numeral has range bounds at all, which its own type, being unbounded, suggests it has not. The probe `SkqR2f` was never committed; its run, rung Q's check of `base` (0 errors) against `edit3` (2 errors), is at `explorations/compile-ladder/rung-numeral-library/SKEPTIC.md:100`. full text: history, row 581 |

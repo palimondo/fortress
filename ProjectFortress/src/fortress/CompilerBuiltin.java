@@ -15,26 +15,6 @@ import com.sun.fortress.compiler.runtimeValues.FValue;
 import com.sun.fortress.compiler.runtimeValues.RTTI;
 
 public class CompilerBuiltin {
-    public static interface IntLiteral extends fortress.CompilerBuiltin.Object {
-        public static class RTTIc extends RTTI{
-            public RTTIc(Class javaRep) {
-                super(javaRep);
-            }
-            public static RTTI ONLY;
-        }
-        public static abstract class DefaultTraitMethods extends FValue implements IntLiteral {}
-    }
-
-    public static interface FloatLiteral extends fortress.CompilerBuiltin.Object {
-        public static class RTTIc extends RTTI{
-            public RTTIc(Class javaRep) {
-                super(javaRep);
-            }
-            public static RTTI ONLY;
-        }
-        public static abstract class DefaultTraitMethods extends FValue implements FloatLiteral {}
-    }
-
     public static interface ZZ extends fortress.CompilerBuiltin.Number {
         public static class RTTIc extends RTTI{
             public RTTIc(Class javaRep) {

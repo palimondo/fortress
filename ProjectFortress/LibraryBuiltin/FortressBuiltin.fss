@@ -211,8 +211,8 @@ private numeralRR32(v: ZZ, r: ZZ32, m: ZZ32): RR32 =
 
 value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
-    coerce(x: NaturalNumeral) = numeralRR32(x.digitValue, x.radix, 0)
-    coerce(x: RadixPointNumeral) = numeralRR32(x.digitValue, x.radix, x.fractionDigits)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = numeralRR32(v, r.asZZ32, 0)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = numeralRR32(v, r.asZZ32, m.asZZ32)
     getter zero(): RR32 = narrow(0.0)
     getter one(): RR32 = narrow(1.0)
     getter asString(): String =
@@ -255,8 +255,6 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
     opr =(self, b:RR32):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatEQ")
     opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
-    opr =(self, b:NaturalNumeral):Boolean = do c: RR32 = b; (self = c) end
-    opr =(self, b:RadixPointNumeral):Boolean = do c: RR32 = b; (self = c) end
     opr =/=(self, b:RR32):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatNE")
     opr <(self, b:RR32):Boolean =
@@ -427,7 +425,7 @@ private exponentNN32(b:AnyIntegral):ZZ32 =
     end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
-    coerce(x: NaturalNumeral) = x.digitValue.asNN32
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asNN32
     getter zero(): Number = unsigned(0)
     getter one(): Number = unsigned(1)
     getter asString(): String =
@@ -450,7 +448,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr |self| : NN32 = self
     opr =(self, b:NN32):Boolean =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntEQ")
-    opr =(self, b:NaturalNumeral):Boolean = do c: NN32 = b; (self = c) end
     opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
     opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
     opr =(self, b:ZZ64):Boolean = do c: ZZ64 = self; (c = b) end
@@ -520,7 +517,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr ^(self, b:ZZ32):NN32 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntPower")
     opr ^(self, b:AnyIntegral):NN32 = self^(exponentNN32(b))
-    opr ^(self, b:NaturalNumeral):NN32 = self^(b.digitValue.asZZ32)
     widen(self):NN64 =
         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.toLong")
     partitionL(self):NN32 =

@@ -1,9 +1,9 @@
 (* A numeral at a program's own generic type is one object for its site, as at a type without static parameters: the program's coercion from the numeral type runs once for the site. *)
-component XXXNumeralCoercionGenericTypeCompiled
+component NumeralCoercionGenericTypeCompiled
 export Executable
 
 object Gen[\T extends Object\](v: ZZ32)
-  coerce(x: IntLiteral) = Gen[\T\](x)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](bigToZZ64(v).asZZ32)
 end
 
 sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
@@ -16,4 +16,6 @@ run(): () = do
   println("PASS")
 end
 
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

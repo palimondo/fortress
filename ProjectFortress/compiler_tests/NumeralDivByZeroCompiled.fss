@@ -1,5 +1,5 @@
 (* On the compiled path, DIV of two numerals by zero raises DivisionByZero; opr-overview.tex, subsection "Multiplication, Division, Modulo, and Remainder Operators". *)
-component XXXNumeralDivByZeroCompiled
+component NumeralDivByZeroCompiled
 export Executable
 
 run(): () = do

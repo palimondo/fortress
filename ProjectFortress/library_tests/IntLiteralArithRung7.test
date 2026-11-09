@@ -1,4 +1,0 @@
-tests=IntLiteralArithRung7
-link
-run
-run_out_WIcontains=PASS

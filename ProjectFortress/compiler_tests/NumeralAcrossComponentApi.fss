@@ -1,0 +1,14 @@
+(* The component of the api NumeralAcrossComponentApi: the coercion calls a function that the component does not export. *)
+component NumeralAcrossComponentApi
+export NumeralAcrossComponentApi
+
+object Wide(z: ZZ)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
+        println("wide")
+        Wide(kept(v))
+    end
+end
+
+kept(z: ZZ): ZZ = z
+
+end

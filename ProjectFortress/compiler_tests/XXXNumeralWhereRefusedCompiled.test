@@ -1,0 +1,3 @@
+tests=NumeralWhereRefusedCompiled
+compile
+compile_err_contains=The numeral 300 does not meet the where clause of the coercion to Byte.

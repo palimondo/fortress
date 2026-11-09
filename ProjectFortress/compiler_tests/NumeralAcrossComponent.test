@@ -1,0 +1,4 @@
+tests=NumeralAcrossComponent
+link
+run
+run_out_equals=wide\nwide\nwide\nstart\n3\n4\n123456789012345678901234567890\nPASS\n

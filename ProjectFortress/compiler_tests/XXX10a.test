@@ -12,10 +12,10 @@ STATIC_TESTS_DIR=${FORTRESS_AUTOHOME}/ProjectFortress/compiler_tests
 compile
 compile_err_equals=\
 ${STATIC_TESTS_DIR}/Compiled10.a.fss:14:9-16:\n\
-\ do-also expression has type IntLiteral, but it must have () type.\n\
+\ do-also expression has type NaturalNumeral[\\1,10,3\\], but it must have () type.\n\
 ${STATIC_TESTS_DIR}/Compiled10.a.fss:14:9-25:\n\
-\ Function body has type IntLiteral, but declared return type is ().\n\
+\ Function body has type OR(NaturalNumeral[\\1,10,3\\],NaturalNumeral[\\1,10,5\\]), but declared return type is ().\n\
 ${STATIC_TESTS_DIR}/Compiled10.a.fss:14:19-25:\n\
-\ do-also expression has type IntLiteral, but it must have () type.\n\
+\ do-also expression has type NaturalNumeral[\\1,10,5\\], but it must have () type.\n\
 File Compiled10.a.fss has 3 errors.\n
 compile_out_equals=

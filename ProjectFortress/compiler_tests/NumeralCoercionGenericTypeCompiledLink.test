@@ -1,2 +1,2 @@
-tests=XXXNumeralCoercionGenericTypeCompiled
+tests=NumeralCoercionGenericTypeCompiled
 link

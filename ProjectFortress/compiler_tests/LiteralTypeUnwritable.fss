@@ -1,21 +1,23 @@
-(* A numeral type is written in a program only as a parameter's type: as a field's, variable's or return type, or as a static argument, it is refused, and a binding inferred inside a coercion's body is not. *)
+(* A numeral type is written in a program only as a parameter's type: as a field's, variable's or return type, or as a static argument, it is refused, and a coercion generic over the four numbers is not. *)
 component LiteralTypeUnwritable
 export Executable
 
-object Holder(h: IntLiteral) end
-echo(x: FloatLiteral): String = "echo"
-first(x: ZZ32): FloatLiteral = 0.5
+object Holder(h: NaturalNumeral[\1, 10, 5\]) end
+echo(x: RadixPointNumeral[\2, 1, 10, 5\]): String = "echo"
+first(x: ZZ32): RadixPointNumeral[\2, 1, 10, 5\] = 0.5
 object Wrap[\T\](w: T) end
 object Tally(n: ZZ32)
-  coerce(x: IntLiteral) = do t = x; Tally(t.asZZ32) end
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(bigToZZ64(v).asZZ32)
 end
 
 run(): () = do
-  a: IntLiteral = 5
-  b: FloatLiteral = 0.5
-  c = Wrap[\IntLiteral\](3)
+  a: NaturalNumeral[\1, 10, 5\] = 5
+  b: RadixPointNumeral[\2, 1, 10, 5\] = 0.5
+  c = Wrap[\NaturalNumeral[\1, 10, 3\]\](3)
   d: Tally = 3
   println("PASS")
 end
 
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

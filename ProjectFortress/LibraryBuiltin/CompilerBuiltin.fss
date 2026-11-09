@@ -198,7 +198,9 @@ import java com.sun.fortress.nativeHelpers.{simpleLongArith.longToString => jLon
                                             simpleLongArith.longBitLeftShift => jLongBitLeftShift,
                                             simpleLongArith.longBitRightShift => jLongBitRightShift,
                                             simpleLongArith.longShift => jLongShift}
-import java com.sun.fortress.nativeHelpers.{simpleDoubleArith.floatToDouble => jFloatToDouble,
+import java com.sun.fortress.nativeHelpers.{simpleDoubleArith.numeralToDouble => jNumeralToDouble,
+                                            simpleDoubleArith.numeralToFloat => jNumeralToFloat,
+                                            simpleDoubleArith.floatToDouble => jFloatToDouble,
                                             simpleDoubleArith.doubleToString => jDoubleToString,
                                             simpleDoubleArith.doubleAdd => jDoubleAdd,
                                             simpleDoubleArith.doubleSub => jDoubleSub,
@@ -332,16 +334,13 @@ import java com.sun.fortress.nativeHelpers.{simpleArbitraryPrecisionArith.parse 
                                             simpleArbitraryPrecisionArith.xor => jAPXor,
                                             simpleArbitraryPrecisionArith.shiftLeft => jAPShiftLeft,
                                             simpleArbitraryPrecisionArith.ZZtoBI => ZZtoBI,
+                                            simpleArbitraryPrecisionArith.bigOverflowingToLong => jBigToZZ64,
+                                            simpleArbitraryPrecisionArith.bigOverflowingToUnsignedLong => jBigToUnsignedZZ64,
                                             simpleArbitraryPrecisionArith.BItoZZ => BItoZZ,
                                             simpleArbitraryPrecisionArith.makeZZfromZZ32 => jMakeZZfromZZ32,
                                             simpleArbitraryPrecisionArith.makeZZfromZZ64 => jMakeZZfromZZ64,
                                             simpleArbitraryPrecisionArith.makeZZfromNN32 => jMakeZZfromNN32,
                                             simpleArbitraryPrecisionArith.makeZZfromNN64 => jMakeZZfromNN64
-                                            }
-import java com.sun.fortress.nativeHelpers.{simpleIntLiteralArith.add => jIntLiteralAdd,
-                                            simpleIntLiteralArith.sub => jIntLiteralSub,
-                                            simpleIntLiteralArith.mul => jIntLiteralMul,
-                                            simpleIntLiteralArith.neg => jIntLiteralNeg
                                             }
                                        
 import AnyType.{Any}
@@ -514,8 +513,8 @@ value object Infinity extends Number end
 value object NegativeInfinity extends Number end
 value object IndefiniteNumber extends Number end
 
-trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, NN64, IntLiteral }
-    coerce(x: IntLiteral) = x.asZZ
+trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, NN64 }
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
     coerce(x: ZZ32) = x.asZZ
     coerce(x: ZZ64) = x.asZZ
     coerce(x: NN32) = x.asZZ
@@ -556,16 +555,16 @@ trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, N
       if 0 < other < self then
         var result: ZZ := self
         var n: ZZ := self
-        var k: ZZ := (1).asZZ
+        var k: ZZ := jMakeZZfromZZ32(1)
         limit = other MIN (self - other)
         while k < limit do
-          n -= (1).asZZ
-          k += (1).asZZ
+          n -= jMakeZZfromZZ32(1)
+          k += jMakeZZfromZZ32(1)
           result := (result TIMES n) DIV k
         end
         result
-      elif ((other = 0) OR (other = self)) AND (self >= 0) then (1).asZZ
-      else (0).asZZ
+      elif ((other = 0) OR (other = self)) AND (self >= 0) then jMakeZZfromZZ32(1)
+      else jMakeZZfromZZ32(0)
       end
     even(self): Boolean = ((self BITAND 1) = 0)
     odd(self): Boolean = NOT (even self)
@@ -576,7 +575,7 @@ trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, N
 end
 
 trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
-    coerce(x: IntLiteral) = x.asZZ64
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jBigToZZ64(v)
     coerce(x: ZZ32) = jIntToLong(x)
     getter asZZ32(): ZZ32 = jLongOverflowingToInt(self)
     getter asZZ(): ZZ = jMakeZZfromZZ64(self)
@@ -661,7 +660,7 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
 end
 
 trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excludes { ZZ64, RR32, RR64 }
-    coerce(x: IntLiteral) = x.asZZ32
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jBigToZZ64(v).asZZ32
     getter asZZ32(): ZZ32 = self
     getter asZZ64(): ZZ32 = self
     getter asZZ(): ZZ = jMakeZZfromZZ32(self)
@@ -744,15 +743,15 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
     opr ^(self, other:ZZ32):ZZ32 = jIntExp(self, other)
     asRR64(): RR64 = jIntToDouble(self)
     (*) `floorAverage` computes `|\ (self+other)/2 /|` efficiently and without overflow.
-    floorAverage(self, other: ZZ32): ZZ32 = (self BITAND other) + ((self BITXOR other) >> (1).asZZ32)
+    floorAverage(self, other: ZZ32): ZZ32 = do one: ZZ32 = 1; (self BITAND other) + ((self BITXOR other) >> one) end
     (*) `ceilingAverage` computes `|/ (self+other)/2 \|` efficiently and without overflow.
-    ceilingAverage(self, other: ZZ32): ZZ32 = (self BITOR other) - ((self BITXOR other) >> (1).asZZ32)
+    ceilingAverage(self, other: ZZ32): ZZ32 = do one: ZZ32 = 1; (self BITOR other) - ((self BITXOR other) >> one) end
     widen(self): ZZ64 = jIntToLong(self)
     unsigned(self): NN32 = jMakeNN32FromZZ32(self)
 end
 
 trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR64 }
-    coerce(x: IntLiteral) = x.asNN32
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = narrow(jMakeNN64FromZZ64(jBigToZZ64(v)))
     getter asNN32(): NN32 = self
     getter asZZ(): ZZ = jMakeZZfromNN32(jMakeZZ32FromNN32(self))
     getter bitsAsZZ32(): ZZ32 = jMakeZZ32FromNN32(self)
@@ -809,15 +808,15 @@ trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR6
     opr ^(self, other:NN32):NN32 = jMakeNN32FromZZ32(jUnsignedIntExp(jMakeZZ32FromNN32(self), jMakeZZ32FromNN32(other)))
     asRR64(): RR64 = jUnsignedIntToDouble(jMakeZZ32FromNN32(self))
     (*) `floorAverage` computes `|\ (self+other)/2 /|` efficiently and without overflow.
-    floorAverage(self, other: NN32): NN32 = (self BITAND other) + ((self BITXOR other) >> (1).asNN32)
+    floorAverage(self, other: NN32): NN32 = do one: NN32 = 1; (self BITAND other) + ((self BITXOR other) >> one) end
     (*) `ceilingAverage` computes `|/ (self+other)/2 \|` efficiently and without overflow.
-    ceilingAverage(self, other: NN32): NN32 = (self BITOR other) - ((self BITXOR other) >> (1).asNN32)
+    ceilingAverage(self, other: NN32): NN32 = do one: NN32 = 1; (self BITOR other) - ((self BITXOR other) >> one) end
     widen(self): NN64 = jMakeNN64FromZZ64(jUnsignedIntToLong(jMakeZZ32FromNN32(self)))
     signed(self): ZZ32 = jMakeZZ32FromNN32(self)
 end
 
-trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR64, NN32, ZZ, IntLiteral }
-    coerce(x: IntLiteral) = x.asNN64
+trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR64, NN32, ZZ }
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = jMakeNN64FromZZ64(jBigToUnsignedZZ64(v))
     coerce(x: NN32) = jMakeNN64FromZZ64(jUnsignedIntToLong(jMakeZZ32FromNN32(x)))
     getter asNN64(): NN64 = self
     getter asZZ(): ZZ = jMakeZZfromNN64(jMakeZZ64FromNN64(self))
@@ -880,56 +879,19 @@ trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR6
     signed(self): ZZ64 = jMakeZZ64FromNN64(self)
 end
 
-trait IntLiteral extends { Number, Equality[\IntLiteral\] } excludes {ZZ32, ZZ64, NN32, RR64, RR32, Character, Boolean, String, NN64, ZZ}
-    getter asString(): String = self.asZZ32.asString
-    getter asZZ(): ZZ   
-    getter asZZ32(): ZZ32
-    getter asZZ64(): ZZ64
-    getter asNN32(): NN32
-    getter asNN64(): NN64
-(*
-    getter asZZ(): ZZ
-    getter asRR32(): RR32
-*)
-    getter asRR64(): RR64
 
-    opr |self| : IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr -(self): IntLiteral = jIntLiteralNeg(self)
-    opr BOXMINUS(self): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr DOTMINUS(self): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr +(self, other:IntLiteral): IntLiteral = jIntLiteralAdd(self, other)
-    opr BOXPLUS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr DOTPLUS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr -(self, other:IntLiteral): IntLiteral = jIntLiteralSub(self, other)
-    opr BOXMINUS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr DOTMINUS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr DOT(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr BOXDOT(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr CROSS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr BOXCROSS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr DOTCROSS(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr DIV(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr <(self, other:IntLiteral): Boolean = self.asZZ64 < other.asZZ64
-    opr <=(self, other:IntLiteral): Boolean = self.asZZ64 <= other.asZZ64
-    opr >(self, other:IntLiteral): Boolean = self.asZZ64 > other.asZZ64
-    opr >=(self, other:IntLiteral): Boolean = self.asZZ64 >= other.asZZ64
-    opr =(self, other:IntLiteral): Boolean = self.asZZ64 = other.asZZ64
-    opr =/=(self, other:IntLiteral): Boolean = self.asZZ64 =/= other.asZZ64
-    opr juxtaposition(self, other:IntLiteral): IntLiteral = jIntLiteralMul(self, other)
-    opr BITNOT(self): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr BITAND(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr BITOR(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr BITXOR(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    opr MIN(self, other:IntLiteral): IntLiteral = if self <= other then self else other end
-    opr MAX(self, other:IntLiteral): IntLiteral = if self <= other then other else self end
-    opr MINMAX(self, other:IntLiteral): (IntLiteral, IntLiteral) = throw CompilerFailureDetectedAtRunTime
-    opr CHOOSE(self, other:IntLiteral): IntLiteral = throw CompilerFailureDetectedAtRunTime
-    even(self): Boolean = throw CompilerFailureDetectedAtRunTime
-    odd(self): Boolean = throw CompilerFailureDetectedAtRunTime
-end
+(* A numeral's own type, which exists only at compile time: its four numbers, the digit count n, the
+   digits after the radix point m, the radix r and the digits read as one integer v, are static
+   parameters, which a number type's coercion reads as exact integers. *)
+trait Numeral extends Number excludes { ZZ, ZZ32, ZZ64, NN32, NN64, RR32, RR64 } end
+trait AnyNaturalNumeral extends Numeral excludes { AnyRadixPointNumeral } end
+trait AnyRadixPointNumeral extends Numeral end
+trait NaturalNumeral[\nat n, nat r, nat v\] extends AnyNaturalNumeral end
+trait RadixPointNumeral[\nat n, nat m, nat r, nat v\] extends AnyRadixPointNumeral end
+
 
 trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
-    coerce(x: FloatLiteral) = x.asRR64
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToDouble(v, jBigToZZ64(r).asZZ32, jBigToZZ64(m).asZZ32)
     coerce(x: RR32) = jFloatToDouble(x)
     getter asString(): String = jDoubleToString(self)
     getter isNaN(): Boolean = NOT (self = self)
@@ -990,13 +952,9 @@ trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
 end
 
 trait RR32 extends { Number, Equality[\RR32\] } excludes { ZZ64, ZZ32, RR64 }
-    coerce(x: FloatLiteral) = x.asRR32
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = jNumeralToFloat(v, jBigToZZ64(r).asZZ32, jBigToZZ64(m).asZZ32)
 end
 
-trait FloatLiteral excludes {RR32, RR64}
-    getter asRR32(): RR32
-    getter asRR64(): RR64
-end
 
 trait Boolean 
 (*)    extends { Equality[\Boolean\] }

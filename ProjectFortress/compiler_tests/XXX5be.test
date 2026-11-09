@@ -12,6 +12,6 @@ STATIC_TESTS_DIR=${FORTRESS_AUTOHOME}/ProjectFortress/compiler_tests
 compile
 compile_err_equals=\
 ${STATIC_TESTS_DIR}/Compiled5.be.fss:15:5-24:\n\
-\ No such method (IntLiteral, IntLiteral, IntLiteral, IntLiteral).something.\n\
+\ No such method (NaturalNumeral[\\1,10,1\\], NaturalNumeral[\\1,10,2\\], NaturalNumeral[\\1,10,3\\], NaturalNumeral[\\1,10,4\\]).something.\n\
 File Compiled5.be.fss has 1 error.\n
 compile_out_equals=

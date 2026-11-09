@@ -1,0 +1,14 @@
+(* Only a written numeral reaches a coercion from the numeral types: 2 + 3 at a type with no coercion from ZZ32 is refused at compile time. *)
+component NumeralStaticExprRefusedCompiled
+export Executable
+
+value object Plain(k: ZZ)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Plain(v)
+end
+
+run(): () = do
+  p: Plain = 2 + 3
+  println("PASS")
+end
+
+end

@@ -1,10 +1,10 @@
-(* A program's generic type receives a numeral through its coercion from the numeral type, at each instance. *)
+(* A program's generic type receives a numeral through its coercion generic over the four numbers, at each instance. *)
 component NumeralGenericOwnTypeWalk
 export Executable
 
 value object Tagged[\T\](v: ZZ, point: Boolean)
-    coerce(x: NaturalNumeral) = Tagged[\T\](x.digitValue, false)
-    coerce(x: RadixPointNumeral) = Tagged[\T\](x.digitValue, true)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tagged[\T\](v, false)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Tagged[\T\](v, true)
 end
 
 run(): () = do

@@ -3,8 +3,8 @@ component NumeralAtReturnWalk
 export Executable
 
 object Digit(d: ZZ)
-    coerce(x: NaturalNumeral) =
-        if x.digitValue > big(9) then throw FailCalled("not a digit") else Digit(x.digitValue) end
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) =
+        if v > big(9) then throw FailCalled("not a digit") else Digit(v) end
 end
 
 half(): QQ = 0.5

@@ -1,4 +1,0 @@
-tests=IntLiteralRung6
-link
-run
-run_out_WIcontains=PASS

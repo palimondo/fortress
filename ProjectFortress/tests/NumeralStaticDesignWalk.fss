@@ -1,0 +1,85 @@
+(* The static numerals: a negative constant through the type's own minus, a generic program type, a static expression through a coercion from QQ, the defaults, and no numeral value at run time. *)
+component NumeralStaticDesignWalk
+import Reflect.{ typeOf }
+export Executable
+
+oneRounding(v: ZZ, r: ZZ32, m: ZZ32): RR64 =
+    builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToDouble")
+
+value object CC64(re: RR64, im: RR64)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = CC64(oneRounding(v, r.asZZ32, 0), 0.0)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) =
+        CC64(oneRounding(v, r.asZZ32, m.asZZ32), 0.0)
+    opr -(self): CC64 = CC64(-re, -im)
+    opr +(self, other: CC64): CC64 = CC64(re + other.re, im + other.im)
+    opr -(self, other: CC64): CC64 = CC64(re - other.re, im - other.im)
+    opr juxtaposition(self, other: CC64): CC64 =
+        CC64(re other.re - im other.im, re other.im + im other.re)
+end
+
+i: CC64 = CC64(0.0, 1.0)
+
+value object Tally(k: ZZ32, seen: ZZ, negated: Boolean)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(v.asZZ32, v, false)
+    opr -(self): Tally = Tally(-k, seen, true)
+end
+
+object Gen[\T\](v: ZZ)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Gen[\T\](v)
+end
+
+site(): Gen[\RR64\] = 3
+
+value object Half(lo: QQ)
+    coerce(q: QQ) = Half(q)
+end
+
+object Cell[\T\](c: T) end
+
+value object Byte(b: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v.asZZ32)
+end
+
+isZZ32(a: Any): Boolean = typecase a of ZZ32 => true; else => false end
+isCellZZ32(a: Any): Boolean = typecase a of Cell[\ZZ32\] => true; else => false end
+
+run(): () = do
+    t: Tally = -3
+    assert(t.k, -3, "-3 at Tally is Tally's minus on the coercion of 3")
+    assert(t.seen, big(3), "the coercion sees the written numeral 3, without its sign")
+    assert(t.negated, "Tally's own minus ran on -3")
+    c: CC64 = -3 - 4 i
+    assert(c.re SEQV -3.0, "-3 - 4 i has the real part -3.0")
+    assert(c.im SEQV -4.0, "-3 - 4 i has the imaginary part -4.0")
+    c3: CC64 = -3.5
+    assert((c3.re SEQV -3.5) AND (c3.im SEQV -0.0), "-3.5 at CC64 is CC64's minus on the coercion of 3.5")
+    z: ZZ32 = -2147483648
+    assert(z + 2147483647, -1, "-2147483648 at ZZ32 folds exactly, then converts")
+    r: RR64 = -0.0
+    assert(r.rawBits, -9223372036854775808, "-0.0 at RR64 is IEEE's negative zero")
+    assert((1/r).isInfinite AND (1/r) < 0, "1/r is -Infinity for r: RR64 = -0.0")
+    assert(site() SEQV site(), "a numeral at a program's generic type is one object per place")
+    g1: Gen[\RR64\] = 3
+    g2: Gen[\RR64\] = 3
+    assert(NOT (g1 SEQV g2), "two places at a program's generic type give two objects")
+    assert(g1.v, big(3), "g: Gen of RR64 = 3 sees the value 3")
+    h: Half = 10/20
+    assert(h.lo = 1/2, "10/20 at a type with a coercion from QQ reaches it as the QQ 1/2")
+    assert(0.1_2 SEQV 0.5, "0.1_2 SEQV 0.5")
+    assert(NOT (0.1 = 0.1_16), "0.1 = 0.1_16 is false")
+    q: QQ = 0.1
+    assert(numerator(q), big(1), "q: QQ = 0.1 is exactly 1/10")
+    assert(denominator(q), big(10), "q: QQ = 0.1 is exactly 1/10")
+    f: RR64 = 0.1
+    assert(f.rawBits, 4591870180066957722, "f: RR64 = 0.1 rounds once")
+    y: Byte = 255
+    assert(y.b, 255, "255 at a byte type whose coercion holds v < 256")
+    x = 3
+    assert(isZZ32(x), "x = 3 is a ZZ32")
+    assert(isCellZZ32(Cell(3)), "Cell(3) is a Cell of ZZ32")
+    assert(typeOf(3).asString, "ZZ32", "typeOf(3) shows no numeral type")
+    assert(typeOf(0.5).asString, "RR64", "typeOf(0.5) shows no numeral type")
+    println "PASS"
+  end
+
+end

@@ -141,6 +141,10 @@ Before the next batch, raised by climb batch 29's post-batch review (`reviews/ba
 
 76. His aim of 15:0x, that the two implementations do the same thing, is met where both paths can show it today, but nine differences that climb batch 29's record did not plan stand, each with its row (957, 958, 961 and 968, 962, 963, 966, 967, 362 and 446): one small batch next for those that both paths can test today, before the natives' remainder; all of them with the names batch; or each at its row? No default on record; the review recommends the small batch. Review-queue item 449.
 
+Before the switch-over, raised by climb batch 29b's rungs (`compile-ladder/climb-batch-29b/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`"):
+
+77. A.worker.1 and A.skeptic.1 of climb batch 29b's rung A, the static numerals probe's question 1 (row 973, CONTESTED): with the field numerals' `=` pairs gone, `u = 0`, `0 = u` and `f = 0` for a zero `u` of `NN32` or `NN64` and `f` of `RR32` are `false` under walk, since the numeral's default `ZZ32` fits the library's `=` over `Any` as it is and walk keeps a declaration that fits as it is, while the compiled path answers `true`, its prelude having no `=` over `Any`. Ways: (a) a numeral reaches a more specific declaration by its conversion first, (b) `false`, (c) the pairs kept. Default: the probe's state, as landed, walk's answer pinned by `ProjectFortress/tests/XXXNumeralEqualsNumberWalk.fss:9-13`. Evidence: `explorations/compile-ladder/plan-30/probes/draft-numerals.md:211-216`.
+
 Before the switch-over:
 
 12. The dead sizes' diff: the 9 unused sizes (F-35, the api's 9 declarations with a dead size) and row 41 (the linker lookup) come with the switch-over's design. Review-queue item 36.
@@ -744,6 +748,12 @@ The items for him that climb batch 29 (`coordinator/CLIMB-BATCH-29.md`, rungs F,
 - The record's forks, taken at their defaults (`coordinator/CLIMB-BATCH-29.md`, section 3, "Forks the batch takes"): those of the whole batch, 1 to 8, and those of rungs N, C, F, G, S and T, with the departures of forks C6 and N7 named, fork C4 as the Fable review corrected it, and forks N1, N3, N4 and F5 to F7 in items of their own. Default: as landed. Review-queue items 474 to 485.
 - Fork N4 of climb batch 29, the record's point 3: `RadixPointNumeral` declares `asFloat` with one rounding, as `NaturalNumeral` does; keep it, with `RadixPointNumeral` added to P-165's list, or drop the method, which changes `asFloat(x)` at that type against P-165's "unchanged at every concrete type"? Default: kept, as landed. Review-queue item 478.
 - The record's points for his sight (`coordinator/CLIMB-BATCH-29.md`, section 3, "Points the batch lists for him, not questions"): the team lines changed, and what walk, the compiled path and the specification now do differently. Default: as landed. Review-queue item 486.
+
+### Climb batch 29b, listed for his review
+
+The items for him that climb batch 29b (`coordinator/CLIMB-BATCH-29b.md`, rungs A and T landed of two: the static numerals on both paths and in the specification) left (`compile-ladder/climb-batch-29b/RECORD.md`, "Items for the curator, and where each is in `PLAN.md`"); its question 1, `u = 0`, is item 77 above. One line for each point, opening with the ids it holds.
+
+- gather.1 of climb batch 29b's gather (row 581): under the compiled checker over the one library, `(3).minimum` and `(3).maximum` check at the base `b5b0f82c13` and on the merged tree (`WorldFlip -stop check`, the count stage's driver, rc 0, where `(3).noSuchGetterHere` is refused), so the row's claim does not reproduce; close it, and by which commit? Default: open, its notes stating the measurement (`explorations/fortress-gap-ledger.md:570`).
 
 ### Not classified, to check
 
