@@ -1,0 +1,10 @@
+(* Under walk, a ZZ32 value bound to a variable declared String is refused, and the message names the value's type as ZZ32. *)
+component LanguageTypeRefusedBindingWalk
+export Executable
+
+z: ZZ32 = 3
+s: String = z
+
+run(): () = println(s)
+
+end

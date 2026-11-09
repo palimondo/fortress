@@ -1,4 +1,4 @@
-component XXXNestedComprehensionDeclaredTypeWalk
+component NestedComprehensionDeclaredTypeWalk
 import List.{...}
 export Executable
 
