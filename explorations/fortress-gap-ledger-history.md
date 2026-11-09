@@ -9533,3 +9533,27 @@ rewritten
 rewritten
 
 | 362 | the compiled path throws `NullPointerException` when it renders a floating-point numeral: `println(2.5)` and `"…" 2.5` fail where walk prints `2.5`, and a typed `RR64` binding of the same numeral prints on both paths | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/objects.tex`, "Objects"; `Specification/basic/types-vals-vars.tex`, "Relationships between Types" | `ProjectFortress/compiler_tests/XXXNumeralPrintRungR.test` | climb batch 3 rung R's second skeptic | siblings: 321, 862. The runtime `FFloatLiteral.asString()` is `return null; /* replaced in generated code */` (`compiler/runtimeValues/FFloatLiteral.java:52-54`) and the prelude's `trait FloatLiteral` declares no `asString`, so `println(x:Object)` fails on `asJavaString()`. The team's `FIntLiteral.asString` returns `FJavaString.make(this.toString())` there (`compiler/runtimeValues/FIntLiteral.java:57-61`); it is the last null `asString` among the runtime values. The compiled `Object.asString` default (row 321) does not reach it. A runtime class, not a prelude declaration (POSITIONS, "The library route"). Workaround: bind the numeral to an `RR64` first. full text: history, row 362 |
+
+### Row 79
+
+rewritten
+
+| 79 | an integer literal takes a different `typecase` clause, and a different overload, on the two paths, silently: walk treats `7` as a `ZZ32`, the compiled path as an `IntLiteral` that matches no `ZZ32` clause | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals"; `Specification/basic/conversions-coercions.tex`, "Coercion Resolution" | none | ours | Through one `typecase x: Object` with `ZZ32`, `String`, singleton and `else` clauses, the literal `7` answers `other` compiled and `ZZ32` under walk; a `ZZ32` variable, a string and a singleton agree. With `ee[\nat n\](x: ZZ32): ZZ32 = 1` beside `ee(x: Any): ZZ32 = 2`, `ee(5)` and `ee(a)` for `a: Any = 5` give walk 1, compiled 2; defect 4 of `explorations/reviews/overload-static-params-ways.md` is this split. The specification favours the compiled run. P-76 (`IntLiteral`, a walk gap until walk has static types) names this row among walk's gaps. Probe `explorations/compiler-probes/p33.fss`, in the parent of `c69cb2064`. full text: history, row 79 |
+
+### Row 486
+
+rewritten
+
+| 486 | under `walk`, a `nat` static parameter used as a value is an `Int`, so `u: NN32 = n` with `nat n = 3` is refused, "RHS expression type Int is not assignable to LHS type NN32", while `u: ZZ32 = n` answers 3; the compiled run accepts both | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification-1.0-frozen/basic/trait-parameters.tex:83-86`, "Nat and Int Parameters" (a `nat` parameter may appear in any context that a variable of type ℕ32 can) | `ProjectFortress/tests/XXXNatValueNN32RungK.fss` | climb batch 7R rung U | siblings: 454. Row 454's mechanism: the value's run-time type is `Int`, `ZZ32`'s value object, from which `NN32` declares no coercion, so the typed binding finds none (`Coercions.coerce`, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/LHSEvaluator.java:218-226` at c124c6b65); unlike row 454's numeral, the compiled run accepts it. Workaround: bind it at `ZZ32`, as the test's control does. full text: history, row 486 |
+
+### Row 360
+
+closed by 69427e942
+
+| 360 | a numeral with a radix point is rounded, floored, ceiled and truncated as its nearest double, not as the rational it denotes, on both paths: `round(2.50000000000000001)` is 2 and `round(3.49999999999999999)` is 4, not 3 and 3 | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic/expressions/literals.tex`, "Literals"; `Specification/basic-lib/numbers.tex`, "Rational Numbers" | `ProjectFortress/tests/XXXRoundNearTieNumeral.fss` | climb batch 3 rung R's skeptic | siblings: 330, 361, 862. Under walk `object FloatLiteral extends RR64` (`LibraryBuiltin/FortressBuiltin.fss:196` at c124c6b65) declares none of the four, so `RR64`'s bodies run over `asFloat(self)`, `Double.valueOf` of the text (`interpreter/evaluator/values/FFloatLiteral.java:39-40`); compiled, the prelude has no ℚ and `RR64`'s `coerce(x: FloatLiteral)` makes the double (`LibraryBuiltin/CompilerBuiltin.fss:932`). `2.50000000000000001`, `2.49999999999999999` and `2.5` share one double, and want 3, 2, 2. A negated or summed numeral is a `Float` before `round`. Fix design, not built: `explorations/compile-ladder/rung-round-half-even/REPORT.md`. full text: history, row 360 |
+
+### Row 360
+
+rewritten
+
+| 360 | a numeral with a radix point is rounded, floored, ceiled and truncated as its nearest double, not as the rational it denotes, on both paths: … | FIXED | library gap vs spec (library) | `Specification/basic/expressions/literals.tex`, "Literals"; `Specification/basic-lib/numbers.tex`, "Rational Numbers" | none | climb batch 3 rung R's skeptic | fixed `69427e942`; settled by P-173: at round's argument a numeral with a radix point converts into QQ, RR32 or RR64, a tie that reads RR64, so round(2.50000000000000001) is 2 and round(3.49999999999999999) is 4, as both paths answer at f03e6c1175; tests/XXXRoundNearTieNumeral.fss asserts the rational's 3 and 3, which P-173 drops; full text: history, row 360 |
