@@ -14,6 +14,7 @@ run(): () = do
   assert(sEq(x, y), "one literal evaluated twice, bound to two variables, is one object")
   assert(sEq("foo" || "bar", "foobar"), "two string literals joined by || are one literal")
   assert(sEq("a" || 'b', "ab"), "a string and a character literal joined by || are one literal")
+  assert(sEq('a' || "bc", "abc"), "a character and a string literal joined by || are one literal")
   assert(sEq("a" || "b" || "c", "abc"), "three string literals joined by || are one literal")
   b: String = "b"
   built: String = "a" || b

@@ -15,6 +15,7 @@ run(): () = do
     assert(same(x, y), "one literal evaluated twice, bound to two variables, is one object")
     assert(("foo" || "bar") SEQV "foobar", "two string literals joined by || are one literal")
     assert(("a" || 'b') SEQV "ab", "a string and a character literal joined by || are one literal")
+    assert(('a' || "bc") SEQV "abc", "a character and a string literal joined by || are one literal")
     assert(("a" || "b" || "c") SEQV "abc", "three string literals joined by || are one literal")
     b: String = "b"
     built: String = "a" || b
