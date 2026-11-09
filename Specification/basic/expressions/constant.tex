@@ -92,9 +92,16 @@ Where nothing fixes the type of a signed constant (\secref{literals}), an
 integer takes the default of an integer numeral, a quotient the type
 \EXP{\mathbb{Q}}, and a constant computed from a numeral with a radix point the
 type \EXP{\mathbb{R}64}, whatever its value, so that \EXP{6/3} is a
-\EXP{\mathbb{Q}} and \EXP{0.5 + 0.5} an \EXP{\mathbb{R}64}; where a place fixes
-a type, the constant is converted into it as a numeral is, with at most one
-rounding.
+\EXP{\mathbb{Q}} and \EXP{0.5 + 0.5} an \EXP{\mathbb{R}64}.
+Where a place fixes a number type of \library, the constant is converted into it
+from its exact value, exactly or with one rounding, and a constant outside the
+type's range is a static error.
+Only a numeral as written reaches a coercion from a numeral type
+(\secref{literals}): at a type of a program's own, a negated numeral as written
+is the type's prefix operator \EXP{-} applied to the coercion's result for the
+numeral, and any other signed constant reaches the type only through the type's
+coercion from the constant's default type, as \EXP{1/2} through a coercion from
+\EXP{\mathbb{Q}}.
 So \EXP{2147483647 + 1} is the \EXP{\mathbb{Z}64} \EXP{2147483648},
 \EXP{-2147483648} is a \EXP{\mathbb{Z}32}, \EXP{x = 7/2} binds the
 \EXP{\mathbb{Q}} \EXP{7/2}, and \EXP{0.1 + 0.2 = 0.3} is \VAR{true}.
@@ -112,7 +119,11 @@ folded exactly into a signed constant, which takes one of three defaults where
 nothing fixes its type: the value that a constant trait would encode in its
 static arguments is held in the constant itself, written as numerals, so that a
 coercion of a program's own sees only the four numbers of a numeral as written
-(\secref{literals}).}
+(\secref{literals}).
+It decided on 9~November 2026 that a coercion from a numeral type is generic
+over the four numbers, for the number types of \library\ as for a program's;
+only a numeral as written reaches such a coercion, and a signed constant at a
+number type of \library\ is converted from its exact value.}
 
 
 The only operation on literals that produces a new literal (as opposed
@@ -133,8 +144,8 @@ object (\secref{literals}).}
 \revision{revival-numerals}{The concatenation of two natural numerals of the
 same radix is built as written: before the static check, on both
 implementations, it is folded into one natural numeral, whose digits are the
-digits of both numerals in order, leading zeros among them, so that its four
-numbers (\secref{literals}) count them.}
+digits of both numerals in order, leading zeros among them, so that the four
+numbers of its type (\secref{literals}) count them.}
 
 Every literal trait extends an appropriate constant trait, and every
 constant trait extends an appropriate static trait.  So every

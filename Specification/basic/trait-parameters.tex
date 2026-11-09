@@ -111,7 +111,14 @@ without a radix point is where nothing fixes its type and its value fits
 This contradicts the sentence above on a \KWD{nat} parameter, which stands:
 used as a value, it is not accepted where only an \EXP{\mathbb{N}32} is, as by
 a variable declared of type \EXP{\mathbb{N}32}, since \EXP{\mathbb{N}32}
-declares no coercion from \EXP{\mathbb{Z}32}.}
+declares no coercion from \EXP{\mathbb{Z}32}.
+The revival decided on 9~November 2026 that the four numbers of a numeral
+type (\secref{literals}) are \KWD{nat} parameters of any size, which, read as
+values in the body of a coercion from that type, are integers of type
+\EXP{\mathbb{Z}}: the bound of a \KWD{nat} or \KWD{int} parameter to the range
+of \EXP{\mathbb{N}32} or \EXP{\mathbb{Z}32}, which the compiled type checker
+enforces, is this implementation's bound for sizes, such as the length of an
+array, and not a bound of these four numbers.}
 An argument whose type is a trait whose \KWD{comprises} clause lists a type at a
 \KWD{nat} or \KWD{int} \KWD{where}-clause variable (\secref{trait-decls}),
 passed where that listed type is expected

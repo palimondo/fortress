@@ -45,28 +45,30 @@ the others are these:
 \EXP{\mathbb{R}32} (\STR{RR32}) coerces from both numeral types.
 \end{tabbing}
 Each of the five integer types coerces from \TYP{NaturalNumeral} too.
-A coercion from a numeral type is exact into the integer types and
-\EXP{\mathbb{Q}}, and rounds once, to the nearest value of the type, into
-\EXP{\mathbb{R}64} and \EXP{\mathbb{R}32}.
-Each type that coerces from a numeral type declares \EXP{=} with it, and the
-numeral type declares \EXP{=} with that type, each converting the numeral as the
-coercion does, so that \EXP{u = 0} is \VAR{true} for a zero \VAR{u} of any of
-the eight types.
+A coercion from a numeral type is generic over the numeral's four numbers, the
+static arguments of its type, as
+\EXP{\KWD{coerce}\llbracket\KWD{nat} n,\KWD{nat} r,\KWD{nat} v\rrbracket(x\COLON \TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket)},
+and computes the type's value from them (\secref{literals}): exactly into the
+integer types and \EXP{\mathbb{Q}}, and with one rounding, to the nearest value
+of the type, into \EXP{\mathbb{R}64} and \EXP{\mathbb{R}32}.
+Since no value of a numeral type exists when a program runs, a numeral type
+declares no \EXP{=} with a number type, and no number type declares one with a
+numeral type.
 
 Every other conversion between number types is written explicitly;
 in particular, a conversion into \EXP{\mathbb{R}64} from
 \EXP{\mathbb{Z}}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}64}, \EXP{\mathbb{N}32}, or \EXP{\mathbb{Q}}
 is explicit, written \EXP{\VAR{asFloat}(x)} with the method that each of these types declares;
-\TYP{Number} itself declares no conversion.
-The two numeral types declare \VAR{asFloat} too, which rounds once.
+\TYP{Number} itself declares no conversion, and the numeral types declare no
+\VAR{asFloat}.
 \revision{revival-numerals}{Before this revision the passage named integer
 numerals among the sources of the coercion into \EXP{\mathbb{R}64} only.
 The revival decided on 8~November 2026 that each of the eight number types
 converts from \TYP{NaturalNumeral}, and \EXP{\mathbb{Q}}, \EXP{\mathbb{R}64} and
-\EXP{\mathbb{R}32} from \TYP{RadixPointNumeral}, each coercion with the pair of
-\EXP{=} that goes with it, and that \TYP{NaturalNumeral} keeps the \VAR{asFloat}
-of the type it replaces; \TYP{RadixPointNumeral} declares \VAR{asFloat} as the
-number types and the other numeral type do.}
+\EXP{\mathbb{R}32} from \TYP{RadixPointNumeral}, and on 9~November 2026 that
+each such coercion is generic over the numeral's four numbers, and that the
+numeral types, of which no value exists when a program runs, declare no
+\VAR{asFloat} and no \EXP{=} with a number type.}
 \revision{revival-asfloat}{Before this revision the passage said that \library\ declare
 \VAR{asFloat} on \TYP{Number}. Each number type now declares its own, and
 \TYP{Number} declares none, so that a number type of a program's own need not
