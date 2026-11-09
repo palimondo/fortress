@@ -12,8 +12,12 @@
    - F-175: `Specification/appendices/changes.tex:3338-3534` is now `:3346-3542`.
    - F-169: `Specification/basic/expressions/literals.tex:154-156` ("the callout on the numeral types") is now `:146-161`; its last sentence, "gives an integer numeral the type `IntLiteral`, the implementations' name, where P-76 and P-174 take the Working Draft's `NaturalNumeral`, its four numbers as static parameters", false at the base, becomes: "gives an integer numeral the Working Draft's `NaturalNumeral[\n, r, v\]`, its four numbers as static arguments (P-174)".
    - Row 893: `Specification/appendices/changes.tex:4291-4292` is now `:4308-4309` (below).
+   - F-272 (the skeptic's): `Specification/basic/conversions-coercions.tex:521-537` (the definitions) is now `:527-543`, and its `:601` onward (the example) is now `:607` onward; the two boxes of `conversions-coercions.tex` gain six lines above them.
+   - F-175 (the skeptic's): beside its `:3338-3534`, its rows at `Specification/appendices/changes.tex:3604-3611` are now `:3612-3619`; its `:1616-1619` does not move.
+   - F-173 (the skeptic's): `Specification/basic/inference.tex:395-456` is now `:399-460`; its `:237-299` and `:45-122` do not move.
    P-172's `basic-lib/numbers.tex:43` and F-20's `trait-parameters.tex:96` do not move.
    - The map `explorations/coordinator/map/spec-to-implementation.md:166`, `:288`, `:378`, `:382` and `:414` names the prelude's `IntLiteral` and `FloatLiteral`, which rung A deletes; its numerals row then names `NaturalNumeral` and `RadixPointNumeral` in `CompilerBuiltin.fsi`.
+   - The map `explorations/coordinator/map/dormant-code.md` (the skeptic's): its `Specification/advanced-lib/binary.tex:3004-3085` (`:350`, `:483`) is now `:3000-3081`, the binary chapter's boxes losing four lines above it; its `Specification/basic/conversions-coercions.tex:269-275, 616-618, 846-853` (`:357`) is now `:275-281, 622-624, 852-859`.
 
 ## For FACTS
 
