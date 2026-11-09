@@ -20,11 +20,11 @@ Commits on `wip/rung-literal-fold`: `8e4ca7b070` (the fold, the phase order, the
 **The fold** (`IntegerLiteralFoldingVisitor.java`, rewritten). An expression of numerals alone, or of the forms the fold writes, folds exactly into a `Constant` (numerator, positive denominator in lowest terms, and a kind: integer, quotient, radix point). The kind sets the default P-173 gives: a radix point among the operands makes the result a radix-point constant, else a `/` makes it a quotient, else it is an integer.
 
 The operators folded, each over integer and radix-point operands unless said, by canonical name through `PrecedenceMap.canon` (`:80-87`):
-- `+`, `-`; multiplication `DOT`, `TIMES` (canonical `BY`, as `×`), and a juxtaposition of numerals alone (`:417-434`): exact rational arithmetic.
+- `+`, `-`; multiplication `DOT`, `TIMES` (canonical `BY`, as `×`), and a juxtaposition of numerals alone (`:416-434`): exact rational arithmetic.
 - `/` by a nonzero numeral: a quotient, or a radix-point constant where an operand has a radix point.
 - `^` by an integer numeral of magnitude at most 4096; an integer base takes no negative exponent (P-153: such a power raises at run time); a radix-point or quotient base takes one, so `10.0^(-5)` is `0.00001`.
 - prefix `-` and `|_|`.
-- `DIV`, `REM`, `MOD`, `GCD`, `LCM`, `CHOOSE`, `MINMAX`: integers only, with the answers of `simpleIntArith` and `simpleArbitraryPrecisionArith` (`DIV` truncates, `REM` has the dividend's sign, `MOD` the divisor's, `GCD` is nonnegative, `LCM` of a zero is 0); `CHOOSE` folds where 0 ≤ k ≤ n and gives 0 otherwise, as walk's `ZZ32` answers (`tests/ChooseZZ32Walk.fss:36-37`).
+- `DIV`, `REM`, `MOD`, `GCD`, `LCM`, `CHOOSE`, `MINMAX`: integers only, with the answers of `simpleIntArith` and `simpleArbitraryPrecisionArith` (`DIV` truncates, `REM` has the dividend's sign, `MOD` the divisor's, `GCD` is nonnegative, `LCM` of a zero is 0); `CHOOSE` folds where 0 ≤ k ≤ n and gives 0 otherwise, as walk's `ZZ32` answers (`ProjectFortress/tests/ChooseZZ32Walk.fss:36-37` at b430f9f428).
 - `MIN`, `MAX` and the comparisons `<`, `<=`, `>`, `>=`, `=`, `NE`, binary or chained (`:392-407`), into the chosen operand or a boolean.
 - `||` of two natural numerals of one radix, as written (`:336-364`): their digits joined, leading zeros kept, in that radix.
 
@@ -225,7 +225,9 @@ The code generator's change reaches every compiled program, so the subset is the
 
 ## The demos
 
-DEMOS_PLACEHOLDER
+The demo driver of `explorations/compile-ladder/rung-team-demos/REPORT.md`, "Commands worked out", saved as `tmp/run-demos.sh`, run once from the tree's root after the last change of code (`bash tmp/run-demos.sh tmp/rung-literal-fold/demos`, 2026-11-09T03:33Z, tree `1bf56ffa92`, code `8e4ca7b070`), as `tests-running.md` asks for an edit of a phase both paths run; its last line:
+
+    demos: 52 run, 52 reached their end
 
 ## Sentences made false
 

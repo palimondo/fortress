@@ -16,7 +16,7 @@
 
 7. **Row 362 meets a folded float expression:** on the compiled path `println((23.0 - 6.0).asString)` now meets row 362, since the fold makes `23.0 - 6.0` the numeral `17.0`, whose `asString` is null: "java.lang.NullPointerException: Cannot invoke "fortress.CompilerBuiltin$Object.asString()" because "x" is null" (`ant testQuick` on 8e4ca7b070, `compiler_tests/Compiled7.Print17`). The team's test now binds `x: RR64 = 23.0` (`ProjectFortress/compiler_tests/Compiled7.Print17.fss:20-21`). For the gather: row 362 is at 1,193 of its 1,200 characters and rung C rewrites it (fork C7); C's default at a dotted receiver covers this case on the merged tree.
 
-8. **The count and the distance on this rung's tree are 0 and 0**, the same tables as climb batch 28's gate (`diff` of the count tables prints nothing; `compare.sh` prints `DISTANCE SAME   0`; no site), on `f58c027526`, whose code is `8e4ca7b070`'s. The ladder subset (the baseline's 85 programs and the eighteen microGPT components) moves no file.
+8. **The count and the distance on this rung's tree are 0 and 0**, the same tables as climb batch 28's gate (`diff` of the count tables prints nothing; `compare.sh` prints `DISTANCE SAME   0`; no site), on `f58c027526`, whose code is `8e4ca7b070`'s. The ladder subset (the baseline's 85 programs and the eighteen microGPT components) moves no file, and the 52 team demos reach their end under walk ("demos: 52 run, 52 reached their end").
 
 ## For FACTS
 
@@ -48,7 +48,7 @@ New rows, in "## 7. Numerals, floats and comparisons", linted by `python3 explor
 
 ## Handover
 
-Rung F (`wip/rung-literal-fold`, head `1bf56ffa92` before its report): walk runs the numeral fold; numerals alone fold exactly on both paths into the forms of fork F1, with the operators of fork F2 left; `CHOOSE` and the wrapping operators repaired (rows 954, 955); typed-place constants rounded once (row 862); a program's numeral coercion once per site in the component class's static initializer; harness key `run_exits_nonzero`; seven tests respelled with typed operands; count 0 and distance 0 on its tree; NEW-F-1 and NEW-F-2 with their `XXX` tests.
+Rung F (`wip/rung-literal-fold`, head `1bf56ffa92` before its report): walk runs the numeral fold; numerals alone fold exactly on both paths into the forms of fork F1, with the operators of fork F2 left; `CHOOSE` and the wrapping operators repaired (rows 954, 955); typed-place constants rounded once (row 862); a program's numeral coercion once per site in the component class's static initializer; harness key `run_exits_nonzero`; seven tests respelled with typed operands; count 0 and distance 0 on its tree, the ladder subset unmoved, the 52 demos reaching their end; NEW-F-1 and NEW-F-2 with their `XXX` tests.
 
 ## Revival change
 
