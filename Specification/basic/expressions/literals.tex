@@ -219,7 +219,7 @@ refuses it.
 At each place where such a numeral stands, the coercion is applied once, not at
 each evaluation of the place, so that the numeral there denotes one object, as
 a string literal does: two evaluations of one place yield the same object, and
-two places yield two objects.
+each place has its own application of the coercion.
 A numeral type is written in a program only as the type of a parameter, of a
 coercion or of an operator, never as the type of a variable, a field or a
 functional's result, nor as a static argument; so the constants \VAR{pi} and
