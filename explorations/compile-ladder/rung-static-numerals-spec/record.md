@@ -13,6 +13,7 @@
    - F-169: `Specification/basic/expressions/literals.tex:154-156` ("the callout on the numeral types") is now `:146-161`; its last sentence, "gives an integer numeral the type `IntLiteral`, the implementations' name, where P-76 and P-174 take the Working Draft's `NaturalNumeral`, its four numbers as static parameters", false at the base, becomes: "gives an integer numeral the Working Draft's `NaturalNumeral[\n, r, v\]`, its four numbers as static arguments (P-174)".
    - Row 893: `Specification/appendices/changes.tex:4291-4292` is now `:4308-4309` (below).
    P-172's `basic-lib/numbers.tex:43` and F-20's `trait-parameters.tex:96` do not move.
+   - The map `explorations/coordinator/map/spec-to-implementation.md:166`, `:288`, `:378`, `:382` and `:414` names the prelude's `IntLiteral` and `FloatLiteral`, which rung A deletes; its numerals row then names `NaturalNumeral` and `RadixPointNumeral` in `CompilerBuiltin.fsi`.
 
 ## For FACTS
 
