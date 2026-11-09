@@ -581,10 +581,22 @@ object NumeralConversion {
    */
   def outOfRange(e: Expr, u: Type): Option[String] = outOfRangeAt(e, u).map(_._2)
 
-  /** The numeral that outOfRange refuses, the expression itself or an element of a tuple at a tuple type, and the refusal. */
+  /**
+   * The numeral that outOfRange refuses, the expression itself, an element of
+   * a tuple at a tuple type, or a numeral in a result position of a join,
+   * which converts where it stands (Functionals.joinInto); and the refusal.
+   */
   def outOfRangeAt(e: Expr, u: Type): Option[(Expr, String)] = (e, u) match {
     case (STupleExpr(_, es, None, Nil, _), STupleType(_, us, None, Nil)) if es.size == us.size =>
       es.zip(us).flatMap { case (x, t) => outOfRangeAt(x, t) }.headOption
+    case (SBlock(_, _, _, _, es), _) if es.nonEmpty => outOfRangeAt(es.last, u)
+    case (SDo(_, List(front)), _) => outOfRangeAt(front, u)
+    case (SIf(_, clauses, Some(els)), _) => (clauses.map(_.getBody) :+ els).flatMap(outOfRangeAt(_, u)).headOption
+    case (SCaseExpr(_, _, _, _, _, clauses, els), _) =>
+      (clauses.map(_.getBody) ++ els.toList).flatMap(outOfRangeAt(_, u)).headOption
+    case (STry(_, body, catchC, _, None), _) =>
+      val clauses = catchC.toList.flatMap { case SCatch(_, _, cs) => cs.map { case SCatchClause(_, _, b) => b } }
+      (body :: clauses).flatMap(outOfRangeAt(_, u)).headOption
     case _ => numeralOutOfRange(e, u).map((e, _))
   }
 

@@ -1,0 +1,20 @@
+(* A numeral outside the range of the type that its place fixes is a static error also in a result position of an if, a case, a do block or a try, which converts each numeral where it stands. *)
+component NumeralJoinBeyondRange
+export Executable
+
+c(): Boolean = true
+viaCase(): ZZ32 = case 2 of 1 => 1; 2 => 2147483648; else => 3 end
+viaDo(): NN32 = do 4294967296 end
+
+run(): () = do
+  a: ZZ32 = if c() then 2147483648 else 1 end
+  b: NN64 = try 18446744073709551616 catch e DivisionByZero => 0 end
+  r: RR64 = if c() then 0.5 else 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.0 end
+  println(viaCase())
+  println(viaDo())
+  println(a)
+  println(b)
+  println(r)
+end
+
+end
