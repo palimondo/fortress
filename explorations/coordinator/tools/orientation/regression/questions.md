@@ -76,16 +76,22 @@ If you would look something up before you act, say what you would look up, where
 
 27. Your walk test declares `trait Wide excludes { String }` with `getter big(): ZZ32` and `opr +(self, other: Wide): Wide = WideOf(self.big + other.big)`, and `object WideOf(b: ZZ32) extends Wide` with `getter big(): ZZ32 = b`. Its `run()` asserts that `(WideOf(1) + WideOf(2)).big` is 3. Does the test load and pass under walk? Would the compiled checker accept the program once it checks against the interpreter's library? If either path has a problem, what do you change?
 
-28. Your walk test declares `value object Point(x: ZZ32, y: ZZ32) end` and `value object Run(name: String, steps: ZZ32) end`, neither with an `=` of its own, and binds `s: String = "ab" || "c"`. Its `run()` asserts:
+28. Your walk test declares `value object Point(x: ZZ32, y: ZZ32) end` and `value object Run(name: String, steps: ZZ32) end`, neither with an `=` of its own, and binds `t: String = "ab"` and then `s: String = t || "c"`. Its `run()` asserts:
     - `assert(Point(1, 2), Point(1, 2), "point")`;
     - `assert(Run(s, 3), Run("abc", 3), "run")`;
     - `assert((1, 2, 3, s), (1, 2, 3, "abc"), "four")`.
     Which assertions pass under walk? For each that fails, say whether it shows a defect, and write the check that you would keep.
 
-29. Your brief asks you to fix walk's inference so that, for `object Cell[\T extends Any\](v: T) end` and `z: ZZ32 = 3`, the call `Cell(z)` makes the instance `Cell[\ZZ32\]`. Before you change walk, you check which instance it makes today. How do you check it, and what does `Cell(z).asString` give under walk today? Write the assertion of the test that fails before your fix and passes after.
+29. Your brief asks you to fix walk's inference so that, for `object Cell[\T extends Any\](v: T) end` and `z: ZZ32 = 3`, the call `Cell(z)` makes the instance `Cell[\ZZ32\]`. Before you change walk, you check which instance it makes today. How do you check it, and what does `Cell(z).asString` give under walk today? Write the assertion of your test, and say whether it fails on today's tree.
 
 30. You port three Java helpers into a program that runs under walk.
     - (a) `static int toInt(long n) { return Math.toIntExact(n); }`, with `n: ZZ64` and a `ZZ32` result.
     - (b) The same for an arbitrary-precision integer, `static int toInt(BigInteger n) { return n.intValueExact(); }`, with `n: ZZ`.
     - (c) A hash's last step, `static int fold(long h) { return (int) h; }`, with `h: ZZ64`.
     Write each Fortress function. Say what (a) and (b) do at 2^31, and what (c) gives at 2^32 + 7. Do your three functions compile on the compiled path today?
+
+31. You write a walk test in `ProjectFortress/tests/` for a change to the number types.
+    - (a) The test's component declares the hyperparameter `nSamples = 3000000000` at the top level, as a model program declares its sizes, and a function computes `scale: RR64 = nSamples`. Does the binding run? If not, what do you write?
+    - (b) The test must show that `ZZ32` addition raises `IntegerOverflow` at the type's maximum. Write the lines.
+    - (c) The test must show that `RR64` addition rounds: 0.1 plus 0.2 is not 0.3. Write the lines.
+    Would your lines for (b) and (c) test the same thing on the compiled path?
