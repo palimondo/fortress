@@ -42,7 +42,7 @@ The respelled line of `NativeGlueNonFlatStringWalk`, on the old code through the
     FAIL: J9/0:CatString =/= J6/0:String; the glue at the non-flat string answers the text of its type, String
     Tests run: 1,  Failures: 1,  Errors: 0
 
-The last run after the last change of code (`1a48fc6cc`, the code of `bfdc5b74c`), the same harness over the fifteen tests above with `NativeGlueNonFlatStringWalk.fss`, `XXXNestedComprehensionObjectElementsWalk.fss` and `XXXPureListStridedSubscriptObjectsWalk.fss`:
+The last run after the last change of code (`1a48fc6cc`, the code of `bfdc5b74c`), the same harness over the twelve tests above with `NativeGlueNonFlatStringWalk.fss`, `XXXNestedComprehensionObjectElementsWalk.fss` and `XXXPureListStridedSubscriptObjectsWalk.fss`, fifteen in all:
 
     # harness-one 2026-11-09T03:12:25Z; tree 1a48fc6cc9; nproc=4; load 10.36 8.70 5.45; openjdk version "25.0.4.1" 2026-08-18; FORTRESS_THREADS=4; cache empty
     OK (15 tests)
