@@ -6493,3 +6493,11 @@ pointer words refreshed in: F-24
 ### F-344
 
 2026-11-09 07:14Z · added · from `explorations/compile-ladder/rung-walk-language-types/REPORT.md`, "What changed and why" · by climb batch 29 gather
+
+### F-345
+
+2026-11-09 07:23Z · added · from `explorations/compile-ladder/rung-literals-spec/REPORT.md`, "What changed and why" · by climb batch 29 gather
+
+### F-346
+
+2026-11-09 07:23Z · added · from `explorations/compile-ladder/rung-literals-spec/REPORT.md`, "What changed and why" · by climb batch 29 gather

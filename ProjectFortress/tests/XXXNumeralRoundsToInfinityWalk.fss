@@ -1,0 +1,11 @@
+(* A numeral that rounds to an infinity at an RR32 binding is refused. *)
+component XXXNumeralRoundsToInfinityWalk
+export Executable
+
+wide: RR32 = 340282356779733661637539395458142568448
+
+run(): () = do
+    println(wide)
+  end
+
+end

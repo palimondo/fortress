@@ -922,6 +922,14 @@ the sequence matches the bit-endianness of the original \TYP{BinaryEndianWord}.
 \(  \VAR{bigEndian}()\COLON \TYP{BinaryEndianWord}\llbracket{}b,\VAR{true},\VAR{true}\rrbracket\)\-\\\poptabs
 \(\KWD{end}\)
 \end{Fortress}
+\revision{revival-numerals}{The two operators \EXP{\|} above whose other
+operand is a \TYP{NaturalNumeral} take the numeral's digit count, radix and
+value as static parameters.
+The revival's numeral types have no static parameters: the four numbers of a
+numeral are fields of its value (\secref{literals}), and a field cannot give a
+static size, so no library can declare these operators as written, and a
+concatenation with a numeral has no static result type.
+The declarations stand as the Working Draft gives them.}
 
 
 %%   coerce[\int r\](x: IntegerStatic[\r\]) where { -2^(b-1) <= r < 2^b }
@@ -1135,6 +1143,14 @@ the more significant bits.
 {\tt~~}\EXP{\KWD{where} \{\,\VAR{bigEndianSequence} = \VAR{bigEndianBytes}, \VAR{radix} = 2^{q}, q \cdot m = k \cdot 2^{b}\,\}}}
 
 [Description to be supplied.]
+\revision{revival-numerals}{The two operators \EXP{\|} above whose other
+operand is a \TYP{NaturalNumeral} take the numeral's digit count, radix and
+value as static parameters.
+The revival's numeral types have no static parameters: the four numbers of a
+numeral are fields of its value (\secref{literals}), and a field cannot give a
+static size, so no library can declare these operators as written, and a
+concatenation with a numeral has no static result type.
+The declarations stand as the Working Draft gives them.}
 
 
 %%   bitShuffle(other: BinaryEndianWord[\b,bigEndianBytes,bigEndianBits\]):
@@ -1733,6 +1749,17 @@ the more significant bits.
 {\tt~~}\pushtabs\=\+\(    \KWD{where} \{\,b' \leq b\,\}\)\-\-\\\poptabs\poptabs
 \(\KWD{end}\)
 \end{Fortress}
+\revision{revival-numerals}{The coercion and the two operators \EXP{\|}
+above whose parameter is a \TYP{NaturalNumeral} take the numeral's digit count,
+radix and value as static parameters.
+The revival's numeral types have no static parameters: the four numbers of a
+numeral are fields of its value (\secref{literals}), and a field cannot give a
+static size.
+So no library can declare them as written: a coercion from
+\TYP{NaturalNumeral} into a sequence of a written size can read the radix and
+the digit count when it is applied, but not take a size from them, and a
+concatenation with a numeral has no static result type.
+The declarations stand as the Working Draft gives them.}
 
 
 %%   coerce[\nat b',bool bigEndianBytes,bool bigEndianBits\]
@@ -1751,6 +1778,14 @@ the more significant bits.
 {\tt~~}\EXP{\KWD{where} \{\,\VAR{radix} = 2^{q}, q \cdot m = n \cdot 2^{\VAR{bk}}\,\}}}
 
 [Description to be supplied.]
+\revision{revival-numerals}{The coercion above from a \TYP{NaturalNumeral}
+takes the numeral's digit count, radix and value as static parameters.
+The revival's numeral types have no static parameters: the four numbers of a
+numeral are fields of its value (\secref{literals}).
+A coercion from \TYP{NaturalNumeral} into a sequence of a written size can read
+the radix and the digit count when it is applied, and throw where they do not
+fit, but it cannot take a size from the digit count as a static size.
+The declaration stands as the Working Draft gives it.}
 
 
 %%   opr [j: IndexInt] : BinaryWord[\b\]
@@ -1869,6 +1904,14 @@ the more significant bits.
 {\tt~~~}\EXP{\TYP{LinearSequence}\llbracket{}T,n+k\rrbracket \KWD{where} \{\,\VAR{radix} = 2^{q}, q \cdot m = k \cdot 2^{b}\,\}}}
 
 [Description to be supplied.]
+\revision{revival-numerals}{The two operators \EXP{\|} above whose other
+operand is a \TYP{NaturalNumeral} take the numeral's digit count, radix and
+value as static parameters.
+The revival's numeral types have no static parameters: the four numbers of a
+numeral are fields of its value (\secref{literals}), and a field cannot give a
+static size, so no library can declare these operators as written, and a
+concatenation with a numeral has no static result type.
+The declarations stand as the Working Draft gives them.}
 
 
 %%   littleEndian(): BinaryEndianLinearEndianSequence[\b,false,false,n,bigEndianSequence\]
@@ -2097,6 +2140,17 @@ the more significant bits.
 {\tt~~}\pushtabs\=\+\(    \KWD{where} \{\,b' \leq b\,\}\)\-\-\\\poptabs\poptabs
 \(\KWD{end}\)
 \end{Fortress}
+\revision{revival-numerals}{The coercion and the two operators \EXP{\|}
+above whose parameter is a \TYP{NaturalNumeral} take the numeral's digit count,
+radix and value as static parameters.
+The revival's numeral types have no static parameters: the four numbers of a
+numeral are fields of its value (\secref{literals}), and a field cannot give a
+static size.
+So no library can declare them as written: a coercion from
+\TYP{NaturalNumeral} into a sequence of a written size can read the radix and
+the digit count when it is applied, but not take a size from them, and a
+concatenation with a numeral has no static result type.
+The declarations stand as the Working Draft gives them.}
 
 
 %%   coerce[\nat b',bool bigEndianBytes,bool bigEndianBits\]
@@ -2115,6 +2169,14 @@ the more significant bits.
 {\tt~~}\EXP{\KWD{where} \{\,\VAR{radix} = 2^{q}, q \cdot m = n \cdot 2^{\VAR{bk}}\,\}}}
 
 [Description to be supplied.]
+\revision{revival-numerals}{The coercion above from a \TYP{NaturalNumeral}
+takes the numeral's digit count, radix and value as static parameters.
+The revival's numeral types have no static parameters: the four numbers of a
+numeral are fields of its value (\secref{literals}).
+A coercion from \TYP{NaturalNumeral} into a sequence of a written size can read
+the radix and the digit count when it is applied, and throw where they do not
+fit, but it cannot take a size from the digit count as a static size.
+The declaration stands as the Working Draft gives it.}
 
 
 %%   opr [j: IndexInt] : BinaryEndianWord[\b, bigEndianBytes, bigEndianBits\]
@@ -2283,6 +2345,14 @@ the more significant bits.
 {\tt~~}\EXP{\KWD{where} \{\,\VAR{radix} = 2^{q}, q \cdot m = k \cdot 2^{b}\,\}}}
 
 [Description to be supplied.]
+\revision{revival-numerals}{The two operators \EXP{\|} above whose other
+operand is a \TYP{NaturalNumeral} take the numeral's digit count, radix and
+value as static parameters.
+The revival's numeral types have no static parameters: the four numbers of a
+numeral are fields of its value (\secref{literals}), and a field cannot give a
+static size, so no library can declare these operators as written, and a
+concatenation with a numeral has no static result type.
+The declarations stand as the Working Draft gives them.}
 
 
 %%   littleEndian(): BinaryEndianLinearEndianSequence[\b,false,false,n,bigEndianSequence\]

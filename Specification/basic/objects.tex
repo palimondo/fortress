@@ -63,6 +63,15 @@ arbitrary-precision integer and rational types are value objects, as \library\
 declare them, and on 6 and 7~November 2026 that strings are reference objects:
 two strings are strictly equivalent only when they are one object, and their
 text equality is their \EXP{=}.}
+Two string literals of the same text denote one object, so that a string
+literal evaluated twice, and two literals of one text, are strictly equivalent;
+a string that a program builds as it runs is another object than a literal of
+the same text, unless the operation that builds it answers an existing string
+(\secref{literals}).
+\revision{revival-string-literals}{The Working Draft of February 2011 did not
+say whether a string literal denotes one object.
+The revival decided on 8~November 2026 that two string literals of one text are
+one object, on both implementations; strings remain reference objects.}
 %
 Function objects are immutable and have no fields.  Identity is not
 well-defined for function objects, and attempting to check whether two

@@ -81,11 +81,11 @@ precision, and \library\ declare the coercion into \EXP{\mathbb{R}64} from
 The conversion from \EXP{\mathbb{N}32}, though exact, stays explicit, since
 that decision names only \EXP{\mathbb{Z}32} and the numerals.
 The examples of this paragraph convert numerals and are unchanged.
-\Library\ give an integer numeral the type \TYP{IntLiteral}, from which
-\EXP{\mathbb{R}64} coerces, and the compiled type checker types a numeral so
-(\secref{literals}, \secref{revival-numeral-type}).
-The interpreter does not yet: it gives an integer numeral outside the range of
-\EXP{\mathbb{Z}32} a wider integer type, and so does not yet convert it.
+\Library\ give an integer numeral the type \TYP{NaturalNumeral}, from which
+\EXP{\mathbb{R}64} coerces with one rounding; the compiled type checker,
+against \library, and the interpreter convert an integer numeral where
+\EXP{\mathbb{R}64} is declared, whatever its value (\secref{literals},
+\secref{revival-numerals}).
 The compiled path's own library declares no coercion into \EXP{\mathbb{R}64}
 from an integer type or an integer numeral; there \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}32} and integer
 numerals convert to \EXP{\mathbb{R}64} only explicitly, and the other integer types not at all.}
@@ -101,6 +101,27 @@ functional declaration is exactly the type \VAR{U} being coerced to
  not if it is a supertype of \VAR{U}.  Note, however, that if type
  \VAR{T} can be coerced to type \VAR{U} then any subtype of \VAR{T}
  can also be coerced to type \VAR{U}.
+
+A numeral's conversion into its default (\secref{literals}) is not a coercion,
+and applies where coercion does not: where the declared type is a supertype of
+the default, as \TYP{Any}, \TYP{Object} and \TYP{Number} are, or is a type
+parameter declared without a bound, and where no type is declared.
+At a call, a numeral is applicable without coercion to a parameter of its
+default type and to a parameter of a type that fixes no type for it; its
+conversion into any other type is a coercion
+(\secref{applicability-with-coercion}).
+So of the declarations \EXP{h(x\COLON\mathbb{Z}32)} and
+\EXP{h(x\COLON\TYP{Any})}, both applicable to \EXP{h(5)} without coercion, the
+call invokes the first, which is the more specific.
+A numeral at a type of a program's own that declares no coercion from the
+numeral's type is not converted into its default and then coerced, since
+coercion does not chain (below); it is a static error.
+\revision{revival-numerals}{The Working Draft of February 2011 made coercion
+the only conversion of a value at a place of another type, and excluded a place
+whose declared type is a supertype of the type converted to.
+The revival decided on 8~November 2026 that a numeral where nothing fixes a
+type is converted into its default; the default is a rule beside coercion, and
+the paragraph above stands as it was.}
 
 Coercion from \VAR{T} to \VAR{U} may occur in an expression context
 where the context expects the expression to have type \VAR{U} and

@@ -53,9 +53,9 @@ if any other component of an explicit range has an integer type other than
 appear wherever a variable of type \EXP{\mathbb{N}32} can (\secref{natparams}),
 may be a component of a range.
 The sentence above settles it, as both implementations of the revival already
-run it: the compiled type checker gives a \KWD{nat} or \KWD{int} parameter used
-as a value the type of a numeral, and the interpreter makes it a
-\EXP{\mathbb{Z}32}.}
+run it: the compiled type checker and the interpreter give a \KWD{nat} or
+\KWD{int} parameter used as a value the type \EXP{\mathbb{Z}32}
+(\secref{revival-numerals}).}
 
 \begin{itemize}
 \item The range \EXP{a\COLONOP{}b} is the set of $n=\max(0,b-a+1)$ integers $\{a, a+1, a+2, \ldots, b-2, b-1, b\}$.
