@@ -74,8 +74,11 @@ public final class Numerals {
         final boolean radixPoint;
         /** The numeral's kind: as written, prefix minus on one, or a folded static expression. */
         final NumeralNumbers.Kind kind;
-        /** The signed exact value of an integer numeral. */
+        /** The signed exact value of an integer numeral; of a radix-point numeral, its numerator over exactDen. */
         final BigInteger signed;
+        /** The denominator of a radix-point numeral's exact value, signed over denomBase^denomPower; one for an integer numeral. */
+        int denomBase = 10;
+        int denomPower = 0;
         FValue value;
         FValue plain;
         private FValue object;
@@ -207,7 +210,13 @@ public final class Numerals {
             BigInteger v = nn.v;
             int r = nn.r.intValue();
             int m = nn.m.intValue();
-            s = new Site(nn, v);
+            // The exact value as the node holds it, a negated numeral's magnitude negated.
+            BigInteger den = BigInteger.valueOf(x.getDenomBase()).pow(x.getDenomPower());
+            BigInteger num = x.getIntPart().multiply(den).add(x.getNumerator());
+            if (nn.kind == NumeralNumbers.Kind.NEGATED) num = num.abs().negate();
+            s = new Site(nn, num);
+            s.denomBase = x.getDenomBase();
+            s.denomPower = x.getDenomPower();
             double d = simpleDoubleArith.numeralToDouble(v, r, m);
             if (nn.kind == NumeralNumbers.Kind.NEGATED) d = -d;   // -0.0 keeps its sign
             s.value = new FloatNumeral(d, s);
@@ -360,7 +369,7 @@ public final class Numerals {
     static SingleFcn numeralCoercion(FType target, FValue v) {
         Site s = ((Numeral) v).site();
         for (FGenericFunction g : Coercions.numeralCoercions(target, s.radixPoint)) {
-            if (!whereHolds(g.getFnDecl(), numbers(g.getFnDecl(), s, false))) continue;
+            if (!whereHolds(g.getFnDecl(), numbers(g.getFnDecl(), s))) continue;
             synchronized (s) {
                 if (!s.converted.containsKey(target)) {
                     FValue r = convert(target, s, g);
@@ -375,15 +384,14 @@ public final class Numerals {
 
     /**
      * The four numbers by the names the coercion's parameter type gives them:
-     * NaturalNumeral[\n, r, v\] or RadixPointNumeral[\n, m, r, v\]; at one of
-     * the library's number types the last is the folded signed value, so that
-     * a negative constant converts exactly first (-2147483648 at ZZ32).
+     * NaturalNumeral[\n, r, v\] or RadixPointNumeral[\n, m, r, v\]. A numeral
+     * has no sign: v is the numeral's digits read as one integer.
      */
-    private static Map<String, BigInteger> numbers(FnDecl fd, Site s, boolean signed) {
+    private static Map<String, BigInteger> numbers(FnDecl fd, Site s) {
         Map<String, BigInteger> m = new HashMap<String, BigInteger>();
         Type pt = (Type) fd.getHeader().getParams().get(0).getIdType().unwrap();
         List<StaticArg> args = ((TraitType) pt).getArgs();
-        BigInteger last = signed && !s.radixPoint ? s.signed : s.digitValue;
+        BigInteger last = s.digitValue;
         BigInteger[] ns = s.radixPoint
             ? new BigInteger[] { BigInteger.valueOf(s.digits), BigInteger.valueOf(s.fractionDigits), BigInteger.valueOf(s.radix), last }
             : new BigInteger[] { BigInteger.valueOf(s.digits), BigInteger.valueOf(s.radix), last };
@@ -440,10 +448,13 @@ public final class Numerals {
         FGenericFunction g = (FGenericFunction) c;
         FnDecl fd = g.getFnDecl();
         boolean library = isLibraryNumber(target);
-        // A negative integer constant converts exactly first at a library type;
-        // any other negative constant is the type's minus on the coercion of its magnitude.
-        boolean minusAfter = s.kind == NumeralNumbers.Kind.NEGATED && (s.radixPoint || !library);
-        Map<String, BigInteger> vals = numbers(fd, s, library && !minusAfter);
+        // A folded constant at a library type, a negative constant among them,
+        // converts from its exact value (P-173): only a numeral as written
+        // reaches a numeral coercion. At a program's type a negative constant
+        // is the type's own minus on the coercion of its magnitude (P-174).
+        if (library && s.kind != NumeralNumbers.Kind.WRITTEN) return exactAt(target, s);
+        boolean minusAfter = s.kind == NumeralNumbers.Kind.NEGATED;
+        Map<String, BigInteger> vals = numbers(fd, s);
         Environment clenv = g.getEnv().extendAt(fd);
         List<StaticParam> sps = fd.getHeader().getStaticParams();
         if (target instanceof GenericTypeInstance) {
@@ -470,6 +481,48 @@ public final class Numerals {
             if (!target.typeMatch(r)) return null;
         }
         return r;
+    }
+
+    /**
+     * A folded constant's exact value at one of the library's number types:
+     * exactly into an integer type or QQ, by one rounding into RR64 or RR32,
+     * a negated zero IEEE's negative zero; null for a value the type cannot
+     * hold exactly, a fraction at an integer type, which the range check and
+     * the coercions' kinds already exclude.
+     */
+    private static FValue exactAt(FType target, Site s) {
+        BigInteger num = s.signed;
+        BigInteger den = BigInteger.valueOf(s.denomBase).pow(s.denomPower);
+        String n = target.getName();
+        if (n.equals("RR64") || n.equals("RR32")) {
+            // the magnitude rounded once, then negated, as rounding to nearest is
+            // symmetric; a negated zero is IEEE's negative zero
+            BigInteger mag = num.abs();
+            boolean neg = num.signum() < 0 || (s.kind == NumeralNumbers.Kind.NEGATED && num.signum() == 0);
+            if (n.equals("RR64")) {
+                double d = simpleDoubleArith.numeralToDouble(mag, s.denomBase, s.denomPower);
+                return FFloat.make(neg ? -d : d);
+            }
+            float f = simpleDoubleArith.numeralToFloat(mag, s.denomBase, s.denomPower);
+            return FRR32.make(neg ? -f : f);
+        }
+        if (n.equals("QQ")) {
+            BigInteger g = num.gcd(den);
+            if (g.signum() == 0) g = BigInteger.ONE;
+            FValue ratio = library().getRootValueNull("Ratio");
+            if (!(ratio instanceof Fcn)) return null;
+            List<FValue> args = new ArrayList<FValue>(2);
+            args.add(FBigNum.make(num.divide(g)));
+            args.add(FBigNum.make(den.divide(g)));
+            return ((Fcn) ratio).applyToArgs(args);
+        }
+        if (!den.equals(BigInteger.ONE)) return null;
+        if (n.equals("ZZ32")) return FInt.make(num.intValue());
+        if (n.equals("ZZ64")) return FLong.make(num.longValue());
+        if (n.equals("NN32")) return FNN32.make(num.intValue());
+        if (n.equals("NN64")) return FNN64.make(num.longValue());
+        if (n.equals("ZZ")) return FBigNum.make(num);
+        return null;
     }
 
     /**

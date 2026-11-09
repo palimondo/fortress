@@ -1,0 +1,31 @@
+(* A negative constant at a program's own type is one value for its place: the coercion and the type's own minus run once, at the place's first evaluation. *)
+component NumeralMinusOnceWalk
+export Executable
+
+var coercions: ZZ32 = 0
+var minuses: ZZ32 = 0
+
+object Tally(k: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
+        coercions += 1
+        Tally(v.asZZ32)
+    end
+    opr -(self): Tally = do
+        minuses += 1
+        Tally(0 - k)
+    end
+end
+
+negThree(): Tally = -3
+
+run(): () = do
+    a = negThree()
+    b = negThree()
+    assert(a SEQV b, "two evaluations of the place of -3 are one object")
+    assert(a.k, -3, "-3 at Tally is Tally's minus on the coercion of 3")
+    assert(coercions, 1, "the coercion runs once for the place")
+    assert(minuses, 1, "the type's minus runs once for the place")
+    println "PASS"
+end
+
+end

@@ -1,0 +1,33 @@
+(* A folded constant at a library number type converts from its exact value: a negative constant, a folded sum and a negated radix-point numeral, each at the type of its place. *)
+component NumeralFoldedConstantLibraryWalk
+import Reflect.{ typeOf }
+export Executable
+
+run(): () = do
+    z: ZZ32 = -2147483648
+    assert(typeOf(z).asString, "ZZ32", "-2147483648 at ZZ32 is a ZZ32")
+    assert(z + 2147483647, -1, "-2147483648 at ZZ32 has its exact value")
+    w: ZZ64 = -3000000000
+    assert(typeOf(w).asString, "ZZ64", "-3000000000 at ZZ64 is a ZZ64")
+    assert(w + 3000000000 = 0, "-3000000000 at ZZ64 has its exact value")
+    x: RR64 = -3000000000
+    assert(x.rawBits, -4474790173233643520, "-3000000000 at RR64 is the double -3.0E9")
+    h: RR32 = -0.5
+    assert(typeOf(h).asString, "RR32", "-0.5 at RR32 is an RR32")
+    assert(asFloat(h) SEQV -0.5, "-0.5 at RR32 is exactly -0.5")
+    r: RR64 = -0.0
+    assert(r.rawBits, -9223372036854775808, "-0.0 at RR64 is IEEE's negative zero")
+    assert((1/r).isInfinite AND (1/r) < 0, "1/r is -Infinity for r: RR64 = -0.0")
+    s: ZZ64 = 2 + 3
+    assert(typeOf(s).asString, "ZZ64", "2 + 3 at ZZ64 is a ZZ64")
+    assert(s - 5 = 0, "2 + 3 at ZZ64 is 5")
+    t: ZZ = -3
+    assert(typeOf(t).asString, "ZZ", "-3 at ZZ is a ZZ")
+    assert(t + 3 = 0, "-3 at ZZ is -3")
+    q: QQ = -0.1
+    assert(numerator(q), big(-1), "-0.1 at QQ is exactly -1/10")
+    assert(denominator(q), big(10), "-0.1 at QQ is exactly -1/10")
+    println "PASS"
+end
+
+end
