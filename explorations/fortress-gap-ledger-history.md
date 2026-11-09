@@ -9863,3 +9863,21 @@ closed by 12292add2
 closed by 12292add2
 
 | 20 | under walk, a list display takes its element type from its elements' run-time types, and `List` is invariant: `<\|1.0, 1.0\|>` is a `List[\FloatLiteral\]`, which a binding declared `List[\RR64\]` refuses, so a display of float numerals needs its static argument, `<\|[\RR64\] 1.0, 1.0\|>` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/aggregate.tex`, "List Expressions" (the element type is the union of the element types) | none | ours, blinded | siblings: 96, 432, 510, 705, 717. A display calls `opr <\|[\E\] xs: E... \|>` (`Library/List.fsi:114`); walk takes `E` as the join of the elements' run-time types (row 511), each of the five native number objects and the four string objects read at its trait (`interpreter/evaluator/types/LanguageTypes.java`), so `<\|1, 2\|>` is a `List[\ZZ32\]` (`tests/LanguageTypeInstancesWalk`); a float numeral's is `FloatLiteral` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:44`), and a declared type does not fix it (row 510). Objects join to their trait. A list comprehension takes a declared type where one directs it, else is built the same way (F-228). full text: history, row 20 |
+
+### Row 962
+
+note added
+
+| 962 | on the compiled path a `nat` or `int` parameter of size 2^31 or more read as a value raises `java.lang.Error`, 'Not in range for ZZ32', at run time, which no `catch` sees: `sz64[\nat k\](b: Box[\k\]): ZZ64 = k` dies at `Box[\2147483648\](0)`, since a size read as a value is a `ZZ32` (P-173, P-40) | CONTESTED | implementation gap (codegen) | `basic/trait-parameters.tex`, "Nat and Int Parameters" | none | climb batch 29 rung C | siblings: 675, 325. The code generator converts the class loader's `IntLiteral` constant by `FIntLiteral.asZZ32` (`compiler/codegen/CodeGen.java:6364` at fa13e6383c), which throws `outOfRange` (`compiler/runtimeValues/FIntLiteral.java:63-71`). Open: whether such a read is refused where the class loads, raises `IntegerOverflow`, or is not a `ZZ32`. Probe: `NatRtBigSize` before its respelling, compiled and run at 7bd7c7dfc7: '2147483647', then 'java.lang.Error: Not in range for ZZ32: 2147483648'. Workaround: read the size through its type, by dispatch on `Box[\n\]`. |
+
+### Row 328
+
+rewritten
+
+| 328 | `IntLiteral` comparison on the compiled path is performed at `ZZ64`, so comparing a numeral outside `ZZ64` throws where the specification requires an answer: `a = 18446744073709551615` then `a < 5` dies with `Not in range for ZZ64` | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/basic/expressions/literals.tex`, "Literals" | none | repair batch R2's skeptic | `trait IntLiteral`'s six comparisons are each `self.asZZ64 <op> other.asZZ64` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:912-917` at c124c6b65), and `FIntLiteral.asZZ64` raises for a numeral carried as a decimal string (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FIntLiteral.java:74-77`, message at `:63-65`). Walk prints `false`. No test pins it (F-118). Old probe `explorations/compiler-probes/p37.fss`, in the parent of c69cb2064; its outputs `explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/p37.walk.skeptic` and `p37.compiled.skeptic`, in the parent of ab067d9b6. full text: history, row 328 |
+
+### Row 961
+
+note added
+
+| 961 | on the compiled path a negative integer numeral at a program's own number type reaches the type's `coerce(x: IntLiteral)` signed, where P-173 and P-174 make it prefix `-` on the coercion of the natural numeral and refuse it at a type without `-`: `t: Tally = -3` calls the coercion with -3 | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNegativeNumeralOwnType.test` | climb batch 29 rung C | The integer literal fold makes `-3` one negative `IntLiteralExpr` before the checker (`compiler/desugarer/IntegerLiteralFoldingVisitor.java:148-153`), and keeps no reference to the prefix operator that the checker would apply to the program's coercion of `3`. Until the switch-over the prelude's `IntLiteral` carries the sign, so the coercion reads -3 exactly; the difference shows once the coercion reads a numeral's four numbers. Workaround: none needed before the switch-over. |
