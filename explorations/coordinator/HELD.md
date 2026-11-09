@@ -16,6 +16,15 @@
 - 00:35 Thread `596631fe`: the Unicode spelling of `SEQV` and `=/=`: single characters, `≣` and `≠`; checked at the source and answered.
 - 00:22 Thread `f6115171`: change 37 against the POPL 2019 paper, research delegated; answered at 00:40 from `explorations/reviews/meet-rule-popl2019-2026-11-08.md`.
 
+## Held in chat (2026-11-09)
+
+- 13:31 His order: finish the stopped scout of his words, then compact and start fresh. A finishing scout was launched (`<scratchpad>/numeral-fidelity/static-params-words-2.md`); the Opus recheck was stopped, to run after it from `recheck-brief.md`.
+- 13:30 His correction of the coordinator's conduct: after his stop of 13:22, the coordinator told him nothing was running and nothing was lost, having checked only that the scout's file existed; the scout had been killed and its file was partial. For the skill writer: after a stop or an interrupt, check each worker's state and each output file's completeness, never its existence alone, before saying what ran or what was lost; a worker that his stop killed is relaunched to finish when he asks.
+- 13:22 His correction, to the Fable reviewer's reading that his words of 22:02 to 22:21 on 11-08 settle "the four numbers ... read through the four getters": "No fucking getters. Where wasn't I clear enough? I was talking about constant folding."
+- 13:20 His correction, to the Fable reviewer's line that he argued for the Working Draft's static-parameter form "which he then gave up": "I never gave up working draft static parameter form. Where do you get this?" Rechecked at the source by scouts and an Opus worker (the boot note).
+- 09:3x His word on the landing: "No, don't hold the record update. Let it land as the batch wrote it. use that as final inputs for the [Fable] review as well." The coordinator's boot-note paraphrase "P-165 included" was not his, and the record-landing quoted it as his ground for P-165's list; P-165's history is to quote these words.
+- 09:2x His request: a delegation chain, scouts of his words of 11-08 on the numeral design and of climb batch 29 as landed, then a Fable review at `xhigh` of whether his intentions and decisions were carried out faithfully, triggered by "RadixPointNumeral declares asFloat, with one rounding." Done: `reviews/numeral-fidelity-2026-11-09.md` (`3bab3569dc`).
+
 ## Held in chat (2026-11-08)
 
 - 23:3x His go for climb batch 29: "pre-approved after the Fable review." So the launch follows the Fable review of the batch record, applied, with no further word of his, as for climb batches 26 to 28; the batch is the literals design of 22:3x and 23:3x (its rungs: PLAN's phase 4 lines after the record writer), the strings rung (P-171) and walk's generics at language types (row 364's way A); N1 and N5 stay out for the budget. He compacts and switches the session to Opus for the run and the landing.
