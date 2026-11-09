@@ -167,3 +167,11 @@ The `XXX` test of the left numeral, run twice on the code that `d541ae9682` comm
 ## Revival change
 
 `record.md`, "Revival change", gives it: the team's library and walk gave a numeral the interpreter's objects `IntLiteral` and `FloatLiteral`, and the tree now gives it the Working Draft's types with the four numbers, converting it where it stands.
+
+## Questions for the curator
+
+Carried by the rung's skeptic from the worker's result, word for word; each is a decision not taken.
+
+- A numeral base beside a non-numeral exponent, `10^k` for `k: ZZ32`, is ambiguous to the checker once RR32 converts from NaturalNumeral (P-76): RR32's `^(self, b: AnyIntegral)`, NN32's and ZZ32's `^` tie and the numeral tie rule does not apply since the exponent's declared types differ. Should the checker's numeral tie rule cover it, or is rung C's narrow step 5 (fork C4) the intended settlement? Evidence: count on d541ae9682, '#total 2' at Library/FortressLibrary.fss:4839; my rung typed strToFloat's base instead (Library/FortressLibrary.fss:4839-4840).
+- Fork N7's default said walk converts a numeral into the eight number types 'in walk's Java'; the rung calls the library's own coercion from the numeral type with the numeral object, once per site and type, which gives the same value by construction. Is that acceptable as built? Evidence: ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:88-115, Numerals.java (converted).
+- With RR32 converting from both numeral types, `a + 2.5`, `a + 2` and `a MAX 2.5` for an RR32 `a` now run RR32's operator, where the revival's test asserted RR64's; the rung reads this as P-76's and P-172's consequence (RR32's declaration is the more specific). Evidence: ProjectFortress/tests/RR32SiblingRungV.fss:50, :52, :55.
