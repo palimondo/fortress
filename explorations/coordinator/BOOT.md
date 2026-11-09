@@ -6,7 +6,8 @@
 
 ## Running
 
-Nothing. No worker, no check-in. The last worker, the Opus record writer, ended at 17:4x (`cac54a1bf1`, pushed).
+- **The probe that builds the static numerals, launched 17:52 UTC on 11-09 at his go of 17:5x** ("let's go with the probe. I hope you got it right. I'll read it later."): one Opus worker at `xhigh`, launched with `postmortem-2026-11-09-numerals/probe-brief.md` word for word (plus one sentence that the record now states the design, `cac54a1bf1`, and that the snapshot rules where they differ). Estimate: about six hours, 2M to 3M tokens written. It builds `/home/user/fortress-base30` first, works in `/home/user/fortress-proto-draft`, and delivers `explorations/compile-ladder/plan-30/probes/draft-numerals.md` and `.patch` with an INDEX line, committed and pushed by the worker itself by `committing.md`'s rule. When it ends: read its final message and the report whole; verify the commit and the push; give him the headline (what each step cost, what stood in the way, what is unbuilt); then "After the probe reports" below. Check-ins armed 45 minutes apart from 18:39 to 23:54 UTC ("Probe check-in 1" to "8"); at each, if it runs, reply "." only.
+- He has not yet read the coordinator's report of 17:4x on the record's correction, nor answered the `v`-against-P-40 point; both wait.
 
 ## The post-mortem, where it stands
 
