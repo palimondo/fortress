@@ -1211,3 +1211,17 @@ The landing of climb batch 29 on `main` made area parts false, from the list in 
 - `tests-writing.md`, "A test program": the bullet on row 454 (closed by `3de571bac`) replaced by the typed operand that a test of run-time arithmetic or concatenation needs. F-339, F-343.
 - `tests-writing.md`, "Where a test goes, and how it passes": the key `run_exits_nonzero=true`. `ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:595-606`; `explorations/compile-ladder/rung-literal-fold/REPORT.md`, "The harness key".
 - `library.md`, "Designing a change": "as for `Reflect`'s bindings" in place of `IntLiteral`'s, which left the library. P-169, F-32, F-299.
+
+## The cold read of climb batch 29's skill changes, 2026-11-09
+
+From the cold read of `523a69054b` and `dfcb7eb18f` (`explorations/compile-ladder/climb-batch-29/skills/cold-read.md`); settled by the record-landing workflow's writer task; each checked on `main` at `dfcb7eb18f`.
+
+- `SKILL.md`, "The phases": the fold gives a numeral, a quotient of two numerals or a boolean. `compiler/desugarer/IntegerLiteralFoldingVisitor.java:38-52`; F-339. "Static parameters": a pointer to "Numbers".
+- `compiler.md`, "What the code generator does": the program's own `coerce`, once for each place where the numeral is written, except at a generic type (row 957); the test key `run_exits_nonzero=true`. F-340.
+- `compiler.md`, "Traps of the compiled path": `("" || c) || s` for row 965, from the prelude's `opr ||(self, b:Object)` (`LibraryBuiltin/CompilerBuiltin.fsi:37`), not run; the lead names numerals and sizes; a negative constant with its sign (row 961); "Assert no value" in place of an open question (row 962); the sentence on dispatch on `Box[\n\]` cut; the selector bound as `x = 7` (row 963).
+- `interpreter.md`, "How walk evaluates a program": the lead's "unless the case says otherwise"; the workaround `c: RR32 = 2.5` (row 958); the `digits` getter (row 960, `Library/FortressLibrary.fsi:454-466`); "Assert no value" (row 962); a negative constant with its sign (row 968). "Natives": a `||` of string literals folds into one `FlatString` literal (F-343).
+- `library.md`, "Designing a change": `Library/Reflect.fss` named.
+- `revival-changes.md`, "Traits and objects": "A numeral at a parameter of type `Index`" for "A numeral there".
+- `revival-changes.md`, "Numbers": walk's refusal 'Type mismatch binding' (`ProjectFortress/tests/NumeralOutOfRangeWalk.test`); row 962's sentence names the parameter; the coercion's body reads the four getters (`Library/FortressLibrary.fsi:454-462`); a negative constant reaches it as prefix `-` on the coercion's result (`Specification/basic/expressions/literals.tex:215-218`); the list of open rows cut, as the orientation judgement's first finding for the next update proposes; the fold's integer operators listed (F-339); a quotient that is not whole stays `n / d` in lowest terms (`IntegerLiteralFoldingVisitor.java:46`, `:58`); the `||` chain's character literals restated; "a variable operand" for "a typed operand"; row 387 made its own sentence. `revival-changes.md` went from 27,692 to 28,031 characters.
+- `tests-writing.md`: "a variable operand, not a literal"; the `run_*` checks and the default `PASS` check apply with `run_exits_nonzero=true` (`FileTests.java:276-282`, `:595-606`).
+- `compiler.md`, its size: 31,002 to 31,219 characters.
