@@ -4836,7 +4836,8 @@ strToFloat(s: String): RR64 = do   (*) Quick and dirty implementation
   intpart = s.upto('.')
   frac = s.beyond('.')
   both = intpart || frac
-  asFloat((SUM[\ZZ32\][k <- 0 # |both|] 10^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(10^(|frac|)))
+  ten: ZZ32 = 10
+  asFloat((SUM[\ZZ32\][k <- 0 # |both|] ten^k (both[|both| - 1 - k].codePoint - '0'.codePoint))/(ten^(|frac|)))
 end
 
 

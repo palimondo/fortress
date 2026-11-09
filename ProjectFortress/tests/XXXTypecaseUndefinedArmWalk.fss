@@ -1,0 +1,17 @@
+(* A typecase arm that names a type no declaration defines is refused at load. *)
+component XXXTypecaseUndefinedArmWalk
+export Executable
+
+kind(v: Any): String =
+  typecase v of
+    NoSuchTypeHere => "the undefined arm"
+    ZZ32 => "ZZ32"
+    else => "another type"
+  end
+
+run(): () = do
+    println(kind(3))
+    println "PASS"
+  end
+
+end
