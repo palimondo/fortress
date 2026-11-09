@@ -4,6 +4,7 @@ import com.sun.fortress.exceptions.FortressException;
 import com.sun.fortress.interpreter.Driver;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.types.FType;
+import com.sun.fortress.interpreter.evaluator.types.FTypeTop;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTuple;
 import com.sun.fortress.interpreter.evaluator.types.BottomType;
 import com.sun.fortress.nativeHelpers.simpleDoubleArith;
@@ -451,8 +452,10 @@ public final class Numerals {
 
     /**
      * The dispatch caches' key of an argument list: each argument's type, and
-     * for a numeral the bottom type, its default's type and its own type, so
-     * that a numeral and a value of its default type have different keys.
+     * for a numeral the bottom type, its default's type, its own type and its
+     * range, so that a numeral and a value of its default type have different
+     * keys, and so do two numerals of one default that an unsigned type of
+     * its width holds and does not.
      */
     public static final class Keys implements EquivalenceClass<List<FValue>, List<FType>> {
         public int compare(List<FValue> x, List<FType> y) {
@@ -465,6 +468,8 @@ public final class Numerals {
                     c = cmp(v.type(), y, k++, ly);
                     if (c != 0) return c;
                     c = cmp(numeralKey(v), y, k++, ly);
+                    if (c != 0) return c;
+                    c = cmp(rangeKey(v), y, k++, ly);
                     if (c != 0) return c;
                 } else {
                     int c = cmp(keyType(v), y, k++, ly);
@@ -494,6 +499,7 @@ public final class Numerals {
                     l.add(BottomType.ONLY);
                     l.add(v.type());
                     l.add(numeralKey(v));
+                    l.add(rangeKey(v));
                 } else l.add(keyType(v));
             }
             return l;
@@ -505,6 +511,19 @@ public final class Numerals {
     private static FType numeralKey(FValue v) {
         FType t = numeralType(v);
         return t != null ? t : v.type();
+    }
+
+    /**
+     * Whether the integer numeral v lies in the range of the unsigned type of
+     * its default's width, NN32 for a ZZ64 default and NN64 for a ZZ default,
+     * as the bottom type, else the top type: the one part of a numeral's
+     * dispatch that its default's type does not fix (inRange).
+     */
+    private static FType rangeKey(FValue v) {
+        BigInteger d = ((Numeral) v).site().digitValue;
+        boolean fits = v instanceof LongNumeral ? d.compareTo(NN32_MAX) <= 0
+                       : v instanceof BigNumeral ? d.compareTo(NN64_MAX) <= 0 : true;
+        return fits ? BottomType.ONLY : FTypeTop.ONLY;
     }
 
     /** A tuple that holds a numeral is keyed by its plain type, and is told apart from one that does not. */
