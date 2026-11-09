@@ -1564,7 +1564,7 @@ trait Functionals { self: STypeChecker with Common =>
                                          errorString("Function body",
                                                      "declared return"))
         case None =>
-          this.extend(params).checkExpr(body)
+          defaultNumeral(this.extend(params).checkExpr(body))
       }
 
       val range = declaredRetType.getOrElse(getType(checkedBody).getOrElse(return expr))

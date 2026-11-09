@@ -38,7 +38,8 @@ export Executable
 (*) this same test is checking.
 
 (*) Returns 4 or 9 as an IntLiteral, chosen at run time.
-pick(b: Boolean) = if b then 4 else 9 end
+pick(b: Boolean) = choose(b, 4, 9)
+choose(b: Boolean, lo: IntLiteral, hi: IntLiteral) = if b then lo else hi end
 
 run():() = do
     small = pick(true)

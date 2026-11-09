@@ -221,7 +221,9 @@ trait Decls { self: STypeChecker with Common =>
                                                                 "declared return")))
 
         case None =>
-          val newBody = newChecker.checkExpr(body)
+          val newBody =
+            if (NU.isCoercion(f)) newChecker.checkExpr(body)
+            else newChecker.defaultNumeral(newChecker.checkExpr(body))
           val rt = if (NU.isCoercion(f)) None else getType(newBody)
           (rt, newBody)
       }
