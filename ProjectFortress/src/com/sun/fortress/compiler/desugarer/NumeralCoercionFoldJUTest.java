@@ -124,8 +124,15 @@ public class NumeralCoercionFoldJUTest extends TestCaseWrapper {
         assertEquals("one of the four numbers", BigInteger.TEN, evaluate(v));
         assertNull("a do block", evaluate(ExprFactory.makeDo(S, edu.rice.cs.plt.tuple.Option.<com.sun.fortress.nodes.Type>none(), v)));
         Id infinity = NodeFactory.makeId(api("CompilerBuiltin"), NodeFactory.makeId(S, "Infinity"));
-        Expr construct = ExprFactory.make_RewriteFnApp(S, ExprFactory.makeFnRef(infinity, Collections.<IdOrOp>singletonList(infinity)),
-                                                       ExprFactory.makeVoidLiteralExpr(S));
+        com.sun.fortress.nodes.Type ctor = NodeFactory.makeArrowType(S, NodeFactory.makeVoidType(S), NodeFactory.makeTraitType(infinity));
+        Expr construct = ExprFactory.make_RewriteFnApp(S,
+            ExprFactory.makeFnRef(S, false, edu.rice.cs.plt.tuple.Option.<com.sun.fortress.nodes.Type>some(ctor),
+                                  Collections.<com.sun.fortress.nodes.StaticArg>emptyList(), ExprFactory.defaultLexicalDepth,
+                                  infinity, Collections.<IdOrOp>singletonList(infinity),
+                                  Collections.<com.sun.fortress.nodes.Overloading>emptyList(),
+                                  Collections.<com.sun.fortress.nodes.Overloading>emptyList(),
+                                  edu.rice.cs.plt.tuple.Option.<com.sun.fortress.nodes.Type>none()),
+            ExprFactory.makeVoidLiteralExpr(S));
         assertNull("a constructor call", evaluate(construct));
         Id toString = NodeFactory.makeId(api("com.sun.fortress.nativeHelpers"),
                                          NodeFactory.makeId(S, "simpleArbitraryPrecisionArith" + Naming.FOREIGN_TAG + "toString(Ljava/math/BigInteger;)Ljava/lang/String;"));
