@@ -24,7 +24,7 @@ public class FBigNum extends FNativeObject implements HasIntValue {
 
     private final BigInteger value;
 
-    private FBigNum(BigInteger i) {
+    FBigNum(BigInteger i) {
         super(null);
         value = i;
     }

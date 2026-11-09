@@ -56,6 +56,7 @@ public final class Coercions {
      * with the target's own static arguments first.
      */
     static SingleFcn coercionFor(FType target, FValue v) {
+        if (Numerals.isNumeral(v)) return numeralCoercionFor(target, v);
         if (target instanceof GenericTypeInstance) {
             SingleFcn g = genericCoercionFor((GenericTypeInstance) target, v);
             if (g != null) return g;
@@ -85,11 +86,43 @@ public final class Coercions {
     }
 
     /**
-     * The most specific of the generic target's lifted coercions, each
-     * instantiated with the target's static arguments, that applies to v
-     * without a coercion; or null.
+     * The coercion to target from the numeral v's own type, NaturalNumeral or
+     * RadixPointNumeral: the one of target's coercions whose parameter type
+     * is the narrowest that holds the numeral type, which it receives as the
+     * numeral object; or null, also where v is outside target's range when
+     * target is an integer type.  A numeral does not reach target through a
+     * coercion from its default, since coercions do not chain.
      */
-    private static SingleFcn genericCoercionFor(GenericTypeInstance target, FValue v) {
+    private static SingleFcn numeralCoercionFor(FType target, FValue v) {
+        FType nt = Numerals.numeralType(v);
+        if (nt == null || !Numerals.inRange(target, v)) return null;
+        List<SingleFcn> fs = new ArrayList<SingleFcn>();
+        if (target instanceof GenericTypeInstance) {
+            fs.addAll(instantiatedCoercions((GenericTypeInstance) target));
+        } else {
+            Fcn lifted = liftedCoercions(target);
+            if (lifted instanceof OverloadedFunction) {
+                for (Overload o : ((OverloadedFunction) lifted).getOverloads()) fs.add(o.getFn());
+            } else if (lifted instanceof SingleFcn) {
+                fs.add((SingleFcn) lifted);
+            }
+        }
+        SingleFcn best = null;
+        for (SingleFcn f : fs) {
+            if (f instanceof GenericFunctionOrMethod) continue;
+            List<FType> d = f.getDomain();
+            if (d.size() != 1 || !nt.subtypeOf(d.get(0))) continue;
+            if (best == null || d.get(0).subtypeOf(best.getDomain().get(0))) best = f;
+        }
+        return best;
+    }
+
+    /**
+     * The generic target's lifted coercions, each instantiated with the
+     * target's static arguments.
+     */
+    private static List<SingleFcn> instantiatedCoercions(GenericTypeInstance target) {
+        List<SingleFcn> res = new ArrayList<SingleFcn>();
         FTypeGeneric generic = target.getGeneric();
         String name = NamingCzar.LIFTED_COERCION_PREFIX + generic.getName();
         Fcn lifted = null;
@@ -101,7 +134,7 @@ public final class Coercions {
                 break;
             }
         }
-        if (lifted == null) return null;
+        if (lifted == null) return res;
         List<GenericFunctionOrMethod> generics = new ArrayList<GenericFunctionOrMethod>();
         if (lifted instanceof OverloadedFunction) {
             for (Overload o : ((OverloadedFunction) lifted).getOverloads()) {
@@ -111,17 +144,27 @@ public final class Coercions {
             generics.add((GenericFunctionOrMethod) lifted);
         }
         List<FType> targs = target.getTypeParams();
-        List<FValue> args = Collections.singletonList(v);
-        SingleFcn best = null;
         for (GenericFunctionOrMethod g : generics) {
             if (g.getStaticParams().size() != targs.size()) continue;
-            SingleFcn f;
             try {
-                f = g.typeApply(targs);
+                res.add(g.typeApply(targs));
             }
             catch (FortressException ex) {
-                continue;
+                // not an instance at these static arguments
             }
+        }
+        return res;
+    }
+
+    /**
+     * The most specific of the generic target's lifted coercions, each
+     * instantiated with the target's static arguments, that applies to v
+     * without a coercion; or null.
+     */
+    private static SingleFcn genericCoercionFor(GenericTypeInstance target, FValue v) {
+        List<FValue> args = Collections.singletonList(v);
+        SingleFcn best = null;
+        for (SingleFcn f : instantiatedCoercions(target)) {
             List<FValue> fargs = f.fixupArgCount(args);
             if (fargs == null || !OverloadedFunction.argsMatchTypes(fargs, f.getDomain())) continue;
             if (best == null || FTypeTuple.moreSpecificThan(f.getDomain(), best.getDomain())) best = f;
@@ -134,7 +177,7 @@ public final class Coercions {
      * by element).
      */
     public static boolean admits(FType t, FValue v) {
-        if (t.typeMatch(v)) return true;
+        if (t.typeMatch(v) || Numerals.fitsAsIs(t, v)) return true;
         if (t instanceof FTypeTuple) {
             if (!(v instanceof FTuple)) return false;
             List<FType> types = ((FTypeTuple) t).getTypes();
@@ -222,7 +265,8 @@ public final class Coercions {
      * v converted by the coercion c to target.
      */
     static FValue apply(SingleFcn c, FType target, FValue v) {
-        FValue r = c.applyInnerPossiblyGeneric(Collections.singletonList(v));
+        FValue r = Numerals.isNumeral(v) ? Numerals.converted(v, target, c)
+                                         : c.applyInnerPossiblyGeneric(Collections.singletonList(v));
         if (!target.typeMatch(r)) {
             return error(errorMsg("Coercion ", c, " to ", target, " returned ", r, " of type ", r.type()));
         }
@@ -235,6 +279,7 @@ public final class Coercions {
      */
     public static FValue coerce(FType target, FValue v) {
         if (target instanceof FTypeTuple) return coerceTuple((FTypeTuple) target, v);
+        if (Numerals.fitsAsIs(target, v)) return Numerals.object(v);
         SingleFcn c = coercionFor(target, v);
         return c == null ? null : apply(c, target, v);
     }
@@ -338,6 +383,30 @@ public final class Coercions {
     }
 
     /**
+     * target itself, or, where some argument is a numeral at a parameter that
+     * its own numeral type fits and its default does not, a call that makes
+     * each such numeral its numeral object and dispatches the arguments again,
+     * so that a functional method of the numeral type is found on that object.
+     */
+    static SingleFcn withNumeralObjects(SingleFcn target, List<FValue> args, OverloadedFunction owner) {
+        if (target instanceof CoercedCall) return target;   // its converted arguments are dispatched again
+        List<FValue> oargs = target.fixupArgCount(args);
+        if (oargs == null) return target;
+        List<FType> domain = target.getDomain();
+        boolean[] objects = new boolean[oargs.size()];
+        boolean any = false;
+        for (int j = 0; j < oargs.size(); j++) {
+            FType t = Useful.clampedGet(domain, j).deRest();
+            FValue a = oargs.get(j);
+            if (Numerals.isNumeral(a) && !t.typeMatch(a) && Numerals.fitsAsIs(t, a)) {
+                objects[j] = true;
+                any = true;
+            }
+        }
+        return any ? new CoercedCall(target, new SingleFcn[oargs.size()], owner, objects) : target;
+    }
+
+    /**
      * The coercions for each argument position of an overloaded call, chosen
      * by the argument types and kept in the per-argument-type cache: for each
      * position the coercion that converts it, or null, together with the
@@ -348,12 +417,18 @@ public final class Coercions {
         private final SingleFcn target;
         private final SingleFcn[] coercions;
         private final OverloadedFunction owner;
+        private final boolean[] objects;   // the positions of numerals that become their numeral objects, or null
 
         CoercedCall(SingleFcn target, SingleFcn[] coercions, OverloadedFunction owner) {
+            this(target, coercions, owner, null);
+        }
+
+        CoercedCall(SingleFcn target, SingleFcn[] coercions, OverloadedFunction owner, boolean[] objects) {
             super(target.getWithin());
             this.target = target;
             this.coercions = coercions;
             this.owner = owner;
+            this.objects = objects;
         }
 
         int arity() {
@@ -365,7 +440,9 @@ public final class Coercions {
             List<FValue> res = new ArrayList<FValue>(oargs);
             List<FType> domain = target.getDomain();
             for (int j = 0; j < coercions.length; j++) {
-                if (coercions[j] != null) {
+                if (objects != null && objects[j]) {
+                    res.set(j, Numerals.object(oargs.get(j)));
+                } else if (coercions[j] != null) {
                     res.set(j, apply(coercions[j], Useful.clampedGet(domain, j).deRest(), oargs.get(j)));
                 }
             }

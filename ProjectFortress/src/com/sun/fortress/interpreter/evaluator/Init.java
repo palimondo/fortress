@@ -15,6 +15,7 @@ import com.sun.fortress.interpreter.Driver;
 import com.sun.fortress.interpreter.evaluator.types.*;
 import com.sun.fortress.interpreter.evaluator.values.GenericFunctionOrMethod;
 import com.sun.fortress.interpreter.evaluator.values.Coercions;
+import com.sun.fortress.interpreter.evaluator.values.Numerals;
 import com.sun.fortress.interpreter.glue.NativeApp;
 import com.sun.fortress.repository.ProjectProperties;
 import com.sun.fortress.useful.Useful;
@@ -42,6 +43,7 @@ public class Init {
 
         NativeApp.reset();
         Coercions.reset();
+        Numerals.reset();
         Driver.reset();
     }
 

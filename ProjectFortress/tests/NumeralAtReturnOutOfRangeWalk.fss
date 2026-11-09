@@ -1,0 +1,14 @@
+(* A numeral outside ZZ32's range at a declared return type ZZ32 is refused there. *)
+component NumeralAtReturnOutOfRangeWalk
+export Executable
+
+wide(): ZZ32 = 3000000000
+
+w = wide()
+
+run(): () = do
+    println(w)
+    println "PASS"
+  end
+
+end

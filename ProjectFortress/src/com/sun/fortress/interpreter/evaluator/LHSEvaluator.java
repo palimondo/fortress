@@ -112,7 +112,7 @@ public class LHSEvaluator extends NodeAbstractVisitor<Voidoid> {
                 }
             }
         }
-        e.assignValue(x, s, v);
+        e.assignValue(x, s, Numerals.plain(v));
         return null;
     }
 
@@ -217,16 +217,17 @@ public class LHSEvaluator extends NodeAbstractVisitor<Voidoid> {
                 if (type.isSome()) {
                     Type t = NodeUtil.optTypeOrPatternToType(type).unwrap();
                     outerType = EvalType.getFType(t, evaluator.e);
-                    if (value.type().subtypeOf(outerType) || outerType == BottomType.OPEN) evaluator.e.putVariable(s, value, outerType);
+                    if (value.type().subtypeOf(outerType) || outerType == BottomType.OPEN) evaluator.e.putVariable(s, Numerals.plain(value), outerType);
                     else {
                         FValue v = Coercions.coerce(outerType, value);
-                        if (v != null) evaluator.e.putVariable(s, v, outerType);
+                        if (v != null) evaluator.e.putVariable(s, Numerals.plain(v), outerType);
                         else error(x, evaluator.e, errorMsg("RHS expression type ",
                                                        value.type(),
                                                        " is not assignable to LHS type ",
                                                        outerType));
                     }
                 } else {
+                    value = Numerals.plain(value);
                     if (mutable) putOrAssignVariable(x, s);
                     else evaluator.e.putValue(s, value);
                 }

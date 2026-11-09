@@ -1629,11 +1629,11 @@ public class Evaluator extends EvaluatorBase<FValue> {
     }
 
     public FValue forFloatLiteralExpr(FloatLiteralExpr x) {
-        return new FFloatLiteral(x.getText(), x.getIntPart(), x.getNumerator(), x.getDenomBase(), x.getDenomPower());
+        return Numerals.radixPoint(x);
     }
 
     public FValue forIntLiteralExpr(IntLiteralExpr x) {
-        return FIntLiteral.make(x.getIntVal());
+        return Numerals.integer(x);
     }
 
     public FValue forBooleanLiteralExpr(BooleanLiteralExpr x) {

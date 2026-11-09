@@ -9575,3 +9575,15 @@ rewritten
 rewritten
 
 | 387 | under `walk`, a body whose return type is declared is not converted by coercion: `r(): Wide = NarrowOf(3)` returns the `NarrowOf`, and `r().big` ends the run with "Cannot find definition for method", where the compiled run converts and answers `3` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Principles of Coercion" | `ProjectFortress/tests/XXXCoercionReturnRungC.fss` | climb batch 4 rung C | The team switched the interpreter's return check off: `if (true \|\| t.typeMatch(x)) return x;` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java:45` at c124c6b65), shared by function expressions, so a return converts nothing. Walk converts at a binding, field, element and argument, not here: `retR64(x: RR32): RR64 = x` answers `1.5 : RR32`, and `ret(): ZZ64 = 2147483647; ret() + 1` is `-2147483648`, where the compiled run gives an `RR64` and `2147483648`; `array[\RR64\](4,4).fill` with an integer-valued `fn (i: ZZ32, j: ZZ32): RR64` stores `ZZ32`s (row 153). Workaround: write the value at the declared type (`1.0 headDim`). full text: history, row 387 |
+
+### Row 360
+
+rewritten
+
+| 360 | a numeral with a radix point is rounded, floored, ceiled and truncated as its nearest double, not as the rational it denotes, on both paths: … | FIXED | library gap vs spec (library) | `Specification/basic/expressions/literals.tex`, "Literals"; `Specification/basic-lib/numbers.tex`, "Rational Numbers" | none | climb batch 3 rung R's skeptic | fixed `69427e942`; settled by P-173: at the argument of round, floor, ceiling or truncate a numeral with a radix point converts into QQ, RR32 or RR64, a tie that reads RR64, so round(2.50000000000000001) is 2 and round(3.49999999999999999) is 4, as both paths answer at f03e6c1175; tests/XXXRoundNearTieNumeral.fss asserts the rational's 3 and 3, which P-173 drops; full text: history, row 360 |
+
+### Row 387
+
+rewritten
+
+| 387 | under `walk`, a body whose return type is declared is not converted by coercion: `r(): Wide = NarrowOf(3)` returns the `NarrowOf`, and `r().big` ends the run with "Cannot find definition for method", where the compiled run converts and answers `3` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Principles of Coercion" | `ProjectFortress/tests/XXXCoercionReturnRungC.fss` | climb batch 4 rung C | siblings: 153. The team switched the interpreter's return check off: `if (true \|\| t.typeMatch(x)) return x;` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java:45` at c124c6b65), so a return converts nothing: `retR64(x: RR32): RR64 = x` answers `1.5 : RR32`. The numeral fold makes the bodies of `ZZ`'s `zero` and `one` getters the numeral `0` (`Library/FortressLibrary.fss:1093-1095`), so `big(5).one LSHIFT 40` is `0` (`XXXZZOneGetterWalk`, climb batch 29 rung F). Workaround: write the value at the declared type (`1.0 headDim`). full text: history, row 387 |

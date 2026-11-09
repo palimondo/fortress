@@ -15,7 +15,7 @@ public class FInt extends FNativeObject implements HasIntValue {
     private final int val;
     private static volatile NativeConstructor con;
 
-    private FInt(int x) {
+    FInt(int x) {
         super(null);
         val = x;
     }

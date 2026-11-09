@@ -1,7 +1,7 @@
-component XXXNumeralWithNN32
+component NumeralWithNN32
 export Executable
 
-(*) An NN32 with an integer numeral answers at NN32, the numeral converting into NN32; row 484.
+(*) An NN32 with an integer numeral answers at NN32, the numeral converting into NN32.
 
 shown(v: Any): String =
   typecase v of

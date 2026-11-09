@@ -1,5 +1,5 @@
 (* ZZ's zero and one getters answer ZZ values, whose bodies are expressions of numerals alone at the return type ZZ. *)
-component XXXZZOneGetterWalk
+component ZZOneGetterWalk
 export Executable
 
 isZZ(x: Any): Boolean = typecase x of

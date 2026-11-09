@@ -1,0 +1,19 @@
+(* A float numeral to the left of an RR32 operand converts into RR32, as it does to the right: RR32's + and juxtaposition are the most specific. *)
+component XXXNumeralLeftOfRR32Walk
+export Executable
+
+shownV(v: Any): String =
+  typecase v of
+    RR32 => v.asString || " : RR32"
+    RR64 => v.asString || " : RR64"
+    else => v.asString || " : another type"
+  end
+
+run(): () = do
+    a: RR32 = narrow(1.5)
+    assert(shownV(2.5 + a), "4.0 : RR32", "literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": a float numeral + RR32 by RR32's +, the numeral converting into RR32")
+    assert(shownV(2.5 a), "3.75 : RR32", "literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": a float numeral juxtaposed with an RR32 by RR32's juxtaposition, the numeral converting into RR32")
+    println "PASS"
+  end
+
+end

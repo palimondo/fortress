@@ -2698,8 +2698,14 @@ in the revival's repository.
 \item[Effect] A value of \EXP{\mathbb{R}32} is not a value of \EXP{\mathbb{R}64}.
 Two \EXP{\mathbb{R}32} values combine by the operators declared on
 \EXP{\mathbb{R}32}, into an \EXP{\mathbb{R}32}; an \EXP{\mathbb{R}32} combined
-with an \EXP{\mathbb{R}64}, a floating-point numeral or a \EXP{\mathbb{Z}32} is
+with an \EXP{\mathbb{R}64} or a \EXP{\mathbb{Z}32} is
 converted to \EXP{\mathbb{R}64}, and the result is an \EXP{\mathbb{R}64}; an
+\EXP{\mathbb{R}32} combined with a numeral by an operator that
+\EXP{\mathbb{R}32} declares over two of its values, as $+$ or \OPR{MAX}, takes the
+numeral converted into \EXP{\mathbb{R}32}, which declares a coercion from both
+numeral types, and the result is an \EXP{\mathbb{R}32}; the interpreter departs
+where a floating-point numeral stands to the left of the \EXP{\mathbb{R}32}, and
+runs the operator of \EXP{\mathbb{R}64} (row~958 of the revival's gap ledger); an
 \EXP{\mathbb{R}32} is converted where an \EXP{\mathbb{R}64} is expected.
 A conversion from \EXP{\mathbb{R}64} into \EXP{\mathbb{R}32}, which can lose
 precision, stays explicit.
@@ -4624,7 +4630,7 @@ natives of \library\ that it can call.
 The full reasoning is in
 \nolinkurl{explorations/compile-ladder/rung-natives-walk/decision-record.md}
 in the revival's repository.
-\item[Effect] 372 of the 424 bindings of \library\ name a helper:
+\item[Effect] 374 of the 402 bindings of \library\ name a helper:
 the operators \EXP{=}, \EXP{<}, the prefix and infix \EXP{-} and
 \EXP{\dotminus}, \EXP{+}, \EXP{\dotplus}, \EXP{\cdot}, \EXP{\times},
 juxtaposition, \EXP{\dottimes}, \EXP{\div}, \OPR{REM}, \OPR{MOD}, \OPR{GCD},
@@ -4645,7 +4651,10 @@ interpreter's objects thirty-one of \EXP{\mathbb{N}32}, three of
 \TYP{UnsignedLong}, forty-one of \TYP{Char}, sixty-two of \TYP{Float} and
 fifty-one of \EXP{\mathbb{R}32}; the getters \VAR{asString}, \VAR{asExprString}
 and \VAR{asFloat} of the interpreter's objects \TYP{Int}, \TYP{Long} and
-\TYP{BigNum}; the thirteen methods of the object \TYP{FlatString} of \library\
+\TYP{BigNum}; the two private functions that round a numeral's value once,
+into \EXP{\mathbb{R}64} for the numeral types' \VAR{asFloat} and the
+coercions of \EXP{\mathbb{R}64}, and into \EXP{\mathbb{R}32} for the
+coercions of \EXP{\mathbb{R}32}; the thirteen methods of the object \TYP{FlatString} of \library\
 and its line separator; the method \VAR{ilkName} of the trait \TYP{Object} and
 \EXP{\sequiv} over \TYP{Any}; the four methods of the trait
 \TYP{JavaBufferedWriter} and its three factories, over a file's name, standard
@@ -4669,9 +4678,8 @@ six of \texttt{runtime} for the object \TYP{Thread}, \VAR{abort} and
 \VAR{printTaskTrace}, and the seven of \texttt{arrayOps} for the two stores;
 it answers each with an operation of its own, and the compiled code calls the
 helper.
-The other 52 still name a glue class, which the compiled code cannot call:
-twenty-one of the interpreter's object \TYP{IntLiteral}, three of its object
-\TYP{FloatLiteral} and twenty-eight of the component \TYP{Reflect}.
+The other 28 still name a glue class, which the compiled code cannot call,
+those of the component \TYP{Reflect}.
 Until the compiled code moves onto \library, the type checker checks the moved
 bindings, but no compiled program runs them.
 Where a binding declares \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or \TYP{Char}

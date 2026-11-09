@@ -1,0 +1,16 @@
+(* A program's type that declares no coercion from the numeral type refuses a numeral, though it converts from ZZ32. *)
+component NumeralNoCoercionRefusedWalk
+export Executable
+
+object OnlyZ(z: ZZ32)
+    coerce(x: ZZ32) = OnlyZ(x)
+end
+
+o: OnlyZ = 3
+
+run(): () = do
+    println(o.z)
+    println "PASS"
+  end
+
+end

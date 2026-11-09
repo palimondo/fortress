@@ -12,8 +12,8 @@
 component Constants
 export Constants
 
-pi : FloatLiteral = 3.141592653589793 (* Double whose sin is closest to 0 *)
-e : FloatLiteral = 2.718281828459045 (* Double nearest to e; = exp(1.0) on JDK 8+ *)
+pi : RR64 = 3.141592653589793 (* Double whose sin is closest to 0 *)
+e : RR64 = 2.718281828459045 (* Double nearest to e; = exp(1.0) on JDK 8+ *)
 infinity : RR64 = 1.0 / 0.0
 
 end

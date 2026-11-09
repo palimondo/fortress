@@ -19,6 +19,7 @@ import com.sun.fortress.interpreter.evaluator.Evaluator;
 import com.sun.fortress.interpreter.evaluator.types.FType;
 import com.sun.fortress.nodes.Applicable;
 import com.sun.fortress.nodes.Expr;
+import com.sun.fortress.nodes.FnDecl;
 import com.sun.fortress.nodes_util.NodeUtil;
 import com.sun.fortress.useful.Hasher;
 import com.sun.fortress.useful.Useful;
@@ -81,7 +82,11 @@ public class MethodClosure extends FunctionClosure implements Method {
             // selfName() was rewritten to our special "$self", and
             // we don't care about shadowing here.
             eval.e.putValueRaw(selfName(), selfValue);
-            return eval.eval(body);
+            FValue res = eval.eval(body);
+            // a numeral converts at the declared return type, and is its default elsewhere
+            if (!Numerals.hasNumeral(res)) return res;
+            boolean declared = def instanceof FnDecl && ((FnDecl) def).getHeader().getReturnType().isSome();
+            return Numerals.atReturn(declared ? getRange() : null, res);
         } else if (def instanceof Method) {
             return ((Method) def).applyMethod(selfValue, args);
         } else {

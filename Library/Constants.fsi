@@ -13,8 +13,8 @@ api Constants
 
 (** Useful floating-point constants. *)
 
-pi : FloatLiteral
-e : FloatLiteral
+pi : RR64
+e : RR64
 infinity : RR64
 
 end

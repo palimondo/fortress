@@ -41,11 +41,10 @@ end
 value object Float extends RR64
 end
 
-value object FloatLiteral extends RR64
-end
-
 value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
+    coerce(x: NaturalNumeral)
+    coerce(x: RadixPointNumeral)
     (** returns true if the value is an IEEE NaN **)
     getter isNaN(): Boolean
     (** returns true if the value is an IEEE infinity **)
@@ -70,6 +69,8 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
     asFloat(self): RR64
     opr =(self, b:RR32):Boolean
     opr =(self, b:RR64):Boolean
+    opr =(self, b:NaturalNumeral):Boolean
+    opr =(self, b:RadixPointNumeral):Boolean
     opr =/=(self, b:RR32):Boolean
     opr <(self, b:RR32):Boolean
     opr <=(self, b:RR32):Boolean
@@ -131,7 +132,7 @@ value object Long extends ZZ64
 end
 
 value object NN32 extends { AnyIntegral, Integral[\NN32\] }
-    coerce(x: IntLiteral)
+    coerce(x: NaturalNumeral)
     getter asZZ32(): ZZ32
     getter asZZ64(): ZZ64
     getter asNN32(): NN32
@@ -141,7 +142,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr |self| : NN32
     asFloat(self): RR64
     opr =(self, b:NN32):Boolean
-    opr =(self, b:IntLiteral):Boolean
+    opr =(self, b:NaturalNumeral):Boolean
     opr =(self, b:QQ):Boolean
     opr =(self, b:ZZ):Boolean
     opr =(self, b:ZZ64):Boolean
@@ -182,7 +183,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
     opr BITNOT(self):NN32
     opr ^(self, b:ZZ32):NN32
     opr ^(self, b:AnyIntegral):NN32
-    opr ^(self, b:IntLiteral):NN32
+    opr ^(self, b:NaturalNumeral):NN32
     opr /(self, other:NN32):QQ
     numerator(self): ZZ
     widen(self):NN64
@@ -194,58 +195,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
 end
 
 value object UnsignedLong extends NN64
-end
-
-value object IntLiteral extends { Number }
-    getter zero(): IntLiteral
-    getter one(): IntLiteral
-    getter asZZ32(): ZZ32
-    getter asZZ64(): ZZ64
-    getter asNN32(): NN32
-    getter asNN64(): NN64
-    getter asZZ(): ZZ
-    opr |self| : IntLiteral
-    asFloat(self): Float
-    opr =(self, b: IntLiteral):Boolean
-    opr =(self, b:RR64):Boolean
-    opr =(self, b:QQ):Boolean
-    opr =(self, b:ZZ):Boolean
-    opr =(self, b:ZZ64):Boolean
-    opr =(self, b:NN64):Boolean
-    opr =(self, b:ZZ32):Boolean
-    opr =(self, b:NN32):Boolean
-    opr <(self, other:IntLiteral): Boolean
-    opr <=(self, other:IntLiteral): Boolean
-    opr >(self, other:IntLiteral): Boolean
-    opr >=(self, other:IntLiteral): Boolean
-    opr CMP(self, other:IntLiteral): TotalComparison
-
-    opr -(self): IntLiteral
-    opr +(self, b: IntLiteral): IntLiteral
-    opr -(self, b: IntLiteral): IntLiteral
-    opr DOT(self, b: IntLiteral): IntLiteral
-    opr juxtaposition(self, b: IntLiteral): IntLiteral
-    opr TIMES(self, b: IntLiteral): IntLiteral
-    opr DIV(self, b: IntLiteral): IntLiteral
-    opr REM(self, b: IntLiteral): IntLiteral
-    opr MOD(self, b: IntLiteral): IntLiteral
-    opr GCD(self, b: IntLiteral): IntLiteral
-    opr LCM(self, b: IntLiteral): IntLiteral
-    opr CHOOSE(self, b: IntLiteral): IntLiteral
-    opr BITAND(self, b: IntLiteral): IntLiteral
-    opr BITOR(self, b: IntLiteral): IntLiteral
-    opr BITXOR(self, b: IntLiteral): IntLiteral
-    opr LSHIFT(self, b:AnyIntegral): IntLiteral
-    opr RSHIFT(self, b:AnyIntegral): IntLiteral
-    opr BITNOT(self): IntLiteral
-    opr ^(self, b:AnyIntegral):IntLiteral
-    opr ^(self, b: IntLiteral): IntLiteral
-    opr DIVIDES(self, b: IntLiteral): Boolean
-    floor(self): IntLiteral
-    ceiling(self): IntLiteral
-    truncate(self): IntLiteral
-    even(self): Boolean
-    odd(self): Boolean
 end
 
 value object BigNum extends ZZ end

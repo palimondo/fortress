@@ -209,12 +209,16 @@ public class FunctionClosure extends NonPrimitive implements Scope {
         } else {
             Evaluator eval = new Evaluator(buildEnvFromParams(args));
             Expr body = getBody();
-            if (def instanceof FnDecl && ((FnDecl) def).getHeader().getReturnType().isSome() &&
-                Evaluator.unwrittenAtTail(body)) {
+            boolean declared = def instanceof FnDecl && ((FnDecl) def).getHeader().getReturnType().isSome();
+            FValue res;
+            if (declared && Evaluator.unwrittenAtTail(body)) {
                 // a reduction or a comprehension that writes no static argument, at the declared return type
-                return eval.evalAt(body, getRange());
+                res = eval.evalAt(body, getRange());
+            } else {
+                res = eval.eval(body);
             }
-            return eval.eval(body);
+            // a numeral converts at the declared return type, and is its default elsewhere
+            return Numerals.hasNumeral(res) ? Numerals.atReturn(declared ? getRange() : null, res) : res;
         }
     }
 

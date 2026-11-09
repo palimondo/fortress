@@ -26,7 +26,7 @@ import java.util.Set;
 public class OverloadedMethod extends OverloadedFunction implements Method {
 
     BATreeEC<List<FValue>, List<FType>, MethodClosure> mcache = new BATreeEC<List<FValue>, List<FType>, MethodClosure>(
-            FValue.asTypesList);
+            Numerals.keys);
 
 
     public OverloadedMethod(String fnName, Environment within) {

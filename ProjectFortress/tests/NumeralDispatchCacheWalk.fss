@@ -1,0 +1,26 @@
+(* A call's choice for a numeral does not depend on an earlier call of the same function with another numeral. *)
+component NumeralDispatchCacheWalk
+export Executable
+
+h1(x: NN32): String = "NN32"
+h1(x: QQ): String = "QQ"
+h2(x: NN32): String = "NN32"
+h2(x: QQ): String = "QQ"
+k1(x: NN64): String = "NN64"
+k1(x: QQ): String = "QQ"
+k2(x: NN64): String = "NN64"
+k2(x: QQ): String = "QQ"
+
+run(): () = do
+    first = h1(3000000000)
+    later = h1(5000000000)
+    alone = h2(5000000000)
+    assert(later, alone, "h1(5000000000) after h1(3000000000) chooses as h2(5000000000) alone does")
+    firstK = k1(10000000000000000000)
+    laterK = k1(100000000000000000000)
+    aloneK = k2(100000000000000000000)
+    assert(laterK, aloneK, "k1(100000000000000000000) after k1(10000000000000000000) chooses as k2(100000000000000000000) alone does")
+    println "PASS"
+  end
+
+end

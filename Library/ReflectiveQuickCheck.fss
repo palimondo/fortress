@@ -37,7 +37,7 @@ object genType(top:Type) extends Gen[\Type\]
                     1 => theType[\RR32\]()
                     2 => theType[\QQ\]()
                     3 => theType[\AnyIntegral\]()
-                    4 => theType[\IntLiteral\]()
+                    4 => theType[\ZZ32\]()
                 end
             genType(t).generate(c)
         elif subtypes <- top.typeComprises then
@@ -154,7 +154,6 @@ trait ReflectiveArbitrary extends DefaultArbitrary
                 theType[\Boolean\]() => Just[\AnyGen\](genBoolean)
                 (*) The order does matter!
                 theType[\ZZ32\]() => Just[\AnyGen\](genZZ32)
-                theType[\IntLiteral\]() => Just[\AnyGen\](genZZ32)
                 theType[\ZZ64\]() => Just[\AnyGen\](genZZ64)
                 theType[\ZZ\]() => Just[\AnyGen\](genZZ)
                 theType[\NN64\]() => Just[\AnyGen\](genZZ)

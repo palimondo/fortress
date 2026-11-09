@@ -261,4 +261,48 @@ public class simpleDoubleArith {
         return Double.longBitsToDouble(a);
     }
 
+    /**
+     * A numeral's value v / r^m, for v not negative, rounded once to the
+     * nearest double, ties to even.
+     */
+    public static double numeralToDouble(java.math.BigInteger v, int r, int m) {
+        if (v.signum() == 0) return 0.0;
+        java.math.BigInteger den = java.math.BigInteger.valueOf(r).pow(m);
+        int lsb = lsbExponent(v, den, 53, -1074);
+        return Math.scalb(roundedQuotient(v, den, lsb).doubleValue(), lsb);
+    }
+
+    /**
+     * A numeral's value v / r^m, for v not negative, rounded once to the
+     * nearest float, ties to even.
+     */
+    public static float numeralToFloat(java.math.BigInteger v, int r, int m) {
+        if (v.signum() == 0) return 0.0f;
+        java.math.BigInteger den = java.math.BigInteger.valueOf(r).pow(m);
+        int lsb = lsbExponent(v, den, 24, -149);
+        return Math.scalb(roundedQuotient(v, den, lsb).floatValue(), lsb);
+    }
+
+    /**
+     * The exponent of the last significand bit of num / den in a binary
+     * format of p significand bits whose least subnormal is 2^least.
+     */
+    private static int lsbExponent(java.math.BigInteger num, java.math.BigInteger den, int p, int least) {
+        int e = num.bitLength() - den.bitLength();
+        boolean atLeast = e >= 0 ? num.compareTo(den.shiftLeft(e)) >= 0 : num.shiftLeft(-e).compareTo(den) >= 0;
+        int top = atLeast ? e : e - 1;
+        return Math.max(top - (p - 1), least);
+    }
+
+    /** num / den / 2^lsb rounded to the nearest integer, ties to even. */
+    private static java.math.BigInteger roundedQuotient(java.math.BigInteger num, java.math.BigInteger den, int lsb) {
+        java.math.BigInteger n = lsb <= 0 ? num.shiftLeft(-lsb) : num;
+        java.math.BigInteger d = lsb <= 0 ? den : den.shiftLeft(lsb);
+        java.math.BigInteger[] qr = n.divideAndRemainder(d);
+        int c = qr[1].shiftLeft(1).compareTo(d);
+        java.math.BigInteger q = qr[0];
+        if (c > 0 || (c == 0 && q.testBit(0))) q = q.add(java.math.BigInteger.ONE);
+        return q;
+    }
+
 }

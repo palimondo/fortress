@@ -1,0 +1,12 @@
+(* A numeral outside ZZ32's range at a ZZ32 binding is refused. *)
+component NumeralOutOfRangeWalk
+export Executable
+
+z: ZZ32 = 3000000000
+
+run(): () = do
+    println(z)
+    println "PASS"
+  end
+
+end

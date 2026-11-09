@@ -12,7 +12,7 @@
 component XXXextendIntLiteral
 export Executable
 
-    object Mumble() extends { IntLiteral }
+    object Mumble() extends { NaturalNumeral }
     end
 
 run() = ()

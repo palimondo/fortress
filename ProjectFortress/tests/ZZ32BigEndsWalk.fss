@@ -1,0 +1,23 @@
+(* ZZ32's big answers exactly at the ends of ZZ32. *)
+component ZZ32BigEndsWalk
+export Executable
+
+shown(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    ZZ64 => v.asString || " : ZZ64"
+    NN32 => v.asString || " : NN32"
+    NN64 => v.asString || " : NN64"
+    ZZ => v.asString || " : ZZ"
+    else => v.asString || " : another type"
+  end
+
+run(): () = do
+    hi: ZZ32 = 2147483647
+    lo: ZZ32 = -2147483647 - 1
+    assert(shown(big(hi)), "2147483647 : ZZ", "basic-integers.tex, section \"Integers\": big of the ZZ32 2^31-1 is exact")
+    assert(shown(big(lo)), "-2147483648 : ZZ", "basic-integers.tex, section \"Integers\": big of the ZZ32 -2^31 is exact")
+    println "PASS"
+  end
+
+end

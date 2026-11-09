@@ -1,0 +1,20 @@
+(* A program's generic type receives a numeral through its coercion from the numeral type, at each instance. *)
+component NumeralGenericOwnTypeWalk
+export Executable
+
+value object Tagged[\T\](v: ZZ, point: Boolean)
+    coerce(x: NaturalNumeral) = Tagged[\T\](x.digitValue, false)
+    coerce(x: RadixPointNumeral) = Tagged[\T\](x.digitValue, true)
+end
+
+run(): () = do
+    a: Tagged[\String\] = 5
+    assert(a.v, big(5), "Tagged at String receives 5 through its coercion from NaturalNumeral")
+    assert(NOT a.point, "5 reaches the coercion from NaturalNumeral")
+    b: Tagged[\ZZ32\] = 2.25
+    assert(b.v, big(225), "Tagged at ZZ32 receives 2.25 through its coercion from RadixPointNumeral")
+    assert(b.point, "2.25 reaches the coercion from RadixPointNumeral")
+    println "PASS"
+  end
+
+end

@@ -1,0 +1,13 @@
+(* A numeral with a radix point within half an ulp of a tie rounds as the RR64 nearest it. *)
+component RoundNearTieNumeral
+export Executable
+
+run() = do
+    assert(round(2.50000000000000001), 2, "numeral round(2.50000000000000001) = 2, the numeral read as its nearest RR64 at a tie of QQ, RR32 and RR64: inference.tex, section \"A Numeral Whose Conversions Tie\", numbers.tex, section \"Rational Numbers\", methods floor, ceiling, truncate and round")
+    assert(round(0.50000000000000001), 0, "numeral round(0.50000000000000001) = 0, the numeral read as its nearest RR64 at a tie of QQ, RR32 and RR64: inference.tex, section \"A Numeral Whose Conversions Tie\", numbers.tex, section \"Rational Numbers\", methods floor, ceiling, truncate and round")
+    assert(round(3.49999999999999999), 4, "numeral round(3.49999999999999999) = 4, the numeral read as its nearest RR64 at a tie of QQ, RR32 and RR64: inference.tex, section \"A Numeral Whose Conversions Tie\", numbers.tex, section \"Rational Numbers\", methods floor, ceiling, truncate and round")
+    assert(round(2.49999999999999999), 2, "numeral round(2.49999999999999999) = 2, the numeral read as its nearest RR64 at a tie of QQ, RR32 and RR64: inference.tex, section \"A Numeral Whose Conversions Tie\", numbers.tex, section \"Rational Numbers\", methods floor, ceiling, truncate and round")
+    println "PASS"
+end
+
+end

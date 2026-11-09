@@ -1,0 +1,18 @@
+(* A numeral at a declared return type that declares no coercion from the numeral type is refused there. *)
+component NumeralAtReturnNoCoercionWalk
+export Executable
+
+object OnlyZ(z: ZZ32)
+    coerce(x: ZZ32) = OnlyZ(x)
+end
+
+made(): OnlyZ = 3
+
+o = made()
+
+run(): () = do
+    println(o)
+    println "PASS"
+  end
+
+end
