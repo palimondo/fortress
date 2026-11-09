@@ -1,7 +1,6 @@
+(* A numeral with a radix point and the radix specifier _10 denotes its rational value. *)
 component RadixTenPointNumeral
 export Executable
-
-(*) explorations/compile-ladder/rung-round-half-even/REPORT.md
 
 run() = do
     assert(round(2.5_10), 2, "numeral 2.5_10 is 5/2: lexical-structure.tex, section \"Numerals\", literals.tex, section \"Literals\", numbers.tex, section \"Rational Numbers\", methods floor, ceiling, truncate and round")

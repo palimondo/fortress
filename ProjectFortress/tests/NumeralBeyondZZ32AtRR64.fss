@@ -1,7 +1,6 @@
+(* An integer numeral outside ZZ32's range converts into RR64 at an RR64 binding. *)
 component NumeralBeyondZZ32AtRR64
 export Executable
-
-(*) explorations/compile-ladder/rung-spec-integer-rules/REPORT.md
 
 run() = do
     println("REACHED")

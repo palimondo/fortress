@@ -20,7 +20,6 @@ atNumber(v: Number): String = kind(v)
 second[\T\](a: T, b: T): T = b
 
 run(): () = do
-    (* The defaults: literals.tex, section "Literals"; inference.tex, section "A Numeral Whose Conversions Tie". *)
     x = 3
     assert(kind(x), "ZZ32", "x = 3 is a ZZ32")
     z: ZZ32 = 3
@@ -34,7 +33,6 @@ run(): () = do
     assert(atAny(3), "ZZ32", "3 at Any is a ZZ32")
     assert(atAny(0.5), "RR64", "0.5 at Any is an RR64")
     assert(atNumber(3), "ZZ32", "3 at Number is a ZZ32")
-    (* A type parameter that several numerals fix takes the narrowest default holding them all. *)
     assert(kind(second(13.0, 5)), "RR64", "second(13.0, 5) is at RR64")
     assert(second(13.0, 5) SEQV 5.0, "second(13.0, 5) is the RR64 5.0")
     assert(kind(second(0.5, 3000000000)), "RR64", "second(0.5, 3000000000) is at RR64")
@@ -49,7 +47,6 @@ run(): () = do
     assert(kind(1.0 s), "RR64", "1.0 s is an RR64")
     assert((1.0 s) SEQV w 8, "1.0 s is the RR64 4.0")
 
-    (* The typed places: the numeral converts from its exact value. *)
     q: QQ = 0.1
     assert(numerator(q), 1, "q: QQ = 0.1 has numerator 1")
     assert(denominator(q), 10, "q: QQ = 0.1 has denominator 10")
@@ -77,7 +74,6 @@ run(): () = do
     assert(round(2.5_10), 2, "round(2.5_10) is 2")
     assert(round(3.5_10), 4, "round(3.5_10) is 4")
 
-    (* Each number type's = with a numeral, by the pair that goes with its coercion. *)
     u0: NN32 = 0
     assert(u0 = 0, "u = 0 for an NN32 zero")
     v0: NN64 = 0

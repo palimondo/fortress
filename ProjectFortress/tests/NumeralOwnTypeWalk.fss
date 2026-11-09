@@ -12,7 +12,6 @@ end
 
 imaginary: CC64 = CC64(0.0, 1.0)
 
-(* The exact rational of a positive normal double. *)
 exact(d: RR64): QQ = do
     bits: ZZ64 = d.rawBits
     e: ZZ64 = (bits RSHIFT 52) BITAND 2047
@@ -32,7 +31,6 @@ value object Iv(lo: RR64, hi: RR64)
       end
 end
 
-(* bfloat16 for values in [1, 2): sign 0, exponent 127, seven fraction bits, rounded half to even once. *)
 value object BF16(bits: ZZ32)
     coerce(x: RadixPointNumeral) = do
         q: QQ = x
