@@ -16,12 +16,7 @@ import com.sun.fortress.nodes_util.NodeFactory;
 import com.sun.fortress.nodes_util.Span;
 import com.sun.fortress.useful.TestCaseWrapper;
 
-/**
- * The numeral fold writes each result as a numeral or an operation on
- * numerals; it leaves alone each operator whose meaning needs a width, a
- * division by zero and a result that IEEE arithmetic could make a negative
- * zero, and gives CHOOSE outside 0..n its answer 0.
- */
+/** The numeral fold writes each result as a numeral or an operation on numerals, leaves each operator whose meaning needs a width, a division by zero and a possible negative zero, and gives CHOOSE outside 0..n the answer 0. */
 public class NumeralFoldJUTest extends TestCaseWrapper {
 
     private static final Span S = NodeFactory.testSpan;
@@ -46,7 +41,6 @@ public class NumeralFoldJUTest extends TestCaseWrapper {
         return e.accept(new IntegerLiteralFoldingVisitor());
     }
 
-    /** The fold returns the operation as written: the same operator over the same operands. */
     private static void assertLeft(String what, Expr e) {
         Node n = fold(e);
         assertTrue(what + " is left as written, not folded into a " + n.getClass().getSimpleName(),
@@ -114,7 +108,6 @@ public class NumeralFoldJUTest extends TestCaseWrapper {
         assertEquals(what, text, ((FloatLiteralExpr) n).getText());
     }
 
-    /** n / d, the numerator a numeral written as the text. */
     private static void assertQuotient(String what, String numerator, long denominator, Node n) {
         assertTrue(what + " folds into a quotient, not a " + n.getClass().getSimpleName(), n instanceof OpExpr);
         OpExpr o = (OpExpr) n;
