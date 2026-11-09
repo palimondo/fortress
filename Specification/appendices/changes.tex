@@ -5377,7 +5377,9 @@ sections 6.1 and 6.4, in the revival's repository.
 is one literal evaluated twice, and so are
 \EXP{(\hbox{\rm``\STR{foo}''} \| \hbox{\rm``\STR{bar}''}) \sequiv \hbox{\rm``\STR{foobar}''}}
 and \EXP{(\hbox{\rm``\STR{a}''} \| \hbox{\rm`\STR{b}'}) \sequiv \hbox{\rm``\STR{ab}''}},
-where both answered \VAR{false} (row~945 of the revival's gap ledger).
+where the interpreter answered \VAR{false}, and so did the strict equivalence
+that the compiled code gives the values of \library\ (row~945 of the revival's
+gap ledger); the compiled path's own library answers by text (below).
 A string built at run time is not strictly equivalent to an equal literal,
 unless the library's operation answers the string it was given, as a substring
 that spans its whole string does on both implementations.
