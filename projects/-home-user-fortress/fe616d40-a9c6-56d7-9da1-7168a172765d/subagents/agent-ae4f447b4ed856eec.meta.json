@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"File the base fold's two defect rows","toolUseId":"toolu_01ABZu3PAHW3Nx8UsoMAwdDy","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"File the base fold's two defect rows","toolUseId":"toolu_01ABZu3PAHW3Nx8UsoMAwdDy","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
