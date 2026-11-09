@@ -80,16 +80,21 @@ For example, a static expression \EXP{2(3+m)} where \VAR{m} is a
 \Library\ declare none of the constant traits.
 An expression composed only of numerals and operators is folded, before the
 static check and on both implementations, into a \emph{signed constant}, which
-holds its value exactly: an integer, written as an integer numeral or a negated
-one; a value computed from a numeral with a radix point whose denominator
-divides a power of ten, written as a numeral with a radix point or a negated
-one; or any other quotient, written as the reduced quotient of two numerals,
-whose numerator has a radix point where an operand had one.
+holds its value exactly and whose kind its operands give: computed from
+numerals without a radix point and without a quotient, it is an integer,
+written as an integer numeral or a negated one; computed from numerals without
+a radix point with a quotient among its operations, it is a quotient, written as
+the reduced quotient of two integer numerals; and computed from a numeral with a
+radix point, it is written as a numeral with a radix point, or a negated one,
+where its denominator divides a power of ten, and otherwise as the reduced
+quotient of two numerals whose numerator has a radix point.
 Where nothing fixes the type of a signed constant (\secref{literals}), an
-integer takes the default of an integer numeral, a quotient of integers the
-type \EXP{\mathbb{Q}}, and a constant computed from a numeral with a radix point
-the type \EXP{\mathbb{R}64}; where a place fixes a type, the constant is
-converted into it as a numeral is, with at most one rounding.
+integer takes the default of an integer numeral, a quotient the type
+\EXP{\mathbb{Q}}, and a constant computed from a numeral with a radix point the
+type \EXP{\mathbb{R}64}, whatever its value, so that \EXP{6/3} is a
+\EXP{\mathbb{Q}} and \EXP{0.5 + 0.5} an \EXP{\mathbb{R}64}; where a place fixes
+a type, the constant is converted into it as a numeral is, with at most one
+rounding.
 So \EXP{2147483647 + 1} is the \EXP{\mathbb{Z}64} \EXP{2147483648},
 \EXP{-2147483648} is a \EXP{\mathbb{Z}32}, \EXP{x = 7/2} binds the
 \EXP{\mathbb{Q}} \EXP{7/2}, and \EXP{0.1 + 0.2 = 0.3} is \VAR{true}.
