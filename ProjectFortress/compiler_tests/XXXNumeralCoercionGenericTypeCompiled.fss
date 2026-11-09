@@ -1,0 +1,19 @@
+(* A numeral at a program's own generic type is one object for its site, as at a type without static parameters: the program's coercion from the numeral type runs once for the site. *)
+component XXXNumeralCoercionGenericTypeCompiled
+export Executable
+
+object Gen[\T extends Object\](v: ZZ32)
+  coerce(x: IntLiteral) = Gen[\T\](x)
+end
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+
+site(): Gen[\String\] = 3
+
+run(): () = do
+  println("REACHED")
+  assert(sEq(site(), site()), "two evaluations of one site are one object")
+  println("PASS")
+end
+
+end
