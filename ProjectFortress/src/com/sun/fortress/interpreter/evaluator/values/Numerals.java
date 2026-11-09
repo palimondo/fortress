@@ -1,6 +1,8 @@
 package com.sun.fortress.interpreter.evaluator.values;
 
 import com.sun.fortress.exceptions.FortressException;
+import static com.sun.fortress.exceptions.ProgramError.error;
+import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.Driver;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.types.FType;
@@ -337,21 +339,17 @@ public final class Numerals {
     /**
      * The value a function declared with the return type range answers, where
      * its body's value is v: a numeral converted where range fixes a type, as
-     * a binding converts it; otherwise its default.  Walk checks no return
-     * type, so a numeral that does not convert is its default.
+     * a binding converts it, and refused there where it does not convert;
+     * without a declared return type, its default.
      */
     public static FValue atReturn(FType range, FValue v) {
         if (!hasNumeral(v)) return v;
-        if (range != null) {
-            try {
-                if (!range.typeMatch(v)) {
-                    FValue c = Coercions.coerce(range, v);
-                    if (c != null) return c;
-                }
+        if (range != null && !range.typeMatch(v)) {
+            FValue c = Coercions.coerce(range, v);
+            if (c == null) {
+                return error(errorMsg("Type mismatch returning ", v, " (type ", v.type(), ") at the declared return type ", range));
             }
-            catch (FortressException ex) {
-                // the default stands
-            }
+            return c;
         }
         return plain(v);
     }

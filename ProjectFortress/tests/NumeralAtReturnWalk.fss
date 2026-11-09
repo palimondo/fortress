@@ -1,0 +1,30 @@
+(* A numeral at a declared return type converts through that type's coercion, which may raise. *)
+component NumeralAtReturnWalk
+export Executable
+
+object Digit(d: ZZ)
+    coerce(x: NaturalNumeral) =
+        if x.digitValue > big(9) then throw FailCalled("not a digit") else Digit(x.digitValue) end
+end
+
+half(): QQ = 0.5
+seven(): Digit = 7
+twelve(): Digit = 12
+
+raisesFail(f: () -> Any): Boolean =
+    try
+        f()
+        false
+    catch e
+        FailCalled => true
+    end
+
+run(): () = do
+    assert(numerator(half()), 1, "half(): QQ = 0.5 answers 1/2")
+    assert(denominator(half()), 2, "half(): QQ = 0.5 answers 1/2")
+    assert(seven().d, big(7), "seven(): Digit = 7 answers Digit(7)")
+    assert(raisesFail(fn () => twelve()), "twelve(): Digit = 12 raises the coercion's FailCalled")
+    println "PASS"
+  end
+
+end
