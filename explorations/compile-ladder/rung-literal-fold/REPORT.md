@@ -249,7 +249,7 @@ The demo driver of `explorations/compile-ladder/rung-team-demos/REPORT.md`, "Com
 - The count and distance tables on the final tree: 0 and 0, the same tables as climb batch 28's gate, no site.
 - Each test whose verdict changes in the suites: the four walk tests and `Compiled7.Print17`, red on `8e4ca7b070` and green after the respelling; `XXXFloatNumeralOneRounding` promoted; new: `NumeralFoldWalk`, `LiteralFoldCompiled`, `NumeralCoercionOnceCompiled`, `NumeralCoercionRaisesCompiled`, `NumeralDivByZeroCompiledLink`, `XXXNumeralDivByZeroCompiled`, `XXXNumeralFoldNoPrefixMinusWalk`, `NumeralFoldJUTest`.
 - Every sentence made false: above.
-- Files edited beyond those named: `ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java` (the harness key, `:595-605`); the team's `compiler_tests/Compiled7.Print17.fss:20` and `tests/sequivTest.fss:31`; the revival's `tests/NativeHelperFamilyDivisorsWalk.fss`, `AnyNativesIntrinsicWalk.fss`, `StrictEquivalenceRuleWalk.fss`. No edit of the checker's Scala under `typechecker/`, of the library or of the prelude.
+- Files edited beyond those named: `ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java` (the harness key, `:595-606`); the team's `compiler_tests/Compiled7.Print17.fss:20` and `tests/sequivTest.fss:31`; the revival's `tests/NativeHelperFamilyDivisorsWalk.fss`, `AnyNativesIntrinsicWalk.fss`, `StrictEquivalenceRuleWalk.fss`. No edit of the checker's Scala under `typechecker/`, of the library or of the prelude.
 
 ## Decisions
 
