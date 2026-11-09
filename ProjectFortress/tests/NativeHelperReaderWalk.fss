@@ -41,7 +41,8 @@ run():() = do
   w.write("alpha\n")
   w.write('b')
   w.write('\n')
-  rope = "a rope in a file: abcdefghijklmnopqrstuvwxyz" || "0123456789" || "\n"
+  digitText: String = "0123456789"
+  rope = "a rope in a file: abcdefghijklmnopqrstuvwxyz" || digitText || "\n"
   assert(rope.depth > 0, true, "the rope is not flat")
   w.write(rope)
   w.flush()
