@@ -55,7 +55,9 @@ may be a component of a range.
 The sentence above settles it, as both implementations of the revival already
 run it: the compiled type checker and the interpreter give a \KWD{nat} or
 \KWD{int} parameter used as a value the type \EXP{\mathbb{Z}32}
-(\secref{revival-numerals}).}
+(\secref{revival-numerals}), the interpreter only where the size is below
+$2^{31}$, since it makes a larger one a \EXP{\mathbb{Z}64} (row~962 of the
+revival's gap ledger).}
 
 \begin{itemize}
 \item The range \EXP{a\COLONOP{}b} is the set of $n=\max(0,b-a+1)$ integers $\{a, a+1, a+2, \ldots, b-2, b-1, b\}$.

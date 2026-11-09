@@ -2235,9 +2235,10 @@ declarations that a numeral left tied, and not always the same one (row~391 of
 the revival's gap ledger).
 It is also the Java programming language's type for an integer literal.
 Both implementations make a \KWD{nat} or \KWD{int} parameter used as a value a
-\EXP{\mathbb{Z}32} (\secref{revival-numerals}), where the compiled type checker
-gave it the type of a numeral before 8~November 2026, so an \KWD{int} parameter
-is read as a \KWD{nat} parameter is; on the Java
+\EXP{\mathbb{Z}32} (\secref{revival-numerals}), the interpreter one whose size
+is below $2^{31}$ (row~962 of the revival's gap ledger), where the compiled type
+checker gave it the type of a numeral before 8~November 2026, so an \KWD{int}
+parameter is read as a \KWD{nat} parameter is; on the Java
 Virtual Machine the length and the indices of an array are 32-bit integers.
 The team's later Types chapter (Luchangco, 2012) gives the coercion relation,
 the coercion of a generic type and the valid instantiations of a quantified
@@ -5191,15 +5192,19 @@ The implementations depart from the text in these further ways, each with its
 row of the revival's gap ledger: the interpreter runs the operator of
 \EXP{\mathbb{R}64} where a floating-point numeral stands to the left of an
 \EXP{\mathbb{R}32} (row~958), and counts only one of the leading zeros of a
-numeral with a radix point among its digits (row~960); the compiled path gives
-a program's coercion a negative numeral with its sign, not as the prefix
-operator \EXP{-} on the coercion's result for the natural numeral (row~961),
-stops with an error that no \KWD{catch} sees where a \KWD{nat} or \KWD{int}
-parameter of $2^{31}$ or more is used as a value (row~962), and keeps a
-numeral's own type at the selector of a \KWD{typecase} (row~963); and both
-leave an expression of numerals alone as written where the form of its result
-needs a prefix \EXP{-} or a \EXP{/} that its component writes nowhere
-(row~956).
+numeral with a radix point among its digits (row~960); the compiled path
+keeps a numeral's own type at the selector of a \KWD{typecase} (row~963);
+both give a program's coercion a negative constant with its sign, not as the
+prefix operator \EXP{-} on the coercion's result for the natural numeral, so
+that a type without \EXP{-} takes it: the compiled path as a negative numeral
+(row~961), and the interpreter, which folds the constant as the compiled path
+does, as a natural numeral of negative value, whose digit count is that of
+the numeral without its sign (row~968); where a \KWD{nat} or \KWD{int}
+parameter of $2^{31}$ or more is used as a value, the compiled path stops
+with an error that no \KWD{catch} sees, and the interpreter makes it a
+\EXP{\mathbb{Z}64} (row~962); and both leave an expression of numerals alone
+as written where the form of its result needs a prefix \EXP{-} or a \EXP{/}
+that its component writes nowhere (row~956).
 No line of the revival's model program changes, and by reading none of its
 numerals changes its value.
 \item[Original text] \nolinkurl{Specification-1.0-frozen/basic/expressions/literals.tex},
