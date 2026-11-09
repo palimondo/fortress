@@ -1,0 +1,26 @@
+(* A numeral at a program's type whose coercion another component declares is one object for its place, made once by that component's compiled coercion, a numeral of more than 20 digits included. *)
+component NumeralAcrossComponent
+import NumeralAcrossComponentApi.{...}
+export Executable
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+
+three(): Wide = 3
+four(): Wide = 4
+huge(): Wide = 123456789012345678901234567890
+
+run(): () = do
+    println("start")
+    a = three()
+    b = three()
+    c = four()
+    assert(sEq(a, b), "two evaluations of one place are one object")
+    assert(NOT sEq(a, c), "two places are two objects")
+    println(a.z)
+    println(c.z)
+    println(huge().z)
+    assert(sEq(huge(), huge()), "the place of a numeral of more than 20 digits is one object")
+    println("PASS")
+end
+
+end

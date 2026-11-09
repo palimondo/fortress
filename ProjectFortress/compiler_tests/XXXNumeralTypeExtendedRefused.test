@@ -1,0 +1,3 @@
+tests=NumeralTypeExtendedRefused
+compile
+compile_err_contains=NaturalNumeral cannot be written in a program except as a parameter's type.

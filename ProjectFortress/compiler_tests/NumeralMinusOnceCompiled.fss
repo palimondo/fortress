@@ -1,0 +1,30 @@
+(* A negative constant at a program's own type is one value for its place: the type's own minus on the coercion's result for the numeral, both run once, when the component's class loads. *)
+component NumeralMinusOnceCompiled
+export Executable
+
+object Tally(k: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
+        println("coerce")
+        Tally(bigToZZ64(v).asZZ32)
+    end
+    opr -(self): Tally = do
+        println("minus")
+        Tally(0 - k)
+    end
+end
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
+
+negThree(): Tally = -3
+
+run(): () = do
+    println("start")
+    a = negThree()
+    b = negThree()
+    assert(sEq(a, b), "two evaluations of the place of -3 are one object")
+    assert(a.k, -3, "-3 at Tally is Tally's minus on the coercion of 3")
+    println("PASS")
+end
+
+end

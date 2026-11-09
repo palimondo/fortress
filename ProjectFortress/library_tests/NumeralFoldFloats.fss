@@ -1,0 +1,23 @@
+(* A numeral as written at RR64 and RR32 converts there from its exact value by one rounding, its bits those of the nearest float, more than 20 digits included. *)
+component NumeralFoldFloats
+export Executable
+
+rawBits(x: RR64): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRawBits")
+floatBits(x: RR32): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatRawBits")
+
+run(): () = do
+    f: RR64 = 0.1
+    g: RR32 = 0.1
+    h: RR32 = 16777217.0
+    k: RR64 = 0.1_2
+    p: RR64 = 3.1415926535897932384626
+    q: RR32 = 1.00000005960464477539063
+    println(rawBits(f))
+    println(floatBits(g))
+    println(h)
+    println(k)
+    println(rawBits(p))
+    println(floatBits(q))
+end
+
+end
