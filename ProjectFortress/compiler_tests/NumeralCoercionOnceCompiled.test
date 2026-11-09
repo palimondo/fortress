@@ -1,0 +1,4 @@
+tests=NumeralCoercionOnceCompiled
+link
+run
+run_out_equals=coerce\ncoerce\nstart\nPASS\n

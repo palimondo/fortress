@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -279,6 +280,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
      * Null if not in a trait or object scope.
      */
     private List<InitializedStaticField> initializedStaticFields_TO;
+
+    /**
+     * The numeral sites at a program's own type in this component, which the
+     * component's class initializes when it loads (forNumeralCoercionSite).
+     * One list for the component, shared by every nested code generator.
+     */
+    private List<NumeralCoercionSite> numeralCoercionSites;
     
     
     /**
@@ -383,6 +391,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         
         this.initializedStaticFields_TO = c.initializedStaticFields_TO;
         this.initializedInstanceFields_O = c.initializedInstanceFields_O;
+        this.numeralCoercionSites = c.numeralCoercionSites;
       
         this.component = c.component;
         this.ci = c.ci;
@@ -395,6 +404,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                    FreeVarTypes fvt, ComponentIndex ci, GlobalEnvironment env) {
         component = c;
         localFunctionNames = new HashSet<String>();
+        numeralCoercionSites = new ArrayList<NumeralCoercionSite>();
         packageAndClassName = NamingCzar.javaPackageClassForApi(c.getName());
         String dotted = NamingCzar.javaPackageClassForApi(c.getName(), ".");
         JarOutputStream jos;
@@ -1923,7 +1933,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             }
         }
 
-        // Static initializer for this class.
+        for ( Decl d : x.getDecls() ) {
+            d.accept(this);
+        }
+
+        // Static initializer for this class, emitted after the declarations, whose
+        // numeral sites at a program's type it initializes (forNumeralCoercionSite).
         // Since all top-level fields and singleton objects are singleton inner classes,
         // this does nothing for these.
         mv = cw.visitCGMethod(ACC_STATIC,
@@ -1982,11 +1997,10 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             }
         }
         
+        // After the caching tables, which a coercion's body may read.
+        emitNumeralCoercionSites();
+
         voidEpilogue();
-        
-        for ( Decl d : x.getDecls() ) {
-            d.accept(this);
-        }
 
         //        System.out.println("About to print parallelism table for " + packageAndClassName);
         //        pa.printTable();
@@ -2034,9 +2048,22 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     // truncate, but we want to warn if we lose bits I expect).
     public void forFloatLiteralExpr(FloatLiteralExpr x) {
         debug("forFloatLiteral ", x);
-        double val = x.getIntPart().doubleValue() +
-            (x.getNumerator().doubleValue() /
-             Math.pow(x.getDenomBase(), x.getDenomPower()));
+        BigInteger den = BigInteger.valueOf(x.getDenomBase()).pow(x.getDenomPower());
+        BigInteger num = x.getIntPart().multiply(den).add(x.getNumerator());
+        String typed = numeralTarget(x);
+        if (typed.equals("RR32")) {
+            mv.visitLdcInsn(Float.valueOf(roundToFloat(num, den)));
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR32, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descFloat, NamingCzar.descFortressRR32));
+            return;
+        }
+        double val = roundToDouble(num, den);
+        if (typed.equals("RR64")) {
+            mv.visitLdcInsn(Double.valueOf(val));
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR64, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descDouble, NamingCzar.descFortressRR64));
+            return;
+        }
         mv.visitLdcInsn(val);
         mv.visitMethodInsn(INVOKESTATIC,
                            NamingCzar.internalFortressFloatLiteral, NamingCzar.make,
@@ -4204,9 +4231,100 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         // No longer need to set up alias table; rely on ForeignJava exclusively instead.
     }
 
+    /**
+     * The library number type at which the coercion desugarer typed a numeral
+     * (CoercionDesugarer.foldsTo), or "" for a numeral of its own type.
+     */
+    private static String numeralTarget(Expr x) {
+        Option<Type> t = x.getInfo().getExprType();
+        if (t.isSome() && t.unwrap() instanceof TraitType) {
+            TraitType tt = (TraitType) t.unwrap();
+            if (tt.getArgs().isEmpty()) return tt.getName().getText();
+        }
+        return "";
+    }
+
+    /**
+     * The double nearest the rational n/d, d positive, by one rounding, to
+     * nearest even, a subnormal one included.
+     */
+    static double roundToDouble(BigInteger n, BigInteger d) {
+        if (n.signum() == 0) return 0.0;
+        BigInteger m = n.abs();
+        int u = ulpExponent(m, d, 53, -1074);
+        double v = Math.scalb((double) roundedSignificand(m, d, u), u);
+        return n.signum() < 0 ? -v : v;
+    }
+
+    /** The float nearest the rational n/d, d positive, by one rounding, as roundToDouble. */
+    static float roundToFloat(BigInteger n, BigInteger d) {
+        if (n.signum() == 0) return 0.0f;
+        BigInteger m = n.abs();
+        int u = ulpExponent(m, d, 24, -149);
+        float v = Math.scalb((float) roundedSignificand(m, d, u), u);
+        return n.signum() < 0 ? -v : v;
+    }
+
+    /**
+     * The exponent of the unit in the last place of m/d, m and d positive, at
+     * the given precision in bits, and at least the least subnormal's.
+     */
+    private static int ulpExponent(BigInteger m, BigInteger d, int precision, int least) {
+        int e = m.bitLength() - d.bitLength();
+        if (e >= 0 ? m.compareTo(d.shiftLeft(e)) < 0 : m.shiftLeft(-e).compareTo(d) < 0) e--;
+        return Math.max(e - (precision - 1), least);
+    }
+
+    /** m/d over 2^u, rounded to the nearest integer, ties to even, from a guard bit and a sticky bit. */
+    private static long roundedSignificand(BigInteger m, BigInteger d, int u) {
+        int s = 2 - u;
+        BigInteger[] qr = (s >= 0 ? m.shiftLeft(s) : m).divideAndRemainder(s >= 0 ? d : d.shiftLeft(-s));
+        long q = qr[0].longValue() | (qr[1].signum() == 0 ? 0 : 1);
+        long r = q >> 2, rest = q & 3;
+        return (rest > 2 || (rest == 2 && (r & 1) == 1)) ? r + 1 : r;
+    }
+
     public void forIntLiteralExpr(IntLiteralExpr x) {
         debug("forIntLiteral ", x);
         BigInteger bi = x.getIntVal();
+        String typed = numeralTarget(x);
+        if (typed.equals("ZZ32") || typed.equals("NN32")) {
+            boolean zz = typed.equals("ZZ32");
+            addLineNumberInfo(x);
+            pushInteger(bi.intValue());
+            mv.visitMethodInsn(INVOKESTATIC, zz ? NamingCzar.internalFortressZZ32 : NamingCzar.internalFortressNN32, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descInt, zz ? NamingCzar.descFortressZZ32 : NamingCzar.descFortressNN32));
+            return;
+        }
+        if (typed.equals("ZZ64") || typed.equals("NN64")) {
+            boolean zz = typed.equals("ZZ64");
+            addLineNumberInfo(x);
+            mv.visitLdcInsn(Long.valueOf(bi.longValue()));
+            mv.visitMethodInsn(INVOKESTATIC, zz ? NamingCzar.internalFortressZZ64 : NamingCzar.internalFortressNN64, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descLong, zz ? NamingCzar.descFortressZZ64 : NamingCzar.descFortressNN64));
+            return;
+        }
+        if (typed.equals("ZZ")) {
+            addLineNumberInfo(x);
+            mv.visitLdcInsn(bi.toString());
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressZZ, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descString, NamingCzar.descFortressZZ));
+            return;
+        }
+        if (typed.equals("RR64")) {
+            addLineNumberInfo(x);
+            mv.visitLdcInsn(Double.valueOf(roundToDouble(bi, BigInteger.ONE)));
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR64, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descDouble, NamingCzar.descFortressRR64));
+            return;
+        }
+        if (typed.equals("RR32")) {
+            addLineNumberInfo(x);
+            mv.visitLdcInsn(Float.valueOf(roundToFloat(bi, BigInteger.ONE)));
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR32, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descFloat, NamingCzar.descFortressRR32));
+            return;
+        }
         // bitLength() counts no sign bit, so l <= 31 is exactly the int range
         // and l <= 63 exactly the long range, for both signs.
         int l = bi.bitLength();
@@ -7048,10 +7166,74 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                            Naming.APPLY_METHOD, sig);
     }
 
+    /** A numeral site at a program's own type: its call, and the static field of the component's class that holds the result. */
+    private static final class NumeralCoercionSite {
+        final _RewriteFnApp app;
+        final String field;
+        final String desc;
+        NumeralCoercionSite(_RewriteFnApp app, String field, String desc) {
+            this.app = app; this.field = field; this.desc = desc;
+        }
+    }
+
+    /** The components of the libraries, whose coercions from a numeral the sites leave called at each evaluation. */
+    private static final Set<String> LIBRARY_APIS = new HashSet<String>(Arrays.asList(
+        "AnyType", "CompilerBuiltin", "CompilerLibrary", "CompilerAlgebra", "CompilerSystem",
+        "FortressBuiltin", "FortressLibrary"));
+
+    /**
+     * The JVM descriptor of the result where x is a numeral at a program's own
+     * type, the call of the program's coercion on a numeral of its own type;
+     * null for any other application.
+     */
+    private String numeralCoercionSiteDesc(_RewriteFnApp x) {
+        Expr fn = x.getFunction();
+        Expr arg = x.getArgument();
+        if (!(fn instanceof FnRef)) return null;
+        FnRef ref = (FnRef) fn;
+        if (!ref.getStaticArgs().isEmpty() || localFunctionOrNull(ref) != null) return null;
+        if (!(arg instanceof IntLiteralExpr || arg instanceof FloatLiteralExpr) || !numeralTarget(arg).matches("IntLiteral|FloatLiteral")) return null;
+        if (!ref.getOriginalName().getText().startsWith(NamingCzar.LIFTED_COERCION_PREFIX)) return null;
+        if (LIBRARY_APIS.contains(component.getName().getText())) return null;
+        Option<Type> ft = ref.getInfo().getExprType();
+        if (ft.isNone() || !(ft.unwrap() instanceof ArrowType)) return null;
+        Type range = ((ArrowType) ft.unwrap()).getRange();
+        if (!(range instanceof TraitType) || !((TraitType) range).getArgs().isEmpty()) return null;
+        Option<APIName> api = ((TraitType) range).getName().getApiName();
+        if (api.isSome() && LIBRARY_APIS.contains(api.unwrap().getText())) return null;
+        return NamingCzar.jvmBoxedTypeDesc(range, thisApi());
+    }
+
+    /**
+     * Each site of a numeral at a program's own type is one object (P-174):
+     * the component's class calls the program's coercion once for the site,
+     * in its static initializer, when it loads, and keeps the result in a
+     * static field that each evaluation of the site reads. A coercion that
+     * raises fails the load of the component's class.
+     */
+    private void emitNumeralCoercionSites() {
+        for (NumeralCoercionSite site : numeralCoercionSites) {
+            cw.visitField(ACC_PUBLIC + ACC_STATIC + ACC_FINAL, site.field, site.desc, null, null);
+            emitFnApp(site.app);
+            mv.visitFieldInsn(PUTSTATIC, packageAndClassName, site.field, site.desc);
+        }
+    }
+
     public void for_RewriteFnApp(_RewriteFnApp x) {
         debug("for_RewriteFnApp ", x,
                      " args = ", x.getArgument(), " function = ", x.getFunction(),
               " function class = ", x.getFunction());
+        String siteDesc = numeralCoercionSiteDesc(x);
+        if (siteDesc != null) {
+            String field = "numeral$coercion$" + numeralCoercionSites.size();
+            numeralCoercionSites.add(new NumeralCoercionSite(x, field, siteDesc));
+            mv.visitFieldInsn(GETSTATIC, packageAndClassName, field, siteDesc);
+            return;
+        }
+        emitFnApp(x);
+    }
+
+    private void emitFnApp(_RewriteFnApp x) {
         // This is a little weird.  If a function takes no arguments the parser gives me a void literal expr
         // however I don't want to be putting a void literal on the stack because it gets in the way.
         int savedParamCount = paramCount;

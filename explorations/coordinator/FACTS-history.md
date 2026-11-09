@@ -6349,3 +6349,23 @@ pointer words refreshed in: F-24
 2026-11-08 23:47Z · rewritten · from `explorations/reviews/literal-design-judgement-2026-11-08.md`, "1. Coherence" · by the coordinator's record writer (Opus): "that reading is a default" becomes P-173's rule, his decision of 22:3x and 23:3x UTC on 2026-11-08, which also reads a tied float numeral as `RR64`; review-queue item 209 answered.
 
 - F-73 **The compiled checker infers a generic's static arguments with coercion: a type parameter that is the whole type of each parameter it occurs in, as `T` in `pick[\T\](x: T, y: T)`, takes the narrowest type that every one of its arguments converts into and its bound permits.** It looks for that type among its arguments' types, their coercion targets and its bound, the bound only when it is a trait type other than `Object` or `Any`. It builds P-74 and P-49. A coerced declaration ranks below one that needs no coercion. A tie among coerced declarations is refused, "Ambiguous coercion", outside three narrow cases (the report's section 3.2). When the tied declarations differ only at positions where the call passes a numeral, the checker reads the numeral as `ZZ32`, or as `ZZ64` or `ZZ` when its value does not fit; that reading is a default. The coercion attempt refuses a call beyond 64 combinations of candidate types (row 506) and a call with an untyped function argument (row 507). Gated by `compiler_tests/NatLitArgChecker`, `CoercionGenericFnCompiledRungC` and `InferCoercionShapes`, which F-51 also cites, and the refusal of a tie by `XXXInferAmbiguousCoercion`. Detail: `compile-ladder/rung-inference-checker/REPORT.md` section 3.2.
+
+### F-339
+
+2026-11-09 06:58Z · added · from `explorations/compile-ladder/rung-literal-fold/REPORT.md`, "What changed and why" · by climb batch 29 gather
+
+### F-340
+
+2026-11-09 06:58Z · added · from `explorations/compile-ladder/rung-literal-fold/REPORT.md`, "What changed and why" · by climb batch 29 gather
+
+### F-262
+
+2026-11-09 06:58Z · rewritten · from `explorations/compile-ladder/rung-literal-fold/REPORT.md`, "Sentences made false" · by climb batch 29 gather
+
+- F-262 **A numeral's sign does not reach its type on either path, so no overload on a numeral exponent's type can tell `10^16` from `10^(-16)`.** The numeral itself has no sign (`Specification/basic/lexical-structure.tex:1053-1080`). The checker types every integer numeral `IntLiteral` (`Misc.scala:468-469`); the compiled path folds `prefix -` on a numeral into a numeral of that type before the checker, and does not fold `^` (`IntegerLiteralFoldingVisitor.java:58-107`, `:152-153`). Walk's numeral is an `Int` (F-74). By reading. Detail: `reviews/integer-power-fable-judgement.md` section 9.
+
+### F-118
+
+2026-11-09 06:58Z · rewritten · from `explorations/compile-ladder/rung-literal-fold/REPORT.md`, "Sentences made false" · by climb batch 29 gather
+
+- F-118 **A numeral's value reaches the compiled world intact, and the compiled path prints a large `NN32` or `NN64` value unsigned, but it cannot compare a numeral beyond `ZZ64` with another numeral.** The code generator carries a numeral as an `int`, a `long` or its decimal string, by its exact bit length. So on the compiled path `4294967295` and `18446744073709551615` keep their values, as walk does at `ZZ` and `ZZ64` (walk refuses a numeral bound to `NN32` or `NN64`, F-57). The compiled path prints an `NN32` or `NN64` value above its type's signed half unsigned (F-313; test `compiler_tests/UnsignedPrintingCompiled`). It compares two `IntLiteral`s at `ZZ64`, so `a = 18446744073709551615` then `a < 5` fails with `Not in range for ZZ64` (row 328), which no test pins. An `IntLiteral` arithmetic result of 64 bits or more also keeps its value compiled: observed in the report's probe, and no test gates it. Walk stops the same program at `x + x` with `IntegerOverflow`, since its fixed-width addition raises (F-132). Gated, for the numerals at `ZZ`, `ZZ64`, `NN32` and `NN64`, by `compiler_tests/IntLiteralWrapRepairR2`. Detail: `compile-ladder/repair-r2-literal-wrap/REPORT.md`, "The failure-mode question".

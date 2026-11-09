@@ -46,6 +46,8 @@ run():() = do
   z6: ZZ32 = 6
   z12: ZZ32 = 12
   z18: ZZ32 = 18
+  z46341: ZZ32 = 46341
+  z65536: ZZ32 = 65536
   assert((z12 GCD z18).asString, "6", "ZZ32 12 GCD 18")
   assert(((-z12) GCD z18).asString, "6", "ZZ32 -12 GCD 18")
   assert((z12 GCD (-z18)).asString, "6", "ZZ32 12 GCD -18")
@@ -69,12 +71,12 @@ run():() = do
   assert((z0 LCM z0).asString, "0", "ZZ32 0 LCM 0")
   assert((b LCM z0).asString, "0", "ZZ32 MIN LCM 0")
   assert((a LCM z1).asString, "2147483647", "ZZ32 MAX LCM 1")
-  assert((46341 LCM 46340).asString, "2147441940", "ZZ32 46341 LCM 46340")
+  assert((z46341 LCM 46340).asString, "2147441940", "ZZ32 46341 LCM 46340")
   assert(ovZ32(fn () => a LCM z2), "ZZ32 MAX LCM 2 overflows")
   assert(ovZ32(fn () => b LCM z1), "ZZ32 MIN LCM 1 overflows")
   assert(ovZ32(fn () => b LCM m1), "ZZ32 MIN LCM -1 overflows")
   assert(ovZ32(fn () => b LCM b), "ZZ32 MIN LCM MIN overflows")
-  assert(ovZ32(fn () => 65536 LCM 65537), "ZZ32 65536 LCM 65537 overflows")
+  assert(ovZ32(fn () => z65536 LCM 65537), "ZZ32 65536 LCM 65537 overflows")
   assert(partitionL(z0).asString, "-2147483648", "ZZ32 partitionL 0")
   assert(partitionL(z1).asString, "0", "ZZ32 partitionL 1")
   assert(partitionL(z2).asString, "1", "ZZ32 partitionL 2")

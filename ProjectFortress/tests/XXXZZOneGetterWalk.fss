@@ -1,0 +1,17 @@
+(* ZZ's zero and one getters answer ZZ values, whose bodies are expressions of numerals alone at the return type ZZ. *)
+component XXXZZOneGetterWalk
+export Executable
+
+isZZ(x: Any): Boolean = typecase x of
+    ZZ => true
+    else => false
+  end
+
+run():() = do
+  z = big(5)
+  assert(isZZ(z.zero), "ZZ's zero is a ZZ")
+  assert(isZZ(z.one), "ZZ's one is a ZZ")
+  assert((z.one LSHIFT 40) = (big(1) LSHIFT 40), "ZZ's one shifted left by 40 is 2^40")
+end
+
+end

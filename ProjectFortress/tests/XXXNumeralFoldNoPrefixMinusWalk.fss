@@ -1,0 +1,10 @@
+(* An expression of numerals alone folds exactly also where its result is negative with a radix point and the component writes no prefix minus: 0.1 - 0.3 is the numeral -0.2; constant.tex, section "Types of Static Expressions". *)
+component XXXNumeralFoldNoPrefixMinusWalk
+export Executable
+
+run():() = do
+  diff = 0.1 - 0.3
+  assert(diff + 0.2 = 0.0, "0.1 - 0.3 folds exactly")
+end
+
+end

@@ -1,0 +1,6 @@
+tests=NumeralCoercionRaisesCompiled
+link
+run
+run_exits_nonzero=true
+run_out_equals=coerce\n
+run_err_contains=NumeralCoercionRaisesCompiled.<clinit>

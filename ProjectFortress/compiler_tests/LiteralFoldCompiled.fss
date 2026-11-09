@@ -1,0 +1,22 @@
+(* An expression of numerals alone folds exactly into a numeral before the checker, a numeral at an RR64 place is one rounding of its exact value, and CHOOSE outside its range is 0. *)
+component LiteralFoldCompiled
+export Executable
+
+run(): () = do
+  assert(3 + 4, 7, "3 + 4 is 7")
+  p: ZZ64 = 2^40
+  whole40: ZZ64 = 1099511627776
+  assert(p = whole40, "2^40 is 1099511627776")
+  r: RR64 = 0.77425264282026984
+  assert(r = 0.7742526428202698, "a 17-digit numeral at RR64 rounds once")
+  s: RR64 = 0.1 + 0.2
+  assert(s = 0.3, "0.1 + 0.2 folds into the numeral 0.3")
+  assert(3 CHOOSE 5, 0, "3 CHOOSE 5 is 0; basic-integers.tex, section \"Integers\", opr CHOOSE")
+  assert(10 CHOOSE 3, 120, "10 CHOOSE 3 is 120")
+  w: ZZ64 = deadc_16 || 0de_16
+  whole: ZZ64 = deadc0de_16
+  assert(w = whole, "deadc_16 || 0de_16 is deadc0de_16")
+  println("PASS")
+end
+
+end

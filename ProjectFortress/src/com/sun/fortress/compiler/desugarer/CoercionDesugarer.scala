@@ -26,6 +26,35 @@ import com.sun.fortress.scala_src.useful.STypesUtil._
 import com.sun.fortress.useful.Useful
 
 /**
+ * A coercion of a numeral into a library number type whose constant the code
+ * generator emits folds into the numeral typed at that type: an integer
+ * numeral in the range of ZZ32, ZZ64, NN32 or NN64, any integer numeral into
+ * ZZ, and any numeral into RR64 or RR32, which the code generator rounds once
+ * from its exact value. A numeral out of range keeps its coercion call.
+ */
+object CoercionDesugarer {
+  private val ranges = Map("ZZ32" -> (BigInt(Int.MinValue), BigInt(Int.MaxValue)),
+                           "ZZ64" -> (BigInt(Long.MinValue), BigInt(Long.MaxValue)),
+                           "NN32" -> (BigInt(0), BigInt(4294967295L)),
+                           "NN64" -> (BigInt(0), (BigInt(1) << 64) - 1))
+  private val libraries = Set("CompilerBuiltin", "FortressBuiltin", "FortressLibrary")
+  def foldsTo(e: Expr, t: Type): Boolean = t match {
+    case tt: TraitType if tt.getArgs.isEmpty && tt.getName.getApiName.isSome &&
+                          libraries(tt.getName.getApiName.unwrap.getText) =>
+      val name = tt.getName.getText
+      e match {
+        case i: IntLiteralExpr =>
+          val v = BigInt(i.getIntVal)
+          name == "ZZ" || name == "RR64" || name == "RR32" ||
+          ranges.get(name).exists { case (lo, hi) => lo <= v && v <= hi }
+        case _: FloatLiteralExpr => name == "RR64" || name == "RR32"
+        case _ => false
+      }
+    case _ => false
+  }
+}
+
+/**
  * Desugars all CoercionInvocation nodes into function applications or
  * expressions composed thereof. No CoercionInvocation nodes of any kind will
  * remain.
@@ -62,7 +91,8 @@ class CoercionDesugarer extends Walker {
    */
   protected def desugarTraitCoercion(coercion: TraitCoercionInvocation, expr: Expr): Expr = {
     val STraitCoercionInvocation(info, _, toType, fnRef) = coercion
-    addType(EF.make_RewriteFnApp(info.getSpan, fnRef, expr), toType)
+    if (CoercionDesugarer.foldsTo(expr, toType)) addType(expr, toType)
+    else addType(EF.make_RewriteFnApp(info.getSpan, fnRef, expr), toType)
   }
 
   /**

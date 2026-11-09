@@ -14,10 +14,15 @@ run():() = do
   a: ZZ32 = 2147483647
   b: ZZ32 = -2147483647 - 1
   m: ZZ32 = -1
-  assert(3 = 3, true, "=")
-  assert(3 = 4, false, "= unequal")
-  assert(3 < 4, true, "<")
-  assert(4 < 3, false, "< not")
+  three: ZZ32 = 3
+  four: ZZ32 = 4
+  seven: ZZ32 = 7
+  n46340: ZZ32 = 46340
+  n65536: ZZ32 = 65536
+  assert(three = 3, true, "=")
+  assert(three = 4, false, "= unequal")
+  assert(three < 4, true, "<")
+  assert(four < 3, false, "< not")
   assert(-a, -2147483647, "unary -")
   assert(overflows(fn () => -b), "unary - of the minimum overflows")
   assert(DOTMINUS b, b, "unary DOTMINUS wraps")
@@ -27,15 +32,15 @@ run():() = do
   assert(b + 1 - 1, b, "-")
   assert(overflows(fn () => b - 1), "- overflows")
   assert(b DOTMINUS 1, a, "DOTMINUS wraps")
-  assert(46340 DOT 46340, 2147395600, "DOT")
-  assert(overflows(fn () => 65536 DOT 65536), "DOT overflows")
-  assert(7 TIMES 6, 42, "TIMES")
-  assert(overflows(fn () => 65536 TIMES 65536), "TIMES overflows")
-  assert(7 6, 42, "juxtaposition")
-  assert(overflows(fn () => 65536 65536), "juxtaposition overflows")
+  assert(n46340 DOT 46340, 2147395600, "DOT")
+  assert(overflows(fn () => n65536 DOT 65536), "DOT overflows")
+  assert(seven TIMES 6, 42, "TIMES")
+  assert(overflows(fn () => n65536 TIMES 65536), "TIMES overflows")
+  assert(seven 6, 42, "juxtaposition")
+  assert(overflows(fn () => n65536 65536), "juxtaposition overflows")
   assert(65536 DOTTIMES 65536, 0, "DOTTIMES wraps")
-  assert(7 DIV 2, 3, "DIV")
-  assert((-7) DIV 2, -3, "DIV rounds toward zero")
+  assert(seven DIV 2, 3, "DIV")
+  assert((-seven) DIV 2, -3, "DIV rounds toward zero")
   assert(overflows(fn () => b DIV m), "DIV of the minimum by -1 overflows")
   assert(12 BITAND 10, 8, "BITAND")
   assert(12 BITOR 10, 14, "BITOR")

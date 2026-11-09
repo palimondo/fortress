@@ -23,7 +23,7 @@ run(): () = do
     b2: ZZ = 3
     assert(same(b1, b2), true, "two ZZ 3s built apart are equivalent")
 
-    one: RR64 = 1.5 + 1.5
+    one: RR64 = asFloat(3)
     zero: RR64 = one - one
     nz: RR64 = -zero
     nan: RR64 = zero / zero
