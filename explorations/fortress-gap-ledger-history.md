@@ -9557,3 +9557,9 @@ closed by 69427e942
 rewritten
 
 | 360 | a numeral with a radix point is rounded, floored, ceiled and truncated as its nearest double, not as the rational it denotes, on both paths: … | FIXED | library gap vs spec (library) | `Specification/basic/expressions/literals.tex`, "Literals"; `Specification/basic-lib/numbers.tex`, "Rational Numbers" | none | climb batch 3 rung R's skeptic | fixed `69427e942`; settled by P-173: at round's argument a numeral with a radix point converts into QQ, RR32 or RR64, a tie that reads RR64, so round(2.50000000000000001) is 2 and round(3.49999999999999999) is 4, as both paths answer at f03e6c1175; tests/XXXRoundNearTieNumeral.fss asserts the rational's 3 and 3, which P-173 drops; full text: history, row 360 |
+
+### Row 466
+
+rewritten
+
+| 466 | **a second initialization of an array element is silently ignored, and the element keeps its first value**: under walk `a = array[\ZZ32\](2).fill(3); a.fill(4)` leaves `3 3`, and an immutable array's second fill too; so does the compiled `Object[]` store, while the two RR64 stores keep the second | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/advanced/parallelism-locality/arrays-distributed.tex`, "Distributed Arrays" | `ProjectFortress/tests/ArrayInitOnceWalk.fss` | climb batch 7 rung A | `PrimitiveArray.init0` and `PrimImmutableArray.init0` discard the `Boolean` of `init00`, the store's `init` (`ProjectFortress/LibraryBuiltin/NativeArray.fss:21-24`, `:31-34`, at fe19fdad); the team's comment: validating it fails for an element initialized in a failed transaction. `AtomicArray.init` and `FortressArrayStore.init` store into an empty element only. The specification allows one initialization; its footnote and the api (`Library/FortressLibrary.fsi:1551-1556`) say a duplicate signals an error. Fix: validate outside a transaction, or revise the footnote. Workaround: `a[i] := v`. full text: history, row 466 |
