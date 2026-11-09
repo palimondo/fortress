@@ -187,8 +187,6 @@ public class NamingCzar {
     public static final String descObject        = Naming.internalToDesc(internalObject);
     public static final String descClass        = Naming.internalToDesc(internalClass);
     public static final String stringArrayToVoid = Naming.makeMethodDesc(makeArrayDesc(descString), Naming.descVoid);
-    public static final String internalFortressIntLiteral  = makeFortressInternal("IntLiteral");
-    public static final String internalFortressFloatLiteral = makeFortressInternal("FloatLiteral");
     public static final String internalFortressZZ  = makeFortressInternal("ZZ");
     public static final String internalFortressZZ32  = makeFortressInternal("ZZ32");
     public static final String internalFortressZZ64  = makeFortressInternal("ZZ64");
@@ -208,8 +206,6 @@ public class NamingCzar {
     public static final String internalFortressBottom   = "java/lang/Object"; // internalFortressVoid; // Naming.BOTTOM;
 
     // fortress interpreter types: type descriptors
-    public static final String descFortressIntLiteral  = Naming.internalToDesc(internalFortressIntLiteral);
-    public static final String descFortressFloatLiteral  = Naming.internalToDesc(internalFortressFloatLiteral);
     public static final String descFortressZZ  = Naming.internalToDesc(internalFortressZZ);
     public static final String descFortressZZ32  = Naming.internalToDesc(internalFortressZZ32);
     public static final String descFortressZZ64  = Naming.internalToDesc(internalFortressZZ64);
@@ -342,8 +338,6 @@ public class NamingCzar {
                     return NodeFactory.makeTraitType(span, false, NodeFactory.makeId(span, fortLib, "StringVector"));
                 } else if (s.equals("Lcom/sun/fortress/compiler/runtimeValues/FZZ;")) {
                     return NodeFactory.makeTraitType(span, false, NodeFactory.makeId(span, fortLib, "ZZ"));
-                } else if (s.equals("Lfortress/CompilerBuiltin$IntLiteral;")) {
-                    return NodeFactory.makeTraitType(span, false, NodeFactory.makeId(span, fortLib, "IntLiteral"));
                 } else throw new Error("Unhandled case in import of native method dealing in implementation types, native type is " + s);
             }
         }
