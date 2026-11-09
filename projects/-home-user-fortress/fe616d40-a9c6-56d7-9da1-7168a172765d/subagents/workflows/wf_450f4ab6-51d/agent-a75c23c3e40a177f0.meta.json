@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","isBuiltIn":true,"description":"land","workflowPhase":"Land","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-opus-5-5"}
