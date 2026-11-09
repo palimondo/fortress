@@ -1,0 +1,6 @@
+component FoldChoose
+export Executable
+run():() = do
+  println("3 CHOOSE 5 = " (3 CHOOSE 5))
+end
+end

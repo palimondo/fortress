@@ -1,0 +1,214 @@
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index f4a98b7..f4d52d1 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -320,6 +320,8 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
+     getter nextDown():RR64
+     (** The value as a float, the explicit conversion into %RR64%. **)
+     abstract asFloat(self): RR64
++    opr =(self, b:IntLiteral):Boolean
++    opr =(self, b:FloatLiteral):Boolean
+     opr =(self, b:RR64):Boolean
+     opr =(self, b:ZZ32):Boolean
+     opr =(self, b:RR32):Boolean
+@@ -411,6 +413,8 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+     getter isFinite(): Boolean
+     abstract numerator(self): ZZ
+     abstract denominator(self): ZZ  (* Ideally would be NN *)
++    opr =(self, b:IntLiteral):Boolean
++    opr =(self, b:FloatLiteral):Boolean
+     opr |self| : QQ
+     (** The value as a float, the explicit conversion into %RR64%. **)
+     abstract asFloat(self): RR64
+@@ -503,6 +507,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     getter asNN64(): NN64
+     getter asZZ(): ZZ
+     getter bitsAsZZ64(): ZZ64
++    opr =(self, b:IntLiteral):Boolean
+     opr |self| : NN64
+     (** The value as a float, the explicit conversion into %RR64%. **)
+     abstract asFloat(self): RR64
+@@ -573,6 +578,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+ 
+ 
+ 
++    opr =(self, b:IntLiteral):Boolean
+     opr |self| : ZZ32
+     (** The value as a float, the explicit conversion into %RR64%. **)
+     abstract asFloat(self): RR64
+@@ -647,6 +653,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     getter bitsAsNN64(): NN64
+ 
+ 
++    opr =(self, b:IntLiteral):Boolean
+     opr |self| : ZZ64
+ 
+     (** The value as a float, the explicit conversion into %RR64%. **)
+@@ -720,6 +727,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+     getter asZZ(): ZZ
+     (** The value as a float, the explicit conversion into %RR64%. **)
+     abstract asFloat(self): RR64
++    opr =(self, b:IntLiteral):Boolean
+     opr =(self, b: ZZ):Boolean
+     opr =(self, b:ZZ32):Boolean
+     opr =(self, b:ZZ64):Boolean
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 55dd9ed..6f6d789 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -411,6 +411,8 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
+     getter nextUp():RR64 = asFloat(self).nextUp
+     (** next lower IEEE float **)
+     getter nextDown():RR64 = asFloat(self).nextDown
++    opr =(self, b:IntLiteral):Boolean = do c: RR64 = b; (self = c) end
++    opr =(self, b:FloatLiteral):Boolean = do c: RR64 = b; (self = c) end
+     opr |self| : RR64 = |asFloat(self)|
+     asFloat(self): RR64
+     opr =(self, b:RR64):Boolean = asFloat(self) = asFloat(b)
+@@ -585,6 +587,8 @@ trait QQ extends { Number, StandardPartialOrder[\QQ\], StandardMinMax[\QQ\],
+     getter isFinite(): Boolean = (denominator(self) =/= 0)
+     numerator(self): ZZ
+     denominator(self): ZZ  (* Ideally would be NN *)
++    opr =(self, b:IntLiteral):Boolean = do c: QQ = b; (self = c) end
++    opr =(self, b:FloatLiteral):Boolean = do c: QQ = b; (self = c) end
+     opr |self| : QQ = |numerator(self)| / denominator(self)
+     asFloat(self): RR64
+     (* Note that 0/0 = 0/0 is supposed to be true (//unlike// the behavior of floating-point NaN) *)
+@@ -792,6 +796,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     getter asZZ(): ZZ = big(self)
+     getter bitsAsNN32(): NN32 = unsigned(self)
+ 
++    opr =(self, b:IntLiteral):Boolean = do c: ZZ32 = b; (self = c) end
+     opr |self| : ZZ32 = if self>=0 then self else -self end
+     asFloat(self): RR64
+     opr =(self, b:ZZ32):Boolean =
+@@ -899,6 +904,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     getter asZZ(): ZZ = big(self)
+     getter bitsAsNN64(): NN64 = unsigned(self)
+ 
++    opr =(self, b:IntLiteral):Boolean = do c: ZZ64 = b; (self = c) end
+     opr |self| : ZZ64 = if self>=0 then self else -self end
+ 
+     asFloat(self): RR64
+@@ -1008,6 +1014,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     getter asNN64(): NN64 = self
+     getter asZZ(): ZZ = big(self)
+     getter bitsAsZZ64(): ZZ64 = signed(self)
++    opr =(self, b:IntLiteral):Boolean = do c: NN64 = b; (self = c) end
+     opr |self| : NN64 = self
+     asFloat(self): RR64
+     opr =(self, b:NN64):Boolean =
+@@ -1115,6 +1122,7 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToUnsignedLong")
+     getter asZZ(): ZZ = self
+     numerator(self):ZZ = self
++    opr =(self, b:IntLiteral):Boolean = do c: ZZ = b; (self = c) end
+     opr |self| : ZZ = if self>=0 then self else -self end
+     asFloat(self): RR64
+     opr =(self, b: ZZ):Boolean =
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+index a143467..27881dc 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+@@ -43,6 +43,9 @@ end
+ 
+ value object FloatLiteral extends Number
+     asFloat(self): Float
++    opr =(self, b:RR64):Boolean
++    opr =(self, b:QQ):Boolean
++    opr =(self, b:RR32):Boolean
+ end
+ 
+ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+@@ -68,6 +71,7 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
+     getter nextUp():RR32
+     (** next lower IEEE float **)
+     getter nextDown():RR32
++    opr =(self, b:FloatLiteral):Boolean
+     opr |self| : RR32
+     asFloat(self): RR64
+     opr =(self, b:RR32):Boolean
+@@ -140,6 +144,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     getter asNN64(): NN64
+     getter asZZ(): ZZ
+     getter bitsAsZZ32(): ZZ32
++    opr =(self, b:IntLiteral):Boolean
+     opr |self| : NN32
+     asFloat(self): RR64
+     opr =(self, b:NN32):Boolean
+@@ -206,6 +211,13 @@ trait IntLiteral extends { Number } excludes { AnyIntegral, QQ, RR64 }
+     getter asNN64(): NN64
+     abstract getter asZZ(): ZZ
+     asFloat(self): RR64
++    opr =(self, b:RR64):Boolean
++    opr =(self, b:QQ):Boolean
++    opr =(self, b:ZZ):Boolean
++    opr =(self, b:ZZ64):Boolean
++    opr =(self, b:NN64):Boolean
++    opr =(self, b:ZZ32):Boolean
++    opr =(self, b:NN32):Boolean
+ end
+ 
+ value object BigNum extends ZZ end
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 18ca75b..c57a67e 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -212,6 +212,9 @@ value object FloatLiteral extends Number
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FloatLiteral$ToString")
+     asFloat(self): Float =
+         builtinPrimitive("com.sun.fortress.interpreter.glue.prim.FloatLiteral$AsFloat")
++    opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
++    opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
++    opr =(self, b:RR32):Boolean = do c: RR32 = self; (c = b) end
+ end
+ 
+ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+@@ -254,6 +257,7 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
+     asFloat(self): RR64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.floatToDouble")
+ 
++    opr =(self, b:FloatLiteral):Boolean = do c: RR32 = b; (self = c) end
+     opr |self| : RR32 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatAbs")
+     opr =(self, b:RR32):Boolean =
+@@ -449,6 +453,7 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     asFloat(self): RR64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToDouble")
+ 
++    opr =(self, b:IntLiteral):Boolean = do c: NN32 = b; (self = c) end
+     opr |self| : NN32 = self
+     opr =(self, b:NN32):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntEQ")
+@@ -557,6 +562,13 @@ trait IntLiteral extends Number excludes { AnyIntegral, QQ, RR64 }
+     getter asString(): String = self.asZZ.asString
+     getter asExprString(): String = self.asZZ.asString
+     asFloat(self): RR64 = asFloat(self.asZZ)
++    opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
++    opr =(self, b:QQ):Boolean = do c: QQ = self; (c = b) end
++    opr =(self, b:ZZ):Boolean = do c: ZZ = self; (c = b) end
++    opr =(self, b:ZZ64):Boolean = do c: ZZ64 = self; (c = b) end
++    opr =(self, b:NN64):Boolean = do c: NN64 = self; (c = b) end
++    opr =(self, b:ZZ32):Boolean = do c: ZZ32 = self; (c = b) end
++    opr =(self, b:NN32):Boolean = do c: NN32 = self; (c = b) end
+ end
+ 
+ value object BigNum extends ZZ
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala
+index a2417dd..08e53d0 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala
+@@ -168,12 +168,7 @@ class CoercionOracle(traits: TraitTable,
+     val c = checkCoercion(getType(e).get, u, Some(e)).flatMap(o => o)
+     // A numeral converted into its own default type ranks as no coercion: the
+     // numeral is that type where nothing narrower fixes it.
+-    (c, u) match {
+-      case (Some(ci), tu: TraitType) if defaultName(e).exists(_ == tu.getName.getText) =>
+-        com.sun.fortress.scala_src.typechecker.impls.LiteralDefaults.mark(ci)
+-      case _ =>
+-    }
+-    c.orElse(viaDefault(e, u))
++    c
+   }
+ 
+   /** The name of a numeral's default type: ZZ32, or ZZ64 or ZZ by its value, or RR64 with a radix point. */

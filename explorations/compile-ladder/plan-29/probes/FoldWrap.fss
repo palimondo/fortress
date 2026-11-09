@@ -1,0 +1,7 @@
+component FoldWrap
+export Executable
+run():() = do
+  a: ZZ32 = 2147483647 BOXPLUS 1
+  println("2147483647 BOXPLUS 1 at ZZ32 = " a)
+end
+end
