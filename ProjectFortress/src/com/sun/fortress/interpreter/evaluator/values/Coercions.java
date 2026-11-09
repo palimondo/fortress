@@ -96,12 +96,16 @@ public final class Coercions {
     private static SingleFcn numeralCoercionFor(FType target, FValue v) {
         FType nt = Numerals.numeralType(v);
         if (nt == null || !Numerals.inRange(target, v)) return null;
-        Fcn lifted = liftedCoercions(target);
         List<SingleFcn> fs = new ArrayList<SingleFcn>();
-        if (lifted instanceof OverloadedFunction) {
-            for (Overload o : ((OverloadedFunction) lifted).getOverloads()) fs.add(o.getFn());
-        } else if (lifted instanceof SingleFcn) {
-            fs.add((SingleFcn) lifted);
+        if (target instanceof GenericTypeInstance) {
+            fs.addAll(instantiatedCoercions((GenericTypeInstance) target));
+        } else {
+            Fcn lifted = liftedCoercions(target);
+            if (lifted instanceof OverloadedFunction) {
+                for (Overload o : ((OverloadedFunction) lifted).getOverloads()) fs.add(o.getFn());
+            } else if (lifted instanceof SingleFcn) {
+                fs.add((SingleFcn) lifted);
+            }
         }
         SingleFcn best = null;
         for (SingleFcn f : fs) {
@@ -114,11 +118,11 @@ public final class Coercions {
     }
 
     /**
-     * The most specific of the generic target's lifted coercions, each
-     * instantiated with the target's static arguments, that applies to v
-     * without a coercion; or null.
+     * The generic target's lifted coercions, each instantiated with the
+     * target's static arguments.
      */
-    private static SingleFcn genericCoercionFor(GenericTypeInstance target, FValue v) {
+    private static List<SingleFcn> instantiatedCoercions(GenericTypeInstance target) {
+        List<SingleFcn> res = new ArrayList<SingleFcn>();
         FTypeGeneric generic = target.getGeneric();
         String name = NamingCzar.LIFTED_COERCION_PREFIX + generic.getName();
         Fcn lifted = null;
@@ -130,7 +134,7 @@ public final class Coercions {
                 break;
             }
         }
-        if (lifted == null) return null;
+        if (lifted == null) return res;
         List<GenericFunctionOrMethod> generics = new ArrayList<GenericFunctionOrMethod>();
         if (lifted instanceof OverloadedFunction) {
             for (Overload o : ((OverloadedFunction) lifted).getOverloads()) {
@@ -140,17 +144,27 @@ public final class Coercions {
             generics.add((GenericFunctionOrMethod) lifted);
         }
         List<FType> targs = target.getTypeParams();
-        List<FValue> args = Collections.singletonList(v);
-        SingleFcn best = null;
         for (GenericFunctionOrMethod g : generics) {
             if (g.getStaticParams().size() != targs.size()) continue;
-            SingleFcn f;
             try {
-                f = g.typeApply(targs);
+                res.add(g.typeApply(targs));
             }
             catch (FortressException ex) {
-                continue;
+                // not an instance at these static arguments
             }
+        }
+        return res;
+    }
+
+    /**
+     * The most specific of the generic target's lifted coercions, each
+     * instantiated with the target's static arguments, that applies to v
+     * without a coercion; or null.
+     */
+    private static SingleFcn genericCoercionFor(GenericTypeInstance target, FValue v) {
+        List<FValue> args = Collections.singletonList(v);
+        SingleFcn best = null;
+        for (SingleFcn f : instantiatedCoercions(target)) {
             List<FValue> fargs = f.fixupArgCount(args);
             if (fargs == null || !OverloadedFunction.argsMatchTypes(fargs, f.getDomain())) continue;
             if (best == null || FTypeTuple.moreSpecificThan(f.getDomain(), best.getDomain())) best = f;
@@ -369,13 +383,6 @@ public final class Coercions {
     }
 
     /**
-     * The coercions for each argument position of an overloaded call, chosen
-     * by the argument types and kept in the per-argument-type cache: for each
-     * position the coercion that converts it, or null, together with the
-     * overload that makes them applicable.  The converted arguments are
-     * dispatched as an ordinary call.
-     */
-    /**
      * target itself, or, where some argument is a numeral at a parameter that
      * its own numeral type fits and its default does not, a call that makes
      * each such numeral its numeral object and dispatches the arguments again,
@@ -399,6 +406,13 @@ public final class Coercions {
         return any ? new CoercedCall(target, new SingleFcn[oargs.size()], owner, objects) : target;
     }
 
+    /**
+     * The coercions for each argument position of an overloaded call, chosen
+     * by the argument types and kept in the per-argument-type cache: for each
+     * position the coercion that converts it, or null, together with the
+     * overload that makes them applicable.  The converted arguments are
+     * dispatched as an ordinary call.
+     */
     static final class CoercedCall extends SingleFcn {
         private final SingleFcn target;
         private final SingleFcn[] coercions;
