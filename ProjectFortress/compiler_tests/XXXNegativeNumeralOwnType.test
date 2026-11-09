@@ -1,0 +1,3 @@
+tests=XXXNegativeNumeralOwnType
+run
+run_out_contains=REACHED
