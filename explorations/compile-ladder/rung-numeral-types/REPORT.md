@@ -162,7 +162,7 @@ On `e3adeedb64`, after the last change, at 02:41:30 UTC, 23 tests in one JVM wit
     explorations/compile-ladder/rung-inference-walk/harness-one.sh $PWD/tmp/rung-numeral-types/h-last ProjectFortress/tests/{NumeralTypesWalk,NumeralOwnTypeWalk,NumeralNoCoercionRefusedWalk,NumeralOutOfRangeWalk,NumeralBeyondZZ32AtRR64,NumeralWithNN32,RadixTenPointNumeral,RoundNearTieNumeral,XXXNumeralLeftOfRR32Walk,XXXTypecaseUndefinedArmWalk,FlatTowerRungF,IntegerConversionsWalk,IntegerPowerContractWalk,ReflectiveNumberTypes,StrictEquivalenceRuleWalk,ZZ32BigEndsWalk,NumberMixedEqualityWalk,sequivTest,NumberPrintTest,RR32SiblingRungV,commonSuper,XXXextendIntLiteral,XXXextendFloatLiteral}.fss and the three .test files
     OK (23 tests)
 
-The `XXX` test of the left numeral, run twice on `9e259096a9`'s code as `tests-writing.md` asks: as it is, 'OK Saw expected exception', 'OK (1 test)'; with its two expectations set to `RR64` for one run, then restored, ' Missing expected failure ', 'Tests run: 1,  Failures: 1'. The `XXX` test of the undefined arm: 'the undefined arm', ' Saw expected failure: loaded and ran, not refused at load'.
+The `XXX` test of the left numeral, run twice on the code that `d541ae9682` commits, built before that commit, as `tests-writing.md` asks: as it is, 'OK Saw expected exception', 'OK (1 test)'; with its two expectations set to `RR64` for one run, then restored, ' Missing expected failure ', 'Tests run: 1,  Failures: 1'. The `XXX` test of the undefined arm: 'the undefined arm', ' Saw expected failure: loaded and ran, not refused at load'.
 
 ## Revival change
 
