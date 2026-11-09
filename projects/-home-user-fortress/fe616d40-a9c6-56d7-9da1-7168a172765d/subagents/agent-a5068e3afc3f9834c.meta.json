@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout A: words attributed to him","toolUseId":"toolu_01CAQbJb7j1Nr6XnRKXLxDkN","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Scout A: words attributed to him","toolUseId":"toolu_01CAQbJb7j1Nr6XnRKXLxDkN","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"sonnet","pickedEffortModel":"claude-opus-5-5","finished":true}
