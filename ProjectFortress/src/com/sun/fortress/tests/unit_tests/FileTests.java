@@ -592,14 +592,17 @@ public class FileTests {
             String s_out = cached_out.toString();
             String s_err = cached_err.toString();
 
-            boolean fail_exit = exitValue != 0;
+            // run_exits_nonzero=true: the run is to stop with a non-zero exit code,
+            // as a program whose class fails to load does.
+            boolean exitsNonzero = "true".equals(props.get("run_exits_nonzero"));
+            boolean fail_exit = exitsNonzero ? exitValue == 0 : exitValue != 0;
             // We've decided that exit codes are definitive.
             boolean fail_out = false && s_out.contains("FAIL");
             boolean fail_err = false && s_err.contains("FAIL");
             boolean failed = fail_exit || fail_out || fail_err;
             String fail_cause = !failed ?
                                 "" :
-                                ((fail_exit ? "Exit code != 0" : "") + (fail_out ? " Stdout contained FAIL" : "") +
+                                ((fail_exit ? (exitsNonzero ? "Exit code == 0" : "Exit code != 0") : "") + (fail_out ? " Stdout contained FAIL" : "") +
                                  (fail_err ? " Stderr contained FAIL" : "")).trim();
 
             String trueFailure = testFailed(s_out, s_err, "");

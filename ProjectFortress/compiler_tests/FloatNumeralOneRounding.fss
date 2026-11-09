@@ -1,11 +1,12 @@
 (* On the compiled path, a numeral with a radix point becomes an RR64 by one rounding of its rational value, so 0.9999999999999999 is below 1.0. *)
-component XXXFloatNumeralOneRounding
+component FloatNumeralOneRounding
 export Executable
 
 run():() = do
-  println("REACHED")
   x: RR64 = 0.9999999999999999
   assert(x < 1.0, "0.9999999999999999 rounds to the double below 1.0")
+  y: RR64 = 1.2246467991473532
+  assert(y > 1.224646799147353, "1.2246467991473532 rounds to its nearest double, above 1.224646799147353")
   println("PASS")
 end
 

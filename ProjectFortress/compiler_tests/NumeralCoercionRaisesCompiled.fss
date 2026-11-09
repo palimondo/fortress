@@ -1,0 +1,21 @@
+(* A program's coercion from the numeral type that raises fails the load of the component's class, so the program's run never starts. *)
+component NumeralCoercionRaisesCompiled
+export Executable
+
+object Odd(v: ZZ32)
+  coerce(x: IntLiteral) = do
+    println("coerce")
+    w: ZZ32 = x
+    Odd(w DIV 0)
+  end
+end
+
+one(): Odd = 1
+
+run(): () = do
+  println("start")
+  o = one()
+  assert(o.v, 1, "the site's value")
+end
+
+end

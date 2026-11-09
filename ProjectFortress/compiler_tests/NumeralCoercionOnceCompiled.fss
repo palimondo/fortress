@@ -1,0 +1,29 @@
+(* A numeral at a program's own reference type is one object for its site: the program's coercion from the numeral type runs once for each site, when the component's class loads, and each evaluation of the site reads its result. *)
+component NumeralCoercionOnceCompiled
+export Executable
+
+object Cell(v: ZZ32)
+  coerce(x: IntLiteral) = do
+    println("coerce")
+    Cell(x)
+  end
+end
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+
+three(): Cell = 3
+four(): Cell = 4
+
+run(): () = do
+  println("start")
+  a = three()
+  b = three()
+  c = four()
+  assert(sEq(a, b), "two evaluations of one site are one object")
+  assert(NOT sEq(a, c), "two sites are two objects")
+  assert(a.v, 3, "the first site's value")
+  assert(c.v, 4, "the second site's value")
+  println("PASS")
+end
+
+end

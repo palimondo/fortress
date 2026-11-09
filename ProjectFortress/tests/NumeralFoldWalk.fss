@@ -1,0 +1,62 @@
+(* An expression of numerals alone folds exactly into a numeral before walk runs it: integer arithmetic past ZZ32, a negative numeral, a p40, a decimal tenths, a quotient, CHOOSE outside its range, and two natural numerals concatenated; constant.tex, section "Types of Static Expressions". *)
+component NumeralFoldWalk
+export Executable
+
+isZZ32(x: Any): Boolean = typecase x of
+    ZZ32 => true
+    else => false
+  end
+
+isZZ64(x: Any): Boolean = typecase x of
+    ZZ64 => true
+    else => false
+  end
+
+isQQ(x: Any): Boolean = typecase x of
+    QQ => true
+    else => false
+  end
+
+run():() = do
+  over = 2147483647 + 1
+  assert(isZZ64(over), "2147483647 + 1 folds into a numeral that takes ZZ64")
+  assert(over = 2147483648, "2147483647 + 1 is 2147483648")
+  least = -2147483648
+  assert(isZZ32(least), "-2147483648 folds into a numeral that fits ZZ32")
+  p40 = 2^40
+  assert(p40 = 1099511627776, "2^40 is 1099511627776")
+  jx = 65536 65536
+  assert(jx = 4294967296, "65536 65536 is 4294967296")
+  dt = 65536 DOT 65536
+  assert(dt = 4294967296, "65536 DOT 65536 is 4294967296")
+  tenths = 0.1 + 0.2
+  assert(tenths = 0.3, "0.1 + 0.2 folds into the numeral 0.3")
+  q72 = 7/2
+  assert(isQQ(q72), "7/2 is a QQ")
+  assert(q72 = 7/2, "7/2 keeps its value")
+  c35 = 3 CHOOSE 5
+  assert(c35, 0, "3 CHOOSE 5 is 0; basic-integers.tex, section \"Integers\", opr CHOOSE")
+  cneg = 5 CHOOSE (-1)
+  assert(cneg, 0, "5 CHOOSE (-1) is 0")
+  c103 = 10 CHOOSE 3
+  assert(c103, 120, "10 CHOOSE 3 is 120")
+  hexWord = deadc_16 || 0de_16
+  assert(hexWord, deadc0de_16, "deadc_16 || 0de_16 is deadc0de_16; constant.tex, section \"Types of Static Expressions\"")
+  q16 = (1/3) + (1/6)
+  assert(q16 = 1/2, "(1/3) + (1/6) is 1/2")
+  qneg = (-7) / 2
+  assert(isQQ(qneg), "(-7) / 2 is a QQ")
+  diff = 0.1 - 0.3
+  assert(diff = -0.2, "0.1 - 0.3 folds into prefix minus on the numeral 0.2")
+  tiny = 10.0^(-5)
+  assert(tiny = 0.00001, "10.0^(-5) folds into the numeral 0.00001")
+  assert(0.3 = 0.1 + 0.2, "0.3 = 0.1 + 0.2 folds exactly")
+  dz = try
+      1 DIV 0
+    catch e
+      DivisionByZero => -7
+    end
+  assert(dz, -7, "1 DIV 0 is left to raise DivisionByZero")
+end
+
+end

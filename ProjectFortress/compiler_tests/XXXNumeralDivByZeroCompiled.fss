@@ -1,0 +1,16 @@
+(* On the compiled path, DIV of two numerals by zero raises DivisionByZero; opr-overview.tex, subsection "Multiplication, Division, Modulo, and Remainder Operators". *)
+component XXXNumeralDivByZeroCompiled
+export Executable
+
+run(): () = do
+  println("REACHED")
+  d: ZZ32 = try
+      1 DIV 0
+    catch e
+      DivisionByZero => -7
+    end
+  assert(d, -7, "1 DIV 0 raises DivisionByZero")
+  println("PASS")
+end
+
+end
