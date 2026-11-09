@@ -9881,3 +9881,27 @@ rewritten
 note added
 
 | 961 | on the compiled path a negative integer numeral at a program's own number type reaches the type's `coerce(x: IntLiteral)` signed, where P-173 and P-174 make it prefix `-` on the coercion of the natural numeral and refuse it at a type without `-`: `t: Tally = -3` calls the coercion with -3 | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNegativeNumeralOwnType.test` | climb batch 29 rung C | The integer literal fold makes `-3` one negative `IntLiteralExpr` before the checker (`compiler/desugarer/IntegerLiteralFoldingVisitor.java:148-153`), and keeps no reference to the prefix operator that the checker would apply to the program's coercion of `3`. Until the switch-over the prelude's `IntLiteral` carries the sign, so the coercion reads -3 exactly; the difference shows once the coercion reads a numeral's four numbers. Workaround: none needed before the switch-over. |
+
+### Row 893
+
+rewritten
+
+| 893 | under walk, an object that extends a self-typed trait at a type it is not a subtype of loads, a static error by the specification; walk's load check reads that trait's `self` as `C[\X\] & X`, so a call that the trait's operator and a generic array operator both fit runs one of them | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/tests/XXXSelfTypeExtenderOtherTypeWalk.fss` | climb batch 26 rung W's skeptic | siblings: 804. `object Bad extends { Arry[\Rr\], AddG[\Rr\] }` beside `MINUS[\T extends { Numb, AddG[\T\] }\](x: Arry[\T\], y: T)`: `Bad MINUS Rr` prints 'array minus number', where `AddG[\Rr\]`'s `MINUS` fits too and neither is more specific. Walk's exclusion test reads the self parameter so (`selfTypeParameter`, `OverloadedFunction.java:845-867` at c124c6b65), and walk applies no extender rule of P-146 (`Specification/appendices/changes.tex:4105-4110`); the checker refuses `Bad`, 'whose self parameter is Rr, but Bad is not a subtype of Rr.' |
+
+### Row 961
+
+rewritten
+
+| 961 | on the compiled path a negative integer numeral at a program's own number type reaches the type's `coerce(x: IntLiteral)` signed, where P-173 and P-174 make it prefix `-` on the coercion of the natural numeral and refuse it at a type without `-`: `t: Tally = -3` calls the coercion with -3 | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNegativeNumeralOwnType.test` | climb batch 29 rung C | The integer literal fold makes `-3` one negative `IntLiteralExpr` before the checker (`compiler/desugarer/IntegerLiteralFoldingVisitor.java:148-153`), and keeps no reference to the prefix operator that the checker would apply to the program's coercion of `3`. Until the switch-over the prelude's `IntLiteral` carries the sign, so the coercion reads -3 exactly; the difference shows once the coercion reads a numeral's four numbers. Workaround: none needed before the switch-over. Walk's half, through the same fold: row 968. |
+
+### Row 965
+
+rewritten
+
+| 965 | on the compiled path, until the switch-over, the prelude declares `String`'s `\|\|` with the string first only, so a `Character` value joined by `\|\|` with a string is refused: `c \|\| s` for `c: Character`, `s: String` gives '… is not applicable to an argument of type (Character, String)' | NEGATIVE-VERIFIED | implementation gap (prelude) | silent | `ProjectFortress/compiler_tests/XXXCharacterBeforeStringConcatenationCompiled.test` | climb batch 29 rung S | `opr \|\|(self, b:Object)` (`LibraryBuiltin/CompilerBuiltin.fsi:37`); the one library declares `opr \|\|(a:Any, b:String)` (`Library/FortressLibrary.fsi:2662`), and walk runs `c \|\| s`. Two literals, `'a' \|\| "bc"`, compile, because the fold of a concatenation of literals makes them one string literal before the checker (`compiler/desugarer/PreTypeCheckDesugaringVisitor.java`); the base refused them with the same message. Ends at the switch-over, when the prelude goes (P-37). |
+
+### Row 579
+
+rewritten
+
+| 579 | against the one library the compiled checker refuses the floor and ceiling brackets of a `ZZ32` and of a numeral as an ambiguous coercion, and types `round` of a `ZZ32` at `QQ`'s `ZZ` | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic-lib/basic-integers.tex`, "Integers" | none | climb batch 8 rung Q's skeptic and repair round | `Integral`'s body declares both brackets and `round(self)` (`Library/FortressLibrary.fss:725-727` at c124c6b65) and its api (`Library/FortressLibrary.fsi:449`) does not, so only `RR64`'s and `QQ`'s apply: "Ambiguous coercion ... (RR64 & {Float, FloatLiteral})->ZZ64; QQ->ZZ." and "Function body has type ZZ, but declared return type is ZZ32.". Repair: `Integral`'s api states the three, `IntLiteral`'s api its own three. No gated program sees it before the switch-over: `explorations/reviews/numerics-plan-coordinator/probes-B/check.sh FloorBracketCk base` and `edit3` (84aef6a4f^), 5 errors each (`explorations/compile-ladder/rung-numeral-library/REPORT.md` section 6). full text: history, row 579 |
