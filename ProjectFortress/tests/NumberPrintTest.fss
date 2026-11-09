@@ -13,7 +13,7 @@ component NumberPrintTest
 export Executable
 
 run() = do
-  assert("" 3.1415926535897932384000000000001, "3.1415926535897932384000000000001")
+  assert("" 3.1415926535897932384000000000001, "3.141592653589793")
   assert("" 43, "43")
   assert("" 12367125, "12367125")
   assert("" 78236427658757685, "78236427658757685")
@@ -28,7 +28,6 @@ run() = do
   println bar
   yelp(x: Number) =
     typecase x of
-      IntLiteral => println "IntLiteral"
       BigNum => println "BigNum"
       ZZ32 => println "ZZ32"
       ZZ64 => println "ZZ64"

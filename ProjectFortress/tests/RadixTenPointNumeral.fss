@@ -1,4 +1,4 @@
-component XXXRadixTenPointNumeral
+component RadixTenPointNumeral
 export Executable
 
 (*) explorations/compile-ladder/rung-round-half-even/REPORT.md

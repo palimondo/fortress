@@ -29,7 +29,7 @@ run(): () = do
     nan: RR64 = zero / zero
     assert(same(zero, nz), false, "0.0 and -0.0 differ in their bits")
     assert(same(nan, nan), true, "a NaN is equivalent to itself")
-    assert(same(r, one), false, "a float numeral bound to RR64 and a computed RR64 of the same bits differ in type")
+    assert(same(r, one), true, "a float numeral bound to RR64 converts to RR64, so it and a computed RR64 of the same bits are equivalent")
 
     t1: (ZZ32, ZZ32) = (1, 2)
     t2: (ZZ32, ZZ32) = (1, 2)

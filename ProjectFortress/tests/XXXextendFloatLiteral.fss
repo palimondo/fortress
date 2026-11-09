@@ -12,7 +12,7 @@
 component XXXextendFloatLiteral
 export Executable
 
-    object Mumble() extends { FloatLiteral }
+    object Mumble() extends { RadixPointNumeral }
     end
 
 run() = ()

@@ -1,4 +1,4 @@
-component XXXNumeralFloatRungP
+component NumeralBeyondZZ32AtRR64
 export Executable
 
 (*) explorations/compile-ladder/rung-spec-integer-rules/REPORT.md

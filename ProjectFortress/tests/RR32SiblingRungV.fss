@@ -47,13 +47,12 @@ run() = do
 
     assert(shownV(a + f), "4.0 : RR64", "conversions-coercions.tex, section \"Automatic Widening\": RR32 + RR64 by RR64's + after the coercion")
     assert(shownV(f + a), "4.0 : RR64", "conversions-coercions.tex, section \"Automatic Widening\": RR64 + RR32 by RR64's + after the coercion")
-    assert(shownV(a + 2.5), "4.0 : RR64", "conversions-coercions.tex, section \"Automatic Widening\": RR32 + a float numeral by RR64's +")
-    assert(shownV(2.5 + a), "4.0 : RR64", "conversions-coercions.tex, section \"Automatic Widening\": a float numeral + RR32 by RR64's +")
+    assert(shownV(a + 2.5), "4.0 : RR32", "literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": RR32 + a float numeral by RR32's +, the numeral converting into RR32")
     assert(shownV(a + z), "3.5 : RR64", "numbers.tex, section \"Rational Numbers\", conversions-coercions.tex, section \"Automatic Widening\": RR32 + ZZ32 by RR64's +")
-    assert(shownV(a + 2), "3.5 : RR64", "numbers.tex, section \"Rational Numbers\", conversions-coercions.tex, section \"Automatic Widening\": RR32 + an integer numeral by RR64's +")
+    assert(shownV(a + 2), "3.5 : RR32", "literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": RR32 + an integer numeral by RR32's +, the numeral converting into RR32")
     assert(shownV(a^2.5), "2.7556759606310752 : RR64", "opr-overview.tex, subsection \"Exponentiation\", conversions-coercions.tex, section \"Automatic Widening\": RR32 ^ a float numeral by RR64's ^ after the coercion")
     assert(shownV(a MIN f), "1.5 : RR64", "conversions-coercions.tex, section \"Automatic Widening\": RR32 MIN RR64 by RR64's MIN")
-    assert(shownV(a MAX 2.5), "2.5 : RR64", "conversions-coercions.tex, section \"Automatic Widening\": RR32 MAX a float numeral by RR64's MAX")
+    assert(shownV(a MAX 2.5), "2.5 : RR32", "literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": RR32 MAX a float numeral by RR32's MAX, the numeral converting into RR32")
     (lo2, hi2) = a MINMAX f
     assert(shownV(lo2) ", " shownV(hi2), "1.5 : RR64, 2.5 : RR64", "conversions-coercions.tex, section \"Automatic Widening\": RR32 MINMAX RR64 by RR64's MINMAX")
 

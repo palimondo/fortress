@@ -4,7 +4,6 @@ export Executable
 
 shown(v: Any): String =
   typecase v of
-    IntLiteral => v.asString || " : IntLiteral"
     ZZ32 => v.asString || " : ZZ32"
     ZZ64 => v.asString || " : ZZ64"
     NN32 => v.asString || " : NN32"

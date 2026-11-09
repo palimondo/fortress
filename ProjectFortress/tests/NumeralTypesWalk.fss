@@ -17,6 +17,7 @@ kind(v: Any): String =
 
 atAny(v: Any): String = kind(v)
 atNumber(v: Number): String = kind(v)
+second[\T\](a: T, b: T): T = b
 
 run(): () = do
     (* The defaults: literals.tex, section "Literals"; inference.tex, section "A Numeral Whose Conversions Tie". *)
@@ -33,6 +34,12 @@ run(): () = do
     assert(atAny(3), "ZZ32", "3 at Any is a ZZ32")
     assert(atAny(0.5), "RR64", "0.5 at Any is an RR64")
     assert(atNumber(3), "ZZ32", "3 at Number is a ZZ32")
+    (* A type parameter that several numerals fix takes the narrowest default holding them all. *)
+    assert(kind(second(13.0, 5)), "RR64", "second(13.0, 5) is at RR64")
+    assert(second(13.0, 5) SEQV 5.0, "second(13.0, 5) is the RR64 5.0")
+    assert(kind(second(0.5, 3000000000)), "RR64", "second(0.5, 3000000000) is at RR64")
+    assert(second(0.5, 3000000000) SEQV 3000000000.0, "second(0.5, 3000000000) is the RR64 3000000000.0")
+    assert(kind(second(1, 3000000000)), "ZZ64", "second(1, 3000000000) is at ZZ64")
     assert(1/2 = 0.5, "1/2 = 0.5 through QQ's = with the float numeral")
     assert(0.5 = 1/2, "0.5 = 1/2 through the reversed =")
     b = 0.9

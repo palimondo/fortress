@@ -345,10 +345,14 @@ public final class Numerals {
 
     /**
      * The arguments a generic call infers its static arguments from: each
-     * numeral at its default, and the numerals at the positions of one type
-     * parameter, where there are several, at the narrowest default holding
-     * them all, an RR64 where any has a radix point, each converted into it
-     * exactly.
+     * numeral at its default, which walk's promotion joins into the
+     * narrowest type into which every argument coerces (P-74).  Where the
+     * numerals at the positions of one type parameter include one with a
+     * radix point, the narrowest default holding them all is an RR64, into
+     * which an integer numeral beyond ZZ32 converts exactly though its
+     * default does not coerce: such a numeral is read as a ZZ32 stand-in,
+     * which promotes with an RR64 to RR64.  The call itself receives the
+     * numerals, which convert at the instance's parameters.
      */
     public static List<FValue> forInference(List<FValue> args, GenericFunctionOrMethod g) {
         if (!anyNumeral(args)) return args;
@@ -379,20 +383,11 @@ public final class Numerals {
         for (List<Integer> group : byParam.values()) {
             if (group.size() < 2) continue;
             boolean point = false;
-            BigInteger widest = BigInteger.ZERO;
+            for (int j : group) if (((Numeral) args.get(j)).site().radixPoint) point = true;
+            if (!point) continue;
             for (int j : group) {
                 Site s = ((Numeral) args.get(j)).site();
-                if (s.radixPoint) point = true;
-                else if (s.digitValue.abs().compareTo(widest) > 0) widest = s.digitValue.abs();
-            }
-            for (int j : group) {
-                Site s = ((Numeral) args.get(j)).site();
-                FValue d;
-                if (point) d = FFloat.make(simpleDoubleArith.numeralToDouble(s.digitValue, s.radix, s.fractionDigits));
-                else if (widest.compareTo(INT_MAX) <= 0) d = FInt.make(s.digitValue.intValue());
-                else if (widest.compareTo(LONG_MAX) <= 0) d = FLong.make(s.digitValue.longValue());
-                else d = FBigNum.make(s.digitValue);
-                res.set(j, d);
+                if (!s.radixPoint && !(s.plain instanceof FInt)) res.set(j, FInt.make(0));
             }
         }
         return res;
