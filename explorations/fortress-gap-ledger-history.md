@@ -9629,3 +9629,9 @@ rewritten
 rewritten
 
 | 963 | on the compiled path a numeral as a `typecase`'s selector keeps its own type `IntLiteral`, where P-173 gives it its default: `typecase 7 of ZZ32 => ...` is refused, 'The typecase clause, ZZ32, is unreachable.', where walk takes the `ZZ32` clause | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNumeralTypecaseSelector.test` | climb batch 29 rung C's skeptic | siblings: 79. The selector is checked with no expected type and no default (`scala_src/typechecker/impls/Misc.scala:660` at b212f67a0e). The default there changes two team tests: the pinned span of `XXX5r.test`'s unreachable clauses, and `XXXPatternMatchingc.test`, whose `typecase (3, 4) of (x, y: ZZ32)` becomes reachable and then stops the code generator (NEW-C-4). Workaround: bind the selector to a variable first. |
+
+### Row 923
+
+note added
+
+| 923 | the library declares `=` on pairs and triples only, so a tuple of four or more elements compares by the fallback `a SEQV b`: under walk two such tuples whose strings are equal but built apart are not equal, `(s1, 1, 2, 3) = (s2, 1, 2, 3)` is `false` for `s1 = s2` | NEGATIVE-VERIFIED | design limit (library) | silent | `ProjectFortress/tests/StrictEquivalenceRuleWalk.fss` | climb batch 27 rung E | `opr =[\A,B\]` and `opr =[\A,B,C\]` over tuples (`Library/FortressLibrary.fss:4775`, `:4831`); a longer tuple reaches `opr =(a:Any, b:Any) = a SEQV b` (`:96`), element by element (`interpreter/evaluator/values/FTupleLike.java:78`), and strings are reference objects (P-168). The test asserts the pair and the triple `true` and the 4-tuple `false`. Before strings were reference objects walk answered `true`. Workaround: compare the elements, or nest a pair or triple. Compiled: the prelude declares no tuple `=`. |

@@ -6431,3 +6431,13 @@ pointer words refreshed in: F-24
 ### F-342
 
 2026-11-09 07:08Z · added · from `explorations/compile-ladder/rung-numeral-checker/REPORT.md`, "1. What changed and why" · by climb batch 29 gather
+
+### F-249
+
+2026-11-09 07:10Z · rewritten · from `explorations/compile-ladder/rung-string-literals/REPORT.md`, "12. Sentences made false" · by climb batch 29 gather
+
+- F-249 **Under walk, a program that imports only the prelude reaches the string objects' own `||` through the top-level `opr ||(a:String, b:String)`, whose `typecase` calls them.** The string objects' own `||` are those that the objects `FlatString` and `EmptyString` declare, and that the trait `Concatenable` declares for the objects `CatString` and `SubString`. `FortressLibrary`, where the top-level `||` is declared, sees them only where an api that it imports states them: `FlatString`'s api does, and String's api states `Concatenable`'s and `EmptyString`'s three each (`Library/String.fsi:17-19`, `:29-31`). So `"s" || "t"` is a `FlatString` of depth 0, as it was while `String`'s abstract `opr ||(self, b:String)` stood (F-276); a top-level meet with `Concatenable`'s body, which a probe tried, gave a `CatString` of depth 1. Gated by `tests/StringConcatenationFamiliesWalk.fss`. Detail: `compile-ladder/rung-symbolic-library/REPORT.md` section 12, decision 3; `perf-probes/symbolic-operators/REPORT.md` sections 2.2 and 2.4.
+
+### F-343
+
+2026-11-09 07:10Z · added · from `explorations/compile-ladder/rung-string-literals/REPORT.md`, "1. What changed and why" · by climb batch 29 gather

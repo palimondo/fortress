@@ -1,0 +1,27 @@
+(* Under walk two string literals of one text are one object, also one literal evaluated twice, a concatenation of string and character literals by || is one literal, and a string built at run time is not SEQV an equal literal. *)
+component StringLiteralIdentityWalk
+export Executable
+
+ab(): String = "ab"
+
+same(a: Any, b: Any): Boolean = a SEQV b
+
+run(): () = do
+    assert("ab" SEQV "ab", "two literals of one text are one object")
+    assert(same("ab", "ab"), "two literals of one text are one object at Any")
+    assert(ab() SEQV ab(), "one literal evaluated twice is one object")
+    x: String = ab()
+    y: String = ab()
+    assert(same(x, y), "one literal evaluated twice, bound to two variables, is one object")
+    assert(("foo" || "bar") SEQV "foobar", "two string literals joined by || are one literal")
+    assert(("a" || 'b') SEQV "ab", "a string and a character literal joined by || are one literal")
+    assert(('a' || "bc") SEQV "abc", "a character and a string literal joined by || are one literal")
+    assert(("a" || "b" || "c") SEQV "abc", "three string literals joined by || are one literal")
+    b: String = "b"
+    built: String = "a" || b
+    assert(built = "ab", "a string built at run time equals the literal of its text")
+    assert(NOT same(built, "ab"), "a string built at run time is not SEQV an equal literal")
+    println("PASS")
+end
+
+end

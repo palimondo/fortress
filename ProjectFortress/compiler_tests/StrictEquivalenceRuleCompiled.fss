@@ -33,8 +33,10 @@ tuples(): () = do
 end
 
 strings(): () = do
-  s1: String = "ab" || "cd"
-  s2: String = "abc" || "d"
+  cdText: String = "cd"
+  dText: String = "d"
+  s1: String = "ab" || cdText
+  s2: String = "abc" || dText
   assert(NOT sEq(s1, s2), "two strings built apart")
   assert(sEq(s1, s1), "a string with itself")
 end

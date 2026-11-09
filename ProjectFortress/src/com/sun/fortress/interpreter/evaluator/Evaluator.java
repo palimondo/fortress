@@ -1016,7 +1016,8 @@ public class Evaluator extends EvaluatorBase<FValue> {
     }
 
     public FValue forStringLiteralExpr(StringLiteralExpr x) {
-        return FString.make(x.getText());
+        // Two literals of one text carry one Java string, which FString.seqv compares.
+        return FString.make(x.getText().intern());
     }
 
     /*

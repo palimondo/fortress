@@ -20,7 +20,8 @@ run():() = do
   stdOut.write("3 stdOut.write of a flat string")
   stdOut.write('!')
   stdOut.write('\n')
-  rope = "4 a rope: abcdefghijklmnopqrstuvwxyz" || "ABCDEFGHIJKLMNOPQRSTUVWXYZ" || "\n"
+  upperText: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  rope = "4 a rope: abcdefghijklmnopqrstuvwxyz" || upperText || "\n"
   assert(rope.depth > 0, true, "the rope is not flat")
   stdOut.write(rope)
   stdOut.flush()
@@ -38,7 +39,8 @@ run():() = do
   w.write("line one\n")
   w.write('x')
   w.write('\n')
-  w.write("a rope in a file: abcdefghijklmnopqrstuvwxyz" || "0123456789" || "\n")
+  digitText: String = "0123456789"
+  w.write("a rope in a file: abcdefghijklmnopqrstuvwxyz" || digitText || "\n")
   w.flush()
   b = BufferedWriter(w, 8)
   assert(b.asString, "BufferedWriter on Writer on \"NativeHelperWriterWalk.out\"", "BufferedWriter's asString")

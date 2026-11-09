@@ -1,0 +1,11 @@
+(* On the compiled path a character value joined by || with a string concatenates, as the one library's opr ||(a: Any, b: String) does; the prelude declares String's || with the string first only, and refuses it. *)
+component XXXCharacterBeforeStringConcatenationCompiled
+export Executable
+
+run(): () = do
+  c: Character = 'a'
+  s: String = "bc"
+  println(c || s)
+end
+
+end

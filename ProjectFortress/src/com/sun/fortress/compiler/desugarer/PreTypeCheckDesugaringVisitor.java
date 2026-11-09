@@ -130,7 +130,12 @@ public class PreTypeCheckDesugaringVisitor extends NodeUpdateVisitor {
             return recur(new_op);
         }
         else {
-            return super.forAmbiguousMultifixOpExpr(that);
+            Node result = super.forAmbiguousMultifixOpExpr(that);
+            if (result instanceof AmbiguousMultifixOpExpr) {
+                AmbiguousMultifixOpExpr e = (AmbiguousMultifixOpExpr) result;
+                return foldLiteralConcatenation(e, e.getInfix_op(), e.getArgs());
+            }
+            return result;
         }
     }
     
@@ -199,7 +204,45 @@ public class PreTypeCheckDesugaringVisitor extends NodeUpdateVisitor {
                                             op_result,
                                             args_result);
         }
-        return cleanupOpExpr(new_op);
+        Expr cleaned = cleanupOpExpr(new_op);
+        if (cleaned instanceof OpExpr) {
+            OpExpr e = (OpExpr) cleaned;
+            return foldLiteralConcatenation(e, e.getOp(), e.getArgs());
+        }
+        return cleaned;
+    }
+
+    /**
+     * Folds a concatenation by infix || of string and character literals into
+     * one string literal, as Specification/basic/expressions/constant.tex,
+     * "Types of Static Expressions", says: "foo" || "bar" yields "foobar".
+     * The operands are joined left to right, so a string literal must be one
+     * of the first two; a character outside the Basic Multilingual Plane is
+     * left to the run time.  Any other expression is returned as it is.
+     */
+    private static Expr foldLiteralConcatenation(Expr e, FunctionalRef op, List<Expr> args) {
+        if (args.size() < 2) return e;
+        IdOrOp name = op.getOriginalName();
+        if ( ! (name instanceof Op) ) return e;
+        Op qop = (Op) name;
+        if ( ! "||".equals(qop.getText()) ) return e;
+        if ( ! (qop.getFixity() instanceof InFixity || qop.getFixity() instanceof MultiFixity) ) return e;
+        if ( ! (args.get(0) instanceof StringLiteralExpr || args.get(1) instanceof StringLiteralExpr) ) return e;
+        StringBuilder text = new StringBuilder();
+        for (Expr arg : args) {
+            if (arg instanceof StringLiteralExpr) {
+                text.append(((StringLiteralExpr) arg).getText());
+            } else if (arg instanceof CharLiteralExpr
+                       && Character.isBmpCodePoint(((CharLiteralExpr) arg).getCharVal())) {
+                text.append((char) ((CharLiteralExpr) arg).getCharVal());
+            } else {
+                return e;
+            }
+        }
+        return ExprFactory.makeStringLiteralExpr(NodeUtil.getSpan(e),
+                                                 NodeUtil.isParenthesized(e),
+                                                 NodeUtil.getExprType(e),
+                                                 text.toString());
     }
 
     private static Expr thunk(Expr e) {

@@ -1,0 +1,26 @@
+(* On the compiled path equality.sEquiv bound at Any finds two string literals of one text one object, also one literal evaluated twice, a concatenation of string and character literals by || one literal, and a string built at run time not strictly equivalent to an equal literal. *)
+component StringLiteralIdentityCompiled
+export Executable
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+
+ab(): String = "ab"
+
+run(): () = do
+  assert(sEq("ab", "ab"), "two literals of one text are one object")
+  assert(sEq(ab(), ab()), "one literal evaluated twice is one object")
+  x: String = ab()
+  y: String = ab()
+  assert(sEq(x, y), "one literal evaluated twice, bound to two variables, is one object")
+  assert(sEq("foo" || "bar", "foobar"), "two string literals joined by || are one literal")
+  assert(sEq("a" || 'b', "ab"), "a string and a character literal joined by || are one literal")
+  assert(sEq('a' || "bc", "abc"), "a character and a string literal joined by || are one literal")
+  assert(sEq("a" || "b" || "c", "abc"), "three string literals joined by || are one literal")
+  b: String = "b"
+  built: String = "a" || b
+  assert(built = "ab", "a string built at run time equals the literal of its text")
+  assert(NOT sEq(built, "ab"), "a string built at run time is not strictly equivalent to an equal literal")
+  println("PASS")
+end
+
+end

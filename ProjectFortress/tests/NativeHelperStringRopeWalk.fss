@@ -10,7 +10,8 @@ isSubString(s: String): Boolean = typecase s of
   end
 
 run():() = do
-  long: String = "abcdefghijklmnopqrstuvwxyz" || "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  upperText: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  long: String = "abcdefghijklmnopqrstuvwxyz" || upperText
   assert(|long|, 52, "|long|")
   assert(long.depth, 1, "the concatenation is a rope")
   unset: String = "FORTRESS_NO_SUCH_VARIABLE_OR_PROPERTY"

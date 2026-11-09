@@ -33,8 +33,9 @@ public class FString extends FNativeObject {
     }
 
     public boolean seqv(FValue v) {
-        // A string is a reference object: AnyPrim.sequiv has answered its identity.
-        return false;
+        // A string is a reference object, one with each Java string it carries:
+        // two string literals of one text carry one interned Java string.
+        return v instanceof FString && val == ((FString) v).val;
     }
 
     public static FString make(String s) {
