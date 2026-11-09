@@ -1,2 +1,2 @@
-tests=XXXNumeralDivByZeroCompiled
+tests=NumeralDivByZeroCompiled
 link

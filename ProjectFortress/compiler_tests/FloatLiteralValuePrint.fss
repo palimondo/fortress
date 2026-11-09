@@ -1,0 +1,18 @@
+(* A float numeral reaches a program's coercion as its four numbers, from which the coercion writes the numeral back. *)
+component FloatLiteralValuePrint
+export Executable
+
+value object Dec(src: String)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Dec((bigToZZ64(v).asZZ32 DIV 10).asString || "." || (bigToZZ64(v).asZZ32 MOD 10).asString)
+end
+
+run(): () = do
+  println("REACHED")
+  d: Dec = 2.5
+  assert(d.src, "2.5", "the numeral written back from its four numbers")
+  println("PASS")
+end
+
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
+end

@@ -100,8 +100,8 @@ value object Infinity extends Number end
 value object NegativeInfinity extends Number end
 value object IndefiniteNumber extends Number end
 
-trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, NN64, IntLiteral } 
-    coerce(x: IntLiteral)
+trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, NN64 } 
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce(x: ZZ32)
     coerce(x: ZZ64)
     coerce(x: NN32)
@@ -145,7 +145,7 @@ trait ZZ extends { Number, Equality[\ZZ\] } excludes { RR64, ZZ64, ZZ32, NN32, N
 end
 
 trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
-    coerce(x: IntLiteral)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce(x: ZZ32) 
     getter asZZ32(): ZZ32
     getter asZZ(): ZZ
@@ -208,7 +208,7 @@ trait ZZ64 extends { Number, Equality[\ZZ64\] } excludes { RR64 , ZZ }
 end
 
 trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excludes { ZZ64, RR32, RR64 }
-    coerce(x: IntLiteral)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     getter asZZ32(): ZZ32
     getter asZZ(): ZZ
     getter bitsAsNN32(): NN32
@@ -271,7 +271,7 @@ trait ZZ32 extends { Number, Equality[\ZZ32\], StandardTotalOrder[\ZZ32\] } excl
 end
 
 trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR64 }
-    coerce(x: IntLiteral)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     getter asNN32(): NN32
     getter asZZ(): ZZ
     getter bitsAsZZ32(): ZZ32
@@ -329,8 +329,8 @@ trait NN32 extends { Number, Equality[\NN32\] } excludes { ZZ32, ZZ64, RR32, RR6
     signed(self): ZZ32
 end
 
-trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR64, NN32, ZZ, IntLiteral }
-    coerce(x: IntLiteral)
+trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR64, NN32, ZZ }
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce(x: NN32)
     getter asNN64(): NN64
     getter asZZ(): ZZ
@@ -387,51 +387,19 @@ trait NN64 extends { Number, Equality[\NN64\] } excludes { ZZ32, ZZ64, RR32, RR6
     signed(self): ZZ64
 end
 
-trait IntLiteral extends { Number, Equality[\IntLiteral\] } excludes {ZZ32, ZZ64, NN32, RR64, RR32, Character, Boolean, String, NN64, ZZ}
-    abstract getter asZZ32(): ZZ32
-    abstract getter asZZ64(): ZZ64
-    abstract getter asNN32(): NN32
-    abstract getter asZZ(): ZZ
-    abstract getter asNN64(): NN64
-    abstract getter asRR64(): RR64
 
-    opr |self| : IntLiteral
-    opr -(self): IntLiteral
-    opr BOXMINUS(self): IntLiteral
-    opr DOTMINUS(self): IntLiteral
-    opr +(self, other:IntLiteral): IntLiteral
-    opr BOXPLUS(self, other:IntLiteral): IntLiteral
-    opr DOTPLUS(self, other:IntLiteral): IntLiteral
-    opr -(self, other:IntLiteral): IntLiteral 
-    opr BOXMINUS(self, other:IntLiteral): IntLiteral 
-    opr DOTMINUS(self, other:IntLiteral): IntLiteral 
-    opr <(self, other:IntLiteral): Boolean 
-    opr <=(self, other:IntLiteral): Boolean 
-    opr >(self, other:IntLiteral): Boolean 
-    opr >=(self, other:IntLiteral): Boolean 
-    opr =(self, other:IntLiteral): Boolean 
-    opr =/=(self, other:IntLiteral): Boolean 
-    opr juxtaposition(self, other:IntLiteral): IntLiteral
-    opr DOT(self, other:IntLiteral): IntLiteral 
-    opr BOXDOT(self, other:IntLiteral): IntLiteral 
-    opr CROSS(self, other:IntLiteral): IntLiteral 
-    opr BOXCROSS(self, other:IntLiteral): IntLiteral 
-    opr DOTCROSS(self, other:IntLiteral): IntLiteral 
-    opr DIV(self, other:IntLiteral): IntLiteral
-    opr BITNOT(self): IntLiteral 
-    opr BITAND(self, other:IntLiteral): IntLiteral 
-    opr BITOR(self, other:IntLiteral): IntLiteral 
-    opr BITXOR(self, other:IntLiteral): IntLiteral
-    opr MIN(self, other:IntLiteral): IntLiteral 
-    opr MAX(self, other:IntLiteral): IntLiteral 
-    opr MINMAX(self, other:IntLiteral): (IntLiteral, IntLiteral) 
-    opr CHOOSE(self, other:IntLiteral): IntLiteral
-    even(self): Boolean
-    odd(self): Boolean
-end
+(* A numeral's own type, which exists only at compile time: its four numbers, the digit count n, the
+   digits after the radix point m, the radix r and the digits read as one integer v, are static
+   parameters, which a number type's coercion reads as exact integers. *)
+trait Numeral extends Number excludes { ZZ, ZZ32, ZZ64, NN32, NN64, RR32, RR64 } end
+trait AnyNaturalNumeral extends Numeral excludes { AnyRadixPointNumeral } end
+trait AnyRadixPointNumeral extends Numeral end
+trait NaturalNumeral[\nat n, nat r, nat v\] extends AnyNaturalNumeral end
+trait RadixPointNumeral[\nat n, nat m, nat r, nat v\] extends AnyRadixPointNumeral end
+
 
 trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
-    coerce(x: FloatLiteral)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
     coerce(x: RR32)
     getter isNaN(): Boolean 
     opr |self| : RR64
@@ -473,13 +441,9 @@ trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
 end
 
 trait RR32 extends { Number, Equality[\RR32\] } excludes { ZZ64, ZZ32, RR64 }
-    coerce(x: FloatLiteral)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
 end
 
-trait FloatLiteral excludes {RR32, RR64}
-    abstract getter asRR32(): RR32
-    abstract getter asRR64(): RR64
-end
 
 
 trait Boolean   extends { Equality[\Boolean\], Condition[\()\] }

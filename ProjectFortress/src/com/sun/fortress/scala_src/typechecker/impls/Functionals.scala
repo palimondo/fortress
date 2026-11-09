@@ -408,7 +408,7 @@ trait Functionals { self: STypeChecker with Common =>
       if (hasInferenceVars(resultArrow) || hasSizeInferenceVars(sargs)) return None
       val newArgs = zipWithDomain(checked.zip(argTypes), resultArrow.getDomain).map { case ((e, a), p) =>
         if (isSubtype(a, p)) defaultAtUnfixed(e, p)
-        else coercions.buildCoercion(e, p).orElse(defaultFits(e, p)).getOrElse(return None)
+        else numeralJoinInto(e, p).orElse(coercions.buildCoercion(e, p)).orElse(defaultFits(e, p)).getOrElse(return None)
       }
       val newArgTypes = newArgs.zip(checked.zip(argTypes)).map { case (n, (e, a)) => if (n eq e) a else getType(n).get }
       if (!isSubtype(NF.makeMaybeTupleType(NF.typeSpan, toJavaList(newArgTypes)), resultArrow.getDomain)) return None
@@ -450,8 +450,7 @@ trait Functionals { self: STypeChecker with Common =>
    * size used as a value, which the checker types as one.
    */
   def isNumeral(e: Expr): Boolean = getType(e) match {
-    case Some(t) => Formula.isTrue(analyzer.equivalent(t, Types.INT_LITERAL)) ||
-                    Formula.isTrue(analyzer.equivalent(t, Types.FLOAT_LITERAL))
+    case Some(t) => Types.isNumeralType(t)
     case None => false
   }
 
@@ -463,13 +462,15 @@ trait Functionals { self: STypeChecker with Common =>
    */
   def numeralReading(es: List[Expr]): Option[Type] = {
     val big = es.collect { case l: IntLiteralExpr => l.getIntVal }
-    val point = es.exists(e => getType(e).exists(t => Formula.isTrue(analyzer.equivalent(t, Types.FLOAT_LITERAL))))
+    val point = es.exists(e => getType(e).exists(Types.isRadixPointNumeralType))
     val name =
       if (point) "RR64"
       else if (big.forall(v => v.bitLength < 32)) "ZZ32"
       else if (big.forall(v => v.bitLength < 64)) "ZZ64"
       else "ZZ"
-    val from = if (point) Types.FLOAT_LITERAL else Types.INT_LITERAL
+    // The numeral types now carry each numeral's four numbers, so the targets
+    // are found from one numeral's own type.
+    val from = es.flatMap(e => getType(e).filter(Types.isNumeralType)).collect { case t: TraitType => t }.headOption.getOrElse(return None)
     (analyzer.ancestors(from).toList.collect { case t: TraitType => t } ++
      coercions.getCoercionTargetsFrom(from)).find(_.getName.getText == name)
   }
@@ -496,7 +497,8 @@ trait Functionals { self: STypeChecker with Common =>
       case (Left(checked), paramType) =>
         if (isSubtype(getType(checked).get, paramType))
           (Left(defaultAtUnfixed(checked, paramType)), None)
-        else coercions.buildCoercion(checked, paramType).orElse(defaultFits(checked, paramType)) match {
+        else numeralJoinInto(checked, paramType).orElse(
+             coercions.buildCoercion(checked, paramType)).orElse(defaultFits(checked, paramType)) match {
           case Some(coercion) => (Left(coercion), None)
           case None =>
             return Right(errorFactory.makeNotApplicableError(originalArrow, args))
@@ -995,8 +997,7 @@ trait Functionals { self: STypeChecker with Common =>
 
   /** Whether the type is a numeral's own type. */
   def isNumeralType(t: Type): Boolean =
-    Formula.isTrue(analyzer.equivalent(t, Types.INT_LITERAL)) ||
-    Formula.isTrue(analyzer.equivalent(t, Types.FLOAT_LITERAL))
+    Types.isNumeralType(t)
 
   /**
    * The narrowest default type that holds every numeral of es: RR64 where one
@@ -1004,9 +1005,11 @@ trait Functionals { self: STypeChecker with Common =>
    * otherwise numeralReading's ZZ32, ZZ64 or ZZ by their values.
    */
   def numeralDefault(es: List[Expr]): Option[Type] =
-    if (es.exists(_.isInstanceOf[FloatLiteralExpr]))
-      (analyzer.ancestors(Types.FLOAT_LITERAL).toList.collect { case t: TraitType => t } ++
-       coercions.getCoercionTargetsFrom(Types.FLOAT_LITERAL)).find(_.getName.getText == "RR64")
+    if (es.exists(_.isInstanceOf[FloatLiteralExpr])) {
+      val from = es.collect { case f: FloatLiteralExpr => f }.flatMap(getType(_)).collect { case t: TraitType => t }.headOption
+      from.flatMap(f => (analyzer.ancestors(f).toList.collect { case t: TraitType => t } ++
+                         coercions.getCoercionTargetsFrom(f)).find(_.getName.getText == "RR64"))
+    }
     else numeralReading(es)
 
   /** The numeral converted into the type t: as it is where it is one, else by its coercion. */
@@ -1030,8 +1033,51 @@ trait Functionals { self: STypeChecker with Common =>
                       nes, None, Nil, inApp)
     case _ => joinNumerals(e) match {
       case Some(ns) if ns.nonEmpty => numeralDefault(ns).flatMap(joinInto(e, _)).getOrElse(e)
-      case _ => e
+      case _ => tupleJoin(e).getOrElse(e)
     }
+  }
+
+  /**
+   * A join whose every result is a tuple, each tuple's numerals at their
+   * defaults: numerals of different values have different types, so the
+   * branches meet at one type only once their numerals take their defaults.
+   */
+  private def tupleJoin(e: Expr): Option[Expr] = {
+    def block(b: Block): Option[Block] = tupleJoin(b).map(_.asInstanceOf[Block])
+    def same(ts: List[Type]): Option[Type] =
+      if (ts.nonEmpty && ts.forall(t => isSubtype(t, ts.head) && isSubtype(ts.head, t))) Some(ts.head) else None
+    def typed(x: Expr) = getType(x)
+    e match {
+      case t: TupleExpr =>
+        val d = defaultNumeral(t)
+        if (d eq t) None else Some(d)
+      case SBlock(SExprInfo(sp, p, _), loc, at, wd, es) if es.nonEmpty =>
+        tupleJoin(es.last).flatMap(l => typed(l).map(ty => SBlock(SExprInfo(sp, p, Some(ty)), loc, at, wd, es.init :+ l)))
+      case SDo(SExprInfo(sp, p, _), List(front)) =>
+        block(front).flatMap(f => typed(f).map(ty => SDo(SExprInfo(sp, p, Some(ty)), List(f))))
+      case SIf(SExprInfo(sp, p, _), clauses, Some(els)) =>
+        for (ne <- block(els);
+             ncs <- { val rs = clauses.map { case SIfClause(i, t, b) => block(b).map(SIfClause(i, t, _)) }
+                      if (rs.forall(_.isDefined)) Some(rs.map(_.get)) else None };
+             ty <- same((ne :: ncs.map(_.getBody)).flatMap(typed(_))))
+          yield SIf(SExprInfo(sp, p, Some(ty)), ncs, Some(ne))
+      case _ => None
+    }
+  }
+
+  def numeralJoinInto(e: Expr, t: Type): Option[Expr] =
+    if (NumeralConversion.isNumeral(e) || !numeralResult(e)) None else joinInto(e, t)
+
+  /** Whether some result position of the join is a numeral. */
+  private def numeralResult(e: Expr): Boolean = e match {
+    case n if NumeralConversion.isNumeral(n) => true
+    case SBlock(_, _, _, _, es) if es.nonEmpty => numeralResult(es.last)
+    case SDo(_, List(front)) => numeralResult(front)
+    case SIf(_, clauses, Some(els)) => (els :: clauses.map(_.getBody)).exists(numeralResult)
+    case SCaseExpr(_, _, _, _, _, clauses, els) => (els.toList ++ clauses.map(_.getBody)).exists(numeralResult)
+    case STry(_, body, catchC, _, None) =>
+      numeralResult(body) || catchC.exists { case SCatch(_, _, cs) => cs.exists { case SCatchClause(_, _, b) => numeralResult(b) } }
+    case _ => false
   }
 
   /** The numerals in the result positions of a join whose every result is a numeral. */
@@ -1073,6 +1119,18 @@ trait Functionals { self: STypeChecker with Common =>
              ncs <- each(clauses, (c: CaseClause) => c match {
                case SCaseClause(i, m, b, o) => block(b).map(SCaseClause(i, m, _, o)) }))
           yield SCaseExpr(SExprInfo(sp, p, Some(d)), param, cmp, eq, in, ncs, ne.headOption)
+      case STry(SExprInfo(sp, p, _), body, catchC, forbid, None) =>
+        for (nb <- block(body);
+             nc <- catchC match {
+               case None => Some(None)
+               case Some(SCatch(i, name, cs)) =>
+                 each(cs, (c: CatchClause) => c match {
+                   case SCatchClause(ci, t, b) => block(b).map(SCatchClause(ci, t, _)) })
+                   .map(ncs => Some(SCatch(i, name, ncs)))
+             })
+          yield STry(SExprInfo(sp, p, Some(d)), nb, nc, forbid, None)
+      // a result that already has the type stays as it is
+      case x if !NumeralConversion.isNumeral(x) && !numeralResult(x) && getType(x).exists(t => isSubtype(t, d)) => Some(x)
       case _ => None
     }
   }

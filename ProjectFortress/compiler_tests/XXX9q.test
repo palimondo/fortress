@@ -12,20 +12,22 @@ STATIC_TESTS_DIR=${FORTRESS_AUTOHOME}/ProjectFortress/compiler_tests
 compile
 compile_err_equals=\
 ${STATIC_TESTS_DIR}/Compiled9.q.fss:19:3-21:4:\n\
-\ An 'if' clause without corresponding 'else' has type IntLiteral instead of type ().\n\
+\ An 'if' clause without corresponding 'else' has type NaturalNumeral[\\1,10,1\\] instead of type ().\n\
 ${STATIC_TESTS_DIR}/Compiled9.q.fss:24:3-28:4:\n\
-\ An 'if' clause without corresponding 'else' has type IntLiteral instead of type ().\n\
+\ An 'if' clause without corresponding 'else' has type NaturalNumeral[\\1,10,2\\] instead of type ().\n\
+${STATIC_TESTS_DIR}/Compiled9.q.fss:24:3-28:4:\n\
+\ An 'if' clause without corresponding 'else' has type NaturalNumeral[\\1,10,3\\] instead of type ().\n\
 ${STATIC_TESTS_DIR}/Compiled9.q.fss:31:3-36:4:\n\
-\ An 'if' clause without corresponding 'else' has type IntLiteral instead of type ().\n\
+\ An 'if' clause without corresponding 'else' has type NaturalNumeral[\\1,10,5\\] instead of type ().\n\
 ${STATIC_TESTS_DIR}/Compiled9.q.fss:32:5:\n\
-\ Non-last expression in a block has type IntLiteral, but it must have () type.\n\
+\ Non-last expression in a block has type NaturalNumeral[\\1,10,4\\], but it must have () type.\n\
 ${STATIC_TESTS_DIR}/Compiled9.q.fss:39:3-44:4:\n\
-\ An 'if' clause without corresponding 'else' has type IntLiteral instead of type ().\n\
+\ An 'if' clause without corresponding 'else' has type NaturalNumeral[\\1,10,6\\] instead of type ().\n\
 ${STATIC_TESTS_DIR}/Compiled9.q.fss:42:5:\n\
-\ Non-last expression in a block has type IntLiteral, but it must have () type.\n\
+\ Non-last expression in a block has type NaturalNumeral[\\1,10,7\\], but it must have () type.\n\
 ${STATIC_TESTS_DIR}/Compiled9.q.fss:49:5:\n\
-\ Non-last expression in a block has type IntLiteral, but it must have () type.\n\
+\ Non-last expression in a block has type NaturalNumeral[\\1,10,8\\], but it must have () type.\n\
 ${STATIC_TESTS_DIR}/Compiled9.q.fss:52:5:\n\
-\ Non-last expression in a block has type IntLiteral, but it must have () type.\n\
-File Compiled9.q.fss has 8 errors.\n
+\ Non-last expression in a block has type NaturalNumeral[\\1,10,9\\], but it must have () type.\n\
+File Compiled9.q.fss has 9 errors.\n
 compile_out_equals=

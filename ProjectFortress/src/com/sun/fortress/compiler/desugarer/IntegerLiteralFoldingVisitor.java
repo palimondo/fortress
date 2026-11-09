@@ -34,6 +34,7 @@ import java.util.Set;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import static com.sun.fortress.exceptions.InterpreterBug.bug;
+import com.sun.fortress.nodes_util.NumeralNumbers;
 
 /**
  * Folds an expression of numerals alone, before the checker, exactly into a
@@ -109,7 +110,22 @@ public class IntegerLiteralFoldingVisitor extends NodeUpdateVisitor {
 				if (slash == null && SLASH.equals(k)) slash = ref;
 			}
 		});
+		if (prefixMinus != null) PREFIX_MINUS.put(that.getName().getText(), prefixMinus);
 		return super.forComponent(that);
+	}
+
+	/**
+	 * The prefix minus that each component writes, disambiguated, by the
+	 * component's name: the type checker applies a program's own type's minus
+	 * to a numeral's coercion with it (a numeral has no sign).
+	 */
+	private static final java.util.Map<String, FunctionalRef> PREFIX_MINUS =
+		new java.util.concurrent.ConcurrentHashMap<String, FunctionalRef>();
+
+	/** The component's prefix minus at the given place, or null where it writes none. */
+	public static FunctionalRef prefixMinusOf(String component, Span span) {
+		FunctionalRef ref = PREFIX_MINUS.get(component);
+		return ref == null ? null : at(ref, span);
 	}
 
 	/** The operator's canonical text, "prefix " before a prefix one; null for anything else. */
@@ -138,7 +154,13 @@ public class IntegerLiteralFoldingVisitor extends NodeUpdateVisitor {
 		if (e instanceof FloatLiteralExpr) {
 			FloatLiteralExpr f = (FloatLiteralExpr) e;
 			BigInteger den = BigInteger.valueOf(f.getDenomBase()).pow(f.getDenomPower());
-			return new Constant(f.getIntPart().multiply(den).add(f.getNumerator()), den, Kind.RADIX_POINT);
+			BigInteger num = f.getIntPart().multiply(den).add(f.getNumerator());
+			// prefix minus on a numeral as written keeps the magnitude in the node
+			if (NumeralNumbers.kindOf(f.getText()) == NumeralNumbers.Kind.NEGATED) {
+				if (num.signum() == 0) return null; // -0.0 is IEEE's negative zero, no exact constant
+				num = num.negate();
+			}
+			return new Constant(num, den, Kind.RADIX_POINT);
 		}
 		if (e instanceof OpExpr) {
 			OpExpr o = (OpExpr) e;
@@ -186,7 +208,7 @@ public class IntegerLiteralFoldingVisitor extends NodeUpdateVisitor {
 	/** A numeral with a radix point, written as the text, at the given info. */
 	private static Expr radixPoint(ExprInfo info, String text) {
 		FloatLiteralExpr f = ExprFactory.makeFloatLiteralExpr(info.getSpan(), text);
-		return new FloatLiteralExpr(info, f.getText(), f.getIntPart(), f.getNumerator(), f.getDenomBase(), f.getDenomPower());
+		return new FloatLiteralExpr(info, "(" + f.getText() + ")", f.getIntPart(), f.getNumerator(), f.getDenomBase(), f.getDenomPower());
 	}
 
 	/**
@@ -201,7 +223,7 @@ public class IntegerLiteralFoldingVisitor extends NodeUpdateVisitor {
 		Span span = info.getSpan();
 		switch (c.kind) {
 		case INTEGER:
-			return new IntLiteralExpr(info, c.num.toString(), c.num);
+			return new IntLiteralExpr(info, NumeralNumbers.staticText(c.num), c.num);
 		case QUOTIENT:
 			return quotient(info, integer(span, c.num), c.den);
 		default:
@@ -228,11 +250,12 @@ public class IntegerLiteralFoldingVisitor extends NodeUpdateVisitor {
 		if (o == null || o.kind != c.kind || o.compareTo(c) != 0) return written(info, c);
 		if (operand instanceof IntLiteralExpr) {
 			IntLiteralExpr i = (IntLiteralExpr) operand;
-			return new IntLiteralExpr(info, i.getText(), i.getIntVal());
+			return new IntLiteralExpr(info, NumeralNumbers.staticText(i.getIntVal()), i.getIntVal());
 		}
 		if (operand instanceof FloatLiteralExpr) {
 			FloatLiteralExpr f = (FloatLiteralExpr) operand;
-			return new FloatLiteralExpr(info, f.getText(), f.getIntPart(), f.getNumerator(), f.getDenomBase(), f.getDenomPower());
+			String t = f.getText().startsWith("(") ? f.getText() : "(" + f.getText() + ")";
+			return new FloatLiteralExpr(info, t, f.getIntPart(), f.getNumerator(), f.getDenomBase(), f.getDenomPower());
 		}
 		OpExpr o2 = (OpExpr) operand;
 		return new OpExpr(info, o2.getOp(), o2.getArgs());
@@ -372,8 +395,16 @@ public class IntegerLiteralFoldingVisitor extends NodeUpdateVisitor {
 			if (c == null) return null;
 			if (op.equals("prefix " + MINUS)) {
 				if (prefixMinus == null && ref.getStaticArgs().isEmpty()) prefixMinus = ref;
-				if (arg instanceof FloatLiteralExpr) return null;
+				// prefix minus on a radix-point numeral as written: the numeral with its
+				// minus, its node the magnitude, so that -0.0 keeps its sign where it converts
+				if (arg instanceof FloatLiteralExpr) {
+					FloatLiteralExpr f = (FloatLiteralExpr) arg;
+					if (NumeralNumbers.kindOf(f.getText()) != NumeralNumbers.Kind.WRITTEN) return null;
+					return new FloatLiteralExpr(info, "-" + f.getText(), f.getIntPart(), f.getNumerator(), f.getDenomBase(), f.getDenomPower());
+				}
 				if (c.kind == Kind.RADIX_POINT && c.num.signum() == 0) return null;
+				if (arg instanceof IntLiteralExpr && NumeralNumbers.kindOf(((IntLiteralExpr) arg).getText()) == NumeralNumbers.Kind.WRITTEN)
+					return new IntLiteralExpr(info, "-" + ((IntLiteralExpr) arg).getText(), c.num.negate());
 				return result(info, new Constant(c.num.negate(), c.den, c.kind), arg);
 			}
 			if (op.equals("|_|"))

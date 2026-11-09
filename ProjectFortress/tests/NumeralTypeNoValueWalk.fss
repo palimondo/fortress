@@ -1,0 +1,9 @@
+(* No numeral value exists at run time: a numeral type written as a variable's type holds nothing. *)
+component NumeralTypeNoValueWalk
+export Executable
+
+three: NaturalNumeral[\1, 10, 3\] = 3
+
+run() = println("FAIL: a variable of a numeral type was bound")
+
+end

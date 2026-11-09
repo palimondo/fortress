@@ -297,6 +297,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
         // Static arguments should satisfy the corresponding bounds.
         val sparams = si.staticParameters
         if ( sargs.size == sparams.size ) {
+          // A numeral type's four numbers have any size (P-174).
+          if (!Types.isNumeralType(t))
           sargs.zip(toListFromImmutable(sparams)).foreach { case (a, p) =>
             sizeOutOfRange(a, List(p.getKind)).foreach(m => error("Ill-formed type: " + t + "\n    " + m, t)) }
           val replacer = new StaticTypeReplacer(sparams, toJavaList(sargs))
@@ -364,7 +366,10 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
         sizeOutOfRange(a, Nil).foreach(m => error("Ill-formed static argument: " + a + "\n    " + m, a))
       case SFunctionalRef(_, args, _, _, _, _, newOverloadings, _, schema) if !args.isEmpty =>
         val schemas = newOverloadings.flatMap(o => toOption(o.getSchema).toList) ++ schema.toList
-        walkStaticArgs(args, kindsAt(schemas, args.size))
+        // A coercion generic over a numeral's four numbers takes them at any size (P-174).
+        val numeral = schemas.exists { case a: ArrowType => Types.isNumeralType(a.getDomain); case _ => false }
+        if (numeral) args.foreach { case _: IntArg => ; case a => walk(a) }
+        else walkStaticArgs(args, kindsAt(schemas, args.size))
       case SFunctionalRef(_, args, _, _, _, _, _, _, _) =>
         // Only the static arguments are written at the reference site.  The two
         // overloading lists and the overloading type are assembled by overload

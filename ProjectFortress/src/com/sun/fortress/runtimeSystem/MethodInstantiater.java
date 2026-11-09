@@ -223,22 +223,17 @@ public class MethodInstantiater extends MethodVisitor {
             } else if (op.equals(Naming.stringMethod)) {
                 mv.visitLdcInsn(s);
             } else if (op.equals(Naming.natMethod)) {
-                // s is the instantiated size between oxfords; as CodeGen.forIntLiteralExpr
+                // s is the instantiated size between oxfords; a size read as a
+                // value is a ZZ32 (P-173), and one beyond it the error of its range
                 BigInteger bi = new BigInteger(s.substring(1, s.length() - 1));
-                int l = bi.bitLength();
-                String arg_desc;
-                if (l <= 31) {
+                String zz32 = Naming.RT_VALUES_PKG + "FZZ32";
+                if (bi.bitLength() <= 31) {
                     mv.visitLdcInsn(Integer.valueOf(bi.intValue()));
-                    arg_desc = "I";
-                } else if (l <= 63) {
-                    mv.visitLdcInsn(Long.valueOf(bi.longValue()));
-                    arg_desc = "J";
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC, zz32, "make", "(I)L" + zz32 + ";", false);
                 } else {
                     mv.visitLdcInsn(bi.toString());
-                    arg_desc = "Ljava/lang/String;";
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC, zz32, "makeSize", "(Ljava/lang/String;)L" + zz32 + ";", false);
                 }
-                mv.visitMethodInsn(Opcodes.INVOKESTATIC, Naming.INT_LITERAL_CLASS, "make",
-                        "(" + arg_desc + ")L" + Naming.INT_LITERAL_CLASS + ";", false);
             } else {
                 throw new Error("Invocation of magic class Method '"+oname+
                           "' ('"+name+"') seen, but op is not recognized.");

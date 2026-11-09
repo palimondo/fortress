@@ -58,8 +58,8 @@ public final class Types {
     public static final ArrowType BOTTOM_ARROW = NodeFactory.makeArrowType(NodeFactory.typeSpan, ANY, BOTTOM);
 
     public static final TupleType VOID = NodeFactory.makeVoidType(span);
-    public static TraitType FLOAT_LITERAL = makeTraitType(span, fortressBuiltin(), "FloatLiteral");
-    public static TraitType INT_LITERAL = makeTraitType(span, fortressBuiltin(), "IntLiteral");
+    public static TraitType FLOAT_LITERAL = makeTraitType(span, fortressBuiltin(), "RadixPointNumeral");
+    public static TraitType INT_LITERAL = makeTraitType(span, fortressBuiltin(), "NaturalNumeral");
     public static final TraitType ZZ32 = makeTraitType(span, fortressLibrary(), "ZZ32");
     public static final TraitType BOOLEAN = makeTraitType(span, fortressBuiltin(), "Boolean");
     public static TraitType CHARACTER = makeTraitType(span, fortressBuiltin(), "Character");
@@ -82,8 +82,8 @@ public final class Types {
         JAVASTRING = makeTraitType(span, fortressBuiltin(), "JavaString");
         EXCEPTION = makeTraitType(span, fortressBuiltin(), "Exception");
         CHECKED_EXCEPTION = makeTraitType(span, fortressBuiltin(), "CheckedException");
-        INT_LITERAL = makeTraitType(span, fortressBuiltin(), "IntLiteral");
-        FLOAT_LITERAL = makeTraitType(span, fortressBuiltin(), "FloatLiteral");
+        INT_LITERAL = makeTraitType(span, fortressBuiltin(), "NaturalNumeral");
+        FLOAT_LITERAL = makeTraitType(span, fortressBuiltin(), "RadixPointNumeral");
     }
     public static void useFortressLibraries() {
         CHARACTER = makeTraitType(span, fortressBuiltin(), "Char");
@@ -93,6 +93,40 @@ public final class Types {
         CHECKED_EXCEPTION = makeTraitType(span, fortressLibrary(), "CheckedException");
         INT_LITERAL = makeTraitType(span, fortressLibrary(), "NaturalNumeral");
         FLOAT_LITERAL = makeTraitType(span, fortressLibrary(), "RadixPointNumeral");
+    }
+
+    /**
+     * Whether t is a numeral's own type, NaturalNumeral or RadixPointNumeral of
+     * the library in use, at any static arguments (literals.tex, "Literals").
+     */
+    public static boolean isNumeralType(Type t) {
+        if (!(t instanceof TraitType)) return false;
+        Id n = ((TraitType) t).getName();
+        return sameName(n, INT_LITERAL.getName()) || sameName(n, FLOAT_LITERAL.getName());
+    }
+
+    public static boolean isRadixPointNumeralType(Type t) {
+        return t instanceof TraitType && sameName(((TraitType) t).getName(), FLOAT_LITERAL.getName());
+    }
+
+    private static boolean sameName(Id a, Id b) {
+        if (!a.getText().equals(b.getText())) return false;
+        if (a.getApiName().isNone() || b.getApiName().isNone()) return true;
+        return a.getApiName().unwrap().getText().equals(b.getApiName().unwrap().getText());
+    }
+
+    private static StaticArg sizeArg(Span s, java.math.BigInteger k) {
+        return makeIntArg(s, makeIntBase(s, false, com.sun.fortress.nodes_util.ExprFactory.makeIntLiteralExpr(s, k)));
+    }
+
+    /**
+     * A numeral's own type, its four numbers its static arguments:
+     * NaturalNumeral[\n, r, v\], or RadixPointNumeral[\n, m, r, v\].
+     */
+    public static TraitType numeralType(Span s, com.sun.fortress.nodes_util.NumeralNumbers x) {
+        if (x.radixPoint)
+            return makeTraitType(FLOAT_LITERAL.getName(), sizeArg(s, x.n), sizeArg(s, x.m), sizeArg(s, x.r), sizeArg(s, x.v));
+        return makeTraitType(INT_LITERAL.getName(), sizeArg(s, x.n), sizeArg(s, x.r), sizeArg(s, x.v));
     }
 
     public static void useTypeCheckerLibraries() {

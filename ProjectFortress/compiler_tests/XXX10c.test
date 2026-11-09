@@ -16,6 +16,6 @@ ${STATIC_TESTS_DIR}/Compiled10.c.fss:20:22:\n\
 ${STATIC_TESTS_DIR}/Compiled10.c.fss:23:22:\n\
 \ An ensures clause has type ZZ32, but it must have Boolean type.\n\
 ${STATIC_TESTS_DIR}/Compiled10.c.fss:24:40:\n\
-\ A provided clause has type IntLiteral, but it must have Boolean type.\n\
+\ A provided clause has type NaturalNumeral[\\1,10,8\\], but it must have Boolean type.\n\
 File Compiled10.c.fss has 3 errors.\n
 compile_out_equals=

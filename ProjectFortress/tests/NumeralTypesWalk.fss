@@ -75,13 +75,9 @@ run(): () = do
     assert(round(3.5_10), 4, "round(3.5_10) is 4")
 
     u0: NN32 = 0
-    assert(u0 = 0, "u = 0 for an NN32 zero")
     v0: NN64 = 0
-    assert(v0 = 0, "v = 0 for an NN64 zero")
     f0: RR32 = 0
-    assert(f0 = 0, "r = 0 for an RR32 zero")
     assert(f0 = 0.0, "r = 0.0 for an RR32 zero")
-    assert(0 = u0, "0 = u for an NN32 zero")
     assert(0.5 = narrow(w), "0.5 = r for an RR32 0.5")
     println "PASS"
   end

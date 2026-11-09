@@ -12,6 +12,8 @@
 package com.sun.fortress.scala_src.typechecker
 
 import com.sun.fortress.compiler.index._
+import com.sun.fortress.compiler.Types
+import com.sun.fortress.nodes_util.NumeralNumbers
 import com.sun.fortress.exceptions.CompilerError
 import com.sun.fortress.exceptions.InterpreterBug.bug
 import com.sun.fortress.nodes._
@@ -138,9 +140,13 @@ class CoercionOracle(traits: TraitTable,
    */
   def getCoercionTargetsFrom(t: Type): List[TraitType] =
     traits.coercingTraits.filter(_.staticParameters.isEmpty).flatMap { ti =>
-      val sources = toSet(ti.coercions).toList.flatMap(c => makeArrowFromFunctional(c)).
-                      filter(a => !hasStaticParams(a)).map(_.getDomain)
-      if (sources.exists(s => isTrue(analyzer.subtype(t, s)))) toOption(ti.typeOfSelf).flatMap(getTraitType)
+      val arrows = toSet(ti.coercions).toList.flatMap(c => makeArrowFromFunctional(c))
+      val sources = arrows.filter(a => !hasStaticParams(a)).map(_.getDomain)
+      // A numeral's type reaches a coercion generic over its four numbers.
+      def generic = Types.isNumeralType(t) &&
+        arrows.exists(a => hasStaticParams(a) && Types.isNumeralType(a.getDomain) &&
+                           inferStaticParams(a, t, None).isDefined)
+      if (sources.exists(s => isTrue(analyzer.subtype(t, s))) || generic) toOption(ti.typeOfSelf).flatMap(getTraitType)
       else None
     }
 
@@ -164,13 +170,112 @@ class CoercionOracle(traits: TraitTable,
   def coercesTo(t: Type, u: Type): Boolean = checkCoercion(t, u, None).isSome
 
   /**
+   * The prefix minus of the type U applied to an expression of type U, checked;
+   * the type checker that owns this oracle sets it.
+   */
+  var negator: (Expr, Type) => Option[Expr] = (_, _) => None
+
+  /**
    * Determines if e:T ~~> U and if so returns the FnRefs for that coercion.
    * A numeral outside the range of U, one of the library's bounded number
-   * types, has none.
+   * types, has none. A numeral has no sign: at a program's own type a
+   * negative constant is the type's own prefix minus on the coercion of the
+   * numeral as written, and a folded static expression reaches no coercion
+   * from the numeral types (its default does, through defaultFits).
    */
-  def buildCoercion(e: Expr, u: Type): Option[CoercionInvocation] =
+  def buildCoercion(e: Expr, u: Type): Option[Expr] =
     if (NumeralConversion.outOfRange(e, u).isDefined) None
-    else checkCoercion(getType(e).get, u, Some(e)).flatMap(o => o)
+    else (e, u) match {
+      // A tuple that holds a numeral converts element by element where it
+      // stands: no numeral value exists to bind to a variable at run time.
+      case (STupleExpr(SExprInfo(span, paren, _), es, None, Nil, inApp), STupleType(_, us, None, Nil))
+          if es.size == us.size && es.exists(NumeralConversion.isNumeral) =>
+        val nes = es.zip(us).map { case (x, t) =>
+          if (getType(x).exists(xt => isTrue(analyzer.subtype(xt, t)))) Some(x) else buildCoercion(x, t) }
+        if (nes.forall(_.isDefined)) Some(STupleExpr(SExprInfo(span, paren, Some(u)), nes.map(_.get), None, Nil, inApp))
+        else None
+      case _ => buildNonTuple(e, u)
+    }
+
+  private def buildNonTuple(e: Expr, u: Type): Option[Expr] =
+    NumeralNumbers.of(e) match {
+      case nn if nn != null && !NumeralConversion.libraryTarget(u) && nn.kind == NumeralNumbers.Kind.STATIC => None
+      case nn if nn != null && !NumeralConversion.libraryTarget(u) && nn.kind == NumeralNumbers.Kind.NEGATED =>
+        val pos = NumeralConversion.positive(e)
+        checkCoercion(getType(pos).get, u, Some(pos)).flatMap(o => o).flatMap(c => negator(c, u))
+      case _ => checkCoercion(getType(e).get, u, Some(e)).flatMap(o => o)
+    }
+
+  /**
+   * The refusal of a numeral at a program's own type that declares a
+   * coercion from its numeral type: one whose where clause the numeral's four
+   * numbers do not meet, and a negative constant at a type without a prefix
+   * minus.
+   */
+  def numeralRefusal(e: Expr, u: Type): Option[String] = (NumeralNumbers.of(e), u) match {
+    case (nn, ut: TraitType) if nn != null && nn.kind != NumeralNumbers.Kind.STATIC && !NumeralConversion.libraryTarget(u) =>
+      val pos = if (nn.kind == NumeralNumbers.Kind.NEGATED) NumeralConversion.positive(e) else e
+      val t = getType(pos).get
+      val inferred = getCoercionsTo(u).toList.flatMap(lc => inferStaticParams(lc._2, t, None).map(a => (lc._1, a._2)))
+      if (inferred.nonEmpty && inferred.forall(p => !whereHolds(p._1, p._2)))
+        Some("The numeral %s does not meet the where clause of the coercion to %s.".format(e.asInstanceOf[Expr] match {
+          case i: IntLiteralExpr => i.getIntVal.toString
+          case f: FloatLiteralExpr => f.getText
+          case _ => e.toString }, ut.getName.getText))
+      else if (nn.kind == NumeralNumbers.Kind.NEGATED && inferred.exists(p => whereHolds(p._1, p._2)) &&
+               checkCoercion(t, u, Some(pos)).flatMap(o => o).flatMap(c => negator(c, u)).isEmpty)
+        Some("The numeral %s at %s needs a prefix minus on %s, which it does not declare.".format(e match {
+          case i: IntLiteralExpr => i.getIntVal.toString
+          case f: FloatLiteralExpr => f.getText
+          case _ => e.toString }, ut.getName.getText, ut.getName.getText))
+      else None
+    case _ => None
+  }
+
+  /**
+   * Whether the coercion's where clause holds at its own static arguments:
+   * each comparison of sizes, as v < 256, computed exactly; any other
+   * constraint is left to the checks that read it.
+   */
+  def whereHolds(c: Coercion, sargs: List[StaticArg]): Boolean = {
+    val header = c.ast.getHeader
+    val own = toListFromImmutable(header.getStaticParams).filter(!_.isLifted)
+    if (own.size != sargs.size) return true
+    val values: Map[String, java.math.BigInteger] = own.zip(sargs).flatMap {
+      case (sp, SIntArg(_, _, b: IntBase)) => Some(sp.getName.getText -> b.getIntVal.getIntVal)
+      case _ => None
+    }.toMap
+    def eval(x: IntExpr): Option[java.math.BigInteger] = Formula.foldSize(x) match {
+      case b: IntBase => Some(b.getIntVal.getIntVal)
+      case r: IntRef => values.get(r.getName.getText)
+      case SIntBinaryOp(_, _, l, rr, op) => (eval(l), eval(rr)) match {
+        case (Some(a), Some(b)) => op.getText match {
+          case "+" => Some(a.add(b))
+          case "-" => Some(a.subtract(b))
+          case "^" => Some(a.pow(b.intValue))
+          case _ => Some(a.multiply(b))
+        }
+        case _ => None
+      }
+      case _ => None
+    }
+    toOption(header.getWhereClause).toList.flatMap(w => toListFromImmutable(w.getConstraints)).forall {
+      case SIntConstraint(_, l, r, op) => (eval(l), eval(r)) match {
+        case (Some(a), Some(b)) =>
+          val k = a.compareTo(b)
+          op.getText match {
+            case "<" => k < 0
+            case "<=" => k <= 0
+            case ">" => k > 0
+            case ">=" => k >= 0
+            case "=" => k == 0
+            case _ => true
+          }
+        case _ => true
+      }
+      case _ => true
+    }
+  }
 
   /** Determines if T ~~> U and possibly builds a coercion. */
   private def checkCoercion(t: Type,
@@ -230,7 +335,7 @@ class CoercionOracle(traits: TraitTable,
     val liftedSargs = toListFromImmutable(u.getArgs)
     val allLiftedCoercions = getCoercionsTo(u)
     val coercionsAndArgs = allLiftedCoercions flatMap { liftedCoercion =>
-      inferStaticParams(liftedCoercion._2, t, None) map { arrowAndSargs =>
+      inferStaticParams(liftedCoercion._2, t, None).filter(a => whereHolds(liftedCoercion._1, a._2)) map { arrowAndSargs =>
         (liftedCoercion._1,
          arrowAndSargs._1,
          liftedSargs ++ arrowAndSargs._2, // Prepend the lifted static args.
@@ -408,6 +513,24 @@ class CoercionOracle(traits: TraitTable,
  * no conversion there.
  */
 object NumeralConversion {
+
+  /** Whether the place's type is one the library declares: a numeral converts there by its value. */
+  def libraryTarget(u: Type): Boolean = u match {
+    case t: TraitType => toOption(t.getName.getApiName).exists(a => libraryApis(a.getText))
+    case t: TraitSelfType => libraryTarget(t.getNamed)
+    case _ => true
+  }
+
+  /** The numeral as written under a negative constant's minus, typed by its own numeral type. */
+  def positive(e: Expr): Expr = e match {
+    case i@SIntLiteralExpr(SExprInfo(span, paren, _), text, v) =>
+      val p = SIntLiteralExpr(SExprInfo(span, paren, None), text.substring(1), v.negate)
+      SIntLiteralExpr(SExprInfo(span, paren, Some(Types.numeralType(span, NumeralNumbers.of(p)))), text.substring(1), v.negate)
+    case f@SFloatLiteralExpr(SExprInfo(span, paren, _), text, i, n, b, p) =>
+      val q = SFloatLiteralExpr(SExprInfo(span, paren, None), text.substring(1), i, n, b, p)
+      SFloatLiteralExpr(SExprInfo(span, paren, Some(Types.numeralType(span, NumeralNumbers.of(q)))), text.substring(1), i, n, b, p)
+    case _ => e
+  }
 
   /** Whether the expression is a numeral, as written or as the fold made it. */
   def isNumeral(e: Expr): Boolean = e match {

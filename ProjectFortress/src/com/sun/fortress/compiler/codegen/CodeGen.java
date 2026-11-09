@@ -1976,7 +1976,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                         String tableName = Naming.cacheTableName(def.unambiguousName().getText());
                         
                         //owning class is the component class
-                        String className =  Naming.dotToSep(x.getName().getText());
+                        String className = packageAndClassName;
                         
                         //A) declare static field
                         //B) in static initializer:
@@ -2051,24 +2051,29 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         BigInteger den = BigInteger.valueOf(x.getDenomBase()).pow(x.getDenomPower());
         BigInteger num = x.getIntPart().multiply(den).add(x.getNumerator());
         String typed = numeralTarget(x);
+        // prefix minus on a numeral as written: the node holds the magnitude, so
+        // that -0.0 is IEEE's negative zero
+        boolean negated = com.sun.fortress.nodes_util.NumeralNumbers.kindOf(x.getText()) ==
+                          com.sun.fortress.nodes_util.NumeralNumbers.Kind.NEGATED;
         if (typed.equals("RR32")) {
-            mv.visitLdcInsn(Float.valueOf(roundToFloat(num, den)));
+            mv.visitLdcInsn(Float.valueOf(negated ? -roundToFloat(num, den) : roundToFloat(num, den)));
             mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR32, NamingCzar.make,
                                Naming.makeMethodDesc(NamingCzar.descFloat, NamingCzar.descFortressRR32));
             return;
         }
         double val = roundToDouble(num, den);
+        if (negated) val = -val;
         if (typed.equals("RR64")) {
             mv.visitLdcInsn(Double.valueOf(val));
             mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR64, NamingCzar.make,
                                Naming.makeMethodDesc(NamingCzar.descDouble, NamingCzar.descFortressRR64));
             return;
         }
-        mv.visitLdcInsn(val);
-        mv.visitMethodInsn(INVOKESTATIC,
-                           NamingCzar.internalFortressFloatLiteral, NamingCzar.make,
-                           Naming.makeMethodDesc(NamingCzar.descDouble,
-                                                     NamingCzar.descFortressFloatLiteral));
+        // No numeral value exists at run time: a numeral that no place typed
+        // is its default, an RR64.
+        mv.visitLdcInsn(Double.valueOf(val));
+        mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressRR64, NamingCzar.make,
+                           Naming.makeMethodDesc(NamingCzar.descDouble, NamingCzar.descFortressRR64));
     }
 
     public void forThrow(Throw x) {
@@ -4325,37 +4330,24 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                                Naming.makeMethodDesc(NamingCzar.descFloat, NamingCzar.descFortressRR32));
             return;
         }
-        // bitLength() counts no sign bit, so l <= 31 is exactly the int range
-        // and l <= 63 exactly the long range, for both signs.
+        // No numeral value exists at run time: a numeral that no place typed is
+        // its default, a ZZ32, or a ZZ64 or ZZ by its value. bitLength() counts
+        // no sign bit, so l <= 31 is exactly the int range and l <= 63 exactly
+        // the long range, for both signs.
         int l = bi.bitLength();
+        addLineNumberInfo(x);
         if (l <= 31) {
-            int y = bi.intValue();
-            addLineNumberInfo(x);
-            pushInteger(y);
-            addLineNumberInfo(x);
-
-            mv.visitMethodInsn(INVOKESTATIC,
-                    NamingCzar.internalFortressIntLiteral, NamingCzar.make,
-                    Naming.makeMethodDesc(NamingCzar.descInt,
-                                              NamingCzar.descFortressIntLiteral));
+            pushInteger(bi.intValue());
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressZZ32, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descInt, NamingCzar.descFortressZZ32));
         } else if (l <= 63) {
-            long yy = bi.longValue();
-            addLineNumberInfo(x);
-            mv.visitLdcInsn(yy);
-            addLineNumberInfo(x);
-            mv.visitMethodInsn(INVOKESTATIC,
-                    NamingCzar.internalFortressIntLiteral, NamingCzar.make,
-                    Naming.makeMethodDesc(NamingCzar.descLong,
-                                              NamingCzar.descFortressIntLiteral));
+            mv.visitLdcInsn(Long.valueOf(bi.longValue()));
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressZZ64, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descLong, NamingCzar.descFortressZZ64));
         } else {
-            String s = bi.toString();
-            addLineNumberInfo(x);
-            mv.visitLdcInsn(s);
-            addLineNumberInfo(x);
-            mv.visitMethodInsn(INVOKESTATIC,
-                    NamingCzar.internalFortressIntLiteral, NamingCzar.make,
-                    Naming.makeMethodDesc(NamingCzar.descString,
-                                              NamingCzar.descFortressIntLiteral));
+            mv.visitLdcInsn(bi.toString());
+            mv.visitMethodInsn(INVOKESTATIC, NamingCzar.internalFortressZZ, NamingCzar.make,
+                               Naming.makeMethodDesc(NamingCzar.descString, NamingCzar.descFortressZZ));
         }
     }
 
@@ -6478,8 +6470,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             String loadNat = Naming.opForString(Naming.natMethod,
                     Naming.LEFT_OXFORD + id.getText() + Naming.RIGHT_OXFORD);
             mv.visitMethodInsn(INVOKESTATIC, Naming.magicInterpClass, loadNat,
-                    "()" + NamingCzar.descFortressIntLiteral);
-            mv.visitMethodInsn(INVOKEVIRTUAL, NamingCzar.internalFortressIntLiteral, "asZZ32",
                     "()" + NamingCzar.descFortressZZ32);
             return;
         }
@@ -7196,14 +7186,17 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         Expr arg = x.getArgument();
         if (!(fn instanceof FnRef)) return null;
         FnRef ref = (FnRef) fn;
-        if (!ref.getStaticArgs().isEmpty() || localFunctionOrNull(ref) != null) return null;
-        if (!(arg instanceof IntLiteralExpr || arg instanceof FloatLiteralExpr) || !numeralTarget(arg).matches("IntLiteral|FloatLiteral")) return null;
+        if (localFunctionOrNull(ref) != null) return null;
+        if (!(arg instanceof IntLiteralExpr || arg instanceof FloatLiteralExpr) || !numeralTyped(arg)) return null;
+        // A coercion generic over the numeral's four numbers is inlined at its
+        // site (inlinedNumeralCoercion), which needs its declaration here.
+        if (!ref.getStaticArgs().isEmpty() && numeralCoercionDecl(ref, arg) == null) return null;
         if (!ref.getOriginalName().getText().startsWith(NamingCzar.LIFTED_COERCION_PREFIX)) return null;
         if (LIBRARY_APIS.contains(component.getName().getText())) return null;
         Option<Type> ft = ref.getInfo().getExprType();
         if (ft.isNone() || !(ft.unwrap() instanceof ArrowType)) return null;
         Type range = ((ArrowType) ft.unwrap()).getRange();
-        if (!(range instanceof TraitType) || !((TraitType) range).getArgs().isEmpty()) return null;
+        if (!(range instanceof TraitType) || mentionsTypeVariable(range)) return null;
         Option<APIName> api = ((TraitType) range).getName().getApiName();
         if (api.isSome() && LIBRARY_APIS.contains(api.unwrap().getText())) return null;
         return NamingCzar.jvmBoxedTypeDesc(range, thisApi());
@@ -7219,9 +7212,94 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     private void emitNumeralCoercionSites() {
         for (NumeralCoercionSite site : numeralCoercionSites) {
             cw.visitField(ACC_PUBLIC + ACC_STATIC + ACC_FINAL, site.field, site.desc, null, null);
-            emitFnApp(site.app);
+            if (((FnRef) site.app.getFunction()).getStaticArgs().isEmpty()) emitFnApp(site.app);
+            else inlinedNumeralCoercion(site.app).accept(this);
             mv.visitFieldInsn(PUTSTATIC, packageAndClassName, site.field, site.desc);
         }
+    }
+
+    /** Whether the numeral node is typed by its own numeral type, NaturalNumeral or RadixPointNumeral. */
+    private static boolean numeralTyped(Expr x) {
+        Option<Type> t = x.getInfo().getExprType();
+        return t.isSome() && com.sun.fortress.compiler.Types.isNumeralType(t.unwrap());
+    }
+
+    /** Whether the type names a type variable anywhere. */
+    private static boolean mentionsTypeVariable(Type t) {
+        final boolean[] found = { false };
+        t.accept(new com.sun.fortress.nodes.NodeDepthFirstVisitor_void() {
+            @Override public void forVarType(VarType v) { found[0] = true; }
+        });
+        return found[0];
+    }
+
+    /**
+     * The lifted coercion that ref names, declared in this component, whose one
+     * parameter has the numeral type of arg's kind, generic over its four
+     * numbers; or null.
+     */
+    private FnDecl numeralCoercionDecl(FnRef ref, Expr arg) {
+        String name = ref.getOriginalName().getText();
+        boolean point = arg instanceof FloatLiteralExpr;
+        for (Decl d : component.getDecls()) {
+            if (!(d instanceof FnDecl)) continue;
+            FnDecl f = (FnDecl) d;
+            if (!NodeUtil.nameString(NodeUtil.getName(f)).equals(name) || f.getBody().isNone()) continue;
+            List<Param> ps = f.getHeader().getParams();
+            if (ps.size() != 1 || ps.get(0).getIdType().isNone()) continue;
+            Type pt = (Type) ps.get(0).getIdType().unwrap();
+            if (!com.sun.fortress.compiler.Types.isNumeralType(pt)) continue;
+            if (com.sun.fortress.compiler.Types.isRadixPointNumeralType(pt) != point) continue;
+            if (f.getHeader().getStaticParams().size() != ref.getStaticArgs().size()) continue;
+            return f;
+        }
+        return null;
+    }
+
+    /**
+     * The body of the coercion that the site calls, instantiated at the
+     * site's static arguments: each of the numeral's four numbers read as a
+     * value becomes its constant, a ZZ, and each type parameter of the
+     * coercion's type its type argument. The component's class computes it
+     * once, when it loads, with no class made for the numeral (P-176).
+     */
+    private Expr inlinedNumeralCoercion(_RewriteFnApp app) {
+        FnRef ref = (FnRef) app.getFunction();
+        FnDecl f = numeralCoercionDecl(ref, app.getArgument());
+        List<StaticParam> sps = f.getHeader().getStaticParams();
+        List<StaticArg> sas = ref.getStaticArgs();
+        final Map<String, BigInteger> sizes = new HashMap<String, BigInteger>();
+        for (int i = 0; i < sps.size(); i++) {
+            StaticArg a = sas.get(i);
+            if (a instanceof IntArg && ((IntArg) a).getIntVal() instanceof IntBase)
+                sizes.put(sps.get(i).getName().getText(), ((IntBase) ((IntArg) a).getIntVal()).getIntVal().getIntVal());
+        }
+        Expr body = (Expr) f.getBody().unwrap().accept(new com.sun.fortress.nodes.NodeUpdateVisitor() {
+            @Override public Node forVarRef(VarRef v) {
+                Id id = v.getVarId();
+                if (id.getApiName().isNone() && sizes.containsKey(id.getText())) {
+                    BigInteger k = sizes.get(id.getText());
+                    return new IntLiteralExpr(v.getInfo(), k.toString(), k);
+                }
+                return super.forVarRef(v);
+            }
+        });
+        // A reference's overloadings and schema describe the callee's own
+        // declaration, generic in its own parameters: they stay as they are.
+        return (Expr) body.accept(new StaticTypeReplacer(sps, sas) {
+            @Override public Node forFnRef(FnRef that) {
+                return forFnRefOnly(that, (com.sun.fortress.nodes.ExprInfo) recur(that.getInfo()), recurOnListOfStaticArg(that.getStaticArgs()),
+                                    that.getOriginalName(), that.getNames(), that.getInterpOverloadings(),
+                                    that.getNewOverloadings(), recurOnOptionOfType(that.getOverloadingType()),
+                                    that.getOverloadingSchema());
+            }
+            @Override public Node forOpRef(OpRef that) {
+                return forOpRefOnly(that, (com.sun.fortress.nodes.ExprInfo) recur(that.getInfo()), recurOnListOfStaticArg(that.getStaticArgs()),
+                                    that.getOriginalName(), that.getNames(), that.getInterpOverloadings(),
+                                    that.getNewOverloadings(), recurOnOptionOfType(that.getOverloadingType()),
+                                    that.getOverloadingSchema());
+            }
+        });
     }
 
     public void for_RewriteFnApp(_RewriteFnApp x) {

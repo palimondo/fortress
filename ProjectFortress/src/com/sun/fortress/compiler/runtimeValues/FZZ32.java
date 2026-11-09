@@ -19,6 +19,16 @@ public final class FZZ32 extends fortress.CompilerBuiltin.ZZ32.DefaultTraitMetho
     public String toString() { return String.valueOf(val);}
     public FJavaString asString() { return FJavaString.make(String.valueOf(val));}
     public int getValue() {return val;}
+    /**
+     * A size read as a value, which the class loader stamps as its text where
+     * it lies beyond ZZ32: a ZZ32, or the error of a size out of its range.
+     */
+    public static FZZ32 makeSize(String s) {
+        java.math.BigInteger b = new java.math.BigInteger(s);
+        if (b.bitLength() > 31) throw new Error("Not in range for ZZ32: " + s);
+        return make(b.intValue());
+    }
+
     public static FZZ32 make(int x) {
         return new FZZ32(x);
     }

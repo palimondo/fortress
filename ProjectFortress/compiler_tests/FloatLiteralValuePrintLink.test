@@ -1,2 +1,2 @@
-tests=XXXFloatLiteralValuePrint
+tests=FloatLiteralValuePrint
 link

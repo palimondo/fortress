@@ -1,16 +1,20 @@
-(* A program's own type receives a numeral through its coercion from the numeral type, which reads the numeral's four numbers, one object per site. *)
+(* A program's own type receives a numeral through a coercion generic over the numeral's four numbers, one value per place. *)
 component NumeralOwnTypeWalk
 export Executable
 
+oneRounding(v: ZZ, r: ZZ32, m: ZZ32): RR64 =
+    builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToDouble")
+
 value object CC64(re: RR64, im: RR64)
-    coerce(x: NaturalNumeral) = CC64(asFloat(x), 0.0)
-    coerce(x: RadixPointNumeral) = CC64(asFloat(x), 0.0)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = CC64(oneRounding(v, r.asZZ32, 0), 0.0)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) =
+        CC64(oneRounding(v, r.asZZ32, m.asZZ32), 0.0)
     opr +(self, other: CC64): CC64 = CC64(re + other.re, im + other.im)
     opr juxtaposition(self, other: CC64): CC64 =
         CC64(re other.re - im other.im, re other.im + im other.re)
 end
 
-imaginary: CC64 = CC64(0.0, 1.0)
+i: CC64 = CC64(0.0, 1.0)
 
 exact(d: RR64): QQ = do
     bits: ZZ64 = d.rawBits
@@ -23,64 +27,89 @@ exact(d: RR64): QQ = do
   end
 
 value object Iv(lo: RR64, hi: RR64)
-    coerce(x: RadixPointNumeral) = do
-        q: QQ = x
-        d: RR64 = asFloat(x)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
+        q: QQ = v / r^(m.asZZ32)
+        d: RR64 = oneRounding(v, r.asZZ32, m.asZZ32)
         a: QQ = exact(d)
         if a = q then Iv(d, d) elif q < a then Iv(d.nextDown, d) else Iv(d, d.nextUp) end
       end
 end
 
 value object BF16(bits: ZZ32)
-    coerce(x: RadixPointNumeral) = do
-        q: QQ = x
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
+        q: QQ = v / r^(m.asZZ32)
         half: QQ = 1/2
         s: QQ = q (128/1)
-        n: ZZ = floor(s)
-        rest: QQ = s - (n/1)
-        up: Boolean = if rest > half then true elif rest < half then false else odd(n) end
-        k: ZZ = if up then n + 1 else n end
+        k0: ZZ = floor(s)
+        rest: QQ = s - (k0/1)
+        up: Boolean = if rest > half then true elif rest < half then false else odd(k0) end
+        k: ZZ = if up then k0 + 1 else k0 end
         BF16((k - 128 + 16256).asZZ32)
       end
 end
 
 value object Dec(unscaled: ZZ, scale: ZZ32)
-    coerce(x: RadixPointNumeral) = Dec(x.digitValue, x.fractionDigits)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Dec(v, m.asZZ32)
 end
 
+digitsOf(v: ZZ, r: ZZ, n: ZZ32): String = do
+    var s: String := ""
+    var k: ZZ := v
+    var j: ZZ32 := 0
+    while k > big(0) OR j < n do
+        d: ZZ32 = (k MOD r).asZZ32
+        s := "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[d] || s
+        k := k DIV r
+        j += 1
+    end
+    s
+  end
+
 value object Written(text: String)
-    coerce(x: RadixPointNumeral) = Written(x.asString)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
+        t = digitsOf(v, r, n.asZZ32)
+        w = (n - m).asZZ32
+        suffix = if r = big(10) then "" else "_" || r.asString end
+        Written(t[0#w] || "." || t[w#(m.asZZ32)] || suffix)
+      end
 end
 
 object Ref(v: ZZ)
-    coerce(x: NaturalNumeral) = Ref(x.digitValue)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Ref(v)
 end
 
 made(): Ref = 7
 
-parts(x: RadixPointNumeral): String =
-    x.digits.asString || " " || x.fractionDigits.asString || " " || x.radix.asString || " " || x.digitValue.asString
-
-same(a: RadixPointNumeral, b: RadixPointNumeral): Boolean = a SEQV b
-equal(a: RadixPointNumeral, b: RadixPointNumeral): Boolean = a = b
+value object Parts(text: String)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) =
+        Parts(n.asString || " " || m.asString || " " || r.asString || " " || v.asString)
+end
 
 run(): () = do
-    c: CC64 = 3 + 4 imaginary
+    c: CC64 = 3 + 4 i
     assert(c.re SEQV 3.0, "3 + 4 i has the real part 3.0")
     assert(c.im SEQV 4.0, "3 + 4 i has the imaginary part 4.0")
-    d: CC64 = 3.78 + 3.243 imaginary
+    d: CC64 = 3.78 + 3.243 i
     assert(d.re SEQV 3.78, "3.78 + 3.243 i has the real part 3.78")
     assert(d.im SEQV 3.243, "3.78 + 3.243 i has the imaginary part 3.243")
-    assert(parts(3.78), "3 2 10 378", "3.78 has three digits, two after the point, radix 10, value 378")
-    assert(parts(3.243), "4 3 10 3243", "3.243 has four digits, three after the point, radix 10, value 3243")
-    assert(parts(3.0), "2 1 10 30", "3.0 has two digits, one after the point, radix 10, value 30")
-    assert(parts(1.00_16), "3 2 16 256", "1.00_16 has three digits, two after the point, radix 16, value 256")
+    p1: Parts = 3.78
+    assert(p1.text, "3 2 10 378", "3.78 has three digits, two after the point, radix 10, value 378")
+    p2: Parts = 3.243
+    assert(p2.text, "4 3 10 3243", "3.243 has four digits, three after the point, radix 10, value 3243")
+    p3: Parts = 3.0
+    assert(p3.text, "2 1 10 30", "3.0 has two digits, one after the point, radix 10, value 30")
+    p4: Parts = 1.00_16
+    assert(p4.text, "3 2 16 256", "1.00_16 has three digits, two after the point, radix 16, value 256")
     i1: Iv = 0.1
     assert(i1.lo SEQV 0.09999999999999999, "Iv(0.1) has the double below 1/10 as its low bound")
     assert(i1.hi SEQV 0.1, "Iv(0.1) has the double above 1/10 as its high bound")
     i2: Iv = 0.5
     assert(i2.lo SEQV 0.5, "Iv(0.5) is the point 0.5")
     assert(i2.hi SEQV 0.5, "Iv(0.5) is the point 0.5")
+    piv: Iv = 3.1415926535897932384
+    piq: QQ = 31415926535897932384 / 10000000000000000000
+    assert(exact(piv.lo) < piq AND piq < exact(piv.hi), "Iv(3.1415926535897932384) encloses the numeral's exact value")
+    assert(piv.lo.nextUp SEQV piv.hi, "Iv(3.1415926535897932384) is one ulp wide")
     b: BF16 = 1.00390625000000000001
     assert(b.bits, 16257, "BF16(1.00390625000000000001) rounds once, to 0x3F81")
     b0: BF16 = 1.00390625
@@ -92,16 +121,13 @@ run(): () = do
     assert(p0.unscaled, big(314150), "Dec(3.14150) keeps the unscaled value 314150")
     assert(p0.scale, 5, "Dec(3.14150) keeps the scale 5")
     h: Written = C.8_16
-    assert(h.text, "C.8_16", "C.8_16 is written back as C.8_16")
+    assert(h.text, "C.8_16", "C.8_16 is written back as C.8_16 from its four numbers")
     h2: Written = 2.0
-    assert(h2.text, "2.0", "2.0 is written back as 2.0")
-    assert(made() SEQV made(), "one site gives one object of a reference type")
+    assert(h2.text, "2.0", "2.0 is written back as 2.0 from its four numbers")
+    assert(made() SEQV made(), "one place gives one object of a reference type")
     r1: Ref = 7
     r2: Ref = 7
-    assert(NOT (r1 SEQV r2), "two sites give two objects of a reference type")
-    assert(same(2.5, 2.50), "2.5 SEQV 2.50 between two numeral values")
-    assert(same(0.1_2, 0.5), "0.1_2 SEQV 0.5 between two numeral values")
-    assert(NOT equal(0.1, 0.1_16), "0.1 = 0.1_16 is false between two numeral values")
+    assert(NOT (r1 SEQV r2), "two places give two objects of a reference type")
     println "PASS"
   end
 

@@ -1,0 +1,13 @@
+(* A coercion's where clause over the numeral's four numbers refuses a numeral outside it: 300 at a byte type. *)
+component NumeralWhereRefusedWalk
+export Executable
+
+value object Byte(b: ZZ32)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(v.asZZ32)
+end
+
+big300: Byte = 300
+
+run() = println("FAIL: 300 at a byte type whose coercion holds v < 256 was accepted")
+
+end

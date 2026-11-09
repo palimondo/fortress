@@ -16,7 +16,7 @@ import com.sun.fortress.nodes_util.NodeFactory;
 import com.sun.fortress.nodes_util.Span;
 import com.sun.fortress.useful.TestCaseWrapper;
 
-/** The numeral fold writes each result as a numeral or an operation on numerals, leaves each operator whose meaning needs a width, a division by zero and a possible negative zero, and gives CHOOSE outside 0..n the answer 0. */
+/** The numeral fold writes each result as a numeral or an operation on numerals, a computed numeral other than a quotient's integer operand in parentheses, and a numeral under prefix minus as written with its minus, leaves each operator whose meaning needs a width, a division by zero and a possible negative zero, and gives CHOOSE outside 0..n the answer 0. */
 public class NumeralFoldJUTest extends TestCaseWrapper {
 
     private static final Span S = NodeFactory.testSpan;
@@ -88,7 +88,7 @@ public class NumeralFoldJUTest extends TestCaseWrapper {
     }
 
     public void testNegativeZeroIsLeft() {
-        assertLeft("-(0.0)", prefix("-", dec("0.0")));
+        assertRadixPoint("-(0.0), the numeral 0.0 as written under its minus", "-0.0", fold(prefix("-", dec("0.0"))));
         assertLeft("0.0 DOT -1", infix("DOT", dec("0.0"), num(-1)));
         assertLeft("0.0 / -3", infix("/", dec("0.0"), num(-3)));
     }
@@ -142,23 +142,23 @@ public class NumeralFoldJUTest extends TestCaseWrapper {
     }
 
     public void testRadixPointResultsAreDecimals() {
-        assertRadixPoint("0.1 + 0.2", "0.3", fold(infix("+", dec("0.1"), dec("0.2"))));
-        assertRadixPoint("0.5 + 0.5", "1.0", fold(infix("+", dec("0.5"), dec("0.5"))));
-        assertRadixPoint("10.0^(-5)", "0.00001", fold(infix("^", dec("10.0"), num(-5))));
-        assertRadixPoint("0.5 MAX 1", "1.0", fold(infix("MAX", dec("0.5"), num(1))));
-        assertRadixPoint("2.50 MAX 1, the written numeral", "2.50", fold(infix("MAX", dec("2.50"), num(1))));
+        assertRadixPoint("0.1 + 0.2", "(0.3)", fold(infix("+", dec("0.1"), dec("0.2"))));
+        assertRadixPoint("0.5 + 0.5", "(1.0)", fold(infix("+", dec("0.5"), dec("0.5"))));
+        assertRadixPoint("10.0^(-5)", "(0.00001)", fold(infix("^", dec("10.0"), num(-5))));
+        assertRadixPoint("0.5 MAX 1", "(1.0)", fold(infix("MAX", dec("0.5"), num(1))));
+        assertRadixPoint("2.50 MAX 1, the written digits", "(2.50)", fold(infix("MAX", dec("2.50"), num(1))));
         Node t = fold(ExprFactory.makeTupleExpr(S, prefix("-", dec("0.5")), infix("-", dec("0.1"), dec("0.3"))));
         Expr negative = ((TupleExpr) t).getExprs().get(1);
         assertTrue("0.1 - 0.3 folds into prefix minus on a numeral", negative instanceof OpExpr);
         assertEquals("0.1 - 0.3: its operator", "-", ((Op) ((OpExpr) negative).getOp().getOriginalName()).getText());
-        assertRadixPoint("0.1 - 0.3", "0.2", ((OpExpr) negative).getArgs().get(0));
+        assertRadixPoint("0.1 - 0.3", "(0.2)", ((OpExpr) negative).getArgs().get(0));
     }
 
     public void testQuotientsAreQuotientsOfNumerals() {
         assertQuotient("7 / 2", "7", 2, fold(infix("/", num(7), num(2))));
         assertQuotient("14 / 4", "7", 2, fold(infix("/", num(14), num(4))));
         assertQuotient("6 / 3", "2", 1, fold(infix("/", num(6), num(3))));
-        assertQuotient("0.1 / 3", "1.0", 30, fold(infix("/", dec("0.1"), num(3))));
+        assertQuotient("0.1 / 3", "(1.0)", 30, fold(infix("/", dec("0.1"), num(3))));
         assertQuotient("(1/3) + (1/6)", "1", 2,
                        fold(infix("+", infix("/", num(1), num(3)), infix("/", num(1), num(6)))));
     }

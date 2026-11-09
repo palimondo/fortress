@@ -10,6 +10,20 @@ import com.sun.fortress.interpreter.evaluator.types.FTypeTop;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTuple;
 import com.sun.fortress.interpreter.evaluator.types.BottomType;
 import com.sun.fortress.nativeHelpers.simpleDoubleArith;
+import com.sun.fortress.interpreter.evaluator.Evaluator;
+import com.sun.fortress.interpreter.evaluator.types.GenericTypeInstance;
+import com.sun.fortress.nodes.FnDecl;
+import com.sun.fortress.nodes.IntArg;
+import com.sun.fortress.nodes.IntBase;
+import com.sun.fortress.nodes.IntBinaryOp;
+import com.sun.fortress.nodes.IntConstraint;
+import com.sun.fortress.nodes.IntExpr;
+import com.sun.fortress.nodes.IntRef;
+import com.sun.fortress.nodes.StaticArg;
+import com.sun.fortress.nodes.TraitType;
+import com.sun.fortress.nodes.WhereClause;
+import com.sun.fortress.nodes.WhereConstraint;
+import com.sun.fortress.nodes_util.NumeralNumbers;
 import com.sun.fortress.nodes.FloatLiteralExpr;
 import com.sun.fortress.nodes.IntLiteralExpr;
 import com.sun.fortress.nodes.Param;
@@ -58,17 +72,23 @@ public final class Numerals {
         final int radix;
         final BigInteger digitValue;
         final boolean radixPoint;
+        /** The numeral's kind: as written, prefix minus on one, or a folded static expression. */
+        final NumeralNumbers.Kind kind;
+        /** The signed exact value of an integer numeral. */
+        final BigInteger signed;
         FValue value;
         FValue plain;
         private FValue object;
         private final Map<FType, FValue> converted = new HashMap<FType, FValue>();
 
-        Site(int digits, int fractionDigits, int radix, BigInteger digitValue, boolean radixPoint) {
-            this.digits = digits;
-            this.fractionDigits = fractionDigits;
-            this.radix = radix;
-            this.digitValue = digitValue;
-            this.radixPoint = radixPoint;
+        Site(NumeralNumbers x, BigInteger signed) {
+            this.digits = x.n.intValue();
+            this.fractionDigits = x.m.intValue();
+            this.radix = x.r.intValue();
+            this.digitValue = x.v;
+            this.radixPoint = x.radixPoint;
+            this.kind = x.kind;
+            this.signed = signed;
         }
     }
 
@@ -162,7 +182,7 @@ public final class Numerals {
             Site s = sites.get(x);
             if (s != null) return s.value;
             BigInteger v = x.getIntVal();
-            s = new Site(Math.max(1, digitPart(x.getText()).length()), 0, radixOf(x.getText()), v, false);
+            s = new Site(NumeralNumbers.of(x), v);
             if (v.compareTo(INT_MIN) >= 0 && v.compareTo(INT_MAX) <= 0) {
                 s.value = new IntNumeral(v.intValue(), s);
                 s.plain = FInt.make(v.intValue());
@@ -183,34 +203,13 @@ public final class Numerals {
         synchronized (Numerals.class) {
             Site s = sites.get(x);
             if (s != null) return s.value;
-            // The radix as written: the node's base is 1 where every digit after the point is 0.
-            int r = radixOf(x.getText());
-            int m = x.getDenomPower();
-            BigInteger v = x.getIntPart().multiply(BigInteger.valueOf(r).pow(m)).add(x.getNumerator());
-            int n = Math.max(1, digitPart(x.getText()).length());
-            // The digits as written: the node keeps the value, not the trailing zeros.
-            String t = x.getText().replace("'", "").replace("\u202F", "");
-            int under = t.indexOf('_');
-            String written = under >= 0 ? t.substring(0, under) : t;
-            int point = written.indexOf('.');
-            if (point >= 0) {
-                String digits = written.substring(0, point) + written.substring(point + 1);
-                if (r == 12) digits = digits.replace('x', 'A').replace('X', 'A').replace('e', 'B').replace('E', 'B');
-                try {
-                    BigInteger w = new BigInteger(digits, r);
-                    int wm = written.length() - point - 1;
-                    if (w.multiply(BigInteger.valueOf(r).pow(m)).equals(v.multiply(BigInteger.valueOf(r).pow(wm)))) {
-                        v = w;
-                        m = wm;
-                        n = digits.length();
-                    }
-                }
-                catch (NumberFormatException ex) {
-                    // the node's numbers stand
-                }
-            }
-            s = new Site(n, m, r, v, true);
+            NumeralNumbers nn = NumeralNumbers.of(x);
+            BigInteger v = nn.v;
+            int r = nn.r.intValue();
+            int m = nn.m.intValue();
+            s = new Site(nn, v);
             double d = simpleDoubleArith.numeralToDouble(v, r, m);
+            if (nn.kind == NumeralNumbers.Kind.NEGATED) d = -d;   // -0.0 keeps its sign
             s.value = new FloatNumeral(d, s);
             s.plain = FFloat.make(d);
             sites.put(x, s);
@@ -279,8 +278,9 @@ public final class Numerals {
 
     /** The numeral's own type, NaturalNumeral or RadixPointNumeral, or null where the library has none. */
     public static FType numeralType(FValue v) {
-        if (!(v instanceof Numeral)) return null;
-        return libraryType(((Numeral) v).site().radixPoint ? "RadixPointNumeral" : "NaturalNumeral");
+        // The static numerals: a numeral's type exists only at compile time, so
+        // no value has it when the program runs.
+        return null;
     }
 
     /** v is a numeral whose own type fits t as it is. */
@@ -320,20 +320,156 @@ public final class Numerals {
         else if (n.equals("NN64")) { lo = BigInteger.ZERO; hi = NN64_MAX; }
         else return true;
         if (target != (n.equals("NN32") ? nn32Type() : libraryType(n))) return true;
-        return s.digitValue.compareTo(lo) >= 0 && s.digitValue.compareTo(hi) <= 0;
+        BigInteger value = s.radixPoint ? s.digitValue : s.signed;
+        return value.compareTo(lo) >= 0 && value.compareTo(hi) <= 0;
     }
 
-    /** The numeral v converted to target by c, one value for its site at each type. */
+    /** The numeral v converted to target by its coercion c, one value for its site at each type. */
     static FValue converted(FValue v, FType target, SingleFcn c) {
         Site s = ((Numeral) v).site();
         synchronized (s) {
             FValue r = s.converted.get(target);
             if (r == null) {
-                r = c.applyInnerPossiblyGeneric(java.util.Collections.singletonList(v));
+                r = convert(target, s, c);
                 s.converted.put(target, r);
             }
             return r;
         }
+    }
+
+    private static final java.util.Set<String> NUMBER_TYPES = new java.util.HashSet<String>(java.util.Arrays.asList(
+        "ZZ32", "ZZ64", "NN32", "NN64", "ZZ", "QQ", "RR64", "RR32"));
+
+    /** Whether t is one of the library's eight number types, whose names no program may declare. */
+    public static boolean isLibraryNumber(FType t) {
+        return NUMBER_TYPES.contains(t.getName());
+    }
+
+    /** Whether v is the value of a folded static expression, not a numeral as written. */
+    public static boolean isStaticExpression(FValue v) {
+        return v instanceof Numeral && ((Numeral) v).site().kind == NumeralNumbers.Kind.STATIC;
+    }
+
+    /**
+     * The coercion to target that is generic over the numeral v's four
+     * numbers, where its where clause holds at them; or null. For a negative
+     * constant at a program's own type, also null where the type's prefix
+     * minus does not apply to the coercion's result. The conversion runs here,
+     * once for the site and the type, so that a refusal is known.
+     */
+    static SingleFcn numeralCoercion(FType target, FValue v) {
+        Site s = ((Numeral) v).site();
+        for (FGenericFunction g : Coercions.numeralCoercions(target, s.radixPoint)) {
+            if (!whereHolds(g.getFnDecl(), numbers(g.getFnDecl(), s, false))) continue;
+            synchronized (s) {
+                if (!s.converted.containsKey(target)) {
+                    FValue r = convert(target, s, g);
+                    if (r == null) return null;
+                    s.converted.put(target, r);
+                }
+            }
+            return g;
+        }
+        return null;
+    }
+
+    /**
+     * The four numbers by the names the coercion's parameter type gives them:
+     * NaturalNumeral[\n, r, v\] or RadixPointNumeral[\n, m, r, v\]; at one of
+     * the library's number types the last is the folded signed value, so that
+     * a negative constant converts exactly first (-2147483648 at ZZ32).
+     */
+    private static Map<String, BigInteger> numbers(FnDecl fd, Site s, boolean signed) {
+        Map<String, BigInteger> m = new HashMap<String, BigInteger>();
+        Type pt = (Type) fd.getHeader().getParams().get(0).getIdType().unwrap();
+        List<StaticArg> args = ((TraitType) pt).getArgs();
+        BigInteger last = signed && !s.radixPoint ? s.signed : s.digitValue;
+        BigInteger[] ns = s.radixPoint
+            ? new BigInteger[] { BigInteger.valueOf(s.digits), BigInteger.valueOf(s.fractionDigits), BigInteger.valueOf(s.radix), last }
+            : new BigInteger[] { BigInteger.valueOf(s.digits), BigInteger.valueOf(s.radix), last };
+        for (int i = 0; i < args.size() && i < ns.length; i++) {
+            StaticArg a = args.get(i);
+            if (a instanceof IntArg && ((IntArg) a).getIntVal() instanceof IntRef)
+                m.put(((IntRef) ((IntArg) a).getIntVal()).getName().getText(), ns[i]);
+        }
+        return m;
+    }
+
+    private static BigInteger evalSize(IntExpr e, Map<String, BigInteger> vals) {
+        if (e instanceof IntBase) return ((IntBase) e).getIntVal().getIntVal();
+        if (e instanceof IntRef) return vals.get(((IntRef) e).getName().getText());
+        if (e instanceof IntBinaryOp) {
+            IntBinaryOp b = (IntBinaryOp) e;
+            BigInteger l = evalSize(b.getLeft(), vals), r = evalSize(b.getRight(), vals);
+            if (l == null || r == null) return null;
+            String op = b.getOp().getText();
+            if (op.equals("+")) return l.add(r);
+            if (op.equals("-")) return l.subtract(r);
+            if (op.equals("^")) return l.pow(r.intValue());
+            return l.multiply(r);
+        }
+        return null;
+    }
+
+    /** Whether each comparison of sizes in the coercion's where clause holds at the four numbers. */
+    private static boolean whereHolds(FnDecl fd, Map<String, BigInteger> vals) {
+        Option<WhereClause> w = fd.getHeader().getWhereClause();
+        if (w.isNone()) return true;
+        for (WhereConstraint c : w.unwrap().getConstraints()) {
+            if (!(c instanceof IntConstraint)) continue;
+            IntConstraint ic = (IntConstraint) c;
+            BigInteger l = evalSize(ic.getLeft(), vals), r = evalSize(ic.getRight(), vals);
+            if (l == null || r == null) continue;
+            int k = l.compareTo(r);
+            String op = ic.getOp().getText();
+            boolean ok = op.equals("<") ? k < 0 : op.equals("<=") ? k <= 0 : op.equals(">") ? k > 0
+                       : op.equals(">=") ? k >= 0 : op.equals("=") ? k == 0 : true;
+            if (!ok) return false;
+        }
+        return true;
+    }
+
+    /**
+     * The coercion's body, run once with the four numbers bound as exact
+     * integers, ZZ values, and the coercion's type's own static parameters
+     * bound to target's; its parameter is bound to no numeral value, since
+     * none exists. For a negative constant at a program's own type, the
+     * type's own prefix minus on the result; null where it does not apply.
+     */
+    private static FValue convert(FType target, Site s, SingleFcn c) {
+        FGenericFunction g = (FGenericFunction) c;
+        FnDecl fd = g.getFnDecl();
+        boolean library = isLibraryNumber(target);
+        // A negative integer constant converts exactly first at a library type;
+        // any other negative constant is the type's minus on the coercion of its magnitude.
+        boolean minusAfter = s.kind == NumeralNumbers.Kind.NEGATED && (s.radixPoint || !library);
+        Map<String, BigInteger> vals = numbers(fd, s, library && !minusAfter);
+        Environment clenv = g.getEnv().extendAt(fd);
+        List<StaticParam> sps = fd.getHeader().getStaticParams();
+        if (target instanceof GenericTypeInstance) {
+            List<FType> targs = ((GenericTypeInstance) target).getTypeParams();
+            for (int i = 0; i < targs.size() && i < sps.size(); i++) clenv.putType(NodeUtil.getName(sps.get(i)), targs.get(i));
+        }
+        for (Map.Entry<String, BigInteger> e : vals.entrySet()) clenv.putValue(e.getKey(), FBigNum.make(e.getValue()));
+        clenv.bless();
+        Environment penv = clenv.extendAt(fd);
+        penv.putValue(NodeUtil.nameString(fd.getHeader().getParams().get(0).getName()), FVoid.V);
+        penv.bless();
+        FValue r = new Evaluator(penv).eval(fd.getBody().unwrap());
+        if (minusAfter) {
+            Environment within = target.getWithin();
+            // walk keys a prefix operator by its fixity (OprUtil.fixityDecorator)
+            FValue minus = within == null ? null : within.getTopLevel().getRootValueNull("prefix -");
+            if (minus == null && within != null) minus = within.getTopLevel().getRootValueNull("-");
+            if (!(minus instanceof Fcn)) return null;
+            try {
+                r = ((Fcn) minus).applyToArgs(r);
+            } catch (FortressException ex) {
+                return null;
+            }
+            if (!target.typeMatch(r)) return null;
+        }
+        return r;
     }
 
     /**

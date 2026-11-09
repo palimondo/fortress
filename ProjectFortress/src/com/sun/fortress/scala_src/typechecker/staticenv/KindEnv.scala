@@ -69,7 +69,8 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
       case _:KindBool => Some(Types.BOOLEAN)
       // A size used as a value is a ZZ32.
       case _:KindInt => Some(KindEnv.sizeValueType)
-      case _:KindNat => Some(KindEnv.sizeValueType)
+      // A numeral coercion's four numbers are exact integers, a ZZ.
+      case _:KindNat => Some(if (KindEnv.isExact(b.sparam)) KindEnv.exactValueType else KindEnv.sizeValueType)
       case _ => None
     })
 
@@ -100,6 +101,23 @@ class NestedKindEnv (protected val parent: KindEnv,
 
 /** Companion module for KindEnv; contains "static" members. */
 object KindEnv extends StaticEnvCompanion[StaticParam] {
+  /**
+   * The nat static parameters of a declaration whose parameter has a numeral
+   * type, as a coercion generic over a numeral's four numbers: used as values
+   * they are exact integers (P-174), not ZZ32s.
+   */
+  private val exact = java.util.Collections.synchronizedSet(
+    java.util.Collections.newSetFromMap(new java.util.IdentityHashMap[StaticParam, java.lang.Boolean]()))
+  def markExact(sp: StaticParam): Unit = exact.add(sp)
+  def isExact(sp: StaticParam): Boolean = exact.contains(sp)
+
+  /** The type of an exact size used as a value: ZZ. */
+  def exactValueType: Type =
+    NF.makeTraitType(NF.makeId(NF.internalSpan,
+                               if (WellKnownNames.areCompilerLibraries) WellKnownNames.fortressBuiltin
+                               else WellKnownNames.fortressLibrary,
+                               "ZZ"))
+
 
   /** My type. */
   type Env = KindEnv

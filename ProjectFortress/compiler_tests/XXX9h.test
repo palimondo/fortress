@@ -12,6 +12,6 @@ STATIC_TESTS_DIR=${FORTRESS_AUTOHOME}/ProjectFortress/compiler_tests
 compile
 compile_err_equals=\
 ${STATIC_TESTS_DIR}/Compiled9.h.fss:17:12-24:\n\
-\ Function body has type (IntLiteral, Boolean, FloatLiteral), but declared return type is ().\n\
+\ Function body has type (NaturalNumeral[\\1,10,5\\], Boolean, RadixPointNumeral[\\2,1,10,10\\]), but declared return type is ().\n\
 File Compiled9.h.fss has 1 error.\n
 compile_out_equals=

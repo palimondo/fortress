@@ -3,9 +3,9 @@ component NumeralCoercionRaisesCompiled
 export Executable
 
 object Odd(v: ZZ32)
-  coerce(x: IntLiteral) = do
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
     println("coerce")
-    w: ZZ32 = x
+    w: ZZ32 = bigToZZ64(v).asZZ32
     Odd(w DIV 0)
   end
 end
@@ -18,4 +18,6 @@ run(): () = do
   assert(o.v, 1, "the site's value")
 end
 
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

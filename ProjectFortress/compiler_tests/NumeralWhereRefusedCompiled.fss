@@ -1,0 +1,16 @@
+(* A coercion's where clause over the numeral's four numbers is a static constraint: 300 at a byte type whose coercion holds v < 256 is refused at compile time. *)
+component NumeralWhereRefusedCompiled
+export Executable
+
+value object Byte(b: ZZ32)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) where { v < 256 } = Byte(bigToZZ64(v).asZZ32)
+end
+
+run(): () = do
+  y: Byte = 300
+  println("PASS")
+end
+
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
+end

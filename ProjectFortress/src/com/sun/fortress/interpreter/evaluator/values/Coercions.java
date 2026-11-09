@@ -16,6 +16,10 @@ import com.sun.fortress.interpreter.evaluator.types.FTypeRest;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTuple;
 import com.sun.fortress.interpreter.evaluator.types.GenericTypeInstance;
 import com.sun.fortress.nodes.IdOrOpOrAnonymousName;
+import com.sun.fortress.nodes.FnDecl;
+import com.sun.fortress.nodes.TraitType;
+import com.sun.fortress.nodes.TypeOrPattern;
+import edu.rice.cs.plt.tuple.Option;
 import com.sun.fortress.nodes.Type;
 import com.sun.fortress.useful.Useful;
 
@@ -56,6 +60,9 @@ public final class Coercions {
      * with the target's own static arguments first.
      */
     static SingleFcn coercionFor(FType target, FValue v) {
+        // Only a numeral as written reaches a program's coercion from the
+        // numeral types: a folded static expression reaches it as its default.
+        if (Numerals.isStaticExpression(v) && !Numerals.isLibraryNumber(target)) v = Numerals.plain(v);
         if (Numerals.isNumeral(v)) return numeralCoercionFor(target, v);
         if (target instanceof GenericTypeInstance) {
             SingleFcn g = genericCoercionFor((GenericTypeInstance) target, v);
@@ -94,27 +101,44 @@ public final class Coercions {
      * coercion from its default, since coercions do not chain.
      */
     private static SingleFcn numeralCoercionFor(FType target, FValue v) {
-        FType nt = Numerals.numeralType(v);
-        if (nt == null || !Numerals.inRange(target, v)) return null;
-        List<SingleFcn> fs = new ArrayList<SingleFcn>();
+        if (!Numerals.inRange(target, v)) return null;
+        return Numerals.numeralCoercion(target, v);
+    }
+
+    /**
+     * The target's lifted coercions whose one parameter has the numeral type
+     * of the kind given, generic over the numeral's four numbers.
+     */
+    static List<FGenericFunction> numeralCoercions(FType target, boolean radixPoint) {
+        List<FGenericFunction> res = new ArrayList<FGenericFunction>();
+        Fcn lifted = null;
         if (target instanceof GenericTypeInstance) {
-            fs.addAll(instantiatedCoercions((GenericTypeInstance) target));
-        } else {
-            Fcn lifted = liftedCoercions(target);
-            if (lifted instanceof OverloadedFunction) {
-                for (Overload o : ((OverloadedFunction) lifted).getOverloads()) fs.add(o.getFn());
-            } else if (lifted instanceof SingleFcn) {
-                fs.add((SingleFcn) lifted);
+            FTypeGeneric generic = ((GenericTypeInstance) target).getGeneric();
+            String name = NamingCzar.LIFTED_COERCION_PREFIX + generic.getName();
+            for (Environment e : new Environment[] {((FType) target).getWithin(), generic.getWithin()}) {
+                if (e == null) continue;
+                FValue f = e.getTopLevel().getRootValueNull(name);
+                if (f instanceof Fcn) { lifted = (Fcn) f; break; }
             }
+        } else {
+            lifted = liftedCoercions(target);
         }
-        SingleFcn best = null;
+        List<SingleFcn> fs = new ArrayList<SingleFcn>();
+        if (lifted instanceof OverloadedFunction) {
+            for (Overload o : ((OverloadedFunction) lifted).getOverloads()) fs.add(o.getFn());
+        } else if (lifted instanceof SingleFcn) {
+            fs.add((SingleFcn) lifted);
+        }
         for (SingleFcn f : fs) {
-            if (f instanceof GenericFunctionOrMethod) continue;
-            List<FType> d = f.getDomain();
-            if (d.size() != 1 || !nt.subtypeOf(d.get(0))) continue;
-            if (best == null || d.get(0).subtypeOf(best.getDomain().get(0))) best = f;
+            if (!(f instanceof FGenericFunction)) continue;
+            FnDecl fd = ((FGenericFunction) f).getFnDecl();
+            if (fd.getHeader().getParams().size() != 1 || fd.getBody().isNone()) continue;
+            Option<TypeOrPattern> pt = fd.getHeader().getParams().get(0).getIdType();
+            if (pt.isNone() || !(pt.unwrap() instanceof TraitType)) continue;
+            String n = ((TraitType) pt.unwrap()).getName().getText();
+            if (n.equals(radixPoint ? "RadixPointNumeral" : "NaturalNumeral")) res.add((FGenericFunction) f);
         }
-        return best;
+        return res;
     }
 
     /**
@@ -265,8 +289,9 @@ public final class Coercions {
      * v converted by the coercion c to target.
      */
     static FValue apply(SingleFcn c, FType target, FValue v) {
-        FValue r = Numerals.isNumeral(v) ? Numerals.converted(v, target, c)
-                                         : c.applyInnerPossiblyGeneric(Collections.singletonList(v));
+        FValue r = Numerals.isNumeral(v) && c instanceof FGenericFunction && !(Numerals.isStaticExpression(v) && !Numerals.isLibraryNumber(target))
+                   ? Numerals.converted(v, target, c)
+                   : c.applyInnerPossiblyGeneric(Collections.singletonList(Numerals.plain(v)));
         if (!target.typeMatch(r)) {
             return error(errorMsg("Coercion ", c, " to ", target, " returned ", r, " of type ", r.type()));
         }
@@ -279,7 +304,6 @@ public final class Coercions {
      */
     public static FValue coerce(FType target, FValue v) {
         if (target instanceof FTypeTuple) return coerceTuple((FTypeTuple) target, v);
-        if (Numerals.fitsAsIs(target, v)) return Numerals.object(v);
         SingleFcn c = coercionFor(target, v);
         return c == null ? null : apply(c, target, v);
     }

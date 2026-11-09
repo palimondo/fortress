@@ -17,6 +17,6 @@ ${STATIC_TESTS_DIR}/Compiled9.ad.fss:14:3-16:4:\n\
 ${STATIC_TESTS_DIR}/Compiled9.ad.fss:14:25-34:\n\
 \ Type FooExn excludes CompilerBuiltin.Exception but it extends CompilerBuiltin.Exception.\n\
 ${STATIC_TESTS_DIR}/Compiled9.ad.fss:20:10-25:6:\n\
-\ Could not assign an expression of type OR(IntLiteral,String) to variable z of type String.\n\
+\ Could not assign an expression of type OR(NaturalNumeral[\\1,10,5\\],String) to variable z of type String.\n\
 File Compiled9.ad.fss has 3 errors.\n
 compile_out_equals=

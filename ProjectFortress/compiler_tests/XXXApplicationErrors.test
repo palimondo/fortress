@@ -16,13 +16,13 @@ ${STATIC_TESTS_DIR}/Compiled7.ApplicationErrors.fss:15:31-36:\n\
 \ ${STATIC_TESTS_DIR}/Compiled7.ApplicationErrors.fss:15:23-37:\n\
 \ Possibly because x: Any after argument inference\n\
 ${STATIC_TESTS_DIR}/Compiled7.ApplicationErrors.fss:18:27-32:\n\
-\ No such method IntLiteral.foo.\n\
+\ No such method NaturalNumeral[\\1,10,5\\].foo.\n\
 \ ${STATIC_TESTS_DIR}/Compiled7.ApplicationErrors.fss:18:19-35:\n\
-\ Possibly because x: IntLiteral after argument inference\n\
+\ Possibly because x: NaturalNumeral[\\1,10,5\\] after argument inference\n\
 ${STATIC_TESTS_DIR}/Compiled7.ApplicationErrors.fss:25:14-22:\n\
 \ Could not check call to operator *\n\
-\ - (Object->String, ZZ32)->String is not applicable to any type of the form (_->_, IntLiteral).\n\
-\ - (ZZ32->String, ZZ32)->String is not applicable to any type of the form (_->_, IntLiteral).\n\
+\ - (Object->String, ZZ32)->String is not applicable to any type of the form (_->_, NaturalNumeral[\\1,10,5\\]).\n\
+\ - (ZZ32->String, ZZ32)->String is not applicable to any type of the form (_->_, NaturalNumeral[\\1,10,5\\]).\n\
 ${STATIC_TESTS_DIR}/Compiled7.ApplicationErrors.fss:31:32:\n\
 \ Function body has type Any, but declared return type is ZZ32.\n\
 \ ${STATIC_TESTS_DIR}/Compiled7.ApplicationErrors.fss:31:17-32:\n\

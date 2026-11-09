@@ -1,0 +1,14 @@
+(* Only a written numeral reaches a coercion from the numeral types: 10/20 at a type with no coercion from QQ is refused. *)
+component NumeralStaticExprRefusedWalk
+export Executable
+
+value object Iv(lo: RR64, hi: RR64)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Iv(0.0, 0.0)
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Iv(0.0, 0.0)
+end
+
+half: Iv = 10/20
+
+run() = println("FAIL: 10/20 at a type without a coercion from QQ was accepted")
+
+end

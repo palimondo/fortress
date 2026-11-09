@@ -1,9 +1,9 @@
 (* A negative numeral at a program's own number type reaches it as prefix minus on the type's coercion of the natural numeral. *)
-component XXXNegativeNumeralOwnType
+component NegativeNumeralOwnType
 export Executable
 
 value object Tally(n: ZZ32, negated: Boolean)
-  coerce(lit: IntLiteral) = Tally(lit.asZZ32, false)
+  coerce[\nat n, nat r, nat v\](lit: NaturalNumeral[\n, r, v\]) = Tally(bigToZZ64(v).asZZ32, false)
   opr -(self): Tally = Tally(-n, true)
 end
 
@@ -15,4 +15,6 @@ run(): () = do
   println("PASS")
 end
 
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
 end

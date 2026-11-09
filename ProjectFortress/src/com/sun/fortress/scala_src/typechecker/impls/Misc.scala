@@ -465,12 +465,15 @@ trait Misc { self: STypeChecker with Common =>
       SCharLiteralExpr(SExprInfo(span,parenthesized,Some(Types.CHARACTER)),
                        text, charVal)
 
-    case SIntLiteralExpr(SExprInfo(span,parenthesized,_), text, intVal) =>
-      SIntLiteralExpr(SExprInfo(span,parenthesized,Some(Types.INT_LITERAL)),
+    // A numeral's type has its four numbers as static arguments.
+    case e@SIntLiteralExpr(SExprInfo(span,parenthesized,_), text, intVal) =>
+      SIntLiteralExpr(SExprInfo(span,parenthesized,
+                                Some(Types.numeralType(span, com.sun.fortress.nodes_util.NumeralNumbers.of(e)))),
                       text, intVal)
 
-    case SFloatLiteralExpr(SExprInfo(span,parenthesized,_), text, i, n, b, p) =>
-      SFloatLiteralExpr(SExprInfo(span,parenthesized,Some(Types.FLOAT_LITERAL)),
+    case e@SFloatLiteralExpr(SExprInfo(span,parenthesized,_), text, i, n, b, p) =>
+      SFloatLiteralExpr(SExprInfo(span,parenthesized,
+                                  Some(Types.numeralType(span, com.sun.fortress.nodes_util.NumeralNumbers.of(e)))),
                         text, i, n, b, p)
 
     case SVoidLiteralExpr(SExprInfo(span,parenthesized,_), text) =>
@@ -555,9 +558,12 @@ trait Misc { self: STypeChecker with Common =>
 
           // Get the coercions on all the clauses.
           val maybeCoercions = (allClauses, allTypes).zipped.map { (e, t) =>
+            // A clause whose result is a numeral converts that numeral at the
+            // winner, where it stands: a numeral has no value to coerce at run time.
+            numeralJoinInto(e, winner).map(Some(_)).getOrElse(
             // .get works because we know each clause is indeed subst.
             // for the winner
-            coercions.checkSubstitutable(t, winner, Some(e)).get
+            coercions.checkSubstitutable(t, winner, Some(e)).get)
           }
 
           // Merge the coerced clauses and the original clauses.
