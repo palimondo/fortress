@@ -7,7 +7,7 @@ op(a: Any, b: Any): String = "op plain[" || typeOf(a) || "," || typeOf(b) || "]"
 typeOf(x: Any): String = typecase x of
     ZZ32 => "ZZ32"
     ZZ64 => "ZZ64"
-    IntLiteral => "IntLiteral"
+    Boolean => "Boolean"
     else => "other"
   end
 

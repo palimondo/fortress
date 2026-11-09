@@ -18,6 +18,6 @@ object C[\T\] end
 run():() = do
   v1 = A
   v2a = B[\ZZ32\]
-  v2b = B[\IntLiteral\](0)
+  v2b = B[\ZZ32\](0)
   v3 = C[\Boolean\]
 end

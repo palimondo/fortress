@@ -12,7 +12,7 @@
   export Executable
 
   foo() : () = do
-    var a : IntLiteral
+    var a : ZZ32
     b = 1
     a := b
   end

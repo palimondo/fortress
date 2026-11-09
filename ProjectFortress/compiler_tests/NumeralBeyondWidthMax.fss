@@ -1,12 +1,12 @@
 (* See explorations/compile-ladder/climb-batch-N/JUDGE-review.md. *)
-component XXXNumeralBeyondWidthMax
+component NumeralBeyondWidthMax
 export Executable
 
 typeOf(x: Any): String = typecase x of
     ZZ32 => "ZZ32"
     ZZ64 => "ZZ64"
     ZZ => "ZZ"
-    IntLiteral => "IntLiteral"
+    Boolean => "Boolean"
     else => "other"
   end
 

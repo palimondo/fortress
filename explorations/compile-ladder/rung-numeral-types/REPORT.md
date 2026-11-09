@@ -34,7 +34,7 @@ Commits on `wip/rung-numeral-types`: `f7b46ce742` (the tests, before any edit), 
 - `SEQV` (`FOrdinaryObject.java:48-49`): two numeral objects compare by `digitValue / radix^fractionDigits`, reduced, across both numeral types;
 - `Init.java:46` empties the sites between runs.
 
-**The checker.** `Types.INT_LITERAL` and `FLOAT_LITERAL` are no longer final and switch with the libraries, as `CHARACTER` does: the prelude's `IntLiteral` and `FloatLiteral` under the compiler's, `FortressLibrary`'s `NaturalNumeral` and `RadixPointNumeral` under the one library (`Types.java:61-62`, `:75-95`). `Functionals.isNumeral` counts a numeral with a radix point, and `numeralReading` reads one as `RR64` (`Functionals.scala:418-444`), the prototype's tie rule, written inside the two functions and with no new function, since rung C adds functions near them.
+**The checker.** `Types.INT_LITERAL` and `FLOAT_LITERAL` are no longer final and switch with the libraries, as `CHARACTER` does: the prelude's `IntLiteral` and `FloatLiteral` under the compiler's, `FortressLibrary`'s `NaturalNumeral` and `RadixPointNumeral` under the one library (`Types.java:61-62`, `:75-95`). `Functionals.isNumeral` counts a numeral with a radix point, and `numeralReading` reads one as `RR64` (`Functionals.scala`, `isNumeral` and `numeralReading`), the prototype's tie rule, written inside the two functions and with no new function, since rung C adds functions near them.
 
 **`strToFloat`** (`Library/FortressLibrary.fss:4839-4840`): its `10^k` and `10^(|frac|)` became `ten^k` for `ten: ZZ32 = 10`. Without it the count stage found two errors there ("The stages").
 

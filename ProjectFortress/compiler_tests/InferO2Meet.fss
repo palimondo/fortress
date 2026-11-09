@@ -8,7 +8,7 @@ op(a: ZZ32, b: Number): String = "op meet[" || typeOf(a) || "," || typeOf(b) || 
 typeOf(x: Any): String = typecase x of
     ZZ32 => "ZZ32"
     ZZ64 => "ZZ64"
-    IntLiteral => "IntLiteral"
+    Boolean => "Boolean"
     else => "other"
   end
 

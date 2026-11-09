@@ -1,0 +1,16 @@
+(* A float numeral's own value, which a program's coercion from FloatLiteral receives, renders as the numeral. *)
+component XXXFloatLiteralValuePrint
+export Executable
+
+value object Dec(src: String)
+  coerce(x: FloatLiteral) = Dec("" x)
+end
+
+run(): () = do
+  println("REACHED")
+  d: Dec = 2.5
+  assert(d.src, "2.5", "a float numeral's value juxtaposed onto a string inside a coercion")
+  println("PASS")
+end
+
+end

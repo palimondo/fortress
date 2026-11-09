@@ -1,0 +1,32 @@
+component NatValueZZ32Walk
+export Executable
+
+(* A nat parameter used as a value is a ZZ32: a ZZ32 binding of it holds its value, and an NN32 binding of it is refused, since NN32 declares no coercion from ZZ32. *)
+
+shownK(v: Any): String =
+  typecase v of
+    ZZ32 => v.asString || " : ZZ32"
+    NN32 => v.asString || " : NN32"
+    else => v.asString || " : other"
+  end
+
+asZZ32K[\nat n\](): ZZ32 = do
+  z: ZZ32 = n
+  z
+end
+
+asNN32K[\nat n\](): NN32 = do
+  u: NN32 = n
+  u
+end
+
+zz32Binding: () = assert(shownK(asZZ32K[\3\]()), "3 : ZZ32", "a nat parameter used as a value at a ZZ32 binding")
+
+nn32Binding: NN32 = do
+  ignore(zz32Binding)
+  asNN32K[\3\]()
+end
+
+run() = println("FAIL: an NN32 binding of a nat parameter used as a value was accepted")
+
+end

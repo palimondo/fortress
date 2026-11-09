@@ -1,0 +1,18 @@
+(* A negative numeral at a program's own number type reaches it as prefix minus on the type's coercion of the natural numeral. *)
+component XXXNegativeNumeralOwnType
+export Executable
+
+value object Tally(n: ZZ32, negated: Boolean)
+  coerce(lit: IntLiteral) = Tally(lit.asZZ32, false)
+  opr -(self): Tally = Tally(-n, true)
+end
+
+run(): () = do
+  println("REACHED")
+  t: Tally = -3
+  assert(t.n, -3, "the value of a negative numeral at a program's type")
+  assert(t.negated, "a negative numeral at a program's type is prefix minus on the coercion of the natural numeral")
+  println("PASS")
+end
+
+end

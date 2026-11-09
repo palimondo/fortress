@@ -1,0 +1,34 @@
+(* A numeral that a function, method, local function or function expression returns with no declared return type takes its default. *)
+component LiteralDefaultResultCompiled
+export Executable
+
+tName(a: Any): String = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.typeName")
+
+g(a: ZZ32): String = "g ZZ32"
+g(a: NN32): String = "g NN32"
+g(a: ZZ64): String = "g ZZ64"
+
+three() = 3
+half() = 0.5
+bigOne() = 3000000000
+either(b: Boolean) = if b then 1 else 3000000000 end
+object Holder
+  tally() = 4
+end
+
+run(): () = do
+  assert(tName(three()), "ZZ32", "a function's numeral result with no declared return type is a ZZ32")
+  assert(tName(half()), "RR64", "a function's float numeral result with no declared return type is an RR64")
+  v = bigOne()
+  assert(g(v), "g ZZ64", "a variable bound from a function's result 3000000000 at a tie of g")
+  assert(g(bigOne()), "g ZZ64", "a function's result 3000000000 at a tie of g")
+  assert(tName(either(true)), "ZZ64", "a function's if of numerals takes the narrowest default holding every branch")
+  assert(tName(Holder.tally()), "ZZ32", "a method's numeral result with no declared return type is a ZZ32")
+  near() = 5
+  assert(tName(near()), "ZZ32", "a local function's numeral result with no declared return type is a ZZ32")
+  mk = fn () => 3000000000
+  assert(g(mk()), "g ZZ64", "a function expression's numeral result 3000000000 at a tie of g")
+  println("PASS")
+end
+
+end

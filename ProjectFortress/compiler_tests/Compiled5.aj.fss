@@ -15,8 +15,8 @@ export Executable
  * definitions and its enclosing Block. *)
 
 run():() = do
-  x:IntLiteral = 23
-  y:IntLiteral = x
+  x:ZZ32 = 23
+  y:ZZ32 = x
   ignore(y)
   ignore(x)
   ()

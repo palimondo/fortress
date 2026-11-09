@@ -13,6 +13,7 @@ package com.sun.fortress.scala_src.typechecker
 
 import _root_.java.util.ArrayList
 import com.sun.fortress.compiler.GlobalEnvironment
+import com.sun.fortress.compiler.Types
 import com.sun.fortress.compiler.index.CompilationUnitIndex
 import com.sun.fortress.compiler.index.TraitIndex
 import com.sun.fortress.compiler.typechecker.StaticTypeReplacer
@@ -33,6 +34,42 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
     typeAnalyzer: TypeAnalyzer) extends Walker {
   val errors = new ArrayList[StaticError]()
   var analyzer = typeAnalyzer
+
+  // A numeral's own type is written in a program only as the type of a
+  // parameter of a function, method, coercion, operator or function
+  // expression; the library's own files are exempt. A type that the checker
+  // infers from such a parameter keeps the parameter type's span, and is not
+  // written where it stands.
+  private val unitFile = NodeUtil.getSpan(compilation_unit.ast).getFileName
+  private val libraryUnit = {
+    val f = "/" + unitFile.replace('\\', '/')
+    f.contains("/LibraryBuiltin/") || f.contains("/Library/")
+  }
+  private lazy val parameterTypeSpans: Set[String] = {
+    var spans = Set[String]()
+    def add(ps: List[Param]) = ps.foreach {
+      case SParam(_, _, _, idType, _, varargsType) =>
+        (idType.toList ++ varargsType.toList).foreach(t => spans += NodeUtil.getSpan(t).toString)
+    }
+    object finder extends Walker {
+      override def walk(node: Any): Any = {
+        node match {
+          case SFnDecl(_, SFnHeader(_, _, _, _, _, _, params, _), _, _, _) => add(params)
+          case SFnExpr(_, SFnHeader(_, _, _, _, _, _, params, _), _) => add(params)
+          case _ =>
+        }
+        super.walk(node)
+      }
+    }
+    finder.walk(compilation_unit.ast)
+    spans
+  }
+  private def numeralTypeWritten(t: TraitType, name: Id): Boolean =
+    !libraryUnit &&
+    (name.getText == Types.INT_LITERAL.getName.getText || name.getText == Types.FLOAT_LITERAL.getName.getText) &&
+    NodeUtil.getSpan(t).getFileName == unitFile &&
+    toOption(name.getApiName).forall(a => Set("CompilerBuiltin", "CompilerLibrary", "FortressBuiltin", "FortressLibrary")(a.getText)) &&
+    !parameterTypeSpans(NodeUtil.getSpan(t).toString)
 
   def check() = {
     walk(compilation_unit.ast)
@@ -253,6 +290,8 @@ class TypeWellFormedChecker(compilation_unit: CompilationUnitIndex,
       case t@STraitSelfType(_, named, tys) => walk(named); tys.foreach(walk)
       case t@SObjectExprType(_, tys) => tys.foreach(walk)
       case t@STraitType(_, name, sargs, _) =>
+      if (numeralTypeWritten(t, name))
+        error(name.getText + " cannot be written in a program except as a parameter's type.", t)
       getTypes(name) match {
         case si:TraitIndex => // Trait name should be defined.
         // Static arguments should satisfy the corresponding bounds.

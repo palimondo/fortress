@@ -1143,8 +1143,9 @@ object STypesUtil {
     }
 
     // Determine if a coercion occurred.
-    val coercion1 = !promoted1 && args1.exists(_.isInstanceOf[CoercionInvocation])
-    val coercion2 = !promoted2 && args2.exists(_.isInstanceOf[CoercionInvocation])
+    // A numeral's conversion into its default type is no coercion here.
+    val coercion1 = !promoted1 && args1.exists(com.sun.fortress.scala_src.typechecker.NumeralConversion.counts)
+    val coercion2 = !promoted2 && args2.exists(com.sun.fortress.scala_src.typechecker.NumeralConversion.counts)
     lazy val d1 = declared1.getOrElse(candidate1.arrow)
     lazy val d2 = declared2.getOrElse(candidate2.arrow)
 

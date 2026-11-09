@@ -1,0 +1,23 @@
+(* A nat parameter used as a value is a ZZ32: an untyped binding of it is a ZZ32, and a ZZ32 binding of it holds its value. *)
+component NatValueZZ32Compiled
+export Executable
+
+tName(a: Any): String = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.typeName")
+
+asZZ32[\nat n\](): ZZ32 = do
+  z: ZZ32 = n
+  z
+end
+
+nameOf[\nat n\](): String = do
+  v = n
+  tName(v)
+end
+
+run(): () = do
+  assert(asZZ32[\3\](), 3, "a nat parameter used as a value at a ZZ32 binding")
+  assert(nameOf[\3\](), "ZZ32", "a nat parameter used as a value is a ZZ32")
+  println("PASS")
+end
+
+end

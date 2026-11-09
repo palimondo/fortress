@@ -1,0 +1,14 @@
+(* A float numeral where nothing fixes a type is an RR64, so it renders: printed, juxtaposed onto a string, and as a dotted receiver of asString. *)
+
+component NumeralPrintRungR
+export Executable
+
+run(): () = do
+    println(2.5)
+    println("a numeral juxtaposed: " 2.5)
+    assert((1.1_2).asString, "1.5", "a float numeral's asString")
+    assert("" 2.5, "2.5", "a float numeral juxtaposed onto a string")
+    println("PASS")
+  end
+
+end

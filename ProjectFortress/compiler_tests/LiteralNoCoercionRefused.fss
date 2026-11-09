@@ -1,0 +1,14 @@
+(* A program's type that declares no coercion from the numeral's type refuses the numeral: a coercion from ZZ32 is not reached through the numeral's default. *)
+component LiteralNoCoercionRefused
+export Executable
+
+value object CC64(re: RR64, im: RR64)
+  coerce(x: ZZ32) = CC64(0.0, 0.0)
+end
+
+run(): () = do
+  c: CC64 = 3
+  println("PASS")
+end
+
+end

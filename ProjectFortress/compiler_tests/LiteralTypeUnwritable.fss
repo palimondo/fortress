@@ -1,0 +1,21 @@
+(* A numeral type is written in a program only as a parameter's type: as a field's, variable's or return type, or as a static argument, it is refused, and a binding inferred inside a coercion's body is not. *)
+component LiteralTypeUnwritable
+export Executable
+
+object Holder(h: IntLiteral) end
+echo(x: FloatLiteral): String = "echo"
+first(x: ZZ32): FloatLiteral = 0.5
+object Wrap[\T\](w: T) end
+object Tally(n: ZZ32)
+  coerce(x: IntLiteral) = do t = x; Tally(t.asZZ32) end
+end
+
+run(): () = do
+  a: IntLiteral = 5
+  b: FloatLiteral = 0.5
+  c = Wrap[\IntLiteral\](3)
+  d: Tally = 3
+  println("PASS")
+end
+
+end

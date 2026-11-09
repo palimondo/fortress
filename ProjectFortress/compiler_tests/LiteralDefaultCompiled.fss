@@ -1,0 +1,86 @@
+(* Where nothing fixes a type, a numeral takes ZZ32, or ZZ64 or ZZ by its value, and a float numeral RR64: at an untyped binding, its tuple's elements and its if or case join's branches, a parameter of type Any, Object or Number, a type parameter that numerals alone fix, at the narrowest default holding them all, and a declaration whose parameter is the default type fits the numeral as it is. *)
+component LiteralDefaultCompiled
+export Executable
+
+tName(a: Any): String = builtinPrimitive("com.sun.fortress.nativeHelpers.stringOps.typeName")
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+
+object Cell[\T\](v: T) end
+kind(c: Cell[\ZZ32\]): String = "Cell ZZ32"
+kind(c: Cell[\RR64\]): String = "Cell RR64"
+kind(c: Any): String = "other"
+
+f(a: Any): String = tName(a)
+num(a: Number): String = tName(a)
+idT[\T\](a: T): String = tName(a)
+pick[\T\](a: T, b: T): String = tName(a) || "," || tName(b)
+
+g(a: ZZ32): String = "g ZZ32"
+g(a: NN32): String = "g NN32"
+g(a: ZZ64): String = "g ZZ64"
+
+shown(o: Object): String = typecase o of
+    ZZ32 => "ZZ32"
+    String => "String"
+    else => "other"
+  end
+
+ee[\nat n\](e: ZZ32): ZZ32 = 1
+ee(e: Any): ZZ32 = 2
+
+object Tally(n: ZZ32)
+  coerce(lit: IntLiteral) = do t = lit; Tally(t.asZZ32) end
+end
+
+x = 3
+y = 0.5
+bigN = 3000000000
+
+run(): () = do
+  z: ZZ32 = 3
+  w: RR64 = 0.5
+  assert(tName(x), "ZZ32", "x = 3 binds a ZZ32")
+  assert(tName(y), "RR64", "y = 0.5 binds an RR64")
+  lx = 3
+  ly = 0.5
+  assert(tName(lx), "ZZ32", "a local lx = 3 binds a ZZ32")
+  assert(tName(ly), "RR64", "a local ly = 0.5 binds an RR64")
+  assert(tName(bigN), "ZZ64", "bigN = 3000000000 binds a ZZ64")
+  tup = (3, 0.5)
+  (tp, tq) = tup
+  assert(tName(tp), "ZZ32", "a tuple's integer numeral at an untyped binding binds a ZZ32")
+  assert(tName(tq), "RR64", "a tuple's float numeral at an untyped binding binds an RR64")
+  flag = (z = 3)
+  j = if flag then 1 else 2 end
+  assert(tName(j), "ZZ32", "an if of numerals at an untyped binding is a ZZ32")
+  jb = if flag then 1 else 3000000000 end
+  assert(tName(jb), "ZZ64", "an if of numerals takes the narrowest default holding every branch")
+  jc = case z of
+      3 => 7
+      else => 8
+    end
+  assert(tName(jc), "ZZ32", "a case of numerals at an untyped binding is a ZZ32")
+  assert(kind(Cell(3)), "Cell ZZ32", "Cell(3) is a Cell of ZZ32")
+  assert(kind(Cell(x)), "Cell ZZ32", "Cell(x) is a Cell of ZZ32")
+  assert(kind(Cell(0.5)), "Cell RR64", "Cell(0.5) is a Cell of RR64")
+  assert(f(3), "ZZ32", "a numeral at a parameter of type Any")
+  assert(f(0.5), "RR64", "a float numeral at a parameter of type Any")
+  assert(num(3), "ZZ32", "a numeral at a parameter of type Number")
+  assert(idT(3), "ZZ32", "a numeral at an unbounded type parameter")
+  assert(pick(3, 4), "ZZ32,ZZ32", "numerals alone fix a static argument at their default")
+  assert(pick(3, 3000000000), "ZZ64,ZZ64", "several numerals fix a static argument at the narrowest default holding them all")
+  assert(sEq(3, z), "3 SEQV z for z: ZZ32 = 3")
+  assert(sEq(x, z), "x SEQV z")
+  assert(sEq(y, w), "y SEQV w for w: RR64 = 0.5")
+  assert(g(bigN), "g ZZ64", "a variable bound from 3000000000 at a tie of g")
+  assert(g(3000000000), "g ZZ64", "the numeral 3000000000 at a tie of g")
+  assert(shown(7), "ZZ32", "7 at a parameter of type Object takes the ZZ32 clause")
+  assert(ee(5), 1, "a declaration whose parameter is the numeral's default type fits it as it is, and the narrower runs")
+  a: Any = 5
+  assert(tName(a), "ZZ32", "a numeral at a binding of type Any")
+  tt: Tally = 3
+  assert(tt.n, 3, "a program's coercion from IntLiteral receives the numeral")
+  println("PASS")
+end
+
+end

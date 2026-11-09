@@ -14,6 +14,6 @@ export Executable
 (* Test that expression type <: ascripted type. *)
 
 run():() = do
-  x:IntLiteral = 5
+  x:ZZ32 = 5
   y:Any = x typed Any
 end

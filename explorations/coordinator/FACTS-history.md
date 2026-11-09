@@ -6415,3 +6415,19 @@ pointer words refreshed in: F-24
 ### F-341
 
 2026-11-09 07:05Z · added · from `explorations/compile-ladder/rung-numeral-types/REPORT.md`, "What changed and why" · by climb batch 29 gather
+
+### F-57
+
+2026-11-09 07:08Z · rewritten · from `explorations/compile-ladder/rung-numeral-checker/REPORT.md`, "11. Sentences made false" · by climb batch 29 gather
+
+- F-57 **A numeral's type depends on the path and on the library in scope, and in generic code only the getters `x.zero` and `x.one` and the witness `typecase` give a `T` on both paths.** The witness `typecase` is a `typecase` over a function of type `() -> T`, with one clause for each number type (P-78). The checker types a numeral by its form, `IntLiteral` or `FloatLiteral` under the compiler's prelude and `NaturalNumeral` or `RadixPointNumeral` under the one library (F-79). Walk gives an integer numeral where nothing fixes a type its default by its magnitude, a `ZZ32`, `ZZ64` or `ZZ`, which it prints by those names, and converts it where its place fixes a type (F-341). In code generic over `T extends Integral[\T\]`, `x + 1` fails the checker but runs under walk: no coercion from a numeral into an arbitrary such `T` can be declared, since a generic coercion is refused as a cyclic hierarchy. Neither path refuses an out-of-range numeral statically: the compiled run raises `Not in range for ZZ32` at run time, and walk refuses it when it runs, at the typed binding it does not fit (row 325). Detail: `perf-probes/prelude/distance-triage.md` section 2.3; `reviews/numerics-plan-coordinator/evidence-B.md` sections 3.1, 4.1 and 6.2, measured before the numeral switch (F-79); `x.zero` by reading, not measured.
+
+### F-73
+
+2026-11-09 07:08Z · rewritten · from `explorations/compile-ladder/rung-numeral-checker/REPORT.md`, "11. Sentences made false" · by climb batch 29 gather
+
+- F-73 **The compiled checker infers a generic's static arguments with coercion: a type parameter that is the whole type of each parameter it occurs in, as `T` in `pick[\T\](x: T, y: T)`, takes the narrowest type that every one of its arguments converts into and its bound permits.** It looks for that type among its arguments' types, their coercion targets and its bound, the bound only when it is a trait type other than `Object` or `Any`. It builds P-74 and P-49. A coerced declaration ranks below one that needs no coercion. A tie among coerced declarations is refused, "Ambiguous coercion", outside three narrow cases (the report's section 3.2). When the tied declarations differ only at positions where the call passes a numeral, the checker reads the numeral as `ZZ32`, or as `ZZ64` or `ZZ` when its value does not fit; that reading builds P-173's rule for a tied integer numeral. The coercion attempt refuses a call beyond 64 combinations of candidate types (row 506) and a call with an untyped function argument (row 507). Gated by `compiler_tests/NatLitArgChecker`, `CoercionGenericFnCompiledRungC` and `InferCoercionShapes`, which F-51 also cites, and the refusal of a tie by `XXXInferAmbiguousCoercion`. Detail: `compile-ladder/rung-inference-checker/REPORT.md` section 3.2.
+
+### F-342
+
+2026-11-09 07:08Z · added · from `explorations/compile-ladder/rung-numeral-checker/REPORT.md`, "1. What changed and why" · by climb batch 29 gather

@@ -9587,3 +9587,45 @@ rewritten
 rewritten
 
 | 387 | under `walk`, a body whose return type is declared is not converted by coercion: `r(): Wide = NarrowOf(3)` returns the `NarrowOf`, and `r().big` ends the run with "Cannot find definition for method", where the compiled run converts and answers `3` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Principles of Coercion" | `ProjectFortress/tests/XXXCoercionReturnRungC.fss` | climb batch 4 rung C | siblings: 153. The team switched the interpreter's return check off: `if (true \|\| t.typeMatch(x)) return x;` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Simple_fcn.java:45` at c124c6b65), so a return converts nothing: `retR64(x: RR32): RR64 = x` answers `1.5 : RR32`. The numeral fold makes the bodies of `ZZ`'s `zero` and `one` getters the numeral `0` (`Library/FortressLibrary.fss:1093-1095`), so `big(5).one LSHIFT 40` is `0` (`XXXZZOneGetterWalk`, climb batch 29 rung F). Workaround: write the value at the declared type (`1.0 headDim`). full text: history, row 387 |
+
+### Row 362
+
+rewritten
+
+| 362 | the compiled path throws `NullPointerException` when it renders a floating-point numeral: `println(2.5)`, `"…" 2.5` and `(1.1_2).asString` fail where walk prints them, and a typed `RR64` binding of the same numeral prints on both paths | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/objects.tex`, "Objects"; `Specification/basic/types-vals-vars.tex`, "Relationships between Types" | `ProjectFortress/compiler_tests/XXXNumeralPrintRungR.test` | climb batch 3 rung R's second skeptic | siblings: 321, 862. The runtime `FFloatLiteral.asString()` is `return null; /* replaced in generated code */` (`compiler/runtimeValues/FFloatLiteral.java:52-54`) and the prelude's `trait FloatLiteral` declares no `asString`, so `println(x:Object)` fails. The team's `FIntLiteral.asString` makes a string (`FIntLiteral.java:57-61`). Probe of 2026-11-08 (`RadixComp.fss`, at 8cde0b2c4f): `(1.1_2).asString` dies in `CompilerBuiltin.\|\|`, `Cannot invoke "fortress.CompilerBuiltin$Object.asString()" because "<parameter2>" is null`. A runtime class, not a prelude declaration (POSITIONS, "The library route"). Workaround: bind it to an `RR64`. full text: history, row 362 |
+
+### Row 506
+
+rewritten
+
+| 506 | **the compiled checker's coercion attempt tries at most 64 combinations of the types it chooses for a generic's lone type parameters, and refuses a call beyond them**: `g3(1, 2, 3, 4)` with `g3[\A, B, C\](a: A, b: B, c: C, m: ZZ64)` is refused | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/conversions-coercions.tex`, "Applicability with Coercion" | `ProjectFortress/compiler_tests/XXXInferComboCap.fss` | climb batch N rung I | siblings: 507. The cap is `combos.size > 64` at `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:370`. `g2(1, 2, 4)` and `g3(z, z, z, 4)` for a `ZZ32` `z` are accepted. Under the one library, where a numeral has seven coercion targets, each such parameter has nine choices (none, the numeral's type, its seven targets), so two exceed the cap (by reading). The choices of independent lone parameters could be made one parameter at a time, except that the expected type couples them (`context` in `constraint`, `Functionals.scala:379-381`). Workaround: write the static arguments. full text: history, row 506 |
+
+### Row 675
+
+rewritten
+
+| 675 | the compiled class loader makes a size computed at instantiation beyond its kind: with `next[\nat k\](): ZZ64 = sz64[\k + 1\](Box[\k + 1\](0))`, `next[\4294967295\]()` answers 4294967296, where walk refuses a `nat` above 4294967295 when it binds it | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/trait-parameters.tex`, "Nat and Int Parameters" | `ProjectFortress/compiler_tests/NatArithBeyondRun.test` | climb batch 13 rung N | `Naming.foldSize` (`runtimeSystem/Naming.java:1238-1257` at c124c6b65) computes exactly and checks no kind: a `nat` and an `int` share one spelling, `Naming.XL_INTNAT` (`compiler/NamingCzar.java:1951`). The checker checks a size folded from numerals (`XXXNatArithRangeChecker`) but not one computed from static parameters. The test asserts today's value, red on a fix. Below 0 too: `getn(NBox[\i - 1\](0))` at i = 0 gives -1. A power it cannot compute stops the run: `Box[\2^k\]` at k = 5000 (NumberFormatException), `IBox[\2^e\]` at e = -1 ('Illegal embedded sign character'). Walk refuses each (`interpreter/evaluator/EvalType.java:252-260`; `NatPowerNegativeExponentWalk`). |
+
+### Row 390
+
+rewritten
+
+| 390 | on the compiled path, an overloaded call that one declaration takes without coercion and another only with it dies with `NoSuchMethodError`: with `p(x: Wide)`, `p(x: Any)` and a `coerce` in `Wide`, `p(NarrowOf(1))` names a dispatcher, `=p{...}(Any)`, that is never emitted | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/conversions-coercions.tex`, "Coercion Resolution" | `ProjectFortress/compiler_tests/XXXCoercionAnyOverloadRungC.test` | climb batch 4 rung C | The test prints REACHED, then 'NoSuchMethodError: ... \=p{...}(fortress.AnyType$Any)': the call names a dispatcher over both declarations at `Any`. The specification drops the candidates applicable only with coercion; where the pair is kept is not located: the checker's `typedApplication` (`scala_src/typechecker/impls/Functionals.scala:650`) tries coercion-free fits first. Without the `coerce` it prints `p(Any)`, as walk does. A numeral reaches it with no user coercion: `g1(5)` for `g1(y: Object)` beside `g1(y: ZZ32)`, and `h(Circle, 3)` for `h[\T extends Shape\](x: T, y: ZZ32)` beside `h(x: Circle, y: Any)` and `h(x: Circle, y: ZZ32)`, the same error. full text: history, row 390 |
+
+### Row 446
+
+rewritten
+
+| 446 | a call whose argument's static type lies above a sized arm's domain, with a size the call cannot fix, compiles, and at run time both paths run that arm with no size; where the arm reads its size the compiled run dies with a Java `NumberFormatException` | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/overloading.tex`, "Overloading Resolution"; "Applicability to Named Functional Calls" | none | climb batch 6 rung R's skeptic | siblings: 400. `ee[\nat n\](x: ZZ32): ZZ32 = 1` beside `ee(x: Any): ZZ32 = 2`, `ee(a)` with `a: Any` holding a `ZZ32`, prints 1 on both paths; with the body `= n` walk gives 'undefined variable [n]', compiled 'NumberFormatException: For input string: "n"' where the class loader reads the size's text as a numeral (`MethodInstantiater.java:227` at `c124c6b65`). The checker's refusal of an unfixed size (P-40) reads only the arm chosen for the argument's static type, here `ee(x: Any)`. Workaround: write the static argument. Probe `explorations/compile-ladder/rung-unknown-size-arm/probes/skeptic/SkDynZZ32Val.fss`, in the parent of `ab067d9b6`; full text: history, row 446 |
+
+### Row 675
+
+rewritten
+
+| 675 | the compiled class loader makes a size computed at instantiation beyond its kind: with `prev[\nat k\](): ZZ64 = sz64[\k - 1\](Box[\k - 1\](0))`, `prev[\0\]()` answers -1, where walk refuses a `nat` below 0 when it binds it | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/trait-parameters.tex`, "Nat and Int Parameters" | `ProjectFortress/compiler_tests/NatArithBeyondRun.test` | climb batch 13 rung N | siblings: NEW-C-2. `Naming.foldSize` (`runtimeSystem/Naming.java:1238-1257` at c124c6b65) computes exactly and checks no kind: a `nat` and an `int` share one spelling, `Naming.XL_INTNAT` (`compiler/NamingCzar.java:1951`). The checker checks a size folded from numerals (`XXXNatArithRangeChecker`) but not one computed from static parameters. The test asserts today's value, red on a fix. Above 4294967295 too: `next[\4294967295\]()` over `k + 1` makes 4294967296, whose read as a value now raises (NEW-C-2). A power it cannot compute stops the run: `Box[\2^k\]` at k = 5000 (NumberFormatException). Walk refuses each (`interpreter/evaluator/EvalType.java:252-260`). |
+
+### Row 963
+
+rewritten
+
+| 963 | on the compiled path a numeral as a `typecase`'s selector keeps its own type `IntLiteral`, where P-173 gives it its default: `typecase 7 of ZZ32 => ...` is refused, 'The typecase clause, ZZ32, is unreachable.', where walk takes the `ZZ32` clause | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNumeralTypecaseSelector.test` | climb batch 29 rung C's skeptic | siblings: 79. The selector is checked with no expected type and no default (`scala_src/typechecker/impls/Misc.scala:660` at b212f67a0e). The default there changes two team tests: the pinned span of `XXX5r.test`'s unreachable clauses, and `XXXPatternMatchingc.test`, whose `typecase (3, 4) of (x, y: ZZ32)` becomes reachable and then stops the code generator (NEW-C-4). Workaround: bind the selector to a variable first. |

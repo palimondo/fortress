@@ -12,6 +12,7 @@
 package com.sun.fortress.scala_src.typechecker.staticenv
 
 import com.sun.fortress.compiler.Types
+import com.sun.fortress.compiler.WellKnownNames
 import com.sun.fortress.nodes._
 import com.sun.fortress.nodes_util.{NodeFactory => NF}
 import com.sun.fortress.scala_src.nodes._
@@ -66,8 +67,9 @@ abstract sealed class KindEnv extends StaticEnv[StaticParam] {
   def getType(x: Name): Option[Type] = lookup(x).flatMap(b =>
     b.sparam.getKind match {
       case _:KindBool => Some(Types.BOOLEAN)
-      case _:KindInt => Some(Types.INT_LITERAL)
-      case _:KindNat => Some(Types.INT_LITERAL)
+      // A size used as a value is a ZZ32.
+      case _:KindInt => Some(KindEnv.sizeValueType)
+      case _:KindNat => Some(KindEnv.sizeValueType)
       case _ => None
     })
 
@@ -101,6 +103,17 @@ object KindEnv extends StaticEnvCompanion[StaticParam] {
 
   /** My type. */
   type Env = KindEnv
+
+  /**
+   * The type of a nat or int static parameter used as a value: ZZ32, which
+   * the compiler's prelude declares in its builtin api and the one library in
+   * its library api.
+   */
+  def sizeValueType: Type =
+    NF.makeTraitType(NF.makeId(NF.internalSpan,
+                               if (WellKnownNames.areCompilerLibraries) WellKnownNames.fortressBuiltin
+                               else WellKnownNames.fortressLibrary,
+                               "ZZ32"))
 
   /** My binding type. */
   type EnvBinding = KindBinding

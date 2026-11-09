@@ -6454,14 +6454,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
     /**
      * A nat or int static parameter read as a value: the checker types it
-     * IntLiteral (KindEnv.getType), and it is neither a local, nor api-qualified,
+     * ZZ32 (KindEnv.getType), and it is neither a local, nor api-qualified,
      * nor a top-level variable of this component.
      */
     private boolean isSizeInValuePosition(VarRef v, Id id) {
         if (id.getApiName().isSome()) return false;
         if (ci.variables().containsKey(id)) return false;
         Option<Type> ot = NodeUtil.getExprType(v);
-        return ot.isSome() && ot.unwrap().equals(com.sun.fortress.compiler.Types.INT_LITERAL);
+        return ot.isSome() && ot.unwrap() instanceof TraitType &&
+            ((TraitType) ot.unwrap()).getName().getText().equals("ZZ32") &&
+            ((TraitType) ot.unwrap()).getArgs().isEmpty();
     }
 
     public void forVarRef(VarRef v) {
@@ -6470,12 +6472,15 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         VarCodeGen vcg = getLocalVarOrNull(id, lsargs);
         if (vcg == null && isSizeInValuePosition(v, id)) {
             // The loader replaces CONST.Nat.<size> by the IntLiteral of the
-            // instantiated number (MethodInstantiater.visitMethodInsn).
+            // instantiated number (MethodInstantiater.visitMethodInsn); a size
+            // used as a value is a ZZ32.
             addLineNumberInfo(v);
             String loadNat = Naming.opForString(Naming.natMethod,
                     Naming.LEFT_OXFORD + id.getText() + Naming.RIGHT_OXFORD);
             mv.visitMethodInsn(INVOKESTATIC, Naming.magicInterpClass, loadNat,
                     "()" + NamingCzar.descFortressIntLiteral);
+            mv.visitMethodInsn(INVOKEVIRTUAL, NamingCzar.internalFortressIntLiteral, "asZZ32",
+                    "()" + NamingCzar.descFortressZZ32);
             return;
         }
         if (vcg == null) {

@@ -15,15 +15,15 @@ export Executable
 
 run():() = do
   var t_b : Boolean
-  var t_i : IntLiteral
-  var t_f : IntLiteral->Boolean
+  var t_i : ZZ32
+  var t_f : ZZ32->Boolean
 
   (*
   f(x:IntLiteral):Boolean = true
   *)
 
 
-  f2 = (fn(i:IntLiteral):Boolean => true)
+  f2 = (fn(i:ZZ32):Boolean => true)
 
   (a, b, c, d) = (5, true, 1.0, f2)
   t_b := b

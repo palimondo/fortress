@@ -1,0 +1,13 @@
+(* A numeral outside the range of the element type that a tuple's typed place fixes is a static error, at a typed binding and at a declared return type. *)
+component NumeralBeyondRangeInTuple
+export Executable
+
+run(): () = do
+  t: (ZZ32, ZZ32) = (1, 3000000000)
+  (p, q) = pair()
+  println("PASS")
+end
+
+pair(): (ZZ32, NN32) = (1, -5)
+
+end

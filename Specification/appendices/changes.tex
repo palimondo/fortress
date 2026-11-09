@@ -4418,10 +4418,11 @@ The compiled type checker refuses a tuple expression of indices passed to a
 function whose one parameter's type is \TYP{Index}, as \EXP{f(i, j)} for
 \EXP{f(x\COLON \TYP{Index})}, though it takes a variable of the tuple type
 (row~805 of the revival's gap ledger); the interpreter runs it.
-A numeral is no \TYP{Index} to the compiled type checker, which types it
-\TYP{IntLiteral} (\secref{revival-numeral-type}); the interpreter, whose
-numerals are values of the integer types (row~364), passes one to a parameter
-of type \TYP{Index}.
+A numeral at a parameter of type \TYP{Index}, a type that declares no
+coercion from the numeral's type, takes its default where the default is an
+\TYP{Index}: the compiled type checker, checking against \library, and the
+interpreter pass \EXP{f(3)} for \EXP{f(x\COLON \TYP{Index})} a
+\EXP{\mathbb{Z}32} (\secref{revival-numeral-type}).
 The interpreter loads a function over \TYP{Index} beside a function over a
 tuple type whose element types are neither subtypes of \TYP{Index} nor exclude
 it, as \EXP{h(x\COLON \TYP{Index})} beside

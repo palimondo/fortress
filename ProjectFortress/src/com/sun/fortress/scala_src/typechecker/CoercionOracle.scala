@@ -163,9 +163,14 @@ class CoercionOracle(traits: TraitTable,
   /** Determines if T ~~> U. */
   def coercesTo(t: Type, u: Type): Boolean = checkCoercion(t, u, None).isSome
 
-  /** Determines if e:T ~~> U and if so returns the FnRefs for that coercion. */
-  def buildCoercion(e: Expr, u: Type): Option[CoercionInvocation]
-    = checkCoercion(getType(e).get, u, Some(e)).flatMap(o => o)
+  /**
+   * Determines if e:T ~~> U and if so returns the FnRefs for that coercion.
+   * A numeral outside the range of U, one of the library's bounded number
+   * types, has none.
+   */
+  def buildCoercion(e: Expr, u: Type): Option[CoercionInvocation] =
+    if (NumeralConversion.outOfRange(e, u).isDefined) None
+    else checkCoercion(getType(e).get, u, Some(e)).flatMap(o => o)
 
   /** Determines if T ~~> U and possibly builds a coercion. */
   private def checkCoercion(t: Type,
@@ -392,4 +397,96 @@ class CoercionOracle(traits: TraitTable,
                                        rangeCoercion)))
   }
 
+}
+
+/**
+ * A numeral's conversions as the checker reads them: its default type, where
+ * nothing fixes a type, ZZ32, or ZZ64 or ZZ when its value does not fit, and
+ * RR64 with a radix point; a coercion of a numeral into its default type,
+ * which ranks as no coercion wherever it is built; and a numeral outside the
+ * range of the library's bounded number type that its place fixes, which has
+ * no conversion there.
+ */
+object NumeralConversion {
+
+  /** Whether the expression is a numeral, as written or as the fold made it. */
+  def isNumeral(e: Expr): Boolean = e match {
+    case _: IntLiteralExpr | _: FloatLiteralExpr => true
+    case _ => false
+  }
+
+  /** The name of the default type of an integer numeral of this value. */
+  def integerDefaultName(v: java.math.BigInteger): String = {
+    val l = v.bitLength
+    if (l < 32) "ZZ32" else if (l < 64) "ZZ64" else "ZZ"
+  }
+
+  /** The name of a numeral's default type. */
+  def defaultName(e: Expr): Option[String] = e match {
+    case i: IntLiteralExpr => Some(integerDefaultName(i.getIntVal))
+    case _: FloatLiteralExpr => Some("RR64")
+    case _ => None
+  }
+
+  /** Whether the expression is a coercion of a numeral into its own default type. */
+  def isDefault(e: Expr): Boolean = e match {
+    case c: TraitCoercionInvocation =>
+      defaultName(c.getArg).exists(_ == c.getToType.getName.getText) && libraryType(c.getToType)
+    case _ => false
+  }
+
+  /** Whether the coercion is one the call needs: not a numeral's conversion into its default. */
+  def counts(e: Expr): Boolean = e.isInstanceOf[CoercionInvocation] && !isDefault(e)
+
+  private val libraryApis = Set("CompilerBuiltin", "CompilerLibrary", "FortressBuiltin", "FortressLibrary")
+
+  /** Whether the trait type is one the library declares, not a program's of the same name. */
+  private def libraryType(t: TraitType): Boolean =
+    toOption(t.getName.getApiName).forall(a => libraryApis(a.getText))
+
+  private def big(n: Long) = java.math.BigInteger.valueOf(n)
+  private val integerRanges: Map[String, (java.math.BigInteger, java.math.BigInteger)] = Map(
+    "ZZ32" -> (big(Int.MinValue), big(Int.MaxValue)),
+    "ZZ64" -> (big(Long.MinValue), big(Long.MaxValue)),
+    "NN32" -> (java.math.BigInteger.ZERO, big(4294967295L)),
+    "NN64" -> (java.math.BigInteger.ZERO, java.math.BigInteger.ONE.shiftLeft(64).subtract(java.math.BigInteger.ONE)))
+
+  /**
+   * The refusal of a numeral at a place of a bounded number type that cannot
+   * hold it: an integer numeral outside ZZ32, ZZ64, NN32 or NN64, and a
+   * numeral whose one rounding into RR64 or RR32 is an infinity.
+   */
+  def outOfRange(e: Expr, u: Type): Option[String] = outOfRangeAt(e, u).map(_._2)
+
+  /** The numeral that outOfRange refuses, the expression itself or an element of a tuple at a tuple type, and the refusal. */
+  def outOfRangeAt(e: Expr, u: Type): Option[(Expr, String)] = (e, u) match {
+    case (STupleExpr(_, es, None, Nil, _), STupleType(_, us, None, Nil)) if es.size == us.size =>
+      es.zip(us).flatMap { case (x, t) => outOfRangeAt(x, t) }.headOption
+    case _ => numeralOutOfRange(e, u).map((e, _))
+  }
+
+  private def numeralOutOfRange(e: Expr, u: Type): Option[String] = (e, u) match {
+    case (i: IntLiteralExpr, t: TraitType) if libraryType(t) =>
+      val name = t.getName.getText
+      val v = i.getIntVal
+      integerRanges.get(name) match {
+        case Some((lo, hi)) if v.compareTo(lo) < 0 || v.compareTo(hi) > 0 =>
+          Some("The numeral %s is out of range for %s, whose values are %s to %s.".format(v, name, lo, hi))
+        case Some(_) => None
+        case None => roundsToInfinity(new java.math.BigDecimal(v), name).map(_ =>
+          "The numeral %s rounds to infinity in %s.".format(v, name))
+      }
+    case (f: FloatLiteralExpr, t: TraitType) if libraryType(t) =>
+      // The fraction is below one, so it does not carry the integer part past
+      // the largest finite value's rounding boundary, an integer.
+      roundsToInfinity(new java.math.BigDecimal(f.getIntPart), t.getName.getText).map(name =>
+        "The numeral %s rounds to infinity in %s.".format(f.getText, name))
+    case _ => None
+  }
+
+  private def roundsToInfinity(v: java.math.BigDecimal, name: String): Option[String] = name match {
+    case "RR64" if v.doubleValue.isInfinite => Some(name)
+    case "RR32" if v.floatValue.isInfinite => Some(name)
+    case _ => None
+  }
 }

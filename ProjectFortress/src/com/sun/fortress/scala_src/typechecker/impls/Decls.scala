@@ -221,7 +221,9 @@ trait Decls { self: STypeChecker with Common =>
                                                                 "declared return")))
 
         case None =>
-          val newBody = newChecker.checkExpr(body)
+          val newBody =
+            if (NU.isCoercion(f)) newChecker.checkExpr(body)
+            else newChecker.defaultNumeral(newChecker.checkExpr(body))
           val rt = if (NU.isCoercion(f)) None else getType(newBody)
           (rt, newBody)
       }
@@ -249,7 +251,7 @@ trait Decls { self: STypeChecker with Common =>
             }
             case None => lv match {
               case SLValue(info, name, mods, None, mut) =>
-                val newR = checkExpr(r, None)
+                val newR = defaultNumeral(checkExpr(r, None))
                 (SLValue(info, name, mods,
                          Some(getType(newR).getOrElse(return node)), mut),
                  newR)
@@ -286,7 +288,7 @@ trait Decls { self: STypeChecker with Common =>
         // from that.
         case None =>
           // Check the RHS.
-          val newRhs = checkExpr(rhs, None)
+          val newRhs = defaultNumeral(checkExpr(rhs, None))
           val rhsType = getType(newRhs).getOrElse(return node)
           // Get all the LHSes and their corresponding RHS type.
           val lhsAndRhsTypes = lhses match {
@@ -340,7 +342,7 @@ trait Decls { self: STypeChecker with Common =>
             }
             case None => lv match {
               case SLValue(info, name, mods, None, mut) =>
-                val newR = checkExpr(r, None)
+                val newR = defaultNumeral(checkExpr(r, None))
                 (SLValue(info, name, mods,
                          Some(getType(newR).getOrElse(return expr)), mut),
                  newR)
@@ -381,7 +383,7 @@ trait Decls { self: STypeChecker with Common =>
         // from that.
         case None =>
           // Check the RHS.
-          val newRhs = checkExpr(rhs, None)
+          val newRhs = defaultNumeral(checkExpr(rhs, None))
           val rhsType = getType(newRhs).getOrElse(return expr)
           // Get all the LHSes and their corresponding RHS type.
           val lhsAndRhsTypes = lhses match {
