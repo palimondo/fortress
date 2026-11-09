@@ -180,7 +180,8 @@ public final class Numerals {
         synchronized (Numerals.class) {
             Site s = sites.get(x);
             if (s != null) return s.value;
-            int r = x.getDenomBase();
+            // The radix as written: the node's base is 1 where every digit after the point is 0.
+            int r = radixOf(x.getText());
             int m = x.getDenomPower();
             BigInteger v = x.getIntPart().multiply(BigInteger.valueOf(r).pow(m)).add(x.getNumerator());
             int n = Math.max(1, digitPart(x.getText()).length());
@@ -191,6 +192,7 @@ public final class Numerals {
             int point = written.indexOf('.');
             if (point >= 0) {
                 String digits = written.substring(0, point) + written.substring(point + 1);
+                if (r == 12) digits = digits.replace('x', 'A').replace('X', 'A').replace('e', 'B').replace('E', 'B');
                 try {
                     BigInteger w = new BigInteger(digits, r);
                     int wm = written.length() - point - 1;
