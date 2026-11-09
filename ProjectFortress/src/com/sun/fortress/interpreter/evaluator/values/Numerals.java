@@ -264,6 +264,16 @@ public final class Numerals {
         }
     }
 
+    /** NN32's type, which FortressBuiltin declares, so that FortressLibrary's root types do not hold it; or null. */
+    private static FType nn32Type() {
+        try {
+            return FNN32.ZERO.type();
+        }
+        catch (RuntimeException ex) {
+            return null;
+        }
+    }
+
     /** The numeral's own type, NaturalNumeral or RadixPointNumeral, or null where the library has none. */
     public static FType numeralType(FValue v) {
         if (!(v instanceof Numeral)) return null;
@@ -306,7 +316,7 @@ public final class Numerals {
         else if (n.equals("NN32")) { lo = BigInteger.ZERO; hi = NN32_MAX; }
         else if (n.equals("NN64")) { lo = BigInteger.ZERO; hi = NN64_MAX; }
         else return true;
-        if (target != libraryType(n)) return true;
+        if (target != (n.equals("NN32") ? nn32Type() : libraryType(n))) return true;
         return s.digitValue.compareTo(lo) >= 0 && s.digitValue.compareTo(hi) <= 0;
     }
 

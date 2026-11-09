@@ -1,0 +1,12 @@
+(* A numeral outside NN32's range at an NN32 binding is refused there, as at the other integer types. *)
+component NumeralOutOfRangeNN32Walk
+export Executable
+
+n: NN32 = 5000000000
+
+run(): () = do
+    println(n)
+    println "PASS"
+  end
+
+end
