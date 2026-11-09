@@ -1,0 +1,14 @@
+(* A nat parameter used as a value is a ZZ32, from which NN32 declares no coercion, so an NN32 binding of it is refused. *)
+component NatValueNN32Refused
+export Executable
+
+asNN32[\nat n\](): NN32 = do
+  u: NN32 = n
+  u
+end
+
+run(): () = do
+  println("PASS")
+end
+
+end

@@ -12,6 +12,6 @@ STATIC_TESTS_DIR=${FORTRESS_AUTOHOME}/ProjectFortress/compiler_tests
 compile
 compile_err_equals=\
 ${STATIC_TESTS_DIR}/Compiled6.bw.fss:17:10:\n\
-\ Could not assign an expression of type IntLiteral to variable a of type String.\n\
+\ Could not assign an expression of type ZZ32 to variable a of type String.\n\
 File Compiled6.bw.fss has 1 error.\n
 compile_out_equals=

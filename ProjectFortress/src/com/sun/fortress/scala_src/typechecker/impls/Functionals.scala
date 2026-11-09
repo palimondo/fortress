@@ -164,8 +164,15 @@ trait Functionals { self: STypeChecker with Common =>
       if (hasStaticParams(liftedArrow))
         if (coerce || promote.isDefined)
           checkApplicableWithCoercion(liftedArrow, preCandidate, context, args, promote)
-        else
-          checkApplicableWithInference(liftedArrow, preCandidate, context, args)
+        else checkApplicableWithInference(liftedArrow, preCandidate, context, args) match {
+          // A static argument that a numeral fixes at the numeral's own type is
+          // left to the attempt with coercion, which reads the numeral by its
+          // default, where that attempt can check the call: where no argument
+          // is a function expression still unchecked.
+          case Left(c) if args.forall(_.isLeft) && numeralFixesOwnType(c, args) =>
+            Right(errorFactory.makeNotApplicableError(arrow, args))
+          case r => r
+        }
       else
         checkApplicableWithoutInference(liftedArrow, preCandidate, args)
 
@@ -183,11 +190,12 @@ trait Functionals { self: STypeChecker with Common =>
           arrow: ArrowType,
           preCandidate: PreAppCandidate,
           context: Option[Type],
-          args: List[Either[Expr, FnExpr]])
+          args0: List[Either[Expr, FnExpr]])
           (implicit errorFactory: ApplicationErrorFactory)
            : Either[AppCandidate, OverloadingError] = {
 
     val originalArrow = preCandidate.arrow
+    val args = preDefault(arrow, context, args0)
 
     // Try to check the unchecked args, constructing a new list of
     // (checked, unchecked) arg pairs.
@@ -268,14 +276,19 @@ trait Functionals { self: STypeChecker with Common =>
         // We've reached a fixed point and all args are checked!
         Left(AppCandidate(resultArrow,
                           sargs,
-                          newArgs.map(_.left.get),
+                          defaultAtUnfixedEach(newArgs.map(_.left.get), resultArrow.getDomain),
                           preCandidate.overloading,
                           preCandidate.fnl))
       }
     }
 
-    // Do the recursion to check the args.
-    recurOnArgs(args)
+    // Do the recursion to check the args. A declaration that only a numeral's
+    // default at a parameter of its default type made applicable, and whose
+    // size the call then leaves unknown, is checked as the numeral is.
+    recurOnArgs(args) match {
+      case Right(NoContextError(_, _, Some(_))) if !(args eq args0) => recurOnArgs(args0)
+      case r => r
+    }
   }
 
   /**
@@ -354,20 +367,30 @@ trait Functionals { self: STypeChecker with Common =>
                     flatMap(sp => toListFromImmutable(sp.getExtendsClause)).
                     filter(b => b.isInstanceOf[TraitType] && mentioned(b).isEmpty &&
                                 !Set("Object", "Any")(b.asInstanceOf[TraitType].getName.getText))
-      (ts ++ ts.flatMap(coercions.getCoercionTargetsFrom(_)) ++ bound).distinct
+      val all = (ts ++ ts.flatMap(coercions.getCoercionTargetsFrom(_)) ++ bound).distinct
+      // A numeral's own type is no static argument that the numeral fixes.
+      if (own(n).exists(p => NumeralConversion.isNumeral(p._2))) all.filterNot(isNumeralType) else all
     }
-    val choices: List[List[Option[Type]]] = chosen.map { n =>
+    // A parameter that numerals alone fix, with no expected type, takes the
+    // narrowest default that holds them all; where no candidate is found so,
+    // it is chosen as any other parameter.
+    def numeralsAlone(n: IdOrOp) = own(n).nonEmpty && own(n).forall(p => NumeralConversion.isNumeral(p._2))
+    val byDefault = context.isEmpty && promote.isEmpty && chosen.exists(numeralsAlone)
+    def choicesOf(useDefault: Boolean): List[List[Option[Type]]] = chosen.map { n =>
       promote match {
         case Some(sargs) => valueOf(sargs, n) match {
           case Some(_: UnionType) => None :: named(n).map(Some(_))
           case v => List(v)
         }
+        case None if useDefault && numeralsAlone(n) => numeralDefault(own(n).map(_._2)).toList.map(Some(_))
         case None => None :: named(n).map(Some(_))
       }
     }
     if (promote.isDefined && !chosen.exists(n => valueOf(promote.get, n).exists(_.isInstanceOf[UnionType])))
       return notApplicable
-    val combos = choices.foldRight(List(List[Option[Type]]())) { (cs, acc) => for (c <- cs; m <- acc) yield c :: m }
+    def combosOf(choices: List[List[Option[Type]]]) =
+      choices.foldRight(List(List[Option[Type]]())) { (cs, acc) => for (c <- cs; m <- acc) yield c :: m }
+    val combos = combosOf(choicesOf(byDefault))
     if (combos.size > 64) return notApplicable
     def attempt(combo: List[Option[Type]]): Option[AppCandidate] = {
       val pick = Map(chosen.zip(combo): _*)
@@ -384,13 +407,20 @@ trait Functionals { self: STypeChecker with Common =>
         inferStaticParamsHelper(arrow, constraint, false, true, true).getOrElse(return None)
       if (hasInferenceVars(resultArrow) || hasSizeInferenceVars(sargs)) return None
       val newArgs = zipWithDomain(checked.zip(argTypes), resultArrow.getDomain).map { case ((e, a), p) =>
-        if (isSubtype(a, p)) e else coercions.buildCoercion(e, p).getOrElse(return None)
+        if (isSubtype(a, p)) defaultAtUnfixed(e, p)
+        else coercions.buildCoercion(e, p).orElse(defaultFits(e, p)).getOrElse(return None)
       }
       val newArgTypes = newArgs.zip(checked.zip(argTypes)).map { case (n, (e, a)) => if (n eq e) a else getType(n).get }
       if (!isSubtype(NF.makeMaybeTupleType(NF.typeSpan, toJavaList(newArgTypes)), resultArrow.getDomain)) return None
       Some(AppCandidate(resultArrow, sargs, newArgs, preCandidate.overloading, preCandidate.fnl))
     }
-    val found = combos.flatMap(attempt(_))
+    val found = combos.flatMap(attempt(_)) match {
+      case Nil if byDefault =>
+        val plain = combosOf(choicesOf(false))
+        if (plain.size > 64) return notApplicable
+        plain.flatMap(attempt(_))
+      case f => f
+    }
     def noWider(a: AppCandidate, b: AppCandidate) = chosen.forall { n =>
       (valueOf(a.sargs, n), valueOf(b.sargs, n)) match {
         case (Some(s), Some(t)) => coercions.noLessSpecific(s, t)
@@ -457,8 +487,8 @@ trait Functionals { self: STypeChecker with Common =>
       // to the param type, this is a NotApplicableError.
       case (Left(checked), paramType) =>
         if (isSubtype(getType(checked).get, paramType))
-          (Left(checked), None)
-        else coercions.buildCoercion(checked, paramType) match {
+          (Left(defaultAtUnfixed(checked, paramType)), None)
+        else coercions.buildCoercion(checked, paramType).orElse(defaultFits(checked, paramType)) match {
           case Some(coercion) => (Left(coercion), None)
           case None =>
             return Right(errorFactory.makeNotApplicableError(originalArrow, args))
@@ -479,7 +509,10 @@ trait Functionals { self: STypeChecker with Common =>
     // Make sure that all the args were checked. If any remain unchecked, gather
     // up all the inference errors into an overloading error.
     val (newArgs, maybeErrors) = arrow.getDomain match {
-          case _:AnyType => (args, None)
+          case d:AnyType => (args.map {
+                               case Left(e) => Left(defaultAtUnfixed(e, d))
+                               case a => a
+                             }, None)
           case _ => (newArgsAndErrors).unzip
         }
     if (newArgs.count(_.isRight) != 0) {
@@ -706,7 +739,7 @@ trait Functionals { self: STypeChecker with Common =>
     }
     def candidatesOf(es: Attempt): List[Ranked] = es.collect { case (Left(c), d, p) => (c, d, p) }
     // A coercion the call needs, not one the promotion introduced.
-    def counted(c: Ranked) = !c._3 && c._1.args.exists(_.isInstanceOf[CoercionInvocation])
+    def counted(c: Ranked) = !c._3 && c._1.args.exists(NumeralConversion.counts)
     // An attempt by subtyping holds the candidates that fit the call without a
     // coercion it needs; an attempt with coercion holds all it finds.
     def holds(es: Attempt, coerce: Boolean) =
@@ -755,9 +788,11 @@ trait Functionals { self: STypeChecker with Common =>
     val candidates = candidatesOf(es)
     val overloadingErrors = es.collect { case (Right(e), _, _) => e }
 
-    // If there were no candidates, report errors.
+    // If there were no candidates, report errors, and each numeral outside
+    // the range of a parameter type that would take it.
     if (candidates.isEmpty) {
       errors.signal(errorFactory.makeApplicationError(overloadingErrors))
+      signalNumeralRanges(preCandidates, args)
       return None
     }
 
@@ -950,6 +985,197 @@ trait Functionals { self: STypeChecker with Common =>
                 format(kind, normalize(getArgType(args)), tied.map(_.toString).mkString("; ")))
   }
 
+  /** Whether the type is a numeral's own type. */
+  def isNumeralType(t: Type): Boolean =
+    Formula.isTrue(analyzer.equivalent(t, Types.INT_LITERAL)) ||
+    Formula.isTrue(analyzer.equivalent(t, Types.FLOAT_LITERAL))
+
+  /**
+   * The narrowest default type that holds every numeral of es: RR64 where one
+   * has a radix point, its supertype or coercion target of that name, and
+   * otherwise numeralReading's ZZ32, ZZ64 or ZZ by their values.
+   */
+  def numeralDefault(es: List[Expr]): Option[Type] =
+    if (es.exists(_.isInstanceOf[FloatLiteralExpr]))
+      (analyzer.ancestors(Types.FLOAT_LITERAL).toList.collect { case t: TraitType => t } ++
+       coercions.getCoercionTargetsFrom(Types.FLOAT_LITERAL)).find(_.getName.getText == "RR64")
+    else numeralReading(es)
+
+  /** The numeral converted into the type t: as it is where it is one, else by its coercion. */
+  private def numeralInto(e: Expr, t: Type): Option[Expr] =
+    if (isSubtype(getType(e).get, t)) Some(e) else coercions.buildCoercion(e, t)
+
+  /**
+   * The expression with each numeral in its result positions converted into
+   * its default: a numeral alone, each element of a tuple on its own, and the
+   * branches of an if or case expression, or of a block's last expression,
+   * all numerals, together, into the narrowest default that holds them all.
+   * Any other expression is returned as it is: the default applies to a
+   * numeral, never to an expression of a numeral's type.
+   */
+  def defaultNumeral(e: Expr): Expr = e match {
+    case n if NumeralConversion.isNumeral(n) => numeralDefault(List(n)).flatMap(numeralInto(n, _)).getOrElse(n)
+    case t@STupleExpr(SExprInfo(span, paren, _), es, None, Nil, inApp) =>
+      val nes = es.map(defaultNumeral)
+      if (nes.zip(es).forall(p => p._1 eq p._2) || nes.exists(getType(_).isEmpty)) t
+      else STupleExpr(SExprInfo(span, paren, Some(NF.makeTupleType(span, toJavaList(nes.map(getType(_).get))))),
+                      nes, None, Nil, inApp)
+    case _ => joinNumerals(e) match {
+      case Some(ns) if ns.nonEmpty => numeralDefault(ns).flatMap(joinInto(e, _)).getOrElse(e)
+      case _ => e
+    }
+  }
+
+  /** The numerals in the result positions of a join whose every result is a numeral. */
+  private def joinNumerals(e: Expr): Option[List[Expr]] = {
+    def all(bs: List[Expr]): Option[List[Expr]] = {
+      val rs = bs.map(joinNumerals)
+      if (rs.forall(_.isDefined)) Some(rs.flatMap(_.get)) else None
+    }
+    e match {
+      case n if NumeralConversion.isNumeral(n) => Some(List(n))
+      case SBlock(_, _, _, _, es) if es.nonEmpty => joinNumerals(es.last)
+      case SDo(_, List(front)) => joinNumerals(front)
+      case SIf(_, clauses, Some(els)) => all(els :: clauses.map(_.getBody))
+      case SCaseExpr(_, _, _, _, _, clauses, els) if clauses.nonEmpty => all(els.toList ++ clauses.map(_.getBody))
+      case _ => None
+    }
+  }
+
+  /** The join with each numeral in its result positions converted into d, and its type d. */
+  private def joinInto(e: Expr, d: Type): Option[Expr] = {
+    def block(b: Block): Option[Block] = joinInto(b, d).map(_.asInstanceOf[Block])
+    def each[A](as: List[A], f: A => Option[A]): Option[List[A]] = {
+      val rs = as.map(f)
+      if (rs.forall(_.isDefined)) Some(rs.map(_.get)) else None
+    }
+    e match {
+      case n if NumeralConversion.isNumeral(n) => numeralInto(n, d)
+      case SBlock(SExprInfo(sp, p, _), loc, at, wd, es) =>
+        joinInto(es.last, d).map(l => SBlock(SExprInfo(sp, p, Some(d)), loc, at, wd, es.init :+ l))
+      case SDo(SExprInfo(sp, p, _), List(front)) =>
+        block(front).map(f => SDo(SExprInfo(sp, p, Some(d)), List(f)))
+      case SIf(SExprInfo(sp, p, _), clauses, Some(els)) =>
+        for (ne <- block(els);
+             ncs <- each(clauses, (c: IfClause) => c match {
+               case SIfClause(i, t, b) => block(b).map(SIfClause(i, t, _)) }))
+          yield SIf(SExprInfo(sp, p, Some(d)), ncs, Some(ne))
+      case SCaseExpr(SExprInfo(sp, p, _), param, cmp, eq, in, clauses, els) =>
+        for (ne <- each(els.toList, block);
+             ncs <- each(clauses, (c: CaseClause) => c match {
+               case SCaseClause(i, m, b, o) => block(b).map(SCaseClause(i, m, _, o)) }))
+          yield SCaseExpr(SExprInfo(sp, p, Some(d)), param, cmp, eq, in, ncs, ne.headOption)
+      case _ => None
+    }
+  }
+
+  /** Whether a numeral's default could change the expression. */
+  private def mayDefault(e: Expr): Boolean = e match {
+    case _: IntLiteralExpr | _: FloatLiteralExpr | _: TupleExpr | _: If | _: CaseExpr | _: Do => true
+    case _ => false
+  }
+
+  def defaultAtUnfixed(e: Expr, p: Type): Expr =
+    if (!mayDefault(e) || isNumeralType(p)) e
+    else {
+      val d = defaultNumeral(e)
+      if ((d ne e) && getType(d).exists(isSubtype(_, p))) d else e
+    }
+
+  /** defaultAtUnfixed for each argument at its parameter type. */
+  private def defaultAtUnfixedEach(args: List[Expr], domain: Type): List[Expr] =
+    if (!args.exists(mayDefault)) args
+    else {
+      val ps = zipWithDomain(args, domain)
+      if (ps.size != args.size) args else ps.map { case (e, p) => defaultAtUnfixed(e, p) }
+    }
+
+  def defaultFits(e: Expr, p: Type): Option[Expr] =
+    if (!mayDefault(e)) None
+    else {
+      val d = defaultNumeral(e)
+      if ((d ne e) && getType(d).exists(isSubtype(_, p))) Some(d) else None
+    }
+
+  /**
+   * A numeral written as a dotted receiver takes its default where the
+   * default type has the member; otherwise it stays, as for the prelude's
+   * own (1).asNN32.
+   */
+  def defaultReceiver(e: Expr, has: Type => Boolean): Expr =
+    if (!NumeralConversion.isNumeral(e)) e
+    else {
+      val d = defaultNumeral(e)
+      if ((d ne e) && getType(d).exists(has)) d else e
+    }
+
+  /**
+   * The arguments of a call before its inference by subtyping, each numeral
+   * given its default where nothing else fixes a type: at a parameter whose
+   * type is a bare type parameter that numerals alone fix and no other
+   * parameter type mentions, with no expected type, the narrowest default
+   * that holds them all; and at a parameter of the numeral's own default
+   * type, that default, which ranks as no coercion, so that the declaration
+   * fits the numeral as it is.
+   */
+  private def preDefault(arrow: ArrowType,
+                         context: Option[Type],
+                         args: List[Either[Expr, FnExpr]]): List[Either[Expr, FnExpr]] = {
+    if (!args.exists(_.left.toOption.exists(NumeralConversion.isNumeral))) return args
+    val domain = zipWithDomain(args, arrow.getDomain)
+    if (domain.size != args.size) return args
+    val sparams = getStaticParams(arrow).filter(sp => !sp.isLifted && sp.getKind.isInstanceOf[KindType]).
+                    map(_.getName).toSet[IdOrOp]
+    def bare(d: Type): Option[IdOrOp] = d match {
+      case v: VarType if sparams(v.getName) => Some(v.getName)
+      case _ => None
+    }
+    var elsewhere = Set[IdOrOp]()
+    object finder extends Walker {
+      override def walk(node: Any): Any = node match {
+        case v: VarType => elsewhere += v.getName; node
+        case _ => super.walk(node)
+      }
+    }
+    domain.foreach { case (_, d) => if (bare(d).isEmpty) finder(d) }
+    val groups: Map[IdOrOp, Type] =
+      if (context.isDefined) Map()
+      else domain.flatMap(p => bare(p._2)).distinct.filterNot(elsewhere).flatMap { n =>
+        val at = domain.collect { case (a, d) if bare(d) == Some(n) => a }
+        if (at.forall(_.left.toOption.exists(NumeralConversion.isNumeral)))
+          numeralDefault(at.map(_.left.get)).map(n -> _)
+        else None
+      }.toMap
+    domain.map {
+      case (Left(e), d) if NumeralConversion.isNumeral(e) => bare(d) match {
+        case Some(n) => Left(groups.get(n).flatMap(numeralInto(e, _)).getOrElse(e))
+        case None => d match {
+          case t: TraitType if NumeralConversion.defaultName(e).exists(_ == t.getName.getText) &&
+                               t.getArgs.isEmpty =>
+            Left(coercions.buildCoercion(e, t).filter(NumeralConversion.isDefault).getOrElse(e))
+          case _ => Left(e)
+        }
+      }
+      case (a, _) => a
+    }
+  }
+
+  /** Whether a numeral argument fixed a static argument of the candidate at the numeral's own type. */
+  private def numeralFixesOwnType(c: AppCandidate, args: List[Either[Expr, FnExpr]]): Boolean =
+    args.exists(_.left.toOption.exists(NumeralConversion.isNumeral)) &&
+    c.sargs.exists { case STypeArg(_, _, t) => isNumeralType(t); case _ => false }
+
+  /** Signal each numeral argument outside the range of a parameter type of a candidate. */
+  private def signalNumeralRanges(preCandidates: List[PreAppCandidate], args: List[Either[Expr, FnExpr]]): scala.Unit = {
+    if (!args.exists(_.left.toOption.exists(NumeralConversion.isNumeral))) return
+    val ranges = preCandidates.flatMap { pc =>
+      zipWithDomain(args, pc.arrow.getDomain).collect {
+        case (Left(e), p) if NumeralConversion.isNumeral(e) => NumeralConversion.outOfRange(e, p).map((e, _))
+      }.flatten
+    }
+    ranges.distinct.foreach { case (e, m) => signal(e, m) }
+  }
+
   /**
    * Given a receiver type and a method name, return the list of all the arrow types for each
    * method overloading. Ignores any arrows that were for getters or setters.
@@ -1131,7 +1357,8 @@ trait Functionals { self: STypeChecker with Common =>
     }
 
     case SMethodInvocation(SExprInfo(span, paren, _), obj, method, sargs, arg, _, _) =>{
-      val checkedObj = checkExpr(obj)
+      val checkedObj = defaultReceiver(checkExpr(obj),
+        t => getCandidatesForMethod(t, method, sargs, expr).exists(_.nonEmpty))
       val recvrType = getType(checkedObj).getOrElse(return expr)
       val preCandidates = getCandidatesForMethod(recvrType, method, sargs, expr).getOrElse(return expr)
       if (preCandidates.isEmpty) {

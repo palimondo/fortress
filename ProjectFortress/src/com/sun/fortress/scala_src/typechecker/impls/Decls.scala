@@ -249,7 +249,7 @@ trait Decls { self: STypeChecker with Common =>
             }
             case None => lv match {
               case SLValue(info, name, mods, None, mut) =>
-                val newR = checkExpr(r, None)
+                val newR = defaultNumeral(checkExpr(r, None))
                 (SLValue(info, name, mods,
                          Some(getType(newR).getOrElse(return node)), mut),
                  newR)
@@ -286,7 +286,7 @@ trait Decls { self: STypeChecker with Common =>
         // from that.
         case None =>
           // Check the RHS.
-          val newRhs = checkExpr(rhs, None)
+          val newRhs = defaultNumeral(checkExpr(rhs, None))
           val rhsType = getType(newRhs).getOrElse(return node)
           // Get all the LHSes and their corresponding RHS type.
           val lhsAndRhsTypes = lhses match {
@@ -340,7 +340,7 @@ trait Decls { self: STypeChecker with Common =>
             }
             case None => lv match {
               case SLValue(info, name, mods, None, mut) =>
-                val newR = checkExpr(r, None)
+                val newR = defaultNumeral(checkExpr(r, None))
                 (SLValue(info, name, mods,
                          Some(getType(newR).getOrElse(return expr)), mut),
                  newR)
@@ -381,7 +381,7 @@ trait Decls { self: STypeChecker with Common =>
         // from that.
         case None =>
           // Check the RHS.
-          val newRhs = checkExpr(rhs, None)
+          val newRhs = defaultNumeral(checkExpr(rhs, None))
           val rhsType = getType(newRhs).getOrElse(return expr)
           // Get all the LHSes and their corresponding RHS type.
           val lhsAndRhsTypes = lhses match {

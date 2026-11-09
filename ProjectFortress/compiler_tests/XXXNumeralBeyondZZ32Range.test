@@ -1,3 +1,3 @@
-tests=XXXNumeralBeyondZZ32Range
-run
-run_out_contains=REACHED
+tests=NumeralBeyondZZ32Range
+compile
+compile_err_WImatches=(?=.*NumeralBeyondZZ32Range\\.fss:6:[0-9:-]* The numeral 4294967295 is out of range for ZZ32, whose values are -2147483648 to 2147483647\\.)(?=.*NumeralBeyondZZ32Range\\.fss:7:[0-9:-]* The numeral 3000000000 is out of range for ZZ32, whose values are -2147483648 to 2147483647\\.)(?=.*NumeralBeyondZZ32Range\\.fss:8:[0-9:-]* The numeral 1[0]{309}\\.0 rounds to infinity in RR64\\.)(?=.*NumeralBeyondZZ32Range\\.fss:9:[0-9:-]* The numeral -3 is out of range for NN32, whose values are 0 to 4294967295\\.).*

@@ -344,7 +344,7 @@ trait Misc { self: STypeChecker with Common =>
   def checkExprMisc(expr: Expr, expected: Option[Type]): Expr = expr match {
 
     case fr@SFieldRef(SExprInfo(span, parens, _),obj,field) => {
-      val checkedObj = checkExpr(obj)
+      val checkedObj = defaultReceiver(checkExpr(obj), t => getGetterType(field, t).isDefined)
       val recvrType = getType(checkedObj).getOrElse(return expr)
       val fieldType = getGetterType(field, recvrType)
       fieldType match {

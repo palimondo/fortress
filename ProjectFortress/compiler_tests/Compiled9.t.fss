@@ -21,7 +21,7 @@ export Executable
         exit inner with 1
         exit outer with true
         5
-      end inner typed IntLiteral)
+      end inner typed ZZ32)
       false
     end outer typed Boolean)
 
@@ -34,6 +34,6 @@ export Executable
         false
       end inner typed Boolean)
       3
-    end outer typed IntLiteral)
+    end outer typed ZZ32)
     ()
   end

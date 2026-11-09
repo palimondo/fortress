@@ -41,7 +41,7 @@ typeOf(x: Any): String = typecase x of
     ZZ64 => "ZZ64"
     NN32 => "NN32"
     ZZ => "ZZ"
-    IntLiteral => "IntLiteral"
+    Boolean => "Boolean"
     R => "R"
     P => "P"
     Q => "Q"
@@ -69,7 +69,7 @@ run(): () = do
     pp: P = POf(1)
     qq: Q = QOf(2)
     assert(pick(pp, qq), "R,R", "answer 8 (POSITIONS 2026-09-26): the narrowest type both arguments convert into, neither argument's own")
-    assert(pick(3, 4), "IntLiteral,IntLiteral", "numerals alone keep their own type where it meets the bound")
+    assert(pick(3, 4), "ZZ32,ZZ32", "numerals alone fix the static argument at their default")
     assert(lohi32(2, 46), "ZZ32,ZZ32", "numerals at a bound the numeral's type does not meet")
     a: BoxV[\ZZ64\] = wrapV(3)
     assert(typeOf(a.v), "ZZ64", "row 455: the expected type fixes the static argument at a call written f(x)")

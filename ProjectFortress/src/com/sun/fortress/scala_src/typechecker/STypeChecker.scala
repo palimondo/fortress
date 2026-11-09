@@ -417,6 +417,32 @@ abstract class STypeChecker(val current: CompilationUnitIndex,
    */
   def checkExpr(expr: Expr, expected: Option[Type]): Expr
 
+  /**
+   * A numeral where nothing fixes a type, at an untyped binding, takes its
+   * default; so does each numeral of a tuple and the branches of a join
+   * (Functionals).
+   */
+  def defaultNumeral(e: Expr): Expr
+
+  /**
+   * A numeral at a place of type p that holds it without conversion and does
+   * not fix a type, as Any, Object or Number do, takes its default there,
+   * where the default fits p too (Functionals).
+   */
+  def defaultAtUnfixed(e: Expr, p: Type): Expr
+
+  /**
+   * A numeral at a place of type p that declares no coercion from the
+   * numeral's type: its default, where the default fits p (Functionals).
+   */
+  def defaultFits(e: Expr, p: Type): Option[Expr]
+
+  /**
+   * A numeral written as a dotted receiver takes its default where the
+   * default type has the member (Functionals).
+   */
+  def defaultReceiver(e: Expr, has: Type => Boolean): Expr
+
   // ---------------------------------------------------------------------------
   // CONCRETE DEFINITIONS ------------------------------------------------------
 
@@ -477,16 +503,21 @@ abstract class STypeChecker(val current: CompilationUnitIndex,
                           msgAndLoc: Option[(String, HasAt)]): Expr = {
     val checkedExpr = checkExpr(expr, Some(expected))
     getType(checkedExpr) match {
-      case Some(typ) if isSubtype(typ, expected) => checkedExpr
+      case Some(typ) if isSubtype(typ, expected) => defaultAtUnfixed(checkedExpr, expected)
       case Some(typ) =>
-        // Try to build a coercion of checkedExpr to the expected type.
-        coercions.buildCoercion(checkedExpr, expected).getOrElse {
+        // Try to build a coercion of checkedExpr to the expected type, or, for
+        // a numeral at a type that declares none from its own, its default.
+        coercions.buildCoercion(checkedExpr, expected).orElse(defaultFits(checkedExpr, expected)).getOrElse {
           msgAndLoc match {
             case Some((message, location)) =>
-              val someE = Some(expected)
-              val checkedExpr2 = checkExpr(expr, someE) // Repeat calculation for debugging
-              val checkedExpr3 = checkExpr(expr, someE) // Repeat calculation for debugging
-              signal(location, message.format(normalize(typ), normalize(expected)))
+              NumeralConversion.outOfRange(checkedExpr, expected) match {
+                case Some(range) => signal(checkedExpr, range)
+                case None =>
+                  val someE = Some(expected)
+                  val checkedExpr2 = checkExpr(expr, someE) // Repeat calculation for debugging
+                  val checkedExpr3 = checkExpr(expr, someE) // Repeat calculation for debugging
+                  signal(location, message.format(normalize(typ), normalize(expected)))
+              }
             case None =>
           }
           expr

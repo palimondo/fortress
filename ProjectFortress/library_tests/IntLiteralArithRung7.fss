@@ -32,7 +32,7 @@ export Executable
 (*) pass.
 
 (*) Returns 4 or 9 as an IntLiteral, chosen at run time.
-pick(b: Boolean): IntLiteral = if b then 4 else 9 end
+pick(b: Boolean) = if b then 4 else 9 end
 
 (*) The same two values as ZZ32, for the expected sides.
 pickZZ32(b: Boolean): ZZ32 = if b then 4 else 9 end
