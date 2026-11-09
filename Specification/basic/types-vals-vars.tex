@@ -573,14 +573,19 @@ Victor's comments
 \EXP{\TYP{BooleanLiteral}\llbracket{}b\rrbracket},
 \TYP{()} (pronounced ``void''),
 \TYP{Character}, \TYP{String}, and
-\TYP{Numeral}, whose values carry a numeral's four numbers \VAR{n},
-\VAR{m}, \VAR{r} and \VAR{v} as fields,
-for appropriate values of \VAR{b}
+the numeral types below \TYP{Numeral},
+\EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket} and
+\EXP{\TYP{RadixPointNumeral}\llbracket{}n,m,r,v\rrbracket},
+which exist only when a program is compiled,
+for appropriate values of \VAR{b}, \VAR{n}, \VAR{m}, \VAR{r}, and \VAR{v}
 (See \secref{literals} for a discussion of Fortress literals).
 \revision{revival-numerals}{The Working Draft of February 2011 wrote the
 numeral type \EXP{\TYP{Numeral}\llbracket{}n,m,r,v\rrbracket}, whose static
-arguments were the four numbers; the revival decided on 8~November 2026 that
-they are fields of the numeral's value (\secref{literals}).}
+arguments were the four numbers; the revival decided on 9~November 2026 that
+the four numbers are the static arguments of the Working Draft's
+\TYP{NaturalNumeral} and \TYP{RadixPointNumeral}, below a \TYP{Numeral}
+without static parameters, and that no value of these types exists when a
+program runs (\secref{literals}).}
 Moreover, there are several simple standard numeric types.
 These types are mutually exclusive; no value has more than one of them.
 Values of these types are immutable.

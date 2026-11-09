@@ -95,25 +95,31 @@ corresponding to various expressible numbers.
 Numerals may be either \emph{simple} or \emph{compound}
 (as described in \secref{numerals}).
 
-Every numeral has the type \TYP{Numeral}, which extends \TYP{Number}, through
-one of the two types that \TYP{Numeral} comprises:
-a numeral containing only digits has type \TYP{NaturalNumeral},
-and a numeral containing a radix point has type \TYP{RadixPointNumeral}.
-The value of a numeral holds four numbers:
+Every numeral has a \emph{numeral type} of its own, which exists only when the
+program is compiled: no value of a numeral type exists when the program runs.
+The static arguments of a numeral type are the numeral's \emph{four numbers}:
 the number $n$ of its digits, leading zeros among them;
-the number $m$ of its digits after the radix point, which is $0$ for a
-\TYP{NaturalNumeral};
+the number $m$ of its digits after the radix point, which the type of a numeral
+without a radix point leaves out, $m$ being $0$;
 its radix $r$;
 and $v$, the value of its digits, with the radix point deleted, interpreted in
 radix $r$.
-\Library\ declare these numbers as the getters \VAR{digits},
-\VAR{fractionDigits}, \VAR{radix} and \VAR{digitValue} of \TYP{Numeral}, the
-first three of type \EXP{\mathbb{Z}32} and the last of type \EXP{\mathbb{Z}}.
-They are fields of the numeral's value, not static parameters of its type:
-the three numeral types have no static parameters.
-So \EXP{3.125} is a \TYP{RadixPointNumeral} whose four numbers are $4$, $3$,
-$10$ and $3125$, and \EXP{007} a \TYP{NaturalNumeral} whose four numbers are
-$3$, $0$, $10$ and $7$.
+Each of the four is a natural number, of any size.
+A numeral containing only digits has the type
+\EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket},
+and a numeral containing a radix point has the type
+\EXP{\TYP{RadixPointNumeral}\llbracket{}n,m,r,v\rrbracket}.
+So \EXP{3.125} has the type
+\EXP{\TYP{RadixPointNumeral}\llbracket{}4,3,10,3125\rrbracket},
+\EXP{007} the type \EXP{\TYP{NaturalNumeral}\llbracket{}3,10,7\rrbracket}, and
+\EXP{3000000000} the type
+\EXP{\TYP{NaturalNumeral}\llbracket{}10,10,3000000000\rrbracket}.
+\Library\ declare the two numeral types below the trait \TYP{Numeral}, which
+extends \TYP{Number} and has no static parameters: \TYP{NaturalNumeral} below
+\TYP{AnyNaturalNumeral} and \TYP{RadixPointNumeral} below
+\TYP{AnyRadixPointNumeral}, two traits that extend \TYP{Numeral} and exclude
+each other.
+None of these traits declares a method.
 \note{Can the type \EXP{\TYP{NaturalNumeral}\llbracket{}n, 10, v\rrbracket}
 have any value other than what you get from evaluating the corresponding literal?
 
@@ -133,9 +139,10 @@ for appropriate values of \VAR{n} and \VAR{v}.)}
 
 The radix of a numeral is ten, unless its digits are followed by an underscore
 and a radix indicator (\secref{numerals}), which give its radix $r$; such a
-numeral has the same type as one without an indicator.
-So \EXP{\mathtt{deadc}_{16}} is a \TYP{NaturalNumeral} whose four numbers are
-$5$, $0$, $16$ and $912092$.
+numeral has one of the same two numeral types, with its radix as the static
+argument $r$.
+So \EXP{\mathtt{deadc}_{16}} has the type
+\EXP{\TYP{NaturalNumeral}\llbracket{}5,16,912092\rrbracket}.
 \revision{revival-numerals}{The Working Draft of February 2011 gave a numeral
 the types \EXP{\TYP{NaturalNumeral}\llbracket{}n,10,v\rrbracket},
 \EXP{\TYP{NaturalNumeralWithExplicitRadix}\llbracket{}n,r,v\rrbracket},
@@ -144,12 +151,14 @@ the types \EXP{\TYP{NaturalNumeral}\llbracket{}n,10,v\rrbracket},
 \EXP{\TYP{Literal}\llbracket{}v\rrbracket} for a numeral without leading zeros,
 and \EXP{\TYP{Numeral}\llbracket{}n,m,r,v\rrbracket}, whose static arguments are
 the four numbers.
-The revival decided on 8~November 2026 that the four numbers are fields of the
-numeral's value: the two types with an explicit radix fold into the radix, and
-\TYP{Literal} into the digit count, which tells whether a numeral has leading
-zeros.
-So the team's draft notes above are answered: two numerals of one kind have one
-type, which holds every such numeral, and \TYP{Numeral} comprises the two
+The revival decided on 9~November 2026 that a numeral's type is the Working
+Draft's \TYP{NaturalNumeral} or \TYP{RadixPointNumeral}, at the Working Draft's
+arities, with the radix as the static argument $r$, and that it exists only
+when the program is compiled: the two types with an explicit radix are not
+built, since $r$ gives the radix, nor is \TYP{Literal}, and \TYP{Numeral} has no
+static parameters.
+So the team's draft notes above are answered: no value of a numeral type
+exists when a program runs, and this section gives the hierarchy of the
 numeral types.}
 
 
@@ -171,14 +180,25 @@ from numerals to integers (for simple numerals)
 and rational numbers (for compound numerals).
 In \library, each of the eight number types (\secref{basic-rationals}) declares
 a coercion from \TYP{NaturalNumeral}, and \EXP{\mathbb{Q}}, \EXP{\mathbb{R}64}
-and \EXP{\mathbb{R}32} declare one from \TYP{RadixPointNumeral}; the conversion
-is exact into the five integer types (\secref{basic-integers}) and
-\EXP{\mathbb{Q}}, and rounds once, to the nearest value of the type, into
+and \EXP{\mathbb{R}32} declare one from \TYP{RadixPointNumeral}, each generic
+over the four numbers, as \EXP{\mathbb{Z}32} declares
+\EXP{\KWD{coerce}\llbracket\KWD{nat} n,\KWD{nat} r,\KWD{nat} v\rrbracket(x\COLON \TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket)}.
+The parameter of such a coercion has no value: its body computes the type's
+value from the four numbers, which it reads as values, integers of type
+\EXP{\mathbb{Z}} (\secref{natparams}).
+The conversion is exact into the five integer types (\secref{basic-integers})
+and \EXP{\mathbb{Q}}, and rounds once, to the nearest value of the type, into
 \EXP{\mathbb{R}64} and \EXP{\mathbb{R}32}.
+At a numeral, the compiler instantiates the coercion at the numeral's four
+numbers and evaluates it: a value that the Java Virtual Machine holds as an
+\texttt{int}, a \texttt{long}, a \texttt{float} or a \texttt{double} is a
+constant of the compiled code, and any other value, as one of \EXP{\mathbb{Z}}
+or \EXP{\mathbb{Q}}, is made once for the place where the numeral stands, so
+that every evaluation of that place yields the same value.
 
 A place \emph{fixes a type} for a numeral when the type declared there declares
 a coercion from the numeral's type, as each number type of \library\ does and a
-type of a program's own may, or is a numeral type itself.
+type of a program's own may.
 The declared type of a variable, a field or a parameter, and the declared
 return type of a functional, are such places, the parameter types of the
 declaration that a call invokes among them (\secref{resolving-coercion}).
@@ -206,38 +226,63 @@ tie is read.
 The default applies to a numeral, and to a static expression of numerals once
 it is folded (\secref{static-expr}), never to an expression of a numeral type.
 
-A type of a program's own receives a numeral through its own coercion from the
-numeral's type, such as \EXP{\KWD{coerce}(x\COLON\TYP{RadixPointNumeral})},
-whose body reads the four numbers.
+A type of a program's own receives a numeral as the number types of \library\
+do, through its own coercion from the numeral's type, generic over the four
+numbers, whose body computes the type's value from them.
+So the Working Draft's floating-point interval can receive
+\EXP{3.1415926535897932384} without rounding it first to a floating-point
+number:
+\begin{Fortress}
+\(\KWD{object}\:\TYP{Interval}(\VAR{lo}\COLON\mathbb{R}64, \VAR{hi}\COLON\mathbb{R}64)\)\\
+{\tt~~}\pushtabs\=\+\(  \KWD{coerce}\llbracket\KWD{nat} n,\KWD{nat} m,\KWD{nat} r,\KWD{nat} v\rrbracket(x\COLON \TYP{RadixPointNumeral}\llbracket{}n,m,r,v\rrbracket) =\)\\
+{\tt~~}\pushtabs\=\+\(    \TYP{Interval}(\VAR{roundDown}(v, r, m), \VAR{roundUp}(v, r, m))\)\-\-\\\poptabs\poptabs
+\(\KWD{end}\)\\[4pt]
+\(\VAR{iv}\COLON\TYP{Interval} = 3.1415926535897932384\)
+\end{Fortress}
+where \VAR{roundDown} and \VAR{roundUp}, functions of the program, round
+$v/r^m$ down and up to an \EXP{\mathbb{R}64}.
 A numeral at a place whose type is a type of a program's own that declares no
 coercion from the numeral's type is a static error: coercion does not chain
 (\secref{coercion}), so the numeral is not converted into its default first.
-The coercion sees the four numbers of a numeral as written: a negative constant
-reaches it as the prefix operator \EXP{-} applied to the coercion's result for
-the natural numeral (\secref{static-expr}), so a type without that operator
-refuses it.
-At each place where such a numeral stands, the coercion is applied once, not at
-each evaluation of the place, so that the numeral there denotes one object, as
-a string literal does: two evaluations of one place yield the same object, and
-each place has its own application of the coercion.
+The coercion receives the four numbers of a numeral as written.
+A numeral as written under the prefix operator \EXP{-}, as \EXP{-3}, is that
+operator of the type applied to the coercion's result for the numeral, so a type
+without that operator refuses it; any other static expression of numerals alone
+is folded first (\secref{static-expr}) and reaches the type only through the
+type's coercion from the folded constant's default type, as \EXP{1/2} through a
+coercion from \EXP{\mathbb{Q}}, and a type without that coercion refuses it.
+A coercion may restrict the four numbers by a \KWD{where} clause that compares
+them; a numeral whose four numbers do not meet it is a static error at that
+type, as \EXP{300} is at a byte type whose coercion is
+\EXP{\KWD{coerce}\llbracket\KWD{nat} n,\KWD{nat} r,\KWD{nat} v\rrbracket(x\COLON \TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket)\;\KWD{where}\;\{v < 256\}}.
+At each place where such a numeral stands, the coercion is applied once, with
+the type's prefix \EXP{-} where the numeral is negated, not at each evaluation
+of the place, so that the numeral there denotes one object, as a string literal
+does: two evaluations of one place yield the same object, and each place has its
+own application of the coercion.
 A numeral type is written in a program only as the type of a parameter, of a
 coercion or of an operator, never as the type of a variable, a field or a
-functional's result, nor as a static argument; so the constants \VAR{pi} and
-\VAR{e} of \library\ are values of \EXP{\mathbb{R}64}.
-Inside the body of a coercion, two values of a numeral type are equal, and
-strictly equivalent, when their values $v/r^m$ are equal: there \EXP{2.5} and
-\EXP{2.50} are strictly equivalent, and so are \EXP{0.1_{2}} and \EXP{0.5}.
+functional's result, nor as a static argument, nor as a type that a trait or an
+object extends; so the constants \VAR{pi} and \VAR{e} of \library\ are values
+of \EXP{\mathbb{R}64}.
 \revision{revival-numerals}{The Working Draft of February 2011 said that
 numerals are not directly converted to any of the number types, and so gave a
-numeral where nothing fixes a type its own type.
+numeral where nothing fixes a type its own type; it said nothing of when a
+coercion from a numeral type is applied.
 The revival decided on 8~November 2026 that a numeral is converted where it
 stands: where its place fixes a type, into that type, and elsewhere into the
-default above; that a type of a program's own receives a numeral only through
-its coercion from the numeral's type, once for each place; and that the numeral
-types are written only as parameter types.
+default above; that a numeral type is written only as a parameter type; and
+that a negated numeral reaches a type of a program's own as the type's prefix
+\EXP{-} on the coercion's result.
+It decided on 9~November 2026 that every number type, of \library\ and of a
+program, receives a numeral through a coercion generic over the four numbers,
+which the compiler instantiates at the numeral and folds, and that a numeral at
+a place denotes one value, made once, the same on both implementations.
+The interpreter, which has no static types, applies the coercion at the place's
+first evaluation and refuses a numeral only there (\secref{revival-numerals}).
 The text this replaces, the revival's own of 29~September 2026
 (\secref{revival-numeral-type}), named the type of an integer numeral
-\TYP{IntLiteral}, the name that the compiled path's own library gives it.}
+\TYP{IntLiteral}, the name that the compiled path's own library gave it.}
 
 
 \marginnote{What is an ``integer'' in this context?}
@@ -270,7 +315,9 @@ expression of numerals and operators alone is folded exactly into a signed
 constant before the static check, on both implementations
 (\secref{static-expr}): so \EXP{x = 7/2} binds the \EXP{\mathbb{Q}} \EXP{7/2},
 \EXP{1/2 = 0.5} is \VAR{true}, and the constant is rounded at most once where
-a floating-point type is declared.}
+a floating-point type is declared, since at a number type of \library\ it is
+converted from its exact value; a type of a program's own receives it through
+its coercion from the constant's default type.}
 \note{This specifies too much about the implementation:
 I don't think we should mention a compiler at all, except perhaps as informal discussion.
 In particular, wouldn't it be correct if this arithmetic were actually deferred and

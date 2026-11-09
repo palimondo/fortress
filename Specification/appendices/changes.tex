@@ -2240,6 +2240,10 @@ is below $2^{31}$ (row~962 of the revival's gap ledger), where the compiled type
 checker gave it the type of a numeral before 8~November 2026, so an \KWD{int}
 parameter is read as a \KWD{nat} parameter is; on the Java
 Virtual Machine the length and the indices of an array are 32-bit integers.
+The four numbers of a numeral type, read as values in the body of a coercion
+from it, are integers of type \EXP{\mathbb{Z}} instead, since the revival
+decided on 9~November 2026 that they are naturals of any size
+(\secref{revival-numerals}).
 The team's later Types chapter (Luchangco, 2012) gives the coercion relation,
 the coercion of a generic type and the valid instantiations of a quantified
 type (\nolinkurl{Documentation/Specification/Prose/Language/types.tick}, lines
@@ -2774,11 +2778,13 @@ With \TYP{Number} open to a program's own number types, an abstract
 equal.
 \Library\ now declare \VAR{asFloat} on \EXP{\mathbb{R}64}, \EXP{\mathbb{R}32},
 \EXP{\mathbb{Q}}, \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64}, \EXP{\mathbb{N}32},
-\EXP{\mathbb{N}64}, \EXP{\mathbb{Z}} and the two numeral types
-\TYP{NaturalNumeral} and \TYP{RadixPointNumeral} (\secref{revival-numerals};
-\nolinkurl{Library/FortressLibrary.fsi};
+\EXP{\mathbb{N}64} and \EXP{\mathbb{Z}}
+(\nolinkurl{Library/FortressLibrary.fsi};
 \nolinkurl{ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi}), and the vector
 norm at each of the eight number types as its element type.
+The revival decided on 9~November 2026 that the numeral types declare none,
+since no value of a numeral type exists when a program runs
+(\secref{revival-numerals}).
 A reversal would declare \VAR{asFloat} on \TYP{Number} again, abstract, with an
 \EXP{=} built on it, so that every type below \TYP{Number} must give a float, or
 declare it on a new trait that the number types extend.
@@ -2786,10 +2792,12 @@ declare it on a new trait that the number types extend.
 library.
 Two numbers of different types compare by \EXP{=} where a coercion carries one
 into the other: for each of the library's fourteen coercions between number
-types, and each of its eleven from the two numeral types
-(\secref{revival-numerals}), the type converted to declares \EXP{=} at the type
-converted from, and that type declares \EXP{=} at the first, each converting
-the narrower operand as the coercion does.
+types, the type converted to declares \EXP{=} at the type converted from, and
+that type declares \EXP{=} at the first, each converting the narrower operand as
+the coercion does.
+The library's eleven coercions from the two numeral types have no such pairs,
+since no value of a numeral type exists when a program runs
+(\secref{revival-numerals}).
 Two numbers of different types that no coercion joins, as a \EXP{\mathbb{Q}}
 and an \EXP{\mathbb{R}64}, compare by the library's fallback \EXP{=} over
 \TYP{Any}, which answers \EXP{a \sequiv b}; a program that means their values
@@ -3753,11 +3761,14 @@ number types, and that each of the five integer types, \EXP{\mathbb{Q}} and
 The box of \secref{coercion} says the same of the coercion into
 \EXP{\mathbb{R}64}, and that the interpreter does not yet give a numeral that
 type.
-The change of \secref{revival-numerals}, of 8~November 2026, replaced this
-text: an integer numeral has the type \TYP{NaturalNumeral}, beside
-\TYP{RadixPointNumeral} for a numeral with a radix point, and is converted into
-its default where nothing fixes a type; this entry keeps the change of
-29~September 2026, and its effect below states what of it holds since then.
+The change of \secref{revival-numerals}, of 8 and 9~November 2026, replaced
+this text: an integer numeral has the type
+\EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket}, beside
+\EXP{\TYP{RadixPointNumeral}\llbracket{}n,m,r,v\rrbracket} for a numeral with a
+radix point, types that exist only when a program is compiled and whose static
+arguments are the numeral's four numbers, and it is converted into its default
+where nothing fixes a type; this entry keeps the change of 29~September 2026,
+and its effect below states what of it holds since then.
 \item[Rationale] This change does not follow from route~A; the revival decided
 on 29~September 2026 that a numeral has a type of its own, \TYP{IntLiteral},
 from which each number type converts, the compiled path's own library's working
@@ -3780,9 +3791,10 @@ comment withheld, each integer type declaring a coercion from it.
 a numeral, coerce from it too, since \EXP{\mathbb{Q}} coerces from every integer
 type (\secref{basic-rationals}) and \EXP{\mathbb{R}64} from integer numerals
 (\secref{revival-int-float}).
-\item[Effect] The type \TYP{IntLiteral} of this change is named
-\TYP{NaturalNumeral} in \library\ since the change of \secref{revival-numerals};
-the compiled path's own library keeps the name \TYP{IntLiteral}.
+\item[Effect] The type \TYP{IntLiteral} of this change is replaced, in
+\library\ and in the compiled path's own library, by
+\EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket}, of which no value exists
+when a program runs, since the change of \secref{revival-numerals}.
 The compiled type checker converts an integer numeral to the
 integer type, \EXP{\mathbb{Q}} or \EXP{\mathbb{R}64} that its context expects,
 \EXP{\mathbb{N}32} and \EXP{\mathbb{N}64} among them, which refused a numeral
@@ -3792,29 +3804,33 @@ declaration of the operator is applicable to the two without coercion, and that
 type's own declaration of the operator is then the most specific
 (\secref{resolving-coercion}); \library\ state on each integer type the
 comparisons \EXP{<}, \EXP{\leq}, \EXP{>} and \EXP{\geq}, \OPR{CMP},
-\OPR{MAXNUM}, \OPR{MINNUM} and a power with a numeral exponent, which the types
-inherited before from a declaration that a converted numeral leaves tied with
-those of \EXP{\mathbb{Z}64}, \EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}.
-Equality is stated in pairs instead: each integer type declares an \EXP{=}
-whose parameter is of type \TYP{NaturalNumeral}, and \TYP{NaturalNumeral} one whose
-parameter is of each integer type, and each converts the numeral by its
-coercion into the integer type and compares by that type's own \EXP{=}
-(\secref{basic-rationals} gives the pairs of the other number types).
-Inequality is not stated in pairs: the top-level declaration of \EXP{\neq},
+\OPR{MAXNUM} and \OPR{MINNUM}, which the types inherited before from a
+declaration that a converted numeral leaves tied with those of
+\EXP{\mathbb{Z}64}, \EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}.
+They stated a power with a numeral exponent too, which the change of
+\secref{revival-numerals} removes: a numeral exponent reaches the power's
+declarations over \EXP{\mathbb{Z}32} and \TYP{AnyIntegral}.
+Equality was stated in pairs instead, each integer type declaring an \EXP{=}
+whose parameter was of the numeral type, and the numeral type one whose
+parameter was of each integer type; since the change of
+\secref{revival-numerals} no such pair exists, no value of a numeral type
+existing when a program runs (\secref{basic-rationals}).
+Inequality was not stated in pairs: the top-level declaration of \EXP{\neq},
 whose parameters are of type \TYP{Any}, is applicable to an integer value and a
 numeral without coercion, and since the change of \secref{revival-numerals} it
 receives the numeral at its default, which it compares with the integer value by
-\EXP{=}; so \EXP{u \neq 0} is \VAR{true} for a zero \VAR{u} of \EXP{\mathbb{N}32}
-or \EXP{\mathbb{N}64}, neither of which declares \EXP{=} with
-\EXP{\mathbb{Z}32}, as the interpreter answered before, a departure from
-\secref{operator-NE} that the effect of \secref{revival-numerals} names.
+\EXP{=}; so on the interpreter \EXP{u \neq 0} is \VAR{true} for a zero \VAR{u}
+of \EXP{\mathbb{N}32} or \EXP{\mathbb{N}64}, neither of which declares \EXP{=}
+with \EXP{\mathbb{Z}32}, and \EXP{u = 0} is \VAR{false}, as the effect of
+\secref{revival-numerals} says with its rows.
 \EXP{\mathbb{Z}} states in its api, for the same reason, the additive and
 multiplicative operators its body declares.
 \TYP{IntLiteral} declared its own \VAR{zero}, \VAR{one}, \VAR{even},
 \VAR{odd}, \VAR{floor}, \VAR{ceiling}, \VAR{truncate}, \OPR{DIVIDES},
 \OPR{TIMES} and a power with a numeral exponent; \TYP{NaturalNumeral} declares
-none of them, since an expression of numerals alone is folded and a numeral
-reaches those of its default type (\secref{revival-numerals}).
+none of them, nor any other method, since an expression of numerals alone is
+folded and a numeral reaches those of its default type
+(\secref{revival-numerals}).
 A numeral given where any integer type is accepted, as the count of a shift,
 is converted to the narrowest of \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64} and
 \EXP{\mathbb{Z}} that holds its value, as \secref{numeral-default} reads a
@@ -4065,8 +4081,9 @@ The full reasoning is in
 revival's repository.
 \item[Effect] Both implementations answer \EXP{\sequiv} by the rule, and both
 read the \KWD{value} modifier.
-\Library\ declare the rational type's object and the two numeral types,
-\TYP{NaturalNumeral} and \TYP{RadixPointNumeral}, as value objects.
+\Library\ declare the rational type's object as a value object; the numeral
+types are traits of which no value exists when a program runs
+(\secref{revival-numerals}).
 A numeral is converted where it stands on both implementations
 (\secref{revival-numerals}), so a floating-point numeral bound to a variable of
 type \EXP{\mathbb{R}64} is strictly equivalent to a computed \EXP{\mathbb{R}64}
@@ -4675,9 +4692,8 @@ interpreter's objects thirty-one of \EXP{\mathbb{N}32}, three of
 fifty-one of \EXP{\mathbb{R}32}; the getters \VAR{asString}, \VAR{asExprString}
 and \VAR{asFloat} of the interpreter's objects \TYP{Int}, \TYP{Long} and
 \TYP{BigNum}; the two private functions that round a numeral's value once,
-into \EXP{\mathbb{R}64} for the numeral types' \VAR{asFloat} and the
-coercions of \EXP{\mathbb{R}64}, and into \EXP{\mathbb{R}32} for the
-coercions of \EXP{\mathbb{R}32}; the thirteen methods of the object \TYP{FlatString} of \library\
+into \EXP{\mathbb{R}64} for the coercions of \EXP{\mathbb{R}64}, and into
+\EXP{\mathbb{R}32} for the coercions of \EXP{\mathbb{R}32}; the thirteen methods of the object \TYP{FlatString} of \library\
 and its line separator; the method \VAR{ilkName} of the trait \TYP{Object} and
 \EXP{\sequiv} over \TYP{Any}; the four methods of the trait
 \TYP{JavaBufferedWriter} and its three factories, over a file's name, standard
@@ -5001,88 +5017,164 @@ the bits, \VAR{narrow}, \VAR{widen}, \VAR{signed}, \VAR{unsigned} or \VAR{big}.
 \secref{lib:BinaryLinearEndianSequence};
 \secref{lib:BinaryEndianLinearEndianSequence}; \secref{revival-numeral-type};
 \secref{revival-inference}; \secref{revival-asfloat};
-\secref{revival-object-kinds}.
-\item[Change] \secref{literals} says that every numeral has the type
-\TYP{Numeral}, through \TYP{NaturalNumeral} for a numeral without a radix point
-or \TYP{RadixPointNumeral} for one with a radix point, and that its value holds
-the four numbers that were the static arguments of the Working Draft's numeral
-types, its digit count $n$, the number $m$ of its digits after the radix point,
-its radix $r$ and the value $v$ of its digits, as the getters \VAR{digits},
-\VAR{fractionDigits}, \VAR{radix} and \VAR{digitValue}; the two types with an
-explicit radix fold into the radix, and \TYP{Literal} into the digit count.
-\secref{types-libraries} names \TYP{Numeral}, without static arguments, among
-the standard types for literals.
+\secref{revival-object-kinds}; \secref{revival-native-helpers}.
+\item[Change] \secref{literals} says that every numeral has a numeral type of
+its own, which exists only when the program is compiled, so that no value of a
+numeral type exists when the program runs: the Working Draft's
+\EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket} for a numeral without a
+radix point, and \EXP{\TYP{RadixPointNumeral}\llbracket{}n,m,r,v\rrbracket} for
+one with a radix point, whose static arguments are the numeral's four numbers,
+its digit count $n$, the number $m$ of its digits after the radix point, its
+radix $r$ and the value $v$ of its digits, each a natural number of any size;
+that \library\ declare the two types below a \TYP{Numeral} without static
+parameters, which extends \TYP{Number}, through two traits that exclude each
+other, none of them with a method; and that the radix is the static argument
+$r$, so that the two types with an explicit radix are not built, nor is
+\TYP{Literal}.
+\secref{types-libraries} names the two numeral types below \TYP{Numeral} among
+the standard types for literals, as types that exist only when a program is
+compiled.
 Its paragraph that said that numerals are not directly converted now says that a
 numeral is converted where it stands, and its sentences on library designers
 and their coercions stand.
-New paragraphs say where a place fixes a type: where the type declared there
-declares a coercion from the numeral's type or is a numeral type; that there
-the numeral is converted from its exact value, exactly into the integer types
-and \EXP{\mathbb{Q}} and with one rounding into \EXP{\mathbb{R}64} and
-\EXP{\mathbb{R}32}, a numeral outside the type's range being a static error;
-that elsewhere it is converted into its default, \EXP{\mathbb{Z}32},
-\EXP{\mathbb{Z}64} or \EXP{\mathbb{Z}} by its value, or \EXP{\mathbb{R}64} with
-a radix point, the default applying to a numeral and never to an expression of
-a numeral type; that a type of a program's own receives a numeral only through
-its coercion from the numeral's type, which sees the four numbers of a numeral
-as written and is applied once for each place, so that the place denotes one
-object; that a numeral type is written only as a parameter type; and that
-inside a coercion's body two numeral values are equal and strictly equivalent
-by their value.
-Its box on the numeral's type is rewritten, and two boxes are added, after the
-numeral types and after the paragraph on static rational expressions.
+New paragraphs say that each number type of \library\ declares its coercion from
+a numeral type generic over the four numbers, whose parameter has no value and
+whose body computes the type's value from the four numbers, read as values of
+type \EXP{\mathbb{Z}}: exactly into the integer types and \EXP{\mathbb{Q}}, and
+with one rounding into \EXP{\mathbb{R}64} and \EXP{\mathbb{R}32}; that the
+compiler instantiates the coercion at the numeral and evaluates it, so that a
+value that the Java Virtual Machine holds as an \texttt{int}, a \texttt{long}, a
+\texttt{float} or a \texttt{double} is a constant, and any other value is made
+once for the place; that a place fixes a type where the type declared there
+declares a coercion from the numeral's type, and that a numeral outside that
+type's range is a static error; that elsewhere a numeral is converted into its
+default, \EXP{\mathbb{Z}32}, \EXP{\mathbb{Z}64} or \EXP{\mathbb{Z}} by its value,
+or \EXP{\mathbb{R}64} with a radix point, the default applying to a numeral and
+never to an expression of a numeral type; that a type of a program's own
+receives a numeral only through its own coercion generic over the four numbers,
+the Working Draft's interval being the example; that the coercion receives a
+numeral as written, a negated numeral being the type's prefix \EXP{-} on the
+coercion's result for the numeral, and any other static expression of numerals
+reaching the type only through its coercion from the folded constant's default
+type; that a \KWD{where} clause of the coercion that compares the four numbers
+refuses a numeral statically; that the coercion is applied once for each place,
+the prefix \EXP{-} with it, so that the place denotes one object; and that a
+numeral type is written only as a parameter type, never as a type that a trait
+or an object extends.
+Its box on the numeral's type is rewritten, and so are its boxes after the
+paragraph on a type of a program's own and after the paragraph on static
+rational expressions.
 \secref{static-expr} says, after its list of the traits of static expressions,
 that \library\ declare no constant trait and that an expression of numerals and
 operators is folded exactly into a signed constant, which takes one of three
-defaults where nothing fixes its type, and which operators it leaves alone; a
-box follows, and another follows the paragraph on the concatenation of literals,
-which says that the concatenation of two natural numerals is built.
+defaults where nothing fixes its type, is converted from its exact value at a
+number type of \library, and reaches a type of a program's own as a negated
+numeral as written or through the type's coercion from its default type, and
+which operators the fold leaves alone; a box follows, and another follows the
+paragraph on the concatenation of literals, which says that the concatenation of
+two natural numerals is built.
 \secref{coercion} says that a numeral's conversion into its default is a rule
 beside coercion, that a numeral is applicable without coercion to a parameter of
 its default type and to one that fixes no type, and that a type of a program's
 own without a coercion from the numeral's type refuses a numeral, with a box;
 its box on integers in floating-point expressions names the type
-\TYP{NaturalNumeral}, and no longer says that the interpreter leaves a large
+\EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket} and the coercion generic
+over the four numbers, and no longer says that the interpreter leaves a large
 numeral unconverted.
 \secref{static-arg-inference} says that \EXP{\VAR{id}(3)} is instantiated at the
 numeral's default, with a box.
-\secref{numeral-default} gives the default at every place that fixes no type,
-the narrowest default for a type parameter or the branches that several
-numerals fix, and the tie of a numeral with a radix point read as an
-\EXP{\mathbb{R}64}, with a box.
-\secref{basic-rationals} names the coercions from the two numeral types, their
-pairs of \EXP{=} and their \VAR{asFloat}, with a box.
-\secref{natparams} gains a box on a \KWD{nat} parameter used as a value, and
-the binary chapter's declarations over \TYP{NaturalNumeral} gain eight boxes;
-the text of both stands.
+\secref{numeral-default} gives the numeral's own type with its four numbers as
+static arguments, the default at every place that fixes no type, the narrowest
+default for a type parameter or the branches that several numerals fix, and the
+tie of a numeral with a radix point read as an \EXP{\mathbb{R}64}, with a box.
+\secref{basic-rationals} names the coercions from the two numeral types, generic
+over the four numbers, and says that the numeral types declare no \EXP{=} with a
+number type and no \VAR{asFloat}, with a box.
+\secref{natparams} gains a box on a \KWD{nat} parameter used as a value and on
+the four numbers of a numeral type, which are integers of type \EXP{\mathbb{Z}}
+in a coercion's body, and the binary chapter's declarations over
+\TYP{NaturalNumeral} gain eight boxes; the text of both stands.
 The entries \secref{revival-numeral-type}, \secref{revival-inference},
-\secref{revival-asfloat} and \secref{revival-object-kinds} are revised where
-they named \TYP{IntLiteral} or said what the interpreter does with a numeral.
+\secref{revival-asfloat}, \secref{revival-object-kinds} and
+\secref{revival-native-helpers} are revised where they named \TYP{IntLiteral}, a
+numeral's value, the numeral types' \VAR{asFloat}, the pairs of \EXP{=} with
+a numeral type or a power with a numeral exponent, or said what the interpreter
+does with a numeral.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 8~November 2026 that a numeral is converted where it
 stands, into the type that its place fixes or else into the machine default;
-that its own type is the Working Draft's \TYP{NaturalNumeral} or
-\TYP{RadixPointNumeral}, below \TYP{Numeral}, the four numbers fields of its
-value; and that a type of a program's own receives a numeral through its
-coercion from that type, which the compiled code applies once for each place.
+that an expression of numerals alone is folded exactly first; that a negated
+numeral reaches a type of a program's own as the type's prefix \EXP{-} on the
+coercion's result for the numeral; and that a numeral type is written only as a
+parameter type.
+It decided on 9~November 2026 that a numeral's type is the Working Draft's
+\TYP{NaturalNumeral} or \TYP{RadixPointNumeral}, below \TYP{Numeral}, with the
+four numbers as its static arguments, naturals of any size, and that it exists
+only when the program is compiled; that every number type, of \library\ and of a
+program, receives a numeral through a coercion generic over the four numbers,
+which the compiler instantiates for the numeral and folds; and that a numeral at
+a place denotes one value, the same on both implementations, made once: a
+constant where the Java Virtual Machine holds the value as an \texttt{int}, a
+\texttt{long}, a \texttt{float} or a \texttt{double}, and otherwise a value made
+when the class that holds the place is loaded, since a class file holds no
+object, or, in the interpreter, at the place's first evaluation.
 The Working Draft gives numerals types of their own so that library designers
 decide by coercions how numerals meet other types, and so that an interval type
 receives \EXP{3.1415926535897932384} unrounded
 (\nolinkurl{Specification-1.0-frozen/basic/expressions/literals.tex}, lines
-132--148).
-The team built that coercion under its own names, with the numeral's exact
-value, in the compiled path's own library (``ZZ32 now coerces IntLiteral as
-described in the spec'', the team's commit \texttt{128f313b5b} of 17~November
-2009, in the revival's repository), but never the four numbers.
-The change keeps what the team built, one type for each kind of numeral with
-its exact value at the coercion, and adds the Working Draft's names and
-numbers: a coercion that receives only a floating-point value rounds twice, as a
-16-bit floating-point type of a program's own would round
-\EXP{1.00390625000000000001} first to the nearest \EXP{\mathbb{R}64} and then to
-a 16-bit value other than the one nearest to the numeral.
-A field cannot give a static size, so the binary chapter's static word width
-from a numeral's digit count cannot be declared, and its \EXP{\|} with a numeral
-has no static result type; those declarations stand, each with a box.
+132--148); it gives the numeral types the four numbers as static arguments
+(lines 83--129), and says nothing of a value of a numeral type or of when a
+coercion from one is applied.
+The team built a coercion from a numeral type under its own names, in the
+compiled path's own library (``ZZ32 now coerces IntLiteral as described in the
+spec'', the team's commit \texttt{128f313b5b} of 17~November 2009, in the
+revival's repository), applied at run time to a numeral value that carries its
+exact value but not the four numbers.
+The change finishes the Working Draft's design: a coercion from a numeral type
+is the interface through which a number type receives the four numbers that the
+parser reads, and its body calls the type's constructor on values computed from
+them, so that a 16-bit floating-point type of a program's own rounds
+\EXP{1.00390625000000000001} once, to the 16-bit value nearest to the numeral,
+where a coercion that received a floating-point value would round it first to
+the nearest \EXP{\mathbb{R}64} and then to another 16-bit value.
+The number types of \library\ receive a numeral through the same coercion as a
+type of a program's own, as the Working Draft has libraries define the coercions
+from numerals into integers and rationals.
+The Working Draft's two types with an explicit radix are not built, since $r$
+holds the radix, nor is its \TYP{Literal}; and \TYP{Numeral}, above both numeral
+types, takes no static parameters, which, as the revival's prototype of the
+design found, the rule that no type extends two instantiations of one generic
+trait forbids beside the two generic numeral types
+(\nolinkurl{explorations/compile-ladder/plan-30/probes/draft-numerals.md},
+section~12, in the revival's repository).
+\TYP{AnyNaturalNumeral} and \TYP{AnyRadixPointNumeral} exclude each other so
+that a type's two coercions from the numeral types are valid overloads, as
+\TYP{AnyIntegral} above \TYP{Integral} serves the integer types of \library.
+No value of a numeral type exists when a program runs, so a numeral type declares
+no method, no \VAR{asFloat} and no \EXP{=} with a number type; the team's one
+word on a numeral's value at run time, that ``IntLiterals should always be
+transient objects with minimal lifetime''
+(\nolinkurl{ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FIntLiteral.java},
+lines 21--23, in the revival's repository at commit \texttt{b5b0f82c13}), is
+carried to its end.
+A numeral has no sign: at a type of a program's own a negated numeral is the
+type's own prefix \EXP{-} applied to the coercion's result, and a type without
+that operator refuses it, while at a number type of \library\ the folded
+constant is converted from its exact value, so that \EXP{-2147483648} is a
+\EXP{\mathbb{Z}32}.
+An expression of numerals alone is folded exactly, as the Working Draft computes
+a static rational expression exactly and rounds it at most once
+(\nolinkurl{Specification-1.0-frozen/basic/expressions/literals.tex}, lines
+162--173); its result is a signed constant written as numerals, not a value of a
+constant trait, so that a coercion from a numeral type receives only the four
+numbers of a numeral as written, any other constant reaching a type of a
+program's own only through that type's coercion from the constant's default
+type, since coercion does not chain, and \EXP{x = 7/2} stays a rational.
+With the four numbers as static parameters, the binary chapter's static word
+width from a numeral's digit count and radix can be declared; the revival
+declined on 8~November 2026 to build it, its coercions from a numeral type being
+those of the number types and of a program's own types, and the binary chapter's
+coercion and its \EXP{\|} with a numeral stand, each with a box.
 The default is the type that the interpreter already gave an integer numeral by
 its value, and the Java programming language's type for an integer literal.
 The revival declined exact defaults, \EXP{\mathbb{Z}} and \EXP{\mathbb{Q}}, as
@@ -5092,39 +5184,35 @@ line 25), since its model program's constants declared without a type would then
 be rationals and every index declared without a type would need a conversion.
 In two places the change departs from the revival's rule that the team's later
 decision wins over its earlier one: the compiled path's own library, the team's
-later word, names its numeral types \TYP{IntLiteral} and \TYP{FloatLiteral}, and
-keeps a numeral's own type at every place that fixes no type.
-The revival takes the Working Draft's names and the default as its own
-finishing of the text; no source of the team calls those names either final or
-temporary.
-The team's one word on a numeral's value at run time, that ``IntLiterals should
-always be transient objects with minimal lifetime''
-(\nolinkurl{ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FIntLiteral.java},
-lines 21--23), is kept: a program meets a numeral's value only inside a
-coercion or an operator whose parameter has a numeral type.
-An expression of numerals alone is folded exactly, as the Working Draft computes
-a static rational expression exactly and rounds it at most once
-(\nolinkurl{Specification-1.0-frozen/basic/expressions/literals.tex}, lines
-162--173); its result is a signed constant written as numerals, not a value of a
-constant trait, so that a coercion of a program's own sees only the four numbers
-of a numeral as written, and \EXP{x = 7/2} stays a rational.
+later word, named its numeral types \TYP{IntLiteral} and \TYP{FloatLiteral},
+types of values at run time without static parameters, and kept a numeral's own
+type at every place that fixes no type.
+The revival takes the Working Draft's names, its static parameters and the
+default as its own finishing of the text; no source of the team calls those
+names either final or temporary.
 A \KWD{nat} parameter used as a value has one type, \EXP{\mathbb{Z}32}, as the
 revival decided on 28~September 2026 for the ranges (\secref{revival-inference}),
-not \EXP{\mathbb{N}32} as \secref{natparams} says.
+not \EXP{\mathbb{N}32} as \secref{natparams} says; the four numbers of a numeral
+type, naturals of any size, are read in a coercion's body as values of type
+\EXP{\mathbb{Z}}, the bound of a size to 32 bits being this implementation's,
+for the lengths of arrays.
 A numeral at a type of a program's own that declares no coercion from the
 numeral's type is refused, since coercion does not chain; the alternative not
 taken converts it into its default first and then by the type's own coercion
 from that default.
 A reversal to the Working Draft's polymorphic numerals would keep a numeral's
-own type wherever nothing fixes a type, as the compiled path's own library does,
-so that \EXP{x = 3} binds a numeral and \EXP{\TYP{Cell}(3)} is a
-\EXP{\TYP{Cell}\llbracket\TYP{NaturalNumeral}\rrbracket}; a reversal to the names
-of \secref{revival-numeral-type} would rename the two types \TYP{IntLiteral} and
-\TYP{FloatLiteral}, which no program that does not write them would notice.
+own type wherever nothing fixes a type, as the team's compiled path's own library
+did, so that \EXP{x = 3} binds a numeral and \EXP{\TYP{Cell}(3)} is a
+\EXP{\TYP{Cell}\llbracket\TYP{NaturalNumeral}\llbracket{}1,10,3\rrbracket\rrbracket};
+a reversal to that library's numeral types would give a numeral a value when the
+program runs, an \TYP{IntLiteral} or a \TYP{FloatLiteral}, to which a coercion is
+applied at run time without the four numbers.
 The full reasoning is in
+\nolinkurl{explorations/coordinator/postmortem-2026-11-09-numerals/design-snapshot.md},
+\nolinkurl{explorations/compile-ladder/plan-30/probes/draft-numerals.md},
 \nolinkurl{explorations/reviews/literal-design-judgement-2026-11-08.md} and
-\nolinkurl{explorations/compile-ladder/rung-literals-spec/REPORT.md} in the
-revival's repository.
+\nolinkurl{explorations/compile-ladder/rung-static-numerals-spec/REPORT.md} in
+the revival's repository.
 \item[Effect] Both implementations convert a numeral where its place fixes a
 type and give it its default elsewhere.
 So \EXP{x = 3} binds a \EXP{\mathbb{Z}32}, and \EXP{x \sequiv z} is \VAR{true}
@@ -5151,58 +5239,72 @@ type \EXP{\mathbb{N}32} refuses, where the compiled type checker took it
 A numeral that took its default prints as a value of its default type, so that
 \EXP{\hbox{\rm``''}\;2.50} is \hbox{\rm``\STR{2.5}''}, and the team's test
 \nolinkurl{ProjectFortress/tests/NumberPrintTest.fss}, which asserted that a
-numeral prints as written, is changed; a value of a numeral type prints as the
-numeral is written, with its radix after an underscore where it is not ten.
-The top-level \EXP{\neq} of \library, whose parameters are of type \TYP{Any},
-departs from \secref{operator-NE}, by which \EXP{\neq} applies \EXP{\neg} to
-the result of \EXP{=} on the same operands: it takes a numeral at its default
-and compares that by \EXP{=}, so that \EXP{u \neq 0} is \VAR{true} for a zero
-\VAR{u} of \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or \EXP{\mathbb{R}32}, none of
-which declares \EXP{=} with \EXP{\mathbb{Z}32}, and \EXP{q \neq 0.5} is
-\VAR{true} for \EXP{q\COLON\mathbb{Q} = 1/2}, since \EXP{\mathbb{Q}} declares no
-\EXP{=} with \EXP{\mathbb{R}64}, though \EXP{u = 0} and \EXP{q = 0.5} are
-\VAR{true} by the pairs of \EXP{=} (row~966 of the revival's gap ledger).
-The interpreter answered the two inequalities so before this change; the
-compiled path's own library declares \EXP{\neq} on each integer type with an
-operand of that type, into which the numeral is converted, so that there
-\EXP{u \neq 0} is \VAR{false}.
-The interpreter, which has no static types, refuses an integer numeral outside
-its type's range when the place is evaluated, and converts a numeral that
-rounds to an infinity of \EXP{\mathbb{R}64} or \EXP{\mathbb{R}32} into that
-infinity with no error (row~967); it converts a numeral at a parameter
-of the declaration that a call chooses, at a variable or a field of a declared
-type and at a declared return type, but not one passed through a tuple or a
-varargs parameter (rows~395 and~511).
+numeral prints as written, is changed.
+No value of a numeral type exists on either implementation when a program runs.
 The compiled path, which until it is built on \library\ compiles against a
-smaller library of its own, gives its numerals that library's types,
-\TYP{IntLiteral} and \TYP{FloatLiteral}, which a program there writes as a
-coercion's parameter type; the compiled type checker does not apply the rule
-that a numeral type is written only as a parameter type to the libraries' own
-files.
-On the compiled path until then, a coercion of a program's own receives that
-library's numeral value without its four numbers, the conversion of a numeral by
-an \EXP{=} of a number type is not folded where it is called, and two numeral
-values are not compared by their value.
-The compiled code applies a program's coercion from a numeral type once for
-each place, in the initialization of the class of the component that holds the
-place, before the program runs, so that a coercion that throws an exception
-stops the program; at a place whose type is a generic type of the program's own
-it applies the coercion at each evaluation of the place (row~957).
+smaller library of its own, declares there the same numeral types, with
+coercions generic over the four numbers from \TYP{NaturalNumeral} at its five
+integer types and from \TYP{RadixPointNumeral} at \EXP{\mathbb{R}64} and
+\EXP{\mathbb{R}32}; that library has no \EXP{\mathbb{Q}}.
+The compiled code converts a numeral as written at a number type by that type's
+coercion, whose body the compiler evaluates at the numeral's four numbers with
+no knowledge of the type, into the constant that the class file holds; a value
+of another representation, as one of \EXP{\mathbb{Z}}, and a value of a type of
+a program's own come from one compiled method for each coercion from a numeral
+type, which takes the four numbers as values of type \EXP{\mathbb{Z}} and which
+each place calls once, in the initialization of the class of the component that
+holds the place, before the program runs, the type's prefix \EXP{-} on a
+negated numeral with it; so a coercion that throws an exception stops the
+program.
+A signed constant at a number type of \library\ is converted from its exact
+value on both implementations, outside the coercion, so that no coercion from a
+numeral type receives a sign.
+The interpreter, which has no static types, applies a coercion from a numeral
+type at the place's first evaluation, with the four numbers bound as values of
+type \EXP{\mathbb{Z}}, and keeps its result for the place; it refuses a numeral
+only when the place is evaluated: one outside an integer type's range, one at a
+type that declares no coercion from the numeral's type or whose coercion's
+\KWD{where} clause the numeral does not meet, a negated numeral at a type
+without a prefix \EXP{-}, a folded constant at a type of a program's own
+without a coercion from the constant's default type, and a numeral bound to a
+variable declared of a numeral type.
+It converts a numeral that rounds to an infinity of \EXP{\mathbb{R}64} or
+\EXP{\mathbb{R}32} into that infinity with no error (row~967); it converts a
+numeral at a parameter of the declaration that a call chooses, at a variable or
+a field of a declared type and at a declared return type, but not one passed
+through a tuple or a varargs parameter (rows~395 and~511).
+The compiled type checker does not apply the rule that a numeral type is written
+only as a parameter type to the libraries' own files.
+A numeral type declares no \EXP{=} with a number type, so a numeral compared by
+\EXP{=} with a number of a type that declares no \EXP{=} with the numeral's
+default type meets the top-level \EXP{=} of \library, whose parameters are of
+type \TYP{Any} and which takes the numeral at its default: the interpreter answers \EXP{u = 0} \VAR{false}, and
+\EXP{u \neq 0} \VAR{true}, for a zero \VAR{u} of \EXP{\mathbb{N}32},
+\EXP{\mathbb{N}64} or \EXP{\mathbb{R}32}, none of which declares \EXP{=} with
+\EXP{\mathbb{Z}32} (rows~966 and~973 of the revival's gap ledger; the
+expected failure \nolinkurl{ProjectFortress/tests/XXXNumeralEqualsNumberWalk.fss}
+asserts \VAR{true}), and whether \EXP{u = 0} is \VAR{true} is open; the compiled
+path's own library declares no \EXP{=} over \TYP{Any}, and declares \EXP{=} and
+\EXP{\neq} on each integer type with an operand of that type, into which the
+numeral is converted, so that there \EXP{u = 0} is \VAR{true} and
+\EXP{u \neq 0} \VAR{false} for a zero \VAR{u} of \EXP{\mathbb{N}32}.
 The implementations depart from the text in these further ways, each with its
 row of the revival's gap ledger: the interpreter runs the operator of
 \EXP{\mathbb{R}64} where a floating-point numeral stands to the left of an
-\EXP{\mathbb{R}32} (row~958), and counts only one of the leading zeros of a
-numeral with a radix point among its digits (row~960); the compiled path
-keeps a numeral's own type at the selector of a \KWD{typecase} (row~963);
-both give a program's coercion a negative constant with its sign, not as the
-prefix operator \EXP{-} on the coercion's result for the natural numeral, so
-that a type without \EXP{-} takes it: the compiled path as a negative numeral
-(row~961), and the interpreter, which folds the constant as the compiled path
-does, as a natural numeral of negative value, whose digit count is that of
-the numeral without its sign (row~968); where a \KWD{nat} or \KWD{int}
-parameter of $2^{31}$ or more is used as a value, the compiled path stops
-with an error that no \KWD{catch} sees, and the interpreter makes it a
-\EXP{\mathbb{Z}64} (row~962); and both leave an expression of numerals alone
+\EXP{\mathbb{R}32} (row~958); the interpreter loads and runs a program that writes a numeral type as a type that an object or a trait extends, or as a static argument (row~974); a numeral with a radix point keeps only one of
+its leading zeros in its digit count, as the parser gives the numeral to both
+implementations (row~960); the compiled path keeps a numeral's own type,
+\EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket}, at the selector of a
+\KWD{typecase} (row~963); at a place whose type names a type parameter of its
+generic declaration, as \EXP{m()\COLON\TYP{Gen}\llbracket{}T\rrbracket = 3} in
+\EXP{\KWD{object}\;\TYP{Box}\llbracket{}T\rrbracket}, the compiled code applies
+the coercion at each evaluation of the place (row~957); a coercion from a
+numeral type whose body spawns a task, as an operator applied to two calls may,
+stops the load of the class that holds the place, which the compiled program
+loads before it starts its tasks (row~971); where a \KWD{nat} or \KWD{int}
+parameter of $2^{31}$ or more, other than one of a numeral type's four numbers,
+is used as a value, the compiled path stops with an error that no \KWD{catch}
+sees, and the interpreter makes it a \EXP{\mathbb{Z}64} (row~962); and both leave an expression of numerals alone
 as written where the form of its result needs a prefix \EXP{-} or a \EXP{/}
 that its component writes nowhere (row~956).
 No line of the revival's model program changes, and by reading none of its
@@ -5288,7 +5390,7 @@ except that it cannot be assigned to.
 \end{quote}
 \nolinkurl{Specification-1.0-frozen/advanced-lib/binary.tex}, lines 1620--1621
 and 1659--1662, typeset in lines 1681--1682 and 1720--1723, which the change
-contradicts, and which stand with boxes, as do the declarations over
+leaves out, and which stand with boxes, as do the declarations over
 \TYP{NaturalNumeral} of lines 905--914, 1117--1135, 1750, 1860--1868, 2016,
 2078--2082, 2114 and 2271--2281:
 \begin{quote}
@@ -5377,9 +5479,10 @@ which the numeral types change in form:
 for appropriate values of \VAR{b}, \VAR{n}, \VAR{m}, \VAR{r}, and \VAR{v}
 (See \secref{literals} for a discussion of Fortress literals).
 \end{quote}
-\item[Route C] The same under route~C: the numeral types are siblings of the
-number types under \TYP{Number} whichever rule on instantiations the compiled
-type checker keeps.
+\item[Route C] The same under route~C: the numeral types lie below
+\TYP{Numeral}, beside the number types under \TYP{Number}, and no number type
+is a subtype of a numeral type or a numeral type of a number type, whichever
+rule on instantiations the compiled type checker keeps.
 \end{description}
 
 \subsection{A string literal as one object}

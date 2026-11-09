@@ -81,13 +81,15 @@ precision, and \library\ declare the coercion into \EXP{\mathbb{R}64} from
 The conversion from \EXP{\mathbb{N}32}, though exact, stays explicit, since
 that decision names only \EXP{\mathbb{Z}32} and the numerals.
 The examples of this paragraph convert numerals and are unchanged.
-\Library\ give an integer numeral the type \TYP{NaturalNumeral}, from which
-\EXP{\mathbb{R}64} coerces with one rounding; the compiled type checker,
+\Library\ give an integer numeral a type
+\EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket}, from which
+\EXP{\mathbb{R}64} coerces by a coercion generic over the numeral's four
+numbers, with one rounding; the compiled type checker,
 against \library, and the interpreter convert an integer numeral where
 \EXP{\mathbb{R}64} is declared, whatever its value (\secref{literals},
 \secref{revival-numerals}).
 The compiled path's own library declares no coercion into \EXP{\mathbb{R}64}
-from an integer type or an integer numeral; there \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}32} and integer
+from an integer type or from \TYP{NaturalNumeral}; there \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}32} and integer
 numerals convert to \EXP{\mathbb{R}64} only explicitly, and the other integer types not at all.}
 
 One way to think about coercion is that if type \VAR{T} can be coerced
@@ -121,7 +123,11 @@ the only conversion of a value at a place of another type, and excluded a place
 whose declared type is a supertype of the type converted to.
 The revival decided on 8~November 2026 that a numeral where nothing fixes a
 type is converted into its default; the default is a rule beside coercion, and
-the paragraph above stands as it was.}
+the paragraph above stands as it was.
+It decided on 9~November 2026 that a numeral's coercion into a type is the one
+that the type declares from the numeral's type, generic over the numeral's four
+numbers (\secref{literals}), for the number types of \library\ as for a type of
+a program's own.}
 
 Coercion from \VAR{T} to \VAR{U} may occur in an expression context
 where the context expects the expression to have type \VAR{U} and

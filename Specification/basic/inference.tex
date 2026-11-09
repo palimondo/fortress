@@ -302,9 +302,10 @@ It dispatches a converted call again, except a call of an overloaded method.}
 \section{A Numeral Whose Conversions Tie}
 \seclabel{numeral-default}
 
-A numeral has a type of its own, from which \library\ define coercions to the
-number types, and where nothing at its place fixes a type it is converted into
-its default (\secref{literals}): a \EXP{\mathbb{Z}32}, or a \EXP{\mathbb{Z}64} or
+A numeral has a numeral type of its own, whose static arguments are the
+numeral's four numbers, and from which \library\ define coercions to the number
+types, generic over those numbers; where nothing at its place fixes a type it is
+converted into its default (\secref{literals}): a \EXP{\mathbb{Z}32}, or a \EXP{\mathbb{Z}64} or
 a \EXP{\mathbb{Z}} when its value does not fit in the narrower type, and an
 \EXP{\mathbb{R}64} for a numeral with a radix point.
 Nothing fixes a type at a variable declared without a type; at a parameter of
@@ -348,7 +349,10 @@ without a radix point.
 The revival decided on 8~November 2026 that a numeral takes its default at
 every place that fixes no type, that a type parameter that several numerals fix
 takes the narrowest default that holds them all, and that a numeral with a
-radix point whose conversions tie is read as an \EXP{\mathbb{R}64}.}
+radix point whose conversions tie is read as an \EXP{\mathbb{R}64}; and on
+9~November 2026 that a numeral's own type has its four numbers as static
+arguments, and that the coercions of \library\ from it are generic over them
+(\secref{literals}).}
 
 The rule settles only a tie that a numeral makes.
 Where an argument that is not a numeral leaves the declarations applicable to a
