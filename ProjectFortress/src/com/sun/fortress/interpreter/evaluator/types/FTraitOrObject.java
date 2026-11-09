@@ -187,7 +187,8 @@ abstract public class FTraitOrObject extends FTraitOrObjectOrGeneric {
             GenericTypeInstance gti_this = (GenericTypeInstance) this;
             return getName() + Useful.listInOxfords(gti_this.getTypeParamsForName());
         } else {
-            return getName();
+            String trait = LanguageTypes.traitName(this);
+            return trait != null ? trait : getName();
         }
     }
 
