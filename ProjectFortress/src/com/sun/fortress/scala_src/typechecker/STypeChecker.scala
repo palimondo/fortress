@@ -510,8 +510,8 @@ abstract class STypeChecker(val current: CompilationUnitIndex,
         coercions.buildCoercion(checkedExpr, expected).orElse(defaultFits(checkedExpr, expected)).getOrElse {
           msgAndLoc match {
             case Some((message, location)) =>
-              NumeralConversion.outOfRange(checkedExpr, expected) match {
-                case Some(range) => signal(checkedExpr, range)
+              NumeralConversion.outOfRangeAt(checkedExpr, expected) match {
+                case Some((at, range)) => signal(at, range)
                 case None =>
                   val someE = Some(expected)
                   val checkedExpr2 = checkExpr(expr, someE) // Repeat calculation for debugging

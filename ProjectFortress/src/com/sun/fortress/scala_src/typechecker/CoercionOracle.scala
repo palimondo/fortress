@@ -456,7 +456,16 @@ object NumeralConversion {
    * hold it: an integer numeral outside ZZ32, ZZ64, NN32 or NN64, and a
    * numeral whose one rounding into RR64 or RR32 is an infinity.
    */
-  def outOfRange(e: Expr, u: Type): Option[String] = (e, u) match {
+  def outOfRange(e: Expr, u: Type): Option[String] = outOfRangeAt(e, u).map(_._2)
+
+  /** The numeral that outOfRange refuses, the expression itself or an element of a tuple at a tuple type, and the refusal. */
+  def outOfRangeAt(e: Expr, u: Type): Option[(Expr, String)] = (e, u) match {
+    case (STupleExpr(_, es, None, Nil, _), STupleType(_, us, None, Nil)) if es.size == us.size =>
+      es.zip(us).flatMap { case (x, t) => outOfRangeAt(x, t) }.headOption
+    case _ => numeralOutOfRange(e, u).map((e, _))
+  }
+
+  private def numeralOutOfRange(e: Expr, u: Type): Option[String] = (e, u) match {
     case (i: IntLiteralExpr, t: TraitType) if libraryType(t) =>
       val name = t.getName.getText
       val v = i.getIntVal
