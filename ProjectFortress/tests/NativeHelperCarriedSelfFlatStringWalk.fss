@@ -64,7 +64,8 @@ run():() = do
   assert("abd" < "abc", false, "< not")
   assert(("ABC" CASE_INSENSITIVE_CMP "abc") = EqualTo, true, "CASE_INSENSITIVE_CMP equal")
   assert(("abc" CASE_INSENSITIVE_CMP "ABD") = LessThan, true, "CASE_INSENSITIVE_CMP below")
-  assert("ab" || "cd", "abcd", "||")
+  cdText: String = "cd"
+  assert("ab" || cdText, "abcd", "||")
   assert(e || e, "", "|| of the empty strings")
   println("FlatString sizes: " e.size " " w.size " " |w| " " long.size)
 end

@@ -40,10 +40,13 @@ run():() = do
   assert((|/nan\|).asString, "0", "ceiling bracket of NaN")
 
   abc = "abc"
-  assert(abc = ("ab" || "c"), true, "FlatString =")
+  cText: String = "c"
+  assert(abc = ("ab" || cText), true, "FlatString =")
   assert(abc = "abd", false, "FlatString = unequal")
   assert("" = "", true, "FlatString = of the empty string")
-  rope = "abcdefghijklmnopqrstuvwxyz0123456789" || "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  upperText: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  rope = "abcdefghijklmnopqrstuvwxyz0123456789" || upperText
+  assert(rope.depth > 0, true, "the rope is not flat")
   flat = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   assert(rope.asFlatString = flat, true, "FlatString = at a rope flattened")
   assert(flat = rope.asFlatString, true, "FlatString = at a rope flattened, on the right")
