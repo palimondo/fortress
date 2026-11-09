@@ -1,0 +1,86 @@
+(* A numeral takes its default where nothing fixes a type, and converts from its exact value where a declared number type fixes one. *)
+component NumeralTypesWalk
+export Executable
+
+kind(v: Any): String =
+  typecase v of
+    ZZ32 => "ZZ32"
+    ZZ64 => "ZZ64"
+    NN32 => "NN32"
+    NN64 => "NN64"
+    ZZ => "ZZ"
+    QQ => "QQ"
+    RR64 => "RR64"
+    RR32 => "RR32"
+    else => "another type"
+  end
+
+atAny(v: Any): String = kind(v)
+atNumber(v: Number): String = kind(v)
+
+run(): () = do
+    (* The defaults: literals.tex, section "Literals"; inference.tex, section "A Numeral Whose Conversions Tie". *)
+    x = 3
+    assert(kind(x), "ZZ32", "x = 3 is a ZZ32")
+    z: ZZ32 = 3
+    assert(x SEQV z, "x = 3 is SEQV a ZZ32 3")
+    y = 0.5
+    assert(kind(y), "RR64", "y = 0.5 is an RR64")
+    w: RR64 = 0.5
+    assert(y SEQV w, "y = 0.5 is SEQV an RR64 0.5")
+    bigN = 3000000000
+    assert(kind(bigN), "ZZ64", "bigN = 3000000000 is a ZZ64")
+    assert(atAny(3), "ZZ32", "3 at Any is a ZZ32")
+    assert(atAny(0.5), "RR64", "0.5 at Any is an RR64")
+    assert(atNumber(3), "ZZ32", "3 at Number is a ZZ32")
+    assert(1/2 = 0.5, "1/2 = 0.5 through QQ's = with the float numeral")
+    assert(0.5 = 1/2, "0.5 = 1/2 through the reversed =")
+    b = 0.9
+    assert(kind(1 - b), "RR64", "1 - b is an RR64")
+    assert(kind(b^2), "RR64", "b^2 is an RR64")
+    s: ZZ32 = 4
+    assert(kind(1.0 s), "RR64", "1.0 s is an RR64")
+    assert((1.0 s) SEQV w 8, "1.0 s is the RR64 4.0")
+
+    (* The typed places: the numeral converts from its exact value. *)
+    q: QQ = 0.1
+    assert(numerator(q), 1, "q: QQ = 0.1 has numerator 1")
+    assert(denominator(q), 10, "q: QQ = 0.1 has denominator 10")
+    one: RR64 = w + w
+    ten: RR64 = one + one + one + one + one + one + one + one + one + one
+    r: RR64 = 0.1
+    assert(r SEQV (one / ten), "r: RR64 = 0.1 is SEQV a computed RR64 0.1")
+    t: RR64 = 0.77425264282026984
+    assert(t.asString, "0.7742526428202698", "the numeral at RR64 rounds once")
+    n: NN32 = 5
+    assert(n, unsigned(5), "n: NN32 = 5")
+    assert(kind(n), "NN32", "n: NN32 = 5 is an NN32")
+    m: NN64 = 5
+    assert(kind(m), "NN64", "m: NN64 = 5 is an NN64")
+    r32: RR32 = 0.1
+    assert(kind(r32), "RR32", "r32: RR32 = 0.1 is an RR32")
+    assert(asFloat(r32) SEQV asFloat(narrow(one / ten)), "r32: RR32 = 0.1 is the float nearest 0.1")
+    near: RR32 = 1.0000000596046447763
+    assert(asFloat(near) SEQV 1.0000001192092896, "a numeral just above a float midpoint rounds once, up, at RR32")
+    wide: RR64 = 3000000000
+    assert(wide SEQV 3000000000.0, "s: RR64 = 3000000000 holds the float 3000000000.0")
+    u: NN32 = 5
+    assert(kind(u + 1), "NN32", "u + 1 for an NN32 u is an NN32")
+    assert((u + 1) = unsigned(6), "u + 1 for an NN32 5 is 6")
+    assert(round(2.5_10), 2, "round(2.5_10) is 2")
+    assert(round(3.5_10), 4, "round(3.5_10) is 4")
+
+    (* Each number type's = with a numeral, by the pair that goes with its coercion. *)
+    u0: NN32 = 0
+    assert(u0 = 0, "u = 0 for an NN32 zero")
+    v0: NN64 = 0
+    assert(v0 = 0, "v = 0 for an NN64 zero")
+    f0: RR32 = 0
+    assert(f0 = 0, "r = 0 for an RR32 zero")
+    assert(f0 = 0.0, "r = 0.0 for an RR32 zero")
+    assert(0 = u0, "0 = u for an NN32 zero")
+    assert(0.5 = narrow(w), "0.5 = r for an RR32 0.5")
+    println "PASS"
+  end
+
+end

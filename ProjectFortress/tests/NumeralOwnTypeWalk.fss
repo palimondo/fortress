@@ -1,0 +1,106 @@
+(* A program's own type receives a numeral through its coercion from the numeral type, which reads the numeral's four numbers, one object per site. *)
+component NumeralOwnTypeWalk
+export Executable
+
+value object CC64(re: RR64, im: RR64)
+    coerce(x: NaturalNumeral) = CC64(asFloat(x), 0.0)
+    coerce(x: RadixPointNumeral) = CC64(asFloat(x), 0.0)
+    opr +(self, other: CC64): CC64 = CC64(re + other.re, im + other.im)
+    opr juxtaposition(self, other: CC64): CC64 =
+        CC64(re other.re - im other.im, re other.im + im other.re)
+end
+
+imaginary: CC64 = CC64(0.0, 1.0)
+
+(* The exact rational of a positive normal double. *)
+exact(d: RR64): QQ = do
+    bits: ZZ64 = d.rawBits
+    e: ZZ64 = (bits RSHIFT 52) BITAND 2047
+    f: ZZ64 = bits BITAND 4503599627370495
+    mant: ZZ = big(f + 4503599627370496)
+    k: ZZ32 = (e - 1075).asZZ32
+    two: ZZ = big(2)
+    if k >= 0 then (mant two^k) / big(1) else mant / two^(-k) end
+  end
+
+value object Iv(lo: RR64, hi: RR64)
+    coerce(x: RadixPointNumeral) = do
+        q: QQ = x
+        d: RR64 = asFloat(x)
+        a: QQ = exact(d)
+        if a = q then Iv(d, d) elif q < a then Iv(d.nextDown, d) else Iv(d, d.nextUp) end
+      end
+end
+
+(* bfloat16 for values in [1, 2): sign 0, exponent 127, seven fraction bits, rounded half to even once. *)
+value object BF16(bits: ZZ32)
+    coerce(x: RadixPointNumeral) = do
+        q: QQ = x
+        half: QQ = 1/2
+        s: QQ = q (128/1)
+        n: ZZ = floor(s)
+        rest: QQ = s - (n/1)
+        up: Boolean = if rest > half then true elif rest < half then false else odd(n) end
+        k: ZZ = if up then n + 1 else n end
+        BF16((k - 128 + 16256).asZZ32)
+      end
+end
+
+value object Dec(unscaled: ZZ, scale: ZZ32)
+    coerce(x: RadixPointNumeral) = Dec(x.digitValue, x.fractionDigits)
+end
+
+value object Written(text: String)
+    coerce(x: RadixPointNumeral) = Written(x.asString)
+end
+
+object Ref(v: ZZ)
+    coerce(x: NaturalNumeral) = Ref(x.digitValue)
+end
+
+made(): Ref = 7
+
+parts(x: RadixPointNumeral): String =
+    x.digits.asString || " " || x.fractionDigits.asString || " " || x.radix.asString || " " || x.digitValue.asString
+
+same(a: RadixPointNumeral, b: RadixPointNumeral): Boolean = a SEQV b
+equal(a: RadixPointNumeral, b: RadixPointNumeral): Boolean = a = b
+
+run(): () = do
+    c: CC64 = 3 + 4 imaginary
+    assert(c.re SEQV 3.0, "3 + 4 i has the real part 3.0")
+    assert(c.im SEQV 4.0, "3 + 4 i has the imaginary part 4.0")
+    d: CC64 = 3.78 + 3.243 imaginary
+    assert(d.re SEQV 3.78, "3.78 + 3.243 i has the real part 3.78")
+    assert(d.im SEQV 3.243, "3.78 + 3.243 i has the imaginary part 3.243")
+    assert(parts(3.78), "3 2 10 378", "3.78 has three digits, two after the point, radix 10, value 378")
+    assert(parts(3.243), "4 3 10 3243", "3.243 has four digits, three after the point, radix 10, value 3243")
+    i1: Iv = 0.1
+    assert(i1.lo SEQV 0.09999999999999999, "Iv(0.1) has the double below 1/10 as its low bound")
+    assert(i1.hi SEQV 0.1, "Iv(0.1) has the double above 1/10 as its high bound")
+    i2: Iv = 0.5
+    assert(i2.lo SEQV 0.5, "Iv(0.5) is the point 0.5")
+    assert(i2.hi SEQV 0.5, "Iv(0.5) is the point 0.5")
+    b: BF16 = 1.00390625000000000001
+    assert(b.bits, 16257, "BF16(1.00390625000000000001) rounds once, to 0x3F81")
+    b0: BF16 = 1.00390625
+    assert(b0.bits, 16256, "BF16(1.00390625), the midpoint, rounds to even, 0x3F80")
+    p: Dec = 3.14159
+    assert(p.unscaled, big(314159), "Dec(3.14159) has the unscaled value 314159")
+    assert(p.scale, 5, "Dec(3.14159) has the scale 5")
+    p0: Dec = 3.14150
+    assert(p0.unscaled, big(314150), "Dec(3.14150) keeps the unscaled value 314150")
+    assert(p0.scale, 5, "Dec(3.14150) keeps the scale 5")
+    h: Written = C.8_16
+    assert(h.text, "C.8_16", "C.8_16 is written back as C.8_16")
+    assert(made() SEQV made(), "one site gives one object of a reference type")
+    r1: Ref = 7
+    r2: Ref = 7
+    assert(NOT (r1 SEQV r2), "two sites give two objects of a reference type")
+    assert(same(2.5, 2.50), "2.5 SEQV 2.50 between two numeral values")
+    assert(same(0.1_2, 0.5), "0.1_2 SEQV 0.5 between two numeral values")
+    assert(NOT equal(0.1, 0.1_16), "0.1 = 0.1_16 is false between two numeral values")
+    println "PASS"
+  end
+
+end
