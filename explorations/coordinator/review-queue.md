@@ -2,13 +2,13 @@
 
 ## When each item is needed
 
-The asks that stay after the cleanup of 2026-11-05, grouped by the work that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) or (c) gives the other way, the cost, the home and its "Needed by" line. The cleanup gave each of the 312 open items one verdict: 77 settled or stale, now in (a); 117 decisions that landed at a default that no planned work needs his word on again, moved to `coordinator/review-queue-learning-2026-11-05.md`, the material for a page that he reads to learn what was decided; 53 items of the coordinator's own work, moved to `coordinator/coordinator-work-2026-11-05.md`; and the 65 asks below. Each item that left keeps its number in (a), with the file it went to. A landing files its new items for him by the routing (`coordinator/tools/record-landing/routing.md`), each with its "Needed by" line, and brings this section and its counts in line. Climb batch 26's routing added items 355 to 367, and moved 310 and 340, landed at a default, to that batch's group. Climb batch 27's routing added items 373 to 405, 378 answered and the rest open; moved 363, built, to (a); and moved 371 to the switch-over's group, since its rung landed without it. His decision of 10:5x UTC on 2026-11-07 on Q1 of the natives review added item 406, for his detailed review of it, and item 407, the judgement's Q2, which the decision leaves open; his word of 14:19 UTC that day moved 404 to (a). His answer of 02:1x UTC on 2026-11-08 to Q2 moved 407 to (a). Climb batch 28's routing added items 408 to 437, all open; moved 373 and 377, whose defaults that batch built, to its group, still open for his review; and brought 319, 335, 380, 384, 385, 403 and 406 in line with its landing.
+The asks that stay after the cleanup of 2026-11-05, grouped by the work that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) or (c) gives the other way, the cost, the home and its "Needed by" line. The cleanup gave each of the 312 open items one verdict: 77 settled or stale, now in (a); 117 decisions that landed at a default that no planned work needs his word on again, moved to `coordinator/review-queue-learning-2026-11-05.md`, the material for a page that he reads to learn what was decided; 53 items of the coordinator's own work, moved to `coordinator/coordinator-work-2026-11-05.md`; and the 65 asks below. Each item that left keeps its number in (a), with the file it went to. A landing files its new items for him by the routing (`coordinator/tools/record-landing/routing.md`), each with its "Needed by" line, and brings this section and its counts in line. Climb batch 26's routing added items 355 to 367, and moved 310 and 340, landed at a default, to that batch's group. Climb batch 27's routing added items 373 to 405, 378 answered and the rest open; moved 363, built, to (a); and moved 371 to the switch-over's group, since its rung landed without it. His decision of 10:5x UTC on 2026-11-07 on Q1 of the natives review added item 406, for his detailed review of it, and item 407, the judgement's Q2, which the decision leaves open; his word of 14:19 UTC that day moved 404 to (a). His answer of 02:1x UTC on 2026-11-08 to Q2 moved 407 to (a). Climb batch 28's routing added items 408 to 437, all open; moved 373 and 377, whose defaults that batch built, to its group, still open for his review; and brought 319, 335, 380, 384, 385, 403 and 406 in line with its landing. Climb batch 29's routing added items 448 to 486, all open; moved 438 to 442 and 444 to 446 to (a), since he took their defaults at 23:3x UTC on 2026-11-08 and the batch built them; moved 443 and 447 to (c), each open on the half that had no default on record when he answered; and brought 76, 224, 372, 380, 403, 406 and 437 in line with its landing.
 
-**Counts**, 142 open items, 61 consequential and 81 routine:
+**Counts**, 173 open items, 72 consequential and 101 routine:
 - Before the ledger's repair: 5 (0 consequential, 5 routine).
-- The next batch and the natives' batches: 3 (2 consequential, 1 routine).
-- Climb batch 29's numeral defaults, for his review: 10 (8 consequential, 2 routine).
-- Before the switch-over: 22 (19 consequential, 3 routine).
+- The next batch and the natives' batches: 5 (4 consequential, 1 routine).
+- Climb batch 29's numeral defaults, for his review: 2 (0 consequential, 2 routine).
+- Before the switch-over: 29 (26 consequential, 3 routine).
 - Before microGPT compiles: 12 (9 consequential, 3 routine).
 - Before microGPT runs fast: 2 (1 consequential, 1 routine).
 - Walk's questions: 4 (2 consequential, 2 routine).
@@ -17,6 +17,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - Climb batch 26's defaults, for his review; no planned work waits on them: 10 (4 consequential, 6 routine).
 - Climb batch 27's defaults, for his review; no planned work waits on them but 390: 25 (1 consequential, 24 routine).
 - Climb batch 28's defaults, for his review; later work needs a few of them: 30 (5 consequential, 25 routine).
+- Climb batch 29's defaults, for his review; later work needs a few of them: 30 (10 consequential, 20 routine).
 
 **Before the ledger's repair** (PLAN, "Where we stand", "Next": the gap ledger's full pass over about 180 open rows, which PLAN had put before climb batch 26; that batch landed without it).
 - **265.** Which status a ledger row takes for a defect where the specification is silent: `NEGATIVE-VERIFIED` widened, `CONTESTED`, or `POSITIVE-VERIFIED`. Default: the rows as they are.
@@ -25,22 +26,16 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **369.** Row 852, `CONTESTED`, made `NEGATIVE-VERIFIED` now that its run shows both paths loading a declaration with two parameters of one name. Default: `CONTESTED`, as landed.
 - **370.** The APL side quest's base, which stops since the library's `fill` and `RR64` operators changed: ported, or its rung programs left as they stop. Default: not ported.
 
-**The next batch and the natives' batches** (PLAN, phase 4, the natives line, and "Where we stand", "Next"). Climb batch 28 built `System`'s rung, the reader side with `FileWriteStream`, and P-169's arrays, threads and `IntLiteral`'s 8; 373 and 377 went to its group. 403 comes before climb batch 29's gate, and 335 before N3's new helpers. Each launch needs his go, after the Fable review of its record.
+**The next batch and the natives' batches** (PLAN, phase 4, the natives line, and "Where we stand", "Next"). Climb batch 28 built `System`'s rung, the reader side with `FileWriteStream`, and P-169's arrays, threads and `IntLiteral`'s 8; 373 and 377 went to its group. Climb batch 29 removed the numerals' 24 bindings with the old numeral types. 448 and 449 come before the next batch, since both bear on what it is; 403 comes before the next batch's gate (climb batch 29's gate read no crash), and 335 before N3's new helpers. Each launch needs his go, after the Fable review of its record.
+- **448.** Under walk a program's coercion receives `NaturalNumeral(1, 10, -3)` for `t: Tally = -3`, a numeral that no program wrote, against repair 3, which he took (rows 961 and 968; PLAN's item 75): walk repaired now, both halves left to this item, or repair 3 amended. No default on record beyond fork C6's, which the landed tree departs from.
+- **449.** The nine differences between the two paths that climb batch 29's record did not plan (PLAN's item 76): one small batch next for those that both paths can test today, all with the names batch, or each at its row. No default on record.
 - **403.** For later gates, the distance stage report-only, as P-39 has it, or a crash that no rung declared red in the distance as in the count (row 929, closed by climb batch 28's rung K). Default: report-only, the record's.
 - **335.** A static check of the natives' shared state in the gate, a parallel test for each helper that holds state, both, or neither, before N3. Default: neither.
-- **406.** His detailed review of P-169, the runtime's own 13 native bindings named as compiled helpers that walk's loader answers with its own operations, which he took from the independent Fable judgement of 45 names as it landed; climb batch 28 built the 13, and the numerals' 32 left P-169 (P-174). Default: as decided.
+- **406.** His detailed review of P-169, the runtime's own 13 native bindings named as compiled helpers that walk's loader answers with its own operations, which he took from the independent Fable judgement of 45 names as it landed; climb batch 28 built the 13, and the numerals' 32 left P-169 (P-174), the last 24 removed with the old numeral types by climb batch 29. Default: as decided.
 
-**Climb batch 29's numeral defaults, for his review** (PLAN, "Climb batch 29, listed for his review"). The defaults that he took at 23:3x UTC on 2026-11-08, "Yeah. Option one.", with the numeral design (P-173, P-174) for the open items of `reviews/literal-design-judgement-2026-11-08.md`, section 6; climb batch 29's rungs build each, so each is needed before its rung lands.
-- **438.** A numeral outside its type's range at a typed place: refused statically, or at run time as today (row 325). Default: statically.
-- **439.** A program's type with no coercion from the numeral type: a numeral refused, or the default then the type's own coercion. Default: refused.
-- **440.** A numeral at a program's type: one object per site, or the coercion hoisted for value types only. Default: one object per site.
-- **441.** A `nat` parameter used as a value: a `ZZ32` (P-40), or the Working Draft's `NN32`. Default: a `ZZ32`.
-- **442.** The fold's result: a signed constant with three defaults, or the Working Draft's constant traits. Default: the signed constant.
-- **443.** A value of a numeral type in a coercion's body bound by inference, `t = x`, or only the parameter. Default: written only as a parameter type; none on record for the inferred binding.
-- **444.** The team's tests that the design changes, `NumberPrintTest.fss:16` and the 9 that write `IntLiteral`: respelled, or kept red. Default: respelled.
-- **445.** Two numeral values in a coercion's body: strictly equivalent by their reduced value, or by their fields (P-168). Default: by the reduced value.
-- **446.** Walk before it runs the checker: a numeral converted place by place, or a float numeral defaulted at evaluation. Default: place by place.
-- **447.** The binary chapter's `opr ||` with a numeral dropped; the constant chapter's concatenation of two natural numerals. Default: the first dropped; none on record for the second.
+**Climb batch 29's numeral defaults, for his review** (PLAN, "Climb batch 29, listed for his review"). Of the ten defaults that he took at 23:3x UTC on 2026-11-08, "Yeah. Option one.", with the numeral design (P-173, P-174), climb batch 29 built each, and eight are in (a). These two stay open on the half that had no default on record when he answered; the batch built the record's default for it. No planned work waits on them.
+- **443.** A value of a numeral type in a coercion's body bound by inference, `t = x`. Default: `t` takes the numeral type, the record's point 1 (fork C2), as landed.
+- **447.** The constant chapter's concatenation of two natural numerals. Default: folded into one natural numeral, the record's point 2 (fork F4), as landed.
 
 **Before the switch-over** (PLAN, phase 4: the compiled path moved onto the one library).
 - **2.** The checker's two extra attempts at a call beside the two of P-49: kept or dropped. Default: kept, as built.
@@ -64,7 +59,14 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **375.** The code generator compiles a call with an assumption at some of its dispatched arguments as the declaration that the checker resolves (row 818). Default: refused, fork G2, as landed.
 - **376.** The code generator builds the generic forms under an assumption. Default: refused, each with its message, as landed.
 - **408.** Which rung repairs the compiled transaction's livelock when a block reads its own write across a nested commit (row 933), and whether that repair holds a switch-over step; needed before work on the compiled transaction goes on. No default on record.
-- **437.** `Reflect`'s 28 bindings, the last on glue beside the numerals' 24, which leave with climb batch 29's rename (P-169), kept on glue, walk only, as an exception to P-58 (the natives review's Q4). Default: yes, until a compiled reflection is designed or walk runs the checker.
+- **437.** `Reflect`'s 28 bindings, the only ones on glue since climb batch 29 removed the numerals' 24, kept on glue, walk only, as an exception to P-58 (the natives review's Q4). Default: yes, until a compiled reflection is designed or walk runs the checker.
+- **450.** P-174's "once per class, when the class loads" read as the component's class, and a site at a program's own generic type not hoisted (row 957); needed before the names batch. Default: the component's class, as landed.
+- **455.** `10^k` for `k: ZZ32` ties among three `^` declarations, outside the numeral tie rule: the rule widened, or fork C4's narrow step the settlement. Default: `strToFloat`'s base given a `ZZ32`, as landed.
+- **460.** `ee(5)` beside `ee(x: Any)` at way (a), the compiled run dying in the sized arm (row 446, with item 35): (a), refused, or an unused size not counted as unfixed. Default: (a), as landed.
+- **470.** The library's `=/=` over `Any` answers `true` where `=` is, at a numeral operand (row 966): repaired by a later library rung, before the compiled path reads it. Default: the departure named, with its expected failure, as landed.
+- **476.** Fork N1: the numeral types as plain value objects with Fortress fields, or traits with numerals that Java holds. Default: value objects, as landed.
+- **477.** Fork N3: the getters' names `digits`, `fractionDigits`, `radix` and `digitValue`, and `Numeral` below `Number`. Default: as landed.
+- **482.** Forks F5 to F7: the four numbers at a compiled coercion, the pairs' compiled fold, and a compiled `QQ` place and numeral `SEQV`, all deferred to the names batch. Default: deferred, as landed.
 
 **Before microGPT compiles** (PLAN, phase 5).
 - **3.** The specification's sentence that a statically chosen declaration keeps its inferred instance, against the POPL 2019 rule. Default: the sentence as written.
@@ -184,6 +186,38 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **435.** Rung T's forks T1 and T2. Default: as landed.
 - **436.** The record's points for his sight. Default: as landed.
 
+**Climb batch 29's defaults, for his review; later work needs a few of them** (PLAN, "Climb batch 29, listed for his review"). Each landed as it stands, at its default where it has one, and each can be undone by a later rung or edit. 459, 461 and 462 are needed with the answer to 449, 452 by the next rung that edits the fold, and 475's N11 by the names batch's clean-up; no planned work waits on the others.
+- **451.** A comparison of radix-point numerals folds exactly, so `0.1 = 0.1000000000000000000001` is `false`. Default: exact, as landed.
+- **452.** The fold given the disambiguating environment, so that it folds where the component writes no prefix minus or `/` (row 956). No default on record.
+- **453.** The compiled harness's new key `run_exits_nonzero`, told. Default: as landed.
+- **454.** The fold's `ZZ32` for `ZZ`'s `zero` and `one` under walk, repaired by rung N (row 387), told. Default: as landed.
+- **456.** Walk converts a numeral by the library's own coercion, departing from fork N7. Default: as landed.
+- **457.** An `RR32` operand beside a numeral runs `RR32`'s operator (row 958), told. Default: as landed.
+- **458.** P-168's one exception built across both numeral types: within one, or across both. Default: across both, as landed.
+- **459.** A numeral that rounds to an infinity: outside the type's range, or `Infinity` (row 967). No default on record.
+- **461.** A size of 2^31 or more read as a value: refused at load, `IntegerOverflow`, or a `ZZ64` (row 962). No default on record.
+- **462.** A numeral as a `typecase`'s selector keeps `IntLiteral` on the compiled path (rows 963 and 964). Default: left, as landed.
+- **463.** The written-only rule at any parameter, or narrowed to coercions and operators. Default: any parameter, as landed.
+- **464.** `'a' || 'b'` under the constant chapter's "mixed string and character literals". Default: left, as landed.
+- **465.** Fork G3's "keeps its name" read as name and identity, so a written `Int` prints `ZZ32`. Default: as landed.
+- **466.** A string object's ilk keeps `FlatString`, against P-167. Default: the ilk kept, as landed.
+- **467.** `LanguageTypeInstancesWalk` against the batch's first rule for tests, told. Default: as landed.
+- **468.** `typeOf` answering the trait for the nine under walk. No default on record; as landed, the value's own type.
+- **469.** `QQ`'s `Ratio` read at `QQ` under walk. No default on record; as landed, not mapped.
+- **471.** A numeral at `Index` and other library types that P-173's lists do not name: the default where it is a subtype, or refused. Default: the default, as landed.
+- **472.** Row 966 in Appendix I, and `XXXNotEqualNumeral.fss` outside the rung's files, told. Default: as landed.
+- **473.** P-174's words on `Literal[\v\]` against rung T's text (row 960). Default: T's text, as landed.
+- **474.** The record's forks for the whole batch, 1 to 8, with the gather's four told points. Default: as landed.
+- **475.** Rung N's forks N2 and N5 to N12, N7's departure named. Default: as landed.
+- **478.** Fork N4: `RadixPointNumeral` declares `asFloat`, with P-165's list gaining it. Default: kept, as landed.
+- **479.** Rung C's forks C1 to C3 and C5 to C8, C6 not built. Default: as landed.
+- **480.** Fork C4 as the Fable review corrected it: no chain, and a numeral's conversion into its own default ranks as no coercion. Default: as landed.
+- **481.** Rung F's forks F1 to F4 and F8. Default: as landed.
+- **483.** Rung G's forks G1 to G5. Default: as landed.
+- **484.** Rung S's forks S1 and S2. Default: as landed.
+- **485.** Rung T's forks T1 to T3. Default: as landed.
+- **486.** The record's points for his sight. Default: as landed.
+
 **Reading an item.** Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `main` at `6b560762f`, and in items 235 to 249, and in the text that the clarity pass brought, those of `main` at `aa1c14230`, and in items 250 to 267, and in the text that the FACTS clarity pass and the scrape brought, those of `main` at `382289832`, whose tree outside `explorations/` is the same as at the FACTS chunks' bases; in items 279 to 290, those of `main` at `66f6b3d19`; in items 318 to 322, those of `main` at `ef099f7e4`; in items 323 to 325, and in the POPL 2019 rules map's readings added to items 9, 60 and 286, those of `main` at `501140f96`, the map's base. A home in PLAN is named by its heading and its item number or opening words, since PLAN's consolidation of 2026-10-15; before it a home was PLAN's line number at `046207371`. "PLAN" is `explorations/coordinator/PLAN.md`, "PLAN-history" is `explorations/coordinator/PLAN-history.md`, which holds PLAN's closed items word for word, "POSITIONS" is `explorations/coordinator/POSITIONS.md`; report paths without a folder are under `explorations/`. A row is a row of the gap ledger. "(10-02: N)" names the entry of this file's version of 2026-10-02. The page for him is built from the same text (`scratchpad/review-backlog/page.html` in the coordinator's session).
 
 ## (b) Consequential, by theme
@@ -232,7 +266,21 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: POSITIONS P-78; F-271; `reviews/popl2019-rules-map.md`, question 4 and sections 4 and 23; `reviews/type-decisions-review/judgement.md`, section 5 (a); `research/extracts/ParkPOPL2019-extract.md`, section 8; `coordinator/postmortem-2026-10-28/ryu-claims-check.md`, claim 2; rows 731 and 854
    - Needed by: before microGPT compiles; phase 5's dispatcher solves the parameters of a generic declaration that only dispatch reaches (PLAN, phase 5), and under the default it meets F-bounds that the paper's solve does not take.
 
-### Overloading and the Meet Rule (6)
+### Overloading and the Meet Rule (8)
+
+455. **`10^k` for `k: ZZ32` ties in the checker among three `^` declarations, outside the numeral tie rule: should the tie rule cover it?** N.worker.1 of climb batch 29's rung N. Once `RR32` converts from `NaturalNumeral` (P-76), a numeral base beside an exponent that is not a numeral ties among `RR32`'s, `NN32`'s and `ZZ32`'s `^`. The numeral tie rule does not apply, since the exponent's declared types differ.
+   - Landed: The library's one such site, `strToFloat`, given a `ZZ32` base (`Library/FortressLibrary.fss:4839-4840`). Default: as landed.
+   - The other way: The tie rule widened to cover a numeral beside an operand that is not a numeral; or rung C's narrow step 5 (fork C4, item 480) taken as the settlement.
+   - Its cost: A rule of the checker's choice among overloadings. After the switch-over a program's `10^k` meets the tie against the one library, which walk runs (`reviews/batch-29-review.md`, section 7).
+   - Home: PLAN, "Climb batch 29, listed for his review", N.worker.1; `compile-ladder/rung-numeral-types/REPORT.md:175`; POSITIONS P-173 and P-76; item 480
+   - Needed by: before the switch-over, when a program's `10^k` meets the tie against the one library (set by the landing workflow).
+
+480. **Fork C4 as the Fable review corrected it: no chain, and a numeral's conversion into its own default ranks as no coercion wherever it lands.** The record's fork 24; consequential by the Fable review of the record. `CoercionOracle.buildCoercion` returns the coercion that it checks, without the prototype's chain through the default, so a program's type with no coercion from the numeral type refuses a numeral. A numeral fits a parameter of its own default type as it is, as it fits `Any`, `Object`, `Number` or an unbounded type parameter, and its conversion into any other type ranks as a coercion. So `ee[\nat n\](x: ZZ32)` and `ee(x: Any)` both fit `ee(5)` as it is, and the narrower runs (fork C8): the rule that walk's dispatch keeps (fork N6).
+   - Landed: As described. Default: as landed.
+   - The other way: The prototype's chain, the default and then the type's own coercion, which item 439's answer declined.
+   - Its cost: The rule decides which declaration a numeral argument runs on both paths; items 455 and 460 meet it.
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 3, fork 24; `reviews/batch-29-review.md`, "The decisions consequential for him"; POSITIONS P-173 and P-49; items 439, 455 and 460
+   - Needed by: no planned work (set by the landing workflow).
 
 6. **The Meet Rule's closed-trait case for generic families.** Item 26 gave the Meet Rule a case for two closed traits: declarations over the listed types cover their intersection. The text applies it to declarations with static parameters too; the checker refuses it there. Since batch 8, the functional-method form is accepted and dies at run time (row 566); the function form is still refused.
    - Landed: The text as batch 7b's rung S wrote it; the checker's refusal gated by expected failures; Appendix I names row 546 among the checker's departures.
@@ -306,7 +354,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 26, listed for his review", T.worker.2; PLAN, phase 4, the names; F-322; `compile-ladder/rung-string-natives/REPORT.md:208`; `coordinator/CLIMB-BATCH-26.md`, section 2, forks 20 and 21; `reviews/batch-26-review.md`, Part 1, "Where the text, the brief or the principles split", 5, and Part 4, "Two notes owed", (i); row 846; F-299
    - Needed by: before the switch-over's names batch (set by the landing workflow, from the review's note (i)); its design meets the two readings.
 
-### Numbers and numerals (18)
+### Numbers and numerals (20)
 
 21. **`NN32` into `RR64` against answer 8 (item 37).** He decided that `NN32` converts into `RR64`, since it fits exactly. Built, that makes a `ZZ32` with an `NN32` ambiguous between `RR64`'s and `ZZ64`'s operators on both paths, where answer 8 gives `ZZ64`; two team tests go red.
    - Landed: Not built.
@@ -364,7 +412,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: P-162; `reviews/any-carrier-2026-11-06.md`; `coordinator/CLIMB-BATCH-27.md`, fork E6; row 115
    - Needed by: before the switch-over; the record's fork E6 puts it in the switch-over batch, where the compiled numbers meet the one library's traits.
 
-372. **Walk's five native number objects made private below their traits.** `Int`, `Long`, `BigNum`, `Float` and `UnsignedLong` are public names in `FortressBuiltin`'s api (`LibraryBuiltin/FortressBuiltin.fsi:41`, `:125`, `:128`, `:176`, `:223`), so a program can name `Int` in a `typecase` or as a static argument (row 364, walk's static argument read from the run-time class): it means something under walk and nothing on the compiled path, whose prelude has no such objects. From the curator's reading with the coordinator on 2026-11-06.
+372. **Walk's five native number objects made private below their traits.** `Int`, `Long`, `BigNum`, `Float` and `UnsignedLong` are public names in `FortressBuiltin`'s api (`LibraryBuiltin/FortressBuiltin.fsi:41`, `:128`, `:131`, `:197`, `:200`), so a program can name `Int` in a `typecase` or as a static argument: it means something under walk and nothing on the compiled path, whose prelude has no such objects. Since climb batch 29's rung G closed row 364, walk reads the nine at their traits where it infers a static argument, but a `typecase` arm `Int` still matches `3` (F-344). From the curator's reading with the coordinator on 2026-11-06.
    - Landed: The five public (`coordinator/CLIMB-BATCH-27.md`, fork A3). Since climb batch 27's rung A, walk's ilk names each by its trait, `ZZ32` for `Int`, as P-167 says (`5ae581c4a`; F-328). Default: the five public, as landed.
    - The other way: The five private below their traits, as P-164's design does for the I/O objects.
    - Its cost: The api's five declarations made private, and each program that names one respelled at its trait; the count sizes it.
@@ -378,63 +426,77 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 28, listed for his review", V.worker.1; `compile-ladder/rung-integer-conversions/SKEPTIC.md`; `reviews/batch-28-review.md`, Part 1, split 2; POSITIONS P-161; rows 431 and 387
    - Needed by: no planned work (set by the landing workflow); under walk no gated run reaches the line (row 387).
 
-438. **Is a numeral outside its type's range at a typed place refused statically (P-173)?** Open item 1 of `reviews/literal-design-judgement-2026-11-08.md`, section 6. P-173 converts a numeral at a typed place at compile time from its exact value, so `z: ZZ32 = 3000000000` is refused then. Today the compiled run raises `Not in range for ZZ32` at run time, and walk refuses the binding when it runs (row 325; F-57); the prototype kept the run-time error (`compile-ladder/plan-29/probes/literal-default.md`, section 2).
-   - Landed: Not built; climb batch 29's library and checker rung builds it. Default: refused statically, which he took at 23:3x UTC on 2026-11-08.
-   - The other way: The run-time error, as the compiled path raises it today.
-   - Its cost: A range check where the checker converts a numeral; row 325's `XXXNumeralBeyondZZ32Range` is promoted.
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-173; the judgement, sections 5 and 6; row 325
-   - Needed by: before climb batch 29's library and checker rung lands; after it, the other way is a rung of its own.
+448. **Under walk a program's coercion receives a numeral that no program wrote, against repair 3, which he took: which way repairs it (rows 961 and 968)?** Item 75 of PLAN's "Pavol's answers"; C.skeptic.3 of climb batch 29's rung C, with review.1 of its merged-diff review and finding 1 of its post-batch review. Fork C6's default makes a negative numeral at a program's own number type prefix `-` on the type's coercion of the natural numeral, so that the coercion sees the four numbers of a written numeral only (the judgement's repair 3, which he took at 23:3x UTC on 2026-11-08). The fold makes `-3` one negative node, so C6 is not built. Under walk `t: Tally = -3` passes `NaturalNumeral(1, 10, -3)`, whose `asString` is '7', and a type without `-` takes it (row 968). On the compiled path the prelude's `IntLiteral` carries the sign until the switch-over (row 961).
+   - Landed: Fork C6 not built; rows 961 and 968 open, both halves named in the Effect (`Specification/appendices/changes.tex:5191-5207`). No default on record beyond the fork's, which the landed tree departs from.
+   - The other way: (a) Keep repair 3 and repair walk now: walk's numeral site applies the type's prefix `-` to the coercion of the natural numeral, and refuses the numeral where the type declares no `-`, with `XXXNegativeNumeralOwnTypeWalk` as its test; the compiled half goes with the names batch. The review recommends (a). (b) Keep repair 3, and leave both halves to this item, as landed. (c) Amend repair 3, so that a negative constant reaches the coercion as a natural numeral of negative value; P-174, the text and fork C6 change, and a repair that he took is reversed.
+   - Its cost: Under (a), a change at walk's numeral site (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Numerals.java:160-179`) and one test. Under (c), P-174 and the literals chapter reworded.
+   - Home: PLAN, "Pavol's answers, in the order they are needed", item 75; `reviews/batch-29-review.md`, Findings, 1, and Part 1, split 1; `coordinator/CLIMB-BATCH-29.md`, section 3, fork C6; `compile-ladder/rung-numeral-checker/REPORT.md:135`; POSITIONS P-174; rows 961 and 968
+   - Needed by: before the next batch, which it bears on (`reviews/batch-29-review.md`, "The steps due before the next batch", 1); at the latest before the switch-over.
 
-439. **Does a program's own type with no coercion from the numeral type refuse a numeral (P-174)?** Open item 2 of the judgement, section 6. The prototype gave such a numeral its default and then the type's own coercion from that default, a chain of two conversions (`compile-ladder/plan-29/probes/literal-default.md`, section 10, decision 3); the Working Draft says that coercion does not chain (`Specification-1.0-frozen/basic/conversions-coercions.tex:407-408`).
-   - Landed: Not built. Default: refused, which he took at 23:3x UTC on 2026-11-08.
-   - The other way: The chain, named as the one exception to the rule that coercion does not chain.
-   - Its cost: Under the default, a program's type declares `coerce(x: NaturalNumeral)` or `coerce(x: RadixPointNumeral)` to take a numeral; a type with only `coerce(x: ZZ32)` refuses `c: CC64 = 3`.
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174; the judgement, sections 1 and 6
-   - Needed by: before climb batch 29's library and checker rung lands; after it, the other way is a rung of its own.
+449. **When are the nine differences between the two paths that climb batch 29's record did not plan repaired?** Item 76 of PLAN's "Pavol's answers"; finding 4 of climb batch 29's post-batch review. His aim of 15:0x, "bring the two implementations to do the same thing", is met where both paths can show it today. Nine differences that the record did not plan stand, each with its row: 957, 958, 961 and 968, 962, 963, 966, 967, 362 and 446 (`reviews/batch-29-review.md`, section 7). The question touches phase 4's order, which puts the natives' remainder and then the names batch next.
+   - Landed: Each difference with its row, and no batch named for it. No default on record.
+   - The other way: (a) One small batch next, before the natives' remainder, for those that both paths can test today: rows 958, 963, 967 and 968, and row 966 by a library repair; rows 957, 962, 446 and 362, whose compiled halves are in the code generator or the prelude, go with the names batch. The review recommends (a). (b) All of them with the names batch, when the compiled path reads the one library. (c) Each at its row, as later batches meet them.
+   - Its cost: Under (a), one small batch before the natives' remainder. Under (b) and (c), nothing now.
+   - Home: PLAN, "Pavol's answers, in the order they are needed", item 76; `reviews/batch-29-review.md`, Findings, 4, and section 7; rows 957, 958, 961, 962, 963, 966, 967, 968, 362 and 446
+   - Needed by: before the next batch, which it decides (`reviews/batch-29-review.md`, "The steps due before the next batch", 1).
 
-440. **Is a numeral at a program's own type one object per site (P-174)?** Open item 3 of the judgement, section 6. The compiler calls a program's coercion from the numeral type once per class, at load, so two evaluations of `c: CC64 = 3` give one object, which `SEQV` tells from two for a reference object (`Specification/basic/objects.tex:51-53`), and a coercion that raises fails at load.
-   - Landed: Not built. Default: one object per site, as a string literal is (P-171), which he took at 23:3x UTC on 2026-11-08.
-   - The other way: The call hoisted for value types only, and made at each evaluation for a reference object.
-   - Its cost: Under the default, a coercion's effects and exceptions happen when the class loads.
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174 and P-171; the judgement, sections 1 and 6
-   - Needed by: before climb batch 29's fold rung lands; after it, the other way is a rung of its own.
+458. **Is P-168's one exception, for two numeral values inside a coercion's body, within one numeral type or across both?** N.skeptic.1 of climb batch 29's rung N, and the second reading of finding 3 of its post-batch review. The exception reads "two values of a numeral type inside a coercion's body are strictly equivalent when their reduced values are equal". Rung N built it across both numeral types, so `2` and `2.0` inside a body are `SEQV`, where P-168's first rule keeps values of different types apart.
+   - Landed: Across both (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FOrdinaryObject.java:48-49`). Default: across both, as landed.
+   - The other way: Within one numeral type, so that P-168's first rule holds between the two types.
+   - Its cost: Under the default, P-168's sentence is widened. Under the other way, a walk change at `FOrdinaryObject.java:48-49`.
+   - Home: PLAN, "Climb batch 29, listed for his review", N.skeptic.1; `compile-ladder/rung-numeral-types/SKEPTIC.md:70`; `reviews/batch-29-review.md`, Findings, 3, and Part 1, split 5; POSITIONS P-168
+   - Needed by: no planned work (set by the landing workflow); P-168's wording waits on it.
 
-441. **Is a `nat` parameter used as a value a `ZZ32` (P-173)?** Open item 4 of the judgement, section 6. The default applies to a numeral, never to an expression of a numeral type, so a size used as a value needs a type of its own. The Working Draft lets a `nat` parameter appear wherever a variable of type `NN32` can (`Specification-1.0-frozen/basic/trait-parameters.tex:84-86`); P-40 converts a size used as a number to `ZZ32` where one is needed.
-   - Landed: Not built; the compiled path builds such a size as an `IntLiteral` constant (the prototype, section 8), walk as an `Int` (row 486). Default: a `ZZ32`, by P-40, which he took at 23:3x UTC on 2026-11-08.
-   - The other way: An `NN32`, as the Working Draft gives it.
-   - Its cost: Under the default, `u: NN32 = n` for `nat n` is refused, as walk refuses it today (row 486), where the compiled path accepts it; the Working Draft's sentence goes into Appendix I as contradicted (P-173).
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-173 and P-40; the judgement, sections 1 and 6; row 486
-   - Needed by: before climb batch 29's library and checker rung lands; after it, the other way is a rung of its own.
+459. **Is a numeral that rounds to an infinity "outside the type's range" under P-173, or is `Infinity` its one rounding (row 967)?** N.skeptic.2 of climb batch 29's rung N and gather.2 of its gather. Under walk such a numeral converts at a typed place to `Infinity` with no error: on the merged tree `wide: RR32 = 340282356779733661637539395458142568448` prints `Infinity`. Rung T's text makes it a static error (`Specification/basic/expressions/literals.tex:189-190`), and rung C's checker refuses it (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/CoercionOracle.scala:476-483`).
+   - Landed: The text as rung T wrote it. Walk's departure has row 967, the expected failure `ProjectFortress/tests/XXXNumeralRoundsToInfinityWalk.fss` and its place in `revival-numerals`' Effect. No default on record.
+   - The other way: `Infinity` taken as the numeral's one rounding, with the text and the checker changed.
+   - Its cost: Walk's conversion refuses the numeral; or the text and the checker give way.
+   - Home: PLAN, "Climb batch 29, listed for his review", N.skeptic.2; `compile-ladder/rung-numeral-types/SKEPTIC.md:71`; `reviews/batch-29-review.md`, Part 1, split 6; POSITIONS P-173; row 967
+   - Needed by: with finding 4's answer (item 449), whose option (a) takes row 967 (set by the landing workflow).
 
-442. **Is the fold's result a signed constant that takes a default (P-173)?** Open item 5 of the judgement, section 6. An expression of numerals alone folds before the checker, and a quotient or a negative result has no written numeral: the prototype made `1/3` a numeral of radix 3 (`compile-ladder/plan-29/probes/literal-default.md`, section 1, step 3). The Working Draft types a constant expression by a constant trait, `IntegerConstant[\false, 3+5\]` (`Specification-1.0-frozen/basic/expressions/constant.tex:44-74`).
-   - Landed: Not built. Default: a signed constant that defaults as an integer numeral, as a `QQ` for a quotient and as an `RR64` with a radix point, so `x = 7/2` is a `QQ`, which he took at 23:3x UTC on 2026-11-08.
-   - The other way: The Working Draft's constant traits, which no library declares.
-   - Its cost: Under the default, the constant chapter's constant traits change in form, for Appendix I (the judgement, section 3).
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-173; the judgement, sections 1, 3 and 6
-   - Needed by: before climb batch 29's fold rung lands; after it, the other way is a rung of its own.
+463. **The written-only rule allows a numeral type as any parameter's whole type: keep it, or narrow it to coercions and operators?** C.skeptic.5 of climb batch 29's rung C, and the third reading of finding 3 of its post-batch review. P-174 says that a numeral type is "written only as a parameter type, of a coercion or an operator"; the batch's test rule said "only as a coercion's parameter type". The two library tests' `choose(b: Boolean, lo: IntLiteral, hi: IntLiteral)` rely on the broader rule (`ProjectFortress/library_tests/IntLiteralArithRung7.fss:36`, `IntLiteralRung6.fss:42`).
+   - Landed: Any parameter (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TypeWellFormedChecker.scala:48-73`). Default: as landed, P-174's "of a coercion or an operator" read as examples.
+   - The other way: The rule narrowed to coercions and operators; the two library tests then need another device to hold two numeral values.
+   - Its cost: One condition of the checker's rule, and two library tests.
+   - Home: PLAN, "Climb batch 29, listed for his review", C.skeptic.5; `reviews/batch-29-review.md`, Findings, 3, and Part 1, split 4; POSITIONS P-174
+   - Needed by: no planned work (set by the landing workflow); P-174's wording waits on it.
 
-443. **May a value of a numeral type be bound by inference inside a coercion's body (P-174)?** Open item 6 of the judgement, section 6. A numeral type is written only as a parameter type, of a coercion or an operator; inside `coerce(x: RadixPointNumeral)`, `t = x` would bind `t` at the parameter's type by inference, since the default never applies to an expression of a numeral type (P-173).
-   - Landed: Not built. Default: the numeral type written only as a parameter type, which he took at 23:3x UTC on 2026-11-08; no default on record for the inferred binding.
-   - The other way: `t = x` allowed, so that a body may hold a numeral value in a local; or refused, so that only the parameter holds one.
-   - Its cost: One rule in the checker's check that a numeral type is written only as a parameter type.
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174; the judgement, sections 1 and 6
-   - Needed by: before climb batch 29's library and checker rung lands; the rung meets the case when it writes that check.
+468. **Should `typeOf` answer the trait for the nine language types under walk?** G.skeptic.2 of climb batch 29's rung G. Under walk `typeOf(z) = theType[\ZZ32\]()` is `false`, while `typeOf(Cell(z)) = theType[\Cell[\ZZ32\]\]()` is `true`, since `Reflect`'s `TypeOf` answers the value's own type (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/Reflect.java:210-213`). P-167 has the rest of walk read the nine at their traits.
+   - Landed: The value's own type. No default on record.
+   - The other way: The trait for the nine.
+   - Its cost: A change in `Reflect`'s `TypeOf`, whose 28 bindings stay on glue (item 437).
+   - Home: PLAN, "Climb batch 29, listed for his review", G.skeptic.2; `compile-ladder/rung-walk-language-types/SKEPTIC.md:52`; POSITIONS P-167; item 437
+   - Needed by: no planned work (set by the landing workflow).
 
-445. **Are two numeral values inside a coercion's body strictly equivalent by their reduced value (P-174, P-168)?** Open item 8 of the judgement, section 6. By P-168's rule two value objects of one type are strictly equivalent when their fields are, so `2.5` and `2.50`, whose four numbers differ, would differ inside a body; the prototype's hybrid compares by the reduced value (`compile-ladder/plan-29/probes/literal-default.md`, section 7.1). Outside a body both are the `RR64` 2.5 (P-173).
-   - Landed: Not built; walk's `FFloatLiteral.seqv` compares nearest doubles, under the team's "HACK that's only sort-of correct" (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FFloatLiteral.java:43-48`). Default: by the reduced value, the one exception to P-168's rule, which he took at 23:3x UTC on 2026-11-08.
-   - The other way: By the fields, as P-168 has every value object.
-   - Its cost: A comparison of reduced rationals on each path, about 5 lines each by the prototype's reading (section 7.1).
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174 and P-168; the judgement, sections 1 and 6
-   - Needed by: before climb batch 29's library and checker rung lands; after it, the other way is a rung of its own.
+471. **A numeral at a library type that P-173's lists do not name, as `Index`: the default where it is a subtype of the declared type, or refused?** T.worker.2 and T.skeptic.2 of climb batch 29's rung T. The text states way (a), rung C built it (`defaultFits`, `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:1101-1106`), and the gather revised `revival-index`'s sentence to it (`Specification/appendices/changes.tex:4442-4446`). So `f(3)` at `Index` takes the `ZZ32` against the one library.
+   - Landed: Way (a). Default: (a), as landed.
+   - The other way: (b) Refused, as a numeral at a program's type with no coercion from the numeral type is.
+   - Its cost: A case of the checker's default and its sentence. The judgement's repair 1, which he took, "every other type, and no type, takes the default", supports (a); the default reads his P-173's lists anew.
+   - Home: PLAN, "Climb batch 29, listed for his review", T.worker.2; `compile-ladder/rung-literals-spec/REPORT.md:156`; `reviews/batch-29-review.md`, "The results that stand on a reading he has not confirmed"; POSITIONS P-173
+   - Needed by: no planned work (set by the landing workflow).
 
-447. **Is the binary chapter's `opr ||` with a numeral dropped (P-174), and what of the constant chapter's concatenation of two natural numerals?** Open item 10 of the judgement, section 6. The binary chapter declares a coercion from `NaturalNumeral[\m,radix,v\]` and an `opr ||` whose result width is a static size computed from the numeral's digit count (`Specification-1.0-frozen/advanced-lib/binary.tex:1620-1621`, `:1659-1662`), which fields cannot give. The constant chapter makes the concatenation of two natural numerals of one radix a numeral (`Specification-1.0-frozen/basic/expressions/constant.tex:80-82`); his answer does not name it.
-   - Landed: Not built. Default: the binary chapter's `opr ||` with a numeral dropped, which he took at 23:3x UTC on 2026-11-08; no default on record for the constant chapter's concatenation.
-   - The other way: Each folded at compile time, or given a written size.
-   - Its cost: Text of the specification only; no library declares the binary words.
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-174; the judgement, sections 3 and 6
-   - Needed by: before climb batch 29's specification rung lands.
+476. **Fork N1: the numeral types as plain value objects with Fortress fields, beside `Ratio`, with no binding.** The record's fork 9, consequential by the record. `trait Numeral extends Number comprises { NaturalNumeral, RadixPointNumeral }` declares the four getters abstract, and `value object NaturalNumeral(digits: ZZ32, radix: ZZ32, digitValue: ZZ)` and `value object RadixPointNumeral(digits: ZZ32, fractionDigits: ZZ32, radix: ZZ32, digitValue: ZZ)` extend it (`Library/FortressLibrary.fsi:454-494`). Walk builds one only where a numeral meets a parameter of a numeral type. The compiled path, after the switch-over, constructs one as any object.
+   - Landed: As described (`3de571bac7`). Default: as landed.
+   - The other way: Traits, as the prelude declares its two, with walk's native objects and compiled run-time classes below them and the four getters on helpers by P-167's device; the form that both team libraries gave their numerals.
+   - Its cost: The principles split: the team's two libraries back numerals that a Java class holds (`coordinator/CLIMB-BATCH-29.md`, section 2).
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 2, "The forks he may want to see", and section 3, fork 9; `reviews/batch-29-review.md`, "The decisions consequential for him"; POSITIONS P-174
+   - Needed by: before the names batch, when the compiled path constructs the numeral objects (set by the landing workflow).
 
-### Sizes and arrays (10)
+477. **Fork N3: the numeral getters' names and types, and `Numeral` below `Number`.** The record's fork 11; consequential by the Fable review of the record, where the record lists it routine. The getters are `digits`, `fractionDigits`, `radix` and `digitValue`, the names that the prototype proposed: `ZZ32` for the first three, and `ZZ` for the value, which a 20-digit numeral needs. `Numeral` extends `Number`, as `IntLiteral` did, so the library's `excludes` clauses and P-160's Meet Rule readings stand with the names changed.
+   - Landed: As described. Default: as landed.
+   - The other way: The Working Draft's letters `n`, `m`, `r` and `v`, which the specification keeps beside each name; or `Numeral` outside `Number`.
+   - Its cost: A rename in the library and the specification.
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 3, fork 11; `reviews/batch-29-review.md`, "The decisions consequential for him"; POSITIONS P-174 and P-160
+   - Needed by: before the names batch, when compiled programs' coercions read the getters (set by the landing workflow).
+
+478. **Fork N4: does `RadixPointNumeral` declare `asFloat`, by one rounding, as `NaturalNumeral` does?** The record's fork 12 and its point 3, consequential by the record, and the first reading of finding 3 of the post-batch review. P-165's list named `NaturalNumeral` and not `RadixPointNumeral` until this landing added it, under his rule of 2026-10-31; his to confirm here. The list came from `IntLiteral`'s own `asFloat` when `FloatLiteral` extended `RR64`, so its silence is history, not a choice; the base's `FloatLiteral` declares `asFloat` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:213-214` at the base).
+   - Landed: Declared, with one rounding. Default: (a), as landed, with `RadixPointNumeral` added to P-165's list, his to confirm.
+   - The other way: (b) The method dropped, which changes `asFloat(x)` at that type, against P-165's "unchanged at every concrete type".
+   - Its cost: Under (a), one sentence of P-165. Under (b), one declaration of the library.
+   - Home: PLAN, "Climb batch 29, listed for his review", fork N4; `coordinator/CLIMB-BATCH-29.md`, section 2, "The three points with no default on record", point 3, and section 3, fork 12; `reviews/batch-29-review.md`, Findings, 3; POSITIONS P-165
+   - Needed by: no planned work (set by the landing workflow); P-165's list waits on it.
+
+### Sizes and arrays (12)
 
 30. **A size known only at run time: way 4a and his decision on sizes.** A size is a number used as a static parameter, as in `Array1[\RR64, n\]`. The library's `reflect` turns a number known only at run time into a value that carries it. Way 4a lets the checker read such an argument as a size fixed for that call.
    - Landed: Way 4a, built by batch 13 after his question of 2026-10-09T15:10:56Z whether forks 2 and 3 could go into the next batch, at the judgement's default; it waits for his review; ten library calls cleared. It reads an opened size as bound for the call, not as unknown.
@@ -508,7 +570,21 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 28, listed for his review", A.worker.2; `coordinator/CLIMB-BATCH-28.md:421`, fork A7; the base's `interpreter/glue/prim/PrimImmutableArray.java:73-82`; `reviews/batch-28-review.md`, Part 1, split 5, and "The decisions consequential for him, and the readings he has not confirmed"; row 466; item 418
    - Needed by: no planned work (set by the landing workflow).
 
-### The library's generators, strings and comparisons (4)
+460. **`ee(5)` beside `ee(x: Any)`: way (a) as built, refused, or an unused size not counted as unfixed (row 446)?** C.worker.1 and C.skeptic.1 of climb batch 29's rung C; item 35 holds row 446. Where P-40's unfixed size meets fork C4, `ee(5)` for `ee[\nat n\](x: ZZ32)` beside `ee(x: Any)` is checked at way (a), the sized declaration without the default. So the static choice is `ee(x: Any)`, and the compiled dispatch runs the sized arm, which dies where its body reads `n` ('NumberFormatException: For input string: "n"'; walk 'undefined variable [n]'). The compiled path answered 2 at the base.
+   - Landed: Way (a) (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Functionals.scala:288-292`). Default: (a), as landed.
+   - The other way: (b) `ee(5)` refused as P-40 refuses `ez(z)`, against fork C8's "ee(5) gives 1"; or (c) an unused size not counted as unfixed.
+   - Its cost: A rule of the checker for sized declarations. The default reads P-40 against the record's fork C8.
+   - Home: PLAN, "Climb batch 29, listed for his review", C.worker.1; `compile-ladder/rung-numeral-checker/REPORT.md:165`; `compile-ladder/rung-numeral-checker/SKEPTIC.md:36`; `ProjectFortress/compiler_tests/LiteralDefaultCompiled.fss:78`; POSITIONS P-40; item 35; row 446
+   - Needed by: before the switch-over, with item 35 (set by the landing workflow).
+
+461. **A size of 2^31 or more read as a value: refused when the class loads, `IntegerOverflow`, or a `ZZ64` (row 962, CONTESTED)?** C.worker.2 and C.skeptic.2 of climb batch 29's rung C, with review.2 of its merged-diff review. Such a `nat` or `int` size raises `java.lang.Error` 'Not in range for ZZ32' on the compiled path, which no `catch` sees, and is a `ZZ64` under walk (F-140; on the merged tree `sizeValue[\3000000000\]()` is typed `ZZ64`). Neither Appendix I's `revival-numerals` Effect nor the box of `Specification/basic/expressions/ranges.tex:55-58` names it. P-173 says "a `nat` parameter used as a value is a `ZZ32`".
+   - Landed: As described (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:6482`). No default on record.
+   - The other way: A refusal when the class loads; `IntegerOverflow`; or a `ZZ64` where the value does not fit, which P-173's sentence declines.
+   - Its cost: A check at the size's constant on each path, and the Effect's sentence.
+   - Home: PLAN, "Climb batch 29, listed for his review", C.worker.2; `compile-ladder/rung-numeral-checker/REPORT.md:166`; `reviews/batch-29-review.md`, Part 1, split 7; POSITIONS P-173 and P-40; row 962
+   - Needed by: with finding 4's answer (item 449), which places row 962's compiled half (set by the landing workflow).
+
+### The library's generators, strings and comparisons (6)
 
 39. **A generator's size (item 45).** Library code read a size from a value typed `Generator`, which declares none.
    - Landed: The judgement's ways, built on the standing go while his answer is pending: `Generator` gains a counted size, a new api declaration; the relational predicate is one reduction; `Indexed`'s default pairs get an object of their own. Nine sites cleared.
@@ -529,7 +605,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - The other way: The audit writer's sentence: "The bare `Nothing`, one object for every `T`, is not tried: instantiation exclusion forbids it with or without a `where` clause, and the specification marks it "Not allowed" (F-21, F-167)." The entry's last sentence, the parked re-gating of row 331 on static-argument inference, then leaves for item 167, which holds it.
    - Its cost: Two sentences of P-90, and PLAN's line on the `where` clauses (phase 3), which names "`Maybe`'s bare `Nothing`" as still open beside them. Item 41 (the rules chapter's sentence on a `where`-clause variable in an `extends` clause) bears on the general sentence, not on this case, which instantiation exclusion refuses.
    - Home: POSITIONS P-90; `coordinator/positions-audit/full/evidence/corrections-c7.md`, "P-90", "Questions for him", question 1; item 41, the rules chapter's sentence on a `where`-clause variable; item 167, the parked re-gating of row 331; F-21, the specification's own `Nothing`, which compiles on neither path; F-167, the specification's statement of instantiation exclusion; item 246, the clarity pass's rewrite of P-90, which waits for this answer
-   - Needed by: before row 774's walk rung; with walk's half of conditional extension built, both paths implement the `where` form that the entry names as the gate, and a worker there could read the gate as open. The rung is out of climb batch 21: it waits until walk runs the checker (P-12) or row 364 is fixed (`coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, "Off the path, parked", "Phase 3's candidates at its end").
+   - Needed by: before row 774's walk rung; with walk's half of conditional extension built, both paths implement the `where` form that the entry names as the gate, and a worker there could read the gate as open. The rung was out of climb batch 21: it waited until walk runs the checker (P-12) or row 364 is fixed, and climb batch 29's rung G fixed row 364 (F-344), so the rung can come after G (`coordinator/CLIMB-BATCH-29.md`, section 5, "Left out, each with its home"; `coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, "Off the path, parked", "Phase 3's candidates at its end").
 
 310. **Under walk a native bound over `String`, glue class or helper alike, receives a non-flat string's type name in place of its characters (row 846). Should walk's loader flatten such an argument before the call, or should such bindings be declared over `FlatString`?** W.worker.1 and W.skeptic.1 of climb batch 23's rung W. `StaticNativeApp.unbox` takes `v.getString()` for a Java `String` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/StaticNativeApp.java:199`), as the glue classes' `Util.SS2B` and `S2V` do (`interpreter/glue/prim/Util.java:254`, `:286`), and `FObject.getString` answers its type's name, so `slen(s)` over a 52-character string made by `||` answers 9, the length of `CatString` (`ProjectFortress/tests/NativeHelperNonFlatStringWalk.fss:11`). So the movable bindings over `String`, `printlnWithThread` (`Library/FortressLibrary.fss:4632`) and `getProperty` (`Library/System.fss:45`), cannot move as they are. The revised comment of `builtinPrimitive` says walk "carries each value at its declared type". The library's other natives over strings take `FlatString` (F-299), its own practice for the second way. Climb batch 26's rung T moved the bindings over `String` at the Fable judge's default (below).
    - Landed: Since climb batch 26's rung T (`93884be8d`), the second way in the form of the Fable judge's default, option (b) with (c), taken since he did not answer within his 30 minutes: each of the five natives over `String` is a native over `FlatString` beside an overload over `String` that flattens in a `typecase` with a hard stop (`Library/FortressLibrary.fss:4628-4644`; `Library/System.fss:41-56`). The judge's three refinements: the `typecase` spelling; walk's loader refuses a helper parameter declared `String` (fork 21, item 360); each native public and bare, so item 332 is not needed (fork 19, item 361). Row 846 is narrowed to a program's own glue binding over `String` (F-299). Default: as landed.
@@ -539,7 +615,28 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - His word: "all defaults", 08:21 UTC on 2026-10-31, to the four defaults that climb batches 22c and 23 took, took this one's, neither yet; so the question is asked again before the batch that moves a binding over `String`.
    - Needed by: no planned work (set by the landing workflow); the bindings moved at the Fable judge's default in climb batch 26, and his review can keep it or reverse it.
 
-### The specification's text (2)
+466. **Should a string object's ilk follow P-167 and stop printing `FlatString`, at the cost of a team line?** G.worker.2 and G.skeptic.4 of climb batch 29's rung G. The ilk of a string object keeps its own name, `FlatString`, which the team test `tests/StringTests.fss:82` asserts, while walk's type text and `Reflect` print `String`. P-167 says that walk's native objects stop being types that a program sees or prints.
+   - Landed: The ilk kept (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/ObjectPrims.java:54-66`). Default: the ilk kept, as landed.
+   - The other way: The ilk of the four string objects printed as `String`, with the team line changed.
+   - Its cost: A change in walk's ilk and one team line. The default reads P-167 anew.
+   - Home: PLAN, "Climb batch 29, listed for his review", G.worker.2; `compile-ladder/rung-walk-language-types/REPORT.md:151`; `reviews/batch-29-review.md`, Part 1, split 11; POSITIONS P-167
+   - Needed by: no planned work (set by the landing workflow).
+
+470. **How is the library's `=/=` over `Any` repaired, so that it answers `NOT (e = e')` at a numeral operand (row 966)?** T.worker.1, T.skeptic.1 and T.judge.2 of climb batch 29's rung T. The library's `=/=` over `Any` (`Library/FortressLibrary.fss:98`) answers `true` for `u =/= 0` with a zero `u` of `NN32`, `NN64` or `RR32`, and for `q =/= 0.5` with `q: QQ = 1/2`, while `u = 0` and `q = 0.5` are `true` through the `=` pairs. The judge upheld this as a departure from `e =/= e'` being `NOT (e = e')`. An `=/=` on each number type as `NOT (self = other)` is not chosen for a numeral operand while the one over `Any` stands.
+   - Landed: The departure named, with its expected failure `ProjectFortress/tests/XXXNotEqualNumeral.fss`. Default: as landed.
+   - The other way: A later library rung adds a numeral-type operand beside each `=` pair, or changes the declaration over `Any`.
+   - Its cost: A later library rung. After the switch-over the compiled path reads the same `=/=`, so both paths would answer `true` unless the library is repaired first (`reviews/batch-29-review.md`, section 7, 10).
+   - Home: PLAN, "Climb batch 29, listed for his review", T.worker.1; `compile-ladder/rung-literals-spec/REPORT.md:155`; `compile-ladder/rung-literals-spec/JUDGE.md:56`; `reviews/batch-29-review.md`, Part 1, split 9; row 966
+   - Needed by: before the switch-over, after which the compiled path reads the same `=/=` (set by the landing workflow).
+
+### The specification's text (3)
+
+473. **P-174's words on `Literal[\v\]` against rung T's text: which wording is meant (row 960)?** gather.5 of climb batch 29's gather, and finding 2 of its post-batch review. Rung T's text folds the Working Draft's `Literal[\v\]` into the digit count, which tells whether a numeral has leading zeros (`Specification/basic/expressions/literals.tex:149` and the Change of `revival-numerals`). P-174 says that the explicit-radix variants and `Literal[\v\]` fold into the radix field. Walk keeps only one of a radix-point numeral's leading zeros (row 960).
+   - Landed: T's text. Default: T's text, as landed.
+   - The other way: (a) P-174 reads "the explicit-radix variants fold into the radix field, and `Literal[\v\]` into the digit count", and T's text stays; the review recommends (a), since a `Literal[\v\]` has no radix of its own. (b) T's sentence reworded to P-174's words.
+   - Its cost: One sentence of P-174, or one of the literals chapter.
+   - Home: PLAN, "Climb batch 29, listed for his review", gather.5; `reviews/batch-29-review.md`, Findings, 2, and Part 1, split 8; POSITIONS P-174; row 960
+   - Needed by: no planned work (set by the landing workflow); P-174's wording waits on it.
 
 215. **Does the implementers' later word also outweigh unfinished text (P-26)?** P-26 says that where the type group's later positions conflict with the specification's early text, the later positions win: the early text was a wish, and the type group then worked to make the language run and learned what is feasible. Near its end it adds: "The implementers' later word also outweighs unfinished text." Read plainly, what the implementers did later wins over text that the team left unfinished. The coordinator added the sentence on 2026-09-30 (`bc8902f47`), with no source named, and no message of his says it. Two of his words come near it, and neither says it. On 2026-09-24 at 01:02 UTC he weighed the patents' forest rule, a later team text that was never built, above the flattening that the team implemented, "because that was the teams last record"; he then chose route A, the implemented flattening, at 14:41 UTC. On 2026-10-12 at 23:15 UTC he wrote that where later work in the compiler or the type papers contradicts the original specification, the revival updates the specification; that is the early text of P-26's title, not unfinished text. Confirm the sentence, or strike it?
    - Landed: The entry as it reads, the sentence in it. Default: as it reads, until he answers.
@@ -571,7 +668,21 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 27, listed for his review", judge.1; `compile-ladder/climb-batch-27/JUDGE-review.md`, "What each side got right"; `reviews/batch-27-review.md`, Part 1, split 3; rows 919 and 921; F-283
    - Needed by: before the batch that fixes row 919 (set by the landing workflow); that batch builds on the choice.
 
-### Code generation and the run time (7)
+### Code generation and the run time (9)
+
+450. **Is P-174's "once per class, when the class loads" the component's class, and what of a site at a program's own generic type (row 957)?** F.worker.1 and F.skeptic.1 of climb batch 29's rung F. The code generator sets a static field for each numeral site at a program's type in the component class's static initializer, whatever class holds the site (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7189`, `numeralCoercionSiteDesc`). A site at a program's own generic type is not hoisted, so its coercion runs at each evaluation: two calls of `site(): Gen[\String\] = 3` give two objects (row 957).
+   - Landed: The component's class; a generic type's site not hoisted. Default: the component's class, as landed.
+   - The other way: At a generic type, one object per site too, or one per instantiation, held by the instantiated class.
+   - Its cost: A change at the code generator's numeral sites. The default reads his P-174 anew.
+   - Home: PLAN, "Climb batch 29, listed for his review", F.worker.1; `compile-ladder/rung-literal-fold/REPORT.md:265`; `reviews/batch-29-review.md`, Part 1, split 3; POSITIONS P-174; row 957
+   - Needed by: before the names batch, where finding 4 (item 449) places row 957's compiled half (set by the landing workflow).
+
+482. **Forks F5 to F7: three pieces of the numeral design reach the compiled path only at the switch-over.** The record's forks 33 to 35; consequential by the post-batch review, while the record calls them not consequential by its rule and lists them because P-173 names the pairs' fold. The compiled path reads the prelude until the switch-over, and the prelude declares neither the four numbers, nor the pairs, nor `QQ`. So on the compiled path a program's coercion from a numeral type receives today's compiled numeral value without its four numbers, called once per class when the class loads (F5); the pairs' conversion of a numeral is not folded at a call (F6); and a numeral at a `QQ` place is not folded, and the `SEQV` of two numeral values does not compare their reduced values (F7). Walk builds all three now.
+   - Landed: Each deferred, with a PLAN line for the names batch. Default: as landed.
+   - The other way: The prelude given the four numbers, the pairs and `QQ` before the switch-over, which P-37's rule that no declaration is added to the prelude excludes.
+   - Its cost: Until the switch-over a program's coercion from a numeral is spelled differently on each path, and no such program runs on both (`reviews/batch-29-review.md`, section 7, 1 to 4).
+   - Home: PLAN, phase 4, the lines on forks F5, F6 and F7; `coordinator/CLIMB-BATCH-29.md`, section 2, "The forks he may want to see", section 3, forks 33 to 35, and section 5, "Left out, each with its home"; `reviews/batch-29-review.md`, "The decisions consequential for him"; POSITIONS P-173, P-174 and P-37
+   - Needed by: the names batch, when the compiled path reads the one library (`coordinator/CLIMB-BATCH-29.md`, section 5, "Left out, each with its home").
 
 373. **Does `FileWriteStream` move to N4's reader rung, which ends `File`'s nativeness (row 926)?** W.worker.1 and W.skeptic.1 of climb batch 27's rung W. The writer rung made `Writer` and `BufferedWriter` plain Fortress objects over a Java writer (F-330). `FileWriteStream` stayed on its glue with its 5 bindings, since walk builds every object of a native component through a glue class and evaluates its fields once without the object, and `File` is still a native component. The record's fork W5, which would have made it a `WriteStream`, was not taken. The way of P-164 is the writer side whole first; this leaves one writer object for the reader side.
    - Landed: Climb batch 27 left `FileWriteStream` on its glue (row 926). Climb batch 28's rung R moved it with the reader side, a `WriteStream` with its `flush` (fork R2), and row 926 closed (`71d1018d1`; F-332). Default: no default on record for the fork; as landed, it moved with the reader rung.
@@ -594,10 +705,10 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 26, listed for his review", Question 1; `coordinator/CLIMB-BATCH-26.md`, section 2, "The question for the curator"; `reviews/batch-26-review.md`, Part 1, "The decisions consequential for him, and the readings he has not confirmed"; F-320; row 304
    - Needed by: no planned work (set by the landing workflow); nothing compiles against the one library before the switch-over, and phase 6 times microGPT compiled.
 
-406. **P-169, the runtime's own 13 native bindings named as compiled helpers that walk's loader answers with its own operations: his detailed review of the decision that he took from an independent Fable judgement as it landed.** Q1 of the natives review (`reviews/natives-remainder-2026-11-07.md`, section 4) asked whether P-167's device, a binding that names a compiled helper whose name walk's loader answers with walk's own operation, is the rule for the runtime's own operations, about 45 more names. In chat at 10:5x UTC on 2026-11-07 he could not answer it with the devices for 45 names or for shared carriers, asked for an independent Fable review, took its decision as it lands, and asked to review it in detail after it lands (`coordinator/HELD.md`). The judgement, worded by an Opus writer with its citations checked (`reviews/natives-device-2026-11-07.md`, summary and section 3): yes for all 45, with three amendments: the arrays' store, its compiled half by P-164's device, walk keeping its `AtomicArray`; threads, `abort` and the task trace on a `nativeHelpers` class over the compiled runtime, `Thread`'s four raising until compiled `spawn`; `IntLiteral`'s 8 as Fortress text over `asZZ` before the names batch, and the other 24 numerals at the names batch after a carrier review. It bends P-58's walk half for these names and makes P-167's table of two names a rule. P-169 now holds 13 of the 45, the arrays' 7 and threads, `abort` and the task trace, 6: `IntLiteral`'s 8 became Fortress text over `asZZ` (F-331), and the numerals' other 24 leave the library with `IntLiteral` and `FloatLiteral` at climb batch 29's rename of the numeral types, so no carrier is designed for them (P-174). The judgement's reframed Q2, the compiled store's shape, was asked apart, item 407, now in (a) (PLAN, phase 4, the natives line, D2).
-   - Landed: P-169, with P-58's bend and P-167's pointer, as the judgement decides. Climb batch 28 built P-169's 13 before his detailed review, the arrays' 7 on a compiled store of shape (ii) (rung A; F-333) and threads, `abort` and the task trace (rung H; F-335), and `IntLiteral`'s 8 as Fortress text (rung V; F-331). `IntLiteral`'s and `FloatLiteral`'s other 24 leave with the two types (P-174). Default: as decided.
+406. **P-169, the runtime's own 13 native bindings named as compiled helpers that walk's loader answers with its own operations: his detailed review of the decision that he took from an independent Fable judgement as it landed.** Q1 of the natives review (`reviews/natives-remainder-2026-11-07.md`, section 4) asked whether P-167's device, a binding that names a compiled helper whose name walk's loader answers with walk's own operation, is the rule for the runtime's own operations, about 45 more names. In chat at 10:5x UTC on 2026-11-07 he could not answer it with the devices for 45 names or for shared carriers, asked for an independent Fable review, took its decision as it lands, and asked to review it in detail after it lands (`coordinator/HELD.md`). The judgement, worded by an Opus writer with its citations checked (`reviews/natives-device-2026-11-07.md`, summary and section 3): yes for all 45, with three amendments: the arrays' store, its compiled half by P-164's device, walk keeping its `AtomicArray`; threads, `abort` and the task trace on a `nativeHelpers` class over the compiled runtime, `Thread`'s four raising until compiled `spawn`; `IntLiteral`'s 8 as Fortress text over `asZZ` before the names batch, and the other 24 numerals at the names batch after a carrier review. It bends P-58's walk half for these names and makes P-167's table of two names a rule. P-169 now holds 13 of the 45, the arrays' 7 and threads, `abort` and the task trace, 6: `IntLiteral`'s 8 became Fortress text over `asZZ` (F-331), and the numerals' other 24 left the library with `IntLiteral` and `FloatLiteral` in climb batch 29's rung N, so no carrier was designed for them (`3de571bac7`; P-174; F-32). The judgement's reframed Q2, the compiled store's shape, was asked apart, item 407, now in (a) (PLAN, phase 4, the natives line, D2).
+   - Landed: P-169, with P-58's bend and P-167's pointer, as the judgement decides. Climb batch 28 built P-169's 13 before his detailed review, the arrays' 7 on a compiled store of shape (ii) (rung A; F-333) and threads, `abort` and the task trace (rung H; F-335), and `IntLiteral`'s 8 as Fortress text (rung V; F-331). `IntLiteral`'s and `FloatLiteral`'s other 24 left with the two types in climb batch 29 (`3de571bac7`; P-174; F-32). Default: as decided.
    - The other way: An amendment changed at his review, or Q1 answered no, by a way that the judgement weighed and did not take (its section 1): walk carriers, an `Object` pass-through for array elements, which takes walk's array writes out of walk's transactions, or a `BigInteger` carrier with a transfer pair for the literals; or the glue kept, with the compiled fallback raising `FailCalled` at the first array.
-   - Its cost: A rewrite of P-169 and of P-58's sentence. The rungs that build it, by the judgement's summary: the arrays about 0.5M plus the four-thread atomic runs, threads about 0.4M, `IntLiteral`'s 8 about 0.3M, the other 24 about 0.4M of N5's rung, which the rename of the numeral types removes (P-174). Three of those rungs have landed, so a reversal of their part costs each rung again.
+   - Its cost: A rewrite of P-169 and of P-58's sentence. The rungs that build it, by the judgement's summary: the arrays about 0.5M plus the four-thread atomic runs, threads about 0.4M, `IntLiteral`'s 8 about 0.3M, the other 24 about 0.4M of N5's rung, which the rename of the numeral types removed (P-174). Three of those rungs have landed, so a reversal of their part costs each rung again.
    - Home: POSITIONS P-169, P-58 and P-167; `reviews/natives-device-2026-11-07.md`; `reviews/natives-remainder-2026-11-07.md`, sections 1, 2.3, 2.4, 2.6 and 4; `coordinator/HELD.md`, "Held in chat (2026-11-07)", 10:5x; PLAN, phase 4, the natives line, D2; `reviews/batch-28-review.md`, Part 1, "The decisions consequential for him, and the readings he has not confirmed"; F-331, F-333, F-335
    - Needed by: the natives' batches; no work waits on it, since the decision stands at his word and its 13 are built.
 
@@ -615,16 +726,16 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 28, listed for his review", T.worker.1; `Specification/basic/expressions/type-annotation.tex:45-48`; `compile-ladder/rung-codegen-trait-table/REPORT.md`, section 11; row 941
    - Needed by: before a rung repairs row 941 (set by the landing workflow).
 
-437. **Do `Reflect`'s 28 bindings stay on glue, walk only, as an exception to P-58?** Q4 of the natives review (`reviews/natives-remainder-2026-11-07.md`, section 4). Since climb batch 28 they are the last glue bindings outside the 24 of `IntLiteral` and `FloatLiteral`, which leave the library with climb batch 29's rename of the numeral types (P-169) (`reviews/batch-28-review.md`, section 6). They are off microGPT's path (F-32). P-58 has every native binding name a helper that both paths run.
+437. **Do `Reflect`'s 28 bindings stay on glue, walk only, as an exception to P-58?** Q4 of the natives review (`reviews/natives-remainder-2026-11-07.md`, section 4). Since climb batch 29, which removed the 24 of `IntLiteral` and `FloatLiteral` with the two types, they are the only glue bindings, 28 of 402 (F-32, F-299; `reviews/batch-29-review.md`, section 6). They are off microGPT's path (F-32). P-58 has every native binding name a helper that both paths run.
    - Landed: `Reflect`'s 28 on glue. Default: yes, until a compiled reflection is designed or walk runs the checker (the natives review, section 4).
    - The other way: `Reflect`'s 28 moved onto helpers before the switch-over, as P-58 has it.
    - Its cost: Not sized by any source. A yes is an exception to P-58.
    - Home: PLAN, phase 4, the natives line, D2; `reviews/natives-remainder-2026-11-07.md`, section 4; `reviews/batch-28-review.md`, section 6, "`Reflect`'s 28 (Q4)"; POSITIONS P-58; F-32
-   - Needed by: before the names batch (set by the landing workflow); after it, `Reflect`'s 28 are the only bindings on glue.
+   - Needed by: before the names batch (set by the landing workflow); `Reflect`'s 28 are the only bindings on glue.
 
 ### How batches run (2)
 
-403. **Does a crash in the distance stage that no rung declared make a later gate red, as it does in the checker count?** The post-batch review's finding A. At climb batch 27's gate the distance held two `#crash` rows: the compiled checker crashed while it typed `value object Char`, so the zero did not cover `Char`'s body (row 929; F-54). Climb batch 28's rung K closed row 929 (`a3eba5067`; F-334), and that batch's gate reads `#crash none`; the question stays for later gates. The distance stage is report-only until the switch-over (P-39), so it cannot fail a gate. The finding's first half, the push, is answered: his go of 14:0x UTC on 2026-11-07, "You have a go.", given after the probe of the crash (`coordinator/HELD.md`), and the row is filed as row 929.
+403. **Does a crash in the distance stage that no rung declared make a later gate red, as it does in the checker count?** The post-batch review's finding A. At climb batch 27's gate the distance held two `#crash` rows: the compiled checker crashed while it typed `value object Char`, so the zero did not cover `Char`'s body (row 929; F-54). Climb batch 28's rung K closed row 929 (`a3eba5067`; F-334), and that batch's gate reads `#crash none`, as climb batch 29's does (`reviews/batch-29-review.md`, section 1); the question stays for later gates. The distance stage is report-only until the switch-over (P-39), so it cannot fail a gate. The finding's first half, the push, is answered: his go of 14:0x UTC on 2026-11-07, "You have a go.", given after the probe of the crash (`coordinator/HELD.md`), and the row is filed as row 929.
    - Landed: (i), the distance report-only, as P-39 has it. Default: (i), the record's.
    - The other way: (ii) A crash that no rung declared is red in the distance as in the count (F-66): a change of P-39 and of the gate's step 9. The review proposes (ii) at the next change of the script, since only the distance reads the `FortressBuiltin` component.
    - Its cost: (ii) One step of the batch script's gate and one clause of P-39. Under (i), a crash such as row 929's never stops a push.
@@ -687,9 +798,16 @@ Each is kept as landed unless he says otherwise.
 76. Walk does not refuse an `override` over a declaration whose parameter types mention a static parameter whose bounds walk has lost (row 693).
    - Landed: This lenience, the base's behaviour for one shape. The other way: Carry the enclosing `where` clauses into object expressions (a rung of its own); or refuse, with false errors on programs the base loads. Its cost: One expected failure records it.
    - Home: PLAN, "Climb batch 13, listed for his review", Walk does not refuse an `override` over a declaration; `compile-ladder/rung-walk-override/JUDGE.md:145`
-   - Needed by: before row 774's walk rung; that rung makes walk read an `extends` entry's `where` clause, which row 693's notes name as one of the two causes of this lenience (`coordinator/CLIMB-BATCH-20.md`, fork 19). The rung is out of climb batch 21: it waits until walk runs the checker (P-12) or row 364 is fixed (`coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, "Off the path, parked", "Phase 3's candidates at its end").
+   - Needed by: before row 774's walk rung; that rung makes walk read an `extends` entry's `where` clause, which row 693's notes name as one of the two causes of this lenience (`coordinator/CLIMB-BATCH-20.md`, fork 19). The rung was out of climb batch 21: it waited until walk runs the checker (P-12) or row 364 is fixed, and climb batch 29's rung G fixed row 364 (F-344), so the rung can come after G (`coordinator/CLIMB-BATCH-29.md`, section 5, "Left out, each with its home"; `coordinator/CLIMB-BATCH-21.md`, section 2, "Defaults already taken, on your review list", item 6; PLAN, "Off the path, parked", "Phase 3's candidates at its end").
 
-### Walk's choice of declaration and instance (2)
+### Walk's choice of declaration and instance (3)
+
+465. **Fork G3's "keeps its name" read as name and identity, so a message about a written `Int` prints `ZZ32`.** G.worker.1 and G.skeptic.1 of climb batch 29's rung G. A type's text is made once per type object, which a written `Int` shares with the class of `3` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTraitOrObject.java:189-192`). So `Cell[\Int\](3)` at `takeZ(c: Cell[\ZZ32\])` gives 'Closure/Constructor for takeZ param 1 (c:Cell[\ZZ32\]) got arg Cell[\ZZ32\] of type Cell[\ZZ32\]'.
+   - Landed: Name and identity. Default: as landed.
+   - The other way: The name read as text, so that a written `Int` prints `Int`.
+   - Its cost: A second text for each such type object in walk's types.
+   - Home: PLAN, "Climb batch 29, listed for his review", G.worker.1; `compile-ladder/rung-walk-language-types/REPORT.md:154`; `compile-ladder/rung-walk-language-types/SKEPTIC.md:51`; `reviews/batch-29-review.md`, Part 1, split 11
+   - Needed by: no planned work (set by the landing workflow).
 
 80. Under walk, a type parameter that only another parameter's bound mentions takes the arguments' type, not its bound (row 592).
    - Landed: The departure, gated, because the library's `APPCOV` builds its result there and walk has no expected type. The other way: Walk moves once it has an expected type. Its cost: After the switch-over gives walk static types.
@@ -701,7 +819,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 9, listed for his review", Row 591; Row 616; PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `compile-ladder/rung-walk-instance/REPORT.md:319`; `compile-ladder/rung-walk-meet/SKEPTIC.md:122`; P-48, which names walk's three `Bottom` cases, rows 587, 591 and 612; F-141, walk's instance of a type parameter that nothing fixes, which lists row 591 with its expected failure
    - Needed by: before Q-walk; its expected failures wait until walk has the checker's static types (rows 591, 616; PLAN, phase 4).
 
-### Numbers and numerals (5)
+### Numbers and numerals (12)
 
 359. **Row 440's change went in as a rewrite of its line, not as a note; told, not asked.** S.worker.2 and S.skeptic.2 of climb batch 26's rung S. The rung's brief asked for a note to row 440. The row's notes cell held 676 of its 700 characters, so the rung rewrote the whole line by `ledger.py rewrite`. The new line names `<=` and `>=` beside `=` and `CMP`: under walk `QQ`'s 0/0 compared with itself answers `true` for the three and `EqualTo` for `CMP`, where the rationals chapter gives `false` and `Unordered` (F-319).
    - Landed: The row rewritten. Default: as landed.
@@ -711,7 +829,7 @@ Each is kept as landed unless he says otherwise.
    - Needed by: no planned work (set by the landing workflow); the item is told, not asked.
 
 380. **The integers' rung wrote ten new helpers, not nine, and Appendix I's natives effect now reads 341 of 443; told, not asked.** I.worker.1 and I.worker.2 of climb batch 27's rung I. `ZZ`'s right shift needs a helper of its own at the count `Integer.MIN_VALUE`, so the rung wrote ten new helpers where the plan said about nine. The gather corrected the effect of Appendix I's entry on the natives to the merged tree: 341 of 443 live bindings name a helper, and 102 a glue class.
-   - Landed: As described (`0122a399a`; F-327). Climb batch 28's gather revised the effect again, to 372 of 424, in rung S's commit (`Specification/appendices/changes.tex:4627-4674`; `compile-ladder/climb-batch-28/RECORD.md`, "The count of the bindings"). Default: as landed.
+   - Landed: As described (`0122a399a`; F-327). Climb batch 28's gather revised the effect again, to 372 of 424, in rung S's commit (`Specification/appendices/changes.tex:4627-4674`; `compile-ladder/climb-batch-28/RECORD.md`, "The count of the bindings"), and climb batch 29's gather to 374 of 402, in rung N's commit (`Specification/appendices/changes.tex:4656`; `compile-ladder/climb-batch-29/RECORD.md`, "The count of the bindings"). Default: as landed.
    - The other way: None asked; the item is told for his sight.
    - Its cost: None.
    - Home: PLAN, "Climb batch 27, listed for his review", I.worker.1; `compile-ladder/rung-natives-shift-power/REPORT.md:34`; `Specification/appendices/changes.tex:4625`; F-299; F-327
@@ -724,19 +842,68 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 28, listed for his review", V.worker.2; `coordinator/CLIMB-BATCH-28.md:396`, fork V1; `reviews/batch-28-review.md`, Part 1, split 1; P-162; item 429
    - Needed by: no planned work (set by the landing workflow); told, not asked.
 
-444. **The team's tests that the numeral design changes, respelled (P-172, P-174).** Open item 7 of `reviews/literal-design-judgement-2026-11-08.md`, section 6. `tests/NumberPrintTest.fss:16` asserts that `"" 3.1415926535897932384000000000001` prints the numeral as written; by P-173 the numeral is an `RR64` there and prints `3.141592653589793`. Nine team tests write `IntLiteral`, which P-174 removes: `compiler_tests/Compiled5.ah:17`, `Compiled5.aj:18-19`, `Compiled5.ak:21`, `Compiled6.az:15`, `Compiled9.g:18-19`, `Compiled9.j:17`, `Compiled9.p:18-19` and `:26`, `Compiled9.t:24` and `:37`, and `Compiled9.u:27`; the team's pinned messages of `XXX6at`, `XXX6bw` and `XXXApplicationErrors` change with them (`compile-ladder/plan-29/probes/literal-default.md`, section 4.3).
-   - Landed: Not built. Default: respelled at the rung that changes each, each changed line shown to him.
-   - The other way: Kept as the team wrote them, as expected failures.
-   - Its cost: Lines of 10 team test files and 3 pinned messages.
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-172 and P-174; the judgement, section 6; the prototype, section 4.3
-   - Needed by: before climb batch 29's library and checker rung lands.
+443. **May a value of a numeral type be bound by inference inside a coercion's body (P-174)?** Open item 6 of the judgement, section 6. A numeral type is written only as a parameter type, of a coercion or an operator; inside `coerce(x: RadixPointNumeral)`, `t = x` would bind `t` at the parameter's type by inference, since the default never applies to an expression of a numeral type (P-173). His yes of 23:3x UTC on 2026-11-08 took the item's first half, the numeral type written only as a parameter type (P-174); the inferred binding had no default on record then.
+   - Landed: Climb batch 29's rung C built the record's point 1, fork C2: the written-only rule reads written types, so `t` takes the numeral type (`53a6074ed7`). Default: `t` takes the numeral type, as landed.
+   - The other way: `t = x` refused, so that only the parameter holds a numeral value, by a check of inferred types too.
+   - Its cost: One rule in the checker's check that a numeral type is written only as a parameter type.
+   - Home: PLAN, "Climb batch 29, listed for his review", item 443's open half; POSITIONS P-174; the judgement, sections 1 and 6; `coordinator/CLIMB-BATCH-29.md`, section 2, "The three points with no default on record", point 1
+   - Needed by: no planned work (set by the landing workflow).
 
-446. **Walk, before it runs the checker, converts a numeral place by place (P-173).** Open item 9 of the judgement, section 6. The fork review's way F-c makes walk's float numeral an `RR64` at evaluation, about one line; the place-by-place way converts a numeral from its exact value at each binding, parameter and field that fixes a type, 40 to 60 lines (`reviews/literal-fork-2026-11-08.md`, section 6.3, rung 5).
-   - Landed: Not built. Default: place by place, which he took at 23:3x UTC on 2026-11-08.
-   - The other way: Way F-c, the default at evaluation.
-   - Its cost: Walk's rung, 40 to 60 lines by the fork review, landing with the library's rung.
-   - Home: PLAN, "Climb batch 29, listed for his review"; POSITIONS P-173, P-76 and P-172; the judgement, section 6; the fork review, section 6.3
-   - Needed by: before climb batch 29's walk rung lands.
+447. **What of the constant chapter's concatenation of two natural numerals, beside the binary chapter's `opr ||` with a numeral, which is dropped (P-174)?** Open item 10 of the judgement, section 6. The binary chapter declares a coercion from `NaturalNumeral[\m,radix,v\]` and an `opr ||` whose result width is a static size computed from the numeral's digit count (`Specification-1.0-frozen/advanced-lib/binary.tex:1620-1621`, `:1659-1662`), which fields cannot give. The constant chapter makes the concatenation of two natural numerals of one radix a numeral (`Specification-1.0-frozen/basic/expressions/constant.tex:80-82`), and his answer does not name it. His yes of 23:3x UTC on 2026-11-08 took the item's first half, the binary chapter's `opr ||` with a numeral dropped (P-174); the constant chapter's concatenation had no default on record then.
+   - Landed: Climb batch 29 built the record's point 2: rung F folds two natural numerals of one radix joined by `||` into one natural numeral, so `deadc_16 || 0de_16` is one numeral (fork F4), and rung T's text states it, with the binary chapter's callouts (fork T2). Default: folded, as landed.
+   - The other way: Dropped, so that `deadc_16 || 0de_16` finds no `||`; or given a written size, which no library declares.
+   - Its cost: A case of the fold and one test, and text of the specification.
+   - Home: PLAN, "Climb batch 29, listed for his review", item 447's open half; POSITIONS P-174; the judgement, sections 3 and 6; `coordinator/CLIMB-BATCH-29.md`, section 2, "The three points with no default on record", point 2
+   - Needed by: no planned work (set by the landing workflow).
+
+451. **A comparison of radix-point numerals folds exactly, so `0.1 = 0.1000000000000000000001` is `false`.** F.worker.2 and F.skeptic.3 of climb batch 29's rung F. The two numerals' `RR64` defaults are one double, and the base answered `true`. P-173 folds numerals alone exactly and does not single out comparisons.
+   - Landed: The exact fold (`ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java:304-310`). Default: exact, as landed.
+   - The other way: A comparison of numerals alone made at the operands' defaults.
+   - Its cost: A case of the fold. P-173's exact fold and his default of 22:3x UTC on 2026-11-08, that a comparison of literals alone folds, support the default; neither names this consequence.
+   - Home: PLAN, "Climb batch 29, listed for his review", F.worker.2; `compile-ladder/rung-literal-fold/REPORT.md:260`; `reviews/batch-29-review.md`, Part 1, split 13; POSITIONS P-173
+   - Needed by: no planned work (set by the landing workflow).
+
+452. **Should a later rung give the fold the disambiguating environment (row 956)?** F.worker.3 of climb batch 29's rung F. The fold reuses an operator reference written in the component. So it leaves as written an expression whose result needs a prefix minus or a `/` that the component writes nowhere (`ProjectFortress/tests/XXXNumeralFoldNoPrefixMinusWalk.fss`).
+   - Landed: The expression left as written. No default on record.
+   - The other way: The fold phase given the disambiguating environment, so that it folds such an expression too.
+   - Its cost: A change of the fold phase's inputs.
+   - Home: PLAN, "Climb batch 29, listed for his review", F.worker.3; `compile-ladder/rung-literal-fold/REPORT.md:261`; row 956
+   - Needed by: the next rung that edits the fold (set by the landing workflow).
+
+454. **The fold made `ZZ`'s `zero` and `one` a `ZZ32` under walk on rung F's tree, and rung N's fix repairs it (row 387); told, not asked.** F.skeptic.2 of climb batch 29's rung F. The getters are `Library/FortressLibrary.fss:1093-1095` at the base. Rung N's upheld fix `953d050966` converts a numeral at a declared return type, and the gather promoted `ProjectFortress/tests/XXXZZOneGetterWalk.fss` to `ZZOneGetterWalk.fss` in rung N's commit.
+   - Landed: The repair on the merged tree. Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 29, listed for his review", F.skeptic.2; `ProjectFortress/tests/ZZOneGetterWalk.fss`; row 387
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
+
+456. **Walk converts a numeral by the library's own coercion, not by walk's Java, departing from fork N7's default.** N.worker.2 of climb batch 29's rung N. Walk converts a numeral into the eight number types by calling the library's coercion from the numeral type with the numeral object, once per site and type (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Coercions.java:96-118`, `numeralCoercionFor`). The value is the same by construction.
+   - Landed: The library's coercion. Default: as landed.
+   - The other way: Fork N7's default, a conversion in walk's Java.
+   - Its cost: None to the values.
+   - Home: PLAN, "Climb batch 29, listed for his review", N.worker.2; `compile-ladder/rung-numeral-types/REPORT.md:176`; `reviews/batch-29-review.md`, Part 1, split 2
+   - Needed by: no planned work (set by the landing workflow).
+
+457. **An `RR32` operand beside a numeral runs `RR32`'s operator (row 958); told.** N.worker.3 of climb batch 29's rung N. With `RR32` converting from both numeral types, `a + 2.5`, `a + 2` and `a MAX 2.5` for an `RR32` `a` run `RR32`'s operator, where the revival's test asserted `RR64`'s; the rung reads it as P-76's and P-172's consequence. A float numeral to the left runs `RR64`'s under walk (row 958), and Appendix I's `revival-rr32` Effect now says so.
+   - Landed: As described. Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 29, listed for his review", N.worker.3; `compile-ladder/rung-numeral-types/REPORT.md:177`; `ProjectFortress/tests/RR32SiblingRungV.fss:50`, `:52`, `:55`; row 958
+   - Needed by: no planned work (set by the landing workflow).
+
+462. **A numeral as a `typecase`'s selector keeps `IntLiteral` on the compiled path (rows 963 and 964).** C.skeptic.4 of climb batch 29's rung C. P-173 gives such a numeral its default. The default there moves `compiler_tests/XXX5r.test`'s pinned span, and it makes `XXXPatternMatchingc.test`'s `typecase (3, 4) of (x, y: ZZ32)` reachable, which then stops the code generator (row 964).
+   - Landed: Left as recorded (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala:660`; `ProjectFortress/compiler_tests/XXXNumeralTypecaseSelector.test`). Default: left, as landed.
+   - The other way: The default built there, with the two team tests respelled and the pattern wall's test kept.
+   - Its cost: A case of the checker's default and two team tests.
+   - Home: PLAN, "Climb batch 29, listed for his review", C.skeptic.4; `compile-ladder/rung-numeral-checker/SKEPTIC.md:79`; `reviews/batch-29-review.md`, Part 1, split 10; rows 963 and 964
+   - Needed by: with finding 4's answer (item 449), whose option (a) takes row 963 (set by the landing workflow).
+
+469. **Should walk read `QQ`'s value object `Ratio` at `QQ`, as it reads the nine at their traits?** G.skeptic.3 of climb batch 29's rung G. `Ratio` (`Library/FortressLibrary.fss:655`), which no program can name, prints as `Ratio` under walk, and `Cell(q)` is a `Cell[\Ratio\]`. It has the nine's shape: one library object stands for a number type.
+   - Landed: Not mapped. No default on record.
+   - The other way: `LanguageTypes`' table reads `Ratio` at `QQ` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/LanguageTypes.java:30-41`).
+   - Its cost: One entry of walk's table.
+   - Home: PLAN, "Climb batch 29, listed for his review", G.skeptic.3; `compile-ladder/rung-walk-language-types/SKEPTIC.md:53`
+   - Needed by: no planned work (set by the landing workflow).
 
 ### Sizes and arrays (4)
 
@@ -775,7 +942,14 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 12, listed for his review", Row 661; PLAN, "Off the path, parked", The compiled path has no strided range; `compile-ladder/rung-library-slips/REPORT.md:252`
    - Needed by: before the switch-over; the switch-over meets the one library's strided `:` (its Landed line; rows 514, 661).
 
-### The library's generators, strings and comparisons (9)
+### The library's generators, strings and comparisons (10)
+
+464. **Does the constant chapter's "mixed string and character literals" include two character literals, `'a' || 'b'`?** S.worker.1 and S.skeptic.1 of climb batch 29's rung S. Neither library declares `||` on two characters. Walk refuses it on old and new code ('Failed to find any matching overload, args = ('a','b')'), and the compiled path refuses it statically, so the fold leaves it (`ProjectFortress/src/com/sun/fortress/compiler/desugarer/PreTypeCheckDesugaringVisitor.java:229`).
+   - Landed: Left. Default: left, as landed.
+   - The other way: Folded into a string literal, which needs a declaration, or the specification's word that the result is a string.
+   - Its cost: A declaration or a sentence of the specification, and a case of the fold.
+   - Home: PLAN, "Climb batch 29, listed for his review", S.worker.1; `compile-ladder/rung-string-literals/REPORT.md:229`; `Specification/basic/expressions/constant.tex`
+   - Needed by: no planned work (set by the landing workflow).
 
 364. **Rung T's helpers: `javaSubstr` on a new helper that raises, and the line separator in `stringOps` (fork 22).** Climb batch 26's rung T bound 7 of its 18 bindings to 6 existing helpers and 11 to new ones. `javaSubstr` takes a new helper over Java's `substring`, which raises out of range as the glue does, not `stringOps.substring`, which clamps and reads a negative index from the end. The record put the line separator in `systemOps`. The rung moved it into `stringOps` (`8b6fca9b5`), since the checker cannot read `systemOps` against the interpreter's prelude (F-321).
    - Landed: As described. Default: as landed.
@@ -840,7 +1014,14 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 28, listed for his review", R.judge.1; `Library/Writer.fss:32-35`; `coordinator/CLIMB-BATCH-28.md:406`, fork R2; `compile-ladder/rung-io-reader/JUDGE.md`; `reviews/batch-28-review.md`, Part 1, split 3; item 430
    - Needed by: no planned work (set by the landing workflow).
 
-### The specification's text (3)
+### The specification's text (4)
+
+472. **Row 966 numbered in Appendix I, and `tests/XXXNotEqualNumeral.fss` added outside the specification rung's files; told, not asked.** T.judge.1 and T.judge.3 of climb batch 29's rung T. The gather filed row 966 and put its number into Appendix I (`Specification/appendices/changes.tex:5163`). The skeptic's fix added `ProjectFortress/tests/XXXNotEqualNumeral.fss`, a file outside the section's "Specification/ only", as a home-2 expected failure.
+   - Landed: As described. Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 29, listed for his review", T.judge.1; `compile-ladder/rung-literals-spec/JUDGE.md`; row 966
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
 
 192. **Rung P's words in `overloading.tex`.** The revised passage reads exclusion "where the two parameter types, or their elements at one position, are or extend instances of one parameterized trait", the last clause beyond the words its brief gave, after the type group's paper, which reads a tuple element by element.
    - Landed: The words as written.
@@ -863,7 +1044,21 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 27, listed for his review", E.worker.3; `Specification/basic/objects.tex:15-17`; F-326
    - Needed by: no planned work (set by the landing workflow); told, not asked.
 
-### Tests and the team's demos (2)
+### Tests and the team's demos (4)
+
+453. **The compiled harness's new key `run_exits_nonzero`; told, not asked.** F.worker.4 of climb batch 29's rung F. The key is test machinery (`ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:595-606`) that `fortress-repo`'s `tests-writing.md` does not yet name. The skill writer takes it from the batch's record.
+   - Landed: The key. Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 29, listed for his review", F.worker.4; `compile-ladder/climb-batch-29/RECORD.md`, "Revival changes, for the skill writer"
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
+
+467. **`LanguageTypeInstancesWalk` asserts static arguments built from numerals under walk, against the batch's first rule for tests; told.** G.worker.3, G.worker.4 and G.skeptic.4 of climb batch 29's rung G. The test asserts `Cell(3)`, `Just(3)`, `SUM <|1, 2, 3|>` and `typeOf(3)`, as the rung's own test list asks, relying on rung N's default. Rows 432 and 721 close only if N makes a float numeral an `RR64` before inference. On the merged tree both hold: the test passes in the gather's run, and a probe printed `SUM <|1.5, 2.5|>` as '4.0', so rows 432, 721 and 20 close.
+   - Landed: As described. Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 29, listed for his review", G.worker.3; `ProjectFortress/tests/LanguageTypeInstancesWalk.fss:22-37`; `compile-ladder/climb-batch-29/RECORD.md`, "Rows closed"; `reviews/batch-29-review.md`, Part 1, split 12
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
 
 227. **Is "the example is not respelled to get around a gap in walk" a rule for every specification example (P-124)?** `ant testSpecData` runs the examples extracted from the specification under walk. On 2026-10-04 at 20:27 UTC he chose that it joins the gate once its five red examples are green ("Yep. Option one."). He did not take the way that respelled the five, "a text change in the revision form, to cover a gap in walk". Nor did he take a list of known red names. P-124 makes his refusal of the respelling a rule for every example: "When an example fails, the implementation is fixed: the example is not respelled to get around a gap in walk, and no list of examples allowed to fail is kept." The consolidation of 2026-10-13 (`ab933086b`) wrote the general form and gave no reason. Keep it as a rule for every example, strike it as done with the five, or let it wait in this list?
    - Landed: The entry as it reads. Default: the rule for every example, until he answers. No example has failed since `369982d85` (130 of 130).
@@ -937,7 +1132,63 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 28, listed for his review", T.worker.2; `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:6502`; `ProjectFortress/src/com/sun/fortress/scala_src/useful/STypesUtil.scala:1651`; `compile-ladder/rung-codegen-trait-table/REPORT.md`, sections 4 and 11; `reviews/batch-28-review.md`, Part 1, split 11; rows 940 and 942
    - Needed by: before the code-generator rung that takes row 940 (set by the landing workflow).
 
-### How batches run (27)
+### How batches run (35)
+
+474. **The record's forks for the whole of climb batch 29, 1 to 8, taken at their defaults, with the gather's four told points.** `coordinator/CLIMB-BATCH-29.md`, section 3, "Forks the batch takes", "For the whole batch": six rungs, N, C, F, G, S and T, with C landing only with N, and T only with N, C, F and S (1); the suites that each rung runs, once, after its last change of code (2); the count and distance stages on N's, C's, F's and S's final trees, C timing them (3); Appendix I's natives effect written by the gather (4); the team's tests respelled at the rung that changes each (5); no rung edits the prelude (6); the specification's build in the gather (7); microGPT's quick check left to the commit stage (8). With them, the gather's told points: the rungs applied in the order F, N, C, S, G, T by the batch's order rule (gather.1); row 338 closed by rung F's fold, which makes `-2147483648` one `ZZ32` numeral (gather.3); row 20 closed with no test, its probe in its note (gather.4); row 591 kept as it stood, since its citations are pinned at `d4d454f9d` (gather.6).
+   - Landed: Each at its default. Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone, and none reverses a decision of his or touches a line of microGPT (the record's section 3).
+   - Home: PLAN, "Climb batch 29, listed for his review", the gather's told points and the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 3; `compile-ladder/climb-batch-29/RECORD.md`, "The rungs applied, in order" and "Rows closed"; `reviews/batch-29-review.md`, Part 4
+   - Needed by: no planned work (set by the landing workflow).
+
+475. **Rung N's forks N2 and N5 to N12 of climb batch 29, taken at their defaults, with N7's departure.** The record's forks 10 and 13 to 20: the checker's names switch by library, as `CHARACTER` does (N2); one rounding by a new pair of helpers that both paths call (N5); walk's choice of a declaration reads a numeral argument as the checker does (N6); where walk converts a numeral, and how (N7); the `=` pairs kept and completed, 11 coercions with their pairs (N8); the `SEQV` of two numeral objects inside a coercion's body by their reduced values (N9); a numeral object printed as the Working Draft writes a numeral (N10); walk's glue classes of the two objects kept, unused, until the names batch's clean-up (N11); the tests whose answer the design drops, promoted or removed (N12). N7 departs: walk converts by the library's own coercion, not by walk's Java (item 456). N1, N3 and N4 are items 476 to 478.
+   - Landed: Each at its default, but N7's way of converting. Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone, and none reverses a decision of his (the record's section 3).
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; PLAN, phase 4, the line on fork N11; `coordinator/CLIMB-BATCH-29.md`, section 3, forks 10 and 13 to 20; `reviews/batch-29-review.md`, Part 1, split 2; item 456
+   - Needed by: no planned work (set by the landing workflow); N11's removal waits for the names batch's clean-up.
+
+479. **Rung C's forks C1 to C3 and C5 to C8 of climb batch 29, taken at their defaults, with C6 not built.** The record's forks 21 to 23 and 25 to 28: the default applies exactly at P-173's places that fix no type (C1); the written-only rule reads written types, so `t = x` inside a coercion's body binds `t` at the numeral type (C2; item 443); a numeral outside its type's range, or whose one rounding is an infinity, is refused statically (C3; rows 325 and 967); a size read as a value is a `ZZ32` (C5; row 486); a negative constant at a program's type is prefix `-` on its coercion of the natural numeral (C6); the tests of rows 362 and 506 promoted or rewritten (C7); `InferO2Pos.fss:18-19` respelled to P-173's answer (C8). C6 is not built, and the landed tree departs from it (item 448). C4 is item 480.
+   - Landed: Each at its default, but C6. Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone. C6 is the judgement's repair 3, which he took, and item 448 asks about it.
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 3, forks 21 to 23 and 25 to 28; `reviews/batch-29-review.md`, Part 1, split 1; items 443 and 448
+   - Needed by: no planned work (set by the landing workflow).
+
+481. **Rung F's forks F1 to F4 and F8 of climb batch 29, taken at their defaults.** The record's forks 29 to 32 and 36: the forms of a folded result, so that a program's coercion sees the four numbers of a written numeral only (F1); what the fold leaves alone, the operators whose meaning needs a width, and its two repairs, of `CHOOSE` and of `BOXPLUS` (F2); the fold in walk's phase order too (F3); two natural numerals of one radix joined by `||` folded into one natural numeral, the record's point 2 (F4; item 447); typed-place constants as the prototype built them, with `XXXFloatNumeralOneRounding` promoted (F8; row 862). F5 to F7 are item 482.
+   - Landed: Each at its default. Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone, and none reverses a decision of his (the record's section 3).
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 3, forks 29 to 32 and 36; item 447
+   - Needed by: no planned work (set by the landing workflow).
+
+483. **Rung G's forks G1 to G5 of climb batch 29, taken at their defaults.** The record's forks 37 to 41: way A, the trait read at inference (G1); the four string objects read at `String` too (G2); messages and `Reflect`'s text print the nine by their trait where a type's text is made, and a type that a program names keeps its name (G3; item 465); G owns the three `TupleOrder*Refused.test` keys (G4); the team test `LongStringTests.fss:121` and `:141` respelled `Generator⟦ZZ32⟧` (G5; item 486).
+   - Landed: Each at its default. Default: as landed.
+   - The other way: The way not taken that each fork names; for G1, way B at the instance factories.
+   - Its cost: Each can be undone, and none reverses a decision of his (the record's section 3).
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 3, forks 37 to 41; `reviews/row-364-walk-generics-2026-11-08.md`
+   - Needed by: no planned work (set by the landing workflow).
+
+484. **Rung S's forks S1 and S2 of climb batch 29, taken at their defaults.** The record's forks 42 and 43: the string fold runs in the desugaring phase before the checker, which both paths run, and folds `||` of two string literals and of a string and a character literal (S1); the library's own literals are interned too, so an empty slice of a flat string can be `SEQV ""` (S2; P-171).
+   - Landed: Each at its default. Default: as landed.
+   - The other way: For S1, the string fold in rung F's fold.
+   - Its cost: Each can be undone, and none reverses a decision of his (the record's section 3).
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 3, forks 42 and 43; POSITIONS P-171
+   - Needed by: no planned work (set by the landing workflow).
+
+485. **Rung T's forks T1 to T3 of climb batch 29, taken at their defaults.** The record's forks 44 to 46: two new Appendix I entries, one for P-173 and P-174 together and one for P-171, and four entries revised (T1); the binary chapter and the trait-parameters chapter keep their text, each with a callout that names the new entry (T2); T writes the decided design, not the rungs' code, and names each sentence that a rung's section does not support (T3).
+   - Landed: Each at its default. Default: as landed.
+   - The other way: The way not taken that each fork names.
+   - Its cost: Each can be undone, and none reverses a decision of his (the record's section 3).
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 3, forks 44 to 46; `Specification/appendices/changes.tex`
+   - Needed by: no planned work (set by the landing workflow).
+
+486. **The record's points for his sight of climb batch 29.** `coordinator/CLIMB-BATCH-29.md`, section 3, "Points the batch lists for him, not questions", as the post-batch review completed it (Part 4). The team's lines changed: in rung N, `NumberPrintTest.fss:16` and `:31`, `sequivTest.fss:58` and `:94`, `XXXextendIntLiteral.fss:15`, `XXXextendFloatLiteral.fss:15`, `Constants.fsi:16-17` and `ReflectiveQuickCheck.fss:40`; in rung C, `Compiled5.ah`, `5.aj`, `5.ak`, `6.az`, `9.g`, `9.j`, `9.p`, `9.t`, `9.u` and the pinned texts of `XXX6at` and `XXX6bw`; in rung F, `Compiled7.Print17.fss:20-21` and `sequivTest.fss:31`; in rung G, `LongStringTests.fss:121` and `:141`. Under walk a numeral converts where it stands, a bare float numeral prints as its double, the fold runs, `Cell(3)` is a `Cell[\ZZ32\]`, messages print `ZZ32` and `String`, and `"ab" SEQV "ab"`. On the compiled path a numeral where nothing fixes a type is a `ZZ32` or an `RR64`, a numeral out of range is a static error, a float constant is rounded once, and a program's coercion runs once per class. The specification has two new Appendix I entries and four revised. These are the changed lines that item 444's default shows to him.
+   - Landed: As listed. Default: as landed.
+   - The other way: None asked; the item is told for his sight.
+   - Its cost: None.
+   - Home: PLAN, "Climb batch 29, listed for his review", the record's points; `coordinator/CLIMB-BATCH-29.md`, section 3; `reviews/batch-29-review.md`, Part 4, "Record defaults the batch took"; item 444
+   - Needed by: no planned work (set by the landing workflow); told, not asked.
 
 335. **A systematic check of the natives' shared state, the coordinator's proposal: a static field check in the gate and a parallel test for each helper with state. Build it, a part of it, or neither?** The natives' shared-state audit (`reviews/natives-shared-state-audit.md`, section 7; `723cb707c`) found one slip in the natives' own state, the two `CHOOSE` scratch arrays (row 855, fixed by climb batch 24's rung K), and the pattern in the checking: no test calls a native from parallel tasks and compares the results with a sequential answer, which is why row 855 waited for a probe. Its proposal, which the coordinator puts to him as its own, not built: (1) a static check in the gate, one `javap -p` over the built classes of `nativeHelpers/` and `interpreter/glue/`, that fails on a static field that is not final or is of an array or collection type, or on an instance field of a glue class, not in an allow-list taken from the audit's section 2; (2) for each helper that the check lets through with state, or that calls into run-time state, a compiled test that calls its binding from a parallel loop at four threads and asserts each value against a sequential answer, as the CHOOSE probe's tests do. A pure helper needs none.
    - Landed: Nothing built. Climb batch 28's new helpers hold no state of their own: `programArgs` reads `MainWrapper.cachedArgs`, set once before the run (`coordinator/CLIMB-BATCH-28.md`, fork 4; F-337), so the default stands. Default: neither part built, as today; the proposal stays the coordinator's until he says yes.
@@ -1482,7 +1733,7 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **347, Should a binding over `NN32`, `NN64` or `Char` to a helper with several…**
 - **351, An allow rule for walk guards run with the base build's own `harness-one.sh`?**
 
-### Answered by a decision of his (81)
+### Answered by a decision of his (89)
 
 - **23, May a program extend `Number`?** Decided 2026-11-05: P-160, "The one library's `Number` opens: its `comprises` clause goes, ...", his "2" of 18:1x UTC on 2026-11-05 to the ask on `Number`'s closure (option (b) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 23; `reviews/number-closure-2026-11-05.md`, section 8; rows 596, 551 and 804.
 - **24, A float compared with NaN.** Decided 2026-11-05: P-159, "A float compared with a NaN answers: ...", his "1" of 18:1x UTC on 2026-11-05 to the ask on the NaN comparison (option (a) of the review). Home: `coordinator/review-queue-learning-2026-11-05.md`, "Numbers and numerals", item 24; `reviews/nan-comparison-2026-11-05.md`, section 8; `perf-probes/nan-check-cost/REPORT.md`; row 672.
@@ -1565,6 +1816,14 @@ Each with the ground that settles it: a decision of his, a landed fix, a row tha
 - **95, The numeral type declares its own `zero`, `one`, `even`, `odd`, `floor`, `ceiling`, `truncate`, `DIVIDES`, `TIMES` and `^`.** Decided 2026-11-08: P-174, "A numeral's own type is the Working Draft's, ...", and P-76, his decision of 22:3x UTC and his yes of 23:3x on 2026-11-08: `IntLiteral` and its own arithmetic go, the Working Draft's numeral types carry the four numbers as fields, and a numeral where nothing fixes a type takes its default (P-173), so `(3).zero` is `ZZ32`'s. Home: PLAN-history, "Moved on 2026-11-08, after his decisions on numerals and on parallel reductions", "Climb batch 8, listed for his review".
 - **209, A numeral whose conversions tie is read as `ZZ32`, or as `ZZ64` or `ZZ` by its value.** Decided 2026-11-08: P-173, "A numeral converts where it stands: ...", his decision of 22:3x UTC and his yes of 23:3x on 2026-11-08: the reading is the rule, on both paths, and a tied float numeral reads `RR64`. Home: PLAN-history, "Climb batch N's first run, listed for his review", the line on rung I's reading of the default; F-73.
 - **245, Does `RR32` convert from `IntLiteral`, the type of an integer numeral (P-76)?** Decided 2026-11-08: P-76, "An integer numeral has the Working Draft's type `NaturalNumeral` ...", and P-173, his decision of 22:3x UTC and his yes of 23:3x on 2026-11-08: each of the eight number types converts from the numeral type, `RR32` with one rounding. Home: POSITIONS P-76; item 37, the arrays' element width.
+- **438, A numeral outside its type's range at a typed place: refused statically, or at run time.** Decided 2026-11-08: P-173, "A numeral converts where it stands: ...", his yes of 23:3x UTC on 2026-11-08, "Yeah. Option one.", to the defaults for the open items of `reviews/literal-design-judgement-2026-11-08.md`, this item's among them: refused statically. Climb batch 29's rung C built it, fork C3 (`53a6074ed7`; row 325 closed; F-342). Home: PLAN-history, "Climb batch 29's landing, 2026-11-09", "Climb batch 29, listed for his review"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 23:3x; row 325.
+- **439, A program's own type with no coercion from the numeral type: a numeral refused, or the default then the type's own coercion.** Decided 2026-11-08: P-174, "A numeral's own type is the Working Draft's, ...", his yes of 23:3x UTC on 2026-11-08, "Yeah. Option one.", to the defaults for the open items of `reviews/literal-design-judgement-2026-11-08.md`, this item's among them: refused, since coercion does not chain. Climb batch 29's rung C built it, fork C4 (`53a6074ed7`; F-342). Home: PLAN-history, "Climb batch 29's landing, 2026-11-09", "Climb batch 29, listed for his review"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 23:3x.
+- **440, A numeral at a program's own type: one object per site, or the call hoisted for value types only.** Decided 2026-11-08: P-174, "A numeral's own type is the Working Draft's, ...", his yes of 23:3x UTC on 2026-11-08, "Yeah. Option one.", to the defaults for the open items of `reviews/literal-design-judgement-2026-11-08.md`, this item's among them: one object per site, as a string literal is (P-171). Climb batch 29's rung F built it in the component class's static initializer, fork F5 (F-340); its reading of the class and a site at a program's generic type are item 450 (row 957). Home: PLAN-history, "Climb batch 29's landing, 2026-11-09", "Climb batch 29, listed for his review"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 23:3x; item 450.
+- **441, A `nat` parameter used as a value: a `ZZ32` (P-40), or the Working Draft's `NN32`.** Decided 2026-11-08: P-173, "A numeral converts where it stands: ...", his yes of 23:3x UTC on 2026-11-08, "Yeah. Option one.", to the defaults for the open items of `reviews/literal-design-judgement-2026-11-08.md`, this item's among them: a `ZZ32`, by P-40. Climb batch 29's rung C built it, fork C5 (row 486 closed; F-342); a size of 2^31 or more is item 461 (row 962). Home: PLAN-history, "Climb batch 29's landing, 2026-11-09", "Climb batch 29, listed for his review"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 23:3x; row 486; item 461.
+- **442, The fold's result: a signed constant with three defaults, or the Working Draft's constant traits.** Decided 2026-11-08: P-173, "A numeral converts where it stands: ...", his yes of 23:3x UTC on 2026-11-08, "Yeah. Option one.", to the defaults for the open items of `reviews/literal-design-judgement-2026-11-08.md`, this item's among them: a signed constant, which defaults as an integer numeral, as a `QQ` for a quotient, or as an `RR64` with a radix point. Climb batch 29's rung F built it, fork F1 (F-339). Home: PLAN-history, "Climb batch 29's landing, 2026-11-09", "Climb batch 29, listed for his review"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 23:3x.
+- **444, The team's tests that the numeral design changes: respelled, or kept red.** Decided 2026-11-08: his yes of 23:3x UTC on 2026-11-08, "Yeah. Option one.", to the defaults for the open items of `reviews/literal-design-judgement-2026-11-08.md`, this item's among them: respelled at the rung that changes each, each changed line shown to him. Climb batch 29's rungs N, C and G respelled them (the record's fork 5); the changed lines are item 486. Home: PLAN-history, "Climb batch 29's landing, 2026-11-09", "Climb batch 29, listed for his review"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 23:3x; item 486.
+- **445, Two numeral values inside a coercion's body: strictly equivalent by their reduced value, or by their fields.** Decided 2026-11-08: P-174, "A numeral's own type is the Working Draft's, ...", and P-168, his yes of 23:3x UTC on 2026-11-08, "Yeah. Option one.", to the defaults for the open items of `reviews/literal-design-judgement-2026-11-08.md`, this item's among them: by the reduced value, the one exception to P-168's rule. Climb batch 29's rung N built it, fork N9; its reach across both numeral types is item 458. Home: PLAN-history, "Climb batch 29's landing, 2026-11-09", "Climb batch 29, listed for his review"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 23:3x; item 458.
+- **446, Walk before it runs the checker: a numeral converted place by place, or a float numeral made an `RR64` at evaluation.** Decided 2026-11-08: P-173, "A numeral converts where it stands: ...", his yes of 23:3x UTC on 2026-11-08, "Yeah. Option one.", to the defaults for the open items of `reviews/literal-design-judgement-2026-11-08.md`, this item's among them: place by place. Climb batch 29's rung N built it, forks N6 and N7 (F-341); N7's departure is item 456. Home: PLAN-history, "Climb batch 29's landing, 2026-11-09", "Climb batch 29, listed for his review"; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 23:3x; item 456.
 
 ### Answered by a landed fix or a closed row (44)
 

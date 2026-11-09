@@ -1,0 +1,9 @@
+Record landing of climb batch 29: PLAN, the review queue and the run's folder routed for the landing
+
+- PLAN, "Where we stand": climb batch 29 landed at 7daf51fe8 with no crash row, 374 of 402 bindings on helpers; next, his answers to findings 1 and 4, then climb batch 30.
+- PLAN, phase 4: climb batch 29's line; its literals line and row 578's line to history; N3, N5 and Q-walk cut to what stays; new lines for forks F5 to F7 and N11 and for rows 959 and 965.
+- PLAN, "Pavol's answers": item 75 cut to its question; item 76, finding 4, new.
+- PLAN, the lists for his review: climb batch 29's lines cut to pointers to review-queue items 443, 447 and 450 to 486; the waits on row 364, row 721's arrays and row 387's return brought to the tree.
+- Review queue: items 448 to 486 new; 438 to 442 and 444 to 446 answered by his yes of 23:3x on 2026-11-08; 443 and 447 cut to their open halves; 76, 224, 372, 380, 403, 406 and 437 brought to the landing; the head's groups and counts.
+- PLAN-history: every moved or rewritten line, word for word.
+- The run's folder of the climb batch 29 record landing.
