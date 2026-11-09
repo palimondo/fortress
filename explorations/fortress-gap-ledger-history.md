@@ -10019,3 +10019,57 @@ rewritten
 rewritten
 
 | 893 | under walk, an object that extends a self-typed trait at a type it is not a subtype of loads, a static error by the specification; walk's load check reads that trait's `self` as `C[\X\] & X`, so a call that the trait's operator and a generic array operator both fit runs one of them | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/traits.tex`, "Trait Declarations" | `ProjectFortress/tests/XXXSelfTypeExtenderOtherTypeWalk.fss` | climb batch 26 rung W's skeptic | siblings: 804. `object Bad extends { Arry[\Rr\], AddG[\Rr\] }` beside `MINUS[\T extends { Numb, AddG[\T\] }\](x: Arry[\T\], y: T)`: `Bad MINUS Rr` prints 'array minus number', where `AddG[\Rr\]`'s `MINUS` fits too and neither is more specific. Walk's exclusion test reads the self parameter so (`selfTypeParameter`, `OverloadedFunction.java:845-867` at c124c6b65), and walk applies no extender rule of P-146 (`Specification/appendices/changes.tex:4291-4292`); the checker refuses `Bad`, 'whose self parameter is Rr, but Bad is not a subtype of Rr.' |
+
+### Row 969
+
+closed by a26e74f5c
+
+| 969 | the one library and walk give a numeral a run-time value object whose fields are its four numbers, with getters, `asFloat`, `asString` and `=` pairs, where P-174 makes them static parameters of a type that exists only at compile time: a program's `coerce(x: RadixPointNumeral)` reads `x.digitValue` | NEGATIVE-VERIFIED | implementation gap (library) | `Specification-1.0-frozen/basic/expressions/literals.tex:83-129`, "Literals" | `ProjectFortress/tests/NumeralOwnTypeWalk.fss` | the numeral design's post-mortem | siblings: 970, 961, 968, 957, 513. `Library/FortressLibrary.fsi:454-494` at 88d5d260e4: `trait Numeral` with four abstract getters, `value object NaturalNumeral(digits, radix, digitValue)` and `RadixPointNumeral(digits, fractionDigits, radix, digitValue)`, each with `asString`, `asFloat` and `=` at the number types; no coercion is generic over the four numbers. Walk builds the object once per site when the site runs and calls the place type's coercion with it, the eight number types' too (`interpreter/evaluator/values/Numerals.java`, `object` and `converted`). The revised literals chapter states the same form (F-345). Workaround: none. |
+
+### Row 970
+
+closed by a26e74f5c
+
+| 970 | on the compiled path a numeral at a program's own type reaches its `coerce(x: IntLiteral)` or `coerce(x: FloatLiteral)` against the prelude, without the four numbers, where P-174 has a coercion generic over them as static parameters, folded once per place; the checker holds no `nat` above 32 bits | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/basic/expressions/literals.tex:83-148`, "Literals" | `ProjectFortress/compiler_tests/NumeralCoercionOnceCompiled.test` | the numeral design's post-mortem | siblings: 969, 957, 961, 962, 675. The prelude declares `trait IntLiteral` and `trait FloatLiteral` (`LibraryBuiltin/CompilerBuiltin.fss:883`, `:996` at 88d5d260e4), and the checker types a numeral by them under the prelude (`compiler/Types.java`, F-79). The checker refuses a `nat` above 4294967295 (F-140), so a 10-digit `v` is no static argument; the class loader replaces a size read as a value by a numeral read as a `ZZ32` (F-129, row 962). The code generator calls a program's coercion once per site in the component class's static initializer, and at a generic type at each evaluation (row 957). Workaround: none. |
+
+### Row 961
+
+closed by a26e74f5c
+
+| 961 | on the compiled path a negative integer numeral at a program's own number type reaches the type's `coerce(x: IntLiteral)` signed, where P-173 and P-174 make it prefix `-` on the coercion of the natural numeral and refuse it at a type without `-`: `t: Tally = -3` calls the coercion with -3 | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNegativeNumeralOwnType.test` | climb batch 29 rung C | The integer literal fold makes `-3` one negative `IntLiteralExpr` before the checker (`compiler/desugarer/IntegerLiteralFoldingVisitor.java:373-377` at 7daf51fe8), and keeps no reference to the prefix operator that the checker would apply to the program's coercion of `3`. Until the switch-over the prelude's `IntLiteral` carries the sign, so the coercion reads -3 exactly; the difference shows once the coercion reads a numeral's four numbers. Workaround: none needed before the switch-over. Walk's half, through the same fold: row 968. |
+
+### Row 968
+
+closed by a26e74f5c
+
+| 968 | under walk a negative integer constant at a program's own number type reaches its `coerce(x: NaturalNumeral)` as a natural numeral of negative value, where the specification makes it prefix `-` on the coercion's result for the natural numeral: `t: Tally = -3` passes `NaturalNumeral(1, 10, -3)` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals" | none | climb batch 29 merged-diff review | siblings: 961, 956. Since climb batch 29 the numeral fold runs in walk's phase order too and makes `-3`, or `5 - 8`, one `IntLiteralExpr` of value -3 (`compiler/desugarer/IntegerLiteralFoldingVisitor.java`, class comment); walk's numeral site keeps that value as its digit value and counts the digits of the text without the sign (`interpreter/evaluator/values/Numerals.java:160-179`, `integer`), so the object's `asString` is '7', and a type without `-` takes the numeral. Probe at 1d50c6bbbf, `bin/fortress walk` on a scratch program: `t: Tally = -3` printed 't 1 -3', `t: Tally = 5 - 8` 't 1 -3', `w: Written = -3` 'w 7'. Workaround: none. |
+
+### Row 318
+
+closed by a26e74f5c
+
+| 318 | on the compiled path 21 operators of `IntLiteral` (`DOT`, `CROSS`, `DIV`, bitwise, boxed and dotted forms, `\|self\|`, `MINMAX`, `CHOOSE`, `even`, `odd`) throw `CompilerFailureDetectedAtRunTime`; the overload blocks coercion to `ZZ32`, so one on two undeclared integer literals compiles and throws | NEGATIVE-VERIFIED | implementation gap (prelude) | `basic/operators/opr-overview.tex`, "Multiplication, Division, Modulo, and Remainder Operators" | `ProjectFortress/compiler_tests/XXXNumeralDivByZeroCompiled.test` | ladder rung 7 | siblings: 328, 954, 955. The stubs are `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:896-928` at c124c6b65; `grep -c 'throw Compiler'` there prints 21. The numeral fold leaves `n DIV 0` and the wrapping, saturating and bitwise operators of two numerals (climb batch 29 rung F), so `1 DIV 0` reaches its stub where `DivisionByZero` is the answer. Fixed half: unary and binary `-`, `+` and juxtaposition call `nativeHelpers/simpleIntLiteralArith.java` (`NamingCzar.java:343`), asserted by `IntLiteralArithRung7.test`. Fix: the switch-over (P-38). Workaround: declare the binding `ZZ32` or `ZZ64`, or apply `.asZZ32`. full text: history, row 318 |
+
+### Row 362
+
+closed by a26e74f5c
+
+| 362 | the compiled path throws `NullPointerException` when it renders a float numeral's own value: inside a program's `coerce(x: FloatLiteral)`, `"" x` fails; a float numeral where nothing fixes a type is an `RR64`, so `println(2.5)`, `"…" 2.5` and `(1.1_2).asString` render | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/objects.tex`, "Objects"; `Specification/basic/types-vals-vars.tex`, "Relationships between Types" | `ProjectFortress/compiler_tests/XXXFloatLiteralValuePrint.test` | climb batch 3 rung R's second skeptic | siblings: 321, 862. The runtime `FFloatLiteral.asString()` is `return null; /* replaced in generated code */` (`compiler/runtimeValues/FFloatLiteral.java:52-53`) and the prelude's `trait FloatLiteral` declares no `asString`, so a `FloatLiteral` value fails where it is rendered, as in `String`'s juxtaposition. Only a parameter of type `FloatLiteral` holds such a value now, and the compiled coercion runs in the component class's initializer, before `run()` (climb batch 29 rung F); `NumeralPrintRungR` guards the bare numeral. A runtime class, not a prelude declaration. Workaround: bind it to an `RR64`. full text: history, row 362 |
+
+### Row 972
+
+closed by a26e74f5c
+
+| 972 | on the compiled path a library component with a generic overloaded top-level function stores its inference cache tables into a class named without its package: `fortress.CompilerBuiltin.<clinit>` fails, `NoClassDefFoundError: CompilerBuiltin`, and every compiled program dies | NEGATIVE-VERIFIED | implementation gap (codegen) | silent | none | the static numerals probe | The component class's static initializer names the owner of each table's `putstatic` as `Naming.dotToSep(x.getName().getText())` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1979` at dd00743d9e), while `cw` writes the field into `packageAndClassName`, which for a library component is `fortress/<Name>`; a program's component has no package, so the two agree there. No library component has a generic overloaded top-level function today, so nothing shows it; the probe's prelude, whose number types' coercions are generic over a numeral's four numbers, did: `fortress run hello`. Fix: name the owner `packageAndClassName`. |
+
+### Row 328
+
+closed by a26e74f5c
+
+| 328 | on the compiled path, until the switch-over, two `IntLiteral` values compare at `ZZ64`, so comparing one outside `ZZ64` throws where the specification requires an answer: `lt(a: IntLiteral, b: IntLiteral): Boolean = a < b` dies at `lt(18446744073709551615, 5)` with `Not in range for ZZ64` | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/basic/expressions/literals.tex`, "Literals" | none | repair batch R2's skeptic | `trait IntLiteral`'s six comparisons are each `self.asZZ64 <op> other.asZZ64` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss:912-917` at c124c6b65), and `FIntLiteral.asZZ64` raises for a numeral carried as a decimal string (`compiler/runtimeValues/FIntLiteral.java:74-77`). Since climb batch 29 an untyped binding takes the numeral's default and numerals alone fold (F-342, F-339), so `a = 18446744073709551615` then `a < 5` answers `false`; only a parameter written `IntLiteral` holds such a value. Probes at 1d50c6bbbf, compiled and run: 'a < 5:  false'; `lt` 'java.lang.Error: Not in range for ZZ64: 18446744073709551615'. No test pins it (F-118). full text: history, row 328 |
+
+### Row 80
+
+rewritten
+
+| 80 | `case x of <int literal>` compiles clean and throws at run time | FIXED | implementation gap (prelude) | `Specification/basic/expressions/case.tex`, "Case Expressions" | `ProjectFortress/library_tests/IntLiteralRung6.test` | ours | fixed 54861b62a (ladder rung 6); the `IntLiteral` arithmetic family is row 318; closing this row opened row 317; full text: history, row 80 |
