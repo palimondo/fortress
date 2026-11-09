@@ -3804,9 +3804,12 @@ declaration of the operator is applicable to the two without coercion, and that
 type's own declaration of the operator is then the most specific
 (\secref{resolving-coercion}); \library\ state on each integer type the
 comparisons \EXP{<}, \EXP{\leq}, \EXP{>} and \EXP{\geq}, \OPR{CMP},
-\OPR{MAXNUM}, \OPR{MINNUM} and a power with a numeral exponent, which the types
-inherited before from a declaration that a converted numeral leaves tied with
-those of \EXP{\mathbb{Z}64}, \EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}.
+\OPR{MAXNUM} and \OPR{MINNUM}, which the types inherited before from a
+declaration that a converted numeral leaves tied with those of
+\EXP{\mathbb{Z}64}, \EXP{\mathbb{Q}} and \EXP{\mathbb{R}64}.
+They stated a power with a numeral exponent too, which the change of
+\secref{revival-numerals} removes: a numeral exponent reaches the power's
+declarations over \EXP{\mathbb{Z}32} and \TYP{AnyIntegral}.
 Equality was stated in pairs instead, each integer type declaring an \EXP{=}
 whose parameter was of the numeral type, and the numeral type one whose
 parameter was of each integer type; since the change of
@@ -5094,8 +5097,9 @@ in a coercion's body, and the binary chapter's declarations over
 The entries \secref{revival-numeral-type}, \secref{revival-inference},
 \secref{revival-asfloat}, \secref{revival-object-kinds} and
 \secref{revival-native-helpers} are revised where they named \TYP{IntLiteral}, a
-numeral's value, the numeral types' \VAR{asFloat} or the pairs of \EXP{=} with
-a numeral type, or said what the interpreter does with a numeral.
+numeral's value, the numeral types' \VAR{asFloat}, the pairs of \EXP{=} with
+a numeral type or a power with a numeral exponent, or said what the interpreter
+does with a numeral.
 \item[Rationale] This change does not follow from route~A.
 The revival decided on 8~November 2026 that a numeral is converted where it
 stands, into the type that its place fixes or else into the machine default;
