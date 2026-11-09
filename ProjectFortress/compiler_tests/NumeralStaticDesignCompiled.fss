@@ -43,10 +43,16 @@ digitsOf(v: ZZ32, r: ZZ32, n: ZZ32): String = if n = 0 then "" else do front: St
 
 value object Written(text: String)
   coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
-    t: String = digitsOf(small(v), small(r), small(n))
-    w: ZZ32 = small(n) - small(m)
-    suffix: String = if small(r) = 10 then "" else "_" || small(r).asString end
-    Written(t.substring(0, w) || "." || t.substring(w, small(n)) || suffix)
+    sv: ZZ32 = small(v)
+    sr: ZZ32 = small(r)
+    sn: ZZ32 = small(n)
+    sm: ZZ32 = small(m)
+    t: String = digitsOf(sv, sr, sn)
+    w: ZZ32 = sn - sm
+    suffix: String = if sr = 10 then "" else "_" || sr.asString end
+    front: String = t.substring(0, w)
+    back: String = t.substring(w, sn)
+    Written(front || "." || back || suffix)
   end
 end
 
