@@ -16,7 +16,7 @@ run(): () = do
   assert(Box(i).asString, "Box[\\ZZ32\\]", "asString of a generic object names its static argument by the trait")
   l: ZZ64 = 3
   b: ZZ = 3
-  r: RR64 = 1.5 + 1.5
+  r: RR64 = asFloat(3)
   u: NN64 = widen(unsigned(4))
   assert(i.ilkName, "ZZ32", "a ZZ32's ilk")
   assert(l.ilkName, "ZZ64", "a ZZ64's ilk")
