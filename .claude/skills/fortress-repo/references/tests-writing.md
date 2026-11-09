@@ -31,7 +31,7 @@ A test program has this form:
 - A compiled test with a `run` key ends `run()` with `println("PASS")`, unless a `run_out` key checks its output (below).
 - Under walk, `assert(x, y, msg)` checks that `x` equals `y`. It and `=/=` call a type's own `=` only if the type extends a `FortressLibrary` trait that declares `=`, such as `Equality` (ledger row 807). Otherwise they compare by `SEQV` (`revival-changes.md`, "Traits and objects"). If a type `P` has its own `=`, make `P` extend `Equality[\P\]`, or write `assert(x = y, msg)`. The compiler's library declares the two-value `assert` only for `ZZ32`, `String` and `Character`; its `assert(flag, msg)` takes any `Boolean`.
 - Do not name a variable or a parameter after a functional method of the library, such as `big`, `even`, `numerator` or `shift`. The disambiguator, the phase that binds names, refuses it: "Variable even is already declared."
-- Under walk, a numeral does not bind to `NN32` or `NN64`, and a numeral with a radix point does not bind to `RR32` (ledger row 454). Write `a: NN32 = unsigned(5)`, not `a: NN32 = 5`.
+- A test of run-time arithmetic or concatenation needs a typed operand, because an expression of literals alone folds before the run (`revival-changes.md`, "Numbers").
 
 ## Where a test goes, and how it passes
 
@@ -60,7 +60,7 @@ The `.test` files are the whole list of tests: a `.fss` that no `.test` file nam
                                check: contains, does_not_contain, equals, matches,
                                WIcontains (containment with runs of whitespace collapsed)
 
-A `run` fails if the program exits non-zero or a `run_*` check fails. With no `run_out` check, its output must contain `pass` or `PASS`. For example:
+A `run` fails if the program exits non-zero or a `run_*` check fails. With no `run_out` check, its output must contain `pass` or `PASS`. With `run_exits_nonzero=true`, the run must exit non-zero instead, as a program whose class fails to load does. For example:
 
     tests=EqualityRung1
     link

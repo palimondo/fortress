@@ -1195,3 +1195,19 @@ The orientation workflow's update of `revival-changes.md` for climb batch 29 (`e
 - "Traits and objects", the `Index` rule: "A numeral there takes its default, a `ZZ32`, so `f(3)` is valid for `f(x: Index)`" in place of the checker's refusal and row 364. F-278, F-342, F-344 (row 364 closed by `12292add28`); `Specification/appendices/changes.tex:4442-4446`.
 - "Traits and objects", the rule on `SEQV`: the sentence on rows 943 and 945 deleted (closed by `3de571bac7` and `e53480fc6e`); the example "a computed `RR64` 0.5"; the `||` sentence points to "Numbers", and its citation moves here: the Working Draft, `constant.tex:75-79`. F-326, F-343, F-344; P-171, P-172.
 - "Reductions and comprehensions": "(rows 20, 717)" became "(row 717)". Row 20 closed by `12292add2`; F-228.
+
+## Climb batch 29's landing, 2026-11-09
+
+The landing of climb batch 29 on `main` made area parts false, from the list in the record-landing run's `owed.md` (`explorations/compile-ladder/climb-batch-29/record-landing/`) and the orientation judgement's install, step 3; settled by the record-landing workflow's writer task. Each claim checked on `main` at `523a69054b`.
+
+- `SKILL.md`, "The phases": a new phase 4, the fold of an expression of numerals alone, on both paths; the sentence "Before the checker, it folds integer literals" cut from the compile's paragraph. F-339; `compiler/phases/PhaseOrder.java:125-148`.
+- `SKILL.md`, "Static parameters": "`nat` is an `NN32` value, `int` a `ZZ32`" became "a `nat` or `int` parameter used as a value is a `ZZ32`". P-173, P-40; F-342.
+- `SKILL.md`, "Numbers are siblings": a pointer to the fold beside `IntegerOverflow`. F-339; the orientation judgement's install, step 3.
+- `interpreter.md`, "How walk evaluates a program": the list of walk's departures, rows 943, 944, 945, 364 and 721, and the paragraph on row 578, replaced by the open rows 958, 960, 962, 966, 967, 968 and 387, with their workarounds from the rows. Rows 943, 944, 578 closed by `3de571bac`, 945 by `e53480fc6`, 364 and 721 by `12292add2`; F-341, F-344.
+- `interpreter.md`, "Natives": a `||` of literals is one flat literal, so a test that needs a `CatString` joins a literal with a variable. F-343.
+- `compiler.md`, "Traps of the compiled path": the bullet on row 945 deleted (closed by `e53480fc6`); the numeral's compiled departures, rows 957, 961, 962 and 963, and the `typecase` pattern of row 964, with their workarounds from the rows; the prelude's `||` with the string first only (row 965). F-342, F-343.
+- `compiler.md`, "What the code generator does": a program's coercion from a numeral runs once per site, in the static initializer. F-340.
+- `compiler.md`, its size: 29,983 characters before, 31,002 after. No cut was made to keep it under 30,000.
+- `tests-writing.md`, "A test program": the bullet on row 454 (closed by `3de571bac`) replaced by the typed operand that a test of run-time arithmetic or concatenation needs. F-339, F-343.
+- `tests-writing.md`, "Where a test goes, and how it passes": the key `run_exits_nonzero=true`. `ProjectFortress/src/com/sun/fortress/tests/unit_tests/FileTests.java:595-606`; `explorations/compile-ladder/rung-literal-fold/REPORT.md`, "The harness key".
+- `library.md`, "Designing a change": "as for `Reflect`'s bindings" in place of `IntLiteral`'s, which left the library. P-169, F-32, F-299.

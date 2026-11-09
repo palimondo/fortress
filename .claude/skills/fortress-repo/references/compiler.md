@@ -62,6 +62,7 @@ Until the switch-over, a compiled test uses none of these. If a test needs one, 
 ## What the code generator does
 
 - It emits no primitive `double` arithmetic.
+- It runs a program's coercion from a numeral once per site, in the component class's static initializer. So a coercion that raises stops the program before `run()`.
 - The class loader rewrites a template's bytes with ASM. The emitted classfiles stay at version 1.6, because this rewriting keeps no stack-map frames. Do not raise the version.
 - The `value` modifier adds the mark interface `ValueObjectMark` to the object's class. The compiled `SEQV` (`nativeHelpers/equality.java`) reads the mark. The modifier does not inline or unbox the fields.
 - An array of `RR64` values is to be stored as an unboxed `double[]`. The code generator does not build it yet. If your task touches how arrays are stored, print the two POSITIONS entries on arrays first (about 2 KB):
@@ -101,9 +102,14 @@ The wrapper generator wraps every method of a class that it is given, the privat
 
 ## Traps of the compiled path
 
-- The compiler's prelude declares `print`, `println` and `String`'s `||` at `Object`, not `Any` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37`, `:55`, `:61`). So until the switch-over, the checker refuses a generic that prints a value of a type parameter written without a bound, or concatenates it onto a `String`. The message names `Object`, as 'Object->() is not applicable to an argument of type T.' does for `println`. In such a generic of a compiled program or test, write `T extends Object`. The generic then takes no tuple, function or `()`. The one library declares these operations at `Any` or `String`, so do not change its text for this limit.
+- The compiler's prelude declares `print`, `println` and `String`'s `||` at `Object`, not `Any` (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:37`, `:55`, `:61`). So until the switch-over, the checker refuses a generic that prints a value of a type parameter written without a bound, or concatenates it onto a `String`. The message names `Object`, as 'Object->() is not applicable to an argument of type T.' does for `println`. In such a generic of a compiled program or test, write `T extends Object`. The generic then takes no tuple, function or `()`. The one library declares these operations at `Any` or `String`, so do not change its text for this limit. The prelude's `||` takes the string first only, so `c || s` for a `Character` value `c` is refused (ledger row 965).
 - A `try`'s `forbid` clause lists exception types: an exception of a listed type that no `catch` clause took is wrapped in a `ForbiddenException`, which the `try` throws. A `try`'s `finally` clause does not run when an exception leaves the `try` block: one that no `catch` clause takes, or that `ForbiddenException` (ledger row 890). So write no compiled program that relies on `finally` after an exception leaves the `try`. A test that needs it is an `XXX` test (`tests-writing.md`). In a `try` nested in another `try` of one body, the outer `try`'s `catch` clause is matched first (ledger row 888). A `try` whose block can throw, with a `finally` clause and no `catch` or `forbid` clause, fails with a `VerifyError` at class load (ledger row 891).
-- Each evaluation of a string literal makes a new string object, so `"ab" SEQV "ab"` is `false` (ledger row 945). A test of it asserts `true`, as an `XXX` test.
+- A numeral departs from `revival-changes.md`, "Numbers", in these ways:
+  - At a program's own generic type, its coercion runs at each evaluation (ledger row 957). Bind the value once, at a top-level variable.
+  - A negative numeral at a program's own number type reaches its coercion signed, not as `-` on the coercion's result (ledger row 961).
+  - A `nat` or `int` parameter of 2^31 or more, used as a value, raises a `java.lang.Error` that no `catch` sees (ledger row 962). Which answer is right is open, so assert none. Read the size by dispatch on `Box[\n\]`.
+  - As a `typecase`'s selector, it keeps the type `IntLiteral`, so `typecase 7 of ZZ32 => ...` is refused as unreachable (ledger row 963). Bind the selector first.
+- A `typecase` tuple pattern with an untyped binder, as `(x, y: ZZ32)`, stops the code generator: 'typcase match failure!' (ledger row 964). Give each binder a type.
 - An api and the component that implements it must have the same name. If there is none, the link fails ("Could not find an implementation for API"), and the run dies with `NoClassDefFoundError`.
 - The compiled dispatch ignores the contravariance of a parameter of arrow type. The property `fortress.disable.contravariance` is true by default, so `OverloadSet` passes no variance. If a compiled call with function arguments picks another declaration than walk does, look here first.
 - A clean link does not prove that every call has its method. Two calls die at run time with `NoSuchMethodError`:

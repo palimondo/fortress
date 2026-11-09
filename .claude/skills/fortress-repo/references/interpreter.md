@@ -15,14 +15,15 @@ At a call of a generic function, walk infers the static arguments from the run-t
 
 Walk chooses a coercion by the value at run time. The specification and the compiled path choose it statically. Walk has no static types, so it cannot choose statically. The expected-failure tests `ProjectFortress/tests/XXXCoercionStaticRungC.fss` and `XXXCoercionStaticNarrowRungC.fss` record the difference.
 
-Walk departs from the rules on literals in `revival-changes.md` ("Traits and objects" and "Numbers") in these ways, until each fix lands. A test of one of these cases asserts the rules' answer, as an `XXX` test (`tests-writing.md`).
+Walk departs from the rules of `revival-changes.md`, "Numbers", in these ways, until each fix lands. A test of one of these cases asserts the rules' answer, as an `XXX` test (`tests-writing.md`).
 
-- Walk keeps a float numeral bound to an `RR64` variable, parameter or field as a `FloatLiteral`. So `SEQV` finds it unequal to a computed `RR64` of the same bits (ledger row 943).
-- Walk refuses `q: QQ = 0.5`, and answers `false` to `1/2 = 0.5` (ledger row 944).
-- Each evaluation of a string literal makes a new string object, so `"ab" SEQV "ab"` is `false` (ledger row 945).
-- Walk gives an integer numeral the Java class `Int`, `Long` or `BigNum` by its value, and a generic built from a number value instantiates at that class. So `Cell(3)` is a `Cell[\Int\]`, not a `Cell[\ZZ32\]`, and an overload declared on `Cell[\ZZ32\]` does not take it. Walk prints the class as `ZZ32`, `ZZ64` or `ZZ`, also in a static argument, but its error messages say `Int` (ledger row 364). For the same reason, `array1` and `array2` at an inferred element type give a plain array, not a `Vector` or `Matrix`, and its `+` and unary `-` fail dispatch (ledger row 721). In a program, write the static argument, as `Cell[\ZZ32\](3)`.
-
-Until walk runs the checker (P-12), walk computes arithmetic on numerals, as `3 + 4`, at `ZZ32`, where the checker types it `IntLiteral`, and so does the arithmetic of the value `IntLiteral` itself (ledger row 578): interim answers, which no test asserts against.
+- A float numeral to the left of an `RR32` operand runs `RR64`'s operator: for `a: RR32`, `2.5 + a` is an `RR64`, and `a + 2.5` an `RR32` (ledger row 958).
+- A numeral with a radix point keeps only one of its leading zeros, so a coercion that reads its digits counts 2 for `00.5` (ledger row 960).
+- A `nat` or `int` parameter of 2^31 or more, used as a value, is a `ZZ64` (ledger row 962). Which answer is right is open, so assert none.
+- `u =/= 0` is `true` for a zero `u` of `NN32`, `NN64` or `RR32`, and so is `q =/= 0.5` for `q: QQ = 1/2` (ledger row 966). Write `NOT (u = 0)`.
+- A numeral that rounds to an infinity at `RR32` or `RR64` gives `Infinity`, with no error (ledger row 967).
+- A negative integer constant at a program's own number type reaches its `coerce(x: NaturalNumeral)` as a natural numeral of negative value (ledger row 968).
+- A body with a declared return type is not converted by coercion, except a numeral: `r(): Wide = NarrowOf(3)` returns the `NarrowOf` (ledger row 387). Write the value at the declared type.
 
 ## Where a fix of walk belongs
 
@@ -123,7 +124,7 @@ The check has two gaps:
 - Walk checks the binding of a dotted method of a generic trait or object only when the program makes an instance, at run time. So a program that makes no instance loads. One that makes an instance stops there with the same message, as an `InterpreterBug` (ledger row 864). Test such a binding with a program that makes an instance.
 - Walk reads the type that declares the method, not the type of the value. So a program's object that extends `ZZ32` loads. A call of a method of `ZZ32` that binds a helper then stops with 'getInt not implemented for FOrdinaryObject' (ledger row 551).
 
-A glue class bound over `String`, and a helper bound in a method of `String` as `self`, receive the wrong text for a `CatString`: the name of the type, not its characters (ledger row 846). `||` builds a `CatString` when the joined string is longer than `maxLeafSize`, 32 characters by default. Bind such a native over `FlatString`, and beside it an overload over `String` that passes `s.asFlatString`, as `printlnWithThread` does (`Library/FortressLibrary.fss:4640-4644`). In a method of `String`, call that overload with `self`.
+A glue class bound over `String`, and a helper bound in a method of `String` as `self`, receive the wrong text for a `CatString`: the name of the type, not its characters (ledger row 846). `||` builds a `CatString` when the joined string is longer than `maxLeafSize`, 32 characters by default. A `||` of literals folds into one flat literal, so a test that needs a `CatString` joins a literal with a variable. Bind such a native over `FlatString`, and beside it an overload over `String` that passes `s.asFlatString`, as `printlnWithThread` does (`Library/FortressLibrary.fss:4640-4644`). In a method of `String`, call that overload with `self`.
 
 An `import java` written in a `.fss` file is wired under walk but unfinished, and no test uses it. The compiled path's generated `import java` (`compiler.md`, "Natives") is not this one.
 
