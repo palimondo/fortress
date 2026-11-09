@@ -1,0 +1,16 @@
+(* A concatenation of list comprehensions with no static argument, over lists declared List[Shape] that hold objects of one extender, bound to a variable declared List[Shape], is the List[Shape] of their elements. *)
+component XXXNestedComprehensionObjectElementsWalk
+import List.{...}
+export Executable
+
+trait Shape end
+object Circle extends Shape end
+
+run(): () = do
+    xss: List[\List[\Shape\]\] = <|[\List[\Shape\]\] <|[\Shape\] Circle, Circle|>, <|[\Shape\] Circle|>|>
+    zs: List[\Shape\] = BIG CONCAT[ys <- xss] <| y | y <- ys |>
+    assert(|zs|, 3, "BIG CONCAT of the list comprehensions <| y | y <- ys |>, each a List[Shape] since y is a Shape, is their concatenation, which a variable declared List[Shape] admits (comprehensions.tex, section \"Comprehensions\"; reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    println("PASS")
+  end
+
+end

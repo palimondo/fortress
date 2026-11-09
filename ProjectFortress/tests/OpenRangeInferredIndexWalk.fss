@@ -1,5 +1,5 @@
 (* The open range that openRange builds at an index type inferred from a ZZ32 argument is a ZZ32 open range, as it is at a written ZZ32. *)
-component XXXOpenRangeInferredIndexWalk
+component OpenRangeInferredIndexWalk
 export Executable
 
 openAt[\I\](x: I): OpenRange[\I\] = openRange[\I\]()

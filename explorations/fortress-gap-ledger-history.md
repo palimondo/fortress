@@ -9635,3 +9635,99 @@ rewritten
 note added
 
 | 923 | the library declares `=` on pairs and triples only, so a tuple of four or more elements compares by the fallback `a SEQV b`: under walk two such tuples whose strings are equal but built apart are not equal, `(s1, 1, 2, 3) = (s2, 1, 2, 3)` is `false` for `s1 = s2` | NEGATIVE-VERIFIED | design limit (library) | silent | `ProjectFortress/tests/StrictEquivalenceRuleWalk.fss` | climb batch 27 rung E | `opr =[\A,B\]` and `opr =[\A,B,C\]` over tuples (`Library/FortressLibrary.fss:4775`, `:4831`); a longer tuple reaches `opr =(a:Any, b:Any) = a SEQV b` (`:96`), element by element (`interpreter/evaluator/values/FTupleLike.java:78`), and strings are reference objects (P-168). The test asserts the pair and the triple `true` and the 4-tuple `false`. Before strings were reference objects walk answered `true`. Workaround: compare the elements, or nest a pair or triple. Compiled: the prelude declares no tuple `=`. |
+
+### Row 20
+
+rewritten
+
+| 20 | under walk, a list display takes its element type from its elements' run-time classes, and `List` is invariant: `<\|1.0, 1.0\|>` is a `List[\FloatLiteral\]`, which a binding or a parameter declared `List[\RR64\]` refuses, so a display of numerals needs its static argument, `<\|[\RR64\] 1.0, 1.0\|>` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/aggregate.tex`, "List Expressions" (the element type is the union of the element types) | none | ours, blinded | siblings: 96, 432, 510, 705, 717. A display calls `opr <\|[\E\] xs: E... \|>` (`Library/List.fsi:112`); walk takes `E` as the join of the elements' run-time types (row 511), a float numeral's being `FloatLiteral` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:44`), an integer's `Int` (F-74), and a declared type does not fix it (row 510). Objects join to their trait: `<\| a, c, o \|>` is accepted at `List[\Node\]` (`explorations/run-b/probes/c11_object_model.fss`, parent of `ed6dafb52`). A list comprehension takes a declared type where one directs it, else is built the same way (F-228). Probe `explorations/spec-probes/p2_ascribe.fss`, parent of `e879b6a44`. full text: history, row 20 |
+
+### Row 510
+
+rewritten
+
+| 510 | under `walk`, a typed binding does not fix a static argument that only a call's result mentions: `a: BoxK[\ZZ64\] = wrapK(3)` is refused, 'RHS expression type BoxK[\Int\] is not assignable to LHS type BoxK[\ZZ64\]', and a method's `a: BoxT[\ZZ64\] = Fac.mk()` takes `BoxT[\Any\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/var-ref.tex`, "Identifier References"; `Specification/basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXInferExpectedTypeRungK.fss` | climb batch N rung K | siblings: 705, 706. `i: ZZ64 = idK(3)` answers `3 : ZZ64`, since the binding converts a result that is the type parameter itself, and no coercion converts a `BoxK[\Int\]` (F-55). The method form is `XXXExpectedTypeFixRungT`, which also asserts an assignment and a field declaration. A clause form takes the binding's declared type (F-228); a generic call does not. The compiled checker fixes `T = ZZ64`. Repair: pass the declared type into the call's inference (`LHSEvaluator`, `BuildEnvironments`); whether before the switch-over (P-12) is the curator's. Workaround: `wrapK[\ZZ64\](3)`. full text: history, row 510 |
+
+### Row 717
+
+rewritten
+
+| 717 | under walk, a comprehension with no static argument that is the body of another clause form whose instance a declared type fixes is built at its elements' run-time class, which the outer's element type refuses: `zs: List[\ZZ32\] = BIG CONCAT[ys <- xss] <\| 2 y \| y <- ys \|>` stops | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/comprehensions.tex`, "Comprehensions" | `ProjectFortress/tests/XXXNestedComprehensionDeclaredTypeWalk.fss` | climb batch 15 rung B | siblings: 20, 510, 705. With `xss = <\|<\|1, 2\|>, <\|3\|>\|>`: 'Unification error: Closure/Constructor for body param 1 (i:List[\ZZ32\]) got arg ArrayList[\Int\] of type ArrayList[\Int\]'. The declared type instantiates the outer `BIG CONCAT` at `ZZ32` (F-228), while the inner comprehension, which no declared type reaches, is built at its elements' run-time class `Int` (as row 20 states for a list display), and `List` is invariant. The specification gives the inner one the type `List[\ZZ32\]` of its expression. Workaround: `<\|[\ZZ32\] 2 y \| y <- ys \|>`. |
+
+### Row 774
+
+rewritten
+
+| 774 | walk, and the compiled run time, read an `extends` entry under a `where` clause as holding at every instance: `Box[\ZZ32\](1)` passes a type test against `Shows` for `object Box[\E\](x: E) extends { Shows where { E extends Shows } }` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/trait-parameters.tex`, "Where Clauses" | `ProjectFortress/tests/XXXConditionalExtensionTypeTestWalk.fss` | climb batch 18 rung X | siblings: 773, 701. Walk reads the extension without its clause (`Constructor.boundsUnread` and its comment, `ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/Constructor.java:725-737` at db8fecd22). Compiled, `typecase v of Shows => true else => false end` prints `true` for `Box[\ZZ32\](1)`: the code generator compiles the declaration, whose class extends `Shows` at every instance. So walk gives `List`'s conditional `<` to a list of tuples or floats, to which the checker gives no order. `List` extends `Equality[\List[\E\]\]` unconditionally (`Library/List.fsi:69`), so its `=` stays element-wise through `=/=` and `assert` once walk reads the clause; waits on P-12 or row 364. |
+
+### Row 824
+
+rewritten
+
+| 824 | under walk, a pure list's range subscript at a stride other than 1 answers a list of its elements' run-time class: for `l = <\|[\ZZ32\] 10, 11, 12, 13, 14, 15 \|>` of `PureList`, `l[0:4:2]` is a `PureList[\Int\]`, which a binding declared `List[\ZZ32\]` refuses | NEGATIVE-VERIFIED | library bug (library) | `basic/expressions/comprehensions.tex`, "Comprehensions" | `ProjectFortress/tests/XXXPureListStridedSubscriptWalk.fss` | climb batch 22 rung R | siblings: 20, 717, 731, 825. Its comprehension `<\| self[i] \| i <- r \|>` (`Library/PureList.fss:73`) writes no static argument, and a method's return type does not direct it under walk (F-228), so it takes the join of the elements' run-time classes. `List`'s subscript writes it, `<\|[\E\] self[i] \| i <- r \|>` (`Library/List.fss:151`), and answers a `List[\E\]` (`WrittenReductionArgumentsWalk`). Stride 1 runs through `drop` and `take`. Workaround: write `[\E\]` the same way. |
+
+### Row 846
+
+rewritten
+
+| 846 | under walk, a native that a program binds over `String` to a glue class receives a non-flat string's type name, not its characters: `p(a:String):()` bound to `StringPrim$PrintlnWithThread` prints ' Thread 26: CatString' at a string made by `\|\|` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | `ProjectFortress/tests/NativeGlueNonFlatStringWalk.fss` | climb batch 23 rung W | siblings: 877, 897. `StringPrim$GetEnvironment` answers `CatString` too. The glue's `Util.SS2B` and `S2V` take `v.getString()` (`interpreter/glue/prim/Util.java:254`, `:286`), which `FObject.getString` answers with `type().toString()` (`interpreter/evaluator/values/FObject.java:33-35`); `NativeApp` hands a glue class walk's values as they come (`interpreter/glue/NativeApp.java:149`). A helper parameter declared `String` is refused at load (`interpreter/glue/StaticNativeApp.java:70`, `:178`), but a `self` declared `String` is taken by `getString()` (`:282`): a helper bound in a method of the trait `String` would get the type's name. Workaround: flatten first, or bind over `FlatString`. |
+
+### Row 49
+
+rewritten
+
+| 49 | an array literal with no declared type is not built into an array under walk: an untyped binding fails with `Can't infer element type for array construction`, and a literal in argument position is passed on as a paste, an `IUOTuple` never built into an array | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/aggregate.tex`, "Array Expressions" | `ProjectFortress/tests/XXXArrayLiteralArgRungC.fss` | ours, run-c3, climb batch 3 rung C | siblings: 104, 142. `LHSEvaluator.forLValue` builds the array only from a declared type; with none it reports the error, the join of the element types left as a comment (`LHSEvaluator.java:140-145`, at c124c6b65). `Evaluator.forArrayElements` returns the paste, an `IUOTuple` (`Evaluator.java:854-861`), so `3 - [1 2]` fails dispatch with `(1,2): (Int,Int)`. `RR64` elements fail as a user type's do. The specification types the literal `Arrayk[\T, 0, n0, …, 0, nk-1\]` (`Array1` to `Array3` in the library), `T` the union of the element types. Workaround: a literal-sized type, `x: ZZ32[2] = [1 2]` or `sc: Vector[\RR64,3\] = [1.0 2.0 3.0]`. full text: history, row 49 |
+
+### Row 96
+
+rewritten
+
+| 96 | a map or list comprehension whose values are two `nat` instantiations of one generic object fails inside the library's covariant collection | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/aggregate.tex`, "Map Expressions", "List Expressions" (the element type is the union of the element types) | none | run-b | siblings: 20. `FAIL: Singleton[\(FlatString,__DefaultMatrix[\RR64,2,3\])\] APPCOV Singleton[\(FlatString,__DefaultMatrix[\RR64,4,3\])\] have no common supertype!`, raised from `Library/CovariantCollection.fss:43`. In the probe (a) and (d) fail, (b) `BIG UNION` and (c) a fold work; also `explorations/run-b/probes/worker/w05_mapcompr.fss`. Explicit static arguments do not help; with uniform shapes the comprehension works, and `update` accepts any shapes. Workaround: build the record by a fold of `union` (row 134). Probe `explorations/run-b/probes/c18_map_of_shapes.fss`, in the parent of `ed6dafb52`. full text: history, row 96 |
+
+### Row 142
+
+rewritten
+
+| 142 | a typed array literal as a **top-level** declaration is bound as a tuple: `shp: Vector[\ZZ32,9\] = [27 16 27 …]` fails with `Type mismatch binding (27,16,…)`, while the same declaration inside a function body works | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/aggregate.tex`, "Array Expressions"; `Specification/basic/variables.tex`, "Top-Level Variable Declarations" | none | run-c | siblings: 49, 104. At top level the literal is never built into an array: `BuildEnvironments.forVarDecl4` checks the evaluated paste against the declared type (`BuildEnvironments.java:780-794`, at c124c6b65); only `LHSEvaluator.forLValue`, in a body, builds it. `p08a` gives `Type mismatch binding (27,16,…): (Int,Int,…) (type (Int,Int,…)) to shp (type Vector[\ZZ32,9\])`, `p08b` the same with `RR64[9]`, `p08c` (commas) `Operator [_] is not defined.`; `p08d`, in a function body, prints the array. Workaround: `array[\ZZ32\](9).tabulate(fn …)`, or the literal in a function. Probes `explorations/run-c/probes/p08a_literal.fss` to `p08d`, in the parent of `4ebf80aec`. full text: history, row 142 |
+
+### Row 272
+
+rewritten
+
+| 272 | repetition `*`/`+` works and splices into a template with `**`, but only into a list literal that carries an explicit static type | POSITIVE-VERIFIED | — | silent | none | apl feasibility | `sumc⦇ 1 2 3 4 ⦈` → `10` and `sumc⦇ 7 ⦈` → `7` from `<[ sumOf3(<\|[\ZZ32\] (n1), ns** \|>) ]>`. Without `[\ZZ32\]` it is `Unification error: Closure/Constructor for sumOf param 1 (xs:List[\ZZ32\]) got arg ArrayList[\Int\] of type ArrayList[\Int\]`, row 20's mechanism (an aggregate's element type comes from the elements' run-time class, and `List` is invariant). Row 197 uses the same splice for an index list of any arity, and names what it cannot carry (an elided axis, row 274). Probes `explorations/apl-probes/b06c_repeat.fss` (typed, works) and `b06a_repeat.fss` (untyped, fails), in the parent of 7c3218956. full text: history, row 272 |
+
+### Row 471
+
+rewritten
+
+| 471 | under walk, an argument whose type is a tuple, `()` or an arrow, at a parameter typed by a type variable bounded by `Object`, stops the program with an `InterpreterBug`, not a type error: `k((1, 2))` for `k[\T extends Object\](x: T): T` gives "** bug! Meet((Int,Int), Object) not a singleton: []" | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification-1.0-frozen/basic/types-vals-vars.tex:135-136`, "Relationships between Types" | none | climb batch 7 rung B | `k(())` gives "Meet((), Object)", an arrow "Meet(ZZ32->BOTTOM, Object)". The `Index` bound stops too, at an argument that is no `Index`: `ident((1, "a"))` for `ident[\I extends Index\](x: I): I` gives 'Meet((Int,FlatString), Index)', `ident("a")` 'Meet(FlatString, Index)', `ident(())` 'Meet((), Index)'. Walk installs a written bound as an upper bound before it unifies the arguments (`abm.meetPut`, `EvaluatorBase.java:905`), so `TypeLatticeOps.java:42` finds the meet empty. The verdict is right, since a tuple, `()` or an arrow is no `Object`; the message is an internal bug's, as row 184's. The specification does not say how a run reports an ill-typed program. full text: history, row 471 |
+
+### Row 527
+
+rewritten
+
+| 527 | under walk an array of a static size from 2^31 to 2^32-1 stops at its store's factory, where no catch sees it: `array1[\ZZ32, 3000000000\](7)` ends with 'Closure/Constructor for makeJavaArrayStore parameter 1 (n:ZZ32) got type Long' at `NativeArray.fss:16` | NEGATIVE-VERIFIED | implementation gap (prelude) | silent | none | climb batch 6.5b rung E | Such a size is a `ZZ64` value (row 418), and `PrimitiveArray`'s field passes `s0` to `makeJavaArrayStore(n: ZZ32)` (`ProjectFortress/LibraryBuiltin/NativeArray.fss:16`, at fe19fdad), which takes no `ZZ64`; `PrimImmutableArray` and `PrimImmutableRR64Array` likewise (`:28`, `:38`). Fix: refuse a size above 2147483647 with a Fortress error naming it, the refusal P-40 places with the array design. No gated test can tell such a stop from a refusal. Probe `explorations/compile-ladder/rung-size-range/probes/skeptic/SkArraySize.fss`, in the parent of `ab067d9b6`. full text: history, row 527 |
+
+### Row 705
+
+rewritten
+
+| 705 | under walk, a call written as another call's argument gets no expected type, so a static argument only its result mentions takes its bound: `takesBox64(mk())` with `mk[\T\](): BoxT[\T\]` fails at run time, 'got arg BoxT[\Any\]' | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXInferCallArgumentWalk.fss` | climb batch 14 rung A | siblings: 510. 'Unification error: Closure/Constructor for takesBox64 param 1 (b:BoxT[\ZZ64\]) got arg BoxT[\Any\]' at `XXXInferCallArgumentWalk.fss:15`; `takesBox64(wrapT(3))` gets `BoxT[\Int\]` the same way. Walk infers a call's static arguments at dispatch from its arguments' run-time types and fixes none by an expected type. Where another declaration accepts the argument at its bound, walk runs it: `s: String = f(mk())` runs `f(x: Any): Any`, not `f(b: BoxT[\ZZ64\])`. The compiled checker retries such an argument against each declaration's parameter type (`impls/Functionals.scala`, `retypedApplication`; row 455, fixed). Workaround: write the static argument, `mk[\ZZ64\]()`. |
+
+### Row 156
+
+rewritten
+
+| 156 | under walk, a `nat`-generic function is not a value: passed as an argument it fails at the call with `Unification error: … of type null` (a plain callee), `Argument halfG … has no type information` (a `nat`-generic callee with an arrow-typed parameter) or a Java `NullPointerException` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/functions.tex`, "Function Declarations"; `basic/types-vals-vars.tex`, "Relationships between Types" | none | run-c2, run-c3 | siblings: 165, 758. A generic function value has no type: `type()` returns a null `ftype` (`interpreter/evaluator/values/Fcn.java:67-71`), so it can neither be checked against a parameter type (`EvaluatorBase.java:939`) nor key the callee's instantiation cache; the NPE (a callee generic in two `nat`s) is in `FValue$AsTypesList.compare` (`interpreter/evaluator/values/FValue.java:141`) from `applyInnerPossiblyGeneric` (`GenericFunctionOrConstructor.java:52`). A plain function passes. Workaround: pass a plain function, declared over runtime-sized `Array[\RR64,ZZ32\]` rather than `nat`-generic, to a receiver with an arrow-typed parameter (row 171). probe and full text: history, row 156 |
+
+### Row 371
+
+rewritten
+
+| 371 | under walk, an `excludes` clause is not checked against an `extends` clause: `object Both extends { A, B }` with `trait A excludes { B }` runs, as do the generic and size forms, where the compiled checker refuses each | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/traits.tex`, "Trait Declarations"; `Specification/basic/types-vals-vars.tex`, "Relationships between Types" | none | climb batch 3 rung M's skeptic | siblings: 293, 551. Walk skips `TypeHierarchyChecker` (`ProjectFortress/src/com/sun/fortress/compiler/StaticChecker.java:166-190`), which refuses with 'Types A and B exclude each other' (`TypeHierarchyChecker.scala:298-300` at d4d454f9d) and 'Type Both excludes A but it extends A' (`:307-308`). Fix: that check under walk, or one where walk orders a trait's extends (`FTraitOrObject.java:236-251`). Forms that run: `U[\T\] excludes { V[\T\] }`; `Vec[\3\]`, `Vec[\4\]` (row 414); `trait Tx extends Any excludes { Object }`, whose object is an `Object`; row 293's `Matrix` and `MultiplicativeRing` carrier, whose `+` fails, 'has neither body nor def instanceof Method'. full text: history, row 371 |
+
+### Row 372
+
+rewritten
+
+| 372 | under walk, a cyclic trait hierarchy, `trait X extends Y end` with `trait Y extends X end`, overflows the stack with no source location instead of being diagnosed | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/traits.tex`, "Trait Declarations" | none | climb batch 3 rung M's skeptic | siblings: 407. Walk dies with `StackOverflowError`: the topological sort recurses on `getExtends()` with no in-progress mark (`interpreter/evaluator/types/FTraitOrObject.java:245-247` at c124c6b65). `X[\T\] extends Y[\T\]` and `trait T[\X extends N\] extends T[\N\]` overflow alike. The compiled checker refuses each, 'Cyclic type hierarchy' (`TypeHierarchyChecker.scala:199-200`). Fix: a visiting mark in `visitTrait` (`FTraitOrObject.java:236-251`). Probes `explorations/compile-ladder/rung-analyzer-memo/probes/skeptic/SkWalkCyclePlain.fss`, `explorations/compile-ladder/rung-spec-route-a/probes/skeptic/SkSelfExtBound.fss`, in the parent of ab067d9b6. full text: history, row 372 |

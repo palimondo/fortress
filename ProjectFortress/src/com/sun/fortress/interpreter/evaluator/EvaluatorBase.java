@@ -600,7 +600,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         Iterator<Param> pit = params.iterator();
         Param p = null;
         for (FValue a : args) {
-            FType at = a.type();
+            FType at = LanguageTypes.traitOf(a.type());
             if (at == null) return null;
             if (pit.hasNext()) p = pit.next();
             else if (p == null) return null;
@@ -781,8 +781,9 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
                                    List<FType> bounds, Environment within, boolean supertypes) {
         LinkedHashSet<FType> candidates = new LinkedHashSet<FType>();
         for (FValue v : vals) {
-            if (supertypes) candidates.addAll(v.type().getTransitiveExtends());
-            else candidates.add(v.type());
+            FType vt = LanguageTypes.traitOf(v.type());
+            if (supertypes) candidates.addAll(vt.getTransitiveExtends());
+            else candidates.add(vt);
         }
         for (FValue v : vals) candidates.addAll(Coercions.coercionTargets(v, within));
         if (bounds != null) candidates.addAll(bounds);
@@ -934,7 +935,7 @@ public class EvaluatorBase<T> extends NodeAbstractVisitor<T> {
         }
         Iterator<Param> pit = params.iterator();
         for (FValue a : args) {
-            FType at = a.type();
+            FType at = LanguageTypes.traitOf(a.type());
             if (at == null) {
                 if (DUMP_INFERENCE) System.err.println("Argument " + a + " without type info.");
                 return error(errorMsg("Argument ", a, " has no type information"));

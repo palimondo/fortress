@@ -11,7 +11,7 @@ run():() = do
   assert(|s|, 52, "|s|")
   assert(s.depth, 1, "the concatenation is a rope")
   assert(env(unset, s.asFlatString), s.asFlatString, "the glue at the flat string answers its characters")
-  assert(env(unset, s), "CatString", "the glue at the non-flat string answers its type name CatString")
+  assert(env(unset, s), "String", "the glue at the non-flat string answers the text of its type, String")
 end
 
 end

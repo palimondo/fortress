@@ -1,0 +1,16 @@
+(* A pure list's range subscript at stride 2 answers a list of the list's own element type, also where every element is an object of one extender of that type. *)
+component XXXPureListStridedSubscriptObjectsWalk
+import PureList.{...}
+export Executable
+
+trait Shape end
+object Circle extends Shape end
+
+run(): () = do
+    l = <|[\Shape\] Circle, Circle, Circle, Circle, Circle |>
+    evens: List[\Shape\] = l[0:4:2]
+    assert(|evens|, 3, "the pure list of Shape at 0:4:2 holds three elements and is a List[Shape] (comprehensions.tex, section \"Comprehensions\"; ranges.tex, section \"Ranges\")")
+    println("PASS")
+  end
+
+end

@@ -1,0 +1,44 @@
+(* Under walk, a generic built from a number or string value is built at the value's trait, ZZ32, RR64 or String, also inside a tuple, and walk's type text names the trait. *)
+component LanguageTypeInstancesWalk
+import List.{...}
+import Reflect.{...}
+export Executable
+
+object Cell[\T extends Any\](v: T) end
+
+kind(c: Cell[\ZZ32\]): String = "ZZ32"
+kind(c: Cell[\RR64\]): String = "RR64"
+kind(c: Cell[\String\]): String = "String"
+kind(c: Any): String = "Any"
+
+filled[\T\](x: T): Array[\T,ZZ32\] = array[\T\](3).fill(x)
+
+openAt[\I\](x: I): OpenRange[\I\] = openRange[\I\]()
+
+run(): () = do
+    z: ZZ32 = 3
+    r: RR64 = asFloat(z)
+    assert(kind(Cell(z)), "ZZ32", "Cell(z) for z: ZZ32 is a Cell[\\ZZ32\\] and runs the declaration over Cell[\\ZZ32\\] (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kind(Cell(3)), "ZZ32", "Cell(3) is a Cell[\\ZZ32\\] and runs the declaration over Cell[\\ZZ32\\] (literals.tex, section \"Literals\"; inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kind(Cell(r)), "RR64", "Cell(r) for a computed r: RR64 is a Cell[\\RR64\\] and runs the declaration over Cell[\\RR64\\] (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(kind(Cell("s")), "String", "Cell(\"s\") is a Cell[\\String\\] and runs the declaration over Cell[\\String\\] (literals.tex, section \"Literals\")")
+    assert(instanceOf[\Cell[\ZZ32\]\](Cell(3)), true, "Cell(3) is an instance of Cell[\\ZZ32\\] (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(instanceOf[\Cell[\(ZZ32, String)\]\](Cell((z, "s"))), true, "Cell((z, \"s\")) is an instance of Cell[\\(ZZ32, String)\\] (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(Just(3) = Just[\ZZ32\](3), true, "Just(3) is the Just[\\ZZ32\\] of 3 (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(Just(z) = Just[\ZZ32\](z), true, "Just(z) for z: ZZ32 is the Just[\\ZZ32\\] of z (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(SUM <|1, 2, 3|>, 6, "SUM of the list display <|1, 2, 3|> is 6 (aggregate.tex, section \"List Expressions\"; reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    assert(SUM <|z, z|>, 6, "SUM of the list display <|z, z|> for z: ZZ32 is 6 (reductions.tex, section \"Summations and Other Reduction Expressions\")")
+    zs: List[\ZZ32\] = <|z, z|>
+    assert(|zs|, 2, "the list display <|z, z|> for z: ZZ32 is a List[\\ZZ32\\] (aggregate.tex, section \"List Expressions\")")
+    ss: List[\String\] = <|"a", "b"|>
+    assert(|ss|, 2, "the list display <|\"a\", \"b\"|> is a List[\\String\\] (aggregate.tex, section \"List Expressions\"; literals.tex, section \"Literals\")")
+    assert(instanceOf[\AnyVector\](filled(z)), true, "an array of three at a T inferred from a ZZ32 argument is a vector (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(instanceOf[\OpenRange[\ZZ32\]\](openAt(z)), true, "the open range at an index type inferred from a ZZ32 argument is a ZZ32 open range (inference.tex, section \"The Static Arguments of a Call\")")
+    assert(typeOf(3).toString, "ZZ32", "the type of 3 prints as ZZ32")
+    assert(typeOf(z).toString, "ZZ32", "the type of z: ZZ32 prints as ZZ32")
+    assert(typeOf("s").toString, "String", "the type of \"s\" prints as String")
+    assert(typeOf((z, "s")).toString, "(ZZ32,String)", "the type of the pair (z, \"s\") prints as (ZZ32,String)")
+    println("PASS")
+  end
+
+end
