@@ -9737,3 +9737,129 @@ rewritten
 rewritten
 
 | 362 | the compiled path throws `NullPointerException` when it renders a float numeral's own value: inside a program's `coerce(x: FloatLiteral)`, `"" x` fails; a float numeral where nothing fixes a type is an `RR64`, so `println(2.5)`, `"…" 2.5` and `(1.1_2).asString` render | NEGATIVE-VERIFIED | implementation gap (runtime) | `Specification/basic-lib/objects.tex`, "Objects"; `Specification/basic/types-vals-vars.tex`, "Relationships between Types" | `ProjectFortress/compiler_tests/XXXFloatLiteralValuePrint.test` | climb batch 3 rung R's second skeptic | siblings: 321, 862. The runtime `FFloatLiteral.asString()` is `return null; /* replaced in generated code */` (`compiler/runtimeValues/FFloatLiteral.java:52-53`) and the prelude's `trait FloatLiteral` declares no `asString`, so a `FloatLiteral` value fails where it is rendered, as in `String`'s juxtaposition. Only a parameter of type `FloatLiteral` holds such a value now; `NumeralPrintRungR` guards the bare numeral. A runtime class, not a prelude declaration (POSITIONS, "The library route"). Workaround: bind it to an `RR64`. full text: history, row 362 |
+
+### Row 862
+
+closed by 955cad76d
+
+| 862 | on the compiled path a numeral with a radix point becomes its `RR64` by two or three roundings, not one: `0.9999999999999999` is the double `1.0` and `1.2246467991473532` is `1.224646799147353`; walk gives each its nearest double | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXFloatNumeralOneRounding.test` | climb batch 24 rung F | siblings: 360, 361, 362. `CodeGen.forFloatLiteralExpr` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1997-2007` at c124c6b65) emits `intPart.doubleValue() + numerator.doubleValue() / Math.pow(denomBase, denomPower)` into `FFloatLiteral.make(double)`; `make(String)`, whose `Double.valueOf` rounds once (`compiler/runtimeValues/FFloatLiteral.java:44-46`), has no caller. Walk keeps a radix-ten numeral's text and reads it with `Double.valueOf` (`interpreter/evaluator/values/FFloatLiteral.java:26-41`), and, by reading, the same sum for another radix (`:30-31`): walk shares the defect there. Workaround: a numeral with a zero integer part and at most 15 digits after the point. |
+
+### Row 954
+
+closed by 955cad76d
+
+| 954 | on the compiled path the numeral fold stops `fortress compile` at a `CHOOSE` of two numerals with `k` outside `0..n`: `3 CHOOSE 5` throws `CompilerError` "Integer Literal folding: Need to do something for factorial of negative values", where the specification's answer is `0`, which walk prints | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic-lib/basic-integers.tex`, "Integers" | `explorations/compile-ladder/plan-29/probes/FoldChoose.fss` | climb batch 29's planner | siblings: 318, 887. `choose` (`ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java:51-56` at 8cde0b2c4f) divides three factorials and `factorial_aux` (`:38-45`) throws at a negative argument, so the fold of `CHOOSE` (`:89-90`) throws wherever `n < 0`, `k < 0` or `k > n`. The phase is in `compilerPhaseOrder` only (`compiler/phases/PhaseOrder.java:137-147`): walk prints `3 CHOOSE 5 = 0`, `ZZ32`'s answer; with the phase in walk's order, `tests/ChooseZZ32Walk.fss` fails by it. Output: `explorations/compile-ladder/plan-29/PROBES.md`, probes 2 and 3. Repair: climb batch 29's rung F (fork F2). |
+
+### Row 955
+
+closed by 955cad76d
+
+| 955 | on the compiled path the numeral fold folds the wraparound and saturating `DOTPLUS`, `BOXPLUS`, `DOTMINUS` and `BOXMINUS` of two numerals as exact `+` and `-`: `a: ZZ32 = 2147483647 BOXPLUS 1` compiles, and its run dies with `java.lang.Error` "Not in range for ZZ32: 2147483648" | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/operators/opr-overview.tex`, "Addition and Subtraction Operators" | `explorations/compile-ladder/plan-29/probes/FoldWrap.fss` | climb batch 29's planner | siblings: 318, 325, 348, 797. `foldBinaryOperator` (`ProjectFortress/src/com/sun/fortress/compiler/desugarer/IntegerLiteralFoldingVisitor.java:63-66` at 8cde0b2c4f) takes ⊞ and ∔ as `+`, ⊟ and ∸ as `-`, so the width the operator needs is lost: by the specification ∔ wraps, ⊞ saturates and neither overflows; the compiler prelude's ⊞ wraps (row 348). The phase is in `compilerPhaseOrder` only (`compiler/phases/PhaseOrder.java:137-147`); walk refuses the program, "Operator ? is not defined", as the one library declares no ⊞ (row 797). Output: `explorations/compile-ladder/plan-29/PROBES.md`, probe 3. Repair: climb batch 29's rung F (fork F2). |
+
+### Row 338
+
+closed by 955cad76d
+
+| 338 | `walk` refuses `d: ZZ32 = -2147483648`, which is in range for the type, with `RHS expression type Long is not assignable to LHS type ZZ32`, where the compiled path accepts it and prints the value | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals" | none | repair batch R2's skeptic | Workaround, the only spelling of the minimum that works on both paths: `-2147483647 - 1`, as the library's `minimum` getters do (`Library/FortressLibrary.fss:736`, `:826` at c124c6b65). Not yet established: where walk decides the numeral's type (the message names `Long`: the negation is typed before the assignment), and whether `ZZ64 = -9223372036854775808` is refused too. Of the five negative edges of the wider probe, `explorations/compile-ladder/repair-r2-literal-wrap/probes/skeptic/s1.fss`, walk refuses only this one; it and the probe s7 beside it, with their walk and compiled output, are in the parent of ab067d9b6. full text: history, row 338 |
+
+### Row 943
+
+closed by 3de571bac
+
+| 943 | under walk a float numeral bound to an `RR64` variable, parameter or field stays a `FloatLiteral`, not `SEQV` a computed `RR64` of the same bits: `y SEQV x` is `false` for `y: RR64 = 0.5`, `x: RR64 = 0.25 + 0.25`, and `V(0.5) = V(x)` for a field; compiled too after the switch-over, by reading | NEGATIVE-VERIFIED | library gap vs spec (library) | `basic/expressions/literals.tex`, "Literals" | `ProjectFortress/tests/StrictEquivalenceRuleWalk.fss` | review literals-2026-11-08 | siblings: 20, 454, 862. The one library declares `value object FloatLiteral extends RR64` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:44` at 157323e5), so no coercion runs. The prelude's `FloatLiteral` excludes `RR64`, which coerces from it (`CompilerBuiltin.fss:932`, `:996`), so compiled `y SEQV x` is `true` today; on the one library the checker inserts no coercion. The test's `:32` and the team's `tests/sequivTest.fss:58`, `:94` assert today's answer. Probe: walk 'y SEQV x false', 'VFloat(y) = VFloat(x) false'; compiled 'sEq(y, x) true'. Fix: P-172, a conversion where `RR64` or `RR32` is declared, with one rounding; a climb batch 29 rung carries it. |
+
+### Row 944
+
+closed by 3de571bac
+
+| 944 | a numeral with a radix point does not convert to `QQ`, against the specification's coercion of compound numerals to rationals: under walk `q: QQ = 0.5` stops, 'RHS expression type FloatLiteral is not assignable to LHS type QQ', and `1/2 = 0.5` is `false`; the compiled path's prelude has no `QQ` | NEGATIVE-VERIFIED | library gap vs spec (library) | `basic/expressions/literals.tex`, "Literals" | none | review literals-2026-11-08 | siblings: 360, 454. The text: 'Library define coercions from numerals to integers (for simple numerals) and rational numbers (for compound numerals)'; a compound numeral holds a '.' (`basic/lexical-structure.tex`, "Numerals"). `QQ` declares no `coerce` from `FloatLiteral`, which the one library declares below `RR64` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:44` at 157323e5), and no conversion from `RR64` into `QQ` is a coercion (P-74). Workaround: write the rational, `1/2`. Probe: `bin/fortress` on `q: QQ = 0.5`: the message above; '1/2 = 0.5 false; 0.5 = 1/2 false'. Fix: P-172, `QQ`'s exact `coerce` from `FloatLiteral`; a climb batch 29 rung carries it. |
+
+### Row 454
+
+closed by 3de571bac
+
+| 454 | against the one library, walk refuses a numeral at a typed binding of `NN32` or `NN64`, and walk and the compiled checker refuse a radix-point numeral at one of `RR32`: walk says `RHS expression type Int is not assignable to LHS type NN32` | NEGATIVE-VERIFIED | library gap vs spec (library) | `Specification/basic/expressions/literals.tex`, "Literals"; `Specification/basic/conversions-coercions.tex`, "Principles of Coercion" | none | the coordinator's numerics plan | siblings: 443. Walk's numeral is an `Int` (`interpreter/evaluator/values/FIntLiteral.java:40-56`), from which neither `NN32` nor `NN64` declares a coercion; the one library's `FloatLiteral` is an object below `RR64` (`LibraryBuiltin/FortressBuiltin.fsi:44`) and `RR32` declares no `coerce` from it. The integer half waits for walk to have the checker's static types (P-76). Workaround: `unsigned(3)` for `NN32`, `narrow(1.5)` for `RR32`. Today's compiled runs, on the prelude, convert it (`LibraryBuiltin/CompilerBuiltin.fss:993`). Probes BwB1NN32, BwB2NN64, BwB4RR32 and BBindCk in `explorations/reviews/numerics-plan-coordinator/probes-B/`, in the parent of 84aef6a4f. full text: history, row 454 |
+
+### Row 443
+
+closed by 3de571bac
+
+| 443 | walk does not convert an integer numeral outside `ZZ32`'s range into `RR64`: `s: RR64 = 3000000000` is refused with `RHS expression type Long is not assignable to LHS type RR64`, where the specification makes it hold the float `3000000000.0` | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/conversions-coercions.tex`, "Principles of Coercion"; `Specification/basic-lib/numbers.tex`, "Numbers" | `ProjectFortress/tests/XXXNumeralFloatRungP.fss` | climb batch 6 rung T's judge | siblings: 454. Walk gives a numeral inside `ZZ32`'s range an `Int` and a larger one a `Long` or a big integer (`interpreter/evaluator/values/FIntLiteral.java:40-56`), and `RR64` coerces only from `ZZ32`, `RR32` and `IntLiteral` (`Library/FortressLibrary.fsi:302-304` at c124c6b65), which no walk numeral is (P-76). The fix sits at walk's conversion at a typed binding or parameter, which must know that an argument is a numeral. Open: whether a numeral above 2^53, which `RR64` cannot hold exactly, converts; the test stays below it. Probe `explorations/compile-ladder/rung-spec-numbers/probes/skeptic/SkNumeralFloat.fss`, in the parent of ab067d9b6. full text: history, row 443 |
+
+### Row 484
+
+closed by 3de571bac
+
+| 484 | under `walk`, an `NN32` operator with a numeral answers a `ZZ64`, not the `NN32` the specification gives: `u + 1`, `u MAX 1` and `u MAXNUM 1` for an `NN32` `u` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Coercion Resolution" | `ProjectFortress/tests/XXXNumeralWithNN32.fss` | climb batch 7R rung U | Walk's numeral is a `ZZ32` value (F-74), and `ZZ64` coerces from both `ZZ32` and `NN32` (`Library/FortressLibrary.fss:821-822` at c124c6b65), so the call resolves at `ZZ64`; an `NN64` with a numeral answers a `ZZ` in the same way (`:994`, `:997`). Each integer type declares its own `MIN`, `MAX`, `MAXNUM` and `MINNUM` (F-138; `ProjectFortress/tests/IntegerMinMaxRungM.fss`), so the call runs `ZZ64`'s declaration rather than stopping. Open until walk's numeral switch (Q-walk, PLAN). full text: history, row 484 |
+
+### Row 361
+
+closed by 3de571bac
+
+| 361 | `walk` throws `NumberFormatException` on any floating-point use of a radix-point numeral with an explicit radix-ten specifier: `round(2.5_10)` fails with `For input string: "2.5_10"`, where the compiled path answers 2 | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/lexical-structure.tex`, "Numerals"; `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/tests/XXXRadixTenPointNumeral.fss` | climb batch 3 rung R's second skeptic | siblings: 360, 862. `FFloatLiteral`'s constructor keeps the numeral's whole text whenever `denomBase == 10` (`interpreter/evaluator/values/FFloatLiteral.java:28` at c124c6b65), and `getFloat`'s `Double.valueOf` rejects the `_10` suffix (`:40`). `interpreter/evaluator/Evaluator.java:1632` already passes the parts (`intPart`, `numerator`, `denomBase`, `denomPower`). A fix of row 360 reads the same kept text. Workaround: write the numeral without `_10`. Probe `explorations/compile-ladder/rung-round-half-even/probes/skeptic/Sk2RadixTen.fss`, in the parent of ab067d9b6; full text: history, row 361 |
+
+### Row 578
+
+closed by 3de571bac
+
+| 578 | under walk, the object `IntLiteral`'s own arithmetic answers a `ZZ32`, against its declared `IntLiteral`: `x + x` prints `0 ZZ32` and `x + 1` `1 ZZ32` | NEGATIVE-VERIFIED | implementation gap (walk) | silent | `ProjectFortress/tests/IntLiteralValue.fss` | climb batch 8 rung Q's skeptic | The name `IntLiteral` is the value `FIntLiteral.ZERO` (`ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/IntLiteral.java:34-37`), and its natives return `FIntLiteral.make` of the result, which normalises to an `Int` (`ProjectFortress/src/com/sun/fortress/interpreter/evaluator/values/FIntLiteral.java:40-56`); `x TIMES x`, `x^x`, `x.zero` and `x.one` answer at `ZZ32` alike. The one library's `.fsi` declares `IntLiteral`. The test pins `shown(x + x)` at `0 : ZZ32`. No numeral reaches it while walk's numeral is an `Int`; Q-walk's `FIntLiteral.make` returning an `IntLiteral` moves it, and the pin with it. full text: history, row 578 |
+
+### Row 79
+
+closed by 53a6074ed
+
+| 79 | on the compiled path an integer numeral where nothing fixes a type stays an `IntLiteral`, not P-173's `ZZ32`, so it takes no `ZZ32` clause of a `typecase` and no `ZZ32` overload: `7` at `x: Object` answers `other`, and `ee(5)` runs `ee(x: Any)`, not `ee[\nat n\](x: ZZ32)`; walk gives `ZZ32` and 1 | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/literals.tex`, "Literals"; `Specification/basic/conversions-coercions.tex`, "Coercion Resolution" | none | ours | siblings: 946. The checker types a numeral `IntLiteral` by its form (F-57) and keeps that type at `Object` and `Any`; `ee(5)` takes `ee(x: Any)` by subtyping before any coercion (P-49), as does `ee(a)` for `a: Any = 5`, a `ZZ32` by P-173. Walk types the numeral by its value (F-74), as P-173 asks (P-76). At f03e6c1175 a probe of `shown(7)`, `shown(x: Object)` a `typecase` with `ZZ32`, `String` and `else` clauses, then `ee(5)` and `ee(a)`, printed `ZZ32`, `1`, `1` under walk and `other`, `2`, `2` compiled. Defect 4 of `reviews/overload-static-params-ways.md`. Old probe `explorations/compiler-probes/p33.fss`, in the parent of `c69cb2064`. full text: history, row 79 |
+
+### Row 946
+
+closed by 53a6074ed
+
+| 946 | on the compiled path a variable bound from an integer numeral reads as a `ZZ32` at a numeral tie whatever its value: for `bigN = 3000000000` and `g` over `ZZ32`, `NN32`, `ZZ64`, `g(bigN)` picks `g(ZZ32)` and dies at run time, where `g(3000000000)` picks `g(ZZ64)` | NEGATIVE-VERIFIED | implementation gap (checker) | `basic/inference.tex`, "A Numeral Whose Conversions Tie" | none | review literal-fork-2026-11-08 | siblings: 325, 391. `isNumeral` takes any expression of type `IntLiteral` (`scala_src/typechecker/impls/Functionals.scala:418-421` at 157323e5), but `numeralReading` reads values only from `IntLiteralExpr` nodes, so a variable's list is empty and reads `ZZ32` (`:428-436`); the coercion then raises `java.lang.Error: Not in range for ZZ32: 3000000000`, which no `catch` sees. Walk answers `g ZZ64`. Probe: the review's section 3.7 program, compiled and run: 'TV1 g(3000000000) g ZZ64', then the error. Workaround: declare the variable's type. |
+
+### Row 486
+
+closed by 53a6074ed
+
+| 486 | the compiled checker accepts `u: NN32 = n` for a `nat n`, and the run answers 3, where P-173 makes a `nat` parameter used as a value a `ZZ32`, from which `NN32` has no coercion; walk refuses it when it runs, 'RHS expression type Int is not assignable to LHS type NN32', and binds `u: ZZ32 = n` | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification-1.0-frozen/basic/trait-parameters.tex:83-86`, "Nat and Int Parameters" | none | climb batch 7R rung U | siblings: 454. The checker types a `nat` or `int` parameter read as a value `IntLiteral` (`scala_src/typechecker/staticenv/KindEnv.scala:69-70`, at f03e6c1175), which `NN32` coerces from; the code generator builds an `IntLiteral` constant (`compiler/codegen/CodeGen.java:6338-6340`). P-173 contradicts the cited sentence for Appendix I. Walk's value is `Int`, `ZZ32`'s value object (`interpreter/evaluator/LHSEvaluator.java:218-226` at c124c6b65). `tests/XXXNatValueNN32RungK.fss` asserts the `NN32` binding, which P-173 drops. At f03e6c1175 a probe of its two functions printed 3 and 3 compiled; walk printed 3, then refused. full text: history, row 486 |
+
+### Row 325
+
+closed by 53a6074ed
+
+| 325 | a numeral outside a bounded integer type is a run-time error on the compiled path where the specification makes it a static one: `a: ZZ32 = 4294967295` compiles clean and raises `Not in range for ZZ32` at run time | NEGATIVE-VERIFIED | implementation gap (checker) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNumeralBeyondZZ32Range.test` | repair batch R2 | The checker gives every numeral the one flat type `Types.INT_LITERAL` (`ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Misc.scala:468-470` at 052a7c3fe) and the compiler world's `trait IntLiteral` has no static parameter (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:390-396`), so no static type carries the value. Walk refuses it at the point of use. The same failure comes through numeral-only arithmetic folded exactly (`2147483647 + 1` as `ZZ32`, an uncatchable `java.lang.Error`), a range bound (`seq(2147483645 : 3000000000)`), `z MAX 3000000000` for a `ZZ32` (`XXXNumeralBeyondWidthMax.test`) and a `nat` size above ℤ32's range. full text: history, row 325 |
+
+### Row 945
+
+closed by e53480fc6
+
+| 945 | each evaluation of a string literal makes a new string object, on both paths, so `"ab" SEQV "ab"` is `false`, and so is `f() SEQV f()` for `f(): String = "ab"`, where two string literals of one text are one object | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/literals.tex`, "Literals" | none | review literals-2026-11-08 | Walk: `FString.make(x.getText())` at each evaluation (`interpreter/evaluator/Evaluator.java:1018-1020` at 157323e5); `FString.seqv` is identity (`values/FString.java:35-38`). Compiled: `ldc` then `FJavaString.make`, a new wrapper each time (`compiler/codegen/CodeGen.java:5268-5277`), compared by reference (`nativeHelpers/equalityRule.java:33`, `:62`); row 908 holds the prelude's `===`. By reading, the fold flips `StrictEquivalenceRuleWalk.fss:43`, `:48`, `:51` and `StrictEquivalenceRuleCompiled.fss:38`, concatenations of literals. Probe: walk 'S1 two occurrences: SEQV false'; compiled 'C1 ... sEquiv false'. Fix: P-171, interned literals and a fold of two; a climb batch 29 rung carries it. |
+
+### Row 364
+
+closed by 12292add2
+
+| 364 | **walk infers a generic object's static argument from the argument's run-time class**: for `object Cell[\T extends Any\](v: T) end`, `Cell("s")` prints `Cell[\FlatString\]`, where the compiled path prints `Cell[\String\]`; `Cell(3)` prints `Cell[\ZZ32\]` but is a `Cell[\Int\]` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/literals.tex`, "Literals" (a string literal has type `String`); `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXInferredStaticArgRungS.fss` | climb batch 3 rung S | The inference takes each argument's run-time type (`interpreter/evaluator/EvaluatorBase.java:602` at d4d454f9d); a lone `T` takes the narrowest (`:645`). Walk's ilk names `Int`, `Long`, `BigNum`, `Float` and `UnsignedLong` by their traits, also in static arguments (`tests/AnyNativesIntrinsicWalk`), so only the text changed: a `Cell[\Int\]` dispatches past `Cell[\ZZ32\]` to `Any` (F-74), and walk refuses `a: BoxT[\ZZ32\] = BoxT(z)`, "RHS expression type BoxT[\Int\] is not assignable" (`XXXInferredIntBindingRungT`). Workaround: `Cell[\String\]("s")`. full text: history, row 364 |
+
+### Row 432
+
+closed by 12292add2
+
+| 432 | **under `walk`, a bare big operator over a list literal of numerals is refused**: `SUM <\|1, 2, 3\|>`, `PROD <\|1, 2, 3\|>`, `SUM <\|1.5, 2.5\|>` and `SUM <\| n^2 \| n <- 1#3 \|>` are "Failed to find any matching overload, args = (ArrayList[\Int\])" (or `FloatLiteral`) | NEGATIVE-VERIFIED | implementation gap (walk) | silent | none | climb batch 6 rung F | siblings: 20. At c124c6b65, each in a component that imports `List`, the four and `BIG MAX <\|1, 2, 3\|>` stop rc=1 with that message. Walk takes the list's element type from its elements' run-time class (row 20), `Int`, an `AdditiveGroup[\ZZ32\]` and not an `AdditiveGroup[\Int\]`, so the F-bound fails; `Int` fixes `T` through `BIG +`'s `Generator[\T\]` parameter, so F-228's join does not apply. The specification leaves a numeral's relation to the integer types open (`basic/expressions/literals.tex`). Workaround: `<\|[\ZZ32\] ...\|>` or `<\|[\RR64\] ...\|>`. Probe `explorations/compile-ladder/rung-flat-tower/bare-sum.sh`, in the parent of `ab067d9b6`. full text: history, row 432 |
+
+### Row 721
+
+closed by 12292add2
+
+| 721 | under walk, `array[\T\]`, `array1` and `array2` at a `T` that walk instantiates at a value's run-time class give a plain array where the specification, instantiating the number type, gives a vector: `filled(z)` for `filled[\T\](x: T) = array[\T\](3).fill(x)` and `z: ZZ32` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXArrayInferredElementVectorWalk.fss` | climb batch 15 rung L | siblings: 364, 729. Walk instantiates `T` at `Int`, the run-time class walk gives a `ZZ32` value (row 364), and at the classes of `ZZ64` and `RR64` values alike; the factories' `typecase` over a witness of their result type (`Library/FortressLibrary.fss:2597-2608`, `:2984-2995`) matches only the eight number types exactly, and `Vector[\Int,n\]` is not well-formed, so the result is plain and `filled(z) + filled(z)` finds no overload. Workaround: write it, `filled[\ZZ32\](z)`. |
+
+### Row 722
+
+closed by 12292add2
+
+| 722 | under walk, `openRange[\I\]()` at an `I` that walk instantiates at `Int` from a `ZZ32` value throws `CastError` at its container `cast`, where the specification, instantiating `ZZ32`, gives a `ZZ32` open range: `openAt(z)` for `openAt[\I\](x: I) = openRange[\I\]()` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/inference.tex`, "The Static Arguments of a Call" | `ProjectFortress/tests/XXXOpenRangeInferredIndexWalk.fss` | climb batch 15 rung L | siblings: 364. `openRange`'s `typecase __thrower[\I\]` (`Library/FortressLibrary.fss:4225-4230` at c124c6b65) matches `() -> Int` (`Int`: the one type `ZZ32` comprises, F-229) against its `() -> ZZ32` arm, and the `cast` of the `ZZ32` range to `OpenRange[\Int\]` fails: "CastError" at `:4227:23-58`. A witness of the result type, as `array1` takes, would not throw. Workaround: write it, `openAt[\ZZ32\](z)`. |
+
+### Row 20
+
+closed by 12292add2
+
+| 20 | under walk, a list display takes its element type from its elements' run-time types, and `List` is invariant: `<\|1.0, 1.0\|>` is a `List[\FloatLiteral\]`, which a binding declared `List[\RR64\]` refuses, so a display of float numerals needs its static argument, `<\|[\RR64\] 1.0, 1.0\|>` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/expressions/aggregate.tex`, "List Expressions" (the element type is the union of the element types) | none | ours, blinded | siblings: 96, 432, 510, 705, 717. A display calls `opr <\|[\E\] xs: E... \|>` (`Library/List.fsi:114`); walk takes `E` as the join of the elements' run-time types (row 511), each of the five native number objects and the four string objects read at its trait (`interpreter/evaluator/types/LanguageTypes.java`), so `<\|1, 2\|>` is a `List[\ZZ32\]` (`tests/LanguageTypeInstancesWalk`); a float numeral's is `FloatLiteral` (`ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi:44`), and a declared type does not fix it (row 510). Objects join to their trait. A list comprehension takes a declared type where one directs it, else is built the same way (F-228). full text: history, row 20 |
