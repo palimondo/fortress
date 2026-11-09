@@ -117,7 +117,7 @@ The demos and `ant testSpecData` are the gather's and the gate's (the brief).
 
 ## Sentences made false
 
-The specification: none (the review, section 4; `inference.tex:233-275`, `:384-405`, `reductions.tex:27-43` say "run-time types", never `Int`). No Appendix I effect names walk's `Int` instance.
+The specification: none (the review, section 4; `inference.tex:233-275`, `:384-405`, `reductions.tex:27-43` say "run-time types", never `Int`). No Appendix I effect names walk's `Int` instance. The skeptic's correction: one sentence of Appendix I's natives effect is made false, `Specification/appendices/changes.tex:4689-4693`, "a glue class bound over \TYP{String} is passed the name of the value's type in place of its characters": a rope's glue is now passed `String`, its trait's name (`SKEPTIC.md`; `record.md`, "Sentences made false").
 
 The record, for the gather:
 
