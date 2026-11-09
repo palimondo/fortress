@@ -4246,16 +4246,13 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
 
     /**
      * The double nearest the rational n/d, d positive, by one rounding, to
-     * nearest even: a quotient of at least 56 bits with a sticky bit, rounded
-     * by BigInteger.doubleValue, then scaled.
+     * nearest even, a subnormal one included.
      */
     static double roundToDouble(BigInteger n, BigInteger d) {
         if (n.signum() == 0) return 0.0;
         BigInteger m = n.abs();
-        int shift = 56 - (m.bitLength() - d.bitLength());
-        BigInteger[] qr = (shift >= 0 ? m.shiftLeft(shift) : m).divideAndRemainder(shift >= 0 ? d : d.shiftLeft(-shift));
-        BigInteger q = qr[1].signum() == 0 ? qr[0] : qr[0].setBit(0);
-        double v = Math.scalb(q.doubleValue(), -shift);
+        int u = ulpExponent(m, d, 53, -1074);
+        double v = Math.scalb((double) roundedSignificand(m, d, u), u);
         return n.signum() < 0 ? -v : v;
     }
 
@@ -4263,11 +4260,28 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
     static float roundToFloat(BigInteger n, BigInteger d) {
         if (n.signum() == 0) return 0.0f;
         BigInteger m = n.abs();
-        int shift = 28 - (m.bitLength() - d.bitLength());
-        BigInteger[] qr = (shift >= 0 ? m.shiftLeft(shift) : m).divideAndRemainder(shift >= 0 ? d : d.shiftLeft(-shift));
-        BigInteger q = qr[1].signum() == 0 ? qr[0] : qr[0].setBit(0);
-        float v = Math.scalb(q.floatValue(), -shift);
+        int u = ulpExponent(m, d, 24, -149);
+        float v = Math.scalb((float) roundedSignificand(m, d, u), u);
         return n.signum() < 0 ? -v : v;
+    }
+
+    /**
+     * The exponent of the unit in the last place of m/d, m and d positive, at
+     * the given precision in bits, and at least the least subnormal's.
+     */
+    private static int ulpExponent(BigInteger m, BigInteger d, int precision, int least) {
+        int e = m.bitLength() - d.bitLength();
+        if (e >= 0 ? m.compareTo(d.shiftLeft(e)) < 0 : m.shiftLeft(-e).compareTo(d) < 0) e--;
+        return Math.max(e - (precision - 1), least);
+    }
+
+    /** m/d over 2^u, rounded to the nearest integer, ties to even, from a guard bit and a sticky bit. */
+    private static long roundedSignificand(BigInteger m, BigInteger d, int u) {
+        int s = 2 - u;
+        BigInteger[] qr = (s >= 0 ? m.shiftLeft(s) : m).divideAndRemainder(s >= 0 ? d : d.shiftLeft(-s));
+        long q = qr[0].longValue() | (qr[1].signum() == 0 ? 0 : 1);
+        long r = q >> 2, rest = q & 3;
+        return (rest > 2 || (rest == 2 && (r & 1) == 1)) ? r + 1 : r;
     }
 
     public void forIntLiteralExpr(IntLiteralExpr x) {
