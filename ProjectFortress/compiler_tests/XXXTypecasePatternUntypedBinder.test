@@ -1,0 +1,3 @@
+tests=XXXTypecasePatternUntypedBinder
+compile
+compile_exception_contains=typcase match failure!

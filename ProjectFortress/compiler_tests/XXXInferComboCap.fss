@@ -1,4 +1,4 @@
-(* See explorations/compile-ladder/rung-inference-checker/REPORT.md. *)
+(* The coercion attempt refuses a call whose lone type parameters give more than 64 combinations of the types it chooses. *)
 component XXXInferComboCap
 export Executable
 

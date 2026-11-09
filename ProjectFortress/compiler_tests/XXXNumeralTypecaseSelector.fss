@@ -1,0 +1,14 @@
+(* A numeral as a typecase's selector, where nothing fixes its type, takes its default, so the ZZ32 clause is reachable and taken. *)
+component XXXNumeralTypecaseSelector
+export Executable
+
+run(): () = do
+  sel = typecase 7 of
+      ZZ32 => "ZZ32"
+      else => "other"
+    end
+  assert(sel, "ZZ32", "a typecase's numeral selector takes its default")
+  println("PASS")
+end
+
+end

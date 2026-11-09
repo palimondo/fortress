@@ -1,0 +1,15 @@
+(* A typecase clause whose tuple pattern binds an element without a type compiles, and takes a tuple whose other element its type holds. *)
+component XXXTypecasePatternUntypedBinder
+export Executable
+
+run(): () = do
+  p: (ZZ32, ZZ32) = (3, 4)
+  tc = typecase p of
+         (x, y: ZZ32) => "pattern"
+         else => "else"
+       end
+  assert(tc, "pattern", "a tuple pattern with an untyped binder takes (3, 4)")
+  println("PASS")
+end
+
+end
