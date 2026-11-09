@@ -1,0 +1,19 @@
+(* The library's =/= between a number and a numeral answers NOT of their =. *)
+component XXXNotEqualNumeral
+export Executable
+
+run(): () = do
+    w: ZZ32 = 0
+    u: NN32 = w.asNN32
+    v: NN64 = w.asNN64
+    d: RR64 = 0.0
+    r: RR32 = narrow(d)
+    q: QQ = 1/2
+    assert(NOT (u =/= 0), "opr-overview.tex, the sentence on e =/= e' that closes subsection \"GCD, LCM, and CHOOSE Operators\": e =/= e' is NOT (e = e'), and numbers.tex, section \"Rational Numbers\": a zero NN32 = 0")
+    assert(NOT (v =/= 0), "opr-overview.tex, the sentence on e =/= e' that closes subsection \"GCD, LCM, and CHOOSE Operators\": e =/= e' is NOT (e = e'), and numbers.tex, section \"Rational Numbers\": a zero NN64 = 0")
+    assert(NOT (r =/= 0), "opr-overview.tex, the sentence on e =/= e' that closes subsection \"GCD, LCM, and CHOOSE Operators\": e =/= e' is NOT (e = e'), and numbers.tex, section \"Rational Numbers\": a zero RR32 = 0")
+    assert(NOT (q =/= 0.5), "opr-overview.tex, the sentence on e =/= e' that closes subsection \"GCD, LCM, and CHOOSE Operators\": e =/= e' is NOT (e = e'), and numbers.tex, section \"Rational Numbers\": the QQ 1/2 = 0.5")
+    println("PASS")
+  end
+
+end

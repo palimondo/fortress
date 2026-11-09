@@ -3799,7 +3799,8 @@ numeral without coercion, and since the change of \secref{revival-numerals} it
 receives the numeral at its default, which it compares with the integer value by
 \EXP{=}; so \EXP{u \neq 0} is \VAR{true} for a zero \VAR{u} of \EXP{\mathbb{N}32}
 or \EXP{\mathbb{N}64}, neither of which declares \EXP{=} with
-\EXP{\mathbb{Z}32}, as the interpreter answered before.
+\EXP{\mathbb{Z}32}, as the interpreter answered before, a departure from
+\secref{operator-NE} that the effect of \secref{revival-numerals} names.
 \EXP{\mathbb{Z}} states in its api, for the same reason, the additive and
 multiplicative operators its body declares.
 \TYP{IntLiteral} declared its own \VAR{zero}, \VAR{one}, \VAR{even},
@@ -5140,14 +5141,19 @@ A numeral that took its default prints as a value of its default type, so that
 \nolinkurl{ProjectFortress/tests/NumberPrintTest.fss}, which asserted that a
 numeral prints as written, is changed; a value of a numeral type prints as the
 numeral is written, with its radix after an underscore where it is not ten.
-The top-level \EXP{\neq}, whose parameters are of type \TYP{Any}, takes a
-numeral at its default and compares by \EXP{=}, so that \EXP{u \neq 0} is
-\VAR{true} for a zero \VAR{u} of \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or
-\EXP{\mathbb{R}32}, none of which declares \EXP{=} with \EXP{\mathbb{Z}32}, and
-\EXP{q \neq 0.5} is \VAR{true} for \EXP{q\COLON\mathbb{Q} = 1/2}, since
-\EXP{\mathbb{Q}} declares no \EXP{=} with \EXP{\mathbb{R}64}, though
-\EXP{u = 0} and \EXP{q = 0.5} are \VAR{true} by the pairs of \EXP{=}; the
-interpreter answered the two inequalities so before this change.
+The top-level \EXP{\neq} of \library, whose parameters are of type \TYP{Any},
+departs from \secref{operator-NE}, by which \EXP{\neq} applies \EXP{\neg} to
+the result of \EXP{=} on the same operands: it takes a numeral at its default
+and compares that by \EXP{=}, so that \EXP{u \neq 0} is \VAR{true} for a zero
+\VAR{u} of \EXP{\mathbb{N}32}, \EXP{\mathbb{N}64} or \EXP{\mathbb{R}32}, none of
+which declares \EXP{=} with \EXP{\mathbb{Z}32}, and \EXP{q \neq 0.5} is
+\VAR{true} for \EXP{q\COLON\mathbb{Q} = 1/2}, since \EXP{\mathbb{Q}} declares no
+\EXP{=} with \EXP{\mathbb{R}64}, though \EXP{u = 0} and \EXP{q = 0.5} are
+\VAR{true} by the pairs of \EXP{=} (row~NEW-T-1 of the revival's gap ledger).
+The interpreter answered the two inequalities so before this change; the
+compiled path's own library declares \EXP{\neq} on each integer type with an
+operand of that type, into which the numeral is converted, so that there
+\EXP{u \neq 0} is \VAR{false}.
 The interpreter, which has no static types, refuses a numeral outside its
 type's range when the place is evaluated; it converts a numeral at a parameter
 of the declaration that a call chooses, at a variable or a field of a declared
