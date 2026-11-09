@@ -12,6 +12,7 @@ dToString(a:RR64):JavaString = builtinPrimitive("com.sun.fortress.nativeHelpers.
 sub64(a:ZZ64, b:ZZ64):ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longOverflowingSub")
 mulZ(a:ZZ, b:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.mul")
 negZ(a:ZZ):ZZ = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.neg")
+toRR32(a:RR64):RR32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToFloat")
 
 run():() = do
   imax: ZZ32 = 2147483647
@@ -31,7 +32,7 @@ run():() = do
   r0: RR32 = 0.0
   rbig: RR32 = 340282350000000000000000000000000000000.0
   rsub: RR32 = 0.0000000000000000000000000000000000000000000014
-  rinf: RR32 = 1000000000000000000000000000000000000000.0
+  rinf: RR32 = toRR32(1000000000000000000000000000000000000000.0)
   assert(dToString(rr32AsFloat(r1)) = "0.10000000149011612", "RR32 asFloat of 0.1 as an RR32 is exact")
   assert(dToString(rr32AsFloat(r0)) = "0.0", "RR32 asFloat of 0.0")
   assert(dToString(rr32AsFloat(rbig)) = "3.4028234663852886E38", "RR32 asFloat of the largest RR32")

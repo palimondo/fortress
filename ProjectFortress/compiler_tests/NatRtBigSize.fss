@@ -5,23 +5,24 @@ object Box[\nat k\](v: ZZ32) end
 sz64[\nat k\](b: Box[\k\]): ZZ64 = k
 g(b: Box[\3000000000\]): String = "big"
 g(x: Any): String = "other"
+sizeOf(b: Box[\2147483648\]): String = "2147483648"
+sizeOf(b: Box[\3000000000\]): String = "3000000000"
+sizeOf(b: Box[\4294967295\]): String = "4294967295"
+sizeOf(x: Any): String = "other"
 run() = do
   e1: ZZ64 = 2147483647
   r1 = sz64(Box[\2147483647\](0))
   println(r1)
   assert(r1 = e1, "trait-parameters.tex, section \"Nat and Int Parameters\"")
-  e2: ZZ64 = 2147483648
-  r2 = sz64(Box[\2147483648\](0))
-  println(r2)
-  assert(r2 = e2, "trait-parameters.tex, section \"Nat and Int Parameters\"")
-  e3: ZZ64 = 3000000000
-  r3 = sz64(Box[\3000000000\](0))
-  println(r3)
-  assert(r3 = e3, "trait-parameters.tex, section \"Nat and Int Parameters\"")
-  e4: ZZ64 = 4294967295
-  r4 = sz64(Box[\4294967295\](0))
-  println(r4)
-  assert(r4 = e4, "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  b2: Any = Box[\2147483648\](0)
+  println(sizeOf(b2))
+  assert(sizeOf(b2), "2147483648", "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  b3: Any = Box[\3000000000\](0)
+  println(sizeOf(b3))
+  assert(sizeOf(b3), "3000000000", "trait-parameters.tex, section \"Nat and Int Parameters\"")
+  b4: Any = Box[\4294967295\](0)
+  println(sizeOf(b4))
+  assert(sizeOf(b4), "4294967295", "trait-parameters.tex, section \"Nat and Int Parameters\"")
   a: Any = Box[\3000000000\](0)
   assert(g(a), "big", "trait-parameters.tex, section \"Nat and Int Parameters\"")
   b: Any = Box[\3\](0)
