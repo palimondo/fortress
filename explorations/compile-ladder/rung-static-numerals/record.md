@@ -58,7 +58,7 @@ New, `NEW-A-1` for the gather's number (its number cell is the only rule it fail
 
 ## The handover
 
-Rung A landed the static numerals on both paths from the probe's patch: the library's types take a numeral as written through their own coercion, which the code generator folds to a JVM constant or calls once into a static final through one method of the four numbers; a program type's minus runs once with its coercion; walk converts a folded constant at a library type from its exact value; the compiled path's literal classes are gone. Count 0, distance 0 and "DISTANCE SAME"; `ant testFast` and `ant testSystem` green (1522, 86, 263 and 821 tests); microGPT's quick checks 7 of 7 each. Left: row 957's second case (an `XXX` pair), row 971, and the curator's question on `u = 0` under walk (NEW-A-1).
+Rung A landed the static numerals on both paths from the probe's patch: the library's types take a numeral as written through their own coercion, which the code generator folds to a JVM constant or calls once into a static final through one method of the four numbers; a program type's minus runs once with its coercion; walk converts a folded constant at a library type from its exact value; the compiled path's literal classes are gone. Count 0, distance 0 and "DISTANCE SAME"; `ant testFast` and `ant testSystem` green (1522, 86, 263 and 821 tests); microGPT's quick checks 7 of 7 each; the team demos 52 of 52. Left: row 957's second case (an `XXX` pair), row 971, and the curator's question on `u = 0` under walk (NEW-A-1).
 
 ## Revival change
 
