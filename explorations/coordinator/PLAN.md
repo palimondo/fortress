@@ -159,7 +159,7 @@ Before the switch-over, raised by climb batch 10 (`compile-ladder/climb-batch-10
 
 For his review; nothing waits on them:
 
-- One point that his answer on float numerals left for later (P-172; `reviews/literals-2026-11-08.md`, sections 6.2 and 7): `round` of a numeral within half an ulp of a tie rounds the numeral's nearest double, not the rational (row 360, also parked below; default as both paths do it, gated). No review-queue item holds it. Its other point, two bare numerals of one value printed apart, P-173's default answers: `2.5` and `2.50` are both the `RR64` 2.5 and print alike, and the team's `tests/NumberPrintTest.fss:16` changes (review-queue item 444).
+- A point that his answer on float numerals left for later (P-172; `reviews/literals-2026-11-08.md`, sections 6.2 and 7), two bare numerals of one value printed apart, P-173's default answers: `2.5` and `2.50` are both the `RR64` 2.5 and print alike, and the team's `tests/NumberPrintTest.fss:16` changes (review-queue item 444).
 - Item 22, `TotalComparison` extending `StandardMinMax` (P-98), explained in more detail when he has the energy. Review-queue item 109 (closed at the cleanup of 2026-11-05: learning).
 - Item 30's clause that a declaration the static call selected keeps its inferred instance departs from the POPL 2019 paper where neither the static return type nor an invariant position constrains the parameter; default, the sentence as written. Review-queue item 3, an ask before microGPT compiles (phase 5's list).
 

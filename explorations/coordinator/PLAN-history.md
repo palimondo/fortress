@@ -2192,3 +2192,11 @@ Rewritten on 2026-11-09 by the coordinator's record writer, after his decisions 
 ### Phase 6. microGPT fast
 
 - Parallel reductions on the compiled path (P-175; `coordinator/HELD.md`, "Held in chat (2026-11-08)", 23:3x; `reviews/parallelism-foundations-2026-11-08.md`, sections 1.8, 7.1 and 8, and its question D3), ahead of this phase's order, since compiled programs reach the one library's reductions from the switch-over on. First, in the batch before D3's rung, the repair of a `do … also` group whose first arm completes abruptly and leaves its other arms running, so that every forked arm joins (`CodeGen.genParallelExprs`; the review's draft row N1, not filed in the ledger). Then, in the first batch after the switch-over, D3's rung: the code generator forks a call's arguments where `ParallelismAnalyzer` judges them worth a task (`CodeGen.evalArg`; the review's draft row N5, not filed), and the one library's parallel range stops its split at a grain size, his "right forking constants" (`Library/RangeInternals.fss:1308-1342`), measured on compiled reductions at one and four threads (P-29). Neither is in climb batch 29, for the budget.
+
+## Moved on 2026-11-09, the round of a numeral near a tie answered by P-173
+
+Rewritten on 2026-11-09 by the coordinator's record writer, at the coordinator's brief, word for word under the heading it stood under: the review-list line whose first point, `round` of a numeral within half an ulp of a tie (row 360), P-173's reading of a tied float numeral as `RR64` answers (P-172 rewritten to it; row 360 closed at `f495e545b`); its second point, the printing of bare `2.5` against `2.50`, stays.
+
+### Pavol's answers, in the order they are needed
+
+- One point that his answer on float numerals left for later (P-172; `reviews/literals-2026-11-08.md`, sections 6.2 and 7): `round` of a numeral within half an ulp of a tie rounds the numeral's nearest double, not the rational (row 360, also parked below; default as both paths do it, gated). No review-queue item holds it. Its other point, two bare numerals of one value printed apart, P-173's default answers: `2.5` and `2.50` are both the `RR64` 2.5 and print alike, and the team's `tests/NumberPrintTest.fss:16` changes (review-queue item 444).
