@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About this working draft · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+</head>
+<body data-page="chapter" data-slug="preface" data-chapter="About this working draft">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">About this working draft</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="" data-title="About this working draft">
+<h1 id="top" class="nb">About this working draft</h1>
+<p class="standfirst">These pages stand before the table of contents in the specification, with no heading of their own.</p>
+<div class="fig"><p id="p-0f0a79f3" class="nb">The Fortress Language Specification, Version 1.0[<a class="cite" href="references.html#ref-Fortress">Fortress</a>] was the first to be released in tandem with a compliant interpreter (as of March 31, 2008), available as open source and online at:</p>
+<div class="center"><p id="p-0ea553b6" class="nb"><span class="tt">http://projectfortress.sun.com</span></p></div>
+<p id="p-03201e20" class="nb">Our tandem release of a specification and matching interpreter was a major milestone for the project. Our reference implementation has been evolving gradually, in parallel with the evolution of the language specification and the development of the core libraries. In order to synchronize the specification with the implementation, it was necessary both to add features to the implementation and to drop features from the specification. All Fortress source code appearing in the specification has been tested by executing it with the open source Fortress implementation. Moreover, all code has been rendered automatically with the tool <em>Fortify</em>, also included with the standard Fortress distribution. Fortify is an open source tool for converting Fortress source code to LaTeX.</p>
+<p id="p-c808bd49" class="nb">Since the release, we have incrementally added back features taken out of the specification as they have been implemented. In particular, we have been building a Fortress compiler with a static type checker and various static constraints checker. We also made considerable amount of modification and evolution of the language design.</p>
+<p id="p-d33dcf23" class="nb">This specification is a working draft; it is meant to include all language features included in the Fortress Language Specification, Version 1.0<span class="m">β</span> (perhaps with additional ) and any language changes since then. This version of the specification is not yet for a release; it may include wild ideas that require additional research before they can be implemented reliably. This specification includes descriptions of unimplemented features in boxes at the beginning of sections, and informal comments and notes in boxes in the margin.</p>
+<p id="p-033235cb" class="nb">In 2026 the Fortress revival revised this working draft where a decision taken for the implementation it is completing would otherwise leave the text and the implementation in disagreement. The first such revision states the type group’s rule that no type is a subtype of two different instantiations of one parameterized trait, which the compiled type checker enforces for type arguments and numerals, with the exceptions Appendix I <span class="pending">[not converted yet]</span> names, and this draft had not stated, and rewrites the examples that the rule refuses. Each revised passage carries a box headed “Revised by the 2026 revival”; Appendix I <span class="pending">[not converted yet]</span> lists every change with its reason, the original text, and the alternative not taken.</p></div>
+<div class="fig"><p id="p-7520c395" class="nb">The not-yet-supported features include:</p>
+<ul>
+<li><p id="p-f85a28b6" class="nb">widening coercion</p></li>
+<li><p id="p-ea571658" class="nb">multifix operators</p></li>
+<li><p id="p-5ce11ef0" class="nb">type coverage check</p></li>
+<li><p id="p-dd462ced" class="nb">generic overloading check</p></li>
+<li><p id="p-d771cca4" class="nb">definite assignment check</p></li>
+<li><p id="p-399e0bdf" class="nb">keyword and varargs parameters</p></li>
+<li><p id="p-286263e0" class="nb">varargs expressions</p></li>
+<li><p id="p-0ee6a8b8" class="nb">some modifiers (<span class="m"><span class="kw">override</span></span>, <span class="m"><span class="kw">io</span></span>, <span class="m"><span class="kw">atomic</span></span>, <span class="m"><span class="kw">value</span></span>, ...)</p></li>
+<li><p id="p-eee6390e" class="nb">qualified names</p></li>
+<li><p id="p-68c4b4b3" class="nb">identifiers including connecting punctuations</p></li>
+<li><p id="p-58c6fa64" class="nb">ASCII conversion</p></li>
+<li><p id="p-5e831487" class="nb">Unicode canonicalization</p></li>
+<li><p id="p-34f66ee3" class="nb">array comprehensions</p></li>
+<li><p id="p-a0b814f9" class="nb">reduction variables</p></li>
+<li><p id="p-524795d8" class="nb">object copy</p></li>
+<li><p id="p-99634e8a" class="nb">unboxed types</p></li>
+<li><p id="p-8b4fb6b2" class="nb">mutual recursion in value objects</p></li>
+<li><p id="p-74808af9" class="nb">thread fairness guarantee</p></li>
+<li><p id="p-0f438878" class="nb">distributions</p></li>
+<li><p id="p-69a8da93" class="nb">matrix unpasting</p></li>
+<li><p id="p-56c0c623" class="nb">Non-type static parameters</p></li>
+<li><p id="p-916aebbe" class="nb">dimensions and units</p></li>
+<li><p id="p-3895f30c" class="nb">tests and properties</p></li>
+<li><p id="p-11643d2e" class="nb">type aliases</p></li>
+<li><p id="p-3e0c2dfb" class="nb">where clauses and conditional extension</p></li>
+<li><p id="p-b71e0a03" class="nb">abstract function declarations</p></li>
+<li><p id="p-ae1019af" class="nb">checked exceptions, deferred exceptions, and chained exceptions</p></li>
+<li><p id="p-4b0fd8bc" class="nb">contract checking (overloaded functionals and method overriding)</p></li>
+<li><p id="p-3618187d" class="nb">static expressions beyond the folding of numerals and of string literals, static range types, and some range operations</p></li>
+<li><p id="p-319b9e65" class="nb">some types (<span class="m"><span class="ty">HeapSequence</span></span>, <span class="m"><span class="ty">LinearSequence</span></span>, <span class="m">ℚ</span>, <span class="m">ℤ</span>, <span class="m">ℕ</span>, <span class="m">ℚ</span>, ...)</p></li>
+<li><p id="p-d63a5dd0" class="nb">some operators on aggregate expressions</p></li>
+<li><p id="p-f17187a1" class="nb">some functions in Section 13.33 <span class="pending">[not converted yet]</span></p></li>
+<li><p id="p-51cb6e87" class="nb">tail-call optimization</p></li>
+<li><p id="p-42b5d978" class="nb">compound APIs check</p></li>
+<li><p id="p-06ca74dc" class="nb">import API names</p></li>
+<li><p id="p-4efbece8" class="nb">components linking</p></li>
+</ul></div>
+</section>
+<nav class="pager" aria-label="Chapters"><span></span><a class="next" href="intro.html"><span>Next</span> 1. Introduction</a></nav>
+<footer class="colophon">Converted from <code>Specification/fortress/preamble.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

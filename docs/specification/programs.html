@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3. Programs · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+</head>
+<body data-page="chapter" data-slug="programs" data-chapter="3. Programs">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">3. Programs</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="3" data-title="Programs">
+<h1 id="top" class="nb"><a id="chap-programs"></a><span class="num">Chapter 3</span> Programs</h1>
+
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-04bb71df" class="nb">Unicode synonyms and most of the ASCII encodings of Unicode characters are not yet supported.</p></aside>
+<p id="p-0082c280" class="nb">A <em>program</em> consists of a finite sequence of Unicode 5.0 abstract characters. (Fortress does not distinguish between different code-point encodings of the same character.) In order to more closely approximate mathematical notation, certain sequences of characters are rendered as subscripts or superscripts, italicized or boldface text, or text in special fonts, according to the rules in Appendix D <span class="pending">[not converted yet]</span>. For the purposes of entering program text, ASCII encodings of Unicode characters are also provided in Appendix E <span class="pending">[not converted yet]</span>. Although much of the program text in this specification is rendered as formatted Unicode, some text is presented unformatted, or in its ASCII encoding, to aid in exposition.</p>
+<p id="p-9f28183b" class="nb">A program is <em>valid</em> if it satisfies all <em>static constraints</em> stipulated in this specification. Failure to satisfy a static constraint is a <em>static error</em>. Only valid programs can be <em>executed</em>; the validity of a program must be checked before it is executed.</p>
+<p id="p-c63de2ef" class="nb">Executing a valid Fortress program consists of <em>evaluating expressions</em>. Evaluation of an expression may modify the <em>program state</em> yielding a <em>result</em>. A result is either a <em>value</em>, or an <em>abrupt completion</em>.</p>
+<p id="p-648429ef" class="nb">The characters of a valid program determine a sequence of <em>input elements</em>. In turn, the input elements of a program determine the <em>program constructs</em>. Some program constructs may contain other program constructs. The two most common kinds of constructs in Fortress are <em>declarations</em> and <em>expressions</em>. We explain the structure of input elements, and of each program construct, in turn, along with accompanying static constraints. We also explain how the outcome of a program execution is determined from the sequence of constructs in the program.</p>
+<p id="p-74382a49" class="nb">Programs are developed, compiled and deployed as <em>encapsulated upgradable components</em> as described in Chapter 22 <span class="pending">[not converted yet]</span>.</p>
+<p id="p-df7143e5" class="nb">Fortress is block-structured: A Fortress program consists of nested <em>blocks</em> of code. The entire program is a single block. Each component is a block. Any top-level declaration is a block, as is any function declaration. Several expressions are also blocks, or have blocks as parts of the expression, or both (e.g., a <span class="m"><span class="kw">while</span></span> expression is a block, and its body is a different block). See Chapter 13 <span class="pending">[not converted yet]</span> for a discussion of expressions in Fortress. In addition, a local declaration begins a block that continues to the end of the smallest enclosing block unless it is a local function declaration and is immediately preceded by another local function declaration. (This exception allows overloaded and mutually recursive local function declarations.) Because Fortress is block-structured, and because the entire program is a block, the smallest block that syntactically contains a program construct is always well defined.</p>
+<p id="p-5e7b2a53" class="nb">Fortress is expression-oriented: What are often called “statements” in other languages are just expressions with type <span class="m"><span class="ty">()</span></span> in Fortress. They do not evaluate to an interesting value, and are typically evaluated solely for their effects.</p>
+<p id="p-039ed027" class="nb">Fortress is whitespace-sensitive: Fortress has different contexts influencing the whitespace-sensitivity of expressions as described in Appendix G <span class="pending">[not converted yet]</span>.</p>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="overview.html"><span>Previous</span> 2. Overview</a><a class="next" href="lexical-structure.html"><span>Next</span> 4. Lexical Structure</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/programs.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

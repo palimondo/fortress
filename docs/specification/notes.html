@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Notes · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+</head>
+<body data-page="notes" data-slug="notes" data-chapter="Notes">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">Your notes</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification</p>
+<h1>Your notes</h1>
+<p class="standfirst">Notes are kept in this browser only. Export them to keep them, or to bring them to an assistant.</p>
+</header>
+<div id="storage-warning"></div>
+<section class="part" id="export">
+<h2>Export</h2>
+<p>The text below holds every note: its chapter, its section, a link to the place, the first words of the passage, and the note.</p>
+<p class="actions"><button type="button" id="copy-notes" class="act">Copy to the clipboard</button> <button type="button" id="save-notes" class="act">Save as a file</button> <span id="export-status" role="status"></span></p>
+<textarea id="export-text" readonly rows="10" aria-label="All notes as text"></textarea>
+</section>
+<section class="part" id="import">
+<h2>Import</h2>
+<p>Bring back notes from a file that this page saved, or paste its text. Notes that are already here stay; a note with the same identity keeps its newer text.</p>
+<p class="actions"><label class="act file">Choose a file<input type="file" id="import-file" accept=".txt,.md,text/plain"></label> <span id="import-status" role="status"></span></p>
+<textarea id="import-text" rows="4" aria-label="Exported notes to import" placeholder="or paste exported notes here"></textarea>
+<p class="actions"><button type="button" id="import-paste" class="act">Import the pasted text</button></p>
+</section>
+<section class="part" id="all-notes">
+<h2>All notes</h2>
+<div id="notes-list"></div>
+</section>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>
