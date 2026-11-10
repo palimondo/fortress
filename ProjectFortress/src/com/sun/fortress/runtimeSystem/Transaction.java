@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 import java.util.Stack;
 
 import com.sun.fortress.compiler.runtimeValues.MutableFValue;
+import com.sun.fortress.compiler.runtimeValues.RTTI;
 import fortress.AnyType.Any;
 
 public class Transaction {
@@ -71,6 +72,12 @@ public class Transaction {
         if (location instanceof Slot) ((Slot) location).setValue(v);
         else ((MutableFValue) location).setValue(v);
     }
+
+    /** What a read set holds for the read of an element that held nothing, since it holds no null. */
+    private static final Any EMPTY = new Any() {
+        public RTTI getRTTI() { return null; }
+        public String toString() { return "an empty element"; }
+    };
 
     private Transaction parent;
     private static AtomicInteger global_lock = new AtomicInteger(0);
@@ -175,9 +182,10 @@ public class Transaction {
         this.transactionNumber = counter.getAndIncrement();
     }        
 
+    /** Abandons this transaction, whose read failed: the block that began it starts again. */
     private void TXAbort() {
         if (debug) debug("TXAbort");
-        throw new TransactionAbortException();
+        throw new TransactionAbortException(this);
     }
 
     public static Transaction TXBegin(Transaction parent) {
@@ -209,79 +217,70 @@ public class Transaction {
         return TXReadLocation(new Slot(array, index));
     }
 
+    /**
+     * A read of a location.  A read of this transaction's own write is no read of the committed state
+     * and records nothing.  Any other read is recorded with what it saw, an ancestor's write or the
+     * committed value, for the validation to compare; an element that held nothing is recorded as
+     * EMPTY.  The threads of one block share its sets, so the read and its record are one step under
+     * the read set's lock, which a validation holds while it iterates.  No thread waits for the global
+     * lock while it holds a set's lock, since a commit takes the sets' locks while it holds the global one.
+     */
     private Any TXReadLocation(Object v) {
-
-        Any val = committedValue(v);
-
-        while (snapshot.get() != global_lock.get()) {
-            snapshot.set(TXValidate());
-            val = committedValue(v);
+        Any own = writes.get(v);
+        if (own != null) {
+            if (debug) debug("TXRead: v = " + v + " own val = " + own);
+            return own;
         }
-        Any AncestrialValue = AncestrialWrite(v);
-        if (AncestrialValue != null) {
-            if (debug) debug("TXRead: v = " + v + " ancestrial val = " + AncestrialValue );
-            reads.put(v,AncestrialValue);
-            return AncestrialValue;
-        } else {
-            if (debug) debug("TXRead: v = " + v + " val = " + val);
-            if (val == null) return null;  // an element that holds nothing yet: the store refuses the read
-            reads.put(v, val);
-            return val;
+        while (true) {
+            if (snapshot.get() != global_lock.get())
+                snapshot.set(TXValidate());
+            synchronized (reads) {
+                Any val = (parent == null) ? null : parent.AncestrialWrite(v);
+                if (val == null)
+                    val = committedValue(v);
+                if (snapshot.get() != global_lock.get())
+                    continue;           // a commit began meanwhile: validate, and read again
+                if (debug) debug("TXRead: v = " + v + " val = " + val);
+                reads.put(v, val == null ? EMPTY : val);
+                return val;             // null for an element that holds nothing yet: the store refuses the read
+            }
         }
     }
 
-    public int TXValidateHelper() {
-        if (this == topLevelTransaction) 
-            return TXValidateHelperTopLevelTransaction();
-        else return TXValidateHelperNestedTransaction();
-    }
-     
-    public int TXValidateHelperTopLevelTransaction() {
-        int time = waitForGlobalLock();
-        if (debug) debug("TXValidateTopLevel: time = " + time);
-
-        for (Map.Entry<Object,Any> entry : reads.entrySet()) {
-            Object key = entry.getKey();
-            Any val = entry.getValue();
-            if (debug) debug("TXValidate: key = " + key + " val = " + val);
-            if (committedValue(key) != val)
-                TXAbort();
-        }
-
-        if (time == waitForGlobalLock())
-            return time;
-        else return TXValidateHelper();
-
-    }
-
-    public int TXValidateHelperNestedTransaction() {
-        int time = waitForGlobalLock();
-        if (debug) debug("TXValidateNested: time = " + time);
-        for (Map.Entry<Object,Any> entry : reads.entrySet()) {
-            Object key = entry.getKey();
-            Any val = entry.getValue();
-            Any ancestrialWrite = parent.AncestrialWrite(key);
-            if (debug) debug("TXValidateNested: key = " + key + " val = " + val + " ancestrialWrite = " + ancestrialWrite);
-            if (ancestrialWrite == null) {
-                if (committedValue(key) != val)
-                    TXAbort();
-            } else {
-                if (ancestrialWrite != val)
+    /**
+     * Compares each read of this transaction with what the location holds now for it: the write of
+     * the nearest ancestor that wrote it, else the committed value.  A read that differs abandons
+     * this transaction.
+     */
+    private void validateReads() {
+        synchronized (reads) {
+            for (Map.Entry<Object,Any> entry : reads.entrySet()) {
+                Object key = entry.getKey();
+                Any val = entry.getValue();
+                Any now = (parent == null) ? null : parent.AncestrialWrite(key);
+                if (now == null)
+                    now = committedValue(key);
+                if (debug) debug("TXValidate: key = " + key + " val = " + val + " now = " + now);
+                if (now != (val == EMPTY ? null : val))
                     TXAbort();
             }
         }
-
-        if (time == waitForGlobalLock())
-            return time;
-        else return TXValidateHelper();
-
     }
 
+    /**
+     * Validates this transaction and each of its ancestors at one time of the global lock, and answers
+     * that time.  A nested transaction runs on its ancestors' reads too, so a stale read of an ancestor
+     * abandons that ancestor: the abort names it, and passes through the nested blocks' handlers.
+     */
     public int TXValidate() {
-        int time = TXValidateHelper();
-        if ((time & 1) != 0)
-            throw new RuntimeException(Thread.currentThread().getName() + " TXValidate should always be even");
-        return time;
+        while (true) {
+            int time = waitForGlobalLock();
+            if (debug) debug("TXValidate: time = " + time);
+            for (Transaction t = this; t != null; t = t.parent)
+                t.validateReads();
+            if (time == global_lock.get())
+                return time;
+        }
     }
 
     public void TXWrite(MutableFValue v, Any f) {
@@ -296,55 +295,79 @@ public class Transaction {
         writes.put(v, f);
     }
     
+    /**
+     * Commits.  A top-level transaction stores its writes; one that wrote nothing has nothing to do.
+     * A nested transaction hands its parent its reads, also where it wrote nothing, and its writes.
+     */
     public void TXCommit() {
         if (debug) debug("TXCommit: reads = " + reads + " writers = " + writes);
-        if (writes.isEmpty())
+        if (parent == null && writes.isEmpty())
             return;
+        handOver(true);
+    }
 
+    /**
+     * Ends a transaction whose block an exception leaves.  Its writes are dropped with it.  The exception
+     * was thrown on what a nested transaction read, so the parent takes those reads and answers for them
+     * at its own commit; where they no longer hold, this aborts, and the block starts again.
+     */
+    void TXLeave() {
+        if (debug) debug("TXLeave: reads = " + reads + " writers = " + writes);
+        if (parent != null)
+            handOver(false);
+    }
+
+    /** Under the global lock, taken at a time at which every read holds: the reads, and the writes if asked, go to the parent, or the writes to their locations. */
+    private void handOver(boolean withWrites) {
         int time = snapshot.get();
-            
+
         while (! getGlobalLock(time)) {
             time = TXValidate();
             if (debug) debug("TXCommitFail: time " + time);
             snapshot.set(time);
         }
-            
-        if (this == topLevelTransaction) {
-       
-            for (Map.Entry<Object,Any> entry : writes.entrySet()) {
-                Object key = entry.getKey();
-                Any val = entry.getValue();
-                if (debug) debug("TXCommitting:  time = " + time + " key = " + key + " val = " + val);
-                commitValue(key, val);
-            }
-       
-        } else {
 
-            for (Map.Entry<Object,Any> entry : reads.entrySet()) {
-                Object key = entry.getKey();
-                Any val = entry.getValue();
-                Any ancestrialValue = parent.AncestrialWrite(key);
+        try {
+            if (parent == null) {
+                synchronized (writes) {
+                    for (Map.Entry<Object,Any> entry : writes.entrySet()) {
+                        Object key = entry.getKey();
+                        Any val = entry.getValue();
+                        if (debug) debug("TXCommitting:  time = " + time + " key = " + key + " val = " + val);
+                        commitValue(key, val);
+                    }
+                }
+            } else {
+                synchronized (reads) {
+                    for (Map.Entry<Object,Any> entry : reads.entrySet()) {
+                        Object key = entry.getKey();
+                        Any val = entry.getValue();
 
-                // This is subtle.  If the child read a value written by a grandparent, then it has to go in the 
-                // the parent's read set, because otherwise a cousin transaction could update the value written
-                // in the grandparent and the parent transaction wouldn't know to abort.
-                if (parent.writes.get(key) == null) {
-                    parent.reads.put(key, val);
-                    if (debug) debug("TXCommitting: read to parent without ancestrial write: snapshot = " + snapshot + " time = " + time + " key = " + key + " val = " + val);
+                        // This is subtle.  If the child read a value written by a grandparent, then it has to go in the
+                        // the parent's read set, because otherwise a cousin transaction could update the value written
+                        // in the grandparent and the parent transaction wouldn't know to abort.
+                        if (parent.writes.get(key) == null) {
+                            parent.reads.put(key, val);
+                            if (debug) debug("TXCommitting: read to parent without ancestrial write: snapshot = " + snapshot + " time = " + time + " key = " + key + " val = " + val);
+                        }
+                    }
+                }
+
+                if (withWrites) {
+                    synchronized (writes) {
+                        for (Map.Entry<Object,Any> entry : writes.entrySet()) {
+                            Object key = entry.getKey();
+                            Any val = entry.getValue();
+                            parent.writes.put(key, val);
+                            if (debug) debug("TXCommitting: write to parent: snapshot = " + snapshot.get() + " time = " + time + " key = " + key + " val = " + val);
+                        }
+                    }
                 }
             }
-
-
-            for (Map.Entry<Object,Any> entry : writes.entrySet()) {
-                Object key = entry.getKey();
-                Any val = entry.getValue();
-                parent.writes.put(key, val);
-                if (debug) debug("TXCommitting: write to parent: snapshot = " + snapshot.get() + " time = " + time + " key = " + key + " val = " + val);
-            }
+        } finally {
+            if (! releaseGlobalLock(time+1))
+                throw new RuntimeException("Who messed with a committing transaction?");
         }
-
-        if (! releaseGlobalLock(time+1))
-            throw new RuntimeException("Who messed with a committing transaction?");
     }
 
 }

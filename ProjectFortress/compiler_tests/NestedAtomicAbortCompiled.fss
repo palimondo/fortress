@@ -1,12 +1,11 @@
 (* On the compiled path, abort in an atomic block nested in another abandons and reruns only the inner block, so the outer block's write is made once. *)
-component XXXNestedAtomicAbortCompiled
+component NestedAtomicAbortCompiled
 export Executable
 
 abortC(): () = builtinPrimitive("com.sun.fortress.nativeHelpers.runtime.abort")
 nano(): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longNanoTime")
 
 run(): () = do
-  println("REACHED")
   var o: ZZ32 := 0
   var i: ZZ32 := 0
   deadline: ZZ64 = nano() + 50000000

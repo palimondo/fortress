@@ -1,0 +1,49 @@
+(* An exception thrown out of an atomic block discards the block's writes: a top-level variable, a local and a variable that holds an object revert; a throw out of a nested block, caught in the outer block, keeps the outer block's writes. atomic.tex, section "Atomic Expressions". *)
+component AtomicThrowRevertsCompiled
+export Executable
+
+object Boom extends UncheckedException end
+
+object Box(n: ZZ32) end
+
+g: ZZ32 := 100
+b: Box := Box(1)
+h: ZZ32 := 0
+k: ZZ32 := 0
+
+run(): () = do
+  var l: ZZ32 = 5
+  var caught: ZZ32 = 0
+  try
+    atomic do
+      g := 7
+      l := 6
+      b := Box(2)
+      throw Boom
+    end
+  catch e
+    Boom => caught := caught + 1
+  end
+  atomic do
+    h := 1
+    try
+      atomic do
+        h := 2
+        k := 3
+        throw Boom
+      end
+    catch e
+      Boom => caught := caught + 1
+    end
+    k := k + 10
+  end
+  (* A block after the exceptions runs as a transaction of its own. *)
+  atomic do g := g + 1 end
+  if g = 101 AND l = 5 AND b.n = 1 AND h = 1 AND k = 10 AND caught = 2 then
+    println("PASS")
+  else
+    println("FAIL: g = " g ", l = " l ", b.n = " b.n ", h = " h ", k = " k ", caught = " caught)
+  end
+end
+
+end

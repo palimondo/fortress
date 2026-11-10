@@ -1,0 +1,20 @@
+(* An atomic block nested in another in one body, from the iterations of a parallel for: every increment is kept. atomic.tex, section "Atomic Expressions". *)
+component AtomicNestedSameBodyCompiled
+export Executable
+
+d: ZZ32 := 0
+
+run(): () = do
+  for i <- 1#400 do
+    atomic do
+      atomic do d := d + 1 end
+    end
+  end
+  if d = 400 then
+    println("PASS")
+  else
+    println("FAIL: d = " d " of 400")
+  end
+end
+
+end

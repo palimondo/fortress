@@ -1,0 +1,163 @@
+(* The implicit threads of one atomic block, the iterations of a for inside it, each read one of 64 variables while another task commits: the block ends without an exception. atomic.tex, section "Atomic Expressions". *)
+component AtomicSharedReadsCompiled
+export Executable
+
+v0: ZZ32 := 0
+v1: ZZ32 := 1
+v2: ZZ32 := 2
+v3: ZZ32 := 3
+v4: ZZ32 := 4
+v5: ZZ32 := 5
+v6: ZZ32 := 6
+v7: ZZ32 := 7
+v8: ZZ32 := 8
+v9: ZZ32 := 9
+v10: ZZ32 := 10
+v11: ZZ32 := 11
+v12: ZZ32 := 12
+v13: ZZ32 := 13
+v14: ZZ32 := 14
+v15: ZZ32 := 15
+v16: ZZ32 := 16
+v17: ZZ32 := 17
+v18: ZZ32 := 18
+v19: ZZ32 := 19
+v20: ZZ32 := 20
+v21: ZZ32 := 21
+v22: ZZ32 := 22
+v23: ZZ32 := 23
+v24: ZZ32 := 24
+v25: ZZ32 := 25
+v26: ZZ32 := 26
+v27: ZZ32 := 27
+v28: ZZ32 := 28
+v29: ZZ32 := 29
+v30: ZZ32 := 30
+v31: ZZ32 := 31
+v32: ZZ32 := 32
+v33: ZZ32 := 33
+v34: ZZ32 := 34
+v35: ZZ32 := 35
+v36: ZZ32 := 36
+v37: ZZ32 := 37
+v38: ZZ32 := 38
+v39: ZZ32 := 39
+v40: ZZ32 := 40
+v41: ZZ32 := 41
+v42: ZZ32 := 42
+v43: ZZ32 := 43
+v44: ZZ32 := 44
+v45: ZZ32 := 45
+v46: ZZ32 := 46
+v47: ZZ32 := 47
+v48: ZZ32 := 48
+v49: ZZ32 := 49
+v50: ZZ32 := 50
+v51: ZZ32 := 51
+v52: ZZ32 := 52
+v53: ZZ32 := 53
+v54: ZZ32 := 54
+v55: ZZ32 := 55
+v56: ZZ32 := 56
+v57: ZZ32 := 57
+v58: ZZ32 := 58
+v59: ZZ32 := 59
+v60: ZZ32 := 60
+v61: ZZ32 := 61
+v62: ZZ32 := 62
+v63: ZZ32 := 63
+w: ZZ32 := 0
+blocks: ZZ32 := 0
+
+pick(i: ZZ32): ZZ32 =
+  if i = 0 then v0
+  elif i = 1 then v1
+  elif i = 2 then v2
+  elif i = 3 then v3
+  elif i = 4 then v4
+  elif i = 5 then v5
+  elif i = 6 then v6
+  elif i = 7 then v7
+  elif i = 8 then v8
+  elif i = 9 then v9
+  elif i = 10 then v10
+  elif i = 11 then v11
+  elif i = 12 then v12
+  elif i = 13 then v13
+  elif i = 14 then v14
+  elif i = 15 then v15
+  elif i = 16 then v16
+  elif i = 17 then v17
+  elif i = 18 then v18
+  elif i = 19 then v19
+  elif i = 20 then v20
+  elif i = 21 then v21
+  elif i = 22 then v22
+  elif i = 23 then v23
+  elif i = 24 then v24
+  elif i = 25 then v25
+  elif i = 26 then v26
+  elif i = 27 then v27
+  elif i = 28 then v28
+  elif i = 29 then v29
+  elif i = 30 then v30
+  elif i = 31 then v31
+  elif i = 32 then v32
+  elif i = 33 then v33
+  elif i = 34 then v34
+  elif i = 35 then v35
+  elif i = 36 then v36
+  elif i = 37 then v37
+  elif i = 38 then v38
+  elif i = 39 then v39
+  elif i = 40 then v40
+  elif i = 41 then v41
+  elif i = 42 then v42
+  elif i = 43 then v43
+  elif i = 44 then v44
+  elif i = 45 then v45
+  elif i = 46 then v46
+  elif i = 47 then v47
+  elif i = 48 then v48
+  elif i = 49 then v49
+  elif i = 50 then v50
+  elif i = 51 then v51
+  elif i = 52 then v52
+  elif i = 53 then v53
+  elif i = 54 then v54
+  elif i = 55 then v55
+  elif i = 56 then v56
+  elif i = 57 then v57
+  elif i = 58 then v58
+  elif i = 59 then v59
+  elif i = 60 then v60
+  elif i = 61 then v61
+  elif i = 62 then v62
+  else v63 end
+
+run(): () = do
+  do
+    for k <- seq(1#3000) do
+      atomic do
+        for i <- 0#64 do
+          r: ZZ32 = pick(i)
+          if r =/= i then
+            println("FAIL: variable " i " read as " r)
+          end
+        end
+        blocks := blocks + 1
+      end
+    end
+  also do
+    for j <- seq(1#30000) do
+      atomic do w := w + 1 end
+    end
+  end
+  if blocks = 3000 AND w = 30000 then
+    println("PASS")
+  else
+    println("FAIL: blocks = " blocks ", w = " w)
+  end
+end
+
+end

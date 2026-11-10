@@ -200,17 +200,6 @@ public abstract class BaseTask extends FortressExecutable {
         ftr.recordEndTransaction();
     }
     
-    public static void cleanupTransaction() {
-        FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
-        BaseTask currentTask = ftr.getTask();
-        Transaction transaction = ftr.getTask().transaction();
-        if (debug) debug("Cleanup transaction ftr = " + ftr + " current action = " + currentTask + " trans = " + transaction);
-        if (transaction != null)
-            currentTask.setTransaction(transaction.getParent());
-        else
-            currentTask.setTransaction(null);
-    }
-
     public static void delayTransaction() {
         FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
         long startTime = System.nanoTime();
@@ -270,5 +259,43 @@ public abstract class BaseTask extends FortressExecutable {
     public void printStatistics() {
         FortressTaskRunnerGroup ftrg = (FortressTaskRunnerGroup) getPool();
         ftrg.printStatistics();
+    }
+
+    /**
+     * The handler of a compiled atomic block, with whatever its body or its commit threw.  It ends
+     * the block's transaction, whose writes go with it.  It returns for an abort of that transaction,
+     * and the block starts again: an abort that names it, the abort() of a program, which names none
+     * and is taken by the innermost block, or any abort that reaches the outermost block.  It throws
+     * on an abort that names an ancestor, whose block starts again, and any other exception, which
+     * leaves the block; a nested transaction first hands the reads on which that exception was thrown
+     * to its parent (Transaction.TXLeave).
+     */
+    public static void leaveTransaction(Throwable t) {
+        FortressTaskRunner ftr = (FortressTaskRunner) Thread.currentThread();
+        BaseTask currentTask = ftr.getTask();
+        Transaction transaction = currentTask.transaction();
+        if (debug) debug("Leave transaction ftr = " + ftr + " current action = " + currentTask + " trans = " + transaction + " on " + t);
+        if (transaction == null)
+            BaseTask.<RuntimeException>throwOn(t);
+        currentTask.setTransaction(transaction.getParent());
+        if (!(t instanceof TransactionAbortException)) {
+            try {
+                transaction.TXLeave();
+            } catch (TransactionAbortException stale) {
+                t = stale;
+            }
+        }
+        if (t instanceof TransactionAbortException) {
+            Transaction named = ((TransactionAbortException) t).transaction();
+            if (named == null || named == transaction || transaction.getParent() == null)
+                return;
+        }
+        BaseTask.<RuntimeException>throwOn(t);
+    }
+
+    /** Throws t as it is, checked or not, as generated code throws. */
+    @SuppressWarnings("unchecked")
+    private static <T extends Throwable> void throwOn(Throwable t) throws T {
+        throw (T) t;
     }
 }
