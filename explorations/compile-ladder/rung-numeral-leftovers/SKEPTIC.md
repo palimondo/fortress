@@ -29,7 +29,7 @@ My programs are under `tmp/rung-numeral-leftovers/skeptic/`; `wk.sh P` runs `P.f
 - `SkC1` (integer numerals as operands and arguments at `RR64`: `x + 1`, `1 + x`, `2 x`, `x^2`, `x / 2`, `x < 2`, `-1 + x`, `f(3)` and `f(3000000000)` for `f` at `ZZ32` and `RR64`, `g(7)`, `g(FF_16)`): the old compile refuses ('Could not check call to operator +'); the new compiled run and walk print the same eleven lines, '2.5', '2.5', '3.0', '2.25', '0.75', 'lt', '0.5', 'f ZZ32', 'f RR64', 'g 7.0', 'g 255.0'.
 - The start of a compiled program, `fortress run SkTop` at four threads, five runs twice: new 313, 281, 262, 310, 273 and 258, 292, 301, 253, 249 ms; old 224, 214, 217, 263, 242 and 221, 254, 240, 246, 231 ms. The start costs about 40 ms more: the class loader reads the constant pools of each component's jar. The report does not say so.
 
-The diff shows no mutable variable, field or `atomic` block of a program; the run time's edit is at the class loader's first load, so `SkMain`, `SkPlMain` and `SkTop` ran at four threads, `SkTop` and the others at one thread through `cp.sh` as well, with the same output.
+The diff shows no mutable variable, field or `atomic` block of a program; the run time's edit is at the class loader's first load, so `SkMain` ran at four threads, and `SkPlMain` and `SkTop` at four threads and at one (`cp.sh SkTop 1`), with the same output at each.
 
 ## Findings and fixes
 
