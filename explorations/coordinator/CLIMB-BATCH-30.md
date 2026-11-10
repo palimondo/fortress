@@ -545,8 +545,8 @@ Leave the clauses of rows 960, 963, 957, 973 and 966.
 - **Run 1.** N shares no file with P or X. P and X share two files, by declaration:
   - `compiler/codegen/CodeGen.java`: P has `genParallelExprs` (`:1645-1721`), `generateTaskCompute` (`:5181-5205`) and `evalArg` (`:7064-7131`); X has `forAtomicBlockHelper` and `forAtomicBlock` (`:1768-1812`) and `forTry` (`:2101-2169`). P puts a new member directly above `genParallelExprs`; X puts one directly below `forAtomicBlock`.
   - `runtimeSystem/BaseTask.java`: P has the task half, through `joinOrRun` (`:113-178`), and puts a new member directly above `unsafeWorthSpawning` (`:113`), leaving `joinOrRun`'s last lines as they are; X has the transaction half, from `startTransaction` (`:180`) down, and puts a new member at the end of the class.
-  - The gather applies N, then X, then P.
-- **Run 2.** Y and C share `CodeGen.java` only, in declarations more than two thousand lines apart. The gather applies C, then Y.
+  - The gather applies N, then P, then X: of two rungs that share a file, the one whose lowest edited line is lower goes first (`climb-batch-workflow.md`, "Gather", "The order"), and P's is lower in both files.
+- **Run 2.** Y and C share `CodeGen.java` only, in declarations more than two thousand lines apart. The gather applies Y, then C, by the same rule: Y's lowest edited line is the lower.
 - **They meet on the merged tree:** the suites, the atomic runs with the new programs, the ladder and the two stages; the gather's 52 demos; the commit stage's microGPT quick checks, which read P's grain under walk.
 
 ## 5. The candidates, the probes, and what waits
@@ -611,14 +611,14 @@ The batch runs on the workflow of climb batches 22 to 29b: `coordinator/climb-ba
 - P, parallel arms and arguments on the compiled path: every forked arm joined before a group completes abruptly, a task arm's locals, a call's arguments forked where the analyzer judges them worth a task, and the one library's parallel range stopped at a grain size;
 - X, the compiled transaction: a block's own writes, the sets its threads share, a nested block's view, two initializations of one element, the handlers of nested blocks and of nested try, an exception out of a block.
 
-Each rung has tests that fail on the base and pass after. P and X share CodeGen.java and BaseTask.java by declaration: each keeps to its own, as its section says. P runs the count stage and the distance stage once on its final tree; N and X run neither. Whether a number is = a numeral is not this run's. microGPT changes no line, and its quick checks under walk stay 7 of 7. The gather applies N, X, then P, builds the specification once for N's text, and runs the 52 team demos on the merged tree. The gate's atomic runs hold eight new programs.
+Each rung has tests that fail on the base and pass after. P and X share CodeGen.java and BaseTask.java by declaration: each keeps to its own, as its section says. P runs the count stage and the distance stage once on its final tree; N and X run neither. Whether a number is = a numeral is not this run's. microGPT changes no line, and its quick checks under walk stay 7 of 7. The gather applies N, P, then X, builds the specification once for N's text, and runs the 52 team demos on the merged tree. The gate's atomic runs hold eight new programs.
 
 **Run 2.** This run is climb batch 30b, the second of the two runs of the record CLIMB-BATCH-30.md, after climb batch 30, which landed rungs N, P and X. Its rungs:
 
 - Y, atomic in its other forms, on the first run's transaction and handler: tryatomic on both paths, atomic as an expression, an atomic block on a stack that is not empty, a mutable field inside a transaction;
 - C, the numerals' leftovers in the parser, the checker and the code generator: a radix-point numeral's leading zeros, a numeral as a typecase's selector, a numeral at a place whose type names a type parameter.
 
-Y and C share CodeGen.java in declarations far apart. C runs the count stage and the distance stage once on its final tree, with the checker's timing; Y runs neither. microGPT changes no line. The gather applies C, then Y, and builds the specification once for C's text. The gate's atomic runs hold three more programs.
+Y and C share CodeGen.java in declarations far apart. C runs the count stage and the distance stage once on its final tree, with the checker's timing; Y runs neither. microGPT changes no line. The gather applies Y, then C, and builds the specification once for C's text. The gate's atomic runs hold three more programs.
 
 ### Before the launch
 

@@ -19,7 +19,7 @@
 - **One repair does not work as planned: row 971.** The record plans to initialize a program's class on a thread of the task pool. A prototype of that hangs in 12 of 12 runs at four threads. A task that the initializer forks is taken by another thread, which then waits for the class to finish initializing, while the initializer waits for the task. On a pool of one thread it passes 12 of 12. The same hang exists today, without any change, for a numeral in an imported component: 5 of 6 runs. This needs the coordinator's choice of a way before rung N is launched. It changes no decision of yours.
 - **The grain size.** The coordinator took it at the planner's default: built now, as one named constant, 16, to be measured after the switch-over. The record did not say so; it does now. I judge that fork consequential by the skill's rule, and it can be undone, so it may land and be named to you.
 
-**What was changed in the record:** the sentence on your placement of 2026-11-08, the statements that fork G waits for your answer, and one reason line of rung N's briefing. No design was changed.
+**What was changed in the record:** the sentence on your placement of 2026-11-08, the statements that fork G waits for your answer, one reason line of rung N's briefing, and the order in which the gather applies the rungs. No design was changed.
 
 ## 2. Changes of the record that I made
 
@@ -44,6 +44,12 @@ Each is in `CLIMB-BATCH-30.md` in place.
 - **Was:** "P-173 (check): where a numeral converts, the refusal of one that rounds to an infinity, the default."
 - **The source:** P-173 says "a numeral outside the type's range is refused statically"; row 967's own note says "P-173 does not say whether `Infinity` is its one rounding". The rule is the specification's: "or rounds to an infinity there" (`Specification/basic/expressions/literals.tex:210`), which the compiled checker applies.
 - **Now:** "where a numeral converts, the refusal of one outside its type's range, the default; the specification names the one that rounds to an infinity."
+
+### 2.4 The gather's order
+
+- **Was:** "The gather applies N, then X, then P" (section 4, "The rule the rungs keep", and the intro of run 1), and "The gather applies C, then Y" (the same two places for run 2).
+- **The source:** the manual's "Gather", "The order", which the gather's role text repeats (`climb-batch-workflow.js`, the gather's role): "the rungs that share a file go in the ascending order of their lowest edited line in that file ... rungs that share no file keep the manifest's order". P's lowest edited line is lower than X's in both shared files (`CodeGen.java:1645` against `:1768`, `BaseTask.java:113` against `:180`), and Y's is lower than C's in `CodeGen.java` (the block's code and the fields at `:4788` against `:6482`).
+- **Now:** N, then P, then X; and Y, then C. The gather works the order out from the diffs itself, so the old sentences would have told it one order in the intro and another in its role. Found while writing the generator, after this review's first commit.
 
 ## 3. Points for the coordinator to decide
 
@@ -153,7 +159,7 @@ No pair of rungs changes one behaviour two ways. Two behaviours are built by one
 
 - **`BaseTask.java:1-112`** (the fields and the two constructors, which copy the parent's transaction, `:86`) are named by neither half of "The rule the rungs keep" ("through `joinOrRun` (`:113-178`)", "from `startTransaction` (`:180`) down"). P's Files line gives them to P ("above `startTransaction`"), and X's points to report agree. X's fork X2 keeps the shared sets, so X should not need them.
 - **P's Files line ends "and their callers".** The callers of `genParallelExprs`, `evalArg` and `generateTaskCompute` are at `CodeGen.java:2028`, `:5257`, `:5295`, `:6724`, `:6897`, `:6914` and `:7496`, none inside X's declarations.
-- **The script and the manual say "42 lines"** for the atomic runs (`climb-batch-workflow.js:1111`, `climb-batch-workflow.md:233`): 66 with twenty-two programs. Changed with the list in task 2.
+- **The script and the manual say "42 lines"** for the atomic runs (`climb-batch-workflow.js`, the gate's role, step 6; `climb-batch-workflow.md`, "Gate", step 6): 66 with twenty-two programs. With the eight new names in the script's list, the script now counts the lines from its two lists, and the manual says so.
 - **Run 2, for its re-read before its launch:**
   - Fork Y2 keeps every `var` field in a cell. Neither microGPT program declares one, but the one library's objects do, and compiled microGPT runs them after the switch-over. Before run 2, list the one library's `var` fields on the model's path; if any is hot, Y2 touches microGPT's speed and is consequential.
   - Fork Y1 changes a team test against the review's "Can wait". The specification is the ground and the team's own comment doubts the old behaviour, so I judge it not consequential; it is the first for the review list.
