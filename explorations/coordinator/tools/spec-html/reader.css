@@ -42,10 +42,10 @@ dt { font-weight: 700; margin-top: .5em; }
 dd { margin: .1em 0 0 1.2em; }
 a { color: var(--accent); }
 a:focus-visible, button:focus-visible, summary:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-/* Code inside a sentence is set as the PDF sets it: the typewriter font alone, with no box, so that the
-   quotation marks around it sit close. Ligatures are off wherever code is shown: the specification's point is
+/* Code inside a sentence keeps its highlight, with almost no padding at its sides, so that the
+   quotation marks around it sit close, as in the PDF. Ligatures are off wherever code is shown: the specification's point is
    often the ASCII characters themselves, and a ligature would hide them. */
-code { font-family: var(--mono); font-size: .9em; overflow-wrap: anywhere; }
+code { font-family: var(--mono); font-size: .9em; background: var(--code-bg); padding: .08em .1em; border-radius: 3px; overflow-wrap: anywhere; }
 code, pre, .tt, .m .kw, .m .op, .m .str, .fx-r { font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0, "calt" 0, "dlig" 0; }
 code.ul { text-decoration: underline; }
 strong { font-weight: 700; }
