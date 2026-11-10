@@ -10145,3 +10145,93 @@ rewritten
 rewritten
 
 | 983 | on the compiled path a task captures every variable in scope that is named as a static parameter in the type of a function its expression calls: `n`, `r` and `v` for every numeral, whose coercion is `coerce[\nat n, nat r, nat v\]`; the extra value is passed to the task and never read | NEGATIVE-BOUNDED | implementation gap (codegen) | silent | none | climb batch 30 rung P's skeptic | siblings: 497. `FreeVariables.forId` collects the name of each `StaticParam` and `IntRef` in a `FnRef`'s arrow type (`compiler/codegen/FreeVariables.java:98`), and `CodeGen.getFreeVars` keeps each that names a variable in scope (`compiler/codegen/CodeGen.java:5121`). An instrumented copy printed 'PROBE Id r', 'forStaticParam', 'forTypeInfo', 'forArrowType', 'forFnRef' for the `1` of `up(k + 1)`. Where the name was the variable a binding declares, `r: ZZ32 = add(up(k), up(k + 1))`, the task read its slot before it was set, 'VerifyError: Bad local variable type'; repaired in `forLocalVarDecl` (`compiler_tests/LocalBindingForkedNumeralCompiled`). What remains costs a constructor argument. |
+
+### Row 971
+
+closed by f36a65124
+
+| 971 | on the compiled path a numeral coercion whose body spawns a task fails its component class's load, `ClassCastException: Thread cannot be cast to FortressTaskRunner`: an operator or an argument list over two calls of the program's own functions spawns, as `small(n) - small(m)` does | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/expressions/literals.tex`, "Literals" | `ProjectFortress/compiler_tests/XXXNumeralCoercionSpawnCompiled.test` | the static numerals probe | siblings: 313, 957. The parallelism analyzer spawns an operator over two calls of the program's own functions, and an argument list holding two (`compiler/codegen/ParallelismAnalyzer.java:44`, `:158-212`); each numeral coercion's method keeps them. `MainWrapper.main` loads the component class before it starts the task pool (`runtimeSystem/MainWrapper.java:61-64` at a2be3e9e1d), and `<clinit>` fills each place through that method (`CodeGen.java`, `emitNumeralSiteInitializers`). `w: ZZ32 = small(n) - small(m)` failed so at 1 and at 4 threads at a2be3e9e1d. By reading, P-174's `Interval(roundDown(v, r, m), roundUp(v, r, m))` meets it. Workaround: bind the operands to locals first. |
+
+### Row 979
+
+closed by f36a65124
+
+| 979 | on the compiled path a numeral's place in an imported component whose coercion's body spawns a task hangs the program at four threads: the importing program's `made().s`, for `made(): Cell = 3` in the imported component, never returns in 5 of 6 runs, and passes at one thread | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/expressions/literals.tex`, "Literals" | none | climb batch 30's check before the launch | siblings: 971, 313. An imported component's class initializes at its first use, on a worker of the program's pool; its `<clinit>` fills each place (`compiler/codegen/CodeGen.java:7271-7307`) and forks the task (`runtimeSystem/BaseTask.java:136-144`); a worker that steals it calls a function of that class and waits on its initialization, while the initializer joins the task (`:170`). `timeout 8 fortress run SpawnUse` at 9a0f69e01a: `REACHED`, exit 124; the dump: 'waiting on the Class initialization monitor for SpawnLib'. The three sources: `explorations/coordinator/climb-batch-30-review.md`, section 3.1. Row 971's workaround, binding the operands to locals first, was not run here. |
+
+### Row 958
+
+closed by f36a65124
+
+| 958 | under walk a float numeral to the left of an `RR32` operand runs `RR64`'s operator, not `RR32`'s, where the same numeral to the right runs `RR32`'s: for `a: RR32 = narrow(1.5)`, `2.5 + a` and `2.5 a` are `RR64`, `a + 2.5` and `a 2.5` are `RR32` | NEGATIVE-VERIFIED | implementation gap (walk) | `basic/conversions-coercions.tex`, "Coercion Resolution" | `ProjectFortress/tests/XXXNumeralLeftOfRR32Walk.fss` | climb batch 29 rung N | Both declarations apply by one coercion, the numeral into `RR32` or the `RR32` into `RR64`, and `RR32`'s is the more specific. Walk's candidate for `RR64`'s `+` has the self type `RR64 & Float`, the method's instance for the numeral's default, and walk's coercion-based specificity (`Coercions.noLessSpecific`) finds no coercion into an intersection, so the two tie and the tie reads the numerals at their defaults (`OverloadedFunction.bestMatchForNumerals`). Probe: 'TIE Ambiguous coercion, args = (2.5:RR64,1.5:RR32)'. An integer numeral on either side runs `RR32`'s. |
+
+### Row 967
+
+closed by f36a65124
+
+| 967 | under walk a numeral that rounds to an infinity at a typed place of `RR32` or `RR64` converts to `Infinity` with no error: `wide: RR32 = 340282356779733661637539395458142568448` prints `Infinity`, where the specification makes it a static error | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/tests/XXXNumeralRoundsToInfinityWalk.fss` | climb batch 29 gather | siblings: 325. Walk converts through the place type's coercion from the numeral type, which rounds by IEEE's rule in `simpleDoubleArith.numeralToFloat` and `numeralToDouble` (`ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleDoubleArith.java:268-290`); its range check covers the bounded integer types only (`interpreter/evaluator/values/Numerals.java`, `inRange`). The compiled checker refuses it, 'The numeral ... rounds to infinity in RR32.' (`scala_src/typechecker/CoercionOracle.scala:476-483`). P-173 does not say whether `Infinity` is its one rounding. Walk refuses an integer numeral outside an integer type's range when the place is evaluated. Workaround: write a finite value. |
+
+### Row 974
+
+closed by f36a65124
+
+| 974 | under walk a numeral type written as a type that an object or a trait extends, or as a static argument, loads and runs: `object O extends NaturalNumeral[\1, 10, 3\]` and `Wrap[\NaturalNumeral[\1, 10, 3\]\](3)` run, where the text makes each a static error (P-174) | NEGATIVE-VERIFIED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/tests/XXXNumeralTypeWrittenWalk.fss` | climb batch 29b's gather | siblings: 893, 973. Walk has no static types (P-12): it refuses a numeral type only where a numeral meets it when a place runs, as a variable, a field or a declared return type of a numeral type ('Type mismatch binding 3', `tests/NumeralTypeNoValueWalk.fss`). The compiled checker refuses both forms, 'NaturalNumeral cannot be written in a program except as a parameter's type.' (`compiler_tests/LiteralTypeUnwritable.fss`, `NumeralTypeExtendedRefused.fss`). Measured on climb batch 29b's merged tree. |
+
+### Row 947
+
+closed by 76b21f498
+
+| 947 | on the compiled path a `do … also` group whose first arm completes abruptly does not wait for its other arms: they run on after the group has completed, so code after a `catch` around the group sees an arm's write arrive later | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/evaluation/parallelism.tex`, "Threads and Parallelism" | none | parallelism review | siblings: 322, 497. `CodeGen.genParallelExprs` forks arms 1 to n-1, runs arm 0 in place, then joins left to right on the normal path only (`compiler/codegen/CodeGen.java:1662-1712`, at f5aa647de), so a throw in arm 0, or a join that rethrows, skips the later joins. Probe: `do boomArm() also do slowArm() end` in a `try`, `slowArm` setting `flag := 1` after 0.2 s: 'after the catch: flag 0, a second later: flag 1', 3 of 3 runs at four threads, at 157323e5 and f5aa647de. Walk joins every arm (`interpreter/evaluator/Evaluator.java:275`): flag 1, then 1. An aborted atomic block leaves its forked arms running the same way. P-175's forked call arguments need every arm joined. |
+
+### Row 951
+
+closed by 76b21f498
+
+| 951 | on the compiled path a call's arguments are evaluated in order, never forked, so a reduction runs its bodies one at a time: the prelude's `gen` passes its two halves as one call's arguments; 64 slow `SUM` bodies run at most 1 at once where a parallel `for` runs 4 | NEGATIVE-BOUNDED | implementation gap (codegen) | `basic/evaluation/parallelism.tex`, "Threads and Parallelism" | none | parallelism review | `CodeGen.evalArg` evaluates a tuple argument's elements in order, under the team's comment 'Why isn't this parallel???' (`compiler/codegen/CodeGen.java:6935-6955`); `gen` differs from `seqgen` only there (`Library/CompilerLibrary.fss:381-414`), and the one library's ranges do the same (`Library/RangeInternals.fss:1320`), so after the switch-over every `SUM`, `DOT` and `BIG MAX` would too. P-175 asks them forked where `ParallelismAnalyzer` judges them worth a task; the specification allows either (`parallelism.tex:89-90`). 'SUM of 64 bodies: at most 1 at once; parallel for: at most 4 at once', 3 of 3 at 157323e5 and f5aa647de. Walk forks them (`interpreter/evaluator/Evaluator.java:342`). |
+
+### Row 497
+
+closed by 76b21f498
+
+| 497 | a local declared in a `do … also` arm takes local slot 0 of the task's `compute`, the slot of `this`, so a later read of a variable the arm captured fails verification: `VerifyError: Bad type on operand stack` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/also.tex`, "Parallel Do Expressions"; `Specification/basic/expressions/typecase.tex`, "Typecase Expressions"; `Specification/basic/expressions/try.tex`, "Try Expressions" | `ProjectFortress/compiler_tests/XXXTaskArmLocalSlot.test` | climb batch 6.5 rung G's skeptic | `CodeGen.generateTaskCompute` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5014`) never calls `mv.reserveSlot0()`, as `forFnExpr`'s `apply` does. Met by a local in an arm, by a local a nested `also` reads, and by a named `typecase` clause or a `catch` name in an arm (`XXXTryInArmRungG`, with row 322). Not met by a local function called from both arms, or calling itself from both with its locals declared before the block (`compiler_tests/LocalFunctionGenericContextCompiled`). Walk is right at 1 and 4 threads. Link test: `TaskArmLocalSlotLink.test`. full text: history, row 497 |
+
+### Row 933
+
+closed by 594da4129
+
+| 933 | on the compiled path, an `atomic` block that reads a variable that it wrote, then commits a nested `atomic` block and reads again, never ends: each attempt aborts at the second read and runs again | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/expressions/atomic.tex`, "Atomic Expressions" | none | climb batch 28 rung A | A read of the transaction's own write records that write in the read set (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:220-224`, at fe19fdad); the nested commit moves the global clock (`:306`, `:346`), so the next read validates against the committed value (`:247`) and aborts, and each retry repeats it; array elements share the path. The compiled run step has no timeout (`tests/unit_tests/FileTests.java:585`), so no gated test. `var x: ZZ32 = 0; var z: ZZ32 = 0` and `atomic do x := 2; y: ZZ32 = x; atomic do z := 1 end; w: ZZ32 = x end`, compiled, under `timeout 30`: exit 124 at 157323e5 and fe19fdad, one thread and four; without `y`, it ends. |
+
+### Row 934
+
+closed by 594da4129
+
+| 934 | on the compiled path an `atomic` block nested in another in one body hands its abort to the outer block's handler, which starts the outer block again inside its own old transaction, so that attempt's writes never commit: a parallel `for` of `atomic do atomic do d := d + 1 end end` loses updates | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/atomic.tex`, "Atomic Expressions" | none | climb batch 28 rung A | siblings: 888. `CodeGen.forAtomicBlock` writes its exception-table entry before it visits its body (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1746`, at fe19fdad): `javap` lists the outer entry first over the inner range; its `cleanupTransaction` pops only the inner transaction (`runtimeSystem/BaseTask.java:203-212`), so the restarted block and the task's later blocks nest under the old one (by reading). Over 1#400, 23 runs at four threads: d 299 to 370, or an uncaught `TransactionAbortException` (2 runs at 157323e5, 4 at fe19fdad); 400 at one thread, and under walk at one and four. Workaround: the inner block in a function of its own, 400 in 10 runs of each code. |
+
+### Row 937
+
+closed by 594da4129
+
+| 937 | on the compiled path `abort` in an `atomic` block nested in another reruns the outer block, whose first try's write stays: `o := o + 1` in the outer block, then an inner block that aborts before a deadline, gives `o` = 2 where walk gives 1, and a later read outside every block can end the run | NEGATIVE-VERIFIED | implementation gap (codegen) | `advanced/parallelism-locality/transactions.tex`, "Abortable Atomicity" | `ProjectFortress/compiler_tests/XXXNestedAtomicAbortCompiled.test` | climb batch 28 rung H's skeptic | siblings: 888, 324, 934. By reading: `CodeGen.forAtomicBlock` writes its exception-table entry before its body (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1746` at 157323e51), so the outer block's entry comes first over the inner block's range and takes its `TransactionAbortException`; `BaseTask.cleanupTransaction` pops one level (`runtimeSystem/BaseTask.java:203-212`), so the rerun nests under the outer block's live transaction. A conflict's abort in a nested transaction takes the same path. A probe with a later top-level block ended in `TransactionAbortException` from `TXRead` outside every block, at one thread and four. |
+
+### Row 888
+
+closed by 594da4129
+
+| 888 | on the compiled path a `try` nested in another `try` in one body is matched against the outer `try`'s `catch` clause first: an exception that both clauses take is caught by the outer one, and one that only the inner one takes leaves the body uncaught | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/expressions/try.tex`, "Try Expressions" | `ProjectFortress/compiler_tests/XXXNestedTryInnerCatch.test` | climb batch 25 rung C | `CodeGen.forTry` writes its exception-table entry before it visits its body (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:2033` at c124c6b65), so the inner `try`'s entry comes after the outer one's over the same range, and the JVM takes the first entry that covers the throw. A compiled probe of the test's two functions printed `outer`, then ended with 'FortressException: class NestedTryProbe$Boom'; walk prints `inner` twice (`tests/NestedTryInnerCatchWalk.fss`). Link test: `compiler_tests/NestedTryInnerCatchLink.test`. Workaround: the inner `try` in a function of its own. |
+
+### Row 324
+
+closed by 594da4129
+
+| 324 | a Fortress exception thrown out of an `atomic` block leaves the block's writes visible on the compiled path: `atomic do g := 7; throw Boom end`, caught and read, gives 7 compiled and 100 under walk, at one thread and at four | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/expressions/atomic.tex`, "Atomic Expressions" | none | ours | Also for a local and an object. By reading, not measured: `CodeGen.forAtomicBlock` handles only `TransactionAbortException` (`CodeGen.java:1779-1782`), so an `FException` leaves without `BaseTask.cleanupTransaction`, and `Transaction.TXRead` returns an ancestral write (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:195-200,219-224`, at fe19fdad), which a later read finds; a second implicit thread reads it too (a child task takes its parent's transaction, `ProjectFortress/src/com/sun/fortress/runtimeSystem/BaseTask.java:83-86`). An `exit` to an enclosing `label` keeps the writes (`atomic.tex`). Workaround: throw before the block. probes and full text: history, row 324 |
+
+### Row 949
+
+closed by 594da4129
+
+| 949 | on the compiled path the implicit threads of one `atomic` block share its read set, a `Hashtable` that validation iterates unlocked, so a parallel `for` inside a block dies with `ConcurrentModificationException` while another task commits | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/expressions/atomic.tex`, "Atomic Expressions" | none | parallelism review | `TXValidateHelperTopLevelTransaction` iterates `reads.entrySet()` (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:243`) while a sibling's `TXReadLocation` puts into it (`:223`, `:228`); a read validates once the global lock has moved (`:216`). A child task takes its parent's transaction (`runtimeSystem/BaseTask.java:86`), as atomic.tex asks. Probe: 3,000 blocks of `for i <- 0#64`, each iteration reading one of 64 top-level variables, beside a task looping `atomic do w := w + 1 end`: 'ConcurrentModificationException ... Transaction.TXValidateHelperTopLevelTransaction(Transaction.java:243)', 3 of 3 runs at four threads, at 157323e5 and f5aa647de. |
+
+### Row 950
+
+closed by 594da4129
+
+| 950 | on the compiled path a nested `atomic` block validates only its own reads, so it can see a state that no commit made: the outer block reads `x`, its nested block reads `y`, other blocks change `x` and `y` together, and the nested block sees them differ | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/expressions/atomic.tex`, "Atomic Expressions" | none | parallelism review | `TXValidateHelperNestedTransaction` checks the nested transaction's reads against its ancestors' writes and the committed values, never the ancestors' reads (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:257-278`), and the read then takes a fresh snapshot (`:216-217`); the outer block aborts only at its own next validation, so the nested block computes, prints or throws on the mixed state meanwhile (a throw leaves by row 324's path). Probe of 3,000 outer blocks: 'INCONSISTENT x 15396 y 15398', 17 to 89 such lines at f5aa647de, 45 to 111 at 157323e5, three runs each at four threads; walk 0 in three runs of 300. |
