@@ -46,9 +46,13 @@ export const meta = {
   ],
 }
 
-const OPUS = 'opus'   // every agent but a judge's second ruling
+// Temporary, for the week of the Fable 5.2 launch offer (the curator's order of 2026-11-10): every agent runs
+// on Fable, at medium effort where it ran on Opus; the disk check keeps its low effort, and a judge's second
+// ruling runs at high effort, so that it stays above the first. Set FABLE_WEEK to false to go back.
+const FABLE_WEEK = true
+const OPUS = FABLE_WEEK ? 'fable' : 'opus'   // every agent but a judge's second ruling
 const FABLE = 'fable' // a judge's second ruling on the same rung or tree
-const judgeTier = (priorRuling) => priorRuling ? { model: FABLE } : { model: OPUS }
+const judgeTier = (priorRuling) => priorRuling ? (FABLE_WEEK ? { model: FABLE, effort: 'high' } : { model: FABLE }) : { model: OPUS }
 const BASE = args && args.base
 if (!BASE) throw new Error('args.base is required: the commit every wip/ branch is cut from')
 // The batch's one base build (POSITIONS.md, "Nothing is built or run twice on the same code."): a
@@ -1470,6 +1474,7 @@ earlier + ' at this same role ended without returning a result to the script: a 
 }
 
 async function callAgent(prompt, opts, recovery, needed) {
+  if (FABLE_WEEK && !opts.effort) opts = Object.assign({}, opts, { effort: 'medium' })
   const role = opts.label
   for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
     if (runStop) throw stopRun()

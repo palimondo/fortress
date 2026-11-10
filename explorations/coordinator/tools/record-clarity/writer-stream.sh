@@ -13,6 +13,7 @@
 # The state is under the repository's tmp/record-writer/STREAM/ (ignored): session, written, last, and each
 # task's JSON. Prints the writer's report, then one line: session, new or resumed, tokens written.
 set -euo pipefail
+. "$(dirname "$0")/../tiers.sh"
 repo=$(cd "$(dirname "$0")/../../../.." && pwd)
 stream=${1:?stream}; shift
 task="$*"; [ -n "$task" ] || { echo "usage: $0 STREAM TASK..." >&2; exit 2; }
@@ -35,12 +36,12 @@ if [ $fresh = 1 ]; then
   id=$(python3 -c 'import uuid; print(uuid.uuid4())'); echo "$id" > "$state/session"; echo 0 > "$state/written"
   { cat explorations/coordinator/skill-writer-brief.md
     printf '\n# This session\n\nYou are a stream writer: the coordinating session sends you tasks one after another, each a chunk of record entries or a part of a skill to write or fix. Your standing order above holds for every task, except its parts on skill files, on committing and on sources.md, which your task brief replaces. Commit nothing.\n\n# Your first task\n\n%s\n' "$task"; } |
-    claude -p --model opus --session-id "$id" --permission-mode acceptEdits \
+    claude -p --model "$WRITER_MODEL" ${WRITER_EFFORT:+--effort "$WRITER_EFFORT"} --session-id "$id" --permission-mode acceptEdits \
       --allowedTools "${tools[@]}" --output-format json > "$out"
 else
   id=$(cat "$state/session")
   printf '# Your next task\n\n%s\n' "$task" |
-    claude -p --model opus --resume "$id" --permission-mode acceptEdits \
+    claude -p --model "$WRITER_MODEL" ${WRITER_EFFORT:+--effort "$WRITER_EFFORT"} --resume "$id" --permission-mode acceptEdits \
       --allowedTools "${tools[@]}" --output-format json > "$out"
 fi
 date +%s > "$state/last"

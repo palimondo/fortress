@@ -11,6 +11,13 @@ export const meta = {
   ],
 }
 
+// Temporary, for the week of the Fable 5.2 launch offer (the curator's order of 2026-11-10): every agent runs
+// on Fable, at medium effort where it ran on Opus and at low effort where it ran on Sonnet. The phases above keep
+// each role's usual tier. Set FABLE_WEEK to false to go back.
+const FABLE_WEEK = true
+const OPUS = FABLE_WEEK ? { model: 'fable', effort: 'medium' } : { model: 'opus' }
+const SONNET = FABLE_WEEK ? { model: 'fable', effort: 'low' } : { model: 'sonnet' }
+
 // args: { mode: 'consolidate' | 'update', out: '/abs/folder/', stream: 'name', concepts: ['/abs/concepts.md', ...] (consolidate),
 //         facts: ['F-261', 'P-153', ...] (update: the FACTS and POSITIONS entries the landing added or changed) }
 // Writes into out: outline.md and disposition.md, or admission.md; orientation.md and sources-mapping.md; the
@@ -30,21 +37,21 @@ const drive = (n, task) => {
 2. Run this in the background with the Bash tool's run_in_background, exactly:
    ${RC}writer-stream.sh ${STREAM} "${task}" > ${log} 2>&1; touch ${done}
 3. Run \`python3 ${RC}wait.py ${done} 540\` in the foreground, with a timeout of 600000 ms. If it exits 1, run it again; repeat until it exits 0.
-4. Your final message: the last 60 lines of ${log}, verbatim.`, { label: n === 1 ? 'write' : 'fix', phase: n === 1 ? 'Write' : 'Fix', model: 'sonnet' })
+4. Your final message: the last 60 lines of ${log}, verbatim.`, { label: n === 1 ? 'write' : 'fix', phase: n === 1 ? 'Write' : 'Fix', ...SONNET })
 }
 
 const quiz = async (round) => {
-  if (round === 1) await agent(`Read your brief and follow it: ${T}quiz-author.md\n\nYour mode: ${MODE}. Your folder: ${OUT}`, { label: 'quiz author', phase: 'Check', model: 'opus' })
-  await agent(`Read your brief and follow it: ${T}quiz-reader.md\n\nThe orientation file: ${OUT}orientation.md\nThe cases file: ${OUT}quiz-cases.txt\nYour answers: ${OUT}quiz-answers-${round}.md`, { label: `quiz reader ${round}`, phase: round === 1 ? 'Check' : 'Reread', model: 'opus' })
-  return agent(`Read your brief and follow it: ${T}quiz-grade.md\n\nThe answers: ${OUT}quiz-answers-${round}.md\nYour grading: ${OUT}quiz-grade-${round}.md`, { label: `quiz grade ${round}`, phase: round === 1 ? 'Check' : 'Reread', model: 'opus' })
+  if (round === 1) await agent(`Read your brief and follow it: ${T}quiz-author.md\n\nYour mode: ${MODE}. Your folder: ${OUT}`, { label: 'quiz author', phase: 'Check', ...OPUS })
+  await agent(`Read your brief and follow it: ${T}quiz-reader.md\n\nThe orientation file: ${OUT}orientation.md\nThe cases file: ${OUT}quiz-cases.txt\nYour answers: ${OUT}quiz-answers-${round}.md`, { label: `quiz reader ${round}`, phase: round === 1 ? 'Check' : 'Reread', ...OPUS })
+  return agent(`Read your brief and follow it: ${T}quiz-grade.md\n\nThe answers: ${OUT}quiz-answers-${round}.md\nYour grading: ${OUT}quiz-grade-${round}.md`, { label: `quiz grade ${round}`, phase: round === 1 ? 'Check' : 'Reread', ...OPUS })
 }
 
 phase('Plan')
 let plan
 if (MODE === 'consolidate') {
-  plan = await agent(`Read your brief and follow it: ${T}outline.md\n\nYour folder: ${OUT}\nThe concepts lists: ${(args.concepts || []).join(', ')}`, { label: 'outline', phase: 'Plan', model: 'opus' })
+  plan = await agent(`Read your brief and follow it: ${T}outline.md\n\nYour folder: ${OUT}\nThe concepts lists: ${(args.concepts || []).join(', ')}`, { label: 'outline', phase: 'Plan', ...OPUS })
 } else {
-  const a = await agent(`Read your brief and follow it: ${T}admission.md\n\nYour folder: ${OUT}\nThe landing's FACTS and POSITIONS entries: ${(args.facts || []).join(', ')}`, { label: 'admission', phase: 'Plan', model: 'opus', schema: ADMIT })
+  const a = await agent(`Read your brief and follow it: ${T}admission.md\n\nYour folder: ${OUT}\nThe landing's FACTS and POSITIONS entries: ${(args.facts || []).join(', ')}`, { label: 'admission', phase: 'Plan', ...OPUS, schema: ADMIT })
   if (!a || !a.admitted.length) return { mode: MODE, admitted: [], summary: a ? a.summary : 'admission failed' }
   plan = a.summary
 }
@@ -53,18 +60,18 @@ const W = `Read your brief and follow it: ${T}write.md. Your mode: ${MODE}. Your
 const w1 = await drive(1, W)
 
 const checks = await parallel([
-  () => agent(`Read your brief and follow it: ${T}preserve.md\n\nYour mode: ${MODE}. Your folder: ${OUT}`, { label: 'preserve', phase: 'Check', model: 'opus' }),
-  () => agent(`Read your brief and follow it: ${T}coldread.md\n\nThe file to read: ${OUT}orientation.md\nYour report: ${OUT}cold-read.md`, { label: 'cold read', phase: 'Check', model: 'opus' }),
+  () => agent(`Read your brief and follow it: ${T}preserve.md\n\nYour mode: ${MODE}. Your folder: ${OUT}`, { label: 'preserve', phase: 'Check', ...OPUS }),
+  () => agent(`Read your brief and follow it: ${T}coldread.md\n\nThe file to read: ${OUT}orientation.md\nYour report: ${OUT}cold-read.md`, { label: 'cold read', phase: 'Check', ...OPUS }),
   () => quiz(1),
 ])
 
 const w2 = await drive(2, `${W}. This is your fix round: fix what ${OUT}preserve.md, ${OUT}cold-read.md and ${OUT}quiz-grade-1.md find, in ${OUT}orientation.md`)
 
 const rereads = await parallel([
-  () => agent(`Read your brief and follow it: ${T}coldread.md\n\nThe file to read: ${OUT}orientation.md\nYour report: ${OUT}cold-read-2.md`, { label: 'reread', phase: 'Reread', model: 'opus' }),
+  () => agent(`Read your brief and follow it: ${T}coldread.md\n\nThe file to read: ${OUT}orientation.md\nYour report: ${OUT}cold-read-2.md`, { label: 'reread', phase: 'Reread', ...OPUS }),
   () => quiz(2),
 ])
 
-const j = await agent(`Read your brief and follow it: ${T}judge.md\n\nYour mode: ${MODE}. Your folder: ${OUT}\nThe quiz gradings: ${OUT}quiz-grade-1.md, ${OUT}quiz-grade-2.md`, { label: 'judge', phase: 'Judge', model: 'opus' })
+const j = await agent(`Read your brief and follow it: ${T}judge.md\n\nYour mode: ${MODE}. Your folder: ${OUT}\nThe quiz gradings: ${OUT}quiz-grade-1.md, ${OUT}quiz-grade-2.md`, { label: 'judge', phase: 'Judge', ...OPUS })
 
 return { mode: MODE, plan: cut(plan, 1200), write: cut(w1, 800), checks: checks.map(c => cut(c, 600)), fix: cut(w2, 800), rereads: rereads.map(c => cut(c, 600)), judge: cut(j, 1200) }

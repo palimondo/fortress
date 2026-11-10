@@ -17,6 +17,13 @@ export const meta = {
   ],
 }
 
+// Temporary, for the week of the Fable 5.2 launch offer (the curator's order of 2026-11-10): every agent runs
+// on Fable, at medium effort where it ran on Opus and at low effort where it ran on Sonnet. The phases above keep
+// each role's usual tier. Set FABLE_WEEK to false to go back.
+const FABLE_WEEK = true
+const OPUS = FABLE_WEEK ? { model: 'fable', effort: 'medium' } : { model: 'opus' }
+const SONNET = FABLE_WEEK ? { model: 'fable', effort: 'low' } : { model: 'sonnet' }
+
 // args: { batch: '24', base: 'b0f6cd6b7', landing: '25238e60c', at: '43cd61b62' }
 //   batch, the climb batch's number; base, its base; landing, its landing commit; at, for a replay only, the commit
 //   that the worktree is made at (without it, main's head at the launch).
@@ -65,12 +72,12 @@ const drive = (n) => {
 2. Run this in the background with the Bash tool's run_in_background, exactly:
    mkdir -p ${MARKS}; ${T}drive.sh ${RUN} ${n} > ${log} 2>&1; touch ${done}
 3. Run \`python3 ${RC}wait.py ${done} 240\` in the foreground, with a timeout of 270000 ms. If it exits 1, run it again at once; repeat until it exits 0. Each wait stays under five minutes, so that your prompt cache stays warm.
-4. Your final message: the last 80 lines of ${log}, verbatim.`, { label: n === 1 ? 'write' : 'fix', phase: n === 1 ? 'Write' : 'Fix', model: 'sonnet' })
+4. Your final message: the last 80 lines of ${log}, verbatim.`, { label: n === 1 ? 'write' : 'fix', phase: n === 1 ? 'Write' : 'Fix', ...SONNET })
 }
 
 phase('Sort')
 const s = await agent(`Read your brief and follow it: ${T}sort.md\n\n${where}\nFirst run, exactly: ${T}prepare.sh ${N} ${BASE} ${LANDING} ${AT} ${WT} ${BRANCH}`,
-  { label: 'sort', phase: 'Sort', model: 'opus', schema: SORT })
+  { label: 'sort', phase: 'Sort', ...OPUS, schema: SORT })
 if (!s) return { batch: N, worktree: WT, branch: BRANCH, run: RUN, stopped: 'the sort returned nothing: read owed.md in the run folder and the agent transcript before a resume' }
 log(`sorted: ${s.counts.map(c => c.home + ' ' + c.changes).join(', ')}`)
 
@@ -79,15 +86,15 @@ const w1 = await drive(1)
 
 phase('Check')
 const checks = await parallel([
-  () => agent(`Read your brief and follow it: ${T}check.md\n\n${where}`, { label: 'check', phase: 'Check', model: 'opus' }),
-  () => agent(`Read your brief and follow it: ${RC}coldread.md\n\nThe file to read: ${RUN}clean.txt\nYour report: ${RUN}cold-read.md\nWrite your report in parts of five entries: write the first part to the file, then add each next part to its end, one tool call for each part. So no reply runs for minutes, and your prompt cache stays warm between your calls.`, { label: 'cold read', phase: 'Check', model: 'opus' }),
+  () => agent(`Read your brief and follow it: ${T}check.md\n\n${where}`, { label: 'check', phase: 'Check', ...OPUS }),
+  () => agent(`Read your brief and follow it: ${RC}coldread.md\n\nThe file to read: ${RUN}clean.txt\nYour report: ${RUN}cold-read.md\nWrite your report in parts of five entries: write the first part to the file, then add each next part to its end, one tool call for each part. So no reply runs for minutes, and your prompt cache stays warm between your calls.`, { label: 'cold read', phase: 'Check', ...OPUS }),
 ])
 
 phase('Fix')
 const w2 = await drive(2)
 
 phase('Judge')
-const j = await agent(`Read your brief and follow it: ${T}judge.md\n\n${where}`, { label: 'judge', phase: 'Judge', model: 'opus' })
+const j = await agent(`Read your brief and follow it: ${T}judge.md\n\n${where}`, { label: 'judge', phase: 'Judge', ...OPUS })
 log(`judged: ${cut(j, 200)}`)
 
 const result = {
@@ -131,7 +138,7 @@ const l = await agent([
   '6. The facts list, from the landed diff.md on main, ' + MAIN + '/explorations/compile-ladder/climb-batch-' + N + '/record-landing/diff.md, section "Next": the orientation call\'s facts list. Return its entries in facts, as written (F-n and P-n), in their order; an empty list if the call or the list is missing.',
   '',
   'Return the structured result: commits as "hash subject" from git log --format="%h %s" mainBefore..main.',
-].join('\n'), { label: 'land', phase: 'Land', model: 'sonnet', schema: LAND })
+].join('\n'), { label: 'land', phase: 'Land', ...SONNET, schema: LAND })
 result.land = l
 if (!l || !l.landed) return Object.assign(result, { stopped: 'nothing landed: ' + (l ? l.stopped : 'the lander returned nothing; read its transcript, git -C ' + MAIN + ' log origin/main..main and the branch before a resume') })
 if (l.stopped) return Object.assign(result, { stopped: 'landed on the local main, not all pushed, no orientation update: ' + l.stopped })
@@ -184,7 +191,7 @@ const skills = (n) => {
     '   mkdir -p ' + SK + ' ' + SMARKS + '; ' + T + 'skills.sh ' + N + ' ' + n + ' > ' + lg + ' 2>&1; touch ' + done,
     '3. Run python3 ' + RC + 'wait.py ' + done + ' 230 in the foreground, with a timeout of 270000 ms. If it exits 1, run it again at once; repeat until it exits 0. Each wait stays under 240 s, so that your prompt cache stays warm.',
     '4. Read ' + lg + ' and return the structured result from its lines.'].join('\n'),
-    { label: n === 1 ? 'skill writer' : 'skill fixes', phase: n === 1 ? 'Skills' : 'Fixes', model: 'sonnet', schema: SKILLS })
+    { label: n === 1 ? 'skill writer' : 'skill fixes', phase: n === 1 ? 'Skills' : 'Fixes', ...SONNET, schema: SKILLS })
 }
 
 phase('Skills')
@@ -204,7 +211,7 @@ if (changed) {
     '. The parts that changed: ' + s1.parts.join(', ') + '. Your report: ' + SK + 'cold-read.md. ' +
     'If that file already holds your report whole, ending with its count, write nothing and return the count. ' +
     'Write your report in parts: write the first part to the file, then add each next part to its end, one tool call for each part. So no reply runs for minutes, and your prompt cache stays warm between your calls.',
-    { label: 'skill cold read', phase: 'Cold read', model: 'opus' })
+    { label: 'skill cold read', phase: 'Cold read', ...OPUS })
   result.coldRead = cut(cr, 800)
 
   if (cr) {
@@ -228,7 +235,7 @@ if (changed) {
   const final = (s2 && s2.commits.length ? s2 : s1).commits
   page = await agent('Read your brief and follow it: ' + T + 'page.md\n\nYour batch: climb batch ' + N + '. The skill run\'s folder: ' + SK +
     ' (task-1.md, writer-1.md, cold-read.md, task-2.md, writer-2.md). The base commit before the changes: ' + s1.base + '. The commits: ' + final.join('; ') + '.',
-    { label: 'page', phase: 'Page', model: 'opus', schema: PAGE })
+    { label: 'page', phase: 'Page', ...OPUS, schema: PAGE })
   result.page = page
 }
 
@@ -254,7 +261,7 @@ const p = await agent([
   '1. The folders. Run ' + T + 'folders.sh ' + N + '. It commits the run\'s two folders by named paths and prints COMMITTED with the commit\'s hash and subject, which you return in committed, or NOTHING, and then committed is empty. If it fails, push nothing and return its output in stopped.',
   '2. The run\'s commits. For each hash of git -C ' + MAIN + ' log --format=%h ' + SBASE + '..main, git -C ' + MAIN + ' show --name-only --format= HASH lists its paths. The commit is the run\'s if every path is under .claude/skills/, ' + CB + 'skills/ or ' + CB + 'orientation/. Return the run\'s commits in commits, as "hash subject" from git log --format="%h %s".',
   '3. The pushes, as the fortress-repo skill\'s committing part says: git -C ' + MAIN + ' log --format="%h %s" origin/main..main must list only the run\'s commits of step 2 and the record\'s landed commits; if it lists nothing, push nothing and leave stopped empty. If it lists another agent\'s commit, run it again in a minute, and if that commit stays, push nothing and say so in stopped. ' + PUSHES,
-].join('\n'), { label: 'push', phase: 'Push', model: 'sonnet', schema: PUSH })
+].join('\n'), { label: 'push', phase: 'Push', ...SONNET, schema: PUSH })
 result.push = p
 
 // The one line for the coordinator's chat message: the commits and the page's link.
@@ -308,7 +315,7 @@ const rv = await agent([
   '3. Its output. Read ' + RLOG + '. Return the EXIT= value of its last line in exit (on a take-over, "skipped"), and the url on its line "2. Artifact publish, url URL, ..." in url, or, if the log or the line is missing, the URL on the line PAGE_URL = of ' + MAIN + '/explorations/coordinator/tools/revival-page/update.py. If exit is neither 0 nor skipped, commit and push nothing: return the log\'s "update.py stops:" line (exit 2: a source\'s form changed), or else its last 20 lines, in message and in stopped, and end.',
   '4. The commit, as ' + T + 'folders.sh commits. The paths: those that the log\'s line "1. git add -- PATHS && git commit ..." names after git add --, and the five data files that the note under it names (series.csv, changes.csv, by-day.csv, top-additions.csv, per-batch.csv), each under explorations/coordinator/process-engineering/record-growth/. Keep each that git -C ' + MAIN + ' status --porcelain -- PATH lists; if none is left, committed is empty: go to step 5. The message, written to ' + MAIN + '/tmp/revival-msg-' + N + '.txt: the subject inside that line\'s -m "...", a blank line, "By the climb batch ' + N + ' landing workflow.", a blank line, and the footer, the two lines that grep -E "^ *(Co-Authored-By|Claude-Session): " .claude/skills/fortress-repo/references/committing.md | sed "s/^ *//" | head -2 prints in ' + MAIN + '. Then, from ' + MAIN + ': git add -- PATHS && git commit -q -F tmp/revival-msg-' + N + '.txt -- PATHS, each path named, never -a or a folder. Return the commit, "hash subject" from git log -1 --format="%h %s", in committed, and the paths in paths.',
   '5. The pushes, as the fortress-repo skill\'s committing part says: git -C ' + MAIN + ' log --format="%h %s" origin/main..main must list only the page\'s commit of step 1 or 4; if it lists nothing, push nothing and leave stopped empty. If it lists another agent\'s commit, run it again in a minute, and if that commit stays, push nothing and say so in stopped. ' + PUSHES,
-].join('\n'), { label: 'revival page', phase: 'Revival page', model: 'sonnet', schema: REVIVAL })
+].join('\n'), { label: 'revival page', phase: 'Revival page', ...SONNET, schema: REVIVAL })
 result.revival = rv
 // a stop here adds to the skill update's, if it stopped; landed and pushed either way
 const stopAlso = (m) => { result.stopped = (result.stopped ? result.stopped + '; ' : 'landed and pushed; ') + m }
@@ -341,7 +348,7 @@ const REPUB = {
 }
 const pub = await agent('Read your brief and follow it: ' + T + 'revival-publish.md\n\nYour batch: climb batch ' + N + '. The commit: ' + (rv.committed || 'none, the page\'s files were already as committed') +
   '. The URL: ' + rv.url + '. The page: ' + PAGEDIR + 'revival-story.html. Its chart: ' + PAGEDIR + 'record-growth/record-growth.png.',
-  { label: 'revival publish', phase: 'Revival page', model: 'sonnet', schema: REPUB })
+  { label: 'revival publish', phase: 'Revival page', ...SONNET, schema: REPUB })
 result.revivalPublish = pub
 result.line += ' The revival page: ' + (rv.committed || 'no new commit') + (rv.pushed.length ? ', pushed' : '') + '; ' +
   (pub && pub.published ? 'published at ' + pub.url + (pub.version ? ', version ' + pub.version : '') + '.'

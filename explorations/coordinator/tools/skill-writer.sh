@@ -15,6 +15,7 @@
 # coordinator's writer session as it was. The script prints the writer's report,
 # its session id and the tokens the task wrote to the cache.
 set -euo pipefail
+. "$(dirname "$0")/tiers.sh"
 repo=$(cd "$(dirname "$0")/../../.." && pwd)
 state="${SKILL_WRITER_STATE:-$repo/tmp/skill-writer}"
 mkdir -p "$state"
@@ -34,11 +35,11 @@ case $mode in
     { cat explorations/coordinator/skill-writer-brief.md
       printf '\n# Your first task\n\n'
       cat "$task"; } |
-      claude -p --model opus --session-id "$id" --permission-mode acceptEdits \
+      claude -p --model "$WRITER_MODEL" ${WRITER_EFFORT:+--effort "$WRITER_EFFORT"} --session-id "$id" --permission-mode acceptEdits \
         --allowedTools "${tools[@]}" --output-format json > "$out" ;;
   resume)
     id=$(cat "$state/session")
-    claude -p --model opus --resume "$id" --permission-mode acceptEdits \
+    claude -p --model "$WRITER_MODEL" ${WRITER_EFFORT:+--effort "$WRITER_EFFORT"} --resume "$id" --permission-mode acceptEdits \
       --allowedTools "${tools[@]}" --output-format json < "$task" > "$out" ;;
   *) echo "usage: $0 new|resume <task-file>" >&2; exit 2 ;;
 esac
