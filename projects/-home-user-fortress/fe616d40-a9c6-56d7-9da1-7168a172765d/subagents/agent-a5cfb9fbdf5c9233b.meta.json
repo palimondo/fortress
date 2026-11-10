@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Post-batch review, climb batch 30","toolUseId":"toolu_01JKt4zjWbYVeBPRn1jMnqB1","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"medium","pickedEffortModel":"claude-fable-5-2"}
