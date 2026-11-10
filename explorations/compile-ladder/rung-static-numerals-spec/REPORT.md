@@ -55,7 +55,7 @@ Passage by passage (lines after the change; "before" at b5b0f82c13):
 
 ## Effects that name a row, and rows treated as closed by rung A
 
-The Effect of `revival-numerals` names: rows 943 and 944 (`changes.tex:5224`), 454 (`:5227`), 946 (`:5229`), 79 (`:5230`), 325 (`:5232`), 862 (`:5233`), 486 (`:5236`), as batch 29's repairs; 967 (`:5272`); 395 and 511 (`:5275`); 966 and 973 (`:5284`), the placeholder for rung A's new row of `u = 0` under walk, whose test is `tests/XXXNumeralEqualsNumberWalk.fss` (the gather puts its number in); 958 (`:5294`); 960 (`:5296`); 963 (`:5298`, the selector's type now `NaturalNumeral[\n,r,v\]`); 957 (`:5301`, its second case only, open, as fork A5 leaves it if not built); 971 (`:5304`, open, fork A6); 962 (`:5307`); 956 (`:5309`).
+The Effect of `revival-numerals` names: rows 943 and 944 (`changes.tex:5224`), 454 (`:5227`), 946 (`:5229`), 79 (`:5230`), 325 (`:5232`), 862 (`:5233`), 486 (`:5236`), as batch 29's repairs; 967 (`:5272`); 395 and 511 (`:5275`); 966 and 973 (`:5284`), rung A's new row of `u = 0` under walk, whose test is `tests/XXXNumeralEqualsNumberWalk.fss`, numbered by the gather in place of the worker's placeholder; 958 (`:5294`); 960 (`:5296`); 963 (`:5298`, the selector's type now `NaturalNumeral[\n,r,v\]`); 957 (`:5301`, its second case only, open, as fork A5 leaves it if not built); 971 (`:5304`, open, fork A6); 962 (`:5307`); 956 (`:5309`).
 
 Treated as closed by rung A, and so named nowhere in the text: 969 (the field numerals' run-time value), 970 (the prelude's coercion without the four numbers), 961 and 968 (a negative constant with its sign), 957's first case (a place at a program's generic type without a type variable), 318 (`IntLiteral`'s operators), 362 (a float numeral's own value), and 972 (the prelude's cache tables). The sentences that named 957 as a whole ("at a place whose type is a generic type of the program's own it applies the coercion at each evaluation", `changes.tex:5189-5190` at b5b0f82c13), 961 and 968 (`:5197-5203` at b5b0f82c13), and the prelude's coercion receiving "that library's numeral value without its four numbers" (`:5182-5183` at b5b0f82c13, row 970's claim) are removed.
 
@@ -117,7 +117,7 @@ The rung's own text is the specification. Outside what it edits:
 
 - **Each passage and box rewritten, before and after, with its entry:** "What changed and why", items 1-15; each rewritten or extended box names `revival-numerals`; the two sentences edited inside the `revival-int-float` box (`conversions-coercions.tex:84-93`) keep that box's label, and `revival-numerals`' Change names them.
 - **`revival-numerals` as written; each other entry before and after:** the two sections above.
-- **Each Effect that names a row, and the rows treated as closed by A:** the section above; 973 at `changes.tex:5284` is a placeholder for the gather.
+- **Each Effect that names a row, and the rows treated as closed by A:** the section above; 973 at `changes.tex:5284` was the worker's placeholder, numbered by the gather.
 - **Each Working Draft sentence contradicted or changed in form:** the section above.
 - **The build:** "BUILD SUCCESSFUL" twice, `EXIT=0`, warnings `0` (above).
 - **Sentences not supported by the decisions, the snapshot or A's section; files beyond those named:**
@@ -141,7 +141,7 @@ The rung's own text is the specification. Outside what it edits:
 7. **The JVM in the normative text of `literals.tex`:** as the section asks. Way not taken: the JVM only in the box and the Effect, per the team's own note against implementation detail (`literals.tex:321-324`). Evidence: the section's conversion bullet.
 8. **The written-only rule reaches an `extends` clause in the text,** walk's behaviour there not stated. Ways not taken: say walk refuses it (unmeasured); leave `extends` out (fork A4 builds it on the compiled path). Evidence: fork A4; rung A's step 6.
 9. **A `where` clause stated as one "that compares" the four numbers:** the probe reads comparisons with `+`, `-`, multiplication and `^` only (PROBE `10. What was not built`). Way not taken: any `where` clause, which would hide that limit as a departure without a row. Evidence: PROBE `4. Step 3`.
-10. **Rows 957's second case and 971 written open** (forks A5, A6), and **973** as the placeholder for A's new row: the gather corrects them (the section's Appendix I bullet).
+10. **Rows 957's second case and 971 written open** (forks A5, A6), and a placeholder for A's new row, numbered 973 by the gather: the gather corrects them (the section's Appendix I bullet).
 11. **`revival-int-float` unchanged**, and the second sentence of its box in `conversions-coercions.tex` kept: the entry names no numeral type; the sentence is listed above for the gather.
 12. **`revival-native-helpers` edited** although the section's list does not name it: its Effect named the numeral types' `asFloat`, which P-165 removes; the blurb names such entries. Way not taken: leave it for the gather as a sentence made false.
 13. **The numeral exponent in `revival-numeral-type` corrected** (second commit): the patch removes the integer types' `opr ^(self, b:NaturalNumeral)`. Way not taken: list it only as a sentence made false.

@@ -10073,3 +10073,9 @@ closed by a26e74f5c
 rewritten
 
 | 80 | `case x of <int literal>` compiles clean and throws at run time | FIXED | implementation gap (prelude) | `Specification/basic/expressions/case.tex`, "Case Expressions" | `ProjectFortress/library_tests/IntLiteralRung6.test` | ours | fixed 54861b62a (ladder rung 6); the `IntLiteral` arithmetic family is row 318; closing this row opened row 317; full text: history, row 80 |
+
+### Row 973
+
+rewritten
+
+| 973 | under walk a number and a numeral of one value are not `=` where the numeral reaches the number's type only by conversion: `u = 0` and `0 = u` are `false` for a zero `u` of `NN32` or `NN64`, and `f = 0` for an `RR32` zero, where the design fixes the numeral at the other operand's type | CONTESTED | implementation gap (walk) | `Specification/basic/expressions/literals.tex`, "Literals" | `ProjectFortress/tests/XXXNumeralEqualsNumberWalk.fss` | climb batch 29b rung A | siblings: 966, 807. With the `=` pairs of the field numerals gone (P-174), `u = 0` meets the library's `=` over `Any`, which the numeral's default `ZZ32` fits as it is, and `NN32`'s `=`, reached by conversion; walk keeps a declaration that fits as it is (`OverloadedFunction.bestMatchForNumeralsInternal`), and `SEQV` of an `NN32` and a `ZZ32` is `false`. Open: the static numerals probe's question 1 (draft-numerals.md, section 13), the curator's: (a) conversion first where more specific, (b) `false`, (c) the pairs kept. Compiled: `true`, the prelude has no `=` over `Any`. Workaround: `z: NN32 = 0`, then `u = z`. |
