@@ -1,5 +1,5 @@
-(* See explorations/compile-ladder/climb-batch-6.5/RECORD.md. *)
-component XXXTryInArmRungG
+(* A try with a catch clause runs in an arm of a parallel do after the first. *)
+component TryInArmRungG
 export Executable
 
 object Oops(code: ZZ32) extends CheckedException end
@@ -16,9 +16,8 @@ tryInArm(k: ZZ32): () = do
 end
 
 run(): () = do
-  println("REACHED")
   tryInArm(5)
-  assert(hit, 6, "a try ... catch in a do ... also arm, rows 322 and 497; Specification/basic/expressions/also.tex, subsection \"Parallel Do Expressions\", Specification/basic/expressions/try.tex, section \"Try Expressions\"")
+  assert(hit, 6, "a try ... catch in a do ... also arm; Specification/basic/expressions/also.tex, subsection \"Parallel Do Expressions\", Specification/basic/expressions/try.tex, section \"Try Expressions\"")
   println("PASS")
 end
 

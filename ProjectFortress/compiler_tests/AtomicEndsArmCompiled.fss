@@ -1,0 +1,56 @@
+(* An atomic block is the last expression of an arm of a parallel do, in the first arm and in a later one. Specification/basic/expressions/also.tex, subsection "Parallel Do Expressions"; Specification/basic/expressions/atomic.tex, section "Atomic Expressions". *)
+component AtomicEndsArmCompiled
+export Executable
+
+var hit: ZZ32 = 0
+var seen: ZZ32 = 0
+
+twoArms(k: ZZ32): () = do
+  do
+    atomic do
+      hit := hit + k
+    end
+  also do
+    atomic do
+      hit := hit + 10 k
+    end
+  end
+end
+
+threeArms(k: ZZ32): () = do
+  do
+    atomic do
+      hit := hit + k
+    end
+  also do
+    j: ZZ32 = 10 k
+    atomic do
+      hit := hit + j
+    end
+  also do
+    seen := seen + 1
+    atomic do
+      hit := hit + 100 k
+    end
+  end
+end
+
+run(): () = do
+  var i: ZZ32 := 0
+  while i < 500 do
+    twoArms(1)
+    i := i + 1
+  end
+  assert(hit, 5500, "an atomic block ends each of two arms")
+  hit := 0
+  i := 0
+  while i < 500 do
+    threeArms(1)
+    i := i + 1
+  end
+  assert(hit, 55500, "an atomic block ends each of three arms")
+  assert(seen, 500, "the statement before the atomic block ran")
+  println("PASS")
+end
+
+end

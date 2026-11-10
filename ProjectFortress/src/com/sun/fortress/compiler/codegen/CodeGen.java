@@ -1642,6 +1642,53 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         }
     }
 
+    /*
+     * The abrupt path of a group of forked arms, whose code starts at
+     * groupStart and ends here.  A group completes only when each of its
+     * threads has (Specification/basic/evaluation/parallelism.tex, section
+     * "Threads and Parallelism"): where arm 0 or a join throws, the handler
+     * waits for every arm that was forked, and then throws that exception on.
+     * The joins run in the arms' order and each throws what its arm threw,
+     * so the exception caught is that of the first arm, in that order, that
+     * threw.  An arm that was never forked is not run.  The task locals stay
+     * live until the handler has read them.  The table entry is written after
+     * the code that it covers, so that a handler inside an arm comes first.
+     */
+    private void joinForkedArms(Label groupStart, String[] tasks, int[] taskVars) {
+        final int n = tasks.length;
+        Label groupEnd = new Label();
+        Label handler = new Label();
+        Label done = new Label();
+
+        mv.visitLabel(groupEnd);
+        mv.visitJumpInsn(GOTO, done);
+
+        mv.visitLabel(handler);
+        int thrown = mv.createCompilerLocal("thrown", "Ljava/lang/Throwable;");
+        mv.visitVarInsn(ASTORE, thrown);
+        // An error of the JVM itself, as a stack overflow, can leave a forked
+        // arm that nothing will run: it is thrown on without the joins.
+        Label rethrow = new Label();
+        mv.visitVarInsn(ALOAD, thrown);
+        mv.visitTypeInsn(INSTANCEOF, "java/lang/VirtualMachineError");
+        mv.visitJumpInsn(IFNE, rethrow);
+        for (int i = 1; i < n; i++) {
+            mv.visitVarInsn(ALOAD, taskVars[i]);
+            mv.visitMethodInsn(INVOKEVIRTUAL, tasks[i], "joinIfForked", "()V");
+        }
+        mv.visitLabel(rethrow);
+        mv.visitVarInsn(ALOAD, thrown);
+        mv.disposeCompilerLocal(thrown);
+        mv.visitInsn(ATHROW);
+
+        mv.visitLabel(done);
+        mv.visitTryCatchBlock(groupStart, groupEnd, handler, "java/lang/Throwable");
+
+        // Most recently created first.
+        for (int i = 1; i < n; i++)
+            mv.disposeCompilerLocal(taskVars[i]);
+    }
+
     private void genParallelExprs(List<? extends Expr> args, Type domain_type, List<VarCodeGen> vcgs, boolean clearStackAtEnd) {
         final int n = args.size();
         if (n <= 0) return;
@@ -1699,6 +1746,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             mv.visitMethodInsn(INVOKEVIRTUAL, task, "forkIfProfitable", "()V");
         }
 
+        // The group's code: arg 0 and the joins.  Where it completes
+        // abruptly, joinForkedArms waits for the arms that were forked.
+        Label groupStart = new Label();
+        if (n > 1) mv.visitLabel(groupStart);
+
         // arg 0 gets compiled in place, rather than turned into work.
         args.get(0).accept(this);
         conditionallyCastParameter(args.get(0), domain_types.get(0));
@@ -1709,7 +1761,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         for (int i = 1; i < n; i++) {
             int taskVar = taskVars[i];
             mv.visitVarInsn(ALOAD, taskVar);
-            mv.disposeCompilerLocal(taskVar);
             mv.visitInsn(DUP);
             String task = tasks[i];
             mv.visitMethodInsn(INVOKEVIRTUAL, task, "joinOrRun", "()V");
@@ -1718,6 +1769,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
             if (vcgs != null) vcgs.get(i).assignValue(mv);
             if (clearStackAtEnd) popAll(mv, 1);  // URGH!!!  look into better stack management...            
         }
+
+        if (n > 1) joinForkedArms(groupStart, tasks, taskVars);
     }
 
     public void defaultCase(Node x) {
@@ -4396,7 +4449,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 vcg = new VarCodeGen.LocalVar(v.getName(), ty, this);
             }
             vcgs.add(vcg);
-            addLocalVar(vcg);
             lhs_types.add(ty);
         }
         
@@ -4452,6 +4504,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         } else {
             forExprsSerial(rhss, lhs_type, vcgs);
         }
+
+        // A variable is not in scope in its own initializer: it joins the
+        // environment here, so that a task of the right-hand side, whose free
+        // names are looked up there, does not read its slot before it is set.
+        for (VarCodeGen vcg : vcgs) addLocalVar(vcg);
 
         // Evaluate rest of block with binding in scope
         CodeGen cg = new CodeGen(this);
@@ -5192,14 +5249,20 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         //                   NamingCzar.makeMethodDesc(NamingCzar.descFortressString, NamingCzar.descFortressVoid));
         //
 
+        // The task itself is in slot 0: a local of the arm takes a later one.
+        mv.reserveSlot0();
+
         mv.visitVarInsn(ALOAD, mv.getThis());
-        mv.visitInsn(DUP);
         mv.visitMethodInsn(INVOKESTATIC, 
                            "com/sun/fortress/runtimeSystem/BaseTask",
                            "setTask", 
                            "(Lcom/sun/fortress/runtimeSystem/BaseTask;)V");
 
+        // Nothing stays on the operand stack across the arm's body: a try or
+        // an atomic block in it branches from a handler, which clears the stack.
         x.accept(this);
+        mv.visitVarInsn(ALOAD, mv.getThis());
+        mv.visitInsn(SWAP);
         mv.visitFieldInsn(PUTFIELD, className, "result", result);
         voidEpilogue();
     }
@@ -7065,7 +7128,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         if (arg instanceof VoidLiteralExpr) {
             paramCount = 0;
         } else if (arg instanceof TupleExpr) {
-            // Why isn't this parallel???
             TupleExpr targ = (TupleExpr) arg;
             Type arg_t = domain_type; // arg.getInfo().getExprType().unwrap();
             if (arg_t instanceof TupleType) {
@@ -7074,12 +7136,19 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 List<Expr> exprs = targ.getExprs();
                 int l = arg_tts.size();
                 
-                for (int i = 0; i < l; i++) {
-                    Expr expr = exprs.get(i);
-                    Type t = arg_tts.get(i);
-                    expr.accept(this);
+                if (l > 1 && l == exprs.size() && pa.worthParallelizing(targ)) {
+                    // The arguments run as a tuple's elements do, each after
+                    // the first in a task, where the analyzer judges the
+                    // argument tuple worth it.
+                    forExprsParallel(exprs, arg_tt, null);
+                } else {
+                    for (int i = 0; i < l; i++) {
+                        Expr expr = exprs.get(i);
+                        Type t = arg_tts.get(i);
+                        expr.accept(this);
 
-                    conditionallyCastParameter(expr, t);
+                        conditionallyCastParameter(expr, t);
+                    }
                 }
                 
                 paramCount = l;

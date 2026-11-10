@@ -7259,3 +7259,13 @@ pointer words refreshed in: F-24
 ### F-349
 
 2026-11-10 11:39Z · added · from `explorations/compile-ladder/rung-numeral-leftovers/REPORT.md`, "1. What changed and why" · by climb batch 30's gather
+
+### F-350
+
+2026-11-10 11:40Z · added · from `explorations/compile-ladder/rung-forked-arguments/REPORT.md`, "What changed and why" · by climb batch 30's gather
+
+### F-19
+
+2026-11-10 11:40Z · rewritten · from `explorations/compile-ladder/rung-forked-arguments/REPORT.md`, "What changed and why" · by climb batch 30's gather: a call's arguments fork on the compiled path, and the parallel range stops at a grain (climb batch 30, rung P)
+
+- F-19 **By the specification, the iterations of a `for` loop, the elements of a tuple, and the arguments of a call or an operator may run in parallel, and a program must assume that they do.** A `for` loop is sequential only if every generator is, as `seq(g)` or `sequential(g)` makes it. An implementation may also run them one after another (`evaluation/parallelism.tex:88-90`), so a program cannot count on parallel runs either. For the elements of a tuple and the operands of an operator, each path starts a task only where it judges it worth it: walk by `TupleTask.worthSpawning`, which also governs a call's arguments, and the code generator by `ParallelismAnalyzer`. Compiled, a function call's arguments run in order (`CodeGen.evalArg`). A `for` loop over a range without `seq` runs by splitting the range into `do … also do … end` blocks. Under walk, every such block is a task, and walk's library splits down to single elements (`Library/RangeInternals.fss`). Compiled, the first block runs in place, and each other block forks only where `BaseTask.forkIfProfitable` judges it worth it, as tuple elements do; the compiler prelude's `parloop` splits down to `FORTRESS_LOOP_CHUNK` elements, 1 by default. `FORTRESS_THREADS` sizes the pool of worker threads (the `fortress-repo` skill, "Parallelism and mutable state"). By grep, no program under `explorations/`, the model programs and the probes, writes `spawn`, which starts an explicit thread, or an `also do` block, so their parallelism comes only from loops, tuples and arguments. The revival's tests under `ProjectFortress/` write both. Source: `Specification/basic/expressions/for.tex:28-32`, `tuple-expr.tex:23-24`, `operator-app.tex:58-59`, `evaluation/parallelism.tex:50-80`.

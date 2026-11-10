@@ -1,0 +1,145 @@
+(* The arguments of a function call and of a method call run as implicit threads, as the arms of a parallel do run: as many at once, the results in the arguments' order, and every argument ended before an exception of one leaves the call; so a reduction that joins its two halves as the arguments of one call runs its bodies at once. Specification/basic/evaluation/parallelism.tex, section "Threads and Parallelism". *)
+component CallArgumentsForkCompiled
+export Executable
+
+object Boom(code: ZZ32) extends CheckedException end
+
+var active: ZZ32 = 0
+var peak: ZZ32 = 0
+var flag: ZZ32 = 0
+var bad: ZZ32 = 0
+
+pause(nanos: RR64): () = do
+  t0: RR64 = nanoTime()
+  var spins: ZZ32 := 0
+  while nanoTime() - t0 < nanos do
+    spins := spins + 1
+  end
+end
+
+enter(): () = atomic do
+  active := active + 1
+  if active > peak then peak := active end
+end
+
+leave(): () = atomic do
+  active := active - 1
+end
+
+slow(k: ZZ32): ZZ32 = do
+  enter()
+  pause(100000000.0)
+  leave()
+  k
+end
+
+slowArm(k: ZZ32): () = ignore(slow(k))
+
+setFlag(k: ZZ32): () = atomic do flag := k end
+
+boomVal(k: ZZ32): ZZ32 = if k > 0 then throw Boom(k) else k end
+
+slowVal(k: ZZ32): ZZ32 = do
+  pause(200000000.0)
+  setFlag(k)
+  k
+end
+
+two(a: ZZ32, b: ZZ32): String = a.asString || "," || b.asString
+
+three(a: ZZ32, b: ZZ32, c: ZZ32): String = a.asString || "," || b.asString || "," || c.asString
+
+object Holder(name: String)
+  both(a: ZZ32, b: ZZ32): String = name || ":" || a.asString || "," || b.asString
+  all(a: ZZ32, b: ZZ32, c: ZZ32): String = name || ":" || a.asString || "," || b.asString || "," || c.asString
+end
+
+object Plus
+  join(a: ZZ32, b: ZZ32): ZZ32 = a + b
+end
+
+reduce(l: ZZ32, r: ZZ32, body: ZZ32 -> ZZ32): ZZ32 = do
+  halves(lo: ZZ32, hi: ZZ32): ZZ32 =
+    if lo = hi then body(lo)
+    else
+      mid: ZZ32 = (lo + hi) DIV 2
+      Plus.join(halves(lo, mid), halves(mid + 1, hi))
+    end
+  halves(l, r)
+end
+
+armsAtOnce(): ZZ32 = do
+  peak := 0
+  do
+    slowArm(1)
+  also do
+    slowArm(2)
+  also do
+    slowArm(3)
+  end
+  peak
+end
+
+functionTwo(): String = two(slow(1), slow(2))
+functionThree(): String = three(slow(1), slow(2), slow(3))
+methodTwo(h: Holder): String = h.both(slow(1), slow(2))
+methodThree(h: Holder): String = h.all(slow(1), slow(2), slow(3))
+functionThrows(k: ZZ32): String = two(boomVal(k), slowVal(k))
+methodThrows(h: Holder, k: ZZ32): String = h.both(boomVal(k), slowVal(k))
+
+check(what: String, got: String, expected: String, arms: ZZ32): () = do
+  println(what || ": " || got || ", at most " || peak.asString || " at once; the arms of a parallel do: " || arms.asString)
+  if got = expected then () else
+    bad := bad + 1
+    println("FAIL " || what || ": expected " || expected)
+  end
+  if arms > 1 AND peak < 2 then
+    bad := bad + 1
+    println("FAIL " || what || ": the arguments ran one at a time")
+  end
+end
+
+settled(what: String, caught: ZZ32, expected: ZZ32): () = do
+  now: ZZ32 = flag
+  pause(600000000.0)
+  later: ZZ32 = flag
+  println(what || ": caught " || caught.asString || ", after the catch: flag " || now.asString || ", later: flag " || later.asString)
+  if caught = expected then () else
+    bad := bad + 1
+    println("FAIL " || what || ": expected the exception " || expected.asString)
+  end
+  if now = later then () else
+    bad := bad + 1
+    println("FAIL " || what || ": an argument ran on after the call had completed")
+  end
+end
+
+run(): () = do
+  h: Holder = Holder("h")
+  arms: ZZ32 = armsAtOnce()
+
+  peak := 0
+  check("a function's two arguments", functionTwo(), "1,2", arms)
+  peak := 0
+  check("a function's three arguments", functionThree(), "1,2,3", arms)
+  peak := 0
+  check("a method's two arguments", methodTwo(h), "h:1,2", arms)
+  peak := 0
+  check("a method's three arguments", methodThree(h), "h:1,2,3", arms)
+
+  peak := 0
+  check("a reduction's two halves", reduce(0, 7, fn (i: ZZ32): ZZ32 => slow(i)).asString, "28", arms)
+
+  var caught: ZZ32 := 0
+  flag := 0
+  try ignore(functionThrows(7)) catch e Boom => caught := e.code end
+  settled("a function's first argument throws", caught, 7)
+  flag := 0
+  caught := 0
+  try ignore(methodThrows(h, 8)) catch e Boom => caught := e.code end
+  settled("a method's first argument throws", caught, 8)
+
+  if bad = 0 then println("PASS") else println("FAIL") end
+end
+
+end

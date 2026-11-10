@@ -1,0 +1,16 @@
+(* A recursion through a call's forked arguments that is too deep for a thread's stack ends with the JVM's StackOverflowError: the group that the error leaves does not wait for an arm that the overflow left unrun. *)
+component ForkedArgumentsStackOverflowCompiled
+export Executable
+
+one(): ZZ32 = 1
+
+add(a: ZZ32, b: ZZ32): ZZ32 = a + b
+
+countDown(n: ZZ32): ZZ32 = if n = 0 then 0 else add(one(), countDown(n - 1)) end
+
+run(): () = do
+  println("REACHED")
+  println(countDown(3000000).asString)
+end
+
+end

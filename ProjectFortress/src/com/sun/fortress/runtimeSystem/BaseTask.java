@@ -110,6 +110,26 @@ public abstract class BaseTask extends FortressExecutable {
         return dotProduct;
     }
 
+    /* For a group of arms that completes abruptly: waits for this arm
+     * where it was forked, and takes what it threw.  An arm that was never
+     * forked is not run.  The current task is saved and restored around the
+     * join, as joinOrRun does. */
+    public final void joinIfForked() {
+        if (actuallyForked == UNFORKED) return;
+        Thread thread = Thread.currentThread();
+        if (thread instanceof FortressTaskRunner) {
+            FortressTaskRunner ftr = (FortressTaskRunner) thread;
+            BaseTask saved = ftr.task();
+            try {
+                this.quietlyJoin();
+            } finally {
+                ftr.setTask(saved);
+            }
+        } else {
+            this.quietlyJoin();
+        }
+    }
+
     private static boolean unsafeWorthSpawning() {
         return (numThreads > 1 &&
                 (spawnThreshold < 0 || getSurplusQueuedTaskCount() <= spawnThreshold));
