@@ -42,8 +42,6 @@ end
 
 add(a: ZZ32, b: ZZ32): ZZ32 = a + b
 
-(* The groups, each in a function of its own. *)
-
 firstArm(k: ZZ32): () = do
   do
     boomArm(k)
@@ -87,8 +85,6 @@ end
 
 operatorFirst(k: ZZ32): ZZ32 = boomVal(k) + slowVal(k)
 
-(* After a group has completed abruptly: the exception that left it, and
-   the flag now and a while later. *)
 settled(what: String, caught: ZZ32, expected: ZZ32): () = do
   now: ZZ32 = flag
   pause(600000000.0)

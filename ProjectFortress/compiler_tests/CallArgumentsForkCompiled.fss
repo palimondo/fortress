@@ -26,7 +26,6 @@ leave(): () = atomic do
   active := active - 1
 end
 
-(* A slow function that counts how many of its calls run at once. *)
 slow(k: ZZ32): ZZ32 = do
   enter()
   pause(100000000.0)
@@ -59,7 +58,6 @@ object Plus
   join(a: ZZ32, b: ZZ32): ZZ32 = a + b
 end
 
-(* A reduction over l to r: its two halves are the arguments of the join. *)
 reduce(l: ZZ32, r: ZZ32, body: ZZ32 -> ZZ32): ZZ32 = do
   halves(lo: ZZ32, hi: ZZ32): ZZ32 =
     if lo = hi then body(lo)
@@ -70,7 +68,6 @@ reduce(l: ZZ32, r: ZZ32, body: ZZ32 -> ZZ32): ZZ32 = do
   halves(l, r)
 end
 
-(* How many calls of slow run at once in the arms of a parallel do: what the pool gives. *)
 armsAtOnce(): ZZ32 = do
   peak := 0
   do

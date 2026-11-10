@@ -31,7 +31,6 @@ seqCat(lo: ZZ32, n: ZZ32): String = BIG ||[i <- seq(lo#n)] (i.asString || ",")
 parMax(lo: ZZ32, n: ZZ32): ZZ32 = BIG MAX[\ZZ32\][i <- lo#n] spread(i)
 seqMax(lo: ZZ32, n: ZZ32): ZZ32 = BIG MAX[\ZZ32\][i <- seq(lo#n)] spread(i)
 
-(* Each element of an array written once by a parallel for: how many elements are not 1. *)
 notOnce(lo: ZZ32, n: ZZ32): ZZ32 = do
     a = array[\ZZ32\](n).fill(0)
     for i <- lo#n do a[i - lo] := a[i - lo] + 1 end
