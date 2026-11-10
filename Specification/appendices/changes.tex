@@ -5257,7 +5257,8 @@ holds the place, before the program runs, the type's prefix \EXP{-} on a
 negated numeral with it; so a coercion that throws an exception stops the
 program.
 The compiled program initializes the class of its component, and after it the
-class of each component that it imports, before the program runs, inside a
+class of each component whose declarations it uses, directly or through
+another component, before the program runs, inside a
 task on a pool of one thread of its own, so that a coercion whose body spawns
 a task, as an operator applied to two calls may, fills its place; the tasks
 that a coercion spawns there run one after another.

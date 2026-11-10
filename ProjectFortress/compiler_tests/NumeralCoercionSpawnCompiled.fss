@@ -10,7 +10,6 @@ part(t: String): String = t || t
 
 made(): Cell = 3
 
-(* The interval of literals.tex, section "Literals": the bounds are two calls as the constructor's arguments. *)
 object Span(lo: ZZ32, hi: ZZ32)
   coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Span(below(v, m), above(v, m))
 end
@@ -28,7 +27,7 @@ run(): () = do
   println("REACHED")
   assert(made().s, "aabb", "the coercion's value at the place")
   assert(sEq(made(), made()), "two evaluations of the place are one object")
-  assert(around().lo, 3, "the lower bound of 3.25")
+  assert(around().lo, 3, "literals.tex, section \"Literals\": the interval's lower bound of 3.25, two calls as the constructor's arguments")
   assert(around().hi, 4, "the upper bound of 3.25")
   assert(sEq(around(), around()), "two evaluations of the interval's place are one object")
   println("PASS")
