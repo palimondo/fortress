@@ -1,0 +1,1 @@
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Analyse the three recovery attempts","toolUseId":"toolu_01Cx1HVgzwQE6oZLJA5BZP1R","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"medium","pickedEffortModel":"claude-fable-5-2"}
