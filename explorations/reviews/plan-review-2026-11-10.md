@@ -1,4 +1,4 @@
-<!-- A review of the revival's remaining plan (PLAN phases 4 to 6) against the goal, written 2026-11-10 for the curator, who asked whether the plan is correct and solid and whether the work is on the right problem: where the tree stands, every route from it to a compiled, fast microGPT, the plan judged against those routes, the evidence that decides between them, and the findings sorted by what each needs. Sections 1 and 2 were written from the tree, FACTS and the gap ledger before the reviewer read the plan or its grounds. -->
+<!-- A review of the revival's remaining plan (PLAN phases 4 to 6) against the goal, written 2026-11-10 for the curator, who asked whether the plan is correct and solid and whether the work is on the right problem: where the tree stands, every route from it to a compiled, fast microGPT, the plan judged against those routes, the evidence that decides between them, and the findings sorted by what each needs. Sections 1 and 2 were written from the tree, FACTS and the gap ledger before the reviewer read the plan or its grounds. Section 7 and the last section were written after the rehearsal's end, the same day. -->
 
 # The remaining plan against the goal: a review
 
@@ -217,6 +217,8 @@ Three results decide it, and all three come from the rehearsal's line of work, n
 
 ### 6.1 Findings that would change a decision of the curator's
 
+Written before the rehearsal's end. The curator took option 3 of finding A the same day; section 7 gives A's other two options their sizes and says what changes in B and C.
+
 **A. The order of what is left.** It touches the approved order of the phases (P-33) and his word that the array work comes after the switch-over (P-85). Finding: section 4.3. The one library (P-37) is not in question.
 
 1. **Keep the approved order.** The whole switch-over, then the model compiles, then speed. By the record's lower bounds, at least 4 batches before any array program runs compiled and at least 7 before microGPT does: 20M to 56M tokens, and 35M to 100M. Those bounds were low by six times in the plan's first half. It gives up knowing early whether the one library runs compiled and how far from Java it lands; if speed needs a change in the arrays' design, that is learned after the array questions were answered.
@@ -265,11 +267,84 @@ Recommendation: 2. It follows his rule that no performance decision rests on any
 
 ### 6.4 What waits for the rehearsal's end
 
+Section 7 answers these.
+
 The rehearsal's first version settles two points: one build serves one library, and the names work is a step of its own (section 5.3). These wait for its last sections:
 
 - Whether the library loads whole and a program runs on it, and so how many walls stand behind the duplicate methods.
 - Whether an array program runs, and so whether option 3's timing is one more session or several.
 - Its grouping of the walls against PLAN's lines, which gives options 1 and 2 of finding A their sizes.
+
+## 7. After the rehearsal's end (2026-11-10, 15:0x UTC)
+
+The curator took option 3 of finding A: probes first, then the choice between options 1 and 2 (`coordinator/HELD.md`, the lines of 14:0x). The rehearsal's whole report is `compile-ladder/plan-31/probes/switch-rehearsal.md` at `d381e21775`. The pure-Java microGPT is timed in `java-baseline/python-comparison.md` at `1603d08b49`; its own report was not yet written. This section reads both. Below, A1 is finding A's option 1, the whole switch-over first, and A2 its option 2, the model's slice first.
+
+### 7.1 What the rehearsal settled
+
+- **A program runs compiled against the one library.** With 12 marked hacks, a program that prints a line, one that builds and reads an `Array1`, and a dot product in the program's own loop compile and run, with walk's output. So the first of the two unknowns of section 4.3 has its answer: yes, behind 14 walls.
+- **No matrix runs, and none of the library's own array algebra.** Every array of rank 2 dies at `m[i,j]`: the method over the tuple index type has no body at the instantiated descriptor (its W15). The library's `DOT` and `SUM` die on a generic method that an object inherits from another component's trait (its W16). No hack passed either; each needs the code generator's real work. microGPT stops earlier, in the checker, with 17 sites of its own once `I extends Index` is written. That agrees with section 5.1 for `FlatArrays` (7 once the two bounds are written) and for `MicroGptFlat` (8). `FlatData` reads 1 there against 3 here: the compile command stops it at an error of `File`'s api, where the tolerant driver checks on.
+- **Of the 16 walls, nine things are in no line of PLAN** (its section 6, last paragraph): the carrier design beyond N5's table, the team's search by the prelude's names in the trait table, the package in `OverloadSet`, `NN32`'s two getters, the methods written twice into 27 classes, the verifier's count over the emitted library, rows 624, 81 and 315 on the path of a one-line program, the tuple index type as the wall of every matrix, and the new library order of fourteen compiles.
+- **The walls are of two kinds, and the kinds decide the sizes below.**
+  - *Walls that a test against the prelude can show today.* They are the code generator's, each with a row whose reproducer runs in the prelude's world: varargs (row 624), `label` and `exit` (row 81), a closure class written twice (row 315), a method written twice with the wrong forwarder (row 571's kind), the missing cast at a `comprises` type (rows 307 and 695), the tuple index's bridge (row 832's kind), the inherited generic method (rows 495, 496, 732), and the rest of the 24 refused declarations (rows 822, 812, 819, 540, 875). In rungs, 11 to 15: the rehearsal's own count for the first seven kinds, and one each for the other four refused kinds.
+  - *Walls that only the switch shows.* The carriers, which are a design first and then about three rungs, and which reach into the code generator's naming (its W2, W12, W13, W14); the trait table's search (W3); `OverloadSet`'s four names (W11); the code generator's stop on `NN32`'s getters (W4); seven more source files that name the prelude; the library order. About seven rungs and one decision of the curator's, which the rehearsal puts as its question: which run-time class carries each built-in type.
+- **One build serves one library.** The run time's thirteen value classes extend the prelude's generated classes by name in their Java source. So the walls of the second kind cannot be gated on `main` before the switch, unless those classes exist twice.
+
+### 7.2 The sizes of A1 and A2 now
+
+The unit is a batch with its landing, 5M to 14M tokens by the record. Phase 4 has landed at most three rungs that edit `CodeGen.java` in one batch (climb batch 30's record put a rung into its second run because the first "already has three rungs in `CodeGen.java`": `coordinator/CLIMB-BATCH-30.md`, "Why two runs"), so the 11 to 15 rungs of the first kind are 3 to 5 batches under either option. The milestone is the same for both: a matrix and the library's own `DOT` run compiled against the one library, in a landed tree, under the gate. Each number is an estimate from the rehearsal's rungs, not a plan.
+
+**A1, the whole switch-over first.**
+
+1. The code generator's rungs that the prelude can test: 3 to 5 batches.
+2. Then one landing that holds everything that only the switch shows, because, by the rehearsal's W2, the prelude's programs stop running once the value classes are re-parented: the carriers with the rungs around them, about seven in all, the verifier's count and what it finds, all 1,907 compiled tests moved or respelled, and the prelude's deletion. The record's bound for it was "at least two gated batches". The rehearsal met 16 walls on the way to three small programs, so 3 to 5 is the fairer range. It lands whole or not at all, and nothing in it is gated before it lands. The batch workflow has no form for it: a rung cannot build on another rung of its own batch, and these walls stand one behind the other.
+3. The milestone: after 6 to 10 batches, 30M to 140M tokens. microGPT's own needs follow (the model's sized types, run-time sizes, `File` and `FileSupport`, the tuple binding, the numeral tie): 1 or 2 batches more.
+
+**A2, the model's slice first.**
+
+1. The same 3 to 5 batches of code-generator rungs.
+2. Beside them, in the same batches, since they touch other files: the carriers built as a second set of the thirteen value classes, chosen by the world that the compile command and the run select; the tables, the two converters and the 99 raise strings made to follow that choice; the rungs around them; a second library order and one test track against the one library in the gate. That is the seven rungs of A1's step 2 and 2 or 3 more for the second set: 2M to 4M tokens more than A1 in all. From then on, `Hello` and the `Array1` program are gated tests, and every later wall is one rung with its own test on the one library.
+3. The milestone: after 3 to 5 batches, 15M to 70M tokens. microGPT's own needs: 1 or 2 batches more.
+4. The tests' move and the prelude's deletion: the same work as in A1, 2 to 5 batches by the same reasoning, but beside or after the model, test by test, with the gate green throughout.
+
+**What separates them.** Not the total: A2 is A1 plus two or three rungs, about 200 s more in every gate for the second library order, and a prelude that lives until the end. What separates them is where the unknown work sits. In A1 the walls that only the switch shows, and whatever the 1,907 tests uncover, sit inside one landing that cannot be gated in parts. In A2 they are met one at a time on `main`. The rehearsal showed how such walls behave: eight of its sixteen were seen only under the switch (its W1 to W4 and W11 to W14), each stood behind the one before it, and one hack (keeping the first copy of a method written twice) ran once and then failed after an unrelated rebuild.
+
+### 7.3 What the first compiled timing says, and what it cannot say
+
+The timing (the rehearsal's section 5): the loop `s += a[i] b[i]` over two arrays of 1,000 `RR64`, run 5,000 times, 5 million iterations. Compiled against the one library, 1.4 s with the JVM's start; a one-line program takes 0.6 s, so about 0.8 s for the loop. Under walk, 39.8 s, about 36 s for the loop.
+
+For the Java side, this review ran the same loop in plain Java on this machine (not in the rehearsal's run, at a load of 1.7 to 2.4): 7.2 ms for the first pass in a cold JVM, 2.5 to 6.1 ms for the next four.
+
+**What it says.**
+
+- Compiled code on the one library is about 45 times faster than walk on this loop.
+- It is of the order of a hundred times slower than Java: 0.8 s against 7 ms cold, which is about 110 times, and more against a warm pass. Per iteration, about 160 ns against about 1 ns.
+- Boxing does not explain that distance. The Java models of the compiled run time's boxes behind a generic array put boxing at about 7 times on a dot product (F-11). So a factor of 15 or more stands in what the one library and the generated code put between the loop and the array: the read through the store's native wrapper, with a check of the thread and the transaction on every access and a `cast` on every read (F-333; `reviews/parallelism-foundations-2026-11-08.md`, section 6), the sequential range's closure for each iteration, and the transaction check and the box on the accumulator (row 641). None of these has a measured share. The nearest numbers on file, from other sessions and on the prelude, are 37 ns an iteration for a scalar loop (F-12) and 31 ns an element for a loop over the prelude's vector (F-40).
+- For scale: one training step of the pure-Java microGPT is 0.113 ms, about 200K multiply-adds (`java-baseline/python-comparison.md`, section 1). At 160 ns for each, the same arithmetic written as plain loops over rank-1 arrays would take about 32 ms a step, some 280 times the baseline. That is arithmetic on one timing, not a forecast: the model is not written as plain loops, and section 5.2's factor for the library's matrix product comes on top.
+
+**What it cannot say.**
+
+- Nothing about steady state. The compiled loop ran for 0.8 s in all, with the JIT's warm-up inside it.
+- Nothing certain as a ratio. It is one run, not a pair, on a machine at a load of 3.7 to 4.8 on four CPUs.
+- Nothing about unboxed numbers. Every number in it is a box; decisions A and B are not built. The verifier was off, which bears on loading, not on the loop.
+- Nothing about microGPT's kernels. It is rank 1, in the program's own loop. No matrix, no view, no `mul`, no library reduction and no parallel loop ran.
+
+So the second unknown of section 4.3 has a first, rough answer: today's distance to Java is about two orders of magnitude before the library's own algorithms are counted, and most of it is not boxing. That makes phase 6 a larger piece than its list in PLAN shows, and it is one more reason to have a compiled kernel under the gate early, where each of these costs can be measured and removed.
+
+### 7.4 Which further probe would decide between A1 and A2
+
+- **Probe Y, the second set, in scratch.** On the rehearsal's patch, keep the prelude's value classes, add the re-parented set beside them, make the tables follow the world, and show one build that runs `Hello` against the prelude and against the one library. One worker's session, about 1M to 1.5M tokens. It decides whether A2 exists at the cost given above. If it fails, A1 is the only road.
+- **Probe X, the compiled tests against the scratch switch.** Run the three compiled test tracks on the rehearsal's tree, with fixed-arity stand-ins for the varargs `assert`, and sort what fails. One or two sessions, 1.5M to 3M tokens. It gives A1's single landing its size. It is worth its cost only if probe Y fails, or if the curator leans to A1 after it.
+- **Not a probe for this choice, but for phase 6:** a profile of the rehearsal's dot loop, to split the 160 ns among the store's check, the cast, the range and the accumulator. One session, under 1M. It would turn 7.3's list into shares.
+
+Probe Y is worth its cost: about 1M against a choice that governs at least three batches of difference and where the unknown work lands.
+
+### 7.5 Whether the recommendations change
+
+- **A.** Changed. Before the rehearsal's end the recommendation after the probes was option 1 with the names work done first as a step of its own. The rehearsal shows that the names work cannot land first on its own: one build serves one library. Done first, it is option 2's second set. So the recommendation now is **A2, if probe Y shows the second set running both libraries from one build; A1 if it does not, with probe X run before its single landing is planned.** A2 costs two or three rungs more and keeps the prelude longer, which P-37 calls a bootstrap to remove; it does not add a declaration to the prelude, and the deletion stays the plan's end. The curator's first decision on either road is the rehearsal's question on the carriers.
+- **B.** Sharper, and its options 2 and 3 are now one. Climb batch 30b waits for Friday's reset by his word of 14:0x. The next batch should be cut from the rehearsal's first kind of wall, the code generator's rungs that a test against the prelude can show: varargs, `label`, the closure class, the methods written twice, the cast at a `comprises` type, the tuple index's bridge, the inherited generic method. Of climb batch 30b's own content it keeps the `atomic` expression, which is one of the 24 refusals (row 875), the field inside a transaction, and the numeral rule in the checker, whose tests are now two model lines: `MicroGptFlat.fss:82` and `MicroGptFlatQuick.fss:40`. The top-level tuple binding of section 5.1 joins it. `tryatomic`, row 322's remainder and the numerals' parser leftovers move behind the milestone.
+- **C.** Unchanged: option 2, the matrix product's grain on phase 6's list, built with the first compiled kernel. Two things strengthen it. The first compiled timing puts element access itself at about 160 ns, so `mul`'s shape is not the first cost to remove. And the Java baseline's worker is building a variant in the library's fork/join shape (the coordinator's message of 2026-11-10), which will measure in the baseline program what `mul-shape-model.md` only models; that note is then superseded.
+
+Two lines of section 6.2 change with the rehearsal's end. Line 1 holds, with its sizes: the names work is a design and about seven rungs, not one. Line 4 gains the rehearsal's count for C4 under the compile command itself: 17 sites with the index bound written.
 
 ## Decisions
 
@@ -296,46 +371,50 @@ The two notes' own "For FACTS" sections: the model's closure's counts and the ch
 
 ## Questions for the curator
 
-Findings A, B and C of section 6.1, each with its options and the option that keeps the present course: A's option 1, B's option 1 and C's option 2.
+Findings A, B and C of section 6.1, each with its options and the option that keeps the present course: A's option 1, B's option 1 and C's option 2. After the rehearsal's end, A is the choice between its options 1 and 2 with the sizes of section 7.2, and the rehearsal's own question, which run-time class carries each built-in type, comes before either.
 
 ## For the curator
 
+Brought in line with section 7 after the rehearsal's end, on 2026-11-10.
+
 **The question.** Is the remaining plan correct and solid, and is the work on the right problem for the goal?
 
-**The answer in two lines.** The destination is right: one library for both ways of running a program. The order of what is left is the weak part: the plan tests its two riskiest points last, and the next batch is mostly off the road to a compiled microGPT.
+**The answer in two lines.** The destination is right: one library for both ways of running a program. The order of what is left is the weak part, and the probes that you asked for now show by how much.
 
-**What I found.**
+**What I found in the plan.**
 
-- The first half of the plan did its job. The compiler's type checker accepts the interpreter's library with no error. I ran it again today and got the same zero.
+- The first half of the plan did its job. The compiler's type checker accepts the interpreter's library with no error. I ran it again and got the same zero.
 - The plan's order from here: first move every compiled test onto that library and delete the compiler's own small library. Then make microGPT compile. Then measure speed.
-- Two things were never tested, and this order tests them last. First: does the library run at all once it is compiled? Nobody has loaded one compiled class of it. Second: how far from Java is a compiled array program? No program with an array has ever run compiled.
-- The rehearsal that runs now is the first test of the first point. The rehearsal is a worker that tries the switch-over in a scratch copy and lands nothing. An earlier judgement asked for such a test on 2026-09-20. It was done only halfway. Its first report is in: the switch itself is two lines, but the first load of the compiled library failed, on a fault that no count of the plan could see. Nothing has run yet.
-- The plan was sized once, on 2026-09-20: four to five batches to reach one library. The work has taken 30 batches so far, and the switch-over itself has not started. A batch is a set of tasks that agents build at once and land together. The remaining phases have no size on record. By the record's own lower bounds, an array program first runs compiled after at least 4 more batches, and microGPT after at least 7, which is 35M to 100M tokens.
-- The last ten batches wrote about 48M tokens in their runs, and 8M to 30M more around each. The measures that face microGPT did not move: on the compiled path it stops at the same step as in September. The groundwork moved: 374 of the library's 402 calls into Java now work on both paths, and the code generator refuses fewer of the library's declarations, 38 where it refused 58.
+- Two things had never been tested, and this order tests them last. First: does the library run at all once it is compiled? Second: how far from Java is a compiled array program?
+- The plan was sized once, on 2026-09-20: four to five batches to reach one library. A batch is a set of tasks that agents build at once and land together. The work has taken 30 batches so far.
+- The last ten batches wrote about 48M tokens in their runs, and 8M to 30M more around each. The measures that face microGPT did not move. The groundwork moved: 374 of the library's 402 calls into Java now work on both paths.
 - About half of that work was on the road to the switch-over. The other half finished parts of the design that microGPT does not use: the numerals, equality, string literals and transactions. That is part of your goal, but it is not what the goal is measured by.
-- The next batch on the list, 30b, is mostly of that second kind. Two of its steps are on the road.
-- Speed has a factor that the plan does not list. The library multiplies two matrices by cutting the work in halves until one multiplication of two numbers is left. I modelled that shape in Java, at microGPT's matrix sizes. With plain numbers it runs about 10 times slower than a simple loop. With boxed numbers, numbers kept as objects, about 20 times. Stopped at blocks of 16, it costs nothing. You gave this rule for parallel loops: the right forking constants. The matrix product does not have it. This is a Java model, not a timing of Fortress.
-- Two lines of the flat microGPT program do not compile, and no line of the plan held them. Its first lines bind the hyperparameters as one tuple, `(nEmbd, blockSize, …) = (16, 16, …)`. The compiler stops on that form today. And `1.0 s`, a float numeral times an integer variable, is refused against the interpreter's library, because that library also has rationals and the checker cannot choose. Your numeral rule of this morning should make it pass once it is built. Both are compiler work. No model line needs to change.
+
+**What the probes found.**
+
+- The rehearsal is a worker that tried the switch-over in a scratch copy and landed nothing. It ended with three small programs running compiled on the interpreter's library, with the interpreter's own output: one prints a line, one builds and reads a one-dimensional array, one computes a dot product in its own loop.
+- It needed 12 marked hacks and met 16 walls. A wall is a place where the compiler or the compiled library stops. Nine of the things it met are in no line of the plan.
+- No matrix runs. Every `m[i,j]` fails, because the compiler writes no method for an index that is a pair. The library's own `DOT` and `SUM` fail too. microGPT still stops in the type checker.
+- The naming work is larger than the plan has it. The plan has one task. The rehearsal found a design question and about seven tasks. The design question is yours: which Java class stands for each built-in type, such as `ZZ32` or `String`, in compiled code. It comes to you as its own question.
+- The run-time classes for numbers and strings are tied to one library in their Java source. So one build of the compiler can serve only one library. This matters for the choice below.
+- One timing exists. A dot product loop of 5M steps takes about 0.8 s compiled and about 36 s under the interpreter: 45 times faster. The same loop in plain Java takes about 7 ms. So compiled Fortress is about a hundred times slower than Java on this loop today.
+- Boxing explains only about 7 of that hundred. A boxed number is a number kept as an object. The rest is in how the library reaches an array element: a check and a cast on every read, a function call for every step of the loop.
+- This timing is rough. It is one run, on a busy machine, with boxed numbers, and with the JVM's bytecode check switched off. It has no matrix and none of microGPT's operations in it.
+- The pure-Java microGPT now exists. One training step takes 0.113 ms. NumPy takes 0.201 ms.
+- The library multiplies two matrices by cutting the work in halves until one multiplication of two numbers is left. In my Java model of that shape it runs about 10 times slower than a simple loop with plain numbers, and it costs nothing when it stops at blocks of 16. This is a model, not a timing of Fortress.
+- Two lines of the flat microGPT program do not compile, and no line of the plan held them: the hyperparameters bound as one tuple, and `1.0 s`, a float numeral times an integer variable. Both are compiler work. No model line needs to change.
 
 **What needs your decision.**
 
-A. The order of what is left. This touches the order of the phases that you approved (P-33), and your word that the array work comes after the switch-over (P-85). It does not touch the one library (P-37).
+A. The order of what is left, now a choice of two. Both end with one library and the compiler's own library deleted (P-37). The difference is when the tests move. This touches the order of the phases that you approved (P-33).
 
-1. Keep the order. The whole switch-over, then microGPT compiles, then speed. At least 4 batches before any array program runs compiled, and at least 7 before microGPT does: 35M to 100M tokens. The plan's earlier sizes were low by six times. It gives up knowing early.
-2. microGPT's slice first. The compile command learns to pick the interpreter's library, beside the compiler's own. One small array program is compiled on it and timed against Java. The tests move after. About 2 to 3 batches to that first timing, 10M to 40M tokens. It gives up the single clean cut, and it changes your order. The rehearsal's first report makes it harder: the run-time classes for numbers and strings are tied to one library, so this needs a second set of them.
-3. Keep the order for landed work, and get the two numbers by probes first. A probe is a small trial that lands nothing. The rehearsal goes on in its scratch copy until one small array program runs compiled and is timed against Java. One worker writes the pure-Java microGPT now. No batch, about 2M to 5M tokens. Then you choose 1 or 2 with the numbers. It gives up the scratch work, which is built again properly later.
+1. The whole switch-over first. The compiler's tasks that can be tested today take 3 to 5 batches. Then one large landing changes the run-time classes, fixes every wall that shows only after the switch, moves all 1,907 compiled tests and deletes the compiler's own library. It lands whole or not at all, and nothing in it can be tested on the main branch before. A matrix and the library's `DOT` run compiled after 6 to 10 batches, 30M to 140M tokens.
+2. microGPT's slice first. The same 3 to 5 batches. Beside them, the run-time classes are built a second time for the interpreter's library, and the compile command picks a library. From then on each wall is one task with its own test. A matrix and the library's `DOT` run compiled after 3 to 5 batches, 15M to 70M tokens. The tests move after that, one by one. It costs two or three tasks more, about 2M to 4M tokens, and about 200 s more in every full check. The compiler's own library lives until the end.
 
-B. The next batch, 30b, which has your go.
+B. The next batch. Batch 30b waits for Friday by your word. I would not run it as planned. Cut the next batch from the rehearsal's walls: the compiler tasks that can be tested today. Keep three things from 30b: the `atomic` expression, a field written inside a transaction, and your numeral rule with the `1.0 s` lines as its tests. Add the tuple line. Move the rest behind the first compiled matrix.
 
-1. Run it as planned. One batch, 5M to 14M tokens with its landing.
-2. Cut it to the road: keep the two steps that the interpreter's library needs in order to compile, keep your numeral rule with the `1.0 s` line as its test, add the tuple line, and move the rest behind the first compiled array program. The same cost.
-3. Hold it until the probes of A end, and cut the next batch from what they find.
+C. The matrix product's blocks. Unchanged: put it on the speed phase's list, and build it with the first compiled matrix program. The first timing shows that reaching one array element is the larger cost today.
 
-C. The matrix product's blocks.
+**One more probe, and whether it is worth it.** Yes, one. A worker builds the second set of run-time classes in a scratch copy and shows one build that runs a program on both libraries. About 1M to 1.5M tokens. It tells whether option A2 is possible at the cost above. A second probe, running all compiled tests on the scratch copy, is worth its 1.5M to 3M only if the first fails or if you lean to A1.
 
-1. Give the matrix product a block size now, as the parallel loop has since batch 30. One task, about 1M tokens. Its gain cannot be measured yet.
-2. Put it on the speed phase's list, and build it in the first batch that has a compiled array program to measure it on. No cost now.
-
-**What waits.** The rehearsal's report was a first version when this review was committed. Its last part, on loading, running and timing, decides the sizes in A1 and A2, and how many more sessions A3 needs.
-
-**My recommendation.** A3 now. After it, A1 with the naming work done first as a step of its own, unless the numbers say that a second set of run-time classes is worth its cost; then A2. B2, launched after A's probes. C2.
+**My recommendation.** Run the one probe. If it works, A2. If it does not, A1, with the tests run on a scratch copy before the large landing is planned. For the next batch, B as above. C as above. Before either road, your answer to the rehearsal's question on which Java class stands for each built-in type.
