@@ -175,6 +175,78 @@ public class InstantiatingClassloader extends ClassLoader implements Opcodes {
         return classData;
     }
 
+    /**
+     * The class of the named component, then the class of each component
+     * that it imports, at any depth, in the order in which the classes of
+     * its jar name them.  A component's class has the component's name, and
+     * its class file is in the jar of that name; the classes of its jar name
+     * the class of each component whose members they use.
+     */
+    public List<String> componentClasses(String component) {
+        List<String> found = new ArrayList<String>();
+        found.add(component);
+        Set<String> seen = new HashSet<String>();
+        seen.add(component);
+        for (int i = 0; i < found.size(); i++) {
+            java.net.URL jar = componentJar(found.get(i));
+            if (jar == null) continue;
+            try {
+                java.util.jar.JarFile jf = ((java.net.JarURLConnection) jar.openConnection()).getJarFile();
+                for (java.util.Enumeration<java.util.jar.JarEntry> es = jf.entries(); es.hasMoreElements();) {
+                    java.util.jar.JarEntry e = es.nextElement();
+                    if (!e.getName().endsWith(".class")) continue;
+                    InputStream in = jf.getInputStream(e);
+                    ClassReader cr;
+                    try {
+                        cr = new ClassReader(in);
+                    } finally {
+                        in.close();
+                    }
+                    char[] buf = new char[cr.getMaxStringLength()];
+                    for (int k = 1; k < cr.getItemCount(); k++) {
+                        int at = cr.getItem(k);
+                        if (at == 0 || cr.readByte(at - 1) != 7) continue;   // a CONSTANT_Class entry
+                        String name = topLevelName(cr.readUTF8(at, buf));
+                        if (name != null && seen.add(name) && componentJar(name) != null) found.add(name);
+                    }
+                }
+            } catch (IOException ex) {
+                // a jar that cannot be read names no component
+            } catch (ClassCastException ex) {
+                // not in a jar
+            }
+        }
+        return found;
+    }
+
+    /** The dotted name of the top-level class that a class file's name for a class is or lies in; null for an array or a name that is none. */
+    private static String topLevelName(String internal) {
+        if (internal == null || internal.length() == 0 || internal.charAt(0) == '[') return null;
+        int n = 0;
+        while (n < internal.length()) {
+            char c = internal.charAt(n);
+            if (c == '$' || !(c == '/' || Character.isJavaIdentifierPart(c))) break;
+            n++;
+        }
+        if (n == 0) return null;
+        return internal.substring(0, n).replace('/', '.');
+    }
+
+    /** The jar of the named component, where the named class's file is in a jar of its own name: jar:...!/, or null. */
+    private java.net.URL componentJar(String name) {
+        if (_classLoadChecker.mustUseSystemLoader(name)) return null;
+        String file = Naming.dotToSep(name) + ".class";
+        java.net.URL u = getResource(file);
+        if (u == null) return null;
+        String s = u.toString();
+        if (!s.startsWith("jar:") || !s.endsWith("/" + name + ".jar!/" + file)) return null;
+        try {
+            return new java.net.URL(s.substring(0, s.length() - file.length()));
+        } catch (java.net.MalformedURLException ex) {
+            return null;
+        }
+    }
+
     protected Class loadClass(String name, boolean resolve)
         throws ClassNotFoundException {
         synchronized (getClassLoadingLock(name)) {

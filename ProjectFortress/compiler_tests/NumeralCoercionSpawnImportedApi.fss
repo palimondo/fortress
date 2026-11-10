@@ -1,0 +1,13 @@
+(* A type whose coercion from a numeral starts a task, and a function whose body is a numeral's place at it. *)
+component NumeralCoercionSpawnImportedApi
+export NumeralCoercionSpawnImportedApi
+
+object Cell(s: String)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Cell(part("a") || part("b"))
+end
+
+part(t: String): String = t || t
+
+made(): Cell = 3
+
+end

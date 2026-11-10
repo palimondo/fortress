@@ -1,2 +1,2 @@
-tests=XXXNumeralCoercionSpawnCompiled
+tests=NumeralCoercionSpawnCompiled
 link

@@ -1,3 +1,0 @@
-tests=XXXNumeralCoercionSpawnCompiled
-run
-run_out_does_not_contain=REACHED

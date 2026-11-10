@@ -1,0 +1,38 @@
+(* A numeral's place at a program's type whose coercion starts a task, by an operator over two calls of the program's functions or by two such calls as a constructor's arguments, is one value made when the component's class loads, as at any other place. *)
+component NumeralCoercionSpawnCompiled
+export Executable
+
+object Cell(s: String)
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Cell(part("a") || part("b"))
+end
+
+part(t: String): String = t || t
+
+made(): Cell = 3
+
+(* The interval of literals.tex, section "Literals": the bounds are two calls as the constructor's arguments. *)
+object Span(lo: ZZ32, hi: ZZ32)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Span(below(v, m), above(v, m))
+end
+
+small(z: ZZ): ZZ32 = bigToZZ64(z).asZZ32
+scale(m: ZZ32): ZZ32 = if m = 0 then 1 else 10 scale(m - 1) end
+below(v: ZZ, m: ZZ): ZZ32 = small(v) DIV scale(small(m))
+above(v: ZZ, m: ZZ): ZZ32 = below(v, m) + 1
+
+around(): Span = 3.25
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+
+run(): () = do
+  println("REACHED")
+  assert(made().s, "aabb", "the coercion's value at the place")
+  assert(sEq(made(), made()), "two evaluations of the place are one object")
+  assert(around().lo, 3, "the lower bound of 3.25")
+  assert(around().hi, 4, "the upper bound of 3.25")
+  assert(sEq(around(), around()), "two evaluations of the interval's place are one object")
+  println("PASS")
+end
+
+bigToZZ64(z: ZZ): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.bigOverflowingToLong")
+end
