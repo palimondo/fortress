@@ -1,0 +1,5 @@
+component SingleTop
+export Executable
+nEmbd = 16; blockSize = 4
+run(): () = println(nEmbd + blockSize)
+end

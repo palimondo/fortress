@@ -1,0 +1,9 @@
+component NumeralLine
+export Executable
+lr0: RR64 = 0.01
+nSteps: ZZ32 = 1000
+learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)
+half(s: ZZ32): RR64 = (1.0 s) / 2
+scaled(s: ZZ32): RR64 = 1.0 s
+run(): () = println learningRate(3)
+end

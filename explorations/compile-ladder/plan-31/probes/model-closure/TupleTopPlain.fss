@@ -1,0 +1,5 @@
+component TupleTopPlain
+export Executable
+(nEmbd, blockSize) = (16, 4)
+run(): () = do println(nEmbd); println(blockSize) end
+end
