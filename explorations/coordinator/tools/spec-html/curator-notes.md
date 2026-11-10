@@ -21,7 +21,7 @@ His words: "You said that our additions to the specification are marked in red d
 
 The coordinator's reading: the revival's paragraph in the preface is an addition of the revival like the revision callouts, so it gets the same distinct presentation; that presentation is to be very subtle, a light tint of the background, in light and in dark; and the opening of the edition introduces the graphical element in a few words, as a book's front matter explains its notation.
 
-## His message of 2026-11-10, about 17:5x UTC, with two screenshots (the PDF's page 45 beside `lexical-structure.html` in the dark theme)
+## His message of 2026-11-10, about 17:3x UTC, with two screenshots (the PDF's page 45 beside `lexical-structure.html` in the dark theme)
 
 ### The tables must match the PDF, and renderings are checked in a browser
 
@@ -40,8 +40,8 @@ His words: "About Fortress rendering to SVG, only where it shows the render text
 
 ### The revival's callouts do not show which text changed
 
-He first wrote that the callout's look "is fine as it is", then, reading the one in chapter 4 (see Section I.1.56): "it is like a note. I don't know which part of this is a change"; "it is basically commenting in line about the change we did, but it is not marking the text itself. It's really like our own draft notes, just not signed Victor, but by the revival. Okay. Hmm." No decision of his yet. The coordinator's proposal, put to him at 17:5x: the reader marks the changed words themselves, with a light tint, and offers the Working Draft's text of the same passage one tap away, taken from `Specification-1.0-frozen/` by comparison; the specification's own form (P-96) does not change.
+He first wrote that the callout's look "is fine as it is", then, reading the one in chapter 4 (see Section I.1.56): "it is like a note. I don't know which part of this is a change"; "it is basically commenting in line about the change we did, but it is not marking the text itself. It's really like our own draft notes, just not signed Victor, but by the revival. Okay. Hmm." No decision of his yet. The coordinator's proposal, put to him at 17:4x: the reader marks the changed words themselves, with a light tint, and offers the Working Draft's text of the same passage one tap away, taken from `Specification-1.0-frozen/` by comparison; the specification's own form (P-96) does not change.
 
 ### His question on section 4.17.2, a radix written as a word
 
-"10101101_TWO is rendered as 10101101 two ... Does this spelled out radix as a word too? We don't support that, right? Does parser accept it? It didn't come up in our numeral discussion." Answered at 17:5x from the tree: the parser reads a radix as digits or as a word (`parser/Literal.rats:102-109`, `RadixNames`; `nodes_util/NodeUtil.java:1251-1280`, `radix2Number`), the team's `tests/NumeralTest.fss:18-25` asserts `f_SIXTEEN + 2` is 17 and `DEAD.BEEF_16 = DEAD.BEEF_SIXTEEN`, and the static numerals carry the radix as a number, so the spelling is gone after the parser.
+"10101101_TWO is rendered as 10101101 two ... Does this spelled out radix as a word too? We don't support that, right? Does parser accept it? It didn't come up in our numeral discussion." Answered at 17:4x from the tree: the parser reads a radix as digits or as a word (`parser/Literal.rats:102-109`, `RadixNames`; `nodes_util/NodeUtil.java:1251-1280`, `radix2Number`), the team's `tests/NumeralTest.fss:18-25` asserts `f_SIXTEEN + 2` is 17 and `DEAD.BEEF_16 = DEAD.BEEF_SIXTEEN`, and the static numerals carry the radix as a number, so the spelling is gone after the parser.
