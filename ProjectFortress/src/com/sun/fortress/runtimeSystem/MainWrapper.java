@@ -21,6 +21,31 @@ public class MainWrapper {
     public static String[] cachedArgs;
     
     /**
+     * The named component class, loaded and initialized by
+     * FortressExecutable.initializeInRootTask, and after it the class of each
+     * component that it imports, at any depth.  The class loader has its own
+     * copies of the run time's classes, of the task pool and of BaseTask
+     * among them, so the call goes through icl.
+     */
+    private static Class initializeInRootTask(String name)
+            throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException {
+        String[] names = InstantiatingClassloader.ONLY.componentClasses(name).toArray(new String[0]);
+        Class executable = Class.forName("com.sun.fortress.runtimeSystem.FortressExecutable", true, icl);
+        java.lang.reflect.Method init = executable.getMethod("initializeInRootTask", String[].class, ClassLoader.class);
+        try {
+            return (Class) init.invoke(null, names, icl);
+        } catch (InvocationTargetException e) {
+            // What the class's load or initialization threw, as main threw it
+            // when it loaded the class itself.
+            Throwable t = e.getCause();
+            if (t instanceof ClassNotFoundException) throw (ClassNotFoundException) t;
+            if (t instanceof Error) throw (Error) t;
+            if (t instanceof RuntimeException) throw (RuntimeException) t;
+            throw new RuntimeException(t);
+        }
+    }
+
+    /**
      * @param args
      * @throws ClassNotFoundException
      */
@@ -61,10 +86,15 @@ public class MainWrapper {
             
             // ensure that FortressExecutable is loaded and statically initialized
             // so that there is a task pool before any user code is run.
-            Class cl = Class.forName(whatToRun, true, icl);
+            // The component class is initialized inside a root task on a pool
+            // of one thread of its own: its initializer runs user code, the
+            // coercion of each numeral's place, which may start tasks.
+            // The program's arguments are set first: a component's
+            // top-level variable may read them as its class is initialized.
+            cachedArgs = subargs;
+            Class cl = initializeInRootTask(whatToRun);
             java.lang.reflect.Method m = cl.getDeclaredMethod("main");
             try {
-                cachedArgs = subargs;
                 m.invoke(null);
             } finally {
                 InstantiatingClassloader.exitProgram();

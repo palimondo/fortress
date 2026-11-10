@@ -17,6 +17,7 @@ import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import static com.sun.fortress.exceptions.UnificationError.unificationError;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.values.FValue;
+import com.sun.fortress.interpreter.evaluator.values.Numerals;
 import static com.sun.fortress.interpreter.evaluator.values.OverloadedFunction.*;
 import com.sun.fortress.nodes.*;
 import com.sun.fortress.nodes_util.NodeUtil;
@@ -109,7 +110,9 @@ abstract public class FType implements Comparable<FType> {
         // System.out.println(name+".typeMatch("+val+")");
         if (val == null) return false;
         if (val.type() == null) return false;
-        return val.type().subtypeOf(this);
+        if (!val.type().subtypeOf(this)) return false;
+        // RR64 does not hold a numeral that rounds to an infinity there
+        return !Numerals.roundsToInfinityAsItIs(this, val);
     }
 
     public String toString() {

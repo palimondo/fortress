@@ -1,0 +1,11 @@
+(* A numeral type is written only as a parameter's type: an object that extends one is refused. *)
+component NumeralTypeExtendedWalk
+export Executable
+
+object O extends NaturalNumeral[\1, 10, 3\] end
+
+run(): () = do
+    println("REACHED: an object extends a numeral type")
+  end
+
+end

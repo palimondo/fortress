@@ -98,6 +98,49 @@ public abstract class FortressExecutable extends RecursiveAction {
 
 
     /**
+     * Loads and initializes the named classes, in their order, inside a root
+     * task on a pool of one thread of its own, and waits for it; answers the
+     * first.  The classes are a program's component classes.  A component
+     * class's initializer fills each numeral's place by its coercion, whose
+     * body may start tasks: a task's constructor asks for the thread's
+     * current task, so the initializer needs a worker thread that has one.
+     * The pool has one thread, so no other worker takes a task that the
+     * initializer forked: that worker would call into the class and wait for
+     * its initialization, while the initializer waits to join the task.  The
+     * initializer joins each task that it forked by running it in place.
+     * What a load or an initialization throws is thrown here unchanged.
+     */
+    public static Class<?> initializeInRootTask(final String[] names, final ClassLoader loader)
+            throws ClassNotFoundException {
+        final Class<?>[] loaded = new Class<?>[1];
+        final Throwable[] thrown = new Throwable[1];
+        FortressTaskRunnerGroup pool = new FortressTaskRunnerGroup(1);
+        try {
+            pool.invoke(new BaseTask() {
+                public void compute() {
+                    BaseTask.setTask(this);
+                    try {
+                        for (String name : names) {
+                            Class<?> c = Class.forName(name, true, loader);
+                            if (loaded[0] == null) loaded[0] = c;
+                        }
+                    } catch (Throwable t) {
+                        thrown[0] = t;
+                    }
+                }
+            });
+        } finally {
+            pool.shutdown();
+        }
+        Throwable t = thrown[0];
+        if (t instanceof ClassNotFoundException) throw (ClassNotFoundException) t;
+        if (t instanceof Error) throw (Error) t;
+        if (t instanceof RuntimeException) throw (RuntimeException) t;
+        if (t != null) throw new RuntimeException(t);
+        return loaded[0];
+    }
+
+    /**
      * Should simply call through to static run() method in the
      * implementing class.  run() used to be an abstract method here,
      * but that requires us to make it non-static and thus totally

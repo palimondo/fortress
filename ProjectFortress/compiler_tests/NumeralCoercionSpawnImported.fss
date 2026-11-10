@@ -1,0 +1,15 @@
+(* A numeral's place in an imported component, at a type whose coercion starts a task, is one value made when that component's class loads: the importing program reads it and ends. *)
+component NumeralCoercionSpawnImported
+import NumeralCoercionSpawnImportedApi.{...}
+export Executable
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+
+run(): () = do
+  println("REACHED")
+  assert(made().s, "aabb", "the coercion's value at the imported place")
+  assert(sEq(made(), made()), "two evaluations of the imported place are one object")
+  println("PASS")
+end
+
+end

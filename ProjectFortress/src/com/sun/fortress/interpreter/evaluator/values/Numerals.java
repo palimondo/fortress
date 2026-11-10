@@ -6,7 +6,9 @@ import static com.sun.fortress.exceptions.ProgramError.errorMsg;
 import com.sun.fortress.interpreter.Driver;
 import com.sun.fortress.interpreter.evaluator.Environment;
 import com.sun.fortress.interpreter.evaluator.types.FType;
+import com.sun.fortress.interpreter.evaluator.types.FTypeRange;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTop;
+import com.sun.fortress.interpreter.evaluator.types.FTypeVoid;
 import com.sun.fortress.interpreter.evaluator.types.FTypeTuple;
 import com.sun.fortress.interpreter.evaluator.types.BottomType;
 import com.sun.fortress.nativeHelpers.simpleDoubleArith;
@@ -49,11 +51,11 @@ import java.util.Map;
  * as a value that also carries the numeral's four numbers: its digit count,
  * the digits after the radix point, its radix, and its digits read as one
  * integer.  Where a place fixes a type the numeral converts there from those
- * numbers: into a numeral type as the library's NaturalNumeral or
- * RadixPointNumeral object, and into any other type through that type's
- * coercion from the numeral type, called with that object; a site gives one
- * value at each type.  Elsewhere the numeral is its default, and a binding
- * keeps the default alone (plain).
+ * numbers, through that type's coercion from the numeral type, generic over
+ * the four numbers: the coercion's body runs once with the numbers bound, and
+ * a site gives one value at each type.  A numeral's own type exists only at
+ * compile time, so no value has it.  Elsewhere the numeral is its default,
+ * and a binding keeps the default alone (plain).
  */
 public final class Numerals {
 
@@ -81,7 +83,8 @@ public final class Numerals {
         int denomPower = 0;
         FValue value;
         FValue plain;
-        private FValue object;
+        /** Which float types the exact value rounds to an infinity at: -1 not yet known, 0 none, 1 RR32, 2 RR32 and RR64. */
+        private int infiniteAt = -1;
         private final Map<FType, FValue> converted = new HashMap<FType, FValue>();
 
         Site(NumeralNumbers x, BigInteger signed) {
@@ -298,30 +301,65 @@ public final class Numerals {
         return nt != null && !(t instanceof BottomType) && nt.subtypeOf(t);
     }
 
-    /** The library's NaturalNumeral or RadixPointNumeral object of the numeral v, one for its site. */
-    public static FValue object(FValue v) {
-        Site s = ((Numeral) v).site();
+    /**
+     * Which of the float types the exact value of the site's numeral, as
+     * written or folded, rounds to an infinity at: 0 none, 1 RR32 alone, 2
+     * RR32 and RR64.
+     */
+    private static int infiniteAt(Site s) {
+        // the answer is one for the site, so a read of it needs no lock
+        int known = s.infiniteAt;
+        if (known >= 0) return known;
         synchronized (s) {
-            if (s.object == null) {
-                List<FValue> args = new ArrayList<FValue>(4);
-                args.add(FInt.make(s.digits));
-                if (s.radixPoint) args.add(FInt.make(s.fractionDigits));
-                args.add(FInt.make(s.radix));
-                args.add(FBigNum.make(s.digitValue));
-                Fcn c = (Fcn) library().getRootValue(s.radixPoint ? "RadixPointNumeral" : "NaturalNumeral");
-                s.object = c.applyToArgs(args);
+            if (s.infiniteAt < 0) {
+                BigInteger mag = s.signed.abs();
+                // a magnitude below 2^127 rounds to a finite float
+                if (mag.bitLength() <= 127) s.infiniteAt = 0;
+                else if (!Float.isInfinite(simpleDoubleArith.numeralToFloat(mag, s.denomBase, s.denomPower))) s.infiniteAt = 0;
+                else s.infiniteAt = Double.isInfinite(simpleDoubleArith.numeralToDouble(mag, s.denomBase, s.denomPower)) ? 2 : 1;
             }
-            return s.object;
+            return s.infiniteAt;
+        }
+    }
+
+    /**
+     * Whether v is a numeral with a radix point, as written or folded, t is
+     * the library's RR64, the type of v's default, and v's exact value
+     * rounds to an infinity there: at a place that fixes RR64 such a numeral
+     * is refused as at any other type (literals.tex, "Literals"), though its
+     * default is an RR64.  FType.typeMatch asks, so that the place looks for
+     * a coercion, and inRange finds none.
+     */
+    public static boolean roundsToInfinityAsItIs(FType t, FValue v) {
+        if (!(v instanceof FloatNumeral)) return false;
+        if (t != v.type() && !(t.getName().equals("RR64") && t == libraryType("RR64"))) return false;
+        return infiniteAt(((Numeral) v).site()) == 2;
+    }
+
+    /** RR32's type, which FortressBuiltin declares, as NN32's; or null. */
+    private static FType rr32Type() {
+        try {
+            return FRR32.ZERO.type();
+        }
+        catch (RuntimeException ex) {
+            return null;
         }
     }
 
     /**
      * Whether the numeral v is inside the range of target, where target is
-     * one of the library's integer types; true for every other type.
+     * one of the library's integer types, or rounds to a finite value there,
+     * where target is the library's RR64 or RR32 (literals.tex, "Literals": a
+     * numeral that rounds to an infinity is refused); true for every other
+     * type.
      */
     static boolean inRange(FType target, FValue v) {
         Site s = ((Numeral) v).site();
         String n = target.getName();
+        if (n.equals("RR64") || n.equals("RR32")) {
+            if (target != (n.equals("RR32") ? rr32Type() : libraryType(n))) return true;
+            return infiniteAt(s) < (n.equals("RR64") ? 2 : 1);
+        }
         BigInteger lo, hi;
         if (n.equals("ZZ32")) { lo = INT_MIN; hi = INT_MAX; }
         else if (n.equals("ZZ64")) { lo = LONG_MIN; hi = LONG_MAX; }
@@ -593,50 +631,6 @@ public final class Numerals {
         return res;
     }
 
-    /** Whether o is the library's NaturalNumeral or RadixPointNumeral object. */
-    static boolean isNumeralObject(FValue o) {
-        if (!(o instanceof FObject)) return false;
-        FType t = o.type();
-        String n = t.getName();
-        if (!n.equals("NaturalNumeral") && !n.equals("RadixPointNumeral")) return false;
-        return t == libraryType(n);
-    }
-
-    /** The value of the field name of o, which a getter of the same name may hide from select. */
-    private static FValue fieldValue(FObject o, String name) {
-        FValue f = null;
-        try {
-            f = o.selectField(name);
-        }
-        catch (RuntimeException ex) {
-            f = null;
-        }
-        return f != null ? f : o.select(name);
-    }
-
-    private static BigInteger field(FObject o, String name) {
-        return fieldValue(o, name).getBigInteger();
-    }
-
-    private static int intField(FObject o, String name) {
-        return fieldValue(o, name).getInt();
-    }
-
-    /**
-     * Two numeral objects are strictly equivalent when their values are
-     * equal: digitValue / radix^fractionDigits, reduced.
-     */
-    static boolean sameValue(FObject a, FObject b) {
-        BigInteger va = field(a, "digitValue"), vb = field(b, "digitValue");
-        BigInteger da = BigInteger.valueOf(intField(a, "radix")).pow(fractionDigits(a));
-        BigInteger db = BigInteger.valueOf(intField(b, "radix")).pow(fractionDigits(b));
-        return va.multiply(db).equals(vb.multiply(da));
-    }
-
-    private static int fractionDigits(FObject o) {
-        return o.type().getName().equals("RadixPointNumeral") ? intField(o, "fractionDigits") : 0;
-    }
-
     /**
      * The dispatch caches' key of an argument list: each argument's type, and
      * for a numeral the bottom type, its default's type, its own type and its
@@ -703,10 +697,14 @@ public final class Numerals {
     /**
      * Whether the integer numeral v lies in the range of the unsigned type of
      * its default's width, NN32 for a ZZ64 default and NN64 for a ZZ default,
-     * as the bottom type, else the top type: the one part of a numeral's
-     * dispatch that its default's type does not fix (inRange).
+     * as the bottom type, else the top type; and for a numeral that rounds to
+     * an infinity at RR32 alone the void type, at RR32 and RR64 the range
+     * type: the parts of a numeral's dispatch that its default's type does
+     * not fix (inRange).
      */
     private static FType rangeKey(FValue v) {
+        int inf = infiniteAt(((Numeral) v).site());
+        if (inf > 0) return inf == 1 ? FTypeVoid.ONLY : FTypeRange.ONLY;
         BigInteger d = ((Numeral) v).site().digitValue;
         boolean fits = v instanceof LongNumeral ? d.compareTo(NN32_MAX) <= 0
                        : v instanceof BigNumeral ? d.compareTo(NN64_MAX) <= 0 : true;

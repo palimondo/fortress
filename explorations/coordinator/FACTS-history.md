@@ -7251,3 +7251,11 @@ pointer words refreshed in: F-24
 2026-11-10 02:26Z · rewritten · from `explorations/reviews/batch-29b-review.md`, "Findings" · commit `a2be3e9e1` · by climb batch 29b landing workflow (Opus): line citations that climb batch 29b's hunks moved, re-anchored (the review's correction B; PLAN.md:762, review.3)
 
 - F-334 **The compiled checker orders a call's candidates, a coercion's candidates and a trait's ancestors by a linear extension of their partial order, read once a pair, so no call stops it at 32 candidates or more.** `scala_src/useful/PartialOrder.scala` gives `minimal` and `linear`, used at `Functionals.scala:759`, `:769-774`, `:807-826`, `CoercionOracle.scala:245-264` and `Formula.scala:610`; a tie among the most specific keeps the first minimal candidate in the call's order of overloadings, which follows the build as well as the program (row 935). On the one library the checker's results are those of the sort it replaced, and the distance checks `value object Char` to its end (`#crash none`). Tests: `compiler_tests/PartialOrderCandidatesCompiled`, `compiler_tests/TieAmongMostSpecificCompiled`, `PartialOrderJUTest`, the distance stage. Detail: `compile-ladder/rung-checker-partial-order/REPORT.md`, sections 1, 2, 6 and 8.
+
+### F-348
+
+2026-11-10 11:39Z · added · from `explorations/compile-ladder/rung-numeral-leftovers/REPORT.md`, "1. What changed and why" · by climb batch 30's gather
+
+### F-349
+
+2026-11-10 11:39Z · added · from `explorations/compile-ladder/rung-numeral-leftovers/REPORT.md`, "1. What changed and why" · by climb batch 30's gather

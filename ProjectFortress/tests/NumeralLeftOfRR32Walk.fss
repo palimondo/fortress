@@ -1,5 +1,5 @@
 (* A float numeral to the left of an RR32 operand converts into RR32, as it does to the right: RR32's + and juxtaposition are the most specific. *)
-component XXXNumeralLeftOfRR32Walk
+component NumeralLeftOfRR32Walk
 export Executable
 
 shownV(v: Any): String =
@@ -13,6 +13,9 @@ run(): () = do
     a: RR32 = narrow(1.5)
     assert(shownV(2.5 + a), "4.0 : RR32", "literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": a float numeral + RR32 by RR32's +, the numeral converting into RR32")
     assert(shownV(2.5 a), "3.75 : RR32", "literals.tex, section \"Literals\", and conversions-coercions.tex, section \"Coercion Resolution\": a float numeral juxtaposed with an RR32 by RR32's juxtaposition, the numeral converting into RR32")
+    assert(shownV(2.5 - a), "1.0 : RR32", "a float numeral - RR32 by RR32's -")
+    assert(shownV(2.5 MAX a), "2.5 : RR32", "a float numeral MAX RR32 by RR32's MAX")
+    assert(shownV(a + 2.5), "4.0 : RR32", "RR32 + a float numeral by RR32's +")
     println "PASS"
   end
 

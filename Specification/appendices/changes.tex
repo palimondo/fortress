@@ -2714,9 +2714,8 @@ converted to \EXP{\mathbb{R}64}, and the result is an \EXP{\mathbb{R}64}; an
 \EXP{\mathbb{R}32} combined with a numeral by an operator that
 \EXP{\mathbb{R}32} declares over two of its values, as $+$ or \OPR{MAX}, takes the
 numeral converted into \EXP{\mathbb{R}32}, which declares a coercion from both
-numeral types, and the result is an \EXP{\mathbb{R}32}; the interpreter departs
-where a floating-point numeral stands to the left of the \EXP{\mathbb{R}32}, and
-runs the operator of \EXP{\mathbb{R}64} (row~958 of the revival's gap ledger); an
+numeral types, and the result is an \EXP{\mathbb{R}32}, on whichever side of
+the \EXP{\mathbb{R}32} the numeral stands; an
 \EXP{\mathbb{R}32} is converted where an \EXP{\mathbb{R}64} is expected.
 A conversion from \EXP{\mathbb{R}64} into \EXP{\mathbb{R}32}, which can lose
 precision, stays explicit.
@@ -5244,8 +5243,9 @@ No value of a numeral type exists on either implementation when a program runs.
 The compiled path, which until it is built on \library\ compiles against a
 smaller library of its own, declares there the same numeral types, with
 coercions generic over the four numbers from \TYP{NaturalNumeral} at its five
-integer types and from \TYP{RadixPointNumeral} at \EXP{\mathbb{R}64} and
-\EXP{\mathbb{R}32}; that library has no \EXP{\mathbb{Q}}.
+integer types, \EXP{\mathbb{R}64} and \EXP{\mathbb{R}32}, and from
+\TYP{RadixPointNumeral} at \EXP{\mathbb{R}64} and \EXP{\mathbb{R}32}; that
+library has no \EXP{\mathbb{Q}}.
 The compiled code converts a numeral as written at a number type by that type's
 coercion, whose body the compiler evaluates at the numeral's four numbers with
 no knowledge of the type, into the constant that the class file holds; a value
@@ -5256,20 +5256,28 @@ each place calls once, in the initialization of the class of the component that
 holds the place, before the program runs, the type's prefix \EXP{-} on a
 negated numeral with it; so a coercion that throws an exception stops the
 program.
+The compiled program initializes the class of its component, and after it the
+class of each component whose declarations it uses, directly or through
+another component, before the program runs, inside a
+task on a pool of one thread of its own, so that a coercion whose body spawns
+a task, as an operator applied to two calls may, fills its place; the tasks
+that a coercion spawns there run one after another.
 A signed constant at a number type of \library\ is converted from its exact
 value on both implementations, outside the coercion, so that no coercion from a
 numeral type receives a sign.
 The interpreter, which has no static types, applies a coercion from a numeral
 type at the place's first evaluation, with the four numbers bound as values of
 type \EXP{\mathbb{Z}}, and keeps its result for the place; it refuses a numeral
-only when the place is evaluated: one outside an integer type's range, one at a
+only when the place is evaluated: one outside an integer type's range, one
+that rounds to an infinity of \EXP{\mathbb{R}64} or \EXP{\mathbb{R}32}, one at a
 type that declares no coercion from the numeral's type or whose coercion's
 \KWD{where} clause the numeral does not meet, a negated numeral at a type
 without a prefix \EXP{-}, a folded constant at a type of a program's own
 without a coercion from the constant's default type, and a numeral bound to a
 variable declared of a numeral type.
-It converts a numeral that rounds to an infinity of \EXP{\mathbb{R}64} or
-\EXP{\mathbb{R}32} into that infinity with no error (row~967); it converts a
+It refuses when it loads a program a numeral type written as a type that an
+object or a trait extends, or as a static argument.
+It converts a
 numeral at a parameter of the declaration that a call chooses, at a variable or
 a field of a declared type and at a declared return type, but not one passed
 through a tuple or a varargs parameter (rows~395 and~511).
@@ -5289,19 +5297,15 @@ path's own library declares no \EXP{=} over \TYP{Any}, and declares \EXP{=} and
 numeral is converted, so that there \EXP{u = 0} is \VAR{true} and
 \EXP{u \neq 0} \VAR{false} for a zero \VAR{u} of \EXP{\mathbb{N}32}.
 The implementations depart from the text in these further ways, each with its
-row of the revival's gap ledger: the interpreter runs the operator of
-\EXP{\mathbb{R}64} where a floating-point numeral stands to the left of an
-\EXP{\mathbb{R}32} (row~958); the interpreter loads and runs a program that writes a numeral type as a type that an object or a trait extends, or as a static argument (row~974); a numeral with a radix point keeps only one of
+row of the revival's gap ledger: a numeral with a radix point keeps only one of
 its leading zeros in its digit count, as the parser gives the numeral to both
-implementations (row~960); the compiled path keeps a numeral's own type,
+implementations (row~960); the interpreter loads and runs a program that
+writes a numeral type in a \KWD{comprises} clause (row~981); the compiled path keeps a numeral's own type,
 \EXP{\TYP{NaturalNumeral}\llbracket{}n,r,v\rrbracket}, at the selector of a
 \KWD{typecase} (row~963); at a place whose type names a type parameter of its
 generic declaration, as \EXP{m()\COLON\TYP{Gen}\llbracket{}T\rrbracket = 3} in
 \EXP{\KWD{object}\;\TYP{Box}\llbracket{}T\rrbracket}, the compiled code applies
-the coercion at each evaluation of the place (row~957); a coercion from a
-numeral type whose body spawns a task, as an operator applied to two calls may,
-stops the load of the class that holds the place, which the compiled program
-loads before it starts its tasks (row~971); where a \KWD{nat} or \KWD{int}
+the coercion at each evaluation of the place (row~957); where a \KWD{nat} or \KWD{int}
 parameter of $2^{31}$ or more, other than one of a numeral type's four numbers,
 is used as a value, the compiled path stops with an error that no \KWD{catch}
 sees, and the interpreter makes it a \EXP{\mathbb{Z}64} (row~962); and both leave an expression of numerals alone

@@ -113,6 +113,20 @@ public class NumeralCoercionFoldJUTest extends TestCaseWrapper {
                      radixPoint("RR32", "1.00000005960464477539063"));
     }
 
+    public void testRR64FromNatural() throws Throwable {
+        assertEquals("3 at RR64", Double.valueOf(3.0), natural("RR64", "3"));
+        assertEquals("0 at RR64", Double.valueOf(0.0), natural("RR64", "0"));
+        assertEquals("a numeral of 30 digits at RR64", Double.valueOf(Double.longBitsToDouble(5042042089369253694L)),
+                     natural("RR64", "123456789012345678901234567890"));
+    }
+
+    public void testRR32FromNatural() throws Throwable {
+        assertEquals("3 at RR32", Float.valueOf(3.0f), natural("RR32", "3"));
+        assertEquals("16777217 at RR32", Float.valueOf(16777216.0f), natural("RR32", "16777217"));
+        assertEquals("a numeral of 30 digits at RR32", Float.valueOf(Float.intBitsToFloat(1875342472)),
+                     natural("RR32", "123456789012345678901234567890"));
+    }
+
     private static Object evaluate(Expr e) throws Throwable {
         Map<String, Object> bindings = new HashMap<String, Object>();
         bindings.put("v", BigInteger.TEN);

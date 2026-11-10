@@ -399,6 +399,7 @@ trait RadixPointNumeral[\nat n, nat m, nat r, nat v\] extends AnyRadixPointNumer
 
 
 trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
     coerce(x: RR32)
     getter isNaN(): Boolean 
@@ -441,6 +442,7 @@ trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64
 end
 
 trait RR32 extends { Number, Equality[\RR32\] } excludes { ZZ64, ZZ32, RR64 }
+    coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
 end
 

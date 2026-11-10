@@ -1,0 +1,13 @@
+(* A folded constant with a radix point that rounds to an infinity at an RR64 parameter is refused when the call runs. *)
+component NumeralPointRoundsToInfinityAtParameterWalk
+export Executable
+
+same(x: RR64): RR64 = x
+
+wide: RR64 = same(1.5 TIMES 10^400)
+
+run(): () = do
+    println(wide)
+  end
+
+end

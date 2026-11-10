@@ -88,9 +88,9 @@ numbers, with one rounding; the compiled type checker,
 against \library, and the interpreter convert an integer numeral where
 \EXP{\mathbb{R}64} is declared, whatever its value (\secref{literals},
 \secref{revival-numerals}).
-The compiled path's own library declares no coercion into \EXP{\mathbb{R}64}
-from an integer type or from \TYP{NaturalNumeral}; there \EXP{\mathbb{Z}32}, \EXP{\mathbb{N}32} and integer
-numerals convert to \EXP{\mathbb{R}64} only explicitly, and the other integer types not at all.}
+The compiled path's own library declares the coercion into \EXP{\mathbb{R}64}
+from \TYP{NaturalNumeral} and none from an integer type; there \EXP{\mathbb{Z}32} and \EXP{\mathbb{N}32}
+convert to \EXP{\mathbb{R}64} only explicitly, and the other integer types not at all.}
 
 One way to think about coercion is that if type \VAR{T} can be coerced
 to type \VAR{U}, then a value of type \VAR{T} can be used to ``stand

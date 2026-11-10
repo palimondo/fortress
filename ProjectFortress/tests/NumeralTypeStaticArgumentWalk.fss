@@ -1,0 +1,12 @@
+(* A numeral type is written only as a parameter's type: one written as a static argument is refused. *)
+component NumeralTypeStaticArgumentWalk
+export Executable
+
+object Wrap[\T\](w: ZZ32) end
+
+run(): () = do
+    c = Wrap[\RadixPointNumeral[\2, 1, 10, 5\]\](3)
+    println("REACHED: a numeral type is a static argument")
+  end
+
+end

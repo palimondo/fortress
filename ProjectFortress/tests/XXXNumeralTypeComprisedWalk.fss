@@ -1,0 +1,11 @@
+(* A numeral type is written only as a parameter's type: one written in a comprises clause is refused. *)
+component XXXNumeralTypeComprisedWalk
+export Executable
+
+trait T comprises { NaturalNumeral[\1, 10, 3\] } end
+
+run(): () = do
+    println("REACHED: a numeral type is in a comprises clause")
+  end
+
+end
