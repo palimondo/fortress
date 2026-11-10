@@ -1,0 +1,9 @@
+Record landing of climb batch 29b: FACTS, POSITIONS and the ledger brought in line with the landing
+
+- F-57, F-118, F-262, F-341, F-342, F-345, F-346, F-347: the pass on the batch's entries; F-118's default goes through the type's own coercion, F-346's title says both operators answer as if the values differed, F-347's spawn reaches two calls in one operator or argument list.
+- F-128, F-129, F-131, F-180, F-324: the sentences that the landing made false, among them the class loader's ZZ32 for a size read as a value and Numeral without a comprises clause.
+- F-240: a history note on the distance stage's start load; the entry unchanged.
+- F-35, F-44, F-58, F-63, F-74, F-78, F-85, F-268, F-276, F-279, F-285, F-286, F-301 to F-303, F-305 to F-307, F-311, F-312, F-315, F-321, F-327, F-330, F-332, F-334: cited lines re-anchored after the batch's hunks.
+- P-76, P-172, P-173, P-174, P-176: the sentences the tree made false, by the fewest words under the curator's rule of 2026-10-31; P-174 and P-176 name the rows where the tree departs now; each decision unchanged.
+- P-163, P-165, P-166, P-171, P-175: cited lines re-anchored.
+- Row 971: its claim widened to two calls of the program's own functions in one operator or argument list. Rows 960 and 442: notes on the reproducer owed and on the numeral half by path.

@@ -163,7 +163,7 @@ Status words: **interp** and **comp** each read `works` / `partial` / `absent`, 
 | identifiers, reserved words | `basic/lexical-structure.tex:773`, `1390`; `fortress/fortress-keywords.tex` | `Identifier.rats:48` `reserved`, `:52` `Id`; `Keyword.rats` (157 lines) | — | — | — | — | works (both) | 7, 8, 15, 93, 193, 257, 262 |
 | operator tokens, fixity, precedence | `basic/lexical-structure.tex:1156`; `basic/operators/precedence.tex`, `opr-fixity.tex`; appendix F | `Symbol.rats:117` `OpName`, `:120` `Op`, `:28-43` enclosers, `:37` `ExponentOp` | `parser_util/precedence_resolver/Resolver.java` (pre-AST), `Operators.scala` | — | — | — | works (both) | 5, 9, 86, 88, 89, 90, 216, 233, 278, 280 |
 | the operator/precedence tables themselves | appendix F | generated: `parser_util/precedence_resolver/Operators.java` from `unicode/OperatorStuffGenerator.java` | — | — | — | — | works (both) | — |
-| numerals, radix, character and string literals | `basic/lexical-structure.tex:797`, `925`, `1053` | `Literal.rats:53` `NumericLiteralExpr`, `:125` `CharLiteralExpr`, `:148` `StringLiteralExpr` | `Misc.scala:460-481` | `Evaluator.forIntLiteralExpr:1506`, `forFloatLiteralExpr:1502`, `forStringLiteralExpr:889`, `forCharLiteralExpr:1498` | `CodeGen.forIntLiteralExpr:3859`, `forFloatLiteralExpr:1979`, `forStringLiteralExpr:4896`, `forCharLiteralExpr:4885` | `CompilerBuiltin.fsi:369` `IntLiteral`, `:447` `FloatLiteral` | works (both) | 14, 15, 16, 200 |
+| numerals, radix, character and string literals | `basic/lexical-structure.tex:797`, `925`, `1053` | `Literal.rats:53` `NumericLiteralExpr`, `:125` `CharLiteralExpr`, `:148` `StringLiteralExpr` | `Misc.scala:460-481` | `Evaluator.forIntLiteralExpr:1506`, `forFloatLiteralExpr:1502`, `forStringLiteralExpr:889`, `forCharLiteralExpr:1498` | `CodeGen.forIntLiteralExpr:3859`, `forFloatLiteralExpr:1979`, `forStringLiteralExpr:4896`, `forCharLiteralExpr:4885` | `CompilerBuiltin.fsi:369` `IntLiteral`, `:447` `FloatLiteral` (both gone from the prelude since `a26e74f5c`) | works (both) | 14, 15, 16, 200 |
 | ASCII conversion of Unicode names | appendix E | the ASCII spellings of operator names (`SUM`, `DOT`, `TIMES`) are in `Symbol.rats` | — | — | — | — | partial (both) — **the appendix says so itself**: `\note{Only \secref{preprocessing-unicode-names} is supported.}` at `appendices/ascii-to-unicode.tex:15`; the other three sections are unimplemented | 5 |
 | comments (nesting) | `basic/lexical-structure.tex:700` | `Spacing.rats` | — | — | — | — | works (both) | 217 |
 
@@ -285,7 +285,7 @@ Status words: **interp** and **comp** each read `works` / `partial` / `absent`, 
 
 | feature | spec | parser | checker | interpreter | codegen | prelude | status | ledger |
 |---|---|---|---|---|---|---|---|---|
-| coercion declarations and invocations | `basic/conversions-coercions.tex` (8 sections, 800 lines) | `Method.rats:92` `Coercion` | `CoercionOracle.scala`, `CoercionTest.scala`, `compiler/index/Coercion.java` | **nothing**: no occurrence of `Coercion` or `coerce` anywhere under `interpreter/`; the desugaring is gated on `use_scala` (`Shell.java:280-282`), which `walk` turns off | `desugarer/CoercionDesugarer.scala` rewrites every `CoercionInvocation` to a function application before codegen (`Desugarer.java:129-133`); no coercion node reaches `CodeGen` | `coerce(x: FloatLiteral)` on `RR64`, `RR32` etc. (`CompilerBuiltin.fsi:413`, `:444`) | interp absent / comp works | 19 |
+| coercion declarations and invocations | `basic/conversions-coercions.tex` (8 sections, 800 lines) | `Method.rats:92` `Coercion` | `CoercionOracle.scala`, `CoercionTest.scala`, `compiler/index/Coercion.java` | **nothing**: no occurrence of `Coercion` or `coerce` anywhere under `interpreter/`; the desugaring is gated on `use_scala` (`Shell.java:280-282`), which `walk` turns off | `desugarer/CoercionDesugarer.scala` rewrites every `CoercionInvocation` to a function application before codegen (`Desugarer.java:129-133`); no coercion node reaches `CodeGen` | `coerce(x: FloatLiteral)` on `RR64`, `RR32` etc. (`CompilerBuiltin.fsi:413`, `:444`; `FloatLiteral` gone from the prelude since `a26e74f5c`) | interp absent / comp works | 19 |
 | automatic widening | `basic/conversions-coercions.tex:761` | — | `CoercionOracle.scala` | — | `asmbytecodeoptimizer/RemoveLiteralCoercions.java` | — | interp absent / comp partial | 146, 174, 283 |
 
 ### Chapter 18, Dimensions and Units; Chapter 26, Dimension and Unit Declarations
@@ -375,11 +375,11 @@ The line numbers are in the component; the api repeats each declaration in `Libr
 | `AnyMultiplicativeRing` | the exclusion marker, empty | `:336` (`.fsi:260`) |
 | **`MultiplicativeRing[\T\] extends { AdditiveGroup[\T\], AnyMultiplicativeRing }`** | `getter one()`, `opr TIMES`, **`opr juxtaposition(self, other:T) = self TIMES other`**, `opr ^` | `:340-348` (`.fsi:264`) |
 | `Number extends { StandardPartialOrder[\Number\], StandardMinMax[\Number\], AdditiveGroup[\Number\], MultiplicativeRing[\Number\] } comprises { RR64 }` | the meeting point of the order side and the algebra side | `:349-352` (`.fsi:273`) |
-| **`RR64 extends Number comprises { Float, FloatLiteral, RR32, QQ }`** | | `:422` (`.fsi:335`) |
+| **`RR64 extends Number comprises { Float, FloatLiteral, RR32, QQ }`** | `FloatLiteral` gone since `a26e74f5c` | `:422` (`.fsi:335`) |
 | `QQ extends { RR64, StandardPartialOrder[\QQ\] }` | | `:521` (`.fsi:370`) |
 | `AnyIntegral extends { QQ }` | | `:609` (`.fsi:406`) |
 | `Integral[\I\] extends { StandardTotalOrder[\I\], AnyIntegral }` | | `:611` (`.fsi:408`) |
-| **`ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }`** | | `:642` (`.fsi:461`) |
+| **`ZZ32 extends { ZZ64, Integral[\ZZ32\] } comprises { Int, IntLiteral }`** | `IntLiteral` gone since `a26e74f5c` | `:642` (`.fsi:461`) |
 | `ZZ64 extends { ZZ, Integral[\ZZ64\] } comprises { Long, ZZ32 }` | | `:700` (`.fsi:495`) |
 | `NN64 extends { ZZ, Integral[\NN64\] }` | | `:770` (`.fsi:434`) |
 | `ZZ extends Integral[\ZZ\]` | | `:822` (`.fsi:533`) |
@@ -411,7 +411,7 @@ Nothing above `Number`, and `Number` itself is an empty marker.
 | `RR64` | present, **flat**: `trait RR64 extends { Number, Equality[\RR64\] } excludes ZZ64`, with `+`, `-`, `/`, `juxtaposition`, `DOT`, `^`, `MIN`, `MAX`, `SQRT` and the comparisons all declared on the trait itself (`CompilerBuiltin.fsi:412-441`) |
 | `QQ`, `AnyIntegral`, `Integral[\I\]` | **absent** |
 | `ZZ32` | present, flat: `CompilerBuiltin.fsi:201-255` |
-| `ZZ64`, `ZZ`, `NN32`, `NN64`, `IntLiteral`, `FloatLiteral`, `RR32` | present, flat: `CompilerBuiltin.fsi:102`, `:146`, `:256`, `:313`, `:369`, `:412`, `:443`, `:447` |
+| `ZZ64`, `ZZ`, `NN32`, `NN64`, `IntLiteral`, `FloatLiteral`, `RR32` | `IntLiteral` and `FloatLiteral` gone since `a26e74f5c`; the rest present, flat: `CompilerBuiltin.fsi:102`, `:146`, `:256`, `:313`, `:369`, `:412`, `:443`, `:447` |
 | `Vector`, `Array`, `Array1`/`2`/`3` | **absent** |
 | `Matrix` | present as an empty stub: `trait Matrix[\T, nat s0, nat s1\] extends Object end`, `Library/CompilerLibrary.fss:512` (`.fsi:230`) — and it is the only `nat`-parameterised declaration in the whole compiler prelude |
 

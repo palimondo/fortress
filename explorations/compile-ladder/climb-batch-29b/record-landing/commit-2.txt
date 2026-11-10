@@ -1,0 +1,10 @@
+Record landing of climb batch 29b: PLAN, the review queue, two maps and the run's folder routed for the landing
+
+- PLAN, "Where we stand": climb batch 29b landed at a2be3e9e1 with distance 0 and no crash row; next, his answers to findings 1, 2 and 3 and item 77, then the next batch.
+- PLAN, phase 4: climb batch 29b's line; forks F5 to F7 to history, answered by item 482; new lines on the one library's numeral coercions and on row 971 with fork A6; eight batches landed.
+- PLAN, "Pavol's answers": item 75 to history, built; item 76 re-scoped to finding 3; item 77 before the next batch, with its queue item; items 78 and 79 new, findings 1 and 2.
+- PLAN, the lists for his review: climb batch 29's answered and built lines to history, items 450, 462, 470 and 473 brought to the tree; climb batch 29b's lines cut to pointers to review-queue items 490 to 495, four new lines for items 496 to 499, review.3 to history.
+- Review queue: items 487 to 499 new; 449, 450, 462, 470, 473, 475, 477 and 479 brought to the landing; the homes of 443, 448, 456, 458, 478 and 482 in PLAN-history; the head's groups and counts.
+- The maps: spec-to-implementation's IntLiteral and FloatLiteral gone from the prelude; dormant-code's specification lines re-anchored.
+- PLAN-history: every moved or rewritten line, word for word.
+- The run's folder of the climb batch 29b record landing.
