@@ -90,8 +90,8 @@ assert(flag: Boolean, failMsg: String): () =
 (*) The comparing forms of assert.  The interpreter's library writes one
 (*) generic assert(x: Any, y: Any, failMsg: Any...); that form cannot be used
 (*) here, because opr === on Any is reference identity in the compiler world
-(*) and an Any parameter suppresses the IntLiteral coercion that a call such as
-(*) assert(n, 4) needs.  The messages are built with || rather than with
+(*) and at an Any parameter a numeral takes its default, where a call such as
+(*) assert(n, 4) needs it converted at the type of n.  The messages are built with || rather than with
 (*) juxtaposition, which inserts a space on the compiled path.
 
 assert(x: ZZ32, y: ZZ32): () =

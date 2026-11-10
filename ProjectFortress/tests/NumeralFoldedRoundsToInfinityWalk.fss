@@ -1,0 +1,11 @@
+(* A folded constant that rounds to an infinity at an RR64 binding is refused, as a numeral is. *)
+component NumeralFoldedRoundsToInfinityWalk
+export Executable
+
+wide: RR64 = 10^400
+
+run(): () = do
+    println(wide)
+  end
+
+end

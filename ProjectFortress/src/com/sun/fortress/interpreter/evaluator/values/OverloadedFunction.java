@@ -2304,11 +2304,6 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
      * default (inference.tex, "A Numeral Whose Conversions Tie").
      */
     private SingleFcn bestMatchForNumerals(List<FValue> args, List<Overload> someOverloads) {
-        SingleFcn f = bestMatchForNumeralsInternal(args, someOverloads);
-        return this instanceof OverloadedMethod ? f : Coercions.withNumeralObjects(f, args, this);
-    }
-
-    private SingleFcn bestMatchForNumeralsInternal(List<FValue> args, List<Overload> someOverloads) {
         List<FValue> plain = Numerals.plain(args);
         SingleFcn best = bestMatchInternal(args, someOverloads, true);
         if (best != null) {
@@ -2362,6 +2357,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         Coercions.CoercedCall best = null;
         SingleFcn bestUnconverted = null;
         List<Coercions.CoercedCall> applicable = new ArrayList<Coercions.CoercedCall>();
+        List<SingleFcn> unconverted = new ArrayList<SingleFcn>();
         for (Overload o : someOverloads) {
             SingleFcn sfn = o.getFn();
             GenericFunctionOrMethod gsfn = genericOf(sfn);
@@ -2391,6 +2387,7 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             if (!applies) continue;
             Coercions.CoercedCall c = new Coercions.CoercedCall(sfn, coercions, this);
             applicable.add(c);
+            unconverted.add(converts ? null : sfn);
             if (best == null || Coercions.moreSpecific(domain, best.getDomain(), oargs.size())) {
                 best = c;
                 bestUnconverted = converts ? null : sfn;
@@ -2398,6 +2395,8 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
         }
         for (Coercions.CoercedCall c : applicable) {
             if (c != best && !Coercions.moreSpecific(best.getDomain(), c.getDomain(), best.arity())) {
+                int through = mostSpecificThroughOthers(applicable);
+                if (through >= 0) return unconverted.get(through) != null ? unconverted.get(through) : applicable.get(through);
                 return error(errorMsg("Ambiguous coercion, args = ",
                                       Useful.listInParens(args),
                                       ", applicable with coercion = ",
@@ -2405,6 +2404,37 @@ public class OverloadedFunction extends Fcn implements Factory1P<List<FType>, Fc
             }
         }
         return bestUnconverted != null ? bestUnconverted : best;
+    }
+
+    /**
+     * The index of the one declaration applicable with coercion that is more
+     * specific than each of the others, directly or through others of them:
+     * a declaration is more specific than a third when it is more specific
+     * than a second that is more specific than the third.  So RR32's + is
+     * more specific than AdditiveGroup's abstract + at RR64, which it does
+     * not exclude as walk reads exclusion, through RR64's own +.  -1 where
+     * there is none or more than one.
+     */
+    private static int mostSpecificThroughOthers(List<Coercions.CoercedCall> applicable) {
+        int n = applicable.size();
+        boolean[][] below = new boolean[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                below[i][j] = i != j && Coercions.moreSpecific(applicable.get(i).getDomain(), applicable.get(j).getDomain(),
+                                                             applicable.get(i).arity());
+        for (int k = 0; k < n; k++)
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < n; j++)
+                    if (below[i][k] && below[k][j]) below[i][j] = true;
+        int found = -1;
+        for (int i = 0; i < n; i++) {
+            boolean all = true;
+            for (int j = 0; j < n; j++) if (j != i && !below[i][j]) all = false;
+            if (!all) continue;
+            if (found >= 0) return -1;
+            found = i;
+        }
+        return found;
     }
 
     /**

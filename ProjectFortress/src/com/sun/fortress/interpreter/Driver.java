@@ -224,6 +224,7 @@ public class Driver {
         for (CUWrapper cw : components) {
             cw.initTypes();
         }
+        BuildEnvironments.checkNumeralTypesWritten(components);
         BuildEnvironments.checkComprisesClauses(components, comp);
         for (CUWrapper cw : components) {
             scanAllFunctionalMethods(cw.getEnvironment());

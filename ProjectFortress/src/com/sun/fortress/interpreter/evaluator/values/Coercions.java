@@ -95,10 +95,11 @@ public final class Coercions {
     /**
      * The coercion to target from the numeral v's own type, NaturalNumeral or
      * RadixPointNumeral: the one of target's coercions whose parameter type
-     * is the narrowest that holds the numeral type, which it receives as the
-     * numeral object; or null, also where v is outside target's range when
-     * target is an integer type.  A numeral does not reach target through a
-     * coercion from its default, since coercions do not chain.
+     * is the numeral type of v's kind, generic over its four numbers; or
+     * null, also where v is outside target's range when target is an integer
+     * type, or rounds to an infinity when target is RR64 or RR32.  A numeral
+     * does not reach target through a coercion from its default, since
+     * coercions do not chain.
      */
     private static SingleFcn numeralCoercionFor(FType target, FValue v) {
         if (!Numerals.inRange(target, v)) return null;
@@ -407,30 +408,6 @@ public final class Coercions {
     }
 
     /**
-     * target itself, or, where some argument is a numeral at a parameter that
-     * its own numeral type fits and its default does not, a call that makes
-     * each such numeral its numeral object and dispatches the arguments again,
-     * so that a functional method of the numeral type is found on that object.
-     */
-    static SingleFcn withNumeralObjects(SingleFcn target, List<FValue> args, OverloadedFunction owner) {
-        if (target instanceof CoercedCall) return target;   // its converted arguments are dispatched again
-        List<FValue> oargs = target.fixupArgCount(args);
-        if (oargs == null) return target;
-        List<FType> domain = target.getDomain();
-        boolean[] objects = new boolean[oargs.size()];
-        boolean any = false;
-        for (int j = 0; j < oargs.size(); j++) {
-            FType t = Useful.clampedGet(domain, j).deRest();
-            FValue a = oargs.get(j);
-            if (Numerals.isNumeral(a) && !t.typeMatch(a) && Numerals.fitsAsIs(t, a)) {
-                objects[j] = true;
-                any = true;
-            }
-        }
-        return any ? new CoercedCall(target, new SingleFcn[oargs.size()], owner, objects) : target;
-    }
-
-    /**
      * The coercions for each argument position of an overloaded call, chosen
      * by the argument types and kept in the per-argument-type cache: for each
      * position the coercion that converts it, or null, together with the
@@ -441,18 +418,12 @@ public final class Coercions {
         private final SingleFcn target;
         private final SingleFcn[] coercions;
         private final OverloadedFunction owner;
-        private final boolean[] objects;   // the positions of numerals that become their numeral objects, or null
 
         CoercedCall(SingleFcn target, SingleFcn[] coercions, OverloadedFunction owner) {
-            this(target, coercions, owner, null);
-        }
-
-        CoercedCall(SingleFcn target, SingleFcn[] coercions, OverloadedFunction owner, boolean[] objects) {
             super(target.getWithin());
             this.target = target;
             this.coercions = coercions;
             this.owner = owner;
-            this.objects = objects;
         }
 
         int arity() {
@@ -464,9 +435,7 @@ public final class Coercions {
             List<FValue> res = new ArrayList<FValue>(oargs);
             List<FType> domain = target.getDomain();
             for (int j = 0; j < coercions.length; j++) {
-                if (objects != null && objects[j]) {
-                    res.set(j, Numerals.object(oargs.get(j)));
-                } else if (coercions[j] != null) {
+                if (coercions[j] != null) {
                     res.set(j, apply(coercions[j], Useful.clampedGet(domain, j).deRest(), oargs.get(j)));
                 }
             }

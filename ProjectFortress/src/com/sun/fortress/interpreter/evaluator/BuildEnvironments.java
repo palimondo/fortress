@@ -1165,6 +1165,42 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
      * (OverloadedFunction.FunctionalMethodMeets), one with static parameters
      * for every instance (checkGenericFunctionalMethodMeets).
      */
+    /**
+     * Refuses a program that writes a numeral type, NaturalNumeral or
+     * RadixPointNumeral, as a type that a trait, an object or an object
+     * expression extends, or as a static argument: a numeral type is written
+     * only as a parameter's type (literals.tex, "Literals").  The libraries'
+     * own components declare the numeral types and are not read.
+     */
+    public static void checkNumeralTypesWritten(List<? extends CUWrapper> units) {
+        for (CUWrapper u : units) {
+            CompilationUnit cu = u.getCompilationUnit();
+            if (WellKnownNames.exportsDefaultLibrary(NodeUtil.nameString(cu.getName()))) continue;
+            cu.accept(new NodeDepthFirstVisitor_void() {
+                @Override
+                public void forTraitTypeWhere(TraitTypeWhere that) {
+                    refuseNumeralType(that.getBaseType());
+                    super.forTraitTypeWhere(that);
+                }
+
+                @Override
+                public void forTypeArg(TypeArg that) {
+                    refuseNumeralType(that.getTypeArg());
+                    super.forTypeArg(that);
+                }
+            });
+        }
+    }
+
+    private static void refuseNumeralType(Type t) {
+        if (!(t instanceof TraitType)) return;
+        Id name = ((TraitType) t).getName();
+        String text = name.getText();
+        if (!text.equals("NaturalNumeral") && !text.equals("RadixPointNumeral")) return;
+        if (name.getApiName().isSome() && !WellKnownNames.exportsDefaultLibrary(name.getApiName().unwrap().getText())) return;
+        error(t, errorMsg(text, " cannot be written in a program except as a parameter's type."));
+    }
+
     public static void checkComprisesClauses(List<? extends CUWrapper> units, CUWrapper main) {
         int m = units.indexOf(main);
         if (m < 0) return;

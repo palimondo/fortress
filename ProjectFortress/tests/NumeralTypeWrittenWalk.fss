@@ -1,5 +1,5 @@
 (* A numeral type is written only as a parameter's type: an object that extends one, and a numeral type as a static argument, are refused. *)
-component XXXNumeralTypeWrittenWalk
+component NumeralTypeWrittenWalk
 export Executable
 
 object O extends NaturalNumeral[\1, 10, 3\] end

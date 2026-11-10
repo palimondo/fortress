@@ -40,8 +40,8 @@ assert(flag: Boolean, failMsg: String): ()
     failure message.  They are declared at the types the compiler world has
     equality on rather than at %Any%: the generic form of the interpreter's
     library cannot be written here, because %opr ===% on %Any% is reference
-    identity and an %Any% parameter suppresses the coercion from %IntLiteral%
-    that a call such as %assert(n, 4)% needs. *)
+    identity and at an %Any% parameter a numeral takes its default, where a
+    call such as %assert(n, 4)% needs it converted at the type of %n%. *)
 assert(x: ZZ32, y: ZZ32): ()
 assert(x: ZZ32, y: ZZ32, failMsg: String): ()
 assert(x: String, y: String): ()

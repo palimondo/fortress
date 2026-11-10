@@ -1,5 +1,5 @@
 (* A float numeral to the left of an RR32 operand converts into RR32, as it does to the right: RR32's + and juxtaposition are the most specific. *)
-component XXXNumeralLeftOfRR32Walk
+component NumeralLeftOfRR32Walk
 export Executable
 
 shownV(v: Any): String =

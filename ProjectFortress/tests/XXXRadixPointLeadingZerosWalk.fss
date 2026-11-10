@@ -1,12 +1,15 @@
-(* A numeral with a radix point counts its leading zeros among its digits. *)
+(* A numeral with a radix point counts its leading zeros among its digits: a coercion over its four numbers reads three digits for 00.5. *)
 component XXXRadixPointLeadingZerosWalk
 export Executable
 
-parts(x: RadixPointNumeral): String =
-    x.digits.asString || " " || x.fractionDigits.asString || " " || x.radix.asString || " " || x.digitValue.asString
+object Digits(count: ZZ32)
+  coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Digits(n.asZZ32)
+end
+
+counted(d: Digits): ZZ32 = d.count
 
 run(): () = do
-    assert(parts(00.5), "3 1 10 5", "00.5 has three digits, one after the point, radix 10, value 5")
+    assert(counted(00.5), 3, "literals.tex, section \"Literals\": 00.5 has three digits")
     println "PASS"
   end
 

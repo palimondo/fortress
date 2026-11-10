@@ -45,8 +45,6 @@ public class FOrdinaryObject extends FObject {
     }
 
     public boolean seqv(FValue v) {
-        // two numeral values are strictly equivalent by their values, reduced
-        if (Numerals.isNumeralObject(this) && Numerals.isNumeralObject(v)) return Numerals.sameValue(this, (FObject) v);
         if (!(ftype.isValueType())) return false;
         if (!(v instanceof FOrdinaryObject)) return false;
         FOrdinaryObject o = (FOrdinaryObject) v;
