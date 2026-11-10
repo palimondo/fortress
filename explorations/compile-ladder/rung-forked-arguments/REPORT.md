@@ -128,7 +128,7 @@ No first error in the baseline's `raw/` names the task code, the argument evalua
 
 ## The team demos
 
-The interpreter's library is edited, so the demo driver ran once on the final tree (728c0fde79), under walk at one thread, `bash tmp/run-demos.sh tmp/demos` from the tree's root, 09:50Z to 10:16Z beside the batch's other work:
+The interpreter's library is edited, so the demo driver ran once on the final tree (728c0fde79), under walk at one thread, `bash tmp/run-demos.sh tmp/demos` from the tree's root, 09:50Z to 10:14Z beside the batch's other work:
 
     demos: 52 run, 52 reached their end
 
