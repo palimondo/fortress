@@ -50,7 +50,7 @@ He first wrote that the callout's look "is fine as it is", then, reading the one
 
 He saw a backtick and a straight apostrophe in the reader where the PDF has curly single quotes, and asked whether the source holds them or the converter makes them. Found: the LaTeX source writes every single quote as a backtick and an apostrophe, and LaTeX draws the pair as curly quotes. The converter makes the same change in running text. It leaves the pair as typed where the team wrote it inside a typewriter span, as in `\txt{`FBAB'}` at `Specification/basic/lexical-structure.tex:866`, while LaTeX's typewriter font draws it curly there too. Three places in the published pages, all in the chapter on lexical structure. For the reader's next run: a quote pair that wraps the whole content of a typewriter span becomes curly quotes; an apostrophe inside code stays as typed.
 
-### His rule on typography near the source (18:4x UTC on 2026-11-10)
+### His rule on typography near the source (18:3x UTC on 2026-11-10)
 
 With two screenshots of rule 2 on enclosers (the reader and the PDF), he said the reader was hard to read there and the PDF easier, and: "we should keep it as close as possible to the original source, right? We can modernize" but "we should be careful what font are we using for the source code"; the house style's code font has ligatures, which he likes for the house style, "but here we need to be careful when it renders differently in a way that it hides the ASCII part. And converts stuff to Unicode rendering when the point is to show the ASCII."
 
