@@ -18,7 +18,7 @@
 - **The ways review on a number `=` a numeral** (rows 973 and 966, item 487) runs since 07:5x UTC (a Fable worker at medium effort; brief `<scratchpad>/batch30/equality-ways-brief.md`; estimate 0.5M): its report will be `explorations/reviews/numeral-equality-ways-2026-11-10.md`. The result is not open: the design that he confirmed gives `true` for `u = 0` with a zero `u` of `NN32`, the `=` pairs deleted and the numeral converting at compile time to the other operand's type (`postmortem-2026-11-09-numerals/design-snapshot.md`, section 11). The review asks how both paths get there, and measures what the compiled checker does against the one library, whose `=` over `Any` fits a numeral at its default. Only a way that bends a decision of his becomes an ask.
 - **When the planner ends:** read its final message; put each consequential fork to him, one per message; then the check before the launch (below), the manifest generator (`plan-30/manifest/`, by a worker), the launch's steps of the manual ("Before the launch"), the check-in file `<scratchpad>/batch30/checkins.txt`, and his push notifications at the launch, at the landing and at a hold.
 - **The Fable review before the launch, his question of 07:4x:** with the planner on Fable, does a Fable review of its record still pay off? "the standing go for Fable review before launch has lost its meaning. What do you think?" The coordinator's answer of 07:5x, on which he has not ruled: the review's worth was a second reader that is not anchored on the plan, more than its tier, so one fresh reader stays, narrowed to a check: each citation at its source, each rung against the decisions and his words, the forks sorted, the merge risk; no rewrite of the record.
-- **Next for the coordinator:** a low-effort scout fetches his words of 05:4x on the three tasks for the Fable runway, so that the skill compression and the in-context learning point are briefed from his words.
+- **The skill compression waits for climb batch 30's landing**, the coordinator's choice: the landing's skill update rewrites the same parts, and the batch's workers keep one text of the skill. His words of 05:41 on it are tentative: "Maybe there we should just focus on compressing the largest offenders. So revival so far, probably we need some compression work, and interpreter and compiler, I believe, are the ones that grew a lot recently, but maybe it's all good." He does not want the skills recalibrated for Fable alone. His worry in the same message, not explained further: "we did not solve the in context learning challenge here."
 
 ## After that, in this order (the coordinator's proposal of 05:5x, on which he has not ruled)
 
@@ -57,7 +57,7 @@ The folder: `explorations/coordinator/postmortem-2026-11-09-numerals/`; its clos
 
 ## Armed check-ins
 
-"Batch 29b night check-in 11" (08:09 UTC) and "12" (08:54 UTC) are still armed (their IDs: `<scratchpad>/batch29b/checkins.txt`). Nothing runs, so each gets "." alone; they keep the prompt cache warm while he is on his way.
+Their IDs are in `<scratchpad>/batch30/checkins.txt`: "Batch 29b night check-in 11" (08:09 UTC) and "12" (08:54 UTC), left from the night, and "Batch 30 preparation check-in 1" to "3" (09:39, 10:24 and 11:09 UTC). Each checks whether the planner and the ways review ended; arm more, 45 minutes apart, while work runs.
 
 ## His reading of the pages
 
