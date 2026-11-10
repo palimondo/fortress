@@ -2,7 +2,7 @@
    "the numeral has radix 12 and contains letters other than A, B, X, E, a, b, x or e, or contains at least one
    A, B, a or b and at least one X, E, x or e", and X is a letter of radix 12 only.
    This test holds X_16. XXXNumeralRejectedTwelveXOutside.test names the rule that refuses it.
-   The valid numerals of radix 12 are in tests/NumeralRadixTwelveWalk.fss. *)
+   The valid numerals of radix 12 are in tests/NumeralTest.fss. *)
 component XXXNumeralRejectedTwelveXOutside
 export Executable
 
