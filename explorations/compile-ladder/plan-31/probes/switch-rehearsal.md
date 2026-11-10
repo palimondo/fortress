@@ -2,8 +2,6 @@
 
 # The switch-over rehearsed by brute force
 
-**Status of this file: a first version, written while the probe runs. Sections marked "(open)" are not reached yet.**
-
 The question: what stands between today's tree (`832f7d0d91`) and a program that compiles to bytecode and runs against the interpreter's library (P-37, P-33)? The method: switch a scratch tree's compiled path onto that library by the smallest change, then push, hacking past each wall, and record the walls in the order met. A hack is marked as one in the patch (`SWITCH HACK`), and the patch is not a design.
 
 Machine: nproc 4, Intel Xeon Processor @ 2.30GHz, OpenJDK 25, `FORTRESS_THREADS=1`. Other sessions share the machine.
@@ -73,17 +71,94 @@ Row 942's stack. It stops the whole component, not one declaration. `TraitTable.
 
 `ProjectFortress/LibraryBuiltin/FortressBuiltin.fss:429-430` declare `getter zero(): Number` and `getter one(): Number` in `NN32`, which inherits `getter zero(): I` and `one(): I` at `I = NN32` (`Library/FortressLibrary.fss:682-683`). The getter's return type is wider than the inherited one's; the checker passes it (the distance is 0), and the code generator stops the component. Hack: `NN32` in both lines, which is also the library's repair. Two defects: the library's text, and the checker's acceptance of a getter that widens an inherited return type. See "For the ledger".
 
-### W5. The declarations that the code generator refuses
+### W5. The declarations that the code generator refuses (rows 624, 81, 822, 812, 819, 315, 540, 875, 818)
 
-Past W4, `FortressBuiltin` compiles whole (92 classes). `FortressLibrary` stops at its first refused declaration ('Can't compile VarArgs yet', `Library/FortressLibrary.fss:307`). Section 3 counts them. Hack: the distance probe's tolerant code generator (`tools/distance/shadow-patch.py`'s edits of `CodeGen.java`) put into the scratch tree's `CodeGen`, so that a refused declaration is reported and left out and the jar is still written; two repairs of that hack were needed (a refused trait left its class writer in place of the component's, so the jar was never closed; a refused function left a method without code, closed now with a throw).
+Past W4, `FortressBuiltin` compiles whole. `FortressLibrary` stops at its first refused declaration ('Can't compile VarArgs yet', `Library/FortressLibrary.fss:307`). Section 3 counts them: 24 in 8 kinds, each kind in a row. Hack: the distance probe's tolerant code generator (`tools/distance/shadow-patch.py`'s edits of `CodeGen.java`) put into the scratch tree's `CodeGen`, so that a refused declaration is reported and left out and the jar is still written. That hack needed three repairs of its own, none of them a finding about the tree: a refused trait left its class writer in place of the component's, so the jar was never closed; a refused function left a half-written method, so each method is now kept apart until its class is written and one left open is written as a body that throws; and the wrapper generator writes its classes by another route, which had to flush the kept methods too.
 
-### W6. One method written twice into a class (row 571's kind; 27 classes)
+Leaving a declaration out is enough only where nothing on a program's path needs it. Five refused declarations were on the path of a program that prints one line, and each needed a stub in the library's text (section 4).
+
+### W6. One method written twice into a class (row 571's kind; 27 classes, 244 methods)
 
 First load of the library:
 
     java.lang.ClassFormatError: Duplicate method name "MAX?0" with signature "(Lcom.sun.fortress.compiler.runtimeValues.FZZ32;)Lcom.sun.fortress.compiler.runtimeValues.FZZ32;" in class file fortress/FortressLibrary$ZZ32$DefaultTraitMethods
 
-The code generator writes one name and descriptor twice into 24 classes of `FortressLibrary`'s jar (238 methods) and 3 of `RangeInternals`' (6 methods, `narrowToRange`). The compile reports nothing; each class fails when it loads. Row 571 holds one shape of it (an object that declares the meet of two inherited methods); the library's shapes are wider, `ZZ32`'s own `MAX` beside the ones it inherits among them. Hack: the class writer keeps the first copy. A real repair: one rung at least, which first sorts the 244 by cause.
+The code generator writes one name and descriptor twice into 24 classes of `FortressLibrary`'s jar (238 methods) and 3 of `RangeInternals`' (6 methods, `narrowToRange`). The compile reports nothing; each class fails when it loads. Row 571 holds one shape of it (an object that declares the meet of two inherited methods). The library's shape is wider: a trait that declares its own method at the instance of a generic supertrait's method, as `ZZ32`'s `<`, `MAX` and `CMP` beside `StandardPartialOrder[\ZZ32\]`'s and `StandardMinMax[\ZZ32\]`'s, gets a forwarder for each, under one name and descriptor. So the code generator does not see that the trait's own declaration overrides the inherited one.
+
+The first hack, keep the first copy, ran `println` once and then, after an unrelated rebuild, sent it into a `StackOverflowError`: the copy kept for `ZZ32`'s `<` forwarded to `StandardPartialOrder`'s `<`, which calls `CMP`, which calls `<`. Which copy comes first is not stable from one compile to the next. The hack now prefers the copy that calls a static method of the class itself, the trait's own declaration: 98 of the 238 are swapped by that rule. A real repair: one rung at least, at the place where a trait's forwarders are gathered, with the override test at the instantiated signature; it first sorts the 244 by cause.
+
+### W7. Missing casts that the JVM's verifier refuses (rows 307 and 695's kind; not counted)
+
+    java.lang.VerifyError: Bad type on operand stack
+      Location: fortress/FortressLibrary$QQ$DefaultTraitMethods.isFinite(Lfortress/FortressLibrary$QQ;)Lcom/sun/fortress/compiler/runtimeValues/FBoolean; @1: invokestatic
+      Reason: Type 'fortress/FortressLibrary$QQ' (current frame, stack[0]) is not assignable to 'fortress/FortressLibrary$Ratio'
+
+`getter isFinite(): Boolean = (denominator(self) =/= 0)` in `trait QQ comprises { Ratio }` (`Library/FortressLibrary.fss:570`): the checker lets `self` stand where the comprised object type `Ratio` is expected, and the code generator emits no cast. It is thrown from `FortressLibrary`'s static initializer, at the first numeral coercion into `QQ`, so it stops every program. In `QQ` alone 23 lines pass `self` to `numerator` or `denominator`. Rows 307 and 695 hold the kind for a program's own traits; no row names the library's `QQ`. Hack: every compiled run of this probe had the verifier switched off (`-XX:+UnlockDiagnosticVMOptions -XX:-BytecodeVerificationRemote`). So nothing below shows how many other methods the verifier refuses, and a count needs every emitted class loaded with the verifier on, which this probe did not build. A real repair: the cast where a value typed by a trait with a `comprises` clause meets a listed type (row 307's repair), one rung, and then the count.
+
+### W8. `println` needs `WriteStream`, refused for its varargs methods (row 624)
+
+    Caused by: java.lang.NoClassDefFoundError: Stream$WriteStream
+        at Writer$stdOut.<clinit>(Library/Writer.fss:17)
+        at fortress.FortressLibrary.println(Library/FortressLibrary.fss:4709)
+
+`trait WriteStream` declares `print(args:Any...)` and `println(args:Any...)` (`Library/Stream.fss:70-71`), so the whole trait is refused ('OptionUnwrapException', row 624's trait form) and `stdOut` has no class. The library's own `println` does not call them. Hack: the two methods left out of `Stream.fss` and `Stream.fsi`. `FlatString`'s two calls of the varargs `assert` (`Library/FlatString.fss:63`, `:109`) were left out for the same reason. Row 624 is on every program's path: varargs must compile, or the library's text must change, before a line prints.
+
+### W9. `Indexed` is refused for one `label` (row 81)
+
+`trait Indexed`'s `indexOf` uses `label` and `exit` (`Library/FortressLibrary.fss:2188-2194`, the `label` at `:2189`), so the trait is refused, and every string and every array is an `Indexed`. Hack: `indexOf`'s body made `fail(…)`; `Generator2.generate2`'s `label` loop replaced by its last line, the naive implementation (`:4983-4995`); the four postfix range operators over pairs and triples (row 819) made `fail(…)`, since the refused functions otherwise left methods that the verifier's stack check refused even with verification off. Behind `Generator2`'s `label` stands a second wall, 'Can't compile VarArgs yet', and behind `List`'s duplicate closure class likewise: a declaration counted at its first wall can hold more.
+
+### W10. A closure class written twice into the jar (row 315's kind) stops `=` on two `ZZ32` values
+
+    Caused by: java.lang.NoClassDefFoundError: fortress/FortressLibrary$LexicographicOrder$RTTIi
+        at ...FortressLibrary⚙$CMP⟦FZZ32⟧...the_function
+        at ...StandardPartialOrder⟦FZZ32⟧$DefaultTraitMethods.=(Library/FortressLibrary.fss:232)
+        at ...Indexed⟦FCharacter,FZZ32⟧$DefaultTraitMethods.isEmpty(Library/FortressLibrary.fss:2120)
+        at fortress.FlatStringC$FlatString$DefaultTraitMethods.||(Library/FlatString.fss:126)
+
+`trait LexicographicOrder` (`Library/FortressLibrary.fss:2216-2228`) is refused, 'java.util.zip.ZipException: duplicate entry: FortressLibrary$\=fn@2227\!12-52??.class', and the dispatch method of `CMP` names every overload's trait, so comparing two integers needs its class. Hack: the jar writer keeps the first copy of a class. `List` has the same failure (`Library/List.fss:128`).
+
+### W11. The dispatch method of a generic overloaded function names its component without the package `fortress` (no row)
+
+    Caused by: java.lang.NoClassDefFoundError: FortressLibrary
+        at fortress.FortressLibrary⚙$seq⟦FZZ32⟧...the_function(Unknown Source)
+        at Arr.run(Arr.fss:5)
+
+`OverloadSet` builds the owner of a generic function's instance table and the name of its template class from `Naming.dotToSep(f.tagA.getText())`, the api's bare name, at four places (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:904`, `:1361`, `:1724`, `:1728`), where every other place asks `NamingCzar.javaPackageClassForApi`, which puts a default library's classes in the package `fortress`. The prelude has no generic overloaded function that a program reaches this way; the one library's `seq` is the first. Hack, which is also the repair: the four places call `javaPackageClassForApi`. One small rung with its test, which needs the switch to be seen.
+
+### W12. A carried type has two names at run time, its trait's and its carrier's (no row)
+
+    Caused by: java.lang.ClassCastException: class RangeInternals$CompactFullParScalarRange cannot be cast to class fortress.FortressLibrary$Generator⟦fortress|FortressLibrary%ZZ32⟧
+        at ...FortressLibrary⚙$seq⟦FZZ32⟧...the_function
+
+A trait's generated `RTTIc` holds the trait's own interface class (`CodeGen.java:5999`, `cnb.classDesc`), so a static argument read from a value's run-time type is named `fortress/FortressLibrary$ZZ32`, while the descriptors of compiled code name the same type by its carrier, `FZZ32`. The dispatch of the generic `seq` infers `E` from the range's `Generator[\ZZ32\]` and instantiates `Generator⟦FortressLibrary$ZZ32⟧`, which is not the `Generator⟦FZZ32⟧` that the range implements. The prelude has the same two names and never infers a static argument from a carried type's RTTI (its `GeneratorZZ32` is not generic). Hack: the generated `RTTIc` of a carried type holds the carrier class. Part of the carrier design of W2; with W13 and W14 it shows that the design reaches the code generator's naming, not only N5's tables.
+
+### W13. The number objects below the number traits: `asFloat` has no body on a compiled `ZZ32` (no row)
+
+    Caused by: java.lang.AbstractMethodError: Receiver class com.sun.fortress.compiler.runtimeValues.FZZ32 does not define or inherit an implementation of the resolved method 'abstract ...FRR64 asFloat?0()' of interface fortress.FortressLibrary$ZZ32.
+
+`trait ZZ32` declares `asFloat(self): RR64` abstract and `value object Int extends ZZ32` gives its body (`FortressBuiltin.fss`); likewise `Long`, `UnsignedLong`, `BigNum` and, for the whole of `RR64`'s arithmetic, `Float` (146 lines, `FortressBuiltin.fss:61-206`). A carrier that is the trait's class has none of the object's bodies. Two hacks, one for each shape: `Float` made a trait with a carrier object, as W2's five, and `FRR64` put below it; for `ZZ32` and `ZZ64`, `asFloat`'s body copied into the trait. Putting `FZZ32` below a trait `Int` in the same way was tried and gave back W6's wrong forwarder. A real repair is the carrier design's answer for a trait with one comprised object.
+
+### W14. A trait or object that extends a carried type gets the carrier class as its superinterface (no row)
+
+    Exception in thread "main" java.lang.ClassCircularityError: com/sun/fortress/compiler/runtimeValues/FZZ
+
+`NamingCzar.extendsClauseToInterfaces` (`NamingCzar.java:799-824`) names each parent by `jvmTypeDesc`, which answers a carried type's carrier class, so `Float extends RR64` became an interface that extends the class `FRR64`. In the prelude nothing extends a carried trait in Fortress source. Hack: a carried type in an `extends` clause is named by its own interface. This wall was met only because W13's hack made `Float` a trait below `RR64`; an object below a carried trait takes the same path. Part of the carrier design.
+
+### W15. An array of rank 2: an abstract method over an index type that is a tuple has no implementation (row 832's kind)
+
+    Caused by: java.lang.AbstractMethodError: Receiver class fortress.FortressLibrary$__DefaultMatrix⟦FRR64,3,4⟧ does not define or inherit an implementation of the resolved method 'abstract Tuple⟦FZZ32,FZZ32⟧ offset(Tuple⟦FZZ32,FZZ32⟧)' of interface fortress.FortressLibrary$ReadableArray⟦FRR64,Tuple⟦FZZ32,FZZ32⟧⟧
+        at ...Array⟦FRR64,Tuple⟦FZZ32,FZZ32⟧⟧$DefaultTraitMethods._[_]:=(Library/FortressLibrary.fss:2369)
+
+`Array[\E,I\]` declares `offset(i:I): I` (`Library/FortressLibrary.fss:2314`); `Array2` gives `offset(t1:(ZZ32,ZZ32)):(ZZ32,ZZ32)` (`:2847`). At `I = (ZZ32,ZZ32)` the abstract method takes one boxed tuple, and the body written at the tuple type was compiled with another descriptor, with no bridge between them. So `m[i,j] := x` and `m[i,j]` die on every rank-2 and rank-3 array, a `Matrix` among them. Row 832 holds the nearest shape (a generic dotted method whose single parameter has a tuple type from a tuple static argument). **No hack gets past it: it needs the code generator to emit the bridge, a rung's real work. The probe stops on this line here.**
+
+### W16. The library's vector algebra: a generic method inherited from an api's trait has no body on the object (rows 495 and 732's kind)
+
+    Caused by: java.lang.AbstractMethodError: Receiver class RangeInternals$CompactFullParScalarRange does not define or inherit an implementation of the resolved method 'abstract java.lang.Object map⟦…⟧(long, java.lang.String)' of interface fortress.FortressLibrary$Indexed⟦FZZ32,FZZ32⟧.
+        at ...ReadableArray⟦FRR64,FZZ32⟧$DefaultTraitMethods.indexValuePairs(Library/FortressLibrary.fss:2288)
+        at ...FortressLibrary$fn@2716...apply(Library/FortressLibrary.fss:2716)
+        at ...__bigOperator...
+
+`a DOT b` on two `Vector[\RR64,1000\]` values reaches `Indexed`'s generic method `map[\R\]` on a range object of `RangeInternals`, which has no implementation of it: the object inherits the generic method's body from a trait of another component's api. PLAN's phase 4 names this arm ("an object's inherited generic method … dies at the generic arm", from the generic-`distribute` probe) and phase 5 names rows 495 and 496. **No hack was tried: it is the code generator's generic dotted methods, a rung's real work.** Every `map`, `ivmap` and `DOT` of microGPT's vocabulary is on it.
 
 ## 3. The code generator over the library today, against F-34
 
@@ -119,24 +194,110 @@ The probe counts a declaration at its first wall and skips the dispatch methods 
 
 What the count cannot see: W6's 244 duplicate methods, and whatever the JVM's verifier refuses, since the probe runs no emitted class (F-34 says so).
 
-## 4. Linking, loading, running (open)
+## 4. How far each program got
 
-## 5. Timing (open)
+The library order under the switch, each component compiled by name: `AnyType`, `FortressBuiltin` (14 s), `FortressLibrary` (73 to 79 s, 2,490 jar entries), `RangeInternals` (38 to 51 s), `NativeArray`, `FlatString`, `String`, `List`, `Stream`, `NatReflect`, `TypeProxy`, `Writer`, `CovariantCollection`, `OneShotFlag`: about 200 s, against 100 to 110 s for the prelude's five. With every hack in, 17 declarations are still left out of the jars: `assert`, `deny`, `simplestRationalBetween`, `__filter`, `__bigOperator2` and `Generator2` of `FortressLibrary`; `CatString`, `EmptyString`, `SubString`, `concatAndBalanceIfNecessary` and `stringifyChars` of `String`; `ArrayList`, `app`, `List` and `<|_|>` of `List`; `APPCOV`; `OneShot`.
 
-## 6. The walls grouped, against PLAN's phase 4 and phase 5 lines (open)
+`fortress link Hello.fss` under the switch exits 0 with no message in 4.6 s; linking met no wall. Row 320 (an api implemented by a component of another name) was not met: each of the fourteen components exports the api of its own name.
+
+Each program below was also run under walk on the base build (`tools/old-fortress.sh /home/user/fortress-base32 …`), which printed the same lines as the compiled run where the compiled run ended.
+
+| program | what it does | compiled against the one library |
+|---|---|---|
+| `Hello` | `println("Hello, one library")` | compiles with the switch alone; runs after W1 to W10: `Hello, one library` |
+| `Arr` | `array1[\ZZ32,8\]()`, a `for` over `seq(0#8)` that writes `i i`, then `println("a[5] = " \|\| a[5].asString)` | compiles; runs after W11 and W12: `a[5] = 25` |
+| `Dot` | two `Array1[\RR64,0,1000\]`, filled in a loop, then `s += a[i] b[i]` in a `seq` loop | compiles; runs after W13 and W14: `dot = 499500.0` |
+| `DotLib` | the same on `Vector[\RR64,1000\]` with the library's `a DOT b` and `SUM[\RR64\][i <- 0#1000] a[i] b[i]` | compiles; dies at W16 |
+| `MatVec` | `array2[\RR64,3,4\]()` written by `m[i,j] := …`, times a vector in two `seq` loops | compiles; dies at W15 at the first `m[i,j] :=` |
+| `MatVecLib` | `Matrix[\RR64,3,4\]`, `Vector[\RR64,4\]`, `r = m v` | compiles; dies at W15 |
+| microGPT's flat program and its quick check | `explorations/run-c4/src/` | stopped by the checker, below |
+
+So a program with rank-1 arrays and its own loops compiles and runs against the interpreter's library. A matrix, the library's own vector algebra and microGPT do not.
+
+### microGPT's flat program
+
+`fortress compile` of the four components of `explorations/run-c4/src/`, copied, under the switch. Each count is a floor, since the checker stops a block at its first failing statement (row 474).
+
+- `FlatArrays`: its api first fails 17 times, 16 of them 'Ill-formed type: Array[\RR64,I\] The static argument I does not satisfy the corresponding bound Index.' (PLAN item 61) and one `gather[\T extends Number …\]` whose `Matrix[\T,r,c\]` wants `MultiplicativeRing[\T\]`. With `I extends Index` written at the seven generics and `gather`'s bound widened, in the copy, the component has 7 errors: one 'Function body has type Array2[\RR64,0,s,0,s2\], but declared return type is Matrix[\RR64,s,s2\]' (`FlatArrays.fss:42`), five calls that pass an unsized `Array[\RR64,(ZZ32,ZZ32)\]` or `Array[\RR64,(ZZ32,ZZ32,ZZ32)\]` where `Matrix` or `Array3` is declared (`:131`, `:145`, `:151`, `:157`, `:163`), and 'Array[\RR64,(ZZ32, ZZ32)\] has no getter called sizes' (`:184`).
+- `FlatData`: 1 error, in the library, not the program: 'the return type of File.FileReadStream->Generator[\Char\] @ Library/File.fsi:84:5-90:8 should be a subtype of the return type of FileSupport.ReadStream->Generator[\String\] @ Library/FileSupport.fsi:100:5-106:8'. PLAN's line on the components outside the distance holds `File` and `FileSupport`.
+- `MicroGptFlat`: 8 errors: three `DOT` calls on two unsized `Array[\RR64,ZZ32\]` (`:27`, `:31`, `:34`), two calls of `gather`, one of `view`, one 'Function body has type ((), ()), but declared return type is (ZZ32, ZZ32)', and one ambiguous coercion.
+- `MicroGptFlatQuick`: 1 error, `MicroGptFlatQuick.fss:40`, `1.0 corpus.token(d, j)`: 'Ambiguous coercion in call to operator juxtaposition: of the declarations applicable to an argument of type (RadixPointNumeral[\2,1,10,10\], ZZ32) only by coercion, none is more specific than every other: ((RR64 & {Float}), RR64)->RR64; (QQ, QQ)->QQ.'
+
+17 errors in all, against F-58's 26 on an earlier library. The three `DOT` refusals that F-58 reads as cleared are still there, now for the unsized arrays themselves. Row 533's kind is back in another form: a numeral with a radix point times a `ZZ32` value is tied between `RR64` and `QQ`; under walk the line runs. The model's static types (decision D, P-87) are a rung's real work and the curator's decision, so the probe stops on this line here. Behind the checker stand W15 and W16, and the model's arrays sized at run time (`array[\RR64\](n)`, `NatReflect`; rows 307 and 867), which this probe did not reach.
+
+## 5. One timing
+
+One timing, on a shared machine with other sessions running (load average 3.7 to 4.8 during it), the verifier off for the compiled run, `FORTRESS_THREADS=1`, OpenJDK 25, nproc 4, Intel Xeon @ 2.30GHz. The program, `DotU`: `Dot`'s two arrays of 1,000 `RR64`, and the loop `s += a[i] b[i]` over them run 5,000 times, 5 million iterations; both runs print `total = 2.4975E9`.
+
+    compiled against the one library   real 1.4 s    (fortress run, JVM start included)
+    walk, base build                   real 39.8 s   (JVM start and walk's load of the library included)
+
+`Hello` alone takes 0.6 s compiled and 3.8 s under walk, so about 0.8 s against 36 s for the loop, some 45 times. It is one pair of runs, not taken together, and no claim about microGPT: the loop reads rank-1 arrays through `get` with boxed numbers and uses none of the library's reductions.
+
+## 6. The walls grouped, against PLAN's phase 4 and phase 5 lines
+
+**(a) What the switch itself needs.**
+
+| wall | PLAN names it? |
+|---|---|
+| the two lines of `Shell.useCompilerLibraries()` (section 1) | yes: "The names, the switch-over itself" |
+| W1, the new library order of fourteen compiles, about 200 s | no line states it |
+| W2, the carriers: tables, two converters, the stores' carriers, 13 run-time classes re-parented, three stub files, 99 raise strings | in part: N5 names the foreign-type table (15 names), the raise strings (as 55) and row 874, as one rung; it names `FlatString`'s carrier as unmeasured |
+| W2, the five objects that a hand-written class must carry (`Boolean`, `Char`, `NN32`, `RR32`, `FlatString`), W13 (`Int`, `Long`, `Float`, `UnsignedLong`, `BigNum` below their traits), W12 (the RTTI's second name), W14 (the superinterface) | no: no line holds the carrier design for a type that is an object in the one library, or for a trait with one comprised object |
+| W2, `FlatString`'s Java stub and package | no |
+| W3, `TraitTable`'s search by the prelude's api names, which hides rows 940 and 942 | no: the plan holds rows 940 and 942 as the code generator's, not as something the switch uncovers for the whole of `FortressBuiltin` |
+| W11, `OverloadSet`'s four bare api names | no |
+| the other names that the prelude's world keeps in source and this probe did not need: `Linker.java:150`, `ParallelismAnalyzer.java:199-201`, `Inlining.java`, `TopLevelEnv.java:976`, `Functionals.scala:1697`, `KindEnv.scala:117`, `:132` | in part: N5's "source files that name the prelude" |
+
+**(b) What the library's own compile needs.**
+
+| wall | PLAN names it? |
+|---|---|
+| W4, `NN32`'s `zero` and `one` at `Number` | no |
+| W5, 24 refused declarations in 8 kinds (section 3) | yes: the F-34 line, "phase 4's second zero", with rows 624, 818, 819, 822 and 875; rows 81 (`label`), 315 (the closure class) and 540 (the intersection) are not on that line, and 540 is on phase 5's |
+| W6, 244 methods written twice, with the wrong forwarder behind them | no: row 571 is on phase 5's line of generic and functional methods, as a row of its own, not as 27 classes of the library |
+| W7, the verifier's refusals, `QQ`'s first | in part: row 307 "waits until after the switch-over"; here it stops the library's static initializer |
+| W8, W9, W10: rows 624, 81 and 315 on the path of `println` | the rows are named (624) or not (81, 315); no line says that a one-line program needs them |
+
+**(c) What a program with arrays needs beyond that.**
+
+| wall | PLAN names it? |
+|---|---|
+| rank-1 arrays with the program's own loops: nothing beyond (a) and (b) | |
+| W15, a tuple index type: rank 2 and 3 | no: row 832 is on the F-34 line as a sibling, not as what every matrix needs |
+| W16, the library's `DOT`, `map`, `ivmap` | yes: phase 4's line from the generic-`distribute` probe, and phase 5's rows 495 and 496 |
+| run-time sizes (rows 307, 867) | yes, by row |
+
+**(d) What microGPT needs beyond that.**
+
+| wall | PLAN names it? |
+|---|---|
+| the helpers' `I extends Index` | yes: PLAN item 61 |
+| the model's static types: 15 of the 17 checker errors | yes: decision D, P-87, F-58 |
+| the numeral times a `ZZ32`, tied between `RR64` and `QQ` | in part: row 533 is named as not reproduced; it reproduces in this form |
+| `File` against `FileSupport` | yes: the components outside the distance |
+| `gather`'s bound | no; a helper's line, by reading |
+
+What the plan's lines do not name, in one list: the carrier design beyond the table (objects, traits with one comprised object, the RTTI's name, the superinterface, the Java stubs); the team's search hack in `TraitTable` and what it hides; `OverloadSet`'s package; `NN32`'s two getters; the duplicate methods as a property of the library's own traits, with the wrong forwarder; the verifier's count over the emitted library, which nothing measures; that rows 624, 81 and 315 stand on the path of a one-line program; the tuple index type as the wall of every matrix; the new library order.
 
 ## The hacks
 
-All in `switch-rehearsal.patch`, each marked `SWITCH HACK`:
+All in `switch-rehearsal.patch`, each marked `SWITCH HACK`. The patch is the scratch tree's whole diff against `832f7d0d91`: 47 files.
 
 1. `Shell.useCompilerLibraries()`: the switch (section 1).
-2. `NamingCzar`, `Naming`, `FortressMethodAdapter`: the carriers' tables, two converters (W2).
-3. The run-time classes re-parented, three stub files, two new store carriers, the raise strings (W2).
-4. `FortressBuiltin.fss`, `.fsi`, `FlatString.fss`, `.fsi`: five objects made traits with a carrier object; `NamingCzar.javaPackageClassForApi`: `FlatString`'s class named `fortress/FlatStringC` (W2).
+2. `NamingCzar`, `Naming`, `FortressMethodAdapter`: the carriers' tables, the converters for `String`, `Any` and the two stores (W2).
+3. The run-time classes re-parented, the stubs `fortress/FortressLibrary.java`, `FortressBuiltin.java` and `FlatStringC.java`, the new `FJavaArrayStore` and `FJavaRR64ArrayStore`, the raise strings (W2).
+4. `FortressBuiltin.fss` and `.fsi`, `FlatString.fss` and `.fsi`: `Boolean`, `Char`, `NN32`, `RR32`, `FlatString` and `Float` made traits, each with a carrier object; `NamingCzar.javaPackageClassForApi`: `FlatString`'s class named `fortress/FlatStringC` (W2, W13). Walk does not run on the scratch library.
 5. `TraitTable.scala`: the team's search extended to the one library's two prelude apis (W3).
-6. `FortressBuiltin.fss:429-430`: `NN32`'s `zero` and `one` at `NN32` (W4).
-7. `CodeGen`, `CodeGenClassWriter`, `CodeGenMethodVisitor`: refused declarations left out, open methods closed with a throw (W5); a method written twice keeps its first copy (W6).
-8. `FlatString.fss`: its two calls of the varargs `assert` left out (row 624).
+6. `FortressBuiltin.fss`: `NN32`'s `zero` and `one` at `NN32` (W4); also the library's repair.
+7. `CodeGen`, `CodeGenClassWriter`, `CodeGenMethodVisitor`: refused declarations left out, a method left open written as a throw (W5); of a method written twice, the copy that calls the class's own static method is kept (W6). `ByteCodeWriter`: of a class written twice, the first is kept (W10).
+8. The run: the verifier off (W7). Not in the patch; a flag of the run.
+9. Library stubs: `FlatString.fss`, its two calls of the varargs `assert`; `Stream.fss` and `.fsi`, the varargs `print` and `println`; `FortressLibrary.fss`, `Indexed.indexOf`, `Generator2.generate2`, the four postfix range operators (W8, W9).
+10. `OverloadSet.java`: four names through `javaPackageClassForApi` (W11); also the repair.
+11. `CodeGen.java` and `Naming.carrierDesc`: a carried type's `RTTIc` holds its carrier class (W12). `NamingCzar.extendsClauseToInterfaces`: a carried parent is its own interface (W14).
+12. `FortressLibrary.fss`: `asFloat`'s body copied into `ZZ32` and `ZZ64` (W13).
+
+In rungs, by this probe's judgement and no more: the carrier design is a design question first and then about three rungs (W2, W12, W13, W14); `TraitTable` or rows 940 and 942, one; `OverloadSet`, one small; `NN32` with the checker's acceptance, one; the duplicate methods, one or two; row 307's cast and the verifier's count, one, and what the count finds is unknown; varargs (row 624), one or two, and it is on every program's path; `label` and `exit` (row 81), one; the closure class (row 315), one; the tuple index type (W15), one or two; the generic dotted methods (W16), the rungs that rows 495 and 496 already carry.
 
 ## For the ledger
 
@@ -144,3 +305,27 @@ All in `switch-rehearsal.patch`, each marked `SWITCH HACK`:
 - **The code generator writes one method twice into 27 classes of the one library (244 methods), each a `ClassFormatError` at load**: section 2, W6. Row 571 is its nearest row.
 - **`TraitTable.lookUpTypeCons` searches the prelude's apis by name for an unqualified type, which hides rows 940 and 942 for the prelude's types**: `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala:76-100`. Not a new defect; a fact for rows 940 and 942.
 - **No compiled value carries `JavaArrayStore` or `JavaRR64ArrayStore`**: `ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressArrayStore.java:21` is a plain Java class, and `FortressMethodAdapter.toImplFFFF` finds no converter. Part of row 874.
+- **The dispatch method of a generic overloaded function of a default library's component names the component's class without the package `fortress`, so its first call dies with `NoClassDefFoundError: FortressLibrary`**: `ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:904`, `:1361`, `:1724`, `:1728`. Seen only under the switch (W11); by reading, the prelude's `CompilerLibrary` would fail alike if it declared a generic overloaded function that a program calls.
+- **A trait that declares its own method at the instance of a generic supertrait's method gets two forwarders under one name and descriptor, and which is first varies from compile to compile**: W6. `Library/FortressLibrary.fss:803-812` (`ZZ32`'s `CMP`, `MIN`, `MAX`) beside `:224-292`.
+- **A trait or object that extends a type that a hand-written class carries gets the carrier class as its superinterface (`ClassCircularityError` at load)**: `ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:799-824` (W14). Seen only under the switch.
+- **A static argument inferred at run time from a carried type's RTTI names the trait's interface, not the carrier class, so the instantiation is another class than the one compiled code names**: `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:5999` (W12). Seen only under the switch.
+- **An abstract method over a trait's index parameter, implemented below at a tuple type, has no implementation at the instantiated descriptor: every rank-2 and rank-3 array of the one library dies at `m[i,j]`**: `Library/FortressLibrary.fss:2314`, `:2847`, `:3267` (W15). Row 832 is its nearest row.
+- **`trait QQ comprises { Ratio }` passes `self` where `Ratio` is expected on 23 lines, each a `VerifyError` when `QQ`'s class loads, from the library's static initializer**: `Library/FortressLibrary.fss:554-660` (W7). Rows 307 and 695 hold the kind.
+- **Row 533's kind reproduces against the one library for a numeral with a radix point times a `ZZ32` value**: `explorations/run-c4/src/MicroGptFlatQuick.fss:40`, `1.0 corpus.token(d, j)`, 'Ambiguous coercion in call to operator juxtaposition … ((RR64 & {Float}), RR64)->RR64; (QQ, QQ)->QQ', with the scratch library's `Float` a trait; walk runs the line. Not run on an unhacked library, whose compile path does not exist; a check with the distance stage's driver would settle whether the hack's `Float` plays a part.
+- **Rows 624, 81 and 315 stand on the path of every compiled program against the one library**: `Library/Stream.fss:70-71` and `Library/FlatString.fss:63`, `:109` (varargs); `Library/FortressLibrary.fss:2188-2194` (`label` in `Indexed`); `Library/FortressLibrary.fss:2216-2228` (the closure class in `LexicographicOrder`, which `CMP`'s dispatch names). A note for each row.
+
+## For FACTS
+
+- **The code generator over the one library, on `832f7d0d91`, with every helper string as landed: 24 refused declarations in 8 kinds, 749 emitted, by `compile-ladder/plan-25/probes/codegen.sh` on a tree with this probe's hacks 2, 5 and 6; on the tree unchanged, three components are refused whole at row 874.** It replaces F-34's 38 in 10, which was measured with the helper strings on glue classes. The count is by row: 624, 7 and 1; 81, 4; 822 and 812, 4; 819, 4; 315, 2; 540, 1; 875, 1. It does not see the 244 duplicate methods or the verifier's refusals. Detail: section 3.
+- **A compiled program has run against the interpreter's library in a scratch tree: one that prints a line, one that builds and reads an `Array1`, and a dot product in the program's own loop; a rank-2 array, the library's `DOT` and microGPT have not.** What it took is this report's twelve hacks; no test holds it, since nothing landed. Detail: sections 2 and 4.
+- **microGPT's flat program has 17 errors of its own under the checker against today's one library, with `I extends Index` written in its helpers** (FlatArrays 7, FlatData 1 from `File`, MicroGptFlat 8, MicroGptFlatQuick 1), each count a floor. It replaces F-58's 26 as the current measure. Detail: section 4.
+
+## Commands
+
+- The library under the switch, each component by name with the edited classes first on the class path: `java $JAVA_FLAGS -Dfile.encoding=UTF-8 -Dfortress.caches=<caches> -cp "<classes>:$(bin/fortress_classpath | tail -1)" com.sun.fortress.Shell compile <component>.fss`, after deleting the component's jar, since a compile of an unchanged source with a jar writes nothing.
+- A compiled run with the verifier off: `java -XX:+UnlockDiagnosticVMOptions -XX:-BytecodeVerificationRemote -cp "<classes>:$(bin/run_classpath)" com.sun.fortress.runtimeSystem.MainWrapper <Program>`, with `FORTRESS_CACHES` naming the caches.
+- The classes of a jar that declare one method twice: a 40-line reader of the class file's method table over `zipfile`, not kept.
+
+## Questions for the curator
+
+A decision not taken: **which run-time class carries each built-in type of the one library on the compiled path.** The sources: the prelude's design, a trait carried by a hand-written class (`CompilerBuiltin.fss`, the type group's, 2009 to 2012, one of the late positions on the compiled number tower); the one library's design, a trait with one comprised value object in a native component (`FortressLibrary.fss`, `FortressBuiltin.fss`), with five types that are objects alone. The ways: (i) the hand-written class is the trait's class and the objects below go, their bodies moving into the traits, which changes the library's text and walk's bindings; (ii) the objects become traits with carrier objects, this probe's hack, which changes the library's shape and breaks walk as it stands; (iii) the code generator lets a hand-written class be an object's class, which keeps the library's text and is new code-generator work. None keeps today's behaviour, since today nothing compiles against the library. P-37 says that the one library takes a design of the prelude's where it is the team's later decision.

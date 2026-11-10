@@ -58,12 +58,127 @@ index 9761cf65d3..9fb7dfe4da 100644
      end
  
      asDebugStringIndented(indent: ZZ32): String =
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 50570cd4a3..0aa6847d18 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -788,7 +788,8 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     getter bitsAsNN32(): NN32 = unsigned(self)
+ 
+     opr |self| : ZZ32 = if self>=0 then self else -self end
+-    asFloat(self): RR64
++    asFloat(self): RR64 = (* SWITCH HACK (rehearsal): the body of the object below this trait, which no compiled value is *)
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToDouble")
+     opr =(self, b:ZZ32):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intEQ")
+     opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
+@@ -895,7 +896,8 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+ 
+     opr |self| : ZZ64 = if self>=0 then self else -self end
+ 
+-    asFloat(self): RR64
++    asFloat(self): RR64 = (* SWITCH HACK (rehearsal): the body of the object below this trait, which no compiled value is *)
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToDouble")
+     opr =(self, b:ZZ64):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longEQ")
+     opr =(self, b:ZZ32):Boolean = do c: ZZ64 = b; (self = c) end
+@@ -2186,12 +2188,7 @@ trait Indexed[\E, I extends Index\] extends Generator[\E\]
+     (** indexOf(e) returns an index at which e can be found,
+         or Nothing if no such index exists. **)
+     indexOf(e:E): Maybe[\I\] =
+-        label found
+-            for (i,v) <- self.indexValuePairs, v=e do
+-                exit found with Just[\I\](i)
+-            end
+-            Nothing[\I\]
+-        end found
++        fail[\Maybe[\I\]\]("SWITCH HACK (rehearsal): label and exit, row 81")
+ end
+ 
+ trait ZeroIndexed[\E\] extends Indexed[\E,ZZ32\]
+@@ -4366,8 +4363,8 @@ opr (t:(ZZ32,ZZ32,ZZ32))# :
+   end
+ 
+ opr (x:ZZ32): : LeftRange[\ZZ32\] = x#
+-opr (x:(ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32)\] = x#
+-opr (x:(ZZ32,ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = x#
++opr (x:(ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32)\] = fail[\LeftRange[\(ZZ32,ZZ32)\]\]("SWITCH HACK (rehearsal): row 819")
++opr (x:(ZZ32,ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = fail[\LeftRange[\(ZZ32,ZZ32,ZZ32)\]\]("SWITCH HACK (rehearsal): row 819")
+ 
+ opr #(x:ZZ32) : RangeWithExtent[\ZZ32\] = extent1Range(x)
+ opr #(xy:(ZZ32,ZZ32)) : RangeWithExtent[\(ZZ32,ZZ32)\] =
+@@ -4409,8 +4406,8 @@ openRange[\I\](): OpenRange[\I\] =
+ *)
+ 
+ opr (l:ZZ32):: : LeftRange[\ZZ32\] = l#
+-opr (l:(ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32)\] = l#
+-opr (l:(ZZ32,ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = l#
++opr (l:(ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32)\] = fail[\LeftRange[\(ZZ32,ZZ32)\]\]("SWITCH HACK (rehearsal): row 819")
++opr (l:(ZZ32,ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = fail[\LeftRange[\(ZZ32,ZZ32,ZZ32)\]\]("SWITCH HACK (rehearsal): row 819")
+ 
+ opr ::(s:ZZ32) : OpenRange[\ZZ32\] = open1Range(s)
+ opr ::(ij:(ZZ32,ZZ32)) : OpenRange[\(ZZ32,ZZ32)\] =
+@@ -4981,18 +4978,8 @@ trait Generator2[\ E \]
+   generate2[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R = do
+     ths = theorems[\ R, L1, L2 \]()
+     i : ZZ32 := 0
+-    label dispatchingLoop
+-    while dispatchingEnabled() AND i < |ths| do
+-      (condition, efficientImpl) = ths[i]
+-      if(condition(q, r, f)) then
+-        (* println("use efficient implementaion") *)
+-        exit dispatchingLoop with efficientImpl(q, r, f)
+-      end
+-      i += 1
+-    end
+-    (* println("use naive implementaion") *)
++    (* SWITCH HACK (rehearsal): label and exit, row 81; the naive implementation always *)
+     naiveImpl[\ R, L1, L2 \](q, r, f)
+-    end dispatchingLoop
+   end
+ 
+   naiveImpl[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R = q.unlift(generate[\L1\](q, (fn (x) => q.lift(r.unlift(x.generate[\L2\](r,fn a => r.lift(f(a))))))))
+diff --git a/Library/Stream.fsi b/Library/Stream.fsi
+index fc2fe80767..73713a9fcb 100644
+--- a/Library/Stream.fsi
++++ b/Library/Stream.fsi
+@@ -57,8 +57,7 @@ trait WriteStream extends { Closeable }
+         strings are appended together monolithically to the end of the
+         stream.  The %println% method also appends a newline.  Both
+         then flush the stream. *)
+-    print(args:Any...): ()
+-    println(args:Any...): ()
++    (* SWITCH HACK (rehearsal): the varargs print and println left out, row 624 *)
+ 
+     (** %flush% any output to the stream that is still buffered. **)
+     abstract flush():()
+diff --git a/Library/Stream.fss b/Library/Stream.fss
+index f4df1259f2..cb579cebd1 100644
+--- a/Library/Stream.fss
++++ b/Library/Stream.fss
+@@ -67,8 +67,7 @@ trait WriteStream extends { Closeable }
+         strings are appended together monolithically to the end of the
+         stream.  The %println% method also appends a newline.  Both
+         then flush the stream. *)
+-    print(args:Any...): () = do writes(args,""); flush() end
+-    println(args:Any...): () = do writes(args,"\n"); flush() end
++    (* SWITCH HACK (rehearsal): the varargs print and println left out, row 624 *)
+ 
+     (** %flush% any output to the stream that is still buffered. **)
+     abstract flush():()
 diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
-index aefe1b3c95..733d79dda8 100644
+index aefe1b3c95..4016d113c1 100644
 --- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
 +++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
-@@ -41,8 +41,12 @@ end
- value object Float extends RR64
+@@ -38,11 +38,18 @@ trait Object extends Any
+     getter toString(): String                (* deprecated *)
+ end
+ 
+-value object Float extends RR64
++(* SWITCH HACK (rehearsal): Float is a trait so that a hand-written run-time class can carry it. *)
++value object FloatCarrier extends Float end
++
++value trait Float extends RR64 comprises { FloatCarrier }
  end
  
 -value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
@@ -76,7 +191,7 @@ index aefe1b3c95..733d79dda8 100644
      coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
      coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
      (** returns true if the value is an IEEE NaN **)
-@@ -129,7 +133,11 @@ end
+@@ -129,7 +136,11 @@ end
  value object Long extends ZZ64
  end
  
@@ -89,7 +204,7 @@ index aefe1b3c95..733d79dda8 100644
      coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
      getter asZZ32(): ZZ32
      getter asZZ64(): ZZ64
-@@ -195,11 +203,19 @@ end
+@@ -195,11 +206,19 @@ end
  
  value object BigNum extends ZZ end
  
@@ -112,10 +227,22 @@ index aefe1b3c95..733d79dda8 100644
          It is always the case that %c = char(c.codePoint())% for %c : Char%. **)
      getter codePoint(): ZZ32
 diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
-index 83ce54a12f..da33e48ffe 100644
+index 83ce54a12f..de45a03b93 100644
 --- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
 +++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
-@@ -209,8 +209,12 @@ end
+@@ -58,7 +58,10 @@ end
+ private object JavaRR64ArrayStoreObject extends JavaRR64ArrayStore
+ end
+ 
+-value object Float extends RR64
++(* SWITCH HACK (rehearsal): Float is a trait so that a hand-written run-time class can carry it. *)
++value object FloatCarrier extends Float end
++
++value trait Float extends RR64 comprises { FloatCarrier }
+     getter asString(): String =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
+     getter asExprString(): String =
+@@ -209,8 +212,12 @@ end
  private numeralRR32(v: ZZ, r: ZZ32, m: ZZ32): RR32 =
      builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToFloat")
  
@@ -129,7 +256,7 @@ index 83ce54a12f..da33e48ffe 100644
      coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = numeralRR32(v, r.asZZ32, 0)
      coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = numeralRR32(v, r.asZZ32, m.asZZ32)
      getter zero(): RR32 = narrow(0.0)
-@@ -424,10 +428,14 @@ private exponentNN32(b:AnyIntegral):ZZ32 =
+@@ -424,10 +431,14 @@ private exponentNN32(b:AnyIntegral):ZZ32 =
                  else c.asZZ32 end
      end
  
@@ -147,7 +274,7 @@ index 83ce54a12f..da33e48ffe 100644
      getter asString(): String =
          builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
      getter asExprString(): String =
-@@ -551,8 +559,12 @@ value object BigNum extends ZZ
+@@ -551,8 +562,12 @@ value object BigNum extends ZZ
  end
  
  
@@ -161,7 +288,7 @@ index 83ce54a12f..da33e48ffe 100644
      getter holds(): Boolean = self
      getter get(): () = ()
      getter asString(): String = self.asExprString
-@@ -587,7 +599,11 @@ end
+@@ -587,7 +602,11 @@ end
  
  myJavaDigit(x:Char, radix:ZZ32): ZZ32 = javaDigit(x, radix)
  
@@ -191,10 +318,10 @@ index eb2fd67f2a..4c434fba3e 100644
  
      public static void useInterpreterLibraries() {
 diff --git a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
-index 4c7b84c807..a007a03cce 100644
+index 4c7b84c807..8592d59cce 100644
 --- a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
 +++ b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
-@@ -599,6 +599,21 @@ public class NamingCzar {
+@@ -599,6 +599,22 @@ public class NamingCzar {
          bl(fortLib, "ZZ32Vector", "FZZ32Vector");
          bl(fortLib, "StringVector", "FStringVector");
          bl(NodeFactory.makeVoidType(span), "FVoid");
@@ -208,6 +335,7 @@ index 4c7b84c807..a007a03cce 100644
 +        bl(oneLib, "JavaBufferedWriter", "FJavaBufferedWriter");
 +        bl(oneLib, "JavaArrayStore", "FJavaArrayStore");
 +        bl(oneLib, "JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl(oneBuiltin, "Float", "FRR64");
 +        bl(oneBuiltin, "Boolean", "FBoolean");
 +        bl(oneBuiltin, "RR32", "FRR32");
 +        bl(oneBuiltin, "NN32", "FNN32");
@@ -216,7 +344,17 @@ index 4c7b84c807..a007a03cce 100644
      }
  
      /**
-@@ -825,6 +840,10 @@ public class NamingCzar {
+@@ -798,7 +814,8 @@ public class NamingCzar {
+             if (! s1.equals(s2)) {
+                 // System.err.println(s1 + " MISMATCH " + s2);
+             }
+-            result[i] = s2;
++            // SWITCH HACK (rehearsal): a carried type in an extends clause is its own interface, not its carrier class.
++            result[i] = specialFortressTypes.containsKey(parentType) ? s1 : s2;
+         }
+         return result;
+     }
+@@ -825,6 +842,10 @@ public class NamingCzar {
          if (!(sep.equals("."))) {
              api = Useful.replace(api, ".", sep);
          }
@@ -227,8 +365,44 @@ index 4c7b84c807..a007a03cce 100644
          if (!defaultLib) return api;
          return fortressPackage + sep + api;
      }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+index 194f22caeb..6dce91210d 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+@@ -901,7 +901,7 @@ nameTemp + "\n" +
+     
+     protected String generateClosureTableOwner(TaggedFunctionName f) {
+         //throw new CompilerError("need to determine naming scheme for function instantiated closure tables");
+-        return Naming.dotToSep(f.tagA.getText());
++        return NamingCzar.javaPackageClassForApi(f.tagA) /* SWITCH HACK: was Naming.dotToSep(f.tagA.getText()), without the package fortress */;
+     }
+     
+     /**
+@@ -1358,7 +1358,7 @@ nameTemp + "\n" +
+         for (Param p : f.getParameters()) ps.add((Param) p.accept(atT));
+         String sig = NamingCzar.jvmSignatureFor(ps,
+                 NamingCzar.jvmBoxedTypeDesc(atT.replaceIn(f.getReturnType()), f.tagA), f.tagA);
+-        String owner = Naming.dotToSep(f.tagA.getText());
++        String owner = NamingCzar.javaPackageClassForApi(f.tagA) /* SWITCH HACK: was Naming.dotToSep(f.tagA.getText()), without the package fortress */;
+         String arrow = instanceArrowSchema(f);
+         String fname = functionName(f);
+         if (otherOverloadKeys.contains(Naming.genericFunctionPkgClass(owner, fname,
+@@ -1721,11 +1721,11 @@ nameTemp + "\n" +
+                 
+                 
+                 String templateClass = Naming.genericFunctionPkgClass(
+-                        Naming.dotToSep(f.tagA.getText()), functionName, Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
++                        NamingCzar.javaPackageClassForApi(f.tagA) /* SWITCH HACK: was Naming.dotToSep(f.tagA.getText()), without the package fortress */, functionName, Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
+                 
+                 if (otherOverloadKeys.contains(templateClass)) {
+                     templateClass = Naming.genericFunctionPkgClass(
+-                            Naming.dotToSep(f.tagA.getText()), NamingCzar.mangleAwayFromOverload(functionName), Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
++                            NamingCzar.javaPackageClassForApi(f.tagA) /* SWITCH HACK: was Naming.dotToSep(f.tagA.getText()), without the package fortress */, NamingCzar.mangleAwayFromOverload(functionName), Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
+                     //templateClass = NamingCzar.mangleAwayFromOverload(templateClass);
+                 }
+                 
 diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
-index 579aaebaaa..6364aa08dc 100644
+index 579aaebaaa..2a0bb76c10 100644
 --- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
 +++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
 @@ -490,6 +490,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
@@ -343,7 +517,17 @@ index 579aaebaaa..6364aa08dc 100644
          }
  
          // Each numeral coercion as one method of the four numbers.
-@@ -7672,6 +7743,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+@@ -5925,7 +5996,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             mv.visitTypeInsn(NEW, rttiClassName);
+             // init
+             mv.visitInsn(DUP);
+-            mv.visitLdcInsn(org.objectweb.asm.Type.getType(cnb.classDesc));
++            // SWITCH HACK (rehearsal): a carried type's RTTI names its carrier class, as the descriptors of its values do.
++            mv.visitLdcInsn(org.objectweb.asm.Type.getType(Naming.carrierDesc(cnb.classDesc)));
+             mv.visitMethodInsn(INVOKESPECIAL, rttiClassName, "<init>", "(Ljava/lang/Class;)V");
+             // store
+             mv.visitFieldInsn(PUTSTATIC, rttiClassName,
+@@ -7672,6 +7744,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
              ) {
  
          Set<String> overloaded_names_and_sigs = new HashSet<String>();
@@ -358,7 +542,7 @@ index 579aaebaaa..6364aa08dc 100644
  
          for (Map.Entry<IdOrOpOrAnonymousName, MultiMap<Integer, Functional>> entry1 :
                   size_partitioned_overloads.entrySet()) {
-@@ -7683,6 +7762,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+@@ -7683,6 +7763,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                  int i = entry.getKey();
                  Set<Functional> fs = entry.getValue();
                  Functional one_f = fs.iterator().next();
@@ -366,7 +550,7 @@ index 579aaebaaa..6364aa08dc 100644
  
                  OverloadSet os = overload_factory.make(api_name, name,
                              ta, fs, i);
-@@ -7724,6 +7804,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+@@ -7724,6 +7805,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                  }
                  
                  overloaded_names_and_sigs.addAll(os.getOtherKeys());
@@ -384,7 +568,7 @@ index 579aaebaaa..6364aa08dc 100644
             }
          }
 diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java
-index 82997045f4..764ead5a2b 100644
+index 82997045f4..9ad17cfc9c 100644
 --- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java
 +++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java
 @@ -51,8 +51,8 @@ public class CodeGenClassWriter extends ManglingClassWriter {
@@ -398,7 +582,7 @@ index 82997045f4..764ead5a2b 100644
      }
  
      public CodeGenMethodVisitor visitCGMethod(int access, String name, String desc, String signature, String[] exceptions) {
-@@ -60,11 +60,25 @@ public class CodeGenClassWriter extends ManglingClassWriter {
+@@ -60,11 +60,83 @@ public class CodeGenClassWriter extends ManglingClassWriter {
          signature = Naming.mangleFortressIdentifier(signature);
          desc = Naming.mangleMethodSignature(desc);
  
@@ -406,23 +590,81 @@ index 82997045f4..764ead5a2b 100644
 -                                        super.visitNoMangleMethod(access, name, desc, signature, exceptions));
 +        return hackTrack(new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
 +                                        hackOnce(access, name, desc, signature, exceptions)));
-     }
- 
++    }
++
 +    // SWITCH HACK (rehearsal): the methods begun on this class, so that one left open is closed before the class is written.
 +    private final java.util.List<CodeGenMethodVisitor> hackOpen = new java.util.ArrayList<CodeGenMethodVisitor>();
-+    // SWITCH HACK (rehearsal): a method written twice into one class (row 571's kind) keeps its first copy.
-+    private final java.util.Set<String> hackSeen = new java.util.HashSet<String>();
-+    private MethodVisitor hackOnce(int access, String name, String desc, String signature, String[] exceptions) {
-+        if (!hackSeen.add(name + " " + desc)) {
-+            System.out.println("@@CG DUP\t" + name + "\t" + desc);
-+            return new MethodVisitor(org.objectweb.asm.Opcodes.ASM9) {};
++    // SWITCH HACK (rehearsal): each method is kept apart until the class is written.  A method written twice into
++    // one class (row 571's kind) keeps its first copy; a method that a refused declaration left without its
++    // visitMaxs is written as a body that throws.
++    private static class HackNode extends org.objectweb.asm.tree.MethodNode {
++        boolean maxs = false;
++        HackNode(int access, String name, String desc, String signature, String[] exceptions) {
++            super(org.objectweb.asm.Opcodes.ASM9, access, name, desc, signature, exceptions);
 +        }
-+        return super.visitNoMangleMethod(access, name, desc, signature, exceptions);
++        public void visitMaxs(int a, int b) { maxs = true; super.visitMaxs(a, b); }
 +    }
-+    private CodeGenMethodVisitor hackTrack(CodeGenMethodVisitor m) { hackOpen.add(m); return m; }
-+
++    private final java.util.Set<String> hackSeen = new java.util.HashSet<String>();
++    private final java.util.List<HackNode> hackNodes = new java.util.ArrayList<HackNode>();
++    private MethodVisitor hackOnce(int access, String name, String desc, String signature, String[] exceptions) {
++        HackNode n = new HackNode(access, name, desc, signature, exceptions);
++        if (!hackSeen.add(name + " " + desc)) {
++            // The copy that calls a static method of this class itself is the class's own declaration; it is
++            // preferred to a copy that forwards to an inherited one.  Otherwise the first copy stays.
++            System.out.println("@@CG DUP\t" + hackClassName + "\t" + name + "\t" + desc);
++            hackAlternatives.add(n);
++            return n;
++        }
++        hackNodes.add(n);
++        return n;
++    }
++    @Override public byte[] toByteArray() { hackFlush(); return super.toByteArray(); }
++    private CodeGenMethodVisitor hackTrack(CodeGenMethodVisitor m) { return m; }
++    private String hackClassName = "?";
++    private final java.util.List<HackNode> hackAlternatives = new java.util.ArrayList<HackNode>();
++    @Override
++    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
++        hackClassName = name;
++        super.visit(version, access, name, signature, superName, interfaces);
++    }
++    private boolean hackCallsOwn(HackNode n) {
++        for (org.objectweb.asm.tree.AbstractInsnNode i = n.instructions.getFirst(); i != null; i = i.getNext())
++            if (i instanceof org.objectweb.asm.tree.MethodInsnNode
++                && i.getOpcode() == org.objectweb.asm.Opcodes.INVOKESTATIC
++                && ((org.objectweb.asm.tree.MethodInsnNode) i).owner.equals(hackClassName)) return true;
++        return false;
++    }
++    private void hackFlush() {
++        for (HackNode alt : hackAlternatives) {
++            for (int k = 0; k < hackNodes.size(); k++) {
++                HackNode first = hackNodes.get(k);
++                if (first.name.equals(alt.name) && first.desc.equals(alt.desc)) {
++                    if (alt.maxs && hackCallsOwn(alt) && !hackCallsOwn(first)) {
++                        System.out.println("@@CG DUPSWAP\t" + hackClassName + "\t" + alt.name + "\t" + alt.desc);
++                        hackNodes.set(k, alt);
++                    }
++                    break;
++                }
++            }
++        }
++        hackAlternatives.clear();
++        for (HackNode n : hackNodes) {
++            String[] ex = n.exceptions == null ? null : n.exceptions.toArray(new String[0]);
++            MethodVisitor real = super.visitNoMangleMethod(n.access, n.name, n.desc, n.signature, ex);
++            boolean noBody = (n.access & (org.objectweb.asm.Opcodes.ACC_ABSTRACT | org.objectweb.asm.Opcodes.ACC_NATIVE)) != 0;
++            if (noBody || n.maxs) { n.accept(real); continue; }
++            System.out.println("@@CG CLOSED\t" + n.name + "\t" + n.desc);
++            real.visitCode();
++            real.visitInsn(org.objectweb.asm.Opcodes.ACONST_NULL);
++            real.visitInsn(org.objectweb.asm.Opcodes.ATHROW);
++            real.visitMaxs(1, 1);
++            real.visitEnd();
++        }
++        hackNodes.clear();
+     }
+ 
      private String dumpClass0( String unmangledFileName ) {
-+        for (CodeGenMethodVisitor m : hackOpen) m.hackClose();
++        hackFlush();
          visitEnd();
  
          String file = Naming.mangleFortressIdentifier(unmangledFileName);
@@ -714,7 +956,7 @@ index 29274be56a..86ee8983b4 100644
          public static final RTTI ONLY = new RTTIc();
      }
 diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java
-index 4e0579da5e..f60fbb1e28 100644
+index 4e0579da5e..15c20051c0 100644
 --- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java
 +++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java
 @@ -11,8 +11,8 @@
@@ -723,8 +965,8 @@ index 4e0579da5e..f60fbb1e28 100644
  
 -public final class FRR64 extends fortress.CompilerBuiltin.RR64.DefaultTraitMethods
 -        implements fortress.CompilerBuiltin.RR64 {
-+public final class FRR64 extends fortress.FortressLibrary.RR64.DefaultTraitMethods
-+        implements fortress.FortressLibrary.RR64 {
++public final class FRR64 extends fortress.FortressBuiltin.Float.DefaultTraitMethods
++        implements fortress.FortressBuiltin.Float {
      final double val;
  
      private FRR64(double x) { val = x; }
@@ -733,7 +975,7 @@ index 4e0579da5e..f60fbb1e28 100644
      public RTTI getRTTI() { return RTTIc.ONLY; }
      
 -    public static class RTTIc extends fortress.CompilerBuiltin.RR64.RTTIc {
-+    public static class RTTIc extends fortress.FortressLibrary.RR64.RTTIc {
++    public static class RTTIc extends fortress.FortressBuiltin.Float.RTTIc {
          private RTTIc() { super(FRR64.class); };
          public static final RTTI ONLY = new RTTIc();
      }
@@ -1643,11 +1885,47 @@ index 9bcac8b8f0..4f7f4bcdf5 100644
          }
          long r = 1;
          long x = a;
+diff --git a/ProjectFortress/src/com/sun/fortress/runtimeSystem/ByteCodeWriter.java b/ProjectFortress/src/com/sun/fortress/runtimeSystem/ByteCodeWriter.java
+index eec162a9e4..276ca9018f 100644
+--- a/ProjectFortress/src/com/sun/fortress/runtimeSystem/ByteCodeWriter.java
++++ b/ProjectFortress/src/com/sun/fortress/runtimeSystem/ByteCodeWriter.java
+@@ -33,7 +33,14 @@ public class ByteCodeWriter {
+         JarEntry ze = new JarEntry(fileName);
+         try {
+             ze.setSize(bytes.length);
+-            jos.putNextEntry(ze);
++            try {
++                jos.putNextEntry(ze);
++            } catch (java.util.zip.ZipException dup) {
++                // SWITCH HACK (rehearsal): a class written twice into the jar (row 315's kind) keeps its first copy.
++                if (!String.valueOf(dup.getMessage()).startsWith("duplicate entry")) throw dup;
++                System.out.println("@@CG DUPCLASS\t" + fileName);
++                return;
++            }
+             jos.write(bytes);
+             jos.closeEntry();
+         } catch (IOException e) {
 diff --git a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
-index 7dd7cbef81..4632a1ee95 100644
+index 7dd7cbef81..377d7b074a 100644
 --- a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
 +++ b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
-@@ -304,6 +304,21 @@ public class Naming {
+@@ -280,6 +280,15 @@ public class Naming {
+     static Map<String, String> specialFortressTypes = new HashMap<String, String>();
+ 
+ 
++    /** SWITCH HACK (rehearsal): the carrier's descriptor for the descriptor of a carried type's own class, else the descriptor. */
++    public static String carrierDesc(String desc) {
++        if (desc.startsWith("Lfortress/") && desc.endsWith(";")) {
++            String tx = specialFortressDescriptors.get(desc.substring(10, desc.length() - 1));
++            if (tx != null) return tx;
++        }
++        return desc;
++    }
++
+     static void bl(String lib, String ft, String cl) {
+         cl = runtimeValues + cl;
+         specialFortressDescriptors.put(lib+ft, "L" + cl + ";");
+@@ -304,6 +313,22 @@ public class Naming {
          bl("", SNOWMAN, "FVoid");
          bl("", INTERNAL_SNOWMAN, "FVoid");
          bl(COMPILER_BUILTIN, "$Vector", "FVector");
@@ -1661,6 +1939,7 @@ index 7dd7cbef81..4632a1ee95 100644
 +        bl("FortressLibrary", "$JavaBufferedWriter", "FJavaBufferedWriter");
 +        bl("FortressLibrary", "$JavaArrayStore", "FJavaArrayStore");
 +        bl("FortressLibrary", "$JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl("FortressBuiltin", "$Float", "FRR64");
 +        bl("FortressBuiltin", "$Boolean", "FBoolean");
 +        bl("FortressBuiltin", "$RR32", "FRR32");
 +        bl("FortressBuiltin", "$NN32", "FNN32");
@@ -1709,10 +1988,10 @@ index 0000000000..07d85e2feb
 +}
 diff --git a/ProjectFortress/src/fortress/FortressBuiltin.java b/ProjectFortress/src/fortress/FortressBuiltin.java
 new file mode 100644
-index 0000000000..38ed316887
+index 0000000000..9c86532be0
 --- /dev/null
 +++ b/ProjectFortress/src/fortress/FortressBuiltin.java
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,79 @@
 +// SWITCH HACK (rehearsal): bootstrap stubs of the one library's types that hand-written run-time classes extend,
 +// as fortress/CompilerBuiltin.java is for the compiler's prelude.
 +package fortress;
@@ -1755,6 +2034,41 @@ index 0000000000..38ed316887
 +            public static RTTI ONLY;
 +        }
 +        public static abstract class DefaultTraitMethods extends FValue implements Char {}
++    }
++    public static interface Int extends fortress.FortressLibrary.ZZ32 {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Int {}
++    }
++    public static interface Long extends fortress.FortressLibrary.ZZ64 {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Long {}
++    }
++    public static interface Float extends fortress.FortressLibrary.RR64 {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Float {}
++    }
++    public static interface UnsignedLong extends fortress.FortressLibrary.NN64 {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements UnsignedLong {}
++    }
++    public static interface BigNum extends fortress.FortressLibrary.ZZ {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements BigNum {}
 +    }
 +}
 diff --git a/ProjectFortress/src/fortress/FortressLibrary.java b/ProjectFortress/src/fortress/FortressLibrary.java
