@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"RoundtripNumeral test on both paths","toolUseId":"toolu_01851ADayZmRfmoEv2qAkH8h","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"RoundtripNumeral test on both paths","toolUseId":"toolu_01851ADayZmRfmoEv2qAkH8h","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"opus","pickedEffortModel":"claude-opus-5-5","finished":true}
