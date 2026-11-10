@@ -1250,3 +1250,13 @@ The landing of climb batch 29b on `main` made area parts false, from the list in
 - `compiler.md`, "Traps of the compiled path": row 957 restated as the row states it; the bullet on row 961 deleted (fixed `a26e74f5c`); row 971 and row 442's numeral half added; row 963's selector type `NaturalNumeral[\1,10,7\]` in place of `IntLiteral`. `LibraryBuiltin/CompilerBuiltin.fsi:401-403`, `:444` for row 442.
 - `library.md`, "The curator's decisions on the library": the compiled path's conversion into `RR64` until the switch-over. Row 442; `CompilerBuiltin.fsi:401-403`.
 - `compiler.md`, its size: 31,219 to 31,700 bytes.
+
+## The cold read of climb batch 29b's skill changes, 2026-11-10
+
+From the cold read of `27cb304a2a` and `1bcb6fac1c` (`explorations/compile-ladder/climb-batch-29b/skills/cold-read.md`); settled by the record-landing workflow's writer task; each checked on `main` at `1bcb6fac1c`.
+
+- `SKILL.md`, "Static parameters", and `revival-changes.md`, "Numbers": a `nat` or `int` parameter used as a value is a `ZZ32`, but a `ZZ` where it is one of a numeral type's numbers, in place of "that is a size". P-173, P-40; F-342 (`scala_src/typechecker/staticenv/KindEnv.scala`, `getType`).
+- `compiler.md`, "The compiler's prelude": the numerals' exception names the prelude's numeral types and its coercions from them. P-37.
+- `compiler.md`, "Traps of the compiled path": row 957's workaround bounded to one instance; row 971's workaround as one statement per call, since a tuple's elements run at once (`SKILL.md`, "Parallelism"); row 442 as the one statement of its numeral half, with a `ZZ32` value and `asRR64` (`LibraryBuiltin/CompilerBuiltin.fsi:268`, `:401-403`, `:443-444`). Its copies cut from `revival-changes.md`, "Numbers", and `library.md`.
+- `interpreter.md`, "How walk evaluates a program": row 960 by the coercion's `n`; row 973 joined to row 966, moved from `revival-changes.md`, "Numbers", with `RR32` and `QQ` from the row; row 974 with the compiled checker's message (`compiler_tests/LiteralTypeUnwritable.fss`; F-342).
+- `revival-changes.md`, "Numbers": "the count of digits after the point"; the coercion declared in its type's body (`compiler_tests/NumeralWhereRefusedCompiled.fss`); "one of the eight number types" for "a library number type"; the rule's answer for `u = 0`, `true`, from the gated test `tests/XXXNumeralEqualsNumberWalk.fss` and row 973, with walk's answers moved to `interpreter.md`.
