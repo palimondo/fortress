@@ -1,5 +1,5 @@
 (* An exception thrown inside a try nested in another try in one body is matched first against the inner try's catch clause. *)
-component XXXNestedTryInnerCatch
+component NestedTryInnerCatch
 export Executable
 
 object Boom extends UncheckedException end
@@ -34,7 +34,6 @@ innerTakes(): String = do
 end
 
 run(): () = do
-  println("REACHED")
   assert(bothTake(), "inner", "try.tex, section \"Try Expressions\": the inner try's catch clause takes the exception its block throws")
   assert(innerTakes(), "inner", "try.tex, section \"Try Expressions\": the inner try's catch clause takes the exception its block throws")
   println("PASS")

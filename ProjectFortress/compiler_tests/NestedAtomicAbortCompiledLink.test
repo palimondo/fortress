@@ -1,2 +1,2 @@
-tests=XXXNestedAtomicAbortCompiled
+tests=NestedAtomicAbortCompiled
 link

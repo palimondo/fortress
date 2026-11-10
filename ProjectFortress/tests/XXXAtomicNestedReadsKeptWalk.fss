@@ -1,0 +1,60 @@
+(* An atomic block answers at its commit for what its nested block read, where the nested block wrote nothing and where an exception left it: no update of another block is lost. atomic.tex, section "Atomic Expressions". *)
+component XXXAtomicNestedReadsKeptWalk
+export Executable
+
+object Carry(q: ZZ32) extends UncheckedException end
+
+x: ZZ32 := 0
+u: ZZ32 := 0
+
+readX(): ZZ32 = atomic do x end
+
+waste(): ZZ32 = do
+  var t: ZZ32 = 0
+  for i <- seq(1#200) do t := t + 1 end
+  t
+end
+
+bumpX(): () = for j <- seq(1#1000) do atomic do x := x + 1 end end
+
+bumpU(): () = for j <- seq(1#1000) do atomic do u := u + 1 end end
+
+run(): () = do
+  do
+    for i <- seq(1#100) do
+      atomic do
+        p: ZZ32 = readX()
+        w: ZZ32 = waste()
+        x := p + 1
+      end
+    end
+  also do
+    bumpX()
+  end
+  do
+    for i <- seq(1#100) do
+      atomic do
+        try
+          atomic do
+            q: ZZ32 = u
+            throw Carry(q)
+          end
+        catch e
+          Carry => do
+            w: ZZ32 = waste()
+            u := e.q + 1
+          end
+        end
+      end
+    end
+  also do
+    bumpU()
+  end
+  if x = 1100 AND u = 1100 then
+    println("PASS")
+  else
+    println("FAIL: x = " x " of 1100 after a nested block that wrote nothing, u = " u " of 1100 after a nested block that threw")
+  end
+end
+
+end

@@ -85,6 +85,20 @@ end
 
 operatorFirst(k: ZZ32): ZZ32 = boomVal(k) + slowVal(k)
 
+inTry(k: ZZ32): ZZ32 = do
+  var caught: ZZ32 := 0
+  try
+    do
+      boomArm(k)
+    also do
+      slowArm(k)
+    end
+  catch e
+    Boom => caught := e.code
+  end
+  caught
+end
+
 settled(what: String, caught: ZZ32, expected: ZZ32): () = do
   now: ZZ32 = flag
   pause(600000000.0)
@@ -132,6 +146,9 @@ run(): () = do
   caught := 0
   try ignore(operatorFirst(6)) catch e Boom => caught := e.code end
   settled("an operator's first operand throws", caught, 6)
+
+  flag := 0
+  settled("a group inside a try of its own function", inTry(7), 7)
 
   if bad = 0 then println("PASS") else println("FAIL") end
 end

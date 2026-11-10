@@ -1818,10 +1818,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         inABlock=oldInABlock;
     }
 
+    /** The body of an atomic block and its commit, inside the transaction that forAtomicBlock began. */
     public void forAtomicBlockHelper(Block x) {
-        mv.visitMethodInsn(INVOKESTATIC, 
-                           "com/sun/fortress/runtimeSystem/BaseTask", 
-                           "startTransaction", "()V");     
         forBlockHelper(x);
         mv.visitMethodInsn(INVOKESTATIC, "com/sun/fortress/runtimeSystem/BaseTask", 
                            "endTransaction", "()V");
@@ -1840,21 +1838,26 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         Label exit = new Label();
         Label handler = new Label();
         Label startOver = new Label();
-        String type = "com/sun/fortress/runtimeSystem/TransactionAbortException";
 
         mv.visitLabel(startOver);
-        mv.visitTryCatchBlock(start, end, handler, type);
-
+        mv.visitMethodInsn(INVOKESTATIC, 
+                           "com/sun/fortress/runtimeSystem/BaseTask", 
+                           "startTransaction", "()V");     
         mv.visitLabel(start);
         forAtomicBlockHelper(x);
         mv.visitLabel(end);
         mv.visitJumpInsn(GOTO, exit);
 
-        // Exception Handler
+        // The JVM takes the first entry of the exception table that covers a throw, so the entry
+        // is written after the body's code: the entry of an atomic block or a try nested in the
+        // body is then before this one.  The entry takes every exception.
+        mv.visitTryCatchBlock(start, end, handler, null);
+
+        // Exception Handler: the transaction ends.  leaveTransaction returns for an abort of
+        // this block's own transaction, and throws on what leaves the block.
         mv.visitLabel(handler);
-        mv.visitInsn(POP); // Pop the exception
         mv.visitMethodInsn(INVOKESTATIC, "com/sun/fortress/runtimeSystem/BaseTask", 
-                           "cleanupTransaction", "()V");
+                           "leaveTransaction", "(Ljava/lang/Throwable;)V");
         // Wait a randomized exponential amount of time after an error
         mv.visitMethodInsn(INVOKESTATIC, "com/sun/fortress/runtimeSystem/BaseTask",
                            "delayTransaction", "()V");
@@ -2162,10 +2165,12 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
          List<BaseType> forbid = x.getForbidClause();
          Option<Block> finallyClause = x.getFinallyClause();
 
-         mv.visitTryCatchBlock(l0,l1,l2, "com/sun/fortress/compiler/runtimeValues/FException");
          mv.visitLabel(l0);
          body.accept(this);
          mv.visitLabel(l1);
+         // After the body's code, so that the entry of a try or an atomic block nested in the
+         // body comes first in the exception table, where the JVM takes the first that covers a throw.
+         mv.visitTryCatchBlock(l0,l1,l2, "com/sun/fortress/compiler/runtimeValues/FException");
          mv.visitJumpInsn(GOTO, lfinally);
          mv.visitLabel(l2);
          // We really should have desugared this into typecase, but for now...

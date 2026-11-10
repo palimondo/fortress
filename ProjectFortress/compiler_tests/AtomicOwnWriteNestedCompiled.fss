@@ -1,0 +1,39 @@
+(* An atomic block reads the variable that it wrote, before and after a nested block commits, and ends; blocks that read their own write beside blocks on another variable keep every increment. atomic.tex, section "Atomic Expressions". *)
+component AtomicOwnWriteNestedCompiled
+export Executable
+
+x: ZZ32 := 0
+z: ZZ32 := 0
+a: ZZ32 := 0
+b: ZZ32 := 0
+c: ZZ32 := 0
+
+run(): () = do
+  var s: ZZ32 = 0
+  atomic do
+    x := 2
+    y: ZZ32 = x
+    atomic do z := 1 end
+    w: ZZ32 = x
+    s := y + w
+  end
+  do
+    for i <- 1#20000 do
+      atomic do
+        a := a + 1
+        b := a
+      end
+    end
+  also do
+    for j <- 1#20000 do
+      atomic do c := c + 1 end
+    end
+  end
+  if s = 4 AND x = 2 AND z = 1 AND a = 20000 AND b = 20000 AND c = 20000 then
+    println("PASS")
+  else
+    println("FAIL: y + w = " s ", x = " x ", z = " z ", a = " a ", b = " b ", c = " c)
+  end
+end
+
+end

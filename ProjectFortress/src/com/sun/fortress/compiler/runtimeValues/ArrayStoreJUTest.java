@@ -16,13 +16,15 @@ import fortress.AnyType.Any;
 
 /**
  * The helpers of nativeHelpers.arrayOps over the compiled array stores: outside a transaction, inside
- * one, nested, after an abort, and from four tasks on the compiled task pool at four threads, each adding
- * into one element inside a compiled atomic block; and the RR64 store over a double[].
+ * one, nested, after an abort, after an exception that leaves a block, and from four tasks on the compiled task pool at four threads, each adding
+ * into one element inside a compiled atomic block; two tasks that each initialise one empty element
+ * inside a compiled atomic block; and the RR64 store over a double[].
  */
 public class ArrayStoreJUTest extends TestCaseWrapper {
 
     private static final int TASKS = 4;
     private static final int ADDS = 2000;
+    private static final int ROUNDS = 1000;
 
     /** A task on the compiled pool, which makes itself the worker's current task as generated code does. */
     private static abstract class Task extends BaseTask {
@@ -35,16 +37,16 @@ public class ArrayStoreJUTest extends TestCaseWrapper {
         abstract void body();
     }
 
-    /** Runs body as a compiled atomic block runs: begin, body, commit; on an abort, clean up, back off, again. */
+    /** Runs body as a compiled atomic block runs: begin, body, commit; the handler ends the transaction, and on its abort, back off, again. */
     private static void atomic(Runnable body) {
         while (true) {
+            BaseTask.startTransaction();
             try {
-                BaseTask.startTransaction();
                 body.run();
                 BaseTask.endTransaction();
                 return;
-            } catch (TransactionAbortException e) {
-                BaseTask.cleanupTransaction();
+            } catch (Throwable e) {
+                BaseTask.leaveTransaction(e);
                 BaseTask.delayTransaction();
             }
         }
@@ -148,6 +150,44 @@ public class ArrayStoreJUTest extends TestCaseWrapper {
         }});
     }
 
+    public void testAnExceptionLeavesATransactionWithoutItsWrites() {
+        onPool(1, new Runnable() { public void run() {
+            final FortressArrayStore s = arrayOps.make(3);
+            arrayOps.init(s, 0, zz(1));
+            try {
+                atomic(new Runnable() { public void run() {
+                    arrayOps.put(s, 0, zz(99));
+                    assertTrue(arrayOps.init(s, 1, zz(98)));
+                    arrayOps.get(s, 2);     // an exception of Java's, not a Fortress exception
+                }});
+                fail("read an uninitialised element");
+            } catch (IllegalStateException e) {
+                assertTrue(e.getMessage(), e.getMessage().contains("uninitialized element 2"));
+            }
+            assertFalse("the exception ended the transaction", BaseTask.inATransaction());
+            assertEquals("the write is not seen", 1, zz(arrayOps.get(s, 0)));
+            assertTrue("the initialisation is not seen", arrayOps.init(s, 1, zz(7)));
+            atomic(new Runnable() { public void run() {
+                arrayOps.put(s, 0, zz(2));
+                try {
+                    atomic(new Runnable() { public void run() {
+                        arrayOps.put(s, 0, zz(3));
+                        arrayOps.put(s, 1, zz(8));
+                        arrayOps.get(s, 2);
+                    }});
+                    fail("read an uninitialised element");
+                } catch (IllegalStateException e) {
+                }
+                assertTrue("the exception ended the nested transaction only", BaseTask.inATransaction());
+                assertEquals("the outer transaction's write, not the nested one's", 2, zz(arrayOps.get(s, 0)));
+                arrayOps.put(s, 1, zz(zz(arrayOps.get(s, 1)) + 10));
+            }});
+            assertFalse(BaseTask.inATransaction());
+            assertEquals(2, zz(arrayOps.get(s, 0)));
+            assertEquals(17, zz(arrayOps.get(s, 1)));
+        }});
+    }
+
     public void testFourTasksAddIntoOneElementInsideAtomic() {
         final FortressArrayStore s = arrayOps.make(1);
         arrayOps.init(s, 0, zz(0));
@@ -182,6 +222,44 @@ public class ArrayStoreJUTest extends TestCaseWrapper {
         assertEquals("the element's total", TASKS * ADDS, zz(arrayOps.get(s, 0)));
         assertEquals("a cell updated in the same transactions", TASKS * ADDS, zz(cell.getValue()));
         assertEquals("the threads that ran the tasks", TASKS, threads.size());
+    }
+
+    public void testTwoTransactionsInitialiseOneElementOnce() {
+        final FortressArrayStore s = arrayOps.make(ROUNDS);
+        final int[] both = { 0 };
+        final int[] neither = { 0 };
+        final int[] lost = { 0 };
+        onPool(TASKS, new Runnable() { public void run() {
+            final BaseTask primordial = BaseTask.getCurrentTask();
+            for (int r = 0; r < ROUNDS; r++) {
+                final int round = r;
+                final CyclicBarrier together = new CyclicBarrier(2);
+                final boolean[] won = new boolean[2];
+                Task[] tasks = new Task[2];
+                for (int t = 0; t < 2; t++) {
+                    final int me = t;
+                    tasks[t] = new Task(primordial) { void body() {
+                        try {
+                            together.await(60, TimeUnit.SECONDS);   // the two tasks run at once, on two threads
+                        } catch (Exception e) {
+                            throw new AssertionError("the two tasks did not run at once: " + e);
+                        }
+                        atomic(new Runnable() { public void run() {
+                            won[me] = arrayOps.init(s, round, zz(me + 1));
+                        }});
+                    }};
+                }
+                for (Task t : tasks) t.fork();
+                for (Task t : tasks) t.join();
+                BaseTask.setTask(primordial);
+                if (won[0] && won[1]) both[0]++;
+                else if (!won[0] && !won[1]) neither[0]++;
+                else if (zz(arrayOps.get(s, round)) != (won[0] ? 1 : 2)) lost[0]++;
+            }
+        }});
+        assertEquals("rounds in which both initialisations answered true", 0, both[0]);
+        assertEquals("rounds in which neither initialisation answered true", 0, neither[0]);
+        assertEquals("rounds in which the element does not hold the winner's value", 0, lost[0]);
     }
 
     public void testTheRR64Store() {
