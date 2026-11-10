@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Plan climb batch 30","toolUseId":"toolu_01Lkvj8uCF9FZSazdRtEFBoW","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"medium","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Plan climb batch 30","toolUseId":"toolu_01Lkvj8uCF9FZSazdRtEFBoW","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"medium","pickedEffortModel":"claude-fable-5-2","finished":true}
