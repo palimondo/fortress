@@ -45,3 +45,7 @@ He first wrote that the callout's look "is fine as it is", then, reading the one
 ### His question on section 4.17.2, a radix written as a word
 
 "10101101_TWO is rendered as 10101101 two ... Does this spelled out radix as a word too? We don't support that, right? Does parser accept it? It didn't come up in our numeral discussion." Answered at 17:4x from the tree: the parser reads a radix as digits or as a word (`parser/Literal.rats:102-109`, `RadixNames`; `nodes_util/NodeUtil.java:1251-1280`, `radix2Number`), the team's `tests/NumeralTest.fss:18-25` asserts `f_SIXTEEN + 2` is 17 and `DEAD.BEEF_16 = DEAD.BEEF_SIXTEEN`, and the static numerals carry the radix as a number, so the spelling is gone after the parser.
+
+### His question on the quotation marks (18:3x UTC on 2026-11-10)
+
+He saw a backtick and a straight apostrophe in the reader where the PDF has curly single quotes, and asked whether the source holds them or the converter makes them. Found: the LaTeX source writes every single quote as a backtick and an apostrophe, and LaTeX draws the pair as curly quotes. The converter makes the same change in running text. It leaves the pair as typed where the team wrote it inside a typewriter span, as in `\txt{`FBAB'}` at `Specification/basic/lexical-structure.tex:866`, while LaTeX's typewriter font draws it curly there too. Three places in the published pages, all in the chapter on lexical structure. For the reader's next run: a quote pair that wraps the whole content of a typewriter span becomes curly quotes; an apostrophe inside code stays as typed.
