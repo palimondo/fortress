@@ -1,1 +1,1 @@
-{"agentType":"general-purpose","isBuiltIn":true,"description":"Pure-Java microGPT baseline","toolUseId":"toolu_011XoiMTF4tgRgtj7JSVgeKt","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"medium","pickedEffortModel":"claude-fable-5-2"}
+{"agentType":"general-purpose","isBuiltIn":true,"description":"Pure-Java microGPT baseline","toolUseId":"toolu_011XoiMTF4tgRgtj7JSVgeKt","spawnDepth":1,"requestShape":"background","requestNonInteractive":true,"model":"fable","effort":"medium","pickedEffortModel":"claude-fable-5-2","finished":true}
