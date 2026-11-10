@@ -114,6 +114,10 @@ run(): () = do
   writtenBack(007, "007")
   writtenBack(12_10, "12", "12_10 comes back as 12, its radix 10 lost: its four numbers are those of 12")
   writtenBack(3.5_10, "3.5", "3.5_10 comes back as 3.5, its radix 10 lost: its four numbers are those of 3.5")
+  writtenBack(FF_SIXTEEN, "FF_16", "FF_SIXTEEN comes back as FF_16, the spelling of its radix lost: its four numbers are those of FF_16")
+  writtenBack(1011_TWO, "1011_2", "1011_TWO comes back as 1011_2, the spelling of its radix lost: its four numbers are those of 1011_2")
+  writtenBack(C.8_SIXTEEN, "C.8_16", "C.8_SIXTEEN comes back as C.8_16, the spelling of its radix lost: its four numbers are those of C.8_16")
+  writtenBack(12_TEN, "12", "12_TEN comes back as 12, its radix 10 and its spelling lost: its four numbers are those of 12")
   t: Tally = -3
   assert(t.k, -3, "-3 at Tally is Tally's minus on the coercion of 3")
   assert(t.seen = 3, "the coercion sees the written numeral 3")
