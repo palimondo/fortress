@@ -35,7 +35,7 @@ An abort thrown in a task that the block forked reaches the handler through the 
 - A read of the transaction's own write: nothing.
 - A read of an ancestor's write: the location with that write. Validation compares it with the nearest ancestor's write now.
 - A read of the committed value: the location with that value, or with `EMPTY` for an element that holds nothing.
-- A nested commit hands its parent each read whose location the parent did not write (the team's rule and comment, kept), and each write. It does so also where the nested transaction wrote nothing: on the base a nested transaction without a write returned at `Transaction.java:301` and its reads were lost, so the outer block answered for nothing that its nested block had read. Found by reading while building repair 3, not measured; `TXCommit` (`:302-307`) now returns at once only for a top-level transaction without a write.
+- A nested commit hands its parent each read whose location the parent did not write (the team's rule and comment, kept), and each write. It does so also where the nested transaction wrote nothing: on the base a nested transaction without a write returned at `Transaction.java:301` and its reads were lost, so the outer block answered for nothing that its nested block had read. Found by reading while building repair 3; measured since by the skeptic's test `compiler_tests/AtomicNestedReadsKeptCompiled.test`; `TXCommit` (`:302-307`) now returns at once only for a top-level transaction without a write.
 - A nested transaction that an exception leaves hands its parent its reads and no write (`TXLeave`, `:314-318`): the exception was thrown on what the nested block read, and the outer block, which may catch it, answers for those reads at its own commit. Where those reads no longer hold, `TXLeave` aborts, and the handler treats that abort as any other.
 
 ### The guard of the shared sets, and its cost, by reading
@@ -178,7 +178,7 @@ None beyond the tests: each test's failing run is the old code's result and its 
 
 - Rows 933, 934, 937, 888, 324, 949, 950: home 1, an assertion of a plain gated test each (record.md gives the test of each).
 - Row 466's sentence on two transactions: home 1, `ArrayStoreJUTest.testTwoTransactionsInitialiseOneElementOnce`.
-- A nested transaction without a write lost its reads: home 1 in the code, by reading; no test asserts it, since its failure is a commit that should have aborted, which shows only as a rare wrong value under contention. Said here and in record.md.
+- A nested transaction without a write lost its reads: home 1, `compiler_tests/AtomicNestedReadsKeptCompiled.test`, which the skeptic added: on the base's code an outer block that assigns `x` from what its nested block read lost updates of other blocks (3,299 and 3,267 of 3,300 in two of three runs at four threads), and the test's second half, a nested block that an exception leaves, failed there in every run. Under walk the same program loses them at four threads: home 2, `tests/XXXAtomicNestedReadsKeptWalk.fss`, and the row NEW-X-2 of record.md.
 - NEW-X-1, a nested block beside a plain write of its outer block: home 3, a ledger row with reproducer `none`: the race does not show in every run (1, 0 and 186 lines in three runs), so no gated test can stay green or stay expected-red. Measured on the compiled path at four threads and under walk (0 in two runs), this program, a scratch file that is not committed:
 
       component NestedBesidePlain
