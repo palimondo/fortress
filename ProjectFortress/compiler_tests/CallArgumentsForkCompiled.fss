@@ -1,4 +1,4 @@
-(* The arguments of a function call and of a method call run as implicit threads, as the arms of a parallel do run: as many at once, the results in the arguments' order, and every argument ended before an exception of one leaves the call. Specification/basic/evaluation/parallelism.tex, section "Threads and Parallelism". *)
+(* The arguments of a function call and of a method call run as implicit threads, as the arms of a parallel do run: as many at once, the results in the arguments' order, and every argument ended before an exception of one leaves the call; so a reduction that joins its two halves as the arguments of one call runs its bodies at once. Specification/basic/evaluation/parallelism.tex, section "Threads and Parallelism". *)
 component CallArgumentsForkCompiled
 export Executable
 
@@ -53,6 +53,21 @@ three(a: ZZ32, b: ZZ32, c: ZZ32): String = a.asString || "," || b.asString || ",
 object Holder(name: String)
   both(a: ZZ32, b: ZZ32): String = name || ":" || a.asString || "," || b.asString
   all(a: ZZ32, b: ZZ32, c: ZZ32): String = name || ":" || a.asString || "," || b.asString || "," || c.asString
+end
+
+object Plus
+  join(a: ZZ32, b: ZZ32): ZZ32 = a + b
+end
+
+(* A reduction over l to r: its two halves are the arguments of the join. *)
+reduce(l: ZZ32, r: ZZ32, body: ZZ32 -> ZZ32): ZZ32 = do
+  halves(lo: ZZ32, hi: ZZ32): ZZ32 =
+    if lo = hi then body(lo)
+    else
+      mid: ZZ32 = (lo + hi) DIV 2
+      Plus.join(halves(lo, mid), halves(mid + 1, hi))
+    end
+  halves(l, r)
 end
 
 (* How many calls of slow run at once in the arms of a parallel do: what the pool gives. *)
@@ -114,6 +129,9 @@ run(): () = do
   check("a method's two arguments", methodTwo(h), "h:1,2", arms)
   peak := 0
   check("a method's three arguments", methodThree(h), "h:1,2,3", arms)
+
+  peak := 0
+  check("a reduction's two halves", reduce(0, 7, fn (i: ZZ32): ZZ32 => slow(i)).asString, "28", arms)
 
   var caught: ZZ32 := 0
   flag := 0

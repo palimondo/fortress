@@ -1,0 +1,27 @@
+(* An atomic block and a try with a catch clause are each the second argument of a call whose arguments run in order. Specification/basic/expressions/atomic.tex, section "Atomic Expressions"; Specification/basic/expressions/try.tex, section "Try Expressions". *)
+component XXXAtomicBlockLaterArgument
+export Executable
+
+object Boom(code: ZZ32) extends CheckedException end
+
+var hit: ZZ32 = 0
+
+boomVal(k: ZZ32): ZZ32 = if k > 0 then throw Boom(k) else k end
+
+two(a: ZZ32, b: ZZ32): ZZ32 = a + b
+
+bump(k: ZZ32): ZZ32 = two(k, atomic do
+    hit := hit + k
+    hit
+  end)
+
+caught(k: ZZ32): ZZ32 = two(k, try boomVal(k) catch e Boom => e.code end)
+
+run(): () = do
+  println("REACHED")
+  assert(bump(3), 6, "an atomic block as a call's second argument")
+  assert(caught(4), 8, "a try as a call's second argument")
+  println("PASS")
+end
+
+end
