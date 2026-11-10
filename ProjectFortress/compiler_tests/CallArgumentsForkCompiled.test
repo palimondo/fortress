@@ -1,0 +1,4 @@
+tests=CallArgumentsForkCompiled
+link
+run
+run_out_contains=PASS

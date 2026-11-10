@@ -1,0 +1,143 @@
+(* A group of implicit threads that completes abruptly has no thread still running: no write of an arm arrives after the group has ended, and the group's exception is that of the first arm, in the arms' order, that threw. Specification/basic/evaluation/parallelism.tex, section "Threads and Parallelism". *)
+component AlsoArmThrowsJoinsCompiled
+export Executable
+
+object Boom(code: ZZ32) extends CheckedException end
+
+var flag: ZZ32 = 0
+var bad: ZZ32 = 0
+
+pause(nanos: RR64): () = do
+  t0: RR64 = nanoTime()
+  var spins: ZZ32 := 0
+  while nanoTime() - t0 < nanos do
+    spins := spins + 1
+  end
+end
+
+setFlag(k: ZZ32): () = atomic do flag := k end
+
+boomArm(k: ZZ32): () = throw Boom(k)
+
+quickArm(): () = pause(1000000.0)
+
+slowArm(k: ZZ32): () = do
+  pause(200000000.0)
+  setFlag(k)
+end
+
+slowBoomArm(k: ZZ32): () = do
+  pause(200000000.0)
+  setFlag(k)
+  throw Boom(k)
+end
+
+boomVal(k: ZZ32): ZZ32 = if k > 0 then throw Boom(k) else k end
+
+slowVal(k: ZZ32): ZZ32 = do
+  pause(200000000.0)
+  setFlag(k)
+  k
+end
+
+add(a: ZZ32, b: ZZ32): ZZ32 = a + b
+
+(* The groups, each in a function of its own. *)
+
+firstArm(k: ZZ32): () = do
+  do
+    boomArm(k)
+  also do
+    slowArm(k)
+  end
+end
+
+laterArm(k: ZZ32): () = do
+  do
+    quickArm()
+  also do
+    boomArm(k)
+  also do
+    slowArm(k)
+  end
+end
+
+twoThrow(k: ZZ32): () = do
+  do
+    boomArm(k)
+  also do
+    slowBoomArm(k + 100)
+  end
+end
+
+twoLaterThrow(k: ZZ32): () = do
+  do
+    quickArm()
+  also do
+    boomArm(k)
+  also do
+    slowBoomArm(k + 100)
+  end
+end
+
+tupleFirst(k: ZZ32): ZZ32 = do
+  (a, b) = (boomVal(k), slowVal(k))
+  a + b
+end
+
+operatorFirst(k: ZZ32): ZZ32 = boomVal(k) + slowVal(k)
+
+(* After a group has completed abruptly: the exception that left it, and
+   the flag now and a while later. *)
+settled(what: String, caught: ZZ32, expected: ZZ32): () = do
+  now: ZZ32 = flag
+  pause(600000000.0)
+  later: ZZ32 = flag
+  println(what || ": caught " || caught.asString || ", after the catch: flag " || now.asString || ", later: flag " || later.asString)
+  if caught = expected then () else
+    bad := bad + 1
+    println("FAIL " || what || ": the exception is not the first arm's that threw, expected " || expected.asString)
+  end
+  if now = later then () else
+    bad := bad + 1
+    println("FAIL " || what || ": an arm ran on after the group had completed")
+  end
+end
+
+run(): () = do
+  var caught: ZZ32 := 0
+
+  flag := 0
+  caught := 0
+  try firstArm(1) catch e Boom => caught := e.code end
+  settled("the first arm throws", caught, 1)
+
+  flag := 0
+  caught := 0
+  try laterArm(2) catch e Boom => caught := e.code end
+  settled("a later arm throws", caught, 2)
+
+  flag := 0
+  caught := 0
+  try twoThrow(3) catch e Boom => caught := e.code end
+  settled("the first arm and a later arm throw", caught, 3)
+
+  flag := 0
+  caught := 0
+  try twoLaterThrow(4) catch e Boom => caught := e.code end
+  settled("two later arms throw", caught, 4)
+
+  flag := 0
+  caught := 0
+  try ignore(tupleFirst(5)) catch e Boom => caught := e.code end
+  settled("a tuple's first element throws", caught, 5)
+
+  flag := 0
+  caught := 0
+  try ignore(operatorFirst(6)) catch e Boom => caught := e.code end
+  settled("an operator's first operand throws", caught, 6)
+
+  if bad = 0 then println("PASS") else println("FAIL") end
+end
+
+end

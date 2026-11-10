@@ -1,0 +1,24 @@
+(* A local declared in an arm of a parallel do after the first is read in that arm. *)
+component TaskArmLocalSlot
+export Executable
+
+lbl(x: ZZ32): String = x.asString
+
+oneLevel(): String = do
+  var r1: String := ""
+  var r2: String := ""
+  do
+    r1 := lbl(1)
+  also do
+    j: ZZ32 = 2
+    r2 := lbl(j)
+  end
+  r1 || r2
+end
+
+run(): () = do
+  assert(oneLevel(), "12", "a local declared in a do ... also arm; Specification/basic/expressions/also.tex, subsection \"Parallel Do Expressions\"")
+  println("PASS")
+end
+
+end

@@ -15,6 +15,10 @@ export RangeInternals
 
 private printLimit = 5
 
+(** The grain of the parallel scalar range: a range of at most this many
+    elements is not split, and runs in sequence. *)
+private grainSize: ZZ32 = 16
+
 (************************************************************
 * Bounds juggling and modular arithmetic
 ************************************************************)
@@ -1313,6 +1317,8 @@ object CompactFullParScalarRange(l:ZZ32, r:ZZ32)
             loop'(lo:ZZ32,hi:ZZ32): T =
                 if lo=hi then
                     body(lo)
+                elif 0 <= (hi DOTMINUS lo) < grainSize then
+                    CompactFullSeqScalarRange(lo,hi).generate[\T\](red,body)
                 else
                     (* Identify power-of-2 boundary in region, split there *)
                     split = partitionL((lo BITXOR hi) DOTPLUS 1)
@@ -1328,6 +1334,8 @@ object CompactFullParScalarRange(l:ZZ32, r:ZZ32)
             lop(lo:ZZ32,hi:ZZ32): () =
                 if lo=hi then
                     body(lo)
+                elif 0 <= (hi DOTMINUS lo) < grainSize then
+                    CompactFullSeqScalarRange(lo,hi).loop(body)
                 else
                     (* Identify power-of-2 boundary in region, split there *)
                     split = partitionL((lo BITXOR hi) DOTPLUS 1)

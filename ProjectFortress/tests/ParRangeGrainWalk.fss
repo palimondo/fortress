@@ -1,0 +1,86 @@
+(* The parallel range over ZZ32 gives the sequential range's answers at every length and offset, a parallel for over it runs its body once for each element, and the bodies of a range of sixteen elements or fewer run one after another, in the order of their indices. Specification/basic/evaluation/parallelism.tex, section "Threads and Parallelism". *)
+component ParRangeGrainWalk
+import List.{...}
+export Executable
+
+var trace: String := ""
+
+pause(nanos: ZZ64): () = do
+    t0: ZZ64 = nanoTime()
+    spins: ZZ32 := 0
+    while nanoTime() - t0 < nanos do spins += 1 end
+end
+
+note(i: ZZ32): () = do
+    pause(3000000)
+    atomic do trace := trace || i.asString || " " end
+end
+
+noted(i: ZZ32): ZZ32 = do
+    note(i)
+    i
+end
+
+term(i: ZZ32): ZZ32 = 3 i + 1
+spread(i: ZZ32): ZZ32 = (37 i) MOD 101
+
+parSum(lo: ZZ32, n: ZZ32): ZZ32 = SUM[\ZZ32\][i <- lo#n] term(i)
+seqSum(lo: ZZ32, n: ZZ32): ZZ32 = SUM[\ZZ32\][i <- seq(lo#n)] term(i)
+parCat(lo: ZZ32, n: ZZ32): String = BIG ||[i <- lo#n] (i.asString || ",")
+seqCat(lo: ZZ32, n: ZZ32): String = BIG ||[i <- seq(lo#n)] (i.asString || ",")
+parMax(lo: ZZ32, n: ZZ32): ZZ32 = BIG MAX[\ZZ32\][i <- lo#n] spread(i)
+seqMax(lo: ZZ32, n: ZZ32): ZZ32 = BIG MAX[\ZZ32\][i <- seq(lo#n)] spread(i)
+
+(* Each element of an array written once by a parallel for: how many elements are not 1. *)
+notOnce(lo: ZZ32, n: ZZ32): ZZ32 = do
+    a = array[\ZZ32\](n).fill(0)
+    for i <- lo#n do a[i - lo] := a[i - lo] + 1 end
+    wrong: ZZ32 := 0
+    for j <- seq(0#n) do
+        if a[j] =/= 1 then wrong += 1 end
+    end
+    wrong
+end
+
+sameAnswers(lo: ZZ32, n: ZZ32): () = do
+    tag: String = " over " || lo.asString || "#" || n.asString
+    assert(parSum(lo, n), seqSum(lo, n), "the sum" || tag)
+    assert(parCat(lo, n), seqCat(lo, n), "the concatenation" || tag)
+    if n > 0 then assert(parMax(lo, n), seqMax(lo, n), "the maximum" || tag) end
+    assert(notOnce(lo, n), 0, "elements not written once" || tag)
+end
+
+indices(lo: ZZ32, n: ZZ32): String = do
+    s: String := ""
+    for i <- seq(lo#n) do s := s || i.asString || " " end
+    s
+end
+
+loopOrder(lo: ZZ32, n: ZZ32): String = do
+    atomic do trace := "" end
+    for i <- lo#n do note(i) end
+    trace
+end
+
+generateOrder(lo: ZZ32, n: ZZ32): String = do
+    atomic do trace := "" end
+    total: ZZ32 = SUM[\ZZ32\][i <- lo#n] noted(i)
+    trace
+end
+
+run(): () = do
+    for lo <- seq(<|[\ZZ32\] 0, 3, 9, -7 |>) do
+        for n <- seq(<|[\ZZ32\] 0, 1, 5, 15, 16, 17, 33, 100 |>) do
+            sameAnswers(lo, n)
+        end
+    end
+
+    assert(loopOrder(0, 16), indices(0, 16), "a for over 0#16 runs its bodies in index order")
+    assert(loopOrder(9, 16), indices(9, 16), "a for over 9#16 runs its bodies in index order")
+    assert(loopOrder(-7, 5), indices(-7, 5), "a for over (-7)#5 runs its bodies in index order")
+    assert(generateOrder(0, 16), indices(0, 16), "a sum over 0#16 runs its bodies in index order")
+    assert(generateOrder(9, 16), indices(9, 16), "a sum over 9#16 runs its bodies in index order")
+    println("PASS")
+end
+
+end
