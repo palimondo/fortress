@@ -133,9 +133,11 @@ The thread dump of a hung run:
 - **No parallelism while the class initializes.** The arms of a group in a coercion's body run one after another.
 - **One more pool** of one thread at every program's start, shut down after the load.
 
+**Taken, after this review's first commits.** The coordinator took way (a). The record's fork N1 and rung N's step 2 now state it, with the planner's way as the way not taken; the imported component's hang is row 979, which rung N repairs where the same way reaches it and else leaves open; N's briefing gained three keys, and run 1's block was generated and spliced again.
+
 ### 3.2 The new defect, for the ledger
 
-A candidate row, section 7, sibling of 971: on the compiled path a numeral's place in an imported component whose coercion's body spawns a task hangs the program at four threads, 5 of 6 runs, and passes at one. The evidence is section 3.1. The reproducer is not in the tree: this check adds no test. Whoever files the row adds `XXX` tests from the three sources above; a hanging test must not join the suites until the run step has a time limit.
+Filed as row 979, section 7, sibling of 971: on the compiled path a numeral's place in an imported component whose coercion's body spawns a task hangs the program at four threads, 5 of 6 runs, and passes at one. The evidence is section 3.1. The reproducer is not in the tree: this check adds no test. Whoever files the row adds `XXX` tests from the three sources above; a hanging test must not join the suites until the run step has a time limit.
 
 ### 3.3 Rows 442 and 971 were questions for the curator with other defaults
 

@@ -28,17 +28,18 @@ Fields common to the five rungs:
 - **slug:** `rung-numeral-leftovers`
 - **worktree:** `/home/user/fortress-numeral-leftovers`
 - **section:** `N. The numerals' leftovers under walk, in the prelude and at a program's start: an integer numeral at the prelude's RR64 and RR32, a numeral coercion that starts a task, walk's dead field-numeral code, and rows 958, 967 and 974 (P-174, P-176, P-173, P-37)`
-- **blurb:** what climb batch 29b left on the numerals outside the parser, the checker and the code generator: the prelude's RR64 and RR32 gain the coercion from NaturalNumeral over n, r and v, so that x: RR64 = 3 compiles as it runs under walk (row 442's numeral half, P-37's exception); a compiled program's component class is initialized on a thread of the task pool, so that a numeral coercion whose body starts a task fills its place when the class loads (row 971, P-176); walk's dead code of the field numerals is deleted in the places the post-batch review lists; row 960's reproducer is written again over the four numbers; under walk a float numeral left of an RR32 operand runs RR32's operator (row 958), a numeral that rounds to an infinity is refused when its place runs (row 967), and a numeral type written as an extended type or a static argument is refused at load (row 974); the Appendix I effects that name these rows are brought in line.
+- **blurb:** what climb batch 29b left on the numerals outside the parser, the checker and the code generator: the prelude's RR64 and RR32 gain the coercion from NaturalNumeral over n, r and v, so that x: RR64 = 3 compiles as it runs under walk (row 442's numeral half, P-37's exception); a compiled program's component class is initialized inside a root task on a pool of one thread of its own, so that a numeral coercion whose body starts a task fills its place when the class loads (row 971, P-176), and an imported component's class the same way where that way reaches it (row 979); walk's dead code of the field numerals is deleted in the places the post-batch review lists; row 960's reproducer is written again over the four numbers; under walk a float numeral left of an RR32 operand runs RR32's operator (row 958), a numeral that rounds to an infinity is refused when its place runs (row 967), and a numeral type written as an extended type or a static argument is refused at load (row 974); the Appendix I effects that name these rows are brought in line.
 - **points to report:**
   - The two coercions as written, the constant each folds to at your test numerals, and whether the fold needed a change.
   - Every test whose verdict or pinned message changed because `RR64` and `RR32` now take an integer numeral, with its line before and after; every line of a team test changed.
-  - Where the component class is now initialized, on which thread, and each existing test whose output or order changed with it; whether `runtimeSystem/BaseTask.java` had to change (it is P's and X's).
+  - Where the component class is now initialized, on which pool and inside which task, and each existing test whose output or order changed with it; whether `runtimeSystem/BaseTask.java` had to change (it is P's and X's).
+  - Row 979: repaired by the same way or left open, with the test's failing and passing runs under `timeout`; if left open, the way that it needs.
   - Each piece of walk's field-numeral code deleted, and each left with its reason.
   - Row 974: built or not, and why; the message.
   - Each sentence of the specification changed, before and after; each sentence your change makes false that this section does not name.
   - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
   - A step that would change walk's rule that a declaration that fits a numeral as it is runs before one that converts it, which is reserved.
-- **briefing** (22 keys, 15 checks):
+- **briefing** (25 keys, 17 checks):
   - P-174 (check): the numeral types, every number type's coercion generic over the four numbers, a numeral type written only as a parameter's type.
   - P-176 (check): one value per place, filled when the class loads; row 971 is where the tree departs.
   - P-173 (check): where a numeral converts, the refusal of one outside its type's range, the default; the specification names the one that rounds to an infinity.
@@ -46,6 +47,7 @@ Fields common to the five rungs:
   - P-12: walk refuses when a place runs, until it runs the checker.
   - ledger:442 (check): the prelude's gaps; its numeral half closes, the rest stays.
   - ledger:971 (check): the coercion that starts a task, which closes.
+  - ledger:979 (check): the same hang in an imported component, which closes if the same way reaches it.
   - ledger:958 (check): the float numeral left of an RR32, which closes.
   - ledger:967 (check): the numeral that rounds to an infinity under walk, which closes.
   - ledger:974 (check): the numeral type written under walk, which closes if step 7 lands.
@@ -57,6 +59,8 @@ Fields common to the five rungs:
   - SNAP `3. The design` (check): the design in the curator's confirmed words.
   - SNAP `4. What it is not`: the field numerals, whose remains you delete.
   - `code:ProjectFortress/src/com/sun/fortress/runtimeSystem/MainWrapper.java#public static void main` (check): where the component class is loaded and initialized.
+  - `code:ProjectFortress/src/com/sun/fortress/runtimeSystem/BaseTask.java#public final void forkIfProfitable`: the fork that a class initializer reaches, which you read and do not change.
+  - `doc:explorations/coordinator/climb-batch-30-review.md#3.1 Row 971` (check): the prototype of both pools, the hang's thread dump, the two copies of the run time's classes, and row 979's three sources.
   - `map:modules-and-phases.md#B.11 The runtime`: the compiled run time, its pool and its class loader.
   - `map:modules-and-phases.md#B.8 The interpreter tail`: how walk runs a program after the phases.
   - REC `The planner's probes` (check): row 971's stack, by the planner's run.
@@ -350,7 +354,7 @@ None of the forks below is consequential: each builds within a decision on recor
 
 2. **B2. The new compiled tests of P, X and Y join the atomic runs.** **Default: the eleven names of section 2, "The atomic runs".** Way not taken: the suites alone, one run each. The reason: each test is of a race or of a block that may not end; three runs at four threads find more, and the atomic runs have a time limit.
 
-3. **N1. Row 971: the component class is initialized on a thread of the task pool.** The sort's repair starts the task pool before the program's classes load. The planner's run shows that the pool's existence is not enough: the cast fails because the class initializer runs on the JVM's main thread (PROBES, probe 3). **Default: `MainWrapper.main` hands the load and initialization of the component class to the pool, and waits for it; `BaseTask` is not changed.** Ways not taken: (i) `BaseTask.getCurrentTask` answering for a thread outside the pool, which edits P's and X's file and leaves the coercion's tasks without a parent; (ii) numeral coercions compiled without the analyzer's spawns, the post-batch review's way (b), which the sort did not take. The reason: the sort, and the team's comment at the load, "so that there is a task pool before any user code is run".
+3. **N1. Row 971: the component class is initialized inside a root task, on a pool of one thread of its own.** The sort's repair starts the task pool before the program's classes load. The planner's run shows that the pool's existence is not enough: the cast fails because the class initializer runs on the JVM's main thread (PROBES, probe 3). **Default: `MainWrapper.main` hands the load and initialization of the component class to a pool of one thread of its own, and waits for it. The class is initialized inside a root `BaseTask` that has set itself as the thread's task, and the pool and the task are the class loader's copies of the run time's classes, reached through `MainWrapper.icl`; `BaseTask` is not changed.** What a program sees: the same output in the same order and the same exit code; where a coercion raises, the first line of the error output can differ by the words "Exception in thread"; the arms of a group run one after another while the class initializes, which the specification allows (`parallelism.tex:89-90`). The evidence (`climb-batch-30-review.md`, section 3.1): a prototype of the planner's way hung in 12 of 12 runs of row 971's reproducer at four threads, and this way passed 12 of 12 runs, of the reproducer and of one with a slow arm. The same hang exists on the base for a place in an imported component (row 979): rung N repairs it where this way reaches it, and else the row stays open. Ways not taken: (i) the planner's way, the class initialized on a thread of the program's task pool of four threads: a worker steals the task that the initializer forked, calls a function of the class and waits for its initialization, while the initializer waits for the task; (ii) `BaseTask.getCurrentTask` answering for a thread outside the pool, which edits P's and X's file and leaves the coercion's tasks without a parent; (iii) numeral coercions compiled without the analyzer's spawns, the post-batch review's way (b), which the sort did not take and which does not reach a spawn inside a function that the coercion calls. The fork is the coordinator's, taken on the check before the launch: it lands, and is then reviewed. The reason: the sort, the prototype, and the team's comment at the load, "so that there is a task pool before any user code is run".
 
 4. **N2. Row 442: two coercions, and no other declaration.** `RR64` and `RR32` of the prelude gain `coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])`, with a body over the prelude's own natives, as their radix-point coercions have. **Default: so; a `ZZ32` value into `RR64` and the prelude's other gaps stay for the switch-over.** The reason: the sort; P-37's exception covers the numerals only.
 
@@ -402,7 +406,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
    - `ProjectFortress/library_tests/NumeralFoldFloats.fss:11` back to `16777217`, as climb batch 29b's record asked.
    - A case of `compiler/desugarer/NumeralCoercionFoldJUTest` for each new coercion's folded constant.
    - Walk's values of the same numerals are `tests/NumeralTypesWalk.fss`'s: a guard.
-2. **A numeral coercion that starts a task** (fork N1; row 971). The component class is loaded and initialized on a thread of the task pool. Tests first: `compiler_tests/XXXNumeralCoercionSpawnCompiled` promoted to `NumeralCoercionSpawnCompiled`, and in it a second type whose coercion passes two calls of the program's own functions as a constructor's arguments, P-174's interval form. `compiler_tests/NumeralCoercionOnceCompiled.test` and `NumeralMinusOnceCompiled.test` are guards of the order of a place's output. A program whose coercion raises still stops while its class loads.
+2. **A numeral coercion that starts a task** (fork N1; rows 971 and 979). The component class is loaded and initialized inside a root task on a pool of one thread of its own: `MainWrapper.main` reaches the class loader's copies of the pool and of `BaseTask` through `MainWrapper.icl`, the task sets itself as the thread's task, and `main` waits for it. A thread of the program's own pool of four threads is not the way: there a worker steals the forked task and waits on the class's initialization, and the program hangs (`explorations/coordinator/climb-batch-30-review.md`, section 3.1). Tests first: `compiler_tests/XXXNumeralCoercionSpawnCompiled` promoted to `NumeralCoercionSpawnCompiled`, and in it a second type whose coercion passes two calls of the program's own functions as a constructor's arguments, P-174's interval form. `compiler_tests/NumeralCoercionOnceCompiled.test` and `NumeralMinusOnceCompiled.test` are guards of the order of a place's output. A program whose coercion raises still stops while its class loads. Then row 979, the same hang for a place in an imported component, whose class initializes at its first use on a worker of the program's pool. Test first, from the three sources of the review's section 3.1: an api and a component that declare the type and the place, and a program that imports them; see it fail under `timeout`, since a hang stops a suite whose run step has no time limit, and keep it out of the suites while it can hang. Repair it where the same way does: an imported component's class initialized the same way, inside a root task on a pool of one thread of its own. If you find that it needs another way, such as no fork while a class initializes, which edits `BaseTask.java`, build none: the row stays open, and you report the way that it needs.
 3. **Walk's dead code of the field numerals**, by the post-batch review's list (its section 1, "Every place where the landed tree still holds the field numerals", items 1 to 5): `Numerals.object` and the `Site.object` field; `Coercions.withNumeralObjects`, its call in `OverloadedFunction.java:2306-2309` and the `objects` path of `CoercedCall.convert`; `Numerals.isNumeralObject`, `fieldValue`, `field`, `intField`, `sameValue` and `fractionDigits`; the numeral case of `FOrdinaryObject.seqv`; the class comment of `Numerals`. And item 7's two comments of the prelude, `Library/CompilerLibrary.fsi:38-44` and `CompilerLibrary.fss:91-96`. A deletion of dead code has no failing test: walk's numeral tests (`tests/Numeral*Walk.fss`) are its guards, and your report says so.
 4. **Row 960's reproducer** (fork N4). `ProjectFortress/tests/XXXRadixPointLeadingZerosWalk.fss` written again: a program's coercion over `RadixPointNumeral[\n, m, r, v\]` that returns `n`, asserting 3 for `00.5`. It still expects its failure, now for row 960's reason. The row's whole new line names it.
 5. **Row 967.** Under walk a numeral, as written or folded, that rounds to an infinity at a typed place of `RR32` or `RR64` is refused when the place runs, in the form of walk's refusal of an integer numeral out of range. `tests/XXXNumeralRoundsToInfinityWalk.fss` promoted.
@@ -412,7 +416,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **The stages.** None. List your files (`STAGE_BLIND`).
 
-**Rows.** Read each with `ledger.py show N` first. Close 971, 958 and 967, and 974 if step 7 lands. Whole new lines, each within `ledger.py`'s limits: 442, without its numeral half; 960, with its new reproducer.
+**Rows.** Read each with `ledger.py show N` first. Close 971, 958 and 967, 979 if step 2 repairs it, and 974 if step 7 lands. Whole new lines, each within `ledger.py`'s limits: 442, without its numeral half; 960, with its new reproducer.
 
 **Specification.** Your change makes these false; bring them in line, and build the specification as the skill's `specification.md` gives it:
 - `Specification/appendices/changes.tex:5247-5250`, "coercions generic over the four numbers from NaturalNumeral at its five integer types and from RadixPointNumeral at RR64 and RR32";
@@ -422,7 +426,7 @@ Leave the clauses of rows 960, 963, 957, 973 and 966.
 
 **Files.**
 - `ProjectFortress/LibraryBuiltin/CompilerBuiltin.fss` and `.fsi`, the two types only; `Library/CompilerLibrary.fsi` and `.fss`, the two comments only.
-- `runtimeSystem/MainWrapper.java`, and `FortressExecutable.java` if the pool's start needs it.
+- `runtimeSystem/MainWrapper.java`, and `FortressExecutable.java` if the pool's start needs it; for row 979, the class loader, `runtimeSystem/InstantiatingClassloader.java`, where the same way needs it.
 - `interpreter/evaluator/values/Numerals.java`, `Coercions.java`, `OverloadedFunction.java`, `FOrdinaryObject.java`; walk's load code for step 7.
 - Your tests; the specification's sentences named.
 - Not: `compiler/codegen/`, `scala_src/`, the parser, `runtimeSystem/BaseTask.java` and `Transaction.java`, `Library/RangeInternals.fss`, microGPT.
@@ -556,6 +560,7 @@ Leave the clauses of rows 960, 963, 957, 973 and 966.
 The planner's brief, piece by piece, with its home here:
 
 - **Row 971, in:** N, step 2 (fork N1). Placed in N because its repair lies in `MainWrapper.java`, which no rung of part 2 edits.
+- **Row 979, in where the same way reaches it:** N, step 2. Filed by the check before the launch (`climb-batch-30-review.md`, section 3.1).
 - **Row 442, in:** N, step 1 (fork N2).
 - **Walk's dead field-numeral code in eight places:** items 1 to 5 and item 7's prelude comments in N, step 3; item 7's comment in `CodeGen.java` in C, step 4; item 6, the vacuous test, in N, step 4; item 8, the record and the skill, in section 6.
 - **Row 957's second case:** built, C, step 3.
@@ -583,7 +588,7 @@ The planner's brief, piece by piece, with its home here:
 
 ### Rows filed by plan
 
-None. A rung's new rows go in its `record.md` as `NEW-<rung>-<n>`.
+None by the planner. Row 979 was filed by the check before the launch. A rung's new rows go in its `record.md` as `NEW-<rung>-<n>`.
 
 ### Left out, each with its home
 
@@ -652,7 +657,7 @@ The comparands for run 1 are climb batch 29b's `summary.txt`, `checker-count.txt
 
 New rows go into the ledger only through `ledger.py add`, by the gather.
 
-- **Run 1, closed:** 971, 958, 967, and 974 if it lands (N); 947, 951, 497, and 322 if no case remains (P); 933, 934, 937, 888, 324, 949, 950 (X). **Rewritten:** 442, 960 (N); 466 (X); 322 if a case remains (P). **Noted:** 640 (P).
+- **Run 1, closed:** 971, 958, 967, 979 if the same way repairs it, and 974 if it lands (N); 947, 951, 497, and 322 if no case remains (P); 933, 934, 937, 888, 324, 949, 950 (X). **Rewritten:** 442, 960 (N); 466 (X); 322 if a case remains (P). **Noted:** 640 (P).
 - **Run 2, closed:** 875, 353, 952, 319, and 322 if open (Y); 960, 963, 957 (C).
 
 ### After the landing
