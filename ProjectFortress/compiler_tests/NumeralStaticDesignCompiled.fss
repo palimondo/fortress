@@ -39,22 +39,29 @@ value object BF16(bits: ZZ32)
 end
 
 hexDigit(d: ZZ32): String = "0123456789ABCDEF".substring(d, d + 1)
-digitsOf(v: ZZ32, r: ZZ32, n: ZZ32): String = if n = 0 then "" else do front: String = digitsOf(v DIV r, r, n - 1); last: String = hexDigit(v MOD r); front || last end end
+digitsOf(v: ZZ, r: ZZ, n: ZZ32): String = if n = 0 then "" else do front: String = digitsOf(v DIV r, r, n - 1); last: String = hexDigit(small(v - (v DIV r) r)); front || last end end
+suffix(r: ZZ32): String = if r = 10 then "" else "_" || r.asString end
 
-value object Written(text: String)
+value object RoundtripNumeral(text: String)
   coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = do
-    sv: ZZ32 = small(v)
-    sr: ZZ32 = small(r)
     sn: ZZ32 = small(n)
     sm: ZZ32 = small(m)
-    t: String = digitsOf(sv, sr, sn)
+    t: String = digitsOf(v, r, sn)
     w: ZZ32 = sn - sm
-    suffix: String = if sr = 10 then "" else "_" || sr.asString end
-    front: String = t.substring(0, w)
-    back: String = t.substring(w, sn)
-    Written(front || "." || back || suffix)
+    sfx: String = suffix(small(r))
+    RoundtripNumeral(t.substring(0, w) || "." || t.substring(w, sn) || sfx)
   end
+  coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = do
+    sn: ZZ32 = small(n)
+    t: String = digitsOf(v, r, sn)
+    sfx: String = suffix(small(r))
+    RoundtripNumeral(t || sfx)
+  end
+  getter asString(): String = text
 end
+
+writtenBack(w: RoundtripNumeral, s: String): () = assert(w.asString, s, "written back as " || s)
+writtenBack(w: RoundtripNumeral, s: String, why: String): () = assert(w.asString, s, why)
 
 value object Tally(k: ZZ32, seen: ZZ, negated: Boolean)
   coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = Tally(small(v), v, false)
@@ -91,8 +98,22 @@ run(): () = do
   assert(b.bits, 16257, "BF16(1.00390625000000000001) rounds once, to 0x3F81")
   b0: BF16 = 1.00390625
   assert(b0.bits, 16256, "BF16(1.00390625), the midpoint, rounds to even, 0x3F80")
-  h: Written = C.8_16
-  assert(h.text, "C.8_16", "C.8_16 is written back from its four numbers")
+  writtenBack(3.78, "3.78")
+  writtenBack(3.0, "3.0")
+  writtenBack(0.05, "0.05")
+  writtenBack(1.00_16, "1.00_16")
+  writtenBack(C.8_16, "C.8_16")
+  writtenBack(0.1_2, "0.1_2")
+  writtenBack(FF_16, "FF_16")
+  writtenBack(1011_2, "1011_2")
+  writtenBack(3.1415926535897932384, "3.1415926535897932384")
+  writtenBack(2.500, "2.500")
+  writtenBack(100, "100")
+  writtenBack(0.0, "0.0")
+  writtenBack(0, "0")
+  writtenBack(007, "007")
+  writtenBack(12_10, "12", "12_10 comes back as 12, its radix 10 lost: its four numbers are those of 12")
+  writtenBack(3.5_10, "3.5", "3.5_10 comes back as 3.5, its radix 10 lost: its four numbers are those of 3.5")
   t: Tally = -3
   assert(t.k, -3, "-3 at Tally is Tally's minus on the coercion of 3")
   assert(t.seen = 3, "the coercion sees the written numeral 3")
