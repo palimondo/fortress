@@ -128,7 +128,11 @@ No first error in the baseline's `raw/` names the task code, the argument evalua
 
 ## The team demos
 
-The demo driver was started on the final tree at 09:50Z; its result is added below when it ends.
+The interpreter's library is edited, so the demo driver ran once on the final tree (728c0fde79), under walk at one thread, `bash tmp/run-demos.sh tmp/demos` from the tree's root, 09:50Z to 10:16Z beside the batch's other work:
+
+    demos: 52 run, 52 reached their end
+
+Also under walk, on the grain: the 43 programs of `ProjectFortress/tests/` that write `atomic`, `abort()` or `spawn`, through `harness-one.sh` at four threads under `timeout 285`: `OK (43 tests)`. `ant testSystem` was not run: the edit of walk's side is the library alone.
 
 ## Sentences of the specification made false
 
