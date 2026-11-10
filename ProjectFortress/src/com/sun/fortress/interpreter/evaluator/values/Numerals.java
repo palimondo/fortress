@@ -307,6 +307,9 @@ public final class Numerals {
      * RR32 and RR64.
      */
     private static int infiniteAt(Site s) {
+        // the answer is one for the site, so a read of it needs no lock
+        int known = s.infiniteAt;
+        if (known >= 0) return known;
         synchronized (s) {
             if (s.infiniteAt < 0) {
                 BigInteger mag = s.signed.abs();
@@ -317,6 +320,20 @@ public final class Numerals {
             }
             return s.infiniteAt;
         }
+    }
+
+    /**
+     * Whether v is a numeral with a radix point, as written or folded, t is
+     * the library's RR64, the type of v's default, and v's exact value
+     * rounds to an infinity there: at a place that fixes RR64 such a numeral
+     * is refused as at any other type (literals.tex, "Literals"), though its
+     * default is an RR64.  FType.typeMatch asks, so that the place looks for
+     * a coercion, and inRange finds none.
+     */
+    public static boolean roundsToInfinityAsItIs(FType t, FValue v) {
+        if (!(v instanceof FloatNumeral)) return false;
+        if (t != v.type() && !(t.getName().equals("RR64") && t == libraryType("RR64"))) return false;
+        return infiniteAt(((Numeral) v).site()) == 2;
     }
 
     /** RR32's type, which FortressBuiltin declares, as NN32's; or null. */

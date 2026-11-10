@@ -349,6 +349,10 @@ public final class Coercions {
             return v;
         }
         FValue c = coerce(ft, v);
+        // a numeral that rounds to an infinity at RR64 is an RR64 once it is
+        // its default alone, so the declaration's own check would pass it
+        if (c == null && Numerals.roundsToInfinityAsItIs(ft, v))
+            return error(errorMsg("Type mismatch binding ", v, " (type ", v.type(), ") to a variable of type ", ft));
         return c == null ? v : c;
     }
 

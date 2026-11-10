@@ -217,7 +217,7 @@ public class LHSEvaluator extends NodeAbstractVisitor<Voidoid> {
                 if (type.isSome()) {
                     Type t = NodeUtil.optTypeOrPatternToType(type).unwrap();
                     outerType = EvalType.getFType(t, evaluator.e);
-                    if (value.type().subtypeOf(outerType) || outerType == BottomType.OPEN) evaluator.e.putVariable(s, Numerals.plain(value), outerType);
+                    if (outerType.typeMatch(value) || outerType == BottomType.OPEN) evaluator.e.putVariable(s, Numerals.plain(value), outerType);
                     else {
                         FValue v = Coercions.coerce(outerType, value);
                         if (v != null) evaluator.e.putVariable(s, Numerals.plain(v), outerType);
