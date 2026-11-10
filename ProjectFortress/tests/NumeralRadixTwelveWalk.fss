@@ -1,0 +1,21 @@
+(* The specification's section on numerals (Specification/basic/lexical-structure.tex): in radix 12 the letters
+   are A and B, or X and E, for ten and eleven; "E or e: 11 if the radix is 12, 14 otherwise".
+   The numerals that these rules reject are in compiler_tests/XXXNumeralRejectedTwelve*. *)
+component NumeralRadixTwelveWalk
+export Executable
+
+run() = do
+  assert(AB_12, 131, "AB_12 is 131")
+  assert(ab_12, 131, "ab_12 is 131")
+  assert(XE_12, 131, "XE_12 is 131")
+  assert(xe_12, 131, "xe_12 is 131")
+  assert(XE_TWELVE, 131, "XE_TWELVE is 131")
+  assert(A_12, X_12, "A_12 is X_12")
+  assert(B_12, E_12, "B_12 is E_12")
+  assert(E_12, 11, "E_12 is 11")
+  assert(E_16, 14, "E_16 is 14")
+  assert(1A0_12, 264, "1A0_12 is 264")
+  assert(1X0_12, 264, "1X0_12 is 264")
+end
+
+end

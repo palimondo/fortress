@@ -1,0 +1,3 @@
+tests=XXXNumeralRejectedTwelveOtherLetter
+compile
+compile_err_contains=a numeral has radix 12 and contains letters other than A, B, X, E, a, b, x or e

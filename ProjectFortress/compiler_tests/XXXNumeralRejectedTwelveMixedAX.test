@@ -1,0 +1,3 @@
+tests=XXXNumeralRejectedTwelveMixedAX
+compile
+compile_err_contains=a numeral has radix 12 and contains at least one A, B, a or b and at least one X, E, x or e
