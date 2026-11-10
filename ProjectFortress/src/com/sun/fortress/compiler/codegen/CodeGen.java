@@ -4449,7 +4449,6 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
                 vcg = new VarCodeGen.LocalVar(v.getName(), ty, this);
             }
             vcgs.add(vcg);
-            addLocalVar(vcg);
             lhs_types.add(ty);
         }
         
@@ -4505,6 +4504,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         } else {
             forExprsSerial(rhss, lhs_type, vcgs);
         }
+
+        // A variable is not in scope in its own initializer: it joins the
+        // environment here, so that a task of the right-hand side, whose free
+        // names are looked up there, does not read its slot before it is set.
+        for (VarCodeGen vcg : vcgs) addLocalVar(vcg);
 
         // Evaluate rest of block with binding in scope
         CodeGen cg = new CodeGen(this);

@@ -1,0 +1,49 @@
+(* A local variable named n, r or v, as the static parameters of a numeral's coercion are named, is bound to a call, a tuple or an operator whose later argument holds a numeral and runs as a task: the variable is not in scope in its own initializer, so the task does not read it. Specification/basic/variables.tex, section "Local Variable Declarations". *)
+component LocalBindingForkedNumeralCompiled
+export Executable
+
+up(k: ZZ32): ZZ32 = k + 1
+
+add(a: ZZ32, b: ZZ32): ZZ32 = a + b
+
+object Holder(base: ZZ32)
+  both(a: ZZ32, b: ZZ32): ZZ32 = base + a + b
+end
+
+callNamedR(k: ZZ32): ZZ32 = do
+  r: ZZ32 = add(up(k), up(k + 1))
+  r
+end
+
+callNamedN(k: ZZ32): ZZ32 = do
+  n: ZZ32 = add(up(k), up(2))
+  n + n
+end
+
+methodNamedV(h: Holder, k: ZZ32): ZZ32 = do
+  var v: ZZ32 := h.both(up(k), up(k + 3))
+  v := v + 1
+  v
+end
+
+tupleNamedNR(k: ZZ32): ZZ32 = do
+  (n, r) = (up(k), up(k + 4))
+  n + 10 r
+end
+
+operatorNamedV(k: ZZ32): ZZ32 = do
+  v: ZZ32 = up(k) + up(k + 5)
+  v
+end
+
+run(): () = do
+  k: ZZ32 = 4
+  assert(callNamedR(k), 11, "r bound to a call whose second argument holds a numeral")
+  assert(callNamedN(k), 16, "n bound to a call whose second argument is a call of a numeral")
+  assert(methodNamedV(Holder(100), k), 114, "var v bound to a method call whose second argument holds a numeral")
+  assert(tupleNamedNR(k), 95, "n and r bound to a tuple whose second element holds a numeral")
+  assert(operatorNamedV(k), 15, "v bound to an operator whose second operand holds a numeral")
+  println("PASS")
+end
+
+end
