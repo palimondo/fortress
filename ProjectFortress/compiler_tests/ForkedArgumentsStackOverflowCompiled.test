@@ -1,0 +1,6 @@
+tests=ForkedArgumentsStackOverflowCompiled
+link
+run
+run_exits_nonzero=true
+run_out_contains=REACHED
+run_err_contains=StackOverflowError

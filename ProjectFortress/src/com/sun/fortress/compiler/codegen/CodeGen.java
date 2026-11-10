@@ -1666,10 +1666,17 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
         mv.visitLabel(handler);
         int thrown = mv.createCompilerLocal("thrown", "Ljava/lang/Throwable;");
         mv.visitVarInsn(ASTORE, thrown);
+        // An error of the JVM itself, as a stack overflow, can leave a forked
+        // arm that nothing will run: it is thrown on without the joins.
+        Label rethrow = new Label();
+        mv.visitVarInsn(ALOAD, thrown);
+        mv.visitTypeInsn(INSTANCEOF, "java/lang/VirtualMachineError");
+        mv.visitJumpInsn(IFNE, rethrow);
         for (int i = 1; i < n; i++) {
             mv.visitVarInsn(ALOAD, taskVars[i]);
             mv.visitMethodInsn(INVOKEVIRTUAL, tasks[i], "joinIfForked", "()V");
         }
+        mv.visitLabel(rethrow);
         mv.visitVarInsn(ALOAD, thrown);
         mv.disposeCompilerLocal(thrown);
         mv.visitInsn(ATHROW);
