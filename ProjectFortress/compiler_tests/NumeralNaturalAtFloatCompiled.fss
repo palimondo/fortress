@@ -1,0 +1,29 @@
+(* An integer numeral at RR64 and RR32 converts there from its exact value by one rounding: at a typed binding, as an argument, with a minus, and with more than 20 digits. *)
+component NumeralNaturalAtFloatCompiled
+export Executable
+
+sEq(a: Any, b: Any): Boolean = builtinPrimitive("com.sun.fortress.nativeHelpers.equality.sEquiv")
+rawBits(x: RR64): ZZ64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRawBits")
+floatBits(x: RR32): ZZ32 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatRawBits")
+
+halved(x: RR64): RR64 = x / 2.0
+
+run(): () = do
+  w: RR64 = 0.5
+  one: RR64 = w + w
+  three: RR64 = one + one + one
+  x: RR64 = 3
+  assert(sEq(x, three), "x: RR64 = 3 is SEQV a computed 3.0")
+  h: RR32 = 16777217
+  assert(floatBits(h), 1266679808, "16777217 at RR32 rounds once, to 16777216.0")
+  p: RR64 = 123456789012345678901234567890
+  assert(rawBits(p) = 5042042089369253694, "a numeral of 30 digits at RR64 is the nearest double")
+  q: RR32 = 123456789012345678901234567890
+  assert(floatBits(q), 1875342472, "a numeral of 30 digits at RR32 is the nearest float")
+  m: RR64 = -3
+  assert(sEq(m, -three), "-3 at RR64 is the RR64 -3.0")
+  assert(sEq(halved(3), w + one), "a numeral as an argument at an RR64 parameter converts there")
+  println("PASS")
+end
+
+end
