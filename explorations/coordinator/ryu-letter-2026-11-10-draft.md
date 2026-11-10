@@ -4,11 +4,11 @@ Dear Prof. Ryu,
 
 Thank you again for the report. It is in the repository now, beside your POPL 2019 paper, and I am reading it.
 
-I have a question about the specification. I am publishing it as web pages that read well on a phone, and I would like to show it at its milestones: version 1.0β, version 1.0 of March 2008, and the working draft as the project left it, with the changes between them. The preface says that features were dropped from the specification to match the implementation and added back as they were implemented, and I would like readers to be able to follow that.
+I have a question about the specification. I am publishing it as web pages that read well on a phone, and I would like to show it at its milestones: versions 1.0α and 1.0β, version 1.0 of March 2008, and the working draft as the project left it, with the changes between them. The preface says that features were dropped from the specification to match the implementation and added back as they were implemented, and I would like readers to be able to follow that.
 
-The public repository has the LaTeX sources only from October 2009 on. At the 1.0 tag of 31 March 2008 it holds the PDF alone, and 1.0β is not in it at all.
+The public repository has the LaTeX sources only from October 2009 on. At the 1.0 tag of 31 March 2008 it holds the PDF alone. I have found the PDFs of 1.0α and 1.0β on university pages, and no sources.
 
-Do the LaTeX sources of 1.0 and of 1.0β still exist, with you or with someone else from the team? If they do, may I include them in the repository, https://github.com/palimondo/fortress, beside the working draft?
+Do the LaTeX sources of 1.0, 1.0β and 1.0α still exist, with you or with someone else from the team? If they do, may I include them in the repository, https://github.com/palimondo/fortress, beside the working draft?
 
 If they are lost, I will show 1.0 from its PDF.
 
