@@ -1238,3 +1238,15 @@ The orientation workflow's update of `revival-changes.md` for climb batch 29b (`
 - "Numbers", "`Number` declares nothing": "and the two numeral types" cut; to compare a typed value with a numeral, bind the numeral at the value's type first; under walk, the numeral at `=` takes its default, so `u = 0` is `false` for a zero `u: NN32` and `h = 0.5` for `h: QQ = 1/2`, but `r = 3` is `true` for `r: RR64`; the compiled `u = 0` is `true` until the switch-over. P-165, P-174; F-341, F-346, F-324; rows 973 and 966; `tests/XXXNumeralEqualsNumberWalk.fss`, `XXXNotEqualNumeral.fss`; the admission's equality probe at `5f35b1d058`.
 - "Numbers", "The number types are flat siblings": the route C sentence cut. P-95 and P-96 hold the term; `specification.md` does not use it.
 - "Static parameters, `where` clauses and sizes", "A size known only at run time": the narration of why `reflect` fails compiled shortened; every rule kept.
+
+## Climb batch 29b's landing, 2026-11-10
+
+The landing of climb batch 29b on `main` made area parts false, from the list in the record-landing run's `owed.md` and `diff.md`, "For the coordinator" (`explorations/compile-ladder/climb-batch-29b/record-landing/`), and the orientation judgement's install, step 3; settled by the record-landing workflow's writer task. Each claim checked on `main` at `27cb304a2a`.
+
+- `SKILL.md`, "Static parameters": "a `nat` or `int` parameter that is a size, used as a value, is a `ZZ32`", since a numeral coercion reads its four numbers as `ZZ`. P-173, P-174, P-40; F-342.
+- `interpreter.md`, "How walk evaluates a program": row 960 by the digit count that a coercion reads, the getters being deleted; row 966's workaround `z: NN32 = 0`, then `u =/= z`, in place of `NOT (u = 0)`, which is `true` for a zero `u` since `u = 0` is `false` (row 973); the bullet on row 968 deleted (fixed `a26e74f5c`); row 974 added, from the orientation judgement's install, step 3.
+- `compiler.md`, "The compiler's prelude, until the switch-over": the numerals' exception. P-37.
+- `compiler.md`, "What the code generator does": "except where the place's type names a type parameter" in place of "except at a generic type". Row 957; `compiler/codegen/CodeGen.java`, `numeralCoercionSiteDesc`.
+- `compiler.md`, "Traps of the compiled path": row 957 restated as the row states it; the bullet on row 961 deleted (fixed `a26e74f5c`); row 971 and row 442's numeral half added; row 963's selector type `NaturalNumeral[\1,10,7\]` in place of `IntLiteral`. `LibraryBuiltin/CompilerBuiltin.fsi:401-403`, `:444` for row 442.
+- `library.md`, "The curator's decisions on the library": the compiled path's conversion into `RR64` until the switch-over. Row 442; `CompilerBuiltin.fsi:401-403`.
+- `compiler.md`, its size: 31,219 to 31,700 bytes.

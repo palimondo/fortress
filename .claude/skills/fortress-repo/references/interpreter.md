@@ -18,11 +18,11 @@ Walk chooses a coercion by the value at run time. The specification and the comp
 Walk departs from the rules of `revival-changes.md`, "Numbers", in these ways, until each fix lands. A test of one of these cases asserts the rules' answer, as an `XXX` test (`tests-writing.md`), unless the case says otherwise.
 
 - A float numeral to the left of an `RR32` operand runs `RR64`'s operator: for `a: RR32`, `2.5 + a` is an `RR64`, and `a + 2.5` an `RR32` (ledger row 958). Bind the numeral at `RR32` first, as `c: RR32 = 2.5`, then write `c + a`.
-- A numeral with a radix point keeps only one of its leading zeros, so its `digits` getter gives 2 for `00.5`, not 3 (ledger row 960).
+- A numeral with a radix point keeps only one of its leading zeros, so a coercion reads the digit count of `00.5` as 2, not 3 (ledger row 960).
 - A `nat` or `int` parameter of 2^31 or more, used as a value, is a `ZZ64` (ledger row 962). Assert no value for it in a test.
-- `u =/= 0` is `true` for a zero `u` of `NN32`, `NN64` or `RR32`, and so is `q =/= 0.5` for `q: QQ = 1/2` (ledger row 966). Write `NOT (u = 0)`.
+- `u =/= 0` is `true` for a zero `u` of `NN32`, `NN64` or `RR32`, and so is `q =/= 0.5` for `q: QQ = 1/2` (ledger row 966). Bind the numeral at the type first, as `z: NN32 = 0`, then write `u =/= z`.
 - A numeral that rounds to an infinity at `RR32` or `RR64` gives `Infinity`, with no error (ledger row 967).
-- A negative constant, as `-3` or `5 - 8`, at a program's own number type reaches its `coerce(x: NaturalNumeral)` with its sign, as a natural numeral of value -3, not as `-` on the coercion of 3 (ledger row 968).
+- A numeral type written as a static argument, or as a type that an object or a trait extends, loads and runs, as `Wrap[\NaturalNumeral[\1, 10, 3\]\](3)` does (ledger row 974). The compiled checker refuses both forms.
 - A body with a declared return type is not converted by coercion, except a numeral: `r(): Wide = NarrowOf(3)` returns the `NarrowOf` (ledger row 387). Write the value at the declared type.
 
 ## Where a fix of walk belongs
