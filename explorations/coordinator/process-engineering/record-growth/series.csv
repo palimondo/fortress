@@ -3943,3 +3943,58 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 3941,2026-11-09 12:24:16Z,dfcb7eb18,967,798328,318752,111255,330557,800480,318867,111323,330675,,"fortress-repo: climb batch 29 landing, the area parts brought in line"
 3942,2026-11-09 12:34:51Z,a41378d7a,967,798328,318752,111255,330557,800480,318867,111323,330675,,fortress-repo: the cold read of climb batch 29 landing
 3943,2026-11-09 12:52:11Z,69071b0db,967,798328,318752,111255,330557,800480,318867,111323,330675,,"Climb batch 29's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
+3944,2026-11-09 12:53:02Z,f6f60eeb5,967,798328,318752,111255,330557,800480,318867,111323,330675,,"Revival page: where it stands at the landing of climb batch 29, the record chart regenerated"
+3945,2026-11-09 12:54:35Z,1c8178d28,967,798328,318752,111255,330557,800480,318867,111323,330675,,"Orientation regression quiz: case 31 and cases 28 and 29 revised, from climb batch 29's orientation update, with their k"
+3946,2026-11-09 12:54:57Z,9c09a5c6a,967,798328,318752,111255,330557,800480,318867,111323,330675,,"Boot note: climb batch 29's landing done, the Fable fidelity review running"
+3947,2026-11-09 12:55:04Z,544b5fd6e,967,798328,318752,111255,330557,800480,318867,111323,330675,,Boot note: the report's time
+3948,2026-11-09 13:08:36Z,3bab3569d,967,798328,318752,111255,331162,800480,318867,111323,331280,,"Review: the Fable review of the numeral design's fidelity to the curator's words, at his request, with the scouts' evide"
+3949,2026-11-09 13:33:10Z,b8b6bb004,967,798328,318752,111255,331162,800480,318867,111323,331280,,"Held list: his words and corrections of 11-09 on the numeral fidelity inquiry, and his correction of the coordinator's r"
+3950,2026-11-09 13:33:26Z,a8093b44a,967,798328,318752,111255,331162,800480,318867,111323,331280,,"Boot note: the fidelity inquiry's state, the finishing scout running, the recheck next"
+3951,2026-11-09 13:36:06Z,784a41988,967,798328,318752,111255,331162,800480,318867,111323,331280,,"Boot note: the finishing scout done, the Opus recheck running"
+3952,2026-11-09 13:39:04Z,8a9d25641,967,798328,318752,111255,331162,800480,318867,111323,331280,,"Boot note: his investigation of the earlier instances' misstatements, three scouts running"
+3953,2026-11-09 13:40:07Z,631dff9b4,967,798328,318752,111255,331162,800480,318867,111323,331280,,"Boot note: the recheck's result goes back to the Fable reviewer, at his order"
+3954,2026-11-09 13:42:21Z,e7b423dea,967,798328,318752,111255,331162,800480,318867,111323,331280,,"Boot note: the investigation's scouts done, two judges running"
+3955,2026-11-09 16:07:52Z,721af941a,967,798328,318752,111255,332027,800480,318867,111323,332145,,"Post-mortem of climb batch 29's numeral design: the snapshot of the curator's recovered design intention, and its INDEX "
+3956,2026-11-09 16:46:21Z,31014ea3e,967,798328,318752,111255,332625,800480,318867,111323,332743,,Post-mortem of the numeral design: the consequences he confirmed added to the snapshot; the probe's brief for his readin
+3957,2026-11-09 16:53:13Z,630d70a8d,967,798328,318752,111255,332625,800480,318867,111323,332743,,"Post-mortem of the numeral design: the probe's brief names the two designs, has the worker push by the committing rule, "
+3958,2026-11-09 17:04:05Z,ea7577397,967,798328,318752,111255,332625,800480,318867,111323,332743,,"Post-mortem of the numeral design: the probe's brief gains negative zero, the negative complex case, a numeral at a gene"
+3959,2026-11-09 17:14:46Z,93f4888b3,967,798328,318752,111255,332625,800480,318867,111323,332743,,"Held list and post-mortem: his exception to P-37 for the numerals, the recovered design and its name; the probe's brief "
+3960,2026-11-09 17:29:06Z,88d5d260e,967,798328,318752,111255,332625,800480,318867,111323,332743,,"Post-mortem of the numeral design: the complex test's notation is the design session's i, not batch 29's imaginary; repa"
+3961,2026-11-09 17:43:32Z,cac54a1bf,969,800662,318933,111363,332625,802814,319048,111431,332743,,"Record: P-174 rewritten to his static numerals, P-176 split out, P-37's exception for the numerals; rows 969 and 970"
+3962,2026-11-09 17:46:22Z,bf176e45e,969,800662,318933,111363,332625,802814,319048,111431,332743,,"Boot note: the post-mortem of the numeral design, the record corrected to the static numerals, the probe waiting on his "
+3963,2026-11-09 17:53:23Z,dd00743d9,969,800662,318933,111363,332625,802814,319048,111431,332743,,"Boot note: the static numerals probe running at his go, its check-ins armed"
+3964,2026-11-09 18:02:45Z,51b048ea1,969,800662,318933,111711,332625,802814,319048,111779,332743,,"Record: a nat's bound scoped to sizes; a numeral type's four static parameters naturals of any size, ZZ read as values ("
+3965,2026-11-09 18:41:20Z,2d1b0bb0f,969,800662,318933,111711,332625,802814,319048,111779,332743,,"Boot note: compacted and booted light at 18:4x; the v point closed at 51b048ea1c, not an ask; the probe running at check"
+3966,2026-11-09 18:57:54Z,24a49044b,969,800662,318933,111711,336750,802814,319048,111779,336868,,"Post-mortem of the numeral design: the recovery scout's files join the folder at his word (the inventory, the story, the"
+3967,2026-11-09 19:02:56Z,5295c2d2d,969,800662,318933,111711,336750,802814,319048,111779,336868,,"Boot note: his standing go for climb batch 29b, the repair batch that builds the static numerals; the session on Opus; t"
+3968,2026-11-09 19:05:20Z,e504993cf,969,800662,318933,111711,336750,802814,319048,111779,336868,,Boot note: the night's check-ins for climb batch 29b and their file
+3969,2026-11-09 19:07:59Z,99c2e6862,969,800662,318933,111711,336750,802814,319048,111779,336868,,Boot note: his four push notifications for tonight's work
+3970,2026-11-09 19:52:54Z,96e1ad671,971,802748,318933,111711,337372,804900,319048,111779,337490,,"The static numerals built for real: a prototype on both paths, its report and patch"
+3971,2026-11-09 19:56:47Z,bbebc267e,971,802748,318933,111711,337372,804900,319048,111779,337490,,Boot note: the probe ended with its report and patch at 96e1ad671c; the planner of climb batch 29b launched from it
+3972,2026-11-09 20:30:30Z,c94e8eb07,971,802748,318933,111711,338228,804900,319048,111779,338346,,"Climb batch 29b's record: the static numerals on both paths from the probe's patch, in two rungs"
+3973,2026-11-09 20:32:01Z,d02002cc7,971,802748,318933,111711,338228,804900,319048,111779,338346,,Boot note: climb batch 29b's record written; its Fable review and manifest generator running
+3974,2026-11-09 20:40:37Z,05e3e6ae5,971,802748,318933,111711,338228,804900,319048,111779,338346,,"Climb batch 29b's manifest generator, and its block spliced into the batch script"
+3975,2026-11-09 20:43:30Z,287d6586c,971,802748,318933,111711,338228,804900,319048,111779,338346,,Climb batch 29b's record reviewed before the launch: fidelity to the static numerals holds; fork A1's range refusal and 
+3976,2026-11-09 20:44:45Z,b5b0f82c1,971,802748,318933,111711,338816,804900,319048,111779,338934,,Climb batch 29b: the manifest block regenerated after the Fable review's edits and spliced into the batch script; the re
+3977,2026-11-09 20:45:12Z,f213ee7bf,971,802748,318933,111711,338816,804900,319048,111779,338934,,"Boot note: climb batch 29b launched, its run ID and arguments"
+3978,2026-11-09 21:21:21Z,1f54cd4e7,971,802748,318933,111711,338816,804900,319048,111779,338934,,"Boot note: his after-landing test change, the radix cases printed back as written by the round-trip type"
+3979,2026-11-09 21:37:11Z,3c571122a,971,802748,318933,111711,338816,804900,319048,111779,338934,,"Boot note: the RoundtripNumeral test, validated on both paths on the probe's patch, for after the landing"
+3980,2026-11-09 21:37:39Z,7a927f132,971,802748,318933,111711,338816,804900,319048,111779,338934,,Boot note: more zero cases for the RoundtripNumeral test
+3981,2026-11-09 21:45:57Z,033d4be7d,971,802748,318933,111711,338816,804900,319048,111779,338934,,Boot note: the RoundtripNumeral test asserts the explicit radix 10's loss on purpose
+3982,2026-11-09 23:31:16Z,a26e74f5c,972,803666,320643,111711,338816,805818,320762,111779,338934,,Build the static numerals on both paths: each numeral's place one value from its type's own coercion of the four numbers
+3983,2026-11-09 23:37:08Z,fcfd0aeb3,973,804636,321081,111711,338816,806788,321200,111779,338934,,"Specify the static numerals: a numeral's type exists only at compile time, its four numbers its static arguments, every "
+3984,2026-11-09 23:40:45Z,c6ef2f0b8,973,799187,321081,111711,338816,801353,321200,111779,338934,,Close the rows climb batch 29b fixed
+3985,2026-11-10 00:11:31Z,17e93a7da,973,799187,321081,111711,338816,801353,321200,111779,338934,,"Climb batch 29b's gather record: the static numerals' two rungs landed, their rows, tests and points"
+3986,2026-11-10 00:34:38Z,eb8a59245,973,799239,322350,111711,338816,801405,322469,111779,338934,,Fold the review's corrections
+3987,2026-11-10 00:38:49Z,a2be3e9e1,973,799239,322353,111711,338816,801405,322472,111779,338934,batch 29b,Record the gate's tables and the microGPT walk check
+3988,2026-11-10 00:42:40Z,fb4d878da,973,799239,322353,111711,338816,801405,322472,111779,338934,,"Boot note: climb batch 29b landed; its post-batch review and the round-trip test running, the record-landing next"
+3989,2026-11-10 00:47:17Z,9fb5ab231,973,799239,322353,111711,338816,801405,322472,111779,338934,,Round-trip test of the static numerals: RoundtripNumeral writes each numeral back as its source text
+3990,2026-11-10 01:15:49Z,a75261b7e,973,799239,322353,111711,339675,801405,322472,111779,339793,,"Climb batch 29b's post-batch review: fidelity to the static numerals path by path, the two paths on a numeral, cost in t"
+3991,2026-11-10 01:16:15Z,f629cd2dd,973,799239,322353,111711,339675,801405,322472,111779,339793,,Boot note: the round-trip test and the post-batch review done; the record-landing workflow running
+3992,2026-11-10 01:16:25Z,a09f082ae,973,799239,322353,111711,339675,801405,322472,111779,339793,,Boot note: the record-landing's launch time read from the clock
+3993,2026-11-10 02:27:01Z,36e60805e,973,799558,322839,111811,339675,801724,322958,111879,339793,,"Record landing of climb batch 29b: FACTS, POSITIONS and the ledger brought in line with the landing"
+3994,2026-11-10 02:27:01Z,5f35b1d05,973,799558,322839,111811,339675,801724,322958,111879,339793,,"Record landing of climb batch 29b: PLAN, the review queue, two maps and the run's folder routed for the landing"
+3995,2026-11-10 03:30:24Z,27cb304a2,973,799558,322839,111811,339675,801724,322958,111879,339793,,"fortress-repo: climb batch 29b landing, the orientation update installed"
+3996,2026-11-10 03:32:12Z,1bcb6fac1,973,799558,322839,111811,339675,801724,322958,111879,339793,,"fortress-repo: climb batch 29b landing, the area parts brought in line"
+3997,2026-11-10 03:42:19Z,a88795499,973,799558,322839,111811,339675,801724,322958,111879,339793,,fortress-repo: the cold read of climb batch 29b landing
+3998,2026-11-10 03:55:44Z,da6a8cdb6,973,799558,322839,111811,339675,801724,322958,111879,339793,,"Climb batch 29b's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upd"

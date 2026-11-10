@@ -124,7 +124,7 @@ A reading is one interpretation of a rule where the specification's text allows 
 A script rewrites the block below at each landing, from the plan and the gate. The rest of the page changes only when a phase ends.
 
 <!-- stand:begin -->
-**Where it stands, at the landing of batch 29 on 9 November 2026**
+**Where it stands, at the landing of batch 29b on 10 November 2026**
 
 - **Phase:** 4 of 6, which ends with the switch-over, since 30 October.
 - **Checker count:** 0.
