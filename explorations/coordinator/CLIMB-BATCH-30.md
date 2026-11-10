@@ -1,4 +1,4 @@
-<!-- The record of climb batch 30, in two runs (climb batch 30 and climb batch 30b), for the coordinating session, the curator and the batch's workers: what climb batch 29b left on the numerals, together with the parallelism review's repairs on the compiled path. Drafted 2026-11-10 by a planning worker on Fable against `main` at `00768e9e96`, whose code is the base build's, `/home/user/fortress-base31` at `9a0f69e01a` (`git diff --stat 9a0f69e01a main -- . ':!explorations'` prints nothing), so climb batch 29b's gate tables (`compile-ladder/climb-batch-29b/gate/`) describe the base. It proposes five rungs: N, P and X in run 1, Y and C in run 2, after run 1 lands. It has one consequential fork for the curator before the launch, G, the grain size (section 2), and twenty forks with defaults (section 3). No repair in scope needs D1 or D2. -->
+<!-- The record of climb batch 30, in two runs (climb batch 30 and climb batch 30b), for the coordinating session, the curator and the batch's workers: what climb batch 29b left on the numerals, together with the parallelism review's repairs on the compiled path. Drafted 2026-11-10 by a planning worker on Fable against `main` at `00768e9e96`, whose code is the base build's, `/home/user/fortress-base31` at `9a0f69e01a` (`git diff --stat 9a0f69e01a main -- . ':!explorations'` prints nothing), so climb batch 29b's gate tables (`compile-ladder/climb-batch-29b/gate/`) describe the base. It proposes five rungs: N, P and X in run 1, Y and C in run 2, after run 1 lands. It has one consequential fork, G, the grain size (section 2), which the coordinator took at the planner's default (a) before the launch, to name to the curator (`BOOT.md`, "Running"), and twenty forks with defaults (section 3). No repair in scope needs D1 or D2. -->
 <!-- Sources: the curator's go of 07:4x UTC on 2026-11-10, "numeral batch as my go, but together with the parallelism work" (the planner's brief, `<scratchpad>/batch30/planner-brief.md`); the coordinator's sort of climb batch 29b's points (the same brief, "Part 1"); `reviews/batch-29b-review.md`, sections 1 and 2, "Findings", "The steps due before the next batch" and "For the curator"; `reviews/parallelism-foundations-2026-11-08.md`, whole; POSITIONS P-175, P-169, P-84, P-125, P-174, P-176, P-173, P-37, P-12, P-29, P-40 and P-148; FACTS F-19, F-179, F-341 and F-347; the ledger rows 319, 322, 324, 353, 442, 446, 466, 497, 640, 641, 875, 876, 888, 933, 934, 937, 947 to 953, 957, 958, 960, 962, 963, 964, 966, 967, 971, 973 and 974; PLAN's items 74 and 76 to 79 and its phase 6 line on parallel reductions; review-queue items 408, 449 and 487 to 489; the manual `climb-batch-workflow.md`, "Preparing a batch record" and "Before the launch"; the `coordinator` skill's `references/batch.md`; `CLIMB-BATCH-29b.md` for the form and `CLIMB-BATCH-21.md` for two runs of one record; the code at the sites; the specification's sections cited. -->
 <!-- The planner's probes: `compile-ladder/plan-30/PROBES.md`, in a worktree of the planner's own, `/home/user/fortress-p30`, seeded from the base build and removed after. No suite and no stage was run: the two reviews' measurements are cited as findings. -->
 
@@ -41,7 +41,7 @@ Fields common to the five rungs:
 - **briefing** (22 keys, 15 checks):
   - P-174 (check): the numeral types, every number type's coercion generic over the four numbers, a numeral type written only as a parameter's type.
   - P-176 (check): one value per place, filled when the class loads; row 971 is where the tree departs.
-  - P-173 (check): where a numeral converts, the refusal of one that rounds to an infinity, the default.
+  - P-173 (check): where a numeral converts, the refusal of one outside its type's range, the default; the specification names the one that rounds to an infinity.
   - P-37 (check): the prelude's exception for the numerals, under which the two coercions fall.
   - P-12: walk refuses when a place runs, until it runs the checker.
   - ledger:442 (check): the prelude's gaps; its numeral half closes, the rest stays.
@@ -217,6 +217,8 @@ Fields common to the five rungs:
 
 ### The one question before the launch
 
+**Taken by the coordinator at way (a), before the launch** (`BOOT.md`, "Running": "P-175 and his go of today cover it, by the coordinator's reading"). It can be undone, so it lands, is named to you at the landing and goes on the review list with its default. The question as the planner put it:
+
 **Fork G, the grain size: is it built now, with a value that cannot be measured yet?** P-175 has the one library's parallel range stop its split at a grain size, and your go of today brings the parallelism work forward. Two facts bear on it:
 
 - Only walk runs the one library today. The value is to be measured on compiled reductions at one and four threads (P-29; PLAN's phase 6 line), and no compiled program reaches that range before the switch-over. So a value chosen now is provisional.
@@ -256,7 +258,7 @@ P and X share two files, `CodeGen.java` and `BaseTask.java`, in declarations tha
 
 ### Where each piece of the parallelism work is tested today
 
-On 2026-11-08 you placed N1 and the forked arguments in the first batch after the switch-over. Your go of today brings them forward. Before the switch-over the compiled path runs the prelude, so:
+On 2026-11-08 you placed the forked arguments and the grain size in the first batch after the switch-over, and N1 in the batch before theirs (P-175's history, its block of 23:47Z; PLAN's phase 6 line on parallel reductions). Your go of today brings them forward. Before the switch-over the compiled path runs the prelude, so:
 
 | piece | its test today | what waits for the switch-over |
 |---|---|---|
@@ -312,7 +314,7 @@ Known before the run, each reported by its rung with its before and after:
 
 ### Before the batch runs
 
-- **His answer to fork G.**
+- **Fork G:** taken by the coordinator at way (a); no answer of his is waited for.
 - **The Fable review of this record** (`references/batch.md`, "The go").
 - **The manifest's generator,** `compile-ladder/plan-30/manifest/`, made by the coordinator from `plan-29b/manifest/` with this record's values, for two runs as `plan-21/manifest/` did (section 6).
 - **The script's list of atomic programs,** with run 1's eight names; run 2's three before run 2.
@@ -338,7 +340,7 @@ Known before the run, each reported by its rung with its before and after:
 
 ### The consequential fork
 
-**G, the grain size now or after the switch-over:** section 2, "The one question before the launch". It is consequential because way (a) changes microGPT's numbers under walk in their last bits and sets a constant that he asked to be right, and no measurement can choose its value yet. Default for the record: (a), a named constant of 16, each chunk run by the sequential range's own methods.
+**G, the grain size now or after the switch-over:** section 2, "The one question before the launch". It is consequential because way (a) changes microGPT's numbers under walk in their last bits and sets a constant that he asked to be right, and no measurement can choose its value yet. Default for the record: (a), a named constant of 16, each chunk run by the sequential range's own methods. The coordinator took (a) before the launch, as a decision that can be undone: it is named to the curator at the landing and goes on the review list.
 
 ### Forks the batch takes
 
@@ -440,7 +442,7 @@ Leave the clauses of rows 960, 963, 957, 973 and 966.
 2. **A task arm's locals and trailing block** (fork P4; rows 497 and 322). `CodeGen.generateTaskCompute` (`:5181-5205`) reserves slot 0 and keeps nothing on the operand stack across the arm's body. Tests first: `XXXTaskArmLocalSlot` and `XXXTryInArmRungG` promoted; `AtomicEndsArmCompiled.test`, an `atomic do … end` block as the trailing expression of an arm after the first, which today fails with "VerifyError: Inconsistent stackmap frames".
 3. **A call's arguments forked** (forks P2 and P3; row 951). `CodeGen.evalArg` (`:7064-7131`) forks a tuple argument's elements through `genParallelExprs` where `ParallelismAnalyzer` judges the tuple worth a task, for a function call and for a method call. Test first, `compiler_tests/CallArgumentsForkCompiled.test`, printing `PASS` or `FAIL`: a function of the program with two and with three arguments, each a call of a slow function of the program that counts, inside `atomic`, how many calls run at once; more than one at four threads; the results in the arguments' order; the same for a method call; an argument that throws, with the others joined. Seen failing on the base: at most 1 at once. Report whether the prelude's `gen` forks; change no prelude text for it.
 4. **The whole compiled suite once**, `ant testFast`: forked arguments reach every compiled program. A test that now fails is written wrong, or shows a defect (P-125): repair the first, record the second, and report each.
-5. **The grain size** (fork G; struck if its answer is way (b)). In `object CompactFullParScalarRange` of `Library/RangeInternals.fss` (`:1301-1345`), `generate` and `loop` stop the split at a chunk of at most the grain's elements and run it by the sequential range's methods, as `CompactFullSeqScalarRange(lo, hi).generate[\T\](red, body)` and `.loop(body)` (`:1347-1379`). The grain is one named constant of the component, 16. Study first how the library's generators name such constants. Tests first, under walk, `ProjectFortress/tests/ParRangeGrainWalk.fss`: a sum, a string concatenation and a `BIG MAX` over ranges shorter than the grain, equal to it, longer, empty and not aligned, each equal to the sequential range's answer; a parallel `for` that writes each element of an array once; and one assertion that fails on the base, of your design, such as the bodies of one chunk running in index order at four threads. The planner's trial of this edit kept microGPT's quick checks at 7 of 7 (section 5, "The planner's probes").
+5. **The grain size** (fork G, taken at way (a)). In `object CompactFullParScalarRange` of `Library/RangeInternals.fss` (`:1301-1345`), `generate` and `loop` stop the split at a chunk of at most the grain's elements and run it by the sequential range's methods, as `CompactFullSeqScalarRange(lo, hi).generate[\T\](red, body)` and `.loop(body)` (`:1347-1379`). The grain is one named constant of the component, 16. Study first how the library's generators name such constants. Tests first, under walk, `ProjectFortress/tests/ParRangeGrainWalk.fss`: a sum, a string concatenation and a `BIG MAX` over ranges shorter than the grain, equal to it, longer, empty and not aligned, each equal to the sequential range's answer; a parallel `for` that writes each element of an array once; and one assertion that fails on the base, of your design, such as the bodies of one chunk running in index order at four threads. The planner's trial of this edit kept microGPT's quick checks at 7 of 7 (section 5, "The planner's probes").
 6. **The stages,** once on your final tree: the count stage and the distance stage, against climb batch 29b's gate (`explorations/compile-ladder/climb-batch-29b/gate/`), 0 and 0 with `#crash none`.
 
 **Rows.** Close 947, 951 and 497; 322 closed, or its whole new line if a case remains. A note on row 640 that forked arguments reach it. New rows in `record.md`, `NEW-P-<n>`: each defect that step 4 shows.
@@ -622,7 +624,7 @@ Y and C share CodeGen.java in declarations far apart. C runs the count stage and
 
 The coordinator, for run 1:
 
-1. **His answer to fork G;** if (b), step 5 of P's section struck, with its blurb's last clause, its two `RangeInternals` keys and the stages.
+1. **Fork G:** taken by the coordinator at way (a), so P's section stands as written. Were it (b), step 5 of P's section would be struck, with its blurb's last clause, its two `RangeInternals` keys and the stages.
 2. **The Fable review of this record,** its changes in place.
 3. **The script:** run 1's eight programs in the atomic list; then the generator, its checks and the splice, as the manual's "Before the launch", step 4, gives them. The base is `main`'s head after that commit.
 4. **The base build:** `/home/user/fortress-base31`, if `git diff --stat 9a0f69e01a <base> -- . ':!explorations'` prints nothing; its trial seed and the old code's run.
