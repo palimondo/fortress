@@ -516,10 +516,12 @@ compile the five library components in order first; the recipe is in
 `repo-internals.md:170-180`. This is a cache problem misread as a compiler bug
 for years (`repo-internals.md:152-160`).
 
-**What `MainWrapper` does.** It loads the named class through
-`InstantiatingClassloader.ONLY` and invokes its no-argument `main`; the program
-arguments are stashed in a static field rather than passed
-(`runtimeSystem/MainWrapper.java:19, 27, 65`).
+**What `MainWrapper` does.** It first stashes the program's arguments in a
+static field rather than passing them. It then initializes the named component's
+class, and the class of each component that it uses, through
+`InstantiatingClassloader.ONLY`, in a root task (F-348). Then it invokes the
+named class's no-argument `main` (`runtimeSystem/MainWrapper.java:19, 30-46,
+94-98`, at climb batch 30's landing, `d89fc0fda4`).
 
 **The class loader is where compiled Fortress stops being ordinary bytecode.**
 `InstantiatingClassloader.loadClass` (2,946 lines in the file; the method at

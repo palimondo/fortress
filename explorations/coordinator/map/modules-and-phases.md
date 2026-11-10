@@ -420,7 +420,7 @@ Staleness is decided by file dates alone (`GraphRepository.java:359-398,526-661`
 
 ## B.11 The runtime
 
-`MainWrapper.main` loads the named class through `InstantiatingClassloader.ONLY` and invokes its no-argument `main` (`runtimeSystem/MainWrapper.java:19,60-67`); program arguments are stashed in a static field rather than passed (`:65`).
+`MainWrapper.main` first stashes the program's arguments in a static field rather than passing them (`runtimeSystem/MainWrapper.java:94`). It then initializes the named component's class, and the class of each component that it uses, through `InstantiatingClassloader.ONLY`, in a root task (`:19`, `:30-46`, `:95`; F-348). Then it invokes the named class's no-argument `main` (`:96-98`). The lines are those of climb batch 30's landing, `d89fc0fda4`.
 
 `InstantiatingClassloader.loadClass` (`runtimeSystem/InstantiatingClassloader.java:178`) is where compiled Fortress stops being ordinary bytecode: a class name is examined for markers, and depending on what it finds the loader *generates* the class rather than reading it.
 

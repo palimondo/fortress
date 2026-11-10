@@ -1,0 +1,9 @@
+Record landing of climb batch 30: FACTS, POSITIONS and the ledger brought in line with the landing
+
+- F-19, F-134, F-347, F-348, F-349, F-350, F-351: the pass on the batch's entries; the closed rows leave the bodies; F-348 gains the start's cost, about 40 ms, and the arguments set before the classes initialize; F-350 says that only a range of more than 16 elements splits, so microGPT's reductions fork nothing, by reading; F-351's title states its fact, and an abort that names no transaction restarts the innermost block.
+- F-57, F-341: walk refuses a numeral that rounds to an infinity at a typed place; F-341 takes walk's load check of a written numeral type, with six tests.
+- F-283: a pointer to row 986.
+- F-175, F-268, F-302, F-315, F-337: cited lines re-anchored after the batch's hunks.
+- P-175: four clauses of its account of the tree put in the past, with a pointer to F-350, under the curator's rule of 2026-10-31; the decision unchanged.
+- P-174, P-176: the rows where the tree departs are now 960 and 981, and 957; each decision unchanged.
+- Row 987, new: the parallelism analyzer counts a call as worth a task by where its function is declared, by reading.

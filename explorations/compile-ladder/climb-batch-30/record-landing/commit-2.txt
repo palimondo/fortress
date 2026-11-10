@@ -1,0 +1,11 @@
+Record landing of climb batch 30: PLAN, the review queue, two maps and the run's folder routed for the landing
+
+- PLAN, "Where we stand": climb batch 30 landed at d89fc0fda4 with distance 0 and no crash row; next, his word on the review's findings 1, 2 and 3 or their defaults, his numeral rule into POSITIONS, then climb batch 30b.
+- PLAN, phases 4 to 6: climb batch 30's line; the lines on rows 971, 947 and 951 to history, built; row 888 out of the open rows; the phase 6 line says what rung P built and what stays for the first batch after the switch-over.
+- PLAN, "Off the path, parked": rows 983, 640 and 987.
+- PLAN, "Pavol's answers": items 74, 78 and 79 to history, built; items 76 and 77 to history, answered; items 80 to 82 new, the review's findings; items 83 to 85 new, D1, D2 and row 876.
+- PLAN, the lists for his review: climb batch 30's lines cut to pointers to review-queue items 488 and 502 to 507, one new line for item 508; the built lines of climb batches 28 and 29b to history; the lines of items 418, 457, 459, 470 and 495 brought to the tree.
+- Review queue: items 500 to 511 new; 449 and 487 to (a) by his words; 408, 413, 425 and 493 to (a) by closed rows; 488, 489 and 418 reworded to the defaults as landed, 489 moved to (c); 450, 457, 459, 461, 462, 470 and 495 brought to the landing; the head's groups and counts.
+- The maps: MainWrapper.main sets the arguments and initializes the component classes in a root task before main.
+- PLAN-history: every moved or rewritten line, word for word.
+- The run's folder of the climb batch 30 record landing.
