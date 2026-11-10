@@ -1,0 +1,13 @@
+(* The specification's section on numerals (Specification/basic/lexical-structure.tex) gives seven tokens that
+   "would be classified as numerals but then rejected as static errors":
+
+     0.a  0x6A35    FF_EIGHT       12.52.23     57_50   PI_FIFTEEN   dead.BEEF_16
+
+   This test holds 12.52.23 from that line. XXXNumeralRejectedTwoPoints.test names the rule that refuses it.
+   The valid numerals of the same section are in tests/NumeralTest.fss. *)
+component XXXNumeralRejectedTwoPoints
+export Executable
+
+run() = println(12.52.23)
+
+end

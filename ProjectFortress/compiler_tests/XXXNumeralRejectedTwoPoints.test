@@ -1,0 +1,3 @@
+tests=XXXNumeralRejectedTwoPoints
+compile
+compile_err_contains=a numeral contains more than one

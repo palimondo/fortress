@@ -1,0 +1,3 @@
+tests=XXXNumeralRejectedLetterBeyondRadix
+compile
+compile_err_contains=contains a digit or letter that denotes a value greater than or equal to the numeral

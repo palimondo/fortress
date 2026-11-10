@@ -1,0 +1,3 @@
+tests=XXXNumeralRejectedMixedCase
+compile
+compile_err_contains=a numeral contains both uppercase and lowercase letters
