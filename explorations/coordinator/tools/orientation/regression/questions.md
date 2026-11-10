@@ -95,3 +95,5 @@ If you would look something up before you act, say what you would look up, where
     - (b) The test must show that `ZZ32` addition raises `IntegerOverflow` at the type's maximum. Write the lines.
     - (c) The test must show that `RR64` addition rounds: 0.1 plus 0.2 is not 0.3. Write the lines.
     Would your lines for (b) and (c) test the same thing on the compiled path?
+
+32. Your program declares a byte type, `value object Byte(b: ZZ32)`, and writes its values as numerals: `x: Byte = 255` must bind the byte 255, and `y: Byte = 300` must be refused. Write the declaration or declarations that make it so, and say where and when `300` is refused, under walk and on the compiled path. Does `z: Byte = 2 + 3` bind? If not, what do you write?
