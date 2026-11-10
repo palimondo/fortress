@@ -78,13 +78,13 @@ within DARPA's High Productivity Computing Systems program, run by Sun
 Labs' Programming Language Research Group. When DARPA narrowed HPCS funding
 in late 2006, Sun continued Fortress as a research project. The first public
 edition of the language specification,
-[version 1.0α](https://psc.informatik.uni-jena.de/languages/HPCS/fortress-1.0alpha.pdf),
+[version 1.0α](Specification-history/fortress.1.0alpha.pdf),
 is dated 19 September 2006.
 
 **2007–2008: open source and Fortress 1.0.** The code — at that point the
 reference interpreter — was opened in January 2007 (this repository's
 history begins on 4 January 2007).
-[Version 1.0β](https://web.cs.ucla.edu/~palsberg/course/cs239/papers/fortress1.0beta.pdf)
+[Version 1.0β](Specification-history/fortress.1.0beta.pdf)
 of the specification is dated 6 March 2007. The
 [1.0 specification](Specification-1.0-frozen/fortress.1.0.pdf), with a matching
 interpreter release, followed in March 2008.

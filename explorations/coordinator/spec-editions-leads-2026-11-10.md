@@ -24,13 +24,13 @@
 - An inventory of the Internet Archive's captures of `projectfortress.sun.com` (`/Projects/Community/downloads/`, `/Projects/Community/browser/trunk/`, `/svn/Community/`) and of `research.sun.com/projects/plrg/`; release archives named `fortress-1.0.zip` or `fortress_*.zip`. This container cannot reach the Internet Archive.
 - The authors: Sukyoung Ryu, whose commits brought the LaTeX in, and Sam Tobin-Hochstadt, who hosts the 1.0 PDF. A draft letter to Prof. Ryu is `explorations/coordinator/ryu-letter-2026-11-10-draft.md`.
 
-## The two PDFs, fetched on 2026-11-10 and not yet in the tree
+## The two PDFs, fetched on 2026-11-10, in the tree since that day
 
 Fetched at 17:4x UTC into the session's scratchpad, both whole and readable:
 
 - 1.0α: 411 pages, 2,356,414 bytes, made 2006-09-19 (`pdfinfo`), sha256 `93d7edd59a12ac01d68409d310d6cdd5cebeae3a2d9f1f7d09d7932182b0e24b`.
 - 1.0β: 441 pages, 1,975,153 bytes, made 2007-03-06, sha256 `8f275267c3992a90a6925d5d5100a5d8e0b656e910a79caccc3d43424d751ead`.
 
-Each title page names the same eight authors (Allen, Chase, Hallett, Luchangco, Maessen, Ryu, Steele, Tobin-Hochstadt) and five additional contributors, and carries "© Sun Microsystems, Inc." with its date. Neither holds a licence statement anywhere in its text. The 1.0 PDF in the tree carries the same notice and no licence either; the team itself put it into the repository whose `LICENSE` is the BSD licence of 2007. The curator asked for the two to be committed beside the 1.0 PDF and linked from the README; the README links to the university copies since `README.md`'s edit of this day, and the copy into the tree waits for his word on the missing licence. `Specification-1.0-frozen/` is not the place for them: it is kept byte for byte equal to the team's working draft (F-163).
+Each title page names the same eight authors (Allen, Chase, Hallett, Luchangco, Maessen, Ryu, Steele, Tobin-Hochstadt) and five additional contributors, and carries "© Sun Microsystems, Inc." with its date. Neither holds a licence statement anywhere in its text. The 1.0 PDF in the tree carries the same notice and no licence either; the team itself put it into the repository whose `LICENSE` is the BSD licence of 2007. The curator asked for the two to be committed and linked from the README; told of the missing licence, he confirmed it ("I am doing this."). They are in `Specification-history/`, with a README on where they came from, and `README.md` links to them there. `Specification-1.0-frozen/` is not the place for them: it is kept byte for byte equal to the team's working draft (F-163).
 
 Sam Tobin-Hochstadt's public page (https://samth.github.io/) gives him as a professor of computer science at Indiana University, with the address samth@iu.edu.
