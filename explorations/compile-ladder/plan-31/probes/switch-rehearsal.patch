@@ -1,0 +1,1844 @@
+diff --git a/Library/FlatString.fsi b/Library/FlatString.fsi
+index 707d2dc889..91ae1cf3a9 100644
+--- a/Library/FlatString.fsi
++++ b/Library/FlatString.fsi
+@@ -13,7 +13,11 @@ api FlatString
+ 
+   lineSeparator: String
+ 
+-  object FlatString extends { String, DelegatedIndexed[\Char, ZZ32\] }
++  (* SWITCH HACK (rehearsal): FlatString is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++  object FlatStringCarrier extends FlatString end
++
++  trait FlatString extends { String, DelegatedIndexed[\Char, ZZ32\] }
++          comprises { FlatStringCarrier }
+     opr ||(self, b:FlatString): String
+     opr ||(self, b:String):String
+     opr ||(self, b:Char): String
+diff --git a/Library/FlatString.fss b/Library/FlatString.fss
+index 9761cf65d3..9fb7dfe4da 100644
+--- a/Library/FlatString.fss
++++ b/Library/FlatString.fss
+@@ -26,12 +26,16 @@ private natLineSeparator(): String = builtinPrimitive(
+             "com.sun.fortress.nativeHelpers.stringOps.lineSeparator")
+ 
+ private LineSeparator(): String =do
+-    ignore(FlatString); (* This initializes the constructor for FlatString
++    (* This initializes the constructor for FlatString
+                    before its type is used (in the next line). *)
+     natLineSeparator()
+   end
+ 
+-object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
++(* SWITCH HACK (rehearsal): FlatString is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++object FlatStringCarrier extends FlatString end
++
++trait FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
++        comprises { FlatStringCarrier }
+     getter size() : ZZ32 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+     getter asExprString() : String =
+@@ -60,8 +64,7 @@ object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
+        SubString objects into code that may still expect FlatStrings.
+        As written, this method always answers a FlatString.
+        In any case, the FlatString object supports substring without copying*)
+-        assert((r1 ∩ self.bounds).isEmpty, r1.isEmpty,
+-                    "Empty substring of non-empty string")
++        (* SWITCH HACK (rehearsal): the varargs assert left out, row 624 *)
+         if r1.isEmpty then ""
+         else self.javaSubstr(r1.left.get, r1.right.get + 1)    (* Java substr's endIndex is one past the last character *)
+         end
+@@ -106,7 +109,8 @@ object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
+       end
+ 
+     verify():() = do
+-        assert(self.depth, 0, self)
++        (* SWITCH HACK (rehearsal): the varargs assert left out, row 624 *)
++        ()
+     end
+ 
+     asDebugStringIndented(indent: ZZ32): String =
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+index aefe1b3c95..733d79dda8 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+@@ -41,8 +41,12 @@ end
+ value object Float extends RR64
+ end
+ 
+-value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
++(* SWITCH HACK (rehearsal): RR32 is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object RR32Carrier extends RR32 end
++
++value trait RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
++        comprises { RR32Carrier }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
+     (** returns true if the value is an IEEE NaN **)
+@@ -129,7 +133,11 @@ end
+ value object Long extends ZZ64
+ end
+ 
+-value object NN32 extends { AnyIntegral, Integral[\NN32\] }
++(* SWITCH HACK (rehearsal): NN32 is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object NN32Carrier extends NN32 end
++
++value trait NN32 extends { AnyIntegral, Integral[\NN32\] }
++        comprises { NN32Carrier }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     getter asZZ32(): ZZ32
+     getter asZZ64(): ZZ64
+@@ -195,11 +203,19 @@ end
+ 
+ value object BigNum extends ZZ end
+ 
+-value object Boolean
++(* SWITCH HACK (rehearsal): Boolean is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object BooleanCarrier extends Boolean end
++
++value trait Boolean
+     extends { Condition[\()\], StandardTotalOrder[\Boolean\] }
++        comprises { BooleanCarrier }
+ end
+ 
+-value object Char extends { StandardTotalOrder[\Char\] }
++(* SWITCH HACK (rehearsal): Char is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object CharCarrier extends Char end
++
++value trait Char extends { StandardTotalOrder[\Char\] }
++        comprises { CharCarrier }
+     (** %char.codePoint% converts %char% to the equivalent integer code point.
+         It is always the case that %c = char(c.codePoint())% for %c : Char%. **)
+     getter codePoint(): ZZ32
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 83ce54a12f..da33e48ffe 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -209,8 +209,12 @@ end
+ private numeralRR32(v: ZZ, r: ZZ32, m: ZZ32): RR32 =
+     builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToFloat")
+ 
+-value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
++(* SWITCH HACK (rehearsal): RR32 is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object RR32Carrier extends RR32 end
++
++value trait RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
++        comprises { RR32Carrier }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = numeralRR32(v, r.asZZ32, 0)
+     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = numeralRR32(v, r.asZZ32, m.asZZ32)
+     getter zero(): RR32 = narrow(0.0)
+@@ -424,10 +428,14 @@ private exponentNN32(b:AnyIntegral):ZZ32 =
+                 else c.asZZ32 end
+     end
+ 
+-value object NN32 extends { AnyIntegral, Integral[\NN32\] }
++(* SWITCH HACK (rehearsal): NN32 is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object NN32Carrier extends NN32 end
++
++value trait NN32 extends { AnyIntegral, Integral[\NN32\] }
++        comprises { NN32Carrier }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asNN32
+-    getter zero(): Number = unsigned(0)
+-    getter one(): Number = unsigned(1)
++    getter zero(): NN32 = unsigned(0)
++    getter one(): NN32 = unsigned(1)
+     getter asString(): String =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
+     getter asExprString(): String =
+@@ -551,8 +559,12 @@ value object BigNum extends ZZ
+ end
+ 
+ 
+-value object Boolean
++(* SWITCH HACK (rehearsal): Boolean is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object BooleanCarrier extends Boolean end
++
++value trait Boolean
+         extends { Condition[\()\], StandardTotalOrder[\Boolean\] }
++        comprises { BooleanCarrier }
+     getter holds(): Boolean = self
+     getter get(): () = ()
+     getter asString(): String = self.asExprString
+@@ -587,7 +599,11 @@ end
+ 
+ myJavaDigit(x:Char, radix:ZZ32): ZZ32 = javaDigit(x, radix)
+ 
+-value object Char extends { StandardTotalOrder[\Char\] }
++(* SWITCH HACK (rehearsal): Char is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object CharCarrier extends Char end
++
++value trait Char extends { StandardTotalOrder[\Char\] }
++        comprises { CharCarrier }
+     getter asString(): String =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToString")
+     getter asExprString(): String =
+diff --git a/ProjectFortress/src/com/sun/fortress/Shell.java b/ProjectFortress/src/com/sun/fortress/Shell.java
+index eb2fd67f2a..4c434fba3e 100644
+--- a/ProjectFortress/src/com/sun/fortress/Shell.java
++++ b/ProjectFortress/src/com/sun/fortress/Shell.java
+@@ -374,8 +374,9 @@ public final class Shell {
+ 	setExtendsObjectPreDesugaring(false);
+ 	setAssignmentPreDesugaring(false);
+ 	setAssignmentDesugaring(true);
+-        WellKnownNames.useCompilerLibraries();
+-        Types.useCompilerLibraries();
++        // SWITCH (rehearsal): the compiled path reads the interpreter's library.
++        WellKnownNames.useFortressLibraries();
++        Types.useFortressLibraries();
+     }
+ 
+     public static void useInterpreterLibraries() {
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+index 4c7b84c807..a007a03cce 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+@@ -599,6 +599,21 @@ public class NamingCzar {
+         bl(fortLib, "ZZ32Vector", "FZZ32Vector");
+         bl(fortLib, "StringVector", "FStringVector");
+         bl(NodeFactory.makeVoidType(span), "FVoid");
++        // SWITCH HACK (rehearsal): the one library's types that a hand-written run-time class carries.
++        bl(oneLib, "ZZ32", "FZZ32");
++        bl(oneLib, "ZZ64", "FZZ64");
++        bl(oneLib, "RR64", "FRR64");
++        bl(oneLib, "NN64", "FNN64");
++        bl(oneLib, "ZZ", "FZZ");
++        bl(oneLib, "JavaBufferedReader", "FJavaBufferedReader");
++        bl(oneLib, "JavaBufferedWriter", "FJavaBufferedWriter");
++        bl(oneLib, "JavaArrayStore", "FJavaArrayStore");
++        bl(oneLib, "JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl(oneBuiltin, "Boolean", "FBoolean");
++        bl(oneBuiltin, "RR32", "FRR32");
++        bl(oneBuiltin, "NN32", "FNN32");
++        bl(oneBuiltin, "Char", "FCharacter");
++        bl(NodeFactory.makeAPIName(span, "FlatString"), "FlatString", "FJavaString");
+     }
+ 
+     /**
+@@ -825,6 +840,10 @@ public class NamingCzar {
+         if (!(sep.equals("."))) {
+             api = Useful.replace(api, ".", sep);
+         }
++        // SWITCH HACK (rehearsal): FlatString's classes go in the package fortress, so that FJavaString, a Java class in a
++        // named package, can extend FlatString's class.
++        // Its outer class is FlatStringC, since Java source allows no class FlatString nested in a class FlatString.
++        if (api.equals("FlatString")) return fortressPackage + sep + "FlatStringC";
+         if (!defaultLib) return api;
+         return fortressPackage + sep + api;
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+index 579aaebaaa..6364aa08dc 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+@@ -490,6 +490,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+          */
+         OverloadingOracle oa = new OverloadingOracle(ta);
+         for (Map.Entry<Id,TypeConsIndex> ent : some_traits.entrySet()) {
++            try {   // PROBE: one trait whose inherited methods cannot be computed
++                    // must not end the whole component.
+             TypeConsIndex tci = ent.getValue();
+             Id id = ent.getKey();
+             List <StaticParam>  tci_sps = tci.staticParameters();
+@@ -546,6 +548,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+                 }
+                
+             }
++            } catch (Throwable __t) {   // PROBE
++                StackTraceElement[] __st = __t.getStackTrace();
++                System.out.println("@@CG CTORFAIL\t" + ent.getKey()
++                                   + "\t" + com.sun.fortress.nodes_util.NodeUtil.getSpan((com.sun.fortress.nodes.ASTNode) ent.getValue().ast())
++                                   + "\t" + __t.getClass().getName()
++                                   + "\t" + (__st.length > 0 ? __st[0].toString() : "?")
++                                   + "\t" + String.valueOf(__t.getMessage()).replace('\n', ' ').replace('\t', ' '));
++            }
+         }
+         
+         this.topLevelOverloads =
+@@ -1951,6 +1961,22 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+ //                " and an expr ", link.getExpr(), " What do we do now");
+     }
+ 
++    private CodeGenClassWriter probeRootCw;
++
++    // PROBE helper: a short name for a top-level declaration.
++    static String probeDeclName(Decl d) {
++        String kind = d.getClass().getSimpleName();
++        String name;
++        try {
++            if (d instanceof TraitObjectDecl) name = ((TraitObjectDecl) d).getHeader().getName().toString();
++            else if (d instanceof FnDecl) name = ((FnDecl) d).getHeader().getName().toString();
++            else if (d instanceof VarDecl) name = ((VarDecl) d).getLhs().toString();
++            else name = d.toString();
++        } catch (Throwable t) { name = "?"; }
++        if (name.length() > 90) name = name.substring(0, 90) + "...";
++        return kind + " " + name.replace('\n', ' ').replace('\t', ' ');
++    }
++
+     public void forComponent(Component x) {
+         debug("forComponent ",x.getName(),NodeUtil.getSpan(x));
+ 
+@@ -1977,7 +2003,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             }
+         }
+ 
++        probeRootCw = cw; // SWITCH HACK: a refused trait or object must not leave its class writer in place of the component's
+         for (Decl d : x.getDecls()) {
++            // PROBE: the pre-pass over objects and top-level variables runs before
++            // the declaration loop below; one failure here must not end the run.
++            try {
+             if (d instanceof ObjectDecl) {
+                 ObjectDecl od = (ObjectDecl) d;
+                 TraitTypeHeader tth = od.getHeader();
+@@ -1987,10 +2017,51 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             } else if (d instanceof VarDecl) {
+                 this.forVarDeclPrePass((VarDecl)d);
+             }
++            } catch (Throwable __t) {
++                StackTraceElement[] __st = __t.getStackTrace();
++                String __where = __st.length > 0 ? (__st[0].getClassName() + "." + __st[0].getMethodName()
++                                                    + ":" + __st[0].getLineNumber()) : "?";
++                System.out.println("@@CG PREFAIL\t" + probeDeclName(d) + "\t" + NodeUtil.getSpan(d)
++                                   + "\t" + __t.getClass().getName() + "\t" + __where
++                                   + "\t" + String.valueOf(__t.getMessage()).replace('\n', ' ').replace('\t', ' '));
++                for (int __i = 0; __i < Math.min(10, __st.length); __i++)
++                    System.out.println("@@CG PREAT\t" + probeDeclName(d) + "\t" + __st[__i]);
++                inATrait = false; inAnObject = false; inABlock = false;
++                currentTraitObjectDecl = null; traitOrObjectName = null;
++                emittingFunctionalMethodWrappers = false; mv = null;
++                cw = probeRootCw; springBoardClass = null;
++            }
+         }
+ 
+         for ( Decl d : x.getDecls() ) {
+-            d.accept(this);
++            // SWITCH HACK (rehearsal), from tools/distance/shadow-patch.py: one declaration that code generation refuses must not end
++            // the run; record it and go on to the next.
++            try {
++                d.accept(this);
++                System.out.println("@@CG OK\t" + probeDeclName(d) + "\t" + NodeUtil.getSpan(d));
++            } catch (Throwable __t) {
++                StackTraceElement[] __st = __t.getStackTrace();
++                String __where = __st.length > 0 ? (__st[0].getClassName() + "." + __st[0].getMethodName()
++                                                    + ":" + __st[0].getLineNumber()) : "?";
++                String __msg = String.valueOf(__t.getMessage()).replace('\n', ' ').replace('\t', ' ');
++                System.out.println("@@CG FAIL\t" + probeDeclName(d) + "\t" + NodeUtil.getSpan(d)
++                                   + "\t" + __t.getClass().getName() + "\t" + __where + "\t" + __msg);
++                for (int __i = 0; __i < Math.min(10, __st.length); __i++)
++                    System.out.println("@@CG AT\t" + probeDeclName(d) + "\t" + __st[__i]);
++                // PROBE: put back the state that forTraitDecl / forObjectDecl set on
++                // the way in and clear on the way out.  There is no try/finally there,
++                // so a caught failure would otherwise leave inATrait / inAnObject set
++                // and every later top-level function would take the method path with a
++                // null currentTraitObjectDecl -- a failure of the probe, not of codegen.
++                inATrait = false;
++                inAnObject = false;
++                inABlock = false;
++                currentTraitObjectDecl = null;
++                traitOrObjectName = null;
++                emittingFunctionalMethodWrappers = false;
++                mv = null;
++                cw = probeRootCw; springBoardClass = null;
++            }
+         }
+ 
+         // Each numeral coercion as one method of the four numbers.
+@@ -7672,6 +7743,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             ) {
+ 
+         Set<String> overloaded_names_and_sigs = new HashSet<String>();
++        // PROBE: OverloadSet.split's exclusion tests do not terminate in any
++        // usable time on this library's comprises hierarchy.  With
++        // -Dprobe.skipOverloads=true the overload dispatch methods are not
++        // generated at all, so the per-declaration loop below is reached.
++        if (Boolean.getBoolean("probe.skipOverloads")) {
++            System.out.println("@@CG OVLSKIP\t" + api_name + "\tsets=" + size_partitioned_overloads.size());
++            return overloaded_names_and_sigs;
++        }
+ 
+         for (Map.Entry<IdOrOpOrAnonymousName, MultiMap<Integer, Functional>> entry1 :
+                  size_partitioned_overloads.entrySet()) {
+@@ -7683,6 +7762,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+                 int i = entry.getKey();
+                 Set<Functional> fs = entry.getValue();
+                 Functional one_f = fs.iterator().next();
++                try {   // PROBE: one refused overload set must not end the component
+ 
+                 OverloadSet os = overload_factory.make(api_name, name,
+                             ta, fs, i);
+@@ -7724,6 +7804,16 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+                 }
+                 
+                 overloaded_names_and_sigs.addAll(os.getOtherKeys());
++                } catch (Throwable __t) {
++                    StackTraceElement[] __st = __t.getStackTrace();
++                    String __where = __st.length > 0 ? (__st[0].getClassName() + "." + __st[0].getMethodName()
++                                                        + ":" + __st[0].getLineNumber()) : "?";
++                    System.out.println("@@CG OVLFAIL\t" + name.stringName() + "/" + i
++                                       + "\t" + __t.getClass().getName() + "\t" + __where
++                                       + "\t" + String.valueOf(__t.getMessage()).replace('\n', ' ').replace('\t', ' '));
++                    for (int __i = 0; __i < Math.min(10, __st.length); __i++)
++                        System.out.println("@@CG OVLAT\t" + name.stringName() + "/" + i + "\t" + __st[__i]);
++                }
+ 
+            }
+         }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java
+index 82997045f4..764ead5a2b 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java
+@@ -51,8 +51,8 @@ public class CodeGenClassWriter extends ManglingClassWriter {
+         signature = Naming.mangleFortressIdentifier(signature);
+         desc = Naming.mangleMethodSignature(desc);
+ 
+-        return new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
+-                                        super.visitNoMangleMethod(access, name, desc, signature, exceptions));
++        return hackTrack(new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
++                                        hackOnce(access, name, desc, signature, exceptions)));
+     }
+ 
+     public CodeGenMethodVisitor visitCGMethod(int access, String name, String desc, String signature, String[] exceptions) {
+@@ -60,11 +60,25 @@ public class CodeGenClassWriter extends ManglingClassWriter {
+         signature = Naming.mangleFortressIdentifier(signature);
+         desc = Naming.mangleMethodSignature(desc);
+ 
+-        return new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
+-                                        super.visitNoMangleMethod(access, name, desc, signature, exceptions));
++        return hackTrack(new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
++                                        hackOnce(access, name, desc, signature, exceptions)));
+     }
+ 
++    // SWITCH HACK (rehearsal): the methods begun on this class, so that one left open is closed before the class is written.
++    private final java.util.List<CodeGenMethodVisitor> hackOpen = new java.util.ArrayList<CodeGenMethodVisitor>();
++    // SWITCH HACK (rehearsal): a method written twice into one class (row 571's kind) keeps its first copy.
++    private final java.util.Set<String> hackSeen = new java.util.HashSet<String>();
++    private MethodVisitor hackOnce(int access, String name, String desc, String signature, String[] exceptions) {
++        if (!hackSeen.add(name + " " + desc)) {
++            System.out.println("@@CG DUP\t" + name + "\t" + desc);
++            return new MethodVisitor(org.objectweb.asm.Opcodes.ASM9) {};
++        }
++        return super.visitNoMangleMethod(access, name, desc, signature, exceptions);
++    }
++    private CodeGenMethodVisitor hackTrack(CodeGenMethodVisitor m) { hackOpen.add(m); return m; }
++
+     private String dumpClass0( String unmangledFileName ) {
++        for (CodeGenMethodVisitor m : hackOpen) m.hackClose();
+         visitEnd();
+ 
+         String file = Naming.mangleFortressIdentifier(unmangledFileName);
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenMethodVisitor.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenMethodVisitor.java
+index 44cf86a6a6..b526dc86da 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenMethodVisitor.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenMethodVisitor.java
+@@ -94,7 +94,24 @@ public class CodeGenMethodVisitor extends MethodVisitor {
+                     " argumentTypes = " , argumentTypes , " resultType " , resultType);
+     }
+ 
++    // SWITCH HACK (rehearsal): a method that a refused declaration left open is closed with a throw.
++    boolean hackCode = false, hackMaxs = false, hackEnd = false;
++    public void visitCode() { hackCode = true; super.visitCode(); }
++    public void visitEnd() { hackEnd = true; super.visitEnd(); }
++    void hackClose() {
++        if (hackEnd) return;
++        if ((access & (org.objectweb.asm.Opcodes.ACC_ABSTRACT | org.objectweb.asm.Opcodes.ACC_NATIVE)) == 0 && !hackMaxs) {
++            if (!hackCode) visitCode();
++            visitInsn(org.objectweb.asm.Opcodes.ACONST_NULL);
++            visitInsn(org.objectweb.asm.Opcodes.ATHROW);
++            visitMaxs(1, 1);
++            System.out.println("@@CG CLOSED\t" + name + "\t" + desc);
++        }
++        visitEnd();
++    }
++
+     public void visitMaxs(int maxStack, int maxLocals) {
++        hackMaxs = true;
+         dumpBytecodes();
+         super.visitMaxs(maxStack, maxLocals);
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java b/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
+index d45f09a12d..e9b224de09 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
+@@ -74,6 +74,27 @@ class fortressConverter {
+ 
+ }
+ 
++/** SWITCH HACK (rehearsal): a helper's Java String at the one library's trait String, carried by FJavaString. */
++class stringTraitConverter extends fortressConverter {
++    stringTraitConverter() { super("FJavaString", "getValue", "()Ljava/lang/String;", "make", "(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;"); }
++    void convertArg(MethodVisitor mv, String classDesc) {
++        mv.visitTypeInsn(Opcodes.CHECKCAST, "com/sun/fortress/compiler/runtimeValues/FJavaString");
++        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/FJavaString", toJavaTypeMethod, toJavaTypeMethodDesc);
++    }
++    void convertResult(MethodVisitor mv, String classDesc) {
++        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/sun/fortress/compiler/runtimeValues/FJavaString", constructor, constructorType);
++    }
++}
++
++/** SWITCH HACK (rehearsal): a helper's Java Object at Any: the value itself, cast on the way out. */
++class anyConverter extends fortressConverter {
++    anyConverter() { super(null, null, null, null, null); }
++    void convertArg(MethodVisitor mv, String classDesc) { }
++    void convertResult(MethodVisitor mv, String classDesc) {
++        mv.visitTypeInsn(Opcodes.CHECKCAST, "fortress/AnyType$Any");
++    }
++}
++
+ class emptyConverter extends fortressConverter {
+     static final emptyConverter ONLY = new emptyConverter();
+     private emptyConverter() {
+@@ -154,6 +175,12 @@ public class FortressMethodAdapter extends ClassVisitor {
+         initializeEntry("FZZ", "getValue", "()Ljava/math/BigInteger;",
+                 "make", "(Ljava/math/BigInteger;)L" + prefix + "FZZ;");
+         initializeEntry("FVector", "getValue", "()[I" , "make","([I)L"+ prefix + "FVector;");
++        conversionTable.put("FortressLibrary$String", new stringTraitConverter()); // SWITCH HACK
++        conversionTable.put("AnyType$Any", new anyConverter()); // SWITCH HACK
++        initializeEntry("FJavaArrayStore", "getValue", "()Lcom/sun/fortress/compiler/runtimeValues/FortressArrayStore;",
++                                    "make", "(Lcom/sun/fortress/compiler/runtimeValues/FortressArrayStore;)L" + prefix + "FJavaArrayStore;"); // SWITCH HACK
++        initializeEntry("FJavaRR64ArrayStore", "getValue", "()Lcom/sun/fortress/compiler/runtimeValues/FortressRR64ArrayStore;",
++                                    "make", "(Lcom/sun/fortress/compiler/runtimeValues/FortressRR64ArrayStore;)L" + prefix + "FJavaRR64ArrayStore;"); // SWITCH HACK
+     }
+ 
+     // Strip off the leading L + prefix, and trailing ;"
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FBoolean.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FBoolean.java
+index ff2d112a15..3ad3276561 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FBoolean.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FBoolean.java
+@@ -11,8 +11,8 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public final class FBoolean extends fortress.CompilerBuiltin.Boolean.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.Boolean  {
++public final class FBoolean extends fortress.FortressBuiltin.Boolean.DefaultTraitMethods
++        implements fortress.FortressBuiltin.Boolean  {
+     public static final FBoolean TRUE = new FBoolean(true);
+     public static final FBoolean FALSE = new FBoolean(false);
+ 
+@@ -24,9 +24,9 @@ public final class FBoolean extends fortress.CompilerBuiltin.Boolean.DefaultTrai
+     public static FBoolean make(boolean x) {return x ? TRUE : FALSE;}
+ 
+     @Override
+-    public RTTI getRTTI() { return /* fortress.CompilerBuiltin.Boolean. */ RTTIc.ONLY; }
++    public RTTI getRTTI() { return /* fortress.FortressBuiltin.Boolean. */ RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.Boolean.RTTIc {
++    public static class RTTIc extends fortress.FortressBuiltin.Boolean.RTTIc {
+         private RTTIc() { super(FBoolean.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FCharacter.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FCharacter.java
+index ce759c624f..f4281bea89 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FCharacter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FCharacter.java
+@@ -11,7 +11,7 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public class FCharacter  extends fortress.CompilerBuiltin.Character.DefaultTraitMethods implements fortress.CompilerBuiltin.Character {
++public class FCharacter  extends fortress.FortressBuiltin.Char.DefaultTraitMethods implements fortress.FortressBuiltin.Char {
+     // Fortress chars are not equivalent to Java chars.
+     // Fortress supports 21-bit Unicode, so we use int to represent char instead of just Java char.
+     final int val;
+@@ -30,7 +30,7 @@ public class FCharacter  extends fortress.CompilerBuiltin.Character.DefaultTrait
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.Character.RTTIc {
++    public static class RTTIc extends fortress.FortressBuiltin.Char.RTTIc {
+         private RTTIc() { super(FCharacter.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaArrayStore.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaArrayStore.java
+new file mode 100644
+index 0000000000..88d35f2204
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaArrayStore.java
+@@ -0,0 +1,16 @@
++// SWITCH HACK (rehearsal): the compiled carrier of the one library's JavaArrayStore, a FortressArrayStore in a field.
++package com.sun.fortress.compiler.runtimeValues;
++
++public class FJavaArrayStore extends fortress.FortressLibrary.JavaArrayStore.DefaultTraitMethods implements fortress.FortressLibrary.JavaArrayStore {
++    final FortressArrayStore val;
++    FJavaArrayStore(FortressArrayStore x) { val = x; }
++    public String toString() { return "[JavaArrayStore]"; }
++    public FortressArrayStore getValue() { return val; }
++    public static FJavaArrayStore make(FortressArrayStore x) { return new FJavaArrayStore(x); }
++    @Override
++    public RTTI getRTTI() { return RTTIc.ONLY; }
++    public static class RTTIc extends RTTI {
++        private RTTIc() { super(FJavaArrayStore.class); }
++        public static final RTTI ONLY = new RTTIc();
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedReader.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedReader.java
+index defc829eef..d30ea3e190 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedReader.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedReader.java
+@@ -13,7 +13,7 @@ package com.sun.fortress.compiler.runtimeValues;
+ 
+ import com.sun.fortress.compiler.runtimeValues.FortressBufferedReader;
+ 
+-public class FJavaBufferedReader extends fortress.CompilerBuiltin.JavaBufferedReader.DefaultTraitMethods implements fortress.CompilerBuiltin.JavaBufferedReader {
++public class FJavaBufferedReader extends fortress.FortressLibrary.JavaBufferedReader.DefaultTraitMethods implements fortress.FortressLibrary.JavaBufferedReader {
+     // This is a temporary hack until we get a full-blown theory of automatically importing all Java libraries.
+     // We need to have some basic file I/O in order to implement the BirdCount benchmark.
+     final FortressBufferedReader val;
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedWriter.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedWriter.java
+index 3c49e4703c..db56884d1c 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedWriter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaBufferedWriter.java
+@@ -13,7 +13,7 @@ package com.sun.fortress.compiler.runtimeValues;
+ 
+ import com.sun.fortress.compiler.runtimeValues.FortressBufferedWriter;
+ 
+-public class FJavaBufferedWriter extends fortress.CompilerBuiltin.JavaBufferedWriter.DefaultTraitMethods implements fortress.CompilerBuiltin.JavaBufferedWriter {
++public class FJavaBufferedWriter extends fortress.FortressLibrary.JavaBufferedWriter.DefaultTraitMethods implements fortress.FortressLibrary.JavaBufferedWriter {
+     // This is a temporary hack until we get a full-blown theory of automatically importing all Java libraries.
+     // We need to have some basic file I/O in order to implement the BirdCount benchmark.
+     final FortressBufferedWriter val;
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaRR64ArrayStore.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaRR64ArrayStore.java
+new file mode 100644
+index 0000000000..c93be15c7c
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaRR64ArrayStore.java
+@@ -0,0 +1,16 @@
++// SWITCH HACK (rehearsal): the compiled carrier of the one library's JavaRR64ArrayStore, a FortressRR64ArrayStore in a field.
++package com.sun.fortress.compiler.runtimeValues;
++
++public class FJavaRR64ArrayStore extends fortress.FortressLibrary.JavaRR64ArrayStore.DefaultTraitMethods implements fortress.FortressLibrary.JavaRR64ArrayStore {
++    final FortressRR64ArrayStore val;
++    FJavaRR64ArrayStore(FortressRR64ArrayStore x) { val = x; }
++    public String toString() { return "[JavaRR64ArrayStore]"; }
++    public FortressRR64ArrayStore getValue() { return val; }
++    public static FJavaRR64ArrayStore make(FortressRR64ArrayStore x) { return new FJavaRR64ArrayStore(x); }
++    @Override
++    public RTTI getRTTI() { return RTTIc.ONLY; }
++    public static class RTTIc extends RTTI {
++        private RTTIc() { super(FJavaRR64ArrayStore.class); }
++        public static final RTTI ONLY = new RTTIc();
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaString.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaString.java
+index 46ee62c2d4..62eb899c90 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaString.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FJavaString.java
+@@ -11,8 +11,8 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public class FJavaString extends fortress.CompilerBuiltin.JavaString.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.JavaString {
++public class FJavaString extends fortress.FlatStringC.FlatString.DefaultTraitMethods
++        implements fortress.FlatStringC.FlatString {
+     final String val;
+ 
+     private FJavaString(String x) { val = x; }
+@@ -23,7 +23,7 @@ public class FJavaString extends fortress.CompilerBuiltin.JavaString.DefaultTrai
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.JavaString.RTTIc {
++    public static class RTTIc extends fortress.FlatStringC.FlatString.RTTIc {
+         private RTTIc() { super(FJavaString.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java
+index 8eeecaf4a9..ae1a9f01b0 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN32.java
+@@ -11,8 +11,8 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public final class FNN32 extends fortress.CompilerBuiltin.NN32.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.NN32 {
++public final class FNN32 extends fortress.FortressBuiltin.NN32.DefaultTraitMethods
++        implements fortress.FortressBuiltin.NN32 {
+     final int val;
+ 
+     private FNN32(int x) { val = x; }
+@@ -27,7 +27,7 @@ public final class FNN32 extends fortress.CompilerBuiltin.NN32.DefaultTraitMetho
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.NN32.RTTIc {
++    public static class RTTIc extends fortress.FortressBuiltin.NN32.RTTIc {
+         private RTTIc() { super(FNN32.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java
+index 224c61ad1e..fd9019311c 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FNN64.java
+@@ -13,7 +13,7 @@ package com.sun.fortress.compiler.runtimeValues;
+ 
+ import com.sun.fortress.compiler.runtimeValues.FNN64.RTTIc;
+ 
+-public class FNN64  extends fortress.CompilerBuiltin.NN64.DefaultTraitMethods implements fortress.CompilerBuiltin.NN64  {
++public class FNN64  extends fortress.FortressLibrary.NN64.DefaultTraitMethods implements fortress.FortressLibrary.NN64  {
+     final long val;
+ 
+     private FNN64(long x) { val = x; }
+@@ -24,7 +24,7 @@ public class FNN64  extends fortress.CompilerBuiltin.NN64.DefaultTraitMethods im
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.NN64.RTTIc {
++    public static class RTTIc extends fortress.FortressLibrary.NN64.RTTIc {
+         private RTTIc() { super(FNN64.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR32.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR32.java
+index 29274be56a..86ee8983b4 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR32.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR32.java
+@@ -11,8 +11,8 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public class FRR32  extends fortress.CompilerBuiltin.RR32.DefaultTraitMethods
+-implements fortress.CompilerBuiltin.RR32, fortress.CompilerBuiltin.RR64 {
++public class FRR32  extends fortress.FortressBuiltin.RR32.DefaultTraitMethods
++implements fortress.FortressBuiltin.RR32 {
+     final float val;
+ 
+     private FRR32(float x) { val = x; }
+@@ -23,7 +23,7 @@ implements fortress.CompilerBuiltin.RR32, fortress.CompilerBuiltin.RR64 {
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.RR32.RTTIc {
++    public static class RTTIc extends fortress.FortressBuiltin.RR32.RTTIc {
+         private RTTIc() { super(FRR32.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java
+index 4e0579da5e..f60fbb1e28 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FRR64.java
+@@ -11,8 +11,8 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public final class FRR64 extends fortress.CompilerBuiltin.RR64.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.RR64 {
++public final class FRR64 extends fortress.FortressLibrary.RR64.DefaultTraitMethods
++        implements fortress.FortressLibrary.RR64 {
+     final double val;
+ 
+     private FRR64(double x) { val = x; }
+@@ -24,7 +24,7 @@ public final class FRR64 extends fortress.CompilerBuiltin.RR64.DefaultTraitMetho
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.RR64.RTTIc {
++    public static class RTTIc extends fortress.FortressLibrary.RR64.RTTIc {
+         private RTTIc() { super(FRR64.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FString.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FString.java
+index 1d14d1ebeb..a2a414b7bd 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FString.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FString.java
+@@ -11,7 +11,7 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public class FString  extends fortress.CompilerBuiltin.String.DefaultTraitMethods implements fortress.CompilerBuiltin.String {
++public class FString  extends fortress.FortressLibrary.String.DefaultTraitMethods implements fortress.FortressLibrary.String {
+     final String val;
+ 
+     FString(String x) { val = x; }
+@@ -24,7 +24,7 @@ public class FString  extends fortress.CompilerBuiltin.String.DefaultTraitMethod
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.String.RTTIc {
++    public static class RTTIc extends fortress.FortressLibrary.String.RTTIc {
+         private RTTIc() { super(FString.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FValue.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FValue.java
+index 27647b320d..2140165326 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FValue.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FValue.java
+@@ -18,7 +18,7 @@ public abstract class FValue implements fortress.AnyType.Any {
+         return null;
+     }
+     
+-    public fortress.CompilerBuiltin.String asString() {
++    public fortress.FortressLibrary.String asString() {
+         return FJavaString.make("Bogus value from FValue.asString()"); /* replaced in generated code; necessary for primitive hierarchy */
+     }
+     
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ.java
+index 4f0af99964..5c3be3d4ed 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ.java
+@@ -14,7 +14,7 @@ package com.sun.fortress.compiler.runtimeValues;
+ import com.sun.fortress.compiler.runtimeValues.FZZ.RTTIc;
+ import java.math.BigInteger;
+ 
+-public class FZZ  extends fortress.CompilerBuiltin.ZZ.DefaultTraitMethods implements fortress.CompilerBuiltin.ZZ  {
++public class FZZ  extends fortress.FortressLibrary.ZZ.DefaultTraitMethods implements fortress.FortressLibrary.ZZ  {
+     final BigInteger val;
+ 
+     private FZZ(String x) { val = new BigInteger(x); }
+@@ -26,7 +26,7 @@ public class FZZ  extends fortress.CompilerBuiltin.ZZ.DefaultTraitMethods implem
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.ZZ.RTTIc {
++    public static class RTTIc extends fortress.FortressLibrary.ZZ.RTTIc {
+         private RTTIc() { super(FZZ.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java
+index e75c182c3e..39a3d79b55 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java
+@@ -11,8 +11,8 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public final class FZZ32 extends fortress.CompilerBuiltin.ZZ32.DefaultTraitMethods
+-        implements fortress.CompilerBuiltin.ZZ32 {
++public final class FZZ32 extends fortress.FortressLibrary.ZZ32.DefaultTraitMethods
++        implements fortress.FortressLibrary.ZZ32 {
+     final int val;
+ 
+     private FZZ32(int x) { val = x; }
+@@ -37,7 +37,7 @@ public final class FZZ32 extends fortress.CompilerBuiltin.ZZ32.DefaultTraitMetho
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.ZZ32.RTTIc {
++    public static class RTTIc extends fortress.FortressLibrary.ZZ32.RTTIc {
+         private RTTIc() { super(FZZ32.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ64.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ64.java
+index a29845ec6c..b4be06845b 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ64.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ64.java
+@@ -11,7 +11,7 @@
+ 
+ package com.sun.fortress.compiler.runtimeValues;
+ 
+-public class FZZ64  extends fortress.CompilerBuiltin.ZZ64.DefaultTraitMethods implements fortress.CompilerBuiltin.ZZ64  {
++public class FZZ64  extends fortress.FortressLibrary.ZZ64.DefaultTraitMethods implements fortress.FortressLibrary.ZZ64  {
+     final long val;
+ 
+     private FZZ64(long x) { val = x; }
+@@ -22,7 +22,7 @@ public class FZZ64  extends fortress.CompilerBuiltin.ZZ64.DefaultTraitMethods im
+     @Override
+     public RTTI getRTTI() { return RTTIc.ONLY; }
+     
+-    public static class RTTIc extends fortress.CompilerBuiltin.ZZ64.RTTIc {
++    public static class RTTIc extends fortress.FortressLibrary.ZZ64.RTTIc {
+         private RTTIc() { super(FZZ64.class); };
+         public static final RTTI ONLY = new RTTIc();
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressBufferedReader.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressBufferedReader.java
+index 7485fa9a6d..dd26399275 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressBufferedReader.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressBufferedReader.java
+@@ -47,7 +47,7 @@ public final class FortressBufferedReader {
+ 		}
+ 	    } catch (IOException e) {
+ 		eof = true;
+-		throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++		throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	    }
+ 	}
+     }
+@@ -64,7 +64,7 @@ public final class FortressBufferedReader {
+ 		}
+ 	    } catch (IOException e) {
+ 		eof = true;
+-		throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++		throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	    }
+ 	}
+     }
+@@ -84,7 +84,7 @@ public final class FortressBufferedReader {
+ 	    }
+ 	    catch (IOException e) {
+ 		eof = true;
+-		throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++		throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	    }
+ 	}
+     }
+@@ -99,7 +99,7 @@ public final class FortressBufferedReader {
+ 	}
+ 	catch (IOException e) {
+ 	    eof = true;
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	}
+     }
+ 
+@@ -111,13 +111,13 @@ public final class FortressBufferedReader {
+ 	}
+ 	catch (IOException e) {
+ 	    eof = true;
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	}
+     }
+ 
+     public void whenUnconsumed() throws FException {
+ 	if (consumed) {
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure",
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure",
+ 						"Performed operation on consumed reader for " + name);
+ 	}
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressBufferedWriter.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressBufferedWriter.java
+index f8a98b79de..fc4312ea65 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressBufferedWriter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FortressBufferedWriter.java
+@@ -40,7 +40,7 @@ public final class FortressBufferedWriter {
+ 	    writer.write(c);
+ 	} catch (IOException e) {
+ 	    eof = true;
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	}
+     }
+ 
+@@ -49,7 +49,7 @@ public final class FortressBufferedWriter {
+ 	    writer.write(s, 0, s.length());
+ 	} catch (IOException e) {
+ 	    eof = true;
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	}
+     }
+ 
+@@ -59,7 +59,7 @@ public final class FortressBufferedWriter {
+ 	}
+ 	catch (IOException e) {
+ 	    eof = true;
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	}
+     }
+ 
+@@ -69,7 +69,7 @@ public final class FortressBufferedWriter {
+ 	}
+ 	catch (IOException e) {
+ 	    eof = true;
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	}
+     }
+ 
+@@ -79,7 +79,7 @@ public final class FortressBufferedWriter {
+ 	}
+ 	catch (IOException e) {
+ 	    eof = true;
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IOFailure", e);
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IOFailure", e);
+ 	}
+     }
+ }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java
+index 15e83ea7e8..5973a3536e 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/MutableFValue.java
+@@ -31,7 +31,7 @@ public class MutableFValue {
+         value = v;
+     }
+     
+-    public fortress.CompilerBuiltin.String asString() {
++    public fortress.FortressLibrary.String asString() {
+         return FJavaString.make("Bogus value from MutableFValue.asString()"); /* replaced in generated code; necessary for primitive hierarchy */
+     }
+     
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java
+index 8b0f5d3db3..3c9be9da62 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java
+@@ -27,7 +27,7 @@ public final class Utility {
+ 
+     public static FException makeFortressException(String name, String msg) {
+ 	try {
+-	    Constructor fortressIOException = Class.forName(name).getConstructor(new Class[]{ fortress.CompilerBuiltin.String.class });
++	    Constructor fortressIOException = Class.forName(name).getConstructor(new Class[]{ fortress.FortressLibrary.String.class });
+ 	    return new FException((FValue)fortressIOException.newInstance(FJavaString.make(msg == null ? "" : msg)));
+ 	} catch (ClassNotFoundException x) {
+ 	    throw new FortressImplementationError(x);
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/fileOps.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/fileOps.java
+index fc9ec2361b..ec6fe0e22d 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/fileOps.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/fileOps.java
+@@ -34,7 +34,7 @@ public class fileOps {
+ 	try {
+ 	    return new FortressBufferedReader(name, new BufferedReader(new InputStreamReader(new FileInputStream(name), Charset.forName("UTF-8"))));
+ 	} catch (FileNotFoundException e) {
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$FileNotFoundException", e);
++	    throw Utility.makeFortressException("fortress.FortressLibrary$FileNotFoundException", e);
+ 	}
+     }
+ 
+@@ -79,7 +79,7 @@ public class fileOps {
+ 	try {
+ 	    return new FortressBufferedWriter(name, new BufferedWriter(new OutputStreamWriter(new FileOutputStream(name), Charset.forName("UTF-8"))));
+ 	} catch (FileNotFoundException e) {
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$FileNotFoundException", e);
++	    throw Utility.makeFortressException("fortress.FortressLibrary$FileNotFoundException", e);
+ 	}
+     }
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/runtime.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/runtime.java
+index b20c80e40e..b3169f0d87 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/runtime.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/runtime.java
+@@ -26,7 +26,7 @@ public class runtime {
+     public static int loopChunk()  { return FortressExecutable.loopChunk;}
+     public static int numThreads() { return FortressExecutable.numThreads;}
+ 
+-    private static final String FAIL_CALLED = "fortress.CompilerLibrary$FailCalled";
++    private static final String FAIL_CALLED = "fortress.FortressLibrary$FailCalled";
+     private static final String SPAWN_NOT_COMPILED = "spawn is not compiled yet";
+ 
+     /** Abandons the innermost atomic block, which the compiled atomic then runs
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java
+index 0407901f1b..2cd4c61bda 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleArbitraryPrecisionArith.java
+@@ -45,19 +45,19 @@ public class simpleArbitraryPrecisionArith {
+     }
+ 
+     public static BigInteger div(BigInteger a, BigInteger b) { 
+-    	if (b.equals(BigInteger.ZERO)) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero"); 
++    	if (b.equals(BigInteger.ZERO)) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero"); 
+     	return a.divide(b);
+     }
+ 
+     /* REM, the remainder of the truncating division, and MOD, the remainder of the floor division, which has the
+        sign of the divisor; each raises DivisionByZero at a zero divisor. */
+     public static BigInteger rem(BigInteger a, BigInteger b) {
+-        if (b.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b.signum() == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return a.remainder(b);
+     }
+ 
+     public static BigInteger mod(BigInteger a, BigInteger b) {
+-        if (b.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b.signum() == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         if (b.signum() < 0) return a.negate().mod(b.negate()).negate();
+         return a.mod(b);
+     }
+@@ -110,12 +110,12 @@ public class simpleArbitraryPrecisionArith {
+ 
+     public static BigInteger shiftLeft(BigInteger a, int k) {
+         if (k > 0 && a.signum() != 0 && (long) a.abs().bitLength() + k > Integer.MAX_VALUE)
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         try {
+             return a.shiftLeft(k);
+         }
+         catch (ArithmeticException e) {
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+     }
+ 	
+@@ -146,13 +146,13 @@ public class simpleArbitraryPrecisionArith {
+ 
+     // asZZ64 of a ZZ: the value where ZZ64 holds it, else IntegerOverflow.
+     public static long bigOverflowingToLong(BigInteger a) {
+-	if (a.bitLength() > 63) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (a.bitLength() > 63) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	return a.longValue();
+     }
+ 
+     // asNN64 of a ZZ: the bits of the value where NN64 holds it, else IntegerOverflow.
+     public static long bigOverflowingToUnsignedLong(BigInteger a) {
+-	if (a.signum() < 0 || a.bitLength() > 64) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (a.signum() < 0 || a.bitLength() > 64) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	return a.longValue();
+     }
+ 
+@@ -197,7 +197,7 @@ public class simpleArbitraryPrecisionArith {
+     public static BigInteger bigBitRightShift(BigInteger a, int k) {
+         if (k == Integer.MIN_VALUE) {
+             if (a.signum() == 0) return a;
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+         return shiftLeft(a, -k);
+     }
+@@ -209,17 +209,17 @@ public class simpleArbitraryPrecisionArith {
+         if (b < 0) {
+             if (a.equals(BigInteger.ONE)) return a;
+             if (a.equals(BigInteger.ONE.negate())) return ((b & 1) == 0) ? BigInteger.ONE : a;
+-            if (a.signum() == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            if (a.signum() == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+         BigInteger m = a.abs();
+         if (m.compareTo(BigInteger.ONE) > 0 && (long) (m.bitLength() - 1) * b >= Integer.MAX_VALUE)
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         try {
+             return a.pow(b);
+         }
+         catch (ArithmeticException e) {
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+     }
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java
+index be32f1d56a..8cadd72789 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleIntArith.java
+@@ -40,7 +40,7 @@ public class simpleIntArith {
+     }
+ 
+     public static int intDiv(int a, int b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return a / b;
+     }
+ 
+@@ -61,13 +61,13 @@ public class simpleIntArith {
+ 
+     public static int intOverflowingAdd(int a, int b) {
+         int c = a + b;
+-	if (((c ^ a) & (c ^ b)) < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (((c ^ a) & (c ^ b)) < 0) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return c;
+     }
+ 
+     public static int intOverflowingSub(int a, int b) {
+         int c = a - b;
+-	if (((a ^ b) & (a ^ c)) < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (((a ^ b) & (a ^ c)) < 0) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return c;
+     }
+ 
+@@ -76,36 +76,36 @@ public class simpleIntArith {
+     }
+ 
+     public static int intOverflowingDiv(int a, int b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+-	if (b==(-1) && a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
++	if (b==(-1) && a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return a / b;
+     }
+ 
+     /* REM, the remainder of the truncating division, and MOD, the remainder of the floor division, which has the
+        sign of the divisor; each raises DivisionByZero at a zero divisor. */
+     public static int intRem(int a, int b) {
+-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return a % b;
+     }
+ 
+     public static int intMod(int a, int b) {
+-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return Math.floorMod(a, b);
+     }
+ 
+     public static int intOverflowingNeg(int a) {
+-	if (a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return -a;
+     }
+ 
+     public static int intOverflowingAbs(int a) {
+-	if (a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (a==Integer.MIN_VALUE) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return Math.abs(a);
+     }
+ 
+     public static int longOverflowingToInt(long l) {
+ 	int c = (int)l;
+-	if (c != l) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (c != l) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return c;
+     }
+ 
+@@ -222,10 +222,10 @@ public class simpleIntArith {
+ 	// Here n > maxIntChooseN, so `n CHOOSE k` for a k past the end of maxIntChooseSafeN
+ 	// is at least `34 CHOOSE 17`, which no int holds.
+ 	if (k - 2 >= maxIntChooseSafeN.length)
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	if (n > maxIntChooseSafeN[k-2]) {
+ 	    int q = intSlowCautiousChoose(n, k);
+-	    if (q == -1) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    if (q == -1) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	    return q;
+ 	}
+ 	// Fast algorithm (no overflow checking required)
+@@ -249,7 +249,7 @@ public class simpleIntArith {
+     }
+ 
+     public static int intWrappingDiv(int a, int b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return a / b;
+     }
+ 
+@@ -285,7 +285,7 @@ public class simpleIntArith {
+     }
+ 
+     public static int intSaturatingDiv(int a, int b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+ 	if (b==(-1) && a==Integer.MIN_VALUE) return Integer.MAX_VALUE;
+         return a / b;
+     }
+@@ -383,28 +383,28 @@ public class simpleIntArith {
+ 	    else return a >> (-b);
+         } else if (b > 31) {
+ 	    if (a == 0) return 0;
+-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    else throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+ 	else {
+ 	    int result = a << b;
+ 	    if ((result >> b) == a) return result;
+-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    else throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	}
+     }
+ 
+     public static int intToIntPower(int a, int b) {
+ 	if (b <= 0) {
+ 	    if (b == 0 || a == 1) return 1;
+-	    else if (a < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	    else if (a < 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+ 	    else return 0;
+ 	}
+ 	long result = 1;
+ 	long x = a;
+ 	do {
+-	    if (x != (int) x) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    if (x != (int) x) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	    if ((b & 1) != 0) {
+ 		result *= x;
+-		if (result != (int) result) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++		if (result != (int) result) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	    }
+ 	    b >>= 1;
+ 	    x *= x;
+@@ -428,7 +428,7 @@ public class simpleIntArith {
+ 
+     public static int intGcd(int u, int v) {
+         long g = simpleUnsignedLongArith.unsignedLongGcd(Math.abs((long) u), Math.abs((long) v));
+-        if (g > Integer.MAX_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++        if (g > Integer.MAX_VALUE) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return (int) g;
+     }
+ 
+@@ -437,7 +437,7 @@ public class simpleIntArith {
+         long a = Math.abs((long) u);
+         long b = Math.abs((long) v);
+         long m = (a / simpleUnsignedLongArith.unsignedLongGcd(a, b)) * b;
+-        if (m > Integer.MAX_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++        if (m > Integer.MAX_VALUE) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return (int) m;
+     }
+ 
+@@ -451,11 +451,11 @@ public class simpleIntArith {
+         if (b < 0) {
+             if (a == 1) return 1;
+             if (a == -1) return ((b & 1) == 0) ? 1 : -1;
+-            if (a == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            if (a == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+         long r = simpleLongArith.longPower(a, b);
+-        if (r != (int) r) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++        if (r != (int) r) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return (int) r;
+     }
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleLongArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleLongArith.java
+index f22c6dfc88..eb035fca63 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleLongArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleLongArith.java
+@@ -45,7 +45,7 @@ public class simpleLongArith {
+     }
+ 
+     public static long longDiv(long a, long b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return a / b;
+     }
+ 
+@@ -62,13 +62,13 @@ public class simpleLongArith {
+ 
+     public static long longOverflowingAdd(long a, long b) {
+         long c = a + b;
+-	if (((c ^ a) & (c ^ b)) < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (((c ^ a) & (c ^ b)) < 0) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return c;
+     }
+ 
+     public static long longOverflowingSub(long a, long b) {
+         long c = a - b;
+-	if (((a ^ b) & (a ^ c)) < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (((a ^ b) & (a ^ c)) < 0) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return c;
+     }
+ 
+@@ -76,35 +76,35 @@ public class simpleLongArith {
+ 	try {
+ 	    return Math.multiplyExact(a, b);
+ 	} catch (ArithmeticException e) {
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	}
+     }
+ 
+     public static long longOverflowingDiv(long a, long b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+-	if (b==(-1) && a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
++	if (b==(-1) && a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return a / b;
+     }
+ 
+     /* REM, the remainder of the truncating division, and MOD, the remainder of the floor division, which has the
+        sign of the divisor; each raises DivisionByZero at a zero divisor. */
+     public static long longRem(long a, long b) {
+-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return a % b;
+     }
+ 
+     public static long longMod(long a, long b) {
+-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return Math.floorMod(a, b);
+     }
+ 
+     public static long longOverflowingNeg(long a) {
+-	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return -a;
+     }
+ 
+     public static long longOverflowingAbs(long a) {
+-	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (a==Long.MIN_VALUE) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return Math.abs(a);
+     }
+ 
+@@ -200,11 +200,11 @@ public class simpleLongArith {
+ 	// Here n > maxLongChooseN, so `n CHOOSE k` for a k past the end of maxLongChooseSafeN
+ 	// is at least `68 CHOOSE 34`, which no long holds.
+ 	if (kk - 2 >= maxLongChooseSafeN.length)
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	int k = (int)kk;
+ 	if (n > maxLongChooseSafeN[k-2]) {
+ 	    long q = longSlowCautiousChoose(n, k);
+-	    if (q == -1) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    if (q == -1) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	    return q;
+ 	}
+ 	// Fast algorithm (no overflow checking required)
+@@ -229,7 +229,7 @@ public class simpleLongArith {
+     }
+ 
+     public static long longWrappingDiv(long a, long b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return a / b;
+     }
+ 
+@@ -265,7 +265,7 @@ public class simpleLongArith {
+     }
+ 
+     public static long longSaturatingDiv(long a, long b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+ 	if (b==(-1) && a==Long.MIN_VALUE) return Long.MAX_VALUE;
+         return a / b;
+     }
+@@ -357,12 +357,12 @@ public class simpleLongArith {
+ 	    else return a >> (-b);
+         } else if (b > 63) {
+ 	    if (a == 0) return 0;
+-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    else throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+ 	else {
+ 	    long result = a << b;
+ 	    if ((result >> b) == a) return result;
+-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    else throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	}
+     }
+ 
+@@ -372,21 +372,21 @@ public class simpleLongArith {
+     public static long longGcd(long u, long v) {
+         // The magnitude of Long.MIN_VALUE, read unsigned, is 2^63, a divisor that does not fit.
+         long g = simpleUnsignedLongArith.unsignedLongGcd(u < 0 ? -u : u, v < 0 ? -v : v);
+-        if (g < 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++        if (g < 0) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return g;
+     }
+ 
+     public static long longLcm(long u, long v) {
+         if (u == 0 || v == 0) return 0;
+         // Every other multiple of Long.MIN_VALUE is at least 2^63, which does not fit.
+-        if (u == Long.MIN_VALUE || v == Long.MIN_VALUE) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++        if (u == Long.MIN_VALUE || v == Long.MIN_VALUE) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         long a = Math.abs(u);
+         long b = Math.abs(v);
+         try {
+             return Math.multiplyExact(a / simpleUnsignedLongArith.unsignedLongGcd(a, b), b);
+         }
+         catch (ArithmeticException e) {
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+     }
+ 
+@@ -404,8 +404,8 @@ public class simpleLongArith {
+         if (b < 0) {
+             if (a == 1) return 1;
+             if (a == -1) return ((b & 1) == 0) ? 1 : -1;
+-            if (a == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            if (a == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+         try {
+             long r = 1;
+@@ -419,7 +419,7 @@ public class simpleLongArith {
+             return r;
+         }
+         catch (ArithmeticException e) {
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+     }
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java
+index af5e579066..bf1b13d93d 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedIntArith.java
+@@ -24,7 +24,7 @@ public class simpleUnsignedIntArith {
+ 
+     public static int toUnsignedIntOverflow(long l) {
+ 	long t = l & 0xFFFFFFFF00000000L;
+-	if (t != 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	if (t != 0) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	return (int) l; 
+     }
+ 
+@@ -34,10 +34,10 @@ public class simpleUnsignedIntArith {
+ 
+     public static int parseUnsignedInt(String s) {  
+         try { 
+-	    if (s.charAt(0) == '-') throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    if (s.charAt(0) == '-') throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	}
+ 	catch (IndexOutOfBoundsException e) { 
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	}
+ 	long c = Long.parseLong(s);
+         return toUnsignedIntOverflow(c);
+@@ -59,25 +59,25 @@ public class simpleUnsignedIntArith {
+     }
+ 
+     public static int unsignedIntOverflowingDiv(int a, int b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+ 	long c = toLong(a) / toLong(b);
+         return (int) c; 
+     }
+ 
+     /* REM and MOD, the same for natural numbers; each raises DivisionByZero at a zero divisor. */
+     public static int unsignedIntRem(int a, int b) {
+-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return Integer.remainderUnsigned(a, b);
+     }
+ 
+     public static int unsignedIntMod(int a, int b) {
+-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return Integer.remainderUnsigned(a, b);
+     }
+ 
+     public static int unsignedIntOverflowingNeg(int a) {  
+ 	if (a == 0) return 0;
+-	throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+     }
+ 
+     public static int unsignedIntOverflowingAbs(int a) {
+@@ -105,7 +105,7 @@ public class simpleUnsignedIntArith {
+     }
+ 
+     public static int unsignedIntWrappingDiv(int a, int b) { 
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return (int) (toLong(a) / toLong(b));
+     }
+ 
+@@ -140,7 +140,7 @@ public class simpleUnsignedIntArith {
+     }
+ 
+     public static int unsignedIntSaturatingDiv(int a, int b) {
+-	if (b==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++	if (b==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return (int) (toLong(a) / toLong(b)); 
+     }
+ 
+@@ -217,19 +217,19 @@ public class simpleUnsignedIntArith {
+ 	    else return a >>> (-b);
+         } else if (b > 31) {
+ 	    if (a == 0) return 0;
+-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    else throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+ 	else {
+ 	    int result = a << b;
+ 	    if ((result >>> b) == a) return result;
+-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    else throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	}
+     }
+ 
+     public static int unsignedIntExp(int a, int b) {  
+         double result = java.lang.Math.pow(unsignedIntToDouble(a),unsignedIntToDouble(b));
+         if (result > 0x00000000FFFFFFFFL)
+-	    throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         else
+             return (int) result;
+     }
+@@ -253,7 +253,7 @@ public class simpleUnsignedIntArith {
+         long b = toLong(v);
+         // The multiple is below 2^64, and one of 2^63 or more reads negative.
+         long m = (a / simpleUnsignedLongArith.unsignedLongGcd(a, b)) * b;
+-        if ((m >> 32) != 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++        if ((m >> 32) != 0) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return (int) m;
+     }
+ 
+@@ -277,7 +277,7 @@ public class simpleUnsignedIntArith {
+     // DivisionByZero and any other base IntegerOverflow; a power of 2^32 or more throws IntegerOverflow.
+     public static int unsignedIntPower(int a, int b) {
+         long r = simpleUnsignedLongArith.unsignedLongPower(toLong(a), b);
+-        if ((r >> 32) != 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++        if ((r >> 32) != 0) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         return (int) r;
+     }
+ 
+diff --git a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
+index 9bcac8b8f0..4f7f4bcdf5 100644
+--- a/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
++++ b/ProjectFortress/src/com/sun/fortress/nativeHelpers/simpleUnsignedLongArith.java
+@@ -62,42 +62,42 @@ public class simpleUnsignedLongArith {
+     
+     public static long unsignedLongOverflowingAdd(long a, long b) {
+     	long r = a + b;
+-    	if (ltu(r,a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++    	if (ltu(r,a)) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+     	return r;
+     }
+ 
+     public static long unsignedLongOverflowingSub(long a, long b) {
+     	long r = a - b;
+-    	if (gtu(r,a)) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++    	if (gtu(r,a)) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+     	return r;
+     }
+ 
+     public static long unsignedLongOverflowingMul(long a, long b) {
+     	long r = a * b;
+     	if (b == 0) return r; 
+-    	if (divu(r,b) != a) throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++    	if (divu(r,b) != a) throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+     	return r;
+     }
+ 
+     public static long unsignedLongOverflowingDiv(long n, long d) {
+-    	if (d==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++    	if (d==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+     	return divu(n,d);
+     }
+ 
+     /* REM and MOD, the same for natural numbers; each raises DivisionByZero at a zero divisor. */
+     public static long unsignedLongRem(long a, long b) {
+-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return Long.remainderUnsigned(a, b);
+     }
+ 
+     public static long unsignedLongMod(long a, long b) {
+-        if (b == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++        if (b == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+         return Long.remainderUnsigned(a, b);
+     }
+ 
+     public static long unsignedLongOverflowingNeg(long a) {  
+     	if (a == 0) return 0;
+-    	throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++    	throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+     }
+ 
+     public static long unsignedLongOverflowingAbs(long a) {
+@@ -117,7 +117,7 @@ public class simpleUnsignedLongArith {
+     }
+ 
+     public static long unsignedLongWrappingDiv(long n, long d) { 
+-    	if (d==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++    	if (d==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+     	return divu(n,d);
+     }
+ 
+@@ -153,7 +153,7 @@ public class simpleUnsignedLongArith {
+     }
+ 
+     public static long unsignedLongSaturatingDiv(long n, long d) {
+-    	if (d==0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
++    	if (d==0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
+     	return divu(n,d);
+     }
+ 
+@@ -228,12 +228,12 @@ public class simpleUnsignedLongArith {
+ 	    else return a >>> (-b);
+         } else if (b > 63) {
+ 	    if (a == 0) return 0;
+-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    else throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+ 	else {
+ 	    long result = a << b;
+ 	    if ((result >>> b) == a) return result;
+-	    else throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++	    else throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+ 	}
+     }
+ 
+@@ -300,8 +300,8 @@ public class simpleUnsignedLongArith {
+     public static long unsignedLongPower(long a, int b) {
+         if (b < 0) {
+             if (a == 1) return 1;
+-            if (a == 0) throw Utility.makeFortressException("fortress.CompilerBuiltin$DivisionByZero");
+-            throw Utility.makeFortressException("fortress.CompilerBuiltin$IntegerOverflow");
++            if (a == 0) throw Utility.makeFortressException("fortress.FortressLibrary$DivisionByZero");
++            throw Utility.makeFortressException("fortress.FortressLibrary$IntegerOverflow");
+         }
+         long r = 1;
+         long x = a;
+diff --git a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
+index 7dd7cbef81..4632a1ee95 100644
+--- a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
++++ b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
+@@ -304,6 +304,21 @@ public class Naming {
+         bl("", SNOWMAN, "FVoid");
+         bl("", INTERNAL_SNOWMAN, "FVoid");
+         bl(COMPILER_BUILTIN, "$Vector", "FVector");
++        // SWITCH HACK (rehearsal): the one library's carriers, as NamingCzar's.
++        bl("FortressLibrary", "$ZZ32", "FZZ32");
++        bl("FortressLibrary", "$ZZ64", "FZZ64");
++        bl("FortressLibrary", "$RR64", "FRR64");
++        bl("FortressLibrary", "$NN64", "FNN64");
++        bl("FortressLibrary", "$ZZ", "FZZ");
++        bl("FortressLibrary", "$JavaBufferedReader", "FJavaBufferedReader");
++        bl("FortressLibrary", "$JavaBufferedWriter", "FJavaBufferedWriter");
++        bl("FortressLibrary", "$JavaArrayStore", "FJavaArrayStore");
++        bl("FortressLibrary", "$JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl("FortressBuiltin", "$Boolean", "FBoolean");
++        bl("FortressBuiltin", "$RR32", "FRR32");
++        bl("FortressBuiltin", "$NN32", "FNN32");
++        bl("FortressBuiltin", "$Char", "FCharacter");
++        bl("FlatStringC", "$FlatString", "FJavaString");
+     }
+ 
+     public static String opForString(String op, String s) {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+index eb4e82d14f..eec2ac9f66 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+@@ -94,6 +94,11 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
+ 	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
+ 	  if (candidate.isSome && name.toString == "GeneratorLibrary") return candidate
+ 	}
++	// SWITCH HACK (rehearsal): the same search over the one library's two prelude apis.
++	for (lib <- List("FortressLibrary", "FortressBuiltin"); name: APIName <- globalEnv.apiNames) {
++	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
++	  if (candidate.isSome && name.toString == lib) return candidate
++	}
+ // 	for (name: APIName <- globalEnv.apiNames) {
+ // 	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
+ // 	  if (candidate.isSome) return candidate
+diff --git a/ProjectFortress/src/fortress/FlatStringC.java b/ProjectFortress/src/fortress/FlatStringC.java
+new file mode 100644
+index 0000000000..07d85e2feb
+--- /dev/null
++++ b/ProjectFortress/src/fortress/FlatStringC.java
+@@ -0,0 +1,16 @@
++// SWITCH HACK (rehearsal): bootstrap stubs of the one library's types that hand-written run-time classes extend,
++// as fortress/CompilerBuiltin.java is for the compiler's prelude.
++package fortress;
++
++import com.sun.fortress.compiler.runtimeValues.FValue;
++import com.sun.fortress.compiler.runtimeValues.RTTI;
++
++public class FlatStringC {
++    public static interface FlatString extends fortress.FortressLibrary.String {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements FlatString {}
++    }
++}
+diff --git a/ProjectFortress/src/fortress/FortressBuiltin.java b/ProjectFortress/src/fortress/FortressBuiltin.java
+new file mode 100644
+index 0000000000..38ed316887
+--- /dev/null
++++ b/ProjectFortress/src/fortress/FortressBuiltin.java
+@@ -0,0 +1,44 @@
++// SWITCH HACK (rehearsal): bootstrap stubs of the one library's types that hand-written run-time classes extend,
++// as fortress/CompilerBuiltin.java is for the compiler's prelude.
++package fortress;
++
++import com.sun.fortress.compiler.runtimeValues.FValue;
++import com.sun.fortress.compiler.runtimeValues.RTTI;
++
++public class FortressBuiltin {
++    public static interface Object extends fortress.AnyType.Any {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Object {}
++    }
++    public static interface Boolean extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Boolean {}
++    }
++    public static interface RR32 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements RR32 {}
++    }
++    public static interface NN32 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements NN32 {}
++    }
++    public static interface Char extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Char {}
++    }
++}
+diff --git a/ProjectFortress/src/fortress/FortressLibrary.java b/ProjectFortress/src/fortress/FortressLibrary.java
+new file mode 100644
+index 0000000000..4cedbf3357
+--- /dev/null
++++ b/ProjectFortress/src/fortress/FortressLibrary.java
+@@ -0,0 +1,79 @@
++// SWITCH HACK (rehearsal): bootstrap stubs of the one library's types that hand-written run-time classes extend,
++// as fortress/CompilerBuiltin.java is for the compiler's prelude.
++package fortress;
++
++import com.sun.fortress.compiler.runtimeValues.FValue;
++import com.sun.fortress.compiler.runtimeValues.RTTI;
++
++public class FortressLibrary {
++    public static interface ZZ32 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements ZZ32 {}
++    }
++    public static interface ZZ64 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements ZZ64 {}
++    }
++    public static interface RR64 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements RR64 {}
++    }
++    public static interface NN64 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements NN64 {}
++    }
++    public static interface ZZ extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements ZZ {}
++    }
++    public static interface String extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements String {}
++    }
++    public static interface JavaBufferedReader extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaBufferedReader {}
++    }
++    public static interface JavaBufferedWriter extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaBufferedWriter {}
++    }
++    public static interface JavaArrayStore extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaArrayStore {}
++    }
++    public static interface JavaRR64ArrayStore extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaRR64ArrayStore {}
++    }
++}
