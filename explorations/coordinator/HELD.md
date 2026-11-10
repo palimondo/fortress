@@ -16,6 +16,11 @@
 - 00:35 Thread `596631fe`: the Unicode spelling of `SEQV` and `=/=`: single characters, `≣` and `≠`; checked at the source and answered.
 - 00:22 Thread `f6115171`: change 37 against the POPL 2019 paper, research delegated; answered at 00:40 from `explorations/reviews/meet-rule-popl2019-2026-11-08.md`.
 
+## Held in chat (2026-11-10)
+
+- 07:1x The hook that reminds the coordinator to re-read his words works silently: the coordinator checks and corrects the record in its reasoning and in the files, and reports none of that in chat.
+- 07:1x No skill is updated for that hook: its prompt is enough.
+
 ## Held in chat (2026-11-09)
 
 - 17:1x His decision: an exception to P-37 for the numerals, so that the compiler's prelude carries the static numerals too and both paths do the same thing before the switch-over, the exception thrown away with the prelude: "Of course, I'm making exception for the P37." To POSITIONS by an Opus record writer with the static numerals, after the probe (`postmortem-2026-11-09-numerals/probe-brief.md`).
