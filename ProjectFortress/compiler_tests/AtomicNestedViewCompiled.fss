@@ -7,7 +7,6 @@ y: ZZ32 := 0
 seen: ZZ32 := 0
 seenInArms: ZZ32 := 0
 
-(* A nested block of the caller's block, in a task of its own where an arm calls it. *)
 look(p: ZZ32): () =
   atomic do
     q: ZZ32 = y

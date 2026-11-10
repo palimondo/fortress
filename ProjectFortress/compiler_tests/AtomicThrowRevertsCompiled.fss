@@ -37,7 +37,6 @@ run(): () = do
     end
     k := k + 10
   end
-  (* A block after the exceptions runs as a transaction of its own. *)
   atomic do g := g + 1 end
   if g = 101 AND l = 5 AND b.n = 1 AND h = 1 AND k = 10 AND caught = 2 then
     println("PASS")
