@@ -217,3 +217,27 @@ nav.pager a { display: block; text-decoration: none; font-weight: 700; padding: 
 nav.pager a span { display: block; font-family: var(--mono); font-size: .72rem; font-weight: 400; color: var(--muted); }
 nav.pager a.next { text-align: right; }
 p.ref { padding-left: 1.5em; text-indent: -1.5em; } p.ref .key { font-family: var(--mono); font-size: .86em; }
+
+/* displays that LaTeX sets (examples, formulas, tables, grammar, drawings): inline SVG whose text is
+   text, in the fonts of tex-fonts.css; the ink takes the colour of the text around it, so one source
+   serves the light and the dark theme */
+svg.tx { font-size: 1.0625rem; display: block; flex: none; max-width: none; overflow: visible; }
+svg.tx text { white-space: pre; font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0, "calt" 0, "dlig" 0; }
+svg.tx.il { display: inline-block; font-size: 1.06em; }
+svg.tx a { fill: var(--accent); }
+.dm > svg.tx { margin-inline: auto; }
+.tw > svg.tx, .fx-r > svg.tx { margin: 0; }
+@media (max-width: 30rem) { svg.tx { font-size: .96rem; } }
+
+/* what the 2026 revival added to the authors' text: a light tint of the ground, nothing more */
+.rv, a.ed { background: var(--rev-bg); }
+p.rv { padding: .4em .6em; margin-inline: -.6em; border-radius: 6px; }
+span.rv { padding: .08em .3em; border-radius: 3px; }
+section.rv { padding: 12px 10px 4px; margin-inline: -10px; border-radius: 8px; }
+a.ed { font-family: var(--mono); font-size: .72em; font-weight: 600; padding: .12em .45em; border-radius: 3px; margin-left: .45em; text-decoration: none; white-space: nowrap; }
+.legend { font-size: .9rem; color: var(--muted); margin: 0 0 .9rem; }
+.doc { margin: 0 0 .9rem; }
+.mw { display: inline-block; max-width: 100%; overflow-x: auto; vertical-align: middle; -webkit-overflow-scrolling: touch; }
+h1 .m, h2 .m, h3 .m, h4 .m, dt .m, figcaption .m, summary .m, nav .m { white-space: normal; }
+.hr { display: inline-block; background: currentColor; }
+.fbox { border: 1px solid currentColor; padding: .1em .3em; }

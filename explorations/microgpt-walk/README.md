@@ -46,7 +46,7 @@ Every value in the text was printed by a run under walk: the program itself, its
 
 ## If the reader changes
 
-The pages are written against the reader as it was on 2026-11-13 (`reader.css` and `reader.js` as in the tree of commit `2fd0d33b17`). To take a newer reader, run the build with `--reader`, then `check.js`, and read the screenshots. The pages rely on these parts of the reader:
+The pages are written against the reader as it was on 2026-11-13 (`reader.css` and `reader.js` as in the tree of commit `098742f77d`). To take a newer reader, run the build with `--reader`, then `check.js`, and read the screenshots. The pages rely on these parts of the reader:
 
 - `body` with `data-page` (`chapter`, `index`, `notes`), `data-slug` and `data-chapter`, where a part's `data-chapter` starts with its number and a full stop;
 - `nav.bar` with a link of class `notes-link`; the empty boxes `#resume` and `#chapter-notes` on a part, `#continue` on the start page;
