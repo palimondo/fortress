@@ -38,7 +38,13 @@ In `FlatData.fss`:
 
 ## What only walk runs
 
-The whole program runs only under walk today. The project's goal is the same program compiled to bytecode and running fast, and the record tracks what stands between. Of the things in this text, the views are one such thing: their sizes come from `reflect`.
+The whole program runs only under walk today. The project's goal is the same program compiled to bytecode and running fast, and the record tracks what stands between. Three such things touch lines of this text:
+
+- The views get their sizes from `reflect`, which does not run compiled (the gap ledger's row 307).
+- The tuple bindings at the top level, lines 17 to 19, stop the compile today (row 988, filed this week). Under walk they bind, and your ruling keeps the form.
+- `1.0 s` in line 82 is refused by the compiled path's checker when it checks against the interpreter's library: it cannot choose between the product of two floats and the product of two fractions (row 989, filed this week). Walk runs it as a product of floats.
+
+This text ran nothing on the compiled path. These three points are the ledger's.
 
 Under walk there is no static type check. A program with a type error runs until the wrong value meets an operation that has no declaration for it. The error message in Part 7, "Failed to find any matching overload", is of this kind: it came at run time, from the product of a float and a fraction.
 

@@ -57,7 +57,13 @@
 </section>
 <section class="sec" data-num="9.3" data-title="What only walk runs">
 <h2 id="s-what-only-walk-runs" class="nb"><span class="num">9.3</span> What only walk runs</h2>
-<p id="p-b355bbea" class="nb">The whole program runs only under walk today. The project's goal is the same program compiled to bytecode and running fast, and the record tracks what stands between. Of the things in this text, the views are one such thing: their sizes come from <code>reflect</code>.</p>
+<p id="p-17383942" class="nb">The whole program runs only under walk today. The project's goal is the same program compiled to bytecode and running fast, and the record tracks what stands between. Three such things touch lines of this text:</p>
+<ul>
+<li><p id="p-a84a7ef5" class="nb">The views get their sizes from <code>reflect</code>, which does not run compiled (the gap ledger's row 307).</p></li>
+<li><p id="p-2391b76e" class="nb">The tuple bindings at the top level, lines 17 to 19, stop the compile today (row 988, filed this week). Under walk they bind, and your ruling keeps the form.</p></li>
+<li><p id="p-c23fc4b8" class="nb"><code>1.0 s</code> in line 82 is refused by the compiled path's checker when it checks against the interpreter's library: it cannot choose between the product of two floats and the product of two fractions (row 989, filed this week). Walk runs it as a product of floats.</p></li>
+</ul>
+<p id="p-d51042ea" class="nb">This text ran nothing on the compiled path. These three points are the ledger's.</p>
 <p id="p-b1f2b452" class="nb">Under walk there is no static type check. A program with a type error runs until the wrong value meets an operation that has no declaration for it. The error message in Part 7, "Failed to find any matching overload", is of this kind: it came at run time, from the product of a float and a fraction.</p>
 </section>
 <section class="sec" data-num="9.4" data-title="What looks odd and is the language">

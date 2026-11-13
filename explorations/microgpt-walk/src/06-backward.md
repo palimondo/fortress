@@ -160,7 +160,7 @@ The forward declarations were `m0 = x3 f1^T`, `mr = 0.0 MAX m0` and `x4 = x2 + m
 - Line 31 computes again what `rmsn` computed: the root `r`, and the result `y`.
 - Line 32 is the gradient. It has two parts, because a change of one element of `x` does two things.
 - First, the element's own result changes: `y` is `x / r`, so one unit more of an element is `1 / r` more of its result. This part is `dy / r`.
-- Second, the root `r` grows a little, and that shrinks every element of `y`. This part is the term that line 32 subtracts: `y`, times the number `(y DOT dy) / |y|`, divided by `r`.
+- Second, the root `r` changes a little, and every element of `y` changes with it. This part is the term that line 32 subtracts: `y`, times the number `(y DOT dy) / |y|`, divided by `r`.
 
 In line 32, `y (...)` is a vector beside a number: juxtaposition multiplies every element.
 
@@ -310,4 +310,12 @@ sizes gF2 (16,64) dM0 (16,64) gF1 (64,16) gWO (16,16) dh (4,16,4) dVh (4,16,4) d
 zero gradient entries 464
 ```
 
-The 464 zeros can be counted by hand. `yuheng` uses seven tokens: the mark and six letters. The other twenty rows of `gWTE` are 0: 20 times 16 is 320 entries. The name fills positions 0 to 6. Rows 7 to 15 of `gWPE` are 0: 9 times 16 is 144 entries. 320 plus 144 is 464.
+Another run counted where the zeros lie:
+
+```out
+zeros in wte part 320  in wpe part 144  in the rest 0
+zero rows of gWTE: 0 1 2 3 5 8 9 10 11 12 14 15 16 17 18 19 21 22 23 25
+zero rows of gWPE: 7 8 9 10 11 12 13 14 15
+```
+
+`yuheng` uses seven tokens: the mark, 26, and the letters `e`, `g`, `h`, `n`, `u`, `y`, which are 4, 6, 7, 13, 20, 24. The other twenty rows of `gWTE` are 0: 20 times 16 is 320 entries. The name fills positions 0 to 6. Rows 7 to 15 of `gWPE` are 0: 9 times 16 is 144 entries. 320 plus 144 is 464. Every entry of the other seven matrices is different from 0.

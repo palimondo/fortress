@@ -185,7 +185,7 @@ text.q2ee1b441ecf7 {font-family:q2ee1b441ec-cmex10;font-size:9.96264px}
 <li><p id="p-2f160582" class="nb">Line 31 computes again what <code>rmsn</code> computed: the root <code>r</code>, and the result <code>y</code>.</p></li>
 <li><p id="p-9d214ebd" class="nb">Line 32 is the gradient. It has two parts, because a change of one element of <code>x</code> does two things.</p></li>
 <li><p id="p-158e62ed" class="nb">First, the element's own result changes: <code>y</code> is <code>x / r</code>, so one unit more of an element is <code>1 / r</code> more of its result. This part is <code>dy / r</code>.</p></li>
-<li><p id="p-1ba5d1b4" class="nb">Second, the root <code>r</code> grows a little, and that shrinks every element of <code>y</code>. This part is the term that line 32 subtracts: <code>y</code>, times the number <code>(y DOT dy) / |y|</code>, divided by <code>r</code>.</p></li>
+<li><p id="p-9f6c20a7" class="nb">Second, the root <code>r</code> changes a little, and every element of <code>y</code> changes with it. This part is the term that line 32 subtracts: <code>y</code>, times the number <code>(y DOT dy) / |y|</code>, divided by <code>r</code>.</p></li>
 </ul>
 <p id="p-5ae2f4f7" class="nb">In line 32, <code>y (...)</code> is a vector beside a number: juxtaposition multiplies every element.</p>
 <div class="dm nb" id="m-536cbc59" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='18.103em' height='5.874em' viewBox='62.087173 52.806419 181.03163 58.744254' fill='currentColor' aria-hidden='true'><style type='text/css'>
@@ -368,7 +368,11 @@ dX[9,0..3] = 0.0 0.0 0.0 0.0</code></pre>
 <p id="p-07af186c" class="nb">A run printed the sizes of the backward values, and counted the entries of the gradient that are exactly 0:</p>
 <pre class="vb nb out" id="o-3ad6a256" data-kind="output"><code>sizes gF2 (16,64) dM0 (16,64) gF1 (64,16) gWO (16,16) dh (4,16,4) dVh (4,16,4) dS (4,16,16) dQh (4,16,4) dQ (16,16) gWQ (16,16) dX (16,16) gWTE (27,16) gWPE (16,16)
 zero gradient entries 464</code></pre>
-<p id="p-e1ff29af" class="nb">The 464 zeros can be counted by hand. <code>yuheng</code> uses seven tokens: the mark and six letters. The other twenty rows of <code>gWTE</code> are 0: 20 times 16 is 320 entries. The name fills positions 0 to 6. Rows 7 to 15 of <code>gWPE</code> are 0: 9 times 16 is 144 entries. 320 plus 144 is 464.</p>
+<p id="p-badb3ef0" class="nb">Another run counted where the zeros lie:</p>
+<pre class="vb nb out" id="o-d9985d4a" data-kind="output"><code>zeros in wte part 320  in wpe part 144  in the rest 0
+zero rows of gWTE: 0 1 2 3 5 8 9 10 11 12 14 15 16 17 18 19 21 22 23 25
+zero rows of gWPE: 7 8 9 10 11 12 13 14 15</code></pre>
+<p id="p-238e1561" class="nb"><code>yuheng</code> uses seven tokens: the mark, 26, and the letters <code>e</code>, <code>g</code>, <code>h</code>, <code>n</code>, <code>u</code>, <code>y</code>, which are 4, 6, 7, 13, 20, 24. The other twenty rows of <code>gWTE</code> are 0: 20 times 16 is 320 entries. The name fills positions 0 to 6. Rows 7 to 15 of <code>gWPE</code> are 0: 9 times 16 is 144 entries. 320 plus 144 is 464. Every entry of the other seven matrices is different from 0.</p>
 </section>
 </section>
 <nav class="pager" aria-label="Parts"><a class="prev" href="mlp-loss.html"><span>Previous</span> 5. The feed-forward block and the loss</a><a class="next" href="adam.html"><span>Next</span> 7. Adam and the training loop</a></nav>

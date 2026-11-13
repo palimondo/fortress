@@ -89,7 +89,7 @@ The learning rate falls in a straight line from `lr0`, 0.01, at step 0, towards 
 lr(0) = 0.01 lr(1) = 0.00999 lr(999) = 1.000000000000001E-5
 ```
 
-`lr0 (...)` is a number beside a number: the product. `1.0 s` turns the integer `s` into a float. The line needs it. In Fortress, `/` between two integers gives an exact fraction, a value of the type `QQ`: for `s` = 3, a run printed `s / nSteps` as `3/1000`. The library has no product of a float and such a fraction, and the line without `1.0` stops with "Failed to find any matching overload". With the float on the left, the division gives a float.
+`lr0 (...)` is a number beside a number: the product. `1.0 s` turns the integer `s` into a float. The line needs it. In Fortress, `/` between two integers gives an exact fraction, a value of the type `QQ` (the gap ledger's row 174 records this as the rule): for `s` = 3, a run printed `s / nSteps` as `3/1000`. The library has no product of a float and such a fraction, and the line without `1.0` stops with "Failed to find any matching overload". With the float on the left, the division gives a float.
 
 The schedule is set for 1,000 steps, as in Karpathy's program. The loop below runs five.
 
