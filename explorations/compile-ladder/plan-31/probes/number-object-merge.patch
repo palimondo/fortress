@@ -1,0 +1,857 @@
+diff --git a/Library/FortressLibrary.fsi b/Library/FortressLibrary.fsi
+index 5944539ff9..8c69125148 100644
+--- a/Library/FortressLibrary.fsi
++++ b/Library/FortressLibrary.fsi
+@@ -288,10 +288,8 @@ end
+ trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
+ end
+ 
+-trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
++value object RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
+                      AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
+-        excludes { QQ, AnyIntegral, RR32 }
+-        comprises { Float }
+     coerce(x: ZZ32)
+     coerce(x: RR32)
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+@@ -509,9 +507,7 @@ trait Integral[\I extends Integral[\I\]\] extends { StandardTotalOrder[\I\], Mul
+     even(self): Boolean
+ end
+ 
+-trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+-        excludes { ZZ, NN32 }
+-        comprises { UnsignedLong }
++value object NN64 extends { AnyIntegral, Integral[\NN64\] }
+     coerce(x: NN32)
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     getter asZZ32(): ZZ32
+@@ -572,9 +568,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     big(self):ZZ
+ end
+ 
+-trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+-        excludes { ZZ64, ZZ, NN64, NN32 }
+-        comprises { Int }
++value object ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     getter zero(): ZZ32
+     getter one(): ZZ32
+@@ -644,9 +638,7 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     signed(self):ZZ32
+ end
+ 
+-trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+-        excludes { ZZ, NN64, NN32 }
+-        comprises { Long }
++value object ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     coerce(x: ZZ32)
+     coerce(x: NN32)
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+@@ -717,9 +709,7 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     signed(self):ZZ64
+ end
+ 
+-trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+-        excludes { NN64, NN32 }
+-        comprises { BigNum }
++value object ZZ extends { AnyIntegral, Integral[\ZZ\] }
+     coerce(x: ZZ32)
+     coerce(x: ZZ64)
+     coerce(x: NN32)
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 50570cd4a3..a0dd9aa37a 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -380,20 +380,34 @@ end
+ trait Number extends { AnyAdditiveGroup, AnyMultiplicativeRing }
+ end
+ 
+-trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
++value object RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\],
+                      AdditiveGroup[\RR64\], MultiplicativeRing[\RR64\] }
+-        excludes { QQ, AnyIntegral, RR32 }
+-        comprises { Float }
+     coerce(x: ZZ32) = asFloat(x)
+     coerce(x: RR32) = asFloat(x)
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = numeralRR64(v, r.asZZ32, 0)
+     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = numeralRR64(v, r.asZZ32, m.asZZ32)
+     getter zero(): RR64 = 0.0
+     getter one(): RR64 = 1.0
++    getter asString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
++    getter asExprString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
+     (** returns true if the value is an IEEE NaN **)
+-    getter isNaN(): Boolean = false
++    getter isNaN(): Boolean =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleIsNaN")
+     (** returns true if the value is an IEEE infinity **)
+-    getter isInfinite(): Boolean = false
++    getter isInfinite(): Boolean =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleIsInfinite")
++    (** obtain the raw bits of the IEEE floating-point representation of this value. **)
++    getter rawBits():ZZ64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRawBits")
++    getter signBit():ZZ32 = if self.rawBits < 0 then 1 else 0 end
++    (** next higher IEEE float **)
++    getter nextUp():RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNextUp")
++    (** next lower IEEE float **)
++    getter nextDown():RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNextDown")
+     (** returns true if the value is a valid number (not NaN) **)
+     getter isNumber(): Boolean = NOT self.isNaN
+     (** returns true if the value is finite **)
+@@ -404,79 +418,136 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
+     (** check_star returns Just(its argument) if it is non-NaN, otherwise Nothing. **)
+     getter check_star(): Maybe[\RR64\] =
+         if self.isNaN then Nothing[\RR64\] else Just[\RR64\](self) end
+-    (** obtain the raw bits of the IEEE floating-point representation of this value. **)
+-    getter rawBits():ZZ64 = asFloat(self).rawBits
+-    getter signBit():ZZ32 = if self.rawBits < 0 then 1 else 0 end
+-    (** next higher IEEE float **)
+-    getter nextUp():RR64 = asFloat(self).nextUp
+-    (** next lower IEEE float **)
+-    getter nextDown():RR64 = asFloat(self).nextDown
+-    opr |self| : RR64 = |asFloat(self)|
+-    asFloat(self): RR64
+-    opr =(self, b:RR64):Boolean = asFloat(self) = asFloat(b)
++    asFloat(self): RR64 = self
++    (** returns a value of type RR32 **)
++    narrow(self): RR32 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToFloat")
++    opr |self| : RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAbs")
++    opr =(self, b:RR64):Boolean =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleEQ")
++    opr =/=(self, b:RR64):Boolean =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNE")
++    opr <(self, b:RR64):Boolean =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLT")
++    opr <=(self, b:RR64):Boolean =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLE")
++    opr >(self, b:RR64):Boolean =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleGT")
++    opr >=(self, b:RR64):Boolean =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleGE")
++    (** In case of NaN, %MIN% and %MAX% return a NaN, otherwise it respects the
++        total order. **)
++    opr MIN(self, b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMin")
++    opr MAX(self, b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMax")
++    opr MINMAX(self, b:RR64): (RR64,RR64) = (self MIN b, self MAX b)
++
++    opr -(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNeg")
++    opr +(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
++    opr -(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSub")
++    opr DOT(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMul")
++    opr TIMES(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMul")
++    opr juxtaposition
++         (self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMul")
++    opr /(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDiv")
++    opr SQRT(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSQRT")
++    opr PLUS_UP(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAddUpNoNaN")
++    opr MINUS_UP(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSubUpNoNaN")
++    opr DOT_UP(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMulUpNoNaN")
++    opr SLASH_UP(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDivUpNoNaN")
++    opr SQRT_UP(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSqrtUp")
++    opr PLUS_DOWN(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAddDownNoNaN")
++    opr MINUS_DOWN(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSubDownNoNaN")
++    opr DOT_DOWN(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMulDownNoNaN")
++    opr SLASH_DOWN(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDivDownNoNaN")
++    opr SQRT_DOWN(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSqrtDown")
++    opr IEEE_PLUS_UP(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAddUp")
++    opr IEEE_MINUS_UP(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSubUp")
++    opr IEEE_DOT_UP(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMulUp")
++    opr IEEE_SLASH_UP(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDivUp")
++    opr IEEE_PLUS_DOWN(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAddDown")
++    opr IEEE_MINUS_DOWN(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSubDown")
++    opr IEEE_DOT_DOWN(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMulDown")
++    opr IEEE_SLASH_DOWN(self,b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDivDown")
++    opr ^(self, b:RR32):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePowFloat")
++    opr ^(self, b:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePow")
++    opr ^(self, b:ZZ32):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePowInt")
++    opr ^(self, b:AnyIntegral):RR64 = typecase b of
++        c:ZZ32 ⇒ self^(asFloat(c))
++        c:ZZ64 ⇒ self^(asFloat(c))
++        c:NN32 ⇒ self^(asFloat(c))
++        c:NN64 ⇒ self^(asFloat(c))
++        c:ZZ ⇒ self^(asFloat(c))
++      end
++    sin(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSin")
++    cos(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleCos")
++    tan(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleTan")
++    asin(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleASin")
++    acos(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleACos")
++    atan(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleATan")
++    atan2(self, x:RR64):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleATan2")
++    log(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLog")
++    exp(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleExp")
++    floor(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleFloor")
++    opr |\self/| : ZZ64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleIFloor")
++    ceiling(self):RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleCeiling")
++    opr |/self\| : ZZ64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleICeiling")
++    truncate(self):ZZ64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleTruncate")
++    round(self):ZZ64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRound")
+     opr =(self, b:ZZ32):Boolean = do c: RR64 = b; (self = c) end
+     opr =(self, b:RR32):Boolean = do c: RR64 = b; (self = c) end
+-    opr <(self, b:RR64):Boolean = asFloat(self) < asFloat(b)
+-    opr <=(self, b:RR64):Boolean = asFloat(self) <= asFloat(b)
+-    opr >(self, b:RR64):Boolean = asFloat(self) > asFloat(b)
+-    opr >=(self, b:RR64):Boolean = asFloat(self) >= asFloat(b)
+     opr CMP(self, b:RR64):Comparison =
+         if self<b then LessThan
+         elif self>b then GreaterThan
+         elif self=b then EqualTo
+         else Unordered
+         end
+-    (** In case of NaN, %MIN% and %MAX% return a NaN, otherwise it respects the
+-        total order. **)
+-    opr MIN(self, b:RR64):RR64 = asFloat(self) MIN asFloat(b)
+-    opr MAX(self, b:RR64):RR64 = asFloat(self) MAX asFloat(b)
+-    opr MINMAX(self, b:RR64):(RR64,RR64) = asFloat(self) MINMAX asFloat(b)
+-
+-    opr -(self):RR64 = -asFloat(self)
+-    opr +(self,b:RR64):RR64 = asFloat(self) + asFloat(b)
+-    opr -(self,b:RR64):RR64 = asFloat(self) - asFloat(b)
+-    opr DOT(self,b:RR64):RR64 = asFloat(self) DOT asFloat(b)
+-    opr TIMES(self,b:RR64):RR64 = asFloat(self) TIMES asFloat(b)
+-    opr juxtaposition
+-         (self,b:RR64):RR64 = asFloat(self) asFloat(b)
+-    opr /(self,b:RR64):RR64 = asFloat(self) / asFloat(b)
+-    opr SQRT(self):RR64 = SQRT asFloat(self)
+-    opr PLUS_UP(self,b:RR64):RR64 = asFloat(self) PLUS_UP asFloat(b)
+-    opr MINUS_UP(self,b:RR64):RR64 = asFloat(self) MINUS_UP asFloat(b)
+-    opr DOT_UP(self,b:RR64):RR64 = asFloat(self) DOT_UP asFloat(b)
+-    opr SLASH_UP(self,b:RR64):RR64 = asFloat(self) SLASH_UP asFloat(b)
+-    opr SQRT_UP(self):RR64 = SQRT_UP asFloat(self)
+-    opr PLUS_DOWN(self,b:RR64):RR64 = asFloat(self) PLUS_DOWN asFloat(b)
+-    opr MINUS_DOWN(self,b:RR64):RR64 = asFloat(self) MINUS_DOWN asFloat(b)
+-    opr DOT_DOWN(self,b:RR64):RR64 = asFloat(self) DOT_DOWN asFloat(b)
+-    opr SLASH_DOWN(self,b:RR64):RR64 = asFloat(self) SLASH_DOWN asFloat(b)
+-    opr SQRT_DOWN(self):RR64 = SQRT_DOWN asFloat(self)
+-    opr IEEE_PLUS_UP(self,b:RR64):RR64 = asFloat(self) IEEE_PLUS_UP asFloat(b)
+-    opr IEEE_MINUS_UP(self,b:RR64):RR64 = asFloat(self) IEEE_MINUS_UP asFloat(b)
+-    opr IEEE_DOT_UP(self,b:RR64):RR64 = asFloat(self) IEEE_DOT_UP asFloat(b)
+-    opr IEEE_SLASH_UP(self,b:RR64):RR64 = asFloat(self) IEEE_SLASH_UP asFloat(b)
+-    opr IEEE_PLUS_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_PLUS_DOWN asFloat(b)
+-    opr IEEE_MINUS_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_MINUS_DOWN asFloat(b)
+-    opr IEEE_DOT_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_DOT_DOWN asFloat(b)
+-    opr IEEE_SLASH_DOWN(self,b:RR64):RR64 = asFloat(self) IEEE_SLASH_DOWN asFloat(b)
+-    opr ^(self, b:RR64):RR64 = (asFloat(self))^b
+-    (** Shouldn't need this extra declaration. **)
+-    opr ^(self, b:AnyIntegral):RR64 = (asFloat(self))^b
+-    sin(self):RR64 = sin(asFloat(self))
+-    cos(self):RR64 = cos(asFloat(self))
+-    tan(self):RR64 = tan(asFloat(self))
+-    asin(self):RR64 = asin(asFloat(self))
+-    acos(self):RR64 = acos(asFloat(self))
+-    atan(self):RR64 = atan(asFloat(self))
+-    atan2(self, x:RR64):RR64 = atan2(asFloat(self), x)
+-    log(self):RR64 = log(asFloat(self))
+-    exp(self):RR64 = exp(asFloat(self))
+-    floor(self):RR64 = floor(asFloat(self))
+-    opr |\self/| : ZZ64 = |\asFloat(self)/|
+-    ceiling(self):RR64 = ceiling(asFloat(self))
+-    opr |/self\| : ZZ64 = |/asFloat(self)\|
+-    truncate(self):ZZ64 = truncate(asFloat(self))
+-    round(self): ZZ = round(asFloat(self))
+     (** %MINNUM% and %MAXNUM% return a numeric result where possible (avoiding NaN).
+         Note that %MINNUM% and %MAX% form a lattice with NaN at the top, and
+         that %MAXNUM% and %MIN% form a lattice with NaN at the bottom.  **)
+@@ -500,8 +571,6 @@ trait RR64 extends { Number, StandardPartialOrder[\RR64\], StandardMinMax[\RR64\
+             r
+         end
+       end
+-    (** returns a value of type RR32 **)
+-    narrow(self): RR32 = narrow(asFloat(self))
+ end
+ 
+ simplestRationalBetween(a:QQ, b:QQ): QQ = label done
+@@ -772,10 +841,12 @@ private highExponent32(isOdd:Boolean, unitBase:Boolean):ZZ32 =
+ private lowExponent32(isOdd:Boolean):ZZ32 =
+     if isOdd then -2147483647 else -2147483647 - 1 end
+ 
+-trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+-        excludes { ZZ64, ZZ, NN64, NN32 }
+-        comprises { Int }
++value object ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asZZ32
++    getter asString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToString")
++    getter asExprString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToString")
+     getter zero(): ZZ32 = 0
+     getter one(): ZZ32 = 1
+     getter minimum(): ZZ32 = -2147483647 - 1
+@@ -788,7 +859,8 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     getter bitsAsNN32(): NN32 = unsigned(self)
+ 
+     opr |self| : ZZ32 = if self>=0 then self else -self end
+-    asFloat(self): RR64
++    asFloat(self): RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToDouble")
+     opr =(self, b:ZZ32):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intEQ")
+     opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
+@@ -874,12 +946,14 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     numerator(self): ZZ = do z: ZZ = self; z end
+ end
+ 
+-trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+-        excludes { ZZ, NN64, NN32 }
+-        comprises { Long }
++value object ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     coerce(x: ZZ32) = widen(x)
+     coerce(x: NN32) = signed(widen(x))
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asZZ64
++    getter asString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToString")
++    getter asExprString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToString")
+     getter zero(): ZZ64 = widen(0)
+     getter one(): ZZ64 = widen(1)
+     getter minimum(): ZZ64 = -9223372036854775807 - 1
+@@ -895,7 +969,8 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+ 
+     opr |self| : ZZ64 = if self>=0 then self else -self end
+ 
+-    asFloat(self): RR64
++    asFloat(self): RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToDouble")
+     opr =(self, b:ZZ64):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longEQ")
+     opr =(self, b:ZZ32):Boolean = do c: ZZ64 = b; (self = c) end
+@@ -983,11 +1058,15 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+     numerator(self): ZZ = do z: ZZ = self; z end
+ end
+ 
+-trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+-        excludes { ZZ, NN32 }
+-        comprises { UnsignedLong }
++value object NN64 extends { AnyIntegral, Integral[\NN64\] }
+     coerce(x: NN32) = widen(x)
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asNN64
++    getter zero(): NN64 = widen(unsigned(0))
++    getter one(): NN64 = widen(unsigned(1))
++    getter asString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
++    getter asExprString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
+     getter asZZ32(): ZZ32 = do
+         s:ZZ64 = signed(self)
+         if s < 0 OR: s > 2147483647 then throw IntegerOverflow else narrow(s) end
+@@ -1002,7 +1081,8 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     getter asZZ(): ZZ = big(self)
+     getter bitsAsZZ64(): ZZ64 = signed(self)
+     opr |self| : NN64 = self
+-    asFloat(self): RR64
++    asFloat(self): RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToDouble")
+     opr =(self, b:NN64):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongEQ")
+     opr =(self, b:NN32):Boolean = do c: NN64 = b; (self = c) end
+@@ -1085,9 +1165,7 @@ trait NN64 extends { AnyIntegral, Integral[\NN64\] }
+     numerator(self): ZZ = do z: ZZ = self; z end
+ end
+ 
+-trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+-        excludes { NN64, NN32 }
+-        comprises { BigNum }
++value object ZZ extends { AnyIntegral, Integral[\ZZ\] }
+     coerce(x: ZZ32) = big(x)
+     coerce(x: ZZ64) = big(x)
+     coerce(x: NN32) = big(signed(widen(x)))
+@@ -1096,6 +1174,10 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+         if b < 0 then b + (big(1) LSHIFT 64) else b end
+       end
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v
++    getter asString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toString")
++    getter asExprString(): String =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toString")
+     getter zero(): ZZ =
+         1934791870947204798109283471902037419 - 1934791870947204798109283471902037419
+     getter one(): ZZ = self.zero + 1
+@@ -1108,7 +1190,8 @@ trait ZZ extends { AnyIntegral, Integral[\ZZ\] }
+     getter asZZ(): ZZ = self
+     numerator(self):ZZ = self
+     opr |self| : ZZ = if self>=0 then self else -self end
+-    asFloat(self): RR64
++    asFloat(self): RR64 =
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toDouble")
+     opr =(self, b: ZZ):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.eq")
+     opr =(self, b:ZZ32):Boolean = do c: ZZ = b; (self = c) end
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+index aefe1b3c95..1c37a37d5c 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+@@ -38,9 +38,6 @@ trait Object extends Any
+     getter toString(): String                (* deprecated *)
+ end
+ 
+-value object Float extends RR64
+-end
+-
+ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+@@ -107,7 +104,7 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
+     opr IEEE_MINUS_DOWN(self,b:RR32):RR32
+     opr IEEE_DOT_DOWN(self,b:RR32):RR32
+     opr IEEE_SLASH_DOWN(self,b:RR32):RR32
+-    opr ^(self, b:Float):RR64
++    opr ^(self, b:RR64):RR64
+     opr ^(self, b:AnyIntegral):RR32
+     floor(self):RR32
+     opr |\self/| : ZZ64
+@@ -123,12 +120,6 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
+     opr MAXNUM(self, b:RR32):RR32
+ end
+ 
+-value object Int extends ZZ32
+-end
+-
+-value object Long extends ZZ64
+-end
+-
+ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     getter asZZ32(): ZZ32
+@@ -190,11 +181,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     big(self):ZZ
+ end
+ 
+-value object UnsignedLong extends NN64
+-end
+-
+-value object BigNum extends ZZ end
+-
+ value object Boolean
+     extends { Condition[\()\], StandardTotalOrder[\Boolean\] }
+ end
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 83ce54a12f..9abc388d25 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -58,153 +58,6 @@ end
+ private object JavaRR64ArrayStoreObject extends JavaRR64ArrayStore
+ end
+ 
+-value object Float extends RR64
+-    getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
+-    getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
+-    (** returns true if the value is an IEEE NaN **)
+-    getter isNaN(): Boolean =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleIsNaN")
+-    (** returns true if the value is an IEEE infinity **)
+-    getter isInfinite(): Boolean =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleIsInfinite")
+-    (** obtain the raw bits of the IEEE floating-point representation of this value. **)
+-    getter rawBits():ZZ64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRawBits")
+-    getter signBit():ZZ32 = if self.rawBits < 0 then 1 else 0 end
+-    (** next higher IEEE float **)
+-    getter nextUp():RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNextUp")
+-    (** next lower IEEE float **)
+-    getter nextDown():RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNextDown")
+-    asFloat(self): RR64 = self
+-    (** returns a value of type RR32 **)
+-    narrow(self): RR32 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToFloat")
+-    opr |self| : RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAbs")
+-    opr =(self, b:Float):Boolean =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleEQ")
+-    opr =/=(self, b:Float):Boolean =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNE")
+-    opr <(self, b:Float):Boolean =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLT")
+-    opr <=(self, b:Float):Boolean =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLE")
+-    opr >(self, b:Float):Boolean =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleGT")
+-    opr >=(self, b:Float):Boolean =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleGE")
+-    (** In case of NaN, %MIN% and %MAX% return a NaN, otherwise it respects the
+-        total order. **)
+-    opr MIN(self, b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMin")
+-    opr MAX(self, b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMax")
+-    opr MINMAX(self, b:Float): (RR64,RR64) = (self MIN b, self MAX b)
+-
+-    opr -(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNeg")
+-    opr +(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
+-    opr -(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSub")
+-    opr DOT(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMul")
+-    opr TIMES(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMul")
+-    opr juxtaposition
+-         (self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMul")
+-    opr /(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDiv")
+-    opr SQRT(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSQRT")
+-    opr PLUS_UP(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAddUpNoNaN")
+-    opr MINUS_UP(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSubUpNoNaN")
+-    opr DOT_UP(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMulUpNoNaN")
+-    opr SLASH_UP(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDivUpNoNaN")
+-    opr SQRT_UP(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSqrtUp")
+-    opr PLUS_DOWN(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAddDownNoNaN")
+-    opr MINUS_DOWN(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSubDownNoNaN")
+-    opr DOT_DOWN(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMulDownNoNaN")
+-    opr SLASH_DOWN(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDivDownNoNaN")
+-    opr SQRT_DOWN(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSqrtDown")
+-    opr IEEE_PLUS_UP(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAddUp")
+-    opr IEEE_MINUS_UP(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSubUp")
+-    opr IEEE_DOT_UP(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMulUp")
+-    opr IEEE_SLASH_UP(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDivUp")
+-    opr IEEE_PLUS_DOWN(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAddDown")
+-    opr IEEE_MINUS_DOWN(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSubDown")
+-    opr IEEE_DOT_DOWN(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleMulDown")
+-    opr IEEE_SLASH_DOWN(self,b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleDivDown")
+-    opr ^(self, b:Float):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePow")
+-    opr ^(self, b:RR32):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePowFloat")
+-    opr ^(self, b:RR64):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePow")
+-    opr ^(self, b:ZZ32):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doublePowInt")
+-    opr ^(self, b:AnyIntegral):RR64 = typecase b of
+-        c:ZZ32 ⇒ self^(asFloat(c))
+-        c:ZZ64 ⇒ self^(asFloat(c))
+-        c:NN32 ⇒ self^(asFloat(c))
+-        c:NN64 ⇒ self^(asFloat(c))
+-        c:ZZ ⇒ self^(asFloat(c))
+-      end
+-    sin(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleSin")
+-    cos(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleCos")
+-    tan(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleTan")
+-    asin(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleASin")
+-    acos(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleACos")
+-    atan(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleATan")
+-    atan2(self, x:RR64):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleATan2")
+-    log(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleLog")
+-    exp(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleExp")
+-    floor(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleFloor")
+-    opr |\self/| : ZZ64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleIFloor")
+-    ceiling(self):RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleCeiling")
+-    opr |/self\| : ZZ64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleICeiling")
+-    truncate(self):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleTruncate")
+-    round(self):ZZ64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleRound")
+-end
+-
+ (* One rounding of a numeral's value into an RR32. *)
+ private numeralRR32(v: ZZ, r: ZZ32, m: ZZ32): RR32 =
+     builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToFloat")
+@@ -335,7 +188,7 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatDivDown")
+     opr ^(self, b:RR32):RR32 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatPow")
+-    opr ^(self, b:Float):RR64 =
++    opr ^(self, b:RR64):RR64 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleFloatArith.floatPowDouble")
+     opr ^(self, b:AnyIntegral):RR32 = narrow((asFloat(self))^b)
+     floor(self):RR32 =
+@@ -376,24 +229,6 @@ value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax
+       end
+ end
+ 
+-value object Int extends ZZ32
+-    getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToString")
+-    getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToString")
+-    asFloat(self): RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToDouble")
+-end
+-
+-value object Long extends ZZ64
+-    getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToString")
+-    getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToString")
+-    asFloat(self): RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToDouble")
+-end
+-
+ (* A shift's count of any integer type as a ZZ32, for the shifts of an NN32: a
+    count beyond the ZZ32 range saturates at 2^31-1 in magnitude. *)
+ private countNN32(b:AnyIntegral):ZZ32 =
+@@ -530,26 +365,6 @@ value object NN32 extends { AnyIntegral, Integral[\NN32\] }
+     numerator(self): ZZ = do z: ZZ = self; z end
+ end
+ 
+-value object UnsignedLong extends NN64
+-    getter zero(): NN64 = widen(unsigned(0))
+-    getter one(): NN64 = widen(unsigned(1))
+-    getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
+-    getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToString")
+-    asFloat(self): RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedLongArith.unsignedLongToDouble")
+-end
+-
+-value object BigNum extends ZZ
+-    getter asString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toString")
+-    getter asExprString(): String =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toString")
+-    asFloat(self): RR64 =
+-        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleArbitraryPrecisionArith.toDouble")
+-end
+-
+ 
+ value object Boolean
+         extends { Condition[\()\], StandardTotalOrder[\Boolean\] }
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+index 4330292b33..2ffe264762 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildEnvironments.java
+@@ -451,6 +451,21 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+         return Boolean.valueOf(false);
+     }
+ 
++    /** The five number objects that FortressLibrary declares and whose values are native. */
++    private static final java.util.Set<String> NATIVE_NUMBERS =
++            new java.util.HashSet<String>(java.util.Arrays.asList("ZZ32", "ZZ64", "ZZ", "NN64", "RR64"));
++
++    private boolean nativeNumber(String fname) {
++        if (!NATIVE_NUMBERS.contains(fname)) return false;
++        try {
++            HasAt at = containing.getTopLevel().getAt();
++            return at instanceof Component &&
++                   "FortressLibrary".equals(NodeUtil.nameString(((Component) at).getName()));
++        } catch (RuntimeException e) {
++            return false;
++        }
++    }
++
+     protected void forObjectDecl1(ObjectDecl x) {
+         // List<Modifier> mods;
+ 
+@@ -501,8 +516,14 @@ public class BuildEnvironments extends NodeAbstractVisitor<Boolean> {
+ 
+                 // TODO - binding into "containing", or "bindInto"?
+ 
+-                Constructor cl = new Constructor(containing, (FTypeObject) ft, x);
++                Constructor cl = nativeNumber(fname) ?
++                                 BuildNativeEnvironment.nativeConstructorOfClass(containing, (FTypeObject) ft, x,
++                                         "com.sun.fortress.interpreter.glue.prim." + fname) :
++                                 new Constructor(containing, (FTypeObject) ft, x);
+                 guardedPutValue(containing, WellKnownNames.obfuscatedSingletonConstructorName(fname, x), cl, x);
++                // A native number's values exist before its singleton is first read.
++                if (cl instanceof com.sun.fortress.interpreter.evaluator.values.NativeConstructor)
++                    cl.applyConstructor(java.util.Collections.<FValue>emptyList());
+ 
+                 // Create a little expression to run the constructor.
+                 Expr init = ExprFactory.makeTightJuxt(NodeUtil.getSpan(x),
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildNativeEnvironment.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildNativeEnvironment.java
+index e6296d14ce..dbe43b9db7 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildNativeEnvironment.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/BuildNativeEnvironment.java
+@@ -44,7 +44,13 @@ public class BuildNativeEnvironment extends BuildTopLevelEnvironments {
+                                                 ObjectConstructor x,
+                                                 String fname) {
+         String pack = containing.getTopLevel().getRootValue("package").getString();
+-        String classname = pack + "." + fname;
++        return nativeConstructorOfClass(containing, ft, x, pack + "." + fname);
++    }
++
++    public static Constructor nativeConstructorOfClass(Environment containing,
++                                                       FTypeObject ft,
++                                                       ObjectConstructor x,
++                                                       String classname) {
+         try {
+             Class cl = Class.forName(classname);
+             // cl must extend Constructor,
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTraitOrObject.java b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTraitOrObject.java
+index 7748e29c71..ede691ce07 100644
+--- a/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTraitOrObject.java
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/evaluator/types/FTraitOrObject.java
+@@ -96,6 +96,7 @@ abstract public class FTraitOrObject extends FTraitOrObjectOrGeneric {
+ 
+     private void enforceValueness() {
+         if (isValueType()) return;
++        if (this instanceof SymbolicType) return;   // a type parameter bounded by a value type
+         for (FType t : getExtends()) {
+             if (t instanceof FTraitOrObjectOrGeneric && t.isValueType()) {
+                 error(at, errorMsg(this, ": non-value subtype of value type ", t));
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN64.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN64.java
+new file mode 100644
+index 0000000000..f8e949f13e
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/NN64.java
+@@ -0,0 +1,12 @@
++package com.sun.fortress.interpreter.glue.prim;
++
++import com.sun.fortress.interpreter.evaluator.Environment;
++import com.sun.fortress.interpreter.evaluator.types.FTypeObject;
++import com.sun.fortress.nodes.ObjectConstructor;
++
++/** The constructor of the library's object NN64: that of UnsignedLong, under the object's own name. */
++public class NN64 extends UnsignedLong {
++    public NN64(Environment env, FTypeObject selfType, ObjectConstructor def) {
++        super(env, selfType, def);
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/RR64.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/RR64.java
+new file mode 100644
+index 0000000000..3b4074eb13
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/RR64.java
+@@ -0,0 +1,12 @@
++package com.sun.fortress.interpreter.glue.prim;
++
++import com.sun.fortress.interpreter.evaluator.Environment;
++import com.sun.fortress.interpreter.evaluator.types.FTypeObject;
++import com.sun.fortress.nodes.ObjectConstructor;
++
++/** The constructor of the library's object RR64: that of Float, under the object's own name. */
++public class RR64 extends Float {
++    public RR64(Environment env, FTypeObject selfType, ObjectConstructor def) {
++        super(env, selfType, def);
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/ZZ.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/ZZ.java
+new file mode 100644
+index 0000000000..f05a6aa47b
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/ZZ.java
+@@ -0,0 +1,12 @@
++package com.sun.fortress.interpreter.glue.prim;
++
++import com.sun.fortress.interpreter.evaluator.Environment;
++import com.sun.fortress.interpreter.evaluator.types.FTypeObject;
++import com.sun.fortress.nodes.ObjectConstructor;
++
++/** The constructor of the library's object ZZ: that of BigNum, under the object's own name. */
++public class ZZ extends BigNum {
++    public ZZ(Environment env, FTypeObject selfType, ObjectConstructor def) {
++        super(env, selfType, def);
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/ZZ64.java b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/ZZ64.java
+new file mode 100644
+index 0000000000..eaa407c7d3
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/interpreter/glue/prim/ZZ64.java
+@@ -0,0 +1,12 @@
++package com.sun.fortress.interpreter.glue.prim;
++
++import com.sun.fortress.interpreter.evaluator.Environment;
++import com.sun.fortress.interpreter.evaluator.types.FTypeObject;
++import com.sun.fortress.nodes.ObjectConstructor;
++
++/** The constructor of the library's object ZZ64: that of Long, under the object's own name. */
++public class ZZ64 extends Long {
++    public ZZ64(Environment env, FTypeObject selfType, ObjectConstructor def) {
++        super(env, selfType, def);
++    }
++}
+diff --git a/ProjectFortress/tests/NativeHelperFloatCarriedWalk.fss b/ProjectFortress/tests/NativeHelperFloatCarriedWalk.fss
+index ff8ef2b0cb..22fd6baa34 100644
+--- a/ProjectFortress/tests/NativeHelperFloatCarriedWalk.fss
++++ b/ProjectFortress/tests/NativeHelperFloatCarriedWalk.fss
+@@ -2,8 +2,8 @@
+ component NativeHelperFloatCarriedWalk
+ export Executable
+ 
+-floatSum(a:Float, b:Float):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
+-floatNegated(a:RR64):Float = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNeg")
++floatSum(a:RR64, b:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleAdd")
++floatNegated(a:RR64):RR64 = builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleNeg")
+ 
+ run():() = do
+   assert(floatSum(asFloat(2.5), asFloat(-0.75)), 1.75, "floatSum")
