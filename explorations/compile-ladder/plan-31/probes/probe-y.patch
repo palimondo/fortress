@@ -1,0 +1,1236 @@
+diff --git a/Library/FlatString.fsi b/Library/FlatString.fsi
+index 707d2dc889..91ae1cf3a9 100644
+--- a/Library/FlatString.fsi
++++ b/Library/FlatString.fsi
+@@ -13,7 +13,11 @@ api FlatString
+ 
+   lineSeparator: String
+ 
+-  object FlatString extends { String, DelegatedIndexed[\Char, ZZ32\] }
++  (* SWITCH HACK (rehearsal): FlatString is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++  object FlatStringCarrier extends FlatString end
++
++  trait FlatString extends { String, DelegatedIndexed[\Char, ZZ32\] }
++          comprises { FlatStringCarrier }
+     opr ||(self, b:FlatString): String
+     opr ||(self, b:String):String
+     opr ||(self, b:Char): String
+diff --git a/Library/FlatString.fss b/Library/FlatString.fss
+index 9761cf65d3..9fb7dfe4da 100644
+--- a/Library/FlatString.fss
++++ b/Library/FlatString.fss
+@@ -26,12 +26,16 @@ private natLineSeparator(): String = builtinPrimitive(
+             "com.sun.fortress.nativeHelpers.stringOps.lineSeparator")
+ 
+ private LineSeparator(): String =do
+-    ignore(FlatString); (* This initializes the constructor for FlatString
++    (* This initializes the constructor for FlatString
+                    before its type is used (in the next line). *)
+     natLineSeparator()
+   end
+ 
+-object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
++(* SWITCH HACK (rehearsal): FlatString is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++object FlatStringCarrier extends FlatString end
++
++trait FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
++        comprises { FlatStringCarrier }
+     getter size() : ZZ32 =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleConcatenate.nativeStrlen")
+     getter asExprString() : String =
+@@ -60,8 +64,7 @@ object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
+        SubString objects into code that may still expect FlatStrings.
+        As written, this method always answers a FlatString.
+        In any case, the FlatString object supports substring without copying*)
+-        assert((r1 ∩ self.bounds).isEmpty, r1.isEmpty,
+-                    "Empty substring of non-empty string")
++        (* SWITCH HACK (rehearsal): the varargs assert left out, row 624 *)
+         if r1.isEmpty then ""
+         else self.javaSubstr(r1.left.get, r1.right.get + 1)    (* Java substr's endIndex is one past the last character *)
+         end
+@@ -106,7 +109,8 @@ object FlatString extends { String, DelegatedIndexed⟦Char, ZZ32⟧ }
+       end
+ 
+     verify():() = do
+-        assert(self.depth, 0, self)
++        (* SWITCH HACK (rehearsal): the varargs assert left out, row 624 *)
++        ()
+     end
+ 
+     asDebugStringIndented(indent: ZZ32): String =
+diff --git a/Library/FortressLibrary.fss b/Library/FortressLibrary.fss
+index 50570cd4a3..0aa6847d18 100644
+--- a/Library/FortressLibrary.fss
++++ b/Library/FortressLibrary.fss
+@@ -788,7 +788,8 @@ trait ZZ32 extends { AnyIntegral, Integral[\ZZ32\], Index }
+     getter bitsAsNN32(): NN32 = unsigned(self)
+ 
+     opr |self| : ZZ32 = if self>=0 then self else -self end
+-    asFloat(self): RR64
++    asFloat(self): RR64 = (* SWITCH HACK (rehearsal): the body of the object below this trait, which no compiled value is *)
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intToDouble")
+     opr =(self, b:ZZ32):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleIntArith.intEQ")
+     opr =(self, b:RR64):Boolean = do c: RR64 = self; (c = b) end
+@@ -895,7 +896,8 @@ trait ZZ64 extends { AnyIntegral, Integral[\ZZ64\] }
+ 
+     opr |self| : ZZ64 = if self>=0 then self else -self end
+ 
+-    asFloat(self): RR64
++    asFloat(self): RR64 = (* SWITCH HACK (rehearsal): the body of the object below this trait, which no compiled value is *)
++        builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longToDouble")
+     opr =(self, b:ZZ64):Boolean =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleLongArith.longEQ")
+     opr =(self, b:ZZ32):Boolean = do c: ZZ64 = b; (self = c) end
+@@ -2186,12 +2188,7 @@ trait Indexed[\E, I extends Index\] extends Generator[\E\]
+     (** indexOf(e) returns an index at which e can be found,
+         or Nothing if no such index exists. **)
+     indexOf(e:E): Maybe[\I\] =
+-        label found
+-            for (i,v) <- self.indexValuePairs, v=e do
+-                exit found with Just[\I\](i)
+-            end
+-            Nothing[\I\]
+-        end found
++        fail[\Maybe[\I\]\]("SWITCH HACK (rehearsal): label and exit, row 81")
+ end
+ 
+ trait ZeroIndexed[\E\] extends Indexed[\E,ZZ32\]
+@@ -4366,8 +4363,8 @@ opr (t:(ZZ32,ZZ32,ZZ32))# :
+   end
+ 
+ opr (x:ZZ32): : LeftRange[\ZZ32\] = x#
+-opr (x:(ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32)\] = x#
+-opr (x:(ZZ32,ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = x#
++opr (x:(ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32)\] = fail[\LeftRange[\(ZZ32,ZZ32)\]\]("SWITCH HACK (rehearsal): row 819")
++opr (x:(ZZ32,ZZ32,ZZ32)): : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = fail[\LeftRange[\(ZZ32,ZZ32,ZZ32)\]\]("SWITCH HACK (rehearsal): row 819")
+ 
+ opr #(x:ZZ32) : RangeWithExtent[\ZZ32\] = extent1Range(x)
+ opr #(xy:(ZZ32,ZZ32)) : RangeWithExtent[\(ZZ32,ZZ32)\] =
+@@ -4409,8 +4406,8 @@ openRange[\I\](): OpenRange[\I\] =
+ *)
+ 
+ opr (l:ZZ32):: : LeftRange[\ZZ32\] = l#
+-opr (l:(ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32)\] = l#
+-opr (l:(ZZ32,ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = l#
++opr (l:(ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32)\] = fail[\LeftRange[\(ZZ32,ZZ32)\]\]("SWITCH HACK (rehearsal): row 819")
++opr (l:(ZZ32,ZZ32,ZZ32)):: : LeftRange[\(ZZ32,ZZ32,ZZ32)\] = fail[\LeftRange[\(ZZ32,ZZ32,ZZ32)\]\]("SWITCH HACK (rehearsal): row 819")
+ 
+ opr ::(s:ZZ32) : OpenRange[\ZZ32\] = open1Range(s)
+ opr ::(ij:(ZZ32,ZZ32)) : OpenRange[\(ZZ32,ZZ32)\] =
+@@ -4981,18 +4978,8 @@ trait Generator2[\ E \]
+   generate2[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R = do
+     ths = theorems[\ R, L1, L2 \]()
+     i : ZZ32 := 0
+-    label dispatchingLoop
+-    while dispatchingEnabled() AND i < |ths| do
+-      (condition, efficientImpl) = ths[i]
+-      if(condition(q, r, f)) then
+-        (* println("use efficient implementaion") *)
+-        exit dispatchingLoop with efficientImpl(q, r, f)
+-      end
+-      i += 1
+-    end
+-    (* println("use naive implementaion") *)
++    (* SWITCH HACK (rehearsal): label and exit, row 81; the naive implementation always *)
+     naiveImpl[\ R, L1, L2 \](q, r, f)
+-    end dispatchingLoop
+   end
+ 
+   naiveImpl[\ R, L1, L2 \](q : ActualReduction[\ R, L1 \], r : ActualReduction[\ R, L2 \], f : E -> R) : R = q.unlift(generate[\L1\](q, (fn (x) => q.lift(r.unlift(x.generate[\L2\](r,fn a => r.lift(f(a))))))))
+diff --git a/Library/Stream.fsi b/Library/Stream.fsi
+index fc2fe80767..73713a9fcb 100644
+--- a/Library/Stream.fsi
++++ b/Library/Stream.fsi
+@@ -57,8 +57,7 @@ trait WriteStream extends { Closeable }
+         strings are appended together monolithically to the end of the
+         stream.  The %println% method also appends a newline.  Both
+         then flush the stream. *)
+-    print(args:Any...): ()
+-    println(args:Any...): ()
++    (* SWITCH HACK (rehearsal): the varargs print and println left out, row 624 *)
+ 
+     (** %flush% any output to the stream that is still buffered. **)
+     abstract flush():()
+diff --git a/Library/Stream.fss b/Library/Stream.fss
+index f4df1259f2..cb579cebd1 100644
+--- a/Library/Stream.fss
++++ b/Library/Stream.fss
+@@ -67,8 +67,7 @@ trait WriteStream extends { Closeable }
+         strings are appended together monolithically to the end of the
+         stream.  The %println% method also appends a newline.  Both
+         then flush the stream. *)
+-    print(args:Any...): () = do writes(args,""); flush() end
+-    println(args:Any...): () = do writes(args,"\n"); flush() end
++    (* SWITCH HACK (rehearsal): the varargs print and println left out, row 624 *)
+ 
+     (** %flush% any output to the stream that is still buffered. **)
+     abstract flush():()
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+index aefe1b3c95..4016d113c1 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fsi
+@@ -38,11 +38,18 @@ trait Object extends Any
+     getter toString(): String                (* deprecated *)
+ end
+ 
+-value object Float extends RR64
++(* SWITCH HACK (rehearsal): Float is a trait so that a hand-written run-time class can carry it. *)
++value object FloatCarrier extends Float end
++
++value trait Float extends RR64 comprises { FloatCarrier }
+ end
+ 
+-value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
++(* SWITCH HACK (rehearsal): RR32 is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object RR32Carrier extends RR32 end
++
++value trait RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
++        comprises { RR32Carrier }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\])
+     (** returns true if the value is an IEEE NaN **)
+@@ -129,7 +136,11 @@ end
+ value object Long extends ZZ64
+ end
+ 
+-value object NN32 extends { AnyIntegral, Integral[\NN32\] }
++(* SWITCH HACK (rehearsal): NN32 is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object NN32Carrier extends NN32 end
++
++value trait NN32 extends { AnyIntegral, Integral[\NN32\] }
++        comprises { NN32Carrier }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\])
+     getter asZZ32(): ZZ32
+     getter asZZ64(): ZZ64
+@@ -195,11 +206,19 @@ end
+ 
+ value object BigNum extends ZZ end
+ 
+-value object Boolean
++(* SWITCH HACK (rehearsal): Boolean is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object BooleanCarrier extends Boolean end
++
++value trait Boolean
+     extends { Condition[\()\], StandardTotalOrder[\Boolean\] }
++        comprises { BooleanCarrier }
+ end
+ 
+-value object Char extends { StandardTotalOrder[\Char\] }
++(* SWITCH HACK (rehearsal): Char is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object CharCarrier extends Char end
++
++value trait Char extends { StandardTotalOrder[\Char\] }
++        comprises { CharCarrier }
+     (** %char.codePoint% converts %char% to the equivalent integer code point.
+         It is always the case that %c = char(c.codePoint())% for %c : Char%. **)
+     getter codePoint(): ZZ32
+diff --git a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+index 83ce54a12f..de45a03b93 100644
+--- a/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
++++ b/ProjectFortress/LibraryBuiltin/FortressBuiltin.fss
+@@ -58,7 +58,10 @@ end
+ private object JavaRR64ArrayStoreObject extends JavaRR64ArrayStore
+ end
+ 
+-value object Float extends RR64
++(* SWITCH HACK (rehearsal): Float is a trait so that a hand-written run-time class can carry it. *)
++value object FloatCarrier extends Float end
++
++value trait Float extends RR64 comprises { FloatCarrier }
+     getter asString(): String =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.doubleToString")
+     getter asExprString(): String =
+@@ -209,8 +212,12 @@ end
+ private numeralRR32(v: ZZ, r: ZZ32, m: ZZ32): RR32 =
+     builtinPrimitive("com.sun.fortress.nativeHelpers.simpleDoubleArith.numeralToFloat")
+ 
+-value object RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
++(* SWITCH HACK (rehearsal): RR32 is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object RR32Carrier extends RR32 end
++
++value trait RR32 extends { Number, StandardPartialOrder[\RR32\], StandardMinMax[\RR32\],
+                             AdditiveGroup[\RR32\], MultiplicativeRing[\RR32\] }
++        comprises { RR32Carrier }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = numeralRR32(v, r.asZZ32, 0)
+     coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = numeralRR32(v, r.asZZ32, m.asZZ32)
+     getter zero(): RR32 = narrow(0.0)
+@@ -424,10 +431,14 @@ private exponentNN32(b:AnyIntegral):ZZ32 =
+                 else c.asZZ32 end
+     end
+ 
+-value object NN32 extends { AnyIntegral, Integral[\NN32\] }
++(* SWITCH HACK (rehearsal): NN32 is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object NN32Carrier extends NN32 end
++
++value trait NN32 extends { AnyIntegral, Integral[\NN32\] }
++        comprises { NN32Carrier }
+     coerce[\nat n, nat r, nat v\](x: NaturalNumeral[\n, r, v\]) = v.asNN32
+-    getter zero(): Number = unsigned(0)
+-    getter one(): Number = unsigned(1)
++    getter zero(): NN32 = unsigned(0)
++    getter one(): NN32 = unsigned(1)
+     getter asString(): String =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleUnsignedIntArith.unsignedIntToString")
+     getter asExprString(): String =
+@@ -551,8 +562,12 @@ value object BigNum extends ZZ
+ end
+ 
+ 
+-value object Boolean
++(* SWITCH HACK (rehearsal): Boolean is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object BooleanCarrier extends Boolean end
++
++value trait Boolean
+         extends { Condition[\()\], StandardTotalOrder[\Boolean\] }
++        comprises { BooleanCarrier }
+     getter holds(): Boolean = self
+     getter get(): () = ()
+     getter asString(): String = self.asExprString
+@@ -587,7 +602,11 @@ end
+ 
+ myJavaDigit(x:Char, radix:ZZ32): ZZ32 = javaDigit(x, radix)
+ 
+-value object Char extends { StandardTotalOrder[\Char\] }
++(* SWITCH HACK (rehearsal): Char is a trait so that a hand-written run-time class can carry it; this object keeps its exclusions. *)
++value object CharCarrier extends Char end
++
++value trait Char extends { StandardTotalOrder[\Char\] }
++        comprises { CharCarrier }
+     getter asString(): String =
+         builtinPrimitive("com.sun.fortress.nativeHelpers.simpleChar.charToString")
+     getter asExprString(): String =
+diff --git a/ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/FJavaArrayStore.java b/ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/FJavaArrayStore.java
+new file mode 100644
+index 0000000000..88d35f2204
+--- /dev/null
++++ b/ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/FJavaArrayStore.java
+@@ -0,0 +1,16 @@
++// SWITCH HACK (rehearsal): the compiled carrier of the one library's JavaArrayStore, a FortressArrayStore in a field.
++package com.sun.fortress.compiler.runtimeValues;
++
++public class FJavaArrayStore extends fortress.FortressLibrary.JavaArrayStore.DefaultTraitMethods implements fortress.FortressLibrary.JavaArrayStore {
++    final FortressArrayStore val;
++    FJavaArrayStore(FortressArrayStore x) { val = x; }
++    public String toString() { return "[JavaArrayStore]"; }
++    public FortressArrayStore getValue() { return val; }
++    public static FJavaArrayStore make(FortressArrayStore x) { return new FJavaArrayStore(x); }
++    @Override
++    public RTTI getRTTI() { return RTTIc.ONLY; }
++    public static class RTTIc extends RTTI {
++        private RTTIc() { super(FJavaArrayStore.class); }
++        public static final RTTI ONLY = new RTTIc();
++    }
++}
+diff --git a/ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/FJavaRR64ArrayStore.java b/ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/FJavaRR64ArrayStore.java
+new file mode 100644
+index 0000000000..c93be15c7c
+--- /dev/null
++++ b/ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/FJavaRR64ArrayStore.java
+@@ -0,0 +1,16 @@
++// SWITCH HACK (rehearsal): the compiled carrier of the one library's JavaRR64ArrayStore, a FortressRR64ArrayStore in a field.
++package com.sun.fortress.compiler.runtimeValues;
++
++public class FJavaRR64ArrayStore extends fortress.FortressLibrary.JavaRR64ArrayStore.DefaultTraitMethods implements fortress.FortressLibrary.JavaRR64ArrayStore {
++    final FortressRR64ArrayStore val;
++    FJavaRR64ArrayStore(FortressRR64ArrayStore x) { val = x; }
++    public String toString() { return "[JavaRR64ArrayStore]"; }
++    public FortressRR64ArrayStore getValue() { return val; }
++    public static FJavaRR64ArrayStore make(FortressRR64ArrayStore x) { return new FJavaRR64ArrayStore(x); }
++    @Override
++    public RTTI getRTTI() { return RTTIc.ONLY; }
++    public static class RTTIc extends RTTI {
++        private RTTIc() { super(FJavaRR64ArrayStore.class); }
++        public static final RTTI ONLY = new RTTIc();
++    }
++}
+diff --git a/ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/LibraryNames.java b/ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/LibraryNames.java
+new file mode 100644
+index 0000000000..b4e0341ea0
+--- /dev/null
++++ b/ProjectFortress/src-one/com/sun/fortress/compiler/runtimeValues/LibraryNames.java
+@@ -0,0 +1,15 @@
++// PROBE Y: the names that the run time takes from the library that the run selected.
++// This is the one library's copy; ProjectFortress/src holds the prelude's.
++package com.sun.fortress.compiler.runtimeValues;
++
++public final class LibraryNames {
++    public static final String LIBRARY = "one";
++    /** The class of a Fortress exception that a helper raises, written by its prelude name. */
++    // PROBE Y HACK: the helpers' 99 raise strings stay the prelude's and are mapped here; all of them are
++    // FortressLibrary's in the one library (switch-rehearsal.md, W2).
++    public static String exceptionClass(String preludeName) {
++        for (String p : new String[] { "fortress.CompilerBuiltin$", "fortress.CompilerLibrary$" })
++            if (preludeName.startsWith(p)) return "fortress.FortressLibrary$" + preludeName.substring(p.length());
++        return preludeName;
++    }
++}
+diff --git a/ProjectFortress/src-one/fortress/FlatStringC.java b/ProjectFortress/src-one/fortress/FlatStringC.java
+new file mode 100644
+index 0000000000..07d85e2feb
+--- /dev/null
++++ b/ProjectFortress/src-one/fortress/FlatStringC.java
+@@ -0,0 +1,16 @@
++// SWITCH HACK (rehearsal): bootstrap stubs of the one library's types that hand-written run-time classes extend,
++// as fortress/CompilerBuiltin.java is for the compiler's prelude.
++package fortress;
++
++import com.sun.fortress.compiler.runtimeValues.FValue;
++import com.sun.fortress.compiler.runtimeValues.RTTI;
++
++public class FlatStringC {
++    public static interface FlatString extends fortress.FortressLibrary.String {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements FlatString {}
++    }
++}
+diff --git a/ProjectFortress/src-one/fortress/FortressBuiltin.java b/ProjectFortress/src-one/fortress/FortressBuiltin.java
+new file mode 100644
+index 0000000000..9c86532be0
+--- /dev/null
++++ b/ProjectFortress/src-one/fortress/FortressBuiltin.java
+@@ -0,0 +1,79 @@
++// SWITCH HACK (rehearsal): bootstrap stubs of the one library's types that hand-written run-time classes extend,
++// as fortress/CompilerBuiltin.java is for the compiler's prelude.
++package fortress;
++
++import com.sun.fortress.compiler.runtimeValues.FValue;
++import com.sun.fortress.compiler.runtimeValues.RTTI;
++
++public class FortressBuiltin {
++    public static interface Object extends fortress.AnyType.Any {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Object {}
++    }
++    public static interface Boolean extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Boolean {}
++    }
++    public static interface RR32 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements RR32 {}
++    }
++    public static interface NN32 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements NN32 {}
++    }
++    public static interface Char extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Char {}
++    }
++    public static interface Int extends fortress.FortressLibrary.ZZ32 {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Int {}
++    }
++    public static interface Long extends fortress.FortressLibrary.ZZ64 {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Long {}
++    }
++    public static interface Float extends fortress.FortressLibrary.RR64 {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements Float {}
++    }
++    public static interface UnsignedLong extends fortress.FortressLibrary.NN64 {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements UnsignedLong {}
++    }
++    public static interface BigNum extends fortress.FortressLibrary.ZZ {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements BigNum {}
++    }
++}
+diff --git a/ProjectFortress/src-one/fortress/FortressLibrary.java b/ProjectFortress/src-one/fortress/FortressLibrary.java
+new file mode 100644
+index 0000000000..4cedbf3357
+--- /dev/null
++++ b/ProjectFortress/src-one/fortress/FortressLibrary.java
+@@ -0,0 +1,79 @@
++// SWITCH HACK (rehearsal): bootstrap stubs of the one library's types that hand-written run-time classes extend,
++// as fortress/CompilerBuiltin.java is for the compiler's prelude.
++package fortress;
++
++import com.sun.fortress.compiler.runtimeValues.FValue;
++import com.sun.fortress.compiler.runtimeValues.RTTI;
++
++public class FortressLibrary {
++    public static interface ZZ32 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements ZZ32 {}
++    }
++    public static interface ZZ64 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements ZZ64 {}
++    }
++    public static interface RR64 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements RR64 {}
++    }
++    public static interface NN64 extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements NN64 {}
++    }
++    public static interface ZZ extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements ZZ {}
++    }
++    public static interface String extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements String {}
++    }
++    public static interface JavaBufferedReader extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaBufferedReader {}
++    }
++    public static interface JavaBufferedWriter extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaBufferedWriter {}
++    }
++    public static interface JavaArrayStore extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaArrayStore {}
++    }
++    public static interface JavaRR64ArrayStore extends fortress.FortressBuiltin.Object {
++        public static class RTTIc extends RTTI{
++            public RTTIc(Class javaRep) { super(javaRep); }
++            public static RTTI ONLY;
++        }
++        public static abstract class DefaultTraitMethods extends FValue implements JavaRR64ArrayStore {}
++    }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/Shell.java b/ProjectFortress/src/com/sun/fortress/Shell.java
+index eb2fd67f2a..46e85f42ed 100644
+--- a/ProjectFortress/src/com/sun/fortress/Shell.java
++++ b/ProjectFortress/src/com/sun/fortress/Shell.java
+@@ -374,8 +374,15 @@ public final class Shell {
+ 	setExtendsObjectPreDesugaring(false);
+ 	setAssignmentPreDesugaring(false);
+ 	setAssignmentDesugaring(true);
+-        WellKnownNames.useCompilerLibraries();
+-        Types.useCompilerLibraries();
++        // PROBE Y: the compiled path reads the library that the command selected.
++        if (WellKnownNames.compiledPathUsesOneLibrary) {
++            WellKnownNames.useFortressLibraries();
++            Types.useFortressLibraries();
++        } else {
++            WellKnownNames.useCompilerLibraries();
++            Types.useCompilerLibraries();
++        }
++        com.sun.fortress.runtimeSystem.ByteCodeWriter.keepFirstCopyOfAClass = WellKnownNames.compiledPathUsesOneLibrary;
+     }
+ 
+     public static void useInterpreterLibraries() {
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+index 4c7b84c807..865bddd667 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+@@ -599,6 +599,25 @@ public class NamingCzar {
+         bl(fortLib, "ZZ32Vector", "FZZ32Vector");
+         bl(fortLib, "StringVector", "FStringVector");
+         bl(NodeFactory.makeVoidType(span), "FVoid");
++        // SWITCH HACK (rehearsal): the one library's types that a hand-written run-time class carries.
++        // PROBE Y: only where the one library is selected, since each row also enters the type's bare name.
++        if (WellKnownNames.compiledPathUsesOneLibrary) {
++        bl(oneLib, "ZZ32", "FZZ32");
++        bl(oneLib, "ZZ64", "FZZ64");
++        bl(oneLib, "RR64", "FRR64");
++        bl(oneLib, "NN64", "FNN64");
++        bl(oneLib, "ZZ", "FZZ");
++        bl(oneLib, "JavaBufferedReader", "FJavaBufferedReader");
++        bl(oneLib, "JavaBufferedWriter", "FJavaBufferedWriter");
++        bl(oneLib, "JavaArrayStore", "FJavaArrayStore");
++        bl(oneLib, "JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl(oneBuiltin, "Float", "FRR64");
++        bl(oneBuiltin, "Boolean", "FBoolean");
++        bl(oneBuiltin, "RR32", "FRR32");
++        bl(oneBuiltin, "NN32", "FNN32");
++        bl(oneBuiltin, "Char", "FCharacter");
++        bl(NodeFactory.makeAPIName(span, "FlatString"), "FlatString", "FJavaString");
++        }
+     }
+ 
+     /**
+@@ -798,7 +817,8 @@ public class NamingCzar {
+             if (! s1.equals(s2)) {
+                 // System.err.println(s1 + " MISMATCH " + s2);
+             }
+-            result[i] = s2;
++            // SWITCH HACK (rehearsal): a carried type in an extends clause is its own interface, not its carrier class.
++            result[i] = (WellKnownNames.compiledPathUsesOneLibrary && specialFortressTypes.containsKey(parentType)) ? s1 : s2;
+         }
+         return result;
+     }
+@@ -825,6 +845,10 @@ public class NamingCzar {
+         if (!(sep.equals("."))) {
+             api = Useful.replace(api, ".", sep);
+         }
++        // SWITCH HACK (rehearsal): FlatString's classes go in the package fortress, so that FJavaString, a Java class in a
++        // named package, can extend FlatString's class.
++        // Its outer class is FlatStringC, since Java source allows no class FlatString nested in a class FlatString.
++        if (WellKnownNames.compiledPathUsesOneLibrary && api.equals("FlatString")) return fortressPackage + sep + "FlatStringC";
+         if (!defaultLib) return api;
+         return fortressPackage + sep + api;
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+index 194f22caeb..6dce91210d 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java
+@@ -901,7 +901,7 @@ nameTemp + "\n" +
+     
+     protected String generateClosureTableOwner(TaggedFunctionName f) {
+         //throw new CompilerError("need to determine naming scheme for function instantiated closure tables");
+-        return Naming.dotToSep(f.tagA.getText());
++        return NamingCzar.javaPackageClassForApi(f.tagA) /* SWITCH HACK: was Naming.dotToSep(f.tagA.getText()), without the package fortress */;
+     }
+     
+     /**
+@@ -1358,7 +1358,7 @@ nameTemp + "\n" +
+         for (Param p : f.getParameters()) ps.add((Param) p.accept(atT));
+         String sig = NamingCzar.jvmSignatureFor(ps,
+                 NamingCzar.jvmBoxedTypeDesc(atT.replaceIn(f.getReturnType()), f.tagA), f.tagA);
+-        String owner = Naming.dotToSep(f.tagA.getText());
++        String owner = NamingCzar.javaPackageClassForApi(f.tagA) /* SWITCH HACK: was Naming.dotToSep(f.tagA.getText()), without the package fortress */;
+         String arrow = instanceArrowSchema(f);
+         String fname = functionName(f);
+         if (otherOverloadKeys.contains(Naming.genericFunctionPkgClass(owner, fname,
+@@ -1721,11 +1721,11 @@ nameTemp + "\n" +
+                 
+                 
+                 String templateClass = Naming.genericFunctionPkgClass(
+-                        Naming.dotToSep(f.tagA.getText()), functionName, Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
++                        NamingCzar.javaPackageClassForApi(f.tagA) /* SWITCH HACK: was Naming.dotToSep(f.tagA.getText()), without the package fortress */, functionName, Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
+                 
+                 if (otherOverloadKeys.contains(templateClass)) {
+                     templateClass = Naming.genericFunctionPkgClass(
+-                            Naming.dotToSep(f.tagA.getText()), NamingCzar.mangleAwayFromOverload(functionName), Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
++                            NamingCzar.javaPackageClassForApi(f.tagA) /* SWITCH HACK: was Naming.dotToSep(f.tagA.getText()), without the package fortress */, NamingCzar.mangleAwayFromOverload(functionName), Naming.LEFT_OXFORD + Naming.RIGHT_OXFORD, arrow);
+                     //templateClass = NamingCzar.mangleAwayFromOverload(templateClass);
+                 }
+                 
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java b/ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java
+index 0ac121119a..104cbe1b81 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/WellKnownNames.java
+@@ -141,6 +141,14 @@ public class WellKnownNames {
+             new String[] { fortressLibrary(), fortressBuiltin(), anyTypeLibrary() };
+     }
+ 
++    /**
++     * PROBE Y: the library that this JVM's compiled path uses: the compiler's prelude, or, with
++     * FORTRESS_LIBRARY=one in the environment (or -Dfortress.library=one), the interpreter's library.
++     * bin/fortress_classpath reads the same variable for the run.
++     */
++    public static final boolean compiledPathUsesOneLibrary =
++        "one".equals(System.getProperty("fortress.library", System.getenv("FORTRESS_LIBRARY")));
++
+     public static boolean areCompilerLibraries() {
+         return _fortressLibrary.equals("CompilerLibrary");
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+index 579aaebaaa..6683f9b2c5 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java
+@@ -490,6 +490,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+          */
+         OverloadingOracle oa = new OverloadingOracle(ta);
+         for (Map.Entry<Id,TypeConsIndex> ent : some_traits.entrySet()) {
++            try {   // PROBE: one trait whose inherited methods cannot be computed
++                    // must not end the whole component.
+             TypeConsIndex tci = ent.getValue();
+             Id id = ent.getKey();
+             List <StaticParam>  tci_sps = tci.staticParameters();
+@@ -546,6 +548,15 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+                 }
+                
+             }
++            } catch (Throwable __t) {
++                if (!WellKnownNames.compiledPathUsesOneLibrary) throw __t; // PROBE Y: the prelude keeps its refusals   // PROBE
++                StackTraceElement[] __st = __t.getStackTrace();
++                System.out.println("@@CG CTORFAIL\t" + ent.getKey()
++                                   + "\t" + com.sun.fortress.nodes_util.NodeUtil.getSpan((com.sun.fortress.nodes.ASTNode) ent.getValue().ast())
++                                   + "\t" + __t.getClass().getName()
++                                   + "\t" + (__st.length > 0 ? __st[0].toString() : "?")
++                                   + "\t" + String.valueOf(__t.getMessage()).replace('\n', ' ').replace('\t', ' '));
++            }
+         }
+         
+         this.topLevelOverloads =
+@@ -1951,6 +1962,22 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+ //                " and an expr ", link.getExpr(), " What do we do now");
+     }
+ 
++    private CodeGenClassWriter probeRootCw;
++
++    // PROBE helper: a short name for a top-level declaration.
++    static String probeDeclName(Decl d) {
++        String kind = d.getClass().getSimpleName();
++        String name;
++        try {
++            if (d instanceof TraitObjectDecl) name = ((TraitObjectDecl) d).getHeader().getName().toString();
++            else if (d instanceof FnDecl) name = ((FnDecl) d).getHeader().getName().toString();
++            else if (d instanceof VarDecl) name = ((VarDecl) d).getLhs().toString();
++            else name = d.toString();
++        } catch (Throwable t) { name = "?"; }
++        if (name.length() > 90) name = name.substring(0, 90) + "...";
++        return kind + " " + name.replace('\n', ' ').replace('\t', ' ');
++    }
++
+     public void forComponent(Component x) {
+         debug("forComponent ",x.getName(),NodeUtil.getSpan(x));
+ 
+@@ -1977,7 +2004,11 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             }
+         }
+ 
++        probeRootCw = cw; // SWITCH HACK: a refused trait or object must not leave its class writer in place of the component's
+         for (Decl d : x.getDecls()) {
++            // PROBE: the pre-pass over objects and top-level variables runs before
++            // the declaration loop below; one failure here must not end the run.
++            try {
+             if (d instanceof ObjectDecl) {
+                 ObjectDecl od = (ObjectDecl) d;
+                 TraitTypeHeader tth = od.getHeader();
+@@ -1987,10 +2018,53 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             } else if (d instanceof VarDecl) {
+                 this.forVarDeclPrePass((VarDecl)d);
+             }
++            } catch (Throwable __t) {
++                if (!WellKnownNames.compiledPathUsesOneLibrary) throw __t; // PROBE Y: the prelude keeps its refusals
++                StackTraceElement[] __st = __t.getStackTrace();
++                String __where = __st.length > 0 ? (__st[0].getClassName() + "." + __st[0].getMethodName()
++                                                    + ":" + __st[0].getLineNumber()) : "?";
++                System.out.println("@@CG PREFAIL\t" + probeDeclName(d) + "\t" + NodeUtil.getSpan(d)
++                                   + "\t" + __t.getClass().getName() + "\t" + __where
++                                   + "\t" + String.valueOf(__t.getMessage()).replace('\n', ' ').replace('\t', ' '));
++                for (int __i = 0; __i < Math.min(10, __st.length); __i++)
++                    System.out.println("@@CG PREAT\t" + probeDeclName(d) + "\t" + __st[__i]);
++                inATrait = false; inAnObject = false; inABlock = false;
++                currentTraitObjectDecl = null; traitOrObjectName = null;
++                emittingFunctionalMethodWrappers = false; mv = null;
++                cw = probeRootCw; springBoardClass = null;
++            }
+         }
+ 
+         for ( Decl d : x.getDecls() ) {
+-            d.accept(this);
++            // SWITCH HACK (rehearsal), from tools/distance/shadow-patch.py: one declaration that code generation refuses must not end
++            // the run; record it and go on to the next.
++            try {
++                d.accept(this);
++                if (WellKnownNames.compiledPathUsesOneLibrary) System.out.println("@@CG OK\t" + probeDeclName(d) + "\t" + NodeUtil.getSpan(d));
++            } catch (Throwable __t) {
++                if (!WellKnownNames.compiledPathUsesOneLibrary) throw __t; // PROBE Y: the prelude keeps its refusals
++                StackTraceElement[] __st = __t.getStackTrace();
++                String __where = __st.length > 0 ? (__st[0].getClassName() + "." + __st[0].getMethodName()
++                                                    + ":" + __st[0].getLineNumber()) : "?";
++                String __msg = String.valueOf(__t.getMessage()).replace('\n', ' ').replace('\t', ' ');
++                System.out.println("@@CG FAIL\t" + probeDeclName(d) + "\t" + NodeUtil.getSpan(d)
++                                   + "\t" + __t.getClass().getName() + "\t" + __where + "\t" + __msg);
++                for (int __i = 0; __i < Math.min(10, __st.length); __i++)
++                    System.out.println("@@CG AT\t" + probeDeclName(d) + "\t" + __st[__i]);
++                // PROBE: put back the state that forTraitDecl / forObjectDecl set on
++                // the way in and clear on the way out.  There is no try/finally there,
++                // so a caught failure would otherwise leave inATrait / inAnObject set
++                // and every later top-level function would take the method path with a
++                // null currentTraitObjectDecl -- a failure of the probe, not of codegen.
++                inATrait = false;
++                inAnObject = false;
++                inABlock = false;
++                currentTraitObjectDecl = null;
++                traitOrObjectName = null;
++                emittingFunctionalMethodWrappers = false;
++                mv = null;
++                cw = probeRootCw; springBoardClass = null;
++            }
+         }
+ 
+         // Each numeral coercion as one method of the four numbers.
+@@ -5925,7 +5999,8 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             mv.visitTypeInsn(NEW, rttiClassName);
+             // init
+             mv.visitInsn(DUP);
+-            mv.visitLdcInsn(org.objectweb.asm.Type.getType(cnb.classDesc));
++            // SWITCH HACK (rehearsal): a carried type's RTTI names its carrier class, as the descriptors of its values do.
++            mv.visitLdcInsn(org.objectweb.asm.Type.getType(WellKnownNames.compiledPathUsesOneLibrary ? Naming.carrierDesc(cnb.classDesc) : cnb.classDesc));
+             mv.visitMethodInsn(INVOKESPECIAL, rttiClassName, "<init>", "(Ljava/lang/Class;)V");
+             // store
+             mv.visitFieldInsn(PUTSTATIC, rttiClassName,
+@@ -7672,6 +7747,14 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+             ) {
+ 
+         Set<String> overloaded_names_and_sigs = new HashSet<String>();
++        // PROBE: OverloadSet.split's exclusion tests do not terminate in any
++        // usable time on this library's comprises hierarchy.  With
++        // -Dprobe.skipOverloads=true the overload dispatch methods are not
++        // generated at all, so the per-declaration loop below is reached.
++        if (Boolean.getBoolean("probe.skipOverloads")) {
++            System.out.println("@@CG OVLSKIP\t" + api_name + "\tsets=" + size_partitioned_overloads.size());
++            return overloaded_names_and_sigs;
++        }
+ 
+         for (Map.Entry<IdOrOpOrAnonymousName, MultiMap<Integer, Functional>> entry1 :
+                  size_partitioned_overloads.entrySet()) {
+@@ -7683,6 +7766,7 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+                 int i = entry.getKey();
+                 Set<Functional> fs = entry.getValue();
+                 Functional one_f = fs.iterator().next();
++                try {   // PROBE: one refused overload set must not end the component
+ 
+                 OverloadSet os = overload_factory.make(api_name, name,
+                             ta, fs, i);
+@@ -7724,6 +7808,17 @@ public class CodeGen extends NodeAbstractVisitor_void implements Opcodes {
+                 }
+                 
+                 overloaded_names_and_sigs.addAll(os.getOtherKeys());
++                } catch (Throwable __t) {
++                if (!WellKnownNames.compiledPathUsesOneLibrary) throw __t; // PROBE Y: the prelude keeps its refusals
++                    StackTraceElement[] __st = __t.getStackTrace();
++                    String __where = __st.length > 0 ? (__st[0].getClassName() + "." + __st[0].getMethodName()
++                                                        + ":" + __st[0].getLineNumber()) : "?";
++                    System.out.println("@@CG OVLFAIL\t" + name.stringName() + "/" + i
++                                       + "\t" + __t.getClass().getName() + "\t" + __where
++                                       + "\t" + String.valueOf(__t.getMessage()).replace('\n', ' ').replace('\t', ' '));
++                    for (int __i = 0; __i < Math.min(10, __st.length); __i++)
++                        System.out.println("@@CG OVLAT\t" + name.stringName() + "/" + i + "\t" + __st[__i]);
++                }
+ 
+            }
+         }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java
+index 82997045f4..b3d3e61baf 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenClassWriter.java
+@@ -51,8 +51,8 @@ public class CodeGenClassWriter extends ManglingClassWriter {
+         signature = Naming.mangleFortressIdentifier(signature);
+         desc = Naming.mangleMethodSignature(desc);
+ 
+-        return new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
+-                                        super.visitNoMangleMethod(access, name, desc, signature, exceptions));
++        return hackTrack(new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
++                                        hackOnce(access, name, desc, signature, exceptions)));
+     }
+ 
+     public CodeGenMethodVisitor visitCGMethod(int access, String name, String desc, String signature, String[] exceptions) {
+@@ -60,11 +60,86 @@ public class CodeGenClassWriter extends ManglingClassWriter {
+         signature = Naming.mangleFortressIdentifier(signature);
+         desc = Naming.mangleMethodSignature(desc);
+ 
+-        return new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
+-                                        super.visitNoMangleMethod(access, name, desc, signature, exceptions));
++        return hackTrack(new CodeGenMethodVisitor(access, name, desc, signature, exceptions,
++                                        hackOnce(access, name, desc, signature, exceptions)));
++    }
++
++    // SWITCH HACK (rehearsal): the methods begun on this class, so that one left open is closed before the class is written.
++    private final java.util.List<CodeGenMethodVisitor> hackOpen = new java.util.ArrayList<CodeGenMethodVisitor>();
++    // SWITCH HACK (rehearsal): each method is kept apart until the class is written.  A method written twice into
++    // one class (row 571's kind) keeps its first copy; a method that a refused declaration left without its
++    // visitMaxs is written as a body that throws.
++    private static class HackNode extends org.objectweb.asm.tree.MethodNode {
++        boolean maxs = false;
++        HackNode(int access, String name, String desc, String signature, String[] exceptions) {
++            super(org.objectweb.asm.Opcodes.ASM9, access, name, desc, signature, exceptions);
++        }
++        public void visitMaxs(int a, int b) { maxs = true; super.visitMaxs(a, b); }
++    }
++    private final java.util.Set<String> hackSeen = new java.util.HashSet<String>();
++    private final java.util.List<HackNode> hackNodes = new java.util.ArrayList<HackNode>();
++    private MethodVisitor hackOnce(int access, String name, String desc, String signature, String[] exceptions) {
++        // PROBE Y: the prelude's classes are written as before.
++        if (!com.sun.fortress.compiler.WellKnownNames.compiledPathUsesOneLibrary)
++            return super.visitNoMangleMethod(access, name, desc, signature, exceptions);
++        HackNode n = new HackNode(access, name, desc, signature, exceptions);
++        if (!hackSeen.add(name + " " + desc)) {
++            // The copy that calls a static method of this class itself is the class's own declaration; it is
++            // preferred to a copy that forwards to an inherited one.  Otherwise the first copy stays.
++            System.out.println("@@CG DUP\t" + hackClassName + "\t" + name + "\t" + desc);
++            hackAlternatives.add(n);
++            return n;
++        }
++        hackNodes.add(n);
++        return n;
++    }
++    @Override public byte[] toByteArray() { hackFlush(); return super.toByteArray(); }
++    private CodeGenMethodVisitor hackTrack(CodeGenMethodVisitor m) { return m; }
++    private String hackClassName = "?";
++    private final java.util.List<HackNode> hackAlternatives = new java.util.ArrayList<HackNode>();
++    @Override
++    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
++        hackClassName = name;
++        super.visit(version, access, name, signature, superName, interfaces);
++    }
++    private boolean hackCallsOwn(HackNode n) {
++        for (org.objectweb.asm.tree.AbstractInsnNode i = n.instructions.getFirst(); i != null; i = i.getNext())
++            if (i instanceof org.objectweb.asm.tree.MethodInsnNode
++                && i.getOpcode() == org.objectweb.asm.Opcodes.INVOKESTATIC
++                && ((org.objectweb.asm.tree.MethodInsnNode) i).owner.equals(hackClassName)) return true;
++        return false;
++    }
++    private void hackFlush() {
++        for (HackNode alt : hackAlternatives) {
++            for (int k = 0; k < hackNodes.size(); k++) {
++                HackNode first = hackNodes.get(k);
++                if (first.name.equals(alt.name) && first.desc.equals(alt.desc)) {
++                    if (alt.maxs && hackCallsOwn(alt) && !hackCallsOwn(first)) {
++                        System.out.println("@@CG DUPSWAP\t" + hackClassName + "\t" + alt.name + "\t" + alt.desc);
++                        hackNodes.set(k, alt);
++                    }
++                    break;
++                }
++            }
++        }
++        hackAlternatives.clear();
++        for (HackNode n : hackNodes) {
++            String[] ex = n.exceptions == null ? null : n.exceptions.toArray(new String[0]);
++            MethodVisitor real = super.visitNoMangleMethod(n.access, n.name, n.desc, n.signature, ex);
++            boolean noBody = (n.access & (org.objectweb.asm.Opcodes.ACC_ABSTRACT | org.objectweb.asm.Opcodes.ACC_NATIVE)) != 0;
++            if (noBody || n.maxs) { n.accept(real); continue; }
++            System.out.println("@@CG CLOSED\t" + n.name + "\t" + n.desc);
++            real.visitCode();
++            real.visitInsn(org.objectweb.asm.Opcodes.ACONST_NULL);
++            real.visitInsn(org.objectweb.asm.Opcodes.ATHROW);
++            real.visitMaxs(1, 1);
++            real.visitEnd();
++        }
++        hackNodes.clear();
+     }
+ 
+     private String dumpClass0( String unmangledFileName ) {
++        hackFlush();
+         visitEnd();
+ 
+         String file = Naming.mangleFortressIdentifier(unmangledFileName);
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenMethodVisitor.java b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenMethodVisitor.java
+index 44cf86a6a6..b526dc86da 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenMethodVisitor.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGenMethodVisitor.java
+@@ -94,7 +94,24 @@ public class CodeGenMethodVisitor extends MethodVisitor {
+                     " argumentTypes = " , argumentTypes , " resultType " , resultType);
+     }
+ 
++    // SWITCH HACK (rehearsal): a method that a refused declaration left open is closed with a throw.
++    boolean hackCode = false, hackMaxs = false, hackEnd = false;
++    public void visitCode() { hackCode = true; super.visitCode(); }
++    public void visitEnd() { hackEnd = true; super.visitEnd(); }
++    void hackClose() {
++        if (hackEnd) return;
++        if ((access & (org.objectweb.asm.Opcodes.ACC_ABSTRACT | org.objectweb.asm.Opcodes.ACC_NATIVE)) == 0 && !hackMaxs) {
++            if (!hackCode) visitCode();
++            visitInsn(org.objectweb.asm.Opcodes.ACONST_NULL);
++            visitInsn(org.objectweb.asm.Opcodes.ATHROW);
++            visitMaxs(1, 1);
++            System.out.println("@@CG CLOSED\t" + name + "\t" + desc);
++        }
++        visitEnd();
++    }
++
+     public void visitMaxs(int maxStack, int maxLocals) {
++        hackMaxs = true;
+         dumpBytecodes();
+         super.visitMaxs(maxStack, maxLocals);
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java b/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
+index d45f09a12d..e9b224de09 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
+@@ -74,6 +74,27 @@ class fortressConverter {
+ 
+ }
+ 
++/** SWITCH HACK (rehearsal): a helper's Java String at the one library's trait String, carried by FJavaString. */
++class stringTraitConverter extends fortressConverter {
++    stringTraitConverter() { super("FJavaString", "getValue", "()Ljava/lang/String;", "make", "(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;"); }
++    void convertArg(MethodVisitor mv, String classDesc) {
++        mv.visitTypeInsn(Opcodes.CHECKCAST, "com/sun/fortress/compiler/runtimeValues/FJavaString");
++        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/FJavaString", toJavaTypeMethod, toJavaTypeMethodDesc);
++    }
++    void convertResult(MethodVisitor mv, String classDesc) {
++        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/sun/fortress/compiler/runtimeValues/FJavaString", constructor, constructorType);
++    }
++}
++
++/** SWITCH HACK (rehearsal): a helper's Java Object at Any: the value itself, cast on the way out. */
++class anyConverter extends fortressConverter {
++    anyConverter() { super(null, null, null, null, null); }
++    void convertArg(MethodVisitor mv, String classDesc) { }
++    void convertResult(MethodVisitor mv, String classDesc) {
++        mv.visitTypeInsn(Opcodes.CHECKCAST, "fortress/AnyType$Any");
++    }
++}
++
+ class emptyConverter extends fortressConverter {
+     static final emptyConverter ONLY = new emptyConverter();
+     private emptyConverter() {
+@@ -154,6 +175,12 @@ public class FortressMethodAdapter extends ClassVisitor {
+         initializeEntry("FZZ", "getValue", "()Ljava/math/BigInteger;",
+                 "make", "(Ljava/math/BigInteger;)L" + prefix + "FZZ;");
+         initializeEntry("FVector", "getValue", "()[I" , "make","([I)L"+ prefix + "FVector;");
++        conversionTable.put("FortressLibrary$String", new stringTraitConverter()); // SWITCH HACK
++        conversionTable.put("AnyType$Any", new anyConverter()); // SWITCH HACK
++        initializeEntry("FJavaArrayStore", "getValue", "()Lcom/sun/fortress/compiler/runtimeValues/FortressArrayStore;",
++                                    "make", "(Lcom/sun/fortress/compiler/runtimeValues/FortressArrayStore;)L" + prefix + "FJavaArrayStore;"); // SWITCH HACK
++        initializeEntry("FJavaRR64ArrayStore", "getValue", "()Lcom/sun/fortress/compiler/runtimeValues/FortressRR64ArrayStore;",
++                                    "make", "(Lcom/sun/fortress/compiler/runtimeValues/FortressRR64ArrayStore;)L" + prefix + "FJavaRR64ArrayStore;"); // SWITCH HACK
+     }
+ 
+     // Strip off the leading L + prefix, and trailing ;"
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java
+new file mode 100644
+index 0000000000..f8ee4e4059
+--- /dev/null
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/LibraryNames.java
+@@ -0,0 +1,9 @@
++// PROBE Y: the names that the run time takes from the library that the run selected.
++// This is the prelude's copy; ProjectFortress/src-one holds the one library's.
++package com.sun.fortress.compiler.runtimeValues;
++
++public final class LibraryNames {
++    public static final String LIBRARY = "prelude";
++    /** The class of a Fortress exception that a helper raises, written by its prelude name. */
++    public static String exceptionClass(String preludeName) { return preludeName; }
++}
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java
+index 8b0f5d3db3..b3d49d90dd 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/Utility.java
+@@ -26,6 +26,7 @@ public final class Utility {
+     }
+ 
+     public static FException makeFortressException(String name, String msg) {
++	name = LibraryNames.exceptionClass(name); // PROBE Y
+ 	try {
+ 	    Constructor fortressIOException = Class.forName(name).getConstructor(new Class[]{ fortress.CompilerBuiltin.String.class });
+ 	    return new FException((FValue)fortressIOException.newInstance(FJavaString.make(msg == null ? "" : msg)));
+@@ -43,6 +44,7 @@ public final class Utility {
+     }
+ 
+     public static FException makeFortressException(String name) {
++	name = LibraryNames.exceptionClass(name); // PROBE Y
+ 	try {
+ 	    Constructor fortressIOException = Class.forName(name).getConstructor();
+ 	    return new FException((FValue)fortressIOException.newInstance());
+diff --git a/ProjectFortress/src/com/sun/fortress/runtimeSystem/ByteCodeWriter.java b/ProjectFortress/src/com/sun/fortress/runtimeSystem/ByteCodeWriter.java
+index eec162a9e4..8c5d417076 100644
+--- a/ProjectFortress/src/com/sun/fortress/runtimeSystem/ByteCodeWriter.java
++++ b/ProjectFortress/src/com/sun/fortress/runtimeSystem/ByteCodeWriter.java
+@@ -20,6 +20,8 @@ import java.util.jar.JarOutputStream;
+ import java.util.zip.ZipEntry;
+ 
+ public class ByteCodeWriter {
++    /** PROBE Y: the rehearsal's hack for a class written twice applies only where the one library is selected. */
++    public static boolean keepFirstCopyOfAClass = false;
+     static Character dot = '.';
+     static Character slash = '/';
+ 
+@@ -33,7 +35,14 @@ public class ByteCodeWriter {
+         JarEntry ze = new JarEntry(fileName);
+         try {
+             ze.setSize(bytes.length);
+-            jos.putNextEntry(ze);
++            try {
++                jos.putNextEntry(ze);
++            } catch (java.util.zip.ZipException dup) {
++                // SWITCH HACK (rehearsal): a class written twice into the jar (row 315's kind) keeps its first copy.
++                if (!keepFirstCopyOfAClass || !String.valueOf(dup.getMessage()).startsWith("duplicate entry")) throw dup;
++                System.out.println("@@CG DUPCLASS\t" + fileName);
++                return;
++            }
+             jos.write(bytes);
+             jos.closeEntry();
+         } catch (IOException e) {
+diff --git a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
+index 7dd7cbef81..377d7b074a 100644
+--- a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
++++ b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
+@@ -280,6 +280,15 @@ public class Naming {
+     static Map<String, String> specialFortressTypes = new HashMap<String, String>();
+ 
+ 
++    /** SWITCH HACK (rehearsal): the carrier's descriptor for the descriptor of a carried type's own class, else the descriptor. */
++    public static String carrierDesc(String desc) {
++        if (desc.startsWith("Lfortress/") && desc.endsWith(";")) {
++            String tx = specialFortressDescriptors.get(desc.substring(10, desc.length() - 1));
++            if (tx != null) return tx;
++        }
++        return desc;
++    }
++
+     static void bl(String lib, String ft, String cl) {
+         cl = runtimeValues + cl;
+         specialFortressDescriptors.put(lib+ft, "L" + cl + ";");
+@@ -304,6 +313,22 @@ public class Naming {
+         bl("", SNOWMAN, "FVoid");
+         bl("", INTERNAL_SNOWMAN, "FVoid");
+         bl(COMPILER_BUILTIN, "$Vector", "FVector");
++        // SWITCH HACK (rehearsal): the one library's carriers, as NamingCzar's.
++        bl("FortressLibrary", "$ZZ32", "FZZ32");
++        bl("FortressLibrary", "$ZZ64", "FZZ64");
++        bl("FortressLibrary", "$RR64", "FRR64");
++        bl("FortressLibrary", "$NN64", "FNN64");
++        bl("FortressLibrary", "$ZZ", "FZZ");
++        bl("FortressLibrary", "$JavaBufferedReader", "FJavaBufferedReader");
++        bl("FortressLibrary", "$JavaBufferedWriter", "FJavaBufferedWriter");
++        bl("FortressLibrary", "$JavaArrayStore", "FJavaArrayStore");
++        bl("FortressLibrary", "$JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl("FortressBuiltin", "$Float", "FRR64");
++        bl("FortressBuiltin", "$Boolean", "FBoolean");
++        bl("FortressBuiltin", "$RR32", "FRR32");
++        bl("FortressBuiltin", "$NN32", "FNN32");
++        bl("FortressBuiltin", "$Char", "FCharacter");
++        bl("FlatStringC", "$FlatString", "FJavaString");
+     }
+ 
+     public static String opForString(String op, String s) {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+index eb4e82d14f..eec2ac9f66 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+@@ -94,6 +94,11 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
+ 	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
+ 	  if (candidate.isSome && name.toString == "GeneratorLibrary") return candidate
+ 	}
++	// SWITCH HACK (rehearsal): the same search over the one library's two prelude apis.
++	for (lib <- List("FortressLibrary", "FortressBuiltin"); name: APIName <- globalEnv.apiNames) {
++	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
++	  if (candidate.isSome && name.toString == lib) return candidate
++	}
+ // 	for (name: APIName <- globalEnv.apiNames) {
+ // 	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
+ // 	  if (candidate.isSome) return candidate
+diff --git a/bin/fortress_classpath b/bin/fortress_classpath
+index 1db636f9d9..e69e614768 100755
+--- a/bin/fortress_classpath
++++ b/bin/fortress_classpath
+@@ -23,9 +23,17 @@ else
+ fi
+ TP="$FORTRESS_HOME/ProjectFortress/third_party"
+ CACHES="${FORTRESS_CACHES:-$FORTRESS_HOME/default_repository/caches}"
++# PROBE Y: with FORTRESS_LIBRARY=one, the compiled path uses the interpreter's library: the second set of the
++# run time's value classes goes first on the class path.  The caches folder must be the one library's own
++# (FORTRESS_CACHES), since a caches folder holds one library's jars and the programs compiled against it.
++if [ "$FORTRESS_LIBRARY" = "one" ] ; then
++  ONE="$FORTRESS_HOME/ProjectFortress/build-one${SEP}"
++else
++  ONE=""
++fi
+ SV=2.13.18
+ # SV=2.8.0
+ 
+-CLASSPATH="$FORTRESS_HOME/ProjectFortress/build${SEP}${TP}/junit/junit.jar${SEP}${TP}/asm/asm-9.10.1.jar${SEP}${TP}/asm/asm-util-9.10.1.jar${SEP}${TP}/asm/asm-tree-9.10.1.jar${SEP}${TP}/asm/asm-analysis-9.10.1.jar${SEP}${TP}/xtc/xtc.jar${SEP}${TP}/plt/plt.jar${SEP}$JAVA_HOME/lib/tools.jar${SEP}${TP}/unsigned/unsigned.jar${SEP}${TP}/astgen/astgen.jar${SEP}${TP}/scala/scala-compiler-${SV}.jar${SEP}${TP}/scala/scala-library-${SV}.jar${SEP}${TP}/scala/scala-reflect-${SV}.jar${SEP}${TP}/scala/scala-parser-combinators_2.13-1.1.2.jar${SEP}$CACHES/bytecode_cache${SEP}$CLASSPATH"
++CLASSPATH="${ONE}$FORTRESS_HOME/ProjectFortress/build${SEP}${TP}/junit/junit.jar${SEP}${TP}/asm/asm-9.10.1.jar${SEP}${TP}/asm/asm-util-9.10.1.jar${SEP}${TP}/asm/asm-tree-9.10.1.jar${SEP}${TP}/asm/asm-analysis-9.10.1.jar${SEP}${TP}/xtc/xtc.jar${SEP}${TP}/plt/plt.jar${SEP}$JAVA_HOME/lib/tools.jar${SEP}${TP}/unsigned/unsigned.jar${SEP}${TP}/astgen/astgen.jar${SEP}${TP}/scala/scala-compiler-${SV}.jar${SEP}${TP}/scala/scala-library-${SV}.jar${SEP}${TP}/scala/scala-reflect-${SV}.jar${SEP}${TP}/scala/scala-parser-combinators_2.13-1.1.2.jar${SEP}$CACHES/bytecode_cache${SEP}$CLASSPATH"
+ 
+ echo "$CLASSPATH"
+diff --git a/build.xml b/build.xml
+index 63a442de47..55c26dc14b 100644
+--- a/build.xml
++++ b/build.xml
+@@ -822,6 +822,49 @@ testOtherCompiler, testCruiseControl
+       <exclude name="${usefulPackage}/*.java"/>
+       <exclude name="${unicodePackage}/*.java"/>
+     </javac>
++    <!-- PROBE Y: the second set of the run time's value classes, for the one
++         library.  Its sources are the first set's under a map of names, and
++         the hand-written files of ${PF}/src-one; its classes go to
++         ${PF}/build-one, which bin/fortress_classpath puts first when
++         FORTRESS_LIBRARY=one. -->
++    <copy todir="${PF}/build-one-src/com/sun/fortress/compiler/runtimeValues" preservelastmodified="true">
++      <fileset dir="${src}/com/sun/fortress/compiler/runtimeValues">
++        <include name="FBoolean.java"/> <include name="FCharacter.java"/>
++        <include name="FJavaBufferedReader.java"/> <include name="FJavaBufferedWriter.java"/>
++        <include name="FJavaString.java"/> <include name="FNN32.java"/> <include name="FNN64.java"/>
++        <include name="FRR32.java"/> <include name="FRR64.java"/> <include name="FString.java"/>
++        <include name="FZZ.java"/> <include name="FZZ32.java"/> <include name="FZZ64.java"/>
++        <include name="FValue.java"/> <include name="MutableFValue.java"/>
++        <include name="Utility.java"/> <include name="FException.java"/>
++      </fileset>
++      <filterchain>
++        <tokenfilter>
++          <replacestring from="fortress.CompilerBuiltin.RR32, fortress.CompilerBuiltin.RR64 {" to="fortress.FortressBuiltin.RR32 {"/>
++          <replacestring from="fortress.CompilerBuiltin.JavaString" to="fortress.FlatStringC.FlatString"/>
++          <replacestring from="fortress.CompilerBuiltin.RR64" to="fortress.FortressBuiltin.Float"/>
++          <replacestring from="fortress.CompilerBuiltin.Character" to="fortress.FortressBuiltin.Char"/>
++          <replacestring from="fortress.CompilerBuiltin.Boolean" to="fortress.FortressBuiltin.Boolean"/>
++          <replacestring from="fortress.CompilerBuiltin.RR32" to="fortress.FortressBuiltin.RR32"/>
++          <replacestring from="fortress.CompilerBuiltin.NN32" to="fortress.FortressBuiltin.NN32"/>
++          <replacestring from="fortress.CompilerBuiltin." to="fortress.FortressLibrary."/>
++        </tokenfilter>
++      </filterchain>
++    </copy>
++    <mkdir dir="${PF}/build-one"/>
++    <javac encoding="UTF-8"
++        destdir="${PF}/build-one"
++        source="${javaSourceVersion}"
++        target="${javaSourceVersion}"
++        debug="true"
++        includeantruntime="false"
++        fork="true"
++        memorymaximumsize="${junitMem}">
++      <src path="${PF}/build-one-src"/>
++      <src path="${PF}/src-one"/>
++      <classpath refid="compile.classpath"/>
++      <classpath path="${build}"/>
++      <include name="**/*.java"/>
++    </javac>
+     <!-- The stamp of what was built, and the caches that belong to it.
+          When scalac was up to date and javac compiled nothing, the build
+          directory is as checkScalaUptodate found it. -->
