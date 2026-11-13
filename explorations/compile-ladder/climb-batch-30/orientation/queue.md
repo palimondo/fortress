@@ -1,0 +1,8 @@
+<!-- Climb batch 30's orientation judgement: the review-queue items for the sections it held, one per section, in the form of explorations/coordinator/review-queue.md; unnumbered, for the coordinator to file. -->
+
+- **(new).** The orientation's section "Static parameters, `where` clauses and sizes" keeps the skill's text after climb batch 30's update, because the rewrite tells a worker to write the static arguments in all three cases where walk gives `Bottom`, and row 591 gives no such way round: its reproducer, `pick2(Apple, Cherry)` at `T extends { Red, Round }`, has no named type below both bounds. Whether the rewrite goes in once that is settled. Default: the skill's text, as held.
+   - Landed: the section as on `main`. The other six sections are installed from `compile-ladder/climb-batch-30/orientation/orientation.md`.
+   - The other way: the rewrite, with "so write their static arguments" limited to rows 587 and 612, or kept for row 591 after a run under walk shows a written static argument that works there. It also brings the `pick` example's object and row 663, "ignore the condition" for row 774, the `N[\nat n\]` gloss, and the cut of the size's descriptor.
+   - Its cost: one run under walk of row 591's two cases with a written static argument, and one edit of the section, 91 bytes larger than the skill's.
+   - Home: `compile-ladder/climb-batch-30/orientation/judgement.md`, "Per section"; `writer-2.log`, "Could not place", second item; ledger row 591, `ProjectFortress/tests/XXXInferSeveralBoundsWalk.fss`.
+   - Needed by: never; no planned work waits on it, and the skill's text states the three cases without an instruction.
