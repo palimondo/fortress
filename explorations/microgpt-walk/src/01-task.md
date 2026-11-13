@@ -87,6 +87,10 @@ Line 17 declares six names at once. The left side is a tuple of names and the ri
 
 No type is written. A numeral without a point is a `ZZ32`, a signed 32-bit integer. A numeral with a point is an `RR64`, a 64-bit float.
 
+!!! limit
+Under walk these tuple bindings work, and your ruling keeps the form. On the compiled path, a tuple binding at the top level whose names are used stops the compile today (the gap ledger's row 988).
+!!!
+
 Line 18 declares six more constants.
 
 - `epsilon` is `10.0^(-5)`, which is 0.00001. The operator `^` is the power. Part 3 uses `epsilon`.
