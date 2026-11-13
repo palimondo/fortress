@@ -97,3 +97,7 @@ If you would look something up before you act, say what you would look up, where
     Would your lines for (b) and (c) test the same thing on the compiled path?
 
 32. Your program declares a byte type, `value object Byte(b: ZZ32)`, and writes its values as numerals: `x: Byte = 255` must bind the byte 255, and `y: Byte = 300` must be refused. Write the declaration or declarations that make it so, and say where and when `300` is refused, under walk and on the compiled path. Does `z: Byte = 2 + 3` bind? If not, what do you write?
+
+33. Two numerals at the edge of the floats, in walk tests in `ProjectFortress/tests/`.
+    - (a) Your test needs an `RR64` infinity, to compare a function's result with. Inside `run()` you write `inf: RR64 = 10^400`. Does the binding run under walk, and does it compile? If not, how does your test get the infinity?
+    - (b) A walk test that you wrote a week ago binds, at the top level, `wide: RR32 = 340282356779733661637539395458142568448`, and its `run()` prints `wide`. It then printed `Infinity`. On today's tree the test stops at load, 'Type mismatch binding'. What do you conclude, and what do you do with the test?
