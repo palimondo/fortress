@@ -1,0 +1,13 @@
+component PGenUse4
+import GenApi.{...}
+export Executable
+trait Other
+    other(): ZZ32 = 1
+end
+object Rng extends { Other, Ix[\ZZ32\] }
+    one(): ZZ32 = 7
+end
+run(): () = do
+    println(Rng.map[\ZZ32\](fn (x: ZZ32): ZZ32 => x + 1))
+  end
+end

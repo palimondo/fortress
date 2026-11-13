@@ -1,0 +1,13 @@
+component PNumeralTie
+export Executable
+value object Q(v: ZZ32)
+    coerce[\nat n, nat m, nat r, nat v\](x: RadixPointNumeral[\n, m, r, v\]) = Q(1)
+    coerce(x: RR32) = Q(2)
+end
+mul(a: RR64, b: RR64): String = "rr64"
+mul(a: Q, b: Q): String = "q"
+run(): () = do
+    f: RR32 = 2.0
+    println(mul(1.0, f))
+  end
+end

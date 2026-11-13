@@ -1,0 +1,12 @@
+component PComprisesCast
+export Executable
+trait Q comprises { R }
+    getter fin(): Boolean = (den(self) > 0)
+end
+value object R(n: ZZ32, d: ZZ32) extends Q end
+den(r: R): ZZ32 = r.d
+run(): () = do
+    q: Q = R(1, 2)
+    println(q.fin)
+  end
+end

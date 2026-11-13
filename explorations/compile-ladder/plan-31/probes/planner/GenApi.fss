@@ -1,0 +1,8 @@
+component GenApi
+export GenApi
+trait Ix[\E\]
+    one(): E
+    map[\R\](f: E -> R): R = f(self.one())
+    twice(): E = self.one()
+end
+end

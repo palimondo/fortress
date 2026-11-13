@@ -1,0 +1,6 @@
+component PPick3
+export Executable
+k(x: Any): String = "any"
+k(x: NN32): String = "nn32"
+run(): () = println(k(5))
+end

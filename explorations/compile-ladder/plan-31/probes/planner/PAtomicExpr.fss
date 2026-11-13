@@ -1,0 +1,12 @@
+component PAtomicExpr
+export Executable
+object OneShot(var canTryIt: Boolean)
+    tryOnce(): Boolean =
+        atomic if canTryIt then canTryIt := false; true else false end
+end
+run(): () = do
+    o = OneShot(true)
+    println(o.tryOnce())
+    println(o.tryOnce())
+  end
+end

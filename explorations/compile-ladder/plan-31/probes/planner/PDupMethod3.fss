@@ -1,0 +1,38 @@
+component PDupMethod3
+export Executable
+trait Eqq[\T extends Eqq[\T\]\]
+    eqv(self, other: T): Boolean = true
+end
+trait Pord[\T extends Pord[\T\]\] extends { Eqq[\T\] }
+    lt(self, other: T): Boolean = (cmpx(self, other) = -1)
+    cmpx(self, other: T): ZZ32 = if lt(self, other) then -1 elif lt(other, self) then 1 else 0 end
+    eqv(self, other: T): Boolean = (cmpx(self, other) = 0)
+end
+trait Mmx[\T extends Mmx[\T\]\]
+    mnmx(self, other: T): (T, T)
+    mx(self, other: T): T = do (a, r) = mnmx(self, other); r end
+end
+trait Tord[\T extends Tord[\T\]\] extends { Pord[\T\], Mmx[\T\] }
+    cmpx(self, other: T): ZZ32 = if lt(self, other) then -1 elif lt(other, self) then 1 else 0 end
+    mx(self, other: T): T = if lt(other, self) then self else other end
+    mnmx(self, other: T): (T, T) = if lt(other, self) then (other, self) else (self, other) end
+end
+trait Z extends { Tord[\Z\] }
+    getter v(): ZZ32
+    lt(self, other: Z): Boolean = self.v < other.v
+    eqv(self, other: Z): Boolean = self.v = other.v
+    cmpx(self, other: Z): ZZ32 = if lt(self, other) then -1 elif lt(other, self) then 1 else 0 end
+    mnmx(self, other: Z): (Z, Z) = if lt(other, self) then (other, self) else (self, other) end
+end
+object Zint(x: ZZ32) extends Z
+    getter v(): ZZ32 = x
+end
+run(): () = do
+    a: Z = Zint(1)
+    b: Z = Zint(2)
+    println(mx(a, b).v)
+    println(cmpx(a, b))
+    println(lt(a, b))
+    println(eqv(a, b))
+  end
+end

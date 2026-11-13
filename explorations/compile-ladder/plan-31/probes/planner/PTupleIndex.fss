@@ -1,0 +1,13 @@
+component PTupleIndex
+export Executable
+trait Arr[\E, I\]
+    offset(i: I): I
+    get(i: I): E
+    read(i: I): E = self.get(self.offset(i))
+end
+object A2 extends Arr[\ZZ32, (ZZ32, ZZ32)\]
+    offset(t: (ZZ32, ZZ32)): (ZZ32, ZZ32) = t
+    get(t: (ZZ32, ZZ32)): ZZ32 = 7
+end
+run(): () = println(A2.read((3, 4)))
+end

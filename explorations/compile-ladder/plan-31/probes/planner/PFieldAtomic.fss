@@ -1,0 +1,12 @@
+component PFieldAtomic
+export Executable
+object Ctr(var n: ZZ32)
+    getter count(): ZZ32 = n
+    bump(): () = atomic do n := n + 1 end
+end
+run(): () = do
+    c = Ctr(0)
+    for i <- 1#40000 do c.bump() end
+    println(c.count)
+  end
+end

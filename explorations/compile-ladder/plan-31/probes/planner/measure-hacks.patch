@@ -1,0 +1,152 @@
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+index 4c7b84c807..8592d59cce 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java
+@@ -599,6 +599,22 @@ public class NamingCzar {
+         bl(fortLib, "ZZ32Vector", "FZZ32Vector");
+         bl(fortLib, "StringVector", "FStringVector");
+         bl(NodeFactory.makeVoidType(span), "FVoid");
++        // SWITCH HACK (rehearsal): the one library's types that a hand-written run-time class carries.
++        bl(oneLib, "ZZ32", "FZZ32");
++        bl(oneLib, "ZZ64", "FZZ64");
++        bl(oneLib, "RR64", "FRR64");
++        bl(oneLib, "NN64", "FNN64");
++        bl(oneLib, "ZZ", "FZZ");
++        bl(oneLib, "JavaBufferedReader", "FJavaBufferedReader");
++        bl(oneLib, "JavaBufferedWriter", "FJavaBufferedWriter");
++        bl(oneLib, "JavaArrayStore", "FJavaArrayStore");
++        bl(oneLib, "JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl(oneBuiltin, "Float", "FRR64");
++        bl(oneBuiltin, "Boolean", "FBoolean");
++        bl(oneBuiltin, "RR32", "FRR32");
++        bl(oneBuiltin, "NN32", "FNN32");
++        bl(oneBuiltin, "Char", "FCharacter");
++        bl(NodeFactory.makeAPIName(span, "FlatString"), "FlatString", "FJavaString");
+     }
+ 
+     /**
+@@ -798,7 +814,8 @@ public class NamingCzar {
+             if (! s1.equals(s2)) {
+                 // System.err.println(s1 + " MISMATCH " + s2);
+             }
+-            result[i] = s2;
++            // SWITCH HACK (rehearsal): a carried type in an extends clause is its own interface, not its carrier class.
++            result[i] = specialFortressTypes.containsKey(parentType) ? s1 : s2;
+         }
+         return result;
+     }
+@@ -825,6 +842,10 @@ public class NamingCzar {
+         if (!(sep.equals("."))) {
+             api = Useful.replace(api, ".", sep);
+         }
++        // SWITCH HACK (rehearsal): FlatString's classes go in the package fortress, so that FJavaString, a Java class in a
++        // named package, can extend FlatString's class.
++        // Its outer class is FlatStringC, since Java source allows no class FlatString nested in a class FlatString.
++        if (api.equals("FlatString")) return fortressPackage + sep + "FlatStringC";
+         if (!defaultLib) return api;
+         return fortressPackage + sep + api;
+     }
+diff --git a/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java b/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
+index d45f09a12d..e9b224de09 100644
+--- a/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
++++ b/ProjectFortress/src/com/sun/fortress/compiler/nativeInterface/FortressMethodAdapter.java
+@@ -74,6 +74,27 @@ class fortressConverter {
+ 
+ }
+ 
++/** SWITCH HACK (rehearsal): a helper's Java String at the one library's trait String, carried by FJavaString. */
++class stringTraitConverter extends fortressConverter {
++    stringTraitConverter() { super("FJavaString", "getValue", "()Ljava/lang/String;", "make", "(Ljava/lang/String;)Lcom/sun/fortress/compiler/runtimeValues/FJavaString;"); }
++    void convertArg(MethodVisitor mv, String classDesc) {
++        mv.visitTypeInsn(Opcodes.CHECKCAST, "com/sun/fortress/compiler/runtimeValues/FJavaString");
++        mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "com/sun/fortress/compiler/runtimeValues/FJavaString", toJavaTypeMethod, toJavaTypeMethodDesc);
++    }
++    void convertResult(MethodVisitor mv, String classDesc) {
++        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/sun/fortress/compiler/runtimeValues/FJavaString", constructor, constructorType);
++    }
++}
++
++/** SWITCH HACK (rehearsal): a helper's Java Object at Any: the value itself, cast on the way out. */
++class anyConverter extends fortressConverter {
++    anyConverter() { super(null, null, null, null, null); }
++    void convertArg(MethodVisitor mv, String classDesc) { }
++    void convertResult(MethodVisitor mv, String classDesc) {
++        mv.visitTypeInsn(Opcodes.CHECKCAST, "fortress/AnyType$Any");
++    }
++}
++
+ class emptyConverter extends fortressConverter {
+     static final emptyConverter ONLY = new emptyConverter();
+     private emptyConverter() {
+@@ -154,6 +175,12 @@ public class FortressMethodAdapter extends ClassVisitor {
+         initializeEntry("FZZ", "getValue", "()Ljava/math/BigInteger;",
+                 "make", "(Ljava/math/BigInteger;)L" + prefix + "FZZ;");
+         initializeEntry("FVector", "getValue", "()[I" , "make","([I)L"+ prefix + "FVector;");
++        conversionTable.put("FortressLibrary$String", new stringTraitConverter()); // SWITCH HACK
++        conversionTable.put("AnyType$Any", new anyConverter()); // SWITCH HACK
++        initializeEntry("FJavaArrayStore", "getValue", "()Lcom/sun/fortress/compiler/runtimeValues/FortressArrayStore;",
++                                    "make", "(Lcom/sun/fortress/compiler/runtimeValues/FortressArrayStore;)L" + prefix + "FJavaArrayStore;"); // SWITCH HACK
++        initializeEntry("FJavaRR64ArrayStore", "getValue", "()Lcom/sun/fortress/compiler/runtimeValues/FortressRR64ArrayStore;",
++                                    "make", "(Lcom/sun/fortress/compiler/runtimeValues/FortressRR64ArrayStore;)L" + prefix + "FJavaRR64ArrayStore;"); // SWITCH HACK
+     }
+ 
+     // Strip off the leading L + prefix, and trailing ;"
+diff --git a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
+index 7dd7cbef81..377d7b074a 100644
+--- a/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
++++ b/ProjectFortress/src/com/sun/fortress/runtimeSystem/Naming.java
+@@ -280,6 +280,15 @@ public class Naming {
+     static Map<String, String> specialFortressTypes = new HashMap<String, String>();
+ 
+ 
++    /** SWITCH HACK (rehearsal): the carrier's descriptor for the descriptor of a carried type's own class, else the descriptor. */
++    public static String carrierDesc(String desc) {
++        if (desc.startsWith("Lfortress/") && desc.endsWith(";")) {
++            String tx = specialFortressDescriptors.get(desc.substring(10, desc.length() - 1));
++            if (tx != null) return tx;
++        }
++        return desc;
++    }
++
+     static void bl(String lib, String ft, String cl) {
+         cl = runtimeValues + cl;
+         specialFortressDescriptors.put(lib+ft, "L" + cl + ";");
+@@ -304,6 +313,22 @@ public class Naming {
+         bl("", SNOWMAN, "FVoid");
+         bl("", INTERNAL_SNOWMAN, "FVoid");
+         bl(COMPILER_BUILTIN, "$Vector", "FVector");
++        // SWITCH HACK (rehearsal): the one library's carriers, as NamingCzar's.
++        bl("FortressLibrary", "$ZZ32", "FZZ32");
++        bl("FortressLibrary", "$ZZ64", "FZZ64");
++        bl("FortressLibrary", "$RR64", "FRR64");
++        bl("FortressLibrary", "$NN64", "FNN64");
++        bl("FortressLibrary", "$ZZ", "FZZ");
++        bl("FortressLibrary", "$JavaBufferedReader", "FJavaBufferedReader");
++        bl("FortressLibrary", "$JavaBufferedWriter", "FJavaBufferedWriter");
++        bl("FortressLibrary", "$JavaArrayStore", "FJavaArrayStore");
++        bl("FortressLibrary", "$JavaRR64ArrayStore", "FJavaRR64ArrayStore");
++        bl("FortressBuiltin", "$Float", "FRR64");
++        bl("FortressBuiltin", "$Boolean", "FBoolean");
++        bl("FortressBuiltin", "$RR32", "FRR32");
++        bl("FortressBuiltin", "$NN32", "FNN32");
++        bl("FortressBuiltin", "$Char", "FCharacter");
++        bl("FlatStringC", "$FlatString", "FJavaString");
+     }
+ 
+     public static String opForString(String op, String s) {
+diff --git a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+index eb4e82d14f..eec2ac9f66 100644
+--- a/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
++++ b/ProjectFortress/src/com/sun/fortress/scala_src/typechecker/TraitTable.scala
+@@ -94,6 +94,11 @@ class TraitTable(current: CompilationUnitIndex, globalEnv: GlobalEnvironment) ex
+ 	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
+ 	  if (candidate.isSome && name.toString == "GeneratorLibrary") return candidate
+ 	}
++	// SWITCH HACK (rehearsal): the same search over the one library's two prelude apis.
++	for (lib <- List("FortressLibrary", "FortressBuiltin"); name: APIName <- globalEnv.apiNames) {
++	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
++	  if (candidate.isSome && name.toString == lib) return candidate
++	}
+ // 	for (name: APIName <- globalEnv.apiNames) {
+ // 	  val candidate = JOption.wrap(globalEnv.api(name).typeConses().get(simpleName))
+ // 	  if (candidate.isSome) return candidate
