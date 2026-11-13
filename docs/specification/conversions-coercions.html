@@ -1,0 +1,1065 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>17. Conversions and Coercions · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t4{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t5{font-family:cmr10;font-size:9.96px}
+svg.tx text.t6{font-family:stmary10;font-size:9.96px}
+svg.tx text.t7{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t8{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t9{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t10{font-family:cmr7;font-size:6.97px}
+svg.tx text.t11{font-family:cmti10;font-size:9.96px}
+svg.tx text.t12{font-family:msam10;font-size:9.96px}
+svg.tx text.t13{font-family:pzcmi8r;font-size:9.93px}
+svg.tx text.t14{font-family:msbm10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="conversions-coercions" data-chapter="17. Conversions and Coercions">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">17. Conversions and Coercions</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="17" data-title="Conversions and Coercions">
+<h1 id="top" class="nb"><a id="chap-conversions-coercions"></a><span class="num">Chapter 17</span> Conversions and Coercions</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-coercion">17.1 Principles of Coercion</a></li><li><a href="#sec-coercion-declarations">17.2 Coercion Declarations</a></li><li><a href="#sec-using-coercion">17.3 Coercion Invocations</a></li><li><a href="#sec-applicability-with-coercion">17.4 Applicability with Coercion</a></li><li><a href="#sec-resolving-coercion">17.5 Coercion Resolution</a></li><li><a href="#sec-restrictions-coercion">17.6 Restrictions on Coercion Declarations</a></li><li><a href="#sec-coercion-tuple-arrow">17.7 Coercions for Tuple and Arrow Types</a></li><li><a href="#sec-widening">17.8 Automatic Widening</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-9732e68d" class="nb">Widening and where clauses are not yet supported.</p>
+<p id="p-b7b1193e" class="nb">The examples in this chapter are not tested nor run by the interpreter.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<ul>
+<li><p id="p-2019200e" class="nb">“has a type” vs “is a subtype of the type or could be coerced to the type”</p></li>
+<li><p id="p-f8e58fba" class="nb">Coercion between tuple types (Victor’s email titled “Coercion between tuple types” on 07/16/07) and arrow types</p></li>
+<li><p id="p-84aa1b80" class="nb">Vectors and matrices: <a class="xref" href="expressions.html#sec-aggregate-expr">Section 13.29</a><!--nc--></p></li>
+<li><p id="p-04a3f050" class="nb">Do we allow coercion declarations in object expressions?</p></li>
+<li><p id="p-30fee760" class="nb">If tests and coercion</p>
+<p id="p-17f1396c" class="nb">Suppose a test in an expression has a type that is not <span class="m"><span class="ty">Boolean</span></span> (or a subtype of <span class="m"><span class="ty">Boolean</span></span>) but is coercible to <span class="m"><span class="ty">Boolean</span></span>. Presumably, that is not a static error? But note that F1.0 beta makes no mention of this case; all tests in an if expression must be of type <span class="m"><span class="ty">Boolean</span></span>. There are similar problems with other expression types; we need to revisit them all in light of the coercion facility...</p></li>
+</ul></aside>
+<p id="p-827be42c" class="nb">Fortress provides a mechanism, called <em>coercion</em>, to allow a value of one type to be automatically converted to a value of another type. Programmers can define coercions (described in <a class="xref" href="#sec-coercion-declarations">Section 17.2</a><!--nc-->) and coercions may change the set of applicable declarations for a call (as described in <a class="xref" href="#sec-applicability-with-coercion">Section 17.4</a><!--nc-->). If multiple coercions can be applied to a particular functional call then the most appropriate coercion is chosen statically. Restrictions on coercion declarations (described in <a class="xref" href="#sec-restrictions-coercion">Section 17.6</a><!--nc-->) guarantee that the static resolution of coercion (described in <a class="xref" href="#sec-resolving-coercion">Section 17.5</a><!--nc-->) is well-defined. Fortress provides implicit coercions for tuple types and arrow types (described in <a class="xref" href="#sec-coercion-tuple-arrow">Section 17.7</a><!--nc-->). Fortress also provides an additional feature of coercion that allows “widest-need” evaluation of numerical expressions (described in <a class="xref" href="#sec-widening">Section 17.8</a><!--nc-->).</p>
+<section class="sec" data-num="17.1" data-title="Principles of Coercion">
+<h2 id="sec-coercion" class="nb"><span class="num">17.1</span> Principles of Coercion</h2>
+<p id="p-dc6a1883" class="nb">In certain situations it is convenient to be able to use a value of one type <span class="m"><i>T</i></span> as if it were a value of another type <span class="m"><i>U</i></span> even though <span class="m"><i>T</i></span> is not a subtype of <span class="m"><i>U</i></span>. For example, it is convenient to be able to use an integer-valued expression in a floating-point expression even though its type is not a subtype of any floating-point type. Fortress supports the automatic conversion of values of type <span class="m">ℤ32</span>, and of integer numerals, to the floating-point type <span class="m">ℝ64</span> (the technical term for this kind of automatic conversion is coercion); a value of any other integer type is converted to <span class="m">ℝ64</span> explicitly (<a class="xref" href="lib-numbers-basic.html#sec-basic-rationals">Section 33.1</a><!--nc-->). In this way one can write <span class="m">(<i>x</i> + 1)/2</span> rather than <span class="m">(<i>x</i> + 1.0)/2.0</span>, for example. Such coercion applies generally to function and method (collectively called as functional) calls as well as to operators; one can write <span class="m">ln 2</span> rather than <span class="m">ln 2.0</span>, or <span class="m">arctan(1, 1)</span> rather than <span class="m">arctan(1.0, 1.0)</span>, for example.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-int-float">Section I.1.16</a><!--nc--></span></p>
+<p id="p-af2d8106" class="nb">The Working Draft of February 2011 said that Fortress supports the automatic conversion of integer values to floating-point values. The revival decided on 26 September 2026 that a conversion between number types is a coercion where it is exact and stays explicit where it can lose precision, and the Fortress standard libraries declare the coercion into <span class="m">ℝ64</span> from <span class="m">ℤ32</span>, and the decision names the integer numerals too. The conversion from <span class="m">ℕ32</span>, though exact, stays explicit, since that decision names only <span class="m">ℤ32</span> and the numerals. The examples of this paragraph convert numerals and are unchanged. The Fortress standard libraries give an integer numeral a type <span class="m"><span class="ty">NaturalNumeral</span>⟦<i>n</i>, <i>r</i>, <i>v</i>⟧</span>, from which <span class="m">ℝ64</span> coerces by a coercion generic over the numeral’s four numbers, with one rounding; the compiled type checker, against the Fortress standard libraries, and the interpreter convert an integer numeral where <span class="m">ℝ64</span> is declared, whatever its value (<a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->, <a class="xref" href="spec-changes.html#sec-revival-numerals">Section I.1.50</a><!--nc-->). The compiled path’s own library declares the coercion into <span class="m">ℝ64</span> from <span class="m"><span class="ty">NaturalNumeral</span></span> and none from an integer type; there <span class="m">ℤ32</span> and <span class="m">ℕ32</span> convert to <span class="m">ℝ64</span> only explicitly, and the other integer types not at all.</p></aside>
+<p id="p-ffdb653a" class="nb">One way to think about coercion is that if type <span class="m"><i>T</i></span> can be coerced to type <span class="m"><i>U</i></span>, then a value of type <span class="m"><i>T</i></span> can be used to “stand in” for a value of type <span class="m"><i>U</i></span> in a functional call, for example. This is different from actually <em>being</em> of type <span class="m"><i>U</i></span>; it means only that, given any value of type <span class="m"><i>T</i></span>, an appropriate value of type <span class="m"><i>U</i></span> can be computed to substitute for it. Also, coercion occurs only when the declared type of the corresponding parameter in the functional declaration is exactly the type <span class="m"><i>U</i></span> being coerced to not if it is a supertype of <span class="m"><i>U</i></span>. Note, however, that if type <span class="m"><i>T</i></span> can be coerced to type <span class="m"><i>U</i></span> then any subtype of <span class="m"><i>T</i></span> can also be coerced to type <span class="m"><i>U</i></span>.</p>
+<p id="p-d10f39f8" class="nb">A numeral’s conversion into its default (<a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->) is not a coercion, and applies where coercion does not: where the declared type is a supertype of the default, as <span class="m"><span class="ty">Any</span></span>, <span class="m"><span class="ty">Object</span></span> and <span class="m"><span class="ty">Number</span></span> are, or is a type parameter declared without a bound, and where no type is declared. At a call, a numeral is applicable without coercion to a parameter of its default type and to a parameter of a type that fixes no type for it; its conversion into any other type is a coercion (<a class="xref" href="#sec-applicability-with-coercion">Section 17.4</a><!--nc-->). So of the declarations <span class="m"><i>h</i>(<i>x</i>: ℤ32)</span> and <span class="m"><i>h</i>(<i>x</i>: <span class="ty">Any</span>)</span>, both applicable to <span class="m"><i>h</i>(5)</span> without coercion, the call invokes the first, which is the more specific. A numeral at a type of a program’s own that declares no coercion from the numeral’s type is not converted into its default and then coerced, since coercion does not chain (below); it is a static error.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-numerals">Section I.1.50</a><!--nc--></span></p>
+<p id="p-c3e0b1e6" class="nb">The Working Draft of February 2011 made coercion the only conversion of a value at a place of another type, and excluded a place whose declared type is a supertype of the type converted to. The revival decided on 8 November 2026 that a numeral where nothing fixes a type is converted into its default; the default is a rule beside coercion, and the paragraph above stands as it was. It decided on 9 November 2026 that a numeral’s coercion into a type is the one that the type declares from the numeral’s type, generic over the numeral’s four numbers (<a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->), for the number types of the Fortress standard libraries as for a type of a program’s own.</p></aside>
+<p id="p-8eb5e39b" class="nb">Coercion from <span class="m"><i>T</i></span> to <span class="m"><i>U</i></span> may occur in an expression context where the context expects the expression to have type <span class="m"><i>U</i></span> and the type of the expression is a subtype of <span class="m"><i>T</i></span> except for the following cases:</p>
+<ul>
+<li><p id="p-1bbcd20e" class="nb">type ascriptions (see <a class="xref" href="expressions.html#sec-type-ascription">Section 13.31</a><!--nc-->)</p></li>
+<li><p id="p-4aede068" class="nb">type assumptions (see <a class="xref" href="expressions.html#sec-type-assumption">Section 13.32</a><!--nc-->)</p></li>
+</ul>
+<p id="p-17b80f97" class="nb">For example, a coercion may occur in a variable definition when the declared type of the variable is <span class="m"><i>U</i></span> and the type of the expression on the right-hand side is a subtype of <span class="m"><i>T</i></span>.</p>
+<p id="p-f8899d2f" class="nb">The expression contexts where a coercion can occur are:</p>
+<ul>
+<li><p id="p-aa0438df" class="nb">the right-hand sides of variable and field declarations where the left-hand sides have declared types</p></li>
+<li><p id="p-7d7a6d0b" class="nb">arguments to functionals and constructors where the corresponding parameters have declared types</p></li>
+<li><p id="p-554dfad8" class="nb">body expressions of functionals and constructors where the return types are declared</p></li>
+<li><p id="p-7e7897dd" class="nb">the right-hand sides of test and property declarations</p></li>
+<li><p id="p-ad5e2a40" class="nb">expressions in contracts</p></li>
+<li><p id="p-53208c6e" class="nb">expressions whose enclosing expressions constrain the types of their subexpressions</p></li>
+</ul>
+<p id="p-41d05550" class="nb"><a class="xref" href="expressions.html">Chapter 13</a><!--nc--> describes the type constraints for each expression in Fortress.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<ul>
+<li><p id="p-ea5402e2" class="nb">assignment expressions with type on the left-hand sides</p></li>
+<li><p id="p-05c53af7" class="nb">filter in a generator</p></li>
+<li><p id="p-6227120a" class="nb">spawn</p></li>
+<li><p id="p-f7935223" class="nb">throw</p></li>
+<li><p id="p-023b616c" class="nb">while Expr</p></li>
+<li><p id="p-3e8b7a25" class="nb">if Expr</p></li>
+<li><p id="p-f58df201" class="nb">if . then Expr end</p></li>
+<li><p id="p-758ca469" class="nb">at Expr</p></li>
+</ul></aside>
+<p id="p-4c31e9e5" class="nb">Coercion is <em>not</em> automatically chained in Fortress, unlike some other programming languages: even if type <span class="m"><i>T</i></span> can be coerced to type <span class="m"><i>U</i></span> and type <span class="m"><i>U</i></span> can be coerced to type <span class="m"><i>V</i></span>, it is not necessarily the case that type <span class="m"><i>T</i></span> can be coerced to type <span class="m"><i>V</i></span>. Type <span class="m"><i>T</i></span> can be coerced to type <span class="m"><i>V</i></span> only if this coercion is explicitly defined.</p>
+<p id="p-c49bf3d0" class="nb">The basic principles behind coercion are (1) a decision by the designer of a trait <span class="m"><i>U</i></span> that, in all circumstances where a functional is to be called, an actual argument of some other type <span class="m"><i>T</i></span> may be used to satisfy a parameter of type <span class="m"><i>T</i></span>, and (2) a language mechanism for putting this decision into effect automatically and concisely.</p>
+<p id="p-52382047" class="nb">Example 1: For any floating-point parameter, a decimal integer literal argument may be used.</p>
+<p id="p-10d14b5d" class="nb">Example 2: For any floating-point parameter, a floating-point argument of a shorter format may be used.</p>
+<p id="p-4ccdf6dd" class="nb">Example 3: For any floating-point interval parameter, a non-interval floating-point argument (of the same or shorter floating-point format) may be used.</p>
+</section>
+<section class="sec" data-num="17.2" data-title="Coercion Declarations">
+<h2 id="sec-coercion-declarations" class="nb"><span class="num">17.2</span> Coercion Declarations</h2>
+<div class="tw nb gr" id="g-673fdfdc" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 492.74 93.18" width="49.274em" height="9.318em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>Coer<tspan x='45.46'>cion</tspan></text>
+<text class='t2' x='157.82' y='28.8'>::=</text>
+<text class='t3' x='182.59' y='28.8'>coerce</text>
+<text class='t1' x='215.63' y='28.8'>StaticP<tspan x='243.62'>ar</tspan><tspan x='252.32'>ams</tspan></text>
+<text class='t2' x='268.37' y='28.8'>?</text>
+<text class='t4' x='272.8' y='28.8'>(</text>
+<text class='t1' x='278.78' y='28.8'>BindId<tspan x='308.65'>IsT</tspan><tspan x='320.65'>ype</tspan></text>
+<text class='t4' x='334.48' y='28.8'>)</text>
+<text class='t1' x='340.45' y='28.8'>Coer<tspan x='360.01'>cionClauses</tspan></text>
+<text class='t3' x='412.87' y='28.8'>widens</text>
+<text class='t2' x='445.91' y='28.8'>?</text>
+<text class='t5' x='455.08' y='28.8'>=</text>
+<text class='t1' x='466.98' y='28.8'>Expr<tspan x='25.9' y='40.76'>Coer</tspan><tspan x='45.46'>cionClauses</tspan></text>
+<text class='t2' x='157.82' y='40.76'>::=</text>
+<text class='t1' x='180.93' y='40.76'>Coer<tspan x='200.49'>cionWher</tspan><tspan x='238.85'>e</tspan></text>
+<text class='t2' x='243.28' y='40.76'>?</text>
+<text class='t1' x='250.79' y='40.76'>Ensur<tspan x='274.22'>es</tspan></text>
+<text class='t2' x='282.52' y='40.76'>?</text>
+<text class='t1' x='290.03' y='40.76'>In<tspan x='297.93'>variant</tspan></text>
+<text class='t2' x='326.89' y='40.76'>?</text>
+<text class='t1' x='25.9' y='52.71'>Coer<tspan x='45.46'>cionWher</tspan><tspan x='83.83'>e</tspan></text>
+<text class='t2' x='157.82' y='52.71'>::=</text>
+<text class='t3' x='182.59' y='52.71'>where</text>
+<text class='t6' x='212.89' y='52.71'></text>
+<text class='t1' x='219.4' y='52.71'>Wher<tspan x='240.61'>eBindingList</tspan></text>
+<text class='t6' x='294.2' y='52.71'></text>
+<text class='t2' x='300.71' y='52.71'>(</text>
+<text class='t7' x='304.03' y='52.71'>{</text>
+<text class='t1' x='311.5' y='52.71'>Coer<tspan x='331.05'>cionWher</tspan><tspan x='369.42'>eConstr</tspan><tspan x='400.82'>aintList</tspan></text>
+<text class='t7' x='433.95' y='52.71'>}</text>
+<text class='t2' x='438.93' y='52.71'>)?</text>
+<text class='t7' x='157.82' y='64.67'>|</text>
+<text class='t3' x='182.59' y='64.67'>where</text>
+<text class='t7' x='212.89' y='64.67'>{</text>
+<text class='t1' x='220.36' y='64.67'>Coer<tspan x='239.92'>cionWher</tspan><tspan x='278.29'>eConstr</tspan><tspan x='309.69'>aintList</tspan></text>
+<text class='t7' x='342.81' y='64.67'>}</text>
+<text class='t1' x='25.9' y='76.62'>Coer<tspan x='45.46'>cionWher</tspan><tspan x='83.83'>eConstr</tspan><tspan x='115.23'>aintList</tspan></text>
+<text class='t2' x='157.82' y='76.62'>::=</text>
+<text class='t1' x='180.93' y='76.62'>Coer<tspan x='200.49'>cionWher</tspan><tspan x='238.85'>eConstr</tspan><tspan x='270.25'>aint</tspan></text>
+<text class='t2' x='285.93' y='76.62'>(</text>
+<text class='t8' x='289.25' y='76.62'>,</text>
+<text class='t1' x='296.17' y='76.62'>Coer<tspan x='315.73'>cionWher</tspan><tspan x='354.09'>eConstr</tspan><tspan x='385.49'>aint</tspan></text>
+<text class='t2' x='401.18' y='76.62'>)</text>
+<text class='t9' x='404.49' y='73.01'>∗</text>
+<text class='t1' x='25.9' y='88.58'>Coer<tspan x='45.46'>cionWher</tspan><tspan x='83.83'>eConstr</tspan><tspan x='115.23'>aint</tspan></text>
+<text class='t2' x='157.82' y='88.58'>::=</text>
+<text class='t1' x='180.93' y='88.58'>Wher<tspan x='202.14'>eConstr</tspan><tspan x='233.54'>aint</tspan></text>
+<text class='t7' x='157.82' y='100.53'>|</text>
+<text class='t1' x='180.93' y='100.53'>T<tspan x='185.73'>ype</tspan></text>
+<text class='t3' x='203.71' y='100.53'>widens<tspan x='240.9'>or</tspan><tspan x='257.18'>coerces</tspan></text>
+<text class='t1' x='297.94' y='100.53'>T<tspan x='302.74'>ype</tspan></text></svg></div>
+<p id="p-2e174f08" class="nb">To declare that trait <span class="m"><i>U</i></span> allows a coercion from type <span class="m"><i>T</i></span>, the declaration of trait <span class="m"><i>U</i></span> must provide a coercion declaration whose parameter type is <span class="m"><i>T</i></span>. Coercion declarations are like functional declarations, except that <span class="m"><span class="kw">coerce</span></span> is actually a reserved word, a coercion declaration may have special <span class="m"><span class="kw">where</span></span>-clause constraints (described below), it is not allowed to have a <span class="m"><span class="kw">throws</span></span> clause or a <span class="m"><span class="kw">requires</span></span> clause, and it is not permitted to specify a return type, because the return type must be the very trait in whose declaration the coercion declaration appears. The coercion body is required; there is no such thing as an abstract coercion declaration. Within a trait or object declaration, coercion declarations appear before any field declarations.</p>
+<p id="p-b534a530" class="nb">Coercions may have static parameters (described in <a class="xref" href="trait-parameters.html">Chapter 12</a><!--nc-->) and a <span class="m"><span class="kw">where</span></span> clause (described in <a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), just like functionals. The <span class="m"><span class="kw">where</span></span> clause may contain one of the following special constraints:</p>
+<div class="fx nb" id="c-aeb466c3" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.92 149.53 34.35" width="14.953em" height="3.435em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>T<tspan x='16.88'>yp</tspan><tspan x='27.95'>e</tspan></text>
+<text class='t10' x='32.38' y='21.76'>1</text>
+<text class='t3' x='39.62' y='19.33'>coerces</text>
+<text class='t5' x='79' y='19.33'>T<tspan x='85.91'>yp</tspan><tspan x='96.98'>e</tspan></text>
+<text class='t10' x='101.41' y='21.76'>2</text>
+<text class='t5' x='9.96' y='31.28'>T<tspan x='16.88'>yp</tspan><tspan x='27.95'>e</tspan></text>
+<text class='t10' x='32.38' y='33.72'>1</text>
+<text class='t3' x='39.62' y='31.28'>widens</text>
+<text class='t5' x='73.76' y='31.28'>T<tspan x='80.68'>yp</tspan><tspan x='91.75'>e</tspan></text>
+<text class='t10' x='96.18' y='33.72'>2</text>
+<text class='t5' x='9.96' y='43.24'>T<tspan x='16.88'>yp</tspan><tspan x='27.95'>e</tspan></text>
+<text class='t10' x='32.38' y='45.67'>1</text>
+<text class='t3' x='39.62' y='43.24'>widens<tspan x='76.53'>or</tspan><tspan x='92.53'>coerces</tspan></text>
+<text class='t5' x='131.91' y='43.24'>T<tspan x='138.83'>yp</tspan><tspan x='149.9'>e</tspan></text>
+<text class='t10' x='154.32' y='45.67'>2</text></svg></div></div>
+<p id="p-7370c657" class="nb">The first is true if trait <span class="m"><span class="ty">Type</span><sub>1</sub></span> has a coercion from <span class="m"><span class="ty">Type</span><sub>2</sub></span>. The second is true if trait <span class="m"><span class="ty">Type</span><sub>1</sub></span> has a widening coercion (described in <a class="xref" href="#sec-widening">Section 17.8</a><!--nc-->) from <span class="m"><span class="ty">Type</span><sub>2</sub></span>. The third may be used only in a coercion with the “<span class="m"><span class="kw">widens</span></span>” reserved word; it is true if <span class="m"><span class="ty">Type</span><sub>1</sub></span> has a coercion from <span class="m"><span class="ty">Type</span><sub>2</sub></span>, and furthermore the coercion declaration to which the <span class="m"><span class="kw">where</span></span> clause belongs is widening only if <span class="m"><span class="ty">Type</span><sub>1</sub></span> has a widening coercion from <span class="m"><span class="ty">Type</span><sub>2</sub></span>. For example:</p>
+<div class="fx nb both" id="c-7a92f3d2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 202.38 44.54" width="20.238em" height="4.454em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t5' x='41.1' y='19.33'>V<tspan x='47.74'>ector</tspan></text>
+<text class='t6' x='69.35' y='19.33'></text>
+<text class='t8' x='73.36' y='19.33'>T</text>
+<text class='t3' x='83.34' y='19.33'>extends</text>
+<text class='t5' x='124.93' y='19.33'>Num<tspan x='145.96'>b</tspan><tspan x='151.77'>er</tspan></text>
+<text class='t6' x='160.1' y='19.33'></text>
+<text class='t3' x='21.92' y='31.28'>coerce</text>
+<text class='t6' x='56.07' y='31.28'></text>
+<text class='t8' x='60.08' y='31.28'>S</text>
+<text class='t3' x='69.53' y='31.28'>extends</text>
+<text class='t5' x='111.12' y='31.28'>Num<tspan x='132.16'>b</tspan><tspan x='137.97'>er</tspan></text>
+<text class='t6' x='146.3' y='31.28'></text>
+<text class='t5' x='150.31' y='31.28'>(</text>
+<text class='t8' x='154.18' y='31.28'>x</text>
+<text class='t5' x='159.88' y='31.28'>:<tspan x='164.31'>V</tspan><tspan x='170.95'>ector</tspan></text>
+<text class='t6' x='192.56' y='31.28'></text>
+<text class='t8' x='196.57' y='31.28'>S</text>
+<text class='t6' x='203.26' y='31.28'></text>
+<text class='t5' x='207.27' y='31.28'>)</text>
+<text class='t3' x='33.87' y='43.24'>where</text>
+<text class='t7' x='62.79' y='43.24'>{</text>
+<text class='t8' x='67.77' y='43.24'>T</text>
+<text class='t3' x='77.75' y='43.24'>widens<tspan x='114.66'>or</tspan><tspan x='130.66'>coerces</tspan></text>
+<text class='t8' x='172.25' y='43.24'>S</text>
+<text class='t7' x='178.94' y='43.24'>}</text>
+<text class='t5' x='186.68' y='43.24'>=</text>
+<text class='t8' x='197.2' y='43.24'>.<tspan x='201.63'>.</tspan><tspan x='206.06'>.</tspan></text>
+<text class='t3' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>end</code></pre></div>
+<p id="p-35d6d27d" class="nb">Coercions, unlike methods, are not inherited. If trait <span class="m"><i>V</i></span> extends trait <span class="m"><i>U</i></span>, and trait <span class="m"><i>U</i></span> has a coercion from type <span class="m"><i>T</i></span>, then <span class="m"><i>V</i></span> does <em>not</em> thereby have a coercion from type <span class="m"><i>T</i></span>. (It may, however, have its own coercion from type <span class="m"><i>T</i></span>, separately defined within the body of <span class="m"><i>V</i></span>.) For example, given the following declarations,</p>
+<div class="fx nb both" id="c-1afeca19" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.92 106.03 74.26" width="10.603em" height="7.426em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t8' x='38.88' y='19.33'>A</text>
+<text class='t3' x='21.92' y='31.28'>coerce</text>
+<text class='t5' x='56.07' y='31.28'>(</text>
+<text class='t8' x='59.94' y='31.28'>b</text>
+<text class='t5' x='65.88' y='31.28'>:</text>
+<text class='t8' x='70.31' y='31.28'>B</text>
+<text class='t5' x='78.36' y='31.28'>)<tspan x='85'>=</tspan></text>
+<text class='t8' x='95.52' y='31.28'>.<tspan x='99.95'>.</tspan><tspan x='104.38'>.</tspan></text>
+<text class='t3' x='9.96' y='43.24'>end<tspan x='9.96' y='55.19'>object</tspan></text>
+<text class='t8' x='44.11' y='55.19'>B</text>
+<text class='t3' x='54.94' y='55.19'>end<tspan x='9.96' y='67.15'>trait</tspan></text>
+<text class='t8' x='38.88' y='67.15'>C</text>
+<text class='t3' x='49.48' y='67.15'>extends</text>
+<text class='t8' x='88.86' y='67.15'>A</text>
+<text class='t3' x='99.1' y='67.15'>end</text>
+<text class='t8' x='9.96' y='83.09'>f</text>
+<text class='t5' x='15.91' y='83.09'>(</text>
+<text class='t8' x='19.79' y='83.09'>c</text>
+<text class='t5' x='25.76' y='83.09'>:</text>
+<text class='t8' x='30.19' y='83.09'>C</text>
+<text class='t5' x='38.02' y='83.09'>)<tspan x='44.66'>=</tspan><tspan x='55.18'>5</tspan></text></svg></div><pre class="fx-s"><code>trait A
+  coerce(b:B) = ...
+end
+object B end
+trait C extends A end
+
+f(c:C) = 5</code></pre></div>
+<p id="p-cdb55937" class="nb">a call to <span class="m"><i>f</i>(<i>B</i>)</span> is considered a static error because trait <span class="m"><i>C</i></span> does not inherit a coercion from type <span class="m"><i>B</i></span>.</p>
+</section>
+<section class="sec" data-num="17.3" data-title="Coercion Invocations">
+<h2 id="sec-using-coercion" class="nb"><span class="num">17.3</span> Coercion Invocations</h2>
+<p id="p-4c38ee01" class="nb">One way to think about coercion is that explicit calls to the <span class="m"><span class="rm">coerce</span></span> function are automatically inserted into the expression in a context where a coercion can occur. For example, if trait <span class="m"><i>U</i></span> has a coercion from type <span class="m"><i>T</i></span>, then whenever a functional, <span class="m"><i>f</i></span>, is declared with a parameter of type <span class="m"><i>U</i></span>, a call <span class="m"><i>f</i>(<i>t</i>)</span> where <span class="m"><i>t</i></span> has type <span class="m"><i>T</i></span> can be rewritten to <span class="m"><i>f</i>(<span class="rm">coerce</span>⟦<i>U</i>⟧(<i>t</i>))</span> making the declaration of <span class="m"><i>f</i></span> applicable to the call. However, this rewriting does not occur if there exists a declaration that is applicable to the call before the rewriting (see <a class="xref" href="#sec-resolving-coercion">Section 17.5</a><!--nc--> for further discussion).</p>
+<p id="p-aa6ee6d9" class="nb">If coercion is possible for more than one element of a tuple argument, a cross-product effect is obtained. For example, in this code:</p>
+<div class="fx nb both" id="c-7f9a8223" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.92 112.36 126.07" width="11.236em" height="12.607em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>object</text>
+<text class='t8' x='46.33' y='19.33'>X</text>
+<text class='t3' x='21.92' y='31.28'>coerce</text>
+<text class='t5' x='56.07' y='31.28'>(</text>
+<text class='t11' x='59.94' y='31.28'>kiki</text>
+<text class='t5' x='77.89' y='31.28'>:</text>
+<text class='t8' x='82.32' y='31.28'>Y</text>
+<text class='t5' x='90.32' y='31.28'>)<tspan x='96.96'>=</tspan></text>
+<text class='t8' x='107.48' y='31.28'>.<tspan x='111.9'>.</tspan><tspan x='116.33'>.</tspan></text>
+<text class='t3' x='21.92' y='43.24'>coerce</text>
+<text class='t5' x='56.07' y='43.24'>(</text>
+<text class='t11' x='59.94' y='43.24'>tutu</text>
+<text class='t5' x='79.68' y='43.24'>:</text>
+<text class='t8' x='84.11' y='43.24'>Q</text>
+<text class='t5' x='91.98' y='43.24'>)<tspan x='98.62'>=</tspan></text>
+<text class='t8' x='109.14' y='43.24'>.<tspan x='113.57'>.</tspan><tspan x='118'>.</tspan></text>
+<text class='t11' x='21.92' y='55.19'>hack</text>
+<text class='t5' x='42.34' y='55.19'>(</text>
+<text class='t11' x='46.21' y='55.19'>other</text>
+<text class='t5' x='71.22' y='55.19'>:</text>
+<text class='t8' x='75.65' y='55.19'>X</text>
+<text class='t5' x='84.69' y='55.19'>)<tspan x='91.33'>=</tspan><tspan x='101.85'>1</tspan></text>
+<text class='t3' x='9.96' y='67.15'>end<tspan x='9.96' y='79.1'>object</tspan></text>
+<text class='t8' x='46.33' y='79.1'>Y</text>
+<text class='t3' x='57.09' y='79.1'>end<tspan x='9.96' y='91.06'>object</tspan></text>
+<text class='t8' x='46.33' y='91.06'>Q</text>
+<text class='t3' x='56.97' y='91.06'>end</text>
+<text class='t11' x='9.96' y='107'>fo<tspan x='17.6'>o</tspan></text>
+<text class='t5' x='23.32' y='107'>(</text>
+<text class='t11' x='27.2' y='107'>do<tspan x='36.87'>do</tspan></text>
+<text class='t5' x='49.34' y='107'>:</text>
+<text class='t8' x='53.77' y='107'>X</text>
+<text class='t5' x='62.81' y='107'>)<tspan x='69.45'>=</tspan><tspan x='79.97'>2</tspan></text>
+<text class='t11' x='9.96' y='122.94'>b<tspan x='14.04'>ar</tspan></text>
+<text class='t5' x='24.4' y='122.94'>(</text>
+<text class='t11' x='28.28' y='122.94'>hyar</text>
+<text class='t5' x='50.23' y='122.94'>:</text>
+<text class='t8' x='54.66' y='122.94'>X<tspan x='63.14'>,</tspan></text>
+<text class='t11' x='67.57' y='122.94'>yon</text>
+<text class='t5' x='85.52' y='122.94'>:</text>
+<text class='t8' x='89.95' y='122.94'>X</text>
+<text class='t5' x='98.99' y='122.94'>)<tspan x='105.63'>=</tspan><tspan x='116.14'>3</tspan></text>
+<text class='t11' x='9.96' y='134.89'>b<tspan x='14.04'>ar</tspan></text>
+<text class='t5' x='24.4' y='134.89'>(</text>
+<text class='t11' x='28.28' y='134.89'>hyar</text>
+<text class='t5' x='50.23' y='134.89'>:</text>
+<text class='t8' x='54.66' y='134.89'>Q,</text>
+<text class='t11' x='66.96' y='134.89'>yon</text>
+<text class='t5' x='84.92' y='134.89'>:</text>
+<text class='t8' x='89.35' y='134.89'>Q</text>
+<text class='t5' x='97.22' y='134.89'>)<tspan x='103.86'>=</tspan><tspan x='114.38'>4</tspan></text></svg></div><pre class="fx-s"><code>object X
+  coerce(kiki:Y) = ...
+  coerce(tutu:Q) = ...
+  hack(other:X) = 1
+end
+object Y end
+object Q end
+foo(dodo:X) = 2</code></pre></div>
+<p id="p-66f77196" class="nb">the following method invocations are valid:</p>
+<div class="fx nb both" id="c-3b56546a" data-kind="code"><div class="fx-r"><svg class="tx" data-d="6" viewBox="9.36 11.26 48.62 23.12" width="4.862em" height="2.312em" fill="currentColor"><text class='t8' x='9.96' y='19.33'>X<tspan x='18.44'>.</tspan></text>
+<text class='t11' x='21.21' y='19.33'>hack</text>
+<text class='t5' x='41.63' y='19.33'>(</text>
+<text class='t8' x='45.51' y='19.33'>Y</text>
+<text class='t5' x='53.51' y='19.33'>)</text>
+<text class='t8' x='9.96' y='31.28'>X<tspan x='18.44'>.</tspan></text>
+<text class='t11' x='21.21' y='31.28'>hack</text>
+<text class='t5' x='41.63' y='31.28'>(</text>
+<text class='t8' x='45.51' y='31.28'>Q</text>
+<text class='t5' x='53.38' y='31.28'>)</text></svg></div><pre class="fx-s"><code>X.hack(Y)
+X.hack(Q)</code></pre></div>
+<p id="p-cf4b52f0" class="nb">Because there is no declaration of <span class="m"><i>hack</i></span> applicable to <span class="m"><i>Y</i></span> and <span class="m"><i>Q</i></span>, these invocations are rewritten to:</p>
+<div class="fx nb both" id="c-2fc09604" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="9.36 11.26 100.30 23.12" width="10.030em" height="2.312em" fill="currentColor"><text class='t8' x='9.96' y='19.33'>X<tspan x='18.44'>.</tspan></text>
+<text class='t11' x='21.21' y='19.33'>hack</text>
+<text class='t5' x='41.63' y='19.33'>(co<tspan x='55.19'>erce</tspan></text>
+<text class='t6' x='72.38' y='19.33'></text>
+<text class='t8' x='76.39' y='19.33'>X</text>
+<text class='t6' x='85.43' y='19.33'></text>
+<text class='t5' x='89.44' y='19.33'>(</text>
+<text class='t8' x='93.32' y='19.33'>Y</text>
+<text class='t5' x='101.31' y='19.33'>))</text>
+<text class='t8' x='9.96' y='31.28'>X<tspan x='18.44'>.</tspan></text>
+<text class='t11' x='21.21' y='31.28'>hack</text>
+<text class='t5' x='41.63' y='31.28'>(co<tspan x='55.19'>erce</tspan></text>
+<text class='t6' x='72.38' y='31.28'></text>
+<text class='t8' x='76.39' y='31.28'>X</text>
+<text class='t6' x='85.43' y='31.28'></text>
+<text class='t5' x='89.44' y='31.28'>(</text>
+<text class='t8' x='93.32' y='31.28'>Q</text>
+<text class='t5' x='101.19' y='31.28'>))</text></svg></div><pre class="fx-s"><code>X.hack(X.coercion(Y))
+X.hack(X.coercion(Q))
+X.hack(coerce_[\X\](Y))
+X.hack(coerce_[\X\](Q))</code></pre></div>
+<p id="p-fcfc820d" class="nb">Similarly, the function calls in the left-hand side of the following are valid and rewritten to the right-hand side:</p>
+<div class="tw nb" id="t-ba4f7679" data-kind="table"><svg class="tx" data-d="8" viewBox="7.04 0.30 273.32 122.74" width="27.332em" height="12.274em" fill="currentColor"><text class='t11' x='22.06' y='8.37'>fo<tspan x='29.7'>o</tspan></text>
+<text class='t5' x='35.42' y='8.37'>(</text>
+<text class='t8' x='39.29' y='8.37'>Y</text>
+<text class='t5' x='47.29' y='8.37'>)</text>
+<text class='t1' x='64.78' y='8.37'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='8.37'>fo<tspan x='141.43'>o</tspan></text>
+<text class='t5' x='147.15' y='8.37'>(co<tspan x='160.71'>erce</tspan></text>
+<text class='t6' x='177.89' y='8.37'></text>
+<text class='t8' x='181.91' y='8.37'>X</text>
+<text class='t6' x='190.94' y='8.37'></text>
+<text class='t5' x='194.95' y='8.37'>(</text>
+<text class='t8' x='198.83' y='8.37'>Y</text>
+<text class='t5' x='206.83' y='8.37'>))</text>
+<text class='t11' x='22.18' y='20.32'>fo<tspan x='29.82'>o</tspan></text>
+<text class='t5' x='35.54' y='20.32'>(</text>
+<text class='t8' x='39.41' y='20.32'>Q</text>
+<text class='t5' x='47.29' y='20.32'>)</text>
+<text class='t1' x='64.78' y='20.32'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='20.32'>fo<tspan x='141.43'>o</tspan></text>
+<text class='t5' x='147.15' y='20.32'>(co<tspan x='160.71'>erce</tspan></text>
+<text class='t6' x='177.89' y='20.32'></text>
+<text class='t8' x='181.91' y='20.32'>X</text>
+<text class='t6' x='190.94' y='20.32'></text>
+<text class='t5' x='194.95' y='20.32'>(</text>
+<text class='t8' x='198.83' y='20.32'>Q</text>
+<text class='t5' x='206.7' y='20.32'>))</text>
+<text class='t11' x='9.18' y='36.26'>b<tspan x='13.25'>ar</tspan></text>
+<text class='t5' x='23.62' y='36.26'>(</text>
+<text class='t8' x='27.49' y='36.26'>Y<tspan x='33.83'>,</tspan><tspan x='38.26'>X</tspan></text>
+<text class='t5' x='47.29' y='36.26'>)</text>
+<text class='t1' x='64.78' y='36.26'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='36.26'>b<tspan x='137.86'>ar</tspan></text>
+<text class='t5' x='148.23' y='36.26'>(co<tspan x='161.79'>erce</tspan></text>
+<text class='t6' x='178.97' y='36.26'></text>
+<text class='t8' x='182.98' y='36.26'>X</text>
+<text class='t6' x='192.02' y='36.26'></text>
+<text class='t5' x='196.03' y='36.26'>(</text>
+<text class='t8' x='199.91' y='36.26'>Y</text>
+<text class='t5' x='207.91' y='36.26'>)</text>
+<text class='t8' x='211.78' y='36.26'>,<tspan x='216.21'>X</tspan></text>
+<text class='t5' x='225.24' y='36.26'>)</text>
+<text class='t11' x='7.64' y='48.22'>b<tspan x='11.71'>ar</tspan></text>
+<text class='t5' x='22.08' y='48.22'>(</text>
+<text class='t8' x='25.95' y='48.22'>Q,<tspan x='38.26'>X</tspan></text>
+<text class='t5' x='47.29' y='48.22'>)</text>
+<text class='t1' x='64.78' y='48.22'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='48.22'>b<tspan x='137.86'>ar</tspan></text>
+<text class='t5' x='148.23' y='48.22'>(co<tspan x='161.79'>erce</tspan></text>
+<text class='t6' x='178.97' y='48.22'></text>
+<text class='t8' x='182.98' y='48.22'>X</text>
+<text class='t6' x='192.02' y='48.22'></text>
+<text class='t5' x='196.03' y='48.22'>(</text>
+<text class='t8' x='199.91' y='48.22'>Q</text>
+<text class='t5' x='207.78' y='48.22'>)</text>
+<text class='t8' x='211.66' y='48.22'>,<tspan x='216.09'>X</tspan></text>
+<text class='t5' x='225.12' y='48.22'>)</text>
+<text class='t11' x='8.07' y='60.17'>b<tspan x='12.14'>ar</tspan></text>
+<text class='t5' x='22.51' y='60.17'>(</text>
+<text class='t8' x='26.38' y='60.17'>X<tspan x='34.87'>,</tspan><tspan x='39.29'>Y</tspan></text>
+<text class='t5' x='47.29' y='60.17'>)</text>
+<text class='t1' x='64.78' y='60.17'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='60.17'>b<tspan x='137.86'>ar</tspan></text>
+<text class='t5' x='148.23' y='60.17'>(</text>
+<text class='t8' x='152.1' y='60.17'>X<tspan x='160.58'>,</tspan></text>
+<text class='t5' x='165.01' y='60.17'>co<tspan x='174.7'>erce</tspan></text>
+<text class='t6' x='191.88' y='60.17'></text>
+<text class='t8' x='195.89' y='60.17'>X</text>
+<text class='t6' x='204.93' y='60.17'></text>
+<text class='t5' x='208.94' y='60.17'>(</text>
+<text class='t8' x='212.82' y='60.17'>Y</text>
+<text class='t5' x='220.82' y='60.17'>))</text>
+<text class='t11' x='8.19' y='72.13'>b<tspan x='12.27'>ar</tspan></text>
+<text class='t5' x='22.63' y='72.13'>(</text>
+<text class='t8' x='26.5' y='72.13'>X<tspan x='34.99'>,</tspan><tspan x='39.41'>Q</tspan></text>
+<text class='t5' x='47.29' y='72.13'>)</text>
+<text class='t1' x='64.78' y='72.13'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='72.13'>b<tspan x='137.86'>ar</tspan></text>
+<text class='t5' x='148.23' y='72.13'>(</text>
+<text class='t8' x='152.1' y='72.13'>X<tspan x='160.58'>,</tspan></text>
+<text class='t5' x='165.01' y='72.13'>co<tspan x='174.7'>erce</tspan></text>
+<text class='t6' x='191.88' y='72.13'></text>
+<text class='t8' x='195.89' y='72.13'>X</text>
+<text class='t6' x='204.93' y='72.13'></text>
+<text class='t5' x='208.94' y='72.13'>(</text>
+<text class='t8' x='212.82' y='72.13'>Q</text>
+<text class='t5' x='220.69' y='72.13'>))</text>
+<text class='t11' x='10.21' y='84.08'>b<tspan x='14.29'>ar</tspan></text>
+<text class='t5' x='24.65' y='84.08'>(</text>
+<text class='t8' x='28.53' y='84.08'>Y<tspan x='34.87'>,</tspan><tspan x='39.29'>Y</tspan></text>
+<text class='t5' x='47.29' y='84.08'>)</text>
+<text class='t1' x='64.78' y='84.08'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='84.08'>b<tspan x='137.86'>ar</tspan></text>
+<text class='t5' x='148.23' y='84.08'>(co<tspan x='161.79'>erce</tspan></text>
+<text class='t6' x='178.97' y='84.08'></text>
+<text class='t8' x='182.98' y='84.08'>X</text>
+<text class='t6' x='192.02' y='84.08'></text>
+<text class='t5' x='196.03' y='84.08'>(</text>
+<text class='t8' x='199.91' y='84.08'>Y</text>
+<text class='t5' x='207.91' y='84.08'>)</text>
+<text class='t8' x='211.78' y='84.08'>,</text>
+<text class='t5' x='216.21' y='84.08'>co<tspan x='225.89'>erce</tspan></text>
+<text class='t6' x='243.08' y='84.08'></text>
+<text class='t8' x='247.09' y='84.08'>X</text>
+<text class='t6' x='256.13' y='84.08'></text>
+<text class='t5' x='260.14' y='84.08'>(</text>
+<text class='t8' x='264.01' y='84.08'>Y</text>
+<text class='t5' x='272.01' y='84.08'>))</text>
+<text class='t11' x='8.8' y='96.04'>b<tspan x='12.87'>ar</tspan></text>
+<text class='t5' x='23.24' y='96.04'>(</text>
+<text class='t8' x='27.11' y='96.04'>Q,<tspan x='39.41'>Q</tspan></text>
+<text class='t5' x='47.29' y='96.04'>)</text>
+<text class='t1' x='64.78' y='96.04'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='96.04'>b<tspan x='137.86'>ar</tspan></text>
+<text class='t5' x='148.23' y='96.04'>(</text>
+<text class='t8' x='152.1' y='96.04'>Q,<tspan x='164.4'>Q</tspan></text>
+<text class='t5' x='172.28' y='96.04'>)</text>
+<text class='t11' x='8.68' y='107.99'>b<tspan x='12.75'>ar</tspan></text>
+<text class='t5' x='23.11' y='107.99'>(</text>
+<text class='t8' x='26.99' y='107.99'>Q,<tspan x='39.29'>Y</tspan></text>
+<text class='t5' x='47.29' y='107.99'>)</text>
+<text class='t1' x='64.78' y='107.99'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='107.99'>b<tspan x='137.86'>ar</tspan></text>
+<text class='t5' x='148.23' y='107.99'>(co<tspan x='161.79'>erce</tspan></text>
+<text class='t6' x='178.97' y='107.99'></text>
+<text class='t8' x='182.98' y='107.99'>X</text>
+<text class='t6' x='192.02' y='107.99'></text>
+<text class='t5' x='196.03' y='107.99'>(</text>
+<text class='t8' x='199.91' y='107.99'>Q</text>
+<text class='t5' x='207.78' y='107.99'>)</text>
+<text class='t8' x='211.66' y='107.99'>,</text>
+<text class='t5' x='216.09' y='107.99'>co<tspan x='225.77'>erce</tspan></text>
+<text class='t6' x='242.96' y='107.99'></text>
+<text class='t8' x='246.97' y='107.99'>X</text>
+<text class='t6' x='256.01' y='107.99'></text>
+<text class='t5' x='260.02' y='107.99'>(</text>
+<text class='t8' x='263.89' y='107.99'>Y</text>
+<text class='t5' x='271.89' y='107.99'>))</text>
+<text class='t11' x='10.34' y='119.95'>b<tspan x='14.41'>ar</tspan></text>
+<text class='t5' x='24.78' y='119.95'>(</text>
+<text class='t8' x='28.65' y='119.95'>Y<tspan x='34.99'>,</tspan><tspan x='39.41'>Q</tspan></text>
+<text class='t5' x='47.29' y='119.95'>)</text>
+<text class='t1' x='64.78' y='119.95'>is<tspan x='73.92'>r</tspan><tspan x='77.42'>e</tspan><tspan x='81.7'>written</tspan><tspan x='112.42'>to</tspan></text>
+<text class='t11' x='133.79' y='119.95'>b<tspan x='137.86'>ar</tspan></text>
+<text class='t5' x='148.23' y='119.95'>(co<tspan x='161.79'>erce</tspan></text>
+<text class='t6' x='178.97' y='119.95'></text>
+<text class='t8' x='182.98' y='119.95'>X</text>
+<text class='t6' x='192.02' y='119.95'></text>
+<text class='t5' x='196.03' y='119.95'>(</text>
+<text class='t8' x='199.91' y='119.95'>Y</text>
+<text class='t5' x='207.91' y='119.95'>)</text>
+<text class='t8' x='211.78' y='119.95'>,</text>
+<text class='t5' x='216.21' y='119.95'>co<tspan x='225.89'>erce</tspan></text>
+<text class='t6' x='243.08' y='119.95'></text>
+<text class='t8' x='247.09' y='119.95'>X</text>
+<text class='t6' x='256.13' y='119.95'></text>
+<text class='t5' x='260.14' y='119.95'>(</text>
+<text class='t8' x='264.01' y='119.95'>Q</text>
+<text class='t5' x='271.89' y='119.95'>))</text></svg></div>
+<p id="p-666eca56" class="nb">Note that the call <span class="m"><i>bar</i>(<i>Q</i>, <i>Q</i>)</span> remains unchanged because there exists a declaration for <span class="m"><i>bar</i></span> that is applicable without coercion.</p>
+<p id="p-d10d234d" class="nb">To continue the example, let us illustrate a point about type parameters. If we add the following definitions:</p>
+<div class="fx nb both" id="c-0360e57b" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.81 205.87 62.41" width="20.587em" height="6.241em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t5' x='38.88' y='19.33'>F<tspan x='44.55'>robb</tspan><tspan x='64.78'>oz</tspan></text>
+<text class='t11' x='21.92' y='31.28'>fr<tspan x='28.66'>ob</tspan></text>
+<text class='t5' x='38.97' y='31.28'>(</text>
+<text class='t11' x='42.84' y='31.28'>item</text>
+<text class='t5' x='64.36' y='31.28'>:</text>
+<text class='t8' x='68.79' y='31.28'>X</text>
+<text class='t5' x='77.83' y='31.28'>)<tspan x='84.47'>=</tspan><tspan x='94.98'>5</tspan></text>
+<text class='t3' x='21.92' y='43.24'>coerce</text>
+<text class='t5' x='56.07' y='43.24'>(</text>
+<text class='t8' x='59.94' y='43.24'>m</text>
+<text class='t5' x='70.35' y='43.24'>:<tspan x='74.78'>Matrix</tspan><tspan x='104.69'>)</tspan><tspan x='111.33'>=</tspan></text>
+<text class='t8' x='121.85' y='43.24'>.<tspan x='126.28'>.</tspan><tspan x='130.71'>.</tspan></text>
+<text class='t5' x='135.13' y='43.24'>(</text>
+<text class='t7' x='139.01' y='43.24'>∗</text>
+<text class='t2' x='146.76' y='43.24'>irrele<tspan x='167.53'>v</tspan><tspan x='172.26'>ant!</tspan></text>
+<text class='t7' x='190.52' y='43.24'>∗</text>
+<text class='t5' x='195.5' y='43.24'>)</text>
+<text class='t3' x='9.96' y='55.19'>end<tspan x='9.96' y='71.13'>object</tspan></text>
+<text class='t5' x='44.11' y='71.13'>Bozo</text>
+<text class='t6' x='65.56' y='71.13'></text>
+<text class='t8' x='69.57' y='71.13'>T</text>
+<text class='t3' x='79.55' y='71.13'>extends</text>
+<text class='t5' x='118.92' y='71.13'>F<tspan x='124.6'>robb</tspan><tspan x='144.83'>oz</tspan></text>
+<text class='t6' x='154.24' y='71.13'></text>
+<text class='t5' x='158.25' y='71.13'>(</text>
+<text class='t8' x='162.12' y='71.13'>t</text>
+<text class='t5' x='167.38' y='71.13'>:</text>
+<text class='t8' x='171.81' y='71.13'>T</text>
+<text class='t5' x='179.02' y='71.13'>)</text>
+<text class='t8' x='184.55' y='71.13'>.<tspan x='188.98'>.</tspan><tspan x='193.41'>.</tspan></text>
+<text class='t3' x='198.94' y='71.13'>end</text></svg></div><pre class="fx-s"><code>trait Frobboz
+  frob(item:X) = 5
+  coerce(m:Matrix) = ...  (* irrelevant! *)
+end</code></pre></div>
+<p id="p-77996225" class="nb">then this says nothing about whether the type parameter <span class="m"><i>T</i></span> of <span class="m"><span class="ty">Bozo</span></span> has coercions, because coercions are not inherited. (In fact, we can make a stronger statement: types named by type parameters <em>do not have coercions</em>!) But it is guaranteed that the following method invocations are valid if they occur within the declaration of <span class="m"><span class="ty">Bozo</span></span>:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-a944bc13" class="nb">(if <span class="m"><i>t</i></span> has type <span class="m"><span class="ty">Bozo</span></span>:[???]) – Sukyoung</p></aside>
+<div class="fx nb both" id="c-3a0a597c" data-kind="code"><div class="fx-r"><svg class="tx" data-d="10" viewBox="9.36 11.26 41.40 35.07" width="4.140em" height="3.507em" fill="currentColor"><text class='t8' x='9.96' y='19.33'>t.</text>
+<text class='t11' x='16.33' y='19.33'>fr<tspan x='23.07'>ob</tspan></text>
+<text class='t5' x='33.38' y='19.33'>(</text>
+<text class='t8' x='37.25' y='19.33'>X</text>
+<text class='t5' x='46.29' y='19.33'>)</text>
+<text class='t8' x='9.96' y='31.28'>t.</text>
+<text class='t11' x='16.33' y='31.28'>fr<tspan x='23.07'>ob</tspan></text>
+<text class='t5' x='33.38' y='31.28'>(</text>
+<text class='t8' x='37.25' y='31.28'>Y</text>
+<text class='t5' x='45.25' y='31.28'>)</text>
+<text class='t8' x='9.96' y='43.24'>t.</text>
+<text class='t11' x='16.33' y='43.24'>fr<tspan x='23.07'>ob</tspan></text>
+<text class='t5' x='33.38' y='43.24'>(</text>
+<text class='t8' x='37.25' y='43.24'>Q</text>
+<text class='t5' x='45.13' y='43.24'>)</text></svg></div><pre class="fx-s"><code>t.frob(X)
+t.frob(Y)
+t.frob(Q)</code></pre></div>
+<p id="p-09c887f5" class="nb">because <span class="m"><i>T</i></span> inherits the method declaration <span class="m"><i>frob</i>(<i>item</i> : <i>X</i>)</span> from <span class="m"><span class="ty">Frobboz</span></span> and <span class="m"><i>X</i></span> contains coercions from <span class="m"><i>Y</i></span> and <span class="m"><i>Q</i></span>.</p>
+</section>
+<section class="sec" data-num="17.4" data-title="Applicability with Coercion">
+<h2 id="sec-applicability-with-coercion" class="nb"><span class="num">17.4</span> Applicability with Coercion</h2>
+<p id="p-98eafaed" class="nb">As discussed in the previous section, coercion in Fortress alters the set of applicable declarations for a particular functional call. In this section we formally define the applicability of declarations with coercion. (This level of formality is necessary to discuss the interaction of overloading and coercion.) We build on the terminology and notation defined in <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc-->.</p>
+<p id="p-352b746e" class="nb">A <em>coercion</em> from <span class="m"><i>T</i></span> to <span class="m"><i>U</i></span> is defined in the declaration of <span class="m"><i>U</i></span>. We write <span class="m"><i>T</i> → <i>U</i></span> if <span class="m"><i>U</i></span> defines a coercion from <span class="m"><i>T</i></span>. We say that <span class="m"><i>T</i></span> <em>can be coerced to</em> <span class="m"><i>U</i></span>, and we write <span class="m"><i>T</i> ⇝ <i>U</i></span>, if <span class="m"><i>U</i></span> defines a coercion from <span class="m"><i>T</i></span> or any supertype of <span class="m"><i>T</i></span>; that is, <span class="m"><i>T</i> ⇝ <i>U</i> ⟺ ∃<i>T</i>′ : <i>T</i> ⪯ <i>T</i>′ ∧ <i>T</i>′ → <i>U</i></span>.</p>
+<p id="p-afbb07c3" class="nb">We define coercion between tuple types and arrow types in <a class="xref" href="#sec-coercion-tuple-arrow">Section 17.7</a><!--nc-->.</p>
+<p id="p-5f20d77d" class="nb">Because of automatic coercion, a declaration may be applicable even if its parameter type is not a supertype of the argument type of the call. We define a new relation, <em>substitutability</em>, that takes coercion into account.</p>
+<p id="p-10a990b5" class="nb">We say that a type <span class="m"><i>T</i></span> is <em>substitutable</em> for type <span class="m"><i>U</i></span>, and we write <span class="m"><i>T</i> ⊑ <i>U</i></span>, if <span class="m"><i>T</i></span> is a subtype of <span class="m"><i>U</i></span> or <span class="m"><i>T</i></span> can be coerced to <span class="m"><i>U</i></span>; that is,</p>
+<div class="dm nb" id="m-519a7586"><svg class="tx" data-d="11" viewBox="170.36 4.55 127.29 9.36" width="12.729em" height="0.936em" fill="currentColor"><text class='t8' x='170.96' y='11.96'>T</text>
+<text class='t7' x='180.93' y='11.96'></text>
+<text class='t8' x='191.44' y='11.96'>U</text>
+<text class='t7' x='204.87' y='11.96'>⇐<tspan x='213.17'>⇒</tspan></text>
+<text class='t8' x='228.67' y='11.96'>T</text>
+<text class='t7' x='238.64' y='11.96'></text>
+<text class='t8' x='249.16' y='11.96'>U</text>
+<text class='t7' x='259.26' y='11.96'>∨</text>
+<text class='t8' x='268.11' y='11.96'>T</text>
+<text class='t12' x='276.43' y='11.96'></text>
+<text class='t8' x='287.5' y='11.96'>U<tspan x='294.28'>.</tspan></text></svg></div>
+<p id="p-0e81ed77" class="nb">Note that <span class="m">⊑</span> need not be transitive. This is a result of the fact that coercion does not chain. However, if <span class="m"><i>T</i></span> is substitutable for <span class="m"><i>U</i></span> then so are <span class="m"><i>T</i></span>’s subtypes; that is, <span class="m"><i>A</i> ⪯ <i>T</i> ∧ <i>T</i> ⊑ <i>U</i> ⟹ <i>A</i> ⊑ <i>U</i></span>.</p>
+<p id="p-60035383" class="nb">A declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> is <em>applicable with coercion</em> to a call <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span> if the call is in the scope of the declaration and <span class="m"><span class="it">C</span> ⊑ <span class="it">P</span></span>. (See <a class="xref" href="declarations.html">Chapter 7</a><!--nc--> for the definition of scope.)</p>
+<p id="p-cd6a97ee" class="nb">Recall a rewriting of named functional calls into dotted method calls when no declarations are applicable to the named functional call. This rewriting is also used to determine applicability with coercion. If there is no declaration applicable with coercion to a named functional call then the call is rewritten into a dotted method call. Applicable declarations are then determined by the rules for applicability with coercion for dotted method calls.</p>
+<p id="p-4823b200" class="nb">Similarly, a dotted method declaration <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> is <em>applicable with coercion</em> to a dotted method call <span class="m"><span class="it">C</span><sub>0</sub>.<span class="it">f</span>(<span class="it">C</span>)</span> if it <span class="m"><span class="it">C</span><sub>0</sub> ⪯ <span class="it">P</span><sub>0</sub></span> and <span class="m"><span class="it">C</span> ⊑ <span class="it">P</span></span>. Notice that the receiver is compared using the subtype relation instead of the substitutable relation. This reflects the restriction that receivers of dotted methods cannot be coerced. However, <span class="m"><span class="kw">self</span></span> parameters of functional methods can be coerced. This distinction is consistent with the intuition that functional methods are rewritten into top-level functions.</p>
+<p id="p-0c652072" class="nb">Note that the only difference between applicability and applicability with coercion is that substitutability is used instead of subtyping to compare the parameter types of the declarations.</p>
+<p id="p-443b1e32" class="nb">Also note that the definition of applicability with coercion does not take keyword parameters or varargs parameters into account. Such declarations are conceptually rewritten into numerous declarations which cannot be called with elided arguments nor with variable number of arguments (as described in <a class="xref" href="multiple-dispatch.html#sec-applicability-with-special-params">Section 15.4</a><!--nc-->). If one of the expanded declarations is applicable with coercion to a call, then the original declaration (with keyword or varargs parameters) is applicable with coercion to the call.</p>
+</section>
+<section class="sec" data-num="17.5" data-title="Coercion Resolution">
+<h2 id="sec-resolving-coercion" class="nb"><span class="num">17.5</span> Coercion Resolution</h2>
+<p id="p-09802965" class="nb">For a given functional call, we first determine whether there exists a declaration that is applicable without coercion. If so, the most specific declaration is selected; if not, then coercions are explicitly added to the functional call. If more than one coercion is possible then the coercion that yields the most specific type is chosen. <a class="xref" href="#sec-restrictions-coercion">Section 17.6</a><!--nc--> and <a class="xref" href="overloaded-declarations.html">Chapter 24</a><!--nc--> describe overloading rules for the declarations of coercions and overloaded functionals that guarantee there exists always a most specific coercion when two or more are possible. A declaration with static parameters is applicable, without or with coercion, when some instance of it whose static arguments satisfy their bounds is, and declarations are compared on the parameter types they declare (<a class="xref" href="multiple-dispatch.html#sec-functional-applicability">Section 15.2</a><!--nc-->, <a class="xref" href="multiple-dispatch.html#sec-resolving-overloading">Section 15.5</a><!--nc-->); the declaration selected is then instantiated as <a class="xref" href="type-inference.html#sec-static-arg-inference">Section 20.1</a><!--nc--> describes, with the rule for a numeral whose conversions tie (<a class="xref" href="type-inference.html#sec-numeral-default">Section 20.2</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-9d27b60d" class="nb">The Working Draft of February 2011 did not say here when a declaration with static parameters is applicable. The revival decided on 28 September 2026 that a coercion makes a call possible and never changes which declaration runs when one is applicable without it: declarations are chosen in the order this section gives, on the parameter types they declare, and the declaration chosen is then instantiated.</p></aside>
+<p id="p-02d44df4" class="nb">We first define a notion of more specific types in the presence of coercion. Recall from <a class="xref" href="types.html#sec-type-relations">Section 6.2</a> that Fortress defines an <em>exclusion</em> relation between types which is denoted by <span class="m">◊</span>.</p>
+<p id="p-6ecec372" class="nb">For types <span class="m"><i>T</i></span> and <span class="m"><i>U</i></span>, we say that <span class="m"><i>T</i></span> <em>rejects</em> <span class="m"><i>U</i></span>, and write <span class="m"><i>T</i>−⟩ <i>U</i></span>, if for all coercions to <span class="m"><i>T</i></span>, the type coerced from excludes <span class="m"><i>U</i></span>:</p>
+<div class="dm nb" id="m-6ec480fe"><svg class="tx" data-d="12" viewBox="153.69 3.88 160.63 11.16" width="16.063em" height="1.116em" fill="currentColor"><text class='t8' x='154.29' y='11.96'>T</text>
+<text class='t7' x='161.49' y='11.96'>−<tspan x='165.92'></tspan></text>
+<text class='t8' x='172.01' y='11.96'>U</text>
+<text class='t7' x='185.43' y='11.96'>⇐<tspan x='193.73'>⇒</tspan><tspan x='209.23'>∀</tspan></text>
+<text class='t8' x='214.77' y='11.96'>A</text>
+<text class='t5' x='225.01' y='11.96'>:</text>
+<text class='t8' x='230.54' y='11.96'>A</text>
+<text class='t7' x='239.12' y='11.96'>→</text>
+<text class='t8' x='250.19' y='11.96'>T</text>
+<text class='t5' x='262.93' y='11.96'>=</text>
+<text class='t7' x='269.02' y='11.96'>⇒</text>
+<text class='t8' x='284.52' y='11.96'>A</text>
+<text class='t12' x='294.75' y='11.96'>♦</text>
+<text class='t8' x='304.16' y='11.96'>U<tspan x='310.95'>.</tspan></text></svg></div>
+<p id="p-6379e89c" class="nb">Note that <span class="m"><i>T</i>−⟩ <i>U</i></span> implies <span class="m"><i>U</i> ⇝̸ <i>T</i></span>.</p>
+<p id="p-0ee37d62" class="nb">We say that <span class="m"><i>T</i></span> is <em>no less specific</em> than <span class="m"><i>U</i></span>, and write <span class="m"><i>T</i> ⊴<sub></sub> <i>U</i></span>, if <span class="m"><i>T</i></span> is a subtype of <span class="m"><i>U</i></span> or <span class="m"><i>T</i></span> excludes, can be coerced to, and rejects <span class="m"><i>U</i></span>:</p>
+<div class="dm nb" id="m-500da83e"><svg class="tx" data-d="13" viewBox="128.17 3.88 211.66 11.16" width="21.166em" height="1.116em" fill="currentColor"><text class='t8' x='128.77' y='11.96'>T</text>
+<text class='t12' x='138.74' y='11.96'></text>
+<text class='t8' x='149.76' y='11.96'>U</text>
+<text class='t7' x='163.18' y='11.96'>⇐<tspan x='171.48'>⇒</tspan></text>
+<text class='t8' x='186.98' y='11.96'>T</text>
+<text class='t7' x='196.95' y='11.96'></text>
+<text class='t8' x='207.47' y='11.96'>U</text>
+<text class='t7' x='217.57' y='11.96'>∨</text>
+<text class='t5' x='226.43' y='11.96'>(</text>
+<text class='t8' x='230.3' y='11.96'>T</text>
+<text class='t12' x='240.27' y='11.96'>♦</text>
+<text class='t8' x='249.68' y='11.96'>U</text>
+<text class='t7' x='259.78' y='11.96'>∧</text>
+<text class='t8' x='268.64' y='11.96'>T</text>
+<text class='t12' x='276.95' y='11.96'></text>
+<text class='t8' x='288.02' y='11.96'>U</text>
+<text class='t7' x='298.12' y='11.96'>∧</text>
+<text class='t8' x='306.98' y='11.96'>T</text>
+<text class='t7' x='314.19' y='11.96'>−<tspan x='318.61'></tspan></text>
+<text class='t8' x='324.7' y='11.96'>U</text>
+<text class='t5' x='332.59' y='11.96'>)</text>
+<text class='t8' x='336.46' y='11.96'>.</text></svg></div>
+<p id="p-019454f3" class="nb">The <span class="m">⊴<sub></sub></span> relation is reflexive and antisymmetric but not necessarily transitive. It is possible, for example, for three types, <span class="m"><i>T</i></span>, <span class="m"><i>U</i></span> and <span class="m"><i>V</i></span>, each excluding the other two, to have coercions from <span class="m"><i>T</i></span> to <span class="m"><i>U</i></span> and from <span class="m"><i>U</i></span> to <span class="m"><i>V</i></span>. In this case, <span class="m"><i>T</i> ⊴<sub></sub> <i>U</i></span> and <span class="m"><i>U</i> ⊴<sub></sub> <i>V</i></span> but <span class="m"><i>T</i> ⋬<sub></sub> <i>V</i></span>.</p>
+<p id="p-8fc0632f" class="nb">Notice that if two tuple types have a bijective correspondence between their element types then the <span class="m">⊴<sub></sub></span> relationship between the tuple types is equivalent to applying the <span class="m">⊴<sub></sub></span> relation elementwise.</p>
+<p id="p-ad9299a9" class="nb">We say that <span class="m"><i>T</i></span> is <em>more specific</em> than <span class="m"><i>U</i></span>, and write <span class="m"><i>T</i> ◁<sub></sub> <i>U</i></span>, if <span class="m"><i>T</i> ⊴<sub></sub> <i>U</i> ∧ <i>T</i> ≠ <i>U</i></span>.</p>
+<p id="p-2be9a6b2" class="nb">We extend the definitions of no less specific and more specific to declarations. We say that a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> is <em>no less specific</em> than a declaration <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> if <span class="m"><span class="it">P</span> ⊴<sub></sub> <span class="it">Q</span></span>. Similarly, we say that a declaration <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> is <em>no less specific</em> than a declaration <span class="m"><span class="it">Q</span><sub>0</sub>.<span class="it">f</span>(<span class="it">Q</span>)</span> if <span class="m">(<span class="it">P</span><sub>0</sub>, <span class="it">P</span>) ⊴<sub></sub> (<span class="it">Q</span><sub>0</sub>, <span class="it">Q</span>)</span>. A declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> is <em>more specific</em> than a declaration <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> if <span class="m"><span class="it">P</span> ◁<sub></sub> <span class="it">Q</span></span>. Similarly, a declaration <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> is <em>more specific</em> than a declaration <span class="m"><span class="it">Q</span><sub>0</sub>.<span class="it">f</span>(<span class="it">Q</span>)</span> if <span class="m">(<span class="it">P</span><sub>0</sub>, <span class="it">P</span>) ◁<sub></sub> (<span class="it">Q</span><sub>0</sub>, <span class="it">Q</span>)</span>.</p>
+<p id="p-84ead64b" class="nb">Now we describe how to determine which coercion is applied to a given call in terms of rewriting functional calls. The rewriting is for pedagogical purposes; implementation techniques may vary.</p>
+<p id="p-dbbba7b3" class="nb">Consider a static call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span> or <span class="m"><span class="it">A</span><sub>0</sub>.<span class="it">f</span>(<span class="it">A</span>)</span>. Let <span class="m">Σ</span> be the set of parameter types of functional declarations of <span class="m"><span class="it">f</span></span> that are applicable to the call. Let <span class="m">Σ′</span> be the set of parameter types of functional declarations of <span class="m"><span class="it">f</span></span> that are applicable with coercion to the call. If <span class="m">Σ</span> is not empty then we use the overloading resolution described in <a class="xref" href="multiple-dispatch.html#sec-resolving-overloading">Section 15.5</a><!--nc--> to determine which element of <span class="m">Σ</span> is called. The parameter type of a declaration with static parameters is in <span class="m">Σ</span>, or in <span class="m">Σ′</span>, when some instance of the declaration whose static arguments satisfy their bounds is applicable to the call, without or with coercion; the static arguments of the declaration selected are inferred afterwards (<a class="xref" href="type-inference.html#sec-static-arg-inference">Section 20.1</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-ec1e44d4" class="nb">The Working Draft of February 2011 did not say when the parameter type of a declaration with static parameters is in these sets.</p></aside>
+<p id="p-d7b198bc" class="nb">If <span class="m">Σ</span> is empty but <span class="m">Σ′</span> is not, then we rewrite the call as follows. Define:</p>
+<div class="dm nb" id="m-ab8306be"><svg class="tx" data-d="14" viewBox="166.16 3.37 135.68 11.68" width="13.568em" height="1.168em" fill="currentColor"><text class='t13' x='166.76' y='11.96'>C</text>
+<text class='t5' x='175.81' y='11.96'>=</text>
+<text class='t7' x='186.33' y='11.96'>{</text>
+<text class='t8' x='191.31' y='11.96'>T</text>
+<text class='t7' x='201.28' y='11.96'>∈</text>
+<text class='t5' x='210.69' y='11.96'>Σ</text>
+<text class='t9' x='217.89' y='7.84'></text>
+<text class='t7' x='223.45' y='11.96'>|</text>
+<text class='t8' x='228.98' y='11.96'>S</text>
+<text class='t7' x='236.78' y='11.96'>→</text>
+<text class='t8' x='247.84' y='11.96'>T</text>
+<text class='t7' x='257.26' y='11.96'>∧</text>
+<text class='t11' x='266.12' y='11.96'>A</text>
+<text class='t7' x='276.29' y='11.96'></text>
+<text class='t8' x='286.81' y='11.96'>S</text>
+<text class='t7' x='293.49' y='11.96'>}</text>
+<text class='t8' x='298.47' y='11.96'>.</text></svg></div>
+<p id="p-3029dbd4" class="nb">Let <span class="m"><i>T</i> ∈ <span class="it">C</span></span> be the most specific element of <span class="m"><span class="it">C</span></span>. In other words, there does not exist <span class="m"><i>T</i>′ ∈ <span class="it">C</span></span> such that <span class="m"><i>T</i>′ ◁<sub></sub> <i>T</i></span>. The restrictions given in <a class="xref" href="#sec-restrictions-coercion">Section 17.6</a><!--nc--> and <a class="xref" href="overloaded-declarations.html">Chapter 24</a><!--nc--> guarantee that such a <span class="m"><i>T</i></span> exists and that it is unique. The call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span> or <span class="m"><span class="it">A</span><sub>0</sub>.<span class="it">f</span>(<span class="it">A</span>)</span> is rewritten to <span class="m"><i>f</i>(<span class="rm">coercion</span>⟦<i>T</i>⟧(<span class="ty">A</span>))</span> or <span class="m"><i>A</i><sub>0</sub>.<i>f</i>(<span class="rm">coerce</span>⟦<i>T</i>⟧(<i>A</i>))</span> and the declaration with parameter type <span class="m"><i>T</i></span> is applied to the call.</p>
+<p id="p-55fd3c32" class="nb">As an example, consider the following definitions:</p>
+<div class="fx nb both" id="c-c7b26b23" data-kind="code"><div class="fx-r"><svg class="tx" data-d="15" viewBox="9.36 11.26 168.46 122.74" width="16.846em" height="12.274em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t14' x='38.88' y='19.33'>Z</text>
+<text class='t5' x='45.52' y='19.33'>32</text>
+<text class='t3' x='58.25' y='19.33'>excludes</text>
+<text class='t7' x='102.86' y='19.33'>{</text>
+<text class='t14' x='109.51' y='19.33'>Z</text>
+<text class='t5' x='116.15' y='19.33'>64</text>
+<text class='t8' x='126.11' y='19.33'>,</text>
+<text class='t14' x='130.54' y='19.33'>Z</text>
+<text class='t5' x='137.18' y='19.33'>128</text>
+<text class='t7' x='153.78' y='19.33'>}</text>
+<text class='t3' x='161.53' y='19.33'>end<tspan x='9.96' y='31.28'>trait</tspan></text>
+<text class='t14' x='38.88' y='31.28'>Z</text>
+<text class='t5' x='45.52' y='31.28'>64</text>
+<text class='t3' x='58.25' y='31.28'>excludes</text>
+<text class='t7' x='102.86' y='31.28'>{</text>
+<text class='t14' x='109.51' y='31.28'>Z</text>
+<text class='t5' x='116.15' y='31.28'>128</text>
+<text class='t7' x='132.75' y='31.28'>}</text>
+<text class='t3' x='21.92' y='43.24'>coerce</text>
+<text class='t5' x='56.07' y='43.24'>(</text>
+<text class='t8' x='59.94' y='43.24'>z</text>
+<text class='t5' x='66.67' y='43.24'>:</text>
+<text class='t14' x='71.1' y='43.24'>Z</text>
+<text class='t5' x='77.74' y='43.24'>32)<tspan x='94.35'>=</tspan></text>
+<text class='t8' x='104.86' y='43.24'>.<tspan x='109.29'>.</tspan><tspan x='113.72'>.</tspan></text>
+<text class='t3' x='9.96' y='55.19'>end<tspan x='9.96' y='67.15'>trait</tspan></text>
+<text class='t14' x='38.88' y='67.15'>Z</text>
+<text class='t5' x='45.52' y='67.15'>128</text>
+<text class='t3' x='21.92' y='79.1'>coerce</text>
+<text class='t5' x='56.07' y='79.1'>(</text>
+<text class='t8' x='59.94' y='79.1'>z</text>
+<text class='t5' x='66.67' y='79.1'>:</text>
+<text class='t14' x='71.1' y='79.1'>Z</text>
+<text class='t5' x='77.74' y='79.1'>32)<tspan x='94.35'>=</tspan></text>
+<text class='t8' x='104.86' y='79.1'>.<tspan x='109.29'>.</tspan><tspan x='113.72'>.</tspan></text>
+<text class='t3' x='21.92' y='91.06'>coerce</text>
+<text class='t5' x='56.07' y='91.06'>(</text>
+<text class='t8' x='59.94' y='91.06'>z</text>
+<text class='t5' x='66.67' y='91.06'>:</text>
+<text class='t14' x='71.1' y='91.06'>Z</text>
+<text class='t5' x='77.74' y='91.06'>64)<tspan x='94.35'>=</tspan></text>
+<text class='t8' x='104.86' y='91.06'>.<tspan x='109.29'>.</tspan><tspan x='113.72'>.</tspan></text>
+<text class='t3' x='9.96' y='103.01'>end</text>
+<text class='t8' x='9.96' y='118.95'>f</text>
+<text class='t5' x='15.91' y='118.95'>(</text>
+<text class='t8' x='19.79' y='118.95'>z</text>
+<text class='t5' x='26.52' y='118.95'>:</text>
+<text class='t14' x='30.95' y='118.95'>Z</text>
+<text class='t5' x='37.59' y='118.95'>64)<tspan x='54.19'>=</tspan><tspan x='64.71'>1</tspan></text>
+<text class='t8' x='9.96' y='130.91'>f</text>
+<text class='t5' x='15.91' y='130.91'>(</text>
+<text class='t8' x='19.79' y='130.91'>z</text>
+<text class='t5' x='26.52' y='130.91'>:</text>
+<text class='t14' x='30.95' y='130.91'>Z</text>
+<text class='t5' x='37.59' y='130.91'>128)<tspan x='59.17'>=</tspan><tspan x='69.69'>2</tspan></text></svg></div><pre class="fx-s"><code>  coerce(z:ZZ32) = ...
+end
+trait ZZ128
+  coerce(z:ZZ32) = ...
+  coerce(z:ZZ64) = ...
+end
+
+f(z:ZZ64) = 1
+f(z:ZZ128) = 2</code></pre></div>
+<p id="p-113a7f67" class="nb">Then the call <span class="m"><i>f</i>(ℤ32)</span> resolves to the declaration <span class="m"><i>f</i>(ℤ64)</span> because <span class="m">ℤ64 ◁<sub></sub> ℤ128</span>, which follows from the facts that <span class="m">ℤ64</span> excludes <span class="m">ℤ128</span>, coerces to it, and rejects it: the one type that coerces to <span class="m">ℤ64</span>, <span class="m">ℤ32</span>, excludes <span class="m">ℤ128</span>. The same facts make the two declarations of <span class="m"><i>f</i></span> a valid overloading, and the exclusion of <span class="m">ℤ64</span> by <span class="m">ℤ32</span> does the same for the two coercions to <span class="m">ℤ128</span> (<a class="xref" href="overloaded-declarations.html#sec-more-specific-rule">Section 24.4</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-coercion-example">Section I.1.24</a><!--nc--></span></p>
+<p id="p-cad1fb13" class="nb">The Working Draft of February 2011 declared the three traits with no <span class="m"><span class="kw">excludes</span></span> clause and said that the resolution follows from the fact that <span class="m">ℤ64</span> coerces to <span class="m">ℤ128</span>. By the definition above, <span class="m">ℤ64</span> is then not more specific than <span class="m">ℤ128</span>, and neither the two declarations of <span class="m"><i>f</i></span> nor the two coercions to <span class="m">ℤ128</span> are a valid overloading; both implementations of the revival refuse the example as the Working Draft wrote it. The clauses added are spelled as the Fortress standard libraries spell those of their integer types, each trait excluding the wider ones.</p></aside>
+<p id="p-292dd280" class="nb">Notice that coercion is resolved statically. Once a coercion is statically chosen for a call, this coercion is conceptually inserted into the call. This means that the statically chosen coercion is applied at run time. The coercions that the instance of a declaration with static parameters needs are chosen and inserted into the call in the same way (<a class="xref" href="type-inference.html#sec-static-arg-inference">Section 20.1</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-95fa1be4" class="nb">The Working Draft of February 2011 did not say how the coercions of an instance of a declaration with static parameters are chosen.</p></aside>
+<p id="p-16f44715" class="nb">For example, in the following program:</p>
+<div class="fx nb both" id="c-5962dc5d" data-kind="code"><div class="fx-r"><svg class="tx" data-d="16" viewBox="9.36 11.92 134.76 126.07" width="13.476em" height="12.607em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t8' x='38.88' y='19.33'>A</text>
+<text class='t3' x='21.92' y='31.28'>coerce</text>
+<text class='t5' x='56.07' y='31.28'>(</text>
+<text class='t8' x='59.94' y='31.28'>c</text>
+<text class='t5' x='65.91' y='31.28'>:</text>
+<text class='t8' x='70.34' y='31.28'>C</text>
+<text class='t5' x='78.17' y='31.28'>)<tspan x='84.82'>=</tspan></text>
+<text class='t8' x='95.33' y='31.28'>.<tspan x='99.76'>.</tspan><tspan x='104.19'>.</tspan></text>
+<text class='t3' x='9.96' y='43.24'>end<tspan x='9.96' y='55.19'>trait</tspan></text>
+<text class='t8' x='38.88' y='55.19'>B</text>
+<text class='t3' x='49.71' y='55.19'>excludes</text>
+<text class='t8' x='94.32' y='55.19'>A</text>
+<text class='t3' x='104.56' y='55.19'>end<tspan x='9.96' y='67.15'>trait</tspan></text>
+<text class='t8' x='38.88' y='67.15'>C</text>
+<text class='t3' x='49.48' y='67.15'>end<tspan x='9.96' y='79.1'>object</tspan></text>
+<text class='t8' x='44.11' y='79.1'>D</text>
+<text class='t3' x='55.4' y='79.1'>extends</text>
+<text class='t7' x='94.78' y='79.1'>{</text>
+<text class='t8' x='99.77' y='79.1'>B<tspan x='107.82'>,</tspan><tspan x='112.25'>C</tspan></text>
+<text class='t7' x='120.08' y='79.1'>}</text>
+<text class='t3' x='127.83' y='79.1'>end</text>
+<text class='t8' x='9.96' y='95.04'>f</text>
+<text class='t5' x='15.91' y='95.04'>(</text>
+<text class='t8' x='19.79' y='95.04'>a</text>
+<text class='t5' x='26.71' y='95.04'>:</text>
+<text class='t8' x='31.14' y='95.04'>A</text>
+<text class='t5' x='38.61' y='95.04'>)<tspan x='45.26'>=</tspan><tspan x='55.77'>3</tspan></text>
+<text class='t8' x='9.96' y='107'>f</text>
+<text class='t5' x='15.91' y='107'>(</text>
+<text class='t8' x='19.79' y='107'>b</text>
+<text class='t5' x='25.72' y='107'>:</text>
+<text class='t8' x='30.15' y='107'>B</text>
+<text class='t5' x='38.21' y='107'>)<tspan x='44.85'>=</tspan><tspan x='55.37'>4</tspan></text>
+<text class='t8' x='9.96' y='122.94'>c</text>
+<text class='t5' x='17.04' y='122.94'>:</text>
+<text class='t8' x='22.58' y='122.94'>C</text>
+<text class='t5' x='33.18' y='122.94'>=</text>
+<text class='t8' x='43.69' y='122.94'>D<tspan x='9.96' y='134.89'>f</tspan></text>
+<text class='t5' x='15.91' y='134.89'>(</text>
+<text class='t8' x='19.79' y='134.89'>c</text>
+<text class='t5' x='24.1' y='134.89'>)</text></svg></div><pre class="fx-s"><code>trait A
+  coerce(c:C) = ...
+end
+trait B excludes A end
+trait C end
+object D extends {B,C} end
+
+f(a:A) = 3
+f(b:B) = 4
+
+c : C = D
+f(c)</code></pre></div>
+<p id="p-0f920dfe" class="nb">the call to <span class="m"><i>f</i>(<i>C</i>)</span> resolves to the declaration <span class="m"><i>f</i>(<i>A</i>)</span> despite the fact that the declaration <span class="m"><i>f</i>(<i>B</i>)</span> is applicable to the dynamic call <span class="m"><i>f</i>(<i>D</i>)</span> and does not require coercion.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-coercion-walk">Section I.1.33</a><!--nc--></span></p>
+<p id="p-d5b92e22" class="nb">The compiled path of the revival resolves the example as this section says and runs <span class="m"><i>f</i>(<i>A</i>)</span>. The interpreter has no static types, so it chooses a coercion on the value: for <span class="m"><i>f</i>(<i>c</i>)</span> it finds <span class="m"><i>f</i>(<i>B</i>)</span> applicable to the value without coercion and runs it, and it answers the same way wherever an argument’s static type needs a coercion and the argument’s value is of a type that another declaration already fits. The two cases are gated as expected failures of the interpreter (<code>ProjectFortress/tests/XXXCoercionStaticRungC.fss</code> and <code>XXXCoercionStaticNarrowRungC.fss</code>, row 19 of the revival’s gap ledger). The interpreter is to follow this section once the compiled type checker checks the programs it runs and it takes the coercions that the checker inserts.</p></aside>
+</section>
+<section class="sec" data-num="17.6" data-title="Restrictions on Coercion Declarations">
+<h2 id="sec-restrictions-coercion" class="nb"><span class="num">17.6</span> Restrictions on Coercion Declarations</h2>
+<p id="p-cc21aaaa" class="nb">We place two restrictions on coercion declarations to ensure that it is always possible to resolve coercions.</p>
+<p id="p-b451bfb0" class="nb">It is a static error for a type to define a coercion from any of its subtypes. For example, the following program is statically rejected:</p>
+<div class="fx nb both" id="c-cbc238cd" data-kind="code"><div class="fx-r"><svg class="tx" data-d="17" viewBox="9.36 11.81 132.54 47.97" width="13.254em" height="4.797em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t5' x='38.88' y='19.33'>Num<tspan x='59.91'>b</tspan><tspan x='65.73'>er</tspan></text>
+<text class='t3' x='21.92' y='31.28'>coerce</text>
+<text class='t5' x='56.07' y='31.28'>(</text>
+<text class='t8' x='59.94' y='31.28'>z</text>
+<text class='t5' x='66.67' y='31.28'>:</text>
+<text class='t14' x='71.1' y='31.28'>Z</text>
+<text class='t5' x='77.74' y='31.28'>)<tspan x='84.38'>=</tspan></text>
+<text class='t8' x='94.9' y='31.28'>.<tspan x='99.33'>.</tspan><tspan x='103.76'>.</tspan></text>
+<text class='t3' x='9.96' y='43.24'>end<tspan x='9.96' y='59.18'>trait</tspan></text>
+<text class='t14' x='38.88' y='59.18'>Z</text>
+<text class='t3' x='48.29' y='59.18'>extends</text>
+<text class='t5' x='87.67' y='59.18'>Num<tspan x='108.7'>b</tspan><tspan x='114.51'>er</tspan></text>
+<text class='t3' x='125.61' y='59.18'>end</text></svg></div><pre class="fx-s"><code>trait Number
+  coerce(z:ZZ) = ...
+end</code></pre></div>
+<p id="p-170d3288" class="nb">Instead, <span class="m"><i>z</i></span> of type <span class="m">ℤ</span> can be coerced to type <span class="m"><span class="ty">Number</span></span> by “<span class="m"><span class="rm">coerce</span>⟦<span class="ty">Number</span>⟧(<i>z</i>)</span>” where <span class="m"><span class="rm">coerce</span></span> is defined in the Fortress standard libraries (as described in <a class="xref" href="expressions.html#sec-coercion-expr">Section 13.33.5</a><!--nc-->).</p>
+<p id="p-3c2acc53" class="nb">It is also a static error for cycles to exist in the type hierarchy produced by extension and coercion declarations. Such cycles may be composed of solely subtype relationships or solely coercion or a mixture of the two. In all cases the cycles are statically rejected. An example showing a cycle that is a mixture of subtype and coercion relationships follows:</p>
+<div class="fx nb both" id="c-4aaac950" data-kind="code"><div class="fx-r"><svg class="tx" data-d="18" viewBox="9.36 11.92 106.25 63.80" width="10.625em" height="6.380em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t8' x='38.88' y='19.33'>A</text>
+<text class='t3' x='49.12' y='19.33'>end<tspan x='9.96' y='35.27'>trait</tspan></text>
+<text class='t8' x='38.88' y='35.27'>B</text>
+<text class='t3' x='49.71' y='35.27'>extends</text>
+<text class='t8' x='89.09' y='35.27'>A</text>
+<text class='t3' x='99.32' y='35.27'>end<tspan x='9.96' y='51.21'>trait</tspan></text>
+<text class='t8' x='38.88' y='51.21'>C</text>
+<text class='t3' x='49.48' y='51.21'>extends</text>
+<text class='t8' x='88.86' y='51.21'>B</text>
+<text class='t3' x='21.92' y='63.16'>coerce</text>
+<text class='t5' x='56.07' y='63.16'>(</text>
+<text class='t8' x='59.94' y='63.16'>a</text>
+<text class='t5' x='66.87' y='63.16'>:</text>
+<text class='t8' x='71.3' y='63.16'>A</text>
+<text class='t5' x='78.77' y='63.16'>)<tspan x='85.41'>=</tspan></text>
+<text class='t8' x='95.93' y='63.16'>.<tspan x='100.35'>.</tspan><tspan x='104.78'>.</tspan></text>
+<text class='t3' x='9.96' y='75.12'>end</text></svg></div><pre class="fx-s"><code>trait A end
+trait B extends A end
+trait C extends B
+  coerce(a:A) = ...
+end</code></pre></div>
+</section>
+<section class="sec" data-num="17.7" data-title="Coercions for Tuple and Arrow Types">
+<h2 id="sec-coercion-tuple-arrow" class="nb"><span class="num">17.7</span> Coercions for Tuple and Arrow Types</h2>
+<p id="p-5af223eb" class="nb">Unlike other types, tuple types (described in <a class="xref" href="types.html#sec-tuple-types">Section 6.5</a>) and arrow types (described in <a class="xref" href="types.html#sec-arrow-types">Section 6.6</a>) are not defined explicitly. Therefore coercions to these types are also not defined explicitly. Instead, the following rules describe when these coercions are implicitly defined.</p>
+<p id="p-57c6c138" class="nb">There is a coercion from a tuple type <span class="m"><i>X</i></span> to a tuple type <span class="m"><i>Y</i></span> if all the following conditions hold:</p>
+<ol>
+<li><p id="p-78fefac5" class="nb"><span class="m"><i>X</i></span> is not a subtype of <span class="m"><i>Y</i></span>;</p></li>
+<li><p id="p-c1d71d5a" class="nb">for every plain type <span class="m"><i>T</i></span> in <span class="m"><i>Y</i></span>, there is a corresponding plain type in <span class="m"><i>X</i></span> whose type is substitutable for <span class="m"><i>T</i></span>;</p></li>
+<li><p id="p-9701eb8a" class="nb">if neither <span class="m"><i>X</i></span> nor <span class="m"><i>Y</i></span> has a varargs type, then they have the same number of plain types;</p></li>
+<li><p id="p-a75fdab8" class="nb">if <span class="m"><i>X</i></span> has a varargs type, then <span class="m"><i>Y</i></span> has a varargs type, the type <span class="m"><i>S</i></span> of the varargs type <span class="m"><i>S</i>...</span> in <span class="m"><i>X</i></span> is substitutable for the type <span class="m"><i>T</i></span> of the varargs type <span class="m"><i>T</i>...</span> in <span class="m"><i>Y</i></span>, and <span class="m"><i>X</i></span> and <span class="m"><i>Y</i></span> have the same number of plain types;</p></li>
+<li><p id="p-a6583747" class="nb">if <span class="m"><i>X</i></span> has no varargs type and <span class="m"><i>Y</i></span> has a varargs type <span class="m"><i>T</i>...</span>, then every plain type in <span class="m"><i>X</i></span> that has no corresponding plain type in <span class="m"><i>Y</i></span> is substitutable for <span class="m"><i>T</i></span>; and</p></li>
+<li><p id="p-db5ff9cb" class="nb">the correspondence between keyword-type pairs in <span class="m"><i>X</i></span> and <span class="m"><i>Y</i></span> is bijective, and the type of each such pair in <span class="m"><i>X</i></span> is substitutable for the type in the corresponding pair in <span class="m"><i>Y</i></span>.</p></li>
+</ol>
+<p id="p-70d46d71" class="nb">Tuple type coercions are invoked by distributing the coercion elementwise. However, if an element type of the tuple type being coerced from is a subtype of the corresponding element type of the tuple type being coerced to, the coercion is ignored. For example, the following coercions:</p>
+<div class="fx nb both" id="c-15cc4aee" data-kind="code"><div class="fx-r"><svg class="tx" data-d="19" viewBox="9.36 11.26 125.97 23.12" width="12.597em" height="2.312em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>co<tspan x='19.65'>erce</tspan></text>
+<text class='t6' x='36.83' y='19.33'></text>
+<text class='t5' x='40.85' y='19.33'>(</text>
+<text class='t8' x='44.72' y='19.33'>A,<tspan x='56.62'>B</tspan></text>
+<text class='t5' x='64.68' y='19.33'>)</text>
+<text class='t6' x='68.55' y='19.33'></text>
+<text class='t5' x='72.56' y='19.33'>(</text>
+<text class='t8' x='76.44' y='19.33'>x,<tspan x='86.56'>y</tspan></text>
+<text class='t5' x='91.8' y='19.33'>)<tspan x='9.96' y='31.28'>co</tspan><tspan x='19.65'>erce</tspan></text>
+<text class='t6' x='36.83' y='31.28'></text>
+<text class='t5' x='40.85' y='31.28'>(</text>
+<text class='t11' x='44.72' y='31.28'>kwd</text>
+<text class='t5' x='64.81' y='31.28'>=</text>
+<text class='t8' x='75.33' y='31.28'>A</text>
+<text class='t5' x='82.8' y='31.28'>)</text>
+<text class='t6' x='86.67' y='31.28'></text>
+<text class='t5' x='90.69' y='31.28'>(</text>
+<text class='t11' x='94.56' y='31.28'>kwd</text>
+<text class='t5' x='114.65' y='31.28'>=</text>
+<text class='t8' x='125.17' y='31.28'>x</text>
+<text class='t5' x='130.86' y='31.28'>)</text></svg></div><pre class="fx-s"><code>coerce_[\(A, B)\](x, y)</code></pre></div>
+<p id="p-7ef5bc30" class="nb">are rewritten to:</p>
+<div class="fx nb both" id="c-ae94a8e3" data-kind="code"><div class="fx-r"><svg class="tx" data-d="20" viewBox="9.36 11.26 125.13 23.12" width="12.513em" height="2.312em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>(co<tspan x='23.52'>erce</tspan></text>
+<text class='t6' x='40.71' y='19.33'></text>
+<text class='t8' x='44.72' y='19.33'>A</text>
+<text class='t6' x='52.19' y='19.33'></text>
+<text class='t5' x='56.21' y='19.33'>(</text>
+<text class='t8' x='60.08' y='19.33'>x</text>
+<text class='t5' x='65.77' y='19.33'>)</text>
+<text class='t8' x='69.65' y='19.33'>,</text>
+<text class='t5' x='74.08' y='19.33'>co<tspan x='83.76'>erce</tspan></text>
+<text class='t6' x='100.95' y='19.33'></text>
+<text class='t8' x='104.96' y='19.33'>B</text>
+<text class='t6' x='113.02' y='19.33'></text>
+<text class='t5' x='117.03' y='19.33'>(</text>
+<text class='t8' x='120.9' y='19.33'>y</text>
+<text class='t5' x='126.15' y='19.33'>))<tspan x='9.96' y='31.28'>(co</tspan><tspan x='23.52'>erce</tspan></text>
+<text class='t6' x='40.71' y='31.28'></text>
+<text class='t5' x='44.72' y='31.28'>(</text>
+<text class='t11' x='48.6' y='31.28'>kwd</text>
+<text class='t5' x='68.69' y='31.28'>=</text>
+<text class='t8' x='79.2' y='31.28'>A</text>
+<text class='t5' x='86.67' y='31.28'>)</text>
+<text class='t6' x='90.55' y='31.28'></text>
+<text class='t5' x='94.56' y='31.28'>(</text>
+<text class='t8' x='98.44' y='31.28'>x</text>
+<text class='t5' x='104.13' y='31.28'>))</text></svg></div><pre class="fx-s"><code>(coerce_[\A\](x), coerce_[\B\](y))
+(coerce_[\(kwd=A)\](x))</code></pre></div>
+<p id="p-6f72f9ad" class="nb">However, if the type of <span class="m"><i>y</i></span> were a subtype of <span class="m"><i>B</i></span> then the first coercion would instead be rewritten to:</p>
+<div class="fx nb both" id="c-db370697" data-kind="code"><div class="fx-r"><svg class="tx" data-d="21" viewBox="9.36 11.26 74.43 11.16" width="7.443em" height="1.116em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>(co<tspan x='23.52'>erce</tspan></text>
+<text class='t6' x='40.71' y='19.33'></text>
+<text class='t8' x='44.72' y='19.33'>A</text>
+<text class='t6' x='52.19' y='19.33'></text>
+<text class='t5' x='56.21' y='19.33'>(</text>
+<text class='t8' x='60.08' y='19.33'>x</text>
+<text class='t5' x='65.77' y='19.33'>)</text>
+<text class='t8' x='69.65' y='19.33'>,<tspan x='74.08'>y</tspan></text>
+<text class='t5' x='79.32' y='19.33'>)</text></svg></div><pre class="fx-s"><code>(coerce_[\A\](x), y)</code></pre></div>
+<p id="p-920e2ab4" class="nb">Coercions to varargs types such as the following:</p>
+<div class="fx nb both" id="c-1989e18b" data-kind="code"><div class="fx-r"><svg class="tx" data-d="22" viewBox="9.36 11.26 87.71 11.16" width="8.771em" height="1.116em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>co<tspan x='19.65'>erce</tspan></text>
+<text class='t6' x='36.83' y='19.33'></text>
+<text class='t5' x='40.85' y='19.33'>(</text>
+<text class='t8' x='44.72' y='19.33'>A<tspan x='53.85'>.</tspan><tspan x='58.28'>.</tspan><tspan x='62.71'>.</tspan></text>
+<text class='t5' x='65.48' y='19.33'>)</text>
+<text class='t6' x='69.35' y='19.33'></text>
+<text class='t5' x='73.36' y='19.33'>(</text>
+<text class='t8' x='77.24' y='19.33'>x,<tspan x='87.36'>y</tspan></text>
+<text class='t5' x='92.6' y='19.33'>)</text></svg></div><pre class="fx-s"><code>coerce_[\(A...)\](x, y)</code></pre></div>
+<p id="p-d5d5d4ab" class="nb">are invoked by applying the coercion to the type in the varargs type, <span class="m"><i>A</i></span> in this example, to each of the elements of the tuple. Additionally, there is a coercion from any type <span class="m"><i>T</i></span> to a tuple type solely with varargs type <span class="m">(<i>T</i>…)</span>.</p>
+<p id="p-a7e6084e" class="nb">There is a coercion from arrow type “<span class="m"><i>A</i> → <i>B</i> <span class="kw">throws</span> <i>C</i></span>” to arrow type “<span class="m"><i>D</i> → <i>E</i> <span class="kw">throws</span> <i>F</i></span>” if all of the following conditions hold:</p>
+<ol>
+<li><p id="p-31df7d73" class="nb">“<span class="m"><i>A</i> → <i>B</i> <span class="kw">throws</span> <i>C</i></span>” is not a subtype of “<span class="m"><i>D</i> → <i>E</i> <span class="kw">throws</span> <i>F</i></span>”;</p></li>
+<li><p id="p-afa1b629" class="nb"><span class="m"><i>D</i></span> is substitutable for <span class="m"><i>A</i></span>;</p></li>
+<li><p id="p-f898e42a" class="nb"><span class="m"><i>B</i></span> is substitutable for <span class="m"><i>E</i></span>; and</p></li>
+<li><p id="p-359b5645" class="nb">for all <span class="m"><i>X</i></span> in <span class="m"><i>C</i></span>, there exists <span class="m"><i>Y</i></span> in <span class="m"><i>F</i></span> such that <span class="m"><i>X</i></span> is substitutable for <span class="m"><i>Y</i></span>.</p></li>
+</ol>
+<p id="p-ca36f145" class="nb">Arrow type coercions are invoked by wrapping the argument function of the coercion in a function expression that applies the appropriate coercions to the argument and result of the function. For example, assuming that <span class="m"><i>f</i></span> is a function from type <span class="m"><i>A</i></span> to type <span class="m"><i>B</i></span> the following coercion:</p>
+<div class="fx nb both" id="c-1cbe1f0e" data-kind="code"><div class="fx-r"><svg class="tx" data-d="23" viewBox="9.36 11.26 81.65 11.16" width="8.165em" height="1.116em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>co<tspan x='19.65'>erce</tspan></text>
+<text class='t6' x='36.83' y='19.33'></text>
+<text class='t8' x='40.85' y='19.33'>C</text>
+<text class='t7' x='51.45' y='19.33'>→</text>
+<text class='t8' x='64.18' y='19.33'>D</text>
+<text class='t6' x='72.7' y='19.33'></text>
+<text class='t5' x='76.72' y='19.33'>(</text>
+<text class='t8' x='80.59' y='19.33'>f</text>
+<text class='t5' x='86.54' y='19.33'>)</text></svg></div><pre class="fx-s"><code>coerce_[\C -&gt; D\](f)</code></pre></div>
+<p id="p-dad9f25e" class="nb">is rewritten to:</p>
+<div class="fx nb" id="c-21bd0be6" data-kind="code"><div class="fx-r"><svg class="tx" data-d="24" viewBox="9.36 11.26 158.51 11.16" width="15.851em" height="1.116em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>fn</text>
+<text class='t8' x='25.4' y='19.33'>x</text>
+<text class='t7' x='33.87' y='19.33'>⇒</text>
+<text class='t5' x='46.6' y='19.33'>co<tspan x='56.28'>erce</tspan></text>
+<text class='t6' x='73.47' y='19.33'></text>
+<text class='t8' x='77.48' y='19.33'>D</text>
+<text class='t6' x='86.01' y='19.33'></text>
+<text class='t5' x='90.02' y='19.33'>(</text>
+<text class='t8' x='93.89' y='19.33'>f</text>
+<text class='t5' x='99.84' y='19.33'>(co<tspan x='113.4'>erce</tspan></text>
+<text class='t6' x='130.59' y='19.33'></text>
+<text class='t8' x='134.6' y='19.33'>A</text>
+<text class='t6' x='142.07' y='19.33'></text>
+<text class='t5' x='146.09' y='19.33'>(</text>
+<text class='t8' x='149.96' y='19.33'>x</text>
+<text class='t5' x='155.65' y='19.33'>)))</text></svg></div></div>
+</section>
+<section class="sec" data-num="17.8" data-title="Automatic Widening">
+<h2 id="sec-widening" class="nb"><span class="num">17.8</span> Automatic Widening</h2>
+<div class="tw nb gr" id="g-75a4017f" data-kind="grammar"><svg class="tx" data-d="25" viewBox="-5.58 10.45 404.48 22.23" width="40.448em" height="2.223em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='30.16'>Coer<tspan x='45.46'>cion</tspan></text>
+<text class='t2' x='74.57' y='30.16'>::=</text>
+<text class='t3' x='99.34' y='30.16'>coerce</text>
+<text class='t1' x='132.39' y='30.16'>StaticP<tspan x='160.37'>ar</tspan><tspan x='169.08'>ams</tspan></text>
+<text class='t2' x='185.13' y='30.16'>?</text>
+<text class='t4' x='189.55' y='30.16'>(</text>
+<text class='t1' x='195.53' y='30.16'>BindId<tspan x='225.41'>IsT</tspan><tspan x='237.4'>ype</tspan></text>
+<text class='t4' x='251.23' y='30.16'>)</text>
+<text class='t1' x='257.21' y='30.16'>Coer<tspan x='276.76'>cionClauses</tspan></text>
+<text class='t3' x='329.62' y='30.16'>widens</text>
+<text class='t5' x='366.81' y='30.16'>=</text>
+<text class='t1' x='378.71' y='30.16'>Expr</text></svg></div>
+<p id="p-395aee67" class="nb">Fortress supports what is sometimes called “widest-need” evaluation of numerical expressions. To see the problem, suppose that <span class="m"><i>a</i></span> and <span class="m"><i>b</i></span> are 32-bit floating-point numbers and <span class="m"><i>c</i></span> is a 64-bit floating-point number. It is easy, and tempting, to write an expression such as</p>
+<div class="fx nb" id="c-0c1660f2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="26" viewBox="9.36 11.81 52.02 8.95" width="5.202em" height="0.895em" fill="currentColor"><text class='t8' x='9.96' y='19.33'>c</text>
+<text class='t5' x='17.04' y='19.33'>=</text>
+<text class='t8' x='27.56' y='19.33'>c</text>
+<text class='t5' x='34.08' y='19.33'>+</text>
+<text class='t8' x='44.05' y='19.33'>a</text>
+<text class='t7' x='51.53' y='19.33'>·</text>
+<text class='t8' x='56.51' y='19.33'>b</text></svg></div></div>
+<p id="p-caa07137" class="nb">but if you stop to think about it, if interpreted naively it will compute the product <span class="m"><i>a</i> · <i>b</i></span> as a 32-bit floating-point number, and the impression that the sum may be accurate to the precision of a 64-bit floating-point number is only an illusion. Widest-need processing takes context into account and “widens” (or “upgrades”) the operands <span class="m"><i>a</i></span> and <span class="m"><i>b</i></span> to 64-bit floating-point numbers before the product is computed, so that the product will be computed as a 64-bit result.</p>
+<p id="p-26c7973e" class="nb">Before widening is considered, a Fortress compiler, in its normal course of operation, analyzes an expression bottom-up. For every functional invocation, it needs to statically identify a specific declaration to be invoked. Once this is done, then for every functional invocation, one of two conditions holds: (a) The type of the argument expression is a subtype of the type of the parameter in the identified declaration. (b) The type of the argument expression can be coerced to the type of the parameter in the identified declaration.</p>
+<p id="p-12076584" class="nb">This process has to be done bottom-up because in order to select a specific declaration for a functional invocation, it is necessary to know the types of the argument expressions, and if an argument expression is itself a functional invocation, it is necessary to select the specific declaration for that invocation in order to find out the return type of the invocation.</p>
+<p id="p-e4106016" class="nb">Once an expression has been fully analyzed in this way, then widening is performed as a top-down process. For each functional invocation that appears in a context where a coercion can occur, ask whether the argument expression (which, remember, is a functional invocation) falls under case (a) or case (b) above. If case (b), coercion of the functional result is required; if the relevant coercion declaration is a “widening” coercion, then this functional invocation is a candidate for widening. Call the type of the functional invocation <span class="m"><i>T</i></span>, and call the expected type of the coercion context, <span class="m"><i>U</i></span>.</p>
+<p id="p-3744d039" class="nb">When the functional call was considered during the bottom-up analysis, in general many overloaded declarations may have been considered; of all those that were applicable with coercion to the static call, the most specific one was chosen. When considering widening, we consider the same set of declarations, but first discard all declarations whose return types are not subtypes of <span class="m"><i>U</i></span>. Then if any remain, and there is a unique most specific one among them, then that declaration is attached to the functional call instead. In this way a coercion step is eliminated (coercion is no longer needed to convert the result of the functional invocation from type <span class="m"><i>T</i></span> to type <span class="m"><i>U</i></span>), possibly at the expense of requiring a new coercion in a subexpression—but this is exactly the desired effect. Once this is done, then the subexpressions of the functional call are processed recursively.</p>
+<p id="p-537f5cfd" class="nb">This process is general enough not only to provide for widening floating-point precision, but to handle two other cases of interest as well: widening point computations to interval computations, and widening computations involving aggregate data structures whose components are widenable. For example, in <span class="m"><i>d</i>(<i>v</i> × <i>w</i>)</span> suppose that <span class="m"><i>d</i></span> is of type <span class="m">ℝ64</span> and <span class="m"><i>v</i></span> and <span class="m"><i>w</i></span> are 3-vectors with components of type <span class="m">ℝ32</span>; this strategy is capable of promoting <span class="m"><i>v</i></span> and <span class="m"><i>w</i></span> to 3-vectors with components of type <span class="m">ℝ64</span> and then performing all computations with <span class="m">ℝ64</span> precision.</p>
+<p id="p-d31ebade" class="nb">Let’s go through the example of <span class="m"><i>c</i> + <i>a</i> · <i>b</i></span> in detail. The relevant declarations might look something like this:</p>
+<div class="fx nb both" id="c-32945224" data-kind="code"><div class="fx-r"><svg class="tx" data-d="27" viewBox="9.36 11.86 167.08 138.08" width="16.708em" height="13.808em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t14' x='41.1' y='19.33'>R</text>
+<text class='t5' x='48.29' y='19.33'>32</text>
+<text class='t8' x='21.92' y='31.28'>.<tspan x='26.35'>.</tspan><tspan x='30.77'>.</tspan></text>
+<text class='t3' x='9.96' y='43.24'>end<tspan x='9.96' y='59.18'>trait</tspan></text>
+<text class='t14' x='41.1' y='59.18'>R</text>
+<text class='t5' x='48.29' y='59.18'>64</text>
+<text class='t3' x='21.92' y='71.13'>coerce</text>
+<text class='t5' x='56.07' y='71.13'>(</text>
+<text class='t8' x='59.94' y='71.13'>x</text>
+<text class='t5' x='67.3' y='71.13'>:</text>
+<text class='t14' x='71.72' y='71.13'>R</text>
+<text class='t5' x='78.92' y='71.13'>32)</text>
+<text class='t3' x='95.52' y='71.13'>widens</text>
+<text class='t5' x='129.12' y='71.13'>=</text>
+<text class='t8' x='139.64' y='71.13'>.<tspan x='144.06'>.</tspan><tspan x='148.49'>.</tspan><tspan x='21.92' y='83.09'>.</tspan><tspan x='26.35'>.</tspan><tspan x='30.77'>.</tspan></text>
+<text class='t3' x='9.96' y='95.04'>end<tspan x='9.96' y='110.98'>opr</tspan></text>
+<text class='t7' x='28.42' y='110.98'>·</text>
+<text class='t5' x='31.19' y='110.98'>(</text>
+<text class='t8' x='35.06' y='110.98'>l</text>
+<text class='t5' x='38.23' y='110.98'>:</text>
+<text class='t14' x='42.66' y='110.98'>R</text>
+<text class='t5' x='49.85' y='110.98'>32</text>
+<text class='t8' x='59.82' y='110.98'>,<tspan x='64.25'>r</tspan></text>
+<text class='t5' x='69.02' y='110.98'>:</text>
+<text class='t14' x='73.44' y='110.98'>R</text>
+<text class='t5' x='80.64' y='110.98'>32):</text>
+<text class='t14' x='98.9' y='110.98'>R</text>
+<text class='t5' x='106.1' y='110.98'>32<tspan x='118.83'>=</tspan></text>
+<text class='t8' x='129.35' y='110.98'>.<tspan x='133.77'>.</tspan><tspan x='138.2'>.</tspan></text>
+<text class='t5' x='142.63' y='110.98'>(</text>
+<text class='t7' x='146.5' y='110.98'>∗</text>
+<text class='t2' x='154.25' y='110.98'>1</text>
+<text class='t7' x='162' y='110.98'>∗</text>
+<text class='t5' x='166.98' y='110.98'>)</text>
+<text class='t3' x='9.96' y='122.94'>opr</text>
+<text class='t7' x='28.42' y='122.94'>·</text>
+<text class='t5' x='31.19' y='122.94'>(</text>
+<text class='t8' x='35.06' y='122.94'>l</text>
+<text class='t5' x='38.23' y='122.94'>:</text>
+<text class='t14' x='42.66' y='122.94'>R</text>
+<text class='t5' x='49.85' y='122.94'>64</text>
+<text class='t8' x='59.82' y='122.94'>,<tspan x='64.25'>r</tspan></text>
+<text class='t5' x='69.02' y='122.94'>:</text>
+<text class='t14' x='73.44' y='122.94'>R</text>
+<text class='t5' x='80.64' y='122.94'>64):</text>
+<text class='t14' x='98.9' y='122.94'>R</text>
+<text class='t5' x='106.1' y='122.94'>64<tspan x='118.83'>=</tspan></text>
+<text class='t8' x='129.35' y='122.94'>.<tspan x='133.77'>.</tspan><tspan x='138.2'>.</tspan></text>
+<text class='t5' x='142.63' y='122.94'>(</text>
+<text class='t7' x='146.5' y='122.94'>∗</text>
+<text class='t2' x='154.25' y='122.94'>2</text>
+<text class='t7' x='162' y='122.94'>∗</text>
+<text class='t5' x='166.98' y='122.94'>)</text>
+<text class='t3' x='9.96' y='134.89'>opr</text>
+<text class='t5' x='28.42' y='134.89'>+(</text>
+<text class='t8' x='40.04' y='134.89'>l</text>
+<text class='t5' x='43.21' y='134.89'>:</text>
+<text class='t14' x='47.64' y='134.89'>R</text>
+<text class='t5' x='54.84' y='134.89'>32</text>
+<text class='t8' x='64.8' y='134.89'>,<tspan x='69.23'>r</tspan></text>
+<text class='t5' x='74' y='134.89'>:</text>
+<text class='t14' x='78.43' y='134.89'>R</text>
+<text class='t5' x='85.62' y='134.89'>32):</text>
+<text class='t14' x='103.89' y='134.89'>R</text>
+<text class='t5' x='111.08' y='134.89'>32<tspan x='123.81'>=</tspan></text>
+<text class='t8' x='134.33' y='134.89'>.<tspan x='138.75'>.</tspan><tspan x='143.18'>.</tspan></text>
+<text class='t5' x='147.61' y='134.89'>(</text>
+<text class='t7' x='151.48' y='134.89'>∗</text>
+<text class='t2' x='159.23' y='134.89'>3</text>
+<text class='t7' x='166.98' y='134.89'>∗</text>
+<text class='t5' x='171.96' y='134.89'>)</text>
+<text class='t3' x='9.96' y='146.85'>opr</text>
+<text class='t5' x='28.42' y='146.85'>+(</text>
+<text class='t8' x='40.04' y='146.85'>l</text>
+<text class='t5' x='43.21' y='146.85'>:</text>
+<text class='t14' x='47.64' y='146.85'>R</text>
+<text class='t5' x='54.84' y='146.85'>64</text>
+<text class='t8' x='64.8' y='146.85'>,<tspan x='69.23'>r</tspan></text>
+<text class='t5' x='74' y='146.85'>:</text>
+<text class='t14' x='78.43' y='146.85'>R</text>
+<text class='t5' x='85.62' y='146.85'>64):</text>
+<text class='t14' x='103.89' y='146.85'>R</text>
+<text class='t5' x='111.08' y='146.85'>64<tspan x='123.81'>=</tspan></text>
+<text class='t8' x='134.33' y='146.85'>.<tspan x='138.75'>.</tspan><tspan x='143.18'>.</tspan></text>
+<text class='t5' x='147.61' y='146.85'>(</text>
+<text class='t7' x='151.48' y='146.85'>∗</text>
+<text class='t2' x='159.23' y='146.85'>4</text>
+<text class='t7' x='166.98' y='146.85'>∗</text>
+<text class='t5' x='171.96' y='146.85'>)</text></svg></div><pre class="fx-s"><code>trait RR32
+  ...
+end
+
+trait RR64
+  coerce(x:RR32) widens = ...
+  ...
+end</code></pre></div>
+<p id="p-95f39094" class="nb">The bottom-up analysis observes that <span class="m"><i>a</i></span> and <span class="m"><i>b</i></span> are both of type <span class="m">ℝ32</span>, and discovers that declarations <span class="m">1</span> and <span class="m">2</span> are both applicable to the product, but declaration <span class="m">1</span> would be chosen because it requires no coercion and declaration <span class="m">2</span> would require coercion of both arguments to type <span class="m">ℝ64</span>. The analysis then observes that <span class="m"><i>c</i></span> has type <span class="m">ℝ64</span> and the product expression has type <span class="m">ℝ32</span>, so declaration <span class="m">3</span> is not applicable but declaration <span class="m">4</span> is applicable (though requiring a coercion from <span class="m">ℝ32</span> to <span class="m">ℝ64</span> for its second argument).</p>
+<p id="p-d8dd5375" class="nb">Now the top-down widening analysis is performed. The product is a functional call that is an argument to another functional call, and its result requires coercion, and that coercion is a widening coercion. Therefore the compiler reconsiders the applicable declarations, which were declarations <span class="m">1</span> and <span class="m">2</span>. The result type of declaration <span class="m">1</span> is not a subtype of <span class="m">ℝ64</span>, but the result type of declaration <span class="m">2</span> is a subtype of <span class="m">ℝ64</span> (in fact, it <em>is</em> <span class="m">ℝ64</span>). Declaration <span class="m">2</span> is the most specific among the applicable declarations with that property (in fact, in this example it’s the only one), so declaration <span class="m">2</span> replaces declaration <span class="m">1</span> for the product invocation. This in turn requires <span class="m"><i>a</i></span> and <span class="m"><i>b</i></span> to be coerced from type <span class="m">ℝ32</span> to <span class="m">ℝ64</span> before the product is performed.</p>
+<p id="p-e47bd31a" class="nb">Widening is a tricky business, best left to expert library designers. When used judiciously, it can greatly improve the precision of numerical computations without requiring a great deal of thought on the part of the application programmer and without cluttering up code with explicit conversions.</p>
+<p id="p-bb6770cb" class="nb"><em>Future versions of this specification will include tables of coercions and widening coercions supported by the Fortress standard libraries.</em></p>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="operators.html"><span>Previous</span> 16. Operators</a><a class="next" href="dimunits.html"><span>Next</span> 18. Dimensions and Units</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/conversions-coercions.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

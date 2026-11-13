@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>16. Operators · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t1{font-family:cmr10;font-size:9.96px}
+svg.tx text.t2{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t3{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t4{font-family:msam10;font-size:9.96px}
+svg.tx text.t5{font-family:stmary10;font-size:9.96px}
+svg.tx text.t6{font-family:msbm10;font-size:9.96px}
+svg.tx text.t7{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t8{font-family:ptmb8r;font-size:9.93px}
+svg.tx text.t9{font-family:pcrr8r;font-size:8.93px}
+svg.tx text.t10{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t11{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t12{font-family:cmmi7;font-size:6.97px}
+svg.tx text.t13{font-family:cmti10;font-size:9.96px}
+svg.tx text.t14{font-family:cmr7;font-size:6.97px}
+svg.tx text.t15{font-family:stmary10;font-size:11.96px}
+svg.tx text.t16{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t17{font-family:msbm7;font-size:6.97px}
+svg.tx text.t18{font-family:cmex10;font-size:9.96px}
+svg.tx text.t19{font-family:ptmr8r;font-size:7.94px}
+</style>
+</head>
+<body data-page="chapter" data-slug="operators" data-chapter="16. Operators">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">16. Operators</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="16" data-title="Operators">
+<h1 id="top" class="nb"><a id="chap-operators"></a><span class="num">Chapter 16</span> Operators</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-operator-names">16.1 Operator Names</a></li><li><a href="#sec-operator-precedence">16.2 Operator Precedence and Associativity</a></li><li><a href="#sec-operator-fixity">16.3 Operator Fixity</a></li><li><a href="#sec-chained-multifix">16.4 Chained and Multifix Operators</a></li><li><a href="#sec-enclosing-ops">16.5 Enclosing Operators</a></li><li><a href="#sec-conditional-operators">16.6 Conditional Operators</a></li><li><a href="#sec-big-operators">16.7 Big Operators</a></li><li><a href="#sec-juxtameaning">16.8 Juxtaposition</a></li><li><a href="#s-overview-of-operators-in-the-fortress-standard-libraries">16.9 Overview of Operators in the Fortress Standard Libraries</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-f24cbc98" class="nb">Multifix operators and dimensions and units are not yet supported.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-cc55b3a0" class="nb">Synonym Operators: Victor’s email titled “Synonyms [Fwd: Re: What the heck are 0-width spaces for?]” on 09/12/07</p></aside>
+<p id="p-3830cbe9" class="nb">Operators are like functions or methods; operator declarations are described in <a class="xref" href="operatordefs.html">Chapter 25</a><!--nc--> and operator applications are described in <a class="xref" href="expressions.html#sec-operator-app-expr">Section 13.7</a><!--nc-->, <a class="xref" href="expressions.html#sec-reduction-expr">Section 13.17</a><!--nc-->, and <a class="xref" href="expressions.html#sec-comprehensions">Section 13.30</a><!--nc-->. Operators are not values; when an operator is passed as an argument to a function, it should be eta expanded. Just as functions or methods may be overloaded (see <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc--> for a discussion of overloading), so operators may have overloaded declarations of the same fixity. Operator declarations with the same operator name but with different fixities are valid declarations because it is always unambiguous which declaration shall be applied to an application of the operator. Calls to overloaded operators are resolved first via the fixity of the operators based on the context of the calls. Then, among the applicable declarations with that fixity, the most specific declaration is chosen.</p>
+<p id="p-52f8b757" class="nb">Most operators can be used as prefix, infix, postfix, or nofix operators as described in <a class="xref" href="#sec-operator-fixity">Section 16.3</a><!--nc--> (nofix operators take no arguments); the fixity of an operator is determined syntactically, and the same operator may have declarations for multiple fixities. A simple example is that ‘<span class="m">−</span>’ may be either infix or prefix, as is conventional. As another example, ‘<span class="m">!</span>’ may be a postfix operator that computes factorial when applied to integers. These operators might not be used as enclosing operators.</p>
+<p id="p-386fa5e8" class="nb">Several pairs of operators can be used as enclosing operators. Any number of ‘<span class="tt">|</span>’ (vertical line) can be used as both infix operators and enclosing operators.</p>
+<p id="p-d43526d4" class="nb">Some operators are always postfix: a ‘<span class="tt">^</span>’ followed by any ordinary operator (with no intervening whitespace) is considered to be a superscripted postfix operator. For example, ‘<span class="m"><span class="rm"><span class="tt">^</span></span>∗</span>’ and ‘<span class="m"><span class="rm"><span class="tt">^</span></span>+</span>’ and ‘<span class="m"><span class="rm"><span class="tt">^</span></span>?</span>’ are available for use as part of the syntax of extended regular expressions. As a very special case, ‘<span class="m"><span class="rm"><span class="tt">^</span></span><i>T</i></span>’ is also considered to be a superscripted postfix operator, typically used to signify matrix transposition.</p>
+<p id="p-fc85451f" class="nb">Finally, there are special operators such as juxtaposition and operators on dimensions and units. Juxtaposition may be a function application or an infix operator in Fortress. When the left-hand-side expression is a function, juxtaposition performs function application; when the left-hand-side expression is a number, juxtaposition conventionally performs multiplication; when the left-hand-side expression is a string, juxtaposition conventionally performs string concatenation. Fortress provides several operators on dimensions and units as described in <a class="xref" href="dimunits.html">Chapter 18</a><!--nc-->.</p>
+<section class="sec" data-num="16.1" data-title="Operator Names">
+<h2 id="sec-operator-names" class="nb"><span class="num">16.1</span> Operator Names</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-45ae6233" class="nb">Victor: This should refer to the appropriate sections of Lexical Structure Operator names are either operator tokens or special operator characters, or a few reserved words.</p></aside>
+<p id="p-5c6f81ed" class="nb">To support a rich mathematical notation, Fortress allows most Unicode characters that are specified to be mathematical operators to be used as operators in Fortress expressions, as well as these characters:</p>
+<div class="fx nb" id="c-d8e8b7bc" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="-0.60 11.36 389.72 33.26" width="38.972em" height="3.326em" fill="currentColor"><text class='t0' x='0' y='19.33'>!<tspan x='23.91'>@</tspan><tspan x='47.82'>#</tspan><tspan x='71.73'>$</tspan><tspan x='95.64'>%</tspan><tspan x='119.55' y='21.07'>*</tspan><tspan x='143.46'>+</tspan><tspan x='167.37'>-</tspan><tspan x='191.28'>=</tspan><tspan x='215.19'>|</tspan><tspan x='239.1'>:</tspan><tspan x='263.01'>&lt;</tspan><tspan x='286.92'>></tspan><tspan x='310.83'>/</tspan><tspan x='334.74'>?</tspan><tspan x='358.66'>ˆ</tspan><tspan x='382.57'>˜</tspan><tspan x='0' y='31.28'>-></tspan><tspan x='29.89'>--></tspan><tspan x='65.75'>=></tspan><tspan x='95.64'>==></tspan><tspan x='131.51'>&lt;=</tspan><tspan x='161.39'>>=</tspan><tspan x='191.28'>=/=</tspan><tspan x='227.15'>!!</tspan><tspan x='257.04'>||</tspan><tspan x='286.92'>|||</tspan><tspan x='0' y='43.24'>&lt;&lt;</tspan><tspan x='29.89'>&lt;&lt;&lt;</tspan><tspan x='65.75'>>></tspan><tspan x='95.64'>>>></tspan><tspan x='131.51'>&lt;-></tspan><tspan x='167.37'>&lt;-/-</tspan><tspan x='209.22'>-/-></tspan><tspan x='251.06'>&lt;=></tspan><tspan x='286.92'>===</tspan></text></svg></div></div>
+<p id="p-c93628ed" class="nb">In addition, a token that is made up of a mixture of uppercase letters and underscores (but no digits), does not begin or end with an underscore, and contains at least two different letters is also considered to be an operator:</p>
+<div class="fx nb" id="c-e9af1a2e" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 13.19 54.98 6.94" width="5.498em" height="0.694em" fill="currentColor"><text class='t0' x='0' y='19.33'>MAX<tspan x='35.87'>MIN</tspan></text></svg></div></div>
+<p id="p-4681d84e" class="nb">The above operators are rendered as: <span class="m"><span class="op">MAX</span>   <span class="op">MIN</span></span>. (See <a class="xref" href="lexical-structure.html#sec-lexical-operators">Section 4.14</a> and <a class="xref" href="operator-precedence.html">Appendix F</a><!--nc--> for detailed descriptions of operator names in Fortress.)</p>
+</section>
+<section class="sec" data-num="16.2" data-title="Operator Precedence and Associativity">
+<h2 id="sec-operator-precedence" class="nb"><span class="num">16.2</span> Operator Precedence and Associativity</h2>
+<p id="p-693fffd6" class="nb">Fortress specifies that certain operators have higher precedence than certain other operators and certain operators are associative, so that one need not use parentheses in all cases where operators are mixed in an expression. (See <a class="xref" href="operator-precedence.html">Appendix F</a><!--nc--> for a detailed description of operator precedence and associativity in Fortress.) However, Fortress does not follow the practice of other programming languages in simply assigning an integer to each operator and then saying that the precedence of any two operators can be compared by comparing their assigned integers. Instead, Fortress relies on defining traditional groups of operators based on their meaning and shape, and specifies specific precedence relationships between some of these groups. If there is no specific precedence relationship between two operators, then parentheses must be used. For example, Fortress does not accept the expression <span class="m"><i>a</i> + <i>b</i> ∪ <i>c</i></span>; one must write either <span class="m">(<i>a</i> + <i>b</i>) ∪ <i>c</i></span> or <span class="m"><i>a</i> + (<i>b</i> ∪ <i>c</i>)</span>. (Whether or not the result then makes any sense depends on what definitions have been made for the <span class="m">+</span> and <span class="m">∪</span> operators—see <a class="xref" href="operatordefs.html">Chapter 25</a><!--nc-->.)</p>
+<p id="p-347193b1" class="nb">Here are the basic principles of operator precedence and associativity in Fortress:</p>
+<ul>
+<li><p id="p-84d0c1fe" class="nb">Member selection (<span class="tt">.</span>) and method invocation (<span class="m">.<i>name</i>(…)</span>) are not operators. They have higher precedence than any operator listed below.</p></li>
+<li><p id="p-65d72171" class="nb">Subscripting (<span class="tt">[ ]</span> and any kind of subscripting operators, which can be any kind of enclosing operators), superscripting (<span class="tt">^</span>), and postfix operators have higher precedence than any operator listed below; within this group, these operations are left-associative (performed left-to-right).</p></li>
+<li><p id="p-bc741385" class="nb"><em>Tight juxtaposition</em>, that is, juxtaposition without intervening whitespace, has higher precedence than any operator listed below. The associativity of tight juxtaposition is type-dependent; see <a class="xref" href="#sec-juxtameaning">Section 16.8</a><!--nc-->.</p></li>
+<li><p id="p-631b1312" class="nb">Next, <em>tight fractions</em>, that is, the use of the operator ‘<span class="m">/</span>’ with no whitespace on either side, have higher precedence than any operator listed below. The tight-fraction operator has no precedence compared with itself, so it is not permitted to be used more than once in a tight fraction without use of parentheses.</p></li>
+<li><p id="p-66377823" class="nb"><em>Loose juxtaposition</em>, that is, juxtaposition with intervening whitespace, has higher precedence than any operator listed below. The associativity of loose juxtaposition is type-dependent and is different from that for tight juxtaposition; see <a class="xref" href="#sec-juxtameaning">Section 16.8</a><!--nc-->. Note that <em>lopsided juxtaposition</em> (having whitespace on one side but not the other) is a static error as described in <a class="xref" href="#sec-operator-fixity">Section 16.3</a><!--nc-->.</p></li>
+<li><p id="p-9be238b6" class="nb">Prefix operators have higher precedence than any operator listed below. However, it is a static error for an operand of a loose prefix operator to be an operand of a tight infix operator.</p></li>
+<li><p id="p-197bce0c" class="nb">The infix operators are partitioned into certain traditional groups, as explained below. They have higher precedence than any operator listed below.</p></li>
+<li><p id="p-2a6f1996" class="nb">The equal symbol ‘<span class="m">=</span>’ in binding context, the assignment operator ‘<span class="m">:=</span>’, and compound assignment operators (<span class="m">+=</span>, <span class="m">− =</span>, <span class="m">∧ =</span>, <span class="m">∨ =</span>, <span class="m">∩ =</span>, <span class="m">∪ =</span>, and so on as described in <a class="xref" href="expressions.html#sec-operator-app-expr">Section 13.7</a><!--nc-->) have lower precedence than any operator listed above. Note that compound assignment operators themselves are not operator names.</p></li>
+</ul>
+<p id="p-f3a62e74" class="nb">The infix binary operators are divided into four general categories: arithmetic, relational, boolean, and other. The arithmetic operators are further categorized as multiplication/division/intersection, addition/subtraction/union, and other. The relational operators are further categorized as equivalence, inequivalence, ordering, and other. The boolean operators are further categorized as conjunctive, disjunctive, and other.</p>
+<p id="p-95928755" class="nb">The arithmetic and relational operators are further divided into groups based on shape:</p>
+<ul>
+<li><p id="p-f03fb79f" class="nb">“ordinary” operators: <span class="mw"><svg class="tx il" data-d="3" viewBox="-0.60 -0.60 259.68 12.12" width="25.968em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t1' x='0' y='7.91'>+</text>
+<text class='t2' x='9.96' y='7.91'>−<tspan x='19.93'>·</tspan><tspan x='24.91'>×</tspan></text>
+<text class='t3' x='34.87' y='7.91'>/</text>
+<text class='t2' x='42.06' y='7.91'>±<tspan x='52.03'>∓</tspan><tspan x='61.99'>⊕</tspan><tspan x='71.95'></tspan><tspan x='81.91'></tspan><tspan x='91.88'>⊗</tspan><tspan x='101.84'></tspan></text>
+<text class='t4' x='111.8' y='7.91'><tspan x='121.77'></tspan></text>
+<text class='t5' x='131.73' y='7.91'></text>
+<text class='t4' x='139.48' y='7.91'></text>
+<text class='t3' x='149.99' y='7.91'>&lt;</text>
+<text class='t2' x='157.74' y='7.91'>≤≥</text>
+<text class='t3' x='173.24' y='7.91'>></text>
+<text class='t2' x='180.99' y='7.91'></text>
+<text class='t4' x='190.95' y='7.91'>≪≫</text>
+<text class='t2' x='217.52' y='7.91'></text>
+<text class='t6' x='227.48' y='7.91'>≮≯</text></svg></span> etc.</p>
+<p id="p-dd93fbd9" class="nb">The arithmetic operations in this group are further subdivided into “plain” (<span class="m">+ − · × / ± ∓</span> etc.), “circled” (<span class="m">⊕ ⊖ ⊙ ⊗ ⊘</span> etc.), “boxed” (<svg class="tx il" data-d="4" viewBox="-0.60 -0.60 36.62 8.76" width="3.662em" height="0.876em" fill="currentColor" style="vertical-align:-0.144em"><text class='t4' x='0' y='6.72'><tspan x='9.96'></tspan></text>
+<text class='t5' x='19.93' y='6.72'></text>
+<text class='t4' x='27.67' y='6.72'></text></svg> etc.), and so on; any of these groups may be used with the plain relational operators (<svg class="tx il" data-d="5" viewBox="-0.60 -0.60 109.68 12.12" width="10.968em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t3' x='0' y='7.91'>&lt;</text>
+<text class='t2' x='7.75' y='7.91'>≤≥</text>
+<text class='t3' x='23.25' y='7.91'>></text>
+<text class='t2' x='30.99' y='7.91'></text>
+<text class='t4' x='40.96' y='7.91'>≪≫</text>
+<text class='t2' x='67.52' y='7.91'></text>
+<text class='t6' x='77.49' y='7.91'>≮≯</text></svg> etc.), but the groups might not be mixed.</p></li>
+<li><p id="p-da6a382f" class="nb">“rounded horseshoe” or “set” operators: <span class="mw"><svg class="tx il" data-d="6" viewBox="-0.60 -0.60 123.52 12.12" width="12.352em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t2' x='0' y='7.91'>∩</text>
+<text class='t4' x='8.86' y='7.91'></text>
+<text class='t2' x='17.71' y='7.91'>∪</text>
+<text class='t4' x='26.57' y='7.91'></text>
+<text class='t2' x='35.42' y='7.91'><tspan x='44.83'>⊂⊆⊇⊃</tspan></text>
+<text class='t4' x='75.83' y='7.91'></text>
+<text class='t2' x='91.32' y='7.91'>⊂</text>
+<text class='t6' x='99.07' y='7.91'></text>
+<text class='t2' x='114.57' y='7.91'>⊃</text></svg></span> etc.</p></li>
+<li><p id="p-9bec8855" class="nb">“square horseshoe” operators: <span class="m">⊓⊔ ⊏⊑⊒⊐⋢⋣</span> etc.</p></li>
+<li><p id="p-9bb0b46c" class="nb">“curly” operators: <svg class="tx il" data-d="7" viewBox="-0.60 -0.60 81.11 10.28" width="8.111em" height="1.028em" fill="currentColor" style="vertical-align:-0.265em"><text class='t4' x='0' y='7.03'></text>
+<text class='t2' x='17.92' y='7.03'>≺</text>
+<text class='t6' x='48.91' y='7.03'>⊀</text>
+<text class='t2' x='56.66' y='7.03'></text>
+<text class='t4' x='56.66' y='7.03'></text>
+<text class='t2' x='64.41' y='7.03'></text>
+<text class='t4' x='64.41' y='7.03'></text>
+<text class='t6' x='72.16' y='7.03'></text></svg> etc.</p></li>
+<li><p id="p-c194e641" class="nb">“triangular” relations: <svg class="tx il" data-d="8" viewBox="-0.60 -0.60 70.39 12.12" width="7.039em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t4' x='0' y='7.91'><tspan x='9.96'></tspan><tspan x='19.93'></tspan></text>
+<text class='t6' x='38.19' y='7.91'></text></svg> etc.</p></li>
+<li><p id="p-bfaebcbe" class="nb">“chickenfoot” relations: <svg class="tx il" data-d="9" viewBox="-0.60 -0.60 18.91 6.96" width="1.891em" height="0.696em" fill="currentColor" style="vertical-align:-0.099em"><text class='t3' x='0' y='5.37'>&lt;</text>
+<text class='t7' x='5.54' y='5.37'>-<tspan x='8.86'>-</tspan></text>
+<text class='t3' x='9.96' y='5.37'>></text></svg> etc.</p></li>
+</ul>
+<p id="p-9d56c091" class="nb">The principles of precedence for binary operators are then as follows:</p>
+<ul>
+<li><p id="p-e406fc7a" class="nb">A multiplication or division or intersection operator has higher precedence than any addition or subtraction or union operator that is in the same shape group.</p></li>
+<li><p id="p-86931dda" class="nb">Certain addition and subtraction operators come in pairs, such as <span class="m">+</span> and <span class="m">−</span>, or <span class="m">⊕</span> and <span class="m">⊖</span>, which are considered to have the same precedence and so may be mixed within an expression and are grouped left-associatively. These addition-subtraction pairs are the <em>only</em> cases where two different operators are considered to have the same precedence.</p></li>
+<li><p id="p-b7474c58" class="nb">An arithmetic operator has higher precedence than any equivalence or inequivalence operator.</p></li>
+<li><p id="p-1ecfef37" class="nb">An arithmetic operator has higher precedence than any relational operator that is in the same shape group.</p></li>
+<li><p id="p-739673a8" class="nb">A relational operator has higher precedence than any boolean operator.</p></li>
+<li><p id="p-eb1ef4db" class="nb">A conjunctive boolean operator has higher precedence than any disjunctive boolean operator.</p></li>
+</ul>
+<p id="p-2e71f9cf" class="nb">While the rules of precedence are complicated, they are intended to be both unsurprising and conservative. Note that operator precedence in Fortress is not always transitive; for example, while <span class="m">+</span> has higher precedence than <span class="m">&lt;</span> (so you can write <span class="m"><i>a</i> + <i>b</i> &lt; <i>c</i></span> without parentheses), and <span class="m">&lt;</span> has higher precedence than <span class="m">∨</span> (so you can write <span class="m"><i>a</i> &lt; <i>b</i> ∨ <i>c</i> &lt; <i>d</i></span> without parentheses), it is <em>not</em> true that <span class="m">+</span> has higher precedence than <span class="m">∨</span>—the expression <span class="m"><i>a</i> ∨ <i>b</i> + <i>c</i></span> is not permitted, and one must instead write <span class="m">(<i>a</i> ∨ <i>b</i>) + <i>c</i></span> or <span class="m"><i>a</i> ∨ (<i>b</i> + <i>c</i>)</span>.</p>
+<p id="p-234ad799" class="nb">Another point is that the various multiplication and division operators do <em>not</em> have “the same precedence”; they may not be mixed freely with each other. For example, one cannot write <span class="m"><i>u</i> · <i>v</i> × <i>w</i></span>; one must write <span class="m">(<i>u</i> · <i>v</i>) × <i>w</i></span> or (more likely) <span class="m"><i>u</i> · (<i>v</i> × <i>w</i>)</span>. Similarly, one cannot write <span class="m"><i>a</i> ⊙ <i>b</i> / <i>c</i> ⊙ <i>d</i></span>; but juxtaposition does bind more tightly than a loose (whitespace-surrounded) division slash, so one is allowed to write <span class="m"><i>a</i> <i>b</i> / <i>c</i> <i>d</i></span>, and this means the same as <span class="m">(<i>a</i> <i>b</i>)/(<i>c</i> <i>d</i>)</span>. On the other hand, loose juxtaposition binds less tightly than a tight division slash, so that <span class="m"><i>a</i> <i>b</i>/<i>c</i> <i>d</i></span> means the same as <span class="m"><i>a</i> (<i>b</i>/<i>c</i>) <i>d</i></span>. On the other other hand, tight juxtaposition binds more tightly than tight division, so that <span class="m">(<i>n</i> + 1)/(<i>n</i> + 2)(<i>n</i> + 3)</span> means the same as <span class="m">(<i>n</i> + 1)/((<i>n</i> + 2)(<i>n</i> + 3))</span>.</p>
+<p id="p-a98e9bcd" class="nb">There are two additional rules intended to catch misleading code: it is a static error for an operand of a tight infix or tight prefix operator to be a loose juxtaposition, and it is a static error if the rules of precedence determine that a use of infix operator <span class="m"><i>a</i></span> has higher or equal precedence than a use of infix operator <span class="m"><i>b</i></span>, but that particular use of <span class="m"><i>a</i></span> is loose and that particular use of <span class="m"><i>b</i></span> is tight. Thus, for example, the expression <span class="m">sin <i>x</i> + <i>y</i></span> is permitted, but <span class="m">sin <i>x</i> + <i>y</i></span> is not permitted. Similarly, the expression <span class="m"><i>a</i> · <i>b</i> + <i>c</i></span> is permitted, as are <span class="m"><i>a</i>·<i>b</i> + <i>c</i></span> and <span class="m"><i>a</i>·<i>b</i> + <i>c</i></span>, but <span class="m"><i>a</i> · <i>b</i> + <i>c</i></span> is not permitted. (The rule detects only the presence or absence of whitespace, not the amount of whitespace, so <span class="m"><i>a</i>   · <i>b</i> + <i>c</i></span> is permitted. You have to draw the line somewhere.)</p>
+<p id="p-efa8cc0a" class="nb">When in doubt, just use parentheses. If there’s a problem, the compiler will (probably) let you know.</p>
+</section>
+<section class="sec" data-num="16.3" data-title="Operator Fixity">
+<h2 id="sec-operator-fixity" class="nb"><span class="num">16.3</span> Operator Fixity</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-ff50e254" class="nb">Multifix operators are not yet supported.</p></aside>
+<p id="p-bc3a32ac" class="nb">Most operators in Fortress can be used variously as prefix, postfix, infix, nofix, or multifix operators. (See <a class="xref" href="#sec-chained-multifix">Section 16.4</a><!--nc--> for a discussion of how infix operators may be chained or treated as multifix operators.)</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-88429ede" class="nb">Victor: I think that we shouldn’t list “multifix” separately here. (Note that multifix does not appear in any of the tables.) Rather multifix is a way to interpret infix operators.</p></aside>
+<p id="p-9de10ec7" class="nb">Some operators can be used in pairs as enclosing (bracketing) operators—see <a class="xref" href="#sec-enclosing-ops">Section 16.5</a><!--nc-->. The Fortress language dictates only the rules of syntax; whether an operator has a meaning when used in a particular way depends only on whether there is a definition in the program for that operator when used in that particular way (see <a class="xref" href="operatordefs.html">Chapter 25</a><!--nc-->).</p>
+<p id="p-68ee7fde" class="nb">The fixity of a non-enclosing operator is determined by context. To the left of such an operator we may find (1) a <em>primary tail</em> (described below), (2) another operator, or (3) a comma, semicolon, or left encloser. To the right we may find (1) a <em>primary front</em> (described below), (2) another operator, (3) a comma, semicolon, or right encloser, or (4) a line break. A primary tail is an identifier, a literal, a right encloser, or a superscripted postfix operator (exponent operator). A primary front is an identifier, a literal, or a left encloser.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-aa7fc595" class="nb">A primary expression is an identifier, a literal, an expression enclosed by matching enclosers, a field selection, or an expression followed by a postfix operator.</p></aside>
+<p id="p-1bec6d1f" class="nb">Considered in all combinations, this makes twelve possibilities. In some cases one must also consider whether or not whitespace separates the operator from what lies on either side. The rules of operator fixity are specified by <a class="xref" href="#fig-opr-fixity1">Figure 16.1</a><!--nc-->, where the center column indicates the fixity that results from the left and right context specified by the other columns.</p>
+<div class="fig"><div class="center"><div class="tw nb" id="t-f199476a" data-kind="table"><svg class="tx" data-d="10" viewBox="-0.60 -0.60 385.51 257.84" width="38.551em" height="25.784em" fill="currentColor"><rect x='0' y='0' height='.4' width='384.31'/>
+<rect x='0' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='17.97' y='8.77'>left<tspan x='34.29'>context</tspan></text>
+<rect x='82.84' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='89.21' y='8.77'>whitespace</text>
+<rect x='141.68' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='152.83' y='8.77'>operator<tspan x='192.39'>ﬁxity</tspan></text>
+<rect x='224.74' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='231.11' y='8.77'>whitespace</text>
+<rect x='283.57' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='306.69' y='8.77'>right<tspan x='330.21'>context</tspan></text>
+<rect x='383.91' y='.4' height='11.96' width='.4'/>
+<rect x='0' y='12.35' height='.4' width='384.31'/>
+<rect x='0' y='12.75' height='47.82' width='.4'/>
+<text class='t7' x='18.24' y='38.31'>primary<tspan x='52.27'>tail</tspan></text>
+<rect x='82.84' y='12.75' height='47.82' width='.4'/>
+<text class='t7' x='105.82' y='21.12'>yes<tspan x='105.82' y='33.08'>yes</tspan><tspan x='107.48' y='45.03'>no</tspan><tspan x='107.48' y='56.99'>no</tspan></text>
+<rect x='141.68' y='12.75' height='47.82' width='.4'/>
+<text class='t8' x='173.99' y='21.12'>inﬁx<tspan x='158.46' y='33.08'>err</tspan><tspan x='171.55'>or</tspan></text>
+<text class='t7' x='183.45' y='33.08'>(inﬁx)</text>
+<text class='t8' x='169.29' y='45.03'>postﬁx<tspan x='173.99' y='56.99'>inﬁx</tspan></text>
+<rect x='224.74' y='12.75' height='47.82' width='.4'/>
+<text class='t7' x='247.71' y='21.12'>yes<tspan x='249.37' y='33.08'>no</tspan><tspan x='247.71' y='45.03'>yes</tspan><tspan x='249.37' y='56.99'>no</tspan></text>
+<rect x='283.57' y='12.75' height='47.82' width='.4'/>
+<text class='t7' x='307.24' y='38.31'>primary<tspan x='341.27'>front</tspan></text>
+<rect x='383.91' y='12.75' height='47.82' width='.4'/>
+<rect x='0' y='60.57' height='.4' width='384.31'/>
+<rect x='0' y='60.97' height='47.82' width='.4'/>
+<text class='t7' x='18.24' y='86.53'>primary<tspan x='52.27'>tail</tspan></text>
+<rect x='82.84' y='60.97' height='47.82' width='.4'/>
+<text class='t7' x='105.82' y='69.34'>yes<tspan x='105.82' y='81.3'>yes</tspan><tspan x='107.48' y='93.25'>no</tspan><tspan x='107.48' y='105.21'>no</tspan></text>
+<rect x='141.68' y='60.97' height='47.82' width='.4'/>
+<text class='t8' x='173.99' y='69.34'>inﬁx<tspan x='158.46' y='81.3'>err</tspan><tspan x='171.55'>or</tspan></text>
+<text class='t7' x='183.45' y='81.3'>(inﬁx)</text>
+<text class='t8' x='169.29' y='93.25'>postﬁx<tspan x='173.99' y='105.21'>inﬁx</tspan></text>
+<rect x='224.74' y='60.97' height='47.82' width='.4'/>
+<text class='t7' x='247.71' y='69.34'>yes<tspan x='249.37' y='81.3'>no</tspan><tspan x='247.71' y='93.25'>yes</tspan><tspan x='249.37' y='105.21'>no</tspan></text>
+<rect x='283.57' y='60.97' height='47.82' width='.4'/>
+<text class='t7' x='317.34' y='86.53'>operator</text>
+<rect x='383.91' y='60.97' height='47.82' width='.4'/>
+<rect x='0' y='108.79' height='.4' width='384.31'/>
+<rect x='0' y='109.19' height='23.91' width='.4'/>
+<text class='t7' x='18.24' y='122.79'>primary<tspan x='52.27'>tail</tspan></text>
+<rect x='82.84' y='109.19' height='23.91' width='.4'/>
+<text class='t7' x='105.82' y='117.56'>yes<tspan x='107.48' y='129.51'>no</tspan></text>
+<rect x='141.68' y='109.19' height='23.91' width='.4'/>
+<text class='t8' x='154.03' y='117.56'>err<tspan x='167.12'>or</tspan></text>
+<text class='t7' x='179.02' y='117.56'>(postﬁx)</text>
+<text class='t8' x='169.29' y='129.51'>postﬁx</text>
+<rect x='224.74' y='109.19' height='23.91' width='.4'/>
+<rect x='283.57' y='109.19' height='23.91' width='.4'/>
+<text class='t9' x='295.93' y='122.79'>,<tspan x='306.69'>;</tspan></text>
+<text class='t7' x='317.45' y='122.79'>right<tspan x='338.76'>encloser</tspan></text>
+<rect x='383.91' y='109.19' height='23.91' width='.4'/>
+<rect x='0' y='133.1' height='.4' width='384.31'/>
+<rect x='0' y='133.5' height='23.91' width='.4'/>
+<text class='t7' x='18.24' y='147.1'>primary<tspan x='52.27'>tail</tspan></text>
+<rect x='82.84' y='133.5' height='23.91' width='.4'/>
+<text class='t7' x='105.82' y='141.87'>yes<tspan x='107.48' y='153.82'>no</tspan></text>
+<rect x='141.68' y='133.5' height='23.91' width='.4'/>
+<text class='t8' x='173.99' y='141.87'>inﬁx<tspan x='169.29' y='153.82'>postﬁx</tspan></text>
+<rect x='224.74' y='133.5' height='23.91' width='.4'/>
+<rect x='283.57' y='133.5' height='23.91' width='.4'/>
+<text class='t7' x='314.16' y='147.1'>line<tspan x='331.59'>break</tspan></text>
+<rect x='383.91' y='133.5' height='23.91' width='.4'/>
+<rect x='0' y='157.41' height='.4' width='384.31'/>
+<rect x='0' y='157.81' height='11.96' width='.4'/>
+<text class='t7' x='25.02' y='166.18'>operator</text>
+<rect x='82.84' y='157.81' height='11.96' width='.4'/>
+<rect x='141.68' y='157.81' height='11.96' width='.4'/>
+<text class='t8' x='171.04' y='166.18'>pr<tspan x='180.83'>eﬁx</tspan></text>
+<rect x='224.74' y='157.81' height='11.96' width='.4'/>
+<rect x='283.57' y='157.81' height='11.96' width='.4'/>
+<text class='t7' x='307.24' y='166.18'>primary<tspan x='341.27'>front</tspan></text>
+<rect x='383.91' y='157.81' height='11.96' width='.4'/>
+<rect x='0' y='169.76' height='.4' width='384.31'/>
+<rect x='0' y='170.16' height='11.96' width='.4'/>
+<text class='t7' x='25.02' y='178.53'>operator</text>
+<rect x='82.84' y='170.16' height='11.96' width='.4'/>
+<rect x='141.68' y='170.16' height='11.96' width='.4'/>
+<text class='t8' x='171.04' y='178.53'>pr<tspan x='180.83'>eﬁx</tspan></text>
+<rect x='224.74' y='170.16' height='11.96' width='.4'/>
+<rect x='283.57' y='170.16' height='11.96' width='.4'/>
+<text class='t7' x='317.34' y='178.53'>operator</text>
+<rect x='383.91' y='170.16' height='11.96' width='.4'/>
+<rect x='0' y='182.12' height='.4' width='384.31'/>
+<rect x='0' y='182.52' height='11.96' width='.4'/>
+<text class='t7' x='25.02' y='190.88'>operator</text>
+<rect x='82.84' y='182.52' height='11.96' width='.4'/>
+<rect x='141.68' y='182.52' height='11.96' width='.4'/>
+<text class='t8' x='157.35' y='190.88'>err<tspan x='170.44'>or</tspan></text>
+<text class='t7' x='182.34' y='190.88'>(noﬁx)</text>
+<rect x='224.74' y='182.52' height='11.96' width='.4'/>
+<rect x='283.57' y='182.52' height='11.96' width='.4'/>
+<text class='t9' x='295.93' y='190.88'>,<tspan x='306.69'>;</tspan></text>
+<text class='t7' x='317.45' y='190.88'>right<tspan x='338.76'>encloser</tspan></text>
+<rect x='383.91' y='182.52' height='11.96' width='.4'/>
+<rect x='0' y='194.47' height='.4' width='384.31'/>
+<rect x='0' y='194.87' height='11.96' width='.4'/>
+<text class='t7' x='25.02' y='203.24'>operator</text>
+<rect x='82.84' y='194.87' height='11.96' width='.4'/>
+<rect x='141.68' y='194.87' height='11.96' width='.4'/>
+<text class='t8' x='157.35' y='203.24'>err<tspan x='170.44'>or</tspan></text>
+<text class='t7' x='182.34' y='203.24'>(noﬁx)</text>
+<rect x='224.74' y='194.87' height='11.96' width='.4'/>
+<rect x='283.57' y='194.87' height='11.96' width='.4'/>
+<text class='t7' x='314.16' y='203.24'>line<tspan x='331.59'>break</tspan></text>
+<rect x='383.91' y='194.87' height='11.96' width='.4'/>
+<rect x='0' y='206.82' height='.4' width='384.31'/>
+<rect x='0' y='207.22' height='11.96' width='.4'/>
+<text class='t9' x='6.38' y='215.59'>,<tspan x='17.14'>;</tspan></text>
+<text class='t7' x='27.9' y='215.59'>left<tspan x='43.67'>encloser</tspan></text>
+<rect x='82.84' y='207.22' height='11.96' width='.4'/>
+<rect x='141.68' y='207.22' height='11.96' width='.4'/>
+<text class='t8' x='171.04' y='215.59'>pr<tspan x='180.83'>eﬁx</tspan></text>
+<rect x='224.74' y='207.22' height='11.96' width='.4'/>
+<rect x='283.57' y='207.22' height='11.96' width='.4'/>
+<text class='t7' x='307.24' y='215.59'>primary<tspan x='341.27'>front</tspan></text>
+<rect x='383.91' y='207.22' height='11.96' width='.4'/>
+<rect x='0' y='219.18' height='.4' width='384.31'/>
+<rect x='0' y='219.58' height='11.96' width='.4'/>
+<text class='t9' x='6.38' y='227.95'>,<tspan x='17.14'>;</tspan></text>
+<text class='t7' x='27.9' y='227.95'>left<tspan x='43.67'>encloser</tspan></text>
+<rect x='82.84' y='219.58' height='11.96' width='.4'/>
+<rect x='141.68' y='219.58' height='11.96' width='.4'/>
+<text class='t8' x='171.04' y='227.95'>pr<tspan x='180.83'>eﬁx</tspan></text>
+<rect x='224.74' y='219.58' height='11.96' width='.4'/>
+<rect x='283.57' y='219.58' height='11.96' width='.4'/>
+<text class='t7' x='317.34' y='227.95'>operator</text>
+<rect x='383.91' y='219.58' height='11.96' width='.4'/>
+<rect x='0' y='231.53' height='.4' width='384.31'/>
+<rect x='0' y='231.93' height='11.96' width='.4'/>
+<text class='t9' x='6.38' y='240.3'>,<tspan x='17.14'>;</tspan></text>
+<text class='t7' x='27.9' y='240.3'>left<tspan x='43.67'>encloser</tspan></text>
+<rect x='82.84' y='231.93' height='11.96' width='.4'/>
+<rect x='141.68' y='231.93' height='11.96' width='.4'/>
+<text class='t8' x='172.89' y='240.3'>noﬁx</text>
+<rect x='224.74' y='231.93' height='11.96' width='.4'/>
+<rect x='283.57' y='231.93' height='11.96' width='.4'/>
+<text class='t9' x='295.93' y='240.3'>,<tspan x='306.69'>;</tspan></text>
+<text class='t7' x='317.45' y='240.3'>right<tspan x='338.76'>encloser</tspan></text>
+<rect x='383.91' y='231.93' height='11.96' width='.4'/>
+<rect x='0' y='243.89' height='.4' width='384.31'/>
+<rect x='0' y='244.28' height='11.96' width='.4'/>
+<text class='t9' x='6.38' y='252.65'>,<tspan x='17.14'>;</tspan></text>
+<text class='t7' x='27.9' y='252.65'>left<tspan x='43.67'>encloser</tspan></text>
+<rect x='82.84' y='244.28' height='11.96' width='.4'/>
+<rect x='141.68' y='244.28' height='11.96' width='.4'/>
+<text class='t8' x='155.97' y='252.65'>err<tspan x='169.06'>or</tspan></text>
+<text class='t7' x='180.96' y='252.65'>(preﬁx)</text>
+<rect x='224.74' y='244.28' height='11.96' width='.4'/>
+<rect x='283.57' y='244.28' height='11.96' width='.4'/>
+<text class='t7' x='314.16' y='252.65'>line<tspan x='331.59'>break</tspan></text>
+<rect x='383.91' y='244.28' height='11.96' width='.4'/>
+<rect x='0' y='256.24' height='.4' width='384.31'/></svg></div></div>
+<figcaption>Figure 16.1: Operator Fixity (I)</figcaption><a id="fig-opr-fixity1"></a></div>
+<p id="p-a63a32ae" class="nb">A case described in the center column of the table as an <span class="bf">error</span> is a static error; for such cases, the fixity mentioned in parentheses is the recommended treatment of the operator for the purpose of attempting to continuing the parse in search of other errors.</p>
+<p id="p-f579ce24" class="nb">The table may seem complicated, but it all boils down to a couple of practical rules of thumb:</p>
+<ol>
+<li><p id="p-53dc580c" class="nb"><span class="it">Any</span> operator can be prefix, postfix, infix, or nofix.</p></li>
+<li><p id="p-b711562c" class="nb">An infix operator can be <em>loose</em> (having whitespace on both sides) or <em>tight</em> (having whitespace on neither side), but it mustn’t be <em>lopsided</em> (having whitespace on one side but not the other).</p></li>
+<li><p id="p-258057f4" class="nb">A postfix operator must have no whitespace before it and must be followed (possibly after some whitespace) by a comma, semicolon, right encloser, or line break.</p></li>
+</ol>
+</section>
+<section class="sec" data-num="16.4" data-title="Chained and Multifix Operators">
+<h2 id="sec-chained-multifix" class="nb"><span class="num">16.4</span> Chained and Multifix Operators</h2>
+<p id="p-7f946c3b" class="nb">Certain infix mathematical operators that are traditionally regarded as <em>relational</em> operators, delivering boolean results, may be <em>chained</em>. For example, an expression such as <span class="m"><i>A</i> ⊆ <i>B</i> ⊂ <i>C</i> ⊆ <i>D</i></span> is treated as being equivalent to <span class="m">(<i>A</i> ⊆ <i>B</i>) ∧ (<i>B</i> ⊂ <i>C</i>) ∧ (<i>C</i> ⊆ <i>D</i>)</span> except that the expressions <span class="m"><i>B</i></span> and <span class="m"><i>C</i></span> are evaluated only once (which matters only if they have side effects such as writes or input/output actions). Similarly, the expression <span class="m"><i>A</i> ⊆ <i>B</i> = <i>C</i> ⊂ <i>D</i></span> is treated as being equivalent to <span class="m">(<i>A</i> ⊆ <i>B</i>) ∧ (<i>B</i> = <i>C</i>) ∧ (<i>C</i> ⊂ <i>D</i>)</span>, except that <span class="m"><i>B</i></span> and <span class="m"><i>C</i></span> are evaluated only once. Fortress restricts such chaining to a mixture of equivalence operators and ordering operators; if a chain contains two or more ordering operators, then they must be of the same kind and have the same sense of monotonicity; for example, neither <span class="m"><i>A</i> ⊆ <i>B</i> ≤ <i>C</i></span> nor <span class="m"><i>A</i> ⊆ <i>B</i> ⊃ <i>C</i></span> is permitted. This transformation is done before type checking. In particular, it is done even if these operators do not return boolean values, and the resulting expression is checked for type correctness. (See <a class="xref" href="operator-precedence.html#sec-precedence-relops">Section F.5</a><!--nc--> for a detailed description of which operators may be chained.)</p>
+<p id="p-2967f34e" class="nb">Any infix operator that does not chain may be treated as <em>multifix</em>. If <span class="m"><i>n</i> − 1</span> occurrences of the same operator separate <span class="m"><i>n</i></span> operands where <span class="m"><i>n</i> ≥ 3</span>, then the compiler first checks to see whether there is a definition for that operator that will accept <span class="m"><i>n</i></span> arguments. If so, that definition is used; if not, then the operator is treated as left-associative and the compiler looks for a two-argument definition for the operator to use for each occurrence. As an example, the cartesian product <span class="m"><i>S</i><sub>1</sub> × <i>S</i><sub>2</sub> × ⋯ × <i>S</i><sub><i>n</i></sub></span> of <span class="m"><i>n</i></span> sets may usefully be defined as a multifix operator, but ordinary addition <span class="m"><i>p</i> + <i>q</i> + <i>r</i> + <i>s</i></span> is normally treated as <span class="m">((<i>p</i> + <i>q</i>) + <i>r</i>) + <i>s</i></span>.</p>
+</section>
+<section class="sec" data-num="16.5" data-title="Enclosing Operators">
+<h2 id="sec-enclosing-ops" class="nb"><span class="num">16.5</span> Enclosing Operators</h2>
+<div class="fig"><div class="center"><div class="tw nb" id="t-0f9b43bf" data-kind="table"><svg class="tx" data-d="11" viewBox="-0.60 -0.60 412.88 281.75" width="41.288em" height="28.175em" fill="currentColor"><rect x='0' y='0' height='.4' width='411.68'/>
+<rect x='0' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='17.97' y='8.77'>left<tspan x='34.29'>context</tspan></text>
+<rect x='82.84' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='89.21' y='8.77'>whitespace</text>
+<rect x='141.68' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='166.52' y='8.77'>operator<tspan x='206.08'>ﬁxity</tspan></text>
+<rect x='252.11' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='258.49' y='8.77'>whitespace</text>
+<rect x='310.95' y='.4' height='11.96' width='.4'/>
+<text class='t8' x='334.06' y='8.77'>right<tspan x='357.59'>context</tspan></text>
+<rect x='411.28' y='.4' height='11.96' width='.4'/>
+<rect x='0' y='12.35' height='.4' width='411.68'/>
+<rect x='0' y='12.75' height='47.82' width='.4'/>
+<text class='t7' x='18.24' y='38.31'>primary<tspan x='52.27'>tail</tspan></text>
+<rect x='82.84' y='12.75' height='47.82' width='.4'/>
+<text class='t7' x='105.82' y='21.12'>yes<tspan x='105.82' y='33.08'>yes</tspan><tspan x='107.48' y='45.03'>no</tspan><tspan x='107.48' y='56.99'>no</tspan></text>
+<rect x='141.68' y='12.75' height='47.82' width='.4'/>
+<text class='t8' x='187.68' y='21.12'>inﬁx<tspan x='171.51' y='33.08'>left</tspan><tspan x='187.82'>encloser</tspan><tspan x='167.9' y='45.03'>right</tspan><tspan x='191.43'>encloser</tspan><tspan x='187.68' y='56.99'>inﬁx</tspan></text>
+<rect x='252.11' y='12.75' height='47.82' width='.4'/>
+<text class='t7' x='275.09' y='21.12'>yes<tspan x='276.75' y='33.08'>no</tspan><tspan x='275.09' y='45.03'>yes</tspan><tspan x='276.75' y='56.99'>no</tspan></text>
+<rect x='310.95' y='12.75' height='47.82' width='.4'/>
+<text class='t7' x='334.62' y='38.31'>primary<tspan x='368.65'>front</tspan></text>
+<rect x='411.28' y='12.75' height='47.82' width='.4'/>
+<rect x='0' y='60.57' height='.4' width='411.68'/>
+<rect x='0' y='60.97' height='47.82' width='.4'/>
+<text class='t7' x='18.24' y='86.53'>primary<tspan x='52.27'>tail</tspan></text>
+<rect x='82.84' y='60.97' height='47.82' width='.4'/>
+<text class='t7' x='105.82' y='69.34'>yes<tspan x='105.82' y='81.3'>yes</tspan><tspan x='107.48' y='93.25'>no</tspan><tspan x='107.48' y='105.21'>no</tspan></text>
+<rect x='141.68' y='60.97' height='47.82' width='.4'/>
+<text class='t8' x='187.68' y='69.34'>inﬁx<tspan x='171.51' y='81.3'>left</tspan><tspan x='187.82'>encloser</tspan><tspan x='167.9' y='93.25'>right</tspan><tspan x='191.43'>encloser</tspan><tspan x='187.68' y='105.21'>inﬁx</tspan></text>
+<rect x='252.11' y='60.97' height='47.82' width='.4'/>
+<text class='t7' x='275.09' y='69.34'>yes<tspan x='276.75' y='81.3'>no</tspan><tspan x='275.09' y='93.25'>yes</tspan><tspan x='276.75' y='105.21'>no</tspan></text>
+<rect x='310.95' y='60.97' height='47.82' width='.4'/>
+<text class='t7' x='344.72' y='86.53'>operator</text>
+<rect x='411.28' y='60.97' height='47.82' width='.4'/>
+<rect x='0' y='108.79' height='.4' width='411.68'/>
+<rect x='0' y='109.19' height='23.91' width='.4'/>
+<text class='t7' x='18.24' y='122.79'>primary<tspan x='52.27'>tail</tspan></text>
+<rect x='82.84' y='109.19' height='23.91' width='.4'/>
+<text class='t7' x='105.82' y='117.56'>yes<tspan x='107.48' y='129.51'>no</tspan></text>
+<rect x='141.68' y='109.19' height='23.91' width='.4'/>
+<text class='t8' x='154.03' y='117.56'>err<tspan x='167.12'>or</tspan></text>
+<text class='t7' x='179.02' y='117.56'>(right<tspan x='203.64'>encloser)</tspan></text>
+<text class='t8' x='167.9' y='129.51'>right<tspan x='191.43'>encloser</tspan></text>
+<rect x='252.11' y='109.19' height='23.91' width='.4'/>
+<rect x='310.95' y='109.19' height='23.91' width='.4'/>
+<text class='t9' x='323.3' y='122.79'>,<tspan x='334.06'>;</tspan></text>
+<text class='t7' x='344.82' y='122.79'>right<tspan x='366.13'>encloser</tspan></text>
+<rect x='411.28' y='109.19' height='23.91' width='.4'/>
+<rect x='0' y='133.1' height='.4' width='411.68'/>
+<rect x='0' y='133.5' height='23.91' width='.4'/>
+<text class='t7' x='18.24' y='147.1'>primary<tspan x='52.27'>tail</tspan></text>
+<rect x='82.84' y='133.5' height='23.91' width='.4'/>
+<text class='t7' x='105.82' y='141.87'>yes<tspan x='107.48' y='153.82'>no</tspan></text>
+<rect x='141.68' y='133.5' height='23.91' width='.4'/>
+<text class='t8' x='187.68' y='141.87'>inﬁx<tspan x='167.9' y='153.82'>right</tspan><tspan x='191.43'>encloser</tspan></text>
+<rect x='252.11' y='133.5' height='23.91' width='.4'/>
+<rect x='310.95' y='133.5' height='23.91' width='.4'/>
+<text class='t7' x='341.54' y='147.1'>line<tspan x='358.97'>break</tspan></text>
+<rect x='411.28' y='133.5' height='23.91' width='.4'/>
+<rect x='0' y='157.41' height='.4' width='411.68'/>
+<rect x='0' y='157.81' height='23.91' width='.4'/>
+<text class='t7' x='25.02' y='171.41'>operator</text>
+<rect x='82.84' y='157.81' height='23.91' width='.4'/>
+<rect x='141.68' y='157.81' height='23.91' width='.4'/>
+<text class='t8' x='156.8' y='166.18'>err<tspan x='169.89'>or</tspan></text>
+<text class='t7' x='181.79' y='166.18'>(left<tspan x='200.87'>encloser)</tspan></text>
+<text class='t8' x='171.51' y='178.13'>left<tspan x='187.82'>encloser</tspan></text>
+<rect x='252.11' y='157.81' height='23.91' width='.4'/>
+<text class='t7' x='275.09' y='166.18'>yes<tspan x='276.75' y='178.13'>no</tspan></text>
+<rect x='310.95' y='157.81' height='23.91' width='.4'/>
+<text class='t7' x='334.62' y='172.25'>primary<tspan x='368.65'>front</tspan></text>
+<rect x='411.28' y='157.81' height='23.91' width='.4'/>
+<rect x='0' y='181.72' height='.4' width='411.68'/>
+<rect x='0' y='182.12' height='23.91' width='.4'/>
+<text class='t7' x='25.02' y='195.72'>operator</text>
+<rect x='82.84' y='182.12' height='23.91' width='.4'/>
+<rect x='141.68' y='182.12' height='23.91' width='.4'/>
+<text class='t8' x='156.8' y='190.49'>err<tspan x='169.89'>or</tspan></text>
+<text class='t7' x='181.79' y='190.49'>(left<tspan x='200.87'>encloser)</tspan></text>
+<text class='t8' x='171.51' y='202.44'>left<tspan x='187.82'>encloser</tspan></text>
+<rect x='252.11' y='182.12' height='23.91' width='.4'/>
+<text class='t7' x='275.09' y='190.49'>yes<tspan x='276.75' y='202.44'>no</tspan></text>
+<rect x='310.95' y='182.12' height='23.91' width='.4'/>
+<text class='t7' x='344.72' y='196.56'>operator</text>
+<rect x='411.28' y='182.12' height='23.91' width='.4'/>
+<rect x='0' y='206.03' height='.4' width='411.68'/>
+<rect x='0' y='206.43' height='11.96' width='.4'/>
+<text class='t7' x='25.02' y='214.79'>operator</text>
+<rect x='82.84' y='206.43' height='11.96' width='.4'/>
+<rect x='141.68' y='206.43' height='11.96' width='.4'/>
+<text class='t8' x='171.04' y='214.79'>err<tspan x='184.13'>or</tspan></text>
+<text class='t7' x='196.03' y='214.79'>(noﬁx)</text>
+<rect x='252.11' y='206.43' height='11.96' width='.4'/>
+<rect x='310.95' y='206.43' height='11.96' width='.4'/>
+<text class='t9' x='323.3' y='214.79'>,<tspan x='334.06'>;</tspan></text>
+<text class='t7' x='344.82' y='214.79'>right<tspan x='366.13'>encloser</tspan></text>
+<rect x='411.28' y='206.43' height='11.96' width='.4'/>
+<rect x='0' y='218.38' height='.4' width='411.68'/>
+<rect x='0' y='218.78' height='11.96' width='.4'/>
+<text class='t7' x='25.02' y='227.15'>operator</text>
+<rect x='82.84' y='218.78' height='11.96' width='.4'/>
+<rect x='141.68' y='218.78' height='11.96' width='.4'/>
+<text class='t8' x='171.04' y='227.15'>err<tspan x='184.13'>or</tspan></text>
+<text class='t7' x='196.03' y='227.15'>(noﬁx)</text>
+<rect x='252.11' y='218.78' height='11.96' width='.4'/>
+<rect x='310.95' y='218.78' height='11.96' width='.4'/>
+<text class='t7' x='341.54' y='227.15'>line<tspan x='358.97'>break</tspan></text>
+<rect x='411.28' y='218.78' height='11.96' width='.4'/>
+<rect x='0' y='230.73' height='.4' width='411.68'/>
+<rect x='0' y='231.13' height='11.96' width='.4'/>
+<text class='t9' x='6.38' y='239.5'>,<tspan x='17.14'>;</tspan></text>
+<text class='t7' x='27.9' y='239.5'>left<tspan x='43.67'>encloser</tspan></text>
+<rect x='82.84' y='231.13' height='11.96' width='.4'/>
+<rect x='141.68' y='231.13' height='11.96' width='.4'/>
+<text class='t8' x='171.51' y='239.5'>left<tspan x='187.82'>encloser</tspan></text>
+<rect x='252.11' y='231.13' height='11.96' width='.4'/>
+<rect x='310.95' y='231.13' height='11.96' width='.4'/>
+<text class='t7' x='334.62' y='239.5'>primary<tspan x='368.65'>front</tspan></text>
+<rect x='411.28' y='231.13' height='11.96' width='.4'/>
+<rect x='0' y='243.09' height='.4' width='411.68'/>
+<rect x='0' y='243.49' height='11.96' width='.4'/>
+<text class='t9' x='6.38' y='251.86'>,<tspan x='17.14'>;</tspan></text>
+<text class='t7' x='27.9' y='251.86'>left<tspan x='43.67'>encloser</tspan></text>
+<rect x='82.84' y='243.49' height='11.96' width='.4'/>
+<rect x='141.68' y='243.49' height='11.96' width='.4'/>
+<text class='t8' x='171.51' y='251.86'>left<tspan x='187.82'>encloser</tspan></text>
+<rect x='252.11' y='243.49' height='11.96' width='.4'/>
+<rect x='310.95' y='243.49' height='11.96' width='.4'/>
+<text class='t7' x='344.72' y='251.86'>operator</text>
+<rect x='411.28' y='243.49' height='11.96' width='.4'/>
+<rect x='0' y='255.44' height='.4' width='411.68'/>
+<rect x='0' y='255.84' height='11.96' width='.4'/>
+<text class='t9' x='6.38' y='264.21'>,<tspan x='17.14'>;</tspan></text>
+<text class='t7' x='27.9' y='264.21'>left<tspan x='43.67'>encloser</tspan></text>
+<rect x='82.84' y='255.84' height='11.96' width='.4'/>
+<rect x='141.68' y='255.84' height='11.96' width='.4'/>
+<text class='t8' x='186.57' y='264.21'>noﬁx</text>
+<rect x='252.11' y='255.84' height='11.96' width='.4'/>
+<rect x='310.95' y='255.84' height='11.96' width='.4'/>
+<text class='t9' x='323.3' y='264.21'>,<tspan x='334.06'>;</tspan></text>
+<text class='t7' x='344.82' y='264.21'>right<tspan x='366.13'>encloser</tspan></text>
+<rect x='411.28' y='255.84' height='11.96' width='.4'/>
+<rect x='0' y='267.8' height='.4' width='411.68'/>
+<rect x='0' y='268.19' height='11.96' width='.4'/>
+<text class='t9' x='6.38' y='276.56'>,<tspan x='17.14'>;</tspan></text>
+<text class='t7' x='27.9' y='276.56'>left<tspan x='43.67'>encloser</tspan></text>
+<rect x='82.84' y='268.19' height='11.96' width='.4'/>
+<rect x='141.68' y='268.19' height='11.96' width='.4'/>
+<text class='t8' x='156.8' y='276.56'>err<tspan x='169.89'>or</tspan></text>
+<text class='t7' x='181.79' y='276.56'>(left<tspan x='200.87'>encloser)</tspan></text>
+<rect x='252.11' y='268.19' height='11.96' width='.4'/>
+<rect x='310.95' y='268.19' height='11.96' width='.4'/>
+<text class='t7' x='341.54' y='276.56'>line<tspan x='358.97'>break</tspan></text>
+<rect x='411.28' y='268.19' height='11.96' width='.4'/>
+<rect x='0' y='280.15' height='.4' width='411.68'/></svg></div></div>
+<figcaption>Figure 16.2: Operator Fixity (II)</figcaption><a id="fig-opr-fixity2"></a></div>
+<p id="p-18ecab55" class="nb">These operators are always used in pairs as enclosing operators:</p>
+<pre class="vb nb" id="c-43cf0ceb" data-kind="code"><code>                   (/   /)        (\   \)
+      [   ]        [/   /]                       [*   *]
+      {   }        {/   /}        {\   \}        {*   *}
+                   &lt;/   /&gt;        &lt;\   \&gt;
+                  &lt;&lt;/   /&gt;&gt;      &lt;&lt;\   \&gt;&gt;</code></pre>
+<p id="p-4dc84a8d" class="nb">(ASCII encodings are shown here; they all correspond to particular single Unicode characters.) There are other pairs as well, such as <span class="tt"><span class="m">⌊</span> <span class="m">⌋</span></span> and <span class="tt"><span class="m">⌈</span> <span class="m">⌉</span></span> and multicharacter enclosing operators described in <a class="xref" href="lexical-structure.html#sec-multichar-enclosers">Section 4.14.1</a>. Note that the pairs <span class="tt">( )</span> and <span class="tt">[\ \]</span> (also known as <span class="m">⟦  ⟧</span>) are not operators; they play special roles in the syntax of Fortress, and their behavior cannot be redefined by a library. The bracket pairs that may be used as enclosing operators are described in <a class="xref" href="operator-precedence.html#sec-bracket-pairs">Section F.2</a><!--nc-->.</p>
+<p id="p-40fcb0c2" class="nb">Any number of ‘<span class="tt">|</span>’ (vertical line) may also be used in pairs as enclosing operators but there is a trick to it, because on the face of it you can’t tell whether any given occurrence is a left encloser or a right encloser. Again, context is used to decide, this time according to <a class="xref" href="#fig-opr-fixity2">Figure 16.2</a><!--nc-->.</p>
+<p id="p-51dee0bf" class="nb">This is very similar to <a class="xref" href="#fig-opr-fixity1">Figure 16.1</a><!--nc--> in <a class="xref" href="#sec-operator-fixity">Section 16.3</a><!--nc-->; a rough rule of thumb is that if an ordinary operator would be considered a prefix operator, then one of these will be considered a left encloser; and if an ordinary operator would be considered a postfix operator, then one of these will be considered a right encloser.</p>
+<p id="p-b92f6d3f" class="nb">In this manner, one may use <span class="tt">|<span class="m">…</span>|</span> for absolute values and <span class="tt">||<span class="m">…</span>||</span> for matrix norms.</p>
+</section>
+<section class="sec" data-num="16.6" data-title="Conditional Operators">
+<h2 id="sec-conditional-operators" class="nb"><span class="num">16.6</span> Conditional Operators</h2>
+<p id="p-3cb5c88a" class="nb">If a binary operator other than ‘<span class="tt">:</span>’ and ‘<span class="tt">::</span>’ is immediately followed by a ‘<span class="tt">:</span>’ then it is <em>conditional</em>: evaluation of the right-hand operand cannot begin until evaluation of the left-hand operand has completed, and whether or not the right-hand operand is evaluated may depend on the value of the left-hand operand. If the left-hand operand throws an exception, then the right-hand operand is not evaluated.</p>
+<p id="p-fb501c4e" class="nb">The Fortress standard libraries define several conditional operators on boolean values including <span class="m">∧ <span class="tt">:</span></span> and <span class="m">∨ <span class="tt">:</span></span>.</p>
+<p id="p-9dfdd1b9" class="nb">See <a class="xref" href="operatordefs.html#sec-conditional-operators-impl">Section 25.9</a><!--nc--> for a discussion of how conditional operators are declared.</p>
+</section>
+<section class="sec" data-num="16.7" data-title="Big Operators">
+<h2 id="sec-big-operators" class="nb"><span class="num">16.7</span> Big Operators</h2>
+<p id="p-6dd88af6" class="nb">A big operator application is either a <em>reduction expression</em> described in <a class="xref" href="expressions.html#sec-reduction-expr">Section 13.17</a><!--nc--> or a <em>comprehension</em> described in <a class="xref" href="expressions.html#sec-comprehensions">Section 13.30</a><!--nc-->.</p>
+<p id="p-8b06dcf1" class="nb">The Fortress standard libraries define several big operators including <span class="m"><span class="big">∑</span></span>, <span class="m"><span class="big">∏</span></span>, and <span class="m"><span class="op">BIG</span> ∧</span>.</p>
+<p id="p-43760d47" class="nb">See <a class="xref" href="operatordefs.html#sec-big-operators-impl">Section 25.10</a><!--nc--> for a discussion of how big operators are declared.</p>
+</section>
+<section class="sec" data-num="16.8" data-title="Juxtaposition">
+<h2 id="sec-juxtameaning" class="nb"><span class="num">16.8</span> Juxtaposition</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-5f811d1a" class="nb">Qualified names are not yet supported.</p></aside>
+<p id="p-3b4e6a07" class="nb">Juxtaposition in Fortress may be a function call or a special infix operator. The Fortress standard libraries include several declarations of a <span class="m"><span class="kw">juxtaposition</span></span> operator.</p>
+<p id="p-297a3882" class="nb">When two expressions are juxtaposed, the juxtaposition is interpreted as follows: if the left-hand-side expression is a function, juxtaposition performs function application; otherwise, juxtaposition performs the <span class="m"><span class="kw">juxtaposition</span></span> operator application.</p>
+<p id="p-108c216b" class="nb">The manner in which a juxtaposition of three or more items must be associated requires type information and awareness of whitespace. (This is an inherent property of customary mathematical notation, which Fortress is designed to emulate where feasible.) Therefore a Fortress compiler must produce a provisional parse in which such multi-element juxtapositions are held in abeyance, then perform a type analysis on each element and use that information to rewrite the n-ary juxtaposition into a tree of binary juxtapositions.</p>
+<p id="p-6350be16" class="nb">All we need to know is whether each element of a juxtaposition has an arrow type. There are actually three legitimate possibilities for each element of a juxtaposition: (a) it has an arrow type, in which case it is considered to be a function element; (b) it has a type that is not an arrow type, in which case it is considered to be a non-function element. (c) it is an identifier that has no visible declaration, in which case it is considered to be a function element (and everything will work out okay if it turns out to be the name of an appropriate functional method).</p>
+<p id="p-32433d10" class="nb">The rules below are designed to forbid certain forms of notational ambiguity that can arise if the name of a functional method happens to be used also as the name of a variable. For example, suppose that trait <span class="m"><i>T</i></span> has a functional method of one parameter named <span class="m"><i>n</i></span>; then in the code</p>
+<div class="fx nb" id="c-be40c25b" data-kind="code"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 12.64 53.45 55.11" width="5.345em" height="5.511em" fill="currentColor"><text class='t10' x='9.96' y='19.33'>do</text>
+<text class='t3' x='21.92' y='31.28'>a</text>
+<text class='t1' x='27.18' y='31.28'>:</text>
+<text class='t3' x='31.61' y='31.28'>T</text>
+<text class='t1' x='41.58' y='31.28'>=</text>
+<text class='t3' x='52.1' y='31.28'>t<tspan x='21.92' y='43.24'>n</tspan></text>
+<text class='t1' x='27.9' y='43.24'>:</text>
+<text class='t6' x='32.33' y='43.24'>Z</text>
+<text class='t1' x='41.73' y='43.24'>=<tspan x='52.25'>14</tspan></text>
+<text class='t3' x='21.92' y='55.19'>z</text>
+<text class='t1' x='29.76' y='55.19'>=</text>
+<text class='t3' x='40.27' y='55.19'>n<tspan x='49.02'>a</tspan></text>
+<text class='t10' x='9.96' y='67.15'>end</text></svg></div></div>
+<p id="p-57b9725d" class="nb">it might not be clear whether the intended meaning was to invoke the functional method <span class="m"><i>n</i></span> on <span class="m"><i>a</i></span> or to multiply <span class="m"><i>a</i></span> by <span class="m">14</span>. The rules specify that such a situation is a static error.</p>
+<p id="p-37ec62b4" class="nb">The rules for reassociating a loose juxtaposition are as follows:</p>
+<ul>
+<li><p id="p-e90cf40f" class="nb">First the loose juxtaposition is broken into nonempty chunks; wherever there is a non-function element followed by a function element, the latter begins a new chunk. Thus a chunk consists of some number (possibly zero) of functions followed by some number (possibly zero) of non-functions.</p></li>
+<li><p id="p-462882a1" class="nb">It is a static error if any non-function element in a chunk is an unparenthesized identifier <span class="m"><i>f</i></span> and is followed by another non-function element whose type is such that <span class="m"><i>f</i></span> can be applied to that latter element as a functional method.</p></li>
+<li><p id="p-c8b73361" class="nb">The non-functions in each chunk, if any, are replaced by a single element consisting of the non-functions grouped left-associatively into binary juxtapositions.</p></li>
+<li><p id="p-8bef800b" class="nb">What remains in each chunk is then grouped right-associatively.</p>
+<p id="p-b2d27afb" class="nb">(Notice that, up to this point, no analysis of the types of newly constructed chunks is needed during this process.)</p></li>
+<li><p id="p-3a937774" class="nb">It is a static error if an element of the original juxtaposition was the last element in its chunk before reassociation, the chunk was not the last chunk (and therefore the element in question is a non-function element), the element was an unparenthesized identifier <span class="m"><i>f</i></span>, and the type of the following chunk after reassociation is such that <span class="m"><i>f</i></span> can be applied to that following chunk as a functional method.</p></li>
+<li><p id="p-ae3d18e2" class="nb">If any element that remains has type String, then it is a static error if there is any pair of adjacent elements within the juxtaposition such that neither element is of type String.</p></li>
+<li><p id="p-f01a8932" class="nb">What remains is considered to be a binary or multifix application of the juxtaposition operator; if more than two elements remain, the application is handled in the same way as for any other multifix operator (see <a class="xref" href="#sec-chained-multifix">Section 16.4</a><!--nc-->).</p></li>
+</ul>
+<p id="p-57d8f2fd" class="nb">Here is an example: <span class="m"><i>n</i> (<i>n</i> + 1) sin 3 <i>n</i> <i>x</i> log log <i>x</i></span>. Assuming that <span class="m">sin</span> and <span class="m">log</span> name functions in the usual manner and that <span class="m"><i>n</i></span>, <span class="m">(<i>n</i> + 1)</span>, and <span class="m"><i>x</i></span> are not functions, this loose juxtaposition splits into three chunks: <span class="m"><i>n</i> (<i>n</i> + 1)</span>, <span class="m">sin 3 <i>n</i> <i>x</i></span>, and <span class="m">log log <i>x</i></span>. The first chunk has only two elements and needs no further reassociation. In the second chunk, the non-functions <span class="m">3 <i>n</i> <i>x</i></span> are replaced by <span class="m">((3 <i>n</i>) <i>x</i>)</span>. In the third chunk, there is only one non-function, so that remains unchanged; the chunk is the right-associated to form <span class="m">(log (log <i>x</i>))</span>. Assuming that no multifix definition of juxtaposition has been provided, the three chunks are left-associated, to produce the final interpretation <span class="m">((<i>n</i> (<i>n</i> + 1)) (sin ((3 <i>n</i>) <i>x</i>))) (log (log <i>x</i>))</span>. Now the original juxtaposition has been reduced to binary juxtaposition expressions.</p>
+<p id="p-9b43f2cc" class="nb">A tight juxtaposition is always left-associated if it contains any dot (i.e., “.”) not within parentheses or some pair of enclosing operators. If such a tight juxtaposition begins with an identifier immediately followed by a dot then the maximal prefix of identifiers separated by dots (whitespace may follow but not precede the dots) is collected into a “dotted id chain”, which is subsequently partitioned into the longest prefix, if any, that is a qualified name, and the remaining the dots and identifiers, which are interpreted as selectors. If the last identifier in the dotted id chain is part of a selector (i.e., the entire dotted id chain is not a qualified name), and it is immediately followed by a left parenthesis, then the last selector together with the subsequent parenthesis-delimited expression is a method invocation.</p>
+<p id="p-6a667604" class="nb">A tight juxtaposition without any dots might not be entirely left-associated. Rather, it is considered as a nonempty sequence of elements: the front expression, any “math items”, and any postfix operator, and subject to reassociation as described below. A math item may be a subscripting, an exponentiation, or one of a few kinds of expressions. It is a static error if an exponentiation is immediately followed by a subcripting or an exponentiation.</p>
+<p id="p-3625a2b8" class="nb">The procedure for reassociation is as follows:</p>
+<ul>
+<li><p id="p-ee50c2ff" class="nb">For each expression element (i.e., not a subscripting, exponentiation or postfix operator), determine whether it is a function.</p></li>
+<li><p id="p-71423842" class="nb">If some function element is immediately followed by an expression element then, find the first such function element, and call the next element the argument. It is a static error if either the argument is not parenthesized, or the argument is immediately followed by a non-expression element. Otherwise, replace the function and argument with a single element that is the application of the function to the argument. This new element is an expression. Reassociate the resulting sequence (which is one element shorter).</p></li>
+<li><p id="p-29f2e92f" class="nb">If there is any non-expression element (it cannot be the first element) then replace the first such element and the element immediately preceding it (which must be an expression) with a single element that does the appropriate operator application. This new element is an expression. Reassociate the resulting sequence (which is one element shorter).</p></li>
+<li><p id="p-c05451fc" class="nb">Otherwise, the sequence necessarily has only expression elements, only the last of which may be a function. If any element that remains has type String, then it is a static error if there is any pair of adjacent elements within the juxtaposition such that neither element is of type String.</p></li>
+<li><p id="p-f01a8932-2" class="nb">What remains is considered to be a binary or multifix application of the juxtaposition operator; if more than two elements remain, the application is handled in the same way as for any other multifix operator (see <a class="xref" href="#sec-chained-multifix">Section 16.4</a><!--nc-->).</p></li>
+</ul>
+<p id="p-01ba452e" class="nb">(Note that this process requires type analysis of newly created chunks all along the way.)</p>
+<p id="p-c3f8b893" class="nb">Here is an (admittedly contrived) example: <span class="m"><i>reduce</i>(<i>f</i>)(<i>a</i>)(<i>x</i> + 1)<i>atan</i>(<i>x</i> + 2)</span>. Suppose that <span class="m"><i>reduce</i></span> is a curried function that accepts a function <span class="m"><i>f</i></span> and returns a function that can be applied to an array <span class="m"><i>a</i></span> (the idea is to use the function <span class="m"><i>f</i></span>, which ought to take two arguments, to combine the elements of the array to produce an accumulated result).</p>
+<p id="p-2b9ef9b7" class="nb">The leftmost function is <span class="m"><i>reduce</i></span>, and the following element <span class="m"><i>(f)</i></span> is parenthesized, so the two elements are replaced with one: <span class="m">(<i>reduce</i>(<i>f</i>))(<i>a</i>)(<i>x</i> + 1)<i>atan</i>(<i>x</i> + 2)</span>. Now type analysis determines that the element <span class="m">(<i>reduce</i>(<i>f</i>))</span> is a function.</p>
+<p id="p-325e2c2a" class="nb">The leftmost function is <span class="m">(<i>reduce</i>(<i>f</i>))</span>, and the following element <span class="m">(<i>a</i>)</span> is parenthesized, so the two elements are replaced with one: <span class="m">((<i>reduce</i>(<i>f</i>))(<i>a</i>))(<i>x</i> + 1)<i>atan</i>(<i>x</i> + 2)</span>. Now type analysis determines that the element <span class="m">((<i>reduce</i>(<i>f</i>))(<i>a</i>))</span> is not a function.</p>
+<p id="p-7bf5edb6" class="nb">The leftmost function is <span class="m"><i>atan</i></span>, and the following element <span class="m">(<i>x</i> + 2)</span> is parenthesized, so the two elements are replaced with one: <span class="m">((<i>reduce</i>(<i>f</i>))(<i>a</i>))(<i>x</i> + 1)(<i>atan</i>(<i>x</i> + 2))</span>. Now type analysis determines that the element <span class="m">(<i>atan</i>(<i>x</i> + 2))</span> is not a function.</p>
+<p id="p-a035695e" class="nb">There are no functions remaining in the juxtaposition. Assuming that no multifix definition of juxtaposition has been provided, the remaining elements are left-associated:</p>
+<div class="center"><p id="p-671246d6" class="nb"><span class="m">(((<i>reduce</i>(<i>f</i>))(<i>a</i>))(<i>x</i> + 1))(<i>atan</i>(<i>x</i> + 2))</span></p></div>
+<p id="p-62ac08ce" class="nb">Now the original juxtaposition has been reduced to binary juxtaposition expressions.</p>
+</section>
+<section class="sec" data-num="16.9" data-title="Overview of Operators in the Fortress Standard Libraries">
+<h2 id="s-overview-of-operators-in-the-fortress-standard-libraries" class="nb"><span class="num">16.9</span> Overview of Operators in the Fortress Standard Libraries</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-10554934" class="nb">The operators in this section are not tested nor run by the interpreter yet.</p></aside>
+<p id="p-d260b241" class="nb">This section provides a high-level overview of the operators in the Fortress standard libraries. See <a class="xref" href="operator-precedence.html">Appendix F</a><!--nc--> for the detailed rules for the operators provided by the Fortress standard libraries.</p>
+<section class="sec" data-num="16.9.1" data-title="Prefix Operators">
+<h3 id="sec-prefixops" class="nb"><span class="num">16.9.1</span> Prefix Operators</h3>
+<p id="p-f6b89225" class="nb">For all standard numeric types, the prefix operator <span class="m">+</span> simply returns its argument and the prefix operator <span class="m">−</span> returns the negative of its argument.</p>
+<p id="p-a5cc9479" class="nb">The operator <span class="m">¬</span> is the logical <span class="sc">not</span> operator on boolean values and boolean intervals.</p>
+<p id="p-98c111f3" class="nb">The operator <svg class="tx il" data-d="13" viewBox="-0.60 -0.60 7.84 7.73" width="0.784em" height="0.773em" fill="currentColor" style="vertical-align:-0.150em"><text class='t2' x='0' y='4.29'>¬<tspan x='0' y='6.53'>¬</tspan></text></svg> computes the bitwise <span class="sc">not</span> of an integer.</p>
+<p id="p-3006f6f6" class="nb">Big operators such as <span class="m"><span class="big">∑</span></span> begin a <em>reduction expression</em> (<a class="xref" href="expressions.html#sec-reduction-expr">Section 13.17</a><!--nc-->). The big operators include <span class="m"><span class="big">∑</span></span> (summation) and <span class="m"><span class="big">∏</span></span> (product), along with <span class="m"><span class="big">⋂</span></span>, <span class="m"><span class="big">⋃</span></span>, <span class="m"><span class="big">⋀</span></span>, <span class="m"><span class="big">⋁</span></span>, <span class="m"><span class="unl"><span class="big">⋁</span></span></span>, <span class="m"><span class="big">⨁</span></span>, <span class="m"><span class="big">⨂</span></span>, <span class="m"><span class="big">⨄</span></span>, <span class="m">⊞</span>, <span class="m">⊠</span>, <span class="m"><span class="op">MAX</span></span>, <span class="m"><span class="op">MIN</span></span>, and so on.</p>
+</section>
+<section class="sec" data-num="16.9.2" data-title="Postfix Operators">
+<h3 id="s-postfix-operators" class="nb"><span class="num">16.9.2</span> Postfix Operators</h3>
+<p id="p-9849e699" class="nb">The operator <span class="m">!</span> computes factorial; the operator <span class="m">!!</span> computes double factorials. They may be applied to a value of any integral type and produces a result of the same type.</p>
+<p id="p-df3971e9" class="nb">When applied to a floating-point value <span class="m"><i>x</i></span>, <span class="m"><i>x</i>!</span> computes <span class="m">Γ(1 + <i>x</i>)</span>, where <span class="m">Γ</span> is the Euler gamma function.</p>
+</section>
+<section class="sec" data-num="16.9.3" data-title="Enclosing Operators">
+<h3 id="s-enclosing-operators" class="nb"><span class="num">16.9.3</span> Enclosing Operators</h3>
+<p id="p-1a1f75fc" class="nb">When used as left and right enclosing operators, <span class="m">| |</span> computes the absolute value or magnitude of any number, and is also used to compute the number of elements in an aggregate, for example the cardinality of a set or the length of a list. Similarly, <span class="m">‖ ‖</span> is used to compute the norm of a vector or matrix.</p>
+<p id="p-626dd7b9" class="nb">The floor operator <span class="m">⌊ ⌋</span> and ceiling operator <span class="m">⌈ ⌉</span> may be applied to any standard integer, rational, or real value (their behavior is trivial when applied to integers, of course). The operators hyperfloor <span class="m">⌊⌊<i>x</i>⌋⌋</span> = <span class="m">2<sup>⌊log<sub>2</sub> <i>x</i>⌋</sup></span>, hyperceiling <span class="m">⌈⌈<i>x</i>⌉⌉</span> = <span class="m">2<sup>⌈log<sub>2</sub> <i>x</i>⌉</sup></span>, hyperhyperfloor <svg class="tx il" data-d="14" viewBox="-0.60 -0.60 21.51 11.16" width="2.151em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t2' x='0' y='7.47'><tspan x='1.44'></tspan><tspan x='2.88'></tspan></text>
+<text class='t3' x='7.31' y='7.47'>x</text>
+<text class='t2' x='13' y='7.47'><tspan x='14.44'></tspan><tspan x='15.88'></tspan></text></svg> = <span class="m">2<sup>⌊⌊log<sub>2</sub> <i>x</i>⌋⌋</sup></span>, and hyperhyperceiling <svg class="tx il" data-d="15" viewBox="-0.60 -0.60 21.51 11.16" width="2.151em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t2' x='0' y='7.47'><tspan x='1.44'></tspan><tspan x='2.88'></tspan></text>
+<text class='t3' x='7.31' y='7.47'>x</text>
+<text class='t2' x='13' y='7.47'><tspan x='14.44'></tspan><tspan x='15.88'></tspan></text></svg> = <span class="m">2<sup>⌈⌈log<sub>2</sub> <i>x</i>⌉⌉</sup></span> are also available.</p>
+</section>
+<section class="sec" data-num="16.9.4" data-title="Exponentiation">
+<h3 id="s-exponentiation" class="nb"><span class="num">16.9.4</span> Exponentiation</h3>
+<p id="p-b76c0e5c" class="nb">Given two expressions <span class="m"><i>e</i></span> and <span class="m"><i>e</i>′</span> denoting numeric quantities <span class="m"><i>v</i></span> and <span class="m"><i>v</i>′</span> that are not vectors or matrices, the expression <span class="m"><i>e</i><sup><i>e</i>′</sup></span> denotes the quantity obtained by raising <span class="m"><i>v</i></span> to the power <span class="m"><i>v</i>′</span>. This operation is defined in the usual way on numerals.</p>
+<p id="p-5dd4256f" class="nb">Given an expression <span class="m"><i>e</i></span> denoting a vector and an expression <span class="m"><i>e</i>′</span> denoting a value of type <span class="m">ℤ</span>, the expression <span class="m"><i>e</i><sup><i>e</i>′</sup></span> denotes repeated vector multiplication of <span class="m"><i>e</i></span> by itself <span class="m"><i>e</i>′</span> times.</p>
+<p id="p-d4cac092" class="nb">Given an expression <span class="m"><i>e</i></span> denoting a square matrix and an expression <span class="m"><i>e</i>′</span> denoting a value of type <span class="m">ℤ</span>, the expression <span class="m"><i>e</i><sup><i>e</i>′</sup></span> denotes repeated matrix multiplication of <span class="m"><i>e</i></span> by itself <span class="m"><i>e</i>′</span> times.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-8e5d92fd" class="nb">Eric: Do we also want to support the matrix exponential via this operator? Doing so requires having a special constant value for e.</p></aside>
+</section>
+<section class="sec" data-num="16.9.5" data-title="Superscript Operators">
+<h3 id="s-superscript-operators" class="nb"><span class="num">16.9.5</span> Superscript Operators</h3>
+<p id="p-8d03b049" class="nb">The superscript operator <span class="m"><span class="rm"><span class="tt">^</span></span><i>T</i></span> transposes a matrix. It also converts a column vector to a row vector or a row vector to a column vector.</p>
+</section>
+<section class="sec" data-num="16.9.6" data-title="Subscript Operators">
+<h3 id="s-subscript-operators" class="nb"><span class="num">16.9.6</span> Subscript Operators</h3>
+<p id="p-82f649ca" class="nb">Subscripting of arrays and other aggregates is written using square brackets:</p>
+<div class="tw nb" id="t-b1532649" data-kind="table"><svg class="tx" data-d="16" viewBox="5.38 1.04 432.34 59.53" width="43.234em" height="5.953em" fill="currentColor"><text class='t9' x='5.98' y='8.37'>a[i]</text>
+<text class='t11' x='82.49' y='8.37'>is<tspan x='91.63'>displayed</tspan><tspan x='132.3'>as</tspan></text>
+<text class='t3' x='154.78' y='8.37'>a</text>
+<text class='t12' x='160.04' y='9.86'>i</text>
+<text class='t3' x='204.42' y='8.37'>i</text>
+<text class='t7' x='207.85' y='8.37'>th<tspan x='218.09'>element</tspan><tspan x='252.12'>of</tspan><tspan x='262.91'>one-dimensional</tspan><tspan x='331.81'>array</tspan></text>
+<text class='t13' x='355.6' y='8.37'>a</text>
+<text class='t9' x='5.98' y='20.32'>m[i,j]</text>
+<text class='t11' x='82.49' y='20.32'>is<tspan x='91.63'>displayed</tspan><tspan x='132.3'>as</tspan></text>
+<text class='t3' x='154.78' y='20.32'>m</text>
+<text class='t12' x='163.52' y='21.82'>ij</text>
+<text class='t3' x='204.42' y='20.32'>i,<tspan x='212.28'>j</tspan></text>
+<text class='t7' x='216.95' y='20.32'>th<tspan x='227.19'>element</tspan><tspan x='261.22'>of</tspan><tspan x='272.01'>tw</tspan><tspan x='281.87'>o-dimensional</tspan><tspan x='341.37'>matrix</tspan></text>
+<text class='t13' x='370.7' y='20.32'>m</text>
+<text class='t9' x='5.98' y='32.28'>space[i,j,k]</text>
+<text class='t11' x='82.49' y='32.28'>is<tspan x='91.63'>displayed</tspan><tspan x='132.3'>as</tspan></text>
+<text class='t13' x='154.78' y='32.28'>sp<tspan x='163.43'>ac</tspan><tspan x='172.6'>e</tspan></text>
+<text class='t12' x='177.93' y='34.71'>ij<tspan x='184.45'>k</tspan></text>
+<text class='t3' x='204.42' y='32.28'>i,<tspan x='212.28'>j</tspan><tspan x='216.4'>,</tspan><tspan x='220.82'>k</tspan></text>
+<text class='t7' x='226.32' y='32.28'>th<tspan x='236.57'>element</tspan><tspan x='270.6'>of</tspan><tspan x='281.39'>three-dimensional</tspan><tspan x='355.82'>array</tspan></text>
+<text class='t13' x='379.6' y='32.28'>sp<tspan x='388.26'>ac</tspan><tspan x='397.42'>e</tspan></text>
+<text class='t9' x='5.98' y='44.44'>a[3]<tspan x='32.88'>:=</tspan><tspan x='49.02'>4</tspan></text>
+<text class='t11' x='82.49' y='44.44'>is<tspan x='91.63'>displayed</tspan><tspan x='132.3'>as</tspan></text>
+<text class='t3' x='154.78' y='44.44'>a</text>
+<text class='t14' x='160.04' y='45.93'>3</text>
+<text class='t1' x='167.28' y='44.44'>:<tspan x='170.05'>=</tspan><tspan x='180.56'>4</tspan></text>
+<text class='t7' x='204.42' y='44.44'>assign</text>
+<text class='t1' x='233.47' y='44.44'>4</text>
+<text class='t7' x='242.61' y='44.44'>to<tspan x='252.85'>the</tspan><tspan x='267.51'>third</tspan><tspan x='288.82'>element</tspan><tspan x='322.85'>of</tspan><tspan x='333.64'>mutable</tspan><tspan x='368.23'>array</tspan></text>
+<text class='t13' x='392.02' y='44.44'>a</text>
+<text class='t9' x='5.98' y='56.39'>m[&quot;foo&quot;]</text>
+<text class='t11' x='82.49' y='56.39'>is<tspan x='91.63'>displayed</tspan><tspan x='132.3'>as</tspan></text>
+<text class='t3' x='154.78' y='56.39'>m</text>
+<text class='t7' x='163.52' y='59.76'>“</text>
+<text class='t0' x='167.95' y='59.76'>foo</text>
+<text class='t7' x='185.88' y='59.76'>”<tspan x='204.42' y='56.39'>fetch</tspan><tspan x='226.82'>the</tspan><tspan x='241.49'>entry</tspan><tspan x='264.45'>associated</tspan><tspan x='307.89'>with</tspan><tspan x='328.09'>string</tspan><tspan x='354.94'>“</tspan></text>
+<text class='t0' x='359.36' y='56.39'>foo</text>
+<text class='t7' x='377.29' y='56.39'>”<tspan x='385.87'>from</tspan><tspan x='407.73'>map</tspan></text>
+<text class='t13' x='428.2' y='56.39'>m</text></svg></div>
+</section>
+<section class="sec" data-num="16.9.7" data-title="Multiplication, Division, Modulo, and Remainder Operators">
+<h3 id="s-multiplication-division-modulo-and-remainder-operators" class="nb"><span class="num">16.9.7</span> Multiplication, Division, Modulo, and Remainder Operators</h3>
+<p id="p-7bdd0b5d" class="nb">For most integer, rational, floating-point, complex, and interval expressions, multiplication can be expressed using any of ‘<span class="m">·</span>’ or ‘<span class="m">×</span>’ or simply juxtaposition. However, the <span class="m">×</span> operator is used to express the shape of matrices, so if expressions using multiplication are used in expressing the shape of a matrix, it may be necessary to avoid the use of ’<span class="m">×</span>’ to express multiplication, or to use parentheses.</p>
+<p id="p-366ab533" class="nb">For integer, rational, floating-point, complex, and interval expressions, division is expressed by <span class="m">/</span>. When the operator <span class="m">/</span> is used to divide one integer by another, the result is rational. The operator <span class="m">÷</span> performs truncating integer division: <span class="m"><i>m</i> ÷ <i>n</i> = <span class="it">signum</span>(<span class="frac"><span><i>m</i></span><span><i>n</i></span></span>)⌊|<span class="frac"><span><i>m</i></span><span><i>n</i></span></span>|⌋</span>. The operator <span class="m"><span class="op">REM</span></span> gives the remainder from such a truncating division: <span class="m"><i>m</i> <span class="op">REM</span> <i>n</i> = <i>m</i> − <i>n</i>(<i>m</i> ÷ <i>n</i>)</span>. The operator <span class="m"><span class="op">MOD</span></span> gives the remainder from a floor division: <span class="m"><i>m</i> <span class="op">MOD</span> <i>n</i> = <i>m</i> − <i>n</i>⌊<span class="frac"><span><i>m</i></span><span><i>n</i></span></span>⌋</span>; when <span class="m"><i>n</i> &gt; 0</span> this is the usual modulus computation that evaluates integer <span class="m"><i>m</i></span> to an integer <span class="m"><i>k</i></span> such that <span class="m">0 ≤ <i>k</i> &lt; <i>n</i></span> and <span class="m"><i>n</i></span> evenly divides <span class="m"><i>m</i> − <i>k</i></span>.</p>
+<p id="p-6ef870ff" class="nb">The special operators <span class="m"><span class="op">DIVREM</span></span> and <span class="m"><span class="op">DIVMOD</span></span> each return a pair of values, the quotient and the remainder; <span class="m"><i>m</i> <span class="op">DIVREM</span> <i>n</i></span> returns <span class="m">(<i>m</i> ÷ <i>n</i>, <i>m</i> <span class="op">REM</span> <i>n</i>)</span> while <span class="m"><i>m</i> <span class="op">DIVMOD</span> <i>n</i></span> returns <span class="m">(⌊<span class="frac"><span><i>m</i></span><span><i>n</i></span></span>⌋, <i>m</i> <span class="op">MOD</span> <i>n</i>)</span>.</p>
+<p id="p-22d0a70c" class="nb">Multiplication of a vector or matrix by a scalar is done with juxtaposition, as is multiplication of a vector by a matrix (on either side). Vector dot product is expressed by ‘<span class="m">·</span>’ and vector cross product by ‘<span class="m">×</span>’. Division of a matrix or vector by a scalar may be expressed using ‘<span class="m">/</span>’.</p>
+<p id="p-a5ff9fd8" class="nb">The syntactic interaction of juxtaposition, <span class="m">·</span>, <span class="m">×</span>, and <span class="m">/</span> is subtle. See <a class="xref" href="#sec-operator-precedence">Section 16.2</a><!--nc--> for a discussion of the relative precedence of these operations and how precedence may depend on the use of whitespace.</p>
+<p id="p-531d30a5" class="nb">The handling of overflow depends on the type of the number produced. For integer results, overflow throws an <span class="m"><span class="ty">IntegerOverflow</span></span>. Rational computations do not overflow. For floating-point results, overflow produces <span class="m">+∞</span> or <span class="m">−∞</span> according to the rules of IEEE 754. For intervals, overflow produces an appropriate containing interval.</p>
+<p id="p-9503184b" class="nb">Underflow is relevant only to floating-point computations and is handled according to the rules of IEEE 754.</p>
+<p id="p-7949843b" class="nb">The handling of division by zero depends on the type of the number produced. For integer results, division by zero throws a <span class="m"><span class="ty">DivisionByZero</span></span>. For rational results, division by zero produces <span class="m">1/0</span>. For floating-point results, division by zero produces a <span class="m"><span class="ty">NaN</span></span> value according to the rules of IEEE 754. For intervals, division by zero produces an appropriate containing interval (which under many circumstances will be the interval of all possible real values and infinities).</p>
+<p id="p-51b97b6a" class="nb">Wraparound multiplication on fixed-size integers is expressed by <span class="m">×̇</span>. Saturating multiplication on fixed-size integers is expressed by <svg class="tx il" data-d="17" viewBox="-0.60 -0.60 8.95 7.84" width="0.895em" height="0.784em" fill="currentColor" style="vertical-align:-0.143em"><text class='t5' x='0' y='5.81'></text></svg> or <span class="m">⊠</span>. These operations do not overflow.</p>
+<p id="p-1a51e5ef" class="nb">Ordinary multiplication and division of floating-point numbers always use the IEEE 754 “round to nearest” rounding mode. This rounding mode may be emphasized by using the operators <span class="m">⊗</span> (or <span class="m">⊙</span>) and <span class="m">⊘</span>. Multiplication and division in “round toward zero” mode may be expressed with <span class="m">⊠</span> (or <svg class="tx il" data-d="18" viewBox="-0.60 -0.60 8.95 7.84" width="0.895em" height="0.784em" fill="currentColor" style="vertical-align:-0.143em"><text class='t5' x='0' y='5.81'></text></svg>) and <svg class="tx il" data-d="19" viewBox="-0.60 -0.60 8.95 7.84" width="0.895em" height="0.784em" fill="currentColor" style="vertical-align:-0.143em"><text class='t5' x='0' y='5.81'></text></svg>. Multiplication and division in “round toward positive infinity” mode may be expressed with <svg class="tx il" data-d="20" viewBox="-0.60 -6.25 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.259em"><text class='t15' x='0' y='-5.65'></text>
+<text class='t16' x='1.87' y='4.32'>×</text></svg> (or <svg class="tx il" data-d="21" viewBox="-0.60 -6.13 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.260em"><text class='t15' x='0' y='-5.53'></text>
+<text class='t2' x='3.6' y='4.43'>·</text></svg>) and <svg class="tx il" data-d="22" viewBox="-0.60 -5.76 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.260em"><text class='t15' x='0' y='-5.16'></text>
+<text class='t17' x='1.44' y='4.8'></text></svg>. Multiplication and division in “round toward negative infinity” mode may be expressed with <svg class="tx il" data-d="23" viewBox="-0.60 -2.81 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.558em"><text class='t15' x='0' y='-2.21'></text>
+<text class='t16' x='1.87' y='4.32'>×</text></svg> (or <svg class="tx il" data-d="24" viewBox="-0.60 -2.70 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.558em"><text class='t15' x='0' y='-2.1'></text>
+<text class='t2' x='3.6' y='4.43'>·</text></svg>) and <svg class="tx il" data-d="26" viewBox="-0.60 -2.32 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.559em"><text class='t15' x='0' y='-1.72'></text>
+<text class='t17' x='1.44' y='4.8'></text></svg>.</p>
+</section>
+<section class="sec" data-num="16.9.8" data-title="Addition and Subtraction Operators">
+<h3 id="s-addition-and-subtraction-operators" class="nb"><span class="num">16.9.8</span> Addition and Subtraction Operators</h3>
+<p id="p-34ea641d" class="nb">Addition and subtraction are expressed with <span class="m">+</span> and <span class="m">−</span> on all numeric quantities, including intervals, as well as vectors and matrices.</p>
+<p id="p-531d30a5-2" class="nb">The handling of overflow depends on the type of the number produced. For integer results, overflow throws an <span class="m"><span class="ty">IntegerOverflow</span></span>. Rational computations do not overflow. For floating-point results, overflow produces <span class="m">+∞</span> or <span class="m">−∞</span> according to the rules of IEEE 754. For intervals, overflow produces an appropriate containing interval.</p>
+<p id="p-9503184b-2" class="nb">Underflow is relevant only to floating-point computations and is handled according to the rules of IEEE 754.</p>
+<p id="p-24a0bb83" class="nb">Wraparound addition and subtraction on fixed-size integers are expressed by <svg class="tx il" data-d="27" viewBox="-0.60 -0.60 8.95 8.91" width="0.895em" height="0.891em" fill="currentColor" style="vertical-align:-0.141em"><text class='t4' x='0' y='6.9'></text></svg> and <span class="m">−̇</span>. Saturating addition and subtraction on fixed-size integers are expressed by <span class="m">⊞</span> and <svg class="tx il" data-d="28" viewBox="-0.60 -0.60 8.95 7.92" width="0.895em" height="0.792em" fill="currentColor" style="vertical-align:-0.060em"><text class='t4' x='0' y='6.72'></text></svg>. These operations do not overflow.</p>
+<p id="p-f54c7c02" class="nb">Ordinary addition and subtraction of floating-point numbers always use the IEEE 754 “round to nearest” rounding mode. This rounding mode may be emphasized by using the operators <span class="m">⊕</span> and <span class="m">⊖</span>. Addition and subtraction in “round toward zero” mode may be expressed with <span class="m">⊞</span> and <svg class="tx il" data-d="29" viewBox="-0.60 -0.60 8.95 7.92" width="0.895em" height="0.792em" fill="currentColor" style="vertical-align:-0.060em"><text class='t4' x='0' y='6.72'></text></svg>. Addition and subtraction in “round toward positive infinity” mode may be expressed with <svg class="tx il" data-d="30" viewBox="-0.60 -6.25 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.259em"><text class='t15' x='0' y='-5.65'></text>
+<text class='t14' x='1.92' y='4.32'>+</text></svg> and <svg class="tx il" data-d="31" viewBox="-0.60 -6.25 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.259em"><text class='t15' x='0' y='-5.65'></text>
+<text class='t16' x='1.87' y='4.32'>−</text></svg>. Addition and subtraction in “round toward negative infinity” mode may be expressed with <svg class="tx il" data-d="32" viewBox="-0.60 -2.81 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.558em"><text class='t15' x='0' y='-2.21'></text>
+<text class='t14' x='1.92' y='4.32'>+</text></svg> and <svg class="tx il" data-d="33" viewBox="-0.60 -2.81 11.16 13.16" width="1.116em" height="1.316em" fill="currentColor" style="vertical-align:-0.558em"><text class='t15' x='0' y='-2.21'></text>
+<text class='t16' x='1.87' y='4.32'>−</text></svg>.</p>
+<p id="p-ee060170" class="nb">The construction <span class="m"><i>x</i> ± <i>y</i></span> produces the interval <span class="m">⟨|<i>x</i> − <i>y</i>, <i>x</i> + <i>y</i>|⟩</span>.</p>
+</section>
+<section class="sec" data-num="16.9.9" data-title="Intersection, Union, and Set Difference Operators">
+<h3 id="s-intersection-union-and-set-difference-operators" class="nb"><span class="num">16.9.9</span> Intersection, Union, and Set Difference Operators</h3>
+<p id="p-cc525fa8" class="nb">Sets support the operations of intersection <span class="m">∩</span>, union <span class="m">∪</span>, disjoint union <span class="m">⊎</span>, set difference <span class="m">∖</span>, and symmetric set difference <span class="m">⊖</span>. Disjoint union throws <span class="m"><span class="ty">DisjointUnionError</span></span> if the arguments are in fact not disjoint.</p>
+<p id="p-99013941" class="nb">Intervals support the operations of intersection <span class="m">∩</span>, union <span class="m">∪</span>, and interior hull <span class="m"><span class="unl">∪</span></span>. The operation <svg class="tx il" data-d="34" viewBox="-0.60 -0.60 7.84 6.68" width="0.784em" height="0.668em" fill="currentColor" style="vertical-align:-0.060em"><text class='t4' x='0' y='5.48'></text></svg> returns a pair of intervals; if the intersection of the arguments is a single contiguous span of real numbers, then the first result is an interval representing that span and the second result is an empty interval, but if the intersection is two spans, then two (disjoint) intervals are returned. The operation <svg class="tx il" data-d="35" viewBox="-0.60 -0.60 7.84 6.68" width="0.784em" height="0.668em" fill="currentColor" style="vertical-align:-0.060em"><text class='t4' x='0' y='5.48'></text></svg> returns a pair of intervals; if the arguments overlap, then the first result is the union of the two intervals and the second result is an empty interval, but if the arguments are disjoint, they are simply returned as is.</p>
+</section>
+<section class="sec" data-num="16.9.10" data-title="Minimum and Maximum Operators">
+<h3 id="s-minimum-and-maximum-operators" class="nb"><span class="num">16.9.10</span> Minimum and Maximum Operators</h3>
+<p id="p-844a1f90" class="nb">The operator <span class="m"><span class="op">MAX</span></span> returns the larger of its two operands, and <span class="m"><span class="op">MIN</span></span> returns the smaller of its two operands.</p>
+<p id="p-5a28f059" class="nb">For floating-point numbers, if either argument is a <span class="m"><span class="ty">NaN</span></span> then <span class="m"><span class="ty">NaN</span></span> is returned. The floating-point operations <span class="m"><span class="op">MAXNUM</span></span> and <span class="m"><span class="op">MINNUM</span></span> behave similarly except that if one argument is <span class="m"><span class="ty">NaN</span></span> and the other is a number, the number is returned. For all four of these operators, when applied to floating-point values, <span class="m">−0</span> is considered to be smaller than <span class="m">+0</span>.</p>
+</section>
+<section class="sec" data-num="16.9.11" data-title="GCD, LCM, and CHOOSE Operators">
+<h3 id="s-gcd-lcm-and-choose-operators" class="nb"><span class="num">16.9.11</span> GCD, LCM, and CHOOSE Operators</h3>
+<p id="p-7d38db53" class="nb">The infix operator <span class="m"><span class="op">GCD</span></span> computes the greatest common divisor of its integer operands, and <span class="m"><span class="op">LCM</span></span> computes the least common multiple. The operator <span class="m"><span class="op">CHOOSE</span></span> computes binomial coefficients: <svg class="tx il" data-d="36" viewBox="-0.60 -0.60 114.92 15.14" width="11.492em" height="1.514em" fill="currentColor" style="vertical-align:-0.577em"><text class='t3' x='0' y='8.77'>n</text>
+<text class='t10' x='4.32' y='8.77'>CHOOSE</text>
+<text class='t3' x='35.7' y='8.77'>k</text>
+<text class='t1' x='43.97' y='8.77'>=</text>
+<text class='t18' x='54.49' y='.7'></text>
+<text class='t12' x='59.05' y='4.34'>n<tspan x='59.31' y='12.2'>k</tspan></text>
+<text class='t18' x='63.98' y='.7'></text>
+<text class='t1' x='71.31' y='8.77'>=</text>
+<text class='t12' x='94.78' y='4.84'>n</text>
+<text class='t14' x='99.7' y='4.84'>!</text>
+<rect x='83.02' y='6.08' height='.4' width='30.7'/>
+<text class='t12' x='83.02' y='12.2'>k</text>
+<text class='t14' x='87.43' y='12.2'>!(</text>
+<text class='t12' x='92.79' y='12.2'>n</text>
+<text class='t16' x='97.72' y='12.2'>−</text>
+<text class='t12' x='103.95' y='12.2'>k</text>
+<text class='t14' x='108.35' y='12.2'>)!</text></svg>.</p>
+<p id="p-b797f512" class="nb">The results of <span class="m"><span class="op">GCD</span></span> and <span class="m"><span class="op">LCM</span></span> are nonnegative (<a class="xref" href="lib-numbers-basic.html#sec-basic-integers">Section 33.2</a><!--nc-->). On a fixed-size integer type, by the rule for integer results above, a result that the type cannot hold throws an <span class="m"><span class="ty">IntegerOverflow</span></span>: on <span class="m">ℤ32</span>, for example, the greatest common divisor of <span class="m">−2<sup>31</sup></span> and <span class="m">0</span> is <span class="m">2<sup>31</sup></span>, and the least common multiple of <span class="m">2<sup>31</sup> − 1</span> and <span class="m">2</span> is <span class="m">2<sup>32</sup> − 2</span>, neither of which <span class="m">ℤ32</span> holds.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-gcd">Section I.1.23</a><!--nc--></span></p>
+<p id="p-4d146bc8" class="nb">The Working Draft of February 2011 said neither that these results are nonnegative nor what happens when one does not fit its type.</p></aside>
+<p id="p-94b400b4" class="nb">The expression <span class="m"><i>e</i> ≠ <i>e</i>′</span> is semantically equivalent to the expression <span class="m">¬(<i>e</i> = <i>e</i>′)</span>.</p>
+</section>
+<section class="sec" data-num="16.9.12" data-title="Comparisons Operators">
+<h3 id="s-comparisons-operators" class="nb"><span class="num">16.9.12</span> Comparisons Operators</h3>
+<p id="p-eb35285f" class="nb">Unless otherwise noted, the operators described in this section produce boolean (<span class="m"><i>true</i></span>/<span class="m"><i>false</i></span>) results.</p>
+<p id="p-4dd8cf00" class="nb">The operators <span class="m">&lt;</span>, <span class="m">≤</span>, <span class="m">≥</span>, and <span class="m">&gt;</span> are used for numerical comparisons and are supported by integer, rational, and floating-point types. Comparison of rational values by these four operators returns <span class="m"><i>false</i></span> if either argument is the rational indefinite <span class="m">0/0</span>, for compatibility with floating-point arithmetic, and the rational infinities are ordered: <span class="m">−1/0</span> is less than and <span class="m">1/0</span> is greater than every finite rational value (<a class="xref" href="lib-numbers-basic.html#sec-basic-rationals">Section 33.1</a><!--nc-->). Comparison of floating-point values by these four operators returns <span class="m"><i>false</i></span> if either argument is a <span class="m"><span class="ty">NaN</span></span>, and <span class="m"><span class="op">CMP</span></span> returns <span class="m"><span class="ty">Unordered</span></span>.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-nan-comparison">Section I.1.47</a><!--nc--></span></p>
+<p id="p-7182463d" class="nb">The Working Draft of February 2011 said that a comparison of rational values throws <span class="m"><span class="ty">RationalComparisonError</span></span> if either argument is <span class="m">1/0</span> or <span class="m">0/0</span>, and that a comparison of floating-point values throws <span class="m"><span class="ty">FloatingComparisonError</span></span> if either argument is a <span class="m"><span class="ty">NaN</span></span>. The text now gives the answers of the chapter on rational numbers, which the interpreter computes, and for floating-point values those of both implementations; both exception types stay declared, and nothing throws them. The interpreter still answers <span class="m"><i>true</i></span> for <span class="m">0/0 ≤ 0/0</span> and <span class="m">0/0 ≥ 0/0</span> (row 440 of the revival’s gap ledger).</p></aside>
+<p id="p-bb318cef" class="nb">The operators <span class="m">&lt;</span>, <span class="m">≤</span>, <span class="m">≥</span>, and <span class="m">&gt;</span> may also be used to compare characters (according to the numerical value of their Unicode codepoint values) and strings (lexicographic order based on the character ordering). They also use lexicographic order when used to compare lists whose elements support these same comparison operators.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-conditional">Section I.1.3</a><!--nc--></span></p>
+<p id="p-68f7da51" class="nb">The Fortress standard libraries order a list only where its element type is totally ordered (<a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->): a list of floating-point numbers or of rational numbers, whose elements support these comparison operators but are only partially ordered, has no order on the compiled type checker, while its <span class="m">=</span> still compares the two lists element by element. The interpreter still orders every list (row 774 of the revival’s gap ledger).</p></aside>
+<p id="p-1064d9d5" class="nb">When <span class="m">&lt;</span>, <span class="m">≤</span>, <span class="m">≥</span>, and <span class="m">&gt;</span> are used to compare numerical intervals, the result is a boolean interval. The functions <span class="m"><i>possibly</i></span> and <span class="m"><i>certainly</i></span> are useful for converting boolean intervals to boolean values for testing. Thus <span class="m"><i>possibly</i>(<i>x</i> &gt; <i>y</i>)</span> is true if and only if there is some value in the interval <span class="m"><i>x</i></span> that is greater than some value in the interval <span class="m"><i>y</i></span>, while <span class="m"><i>certainly</i>(<i>x</i> &gt; <i>y</i>)</span> is true if and only if <span class="m"><i>x</i></span> and <span class="m"><i>y</i></span> are nonempty and every value in <span class="m"><i>x</i></span> is greater than every value in <span class="m"><i>y</i></span>.</p>
+<p id="p-077968e5" class="nb">The operators <span class="m">⊂</span>, <span class="m">⊆</span>, <span class="m">⊇</span>, and <span class="m">⊃</span> may be used to compare sets or intervals regarded as sets.</p>
+<p id="p-9425803c" class="nb">The operator <span class="m">∈</span> may be used to test whether a value is a member of a set, list, array, interval, or range.</p>
+</section>
+<section class="sec" data-num="16.9.13" data-title="Logical Operators">
+<h3 id="s-logical-operators" class="nb"><span class="num">16.9.13</span> Logical Operators</h3>
+<p id="p-2be41a9e" class="nb">The following binary operators may be used on boolean values:</p>
+<div class="center"><div class="tw nb" id="t-e4fc2eb2" data-kind="table"><svg class="tx" data-d="37" viewBox="5.38 2.23 173.12 78.52" width="17.312em" height="7.852em" fill="currentColor"><text class='t2' x='51.36' y='8.37'>∧</text>
+<text class='t19' x='70.2' y='8.37'>A<tspan x='76.45'>N</tspan><tspan x='82.7'>D</tspan></text>
+<text class='t2' x='51.36' y='20.32'>∨</text>
+<text class='t7' x='69.95' y='20.32'>inclusi<tspan x='96.27'>v</tspan><tspan x='101.11'>e</tspan></text>
+<text class='t19' x='108.27' y='20.32'>O<tspan x='114.52'>R</tspan></text>
+<text class='t2' x='9.3' y='32.28'>∨</text>
+<rect x='9.3' y='33.47' height='.4' width='6.64'/>
+<text class='t7' x='18.43' y='32.28'>or</text>
+<text class='t2' x='29.22' y='32.28'>⊕</text>
+<text class='t7' x='39.46' y='32.28'>or</text>
+<text class='t2' x='50.25' y='32.28'></text>
+<text class='t1' x='50.25' y='32.28'>=</text>
+<text class='t7' x='69.95' y='32.28'>e<tspan x='74.23'>xclusi</tspan><tspan x='97.78'>v</tspan><tspan x='102.61'>e</tspan></text>
+<text class='t19' x='109.77' y='32.28'>O<tspan x='116.02'>R</tspan></text>
+<text class='t2' x='5.98' y='44.23'>≡</text>
+<text class='t7' x='16.22' y='44.23'>or</text>
+<text class='t2' x='27.01' y='44.23'>↔</text>
+<text class='t7' x='39.46' y='44.23'>or</text>
+<text class='t1' x='50.25' y='44.23'>=</text>
+<text class='t7' x='69.95' y='44.23'>equi<tspan x='86.86'>v</tspan><tspan x='91.59'>alence</tspan><tspan x='119.53'>(if</tspan><tspan x='131.42'>and</tspan><tspan x='148.3'>only</tspan><tspan x='168.5'>if)</tspan></text>
+<text class='t2' x='48.04' y='56.19'>→</text>
+<text class='t19' x='70.2' y='56.19'>I<tspan x='73.35'>M</tspan><tspan x='80.93'>P</tspan><tspan x='85.85'>L</tspan><tspan x='91.21'>I</tspan><tspan x='94.36'>E</tspan><tspan x='99.72'>S</tspan></text>
+<rect x='51.36' y='61.02' height='.4' width='6.64'/>
+<text class='t2' x='51.36' y='68.14'>∧</text>
+<text class='t19' x='70.2' y='68.14'>N<tspan x='76.18'>A</tspan><tspan x='82.43'>N</tspan><tspan x='88.67'>D</tspan></text>
+<rect x='51.36' y='72.97' height='.4' width='6.64'/>
+<text class='t2' x='51.36' y='80.1'>∨</text>
+<text class='t19' x='70.2' y='80.1'>N<tspan x='76.45'>O</tspan><tspan x='82.7'>R</tspan></text></svg></div></div>
+<p id="p-4896dad2" class="nb">These same operators may also be applied to boolean intervals to produce boolean interval results.</p>
+<p id="p-42e2df05" class="nb">The following operators may be used on integers to perform “bitwise” operations:</p>
+<div class="center"><div class="tw nb" id="t-7206f524" data-kind="table"><svg class="tx" data-d="38" viewBox="5.38 1.04 104.65 33.43" width="10.465em" height="3.343em" fill="currentColor"><text class='t2' x='5.98' y='8.37'>∧<tspan x='8.19'>∧</tspan></text>
+<text class='t7' x='26.79' y='8.37'>bitwise</text>
+<text class='t19' x='58.31' y='8.37'>A<tspan x='64.56'>N</tspan><tspan x='70.8'>D</tspan></text>
+<text class='t2' x='5.98' y='20.32'>∨<tspan x='8.19'>∨</tspan></text>
+<text class='t7' x='26.79' y='20.32'>bitwise<tspan x='58.06'>inclusi</tspan><tspan x='84.38'>v</tspan><tspan x='89.21'>e</tspan></text>
+<text class='t19' x='96.38' y='20.32'>O<tspan x='102.62'>R</tspan></text>
+<text class='t2' x='5.98' y='32.28'>∨<tspan x='8.19'>∨</tspan></text>
+<rect x='5.98' y='33.47' height='.4' width='8.86'/>
+<text class='t7' x='26.79' y='32.28'>bitwise<tspan x='58.06'>e</tspan><tspan x='62.33'>xclusi</tspan><tspan x='85.89'>v</tspan><tspan x='90.72'>e</tspan></text>
+<text class='t19' x='97.88' y='32.28'>O<tspan x='104.13'>R</tspan></text></svg></div></div>
+<p id="p-52ae3e54" class="nb">The prefix operator <svg class="tx il" data-d="39" viewBox="-0.60 -0.60 7.84 7.73" width="0.784em" height="0.773em" fill="currentColor" style="vertical-align:-0.150em"><text class='t2' x='0' y='4.29'>¬<tspan x='0' y='6.53'>¬</tspan></text></svg> computes the bitwise <span class="sc">not</span> of an integer. The operators <span class="m"><span class="op">LSHIFT</span></span> and <span class="m"><span class="op">RSHIFT</span></span> shift the bits of an integer to the left and to the right (<a class="xref" href="lib-numbers-basic.html#sec-basic-integers">Section 33.2</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-shifts">Section I.1.22</a><!--nc--></span></p>
+<p id="p-6ab2a30e" class="nb">The Working Draft of February 2011 did not name <span class="m"><span class="op">LSHIFT</span></span> and <span class="m"><span class="op">RSHIFT</span></span>.</p></aside>
+</section>
+<section class="sec" data-num="16.9.14" data-title="Conditional Operators">
+<h3 id="sec-standard-conditional-oprs" class="nb"><span class="num">16.9.14</span> Conditional Operators</h3>
+<p id="p-e9783fb7" class="nb">If <span class="m"><i>p</i>(<i>x</i>)</span> and <span class="m"><i>q</i>(<i>x</i>)</span> are expressions that produce boolean results, the expression <span class="m"><i>p</i>(<i>x</i>)∧<span class="tt">:</span> <i>q</i>(<i>x</i>)</span> computes the logical <span class="sc">and</span> of those two results by first evaluating <span class="m"><i>p</i>(<i>x</i>)</span>. If the result of <span class="m"><i>p</i>(<i>x</i>)</span> is <span class="m"><i>true</i></span>, then <span class="m"><i>q</i>(<i>x</i>)</span> is also evaluated, and its result becomes the result of the entire expression; but if the result of <span class="m"><i>p</i>(<i>x</i>)</span> is <span class="m"><i>false</i></span>, then <span class="m"><i>q</i>(<i>x</i>)</span> is not evaluated, and the result of the entire expression is <span class="m"><i>false</i></span> without further ado. (Similarly, evaluating the expression <span class="m"><i>p</i>(<i>x</i>)∨<span class="tt">:</span> <i>q</i>(<i>x</i>)</span> does not evaluate <span class="m"><i>q</i>(<i>x</i>)</span> if the result of <span class="m"><i>p</i>(<i>x</i>)</span> is <span class="m"><i>true</i></span>.) Contrast this with the expression <span class="m"><i>p</i>(<i>x</i>) ∧ <i>q</i>(<i>x</i>)</span> (with no colon), which evaluates both <span class="m"><i>p</i>(<i>x</i>)</span> and <span class="m"><i>q</i>(<i>x</i>)</span>, in no specified order and possibly in parallel.</p>
+</section>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="multiple-dispatch.html"><span>Previous</span> 15. Overloading and Multiple Dispatch</a><a class="next" href="conversions-coercions.html"><span>Next</span> 17. Conversions and Coercions</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/operators/operators.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

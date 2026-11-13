@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>E. Support for Unicode Input in ASCII · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:pcrr8r;font-size:8.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t3{font-family:cmr10;font-size:9.96px}
+svg.tx text.t4{font-family:cmex10;font-size:9.96px}
+svg.tx text.t5{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t6{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t7{font-family:stmary10;font-size:9.96px}
+svg.tx text.t8{font-family:cmsy9;font-size:8.97px}
+svg.tx text.t9{font-family:msam10;font-size:9.96px}
+svg.tx text.t10{font-family:pcrr8r;font-size:9.93px}
+</style>
+</head>
+<body data-page="chapter" data-slug="ascii-unicode" data-chapter="E. Support for Unicode Input in ASCII">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">E. Support for Unicode Input in ASCII</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part VII, Appendices</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="E" data-title="Support for Unicode Input in ASCII">
+<h1 id="top" class="nb"><a id="app-ascii-unicode"></a><span class="num">Appendix E</span> Support for Unicode Input in ASCII</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-identifier-pasting">E.1 Word Pasting across Line Terminators</a></li><li><a href="#sec-preprocessing-unicode-names">E.2 Converting Names of Unicode Characters and ASCII Shorthand</a></li><li><a href="#sec-digit-separator">E.3 Apostrophe Replacement within Numerals</a></li><li><a href="#sec-ascii-conversion-equivalence">E.4 Equivalence under ASCII Conversion</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-5304bec4" class="nb">Only <a class="xref" href="#sec-preprocessing-unicode-names">Section E.2</a><!--nc--> is supported.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-aa7ded4d" class="nb">QUESTIONS/NOTES from Victor:</p>
+<ul>
+<li><p id="p-0effbeb7" class="nb">does micro convert to MICRO SIGN by itself, or only as part of a restricted word? (The latter is currently specified.)</p></li>
+<li><p id="p-2cf21d7c" class="nb">Is ” ASCII shorthand for double prime (and the analogous qns for ”’ “ and “‘)? If so, then we need to fix the example in the character literal section, which says ”’ is a character literal that evaluates to the APOSTROPHE character.</p></li>
+<li><p id="p-03949e67" class="nb">The section on conversion of ASCII symbol sequences still needs to be fixed up. I think it should list all the ASCII shorthand (certainly it needs to list all the shorthand for non-operators), and then it needs to deal with not converting sequences that are subsequences of multicharacter enclosing operators.</p></li>
+</ul></aside>
+<p id="p-b85d99a4" class="nb">To facilitate the writing of Fortress programs using ASCII-based tools, Fortress programs are subject to <em>ASCII conversion</em>, an idempotent process consisting of three steps described in this appendix. We expect that IDEs that support Unicode may apply ASCII conversion immediately, saving programs as converted Unicode character sequences.</p>
+<section class="sec" data-num="E.1" data-title="Word Pasting across Line Terminators">
+<h2 id="sec-identifier-pasting" class="nb"><span class="num">E.1</span> Word Pasting across Line Terminators</h2>
+<p id="p-13b23782" class="nb">Consider any line terminator in the program for which the last non-whitespace character before the line terminator is an ampersand (<span class="tt">&amp;</span>) that is immediately preceded by a word character, and the first non-whitespace character after the line terminator is an ampersand that is immediately followed by a word character. All the characters between the ampersands inclusive are removed from the program. Note that the removed characters other than the two ampersands must be whitespace characters (including one or more line terminators). This step permits very long names and numerals to be split across line boundaries. For example:</p>
+<pre class="vb nb" id="c-0ccfa80d" data-kind="code"><code>supercalifragilisticexpiali&amp;
+   &amp;docious = 0.142857142857142857&amp;
+   &amp;142857 TIMES &amp;
+       GREEK_SMALL_LETTER_&amp;
+
+   &amp;UPSILON_WITH_DIALYTICA_AND_TONOS</code></pre>
+<p id="p-4e58ac78" class="nb">becomes</p>
+<pre class="vb nb" id="c-9ff19d63" data-kind="code"><code>supercalifragilisticexpialidocious = 0.142857142857142857142857 TIMES &amp;
+       GREEK_SMALL_LETTER_UPSILON_WITH_DIALYTICA_AND_TONOS</code></pre>
+<p id="p-f7d38bc5" class="nb">To ensure the idempotence of ASCII conversion, it is a static error if an ampersand is immediately followed by another ampersand, or if it is immediately followed by one or more whitespace characters, not including a line terminator, followed by an ASCII letter or ampersand. In other words, if an ampersand is not the last non-whitespace character on a line then the next non-whitespace character must not be an ampersand, nor can it be an ASCII letter unless it is adjacent to the ampersand.</p>
+</section>
+<section class="sec" data-num="E.2" data-title="Converting Names of Unicode Characters and ASCII Shorthand">
+<h2 id="sec-preprocessing-unicode-names" class="nb"><span class="num">E.2</span> Converting Names of Unicode Characters and ASCII Shorthand</h2>
+<p id="p-5a91200e" class="nb">After word pasting across line terminators, certain ASCII character sequences are converted into single Unicode characters. These character sequences fall into two categories: restricted words (or parts of restricted words) and ASCII shorthand for operators and special characters. In some cases, ampersands adjacent to converted sequences are removed.</p>
+<section class="sec" data-num="E.2.1" data-title="Determining Potentially Convertible Character Sequences">
+<h3 id="sec-determining-conversion-chunks" class="nb"><span class="num">E.2.1</span> Determining Potentially Convertible Character Sequences</h3>
+<p id="p-dbcdf866" class="nb">We first identify nonoverlapping contiguous subsequences of the program that may be subject to conversion in this step. In particular, names of characters and ASCII shorthand consist of only ASCII characters, and they are <em>not</em> converted within string literals.</p>
+<p id="p-3e530acc" class="nb">The boundaries of string literals (and comments) are determined follows: There are three modes of processing: outside any comment or string literal, inside a string literal and inside a comment. Within a comment, we also keep track of “nesting depth” (this is 0 when not within a comment). Processing proceeds from left to right. Outside any comment or string literal, encountering an unescaped string literal delimiter (i.e., a string literal delimiter not immediately preceded by an unescaped backslash) changes processing to the mode for within a string literal (however, it is a static error if the string literal delimiter is the right double quotation mark), and encountering the opening comment delimiter “<span class="tt">(*</span>” changes processing to the mode for within a comment, incrementing the nesting depth (to 1). All other characters are ignored, except to note they are not within a string literal. In particular, because character literal delimiters are ignored, string literal delimiters must be escaped within character literals.</p>
+<p id="p-cefd3d2e" class="nb">Within a string literal, all characters other than an unescaped string literal delimiter are ignored (except to note that they are within a string literal). An unescaped string literal delimiter switches processing to the mode for outside any comment or string literal. However, it is a static error if a line terminator appears within a string literal (Fortress provides <em>escape sequences</em> to include line terminators in strings; see <a class="xref" href="lexical-structure.html#sec-preprocessing-string-literals">Section 4.10</a>), or if the opening and closing string literal delimiters do not “match” (again see <a class="xref" href="lexical-structure.html#sec-preprocessing-string-literals">Section 4.10</a>).</p>
+<p id="p-c43fe8a0" class="nb">Within a comment, all characters, including unescaped string literal delimiters, are ignored (except to note that they are not within a string literal) other than the two-character opening and closing comment delimiters “<span class="tt">(*</span>” and “<span class="tt">*)</span>”. Whenever the opening comment delimiter is encountered, the nesting depth is incremented, and each time the closing comment delimiter is encountered, the nesting depth is decremented, until it becomes 0. At that point, processing is changed again to the mode for outside any comment or string literal.</p>
+<p id="p-a8ef31ad" class="nb">A contiguous subsequence of ASCII characters not within any string literal is a candidate for conversion in this step if it is either a restricted word, or it is a maximal such subsequence that does not contain any restricted-word characters, control characters, whitespace characters or ampersands (i.e., it must be delimited by whitespace, a control or non-ASCII characters, string literals, restricted words, ampersands, or the beginning or end of the file). We call the latter kind of subsequence an <em>ASCII symbol sequence</em>. The conversion of restricted words and ASCII symbol sequences are described in <a class="xref" href="#sec-convert-restricted-words">Section E.2.2</a><!--nc--> and <a class="xref" href="#sec-convert-symbol-sequences">Section E.2.3</a><!--nc--> respectively. Whitespace characters and ampersands are not converted, but some ampersands may be eliminated, as described in <a class="xref" href="#sec-convert-ampersand">Section E.2.4</a><!--nc-->.</p>
+</section>
+<section class="sec" data-num="E.2.2" data-title="Converting Restricted Words">
+<h3 id="sec-convert-restricted-words" class="nb"><span class="num">E.2.2</span> Converting Restricted Words</h3>
+<p id="p-f188c057" class="nb">A restricted word that “names” a Unicode character that is not protected<sup class="fnref"><a id="fnref-1" href="#fn-1">1</a></sup> (i.e., not an ASCII or control character nor a string literal delimiter) is replaced by that character. A restricted word may name a character in various ways, described below. In a few cases, a restricted word may name more than one character (via different ways), so the order in which we consider these ways is important. Also, in some cases, only part of the restricted word is replaced by a Unicode character.</p>
+<p id="p-9b04bc4c" class="nb">Fortress explicitly provides short ASCII names for many characters, especially ones that programmers might most commonly want. Some characters have more than one short name. For operators, these names are given in <a class="xref" href="operator-precedence.html">Appendix F</a><!--nc-->, including the following common ones:</p>
+<div class="tw nb" id="t-379f6468" data-kind="table"><svg class="tx" data-d="1" viewBox="5.38 0.85 350.56 56.49" width="35.056em" height="5.649em" fill="currentColor"><text class='t0' x='38.26' y='8.37'>LE</text>
+<text class='t1' x='60.97' y='8.37'>becomes</text>
+<text class='t2' x='107.23' y='8.37'>≤</text>
+<text class='t0' x='153.53' y='8.37'>GE</text>
+<text class='t1' x='176.25' y='8.37'>becomes</text>
+<text class='t2' x='222.5' y='8.37'>≥</text>
+<text class='t0' x='275.85' y='8.37'>NE</text>
+<text class='t1' x='298.56' y='8.37'>becomes</text>
+<text class='t2' x='344.82' y='8.37'></text>
+<text class='t3' x='344.82' y='8.37'>=</text>
+<text class='t0' x='38.26' y='20.32'>BY</text>
+<text class='t1' x='60.97' y='20.32'>becomes</text>
+<text class='t2' x='107.23' y='20.32'>×</text>
+<text class='t0' x='137.39' y='20.32'>TIMES</text>
+<text class='t1' x='176.25' y='20.32'>becomes</text>
+<text class='t2' x='222.5' y='20.32'>×</text>
+<text class='t0' x='259.71' y='20.32'>CROSS</text>
+<text class='t1' x='298.56' y='20.32'>becomes</text>
+<text class='t2' x='344.82' y='20.32'>×</text>
+<text class='t0' x='32.88' y='32.28'>DOT</text>
+<text class='t1' x='60.97' y='32.28'>becomes</text>
+<text class='t2' x='108.89' y='32.28'>·</text>
+<text class='t0' x='142.77' y='32.28'>PROD</text>
+<text class='t1' x='176.25' y='32.28'>becomes</text>
+<text class='t4' x='222.5' y='24.81'></text>
+<text class='t0' x='270.47' y='32.28'>SUM</text>
+<text class='t1' x='298.56' y='32.28'>becomes</text>
+<text class='t4' x='344.82' y='24.81'></text>
+<text class='t0' x='32.88' y='44.23'>CUP</text>
+<text class='t1' x='60.97' y='44.23'>becomes</text>
+<text class='t2' x='107.23' y='44.23'>∪</text>
+<text class='t0' x='148.15' y='44.23'>CAP</text>
+<text class='t1' x='176.25' y='44.23'>becomes</text>
+<text class='t2' x='222.5' y='44.23'>∩</text>
+<text class='t0' x='254.33' y='44.23'>SUBSET</text>
+<text class='t1' x='298.56' y='44.23'>becomes</text>
+<text class='t2' x='344.82' y='44.23'>⊂</text>
+<text class='t0' x='5.98' y='56.19'>EMPTYSET</text>
+<text class='t1' x='60.97' y='56.19'>becomes</text>
+<text class='t2' x='107.23' y='56.19'>∅</text>
+<text class='t0' x='148.15' y='56.19'>AND</text>
+<text class='t1' x='176.25' y='56.19'>becomes</text>
+<text class='t2' x='222.5' y='56.19'>∧</text>
+<text class='t0' x='275.85' y='56.19'>OR</text>
+<text class='t1' x='298.56' y='56.19'>becomes</text>
+<text class='t2' x='344.82' y='56.19'>∨</text></svg></div>
+<p id="p-f0a88831" class="nb">To provide a level of compatibility with Fortran, <a class="xref" href="operator-precedence.html">Appendix F</a><!--nc--> also gives short names for the following ASCII (and thus protected) characters:</p>
+<div class="tw nb" id="t-01f6e9be" data-kind="table"><svg class="tx" data-d="2" viewBox="5.38 1.13 276.19 9.15" width="27.619em" height="0.915em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>LT</text>
+<text class='t1' x='28.69' y='8.37'>becomes</text>
+<text class='t5' x='74.95' y='8.37'>&lt;</text>
+<text class='t0' x='105.11' y='8.37'>GT</text>
+<text class='t1' x='127.83' y='8.37'>becomes</text>
+<text class='t5' x='174.08' y='8.37'>></text>
+<text class='t0' x='204.25' y='8.37'>EQ</text>
+<text class='t1' x='226.96' y='8.37'>becomes</text>
+<text class='t3' x='273.22' y='8.37'>=</text></svg></div>
+<p id="p-e822633c" class="nb">These names are the only ones converted to a protected character. Furthermore, they are <em>not</em> replaced by the corresponding character unless they are delimited by whitespace characters (<em>not</em> ampersands). Thus, they cannot participate in further conversion, maintaining the idempotence of ASCII conversion.</p>
+<p id="p-ee0b8379" class="nb">The following non-operator characters also have short names:</p>
+<div class="tw nb" id="t-0a28a958" data-kind="table"><svg class="tx" data-d="3" viewBox="5.38 0.85 353.93 284.40" width="35.393em" height="28.440em" fill="currentColor"><text class='t0' x='16.74' y='8.37'>ALPHA</text>
+<text class='t1' x='55.59' y='8.37'>becomes</text>
+<text class='t6' x='101.85' y='8.37'>A</text>
+<text class='t0' x='143.88' y='8.37'>alpha</text>
+<text class='t1' x='182.73' y='8.37'>becomes</text>
+<text class='t5' x='228.99' y='8.37'>α</text>
+<text class='t0' x='258.25' y='8.37'>BOTTOM</text>
+<text class='t1' x='302.49' y='8.37'>becomes</text>
+<text class='t2' x='348.74' y='8.37'>⊥</text>
+<text class='t0' x='22.12' y='20.32'>BETA</text>
+<text class='t1' x='55.59' y='20.32'>becomes</text>
+<text class='t6' x='101.85' y='20.32'>B</text>
+<text class='t0' x='149.26' y='20.32'>beta</text>
+<text class='t1' x='182.73' y='20.32'>becomes</text>
+<text class='t5' x='228.99' y='20.32'>β</text>
+<text class='t0' x='274.39' y='20.32'>TOP</text>
+<text class='t1' x='302.49' y='20.32'>becomes</text>
+<text class='t2' x='348.74' y='20.32'></text>
+<text class='t0' x='16.74' y='32.28'>GAMMA</text>
+<text class='t1' x='55.59' y='32.28'>becomes</text>
+<text class='t3' x='101.85' y='32.28'>Γ</text>
+<text class='t0' x='143.88' y='32.28'>gamma</text>
+<text class='t1' x='182.73' y='32.28'>becomes</text>
+<text class='t5' x='228.99' y='32.28'>γ</text>
+<text class='t0' x='274.39' y='32.28'>INF</text>
+<text class='t1' x='302.49' y='32.28'>becomes</text>
+<text class='t2' x='348.74' y='32.28'>∞</text>
+<text class='t0' x='16.74' y='44.23'>DELTA</text>
+<text class='t1' x='55.59' y='44.23'>becomes</text>
+<text class='t3' x='101.85' y='44.23'>∆</text>
+<text class='t0' x='143.88' y='44.23'>delta</text>
+<text class='t1' x='182.73' y='44.23'>becomes</text>
+<text class='t5' x='228.99' y='44.23'>δ</text>
+<text class='t0' x='258.25' y='44.23'>FORALL</text>
+<text class='t1' x='302.49' y='44.23'>becomes</text>
+<text class='t2' x='348.74' y='44.23'>∀</text>
+<text class='t0' x='5.98' y='56.19'>EPSILON</text>
+<text class='t1' x='55.59' y='56.19'>becomes</text>
+<text class='t6' x='101.85' y='56.19'>E</text>
+<text class='t0' x='133.12' y='56.19'>epsilon</text>
+<text class='t1' x='182.73' y='56.19'>becomes</text>
+<text class='t5' x='228.99' y='56.19'></text>
+<text class='t0' x='258.25' y='56.19'>EXISTS</text>
+<text class='t1' x='302.49' y='56.19'>becomes</text>
+<text class='t2' x='348.74' y='56.19'>∃</text>
+<text class='t0' x='22.12' y='68.14'>ZETA</text>
+<text class='t1' x='55.59' y='68.14'>becomes</text>
+<text class='t6' x='101.85' y='68.14'>Z</text>
+<text class='t0' x='149.26' y='68.14'>zeta</text>
+<text class='t1' x='182.73' y='68.14'>becomes</text>
+<text class='t5' x='228.99' y='68.14'>ζ</text>
+<text class='t0' x='27.5' y='80.1'>ETA</text>
+<text class='t1' x='55.59' y='80.1'>becomes</text>
+<text class='t6' x='101.85' y='80.1'>H</text>
+<text class='t0' x='154.64' y='80.1'>eta</text>
+<text class='t1' x='182.73' y='80.1'>becomes</text>
+<text class='t5' x='228.99' y='80.1'>η</text>
+<text class='t0' x='16.74' y='92.05'>THETA</text>
+<text class='t1' x='55.59' y='92.05'>becomes</text>
+<text class='t3' x='101.85' y='92.05'>Θ</text>
+<text class='t0' x='143.88' y='92.05'>theta</text>
+<text class='t1' x='182.73' y='92.05'>becomes</text>
+<text class='t5' x='228.99' y='92.05'>θ</text>
+<text class='t0' x='22.12' y='104.01'>IOTA</text>
+<text class='t1' x='55.59' y='104.01'>becomes</text>
+<text class='t6' x='101.85' y='104.01'>I</text>
+<text class='t0' x='149.26' y='104.01'>iota</text>
+<text class='t1' x='182.73' y='104.01'>becomes</text>
+<text class='t5' x='228.99' y='104.01'>ι</text>
+<text class='t0' x='16.74' y='115.97'>KAPPA</text>
+<text class='t1' x='55.59' y='115.97'>becomes</text>
+<text class='t6' x='101.85' y='115.97'>K</text>
+<text class='t0' x='143.88' y='115.97'>kappa</text>
+<text class='t1' x='182.73' y='115.97'>becomes</text>
+<text class='t5' x='228.99' y='115.97'>κ</text>
+<text class='t0' x='11.36' y='127.92'>LAMBDA</text>
+<text class='t1' x='55.59' y='127.92'>becomes</text>
+<text class='t3' x='101.85' y='127.92'>Λ</text>
+<text class='t0' x='138.5' y='127.92'>lambda</text>
+<text class='t1' x='182.73' y='127.92'>becomes</text>
+<text class='t5' x='228.99' y='127.92'>λ</text>
+<text class='t0' x='32.88' y='139.88'>MU</text>
+<text class='t1' x='55.59' y='139.88'>becomes</text>
+<text class='t6' x='101.85' y='139.88'>M</text>
+<text class='t0' x='160.02' y='139.88'>mu</text>
+<text class='t1' x='182.73' y='139.88'>becomes</text>
+<text class='t5' x='228.99' y='139.88'>µ</text>
+<text class='t0' x='32.88' y='151.83'>NU</text>
+<text class='t1' x='55.59' y='151.83'>becomes</text>
+<text class='t6' x='101.85' y='151.83'>N</text>
+<text class='t0' x='160.02' y='151.83'>nu</text>
+<text class='t1' x='182.73' y='151.83'>becomes</text>
+<text class='t5' x='228.99' y='151.83'>ν</text>
+<text class='t0' x='32.88' y='163.79'>XI</text>
+<text class='t1' x='55.59' y='163.79'>becomes</text>
+<text class='t3' x='101.85' y='163.79'>Ξ</text>
+<text class='t0' x='160.02' y='163.79'>xi</text>
+<text class='t1' x='182.73' y='163.79'>becomes</text>
+<text class='t5' x='228.99' y='163.79'>ξ</text>
+<text class='t0' x='5.98' y='175.74'>OMICRON</text>
+<text class='t1' x='55.59' y='175.74'>becomes</text>
+<text class='t6' x='101.85' y='175.74'>O</text>
+<text class='t0' x='133.12' y='175.74'>omicron</text>
+<text class='t1' x='182.73' y='175.74'>becomes</text>
+<text class='t5' x='228.99' y='175.74'>o</text>
+<text class='t0' x='32.88' y='187.7'>PI</text>
+<text class='t1' x='55.59' y='187.7'>becomes</text>
+<text class='t3' x='101.85' y='187.7'>Π</text>
+<text class='t0' x='160.02' y='187.7'>pi</text>
+<text class='t1' x='182.73' y='187.7'>becomes</text>
+<text class='t5' x='228.99' y='187.7'>π</text>
+<text class='t0' x='27.5' y='199.65'>RHO</text>
+<text class='t1' x='55.59' y='199.65'>becomes</text>
+<text class='t6' x='101.85' y='199.65'>P</text>
+<text class='t0' x='154.64' y='199.65'>rho</text>
+<text class='t1' x='182.73' y='199.65'>becomes</text>
+<text class='t5' x='228.99' y='199.65'>ρ</text>
+<text class='t0' x='16.74' y='211.61'>SIGMA</text>
+<text class='t1' x='55.59' y='211.61'>becomes</text>
+<text class='t3' x='101.85' y='211.61'>Σ</text>
+<text class='t0' x='143.88' y='211.61'>sigma</text>
+<text class='t1' x='182.73' y='211.61'>becomes</text>
+<text class='t5' x='228.99' y='211.61'>σ</text>
+<text class='t0' x='27.5' y='223.56'>TAU</text>
+<text class='t1' x='55.59' y='223.56'>becomes</text>
+<text class='t6' x='101.85' y='223.56'>T</text>
+<text class='t0' x='154.64' y='223.56'>tau</text>
+<text class='t1' x='182.73' y='223.56'>becomes</text>
+<text class='t5' x='228.99' y='223.56'>τ</text>
+<text class='t0' x='5.98' y='235.52'>UPSILON</text>
+<text class='t1' x='55.59' y='235.52'>becomes</text>
+<text class='t3' x='101.85' y='235.52'>Υ</text>
+<text class='t0' x='133.12' y='235.52'>upsilon</text>
+<text class='t1' x='182.73' y='235.52'>becomes</text>
+<text class='t5' x='228.99' y='235.52'>υ</text>
+<text class='t0' x='27.5' y='247.47'>PHI</text>
+<text class='t1' x='55.59' y='247.47'>becomes</text>
+<text class='t3' x='101.85' y='247.47'>Φ</text>
+<text class='t0' x='154.64' y='247.47'>phi</text>
+<text class='t1' x='182.73' y='247.47'>becomes</text>
+<text class='t5' x='228.99' y='247.47'>φ</text>
+<text class='t0' x='27.5' y='259.43'>CHI</text>
+<text class='t1' x='55.59' y='259.43'>becomes</text>
+<text class='t6' x='101.85' y='259.43'>X</text>
+<text class='t0' x='154.64' y='259.43'>chi</text>
+<text class='t1' x='182.73' y='259.43'>becomes</text>
+<text class='t5' x='228.99' y='259.43'>χ</text>
+<text class='t0' x='27.5' y='271.38'>PSI</text>
+<text class='t1' x='55.59' y='271.38'>becomes</text>
+<text class='t3' x='101.85' y='271.38'>Ψ</text>
+<text class='t0' x='154.64' y='271.38'>psi</text>
+<text class='t1' x='182.73' y='271.38'>becomes</text>
+<text class='t5' x='228.99' y='271.38'>ψ</text>
+<text class='t0' x='16.74' y='283.34'>OMEGA</text>
+<text class='t1' x='55.59' y='283.34'>becomes</text>
+<text class='t3' x='101.85' y='283.34'>Ω</text>
+<text class='t0' x='143.88' y='283.34'>omega</text>
+<text class='t1' x='182.73' y='283.34'>becomes</text>
+<text class='t5' x='228.99' y='283.34'>ω</text></svg></div>
+<p id="p-40341738" class="nb">A restricted word that is not a short name specified by Fortress is compared to names of characters specified by the Unicode Standard [<a class="cite" href="references.html#ref-Unicode">Unicode</a>]. Because restricted words consist only of letters, digits and underscores, while Unicode names may include hyphens and spaces (but not underscores), hyphens and spaces in the Unicode names are replaced by underscores for this comparison. Specifically, if a restricted word is the official Unicode 5.0 name of a character with hyphens and spaces replaced by underscores, it is replaced by that character. For any Unicode character other than the control characters, there is a unique official Unicode 5.0 name not shared by any other Unicode character. Since control characters are protected, they do not present a problem in this regard.</p>
+<p id="p-d9641553" class="nb">If there is no matching official Unicode 5.0 name, the restricted word is compared to the alternative names for characters specified by the Unicode Standard, again with hyphens and spaces replaced by underscores, and converted to a character with such a matching name. If more than one character has a matching alternative name, then the restricted word is converted to the first such non-protected character (i.e., the one with the smallest code point). If there is no matching alternative name, then the restricted word is compared to official Unicode 5.0 names and any alternative names specified in the Unicode Standard, with underscores in place of hyphens and spaces, where any of the following substrings may be omitted:</p>
+<pre class="vb nb" id="c-a3a074fe" data-kind="code"><code>  "LETTER_"
+  "DIGIT_"
+  "RADICAL_"
+  "NUMERAL_"</code></pre>
+<p id="p-585fbbb5" class="nb">If there are multiple such substrings in a given name, any combination of them may be omitted. Again, if there are multiple characters with matching abridged names, the restricted word is converted to the first such non-protected character.</p>
+<p id="p-234024c8" class="nb">If the restricted word is not converted to a single Unicode character by any of the above rules, parts of it may be converted as follows: If the restricted word begins with the short name (i.e., the name in the table above) of a Greek letter followed by an underscore or a digit, or ends with the short name of a Greek letter that is preceded by an underscore, or contains the short name of a Greek letter with an underscore on each side of it, then the short name of the Greek letter is replaced by the Greek letter itself. In the same manner, the character sequence “micro” is replaced with the character <span class="tt">MICRO SIGN</span> <span class="m">μ</span> (U+00B5, which looks just like the Greek lowercase mu <span class="m">μ</span> but is different). If a word-part being thus replaced has an underscore to each side, and the underscore on the right is the last character of the restricted word, then the underscore on the left is removed as the name is replaced; this ad hoc rule is for the sake of the abbreviations of certain dimensional units, so that, for example, <span class="tt">micro_OMEGA_</span> is converted to <span class="tt"><span class="m"><span class="rm">μΩ_</span></span></span>, signifying micro-ohms, and <span class="tt">G_OMEGA_</span> is converted to <span class="tt"><span class="m"><span class="rm">GΩ_</span></span></span>, signifying gigaohms. Here are some other examples:</p>
+<div class="tw nb" id="t-b40395a4" data-kind="table"><svg class="tx" data-d="4" viewBox="5.38 0.96 330.65 32.11" width="33.065em" height="3.211em" fill="currentColor"><text class='t0' x='25.34' y='8.37'>alpha</text>
+<text class='t1' x='64.2' y='8.37'>becomes</text>
+<text class='t5' x='110.46' y='8.37'>α</text>
+<text class='t0' x='192.98' y='8.37'>OMEGA13</text>
+<text class='t1' x='242.59' y='8.37'>becomes</text>
+<text class='t3' x='288.85' y='8.37'>Ω13</text>
+<text class='t0' x='5.98' y='20.32'>alpha</text>
+<rect x='33.41' y='19.93' height='.4' width='2.69'/>
+<text class='t0' x='36.1' y='20.32'>hat</text>
+<text class='t1' x='64.2' y='20.32'>becomes</text>
+<text class='t5' x='110.46' y='20.32'>α</text>
+<rect x='117.46' y='19.93' height='.4' width='2.99'/>
+<text class='t5' x='120.45' y='20.32'>hat</text>
+<text class='t0' x='157.47' y='20.32'>theta</text>
+<rect x='184.91' y='19.93' height='.4' width='2.69'/>
+<text class='t0' x='187.6' y='20.32'>elephant</text>
+<text class='t1' x='242.59' y='20.32'>becomes</text>
+<text class='t5' x='288.85' y='20.32'>θ</text>
+<rect x='294.4' y='19.93' height='.4' width='2.99'/>
+<text class='t5' x='297.39' y='20.32'>el<tspan x='305.2'>ephant</tspan></text>
+<text class='t0' x='22.12' y='32.28'>OMEGA</text>
+<rect x='49.55' y='31.88' height='.4' width='2.69'/>
+<text class='t1' x='64.2' y='32.28'>becomes</text>
+<text class='t3' x='110.46' y='32.28'>Ω</text>
+<rect x='118.25' y='31.88' height='.4' width='2.99'/>
+<rect x='217.19' y='31.88' height='.4' width='2.69'/>
+<text class='t0' x='219.88' y='32.28'>XI</text>
+<text class='t1' x='242.59' y='32.28'>becomes</text>
+<rect x='289.45' y='31.88' height='.4' width='2.99'/>
+<text class='t3' x='292.44' y='32.28'>Ξ</text></svg></div>
+</section>
+<section class="sec" data-num="E.2.3" data-title="Converting ASCII Symbol Sequences">
+<h3 id="sec-convert-symbol-sequences" class="nb"><span class="num">E.2.3</span> Converting ASCII Symbol Sequences</h3>
+<p id="p-8b26d8b9" class="nb">For the sequences of characters other than restricted words, each is converted from left to right, with the longest possible substring being converted at once, with one exception: The sequence “<span class="tt">(&lt;</span>” is not converted if it is immediately followed by any of the following characters: ‘<span class="tt">&lt;</span>’, ’<span class="tt">|</span>’, ‘<span class="tt">/</span>’, ‘<span class="tt">\</span>’, ‘<span class="tt">*</span>’, or ‘<span class="tt">.</span>’. That is, with this one exception, the longest shorthand beginning from the first character, if any, is converted first. Then, the longest shorthand beginning from the next character of the string after replacement is converted, and so on. Here are the ASCII shorthands for some of the characters we expect to be most frequently used:</p>
+<div class="tw nb" id="t-5a898c8d" data-kind="table"><svg class="tx" data-d="5" viewBox="5.38 0.30 194.46 68.64" width="19.446em" height="6.864em" fill="currentColor"><text class='t0' x='11.36' y='8.37'>[\</text>
+<text class='t1' x='34.07' y='8.37'>becomes</text>
+<text class='t7' x='80.33' y='8.37'></text>
+<text class='t0' x='118.64' y='8.37'>\]</text>
+<text class='t1' x='141.36' y='8.37'>becomes</text>
+<text class='t7' x='187.61' y='8.37'></text>
+<text class='t0' x='11.36' y='20.32'>-></text>
+<text class='t1' x='34.07' y='20.32'>becomes</text>
+<text class='t2' x='80.33' y='20.32'>→</text>
+<text class='t0' x='118.64' y='20.32'>=></text>
+<text class='t1' x='141.36' y='20.32'>becomes</text>
+<text class='t2' x='187.61' y='20.32'>⇒</text>
+<text class='t8' x='9.57' y='32.28'>∼</text>
+<text class='t0' x='16.74' y='32.28'>></text>
+<text class='t1' x='34.07' y='32.28'>becomes</text>
+<text class='t9' x='80.33' y='32.28'></text>
+<text class='t0' x='113.26' y='32.28'>|-></text>
+<text class='t1' x='141.36' y='32.28'>becomes</text>
+<text class='t2' x='187.61' y='32.28'>↦→</text>
+<text class='t0' x='11.36' y='44.23'>>=</text>
+<text class='t1' x='34.07' y='44.23'>becomes</text>
+<text class='t2' x='80.33' y='44.23'>≥</text>
+<text class='t0' x='118.64' y='44.23'>&lt;=</text>
+<text class='t1' x='141.36' y='44.23'>becomes</text>
+<text class='t2' x='187.61' y='44.23'>≤</text>
+<text class='t0' x='5.98' y='56.19'>=/=</text>
+<text class='t1' x='34.07' y='56.19'>becomes</text>
+<text class='t2' x='80.33' y='56.19'></text>
+<text class='t3' x='80.33' y='56.19'>=</text>
+<text class='t6' x='121.93' y='56.19'>...</text>
+<text class='t1' x='141.36' y='56.19'>becomes</text>
+<text class='t5' x='187.61' y='56.19'>.<tspan x='192.04'>.</tspan><tspan x='196.47'>.</tspan></text>
+<text class='t0' x='11.36' y='68.14'>:=</text>
+<text class='t1' x='34.07' y='68.14'>becomes</text>
+<text class='t3' x='80.33' y='68.14'>:=</text></svg></div>
+<p id="p-bfcee068" class="nb">Although the characters with string literals are generally not subject to this step of ASCII conversion, They are if they are part of a restricted-word escape sequence or a quoted-character escape sequence. See <a class="xref" href="lexical-structure.html#sec-preprocessing-string-literals">Section 4.10</a> for details.</p>
+</section>
+<section class="sec" data-num="E.2.4" data-title="Eliminating Ampersands">
+<h3 id="sec-convert-ampersand" class="nb"><span class="num">E.2.4</span> Eliminating Ampersands</h3>
+<p id="p-f0c8bd5a" class="nb">Finally, if an ampersand is adjacent to a sequence of characters that is changed by this step of ASCII conversion (even if the sequence was only partly changed, as long as the character adjacent to the ampersand is changed), the ampersand is removed after the transformation, <em>unless</em> the ampersand is the first or last non-whitespace character on the line.  <span class="margin">[Draft note: Why leave the first?]</span>  Thus, the expression</p>
+<pre class="vb nb" id="c-79ea647e" data-kind="code"><code>(GREEK_SMALL_LETTER_PHI&amp;GREEK_SMALL_LETTER_PSI +
+GREEK_SMALL_LETTER_OMEGA&amp;GREEK_SMALL_LETTER_LAMBDA)</code></pre>
+<p id="p-c5e543f2" class="nb">is converted to:</p>
+<div class="fx nb" id="c-c65d65f7" data-kind="code"><div class="fx-r"><svg class="tx" data-d="6" viewBox="-0.60 11.81 56.22 10.06" width="5.622em" height="1.006em" fill="currentColor"><text class='t10' x='0' y='19.33'>(</text>
+<text class='t5' x='5.98' y='19.33'>φψ</text>
+<text class='t10' x='24.74' y='19.33'>+</text>
+<text class='t5' x='36.69' y='19.33'>ω<tspan x='43.25'>λ</tspan></text>
+<text class='t10' x='49.06' y='19.33'>)</text></svg></div></div>
+<p id="p-ec7e87a3" class="nb">in which there are two identifiers, each consisting of two Greek letters. On the other hand,</p>
+<pre class="vb nb" id="c-c44043af" data-kind="code"><code>(GREEK_SMALL_LETTER_PHI GREEK_SMALL_LETTER_PSI +
+GREEK_SMALL_LETTER_OMEGA GREEK_SMALL_LETTER_LAMBDA)</code></pre>
+<p id="p-c5e543f2-2" class="nb">is converted to:</p>
+<div class="fx nb" id="c-2038b507" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="-0.60 11.81 68.17 10.06" width="6.817em" height="1.006em" fill="currentColor"><text class='t10' x='0' y='19.33'>(</text>
+<text class='t5' x='5.98' y='19.33'>φ<tspan x='17.89'>ψ</tspan></text>
+<text class='t10' x='30.72' y='19.33'>+</text>
+<text class='t5' x='42.67' y='19.33'>ω<tspan x='55.21'>λ</tspan></text>
+<text class='t10' x='61.02' y='19.33'>)</text></svg></div></div>
+<p id="p-0cbfb7ac" class="nb">in which there are four identifiers.</p>
+<p id="p-71c5ec51" class="nb">Because we never convert to protected characters, and converted sequences consist only of protected characters, this step is idempotent: repeated application has no effect beyond the first.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-39316f89" class="nb">Commented out text: However, to ensure that the entire ASCII conversion process is idempotent, it is a static error if an ampersand is immediately followed by a word character after this step. This restriction prevents any word pasting in the converted program.</p></aside>
+</section>
+</section>
+<section class="sec" data-num="E.3" data-title="Apostrophe Replacement within Numerals">
+<h2 id="sec-digit-separator" class="nb"><span class="num">E.3</span> Apostrophe Replacement within Numerals</h2>
+<p id="p-8f61030a" class="nb">The last step of ASCII conversion simply replaces apostrophes with digit-group separators when they appear in words that would otherwise be numerals. Specifically, consider any word that is not within a string literal (determined as described in <a class="xref" href="#sec-determining-conversion-chunks">Section E.2.1</a><!--nc-->), has only digits, letters, underscores and apostrophes, and neither begins nor ends with an apostrophe or an underscore. Call such a word a <em>proto-numeral</em>. If a proto-numeral begins with a digit or ends with a radix specifier (see <a class="xref" href="lexical-structure.html#sec-numerals">Section 4.13</a>), or if it is immediately followed by a ‘.’ and then a proto-numeral that ends with a radix specifier, or it is immediately preceded by a ‘.’, which is immediately preceded by a proto-numeral that begins with a digit, then replace each apostrophe in that proto-numeral with a digit-group separator.</p>
+</section>
+<section class="sec" data-num="E.4" data-title="Equivalence under ASCII Conversion">
+<h2 id="sec-ascii-conversion-equivalence" class="nb"><span class="num">E.4</span> Equivalence under ASCII Conversion</h2>
+<p id="p-8cc7557e" class="nb">Two (valid) Fortress programs are equivalent under ASCII conversion if they are identical after ASCII conversion except for string literals (determined as described in <a class="xref" href="#sec-determining-conversion-chunks">Section E.2.1</a><!--nc-->), the converted programs have string literals in exactly corresponding places, and corresponding string literals evaluate to the same string. This exception and additional rule are necessary because string literals are not subject to ASCII conversion.</p>
+</section>
+<section class="sec fns"><h2 id="footnotes">Footnotes</h2>
+<ol><li id="fn-1">Protecting the backslash (an ASCII character) and string literal delimiters preserves the boundaries of string literals determined as described above; protecting the other ASCII characters ensures that the ASCII conversion process is idempotent. <a href="#fnref-1" aria-label="Back to the text">↩</a></li></ol></section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="app-rendering.html"><span>Previous</span> D. Rendering of Fortress Code</a><a class="next" href="operator-precedence.html"><span>Next</span> F. Operator Precedence, Associativity, Chaining, and Enclosure</a></nav>
+<footer class="colophon">Converted from <code>Specification/appendices/ascii-to-unicode.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

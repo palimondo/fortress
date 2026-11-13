@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>36. Threads · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t1{font-family:cmr10;font-size:9.96px}
+svg.tx text.t2{font-family:stmary10;font-size:9.96px}
+svg.tx text.t3{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t4{font-family:cmti10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-thread" data-chapter="36. Threads">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">36. Threads</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part V, Fortress APIs and Documentation for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="36" data-title="Threads">
+<h1 id="top" class="nb"><a id="chap-lib-thread"></a><span class="num">Chapter 36</span> Threads</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-the-trait-fortress-standard-thread">36.1 The Trait Fortress.Standard.Thread</a></li></ol></nav>
+<section class="sec" data-num="36.1" data-title="The Trait Fortress.Standard.Thread">
+<h2 id="s-the-trait-fortress-standard-thread" class="nb"><span class="num">36.1</span> The Trait Fortress.Standard.Thread</h2>
+<p id="p-250f5c8f" class="nb">Every thread in Fortress has trait <span class="m"><span class="ty">Thread</span></span>.</p>
+<div class="fx nb both" id="c-78f238d5" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.26 141.63 68.45" width="14.163em" height="6.845em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>Thread</text>
+<text class='t2' x='72.67' y='19.33'></text>
+<text class='t3' x='76.68' y='19.33'>T</text>
+<text class='t0' x='86.66' y='19.33'>extends</text>
+<text class='t1' x='128.25' y='19.33'>An<tspan x='140.98'>y</tspan></text>
+<text class='t2' x='146.38' y='19.33'></text>
+<text class='t4' x='21.92' y='31.28'>val</text>
+<text class='t1' x='35.17' y='31.28'>():</text>
+<text class='t3' x='47.34' y='31.28'>T</text>
+<text class='t4' x='21.92' y='43.24'>wait</text>
+<text class='t1' x='40.94' y='43.24'>():<tspan x='53.12'>()</tspan></text>
+<text class='t4' x='21.92' y='55.19'>r<tspan x='25.61'>e</tspan><tspan x='29.68'>ady</tspan></text>
+<text class='t1' x='45.59' y='55.19'>():<tspan x='57.76'>Bo</tspan><tspan x='70.08'>olean</tspan></text>
+<text class='t4' x='21.92' y='67.15'>stop</text>
+<text class='t1' x='40.11' y='67.15'>():<tspan x='52.29'>()</tspan></text>
+<text class='t0' x='62.81' y='67.15'>throws</text>
+<text class='t1' x='99.17' y='67.15'>Stopp<tspan x='124.91'>ed</tspan></text>
+<text class='t0' x='9.96' y='79.1'>end</text></svg></div><pre class="fx-s"><code>  val(): T
+  wait(): ()
+  ready(): Boolean
+  stop(): () throws Stopped
+end</code></pre></div>
+<section class="sec" data-num="36.1.1" data-title="val(): T">
+<h3 id="sec-lib-thread-val" class="nb"><span class="num">36.1.1</span> <span class="m"><i>val</i>(): <i>T</i></span></h3>
+<p id="p-e2a1d8ae" class="nb">The <span class="m"><i>val</i></span> method returns the value computed by the expression of the thread. If the thread has not yet completed execution, the invocation of <span class="m"><i>val</i></span> blocks until it has done so.</p>
+</section>
+<section class="sec" data-num="36.1.2" data-title="wait(): ()">
+<h3 id="s-wait" class="nb"><span class="num">36.1.2</span> <span class="m"><i>wait</i>(): ()</span></h3>
+<p id="p-13ca17bc" class="nb">The <span class="m"><i>wait</i></span> method waits for a thread to complete, but does not return a value.</p>
+</section>
+<section class="sec" data-num="36.1.3" data-title="ready(): Boolean">
+<h3 id="s-ready-boolean" class="nb"><span class="num">36.1.3</span> <span class="m"><i>ready</i>(): <span class="ty">Boolean</span></span></h3>
+<p id="p-1475fc54" class="nb">The <span class="m"><i>ready</i></span> method returns <span class="m"><i>true</i></span> if a thread has completed, and returns <span class="m"><i>false</i></span> otherwise.</p>
+</section>
+<section class="sec" data-num="36.1.4" data-title="stop(): () throws Stopped">
+<h3 id="s-stop-throws-stopped" class="nb"><span class="num">36.1.4</span> <span class="m"><i>stop</i>(): () <span class="kw">throws</span> <span class="ty">Stopped</span></span></h3>
+<p id="p-7b4fbabf" class="nb">The <span class="m"><i>stop</i></span> method attempts to terminate a thread.</p>
+</section>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="lib-exception.html"><span>Previous</span> 35. Exceptions</a><a class="next" href="lib-dimensions.html"><span>Next</span> 37. Dimensions and Units</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic-lib/thread.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>38. Tests · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t1{font-family:cmr10;font-size:9.96px}
+svg.tx text.t2{font-family:cmti10;font-size:9.96px}
+svg.tx text.t3{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t4{font-family:cmmi10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-tests" data-chapter="38. Tests">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">38. Tests</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part V, Fortress APIs and Documentation for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="38" data-title="Tests">
+<h1 id="top" class="nb"><a id="chap-lib-tests"></a><span class="num">Chapter 38</span> Tests</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-the-object-fortress-standard-testsuite">38.1 The Object Fortress.Standard.TestSuite</a></li><li><a href="#s-test-functions">38.2 Test Functions</a></li></ol></nav>
+<section class="sec" data-num="38.1" data-title="The Object Fortress.Standard.TestSuite">
+<h2 id="s-the-object-fortress-standard-testsuite" class="nb"><span class="num">38.1</span> The Object Fortress.Standard.TestSuite</h2>
+<p id="p-7e698487" class="nb">An instance of the object <span class="m"><span class="ty">TestSuite</span></span> contains a set of test functions that can all be called by invoking the method <span class="m"><i>run</i></span>:</p>
+<div class="fx nb both" id="c-df11e861" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.26 192.03 44.54" width="19.203em" height="4.454em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>test<tspan x='36.42'>object</tspan></text>
+<text class='t1' x='70.57' y='19.33'>T<tspan x='76.93'>estSuite</tspan><tspan x='111.3'>(</tspan></text>
+<text class='t2' x='115.18' y='19.33'>testF<tspan x='136.19'>unctions</tspan></text>
+<text class='t1' x='176.44' y='19.33'>=</text>
+<text class='t3' x='186.96' y='19.33'>{}</text>
+<text class='t1' x='196.92' y='19.33'>)</text>
+<text class='t2' x='21.92' y='31.28'>add</text>
+<text class='t1' x='38.22' y='31.28'>(</text>
+<text class='t4' x='42.1' y='31.28'>f</text>
+<text class='t1' x='48.05' y='31.28'>:<tspan x='52.48'>()</tspan></text>
+<text class='t3' x='62.99' y='31.28'>→</text>
+<text class='t1' x='75.72' y='31.28'>()):<tspan x='91.77'>()</tspan></text>
+<text class='t2' x='21.92' y='43.24'>run</text>
+<text class='t1' x='37.83' y='43.24'>():<tspan x='50.01'>()</tspan></text>
+<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>  add(f: () -&gt; ()): ()
+  run(): ()
+end</code></pre></div>
+<section class="sec" data-num="38.1.1" data-title="add(f: () → ()): ()">
+<h3 id="s-add-f" class="nb"><span class="num">38.1.1</span> <span class="m"><i>add</i>(<i>f</i>: () → ()): ()</span></h3>
+<p id="p-90a3204a" class="nb">The <span class="m"><i>add</i></span> method adds a given test function to the <span class="m"><i>testFunctions</i></span> field of this object.</p>
+</section>
+<section class="sec" data-num="38.1.2" data-title="run(): ()">
+<h3 id="s-run" class="nb"><span class="num">38.1.2</span> <span class="m"><i>run</i>(): ()</span></h3>
+<p id="p-389542f3" class="nb">The <span class="m"><i>run</i></span> method calls each test function in the <span class="m"><i>testFunctions</i></span> field of this object. Note that all tests in a <span class="m"><span class="ty">TestSuite</span></span> are run in parallel.</p>
+</section>
+</section>
+<section class="sec" data-num="38.2" data-title="Test Functions">
+<h2 id="s-test-functions" class="nb"><span class="num">38.2</span> Test Functions</h2>
+<section class="sec" data-num="38.2.1" data-title="test fail(message: String): ()">
+<h3 id="s-test-fail-message-string" class="nb"><span class="num">38.2.1</span> <span class="m"><span class="kw">test</span> <i>fail</i>(<i>message</i>: <span class="ty">String</span>): ()</span></h3>
+<p id="p-927695fd" class="nb">The helper function <span class="m"><i>fail</i></span> displays the error message provided and terminates execution of the enclosing test.</p>
+</section>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="lib-dimensions.html"><span>Previous</span> 37. Dimensions and Units</a><a class="next" href="lib-convenience.html"><span>Next</span> 39. Convenience Functions and Types</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic-lib/tests.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

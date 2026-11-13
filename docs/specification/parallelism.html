@@ -1,0 +1,1552 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>23. Parallelism and Locality · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmr10;font-size:9.96px}
+svg.tx text.t1{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t2{font-family:cmmi7;font-size:6.97px}
+svg.tx text.t3{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t4{font-family:cmti10;font-size:9.96px}
+svg.tx text.t5{font-family:stmary10;font-size:9.96px}
+svg.tx text.t6{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t7{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t8{font-family:cmr7;font-size:6.97px}
+svg.tx text.t9{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t10{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t11{font-family:msbm10;font-size:9.96px}
+svg.tx text.t12{font-family:cmex10;font-size:9.96px}
+svg.tx text.t13{font-family:cmti7;font-size:6.97px}
+svg.tx text.t14{font-family:cmsy7;font-size:6.97px}
+</style>
+</head>
+<body data-page="chapter" data-slug="parallelism" data-chapter="23. Parallelism and Locality">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">23. Parallelism and Locality</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part III, Fortress for Library Writers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="23" data-title="Parallelism and Locality">
+<h1 id="top" class="nb"><a id="chap-parallelism"></a><span class="num">Chapter 23</span> Parallelism and Locality</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-regions">23.1 Regions</a></li><li><a href="#sec-parallelism-fundamentals">23.2 Placing Threads</a></li><li><a href="#sec-threadlocal">23.3 Shared and Local Data</a></li><li><a href="#sec-arrays">23.4 Distributed Arrays</a></li><li><a href="#sec-transactions">23.5 Abortable Atomicity</a></li><li><a href="#sec-distributions">23.6 Distributions</a></li><li><a href="#sec-early-termination">23.7 Early Termination of Threads</a></li><li><a href="#sec-defining-generators">23.8 Use and Definition of Generators</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-8007f08b" class="nb">Distributions are not yet supported.</p></aside>
+<p id="p-983c19fb" class="nb"><a id="parallel-intro"></a> Fortress is designed to make parallel programming as simple and as painless as possible. This chapter describes the internals of Fortress parallelism designed for use by authors of library code (such as <em>distributions</em>, generators, and arrays). We adopt a multi-tiered approach to parallelism:</p>
+<ul>
+<li><p id="p-ce56bca0" class="nb">At the highest level, we provide libraries that allocate locality-aware distributed shared arrays (<a class="xref" href="#sec-arrays">Section 23.4</a><!--nc-->) and implicitly parallel constructs such as tuples and loops. Synchronization is accomplished through the use of atomic sections (<a class="xref" href="expressions.html#sec-atomic">Section 13.23</a><!--nc-->). More complex synchronization makes use of abortable atomicity, described in <a class="xref" href="#sec-transactions">Section 23.5</a><!--nc-->.</p></li>
+<li><p id="p-f0cc6a68" class="nb">There is an extensive library of distributions, which permits the programmer to specify locality and data distribution explicitly (<a class="xref" href="#sec-distributions">Section 23.6</a><!--nc-->).</p></li>
+<li><p id="p-283e0b87" class="nb">Immediately below that, the <span class="m"><span class="kw">at</span></span> expression requests that a computation take place in a particular region of the machine (<a class="xref" href="#sec-parallelism-fundamentals">Section 23.2</a><!--nc-->). We also provide a mechanism to terminate a spawned thread early (<a class="xref" href="#sec-early-termination">Section 23.7</a><!--nc-->).</p></li>
+<li><p id="p-777071be" class="nb">Finally, there are mechanisms for constructing new generators via recursive subdivision into tree structures with individual elements at the leaves. <a class="xref" href="#sec-defining-generators">Section 23.8</a><!--nc--> explains how iterative constructs such as <span class="m"><span class="kw">for</span></span> loops and comprehensions are desugared into calls to methods of trait <span class="m"><span class="ty">Generator</span></span>, and how new instances of this trait may be defined.</p></li>
+</ul>
+<p id="p-f8b817dd" class="nb">We begin by describing the abstraction of <em>regions</em>, which Fortress uses to describe the machine on which a program is run.</p>
+<section class="sec" data-num="23.1" data-title="Regions">
+<h2 id="sec-regions" class="nb"><span class="num">23.1</span> Regions</h2>
+<p id="p-12f15771" class="nb">Every thread (either explicit or implicit) and every object in Fortress, and every element of a Fortress array (the physical storage for that array element), has an associated <em>region</em>. The Fortress libraries provide a function <span class="m"><i>region</i></span> which returns the region in which a given object resides. Regions abstractly describe the structure of the machine on which a Fortress program is running. They are organized hierarchically to form a tree, the <em>region hierarchy</em>, reflecting in an abstract way the degree of locality which those regions share. The distinguished region <span class="m"><span class="ty">Global</span></span> represents the root of the region hierarchy.<sup class="fnref"><a id="fnref-1" href="#fn-1">1</a></sup> The different levels of this tree reflect underlying machine structure, such as execution engines within a CPU, memory shared by a group of processors, or resources distributed across the entire machine. The function <span class="m"><i>here</i>()</span> returns the region in which execution is currently occurring. Objects which reside in regions near the leaves of the tree are local entities; those which reside at higher levels of the region tree are logically spread out. The method call <span class="m"><i>r</i>.<i>isLocalTo</i>(<i>s</i>)</span> returns <span class="m"><i>true</i></span> if <span class="m"><i>r</i></span> is contained within the region tree rooted at <span class="m"><i>s</i></span>.</p>
+<p id="p-9eae9dd0" class="nb">It is important to understand that regions and the structures (such as distributions, <a class="xref" href="#sec-distributions">Section 23.6</a><!--nc-->) built on top of them exist purely for performance purposes. The placement of a thread or an object does not have any semantic effect on the meaning of a program; it is simply an aid to enable the implementation to make informed decisions about data placement.</p>
+<p id="p-30c7c636" class="nb">It might not be possible for an object or a thread to reside in a given region. Threads of execution reside at the <em>execution level</em> of the region hierarchy, generally the bottommost level in the region tree. Each thread is generally associated with some region at the execution level, indicating where it will preferentially be run. The programmer can affect the choice of region by using an <span class="m"><span class="kw">at</span></span> expression (<a class="xref" href="#sec-parallelism-fundamentals">Section 23.2</a><!--nc-->) when the thread is created. A thread may have an associated region which is not at the execution level of the region hierarchy, either because a higher region was requested with an <span class="m"><span class="kw">at</span></span> expression or because scheduling decisions permit the thread to run in several possible execution regions. The region to which a thread is assigned may also change over time due to scheduling decisions. For the object associated with a spawned thread, the <span class="m"><i>region</i></span> function provided by the Fortress libraries returns the region of the associated thread.</p>
+<p id="p-393c0b37" class="nb">The <em>memory level</em> of the region hierarchy is where individual reference objects reside; on a machine with nodes composed of multiple processor cores sharing a single memory, this generally will not be a leaf of the region hierarchy. Imagine a constructor for a reference object is called by a thread residing in region <span class="m"><i>r</i></span>, yielding an object <span class="m"><i>o</i></span>. Except in very rare circumstances (for example when a local node is out of memory) either <span class="m"><i>r</i>.<i>isLocalTo</i>(<i>region</i>(<i>o</i>))</span> or <span class="m"><i>region</i>(<i>o</i>).<i>isLocalTo</i>(<i>r</i>)</span> ought to hold: data is allocated locally to the thread which runs the constructor. For a value object <span class="m"><i>v</i></span> being manipulated by a thread residing in region <span class="m"><i>r</i></span> either <span class="m"><i>region</i>(<i>v</i>).<i>isLocalTo</i>(<i>r</i>)</span> or <span class="m"><i>r</i>.<i>isLocalTo</i>(<i>region</i>(<i>v</i>))</span> (value objects always appear to be local).</p>
+<p id="p-91260f32" class="nb">Note that <span class="m"><i>region</i></span> is a top-level function provided by the Fortress libraries and can be overridden by any functional method. The chief example of this is arrays, which are generally composed from many reference objects; the <span class="m"><i>region</i></span> function can be overridden to return the location of the array as a whole—the region which contains all of its constituent reference objects.</p>
+</section>
+<section class="sec" data-num="23.2" data-title="Placing Threads">
+<h2 id="sec-parallelism-fundamentals" class="nb"><span class="num">23.2</span> Placing Threads</h2>
+<p id="p-135a552d" class="nb">A thread can be placed in a particular region by using an <span class="m"><span class="kw">at</span></span> expression:</p>
+<div class="fx nb both" id="c-7b6a6ea7" data-kind="code" data-example="Parallel.At.a"><div class="fx-r"><svg class="tx" data-d="1" viewBox="-0.60 11.26 119.66 72.43" width="11.966em" height="7.243em" fill="currentColor"><text class='t0' x='0' y='19.33'>(</text>
+<text class='t1' x='3.87' y='19.33'>v<tspan x='9.06'>,</tspan><tspan x='13.49'>w</tspan></text>
+<text class='t0' x='20.89' y='19.33'>)<tspan x='27.53'>:</tspan><tspan x='30.3'>=</tspan><tspan x='40.81'>(</tspan></text>
+<text class='t1' x='44.69' y='19.33'>a</text>
+<text class='t2' x='49.95' y='20.82'>i</text>
+<text class='t1' x='53.27' y='19.33'>,</text>
+<text class='t3' x='44.69' y='39.75'>at</text>
+<text class='t1' x='57.92' y='39.75'>a.</text>
+<text class='t4' x='65.95' y='39.75'>r<tspan x='69.64'>e</tspan><tspan x='73.72'>gion</tspan></text>
+<text class='t0' x='92.81' y='39.75'>(</text>
+<text class='t1' x='96.69' y='39.75'>j</text>
+<text class='t0' x='101.36' y='39.75'>)</text>
+<text class='t3' x='108' y='39.75'>do</text>
+<text class='t1' x='57.92' y='60.17'>a</text>
+<text class='t2' x='63.18' y='61.67'>j</text>
+<text class='t3' x='44.69' y='80.6'>end</text>
+<text class='t0' x='60.38' y='80.6'>)</text></svg></div><pre class="fx-s"><code>(v, w) := (a[i],
+           at a.region(j) do
+              a[j]
+           end)</code></pre></div>
+<p id="p-fdafa2e0" class="nb">In this example, two implicit threads are created; the first computes <span class="m"><i>a</i><sub><i>i</i></sub></span> locally, the second computes <span class="m"><i>a</i><sub><i>j</i></sub></span> in the region where the <span class="m"><i>j</i><sup><i>th</i></sup></span> element of <span class="m"><i>a</i></span> resides, specified by <span class="m"><i>a</i>.<i>region</i>(<i>j</i>)</span>. The expression after <span class="m"><span class="kw">at</span></span> must return a value of type <span class="m"><span class="ty">Region</span></span>, and the block immediately following <span class="m"><span class="kw">do</span></span> is run in that region; the result of the block is the result of the <span class="m"><span class="kw">at</span></span> expression as a whole. Often it is more graceful to use the <span class="m"><span class="kw">also</span> <span class="kw">do</span></span> construct (described in<a class="xref" href="expressions.html#sec-also-block">Section 13.11.2</a><!--nc-->) in these cases:</p>
+<div class="fx nb both" id="c-54b42a34" data-kind="code" data-example="Parallel.At.b"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 12.64 101.43 88.98" width="10.143em" height="8.898em" fill="currentColor"><text class='t3' x='0' y='19.33'>do</text>
+<text class='t1' x='8.86' y='39.75'>v</text>
+<text class='t0' x='16.81' y='39.75'>:<tspan x='19.58'>=</tspan></text>
+<text class='t1' x='30.09' y='39.75'>a</text>
+<text class='t2' x='35.36' y='41.25'>i</text>
+<text class='t3' x='0' y='60.17'>also<tspan x='26.46'>at</tspan></text>
+<text class='t1' x='39.68' y='60.17'>a.</text>
+<text class='t4' x='47.72' y='60.17'>r<tspan x='51.41'>e</tspan><tspan x='55.48'>gion</tspan></text>
+<text class='t0' x='74.58' y='60.17'>(</text>
+<text class='t1' x='78.45' y='60.17'>j</text>
+<text class='t0' x='83.13' y='60.17'>)</text>
+<text class='t3' x='89.77' y='60.17'>do</text>
+<text class='t1' x='8.86' y='80.6'>w</text>
+<text class='t0' x='19.02' y='80.6'>:<tspan x='21.79'>=</tspan></text>
+<text class='t1' x='32.31' y='80.6'>a</text>
+<text class='t2' x='37.57' y='82.09'>j</text>
+<text class='t3' x='0' y='101.02'>end</text></svg></div><pre class="fx-s"><code>do
+  v := a[i]
+also at a.region(j) do
+  w := a[j]
+end</code></pre></div>
+<p id="p-a9a142e0" class="nb">We can also use <span class="m"><span class="kw">at</span></span> with a <span class="m"><span class="kw">spawn</span></span> expression:</p>
+<div class="fx nb both" id="c-79a74cdd" data-kind="code" data-example="Parallel.At.c"><div class="fx-r"><svg class="tx" data-d="3" viewBox="-0.60 11.26 128.91 110.79" width="12.891em" height="11.079em" fill="currentColor"><text class='t1' x='0' y='19.33'>s</text>
+<text class='t0' x='7.44' y='19.33'>=</text>
+<text class='t3' x='20.72' y='19.33'>spawn<tspan x='55.17'>at</tspan></text>
+<text class='t1' x='68.4' y='19.33'>a.</text>
+<text class='t4' x='76.44' y='19.33'>r<tspan x='80.13'>e</tspan><tspan x='84.2'>gion</tspan></text>
+<text class='t0' x='103.3' y='19.33'>(</text>
+<text class='t1' x='107.17' y='19.33'>i</text>
+<text class='t0' x='110.6' y='19.33'>)</text>
+<text class='t3' x='117.24' y='19.33'>do</text>
+<text class='t1' x='55.17' y='39.75'>a</text>
+<text class='t2' x='60.44' y='41.25'>i</text>
+<text class='t3' x='20.72' y='60.17'>end</text>
+<text class='t1' x='0' y='80.6'>t</text>
+<text class='t0' x='6.36' y='80.6'>=</text>
+<text class='t3' x='19.65' y='80.6'>spawn<tspan x='54.1'>at</tspan></text>
+<text class='t4' x='67.33' y='80.6'>r<tspan x='71.02'>e</tspan><tspan x='75.1'>gion</tspan></text>
+<text class='t0' x='94.19' y='80.6'>(</text>
+<text class='t1' x='98.07' y='80.6'>s</text>
+<text class='t0' x='102.74' y='80.6'>)</text>
+<text class='t3' x='109.38' y='80.6'>do</text>
+<text class='t1' x='54.1' y='101.02'>a</text>
+<text class='t2' x='59.37' y='102.52'>j</text>
+<text class='t3' x='19.65' y='121.44'>end</text></svg></div><pre class="fx-s"><code>s = spawn at a.region(i) do
+          a[i]
+    end
+t = spawn at region(s) do
+          a[j]
+    end</code></pre></div>
+<p id="p-2ac5f1e0" class="nb">Finally, note that it is possible to use an <span class="m"><span class="kw">at</span></span> expression within a block:</p>
+<div class="fx nb both" id="c-7a6af581" data-kind="code" data-example="Parallel.At.d"><div class="fx-r"><svg class="tx" data-d="4" viewBox="-0.60 12.64 83.83 129.83" width="8.383em" height="12.983em" fill="currentColor"><text class='t3' x='0' y='19.33'>do</text>
+<text class='t1' x='8.86' y='39.75'>v</text>
+<text class='t0' x='16.81' y='39.75'>:<tspan x='19.58'>=</tspan></text>
+<text class='t1' x='30.09' y='39.75'>a</text>
+<text class='t2' x='35.36' y='41.25'>i</text>
+<text class='t3' x='8.86' y='60.17'>at</text>
+<text class='t1' x='22.08' y='60.17'>a.</text>
+<text class='t4' x='30.12' y='60.17'>r<tspan x='33.81'>e</tspan><tspan x='37.88'>gion</tspan></text>
+<text class='t0' x='56.98' y='60.17'>(</text>
+<text class='t1' x='60.85' y='60.17'>j</text>
+<text class='t0' x='65.53' y='60.17'>)</text>
+<text class='t3' x='72.17' y='60.17'>do</text>
+<text class='t1' x='17.71' y='80.6'>w</text>
+<text class='t0' x='27.88' y='80.6'>:<tspan x='30.65'>=</tspan></text>
+<text class='t1' x='41.16' y='80.6'>a</text>
+<text class='t2' x='46.43' y='82.09'>j</text>
+<text class='t3' x='8.86' y='101.02'>end</text>
+<text class='t1' x='8.86' y='121.44'>x</text>
+<text class='t0' x='17.32' y='121.44'>=</text>
+<text class='t1' x='27.83' y='121.44'>v</text>
+<text class='t0' x='35.23' y='121.44'>+</text>
+<text class='t1' x='45.2' y='121.44'>w</text>
+<text class='t3' x='0' y='141.87'>end</text></svg></div><pre class="fx-s"><code>do
+  v := a[i]
+  at a.region(j) do
+    w := a[j]
+  end
+  x = v + w
+end</code></pre></div>
+<p id="p-025e445c" class="nb">We can think of this as the degenerate case of <span class="m"><span class="kw">also</span> <span class="kw">do</span></span>: a thread group is created with a single implicit thread running the contents of the <span class="m"><span class="kw">at</span></span> expression in the given region; when this thread completes control returns to the original location.</p>
+<p id="p-dd05dc5e" class="nb">Note that the regions given in an <span class="m"><span class="kw">at</span></span> expression are non-binding: the Fortress implementation may choose to run the computations elsewhere—for example, thread migration might not be possible within an <span class="m"><span class="kw">atomic</span></span> expression, or load balancing might cause code to be executed in a different region. In general, however, implementations should attempt to respect thread placement annotations when they are given.</p>
+</section>
+<section class="sec" data-num="23.3" data-title="Shared and Local Data">
+<h2 id="sec-threadlocal" class="nb"><span class="num">23.3</span> Shared and Local Data</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-33af2bf0" class="nb">The method <span class="m"><i>copy</i></span> is not yet supported.</p></aside>
+<p id="p-553ecae2" class="nb">Every object in a Fortress program is considered to be either <em>shared</em> or <em>local</em> (collectively referred to as the <em>sharedness</em> of the object). A local object must be transitively reachable (through zero or more object references) from the variables of at most one running thread. A local object may be accessed more cheaply than a shared object, particularly in the case of atomic reads and writes. Sharedness is ordinarily managed implicitly by the Fortress implementation. Control over sharedness is intended to be a performance optimization; however, functions such as <span class="m"><i>isShared</i></span> and <span class="m"><i>localize</i></span> provided by the Fortress libraries can affect program semantics, and must be used with care.</p>
+<p id="p-9a45d824" class="nb">The sharedness of an object must be contrasted with its region. The region of an object describes where that object is located on the machine. The sharedness of an object describes whether the object is visible to one thread or to many. A local object need not actually reside in a region near the thread to which it is visible (though ordinarily it will).</p>
+<p id="p-8ae6d322" class="nb">The following rules govern sharedness:</p>
+<ul>
+<li><p id="p-f4463658" class="nb">Reference objects are initially local when they are constructed.</p></li>
+<li><p id="p-5e4d2d9f" class="nb">The sharedness of an object may change as the program executes.<sup class="fnref"><a id="fnref-2" href="#fn-2">2</a></sup></p></li>
+<li><p id="p-57a8d0f8" class="nb">If an object is currently transitively reachable from more than one running thread, it must be shared.</p></li>
+<li><p id="p-abcc3d0d" class="nb">When a reference to a local object is stored into a field of a shared object, the local object must be <em>published</em>: Its sharedness is changed to shared, and all of the data to which it refers is also published.</p></li>
+<li><p id="p-1e26d258" class="nb">The value of a local variable referenced by a thread must be published before that thread may be run in parallel with the thread which created it. Values assigned to the variable while the threads run in parallel must also be published.</p></li>
+<li><p id="p-55bf8e65" class="nb">A field with value type is assigned by copying, and thus has the sharedness of the containing object or closure.</p></li>
+</ul>
+<p id="p-33a96aa5" class="nb">Publishing can be expensive, particularly if the structure being broadcast is large and heavily nested; this can cause an apparently short <span class="m"><span class="kw">atomic</span></span> expression (a single write, say) to run arbitrarily long. To avoid this, the library programmer can request that an object be published by calling the semantically transparent function <span class="m"><i>shared</i></span> provided by the Fortress libraries:</p>
+<div class="fx nb both" id="c-95c9018a" data-kind="code" data-example="Parallel.Shared.a"><div class="fx-r"><svg class="tx" data-d="5" viewBox="-0.60 11.26 101.32 31.59" width="10.132em" height="3.159em" fill="currentColor"><text class='t1' x='0' y='19.33'>y</text>
+<text class='t0' x='8.01' y='19.33'>:<tspan x='10.78'>=</tspan></text>
+<text class='t4' x='21.29' y='19.33'>shar<tspan x='39.24'>e</tspan><tspan x='43.32'>d</tspan></text>
+<text class='t0' x='51.1' y='19.33'>Cons<tspan x='72.74'>(</tspan></text>
+<text class='t1' x='76.61' y='19.33'>x,</text>
+<text class='t4' x='86.73' y='19.33'>xs</text>
+<text class='t0' x='96.25' y='19.33'>)</text>
+<text class='t4' x='0' y='39.75'>shar<tspan x='17.95'>e</tspan><tspan x='22.02'>d</tspan></text>
+<text class='t0' x='28.14' y='39.75'>(</text>
+<text class='t1' x='32.02' y='39.75'>y</text>
+<text class='t0' x='37.26' y='39.75'>)</text></svg></div><pre class="fx-s"><code>y := shared Cons(x, xs)
+shared(y)</code></pre></div>
+<p id="p-9e18d4fd" class="nb">A local copy of an object can be obtained by calling <span class="m"><i>copy</i></span>, a method on trait <span class="m"><span class="ty">Any</span></span>:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-e7559cdb" class="nb">Example is commented out because it is not yet supported nor run by the interpreter.</p></aside>
+<p id="p-152758dc" class="nb">Two additional functions are provided which permit different choices of program behavior based on the sharedness of objects:</p>
+<ul>
+<li><p id="p-4f0c6165" class="nb">The function <span class="m"><i>isShared</i>(<i>o</i>)</span> returns <span class="m"><i>true</i></span> when <span class="m"><i>o</i></span> is shared, and <span class="m"><i>false</i></span> when it is local. This permits the program to take different actions based on sharedness.</p></li>
+<li><p id="p-270fb0aa" class="nb">The function <span class="m"><i>localize</i>(<i>o</i>)</span> is provided that attempts to make a local version of object <span class="m"><i>o</i></span>, by copying if necessary equivalent to the following expression:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-e7559cdb-2" class="nb">Example is commented out because it is not yet supported nor run by the interpreter.</p></aside></li>
+</ul>
+<p id="p-f41f97a7" class="nb">These functions must be used with extreme caution. For example, <span class="m"><i>localize</i></span> should be used only when there is a unique reference to the object being localized. The <span class="m"><i>localize</i></span> function can have unexpected behavior if there is a reference to <span class="m"><i>o</i></span> from another local object <span class="m"><i>p</i></span>. Updates to <span class="m"><i>o</i></span> will be visible through <span class="m"><i>p</i></span>; subsequent publication of <span class="m"><i>p</i></span> will publish <span class="m"><i>o</i></span>. By contrast, if <span class="m"><i>o</i></span> was already shared, and referred to by another shared object, the newly-localized copy will be entirely distinct; changes to the copy will not be visible through <span class="m"><i>p</i></span>, and publishing <span class="m"><i>p</i></span> will not affect the locality of the copy.</p>
+</section>
+<section class="sec" data-num="23.4" data-title="Distributed Arrays">
+<h2 id="sec-arrays" class="nb"><span class="num">23.4</span> Distributed Arrays</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-871119cf" class="nb">Distributions, array comprehensions, and <span class="m"><span class="ty">HeapSequence</span></span> are not yet supported.</p></aside>
+<p id="p-7a50bbe3" class="nb">Arrays, vectors, and matrices in Fortress are assumed to be spread out across the machine. As in Fortran, Fortress arrays are complex data structures; simple linear storage is encapsulated by the <span class="m"><span class="ty">HeapSequence</span></span> type, which is used in the implementation of arrays (see <a class="xref" href="#sec-parallelism-fundamentals">Section 23.2</a><!--nc-->). The default distribution of an array is determined by the Fortress libraries; in general it depends on the size of the array, and on the size and locality characteristics of the machine running the program. For advanced users, the distribution library (introduced in <a class="xref" href="#sec-distributions">Section 23.6</a><!--nc-->) provides a way of combining and pivoting distributions, or of redistributing two arrays so that their distributions match. Programmers must create arrays by using an array comprehension (<a class="xref" href="expressions.html#sec-comprehensions">Section 13.30</a><!--nc-->) or an aggregate expression (<a class="xref" href="expressions.html#sec-aggregate-expr">Section 13.29</a><!--nc-->), or by using one of the factory functions at the top of <a class="xref" href="#fig-arrayFactories">Figure 23.1</a><!--nc-->. After calling any of these factories, the elements of the resulting array must be initialized using either indexed assignment or using one of the initialization methods described at the bottom of the figure.</p>
+<div class="fig"><div class="tw nb" id="t-990d4a84" data-kind="table"><svg class="tx" data-d="6" viewBox="-0.60 -0.60 458.31 110.79" width="45.831em" height="11.079em" fill="currentColor"><rect x='0' y='0' height='.4' width='457.11'/>
+<rect x='0' y='.4' height='35.87' width='.4'/>
+<text class='t4' x='6.38' y='20.72'>arr<tspan x='19.36'>ay</tspan></text>
+<text class='t5' x='30.17' y='20.72'></text>
+<text class='t1' x='34.18' y='20.72'>E</text>
+<text class='t5' x='42.11' y='20.72'></text>
+<text class='t0' x='46.13' y='20.72'>(</text>
+<text class='t6' x='50' y='20.72'>size</text>
+<text class='t0' x='66.6' y='20.72'>:</text>
+<text class='t1' x='71.03' y='20.72'>I</text>
+<text class='t0' x='76.19' y='20.72'>)<tspan x='81.73'>:</tspan><tspan x='86.16'>Arra</tspan><tspan x='106.14'>y</tspan></text>
+<text class='t5' x='111.53' y='20.72'></text>
+<text class='t1' x='115.55' y='20.72'>E<tspan x='123.47'>,</tspan><tspan x='127.9'>I</tspan></text>
+<text class='t5' x='133.06' y='20.72'></text>
+<rect x='156.35' y='.4' height='35.87' width='.4'/>
+<text class='t7' x='162.73' y='8.77'>Creates<tspan x='198.69'>an</tspan><tspan x='214.19'>uninitialized</tspan><tspan x='270.09'>0-inde</tspan><tspan x='295.39'>x</tspan><tspan x='300.22'>ed</tspan><tspan x='315.72'>array</tspan><tspan x='342.27'>of</tspan><tspan x='356.65'>the</tspan><tspan x='374.91'>speciﬁed</tspan><tspan x='416.42'>runtime-</tspan><tspan x='162.73' y='20.72'>determined</tspan><tspan x='210.89'>size.</tspan><tspan x='234.51'>The</tspan><tspan x='253.34'>size</tspan><tspan x='272.17'>is</tspan><tspan x='282.15'>an</tspan><tspan x='294.89'>inte</tspan><tspan x='309.69'>ger</tspan><tspan x='325.75'>for</tspan><tspan x='340.7'>a</tspan><tspan x='348.47'>1-dimensional</tspan><tspan x='408.81'>array</tspan><tspan x='428.63'>,</tspan><tspan x='434.67'>a</tspan><tspan x='442.43'>2-</tspan><tspan x='162.73' y='32.68'>tuple</tspan><tspan x='185.15'>for</tspan><tspan x='199.25'>a</tspan><tspan x='206.17'>tw</tspan><tspan x='216.03'>o-dimensional</tspan><tspan x='275.53'>array</tspan><tspan x='295.34'>,</tspan><tspan x='300.32'>and</tspan><tspan x='317.2'>so</tspan><tspan x='328.55'>forth.</tspan></text>
+<rect x='456.71' y='.4' height='35.87' width='.4'/>
+<rect x='0' y='36.26' height='.4' width='457.11'/>
+<rect x='0' y='36.66' height='23.91' width='.4'/>
+<text class='t1' x='6.38' y='51.01'>ar<tspan x='16.41'>r</tspan><tspan x='21.19'>ay</tspan></text>
+<text class='t8' x='31.69' y='53.44'>1</text>
+<text class='t5' x='36.16' y='51.01'></text>
+<text class='t1' x='40.18' y='51.01'>E<tspan x='48.1'>,</tspan><tspan x='52.53'>n</tspan></text>
+<text class='t5' x='58.51' y='51.01'></text>
+<text class='t0' x='62.52' y='51.01'>()</text>
+<rect x='156.35' y='36.66' height='23.91' width='.4'/>
+<text class='t7' x='162.73' y='45.03'>Creates<tspan x='195.72'>an</tspan><tspan x='208.24'>uninitialized</tspan><tspan x='261.16'>0-inde</tspan><tspan x='286.47'>x</tspan><tspan x='291.3'>ed</tspan><tspan x='303.82'>1-dimensional</tspan><tspan x='363.93'>array</tspan><tspan x='387.51'>of</tspan><tspan x='398.92'>statically</tspan><tspan x='438.01'>de-</tspan><tspan x='162.73' y='56.99'>termined</tspan><tspan x='200.64'>size</tspan></text>
+<text class='t1' x='218.62' y='56.99'>n</text>
+<text class='t7' x='224.6' y='56.99'>.</text>
+<rect x='456.71' y='36.66' height='23.91' width='.4'/>
+<rect x='0' y='60.57' height='.4' width='457.11'/>
+<rect x='0' y='60.97' height='23.91' width='.4'/>
+<text class='t1' x='6.38' y='75.32'>ar<tspan x='16.41'>r</tspan><tspan x='21.19'>ay</tspan></text>
+<text class='t8' x='31.69' y='77.75'>2</text>
+<text class='t5' x='36.16' y='75.32'></text>
+<text class='t1' x='40.18' y='75.32'>E<tspan x='48.1'>,</tspan><tspan x='52.53'>n,</tspan><tspan x='62.94'>m</tspan></text>
+<text class='t5' x='71.69' y='75.32'></text>
+<text class='t0' x='75.7' y='75.32'>()</text>
+<rect x='156.35' y='60.97' height='23.91' width='.4'/>
+<text class='t7' x='162.73' y='69.34'>Creates<tspan x='195.72'>an</tspan><tspan x='208.24'>uninitialized</tspan><tspan x='261.16'>0-inde</tspan><tspan x='286.47'>x</tspan><tspan x='291.3'>ed</tspan><tspan x='303.82'>2-dimensional</tspan><tspan x='363.93'>array</tspan><tspan x='387.51'>of</tspan><tspan x='398.92'>statically</tspan><tspan x='438.01'>de-</tspan><tspan x='162.73' y='81.3'>termined</tspan><tspan x='200.64'>size</tspan></text>
+<text class='t1' x='218.62' y='81.3'>n</text>
+<text class='t7' x='227.09' y='81.3'>by</text>
+<text class='t1' x='239.54' y='81.3'>m</text>
+<text class='t7' x='248.29' y='81.3'>.</text>
+<rect x='456.71' y='60.97' height='23.91' width='.4'/>
+<rect x='0' y='84.88' height='.4' width='457.11'/>
+<rect x='0' y='85.28' height='23.91' width='.4'/>
+<text class='t1' x='6.38' y='99.63'>ar<tspan x='16.41'>r</tspan><tspan x='21.19'>ay</tspan></text>
+<text class='t8' x='31.69' y='102.06'>3</text>
+<text class='t5' x='36.16' y='99.63'></text>
+<text class='t1' x='40.18' y='99.63'>E<tspan x='48.1'>,</tspan><tspan x='52.53'>n,</tspan><tspan x='62.94'>m,</tspan><tspan x='76.11'>p</tspan></text>
+<text class='t5' x='81.13' y='99.63'></text>
+<text class='t0' x='85.14' y='99.63'>()</text>
+<rect x='156.35' y='85.28' height='23.91' width='.4'/>
+<text class='t7' x='162.73' y='93.65'>Creates<tspan x='195.72'>an</tspan><tspan x='208.24'>uninitialized</tspan><tspan x='261.16'>0-inde</tspan><tspan x='286.47'>x</tspan><tspan x='291.3'>ed</tspan><tspan x='303.82'>3-dimensional</tspan><tspan x='363.93'>array</tspan><tspan x='387.51'>of</tspan><tspan x='398.92'>statically</tspan><tspan x='438.01'>de-</tspan><tspan x='162.73' y='105.6'>termined</tspan><tspan x='200.64'>size</tspan></text>
+<text class='t1' x='218.62' y='105.6'>n</text>
+<text class='t7' x='227.09' y='105.6'>by</text>
+<text class='t1' x='239.54' y='105.6'>m</text>
+<text class='t7' x='250.78' y='105.6'>by</text>
+<text class='t1' x='263.23' y='105.6'>p</text>
+<text class='t7' x='268.25' y='105.6'>.</text>
+<rect x='456.71' y='85.28' height='23.91' width='.4'/>
+<rect x='0' y='109.19' height='.4' width='457.11'/></svg></div>
+<div class="tw nb" id="t-3394a232" data-kind="table"><svg class="tx" data-d="7" viewBox="-0.60 -0.60 458.31 50.61" width="45.831em" height="5.061em" fill="currentColor"><rect x='0' y='0' height='.4' width='457.11'/>
+<rect x='0' y='.4' height='11.96' width='.4'/>
+<text class='t4' x='6.38' y='8.77'>a</text>
+<text class='t1' x='12.23' y='8.77'>.</text>
+<text class='t4' x='15' y='8.77'>ﬁl<tspan x='23.66'>l</tspan></text>
+<text class='t0' x='27.23' y='8.77'>(</text>
+<text class='t1' x='31.11' y='8.77'>v</text>
+<text class='t0' x='37.95' y='8.77'>:</text>
+<text class='t1' x='42.38' y='8.77'>E</text>
+<text class='t0' x='50.31' y='8.77'>)</text>
+<rect x='156.35' y='.4' height='11.96' width='.4'/>
+<text class='t7' x='162.73' y='8.77'>Initializes<tspan x='204.51'>all</tspan><tspan x='216.97'>elements</tspan><tspan x='254.87'>with</tspan><tspan x='275.08'>v</tspan><tspan x='279.81'>alue</tspan></text>
+<text class='t4' x='299.73' y='8.77'>v</text>
+<text class='t7' x='306.21' y='8.77'>.</text>
+<rect x='456.71' y='.4' height='11.96' width='.4'/>
+<rect x='0' y='12.35' height='.4' width='457.11'/>
+<rect x='0' y='12.75' height='23.91' width='.4'/>
+<text class='t4' x='6.38' y='27.1'>a</text>
+<text class='t1' x='12.23' y='27.1'>.</text>
+<text class='t4' x='15' y='27.1'>tabulate</text>
+<text class='t0' x='49.61' y='27.1'>(</text>
+<text class='t1' x='53.48' y='27.1'>f</text>
+<text class='t0' x='61.09' y='27.1'>:</text>
+<text class='t1' x='65.52' y='27.1'>I</text>
+<text class='t9' x='73.45' y='27.1'>→</text>
+<text class='t1' x='86.18' y='27.1'>E</text>
+<text class='t0' x='94.11' y='27.1'>)</text>
+<rect x='156.35' y='12.75' height='23.91' width='.4'/>
+<text class='t7' x='162.73' y='21.12'>Calls</text>
+<text class='t4' x='186.73' y='21.12'>f</text>
+<text class='t7' x='195.41' y='21.12'>at<tspan x='205.29'>each</tspan><tspan x='226.22'>inde</tspan><tspan x='243.23'>x</tspan><tspan x='250.89'>and</tspan><tspan x='267.96'>initializes</tspan><tspan x='309.39'>the</tspan><tspan x='324.25'>corresponding</tspan><tspan x='383.93'>element</tspan><tspan x='418.16'>with</tspan><tspan x='438.56'>the</tspan><tspan x='162.73' y='33.08'>result</tspan><tspan x='187.36'>of</tspan><tspan x='198.15'>the</tspan><tspan x='212.81'>call.</tspan></text>
+<rect x='456.71' y='12.75' height='23.91' width='.4'/>
+<rect x='0' y='36.66' height='.4' width='457.11'/>
+<rect x='0' y='37.06' height='11.96' width='.4'/>
+<text class='t4' x='6.38' y='45.43'>a</text>
+<text class='t1' x='12.23' y='45.43'>.</text>
+<text class='t4' x='15' y='45.43'>init</text>
+<text class='t0' x='30.97' y='45.43'>(</text>
+<text class='t1' x='34.84' y='45.43'>i</text>
+<text class='t0' x='39.93' y='45.43'>:</text>
+<text class='t1' x='44.36' y='45.43'>I<tspan x='49.52'>,</tspan><tspan x='53.95'>v</tspan></text>
+<text class='t0' x='60.8' y='45.43'>:</text>
+<text class='t1' x='65.22' y='45.43'>E</text>
+<text class='t0' x='73.15' y='45.43'>)</text>
+<rect x='156.35' y='37.06' height='11.96' width='.4'/>
+<text class='t7' x='162.73' y='45.43'>Initializes<tspan x='204.51'>element</tspan><tspan x='238.54'>at</tspan><tspan x='248.23'>inde</tspan><tspan x='265.23'>x</tspan></text>
+<text class='t4' x='273.54' y='45.43'>i</text>
+<text class='t7' x='280.93' y='45.43'>with<tspan x='301.13'>v</tspan><tspan x='305.86'>alue</tspan></text>
+<text class='t4' x='325.78' y='45.43'>v</text>
+<text class='t7' x='332.27' y='45.43'>.</text>
+<rect x='456.71' y='37.06' height='11.96' width='.4'/>
+<rect x='0' y='49.02' height='.4' width='457.11'/></svg></div>
+<figcaption>Figure 23.1: <a id="fig-arrayFactories"></a>Factories for creating arrays and methods for initializing their elements</figcaption></div>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-tabulate">Section I.1.18</a><!--nc--></span></p>
+<p id="p-80e369b0" class="nb">The Working Draft of February 2011 gave the method of <a class="xref" href="#fig-arrayFactories">Figure 23.1</a><!--nc--> that calls <span class="m"><i>f</i></span> at each index the name <span class="m"><i>fill</i></span>, which is also the name of the method above it that initializes every element with one value. When the element type <span class="m"><i>E</i></span> is <span class="m"><span class="ty">Any</span></span> or a function type, a function is a value of type <span class="m"><i>E</i></span> as well as a function from <span class="m"><i>I</i></span> to <span class="m"><i>E</i></span>, and the two declarations are ambiguous; the method that calls <span class="m"><i>f</i></span> is named <span class="m"><i>tabulate</i></span>, and <span class="m"><i>fill</i></span> keeps the value.</p></aside>
+<p id="p-83961ade" class="nb">Each array element may be initialized at most once using the methods of <a class="xref" href="#fig-arrayFactories">Figure 23.1</a><!--nc-->; the programmer must assure that this initialization completes before any other access to the corresponding array element. The programmer must also assure that an element is initialized before it is first read.<sup class="fnref"><a id="fnref-3" href="#fn-3">3</a></sup> Note that these factories and methods are intended to be used to library programmers to build higher-level functionality (for example, the <span class="m"><i>fill</i></span> methods themselves are defined in terms of calls to <span class="m"><i>init</i></span>, and the <span class="m"><i>array</i></span> factory is defined in terms of <span class="m"><i>array</i><sub>1</sub></span>, <span class="m"><i>array</i><sub>2</sub></span>, and so forth).</p>
+<p id="p-80a070bc" class="nb">Because the elements of a fortress array may reside in multiple regions of the machine, there is an additional method <span class="m"><i>a</i>.<i>region</i>(<i>i</i>)</span> which returns the region in which the array element <span class="m"><i>a</i><sub><i>i</i></sub></span> resides. An element of an array is always local to the region in which the array as a whole is contained, so <span class="m">(<i>a</i>.<i>region</i>(<i>i</i>)).<i>isLocalTo</i>(<i>region</i>(<i>a</i>))</span> must always return <span class="m"><i>true</i></span>. When an array contains reference objects, the programmer must be careful to distinguish the region in which the array element <span class="m"><i>a</i><sub><i>i</i></sub></span> resides, <span class="m"><i>a</i>.<i>region</i>(<i>i</i>)</span>, from the region in which the object referred to by the array element resides, <span class="m"><i>region</i>(<i>a</i><sub><i>i</i></sub>)</span>. The former describes the region of the array itself; the latter describes the region of the data referred to by the array. These may differ.</p>
+</section>
+<section class="sec" data-num="23.5" data-title="Abortable Atomicity">
+<h2 id="sec-transactions" class="nb"><span class="num">23.5</span> Abortable Atomicity</h2>
+<p id="p-b9e430c5" class="nb">Fortress provides a user-level <span class="m"><i>abort</i>()</span> function which abandons execution of the innermost <span class="m"><span class="kw">atomic</span></span> expression and rolls back its changes, requiring the <span class="m"><span class="kw">atomic</span></span> expression to execute again from the beginning. This permits an atomic section to perform consistency checks as it runs. Invoking the <span class="m"><i>abort</i></span> function not within an <span class="m"><span class="kw">atomic</span></span> expression has no effect. The functionality provided by <span class="m"><i>abort</i>()</span> can be abused; it is possible to induce deadlock or livelock by creating an atomic section that always fails. Here is a simple example of a program using <span class="m"><i>abort</i>()</span> which is incorrect because Fortress does not guarantee that the two implicit threads (created by evaluating the two elements of the tuple) will always run in parallel; it is possible for the first element of the tuple to continually abort without ever running the second element of the tuple:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-d4610819" class="nb">The example is commented out because it is not yet supported nor run by the interpreter.</p></aside>
+<p id="p-0701bb15" class="nb">Fortress also includes a <span class="m"><span class="kw">tryatomic</span></span> expression, which attempts to run its body expression atomically. If it succeeds, the result is returned; if it aborts due to a call to <span class="m"><i>abort</i></span> or due to conflict (as described in <a class="xref" href="expressions.html#sec-atomic">Section 13.23</a><!--nc-->), the checked exception <span class="m"><span class="ty">TryAtomicFailure</span></span> is thrown. In addition, <span class="m"><span class="kw">tryatomic</span></span> is permitted to throw <span class="m"><span class="ty">TryAtomicFailure</span></span> in the absence of conflict; however, it is not permitted to fail unless some other thread performs an access to shared state while the body is being run. Conceptually <span class="m"><span class="kw">atomic</span></span> can be defined in terms of <span class="m"><span class="kw">tryatomic</span></span> as follows:</p>
+<div class="fx nb both" id="c-53208792" data-kind="code" data-example="Parallel.Abort.b"><div class="fx-r"><svg class="tx" data-d="8" viewBox="-0.60 11.81 271.52 212.35" width="27.152em" height="21.235em" fill="currentColor"><text class='t3' x='0' y='19.33'>label</text>
+<text class='t0' x='28.92' y='19.33'>A<tspan x='36.11'>tomicBlo</tspan><tspan x='75.55'>c</tspan><tspan x='79.7'>k</tspan></text>
+<text class='t3' x='8.86' y='39.75'>while</text>
+<text class='t4' x='37.77' y='39.75'>true</text>
+<text class='t3' x='58.73' y='39.75'>do<tspan x='17.71' y='60.17'>try</tspan></text>
+<text class='t4' x='26.57' y='80.6'>r<tspan x='30.26'>esult</tspan></text>
+<text class='t0' x='53.83' y='80.6'>=</text>
+<text class='t3' x='64.35' y='80.6'>tryatomic</text>
+<text class='t4' x='114.19' y='80.6'>b<tspan x='118.26'>o</tspan><tspan x='122.84'>dy</tspan></text>
+<text class='t3' x='26.57' y='101.02'>exit</text>
+<text class='t0' x='50.26' y='101.02'>A<tspan x='57.45'>tomicBlo</tspan><tspan x='96.89'>c</tspan><tspan x='101.04'>k</tspan></text>
+<text class='t3' x='109.06' y='101.02'>with</text>
+<text class='t4' x='132.75' y='101.02'>r<tspan x='136.44'>esult</tspan></text>
+<text class='t3' x='17.71' y='121.44'>catch</text>
+<text class='t1' x='46.63' y='121.44'>e</text>
+<text class='t0' x='26.57' y='141.87'>T<tspan x='32.93'>ryA</tspan><tspan x='49.29'>tomicF</tspan><tspan x='79.31'>ailure</tspan></text>
+<text class='t9' x='106.46' y='141.87'>⇒</text>
+<text class='t0' x='119.19' y='141.87'>(<tspan x='123.48'>)</tspan></text>
+<text class='t10' x='127.36' y='141.87'>(<tspan y='143.61'>*</tspan></text>
+<text class='t7' x='141.8' y='141.87'>continue<tspan x='178.6'>e</tspan><tspan x='182.88'>x</tspan><tspan x='187.71'>ecution</tspan></text>
+<text class='t10' x='219.53' y='143.61'>*)</text>
+<text class='t3' x='17.71' y='162.29'>end<tspan x='8.86' y='182.71'>end</tspan><tspan x='8.86' y='203.14'>throw</tspan></text>
+<text class='t0' x='37.77' y='203.14'>Unreac<tspan x='68.24'>hableCo</tspan><tspan x='103.94'>de</tspan></text>
+<text class='t10' x='128.85' y='203.14'>(<tspan y='204.88'>*</tspan></text>
+<text class='t7' x='143.3' y='203.14'>inserted<tspan x='177.33'>for</tspan><tspan x='191.43'>type</tspan><tspan x='211.08'>correctness</tspan></text>
+<text class='t10' x='258.38' y='204.88'>*)</text>
+<text class='t3' x='0' y='223.56'>end</text>
+<text class='t0' x='18.46' y='223.56'>A<tspan x='25.65'>tomicBlo</tspan><tspan x='65.09'>c</tspan><tspan x='69.24'>k</tspan></text></svg></div><pre class="fx-s"><code>label AtomicBlock
+  while true do
+    try
+      result = tryatomic body
+      exit AtomicBlock with result
+    catch e
+      TryAtomicFailure =&gt; () (* continue execution *)
+    end
+  end
+  throw UnreachableCode (* inserted for type correctness *)
+end AtomicBlock</code></pre></div>
+<p id="p-6d765fca" class="nb">Unlike the above definition, an implementation may choose to suspend a thread running an <span class="m"><span class="kw">atomic</span></span> expression which invokes <span class="m"><i>abort</i></span>, re-starting it at a later time when it may be possible to make further progress. The above definition restarts the body of the <span class="m"><span class="kw">atomic</span></span> expression immediately without suspending.</p>
+</section>
+<section class="sec" data-num="23.6" data-title="Distributions">
+<h2 id="sec-distributions" class="nb"><span class="num">23.6</span> Distributions</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-91dcda7c" class="nb">Distributions are not yet supported. Examples in this section are not tested.</p></aside>
+<p id="p-5e20a812" class="nb">Most of the heavy lifting in mapping threads and arrays to regions is performed by <em>distributions</em>. An instance of the trait <span class="m"><span class="ty">Distribution</span></span> describes the parallel structure of ranges and other numeric generators (such as the generators for the index space of an array), and provides for the allocation and distribution of arrays on the machine:</p>
+<div class="fx nb both" id="c-d3658b95" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.81 320.24 55.94" width="32.024em" height="5.594em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t0' x='41.1' y='19.33'>Distribution</text>
+<text class='t4' x='21.92' y='31.28'>distribute</text>
+<text class='t5' x='63.27' y='31.28'></text>
+<text class='t1' x='67.29' y='31.28'>E<tspan x='75.22'>,</tspan><tspan x='79.64'>B</tspan></text>
+<text class='t3' x='90.47' y='31.28'>extends</text>
+<text class='t0' x='132.06' y='31.28'>Arra<tspan x='152.04'>yIndex</tspan></text>
+<text class='t5' x='181.65' y='31.28'></text>
+<text class='t0' x='185.67' y='31.28'>(Range</text>
+<text class='t5' x='216.8' y='31.28'></text>
+<text class='t1' x='220.81' y='31.28'>B</text>
+<text class='t5' x='228.87' y='31.28'></text>
+<text class='t0' x='232.88' y='31.28'>)<tspan x='238.42'>:</tspan><tspan x='242.84'>Range</tspan></text>
+<text class='t5' x='270.1' y='31.28'></text>
+<text class='t1' x='274.12' y='31.28'>B</text>
+<text class='t5' x='282.17' y='31.28'></text>
+<text class='t4' x='21.92' y='43.24'>distribute</text>
+<text class='t5' x='63.27' y='43.24'></text>
+<text class='t1' x='67.29' y='43.24'>E<tspan x='75.22'>,</tspan><tspan x='79.64'>B</tspan></text>
+<text class='t3' x='90.47' y='43.24'>extends</text>
+<text class='t0' x='132.06' y='43.24'>Arra<tspan x='152.04'>yIndex</tspan></text>
+<text class='t5' x='181.65' y='43.24'></text>
+<text class='t0' x='185.67' y='43.24'>(</text>
+<text class='t1' x='189.54' y='43.24'>a</text>
+<text class='t0' x='196.47' y='43.24'>:<tspan x='200.89'>Arra</tspan><tspan x='220.88'>y</tspan></text>
+<text class='t5' x='226.27' y='43.24'></text>
+<text class='t1' x='230.28' y='43.24'>E<tspan x='238.21'>,</tspan><tspan x='242.64'>B</tspan></text>
+<text class='t5' x='250.7' y='43.24'></text>
+<text class='t0' x='254.71' y='43.24'>)<tspan x='260.25'>:</tspan><tspan x='264.67'>Arra</tspan><tspan x='284.65'>y</tspan></text>
+<text class='t5' x='290.05' y='43.24'></text>
+<text class='t1' x='294.06' y='43.24'>E<tspan x='301.99'>,</tspan><tspan x='306.42'>B</tspan></text>
+<text class='t5' x='314.48' y='43.24'></text>
+<text class='t0' x='321.26' y='43.24'>=</text>
+<text class='t4' x='33.87' y='55.19'>distributeF<tspan x='80.22'>r</tspan><tspan x='83.91'>omT</tspan><tspan x='103.52'>o</tspan></text>
+<text class='t5' x='109.24' y='55.19'></text>
+<text class='t1' x='113.25' y='55.19'>E<tspan x='121.18'>,</tspan><tspan x='125.61'>B</tspan></text>
+<text class='t5' x='133.66' y='55.19'></text>
+<text class='t0' x='137.68' y='55.19'>(</text>
+<text class='t1' x='141.55' y='55.19'>a,<tspan x='151.24'>a.</tspan></text>
+<text class='t4' x='159.28' y='55.19'>distribution</text>
+<text class='t1' x='209.82' y='55.19'>,</text>
+<text class='t3' x='214.24' y='55.19'>self</text>
+<text class='t0' x='235.17' y='55.19'>)</text>
+<text class='t3' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>trait Distribution
+  distribute[\E, B extends ArrayIndex\](Range[\B\]):Range[\B\]
+  distribute[\E, B extends ArrayIndex\](a:Array[\E,B\]):Array[\E,B\] =
+    distributeFromTo[\E,B\](a,a.distribution,self)
+end</code></pre></div>
+<p id="p-28674c41" class="nb">Abstractly, a <span class="m"><span class="ty">Distribution</span></span> acts as a transducer for generators and arrays. The <span class="m"><i>distribute</i></span> method applied to a multidimensional <span class="m"><span class="ty">Range</span></span> organizes its indices into the leaves of a tree whose inner nodes correspond to potential levels of parallelism and locality in the underlying computation, producing a fresh <span class="m"><span class="ty">Range</span></span> whose behavior as a <span class="m"><span class="ty">Generator</span></span> may differ from that of the passed-in <span class="m"><span class="ty">Range</span></span>. The <span class="m"><i>distribute</i></span> method applied to an array creates a copy of that array distributed according to the given distribution. This is specified in terms of a call to the overloaded function <span class="m"><i>distributeFromTo</i></span>. This permits the definition of specialized versions of this function for particular pairs of distributions.</p>
+<p id="p-3d04f056" class="nb">The intention of distributions is to separate the task of data distribution and program correctness. That is, it should be possible to write and debug a perfectly acceptable parallel program using only the default data distribution provided by the system. Imposing a distribution on particular computations, or designing and implementing distributions from scratch, is a task best left for performance tuning, and one which should not affect the correctness of a working program.</p>
+<p id="p-e20596fc" class="nb">There is a <span class="m"><span class="ty">DefaultDistribution</span></span> which is defined by the underlying system. This distribution is designed to be reasonably adaptable to different system scales and architectures, at the cost of some runtime efficiency. Arrays and generators that are not explicitly allocated through a distribution are given the <span class="m"><span class="ty">DefaultDistribution</span></span>.</p>
+<p id="p-61e96add" class="nb">There is a generator, <span class="m"><i>indices</i></span>, associated with every array. This generator is distributed in the same way as the array itself. When we re-distribute an array, we also re-distribute the generator; thus <span class="m"><i>d</i>.<i>distribute</i>(<i>a</i>.<i>indices</i>)</span> is equivalent to <span class="m">(<i>d</i>.<i>distribute</i>(<i>a</i>)).<i>indices</i></span>.</p>
+<p id="p-b9bd9e4c" class="nb">There are a number of built-in distributions:</p>
+<div class="fx nb" id="c-56b6ad5a" data-kind="code"><div class="fx-r"><svg class="tx" data-d="10" viewBox="6.21 11.81 444.62 129.91" width="44.462em" height="12.991em" fill="currentColor"><text class='t0' x='6.81' y='19.33'>DefaultDistribution</text>
+<text class='t7' x='128.96' y='19.33'>Name<tspan x='155.24'>for</tspan><tspan x='169.35'>distrib</tspan><tspan x='194.62'>ution</tspan><tspan x='217.59'>chosen</tspan><tspan x='247.75'>by</tspan><tspan x='260.2'>system.</tspan></text>
+<text class='t0' x='6.81' y='31.28'>Sequen<tspan x='37.25'>tial</tspan></text>
+<text class='t7' x='128.96' y='31.28'>Sequential<tspan x='173.52'>distrib</tspan><tspan x='198.78'>ution.</tspan><tspan x='224.84'>Arrays</tspan><tspan x='254.44'>are</tspan><tspan x='269.1'>allocated</tspan><tspan x='307.55'>in</tspan><tspan x='317.79'>one</tspan><tspan x='334.67'>contiguous</tspan><tspan x='380.89'>piece</tspan><tspan x='404.4'>of</tspan><tspan x='415.19'>memory</tspan><tspan x='447.74'>.</tspan></text>
+<text class='t0' x='6.81' y='43.24'>Lo<tspan x='18.29'>cal</tspan></text>
+<text class='t7' x='128.96' y='43.24'>Equi<tspan x='147.53'>v</tspan><tspan x='152.27'>alent</tspan><tspan x='174.12'>to</tspan></text>
+<text class='t0' x='185.2' y='43.24'>Sequen<tspan x='215.64'>tial</tspan></text>
+<text class='t7' x='230.86' y='43.24'>.</text>
+<text class='t0' x='6.81' y='55.19'>P<tspan x='13.31'>ar</tspan></text>
+<text class='t7' x='128.96' y='55.19'>Block<tspan x='152.66'>ed</tspan><tspan x='164.56'>into</tspan><tspan x='182.55'>chunks</tspan><tspan x='213.27'>of</tspan><tspan x='224.06'>size</tspan><tspan x='242.04'>1.</tspan></text>
+<text class='t0' x='6.81' y='67.15'>Blo<tspan x='21.89'>c</tspan><tspan x='26.04'>k</tspan><tspan x='31.02'>ed</tspan></text>
+<text class='t7' x='128.96' y='67.15'>Block<tspan x='152.66'>ed</tspan><tspan x='164.56'>into</tspan><tspan x='182.55'>roughly</tspan><tspan x='216.04'>equal</tspan><tspan x='240.11'>chunks.</tspan></text>
+<text class='t0' x='7.64' y='79.1'>Blo<tspan x='22.72'>c</tspan><tspan x='26.87'>k</tspan><tspan x='31.85'>ed</tspan><tspan x='41.82'>(</tspan></text>
+<text class='t1' x='45.69' y='79.1'>n</text>
+<text class='t0' x='51.67' y='79.1'>)</text>
+<text class='t7' x='128.96' y='79.1'>Block<tspan x='152.66'>ed</tspan><tspan x='164.56'>into</tspan></text>
+<text class='t4' x='183.38' y='79.1'>n</text>
+<text class='t7' x='193.07' y='79.1'>roughly<tspan x='226.55'>equal</tspan><tspan x='250.62'>chunks.</tspan></text>
+<text class='t0' x='6.81' y='91.15'>Sub<tspan x='23.69'>divided</tspan></text>
+<text class='t7' x='128.96' y='91.15'>Chopped<tspan x='167.43'>into</tspan></text>
+<text class='t0' x='185.42' y='91.15'>2</text>
+<text class='t2' x='190.4' y='87.53'>k</text>
+<text class='t7' x='195.3' y='91.15'>-sized<tspan x='221.59'>chunks,</tspan><tspan x='254.79'>recursi</tspan><tspan x='281.65'>v</tspan><tspan x='286.48'>ely</tspan><tspan x='298.01'>.</tspan></text>
+<text class='t0' x='7.64' y='103.1'>In<tspan x='16.49'>terlea</tspan><tspan x='40.6'>v</tspan><tspan x='45.58'>ed</tspan><tspan x='55.54'>(</tspan></text>
+<text class='t1' x='59.42' y='103.1'>d</text>
+<text class='t8' x='64.6' y='104.6'>1</text>
+<text class='t1' x='69.07' y='103.1'>,<tspan x='73.5'>d</tspan></text>
+<text class='t8' x='78.68' y='104.6'>2</text>
+<text class='t1' x='83.15' y='103.1'>,<tspan x='87.58'>.</tspan><tspan x='92.01'>.</tspan><tspan x='96.44'>.</tspan><tspan x='100.86'>d</tspan></text>
+<text class='t2' x='106.05' y='104.6'>n</text>
+<text class='t0' x='111.47' y='103.1'>)</text>
+<text class='t7' x='128.96' y='103.1'>The<tspan x='146.95'>ﬁrst</tspan></text>
+<text class='t4' x='165.77' y='103.1'>n</text>
+<text class='t7' x='175.45' y='103.1'>dimensions<tspan x='223.33'>are</tspan><tspan x='237.99'>distrib</tspan><tspan x='263.25'>uted</tspan><tspan x='282.9'>according</tspan><tspan x='324.67'>to</tspan></text>
+<text class='t1' x='336.58' y='103.1'>d</text>
+<text class='t8' x='341.76' y='104.6'>1</text>
+<text class='t1' x='347.89' y='103.1'>.<tspan x='352.32'>.</tspan><tspan x='356.75'>.</tspan><tspan x='361.17'>d</tspan></text>
+<text class='t2' x='366.36' y='104.6'>n</text>
+<text class='t7' x='373.44' y='103.1'>,<tspan x='128.96' y='115.06'>with</tspan><tspan x='149.17'>subdi</tspan><tspan x='170.51'>vision</tspan><tspan x='197.36'>alternating</tspan><tspan x='242.46'>among</tspan><tspan x='272.07'>dimensions.</tspan></text>
+<text class='t0' x='7.64' y='127.01'>Joined<tspan x='36'>(</tspan></text>
+<text class='t1' x='39.88' y='127.01'>d</text>
+<text class='t8' x='45.06' y='128.51'>1</text>
+<text class='t1' x='49.53' y='127.01'>,<tspan x='53.96'>d</tspan></text>
+<text class='t8' x='59.15' y='128.51'>2</text>
+<text class='t1' x='63.62' y='127.01'>,<tspan x='68.04'>.</tspan><tspan x='72.47'>.</tspan><tspan x='76.9'>.</tspan><tspan x='81.33'>d</tspan></text>
+<text class='t2' x='86.51' y='128.51'>n</text>
+<text class='t0' x='91.94' y='127.01'>)</text>
+<text class='t7' x='128.96' y='127.01'>The<tspan x='146.95'>ﬁrst</tspan></text>
+<text class='t4' x='165.77' y='127.01'>n</text>
+<text class='t7' x='175.45' y='127.01'>dimensions<tspan x='223.33'>are</tspan><tspan x='237.99'>distrib</tspan><tspan x='263.25'>uted</tspan><tspan x='282.9'>according</tspan><tspan x='324.67'>to</tspan></text>
+<text class='t1' x='336.58' y='127.01'>d</text>
+<text class='t8' x='341.76' y='128.51'>1</text>
+<text class='t1' x='347.89' y='127.01'>.<tspan x='352.32'>.</tspan><tspan x='356.75'>.</tspan><tspan x='361.17'>d</tspan></text>
+<text class='t2' x='366.36' y='128.51'>n</text>
+<text class='t7' x='373.44' y='127.01'>,<tspan x='128.96' y='138.97'>subdi</tspan><tspan x='150.3'>viding</tspan><tspan x='178.26'>completely</tspan><tspan x='225.02'>in</tspan><tspan x='235.26'>each</tspan><tspan x='256.01'>dimension</tspan><tspan x='300.01'>before</tspan><tspan x='327.95'>proceeding</tspan><tspan x='374.7'>to</tspan><tspan x='384.94'>the</tspan><tspan x='399.61'>ne</tspan><tspan x='408.86'>xt.</tspan></text></svg></div></div>
+<p id="p-e774367b" class="nb">From these, a number of composed distributions are provided:</p>
+<div class="fx nb" id="c-013cdf05" data-kind="code"><div class="fx-r"><svg class="tx" data-d="11" viewBox="7.04 11.92 425.88 34.07" width="42.588em" height="3.407em" fill="currentColor"><text class='t0' x='7.64' y='19.33'>Morton</text>
+<text class='t7' x='116.76' y='19.33'>Bit-interlea<tspan x='161.94'>v</tspan><tspan x='166.77'>ed</tspan><tspan x='178.67'>Morton</tspan><tspan x='211.05'>order</tspan><tspan x='234.56'>[</tspan></text>
+<a href='cite.morton' xlink:title='cite.morton'>
+<text class='t7' x='237.88' y='19.33'>morton</text>
+</a>
+<text class='t7' x='266.66' y='19.33'>],<tspan x='274.96'>recursi</tspan><tspan x='301.82'>v</tspan><tspan x='306.65'>e</tspan><tspan x='313.56'>subdi</tspan><tspan x='334.9'>vision</tspan><tspan x='361.75'>in</tspan><tspan x='371.99'>all</tspan><tspan x='384.45'>dimensions.</tspan></text>
+<text class='t0' x='7.64' y='31.28'>Blo<tspan x='22.72'>c</tspan><tspan x='26.87'>k</tspan><tspan x='31.85'>ed</tspan><tspan x='41.82'>(</tspan></text>
+<text class='t1' x='45.69' y='31.28'>x</text>
+<text class='t8' x='51.38' y='32.78'>1</text>
+<text class='t1' x='55.85' y='31.28'>,<tspan x='60.28'>x</tspan></text>
+<text class='t8' x='65.97' y='32.78'>2</text>
+<text class='t1' x='70.44' y='31.28'>,<tspan x='74.87'>.</tspan><tspan x='79.3'>.</tspan><tspan x='83.73'>.</tspan><tspan x='88.16'>x</tspan></text>
+<text class='t2' x='93.85' y='32.78'>n</text>
+<text class='t0' x='99.27' y='31.28'>)</text>
+<text class='t7' x='116.76' y='31.28'>Block<tspan x='140.46'>ed</tspan><tspan x='152.36'>in</tspan></text>
+<text class='t4' x='163.43' y='31.28'>n</text>
+<text class='t7' x='173.12' y='31.28'>dimensions<tspan x='221'>into</tspan><tspan x='238.99'>chunks</tspan><tspan x='269.7'>of</tspan><tspan x='280.49'>size</tspan></text>
+<text class='t1' x='300.14' y='31.28'>x</text>
+<text class='t2' x='305.83' y='32.78'>i</text>
+<text class='t7' x='313.3' y='31.28'>in<tspan x='323.54'>dimension</tspan></text>
+<text class='t4' x='368.37' y='31.28'>i</text>
+<text class='t7' x='373.27' y='31.28'>;<tspan x='116.76' y='43.24'>remaining</tspan><tspan x='159.65'>dimensions</tspan><tspan x='207.53'>(if</tspan><tspan x='219.43'>an</tspan><tspan x='228.68'>y)</tspan><tspan x='239.47'>are</tspan><tspan x='254.13'>local.</tspan></text></svg></div></div>
+<p id="p-51234516" class="nb">To allocate an array which is local to a single thread (and most likely allocated in contiguous storage), the <span class="m"><span class="ty">Local</span></span> distribution can be used:</p>
+<div class="fx nb both" id="c-553b2934" data-kind="code"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 11.26 166.68 11.16" width="16.668em" height="1.116em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>a</text>
+<text class='t0' x='18' y='19.33'>=<tspan x='28.51'>Lo</tspan><tspan x='40'>cal</tspan></text>
+<text class='t1' x='52.17' y='19.33'>.</text>
+<text class='t4' x='54.94' y='19.33'>distribute</text>
+<text class='t0' x='96.3' y='19.33'>[<tspan x='100.73'>1</tspan><tspan x='108.47'>0</tspan><tspan x='116.22'>0;</tspan><tspan x='125.63'>0</tspan><tspan x='133.38'>1</tspan><tspan x='141.13'>0;</tspan><tspan x='150.54'>0</tspan><tspan x='158.29'>0</tspan><tspan x='166.04'>1</tspan><tspan x='172.68'>]</tspan></text></svg></div><pre class="fx-s"><code>a = Local.distribute [ 1 0 0 ; 0 1 0 ; 0 0 1 ]</code></pre></div>
+<p id="p-37bcbd61" class="nb">Other distributions can be requested in a similar way.</p>
+<p id="p-103bbc96" class="nb">Distributions can be constructed and given names:</p>
+<div class="fx nb both" id="c-eca44d77" data-kind="code"><div class="fx-r"><svg class="tx" data-d="13" viewBox="9.36 11.26 246.29 11.16" width="24.629em" height="1.116em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>sp<tspan x='18.62'>atialDist</tspan></text>
+<text class='t0' x='59.39' y='19.33'>=<tspan x='69.9'>Blo</tspan><tspan x='84.99'>c</tspan><tspan x='89.14'>k</tspan><tspan x='94.12'>ed</tspan><tspan x='104.08'>(</tspan></text>
+<text class='t1' x='107.95' y='19.33'>n,<tspan x='118.36'>n,</tspan></text>
+<text class='t0' x='128.77' y='19.33'>1)(</text>
+<text class='t9' x='141.5' y='19.33'>∗</text>
+<text class='t7' x='149.25' y='19.33'>Pencils<tspan x='180.52'>along</tspan><tspan x='205.15'>the</tspan></text>
+<text class='t1' x='219.81' y='19.33'>z</text>
+<text class='t7' x='227.38' y='19.33'>axis</text>
+<text class='t9' x='246.19' y='19.33'>∗</text>
+<text class='t0' x='251.17' y='19.33'>)</text></svg></div><pre class="fx-s"><code>spatialDist = Blocked(n,n,1)     (* Pencils along the $z$ axis *)</code></pre></div>
+<p id="p-029030bf" class="nb">The system will lay out arrays with the same distribution in the same way in memory (as much as this is feasible), and will run loops with the same distribution in the same way (as much as this is feasible). By contrast, if we replace every occurrence of <span class="m"><i>spatialDist</i></span> by <span class="m"><span class="ty">Blocked</span>(<i>n</i>, <i>n</i>, 1)</span>, this code will likely divide up arrays and ranges into the same-sized pieces as above, but these pieces need not be collocated.</p>
+</section>
+<section class="sec" data-num="23.7" data-title="Early Termination of Threads">
+<h2 id="sec-early-termination" class="nb"><span class="num">23.7</span> Early Termination of Threads</h2>
+<p id="p-eb7b522f" class="nb">As noted in <a class="xref" href="evaluation.html#sec-threads-parallelism">Section 5.4</a>, an implicit thread can be terminated if its group is going to throw an exception. Similarly, a spawned thread <span class="m"><i>t</i></span> may be terminated by calling <span class="m"><i>t</i>.<i>stop</i>()</span>. A successful attempt to terminate a thread causes the thread to complete asynchronously. There is no guarantee that termination attempts will be prompt, or that they will occur at all; the implementation will make its best effort. If a thread completes normally or exceptionally before an attempt to terminate it succeeds, the result is retained and the termination attempt is simply dropped.</p>
+<p id="p-3a01fa2c" class="nb">At present stopping a thread immediately causes it to cease execution; no outstanding <span class="m"><span class="kw">finally</span></span> blocks are run and the thread is not considered to return a result.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-ec30037c" class="nb">From here till the end of this section, copied from F1.0<span class="m">β</span>.</p></aside>
+<p id="p-a809d121" class="nb">A termination attempt acts as if a special hidden <em>stop exception</em> is thrown in that thread. This exception cannot be thrown by <span class="m"><span class="kw">throw</span></span> or caught by <span class="m"><span class="kw">catch</span></span>; however, <span class="m"><span class="kw">finally</span></span> clauses are run as with any other exception. If the stopped thread was in the middle of an <span class="m"><span class="kw">atomic</span></span> expression, the effects of that expression are rolled back just as with an ordinary <span class="m"><span class="kw">throw</span></span>. A special wrapper around every spawned thread is provided by the Fortress implementation; it catches the stop exception and transforms it into a deferred <span class="m"><span class="ty">Stopped</span></span> exception. This is visible to the programmer and should be caught by invoking the <span class="m"><i>val</i></span> method on the thread object. Implicit threads are terminated only if another thread in the group completes abruptly, and the threads that are terminated are ignored for the purposes of the completion of the group.</p>
+<p id="p-1e8fedba" class="nb">Typical code for stopping a thread looks something like the following example:</p>
+<div class="fx nb both" id="c-b8341d27" data-kind="code"><div class="fx-r"><svg class="tx" data-d="14" viewBox="9.36 11.86 249.59 163.48" width="24.959em" height="16.348em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>x</text>
+<text class='t0' x='18.42' y='19.33'>:</text>
+<text class='t11' x='23.96' y='19.33'>Z</text>
+<text class='t0' x='30.6' y='19.33'>64<tspan x='43.33'>:</tspan><tspan x='46.1'>=</tspan><tspan x='56.61'>0</tspan></text>
+<text class='t1' x='9.96' y='31.28'>t</text>
+<text class='t0' x='16.33' y='31.28'>=</text>
+<text class='t3' x='26.84' y='31.28'>spawn<tspan x='58.53'>do</tspan><tspan x='62.71' y='43.24'>try</tspan><tspan x='74.66' y='55.19'>atomic</tspan><tspan x='111.58'>if</tspan></text>
+<text class='t1' x='124.81' y='55.19'>x</text>
+<text class='t0' x='133.27' y='55.19'>=<tspan x='143.79'>0</tspan></text>
+<text class='t3' x='151.54' y='55.19'>then</text>
+<text class='t4' x='175.22' y='55.19'>ab<tspan x='184.39'>ort</tspan></text>
+<text class='t0' x='197.94' y='55.19'>()</text>
+<text class='t3' x='208.45' y='55.19'>else</text>
+<text class='t0' x='232.14' y='55.19'>()</text>
+<text class='t3' x='242.66' y='55.19'>end<tspan x='62.71' y='67.15'>finally</tspan></text>
+<text class='t1' x='74.66' y='79.1'>x</text>
+<text class='t0' x='83.13' y='79.1'>:<tspan x='85.89'>=</tspan><tspan x='96.41'>1</tspan></text>
+<text class='t3' x='62.71' y='91.06'>end<tspan x='26.84' y='103.01'>end</tspan></text>
+<text class='t1' x='9.96' y='114.97'>t.</text>
+<text class='t4' x='16.33' y='114.97'>stop</text>
+<text class='t0' x='34.52' y='114.97'>()</text>
+<text class='t3' x='9.96' y='126.92'>try</text>
+<text class='t1' x='21.92' y='138.88'>t.</text>
+<text class='t4' x='28.28' y='138.88'>val</text>
+<text class='t0' x='41.53' y='138.88'>()</text>
+<text class='t3' x='9.96' y='150.83'>catch</text>
+<text class='t1' x='38.88' y='150.83'>s</text>
+<text class='t0' x='21.92' y='162.79'>Stopp<tspan x='47.65'>ed</tspan></text>
+<text class='t9' x='60.38' y='162.79'>⇒</text>
+<text class='t1' x='73.11' y='162.79'>x</text>
+<text class='t0' x='81.58' y='162.79'>+<tspan x='89.32'>=</tspan><tspan x='99.84'>2;</tspan></text>
+<text class='t1' x='109.25' y='162.79'>x</text>
+<text class='t3' x='9.96' y='174.74'>end</text></svg></div><pre class="fx-s"><code>x : ZZ64 := 0
+t = spawn do
+      try
+        atomic if x=0 then abort() else () end
+      finally
+        x := 1
+      end
+    end
+t.stop()
+try
+  t.val()
+catch s
+  Stopped =&gt; x += 2; x
+end</code></pre></div>
+<p id="p-7b757955" class="nb">Here the spawned thread <span class="m"><i>t</i></span> blocks until it is killed by the call to <span class="m"><i>t</i>.<i>stop</i>()</span>; it sets <span class="m"><i>x</i></span> to 1 in the <span class="m"><span class="kw">finally</span></span> clause before exiting. In this case, the call to <span class="m"><i>t</i>.<i>val</i>()</span> will throw <span class="m"><span class="ty">Stopped</span></span>, which is caught, causing 2 to be added to <span class="m"><i>x</i></span> and returning 3.</p>
+<p id="p-e425c55a" class="nb">Note that there is a race in the above code, so the <span class="m"><span class="kw">try</span></span> block in <span class="m"><i>t</i></span> may not have been entered when <span class="m"><i>t</i>.<i>stop</i>()</span> is called, causing <span class="m"><i>x</i></span> to be 2 at the end of execution. Note also that the call to <span class="m"><i>t</i>.<i>stop</i>()</span> occurs asynchronously; in the absence of the call to <span class="m"><i>t</i>.<i>val</i>()</span>, the spawning thread would not have waited for <span class="m"><i>t</i></span> to complete.</p>
+</section>
+<section class="sec" data-num="23.8" data-title="Use and Definition of Generators">
+<h2 id="sec-defining-generators" class="nb"><span class="num">23.8</span> Use and Definition of Generators</h2>
+<p id="p-eff75909" class="nb">Several expressions in Fortress make use of <em>generator clause lists</em> to express parallel iteration (see <a class="xref" href="expressions.html#sec-generators">Section 13.14</a><!--nc-->). A generator clause list binds a series of variables to the values produced by a series of objects that extend the trait <span class="m"><span class="ty">Generator</span></span>. A generator clause list is simply syntactic sugar for a nested series of invocations of methods on these objects.</p>
+<p id="p-5c30e1f8" class="nb">A type that extends <span class="m"><span class="ty">Generator</span>⟦<i>E</i>⟧</span> acts as a generator of elements of type <span class="m"><i>E</i></span>. An instance of <span class="m"><span class="ty">Generator</span>⟦<i>E</i>⟧</span> only needs to define the <span class="m"><i>generate</i></span> method:</p>
+<div class="fx nb" id="c-aab624ad" data-kind="code"><div class="fx-r"><svg class="tx" data-d="15" viewBox="33.27 11.26 203.79 11.16" width="20.379em" height="1.116em" fill="currentColor"><text class='t4' x='33.87' y='19.33'>gener<tspan x='56.91'>ate</tspan></text>
+<text class='t5' x='70.65' y='19.33'></text>
+<text class='t1' x='74.66' y='19.33'>R</text>
+<text class='t5' x='82.3' y='19.33'></text>
+<text class='t0' x='86.31' y='19.33'>(</text>
+<text class='t1' x='90.19' y='19.33'>r</text>
+<text class='t0' x='96.62' y='19.33'>:<tspan x='101.05'>Reduction</tspan></text>
+<text class='t5' x='145.47' y='19.33'></text>
+<text class='t1' x='149.48' y='19.33'>R</text>
+<text class='t5' x='157.12' y='19.33'></text>
+<text class='t1' x='161.13' y='19.33'>,</text>
+<text class='t4' x='165.56' y='19.33'>b<tspan x='169.63'>o</tspan><tspan x='174.22'>dy</tspan></text>
+<text class='t0' x='185.03' y='19.33'>:</text>
+<text class='t1' x='189.45' y='19.33'>E</text>
+<text class='t9' x='200.15' y='19.33'>→</text>
+<text class='t1' x='212.88' y='19.33'>R</text>
+<text class='t0' x='220.52' y='19.33'>):</text>
+<text class='t1' x='228.82' y='19.33'>R</text></svg></div></div>
+<p id="p-21cd181d" class="nb">The mechanics of object generation are embedded entirely in the <span class="m"><i>generate</i></span> method. This method takes two arguments. The <span class="m"><i>generate</i></span> method invokes <span class="m"><i>body</i></span> once for each object which is to be generated, passing the generated object as an argument. Each call to <span class="m"><i>body</i></span> returns a result of type <span class="m"><i>R</i></span>; these results are combined using the reduction <span class="m"><i>r</i></span>, which encapsulates a monoidal operator on objects of type <span class="m"><i>R</i></span>. <em>All the parallelism provided by a particular generator is specified by definition of the <span class="m"><i>generate</i></span> method.</em></p>
+<p id="p-87b06d7b" class="nb">In practice, calls to <span class="m"><i>generate</i></span> are produced by desugaring expressions with generator clause lists, as described below (<a class="xref" href="#sec-desugaring-generators">Section 23.8.1</a><!--nc-->). However it is possible to call the <span class="m"><i>generate</i></span> method directly, as in the following example:</p>
+<div class="fx nb both" id="c-6fb22547" data-kind="code" data-example="Generators.ReductionClass"><div class="fx-r"><svg class="tx" data-d="16" viewBox="-0.60 11.26 279.93 118.36" width="27.993em" height="11.836em" fill="currentColor"><text class='t3' x='0' y='19.33'>object</text>
+<text class='t0' x='34.15' y='19.33'>SumZZ32</text>
+<text class='t3' x='78.43' y='19.33'>extends</text>
+<text class='t0' x='117.81' y='19.33'>Comm<tspan x='146.31'>utativ</tspan><tspan x='172.33'>eMonoidReduction</tspan></text>
+<text class='t5' x='254.1' y='19.33'></text>
+<text class='t11' x='258.12' y='19.33'>Z</text>
+<text class='t0' x='264.76' y='19.33'>32</text>
+<text class='t5' x='274.72' y='19.33'></text>
+<text class='t4' x='17.71' y='39.75'>asString</text>
+<text class='t0' x='54.11' y='39.75'>(<tspan x='58.4'>):</tspan><tspan x='66.7'>String</tspan><tspan x='96.2'>=</tspan></text>
+<text class='t7' x='106.72' y='39.75'>“</text>
+<text class='t10' x='111.14' y='39.75'>SumZZ32</text>
+<text class='t7' x='152.98' y='39.75'>”</text>
+<text class='t4' x='17.71' y='60.17'>empty</text>
+<text class='t0' x='44.56' y='60.17'>(<tspan x='48.85'>):</tspan></text>
+<text class='t11' x='57.15' y='60.17'>Z</text>
+<text class='t0' x='63.79' y='60.17'>32<tspan x='76.52'>=</tspan><tspan x='87.04'>0</tspan></text>
+<text class='t4' x='17.71' y='80.6'>join</text>
+<text class='t0' x='35.28' y='80.6'>(</text>
+<text class='t1' x='39.15' y='80.6'>a</text>
+<text class='t0' x='44.42' y='80.6'>:</text>
+<text class='t11' x='48.85' y='80.6'>Z</text>
+<text class='t0' x='55.49' y='80.6'>32</text>
+<text class='t1' x='65.45' y='80.6'>,<tspan x='69.88'>b</tspan></text>
+<text class='t0' x='74.15' y='80.6'>:</text>
+<text class='t11' x='78.58' y='80.6'>Z</text>
+<text class='t0' x='85.22' y='80.6'>32):</text>
+<text class='t11' x='103.49' y='80.6'>Z</text>
+<text class='t0' x='110.13' y='80.6'>32<tspan x='122.86'>=</tspan></text>
+<text class='t1' x='133.38' y='80.6'>a</text>
+<text class='t0' x='140.86' y='80.6'>+</text>
+<text class='t1' x='150.82' y='80.6'>b</text>
+<text class='t3' x='0' y='101.02'>end</text>
+<text class='t1' x='0' y='125.53'>z</text>
+<text class='t0' x='7.84' y='125.53'>=<tspan x='18.35'>(1</tspan><tspan x='29.42'>#</tspan><tspan x='39.94'>100)</tspan></text>
+<text class='t1' x='58.76' y='125.53'>.</text>
+<text class='t4' x='61.53' y='125.53'>gener<tspan x='84.57'>ate</tspan></text>
+<text class='t5' x='98.3' y='125.53'></text>
+<text class='t11' x='102.31' y='125.53'>Z</text>
+<text class='t0' x='108.95' y='125.53'>32</text>
+<text class='t5' x='118.92' y='125.53'></text>
+<text class='t12' x='122.93' y='117.46'></text>
+<text class='t0' x='127.5' y='125.53'>SumZZ32</text>
+<text class='t1' x='169.01' y='125.53'>,</text>
+<text class='t3' x='173.44' y='125.53'>fn</text>
+<text class='t0' x='186.66' y='125.53'>(</text>
+<text class='t1' x='190.54' y='125.53'>x</text>
+<text class='t0' x='196.23' y='125.53'>)</text>
+<text class='t9' x='202.87' y='125.53'>⇒</text>
+<text class='t0' x='215.6' y='125.53'>3</text>
+<text class='t1' x='222.25' y='125.53'>x</text>
+<text class='t0' x='230.15' y='125.53'>+<tspan x='240.12'>2</tspan></text>
+<text class='t12' x='245.1' y='117.46'></text></svg></div><pre class="fx-s"><code>object SumZZ32 extends CommutativeMonoidReduction[\ZZ32\]
+    asString():String = "SumZZ32"
+    empty(): ZZ32 = 0
+    join(a: ZZ32, b: ZZ32): ZZ32 = a+b
+end
+
+z = (1#100).generate[\ZZ32\](SumZZ32, fn (x) =&gt; 3 x + 2)</code></pre></div>
+<p id="p-459fc302" class="nb">Any reduction must define two methods: an associative binary operation <span class="m"><i>join</i></span>, and <span class="m"><i>empty</i></span>, a method that returns the identity of this operation. Here we define reduction <span class="m"><span class="ty">SumZZ32</span></span> representing integer addition. We use this to compute the sum of <span class="m">3<i>x</i> + 2</span> for <span class="m"><i>x</i></span> drawn from the range <span class="m">1 <span class="rm"><span class="tt">#</span></span> 100</span>, yielding the expected answer of 15350.</p>
+<div class="fig"><div class="fx nb both" id="c-f00b3d26" data-kind="code" data-example="Generators.GeneratorDefn"><div class="fx-r"><svg class="tx" data-d="17" viewBox="-0.60 11.26 349.88 445.24" width="34.988em" height="44.524em" fill="currentColor"><text class='t3' x='0' y='19.33'>object</text>
+<text class='t0' x='34.15' y='19.33'>Blo<tspan x='49.23'>c</tspan><tspan x='53.38'>k</tspan><tspan x='58.36'>edRange</tspan><tspan x='95.59'>(</tspan></text>
+<text class='t4' x='99.46' y='19.33'>lo</text>
+<text class='t0' x='107.73' y='19.33'>:</text>
+<text class='t11' x='112.15' y='19.33'>Z</text>
+<text class='t0' x='118.8' y='19.33'>32</text>
+<text class='t1' x='128.76' y='19.33'>,</text>
+<text class='t4' x='133.19' y='19.33'>hi</text>
+<text class='t0' x='142.35' y='19.33'>:</text>
+<text class='t11' x='146.78' y='19.33'>Z</text>
+<text class='t0' x='153.42' y='19.33'>32</text>
+<text class='t1' x='163.38' y='19.33'>,<tspan x='167.81'>b</tspan></text>
+<text class='t0' x='172.09' y='19.33'>:</text>
+<text class='t11' x='176.51' y='19.33'>Z</text>
+<text class='t0' x='183.15' y='19.33'>32)</text>
+<text class='t3' x='199.76' y='19.33'>extends</text>
+<text class='t0' x='239.14' y='19.33'>Generator</text>
+<text class='t5' x='282.99' y='19.33'></text>
+<text class='t11' x='287' y='19.33'>Z</text>
+<text class='t0' x='293.64' y='19.33'>32</text>
+<text class='t5' x='303.61' y='19.33'></text>
+<text class='t4' x='8.86' y='39.75'>size</text>
+<text class='t0' x='27.05' y='39.75'>:</text>
+<text class='t11' x='31.48' y='39.75'>Z</text>
+<text class='t0' x='38.12' y='39.75'>32<tspan x='50.85'>=</tspan></text>
+<text class='t4' x='61.37' y='39.75'>hi</text>
+<text class='t9' x='72.74' y='39.75'>−</text>
+<text class='t4' x='82.7' y='39.75'>lo</text>
+<text class='t0' x='93.18' y='39.75'>+<tspan x='103.15'>1</tspan></text>
+<text class='t4' x='8.86' y='60.17'>se<tspan x='17'>q</tspan></text>
+<text class='t0' x='22.47' y='60.17'>(</text>
+<text class='t3' x='26.34' y='60.17'>self</text>
+<text class='t0' x='47.26' y='60.17'>):<tspan x='55.56'>Sequen</tspan><tspan x='86.01'>tialGenerator</tspan></text>
+<text class='t5' x='144.25' y='60.17'></text>
+<text class='t11' x='148.26' y='60.17'>Z</text>
+<text class='t0' x='154.9' y='60.17'>32</text>
+<text class='t5' x='164.86' y='60.17'></text>
+<text class='t0' x='171.64' y='60.17'>=</text>
+<text class='t4' x='182.16' y='60.17'>se<tspan x='190.31'>q</tspan></text>
+<text class='t0' x='195.77' y='60.17'>(</text>
+<text class='t4' x='199.65' y='60.17'>lo</text>
+<text class='t0' x='209.57' y='60.17'>:</text>
+<text class='t4' x='214' y='60.17'>hi</text>
+<text class='t0' x='223.16' y='60.17'>)</text>
+<text class='t4' x='8.86' y='80.7'>gener<tspan x='31.9'>ate</tspan></text>
+<text class='t5' x='45.63' y='80.7'></text>
+<text class='t1' x='49.64' y='80.7'>R</text>
+<text class='t5' x='57.28' y='80.7'></text>
+<text class='t12' x='61.3' y='72.63'></text>
+<text class='t4' x='65.86' y='80.7'>r<tspan x='69.55'>e</tspan><tspan x='73.63'>duction</tspan></text>
+<text class='t0' x='106.47' y='80.7'>:<tspan x='110.9'>Reduction</tspan></text>
+<text class='t5' x='155.32' y='80.7'></text>
+<text class='t1' x='159.33' y='80.7'>R</text>
+<text class='t5' x='166.97' y='80.7'></text>
+<text class='t1' x='170.98' y='80.7'>,</text>
+<text class='t4' x='175.41' y='80.7'>b<tspan x='179.48'>o</tspan><tspan x='184.07'>dy</tspan></text>
+<text class='t0' x='194.88' y='80.7'>:</text>
+<text class='t11' x='199.31' y='80.7'>Z</text>
+<text class='t0' x='205.95' y='80.7'>32</text>
+<text class='t9' x='218.68' y='80.7'>→</text>
+<text class='t1' x='231.41' y='80.7'>R</text>
+<text class='t12' x='239.05' y='72.63'></text>
+<text class='t0' x='243.62' y='80.7'>:</text>
+<text class='t1' x='248.04' y='80.7'>R</text>
+<text class='t0' x='258.45' y='80.7'>=</text>
+<text class='t3' x='17.71' y='101.12'>if</text>
+<text class='t4' x='30.94' y='101.12'>size</text>
+<text class='t9' x='50.24' y='101.12'>≤</text>
+<text class='t0' x='60.76' y='101.12'>(</text>
+<text class='t1' x='64.63' y='101.12'>b</text>
+<text class='t3' x='71.12' y='101.12'>MAX</text>
+<text class='t0' x='89.02' y='101.12'>1)</text>
+<text class='t3' x='100.65' y='101.12'>then</text>
+<text class='t10' x='26.57' y='121.54'>(<tspan y='123.29'>*</tspan></text>
+<text class='t7' x='41.01' y='121.54'>Blocks<tspan x='71.18'>smaller</tspan><tspan x='103'>than</tspan><tspan x='122.65'>b</tspan><tspan x='130.12'>run</tspan><tspan x='145.89'>sequentially</tspan></text>
+<text class='t10' x='196.53' y='123.29'>*)</text>
+<text class='t1' x='26.57' y='141.97'>r</text>
+<text class='t0' x='33' y='141.97'>:</text>
+<text class='t1' x='37.43' y='141.97'>R</text>
+<text class='t0' x='47.83' y='141.97'>:<tspan x='50.6'>=</tspan></text>
+<text class='t4' x='61.12' y='141.97'>r<tspan x='64.81'>e</tspan><tspan x='68.88'>duction</tspan></text>
+<text class='t1' x='101.73' y='141.97'>.</text>
+<text class='t4' x='104.49' y='141.97'>empty</text>
+<text class='t0' x='131.35' y='141.97'>(<tspan x='135.63'>)</tspan></text>
+<text class='t1' x='26.57' y='162.39'>i</text>
+<text class='t0' x='31.66' y='162.39'>:</text>
+<text class='t11' x='36.09' y='162.39'>Z</text>
+<text class='t0' x='42.73' y='162.39'>32<tspan x='55.46'>:</tspan><tspan x='58.23'>=</tspan></text>
+<text class='t4' x='68.74' y='162.39'>lo</text>
+<text class='t3' x='26.57' y='182.81'>while</text>
+<text class='t1' x='55.49' y='182.81'>i</text>
+<text class='t9' x='61.69' y='182.81'>≤</text>
+<text class='t4' x='72.2' y='182.81'>hi</text>
+<text class='t3' x='84.13' y='182.81'>do</text>
+<text class='t1' x='35.42' y='203.24'>v</text>
+<text class='t0' x='42.27' y='203.24'>:</text>
+<text class='t1' x='46.7' y='203.24'>R</text>
+<text class='t0' x='57.11' y='203.24'>=</text>
+<text class='t4' x='67.62' y='203.24'>b<tspan x='71.7'>o</tspan><tspan x='76.28'>dy</tspan></text>
+<text class='t0' x='87.09' y='203.24'>(</text>
+<text class='t1' x='90.96' y='203.24'>i</text>
+<text class='t0' x='94.4' y='203.24'>)</text>
+<text class='t1' x='35.42' y='223.66'>r</text>
+<text class='t0' x='42.96' y='223.66'>:<tspan x='45.73'>=</tspan></text>
+<text class='t4' x='56.24' y='223.66'>r<tspan x='59.94'>e</tspan><tspan x='64.01'>duction</tspan></text>
+<text class='t1' x='96.85' y='223.66'>.</text>
+<text class='t4' x='99.62' y='223.66'>join</text>
+<text class='t0' x='117.19' y='223.66'>(</text>
+<text class='t1' x='121.06' y='223.66'>r<tspan x='125.28'>,</tspan><tspan x='129.71'>v</tspan></text>
+<text class='t0' x='134.9' y='223.66'>)</text>
+<text class='t1' x='35.42' y='244.08'>i</text>
+<text class='t0' x='41.62' y='244.08'>+<tspan x='49.37'>=</tspan><tspan x='59.89'>1</tspan></text>
+<text class='t3' x='26.57' y='264.51'>end</text>
+<text class='t1' x='26.57' y='284.93'>r</text>
+<text class='t3' x='17.71' y='305.35'>else</text>
+<text class='t10' x='26.57' y='325.78'>(<tspan y='327.52'>*</tspan></text>
+<text class='t7' x='41.01' y='325.78'>Blocks<tspan x='71.18'>lar</tspan><tspan x='81.51'>ger</tspan><tspan x='96.72'>than</tspan><tspan x='116.37'>b</tspan><tspan x='123.84'>are</tspan><tspan x='138.5'>split</tspan><tspan x='158.15'>in</tspan><tspan x='168.39'>half</tspan><tspan x='186.38'>and</tspan><tspan x='203.25'>generated</tspan><tspan x='244.47'>in</tspan><tspan x='254.71'>parallel.</tspan></text>
+<text class='t10' x='290.17' y='327.52'>*)</text>
+<text class='t4' x='26.57' y='346.2'>mid</text>
+<text class='t0' x='46.66' y='346.2'>=</text>
+<text class='t4' x='57.17' y='346.2'>lo</text>
+<text class='t0' x='67.65' y='346.2'>+<tspan x='77.62'>(</tspan></text>
+<text class='t4' x='81.49' y='346.2'>hi</text>
+<text class='t9' x='92.87' y='346.2'>−</text>
+<text class='t4' x='102.83' y='346.2'>lo</text>
+<text class='t0' x='111.1' y='346.2'>)</text>
+<text class='t9' x='117.19' y='346.2'>÷</text>
+<text class='t0' x='127.15' y='346.2'>2</text>
+<text class='t4' x='26.57' y='366.63'>r<tspan x='30.26'>e</tspan><tspan x='34.33'>duction</tspan></text>
+<text class='t1' x='67.18' y='366.63'>.</text>
+<text class='t4' x='69.94' y='366.63'>join</text>
+<text class='t0' x='87.51' y='366.63'>(<tspan x='91.38'>Blo</tspan><tspan x='106.47'>c</tspan><tspan x='110.62'>k</tspan><tspan x='115.6'>edRange</tspan><tspan x='152.82'>(</tspan></text>
+<text class='t4' x='156.7' y='366.63'>lo</text>
+<text class='t1' x='164.96' y='366.63'>,</text>
+<text class='t4' x='169.39' y='366.63'>mid</text>
+<text class='t1' x='186.71' y='366.63'>,<tspan x='191.14'>b</tspan></text>
+<text class='t0' x='195.42' y='366.63'>)</text>
+<text class='t1' x='199.29' y='366.63'>.</text>
+<text class='t4' x='202.06' y='366.63'>gener<tspan x='225.1'>ate</tspan></text>
+<text class='t5' x='238.83' y='366.63'></text>
+<text class='t1' x='242.85' y='366.63'>R</text>
+<text class='t5' x='250.49' y='366.63'></text>
+<text class='t0' x='254.5' y='366.63'>(</text>
+<text class='t4' x='258.38' y='366.63'>r<tspan x='262.07'>e</tspan><tspan x='266.14'>duction</tspan></text>
+<text class='t1' x='298.98' y='366.63'>,</text>
+<text class='t4' x='303.41' y='366.63'>b<tspan x='307.49'>o</tspan><tspan x='312.07'>dy</tspan></text>
+<text class='t0' x='322.88' y='366.63'>)</text>
+<text class='t1' x='326.75' y='366.63'>,</text>
+<text class='t0' x='91.38' y='387.05'>Blo<tspan x='106.47'>c</tspan><tspan x='110.62'>k</tspan><tspan x='115.6'>edRange</tspan><tspan x='152.82'>(</tspan></text>
+<text class='t4' x='156.7' y='387.05'>mid</text>
+<text class='t0' x='176.23' y='387.05'>+<tspan x='186.2'>1</tspan></text>
+<text class='t1' x='191.18' y='387.05'>,</text>
+<text class='t4' x='195.61' y='387.05'>hi</text>
+<text class='t1' x='204.77' y='387.05'>,<tspan x='209.2'>b</tspan></text>
+<text class='t0' x='213.47' y='387.05'>)</text>
+<text class='t1' x='217.35' y='387.05'>.</text>
+<text class='t4' x='220.11' y='387.05'>gener<tspan x='243.15'>ate</tspan></text>
+<text class='t5' x='256.89' y='387.05'></text>
+<text class='t1' x='260.9' y='387.05'>R</text>
+<text class='t5' x='268.54' y='387.05'></text>
+<text class='t0' x='272.55' y='387.05'>(</text>
+<text class='t4' x='276.43' y='387.05'>r<tspan x='280.12'>e</tspan><tspan x='284.19'>duction</tspan></text>
+<text class='t1' x='317.04' y='387.05'>,</text>
+<text class='t4' x='321.47' y='387.05'>b<tspan x='325.54'>o</tspan><tspan x='330.12'>dy</tspan></text>
+<text class='t0' x='340.93' y='387.05'>))</text>
+<text class='t3' x='17.71' y='407.47'>end<tspan x='0' y='427.9'>end</tspan></text>
+<text class='t1' x='0' y='452.4'>f</text>
+<text class='t0' x='5.95' y='452.4'>(<tspan x='10.24'>)</tspan><tspan x='16.88'>=</tspan></text>
+<text class='t12' x='27.4' y='444.33'>⟨</text>
+<text class='t0' x='33.76' y='452.4'>2</text>
+<text class='t1' x='40.4' y='452.4'>x</text>
+<text class='t12' x='48.87' y='443.94'>⏐<tspan x='48.87' y='449.91'>⏐</tspan></text>
+<text class='t1' x='54.95' y='452.4'>x</text>
+<text class='t9' x='63.41' y='452.4'>←</text>
+<text class='t0' x='76.14' y='452.4'>Blo<tspan x='91.23'>c</tspan><tspan x='95.38'>k</tspan><tspan x='100.36'>edRange</tspan><tspan x='137.58'>(1</tspan></text>
+<text class='t1' x='146.44' y='452.4'>,</text>
+<text class='t0' x='150.86' y='452.4'>10</text>
+<text class='t1' x='160.83' y='452.4'>,</text>
+<text class='t0' x='165.26' y='452.4'>3)</text>
+<text class='t12' x='175.77' y='444.33'>⟩</text></svg></div><pre class="fx-s"><code>object BlockedRange(lo: ZZ32, hi: ZZ32, b: ZZ32) extends Generator[\ZZ32\]
+  size : ZZ32 = hi - lo + 1
+  seq(self): SequentialGenerator[\ZZ32\] = seq(lo:hi)
+  generate[\R\](reduction: Reduction[\R\], body: ZZ32-&gt;R): R =
+    if size &lt;= (b MAX 1) then
+      (* Blocks smaller than b run sequentially *)
+      r : R := reduction.empty()
+      i : ZZ32 := lo
+      while i &lt;= hi do
+        v : R = body(i)
+        r := reduction.join(r,v)
+        i += 1
+      end
+      r
+    else
+      (* Blocks larger than b are split in half and generated in parallel. *)
+      mid = lo + (hi - lo) DIV 2
+      reduction.join(BlockedRange(lo,mid,b).generate[\R\](reduction,body),
+                     BlockedRange(mid+1,hi,b).generate[\R\](reduction,body))
+    end
+end
+
+f() = &lt;| 2 x | x &lt;- BlockedRange(1,10,3) |&gt;</code></pre></div>
+<figcaption>Figure 23.2: <a id="fig-generatorDefn"></a>Sample <span class="m"><span class="ty">Generator</span></span> definition: blocked integer ranges.</figcaption></div>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-range-examples">Section I.1.20</a><!--nc--></span></p>
+<p id="p-0c92a7cd" class="nb">The Working Draft of February 2011 defined the generator of <a class="xref" href="#fig-generatorDefn">Figure 23.2</a><!--nc--> over <span class="m">ℤ64</span>, and its method <span class="m"><i>seq</i></span> built a range over <span class="m">ℤ64</span>, which <a class="xref" href="expressions.html#sec-ranges">Section 13.16</a><!--nc--> no longer admits; the generator is defined over <span class="m">ℤ32</span>. Its midpoint was <span class="m">⌊(<i>lo</i> + <i>hi</i>)/2⌋</span>, a value of type <span class="m">ℤ</span>, which converts to neither fixed-size type; it is <span class="m"><i>lo</i> + (<i>hi</i> − <i>lo</i>) ÷ 2</span>.</p></aside>
+<p id="p-2bb4e7bc" class="nb">For non-commutative reductions such as the <span class="m"><span class="ty">Concat</span></span> reduction used for list comprehensions in <a class="xref" href="#fig-generatedExpressions">Figure 23.4</a><!--nc-->, it is important to note that results must be combined in the natural order of the generator. If <span class="m"><i>join</i></span> is not associative, or <span class="m"><i>empty</i></span> is not the identity of <span class="m"><i>join</i></span>, passing the reduction to <span class="m"><i>generate</i></span> will produce unpredictable results. A generator is permitted to group reduction operations in any way it likes consistent with its natural order, and insert an arbitrary number of <span class="m"><i>empty</i></span> elements.</p>
+<p id="p-ff5756c5" class="nb"><a class="xref" href="#fig-generatorDefn">Figure 23.2</a><!--nc--> defines a generator that generates the integers between <span class="m"><i>lo</i></span> and <span class="m"><i>hi</i></span> in sequential blocks of size at most <span class="m"><i>b</i></span>. In this example, we divide the range in half if it is larger than the block size <span class="m"><i>b</i></span>; these two halves are computed in parallel (recall that the arguments to the method call <span class="m"><i>reduction</i>.<i>join</i></span> are evaluated in parallel). If the range is smaller than <span class="m"><i>b</i></span>, then it is enumerated serially using a <span class="m"><span class="kw">while</span></span> loop, accumulating the result <span class="m"><i>r</i></span> as it goes. Observe that the parallelism obtained from a generator is <em>dictated by the code of the <span class="m"><i>generate</i></span> method</em>. While programmers using a generator should assume that calls to <span class="m"><i>body</i></span> may occur in parallel, the library programmer is free to choose the amount of parallelism that is actually exposed.</p>
+<p id="p-6264db21" class="nb">This example uses <em>recursive subdivision</em> to divide a blocked range into approximately equal-sized chunks of work. Recursive subdivision is the recommended technique for exposing large amounts of parallelism in a Fortress program because it adjusts easily to varying machine sizes and can be dynamically load balanced.</p>
+<p id="p-dc7149cc" class="nb"><span class="m"><span class="ty">Generator</span></span> defines the functional method <span class="m"><i>seq</i>(<span class="kw">self</span>)</span> that returns an equivalent generator that runs iterations of the body sequentially in natural order. In most cases (such as in this example), it is prudent to override the default definition of this method; the default implementation of <span class="m"><i>seq</i></span> effectively collects the generated elements together in parallel and traverses the result sequentially.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-58820508" class="nb">Note that at the moment there is no way to tell the compiler for performance reasons that we really mean it when we ask for sequentiality, as opposed to saying that we should preserve sequential semantics. Future versions of this specification may use the <span class="m"><span class="ty">Local</span></span> distribution for this purpose, or provide additional functions on generators which guarantee serial execution (rather than simply providing sequential semantics).</p></aside>
+<p id="p-8c000e59" class="nb">The remainder of this section describes in detail the desugaring of expressions with generator clause lists into invocations of the <span class="m"><i>generate</i></span> methods of the generators in the generator clause list.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-e6ffdf47" class="nb">It then outlines how method overloading may be used to specialize the behavior of particular combinations of generators and reductions.</p></aside>
+<section class="sec" data-num="23.8.1" data-title="Simple Desugaring of Expressions with Generators">
+<h3 id="sec-desugaring-generators" class="nb"><span class="num">23.8.1</span> Simple Desugaring of Expressions with Generators</h3>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-2f7c9fa9" class="nb">NOTE: tweaked by hand by Jan, as above.</p></aside>
+<div class="fig"><div class="tw nb" id="t-860c63e9" data-kind="table"><svg class="tx" data-d="18" viewBox="5.38 0.30 233.49 35.07" width="23.349em" height="3.507em" fill="currentColor"><text class='t9' x='5.98' y='8.37'>C</text>
+<text class='t0' x='11.8' y='8.37'>[<tspan x='20.11'>]</tspan></text>
+<text class='t6' x='62.46' y='8.37'>body</text>
+<text class='t7' x='87.36' y='8.37'>=</text>
+<text class='t1' x='98.51' y='8.37'>u</text>
+<text class='t0' x='104.21' y='8.37'>(</text>
+<text class='t6' x='108.09' y='8.37'>body</text>
+<text class='t0' x='127.46' y='8.37'>)</text>
+<text class='t9' x='5.98' y='20.32'>C</text>
+<text class='t0' x='11.8' y='20.32'>[</text>
+<text class='t1' x='16.23' y='20.32'>x</text>
+<text class='t9' x='24.69' y='20.32'>←</text>
+<text class='t1' x='37.42' y='20.32'>g<tspan x='42.53'>,</tspan></text>
+<text class='t6' x='46.96' y='20.32'>gs</text>
+<text class='t0' x='57.48' y='20.32'>]</text>
+<text class='t6' x='62.46' y='20.32'>body</text>
+<text class='t7' x='87.36' y='20.32'>=</text>
+<text class='t1' x='98.51' y='20.32'>g<tspan x='103.62'>.</tspan></text>
+<text class='t4' x='105.56' y='20.32'>gener<tspan x='128.6'>ate</tspan></text>
+<text class='t0' x='142.33' y='20.32'>(</text>
+<text class='t1' x='146.21' y='20.32'>r<tspan x='150.42'>,</tspan></text>
+<text class='t3' x='153.19' y='20.32'>fn</text>
+<text class='t0' x='163.65' y='20.32'>(</text>
+<text class='t1' x='167.53' y='20.32'>x</text>
+<text class='t0' x='173.22' y='20.32'>)</text>
+<text class='t9' x='179.86' y='20.32'>⇒<tspan x='192.59'>C</tspan></text>
+<text class='t0' x='198.42' y='20.32'>[</text>
+<text class='t6' x='201.19' y='20.32'>gs</text>
+<text class='t0' x='210.04' y='20.32'>]</text>
+<text class='t6' x='215.02' y='20.32'>body</text>
+<text class='t0' x='234.39' y='20.32'>)</text>
+<text class='t9' x='5.98' y='32.28'>C</text>
+<text class='t0' x='11.8' y='32.28'>[</text>
+<text class='t1' x='16.23' y='32.28'>p,</text>
+<text class='t6' x='25.67' y='32.28'>gs</text>
+<text class='t0' x='36.19' y='32.28'>]</text>
+<text class='t6' x='62.46' y='32.28'>body</text>
+<text class='t7' x='87.36' y='32.28'>=</text>
+<text class='t1' x='98.51' y='32.28'>p.</text>
+<text class='t4' x='105.46' y='32.28'>gener<tspan x='128.5'>ate</tspan></text>
+<text class='t0' x='142.24' y='32.28'>(</text>
+<text class='t1' x='146.11' y='32.28'>r<tspan x='150.33'>,</tspan></text>
+<text class='t3' x='153.09' y='32.28'>fn</text>
+<text class='t0' x='163.56' y='32.28'>()</text>
+<text class='t9' x='174.07' y='32.28'>⇒<tspan x='186.8'>C</tspan></text>
+<text class='t0' x='192.63' y='32.28'>[</text>
+<text class='t6' x='195.4' y='32.28'>gs</text>
+<text class='t0' x='204.25' y='32.28'>]</text>
+<text class='t6' x='209.23' y='32.28'>body</text>
+<text class='t0' x='228.6' y='32.28'>)</text></svg></div>
+<figcaption>Figure 23.3: <a id="fig-simpleDesugar"></a>Simple syntax-directed desugaring of a generator clause list. Here the reduction <span class="m"><i>r</i></span> and unit <span class="m"><i>u</i></span> are variables chosen by the desugarer to be distinct from the variables in <em>gs</em> and <em>body</em>.</figcaption></div>
+<div class="fig"><div class="tw nb" id="t-764743e3" data-kind="table"><svg class="tx" data-d="19" viewBox="-0.60 -0.60 329.78 56.65" width="32.978em" height="5.665em" fill="currentColor"><text class='t7' x='5.98' y='8.37'>e<tspan x='10.25'>xpr</tspan><tspan x='59.07'>type</tspan></text>
+<rect x='96.96' y='0' height='11.96' width='.4'/>
+<text class='t4' x='104.17' y='8.37'>wr<tspan x='114.48'>app</tspan><tspan x='129.25'>er</tspan></text>
+<text class='t1' x='161.33' y='8.37'>u</text>
+<text class='t0' x='167.03' y='8.37'>(</text>
+<text class='t4' x='170.91' y='8.37'>b<tspan x='174.98'>o</tspan><tspan x='179.57'>dy</tspan></text>
+<text class='t0' x='190.38' y='8.37'>)</text>
+<text class='t1' x='278.1' y='8.37'>r</text>
+<rect x='0' y='11.96' height='.4' width='328.58'/>
+<text class='t12' x='7.64' y='13.25'></text>
+<text class='t13' x='9.03' y='29.19'>gs</text>
+<text class='t1' x='19.81' y='20.72'>e<tspan x='59.07'>N</tspan></text>
+<rect x='96.96' y='12.35' height='19.19' width='.4'/>
+<text class='t3' x='105' y='20.72'>SUM</text>
+<text class='t5' x='120.69' y='20.72'></text>
+<text class='t1' x='124.7' y='20.72'>N</text>
+<text class='t5' x='133.8' y='20.72'></text>
+<text class='t4' x='161.33' y='20.72'>identity</text>
+<text class='t5' x='195.06' y='20.72'></text>
+<text class='t1' x='199.07' y='20.72'>N</text>
+<text class='t5' x='208.16' y='20.72'></text>
+<text class='t0' x='212.17' y='20.72'>(</text>
+<text class='t1' x='216.05' y='20.72'>e</text>
+<text class='t0' x='220.69' y='20.72'>)<tspan x='240.03'>SumReduction</tspan></text>
+<text class='t5' x='303.82' y='20.72'></text>
+<text class='t1' x='307.84' y='20.72'>N</text>
+<text class='t5' x='316.93' y='20.72'></text>
+<text class='t9' x='5.98' y='39.91'></text>
+<text class='t1' x='11.51' y='39.91'>e</text>
+<text class='t9' x='18.92' y='39.91'>|</text>
+<text class='t4' x='23.62' y='39.91'>gs</text>
+<text class='t9' x='34.76' y='39.91'></text>
+<text class='t0' x='58.23' y='39.91'>List</text>
+<text class='t5' x='75.03' y='39.91'></text>
+<text class='t1' x='79.05' y='39.91'>E</text>
+<text class='t5' x='86.97' y='39.91'></text>
+<rect x='96.96' y='31.54' height='11.96' width='.4'/>
+<text class='t3' x='105' y='39.91'>BIG</text>
+<text class='t9' x='120.69' y='39.91'></text>
+<text class='t5' x='124.57' y='39.91'></text>
+<text class='t1' x='128.58' y='39.91'>E</text>
+<text class='t5' x='136.51' y='39.91'></text>
+<text class='t9' x='142.18' y='39.91'></text>
+<text class='t4' x='158.84' y='39.91'>singleton</text>
+<text class='t5' x='198.05' y='39.91'></text>
+<text class='t4' x='202.06' y='39.91'>E</text>
+<text class='t5' x='210.02' y='39.91'></text>
+<text class='t0' x='214.03' y='39.91'>(</text>
+<text class='t1' x='217.91' y='39.91'>e</text>
+<text class='t0' x='222.54' y='39.91'>)<tspan x='257.01'>Concat</tspan></text>
+<text class='t5' x='288.01' y='39.91'></text>
+<text class='t1' x='292.02' y='39.91'>E</text>
+<text class='t5' x='299.95' y='39.91'></text>
+<text class='t4' x='5.15' y='51.87'>lv</text>
+<text class='t0' x='16.12' y='51.87'>:<tspan x='18.88'>=</tspan></text>
+<text class='t1' x='29.4' y='51.87'>e,</text>
+<text class='t4' x='37.64' y='51.87'>gs</text>
+<text class='t0' x='60.73' y='51.87'>()</text>
+<rect x='96.96' y='43.5' height='11.96' width='.4'/>
+<text class='t7' x='103.34' y='51.87'>b<tspan x='108.12'>uilt</tspan><tspan x='123.9'>in</tspan></text>
+<text class='t4' x='158.84' y='51.87'>ignor<tspan x='180.86'>e</tspan></text>
+<text class='t0' x='186.19' y='51.87'>(</text>
+<text class='t4' x='189.24' y='51.87'>lv</text>
+<text class='t0' x='200.21' y='51.87'>:<tspan x='202.97'>=</tspan></text>
+<text class='t1' x='213.49' y='51.87'>e</text>
+<text class='t0' x='218.13' y='51.87'>)<tspan x='252.05'>NoReduction</tspan></text></svg></div>
+<figcaption>Figure 23.4: Examples of wrappers for expressions with generator clause lists. Top to bottom: big operators (here <span class="m"><span class="big">∑</span></span> is used as an example; the appropriate library function is called on the right-hand side), comprehensions (here list comprehensions are shown; other comprehensions are similar to list comprehensions) and generated assignment.</figcaption><a id="fig-generatedExpressions"></a></div>
+<p id="p-0c5114c0" class="nb">An expression with a generator clause list <em>gs</em> and body expression <em>body</em> is desugared into the following general form:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-e9140b96" class="nb">NOTE: tweaked by hand by Jan. Replaced BIG OP by <span class="m">𝒞</span>, emph’d gs and body.</p></aside>
+<div class="fx nb" id="c-de960d7c" data-kind="code"><div class="fx-r"><svg class="tx" data-d="20" viewBox="9.36 11.26 136.51 11.16" width="13.651em" height="1.116em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>wr<tspan x='20.27'>app</tspan><tspan x='35.04'>er</tspan></text>
+<text class='t0' x='44.9' y='19.33'>(</text>
+<text class='t3' x='48.77' y='19.33'>fn</text>
+<text class='t0' x='62' y='19.33'>(</text>
+<text class='t1' x='65.87' y='19.33'>r<tspan x='70.09'>,</tspan><tspan x='74.52'>u</tspan></text>
+<text class='t0' x='80.22' y='19.33'>)</text>
+<text class='t9' x='86.86' y='19.33'>⇒<tspan x='99.59'>C</tspan></text>
+<text class='t0' x='105.42' y='19.33'>[</text>
+<text class='t6' x='108.19' y='19.33'>gs</text>
+<text class='t0' x='117.05' y='19.33'>]</text>
+<text class='t6' x='122.03' y='19.33'>body</text>
+<text class='t0' x='141.39' y='19.33'>)</text></svg></div></div>
+<p id="p-de11cace" class="nb">The generator clause list and body can be desugared using the syntax-directed desugaring <span class="m">𝒞</span> defined in <a class="xref" href="#fig-simpleDesugar">Figure 23.3</a><!--nc-->. This yields a function that is in turn passed as an argument to <span class="m"><i>wrapper</i></span>. The particular choice of the function <span class="m"><i>wrapper</i></span> depends upon the construct that is being desugared. For a reduction or a comprehension, the wrapper function is the corresponding big operator definition; see <a class="xref" href="expressions.html#sec-reduction-expr">Section 13.17</a><!--nc--> and <a class="xref" href="expressions.html#sec-comprehensions">Section 13.30</a><!--nc-->. For a <span class="m"><span class="kw">for</span></span> loop (<a class="xref" href="expressions.html#sec-for-expr">Section 13.15</a><!--nc-->) or a generated expression (<a class="xref" href="expressions.html#sec-generated">Section 13.11.1</a><!--nc-->), a special built-in wrapper is used. Examples are shown in <a class="xref" href="#fig-generatedExpressions">Figure 23.4</a><!--nc-->. A wrapper function always has the following type:</p>
+<div class="fx nb" id="c-7a7a215e" data-kind="code"><div class="fx-r"><svg class="tx" data-d="21" viewBox="9.36 11.26 206.07 11.16" width="20.607em" height="1.116em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>wr<tspan x='20.27'>app</tspan><tspan x='35.04'>er</tspan></text>
+<text class='t0' x='44.9' y='19.33'>(</text>
+<text class='t1' x='48.77' y='19.33'>g</text>
+<text class='t0' x='55.54' y='19.33'>:<tspan x='59.97'>(Reduction</tspan></text>
+<text class='t5' x='108.26' y='19.33'></text>
+<text class='t1' x='112.27' y='19.33'>R</text>
+<text class='t8' x='119.84' y='20.82'>0</text>
+<text class='t5' x='124.31' y='19.33'></text>
+<text class='t1' x='128.32' y='19.33'>,<tspan x='132.75'>T</tspan></text>
+<text class='t9' x='142.72' y='19.33'>→</text>
+<text class='t1' x='155.45' y='19.33'>R</text>
+<text class='t8' x='163.01' y='20.82'>0</text>
+<text class='t0' x='167.48' y='19.33'>)</text>
+<text class='t9' x='174.13' y='19.33'>→</text>
+<text class='t1' x='186.86' y='19.33'>R</text>
+<text class='t8' x='194.42' y='20.82'>0</text>
+<text class='t0' x='198.89' y='19.33'>):</text>
+<text class='t1' x='207.19' y='19.33'>R</text></svg></div></div>
+<p id="p-ec28a877" class="nb">Here the type <span class="m"><i>T</i></span> is the type of values returned by the body expression, and <span class="m"><i>R</i><sub>0</sub></span> and <span class="m"><i>R</i></span> are arbitrary types chosen by the wrapper function.</p>
+<p id="p-a0146431" class="nb">Note that the function <span class="m"><i>g</i></span> passed to the wrapper has essentially the same type signature as the <span class="m"><i>generate</i></span> method itself. It is instructive to think of <span class="m"><i>wrapper</i></span> as having the following similar type signature:<sup class="fnref"><a id="fnref-4" href="#fn-4">4</a></sup></p>
+<div class="fx nb" id="c-5b324892" data-kind="code"><div class="fx-r"><svg class="tx" data-d="22" viewBox="9.36 11.24 262.03 11.18" width="26.203em" height="1.118em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>wr<tspan x='20.27'>app</tspan><tspan x='35.04'>er</tspan></text>
+<text class='t14' x='44.9' y='15.71'></text>
+<text class='t0' x='47.69' y='19.33'>(</text>
+<text class='t1' x='51.57' y='19.33'>g</text>
+<text class='t0' x='56.68' y='19.33'>:<tspan x='61.1'>Generator</tspan></text>
+<text class='t5' x='104.95' y='19.33'></text>
+<text class='t1' x='108.97' y='19.33'>T</text>
+<text class='t5' x='116.17' y='19.33'></text>
+<text class='t0' x='120.18' y='19.33'>):</text>
+<text class='t1' x='128.49' y='19.33'>R</text>
+<text class='t0' x='136.13' y='19.33'>(</text>
+<text class='t9' x='140' y='19.33'>∗</text>
+<text class='t7' x='147.75' y='19.33'>NO<tspan x='161.74'>T</tspan><tspan x='170.32'>THE</tspan><tspan x='192.17'>A</tspan><tspan x='198.97'>CTU</tspan><tspan x='218.5'>AL</tspan><tspan x='234.27'>TYPE</tspan></text>
+<text class='t9' x='261.94' y='19.33'>∗</text>
+<text class='t0' x='266.92' y='19.33'>)</text></svg></div></div>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-f7bbf886" class="nb">From here till the end of this chapter, copied from F1.0<span class="m">β</span>.</p></aside>
+<p id="p-e0758860" class="nb">An array comprehension simply desugars into a factory function call and a series of assignments:</p>
+<div class="center"><div class="tw nb" id="t-ad114d1f" data-kind="table"><svg class="tx" data-d="23" viewBox="1.06 0.30 68.50 47.03" width="6.850em" height="4.703em" fill="currentColor"><text class='t0' x='1.66' y='8.37'>[</text>
+<text class='t1' x='9.41' y='8.37'>i</text>
+<text class='t8' x='12.84' y='9.86'>1</text>
+<text class='t0' x='20.08' y='8.37'>=</text>
+<text class='t1' x='30.59' y='8.37'>e</text>
+<text class='t8' x='35.23' y='9.86'>1</text>
+<text class='t9' x='42.47' y='8.37'>|</text>
+<text class='t1' x='48' y='8.37'>g<tspan x='53.11'>s</tspan></text>
+<text class='t8' x='57.78' y='10.8'>1</text>
+<text class='t1' x='9.13' y='20.32'>i</text>
+<text class='t8' x='12.56' y='21.82'>2</text>
+<text class='t0' x='19.8' y='20.32'>=</text>
+<text class='t1' x='30.32' y='20.32'>e</text>
+<text class='t8' x='34.96' y='21.82'>2</text>
+<text class='t9' x='42.19' y='20.32'>|</text>
+<text class='t1' x='47.73' y='20.32'>g<tspan x='52.84'>s</tspan></text>
+<text class='t8' x='57.51' y='22.76'>2</text>
+<text class='t1' x='7.47' y='32.28'>.<tspan x='11.9'>.</tspan><tspan x='16.33'>.</tspan><tspan x='9.13' y='44.23'>i</tspan></text>
+<text class='t2' x='12.56' y='45.73'>n</text>
+<text class='t0' x='20.76' y='44.23'>=</text>
+<text class='t1' x='31.27' y='44.23'>e</text>
+<text class='t2' x='35.91' y='45.73'>n</text>
+<text class='t9' x='44.1' y='44.23'>|</text>
+<text class='t4' x='49.64' y='44.23'>gs</text>
+<text class='t2' x='59.11' y='46.67'>n</text>
+<text class='t0' x='66.19' y='44.23'>]</text></svg></div>
+<p id="p-42ccfb11" class="nb"><span class="m">⟶</span></p>
+<div class="tw nb" id="t-68a78936" data-kind="table"><svg class="tx" data-d="24" viewBox="-2.26 0.30 81.57 80.40" width="8.157em" height="8.040em" fill="currentColor"><text class='t3' x='-1.66' y='8.37'>do</text>
+<text class='t1' x='11.57' y='8.37'>a</text>
+<text class='t0' x='19.6' y='8.37'>=</text>
+<text class='t4' x='29.29' y='8.37'>arr<tspan x='42.27'>ay</tspan></text>
+<text class='t0' x='53.08' y='8.37'>()</text>
+<text class='t1' x='14.94' y='20.32'>a</text>
+<text class='t0' x='20.21' y='20.32'>[</text>
+<text class='t1' x='22.98' y='20.32'>i</text>
+<text class='t8' x='26.41' y='21.82'>1</text>
+<text class='t0' x='30.88' y='20.32'>]<tspan x='36.41'>:</tspan><tspan x='39.18'>=</tspan></text>
+<text class='t1' x='49.7' y='20.32'>e</text>
+<text class='t8' x='54.34' y='21.82'>1</text>
+<text class='t1' x='58.81' y='20.32'>,<tspan x='63.23'>g</tspan><tspan x='68.34'>s</tspan></text>
+<text class='t8' x='73.01' y='22.76'>1</text>
+<text class='t1' x='14.94' y='32.28'>a</text>
+<text class='t0' x='20.21' y='32.28'>[</text>
+<text class='t1' x='22.98' y='32.28'>i</text>
+<text class='t8' x='26.41' y='33.77'>2</text>
+<text class='t0' x='30.88' y='32.28'>]<tspan x='36.41'>:</tspan><tspan x='39.18'>=</tspan></text>
+<text class='t1' x='49.7' y='32.28'>e</text>
+<text class='t8' x='54.34' y='33.77'>2</text>
+<text class='t1' x='58.81' y='32.28'>,<tspan x='63.23'>g</tspan><tspan x='68.34'>s</tspan></text>
+<text class='t8' x='73.01' y='34.71'>2</text>
+<text class='t1' x='14.94' y='44.23'>.<tspan x='19.37'>.</tspan><tspan x='23.8'>.</tspan><tspan x='14.94' y='56.19'>a</tspan></text>
+<text class='t0' x='20.21' y='56.19'>[</text>
+<text class='t1' x='22.98' y='56.19'>i</text>
+<text class='t2' x='26.41' y='57.68'>n</text>
+<text class='t0' x='31.83' y='56.19'>]<tspan x='37.37'>:</tspan><tspan x='40.13'>=</tspan></text>
+<text class='t1' x='50.65' y='56.19'>e</text>
+<text class='t2' x='55.29' y='57.68'>n</text>
+<text class='t1' x='60.71' y='56.19'>,</text>
+<text class='t4' x='64.31' y='56.19'>gs</text>
+<text class='t2' x='73.78' y='58.62'>n</text>
+<text class='t1' x='14.94' y='68.14'>a</text>
+<text class='t3' x='-1.66' y='80.1'>end</text></svg></div></div>
+<p id="p-1f636386" class="nb">The desugaring of a <span class="m"><span class="kw">for</span></span> loop depends upon the set of reduction variables. We conceptually desugar the <span class="m"><span class="kw">for</span></span> loop with reduction variables, <span class="m"><i>r</i><sub>1</sub></span>, <span class="m"><i>r</i><sub>2</sub></span>, <span class="m">…</span>, <span class="m"><i>r</i><sub><i>n</i></sub></span>, reduced using the reduction operator <span class="m">⊕</span> for type <span class="m">(<i>T</i><sub>1</sub>, <i>T</i><sub>2</sub>, …<i>T</i><sub><i>n</i></sub>)</span> as follows:</p>
+<div class="center"><p id="p-c69a180c" class="nb"><span class="m"><span class="kw">for</span> <i>gs</i> <span class="kw">do</span> <i>block</i> <span class="kw">end</span></span> <br><span class="m">⟶</span></p>
+<div class="tw nb" id="t-399839ad" data-kind="table"><svg class="tx" data-d="25" viewBox="7.04 0.30 406.81 58.98" width="40.681em" height="5.898em" fill="currentColor"><text class='t0' x='7.64' y='8.37'>(</text>
+<text class='t1' x='11.51' y='8.37'>r</text>
+<text class='t8' x='16.01' y='9.86'>1</text>
+<text class='t1' x='20.48' y='8.37'>,<tspan x='24.9'>r</tspan></text>
+<text class='t8' x='29.4' y='9.86'>2</text>
+<text class='t1' x='33.87' y='8.37'>,<tspan x='38.3'>.</tspan><tspan x='42.72'>.</tspan><tspan x='47.15'>.</tspan><tspan x='51.58'>r</tspan></text>
+<text class='t2' x='56.07' y='9.86'>n</text>
+<text class='t0' x='61.5' y='8.37'>)</text>
+<text class='t9' x='68.14' y='8.37'>⊕</text>
+<text class='t0' x='75.33' y='8.37'>=</text>
+<text class='t9' x='86.4' y='8.37'>T</text>
+<text class='t5' x='94.36' y='8.37'></text>
+<text class='t0' x='98.38' y='8.37'>(</text>
+<text class='t1' x='102.25' y='8.37'>T</text>
+<text class='t8' x='108.07' y='9.86'>1</text>
+<text class='t1' x='112.54' y='8.37'>,<tspan x='116.97'>T</tspan></text>
+<text class='t8' x='122.79' y='9.86'>2</text>
+<text class='t1' x='127.26' y='8.37'>,<tspan x='131.69'>.</tspan><tspan x='136.12'>.</tspan><tspan x='140.54'>.</tspan><tspan x='144.97'>T</tspan></text>
+<text class='t2' x='150.79' y='9.86'>n</text>
+<text class='t0' x='156.22' y='8.37'>)</text>
+<text class='t1' x='160.09' y='8.37'>,</text>
+<text class='t9' x='164.52' y='8.37'>⊕</text>
+<text class='t5' x='172.27' y='8.37'></text>
+<text class='t0' x='176.28' y='8.37'>[</text>
+<text class='t4' x='179.05' y='8.37'>gs</text>
+<text class='t0' x='188.52' y='8.37'>]<tspan x='194.61'>(</tspan></text>
+<text class='t3' x='198.48' y='8.37'>do</text>
+<text class='t0' x='220.26' y='20.32'>(</text>
+<text class='t1' x='224.14' y='20.32'>r</text>
+<text class='t8' x='228.63' y='21.82'>1</text>
+<text class='t1' x='233.1' y='20.32'>,<tspan x='237.53'>r</tspan></text>
+<text class='t8' x='242.02' y='21.82'>2</text>
+<text class='t1' x='246.49' y='20.32'>,<tspan x='250.92'>.</tspan><tspan x='255.35'>.</tspan><tspan x='259.78'>.</tspan><tspan x='264.2'>r</tspan></text>
+<text class='t8' x='268.7' y='21.82'>n</text>
+<text class='t0' x='273.6' y='20.32'>)<tspan x='280.24'>:</tspan><tspan x='285.77'>(</tspan></text>
+<text class='t1' x='289.65' y='20.32'>T</text>
+<text class='t8' x='295.47' y='21.82'>1</text>
+<text class='t1' x='299.94' y='20.32'>,<tspan x='304.37'>T</tspan></text>
+<text class='t8' x='310.19' y='21.82'>2</text>
+<text class='t1' x='314.66' y='20.32'>,<tspan x='319.09'>.</tspan><tspan x='323.51'>.</tspan><tspan x='327.94'>.</tspan><tspan x='332.37'>T</tspan></text>
+<text class='t8' x='338.19' y='21.82'>n</text>
+<text class='t0' x='343.09' y='20.32'>)<tspan x='349.73'>:</tspan><tspan x='352.5'>=</tspan><tspan x='363.02'>Iden</tspan><tspan x='381.83'>tit</tspan><tspan x='392.07'>y</tspan></text>
+<text class='t5' x='397.47' y='20.32'></text>
+<text class='t9' x='401.48' y='20.32'>⊕</text>
+<text class='t5' x='409.23' y='20.32'></text>
+<text class='t4' x='220.26' y='32.28'>blo<tspan x='231.97'>ck</tspan></text>
+<text class='t0' x='220.26' y='44.23'>(</text>
+<text class='t1' x='224.14' y='44.23'>r</text>
+<text class='t8' x='228.63' y='45.73'>1</text>
+<text class='t1' x='233.1' y='44.23'>,<tspan x='237.53'>r</tspan></text>
+<text class='t8' x='242.02' y='45.73'>2</text>
+<text class='t1' x='246.49' y='44.23'>,<tspan x='250.92'>.</tspan><tspan x='255.35'>.</tspan><tspan x='259.78'>.</tspan><tspan x='264.2'>r</tspan></text>
+<text class='t2' x='268.7' y='45.73'>n</text>
+<text class='t0' x='274.12' y='44.23'>)</text>
+<text class='t3' x='197.38' y='56.19'>end</text>
+<text class='t0' x='213.07' y='56.19'>)</text></svg></div></div>
+<p id="p-5a531ed5" class="nb">In practice, a tuple type is not a monoid. If there is only one reduction variable, this is not a problem. If there are no reduction variables, we simply use the type <span class="m"><span class="ty">NoReduction</span></span> used in desugaring assignments. When there are multiple reduction variables, we use nested applications of types extending the trait <span class="m"><span class="ty">ReductionPair</span></span>. These types encode the common properties of the variables being reduced. Recall that every reduction variable must at least have type <span class="m"><span class="ty">Monoid</span></span>, so it is not difficult to guarantee that <span class="m"><span class="ty">ReductionPair</span></span> itself also extends <span class="m"><span class="ty">Monoid</span></span>.</p>
+</section>
+<section class="sec" data-num="23.8.2" data-title="Accounting for Dependencies among Generators">
+<h3 id="sec-generators-dependencies" class="nb"><span class="num">23.8.2</span> Accounting for Dependencies among Generators</h3>
+<p id="p-d64c0dd2" class="nb">The naive desugaring for generator lists in <a class="xref" href="#fig-simpleDesugar">Figure 23.3</a><!--nc--> assumes there are always data dependencies among generators. The actual desugaring makes use of the <span class="m"><i>join</i></span> method in the <span class="m"><span class="ty">Generator</span></span> trait to group together generators that have no data dependencies. The goal is to permit library code to define more efficient merged generators for generator pairs. For example, it is possible for the <span class="m"><i>join</i></span> method to take the generator list <span class="m"><i>i</i> ← 1 <span class="rm"><span class="tt">#</span></span> 100, <i>j</i> ← 2 <span class="rm"><span class="tt">#</span></span> 200</span> and generate a blocked two-dimensional traversal. This could then be joined with <span class="m"><i>k</i> ← 3 <span class="rm"><span class="tt">#</span></span> 300</span> to obtain a three-dimensional blocked traversal.</p>
+<p id="p-0a40546c" class="nb">However, most generators will simply make use of the default definition of <span class="m"><i>join</i></span> which calls <span class="m"><span class="ty">SimplePairGenerator</span></span>:</p>
+<div class="fx nb both" id="c-b505c1e8" data-kind="code"><div class="fx-r"><svg class="tx" data-d="26" viewBox="15.34 11.26 383.13 104.31" width="38.313em" height="10.431em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>object</text>
+<text class='t0' x='52.3' y='19.33'>SimpleP<tspan x='88.14'>airGenerator</tspan></text>
+<text class='t5' x='143.64' y='19.33'></text>
+<text class='t1' x='149.31' y='19.33'>A</text>
+<text class='t3' x='159.55' y='19.33'>extends</text>
+<text class='t0' x='201.15' y='19.33'>An<tspan x='213.88'>y</tspan></text>
+<text class='t1' x='219.27' y='19.33'>,<tspan x='223.7'>B</tspan></text>
+<text class='t3' x='234.53' y='19.33'>extends</text>
+<text class='t0' x='276.12' y='19.33'>An<tspan x='288.85'>y</tspan></text>
+<text class='t5' x='295.91' y='19.33'></text>
+<text class='t0' x='63.76' y='31.28'>(</text>
+<text class='t4' x='67.64' y='31.28'>outer</text>
+<text class='t0' x='94.01' y='31.28'>:<tspan x='101.76'>Generator</tspan></text>
+<text class='t5' x='145.61' y='31.28'></text>
+<text class='t1' x='151.28' y='31.28'>A</text>
+<text class='t5' x='160.41' y='31.28'></text>
+<text class='t1' x='164.42' y='31.28'>,</text>
+<text class='t4' x='168.85' y='31.28'>inner</text>
+<text class='t0' x='195.73' y='31.28'>:<tspan x='203.48'>Generator</tspan></text>
+<text class='t5' x='247.33' y='31.28'></text>
+<text class='t1' x='253' y='31.28'>B</text>
+<text class='t5' x='262.72' y='31.28'></text>
+<text class='t0' x='266.73' y='31.28'>)</text>
+<text class='t3' x='273.37' y='31.28'>extends</text>
+<text class='t0' x='314.97' y='31.28'>Generator</text>
+<text class='t5' x='358.82' y='31.28'></text>
+<text class='t0' x='364.49' y='31.28'>(</text>
+<text class='t1' x='368.37' y='31.28'>A,<tspan x='380.27'>B</tspan></text>
+<text class='t0' x='388.32' y='31.28'>)</text>
+<text class='t5' x='393.86' y='31.28'></text>
+<text class='t4' x='27.9' y='43.24'>size</text>
+<text class='t0' x='47.2' y='43.24'>:</text>
+<text class='t11' x='54.95' y='43.24'>Z</text>
+<text class='t0' x='61.59' y='43.24'>64<tspan x='74.32'>=</tspan></text>
+<text class='t4' x='84.83' y='43.24'>outer</text>
+<text class='t1' x='108.44' y='43.24'>.</text>
+<text class='t4' x='111.2' y='43.24'>size</text>
+<text class='t9' x='129.95' y='43.24'>·</text>
+<text class='t4' x='134.93' y='43.24'>inner</text>
+<text class='t1' x='159.05' y='43.24'>.</text>
+<text class='t4' x='161.81' y='43.24'>size<tspan x='27.9' y='55.19'>gener</tspan><tspan x='50.94'>ate</tspan></text>
+<text class='t5' x='64.67' y='55.19'></text>
+<text class='t1' x='70.34' y='55.19'>R</text>
+<text class='t3' x='80.75' y='55.19'>extends</text>
+<text class='t0' x='122.35' y='55.19'>Monoid</text>
+<text class='t5' x='155.28' y='55.19'></text>
+<text class='t1' x='160.95' y='55.19'>R<tspan x='168.59'>,</tspan></text>
+<text class='t9' x='173.02' y='55.19'>⊕</text>
+<text class='t5' x='182.43' y='55.19'></text>
+<text class='t1' x='186.44' y='55.19'>,</text>
+<text class='t3' x='190.87' y='55.19'>opr</text>
+<text class='t9' x='209.33' y='55.19'>⊕</text>
+<text class='t5' x='218.74' y='55.19'></text>
+<text class='t0' x='222.75' y='55.19'>(</text>
+<text class='t4' x='226.62' y='55.19'>b<tspan x='230.7'>o</tspan><tspan x='235.28'>dy</tspan></text>
+<text class='t0' x='248.86' y='55.19'>:<tspan x='254.39'>(</tspan></text>
+<text class='t1' x='258.27' y='55.19'>A,<tspan x='270.17'>B</tspan></text>
+<text class='t0' x='278.22' y='55.19'>)</text>
+<text class='t9' x='284.87' y='55.19'>→</text>
+<text class='t1' x='297.6' y='55.19'>R</text>
+<text class='t0' x='305.24' y='55.19'>)<tspan x='310.77'>:</tspan></text>
+<text class='t1' x='315.2' y='55.19'>R</text>
+<text class='t0' x='325.61' y='55.19'>=</text>
+<text class='t4' x='39.85' y='67.15'>outer</text>
+<text class='t1' x='63.45' y='67.15'>.</text>
+<text class='t4' x='66.22' y='67.15'>gener<tspan x='89.26'>ate</tspan></text>
+<text class='t0' x='103' y='67.15'>(</text>
+<text class='t3' x='106.87' y='67.15'>fn</text>
+<text class='t0' x='120.1' y='67.15'>(</text>
+<text class='t1' x='123.97' y='67.15'>a</text>
+<text class='t0' x='132.01' y='67.15'>:</text>
+<text class='t1' x='139.76' y='67.15'>A</text>
+<text class='t0' x='147.23' y='67.15'>)</text>
+<text class='t9' x='153.87' y='67.15'>⇒</text>
+<text class='t4' x='166.6' y='67.15'>inner</text>
+<text class='t1' x='190.71' y='67.15'>.</text>
+<text class='t4' x='193.48' y='67.15'>gener<tspan x='216.52'>ate</tspan></text>
+<text class='t0' x='230.25' y='67.15'>(</text>
+<text class='t3' x='234.13' y='67.15'>fn</text>
+<text class='t0' x='247.36' y='67.15'>(</text>
+<text class='t1' x='251.23' y='67.15'>b</text>
+<text class='t0' x='258.27' y='67.15'>:</text>
+<text class='t1' x='266.02' y='67.15'>B</text>
+<text class='t0' x='274.08' y='67.15'>)</text>
+<text class='t9' x='280.72' y='67.15'>⇒</text>
+<text class='t4' x='293.45' y='67.15'>b<tspan x='297.52'>o</tspan><tspan x='302.11'>dy</tspan></text>
+<text class='t0' x='312.92' y='67.15'>(</text>
+<text class='t1' x='316.79' y='67.15'>a,<tspan x='326.49'>b</tspan></text>
+<text class='t0' x='330.76' y='67.15'>)))</text>
+<text class='t4' x='27.9' y='79.1'>join</text>
+<text class='t5' x='45.46' y='79.1'></text>
+<text class='t1' x='51.14' y='79.1'>N</text>
+<text class='t3' x='62.99' y='79.1'>extends</text>
+<text class='t0' x='104.59' y='79.1'>An<tspan x='117.32'>y</tspan></text>
+<text class='t5' x='124.38' y='79.1'></text>
+<text class='t0' x='128.39' y='79.1'>(</text>
+<text class='t4' x='132.26' y='79.1'>other</text>
+<text class='t0' x='158.38' y='79.1'>:<tspan x='166.13'>Generator</tspan></text>
+<text class='t5' x='209.98' y='79.1'></text>
+<text class='t1' x='215.65' y='79.1'>N</text>
+<text class='t5' x='226.4' y='79.1'></text>
+<text class='t0' x='230.41' y='79.1'>)<tspan x='237.06'>:</tspan><tspan x='244.8'>Generator</tspan></text>
+<text class='t5' x='288.65' y='79.1'></text>
+<text class='t0' x='294.33' y='79.1'>((</text>
+<text class='t1' x='302.08' y='79.1'>A,<tspan x='313.98'>B</tspan></text>
+<text class='t0' x='322.03' y='79.1'>)</text>
+<text class='t1' x='325.91' y='79.1'>,<tspan x='330.33'>N</tspan></text>
+<text class='t0' x='339.43' y='79.1'>)</text>
+<text class='t5' x='344.96' y='79.1'></text>
+<text class='t0' x='351.74' y='79.1'>=<tspan x='39.85' y='91.06'>SimpleMapGenerator</tspan><tspan x='132.68'>(</tspan></text>
+<text class='t4' x='136.56' y='91.06'>outer</text>
+<text class='t1' x='160.16' y='91.06'>.</text>
+<text class='t4' x='162.93' y='91.06'>join</text>
+<text class='t0' x='180.5' y='91.06'>(</text>
+<text class='t4' x='184.37' y='91.06'>inner</text>
+<text class='t1' x='208.49' y='91.06'>.</text>
+<text class='t4' x='211.25' y='91.06'>join</text>
+<text class='t0' x='228.82' y='91.06'>(</text>
+<text class='t4' x='232.69' y='91.06'>other</text>
+<text class='t0' x='256.04' y='91.06'>))</text>
+<text class='t1' x='263.79' y='91.06'>,</text>
+<text class='t0' x='136.56' y='103.01'>(</text>
+<text class='t3' x='140.43' y='103.01'>fn</text>
+<text class='t0' x='153.66' y='103.01'>(</text>
+<text class='t1' x='157.53' y='103.01'>a,</text>
+<text class='t0' x='167.23' y='103.01'>(</text>
+<text class='t1' x='171.1' y='103.01'>b,<tspan x='179.81'>n</tspan></text>
+<text class='t0' x='185.79' y='103.01'>))</text>
+<text class='t9' x='196.3' y='103.01'>⇒</text>
+<text class='t0' x='209.03' y='103.01'>((</text>
+<text class='t1' x='216.78' y='103.01'>a,<tspan x='226.47'>b</tspan></text>
+<text class='t0' x='230.75' y='103.01'>)</text>
+<text class='t1' x='234.62' y='103.01'>,<tspan x='239.05'>n</tspan></text>
+<text class='t0' x='245.03' y='103.01'>)))</text>
+<text class='t3' x='15.94' y='114.97'>end</text></svg></div><pre class="fx-s"><code>                       (fn (a,(b,n)) =&gt; ((a,b),n)))
+end</code></pre></div>
+<p id="p-b180627f" class="nb">Note how <span class="m"><span class="ty">SimplePairGenerator</span></span> itself overrides the <span class="m"><i>join</i></span> method. When we attempt to join an existing pair of joined generators, we first attempt to <span class="m"><i>join</i></span> the <span class="m"><i>inner</i></span> generator of the pair with the <span class="m"><i>other</i></span> generator (the new innermost generator) passed in. This means that every generator will have the opportunity to combine with both its left and right neighbors if neither has a dependency which prevents it. Note that we use a <span class="m"><span class="ty">SimpleMapGenerator</span></span>, which simply applies a function to the result of another generator, to re-nest the tuples produced by the nested <span class="m"><i>join</i></span> operation.</p>
+<p id="p-bd95ae22" class="nb">Which pairs of adjacent traversals are combined using <span class="m"><i>join</i></span>? This question is complicated by examples such as <span class="m"><i>i</i> ← 1 : 100, <i>j</i> ← 1 : 100, <i>k</i> ← <i>i</i> : 100, <i>l</i> ← <i>j</i> : 100</span>. We can either combine <span class="m"><i>i</i></span> and <span class="m"><i>j</i></span> traversals, or we can combine <span class="m"><i>j</i></span> and <span class="m"><i>k</i></span> traversals. In the former case we can also combine <span class="m"><i>k</i></span> and <span class="m"><i>l</i></span> traversals. The Fortress compiler is free to choose any grouping subject to the following constraints:</p>
+<ul>
+<li><p id="p-df21821f" class="nb">Two generators may not be combined using <span class="m"><i>join</i></span> if the second is data dependent upon the first.</p></li>
+<li><p id="p-85674e10" class="nb">Generator order must be preserved when invoking <span class="m"><i>join</i></span>.</p></li>
+<li><p id="p-5be16a62" class="nb">When a chain of three or more generators is joined, the traversals must be combined left-associatively.</p></li>
+</ul>
+<p id="p-cd6a931f" class="nb">We can obtain a simple greedy desugaring which joins together traversals in accordance with the above rules by simply adding the following desugaring rule which takes precedence over those given in <a class="xref" href="#fig-simpleDesugar">Figure 23.3</a><!--nc--> when each variable bound in <span class="m"><i>v</i><sub>1</sub></span> does not occur free in <span class="m"><i>g</i><sub>2</sub></span>.</p>
+<div class="center"><p id="p-e2a9db81" class="nb"><span class="m">𝒯⟦<i>R</i>, ⊞⟧[ <i>v</i><sub>1</sub> ← <i>g</i><sub>1</sub>, <i>v</i><sub>2</sub> ← <i>g</i><sub>2</sub>, <i>gs</i> ] <i>body</i> = 𝒯⟦<i>R</i>, ⊞⟧[ (<i>v</i><sub>1</sub>, <i>v</i><sub>2</sub>) ← <i>g</i><sub>1</sub>.<i>join</i>(<i>g</i><sub>2</sub>), <i>gs</i> ] <i>body</i></span></p></div>
+</section>
+<section class="sec" data-num="23.8.3" data-title="Using Overloading to Adapt Generators and Traversals">
+<h3 id="s-using-overloading-to-adapt-generators-and-traversals" class="nb"><span class="num">23.8.3</span> Using Overloading to Adapt Generators and Traversals</h3>
+<p id="p-74eaa94b" class="nb">Overloaded instances of the <span class="m"><i>generate</i></span> method can be used to adapt a generator to the particular properties of the reduction being performed. For example, a commutative monoid need only maintain a single variable <span class="m"><i>result</i></span> containing the reduced value so far:</p>
+<div class="fx nb both" id="c-cbc725f6" data-kind="code"><div class="fx-r"><svg class="tx" data-d="27" viewBox="15.34 11.26 374.71 259.73" width="37.471em" height="25.973em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>value<tspan x='47.63'>object</tspan></text>
+<text class='t0' x='81.78' y='19.33'>Blo<tspan x='96.86'>c</tspan><tspan x='101.01'>k</tspan><tspan x='105.99'>edRange</tspan><tspan x='143.21'>(</tspan></text>
+<text class='t4' x='147.09' y='19.33'>lo</text>
+<text class='t0' x='155.35' y='19.33'>:</text>
+<text class='t11' x='159.78' y='19.33'>Z</text>
+<text class='t0' x='166.42' y='19.33'>32</text>
+<text class='t1' x='176.39' y='19.33'>,</text>
+<text class='t4' x='180.81' y='19.33'>hi</text>
+<text class='t0' x='189.98' y='19.33'>:</text>
+<text class='t11' x='194.4' y='19.33'>Z</text>
+<text class='t0' x='201.05' y='19.33'>32</text>
+<text class='t1' x='211.01' y='19.33'>,<tspan x='215.44'>b</tspan></text>
+<text class='t0' x='219.71' y='19.33'>:</text>
+<text class='t11' x='224.14' y='19.33'>Z</text>
+<text class='t0' x='230.78' y='19.33'>32)</text>
+<text class='t3' x='247.39' y='19.33'>extends</text>
+<text class='t0' x='286.77' y='19.33'>Generator</text>
+<text class='t5' x='330.61' y='19.33'></text>
+<text class='t11' x='334.63' y='19.33'>Z</text>
+<text class='t0' x='341.27' y='19.33'>32</text>
+<text class='t5' x='351.23' y='19.33'></text>
+<text class='t1' x='27.9' y='31.28'>.<tspan x='32.32'>.</tspan><tspan x='36.75'>.</tspan></text>
+<text class='t4' x='27.9' y='43.24'>gener<tspan x='50.94'>ate</tspan></text>
+<text class='t5' x='64.67' y='43.24'></text>
+<text class='t1' x='68.68' y='43.24'>R</text>
+<text class='t3' x='79.09' y='43.24'>extends</text>
+<text class='t0' x='118.47' y='43.24'>Comm<tspan x='146.98'>utativ</tspan><tspan x='172.99'>eMonoid</tspan></text>
+<text class='t5' x='210.35' y='43.24'></text>
+<text class='t1' x='216.02' y='43.24'>R<tspan x='223.66'>,</tspan></text>
+<text class='t9' x='228.09' y='43.24'>⊕</text>
+<text class='t5' x='235.84' y='43.24'></text>
+<text class='t1' x='239.85' y='43.24'>,</text>
+<text class='t3' x='244.28' y='43.24'>opr</text>
+<text class='t9' x='262.74' y='43.24'>⊕</text>
+<text class='t5' x='270.49' y='43.24'></text>
+<text class='t0' x='274.5' y='43.24'>(</text>
+<text class='t4' x='278.37' y='43.24'>b<tspan x='282.45'>o</tspan><tspan x='287.03'>dy</tspan></text>
+<text class='t0' x='300.61' y='43.24'>:</text>
+<text class='t11' x='306.14' y='43.24'>Z</text>
+<text class='t0' x='312.79' y='43.24'>32</text>
+<text class='t9' x='325.52' y='43.24'>→</text>
+<text class='t1' x='338.25' y='43.24'>R</text>
+<text class='t0' x='345.89' y='43.24'>)<tspan x='352.53'>:</tspan></text>
+<text class='t1' x='358.06' y='43.24'>R</text>
+<text class='t0' x='368.47' y='43.24'>=</text>
+<text class='t3' x='378.99' y='43.24'>do</text>
+<text class='t4' x='39.85' y='55.19'>r<tspan x='43.54'>esult</tspan></text>
+<text class='t0' x='67.11' y='55.19'>:</text>
+<text class='t1' x='72.65' y='55.19'>R</text>
+<text class='t0' x='83.06' y='55.19'>=<tspan x='93.57'>Iden</tspan><tspan x='112.39'>tit</tspan><tspan x='122.63'>y</tspan></text>
+<text class='t5' x='128.03' y='55.19'></text>
+<text class='t9' x='132.04' y='55.19'>⊕</text>
+<text class='t5' x='139.79' y='55.19'></text>
+<text class='t4' x='39.85' y='67.15'>tr<tspan x='46.85'>averse</tspan></text>
+<text class='t0' x='74.72' y='67.15'>(</text>
+<text class='t1' x='78.59' y='67.15'>l<tspan x='81.76'>,</tspan><tspan x='86.19'>u</tspan></text>
+<text class='t0' x='91.89' y='67.15'>)<tspan x='98.53'>=</tspan></text>
+<text class='t3' x='51.81' y='79.1'>if</text>
+<text class='t1' x='65.03' y='79.1'>u</text>
+<text class='t9' x='72.95' y='79.1'>−</text>
+<text class='t1' x='82.91' y='79.1'>l</text>
+<text class='t0' x='88.3' y='79.1'>+<tspan x='98.26'>1</tspan></text>
+<text class='t9' x='106.01' y='79.1'>≤</text>
+<text class='t0' x='116.52' y='79.1'>max<tspan x='135.07'>(</tspan></text>
+<text class='t1' x='138.94' y='79.1'>b,</text>
+<text class='t0' x='147.64' y='79.1'>1)</text>
+<text class='t3' x='159.27' y='79.1'>then</text>
+<text class='t1' x='63.76' y='91.06'>i</text>
+<text class='t0' x='69.96' y='91.06'>:</text>
+<text class='t11' x='75.5' y='91.06'>Z</text>
+<text class='t0' x='82.14' y='91.06'>32<tspan x='94.87'>=</tspan></text>
+<text class='t1' x='105.38' y='91.06'>l</text>
+<text class='t3' x='63.76' y='103.01'>while</text>
+<text class='t1' x='92.68' y='103.01'>i</text>
+<text class='t9' x='98.88' y='103.01'>≤</text>
+<text class='t1' x='109.4' y='103.01'>u</text>
+<text class='t3' x='117.87' y='103.01'>do</text>
+<text class='t1' x='75.72' y='114.97'>t</text>
+<text class='t0' x='82.08' y='114.97'>=</text>
+<text class='t4' x='92.6' y='114.97'>b<tspan x='96.67'>o</tspan><tspan x='101.25'>dy</tspan></text>
+<text class='t0' x='112.06' y='114.97'>(</text>
+<text class='t1' x='115.94' y='114.97'>i</text>
+<text class='t0' x='119.37' y='114.97'>)</text>
+<text class='t3' x='75.72' y='126.92'>atomic</text>
+<text class='t4' x='109.87' y='126.92'>r<tspan x='113.56'>esult</tspan></text>
+<text class='t0' x='137.13' y='126.92'>:<tspan x='139.9'>=</tspan></text>
+<text class='t4' x='150.41' y='126.92'>r<tspan x='154.1'>esult</tspan></text>
+<text class='t9' x='177.12' y='126.92'>⊕</text>
+<text class='t1' x='187.08' y='126.92'>t<tspan x='75.72' y='138.88'>i</tspan></text>
+<text class='t0' x='81.92' y='138.88'>+<tspan x='89.66'>=</tspan><tspan x='100.18'>1</tspan></text>
+<text class='t3' x='63.76' y='150.83'>end</text>
+<text class='t0' x='63.76' y='162.79'>()</text>
+<text class='t3' x='51.81' y='174.74'>else</text>
+<text class='t4' x='63.76' y='186.7'>mid</text>
+<text class='t0' x='83.85' y='186.7'>=</text>
+<text class='t9' x='94.37' y='186.7'></text>
+<text class='t1' x='98.8' y='186.7'>l<tspan x='101.96'>/</tspan></text>
+<text class='t0' x='106.95' y='186.7'>2</text>
+<text class='t9' x='111.93' y='186.7'></text>
+<text class='t0' x='118.57' y='186.7'>+</text>
+<text class='t9' x='128.53' y='186.7'></text>
+<text class='t1' x='132.96' y='186.7'>u/</text>
+<text class='t0' x='143.64' y='186.7'>2</text>
+<text class='t9' x='148.63' y='186.7'></text>
+<text class='t0' x='63.76' y='198.66'>(</text>
+<text class='t4' x='67.64' y='198.66'>tr<tspan x='74.64'>averse</tspan></text>
+<text class='t0' x='102.5' y='198.66'>(</text>
+<text class='t1' x='106.37' y='198.66'>l<tspan x='109.54'>,</tspan></text>
+<text class='t4' x='113.97' y='198.66'>mid</text>
+<text class='t0' x='131.29' y='198.66'>)</text>
+<text class='t1' x='135.17' y='198.66'>,</text>
+<text class='t4' x='139.6' y='198.66'>tr<tspan x='146.6'>averse</tspan></text>
+<text class='t0' x='174.46' y='198.66'>(</text>
+<text class='t4' x='178.34' y='198.66'>mid</text>
+<text class='t0' x='197.87' y='198.66'>+<tspan x='207.84'>1</tspan></text>
+<text class='t1' x='212.82' y='198.66'>,<tspan x='217.25'>u</tspan></text>
+<text class='t0' x='222.95' y='198.66'>))<tspan x='63.76' y='210.61'>()</tspan></text>
+<text class='t3' x='51.81' y='222.57'>end</text>
+<text class='t4' x='39.85' y='234.52'>tr<tspan x='46.85'>averse</tspan></text>
+<text class='t0' x='74.72' y='234.52'>(</text>
+<text class='t4' x='78.59' y='234.52'>lo</text>
+<text class='t1' x='86.86' y='234.52'>,</text>
+<text class='t4' x='91.28' y='234.52'>hi</text>
+<text class='t0' x='100.45' y='234.52'>)</text>
+<text class='t4' x='39.85' y='246.48'>r<tspan x='43.54'>esult</tspan></text>
+<text class='t3' x='27.9' y='258.43'>end<tspan x='15.94' y='270.39'>end</tspan></text></svg></div><pre class="fx-s"><code>  ...
+  generate[\R extends CommutativeMonoid[\ R, OPLUS\], opr OPLUS\](body : ZZ32 -&gt; R) : R = do
+    result : R = Identity[\OPLUS\]
+    traverse(l,u) =
+      if u-l+1 &lt;= max(b,1) then
+        i : ZZ32 = l
+        while i &lt;= u do
+          t = body(i)
+          atomic result := result OPLUS t
+          i += 1
+        end
+        ()
+      else
+        mid = LC l/2 RC + LF u/2 RF
+        (traverse(l,mid), traverse(mid+1,u))
+        ()
+      end
+    traverse(lo, hi)
+    result
+  end
+end</code></pre></div>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-range-examples">Section I.1.20</a><!--nc--></span></p>
+<p id="p-b2cf35aa" class="nb">The Working Draft of February 2011 declared this generator over <span class="m">ℤ64</span>, as it declared the generator of <a class="xref" href="#fig-generatorDefn">Figure 23.2</a><!--nc-->, whose members the ellipsis stands for; both are declared over <span class="m">ℤ32</span>.</p></aside>
+<p id="p-d454b121" class="nb">The choice of whether to apply this transformation is left up to the author of the generator; when many iterations run in parallel the <span class="m"><i>result</i></span> variable becomes a scalability bottleneck and this technique should not be used.</p>
+<p id="p-b062af74" class="nb">Various other properties of the reduction operator can be exploited:</p>
+<ul>
+<li><p id="p-6ae34d7f" class="nb">Idempotent reductions permit redundant computation. For example, when computing the maximum element of a set it might be simpler to enumerate set elements more than once.</p></li>
+<li><p id="p-2660159e" class="nb">On the other hand, sometimes a more efficient non-idempotent operator can be used for a reduction if the generator promises never to produce duplicates—this fact can be used to advantage in set, multiset, or map comprehensions.</p></li>
+<li><p id="p-e6bb18de" class="nb">If the reduction operator has a zero, this can be used to exit early from a partial computation. This requires that the body expression have no visible side effects such as writes or <span class="m"><span class="kw">io</span></span> actions.</p></li>
+</ul>
+<p id="p-4b99f85e" class="nb">At the moment, the author of a <span class="m"><span class="ty">Generator</span></span> is responsible for taking advantage of opportunities such as these. In future, we expect some standardized support for efficient versions of various traversals based on experience with the definitions provided here.</p>
+</section>
+<section class="sec" data-num="23.8.4" data-title="Making a Serial Version of a Generator or Distribution">
+<h3 id="sec-serial-generator" class="nb"><span class="num">23.8.4</span> Making a Serial Version of a Generator or Distribution</h3>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-988ba834" class="nb">TODO: the mechanism for generator serialization is once again magic. Formerly we constrained generator structure so the serialization was straightforward (but this probably made things slow).</p></aside>
+<p id="p-9911c9a2" class="nb">A generator <span class="m"><i>g</i></span> can be made sequential simply by calling the builtin function <span class="m"><i>sequential</i></span> as follows:</p>
+<div class="fx nb both" id="c-4eca990a" data-kind="code"><div class="fx-r"><svg class="tx" data-d="28" viewBox="9.36 11.26 78.03 11.16" width="7.803em" height="1.116em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>v</text>
+<text class='t9' x='17.92' y='19.33'>←</text>
+<text class='t4' x='30.65' y='19.33'>se<tspan x='38.79'>quential</tspan></text>
+<text class='t0' x='73.94' y='19.33'>(</text>
+<text class='t1' x='77.81' y='19.33'>g</text>
+<text class='t0' x='82.92' y='19.33'>)</text></svg></div><pre class="fx-s"><code>v &lt;- sequential(g)</code></pre></div>
+<p id="p-f6495534" class="nb">The resulting generator yields its elements in the natural order specified by the original generator. Several builtin generators (such as those for array indices) have an associated distribution. For these generators, <span class="m"><i>sequential</i></span> function simply re-distributes the underlying object as follows:</p>
+<div class="fx nb" id="c-bf2bfc33" data-kind="code"><div class="fx-r"><svg class="tx" data-d="29" viewBox="9.36 11.26 171.77 11.16" width="17.177em" height="1.116em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>se<tspan x='18.11'>quential</tspan></text>
+<text class='t0' x='53.26' y='19.33'>(</text>
+<text class='t1' x='57.13' y='19.33'>r</text>
+<text class='t0' x='61.9' y='19.33'>)<tspan x='68.54'>=</tspan><tspan x='79.06'>Sequen</tspan><tspan x='109.5'>tial</tspan></text>
+<text class='t1' x='123.89' y='19.33'>.</text>
+<text class='t4' x='126.66' y='19.33'>distribute</text>
+<text class='t0' x='168.02' y='19.33'>(</text>
+<text class='t1' x='171.89' y='19.33'>r</text>
+<text class='t0' x='176.66' y='19.33'>)</text></svg></div></div>
+<p id="p-aaa434fc" class="nb">As a convenient shorthand, the <span class="m"><i>sequential</i></span> function is also defined to work for distributions themselves. The complete declarations of the overloaded <span class="m"><i>sequential</i></span> function are as follows:</p>
+<div class="fx nb" id="c-ac540dd9" data-kind="code"><div class="fx-r"><svg class="tx" data-d="30" viewBox="9.36 11.26 279.75 23.12" width="27.975em" height="2.312em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>se<tspan x='18.11'>quential</tspan></text>
+<text class='t5' x='53.26' y='19.33'></text>
+<text class='t1' x='58.93' y='19.33'>E</text>
+<text class='t3' x='69.62' y='19.33'>extends</text>
+<text class='t0' x='111.22' y='19.33'>An<tspan x='123.95'>y</tspan></text>
+<text class='t5' x='131.01' y='19.33'></text>
+<text class='t0' x='135.02' y='19.33'>(</text>
+<text class='t1' x='138.89' y='19.33'>g</text>
+<text class='t0' x='146.77' y='19.33'>:<tspan x='154.52'>Generator</tspan></text>
+<text class='t5' x='198.37' y='19.33'></text>
+<text class='t1' x='202.38' y='19.33'>E</text>
+<text class='t5' x='210.31' y='19.33'></text>
+<text class='t0' x='214.32' y='19.33'>)<tspan x='220.96'>:</tspan><tspan x='228.71'>Generator</tspan></text>
+<text class='t5' x='272.56' y='19.33'></text>
+<text class='t1' x='276.57' y='19.33'>E</text>
+<text class='t5' x='284.5' y='19.33'></text>
+<text class='t4' x='9.96' y='31.28'>se<tspan x='18.11'>quential</tspan></text>
+<text class='t5' x='53.26' y='31.28'></text>
+<text class='t1' x='58.93' y='31.28'>E</text>
+<text class='t3' x='69.62' y='31.28'>extends</text>
+<text class='t0' x='111.22' y='31.28'>An<tspan x='123.95'>y</tspan></text>
+<text class='t5' x='131.01' y='31.28'></text>
+<text class='t0' x='135.02' y='31.28'>(</text>
+<text class='t1' x='138.89' y='31.28'>d</text>
+<text class='t0' x='146.84' y='31.28'>:<tspan x='154.59'>Distribution</tspan><tspan x='207.67'>)</tspan><tspan x='214.31'>:</tspan><tspan x='222.06'>Distribution</tspan></text></svg></div></div>
+<p id="p-ff8cb672" class="nb">The <span class="m"><i>sequential</i></span> function has special meaning to the Fortress implementation; there is no need to distinguish reduction variables in loops for which generator is surrounded by a direct call to <span class="m"><i>sequential</i></span>.</p>
+</section>
+</section>
+<section class="sec fns"><h2 id="footnotes">Footnotes</h2>
+<ol><li id="fn-1">Note: the initial implementation of the Fortress language assumes a single machine with shared memory and exposes only the <span class="m"><span class="ty">Global</span></span> region. <a href="#fnref-1" aria-label="Back to the text">↩</a></li><li id="fn-2">Note, for example, that the present Fortress implementation immediately makes every object shared after construction, so that <span class="m"><i>isShared()</i></span> will always return <span class="m"><i>true</i></span>. <a href="#fnref-2" aria-label="Back to the text">↩</a></li><li id="fn-3">The present implementation signals a fatal error in case of duplicate initialization, or if an uninitialized element is read. <a href="#fnref-3" aria-label="Back to the text">↩</a></li><li id="fn-4">In future, it is likely that Fortress will use a desugaring that in fact yields a <span class="m"><span class="ty">Generator</span></span> rather than a higher-order function. This permits type-directed nesting and composition of generators. <a href="#fnref-4" aria-label="Back to the text">↩</a></li></ol></section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="components.html"><span>Previous</span> 22. Components and APIs</a><a class="next" href="overloaded-declarations.html"><span>Next</span> 24. Overloaded Functional Declarations</a></nav>
+<footer class="colophon">Converted from <code>Specification/advanced/parallelism-locality/parallelism-locality.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

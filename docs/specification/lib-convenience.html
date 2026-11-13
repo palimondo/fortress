@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>39. Convenience Functions and Types · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmr10;font-size:9.96px}
+svg.tx text.t1{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t4{font-family:stmary10;font-size:9.96px}
+svg.tx text.t5{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t6{font-family:cmti10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-convenience" data-chapter="39. Convenience Functions and Types">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">39. Convenience Functions and Types</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part V, Fortress APIs and Documentation for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="39" data-title="Convenience Functions and Types">
+<h1 id="top" class="nb"><a id="chap-lib-convenience"></a><span class="num">Chapter 39</span> Convenience Functions and Types</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-convenience-functions">39.1 Convenience Functions</a></li><li><a href="#sec-convenience-types">39.2 Convenience Types</a></li></ol></nav>
+<section class="sec" data-num="39.1" data-title="Convenience Functions">
+<h2 id="sec-convenience-functions" class="nb"><span class="num">39.1</span> Convenience Functions</h2>
+<section class="sec" data-num="39.1.1" data-title="tuple⟦T extends Tuple⟧(x: T): T">
+<h3 id="s-tuple-t-extends-tuple-x-t-t" class="nb"><span class="num">39.1.1</span> <span class="m"><i>tuple</i>⟦<i>T</i> <span class="kw">extends</span> <span class="ty">Tuple</span>⟧(<i>x</i>: <i>T</i>): <i>T</i></span></h3>
+<p id="p-989e228c" class="nb">The function <span class="m"><i>tuple</i></span> returns its argument as a tuple expression.</p>
+</section>
+<section class="sec" data-num="39.1.2" data-title="coerce⟦T⟧(x: T): T">
+<h3 id="s-coerce-t-x-t-t" class="nb"><span class="num">39.1.2</span> <span class="m"><span class="rm">coerce</span>⟦<i>T</i>⟧(<i>x</i>: <i>T</i>): <i>T</i></span></h3>
+<p id="p-a0ec7c4f" class="nb">The function <span class="m"><span class="rm">coerce</span></span> returns its argument as the given type.</p>
+</section>
+</section>
+<section class="sec" data-num="39.2" data-title="Convenience Types">
+<h2 id="sec-convenience-types" class="nb"><span class="num">39.2</span> Convenience Types</h2>
+<p id="p-cc51ffac" class="nb">An optional value <span class="m"><i>v</i></span> of type <span class="m"><span class="ty">Maybe</span>⟦<i>T</i>⟧</span> is either <span class="m"><span class="ty">Nothing</span>⟦<i>T</i>⟧</span> or <span class="m"><span class="ty">Just</span>(<i>v</i>)</span> declared as follows:</p>
+<div class="fx nb both" id="c-99d8a5ac" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.26 231.42 92.36" width="23.142em" height="9.236em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>(</text>
+<text class='t1' x='13.84' y='19.33'>∗</text>
+<text class='t2' x='21.59' y='19.33'>Optional<tspan x='58.95'>V</tspan><tspan x='65.03'>alues</tspan></text>
+<text class='t1' x='88.27' y='19.33'>∗</text>
+<text class='t0' x='93.25' y='19.33'>)</text>
+<text class='t3' x='9.96' y='31.28'>trait</text>
+<text class='t0' x='41.1' y='31.28'>Ma<tspan x='54.93'>yb</tspan><tspan x='66'>e</tspan></text>
+<text class='t4' x='70.43' y='31.28'></text>
+<text class='t5' x='74.44' y='31.28'>T</text>
+<text class='t4' x='81.65' y='31.28'></text>
+<text class='t3' x='88.43' y='31.28'>comprises</text>
+<text class='t1' x='138.27' y='31.28'>{</text>
+<text class='t0' x='144.91' y='31.28'>Nothing</text>
+<text class='t4' x='180.2' y='31.28'></text>
+<text class='t5' x='184.21' y='31.28'>T</text>
+<text class='t4' x='191.41' y='31.28'></text>
+<text class='t5' x='195.43' y='31.28'>,</text>
+<text class='t0' x='199.85' y='31.28'>Just</text>
+<text class='t4' x='218.31' y='31.28'></text>
+<text class='t5' x='222.33' y='31.28'>T</text>
+<text class='t4' x='229.53' y='31.28'></text>
+<text class='t1' x='235.2' y='31.28'>}</text>
+<text class='t6' x='21.92' y='43.24'>isNothing</text>
+<text class='t0' x='64.07' y='43.24'>:<tspan x='68.49'>Bo</tspan><tspan x='80.81'>olean</tspan></text>
+<text class='t3' x='9.96' y='55.19'>end<tspan x='9.96' y='67.15'>value</tspan><tspan x='41.65'>object</tspan></text>
+<text class='t0' x='78.01' y='67.15'>Nothing</text>
+<text class='t4' x='113.3' y='67.15'></text>
+<text class='t5' x='117.31' y='67.15'>T</text>
+<text class='t4' x='124.52' y='67.15'></text>
+<text class='t3' x='131.3' y='67.15'>extends</text>
+<text class='t0' x='172.89' y='67.15'>Ma<tspan x='186.73'>yb</tspan><tspan x='197.8'>e</tspan></text>
+<text class='t4' x='202.22' y='67.15'></text>
+<text class='t5' x='206.24' y='67.15'>T</text>
+<text class='t4' x='213.44' y='67.15'></text>
+<text class='t3' x='9.96' y='79.1'>end<tspan x='9.96' y='91.06'>object</tspan></text>
+<text class='t0' x='46.33' y='91.06'>Just</text>
+<text class='t4' x='64.78' y='91.06'></text>
+<text class='t5' x='68.8' y='91.06'>T</text>
+<text class='t4' x='76' y='91.06'></text>
+<text class='t0' x='80.02' y='91.06'>(</text>
+<text class='t6' x='83.89' y='91.06'>just</text>
+<text class='t0' x='100.62' y='91.06'>:</text>
+<text class='t5' x='105.05' y='91.06'>T</text>
+<text class='t0' x='112.25' y='91.06'>)</text>
+<text class='t3' x='118.9' y='91.06'>extends</text>
+<text class='t0' x='160.49' y='91.06'>Ma<tspan x='174.33'>yb</tspan><tspan x='185.4'>e</tspan></text>
+<text class='t4' x='189.82' y='91.06'></text>
+<text class='t5' x='193.84' y='91.06'>T</text>
+<text class='t4' x='201.04' y='91.06'></text>
+<text class='t3' x='9.96' y='103.01'>end</text></svg></div><pre class="fx-s"><code>(* Optional Values *)
+trait Maybe[\T\] comprises { Nothing[\T\], Just[\T\] }
+  isNothing: Boolean
+end
+value object Nothing[\T\] extends Maybe[\T\]
+end
+object Just[\T\](just: T) extends Maybe[\T\]
+end</code></pre></div>
+<p id="p-e83cd617" class="nb">The empty case is one object for each type <span class="m"><i>T</i></span>, and each use writes the type, as in <span class="m"><span class="ty">Nothing</span>⟦<span class="ty">String</span>⟧</span>. The following declaration of a single <span class="m"><span class="ty">Nothing</span></span> for every instantiation of <span class="m"><span class="ty">Maybe</span></span> is not allowed:</p>
+<div class="fx nb both" id="c-c37f2017" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.26 359.03 32.58" width="35.903em" height="3.258em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>(</text>
+<text class='t1' x='13.84' y='19.33'>∗</text>
+<text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t1' x='76.4' y='19.33'>∗</text>
+<text class='t0' x='81.38' y='19.33'>)</text>
+<text class='t3' x='9.96' y='31.28'>object</text>
+<text class='t0' x='44.11' y='31.28'>Nothing</text>
+<text class='t3' x='82.16' y='31.28'>extends</text>
+<text class='t0' x='121.54' y='31.28'>Ma<tspan x='135.38'>yb</tspan><tspan x='146.45'>e</tspan></text>
+<text class='t4' x='150.88' y='31.28'></text>
+<text class='t5' x='154.89' y='31.28'>T</text>
+<text class='t4' x='162.1' y='31.28'></text>
+<text class='t3' x='168.88' y='31.28'>excludes</text>
+<text class='t0' x='213.49' y='31.28'>Just</text>
+<text class='t4' x='231.95' y='31.28'></text>
+<text class='t5' x='235.96' y='31.28'>T</text>
+<text class='t4' x='243.16' y='31.28'></text>
+<text class='t3' x='249.94' y='31.28'>where</text>
+<text class='t1' x='278.86' y='31.28'>{</text>
+<text class='t5' x='283.84' y='31.28'>T</text>
+<text class='t3' x='293.82' y='31.28'>extends</text>
+<text class='t0' x='333.2' y='31.28'>Ob<tspan x='347.03'>ject</tspan></text>
+<text class='t1' x='362.81' y='31.28'>}</text>
+<text class='t3' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)
+object Nothing extends Maybe[\T\] excludes Just[\T\] where {T extends Object}
+end</code></pre></div>
+<p id="p-9f70048e" class="nb">It would make <span class="m"><span class="ty">Nothing</span></span> a <span class="m"><span class="ty">Maybe</span>⟦<i>T</i>⟧</span> for every <span class="m"><i>T</i></span> at once, which instantiation exclusion forbids (<a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->); and an object declaration has no <span class="m"><span class="kw">excludes</span></span> clause (<a class="xref" href="objects.html#sec-object-decls">Section 11.1</a><!--nc-->), an object trait type already excluding every type that is not its supertype (<a class="xref" href="types.html#sec-object-traits">Section 6.3.1</a>).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-nothing">Section I.1.7</a><!--nc--></span></p>
+<p id="p-eb8d07dd" class="nb">The Working Draft of February 2011 declared <span class="m"><span class="ty">Nothing</span></span> with the declaration marked “Not allowed”. The declaration of <span class="m"><span class="ty">Nothing</span>⟦<i>T</i>⟧</span> is the library’s, whose own source says it “will become a non-parametric singleton when we get where clauses working”; instantiation exclusion closes that road.</p></aside>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="lib-tests.html"><span>Previous</span> 38. Tests</a><a class="next" href="lib-algebraic-constraints.html"><span>Next</span> 40. Algebraic Constraints</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic-lib/convenience.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

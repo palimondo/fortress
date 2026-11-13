@@ -1,0 +1,897 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>8. Variables · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t4{font-family:cmr10;font-size:9.96px}
+svg.tx text.t5{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t6{font-family:cmr7;font-size:6.97px}
+svg.tx text.t7{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t8{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t9{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t10{font-family:cmti10;font-size:9.96px}
+svg.tx text.t11{font-family:msbm10;font-size:9.96px}
+svg.tx text.t12{font-family:stmary10;font-size:9.96px}
+svg.tx text.t13{font-family:cmmi7;font-size:6.97px}
+svg.tx text.t14{font-family:cmr5;font-size:4.98px}
+</style>
+</head>
+<body data-page="chapter" data-slug="variables" data-chapter="8. Variables">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">8. Variables</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="8" data-title="Variables">
+<h1 id="top" class="nb"><a id="chap-variables"></a><span class="num">Chapter 8</span> Variables</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-top-var-decls">8.1 Top-Level Variable Declarations</a></li><li><a href="#sec-local-var-decls">8.2 Local Variable Declarations</a></li><li><a href="#sec-unpasting">8.3 Matrix Unpasting</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-3934132e" class="nb">Functionals with the modifier <span class="m"><span class="kw">io</span></span> and matrix unpasting are not yet supported.</p></aside>
+<section class="sec" data-num="8.1" data-title="Top-Level Variable Declarations">
+<h2 id="sec-top-var-decls" class="nb"><span class="num">8.1</span> Top-Level Variable Declarations</h2>
+<div class="tw nb gr" id="g-4d49c322" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 368.92 212.15" width="36.892em" height="21.215em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>V<tspan x='30.88'>arDecl</tspan></text>
+<text class='t2' x='127.78' y='28.8'>::=</text>
+<text class='t1' x='150.89' y='28.8'>V<tspan x='155.87'>arMods</tspan></text>
+<text class='t2' x='186.87' y='28.8'>?</text>
+<text class='t1' x='194.38' y='28.8'>V<tspan x='199.36'>arWT</tspan><tspan x='221.32'>ypes</tspan><tspan x='241.51'>InitV</tspan><tspan x='260.33'>al</tspan></text>
+<text class='t3' x='127.78' y='40.76'>|</text>
+<text class='t1' x='150.89' y='40.76'>V<tspan x='155.87'>arImmutableMods</tspan></text>
+<text class='t2' x='229.48' y='40.76'>?</text>
+<text class='t1' x='236.99' y='40.76'>BindIdOrBindIdT<tspan x='307.29'>uple</tspan></text>
+<text class='t4' x='328.59' y='40.76'>=</text>
+<text class='t1' x='340.49' y='40.76'>Expr</text>
+<text class='t3' x='127.78' y='52.71'>|</text>
+<text class='t1' x='150.89' y='52.71'>V<tspan x='155.87'>arMods</tspan></text>
+<text class='t2' x='186.87' y='52.71'>?</text>
+<text class='t1' x='194.38' y='52.71'>BindIdOrBindIdT<tspan x='264.68'>uple</tspan></text>
+<text class='t4' x='285.98' y='52.71'>:</text>
+<text class='t1' x='292.9' y='52.71'>T<tspan x='297.7'>ype</tspan></text>
+<text class='t5' x='311.53' y='52.71'>...</text>
+<text class='t1' x='323.98' y='52.71'>InitV<tspan x='342.8'>al</tspan></text>
+<text class='t3' x='127.78' y='64.67'>|</text>
+<text class='t1' x='150.89' y='64.67'>V<tspan x='155.87'>arMods</tspan></text>
+<text class='t2' x='186.87' y='64.67'>?</text>
+<text class='t1' x='194.38' y='64.67'>BindIdOrBindIdT<tspan x='264.68'>uple</tspan></text>
+<text class='t4' x='285.98' y='64.67'>:</text>
+<text class='t1' x='292.9' y='64.67'>T<tspan x='297.89'>upleT</tspan><tspan x='319.85'>ype</tspan><tspan x='336.17'>InitV</tspan><tspan x='354.99'>al</tspan><tspan x='25.9' y='76.62'>V</tspan><tspan x='30.88'>arMods</tspan></text>
+<text class='t2' x='127.78' y='76.62'>::=</text>
+<text class='t1' x='150.89' y='76.62'>V<tspan x='155.87'>arMod</tspan></text>
+<text class='t6' x='183.26' y='73.01'>+</text>
+<text class='t1' x='25.9' y='88.58'>V<tspan x='30.88'>arImmutableMods</tspan></text>
+<text class='t2' x='127.78' y='88.58'>::=</text>
+<text class='t1' x='150.89' y='88.58'>V<tspan x='155.87'>arImmutableMod</tspan></text>
+<text class='t6' x='225.87' y='84.96'>+</text>
+<text class='t1' x='25.9' y='100.53'>V<tspan x='30.88'>arMod</tspan></text>
+<text class='t2' x='127.78' y='100.53'>::=</text>
+<text class='t1' x='150.89' y='100.53'>AbsV<tspan x='170.82'>arMod</tspan></text>
+<text class='t3' x='200.7' y='100.53'>|</text>
+<text class='t7' x='207.61' y='100.53'>private</text>
+<text class='t1' x='25.9' y='112.49'>V<tspan x='30.88'>arImmutableMod</tspan></text>
+<text class='t2' x='127.78' y='112.49'>::=</text>
+<text class='t1' x='150.89' y='112.49'>AbsV<tspan x='170.82'>arImmutableMod</tspan></text>
+<text class='t3' x='243.31' y='112.49'>|</text>
+<text class='t7' x='250.22' y='112.49'>private</text>
+<text class='t1' x='25.9' y='124.44'>AbsV<tspan x='45.83'>arMod</tspan></text>
+<text class='t2' x='127.78' y='124.44'>::=</text>
+<text class='t7' x='152.55' y='124.44'>var</text>
+<text class='t3' x='172.4' y='124.44'>|</text>
+<text class='t7' x='179.31' y='124.44'>test</text>
+<text class='t1' x='25.9' y='136.4'>AbsV<tspan x='45.83'>arImmutableMod</tspan></text>
+<text class='t2' x='127.78' y='136.4'>::=</text>
+<text class='t7' x='152.55' y='136.4'>test</text>
+<text class='t1' x='25.9' y='148.35'>V<tspan x='30.88'>arWT</tspan><tspan x='52.84'>ypes</tspan></text>
+<text class='t2' x='127.78' y='148.35'>::=</text>
+<text class='t1' x='150.89' y='148.35'>V<tspan x='155.87'>arWT</tspan><tspan x='177.83'>ype</tspan></text>
+<text class='t3' x='127.78' y='160.31'>|</text>
+<text class='t8' x='150.89' y='160.31'>(</text>
+<text class='t1' x='159.36' y='160.31'>V<tspan x='164.34'>arWT</tspan><tspan x='186.3'>ype</tspan></text>
+<text class='t2' x='200.13' y='160.31'>(</text>
+<text class='t5' x='203.45' y='160.31'>,</text>
+<text class='t1' x='210.36' y='160.31'>V<tspan x='215.35'>arWT</tspan><tspan x='237.3'>ype</tspan></text>
+<text class='t2' x='251.13' y='160.31'>)</text>
+<text class='t6' x='254.45' y='156.69'>+</text>
+<text class='t8' x='263.55' y='160.31'>)</text>
+<text class='t1' x='25.9' y='172.26'>V<tspan x='30.88'>arWT</tspan><tspan x='52.84'>ype</tspan></text>
+<text class='t2' x='127.78' y='172.26'>::=</text>
+<text class='t1' x='150.89' y='172.26'>BindId<tspan x='180.77'>IsT</tspan><tspan x='192.77'>ype</tspan><tspan x='25.9' y='184.22'>InitV</tspan><tspan x='44.72'>al</tspan></text>
+<text class='t2' x='127.78' y='184.22'>::=<tspan x='150.89'>(</tspan></text>
+<text class='t4' x='154.21' y='184.22'>=</text>
+<text class='t3' x='163.62' y='184.22'>|</text>
+<text class='t4' x='166.39' y='184.22'>:<tspan x='169.15'>=</tspan></text>
+<text class='t2' x='178.56' y='184.22'>)</text>
+<text class='t1' x='184.37' y='184.22'>Expr<tspan x='25.9' y='196.17'>T</tspan><tspan x='30.89'>upleT</tspan><tspan x='52.85'>ype</tspan></text>
+<text class='t2' x='127.78' y='196.17'>::=</text>
+<text class='t8' x='150.89' y='196.17'>(</text>
+<text class='t1' x='159.36' y='196.17'>T<tspan x='164.16'>ype</tspan></text>
+<text class='t5' x='177.99' y='196.17'>,</text>
+<text class='t1' x='184.91' y='196.17'>T<tspan x='189.71'>ypeList</tspan></text>
+<text class='t8' x='221.16' y='196.17'>)</text>
+<text class='t1' x='25.9' y='208.13'>T<tspan x='30.7'>ypeList</tspan></text>
+<text class='t2' x='127.78' y='208.13'>::=</text>
+<text class='t1' x='150.89' y='208.13'>T<tspan x='155.7'>ype</tspan></text>
+<text class='t2' x='169.52' y='208.13'>(</text>
+<text class='t5' x='172.84' y='208.13'>,</text>
+<text class='t1' x='179.76' y='208.13'>T<tspan x='184.56'>ype</tspan></text>
+<text class='t2' x='198.39' y='208.13'>)</text>
+<text class='t9' x='201.71' y='204.51'>∗</text>
+<text class='t1' x='25.9' y='220.08'>IsT<tspan x='37.9'>ype</tspan></text>
+<text class='t2' x='127.78' y='220.08'>::=</text>
+<text class='t4' x='152.55' y='220.08'>:</text>
+<text class='t1' x='159.47' y='220.08'>T<tspan x='164.27'>ype</tspan></text></svg></div>
+<p id="p-29f1892c" class="nb">A <em>variable</em>’s name can be any valid Fortress identifier. There are three forms of variable declarations. The first form:</p>
+<div class="fx nb" id="c-83f6a83e" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.81 73.95 10.06" width="7.395em" height="1.006em" fill="currentColor"><text class='t10' x='9.96' y='19.33'>id</text>
+<text class='t4' x='21.91' y='19.33'>:<tspan x='27.44'>T</tspan><tspan x='34.36'>yp</tspan><tspan x='45.43'>e</tspan><tspan x='52.62'>=</tspan></text>
+<text class='t10' x='63.14' y='19.33'>expr</text></svg></div></div>
+<p id="p-10e72977" class="nb">declares <span class="m"><i>id</i></span> to be an immutable variable with static type <span class="m"><span class="ty">Type</span></span> whose value is computed to be the value of the <em>initializer</em> expression <span class="m"><i>expr</i></span>. The static type of <span class="m"><i>expr</i></span> must be a subtype of <span class="m"><span class="ty">Type</span></span>.</p>
+<p id="p-b350d31e" class="nb">The second (and most convenient) form:</p>
+<div class="fx nb both" id="c-6107a779" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.81 43.23 10.06" width="4.323em" height="1.006em" fill="currentColor"><text class='t10' x='9.96' y='19.33'>id</text>
+<text class='t4' x='21.91' y='19.33'>=</text>
+<text class='t10' x='32.42' y='19.33'>expr</text></svg></div><pre class="fx-s"><code>id = expr</code></pre></div>
+<p id="p-bb2e83e5" class="nb">declares <span class="m"><i>id</i></span> to be an immutable variable whose value is computed to be the value of the expression <span class="m"><i>expr</i></span>; the static type of the variable is the static type of <span class="m"><i>expr</i></span>.</p>
+<p id="p-5d36cf66" class="nb">The third form:</p>
+<div class="fx nb" id="c-6b293f0a" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.81 92.41 10.06" width="9.241em" height="1.006em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>var</text>
+<text class='t10' x='28.42' y='19.33'>id</text>
+<text class='t4' x='40.37' y='19.33'>:<tspan x='45.9'>T</tspan><tspan x='52.82'>yp</tspan><tspan x='63.89'>e</tspan><tspan x='71.08'>=</tspan></text>
+<text class='t10' x='81.6' y='19.33'>expr</text></svg></div></div>
+<p id="p-3f7d1c79" class="nb">declares <span class="m"><i>id</i></span> to be a mutable variable of type <span class="m"><span class="ty">Type</span></span> whose initial value is computed to be the value of the expression <span class="m"><i>expr</i></span>. As before, the static type of <span class="m"><i>expr</i></span> must be a subtype of <span class="m"><span class="ty">Type</span></span>. The modifier <span class="m"><span class="kw">var</span></span> is optional when ‘<span class="m">:=</span>’ is used instead of ‘<span class="m">=</span>’ as follows:</p>
+<div class="fx nb" id="c-eec1e1d8" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.81 99.60 10.06" width="9.960em" height="1.006em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>var</text>
+<text class='t4' x='25.65' y='19.33'>?</text>
+<text class='t10' x='32.85' y='19.33'>id</text>
+<text class='t4' x='44.79' y='19.33'>:<tspan x='50.33'>T</tspan><tspan x='57.25'>yp</tspan><tspan x='68.32'>e</tspan><tspan x='75.51'>:</tspan><tspan x='78.28'>=</tspan></text>
+<text class='t10' x='88.79' y='19.33'>expr</text></svg></div></div>
+<p id="p-fb881668" class="nb">In short, immutable variables are declared and initialized by ‘<span class="m">=</span>’ and mutable variables are declared and initialized either by ‘<span class="m">:=</span>’ or by declaring them according to the third form above with the modifier <span class="m"><span class="kw">var</span></span>.</p>
+<p id="p-7c520f15" class="nb">All forms can be used with <em>tuple notation</em> to declare multiple variables together. Variables to declare are enclosed in parentheses and separated by commas, as are the types declared for them:</p>
+<div class="fx nb" id="c-31b30e93" data-kind="code"><div class="fx-r"><svg class="tx" data-d="6" viewBox="9.36 10.79 125.77 11.62" width="12.577em" height="1.162em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>(</text>
+<text class='t10' x='13.84' y='19.33'>id</text>
+<text class='t4' x='23.01' y='19.33'>(</text>
+<text class='t5' x='26.89' y='19.33'>,</text>
+<text class='t10' x='31.32' y='19.33'>id</text>
+<text class='t4' x='40.49' y='19.33'>)</text>
+<text class='t6' x='44.37' y='15.71'>+</text>
+<text class='t4' x='50.98' y='19.33'>)<tspan x='57.62'>:</tspan><tspan x='63.16'>(T</tspan><tspan x='73.95'>yp</tspan><tspan x='85.02'>e</tspan><tspan x='89.45'>(</tspan></text>
+<text class='t5' x='93.32' y='19.33'>,</text>
+<text class='t4' x='97.75' y='19.33'>T<tspan x='104.67'>yp</tspan><tspan x='115.74'>e</tspan><tspan x='120.17'>)</tspan></text>
+<text class='t6' x='124.04' y='15.71'>+</text>
+<text class='t4' x='130.65' y='19.33'>)</text></svg></div></div>
+<p id="p-fac4d3aa" class="nb">Alternatively, the types can be included alongside the respective variables, optionally eliding types that can be inferred from context:</p>
+<div class="fx nb" id="c-31d6205a" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="9.36 10.79 124.69 11.62" width="12.469em" height="1.162em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>(</text>
+<text class='t10' x='13.84' y='19.33'>id</text>
+<text class='t4' x='23.01' y='19.33'>(:<tspan x='31.32'>T</tspan><tspan x='38.23'>yp</tspan><tspan x='49.3'>e</tspan><tspan x='53.73'>)?(</tspan></text>
+<text class='t5' x='66.19' y='19.33'>,</text>
+<text class='t10' x='70.61' y='19.33'>id</text>
+<text class='t4' x='79.79' y='19.33'>(:<tspan x='88.09'>T</tspan><tspan x='95.01'>yp</tspan><tspan x='106.08'>e</tspan><tspan x='110.51'>)?)</tspan></text>
+<text class='t6' x='122.96' y='15.71'>+</text>
+<text class='t4' x='129.58' y='19.33'>)</text></svg></div></div>
+<p id="p-dd6f1922" class="nb">Alternatively, a single type followed by ‘<span class="m">…</span>’ can be declared for all of the variables:</p>
+<div class="fx nb" id="c-2df5efe9" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 10.79 86.22 11.62" width="8.622em" height="1.162em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>(</text>
+<text class='t10' x='13.84' y='19.33'>id</text>
+<text class='t4' x='23.01' y='19.33'>(</text>
+<text class='t5' x='26.89' y='19.33'>,</text>
+<text class='t10' x='31.32' y='19.33'>id</text>
+<text class='t4' x='40.49' y='19.33'>)</text>
+<text class='t6' x='44.37' y='15.71'>+</text>
+<text class='t4' x='50.98' y='19.33'>):<tspan x='59.28'>T</tspan><tspan x='66.2'>yp</tspan><tspan x='77.27'>e</tspan></text>
+<text class='t5' x='83.36' y='19.33'>.<tspan x='87.79'>.</tspan><tspan x='92.22'>.</tspan></text></svg></div></div>
+<p id="p-b83988e8" class="nb">This notation is especially helpful when a function application returns a tuple of values.</p>
+<p id="p-83487244" class="nb">The initializer expressions of top-level variable declarations can refer to variables declared later in textual order. <a id="decl-io"></a> Evaluation of top-level initializer expressions cannot call functionals with the modifier <span class="m"><span class="kw">io</span></span>.</p>
+<p id="p-0f607c95" class="nb">Here are some simple examples of variable declarations:</p>
+<div class="fx nb both" id="c-73db45b0" data-kind="code" data-example="Var.Top.a"><div class="fx-r"><svg class="tx" data-d="9" viewBox="-0.60 12.31 357.04 7.62" width="35.704em" height="0.762em" fill="currentColor"><text class='t5' x='0' y='19.33'>π</text>
+<text class='t4' x='8.8' y='19.33'>=<tspan x='19.32'>3</tspan></text>
+<text class='t5' x='24.3' y='19.33'>.</text>
+<text class='t4' x='27.07' y='19.33'>141592653589793238462643383279502884197169399375108209749445923078</text></svg></div><pre class="fx-s"><code>pi = 3.141592653589793238462643383279502884197169399375108209749445923078</code></pre></div>
+<p id="p-5a639d01" class="nb">declares the variable <span class="m">π</span> to be an approximate representation of the mathematical object <span class="m">π</span>. It is also legal to write:</p>
+<div class="fx nb both" id="c-559116cd" data-kind="code" data-example="Var.Top.b"><div class="fx-r"><svg class="tx" data-d="10" viewBox="-0.60 11.86 378.62 8.06" width="37.862em" height="0.806em" fill="currentColor"><text class='t5' x='0' y='19.33'>π</text>
+<text class='t4' x='6.04' y='19.33'>:</text>
+<text class='t11' x='10.46' y='19.33'>R</text>
+<text class='t4' x='17.66' y='19.33'>64<tspan x='30.39'>=</tspan><tspan x='40.91'>3</tspan></text>
+<text class='t5' x='45.89' y='19.33'>.</text>
+<text class='t4' x='48.65' y='19.33'>141592653589793238462643383279502884197169399375108209749445923078</text></svg></div><pre class="fx-s"><code>pi: RR64 = 3.141592653589793238462643383279502884197169399375108209749445923078</code></pre></div>
+<p id="p-692241db" class="nb">This definition enforces that <span class="m">π</span> has static type <span class="m">ℝ64</span>.</p>
+<p id="p-c1a00c86" class="nb">The following example declares multiple variables using tuple notation:</p>
+<div class="fx nb both" id="c-be566ecf" data-kind="code" data-example="Var.Top.c"><div class="fx-r"><svg class="tx" data-d="11" viewBox="-0.60 11.26 113.06 11.16" width="11.306em" height="1.116em" fill="currentColor"><text class='t7' x='0' y='19.33'>var</text>
+<text class='t4' x='18.46' y='19.33'>(</text>
+<text class='t5' x='22.33' y='19.33'>x,<tspan x='32.45'>y</tspan></text>
+<text class='t4' x='37.7' y='19.33'>):</text>
+<text class='t11' x='46' y='19.33'>Z</text>
+<text class='t4' x='52.64' y='19.33'>64</text>
+<text class='t5' x='62.6' y='19.33'>.<tspan x='67.03'>.</tspan><tspan x='71.46'>.</tspan></text>
+<text class='t4' x='79.21' y='19.33'>=<tspan x='89.72'>(5</tspan></text>
+<text class='t5' x='98.58' y='19.33'>,</text>
+<text class='t4' x='103.01' y='19.33'>6)</text></svg></div><pre class="fx-s"><code>var (x, y): ZZ64... = (5, 6)</code></pre></div>
+<p id="p-144bba58" class="nb">The following three declarations are equivalent:</p>
+<div class="fx nb both" id="c-509ffcf6" data-kind="code" data-example="Var.Top.d"><div class="fx-r"><svg class="tx" data-d="12" viewBox="-0.60 11.26 149.49 11.16" width="14.949em" height="1.116em" fill="currentColor"><text class='t4' x='0' y='19.33'>(</text>
+<text class='t5' x='3.87' y='19.33'>x,<tspan x='14'>y</tspan><tspan x='19.24'>,</tspan><tspan x='23.67'>z</tspan></text>
+<text class='t4' x='28.74' y='19.33'>):<tspan x='37.04'>(</tspan></text>
+<text class='t11' x='40.91' y='19.33'>Z</text>
+<text class='t4' x='47.56' y='19.33'>64</text>
+<text class='t5' x='57.52' y='19.33'>,</text>
+<text class='t11' x='61.95' y='19.33'>Z</text>
+<text class='t4' x='68.59' y='19.33'>64</text>
+<text class='t5' x='78.55' y='19.33'>,</text>
+<text class='t11' x='82.98' y='19.33'>Z</text>
+<text class='t4' x='89.62' y='19.33'>64)<tspan x='106.22'>=</tspan><tspan x='116.74'>(0</tspan></text>
+<text class='t5' x='125.6' y='19.33'>,</text>
+<text class='t4' x='130.02' y='19.33'>1</text>
+<text class='t5' x='135.01' y='19.33'>,</text>
+<text class='t4' x='139.43' y='19.33'>2)</text></svg></div><pre class="fx-s"><code>(x, y, z): (ZZ64, ZZ64, ZZ64) = (0, 1, 2)</code></pre></div>
+<div class="fx nb both" id="c-21f12630" data-kind="code" data-example="Var.Top.e"><div class="fx-r"><svg class="tx" data-d="13" viewBox="-0.60 11.26 141.74 11.16" width="14.174em" height="1.116em" fill="currentColor"><text class='t4' x='0' y='19.33'>(</text>
+<text class='t5' x='3.87' y='19.33'>x</text>
+<text class='t4' x='9.57' y='19.33'>:</text>
+<text class='t11' x='14' y='19.33'>Z</text>
+<text class='t4' x='20.64' y='19.33'>64</text>
+<text class='t5' x='30.6' y='19.33'>,<tspan x='35.03'>y</tspan></text>
+<text class='t4' x='40.27' y='19.33'>:</text>
+<text class='t11' x='44.7' y='19.33'>Z</text>
+<text class='t4' x='51.34' y='19.33'>64</text>
+<text class='t5' x='61.3' y='19.33'>,<tspan x='65.73'>z</tspan></text>
+<text class='t4' x='70.8' y='19.33'>:</text>
+<text class='t11' x='75.23' y='19.33'>Z</text>
+<text class='t4' x='81.87' y='19.33'>64)<tspan x='98.48'>=</tspan><tspan x='108.99'>(0</tspan></text>
+<text class='t5' x='117.85' y='19.33'>,</text>
+<text class='t4' x='122.28' y='19.33'>1</text>
+<text class='t5' x='127.26' y='19.33'>,</text>
+<text class='t4' x='131.68' y='19.33'>2)</text></svg></div><pre class="fx-s"><code>(x: ZZ64, y: ZZ64, z: ZZ64) = (0, 1, 2)</code></pre></div>
+<div class="fx nb both" id="c-db2b2934" data-kind="code" data-example="Var.Top.f"><div class="fx-r"><svg class="tx" data-d="14" viewBox="-0.60 11.26 113.51 11.16" width="11.351em" height="1.116em" fill="currentColor"><text class='t4' x='0' y='19.33'>(</text>
+<text class='t5' x='3.87' y='19.33'>x,<tspan x='14'>y</tspan><tspan x='19.24'>,</tspan><tspan x='23.67'>z</tspan></text>
+<text class='t4' x='28.74' y='19.33'>):</text>
+<text class='t11' x='37.04' y='19.33'>Z</text>
+<text class='t4' x='43.68' y='19.33'>64</text>
+<text class='t5' x='53.64' y='19.33'>.<tspan x='58.07'>.</tspan><tspan x='62.5'>.</tspan></text>
+<text class='t4' x='70.25' y='19.33'>=<tspan x='80.76'>(0</tspan></text>
+<text class='t5' x='89.62' y='19.33'>,</text>
+<text class='t4' x='94.05' y='19.33'>1</text>
+<text class='t5' x='99.03' y='19.33'>,</text>
+<text class='t4' x='103.46' y='19.33'>2)</text></svg></div><pre class="fx-s"><code>(x, y, z): ZZ64... = (0, 1, 2)</code></pre></div>
+</section>
+<section class="sec" data-num="8.2" data-title="Local Variable Declarations">
+<h2 id="sec-local-var-decls" class="nb"><span class="num">8.2</span> Local Variable Declarations</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-e0dd7189" class="nb">Delayed initialization of local variable declarations:</p>
+<p id="p-bbb19fd6" class="nb">We want to disallow type annotation for delayed initialization of local variable declarations:</p>
+<div class="fx nb both" id="c-e5809839" data-kind="code"><div class="fx-r"><svg class="tx" data-d="15" viewBox="15.34 12.64 98.66 90.97" width="9.866em" height="9.097em" fill="currentColor"><text class='t7' x='15.94' y='19.33'>do</text>
+<text class='t5' x='27.9' y='31.28'>i</text>
+<text class='t4' x='31.33' y='31.28'>:</text>
+<text class='t11' x='35.76' y='31.28'>Z</text>
+<text class='t4' x='42.4' y='31.28'>32</text>
+<rect x='28.49' y='42.84' height='.4' width='2.99'/>
+<text class='t4' x='34.25' y='43.24'>=</text>
+<text class='t7' x='44.77' y='43.24'>if</text>
+<text class='t5' x='60.21' y='43.24'>b</text>
+<text class='t7' x='44.77' y='55.19'>then</text>
+<text class='t5' x='70.67' y='55.19'>i</text>
+<text class='t4' x='74.1' y='55.19'>:</text>
+<text class='t11' x='78.53' y='55.19'>Z</text>
+<text class='t4' x='85.17' y='55.19'>32<tspan x='97.9'>=</tspan><tspan x='108.42'>1</tspan></text>
+<text class='t7' x='44.77' y='67.15'>else</text>
+<text class='t5' x='70.67' y='67.15'>i</text>
+<text class='t4' x='74.1' y='67.15'>:</text>
+<text class='t11' x='78.53' y='67.15'>Z</text>
+<text class='t4' x='85.17' y='67.15'>32<tspan x='97.9'>=</tspan><tspan x='108.42'>0</tspan></text>
+<text class='t7' x='44.77' y='79.1'>end</text>
+<text class='t10' x='27.9' y='91.06'>println</text>
+<text class='t5' x='60.28' y='91.06'>i</text>
+<text class='t7' x='15.94' y='103.01'>end</text></svg></div><pre class="fx-s"><code>do
+  i: ZZ32
+  _ = if b
+      then i: ZZ32 = 1
+      else i: ZZ32 = 0
+      end
+  println i
+end</code></pre></div></aside>
+<div class="tw nb gr" id="g-ae21c736" data-kind="grammar"><svg class="tx" data-d="16" viewBox="-5.58 10.45 321.80 152.95" width="32.180em" height="15.295em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>LocalV<tspan x='53.58'>arDecl</tspan></text>
+<text class='t2' x='109.26' y='28.8'>::=</text>
+<text class='t7' x='134.03' y='28.8'>var</text>
+<text class='t2' x='151.38' y='28.8'>?</text>
+<text class='t1' x='158.9' y='28.8'>LocalV<tspan x='186.57'>arWT</tspan><tspan x='208.53'>ypes</tspan><tspan x='228.72'>InitV</tspan><tspan x='247.54'>al</tspan></text>
+<text class='t3' x='109.26' y='40.76'>|</text>
+<text class='t7' x='134.03' y='40.76'>var</text>
+<text class='t2' x='151.38' y='40.76'>?</text>
+<text class='t1' x='158.9' y='40.76'>LocalV<tspan x='186.57'>arWT</tspan><tspan x='208.53'>ypes</tspan></text>
+<text class='t3' x='109.26' y='52.71'>|</text>
+<text class='t1' x='132.37' y='52.71'>LocalV<tspan x='160.05'>arW</tspan><tspan x='176.29'>oT</tspan><tspan x='186.07'>ypes</tspan></text>
+<text class='t4' x='207.93' y='52.71'>=</text>
+<text class='t1' x='219.83' y='52.71'>Expr</text>
+<text class='t3' x='109.26' y='64.67'>|</text>
+<text class='t7' x='134.03' y='64.67'>var</text>
+<text class='t2' x='151.38' y='64.67'>?</text>
+<text class='t1' x='158.9' y='64.67'>LocalV<tspan x='186.57'>arW</tspan><tspan x='202.81'>oT</tspan><tspan x='212.59'>ypes</tspan></text>
+<text class='t4' x='234.45' y='64.67'>:</text>
+<text class='t1' x='241.37' y='64.67'>T<tspan x='246.17'>ype</tspan></text>
+<text class='t5' x='260' y='64.67'>...</text>
+<text class='t1' x='272.45' y='64.67'>InitV<tspan x='291.27'>al</tspan></text>
+<text class='t2' x='299.03' y='64.67'>?</text>
+<text class='t3' x='109.26' y='76.62'>|</text>
+<text class='t7' x='134.03' y='76.62'>var</text>
+<text class='t2' x='151.38' y='76.62'>?</text>
+<text class='t1' x='158.9' y='76.62'>LocalV<tspan x='186.57'>arW</tspan><tspan x='202.81'>oT</tspan><tspan x='212.59'>ypes</tspan></text>
+<text class='t4' x='234.45' y='76.62'>:</text>
+<text class='t1' x='241.37' y='76.62'>T<tspan x='246.36'>upleT</tspan><tspan x='268.32'>ype</tspan><tspan x='284.64'>InitV</tspan><tspan x='303.45'>al</tspan></text>
+<text class='t2' x='311.22' y='76.62'>?</text>
+<text class='t1' x='25.9' y='88.58'>LocalV<tspan x='53.58'>arWT</tspan><tspan x='75.54'>ypes</tspan></text>
+<text class='t2' x='109.26' y='88.58'>::=</text>
+<text class='t1' x='132.37' y='88.58'>LocalV<tspan x='160.05'>arWT</tspan><tspan x='182.01'>ype</tspan></text>
+<text class='t3' x='109.26' y='100.53'>|</text>
+<text class='t8' x='132.37' y='100.53'>(</text>
+<text class='t1' x='140.84' y='100.53'>LocalV<tspan x='168.52'>arWT</tspan><tspan x='190.47'>ype</tspan></text>
+<text class='t2' x='204.3' y='100.53'>(</text>
+<text class='t5' x='207.62' y='100.53'>,</text>
+<text class='t1' x='214.54' y='100.53'>LocalV<tspan x='242.21'>arWT</tspan><tspan x='264.17'>ype</tspan></text>
+<text class='t2' x='278' y='100.53'>)</text>
+<text class='t6' x='281.32' y='96.92'>+</text>
+<text class='t8' x='290.42' y='100.53'>)</text>
+<text class='t1' x='25.9' y='112.49'>LocalV<tspan x='53.58'>arWT</tspan><tspan x='75.54'>ype</tspan></text>
+<text class='t2' x='109.26' y='112.49'>::=</text>
+<text class='t1' x='132.37' y='112.49'>BindId<tspan x='162.25'>IsT</tspan><tspan x='174.25'>ype</tspan><tspan x='25.9' y='124.44'>LocalV</tspan><tspan x='53.58'>arW</tspan><tspan x='69.82'>oT</tspan><tspan x='79.6'>ypes</tspan></text>
+<text class='t2' x='109.26' y='124.44'>::=</text>
+<text class='t1' x='132.37' y='124.44'>LocalV<tspan x='160.05'>arW</tspan><tspan x='176.29'>oT</tspan><tspan x='186.07'>ype</tspan></text>
+<text class='t3' x='109.26' y='136.4'>|</text>
+<text class='t8' x='132.37' y='136.4'>(</text>
+<text class='t1' x='140.84' y='136.4'>LocalV<tspan x='168.52'>arW</tspan><tspan x='184.76'>oT</tspan><tspan x='194.54'>ype</tspan></text>
+<text class='t2' x='208.37' y='136.4'>(</text>
+<text class='t5' x='211.68' y='136.4'>,</text>
+<text class='t1' x='218.6' y='136.4'>LocalV<tspan x='246.28'>arW</tspan><tspan x='262.52'>oT</tspan><tspan x='272.3'>ype</tspan></text>
+<text class='t2' x='286.13' y='136.4'>)</text>
+<text class='t6' x='289.45' y='132.78'>+</text>
+<text class='t8' x='298.55' y='136.4'>)</text>
+<text class='t1' x='25.9' y='148.35'>LocalV<tspan x='53.58'>arW</tspan><tspan x='69.82'>oT</tspan><tspan x='79.6'>ype</tspan></text>
+<text class='t2' x='109.26' y='148.35'>::=</text>
+<text class='t1' x='132.37' y='148.35'>BindId</text>
+<text class='t3' x='109.26' y='160.31'>|</text>
+<text class='t1' x='132.37' y='160.31'>Unpasting</text></svg></div>
+<p id="p-0cbbebb5" class="nb">Variables can be declared within expression blocks (described in <a class="xref" href="expressions.html#sec-block-expr">Section 13.11</a><!--nc-->) via the same syntax as is used for top-level variable declarations (described in <a class="xref" href="#sec-top-var-decls">Section 8.1</a><!--nc-->) except that local variables must not include modifiers besides <span class="m"><span class="kw">var</span></span> and additional syntax is allowed as follows:</p>
+<ul>
+<li><p id="p-0ad37767" class="nb">The form:</p>
+<div class="fx nb" id="c-17feb7a5" data-kind="code"><div class="fx-r"><svg class="tx" data-d="17" viewBox="9.36 11.81 63.98 10.06" width="6.398em" height="1.006em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>var</text>
+<text class='t4' x='25.65' y='19.33'>?</text>
+<text class='t10' x='32.85' y='19.33'>id</text>
+<text class='t4' x='44.79' y='19.33'>:<tspan x='50.33'>T</tspan><tspan x='57.25'>yp</tspan><tspan x='68.32'>e</tspan></text></svg></div></div>
+<p id="p-a3ddae67" class="nb">declares a variable without giving it an initial value (where mutability is determined by the presence of the <span class="m"><span class="kw">var</span></span> modifier). It is a static error if such a variable is referred to before it has been given a value; an immutable variable is initialized by another variable declaration and a mutable variable is initialized by assignment. It is also a static error if an immutable variable is initialized more than once. Whenever a variable bound in this manner is assigned a value, the type of that value must be a subtype of its declared type. This form allows declaration of the types of variables to be separated from definitions, and it allows programmers to delay assigning to a variable before a sensible value is known. In the following example, the declaration of the type of a variable and its definition are separated:</p>
+<div class="fx nb both" id="c-d8f939bf" data-kind="code" data-example="Var.Local"><div class="fx-r"><svg class="tx" data-d="18" viewBox="4.38 11.86 357.04 28.49" width="35.704em" height="2.849em" fill="currentColor"><text class='t5' x='4.98' y='19.33'>π</text>
+<text class='t4' x='11.02' y='19.33'>:</text>
+<text class='t11' x='15.45' y='19.33'>R</text>
+<text class='t4' x='22.64' y='19.33'>64</text>
+<text class='t5' x='4.98' y='39.75'>π</text>
+<text class='t4' x='13.79' y='39.75'>=<tspan x='24.3'>3</tspan></text>
+<text class='t5' x='29.28' y='39.75'>.</text>
+<text class='t4' x='32.05' y='39.75'>141592653589793238462643383279502884197169399375108209749445923078</text></svg></div><pre class="fx-s"><code>  pi: RR64
+  pi = 3.141592653589793238462643383279502884197169399375108209749445923078</code></pre></div></li>
+<li><p id="p-cc721755" class="nb">Special syntax for declaring local variables as parts of a matrix is provided as described in <a class="xref" href="#sec-unpasting">Section 8.3</a><!--nc-->.</p></li>
+</ul>
+</section>
+<section class="sec" data-num="8.3" data-title="Matrix Unpasting">
+<h2 id="sec-unpasting" class="nb"><span class="num">8.3</span> Matrix Unpasting</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-597b7778" class="nb">Matrix unpasting is not yet supported.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-ef391a2d" class="nb">We should add a static check for an unpasting to avoid runtime unpasting exceptions.</p></aside>
+<div class="tw nb gr" id="g-ff5bf3e6" data-kind="grammar"><svg class="tx" data-d="19" viewBox="-5.58 10.45 323.46 141.00" width="32.346em" height="14.100em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>Unpasting</text>
+<text class='t2' x='103.72' y='28.8'>::=</text>
+<text class='t8' x='126.83' y='28.8'>[</text>
+<text class='t1' x='135.3' y='28.8'>UnpastingElems</text>
+<text class='t8' x='203.65' y='28.8'>]</text>
+<text class='t1' x='25.9' y='40.76'>UnpastingElems</text>
+<text class='t2' x='103.72' y='40.76'>::=</text>
+<text class='t1' x='126.83' y='40.76'>UnpastingElem<tspan x='191.31'>RectSepar</tspan><tspan x='232.11'>ator</tspan><tspan x='251.44'>UnpastingElems</tspan></text>
+<text class='t3' x='103.72' y='52.71'>|</text>
+<text class='t1' x='126.83' y='52.71'>UnpastingElem<tspan x='25.9' y='64.67'>UnpastingElem</tspan></text>
+<text class='t2' x='103.72' y='64.67'>::=</text>
+<text class='t1' x='126.83' y='64.67'>BindId</text>
+<text class='t2' x='156.71' y='64.67'>(</text>
+<text class='t8' x='160.03' y='64.67'>[</text>
+<text class='t1' x='168.5' y='64.67'>UnpastingDim</text>
+<text class='t8' x='229.66' y='64.67'>]</text>
+<text class='t2' x='235.63' y='64.67'>)?</text>
+<text class='t3' x='103.72' y='76.62'>|</text>
+<text class='t1' x='126.83' y='76.62'>Unpasting<tspan x='25.9' y='88.58'>UnpastingDim</tspan></text>
+<text class='t2' x='103.72' y='88.58'>::=</text>
+<text class='t1' x='126.83' y='88.58'>ExtentRang<tspan x='173.22'>e</tspan></text>
+<text class='t2' x='180.13' y='88.58'>(</text>
+<text class='t3' x='183.45' y='88.58'>×</text>
+<text class='t1' x='193.69' y='88.58'>ExtentRang<tspan x='240.08'>e</tspan></text>
+<text class='t2' x='244.5' y='88.58'>)</text>
+<text class='t6' x='247.82' y='84.96'>+</text>
+<text class='t1' x='25.9' y='100.53'>ExtentRang<tspan x='72.29'>e</tspan></text>
+<text class='t2' x='103.72' y='100.53'>::=</text>
+<text class='t1' x='126.83' y='100.53'>StaticAr<tspan x='159.12'>g</tspan></text>
+<text class='t2' x='164.1' y='100.53'>?</text>
+<text class='t8' x='168.53' y='100.53'>#</text>
+<text class='t1' x='178.66' y='100.53'>StaticAr<tspan x='210.94'>g</tspan></text>
+<text class='t2' x='215.93' y='100.53'>?</text>
+<text class='t3' x='103.72' y='112.49'>|</text>
+<text class='t1' x='126.83' y='112.49'>StaticAr<tspan x='159.12'>g</tspan></text>
+<text class='t2' x='164.1' y='112.49'>?</text>
+<text class='t4' x='168.53' y='112.49'>:</text>
+<text class='t1' x='172.95' y='112.49'>StaticAr<tspan x='205.24'>g</tspan></text>
+<text class='t2' x='210.22' y='112.49'>?</text>
+<text class='t3' x='103.72' y='124.44'>|</text>
+<text class='t1' x='126.83' y='124.44'>StaticAr<tspan x='159.12'>g</tspan><tspan x='25.9' y='136.4'>RectSepar</tspan><tspan x='66.7'>ator</tspan></text>
+<text class='t2' x='103.72' y='136.4'>::=</text>
+<text class='t4' x='128.49' y='136.4'>;</text>
+<text class='t2' x='132.92' y='136.4'>+</text>
+<text class='t3' x='103.72' y='148.35'>|</text>
+<text class='t1' x='126.83' y='148.35'>Whitespace</text></svg></div>
+<p id="p-94d2677f" class="nb">Matrix unpasting is an extension of local variable declaration syntax as a shorthand for breaking a matrix into parts. On the left-hand side of a declaration, what looks like a matrix pasting of unbound variables is actually a declaration of several new variables. This syntax serves to break the right-hand side into pieces and bind the pieces to the variables. Matrix unpastings are concise, eliminate several opportunities for fencepost errors, guarantee unaliased parts, and avoid overspecification of how the matrix should be taken apart.</p>
+<p id="p-6467d387" class="nb">The motivating example for matrix unpasting is cache-oblivious matrix multiplication. The general plan in a cache oblivious algorithm is to break the input apart on its largest dimension, and recursively attack the resulting smaller and more compact problems.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-07225b97" class="nb">Several bugs in the emacs tool for the code in this section. - superscripts were too complicated for the tool - left-hand bracket for the array was wrong</p></aside>
+<div class="fx nb" id="c-c6b3b77b" data-kind="code"><div class="fx-r"><svg class="tx" data-d="20" viewBox="9.36 10.79 307.99 248.44" width="30.799em" height="24.844em" fill="currentColor"><text class='t10' x='9.96' y='19.33'>mm</text>
+<text class='t12' x='27.02' y='19.33'></text>
+<text class='t7' x='31.03' y='19.33'>nat</text>
+<text class='t5' x='49.49' y='19.33'>m,</text>
+<text class='t7' x='62.67' y='19.33'>nat</text>
+<text class='t5' x='81.13' y='19.33'>n,</text>
+<text class='t7' x='91.53' y='19.33'>nat</text>
+<text class='t5' x='109.99' y='19.33'>p</text>
+<text class='t12' x='115' y='19.33'></text>
+<text class='t4' x='119.02' y='19.33'>(</text>
+<text class='t10' x='122.89' y='19.33'>left</text>
+<text class='t4' x='140.1' y='19.33'>:</text>
+<text class='t11' x='145.63' y='19.33'>R</text>
+<text class='t13' x='152.83' y='15.71'>m</text>
+<text class='t9' x='159.9' y='15.71'>×</text>
+<text class='t13' x='166.12' y='15.71'>n</text>
+<text class='t5' x='171.55' y='19.33'>,</text>
+<text class='t10' x='175.97' y='19.33'>right</text>
+<text class='t4' x='199.93' y='19.33'>:</text>
+<text class='t11' x='205.46' y='19.33'>R</text>
+<text class='t13' x='212.66' y='15.71'>n</text>
+<text class='t9' x='217.58' y='15.71'>×</text>
+<text class='t13' x='223.81' y='15.71'>p</text>
+<text class='t5' x='228.41' y='19.33'>,</text>
+<text class='t10' x='232.84' y='19.33'>r<tspan x='236.53'>esult</tspan></text>
+<text class='t4' x='259' y='19.33'>:</text>
+<text class='t11' x='263.43' y='19.33'>R</text>
+<text class='t13' x='270.62' y='15.71'>m</text>
+<text class='t9' x='277.69' y='15.71'>×</text>
+<text class='t13' x='283.92' y='15.71'>p</text>
+<text class='t4' x='288.52' y='19.33'>)<tspan x='294.06'>:</tspan><tspan x='298.49'>()</tspan><tspan x='309'>=</tspan></text>
+<text class='t7' x='21.92' y='31.28'>case<tspan x='48.37'>largest</tspan><tspan x='90.52'>of</tspan></text>
+<text class='t4' x='33.87' y='43.24'>1</text>
+<text class='t3' x='41.62' y='43.24'>⇒</text>
+<text class='t10' x='54.35' y='43.24'>r<tspan x='58.04'>esult</tspan></text>
+<text class='t6' x='78.85' y='44.73'>0</text>
+<text class='t13' x='82.82' y='44.73'>,</text>
+<text class='t6' x='85.18' y='44.73'>0</text>
+<text class='t4' x='92.42' y='43.24'>+<tspan x='100.17'>=</tspan><tspan x='110.69'>(</tspan></text>
+<text class='t10' x='114.56' y='43.24'>left</text>
+<text class='t6' x='129' y='45.67'>0</text>
+<text class='t13' x='132.97' y='45.67'>,</text>
+<text class='t6' x='135.34' y='45.67'>0</text>
+<text class='t10' x='139.81' y='43.24'>right</text>
+<text class='t6' x='160.99' y='45.67'>0</text>
+<text class='t13' x='164.96' y='45.67'>,</text>
+<text class='t6' x='167.33' y='45.67'>0</text>
+<text class='t4' x='171.8' y='43.24'>)</text>
+<text class='t5' x='33.87' y='55.4'>m</text>
+<text class='t3' x='45.39' y='55.4'>⇒</text>
+<text class='t4' x='58.12' y='55.4'>[</text>
+<text class='t10' x='62.55' y='55.4'>lefttop<tspan x='62.55' y='67.35'>leftb</tspan><tspan x='80.11'>ottom</tspan></text>
+<text class='t4' x='107.49' y='67.35'>]<tspan x='113.02'>=</tspan></text>
+<text class='t10' x='123.54' y='67.35'>left</text>
+<text class='t4' x='58.12' y='79.31'>[</text>
+<text class='t10' x='62.55' y='79.31'>r<tspan x='66.24'>esulttop</tspan><tspan x='62.55' y='91.26'>r</tspan><tspan x='66.24'>esultb</tspan><tspan x='90.17'>ottom</tspan></text>
+<text class='t4' x='117.54' y='91.26'>]<tspan x='123.08'>=</tspan></text>
+<text class='t10' x='133.6' y='91.26'>r<tspan x='137.29'>esult</tspan></text>
+<text class='t5' x='57.78' y='103.22'>t</text>
+<text class='t6' x='61.38' y='104.71'>1</text>
+<text class='t4' x='68.62' y='103.22'>=</text>
+<text class='t7' x='79.13' y='103.22'>spawn</text>
+<text class='t10' x='108.05' y='103.22'>mm</text>
+<text class='t4' x='125.11' y='103.22'>(</text>
+<text class='t10' x='128.99' y='103.22'>lefttop</text>
+<text class='t5' x='156.6' y='103.22'>,</text>
+<text class='t10' x='161.03' y='103.22'>right</text>
+<text class='t5' x='182.22' y='103.22'>,</text>
+<text class='t10' x='186.64' y='103.22'>r<tspan x='190.34'>esulttop</tspan></text>
+<text class='t4' x='224.32' y='103.22'>)</text>
+<text class='t10' x='57.78' y='115.17'>mm</text>
+<text class='t4' x='74.84' y='115.17'>(</text>
+<text class='t10' x='78.72' y='115.17'>leftb<tspan x='96.28'>ottom</tspan></text>
+<text class='t5' x='122' y='115.17'>,</text>
+<text class='t10' x='126.43' y='115.17'>right</text>
+<text class='t5' x='147.61' y='115.17'>,</text>
+<text class='t10' x='152.04' y='115.17'>r<tspan x='155.73'>esultb</tspan><tspan x='179.66'>ottom</tspan></text>
+<text class='t4' x='205.38' y='115.17'>)</text>
+<text class='t5' x='57.78' y='127.13'>t</text>
+<text class='t6' x='61.38' y='128.62'>1</text>
+<text class='t5' x='65.85' y='127.13'>.</text>
+<text class='t10' x='68.62' y='127.13'>wait</text>
+<text class='t4' x='87.64' y='127.13'>()</text>
+<text class='t5' x='33.87' y='139.08'>p</text>
+<text class='t3' x='41.65' y='139.08'>⇒</text>
+<text class='t4' x='54.38' y='139.08'>[</text>
+<text class='t10' x='58.81' y='139.08'>rightleft<tspan x='95.7'>rightright</tspan></text>
+<text class='t4' x='138.79' y='139.08'>]<tspan x='144.33'>=</tspan></text>
+<text class='t10' x='154.84' y='139.08'>right</text>
+<text class='t4' x='54.38' y='151.04'>[</text>
+<text class='t10' x='58.81' y='151.04'>r<tspan x='62.5'>esultleft</tspan><tspan x='99.01'>r</tspan><tspan x='102.71'>esultright</tspan></text>
+<text class='t4' x='145.41' y='151.04'>]<tspan x='150.94'>=</tspan></text>
+<text class='t10' x='161.46' y='151.04'>r<tspan x='165.15'>esult</tspan></text>
+<text class='t5' x='51.81' y='162.99'>t</text>
+<text class='t6' x='55.4' y='164.49'>1</text>
+<text class='t4' x='62.64' y='162.99'>=</text>
+<text class='t7' x='73.16' y='162.99'>spawn</text>
+<text class='t10' x='102.08' y='162.99'>mm</text>
+<text class='t4' x='119.13' y='162.99'>(</text>
+<text class='t10' x='123.01' y='162.99'>left</text>
+<text class='t5' x='137.45' y='162.99'>,</text>
+<text class='t10' x='141.87' y='162.99'>rightleft</text>
+<text class='t5' x='176.55' y='162.99'>,</text>
+<text class='t10' x='180.98' y='162.99'>r<tspan x='184.67'>esultleft</tspan></text>
+<text class='t4' x='218.97' y='162.99'>)</text>
+<text class='t10' x='51.81' y='174.95'>mm</text>
+<text class='t4' x='68.86' y='174.95'>(</text>
+<text class='t10' x='72.74' y='174.95'>left</text>
+<text class='t5' x='87.18' y='174.95'>,</text>
+<text class='t10' x='91.61' y='174.95'>rightright</text>
+<text class='t5' x='133.03' y='174.95'>,</text>
+<text class='t10' x='137.46' y='174.95'>r<tspan x='141.15'>esultright</tspan></text>
+<text class='t4' x='182.2' y='174.95'>)</text>
+<text class='t5' x='51.81' y='186.9'>t</text>
+<text class='t6' x='55.4' y='188.4'>1</text>
+<text class='t5' x='59.87' y='186.9'>.</text>
+<text class='t10' x='62.64' y='186.9'>wait</text>
+<text class='t4' x='81.66' y='186.9'>()</text>
+<text class='t5' x='33.87' y='198.86'>n</text>
+<text class='t3' x='42.62' y='198.86'>⇒</text>
+<text class='t4' x='55.35' y='198.86'>[</text>
+<text class='t10' x='59.78' y='198.86'>leftleft<tspan x='89.92'>leftright</tspan></text>
+<text class='t4' x='126.26' y='198.86'>]<tspan x='131.8'>=</tspan></text>
+<text class='t10' x='142.32' y='198.86'>left</text>
+<text class='t4' x='54.57' y='210.81'>[</text>
+<text class='t10' x='59' y='210.81'>righttop<tspan x='59' y='222.77'>rightb</tspan><tspan x='83.31'>ottom</tspan></text>
+<text class='t4' x='110.69' y='222.77'>]<tspan x='116.22'>=</tspan></text>
+<text class='t10' x='126.74' y='222.77'>right<tspan x='54.57' y='234.73'>mm</tspan></text>
+<text class='t4' x='71.63' y='234.73'>(</text>
+<text class='t10' x='75.51' y='234.73'>leftleft</text>
+<text class='t5' x='103.44' y='234.73'>,</text>
+<text class='t10' x='107.87' y='234.73'>righttop</text>
+<text class='t5' x='142.23' y='234.73'>,</text>
+<text class='t10' x='146.66' y='234.73'>r<tspan x='150.35'>esult</tspan></text>
+<text class='t4' x='171.15' y='234.73'>)</text>
+<text class='t10' x='54.57' y='246.68'>mm</text>
+<text class='t4' x='71.63' y='246.68'>(</text>
+<text class='t10' x='75.51' y='246.68'>leftright</text>
+<text class='t5' x='110.18' y='246.68'>,</text>
+<text class='t10' x='114.61' y='246.68'>rightb<tspan x='138.93'>ottom</tspan></text>
+<text class='t5' x='164.64' y='246.68'>,</text>
+<text class='t10' x='169.07' y='246.68'>r<tspan x='172.76'>esult</tspan></text>
+<text class='t4' x='193.56' y='246.68'>)</text>
+<text class='t7' x='21.92' y='258.64'>end</text></svg></div></div>
+<p id="p-ce25ad1b" class="nb">In unpasting, the element syntax is slightly enhanced both to permit some specification of the split location and to receive information about the split that was performed. For example, perhaps only the upper left square of a matrix is interesting. The programmer can annotate bounds to the square unpasted element:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-cadb4626" class="nb">I manually edited superscripts, subscripts, and the left square bracket.</p></aside>
+<div class="fx nb" id="c-b06266f1" data-kind="code"><div class="fx-r"><svg class="tx" data-d="21" viewBox="9.36 10.79 150.23 140.64" width="15.023em" height="14.064em" fill="currentColor"><text class='t10' x='9.96' y='19.33'>fo<tspan x='17.6'>o</tspan></text>
+<text class='t12' x='23.32' y='19.33'></text>
+<text class='t7' x='27.33' y='19.33'>nat</text>
+<text class='t5' x='45.79' y='19.33'>m,</text>
+<text class='t7' x='58.97' y='19.33'>nat</text>
+<text class='t5' x='77.43' y='19.33'>n</text>
+<text class='t12' x='83.41' y='19.33'></text>
+<text class='t4' x='87.42' y='19.33'>(</text>
+<text class='t5' x='91.29' y='19.33'>A</text>
+<text class='t4' x='100.43' y='19.33'>:</text>
+<text class='t11' x='104.85' y='19.33'>R</text>
+<text class='t13' x='112.05' y='15.71'>m</text>
+<text class='t9' x='119.12' y='15.71'>×</text>
+<text class='t13' x='125.34' y='15.71'>n</text>
+<text class='t4' x='130.77' y='19.33'>)<tspan x='136.3'>:</tspan><tspan x='140.73'>()</tspan><tspan x='151.25'>=</tspan></text>
+<text class='t7' x='21.92' y='31.28'>if</text>
+<text class='t5' x='35.15' y='31.28'>m<tspan x='46.66'>&lt;</tspan><tspan x='57.18'>n</tspan></text>
+<text class='t7' x='65.92' y='31.28'>then</text>
+<text class='t4' x='35.15' y='43.24'>[</text>
+<text class='t10' x='39.57' y='43.24'>squar<tspan x='62.36'>eShap</tspan><tspan x='87.31'>e</tspan></text>
+<text class='t13' x='92.64' y='45.67'>m</text>
+<text class='t9' x='99.71' y='45.67'>×</text>
+<text class='t13' x='105.94' y='45.67'>m</text>
+<text class='t10' x='113.51' y='43.24'>r<tspan x='117.2'>est</tspan></text>
+<text class='t4' x='131.77' y='43.24'>]<tspan x='137.3'>=</tspan></text>
+<text class='t5' x='147.82' y='43.24'>A<tspan x='35.15' y='55.19'>.</tspan><tspan x='39.57'>.</tspan><tspan x='44'>.</tspan></text>
+<text class='t7' x='21.92' y='67.15'>elif</text>
+<text class='t5' x='45.61' y='67.15'>m<tspan x='57.12'>></tspan><tspan x='67.64'>n</tspan></text>
+<text class='t7' x='76.38' y='67.15'>then</text>
+<text class='t4' x='45.61' y='79.1'>[</text>
+<text class='t10' x='50.03' y='79.1'>squar<tspan x='72.82'>eShap</tspan><tspan x='97.77'>e</tspan></text>
+<text class='t13' x='103.1' y='81.54'>n</text>
+<text class='t9' x='108.03' y='81.54'>×</text>
+<text class='t13' x='114.25' y='81.54'>n</text>
+<text class='t10' x='50.03' y='91.06'>r<tspan x='53.73'>est</tspan></text>
+<text class='t4' x='68.3' y='91.06'>]<tspan x='73.83'>=</tspan></text>
+<text class='t5' x='84.35' y='91.06'>A<tspan x='45.61' y='103.01'>.</tspan><tspan x='50.03'>.</tspan><tspan x='54.46'>.</tspan></text>
+<text class='t7' x='21.92' y='114.97'>else</text>
+<text class='t4' x='45.61' y='114.97'>(</text>
+<text class='t3' x='49.48' y='114.97'>∗</text>
+<text class='t2' x='57.23' y='114.97'>A<tspan x='66.91'>already</tspan><tspan x='98.72'>square</tspan></text>
+<text class='t3' x='127.49' y='114.97'>∗</text>
+<text class='t4' x='132.47' y='114.97'>)</text>
+<text class='t10' x='45.61' y='126.92'>squar<tspan x='68.39'>eShap</tspan><tspan x='93.34'>e</tspan></text>
+<text class='t4' x='101.44' y='126.92'>=</text>
+<text class='t5' x='111.96' y='126.92'>A<tspan x='45.61' y='138.88'>.</tspan><tspan x='50.03'>.</tspan><tspan x='54.46'>.</tspan></text>
+<text class='t7' x='21.92' y='150.83'>end</text></svg></div></div>
+<p id="p-112f3692" class="nb">The types of the elements of the newly declared matrix variables on the left-hand side of an unpasting are inferred (trivially) to be the type of the elements on the right-hand side.</p>
+<p id="p-1f447805" class="nb">If an unpasting into explicitly sized pieces does not exactly cover the right-hand-side matrix, an <span class="m"><span class="ty">UnpastingError</span></span> is thrown.</p>
+<p id="p-95973915" class="nb">Each element of the left-hand-side of unpasting includes an optional <em>extent specification</em>. An extent specification <span class="m"><i>low</i> <span class="rm"><span class="tt">#</span></span> <i>num</i></span> describes the indexing and the size of the given part of the matrix. The lower extent must be bound, either before the unpasting, or earlier (left-or-above) in the unpasting. For example, suppose that an algorithm chooses to break a matrix into 4 pieces, but retain the original indices for each piece:</p>
+<div class="fx nb" id="c-99bff1bf" data-kind="code"><div class="fx-r"><svg class="tx" data-d="22" viewBox="9.36 10.46 229.72 60.13" width="22.972em" height="6.013em" fill="currentColor"><text class='t10' x='9.96' y='20.88'>b<tspan x='14.04'>ar</tspan></text>
+<text class='t12' x='24.4' y='20.88'></text>
+<text class='t7' x='28.41' y='20.88'>nat</text>
+<text class='t5' x='46.87' y='20.88'>p,</text>
+<text class='t7' x='56.31' y='20.88'>nat</text>
+<text class='t5' x='74.77' y='20.88'>q</text>
+<text class='t12' x='79.58' y='20.88'></text>
+<text class='t4' x='83.59' y='20.88'>(</text>
+<text class='t5' x='87.46' y='20.88'>X</text>
+<text class='t4' x='98.16' y='20.88'>:</text>
+<text class='t11' x='102.59' y='20.88'>R</text>
+<text class='t13' x='109.78' y='17.27'>r</text>
+<text class='t14' x='113.48' y='18.26'>0</text>
+<text class='t8' x='117.37' y='17.27'>#</text>
+<text class='t13' x='123.35' y='17.27'>p</text>
+<text class='t9' x='127.45' y='17.27'>×</text>
+<text class='t13' x='133.68' y='17.27'>c</text>
+<text class='t14' x='137.24' y='18.26'>0</text>
+<text class='t8' x='141.13' y='17.27'>#</text>
+<text class='t13' x='147.11' y='17.27'>q</text>
+<text class='t4' x='151.51' y='20.88'>)<tspan x='157.04'>:</tspan><tspan x='161.47'>()</tspan><tspan x='171.99'>=</tspan></text>
+<text class='t7' x='182.5' y='20.88'>do</text>
+<text class='t4' x='27.9' y='32.84'>[<tspan x='32.32'>A</tspan></text>
+<text class='t13' x='39.8' y='35.71'>r</text>
+<text class='t14' x='43.49' y='36.71'>0</text>
+<text class='t8' x='47.38' y='35.71'>#</text>
+<text class='t13' x='53.36' y='35.71'>m</text>
+<text class='t9' x='82.85' y='35.71'>×</text>
+<text class='t13' x='89.07' y='35.71'>c</text>
+<text class='t14' x='92.63' y='36.71'>0</text>
+<text class='t8' x='96.52' y='35.71'>#</text>
+<text class='t13' x='102.5' y='35.71'>n</text>
+<text class='t4' x='112.9' y='32.84'>B</text>
+<text class='t13' x='119.96' y='35.71'>r</text>
+<text class='t14' x='123.66' y='36.71'>0</text>
+<text class='t8' x='127.55' y='35.71'>#</text>
+<text class='t13' x='133.52' y='35.71'>m</text>
+<text class='t9' x='165.5' y='35.71'>×</text>
+<text class='t13' x='171.73' y='35.71'>c</text>
+<text class='t14' x='175.29' y='36.71'>0</text>
+<text class='t6' x='179.18' y='35.71'>+</text>
+<text class='t13' x='185.29' y='35.71'>n</text>
+<text class='t8' x='190.22' y='35.71'>#</text>
+<text class='t13' x='196.19' y='35.71'>q</text>
+<text class='t9' x='200.1' y='35.71'>−</text>
+<text class='t13' x='206.32' y='35.71'>n</text>
+<text class='t4' x='32.32' y='45.43'>C</text>
+<text class='t13' x='39.52' y='48.31'>r</text>
+<text class='t14' x='43.22' y='49.31'>0</text>
+<text class='t6' x='47.11' y='48.31'>+</text>
+<text class='t13' x='53.22' y='48.31'>m</text>
+<text class='t8' x='60.29' y='48.31'>#</text>
+<text class='t13' x='66.27' y='48.31'>p</text>
+<text class='t9' x='70.38' y='48.31'>−</text>
+<text class='t13' x='76.6' y='48.31'>m</text>
+<text class='t9' x='83.67' y='48.31'>×</text>
+<text class='t13' x='89.9' y='48.31'>c</text>
+<text class='t14' x='93.46' y='49.31'>0</text>
+<text class='t8' x='97.35' y='48.31'>#</text>
+<text class='t13' x='103.33' y='48.31'>n</text>
+<text class='t4' x='113.73' y='45.43'>D</text>
+<text class='t13' x='121.34' y='48.31'>r</text>
+<text class='t14' x='125.04' y='49.31'>0</text>
+<text class='t6' x='128.93' y='48.31'>+</text>
+<text class='t13' x='135.04' y='48.31'>m</text>
+<text class='t8' x='142.11' y='48.31'>#</text>
+<text class='t13' x='148.09' y='48.31'>p</text>
+<text class='t9' x='152.2' y='48.31'>−</text>
+<text class='t13' x='158.42' y='48.31'>m</text>
+<text class='t9' x='165.49' y='48.31'>×</text>
+<text class='t13' x='171.72' y='48.31'>c</text>
+<text class='t14' x='175.28' y='49.31'>0</text>
+<text class='t6' x='179.17' y='48.31'>+</text>
+<text class='t13' x='185.28' y='48.31'>n</text>
+<text class='t8' x='190.21' y='48.31'>#</text>
+<text class='t13' x='196.19' y='48.31'>q</text>
+<text class='t9' x='200.09' y='48.31'>−</text>
+<text class='t13' x='206.32' y='48.31'>n</text>
+<text class='t4' x='213.4' y='45.43'>]<tspan x='218.93'>=</tspan></text>
+<text class='t5' x='229.45' y='45.43'>X<tspan x='27.9' y='58.03'>.</tspan><tspan x='32.32'>.</tspan><tspan x='36.75'>.</tspan></text>
+<text class='t7' x='9.96' y='69.99'>end</text></svg></div></div>
+<p id="p-986e776c" class="nb">Unpasting does not directly support non-uniform decomposition, and does not provide any sort of constraint satisfaction between the extents of the parts. For example, the following decomposition is not legal because it constrains the split sizes to be equal with respect to unbound <span class="m"><span class="kw">nat</span></span> parameters:</p>
+<div class="fx nb" id="c-80a4fe78" data-kind="code"><div class="fx-r"><svg class="tx" data-d="23" viewBox="9.36 11.26 174.51 80.40" width="17.451em" height="8.040em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>(</text>
+<text class='t3' x='13.84' y='19.33'>∗</text>
+<text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t3' x='76.4' y='19.33'>∗</text>
+<text class='t4' x='81.38' y='19.33'>)</text>
+<text class='t10' x='9.96' y='31.28'>fub<tspan x='22.44'>ar</tspan></text>
+<text class='t12' x='32.8' y='31.28'></text>
+<text class='t7' x='36.82' y='31.28'>nat</text>
+<text class='t5' x='55.27' y='31.28'>m,</text>
+<text class='t7' x='68.45' y='31.28'>nat</text>
+<text class='t5' x='86.91' y='31.28'>n</text>
+<text class='t12' x='92.89' y='31.28'></text>
+<text class='t4' x='96.9' y='31.28'>(</text>
+<text class='t5' x='100.77' y='31.28'>X</text>
+<text class='t4' x='111.47' y='31.28'>:</text>
+<text class='t11' x='115.9' y='31.28'>R</text>
+<text class='t13' x='123.09' y='27.67'>m</text>
+<text class='t9' x='130.16' y='27.67'>×</text>
+<text class='t13' x='136.39' y='27.67'>n</text>
+<text class='t4' x='141.81' y='31.28'>)<tspan x='147.35'>:</tspan><tspan x='151.78'>()</tspan><tspan x='162.29'>=</tspan></text>
+<text class='t7' x='172.81' y='31.28'>do</text>
+<text class='t4' x='21.92' y='43.24'>(</text>
+<text class='t3' x='25.79' y='43.24'>∗</text>
+<text class='t2' x='33.54' y='43.24'>p<tspan x='41.01'>and</tspan><tspan x='57.89'>q</tspan><tspan x='65.36'>unbound</tspan></text>
+<text class='t3' x='103' y='43.24'>∗</text>
+<text class='t4' x='107.98' y='43.24'>)<tspan x='21.92' y='55.19'>[</tspan><tspan x='26.35'>A</tspan></text>
+<text class='t13' x='33.82' y='56.69'>p</text>
+<text class='t9' x='37.92' y='56.69'>×</text>
+<text class='t13' x='44.15' y='56.69'>q</text>
+<text class='t4' x='53.53' y='55.19'>B</text>
+<text class='t13' x='60.59' y='56.69'>p</text>
+<text class='t9' x='64.7' y='56.69'>×</text>
+<text class='t13' x='70.92' y='56.69'>q</text>
+<text class='t4' x='26.35' y='67.15'>C</text>
+<text class='t13' x='33.54' y='68.64'>p</text>
+<text class='t9' x='37.65' y='68.64'>×</text>
+<text class='t13' x='43.87' y='68.64'>q</text>
+<text class='t4' x='53.26' y='67.15'>D</text>
+<text class='t13' x='60.87' y='68.64'>p</text>
+<text class='t9' x='64.97' y='68.64'>×</text>
+<text class='t13' x='71.2' y='68.64'>q</text>
+<text class='t4' x='77.26' y='67.15'>]<tspan x='82.79'>=</tspan></text>
+<text class='t5' x='93.31' y='67.15'>X<tspan x='21.92' y='79.1'>.</tspan><tspan x='26.35'>.</tspan><tspan x='30.77'>.</tspan></text>
+<text class='t7' x='9.96' y='91.06'>end</text></svg></div></div>
+<p id="p-33df963c" class="nb">To get this effect, the programmer should compute the constrained values:</p>
+<div class="fx nb" id="c-803f5906" data-kind="code"><div class="fx-r"><svg class="tx" data-d="24" viewBox="9.36 10.62 182.45 57.13" width="18.245em" height="5.713em" fill="currentColor"><text class='t10' x='9.96' y='19.33'>fub<tspan x='22.44'>ar</tspan></text>
+<text class='t12' x='32.8' y='19.33'></text>
+<text class='t7' x='36.82' y='19.33'>nat</text>
+<text class='t5' x='55.27' y='19.33'>m,</text>
+<text class='t7' x='68.45' y='19.33'>nat</text>
+<text class='t5' x='86.91' y='19.33'>n</text>
+<text class='t12' x='92.89' y='19.33'></text>
+<text class='t4' x='96.9' y='19.33'>(</text>
+<text class='t5' x='100.77' y='19.33'>X</text>
+<text class='t4' x='111.47' y='19.33'>:</text>
+<text class='t11' x='115.9' y='19.33'>R</text>
+<text class='t6' x='123.09' y='15.71'>2</text>
+<text class='t13' x='127.07' y='15.71'>m</text>
+<text class='t9' x='134.13' y='15.71'>×</text>
+<text class='t6' x='140.36' y='15.71'>2</text>
+<text class='t13' x='144.33' y='15.71'>n</text>
+<text class='t4' x='149.76' y='19.33'>)<tspan x='155.29'>:</tspan><tspan x='159.72'>()</tspan><tspan x='170.23'>=</tspan></text>
+<text class='t7' x='180.75' y='19.33'>do</text>
+<text class='t4' x='21.92' y='31.28'>[<tspan x='26.35'>A</tspan></text>
+<text class='t13' x='33.82' y='32.78'>m</text>
+<text class='t9' x='40.89' y='32.78'>×</text>
+<text class='t13' x='47.11' y='32.78'>n</text>
+<text class='t4' x='57.52' y='31.28'>B</text>
+<text class='t13' x='64.58' y='32.78'>m</text>
+<text class='t9' x='71.64' y='32.78'>×</text>
+<text class='t13' x='77.87' y='32.78'>n</text>
+<text class='t4' x='26.35' y='43.24'>C</text>
+<text class='t13' x='33.54' y='44.73'>m</text>
+<text class='t9' x='40.61' y='44.73'>×</text>
+<text class='t13' x='46.84' y='44.73'>n</text>
+<text class='t4' x='57.24' y='43.24'>D</text>
+<text class='t13' x='64.85' y='44.73'>m</text>
+<text class='t9' x='71.92' y='44.73'>×</text>
+<text class='t13' x='78.15' y='44.73'>n</text>
+<text class='t4' x='85.23' y='43.24'>]<tspan x='90.77'>=</tspan></text>
+<text class='t5' x='101.28' y='43.24'>X<tspan x='21.92' y='55.19'>.</tspan><tspan x='26.35'>.</tspan><tspan x='30.77'>.</tspan></text>
+<text class='t7' x='9.96' y='67.15'>end</text></svg></div></div>
+<p id="p-18ebe8de" class="nb">Some non-uniform unpastings can be obtained with composition, which can be expressed either by repeated unpasting:</p>
+<div class="fx nb" id="c-b9d05874" data-kind="code"><div class="fx-r"><svg class="tx" data-d="25" viewBox="9.36 10.62 202.17 93.00" width="20.217em" height="9.300em" fill="currentColor"><text class='t10' x='9.96' y='19.33'>une<tspan x='24.98'>qualR</tspan><tspan x='49.31'>ows</tspan></text>
+<text class='t12' x='65.91' y='19.33'></text>
+<text class='t7' x='69.92' y='19.33'>nat</text>
+<text class='t5' x='88.38' y='19.33'>m,</text>
+<text class='t7' x='101.56' y='19.33'>nat</text>
+<text class='t5' x='120.02' y='19.33'>n</text>
+<text class='t12' x='126' y='19.33'></text>
+<text class='t4' x='130.01' y='19.33'>(</text>
+<text class='t5' x='133.88' y='19.33'>X</text>
+<text class='t4' x='144.58' y='19.33'>:</text>
+<text class='t5' x='149.01' y='19.33'>R</text>
+<text class='t6' x='156.65' y='15.71'>4</text>
+<text class='t13' x='160.62' y='15.71'>m</text>
+<text class='t9' x='167.69' y='15.71'>×</text>
+<text class='t6' x='173.92' y='15.71'>2</text>
+<text class='t13' x='177.89' y='15.71'>n</text>
+<text class='t4' x='183.31' y='19.33'>)<tspan x='189.95'>=</tspan></text>
+<text class='t7' x='200.47' y='19.33'>do</text>
+<text class='t4' x='33.87' y='31.28'>[</text>
+<text class='t5' x='38.3' y='31.28'>c</text>
+<text class='t4' x='42.61' y='31.28'>1</text>
+<text class='t6' x='47.59' y='32.78'>4</text>
+<text class='t13' x='51.56' y='32.78'>m</text>
+<text class='t9' x='58.63' y='32.78'>×</text>
+<text class='t13' x='64.86' y='32.78'>n</text>
+<text class='t5' x='72.77' y='31.28'>c</text>
+<text class='t4' x='77.09' y='31.28'>2</text>
+<text class='t6' x='82.07' y='32.78'>4</text>
+<text class='t13' x='86.04' y='32.78'>m</text>
+<text class='t9' x='93.11' y='32.78'>×</text>
+<text class='t13' x='99.33' y='32.78'>n</text>
+<text class='t4' x='106.42' y='31.28'>]<tspan x='111.95'>=</tspan></text>
+<text class='t5' x='122.47' y='31.28'>X</text>
+<text class='t4' x='33.87' y='43.24'>[<tspan x='38.3'>A</tspan></text>
+<text class='t13' x='45.77' y='44.73'>m</text>
+<text class='t9' x='52.84' y='44.73'>×</text>
+<text class='t13' x='59.07' y='44.73'>n</text>
+<text class='t4' x='38.3' y='55.19'>C</text>
+<text class='t6' x='45.5' y='56.69'>3</text>
+<text class='t13' x='49.47' y='56.69'>m</text>
+<text class='t9' x='56.54' y='56.69'>×</text>
+<text class='t13' x='62.76' y='56.69'>n</text>
+<text class='t4' x='69.85' y='55.19'>]<tspan x='75.38'>=</tspan></text>
+<text class='t5' x='85.9' y='55.19'>c</text>
+<text class='t4' x='90.21' y='55.19'>1<tspan x='33.87' y='67.15'>[</tspan><tspan x='38.3'>B</tspan></text>
+<text class='t6' x='45.36' y='68.64'>3</text>
+<text class='t13' x='49.33' y='68.64'>m</text>
+<text class='t9' x='56.4' y='68.64'>×</text>
+<text class='t13' x='62.63' y='68.64'>n</text>
+<text class='t4' x='38.3' y='79.1'>D</text>
+<text class='t13' x='45.91' y='80.6'>m</text>
+<text class='t9' x='52.98' y='80.6'>×</text>
+<text class='t13' x='59.21' y='80.6'>n</text>
+<text class='t4' x='66.29' y='79.1'>]<tspan x='71.83'>=</tspan></text>
+<text class='t5' x='82.34' y='79.1'>c</text>
+<text class='t4' x='86.65' y='79.1'>2</text>
+<text class='t5' x='33.87' y='91.06'>.<tspan x='38.3'>.</tspan><tspan x='42.73'>.</tspan></text>
+<text class='t7' x='9.96' y='103.01'>end</text></svg></div></div>
+<p id="p-23cb90d6" class="nb">or simply by nesting matrices in the unpasting:</p>
+<div class="fx nb" id="c-36571cc8" data-kind="code"><div class="fx-r"><svg class="tx" data-d="26" viewBox="9.36 10.62 202.17 57.13" width="20.217em" height="5.713em" fill="currentColor"><text class='t10' x='9.96' y='19.33'>une<tspan x='24.98'>qualR</tspan><tspan x='49.31'>ows</tspan></text>
+<text class='t12' x='65.91' y='19.33'></text>
+<text class='t7' x='69.92' y='19.33'>nat</text>
+<text class='t5' x='88.38' y='19.33'>m,</text>
+<text class='t7' x='101.56' y='19.33'>nat</text>
+<text class='t5' x='120.02' y='19.33'>n</text>
+<text class='t12' x='126' y='19.33'></text>
+<text class='t4' x='130.01' y='19.33'>(</text>
+<text class='t5' x='133.88' y='19.33'>X</text>
+<text class='t4' x='144.58' y='19.33'>:</text>
+<text class='t5' x='149.01' y='19.33'>R</text>
+<text class='t6' x='156.65' y='15.71'>2</text>
+<text class='t13' x='160.62' y='15.71'>m</text>
+<text class='t9' x='167.69' y='15.71'>×</text>
+<text class='t6' x='173.92' y='15.71'>4</text>
+<text class='t13' x='177.89' y='15.71'>n</text>
+<text class='t4' x='183.31' y='19.33'>)<tspan x='189.95'>=</tspan></text>
+<text class='t7' x='200.47' y='19.33'>do</text>
+<text class='t4' x='21.92' y='31.28'>[<tspan x='26.35'>[</tspan><tspan x='30.77'>A</tspan></text>
+<text class='t13' x='38.25' y='32.78'>m</text>
+<text class='t9' x='45.32' y='32.78'>×</text>
+<text class='t13' x='51.54' y='32.78'>n</text>
+<text class='t4' x='56.96' y='31.28'>B</text>
+<text class='t13' x='64.02' y='32.78'>m</text>
+<text class='t9' x='71.09' y='32.78'>×</text>
+<text class='t6' x='77.32' y='32.78'>3</text>
+<text class='t13' x='81.29' y='32.78'>n</text>
+<text class='t4' x='86.71' y='31.28'>]<tspan x='26.35' y='43.24'>[</tspan><tspan x='30.77'>C</tspan></text>
+<text class='t13' x='37.97' y='44.73'>m</text>
+<text class='t9' x='45.04' y='44.73'>×</text>
+<text class='t6' x='51.26' y='44.73'>3</text>
+<text class='t13' x='55.24' y='44.73'>n</text>
+<text class='t4' x='60.66' y='43.24'>D</text>
+<text class='t13' x='68.27' y='44.73'>m</text>
+<text class='t9' x='75.34' y='44.73'>×</text>
+<text class='t13' x='81.57' y='44.73'>n</text>
+<text class='t4' x='88.65' y='43.24'>]<tspan x='93.08'>]</tspan><tspan x='98.61'>=</tspan></text>
+<text class='t5' x='109.13' y='43.24'>X<tspan x='21.92' y='55.19'>.</tspan><tspan x='26.35'>.</tspan><tspan x='30.77'>.</tspan></text>
+<text class='t7' x='9.96' y='67.15'>end</text></svg></div></div>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="declarations.html"><span>Previous</span> 7. Names and Declarations</a><a class="next" href="functions.html"><span>Next</span> 9. Functions</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/variables.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

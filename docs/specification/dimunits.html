@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>18. Dimensions and Units · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t4{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t5{font-family:cmr10;font-size:9.96px}
+svg.tx text.t6{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t7{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t8{font-family:cmti10;font-size:9.96px}
+svg.tx text.t9{font-family:msbm10;font-size:9.96px}
+svg.tx text.t10{font-family:cmr7;font-size:6.97px}
+</style>
+</head>
+<body data-page="chapter" data-slug="dimunits" data-chapter="18. Dimensions and Units">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">18. Dimensions and Units</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="18" data-title="Dimensions and Units">
+<h1 id="top" class="nb"><a id="chap-dimunits"></a><span class="num">Chapter 18</span> Dimensions and Units</h1>
+
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-a64fedd5" class="nb">Dimensions and units are not yet supported.</p>
+<p id="p-b7b1193e" class="nb">The examples in this chapter are not tested nor run by the interpreter.</p></aside>
+<div class="tw nb gr" id="g-af2c0ff7" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 205.93 356.19" width="20.593em" height="35.619em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>T<tspan x='30.7'>ypeRef</tspan></text>
+<text class='t2' x='61.76' y='28.8'>:<tspan x='81.33'>:=</tspan></text>
+<text class='t1' x='104.45' y='28.8'>DimT<tspan x='126.41'>ype</tspan><tspan x='25.9' y='40.76'>DimT</tspan><tspan x='47.86'>ype</tspan></text>
+<text class='t2' x='81.33' y='40.76'>::=</text>
+<text class='t1' x='104.45' y='40.76'>DimRef</text>
+<text class='t3' x='81.33' y='52.71'>|</text>
+<text class='t1' x='104.45' y='52.71'>T<tspan x='109.25'>ypeRef</tspan><tspan x='140.3'>DimRef</tspan></text>
+<text class='t3' x='81.33' y='64.67'>|</text>
+<text class='t1' x='104.45' y='64.67'>T<tspan x='109.25'>ypeRef</tspan></text>
+<text class='t3' x='141.96' y='64.67'>·</text>
+<text class='t1' x='148.88' y='64.67'>DimRef</text>
+<text class='t3' x='81.33' y='76.62'>|</text>
+<text class='t1' x='104.45' y='76.62'>T<tspan x='109.25'>ypeRef</tspan></text>
+<text class='t4' x='141.96' y='76.62'>/</text>
+<text class='t1' x='151.1' y='76.62'>DimRef</text>
+<text class='t3' x='81.33' y='88.58'>|</text>
+<text class='t1' x='104.45' y='88.58'>T<tspan x='109.25'>ypeRef</tspan></text>
+<text class='t5' x='141.13' y='88.58'>p<tspan x='146.94'>er</tspan></text>
+<text class='t1' x='158.6' y='88.58'>DimRef</text>
+<text class='t3' x='81.33' y='100.53'>|</text>
+<text class='t1' x='104.45' y='100.53'>T<tspan x='109.25'>ypeRef</tspan><tspan x='140.3'>UnitRef</tspan></text>
+<text class='t3' x='81.33' y='112.49'>|</text>
+<text class='t1' x='104.45' y='112.49'>T<tspan x='109.25'>ypeRef</tspan></text>
+<text class='t3' x='141.96' y='112.49'>·</text>
+<text class='t1' x='148.88' y='112.49'>UnitRef</text>
+<text class='t3' x='81.33' y='124.44'>|</text>
+<text class='t1' x='104.45' y='124.44'>T<tspan x='109.25'>ypeRef</tspan></text>
+<text class='t4' x='141.96' y='124.44'>/</text>
+<text class='t1' x='151.1' y='124.44'>UnitRef</text>
+<text class='t3' x='81.33' y='136.4'>|</text>
+<text class='t1' x='104.45' y='136.4'>T<tspan x='109.25'>ypeRef</tspan></text>
+<text class='t5' x='141.13' y='136.4'>p<tspan x='146.94'>er</tspan></text>
+<text class='t1' x='158.6' y='136.4'>UnitRef</text>
+<text class='t3' x='81.33' y='148.35'>|</text>
+<text class='t1' x='104.45' y='148.35'>T<tspan x='109.25'>ypeRef</tspan></text>
+<text class='t6' x='141.96' y='148.35'>in</text>
+<text class='t1' x='156.58' y='148.35'>DimRef<tspan x='25.9' y='160.31'>DimRef</tspan></text>
+<text class='t2' x='81.33' y='160.31'>::=</text>
+<text class='t1' x='104.45' y='160.31'>StaticAr<tspan x='136.74'>g</tspan><tspan x='25.9' y='172.26'>StaticAr</tspan><tspan x='58.19'>g</tspan></text>
+<text class='t2' x='81.33' y='172.26'>::=</text>
+<text class='t5' x='105.28' y='172.26'>Unit<tspan x='124.65'>y</tspan></text>
+<text class='t3' x='81.33' y='184.22'>|</text>
+<text class='t5' x='105.28' y='184.22'>dimensionless</text>
+<text class='t3' x='81.33' y='196.17'>|</text>
+<text class='t1' x='104.45' y='196.17'>StaticAr<tspan x='136.74'>g</tspan></text>
+<text class='t3' x='145.87' y='196.17'>·</text>
+<text class='t1' x='152.79' y='196.17'>StaticAr<tspan x='185.08'>g</tspan></text>
+<text class='t3' x='81.33' y='208.13'>|</text>
+<text class='t1' x='104.45' y='208.13'>StaticAr<tspan x='136.74'>g</tspan><tspan x='144.21'>StaticAr</tspan><tspan x='176.5'>g</tspan></text>
+<text class='t3' x='81.33' y='220.08'>|</text>
+<text class='t1' x='104.45' y='220.08'>StaticAr<tspan x='136.74'>g</tspan></text>
+<text class='t4' x='145.87' y='220.08'>/</text>
+<text class='t1' x='155' y='220.08'>StaticAr<tspan x='187.29'>g</tspan></text>
+<text class='t3' x='81.33' y='232.04'>|</text>
+<text class='t5' x='106.11' y='232.04'>1</text>
+<text class='t4' x='112.75' y='232.04'>/</text>
+<text class='t1' x='119.39' y='232.04'>StaticAr<tspan x='151.68'>g</tspan></text>
+<text class='t3' x='81.33' y='243.99'>|</text>
+<text class='t1' x='104.45' y='243.99'>StaticAr<tspan x='136.74'>g</tspan></text>
+<text class='t7' x='144.21' y='243.99'>ˆ</text>
+<text class='t1' x='152.68' y='243.99'>StaticAr<tspan x='184.96'>g</tspan></text>
+<text class='t3' x='81.33' y='255.95'>|</text>
+<text class='t1' x='104.45' y='255.95'>StaticAr<tspan x='136.74'>g</tspan></text>
+<text class='t5' x='145.04' y='255.95'>p<tspan x='150.85'>er</tspan></text>
+<text class='t1' x='162.5' y='255.95'>StaticAr<tspan x='194.79'>g</tspan></text>
+<text class='t3' x='81.33' y='267.91'>|</text>
+<text class='t1' x='104.45' y='267.91'>DUPr<tspan x='128.43'>eOp</tspan><tspan x='147.52'>StaticAr</tspan><tspan x='179.8'>g</tspan></text>
+<text class='t3' x='81.33' y='279.86'>|</text>
+<text class='t1' x='104.45' y='279.86'>StaticAr<tspan x='136.74'>g</tspan><tspan x='144.21'>DUP</tspan><tspan x='163.88'>ostOp</tspan></text>
+<text class='t3' x='81.33' y='291.82'>|</text>
+<text class='t1' x='104.45' y='291.82'>T<tspan x='109.25'>ypeRef</tspan></text>
+<text class='t3' x='81.33' y='303.77'>|</text>
+<text class='t7' x='104.45' y='303.77'>(</text>
+<text class='t1' x='110.43' y='303.77'>StaticAr<tspan x='142.71'>g</tspan></text>
+<text class='t7' x='147.7' y='303.77'>)</text>
+<text class='t1' x='25.9' y='315.73'>DUPr<tspan x='49.88'>eOp</tspan></text>
+<text class='t2' x='81.33' y='315.73'>::=</text>
+<text class='t5' x='105.28' y='315.73'>square</text>
+<text class='t3' x='81.33' y='327.68'>|</text>
+<text class='t5' x='105.28' y='327.68'>cubic</text>
+<text class='t3' x='81.33' y='339.64'>|</text>
+<text class='t5' x='105.28' y='339.64'>in<tspan x='113.3'>v</tspan><tspan x='118.28'>erse</tspan></text>
+<text class='t1' x='25.9' y='351.59'>DUP<tspan x='45.58'>ostOp</tspan></text>
+<text class='t2' x='81.33' y='351.59'>::=</text>
+<text class='t5' x='105.28' y='351.59'>squared</text>
+<text class='t3' x='81.33' y='363.55'>|</text>
+<text class='t5' x='105.28' y='363.55'>cub<tspan x='121.05'>ed</tspan></text></svg></div>
+<div class="tw nb gr" id="g-df74c768" data-kind="grammar"><svg class="tx" data-d="2" viewBox="25.30 12.09 146.39 93.63" width="14.639em" height="9.363em" fill="currentColor"><text class='t1' x='25.9' y='19.33'>Expr</text>
+<text class='t2' x='75.17' y='19.33'>::=</text>
+<text class='t1' x='98.28' y='19.33'>UnitExpr<tspan x='25.9' y='31.28'>UnitExpr</tspan></text>
+<text class='t2' x='75.17' y='31.28'>::=</text>
+<text class='t1' x='98.28' y='31.28'>UnitRef</text>
+<text class='t3' x='75.17' y='43.24'>|</text>
+<text class='t1' x='98.28' y='43.24'>Expr<tspan x='120.37'>UnitRef</tspan></text>
+<text class='t3' x='75.17' y='55.19'>|</text>
+<text class='t1' x='98.28' y='55.19'>Expr</text>
+<text class='t3' x='122.03' y='55.19'>·</text>
+<text class='t1' x='128.95' y='55.19'>UnitRef</text>
+<text class='t3' x='75.17' y='67.15'>|</text>
+<text class='t1' x='98.28' y='67.15'>Expr</text>
+<text class='t4' x='122.03' y='67.15'>/</text>
+<text class='t1' x='131.16' y='67.15'>UnitRef</text>
+<text class='t3' x='75.17' y='79.1'>|</text>
+<text class='t1' x='98.28' y='79.1'>Expr</text>
+<text class='t5' x='121.2' y='79.1'>p<tspan x='127.01'>er</tspan></text>
+<text class='t1' x='138.66' y='79.1'>UnitRef</text>
+<text class='t3' x='75.17' y='91.06'>|</text>
+<text class='t1' x='98.28' y='91.06'>Expr</text>
+<text class='t6' x='122.03' y='91.06'>in</text>
+<text class='t1' x='136.64' y='91.06'>UnitRef<tspan x='25.9' y='103.01'>UnitRef</tspan></text>
+<text class='t2' x='75.17' y='103.01'>::=</text>
+<text class='t1' x='98.28' y='103.01'>StaticAr<tspan x='130.57'>g</tspan></text></svg></div>
+<p id="p-ffa2015a" class="nb">There are special type-like constructs called <em>dimensions</em> that are separate from other types (described in <a class="xref" href="types.html">Chapter 6</a>). There are also special constructs that modify types and values called <em>units</em> that are instances of dimensions. These are used to describe physical quantities.</p>
+<p id="p-b0b7fe98" class="nb">The Fortress standard libraries define dimensions and units for the standard SI system of measurement based on meters, kilograms, seconds, amperes, and so on (as described in <a class="xref" href="lib-dimensions.html#sec-lib-siunits">Section 37.1</a><!--nc-->). The Fortress standard libraries also provide supplemental units of measurement, such as feet and miles (as described in <a class="xref" href="lib-dimensions.html#sec-lib-englishunits">Section 37.2</a><!--nc-->). For example, the Fortress standard libraries provide a dimension named <span class="m"><span class="ty">Length</span></span> whose default unit is named <span class="m"><span class="ty">meter</span></span> and abbreviated <code>m_</code>. By rendering convention, this abbreviation is rendered in roman type without the underscore: <span class="m"><span class="rm">m</span></span>. In contrast, the variable <span class="tt">m</span> is rendered as in standard mathematical notation: <span class="m"><i>m</i></span>. See <a class="xref" href="lexical-structure.html#sec-rendering">Section 4.17</a> for a discussion of formatting conventions for tokens.</p>
+<p id="p-2970bcc1" class="nb">For readability, plural forms of the unit names are defined as equivalent to the corresponding singular forms; thus one can write <span class="m"><span class="ty">meters</span> <span class="ty">per</span> <span class="ty">second</span></span>, for example. Standard SI prefixes may be used on both the name and the symbol, so that <span class="m"><span class="ty">nanometer</span></span> and <span class="m"><span class="rm">nm</span></span> are also units of the dimension named <span class="m"><span class="ty">Length</span></span>, related to <span class="m"><span class="ty">meter</span></span> and <span class="m"><span class="rm">m</span></span> by a conversion factor of <span class="m">10<sup>−9</sup></span>.</p>
+<p id="p-88134b58" class="nb">Every dimension may have a default unit that is used for representing values of quantities of that dimension if no unit is specified explicitly. The Fortress standard libraries define these default dimensions and units:</p>
+<div class="tw nb" id="t-52ae0076" data-kind="table"><svg class="tx" data-d="3" viewBox="6.21 0.85 378.04 199.40" width="37.804em" height="19.940em" fill="currentColor"><text class='t5' x='6.81' y='8.37'>Length<tspan x='93.23'>meter</tspan><tspan x='163.69'>MagneticFlux</tspan><tspan x='270.76'>w</tspan><tspan x='277.68'>eb</tspan><tspan x='287.92'>er</tspan><tspan x='6.81' y='20.32'>Mass</tspan><tspan x='93.23'>kilogram</tspan><tspan x='163.69'>MagneticFluxDensit</tspan><tspan x='251.75'>y</tspan><tspan x='270.76'>tesla</tspan><tspan x='6.81' y='32.28'>Time</tspan><tspan x='93.23'>second</tspan><tspan x='163.69'>Inductance</tspan><tspan x='270.76'>henry</tspan><tspan x='6.81' y='44.23'>F</tspan><tspan x='12.48'>requency</tspan><tspan x='93.23'>hertz</tspan><tspan x='163.69'>V</tspan><tspan x='170.33'>elo</tspan><tspan x='182.79'>cit</tspan><tspan x='193.58'>y</tspan><tspan x='271.59'>meters</tspan><tspan x='302.67'>p</tspan><tspan x='308.48'>er</tspan><tspan x='319.03'>second</tspan><tspan x='6.81' y='56.19'>F</tspan><tspan x='12.48'>orce</tspan><tspan x='93.23'>newton</tspan><tspan x='163.69'>Acceleration</tspan><tspan x='271.59'>meters</tspan><tspan x='302.67'>p</tspan><tspan x='308.48'>er</tspan><tspan x='319.03'>second</tspan><tspan x='350.08'>squared</tspan><tspan x='6.81' y='68.14'>Pressure</tspan><tspan x='93.23'>pascal</tspan><tspan x='163.69'>Angle</tspan><tspan x='270.76'>radian</tspan><tspan x='6.81' y='80.1'>Energy</tspan><tspan x='93.23'>joule</tspan><tspan x='163.69'>SolidAngle</tspan><tspan x='270.76'>steradian</tspan><tspan x='6.81' y='92.05'>P</tspan><tspan x='13.31'>o</tspan><tspan x='18.02'>w</tspan><tspan x='24.93'>er</tspan><tspan x='93.23'>w</tspan><tspan x='100.15'>att</tspan><tspan x='163.69'>LuminousIn</tspan><tspan x='215.36'>tensit</tspan><tspan x='239.49'>y</tspan><tspan x='270.76'>candela</tspan><tspan x='6.81' y='104.01'>T</tspan><tspan x='13.17'>emp</tspan><tspan x='31.71'>erature</tspan><tspan x='93.23'>k</tspan><tspan x='98.22'>elvin</tspan><tspan x='163.69'>LuminousFlux</tspan><tspan x='270.76'>lumen</tspan><tspan x='6.81' y='115.97'>Area</tspan><tspan x='94.06'>square</tspan><tspan x='124.31'>meter</tspan><tspan x='163.69'>Illuminance</tspan><tspan x='270.76'>lux</tspan><tspan x='6.81' y='127.92'>V</tspan><tspan x='13.45'>olume</tspan><tspan x='94.06'>cubic</tspan><tspan x='118.97'>meter</tspan><tspan x='163.69'>Radion</tspan><tspan x='194.55'>uclideActivit</tspan><tspan x='250.17'>y</tspan><tspan x='270.76'>b</tspan><tspan x='276.57'>ecquerel</tspan><tspan x='6.81' y='139.88'>ElectricCurren</tspan><tspan x='70.4'>t</tspan><tspan x='93.23'>amp</tspan><tspan x='112.33'>ere</tspan><tspan x='163.69'>Absorb</tspan><tspan x='195.32'>edDose</tspan><tspan x='270.76'>gra</tspan><tspan x='284.35'>y</tspan><tspan x='6.81' y='151.83'>ElectricCharge</tspan><tspan x='93.23'>coulom</tspan><tspan x='123.95'>b</tspan><tspan x='163.69'>DoseEquiv</tspan><tspan x='209.69'>alen</tspan><tspan x='227.12'>t</tspan></text>
+<text class='t8' x='270.76' y='151.83'>sievert</text>
+<text class='t5' x='6.81' y='163.79'>ElectricP<tspan x='46.69'>oten</tspan><tspan x='65.23'>tial</tspan><tspan x='93.23'>v</tspan><tspan x='98.22'>olt</tspan><tspan x='163.69'>Amoun</tspan><tspan x='195.24'>tOfSubstance</tspan><tspan x='270.76'>mole</tspan><tspan x='6.81' y='175.74'>Capacitance</tspan><tspan x='93.23'>farad</tspan><tspan x='163.69'>CatalyticActivit</tspan><tspan x='233.98'>y</tspan><tspan x='270.76'>k</tspan><tspan x='275.47'>atal</tspan><tspan x='6.81' y='187.7'>Resistance</tspan><tspan x='93.23'>ohm</tspan><tspan x='163.69'>MassDensit</tspan><tspan x='213.53'>y</tspan><tspan x='271.59'>kilograms</tspan><tspan x='315.68'>p</tspan><tspan x='321.49'>er</tspan><tspan x='332.03'>cubic</tspan><tspan x='356.94'>meter</tspan><tspan x='6.81' y='199.65'>Conductance</tspan><tspan x='93.23'>siemens</tspan></text></svg></div>
+<p id="p-ce871299" class="nb">In addition, the Fortress standard libraries define the dimension <span class="m"><span class="ty">Information</span></span> with units <span class="m"><span class="ty">bit</span></span> and <span class="m"><span class="ty">byte</span></span> (and the plurals <span class="m"><span class="ty">bits</span></span> and <span class="m"><span class="ty">bytes</span></span>), a <span class="m"><span class="ty">byte</span></span> being equal to 8 <span class="m"><span class="ty">bits</span></span>. To avoid confusion, SI prefixes are <em>not</em> provided for these units; instead, programmers must use appropriate powers of 2 or 10, for example <span class="m">10<sup>6</sup><span class="ty">bits</span></span> or <span class="m">2<sup>20</sup><span class="ty">bits</span></span>.</p>
+<p id="p-e7ccae39" class="nb">Here are some examples of the use of dimensions and units:</p>
+<div class="fx nb both" id="c-9c635ca1" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.81 305.45 57.88" width="30.545em" height="5.788em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>x</text>
+<text class='t5' x='15.66' y='19.33'>:</text>
+<text class='t9' x='20.08' y='19.33'>R</text>
+<text class='t5' x='27.28' y='19.33'>64<tspan x='38.9'>Length</tspan><tspan x='72.25'>=</tspan><tspan x='82.77'>1</tspan></text>
+<text class='t4' x='87.75' y='19.33'>.</text>
+<text class='t5' x='90.51' y='19.33'>3<tspan x='97.16'>m</tspan></text>
+<text class='t4' x='9.96' y='31.28'>t</text>
+<text class='t5' x='13.56' y='31.28'>:</text>
+<text class='t9' x='17.99' y='31.28'>R</text>
+<text class='t5' x='25.18' y='31.28'>64<tspan x='36.81'>Time</tspan><tspan x='62.27'>=</tspan><tspan x='72.78'>5</tspan><tspan x='79.42'>s</tspan></text>
+<text class='t4' x='9.96' y='43.24'>v</text>
+<text class='t5' x='15.15' y='43.24'>:</text>
+<text class='t9' x='19.58' y='43.24'>R</text>
+<text class='t5' x='26.77' y='43.24'>64<tspan x='38.4'>V</tspan><tspan x='45.04'>elo</tspan><tspan x='57.49'>cit</tspan><tspan x='68.28'>y</tspan><tspan x='76.45'>=</tspan></text>
+<text class='t4' x='86.96' y='43.24'>x/t<tspan x='9.96' y='55.19'>w</tspan></text>
+<text class='t5' x='17.36' y='55.19'>:</text>
+<text class='t9' x='21.79' y='55.19'>R</text>
+<text class='t5' x='28.99' y='55.19'>64<tspan x='40.61'>V</tspan><tspan x='47.25'>elo</tspan><tspan x='59.7'>cit</tspan><tspan x='70.5'>y</tspan></text>
+<text class='t6' x='80.32' y='55.19'>in</text>
+<text class='t5' x='95.21' y='55.19'>nm</text>
+<text class='t4' x='109.05' y='55.19'>/</text>
+<text class='t5' x='114.03' y='55.19'>s<tspan x='120.73'>=</tspan><tspan x='131.24'>17</tspan><tspan x='142.86'>nm</tspan></text>
+<text class='t4' x='156.7' y='55.19'>/</text>
+<text class='t5' x='161.68' y='55.19'>s</text>
+<text class='t4' x='9.96' y='67.15'>x</text>
+<text class='t5' x='15.66' y='67.15'>:</text>
+<text class='t9' x='20.08' y='67.15'>R</text>
+<text class='t5' x='27.28' y='67.15'>64<tspan x='38.9'>V</tspan><tspan x='45.54'>elo</tspan><tspan x='58'>cit</tspan><tspan x='68.79'>y</tspan></text>
+<text class='t6' x='78.61' y='67.15'>in</text>
+<text class='t5' x='93.5' y='67.15'>furlongs<tspan x='130.39'>p</tspan><tspan x='136.2'>er</tspan><tspan x='146.75'>fortnigh</tspan><tspan x='181.09'>t</tspan><tspan x='187.73'>=</tspan></text>
+<text class='t4' x='198.25' y='67.15'>v</text>
+<text class='t6' x='207.86' y='67.15'>in</text>
+<text class='t5' x='222.75' y='67.15'>furlongs<tspan x='259.64'>p</tspan><tspan x='265.45'>er</tspan><tspan x='276'>fortnigh</tspan><tspan x='310.34'>t</tspan></text></svg></div><pre class="fx-s"><code>x: RR64 Length = 1.3 m_
+t: RR64 Time = 5 s_
+v: RR64 Velocity = x / t</code></pre></div>
+<p id="p-56e113bf" class="nb">Dimensions and units can be multiplied, divided, and raised to rational powers to produce new dimensions and units. Both the numerator and the denominator of a rational power of a dimension or a unit must be a valid <em><span class="m"><span class="kw">nat</span></span> parameter</em> instantiation (as described in <a class="xref" href="trait-parameters.html#sec-natparams">Section 12.2</a><!--nc-->). Multiplication can be expressed using juxtaposition or <span class="m">·</span>; division can be expressed using <span class="m">/</span> or <span class="m"><span class="ty">per</span></span>. The syntactic operators <span class="m"><span class="ty">square</span></span> and <span class="m"><span class="ty">cubic</span></span> may be applied to a dimension or unit in order to raise it to the second power, third power, respectively; the special postfix syntactic operators <span class="m"><span class="ty">squared</span></span> and <span class="m"><span class="ty">cubed</span></span> may be used for the same purpose. The syntactic operator <span class="m"><span class="ty">inverse</span></span> may be applied to a dimension or unit to divide it into 1. All of these syntactic operators are merely syntactic sugar, expanded before type checking.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-08e52ceb" class="nb">I manually added a space between inverse and ohms below.</p></aside>
+<div class="fx nb both" id="c-70fd9290" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.81 116.46 32.03" width="11.646em" height="3.203em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>grams<tspan x='38.27'>p</tspan><tspan x='44.08'>er</tspan><tspan x='54.63'>cubic</tspan><tspan x='79.54'>cen</tspan><tspan x='93.65'>timeter</tspan><tspan x='9.96' y='31.28'>meter</tspan><tspan x='37.11'>p</tspan><tspan x='42.92'>er</tspan><tspan x='53.47'>second</tspan><tspan x='84.52'>squared</tspan><tspan x='9.96' y='43.24'>in</tspan><tspan x='17.99'>v</tspan><tspan x='22.97'>erse</tspan><tspan x='42.15'>ohms</tspan></text></svg></div><pre class="fx-s"><code>inverse ohms</code></pre></div>
+<p id="p-b4086fc7" class="nb">One can also write <span class="m">1/<i>X</i></span> as a synonym for <span class="m"><i>X</i><sup>−1</sup></span> if <span class="m"><i>X</i></span> is either a dimension or a unit.</p>
+<p id="p-ef2bb6ed" class="nb">Most numerical values in Fortress are dimensionless quantity values. Multiplying or dividing a dimensionless value by a unit produces a dimensioned value; thus <span class="m">5 <span class="rm">s</span></span> is the dimensioned value equal to five seconds, which has numerical value <span class="m">5</span> and <span class="m"><span class="ty">second</span></span> for its unit. A dimensioned value may also be multiplied or divided by a unit, and the result is to combine the units; the expression <span class="m">(17 <span class="rm">nm</span>)/<span class="rm">s</span></span> first multiplies <span class="m">17</span> by <span class="m"><span class="rm">nm</span></span> to produce the dimensioned value seventeen nanometers, which is then divided by the unit <span class="m"><span class="rm">s</span></span> to produce seventeen nanometers per second.</p>
+<p id="p-12ffbdab" class="nb">The unit of a dimensioned value may be changed to another unit of the same dimension by using the <span class="m"><span class="kw">in</span></span> operator, which takes a quantity to its left and a unit to its right. The <span class="m"><span class="kw">in</span></span> operator changes the unit and multiplies or divides the numerical value by an appropriate conversion constant so as to preserve the overall dimensioned value. Thus <span class="m">1.3 <span class="rm">m</span> <span class="kw">in</span> <span class="rm">nm</span></span> produces <span class="m">1300000000 <span class="rm">nm</span></span>.</p>
+<p id="p-0087f4d6" class="nb">Multiplying or dividing a dimensionless numerical type by a unit produces an equivalent dimensioned numerical type with that unit associated; thus <span class="m">ℝ64 <span class="ty">meter</span></span> is a type that is just like <span class="m">ℝ64</span> but whose values are values of dimension <span class="m"><span class="ty">Length</span></span> measured in <span class="m"><span class="ty">meters</span></span>. A dimensioned numerical type may be further multiplied or divided by a unit. As a convenience, if a dimension has a default unit, a numerical type may also be multiplied or divided by a dimension, in which case the result is as if the default unit for that dimension had been used. The <span class="m"><span class="kw">in</span></span> operator may also be used to change the unit associated with a dimensioned type; in this situation the effect is merely to alter the unit associated with the type; no numerical operation is performed at run time.</p>
+<p id="p-5adc1524" class="nb">Certain aggregate types, such as <span class="m"><span class="ty">Vector</span></span>, may also have associated units.</p>
+<p id="p-f08d9d69" class="nb">There are two reasons for using dimensions and units. One is that the <span class="m"><span class="kw">in</span></span> operator can supply conversion factors automatically. The other is that certain programming errors may be detected at compile time. When dimensioned values are added, subtracted, or compared, it is a static error if the units do not match. When dimensioned values are multiplied or divided, their units are multiplied or divided. When taking the square root of a dimensioned value, the unit of the result is the square root of the argument’s unit. Other numerical functions, such as <span class="m">sin</span> and <span class="m">log</span>, require dimensionless arguments.</p>
+<p id="p-5729c8bb" class="nb">A variable whose declared type includes a dimension without an accompanying unit is understood to have the default unit for that dimension. Thus, in most cases, the runtime unit of an expression can be statically inferred. However, there are exceptions. For example, consider the following declaration:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-b890c6d6" class="nb">I manually edited the array type.</p></aside>
+<div class="fx nb both" id="c-7dcc6ea1" data-kind="code"><div class="fx-r"><svg class="tx" data-d="6" viewBox="15.34 11.26 128.15 11.16" width="12.815em" height="1.116em" fill="currentColor"><text class='t4' x='15.94' y='19.33'>a</text>
+<text class='t5' x='23.97' y='19.33'>:<tspan x='29.51'>Ob</tspan><tspan x='43.35'>ject</tspan><tspan x='59.12'>[3]</tspan><tspan x='72.4'>=</tspan><tspan x='82.92'>[5</tspan><tspan x='92.33'>mg</tspan></text>
+<text class='t4' x='105.75' y='19.33'>,</text>
+<text class='t5' x='110.18' y='19.33'>3<tspan x='116.82'>m</tspan></text>
+<text class='t4' x='125.12' y='19.33'>,</text>
+<text class='t5' x='129.55' y='19.33'>4<tspan x='136.19'>s]</tspan></text></svg></div><pre class="fx-s"><code>a : Object[3] = [5 mg_, 3 m_, 4 s_]</code></pre></div>
+<p id="p-6950e587" class="nb">Now suppose we declare a function that takes an array of objects and returns one of its elements:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-b890c6d6-2" class="nb">I manually edited the array type.</p></aside>
+<div class="fx nb" id="c-b8fe62e4" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="15.34 11.26 97.39 11.16" width="9.739em" height="1.116em" fill="currentColor"><text class='t4' x='15.94' y='19.33'>f</text>
+<text class='t5' x='21.89' y='19.33'>(</text>
+<text class='t8' x='25.76' y='19.33'>xs</text>
+<text class='t5' x='36.94' y='19.33'>:<tspan x='41.37'>Ob</tspan><tspan x='55.2'>ject</tspan><tspan x='70.98'>[3])</tspan><tspan x='88.13'>=</tspan></text>
+<text class='t8' x='98.65' y='19.33'>xs</text>
+<text class='t10' x='108.16' y='20.82'>1</text></svg></div></div>
+<p id="p-eefe11fa" class="nb">The value of the call <span class="m"><i>f</i>(<i>a</i>)</span> is <span class="m">3 <span class="rm">m</span></span>. However, the static type of <span class="m"><i>f</i>(<i>a</i>)</span> is simply <span class="m"><span class="ty">Object</span></span>. When the value <span class="m">3 <span class="rm">m</span></span> is placed in an array of objects, the value is boxed, and the unit associated with the value must be included as part of the boxed value. However, unboxed values need not include unit information at runtime, as this information is statically evident in such cases.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-7a86df12" class="nb">Guy’s explanation — The thing to understand is that a measurement is a value object, but storing it in an <span class="m"><span class="ty">Array</span>⟦<span class="ty">Object</span>⟧</span> will force the value object to be boxed. Boxing causes type information to be associated with the value. Unit information is not really “erased” at compile time; rather, unit information is “static”, that is, part of the type, and so the unit information can be omitted from a run-time representation exactly when type information can be omitted from a run-time representation. The situation is exactly the same as for dimensionless numerical types such as ints and floats.</p></aside>
+<p id="p-58a1fd32" class="nb">There are also special static parameters for units and dimensions; see <a class="xref" href="trait-parameters.html#sec-dimunitparams">Section 12.4</a><!--nc-->.</p>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="conversions-coercions.html"><span>Previous</span> 17. Conversions and Coercions</a><a class="next" href="tests.html"><span>Next</span> 19. Tests and Properties</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/dimensions.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

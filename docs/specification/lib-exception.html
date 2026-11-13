@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>35. Exceptions · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t1{font-family:cmr10;font-size:9.96px}
+svg.tx text.t2{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t3{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t4{font-family:cmti10;font-size:9.96px}
+svg.tx text.t5{font-family:stmary10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-exception" data-chapter="35. Exceptions">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">35. Exceptions</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part V, Fortress APIs and Documentation for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="35" data-title="Exceptions">
+<h1 id="top" class="nb"><a id="chap-lib-exception"></a><span class="num">Chapter 35</span> Exceptions</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-the-trait-fortress-standard-exception">35.1 The Trait Fortress.Standard.Exception</a></li><li><a href="#s-the-trait-fortress-standard-checkedexception">35.2 The Trait Fortress.Standard.CheckedException</a></li><li><a href="#s-the-trait-fortress-standard-uncheckedexception">35.3 The Trait Fortress.Standard.UncheckedException</a></li></ol></nav>
+<section class="sec" data-num="35.1" data-title="The Trait Fortress.Standard.Exception">
+<h2 id="s-the-trait-fortress-standard-exception" class="nb"><span class="num">35.1</span> The Trait Fortress.Standard.Exception</h2>
+<p id="p-61afc722" class="nb">The trait <span class="m"><span class="ty">Exception</span></span> is a single root of the exception hierarchy; every exception in Fortress has trait <span class="m"><span class="ty">Exception</span></span>. An exception is either a <span class="m"><span class="ty">CheckedException</span></span> or an <span class="m"><span class="ty">UncheckException</span></span>. Every exception has optional fields: a message and a chained exception. These fields are default to <span class="m"><span class="ty">Nothing</span>⟦<span class="ty">String</span>⟧</span> and <span class="m"><span class="ty">Nothing</span>⟦<span class="ty">Exception</span>⟧</span> where an optional value <span class="m"><i>v</i></span> of type <span class="m"><span class="ty">Maybe</span>⟦<i>T</i>⟧</span> is either <span class="m"><span class="ty">Nothing</span>⟦<i>T</i>⟧</span> or <span class="m"><span class="ty">Just</span>(<i>v</i>)</span> as declared in <a class="xref" href="lib-convenience.html#sec-convenience-types">Section 39.2</a><!--nc-->.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-nothing">Section I.1.7</a><!--nc--></span></p>
+<p id="p-814c8ed6" class="nb">The Working Draft of February 2011 wrote both defaults as a bare <span class="m"><span class="ty">Nothing</span></span>.</p></aside>
+<div class="fx nb both" id="c-7a92f3d2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="15.34 11.26 313.67 44.54" width="31.367em" height="4.454em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>trait</text>
+<text class='t1' x='44.86' y='19.33'>Exception</text>
+<text class='t0' x='91.21' y='19.33'>comprises</text>
+<text class='t2' x='141.05' y='19.33'>{</text>
+<text class='t1' x='147.7' y='19.33'>Chec<tspan x='169'>k</tspan><tspan x='173.99'>edException</tspan></text>
+<text class='t3' x='227.54' y='19.33'>,</text>
+<text class='t1' x='231.96' y='19.33'>Unc<tspan x='249.12'>hec</tspan><tspan x='263.23'>k</tspan><tspan x='268.22'>edException</tspan></text>
+<text class='t2' x='323.43' y='19.33'>}</text>
+<text class='t0' x='27.9' y='31.28'>settable</text>
+<text class='t4' x='72.51' y='31.28'>message</text>
+<text class='t1' x='108.39' y='31.28'>:<tspan x='112.82'>Ma</tspan><tspan x='126.65'>yb</tspan><tspan x='137.72'>e</tspan></text>
+<text class='t5' x='142.15' y='31.28'></text>
+<text class='t1' x='146.16' y='31.28'>String</text>
+<text class='t5' x='172.9' y='31.28'></text>
+<text class='t0' x='27.9' y='43.24'>settable</text>
+<text class='t4' x='72.51' y='43.24'>chain</text>
+<text class='t1' x='96.69' y='43.24'>:<tspan x='101.12'>Ma</tspan><tspan x='114.96'>yb</tspan><tspan x='126.03'>e</tspan></text>
+<text class='t5' x='130.46' y='43.24'></text>
+<text class='t1' x='134.47' y='43.24'>Exception</text>
+<text class='t5' x='178.05' y='43.24'></text>
+<text class='t0' x='15.94' y='55.19'>end</text></svg></div><pre class="fx-s"><code>end</code></pre></div>
+<section class="sec" data-num="35.1.1" data-title="settable message: Maybe⟦String⟧">
+<h3 id="s-settable-message-maybe-string" class="nb"><span class="num">35.1.1</span> <span class="m"><span class="kw">settable</span> <i>message</i>: <span class="ty">Maybe</span>⟦<span class="ty">String</span>⟧</span></h3>
+<p id="p-347c0959" class="nb">When an exception is thrown, its <span class="m"><i>message</i></span> may be set.</p>
+</section>
+<section class="sec" data-num="35.1.2" data-title="settable chain: Maybe⟦Exception⟧">
+<h3 id="s-settable-chain-maybe-exception" class="nb"><span class="num">35.1.2</span> <span class="m"><span class="kw">settable</span> <i>chain</i>: <span class="ty">Maybe</span>⟦<span class="ty">Exception</span>⟧</span></h3>
+<p id="p-fdad05b1" class="nb">When an exception is thrown, its <span class="m"><i>chain</i></span> may be set to the exception thrown immediately before this exception.</p>
+</section>
+</section>
+<section class="sec" data-num="35.2" data-title="The Trait Fortress.Standard.CheckedException">
+<h2 id="s-the-trait-fortress-standard-checkedexception" class="nb"><span class="num">35.2</span> The Trait Fortress.Standard.CheckedException</h2>
+<div class="fx nb both" id="c-96c87121" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="15.34 11.81 160.85 43.98" width="16.085em" height="4.398em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>trait</text>
+<text class='t1' x='44.86' y='19.33'>Chec<tspan x='66.17'>k</tspan><tspan x='71.15'>edException</tspan></text>
+<text class='t0' x='27.9' y='31.28'>extends</text>
+<text class='t2' x='67.28' y='31.28'>{</text>
+<text class='t1' x='73.92' y='31.28'>Exception</text>
+<text class='t2' x='119.16' y='31.28'>}</text>
+<text class='t0' x='27.9' y='43.24'>excludes</text>
+<text class='t2' x='72.51' y='43.24'>{</text>
+<text class='t1' x='79.15' y='43.24'>Unc<tspan x='96.31'>hec</tspan><tspan x='110.42'>k</tspan><tspan x='115.4'>edException</tspan></text>
+<text class='t2' x='170.61' y='43.24'>}</text>
+<text class='t0' x='15.94' y='55.19'>end</text></svg></div><pre class="fx-s"><code>trait CheckedException
+  extends { Exception }
+  excludes { UncheckedException }
+end</code></pre></div>
+</section>
+<section class="sec" data-num="35.3" data-title="The Trait Fortress.Standard.UncheckedException">
+<h2 id="s-the-trait-fortress-standard-uncheckedexception" class="nb"><span class="num">35.3</span> The Trait Fortress.Standard.UncheckedException</h2>
+<div class="fx nb both" id="c-e269a6dc" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.81 156.87 43.98" width="15.687em" height="4.398em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>trait</text>
+<text class='t1' x='44.86' y='19.33'>Unc<tspan x='62.02'>hec</tspan><tspan x='76.13'>k</tspan><tspan x='81.11'>edException</tspan></text>
+<text class='t0' x='27.9' y='31.28'>extends</text>
+<text class='t2' x='67.28' y='31.28'>{</text>
+<text class='t1' x='73.92' y='31.28'>Exception</text>
+<text class='t2' x='119.16' y='31.28'>}</text>
+<text class='t0' x='27.9' y='43.24'>excludes</text>
+<text class='t2' x='72.51' y='43.24'>{</text>
+<text class='t1' x='79.15' y='43.24'>Chec<tspan x='100.46'>k</tspan><tspan x='105.44'>edException</tspan></text>
+<text class='t2' x='160.65' y='43.24'>}</text>
+<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code> trait UncheckedException
+   extends { Exception }
+   excludes { CheckedException }
+end</code></pre></div>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="lib-negated-relational-operators.html"><span>Previous</span> 34. Negated Relational Operators</a><a class="next" href="lib-thread.html"><span>Next</span> 36. Threads</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic-lib/exception.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

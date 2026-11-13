@@ -1,0 +1,746 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>26. Dimension and Unit Declarations · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t4{font-family:cmr10;font-size:9.96px}
+svg.tx text.t5{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t6{font-family:cmr7;font-size:6.97px}
+svg.tx text.t7{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t8{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t9{font-family:stmary10;font-size:9.96px}
+svg.tx text.t10{font-family:cmti10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="declaring-dimunits" data-chapter="26. Dimension and Unit Declarations">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">26. Dimension and Unit Declarations</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part III, Fortress for Library Writers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="26" data-title="Dimension and Unit Declarations">
+<h1 id="top" class="nb"><a id="chap-declaring-dimunits"></a><span class="num">Chapter 26</span> Dimension and Unit Declarations</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-dimension-declarations">26.1 Dimension Declarations</a></li><li><a href="#s-unit-declarations">26.2 Unit Declarations</a></li><li><a href="#sec-abbrev-dimunits">26.3 Abbreviating Dimension and Unit Declarations</a></li><li><a href="#sec-absorbing-units">26.4 Absorbing Units</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-a64fedd5" class="nb">Dimensions and units are not yet supported.</p></aside>
+<div class="tw nb gr" id="g-d32d49ad" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 336.03 45.36" width="33.603em" height="4.536em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>DimUnitDecl</text>
+<text class='t2' x='91.55' y='28.8'>::=</text>
+<text class='t3' x='116.32' y='28.8'>dim</text>
+<text class='t1' x='136.16' y='28.8'>Id</text>
+<text class='t2' x='147.22' y='28.8'>(</text>
+<text class='t4' x='150.54' y='28.8'>=</text>
+<text class='t1' x='162.44' y='28.8'>T<tspan x='167.24'>ype</tspan></text>
+<text class='t2' x='181.07' y='28.8'>)?<tspan x='191.9'>(</tspan></text>
+<text class='t3' x='195.21' y='28.8'>unit</text>
+<text class='t5' x='220.29' y='28.8'>|</text>
+<text class='t3' x='227.21' y='28.8'>SI</text>
+<rect x='238.26' y='28.4' height='.4' width='2.99'/>
+<text class='t3' x='241.25' y='28.8'>unit</text>
+<text class='t2' x='263.83' y='28.8'>)</text>
+<text class='t1' x='269.64' y='28.8'>Id</text>
+<text class='t6' x='278.21' y='25.19'>+</text>
+<text class='t2' x='287.32' y='28.8'>(</text>
+<text class='t4' x='290.63' y='28.8'>=</text>
+<text class='t1' x='302.53' y='28.8'>Expr</text>
+<text class='t2' x='322.13' y='28.8'>)?</text>
+<text class='t5' x='91.55' y='40.76'>|</text>
+<text class='t3' x='116.32' y='40.76'>dim</text>
+<text class='t1' x='136.16' y='40.76'>Id</text>
+<text class='t2' x='147.22' y='40.76'>(</text>
+<text class='t4' x='150.54' y='40.76'>=</text>
+<text class='t1' x='162.44' y='40.76'>T<tspan x='167.24'>ype</tspan></text>
+<text class='t2' x='181.07' y='40.76'>)?<tspan x='191.9'>(</tspan></text>
+<text class='t3' x='195.21' y='40.76'>default</text>
+<text class='t1' x='235.98' y='40.76'>Id</text>
+<text class='t2' x='244.55' y='40.76'>)?</text>
+<text class='t5' x='91.55' y='52.71'>|</text>
+<text class='t2' x='114.66' y='52.71'>(</text>
+<text class='t3' x='117.98' y='52.71'>unit</text>
+<text class='t5' x='143.05' y='52.71'>|</text>
+<text class='t3' x='149.97' y='52.71'>SI</text>
+<rect x='161.03' y='52.31' height='.4' width='2.99'/>
+<text class='t3' x='164.01' y='52.71'>unit</text>
+<text class='t2' x='186.6' y='52.71'>)</text>
+<text class='t1' x='192.4' y='52.71'>Id</text>
+<text class='t6' x='200.97' y='49.1'>+</text>
+<text class='t2' x='210.08' y='52.71'>(</text>
+<text class='t4' x='213.39' y='52.71'>:</text>
+<text class='t1' x='220.31' y='52.71'>T<tspan x='225.12'>ype</tspan></text>
+<text class='t2' x='238.94' y='52.71'>)?<tspan x='249.77'>(</tspan></text>
+<text class='t4' x='253.09' y='52.71'>=</text>
+<text class='t1' x='264.99' y='52.71'>Expr</text>
+<text class='t2' x='284.59' y='52.71'>)?</text></svg></div>
+<section class="sec" data-num="26.1" data-title="Dimension Declarations">
+<h2 id="s-dimension-declarations" class="nb"><span class="num">26.1</span> Dimension Declarations</h2>
+<p id="p-7d8af707" class="nb">Dimensions may be explicitly declared; every declared dimension must be declared at the top level of a program component, not within a block expression or trait. Other dimensions may be constructed by multiplying and dividing other dimensions, as described in <a class="xref" href="dimunits.html">Chapter 18</a><!--nc-->. An explicitly declared dimension may be a <em>base dimension</em> (with no definition specified) or a <em>derived dimension</em> (with a definition specified in the form of an initialization expression).</p>
+<p id="p-aba7de82" class="nb">The set of all dimensions has the algebraic structure of a free abelian group. The identity element of this group is the dimension <span class="m"><span class="ty">Unity</span></span>, which represents dimensionlessness.</p>
+<p id="p-cb5b49b9" class="nb">For every two dimensions <span class="m"><i>D</i></span> and <span class="m"><i>E</i></span>, there is a dimension <span class="m"><i>D</i><i>E</i></span> (which may also be written <span class="m"><i>D</i> · <i>E</i></span>), corresponding to the product of the dimensions <span class="m"><i>D</i></span> and <span class="m"><i>E</i></span> and a dimension <span class="m"><i>D</i>/<i>E</i></span>, corresponding to the quotient of the dimensions <span class="m"><i>D</i></span> and <span class="m"><i>E</i></span>. The syntactic sugar <span class="m">1/<i>D</i></span> is equivalent to <span class="m"><span class="ty">Unity</span>/<i>D</i></span> for all dimensions <span class="m"><i>D</i></span>. A dimension can be raised to a rational power where both the numerator and the denominator of the rational power must be a valid <em><span class="m"><span class="kw">nat</span></span> parameter</em> instantiation; <span class="m"><i>D</i><sup>0</sup></span> is the same as <span class="m"><span class="ty">Unity</span></span>, <span class="m"><i>D</i><sup>1</sup></span> is the same as <span class="m"><i>D</i></span>, and <span class="m"><i>D</i><sup><i>m</i> + <i>n</i></sup></span> is the same as <span class="m"><i>D</i><sup><i>m</i></sup><i>D</i><sup><i>n</i></sup></span>. The syntactic sugar <span class="m"><i>D</i><sup>−<i>n</i></sup></span> is the same as <span class="m"><span class="ty">Unity</span>/<i>D</i><sup><i>n</i></sup></span>.</p>
+<p id="p-a3fb9031" class="nb">Here are some examples of base dimension declarations:</p>
+<div class="fx nb" id="c-8131a415" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.81 87.13 43.98" width="8.713em" height="4.398em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>dim</text>
+<text class='t4' x='28.42' y='19.33'>Length</text>
+<text class='t3' x='9.96' y='31.28'>dim</text>
+<text class='t4' x='28.42' y='31.28'>Mass</text>
+<text class='t3' x='9.96' y='43.24'>dim</text>
+<text class='t4' x='28.42' y='43.24'>Time</text>
+<text class='t3' x='9.96' y='55.19'>dim</text>
+<text class='t4' x='28.42' y='55.19'>ElectricCurren<tspan x='92.02'>t</tspan></text></svg></div></div>
+<p id="p-35616439" class="nb">Here are some examples of computed dimensions:</p>
+<div class="fx nb" id="c-c996c921" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 108.20 60.51" width="10.820em" height="6.051em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>Length</text>
+<text class='t7' x='40.54' y='19.33'>/</text>
+<text class='t4' x='45.52' y='19.33'>Time<tspan x='9.96' y='31.28'>V</tspan><tspan x='16.6'>elo</tspan><tspan x='29.06'>cit</tspan><tspan x='39.85'>y</tspan></text>
+<text class='t7' x='45.25' y='31.28'>/</text>
+<text class='t4' x='50.23' y='31.28'>Time<tspan x='9.96' y='43.71'>Length</tspan></text>
+<text class='t5' x='42.76' y='43.71'>·</text>
+<text class='t4' x='47.74' y='43.71'>Mass</text>
+<text class='t7' x='69.71' y='43.71'>/</text>
+<text class='t4' x='74.69' y='43.71'>Time</text>
+<text class='t6' x='97.38' y='39.36'>2</text>
+<text class='t4' x='9.96' y='56.13'>Length<tspan x='42.76'>Mass</tspan><tspan x='66.94'>Time</tspan></text>
+<text class='t8' x='89.64' y='51.79'>−</text>
+<text class='t6' x='95.86' y='51.79'>2</text>
+<text class='t4' x='9.96' y='68.67'>ElectricCurren<tspan x='73.56'>t</tspan></text>
+<text class='t7' x='77.43' y='68.67'>/</text>
+<text class='t4' x='82.41' y='68.67'>Length</text>
+<text class='t6' x='112.99' y='64.21'>2</text></svg></div></div>
+<p id="p-313b1e75" class="nb">and here some of these computed dimensions are given names through the use of derived dimension declarations:</p>
+<div class="fx nb" id="c-c4d5bebf" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.26 207.30 35.65" width="20.730em" height="3.565em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>dim</text>
+<text class='t4' x='28.42' y='19.33'>V<tspan x='35.06'>elo</tspan><tspan x='47.52'>cit</tspan><tspan x='58.31'>y</tspan><tspan x='66.47'>=</tspan><tspan x='76.99'>Length</tspan></text>
+<text class='t7' x='107.57' y='19.33'>/</text>
+<text class='t4' x='112.55' y='19.33'>Time</text>
+<text class='t3' x='9.96' y='31.28'>dim</text>
+<text class='t4' x='28.42' y='31.28'>Acceleration<tspan x='85.18'>=</tspan><tspan x='95.7'>V</tspan><tspan x='102.34'>elo</tspan><tspan x='114.79'>cit</tspan><tspan x='125.58'>y</tspan></text>
+<text class='t7' x='130.98' y='31.28'>/</text>
+<text class='t4' x='135.96' y='31.28'>Time</text>
+<text class='t3' x='9.96' y='43.82'>dim</text>
+<text class='t4' x='28.42' y='43.82'>Curren<tspan x='58.64'>tDensit</tspan><tspan x='90.38'>y</tspan><tspan x='98.55'>=</tspan><tspan x='109.06'>ElectricCurren</tspan><tspan x='172.66'>t</tspan></text>
+<text class='t7' x='176.53' y='43.82'>/</text>
+<text class='t4' x='181.51' y='43.82'>Length</text>
+<text class='t6' x='212.09' y='39.36'>2</text></svg></div></div>
+</section>
+<section class="sec" data-num="26.2" data-title="Unit Declarations">
+<h2 id="s-unit-declarations" class="nb"><span class="num">26.2</span> Unit Declarations</h2>
+<p id="p-71c64aa9" class="nb">Every unit belongs to exactly one dimension, which is the type of the unit. A dimension may have more than one unit, but one of these units may be singled out as the <em>default unit</em> for that dimension by adding a <span class="m"><span class="kw">default</span></span> clause:</p>
+<div class="fx nb" id="c-e1c63b45" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.81 121.72 32.03" width="12.172em" height="3.203em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>dim</text>
+<text class='t4' x='28.42' y='19.33'>Length</text>
+<text class='t3' x='61.77' y='19.33'>default</text>
+<text class='t4' x='101.15' y='19.33'>meter</text>
+<text class='t3' x='9.96' y='31.28'>dim</text>
+<text class='t4' x='28.42' y='31.28'>Mass</text>
+<text class='t3' x='53.16' y='31.28'>default</text>
+<text class='t4' x='92.54' y='31.28'>kilogram</text>
+<text class='t3' x='9.96' y='43.24'>dim</text>
+<text class='t4' x='28.42' y='43.24'>Time</text>
+<text class='t3' x='53.88' y='43.24'>default</text>
+<text class='t4' x='93.26' y='43.24'>second</text></svg></div></div>
+<p id="p-860cf5d9" class="nb">The default unit is used when a numerical type is multiplied by a dimension to produce a new type (see <a class="xref" href="dimunits.html">Chapter 18</a><!--nc-->). If no default clause is specified for a base dimension, then it has no default unit. If no default clause is specified for a derived dimension, then it has a default unit if and only if all the dimensions mentioned in its initialization expression have defaults, in which case its default unit is calculated using the initialization expression with each dimension replaced by its default unit.</p>
+<p id="p-8307bd36" class="nb">Some units are explicitly declared; every declared unit must be declared at the top level of a program component, not within a block expression or trait. Other units may be constructed by multiplying and dividing other units. An explicitly declared unit may be a <em>base unit</em> (with no definition specified) or a <em>derived unit</em> (with a definition specified in the form of an initialization expression).</p>
+<p id="p-03a9f7c0" class="nb">The set of all units, like the set of all dimensions, has the algebraic structure of a free abelian group. The identity element of this group is the unit <span class="m"><span class="ty">dimensionless</span></span>, of dimension <span class="m"><span class="ty">Unity</span></span>. Note that there may be other units of dimension <span class="m"><span class="ty">Unity</span></span>, such as <span class="m"><span class="ty">radian</span></span> and <span class="m"><span class="ty">steradian</span></span>, but only <span class="m"><span class="ty">dimensionless</span></span> is the identity of the group of all units. (Note that there is a straightforward homomorphism of units onto dimensions, wherein every unit is mapped to its dimension.)</p>
+<p id="p-10ca27e8" class="nb">Here are some examples of base unit declarations:</p>
+<div class="fx nb" id="c-377212cc" data-kind="code"><div class="fx-r"><svg class="tx" data-d="6" viewBox="9.36 11.81 132.51 45.92" width="13.251em" height="4.592em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>unit</text>
+<text class='t4' x='33.65' y='19.33'>meter<tspan x='61.35'>:</tspan><tspan x='66.89'>Length</tspan></text>
+<text class='t3' x='9.96' y='31.28'>unit</text>
+<text class='t4' x='33.65' y='31.28'>kilogram<tspan x='74.36'>:</tspan><tspan x='79.89'>Mass</tspan></text>
+<text class='t3' x='9.96' y='43.24'>unit</text>
+<text class='t4' x='33.65' y='43.24'>second<tspan x='65.26'>:</tspan><tspan x='70.79'>Time</tspan></text>
+<text class='t3' x='9.96' y='55.19'>unit</text>
+<text class='t4' x='33.65' y='55.19'>amp<tspan x='52.75'>ere</tspan><tspan x='68.27'>:</tspan><tspan x='73.81'>ElectricCurren</tspan><tspan x='137.4'>t</tspan></text></svg></div></div>
+<p id="p-2fdd4bda" class="nb">Here are some examples of computed units:</p>
+<div class="fx nb" id="c-00798d34" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="9.36 11.26 109.06 60.15" width="10.906em" height="6.015em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>meter</text>
+<text class='t7' x='34.9' y='19.33'>/</text>
+<text class='t4' x='39.88' y='19.33'>second<tspan x='9.96' y='31.28'>(meter</tspan></text>
+<text class='t7' x='38.77' y='31.28'>/</text>
+<text class='t4' x='43.75' y='31.28'>second<tspan x='72.59'>)</tspan></text>
+<text class='t7' x='76.46' y='31.28'>/</text>
+<text class='t4' x='81.44' y='31.28'>second<tspan x='9.96' y='43.82'>meter</tspan></text>
+<text class='t5' x='37.11' y='43.82'>·</text>
+<text class='t4' x='42.09' y='43.82'>kilogram</text>
+<text class='t7' x='80.03' y='43.82'>/</text>
+<text class='t4' x='85.01' y='43.82'>second</text>
+<text class='t6' x='113.85' y='39.36'>2</text>
+<text class='t4' x='9.96' y='56.36'>meter<tspan x='37.11'>kilogram</tspan><tspan x='77.27'>second</tspan></text>
+<text class='t8' x='106.1' y='51.9'>−</text>
+<text class='t6' x='112.33' y='51.9'>2</text>
+<text class='t4' x='9.96' y='68.31'>amp<tspan x='29.06'>ere</tspan></text>
+<text class='t7' x='41.82' y='68.31'>/</text>
+<text class='t4' x='46.8' y='68.31'>meter</text>
+<text class='t6' x='71.73' y='64.65'>2</text></svg></div></div>
+<p id="p-3334db14" class="nb">and here some computed units are given names through the use of derived unit declarations:</p>
+<div class="fx nb" id="c-1fe80065" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 10.36 205.42 36.55" width="20.542em" height="3.655em" fill="currentColor"><text class='t3' x='9.96' y='19.91'>unit</text>
+<text class='t4' x='33.65' y='19.91'>newton<tspan x='65.2'>:</tspan><tspan x='69.63'>F</tspan><tspan x='75.3'>orce</tspan><tspan x='95.81'>=</tspan><tspan x='106.32'>meter</tspan></text>
+<text class='t5' x='133.47' y='19.91'>·</text>
+<text class='t4' x='138.45' y='19.91'>kilogram</text>
+<text class='t7' x='176.39' y='19.91'>/</text>
+<text class='t4' x='181.38' y='19.91'>second</text>
+<text class='t6' x='210.21' y='15.45'>2</text>
+<text class='t3' x='9.96' y='31.86'>unit</text>
+<text class='t4' x='33.65' y='31.86'>joule<tspan x='54.41'>:</tspan><tspan x='58.83'>Energy</tspan><tspan x='92.62'>=</tspan><tspan x='103.14'>newton</tspan><tspan x='136.9'>meter</tspan></text>
+<text class='t3' x='9.96' y='43.82'>unit</text>
+<text class='t4' x='33.65' y='43.82'>pascal<tspan x='60.27'>:</tspan><tspan x='64.7'>Pressure</tspan><tspan x='104.3'>=</tspan><tspan x='114.82'>newton</tspan></text>
+<text class='t7' x='146.37' y='43.82'>/</text>
+<text class='t4' x='151.35' y='43.82'>meter</text>
+<text class='t6' x='176.28' y='40.15'>2</text></svg></div></div>
+<p id="p-48d0bc27" class="nb">In the preceding examples, the initialization expression for each unit is itself a unit. It is also permitted for the initialization expression to be a dimensioned numerical value, in which case the unit being declared is related to the unit of the dimensioned numerical value by a numerical conversion factor.</p>
+<p id="p-5766543c" class="nb">As with an ordinary variable declaration, one may omit the dimension for a unit if there is an initialization expression; the dimension of the declared unit is the dimension of the unit of the expression.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-2063221b" class="nb">COMMENTED TEXT; I like the explanation below better. – Eric</p>
+<p id="p-9e8739aa" class="nb">Every unit can be reduced to a canonical unit as follows. A base unit is canonical; a <span class="m"><span class="kw">unit</span></span> parameter is canonical; a defined unit is replaced by its initialization expression, but only if the value of the expression is a unit and not a dimensioned value, where every unit in that expression is replaced by its canonical unit; and finally all arithmetic is performed so as to reduce the expression to a single unit. Two units are considered equivalent if their canonical units are identical.</p>
+<p id="p-aa78f81c" class="nb">Now here is a slightly different process.</p></aside>
+<p id="p-ce5ac0e7" class="nb">Every unit can be reduced to a canonical value as follows. A base unit is multiplied by the value <span class="m">1</span>; a <span class="m"><span class="kw">unit</span></span> parameter is multiplied by the value <span class="m">1</span>; a defined unit is replaced by its initialization expression and then every unit in that expression is replaced by its canonical form; and finally all arithmetic is performed so as to reduce the units to a single unit and the numerical values to a single numerical value. A dimensioned value with unit <span class="m"><i>U</i></span> is convertible by the <span class="m"><span class="kw">in</span></span> operator to a value with unit <span class="m"><i>V</i></span> if the canonical values for <span class="m"><i>U</i></span> and <span class="m"><i>V</i></span> have the same unit; the conversion involves multiplying the numerical value by the ratio of the numerical value of the canonical form of <span class="m"><i>V</i></span> to the numerical value of the canonical form of <span class="m"><i>U</i></span>.</p>
+<p id="p-133b242e" class="nb">For example, given the declarations:</p>
+<div class="fx nb" id="c-b64a2c91" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.81 280.00 69.83" width="28.000em" height="6.983em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>dim</text>
+<text class='t4' x='28.42' y='19.33'>Length</text>
+<text class='t3' x='9.96' y='31.28'>unit</text>
+<text class='t4' x='33.65' y='31.28'>meter<tspan x='58.59'>:</tspan><tspan x='63.01'>Length</tspan><tspan x='93.59'>;</tspan></text>
+<text class='t3' x='98.02' y='31.28'>unit</text>
+<text class='t4' x='121.71' y='31.28'>meters<tspan x='153.34'>=</tspan><tspan x='163.86'>meter</tspan></text>
+<text class='t3' x='9.96' y='43.24'>unit</text>
+<text class='t4' x='33.65' y='43.24'>kilometer<tspan x='74.36'>:</tspan><tspan x='78.79'>Length</tspan><tspan x='112.13'>=</tspan><tspan x='122.65'>10</tspan></text>
+<text class='t6' x='132.61' y='39.62'>3</text>
+<text class='t4' x='137.08' y='43.24'>meter<tspan x='162.02'>;</tspan></text>
+<text class='t3' x='166.45' y='43.24'>unit</text>
+<text class='t4' x='190.13' y='43.24'>kilometers<tspan x='237.54'>=</tspan><tspan x='248.06'>kilometer</tspan></text>
+<text class='t3' x='9.96' y='55.19'>unit</text>
+<text class='t4' x='33.65' y='55.19'>inc<tspan x='46.1'>h</tspan><tspan x='51.64'>:</tspan><tspan x='56.07'>Length</tspan><tspan x='89.41'>=</tspan><tspan x='99.93'>2</tspan></text>
+<text class='t7' x='104.91' y='55.19'>.</text>
+<text class='t4' x='107.68' y='55.19'>54</text>
+<text class='t5' x='119.86' y='55.19'>×</text>
+<text class='t4' x='129.82' y='55.19'>10</text>
+<text class='t8' x='139.78' y='51.58'>−</text>
+<text class='t6' x='146.01' y='51.58'>2</text>
+<text class='t4' x='150.48' y='55.19'>meter<tspan x='175.41'>;</tspan></text>
+<text class='t3' x='179.84' y='55.19'>unit</text>
+<text class='t4' x='203.53' y='55.19'>inc<tspan x='215.98'>hes</tspan><tspan x='232.64'>=</tspan><tspan x='243.16'>inc</tspan><tspan x='255.61'>h</tspan></text>
+<text class='t3' x='9.96' y='67.15'>unit</text>
+<text class='t4' x='33.65' y='67.15'>fo<tspan x='41.95'>ot</tspan><tspan x='50.81'>:</tspan><tspan x='55.24'>Length</tspan><tspan x='88.58'>=</tspan><tspan x='99.1'>12</tspan><tspan x='110.72'>inc</tspan><tspan x='123.18'>h</tspan><tspan x='128.71'>;</tspan></text>
+<text class='t3' x='133.14' y='67.15'>unit</text>
+<text class='t4' x='156.83' y='67.15'>feet<tspan x='175.37'>=</tspan><tspan x='185.89'>fo</tspan><tspan x='194.19'>ot</tspan></text>
+<text class='t3' x='9.96' y='79.1'>unit</text>
+<text class='t4' x='33.65' y='79.1'>mile<tspan x='51.92'>:</tspan><tspan x='56.34'>Length</tspan><tspan x='89.69'>=</tspan><tspan x='100.21'>5280</tspan><tspan x='121.79'>fo</tspan><tspan x='130.1'>ot</tspan><tspan x='138.95'>;</tspan></text>
+<text class='t3' x='143.38' y='79.1'>unit</text>
+<text class='t4' x='167.07' y='79.1'>miles<tspan x='192.03'>=</tspan><tspan x='202.55'>mile</tspan></text></svg></div></div>
+<p id="p-35c714c8" class="nb">then one can say <span class="m">3 <span class="ty">miles</span> <span class="kw">in</span> <span class="ty">kilometers</span></span> and the <span class="m"><span class="kw">in</span></span> operator will multiply the numerical value <span class="m">3</span> by the amount of <span class="m">((2.54 × 10<sup>−2</sup>)(12)(5280)/10<sup>3</sup>)</span>, or <span class="m">25146/15625</span>.</p>
+<p id="p-61fe3b7d" class="nb">Notice the subtle difference between these two declarations:</p>
+<div class="fx nb" id="c-35ec31ce" data-kind="code"><div class="fx-r"><svg class="tx" data-d="10" viewBox="9.36 11.26 127.37 23.12" width="12.737em" height="2.312em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>unit</text>
+<text class='t4' x='33.65' y='19.33'>radian<tspan x='64.12'>=</tspan><tspan x='74.64'>meter</tspan></text>
+<text class='t7' x='99.57' y='19.33'>/</text>
+<text class='t4' x='104.55' y='19.33'>meter</text>
+<text class='t3' x='9.96' y='31.28'>unit</text>
+<text class='t4' x='33.65' y='31.28'>radian<tspan x='64.12'>=</tspan><tspan x='74.64'>1</tspan><tspan x='81.28'>meter</tspan></text>
+<text class='t7' x='106.21' y='31.28'>/</text>
+<text class='t4' x='111.19' y='31.28'>meter</text></svg></div></div>
+<p id="p-9ef9f6fa" class="nb">The first declaration defines <span class="m"><span class="ty">radian</span></span> to be equivalent to <span class="m"><span class="ty">dimensionless</span></span>, and so a value with unit <span class="m"><span class="ty">radian</span></span> can be used anywhere a dimensionless value can be used, and vice versa. The second declaration defines <span class="m"><span class="ty">radian</span></span> to be convertible to <span class="m"><span class="ty">dimensionless</span></span> but not equivalent, and so it is necessary to use the <span class="m"><span class="kw">in</span></span> operator (or multiplication and division by <span class="m"><span class="ty">radian</span></span>) to convert between values in radians and truly dimensionless values.</p>
+</section>
+<section class="sec" data-num="26.3" data-title="Abbreviating Dimension and Unit Declarations">
+<h2 id="sec-abbrev-dimunits" class="nb"><span class="num">26.3</span> Abbreviating Dimension and Unit Declarations</h2>
+<p id="p-55b433e1" class="nb">For convenience, three forms of syntactic sugar are provided when declaring dimensions and units. First, in a <span class="m"><span class="kw">unit</span></span> declaration one may mention more than one name before the colon, and the extra names are defined to be synonyms for the first name; thus</p>
+<div class="fx nb" id="c-fc4052b1" data-kind="code"><div class="fx-r"><svg class="tx" data-d="11" viewBox="9.36 11.81 104.17 10.06" width="10.417em" height="1.006em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>unit</text>
+<text class='t4' x='33.65' y='19.33'>fo<tspan x='41.95'>ot</tspan><tspan x='53.02'>feet</tspan><tspan x='71.01'>ft</tspan><tspan x='77.93'>:</tspan><tspan x='82.36'>Length</tspan></text></svg></div></div>
+<p id="p-1ec3d3f5" class="nb">means exactly the same thing as</p>
+<div class="fx nb" id="c-93524912" data-kind="code"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 11.81 106.11 33.97" width="10.611em" height="3.397em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>unit</text>
+<text class='t4' x='33.65' y='19.33'>fo<tspan x='41.95'>ot</tspan><tspan x='50.81'>:</tspan><tspan x='55.24'>Length</tspan></text>
+<text class='t3' x='9.96' y='31.28'>unit</text>
+<text class='t4' x='33.65' y='31.28'>feet<tspan x='49.43'>:</tspan><tspan x='53.85'>Length</tspan><tspan x='87.2'>=</tspan><tspan x='97.72'>fo</tspan><tspan x='106.02'>ot</tspan></text>
+<text class='t3' x='9.96' y='43.24'>unit</text>
+<text class='t4' x='33.65' y='43.24'>ft<tspan x='40.57'>:</tspan><tspan x='45'>Length</tspan><tspan x='78.34'>=</tspan><tspan x='88.86'>fo</tspan><tspan x='97.16'>ot</tspan></text></svg></div></div>
+<p id="p-87258116" class="nb">Second, instead of the reserved word <span class="m"><span class="kw">unit</span></span> one may use the reserved word <span class="m"><span class="kw">SI_unit</span></span>, which has the effect of defining not only the specified names but also names with the various SI prefixes attached. If more than one name is specified, then the last name is assumed to be a symbol and has symbol prefixes (such as <span class="m"><span class="ty">M</span></span> and <span class="m"><span class="ty">n</span></span>) attached; all other names have the full prefixes (such as <span class="m"><span class="ty">mega</span></span> and <span class="m"><span class="ty">nano</span></span>) attached. Thus</p>
+<div class="fx nb" id="c-a1ac0fca" data-kind="code"><div class="fx-r"><svg class="tx" data-d="13" viewBox="9.36 12.64 153.36 8.78" width="15.336em" height="0.878em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>SI</text>
+<rect x='21.02' y='18.93' height='.4' width='2.99'/>
+<text class='t3' x='24.01' y='19.33'>unit</text>
+<text class='t7' x='47.7' y='19.33'>name</text>
+<text class='t6' x='72.33' y='20.82'>1</text>
+<text class='t7' x='82.33' y='19.33'>name</text>
+<text class='t6' x='106.97' y='20.82'>2</text>
+<text class='t7' x='116.97' y='19.33'>name</text>
+<text class='t6' x='141.6' y='20.82'>3</text>
+<text class='t4' x='146.07' y='19.33'>:</text>
+<text class='t7' x='150.5' y='19.33'>.<tspan x='154.93'>.</tspan><tspan x='159.36'>.</tspan></text></svg></div></div>
+<p id="p-0e7be1be" class="nb">may be regarded as an abbreviation for</p>
+<div class="fx nb" id="c-5e5e7dfb" data-kind="code"><div class="fx-r"><svg class="tx" data-d="14" viewBox="9.36 12.64 236.22 248.33" width="23.622em" height="24.833em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>unit</text>
+<text class='t7' x='33.65' y='19.33'>name</text>
+<text class='t6' x='58.28' y='20.82'>1</text>
+<text class='t7' x='65.24' y='19.33'>name</text>
+<text class='t6' x='89.88' y='20.82'>2</text>
+<text class='t7' x='96.84' y='19.33'>name</text>
+<text class='t6' x='121.47' y='20.82'>3</text>
+<text class='t4' x='125.94' y='19.33'>:</text>
+<text class='t7' x='130.37' y='19.33'>.<tspan x='134.79'>.</tspan><tspan x='139.22'>.</tspan></text>
+<text class='t3' x='9.96' y='31.28'>unit</text>
+<text class='t4' x='33.65' y='31.28'>y<tspan x='38.63'>otta</tspan></text>
+<text class='t7' x='56.34' y='31.28'>name</text>
+<text class='t6' x='80.98' y='32.78'>1</text>
+<text class='t4' x='87.94' y='31.28'>y<tspan x='92.92'>otta</tspan></text>
+<text class='t7' x='110.63' y='31.28'>name</text>
+<text class='t6' x='135.26' y='32.78'>2</text>
+<text class='t4' x='142.22' y='31.28'>Y</text>
+<text class='t7' x='149.94' y='31.28'>name</text>
+<text class='t6' x='174.57' y='32.78'>3</text>
+<text class='t4' x='181.81' y='31.28'>=<tspan x='192.33'>10</tspan></text>
+<text class='t6' x='202.29' y='27.67'>24</text>
+<text class='t7' x='210.73' y='31.28'>name</text>
+<text class='t6' x='235.36' y='32.78'>1</text>
+<text class='t3' x='9.96' y='43.24'>unit</text>
+<text class='t4' x='33.65' y='43.24'>zetta</text>
+<text class='t7' x='55.24' y='43.24'>name</text>
+<text class='t6' x='79.87' y='44.73'>1</text>
+<text class='t4' x='86.83' y='43.24'>zetta</text>
+<text class='t7' x='108.42' y='43.24'>name</text>
+<text class='t6' x='133.05' y='44.73'>2</text>
+<text class='t4' x='140.01' y='43.24'>Z</text>
+<text class='t7' x='146.1' y='43.24'>name</text>
+<text class='t6' x='170.73' y='44.73'>3</text>
+<text class='t4' x='177.96' y='43.24'>=<tspan x='188.48'>10</tspan></text>
+<text class='t6' x='198.44' y='39.62'>21</text>
+<text class='t7' x='206.88' y='43.24'>name</text>
+<text class='t6' x='231.52' y='44.73'>1</text>
+<text class='t3' x='9.96' y='55.19'>unit</text>
+<text class='t4' x='33.65' y='55.19'>exa</text>
+<text class='t7' x='48.32' y='55.19'>name</text>
+<text class='t6' x='72.95' y='56.69'>1</text>
+<text class='t4' x='79.91' y='55.19'>exa</text>
+<text class='t7' x='94.58' y='55.19'>name</text>
+<text class='t6' x='119.21' y='56.69'>2</text>
+<text class='t4' x='126.17' y='55.19'>E</text>
+<text class='t7' x='132.95' y='55.19'>name</text>
+<text class='t6' x='157.58' y='56.69'>3</text>
+<text class='t4' x='164.82' y='55.19'>=<tspan x='175.34'>10</tspan></text>
+<text class='t6' x='185.3' y='51.58'>18</text>
+<text class='t7' x='193.74' y='55.19'>name</text>
+<text class='t6' x='218.37' y='56.69'>1</text>
+<text class='t3' x='9.96' y='67.15'>unit</text>
+<text class='t4' x='33.65' y='67.15'>p<tspan x='39.46'>eta</tspan></text>
+<text class='t7' x='52.75' y='67.15'>name</text>
+<text class='t6' x='77.38' y='68.64'>1</text>
+<text class='t4' x='84.34' y='67.15'>p<tspan x='90.15'>eta</tspan></text>
+<text class='t7' x='103.43' y='67.15'>name</text>
+<text class='t6' x='128.07' y='68.64'>2</text>
+<text class='t4' x='135.03' y='67.15'>P</text>
+<text class='t7' x='141.81' y='67.15'>name</text>
+<text class='t6' x='166.44' y='68.64'>3</text>
+<text class='t4' x='173.68' y='67.15'>=<tspan x='184.19'>10</tspan></text>
+<text class='t6' x='194.15' y='63.53'>15</text>
+<text class='t7' x='202.59' y='67.15'>name</text>
+<text class='t6' x='227.23' y='68.64'>1</text>
+<text class='t3' x='9.96' y='79.1'>unit</text>
+<text class='t4' x='33.65' y='79.1'>tera</text>
+<text class='t7' x='50.84' y='79.1'>name</text>
+<text class='t6' x='75.47' y='80.6'>1</text>
+<text class='t4' x='82.43' y='79.1'>tera</text>
+<text class='t7' x='99.61' y='79.1'>name</text>
+<text class='t6' x='124.25' y='80.6'>2</text>
+<text class='t4' x='131.21' y='79.1'>T</text>
+<text class='t7' x='138.4' y='79.1'>name</text>
+<text class='t6' x='163.03' y='80.6'>3</text>
+<text class='t4' x='170.27' y='79.1'>=<tspan x='180.79'>10</tspan></text>
+<text class='t6' x='190.75' y='75.49'>12</text>
+<text class='t7' x='199.19' y='79.1'>name</text>
+<text class='t6' x='223.82' y='80.6'>1</text>
+<text class='t3' x='9.96' y='91.06'>unit</text>
+<text class='t4' x='33.65' y='91.06'>giga</text>
+<text class='t7' x='51.36' y='91.06'>name</text>
+<text class='t6' x='76' y='92.55'>1</text>
+<text class='t4' x='82.96' y='91.06'>giga</text>
+<text class='t7' x='100.67' y='91.06'>name</text>
+<text class='t6' x='125.3' y='92.55'>2</text>
+<text class='t4' x='132.26' y='91.06'>G</text>
+<text class='t7' x='140.08' y='91.06'>name</text>
+<text class='t6' x='164.71' y='92.55'>3</text>
+<text class='t4' x='171.95' y='91.06'>=<tspan x='182.46'>10</tspan></text>
+<text class='t6' x='192.42' y='87.44'>9</text>
+<text class='t7' x='196.89' y='91.06'>name</text>
+<text class='t6' x='221.53' y='92.55'>1</text>
+<text class='t3' x='9.96' y='103.01'>unit</text>
+<text class='t4' x='33.65' y='103.01'>mega</text>
+<text class='t7' x='56.34' y='103.01'>name</text>
+<text class='t6' x='80.98' y='104.51'>1</text>
+<text class='t4' x='87.94' y='103.01'>mega</text>
+<text class='t7' x='110.63' y='103.01'>name</text>
+<text class='t6' x='135.26' y='104.51'>2</text>
+<text class='t4' x='142.22' y='103.01'>M</text>
+<text class='t7' x='151.35' y='103.01'>name</text>
+<text class='t6' x='175.99' y='104.51'>3</text>
+<text class='t4' x='183.22' y='103.01'>=<tspan x='193.74'>10</tspan></text>
+<text class='t6' x='203.7' y='99.4'>6</text>
+<text class='t7' x='208.17' y='103.01'>name</text>
+<text class='t6' x='232.8' y='104.51'>1</text>
+<text class='t3' x='9.96' y='114.97'>unit</text>
+<text class='t4' x='33.65' y='114.97'>kilo</text>
+<text class='t7' x='49.43' y='114.97'>name</text>
+<text class='t6' x='74.06' y='116.46'>1</text>
+<text class='t4' x='81.02' y='114.97'>kilo</text>
+<text class='t7' x='96.79' y='114.97'>name</text>
+<text class='t6' x='121.42' y='116.46'>2</text>
+<text class='t4' x='128.38' y='114.97'>k</text>
+<text class='t7' x='133.64' y='114.97'>name</text>
+<text class='t6' x='158.27' y='116.46'>3</text>
+<text class='t4' x='165.51' y='114.97'>=<tspan x='176.03'>10</tspan></text>
+<text class='t6' x='185.99' y='111.35'>3</text>
+<text class='t7' x='190.46' y='114.97'>name</text>
+<text class='t6' x='215.09' y='116.46'>1</text>
+<text class='t3' x='9.96' y='126.92'>unit</text>
+<text class='t4' x='33.65' y='126.92'>hecto</text>
+<text class='t7' x='56.9' y='126.92'>name</text>
+<text class='t6' x='81.53' y='128.42'>1</text>
+<text class='t4' x='88.49' y='126.92'>hecto</text>
+<text class='t7' x='111.74' y='126.92'>name</text>
+<text class='t6' x='136.37' y='128.42'>2</text>
+<text class='t4' x='143.33' y='126.92'>h</text>
+<text class='t7' x='148.86' y='126.92'>name</text>
+<text class='t6' x='173.5' y='128.42'>3</text>
+<text class='t4' x='180.73' y='126.92'>=<tspan x='191.25'>10</tspan></text>
+<text class='t6' x='201.21' y='123.31'>2</text>
+<text class='t7' x='205.68' y='126.92'>name</text>
+<text class='t6' x='230.31' y='128.42'>1</text>
+<text class='t3' x='9.96' y='138.88'>unit</text>
+<text class='t4' x='33.65' y='138.88'>dek<tspan x='48.32'>a</tspan></text>
+<text class='t7' x='53.3' y='138.88'>name</text>
+<text class='t6' x='77.93' y='140.37'>1</text>
+<text class='t4' x='84.89' y='138.88'>dek<tspan x='99.56'>a</tspan></text>
+<text class='t7' x='104.54' y='138.88'>name</text>
+<text class='t6' x='129.17' y='140.37'>2</text>
+<text class='t4' x='136.13' y='138.88'>da</text>
+<text class='t7' x='146.65' y='138.88'>name</text>
+<text class='t6' x='171.28' y='140.37'>3</text>
+<text class='t4' x='178.52' y='138.88'>=<tspan x='189.03'>10</tspan></text>
+<text class='t7' x='199' y='138.88'>name</text>
+<text class='t6' x='223.63' y='140.37'>1</text>
+<text class='t3' x='9.96' y='150.83'>unit</text>
+<text class='t4' x='33.65' y='150.83'>deci</text>
+<text class='t7' x='50.81' y='150.83'>name</text>
+<text class='t6' x='75.44' y='152.33'>1</text>
+<text class='t4' x='82.4' y='150.83'>deci</text>
+<text class='t7' x='99.56' y='150.83'>name</text>
+<text class='t6' x='124.19' y='152.33'>2</text>
+<text class='t4' x='131.15' y='150.83'>d</text>
+<text class='t7' x='136.69' y='150.83'>name</text>
+<text class='t6' x='161.32' y='152.33'>3</text>
+<text class='t4' x='168.56' y='150.83'>=<tspan x='179.07'>10</tspan></text>
+<text class='t8' x='189.03' y='147.22'>−</text>
+<text class='t6' x='195.26' y='147.22'>1</text>
+<text class='t7' x='199.73' y='150.83'>name</text>
+<text class='t6' x='224.36' y='152.33'>1</text>
+<text class='t3' x='9.96' y='162.79'>unit</text>
+<text class='t4' x='33.65' y='162.79'>cen<tspan x='47.77'>ti</tspan></text>
+<text class='t7' x='54.41' y='162.79'>name</text>
+<text class='t6' x='79.04' y='164.28'>1</text>
+<text class='t4' x='86' y='162.79'>cen<tspan x='100.11'>ti</tspan></text>
+<text class='t7' x='106.75' y='162.79'>name</text>
+<text class='t6' x='131.39' y='164.28'>2</text>
+<text class='t4' x='138.35' y='162.79'>c</text>
+<text class='t7' x='142.77' y='162.79'>name</text>
+<text class='t6' x='167.41' y='164.28'>3</text>
+<text class='t4' x='174.64' y='162.79'>=<tspan x='185.16'>10</tspan></text>
+<text class='t8' x='195.12' y='159.17'>−</text>
+<text class='t6' x='201.35' y='159.17'>2</text>
+<text class='t7' x='205.82' y='162.79'>name</text>
+<text class='t6' x='230.45' y='164.28'>1</text>
+<text class='t3' x='9.96' y='174.74'>unit</text>
+<text class='t4' x='33.65' y='174.74'>milli</text>
+<text class='t7' x='53.02' y='174.74'>name</text>
+<text class='t6' x='77.66' y='176.24'>1</text>
+<text class='t4' x='84.62' y='174.74'>milli</text>
+<text class='t7' x='103.99' y='174.74'>name</text>
+<text class='t6' x='128.62' y='176.24'>2</text>
+<text class='t4' x='135.58' y='174.74'>m</text>
+<text class='t7' x='143.88' y='174.74'>name</text>
+<text class='t6' x='168.51' y='176.24'>3</text>
+<text class='t4' x='175.75' y='174.74'>=<tspan x='186.27'>10</tspan></text>
+<text class='t8' x='196.23' y='171.13'>−</text>
+<text class='t6' x='202.46' y='171.13'>3</text>
+<text class='t7' x='206.93' y='174.74'>name</text>
+<text class='t6' x='231.56' y='176.24'>1</text>
+<text class='t3' x='9.96' y='186.7'>unit</text>
+<text class='t4' x='33.65' y='186.7'>micro</text>
+<text class='t7' x='58.03' y='186.7'>name</text>
+<text class='t6' x='82.66' y='188.19'>1</text>
+<text class='t4' x='89.62' y='186.7'>micro</text>
+<text class='t7' x='114.01' y='186.7'>name</text>
+<text class='t6' x='138.64' y='188.19'>2</text>
+<text class='t7' x='145.6' y='186.7'>µname</text>
+<text class='t6' x='176.23' y='188.19'>3</text>
+<text class='t4' x='183.47' y='186.7'>=<tspan x='193.99'>10</tspan></text>
+<text class='t8' x='203.95' y='183.08'>−</text>
+<text class='t6' x='210.18' y='183.08'>6</text>
+<text class='t7' x='214.64' y='186.7'>name</text>
+<text class='t6' x='239.28' y='188.19'>1</text>
+<text class='t3' x='9.96' y='198.66'>unit</text>
+<text class='t4' x='33.65' y='198.66'>nano</text>
+<text class='t7' x='54.68' y='198.66'>name</text>
+<text class='t6' x='79.32' y='200.15'>1</text>
+<text class='t4' x='86.28' y='198.66'>nano</text>
+<text class='t7' x='107.31' y='198.66'>name</text>
+<text class='t6' x='131.94' y='200.15'>2</text>
+<text class='t4' x='138.9' y='198.66'>n</text>
+<text class='t7' x='144.44' y='198.66'>name</text>
+<text class='t6' x='169.07' y='200.15'>3</text>
+<text class='t4' x='176.3' y='198.66'>=<tspan x='186.82'>10</tspan></text>
+<text class='t8' x='196.78' y='195.04'>−</text>
+<text class='t6' x='203.01' y='195.04'>9</text>
+<text class='t7' x='207.48' y='198.66'>name</text>
+<text class='t6' x='232.11' y='200.15'>1</text>
+<text class='t3' x='9.96' y='210.61'>unit</text>
+<text class='t4' x='33.65' y='210.61'>pico</text>
+<text class='t7' x='51.36' y='210.61'>name</text>
+<text class='t6' x='76' y='212.1'>1</text>
+<text class='t4' x='82.96' y='210.61'>pico</text>
+<text class='t7' x='100.67' y='210.61'>name</text>
+<text class='t6' x='125.3' y='212.1'>2</text>
+<text class='t4' x='132.26' y='210.61'>p</text>
+<text class='t7' x='137.79' y='210.61'>name</text>
+<text class='t6' x='162.43' y='212.1'>3</text>
+<text class='t4' x='169.66' y='210.61'>=<tspan x='180.18'>10</tspan></text>
+<text class='t8' x='190.14' y='206.99'>−</text>
+<text class='t6' x='196.37' y='206.99'>12</text>
+<text class='t7' x='204.81' y='210.61'>name</text>
+<text class='t6' x='229.44' y='212.1'>1</text>
+<text class='t3' x='9.96' y='222.57'>unit</text>
+<text class='t4' x='33.65' y='222.57'>fem<tspan x='49.15'>to</tspan></text>
+<text class='t7' x='58' y='222.57'>name</text>
+<text class='t6' x='82.64' y='224.06'>1</text>
+<text class='t4' x='89.6' y='222.57'>fem<tspan x='105.09'>to</tspan></text>
+<text class='t7' x='113.95' y='222.57'>name</text>
+<text class='t6' x='138.58' y='224.06'>2</text>
+<text class='t4' x='145.54' y='222.57'>f</text>
+<text class='t7' x='149.36' y='222.57'>name</text>
+<text class='t6' x='173.99' y='224.06'>3</text>
+<text class='t4' x='181.23' y='222.57'>=<tspan x='191.75'>10</tspan></text>
+<text class='t8' x='201.71' y='218.95'>−</text>
+<text class='t6' x='207.94' y='218.95'>15</text>
+<text class='t7' x='216.38' y='222.57'>name</text>
+<text class='t6' x='241.01' y='224.06'>1</text>
+<text class='t3' x='9.96' y='234.52'>unit</text>
+<text class='t4' x='33.65' y='234.52'>atto</text>
+<text class='t7' x='51.36' y='234.52'>name</text>
+<text class='t6' x='76' y='236.01'>1</text>
+<text class='t4' x='82.96' y='234.52'>atto</text>
+<text class='t7' x='100.67' y='234.52'>name</text>
+<text class='t6' x='125.3' y='236.01'>2</text>
+<text class='t4' x='132.26' y='234.52'>a</text>
+<text class='t7' x='137.24' y='234.52'>name</text>
+<text class='t6' x='161.87' y='236.01'>3</text>
+<text class='t4' x='169.11' y='234.52'>=<tspan x='179.63'>10</tspan></text>
+<text class='t8' x='189.59' y='230.91'>−</text>
+<text class='t6' x='195.81' y='230.91'>18</text>
+<text class='t7' x='204.26' y='234.52'>name</text>
+<text class='t6' x='228.89' y='236.01'>1</text>
+<text class='t3' x='9.96' y='246.48'>unit</text>
+<text class='t4' x='33.65' y='246.48'>zepto</text>
+<text class='t7' x='56.9' y='246.48'>name</text>
+<text class='t6' x='81.53' y='247.97'>1</text>
+<text class='t4' x='88.49' y='246.48'>zepto</text>
+<text class='t7' x='111.74' y='246.48'>name</text>
+<text class='t6' x='136.37' y='247.97'>2</text>
+<text class='t4' x='143.33' y='246.48'>z</text>
+<text class='t7' x='147.76' y='246.48'>name</text>
+<text class='t6' x='172.39' y='247.97'>3</text>
+<text class='t4' x='179.63' y='246.48'>=<tspan x='190.14'>10</tspan></text>
+<text class='t8' x='200.1' y='242.86'>−</text>
+<text class='t6' x='206.33' y='242.86'>21</text>
+<text class='t7' x='214.77' y='246.48'>name</text>
+<text class='t6' x='239.4' y='247.97'>1</text>
+<text class='t3' x='9.96' y='258.43'>unit</text>
+<text class='t4' x='33.65' y='258.43'>y<tspan x='38.63'>o</tspan><tspan x='43.89'>cto</tspan></text>
+<text class='t7' x='57.17' y='258.43'>name</text>
+<text class='t6' x='81.81' y='259.93'>1</text>
+<text class='t4' x='88.77' y='258.43'>y<tspan x='93.75'>o</tspan><tspan x='99.01'>cto</tspan></text>
+<text class='t7' x='112.29' y='258.43'>name</text>
+<text class='t6' x='136.92' y='259.93'>2</text>
+<text class='t4' x='143.88' y='258.43'>y</text>
+<text class='t7' x='149.28' y='258.43'>name</text>
+<text class='t6' x='173.91' y='259.93'>3</text>
+<text class='t4' x='181.15' y='258.43'>=<tspan x='191.66'>10</tspan></text>
+<text class='t8' x='201.63' y='254.82'>−</text>
+<text class='t6' x='207.85' y='254.82'>24</text>
+<text class='t7' x='216.29' y='258.43'>name</text>
+<text class='t6' x='240.93' y='259.93'>1</text></svg></div></div>
+<p id="p-7655bf1c" class="nb">where <span class="m">μ</span> is the Unicode character U+00B5 MICRO SIGN. Third, a <span class="m"><span class="kw">dim</span></span> declaration and a <span class="m"><span class="kw">unit</span></span> or <span class="m"><span class="kw">SI_unit</span></span> declaration may be collapsed into a single declaration by writing the <span class="m"><span class="kw">unit</span></span> or <span class="m"><span class="kw">SI_unit</span></span> declaration in place of the <span class="m"><span class="kw">default</span></span> clause in the <span class="m"><span class="kw">dim</span></span> declaration and omitting the colon and dimension from the <span class="m"><span class="kw">unit</span></span> declaration. Thus</p>
+<div class="fx nb" id="c-b185fe01" data-kind="code"><div class="fx-r"><svg class="tx" data-d="15" viewBox="9.36 11.81 284.35 22.56" width="28.435em" height="2.256em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>dim</text>
+<text class='t4' x='28.42' y='19.33'>Length</text>
+<text class='t3' x='61.77' y='19.33'>SI</text>
+<rect x='72.83' y='18.93' height='.4' width='2.99'/>
+<text class='t3' x='75.82' y='19.33'>unit</text>
+<text class='t4' x='99.5' y='19.33'>meter<tspan x='126.65'>meters</tspan><tspan x='157.73'>m</tspan></text>
+<text class='t3' x='9.96' y='31.28'>dim</text>
+<text class='t4' x='28.42' y='31.28'>P<tspan x='34.92'>o</tspan><tspan x='39.63'>w</tspan><tspan x='46.55'>er</tspan><tspan x='57.64'>=</tspan><tspan x='68.16'>Energy</tspan></text>
+<text class='t7' x='99.18' y='31.28'>/</text>
+<text class='t4' x='104.16' y='31.28'>Time</text>
+<text class='t3' x='129.62' y='31.28'>SI</text>
+<rect x='140.68' y='30.88' height='.4' width='2.99'/>
+<text class='t3' x='143.67' y='31.28'>unit</text>
+<text class='t4' x='167.36' y='31.28'>w<tspan x='174.28'>att</tspan><tspan x='189.22'>w</tspan><tspan x='196.14'>atts</tspan><tspan x='215.02'>W</tspan><tspan x='228.02'>=</tspan><tspan x='238.54'>joule</tspan></text>
+<text class='t7' x='259.29' y='31.28'>/</text>
+<text class='t4' x='264.28' y='31.28'>second</text></svg></div></div>
+<p id="p-2a235b1b" class="nb">is understood to abbreviate</p>
+<div class="fx nb" id="c-b0f5ab5d" data-kind="code"><div class="fx-r"><svg class="tx" data-d="16" viewBox="9.36 11.81 378.83 22.56" width="37.883em" height="2.256em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>dim</text>
+<text class='t4' x='28.42' y='19.33'>Length</text>
+<text class='t3' x='61.77' y='19.33'>default</text>
+<text class='t4' x='101.15' y='19.33'>meter<tspan x='126.08'>;</tspan></text>
+<text class='t3' x='130.51' y='19.33'>SI</text>
+<rect x='141.57' y='18.93' height='.4' width='2.99'/>
+<text class='t3' x='144.56' y='19.33'>unit</text>
+<text class='t4' x='168.25' y='19.33'>meter<tspan x='195.39'>meters</tspan><tspan x='226.47'>m:</tspan><tspan x='239.2'>Length</tspan></text>
+<text class='t3' x='9.96' y='31.28'>dim</text>
+<text class='t4' x='28.42' y='31.28'>P<tspan x='34.92'>o</tspan><tspan x='39.63'>w</tspan><tspan x='46.55'>er</tspan><tspan x='57.64'>=</tspan><tspan x='68.16'>Energy</tspan></text>
+<text class='t7' x='99.18' y='31.28'>/</text>
+<text class='t4' x='104.16' y='31.28'>Time</text>
+<text class='t3' x='129.62' y='31.28'>default</text>
+<text class='t4' x='169' y='31.28'>w<tspan x='175.92'>att</tspan><tspan x='188.65'>;</tspan></text>
+<text class='t3' x='193.08' y='31.28'>SI</text>
+<rect x='204.14' y='30.88' height='.4' width='2.99'/>
+<text class='t3' x='207.13' y='31.28'>unit</text>
+<text class='t4' x='230.82' y='31.28'>w<tspan x='237.74'>att</tspan><tspan x='252.68'>w</tspan><tspan x='259.6'>atts</tspan><tspan x='278.47'>W</tspan><tspan x='288.85'>:</tspan><tspan x='293.28'>P</tspan><tspan x='299.78'>o</tspan><tspan x='304.48'>w</tspan><tspan x='311.4'>er</tspan><tspan x='322.5'>=</tspan><tspan x='333.02'>joule</tspan></text>
+<text class='t7' x='353.77' y='31.28'>/</text>
+<text class='t4' x='358.75' y='31.28'>second</text></svg></div></div>
+<p id="p-9d5d264b" class="nb">In this way the names of the seven SI base units, along with all possible plural and prefixed forms, may be concisely defined as follows:</p>
+<div class="fx nb" id="c-6af32d6e" data-kind="code"><div class="fx-r"><svg class="tx" data-d="17" viewBox="9.36 11.81 248.10 81.79" width="24.810em" height="8.179em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>dim</text>
+<text class='t4' x='28.42' y='19.33'>Length</text>
+<text class='t3' x='61.77' y='19.33'>SI</text>
+<rect x='72.83' y='18.93' height='.4' width='2.99'/>
+<text class='t3' x='75.82' y='19.33'>unit</text>
+<text class='t4' x='99.5' y='19.33'>meter<tspan x='126.65'>meters</tspan><tspan x='157.73'>m</tspan></text>
+<text class='t3' x='9.96' y='31.28'>dim</text>
+<text class='t4' x='28.42' y='31.28'>Mass</text>
+<text class='t3' x='53.16' y='31.28'>default</text>
+<text class='t4' x='92.54' y='31.28'>kilogram<tspan x='130.48'>;</tspan></text>
+<text class='t3' x='134.91' y='31.28'>SI</text>
+<rect x='145.97' y='30.88' height='.4' width='2.99'/>
+<text class='t3' x='148.96' y='31.28'>unit</text>
+<text class='t4' x='172.65' y='31.28'>gram<tspan x='197.03'>grams</tspan><tspan x='225.34'>g</tspan><tspan x='230.46'>:</tspan><tspan x='234.88'>Mass</tspan></text>
+<text class='t3' x='9.96' y='43.24'>dim</text>
+<text class='t4' x='28.42' y='43.24'>Time</text>
+<text class='t3' x='53.88' y='43.24'>SI</text>
+<rect x='64.94' y='42.84' height='.4' width='2.99'/>
+<text class='t3' x='67.93' y='43.24'>unit</text>
+<text class='t4' x='91.62' y='43.24'>second<tspan x='122.67'>seconds</tspan><tspan x='157.65'>s</tspan></text>
+<text class='t3' x='9.96' y='55.19'>dim</text>
+<text class='t4' x='28.42' y='55.19'>ElectricCurren<tspan x='92.02'>t</tspan></text>
+<text class='t3' x='98.66' y='55.19'>SI</text>
+<rect x='109.72' y='54.79' height='.4' width='2.99'/>
+<text class='t3' x='112.7' y='55.19'>unit</text>
+<text class='t4' x='136.39' y='55.19'>amp<tspan x='155.49'>ere</tspan><tspan x='170.46'>amp</tspan><tspan x='189.56'>eres</tspan><tspan x='208.46'>A</tspan></text>
+<text class='t3' x='9.96' y='67.15'>dim</text>
+<text class='t4' x='28.42' y='67.15'>T<tspan x='34.79'>emp</tspan><tspan x='53.33'>erature</tspan></text>
+<text class='t3' x='87.15' y='67.15'>SI</text>
+<rect x='98.2' y='66.75' height='.4' width='2.99'/>
+<text class='t3' x='101.19' y='67.15'>unit</text>
+<text class='t4' x='124.88' y='67.15'>k<tspan x='129.86'>elvin</tspan><tspan x='152.83'>k</tspan><tspan x='157.81'>elvins</tspan><tspan x='184.71'>K</tspan></text>
+<text class='t3' x='9.96' y='79.1'>dim</text>
+<text class='t4' x='28.42' y='79.1'>Amoun<tspan x='59.97'>tOfSubstance</tspan></text>
+<text class='t3' x='121.18' y='79.1'>SI</text>
+<rect x='132.24' y='78.7' height='.4' width='2.99'/>
+<text class='t3' x='135.23' y='79.1'>unit</text>
+<text class='t4' x='158.92' y='79.1'>mole<tspan x='181.61'>moles</tspan><tspan x='208.24'>mol</tspan></text>
+<text class='t3' x='9.96' y='91.06'>dim</text>
+<text class='t4' x='28.42' y='91.06'>LuminousIn<tspan x='80.09'>tensit</tspan><tspan x='104.22'>y</tspan></text>
+<text class='t3' x='112.38' y='91.06'>SI</text>
+<rect x='123.44' y='90.66' height='.4' width='2.99'/>
+<text class='t3' x='126.43' y='91.06'>unit</text>
+<text class='t4' x='150.12' y='91.06'>candela<tspan x='184.99'>candelas</tspan><tspan x='223.79'>cd</tspan></text></svg></div></div>
+<p id="p-eb9d1f65" class="nb">Note the subtle difference in the declaration of <span class="m"><span class="ty">Mass</span></span> that allows the default unit to be <span class="m"><span class="ty">kilogram</span></span> rather than <span class="m"><span class="ty">gram</span></span>.</p>
+</section>
+<section class="sec" data-num="26.4" data-title="Absorbing Units">
+<h2 id="sec-absorbing-units" class="nb"><span class="num">26.4</span> Absorbing Units</h2>
+<div class="tw nb gr" id="g-42a540b0" data-kind="grammar"><svg class="tx" data-d="18" viewBox="-5.58 10.45 269.55 33.40" width="26.955em" height="3.340em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>StaticP<tspan x='53.89'>ar</tspan><tspan x='62.59'>am</tspan></text>
+<text class='t2' x='86.72' y='28.8'>::=</text>
+<text class='t1' x='109.84' y='28.8'>Id<tspan x='120.9'>Extends</tspan></text>
+<text class='t2' x='152.44' y='28.8'>?<tspan x='159.95'>(</tspan></text>
+<text class='t3' x='163.27' y='28.8'>absorbs<tspan x='205.69'>unit</tspan></text>
+<text class='t2' x='228.27' y='28.8'>)?</text>
+<text class='t5' x='86.72' y='40.76'>|</text>
+<text class='t3' x='111.5' y='40.76'>unit</text>
+<text class='t1' x='136.57' y='40.76'>Id</text>
+<text class='t2' x='147.63' y='40.76'>(</text>
+<text class='t4' x='150.95' y='40.76'>:</text>
+<text class='t1' x='157.86' y='40.76'>T<tspan x='162.67'>ype</tspan></text>
+<text class='t2' x='176.49' y='40.76'>)?<tspan x='187.32'>(</tspan></text>
+<text class='t3' x='190.64' y='40.76'>absorbs<tspan x='233.07'>unit</tspan></text>
+<text class='t2' x='255.65' y='40.76'>)?</text></svg></div>
+<p id="p-13cd71b4" class="nb">The declaration of a type parameter or a <span class="m"><span class="kw">unit</span></span> parameter for a parameterized trait may contain a clause “<span class="m"><span class="kw">absorbs</span> <span class="kw">unit</span></span>”; at most one static parameter of a trait may have this clause. An instance of a parameterized trait with a static parameter that “<span class="m"><span class="kw">absorbs</span> <span class="kw">unit</span></span>” may be multiplied or divided by a unit, the result being another instance of that parameterized trait in which the static argument corresponding to the unit-absorbing parameter has been multiplied or divided by the unit.</p>
+<p id="p-6ff106a0" class="nb">A few examples should make this clear. Given the declaration</p>
+<div class="fx nb" id="c-8b30c024" data-kind="code"><div class="fx-r"><svg class="tx" data-d="19" viewBox="9.36 11.26 313.52 11.16" width="31.352em" height="1.116em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t4' x='38.88' y='19.33'>V<tspan x='45.52'>ector</tspan></text>
+<text class='t9' x='67.14' y='19.33'></text>
+<text class='t4' x='71.15' y='19.33'>EltT<tspan x='91.49'>yp</tspan><tspan x='102.56'>e</tspan></text>
+<text class='t3' x='109.75' y='19.33'>extends</text>
+<text class='t4' x='149.13' y='19.33'>Num<tspan x='170.17'>b</tspan><tspan x='175.98'>er</tspan></text>
+<text class='t3' x='187.08' y='19.33'>absorbs<tspan x='229.22'>unit</tspan></text>
+<text class='t7' x='250.14' y='19.33'>,</text>
+<text class='t3' x='254.57' y='19.33'>nat</text>
+<text class='t10' x='273.03' y='19.33'>len</text>
+<text class='t9' x='286.52' y='19.33'></text>
+<text class='t7' x='292.2' y='19.33'>.<tspan x='296.63'>.</tspan><tspan x='301.05'>.</tspan></text>
+<text class='t3' x='306.59' y='19.33'>end</text></svg></div></div>
+<p id="p-41e5f0bd" class="nb">then <span class="m"><span class="ty">Vector</span>⟦<span class="ty">Float</span>, 3⟧<span class="ty">meter</span></span> means the same as <span class="m"><span class="ty">Vector</span>⟦<span class="ty">Float</span> <span class="ty">meter</span>, 3⟧</span>, and <span class="m"><span class="ty">Vector</span>⟦<span class="ty">Float</span>, 3⟧/<span class="ty">second</span></span> means the same as <span class="m"><span class="ty">Vector</span>⟦<span class="ty">Float</span>/<span class="ty">second</span>, 3⟧</span>. Therefore, <span class="m">[(3 <span class="rm">m</span>)(2 <span class="rm">m</span>)(5 <span class="rm">m</span>)]</span> means the same as <span class="m">[3 2 5]<span class="rm">m</span></span>. Similarly, given the declaration</p>
+<div class="fx nb" id="c-227b4650" data-kind="code"><div class="fx-r"><svg class="tx" data-d="20" viewBox="9.36 11.26 245.49 11.16" width="24.549em" height="1.116em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t4' x='38.88' y='19.33'>Float</text>
+<text class='t9' x='61.99' y='19.33'></text>
+<text class='t3' x='66' y='19.33'>unit</text>
+<text class='t7' x='89.69' y='19.33'>U</text>
+<text class='t3' x='100.35' y='19.33'>absorbs<tspan x='142.49'>unit</tspan></text>
+<text class='t7' x='163.42' y='19.33'>,</text>
+<text class='t3' x='167.84' y='19.33'>nat</text>
+<text class='t7' x='186.3' y='19.33'>e,</text>
+<text class='t3' x='195.37' y='19.33'>nat</text>
+<text class='t7' x='213.83' y='19.33'>s</text>
+<text class='t9' x='218.5' y='19.33'></text>
+<text class='t7' x='224.17' y='19.33'>.<tspan x='228.6'>.</tspan><tspan x='233.03'>.</tspan></text>
+<text class='t3' x='238.56' y='19.33'>end</text></svg></div></div>
+<p id="p-29676b77" class="nb">then <span class="m"><span class="ty">Float</span>⟦<span class="ty">meter</span>, 11, 53⟧/<span class="ty">second</span></span> means the same as <span class="m"><span class="ty">Float</span>⟦<span class="ty">meter</span>/<span class="ty">second</span>, 11, 53⟧</span>, and</p>
+<div class="fx nb" id="c-7e131fee" data-kind="code"><div class="fx-r"><svg class="tx" data-d="21" viewBox="9.36 10.36 217.85 12.64" width="21.785em" height="1.264em" fill="currentColor"><text class='t4' x='9.96' y='19.91'>Float</text>
+<text class='t9' x='33.07' y='19.91'></text>
+<text class='t4' x='37.08' y='19.91'>dimensionless</text>
+<text class='t7' x='95.92' y='19.91'>,</text>
+<text class='t4' x='100.35' y='19.91'>8</text>
+<text class='t7' x='105.33' y='19.91'>,</text>
+<text class='t4' x='109.76' y='19.91'>24</text>
+<text class='t9' x='119.72' y='19.91'></text>
+<text class='t4' x='123.73' y='19.91'>meter<tspan x='150.88'>kilogram</tspan></text>
+<text class='t7' x='188.82' y='19.91'>/</text>
+<text class='t4' x='193.8' y='19.91'>second</text>
+<text class='t6' x='222.64' y='15.45'>2</text></svg></div></div>
+<p id="p-9cd451ab" class="nb">means the same as</p>
+<div class="fx nb" id="c-6fed67cd" data-kind="code"><div class="fx-r"><svg class="tx" data-d="22" viewBox="9.36 10.36 224.15 12.64" width="22.415em" height="1.264em" fill="currentColor"><text class='t4' x='9.96' y='19.91'>Float</text>
+<text class='t9' x='33.07' y='19.91'></text>
+<text class='t4' x='37.08' y='19.91'>dimensionless<tspan x='97.58'>meter</tspan><tspan x='124.73'>kilogram</tspan></text>
+<text class='t7' x='162.67' y='19.91'>/</text>
+<text class='t4' x='167.65' y='19.91'>second</text>
+<text class='t6' x='196.49' y='15.45'>2</text>
+<text class='t7' x='200.96' y='19.91'>,</text>
+<text class='t4' x='205.38' y='19.91'>8</text>
+<text class='t7' x='210.36' y='19.91'>,</text>
+<text class='t4' x='214.79' y='19.91'>24</text>
+<text class='t9' x='224.75' y='19.91'></text>
+<text class='t2' x='230.43' y='19.91'>,</text></svg></div></div>
+<p id="p-5e3ce981" class="nb">which is the same as</p>
+<div class="fx nb" id="c-e2d14af7" data-kind="code"><div class="fx-r"><svg class="tx" data-d="23" viewBox="9.36 10.36 163.65 12.64" width="16.365em" height="1.264em" fill="currentColor"><text class='t4' x='9.96' y='19.91'>Float</text>
+<text class='t9' x='33.07' y='19.91'></text>
+<text class='t4' x='37.08' y='19.91'>meter<tspan x='64.23'>kilogram</tspan></text>
+<text class='t7' x='102.17' y='19.91'>/</text>
+<text class='t4' x='107.15' y='19.91'>second</text>
+<text class='t6' x='135.99' y='15.45'>2</text>
+<text class='t7' x='140.46' y='19.91'>,</text>
+<text class='t4' x='144.89' y='19.91'>8</text>
+<text class='t7' x='149.87' y='19.91'>,</text>
+<text class='t4' x='154.3' y='19.91'>24</text>
+<text class='t9' x='164.26' y='19.91'></text>
+<text class='t2' x='169.93' y='19.91'>.</text></svg></div></div>
+<p id="p-7818bfd1" class="nb">This is the mechanism by which meaning is given to the multiplication and division of library-defined types by units.</p>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="operatordefs.html"><span>Previous</span> 25. Operator Declarations</a><a class="next" href="syntax-expanders.html"><span>Next</span> 27. Support for Domain-Specific Languages</a></nav>
+<footer class="colophon">Converted from <code>Specification/advanced/defining-dimensions.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

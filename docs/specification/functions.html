@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>9. Functions · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmr10;font-size:9.96px}
+svg.tx text.t4{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t5{font-family:cmr7;font-size:6.97px}
+svg.tx text.t6{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t7{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t8{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t9{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t10{font-family:stmary10;font-size:9.96px}
+svg.tx text.t11{font-family:cmti10;font-size:9.96px}
+svg.tx text.t12{font-family:cmti7;font-size:6.97px}
+svg.tx text.t13{font-family:cmex10;font-size:9.96px}
+svg.tx text.t14{font-family:msbm10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="functions" data-chapter="9. Functions">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">9. Functions</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="9" data-title="Functions">
+<h1 id="top" class="nb"><a id="chap-functions"></a><span class="num">Chapter 9</span> Functions</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-function-decls">9.1 Function Declarations</a></li><li><a href="#sec-function-app">9.2 Function Applications</a></li><li><a href="#sec-abstractFunctionDeclarations">9.3 Abstract Function Declarations</a></li><li><a href="#sec-contracts">9.4 Function Contracts</a></li><li><a href="#sec-local-fn-decls">9.5 Local Function Declarations</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-ff6d9573" class="nb">Abstract function declarations and their checking, modifiers on functions such as <span class="m"><span class="kw">atomic</span></span> and <span class="m"><span class="kw">io</span></span>, keyword and varargs parameters, where clauses, contract checking, and tail-call optimization are not supported yet.</p>
+<p id="p-5ef69a53" class="nb">Varargs and keyword examples and abstract function declarations examples are not run by the interpreter.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-9c7a7029" class="nb">Guy’s email titled “Re: Function equality issues” on 02/13/08</p>
+<p id="p-8a96d82f" class="nb">Yes with returning false for overloaded functions (with the implementation-dependent features). (03/03/08)</p></aside>
+<p id="p-d631bc4c" class="nb">A <em>function</em> is a value that has a function type (described in <a class="xref" href="types.html#sec-function-types">Section 6.7</a>). Each function takes exactly one argument, which may be a tuple, and returns exactly one result, which may be a tuple. A function may be declared as top level or local as described in <a class="xref" href="declarations.html#sec-decl-kinds">Section 7.1</a><!--nc-->. Fortress allows functions to be <em>overloaded</em> (as described in <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc-->); there may be multiple function declarations with the same function name in a single lexical scope. Functions can be passed as arguments and returned as values. Single variables may be bound to functions including overloaded functions.</p>
+<section class="sec" data-num="9.1" data-title="Function Declarations">
+<h2 id="sec-function-decls" class="nb"><span class="num">9.1</span> Function Declarations</h2>
+<div class="tw nb gr" id="g-cb07bb56" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 368.49 295.84" width="36.849em" height="29.584em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>FnDecl</text>
+<text class='t2' x='128.91' y='28.8'>::=</text>
+<text class='t1' x='152.02' y='28.8'>FnMods</text>
+<text class='t2' x='185.22' y='28.8'>?</text>
+<text class='t1' x='192.74' y='28.8'>FnHeaderF<tspan x='239.22'>r</tspan><tspan x='242.65'>ont</tspan><tspan x='258.05'>FnHeaderClause</tspan></text>
+<text class='t3' x='330.82' y='28.8'>=</text>
+<text class='t1' x='342.72' y='28.8'>Expr</text>
+<text class='t4' x='128.91' y='40.76'>|</text>
+<text class='t1' x='152.02' y='40.76'>FnSig<tspan x='25.9' y='52.71'>FnSig</tspan></text>
+<text class='t2' x='128.91' y='52.71'>::=</text>
+<text class='t1' x='152.02' y='52.71'>SimpleName</text>
+<text class='t3' x='206.53' y='52.71'>:</text>
+<text class='t1' x='213.45' y='52.71'>T<tspan x='218.25'>ype</tspan><tspan x='25.9' y='64.67'>FnMods</tspan></text>
+<text class='t2' x='128.91' y='64.67'>::=</text>
+<text class='t1' x='152.02' y='64.67'>FnMod</text>
+<text class='t5' x='181.62' y='61.05'>+</text>
+<text class='t1' x='25.9' y='76.62'>FnMod</text>
+<text class='t2' x='128.91' y='76.62'>::=</text>
+<text class='t1' x='152.02' y='76.62'>AbsFnMod</text>
+<text class='t4' x='199.05' y='76.62'>|</text>
+<text class='t6' x='205.97' y='76.62'>private</text>
+<text class='t1' x='25.9' y='88.58'>AbsFnMod</text>
+<text class='t2' x='128.91' y='88.58'>::=</text>
+<text class='t1' x='152.02' y='88.58'>LocalFnMod</text>
+<text class='t4' x='206.8' y='88.58'>|</text>
+<text class='t6' x='213.72' y='88.58'>test</text>
+<text class='t1' x='25.9' y='100.53'>LocalFnMod</text>
+<text class='t2' x='128.91' y='100.53'>::=</text>
+<text class='t6' x='153.68' y='100.53'>atomic</text>
+<text class='t4' x='189.21' y='100.53'>|</text>
+<text class='t6' x='196.13' y='100.53'>io</text>
+<text class='t1' x='25.9' y='112.49'>FnHeaderF<tspan x='72.39'>r</tspan><tspan x='75.82'>ont</tspan></text>
+<text class='t2' x='128.91' y='112.49'>::=</text>
+<text class='t1' x='152.02' y='112.49'>NamedFnHeaderF<tspan x='226.73'>r</tspan><tspan x='230.16'>ont</tspan></text>
+<text class='t4' x='128.91' y='124.44'>|</text>
+<text class='t1' x='152.02' y='124.44'>OpHeaderF<tspan x='199.61'>r</tspan><tspan x='203.04'>ont</tspan><tspan x='25.9' y='136.4'>NamedFnHeaderF</tspan><tspan x='100.61'>r</tspan><tspan x='104.04'>ont</tspan></text>
+<text class='t2' x='128.91' y='136.4'>::=</text>
+<text class='t1' x='152.02' y='136.4'>Id<tspan x='163.08'>StaticP</tspan><tspan x='191.06'>ar</tspan><tspan x='199.77'>ams</tspan></text>
+<text class='t2' x='215.82' y='136.4'>?</text>
+<text class='t1' x='223.33' y='136.4'>V<tspan x='228.31'>alP</tspan><tspan x='241.35'>ar</tspan><tspan x='250.06'>am</tspan><tspan x='25.9' y='148.35'>V</tspan><tspan x='30.88'>alP</tspan><tspan x='43.93'>ar</tspan><tspan x='52.63'>am</tspan></text>
+<text class='t2' x='128.91' y='148.35'>::=</text>
+<text class='t1' x='152.02' y='148.35'>BindId</text>
+<text class='t4' x='128.91' y='160.31'>|</text>
+<text class='t7' x='152.02' y='160.31'>(</text>
+<text class='t1' x='158' y='160.31'>P<tspan x='163.29'>ar</tspan><tspan x='171.99'>ams</tspan></text>
+<text class='t2' x='188.04' y='160.31'>?</text>
+<text class='t7' x='192.47' y='160.31'>)</text>
+<text class='t1' x='25.9' y='172.26'>P<tspan x='31.19'>ar</tspan><tspan x='39.9'>ams</tspan></text>
+<text class='t2' x='128.91' y='172.26'>::=<tspan x='152.02'>(</tspan></text>
+<text class='t1' x='155.34' y='172.26'>P<tspan x='160.63'>ar</tspan><tspan x='169.33'>am</tspan></text>
+<text class='t8' x='181.51' y='172.26'>,</text>
+<text class='t2' x='185.94' y='172.26'>)</text>
+<text class='t9' x='189.25' y='168.65'>∗</text>
+<text class='t2' x='196.32' y='172.26'>(</text>
+<text class='t1' x='199.64' y='172.26'>V<tspan x='204.62'>ar</tspan><tspan x='213.33'>ar</tspan><tspan x='221.82'>gs</tspan></text>
+<text class='t8' x='230.68' y='172.26'>,</text>
+<text class='t2' x='235.1' y='172.26'>)?</text>
+<text class='t1' x='245.93' y='172.26'>K<tspan x='252.23'>e</tspan><tspan x='256.35'>ywor</tspan><tspan x='275.91'>d</tspan></text>
+<text class='t2' x='281.16' y='172.26'>(</text>
+<text class='t8' x='284.48' y='172.26'>,</text>
+<text class='t1' x='288.91' y='172.26'>K<tspan x='295.2'>e</tspan><tspan x='299.33'>ywor</tspan><tspan x='318.88'>d</tspan></text>
+<text class='t2' x='324.13' y='172.26'>)</text>
+<text class='t9' x='327.45' y='168.65'>∗</text>
+<text class='t4' x='128.91' y='184.22'>|</text>
+<text class='t2' x='152.02' y='184.22'>(</text>
+<text class='t1' x='155.34' y='184.22'>P<tspan x='160.63'>ar</tspan><tspan x='169.33'>am</tspan></text>
+<text class='t8' x='181.51' y='184.22'>,</text>
+<text class='t2' x='185.94' y='184.22'>)</text>
+<text class='t9' x='189.25' y='180.6'>∗</text>
+<text class='t1' x='196.32' y='184.22'>V<tspan x='201.31'>ar</tspan><tspan x='210.01'>ar</tspan><tspan x='218.5'>gs</tspan></text>
+<text class='t4' x='128.91' y='196.17'>|</text>
+<text class='t1' x='152.02' y='196.17'>P<tspan x='157.31'>ar</tspan><tspan x='166.02'>am</tspan></text>
+<text class='t2' x='178.19' y='196.17'>(</text>
+<text class='t8' x='181.51' y='196.17'>,</text>
+<text class='t1' x='188.43' y='196.17'>P<tspan x='193.72'>ar</tspan><tspan x='202.42'>am</tspan></text>
+<text class='t2' x='214.6' y='196.17'>)</text>
+<text class='t9' x='217.92' y='192.56'>∗</text>
+<text class='t1' x='25.9' y='208.13'>V<tspan x='30.88'>ar</tspan><tspan x='39.59'>ar</tspan><tspan x='48.08'>gsP</tspan><tspan x='62.23'>ar</tspan><tspan x='70.93'>am</tspan></text>
+<text class='t2' x='128.91' y='208.13'>::=</text>
+<text class='t1' x='152.02' y='208.13'>BindId</text>
+<text class='t3' x='179.41' y='208.13'>:</text>
+<text class='t1' x='183.83' y='208.13'>T<tspan x='188.64'>ype</tspan></text>
+<text class='t8' x='202.46' y='208.13'>...</text>
+<text class='t1' x='25.9' y='220.08'>V<tspan x='30.88'>ar</tspan><tspan x='39.59'>ar</tspan><tspan x='48.08'>gs</tspan></text>
+<text class='t2' x='128.91' y='220.08'>::=</text>
+<text class='t1' x='152.02' y='220.08'>V<tspan x='157'>ar</tspan><tspan x='165.71'>ar</tspan><tspan x='174.2'>gsP</tspan><tspan x='188.34'>ar</tspan><tspan x='197.05'>am</tspan><tspan x='25.9' y='232.04'>K</tspan><tspan x='32.2'>e</tspan><tspan x='36.32'>ywor</tspan><tspan x='55.88'>d</tspan></text>
+<text class='t2' x='128.91' y='232.04'>::=</text>
+<text class='t1' x='152.02' y='232.04'>P<tspan x='157.31'>ar</tspan><tspan x='166.02'>am</tspan></text>
+<text class='t3' x='178.19' y='232.04'>=</text>
+<text class='t1' x='187.6' y='232.04'>Expr<tspan x='25.9' y='243.99'>PlainP</tspan><tspan x='52.78'>ar</tspan><tspan x='61.49'>am</tspan></text>
+<text class='t2' x='128.91' y='243.99'>::=</text>
+<text class='t1' x='152.02' y='243.99'>BindId<tspan x='181.9'>IsT</tspan><tspan x='193.89'>ype</tspan></text>
+<text class='t2' x='207.72' y='243.99'>?</text>
+<text class='t4' x='128.91' y='255.95'>|</text>
+<text class='t1' x='152.02' y='255.95'>T<tspan x='156.82'>ype</tspan><tspan x='25.9' y='267.91'>P</tspan><tspan x='31.19'>ar</tspan><tspan x='39.9'>am</tspan></text>
+<text class='t2' x='128.91' y='267.91'>::=</text>
+<text class='t1' x='152.02' y='267.91'>PlainP<tspan x='178.9'>ar</tspan><tspan x='187.61'>am</tspan><tspan x='25.9' y='279.86'>FnHeaderClause</tspan></text>
+<text class='t2' x='128.91' y='279.86'>::=</text>
+<text class='t1' x='152.02' y='279.86'>IsT<tspan x='164.01'>ype</tspan></text>
+<text class='t2' x='177.84' y='279.86'>?</text>
+<text class='t1' x='185.35' y='279.86'>FnClauses<tspan x='25.9' y='291.82'>FnClauses</tspan></text>
+<text class='t2' x='128.91' y='291.82'>::=</text>
+<text class='t1' x='152.02' y='291.82'>Thr<tspan x='165.97'>ows</tspan></text>
+<text class='t2' x='181.47' y='291.82'>?</text>
+<text class='t1' x='188.98' y='291.82'>Wher<tspan x='210.19'>e</tspan></text>
+<text class='t2' x='214.61' y='291.82'>?</text>
+<text class='t1' x='222.13' y='291.82'>Contr<tspan x='245.23'>act</tspan><tspan x='25.9' y='303.77'>Thr</tspan><tspan x='39.85'>ows</tspan></text>
+<text class='t2' x='128.91' y='303.77'>::=</text>
+<text class='t6' x='153.68' y='303.77'>throws</text>
+<text class='t1' x='189.21' y='303.77'>MayT<tspan x='211.91'>r</tspan><tspan x='215.63'>aitT</tspan><tspan x='230.96'>ypes</tspan></text></svg></div>
+<p id="p-f440e835" class="nb">Syntactically, a function declaration consists of an optional sequence of modifiers followed by the name of the function, optional static parameters (described in <a class="xref" href="trait-parameters.html">Chapter 12</a><!--nc-->), the value parameter with its (optionally) declared type, an optional type of a return value, an optional declaration of thrown checked exceptions (discussed in <a class="xref" href="exceptions.html">Chapter 14</a><!--nc-->), an optional <span class="m"><span class="kw">where</span></span> clause (discussed in <a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), a contract for the function (discussed in <a class="xref" href="#sec-contracts">Section 9.4</a><!--nc-->), and finally an optional body expression preceded by the token <span class="m">=</span>. A <span class="m"><span class="kw">throws</span></span> clause does not include naked type variables. Every element in a <span class="m"><span class="kw">throws</span></span> clause is a subtype of <span class="m"><span class="ty">CheckedException</span></span>. When a function declaration includes a body expression, it is called a <em>function definition</em>. Function declarations can be mutually recursive.</p>
+<p id="p-eadf5cef" class="nb">Function declarations can include the following special modifiers:</p>
+<p id="p-928cca85" class="nb"><strong><span class="m"><span class="kw">atomic</span></span>:</strong>  A function with the modifier <span class="m"><span class="kw">atomic</span></span> acts as if its entire body were surrounded in an <span class="m"><span class="kw">atomic</span></span> expression discussed in <a class="xref" href="expressions.html#sec-atomic">Section 13.23</a><!--nc-->.</p>
+<p id="p-be8d5d00" class="nb"><strong><span class="m"><span class="kw">io</span></span>:</strong>  Functions that perform externally visible input/output actions are said to be <span class="m"><span class="kw">io</span></span> functions. An <span class="m"><span class="kw">io</span></span> function must not be invoked from a non-<span class="m"><span class="kw">io</span></span> function.</p>
+<p id="p-5773f13f" class="nb">A function takes exactly one argument, which may be a tuple. When a function takes a tuple argument, we abuse terminology by saying that the function takes multiple arguments. Value parameters cannot be mutated inside the function body.</p>
+<p id="p-485bf91a" class="nb">A function’s value parameter consists of a parenthesized, comma-separated list of bindings where each binding is one of:</p>
+<ul>
+<li><p id="p-f1caa23f" class="nb">A plain binding “<span class="m"><i>identifier</i></span>” or “<span class="m"><i>identifier</i> : <i>T</i></span>”</p></li>
+<li><p id="p-099a9c2b" class="nb">A varargs binding “<span class="m"><i>identifier</i> : <i>T</i>…</span>”</p></li>
+<li><p id="p-6ed7a471" class="nb">A keyword binding “<span class="m"><i>identifier</i> = <i>e</i></span>” or “<span class="m"><i>identifier</i> : <i>T</i> = <i>e</i></span>”</p></li>
+</ul>
+<p id="p-6f56b986" class="nb">When the parameter is a single plain binding without a declared type, enclosing parentheses may be elided. The following restrictions apply: No two bindings may have the same identifier. No keyword binding may precede a plain binding. No varargs binding may follow a keyword binding or precede a plain binding. Note that it is permitted to have a single plain binding, or to have no bindings. The latter case, “()”, is considered equivalent to a single plain binding of the ignored identifier “_” of type (), that is, “<span class="m">(_ : ())</span>”. Also, there can be at most one varargs binding.</p>
+<p id="p-ca47a05c" class="nb">A parameter declared by keyword binding is called a <em>keyword parameter</em>; a keyword parameter must be declared with a <em>default</em> expression, which is used when no argument is bound to the parameter explicitly. Syntactically, the default expression is specified after an <span class="m">=</span> sign. The default expression of a parameter <span class="m"><i>x</i></span> of function <span class="m"><i>f</i></span> is evaluated each time the function is called without a value provided for <span class="m"><i>x</i></span> at the call site. All parameters occurring to the left of <span class="m"><i>x</i></span> are in scope of its default expression. All parameters following <span class="m"><i>x</i></span> must include default expressions as well; <span class="m"><i>x</i></span> is in scope of their default expressions and the body of the function. When an argument is passed explicitly for a keyword parameter, that argument must be passed as a <em>keyword argument</em>. (See <a class="xref" href="#sec-function-app">Section 9.2</a><!--nc-->.) If no type is declared for a keyword parameter, the type is inferred from the static type of its default expression.</p>
+<p id="p-ff3963ba" class="nb">A parameter declared by varargs binding is called a <em>varargs parameter</em>; it is used to pass a variable number of arguments to a function as a single heap sequence. The type of a varargs parameter is <span class="m"><span class="ty">HeapSequence</span>⟦<i>T</i>⟧</span> where <span class="m"><i>T</i></span> is the type mentioned in (or inferred for) that binding.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-907302a7" class="nb">See the library section for a discussion of <span class="m"><span class="ty">HeapSequence</span></span>.</p></aside>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-varargs">Section I.1.38</a><!--nc--></span></p>
+<p id="p-2c71f8c4" class="nb">No library declares <span class="m"><span class="ty">HeapSequence</span></span>, nor the immutable sequence that the team’s draft note at the start of <a class="xref" href="#sec-function-app">Section 9.2</a><!--nc--> agreed on in its place. Both implementations give a varargs parameter the array type of the Fortress standard libraries that the compiled type checker’s authors named for it, <span class="m"><span class="ty">ImmutableArray</span>⟦<i>T</i>, ℤ32⟧</span>: the interpreter binds the parameter to an immutable one-dimensional array of the arguments, and the compiled type checker types the parameter in the body at that type. The compiled path’s own library declares no such type, so there the compiled type checker refuses every use of a varargs parameter, in a body, a contract or a function expression, naming the type; and the code generator does not yet compile a function with a varargs parameter.</p></aside>
+<p id="p-4f693dfa" class="nb">Note that the type of a varargs parameter cannot be omitted. If a function does not have a varargs parameter then the number of arguments is fixed by the function’s type. Note that a varargs parameter is not allowed to have a default expression.</p>
+<p id="p-d4dec428" class="nb">For example, here is a simple polymorphic function for creating lists:</p>
+<div class="fx nb both" id="c-54ee0e57" data-kind="code" data-example="Fun.Decl"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 11.26 221.92 70.04" width="22.192em" height="7.004em" fill="currentColor"><text class='t3' x='0' y='19.33'>List</text>
+<text class='t10' x='16.8' y='19.33'></text>
+<text class='t8' x='20.81' y='19.33'>T</text>
+<text class='t6' x='30.78' y='19.33'>extends</text>
+<text class='t3' x='70.16' y='19.33'>Ob<tspan x='84'>ject</tspan></text>
+<text class='t8' x='99.77' y='19.33'>,</text>
+<text class='t6' x='104.2' y='19.33'>nat</text>
+<text class='t11' x='122.66' y='19.33'>length</text>
+<text class='t10' x='149.14' y='19.33'></text>
+<text class='t3' x='153.15' y='19.33'>(</text>
+<text class='t11' x='157.03' y='19.33'>r<tspan x='160.72'>est</tspan></text>
+<text class='t3' x='173.63' y='19.33'>:</text>
+<text class='t8' x='178.06' y='19.33'>T</text>
+<text class='t12' x='183.88' y='20.82'>length</text>
+<text class='t3' x='206.33' y='19.33'>)<tspan x='212.97'>=</tspan></text>
+<text class='t6' x='8.86' y='39.75'>if</text>
+<text class='t11' x='22.08' y='39.75'>length</text>
+<text class='t3' x='51.33' y='39.75'>=<tspan x='61.85'>0</tspan></text>
+<text class='t6' x='69.59' y='39.75'>then</text>
+<text class='t3' x='93.28' y='39.75'>Empt<tspan x='117.5'>y</tspan></text>
+<text class='t6' x='8.86' y='60.27'>else</text>
+<text class='t3' x='32.54' y='60.27'>Cons</text>
+<text class='t13' x='54.19' y='52.2'></text>
+<text class='t11' x='58.75' y='60.27'>r<tspan x='62.44'>est</tspan></text>
+<text class='t5' x='75.35' y='61.77'>0</text>
+<text class='t8' x='79.82' y='60.27'>,</text>
+<text class='t3' x='84.25' y='60.27'>List<tspan x='101.05'>(</tspan></text>
+<text class='t11' x='104.92' y='60.27'>r<tspan x='108.62'>est</tspan></text>
+<text class='t5' x='121.53' y='62.07'>1:<tspan x='127.75'>(</tspan></text>
+<text class='t12' x='130.87' y='62.07'>length</text>
+<text class='t9' x='152.82' y='62.07'>−</text>
+<text class='t5' x='159.04' y='62.07'>1)</text>
+<text class='t3' x='166.62' y='60.27'>)</text>
+<text class='t13' x='170.5' y='52.2'></text>
+<text class='t6' x='8.86' y='80.7'>end</text></svg></div><pre class="fx-s"><code>List[\T extends Object, nat length\](rest: T[length]) =
+  if length = 0 then Empty
+  else Cons(rest[0], List(rest[1:(length-1)]))
+  end</code></pre></div>
+</section>
+<section class="sec" data-num="9.2" data-title="Function Applications">
+<h2 id="sec-function-app" class="nb"><span class="num">9.2</span> Function Applications</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-9e897110" class="nb">varargs arguments (10/30/07)</p>
+<p id="p-d623d2cf" class="nb">Is there any reason to use <span class="m"><span class="ty">HeapSequence</span></span> which is mutable to implement varargs tuples? How about implementing them in terms of some covariant data type?</p>
+<p id="p-ad960e1b" class="nb">We agreed to implement varargs tuples using <span class="m"><span class="ty">ReadOnlyHeapSequence</span></span> which is immutable and invariant. We’ll add <span class="m"><span class="ty">MakeReadOnlyHeapSequence</span></span> into the core library.</p></aside>
+<p id="p-d9787c3c" class="nb">Fortress allows functions to be overloaded; there may be multiple function declarations with the same function name in a single lexical scope. Thus, we need to determine which functional declarations are applicable to a function application.</p>
+<p id="p-a5163b66" class="nb">An overloaded function has multiple arrow types in its function type, and it associates a declaration with each constituent arrow type. When an overloaded function of type <span class="m"><i>T</i></span> is called with an argument of type <span class="m"><i>A</i></span>, the call is “dispatched” to the declaration associated with the most specific type of <span class="m"><i>T</i></span> applicable to <span class="m"><i>A</i></span> (if no such type exists, then the function is not applicable to <span class="m"><i>A</i></span>). This is well defined because the overloading rules guarantee that the type of any function value is a well-formed function type.</p>
+<p id="p-fb6cd266" class="nb">If a function’s argument type is <span class="m">()</span>, then function declarations with the following forms of parameter lists are considered to be applicable:</p>
+<ul>
+<li><p id="p-aa93a80b" class="nb"><span class="m">()</span> which means the same thing as <span class="m">(_ : ())</span></p></li>
+<li><p id="p-4a5a326a" class="nb"><span class="m">(<i>x</i> : ())</span> which is something programmers don’t ordinarily write</p></li>
+<li><p id="p-a58eb671" class="nb"><span class="m">(<i>x</i> : <i>T</i>…)</span></p></li>
+</ul>
+<p id="p-f64d25b0" class="nb">In the last case, <span class="m"><i>x</i></span> is bound to an empty <span class="m"><span class="ty">HeapSequence</span>⟦<i>T</i>⟧</span>.</p>
+<p id="p-f2ca2e73" class="nb">If a function’s argument type <span class="m"><i>A</i></span> is neither <span class="m">()</span> nor a tuple type, then function declarations with the following forms of parameter lists are considered to be applicable:</p>
+<ul>
+<li><p id="p-e4a060ea" class="nb"><span class="m">(<i>x</i> : <i>T</i>)</span> where <span class="m"><i>A</i></span> is a subtype of <span class="m"><i>T</i></span></p></li>
+<li><p id="p-5b354db1" class="nb"><span class="m">(<i>x</i> : <i>T</i>…)</span> where <span class="m"><i>A</i></span> is a subtype of <span class="m"><i>T</i></span></p></li>
+</ul>
+<p id="p-0397ef71" class="nb">In the last case, <span class="m"><i>x</i></span> is bound to a <span class="m"><span class="ty">HeapSequence</span>⟦<i>T</i>⟧</span> of length <span class="m">1</span>, containing the actual argument value.</p>
+<p id="p-528341f6" class="nb">If a function’s argument type <span class="m"><i>A</i></span> is a tuple type, then function declarations with the following forms of parameter lists are considered to be applicable:</p>
+<ul>
+<li><p id="p-e4a060ea-2" class="nb"><span class="m">(<i>x</i> : <i>T</i>)</span> where <span class="m"><i>A</i></span> is a subtype of <span class="m"><i>T</i></span></p></li>
+<li><p id="p-5b354db1-2" class="nb"><span class="m">(<i>x</i> : <i>T</i>…)</span> where <span class="m"><i>A</i></span> is a subtype of <span class="m"><i>T</i></span></p></li>
+<li><p id="p-f3c62dea" class="nb">a parameter list with no varargs binding, provided that</p>
+<ul>
+<li><p id="p-cd9fd754" class="nb">type <span class="m"><i>A</i></span> has exactly as many plain types as the parameter list has plain bindings, and</p></li>
+<li><p id="p-84a7d85b" class="nb">for every keyword-type pair (described in <a class="xref" href="types.html#sec-tuple-types">Section 6.5</a>) in <span class="m"><i>A</i></span>, the parameter list has a binding with the same keyword, and</p></li>
+<li><p id="p-a7a82eaa" class="nb">for every element type in <span class="m"><i>A</i></span>, the type in the element type is a subtype of the type of the corresponding binding in the parameter list.</p></li>
+</ul></li>
+<li><p id="p-9f05e12e" class="nb">a parameter list with a varargs binding, provided that</p>
+<ul>
+<li><p id="p-20e4df1c" class="nb">type <span class="m"><i>A</i></span> has at least as many plain types as the parameter list has plain bindings, and</p></li>
+<li><p id="p-3b1eb14a" class="nb">for every keyword-type pair in <span class="m"><i>A</i></span>, the parameter list has a binding with the same keyword, and</p></li>
+<li><p id="p-dc1c6549" class="nb">for every element type in <span class="m"><i>A</i></span>, the type in the element type is a subtype of the type of the corresponding binding in the parameter list—but if there is no corresponding binding, then the type in the element type must be a subtype of the type in the varargs binding.</p></li>
+</ul></li>
+</ul>
+<p id="p-c6885bb6" class="nb">In the latter case, the parameter named by the identifier in the varargs binding is bound to a <span class="m"><span class="ty">HeapSequence</span>⟦<i>T</i>⟧</span> that contains, in order, all the values of the tuple that did not correspond to plain bindings, followed by all the values in the varargs <span class="m"><span class="ty">HeapSequence</span></span> of the tuple, if any.</p>
+<p id="p-d3b0b5f6" class="nb">When an argument is passed explicitly for a keyword parameter, that argument must be passed as a <em>keyword argument</em>. Syntactically, a keyword argument is a keyword-value pair “<span class="m"><i>identifier</i> = <i>e</i></span>”. Keyword parameters not explicitly bound are bound to their default values. If a parameter that has no default value is not explicitly bound to an argument, it is a static error.</p>
+<p id="p-3b1cd6d3" class="nb">When a function is called (See <a class="xref" href="expressions.html#sec-function-calls">Section 13.6</a><!--nc--> for a discussion of function call expressions), function arguments are evaluated in parallel, keyword parameters not explicitly bound are bound to their default values sequentially, and the body of the function is evaluated in a new environment, extending the environment in which it is defined with all parameters bound to their arguments.</p>
+<p id="p-452b356f" class="nb">If the application of a function <span class="m"><i>f</i></span> ends by calling another function <span class="m"><i>g</i></span>, tail-call optimization must be applied. Storage used by the new environments constructed for the application of <span class="m"><i>f</i></span> must be reclaimed.</p>
+<p id="p-0931022b" class="nb">Here are some examples:</p>
+<div class="fx nb both" id="c-aac82e2a" data-kind="code" data-example="Fun.App.a"><div class="fx-r"><svg class="tx" data-d="3" viewBox="4.38 11.26 52.01 31.59" width="5.201em" height="3.159em" fill="currentColor"><text class='t3' x='4.98' y='19.33'>sin<tspan x='17.21'>(</tspan></text>
+<text class='t8' x='21.09' y='19.33'>π</text>
+<text class='t3' x='27.12' y='19.33'>)<tspan x='4.98' y='39.75'>arctan</tspan><tspan x='32.68'>(</tspan></text>
+<text class='t8' x='36.56' y='39.75'>y<tspan x='41.8'>,</tspan><tspan x='46.23'>x</tspan></text>
+<text class='t3' x='51.92' y='39.75'>)</text></svg></div><pre class="fx-s"><code>  sin(pi)
+  arctan(y, x)</code></pre></div>
+<p id="p-90f7a546" class="nb">If the function’s argument is not a tuple, then the argument need not be parenthesized:</p>
+<div class="fx nb both" id="c-41b274cb" data-kind="code" data-example="Fun.App.b"><div class="fx-r"><svg class="tx" data-d="4" viewBox="4.38 12.07 39.56 30.21" width="3.956em" height="3.021em" fill="currentColor"><text class='t3' x='4.98' y='19.33'>sin</text>
+<text class='t8' x='20.53' y='19.33'>x</text>
+<text class='t3' x='4.98' y='39.75'>log<tspan x='21.17'>log</tspan></text>
+<text class='t8' x='37.36' y='39.75'>n</text></svg></div><pre class="fx-s"><code>  sin x
+  log log n</code></pre></div>
+<p id="p-e45009dc" class="nb">Here are a few varargs and keyword examples:</p>
+<div class="fx nb both" id="c-95053fc0" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.26 198.21 11.16" width="19.821em" height="1.116em" fill="currentColor"><text class='t8' x='9.96' y='19.33'>f</text>
+<text class='t3' x='15.91' y='19.33'>(</text>
+<text class='t8' x='19.79' y='19.33'>x</text>
+<text class='t3' x='27.14' y='19.33'>:</text>
+<text class='t14' x='31.57' y='19.33'>Z</text>
+<text class='t8' x='38.21' y='19.33'>,<tspan x='42.64'>y</tspan></text>
+<text class='t3' x='49.54' y='19.33'>:</text>
+<text class='t14' x='53.97' y='19.33'>Z</text>
+<text class='t8' x='62.27' y='19.33'>.<tspan x='66.7'>.</tspan><tspan x='71.13'>.</tspan><tspan x='75.55'>,</tspan><tspan x='79.98'>z</tspan></text>
+<text class='t3' x='86.71' y='19.33'>:</text>
+<text class='t14' x='91.14' y='19.33'>Z</text>
+<text class='t3' x='100.55' y='19.33'>=<tspan x='111.07'>0)</tspan><tspan x='122.69'>=</tspan></text>
+<text class='t4' x='133.21' y='19.33'></text>
+<text class='t8' x='137.08' y='19.33'>x,</text>
+<text class='t4' x='147.2' y='19.33'></text>
+<text class='t8' x='151.08' y='19.33'>q</text>
+<text class='t4' x='158.65' y='19.33'>|</text>
+<text class='t8' x='164.18' y='19.33'>q</text>
+<text class='t4' x='171.76' y='19.33'>←</text>
+<text class='t8' x='184.49' y='19.33'>y</text>
+<text class='t4' x='189.73' y='19.33'></text>
+<text class='t8' x='193.6' y='19.33'>,<tspan x='198.03'>z</tspan></text>
+<text class='t4' x='203.1' y='19.33'></text></svg></div><pre class="fx-s"><code>f(1)  returns  &lt;| 1, &lt;| |&gt;, 0 |&gt;
+f(1, 2, 3)  returns  &lt;| 1, &lt;| 2, 3 |&gt;, 0 |&gt;
+f(1, [2 3]...)  returns  &lt;| 1, &lt;| 2, 3 |&gt;, 0 |&gt;
+f(1, 2, 3, [4 5]...)  returns  &lt;| 1, &lt;| 2, 3, 4, 5 |&gt;, 0 |&gt;
+f(1, 2, 3, 17#3...)  returns  &lt;| 1, &lt;| 2, 3, 17, 18, 19 |&gt;, 0 |&gt;
+f(1, 2, 3, z=8)  returns  &lt;| 1, &lt;| 2, 3 |&gt;, 8 |&gt;</code></pre></div>
+<div class="tw nb" id="t-f0f1163a" data-kind="table"><svg class="tx" data-d="6" viewBox="7.04 0.30 305.32 82.89" width="30.532em" height="8.289em" fill="currentColor"><text class='t8' x='7.64' y='8.37'>f</text>
+<text class='t3' x='13.59' y='8.37'>(1)</text>
+<text class='t1' x='139.28' y='8.37'>r<tspan x='142.79'>eturns</tspan></text>
+<text class='t4' x='219.88' y='8.37'></text>
+<text class='t3' x='223.76' y='8.37'>1</text>
+<text class='t8' x='228.74' y='8.37'>,</text>
+<text class='t4' x='233.17' y='8.37'></text>
+<text class='t8' x='240.92' y='8.37'>,</text>
+<text class='t3' x='245.34' y='8.37'>0</text>
+<text class='t4' x='250.33' y='8.37'></text>
+<text class='t8' x='7.64' y='20.32'>f</text>
+<text class='t3' x='13.59' y='20.32'>(1</text>
+<text class='t8' x='22.44' y='20.32'>,</text>
+<text class='t3' x='26.87' y='20.32'>2</text>
+<text class='t8' x='31.85' y='20.32'>,</text>
+<text class='t3' x='36.28' y='20.32'>3)</text>
+<text class='t1' x='139.28' y='20.32'>r<tspan x='142.79'>eturns</tspan></text>
+<text class='t4' x='219.88' y='20.32'></text>
+<text class='t3' x='223.76' y='20.32'>1</text>
+<text class='t8' x='228.74' y='20.32'>,</text>
+<text class='t4' x='233.17' y='20.32'></text>
+<text class='t3' x='237.04' y='20.32'>2</text>
+<text class='t8' x='242.02' y='20.32'>,</text>
+<text class='t3' x='246.45' y='20.32'>3</text>
+<text class='t4' x='251.43' y='20.32'></text>
+<text class='t8' x='255.31' y='20.32'>,</text>
+<text class='t3' x='259.74' y='20.32'>0</text>
+<text class='t4' x='264.72' y='20.32'></text>
+<text class='t8' x='7.64' y='32.28'>f</text>
+<text class='t3' x='13.59' y='32.28'>(1</text>
+<text class='t8' x='22.44' y='32.28'>,</text>
+<text class='t3' x='26.87' y='32.28'>[2<tspan x='37.39'>3]</tspan></text>
+<text class='t8' x='46.8' y='32.28'>.<tspan x='51.22'>.</tspan><tspan x='55.65'>.</tspan></text>
+<text class='t3' x='58.42' y='32.28'>)</text>
+<text class='t1' x='139.28' y='32.28'>r<tspan x='142.79'>eturns</tspan></text>
+<text class='t4' x='219.88' y='32.28'></text>
+<text class='t3' x='223.76' y='32.28'>1</text>
+<text class='t8' x='228.74' y='32.28'>,</text>
+<text class='t4' x='233.17' y='32.28'></text>
+<text class='t3' x='237.04' y='32.28'>2</text>
+<text class='t8' x='242.02' y='32.28'>,</text>
+<text class='t3' x='246.45' y='32.28'>3</text>
+<text class='t4' x='251.43' y='32.28'></text>
+<text class='t8' x='255.31' y='32.28'>,</text>
+<text class='t3' x='259.74' y='32.28'>0</text>
+<text class='t4' x='264.72' y='32.28'></text>
+<text class='t8' x='7.64' y='44.23'>f</text>
+<text class='t3' x='13.59' y='44.23'>(1</text>
+<text class='t8' x='22.44' y='44.23'>,</text>
+<text class='t3' x='26.87' y='44.23'>2</text>
+<text class='t8' x='31.85' y='44.23'>,</text>
+<text class='t3' x='36.28' y='44.23'>3</text>
+<text class='t8' x='41.26' y='44.23'>,</text>
+<text class='t3' x='45.69' y='44.23'>[4<tspan x='56.21'>5]</tspan></text>
+<text class='t8' x='65.62' y='44.23'>.<tspan x='70.04'>.</tspan><tspan x='74.47'>.</tspan></text>
+<text class='t3' x='77.24' y='44.23'>)</text>
+<text class='t1' x='139.28' y='44.23'>r<tspan x='142.79'>eturns</tspan></text>
+<text class='t4' x='219.88' y='44.23'></text>
+<text class='t3' x='223.76' y='44.23'>1</text>
+<text class='t8' x='228.74' y='44.23'>,</text>
+<text class='t4' x='233.17' y='44.23'></text>
+<text class='t3' x='237.04' y='44.23'>2</text>
+<text class='t8' x='242.02' y='44.23'>,</text>
+<text class='t3' x='246.45' y='44.23'>3</text>
+<text class='t8' x='251.43' y='44.23'>,</text>
+<text class='t3' x='255.86' y='44.23'>4</text>
+<text class='t8' x='260.84' y='44.23'>,</text>
+<text class='t3' x='265.27' y='44.23'>5</text>
+<text class='t4' x='270.25' y='44.23'></text>
+<text class='t8' x='274.13' y='44.23'>,</text>
+<text class='t3' x='278.55' y='44.23'>0</text>
+<text class='t4' x='283.53' y='44.23'></text>
+<text class='t8' x='7.64' y='56.19'>f</text>
+<text class='t3' x='13.59' y='56.19'>(1</text>
+<text class='t8' x='22.44' y='56.19'>,</text>
+<text class='t3' x='26.87' y='56.19'>2</text>
+<text class='t8' x='31.85' y='56.19'>,</text>
+<text class='t3' x='36.28' y='56.19'>3</text>
+<text class='t8' x='41.26' y='56.19'>,</text>
+<text class='t3' x='45.69' y='56.19'>17</text>
+<text class='t7' x='57.31' y='56.19'>#</text>
+<text class='t3' x='64.95' y='56.19'>3</text>
+<text class='t8' x='71.59' y='56.19'>.<tspan x='76.02'>.</tspan><tspan x='80.45'>.</tspan></text>
+<text class='t3' x='83.22' y='56.19'>)</text>
+<text class='t1' x='139.28' y='56.19'>r<tspan x='142.79'>eturns</tspan></text>
+<text class='t4' x='219.88' y='56.19'></text>
+<text class='t3' x='223.76' y='56.19'>1</text>
+<text class='t8' x='228.74' y='56.19'>,</text>
+<text class='t4' x='233.17' y='56.19'></text>
+<text class='t3' x='237.04' y='56.19'>2</text>
+<text class='t8' x='242.02' y='56.19'>,</text>
+<text class='t3' x='246.45' y='56.19'>3</text>
+<text class='t8' x='251.43' y='56.19'>,</text>
+<text class='t3' x='255.86' y='56.19'>17</text>
+<text class='t8' x='265.82' y='56.19'>,</text>
+<text class='t3' x='270.25' y='56.19'>18</text>
+<text class='t8' x='280.21' y='56.19'>,</text>
+<text class='t3' x='284.64' y='56.19'>19</text>
+<text class='t4' x='294.6' y='56.19'></text>
+<text class='t8' x='298.48' y='56.19'>,</text>
+<text class='t3' x='302.91' y='56.19'>0</text>
+<text class='t4' x='307.89' y='56.19'></text>
+<text class='t8' x='7.64' y='68.14'>f</text>
+<text class='t3' x='13.59' y='68.14'>(1</text>
+<text class='t8' x='22.44' y='68.14'>,</text>
+<text class='t3' x='26.87' y='68.14'>2</text>
+<text class='t8' x='31.85' y='68.14'>,</text>
+<text class='t3' x='36.28' y='68.14'>3</text>
+<text class='t8' x='41.26' y='68.14'>,<tspan x='45.69'>z</tspan></text>
+<text class='t3' x='53.53' y='68.14'>=<tspan x='64.04'>8)</tspan></text>
+<text class='t1' x='139.28' y='68.14'>r<tspan x='142.79'>eturns</tspan></text>
+<text class='t4' x='219.88' y='68.14'></text>
+<text class='t3' x='223.76' y='68.14'>1</text>
+<text class='t8' x='228.74' y='68.14'>,</text>
+<text class='t4' x='233.17' y='68.14'></text>
+<text class='t3' x='237.04' y='68.14'>2</text>
+<text class='t8' x='242.02' y='68.14'>,</text>
+<text class='t3' x='246.45' y='68.14'>3</text>
+<text class='t4' x='251.43' y='68.14'></text>
+<text class='t8' x='255.31' y='68.14'>,</text>
+<text class='t3' x='259.74' y='68.14'>8</text>
+<text class='t4' x='264.72' y='68.14'></text>
+<text class='t8' x='7.64' y='80.1'>f</text>
+<text class='t3' x='13.59' y='80.1'>([2<tspan x='27.98'>3]</tspan></text>
+<text class='t8' x='37.39' y='80.1'>.<tspan x='41.82'>.</tspan><tspan x='46.24'>.</tspan></text>
+<text class='t3' x='49.01' y='80.1'>)</text>
+<text class='t1' x='100.71' y='80.1'>declar<tspan x='126.01'>ation</tspan><tspan x='148.98'>not</tspan><tspan x='164.21'>applicable</tspan></text></svg></div>
+</section>
+<section class="sec" data-num="9.3" data-title="Abstract Function Declarations">
+<h2 id="sec-abstractFunctionDeclarations" class="nb"><span class="num">9.3</span> Abstract Function Declarations</h2>
+<div class="tw nb gr" id="g-23726232" data-kind="grammar"><svg class="tx" data-d="7" viewBox="-5.58 10.45 309.03 80.65" width="30.903em" height="8.065em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>AbsFnDecl</text>
+<text class='t2' x='90.15' y='28.8'>::=</text>
+<text class='t1' x='113.26' y='28.8'>AbsFnMods</text>
+<text class='t2' x='161.41' y='28.8'>?</text>
+<text class='t1' x='168.93' y='28.8'>FnHeaderF<tspan x='215.41'>r</tspan><tspan x='218.84'>ont</tspan><tspan x='234.24'>FnHeaderClause</tspan></text>
+<text class='t4' x='90.15' y='40.76'>|</text>
+<text class='t1' x='113.26' y='40.76'>FnSig<tspan x='25.9' y='52.71'>AbsFnMods</tspan></text>
+<text class='t2' x='90.15' y='52.71'>::=</text>
+<text class='t1' x='113.26' y='52.71'>AbsFnMod</text>
+<text class='t5' x='157.81' y='49.1'>+</text>
+<text class='t1' x='25.9' y='64.67'>AbsFnMod</text>
+<text class='t2' x='90.15' y='64.67'>::=</text>
+<text class='t1' x='113.26' y='64.67'>LocalFnMod</text>
+<text class='t4' x='168.05' y='64.67'>|</text>
+<text class='t6' x='174.97' y='64.67'>test</text>
+<text class='t1' x='25.9' y='76.62'>LocalFnMod</text>
+<text class='t2' x='90.15' y='76.62'>::=</text>
+<text class='t6' x='114.93' y='76.62'>atomic</text>
+<text class='t4' x='150.46' y='76.62'>|</text>
+<text class='t6' x='157.38' y='76.62'>io</text>
+<text class='t1' x='25.9' y='88.58'>FnSig</text>
+<text class='t2' x='90.15' y='88.58'>::=</text>
+<text class='t1' x='113.26' y='88.58'>Name</text>
+<text class='t3' x='140.66' y='88.58'>:</text>
+<text class='t1' x='147.58' y='88.58'>Arr<tspan x='160.97'>owT</tspan><tspan x='177.39'>ype</tspan></text></svg></div>
+<p id="p-0b2069cc" class="nb">In a component, overloaded functions may be declared separately from their definitions using <em>abstract function declarations</em>. Abstract function declarations themselves may be overloaded. For an abstract function declaration with name <span class="m"><i>f</i></span>, argument type <span class="m"><i>T</i></span>, and return type <span class="m"><i>U</i></span> (<span class="m"><i>T</i></span> and <span class="m"><i>U</i></span> may be tuple types), any concrete declaration for <span class="m"><i>f</i></span> must be for a function whose argument type is a subtype of <span class="m"><i>T</i></span> and whose return type is a subtype of <span class="m"><i>U</i></span>. Furthermore, the argument types of the concrete declarations for <span class="m"><i>f</i></span> must together cover <span class="m"><i>T</i></span> (<a class="xref" href="types.html#sec-internal-types">Section 6.10</a>). Concrete function declarations must satisfy the overloading rules. Unless <span class="m"><i>T</i></span> has a <span class="m"><span class="kw">comprises</span></span> clause (or is a tuple type, at least one of whose entries has a <span class="m"><span class="kw">comprises</span></span> clause), this implies that some concrete declaration for <span class="m"><i>f</i></span> must have argument type <span class="m"><i>T</i></span>.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-covering">Section I.1.34</a><!--nc--></span></p>
+<p id="p-7dcacad2" class="nb">The Working Draft of February 2011 said that the union of the argument types of the concrete declarations must be equal to <span class="m"><i>T</i></span>; under a <span class="m"><span class="kw">comprises</span></span> clause read at the level of values (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->) the union of the listed types covers <span class="m"><i>T</i></span> without being equal to it.</p></aside>
+<p id="p-fade5827" class="nb">Syntactically, an abstract function declaration is a function declaration without a body. Parameter names may be elided but parameter types cannot be omitted. Additionally, when a function’s type is not parameterized, Fortress provides an alternative mathematical notation for an abstract function declaration: function name followed by the token ‘<span class="m">:</span>’, followed by an arrow type.</p>
+<p id="p-f76befb6" class="nb">For example, after the following abstract function declaration:</p>
+<div class="fx nb both" id="c-c3df4bf6" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 11.26 119.30 11.16" width="11.930em" height="1.116em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>printMole<tspan x='51.87'>cule</tspan></text>
+<text class='t3' x='69.67' y='19.33'>(Molecule<tspan x='112.01'>):</tspan><tspan x='120.32'>()</tspan></text></svg></div><pre class="fx-s"><code>printMolecule(Molecule): ()</code></pre></div>
+<p id="p-65c5e36f" class="nb">where trait <span class="m"><span class="ty">Molecule</span></span> is defined as follows:</p>
+<div class="fx nb" id="c-96fa608f" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.26 306.03 11.16" width="30.603em" height="1.116em" fill="currentColor"><text class='t6' x='9.96' y='19.33'>trait</text>
+<text class='t3' x='38.88' y='19.33'>Molecule</text>
+<text class='t6' x='80.12' y='19.33'>comprises</text>
+<text class='t4' x='129.96' y='19.33'>{</text>
+<text class='t3' x='134.94' y='19.33'>OrganicMolecule</text>
+<text class='t8' x='207.75' y='19.33'>,</text>
+<text class='t3' x='212.18' y='19.33'>InorganicMolecule</text>
+<text class='t4' x='291.35' y='19.33'>}</text>
+<text class='t6' x='299.1' y='19.33'>end</text></svg></div></div>
+<p id="p-8b68c409" class="nb">the programmer could write:</p>
+<div class="fx nb" id="c-ce76c466" data-kind="code"><div class="fx-r"><svg class="tx" data-d="10" viewBox="9.36 11.26 174.13 11.16" width="17.413em" height="1.116em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>printMole<tspan x='51.87'>cule</tspan></text>
+<text class='t3' x='69.67' y='19.33'>(</text>
+<text class='t11' x='73.55' y='19.33'>mole<tspan x='93.41'>cule</tspan></text>
+<text class='t3' x='111.21' y='19.33'>:<tspan x='115.64'>Molecule</tspan><tspan x='154.11'>)</tspan><tspan x='160.75'>=</tspan></text>
+<text class='t8' x='171.27' y='19.33'>.<tspan x='175.69'>.</tspan><tspan x='180.12'>.</tspan></text></svg></div></div>
+<p id="p-18d9cfa4" class="nb">or could write:</p>
+<div class="fx nb" id="c-fdfbe508" data-kind="code"><div class="fx-r"><svg class="tx" data-d="11" viewBox="9.36 11.26 214.83 23.12" width="21.483em" height="2.312em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>printMole<tspan x='51.87'>cule</tspan></text>
+<text class='t3' x='69.67' y='19.33'>(</text>
+<text class='t11' x='73.55' y='19.33'>mole<tspan x='93.41'>cule</tspan></text>
+<text class='t3' x='111.21' y='19.33'>:<tspan x='115.64'>OrganicMolecule</tspan><tspan x='188.45'>)</tspan><tspan x='195.09'>=</tspan></text>
+<text class='t8' x='205.61' y='19.33'>.<tspan x='210.04'>.</tspan><tspan x='214.46'>.</tspan></text>
+<text class='t11' x='9.96' y='31.28'>printMole<tspan x='51.87'>cule</tspan></text>
+<text class='t3' x='69.67' y='31.28'>(</text>
+<text class='t11' x='73.55' y='31.28'>mole<tspan x='93.41'>cule</tspan></text>
+<text class='t3' x='111.21' y='31.28'>:<tspan x='115.64'>InorganicMolecule</tspan><tspan x='194.82'>)</tspan><tspan x='201.46'>=</tspan></text>
+<text class='t8' x='211.97' y='31.28'>.<tspan x='216.4'>.</tspan><tspan x='220.83'>.</tspan></text></svg></div></div>
+<p id="p-78bfbdb7" class="nb">For the latter, the programmer must provide a definition for every type listed in the <span class="m"><span class="kw">comprises</span></span> clause of <span class="m"><span class="ty">Molecule</span></span>, or definitions that together cover those types, or it is a static error.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-covering">Section I.1.34</a><!--nc--></span></p>
+<p id="p-8879b443" class="nb">The Working Draft of February 2011 asked here for a definition for every immediate subtype of <span class="m"><span class="ty">Molecule</span></span>. Where a trait with static parameters stands unlisted between a trait with a <span class="m"><span class="kw">comprises</span></span> clause and its listed types, the immediate subtypes and the listed types differ; the type group’s calculus Welterweight Fortress (2012) asks for definitions for all the types comprised. The compiled type checker checks, at each object declaration, that the object’s concrete methods cover the abstract methods it inherits, and reads <span class="m"><span class="kw">comprises</span></span> clauses to do so: concrete methods over the types that a trait lists together cover an abstract method over that trait; top-level abstract function declarations run on neither implementation of the revival.</p></aside>
+</section>
+<section class="sec" data-num="9.4" data-title="Function Contracts">
+<h2 id="sec-contracts" class="nb"><span class="num">9.4</span> Function Contracts</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-172c01be" class="nb">For nested contracts, the inner <span class="m"><span class="kw">outcome</span></span> shadows the outer <span class="m"><span class="kw">outcome</span></span>.</p></aside>
+<div class="tw nb gr" id="g-4b8ef0c4" data-kind="grammar"><svg class="tx" data-d="12" viewBox="-5.58 10.45 278.62 81.22" width="27.862em" height="8.122em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>Contr<tspan x='49.01'>act</tspan></text>
+<text class='t2' x='112.4' y='28.8'>::=</text>
+<text class='t1' x='135.51' y='28.8'>Requir<tspan x='162.26'>es</tspan></text>
+<text class='t2' x='170.56' y='28.8'>?</text>
+<text class='t1' x='178.07' y='28.8'>Ensur<tspan x='201.5'>es</tspan></text>
+<text class='t2' x='209.8' y='28.8'>?</text>
+<text class='t1' x='217.31' y='28.8'>In<tspan x='225.21'>variant</tspan></text>
+<text class='t2' x='254.17' y='28.8'>?</text>
+<text class='t1' x='25.9' y='40.76'>Requir<tspan x='52.65'>es</tspan></text>
+<text class='t2' x='112.4' y='40.76'>::=</text>
+<text class='t6' x='137.17' y='40.76'>requires</text>
+<text class='t4' x='183.16' y='40.76'>{</text>
+<text class='t1' x='190.64' y='40.76'>ExprList</text>
+<text class='t2' x='225.14' y='40.76'>?</text>
+<text class='t4' x='232.65' y='40.76'>}</text>
+<text class='t1' x='25.9' y='52.71'>Ensur<tspan x='49.33'>es</tspan></text>
+<text class='t2' x='112.4' y='52.71'>::=</text>
+<text class='t6' x='137.17' y='52.71'>ensures</text>
+<text class='t4' x='177.93' y='52.71'>{</text>
+<text class='t1' x='185.41' y='52.71'>Ensur<tspan x='208.84'>esClauseList</tspan></text>
+<text class='t2' x='259.95' y='52.71'>?</text>
+<text class='t4' x='267.46' y='52.71'>}</text>
+<text class='t1' x='25.9' y='64.67'>Ensur<tspan x='49.33'>esClauseList</tspan></text>
+<text class='t2' x='112.4' y='64.67'>::=</text>
+<text class='t1' x='135.51' y='64.67'>Ensur<tspan x='158.94'>esClause</tspan></text>
+<text class='t2' x='194.92' y='64.67'>(</text>
+<text class='t8' x='198.23' y='64.67'>,</text>
+<text class='t1' x='205.15' y='64.67'>Ensur<tspan x='228.58'>esClause</tspan></text>
+<text class='t2' x='264.56' y='64.67'>)</text>
+<text class='t9' x='267.88' y='61.05'>∗</text>
+<text class='t1' x='25.9' y='76.62'>Ensur<tspan x='49.33'>esClause</tspan></text>
+<text class='t2' x='112.4' y='76.62'>::=</text>
+<text class='t1' x='135.51' y='76.62'>Expr</text>
+<text class='t2' x='157.6' y='76.62'>(</text>
+<text class='t6' x='160.91' y='76.62'>provided</text>
+<text class='t1' x='206.91' y='76.62'>Expr</text>
+<text class='t2' x='226.51' y='76.62'>)?</text>
+<text class='t1' x='25.9' y='88.58'>In<tspan x='33.8'>variant</tspan></text>
+<text class='t2' x='112.4' y='88.58'>::=</text>
+<text class='t6' x='137.17' y='88.58'>invariant</text>
+<text class='t4' x='188.4' y='88.58'>{</text>
+<text class='t1' x='195.87' y='88.58'>ExprList</text>
+<text class='t2' x='230.37' y='88.58'>?</text>
+<text class='t4' x='237.88' y='88.58'>}</text></svg></div>
+<p id="p-1b9b9bd4" class="nb">Function contracts consist of three optional clauses: a <span class="m"><span class="kw">requires</span></span> clause, an <span class="m"><span class="kw">ensures</span></span> clause, and an <span class="m"><span class="kw">invariant</span></span> clause. All three clauses are evaluated in the scope of the function body.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-c5f43459" class="nb">extended with a special variable <em>arg</em>, bound to an immutable array of all function arguments. (This array is useful for describing contracts in the presence of higher-order functions; see <a class="xref" href="types.html#sec-arrow-types">Section 6.6</a>).</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-23ca2fcf" class="nb">Jan: Which of the following must be pure? Presumably all of them. We should say so.</p>
+<p id="p-e2592c60" class="nb">Eric: Requiring declared purity on all called functions in a contract is too restrictive.</p></aside>
+<p id="p-c5d49958" class="nb">The <span class="m"><span class="kw">requires</span></span> clause consists of a sequence of expressions of type <span class="m"><span class="ty">Boolean</span></span> separated by commas and enclosed in curly braces. The <span class="m"><span class="kw">requires</span></span> clause is evaluated during a function call before the body of the function. If any expression in a <span class="m"><span class="kw">requires</span></span> clause does not evaluate to <span class="m"><i>true</i></span>, a <span class="m"><span class="ty">CallerViolation</span></span> exception is thrown.</p>
+<p id="p-3b927a2d" class="nb">The <span class="m"><span class="kw">ensures</span></span> clause consists of a sequence of <span class="m"><span class="kw">ensures</span></span> subclauses. Each such subclause consists of an expression of type <span class="m"><span class="ty">Boolean</span></span>, optionally followed by a <span class="m"><span class="kw">provided</span></span> subclause. A <span class="m"><span class="kw">provided</span></span> subclause begins with <span class="m"><span class="kw">provided</span></span> followed by an expression of type <span class="m"><span class="ty">Boolean</span></span>. For each subclause in the <span class="m"><span class="kw">ensures</span></span> clause of a contract, the <span class="m"><span class="kw">provided</span></span> subclause is evaluated immediately after the <span class="m"><span class="kw">requires</span></span> clause during a function call (before the function body is evaluated). If a <span class="m"><span class="kw">provided</span></span> subclause evaluates to <span class="m"><i>true</i></span>, then the expression preceding this <span class="m"><span class="kw">provided</span></span> subclause is evaluated after the function body is evaluated. If the expression evaluated after function evaluation does not evaluate to <span class="m"><i>true</i></span>, a <span class="m"><span class="ty">CalleeViolation</span></span> exception is thrown. The expression preceding the <span class="m"><span class="kw">provided</span></span> subclause can refer to the return value of the function. A <span class="m"><span class="kw">outcome</span></span> variable is implicitly bound to a return value of the function and is in scope of the expression preceding the <span class="m"><span class="kw">provided</span></span> subclause. The implicitly declared <span class="m"><span class="kw">outcome</span></span> shadows any other declaration with the same name in scope.</p>
+<p id="p-0ce97176" class="nb">The <span class="m"><span class="kw">invariant</span></span> clause consists of a sequence of expressions of <em>any type</em> enclosed by curly braces. These expressions are evaluated before and after a function call. For each expression <span class="m"><i>e</i></span> in this sequence, if the value of <span class="m"><i>e</i></span> when evaluated before the function call is not equal to the value of <span class="m"><i>e</i></span> after the function call, a <span class="m"><span class="ty">CalleeViolation</span></span> exception is thrown.</p>
+<p id="p-0931022b-2" class="nb">Here are some examples:</p>
+<div class="fx nb both" id="c-042648d6" data-kind="code" data-example="Fun.Contract"><div class="fx-r"><svg class="tx" data-d="13" viewBox="-0.60 11.26 328.79 176.34" width="32.879em" height="17.634em" fill="currentColor"><text class='t11' x='0' y='19.33'>factorial</text>
+<text class='t3' x='37.06' y='19.33'>(</text>
+<text class='t8' x='40.93' y='19.33'>n</text>
+<text class='t3' x='46.91' y='19.33'>:</text>
+<text class='t14' x='51.34' y='19.33'>Z</text>
+<text class='t3' x='57.98' y='19.33'>64)</text>
+<text class='t6' x='74.58' y='19.33'>requires</text>
+<text class='t4' x='119.19' y='19.33'>{</text>
+<text class='t8' x='125.84' y='19.33'>n</text>
+<text class='t4' x='134.58' y='19.33'>≥</text>
+<text class='t3' x='145.1' y='19.33'>0</text>
+<text class='t4' x='151.74' y='19.33'>}</text>
+<text class='t3' x='159.49' y='19.33'>=</text>
+<text class='t6' x='8.86' y='39.75'>if</text>
+<text class='t8' x='22.08' y='39.75'>n</text>
+<text class='t3' x='30.83' y='39.75'>=<tspan x='41.35'>0</tspan></text>
+<text class='t6' x='49.1' y='39.75'>then</text>
+<text class='t3' x='72.78' y='39.75'>1</text>
+<text class='t6' x='8.86' y='60.17'>else</text>
+<text class='t8' x='32.54' y='60.17'>n</text>
+<text class='t11' x='40.18' y='60.17'>factorial</text>
+<text class='t3' x='77.24' y='60.17'>(</text>
+<text class='t8' x='81.11' y='60.17'>n</text>
+<text class='t4' x='89.31' y='60.17'>−</text>
+<text class='t3' x='99.27' y='60.17'>1)</text>
+<text class='t6' x='8.86' y='80.6'>end</text>
+<text class='t11' x='0' y='105.11'>mangle</text>
+<text class='t3' x='31.3' y='105.11'>(</text>
+<text class='t11' x='35.17' y='105.11'>input</text>
+<text class='t3' x='58.52' y='105.11'>:<tspan x='62.95'>List</tspan><tspan x='79.75'>)</tspan></text>
+<text class='t6' x='86.39' y='105.11'>ensures</text>
+<text class='t13' x='125.77' y='97.04'></text>
+<text class='t11' x='133.24' y='105.11'>sorte<tspan x='153.99'>d</tspan></text>
+<text class='t3' x='160.12' y='105.11'>(</text>
+<text class='t11' x='163.99' y='105.11'>outc<tspan x='181.81'>ome</tspan></text>
+<text class='t3' x='200.38' y='105.11'>)</text>
+<text class='t6' x='207.02' y='105.11'>provided</text>
+<text class='t11' x='251.63' y='105.11'>sorte<tspan x='272.38'>d</tspan></text>
+<text class='t3' x='278.51' y='105.11'>(</text>
+<text class='t11' x='282.38' y='105.11'>input</text>
+<text class='t3' x='305.73' y='105.11'>)</text>
+<text class='t13' x='311.26' y='97.04'></text>
+<text class='t3' x='319.84' y='105.11'>=</text>
+<text class='t6' x='8.86' y='125.53'>if</text>
+<text class='t11' x='22.08' y='125.53'>input</text>
+<text class='t4' x='48.2' y='125.53'></text>
+<text class='t3' x='48.2' y='125.53'>=<tspan x='58.72'>Empt</tspan><tspan x='82.93'>y</tspan></text>
+<text class='t6' x='8.86' y='146.05'>then</text>
+<text class='t11' x='32.54' y='146.05'>mangle</text>
+<text class='t13' x='63.84' y='137.98'></text>
+<text class='t11' x='68.41' y='146.05'>ﬁrst</text>
+<text class='t3' x='86.54' y='146.05'>(</text>
+<text class='t11' x='90.42' y='146.05'>input</text>
+<text class='t3' x='113.77' y='146.05'>)</text>
+<text class='t13' x='117.64' y='137.98'></text>
+<text class='t11' x='32.54' y='166.58'>mangle</text>
+<text class='t13' x='63.84' y='158.51'></text>
+<text class='t11' x='68.41' y='166.58'>r<tspan x='72.1'>est</tspan></text>
+<text class='t3' x='85.01' y='166.58'>(</text>
+<text class='t11' x='88.89' y='166.58'>input</text>
+<text class='t3' x='112.24' y='166.58'>)</text>
+<text class='t13' x='116.11' y='158.51'></text>
+<text class='t6' x='8.86' y='187'>end</text></svg></div><pre class="fx-s"><code>factorial(n: ZZ64) requires { n &gt;= 0 } =
+  if n = 0 then 1
+  else n factorial(n - 1)
+  end
+
+mangle(input: List) ensures { sorted(outcome) provided sorted(input) } =
+  if input =/= Empty
+  then mangle(first(input))
+       mangle(rest(input))
+  end</code></pre></div>
+<p id="p-bdf7bbc4" class="nb">Overloaded function contracts are handled similarly with method contracts described in <a class="xref" href="traits.html#sec-method-contracts">Section 10.4</a><!--nc-->. In particular, substitutability is preserved: the statically most applicable function to a call should be substitutable with the dynamically most applicable function to the call. For a call of function <span class="m"><i>f</i></span>, we use the term <em>static contract</em> of <span class="m"><i>f</i></span> to refer to a contract declared in the statically most applicable function declaration and the term <em>dynamic contract</em> of <span class="m"><i>f</i></span> to refer to a contract declared in the dynamically most applicable function declaration. Three exceptions may be thrown due to an overloaded function contract violation: <span class="m"><span class="ty">CallerViolation</span></span> is thrown when the <span class="m"><span class="kw">requires</span></span> clause of the static contract fails, <span class="m"><span class="ty">CalleeViolation</span></span> is thrown when the <span class="m"><span class="kw">ensures</span></span> or <span class="m"><span class="kw">invariant</span></span> clause of the dynamic contract fails, and <span class="m"><span class="ty">ContractOverloadingViolation</span></span> is thrown when the <span class="m"><span class="kw">requires</span></span> clause of the dynamic contract or the <span class="m"><span class="kw">ensures</span></span> or <span class="m"><span class="kw">invariant</span></span> clause of the static contract fails.</p>
+<p id="p-c1bb1c82" class="nb">Evaluation of a call of function <span class="m"><i>f</i></span> proceeds as follows. Let <span class="m"><i>C</i></span> and <span class="m"><i>C</i>′</span> be the static and dynamic contracts of <span class="m"><i>f</i></span>, respectively. If the <span class="m"><span class="kw">requires</span></span> clause of <span class="m"><i>C</i></span> fails, a <span class="m"><span class="ty">CallerViolation</span></span> exception is thrown. Otherwise, if the <span class="m"><span class="kw">requires</span></span> clause of <span class="m"><i>C</i>′</span> fails, a <span class="m"><span class="ty">ContractOverloadingViolation</span></span> exception is thrown. Otherwise, the <span class="m"><span class="kw">provided</span></span> subclauses of <span class="m"><i>C</i></span> and <span class="m"><i>C</i>′</span> are evaluated. For every <span class="m"><span class="kw">provided</span></span> subclause that evaluates to <span class="m"><i>true</i></span>, the corresponding <span class="m"><span class="kw">ensures</span></span> subclause is recorded in a table <span class="m"><i>E</i></span> for later comparison. Similarly, the <span class="m"><span class="kw">invariant</span></span> clauses of <span class="m"><i>C</i></span> and <span class="m"><i>C</i>′</span> are evaluated and the results are stored in <span class="m"><i>E</i></span> for later comparison. Then the body of the dynamically most applicable function declaration of <span class="m"><i>f</i></span> is evaluated. After evaluation of the body, all <span class="m"><span class="kw">ensures</span></span> subclauses of the dynamic contract recorded in <span class="m"><i>E</i></span> are checked to ensure that they evaluate to <span class="m"><i>true</i></span>, and all <span class="m"><span class="kw">invariant</span></span> clauses of the dynamic contract recorded in <span class="m"><i>E</i></span> are checked to ensure that they evaluate to values equal to the values they evaluated to before evaluation of the body. If any such check fails, a <span class="m"><span class="ty">CalleeViolation</span></span> exception is thrown. Otherwise, all <span class="m"><span class="kw">ensures</span></span> subclauses and <span class="m"><span class="kw">invariant</span></span> clauses of the static contract in <span class="m"><i>E</i></span> are checked. If any of these checks fails, a <span class="m"><span class="ty">ContractOverloadingViolation</span></span> exception is thrown.</p>
+</section>
+<section class="sec" data-num="9.5" data-title="Local Function Declarations">
+<h2 id="sec-local-fn-decls" class="nb"><span class="num">9.5</span> Local Function Declarations</h2>
+<div class="tw nb gr" id="g-3480bb39" data-kind="grammar"><svg class="tx" data-d="14" viewBox="-5.58 10.45 384.26 45.36" width="38.426em" height="4.536em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>LocalFnDecl</text>
+<text class='t2' x='93.76' y='28.8'>::=</text>
+<text class='t1' x='116.87' y='28.8'>LocalFnMods</text>
+<text class='t2' x='172.77' y='28.8'>?</text>
+<text class='t1' x='180.28' y='28.8'>NamedFnHeaderF<tspan x='254.99'>r</tspan><tspan x='258.42'>ont</tspan><tspan x='273.82'>FnHeaderClause</tspan></text>
+<text class='t3' x='346.59' y='28.8'>=</text>
+<text class='t1' x='358.49' y='28.8'>Expr<tspan x='25.9' y='40.76'>LocalFnMods</tspan></text>
+<text class='t2' x='93.76' y='40.76'>::=</text>
+<text class='t1' x='116.87' y='40.76'>LocalFnMod</text>
+<text class='t5' x='169.16' y='37.14'>+</text>
+<text class='t1' x='25.9' y='52.71'>LocalFnMod</text>
+<text class='t2' x='93.76' y='52.71'>::=</text>
+<text class='t6' x='118.53' y='52.71'>atomic</text>
+<text class='t4' x='154.06' y='52.71'>|</text>
+<text class='t6' x='160.98' y='52.71'>io</text></svg></div>
+<p id="p-7aa08ae3" class="nb">Functions can be declared within expression blocks (described in <a class="xref" href="expressions.html#sec-block-expr">Section 13.11</a><!--nc-->) via the same syntax as is used for top-level function declarations (described in <a class="xref" href="functions.html">Chapter 9</a><!--nc-->) except that locally declared functions must not be operators and must not include the modifiers <span class="m"><span class="kw">private</span></span> and <span class="m"><span class="kw">test</span></span>. As with top-level function declarations, locally declared functions in a single scope are allowed to be overloaded and mutually recursive.</p>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="variables.html"><span>Previous</span> 8. Variables</a><a class="next" href="traits.html"><span>Next</span> 10. Traits</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/functions.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

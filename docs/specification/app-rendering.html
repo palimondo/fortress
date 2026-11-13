@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>D. Rendering of Fortress Code · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:msbm10;font-size:9.96px}
+svg.tx text.t3{font-family:cmr10;font-size:9.96px}
+svg.tx text.t4{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t5{font-family:cmr7;font-size:6.97px}
+svg.tx text.t6{font-family:pcrr8r;font-size:8.93px}
+svg.tx text.t7{font-family:cmti10;font-size:9.96px}
+svg.tx text.t8{font-family:cmbx10;font-size:9.96px}
+svg.tx text.t9{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t10{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t11{font-family:cmmi7;font-size:6.97px}
+svg.tx text.t12{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t13{font-family:cmr5;font-size:4.98px}
+svg.tx text.t14{font-family:cmsy5;font-size:4.98px}
+svg.tx text.t15{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t16{font-family:cmex10;font-size:9.96px}
+svg.tx text.t17{font-family:cmti7;font-size:6.97px}
+</style>
+</head>
+<body data-page="chapter" data-slug="app-rendering" data-chapter="D. Rendering of Fortress Code">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">D. Rendering of Fortress Code</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part VII, Appendices</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="D" data-title="Rendering of Fortress Code">
+<h1 id="top" class="nb"><a id="app-app-rendering"></a><span class="num">Appendix D</span> Rendering of Fortress Code</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-rendering-identifiers">D.1 Rendering of Fortress Identifiers</a></li><li><a href="#sec-rendering-other">D.2 Rendering of Other Fortress Constructs</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-3066e243" class="nb">Identifiers including connecting punctuations are not yet supported.</p></aside>
+<p id="p-431de6f9" class="nb">In order to more closely approximate mathematical notation, Fortress mandates standard rendering for various input elements, particularly for numerals and identifiers, as specified in <a class="xref" href="lexical-structure.html#sec-rendering">Section 4.17</a>.</p>
+<p id="p-ee9a3afe" class="nb">In this appendix, we describe the detailed rules for rendering an identifier, as well as rules used for rendering other constructions.</p>
+<section class="sec" data-num="D.1" data-title="Rendering of Fortress Identifiers">
+<h2 id="sec-rendering-identifiers" class="nb"><span class="num">D.1</span> Rendering of Fortress Identifiers</h2>
+<p id="p-ac3faa69" class="nb">If an identifier consists of letters and possibly digits, but no underscores, prime marks, or apostrophes, then the rules are fairly simple:</p>
+<p id="p-d6d72747" class="nb">(a) If the identifier consists of two ASCII capital letters that are the same, possibly followed by digits, then a single capital letter is rendered double-struck, followed by full-sized (not subscripted) digits in roman font.</p>
+<div class="tw nb" id="t-b05b6991" data-kind="table"><svg class="tx" data-d="1" viewBox="7.04 0.91 281.43 20.23" width="28.143em" height="2.023em" fill="currentColor"><text class='t0' x='7.64' y='8.37'>QQ</text>
+<text class='t1' x='33.21' y='8.37'>is<tspan x='42.34'>r</tspan><tspan x='45.85'>ender</tspan><tspan x='68.17'>ed</tspan><tspan x='80.06'>as</tspan></text>
+<text class='t2' x='102.53' y='8.37'>Q</text>
+<text class='t0' x='159.43' y='8.37'>RR64</text>
+<text class='t1' x='196.96' y='8.37'>is<tspan x='206.09'>r</tspan><tspan x='209.6'>ender</tspan><tspan x='231.92'>ed</tspan><tspan x='243.81'>as</tspan></text>
+<text class='t2' x='266.28' y='8.37'>R</text>
+<text class='t3' x='273.48' y='8.37'>64</text>
+<text class='t0' x='7.64' y='20.32'>ZZ</text>
+<text class='t1' x='33.21' y='20.32'>is<tspan x='42.34'>r</tspan><tspan x='45.85'>ender</tspan><tspan x='68.17'>ed</tspan><tspan x='80.06'>as</tspan></text>
+<text class='t2' x='102.53' y='20.32'>Z</text>
+<text class='t0' x='153.46' y='20.32'>ZZ512</text>
+<text class='t1' x='196.96' y='20.32'>is<tspan x='206.09'>r</tspan><tspan x='209.6'>ender</tspan><tspan x='231.92'>ed</tspan><tspan x='243.81'>as</tspan></text>
+<text class='t2' x='266.28' y='20.32'>Z</text>
+<text class='t3' x='272.93' y='20.32'>512</text></svg></div>
+<p id="p-d1ca567a" class="nb">(b) Otherwise, if the identifier has more than two characters and begins with a capital letter, then it is rendered in roman font. (Such names are typically used as names of types in Fortress. Note that an identifier cannot consist entirely of capital letters, because such a token is considered to be an operator.)</p>
+<div class="tw nb" id="t-b709c2ae" data-kind="table"><svg class="tx" data-d="2" viewBox="7.04 0.96 468.79 32.13" width="46.879em" height="3.213em" fill="currentColor"><text class='t0' x='25.57' y='8.37'>Integer</text>
+<text class='t1' x='81.03' y='8.37'>is<tspan x='90.17'>r</tspan><tspan x='93.67'>ender</tspan><tspan x='115.99'>ed</tspan><tspan x='127.88'>as</tspan></text>
+<text class='t3' x='149.53' y='8.37'>In<tspan x='158.38'>teger</tspan></text>
+<text class='t0' x='288.17' y='8.37'>Matrix</text>
+<text class='t1' x='337.65' y='8.37'>is<tspan x='346.79'>r</tspan><tspan x='350.3'>ender</tspan><tspan x='372.61'>ed</tspan><tspan x='384.51'>as</tspan></text>
+<text class='t3' x='406.15' y='8.37'>Matrix</text>
+<text class='t0' x='7.64' y='20.32'>TotalOrder</text>
+<text class='t1' x='81.03' y='20.32'>is<tspan x='90.17'>r</tspan><tspan x='93.67'>ender</tspan><tspan x='115.99'>ed</tspan><tspan x='127.88'>as</tspan></text>
+<text class='t3' x='149.53' y='20.32'>T<tspan x='155.89'>otalOrder</tspan></text>
+<text class='t0' x='240.35' y='20.32'>BooleanAlgebra</text>
+<text class='t1' x='337.65' y='20.32'>is<tspan x='346.79'>r</tspan><tspan x='350.3'>ender</tspan><tspan x='372.61'>ed</tspan><tspan x='384.51'>as</tspan></text>
+<text class='t3' x='406.15' y='20.32'>Bo<tspan x='418.46'>oleanAlgebra</tspan></text>
+<text class='t0' x='31.55' y='32.28'>Fred17</text>
+<text class='t1' x='81.03' y='32.28'>is<tspan x='90.17'>r</tspan><tspan x='93.67'>ender</tspan><tspan x='115.99'>ed</tspan><tspan x='127.88'>as</tspan></text>
+<text class='t3' x='149.53' y='32.28'>F<tspan x='155.2'>red17</tspan></text>
+<text class='t0' x='300.13' y='32.28'>R2D2</text>
+<text class='t1' x='337.65' y='32.28'>is<tspan x='346.79'>r</tspan><tspan x='350.3'>ender</tspan><tspan x='372.61'>ed</tspan><tspan x='384.51'>as</tspan></text>
+<text class='t3' x='406.15' y='32.28'>R2D2</text></svg></div>
+<p id="p-708df3f8" class="nb">(c) Otherwise, if the identifier consists of one or more letters followed by one or more digits, then the letters are rendered in italic and the digits are rendered as roman subscripts.</p>
+<div class="tw nb" id="t-71afe6e6" data-kind="table"><svg class="tx" data-d="3" viewBox="5.38 0.85 482.96 34.46" width="48.296em" height="3.446em" fill="currentColor"><text class='t0' x='30.02' y='8.37'>a3</text>
+<text class='t1' x='55.59' y='8.37'>is<tspan x='64.73'>r</tspan><tspan x='68.23'>ender</tspan><tspan x='90.55'>ed</tspan><tspan x='102.45'>as</tspan></text>
+<text class='t4' x='124.92' y='8.37'>a</text>
+<text class='t5' x='130.18' y='9.86'>3</text>
+<text class='t0' x='279.37' y='8.37'>foo7</text>
+<text class='t1' x='316.89' y='8.37'>is<tspan x='326.03'>r</tspan><tspan x='329.53'>ender</tspan><tspan x='351.85'>ed</tspan><tspan x='363.75'>as</tspan></text>
+<text class='t4' x='386.22' y='8.37'>f<tspan x='392.17'>oo</tspan></text>
+<text class='t5' x='401.83' y='10.8'>7</text>
+<text class='t0' x='30.02' y='20.32'>M1</text>
+<text class='t1' x='55.59' y='20.32'>is<tspan x='64.73'>r</tspan><tspan x='68.23'>ender</tspan><tspan x='90.55'>ed</tspan><tspan x='102.45'>as</tspan></text>
+<text class='t4' x='124.92' y='20.32'>M</text>
+<text class='t5' x='134.58' y='21.82'>1</text>
+<text class='t0' x='279.37' y='20.32'>z128</text>
+<text class='t1' x='316.89' y='20.32'>is<tspan x='326.03'>r</tspan><tspan x='329.53'>ender</tspan><tspan x='351.85'>ed</tspan><tspan x='363.75'>as</tspan></text>
+<text class='t4' x='386.22' y='20.32'>z</text>
+<text class='t5' x='390.85' y='21.82'>128</text>
+<text class='t6' x='5.98' y='32.28'>OMEGA13</text>
+<text class='t1' x='55.59' y='32.28'>is<tspan x='64.73'>r</tspan><tspan x='68.23'>ender</tspan><tspan x='90.55'>ed</tspan><tspan x='102.45'>as</tspan></text>
+<text class='t3' x='124.92' y='32.28'>Ω</text>
+<text class='t5' x='132.11' y='33.77'>13</text>
+<text class='t0' x='183.72' y='32.28'>myFavoriteThings1625</text>
+<text class='t1' x='316.89' y='32.28'>is<tspan x='326.03'>r</tspan><tspan x='329.53'>ender</tspan><tspan x='351.85'>ed</tspan><tspan x='363.75'>as</tspan></text>
+<text class='t4' x='386.22' y='32.28'>my<tspan x='400.21'>F</tspan><tspan x='408'>av</tspan><tspan x='418.45'>or</tspan><tspan x='428.05'>iteT</tspan><tspan x='446.93'>hing</tspan><tspan x='467.19'>s</tspan></text>
+<text class='t5' x='471.86' y='34.71'>1625</text></svg></div>
+<p id="p-0b3e422f" class="nb">(d) The following names are always rendered in roman type out of respect for tradition:</p>
+<div class="tw nb" id="t-2cb1080c" data-kind="table"><svg class="tx" data-d="4" viewBox="7.04 1.11 242.35 69.57" width="24.235em" height="6.957em" fill="currentColor"><text class='t3' x='7.64' y='8.37'>sin<tspan x='49.56'>cos</tspan><tspan x='92.6'>tan</tspan><tspan x='136.68'>cot</tspan><tspan x='179.66'>sec</tspan><tspan x='221.86'>csc</tspan><tspan x='7.64' y='20.32'>sinh</tspan><tspan x='49.56'>cosh</tspan><tspan x='92.6'>tanh</tspan><tspan x='136.68'>coth</tspan><tspan x='179.66'>sec</tspan><tspan x='192.17'>h</tspan><tspan x='221.86'>csc</tspan><tspan x='234.37'>h</tspan><tspan x='7.64' y='32.28'>arcsin</tspan><tspan x='49.56'>arccos</tspan><tspan x='92.6'>arctan</tspan><tspan x='136.68'>arccot</tspan><tspan x='179.66'>arcsec</tspan><tspan x='221.86'>arccsc</tspan><tspan x='7.64' y='44.23'>arsinh</tspan><tspan x='49.56'>arcosh</tspan><tspan x='92.6'>artanh</tspan><tspan x='136.68'>arcoth</tspan><tspan x='179.66'>arsec</tspan><tspan x='201.05'>h</tspan><tspan x='221.86'>arcsc</tspan><tspan x='243.26'>h</tspan><tspan x='7.64' y='56.19'>arg</tspan><tspan x='49.56'>deg</tspan><tspan x='92.6'>det</tspan><tspan x='136.68'>exp</tspan><tspan x='179.66'>inf</tspan><tspan x='221.86'>sup</tspan><tspan x='7.64' y='68.14'>lg</tspan><tspan x='49.56'>ln</tspan><tspan x='92.6'>log</tspan><tspan x='136.68'>gcd</tspan><tspan x='179.66'>max</tspan><tspan x='221.86'>min</tspan></text></svg></div>
+<p id="p-deecc8c6" class="nb">(e) Otherwise the identifier is simply rendered entirely in italic type.</p>
+<div class="tw nb" id="t-f7aebb3f" data-kind="table"><svg class="tx" data-d="5" viewBox="7.04 0.85 397.95 33.97" width="39.795em" height="3.397em" fill="currentColor"><text class='t0' x='37.53' y='8.37'>a</text>
+<text class='t1' x='57.12' y='8.37'>is<tspan x='66.25'>r</tspan><tspan x='69.76'>ender</tspan><tspan x='92.08'>ed</tspan><tspan x='103.97'>as</tspan></text>
+<text class='t7' x='125.62' y='8.37'>a</text>
+<text class='t0' x='230.3' y='8.37'>foobar</text>
+<text class='t1' x='279.78' y='8.37'>is<tspan x='288.92'>r</tspan><tspan x='292.42'>ender</tspan><tspan x='314.74'>ed</tspan><tspan x='326.64'>as</tspan></text>
+<text class='t7' x='348.28' y='8.37'>fo<tspan x='355.92'>ob</tspan><tspan x='365.08'>ar</tspan></text>
+<text class='t0' x='7.64' y='20.32'>length</text>
+<text class='t1' x='57.12' y='20.32'>is<tspan x='66.25'>r</tspan><tspan x='69.76'>ender</tspan><tspan x='92.08'>ed</tspan><tspan x='103.97'>as</tspan></text>
+<text class='t7' x='125.62' y='20.32'>length</text>
+<text class='t0' x='194.44' y='20.32'>isInstanceOf</text>
+<text class='t1' x='279.78' y='20.32'>is<tspan x='288.92'>r</tspan><tspan x='292.42'>ender</tspan><tspan x='314.74'>ed</tspan><tspan x='326.64'>as</tspan></text>
+<text class='t7' x='348.28' y='20.32'>isInstanc<tspan x='387'>eOf</tspan></text>
+<text class='t0' x='13.62' y='32.28'>foo7a</text>
+<text class='t1' x='57.12' y='32.28'>is<tspan x='66.25'>r</tspan><tspan x='69.76'>ender</tspan><tspan x='92.08'>ed</tspan><tspan x='103.97'>as</tspan></text>
+<text class='t7' x='125.62' y='32.28'>fo<tspan x='133.25'>o7a</tspan></text>
+<text class='t0' x='212.37' y='32.28'>l33tsp33k</text>
+<text class='t1' x='279.78' y='32.28'>is<tspan x='288.92'>r</tspan><tspan x='292.42'>ender</tspan><tspan x='314.74'>ed</tspan><tspan x='326.64'>as</tspan></text>
+<text class='t7' x='348.28' y='32.28'>l33tsp33k</text></svg></div>
+<p id="p-e6d73777" class="nb">If the identifier begins or ends with an underscore, or both, but has no other underscores, or prime marks, or apostrophes:</p>
+<p id="p-4f0e965f" class="nb">(f) If the identifier, ignoring its underscores, consists of two ASCII capital letters that are the same, possibly followed by one or more digits, then a single capital letter is rendered in sans-serif (for a leading underscore), script (for a trailing underscore), or italic san-serif (for both a leading and a trailing underscore), and any digits are rendered as roman subscripts.</p>
+<p id="p-3d62ecbb" class="nb">(g) Otherwise, the identifier without its underscores is rendered in boldface (for a leading underscore), roman (for a trailing underscore), or bold italic (for both a leading and a trailing underscore); except that if the identifier, ignoring its underscores, consists of one or more letters followed by one or more digits, then the digits are rendered as roman subscripts regardless of the underscores.</p>
+<div class="tw nb" id="t-d680fa5f" data-kind="table"><svg class="tx" data-d="6" viewBox="5.38 1.13 286.17 45.20" width="28.617em" height="4.520em" fill="currentColor"><text class='t6' x='11.36' y='8.37'>m</text>
+<rect x='17.28' y='7.97' height='.4' width='2.69'/>
+<text class='t1' x='31.92' y='8.37'>is<tspan x='41.06'>r</tspan><tspan x='44.56'>ender</tspan><tspan x='66.88'>ed</tspan><tspan x='78.77'>as</tspan></text>
+<text class='t3' x='101.25' y='8.37'>m</text>
+<text class='t6' x='177.84' y='8.37'>s</text>
+<rect x='183.75' y='7.97' height='.4' width='2.69'/>
+<text class='t1' x='198.4' y='8.37'>is<tspan x='207.54'>r</tspan><tspan x='211.04'>ender</tspan><tspan x='233.36'>ed</tspan><tspan x='245.25'>as</tspan></text>
+<text class='t3' x='267.73' y='8.37'>s</text>
+<text class='t6' x='5.98' y='20.32'>km</text>
+<rect x='17.28' y='19.93' height='.4' width='2.69'/>
+<text class='t1' x='31.92' y='20.32'>is<tspan x='41.06'>r</tspan><tspan x='44.56'>ender</tspan><tspan x='66.88'>ed</tspan><tspan x='78.77'>as</tspan></text>
+<text class='t3' x='101.25' y='20.32'>km</text>
+<text class='t6' x='172.46' y='20.32'>kg</text>
+<rect x='183.75' y='19.93' height='.4' width='2.69'/>
+<text class='t1' x='198.4' y='20.32'>is<tspan x='207.54'>r</tspan><tspan x='211.04'>ender</tspan><tspan x='233.36'>ed</tspan><tspan x='245.25'>as</tspan></text>
+<text class='t3' x='267.73' y='20.32'>kg</text>
+<text class='t6' x='11.36' y='32.28'>V</text>
+<rect x='17.28' y='31.88' height='.4' width='2.69'/>
+<text class='t1' x='31.92' y='32.28'>is<tspan x='41.06'>r</tspan><tspan x='44.56'>ender</tspan><tspan x='66.88'>ed</tspan><tspan x='78.77'>as</tspan></text>
+<text class='t3' x='101.25' y='32.28'>V</text>
+<text class='t6' x='172.46' y='32.28'>kW</text>
+<rect x='183.75' y='31.88' height='.4' width='2.69'/>
+<text class='t1' x='198.4' y='32.28'>is<tspan x='207.54'>r</tspan><tspan x='211.04'>ender</tspan><tspan x='233.36'>ed</tspan><tspan x='245.25'>as</tspan></text>
+<text class='t3' x='267.73' y='32.28'>kW</text>
+<rect x='11.9' y='43.84' height='.4' width='2.69'/>
+<text class='t6' x='14.59' y='44.23'>v</text>
+<text class='t1' x='31.92' y='44.23'>is<tspan x='41.06'>r</tspan><tspan x='44.56'>ender</tspan><tspan x='66.88'>ed</tspan><tspan x='78.77'>as</tspan></text>
+<text class='t8' x='101.25' y='44.23'>v</text>
+<rect x='156.86' y='43.84' height='.4' width='2.69'/>
+<text class='t6' x='159.55' y='44.23'>foo13</text>
+<text class='t1' x='198.4' y='44.23'>is<tspan x='207.54'>r</tspan><tspan x='211.04'>ender</tspan><tspan x='233.36'>ed</tspan><tspan x='245.25'>as</tspan></text>
+<text class='t8' x='267.73' y='44.23'>fo<tspan x='277.27'>o</tspan></text>
+<text class='t5' x='283' y='45.73'>13</text></svg></div>
+<p id="p-d1c7d4b2" class="nb">(Roman identifiers are typically used for names of SI dimensional units. See sections 6.1.1 and 6.2.1 of [<a class="cite" href="references.html#ref-nistSP811">nistSP811</a>] for style questions with respect to dimensions and units.)</p>
+<p id="p-4e20423a" class="nb">These last two rules are actually special cases of the following general rules that apply whenever an identifier contains at least one underscore, prime mark, or apostrophe:</p>
+<p id="p-a89bf5fc" class="nb">An identifier containing underscores is divided into portions by its underscores; in addition, any apostrophe, prime, or double prime character separates portions and is also itself a portion.</p>
+<p id="p-f664925c" class="nb">(h) If any portion is empty other than the first or last, then the entire identifier is rendered in italics, underscores and all.</p>
+<p id="p-46cb5960" class="nb">Otherwise, the portions are rendered as follows. The idea is that there is a <em>principal portion</em> that may be preceded and/or followed by modifiers, and there may also be a <em>face portion</em>:</p>
+<ul>
+<li><p id="p-67e5f174" class="nb">If the first portion is not empty, <span class="tt">script</span>, <span class="tt">fraktur</span>, <span class="tt">sansserif</span>, or <span class="tt">monospace</span>, then the principal portion is the first portion and there is no face portion.</p></li>
+<li><p id="p-dafb21ec" class="nb">If the first portion is <span class="tt">script</span>, <span class="tt">fraktur</span>, <span class="tt">sansserif</span>, or <span class="tt">monospace</span>, then the principal portion is the second portion and the face portion is the first portion.</p></li>
+<li><p id="p-1ab941d5" class="nb">If the first portion is empty and the second portion is not <span class="tt">script</span>, <span class="tt">fraktur</span>, <span class="tt">sansserif</span>, or <span class="tt">monospace</span>, then the principal portion is the second portion and there is no face portion.</p></li>
+<li><p id="p-2a45c2cd" class="nb">Otherwise the principal portion is the third portion and the face portion is the second portion.</p></li>
+</ul>
+<p id="p-93d311f1" class="nb">If there is no face portion, the principal portion will be rendered in ordinary italics. However, if the first portion is empty (that is, the identifier begins with a leading underscore), then the principal portion is to be rendered in roman boldface. If the last portion is empty (that is, the identifier ends with a trailing underscore), then the principal portion will be roman rather than italic, or bold italic rather than bold.</p>
+<p id="p-63f45c69" class="nb">If there is a face portion, then that describes an alternate typeface to be used in rendering the principal portion. If there is no face portion, but the principal portion consists of two copies of the same letter, then it is rendered as a single letter in a double-struck face (also known as “blackboard bold”), sans-serif, script, or italic sans-serif font according to whether the first and last portions are (not empty, not empty), (empty, not empty), (not empty, empty), or (empty, empty), respectively. Otherwise, if the first portion is empty (that is, the identifier begins with a leading underscore), then the principal portion is to be rendered in a bold version of the selected face, and if the last portion is empty (that is, the identifier ends with a trailing underscore), then the principal portion to be rendered in an italic (or bold italic) version of the selected face. The bold and italic modifiers may be used only in combination with certain faces; the following are the allowed combinations:</p>
+<div class="tw nb" id="t-eb2d11f0" data-kind="table"><svg class="tx" data-d="7" viewBox="5.38 1.83 119.54 116.05" width="11.954em" height="11.605em" fill="currentColor"><text class='t6' x='5.98' y='8.37'>script<tspan x='5.98' y='20.32'>bold</tspan><tspan x='32.88'>script</tspan><tspan x='5.98' y='32.28'>fraktur</tspan><tspan x='5.98' y='44.23'>bold</tspan><tspan x='32.88'>fraktur</tspan><tspan x='5.98' y='56.19'>double-struck</tspan><tspan x='5.98' y='68.14'>sans-serif</tspan><tspan x='5.98' y='80.1'>bold</tspan><tspan x='32.88'>sans-serif</tspan><tspan x='5.98' y='92.05'>italic</tspan><tspan x='43.64'>sans-serif</tspan><tspan x='5.98' y='104.01'>bold</tspan><tspan x='32.88'>italic</tspan><tspan x='70.54'>sans-serif</tspan><tspan x='5.98' y='115.97'>monospace</tspan></text></svg></div>
+<p id="p-5e9d1943" class="nb">If a combination can be properly rendered, then the principal portion is rendered but not any preceding portions or underscores. If a combination cannot be properly rendered, then the principal portion and all portions and underscores preceding it are rendered all in italics if possible, and otherwise all in some other default face.</p>
+<p id="p-5538f93f" class="nb">If the principal portion consists of a sequence of letters followed by a sequence of digits, then the letters are rendered in the chosen face and the digits are rendered as roman subscripts. Otherwise the entire principal portion is rendered in the chosen face. The remaining portions (excepting the last, if it is empty) are then processed according to the following rules:</p>
+<ul>
+<li><p id="p-5c9ebba1" class="nb">If a portion is <span class="tt">bar</span>, then a bar is rendered above what has already been rendered, excluding superscripts and subscripts. For example, <span class="m"><span class="str">x_bar</span></span> is rendered as <span class="m"><i>x̄</i></span>, <span class="m"><span class="str">x17_bar</span></span> is rendered as <span class="m"><i>x̄</i><sub>17</sub></span>, <span class="m"><span class="str">x_bar_bar</span></span> is rendered as <span class="m"><span class="ovl"><i>x̄</i></span></span>, and <span class="m"><span class="str">foo_bar</span></span> is rendered as <span class="m"><span class="ovl"><i>foo</i></span></span>. (Contrast this last with <span class="m"><span class="str">foo_baz</span></span>, which is rendered as <span class="m"><i>foo<span class="tt">_</span>baz</i></span>.)</p></li>
+<li><p id="p-cc9028d4" class="nb">If a portion is <span class="tt">vec</span>, then a right-pointing arrow is rendered above what has already been rendered, excluding superscripts and subscripts. For example, <span class="m"><span class="str">v_vec</span></span> is rendered as <span class="m"><i>v⃗</i></span>, <span class="m"><span class="str">v17_vec</span></span> is rendered as <span class="m"><i>v⃗</i><sub>17</sub></span>, and <span class="m"><span class="str">zoom_vec</span></span> is rendered as <span class="m"><span class="ovl"><i>zoom</i></span></span>.</p></li>
+<li><p id="p-1a6da001" class="nb">If a portion is <span class="tt">hat</span>, then a hat is rendered above what has already been rendered, excluding superscripts and subscripts. For example, <span class="m"><span class="str">x17_hat</span></span> is rendered as <span class="m"><i>x̂</i><sub>17</sub></span>.</p></li>
+<li><p id="p-5303da36" class="nb">If a portion is <span class="tt">dot</span>, then a dot is rendered above what has already been rendered, excluding superscripts and subscripts; but if the preceding portion was also <span class="tt">dot</span>, then the new dot is rendered appropriately relative to the previous dot(s). Up to four dots will be rendered side-by-side rather than vertically. For example, <span class="m"><span class="str">a_dot</span></span> is rendered as <span class="m"><i>ȧ</i></span>, <span class="m"><span class="str">a_dot_dot</span></span> is rendered as <span class="m"><i>ä</i></span>, <span class="m"><span class="str">a_dot_dot_dot</span></span> is rendered as <svg class="tx il" data-d="8" viewBox="0.62 -1.59 9.10 8.08" width="0.910em" height="0.808em" fill="currentColor" style="vertical-align:-0.061em"><text class='t9' x='1.66' y='.01'>...</text>
+<text class='t7' x='1.22' y='5.88'>a</text></svg>, <span class="m"><span class="str">a_dot_dot_dot_dot</span></span> is rendered as <svg class="tx il" data-d="9" viewBox="1.06 -1.59 11.15 8.08" width="1.115em" height="0.808em" fill="currentColor" style="vertical-align:-0.061em"><text class='t9' x='1.66' y='.01'>....</text>
+<text class='t7' x='2.47' y='5.88'>a</text></svg>. Also, <span class="m"><span class="str">a_vec_dot</span></span> is rendered as <span class="m"><span class="ovl"><i>v⃗</i></span></span>.</p></li>
+<li><p id="p-ba18c93a" class="nb">If a portion is <span class="tt">star</span>, then an asterisk <span class="m"><span class="str">*</span></span> is rendered as a superscript. For example, <span class="m"><span class="str">a_star</span></span> is rendered as <span class="m"><i>a</i><sup>∗</sup></span>, <span class="m"><span class="str">a_star_star</span></span> is rendered as<span class="m"><i>a</i><sup>∗∗</sup></span>, <span class="m"><span class="str">ZZ_star</span></span> is rendered as <span class="m">ℤ<sup>∗</sup></span>.</p></li>
+<li><p id="p-b3426025" class="nb">If a portion is <span class="tt">splat</span>, then a number sign <span class="m"><span class="str">#</span></span> is rendered as a superscript. For example, <span class="m"><span class="str">QQ_splat</span></span> is rendered as <span class="m">ℚ<sup>#</sup></span>.</p></li>
+<li><p id="p-38d941c8" class="nb">If a portion is <span class="tt">prime</span>, then a prime mark is rendered as a superscript.</p></li>
+<li><p id="p-749daa71" class="nb">A prime character is treated the same as <span class="tt">prime</span>, and a double prime character is treated the same as two consecutive <span class="tt">prime</span> portions. An apostrophe is treated the same as a prime character, but only if all characters following it in the identifier, if any, are also apostrophes. For example, <span class="m"><span class="str">a'</span></span> is rendered as <span class="m"><i>a</i>′</span>, <span class="m"><span class="str">a13'</span></span> is rendered as <span class="m"><i>a</i><sub>13</sub>′</span>, and <span class="m"><span class="str">a''</span></span> is rendered as <span class="m"><i>a</i>′′</span>, but <span class="m"><span class="str">don't</span></span> is rendered as <span class="m"><span class="rm"><em>don’t</em></span></span>.</p></li>
+<li><p id="p-46010044" class="nb">If a portion is <span class="tt">super</span> and another portion follows, then that other portion is rendered as a superscript in roman type, and enclosed in parentheses if it is all digits.</p></li>
+<li><p id="p-e25b637e" class="nb">If a portion is <span class="tt">sub</span> and another portion follows, then that other portion is rendered as a subscript in roman type, and enclosed in parentheses if it is all digits, and preceded by a subscript-separating comma if this portion was immediately preceded by another portion that was rendered as a subscript.</p></li>
+<li><p id="p-0343d301" class="nb">If a portion consists entirely of capital letters and would, if considered by itself as an identifier, be the name of a non-letter Unicode character that would be subject to replacement by preprocessing, then that Unicode character is rendered as a subscript. For example, <span class="m"><span class="str">id_OPLUS</span></span> is rendered as <span class="m"><i>id</i><sub>⊕</sub></span>, <span class="m"><span class="str">ZZ_GT</span></span> is rendered as <span class="m">ℤ<sub>&gt;</sub></span>, and <span class="m"><span class="str">QQ_star_LE</span></span> is rendered as <span class="m">ℚ<sup>∗</sup><sub>≤</sub></span>.</p></li>
+<li><p id="p-4ef6eadf" class="nb">If the portion is the last portion, and the principal portion was a single letter (or two letters indicating a double-struck letter), and none of the preceding rules in this list applies, it is rendered as a subscript in roman type. For example, <span class="m"><span class="str">T_min</span></span> is rendered as <span class="m"><i>T</i><sub><span class="rm">min</span></sub></span>. Note that <span class="m"><span class="str">T_MAX</span></span> is rendered simply as <span class="m"><span class="op">T_MAX</span></span>—because all its letters are capital letters, it is considered to be an operator—but <span class="m"><span class="str">T_sub_MAX</span></span> is rendered as <span class="m"><i>T</i><sub><span class="rm">MAX</span></sub></span>.</p></li>
+<li><p id="p-24deecfa" class="nb">Otherwise, this portion and all succeeding portions are rendered in italics, along with any underscores that appear adjacent to any of them.</p></li>
+</ul>
+<p id="p-fb3447b6" class="nb">Examples:</p>
+<div class="tw nb" id="t-6716a598" data-kind="table"><svg class="tx" data-d="10" viewBox="5.38 0.93 408.39 118.11" width="40.839em" height="11.811em" fill="currentColor"><text class='t6' x='102.81' y='8.37'>M</text>
+<text class='t1' x='120.15' y='8.37'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<text class='t4' x='187.81' y='8.37'>M</text>
+<rect x='294.07' y='7.97' height='.4' width='2.69'/>
+<text class='t6' x='296.76' y='8.37'>M</text>
+<text class='t1' x='314.1' y='8.37'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t8' x='381.76' y='8.37'>M</text>
+<text class='t6' x='83.45' y='20.32'>v</text>
+<rect x='89.36' y='19.93' height='.4' width='2.69'/>
+<text class='t6' x='92.05' y='20.32'>vec</text>
+<text class='t1' x='120.15' y='20.32'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<text class='t4' x='187.43' y='20.32'><tspan x='187.81'>v</tspan></text>
+<rect x='274.7' y='19.93' height='.4' width='2.69'/>
+<text class='t6' x='277.39' y='20.32'>v</text>
+<rect x='283.31' y='19.93' height='.4' width='2.69'/>
+<text class='t6' x='286' y='20.32'>vec</text>
+<text class='t1' x='314.1' y='20.32'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t4' x='381.61' y='20.19'></text>
+<text class='t8' x='381.76' y='20.32'>v</text>
+<text class='t6' x='97.43' y='32.28'>v1</text>
+<text class='t1' x='120.15' y='32.28'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<text class='t4' x='187.81' y='32.28'>v</text>
+<text class='t5' x='192.64' y='33.77'>1</text>
+<text class='t6' x='288.15' y='32.28'>v</text>
+<rect x='294.07' y='31.88' height='.4' width='2.69'/>
+<text class='t6' x='296.76' y='32.28'>x</text>
+<text class='t1' x='314.1' y='32.28'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t4' x='381.76' y='32.28'>v</text>
+<text class='t5' x='386.59' y='33.77'>x</text>
+<rect x='94.74' y='43.84' height='.4' width='2.69'/>
+<text class='t6' x='97.43' y='44.23'>v1</text>
+<text class='t1' x='120.15' y='44.23'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<text class='t8' x='187.81' y='44.23'>v</text>
+<text class='t5' x='193.86' y='45.73'>1</text>
+<rect x='285.46' y='43.84' height='.4' width='2.69'/>
+<text class='t6' x='288.15' y='44.23'>v</text>
+<rect x='294.07' y='43.84' height='.4' width='2.69'/>
+<text class='t6' x='296.76' y='44.23'>x</text>
+<text class='t1' x='314.1' y='44.23'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t8' x='381.76' y='44.23'>v</text>
+<text class='t5' x='387.81' y='45.73'>x</text>
+<text class='t6' x='83.45' y='56.19'>a</text>
+<rect x='89.36' y='55.79' height='.4' width='2.69'/>
+<text class='t6' x='92.05' y='56.19'>dot</text>
+<text class='t1' x='120.15' y='56.19'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<text class='t3' x='189.06' y='56.19'>˙</text>
+<text class='t4' x='187.81' y='56.19'>a</text>
+<text class='t6' x='258.03' y='56.19'>a</text>
+<rect x='263.94' y='55.79' height='.4' width='2.69'/>
+<text class='t6' x='266.63' y='56.19'>dot</text>
+<rect x='283.31' y='55.79' height='.4' width='2.69'/>
+<text class='t6' x='286' y='56.19'>dot</text>
+<text class='t1' x='314.1' y='56.19'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t3' x='381.9' y='56.19'>¨</text>
+<text class='t4' x='381.76' y='56.19'>a</text>
+<text class='t6' x='44.71' y='68.14'>a</text>
+<rect x='50.63' y='67.75' height='.4' width='2.69'/>
+<text class='t6' x='53.32' y='68.14'>dot</text>
+<rect x='70' y='67.75' height='.4' width='2.69'/>
+<text class='t6' x='72.69' y='68.14'>dot</text>
+<rect x='89.36' y='67.75' height='.4' width='2.69'/>
+<text class='t6' x='92.05' y='68.14'>dot</text>
+<text class='t1' x='120.15' y='68.14'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<text class='t9' x='189.48' y='62.27'>...</text>
+<text class='t4' x='189.75' y='68.14'>a</text>
+<text class='t6' x='219.29' y='68.14'>a</text>
+<rect x='225.21' y='67.75' height='.4' width='2.69'/>
+<text class='t6' x='227.9' y='68.14'>dot</text>
+<rect x='244.58' y='67.75' height='.4' width='2.69'/>
+<text class='t6' x='247.27' y='68.14'>dot</text>
+<rect x='263.94' y='67.75' height='.4' width='2.69'/>
+<text class='t6' x='266.63' y='68.14'>dot</text>
+<rect x='283.31' y='67.75' height='.4' width='2.69'/>
+<text class='t6' x='286' y='68.14'>dot</text>
+<text class='t1' x='314.1' y='68.14'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t9' x='383.42' y='62.27'>....</text>
+<text class='t4' x='384.94' y='68.14'>a</text>
+<text class='t6' x='5.98' y='80.1'>a</text>
+<rect x='11.9' y='79.7' height='.4' width='2.69'/>
+<text class='t6' x='14.59' y='80.1'>dot</text>
+<rect x='31.26' y='79.7' height='.4' width='2.69'/>
+<text class='t6' x='33.95' y='80.1'>dot</text>
+<rect x='50.63' y='79.7' height='.4' width='2.69'/>
+<text class='t6' x='53.32' y='80.1'>dot</text>
+<rect x='70' y='79.7' height='.4' width='2.69'/>
+<text class='t6' x='72.69' y='80.1'>dot</text>
+<rect x='89.36' y='79.7' height='.4' width='2.69'/>
+<text class='t6' x='92.05' y='80.1'>dot</text>
+<text class='t1' x='120.15' y='80.1'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<text class='t3' x='192.24' y='78.51'>˙</text>
+<text class='t9' x='189.48' y='74.23'>....</text>
+<text class='t4' x='190.99' y='80.1'>a</text>
+<text class='t6' x='280.62' y='80.1'>p13’</text>
+<text class='t1' x='314.1' y='80.1'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t4' x='381.76' y='80.1'>p</text>
+<text class='t10' x='386.77' y='76.48'></text>
+<text class='t5' x='386.77' y='82.57'>13</text>
+<text class='t6' x='97.43' y='92.05'>p’</text>
+<text class='t1' x='120.15' y='92.05'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<text class='t4' x='187.81' y='92.05'>p</text>
+<text class='t10' x='192.83' y='88.44'></text>
+<text class='t6' x='266.63' y='92.05'>p</text>
+<rect x='272.55' y='91.66' height='.4' width='2.69'/>
+<text class='t6' x='275.24' y='92.05'>prime</text>
+<text class='t1' x='314.1' y='92.05'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t4' x='381.76' y='92.05'>p</text>
+<text class='t10' x='386.77' y='88.44'></text>
+<text class='t6' x='83.45' y='104.01'>T</text>
+<rect x='89.36' y='103.61' height='.4' width='2.69'/>
+<text class='t6' x='92.05' y='104.01'>min</text>
+<text class='t1' x='120.15' y='104.01'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<text class='t4' x='187.81' y='104.01'>T</text>
+<text class='t5' x='193.64' y='105.5'>min</text>
+<text class='t6' x='277.39' y='104.01'>T</text>
+<rect x='283.31' y='103.61' height='.4' width='2.69'/>
+<text class='t6' x='286' y='104.01'>max</text>
+<text class='t1' x='314.1' y='104.01'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t4' x='381.76' y='104.01'>T</text>
+<text class='t5' x='387.58' y='105.5'>max</text>
+<text class='t6' x='72.69' y='116.51'>foo</text>
+<rect x='89.36' y='116.11' height='.4' width='2.69'/>
+<text class='t6' x='92.05' y='116.51'>bar</text>
+<text class='t1' x='120.15' y='116.51'>is<tspan x='129.28'>r</tspan><tspan x='132.79'>ender</tspan><tspan x='155.11'>ed</tspan><tspan x='167'>as</tspan></text>
+<rect x='187.81' y='107.99' height='.4' width='13.36'/>
+<text class='t7' x='187.81' y='116.51'>fo<tspan x='195.45'>o</tspan></text>
+<text class='t6' x='266.63' y='116.51'>foo</text>
+<rect x='283.31' y='116.11' height='.4' width='2.69'/>
+<text class='t6' x='286' y='116.51'>baz</text>
+<text class='t1' x='314.1' y='116.51'>is<tspan x='323.23'>r</tspan><tspan x='326.74'>ender</tspan><tspan x='349.05'>ed</tspan><tspan x='360.95'>as</tspan></text>
+<text class='t7' x='381.76' y='116.51'>fo<tspan x='389.4'>o</tspan></text>
+<rect x='395.72' y='116.11' height='.4' width='2.99'/>
+<text class='t7' x='398.71' y='116.51'>b<tspan x='402.78'>az</tspan></text></svg></div>
+<p id="p-689033aa" class="nb">In this way, through the use of underscore characters and annotation portions delimited by underscores, the programmer can exercise considerable typographical control over the rendering of variable names; but if no underscores are used, the rendering rules are quite simple.</p>
+</section>
+<section class="sec" data-num="D.2" data-title="Rendering of Other Fortress Constructs">
+<h2 id="sec-rendering-other" class="nb"><span class="num">D.2</span> Rendering of Other Fortress Constructs</h2>
+<p id="p-6b6db430" class="nb">A parameterized type of the form <code>T[\S\]</code> is rendered by replacing the brackets <code>[\</code> and <code>\]</code> with <span class="m">⟦</span> (U+27E6, <span class="tt">MATHEMATICAL LEFT WHITE SQUARE BRACKET</span>) and <span class="m">⟧</span> (U+27E7, <span class="tt">MATHEMATICAL RIGHT WHITE</span> <span class="tt">SQUARE BRACKET</span>), respectively.</p>
+<p id="p-90db96ac" class="nb">An expression of the form <span class="m"><span class="str">a^b</span></span> or <span class="m"><span class="str">a^(b)</span></span> is rendered by making the expression <span class="m"><i>b</i></span> a superscript, and possibly removing an outer set of parentheses, if it is reasonably simple; otherwise it is rendered as if <span class="m"><span class="str">^</span></span> were an ordinary binary operator.</p>
+<div class="center"><div class="tw nb" id="t-ccdb0cce" data-kind="table"><svg class="tx" data-d="11" viewBox="7.04 1.13 309.47 46.19" width="30.947em" height="4.619em" fill="currentColor"><text class='t0' x='121.21' y='8.37'>x^y</text>
+<text class='t1' x='152.76' y='8.37'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t4' x='222.09' y='8.37'>x</text>
+<text class='t11' x='227.78' y='4.75'>y</text>
+<text class='t0' x='115.23' y='20.32'>x^43</text>
+<text class='t1' x='152.76' y='20.32'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t4' x='222.09' y='20.32'>x</text>
+<text class='t5' x='227.78' y='16.71'>43</text>
+<text class='t0' x='97.3' y='32.28'>x^(n+1)</text>
+<text class='t1' x='152.76' y='32.28'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t4' x='222.09' y='32.28'>x</text>
+<text class='t11' x='227.78' y='28.66'>n</text>
+<text class='t5' x='232.71' y='28.66'>+1</text>
+<text class='t0' x='7.64' y='44.23'>x^(|s.substring(a,b)|)</text>
+<text class='t1' x='152.76' y='44.23'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t4' x='222.09' y='44.23'>x</text>
+<text class='t0' x='227.78' y='44.23'>^</text>
+<text class='t3' x='233.76' y='44.23'>(</text>
+<text class='t12' x='237.63' y='44.23'>|</text>
+<text class='t4' x='240.4' y='44.23'>s.</text>
+<text class='t7' x='247.84' y='44.23'>substring</text>
+<text class='t3' x='287.55' y='44.23'>(</text>
+<text class='t4' x='291.42' y='44.23'>a,<tspan x='301.11'>b</tspan></text>
+<text class='t3' x='305.39' y='44.23'>)</text>
+<text class='t12' x='309.26' y='44.23'>|</text>
+<text class='t3' x='312.03' y='44.23'>)</text></svg></div></div>
+<p id="p-7fc93daa" class="nb">An expression of the form <span class="m"><span class="str">a[b]</span></span> is rendered by making the expression <span class="m"><i>b</i></span> a subscript, if it is reasonably simple.</p>
+<div class="center"><div class="tw nb" id="t-3464244b" data-kind="table"><svg class="tx" data-d="12" viewBox="7.04 1.13 277.66 94.01" width="27.766em" height="9.401em" fill="currentColor"><text class='t0' x='91.32' y='8.37'>a[43]</text>
+<text class='t1' x='134.83' y='8.37'>is<tspan x='143.96'>r</tspan><tspan x='147.47'>ender</tspan><tspan x='169.79'>ed</tspan><tspan x='181.68'>as</tspan></text>
+<text class='t4' x='204.15' y='8.37'>a</text>
+<text class='t5' x='209.42' y='9.86'>43</text>
+<text class='t0' x='97.3' y='20.32'>a[k]</text>
+<text class='t1' x='134.83' y='20.32'>is<tspan x='143.96'>r</tspan><tspan x='147.47'>ender</tspan><tspan x='169.79'>ed</tspan><tspan x='181.68'>as</tspan></text>
+<text class='t4' x='204.15' y='20.32'>a</text>
+<text class='t11' x='209.42' y='21.82'>k</text>
+<text class='t0' x='73.39' y='32.28'>a[n_max]</text>
+<text class='t1' x='134.83' y='32.28'>is<tspan x='143.96'>r</tspan><tspan x='147.47'>ender</tspan><tspan x='169.79'>ed</tspan><tspan x='181.68'>as</tspan></text>
+<text class='t4' x='204.15' y='32.28'>a</text>
+<text class='t11' x='209.42' y='33.77'>n</text>
+<text class='t13' x='214.34' y='34.77'>max</text>
+<text class='t0' x='79.37' y='44.23'>a[k+k’]</text>
+<text class='t1' x='134.83' y='44.23'>is<tspan x='143.96'>r</tspan><tspan x='147.47'>ender</tspan><tspan x='169.79'>ed</tspan><tspan x='181.68'>as</tspan></text>
+<text class='t4' x='204.15' y='44.23'>a</text>
+<text class='t11' x='209.42' y='45.73'>k</text>
+<text class='t5' x='213.82' y='45.73'>+</text>
+<text class='t11' x='219.94' y='45.73'>k</text>
+<text class='t14' x='224.34' y='43.74'></text>
+<text class='t0' x='85.35' y='56.19'>a[b-c]</text>
+<text class='t1' x='134.83' y='56.19'>is<tspan x='143.96'>r</tspan><tspan x='147.47'>ender</tspan><tspan x='169.79'>ed</tspan><tspan x='181.68'>as</tspan></text>
+<text class='t4' x='204.15' y='56.19'>a</text>
+<text class='t11' x='209.42' y='57.68'>b</text>
+<text class='t10' x='212.92' y='57.68'>−</text>
+<text class='t11' x='219.15' y='57.68'>c</text>
+<text class='t0' x='61.44' y='68.14'>a[3<tspan x='85.35'>k</tspan><tspan x='97.3'>+</tspan><tspan x='109.26'>1]</tspan></text>
+<text class='t1' x='134.83' y='68.14'>is<tspan x='143.96'>r</tspan><tspan x='147.47'>ender</tspan><tspan x='169.79'>ed</tspan><tspan x='181.68'>as</tspan></text>
+<text class='t4' x='204.15' y='68.14'>a</text>
+<text class='t5' x='209.42' y='69.64'>3</text>
+<text class='t11' x='213.39' y='69.64'>k</text>
+<text class='t5' x='217.79' y='69.64'>+1</text>
+<text class='t0' x='61.44' y='80.1'>a[b[c[d]]]</text>
+<text class='t1' x='134.83' y='80.1'>is<tspan x='143.96'>r</tspan><tspan x='147.47'>ender</tspan><tspan x='169.79'>ed</tspan><tspan x='181.68'>as</tspan></text>
+<text class='t4' x='204.15' y='80.1'>a</text>
+<text class='t3' x='209.42' y='80.1'>[</text>
+<text class='t4' x='212.19' y='80.1'>b</text>
+<text class='t3' x='216.46' y='80.1'>[</text>
+<text class='t4' x='219.23' y='80.1'>c</text>
+<text class='t11' x='223.54' y='81.59'>d</text>
+<text class='t3' x='228.19' y='80.1'>]]</text>
+<text class='t0' x='7.64' y='92.05'>a[s.substring(p,q)]</text>
+<text class='t1' x='134.83' y='92.05'>is<tspan x='143.96'>r</tspan><tspan x='147.47'>ender</tspan><tspan x='169.79'>ed</tspan><tspan x='181.68'>as</tspan></text>
+<text class='t4' x='204.15' y='92.05'>a</text>
+<text class='t3' x='209.42' y='92.05'>[</text>
+<text class='t4' x='212.19' y='92.05'>s.</text>
+<text class='t7' x='219.62' y='92.05'>substring</text>
+<text class='t3' x='259.33' y='92.05'>(</text>
+<text class='t4' x='263.21' y='92.05'>p,<tspan x='272.65'>q</tspan></text>
+<text class='t3' x='277.45' y='92.05'>)]</text></svg></div></div>
+<p id="p-6ead7928" class="nb">If there is more than one subscript expression, then they are rendered as subscripts only if each subscript is a single letter or digit, or a single letter followed by digits and/or prime marks:</p>
+<div class="center"><div class="tw nb" id="t-c4883525" data-kind="table"><svg class="tx" data-d="13" viewBox="7.04 1.13 193.24 70.10" width="19.324em" height="7.010em" fill="currentColor"><text class='t0' x='37.53' y='8.37'>a[1,1]</text>
+<text class='t1' x='87.01' y='8.37'>is<tspan x='96.14'>r</tspan><tspan x='99.65'>ender</tspan><tspan x='121.97'>ed</tspan><tspan x='133.86'>as</tspan></text>
+<text class='t4' x='156.33' y='8.37'>a</text>
+<text class='t5' x='161.6' y='9.86'>11</text>
+<text class='t0' x='37.53' y='20.32'>a[1,n]</text>
+<text class='t1' x='87.01' y='20.32'>is<tspan x='96.14'>r</tspan><tspan x='99.65'>ender</tspan><tspan x='121.97'>ed</tspan><tspan x='133.86'>as</tspan></text>
+<text class='t4' x='156.33' y='20.32'>a</text>
+<text class='t5' x='161.6' y='21.82'>1</text>
+<text class='t11' x='165.57' y='21.82'>n</text>
+<text class='t0' x='25.57' y='32.28'>a[j,m,n]</text>
+<text class='t1' x='87.01' y='32.28'>is<tspan x='96.14'>r</tspan><tspan x='99.65'>ender</tspan><tspan x='121.97'>ed</tspan><tspan x='133.86'>as</tspan></text>
+<text class='t4' x='156.33' y='32.28'>a</text>
+<text class='t11' x='161.6' y='33.77'>j<tspan x='165.3'>mn</tspan></text>
+<text class='t0' x='7.64' y='44.23'>a[n1,n2,n3]</text>
+<text class='t1' x='87.01' y='44.23'>is<tspan x='96.14'>r</tspan><tspan x='99.65'>ender</tspan><tspan x='121.97'>ed</tspan><tspan x='133.86'>as</tspan></text>
+<text class='t4' x='156.33' y='44.23'>a</text>
+<text class='t11' x='161.6' y='45.73'>n</text>
+<text class='t13' x='166.52' y='46.72'>1</text>
+<text class='t11' x='170.41' y='45.73'>n</text>
+<text class='t13' x='175.34' y='46.72'>2</text>
+<text class='t11' x='179.23' y='45.73'>n</text>
+<text class='t13' x='184.15' y='46.72'>3</text>
+<text class='t0' x='13.62' y='56.19'>a[k,k’,k”]</text>
+<text class='t1' x='87.01' y='56.19'>is<tspan x='96.14'>r</tspan><tspan x='99.65'>ender</tspan><tspan x='121.97'>ed</tspan><tspan x='133.86'>as</tspan></text>
+<text class='t4' x='156.33' y='56.19'>a</text>
+<text class='t11' x='161.6' y='57.68'>k<tspan x='166'>k</tspan></text>
+<text class='t14' x='170.41' y='55.69'></text>
+<text class='t11' x='173.1' y='57.68'>k</text>
+<text class='t14' x='177.51' y='55.69'></text>
+<text class='t0' x='25.57' y='68.14'>a[1,n-1]</text>
+<text class='t1' x='87.01' y='68.14'>is<tspan x='96.14'>r</tspan><tspan x='99.65'>ender</tspan><tspan x='121.97'>ed</tspan><tspan x='133.86'>as</tspan></text>
+<text class='t4' x='156.33' y='68.14'>a</text>
+<text class='t3' x='161.6' y='68.14'>[1</text>
+<text class='t4' x='169.35' y='68.14'>,<tspan x='173.78'>n</tspan></text>
+<text class='t12' x='181.97' y='68.14'>−</text>
+<text class='t3' x='191.93' y='68.14'>1]</text></svg></div></div>
+<p id="p-1a037090" class="nb">(There is, of course, some opportunity here to make the rules for subscripted rendering more elaborate.)</p>
+<p id="p-0f6e075c" class="nb">If there is whitespace adjacent to the subscripting brackets or any separating comma, then actual subscripts are not used and the brackets remain (so putting spaces after the commas of a multidimensional subscript is a simple way to guarantee that bracket syntax will be used in the formatted version):</p>
+<div class="center"><div class="tw nb" id="t-8442b804" data-kind="table"><svg class="tx" data-d="14" viewBox="7.04 1.13 194.84 34.24" width="19.484em" height="3.424em" fill="currentColor"><text class='t0' x='43.5' y='8.37'>a[i,j]</text>
+<text class='t1' x='92.98' y='8.37'>is<tspan x='102.12'>r</tspan><tspan x='105.63'>ender</tspan><tspan x='127.94'>ed</tspan><tspan x='139.84'>as</tspan></text>
+<text class='t4' x='162.31' y='8.37'>a</text>
+<text class='t11' x='167.58' y='9.86'>ij</text>
+<text class='t0' x='37.53' y='20.32'>a[i,<tspan x='67.41'>j]</tspan></text>
+<text class='t1' x='92.98' y='20.32'>is<tspan x='102.12'>r</tspan><tspan x='105.63'>ender</tspan><tspan x='127.94'>ed</tspan><tspan x='139.84'>as</tspan></text>
+<text class='t4' x='162.31' y='20.32'>a</text>
+<text class='t3' x='167.58' y='20.32'>[</text>
+<text class='t4' x='170.34' y='20.32'>i,<tspan x='178.2'>j</tspan></text>
+<text class='t3' x='182.88' y='20.32'>]</text>
+<text class='t0' x='7.64' y='32.28'>a[b[c[<tspan x='49.48'>d</tspan><tspan x='61.44'>]]]</tspan></text>
+<text class='t1' x='92.98' y='32.28'>is<tspan x='102.12'>r</tspan><tspan x='105.63'>ender</tspan><tspan x='127.94'>ed</tspan><tspan x='139.84'>as</tspan></text>
+<text class='t4' x='162.31' y='32.28'>a</text>
+<text class='t3' x='167.58' y='32.28'>[</text>
+<text class='t4' x='170.34' y='32.28'>b</text>
+<text class='t3' x='174.62' y='32.28'>[</text>
+<text class='t4' x='177.39' y='32.28'>c</text>
+<text class='t3' x='181.7' y='32.28'>[</text>
+<text class='t4' x='186.13' y='32.28'>d</text>
+<text class='t3' x='192.97' y='32.28'>]]]</text></svg></div></div>
+<p id="p-453669dd" class="nb">The presence or absence of whitespace inside and adjacent to enclosing operators is reflected in the rendered form by the presence or absence of a thin space:</p>
+<div class="center"><div class="tw nb" id="t-474af7ac" data-kind="table"><svg class="tx" data-d="15" viewBox="7.04 0.30 314.03 70.94" width="31.403em" height="7.094em" fill="currentColor"><text class='t0' x='25.57' y='8.37'>a[s.substring(p,q)]</text>
+<text class='t1' x='152.76' y='8.37'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t4' x='222.09' y='8.37'>a</text>
+<text class='t3' x='227.35' y='8.37'>[</text>
+<text class='t4' x='230.12' y='8.37'>s.</text>
+<text class='t7' x='237.56' y='8.37'>substring</text>
+<text class='t3' x='277.27' y='8.37'>(</text>
+<text class='t4' x='281.14' y='8.37'>p,<tspan x='290.58'>q</tspan></text>
+<text class='t3' x='295.38' y='8.37'>)]</text>
+<text class='t0' x='13.62' y='20.32'>a[<tspan x='31.55'>s.substring(p,q)</tspan><tspan x='133.17'>]</tspan></text>
+<text class='t1' x='152.76' y='20.32'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t4' x='222.09' y='20.32'>a</text>
+<text class='t3' x='227.35' y='20.32'>[</text>
+<text class='t4' x='231.78' y='20.32'>s.</text>
+<text class='t7' x='239.22' y='20.32'>substring</text>
+<text class='t3' x='278.93' y='20.32'>(</text>
+<text class='t4' x='282.8' y='20.32'>p,<tspan x='292.24'>q</tspan></text>
+<text class='t3' x='297.05' y='20.32'>)<tspan x='302.58'>]</tspan></text>
+<text class='t0' x='109.26' y='32.28'>{1,2}</text>
+<text class='t1' x='152.76' y='32.28'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t12' x='222.09' y='32.28'>{</text>
+<text class='t3' x='227.07' y='32.28'>1</text>
+<text class='t4' x='232.05' y='32.28'>,</text>
+<text class='t3' x='236.48' y='32.28'>2</text>
+<text class='t12' x='241.46' y='32.28'>}</text>
+<text class='t0' x='91.32' y='44.23'>{<tspan x='103.28'>1,</tspan><tspan x='121.21'>2</tspan><tspan x='133.17'>}</tspan></text>
+<text class='t1' x='152.76' y='44.23'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t12' x='222.09' y='44.23'>{</text>
+<text class='t3' x='228.73' y='44.23'>1</text>
+<text class='t4' x='233.71' y='44.23'>,</text>
+<text class='t3' x='238.14' y='44.23'>2</text>
+<text class='t12' x='244.78' y='44.23'>}</text>
+<text class='t0' x='85.35' y='56.19'>&lt;|1,2,3|></text>
+<text class='t1' x='152.76' y='56.19'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t12' x='222.09' y='56.19'></text>
+<text class='t3' x='225.96' y='56.19'>1</text>
+<text class='t4' x='230.94' y='56.19'>,</text>
+<text class='t3' x='235.37' y='56.19'>2</text>
+<text class='t4' x='240.35' y='56.19'>,</text>
+<text class='t3' x='244.78' y='56.19'>3</text>
+<text class='t12' x='249.76' y='56.19'></text>
+<text class='t0' x='7.64' y='68.14'>&lt;|<tspan x='25.57'>x+y</tspan><tspan x='49.48'>|</tspan><tspan x='61.44'>x&lt;-a,</tspan><tspan x='97.3'>y&lt;-b</tspan><tspan x='127.19'>|></tspan></text>
+<text class='t1' x='152.76' y='68.14'>is<tspan x='161.9'>r</tspan><tspan x='165.4'>ender</tspan><tspan x='187.72'>ed</tspan><tspan x='199.61'>as</tspan></text>
+<text class='t12' x='222.09' y='68.14'></text>
+<text class='t4' x='227.62' y='68.14'>x</text>
+<text class='t3' x='235.53' y='68.14'>+</text>
+<text class='t4' x='245.49' y='68.14'>y</text>
+<text class='t12' x='253.5' y='68.14'>|</text>
+<text class='t4' x='259.04' y='68.14'>x</text>
+<text class='t12' x='267.5' y='68.14'>←</text>
+<text class='t4' x='280.23' y='68.14'>a,<tspan x='289.92'>y</tspan></text>
+<text class='t12' x='297.93' y='68.14'>←</text>
+<text class='t4' x='310.66' y='68.14'>b</text>
+<text class='t12' x='316.6' y='68.14'></text></svg></div></div>
+<p id="p-7a367826" class="nb">Rendered comprehensions look best if there is whitespace inside the enclosers and on both sides of the separating vertical bar.</p>
+<p id="p-8a193aa9" class="nb">The presence or absence of whitespace on either side of a colon is also handled especially carefully. In general, one should put a space on both sides, or neither side, of a colon that is used as an operator to construct a range; on the other hand, one should put a space after, but <em>not</em> before, a colon that separates a variable or function header from a type. This will produce the best rendered spacing. (The assignment operator <span class="m">:=</span> is recognized separately and whitespace doesn’t matter.)</p>
+<div class="center"><div class="tw nb" id="t-916211c1" data-kind="table"><svg class="tx" data-d="16" viewBox="7.04 1.13 414.42 55.86" width="41.442em" height="5.586em" fill="currentColor"><text class='t0' x='25.57' y='8.37'>for<tspan x='49.48'>i</tspan><tspan x='61.44'>&lt;-</tspan><tspan x='79.37'>1:10</tspan><tspan x='109.26'>do</tspan><tspan x='127.19'>print</tspan><tspan x='163.06'>i</tspan><tspan x='175.01'>end</tspan></text>
+<text class='t1' x='206.56' y='8.37'>is<tspan x='215.69'>r</tspan><tspan x='219.2'>ender</tspan><tspan x='241.52'>ed</tspan><tspan x='253.41'>as</tspan></text>
+<text class='t15' x='275.88' y='8.37'>for</text>
+<text class='t4' x='296.56' y='8.37'>i</text>
+<text class='t12' x='302.76' y='8.37'>←</text>
+<text class='t3' x='315.49' y='8.37'>1<tspan x='322.13'>:</tspan><tspan x='326.56'>10</tspan></text>
+<text class='t15' x='341.5' y='8.37'>do</text>
+<text class='t7' x='356.94' y='8.37'>print</text>
+<text class='t4' x='381.36' y='8.37'>i</text>
+<text class='t15' x='389.77' y='8.37'>end</text>
+<text class='t0' x='7.64' y='20.32'>for<tspan x='31.55'>i</tspan><tspan x='43.5'>&lt;-</tspan><tspan x='61.44'>0</tspan><tspan x='73.39'>:</tspan><tspan x='85.35'>n+1</tspan><tspan x='109.26'>do</tspan><tspan x='127.19'>print</tspan><tspan x='163.06'>i</tspan><tspan x='175.01'>end</tspan></text>
+<text class='t1' x='206.56' y='20.32'>is<tspan x='215.69'>r</tspan><tspan x='219.2'>ender</tspan><tspan x='241.52'>ed</tspan><tspan x='253.41'>as</tspan></text>
+<text class='t15' x='275.88' y='20.32'>for</text>
+<text class='t4' x='296.56' y='20.32'>i</text>
+<text class='t12' x='302.76' y='20.32'>←</text>
+<text class='t3' x='315.49' y='20.32'>0<tspan x='323.24'>:</tspan></text>
+<text class='t4' x='328.77' y='20.32'>n</text>
+<text class='t3' x='336.96' y='20.32'>+<tspan x='346.93'>1</tspan></text>
+<text class='t15' x='356.89' y='20.32'>do</text>
+<text class='t7' x='372.33' y='20.32'>print</text>
+<text class='t4' x='396.75' y='20.32'>i</text>
+<text class='t15' x='405.16' y='20.32'>end</text>
+<text class='t0' x='121.21' y='32.28'>k:<tspan x='139.14'>ZZ32</tspan><tspan x='169.03'>:=</tspan><tspan x='186.97'>5</tspan></text>
+<text class='t1' x='206.56' y='32.28'>is<tspan x='215.69'>r</tspan><tspan x='219.2'>ender</tspan><tspan x='241.52'>ed</tspan><tspan x='253.41'>as</tspan></text>
+<text class='t4' x='275.88' y='32.28'>k</text>
+<text class='t3' x='281.39' y='32.28'>:</text>
+<text class='t2' x='285.81' y='32.28'>Z</text>
+<text class='t3' x='292.45' y='32.28'>32<tspan x='305.18'>:</tspan><tspan x='307.95'>=</tspan><tspan x='318.47'>5</tspan></text>
+<text class='t0' x='73.39' y='44.23'>factorial(n:<tspan x='151.1'>NN):</tspan><tspan x='180.99'>NN</tspan></text>
+<text class='t1' x='206.56' y='44.23'>is<tspan x='215.69'>r</tspan><tspan x='219.2'>ender</tspan><tspan x='241.52'>ed</tspan><tspan x='253.41'>as</tspan></text>
+<text class='t7' x='275.88' y='44.23'>factorial</text>
+<text class='t3' x='312.94' y='44.23'>(</text>
+<text class='t4' x='316.81' y='44.23'>n</text>
+<text class='t3' x='322.79' y='44.23'>:</text>
+<text class='t2' x='327.22' y='44.23'>N</text>
+<text class='t3' x='334.42' y='44.23'>):</text>
+<text class='t2' x='342.72' y='44.23'>N</text>
+<text class='t0' x='169.03' y='56.19'>a:=b</text>
+<text class='t1' x='206.56' y='56.19'>is<tspan x='215.69'>r</tspan><tspan x='219.2'>ender</tspan><tspan x='241.52'>ed</tspan><tspan x='253.41'>as</tspan></text>
+<text class='t4' x='275.88' y='56.19'>a</text>
+<text class='t3' x='283.92' y='56.19'>:<tspan x='286.69'>=</tspan></text>
+<text class='t4' x='297.2' y='56.19'>b</text></svg></div></div>
+<p id="p-73f230bf" class="nb">Generators and filters in brackets after a reduction operator are rendered by stacking them beneath the operator:</p>
+<div class="center"><div class="tw nb" id="t-1d7dcb17" data-kind="table"><svg class="tx" data-d="17" viewBox="7.04 0.30 358.52 102.87" width="35.852em" height="10.287em" fill="currentColor"><text class='t0' x='145.12' y='8.37'>PROD[k&lt;-1#n]<tspan x='222.83'>n</tspan></text>
+<text class='t1' x='242.42' y='8.37'>is<tspan x='251.56'>r</tspan><tspan x='255.07'>ender</tspan><tspan x='277.38'>ed</tspan><tspan x='289.28'>as</tspan></text>
+<text class='t16' x='320.66' y='.9'></text>
+<text class='t11' x='311.75' y='18.83'>k</text>
+<text class='t10' x='316.15' y='18.83'>←</text>
+<text class='t5' x='324.1' y='18.83'>1</text>
+<text class='t0' x='328.07' y='18.83'>#</text>
+<text class='t11' x='334.05' y='18.83'>n</text>
+<text class='t4' x='340.63' y='8.37'>n</text>
+<text class='t0' x='7.64' y='40.46'>SUM[i&lt;-1:n,<tspan x='79.37'>j&lt;-1:p,</tspan><tspan x='127.19'>prime</tspan><tspan x='163.06'>j]</tspan><tspan x='180.99'>a[i]</tspan><tspan x='210.88'>x^j</tspan></text>
+<text class='t1' x='242.42' y='40.46'>is<tspan x='251.56'>r</tspan><tspan x='255.07'>ender</tspan><tspan x='277.38'>ed</tspan><tspan x='289.28'>as</tspan></text>
+<text class='t16' x='321.06' y='32.99'></text>
+<text class='t11' x='315.36' y='49.23'>i</text>
+<text class='t10' x='318.18' y='49.23'>←</text>
+<text class='t5' x='326.12' y='49.23'>1:</text>
+<text class='t11' x='332.35' y='49.23'>n<tspan x='315.33' y='57.09'>j</tspan></text>
+<text class='t10' x='319.03' y='57.09'>←</text>
+<text class='t5' x='326.97' y='57.09'>1:</text>
+<text class='t11' x='333.2' y='57.09'>p</text>
+<text class='t17' x='312.95' y='64.25'>prime</text>
+<text class='t11' x='335.99' y='64.25'>j</text>
+<text class='t4' x='344.76' y='40.46'>a</text>
+<text class='t11' x='350.03' y='41.96'>i</text>
+<text class='t4' x='355.56' y='40.46'>x</text>
+<text class='t11' x='361.25' y='36.85'>j</text>
+<text class='t0' x='85.35' y='86.93'>MAX[j&lt;-S,<tspan x='145.12'>k&lt;-j:j+m]</tspan><tspan x='204.9'>a[k]</tspan></text>
+<text class='t1' x='242.42' y='86.93'>is<tspan x='251.56'>r</tspan><tspan x='255.07'>ender</tspan><tspan x='277.38'>ed</tspan><tspan x='289.28'>as</tspan></text>
+<text class='t15' x='322.69' y='86.93'>MAX</text>
+<text class='t11' x='322.08' y='93.35'>j</text>
+<text class='t10' x='325.78' y='93.35'>←</text>
+<text class='t11' x='333.72' y='93.35'>S<tspan x='312.95' y='101.21'>k</tspan></text>
+<text class='t10' x='317.35' y='101.21'>←</text>
+<text class='t11' x='325.29' y='101.21'>j</text>
+<text class='t5' x='328.99' y='101.21'>:</text>
+<text class='t11' x='331.25' y='101.21'>j</text>
+<text class='t5' x='334.95' y='101.21'>+</text>
+<text class='t11' x='341.06' y='101.21'>m</text>
+<text class='t4' x='353.2' y='86.93'>a</text>
+<text class='t11' x='358.47' y='88.42'>k</text></svg></div></div>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="appendix-components.html"><span>Previous</span> C. Components and APIs</a><a class="next" href="ascii-unicode.html"><span>Next</span> E. Support for Unicode Input in ASCII</a></nav>
+<footer class="colophon">Converted from <code>Specification/appendices/rendering.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

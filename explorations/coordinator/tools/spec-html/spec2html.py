@@ -12,8 +12,10 @@ and what does not convert yet.
     python3 explorations/coordinator/tools/spec-html/spec2html.py --try types  # convert to the work folder only, print the gaps
 """
 import argparse
+import base64
 import hashlib
 import html
+import json
 import os
 import re
 import shutil
@@ -29,9 +31,34 @@ TABLES = os.path.join(ROOT, 'SpecData', 'tables')
 FORTIFY_EL = os.path.join(ROOT, 'Fortify', 'fortify.el')
 DEFAULT_OUT = os.path.join(ROOT, 'docs', 'specification')
 DEFAULT_BASE = 'https://palimondo.github.io/fortress/specification/'
-DEFAULT_CHAPTERS = ['preface', 'intro', 'overview', 'programs', 'lexical-structure',
-                    'evaluation', 'types']
+DEFAULT_CHAPTERS = []          # none named: every chapter and appendix
 SPEC_TITLE = 'The Fortress Language Specification'
+SAMPLE = {'preface', 'intro', 'overview', 'programs', 'lexical-structure', 'evaluation', 'types'}   # the first sample, 2026-11-10
+LIBRARIES = [os.path.join(ROOT, 'Library'), os.path.join(ROOT, 'ProjectFortress', 'LibraryBuiltin')]
+# The edition's layer over the authors' text. An address of the authors' text gets a link to the
+# Internet Archive's copy nearest this date (a partial timestamp resolves to the nearest capture);
+# 2008 is the year of the release that the preface names with the address.
+ARCHIVE = 'https://web.archive.org/web/2008/'
+# What the 2026 revival added to the text, apart from its \revision callouts: paragraphs by the
+# chapter and their first words, sections by their label. They get the tint of the revival's additions.
+REVIVAL_PARAGRAPHS = {'preface': ['In 2026 the Fortress revival revised this working draft']}
+REVIVAL_SECTIONS = {'sec:revival-changes'}
+LEGEND = ('<span class="rv">Text on a tinted ground, like this,</span> is the 2026 revival’s: a paragraph that it '
+          'added, its note on a passage that it revised, its link to an archived copy of a page that is gone. '
+          'All other text is the authors’.')
+
+
+def archive_links(body):
+    """Beside each address of the authors' text, the edition's link to its copy in the Internet Archive."""
+    def link(m):
+        url, tail = m.group(1), ''
+        while url and url[-1] in '.,;:)':
+            url, tail = url[:-1], url[-1] + tail
+        if 'palimondo' in url:
+            return m.group(0)
+        return ('%s%s%s<a class="ed arch" href="%s%s" title="This edition’s link to a copy of the page in the '
+                'Internet Archive">archived copy</a>' % (url, tail, m.group(2) or '', ARCHIVE, url))
+    return re.sub(r'(?<=[>\s(])((?:https?://|citeseer\.)[^\s<>"]+)(</code>|</span>)?', link, body)
 
 esc = html.escape
 
@@ -92,7 +119,8 @@ NOT = {'∈': '∉', '⊂': '⊄', '⊆': '⊈', '≡': '≢', '=': '≠', '<': 
 BB = dict(zip('ABCDEFGHIJKLMNOPQRSTUVWXYZ', '𝔸𝔹ℂ𝔻𝔼𝔽𝔾ℍ𝕀𝕁𝕂𝕃𝕄ℕ𝕆ℙℚℝ𝕊𝕋𝕌𝕍𝕎𝕏𝕐ℤ'))
 CAL = dict(zip('ABCDEFGHIJKLMNOPQRSTUVWXYZ', '𝒜ℬ𝒞𝒟ℰℱ𝒢ℋℐ𝒥𝒦ℒℳ𝒩𝒪𝒫𝒬ℛ𝒮𝒯𝒰𝒱𝒲𝒳𝒴𝒵'))
 ACCENT = {"'": '\u0301', '`': '\u0300', '^': '\u0302', '"': '\u0308', '~': '\u0303', 'c': '\u0327',
-          'v': '\u030c', 'u': '\u0306', '=': '\u0304', '.': '\u0307', 'H': '\u030b'}
+          'v': '\u030c', 'u': '\u0306', '=': '\u0304', '.': '\u0307', 'H': '\u030b', 'b': '\u0331',
+          'd': '\u0323'}
 MATH_ACCENT = dict(hat='\u0302', bar='\u0304', vec='\u20d7', dot='\u0307', tilde='\u0303',
                    widehat='\u0302', widetilde='\u0303', overline='\u0305', check='\u030c',
                    ddot='\u0308', underline='\u0332', overrightarrow='\u20d7')
@@ -112,10 +140,13 @@ IGNORE = set('''noindent par newpage clearpage cleardoublepage medskip smallskip
  pushtabs poptabs kill mainmatter frontmatter backmatter appendix bigl bigr Bigl Bigr
  biggl biggr Biggl Biggr bigm Bigm left right middle big Big bigg Bigg
  tableofcontents maketitle samepage flushbottom raggedbottom nobreak penalty
- normalfont upshape mdseries'''.split())
+ normalfont upshape mdseries fussy lastskip strut'''.split())
 ONE_ARG_IGNORE = set('''index vspace vskip pagestyle thispagestyle setlength addtolength
  setcounter addtocounter bibliographystyle bibliography markboth markright
  usepackage phantom hphantom vphantom rule pagenumbering'''.split())
+SIZES = set('tiny scriptsize footnotesize small normalsize large Large LARGE huge Huge'.split())
+# commands of a formula inside a sentence that have no rendering as HTML text: LaTeX sets the formula
+HARD_INLINE = set('begin OverStrike UPTRI DOWNTRI binom genfrac overbrace underbrace stackrel'.split())
 FONT_DECL = dict(tt='tt', ttfamily='tt', rm='rm', rmfamily='rm', it='it', itshape='it', em='it',
                  bf='bf', bfseries='bf', sf='sf', sffamily='sf', sc='sc', scshape='sc', sl='it',
                  slshape='it')
@@ -137,6 +168,7 @@ def resolve_input(arg):
     arg = arg.strip()
     if arg.startswith('\\macros'):
         return None
+    arg = arg.replace('\\calculi/', SPEC + '/appendices/calculi/')
     arg = arg.replace('\\home/', SPEC + '/')
     if not os.path.isabs(arg):
         arg = os.path.join(SPEC, 'fortress', arg)
@@ -247,16 +279,304 @@ def balanced(text, i):
     return text[i + 1:], len(text)
 
 
+def toks_tex(toks, src=None):
+    """Tokens back to LaTeX source, for a display that LaTeX itself sets."""
+    out = []
+    for k, v in toks:
+        if k == 'cs':
+            if v == '\n':
+                out.append('\\ ')
+            elif v[:1].isalpha() or v[:1] == '@':
+                out.append('\\' + v + ' ')
+            else:
+                out.append('\\' + v)
+        elif k == 'par':
+            out.append('\n\n')
+        else:
+            out.append(v)
+    text = ''.join(out)
+    if src is not None:
+        def verb(m):
+            body = src.verb[int(m.group(2))]
+            if m.group(1) == 'VERBBLOCK':
+                return '\\begin{verbatim}\n%s\\end{verbatim}' % body
+            for d in '|!+/@=:;"':
+                if d not in body:
+                    return '\\verb%s%s%s' % (d, body, d)
+            return '\\verb\x7f%s\x7f' % body
+        text = re.sub(r'\\(VERBBLOCK|VERBINLINE) \{(\d+)\}', verb, text)
+        text = re.sub(r'\\FSSRC \{\d+\}', '', text)
+    return text
+
+
+# ---------------------------------------------------------------- displays, set by LaTeX and converted to SVG
+
+PAD = 0.6                  # points of margin around a display
+HSIZE = '6.5in'            # the text width of the PDF (the package fullpage on letter paper)
+DVISVGM = ['dvisvgm', '--bbox=min', '--precision=2', '--linkmark=none', '--page=1-']
+DISPLAY_MACROS = r"""
+\newbox\dispbox
+\def\DB{\setbox\dispbox\vbox\bgroup\hsize=%s\linewidth\hsize\columnwidth\hsize\parindent0pt\relax}
+\def\DS{\ifpdf\pdfpagewidth=\dimexpr\wd\dispbox+12in\relax\pdfpageheight=\dimexpr\ht\dispbox+\dp\dispbox+2in\relax\fi\shipout\box\dispbox}
+\def\DE{\par\egroup\DS}
+\def\IB{\setbox\dispbox\hbox\bgroup\ifpdf\else\special{dvisvgm:raw <desc>base={?y}</desc>}\fi}
+\def\IE{\egroup\DS}
+\def\DM#1{\immediate\write16{@@DISPLAY #1}}
+""" % HSIZE
+
+
+def latex_preamble():
+    """The preamble of Specification/fortress/fortress.tex, with absolute paths."""
+    pre = read(os.path.join(SPEC, 'fortress', 'fortress.tex'))
+    pre = pre[:pre.index('\\title{')]
+    pre = pre.replace('\\def\\home{..}', '\\def\\home{%s}' % SPEC)
+    pre = pre.replace('\\def\\macros{../latex-common/macros}', '\\def\\macros{%s/latex-common/macros}' % SPEC)
+    # the same file sets the displays again under pdflatex, for compare.js
+    return '\\ifnum\\pdfoutput=0 \\PassOptionsToPackage{hypertex}{hyperref}\\fi\n' + pre + DISPLAY_MACROS
+
+
+def aux_text(st):
+    """The cross-references and citations that a display may print, as LaTeX's .aux file gives them."""
+    rows = ['\\relax']
+    for key, rec in st.labels.items():
+        if re.search(r'[#%{}\\~^$&]', key):
+            continue
+        ch = rec.get('chapter')
+        where = ''
+        if ch and ch.get('slug'):
+            where = ch['slug'] + '.html' + ('' if rec.get('top') else '@@' + rec['anchor'])
+        rows.append('\\newlabel{%s}{{%s}{}{}{%s}{}}' % (key, rec.get('num') or '', where))
+    for key in st.bibkeys:
+        rows.append('\\bibcite{%s}{%s}' % (key, key))
+    return '\n'.join(rows) + '\n'
+
+
+def run_latex(tex, aux, folder, n):
+    """Set n displays, one page each, and convert the pages to SVG. Returns ({number: svg}, log)."""
+    os.makedirs(folder, exist_ok=True)
+    for f in os.listdir(folder):
+        if f.endswith('.svg') or f.endswith('.dvi') or f.endswith('.log'):
+            os.remove(os.path.join(folder, f))
+    with open(os.path.join(folder, 'd.tex'), 'w', encoding='utf-8') as f:
+        f.write(tex)
+    for name in ('d.aux', 'd.aux.in'):          # latex rewrites d.aux; compare.js gives pdflatex the copy
+        with open(os.path.join(folder, name), 'w', encoding='utf-8') as f:
+            f.write(aux)
+    env = dict(os.environ, TEXINPUTS='.:%s:' % os.path.join(ROOT, 'Fortify'), max_print_line='10000')
+    try:
+        subprocess.run(['latex', '-interaction=nonstopmode', 'd.tex'], cwd=folder, env=env,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=900)
+    except subprocess.TimeoutExpired:
+        pass
+    log = read(os.path.join(folder, 'd.log')) if os.path.exists(os.path.join(folder, 'd.log')) else ''
+    if not os.path.exists(os.path.join(folder, 'd.dvi')):
+        return {}, log
+    try:
+        subprocess.run(DVISVGM + ['--font-format=svg', '-o', 'p%p.svg', 'd.dvi'], cwd=folder,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=900)
+    except subprocess.TimeoutExpired:
+        pass
+    pages = {}
+    for i in range(1, n + 1):
+        for name in ('p%d.svg' % i, 'p%0*d.svg' % (len(str(n)), i)):
+            p = os.path.join(folder, name)
+            if os.path.exists(p):
+                pages[i] = read(p)
+                break
+    return pages, log
+
+
+def set_displays(slug, items, st, work):
+    """items: [(definitions before it, tex, inline)]. Returns [(svg or None, error or None)], in order."""
+    if not items:
+        return []
+    folder = os.path.join(work, 'disp', slug)
+    pre, aux = latex_preamble(), aux_text(st)
+
+    def document(sel):
+        parts = [pre, '\\begin{document}\n']
+        for n, i in enumerate(sel):
+            defs, tex, inline = items[i]
+            parts.append('%s\n\\DM{%d}%%\n%s\n' % (defs, n + 1, '\\IB %s\\IE' % tex if inline else '\\DB %s\\DE' % tex))
+        parts.append('\\DM{0}\\end{document}\n')
+        return ''.join(parts)
+
+    def errors(log):
+        errs = {}
+        chunks = re.split(r'@@DISPLAY (\d+)\n', log)
+        for j in range(1, len(chunks) - 1, 2):
+            m = re.search(r'^! (.*(?:\n.*){0,2})', chunks[j + 1], flags=re.M)
+            if m and int(chunks[j]):
+                errs[int(chunks[j])] = re.sub(r'\s+', ' ', m.group(1))[:160]
+        return errs
+
+    everything = list(range(len(items)))
+    tex = document(everything)
+    key = hashlib.sha1((tex + aux + ' '.join(DVISVGM)).encode('utf-8')).hexdigest()
+    stamp = os.path.join(folder, 'stamp')
+    cache = os.path.join(folder, 'result.json')
+    if os.path.exists(stamp) and read(stamp) == key and os.path.exists(cache):
+        return [tuple(r) for r in json.loads(read(cache))]
+    pages, log = run_latex(tex, aux, folder, len(items))
+    errs = errors(log)
+    result = [None] * len(items)
+    if len(pages) == len(items) and '@@DISPLAY 0' in log:
+        for i in everything:
+            result[i] = (pages[i + 1], errs.get(i + 1))
+    else:
+        # one display stopped LaTeX or shipped no page: set each alone, to find it
+        for i in everything:
+            pages, log = run_latex(document([i]), aux, os.path.join(folder, 'one'), 1)
+            e = errors(log).get(1)
+            if 1 not in pages:
+                e = e or 'LaTeX set no page for this display'
+            result[i] = (pages.get(1), e)
+    with open(cache, 'w', encoding='utf-8') as f:
+        f.write(json.dumps(result))
+    with open(stamp, 'w') as f:
+        f.write(key)
+    return result
+
+
+class SvgPage:
+    """The SVGs of one HTML page: their font classes, and the fonts and characters they use."""
+
+    def __init__(self):
+        self.classes = {}        # (family, size) -> class name
+        self.used = {}           # family -> set of characters
+
+    def style(self):
+        return ''.join('svg.tx text.%s{font-family:%s;font-size:%spx}\n' % (c, fam, size)
+                       for (fam, size), c in self.classes.items())
+
+    def inline(self, svg, inline=False, number=0):
+        m = re.search(r"<svg[^>]*width='([\d.]+)pt' height='([\d.]+)pt' viewBox='([^']+)'", svg)
+        g = re.search(r"<g id='page\d+'>(.*)</g>\s*</svg>", svg, flags=re.S)
+        if not m or not g:
+            return None
+        # dvisvgm's box leaves a rule at the left or the top edge (the frame of a table) half outside: a margin
+        x, y, w, h = [float(v) for v in m.group(3).split()]
+        x, y, w, h = x - PAD, y - PAD, w + 2 * PAD, h + 2 * PAD
+        box = '%.2f %.2f %.2f %.2f' % (x, y, w, h)
+        fonts = dict((c, (fam, size)) for c, fam, size in
+                     re.findall(r'text\.(f\d+) \{font-family:([^;]+);font-size:([\d.]+)px\}', svg))
+        body = g.group(1)
+
+        def cls(mm):
+            key = fonts.get(mm.group(1))
+            if not key:
+                return mm.group(0)
+            return "class='%s'" % self.classes.setdefault(key, 't%d' % len(self.classes))
+        for c, text in re.findall(r"<text class='(f\d+)'[^>]*>(.*?)</text>", body, flags=re.S):
+            if c in fonts:
+                self.used.setdefault(fonts[c][0], set()).update(html.unescape(re.sub(r'<[^>]+>', '', text)))
+        body = re.sub(r"class='(f\d+)'", cls, body)
+        body = re.sub(r"xlink:href='#?([^']*)'", lambda mm: "href='%s'" % mm.group(1).replace('@@', '#'), body)
+        # the lines of a drawing are black in dvisvgm's output: they take the colour of the text too
+        body = re.sub(r"\b(stroke|fill)='#000(?:000)?'", r"\1='currentColor'", body)
+        style = ''
+        d = re.search(r'<desc>base=(-?[\d.]+)</desc>', body)
+        if d:
+            body = body.replace(d.group(0), '')
+        if inline:
+            x, y, _, hh = [float(v) for v in box.split()]
+            depth = (y + hh - float(d.group(1))) if d else 0.0
+            style = ' style="vertical-align:%.3fem"' % (-depth / 10)
+        svg = ('<svg class="tx%s" data-d="%d" viewBox="%s" width="%.3fem" height="%.3fem" fill="currentColor"%s>%s</svg>'
+               % (' il' if inline else '', number, box, w / 10, h / 10, style, body.strip()))
+        if inline and w > 120:
+            return '<span class="mw">%s</span>' % svg       # a long formula inside a sentence scrolls in its own frame
+        return svg
+
+
+FONT_CHUNK = 32
+
+
+def build_fonts(families, work, out):
+    """Font files for each TeX font that the SVGs name, with every character of the font.
+    dvisvgm 3.2.1 loses a run of characters when it writes a whole font at once (pcrr8r came out
+    without U+002E to U+005F), so each font is written in pieces of FONT_CHUNK characters, and
+    each piece is a face of the same family with its own unicode-range. The pieces are written a
+    second time as TrueType, which fontTools reads, to learn which characters each really holds."""
+    from fontTools.ttLib import TTFont
+    import io
+    folder = os.path.join(work, 'fonts')
+    os.makedirs(folder, exist_ok=True)
+    fams = sorted(families)
+    stamp = os.path.join(folder, 'stamp')
+    key = ' '.join(fams) + ' chunk %d' % FONT_CHUNK
+    if not (os.path.exists(stamp) and read(stamp) == key):
+        tex = ['\\documentclass{article}\n\\begin{document}\n\\newbox\\dispbox\n'
+               '\\def\\c#1{\\iffontchar\\f#1 \\char#1\\ \\fi}\n'
+               '\\def\\sheet#1{\\font\\f=#1 at 10pt %s}\n' % ''.join(
+                   '\\setbox\\dispbox\\hbox{\\f %s}\\ifdim\\wd\\dispbox>0pt \\shipout\\box\\dispbox\\fi\n'
+                   % ''.join('\\c{%d}' % c for c in range(k, k + FONT_CHUNK)) for k in range(0, 256, FONT_CHUNK))]
+        tex += ['\\sheet{%s}\n' % f for f in fams]
+        tex.append('\\end{document}\n')
+        for f in os.listdir(folder):
+            os.remove(os.path.join(folder, f))
+        with open(os.path.join(folder, 's.tex'), 'w') as f:
+            f.write(''.join(tex))
+        subprocess.run(['latex', '-interaction=nonstopmode', 's.tex'], cwd=folder,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=600)
+        for fmt, pat in (('woff2', 's%p.svg'), ('ttf', 't%p.svg')):
+            subprocess.run(DVISVGM + ['--font-format=' + fmt, '-o', pat, 's.dvi'], cwd=folder,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=900)
+        with open(stamp, 'w') as f:
+            f.write(key)
+    pieces = {}          # family -> [(woff2 bytes, set of code points)]
+    for name in sorted(os.listdir(folder)):
+        if not re.fullmatch(r's\d+\.svg', name):
+            continue
+        svg, ttf = read(os.path.join(folder, name)), read(os.path.join(folder, 't' + name[1:]))
+        m = re.search(r'@font-face\{font-family:([^;]+);src:url\(data:application/x-font-woff2;base64,([A-Za-z0-9+/=]+)\)', svg)
+        t = re.search(r'@font-face\{font-family:([^;]+);src:url\(data:application/x-font-ttf;base64,([A-Za-z0-9+/=]+)\)', ttf)
+        if not m or not t:
+            continue
+        cmap = TTFont(io.BytesIO(base64.b64decode(t.group(2)))).getBestCmap()
+        pieces.setdefault(m.group(1), []).append((base64.b64decode(m.group(2)), set(cmap)))
+    fdir = os.path.join(out, 'fonts')
+    if os.path.isdir(fdir):
+        shutil.rmtree(fdir)
+    os.makedirs(fdir)
+    css = ['/* The fonts of the displays that LaTeX sets, made by dvisvgm from the TeX fonts; each font comes\n'
+           '   in pieces, and a browser fetches only the pieces whose characters a page shows. */\n']
+    have = {}
+    for fam in fams:
+        for i, (data, cps) in enumerate(pieces.get(fam, [])):
+            want = families[fam]
+            have.setdefault(fam, set()).update(chr(c) for c in cps)
+            if not any(ord(ch) in cps for ch in want):
+                continue             # no page shows a character of this piece
+            fname = '%s-%d.woff2' % (fam, i)
+            with open(os.path.join(fdir, fname), 'wb') as f:
+                f.write(data)
+            rng, run = [], None
+            for c in sorted(cps):
+                if run and c == run[1] + 1:
+                    run[1] = c
+                else:
+                    run = [c, c]
+                    rng.append(run)
+            css.append('@font-face{font-family:%s;src:url(fonts/%s) format("woff2");font-display:block;unicode-range:%s}\n'
+                       % (fam, fname, ','.join('U+%X' % a if a == b else 'U+%X-%X' % (a, b) for a, b in rng)))
+    with open(os.path.join(out, 'tex-fonts.css'), 'w') as f:
+        f.write(''.join(css))
+    return have
+
+
 # ---------------------------------------------------------------- the macros of the tree
 
-def load_macros():
-    """\\newcommand definitions of latex-common/macros, as name -> (nargs, default, body tokens)."""
-    macros = {}
-    mdir = os.path.join(SPEC, 'latex-common', 'macros')
-    for name in ('macros.tex', 'spec-macros.tex', 'calculus-macros.tex',
-                 'overloading-calculus-macros.tex', 'where-calculus-macros.tex',
-                 'acffd-calculus-macros.tex'):
-        text = Source().prepare(read(os.path.join(mdir, name)))
+MACRO_DIR = os.path.join(SPEC, 'latex-common', 'macros')
+
+
+def load_macros(macros=None, names=('macros.tex', 'spec-macros.tex', 'calculus-macros.tex')):
+    """\\newcommand definitions of latex-common/macros, as name -> (nargs, default, body tokens).
+    The three files that all-macros.tex reads come first; a chapter that reads another file
+    (the calculi of Appendix A) adds it then, and its definitions replace the earlier ones, as in LaTeX."""
+    macros = {} if macros is None else macros
+    for name in names:
+        text = Source().prepare(read(os.path.join(MACRO_DIR, name)))
         for m in re.finditer(r'\\(?:re)?newcommand\*?\s*\{?\\([a-zA-Z]+)\}?\s*(?:\[(\d)\])?\s*(?:\[([^\]]*)\])?\s*\{', text):
             body, _ = balanced(text, m.end() - 1)
             if '@' in body or '\\setbox' in body or '\\vbox' in body:
@@ -266,7 +586,7 @@ def load_macros():
             body, _ = balanced(text, m.end() - 1)
             if '@' in body or '\\list' in body:
                 continue
-            macros.setdefault(m.group(1), (0, None, tokenize(body)))
+            macros[m.group(1)] = (0, None, tokenize(body))
     return macros
 
 
@@ -292,7 +612,7 @@ def roman(n):
 
 
 STRUCT_RE = re.compile(
-    r'\\(input|part|chapter|section|subsection|subsubsection|appendix|Trait|Object|Method|Function'
+    r'\\(input|begin|part|chapter|section|subsection|subsubsection|appendix|Trait|Object|Method|Function'
     r'|Variable|librarysection|librarysubsection|partlabel|chaplabel|applabel|seclabel|figlabel'
     r'|label|caption)(?![a-zA-Z])(\*?)\s*(?:\[[^\]]*\])?\s*(\{)?')
 PREFIX = dict(partlabel='part:', chaplabel='chap:', applabel='app:', seclabel='sec:',
@@ -316,6 +636,7 @@ class Structure:
                    sections=[], labels=[])
         self.chapters.append(pre)
         self.walk(os.path.join(SPEC, 'fortress', 'fortress.tex'))
+        self.bibkeys = re.findall(r'@\w+\s*\{\s*([^,\s]+)\s*,', read(os.path.join(SPEC, 'fortress', 'fortress.bib')))
         seen = {}
         for ch in self.chapters:
             n = seen.get(ch['slug'], 0)
@@ -345,7 +666,12 @@ class Structure:
                 pos = m.end()
                 continue
             arg, pos = balanced(text, m.end() - 1)
-            if cmd == 'input':
+            if cmd == 'begin':
+                # \newtheorem{theorem}{Theorem} and {lemma}{Lemma}: each numbered through the whole text
+                if arg in ('lemma', 'theorem'):
+                    self.c[arg] = self.c.get(arg, 0) + 1
+                    self.cur = dict(kind=arg, num=str(self.c[arg]), title='', chapter=self.chap)
+            elif cmd == 'input':
                 p = resolve_input(arg)
                 if p and '/examples/' not in p and p != os.path.join(SPEC, 'fortress', 'preamble.tex'):
                     self.walk(p)
@@ -368,6 +694,8 @@ class Structure:
                 self.cur = dict(kind='appendix' if self.appendix else 'chapter', num=num,
                                 title=arg, chapter=ch, top=True)
             elif cmd in SEC_LEVEL:
+                if re.search(r'\\(renewcommand|RenewDocumentCommand)\s*\{?\\%s(?![a-zA-Z])' % cmd, text[:m.end()]):
+                    continue
                 level = SEC_LEVEL[cmd]
                 if cmd == 'Trait':
                     arg = 'The Trait ' + arg
@@ -391,6 +719,9 @@ class Structure:
                     self.c['fig'] += 1
                     self.cur = dict(kind='figure', num='%s.%d' % (self.chap['num'], self.c['fig']),
                                     title=arg, chapter=self.chap)
+                    for lm in re.finditer(r'\\(figlabel|label)\{([^}]*)\}', arg):
+                        key = PREFIX[lm.group(1)] + lm.group(2).strip()
+                        self.labels.setdefault(key, dict(self.cur, anchor=anchor_of(key)))
             else:
                 key = PREFIX[cmd] + arg.strip()
                 cur = self.cur or dict(kind='section', num='', title='', chapter=None)
@@ -452,57 +783,12 @@ class Out:
         return '\n'.join(self.blocks) + self.anchors
 
 
-class CodeBox:
-    """Lines of a code example; a tab stop opens a box at that place for the lines after it."""
-
-    def __init__(self):
-        self.lines = [[]]
-
-    def html(self, top=False):
-        rows = []
-        for ln in self.lines:
-            h = ''.join(p.html() if isinstance(p, CodeBox) else p for p in ln)
-            rows.append('<span class="l">%s</span>' % (h if h.strip() else '&nbsp;'))
-        return '<span class="%s">%s</span>' % ('tb top' if top else 'tb', '\n'.join(rows))
-
-
-class CodeBuilder:
-    def __init__(self):
-        self.top = CodeBox()
-        self.stack = [self.top]
-        self.pops = 0
-
-    def add(self, h):
-        if h:
-            self.stack[-1].lines[-1].append(h)
-
-    def push(self):
-        box = CodeBox()
-        self.stack[-1].lines[-1].append(box)
-        self.stack.append(box)
-
-    def pop(self):
-        self.pops += 1
-
-    def newline(self):
-        while self.pops and len(self.stack) > 1:
-            self.stack.pop()
-            self.pops -= 1
-        self.pops = 0
-        self.stack[-1].lines.append([])
-
-    def html(self):
-        while self.top.lines and not ''.join(str(p) for p in self.top.lines[-1]).strip() \
-                and len(self.top.lines) > 1:
-            self.top.lines.pop()
-        return self.top.html(top=True)
-
-
 # ---------------------------------------------------------------- the converter
 
 class Converter:
     def __init__(self, structure, macros, converted, work, base):
-        self.st, self.macros, self.converted = structure, macros, converted
+        self.st, self.macros, self.base_macros, self.converted = structure, dict(macros), macros, converted
+        self.disp, self.defs, self.local, self.display_notes = [], [], set(), []
         self.work, self.base = work, base
         self.stack = []          # token stack (reversed), the current input
         self.out = None
@@ -604,7 +890,51 @@ class Converter:
     def warn(self, msg):
         self.warnings.append('%s: %s' % (self.chapter['slug'] if self.chapter else '-', msg))
 
+    def display(self, tex, inline=False):
+        """A formula, an example or a table that LaTeX sets: a placeholder now, its SVG after the chapter."""
+        size = '\\%s ' % self.size if self.size and not inline else ''
+        self.disp.append(('\n'.join(self.defs), size + tex, inline))
+        self.defs = []
+        marks = ''.join('<a id="fnref-%d"></a>' % n for n in self.display_notes)
+        self.display_notes = []
+        return marks + '<!--D%d-->' % (len(self.disp) - 1)
+
+    def tex(self, toks):
+        """The LaTeX of a display. A footnote inside it would be lost in LaTeX's box: it joins the
+        chapter's footnotes here, and the display shows its number."""
+        if ('cs', 'footnote') in toks:
+            out, saved = [], self.stack
+            self.stack = list(reversed(toks))
+            try:
+                while self.stack:
+                    t = self.stack.pop()
+                    if t == ('cs', 'footnote'):
+                        body = self.inline(self.read_arg())
+                        self.footnotes.append(body)
+                        self.display_notes.append(len(self.footnotes))
+                        out.extend(tokenize('\\textsuperscript{%d}' % len(self.footnotes)))
+                    else:
+                        out.append(t)
+            finally:
+                self.stack = saved
+            toks = out
+        return toks_tex(toks, self.src)
+
+    def inline_math(self, toks):
+        """A formula inside a sentence: HTML text, or an SVG where the text form has no rendering."""
+        before = dict(self.unknown)
+        if not any(t[0] == 'cs' and t[1] in HARD_INLINE for t in toks):
+            h = self.math(toks)
+            if self.unknown == before:
+                return '<span class="m">%s</span>' % h
+        self.unknown = before
+        return self.display('\\(%s\\)' % self.tex(toks), inline=True)
+
     def block_id(self, h, prefix='p'):
+        h = re.sub(r'<a class="ed[^"]*"[^>]*>.*?</a>', '', h)
+        # the first sample marked a reference into a chapter outside it; the ids still count those words,
+        # so that a note written on the sample stays on its paragraph
+        h = h.replace('<!--nc-->', ' [not converted yet]')
         text = re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', '', h))).strip()
         key = prefix + '-' + hashlib.sha1(text.encode('utf-8')).hexdigest()[:8]
         n = self.ids.get(key, 0) + 1
@@ -630,8 +960,13 @@ class Converter:
 
     def expand(self, name):
         """A macro of the tree: put its body, with the arguments, back on the input."""
-        nargs, default, body = self.macros[name]
+        nargs, default, body = self.macros[name][:3]
         args = []
+        if len(self.macros[name]) > 3:           # an xparse star argument
+            self.skip_space()
+            if self.peek() == ('c', '*'):
+                self.next()
+            args.append([])
         if default is not None:
             opt = self.read_opt()
             args.append(opt if opt is not None else tokenize(default))
@@ -684,6 +1019,8 @@ class Converter:
                     for c in reversed(closers.pop()):
                         if c == 'tt':
                             self.in_tt -= 1
+                        elif isinstance(c, tuple):
+                            self.size = c[1]
                         else:
                             out.text(c)
             elif k == '~':
@@ -692,22 +1029,29 @@ class Converter:
                 if self.peek() == ('$', '$'):
                     self.next()
                     body = self.read_math_until_dollar(double=True)
-                    out.block('<div class="dm nb" id="%s"><span class="m">%s</span></div>'
-                              % (self.block_id(toks_text(body), 'm'), self.math(body)))
+                    out.block('<div class="dm nb" id="%s">%s</div>'
+                              % (self.block_id(toks_text(body), 'm'), self.display('\\[%s\\]' % self.tex(body))))
                 else:
-                    out.text('<span class="m">%s</span>' % self.math(self.read_math_until_dollar()))
+                    out.text(self.inline_math(self.read_math_until_dollar()))
             elif k in '&^_#':
                 out.text(esc(v))
             elif k == 'cs':
+                if v in SIZES:
+                    closers[-1].append(('size', self.size))
+                    self.size = v
+                    continue
                 if v in FONT_DECL:
                     cls = FONT_DECL[v]
+                    if cls == 'tt' and self.quoted_group():
+                        out.text('‘')
+                        closers[-1].append('’')
                     out.text('<span class="%s">' % cls)
                     closers[-1].append('</span>')
                     if cls == 'tt':
                         self.in_tt += 1
                         closers[-1].append('tt')
                     continue
-                h = getattr(self, 'cmd_' + v, None) if v.isalpha() else None
+                h = getattr(self, 'cmd_' + v, None) if v.isalpha() and v not in self.local else None
                 if h:
                     h()
                 elif v in self.macros:
@@ -718,10 +1062,38 @@ class Converter:
             for c in reversed(group):
                 if c == 'tt':
                     self.in_tt -= 1
+                elif isinstance(c, tuple):
+                    self.size = c[1]
                 else:
                     out.text(c)
 
     in_tt = 0
+    size = None
+
+    def quoted_group(self):
+        """After {\\tt: is the rest of the group one quote pair, `...'? If so, take the pair off."""
+        st = self.stack
+        i = len(st) - 1
+        while i >= 0 and (st[i][0] == 'sp' or st[i][0] == 'cs' and st[i][1] in SIZES):
+            i -= 1
+        if i >= 1 and st[i][0] == '{':          # \ttfamily\small{`...'}, as the macro \txt writes it
+            i -= 1
+        if i < 1 or st[i] != ('c', '`') or st[i - 1] == ('c', '`'):
+            return False
+        depth, j = 0, i - 1
+        while j >= 0:
+            if st[j][0] == '{':
+                depth += 1
+            elif st[j][0] == '}':
+                if depth == 0:
+                    break
+                depth -= 1
+            j -= 1
+        if j < 0 or j + 1 >= i or st[j + 1] != ('c', "'") or st[j + 2] == ('c', "'"):
+            return False
+        del st[i]
+        del st[j + 1]
+        return True
 
     def read_math_until_dollar(self, double=False):
         out = []
@@ -737,18 +1109,18 @@ class Converter:
     def text_cmd(self, v):
         out = self.out
         if v == '(':
-            out.text('<span class="m">%s</span>' % self.math(self.read_until(')')))
+            out.text(self.inline_math(self.read_until(')')))
         elif v == '[':
             body = self.read_until(']')
-            out.block('<div class="dm nb" id="%s"><span class="m">%s</span></div>'
-                      % (self.block_id(toks_text(body), 'm'), self.math(body)))
+            out.block('<div class="dm nb" id="%s">%s</div>'
+                      % (self.block_id(toks_text(body), 'm'), self.display('\\[%s\\]' % self.tex(body))))
         elif v == '\\':
             self.read_opt()
             out.text('<br>')
         elif v in ('KWD', 'KWDVAR', 'OPR', 'TYP', 'VAR', 'STR'):
             out.text('<span class="m">%s</span>' % self.fortify(v, self.read_arg()))
         elif v in ('EXP', 'ensuremath'):
-            out.text('<span class="m">%s</span>' % self.math(self.read_arg()))
+            out.text(self.inline_math(self.read_arg()))
         elif v in FONT_CMD:
             tag = FONT_CMD[v]
             body = self.inline(self.read_arg())
@@ -758,11 +1130,19 @@ class Converter:
             else:
                 out.text('<%s>%s</%s>' % (tag, body, tag))
         elif v in ('texttt', 'txt', 'txtr', 'shellcommand'):
+            arg = self.read_arg()
+            # a quote pair around the whole span: LaTeX's typewriter face draws it curly, so do we
+            quoted = len(arg) > 2 and arg[0] == ('c', '`') and arg[-1] == ('c', "'") \
+                and arg[1] != ('c', '`') and arg[-2] != ('c', "'")
+            if quoted:
+                arg = arg[1:-1]
             self.in_tt += 1
-            body = self.inline(self.read_arg())
+            body = self.inline(arg)
             self.in_tt -= 1
-            out.text('<code>%s</code>' % body)
-        elif v in ('mbox', 'hbox', 'text', 'fbox', 'makebox', 'scap', 'textnormal'):
+            out.text(('‘<code>%s</code>’' if quoted else '<code>%s</code>') % body)
+        elif v == 'fbox':
+            out.text('<span class="fbox">%s</span>' % self.inline(self.read_arg()))
+        elif v in ('mbox', 'hbox', 'text', 'makebox', 'scap', 'textnormal'):
             if v == 'makebox':
                 self.read_opt(), self.read_opt()
             out.text(self.inline(self.read_arg()))
@@ -774,11 +1154,16 @@ class Converter:
             if v == 'penalty':
                 self.skip_dimen()
         elif v in ONE_ARG_IGNORE:
+            if self.peek() == ('c', '*'):
+                self.next()
             if v in ('setlength', 'addtolength', 'setcounter', 'addtocounter', 'markboth'):
                 self.read_arg()
             if v == 'rule':
                 self.read_opt()
-                self.read_arg()
+                w, h = toks_text(self.read_arg()).strip(), toks_text(self.read_arg()).strip()
+                if re.fullmatch(r'[\d.]+(em|ex|pt|in|cm|mm)', w) and re.fullmatch(r'[\d.]+(em|ex|pt|in|cm|mm)', h):
+                    out.text('<span class="hr" style="width:%s;height:%s"></span>' % (w, h))
+                return
             self.read_opt()
             self.read_arg()
         elif v in ('hspace', 'hskip', 'mskip', 'kern'):
@@ -797,7 +1182,7 @@ class Converter:
             out.text(esc(v))
         elif v in ('-', '/', '@', '+', '=', '>', '<', '*'):
             pass
-        elif v in ACCENT and not v.isalpha() or v in ('c', 'v', 'u', 'H'):
+        elif v in ACCENT and not v.isalpha() or v in ('c', 'v', 'u', 'H', 'b', 'd'):
             arg = self.inline(self.read_arg())
             out.text(arg[:1] + ACCENT[v] + arg[1:])
         elif v == 'char':
@@ -848,8 +1233,23 @@ class Converter:
         if m:
             self.word_table(m.group(1))
             return
+        m = re.match(r'\\macros/([\w-]+)', arg.strip())
+        if m:
+            name = m.group(1) + '.tex'
+            load_macros(self.macros, (name,))
+            self.defs.append('\\input{%s}' % os.path.join(MACRO_DIR, name))
+            return
+        m = re.search(r'/library/apis/(\w+)(\.tex)?$', arg.strip())
+        if m:
+            self.api_listing(m.group(1))
+            return
         p = resolve_input(arg)
         if not p:
+            return
+        if p.endswith('.eepic') and os.path.exists(p):
+            h = self.display('\\input{%s}' % p)
+            self.out.block('<div class="dm pic nb" id="%s" data-kind="figure">%s</div>'
+                           % (self.block_id(os.path.basename(p), 'f'), h))
             return
         if not os.path.exists(p):
             self.warn('missing input ' + os.path.relpath(p, ROOT))
@@ -865,6 +1265,34 @@ class Converter:
                       lambda m: '\\%s{%d}' % (m.group(1), int(m.group(2)) + base_v), text)
         text = re.sub(r'\\FSSRC\{(\d+)\}', lambda m: '\\FSSRC{%d}' % (int(m.group(1)) + base_f), text)
         self.push(tokenize(text))
+
+    def api_listing(self, name):
+        """A listing of a library api: the tree's tool fortex (Fortify, in Emacs) on a copy of the .fsi file."""
+        src = next((os.path.join(d, name + '.fsi') for d in LIBRARIES if os.path.exists(os.path.join(d, name + '.fsi'))), None)
+        folder = os.path.join(self.work, 'apis')
+        tex = os.path.join(folder, name + '.tex')
+        if src and shutil.which('emacs') and not (os.path.exists(tex) and os.path.getmtime(tex) >= os.path.getmtime(src)):
+            os.makedirs(folder, exist_ok=True)
+            shutil.copy(src, os.path.join(folder, name + '.fsi'))
+            subprocess.run(['emacs', '-batch', name + '.fsi', '-l', FORTIFY_EL, '-f', 'fortex'], cwd=folder,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=300)
+        if not src or not os.path.exists(tex):
+            self.warn('no listing of the api ' + name)
+            self.out.block('<p class="gap">[Not in this edition: the listing of the api <code>%s</code>.]</p>' % esc(name))
+            self.unknown['api listing'] = self.unknown.get('api listing', 0) + 1
+            return
+        self.out.block('<p class="standfirst">The listing below is made from <code>%s</code> of the revival’s '
+                       'repository, as the specification’s build makes it.</p>' % esc(os.path.relpath(src, ROOT)))
+        inner = Source()
+        text = inner.prepare(read(tex))
+        base = len(self.src.verb)
+        self.src.verb.extend(inner.verb)
+        text = re.sub(r'\\(VERBBLOCK|VERBINLINE)\{(\d+)\}',
+                      lambda mm: '\\%s{%d}' % (mm.group(1), int(mm.group(2)) + base), text)
+        self.push(tokenize(text))
+
+    def cmd_FortexSettings(self):
+        self.defs.append('\\FortexSettings')
 
     def cmd_VERBBLOCK(self):
         text = self.src.verb[int(toks_text(self.read_arg()))]
@@ -924,8 +1352,8 @@ class Converter:
         plain = html.unescape(re.sub(r'<[^>]+>', '', title))
         self.sections.append(level)
         self.toc.append((level, num, title, hid))
-        out.block('<section class="sec" data-num="%s" data-title="%s">\n<h%d id="%s" class="nb">%s%s%s</h%d>'
-                  % (num, esc(plain), level, hid, extra,
+        out.block('<section class="sec%s" data-num="%s" data-title="%s">\n<h%d id="%s" class="nb">%s%s%s</h%d>'
+                  % (' rv' if REVIVAL_SECTIONS.intersection(labels) else '', num, esc(plain), level, hid, extra,
                      '<span class="num">%s</span> ' % num if num else '', title, level))
 
     def cmd_section(self):
@@ -1004,9 +1432,9 @@ class Converter:
             if rec.get('top'):
                 anchor = ''
             here = ch is self.chapter
-            self.out.text('<a class="xref" href="%s%s">%s</a>'
+            self.out.text('<a class="xref" href="%s%s">%s</a>%s'
                           % ('' if here and anchor else ch['slug'] + '.html',
-                             '#' + anchor if anchor else '', text))
+                             '#' + anchor if anchor else '', text, '' if ch['slug'] in SAMPLE else '<!--nc-->'))
         else:
             where = ''
             if ch and rec['kind'] not in ('chapter', 'appendix'):
@@ -1105,10 +1533,79 @@ class Converter:
     def cmd_today(self):
         pass
 
-    def cmd_newcommand(self):
-        self.read_arg(), self.read_opt(), self.read_opt(), self.read_arg()
+    def define(self, name, nargs, default, body, tex, star=False):
+        """A definition inside a chapter: for the text here, and for the displays that LaTeX sets."""
+        if name in ('home', 'macros'):
+            return
+        self.macros[name] = (nargs, default, body) + (('star',) if star else ())
+        self.local.add(name)
+        self.defs.append(tex)
 
-    cmd_renewcommand = cmd_newcommand
+    def cmd_newcommand(self):
+        if self.peek() == ('c', '*'):
+            self.next()
+        name = [t for t in self.read_arg() if t[0] == 'cs']
+        n, default, body = self.read_opt(), self.read_opt(), self.read_arg()
+        if not name:
+            return
+        name = name[0][1]
+        nargs = int(toks_text(n)) if n else 0
+        self.define(name, nargs, toks_text(default) if default is not None else None, body,
+                    '\\expandafter\\let\\csname %s\\endcsname\\relax\\newcommand{\\%s}%s%s{%s}' % (
+                        name, name, '[%d]' % nargs if nargs else '',
+                        '[%s]' % toks_tex(default) if default is not None else '', toks_tex(body)))
+
+    cmd_renewcommand = cmd_providecommand = cmd_newcommand
+
+    def cmd_RenewDocumentCommand(self):
+        """xparse, used once: \\RenewDocumentCommand\\Method{sm}{#2\\par}."""
+        name = [t for t in self.read_arg() if t[0] == 'cs']
+        spec, body = toks_text(self.read_arg()).strip(), self.read_arg()
+        if not name or spec not in ('m', 'sm', 'mm'):
+            self.unknown['RenewDocumentCommand'] = self.unknown.get('RenewDocumentCommand', 0) + 1
+            return
+        name = name[0][1]
+        self.define(name, len(spec), None, body,
+                    '\\expandafter\\let\\csname %s\\endcsname\\relax\\NewDocumentCommand{\\%s}{%s}{%s}'
+                    % (name, name, spec, toks_tex(body)), star=spec[0] == 's')
+
+    def cmd_def(self):
+        """\\def\\name#1#2{body} in a chapter."""
+        self.skip_space()
+        t = self.next()
+        params = []
+        while self.stack and self.stack[-1][0] != '{':
+            params.append(self.stack.pop())
+        body = self.read_arg()
+        if not t or t[0] != 'cs':
+            return
+        self.define(t[1], sum(1 for p in params if p[0] == '#'), None, body,
+                    '\\def\\%s%s{%s}' % (t[1], toks_tex(params), toks_tex(body)))
+
+    def cmd_raisebox(self):
+        self.read_arg(), self.read_opt(), self.read_opt()
+        self.out.text(self.inline(self.read_arg()))
+
+    def cmd_nolinkurl(self):
+        self.out.text('<code>%s</code>' % esc(toks_text(self.read_arg())))
+
+    def cmd_vskip(self):
+        self.skip_space()
+        if self.peek() == ('c', '-'):
+            self.next()
+        if self.peek() and self.peek()[0] == 'cs':
+            self.next()
+        else:
+            self.skip_dimen()
+
+    def cmd_tracingcommands(self):
+        """A TeX debugging switch left in a chapter: \\tracingcommands=1."""
+        self.skip_space()
+        if self.peek() == ('c', '='):
+            self.next()
+        self.skip_dimen()
+
+    cmd_tracingmacros = cmd_tracingcommands
 
     # ----- environments
     def environment(self, name):
@@ -1127,6 +1624,8 @@ class Converter:
                 else:
                     rows.append('<li>%s</li>' % inner)
             out.block('<%s>\n%s\n</%s>' % (tag, '\n'.join(rows), tag))
+        elif name == 'FortressDoc':
+            out.block('<div class="doc">%s</div>' % self.blocks(self.drop_args(body, 1)))
         elif name in ('quote', 'quotation'):
             out.block('<blockquote>%s</blockquote>' % self.blocks(body))
         elif name in ('center', 'flushleft', 'flushright', 'small', 'minipage', 'tt', 'figure',
@@ -1140,27 +1639,34 @@ class Converter:
                     pass
             cls = dict(center='center', tt='tt').get(name, 'fig' if 'fig' in name else name)
             out.block('<div class="%s">%s</div>' % (cls, self.blocks(body)))
-        elif name in ('tabular', 'array'):
-            out.block(self.table(body))
-        elif name in ('Grammar', 'GrammarTwo'):
-            out.block(self.table(body, grammar=True, spec='llll', label=name == 'Grammar'))
+        elif name in ('tabular', 'array', 'Grammar', 'GrammarTwo'):
+            tex = '\\begin{%s}%s\\end{%s}' % (name, self.tex(body), name)
+            if name == 'array':
+                tex = '\\(%s\\)' % tex
+            grammar = name.startswith('Grammar')
+            out.block('<div class="tw nb%s" id="%s" data-kind="%s">%s%s</div>' % (
+                ' gr' if grammar else '', self.block_id(toks_text(body), 'g' if grammar else 't'),
+                'grammar' if grammar else 'table',
+                '', self.display(tex)))
         elif name == 'Fortress':
             self.fortress_env(body)
-        elif name == 'FortressCode':
-            h = self.fortress_code(body)
+        elif name in ('FortressCode', 'tabbing', 'ttt'):
+            tex = '\\begin{%s}%s\\end{%s}' % (name, self.tex(body), name)
             out.block('<div class="fx nb" id="%s" data-kind="code"><div class="fx-r">%s</div></div>'
-                      % (self.block_id(h, 'c'), h))
-        elif name in ('tabbing', 'ttt'):
-            h = self.tabbing(body)
-            out.block('<div class="fx nb%s" id="%s" data-kind="code"><div class="fx-r">%s</div></div>'
-                      % (' tt' if name == 'ttt' else '', self.block_id(h, 'c'), h))
+                      % (self.block_id(toks_text(body), 'c'), self.display(tex)))
         elif name in ('lemma', 'theorem', 'proof', 'definition', 'corollary'):
-            out.block('<div class="thm"><p class="label">%s</p>%s</div>'
-                      % (name.capitalize(), self.blocks(body)))
+            num = ''
+            for i, t in enumerate(body[:6]):
+                if t == ('cs', 'label'):
+                    key = toks_text(body[i + 2:body.index(('}', '}'), i)]).strip()
+                    rec = self.st.labels.get(key)
+                    if rec and rec.get('kind') == name:
+                        num = ' ' + rec['num']
+            out.block('<div class="thm"><p class="label">%s%s</p>%s</div>'
+                      % (name.capitalize(), num, self.blocks(body)))
         elif name in ('align*', 'align', 'eqnarray*', 'eqnarray', 'equation', 'equation*', 'displaymath'):
-            h = self.math_table(body) if 'align' in name or 'eqn' in name else \
-                '<span class="m">%s</span>' % self.math(body)
-            out.block('<div class="dm nb" id="%s">%s</div>' % (self.block_id(h, 'm'), h))
+            tex = '\\begin{%s}%s\\end{%s}' % (name, self.tex(body), name)
+            out.block('<div class="dm nb" id="%s">%s</div>' % (self.block_id(toks_text(body), 'm'), self.display(tex)))
         elif name == 'document':
             self.push(body)
         else:
@@ -1225,74 +1731,15 @@ class Converter:
             items.append((label, toks))
         return items
 
-    def table(self, body, grammar=False, spec=None, label=False, math=False):
-        if spec is None:
-            saved = self.stack
-            self.stack = list(reversed(body))
-            self.read_opt()
-            spec = toks_text(self.read_arg())
-            body = list(reversed(self.stack))
-            self.stack = saved
-        spec = re.sub(r'[@!><]\{[^}]*\}|p\{[^}]*\}|\|', lambda m: 'l' if m.group(0)[0] == 'p' else '', spec)
-        spec = re.sub(r'\*\{(\d+)\}\{([^}]*)\}', lambda m: m.group(2) * int(m.group(1)), spec)
-        aligns = [c for c in spec if c in 'lcr']
-        rows, _ = self.split_top(body, ('\\',))
-        trs = []
-        for row in rows:
-            if row and row[0] == ('c', '['):          # \\[4pt]
-                while row and row.pop(0) != ('c', ']'):
-                    pass
-            rule = any(t == ('cs', 'hline') for t in row)
-            row = [t for t in row if t != ('cs', 'hline') and t[0] != 'par']
-            cells, _ = self.split_top(row, ('&',))
-            if not any(t[0] not in ('sp',) for c in cells for t in c):
-                if rule and trs:
-                    trs[-1] = trs[-1].replace('<tr>', '<tr class="rule">', 1)
-                continue
-            tds, col = [], 0
-            for cell in cells:
-                span, align = 1, aligns[col] if col < len(aligns) else 'l'
-                c = [t for t in cell]
-                while c and c[0][0] == 'sp':
-                    c.pop(0)
-                if c and c[0] == ('cs', 'multicolumn'):
-                    saved = self.stack
-                    self.stack = list(reversed(c[1:]))
-                    span = int(toks_text(self.read_arg()) or 1)
-                    a = re.sub(r'[^lcr]', '', toks_text(self.read_arg()))
-                    align = a[:1] or 'l'
-                    c = self.read_arg()
-                    self.stack = saved
-                h = self.math(c) if math else self.inline(c)
-                tds.append('<td class="%s"%s>%s</td>' % (align, ' colspan="%d"' % span if span > 1 else '', h))
-                col += span
-            trs.append('<tr%s>%s</tr>' % (' class="ruled"' if rule else '', ''.join(tds)))
-        h = '<table class="%s">\n%s\n</table>' % ('grammar' if grammar else 'tab', '\n'.join(trs))
-        if math:
-            return h
-        return '<div class="tw nb%s" id="%s" data-kind="%s">%s%s</div>' % (
-            ' gr' if grammar else '', self.block_id(h, 'g' if grammar else 't'),
-            'grammar' if grammar else 'table',
-            '<p class="label">Syntax</p>' if label else '', h)
-
-    def math_table(self, body):
-        rows, _ = self.split_top(body, ('\\',))
-        trs = []
-        for row in rows:
-            cells, _ = self.split_top(row, ('&',))
-            if any(t[0] != 'sp' for c in cells for t in c):
-                trs.append('<tr>%s</tr>' % ''.join('<td><span class="m">%s</span></td>' % self.math(c) for c in cells))
-        return '<table class="tab mt">%s</table>' % ''.join(trs)
-
     # ----- code examples
-    def code_block(self, rendered, source, name=None):
+    def code_block(self, rendered, source, name=None, key=None):
         cls = 'fx nb' + (' both' if rendered and source else '')
         parts = []
         if rendered:
             parts.append('<div class="fx-r">%s</div>' % rendered)
         if source:
             parts.append('<pre class="fx-s"><code>%s</code></pre>' % esc(source, quote=False))
-        key = source or rendered
+        key = source or key or name or rendered
         self.out.block('<div class="%s" id="%s" data-kind="code"%s>%s</div>'
                        % (cls, self.block_id(esc(key) if source else key, 'c'),
                           ' data-example="%s"' % esc(name) if name else '', ''.join(parts)))
@@ -1317,12 +1764,8 @@ class Converter:
         rendered = None
         tex = os.path.join(self.work, 'examples', part, name + '.tex')
         self.examples_needed.add((part, os.path.basename(src)))
-        if os.path.exists(tex):
-            body = Source().prepare(read(tex))
-            m = re.search(r'\\begin\{FortressCode\}(.*)\\end\{FortressCode\}', body, flags=re.S)
-            if m:
-                parts = re.split(r'\\end\{FortressCode\}\s*\\begin\{FortressCode\}', m.group(1))
-                rendered = ''.join(self.fortress_code(tokenize(p)) for p in parts)
+        if os.path.exists(tex) and '\\begin{FortressCode}' in read(tex):
+            rendered = self.display('\\input{%s}' % tex)
         if rendered is None:
             self.no_render.append(name)
         self.code_block(rendered, source, name)
@@ -1330,10 +1773,10 @@ class Converter:
     def fortress_env(self, body):
         """A hand-written \\begin{Fortress} block: text with \\(...\\) math and tabbing commands."""
         source, self.pending_src = self.pending_src, None
-        rendered = self.tabbing(body)
+        rendered = self.display('\\begin{Fortress}%s\\end{Fortress}' % self.tex(body))
         if source:
             # a remark of an author among the commented source lines shares no word with the code
-            seen = set(re.findall(r'[A-Za-z]{2,}', plain(rendered)))
+            seen = set(re.findall(r'[A-Za-z]{2,}', toks_text(body)))
             lines = source.split('\n')
 
             def foreign(l):
@@ -1344,130 +1787,18 @@ class Converter:
             while lines and foreign(lines[0]):
                 lines.pop(0)
             source = '\n'.join(lines).strip('\n') or None
-        self.code_block(rendered, source)
-
-    def tabbing(self, body):
-        b = CodeBuilder()
-        chunk, depth = [], 0
-
-        def flush():
-            if chunk:
-                h = self.inline(chunk)
-                b.add(h)
-                del chunk[:]
-        i = 0
-        while i < len(body):
-            t = body[i]
-            i += 1
-            if t[0] == '{':
-                depth += 1
-            elif t[0] == '}':
-                depth -= 1
-            elif t[0] == 'cs' and t[1] in ('begin', 'end'):
-                depth += 1 if t[1] == 'begin' else -1
-                chunk.append(t)
-                continue
-            if depth == 0 and t[0] == 'cs' and t[1] in ('\\', '+', '-', '=', '>', 'pushtabs', 'poptabs', 'kill', '<', "'"):
-                flush()
-                if t[1] == '\\':
-                    if i < len(body) and body[i] == ('c', '['):
-                        while i < len(body) and body[i] != ('c', ']'):
-                            i += 1
-                        i += 1
-                        b.newline()
-                        b.add('<span class="gapline"></span>')
-                    else:
-                        b.newline()
-                elif t[1] == '+':
-                    b.push()
-                elif t[1] == '-':
-                    b.pop()
-                elif t[1] == '>':
-                    b.add('\u2003')
-                continue
-            if t[0] == 'par':
-                continue
-            if t[0] == 'sp' and not chunk:
-                continue
-            chunk.append(t)
-        flush()
-        return b.html()
-
-    def fortress_code(self, body):
-        """The output of the tree's tool foreg: math, with \\\\ for lines and \\+ \\- for tab stops."""
-        b = CodeBuilder()
-        chunk, depth = [], 0
-
-        def flush():
-            if any(t[0] != 'sp' for t in chunk):
-                b.add('<span class="m">%s</span>' % self.math(chunk))
-            del chunk[:]
-        i = 0
-        while i < len(body):
-            t = body[i]
-            i += 1
-            if t[0] == '{':
-                depth += 1
-            elif t[0] == '}':
-                depth -= 1
-            elif t[0] == 'cs' and t[1] in ('begin', 'end'):
-                depth += 1 if t[1] == 'begin' else -1
-                chunk.append(t)
-                continue
-            if depth == 0 and t[0] == 'cs':
-                v = t[1]
-                if v in ('\\', '+', '-', '1', '2', '3', '[', ']'):
-                    flush()
-                    if v == '\\':
-                        b.newline()
-                    elif v == '+':
-                        b.push()
-                    elif v == '-':
-                        b.pop()
-                    elif v in '123':
-                        b.add('\u2003' * (int(v) // 2) + '\u2002' * (int(v) % 2))
-                    continue
-                if v == '*' or v == 'fortressonelinecomment':
-                    flush()
-                    saved = self.stack
-                    self.stack = list(reversed(body[i:]))
-                    if v == '*':
-                        text = '(* ' + self.inline(self.read_arg()) + ' *)'
-                    else:
-                        a, c, z = self.read_arg(), self.read_arg(), self.read_arg()
-                        text = esc(toks_text(a)) + self.inline(c) + esc(toks_text(z))
-                    i = len(body) - len(self.stack)
-                    self.stack = saved
-                    b.add('<span class="cm">%s</span>' % text)
-                    continue
-                if v == 'fortresscommentsep':
-                    flush()
-                    b.add('\u2003')
-                    continue
-                if re.match(r'Fortress(Tagged)?Begin\w*Comment', v):
-                    flush()
-                    j = i
-                    while j < len(body) and not (body[j][0] == 'cs' and re.match(r'Fortress\w*EndComment', body[j][1])):
-                        j += 1
-                    text = body[i:j]
-                    i = j + 1
-                    if i < len(body) and body[i][0] == '{':
-                        i += 2
-                    for n, line in enumerate(self.split_top(text, ('\\',))[0]):
-                        if n:
-                            b.newline()
-                        b.add('<span class="cm">%s</span>' % self.inline(line))
-                    continue
-            chunk.append(t)
-        flush()
-        return b.html()
+        self.code_block(rendered, source, key=toks_text(body))
 
     def word_table(self, which):
-        words = [w for w in read(os.path.join(TABLES, 'fortress-' + which)).split('\n') if w.strip()]
-        cls = 'ty' if which == 'unitOperators' else 'kw'
-        h = '<div class="words">%s</div>' % ' '.join('<span class="m"><span class="%s">%s</span></span>'
-                                                      % (cls, esc(w.strip())) for w in words)
-        self.out.block('<div class="tw nb" id="%s" data-kind="table">%s</div>' % (self.block_id(h, 't'), h))
+        """A table of reserved words, as the build's Perl scripts (Specification/fortress/*.pl) write it
+        from SpecData/tables: seven columns, each word in \\KWD (or \\TYP for the unit operators)."""
+        words = [w.strip() for w in read(os.path.join(TABLES, 'fortress-' + which)).split('\n') if w.strip()]
+        cmd = 'TYP' if which == 'unitOperators' else 'KWD'
+        rows = [' & '.join('\\%s{%s}' % (cmd, w.replace('_', '\\_', 1)) for w in words[i:i + 7])
+                for i in range(0, len(words), 7)]
+        tex = '\\begin{tabular}{lllllll}\n%s\n\\end{tabular}' % ' \\\\\n'.join(rows)
+        self.out.block('<div class="tw nb" id="%s" data-kind="table">%s</div>'
+                       % (self.block_id(' '.join(words), 't'), self.display(tex)))
 
     # ----- math
     def fortify(self, kind, toks, inner=False):
@@ -1619,6 +1950,8 @@ class Converter:
             add('bin', self.fortify(v, self.read_arg()))
         elif v in ('BIGOPR', 'BIGOP'):
             add('op', '<span class="big">%s</span>' % self.math_arg())
+        elif v in self.macros and (v in FUNCS or v == 'colon'):
+            self.expand(v)                    # the tree's own \exp, \sup and \colon, not LaTeX's
         elif v in SYM:
             ch, cls = SYM[v]
             add(cls, '<span class="big">%s</span>' % ch if cls == 'op' else ch)
@@ -1626,6 +1959,11 @@ class Converter:
             add('op', v)
         elif v == 'not':
             self.skip_space()
+            while self.peek() and self.peek()[0] == 'cs' and (self.peek()[1] in self.macros or self.peek()[1] == '!'):
+                name = self.next()[1]            # \not\coercesto: the tree's macro stands for a symbol
+                if name != '!':
+                    self.expand(name)
+                self.skip_space()
             t = self.next()
             if t and t[0] == 'cs' and t[1] in SYM:
                 ch, cls = SYM[t[1]]
@@ -1647,7 +1985,9 @@ class Converter:
             else:
                 h = self.math(self.read_arg(), plain=True)
             add('ord', '<span class="%s">%s</span>' % (cls, h))
-        elif v in ('hbox', 'mbox', 'text', 'textnormal', 'fbox'):
+        elif v == 'fbox':
+            add('ord', '<span class="fbox"><span class="rm">%s</span></span>' % self.inline(self.read_arg()))
+        elif v in ('hbox', 'mbox', 'text', 'textnormal'):
             add('ord', '<span class="rm">%s</span>' % self.inline(self.read_arg()))
         elif v in ('mathrel', 'mathbin', 'mathord', 'mathopen', 'mathclose', 'mathpunct', 'mathop', 'mathinner'):
             cls = {'mathrel': 'rel', 'mathbin': 'bin', 'mathord': 'ord', 'mathopen': 'open',
@@ -1714,10 +2054,7 @@ class Converter:
         elif v == 'begin':
             name = toks_text(self.read_arg())
             body = self.read_env(name)
-            if name == 'array':
-                add('ord', self.table(body, math=True))
-            else:
-                add('ord', self.math(body))
+            add('ord', self.math(body))
         elif v == 'stackrel':
             top = self.math_arg()
             add('rel', '%s<sup>%s</sup>' % (self.math_arg(), top))
@@ -1727,6 +2064,10 @@ class Converter:
             add('sp', '\u2007')
         elif v == 'ensuremath' or v == 'EXP':
             add('ord', self.math_arg())
+        elif v == 'rule':
+            self.read_opt()
+            w, h = toks_text(self.read_arg()).strip(), toks_text(self.read_arg()).strip()
+            add('ord', '<span class="hr" style="width:%s;height:%s"></span>' % (esc(w), esc(h)))
         elif v in IGNORE or v in ('mathsurround', 'nonumber', 'notag'):
             pass
         elif v in ONE_ARG_IGNORE or v in ('label', 'seclabel'):
@@ -1748,16 +2089,23 @@ class Converter:
         self.cited, self.no_render = set(), []
         self.c_sec = self.c_sub = self.c_fig = 0
         self.revisions = self.n_code = self.n_both = 0
-        self.unknown, self.in_tt = {}, 0
+        self.unknown, self.in_tt, self.size = {}, 0, None
+        self.disp, self.defs, self.local, self.display_notes = [], [], set(), []
+        self.macros = dict(self.base_macros)
         self.src, text = self.st.chapter_text(ch)
         out = Out(self)
         body = self.run(tokenize(text), out)
         body += '\n</section>' * len(self.sections)
+        for words in REVIVAL_PARAGRAPHS.get(ch['slug'], []):
+            body, n = re.subn(r'(<p id="[^"]+" class="nb)(">%s)' % re.escape(words), r'\1 rv\2', body)
+            if not n:
+                self.warn('the revival\'s paragraph "%s" was not found' % words)
         if self.footnotes:
             body += '\n<section class="sec fns"><h2 id="footnotes">Footnotes</h2>\n<ol>%s</ol></section>' % ''.join(
                 '<li id="fn-%d">%s <a href="#fnref-%d" aria-label="Back to the text">↩</a></li>' % (i + 1, f, i + 1)
                 for i, f in enumerate(self.footnotes))
-        return dict(body=body, toc=self.toc, unknown=dict(self.unknown), cited=set(self.cited),
+        body = archive_links(body)
+        return dict(body=body, toc=self.toc, unknown=dict(self.unknown), cited=set(self.cited), disp=list(self.disp),
                     revisions=self.revisions, code=self.n_code, both=self.n_both,
                     no_render=list(self.no_render))
 
@@ -1839,14 +2187,14 @@ def bibliography(conv):
             bits.append(fld('year'))
         line = '. '.join(b.rstrip('.') for b in bits if b) + '.'
         if f.get('url'):
-            line += ' <code>%s</code>' % esc(f['url'].strip())
+            line += ' <code>%s</code>' % esc(re.sub(r'^\\url\{(.*)\}$', r'\1', f['url'].strip()))
         rows.append('<p id="ref-%s" class="ref"><span class="key">[%s]</span> %s</p>' % (anchor_of(key), esc(key), line))
     return '\n'.join(rows)
 
 
 # ---------------------------------------------------------------- the pages
 
-def page(title, body, kind, slug='', chapter_title='', nav=''):
+def page(title, body, kind, slug='', chapter_title='', nav='', svg_style=''):
     return '''<!doctype html>
 <html lang="en">
 <head>
@@ -1854,7 +2202,7 @@ def page(title, body, kind, slug='', chapter_title='', nav=''):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>%s</title>
 <link rel="stylesheet" href="reader.css">
-</head>
+%s</head>
 <body data-page="%s" data-slug="%s" data-chapter="%s">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">%s</span><a href="notes.html" class="notes-link">Notes</a></nav>
 <div class="page">
@@ -1863,7 +2211,8 @@ def page(title, body, kind, slug='', chapter_title='', nav=''):
 <script src="reader.js"></script>
 </body>
 </html>
-''' % (esc(title), kind, esc(slug), esc(chapter_title), nav, body)
+''' % (esc(title), '<link rel="stylesheet" href="tex-fonts.css">\n<style>\n%s</style>\n' % svg_style if svg_style else '',
+       kind, esc(slug), esc(chapter_title), nav, body)
 
 
 def plain(h):
@@ -1887,6 +2236,10 @@ def build(args):
             print('\ninputs that the build generates and this tree does not hold: %d' % len(st.missing))
         return 0
     wanted = [s.strip() for s in (args.only or args.chapters).split(',') if s.strip()]
+    if not wanted or wanted == ['all']:
+        wanted = [c['slug'] for c in st.chapters]
+    if not args.chapters:
+        args.chapters = ','.join(c['slug'] for c in st.chapters)
     for s in wanted:
         if s not in by_slug:
             sys.exit('no chapter with the slug %r; --list prints them' % s)
@@ -1911,6 +2264,45 @@ def build(args):
     out = args.out
     if not args.only:
         os.makedirs(out, exist_ok=True)
+    target = out if not args.only else os.path.join(args.work, 'try')
+    os.makedirs(target, exist_ok=True)
+    for name in ('reader.css', 'reader.js'):
+        text = read(os.path.join(HERE, name))
+        if name == 'reader.js':
+            text = text.replace('__BASE__', args.base)
+        with open(os.path.join(target, name), 'w', encoding='utf-8') as f:
+            f.write(text)
+
+    # the displays: LaTeX sets them, dvisvgm converts them
+    def one_chapter(s):
+        return s, set_displays(s, results[s]['disp'], st, args.work)
+    with ThreadPoolExecutor(3) as ex:
+        sets = dict(ex.map(one_chapter, wanted))
+    families, failed = {}, []
+    for s in wanted:
+        r, pg = results[s], SvgPage()
+        r['display_errors'] = []
+
+        def put(m):
+            i = int(m.group(1))
+            svg, err = sets[s][i]
+            inline = r['disp'][i][2]
+            h = pg.inline(svg, inline, i + 1) if svg else None
+            if err or not h:
+                r['display_errors'].append((i, err or 'no SVG', r['disp'][i][1][:100].replace('\n', ' ')))
+            if not h:
+                return '<span class="unk">[a display that LaTeX did not set]</span>'
+            return h
+        r['body'] = re.sub(r'<!--D(\d+)-->', put, r['body'])
+        r['svg_style'] = pg.style()
+        for fam, chars in pg.used.items():
+            families.setdefault(fam, set()).update(chars)
+    have = build_fonts(families, args.work, target)
+    for fam, chars in sorted(families.items()):
+        missing = chars - have.get(fam, set()) - set(' \n\t')
+        if missing:
+            failed.append('font %s lacks %d characters that the displays use: %s'
+                          % (fam, len(missing), ' '.join('U+%04X' % ord(c) for c in sorted(missing)[:12])))
     order = [c for c in st.chapters if c['slug'] in converted]
     report = []
     gaps = 0
@@ -1931,13 +2323,15 @@ def build(args):
         front = ''
         if ch['kind'] == 'front':
             front = ('<p class="standfirst">These pages stand before the table of contents in the '
-                     'specification, with no heading of their own.</p>')
+                     'specification, with no heading of their own.</p>\n'
+                     '<p class="legend"><strong>The notation of this edition.</strong> %s</p>' % LEGEND)
         pager = '<nav class="pager" aria-label="Chapters">%s%s</nav>' % (
             '<a class="prev" href="%s.html"><span>Previous</span> %s</a>' % (
                 prev_c['slug'], ('%s. ' % prev_c['num'] if prev_c['num'] else '') + titles[prev_c['slug']]) if prev_c else '<span></span>',
             '<a class="next" href="%s.html"><span>Next</span> %s</a>' % (
                 next_c['slug'], ('%s. ' % next_c['num'] if next_c['num'] else '') + titles[next_c['slug']]) if next_c
-            else '<a class="next" href="index.html"><span>Next</span> Contents: the chapters after this one are not converted yet</a>')
+            else '<a class="next" href="index.html"><span>Next</span> Contents%s</a>'
+            % ('' if len(order) == len(st.chapters) else ': the chapters after this one are not converted yet'))
         body = '''<header class="masthead">
 <p class="eyebrow">%s</p>
 </header>
@@ -1953,19 +2347,22 @@ def build(args):
             esc(eyebrow), ch['num'], esc(plain(titles[s])), anchors,
             '<span class="num">%s</span> ' % name if ch['num'] else '', titles[s],
             front, toc, r['body'], pager, esc(os.path.relpath(ch['file'], ROOT)))
-        target = out if not args.only else os.path.join(args.work, 'try')
-        os.makedirs(target, exist_ok=True)
         with open(os.path.join(target, s + '.html'), 'w', encoding='utf-8') as f:
             f.write(page('%s · Fortress specification' % full, body, 'chapter', s, full,
-                         esc(full)))
-        n_unknown = sum(r['unknown'].values())
+                         esc(full), r['svg_style']))
+        n_unknown = sum(r['unknown'].values()) + len(r['display_errors'])
         gaps += n_unknown
-        report.append('%-20s %6d bytes  sections %3d  code %3d (both forms %3d)  revisions %d  unknown %d %s'
-                      % (s, len(body), len(r['toc']), r['code'], r['both'], r['revisions'], n_unknown,
+        report.append('%-20s %7d bytes  sections %3d  displays %3d  code %3d (both forms %3d)  revisions %d  unknown %d %s'
+                      % (s, len(body), len(r['toc']), len(r['disp']), r['code'], r['both'], r['revisions'], n_unknown,
                          ' '.join('\\%s×%d' % kv for kv in sorted(r['unknown'].items())) if n_unknown else ''))
         if r['no_render']:
             report.append('    not rendered by foreg: ' + ', '.join(r['no_render']))
+        for i, err, tex in r['display_errors']:
+            report.append('    display %d: %s | %s' % (i, err, tex))
     print('\n'.join(report))
+    for f in failed:
+        print('FONT:', f)
+    gaps += len(failed)
     for w in conv.warnings:
         print('warning:', w)
     if args.only:
@@ -1999,15 +2396,18 @@ def build(args):
 <h1>%s</h1>
 <p class="standfirst">Eric Allen, David Chase, Joe Hallett, Victor Luchangco, Jan-Willem Maessen, Sukyoung Ryu, Guy L. Steele Jr. and Sam Tobin-Hochstadt; with Joao Dias, Carl Eastlund, Christine Flood, Yossi Lev, Cheryl McCosh, Janus Dam Nielsen and Dan Smith. © Sun Microsystems, Inc.</p>
 </header>
+<p class="legend"><strong>The notation of this edition.</strong> %s</p>
 <div id="continue"></div>
 <details class="words">
 <summary><strong class="w-head">How this edition works</strong> <span class="w-lead">A reading edition for a phone: your place, your notes, the code examples, the revival's changes.</span></summary>
 <ul>
-<li>This is a first sample: %d of the %d chapters and appendices are converted. The others are listed below and marked.</li>
+<li>%s</li>
 <li>The page remembers where you stopped, in this browser, and offers to continue there.</li>
 <li>The pencil at the end of a paragraph, a code example or a heading attaches a note to it. <a href="notes.html">Notes</a> lists them all, and exports them as text.</li>
-<li>Each code example shows as the specification renders it, and as the Fortress source that a person types. The switch above an example changes them all.</li>
-<li>A box headed “Revised by the 2026 revival” marks a passage that the revival changed. A box headed “Draft note” is a note of the original authors.</li>
+<li>The examples, the displayed formulas, the tables and the grammar are set by LaTeX from the specification’s own source, as in the PDF, and shown as pictures whose text can be selected. A wide one scrolls sideways inside its frame. Code words and formulas inside a sentence are ordinary text.</li>
+<li>A code example that has a source form shows it too: the Fortress that a person types. The switch above an example changes them all.</li>
+<li>A box headed “Revised by the 2026 revival” marks a passage that the revival changed, on the tinted ground of the revival’s additions. A box headed “Draft note” is a note of the original authors.</li>
+<li>Beside an address of the authors’ text, “archived copy” is this edition’s link to the Internet Archive.</li>
 <li>The Select button beside a heading selects that section's text, for Speak.</li>
 </ul>
 </details>
@@ -2016,7 +2416,10 @@ def build(args):
 %s
 </section>
 <footer class="colophon">Built from <code>Specification/</code> of <a href="https://github.com/palimondo/fortress">the revival's repository</a>. The <a href="../revival-story/">revival's story so far</a> is another page of this site.</footer>''' % (
-        SPEC_TITLE, n_done, n_all, '\n'.join(rows))
+        SPEC_TITLE, LEGEND,
+        'All %d chapters and appendices are here.' % n_all if n_done == n_all else
+        '%d of the %d chapters and appendices are converted. The others are listed below and marked.' % (n_done, n_all),
+        '\n'.join(rows))
     with open(os.path.join(out, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(page(SPEC_TITLE, index, 'index', 'index', 'Contents', 'Fortress specification'))
 
@@ -2053,16 +2456,10 @@ def build(args):
 </header>
 <section class="part refs">
 %s
-</section>''' % (SPEC_TITLE, bibliography(conv))
+</section>''' % (SPEC_TITLE, archive_links(bibliography(conv)))
     with open(os.path.join(out, 'references.html'), 'w', encoding='utf-8') as f:
         f.write(page('References · Fortress specification', refs, 'plain', 'references', 'References', 'References'))
 
-    for name in ('reader.css', 'reader.js'):
-        text = read(os.path.join(HERE, name))
-        if name == 'reader.js':
-            text = text.replace('__BASE__', args.base)
-        with open(os.path.join(out, name), 'w', encoding='utf-8') as f:
-            f.write(text)
     print('contents: %d of %d chapters and appendices converted; pages in %s' % (n_done, n_all, os.path.relpath(out, ROOT)))
     if gaps:
         print('GAPS: %d constructs did not convert (marked in the pages)' % gaps)
@@ -2071,8 +2468,8 @@ def build(args):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument('--chapters', default=','.join(DEFAULT_CHAPTERS), help='slugs of the chapters to publish, comma-separated')
-    ap.add_argument('--try', dest='only', help='convert these chapters into the work folder only, and print what did not convert')
+    ap.add_argument('--chapters', default=','.join(DEFAULT_CHAPTERS), help='slugs of the chapters to publish, comma-separated; all of them if none is named')
+    ap.add_argument('--try', dest='only', help='convert these chapters (or: all) into the work folder only, and print what did not convert')
     ap.add_argument('--list', action='store_true', help='print every chapter with its slug')
     ap.add_argument('--out', default=DEFAULT_OUT)
     ap.add_argument('--work', default='/tmp/spec-html-work', help='scratch folder: the examples as foreg renders them')

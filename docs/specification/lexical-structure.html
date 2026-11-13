@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>4. Lexical Structure · Fortress specification</title>
 <link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t1{font-family:pcrr8r;font-size:8.93px}
+svg.tx text.t2{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t3{font-family:cmr10;font-size:9.96px}
+svg.tx text.t4{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t5{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t6{font-family:cmti10;font-size:9.96px}
+svg.tx text.t7{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t8{font-family:cmr7;font-size:6.97px}
+svg.tx text.t9{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t10{font-family:ptmr8r;font-size:8.93px}
+svg.tx text.t11{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t12{font-family:ptmr8r;font-size:7.15px}
+</style>
 </head>
 <body data-page="chapter" data-slug="lexical-structure" data-chapter="4. Lexical Structure">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">4. Lexical Structure</span><a href="notes.html" class="notes-link">Notes</a></nav>
@@ -75,76 +91,178 @@
 <p id="p-2b3d6f67" class="nb">Note however, that these are designations for Unicode <em>codepoints</em>, not abstract characters. I’m going to talk as if these are the same right now, because I don’t know how to characterize abstract characters. However, I’m not sure that “letter modifiers” and “format characters” for example, should be considered abstract characters.</p></aside>
 <ul>
 <li><p id="p-41952ee6" class="nb"><em>special non-operator characters</em>, which are:</p>
-<div class="tw nb" id="t-f13ab372" data-kind="table"><table class="tab">
-<tr><td class="l">U+0026</td><td class="l"><span class="tt">AMPERSAND</span></td><td class="l"></td><td class="c"></td><td class="l">U+0027</td><td class="l"><span class="tt">APOSTROPHE</span></td><td class="l"><span class="tt">'</span></td><td class="c"></td></tr>
-<tr><td class="l">U+0028</td><td class="l"><span class="tt">LEFT PARENTHESIS</span></td><td class="l">(</td><td class="c">U+0029</td><td class="l"><span class="tt">RIGHT PARENTHESIS</span></td><td class="l">)</td></tr>
-<tr><td class="l">U+002C</td><td class="l"><span class="tt">COMMA</span></td><td class="l">,</td><td class="c">U+002E</td><td class="l"><span class="tt">FULL STOP</span></td><td class="l">.</td></tr>
-<tr><td class="l">U+0038</td><td class="l"><span class="tt">SEMICOLON</span></td><td class="l">;</td><td class="c">U+005C</td><td class="l"><span class="tt">REVERSE SOLIDUS</span></td><td class="l"><span class="m">\</span></td></tr>
-<tr><td class="l">U+2026</td><td class="l"><span class="tt">HORIZONTAL ELLIPSIS</span></td><td class="l">…</td></tr>
-<tr><td class="l">U+2200</td><td class="l"><span class="tt">FOR ALL</span></td><td class="l"><span class="m">∀</span></td><td class="c">U+2203</td><td class="l"><span class="tt">THERE EXISTS</span></td><td class="l"><span class="m">∃</span></td></tr>
-<tr><td class="l">U+2254</td><td class="l"><span class="tt">COLON EQUALS</span></td><td class="l"><span class="m">:=</span></td></tr>
-<tr><td class="l">U+27E6</td><td class="l" colspan="5"><span class="tt">MATHEMATICAL LEFT WHITE SQUARE BRACKET </span> <span class="m">[[</span></td></tr>
-<tr><td class="l">U+27E7</td><td class="l" colspan="5"><span class="tt">MATHEMATICAL RIGHT WHITE SQUARE BRACKET</span> <span class="m">]]</span></td></tr>
-</table></div></li>
+<div class="tw nb" id="t-ba5d986f" data-kind="table"><svg class="tx" data-d="1" viewBox="5.38 1.04 358.87 106.06" width="35.887em" height="10.606em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+0026</text>
+<text class='t1' x='52.33' y='8.37'>AMPERSAND</text>
+<text class='t0' x='166.51' y='8.37'>&amp;<tspan x='208.35'>U+0027</tspan></text>
+<text class='t1' x='254.7' y='8.37'>APOSTROPHE<tspan x='358.12'>’</tspan></text>
+<text class='t0' x='5.98' y='20.32'>U+0028</text>
+<text class='t1' x='52.33' y='20.32'>LEFT<tspan x='79.23'>PARENTHESIS</tspan></text>
+<text class='t0' x='166.51' y='20.32'>(<tspan x='208.35'>U+0029</tspan></text>
+<text class='t1' x='254.7' y='20.32'>RIGHT<tspan x='286.98'>PARENTHESIS</tspan></text>
+<text class='t0' x='358.12' y='20.32'>)<tspan x='5.98' y='32.28'>U+002C</tspan></text>
+<text class='t1' x='52.33' y='32.28'>COMMA</text>
+<text class='t0' x='166.51' y='32.28'>,<tspan x='208.35'>U+002E</tspan></text>
+<text class='t1' x='254.7' y='32.28'>FULL<tspan x='281.6'>STOP</tspan></text>
+<text class='t0' x='358.12' y='32.28'>.<tspan x='5.98' y='44.23'>U+0038</tspan></text>
+<text class='t1' x='52.33' y='44.23'>SEMICOLON</text>
+<text class='t0' x='166.51' y='44.23'>;<tspan x='208.35'>U+005C</tspan></text>
+<text class='t1' x='254.7' y='44.23'>REVERSE<tspan x='297.74'>SOLIDUS</tspan></text>
+<text class='t2' x='358.12' y='44.23'>\</text>
+<text class='t0' x='5.98' y='56.19'>U+2026</text>
+<text class='t1' x='52.33' y='56.19'>HORIZONTAL<tspan x='111.51'>ELLIPSIS</tspan></text>
+<text class='t0' x='166.51' y='56.19'>.<tspan x='170.49'>.</tspan><tspan x='174.48'>.</tspan><tspan x='5.98' y='68.14'>U+2200</tspan></text>
+<text class='t1' x='52.33' y='68.14'>FOR<tspan x='73.85'>ALL</tspan></text>
+<text class='t2' x='166.51' y='68.14'>∀</text>
+<text class='t0' x='208.35' y='68.14'>U+2203</text>
+<text class='t1' x='254.7' y='68.14'>THERE<tspan x='286.98'>EXISTS</tspan></text>
+<text class='t2' x='358.12' y='68.14'>∃</text>
+<text class='t0' x='5.98' y='80.1'>U+2254</text>
+<text class='t1' x='52.33' y='80.1'>COLON<tspan x='84.61'>EQUALS</tspan></text>
+<text class='t3' x='166.51' y='80.1'>:=</text>
+<text class='t0' x='5.98' y='92.05'>U+27E6</text>
+<text class='t1' x='52.33' y='92.05'>MATHEMATICAL<tspan x='122.27'>LEFT</tspan><tspan x='149.17'>WHITE</tspan><tspan x='181.45'>SQUARE</tspan><tspan x='219.11'>BRACKET</tspan></text>
+<text class='t3' x='272.11' y='92.05'>[<tspan x='273.22'>[</tspan></text>
+<text class='t0' x='5.98' y='104.01'>U+27E7</text>
+<text class='t1' x='52.33' y='104.01'>MATHEMATICAL<tspan x='122.27'>RIGHT</tspan><tspan x='154.55'>WHITE</tspan><tspan x='186.83'>SQUARE</tspan><tspan x='224.49'>BRACKET</tspan></text>
+<text class='t3' x='272.11' y='104.01'>]<tspan x='273.22'>]</tspan></text></svg></div></li>
 <li><p id="p-4c5a6af8" class="nb"><em>special operator characters</em>, which are</p>
-<div class="tw nb" id="t-ecbd082f" data-kind="table"><table class="tab">
-<tr><td class="l">U+002A</td><td class="l"><span class="tt">ASTERISK</span></td><td class="l">*</td><td class="c">U+002F</td><td class="l"><span class="tt">SOLIDUS</span></td><td class="l">/</td></tr>
-<tr><td class="l">U+003A</td><td class="l"><span class="tt">COLON</span></td><td class="l">:</td><td class="c">U+003C</td><td class="l"><span class="tt">LESS-THAN SIGN</span></td><td class="l"><span class="m">&lt;</span></td></tr>
-<tr><td class="l">U+003D</td><td class="l"><span class="tt">EQUALS SIGN</span></td><td class="l"><span class="m">=</span></td><td class="c">U+003E</td><td class="l"><span class="tt">GREATER-THAN SIGN</span></td><td class="l"><span class="m">&gt;</span></td></tr>
-<tr><td class="l">U+005B</td><td class="l"><span class="tt">LEFT SQUARE BRACKET</span></td><td class="l"><span class="m">[</span></td><td class="c">U+005D</td><td class="l"><span class="tt">RIGHT SQUARE BRACKET</span></td><td class="l"><span class="m">]</span></td></tr>
-<tr><td class="l">U+005E</td><td class="l"><span class="tt">CIRCUMFLEX ACCENT</span></td><td class="l"><code>^</code></td><td class="c">U+007B</td><td class="l"><span class="tt">LEFT CURLY BRACKET</span></td><td class="l"><span class="m">{</span></td></tr>
-<tr><td class="l">U+007C</td><td class="l"><span class="tt">VERTICAL LINE</span></td><td class="l"><span class="m">|</span></td><td class="c">U+007D</td><td class="l"><span class="tt">RIGHT CURLY BRACKET</span></td><td class="l"><span class="m">}</span></td></tr>
-<tr><td class="l">U+2192</td><td class="l"><span class="tt">RIGHTWARDS ARROW</span></td><td class="l"><span class="m">→</span></td><td class="c">U+21A6</td><td class="l"><span class="tt">RIGHTWARDS ARROW FROM BAR</span></td><td class="l"><span class="m">↦</span></td></tr>
-<tr><td class="l">U+21D2</td><td class="l"><span class="tt">RIGHTWARDS DOUBLE ARROW</span></td><td class="l"><span class="m">⇒</span></td></tr>
-</table></div>
+<div class="tw nb" id="t-429212d1" data-kind="table"><svg class="tx" data-d="2" viewBox="5.38 1.04 426.96 91.80" width="42.696em" height="9.180em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+002A</text>
+<text class='t1' x='52.88' y='8.37'>ASTERISK</text>
+<text class='t0' x='188.57' y='8.37'>*<tspan x='228.42'>U+002F</tspan></text>
+<text class='t1' x='275.33' y='8.37'>SOLIDUS</text>
+<text class='t0' x='421.78' y='8.37'>/<tspan x='5.98' y='20.32'>U+003A</tspan></text>
+<text class='t1' x='52.88' y='20.32'>COLON</text>
+<text class='t0' x='188.57' y='20.32'>:<tspan x='228.42'>U+003C</tspan></text>
+<text class='t1' x='275.33' y='20.32'>LESS-THAN<tspan x='329.13'>SIGN</tspan></text>
+<text class='t4' x='421.78' y='20.32'>&lt;</text>
+<text class='t0' x='5.98' y='32.28'>U+003D</text>
+<text class='t1' x='52.88' y='32.28'>EQUALS<tspan x='90.54'>SIGN</tspan></text>
+<text class='t3' x='188.57' y='32.28'>=</text>
+<text class='t0' x='228.42' y='32.28'>U+003E</text>
+<text class='t1' x='275.33' y='32.28'>GREATER-THAN<tspan x='345.26'>SIGN</tspan></text>
+<text class='t4' x='421.78' y='32.28'>></text>
+<text class='t0' x='5.98' y='44.23'>U+005B</text>
+<text class='t1' x='52.88' y='44.23'>LEFT<tspan x='79.78'>SQUARE</tspan><tspan x='117.44'>BRACKET</tspan></text>
+<text class='t3' x='188.57' y='44.23'>[</text>
+<text class='t0' x='228.42' y='44.23'>U+005D</text>
+<text class='t1' x='275.33' y='44.23'>RIGHT<tspan x='307.61'>SQUARE</tspan><tspan x='345.26'>BRACKET</tspan></text>
+<text class='t3' x='421.78' y='44.23'>]</text>
+<text class='t0' x='5.98' y='56.19'>U+005E</text>
+<text class='t1' x='52.88' y='56.19'>CIRCUMFLEX<tspan x='112.06'>ACCENT</tspan></text>
+<text class='t5' x='188.57' y='56.19'>ˆ</text>
+<text class='t0' x='228.42' y='56.19'>U+007B</text>
+<text class='t1' x='275.33' y='56.19'>LEFT<tspan x='302.23'>CURLY</tspan><tspan x='334.51'>BRACKET</tspan></text>
+<text class='t2' x='421.78' y='56.19'>{</text>
+<text class='t0' x='5.98' y='68.14'>U+007C</text>
+<text class='t1' x='52.88' y='68.14'>VERTICAL<tspan x='101.3'>LINE</tspan></text>
+<text class='t2' x='188.57' y='68.14'>|</text>
+<text class='t0' x='228.42' y='68.14'>U+007D</text>
+<text class='t1' x='275.33' y='68.14'>RIGHT<tspan x='307.61'>CURLY</tspan><tspan x='339.89'>BRACKET</tspan></text>
+<text class='t2' x='421.78' y='68.14'>}</text>
+<text class='t0' x='5.98' y='80.1'>U+2192</text>
+<text class='t1' x='52.88' y='80.1'>RIGHTWARDS<tspan x='112.06'>ARROW</tspan></text>
+<text class='t2' x='188.57' y='80.1'>→</text>
+<text class='t0' x='228.42' y='80.1'>U+21A6</text>
+<text class='t1' x='275.33' y='80.1'>RIGHTWARDS<tspan x='334.51'>ARROW</tspan><tspan x='366.78'>FROM</tspan><tspan x='393.68'>BAR</tspan></text>
+<text class='t2' x='421.78' y='80.1'>↦→</text>
+<text class='t0' x='5.98' y='92.05'>U+21D2</text>
+<text class='t1' x='52.88' y='92.05'>RIGHTWARDS<tspan x='112.06'>DOUBLE</tspan><tspan x='149.72'>ARROW</tspan></text>
+<text class='t2' x='188.57' y='92.05'>⇒</text></svg></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-d09be004" class="nb">1) SOLIDUS (U+002F) was an ordinary operator character in 1.0b but it is a special operator character in 1.0. Why is it so?</p>
 <p id="p-326bbc04" class="nb">When I compiled the list of special characters for F1.0beta, I was only thinking about those characters that had special meaning by themselves. However, when rethinking about this for F1.0, I thought that didn’t make sense, since this information used by the “scanner”. So I included as special, any character that I could think really had some special use. This included all characters that combine to form multicharacter enclosing operators. Hence the inclusion of *, &lt;, &gt;, and of course, /, on that list. That said, / should probably have been listed as special anyway, as it is handled specially in the parsing of expressions (i.e., we need to distinguish “tight fractions” from “loose” ones).</p>
 <p id="p-08cf1bdc" class="nb">This classification of “special” is somewhat arbitrary. Basically, the way I thought about it is that a character is special if it shows up directly in the grammar, and not in some group that we’ve otherwise distinguished (e.g., string literal delimiters), or if it has different uses in different contexts (e.g., : and -&gt;). I thought about creating a class of “combining characters for multicharacter enclosers”, but all those characters have other purposes too, so I just listed them all as special.</p></aside></li>
 <li><p id="p-c729d880" class="nb"><em>letters</em>, which are characters with Unicode general category Lu, Ll, Lt, Lm or Lo—those with Unicode general category Lu are <em>uppercase letters</em>—and the following <em>honorary letters</em>:</p>
-<div class="tw nb" id="t-92805fbc" data-kind="table"><table class="tab">
-<tr><td class="l">U+221E</td><td class="l"><span class="tt">INFINITY</span></td><td class="l"><span class="m">∞</span></td><td class="c">U+22A4</td><td class="l"><span class="tt">DOWN TACK</span></td><td class="l"><span class="m">⊤</span></td><td class="l">U+22A5</td><td class="c"><span class="tt">UP TACK</span></td><td class="l"><span class="m">⊥</span></td></tr>
-</table></div></li>
+<div class="tw nb" id="t-b712a2c7" data-kind="table"><svg class="tx" data-d="3" viewBox="5.38 0.85 391.02 8.31" width="39.102em" height="0.831em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+221E</text>
+<text class='t1' x='51.78' y='8.37'>INFINITY</text>
+<text class='t2' x='106.77' y='8.37'>∞</text>
+<text class='t0' x='146.62' y='8.37'>U+22A4</text>
+<text class='t1' x='193.52' y='8.37'>DOWN<tspan x='220.42'>TACK</tspan></text>
+<text class='t2' x='253.9' y='8.37'></text>
+<text class='t0' x='291.53' y='8.37'>U+22A5</text>
+<text class='t1' x='338.44' y='8.37'>UP<tspan x='354.58'>TACK</tspan></text>
+<text class='t2' x='388.05' y='8.37'>⊥</text></svg></div></li>
 <li><p id="p-3afa4bd3" class="nb"><em>connecting punctuation</em> (Unicode general category Pc);</p></li>
 <li><p id="p-75930462" class="nb"><em>digits</em> (Unicode general category Nd);</p></li>
 <li><p id="p-668f2e13" class="nb"><em>prime characters</em>, which are:</p>
-<div class="tw nb" id="t-4ebee2e0" data-kind="table"><table class="tab">
-<tr><td class="l">U+2032</td><td class="l"><span class="tt">PRIME</span></td><td class="c">U+2033</td><td class="l"><span class="tt">DOUBLE PRIME</span></td></tr>
-<tr><td class="l">U+2034</td><td class="l"><span class="tt">TRIPLE PRIME</span></td><td class="c">U+2035</td><td class="l"><span class="tt">REVERSED PRIME</span></td></tr>
-<tr><td class="l">U+2036</td><td class="l"><span class="tt">REVERSED DOUBLE PRIME</span></td><td class="c">U+2037</td><td class="l"><span class="tt">REVERSED TRIPLE PRIME</span></td></tr>
-</table></div></li>
+<div class="tw nb" id="t-93e0f69e" data-kind="table"><svg class="tx" data-d="4" viewBox="5.38 1.04 346.41 32.03" width="34.641em" height="3.203em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+2032</text>
+<text class='t1' x='50.67' y='8.37'>PRIME</text>
+<text class='t0' x='193.53' y='8.37'>U+2033</text>
+<text class='t1' x='238.23' y='8.37'>DOUBLE<tspan x='275.89'>PRIME</tspan></text>
+<text class='t0' x='5.98' y='20.32'>U+2034</text>
+<text class='t1' x='50.67' y='20.32'>TRIPLE<tspan x='88.33'>PRIME</tspan></text>
+<text class='t0' x='193.53' y='20.32'>U+2035</text>
+<text class='t1' x='238.23' y='20.32'>REVERSED<tspan x='286.64'>PRIME</tspan></text>
+<text class='t0' x='5.98' y='32.28'>U+2036</text>
+<text class='t1' x='50.67' y='32.28'>REVERSED<tspan x='99.09'>DOUBLE</tspan><tspan x='136.75'>PRIME</tspan></text>
+<text class='t0' x='193.53' y='32.28'>U+2037</text>
+<text class='t1' x='238.23' y='32.28'>REVERSED<tspan x='286.64'>TRIPLE</tspan><tspan x='324.3'>PRIME</tspan></text></svg></div></li>
 <li><p id="p-ecd832ca" class="nb"><em>whitespace characters</em>, which are <em>spaces</em> (Unicode general category Zs) and the following characters:</p>
-<div class="tw nb" id="t-3d7e4577" data-kind="table"><table class="tab">
-<tr><td class="l">U+0009</td><td class="l"><span class="tt">CHARACTER TABULATION</span></td><td class="c">U+000A</td><td class="l"><span class="tt">LINE FEED</span></td></tr>
-<tr><td class="l">U+000B</td><td class="l"><span class="tt">LINE TABULATION</span></td><td class="c">U+000C</td><td class="l"><span class="tt">FORM FEED</span></td></tr>
-<tr><td class="l">U+000D</td><td class="l"><span class="tt">CARRIAGE RETURN</span></td></tr>
-<tr><td class="l">U+001C</td><td class="l"><span class="tt">INFORMATION SEPARATOR FOUR</span></td><td class="c">U+001D</td><td class="l"><span class="tt">INFORMATION SEPARATOR THREE</span></td></tr>
-<tr><td class="l">U+001E</td><td class="l"><span class="tt">INFORMATION SEPARATOR TWO</span></td><td class="c">U+001F</td><td class="l"><span class="tt">INFORMATION SEPARATOR ONE</span></td></tr>
-<tr><td class="l">U+0020</td><td class="l"><span class="tt">SPACE</span></td></tr>
-<tr><td class="l">U+2028</td><td class="l"><span class="tt">LINE SEPARATOR</span></td><td class="c">U+2029</td><td class="l"><span class="tt">PARAGRAPH SEPARATOR</span></td></tr>
-</table></div>
+<div class="tw nb" id="t-daa95975" data-kind="table"><svg class="tx" data-d="5" viewBox="5.38 1.04 410.01 79.85" width="41.001em" height="7.985em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+0009</text>
+<text class='t1' x='52.88' y='8.37'>CHARACTER<tspan x='106.68'>TABULATION</tspan></text>
+<text class='t0' x='222.64' y='8.37'>U+000A</text>
+<text class='t1' x='269.55' y='8.37'>LINE<tspan x='296.45'>FEED</tspan></text>
+<text class='t0' x='5.98' y='20.32'>U+000B</text>
+<text class='t1' x='52.88' y='20.32'>LINE<tspan x='79.78'>TABULATION</tspan></text>
+<text class='t0' x='222.64' y='20.32'>U+000C</text>
+<text class='t1' x='269.55' y='20.32'>FORM<tspan x='296.45'>FEED</tspan></text>
+<text class='t0' x='5.98' y='32.28'>U+000D</text>
+<text class='t1' x='52.88' y='32.28'>CARRIAGE<tspan x='101.3'>RETURN</tspan></text>
+<text class='t0' x='5.98' y='44.23'>U+001C</text>
+<text class='t1' x='52.88' y='44.23'>INFORMATION<tspan x='117.44'>SEPARATOR</tspan><tspan x='171.24'>FOUR</tspan></text>
+<text class='t0' x='222.64' y='44.23'>U+001D</text>
+<text class='t1' x='269.55' y='44.23'>INFORMATION<tspan x='334.11'>SEPARATOR</tspan><tspan x='387.9'>THREE</tspan></text>
+<text class='t0' x='5.98' y='56.19'>U+001E</text>
+<text class='t1' x='52.88' y='56.19'>INFORMATION<tspan x='117.44'>SEPARATOR</tspan><tspan x='171.24'>TWO</tspan></text>
+<text class='t0' x='222.64' y='56.19'>U+001F</text>
+<text class='t1' x='269.55' y='56.19'>INFORMATION<tspan x='334.11'>SEPARATOR</tspan><tspan x='387.9'>ONE</tspan></text>
+<text class='t0' x='5.98' y='68.14'>U+0020</text>
+<text class='t1' x='52.88' y='68.14'>SPACE</text>
+<text class='t0' x='5.98' y='80.1'>U+2028</text>
+<text class='t1' x='52.88' y='80.1'>LINE<tspan x='79.78'>SEPARATOR</tspan></text>
+<text class='t0' x='222.64' y='80.1'>U+2029</text>
+<text class='t1' x='269.55' y='80.1'>PARAGRAPH<tspan x='323.35'>SEPARATOR</tspan></text></svg></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-fc6a8195" class="nb">Victor: All the characters listed above are control characters (Cc) except U+2028 and U+2029, which have general category Zl and Zp respectively and indeed are the only characters in those categories (in Unicode 5.0).</p></aside></li>
 <li><p id="p-116e6163" class="nb"><em>character literal delimiters</em>, which are:</p>
-<div class="tw nb" id="t-64cea775" data-kind="table"><table class="tab">
-<tr><td class="l">U+0060</td><td class="l"><span class="tt">GRAVE ACCENT</span></td><td class="l"><span class="tt">`</span></td></tr>
-<tr><td class="l">U+2018</td><td class="l"><span class="tt">LEFT SINGLE QUOTATION MARK</span></td><td class="l">‘</td></tr>
-<tr><td class="l">U+2019</td><td class="l"><span class="tt">RIGHT SINGLE QUOTATION MARK</span></td><td class="l">’</td></tr>
-</table></div></li>
+<div class="tw nb" id="t-c10c7f2d" data-kind="table"><svg class="tx" data-d="6" viewBox="5.38 1.04 208.46 33.16" width="20.846em" height="3.316em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+0060</text>
+<text class='t1' x='50.67' y='8.37'>GRAVE<tspan x='82.95'>ACCENT</tspan><tspan x='207.88'>‘</tspan></text>
+<text class='t0' x='5.98' y='20.32'>U+2018</text>
+<text class='t1' x='50.67' y='20.32'>LEFT<tspan x='77.57'>SINGLE</tspan><tspan x='115.23'>QUOTATION</tspan><tspan x='169.03'>MARK</tspan></text>
+<text class='t0' x='207.88' y='20.32'>‘<tspan x='5.98' y='32.28'>U+2019</tspan></text>
+<text class='t1' x='50.67' y='32.28'>RIGHT<tspan x='82.95'>SINGLE</tspan><tspan x='120.61'>QUOTATION</tspan><tspan x='174.41'>MARK</tspan></text>
+<text class='t0' x='207.88' y='32.28'>’</text></svg></div></li>
 <li><p id="p-b67abf2e" class="nb"><em>string literal delimiters</em>, which are:</p>
-<div class="tw nb" id="t-be0067df" data-kind="table"><table class="tab">
-<tr><td class="l">U+0022</td><td class="l"><span class="tt">QUOTATION MARK</span></td><td class="l"><span class="tt">"</span></td></tr>
-<tr><td class="l">U+201C</td><td class="l"><span class="tt">LEFT DOUBLE QUOTATION MARK</span></td><td class="l">“</td></tr>
-<tr><td class="l">U+201D</td><td class="l"><span class="tt">RIGHT DOUBLE QUOTATION MARK</span></td><td class="l">”</td></tr>
-</table></div></li>
-<li><p id="p-2a9f0abb" class="nb"><em>ordinary operator characters</em>, enumerated (along with the special operator characters) in Appendix F <span class="pending">[not converted yet]</span>, which include the following characters with code points less than U+007F:</p>
-<div class="tw nb" id="t-c59376d4" data-kind="table"><table class="tab">
-<tr><td class="l">U+0021</td><td class="l"><span class="tt">EXCLAMATION MARK</span></td><td class="l">!</td><td class="c">U+0023</td><td class="l"><span class="tt">NUMBER SIGN</span></td><td class="l">#</td></tr>
-<tr><td class="l">U+0024</td><td class="l"><span class="tt">DOLLAR SIGN</span></td><td class="l">$</td><td class="c">U+0025</td><td class="l"><span class="tt">PERCENT SIGN</span></td><td class="l">%</td></tr>
-<tr><td class="l">U+002B</td><td class="l"><span class="tt">PLUS SIGN</span></td><td class="l"><span class="m">+</span></td><td class="c">U+002D</td><td class="l"><span class="tt">HYPHEN-MINUS</span></td><td class="l"><span class="m">−</span></td></tr>
-<tr><td class="l">U+003F</td><td class="l"><span class="tt">QUESTION MARK</span></td><td class="l">?</td><td class="c">U+0040</td><td class="l"><span class="tt">COMMERCIAL AT</span></td><td class="l">@</td></tr>
-<tr><td class="l">U+007E</td><td class="l"><span class="tt">TILDE</span></td><td class="l"><code>~</code></td></tr>
-</table></div>
+<div class="tw nb" id="t-025d06a6" data-kind="table"><svg class="tx" data-d="7" viewBox="5.38 1.04 210.67 33.16" width="21.067em" height="3.316em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+0022</text>
+<text class='t1' x='52.88' y='8.37'>QUOTATION<tspan x='106.68'>MARK</tspan><tspan x='210.09'>&quot;</tspan></text>
+<text class='t0' x='5.98' y='20.32'>U+201C</text>
+<text class='t1' x='52.88' y='20.32'>LEFT<tspan x='79.78'>DOUBLE</tspan><tspan x='117.44'>QUOTATION</tspan><tspan x='171.24'>MARK</tspan></text>
+<text class='t0' x='210.09' y='20.32'>“<tspan x='5.98' y='32.28'>U+201D</tspan></text>
+<text class='t1' x='52.88' y='32.28'>RIGHT<tspan x='85.16'>DOUBLE</tspan><tspan x='122.82'>QUOTATION</tspan><tspan x='176.62'>MARK</tspan></text>
+<text class='t0' x='210.09' y='32.28'>”</text></svg></div></li>
+<li><p id="p-2a9f0abb" class="nb"><em>ordinary operator characters</em>, enumerated (along with the special operator characters) in <a class="xref" href="operator-precedence.html">Appendix F</a><!--nc-->, which include the following characters with code points less than U+007F:</p>
+<div class="tw nb" id="t-cb6d4b99" data-kind="table"><svg class="tx" data-d="8" viewBox="5.38 1.04 321.16 55.82" width="32.116em" height="5.582em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+0021</text>
+<text class='t1' x='52.33' y='8.37'>EXCLAMATION<tspan x='116.89'>MARK</tspan></text>
+<text class='t0' x='150.37' y='8.37'>!<tspan x='188'>U+0023</tspan></text>
+<text class='t1' x='234.91' y='8.37'>NUMBER<tspan x='272.57'>SIGN</tspan></text>
+<text class='t0' x='316.8' y='8.37'>#<tspan x='5.98' y='20.32'>U+0024</tspan></text>
+<text class='t1' x='52.33' y='20.32'>DOLLAR<tspan x='89.99'>SIGN</tspan></text>
+<text class='t0' x='150.37' y='20.32'>$</text>
+<text class='t0' x='188' y='20.32'>U+0025</text>
+<text class='t1' x='234.91' y='20.32'>PERCENT<tspan x='277.95'>SIGN</tspan></text>
+<text class='t0' x='316.8' y='20.32'>%<tspan x='5.98' y='32.28'>U+002B</tspan></text>
+<text class='t1' x='52.33' y='32.28'>PLUS<tspan x='79.23'>SIGN</tspan></text>
+<text class='t3' x='150.37' y='32.28'>+</text>
+<text class='t0' x='188' y='32.28'>U+002D</text>
+<text class='t1' x='234.91' y='32.28'>HYPHEN-MINUS</text>
+<text class='t2' x='316.8' y='32.28'>−</text>
+<text class='t0' x='5.98' y='44.23'>U+003F</text>
+<text class='t1' x='52.33' y='44.23'>QUESTION<tspan x='100.75'>MARK</tspan></text>
+<text class='t0' x='150.37' y='44.23'>?<tspan x='188'>U+0040</tspan></text>
+<text class='t1' x='234.91' y='44.23'>COMMERCIAL<tspan x='294.08'>AT</tspan></text>
+<text class='t0' x='316.8' y='44.23'>@<tspan x='5.98' y='56.19'>U+007E</tspan></text>
+<text class='t1' x='52.33' y='56.19'>TILDE</text>
+<text class='t5' x='150.37' y='56.19'>˜</text></svg></div>
 <p id="p-6f601d46" class="nb">and most Unicode characters specified to be <em>mathematical operators</em> (i.e., characters with code points in the range 2200-22FF) are operators in Fortress, but there are some exceptions (e.g., <span class="m">∀</span>, <span class="m">∃</span> and <span class="m">:=</span>).</p></li>
 <li><p id="p-3042bcde" class="nb"><em>other characters</em></p></li>
 </ul>
@@ -159,17 +277,24 @@
 <li><p id="p-e88c1fde" class="nb">the <em>digit-group separator</em> is <span class="tt">NARROW NO-BREAK SPACE</span> (U+202F);</p></li>
 <li><p id="p-de1aa4ec" class="nb"><em>operator characters</em> are special operator characters and ordinary operator characters;</p></li>
 <li><p id="p-27c047c7" class="nb"><em>special characters</em> are special non-operator characters and special operator characters;</p></li>
-<li><p id="p-1221e887" class="nb"><em>enclosing characters</em> are the enclosing operator characters enumerated in Section F.2 <span class="pending">[not converted yet]</span>, left and right parenthesis characters, and mathematical left and right white square brackets;</p></li>
+<li><p id="p-1221e887" class="nb"><em>enclosing characters</em> are the enclosing operator characters enumerated in <a class="xref" href="operator-precedence.html#sec-bracket-pairs">Section F.2</a><!--nc-->, left and right parenthesis characters, and mathematical left and right white square brackets;</p></li>
 </ul>
 <section class="sec" data-num="" data-title="Forbidden and Restricted Characters">
 <h3 id="s-forbidden-and-restricted-characters" class="nb">Forbidden and Restricted Characters</h3>
 <p id="p-d1707a98" class="nb">It is a static error for a Fortress program to contain any control character other than the above-listed whitespace characters, except that the character <span class="tt">SUBSTITUTE</span> (U+001A; also known as “control-Z”) is allowed and ignored if it is the last character of a program.</p>
 <p id="p-e59056bb" class="nb">It is a static error for the following characters to occur outside a comment:</p>
-<div class="tw nb" id="t-117fedc1" data-kind="table"><table class="tab">
-<tr><td class="l">U+0009</td><td class="l"><span class="tt">CHARACTER TABULATION</span></td><td class="c">U+000B</td><td class="l"><span class="tt">LINE TABULATION</span></td></tr>
-<tr><td class="l">U+001C</td><td class="l"><span class="tt">INFORMATION SEPARATOR FOUR</span></td><td class="c">U+001D</td><td class="l"><span class="tt">INFORMATION SEPARATOR THREE</span></td></tr>
-<tr><td class="l">U+001E</td><td class="l"><span class="tt">INFORMATION SEPARATOR TWO</span></td><td class="c">U+001F</td><td class="l"><span class="tt">INFORMATION SEPARATOR ONE</span></td></tr>
-</table></div>
+<div class="tw nb" id="t-e8bca9dd" data-kind="table"><svg class="tx" data-d="9" viewBox="5.38 1.04 409.46 32.03" width="40.946em" height="3.203em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+0009</text>
+<text class='t1' x='52.33' y='8.37'>CHARACTER<tspan x='106.13'>TABULATION</tspan></text>
+<text class='t0' x='222.1' y='8.37'>U+000B</text>
+<text class='t1' x='269' y='8.37'>LINE<tspan x='295.9'>TABULATION</tspan></text>
+<text class='t0' x='5.98' y='20.32'>U+001C</text>
+<text class='t1' x='52.33' y='20.32'>INFORMATION<tspan x='116.89'>SEPARATOR</tspan><tspan x='170.69'>FOUR</tspan></text>
+<text class='t0' x='222.1' y='20.32'>U+001D</text>
+<text class='t1' x='269' y='20.32'>INFORMATION<tspan x='333.56'>SEPARATOR</tspan><tspan x='387.36'>THREE</tspan></text>
+<text class='t0' x='5.98' y='32.28'>U+001E</text>
+<text class='t1' x='52.33' y='32.28'>INFORMATION<tspan x='116.89'>SEPARATOR</tspan><tspan x='170.69'>TWO</tspan></text>
+<text class='t0' x='222.1' y='32.28'>U+001F</text>
+<text class='t1' x='269' y='32.28'>INFORMATION<tspan x='333.56'>SEPARATOR</tspan><tspan x='387.36'>ONE</tspan></text></svg></div>
 <p id="p-37c6f083" class="nb">Thus, <span class="tt">LINE FEED</span>, <span class="tt">FORM FEED</span> and <span class="tt">CARRIAGE RETURN</span> are the only control characters—and the only whitespace characters other than spaces, <span class="tt">LINE SEPARATOR</span>, and <span class="tt">PARAGRAPH SEPARATOR</span>—outside of comments in a valid Fortress program.</p>
 <p id="p-ebd1f638" class="nb">It is a static error for any of the following characters to appear outside of comments and string and character literals:</p>
 <ul>
@@ -177,11 +302,24 @@
 <li><p id="p-883c8cc6" class="nb">any connecting punctuation other than <span class="tt">LOW LINE</span> (‘_’; U+005F, also known as <span class="tt">SPACING UNDERSCORE</span>),</p></li>
 <li><p id="p-2242fad9" class="nb">any character in the “other characters” class above, or</p></li>
 <li><p id="p-7088f07e" class="nb">any of the following spaces:</p>
-<div class="tw nb" id="t-ceece5d1" data-kind="table"><table class="tab">
-<tr><td class="l">U+2000</td><td class="l"><span class="tt">EN QUAD</span></td><td class="c">U+2003</td><td class="l"><span class="tt">EM SPACE</span></td><td class="l">U+2006</td><td class="c"><span class="tt">SIX-PER-EM SPACE</span></td></tr>
-<tr><td class="l">U+2001</td><td class="l"><span class="tt">EM QUAD</span></td><td class="c">U+2004</td><td class="l"><span class="tt">THREE-PER-EM SPACE</span></td><td class="l">U+2007</td><td class="c"><span class="tt">FIGURE SPACE</span></td></tr>
-<tr><td class="l">U+2002</td><td class="l"><span class="tt">EN SPACE</span></td><td class="c">U+2005</td><td class="l"><span class="tt">FOUR-PER-EM SPACE</span></td><td class="l">U+2008</td><td class="c"><span class="tt">PUNCTUATION SPACE</span></td></tr>
-</table></div></li>
+<div class="tw nb" id="t-28118f48" data-kind="table"><svg class="tx" data-d="10" viewBox="5.38 1.04 426.37 32.03" width="42.637em" height="3.203em" fill="currentColor"><text class='t0' x='5.98' y='8.37'>U+2000</text>
+<text class='t1' x='50.67' y='8.37'>EN<tspan x='66.81'>QUAD</tspan></text>
+<text class='t0' x='123.6' y='8.37'>U+2003</text>
+<text class='t1' x='168.29' y='8.37'>EM<tspan x='184.43'>SPACE</tspan></text>
+<text class='t0' x='295.01' y='8.37'>U+2006</text>
+<text class='t1' x='339.71' y='8.37'>SIX-PER-EM<tspan x='398.88'>SPACE</tspan></text>
+<text class='t0' x='5.98' y='20.32'>U+2001</text>
+<text class='t1' x='50.67' y='20.32'>EM<tspan x='66.81'>QUAD</tspan></text>
+<text class='t0' x='123.6' y='20.32'>U+2004</text>
+<text class='t1' x='168.29' y='20.32'>THREE-PER-EM<tspan x='238.23'>SPACE</tspan></text>
+<text class='t0' x='295.01' y='20.32'>U+2007</text>
+<text class='t1' x='339.71' y='20.32'>FIGURE<tspan x='377.36'>SPACE</tspan></text>
+<text class='t0' x='5.98' y='32.28'>U+2002</text>
+<text class='t1' x='50.67' y='32.28'>EN<tspan x='66.81'>SPACE</tspan></text>
+<text class='t0' x='123.6' y='32.28'>U+2005</text>
+<text class='t1' x='168.29' y='32.28'>FOUR-PER-EM<tspan x='232.85'>SPACE</tspan></text>
+<text class='t0' x='295.01' y='32.28'>U+2008</text>
+<text class='t1' x='339.71' y='32.28'>PUNCTUATION<tspan x='404.26'>SPACE</tspan></text></svg></div></li>
 </ul>
 </section>
 </section>
@@ -189,7 +327,15 @@
 <h2 id="sec-words" class="nb"><span class="num">4.2</span> Words and Chunks</h2>
 <p id="p-67afdbed" class="nb">In a sequence of characters, a <em>chunk</em> is a nonempty contiguous subsequence. A <em>word</em> is a maximal chunk consisting of only word characters (letters, digits, underscore, connecting punctuation, prime characters, and apostrophe); that is, a word is one or more consecutive word characters delimited by characters other than word characters (or the beginning or end of the entire sequence). A <em>restricted word</em> is a maximal chunk that has only restricted-word characters (ASCII letters and digits and underscore characters). Note that a restricted word is <em>not</em> a word if it is delimited by word characters.</p>
 <p id="p-33f2c16d" class="nb">For example, in the sequence</p>
-<div class="fx nb both" id="c-a1420489" data-kind="code" data-example="LexStr.Words"><div class="fx-r"><span class="tb top"><span class="l"><span class="m"><span class="tt"></span></span><span class="tb"><span class="l"><span class="m"><i>A&#x27;bc</i><span class="it"><span class="tt">_</span>123a</span>.<i>def</i> φ<sub>456</sub></span></span></span></span></span></div><pre class="fx-s"><code>  A'bc_123a.def phi456</code></pre></div>
+<div class="fx nb both" id="c-a1420489" data-kind="code" data-example="LexStr.Words"><div class="fx-r"><svg class="tx" data-d="11" viewBox="4.38 10.74 83.29 11.13" width="8.329em" height="1.113em" fill="currentColor"><text class='t6' x='4.98' y='19.33'>A</text>
+<text class='t7' x='12.39' y='15.21'></text>
+<text class='t6' x='15.18' y='19.33'>b<tspan x='19.26'>c</tspan></text>
+<rect x='25' y='18.93' height='.4' width='2.99'/>
+<text class='t6' x='28.82' y='19.33'>123a</text>
+<text class='t4' x='49.95' y='19.33'>.</text>
+<text class='t6' x='52.72' y='19.33'>def</text>
+<text class='t4' x='69.22' y='19.33'>φ</text>
+<text class='t8' x='75.16' y='20.82'>456</text></svg></div><pre class="fx-s"><code>  A'bc_123a.def phi456</code></pre></div>
 <p id="p-642f437a" class="nb">there are three words (<span class="tt">A'bc_123</span>, <span class="tt">def</span> and <span class="tt"><span class="m">φ</span>456</span>), and four restricted words (<span class="tt">A</span>, <span class="tt">bc_123</span>, <span class="tt">def</span> and <span class="tt">456</span>).</p>
 </section>
 <section class="sec" data-num="4.3" data-title="Lines, Pages and Position">
@@ -211,7 +357,7 @@
 <p id="p-7b20b041" class="nb">ASCII conversion consists of three steps. The first step consists of “pasting” words across line terminators, so that long identifiers and numerals can be split across lines. Identifiers may be very long because non-ASCII Unicode characters may be encoded by long chunks of ASCII characters (the actual conversion of such chunks is done in the next step). Roughly speaking, two consecutive lines are pasted together if the first ends with an ampersand that is immediately preceded by a word character, and the second begins with an ampersand that is immediately followed by a word character.</p>
 <p id="p-7ff1b663" class="nb">The second step replaces certain restricted words, and sequences of operator and special characters, with single Unicode characters. Roughly speaking, if a restricted word is either the official Unicode 5.0 name with underscores in place of spaces and hyphens, or a specified alternative name, of some character other than a protected character (i.e., an ASCII or control character, or a string literal delimiter), then the restricted word is replaced by that character. In some cases, even a fragment of a restricted word may be replaced by a single character (most commonly a Greek letter). Some multicharacter sequences of ASCII operator and special characters are also replaced by non-ASCII operator or special characters; we call such sequences <em>ASCII shorthand</em>. However, within string literals, neither restricted words nor ASCII shorthand is converted. Instead, we provide <em>escape sequences</em> to get non-ASCII characters within strings (see <a class="xref" href="#sec-preprocessing-string-literals">Section 4.10</a>).</p>
 <p id="p-241e349c" class="nb">The third step replaces apostrophes that appear within what would otherwise be numerals with digit-group separators.</p>
-<p id="p-5190d611" class="nb">Precise descriptions of these steps are given in Appendix E <span class="pending">[not converted yet]</span>, including the rules for replacing fragments of restricted words and the specification of alternative names and ASCII shorthand for non-operator characters. Alternative names and ASCII shorthand for operator characters are given in Appendix F <span class="pending">[not converted yet]</span>.</p>
+<p id="p-5190d611" class="nb">Precise descriptions of these steps are given in <a class="xref" href="ascii-unicode.html">Appendix E</a><!--nc-->, including the rules for replacing fragments of restricted words and the specification of alternative names and ASCII shorthand for non-operator characters. Alternative names and ASCII shorthand for operator characters are given in <a class="xref" href="operator-precedence.html">Appendix F</a><!--nc-->.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-c61548b7" class="nb">Is the following true?</p></aside>
 <p id="p-cdca7add" class="nb">ASCII conversion (all three steps taken together) is idempotent: converting a program resulting from ASCII conversion yields the same program. The ampersand is particularly important in this process, and its use is severely restricted in the converted program to preserve the idempotence of ASCII conversion (see <a class="xref" href="#sec-whitespace">Section 4.7</a>).</p>
@@ -244,20 +390,22 @@
 <section class="sec" data-num="4.8" data-title="Reserved Words">
 <h2 id="sec-reserved-words" class="nb"><span class="num">4.8</span> Reserved Words</h2>
 <p id="p-b3fa33c4" class="nb">The following tokens are <em>reserved words</em>:</p>
-<div class="tw nb" id="t-225ab493" data-kind="table"><div class="words"><span class="m"><span class="kw">BIG</span></span> <span class="m"><span class="kw">FORALL</span></span> <span class="m"><span class="kw">SI_unit</span></span> <span class="m"><span class="kw">absorbs</span></span> <span class="m"><span class="kw">abstract</span></span> <span class="m"><span class="kw">also</span></span> <span class="m"><span class="kw">api</span></span> <span class="m"><span class="kw">asif</span></span> <span class="m"><span class="kw">at</span></span> <span class="m"><span class="kw">atomic</span></span> <span class="m"><span class="kw">bool</span></span> <span class="m"><span class="kw">case</span></span> <span class="m"><span class="kw">catch</span></span> <span class="m"><span class="kw">coerce</span></span> <span class="m"><span class="kw">coerces</span></span> <span class="m"><span class="kw">component</span></span> <span class="m"><span class="kw">comprises</span></span> <span class="m"><span class="kw">default</span></span> <span class="m"><span class="kw">dim</span></span> <span class="m"><span class="kw">do</span></span> <span class="m"><span class="kw">elif</span></span> <span class="m"><span class="kw">else</span></span> <span class="m"><span class="kw">end</span></span> <span class="m"><span class="kw">ensures</span></span> <span class="m"><span class="kw">except</span></span> <span class="m"><span class="kw">excludes</span></span> <span class="m"><span class="kw">exit</span></span> <span class="m"><span class="kw">export</span></span> <span class="m"><span class="kw">extends</span></span> <span class="m"><span class="kw">finally</span></span> <span class="m"><span class="kw">fn</span></span> <span class="m"><span class="kw">for</span></span> <span class="m"><span class="kw">forbid</span></span> <span class="m"><span class="kw">from</span></span> <span class="m"><span class="kw">getter</span></span> <span class="m"><span class="kw">hidden</span></span> <span class="m"><span class="kw">if</span></span> <span class="m"><span class="kw">import</span></span> <span class="m"><span class="kw">int</span></span> <span class="m"><span class="kw">invariant</span></span> <span class="m"><span class="kw">io</span></span> <span class="m"><span class="kw">juxtaposition</span></span> <span class="m"><span class="kw">label</span></span> <span class="m"><span class="kw">most</span></span> <span class="m"><span class="kw">nat</span></span> <span class="m"><span class="kw">native</span></span> <span class="m"><span class="kw">object</span></span> <span class="m"><span class="kw">of</span></span> <span class="m"><span class="kw">opr</span></span> <span class="m"><span class="kw">or</span></span> <span class="m"><span class="kw">outcome</span></span> <span class="m"><span class="kw">override</span></span> <span class="m"><span class="kw">private</span></span> <span class="m"><span class="kw">property</span></span> <span class="m"><span class="kw">provided</span></span> <span class="m"><span class="kw">requires</span></span> <span class="m"><span class="kw">self</span></span> <span class="m"><span class="kw">settable</span></span> <span class="m"><span class="kw">setter</span></span> <span class="m"><span class="kw">spawn</span></span> <span class="m"><span class="kw">syntax</span></span> <span class="m"><span class="kw">test</span></span> <span class="m"><span class="kw">then</span></span> <span class="m"><span class="kw">throw</span></span> <span class="m"><span class="kw">throws</span></span> <span class="m"><span class="kw">trait</span></span> <span class="m"><span class="kw">try</span></span> <span class="m"><span class="kw">tryatomic</span></span> <span class="m"><span class="kw">type</span></span> <span class="m"><span class="kw">typecase</span></span> <span class="m"><span class="kw">typed</span></span> <span class="m"><span class="kw">unit</span></span> <span class="m"><span class="kw">value</span></span> <span class="m"><span class="kw">var</span></span> <span class="m"><span class="kw">where</span></span> <span class="m"><span class="kw">while</span></span> <span class="m"><span class="kw">widens</span></span> <span class="m"><span class="kw">with</span></span> <span class="m"><span class="kw">wrapped</span></span></div></div>
+<div class="tw nb" id="t-225ab493" data-kind="table"><svg class="tx" data-d="12" viewBox="7.04 1.68 417.14 141.01" width="41.714em" height="14.101em" fill="currentColor"><text class='t9' x='7.64' y='8.37'>BIG<tspan x='59.53'>FORALL</tspan><tspan x='121.88'>SI</tspan></text>
+<rect x='132.93' y='7.97' height='.4' width='2.99'/>
+<text class='t9' x='135.92' y='8.37'>unit<tspan x='184.23'>absorbs</tspan><tspan x='236.11'>abstract</tspan><tspan x='298.46'>also</tspan><tspan x='355.58'>api</tspan><tspan x='7.64' y='20.32'>asif</tspan><tspan x='59.53'>at</tspan><tspan x='121.88'>atomic</tspan><tspan x='184.23'>bool</tspan><tspan x='236.11'>case</tspan><tspan x='298.46'>catch</tspan><tspan x='355.58'>coerce</tspan><tspan x='7.64' y='32.28'>coerces</tspan><tspan x='59.53'>component</tspan><tspan x='121.88'>comprises</tspan><tspan x='184.23'>default</tspan><tspan x='236.11'>dim</tspan><tspan x='298.46'>do</tspan><tspan x='355.58'>elif</tspan><tspan x='7.64' y='44.23'>else</tspan><tspan x='59.53'>end</tspan><tspan x='121.88'>ensures</tspan><tspan x='184.23'>except</tspan><tspan x='236.11'>excludes</tspan><tspan x='298.46'>exit</tspan><tspan x='355.58'>export</tspan><tspan x='7.64' y='56.19'>extends</tspan><tspan x='59.53'>finally</tspan><tspan x='121.88'>fn</tspan><tspan x='184.23'>for</tspan><tspan x='236.11'>forbid</tspan><tspan x='298.46'>from</tspan><tspan x='355.58'>getter</tspan><tspan x='7.64' y='68.14'>hidden</tspan><tspan x='59.53'>if</tspan><tspan x='121.88'>import</tspan><tspan x='184.23'>int</tspan><tspan x='236.11'>invariant</tspan><tspan x='298.46'>io</tspan><tspan x='355.58'>juxtaposition</tspan><tspan x='7.64' y='80.1'>label</tspan><tspan x='59.53'>most</tspan><tspan x='121.88'>nat</tspan><tspan x='184.23'>native</tspan><tspan x='236.11'>object</tspan><tspan x='298.46'>of</tspan><tspan x='355.58'>opr</tspan><tspan x='7.64' y='92.05'>or</tspan><tspan x='59.53'>outcome</tspan><tspan x='121.88'>override</tspan><tspan x='184.23'>private</tspan><tspan x='236.11'>property</tspan><tspan x='298.46'>provided</tspan><tspan x='355.58'>requires</tspan><tspan x='7.64' y='104.01'>self</tspan><tspan x='59.53'>settable</tspan><tspan x='121.88'>setter</tspan><tspan x='184.23'>spawn</tspan><tspan x='236.11'>syntax</tspan><tspan x='298.46'>test</tspan><tspan x='355.58'>then</tspan><tspan x='7.64' y='115.97'>throw</tspan><tspan x='59.53'>throws</tspan><tspan x='121.88'>trait</tspan><tspan x='184.23'>try</tspan><tspan x='236.11'>tryatomic</tspan><tspan x='298.46'>type</tspan><tspan x='355.58'>typecase</tspan><tspan x='7.64' y='127.92'>typed</tspan><tspan x='59.53'>unit</tspan><tspan x='121.88'>value</tspan><tspan x='184.23'>var</tspan><tspan x='236.11'>where</tspan><tspan x='298.46'>while</tspan><tspan x='355.58'>widens</tspan><tspan x='7.64' y='139.88'>with</tspan><tspan x='59.53'>wrapped</tspan></text></svg></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-9400437c" class="nb">Victor: I don’t think “or” should be reserved. It is only so for its occurrence in “widens or coerces” but we can recognize it specially in that context, which is never ambiguous because “widens” and “coerces” are reserved.</p></aside>
 <p id="p-be02b16f" class="nb">The following operators on units are also reserved words:</p>
-<div class="tw nb" id="t-d5c6ee42" data-kind="table"><div class="words"><span class="m"><span class="ty">cubed</span></span> <span class="m"><span class="ty">cubic</span></span> <span class="m"><span class="ty">in</span></span> <span class="m"><span class="ty">inverse</span></span> <span class="m"><span class="ty">per</span></span> <span class="m"><span class="ty">square</span></span> <span class="m"><span class="ty">squared</span></span></div></div>
+<div class="tw nb" id="t-d5c6ee42" data-kind="table"><svg class="tx" data-d="13" viewBox="6.21 0.85 245.06 10.06" width="24.506em" height="1.006em" fill="currentColor"><text class='t3' x='6.81' y='8.37'>cub<tspan x='22.58'>ed</tspan><tspan x='46.16'>cubic</tspan><tspan x='82.47'>in</tspan><tspan x='104.39'>in</tspan><tspan x='112.41'>v</tspan><tspan x='117.39'>erse</tspan><tspan x='147.7'>p</tspan><tspan x='153.51'>er</tspan><tspan x='175.45'>square</tspan><tspan x='217.1'>squared</tspan></text></svg></div>
 <p id="p-6cb72d94" class="nb">To avoid confusion, Fortress reserves the following tokens:</p>
-<div class="tw nb" id="t-ba412f2d" data-kind="table"><div class="words"><span class="m"><span class="kw">goto</span></span> <span class="m"><span class="kw">idiom</span></span> <span class="m"><span class="kw">public</span></span> <span class="m"><span class="kw">pure</span></span> <span class="m"><span class="kw">reciprocal</span></span> <span class="m"><span class="kw">static</span></span></div></div>
+<div class="tw nb" id="t-ba412f2d" data-kind="table"><svg class="tx" data-d="14" viewBox="7.04 1.68 260.64 9.50" width="26.064em" height="0.950em" fill="currentColor"><text class='t9' x='7.64' y='8.37'>goto<tspan x='43.84'>idiom</tspan><tspan x='85.26'>public</tspan><tspan x='131.92'>pure</tspan><tspan x='168.12'>reciprocal</tspan><tspan x='235.7'>static</tspan></text></svg></div>
 <p id="p-68480d5c" class="nb">They do not have any special meanings but they cannot be used as identifiers.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-85d1c3f4" class="nb">Victor: Some other words we might want to reserve: subtype, subtypes, is, coercion, function, exception, match</p></aside>
 </section>
 <section class="sec" data-num="4.9" data-title="Character Literals">
 <h2 id="sec-preprocessing-character-literals" class="nb"><span class="num">4.9</span> Character Literals</h2>
-<p id="p-d641ed9a" class="nb">A character literal consists of one or more characters enclosed in single quotation marks. The character that begins a character literal is called the literal’s <em>opening mark</em>; the character that ends it is its <em>closing mark</em>. For convenience, the marks may be true typographical “curly” single quotation marks (U+2018 and U+2019), a pair of apostrophe characters (U+0027), or a “backquote” character (U+0060) and an apostrophe character. It is a static error if the opening and closing marks do not match: a character literal beginning with a left single quotation mark must end with a right single quotation mark; one beginning with either an apostrophe or a backquote must end with an apostrophe. As discussed in Section 13.1 <span class="pending">[not converted yet]</span>, a character literal evaluates to a value of type <span class="m"><span class="ty">Char</span></span>, which represents an abstract Unicode character.</p>
+<p id="p-d641ed9a" class="nb">A character literal consists of one or more characters enclosed in single quotation marks. The character that begins a character literal is called the literal’s <em>opening mark</em>; the character that ends it is its <em>closing mark</em>. For convenience, the marks may be true typographical “curly” single quotation marks (U+2018 and U+2019), a pair of apostrophe characters (U+0027), or a “backquote” character (U+0060) and an apostrophe character. It is a static error if the opening and closing marks do not match: a character literal beginning with a left single quotation mark must end with a right single quotation mark; one beginning with either an apostrophe or a backquote must end with an apostrophe. As discussed in <a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->, a character literal evaluates to a value of type <span class="m"><span class="ty">Char</span></span>, which represents an abstract Unicode character.</p>
 <p id="p-17e9c628" class="nb">A left single quotation mark (U+2018) or a backquote begins a character literal unless it is within a comment, another character literal, or a string literal.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-3c0453bc" class="nb">What if it is preceded by a backslash? (should be illegal?)</p></aside>
@@ -265,22 +413,32 @@
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-52b64538" class="nb">What if it is preceded by a backslash? (should be illegal)</p></aside>
 <p id="p-d92b0114" class="nb">In either case, the character literal ends with the nearest apostrophe or right single quotation mark <em>after</em> the first character following the opening mark. In particular, an apostrophe or right single quotation mark immediately following the opening mark of a character literal is <em>not</em> a closing mark. Thus, for example, the sequence <span class="tt">'''</span> is a single character literal with one enclosed character <span class="tt">'</span>.</p>
-<p id="p-1a255cc7" class="nb">It is a static error if any of the enclosed characters of a character literal is a line feed, form feed, carriage return, line separator, paragraph separator, or any character forbidden outside comments in a Fortress program (see <a class="xref" href="#sec-characters">Section 4.1</a>), or if there is exactly one enclosed character and it is a backslash (U+005C). It is also a static error if any of the enclosed characters is a string literal delimiter that is not immediately preceded by a backslash (i.e., an <em>unescaped</em> string literal delimiter). This last restriction is necessary to prevent ASCII conversion from changing the boundaries of string literals (see Appendix E <span class="pending">[not converted yet]</span>).</p>
-<p id="p-bf434143" class="nb">The sequence of enclosed characters may be a single character (e.g., ‘<span class="tt">a</span>’, <span class="tt">'$'</span>, ‘<span class="tt"><span class="m">α</span></span>’, <span class="tt">`<span class="m">⊕</span>'</span>), a sequence of four or more hexadecimal digits identifying the code point of a Unicode character (e.g., ‘<span class="tt">001C</span>’, <span class="tt">`FBAB'</span>, ‘<span class="tt">1D11E</span>’), a single character as above, followed by a space and a sequence of four or more hexadecimal digits identifying the code point of that same character (e.g., ‘<span class="tt"><span class="m">α</span> 03B1</span>’, <span class="tt">`<span class="m">⊕</span> 2295'</span>), one of <span class="tt">TAB</span>, <span class="tt">NEWLINE</span> or <span class="tt">RETURN</span>, a sequence of ASCII characters that would be converted by the second step of ASCII conversion to a single Unicode character (see Section E.2 <span class="pending">[not converted yet]</span>), the official Unicode 5.0 name or an alternative name of a Unicode character with spaces and hyphens intact (e.g., ‘<span class="tt">PLUS-MINUS SIGN</span>’), or a <em>character-literal escape sequence</em>.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see Section I.1.56 <span class="pending">[not converted yet]</span></span></p>
+<p id="p-1a255cc7" class="nb">It is a static error if any of the enclosed characters of a character literal is a line feed, form feed, carriage return, line separator, paragraph separator, or any character forbidden outside comments in a Fortress program (see <a class="xref" href="#sec-characters">Section 4.1</a>), or if there is exactly one enclosed character and it is a backslash (U+005C). It is also a static error if any of the enclosed characters is a string literal delimiter that is not immediately preceded by a backslash (i.e., an <em>unescaped</em> string literal delimiter). This last restriction is necessary to prevent ASCII conversion from changing the boundaries of string literals (see <a class="xref" href="ascii-unicode.html">Appendix E</a><!--nc-->).</p>
+<p id="p-47f0e22c" class="nb">The sequence of enclosed characters may be a single character (e.g., ‘<span class="tt">a</span>’, <span class="tt">'$'</span>, ‘<span class="tt"><span class="m">α</span></span>’, ‘<span class="tt"><span class="m">⊕</span></span>’), a sequence of four or more hexadecimal digits identifying the code point of a Unicode character (e.g., ‘<span class="tt">001C</span>’, ‘<span class="tt">FBAB</span>’, ‘<span class="tt">1D11E</span>’), a single character as above, followed by a space and a sequence of four or more hexadecimal digits identifying the code point of that same character (e.g., ‘<span class="tt"><span class="m">α</span> 03B1</span>’, ‘<span class="tt"><span class="m">⊕</span> 2295</span>’), one of <span class="tt">TAB</span>, <span class="tt">NEWLINE</span> or <span class="tt">RETURN</span>, a sequence of ASCII characters that would be converted by the second step of ASCII conversion to a single Unicode character (see <a class="xref" href="ascii-unicode.html#sec-preprocessing-unicode-names">Section E.2</a><!--nc-->), the official Unicode 5.0 name or an alternative name of a Unicode character with spaces and hyphens intact (e.g., ‘<span class="tt">PLUS-MINUS SIGN</span>’), or a <em>character-literal escape sequence</em>.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-char-redundant-literal">Section I.1.48</a><!--nc--></span></p>
 <p id="p-7deeda1b" class="nb">The Working Draft of February 2011 did not list the form of a single character followed by a space and its code point in hexadecimal digits, which the parser has read since 2011. The list now names it, since the text by which a character writes itself as a literal uses it for most printable characters outside ASCII.</p></aside>
 <p id="p-70f172ea" class="nb">The character-literal escape sequences, and the characters such character literals evaluate to, are:</p>
-<div class="tw nb" id="t-b765ef0b" data-kind="table"><table class="tab">
-<tr><td class="l"><span class="tt">\b</span></td><td class="l">U+0008</td><td class="l"><span class="tt">BACKSPACE</span></td></tr>
-<tr><td class="l"><span class="tt">\t</span></td><td class="l">U+0009</td><td class="l"><span class="tt">CHARACTER TABULATION</span></td></tr>
-<tr><td class="l"><span class="tt">\n</span></td><td class="l">U+000A</td><td class="l"><span class="tt">LINE FEED</span></td></tr>
-<tr><td class="l"><span class="tt">\f</span></td><td class="l">U+000C</td><td class="l"><span class="tt">FORM FEED</span></td></tr>
-<tr><td class="l"><span class="tt">\r</span></td><td class="l">U+000D</td><td class="l"><span class="tt">CARRIAGE RETURN</span></td></tr>
-<tr><td class="l"><span class="tt">\"</span></td><td class="l">U+0022</td><td class="l"><span class="tt">QUOTATION MARK</span></td></tr>
-<tr><td class="l"><span class="tt">\\</span></td><td class="l">U+005C</td><td class="l"><span class="tt">REVERSE SOLIDUS</span></td></tr>
-<tr><td class="l"><span class="tt">\<span class="rm">``</span></span></td><td class="l">U+201C</td><td class="l"><span class="tt">LEFT DOUBLE QUOTATION MARK</span></td></tr>
-<tr><td class="l"><span class="tt">\<span class="rm">''</span></span></td><td class="l">U+201D</td><td class="l"><span class="tt">RIGHT DOUBLE QUOTATION MARK</span></td></tr>
-</table></div>
+<div class="tw nb" id="t-7ae7a29b" data-kind="table"><svg class="tx" data-d="15" viewBox="5.38 1.04 216.05 104.89" width="21.605em" height="10.489em" fill="currentColor"><text class='t1' x='5.98' y='8.37'>\b</text>
+<text class='t0' x='28.69' y='8.37'>U+0008</text>
+<text class='t1' x='75.6' y='8.37'>BACKSPACE<tspan x='5.98' y='20.32'>\t</tspan></text>
+<text class='t0' x='28.69' y='20.32'>U+0009</text>
+<text class='t1' x='75.6' y='20.32'>CHARACTER<tspan x='129.39'>TABULATION</tspan><tspan x='5.98' y='32.28'>\n</tspan></text>
+<text class='t0' x='28.69' y='32.28'>U+000A</text>
+<text class='t1' x='75.6' y='32.28'>LINE<tspan x='102.5'>FEED</tspan><tspan x='5.98' y='44.23'>\f</tspan></text>
+<text class='t0' x='28.69' y='44.23'>U+000C</text>
+<text class='t1' x='75.6' y='44.23'>FORM<tspan x='102.5'>FEED</tspan><tspan x='5.98' y='56.19'>\r</tspan></text>
+<text class='t0' x='28.69' y='56.19'>U+000D</text>
+<text class='t1' x='75.6' y='56.19'>CARRIAGE<tspan x='124.01'>RETURN</tspan><tspan x='5.98' y='68.14'>\&quot;</tspan></text>
+<text class='t0' x='28.69' y='68.14'>U+0022</text>
+<text class='t1' x='75.6' y='68.14'>QUOTATION<tspan x='129.39'>MARK</tspan><tspan x='5.98' y='80.1'>\\</tspan></text>
+<text class='t0' x='28.69' y='80.1'>U+005C</text>
+<text class='t1' x='75.6' y='80.1'>REVERSE<tspan x='118.64'>SOLIDUS</tspan><tspan x='5.98' y='92.05'>\</tspan></text>
+<text class='t10' x='11.36' y='92.05'>“</text>
+<text class='t0' x='28.69' y='92.05'>U+201C</text>
+<text class='t1' x='75.6' y='92.05'>LEFT<tspan x='102.5'>DOUBLE</tspan><tspan x='140.15'>QUOTATION</tspan><tspan x='193.95'>MARK</tspan><tspan x='5.98' y='104.01'>\</tspan></text>
+<text class='t10' x='11.36' y='104.01'>”</text>
+<text class='t0' x='28.69' y='104.01'>U+201D</text>
+<text class='t1' x='75.6' y='104.01'>RIGHT<tspan x='107.88'>DOUBLE</tspan><tspan x='145.53'>QUOTATION</tspan><tspan x='199.33'>MARK</tspan></text></svg></div>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-3235f231" class="nb">Victor: What about ’BACKQUOTE’?</p></aside>
 <p id="p-0ff011d2" class="nb">It is a static error if the sequence of enclosed characters is not one of the kinds listed above. In particular, it is a static error if the hexadecimal digits enclosed do not correspond to the code point of a Unicode 5.0 abstract character.</p>
@@ -292,7 +450,7 @@
 </section>
 <section class="sec" data-num="4.10" data-title="String Literals">
 <h2 id="sec-preprocessing-string-literals" class="nb"><span class="num">4.10</span> String Literals</h2>
-<p id="p-df6f93c7" class="nb">A string literal is a sequence of characters enclosed in double quotation marks (for example, <span class="tt">"Hello, world!"</span> or “<span class="tt"><span class="m">π</span> r<span class="m"><sup>2</sup></span></span>”). The character that begins a string literal is the literal’s <em>opening mark</em>; the character that ends it is its <em>closing mark</em>. For convenience, the opening and closing marks of a string literal may be either true typographical “curly” double quotation marks (U+201C and U+201D) or a pair of “neutral” double-quote characters. It is a static error if the opening and closing marks of a string literal do not “match”, that is, if one is “curly” and the other “neutral”. As discussed in Section 13.1 <span class="pending">[not converted yet]</span>, a string literal evaluates to a value of type <span class="m"><span class="ty">String</span></span>, which represents a finite sequence of abstract Unicode characters.</p>
+<p id="p-df6f93c7" class="nb">A string literal is a sequence of characters enclosed in double quotation marks (for example, <span class="tt">"Hello, world!"</span> or “<span class="tt"><span class="m">π</span> r<span class="m"><sup>2</sup></span></span>”). The character that begins a string literal is the literal’s <em>opening mark</em>; the character that ends it is its <em>closing mark</em>. For convenience, the opening and closing marks of a string literal may be either true typographical “curly” double quotation marks (U+201C and U+201D) or a pair of “neutral” double-quote characters. It is a static error if the opening and closing marks of a string literal do not “match”, that is, if one is “curly” and the other “neutral”. As discussed in <a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->, a string literal evaluates to a value of type <span class="m"><span class="ty">String</span></span>, which represents a finite sequence of abstract Unicode characters.</p>
 <p id="p-6047da6d" class="nb">A left double quotation mark (U+201C) or “neutral” quotation mark (U+0022) begins a string literal unless it is within a comment, a character literal, or another string literal.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-52b64538-2" class="nb">What if it is preceded by a backslash? (should be illegal)</p></aside>
@@ -343,7 +501,7 @@
 <p id="p-e9bfbc0f" class="nb">In this section, we describe how to determine the operator tokens of a program. Because operator tokens do not occur within comments, string literals and character literals, we henceforth in this section consider only characters that are outside these constructs.</p>
 <p id="p-a03ad472" class="nb">An <em>operator word</em> of a program is a word that is not reserved, consists only of uppercase letters and underscores (no digits or non-uppercase letters), does not begin or end with an underscore, and has at least two different letters.</p>
 <p id="p-858a3c06" class="nb">A <em>base operator</em> is an ordinary operator character (described <a class="xref" href="#sec-characters">Section 4.1</a>), an operator word, a (contiguous) sequence of two or more vertical-line characters (U+007C), or a multicharacter enclosing operator, as defined in <a class="xref" href="#sec-multichar-enclosers">Section 4.14.1</a>. A base operator is <em>maximal</em> in a program if it is not contained within any other base operator of that program. It is a static error if two maximal base operators overlap (which is only possible if both are multicharacter enclosing operators). A <em>simple operator</em> is a maximal base operator that is an operator character or an operator word.</p>
-<p id="p-3183a73f" class="nb">A maximal base operator is an operator token unless it is a simple operator other than an enclosing or vertical-line operator character, and it is immediately preceded by ‘^’ or immediately followed by ‘<span class="m">=</span>’. Such an operator is an <em>enclosing operator</em> if it is an enclosing operator character (see Section F.2 <span class="pending">[not converted yet]</span>) or a multicharacter enclosing operator; it is a <em>vertical-line operator</em> if it has only vertical-line operator characters (see Section F.3 <span class="pending">[not converted yet]</span>); otherwise, it is an <em>ordinary operator</em>.</p>
+<p id="p-3183a73f" class="nb">A maximal base operator is an operator token unless it is a simple operator other than an enclosing or vertical-line operator character, and it is immediately preceded by ‘^’ or immediately followed by ‘<span class="m">=</span>’. Such an operator is an <em>enclosing operator</em> if it is an enclosing operator character (see <a class="xref" href="operator-precedence.html#sec-bracket-pairs">Section F.2</a><!--nc-->) or a multicharacter enclosing operator; it is a <em>vertical-line operator</em> if it has only vertical-line operator characters (see <a class="xref" href="operator-precedence.html#sec-vertical-line-ops">Section F.3</a><!--nc-->); otherwise, it is an <em>ordinary operator</em>.</p>
 <p id="p-20e67001" class="nb">If a simple operator is immediately preceded by ‘^’ then the ‘^’ and the simple operator together comprise a single operator token; such an operator token is called a <em>superscripted postfix operator</em>. In addition, “<span class="m"><span class="rm"><span class="tt">^</span></span><i>T</i></span>” is also a superscripted postfix operator provided that it is not immediately followed by a word character. It is a static error for a superscripted postfix operator to be immediately followed by a word character other than apostrophe.</p>
 <p id="p-c1df3891" class="nb">Finally, if a simple operator is not immediately preceded by ‘^’ and is immediately followed by ‘<span class="m">=</span>’ then the simple operator and the ‘<span class="m">=</span>’ together comprise an operator token; such an operator token is called a <em>compound assignment operator</em>.</p>
 <aside class="draft"><p class="label">Draft note</p>
@@ -359,14 +517,14 @@
 <li><p id="p-4f3906db" class="nb">One or more ‘<code>&lt;</code>’ characters may be followed immediately by one or more ‘<code>|</code>’ characters. Such a token is a left encloser, and it is matched by the multicharacter token consisting of the same number of ‘<code>|</code>’ characters followed by as many ‘<code>&gt;</code>’ characters as there are ‘<code>&lt;</code>’ characters in the left encloser.</p></li>
 <li><p id="p-82910e2f" class="nb">One or more ‘<code>&lt;</code>’ characters, or one or more ‘<code>|</code>’ characters, may be followed immediately by one or more ‘<code>/</code>’ characters or by one or more ‘<code>\</code>’ characters. Such a token is a left encloser, and it is matched by the multicharacter token consisting of the same number and <em>opposite</em> kind of ‘<code>/</code>’ or ‘<code>\</code>’ characters followed immediately by as many matching ‘<code>&gt;</code>’ or ‘<code>|</code>’ characters as appropriate. Thus, for example, “<code>&lt;&lt;//</code>” matches “<code>\\&gt;&gt;</code>’, and “<code>|\\\</code>” matches “<code>///|</code>”. (In the future, we may allow tokens with mixtures of ‘<code>/</code>’ and ‘<code>\</code>’, in which case the character sequences must “opposite-match” from outside in. But for now, such tokens are simply illegal.)</p></li>
 <li><p id="p-a69c7f24" class="nb">Finally, any number of ‘<code>*</code>’ (U+002A) or ‘<code>.</code>’ (U+002E) characters may be placed within any of the above multicharacter sequences, except those that contain ‘(’ or ‘)’, as long as no ‘<code>*</code>’ or ‘<code>.</code>’ is the first or last character in the sequence, and no ‘<code>*</code>’ or ‘<code>.</code>’ character is adjacent to another ‘<code>*</code>’ or ‘<code>.</code>’ character. (Thus <code>[**/</code> and <code>[../</code> and <code>[.*/</code> are all improper.) The rule for matching is as above, except that in addition, the positions of the ‘<code>*</code>’ and the ‘<code>.</code>’ characters must match from the outside in. (For example, <code>[*/./</code> matches <code>/./*]</code>, and <code>&lt;*/./</code> matches <code>\.\*&gt;</code>.)</p>
-<p id="p-3489a9a1" class="nb">Note that some of these multicharacter sequences are considered to be ASCII shorthand for certain single Unicode characters. Note also that four other multicharacter sequences not covered by the rules given here (the matched pair <code>(.&lt;</code> and <code>&gt;.)</code>, and the matched pair <code>((.&gt;</code> and <code>&lt;.))</code>) are also considered to be ASCII shorthand for certain single Unicode characters. See Section F.2 <span class="pending">[not converted yet]</span>.</p></li>
+<p id="p-3489a9a1" class="nb">Note that some of these multicharacter sequences are considered to be ASCII shorthand for certain single Unicode characters. Note also that four other multicharacter sequences not covered by the rules given here (the matched pair <code>(.&lt;</code> and <code>&gt;.)</code>, and the matched pair <code>((.&gt;</code> and <code>&lt;.))</code>) are also considered to be ASCII shorthand for certain single Unicode characters. See <a class="xref" href="operator-precedence.html#sec-bracket-pairs">Section F.2</a><!--nc-->.</p></li>
 </ol>
 <p id="p-e5cf5a64" class="nb">Note that some of the character sequences described above cannot occur in programs after ASCII conversion. For example, “<code>||</code>” is converted to ‘<span class="m">‖</span>’ (U+2016). Note also that <span class="tt">[\ \]</span> (which are converted to <span class="m">⟦  ⟧</span>) are not operators; they play a special role in the syntax of Fortress, and their behavior cannot be redefined by a library.</p>
 </section>
 <section class="sec" data-num="4.14.2" data-title="Special Operators">
 <h3 id="s-special-operators" class="nb"><span class="num">4.14.2</span> Special Operators</h3>
 <p id="p-e7a3d191" class="nb">Note that in the preceding discussion, a single operator character can be an operator token only if it is an ordinary operator character. In some cases, some of the special operator characters (and even some special non-operator characters) form part of an operator token. However, most of the special operator characters cannot be determined to be operators before parsing the program because they are also used for various parts of Fortress syntax. The one exception is ‘^’: if an occurrence of this character is not part of a superscripted postfix operator, then it is an operator token by itself: the special <em>superscripting operator</em>. This operator is always an infix operator, and it is a static error if it appears in a context in which a prefix or postfix operator is expected.</p>
-<p id="p-35509647" class="nb">Every other special operator character, when not part of an operator token, is a special token that may be used as an operator. There is also a special <span class="m"><span class="kw">juxtaposition</span></span> operator (described in Section 16.8 <span class="pending">[not converted yet]</span>), but this operator is a reserved word rather than an operator token. Occurrences of this operator are determined by the Fortress grammar. The reserved words <span class="m"><span class="kw">in</span></span>, <span class="m"><span class="ty">cubed</span></span>, <span class="m"><span class="ty">cubic</span></span>, <span class="m"><span class="ty">in</span></span>, <span class="m"><span class="ty">inverse</span></span>, <span class="m"><span class="ty">per</span></span>, <span class="m"><span class="ty">square</span></span>, and <span class="m"><span class="ty">squared</span></span>, are used as operators on units.</p>
+<p id="p-35509647" class="nb">Every other special operator character, when not part of an operator token, is a special token that may be used as an operator. There is also a special <span class="m"><span class="kw">juxtaposition</span></span> operator (described in <a class="xref" href="operators.html#sec-juxtameaning">Section 16.8</a><!--nc-->), but this operator is a reserved word rather than an operator token. Occurrences of this operator are determined by the Fortress grammar. The reserved words <span class="m"><span class="kw">in</span></span>, <span class="m"><span class="ty">cubed</span></span>, <span class="m"><span class="ty">cubic</span></span>, <span class="m"><span class="ty">in</span></span>, <span class="m"><span class="ty">inverse</span></span>, <span class="m"><span class="ty">per</span></span>, <span class="m"><span class="ty">square</span></span>, and <span class="m"><span class="ty">squared</span></span>, are used as operators on units.</p>
 </section>
 </section>
 <section class="sec" data-num="4.15" data-title="Identifiers">
@@ -400,13 +558,36 @@
 <section class="sec" data-num="4.17.2" data-title="Numerals">
 <h3 id="numeralsRadix" class="nb"><span class="num">4.17.2</span> Numerals</h3>
 <p id="p-54a0ba8b" class="nb">A numeral is rendered in roman type, with the radix, if present, as a subscript.</p>
-<div class="tw nb" id="t-faaae3ea" data-kind="table"><table class="tab">
-<tr><td class="r"><span class="tt">27</span></td><td class="c"><em>is rendered as</em></td><td class="l"><span class="m">27</span></td></tr>
-<tr><td class="r"><span class="tt">10101101_TWO</span></td><td class="c"><em>is rendered as</em></td><td class="l"><span class="m">10101101<sub> <span class="rm"><span class="sc">two</span></span></sub></span></td></tr>
-<tr><td class="r"><span class="tt">3.143159265</span></td><td class="c"><em>is rendered as</em></td><td class="l"><span class="m">3.143159265</span></td></tr>
-<tr><td class="r"><span class="tt">3.11037552_8</span></td><td class="c"><em>is rendered as</em></td><td class="l"><span class="m">3.11037552<sub> 8</sub></span></td></tr>
-<tr><td class="r"><span class="tt">11.001001000011111101101010_2</span></td><td class="c"><em>is rendered as</em></td><td class="l"><span class="m">11.001001000011111101101010<sub> 2</sub></span></td></tr>
-</table></div>
+<div class="tw nb" id="t-26b8ff18" data-kind="table"><svg class="tx" data-d="16" viewBox="5.38 1.13 373.96 57.15" width="37.396em" height="5.715em" fill="currentColor"><text class='t1' x='149.08' y='8.37'>27</text>
+<text class='t11' x='171.8' y='8.37'>is<tspan x='180.93'>r</tspan><tspan x='184.44'>ender</tspan><tspan x='206.75'>ed</tspan><tspan x='218.65'>as</tspan></text>
+<text class='t3' x='239.46' y='8.37'>27</text>
+<text class='t1' x='97.43' y='20.32'>10101101</text>
+<rect x='141.01' y='19.93' height='.4' width='2.69'/>
+<text class='t1' x='143.7' y='20.32'>TWO</text>
+<text class='t11' x='171.8' y='20.32'>is<tspan x='180.93'>r</tspan><tspan x='184.44'>ender</tspan><tspan x='206.75'>ed</tspan><tspan x='218.65'>as</tspan></text>
+<text class='t3' x='241.12' y='20.32'>10101101</text>
+<text class='t12' x='282.56' y='21.82'>T<tspan x='287.38'>W</tspan><tspan x='294.53'>O</tspan></text>
+<text class='t1' x='100.66' y='32.28'>3.143159265</text>
+<text class='t11' x='171.8' y='32.28'>is<tspan x='180.93'>r</tspan><tspan x='184.44'>ender</tspan><tspan x='206.75'>ed</tspan><tspan x='218.65'>as</tspan></text>
+<text class='t3' x='239.46' y='32.28'>3</text>
+<text class='t4' x='244.44' y='32.28'>.</text>
+<text class='t3' x='247.21' y='32.28'>143159265</text>
+<text class='t1' x='97.43' y='44.23'>3.11037552</text>
+<rect x='151.77' y='43.84' height='.4' width='2.69'/>
+<text class='t1' x='154.46' y='44.23'>8</text>
+<text class='t11' x='171.8' y='44.23'>is<tspan x='180.93'>r</tspan><tspan x='184.44'>ender</tspan><tspan x='206.75'>ed</tspan><tspan x='218.65'>as</tspan></text>
+<text class='t3' x='241.12' y='44.23'>3</text>
+<text class='t4' x='246.1' y='44.23'>.</text>
+<text class='t3' x='248.87' y='44.23'>11037552</text>
+<text class='t8' x='290.08' y='45.73'>8</text>
+<text class='t1' x='5.98' y='56.19'>11.001001000011111101101010</text>
+<rect x='151.77' y='55.79' height='.4' width='2.69'/>
+<text class='t1' x='154.46' y='56.19'>2</text>
+<text class='t11' x='171.8' y='56.19'>is<tspan x='180.93'>r</tspan><tspan x='184.44'>ender</tspan><tspan x='206.75'>ed</tspan><tspan x='218.65'>as</tspan></text>
+<text class='t3' x='241.12' y='56.19'>11</text>
+<text class='t4' x='251.08' y='56.19'>.</text>
+<text class='t3' x='253.85' y='56.19'>001001000011111101101010</text>
+<text class='t8' x='374.76' y='57.68'>2</text></svg></div>
 <p id="p-8504ada6" class="nb">Note: the elegant way to write Avogadro’s number is <code>6.02 TIMES 10^23</code>, which is not a single token but is a constant expression; its rendered form is <span class="m">6.02 × 10<sup>23</sup></span>.</p>
 </section>
 <section class="sec" data-num="4.17.3" data-title="Identifiers">
@@ -414,16 +595,16 @@
 <p id="p-eb3427fa" class="nb">Fortress has rather complicated rules for rendering an identifier; as in other parts of Fortress, the rules are complicated so that the simple cases will be very simple, but also so that difficult cases of interest will be possible.</p>
 <p id="p-121907cf" class="nb">It is conventional in mathematical notation to make use of variables, particularly single-letter variables, in a number of different fonts or styles, with italic being the most common, then boldface, and roman: <span class="m"><i>a</i></span>, <span class="m"><span class="bf">b</span></span>, <span class="m"><span class="rm">c</span></span>. Frequently such variables are also decorated with accents and subscripts: <span class="m"><i>p̄</i></span>, <span class="m"><i>q</i>′</span>, <span class="m"><i>r̂</i></span>, <span class="m"><i>T</i><sub><span class="rm">max</span></sub></span>, <span class="m"><span class="bf">u</span>⃗</span>, <span class="m"><span class="bf">v</span><sub><span class="rm">x</span></sub></span>, <span class="m"><i>w</i><sub>17</sub></span>, <span class="m"><i>z̄</i><sub>17</sub>′</span>. Fortress provides conventions for typing such variables using plain ASCII characters: for example, the unformatted presentations of these same variables are <span class="m"><span class="str">a</span></span>, <span class="m"><span class="str">_b</span></span>, <span class="m"><span class="str">c_</span></span>, <span class="m"><span class="str">p_bar</span></span>, <span class="m"><span class="str">q'</span></span> or <span class="m"><span class="str">q_prime</span></span>, <span class="m"><span class="str">r_hat</span></span>, <span class="m"><span class="str">T_max</span></span>, <span class="m"><span class="str">_u_vec</span></span>, <span class="m"><span class="str">_v_x</span></span>, <span class="m"><span class="str">w17</span></span>, and <span class="m"><span class="str">z17_bar'</span></span>. The rules are also intended to accommodate the typical use of multicharacter variable names for computer programming, such as <span class="m"><i>count</i></span>, <span class="m"><i>isUpperCase</i></span>, and <span class="m"><span class="ty">Boolean</span></span>.</p>
 <p id="p-45e6d61e" class="nb">The most important rules of thumb are that simple variables are usually italic <span class="m"><i>z</i></span> (<span class="m"><span class="str">z</span></span>), a leading underscore usually means boldface font <span class="m"><span class="bf">z</span></span> (<span class="m"><span class="str">_z</span></span>), a trailing underscore usually means roman font <span class="m"><span class="rm">z</span></span> (<span class="m"><span class="str">z_</span></span>), and a doubled capital letter means double-struck (or “blackboard bold”) font <span class="m">ℤ</span> (<span class="m"><span class="str">ZZ</span></span>). However, mixed-case variable names that begin with a capital letter, which are usually used as names of types, are rendered in roman font even if there is no trailing underscore.</p>
-<p id="p-84ff5017" class="nb">The detailed rules are described in Section D.1 <span class="pending">[not converted yet]</span>.</p>
+<p id="p-84ff5017" class="nb">The detailed rules are described in <a class="xref" href="app-rendering.html#sec-rendering-identifiers">Section D.1</a><!--nc-->.</p>
 </section>
 <section class="sec" data-num="4.17.4" data-title="Other Rendering Rules">
 <h3 id="otherRendering" class="nb"><span class="num">4.17.4</span> Other Rendering Rules</h3>
 <p id="p-d4726d51" class="nb">Reserved words are rendered in monospace, except that the reserved words that are used as operators on units, namely <span class="m"><span class="ty">cubed</span></span>, <span class="m"><span class="ty">cubic</span></span>, <span class="m"><span class="ty">in</span></span>, <span class="m"><span class="ty">inverse</span></span>, <span class="m"><span class="ty">per</span></span>, <span class="m"><span class="ty">square</span></span>, and <span class="m"><span class="ty">squared</span></span>, are rendered in roman type. Operator words are rendered in monospace. Comments are rendered in roman font. Any character within a character literal or string literal is rendered in monospace if possible.</p>
-<p id="p-663df690" class="nb">The detailed rules for rendering other constructions are described in Section D.2 <span class="pending">[not converted yet]</span>.</p>
+<p id="p-663df690" class="nb">The detailed rules for rendering other constructions are described in <a class="xref" href="app-rendering.html#sec-rendering-other">Section D.2</a><!--nc-->.</p>
 </section>
 </section>
 <section class="sec fns"><h2 id="footnotes">Footnotes</h2>
-<ol><li id="fn-1">Note that a single Unicode abstract character may have multiple encodings. Fortress does not distinguish between different encodings of the same character that may be used in representing source code, and it treats canonically equivalent characters as identical. See the Unicode Standard [<a class="cite" href="references.html#ref-Unicode">Unicode</a>] for a full discussion of encoding and canonical equivalence. <a href="#fnref-1" aria-label="Back to the text">↩</a></li><li id="fn-2">There are sixty-five “control characters”, which do not have proper names. However, many of them have <em>Unicode 1.0 names</em>, or other standard names specified in the Unicode Character Database, which we use instead. <a href="#fnref-2" aria-label="Back to the text">↩</a></li><li id="fn-3">Of course, an IDE may actually do the conversion and manipulate the converted program, in which case, the page, line and position of characters will reflect the conversion. <a href="#fnref-3" aria-label="Back to the text">↩</a></li><li id="fn-4">See Appendix E <span class="pending">[not converted yet]</span> for the precise notion of equivalence guaranteed by ASCII conversion. <a href="#fnref-4" aria-label="Back to the text">↩</a></li><li id="fn-5">Fortress has a facility for defining new syntax, discussed in Chapter 7.1 <span class="pending">[not converted yet]</span>. However, except for that chapter, this specification describes the Fortress language only for programs that use the standard Fortress syntax without using this facility. <a href="#fnref-5" aria-label="Back to the text">↩</a></li><li id="fn-6">The value denoted by a digit is specified by the Unicode Standard [<a class="cite" href="references.html#ref-Unicode">Unicode</a>]. The value denoted by the letters are as follows: <span class="tt">A</span> or <span class="tt">a</span>: 10; <span class="tt">B</span> or <span class="tt">b</span>: 11; <span class="tt">C</span> or <span class="tt">c</span>: 12; <span class="tt">D</span> or <span class="tt">d</span>: 13; <span class="tt">E</span> or <span class="tt">e</span>: 11 if the radix is 12, 14 otherwise; <span class="tt">F</span> or <span class="tt">f</span>: 15; <span class="tt">X</span> or <span class="tt">x</span>: 10. <a href="#fnref-6" aria-label="Back to the text">↩</a></li></ol></section>
+<ol><li id="fn-1">Note that a single Unicode abstract character may have multiple encodings. Fortress does not distinguish between different encodings of the same character that may be used in representing source code, and it treats canonically equivalent characters as identical. See the Unicode Standard [<a class="cite" href="references.html#ref-Unicode">Unicode</a>] for a full discussion of encoding and canonical equivalence. <a href="#fnref-1" aria-label="Back to the text">↩</a></li><li id="fn-2">There are sixty-five “control characters”, which do not have proper names. However, many of them have <em>Unicode 1.0 names</em>, or other standard names specified in the Unicode Character Database, which we use instead. <a href="#fnref-2" aria-label="Back to the text">↩</a></li><li id="fn-3">Of course, an IDE may actually do the conversion and manipulate the converted program, in which case, the page, line and position of characters will reflect the conversion. <a href="#fnref-3" aria-label="Back to the text">↩</a></li><li id="fn-4">See <a class="xref" href="ascii-unicode.html">Appendix E</a><!--nc--> for the precise notion of equivalence guaranteed by ASCII conversion. <a href="#fnref-4" aria-label="Back to the text">↩</a></li><li id="fn-5">Fortress has a facility for defining new syntax, discussed in <a class="xref" href="declarations.html#chap-syntax-expanders">Chapter 7.1</a><!--nc-->. However, except for that chapter, this specification describes the Fortress language only for programs that use the standard Fortress syntax without using this facility. <a href="#fnref-5" aria-label="Back to the text">↩</a></li><li id="fn-6">The value denoted by a digit is specified by the Unicode Standard [<a class="cite" href="references.html#ref-Unicode">Unicode</a>]. The value denoted by the letters are as follows: <span class="tt">A</span> or <span class="tt">a</span>: 10; <span class="tt">B</span> or <span class="tt">b</span>: 11; <span class="tt">C</span> or <span class="tt">c</span>: 12; <span class="tt">D</span> or <span class="tt">d</span>: 13; <span class="tt">E</span> or <span class="tt">e</span>: 11 if the radix is 12, 14 otherwise; <span class="tt">F</span> or <span class="tt">f</span>: 15; <span class="tt">X</span> or <span class="tt">x</span>: 10. <a href="#fnref-6" aria-label="Back to the text">↩</a></li></ol></section>
 </section>
 <nav class="pager" aria-label="Chapters"><a class="prev" href="programs.html"><span>Previous</span> 3. Programs</a><a class="next" href="evaluation.html"><span>Next</span> 5. Evaluation</a></nav>
 <footer class="colophon">Converted from <code>Specification/basic/lexical-structure.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>

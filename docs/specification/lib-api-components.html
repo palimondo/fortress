@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>42. Components and APIs · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t1{font-family:cmr10;font-size:9.96px}
+svg.tx text.t2{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t3{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t4{font-family:cmti10;font-size:9.96px}
+svg.tx text.t5{font-family:stmary10;font-size:9.96px}
+svg.tx text.t6{font-family:msbm10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-api-components" data-chapter="42. Components and APIs">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">42. Components and APIs</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part VI, Fortress APIs and Documentation for Library Writers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="42" data-title="Components and APIs">
+<h1 id="top" class="nb"><a id="chap-lib-api-components"></a><span class="num">Chapter 42</span> Components and APIs</h1>
+
+<p id="p-e37fdcf9" class="nb">We define a special <span class="m"><span class="ty">Fortress</span>.<span class="ty">Components</span></span> API that provides handles on components and APIs, and operations on them, for use by components themselves (e.g., development environments), allowing components to build and maintain other components, manipulate projects and components as objects, compile projects into components, link components together, deploy components on specific sites over the internet, etc. This API is also used by the <span class="m"><span class="ty">Upgradable</span></span> and <span class="m"><span class="ty">Installable</span></span> APIs. A component implementing this API is installed along with the Fortress standard libraries on every fortress.</p>
+<p id="p-15c92f24" class="nb">Note that <span class="m"><span class="ty">Component</span></span>s and <span class="m"><span class="ty">Api</span></span>s can be constructed only from the factory functions provided in the API. The components and APIs so constructed are also installed and accessible via <span class="m"><i>getComponent</i></span>, <span class="m"><i>preferences</i></span> (which returns a list of components implementing a given API, in order of preference), and <span class="m"><i>getAPI</i></span>. Calling <span class="m"><i>preferences</i></span> on an API in the Fortress standard libraries returns a non-empty list of components. In particular, <span class="m"><i>preferences</i>(<span class="ty">Fortress</span>.<span class="ty">Components</span>)</span> returns a non-empty list whose first element is the very component on which the call to <span class="m"><i>preferences</i></span> was made. Conceptually, this component serves as a handle on the enclosing fortress, which might be necessary for the purposes of certain development tools. The operations on a fortress provided in this API take components and APIs as arguments directly, rather than names of components and APIs as the corresponding shell operations are described. This decision is done for the sake of convenience. Note, however, that a component name may be rebound on a fortress, or even uninstalled, while some process <span class="m"><i>p</i></span> keeps a reference to a corresponding <span class="m"><span class="ty">Component</span></span> object. This possibility is not problematic because the component corresponding to this object may be simply kept by the fortress until the object is freed in <span class="m"><i>p</i></span>. Also, note that <span class="tt">upgrade</span> operations on a compound component are purely functional: they produce new compound components as a result. Thus, the structure of a component as viewed through a <span class="m"><span class="ty">Component</span></span> object does not became stale in the face of upgrades.</p>
+<p id="p-f16f9ac5" class="nb">We include a method <span class="m"><i>getSourceFile</i></span> on components that returns the source file the component was compiled from. Source files can be included with simple components during compilation as a compiler option. Doing so allows development tools such as graphical debuggers to easily display the locations of errors without the possibility that source code would not be synchronized with compiled code, as can happen in conventional programming models where compiled code is stored in nonencapsulated object files.</p>
+<div class="fx nb both" id="c-b19cc5ad" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.92 426.43 697.42" width="42.643em" height="69.742em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>api</text>
+<text class='t1' x='28.42' y='19.33'>F<tspan x='34.09'>ortress</tspan></text>
+<text class='t2' x='63.04' y='19.33'>.</text>
+<text class='t1' x='65.81' y='19.33'>Comp<tspan x='92.1'>onen</tspan><tspan x='112.3'>ts</tspan></text>
+<text class='t0' x='9.96' y='31.28'>import</text>
+<text class='t1' x='44.11' y='31.28'>File</text>
+<text class='t0' x='63.35' y='31.28'>from</text>
+<text class='t1' x='87.03' y='31.28'>F<tspan x='92.71'>ortress</tspan></text>
+<text class='t2' x='121.65' y='31.28'>.</text>
+<text class='t1' x='124.42' y='31.28'>IO</text>
+<text class='t0' x='9.96' y='43.24'>import</text>
+<text class='t3' x='44.11' y='43.24'>{</text>
+<text class='t1' x='50.75' y='43.24'>List</text>
+<text class='t2' x='67.55' y='43.24'>,</text>
+<text class='t1' x='71.98' y='43.24'>Set</text>
+<text class='t2' x='85.82' y='43.24'>,</text>
+<text class='t1' x='90.24' y='43.24'>Date</text>
+<text class='t3' x='112.8' y='43.24'>}</text>
+<text class='t0' x='120.55' y='43.24'>from</text>
+<text class='t1' x='144.24' y='43.24'>F<tspan x='149.91'>ortress</tspan></text>
+<text class='t2' x='178.86' y='43.24'>.</text>
+<text class='t1' x='181.62' y='43.24'>Util</text>
+<text class='t0' x='9.96' y='59.18'>trait</text>
+<text class='t1' x='38.88' y='59.18'>F<tspan x='44.55'>ortress</tspan></text>
+<text class='t4' x='21.92' y='71.13'>fortr<tspan x='41.27'>essName</tspan></text>
+<text class='t1' x='79.97' y='71.13'>:<tspan x='84.4'>Name</tspan></text>
+<text class='t4' x='21.92' y='83.09'>birthDate</text>
+<text class='t1' x='63.41' y='83.09'>:<tspan x='67.84'>Date</tspan></text>
+<text class='t4' x='21.92' y='95.04'>getComp<tspan x='59.34'>onent</tspan></text>
+<text class='t1' x='84.48' y='95.04'>(</text>
+<text class='t4' x='88.35' y='95.04'>c<tspan x='92.42'>omp</tspan><tspan x='110.25'>onentName</tspan></text>
+<text class='t1' x='160.41' y='95.04'>:<tspan x='164.84'>Name</tspan><tspan x='190.02'>):</tspan><tspan x='198.32'>Comp</tspan><tspan x='224.61'>onen</tspan><tspan x='244.81'>t</tspan></text>
+<text class='t4' x='21.92' y='107'>getAPI</text>
+<text class='t1' x='53.97' y='107'>(</text>
+<text class='t4' x='57.85' y='107'>apiName</text>
+<text class='t1' x='97.06' y='107'>:<tspan x='101.49'>Name</tspan><tspan x='126.67'>):</tspan><tspan x='134.98'>Api</tspan></text>
+<text class='t4' x='21.92' y='118.95'>pr<tspan x='30.7'>efer</tspan><tspan x='46.61'>enc</tspan><tspan x='60.87'>es</tspan></text>
+<text class='t1' x='70.35' y='118.95'>(</text>
+<text class='t4' x='74.22' y='118.95'>ofAPI</text>
+<text class='t1' x='101.95' y='118.95'>:<tspan x='106.37'>Api</tspan><tspan x='122.15'>):</tspan></text>
+<text class='t3' x='130.45' y='118.95'></text>
+<text class='t1' x='134.32' y='118.95'>Comp<tspan x='160.62'>onen</tspan><tspan x='180.82'>t</tspan></text>
+<text class='t3' x='184.69' y='118.95'></text>
+<text class='t4' x='21.92' y='130.91'>c<tspan x='25.99'>ompile</tspan></text>
+<text class='t1' x='55.26' y='130.91'>(</text>
+<text class='t4' x='59.13' y='130.91'>ﬁle</text>
+<text class='t1' x='72.61' y='130.91'>:<tspan x='77.04'>File</tspan><tspan x='93.5'>):</tspan><tspan x='101.8'>SimpleComp</tspan><tspan x='157.43'>onen</tspan><tspan x='177.63'>t</tspan></text>
+<text class='t4' x='21.92' y='142.86'>instal<tspan x='46.1'>l</tspan></text>
+<text class='t1' x='49.68' y='142.86'>(</text>
+<text class='t4' x='53.55' y='142.86'>ﬁle</text>
+<text class='t1' x='67.03' y='142.86'>:<tspan x='71.46'>File</tspan><tspan x='87.93'>):</tspan><tspan x='96.23'>Comp</tspan><tspan x='122.52'>onen</tspan><tspan x='142.72'>t</tspan></text>
+<text class='t4' x='21.92' y='154.82'>instal<tspan x='46.1'>l</tspan></text>
+<text class='t1' x='49.68' y='154.82'>(</text>
+<text class='t4' x='53.55' y='154.82'>ﬁle</text>
+<text class='t1' x='67.03' y='154.82'>:<tspan x='71.46'>File</tspan></text>
+<text class='t2' x='87.93' y='154.82'>,</text>
+<text class='t4' x='92.35' y='154.82'>pr<tspan x='101.14'>er</tspan><tspan x='109.41'>e</tspan><tspan x='113.49'>qs</tspan></text>
+<text class='t1' x='122.96' y='154.82'>:<tspan x='127.39'>Set</tspan></text>
+<text class='t5' x='141.23' y='154.82'></text>
+<text class='t1' x='145.24' y='154.82'>Api</text>
+<text class='t5' x='161.01' y='154.82'></text>
+<text class='t1' x='165.03' y='154.82'>):<tspan x='173.33'>Comp</tspan><tspan x='199.62'>onen</tspan><tspan x='219.82'>t</tspan></text>
+<text class='t4' x='21.92' y='166.77'>up<tspan x='31.85'>gr</tspan><tspan x='40.12'>adeA</tspan><tspan x='62.04'>l</tspan><tspan x='65.09'>l</tspan></text>
+<text class='t1' x='68.67' y='166.77'>(</text>
+<text class='t4' x='72.54' y='166.77'>c<tspan x='76.62'>omp</tspan><tspan x='94.44'>onentName</tspan></text>
+<text class='t1' x='144.6' y='166.77'>:<tspan x='149.03'>Name</tspan></text>
+<text class='t2' x='174.21' y='166.77'>,</text>
+<text class='t4' x='178.64' y='166.77'>that</text>
+<text class='t1' x='196.39' y='166.77'>:<tspan x='200.82'>Comp</tspan><tspan x='227.11'>onen</tspan><tspan x='247.31'>t</tspan><tspan x='251.19'>):</tspan><tspan x='259.49'>()</tspan></text>
+<text class='t4' x='21.92' y='182.71'>isV<tspan x='35.69'>alidLink</tspan></text>
+<text class='t1' x='72.03' y='182.71'>(</text>
+<text class='t4' x='75.91' y='182.71'>c<tspan x='79.98'>onstituents</tspan></text>
+<text class='t1' x='128.15' y='182.71'>:</text>
+<text class='t3' x='132.58' y='182.71'></text>
+<text class='t1' x='136.46' y='182.71'>Comp<tspan x='162.75'>onen</tspan><tspan x='182.95'>t</tspan></text>
+<text class='t3' x='186.82' y='182.71'></text>
+<text class='t2' x='190.7' y='182.71'>,</text>
+<text class='t4' x='195.13' y='182.71'>exp<tspan x='208.91'>orts</tspan></text>
+<text class='t1' x='229.17' y='182.71'>=<tspan x='239.69'>Set</tspan></text>
+<text class='t5' x='253.53' y='182.71'></text>
+<text class='t1' x='257.54' y='182.71'>Api</text>
+<text class='t5' x='273.31' y='182.71'></text>
+<text class='t2' x='277.33' y='182.71'>,</text>
+<text class='t4' x='281.76' y='182.71'>hide</text>
+<text class='t1' x='303.09' y='182.71'>=<tspan x='313.61'>Set</tspan></text>
+<text class='t5' x='327.45' y='182.71'></text>
+<text class='t1' x='331.46' y='182.71'>Api</text>
+<text class='t5' x='347.23' y='182.71'></text>
+<text class='t1' x='351.25' y='182.71'>):<tspan x='359.55'>Bo</tspan><tspan x='371.86'>olean</tspan></text>
+<text class='t4' x='21.92' y='198.66'>link</text>
+<text class='t1' x='38.78' y='198.66'>(</text>
+<text class='t4' x='42.65' y='198.66'>r<tspan x='46.34'>esult</tspan></text>
+<text class='t1' x='67.15' y='198.66'>:<tspan x='71.57'>Name</tspan></text>
+<text class='t2' x='96.76' y='198.66'>,</text>
+<text class='t4' x='101.18' y='198.66'>c<tspan x='105.26'>onstituents</tspan></text>
+<text class='t1' x='153.43' y='198.66'>:</text>
+<text class='t3' x='157.86' y='198.66'></text>
+<text class='t1' x='161.73' y='198.66'>Comp<tspan x='188.02'>onen</tspan><tspan x='208.23'>t</tspan></text>
+<text class='t3' x='212.1' y='198.66'></text>
+<text class='t2' x='215.97' y='198.66'>,</text>
+<text class='t4' x='220.4' y='198.66'>exp<tspan x='234.19'>orts</tspan></text>
+<text class='t1' x='254.45' y='198.66'>=<tspan x='264.97'>Set</tspan></text>
+<text class='t5' x='278.8' y='198.66'></text>
+<text class='t1' x='282.82' y='198.66'>Api</text>
+<text class='t5' x='298.59' y='198.66'></text>
+<text class='t2' x='302.6' y='198.66'>,</text>
+<text class='t4' x='307.03' y='198.66'>hide</text>
+<text class='t1' x='328.37' y='198.66'>=<tspan x='338.89'>Set</tspan></text>
+<text class='t5' x='352.72' y='198.66'></text>
+<text class='t1' x='356.73' y='198.66'>Api</text>
+<text class='t5' x='372.51' y='198.66'></text>
+<text class='t1' x='376.52' y='198.66'>):<tspan x='384.82'>Comp</tspan><tspan x='411.11'>onen</tspan><tspan x='431.32'>t</tspan></text>
+<text class='t0' x='33.87' y='210.61'>requires</text>
+<text class='t3' x='78.48' y='210.61'>{</text>
+<text class='t4' x='85.12' y='210.61'>isV<tspan x='98.9'>alidLink</tspan></text>
+<text class='t1' x='135.24' y='210.61'>(</text>
+<text class='t4' x='139.12' y='210.61'>c<tspan x='143.19'>onstituents</tspan></text>
+<text class='t2' x='191.36' y='210.61'>,</text>
+<text class='t4' x='195.79' y='210.61'>exp<tspan x='209.58'>orts</tspan></text>
+<text class='t2' x='227.07' y='210.61'>,</text>
+<text class='t4' x='231.5' y='210.61'>hide</text>
+<text class='t1' x='250.07' y='210.61'>)</text>
+<text class='t3' x='255.6' y='210.61'>}</text>
+<text class='t0' x='9.96' y='222.57'>end<tspan x='9.96' y='238.51'>object</tspan></text>
+<text class='t1' x='44.11' y='238.51'>EnclosingF<tspan x='91.49'>ortress</tspan></text>
+<text class='t0' x='123.2' y='238.51'>extends</text>
+<text class='t3' x='162.58' y='238.51'>{</text>
+<text class='t1' x='169.23' y='238.51'>F<tspan x='174.9'>ortress</tspan></text>
+<text class='t3' x='205.51' y='238.51'>}</text>
+<text class='t0' x='213.26' y='238.51'>end<tspan x='9.96' y='254.45'>trait</tspan></text>
+<text class='t1' x='38.88' y='254.45'>F<tspan x='44.55'>ortressElemen</tspan><tspan x='105.47'>t</tspan></text>
+<text class='t4' x='21.92' y='266.4'>elementName</text>
+<text class='t1' x='81.25' y='266.4'>:<tspan x='85.67'>Name</tspan></text>
+<text class='t4' x='21.92' y='278.36'>vendor</text>
+<text class='t1' x='52.14' y='278.36'>:<tspan x='56.57'>String</tspan></text>
+<text class='t4' x='21.92' y='290.31'>owner</text>
+<text class='t1' x='49.09' y='290.31'>:<tspan x='53.51'>F</tspan><tspan x='59.19'>ortress</tspan></text>
+<text class='t4' x='21.92' y='302.27'>timeStamp</text>
+<text class='t1' x='68.88' y='302.27'>:<tspan x='73.31'>Date</tspan></text>
+<text class='t4' x='21.92' y='314.22'>version</text>
+<text class='t1' x='53.87' y='314.22'>:<tspan x='58.3'>V</tspan><tspan x='64.94'>ersion</tspan></text>
+<text class='t4' x='21.92' y='326.18'>uninstal<tspan x='57.05'>l</tspan></text>
+<text class='t1' x='60.63' y='326.18'>():<tspan x='72.8'>()</tspan></text>
+<text class='t0' x='9.96' y='338.13'>end<tspan x='9.96' y='354.07'>trait</tspan></text>
+<text class='t1' x='38.88' y='354.07'>Comp<tspan x='65.17'>onen</tspan><tspan x='85.37'>t</tspan></text>
+<text class='t0' x='92.02' y='354.07'>extends</text>
+<text class='t1' x='131.4' y='354.07'>F<tspan x='137.07'>ortressElemen</tspan><tspan x='197.98'>t</tspan></text>
+<text class='t4' x='21.92' y='366.03'>imp<tspan x='37.7'>orts</tspan></text>
+<text class='t1' x='55.2' y='366.03'>:<tspan x='59.62'>Set</tspan></text>
+<text class='t5' x='73.46' y='366.03'></text>
+<text class='t1' x='77.47' y='366.03'>Api</text>
+<text class='t5' x='93.25' y='366.03'></text>
+<text class='t4' x='21.92' y='377.98'>exp<tspan x='35.7'>orts</tspan></text>
+<text class='t1' x='53.2' y='377.98'>:<tspan x='57.63'>Set</tspan></text>
+<text class='t5' x='71.46' y='377.98'></text>
+<text class='t1' x='75.48' y='377.98'>Api</text>
+<text class='t5' x='91.25' y='377.98'></text>
+<text class='t4' x='21.92' y='389.94'>pr<tspan x='30.7'>ovides</tspan></text>
+<text class='t1' x='58' y='389.94'>:<tspan x='62.43'>Set</tspan></text>
+<text class='t5' x='76.26' y='389.94'></text>
+<text class='t1' x='80.28' y='389.94'>Api</text>
+<text class='t5' x='96.05' y='389.94'></text>
+<text class='t4' x='21.92' y='401.89'>visibles</text>
+<text class='t1' x='53.29' y='401.89'>:<tspan x='57.72'>Set</tspan></text>
+<text class='t5' x='71.55' y='401.89'></text>
+<text class='t1' x='75.57' y='401.89'>Api</text>
+<text class='t5' x='91.34' y='401.89'></text>
+<text class='t4' x='21.92' y='413.85'>c<tspan x='25.99'>onstituents</tspan></text>
+<text class='t1' x='74.16' y='413.85'>:<tspan x='78.59'>Set</tspan></text>
+<text class='t5' x='92.43' y='413.85'></text>
+<text class='t1' x='96.44' y='413.85'>Comp<tspan x='122.73'>onen</tspan><tspan x='142.93'>t</tspan></text>
+<text class='t5' x='146.81' y='413.85'></text>
+<text class='t4' x='21.92' y='425.8'>run</text>
+<text class='t1' x='37.83' y='425.8'>(</text>
+<text class='t4' x='41.71' y='425.8'>ar<tspan x='50.49'>gs</tspan></text>
+<text class='t1' x='59.96' y='425.8'>:<tspan x='64.39'>String</tspan></text>
+<text class='t2' x='92.78' y='425.8'>.<tspan x='97.21'>.</tspan><tspan x='101.64'>.</tspan></text>
+<text class='t1' x='104.41' y='425.8'>):<tspan x='112.71'>()</tspan></text>
+<text class='t4' x='21.92' y='437.76'>c<tspan x='25.99'>onstr</tspan><tspan x='47.76'>ain</tspan></text>
+<text class='t1' x='62.27' y='437.76'>(</text>
+<text class='t4' x='66.15' y='437.76'>destination</text>
+<text class='t1' x='114.78' y='437.76'>:<tspan x='119.2'>Name</tspan></text>
+<text class='t2' x='144.39' y='437.76'>,</text>
+<text class='t4' x='148.81' y='437.76'>apis</text>
+<text class='t1' x='166.95' y='437.76'>:<tspan x='171.37'>Set</tspan></text>
+<text class='t5' x='185.21' y='437.76'></text>
+<text class='t1' x='189.22' y='437.76'>Api</text>
+<text class='t5' x='205' y='437.76'></text>
+<text class='t1' x='209.01' y='437.76'>):<tspan x='217.31'>Comp</tspan><tspan x='243.6'>onen</tspan><tspan x='263.8'>t</tspan></text>
+<text class='t4' x='21.92' y='449.71'>hide</text>
+<text class='t1' x='40.49' y='449.71'>(</text>
+<text class='t4' x='44.36' y='449.71'>destination</text>
+<text class='t1' x='92.99' y='449.71'>:<tspan x='97.42'>Name</tspan></text>
+<text class='t2' x='122.6' y='449.71'>,</text>
+<text class='t4' x='127.03' y='449.71'>apis</text>
+<text class='t1' x='145.16' y='449.71'>:<tspan x='149.59'>Set</tspan></text>
+<text class='t5' x='163.43' y='449.71'></text>
+<text class='t1' x='167.44' y='449.71'>Api</text>
+<text class='t5' x='183.21' y='449.71'></text>
+<text class='t1' x='187.23' y='449.71'>):<tspan x='195.53'>Comp</tspan><tspan x='221.82'>onen</tspan><tspan x='242.02'>t</tspan></text>
+<text class='t4' x='21.92' y='461.67'>extr<tspan x='38.12'>act</tspan></text>
+<text class='t1' x='52.05' y='461.67'>(</text>
+<text class='t4' x='55.93' y='461.67'>pr<tspan x='64.71'>er</tspan><tspan x='72.99'>e</tspan><tspan x='77.06'>qs</tspan></text>
+<text class='t1' x='86.53' y='461.67'>:<tspan x='90.96'>Set</tspan></text>
+<text class='t5' x='104.8' y='461.67'></text>
+<text class='t1' x='108.81' y='461.67'>Api</text>
+<text class='t5' x='124.59' y='461.67'></text>
+<text class='t1' x='128.6' y='461.67'>):<tspan x='136.9'>File</tspan></text>
+<text class='t4' x='21.92' y='473.62'>isV<tspan x='35.69'>alidUp</tspan><tspan x='63.46'>gr</tspan><tspan x='71.74'>ade</tspan></text>
+<text class='t1' x='87.25' y='473.62'>(</text>
+<text class='t4' x='91.13' y='473.62'>that</text>
+<text class='t1' x='108.87' y='473.62'>:<tspan x='113.3'>Comp</tspan><tspan x='139.59'>onen</tspan><tspan x='159.79'>t</tspan><tspan x='163.67'>):</tspan><tspan x='171.97'>Bo</tspan><tspan x='184.29'>olean</tspan></text>
+<text class='t0' x='21.92' y='485.58'>abstract</text>
+<text class='t4' x='66.53' y='485.58'>up<tspan x='76.46'>gr</tspan><tspan x='84.73'>ade</tspan></text>
+<text class='t1' x='100.25' y='485.58'>(</text>
+<text class='t4' x='104.12' y='485.58'>r<tspan x='107.81'>esult</tspan></text>
+<text class='t1' x='128.62' y='485.58'>:<tspan x='133.04'>Name</tspan></text>
+<text class='t2' x='158.23' y='485.58'>,</text>
+<text class='t4' x='162.66' y='485.58'>that</text>
+<text class='t1' x='180.4' y='485.58'>:<tspan x='184.83'>Comp</tspan><tspan x='211.12'>onen</tspan><tspan x='231.32'>t</tspan><tspan x='235.2'>):</tspan><tspan x='243.5'>Comp</tspan><tspan x='269.79'>onen</tspan><tspan x='289.99'>t</tspan></text>
+<text class='t0' x='33.87' y='497.53'>requires</text>
+<text class='t3' x='78.48' y='497.53'>{</text>
+<text class='t0' x='85.12' y='497.53'>self</text>
+<text class='t2' x='106.05' y='497.53'>.</text>
+<text class='t4' x='108.81' y='497.53'>isV<tspan x='122.58'>alidUp</tspan><tspan x='150.36'>gr</tspan><tspan x='158.63'>ade</tspan></text>
+<text class='t1' x='174.15' y='497.53'>(</text>
+<text class='t4' x='178.02' y='497.53'>that</text>
+<text class='t1' x='195.77' y='497.53'>)</text>
+<text class='t3' x='201.31' y='497.53'>}</text>
+<text class='t4' x='21.92' y='509.49'>sour<tspan x='40.12'>c</tspan><tspan x='44.2'>eIsA</tspan><tspan x='63.84'>vailable</tspan></text>
+<text class='t1' x='96.67' y='509.49'>:<tspan x='101.1'>Bo</tspan><tspan x='113.41'>olean</tspan></text>
+<text class='t4' x='21.92' y='521.44'>getSour<tspan x='54.12'>c</tspan><tspan x='58.2'>eFile</tspan></text>
+<text class='t1' x='80.22' y='521.44'>():<tspan x='92.39'>File</tspan></text>
+<text class='t0' x='33.87' y='533.4'>requires</text>
+<text class='t3' x='78.48' y='533.4'>{</text>
+<text class='t4' x='85.12' y='533.4'>sour<tspan x='103.33'>c</tspan><tspan x='107.4'>eIsA</tspan><tspan x='127.05'>vailable</tspan></text>
+<text class='t3' x='161.54' y='533.4'>}</text>
+<text class='t4' x='21.92' y='545.35'>runT<tspan x='43.43'>ests</tspan></text>
+<text class='t1' x='60.29' y='545.35'>(</text>
+<text class='t4' x='64.16' y='545.35'>inclusive</text>
+<text class='t1' x='105.11' y='545.35'>=<tspan x='115.62'>Bo</tspan><tspan x='127.94'>olean</tspan><tspan x='150.63'>):</tspan><tspan x='158.93'>()</tspan></text>
+<text class='t0' x='9.96' y='557.31'>end<tspan x='9.96' y='573.25'>trait</tspan></text>
+<text class='t1' x='38.88' y='573.25'>Api</text>
+<text class='t0' x='57.42' y='573.25'>extends</text>
+<text class='t1' x='96.8' y='573.25'>F<tspan x='102.48'>ortressElemen</tspan><tspan x='163.39'>t</tspan></text>
+<text class='t4' x='21.92' y='585.21'>uses</text>
+<text class='t1' x='40.81' y='585.21'>:<tspan x='45.24'>Set</tspan></text>
+<text class='t5' x='59.08' y='585.21'></text>
+<text class='t1' x='63.09' y='585.21'>Api</text>
+<text class='t5' x='78.86' y='585.21'></text>
+<text class='t4' x='21.92' y='597.16'>extr<tspan x='38.12'>action</tspan></text>
+<text class='t1' x='65.62' y='597.16'>:<tspan x='70.05'>File</tspan></text>
+<text class='t0' x='9.96' y='609.12'>end<tspan x='9.96' y='625.06'>trait</tspan></text>
+<text class='t1' x='38.88' y='625.06'>Name</text>
+<text class='t0' x='66.83' y='625.06'>end<tspan x='9.96' y='641'>trait</tspan></text>
+<text class='t1' x='38.88' y='641'>SimpleComp<tspan x='94.51'>onen</tspan><tspan x='114.71'>t</tspan></text>
+<text class='t0' x='121.35' y='641'>extends</text>
+<text class='t1' x='160.73' y='641'>Comp<tspan x='187.02'>onen</tspan><tspan x='207.22'>t</tspan></text>
+<text class='t0' x='213.86' y='641'>end<tspan x='9.96' y='656.94'>trait</tspan></text>
+<text class='t1' x='38.88' y='656.94'>V<tspan x='45.52'>ersion</tspan></text>
+<text class='t4' x='21.92' y='668.89'>major</text>
+<text class='t1' x='48.58' y='668.89'>:</text>
+<text class='t6' x='53.01' y='668.89'>N</text>
+<text class='t4' x='21.92' y='680.85'>minor</text>
+<text class='t1' x='49.09' y='680.85'>:</text>
+<text class='t6' x='53.51' y='680.85'>N</text>
+<text class='t0' x='9.96' y='692.8'>end<tspan x='9.96' y='708.74'>end</tspan></text></svg></div><pre class="fx-s"><code>trait Fortress
+  fortressName: Name
+  birthDate: Date
+  getComponent(componentName: Name): Component
+  getAPI(apiName: Name): Api
+  preferences(ofAPI: Api): \langle Component \rangle
+  compile(file: File): SimpleComponent
+  install(file: File): Component
+  install(file: File, prereqs: Set[\Api\]): Component
+  upgradeAll(componentName: Name, that: Component): ()
+
+  isValidLink(constituents: \langle Component\rangle, exports = Set[\Api\], hide = Set[\Api\]): Boolean
+
+  link(result: Name, constituents: \langle Component \rangle, exports = Set[\Api\], hide = Set[\Api\]): Component
+    requires { isValidLink(constituents, exports, hide) }
+end
+
+object EnclosingFortress extends { Fortress } end
+
+trait FortressElement
+  elementName: Name
+  vendor: String
+  owner: Fortress
+  timeStamp: Date
+  version: Version
+  uninstall(): ()
+end
+
+trait Component extends FortressElement
+  imports: Set[\Api\]
+  exports: Set[\Api\]
+  provides: Set[\Api\]
+  visibles: Set[\Api\]
+  constituents: Set[\Component\]
+  run(args: String...): ()
+  constrain(destination: Name, apis: Set[\Api\]): Component
+  hide(destination: Name, apis: Set[\Api\]): Component
+  extract(prereqs: Set[\Api\]): File
+  isValidUpgrade(that: Component): Boolean
+  abstract upgrade(result: Name, that: Component): Component
+    requires { self.isValidUpgrade(that) }
+  sourceIsAvailable: Boolean
+  getSourceFile(): File
+    requires { sourceIsAvailable }
+  runTests(inclusive = Boolean): ()
+end
+
+trait Api extends FortressElement
+  uses: Set[\Api\]
+  extraction: File
+end
+
+trait SimpleComponent extends Component end
+
+trait Name end
+
+trait Version
+  major: NN
+  minor: NN
+end
+
+end</code></pre></div>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="lib-numbers-advanced.html"><span>Previous</span> 41. Numbers</a><a class="next" href="lib-binary.html"><span>Next</span> 43. Memory Sequences and Binary Words</a></nav>
+<footer class="colophon">Converted from <code>Specification/advanced-lib/components.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

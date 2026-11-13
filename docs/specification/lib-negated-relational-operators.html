@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>34. Negated Relational Operators · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t1{font-family:msbm10;font-size:9.96px}
+svg.tx text.t2{font-family:stmary10;font-size:9.96px}
+svg.tx text.t3{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t4{font-family:cmr10;font-size:9.96px}
+svg.tx text.t5{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t6{font-family:msam10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-negated-relational-operators" data-chapter="34. Negated Relational Operators">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">34. Negated Relational Operators</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part V, Fortress APIs and Documentation for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="34" data-title="Negated Relational Operators">
+<h1 id="top" class="nb"><a id="chap-lib-negated-relational-operators"></a><span class="num">Chapter 34</span> Negated Relational Operators</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-negated-equivalence-operators">34.1 Negated Equivalence Operators</a></li><li><a href="#s-negated-plain-comparison-operators">34.2 Negated Plain Comparison Operators</a></li><li><a href="#s-negated-set-comparison-operators">34.3 Negated Set Comparison Operators</a></li><li><a href="#s-negated-square-comparison-operators">34.4 Negated Square Comparison Operators</a></li><li><a href="#s-negated-curly-comparison-operators">34.5 Negated Curly Comparison Operators</a></li><li><a href="#s-negated-miscellaneous-relational-operators">34.6 Negated Miscellaneous Relational Operators</a></li><li><a href="#s-other-negated-operators">34.7 Other Negated Operators</a></li></ol></nav>
+<section class="sec" data-num="34.1" data-title="Negated Equivalence Operators">
+<h2 id="s-negated-equivalence-operators" class="nb"><span class="num">34.1</span> Negated Equivalence Operators</h2>
+<section class="sec" data-num="34.1.1" data-title="opr ≣̸(x: Any, y: Any): Boolean">
+<h3 id="sec-operator-NSEQV" class="nb"><span class="num">34.1.1</span> <span class="m"><span class="kw">opr</span> ≣̸(<i>x</i>: <span class="ty">Any</span>, <i>y</i>: <span class="ty">Any</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-8e612385" class="nb">The infix operator <span class="m">≣̸</span> applies <span class="m">¬</span> to the result of <span class="m">≣</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.1.2" data-title="opr ≢⟦T extends BinaryPredicate⟦T, ≡⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NEQV" class="nb"><span class="num">34.1.2</span> <span class="m"><span class="kw">opr</span> ≢⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ≡⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ≢⟦T extends BinaryIntervalPredicate⟦T, ≡⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NEQV" class="nb"><span class="m"><span class="kw">opr</span> ≢⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ≡⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-cf1701d7" class="nb">The infix operator <span class="m">≢</span> applies <span class="m">¬</span> to the result of <span class="m">≡</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.1.3" data-title="opr ≠⟦T extends BinaryPredicate⟦T, =⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NE" class="nb"><span class="num">34.1.3</span> <span class="m"><span class="kw">opr</span> ≠⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, =⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ≠⟦T extends BinaryIntervalPredicate⟦T, =⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NE" class="nb"><span class="m"><span class="kw">opr</span> ≠⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, =⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-0fa4bab3" class="nb">The infix operator <span class="m">≠</span> applies <span class="m">¬</span> to the result of <span class="m">=</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.1.4" data-title="opr ≄⟦T extends BinaryPredicate⟦T, ≃⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NSIMEQ" class="nb"><span class="num">34.1.4</span> <span class="m"><span class="kw">opr</span> ≄⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ≃⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ≄⟦T extends BinaryIntervalPredicate⟦T, ≃⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NSIMEQ" class="nb"><span class="m"><span class="kw">opr</span> ≄⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ≃⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-efd462ca" class="nb">The infix operator <span class="m">≄</span> applies <span class="m">¬</span> to the result of <span class="m">≃</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.1.5" data-title="opr ≉⟦T extends BinaryPredicate⟦T, ≈⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NAPPROX" class="nb"><span class="num">34.1.5</span> <span class="m"><span class="kw">opr</span> ≉⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ≈⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+<p id="p-664ea015" class="nb">The infix operator <span class="m">≉</span> applies <span class="m">¬</span> to the result of <span class="m">≈</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.1.6" data-title="opr ≉⟦T extends BinaryIntervalPredicate⟦T, ≈⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NAPPROX" class="nb"><span class="num">34.1.6</span> <span class="m"><span class="kw">opr</span> ≉⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ≈⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+</section>
+</section>
+<section class="sec" data-num="34.2" data-title="Negated Plain Comparison Operators">
+<h2 id="s-negated-plain-comparison-operators" class="nb"><span class="num">34.2</span> Negated Plain Comparison Operators</h2>
+<section class="sec" data-num="34.2.1" data-title="">
+<h3 id="sec-operator-NLT" class="nb"><span class="num">34.2.1</span> <span class="mw"><svg class="tx il" data-d="1" viewBox="-2.26 -0.60 258.12 11.16" width="25.812em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'>≮</text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryPredicate</text>
+<text class='t2' x='139.96' y='7.47'></text>
+<text class='t3' x='143.97' y='7.47'>T<tspan x='150.62'>,</tspan><tspan x='155.05'>&lt;</tspan></text>
+<text class='t2' x='162.8' y='7.47'></text>
+<text class='t4' x='170.82' y='7.47'>(</text>
+<text class='t3' x='174.7' y='7.47'>x</text>
+<text class='t4' x='180.39' y='7.47'>:</text>
+<text class='t3' x='184.82' y='7.47'>T<tspan x='191.47'>,</tspan><tspan x='195.9'>y</tspan></text>
+<text class='t4' x='201.14' y='7.47'>:</text>
+<text class='t3' x='205.57' y='7.47'>T</text>
+<text class='t4' x='212.78' y='7.47'>):<tspan x='220.25'>Bo</tspan><tspan x='232.56'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NLT" class="nb"><span class="mw"><svg class="tx il" data-d="2" viewBox="-2.26 -0.60 325.14 11.16" width="32.514em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'>≮</text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryIn<tspan x='107.69'>terv</tspan><tspan x='124.6'>alPredicate</tspan></text>
+<text class='t2' x='173.47' y='7.47'></text>
+<text class='t3' x='177.48' y='7.47'>T<tspan x='184.14'>,</tspan><tspan x='188.56'>&lt;</tspan></text>
+<text class='t2' x='196.31' y='7.47'></text>
+<text class='t4' x='204.34' y='7.47'>(</text>
+<text class='t3' x='208.21' y='7.47'>x</text>
+<text class='t4' x='213.91' y='7.47'>:</text>
+<text class='t3' x='218.33' y='7.47'>T<tspan x='224.99'>,</tspan><tspan x='229.41'>y</tspan></text>
+<text class='t4' x='234.66' y='7.47'>:</text>
+<text class='t3' x='239.08' y='7.47'>T</text>
+<text class='t4' x='246.29' y='7.47'>):<tspan x='253.76'>Bo</tspan><tspan x='266.08'>oleanIn</tspan><tspan x='297.62'>terv</tspan><tspan x='314.53'>al</tspan></text></svg></span></h3>
+<p id="p-bccc6791" class="nb">The infix operator <svg class="tx il" data-d="3" viewBox="-0.60 -0.60 8.95 10.28" width="0.895em" height="1.028em" fill="currentColor" style="vertical-align:-0.265em"><text class='t1' x='0' y='7.03'>≮</text></svg> applies <span class="m">¬</span> to the result of <span class="m">&lt;</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.2.2" data-title="">
+<h3 id="sec-operator-NLE" class="nb"><span class="num">34.2.2</span> <span class="mw"><svg class="tx il" data-d="4" viewBox="-2.26 -0.60 258.12 12.12" width="25.812em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t0' x='-1.66' y='7.91'>opr</text>
+<text class='t1' x='14.03' y='7.91'></text>
+<text class='t2' x='21.78' y='7.91'></text>
+<text class='t3' x='25.79' y='7.91'>T</text>
+<text class='t0' x='31.34' y='7.91'>extends</text>
+<text class='t4' x='69.33' y='7.91'>BinaryPredicate</text>
+<text class='t2' x='139.96' y='7.91'></text>
+<text class='t3' x='143.97' y='7.91'>T<tspan x='150.62'>,</tspan></text>
+<text class='t5' x='155.05' y='7.91'>≤</text>
+<text class='t2' x='162.8' y='7.91'></text>
+<text class='t4' x='170.82' y='7.91'>(</text>
+<text class='t3' x='174.7' y='7.91'>x</text>
+<text class='t4' x='180.39' y='7.91'>:</text>
+<text class='t3' x='184.82' y='7.91'>T<tspan x='191.47'>,</tspan><tspan x='195.9'>y</tspan></text>
+<text class='t4' x='201.14' y='7.91'>:</text>
+<text class='t3' x='205.57' y='7.91'>T</text>
+<text class='t4' x='212.78' y='7.91'>):<tspan x='220.25'>Bo</tspan><tspan x='232.56'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NLE" class="nb"><span class="mw"><svg class="tx il" data-d="5" viewBox="-2.26 -0.60 325.14 12.12" width="32.514em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t0' x='-1.66' y='7.91'>opr</text>
+<text class='t1' x='14.03' y='7.91'></text>
+<text class='t2' x='21.78' y='7.91'></text>
+<text class='t3' x='25.79' y='7.91'>T</text>
+<text class='t0' x='31.34' y='7.91'>extends</text>
+<text class='t4' x='69.33' y='7.91'>BinaryIn<tspan x='107.69'>terv</tspan><tspan x='124.6'>alPredicate</tspan></text>
+<text class='t2' x='173.47' y='7.91'></text>
+<text class='t3' x='177.48' y='7.91'>T<tspan x='184.14'>,</tspan></text>
+<text class='t5' x='188.56' y='7.91'>≤</text>
+<text class='t2' x='196.31' y='7.91'></text>
+<text class='t4' x='204.34' y='7.91'>(</text>
+<text class='t3' x='208.21' y='7.91'>x</text>
+<text class='t4' x='213.91' y='7.91'>:</text>
+<text class='t3' x='218.33' y='7.91'>T<tspan x='224.99'>,</tspan><tspan x='229.41'>y</tspan></text>
+<text class='t4' x='234.66' y='7.91'>:</text>
+<text class='t3' x='239.08' y='7.91'>T</text>
+<text class='t4' x='246.29' y='7.91'>):<tspan x='253.76'>Bo</tspan><tspan x='266.08'>oleanIn</tspan><tspan x='297.62'>terv</tspan><tspan x='314.53'>al</tspan></text></svg></span></h3>
+<p id="p-426e5d6b" class="nb">The infix operator <svg class="tx il" data-d="6" viewBox="-0.60 -0.60 8.95 12.12" width="0.895em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t1' x='0' y='7.91'></text></svg> applies <span class="m">¬</span> to the result of <span class="m">≤</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.2.3" data-title="">
+<h3 id="sec-operator-NGE" class="nb"><span class="num">34.2.3</span> <span class="mw"><svg class="tx il" data-d="7" viewBox="-2.26 -0.60 258.12 12.12" width="25.812em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t0' x='-1.66' y='7.91'>opr</text>
+<text class='t1' x='14.03' y='7.91'></text>
+<text class='t2' x='21.78' y='7.91'></text>
+<text class='t3' x='25.79' y='7.91'>T</text>
+<text class='t0' x='31.34' y='7.91'>extends</text>
+<text class='t4' x='69.33' y='7.91'>BinaryPredicate</text>
+<text class='t2' x='139.96' y='7.91'></text>
+<text class='t3' x='143.97' y='7.91'>T<tspan x='150.62'>,</tspan></text>
+<text class='t5' x='155.05' y='7.91'>≥</text>
+<text class='t2' x='162.8' y='7.91'></text>
+<text class='t4' x='170.82' y='7.91'>(</text>
+<text class='t3' x='174.7' y='7.91'>x</text>
+<text class='t4' x='180.39' y='7.91'>:</text>
+<text class='t3' x='184.82' y='7.91'>T<tspan x='191.47'>,</tspan><tspan x='195.9'>y</tspan></text>
+<text class='t4' x='201.14' y='7.91'>:</text>
+<text class='t3' x='205.57' y='7.91'>T</text>
+<text class='t4' x='212.78' y='7.91'>):<tspan x='220.25'>Bo</tspan><tspan x='232.56'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NGE" class="nb"><span class="mw"><svg class="tx il" data-d="8" viewBox="-2.26 -0.60 325.14 12.12" width="32.514em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t0' x='-1.66' y='7.91'>opr</text>
+<text class='t1' x='14.03' y='7.91'></text>
+<text class='t2' x='21.78' y='7.91'></text>
+<text class='t3' x='25.79' y='7.91'>T</text>
+<text class='t0' x='31.34' y='7.91'>extends</text>
+<text class='t4' x='69.33' y='7.91'>BinaryIn<tspan x='107.69'>terv</tspan><tspan x='124.6'>alPredicate</tspan></text>
+<text class='t2' x='173.47' y='7.91'></text>
+<text class='t3' x='177.48' y='7.91'>T<tspan x='184.14'>,</tspan></text>
+<text class='t5' x='188.56' y='7.91'>≥</text>
+<text class='t2' x='196.31' y='7.91'></text>
+<text class='t4' x='204.34' y='7.91'>(</text>
+<text class='t3' x='208.21' y='7.91'>x</text>
+<text class='t4' x='213.91' y='7.91'>:</text>
+<text class='t3' x='218.33' y='7.91'>T<tspan x='224.99'>,</tspan><tspan x='229.41'>y</tspan></text>
+<text class='t4' x='234.66' y='7.91'>:</text>
+<text class='t3' x='239.08' y='7.91'>T</text>
+<text class='t4' x='246.29' y='7.91'>):<tspan x='253.76'>Bo</tspan><tspan x='266.08'>oleanIn</tspan><tspan x='297.62'>terv</tspan><tspan x='314.53'>al</tspan></text></svg></span></h3>
+<p id="p-f0d2ff2a" class="nb">The infix operator <svg class="tx il" data-d="9" viewBox="-0.60 -0.60 8.95 12.12" width="0.895em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t1' x='0' y='7.91'></text></svg> applies <span class="m">¬</span> to the result of <span class="m">≥</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.2.4" data-title="">
+<h3 id="sec-operator-NGT" class="nb"><span class="num">34.2.4</span> <span class="mw"><svg class="tx il" data-d="10" viewBox="-2.26 -0.60 258.12 11.16" width="25.812em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'>≯</text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryPredicate</text>
+<text class='t2' x='139.96' y='7.47'></text>
+<text class='t3' x='143.97' y='7.47'>T<tspan x='150.62'>,</tspan><tspan x='155.05'>></tspan></text>
+<text class='t2' x='162.8' y='7.47'></text>
+<text class='t4' x='170.82' y='7.47'>(</text>
+<text class='t3' x='174.7' y='7.47'>x</text>
+<text class='t4' x='180.39' y='7.47'>:</text>
+<text class='t3' x='184.82' y='7.47'>T<tspan x='191.47'>,</tspan><tspan x='195.9'>y</tspan></text>
+<text class='t4' x='201.14' y='7.47'>:</text>
+<text class='t3' x='205.57' y='7.47'>T</text>
+<text class='t4' x='212.78' y='7.47'>):<tspan x='220.25'>Bo</tspan><tspan x='232.56'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NGT" class="nb"><span class="mw"><svg class="tx il" data-d="11" viewBox="-2.26 -0.60 325.14 11.16" width="32.514em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'>≯</text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryIn<tspan x='107.69'>terv</tspan><tspan x='124.6'>alPredicate</tspan></text>
+<text class='t2' x='173.47' y='7.47'></text>
+<text class='t3' x='177.48' y='7.47'>T<tspan x='184.14'>,</tspan><tspan x='188.56'>></tspan></text>
+<text class='t2' x='196.31' y='7.47'></text>
+<text class='t4' x='204.34' y='7.47'>(</text>
+<text class='t3' x='208.21' y='7.47'>x</text>
+<text class='t4' x='213.91' y='7.47'>:</text>
+<text class='t3' x='218.33' y='7.47'>T<tspan x='224.99'>,</tspan><tspan x='229.41'>y</tspan></text>
+<text class='t4' x='234.66' y='7.47'>:</text>
+<text class='t3' x='239.08' y='7.47'>T</text>
+<text class='t4' x='246.29' y='7.47'>):<tspan x='253.76'>Bo</tspan><tspan x='266.08'>oleanIn</tspan><tspan x='297.62'>terv</tspan><tspan x='314.53'>al</tspan></text></svg></span></h3>
+<p id="p-b679f93e" class="nb">The infix operator <svg class="tx il" data-d="12" viewBox="-0.60 -0.60 8.95 10.28" width="0.895em" height="1.028em" fill="currentColor" style="vertical-align:-0.265em"><text class='t1' x='0' y='7.03'>≯</text></svg> applies <span class="m">¬</span> to the result of <span class="m">&gt;</span> on the same operands.</p>
+</section>
+</section>
+<section class="sec" data-num="34.3" data-title="Negated Set Comparison Operators">
+<h2 id="s-negated-set-comparison-operators" class="nb"><span class="num">34.3</span> Negated Set Comparison Operators</h2>
+<section class="sec" data-num="34.3.1" data-title="opr ⊄⟦T extends BinaryPredicate⟦T, ⊂⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NSUBSET" class="nb"><span class="num">34.3.1</span> <span class="m"><span class="kw">opr</span> ⊄⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ⊂⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⊄⟦T extends BinaryIntervalPredicate⟦T, ⊂⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NSUBSET" class="nb"><span class="m"><span class="kw">opr</span> ⊄⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ⊂⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-01e4bf61" class="nb">The infix operator <span class="m">⊄</span> applies <span class="m">¬</span> to the result of <span class="m">⊂</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.3.2" data-title="opr ⊈⟦T extends BinaryPredicate⟦T, ⊆⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NSUBSETEQ" class="nb"><span class="num">34.3.2</span> <span class="m"><span class="kw">opr</span> ⊈⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ⊆⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⊈⟦T extends BinaryIntervalPredicate⟦T, ⊆⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NSUBSETEQ" class="nb"><span class="m"><span class="kw">opr</span> ⊈⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ⊆⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-8fef83d3" class="nb">The infix operator <span class="m">⊈</span> applies <span class="m">¬</span> to the result of <span class="m">⊆</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.3.3" data-title="">
+<h3 id="sec-operator-NSUPSETEQ" class="nb"><span class="num">34.3.3</span> <span class="mw"><svg class="tx il" data-d="13" viewBox="-2.26 -0.60 258.12 12.12" width="25.812em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t0' x='-1.66' y='7.91'>opr</text>
+<text class='t1' x='14.03' y='7.91'></text>
+<text class='t2' x='21.78' y='7.91'></text>
+<text class='t3' x='25.79' y='7.91'>T</text>
+<text class='t0' x='31.34' y='7.91'>extends</text>
+<text class='t4' x='69.33' y='7.91'>BinaryPredicate</text>
+<text class='t2' x='139.96' y='7.91'></text>
+<text class='t3' x='143.97' y='7.91'>T<tspan x='150.62'>,</tspan></text>
+<text class='t5' x='155.05' y='7.91'>⊇</text>
+<text class='t2' x='162.8' y='7.91'></text>
+<text class='t4' x='170.82' y='7.91'>(</text>
+<text class='t3' x='174.7' y='7.91'>x</text>
+<text class='t4' x='180.39' y='7.91'>:</text>
+<text class='t3' x='184.82' y='7.91'>T<tspan x='191.47'>,</tspan><tspan x='195.9'>y</tspan></text>
+<text class='t4' x='201.14' y='7.91'>:</text>
+<text class='t3' x='205.57' y='7.91'>T</text>
+<text class='t4' x='212.78' y='7.91'>):<tspan x='220.25'>Bo</tspan><tspan x='232.56'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NSUPSETEQ" class="nb"><span class="mw"><svg class="tx il" data-d="14" viewBox="-2.26 -0.60 325.14 12.12" width="32.514em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t0' x='-1.66' y='7.91'>opr</text>
+<text class='t1' x='14.03' y='7.91'></text>
+<text class='t2' x='21.78' y='7.91'></text>
+<text class='t3' x='25.79' y='7.91'>T</text>
+<text class='t0' x='31.34' y='7.91'>extends</text>
+<text class='t4' x='69.33' y='7.91'>BinaryIn<tspan x='107.69'>terv</tspan><tspan x='124.6'>alPredicate</tspan></text>
+<text class='t2' x='173.47' y='7.91'></text>
+<text class='t3' x='177.48' y='7.91'>T<tspan x='184.14'>,</tspan></text>
+<text class='t5' x='188.56' y='7.91'>⊇</text>
+<text class='t2' x='196.31' y='7.91'></text>
+<text class='t4' x='204.34' y='7.91'>(</text>
+<text class='t3' x='208.21' y='7.91'>x</text>
+<text class='t4' x='213.91' y='7.91'>:</text>
+<text class='t3' x='218.33' y='7.91'>T<tspan x='224.99'>,</tspan><tspan x='229.41'>y</tspan></text>
+<text class='t4' x='234.66' y='7.91'>:</text>
+<text class='t3' x='239.08' y='7.91'>T</text>
+<text class='t4' x='246.29' y='7.91'>):<tspan x='253.76'>Bo</tspan><tspan x='266.08'>oleanIn</tspan><tspan x='297.62'>terv</tspan><tspan x='314.53'>al</tspan></text></svg></span></h3>
+<p id="p-496b2946" class="nb">The infix operator <svg class="tx il" data-d="15" viewBox="-0.60 -0.60 8.95 12.12" width="0.895em" height="1.212em" fill="currentColor" style="vertical-align:-0.361em"><text class='t1' x='0' y='7.91'></text></svg> applies <span class="m">¬</span> to the result of <span class="m">⊇</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.3.4" data-title="opr ⊅⟦T extends BinaryPredicate⟦T, ⊃⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NSUPSET" class="nb"><span class="num">34.3.4</span> <span class="m"><span class="kw">opr</span> ⊅⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ⊃⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⊅⟦T extends BinaryIntervalPredicate⟦T, ⊃⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NSUPSET" class="nb"><span class="m"><span class="kw">opr</span> ⊅⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ⊃⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-87d87b3b" class="nb">The infix operator <span class="m">⊅</span> applies <span class="m">¬</span> to the result of <span class="m">⊃</span> on the same operands.</p>
+</section>
+</section>
+<section class="sec" data-num="34.4" data-title="Negated Square Comparison Operators">
+<h2 id="s-negated-square-comparison-operators" class="nb"><span class="num">34.4</span> Negated Square Comparison Operators</h2>
+<section class="sec" data-num="34.4.1" data-title="opr ⊏̸⟦T extends BinaryPredicate⟦T, ⊏⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NSQSUBSET" class="nb"><span class="num">34.4.1</span> <span class="m"><span class="kw">opr</span> ⊏̸⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ⊏⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⊏̸⟦T extends BinaryIntervalPredicate⟦T, ⊏⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NSQSUBSET" class="nb"><span class="m"><span class="kw">opr</span> ⊏̸⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ⊏⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-93a25355" class="nb">The infix operator <span class="m">⊏̸</span> applies <span class="m">¬</span> to the result of <span class="m">⊏</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.4.2" data-title="opr ⋢⟦T extends BinaryPredicate⟦T, ⊑⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NSQSUBSETEQ" class="nb"><span class="num">34.4.2</span> <span class="m"><span class="kw">opr</span> ⋢⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ⊑⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⋢⟦T extends BinaryIntervalPredicate⟦T, ⊑⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NSQSUBSETEQ" class="nb"><span class="m"><span class="kw">opr</span> ⋢⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ⊑⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-61c47a6a" class="nb">The infix operator <span class="m">⋢</span> applies <span class="m">¬</span> to the result of <span class="m">⊑</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.4.3" data-title="opr ⋣⟦T extends BinaryPredicate⟦T, ⊒⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NSQSUPSETEQ" class="nb"><span class="num">34.4.3</span> <span class="m"><span class="kw">opr</span> ⋣⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ⊒⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⋣⟦T extends BinaryIntervalPredicate⟦T, ⊒⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NSQSUPSETEQ" class="nb"><span class="m"><span class="kw">opr</span> ⋣⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ⊒⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-192d27cb" class="nb">The infix operator <span class="m">⋣</span> applies <span class="m">¬</span> to the result of <span class="m">⊒</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.4.4" data-title="opr ⊐̸⟦T extends BinaryPredicate⟦T, ⊐⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NSQSUPSET" class="nb"><span class="num">34.4.4</span> <span class="m"><span class="kw">opr</span> ⊐̸⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ⊐⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⊐̸⟦T extends BinaryIntervalPredicate⟦T, ⊐⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NSQSUPSET" class="nb"><span class="m"><span class="kw">opr</span> ⊐̸⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ⊐⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-4849b3bc" class="nb">The infix operator <span class="m">⊐̸</span> applies <span class="m">¬</span> to the result of <span class="m">⊐</span> on the same operands</p>
+</section>
+</section>
+<section class="sec" data-num="34.5" data-title="Negated Curly Comparison Operators">
+<h2 id="s-negated-curly-comparison-operators" class="nb"><span class="num">34.5</span> Negated Curly Comparison Operators</h2>
+<section class="sec" data-num="34.5.1" data-title="">
+<h3 id="sec-operator-NPREC" class="nb"><span class="num">34.5.1</span> <span class="mw"><svg class="tx il" data-d="16" viewBox="-2.26 -0.60 258.12 11.16" width="25.812em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'>⊀</text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryPredicate</text>
+<text class='t2' x='139.96' y='7.47'></text>
+<text class='t3' x='143.97' y='7.47'>T<tspan x='150.62'>,</tspan></text>
+<text class='t5' x='155.05' y='7.47'>≺</text>
+<text class='t2' x='162.8' y='7.47'></text>
+<text class='t4' x='170.82' y='7.47'>(</text>
+<text class='t3' x='174.7' y='7.47'>x</text>
+<text class='t4' x='180.39' y='7.47'>:</text>
+<text class='t3' x='184.82' y='7.47'>T<tspan x='191.47'>,</tspan><tspan x='195.9'>y</tspan></text>
+<text class='t4' x='201.14' y='7.47'>:</text>
+<text class='t3' x='205.57' y='7.47'>T</text>
+<text class='t4' x='212.78' y='7.47'>):<tspan x='220.25'>Bo</tspan><tspan x='232.56'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NPREC" class="nb"><span class="mw"><svg class="tx il" data-d="17" viewBox="-2.26 -0.60 325.14 11.16" width="32.514em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'>⊀</text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryIn<tspan x='107.69'>terv</tspan><tspan x='124.6'>alPredicate</tspan></text>
+<text class='t2' x='173.47' y='7.47'></text>
+<text class='t3' x='177.48' y='7.47'>T<tspan x='184.14'>,</tspan></text>
+<text class='t5' x='188.56' y='7.47'>≺</text>
+<text class='t2' x='196.31' y='7.47'></text>
+<text class='t4' x='204.34' y='7.47'>(</text>
+<text class='t3' x='208.21' y='7.47'>x</text>
+<text class='t4' x='213.91' y='7.47'>:</text>
+<text class='t3' x='218.33' y='7.47'>T<tspan x='224.99'>,</tspan><tspan x='229.41'>y</tspan></text>
+<text class='t4' x='234.66' y='7.47'>:</text>
+<text class='t3' x='239.08' y='7.47'>T</text>
+<text class='t4' x='246.29' y='7.47'>):<tspan x='253.76'>Bo</tspan><tspan x='266.08'>oleanIn</tspan><tspan x='297.62'>terv</tspan><tspan x='314.53'>al</tspan></text></svg></span></h3>
+<p id="p-4b5bd2f6" class="nb">The infix operator <svg class="tx il" data-d="18" viewBox="-0.60 -0.60 8.95 10.28" width="0.895em" height="1.028em" fill="currentColor" style="vertical-align:-0.265em"><text class='t1' x='0' y='7.03'>⊀</text></svg> applies <span class="m">¬</span> to the result of <span class="m">≺</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.5.2" data-title="">
+<h3 id="sec-operator-NPRECEQ" class="nb"><span class="num">34.5.2</span> <span class="mw"><svg class="tx il" data-d="19" viewBox="-2.26 -0.60 258.12 11.16" width="25.812em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t5' x='14.03' y='7.47'></text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryPredicate</text>
+<text class='t2' x='139.96' y='7.47'></text>
+<text class='t3' x='143.97' y='7.47'>T<tspan x='150.62'>,</tspan></text>
+<text class='t6' x='155.05' y='7.47'></text>
+<text class='t2' x='162.8' y='7.47'></text>
+<text class='t4' x='170.82' y='7.47'>(</text>
+<text class='t3' x='174.7' y='7.47'>x</text>
+<text class='t4' x='180.39' y='7.47'>:</text>
+<text class='t3' x='184.82' y='7.47'>T<tspan x='191.47'>,</tspan><tspan x='195.9'>y</tspan></text>
+<text class='t4' x='201.14' y='7.47'>:</text>
+<text class='t3' x='205.57' y='7.47'>T</text>
+<text class='t4' x='212.78' y='7.47'>):<tspan x='220.25'>Bo</tspan><tspan x='232.56'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NPRECEQ" class="nb"><span class="mw"><svg class="tx il" data-d="20" viewBox="-2.26 -0.60 325.14 11.16" width="32.514em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t5' x='14.03' y='7.47'></text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryIn<tspan x='107.69'>terv</tspan><tspan x='124.6'>alPredicate</tspan></text>
+<text class='t2' x='173.47' y='7.47'></text>
+<text class='t3' x='177.48' y='7.47'>T<tspan x='184.14'>,</tspan></text>
+<text class='t6' x='188.56' y='7.47'></text>
+<text class='t2' x='196.31' y='7.47'></text>
+<text class='t4' x='204.34' y='7.47'>(</text>
+<text class='t3' x='208.21' y='7.47'>x</text>
+<text class='t4' x='213.91' y='7.47'>:</text>
+<text class='t3' x='218.33' y='7.47'>T<tspan x='224.99'>,</tspan><tspan x='229.41'>y</tspan></text>
+<text class='t4' x='234.66' y='7.47'>:</text>
+<text class='t3' x='239.08' y='7.47'>T</text>
+<text class='t4' x='246.29' y='7.47'>):<tspan x='253.76'>Bo</tspan><tspan x='266.08'>oleanIn</tspan><tspan x='297.62'>terv</tspan><tspan x='314.53'>al</tspan></text></svg></span></h3>
+<p id="p-7a5a10bd" class="nb">The infix operator <span class="m">⪯̸</span> applies <span class="m">¬</span> to the result of <span class="m">⪯</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.5.3" data-title="">
+<h3 id="sec-operator-NSUCCEQ" class="nb"><span class="num">34.5.3</span> <span class="mw"><svg class="tx il" data-d="21" viewBox="-2.26 -0.60 258.12 11.16" width="25.812em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t5' x='14.03' y='7.47'></text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryPredicate</text>
+<text class='t2' x='139.96' y='7.47'></text>
+<text class='t3' x='143.97' y='7.47'>T<tspan x='150.62'>,</tspan></text>
+<text class='t6' x='155.05' y='7.47'></text>
+<text class='t2' x='162.8' y='7.47'></text>
+<text class='t4' x='170.82' y='7.47'>(</text>
+<text class='t3' x='174.7' y='7.47'>x</text>
+<text class='t4' x='180.39' y='7.47'>:</text>
+<text class='t3' x='184.82' y='7.47'>T<tspan x='191.47'>,</tspan><tspan x='195.9'>y</tspan></text>
+<text class='t4' x='201.14' y='7.47'>:</text>
+<text class='t3' x='205.57' y='7.47'>T</text>
+<text class='t4' x='212.78' y='7.47'>):<tspan x='220.25'>Bo</tspan><tspan x='232.56'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NSUCCEQ" class="nb"><span class="mw"><svg class="tx il" data-d="22" viewBox="-2.26 -0.60 325.14 11.16" width="32.514em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t5' x='14.03' y='7.47'></text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryIn<tspan x='107.69'>terv</tspan><tspan x='124.6'>alPredicate</tspan></text>
+<text class='t2' x='173.47' y='7.47'></text>
+<text class='t3' x='177.48' y='7.47'>T<tspan x='184.14'>,</tspan></text>
+<text class='t6' x='188.56' y='7.47'></text>
+<text class='t2' x='196.31' y='7.47'></text>
+<text class='t4' x='204.34' y='7.47'>(</text>
+<text class='t3' x='208.21' y='7.47'>x</text>
+<text class='t4' x='213.91' y='7.47'>:</text>
+<text class='t3' x='218.33' y='7.47'>T<tspan x='224.99'>,</tspan><tspan x='229.41'>y</tspan></text>
+<text class='t4' x='234.66' y='7.47'>:</text>
+<text class='t3' x='239.08' y='7.47'>T</text>
+<text class='t4' x='246.29' y='7.47'>):<tspan x='253.76'>Bo</tspan><tspan x='266.08'>oleanIn</tspan><tspan x='297.62'>terv</tspan><tspan x='314.53'>al</tspan></text></svg></span></h3>
+<p id="p-99172f44" class="nb">The infix operator <span class="m">⪰̸</span> applies <span class="m">¬</span> to the result of <span class="m">⪰</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.5.4" data-title="">
+<h3 id="sec-operator-NSUCC" class="nb"><span class="num">34.5.4</span> <span class="mw"><svg class="tx il" data-d="23" viewBox="-2.26 -0.60 258.12 11.16" width="25.812em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'></text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryPredicate</text>
+<text class='t2' x='139.96' y='7.47'></text>
+<text class='t3' x='143.97' y='7.47'>T<tspan x='150.62'>,</tspan></text>
+<text class='t5' x='155.05' y='7.47'></text>
+<text class='t2' x='162.8' y='7.47'></text>
+<text class='t4' x='170.82' y='7.47'>(</text>
+<text class='t3' x='174.7' y='7.47'>x</text>
+<text class='t4' x='180.39' y='7.47'>:</text>
+<text class='t3' x='184.82' y='7.47'>T<tspan x='191.47'>,</tspan><tspan x='195.9'>y</tspan></text>
+<text class='t4' x='201.14' y='7.47'>:</text>
+<text class='t3' x='205.57' y='7.47'>T</text>
+<text class='t4' x='212.78' y='7.47'>):<tspan x='220.25'>Bo</tspan><tspan x='232.56'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NSUCC" class="nb"><span class="mw"><svg class="tx il" data-d="24" viewBox="-2.26 -0.60 325.14 11.16" width="32.514em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'></text>
+<text class='t2' x='21.78' y='7.47'></text>
+<text class='t3' x='25.79' y='7.47'>T</text>
+<text class='t0' x='31.34' y='7.47'>extends</text>
+<text class='t4' x='69.33' y='7.47'>BinaryIn<tspan x='107.69'>terv</tspan><tspan x='124.6'>alPredicate</tspan></text>
+<text class='t2' x='173.47' y='7.47'></text>
+<text class='t3' x='177.48' y='7.47'>T<tspan x='184.14'>,</tspan></text>
+<text class='t5' x='188.56' y='7.47'></text>
+<text class='t2' x='196.31' y='7.47'></text>
+<text class='t4' x='204.34' y='7.47'>(</text>
+<text class='t3' x='208.21' y='7.47'>x</text>
+<text class='t4' x='213.91' y='7.47'>:</text>
+<text class='t3' x='218.33' y='7.47'>T<tspan x='224.99'>,</tspan><tspan x='229.41'>y</tspan></text>
+<text class='t4' x='234.66' y='7.47'>:</text>
+<text class='t3' x='239.08' y='7.47'>T</text>
+<text class='t4' x='246.29' y='7.47'>):<tspan x='253.76'>Bo</tspan><tspan x='266.08'>oleanIn</tspan><tspan x='297.62'>terv</tspan><tspan x='314.53'>al</tspan></text></svg></span></h3>
+<p id="p-1b6d4a3b" class="nb">The infix operator <svg class="tx il" data-d="25" viewBox="-0.60 -0.60 8.95 10.28" width="0.895em" height="1.028em" fill="currentColor" style="vertical-align:-0.265em"><text class='t1' x='0' y='7.03'></text></svg> applies <span class="m">¬</span> to the result of <span class="m">≻</span> on the same operands.</p>
+</section>
+</section>
+<section class="sec" data-num="34.6" data-title="Negated Miscellaneous Relational Operators">
+<h2 id="s-negated-miscellaneous-relational-operators" class="nb"><span class="num">34.6</span> Negated Miscellaneous Relational Operators</h2>
+<section class="sec" data-num="34.6.1" data-title="opr ∉⟦T extends BinaryPredicate⟦T, ∈⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NOTIN" class="nb"><span class="num">34.6.1</span> <span class="m"><span class="kw">opr</span> ∉⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ∈⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ∉⟦T extends BinaryIntervalPredicate⟦T, ∈⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NOTIN" class="nb"><span class="m"><span class="kw">opr</span> ∉⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ∈⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-42cd8c59" class="nb">The infix operator <span class="m">∉</span> applies <span class="m">¬</span> to the result of <span class="m">∈</span> on the same operands.</p>
+</section>
+<section class="sec" data-num="34.6.2" data-title="opr NOTNI⟦T extends BinaryPredicate⟦T, ∋⟧⟧(x: T, y: T): Boolean">
+<h3 id="sec-operator-NOTNI" class="nb"><span class="num">34.6.2</span> <span class="m"><span class="kw">opr</span> <span class="op">NOTNI</span>⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryPredicate</span>⟦<i>T</i>, ∋⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr NOTNI⟦T extends BinaryIntervalPredicate⟦T, ∋⟧⟧(x: T, y: T): BooleanInterval">
+<h3 id="sec-interval-operator-NOTNI" class="nb"><span class="m"><span class="kw">opr</span> <span class="op">NOTNI</span>⟦<i>T</i> <span class="kw">extends</span> <span class="ty">BinaryIntervalPredicate</span>⟦<i>T</i>, ∋⟧⟧(<i>x</i>: <i>T</i>, <i>y</i>: <i>T</i>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-c1c58220" class="nb">The infix operator <span class="m">∌</span> applies <span class="m">¬</span> to the result of <span class="m">∋</span> on the same operands.</p>
+</section>
+</section>
+<section class="sec" data-num="34.7" data-title="Other Negated Operators">
+<h2 id="s-other-negated-operators" class="nb"><span class="num">34.7</span> Other Negated Operators</h2>
+<section class="sec" data-num="34.7.1" data-title="">
+<h3 id="sec-operator-NPARALLEL" class="nb"><span class="num">34.7.1</span> <span class="mw"><svg class="tx il" data-d="26" viewBox="-2.26 -0.60 252.58 11.18" width="25.258em" height="1.118em" fill="currentColor" style="vertical-align:-0.311em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'>∦</text>
+<text class='t2' x='19.01' y='7.47'></text>
+<text class='t3' x='23.02' y='7.47'>T</text>
+<text class='t0' x='28.57' y='7.47'>extends</text>
+<text class='t4' x='66.57' y='7.47'>BinaryPredicate</text>
+<text class='t2' x='137.19' y='7.47'></text>
+<text class='t3' x='141.2' y='7.47'>T<tspan x='147.85'>,</tspan></text>
+<text class='t5' x='152.28' y='7.47'></text>
+<text class='t2' x='157.26' y='7.47'></text>
+<text class='t4' x='165.29' y='7.47'>(</text>
+<text class='t3' x='169.16' y='7.47'>x</text>
+<text class='t4' x='174.86' y='7.47'>:</text>
+<text class='t3' x='179.29' y='7.47'>T<tspan x='185.94'>,</tspan><tspan x='190.37'>y</tspan></text>
+<text class='t4' x='195.61' y='7.47'>:</text>
+<text class='t3' x='200.04' y='7.47'>T</text>
+<text class='t4' x='207.24' y='7.47'>):<tspan x='214.71'>Bo</tspan><tspan x='227.03'>olean</tspan></text></svg></span></h3>
+</section>
+<section class="sec" data-num="" data-title="">
+<h3 id="sec-interval-operator-NPARALLEL" class="nb"><span class="mw"><svg class="tx il" data-d="27" viewBox="-2.26 -0.60 319.61 11.18" width="31.961em" height="1.118em" fill="currentColor" style="vertical-align:-0.311em"><text class='t0' x='-1.66' y='7.47'>opr</text>
+<text class='t1' x='14.03' y='7.47'>∦</text>
+<text class='t2' x='19.01' y='7.47'></text>
+<text class='t3' x='23.02' y='7.47'>T</text>
+<text class='t0' x='28.57' y='7.47'>extends</text>
+<text class='t4' x='66.57' y='7.47'>BinaryIn<tspan x='104.92'>terv</tspan><tspan x='121.83'>alPredicate</tspan></text>
+<text class='t2' x='170.7' y='7.47'></text>
+<text class='t3' x='174.72' y='7.47'>T<tspan x='181.37'>,</tspan></text>
+<text class='t5' x='185.8' y='7.47'></text>
+<text class='t2' x='190.78' y='7.47'></text>
+<text class='t4' x='198.8' y='7.47'>(</text>
+<text class='t3' x='202.68' y='7.47'>x</text>
+<text class='t4' x='208.37' y='7.47'>:</text>
+<text class='t3' x='212.8' y='7.47'>T<tspan x='219.45'>,</tspan><tspan x='223.88'>y</tspan></text>
+<text class='t4' x='229.12' y='7.47'>:</text>
+<text class='t3' x='233.55' y='7.47'>T</text>
+<text class='t4' x='240.75' y='7.47'>):<tspan x='248.23'>Bo</tspan><tspan x='260.54'>oleanIn</tspan><tspan x='292.09'>terv</tspan><tspan x='309'>al</tspan></text></svg></span></h3>
+<p id="p-aec776ad" class="nb">The infix operator <svg class="tx il" data-d="28" viewBox="-0.60 -0.60 6.18 11.09" width="0.618em" height="1.109em" fill="currentColor" style="vertical-align:-0.311em"><text class='t1' x='0' y='7.38'>∦</text></svg> applies <span class="m">¬</span> to the result of <span class="m">∥</span> on the same operands.</p>
+</section>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="lib-numbers-basic.html"><span>Previous</span> 33. Numbers</a><a class="next" href="lib-exception.html"><span>Next</span> 35. Exceptions</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic-lib/Fortress.NegatedOperators.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>7. Names and Declarations · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t4{font-family:ptmr8r;font-size:6.95px}
+svg.tx text.t5{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t6{font-family:cmsy7;font-size:6.97px}
+</style>
+</head>
+<body data-page="chapter" data-slug="declarations" data-chapter="7. Names and Declarations">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">7. Names and Declarations</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="7" data-title="Names and Declarations">
+<h1 id="top" class="nb"><a id="chap-declarations"></a><a id="chap-names"></a><span class="num">Chapter 7</span> Names and Declarations</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-decl-kinds">7.1 Kinds of Declarations</a></li><li><a href="#sec-namespaces">7.2 Namespaces</a></li><li><a href="#sec-scope">7.3 Reach and Scope of Declarations</a></li><li><a href="#sec-qualified-names">7.4 Imported Declarations and Qualified Names</a></li></ol></nav>
+<a id="chap-names"></a><aside class="draft"><p class="label">Draft note</p>
+<p id="p-a5b1fe91" class="nb">This chapter should be revised according to Victor’s new description.</p>
+<p id="p-e93ae365" class="nb">Qualified names, dimensions and units, tests and properties, where clauses, keyword and varargs parameters, and type aliases are not yet supported.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-2d54e15e" class="nb">Issues – Victor</p>
+<ul>
+<li><p id="p-3376faf8" class="nb">opr parameter scope, etc.</p></li>
+<li><p id="p-1ad06ee7" class="nb">delayed initialization of variables</p>
+<ul>
+<li><p id="p-06fde0de" class="nb">Synonyms? (especially for operators, but maybe for identifers)</p></li>
+<li><p id="p-9b76b4d5" class="nb"><span class="m"><i>T</i>. <span class="kw">coerce</span></span> is a new kind of “name”, so we need to be careful how we phrase this. (If we can’t call <span class="m"><i>T</i>. <span class="kw">coerce</span></span> explicitly, then should coercion declarations even be considered declarations?)</p></li>
+</ul></li>
+<li><p id="p-ccff8671" class="nb">Should distinguish simple names, API names, and qualified names.</p>
+<ul>
+<li><p id="p-f0c6c1f1" class="nb">Need to discuss (perhaps in components/APIs chapter) restriction on API names so that “first part” does not conflict with any name declared in (or imported unqualified by) the component.</p></li>
+<li><p id="p-51f55371" class="nb">Should also discuss declaration by import statements. Is that a declaration? Even if we don’t consider normal import statements to be declarations–the declarations are in the APIs–when import statements provide aliases, that must be considered a declaration.</p></li>
+</ul></li>
+</ul></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-3f4aa657" class="nb">Expressions that declare names: typecase, catch clauses, generators, labeled blocks, bindings? the declaration in a typecase is just a binding so it’s not actually that special, except for the static type</p>
+<p id="p-ce4006d4" class="nb">I think we can consider “self” and “coerce” to be “special identifiers”. Or else the “names” declared by declarations are more than just identifiers and operators.</p>
+<p id="p-e1868fe1" class="nb">Search for comments for some recommendations for local changes.</p></aside>
+<p id="p-9e07f6e7" class="nb">Names are used to refer to certain kinds of entities in a Fortress program. Names may be simple or qualified. A simple name is either an identifier or an operator. An operator may be an operator token, a special token corresponding to a special operator character, or a matching pair of enclosing operator tokens. A qualified name consists of an API name followed by “<span class="m">.</span>”, followed by an identifier, where an API name consists of a sequence of identifiers separated by “<span class="m">.</span>” tokens. Note that operators cannot be qualified. Except in <a class="xref" href="#sec-qualified-names">Section 7.4</a><!--nc-->, we consider only simple names in this chapter.</p>
+<p id="p-0ba83eda" class="nb">Simple names are typically introduced by declarations, which bind the name to an entity. In some cases, the declaration is implicit. Every declaration has a scope, in which the declared name can be used to refer to the declared entity.</p>
+<p id="p-a4602e83" class="nb"><em>Declarations</em> introduce <em>named entities</em>; we say that a declaration <em>declares</em> an entity and a name by which that entity can be referred to, and that the declared name <em>refers to</em> the declared entity. As discussed later, there is not a one-one correspondence between declarations and named entities: some declarations declare multiple named entities, some declare multiple names, and some named entities are declared by multiple declarations.</p>
+<p id="p-b6734928" class="nb">Some declarations contain other declarations. For example, a trait declaration may contain method declarations, and a function declaration may contain parameter declarations.</p>
+<p id="p-eb132858" class="nb">The positions in which a declaration may legally appear in a component are determined by the nonterminal <em>Decl</em> in the simplified Fortress grammar in <a class="xref" href="concrete-syntax.html">Appendix G</a><!--nc-->.</p>
+<section class="sec" data-num="7.1" data-title="Kinds of Declarations">
+<h2 id="sec-decl-kinds" class="nb"><span class="num">7.1</span> Kinds of Declarations</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-db57174b" class="nb">The grammar the follows is only for top-level declarations.</p></aside>
+<div class="tw nb gr" id="g-6b35a3e9" data-kind="grammar"><a id="fnref-1"></a><svg class="tx" data-d="1" viewBox="-5.58 10.45 152.84 117.09" width="15.284em" height="11.709em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>Decl</text>
+<text class='t2' x='56.68' y='28.8'>::=</text>
+<text class='t1' x='79.79' y='28.8'>T<tspan x='84.78'>r</tspan><tspan x='88.51'>aitDecl</tspan></text>
+<text class='t3' x='56.68' y='40.76'>|</text>
+<text class='t1' x='79.79' y='40.76'>ObjectDecl</text>
+<text class='t3' x='56.68' y='52.71'>|</text>
+<text class='t1' x='79.79' y='52.71'>V<tspan x='84.77'>arDecl</tspan></text>
+<text class='t3' x='56.68' y='64.67'>|</text>
+<text class='t1' x='79.79' y='64.67'>FnDecl</text>
+<text class='t3' x='56.68' y='76.62'>|</text>
+<text class='t1' x='79.79' y='76.62'>DimUnitDecl</text>
+<text class='t3' x='56.68' y='88.58'>|</text>
+<text class='t1' x='79.79' y='88.58'>T<tspan x='84.59'>ypeAlias</tspan></text>
+<text class='t3' x='56.68' y='100.53'>|</text>
+<text class='t1' x='79.79' y='100.53'>T<tspan x='84.41'>estDecl</tspan></text>
+<text class='t3' x='56.68' y='112.49'>|</text>
+<text class='t1' x='79.79' y='112.49'>Pr<tspan x='89.3'>opertyDecl</tspan></text>
+<text class='t3' x='56.68' y='124.45'>|</text>
+<text class='t1' x='79.79' y='124.45'>ExternalSyntax</text>
+<text class='t4' x='143.18' y='120.83'>1</text></svg></div>
+<p id="p-5e5a18bb" class="nb">There are two kinds of declarations: <em>top-level declarations</em> and <em>local declarations</em>.</p>
+<p id="p-f705f7f9" class="nb">Top-level declarations occur at the top level of a component, not within any other declaration or expression. A top-level declaration is one of the following:<sup class="fnref"><a id="fnref-2" href="#fn-2">2</a></sup></p>
+<ul>
+<li><p id="p-3f154901" class="nb">trait declarations (see <a class="xref" href="traits.html">Chapter 10</a><!--nc-->);</p></li>
+<li><p id="p-75dea461" class="nb">object declarations (see <a class="xref" href="objects.html">Chapter 11</a><!--nc-->), which may be singleton declarations or constructor declarations;</p></li>
+<li><p id="p-5213d377" class="nb">top-level variable declarations (see <a class="xref" href="variables.html#sec-top-var-decls">Section 8.1</a><!--nc-->);</p></li>
+<li><p id="p-df9b15f5" class="nb">top-level function declarations (see <a class="xref" href="functions.html">Chapter 9</a><!--nc-->), including top-level operator declarations (see <a class="xref" href="operators.html">Chapter 16</a><!--nc-->);</p></li>
+<li><p id="p-18af6728" class="nb">dimension declarations (see <a class="xref" href="dimunits.html">Chapter 18</a><!--nc-->);</p></li>
+<li><p id="p-cf2c330d" class="nb">unit declarations (see <a class="xref" href="dimunits.html">Chapter 18</a><!--nc-->);</p></li>
+<li><p id="p-0ffb8574" class="nb">top-level type aliases (see <a class="xref" href="types.html#sec-type-alias">Section 6.11</a>);</p></li>
+<li><p id="p-d64944fb" class="nb">test declarations (see <a class="xref" href="tests.html">Chapter 19</a><!--nc-->);</p></li>
+<li><p id="p-ee08414e" class="nb">top-level property declarations; (see <a class="xref" href="tests.html">Chapter 19</a><!--nc-->)</p></li>
+</ul>
+<p id="p-64448fb7" class="nb">Local declarations occur in another declaration or in some expression (or both). A local declaration is one of the following:</p>
+<ul>
+<li><p id="p-da0312a8" class="nb">field declarations (see <a class="xref" href="objects.html#sec-fields">Section 11.2</a><!--nc-->), which occur in object declarations and object expressions, and include field declarations in the parameter list of a constructor declaration;</p></li>
+<li><p id="p-deee80a3" class="nb">method declarations (see <a class="xref" href="traits.html#sec-methods">Section 10.2</a><!--nc-->), which occur in trait and object declarations and object expressions;</p></li>
+<li><p id="p-2b1ed397" class="nb">coercion declarations (see <a class="xref" href="conversions-coercions.html">Chapter 17</a><!--nc-->), which occur in trait and object declarations;</p></li>
+<li><p id="p-ac4d987d" class="nb">local variable declarations (see <a class="xref" href="variables.html#sec-local-var-decls">Section 8.2</a><!--nc-->), which occur in expression blocks;</p></li>
+<li><p id="p-779d909c" class="nb">local function declarations (see <a class="xref" href="functions.html#sec-local-fn-decls">Section 9.5</a><!--nc-->), which occur in expression blocks;</p></li>
+<li><p id="p-67aa1b33" class="nb">local property declarations (see <a class="xref" href="tests.html">Chapter 19</a><!--nc-->), which occur in trait and object declarations and object expressions;</p></li>
+<li><p id="p-33691efb" class="nb">labeled blocks (see <a class="xref" href="expressions.html#sec-label-expr">Section 13.12</a><!--nc-->), which are expressions;</p></li>
+<li><p id="p-ecf339ce" class="nb">static-parameter declarations, which may declare type parameters, <span class="m"><span class="kw">nat</span></span> parameters, <span class="m"><span class="kw">int</span></span> parameters, <span class="m"><span class="kw">bool</span></span> parameters, <span class="m"><span class="kw">dim</span></span> parameters, <span class="m"><span class="kw">unit</span></span> parameters, or <span class="m"><span class="kw">opr</span></span> parameters (see <a class="xref" href="trait-parameters.html">Chapter 12</a><!--nc-->), and occur in static-parameter lists of trait and object declarations, top-level type aliases, top-level function declarations, method declarations, and local function declarations.</p></li>
+<li><p id="p-f69a5385" class="nb">hidden-type-variable declarations, which occur in <span class="m"><span class="kw">where</span></span> clauses (see <a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->) of trait and object declarations, top-level function declarations, and method declarations;</p></li>
+<li><p id="p-b1e9c3d2" class="nb">type aliases in <span class="m"><span class="kw">where</span></span> clauses, of trait and object declarations, top-level function declarations, and method declarations;</p></li>
+<li><p id="p-ffbad394" class="nb">(value) parameter declarations, which may be keyword-parameter declarations which occur in parameter lists of constructor declarations, top-level function declarations, method declarations, local function declarations, and function expressions</p></li>
+</ul>
+<p id="p-63c8c369" class="nb">Some declarations are syntactic sugar for other declarations. Throughout this chapter, we consider declarations after they have been desugared. Thus, apparent field declarations in trait declarations are actually method declarations (as described in <a class="xref" href="traits.html#sec-methods">Section 10.2</a><!--nc-->), and a dimension and unit declaration may desugar into several separate declarations (as described in <a class="xref" href="declaring-dimunits.html#sec-abbrev-dimunits">Section 26.3</a><!--nc-->). After desugaring, the kinds of declarations listed above are disjoint.</p>
+<p id="p-706a2939" class="nb">In addition to these explicit declarations, there are two cases in which names are declared implicitly:</p>
+<ul>
+<li><p id="p-8f636db7" class="nb">the special name <span class="m"><span class="kw">self</span></span> is implicitly declared as a parameter of dotted methods (see <a class="xref" href="traits.html#sec-methods">Section 10.2</a><!--nc--> for details); and</p></li>
+<li><p id="p-852d670a" class="nb">the name <span class="m"><i>result</i></span> is implicitly declared as a variable for the <span class="m"><span class="kw">ensures</span></span> clause of a contract (see <a class="xref" href="functions.html#sec-contracts">Section 9.4</a><!--nc--> for details).</p></li>
+</ul>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-3aa1f18f" class="nb">This is *not* the proper reference, but I don’t know what is.</p></aside>
+<p id="p-350ab51e" class="nb">As discussed in <a class="xref" href="variables.html">Chapter 8</a><!--nc-->, the initialization of a local variable may be separated from its declaration. In this case we do not consider the initialization of an immutable variable to be a declaration, even though it is syntatically indistinguishable from a declaration of an immutable variable.</p>
+<p id="p-b3aa30bc" class="nb">Trait declarations, object declarations, top-level type aliases, type-parameter declarations, and hidden-type-variable declarations are collectively called <em>type declarations</em>; they declare names that refer to <em>types</em> (see <a class="xref" href="types.html">Chapter 6</a>). Dimension declarations and <span class="m"><span class="kw">dim</span></span>-parameter declarations are <em>dimension declarations</em>, and unit declarations and <span class="m"><span class="kw">unit</span></span>-parameter declarations are <em>unit declarations</em>. Constructor declarations, top-level function declarations, method declarations, and local function declarations are collectively called <em>functional declarations</em>. Singleton declarations, top-level variable declarations, field declarations, local variable declarations (including implicit declarations of <span class="m"><i>result</i></span>) and (value) parameter declarations (including implicit declarations of <span class="m"><span class="kw">self</span></span>) are collectively called <em>variable declarations</em>. Static-parameter declarations and hidden-type-variable declarations are also collectively called <em>static-variable declarations</em>. Note that static-variable declarations are disjoint from variable declarations.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-17f6f359" class="nb">Victor: May want to add “module-wide” declarations, which are the top-level declarations plus functional method declarations. These are the declarations whose reach is the entire component and that can be imported from an API.</p></aside>
+<p id="p-d23d3036" class="nb">The groups of declarations defined in the previous paragraph are neither disjoint nor exhaustive. For example, labeled blocks are not included in any of these groups, and an object declaration is both a type declaration and either a function or variable declaration, depending on whether it is singleton.</p>
+<p id="p-c0d7bb11" class="nb">Most declarations declare a single name given explicitly in the declaration (though, as discussed in <a class="xref" href="#sec-namespaces">Section 7.2</a><!--nc-->, they may declare this name in multiple namespaces). There is one exception: wrapped field declarations (described in <a class="xref" href="traits.html#sec-abstract-fields">Section 10.3</a><!--nc-->) in object declarations and object expressions declare both the field name and names for methods provided by the declared type of the field.</p>
+<p id="p-551c01c6" class="nb">Method declarations in a trait may be either <em>abstract</em> or <em>concrete</em>. Abstract declarations do not have bodies; concrete declarations, sometimes called <em>definitions</em>, do.</p>
+</section>
+<section class="sec" data-num="7.2" data-title="Namespaces">
+<h2 id="sec-namespaces" class="nb"><span class="num">7.2</span> Namespaces</h2>
+<p id="p-7ee4e7dc" class="nb">Fortress supports three namespaces, one for types, one for values, and one for labels. (If we consider the Fortress component system, there is another namespace for APIs.) These namespaces are logically disjoint: names in one namespace do not conflict with names in another.</p>
+<p id="p-258cb219" class="nb">Type declarations, of course, declare names in the type namespace. Function and variable declarations declare names in the value namespace. (This implies that object names are declared in both the type and value namespaces.) Labeled blocks declare names in the label namespace. Although they are not all type declarations, all the static-variable declarations declare names in the type namespace, as do dimension declarations. In addition, <span class="m"><span class="kw">nat</span></span> parameters, <span class="m"><span class="kw">int</span></span> parameters, <span class="m"><span class="kw">bool</span></span> parameters, <span class="m"><span class="kw">unit</span></span> parameters, and <span class="m"><span class="kw">opr</span></span> parameters are also declared in the value namespace. <a class="xref" href="trait-parameters.html#sec-opr-ident">Section 12.5</a><!--nc--> describes <span class="m"><span class="kw">opr</span></span> parameters in more detail.</p>
+<p id="p-f5614e2f" class="nb">Every occurrence of a name in a program is either a declaration or a reference. <sup class="fnref"><a id="fnref-3" href="#fn-3">3</a></sup> A reference to a name is resolved to the entity that the name refers to the namespace appropriate to the context in which the reference occurs. For example, a name refers to a label if and only if it occurs immediately following the reserved word <span class="m"><span class="kw">exit</span></span>. It refers to a type if and only if it appears in a type context (described in <a class="xref" href="types.html">Chapter 6</a>). Otherwise, it refers to a value.</p>
+</section>
+<section class="sec" data-num="7.3" data-title="Reach and Scope of Declarations">
+<h2 id="sec-scope" class="nb"><a id="sec-shadowing"></a><span class="num">7.3</span> Reach and Scope of Declarations</h2>
+<p id="p-fb0912c7" class="nb">In this section, we define the <em>reach</em> and <em>scope</em> of a declaration, which determine where a declared name may be used to refer to the entity declared by the declaration. It is a static error for a reference to a name to occur at any point in a program at which the name is not <em>in scope</em> in the appropriate namespace (as defined below), except immediately after the ‘.’ of a dotted field access or dotted method invocation when the name is the name of the field or dotted method provided by the static type of the receiver expression (see Sections <a class="xref" href="expressions.html#sec-field-access">13.3</a><!--nc--> and <a class="xref" href="expressions.html#sec-dotted-method-calls">13.4</a><!--nc-->). It is also a static error for multiple declarations with overlapping reaches to declare the same name in the same namespace unless the declarations are <em>overloaded</em> or one declaration <em>shadows</em> the other, as defined below.</p>
+<p id="p-744761a0" class="nb">We first define a declaration’s <em>reach</em>. The reach of a labeled block is the block itself. The reach of a functional method declaration is the component containing that declaration. A dotted method declaration not in an object expression (described in <a class="xref" href="expressions.html#sec-object-expr">Section 13.9</a><!--nc-->) or declaration must be in the declaration of some trait <span class="m"><i>T</i></span>, and its reach is the declaration of <span class="m"><i>T</i></span> and any trait or object declarations or object expressions that extend <span class="m"><i>T</i></span>; that is, if the declaration of trait <span class="m"><i>T</i></span> contains a method declaration, and trait <span class="m"><i>S</i></span> extends trait <span class="m"><i>T</i></span>, then the reach of that method declaration includes the declaration of trait <span class="m"><i>S</i></span>. The reach of any other (explicit) declaration is the smallest block strictly containing that declaration (i.e., not just the declaration itself). For example, the reach of any top-level declaration (including any imported declaration) is the component containing (or importing) that declaration; the reach of a field declaration is the enclosing object declaration or expression; the reach of a parameter declaration is the constructor declaration, functional declaration, or function expression in whose parameter list it occurs; and the reach of a local variable declaration is the smallest block in which that declaration occurs (recall from <a class="xref" href="programs.html">Chapter 3</a> that a local variable declaration always starts a new block). The reach of an implicit declaration of <span class="m"><span class="kw">self</span></span> by a dotted method declaration is the method declaration (the same as the explicit parameters of the method), and the reach of an implicit declaration of <span class="m"><i>result</i></span> by an <span class="m"><span class="kw">ensures</span></span> clause of a contract is the <span class="m"><span class="kw">ensures</span></span> clause. We say that a declaration <em>reaches</em> any point within its reach.</p>
+<p id="p-0d5a24cd" class="nb">One declaration <em>shadows</em> another for a name in a namespace if they both declare the name in the namespace, and any of the following conditions hold:</p>
+<ul>
+<li><p id="p-6beafa92" class="nb">The first declaration is a field or dotted method declaration in a trait declaration, object declaration or object expression contained strictly within the reach of the second declaration, unless the first declaration is in an object expression that extends a trait that provides the second declaration (in which case the declarations are overloaded).</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-22f240e1" class="nb">Alternatively, split above condition into two:</p>
+<ul>
+<li><p id="p-547527e3" class="nb">The first declaration is a field or dotted method declaration in a trait or object declaration and the second declaration is a top-level or functional method declaration.</p></li>
+<li><p id="p-3fc1ff91" class="nb">The first declaration is a field or dotted method declaration in an object expression contained strictly entirely within the reach of the second declaration, unless the object expression extends a trait that provides the second declaration (in which case the declarations are overloaded).</p></li>
+</ul></aside></li>
+<li><p id="p-ee189e12" class="nb">The first declaration is a keyword-parameter declaration of a function or method declaration contained strictly in the reach of the second declaration.</p></li>
+<li><p id="p-1c390c8e" class="nb">the name is <span class="m"><span class="kw">self</span></span>, and the reach of the first declaration is contained in the reach of the second declaration.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-44348ebf" class="nb">I’m not sure this is necessary because self should not be in scope in an enclosed object expression in any case. However, we still have two declarations of self with overlapping reaches, but which are not overloaded, so it may be safer to say there is shadowing in any case.</p></aside></li>
+<li><p id="p-289be959" class="nb">the name is <span class="m"><i>result</i></span> and the first declaration is an implicit declaration by an <span class="m"><span class="kw">ensures</span></span> clause contained in the reach of the second declaration.</p></li>
+</ul>
+<p id="p-7c9167e3" class="nb">We omit the name and the namespace when they are clear from context. We say that the second declaration <em>is shadowed by</em> the first at any point in the program that their reaches overlap. No other shadowing is permitted in a Fortress program.</p>
+<p id="p-51c4a9c4" class="nb">The <em>scope</em> of a declaration for a name in a namespace (assuming the declaration declares the name in the namespace) consists of all points in the reach of the declaration except the following:</p>
+<ul>
+<li><p id="p-979f5d7d" class="nb">any point where the declaration is shadowed by another for that name and namespace;</p></li>
+<li><p id="p-1371c99d" class="nb">the declaration is a type alias (top-level or not), a dimension declaration or a unit declaration, and the program point is in the declaration;</p></li>
+<li><p id="p-1ee3d2ad" class="nb">if the declaration is a field, local variable or parameter declaration, any point in the declaration or that textually precedes the declaration;</p></li>
+<li><p id="p-7c76ac12" class="nb">if the name is <span class="m"><span class="kw">self</span></span>, any point in an object expression contained in the reach of the declaration;</p></li>
+<li><p id="p-3893c597" class="nb">if the declaration is a labeled block, any point in a <span class="m"><span class="kw">spawn</span></span> expression in the labeled block.</p></li>
+</ul>
+<p id="p-271abc40" class="nb">We say that a name is <em>in scope</em> in a namespace at any point in the program that is in the scope of some declaration for that name and namespace. Again, we omit the name and/or namespace when they are clear from context.</p>
+<p id="p-4b5f014b" class="nb">As mentioned above, it is a static error for a reference to a name to occur where it is not in scope in the appropriate namespace. In addition, local variables must be properly initialized before they are used, as discussed in <a class="xref" href="variables.html">Chapter 8</a><!--nc-->.</p>
+<p id="p-8f821a83" class="nb">If the scope of multiple declarations for the same name and namespace overlap, then we say that the name is <em>overloaded</em> in that namespace in the overlap, and we say that the declarations are <em>overloaded</em> for that name.</p>
+<p id="p-df729f6b" class="nb">Declarations may be overloaded only if one of the following conditions hold:</p>
+<ul>
+<li><p id="p-b9a68387" class="nb">They are all dotted method declarations.</p></li>
+<li><p id="p-afdafbe2" class="nb">They are all top-level function declarations and functional method declarations.</p></li>
+<li><p id="p-42a6981a" class="nb">One is a field declaration, and the rest are getter and setter declarations.</p></li>
+</ul>
+<p id="p-c527e0b6" class="nb">In the first two cases, the declarations define an <em>overloaded functional</em> (i.e., function or method), and they must satisfy certain rules that ensure that the functional does not admit ambiguous calls. See <a class="xref" href="overloaded-declarations.html">Chapter 24</a><!--nc--> for further discussion on this topic. In the last case, the type of the field must be a subtype of the return type of any getter and a supertype of the parameter type of any setter.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-cbbec5be" class="nb">Can we put the rules for fields overloading into the overloading chapter and over here simply say, "in either case, see Chapter XX"? We might also join the first two cases, and leave the discussion of which kinds of functional declarations can be overloaded to the overloading chapter.</p></aside>
+</section>
+<section class="sec" data-num="7.4" data-title="Imported Declarations and Qualified Names">
+<h2 id="sec-qualified-names" class="nb"><span class="num">7.4</span> Imported Declarations and Qualified Names</h2>
+<div class="tw nb gr" id="g-2f802c27" data-kind="grammar"><svg class="tx" data-d="2" viewBox="-5.58 10.45 159.76 22.42" width="15.976em" height="2.242em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='30.16'>QualiﬁedName</text>
+<text class='t2' x='98.18' y='30.16'>::=</text>
+<text class='t1' x='121.29' y='30.16'>Id</text>
+<text class='t2' x='129.86' y='30.16'>(</text>
+<text class='t5' x='133.18' y='30.16'>.</text>
+<text class='t1' x='137.61' y='30.16'>Id</text>
+<text class='t2' x='146.18' y='30.16'>)</text>
+<text class='t6' x='149.49' y='26.54'>∗</text></svg></div>
+<p id="p-ea3f6c20" class="nb">Fortress provides a component system in which the entities declared in a component are described by an API. A component may <em>import</em> APIs, allowing it to refer to these entities declared by the imported APIs. In some cases, references to these entities must be <em>qualified</em> by the API name. These qualified names can be used in any place that a simple name would be used had the entity been declared directly in the component rather than being imported. Note that qualified names are distinguished from simple names by the inclusion of a “<span class="m">.</span>” token, so they never shadow, nor are they shadowed by, simple names. For further discussion on APIs and the component system, see <a class="xref" href="components.html">Chapter 22</a><!--nc-->.</p>
+</section>
+<section class="sec fns"><h2 id="footnotes">Footnotes</h2>
+<ol><li id="fn-1">Fortress provides declarations of syntax expanders for domain-specific languages as described in <a id="chap-syntax-expanders"></a>. However, these declarations do not introduce named entities. <a href="#fnref-1" aria-label="Back to the text">↩</a></li><li id="fn-2">The Fortress component system, defined in <a class="xref" href="components.html">Chapter 22</a><!--nc-->, includes declarations of <em>components</em> and <em>APIs</em>. Because component names are not used in a Fortress program and API names are used only in qualified names and <span class="m"><span class="kw">import</span></span> and <span class="m"><span class="kw">export</span></span> statements, we do not discuss them in this chapter. However, these declarations are not proper constituents of a valid program. Rather, valid programs are <em>assembled</em> from them. <a href="#fnref-2" aria-label="Back to the text">↩</a></li><li id="fn-3">We are abusing terminology here by using “declaration” to denote the occurrence of a name, whereas we have generally been using “declaration” to denote the syntactic construct that declares the name. Many declarations in the latter sense allow the declared name to occur several times: only one such occurrence is a declaration in the former sense; the rest are references. <a href="#fnref-3" aria-label="Back to the text">↩</a></li></ol></section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="types.html"><span>Previous</span> 6. Types</a><a class="next" href="variables.html"><span>Next</span> 8. Variables</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/declarations.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

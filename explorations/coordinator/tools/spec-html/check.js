@@ -18,20 +18,68 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
   const c = await b.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, hasTouch: true, colorScheme: 'light', acceptDownloads: true, permissions: ['clipboard-read', 'clipboard-write'] });
   const p = await c.newPage();
   const ext = [];
-  p.on('request', r => { if (!r.url().startsWith(U)) ext.push(r.url()); });
+  p.on('request', r => { if (!r.url().startsWith(U) && !r.url().startsWith('data:')) ext.push(r.url()); });
   p.on('pageerror', e => console.log('PAGEERROR', e.message));
   p.on('console', m => { if (m.type() === 'error') console.log('CONSOLE', m.text()); });
-  // overflow in every page, light and dark
+  // every page that the contents lists: no sideways scroll, light and dark; nothing left unconverted;
+  // every character of every display has its font; the displays take the colour of the text
+  await p.goto(U + 'index.html');
+  const chapters = await p.$$eval('ul.chapters li.done', els => els.map(e => e.getAttribute('data-slug')));
+  ok(chapters.length === 54 && await p.locator('ul.chapters li.todo').count() === 0, 'the contents lists 54 converted pages and none unconverted: ' + chapters.length);
+  const inks = {};
+  let displays = 0;
   for (const scheme of ['light', 'dark']) {
     await p.emulateMedia({ colorScheme: scheme });
-    for (const f of ['index', 'preface', 'intro', 'overview', 'programs', 'lexical-structure', 'evaluation', 'types', 'notes', 'references']) {
+    const bad = [];
+    for (const f of ['index', 'notes', 'references'].concat(chapters)) {
       await p.goto(U + f + '.html');
       const w = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
-      const bg = await p.evaluate(() => getComputedStyle(document.body).backgroundColor);
-      ok(w === 0, `${scheme} ${f}: no sideways scroll (${w}) bg ${bg}`);
+      if (w !== 0) bad.push(f + ' scrolls sideways by ' + w);
+      const r = await p.evaluate(async () => {
+        await document.fonts.ready;
+        const out = { unk: document.querySelectorAll('.unk, .gap').length, n: document.querySelectorAll('svg.tx').length, nofont: [], ink: '', body: getComputedStyle(document.body).color };
+        const seen = new Set();
+        for (const t of document.querySelectorAll('svg.tx text')) {
+          const cs = getComputedStyle(t), fam = cs.fontFamily;
+          if (!out.ink) out.ink = cs.fill;
+          const key = fam + '|' + t.textContent;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          let known = false;
+          for (const face of document.fonts) if (face.family.replace(/"/g, '') === fam.replace(/"/g, '')) known = true;
+          if (!known) out.nofont.push(fam + ' is not a font of tex-fonts.css');
+          else {
+            try { await document.fonts.load('10px ' + fam, t.textContent); } catch (e) { out.nofont.push(fam + ' did not load'); }
+            if (!document.fonts.check('10px ' + fam, t.textContent)) out.nofont.push(fam + ' lacks a character of ' + JSON.stringify(t.textContent.slice(0, 20)));
+          }
+        }
+        return out;
+      });
+      if (r.unk) bad.push(f + ' holds ' + r.unk + ' unconverted constructs');
+      if (r.nofont.length) bad.push(f + ': ' + r.nofont.slice(0, 3).join('; '));
+      if (r.n && r.ink !== r.body) bad.push(f + ': the displays are ' + r.ink + ', the text is ' + r.body);
+      if (r.n) inks[scheme] = r.ink;
+      if (scheme === 'light') displays += r.n;
     }
+    ok(bad.length === 0, scheme + ': ' + (chapters.length + 3) + ' pages without sideways scroll, unconverted constructs or a display without its font' + (bad.length ? ': ' + bad.join(' | ') : ''));
   }
+  ok(displays > 1000 && inks.light !== inks.dark, displays + ' displays set by LaTeX; their ink is ' + inks.light + ' in light and ' + inks.dark + ' in dark, from one source');
   await p.emulateMedia({ colorScheme: 'light' });
+  // the text of a display can be selected
+  await p.goto(U + 'overview.html');
+  const picked = await p.evaluate(() => { const t = document.querySelector('.fx[data-example="Executable"] svg.tx'); const r = document.createRange(); r.selectNodeContents(t); const s = getSelection(); s.removeAllRanges(); s.addRange(r); const x = s.toString(); s.removeAllRanges(); return x; });
+  ok(/api/.test(picked) && /Executable/.test(picked), 'the text of a display can be selected: ' + JSON.stringify(picked.slice(0, 40)));
+  // the curator's decisions on the text inside a sentence, and the edition's layer
+  await p.goto(U + 'lexical-structure.html');
+  const lig = await p.evaluate(() => { const c = document.querySelector('p code'); const cs = getComputedStyle(c); return cs.fontVariantLigatures + ' / ' + cs.paddingLeft + ' / ' + cs.backgroundColor; });
+  ok(lig.startsWith('none'), 'code inside a sentence: no ligatures, its highlight and narrow padding: ' + lig);
+  ok(await p.evaluate(() => document.body.innerHTML.includes('‘<span class="tt">FBAB</span>’')), 'a quote pair around a whole typewriter span is curly; the code inside is as typed');
+  await p.goto(U + 'preface.html');
+  ok(await p.locator('#p-0ea553b6').count() === 1 && await p.locator('#p-033235cb').count() === 1, 'the two paragraphs of the preface that carry notes keep their ids');
+  const arch = await p.locator('#p-0ea553b6 a.ed.arch').getAttribute('href');
+  ok(arch === 'https://web.archive.org/web/2008/http://projectfortress.sun.com', 'the dead address has the edition\'s link to the Internet Archive: ' + arch);
+  const tint = await p.evaluate(() => [getComputedStyle(document.querySelector('#p-033235cb')).backgroundColor, getComputedStyle(document.querySelector('.legend .rv')).backgroundColor, getComputedStyle(document.body).backgroundColor]);
+  ok(tint[0] === tint[1] && tint[0] !== tint[2] && await p.locator('#p-033235cb.rv').count() === 1, 'the revival\'s paragraph has the tint that the opening introduces: ' + tint.join(' '));
   await p.goto(U + 'overview.html');
   const gutter = await p.evaluate(() => document.querySelector('.page').getBoundingClientRect().left);
   ok(gutter === 16, 'gutter 16px: ' + gutter);
@@ -77,7 +125,6 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
   ok(await cont.count() === 1, 'start page offers: ' + (await cont.innerText()).replace(/\n/g, ' | '));
   const href = await cont.locator('a').getAttribute('href');
   ok(href === 'overview.html#' + place.pages.overview.anchor, 'continue link ' + href);
-  ok(await p.locator('ul.chapters li.todo').count() > 40, 'unconverted chapters listed: ' + await p.locator('ul.chapters li.todo').count() + ', converted ' + await p.locator('ul.chapters li.done').count());
   // export
   await p.goto(U + 'notes.html');
   const text = await p.locator('#export-text').inputValue();

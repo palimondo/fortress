@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>B. Overloaded Functional Declarations · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t1{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t2{font-family:cmr10;font-size:9.96px}
+svg.tx text.t3{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t4{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t5{font-family:cmmi7;font-size:6.97px}
+</style>
+</head>
+<body data-page="chapter" data-slug="overloaded-functional" data-chapter="B. Overloaded Functional Declarations">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">B. Overloaded Functional Declarations</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part VII, Appendices</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="B" data-title="Overloaded Functional Declarations">
+<h1 id="top" class="nb"><a id="app-overloaded-functional"></a><span class="num">Appendix B</span> Overloaded Functional Declarations</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-proof-coercion-resolution">B.1 Proof of Coercion Resolution for Functions</a></li><li><a href="#sec-proof-overloading-resolution">B.2 Proof of Overloading Resolution for Functions</a></li></ol></nav>
+<p id="p-5bb9a73f" class="nb">As mentioned in <a class="xref" href="overloaded-declarations.html">Chapter 24</a><!--nc-->, this appendix proves that the overloading rules discussed in <a class="xref" href="overloaded-declarations.html">Chapter 24</a><!--nc--> guarantee no undefined nor ambiguous call at run time.</p>
+<section class="sec" data-num="B.1" data-title="Proof of Coercion Resolution for Functions">
+<h2 id="sec-proof-coercion-resolution" class="nb"><span class="num">B.1</span> Proof of Coercion Resolution for Functions</h2>
+<p id="p-8e4ca4af" class="nb">This section proves that the overloading rules discussed in the previous sections guarantee the static resolution of coercion (described in <a class="xref" href="conversions-coercions.html#sec-resolving-coercion">Section 17.5</a><!--nc-->) is well defined for functions (the case for methods is analogous).</p>
+<p id="p-ba03752f" class="nb">Consider a static function call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span> at some program point <span class="m"><i>Z</i></span> and its corresponding dynamic function call <span class="m"><span class="it">f</span>(<span class="it">X</span>)</span>. Let <span class="m">Σ</span> be the set of parameter types of function declarations of <span class="m"><span class="it">f</span></span> that are visible at <span class="m"><i>Z</i></span> and applicable to the static call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span>. Let <span class="m">Σ′</span> be the set of parameter types of function declarations of <span class="m"><span class="it">f</span></span> that are visible at <span class="m"><i>Z</i></span> and applicable with coercion to the static call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span>. Moreover, let <span class="m">σ′</span> be the subset of <span class="m">Σ′</span> for which no type in <span class="m">Σ′</span> is more specific:</p>
+<div class="dm nb" id="m-5bca383a"><svg class="tx" data-d="1" viewBox="138.93 3.77 190.15 11.18" width="19.015em" height="1.118em" fill="currentColor"><text class='t0' x='139.53' y='11.86'>σ</text>
+<text class='t1' x='145.58' y='8.24'></text>
+<text class='t2' x='158.33' y='11.86'>=</text>
+<text class='t3' x='176.05' y='11.86'>{</text>
+<text class='t0' x='181.03' y='11.86'>S</text>
+<text class='t3' x='190.48' y='11.86'>∈</text>
+<text class='t2' x='199.89' y='11.86'>Σ</text>
+<text class='t1' x='207.08' y='8.24'></text>
+<text class='t3' x='219.84' y='11.86'>|<tspan x='232.57'>¬∃</tspan></text>
+<text class='t0' x='244.75' y='11.86'>S</text>
+<text class='t1' x='251.43' y='8.24'></text>
+<text class='t3' x='256.99' y='11.86'>∈</text>
+<text class='t2' x='266.4' y='11.86'>Σ</text>
+<text class='t1' x='273.6' y='8.24'></text>
+<text class='t2' x='279.16' y='11.86'>:</text>
+<text class='t0' x='284.69' y='11.86'>S</text>
+<text class='t1' x='291.38' y='8.24'></text>
+<text class='t0' x='296.39' y='11.86'><tspan x='304.08'>S</tspan></text>
+<text class='t3' x='320.72' y='11.86'>}</text>
+<text class='t0' x='325.71' y='11.86'>.</text></svg></div>
+<p id="p-be252f17" class="nb">We prove the following:</p>
+<div class="dm nb" id="m-dc8deeef"><svg class="tx" data-d="2" viewBox="159.50 3.77 149.00 11.18" width="14.900em" height="1.118em" fill="currentColor"><text class='t3' x='160.1' y='11.86'>|</text>
+<text class='t2' x='162.87' y='11.86'>Σ</text>
+<text class='t3' x='170.06' y='11.86'>|</text>
+<text class='t2' x='175.6' y='11.86'>=<tspan x='186.11'>0</tspan></text>
+<text class='t4' x='193.59' y='11.86'>and</text>
+<text class='t3' x='210.46' y='11.86'>|</text>
+<text class='t2' x='213.23' y='11.86'>Σ</text>
+<text class='t1' x='220.43' y='8.24'></text>
+<text class='t3' x='223.22' y='11.86'>|<tspan x='228.76'></tspan></text>
+<text class='t2' x='228.76' y='11.86'>=<tspan x='239.27'>0</tspan></text>
+<text class='t4' x='246.74' y='11.86'>imply</text>
+<text class='t3' x='272.49' y='11.86'>|</text>
+<text class='t0' x='275.25' y='11.86'>σ</text>
+<text class='t1' x='281.3' y='8.24'></text>
+<text class='t3' x='284.1' y='11.86'>|</text>
+<text class='t2' x='289.63' y='11.86'>=<tspan x='300.15'>1</tspan></text>
+<text class='t0' x='305.13' y='11.86'>.</text></svg></div>
+<p id="p-2d7f7d31" class="nb">Informally, if no declaration is applicable to a static call but there is a declaration that is applicable with coercion then there exists a single most specific declaration that is applicable with coercion to the static call.</p>
+<div class="thm"><p class="label">Lemma 1</p><p id="p-b2f4f939" class="nb"><a id="lem-nonempty"></a> Given an acyclic, irreflexive binary relation <span class="m"><i>R</i></span> on a set <span class="m"><i>S</i></span>, and a finite nonempty subset <span class="m"><i>A</i></span> of <span class="m"><i>S</i></span>, the set <span class="m">{<i>a</i> ∈ <i>A</i>|¬∃<i>a</i>′ ∈ <i>A</i> : (<i>a</i>′, <i>a</i>) ∈ <i>R</i>}</span> is nonempty.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-25560238" class="nb">Consider the relation <span class="m"><i>R</i></span> on <span class="m"><i>S</i></span> as a directed acyclic graph. Let <span class="m"><i>A</i></span> represent a subgraph. Then the Lemma amounts to proving that there exists a node in the graph represented by <span class="m"><i>A</i></span> with no edges pointing to it. This follows from the fact that <span class="m"><i>A</i></span> is finite and the graph is acyclic.</p></div>
+<div class="thm"><p class="label">Lemma 2</p><p id="p-6109a4cc" class="nb"><a id="lem-dgesge"></a> If <span class="m">|Σ′| ≥ 1</span> then <span class="m">|σ′| ≥ 1</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-de339db2" class="nb">Follows from Lemma <a class="xref" href="#lem-nonempty">1</a><!--nc--> where <span class="m"><i>S</i></span> is the set of all types, <span class="m"><i>A</i></span> is <span class="m">Σ′</span>, and the relation <span class="m">◁<sub></sub></span> is acyclic and irreflexive.</p></div>
+<div class="thm"><p class="label">Lemma 3</p><p id="p-7ee62e7f" class="nb"><a id="lem-le"></a> If <span class="m">|Σ| = 0</span> then <span class="m">|σ′| ≤ 1</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-132669ad" class="nb">For the purpose of contradiction suppose there are two declarations <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> in <span class="m">σ′</span>. Since both <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are applicable with coercion to <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span> and <span class="m">|Σ| = 0</span> there must exist a coercion from some type <span class="m"><span class="it">P</span>′</span> to <span class="m"><span class="it">P</span></span> and a coercion from some type <span class="m"><span class="it">Q</span>′</span> to <span class="m"><span class="it">Q</span></span> such that <span class="m"><span class="it">A</span> ⪯ <span class="it">P</span>′∩<span class="it">Q</span>′</span>. Therefore it is not the case that <span class="m"><span class="it">P</span> ⧫ <span class="it">Q</span></span>. By the overloading rules, <span class="m"><span class="it">P</span> ≠ <span class="it">Q</span></span> and either <span class="m"><span class="it">P</span> ◁<sub></sub> <span class="it">Q</span></span> or <span class="m"><span class="it">Q</span> ◁<sub></sub> <span class="it">P</span></span> or for all <span class="m"><span class="it">P</span>′ ∈ <span class="it">S</span></span> and <span class="m"><span class="it">Q</span>′ ∈ <span class="it">T</span></span> either <span class="m"><span class="it">P</span>′ ◊ <span class="it">Q</span>′</span>, or there is a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>′∩<span class="it">Q</span>′)</span> visible at <span class="m"><i>Z</i></span>. If <span class="m"><span class="it">P</span> ◁<sub></sub> <span class="it">Q</span></span> or <span class="m"><span class="it">Q</span> ◁<sub></sub> <span class="it">P</span></span> then we contradict our assumption. Otherwise, if there exists a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>′∩<span class="it">Q</span>′)</span> visible at <span class="m"><i>Z</i></span> then this declaration is applicable to <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span> without coercion. This contradicts <span class="m">|Σ| = 0</span>. If such a declaration does not exist then it must be the case that <span class="m"><span class="it">P</span>′ ◊ <span class="it">Q</span>′</span>. Then both <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> can not be applicable to the call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span> which is a contradiction.</p></div>
+<div class="thm"><p class="label">Theorem 1</p><p id="p-ad12d06a" class="nb"><a id="thm-overloading-coercion"></a> If <span class="m">|Σ| = 0</span> and <span class="m">|Σ′| ≠ 0</span> then <span class="m">|σ′| = 1</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-d887e565" class="nb">Follows from Lemmas <a class="xref" href="#lem-dgesge">2</a><!--nc--> and <a class="xref" href="#lem-le">3</a><!--nc-->.</p></div>
+</section>
+<section class="sec" data-num="B.2" data-title="Proof of Overloading Resolution for Functions">
+<h2 id="sec-proof-overloading-resolution" class="nb"><span class="num">B.2</span> Proof of Overloading Resolution for Functions</h2>
+<p id="p-4fc0235c" class="nb">This section proves that the overloading rules for function declarations are sufficient to guarantee no undefined nor ambiguous call at run time (the case for methods is analogous).</p>
+<p id="p-3ac4e073" class="nb">The proof covers declarations whose parameter types and return types have no static parameters, and calls to which declarations are applicable without coercion. It assumes that the declarations visible at the call satisfy the overloading rules, so that no two of them have the same parameter type; that each of them has a body and that the bodies are well typed; that the subtype relation is sound, so that the dynamic type of an argument is a subtype of its static type, and transitive; and that every value of a trait with a <span class="m"><span class="kw">comprises</span></span> clause is a value of one of its listed types (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->). The compiled type checker does not yet enforce the last assumption across components: a type declared in a later component below a trait with static parameters that stands between a trait with a <span class="m"><span class="kw">comprises</span></span> clause and its listed types escapes its check (row 487 of the revival’s gap ledger), and where the assumption fails the uniqueness proved below is not guaranteed. The proof does not extend to declarations with static parameters, whose instantiation keeps obligations of its own (<a class="xref" href="multiple-dispatch.html#sec-resolving-overloading">Section 15.5</a><!--nc-->, <a class="xref" href="type-inference.html">Chapter 20</a><!--nc-->), nor to coercion (<a class="xref" href="#sec-proof-coercion-resolution">Section B.1</a><!--nc-->), and it is not a proof of the soundness of the whole type system.</p>
+<p id="p-b0004735" class="nb">Consider a static function call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span> at some program point <span class="m"><i>Z</i></span> and its corresponding dynamic function call <span class="m"><span class="it">f</span>(<span class="it">X</span>)</span>. Let <span class="m">Δ</span> be the set of parameter types of function declarations of <span class="m"><span class="it">f</span></span> that are visible at <span class="m"><i>Z</i></span> and applicable to the dynamic call <span class="m"><span class="it">f</span>(<span class="it">X</span>)</span>. Let <span class="m">Σ</span> be the set of parameter types of function declarations of <span class="m"><span class="it">f</span></span> that are visible at <span class="m"><i>Z</i></span> and applicable to the static call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span>. Moreover, let <span class="m">σ</span> be the subset of <span class="m">Σ</span> for which no type in <span class="m">Σ</span> is more specific and let <span class="m">δ</span> be the subset of <span class="m">Δ</span> for which no type in <span class="m">Δ</span> is more specific:</p>
+<div class="dm nb" id="m-7c3cc6ef"><svg class="tx" data-d="3" viewBox="136.64 1.28 194.72 23.14" width="19.472em" height="2.314em" fill="currentColor"><text class='t0' x='137.24' y='9.36'>σ</text>
+<text class='t2' x='153.25' y='9.36'>=</text>
+<text class='t3' x='170.96' y='9.36'>{</text>
+<text class='t0' x='175.95' y='9.36'>S</text>
+<text class='t3' x='185.4' y='9.36'>∈</text>
+<text class='t2' x='194.81' y='9.36'>Σ</text>
+<text class='t3' x='214.91' y='9.36'>|<tspan x='227.64'>¬∃</tspan></text>
+<text class='t0' x='239.82' y='9.36'>S</text>
+<text class='t1' x='246.5' y='5.75'></text>
+<text class='t3' x='252.06' y='9.36'>∈</text>
+<text class='t2' x='261.47' y='9.36'>Σ<tspan x='271.44'>:</tspan></text>
+<text class='t0' x='276.97' y='9.36'>S</text>
+<text class='t1' x='283.65' y='5.75'></text>
+<text class='t3' x='289.22' y='9.36'>≺</text>
+<text class='t0' x='299.73' y='9.36'>S</text>
+<text class='t3' x='323.01' y='9.36'>}</text>
+<text class='t0' x='137.24' y='21.32'>δ</text>
+<text class='t2' x='153.25' y='21.32'>=</text>
+<text class='t3' x='170.96' y='21.32'>{</text>
+<text class='t0' x='175.95' y='21.32'>D</text>
+<text class='t3' x='187.24' y='21.32'>∈</text>
+<text class='t2' x='196.65' y='21.32'>∆</text>
+<text class='t3' x='214.91' y='21.32'>|<tspan x='227.64'>¬∃</tspan></text>
+<text class='t0' x='239.82' y='21.32'>D</text>
+<text class='t1' x='248.34' y='17.7'></text>
+<text class='t3' x='253.91' y='21.32'>∈</text>
+<text class='t2' x='263.32' y='21.32'>∆<tspan x='274.39'>:</tspan></text>
+<text class='t0' x='279.92' y='21.32'>D</text>
+<text class='t1' x='288.44' y='17.7'></text>
+<text class='t3' x='294.01' y='21.32'>≺</text>
+<text class='t0' x='304.52' y='21.32'>D</text>
+<text class='t3' x='323.01' y='21.32'>}</text>
+<text class='t0' x='327.99' y='21.32'>.</text></svg></div>
+<p id="p-723228bd" class="nb">For a declaration whose parameter type is <span class="m"><span class="it">P</span></span>, let <span class="m"><i>R</i><sub><span class="it">P</span></sub></span> be its return type.</p>
+<p id="p-8aac484c" class="nb">From the Meet Rule (<a class="xref" href="overloaded-declarations.html#sec-more-specific-rule">Section 24.4</a><!--nc-->) the proof uses the following. For any two declarations <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> visible at <span class="m"><i>Z</i></span> such that neither <span class="m"><span class="it">P</span></span> nor <span class="m"><span class="it">Q</span></span> is a subtype of the other and <span class="m"><span class="it">P</span></span> does not exclude <span class="m"><span class="it">Q</span></span>, there are declarations <span class="m"><span class="it">f</span>(<span class="it">C</span><sub>1</sub>), …, <span class="it">f</span>(<span class="it">C</span><sub><i>n</i></sub>)</span> visible at <span class="m"><i>Z</i></span> such that <span class="m"><span class="it">C</span><sub><i>i</i></sub> ⪯ <span class="it">P</span></span> and <span class="m"><span class="it">C</span><sub><i>i</i></sub> ⪯ <span class="it">Q</span></span> for each <span class="m"><i>i</i></span>, and every value of both <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> is a value of some <span class="m"><span class="it">C</span><sub><i>i</i></sub></span>: every value that a program can make, not only the values of a particular call. A declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>∩<span class="it">Q</span>)</span> is the case of one such declaration. This holds of every such pair of the declarations, the pairs among the declarations <span class="m"><span class="it">f</span>(<span class="it">C</span><sub><i>i</i></sub>)</span> included.</p>
+<p id="p-395cc323" class="nb">Below we prove:</p>
+<div class="dm nb" id="m-ef72b96a"><svg class="tx" data-d="4" viewBox="139.62 1.29 188.75 35.07" width="18.875em" height="3.507em" fill="currentColor"><text class='t3' x='140.22' y='9.36'>|</text>
+<text class='t2' x='142.99' y='9.36'>Σ</text>
+<text class='t3' x='150.18' y='9.36'>|<tspan x='155.72'></tspan></text>
+<text class='t2' x='155.72' y='9.36'>=<tspan x='166.23'>0</tspan></text>
+<text class='t4' x='173.7' y='9.36'>implies</text>
+<text class='t3' x='205.53' y='9.36'>|</text>
+<text class='t0' x='208.3' y='9.36'>δ</text>
+<text class='t3' x='213.11' y='9.36'>|</text>
+<text class='t2' x='218.64' y='9.36'>=<tspan x='229.16'>1</tspan></text>
+<text class='t0' x='234.14' y='9.36'>,<tspan x='140.22' y='21.32'>δ</tspan></text>
+<text class='t2' x='147.79' y='21.32'>=</text>
+<text class='t3' x='158.31' y='21.32'>{</text>
+<text class='t0' x='163.29' y='21.32'>D</text>
+<text class='t3' x='171.81' y='21.32'>}</text>
+<text class='t4' x='179.28' y='21.32'>implies</text>
+<text class='t0' x='211.11' y='21.32'>D</text>
+<text class='t3' x='222.41' y='21.32'></text>
+<text class='t0' x='232.92' y='21.32'>S</text>
+<text class='t4' x='242.1' y='21.32'>for<tspan x='256.2'>e</tspan><tspan x='260.38'>v</tspan><tspan x='265.21'>ery</tspan></text>
+<text class='t0' x='280.42' y='21.32'>S</text>
+<text class='t3' x='289.87' y='21.32'>∈</text>
+<text class='t2' x='299.28' y='21.32'>Σ</text>
+<text class='t0' x='306.48' y='21.32'>,</text>
+<text class='t4' x='313.4' y='21.32'>and</text>
+<text class='t0' x='140.22' y='33.28'>δ</text>
+<text class='t2' x='147.79' y='33.28'>=</text>
+<text class='t3' x='158.31' y='33.28'>{</text>
+<text class='t0' x='163.29' y='33.28'>D</text>
+<text class='t3' x='171.81' y='33.28'>}</text>
+<text class='t4' x='179.28' y='33.28'>implies</text>
+<text class='t0' x='211.11' y='33.28'>R</text>
+<text class='t5' x='218.68' y='34.77'>D</text>
+<text class='t3' x='228.67' y='33.28'></text>
+<text class='t0' x='239.19' y='33.28'>R</text>
+<text class='t5' x='246.75' y='34.77'>S</text>
+<text class='t4' x='255.02' y='33.28'>for<tspan x='269.12'>e</tspan><tspan x='273.3'>v</tspan><tspan x='278.13'>ery</tspan></text>
+<text class='t0' x='293.34' y='33.28'>S</text>
+<text class='t3' x='302.79' y='33.28'>∈</text>
+<text class='t0' x='312.2' y='33.28'>σ<tspan x='317.7'>.</tspan></text></svg></div>
+<p id="p-37cd59f9" class="nb">Informally, if any declaration is applicable to a static call then there exists a single most specific declaration that is applicable to the corresponding dynamic call; it is the same as or more specific than every declaration that is applicable to the static call; and its return type is a subtype of the return type of every declaration applicable to the static call that no other such declaration is more specific than, so that the value the call returns belongs to the intersection of those return types. The static call may have more than one most specific declaration: covering gives a declaration that holds the value of the argument, not one whose parameter type is a supertype of the static type of the argument.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-proof">Section I.1.36</a><!--nc--></span></p>
+<p id="p-0ae0352a" class="nb">The Working Draft of February 2011 proved that <span class="m">|σ| = 1</span> and <span class="m">|δ| = 1</span> whenever <span class="m">|Σ| ≠ 0</span>, and that <span class="m"><i>D</i> ⪯ <i>S</i></span> where <span class="m">σ = {<i>S</i>}</span> and <span class="m">δ = {<i>D</i>}</span>, from a Meet Rule that asks for a declaration on the intersection itself. With the case of the Meet Rule in which declarations together cover the intersection, the proof is revised: the lemmas of existence are kept, the uniqueness of the most specific declaration for the static call is given up, the uniqueness for the dynamic call is proved by a covering declaration, and two steps replace the last theorem, the refinement of every declaration applicable to the static call and the result type of the call. The scope and the assumptions stated above are new.</p></aside>
+<div class="thm"><p class="label">Lemma 4</p><p id="p-39e262d7" class="nb"><a id="lem-subset"></a> <span class="m">Σ ⊆ Δ</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-d6b75c2c" class="nb">Notice that <span class="m"><span class="it">X</span> ⪯ <span class="it">A</span></span> by type soundness. If <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> is applicable to the call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span> then <span class="m"><span class="it">A</span> ⪯ <span class="it">P</span></span>. Notice that <span class="m"><span class="it">X</span> ⪯ <span class="it">A</span></span> implies <span class="m"><span class="it">X</span> ⪯ <span class="it">P</span></span>. Therefore <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> is applicable to the call <span class="m"><span class="it">f</span>(<span class="it">X</span>)</span>.</p></div>
+<div class="thm"><p class="label">Lemma 5</p><p id="p-d1cb3bbc" class="nb"><a id="lem-dgesge-second"></a> If <span class="m">|Δ| ≥ 1</span> then <span class="m">|δ| ≥ 1</span>. Also, if <span class="m">|Σ| ≥ 1</span> then <span class="m">|σ| ≥ 1</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-9209f375" class="nb">Follows from Lemma <a class="xref" href="#lem-nonempty">1</a><!--nc--> where <span class="m"><i>S</i></span> is the set of all types, <span class="m"><i>A</i></span> is <span class="m">Δ</span> and <span class="m">Σ</span> respectively, and the relation <span class="m">≺</span> is acyclic and irreflexive.</p></div>
+<div class="thm"><p class="label">Lemma 6</p><p id="p-edb2d885" class="nb"><a id="lem-ge"></a> If <span class="m">|Σ| ≥ 1</span> then <span class="m">|δ| ≥ 1</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-9ef73b79" class="nb">Follows from Lemmas <a class="xref" href="#lem-subset">4</a><!--nc--> and <a class="xref" href="#lem-dgesge-second">5</a><!--nc-->.</p></div>
+<div class="thm"><p class="label">Lemma 7</p><p id="p-0b245622" class="nb"><a id="lem-le"></a> <span class="m">|δ| ≤ 1</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-333dadf6" class="nb">For the purpose of contradiction suppose there are two declarations <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> in <span class="m">δ</span>. Since both are in <span class="m">δ</span> and <span class="m"><span class="it">P</span> ≠ <span class="it">Q</span></span>, neither <span class="m"><span class="it">P</span></span> nor <span class="m"><span class="it">Q</span></span> is a subtype of the other. Since both <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are applicable without coercion to the call <span class="m"><span class="it">f</span>(<span class="it">X</span>)</span>, the value of the argument is a value of both <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span>, so <span class="m"><span class="it">P</span></span> does not exclude <span class="m"><span class="it">Q</span></span>. By the Meet Rule as the proof uses it, there is a declaration <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span> visible at <span class="m"><i>Z</i></span> with <span class="m"><span class="it">C</span> ⪯ <span class="it">P</span></span> and <span class="m"><span class="it">C</span> ⪯ <span class="it">Q</span></span> of which the value is a value, so that <span class="m"><span class="it">X</span> ⪯ <span class="it">C</span></span> and <span class="m"><span class="it">C</span> ∈ Δ</span>. Since <span class="m"><span class="it">P</span></span> is not a subtype of <span class="m"><span class="it">Q</span></span>, <span class="m"><span class="it">C</span> ≠ <span class="it">P</span></span>, so <span class="m"><span class="it">C</span> ≺ <span class="it">P</span></span>, which contradicts <span class="m"><span class="it">P</span> ∈ δ</span>.</p></div>
+<p id="p-6c83f840" class="nb">The same argument does not bound <span class="m">|σ|</span>: the declaration <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span> holds the value of the argument, but <span class="m"><span class="it">C</span></span> need not be a supertype of <span class="m"><span class="it">A</span></span>.</p>
+<div class="thm"><p class="label">Theorem 2</p><p id="p-ec927de7" class="nb"><a id="thm-overloading-subtyping"></a> If <span class="m">|Σ| ≠ 0</span> then <span class="m">|δ| = 1</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-85071e00" class="nb">Follows from Lemmas <a class="xref" href="#lem-ge">6</a><!--nc--> and <a class="xref" href="#lem-le">7</a><!--nc-->.</p></div>
+<div class="thm"><p class="label">Theorem 3</p><p id="p-d146e072" class="nb"><a id="thm-dynamic-subtype-static"></a> If <span class="m">δ = {<i>D</i>}</span> then <span class="m"><i>D</i> ⪯ <i>S</i></span> for every <span class="m"><i>S</i> ∈ Σ</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-e196cdb9" class="nb">Let <span class="m"><i>S</i> ∈ Σ</span>. By Lemma <a class="xref" href="#lem-subset">4</a><!--nc-->, <span class="m"><i>S</i> ∈ Δ</span>. If <span class="m"><i>S</i> ≺ <i>D</i></span> then <span class="m"><i>D</i> ∉ δ</span>, a contradiction. Suppose that neither <span class="m"><i>S</i></span> nor <span class="m"><i>D</i></span> is a subtype of the other. The value of the argument is a value of both, so <span class="m"><i>S</i></span> does not exclude <span class="m"><i>D</i></span>, and by the Meet Rule as the proof uses it there is a declaration <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span> visible at <span class="m"><i>Z</i></span> with <span class="m"><span class="it">C</span> ⪯ <i>S</i></span>, <span class="m"><span class="it">C</span> ⪯ <i>D</i></span> and <span class="m"><span class="it">X</span> ⪯ <span class="it">C</span></span>. Then <span class="m"><span class="it">C</span> ∈ Δ</span>, and <span class="m"><span class="it">C</span> ≠ <i>D</i></span> since <span class="m"><i>D</i></span> is not a subtype of <span class="m"><i>S</i></span>, so <span class="m"><span class="it">C</span> ≺ <i>D</i></span>, a contradiction. Therefore <span class="m"><i>D</i> ⪯ <i>S</i></span>.</p></div>
+<div class="thm"><p class="label">Theorem 4</p><p id="p-8efbc7ed" class="nb"><a id="thm-result-type"></a> If <span class="m">δ = {<i>D</i>}</span> then <span class="m"><i>R</i><sub><i>D</i></sub> ⪯ <i>R</i><sub><i>S</i></sub></span> for every <span class="m"><i>S</i> ∈ σ</span>, and a value that the dynamic call returns belongs to the intersection of the types <span class="m"><i>R</i><sub><i>S</i></sub></span> for <span class="m"><i>S</i> ∈ σ</span>.</p></div>
+<div class="thm"><p class="label">Proof</p><p id="p-99cf322b" class="nb">Let <span class="m"><i>S</i> ∈ σ</span>. By Theorem <a class="xref" href="#thm-dynamic-subtype-static">3</a><!--nc-->, <span class="m"><i>D</i> ⪯ <i>S</i></span>. If <span class="m"><i>D</i> = <i>S</i></span> the claim is immediate. Otherwise <span class="m"><i>D</i> ≺ <i>S</i></span>, and the only overloading rule that accepts such a pair is the Subtype Rule (<a class="xref" href="overloaded-declarations.html#sec-subtype-rule">Section 24.2</a><!--nc-->), which requires <span class="m"><i>R</i><sub><i>D</i></sub> ⪯ <i>R</i><sub><i>S</i></sub></span>. The declaration with parameter type <span class="m"><i>D</i></span> is the one that runs, and its body is well typed, so a value it returns belongs to <span class="m"><i>R</i><sub><i>D</i></sub></span>, and so to <span class="m"><i>R</i><sub><i>S</i></sub></span> for every <span class="m"><i>S</i> ∈ σ</span>. This proves neither that the call terminates nor that nothing else fails at run time.</p></div>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="calculi.html"><span>Previous</span> A. Fortress Calculi</a><a class="next" href="appendix-components.html"><span>Next</span> C. Components and APIs</a></nav>
+<footer class="colophon">Converted from <code>Specification/appendices/overloading.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>33. Numbers · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:msbm10;font-size:9.96px}
+svg.tx text.t1{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t2{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmr10;font-size:9.96px}
+svg.tx text.t4{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t5{font-family:cmti10;font-size:9.96px}
+svg.tx text.t6{font-family:stmary10;font-size:9.96px}
+svg.tx text.t7{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t8{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t9{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t10{font-family:cmmi7;font-size:6.97px}
+svg.tx text.t11{font-family:cmr7;font-size:6.97px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-numbers-basic" data-chapter="33. Numbers">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">33. Numbers</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part V, Fortress APIs and Documentation for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="33" data-title="Numbers">
+<h1 id="top" class="nb"><a id="chap-lib-numbers-basic"></a><span class="num">Chapter 33</span> Numbers</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-basic-rationals">33.1 Rational Numbers</a></li></ol></nav>
+<section class="sec" data-num="33.1" data-title="Rational Numbers">
+<h2 id="sec-basic-rationals" class="nb"><span class="num">33.1</span> Rational Numbers</h2>
+<p id="p-6d063dfc" class="nb">The trait <span class="m">ℚ</span> (<span class="m"><span class="str">QQ</span></span>) encompasses all finite rational numbers, the results of dividing any integer by any nonzero integer, and three more elements: <span class="m">+∞</span> and <span class="m">−∞</span> (written <span class="m">1/0</span> and <span class="m">−1/0</span>), the results of dividing a positive or a negative integer by zero, and the indefinite rational (written <span class="m">0/0</span>), which is used as the result of dividing zero by zero or of adding <span class="m">−∞</span> to <span class="m">+∞</span>.</p>
+<p id="p-0ca39407" class="nb">The number types of this chapter are the integer types <span class="m">ℤ</span>, <span class="m">ℤ64</span>, <span class="m">ℤ32</span>, <span class="m">ℕ64</span>, and <span class="m">ℕ32</span> (<a class="xref" href="#sec-basic-integers">Section 33.2</a><!--nc-->), the rational type <span class="m">ℚ</span>, and the floating-point types <span class="m">ℝ64</span> (<span class="m"><span class="str">RR64</span></span>) and <span class="m">ℝ32</span> (<span class="m"><span class="str">RR32</span></span>). They are siblings under the trait <span class="m"><span class="ty">Number</span></span>: each is a subtype of <span class="m"><span class="ty">Number</span></span>, and none is a subtype of another. Some conversions between them are coercions (<a class="xref" href="conversions-coercions.html">Chapter 17</a><!--nc-->), each declared by the type converted to; since coercions do not chain (<a class="xref" href="conversions-coercions.html#sec-coercion">Section 17.1</a><!--nc-->), each pair is declared. Those among the integer types are given in <a class="xref" href="#sec-basic-integers">Section 33.2</a><!--nc-->; the others are these:</p>
+<div class="fx nb" id="c-6efb69f8" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="-0.60 11.86 399.14 34.12" width="39.914em" height="3.412em" fill="currentColor"><text class='t0' x='0' y='19.33'>Q</text>
+<text class='t1' x='11.9' y='19.33'>(</text>
+<text class='t2' x='15.22' y='19.33'>QQ</text>
+<text class='t1' x='28.83' y='19.33'>)<tspan x='34.64'>coerces</tspan><tspan x='67'>from</tspan></text>
+<text class='t0' x='90.52' y='19.33'>Z</text>
+<text class='t1' x='98.82' y='19.33'>,</text>
+<text class='t0' x='105.46' y='19.33'>Z</text>
+<text class='t3' x='112.1' y='19.33'>64</text>
+<text class='t1' x='123.73' y='19.33'>,</text>
+<text class='t0' x='130.37' y='19.33'>Z</text>
+<text class='t3' x='137.01' y='19.33'>32</text>
+<text class='t1' x='148.63' y='19.33'>,</text>
+<text class='t0' x='155.28' y='19.33'>N</text>
+<text class='t3' x='162.47' y='19.33'>64</text>
+<text class='t1' x='174.09' y='19.33'>,<tspan x='179.08'>and</tspan></text>
+<text class='t0' x='197.61' y='19.33'>N</text>
+<text class='t3' x='204.81' y='19.33'>32</text>
+<text class='t1' x='216.43' y='19.33'>,<tspan x='221.41'>and</tspan><tspan x='238.29'>from</tspan><tspan x='260.15'>both</tspan><tspan x='280.35'>numeral</tspan><tspan x='315.49'>types</tspan><tspan x='339.01'>(Section</tspan></text>
+<a href='expressions.html#sec-literals' xlink:title='expressions.html@@sec-literals'>
+<text class='t1' x='374.71' y='19.33'>13.1</text>
+</a>
+<text class='t1' x='392.14' y='19.33'>).</text>
+<text class='t0' x='0' y='31.28'>R</text>
+<text class='t3' x='7.2' y='31.28'>64</text>
+<text class='t1' x='21.31' y='31.28'>(</text>
+<text class='t2' x='24.63' y='31.28'>RR64</text>
+<text class='t1' x='50.2' y='31.28'>)<tspan x='56.01'>coerces</tspan><tspan x='88.36'>from</tspan></text>
+<text class='t0' x='111.88' y='31.28'>R</text>
+<text class='t3' x='119.08' y='31.28'>32</text>
+<text class='t1' x='130.7' y='31.28'>,<tspan x='135.68'>from</tspan></text>
+<text class='t0' x='159.2' y='31.28'>Z</text>
+<text class='t3' x='165.84' y='31.28'>32</text>
+<text class='t1' x='177.47' y='31.28'>,<tspan x='182.45'>and</tspan><tspan x='199.32'>from</tspan><tspan x='221.18'>both</tspan><tspan x='241.39'>numeral</tspan><tspan x='276.52'>types.</tspan></text>
+<text class='t0' x='0' y='43.24'>R</text>
+<text class='t3' x='7.2' y='43.24'>32</text>
+<text class='t1' x='21.31' y='43.24'>(</text>
+<text class='t2' x='24.63' y='43.24'>RR32</text>
+<text class='t1' x='50.2' y='43.24'>)<tspan x='56.01'>coerces</tspan><tspan x='88.36'>from</tspan><tspan x='110.22'>both</tspan><tspan x='130.43'>numeral</tspan><tspan x='165.56'>types.</tspan></text></svg></div></div>
+<p id="p-5c534dc9" class="nb">Each of the five integer types coerces from <span class="m"><span class="ty">NaturalNumeral</span></span> too. A coercion from a numeral type is generic over the numeral’s four numbers, the static arguments of its type, as <span class="m"><span class="kw">coerce</span> ⟦<span class="kw">nat</span> <i>n</i>, <span class="kw">nat</span> <i>r</i>, <span class="kw">nat</span> <i>v</i>⟧(<i>x</i>: <span class="ty">NaturalNumeral</span>⟦<i>n</i>, <i>r</i>, <i>v</i>⟧)</span>, and computes the type’s value from them (<a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->): exactly into the integer types and <span class="m">ℚ</span>, and with one rounding, to the nearest value of the type, into <span class="m">ℝ64</span> and <span class="m">ℝ32</span>. Since no value of a numeral type exists when a program runs, a numeral type declares no <span class="m">=</span> with a number type, and no number type declares one with a numeral type.</p>
+<p id="p-2ba53311" class="nb">Every other conversion between number types is written explicitly; in particular, a conversion into <span class="m">ℝ64</span> from <span class="m">ℤ</span>, <span class="m">ℤ64</span>, <span class="m">ℕ64</span>, <span class="m">ℕ32</span>, or <span class="m">ℚ</span> is explicit, written <span class="m"><i>asFloat</i>(<i>x</i>)</span> with the method that each of these types declares; <span class="m"><span class="ty">Number</span></span> itself declares no conversion, and the numeral types declare no <span class="m"><i>asFloat</i></span>.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-numerals">Section I.1.50</a><!--nc--></span></p>
+<p id="p-6abdf1a2" class="nb">Before this revision the passage named integer numerals among the sources of the coercion into <span class="m">ℝ64</span> only. The revival decided on 8 November 2026 that each of the eight number types converts from <span class="m"><span class="ty">NaturalNumeral</span></span>, and <span class="m">ℚ</span>, <span class="m">ℝ64</span> and <span class="m">ℝ32</span> from <span class="m"><span class="ty">RadixPointNumeral</span></span>, and on 9 November 2026 that each such coercion is generic over the numeral’s four numbers, and that the numeral types, of which no value exists when a program runs, declare no <span class="m"><i>asFloat</i></span> and no <span class="m">=</span> with a number type.</p></aside>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-asfloat">Section I.1.29</a><!--nc--></span></p>
+<p id="p-6fc2ac49" class="nb">Before this revision the passage said that the Fortress standard libraries declare <span class="m"><i>asFloat</i></span> on <span class="m"><span class="ty">Number</span></span>. Each number type now declares its own, and <span class="m"><span class="ty">Number</span></span> declares none, so that a number type of a program’s own need not convert into <span class="m">ℝ64</span>.</p></aside>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-rr32">Section I.1.28</a><!--nc--></span></p>
+<p id="p-0a028169" class="nb">Before this revision the passage named <span class="m">ℝ64</span> as the one floating-point type, and the Fortress standard libraries declared <span class="m">ℝ32</span> a subtype of it, so that a value of <span class="m">ℝ32</span> was also a value of <span class="m">ℝ64</span>, which <a class="xref" href="types.html#sec-types-libraries">Section 6.9</a> excludes. It now names <span class="m">ℝ32</span> beside <span class="m">ℝ64</span>, a sibling under <span class="m"><span class="ty">Number</span></span> as the Fortress standard libraries now declare it, with the coercion into <span class="m">ℝ64</span> that the example of <a class="xref" href="conversions-coercions.html#sec-widening">Section 17.8</a><!--nc--> relies on.</p></aside>
+<p id="p-e4e0e8fa" class="nb">It is often desirable to know that a value lies in a subset of its type, such as the positive values, the nonzero values, or the finite values. Such subsets are not types of their own: a program tests a value at run time, with the comparison operators for its sign and, for a floating-point value, with the two checks that the Fortress standard libraries declare on <span class="m">ℝ64</span>:</p>
+<div class="fx nb" id="c-a2edd67f" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.26 132.82 23.12" width="13.282em" height="2.312em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>getter</text>
+<text class='t5' x='46.33' y='19.33'>che<tspan x='60.07'>ck</tspan></text>
+<text class='t3' x='70.31' y='19.33'>():<tspan x='82.49'>Ma</tspan><tspan x='96.33'>yb</tspan><tspan x='107.4'>e</tspan></text>
+<text class='t6' x='111.82' y='19.33'></text>
+<text class='t0' x='115.84' y='19.33'>R</text>
+<text class='t3' x='123.03' y='19.33'>64</text>
+<text class='t6' x='132.99' y='19.33'></text>
+<text class='t4' x='9.96' y='31.28'>getter</text>
+<text class='t5' x='46.33' y='31.28'>che<tspan x='60.07'>ck</tspan></text>
+<text class='t7' x='70.31' y='26.83'>∗</text>
+<text class='t3' x='74.89' y='31.28'>():<tspan x='87.07'>Ma</tspan><tspan x='100.91'>yb</tspan><tspan x='111.98'>e</tspan></text>
+<text class='t6' x='116.4' y='31.28'></text>
+<text class='t0' x='120.42' y='31.28'>R</text>
+<text class='t3' x='127.61' y='31.28'>64</text>
+<text class='t6' x='137.57' y='31.28'></text></svg></div></div>
+<p id="p-659086de" class="nb">The getter <span class="m"><i>check</i></span> returns <span class="m"><span class="ty">Just</span>(<i>x</i>)</span> for a finite value <span class="m"><i>x</i></span> and <span class="m"><span class="ty">Nothing</span></span> otherwise; the getter <span class="m"><i>check</i><sup>∗</sup></span> returns <span class="m"><span class="ty">Just</span>(<i>x</i>)</span> for a value <span class="m"><i>x</i></span> that is not a NaN and <span class="m"><span class="ty">Nothing</span></span> otherwise.</p>
+<p id="p-bad49e3c" class="nb">Here we present the trait <span class="m">ℚ</span> and its methods. Because <span class="m">ℚ</span> holds <span class="m">0/0</span>, which is unordered with respect to every rational value, <span class="m">ℚ</span> is neither totally ordered nor a field. The original design of the rational types, in which <span class="m">ℚ</span> and seventeen refined rational types are instantiations of one trait, is kept as a superseded design in <a class="xref" href="lib-numbers-advanced.html#sec-advanced-rationals">Section 41.1</a><!--nc-->.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-numbers">Section I.1.11</a><!--nc--></span></p>
+<p id="p-6d73de96" class="nb">The Working Draft of February 2011 divided the rationals into eighteen types: <span class="m">ℚ</span>, the type <span class="m">ℚ<sup>∗</sup></span> that adds the two infinities, the type <span class="m">ℚ<sup>#</sup></span> that adds <span class="m">0/0</span>, and five refinements of each by sign, each a subtype of others and of the corresponding real types, and it said that the type system tracks them through arithmetic. The Fortress standard libraries never declared them, and the trait by which <a class="xref" href="lib-numbers-advanced.html#sec-advanced-rationals">Section 41.1</a><!--nc--> defines them is refused by instantiation exclusion (<a class="xref" href="spec-changes.html#sec-revival-rule">Section I.1.1</a><!--nc-->). The text above describes the number types the library declares, siblings under <span class="m"><span class="ty">Number</span></span>, with the coercions it declares; a subset such as the positive values is tested at run time. <span class="m">ℚ</span> holds the values that <span class="m">ℚ<sup>∗</sup></span> and <span class="m">ℚ<sup>#</sup></span> added, as the library’s rational type does and as <a class="xref" href="operators.html">Chapter 16</a><!--nc--> already says (“For rational results, division by zero produces <span class="m">1/0</span>”). Because it holds <span class="m">0/0</span>, the listing below no longer gives it the field and order traits of the original design, which that design itself withheld from <span class="m">ℚ<sup>#</sup></span>.</p></aside>
+<div class="fx nb" id="c-98609d5a" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.86 321.33 617.78" width="32.133em" height="61.778em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>trait</text>
+<text class='t0' x='41.1' y='19.33'>Q</text>
+<text class='t4' x='33.87' y='31.28'>extends</text>
+<text class='t8' x='73.25' y='31.28'>{</text>
+<text class='t3' x='79.89' y='31.28'>Num<tspan x='100.93'>b</tspan><tspan x='106.74'>er</tspan></text>
+<text class='t9' x='115.07' y='31.28'>,</text>
+<text class='t3' x='119.5' y='31.28'>StandardP<tspan x='165.88'>artialOrder</tspan></text>
+<text class='t6' x='214.67' y='31.28'></text>
+<text class='t0' x='218.68' y='31.28'>Q</text>
+<text class='t6' x='226.43' y='31.28'></text>
+<text class='t9' x='230.44' y='31.28'>,</text>
+<text class='t3' x='234.87' y='31.28'>StandardMinMax</text>
+<text class='t6' x='311.55' y='31.28'></text>
+<text class='t0' x='315.57' y='31.28'>Q</text>
+<text class='t6' x='323.32' y='31.28'></text>
+<text class='t9' x='327.33' y='31.28'>,</text>
+<text class='t3' x='79.89' y='43.24'>Additiv<tspan x='112.83'>eGroup</tspan></text>
+<text class='t6' x='145.03' y='43.24'></text>
+<text class='t0' x='149.04' y='43.24'>Q</text>
+<text class='t6' x='156.79' y='43.24'></text>
+<text class='t9' x='160.8' y='43.24'>,</text>
+<text class='t3' x='165.23' y='43.24'>Multiplicativ<tspan x='221.41'>eRing</tspan></text>
+<text class='t6' x='246.59' y='43.24'></text>
+<text class='t0' x='250.6' y='43.24'>Q</text>
+<text class='t6' x='258.35' y='43.24'></text>
+<text class='t8' x='264.02' y='43.24'>}</text>
+<text class='t4' x='21.92' y='55.19'>coerce</text>
+<text class='t3' x='56.07' y='55.19'>(</text>
+<text class='t9' x='59.94' y='55.19'>x</text>
+<text class='t3' x='65.64' y='55.19'>:</text>
+<text class='t0' x='70.06' y='55.19'>Z</text>
+<text class='t3' x='76.71' y='55.19'>)</text>
+<text class='t4' x='21.92' y='67.15'>coerce</text>
+<text class='t3' x='56.07' y='67.15'>(</text>
+<text class='t9' x='59.94' y='67.15'>x</text>
+<text class='t3' x='65.64' y='67.15'>:</text>
+<text class='t0' x='70.06' y='67.15'>Z</text>
+<text class='t3' x='76.71' y='67.15'>64)</text>
+<text class='t4' x='21.92' y='79.1'>coerce</text>
+<text class='t3' x='56.07' y='79.1'>(</text>
+<text class='t9' x='59.94' y='79.1'>x</text>
+<text class='t3' x='65.64' y='79.1'>:</text>
+<text class='t0' x='70.06' y='79.1'>Z</text>
+<text class='t3' x='76.71' y='79.1'>32)</text>
+<text class='t4' x='21.92' y='91.06'>coerce</text>
+<text class='t3' x='56.07' y='91.06'>(</text>
+<text class='t9' x='59.94' y='91.06'>x</text>
+<text class='t3' x='65.64' y='91.06'>:</text>
+<text class='t0' x='70.06' y='91.06'>N</text>
+<text class='t3' x='77.26' y='91.06'>64)</text>
+<text class='t4' x='21.92' y='103.01'>coerce</text>
+<text class='t3' x='56.07' y='103.01'>(</text>
+<text class='t9' x='59.94' y='103.01'>x</text>
+<text class='t3' x='65.64' y='103.01'>:</text>
+<text class='t0' x='70.06' y='103.01'>N</text>
+<text class='t3' x='77.26' y='103.01'>32)</text>
+<text class='t4' x='21.92' y='114.97'>coerce</text>
+<text class='t3' x='56.07' y='114.97'>(</text>
+<text class='t9' x='59.94' y='114.97'>x</text>
+<text class='t3' x='65.64' y='114.97'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t6' x='104.52' y='114.97'></text>
+<text class='t3' x='108.53' y='114.97'>+</text>
+<text class='t6' x='116.28' y='114.97'></text>
+<text class='t3' x='120.29' y='114.97'>)</text>
+<text class='t4' x='21.92' y='126.92'>coerce</text>
+<text class='t3' x='56.07' y='126.92'>(</text>
+<text class='t9' x='59.94' y='126.92'>x</text>
+<text class='t3' x='65.64' y='126.92'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t6' x='104.52' y='126.92'></text>
+<text class='t8' x='108.53' y='126.92'>·</text>
+<text class='t6' x='111.3' y='126.92'></text>
+<text class='t3' x='115.31' y='126.92'>)</text>
+<text class='t4' x='21.92' y='138.88'>coerce</text>
+<text class='t3' x='56.07' y='138.88'>(</text>
+<text class='t9' x='59.94' y='138.88'>x</text>
+<text class='t3' x='65.64' y='138.88'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t6' x='104.52' y='138.88'></text>
+<text class='t8' x='108.53' y='138.88'>×</text>
+<text class='t6' x='116.28' y='138.88'></text>
+<text class='t3' x='120.29' y='138.88'>)</text>
+<text class='t4' x='21.92' y='150.83'>coerce</text>
+<text class='t3' x='56.07' y='150.83'>(</text>
+<text class='t9' x='59.94' y='150.83'>x</text>
+<text class='t3' x='65.64' y='150.83'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t6' x='104.52' y='150.83'></text>
+<text class='t4' x='108.53' y='150.83'>juxtaposition</text>
+<text class='t6' x='176.52' y='150.83'></text>
+<text class='t3' x='180.54' y='150.83'>)</text>
+<text class='t4' x='21.92' y='162.79'>coerce</text>
+<text class='t3' x='56.07' y='162.79'>(</text>
+<text class='t9' x='59.94' y='162.79'>x</text>
+<text class='t3' x='65.64' y='162.79'>:<tspan x='70.06'>Zero</tspan></text>
+<text class='t6' x='89.46' y='162.79'></text>
+<text class='t8' x='93.48' y='162.79'>·</text>
+<text class='t6' x='96.24' y='162.79'></text>
+<text class='t3' x='100.26' y='162.79'>)</text>
+<text class='t4' x='21.92' y='174.74'>coerce</text>
+<text class='t3' x='56.07' y='174.74'>(</text>
+<text class='t9' x='59.94' y='174.74'>x</text>
+<text class='t3' x='65.64' y='174.74'>:<tspan x='70.06'>Zero</tspan></text>
+<text class='t6' x='89.46' y='174.74'></text>
+<text class='t8' x='93.48' y='174.74'>×</text>
+<text class='t6' x='101.22' y='174.74'></text>
+<text class='t3' x='105.24' y='174.74'>)</text>
+<text class='t4' x='21.92' y='186.7'>coerce</text>
+<text class='t3' x='56.07' y='186.7'>(</text>
+<text class='t9' x='59.94' y='186.7'>x</text>
+<text class='t3' x='65.64' y='186.7'>:<tspan x='70.06'>Zero</tspan></text>
+<text class='t6' x='89.46' y='186.7'></text>
+<text class='t4' x='93.48' y='186.7'>juxtaposition</text>
+<text class='t6' x='161.47' y='186.7'></text>
+<text class='t3' x='165.48' y='186.7'>)</text>
+<text class='t4' x='21.92' y='198.66'>opr<tspan x='43.14'>juxtaposition</tspan></text>
+<text class='t3' x='113.91' y='198.66'>(</text>
+<text class='t4' x='117.78' y='198.66'>self</text>
+<text class='t9' x='138.7' y='198.66'>,</text>
+<text class='t5' x='143.13' y='198.66'>other</text>
+<text class='t3' x='166.48' y='198.66'>:</text>
+<text class='t0' x='170.91' y='198.66'>Q</text>
+<text class='t3' x='178.66' y='198.66'>):</text>
+<text class='t0' x='186.96' y='198.66'>Q</text>
+<text class='t4' x='21.92' y='210.61'>opr</text>
+<text class='t3' x='40.38' y='210.61'>+(</text>
+<text class='t4' x='52' y='210.61'>self</text>
+<text class='t3' x='72.92' y='210.61'>):</text>
+<text class='t0' x='81.22' y='210.61'>Q</text>
+<text class='t4' x='21.92' y='222.57'>opr</text>
+<text class='t3' x='40.38' y='222.57'>+(</text>
+<text class='t4' x='52' y='222.57'>self</text>
+<text class='t9' x='72.92' y='222.57'>,</text>
+<text class='t5' x='77.35' y='222.57'>other</text>
+<text class='t3' x='100.7' y='222.57'>:</text>
+<text class='t0' x='105.13' y='222.57'>Q</text>
+<text class='t3' x='112.87' y='222.57'>):</text>
+<text class='t0' x='121.18' y='222.57'>Q</text>
+<text class='t4' x='21.92' y='234.52'>opr</text>
+<text class='t8' x='40.38' y='234.52'>−</text>
+<text class='t3' x='48.12' y='234.52'>(</text>
+<text class='t4' x='52' y='234.52'>self</text>
+<text class='t3' x='72.92' y='234.52'>):</text>
+<text class='t0' x='81.22' y='234.52'>Q</text>
+<text class='t4' x='21.92' y='246.48'>opr</text>
+<text class='t8' x='40.38' y='246.48'>−</text>
+<text class='t3' x='48.12' y='246.48'>(</text>
+<text class='t4' x='52' y='246.48'>self</text>
+<text class='t9' x='72.92' y='246.48'>,</text>
+<text class='t5' x='77.35' y='246.48'>other</text>
+<text class='t3' x='100.7' y='246.48'>:</text>
+<text class='t0' x='105.13' y='246.48'>Q</text>
+<text class='t3' x='112.87' y='246.48'>):</text>
+<text class='t0' x='121.18' y='246.48'>Q</text>
+<text class='t4' x='21.92' y='258.43'>opr</text>
+<text class='t8' x='40.38' y='258.43'>·</text>
+<text class='t3' x='43.14' y='258.43'>(</text>
+<text class='t4' x='47.02' y='258.43'>self</text>
+<text class='t9' x='67.94' y='258.43'>,</text>
+<text class='t5' x='72.37' y='258.43'>other</text>
+<text class='t3' x='95.72' y='258.43'>:</text>
+<text class='t0' x='100.14' y='258.43'>Q</text>
+<text class='t3' x='107.89' y='258.43'>):</text>
+<text class='t0' x='116.2' y='258.43'>Q</text>
+<text class='t4' x='21.92' y='270.39'>opr</text>
+<text class='t8' x='40.38' y='270.39'>×</text>
+<text class='t3' x='48.12' y='270.39'>(</text>
+<text class='t4' x='52' y='270.39'>self</text>
+<text class='t9' x='72.92' y='270.39'>,</text>
+<text class='t5' x='77.35' y='270.39'>other</text>
+<text class='t3' x='100.7' y='270.39'>:</text>
+<text class='t0' x='105.13' y='270.39'>Q</text>
+<text class='t3' x='112.87' y='270.39'>):</text>
+<text class='t0' x='121.18' y='270.39'>Q</text>
+<text class='t4' x='21.92' y='282.34'>opr</text>
+<text class='t9' x='40.38' y='282.34'>/</text>
+<text class='t3' x='45.36' y='282.34'>(</text>
+<text class='t4' x='49.23' y='282.34'>self</text>
+<text class='t3' x='70.15' y='282.34'>):</text>
+<text class='t0' x='78.46' y='282.34'>Q</text>
+<text class='t4' x='21.92' y='294.3'>opr</text>
+<text class='t9' x='40.38' y='294.3'>/</text>
+<text class='t3' x='45.36' y='294.3'>(</text>
+<text class='t4' x='49.23' y='294.3'>self</text>
+<text class='t9' x='70.15' y='294.3'>,</text>
+<text class='t5' x='74.58' y='294.3'>other</text>
+<text class='t3' x='97.93' y='294.3'>:</text>
+<text class='t0' x='102.36' y='294.3'>Q</text>
+<text class='t3' x='110.11' y='294.3'>):</text>
+<text class='t0' x='118.41' y='294.3'>Q</text>
+<text class='t4' x='21.92' y='306.25'>opr</text>
+<text class='t2' x='40.38' y='306.25'>ˆ</text>
+<text class='t3' x='46.35' y='306.25'>(</text>
+<text class='t4' x='50.23' y='306.25'>self</text>
+<text class='t9' x='71.15' y='306.25'>,</text>
+<text class='t5' x='75.58' y='306.25'>p<tspan x='80.16'>ower</tspan></text>
+<text class='t3' x='101.73' y='306.25'>:</text>
+<text class='t0' x='106.16' y='306.25'>Z</text>
+<text class='t3' x='112.8' y='306.25'>):</text>
+<text class='t0' x='121.1' y='306.25'>Q</text>
+<text class='t4' x='21.92' y='318.21'>opr</text>
+<text class='t9' x='40.38' y='318.21'>&lt;</text>
+<text class='t3' x='48.12' y='318.21'>(</text>
+<text class='t4' x='52' y='318.21'>self</text>
+<text class='t9' x='72.92' y='318.21'>,</text>
+<text class='t5' x='77.35' y='318.21'>other</text>
+<text class='t3' x='100.7' y='318.21'>:</text>
+<text class='t0' x='105.13' y='318.21'>Q</text>
+<text class='t3' x='112.87' y='318.21'>):<tspan x='121.18'>Bo</tspan><tspan x='133.49'>olean</tspan></text>
+<text class='t4' x='21.92' y='330.16'>opr</text>
+<text class='t8' x='40.38' y='330.16'>≤</text>
+<text class='t3' x='48.12' y='330.16'>(</text>
+<text class='t4' x='52' y='330.16'>self</text>
+<text class='t9' x='72.92' y='330.16'>,</text>
+<text class='t5' x='77.35' y='330.16'>other</text>
+<text class='t3' x='100.7' y='330.16'>:</text>
+<text class='t0' x='105.13' y='330.16'>Q</text>
+<text class='t3' x='112.87' y='330.16'>):<tspan x='121.18'>Bo</tspan><tspan x='133.49'>olean</tspan></text>
+<text class='t4' x='21.92' y='342.12'>opr</text>
+<text class='t3' x='40.38' y='342.12'>=<tspan x='48.12'>(</tspan></text>
+<text class='t4' x='52' y='342.12'>self</text>
+<text class='t9' x='72.92' y='342.12'>,</text>
+<text class='t5' x='77.35' y='342.12'>other</text>
+<text class='t3' x='100.7' y='342.12'>:</text>
+<text class='t0' x='105.13' y='342.12'>Q</text>
+<text class='t3' x='112.87' y='342.12'>):<tspan x='121.18'>Bo</tspan><tspan x='133.49'>olean</tspan></text>
+<text class='t4' x='21.92' y='354.07'>opr</text>
+<text class='t8' x='40.38' y='354.07'>≥</text>
+<text class='t3' x='48.12' y='354.07'>(</text>
+<text class='t4' x='52' y='354.07'>self</text>
+<text class='t9' x='72.92' y='354.07'>,</text>
+<text class='t5' x='77.35' y='354.07'>other</text>
+<text class='t3' x='100.7' y='354.07'>:</text>
+<text class='t0' x='105.13' y='354.07'>Q</text>
+<text class='t3' x='112.87' y='354.07'>):<tspan x='121.18'>Bo</tspan><tspan x='133.49'>olean</tspan></text>
+<text class='t4' x='21.92' y='366.03'>opr</text>
+<text class='t9' x='40.38' y='366.03'>></text>
+<text class='t3' x='48.12' y='366.03'>(</text>
+<text class='t4' x='52' y='366.03'>self</text>
+<text class='t9' x='72.92' y='366.03'>,</text>
+<text class='t5' x='77.35' y='366.03'>other</text>
+<text class='t3' x='100.7' y='366.03'>:</text>
+<text class='t0' x='105.13' y='366.03'>Q</text>
+<text class='t3' x='112.87' y='366.03'>):<tspan x='121.18'>Bo</tspan><tspan x='133.49'>olean</tspan></text>
+<text class='t4' x='21.92' y='377.98'>opr<tspan x='40.38'>CMP</tspan></text>
+<text class='t3' x='56.07' y='377.98'>(</text>
+<text class='t4' x='59.94' y='377.98'>self</text>
+<text class='t9' x='80.86' y='377.98'>,</text>
+<text class='t5' x='85.29' y='377.98'>other</text>
+<text class='t3' x='108.64' y='377.98'>:</text>
+<text class='t0' x='113.07' y='377.98'>Q</text>
+<text class='t3' x='120.82' y='377.98'>):<tspan x='129.12'>Comparison</tspan></text>
+<text class='t4' x='21.92' y='389.94'>opr<tspan x='40.38'>MAX</tspan></text>
+<text class='t3' x='56.07' y='389.94'>(</text>
+<text class='t4' x='59.94' y='389.94'>self</text>
+<text class='t9' x='80.86' y='389.94'>,</text>
+<text class='t5' x='85.29' y='389.94'>other</text>
+<text class='t3' x='108.64' y='389.94'>:</text>
+<text class='t0' x='113.07' y='389.94'>Q</text>
+<text class='t3' x='120.82' y='389.94'>):</text>
+<text class='t0' x='129.12' y='389.94'>Q</text>
+<text class='t4' x='21.92' y='401.89'>opr<tspan x='40.38'>MIN</tspan></text>
+<text class='t3' x='56.07' y='401.89'>(</text>
+<text class='t4' x='59.94' y='401.89'>self</text>
+<text class='t9' x='80.86' y='401.89'>,</text>
+<text class='t5' x='85.29' y='401.89'>other</text>
+<text class='t3' x='108.64' y='401.89'>:</text>
+<text class='t0' x='113.07' y='401.89'>Q</text>
+<text class='t3' x='120.82' y='401.89'>):</text>
+<text class='t0' x='129.12' y='401.89'>Q</text>
+<text class='t4' x='21.92' y='413.85'>opr<tspan x='40.38'>MAXNUM</tspan></text>
+<text class='t3' x='71.76' y='413.85'>(</text>
+<text class='t4' x='75.63' y='413.85'>self</text>
+<text class='t9' x='96.55' y='413.85'>,</text>
+<text class='t5' x='100.98' y='413.85'>other</text>
+<text class='t3' x='124.33' y='413.85'>:</text>
+<text class='t0' x='128.76' y='413.85'>Q</text>
+<text class='t3' x='136.51' y='413.85'>):</text>
+<text class='t0' x='144.81' y='413.85'>Q</text>
+<text class='t4' x='21.92' y='425.8'>opr<tspan x='40.38'>MINNUM</tspan></text>
+<text class='t3' x='71.76' y='425.8'>(</text>
+<text class='t4' x='75.63' y='425.8'>self</text>
+<text class='t9' x='96.55' y='425.8'>,</text>
+<text class='t5' x='100.98' y='425.8'>other</text>
+<text class='t3' x='124.33' y='425.8'>:</text>
+<text class='t0' x='128.76' y='425.8'>Q</text>
+<text class='t3' x='136.51' y='425.8'>):</text>
+<text class='t0' x='144.81' y='425.8'>Q</text>
+<text class='t4' x='21.92' y='437.76'>opr</text>
+<text class='t8' x='40.38' y='437.76'>|</text>
+<text class='t4' x='43.14' y='437.76'>self</text>
+<text class='t8' x='64.06' y='437.76'>|</text>
+<text class='t3' x='69.6' y='437.76'>:</text>
+<text class='t0' x='77.35' y='437.76'>Q</text>
+<text class='t5' x='21.92' y='449.71'>signum</text>
+<text class='t3' x='53.49' y='449.71'>(</text>
+<text class='t4' x='57.36' y='449.71'>self</text>
+<text class='t3' x='78.28' y='449.71'>):</text>
+<text class='t0' x='86.59' y='449.71'>Z</text>
+<text class='t5' x='21.92' y='461.67'>numer<tspan x='49.29'>ator</tspan></text>
+<text class='t3' x='68.05' y='461.67'>(</text>
+<text class='t4' x='71.93' y='461.67'>self</text>
+<text class='t3' x='92.85' y='461.67'>):</text>
+<text class='t0' x='101.15' y='461.67'>Z</text>
+<text class='t5' x='21.92' y='473.62'>denominator</text>
+<text class='t3' x='77.86' y='473.62'>(</text>
+<text class='t4' x='81.73' y='473.62'>self</text>
+<text class='t3' x='102.65' y='473.62'>):</text>
+<text class='t0' x='110.95' y='473.62'>Z</text>
+<text class='t5' x='21.92' y='485.58'>ﬂo<tspan x='32.36'>or</tspan></text>
+<text class='t3' x='42.72' y='485.58'>(</text>
+<text class='t4' x='46.6' y='485.58'>self</text>
+<text class='t3' x='67.52' y='485.58'>):</text>
+<text class='t0' x='75.82' y='485.58'>Z</text>
+<text class='t4' x='21.92' y='497.53'>opr</text>
+<text class='t8' x='40.38' y='497.53'></text>
+<text class='t4' x='44.8' y='497.53'>self</text>
+<text class='t8' x='65.73' y='497.53'></text>
+<text class='t3' x='70.15' y='497.53'>:</text>
+<text class='t0' x='74.58' y='497.53'>Z</text>
+<text class='t5' x='21.92' y='509.49'>c<tspan x='25.99'>eiling</tspan></text>
+<text class='t3' x='50.3' y='509.49'>(</text>
+<text class='t4' x='54.17' y='509.49'>self</text>
+<text class='t3' x='75.09' y='509.49'>):</text>
+<text class='t0' x='83.39' y='509.49'>Z</text>
+<text class='t4' x='21.92' y='521.44'>opr</text>
+<text class='t8' x='40.38' y='521.44'></text>
+<text class='t4' x='44.8' y='521.44'>self</text>
+<text class='t8' x='65.73' y='521.44'></text>
+<text class='t3' x='70.15' y='521.44'>:</text>
+<text class='t0' x='74.58' y='521.44'>Z</text>
+<text class='t5' x='21.92' y='533.4'>r<tspan x='25.61'>ound</tspan></text>
+<text class='t3' x='47.77' y='533.4'>(</text>
+<text class='t4' x='51.65' y='533.4'>self</text>
+<text class='t3' x='72.57' y='533.4'>):</text>
+<text class='t0' x='80.87' y='533.4'>Z</text>
+<text class='t5' x='21.92' y='545.35'>trunc<tspan x='44.45'>ate</tspan></text>
+<text class='t3' x='58.18' y='545.35'>(</text>
+<text class='t4' x='62.06' y='545.35'>self</text>
+<text class='t3' x='82.98' y='545.35'>):</text>
+<text class='t0' x='91.28' y='545.35'>Z</text>
+<text class='t4' x='21.92' y='557.31'>opr</text>
+<text class='t8' x='40.38' y='557.31'><tspan x='41.82'></tspan></text>
+<text class='t4' x='46.24' y='557.31'>self</text>
+<text class='t8' x='67.16' y='557.31'><tspan x='68.6'></tspan></text>
+<text class='t3' x='73.03' y='557.31'>:</text>
+<text class='t0' x='77.46' y='557.31'>Z</text>
+<text class='t4' x='21.92' y='569.27'>opr</text>
+<text class='t8' x='40.38' y='569.27'><tspan x='41.82'></tspan></text>
+<text class='t4' x='46.24' y='569.27'>self</text>
+<text class='t8' x='67.16' y='569.27'><tspan x='68.6'></tspan></text>
+<text class='t3' x='73.03' y='569.27'>:</text>
+<text class='t0' x='77.46' y='569.27'>Z</text>
+<text class='t4' x='21.92' y='581.22'>opr</text>
+<text class='t8' x='40.38' y='581.22'><tspan x='41.82'></tspan><tspan x='43.25'></tspan></text>
+<text class='t4' x='47.68' y='581.22'>self</text>
+<text class='t8' x='68.6' y='581.22'><tspan x='70.04'></tspan><tspan x='71.48'></tspan></text>
+<text class='t3' x='75.91' y='581.22'>:</text>
+<text class='t0' x='80.34' y='581.22'>Z</text>
+<text class='t4' x='21.92' y='593.18'>opr</text>
+<text class='t8' x='40.38' y='593.18'><tspan x='41.82'></tspan><tspan x='43.25'></tspan></text>
+<text class='t4' x='47.68' y='593.18'>self</text>
+<text class='t8' x='68.6' y='593.18'><tspan x='70.04'></tspan><tspan x='71.48'></tspan></text>
+<text class='t3' x='75.91' y='593.18'>:</text>
+<text class='t0' x='80.34' y='593.18'>Z</text>
+<text class='t5' x='21.92' y='605.13'>r<tspan x='25.61'>e</tspan><tspan x='29.68'>alp</tspan><tspan x='41.9'>art</tspan></text>
+<text class='t3' x='55.45' y='605.13'>(</text>
+<text class='t4' x='59.33' y='605.13'>self</text>
+<text class='t3' x='80.25' y='605.13'>):</text>
+<text class='t0' x='88.55' y='605.13'>Q</text>
+<text class='t5' x='21.92' y='617.09'>imagp<tspan x='47.38'>art</tspan></text>
+<text class='t3' x='60.93' y='617.09'>(</text>
+<text class='t4' x='64.8' y='617.09'>self</text>
+<text class='t3' x='85.72' y='617.09'>):</text>
+<text class='t0' x='94.02' y='617.09'>Q</text>
+<text class='t4' x='9.96' y='629.04'>end</text></svg></div></div>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-rationals">Section I.1.12</a><!--nc--></span></p>
+<p id="p-92a037f6" class="nb">The Working Draft of February 2011 declared <span class="m">ℚ</span> a subtype of the real numbers and of <span class="m">ℚ<sup>∗</sup></span>, a field with the nonzero rationals <span class="m">ℚ<sub>≠</sub></span> as its multiplicative group, and totally ordered; it typed the results of the reciprocal, of division and of exponentiation as <span class="m">ℚ<sup>∗</sup></span> or <span class="m">ℚ<sup>#</sup></span>, those of the absolute value and of the four hyperfloor and hyperceiling operators as <span class="m">ℚ<sub>≥</sub></span> and <span class="m">ℕ</span>, and it declared seventeen check methods, each returning a refined type or throwing <span class="m"><span class="ty">CastError</span></span>. The listing and the method entries below take the type the Fortress standard libraries declare where they declare the method, and <span class="m">ℚ</span> or <span class="m">ℤ</span> where they do not; the two comparisons by <span class="m"><span class="op">CMP</span></span> become the one the library declares. The check methods leave the listing: the library declares <span class="m"><i>check</i></span> and <span class="m"><i>check</i><sup>∗</sup></span> on <span class="m">ℝ64</span> (<a class="xref" href="#sec-basic-rationals">Section 33.1</a><!--nc-->) and no check by sign. What the method entries said “for types <span class="m">ℚ<sup>∗</sup></span> and <span class="m">ℚ<sup>#</sup></span>” they now say of <span class="m">ℚ</span>, which holds those values. The coercions from the five integer types are new, with the method entry that follows.</p></aside>
+<p id="p-fcd289dd" class="nb">The four traits that the listing’s <span class="m"><span class="kw">extends</span></span> clause names after <span class="m"><span class="ty">Number</span></span> are those the Fortress standard libraries declare on <span class="m">ℚ</span>; their laws hold for the finite rationals and need not hold where <span class="m">0/0</span> or an infinity takes part, as the laws of the same traits on <span class="m">ℝ64</span> need not hold where a NaN takes part.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-rational-algebra">Section I.1.25</a><!--nc--></span></p>
+<p id="p-fcc1ec14" class="nb">Before this revision the listing extended <span class="m"><span class="ty">Number</span></span> alone, the field and order traits of the original design having left it (<a class="xref" href="spec-changes.html#sec-revival-rationals">Section I.1.12</a><!--nc-->); it now names the traits the Fortress standard libraries declare on <span class="m">ℚ</span>, and the sentence above says where their laws hold.</p></aside>
+<section class="sec" data-num="33.1.1" data-title="coerce (x: ℤ)">
+<h3 id="s-coerce-x" class="nb"><span class="num">33.1.1</span> <span class="m"><span class="kw">coerce</span> (<i>x</i>: ℤ)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: ℤ64)">
+<h3 id="s-coerce-x-64" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: ℤ64)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: ℤ32)">
+<h3 id="s-coerce-x-32" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: ℤ32)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: ℕ64)">
+<h3 id="s-coerce-x-64-2" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: ℕ64)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: ℕ32)">
+<h3 id="s-coerce-x-32-2" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: ℕ32)</span></h3>
+<p id="p-394c8e52" class="nb">Each of these coercions converts an integer to the rational number with the same value.</p>
+</section>
+<section class="sec" data-num="33.1.2" data-title="coerce (x: Identity⟦+⟧)">
+<h3 id="s-coerce-x-identity" class="nb"><span class="num">33.1.2</span> <span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦+⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Identity⟦·⟧)">
+<h3 id="s-coerce-x-identity-2" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦·⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Identity⟦×⟧)">
+<h3 id="s-coerce-x-identity-3" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦×⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Identity⟦juxtaposition⟧)">
+<h3 id="s-coerce-x-identity-juxtaposition" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦<span class="kw">juxtaposition</span>⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Zero⟦·⟧)">
+<h3 id="s-coerce-x-zero" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Zero</span>⟦·⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Zero⟦×⟧)">
+<h3 id="s-coerce-x-zero-2" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Zero</span>⟦×⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Zero⟦juxtaposition⟧)">
+<h3 id="s-coerce-x-zero-juxtaposition" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Zero</span>⟦<span class="kw">juxtaposition</span>⟧)</span></h3>
+<p id="p-6ef84855" class="nb">The identity for <span class="m">+</span> is 0.</p>
+<p id="p-45de6eef" class="nb">The identity for <span class="m"><span class="kw">juxtaposition</span></span> or <span class="m">·</span> or <span class="m">×</span> is 1.</p>
+<p id="p-5f32bbd3" class="nb">The zero for <span class="m"><span class="kw">juxtaposition</span></span> or <span class="m">·</span> or <span class="m">×</span> is 0.</p>
+</section>
+<section class="sec" data-num="33.1.3" data-title="opr juxtaposition (self, other: ℚ): ℚ">
+<h3 id="s-opr-juxtaposition-self-other" class="nb"><span class="num">33.1.3</span> <span class="m"><span class="kw">opr</span> <span class="kw">juxtaposition</span> (<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+<p id="p-182f3760" class="nb">Juxtaposition of rational expressions is equivalent to using the multiplication operator <span class="m">·</span>.</p>
+</section>
+<section class="sec" data-num="33.1.4" data-title="opr +(self): ℚ">
+<h3 id="s-opr-self" class="nb"><span class="num">33.1.4</span> <span class="m"><span class="kw">opr</span> +(<span class="kw">self</span>): ℚ</span></h3>
+<p id="p-0b4ab1f5" class="nb">The unary addition operator <span class="m">+</span> simply returns its argument.</p>
+</section>
+<section class="sec" data-num="33.1.5" data-title="opr +(self, other: ℚ): ℚ">
+<h3 id="s-opr-self-other" class="nb"><span class="num">33.1.5</span> <span class="m"><span class="kw">opr</span> +(<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+<p id="p-e1e39aee" class="nb">The binary addition operator <span class="m">+</span> returns the sum of its arguments.</p>
+<p id="p-c6ca9858" class="nb">The sum of an infinity and either a finite rational or another infinity of the same sign is equal to the given infinity, but the sum of infinities of differing sign is <span class="m">0/0</span>, and the sum of <span class="m">0/0</span> and any rational value is <span class="m">0/0</span>.</p>
+</section>
+<section class="sec" data-num="33.1.6" data-title="opr −(self): ℚ">
+<h3 id="s-opr-self-2" class="nb"><span class="num">33.1.6</span> <span class="m"><span class="kw">opr</span> −(<span class="kw">self</span>): ℚ</span></h3>
+<p id="p-bd3d24a1" class="nb">The unary negation operator <span class="m">−</span> returns the negative of its argument.</p>
+<p id="p-4af76743" class="nb">The negative of <span class="m">+∞</span> is <span class="m">−∞</span>, the negative of <span class="m">−∞</span> is <span class="m">+∞</span>, and the negative of <span class="m">0/0</span> is <span class="m">0/0</span>.</p>
+</section>
+<section class="sec" data-num="33.1.7" data-title="opr −(self, other: ℚ): ℚ">
+<h3 id="s-opr-self-other-2" class="nb"><span class="num">33.1.7</span> <span class="m"><span class="kw">opr</span> −(<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+<p id="p-4943cb37" class="nb">The binary subtraction operator <span class="m">−</span> returns the difference of its arguments, which is equal to the sum of (a) the first argument and (b) the negation of the second argument.</p>
+</section>
+<section class="sec" data-num="33.1.8" data-title="opr ·(self, other: ℚ): ℚ">
+<h3 id="s-opr-self-other-3" class="nb"><span class="num">33.1.8</span> <span class="m"><span class="kw">opr</span> ·(<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ×(self, other: ℚ): ℚ">
+<h3 id="s-opr-self-other-4" class="nb"><span class="m"><span class="kw">opr</span> ×(<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+<p id="p-18230787" class="nb">The multiplication operator <span class="m">·</span> (<span class="m"><span class="str">DOT</span></span>) returns the product of its arguments. The multiplication operator <span class="m">×</span> (<span class="m"><span class="str">TIMES</span></span>) does exactly the same thing.</p>
+<p id="p-85251942" class="nb">The product of <span class="m">0/0</span> and any rational value is <span class="m">0/0</span>, and the product of zero and an infinity (regardless of sign) is <span class="m">0/0</span>; the product of an infinity and any rational value other than zero and <span class="m">0/0</span> is an infinity whose sign is positive if and only if the two arguments have the same sign.</p>
+</section>
+<section class="sec" data-num="33.1.9" data-title="opr /(self): ℚ">
+<h3 id="s-opr-self-3" class="nb"><span class="num">33.1.9</span> <span class="m"><span class="kw">opr</span> /(<span class="kw">self</span>): ℚ</span></h3>
+<p id="p-c056c5ec" class="nb">The unary reciprocal operator <span class="m">/</span> returns the reciprocal of its argument. The reciprocal of zero is <span class="m">+∞</span>.</p>
+<p id="p-ab78c3c8" class="nb">The reciprocal of either <span class="m">+∞</span> or <span class="m">−∞</span> is zero, and the reciprocal of <span class="m">0/0</span> is <span class="m">0/0</span>.</p>
+</section>
+<section class="sec" data-num="33.1.10" data-title="opr /(self, other: ℚ): ℚ">
+<h3 id="s-opr-self-other-5" class="nb"><span class="num">33.1.10</span> <span class="m"><span class="kw">opr</span> /(<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+<p id="p-205cfb1d" class="nb">The binary division operator <span class="m">/</span> returns the quotient of its arguments, which is equal to the product of (a) the first argument and (b) the reciprocal of the second argument.</p>
+</section>
+<section class="sec" data-num="33.1.11" data-title="opr ^(self, power: ℤ): ℚ">
+<h3 id="s-opr-self-power" class="nb"><span class="num">33.1.11</span> <span class="m"><span class="kw">opr</span> <span class="rm"><span class="tt">^</span></span>(<span class="kw">self</span>, <i>power</i>: ℤ): ℚ</span></h3>
+<p id="p-3855ddd2" class="nb">Exponentiation of a rational number to an integer power produces a rational result. If the <span class="m"><i>power</i></span> is <span class="m">0</span>, then the result is always <span class="m">1</span>, even if the rational number base is <span class="m">0</span> (this definition is somewhat arbitrary but is computationally useful).</p>
+<div class="fx nb" id="c-3014e037" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="15.34 10.79 177.36 24.06" width="17.736em" height="2.406em" fill="currentColor"><text class='t4' x='15.94' y='19.33'>property</text>
+<text class='t8' x='60.55' y='19.33'>∀</text>
+<text class='t3' x='66.09' y='19.33'>(</text>
+<text class='t9' x='69.96' y='19.33'>x,<tspan x='80.08'>y</tspan></text>
+<text class='t3' x='86.98' y='19.33'>:</text>
+<text class='t0' x='91.41' y='19.33'>Z</text>
+<text class='t3' x='98.05' y='19.33'>)</text>
+<text class='t9' x='104.69' y='19.33'>x</text>
+<text class='t10' x='110.39' y='15.71'>y</text>
+<text class='t3' x='117.94' y='19.33'>=<tspan x='128.46'>1</tspan></text>
+<text class='t9' x='133.44' y='19.33'>/</text>
+<text class='t3' x='138.42' y='19.33'>(</text>
+<text class='t9' x='142.3' y='19.33'>x</text>
+<text class='t7' x='147.99' y='15.71'>−</text>
+<text class='t10' x='154.22' y='15.71'>y</text>
+<text class='t3' x='159.01' y='19.33'>)</text>
+<text class='t4' x='15.94' y='31.76'>property</text>
+<text class='t8' x='60.55' y='31.76'>∀</text>
+<text class='t3' x='66.09' y='31.76'>(</text>
+<text class='t9' x='69.96' y='31.76'>x,<tspan x='80.08'>y</tspan></text>
+<text class='t3' x='86.98' y='31.76'>:</text>
+<text class='t0' x='91.41' y='31.76'>Z</text>
+<text class='t3' x='98.05' y='31.76'>)</text>
+<text class='t9' x='104.69' y='31.76'>x</text>
+<text class='t10' x='110.39' y='28.14'>y</text>
+<text class='t3' x='117.94' y='31.76'>=</text>
+<text class='t9' x='128.46' y='31.76'>x</text>
+<text class='t11' x='134.15' y='28.14'>(</text>
+<text class='t7' x='137.27' y='28.14'></text>
+<text class='t10' x='140.92' y='28.14'>y<tspan x='145.21'>/</tspan></text>
+<text class='t11' x='149.29' y='28.14'>2</text>
+<text class='t7' x='153.27' y='28.14'></text>
+<text class='t11' x='156.92' y='28.14'>)</text>
+<text class='t9' x='160.53' y='31.76'>x</text>
+<text class='t11' x='166.22' y='28.14'>(</text>
+<text class='t7' x='169.34' y='28.14'></text>
+<text class='t10' x='172.99' y='28.14'>y<tspan x='177.28'>/</tspan></text>
+<text class='t11' x='181.36' y='28.14'>2</text>
+<text class='t7' x='185.33' y='28.14'></text>
+<text class='t11' x='188.99' y='28.14'>)</text></svg></div></div>
+</section>
+<section class="sec" data-num="33.1.12" data-title="opr &lt;(self, other: ℚ): Boolean">
+<h3 id="s-opr-lt-self-other-boolean" class="nb"><span class="num">33.1.12</span> <span class="m"><span class="kw">opr</span> &lt;(<span class="kw">self</span>, <i>other</i>: ℚ): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ≤(self, other: ℚ): Boolean">
+<h3 id="s-opr-self-other-boolean" class="nb"><span class="m"><span class="kw">opr</span> ≤(<span class="kw">self</span>, <i>other</i>: ℚ): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr =(self, other: ℚ): Boolean">
+<h3 id="s-opr-self-other-boolean-2" class="nb"><span class="m"><span class="kw">opr</span> =(<span class="kw">self</span>, <i>other</i>: ℚ): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ≥(self, other: ℚ): Boolean">
+<h3 id="s-opr-self-other-boolean-3" class="nb"><span class="m"><span class="kw">opr</span> ≥(<span class="kw">self</span>, <i>other</i>: ℚ): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr &gt;(self, other: ℚ): Boolean">
+<h3 id="s-opr-gt-self-other-boolean" class="nb"><span class="m"><span class="kw">opr</span> &gt;(<span class="kw">self</span>, <i>other</i>: ℚ): <span class="ty">Boolean</span></span></h3>
+<p id="p-03039625" class="nb">The comparison operators <span class="m">&lt;</span>, <span class="m">≤</span>, <span class="m">=</span>, <span class="m">≥</span>, and <span class="m">&gt;</span> allow any rational value to be compared numerically to any other rational value.</p>
+<p id="p-c6a9356e" class="nb">The rational values are totally ordered except for <span class="m">0/0</span>, which is unordered with respect to all other rational values; moreover, for compatibility with floating-point arithmetic, <span class="m">0/0</span> is unordered with respect to itself, and therefore these five comparison operators always return <span class="m"><i>false</i></span> if either argument is <span class="m">0/0</span>. The value <span class="m">−∞</span> is less than any finite rational value, and <span class="m">+∞</span> is greater than any finite rational value.</p>
+<p id="p-7b01cd2e" class="nb">For <span class="m">≠</span> see <a class="xref" href="lib-negated-relational-operators.html#sec-operator-NE">Section 34.1.3</a><!--nc-->.</p>
+</section>
+<section class="sec" data-num="33.1.13" data-title="opr CMP(self, other: ℚ): Comparison">
+<h3 id="s-opr-cmp-self-other-comparison" class="nb"><span class="num">33.1.13</span> <span class="m"><span class="kw">opr</span> <span class="op">CMP</span>(<span class="kw">self</span>, <i>other</i>: ℚ): <span class="ty">Comparison</span></span></h3>
+<p id="p-e86c8383" class="nb">The <span class="m"><span class="op">CMP</span></span> operator compares the arguments and returns one of the four values <span class="m"><span class="ty">LessThan</span></span>, <span class="m"><span class="ty">EqualTo</span></span>, <span class="m"><span class="ty">GreaterThan</span></span>, and <span class="m"><span class="ty">Unordered</span></span>.</p>
+</section>
+<section class="sec" data-num="33.1.14" data-title="opr MAX(self, other: ℚ): ℚ">
+<h3 id="s-opr-max-self-other" class="nb"><span class="num">33.1.14</span> <span class="m"><span class="kw">opr</span> <span class="op">MAX</span>(<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr MIN(self, other: ℚ): ℚ">
+<h3 id="s-opr-min-self-other" class="nb"><span class="m"><span class="kw">opr</span> <span class="op">MIN</span>(<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr MAXNUM(self, other: ℚ): ℚ">
+<h3 id="s-opr-maxnum-self-other" class="nb"><span class="m"><span class="kw">opr</span> <span class="op">MAXNUM</span>(<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr MINNUM(self, other: ℚ): ℚ">
+<h3 id="s-opr-minnum-self-other" class="nb"><span class="m"><span class="kw">opr</span> <span class="op">MINNUM</span>(<span class="kw">self</span>, <i>other</i>: ℚ): ℚ</span></h3>
+<p id="p-f07a4599" class="nb">The operators <span class="m"><span class="op">MAX</span></span> and <span class="m"><span class="op">MAXNUM</span></span> return whichever argument is larger in the total order defined by <span class="m">&lt;</span>, <span class="m">≤</span>, <span class="m">=</span>, <span class="m">≥</span>, <span class="m">&gt;</span>, and <span class="m"><span class="op">CMP</span></span>, and the operators <span class="m"><span class="op">MIN</span></span> and <span class="m"><span class="op">MINNUM</span></span> return whichever argument is smaller. (For all four, if the arguments are equal, then the result equals that same value.)</p>
+<p id="p-e4225ae9" class="nb">The operators <span class="m"><span class="op">MAXNUM</span></span> and <span class="m"><span class="op">MINNUM</span></span> differ from <span class="m"><span class="op">MAX</span></span> and <span class="m"><span class="op">MIN</span></span> in their treatment of <span class="m">0/0</span>: if one argument is <span class="m">0/0</span> and the other is not, then <span class="m"><span class="op">MAX</span></span> or <span class="m"><span class="op">MIN</span></span> returns <span class="m">0/0</span> but <span class="m"><span class="op">MAXNUM</span></span> or <span class="m"><span class="op">MINNUM</span></span> returns the argument that is not <span class="m">0/0</span>.</p>
+</section>
+<section class="sec" data-num="33.1.15" data-title="opr |self| : ℚ">
+<h3 id="s-opr-self-4" class="nb"><span class="num">33.1.15</span> <span class="m"><span class="kw">opr</span> |<span class="kw">self</span>| <span class="tt">:</span> ℚ</span></h3>
+<p id="p-3b32dd18" class="nb">The absolute value operator <span class="m">|…|</span> returns the negative of this rational number if the argument is less than zero, and otherwise returns the argument.</p>
+<p id="p-6c6f6a9c" class="nb">The absolute value of <span class="m">0/0</span> is <span class="m">0/0</span>.</p>
+</section>
+<section class="sec" data-num="33.1.16" data-title="signum(self): ℤ">
+<h3 id="s-signum-self" class="nb"><span class="num">33.1.16</span> <span class="m"><i>signum</i>(<span class="kw">self</span>): ℤ</span></h3>
+<p id="p-537d0631" class="nb">The method <span class="m"><i>signum</i></span> returns <span class="m">−1</span> if this rational number is less than zero, <span class="m">0</span> if this rational number is zero, and <span class="m">1</span> if this rational number is greater than zero.</p>
+<p id="p-adacdb04" class="nb">The signum of <span class="m">0/0</span> is <span class="m">0/0</span>.</p>
+</section>
+<section class="sec" data-num="33.1.17" data-title="numerator(self): ℤ">
+<h3 id="s-numerator-self" class="nb"><span class="num">33.1.17</span> <span class="m"><i>numerator</i>(<span class="kw">self</span>): ℤ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="denominator(self): ℤ">
+<h3 id="s-denominator-self" class="nb"><span class="m"><i>denominator</i>(<span class="kw">self</span>): ℤ</span></h3>
+<p id="p-eaab3d4d" class="nb">The method <span class="m"><i>numerator</i></span> returns the numerator of this rational number, and the method <span class="m"><i>denominator</i></span> returns the denominator of this rational number, when this rational number is represented in lowest terms (such that the greatest common divisor of numerator and denominator is 1).</p>
+<p id="p-16182b02" class="nb">The numerator of <span class="m">+∞</span> is <span class="m">1</span>, the numerator of <span class="m">−∞</span> is <span class="m">−1</span>, and the numerator of <span class="m">0/0</span> is <span class="m">0</span>; the denominator of <span class="m">+∞</span>, <span class="m">−∞</span>, or <span class="m">0/0</span> is <span class="m">0</span>.</p>
+</section>
+<section class="sec" data-num="33.1.18" data-title="floor(self): ℤ">
+<h3 id="s-floor-self" class="nb"><span class="num">33.1.18</span> <span class="m"><i>floor</i>(<span class="kw">self</span>): ℤ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⌊self⌋: ℤ">
+<h3 id="s-opr-self-5" class="nb"><span class="m"><span class="kw">opr</span> ⌊<span class="kw">self</span>⌋: ℤ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="ceiling(self): ℤ">
+<h3 id="s-ceiling-self" class="nb"><span class="m"><i>ceiling</i>(<span class="kw">self</span>): ℤ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⌈self⌉: ℤ">
+<h3 id="s-opr-self-6" class="nb"><span class="m"><span class="kw">opr</span> ⌈<span class="kw">self</span>⌉: ℤ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="round(self): ℤ">
+<h3 id="s-round-self" class="nb"><span class="m"><i>round</i>(<span class="kw">self</span>): ℤ</span></h3>
+</section>
+<section class="sec" data-num="" data-title="truncate(self): ℤ">
+<h3 id="s-truncate-self" class="nb"><span class="m"><i>truncate</i>(<span class="kw">self</span>): ℤ</span></h3>
+<p id="p-d28d9447" class="nb">The method <span class="m"><i>floor</i></span>, likewise the enclosing operator <span class="m">⌊…⌋</span>, returns the largest integer that is not greater than this rational number.</p>
+<p id="p-65275ee4" class="nb">The method <span class="m"><i>ceiling</i></span>, likewise the enclosing operator <span class="m">⌈…⌉</span>, returns the smallest integer that is not less than this rational number.</p>
+<p id="p-36c9c133" class="nb">The method <span class="m"><i>round</i></span> returns the integer that is closest to this rational number, but if this rational number is exactly halfway between two consecutive integers, then <span class="m"><i>round</i></span> returns whichever of the two integers is even.</p>
+<p id="p-7928db77" class="nb">The method <span class="m"><i>truncate</i></span> returns the ceiling of this rational number if it is negative, and otherwise returns the floor of this rational number. (This has the effect of taking the floor of the magnitude, also called “rounding toward zero.”)</p>
+<p id="p-9bd42e4d" class="nb">All of these methods throw a <span class="m"><span class="ty">DivisionByZero</span></span> if this rational number is <span class="m">+∞</span>, <span class="m">−∞</span>, or <span class="m">0/0</span>, none of which has an integer value; so does a division by zero whose result is an integer (<a class="xref" href="operators.html">Chapter 16</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-rational-rounding">Section I.1.40</a><!--nc--></span></p>
+<p id="p-f7a6e97e" class="nb">Before this revision the sentence said that all of these methods simply return the argument if it is <span class="m">+∞</span>, <span class="m">−∞</span>, or <span class="m">0/0</span>, a rational number where the entries above declare an integer result. It now says that they throw a <span class="m"><span class="ty">DivisionByZero</span></span> there, as the Fortress standard libraries do.</p></aside>
+<div class="fx nb" id="c-351d5b0b" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="21.32 11.26 66.26 47.03" width="6.626em" height="4.703em" fill="currentColor"><text class='t4' x='21.92' y='19.33'>opr</text>
+<text class='t8' x='40.38' y='19.33'><tspan x='41.82'></tspan></text>
+<text class='t4' x='46.24' y='19.33'>self</text>
+<text class='t8' x='67.16' y='19.33'><tspan x='68.6'></tspan></text>
+<text class='t3' x='73.03' y='19.33'>:</text>
+<text class='t0' x='77.46' y='19.33'>Z</text>
+<text class='t4' x='21.92' y='31.28'>opr</text>
+<text class='t8' x='40.38' y='31.28'><tspan x='41.82'></tspan></text>
+<text class='t4' x='46.24' y='31.28'>self</text>
+<text class='t8' x='67.16' y='31.28'><tspan x='68.6'></tspan></text>
+<text class='t3' x='73.03' y='31.28'>:</text>
+<text class='t0' x='77.46' y='31.28'>Z</text>
+<text class='t4' x='21.92' y='43.24'>opr</text>
+<text class='t8' x='40.38' y='43.24'><tspan x='41.82'></tspan><tspan x='43.25'></tspan></text>
+<text class='t4' x='47.68' y='43.24'>self</text>
+<text class='t8' x='68.6' y='43.24'><tspan x='70.04'></tspan><tspan x='71.48'></tspan></text>
+<text class='t3' x='75.91' y='43.24'>:</text>
+<text class='t0' x='80.34' y='43.24'>Z</text>
+<text class='t4' x='21.92' y='55.19'>opr</text>
+<text class='t8' x='40.38' y='55.19'><tspan x='41.82'></tspan><tspan x='43.25'></tspan></text>
+<text class='t4' x='47.68' y='55.19'>self</text>
+<text class='t8' x='68.6' y='55.19'><tspan x='70.04'></tspan><tspan x='71.48'></tspan></text>
+<text class='t3' x='75.91' y='55.19'>:</text>
+<text class='t0' x='80.34' y='55.19'>Z</text></svg></div></div>
+<p id="p-5d092142" class="nb">The hyperfloor operation <span class="m">⌊⌊<i>x</i>⌋⌋</span> computes <span class="m">2<sup>(⌊<i>log</i><sub>2</sub><i>x</i>⌋)</sup></span> and returns the result as a natural number. If the argument is equal to <span class="m">0</span>, the result is <span class="m">0</span>. If the argument is negative, an <span class="m"><span class="ty">InvalidArgument</span></span> is thrown.</p>
+<p id="p-b63be909" class="nb">The hyperceiling operation <span class="m">⌈⌈<i>x</i>⌉⌉</span> computes <span class="m">2<sup>(⌈<i>log</i><sub>2</sub><i>x</i>⌉)</sup></span> and returns the result as a natural number. If the argument is equal to <span class="m">0</span>, the result is <span class="m">0</span>. If the argument is negative, an <span class="m"><span class="ty">InvalidArgument</span></span> is thrown.</p>
+<p id="p-ef9f8edd" class="nb">The hyperhyperfloor operation <svg class="tx il" data-d="6" viewBox="-0.60 -0.60 21.51 11.16" width="2.151em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t8' x='0' y='7.47'><tspan x='1.44'></tspan><tspan x='2.88'></tspan></text>
+<text class='t9' x='7.31' y='7.47'>x</text>
+<text class='t8' x='13' y='7.47'><tspan x='14.44'></tspan><tspan x='15.88'></tspan></text></svg> computes <span class="m">2<sup>(⌊⌊<i>log</i><sub>2</sub><i>x</i>⌋⌋)</sup></span> and returns the result as a natural number. If the argument is equal to <span class="m">0</span> or <span class="m">1</span>, the result is the same as the argument. If the argument is negative, an <span class="m"><span class="ty">InvalidArgument</span></span> is thrown.</p>
+<p id="p-7419b3bc" class="nb">The hyperhyperceiling operation <svg class="tx il" data-d="7" viewBox="-0.60 -0.60 21.51 11.16" width="2.151em" height="1.116em" fill="currentColor" style="vertical-align:-0.309em"><text class='t8' x='0' y='7.47'><tspan x='1.44'></tspan><tspan x='2.88'></tspan></text>
+<text class='t9' x='7.31' y='7.47'>x</text>
+<text class='t8' x='13' y='7.47'><tspan x='14.44'></tspan><tspan x='15.88'></tspan></text></svg> computes <span class="m">2<sup>(⌈⌈<i>log</i><sub>2</sub><i>x</i>⌉⌉)</sup></span> and returns the result as a natural number. If the argument is equal to <span class="m">0</span> or <span class="m">1</span>, the result is the same as the argument. If the argument is negative, an <span class="m"><span class="ty">InvalidArgument</span></span> is thrown.</p>
+</section>
+<section class="sec" data-num="33.1.19" data-title="realpart(self): ℚ">
+<h3 id="s-realpart-self" class="nb"><span class="num">33.1.19</span> <span class="m"><i>realpart</i>(<span class="kw">self</span>): ℚ</span></h3>
+<p id="p-8ebbff14" class="nb">The method <span class="m"><i>realpart</i></span> for a rational number simply returns its argument.</p>
+</section>
+<section class="sec" data-num="33.1.20" data-title="imagpart(self): ℚ">
+<h3 id="s-imagpart-self" class="nb"><span class="num">33.1.20</span> <span class="m"><i>imagpart</i>(<span class="kw">self</span>): ℚ</span></h3>
+<p id="p-cfa5fa9e" class="nb">The method <span class="m"><i>imagpart</i></span> for a rational number simply returns zero.</p>
+</section>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="lib-booleans.html"><span>Previous</span> 32. Booleans and Boolean Intervals</a><a class="next" href="lib-negated-relational-operators.html"><span>Next</span> 34. Negated Relational Operators</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic-lib/numbers.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

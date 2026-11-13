@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>24. Overloaded Functional Declarations · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmti10;font-size:9.96px}
+svg.tx text.t1{font-family:stmary10;font-size:9.96px}
+svg.tx text.t2{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t3{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t4{font-family:cmr10;font-size:9.96px}
+svg.tx text.t5{font-family:msam10;font-size:9.96px}
+svg.tx text.t6{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t7{font-family:msbm10;font-size:9.96px}
+svg.tx text.t8{font-family:ptmr8r;font-size:9.93px}
+</style>
+</head>
+<body data-page="chapter" data-slug="overloaded-declarations" data-chapter="24. Overloaded Functional Declarations">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">24. Overloaded Functional Declarations</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part III, Fortress for Library Writers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="24" data-title="Overloaded Functional Declarations">
+<h1 id="top" class="nb"><a id="chap-overloaded-declarations"></a><span class="num">Chapter 24</span> Overloaded Functional Declarations</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-principles-overloading">24.1 Principles of Overloading</a></li><li><a href="#sec-subtype-rule">24.2 Subtype Rule</a></li><li><a href="#sec-incompatibility-rule">24.3 Incompatibility Rule</a></li><li><a href="#sec-more-specific-rule">24.4 Meet Rule</a></li><li><a href="#sec-overloading-static-params">24.5 Declarations with Static Parameters</a></li><li><a href="#sec-overloading-coercion-resolution">24.6 Coercion and Overloading Resolution</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-356f659c" class="nb">Keyword and varargs parameters are not yet supported.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-f8d48bda" class="nb">Return types are required for overloaded functional declarations.</p></aside>
+<p id="p-222a1dab" class="nb">Fortress allows multiple functional declarations to be in scope of a particular program point. We call this overloading. <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc--> describes how to determine which overloaded declarations are applicable to a particular functional call, and when several are applicable, how to select the most specific one among them. In this chapter, we give a set of rules on overloaded declarations that guarantee there exists a most specific declaration for any given functional call. These rules are complicated by the presence of coercion, which may enlarge the set of declarations that are applicable to a functional call, as discussed in <a class="xref" href="conversions-coercions.html">Chapter 17</a><!--nc-->.</p>
+<section class="sec" data-num="24.1" data-title="Principles of Overloading">
+<h2 id="sec-principles-overloading" class="nb"><span class="num">24.1</span> Principles of Overloading</h2>
+<p id="p-be4151c8" class="nb">Fortress allows multiple functional declarations of the same name to be declared in a single scope. However, recall from <a class="xref" href="declarations.html">Chapter 7</a><!--nc--> the following shadowing rules:</p>
+<ul>
+<li><p id="p-447a14b5" class="nb">dotted method declarations shadow top-level function declarations with the same name, and</p></li>
+<li><p id="p-5f68e123" class="nb">dotted method declarations provided by a trait or object declaration or object expression shadow functional method declarations with the same name that are provided by a different trait or object declaration or object expression.</p></li>
+</ul>
+<p id="p-5f8b52ca" class="nb">Also, note that a trait or object declaration or object expression must not have a functional method declaration and a dotted method declaration with the same name, either directly or by inheritance. Therefore, top-level functions can overload with other top-level functions and functional methods, dotted methods with other dotted methods, and functional methods with other functional methods and top-level functions.</p>
+<p id="p-5d494013" class="nb">Overloading functional declarations allows the benefits of polymorphic declarations. However, with these benefits comes the potential for ambiguous calls at run time. Fortress provides overloading rules for the <em>declarations</em> of functionals to eliminate the <em>possibility</em> of ambiguous calls at run time, whether or not these calls actually appear in the program.</p>
+<p id="p-879b4440" class="nb">For each functional application expression, it should be a static error if there does not exist a statically most applicable declaration for that expression. Furthermore, these rules are checked statically. In fact, the overloading rules in Fortress allow the compiler to identify the statically most specific declaration for a particular call. Therefore an implementation strategy may be used in which the statically most specific declaration is identified statically, and the runtime dispatch mechanism need only consider dispatching among that declaration plus declarations that are more specific than that declaration (proof of this is given in <a class="xref" href="overloaded-functional.html#sec-proof-overloading-resolution">Section B.2</a><!--nc-->). One case is an exception. Where the static type of a call’s argument stands between a trait with a <span class="m"><span class="kw">comprises</span></span> clause and its listed types, several declarations applicable to the static call may each have no other applicable declaration more specific than them (<a class="xref" href="#sec-more-specific-rule">Section 24.4</a><!--nc-->). Such a call is not a static error: it dispatches to a declaration no less specific than each of them, and where they, and every declaration more specific than them that the call may run, have no static parameters, its type is the intersection of their return types (<a class="xref" href="#sec-overloading-coercion-resolution">Section 24.6</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-meet">Section I.1.35</a><!--nc--></span></p>
+<p id="p-cd3cc1c1" class="nb">The Working Draft of February 2011 knew no such call: it read a <span class="m"><span class="kw">comprises</span></span> clause as saying which types are below a trait, where <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc--> now says which values belong to it, so that a trait with static parameters may stand unlisted between a trait with a <span class="m"><span class="kw">comprises</span></span> clause and its listed types.</p></aside>
+<p id="p-b53eb377" class="nb">This chapter outlines several criteria for valid functional overloading. At any given program point, there is a set of overloaded declarations that are in scope. Fortress determines whether there is a possibility for ambiguous calls from this set by comparing declarations pairwise. The following three sections each describes a rule to accept a pair of overloaded functional declarations. If a pair of overloaded declarations satisfies any one of the three rules, it is considered a valid overloading.</p>
+<p id="p-80a44f86" class="nb">The overloading rules given in this chapter are disjoint. That is, at most one rule applies to each pair of overloaded declarations. It is possible for new rules to be added which allow additional overloadings.</p>
+<p id="p-66b265fc" class="nb"><a id="adv-over-kwd"></a> Overloaded declarations may have different static parameters, or some of them may have static parameters and others none (<a class="xref" href="multiple-dispatch.html#sec-overloading-terms">Section 15.1</a><!--nc-->); <a class="xref" href="#sec-overloading-static-params">Section 24.5</a><!--nc--> states how the rules of this chapter apply to declarations with static parameters. Valid overloadings for declarations that contain keyword or varargs parameters are determined by analyzing the expansion of these declarations as described in <a class="xref" href="multiple-dispatch.html#sec-applicability-with-special-params">Section 15.4</a><!--nc-->. Therefore, keyword parameters and varargs parameters are ignored in the remainder of this chapter, and static parameters are ignored until <a class="xref" href="#sec-overloading-static-params">Section 24.5</a><!--nc-->.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-bc9b306c" class="nb">The Working Draft of February 2011 said here that overloaded declarations must have static parameters that are identical up to <span class="m">α</span>-equivalence, and ignored static parameters in the remainder of this chapter.</p></aside>
+<p id="p-59f227e6" class="nb">An operator method declaration whose name is one of the operator parameters (described in <a class="xref" href="trait-parameters.html#sec-opr-ident">Section 12.5</a><!--nc-->) of its enclosing trait or object may be overloaded with other operator declarations in the same component. Therefore, such an operator method declaration must satisfy the overloading rules with every operator declaration in the same component.</p>
+<p id="p-0fc48049" class="nb">In addition, a functional which takes a single parameter whose type is a naked type parameter declared with the bound <span class="m"><span class="ty">Any</span></span> written, as <span class="m"><i>T</i> <span class="kw">extends</span> <span class="ty">Any</span></span>, cannot be overloaded. This restriction prevents ambiguous overloadings such as the following:</p>
+<div class="fx nb" id="c-689bc89b" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.26 195.08 23.12" width="19.508em" height="2.312em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>makeSet</text>
+<text class='t1' x='46.81' y='19.33'></text>
+<text class='t2' x='50.82' y='19.33'>T</text>
+<text class='t3' x='60.79' y='19.33'>extends</text>
+<text class='t4' x='102.39' y='19.33'>An<tspan x='115.12'>y</tspan></text>
+<text class='t1' x='120.51' y='19.33'></text>
+<text class='t4' x='124.52' y='19.33'>(</text>
+<text class='t2' x='128.4' y='19.33'>x</text>
+<text class='t4' x='134.09' y='19.33'>:</text>
+<text class='t2' x='138.52' y='19.33'>T</text>
+<text class='t4' x='145.73' y='19.33'>):<tspan x='154.03'>Set</tspan></text>
+<text class='t1' x='167.87' y='19.33'></text>
+<text class='t2' x='171.88' y='19.33'>T</text>
+<text class='t1' x='179.08' y='19.33'></text>
+<text class='t0' x='9.96' y='31.28'>makeSet</text>
+<text class='t1' x='46.81' y='31.28'></text>
+<text class='t2' x='50.82' y='31.28'>T</text>
+<text class='t3' x='60.79' y='31.28'>extends</text>
+<text class='t4' x='102.39' y='31.28'>An<tspan x='115.12'>y</tspan></text>
+<text class='t1' x='120.51' y='31.28'></text>
+<text class='t4' x='124.52' y='31.28'>(</text>
+<text class='t2' x='128.4' y='31.28'>x</text>
+<text class='t4' x='134.09' y='31.28'>:</text>
+<text class='t2' x='138.52' y='31.28'>T<tspan x='145.17'>,</tspan><tspan x='149.6'>y</tspan></text>
+<text class='t4' x='154.84' y='31.28'>:</text>
+<text class='t2' x='159.27' y='31.28'>T</text>
+<text class='t4' x='166.48' y='31.28'>):<tspan x='174.78'>Set</tspan></text>
+<text class='t1' x='188.62' y='31.28'></text>
+<text class='t2' x='192.63' y='31.28'>T</text>
+<text class='t1' x='199.83' y='31.28'></text></svg></div></div>
+<p id="p-3f5565d6" class="nb">The type parameter of <span class="m"><i>makeSet</i></span> may be instantiated with <span class="m"><span class="ty">(ℤ, ℤ)</span></span> or <span class="m"><span class="ty">ℤ</span></span>. If this is the case then the call <span class="m"><i>makeSet</i>(3, 4)</span>, where 3 and 4 have type <span class="m"><span class="ty">ℤ</span></span>, is ambiguous. A type parameter declared without an <span class="m"><span class="kw">extends</span></span> clause, whose bound is <span class="m"><span class="ty">Any</span></span> as well (<a class="xref" href="trait-parameters.html#sec-type-param">Section 12.1</a><!--nc-->), does not fall under this restriction: the Fortress standard libraries declare the factory <span class="m"><i>array</i><sub>1</sub>⟦<i>T</i>, <span class="kw">nat</span> <i>s</i><sub>0</sub>⟧(<i>v</i>: <i>T</i>)</span> beside <span class="m"><i>array</i><sub>1</sub>⟦<i>T</i>, <span class="kw">nat</span> <i>s</i><sub>0</sub>⟧()</span>.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-bound">Section I.1.31</a><!--nc--></span></p>
+<p id="p-bfc68d49" class="nb">The Working Draft of February 2011 stated this restriction for a naked type parameter of bound <span class="m"><span class="ty">Any</span></span> while a type parameter declared without an <span class="m"><span class="kw">extends</span></span> clause was bounded by <span class="m"><span class="ty">Object</span></span> (<a class="xref" href="trait-parameters.html#sec-type-param">Section 12.1</a><!--nc-->). Under the implicit bound <span class="m"><span class="ty">Any</span></span> it would forbid overloading every functional whose single parameter’s type is such a type parameter, the factory above among them. The restriction is stated as the compiled type checker applies it, to a bound written <span class="m"><span class="ty">Any</span></span>; the checker draws no such refusal on the Fortress standard libraries.</p></aside>
+<p id="p-aa904210" class="nb"><a class="xref" href="#sec-subtype-rule">Section 24.2</a><!--nc--> states the <em>Subtype Rule</em>, which stipulates that the parameter type of one declaration be a subtype of the parameter type of the other. In this case, there is no possibility of ambiguous calls, because one declaration is more specific than the other. This section also places a restriction on the return types of the overloaded declarations to ensure that type safety is not violated. <a class="xref" href="#sec-incompatibility-rule">Section 24.3</a><!--nc--> defines the <em>Incompatibility Rule</em> that, if satisfied by a pair of declarations, guarantees that neither declaration is applicable to the same functional call. In <a class="xref" href="#sec-more-specific-rule">Section 24.4</a><!--nc-->, the <em>Meet Rule</em> requires the existence of a declaration that is more specific than both overloaded declarations in the situation that both are applicable to a given call.</p>
+<p id="p-19576904" class="nb">In the remainder of this chapter, we build on the terminology and notation defined in <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc--> and <a class="xref" href="conversions-coercions.html">Chapter 17</a><!--nc-->.</p>
+</section>
+<section class="sec" data-num="24.2" data-title="Subtype Rule">
+<h2 id="sec-subtype-rule" class="nb"><span class="num">24.2</span> Subtype Rule</h2>
+<p id="p-aabe728c" class="nb">If the parameter type of one declaration is a subtype of the parameter type of another (and they are not the same) then there is no ambiguity between these two declarations: for every call to which both are applicable, the first is more specific. This is the basis of the Subtype Rule.</p>
+<p id="p-65499f5c" class="nb">The Subtype Rule also requires a relationship between the return types of the two declarations. Without such a requirement, a program may violate type safety.</p>
+<p id="p-a353844b" class="nb"><strong>The Subtype Rule for Functions and Functional Methods:</strong>  Suppose that <span class="m"><span class="it">f</span>(<span class="it">P</span>) : <span class="it">U</span></span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>) : <span class="it">V</span></span> are two distinct function or functional method declarations in a single scope. If <span class="m"><span class="it">P</span> ≺ <span class="it">Q</span></span> and <span class="m"><span class="it">U</span> ⪯ <span class="it">V</span></span> then <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are a valid overloading.</p>
+<p id="p-d7d20d85" class="nb"><strong>The Subtype Rule for Dotted Methods:</strong>  Suppose that <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>) : <span class="it">U</span></span> and <span class="m"><span class="it">Q</span><sub>0</sub>.<span class="it">f</span>(<span class="it">Q</span>) : <span class="it">V</span></span> are two distinct dotted method declarations provided by a trait or object <span class="m"><i>C</i></span>. If <span class="m"><span class="it">P</span><sub>0</sub> ≺ <span class="it">Q</span><sub>0</sub></span>, <span class="m"><span class="it">P</span> ≺ <span class="it">Q</span></span>, and <span class="m"><span class="it">U</span> ⪯ <span class="it">V</span></span> then <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">Q</span><sub>0</sub>.<span class="it">f</span>(<span class="it">Q</span>)</span> are a valid overloading.</p>
+</section>
+<section class="sec" data-num="24.3" data-title="Incompatibility Rule">
+<h2 id="sec-incompatibility-rule" class="nb"><span class="num">24.3</span> Incompatibility Rule</h2>
+<p id="p-62240e45" class="nb">The basic idea behind the Incompatibility Rule is that if there is no call to which two overloaded declarations are both applicable then there is no potential for ambiguous calls. In such a case, we say that the declarations are incompatible. Without coercion, incompatibility is equivalent to exclusion. However, the presence of coercion complicates the definition of incompatibility. To formally define incompatibility we first define the following notation. For types <span class="m"><i>T</i></span> and <span class="m"><i>U</i></span>, we say that <span class="m"><i>T</i></span> and <span class="m"><i>U</i></span> <em>do not share coercions</em>, and write <span class="m"><i>T</i> ≬ <i>U</i></span>, if any type that coerces to <span class="m"><i>T</i></span> excludes any type that coerces to <span class="m"><i>U</i></span>:</p>
+<div class="dm nb" id="m-1a0f47d0"><svg class="tx" data-d="2" viewBox="127.21 3.83 213.58 11.28" width="21.358em" height="1.128em" fill="currentColor"><text class='t2' x='127.81' y='11.96'>T</text>
+<text class='t5' x='137.79' y='11.96'></text>
+<text class='t2' x='145.53' y='11.96'>U</text>
+<text class='t6' x='158.96' y='11.96'>⇐<tspan x='167.26'>⇒</tspan><tspan x='182.76'>∀</tspan></text>
+<text class='t2' x='188.29' y='11.96'>A,<tspan x='200.19'>B</tspan></text>
+<text class='t4' x='211.02' y='11.96'>:</text>
+<text class='t2' x='216.55' y='11.96'>A</text>
+<text class='t6' x='225.13' y='11.96'>→</text>
+<text class='t2' x='236.2' y='11.96'>T</text>
+<text class='t6' x='245.62' y='11.96'>∧</text>
+<text class='t2' x='254.47' y='11.96'>B</text>
+<text class='t6' x='263.64' y='11.96'>→</text>
+<text class='t2' x='274.71' y='11.96'>U</text>
+<text class='t4' x='288.13' y='11.96'>=</text>
+<text class='t6' x='294.22' y='11.96'>⇒</text>
+<text class='t2' x='309.72' y='11.96'>A</text>
+<text class='t5' x='319.95' y='11.96'>♦</text>
+<text class='t2' x='329.36' y='11.96'>B<tspan x='337.42'>.</tspan></text></svg></div>
+<p id="p-556ee5ce" class="nb">We say that <span class="m"><i>T</i></span> <em>is incompatible with</em> <span class="m"><i>U</i></span>, and write <span class="m"><i>T</i> ⧫ <i>U</i></span>, if <span class="m"><i>T</i></span> and <span class="m"><i>U</i></span> exclude, reject each other, and do not share coercions:</p>
+<div class="dm nb" id="m-f93a2e56"><svg class="tx" data-d="3" viewBox="118.49 13.79 231.01 71.00" width="23.101em" height="7.100em" fill="currentColor"><text class='t2' x='119.09' y='21.92'>T</text>
+<text class='t5' x='129.07' y='21.92'></text>
+<text class='t2' x='138.48' y='21.92'>U</text>
+<text class='t6' x='151.9' y='21.92'>⇐<tspan x='160.2'>⇒</tspan></text>
+<text class='t2' x='172.93' y='21.92'>T</text>
+<text class='t5' x='182.91' y='21.92'>♦</text>
+<text class='t2' x='192.31' y='21.92'>U</text>
+<text class='t6' x='202.42' y='21.92'>∧</text>
+<text class='t2' x='211.27' y='21.92'>T</text>
+<text class='t6' x='218.48' y='21.92'>−<tspan x='222.91'></tspan></text>
+<text class='t2' x='228.99' y='21.92'>U</text>
+<text class='t6' x='239.1' y='21.92'>∧</text>
+<text class='t2' x='247.95' y='21.92'>U</text>
+<text class='t6' x='255.84' y='21.92'>−<tspan x='260.27'></tspan></text>
+<text class='t2' x='266.36' y='21.92'>T</text>
+<text class='t6' x='275.78' y='21.92'>∧</text>
+<text class='t2' x='284.63' y='21.92'>T</text>
+<text class='t5' x='294.6' y='21.92'></text>
+<text class='t2' x='302.35' y='21.92'>U</text>
+<text class='t6' x='151.9' y='36.86'>⇐<tspan x='160.2'>⇒</tspan></text>
+<text class='t2' x='182.06' y='36.86'>T</text>
+<text class='t5' x='192.04' y='36.86'>♦</text>
+<text class='t2' x='201.45' y='36.86'>U</text>
+<text class='t6' x='175.15' y='51.81'>∧</text>
+<text class='t4' x='186.49' y='51.81'>(</text>
+<text class='t6' x='190.37' y='51.81'>∀</text>
+<text class='t2' x='195.9' y='51.81'>A</text>
+<text class='t4' x='206.14' y='51.81'>:</text>
+<text class='t2' x='211.68' y='51.81'>A</text>
+<text class='t6' x='220.25' y='51.81'>→</text>
+<text class='t2' x='231.32' y='51.81'>T</text>
+<text class='t4' x='244.06' y='51.81'>=</text>
+<text class='t6' x='250.15' y='51.81'>⇒</text>
+<text class='t2' x='265.65' y='51.81'>A</text>
+<text class='t5' x='275.89' y='51.81'>♦</text>
+<text class='t2' x='285.3' y='51.81'>U</text>
+<text class='t4' x='293.19' y='51.81'>)</text>
+<text class='t6' x='175.15' y='66.75'>∧</text>
+<text class='t4' x='186.49' y='66.75'>(</text>
+<text class='t6' x='190.37' y='66.75'>∀</text>
+<text class='t2' x='195.9' y='66.75'>B</text>
+<text class='t4' x='206.73' y='66.75'>:</text>
+<text class='t2' x='212.26' y='66.75'>B</text>
+<text class='t6' x='221.42' y='66.75'>→</text>
+<text class='t2' x='232.49' y='66.75'>U</text>
+<text class='t4' x='245.92' y='66.75'>=</text>
+<text class='t6' x='252' y='66.75'>⇒</text>
+<text class='t2' x='267.5' y='66.75'>B</text>
+<text class='t5' x='278.33' y='66.75'>♦</text>
+<text class='t2' x='287.74' y='66.75'>T</text>
+<text class='t4' x='294.94' y='66.75'>)</text>
+<text class='t6' x='175.15' y='81.69'>∧</text>
+<text class='t4' x='186.49' y='81.69'>(</text>
+<text class='t6' x='190.37' y='81.69'>∀</text>
+<text class='t2' x='195.9' y='81.69'>A,<tspan x='207.8'>B</tspan></text>
+<text class='t4' x='218.63' y='81.69'>:</text>
+<text class='t2' x='224.16' y='81.69'>A</text>
+<text class='t6' x='232.74' y='81.69'>→</text>
+<text class='t2' x='243.81' y='81.69'>T</text>
+<text class='t6' x='253.23' y='81.69'>∧</text>
+<text class='t2' x='262.08' y='81.69'>B</text>
+<text class='t6' x='271.25' y='81.69'>→</text>
+<text class='t2' x='282.32' y='81.69'>U</text>
+<text class='t4' x='295.74' y='81.69'>=</text>
+<text class='t6' x='301.83' y='81.69'>⇒</text>
+<text class='t2' x='317.33' y='81.69'>A</text>
+<text class='t5' x='327.57' y='81.69'>♦</text>
+<text class='t2' x='336.97' y='81.69'>B</text>
+<text class='t4' x='345.03' y='81.69'>)</text></svg></div>
+<p id="p-1d091bd3" class="nb">Note that if <span class="m"><i>T</i> ⧫ <i>U</i></span> then no type is substitutable for both <span class="m"><i>T</i></span> and <span class="m"><i>U</i></span>.</p>
+<p id="p-f640101b" class="nb"><strong>The Incompatibility Rule for Functions and Functional Methods:</strong></p>
+<p id="p-bbd115d7" class="nb">Suppose that <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are two distinct function or functional method declarations in a single scope. If <span class="m"><span class="it">P</span> ⧫ <span class="it">Q</span></span> then <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are a valid overloading.</p>
+<p id="p-e9c7ee5c" class="nb"><strong>The Incompatibility Rule for Dotted Methods:</strong>  Suppose that <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">Q</span><sub>0</sub>.<span class="it">f</span>(<span class="it">Q</span>)</span> are two distinct dotted method declarations provided by a trait or object <span class="m"><i>C</i></span>. If <span class="m"><span class="it">P</span> ⧫ <span class="it">Q</span></span> then <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">Q</span><sub>0</sub>.<span class="it">f</span>(<span class="it">Q</span>)</span> are a valid overloading.</p>
+</section>
+<section class="sec" data-num="24.4" data-title="Meet Rule">
+<h2 id="sec-more-specific-rule" class="nb"><span class="num">24.4</span> Meet Rule</h2>
+<p id="p-6bb23c4c" class="nb">If neither the Subtype Rule nor the Incompatibility Rule holds for a pair of overloaded declarations then the declarations introduce the possibility of ambiguity. To avoid this ambiguity, we require a <em>disambiguating declaration</em>: for any possible arguments to which both declarations are applicable, there must be another more specific declaration that is also applicable. Thus, if the functional is called with such arguments, neither of the pair of declarations is executed because the disambiguating declaration is also applicable, and it is more specific than both.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-6b662464" class="nb">What is "an intersection of two declarations"? – Sukyoung</p>
+<p id="p-021edba2" class="nb">For function declarations we require that the disambiguating declaration be the intersection of the pair of overloaded declarations.</p></aside>
+<p id="p-1681de4b" class="nb"><strong>The Meet Rule for Functions:</strong>  Suppose that <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are two function declarations in a single scope such that neither <span class="m"><span class="it">P</span></span> nor <span class="m"><span class="it">Q</span></span> is a subtype of the other and <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> are not incompatible with one another. Let <span class="m"><span class="it">S</span></span> be the set of types that <span class="m"><span class="it">P</span></span> defines coercions from and <span class="m"><span class="it">T</span></span> be the set of types that <span class="m"><span class="it">Q</span></span> defines coercions from. <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are a valid overloading if there is a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>∩<span class="it">Q</span>)</span> in the scope.</p>
+<p id="p-d00796e2" class="nb">all of the following hold:</p>
+<ul>
+<li><p id="p-3f21d848" class="nb">either <span class="m"><span class="it">P</span> ◊ <span class="it">Q</span></span> or there is a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>∩<span class="it">Q</span>)</span> in the scope, and</p></li>
+<li><p id="p-c52373cf" class="nb">either <span class="m"><span class="it">P</span> ◁<sub></sub> <span class="it">Q</span></span> or <span class="m"><span class="it">Q</span> ◁<sub></sub> <span class="it">P</span></span> or for all <span class="m"><span class="it">P</span>′ ∈ <span class="it">S</span></span> and <span class="m"><span class="it">Q</span>′ ∈ <span class="it">T</span></span> one of the two conditions holds:</p>
+<ul>
+<li><p id="p-01282d78" class="nb"><span class="m"><span class="it">P</span>′ ◊ <span class="it">Q</span>′</span>, or</p></li>
+<li><p id="p-96bda4c5" class="nb">there is a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>′∩<span class="it">Q</span>′)</span> in the scope.</p></li>
+</ul></li>
+</ul>
+<p id="p-6e1ee5b9" class="nb">Where the Meet Rule for functions asks for a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>∩<span class="it">Q</span>)</span> in the scope, it is also satisfied by declarations in the scope whose parameter types are each a subtype of both <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> and together cover <span class="m"><span class="it">P</span>∩<span class="it">Q</span></span> (<a class="xref" href="types.html#sec-internal-types">Section 6.10</a>): every value of both <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> is a value of the parameter type of one of them, for every value a program can make, not only for the values a program does make. Each such declaration is more specific than both <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span>, and at run time it is applicable to every argument whose value its parameter type holds. Every pair of the covering declarations must satisfy the overloading rules in turn, as every pair of the set must. This case does not apply to the condition on the types from which <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> define coercions: covering does not choose between two coercions.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-meet">Section I.1.35</a><!--nc--></span></p>
+<p id="p-81b05e41" class="nb">The Working Draft of February 2011 asked for a declaration on the intersection itself, and the draft note above asked what the intersection of two declarations is. The answer is the one the team’s list of proposed features records for two traits with <span class="m"><span class="kw">comprises</span></span> clauses, “We agreed to revise the Meet rule to address this with the coverage check”. It is an addition to the Meet Rule of the type group’s paper of 2011, which asks for a declaration on the meet; the paper of 2019 has no traits with <span class="m"><span class="kw">comprises</span></span> clauses. Where a trait with static parameters stands between two traits with <span class="m"><span class="kw">comprises</span></span> clauses and their listed types, the intersection of the two is not equal to a named type (<a class="xref" href="types.html#sec-internal-types">Section 6.10</a>), and only declarations that together cover it can disambiguate them. The coverage is a judgement of the overloading rules alone: it makes no type a subtype of another (row 492 of the revival’s gap ledger).</p></aside>
+<p id="p-92a8681e" class="nb">Recall that <span class="m"><span class="it">P</span>∩<span class="it">Q</span></span> is the intersection of types <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> as defined in <a class="xref" href="types.html#sec-internal-types">Section 6.10</a>. We write <span class="m"><span class="it">P</span>∩<span class="it">Q</span></span> to denote the intersection of types <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span>. If for some type <span class="m"><i>S</i></span> we have <span class="m"><i>S</i> ⪯ <i>P</i></span> and <span class="m"><i>S</i> ⪯ <i>Q</i></span> then <span class="m"><i>S</i> ⪯ (<i>P</i> ∩ <i>Q</i>)</span>, but it is not necessarily the case that <span class="m"><i>S</i> = (<i>P</i> ∩ <i>Q</i>)</span> since another type may be more specific than both <span class="m"><i>P</i></span> and <span class="m"><i>Q</i></span>. <a id="adv-over-comprises"></a> For example, suppose the following:</p>
+<div class="fx nb both" id="c-e40aabc1" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.26 163.47 98.83" width="16.347em" height="9.883em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t2' x='38.88' y='19.33'>S</text>
+<text class='t3' x='48.33' y='19.33'>comprises</text>
+<text class='t6' x='98.17' y='19.33'>{</text>
+<text class='t2' x='103.15' y='19.33'>U<tspan x='109.94'>,</tspan><tspan x='114.36'>V</tspan></text>
+<text class='t6' x='122.39' y='19.33'>}</text>
+<text class='t3' x='130.14' y='19.33'>end<tspan x='9.96' y='31.28'>trait</tspan></text>
+<text class='t2' x='38.88' y='31.28'>T</text>
+<text class='t3' x='48.85' y='31.28'>comprises</text>
+<text class='t6' x='98.7' y='31.28'>{</text>
+<text class='t2' x='103.68' y='31.28'>V<tspan x='110.04'>,</tspan><tspan x='114.47'>W</tspan></text>
+<text class='t6' x='125.26' y='31.28'>}</text>
+<text class='t3' x='133.01' y='31.28'>end<tspan x='9.96' y='43.24'>trait</tspan></text>
+<text class='t2' x='38.88' y='43.24'>U</text>
+<text class='t3' x='49.54' y='43.24'>extends</text>
+<text class='t2' x='88.92' y='43.24'>S</text>
+<text class='t3' x='98.37' y='43.24'>excludes</text>
+<text class='t2' x='142.98' y='43.24'>W</text>
+<text class='t3' x='156.54' y='43.24'>end<tspan x='9.96' y='55.19'>trait</tspan></text>
+<text class='t2' x='38.88' y='55.19'>V</text>
+<text class='t3' x='49.67' y='55.19'>extends</text>
+<text class='t6' x='89.05' y='55.19'>{</text>
+<text class='t2' x='94.04' y='55.19'>S<tspan x='100.17'>,</tspan><tspan x='104.59'>T</tspan></text>
+<text class='t6' x='111.8' y='55.19'>}</text>
+<text class='t3' x='119.55' y='55.19'>end<tspan x='9.96' y='67.15'>trait</tspan></text>
+<text class='t2' x='38.88' y='67.15'>W</text>
+<text class='t3' x='52.44' y='67.15'>extends</text>
+<text class='t2' x='91.82' y='67.15'>T</text>
+<text class='t3' x='101.79' y='67.15'>end</text>
+<text class='t2' x='9.96' y='83.09'>f</text>
+<text class='t4' x='15.91' y='83.09'>(</text>
+<text class='t2' x='19.79' y='83.09'>s</text>
+<text class='t4' x='26.12' y='83.09'>:</text>
+<text class='t2' x='30.55' y='83.09'>S</text>
+<text class='t4' x='37.23' y='83.09'>)<tspan x='43.87'>=</tspan><tspan x='54.39'>1</tspan></text>
+<text class='t2' x='9.96' y='95.04'>f</text>
+<text class='t4' x='15.91' y='95.04'>(</text>
+<text class='t2' x='19.79' y='95.04'>t</text>
+<text class='t4' x='25.05' y='95.04'>:</text>
+<text class='t2' x='29.47' y='95.04'>T</text>
+<text class='t4' x='36.68' y='95.04'>)<tspan x='43.32'>=</tspan><tspan x='53.84'>1</tspan></text>
+<text class='t2' x='9.96' y='107'>f</text>
+<text class='t4' x='15.91' y='107'>(</text>
+<text class='t2' x='19.79' y='107'>v</text>
+<text class='t4' x='26.63' y='107'>:</text>
+<text class='t2' x='31.06' y='107'>V</text>
+<text class='t4' x='39.09' y='107'>)<tspan x='45.73'>=</tspan><tspan x='56.25'>1</tspan></text></svg></div><pre class="fx-s"><code>f(s:S) = 1
+f(t:T) = 1
+f(v:V) = 1</code></pre></div>
+<p id="p-1ac2147a" class="nb">Because of the <span class="m"><span class="kw">comprises</span></span> clauses of <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> and the <span class="m"><span class="kw">excludes</span></span> clause of <span class="m"><i>U</i></span>, any value of both <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> is a value of <span class="m"><i>V</i></span>. Thus, <span class="m"><i>V</i></span> covers <span class="m"><i>S</i>∩<i>T</i></span>, and the declaration <span class="m"><i>f</i>(<i>V</i>)</span> “disambiguates” <span class="m"><i>f</i>(<i>S</i>)</span> and <span class="m"><i>f</i>(<i>T</i>)</span>, i.e., it is applicable to and more specific for any call at run time to which both <span class="m"><i>f</i>(<i>S</i>)</span> and <span class="m"><i>f</i>(<i>T</i>)</span> are applicable.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-meet">Section I.1.35</a><!--nc--></span></p>
+<p id="p-772dd9aa" class="nb">The Working Draft of February 2011 concluded that any subtype of both <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> must be a subtype of <span class="m"><i>V</i></span>, so that <span class="m"><i>V</i> = <i>S</i>∩<i>T</i></span>. That holds of types only while no type stands between <span class="m"><i>S</i></span> or <span class="m"><i>T</i></span> and their listed types; a trait with static parameters may (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->), and a static call whose argument has such a type has <span class="m"><i>f</i>(<i>S</i>)</span> and <span class="m"><i>f</i>(<i>T</i>)</span> applicable and <span class="m"><i>f</i>(<i>V</i>)</span> not. It runs <span class="m"><i>f</i>(<i>V</i>)</span>, and its type is given in <a class="xref" href="#sec-overloading-coercion-resolution">Section 24.6</a><!--nc-->.</p></aside>
+<p id="p-c275a042" class="nb">The Meet Rule shall not be difficult to obey, especially because the compiler can give useful feedback. For example:</p>
+<div class="fx nb" id="c-4c8a60b2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="21.32 11.26 126.53 23.12" width="12.653em" height="2.312em" fill="currentColor"><text class='t0' x='21.92' y='19.33'>fo<tspan x='29.56'>o</tspan></text>
+<text class='t4' x='35.28' y='19.33'>(</text>
+<text class='t2' x='39.15' y='19.33'>x</text>
+<text class='t4' x='46.51' y='19.33'>:<tspan x='50.93'>Num</tspan><tspan x='71.97'>b</tspan><tspan x='77.78'>er</tspan></text>
+<text class='t2' x='86.11' y='19.33'>,<tspan x='90.53'>y</tspan></text>
+<text class='t4' x='97.44' y='19.33'>:</text>
+<text class='t7' x='101.86' y='19.33'>Z</text>
+<text class='t4' x='108.51' y='19.33'>64)<tspan x='125.11'>=</tspan></text>
+<text class='t2' x='135.63' y='19.33'>.<tspan x='140.05'>.</tspan><tspan x='144.48'>.</tspan></text>
+<text class='t0' x='21.92' y='31.28'>fo<tspan x='29.56'>o</tspan></text>
+<text class='t4' x='35.28' y='31.28'>(</text>
+<text class='t2' x='39.15' y='31.28'>x</text>
+<text class='t4' x='46.51' y='31.28'>:</text>
+<text class='t7' x='50.93' y='31.28'>Z</text>
+<text class='t4' x='57.57' y='31.28'>64</text>
+<text class='t2' x='67.54' y='31.28'>,<tspan x='71.97'>y</tspan></text>
+<text class='t4' x='78.87' y='31.28'>:<tspan x='83.3'>Num</tspan><tspan x='104.33'>b</tspan><tspan x='110.14'>er</tspan><tspan x='118.47'>)</tspan><tspan x='125.11'>=</tspan></text>
+<text class='t2' x='135.63' y='31.28'>.<tspan x='140.05'>.</tspan><tspan x='144.48'>.</tspan></text></svg></div></div>
+<p id="p-cdb79056" class="nb">Assuming that <span class="m"><span class="rm"><span class="m">ℤ</span>64</span> ≺ <span class="rm"><span class="m"><span class="ty">Number</span></span></span></span>, the compiler reports that these two declarations are a problem because of ambiguity and suggests that a new declaration for <span class="m"><i>foo</i>(ℤ64, ℤ64)</span> would resolve the ambiguity. As another example, consider:</p>
+<div class="fx nb both" id="c-d8b053a3" data-kind="code"><div class="fx-r"><svg class="tx" data-d="6" viewBox="15.34 11.26 106.04 23.12" width="10.604em" height="2.312em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>b<tspan x='20.01'>ar</tspan></text>
+<text class='t4' x='30.38' y='19.33'>(</text>
+<text class='t2' x='34.25' y='19.33'>x</text>
+<text class='t4' x='41.61' y='19.33'>:<tspan x='46.04'>Prin</tspan><tspan x='64.74'>table</tspan><tspan x='86.33'>)</tspan><tspan x='92.97'>=</tspan></text>
+<text class='t2' x='103.49' y='19.33'>.<tspan x='107.91'>.</tspan><tspan x='112.34'>.</tspan></text>
+<text class='t0' x='15.94' y='31.28'>b<tspan x='20.01'>ar</tspan></text>
+<text class='t4' x='30.38' y='31.28'>(</text>
+<text class='t2' x='34.25' y='31.28'>x</text>
+<text class='t4' x='41.61' y='31.28'>:<tspan x='46.04'>Thro</tspan><tspan x='67.37'>w</tspan><tspan x='74.29'>able</tspan><tspan x='92'>)</tspan><tspan x='98.64'>=</tspan></text>
+<text class='t2' x='109.16' y='31.28'>.<tspan x='113.59'>.</tspan><tspan x='118.02'>.</tspan></text></svg></div><pre class="fx-s"><code>bar(x:Printable) = ...
+bar(x:Throwable) = ...</code></pre></div>
+<p id="p-ac122be2" class="nb">Assuming that <span class="m"><span class="rm"><span class="m"><span class="ty">Printable</span></span></span></span> and <span class="m"><span class="rm"><span class="m"><span class="ty">Throwable</span></span></span></span> are neither comparable by the subtyping relation nor disjoint, the compiler reports that these two declarations are a problem because <span class="m"><span class="ty">Printable</span></span> and <span class="m"><span class="ty">Throwable</span></span> are incomparable but possibly overlapping types. As a result, these two declarations are statically rejected.</p>
+<p id="p-4c419963" class="nb">Unlike for functions, the Meet Rule for dotted methods only applies to dotted methods that are provided by the same trait or object. This is possible because two dotted methods are applicable to a given call <span class="m"><span class="it">A</span><sub>0</sub>.<i>f</i>(<span class="it">A</span>)</span> only if they are both provided by the trait or object <span class="m"><span class="it">A</span><sub>0</sub></span>.</p>
+<p id="p-8d773aa2" class="nb"><strong>The Meet Rule for Dotted Methods:</strong>  Suppose that <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">Q</span><sub>0</sub>.<span class="it">f</span>(<span class="it">Q</span>)</span> are two dotted method declarations provided by a trait or object <span class="m"><i>C</i></span> such that neither <span class="m">(<span class="it">P</span><sub>0</sub>, <span class="it">P</span>)</span> nor <span class="m">(<span class="it">Q</span><sub>0</sub>, <span class="it">Q</span>)</span> is a subtype of the other and <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> are not incompatible with one another. Let <span class="m"><span class="it">S</span></span> be the set of types that <span class="m"><span class="it">P</span></span> defines coercions from and <span class="m"><span class="it">T</span></span> be the set of types that <span class="m"><span class="it">Q</span></span> defines coercions from. <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">Q</span><sub>0</sub>.<span class="it">f</span>(<span class="it">Q</span>)</span> are a valid overloading if there is a declaration <span class="m"><span class="it">R</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>∩<span class="it">Q</span>)</span> provided by <span class="m"><i>C</i></span> with <span class="m"><span class="it">R</span><sub>0</sub> ⪯ (<span class="it">P</span><sub>0</sub>∩<span class="it">Q</span><sub>0</sub>)</span>.</p>
+<p id="p-d00796e2-2" class="nb">all of the following hold:</p>
+<ul>
+<li><p id="p-cf2b3b11" class="nb">either <span class="m"><span class="it">P</span> ◊ <span class="it">Q</span></span> or there is a declaration <span class="m"><span class="it">R</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>∩<span class="it">Q</span>)</span> provided by <span class="m"><i>C</i></span> with <span class="m"><span class="it">R</span><sub>0</sub> ⪯ (<span class="it">P</span><sub>0</sub>∩<span class="it">Q</span><sub>0</sub>)</span>, and</p></li>
+<li><p id="p-c52373cf-2" class="nb">either <span class="m"><span class="it">P</span> ◁<sub></sub> <span class="it">Q</span></span> or <span class="m"><span class="it">Q</span> ◁<sub></sub> <span class="it">P</span></span> or for all <span class="m"><span class="it">P</span>′ ∈ <span class="it">S</span></span> and <span class="m"><span class="it">Q</span>′ ∈ <span class="it">T</span></span> one of the two conditions holds:</p>
+<ul>
+<li><p id="p-01282d78-2" class="nb"><span class="m"><span class="it">P</span>′ ◊ <span class="it">Q</span>′</span>, or</p></li>
+<li><p id="p-e057c1f2" class="nb">there is a declaration <span class="m"><span class="it">R</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>′∩<span class="it">Q</span>′)</span> provided by <span class="m"><i>C</i></span> with <span class="m"><span class="it">R</span><sub>0</sub> ⪯ (<span class="it">P</span><sub>0</sub>∩<span class="it">Q</span><sub>0</sub>)</span>.</p></li>
+</ul></li>
+</ul>
+<p id="p-84cffb4f" class="nb">Recall that functional methods can be viewed semantically as top-level functions, as described in <a class="xref" href="traits.html#sec-methods">Section 10.2</a><!--nc-->. However, treating functional methods as top-level functions for determining valid overloading is too restrictive. In the following example:</p>
+<div class="fx nb both" id="c-be0ff698" data-kind="code" data-example="Overloading"><div class="fx-r"><svg class="tx" data-d="7" viewBox="-0.60 11.86 78.22 110.18" width="7.822em" height="11.018em" fill="currentColor"><text class='t3' x='0' y='19.33'>trait</text>
+<text class='t7' x='28.92' y='19.33'>Z</text>
+<text class='t3' x='8.86' y='39.75'>opr</text>
+<text class='t4' x='28.97' y='39.75'>@(</text>
+<text class='t3' x='40.6' y='39.75'>self</text>
+<text class='t4' x='61.52' y='39.75'>):</text>
+<text class='t7' x='69.82' y='39.75'>Z</text>
+<text class='t3' x='0' y='60.17'>end<tspan x='0' y='80.6'>trait</tspan></text>
+<text class='t7' x='28.92' y='80.6'>R</text>
+<text class='t3' x='8.86' y='101.02'>opr</text>
+<text class='t4' x='28.97' y='101.02'>@(</text>
+<text class='t3' x='40.6' y='101.02'>self</text>
+<text class='t4' x='61.52' y='101.02'>):</text>
+<text class='t7' x='69.82' y='101.02'>R</text>
+<text class='t3' x='0' y='121.44'>end</text></svg></div><pre class="fx-s"><code>trait ZZ
+  opr @(self): ZZ
+end
+trait RR
+  opr @(self): RR
+end</code></pre></div>
+<p id="p-1c98506f" class="nb">if the functional methods were interpreted as top-level functions then this program would define two top-level functions with parameter types <span class="m">ℤ</span> and <span class="m">ℝ</span>. These declarations would be statically rejected as an invalid overloading because there is no relation between <span class="m">ℤ</span> and <span class="m">ℝ</span>; another trait may extend them both without declaring its own version of the functional method which may lead to an ambiguous call at run time. However, notice that declaraions are ambiguous only for calls on arguments that extend both <span class="m">ℤ</span> and <span class="m">ℝ</span>, and any type that extends both can include a new declaration that disambiguates them. We use this intuition to allow such overloadings.</p>
+<p id="p-57beb74e" class="nb"><strong>The Meet Rule for Functional Methods:</strong>  Suppose that <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are two functional method declarations occurring in trait or object declarations or object expressions such that neither <span class="m"><span class="it">P</span></span> nor <span class="m"><span class="it">Q</span></span> is a subtype of the other and <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> are not incompatible with one another. Let <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> have self parameters at <span class="m"><i>i</i></span> and <span class="m"><i>j</i></span> respectively. <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are a valid overloading if all of the following hold:</p>
+<ul>
+<li><p id="p-216f17be" class="nb"><span class="m"><i>i</i> = <i>j</i></span></p></li>
+<li><p id="p-fedf79d8" class="nb">if there exists a trait or object <span class="m"><i>C</i></span> that provides both <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> then <span class="m"><span class="it">P</span> ≠ <span class="it">Q</span></span> and there is a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>∩<span class="it">Q</span>)</span> provide by <span class="m"><i>C</i></span> having self parameter at <span class="m"><i>i</i></span>.</p></li>
+</ul>
+<p id="p-0f853e09" class="nb">Also, let <span class="m"><span class="it">S</span></span> be the set of types that <span class="m"><span class="it">P</span></span> defines coercions from and <span class="m"><span class="it">T</span></span> be the set of types that <span class="m"><span class="it">Q</span></span> defines coercions from. <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> are a valid overloading if all of the following hold:</p>
+<ul>
+<li><p id="p-216f17be-2" class="nb"><span class="m"><i>i</i> = <i>j</i></span></p></li>
+<li><p id="p-233a6294" class="nb">either <span class="m"><span class="it">P</span> ◊ <span class="it">Q</span></span> or if there exists a trait or object <span class="m"><i>C</i></span> that provides both <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> then <span class="m"><span class="it">P</span> ≠ <span class="it">Q</span></span> and there is a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>∩<span class="it">Q</span>)</span> provide by <span class="m"><i>C</i></span>, and</p></li>
+<li><p id="p-c52373cf-3" class="nb">either <span class="m"><span class="it">P</span> ◁<sub></sub> <span class="it">Q</span></span> or <span class="m"><span class="it">Q</span> ◁<sub></sub> <span class="it">P</span></span> or for all <span class="m"><span class="it">P</span>′ ∈ <span class="it">S</span></span> and <span class="m"><span class="it">Q</span>′ ∈ <span class="it">T</span></span> one of the two conditions holds:</p>
+<ul>
+<li><p id="p-01282d78-3" class="nb"><span class="m"><span class="it">P</span>′ ◊ <span class="it">Q</span>′</span>, or</p></li>
+<li><p id="p-d12ab6d9" class="nb">there is a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>′∩<span class="it">Q</span>′)</span> provided by <span class="m"><i>C</i></span>.</p></li>
+</ul></li>
+</ul>
+<p id="p-5ab6ac4f" class="nb">As for functions, where this rule asks for a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>∩<span class="it">Q</span>)</span> provided by <span class="m"><i>C</i></span>, it is also satisfied by declarations provided by <span class="m"><i>C</i></span>, having self parameter at <span class="m"><i>i</i></span>, whose parameter types are each a subtype of both <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> and together cover <span class="m"><span class="it">P</span>∩<span class="it">Q</span></span>; the case does not apply to the condition on the types from which <span class="m"><span class="it">P</span></span> and <span class="m"><span class="it">Q</span></span> define coercions.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-meet">Section I.1.35</a><!--nc--></span></p>
+<p id="p-7d6a98af" class="nb">The Working Draft of February 2011 asked here, as for functions, for a declaration on the intersection itself.</p></aside>
+<p id="p-ee109962" class="nb">Notice that the Meet Rule for functional methods requires the self parameters of two overloaded declarations to be in the same position. This requirement guarantees that no ambiguity is caused by the position of the self parameter. Two declarations which differ in the position of the self parameter must satisfy either the Subtype Rule or the Incompatibility Rule to be a valid overloading.</p>
+<p id="p-f96ff3c1" class="nb">Functional method declarations can overload with function declaraions. A valid overloading between a functional method declaration and a function declaration is determined by applying the (more restrictive) Meet Rule for functions to both declarations.</p>
+</section>
+<section class="sec" data-num="24.5" data-title="Declarations with Static Parameters">
+<h2 id="sec-overloading-static-params" class="nb"><span class="num">24.5</span> Declarations with Static Parameters</h2>
+<p id="p-0e000193" class="nb">The rules above compare the parameter types and the return types of declarations without static parameters. A declaration with static parameters is read as one declaration whose parameter type ranges over every instance of it whose static arguments satisfy their bounds (<a class="xref" href="multiple-dispatch.html#sec-overloading-terms">Section 15.1</a><!--nc-->). A declaration <span class="m"><i>d</i><sub>1</sub></span> is more specific than a declaration <span class="m"><i>d</i><sub>2</sub></span> when <span class="m"><i>d</i><sub>2</sub></span> is applicable to every call to which <span class="m"><i>d</i><sub>1</sub></span> is applicable, and not the other way round (<a class="xref" href="multiple-dispatch.html#sec-resolving-overloading">Section 15.5</a><!--nc-->); where neither has static parameters, this is the relation <span class="m"><span class="it">P</span> ≺ <span class="it">Q</span></span> of the rules above. A set of overloaded declarations, some or all of which have static parameters, is a valid overloading when every pair <span class="m"><i>d</i><sub>1</sub></span>, <span class="m"><i>d</i><sub>2</sub></span> of them satisfies the following three rules:</p>
+<ul>
+<li><p id="p-2e58da6b" class="nb">The <em>No Duplicates Rule</em>: <span class="m"><i>d</i><sub>1</sub></span> and <span class="m"><i>d</i><sub>2</sub></span> are not each applicable to every call to which the other is applicable.</p></li>
+<li><p id="p-f50abc14" class="nb">The <em>Meet Rule</em>: <span class="m"><i>d</i><sub>1</sub></span> and <span class="m"><i>d</i><sub>2</sub></span> exclude each other, or one of them is more specific than the other, or some declaration of the set is more specific than both and applicable to every call to which both are applicable.</p></li>
+<li><p id="p-6f65a4b8" class="nb">The <em>Return Type Rule</em>: if <span class="m"><i>d</i><sub>1</sub></span> is more specific than <span class="m"><i>d</i><sub>2</sub></span>, then for every argument type other than <span class="m"><span class="ty">BottomType</span></span> to which <span class="m"><i>d</i><sub>1</sub></span> is applicable, and for every instance of <span class="m"><i>d</i><sub>2</sub></span> that is applicable to it, some instance of <span class="m"><i>d</i><sub>1</sub></span> is applicable to it whose return type is a subtype of the return type of that instance of <span class="m"><i>d</i><sub>2</sub></span>.</p></li>
+</ul>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-5952163e" class="nb">The revival’s text of 30 September 2026 stated the No Duplicates Rule as “<span class="m"><i>d</i><sub>1</sub></span> and <span class="m"><i>d</i><sub>2</sub></span> are not each more specific than the other”, which the strict sense of more specific above made refuse no pair. It is stated on the relation without “and not the other way round”, as the type group’s papers of 2011 and 2019 state it, and so it refuses <span class="m"><i>dup</i>⟦<i>T</i>⟧(<i>x</i>: <span class="ty">Box</span>⟦<i>T</i>⟧)</span> beside <span class="m"><i>dup</i>⟦<i>U</i>⟧(<i>x</i>: <span class="ty">Box</span>⟦<i>U</i>⟧)</span>, each applicable to every call to which the other is.</p></aside>
+<p id="p-355af4a9" class="nb">The Subtype Rule, the Incompatibility Rule and the Meet Rule above are these rules for declarations without static parameters, with the conditions that coercion adds; the Return Type Rule is the Subtype Rule’s condition on return types, checked over every instance of the less specific declaration and not over one instance chosen for the pair.</p>
+<p id="p-0e3210a6" class="nb">As in <a class="xref" href="#sec-more-specific-rule">Section 24.4</a><!--nc-->, declarations of the set that are each more specific than both <span class="m"><i>d</i><sub>1</sub></span> and <span class="m"><i>d</i><sub>2</sub></span> and that together cover every argument to which both are applicable also satisfy the Meet Rule.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-meet">Section I.1.35</a><!--nc--></span></p>
+<p id="p-9d3e97a8" class="nb">The type group’s paper of 2011 states the Meet Rule without this case.</p></aside>
+<p id="p-55f37d71" class="nb">Two parameter types with static parameters exclude each other, for the Meet Rule and the Incompatibility Rule, as the type group’s paper of 2011 decides it by <em>existential reduction</em>: each static parameter stands for any type within its bound, and where the two parameter types, or their elements at one position, are or extend instances of one parameterized trait, instantiation exclusion (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>) lets them meet only where the static arguments of those instances are the same, every static argument but an operator argument counting. So where <span class="m"><span class="ty">Box</span></span> and <span class="m"><span class="ty">Pair</span></span> are distinct object types with static parameters, the parameter types <span class="m"><span class="ty">Box</span>⟦<i>T</i>⟧</span> and <span class="m"><span class="ty">Pair</span>⟦<i>A</i>, <i>B</i>⟧</span> of two declarations exclude each other whatever <span class="m"><i>T</i></span>, <span class="m"><i>A</i></span> and <span class="m"><i>B</i></span> stand for.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-96b1876b" class="nb">The revival’s text of 30 September 2026 read instantiation exclusion here only where the two parameter types mention one parameterized trait. The type group’s paper of 2011 reads it at every pair of instances of one parameterized trait among the two types’ supertypes, so that <span class="m"><i>copyOf</i>⟦<i>T</i>⟧(<i>a</i>: <span class="ty">Frozen</span>⟦<i>T</i>⟧)</span> and <span class="m"><i>copyOf</i>⟦<i>T</i>⟧(<i>a</i>: <span class="ty">Thawed</span>⟦<i>T</i>⟧)</span> exclude each other where <span class="m"><span class="ty">Frozen</span>⟦<i>E</i>⟧</span> and <span class="m"><span class="ty">Thawed</span>⟦<i>E</i>⟧</span> both extend <span class="m"><span class="ty">Readable</span>⟦<i>E</i>⟧</span> and exclude each other, a value of both having one instance of <span class="m"><span class="ty">Readable</span></span>.</p></aside>
+<p id="p-273a8d89" class="nb">The Return Type Rule refuses the following pair, where trait <span class="m"><span class="ty">Round</span></span> extends trait <span class="m"><span class="ty">Shape</span></span> and object <span class="m"><span class="ty">Circle</span></span> extends <span class="m"><span class="ty">Round</span></span>:</p>
+<div class="fx nb both" id="c-20d638e4" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 11.26 163.14 35.07" width="16.314em" height="3.507em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>(</text>
+<text class='t6' x='13.84' y='19.33'>∗</text>
+<text class='t8' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t6' x='76.4' y='19.33'>∗</text>
+<text class='t4' x='81.38' y='19.33'>)</text>
+<text class='t0' x='9.96' y='31.28'>ident</text>
+<text class='t1' x='32.55' y='31.28'></text>
+<text class='t2' x='36.56' y='31.28'>T</text>
+<text class='t3' x='46.53' y='31.28'>extends</text>
+<text class='t4' x='85.91' y='31.28'>Shap<tspan x='107.78'>e</tspan></text>
+<text class='t1' x='112.2' y='31.28'></text>
+<text class='t4' x='116.22' y='31.28'>(</text>
+<text class='t2' x='120.09' y='31.28'>x</text>
+<text class='t4' x='125.79' y='31.28'>:</text>
+<text class='t2' x='130.21' y='31.28'>T</text>
+<text class='t4' x='137.42' y='31.28'>):</text>
+<text class='t2' x='145.72' y='31.28'>T</text>
+<text class='t4' x='155.69' y='31.28'>=</text>
+<text class='t2' x='166.21' y='31.28'>x</text>
+<text class='t0' x='9.96' y='43.24'>ident</text>
+<text class='t4' x='32.55' y='43.24'>(</text>
+<text class='t2' x='36.42' y='43.24'>x</text>
+<text class='t4' x='42.12' y='43.24'>:<tspan x='46.54'>Round</tspan><tspan x='75.46'>):</tspan><tspan x='83.77'>Round</tspan><tspan x='115.45'>=</tspan></text>
+<text class='t2' x='125.97' y='43.24'>x</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)</code></pre></div>
+<p id="p-681a7b3d" class="nb">The second declaration is more specific than the first. For an argument of type <span class="m"><span class="ty">Circle</span></span>, the instance of the first at <span class="m"><span class="ty">Circle</span></span> is applicable and returns a <span class="m"><span class="ty">Circle</span></span>, but the second, which runs for such an argument, returns only a <span class="m"><span class="ty">Round</span></span>, and it has no other instance. The pair is allowed when the second declaration is itself generic:</p>
+<div class="fx nb" id="c-5d172a78" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.26 165.77 23.12" width="16.577em" height="2.312em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>ident</text>
+<text class='t1' x='32.55' y='19.33'></text>
+<text class='t2' x='36.56' y='19.33'>T</text>
+<text class='t3' x='46.53' y='19.33'>extends</text>
+<text class='t4' x='85.91' y='19.33'>Shap<tspan x='107.78'>e</tspan></text>
+<text class='t1' x='112.2' y='19.33'></text>
+<text class='t4' x='116.22' y='19.33'>(</text>
+<text class='t2' x='120.09' y='19.33'>x</text>
+<text class='t4' x='125.79' y='19.33'>:</text>
+<text class='t2' x='130.21' y='19.33'>T</text>
+<text class='t4' x='137.42' y='19.33'>):</text>
+<text class='t2' x='145.72' y='19.33'>T</text>
+<text class='t4' x='155.69' y='19.33'>=</text>
+<text class='t2' x='166.21' y='19.33'>x</text>
+<text class='t0' x='9.96' y='31.28'>ident</text>
+<text class='t1' x='32.55' y='31.28'></text>
+<text class='t2' x='36.56' y='31.28'>T</text>
+<text class='t3' x='46.53' y='31.28'>extends</text>
+<text class='t4' x='85.91' y='31.28'>Round</text>
+<text class='t1' x='114.83' y='31.28'></text>
+<text class='t4' x='118.85' y='31.28'>(</text>
+<text class='t2' x='122.72' y='31.28'>x</text>
+<text class='t4' x='128.41' y='31.28'>:</text>
+<text class='t2' x='132.84' y='31.28'>T</text>
+<text class='t4' x='140.05' y='31.28'>):</text>
+<text class='t2' x='148.35' y='31.28'>T</text>
+<text class='t4' x='158.32' y='31.28'>=</text>
+<text class='t2' x='168.84' y='31.28'>x</text></svg></div></div>
+<p id="p-8f950b2c" class="nb">Its instance at any type to which it is applicable returns that type.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-14e516ef" class="nb">This section is new. The Working Draft of February 2011 required overloaded declarations to have identical static parameters and ignored them. The rules stated are those of the type group’s paper of 2011 (Allen, Hilburn, Kilpatrick, Luchangco, Ryu, Chase, and Steele, “Type Checking Modular Multiple Dispatch with Parametric Polymorphism and Multiple Inheritance”, OOPSLA 2011), which the compiled type checker applies, with its Return Type Rule checked over every instance of the less specific declaration; the pair refused above has the shape of that paper’s own example, which the compiled path used to accept and then fail to verify. The interpreter runs the pair allowed above, reading two declarations with static parameters on their declared domains, each over its own instances, where no pair of their parameter types excludes each other; the compiled code generator fails on it (row 537 of the revival’s gap ledger). The compiled implementation adds one restriction that is not a rule of the language. When one declaration with static parameters is more specific than another that declares as many static parameters of its own, the two must declare them of the same kinds, position by position, and the return type of the more specific one must be a subtype of the other’s when their static parameters are identified position by position; for its code generator hands the static arguments that a call writes, by position, to whichever declaration the call dispatches to (row 398 of the revival’s gap ledger). So it refuses this override, whose return type names its static parameters in the other order, where <span class="m"><span class="ty">Pr</span></span> is an object with two type parameters:</p>
+<div class="fx nb both" id="c-5a9a6743" data-kind="code"><div class="fx-r"><svg class="tx" data-d="10" viewBox="9.36 11.81 179.81 67.89" width="17.981em" height="6.789em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t4' x='38.88' y='19.33'>Mak<tspan x='57.98'>er</tspan></text>
+<text class='t0' x='21.92' y='31.28'>make</text>
+<text class='t1' x='45.07' y='31.28'></text>
+<text class='t2' x='49.08' y='31.28'>A,<tspan x='60.98'>B</tspan></text>
+<text class='t1' x='69.04' y='31.28'></text>
+<text class='t4' x='73.05' y='31.28'>():<tspan x='85.23'>Pr</tspan></text>
+<text class='t1' x='95.91' y='31.28'></text>
+<text class='t2' x='99.92' y='31.28'>A,<tspan x='111.82'>B</tspan></text>
+<text class='t1' x='119.88' y='31.28'></text>
+<text class='t3' x='9.96' y='43.24'>end<tspan x='9.96' y='55.19'>object</tspan></text>
+<text class='t2' x='44.11' y='55.19'>M</text>
+<text class='t3' x='57.63' y='55.19'>extends</text>
+<text class='t4' x='97.01' y='55.19'>Mak<tspan x='116.11'>er</tspan></text>
+<text class='t0' x='21.92' y='67.15'>make</text>
+<text class='t1' x='45.07' y='67.15'></text>
+<text class='t2' x='49.08' y='67.15'>A,<tspan x='60.98'>B</tspan></text>
+<text class='t1' x='69.04' y='67.15'></text>
+<text class='t4' x='73.05' y='67.15'>():<tspan x='85.23'>Pr</tspan></text>
+<text class='t1' x='95.91' y='67.15'></text>
+<text class='t2' x='99.92' y='67.15'>B<tspan x='107.98'>,</tspan><tspan x='112.41'>A</tspan></text>
+<text class='t1' x='119.88' y='67.15'></text>
+<text class='t4' x='126.66' y='67.15'>=<tspan x='137.18'>Pr</tspan></text>
+<text class='t1' x='147.86' y='67.15'></text>
+<text class='t2' x='151.87' y='67.15'>B<tspan x='159.93'>,</tspan><tspan x='164.36'>A</tspan></text>
+<text class='t1' x='171.83' y='67.15'></text>
+<text class='t4' x='175.84' y='67.15'>(1)</text>
+<text class='t3' x='9.96' y='79.1'>end</text></svg></div><pre class="fx-s"><code>trait Maker
+  make[\A, B\](): Pr[\A, B\]
+end
+object M extends Maker
+  make[\A, B\](): Pr[\B, A\] = Pr[\B, A\](1)
+end</code></pre></div>
+<p id="p-228a17f7" class="nb">The type group’s paper of 2019 (Park, Hong, Steele and Ryu, POPL 2019) instantiates a dispatched declaration from the dynamic types of the arguments and the static type of the call, renaming static parameters freely (<a class="xref" href="multiple-dispatch.html#sec-resolving-overloading">Section 15.5</a><!--nc-->); under it the override is valid, and the restriction goes when the compiled dispatcher instantiates a declaration that way.</p></aside>
+</section>
+<section class="sec" data-num="24.6" data-title="Coercion and Overloading Resolution">
+<h2 id="sec-overloading-coercion-resolution" class="nb"><span class="num">24.6</span> Coercion and Overloading Resolution</h2>
+<p id="p-f02f4bde" class="nb">The overloading rules given in this chapter are sufficient to prove the following two facts:</p>
+<ol>
+<li><p id="p-e767de22" class="nb">If no declaration is applicable to a static call but there is a declaration that is applicable with coercion then there exists a single most specific declaration that is applicable with coercion to the static call.</p></li>
+<li><p id="p-3e67c8fc" class="nb">If any declaration is applicable to a static call then there exists a single most specific declaration that is applicable to the corresponding dynamic call and, unless the static type of the argument stands between a trait with a <span class="m"><span class="kw">comprises</span></span> clause and its listed types (<a class="xref" href="#sec-more-specific-rule">Section 24.4</a><!--nc-->), a single most specific declaration that is applicable to the static call.</p></li>
+</ol>
+<p id="p-877abfee" class="nb">Moreover, we can prove that the most specific declaration that is applicable to a dynamic call is the same as or more specific than every declaration that is applicable to the corresponding static call, so that, by the Return Type Rule, its return type is a subtype of the return type of each of them. Where the declarations applicable to a static call that no other applicable declaration is more specific than, and every declaration more specific than them that the call may run, have no static parameters, the type of the static call is the intersection of their return types; where there is one such declaration, that is its return type.</p>
+<p id="p-68d86f2c" class="nb"><a class="xref" href="overloaded-functional.html">Appendix B</a><!--nc--> formally proves that the rules discussed in the previous sections guarantee the static resolution of coercion (described in <a class="xref" href="conversions-coercions.html#sec-resolving-coercion">Section 17.5</a><!--nc-->) is well defined for functions (the case for methods is analogous). Also in <a class="xref" href="overloaded-functional.html">Appendix B</a><!--nc--> is a proof that the overloading rules for function declarations are sufficient to guarantee no undefined nor ambiguous calls at run time (again, the case for methods is analogous). That proof covers declarations without static parameters and calls to which declarations are applicable without coercion, and it rests on every value of a trait with a <span class="m"><span class="kw">comprises</span></span> clause being a value of one of its listed types (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->); the appendix states its scope.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-meet">Section I.1.35</a><!--nc--></span></p>
+<p id="p-d97df7d3" class="nb">The Working Draft of February 2011 said that a single most specific declaration is applicable to every static call to which any is applicable, and that the one the dynamic call runs is more specific than it. With the closed-trait case of the Meet Rule, a static call whose argument’s static type stands between two traits with <span class="m"><span class="kw">comprises</span></span> clauses and their listed types may have several; the declaration that runs is below every one of them, and the call’s type is the intersection of their return types, which the Return Type Rule makes sound for declarations without static parameters. For declarations with static parameters one instance would have to meet every one of those return types at once, and the type of such a call is not yet given. The compiled type checker does not yet enforce across components that every value of a trait with a <span class="m"><span class="kw">comprises</span></span> clause is a value of one of its listed types (row 487 of the revival’s gap ledger), which the proof assumes.</p></aside>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="parallelism.html"><span>Previous</span> 23. Parallelism and Locality</a><a class="next" href="operatordefs.html"><span>Next</span> 25. Operator Declarations</a></nav>
+<footer class="colophon">Converted from <code>Specification/advanced/overloading.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

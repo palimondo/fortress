@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>15. Overloading and Multiple Dispatch · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t1{font-family:cmr10;font-size:9.96px}
+svg.tx text.t2{font-family:msbm10;font-size:9.96px}
+svg.tx text.t3{font-family:cmr7;font-size:6.97px}
+svg.tx text.t4{font-family:cmti10;font-size:9.96px}
+svg.tx text.t5{font-family:stmary10;font-size:9.96px}
+svg.tx text.t6{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t7{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t8{font-family:pcrr8r;font-size:9.93px}
+</style>
+</head>
+<body data-page="chapter" data-slug="multiple-dispatch" data-chapter="15. Overloading and Multiple Dispatch">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">15. Overloading and Multiple Dispatch</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="15" data-title="Overloading and Multiple Dispatch">
+<h1 id="top" class="nb"><a id="chap-multiple-dispatch"></a><span class="num">Chapter 15</span> Overloading and Multiple Dispatch</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-overloading-terms">15.1 Principles of Overloading</a></li><li><a href="#sec-functional-applicability">15.2 Applicability to Named Functional Calls</a></li><li><a href="#sec-dotted-method-applicability">15.3 Applicability to Dotted Method Calls</a></li><li><a href="#sec-applicability-with-special-params">15.4 Applicability for Functionals with Varargs and Keyword Parameters</a></li><li><a href="#sec-resolving-overloading">15.5 Overloading Resolution</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-356f659c" class="nb">Keyword and varargs parameters are not yet supported.</p></aside>
+<p id="p-03ccc4a4" class="nb">Fortress allows functions and methods (collectively called <em>functionals</em>) to be <em>overloaded</em>. That is, there may be multiple declarations for the same functional name visible in a single scope (which may include inherited method declarations), and several of them may be applicable to any particular functional call.</p>
+<p id="p-df22c7ca" class="nb">However, with these benefits comes the potential for ambiguous calls at run time. For an overloaded functional call, the most specific applicable declaration is chosen, if any. Otherwise, any of the applicable declarations such that no other applicable declaration is more specific than them is chosen.</p>
+<p id="p-f84ecfd1" class="nb">In this chapter, we describe how to determine which declarations are <em>applicable</em> to a particular functional call, and when several are applicable, how to select among them. We also provide overloading rules for the declarations of functionals to eliminate <em>some possibility</em> of ambiguous calls at run time, whether or not these calls actually appear in the program. <a class="xref" href="#sec-overloading-terms">Section 15.1</a><!--nc--> introduces some terminology and notation. In <a class="xref" href="#sec-functional-applicability">Section 15.2</a><!--nc-->, we show how to determine which declarations are applicable to a <em>named functional call</em> (a function call described in <a class="xref" href="expressions.html#sec-function-calls">Section 13.6</a><!--nc--> or a naked method invocation described in <a class="xref" href="expressions.html#sec-naked-method-calls">Section 13.5</a><!--nc-->) when all declarations have only ordinary parameters (without varargs or keyword parameters). We discuss how to handle dotted method calls (described in <a class="xref" href="expressions.html#sec-dotted-method-calls">Section 13.4</a><!--nc-->) in <a class="xref" href="#sec-dotted-method-applicability">Section 15.3</a><!--nc-->, and declarations with varargs and keyword parameters in <a class="xref" href="#sec-applicability-with-special-params">Section 15.4</a><!--nc-->. Determining which declaration is applied, if several are applicable, is discussed in <a class="xref" href="#sec-resolving-overloading">Section 15.5</a><!--nc-->.</p>
+<section class="sec" data-num="15.1" data-title="Principles of Overloading">
+<h2 id="sec-overloading-terms" class="nb"><span class="num">15.1</span> Principles of Overloading</h2>
+<p id="p-be4151c8" class="nb">Fortress allows multiple functional declarations of the same name to be declared in a single scope. However, recall from <a class="xref" href="declarations.html">Chapter 7</a><!--nc--> the following shadowing rules:</p>
+<ul>
+<li><p id="p-447a14b5" class="nb">dotted method declarations shadow top-level function declarations with the same name, and</p></li>
+<li><p id="p-5f68e123" class="nb">dotted method declarations provided by a trait or object declaration or object expression shadow functional method declarations with the same name that are provided by a different trait or object declaration or object expression.</p></li>
+</ul>
+<p id="p-cc09602a" class="nb">Also, note that a trait or object declaration or object expression must not have a functional method declaration and a dotted method declaration with the same name, either directly or by inheritance. Therefore, top-level functions can overload with other top-level functions and functional methods, dotted methods with other dotted methods, and functional methods with other functional methods and top-level functions. It is a static error if any top-level function declaration is more specific than any functional method declaration. If a top-level function declaration is overloaded with a functional method declaration, the top-level function declaration must not be more specific than the functional method declaration.</p>
+<p id="p-72a8d42c" class="nb">Operator declarations with the same name but different fixity are not a valid overloading; they are unambiguous declarations. An operator method declaration whose name is one of the operator parameters (described in <a class="xref" href="trait-parameters.html#sec-opr-ident">Section 12.5</a><!--nc-->) of its enclosing trait or object may be overloaded with other operator declarations in the same component. Therefore, such an operator method declaration must satisfy the overloading rules (described in <a class="xref" href="overloaded-declarations.html">Chapter 24</a><!--nc-->) with every operator declaration in the same component.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-6e9351f9" class="nb">This restriction will be relaxed.</p></aside>
+<p id="p-8f0bce43" class="nb">Declarations with the same functional name may have different static parameters, or some of them may have static parameters and others none. A declaration with static parameters is read as one declaration whose parameter type ranges over every instance of it whose static arguments satisfy their bounds: it is applicable to a call when some such instance is (<a class="xref" href="#sec-functional-applicability">Section 15.2</a><!--nc-->), and it is compared with other declarations on the parameter types they declare, taken over all their instances (<a class="xref" href="#sec-resolving-overloading">Section 15.5</a><!--nc-->). A declaration without static parameters is the case with none. The rules that a set of such declarations must satisfy are given in <a class="xref" href="overloaded-declarations.html">Chapter 24</a><!--nc-->.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-8c82881a" class="nb">The Working Draft of February 2011 said here that declarations of one name may not differ in their static parameters, nor may one have static parameters and another not, so that static parameters do not enter into applicability. Neither implementation enforced that: the interpreter has overloaded declarations with different static parameters since 2007, and the compiled type checker applies to them the rules of the type group’s paper of 2011, which reads the parameter type of a declaration with static parameters as quantified over them; the Fortress standard libraries overload across different static parameters throughout. This chapter and <a class="xref" href="overloaded-declarations.html">Chapter 24</a><!--nc--> now state that model.</p></aside>
+<p id="p-8575b952" class="nb">Recall from <a class="xref" href="types.html">Chapter 6</a> that we write <span class="m"><i>T</i> ⪯ <i>U</i></span> when <span class="m"><i>T</i></span> is a subtype of <span class="m"><i>U</i></span>, and <span class="m"><i>T</i> ≺ <i>U</i></span> when <span class="m"><i>T</i> ⪯ <i>U</i></span> and <span class="m"><i>T</i> ≠ <i>U</i></span>.</p>
+</section>
+<section class="sec" data-num="15.2" data-title="Applicability to Named Functional Calls">
+<h2 id="sec-functional-applicability" class="nb"><span class="num">15.2</span> Applicability to Named Functional Calls</h2>
+<p id="p-c684d2eb" class="nb">In this section, we show how to determine which declarations are applicable to a named functional call when all declarations have only ordinary parameters (i.e., neither varargs nor keyword parameters).</p>
+<p id="p-a1c2d93b" class="nb">For the purpose of defining applicability, a named functional call can be characterized by the name of the functional and its argument type. Recall that a functional has a single parameter, which may be a tuple (a dotted method has a receiver as well). We abuse notation by using <em>static call <span class="m"><span class="it">f</span>(<span class="it">A</span>)</span></em> to refer to a named functional call with name <span class="m"><span class="it">f</span></span> and whose argument has static type <span class="m"><span class="it">A</span></span>, and <em>dynamic call <span class="m"><span class="it">f</span>(<span class="it">X</span>)</span></em> to refer to a named functional call with We use <em>call <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span></em> to refer to a named functional call with name <span class="m"><span class="it">f</span></span> and whose argument, when evaluated, has dynamic type <span class="m"><span class="it">C</span></span>. (Note that if the type system is sound—and we certainly hope that it is!—then <span class="m"><span class="it">X</span> ⪯ <span class="it">A</span></span> for all well-typed calls to <span class="m"><span class="it">f</span></span>.) We use the term <em>call <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span></em> to refer to static and dynamic calls collectively. We assume throughout this chapter that the static arguments that a call writes (<a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->, <a class="xref" href="expressions.html#sec-dotted-method-calls">Section 13.4</a><!--nc-->) have been substituted for the static parameters of the declarations that they instantiate. The static arguments that a call does not write are inferred for the declaration that the call selects, once it is selected (<a class="xref" href="type-inference.html">Chapter 20</a><!--nc-->); until then a declaration with static parameters is taken over all its instances.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-f6b59169" class="nb">The Working Draft of February 2011 assumed here that all static variables in functional calls have been instantiated or inferred, which with the sentences below had the static arguments a call does not write inferred before the declarations are compared.</p></aside>
+<p id="p-38aaffba" class="nb">We also use <em>function declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>) : <span class="it">U</span></span></em> to refer to a function declaration with function name <span class="m"><span class="it">f</span></span>, parameter type <span class="m"><span class="it">P</span></span>, and return type <span class="m"><span class="it">U</span></span>.</p>
+<p id="p-e57108e0" class="nb">For method declarations, we must take into account the self parameter, as follows:</p>
+<p id="p-9614d2f7" class="nb">A <em>dotted method declaration <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>) : <span class="it">U</span></span></em> is a dotted method declaration with name <span class="m"><i>f</i></span>, where <span class="m"><span class="it">P</span><sub>0</sub></span> is the trait or object type in which the declaration appears, <span class="m"><span class="it">P</span></span> is the parameter type, and <span class="m"><span class="it">U</span></span> is the return type. (Note that despite the suggestive notation, a dotted method declaration does not explicitly list its self parameter.)</p>
+<p id="p-f8779c6e" class="nb">A <em>functional method declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>) : <span class="it">U</span></span> with self parameter at <span class="m"><i>i</i></span></em> is a functional method declaration with name <span class="m"><i>f</i></span>, with the parameter <span class="m"><span class="kw">self</span></span> in the <span class="m"><i>i</i></span>th position of the parameter type <span class="m"><span class="it">P</span></span>, and return type <span class="m"><span class="it">U</span></span>. Note that the static type of the self parameter is the trait or object trait type in which the declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>) : <span class="it">U</span></span> occurs. In the following, we will use <span class="m"><span class="it">P</span><sub><i>i</i></sub></span> to refer to the <span class="m"><i>i</i></span>th element of <span class="m"><span class="it">P</span></span>.</p>
+<p id="p-5b81b725" class="nb">We elide the return type of a declaration, writing <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> and <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span>, when the return type is not relevant to the discussion. Note that static parameters may appear in the types <span class="m"><span class="it">P</span><sub>0</sub></span>, <span class="m"><span class="it">P</span></span>, and <span class="m"><span class="it">U</span></span>.</p>
+<p id="p-1741057d" class="nb">A declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> is <em>applicable</em> to a call <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span> if the call is in the scope of the declaration and <span class="m"><span class="it">C</span> ⪯ <span class="it">P</span></span>. (See <a class="xref" href="declarations.html">Chapter 7</a><!--nc--> for the definition of scope.) If the declaration has static parameters, it is applicable to the call if some instance of it whose static arguments satisfy their bounds is, that is, if <span class="m"><span class="it">C</span> ⪯ <span class="it">P</span>′</span> for the parameter type <span class="m"><span class="it">P</span>′</span> of such an instance. Its static arguments are not inferred to decide this: they are inferred only for the declaration that the call selects, after it is selected (<a class="xref" href="type-inference.html#sec-static-arg-inference">Section 20.1</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-f1631a66" class="nb">The Working Draft of February 2011 said that static parameters in the parameter type are inferred as described in <a class="xref" href="type-inference.html">Chapter 20</a><!--nc--> before the applicability of the declaration to the call is checked. The type group’s paper of 2011 defines a declaration with static parameters to be applicable when at least one of its instances is.</p></aside>
+<p id="p-2502243e" class="nb">Note that a named functional call <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span> may invoke a dotted method declaration if the declaration is provided by the trait or object enclosing the call. To account for this, let <span class="m"><span class="it">C</span><sub>0</sub></span> be the trait or object declaration immediately enclosing the call. Then we consider a named functional call <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span> as <span class="m"><span class="it">C</span><sub>0</sub>.<span class="it">f</span>(<span class="it">C</span>)</span> if <span class="m"><span class="it">C</span><sub>0</sub></span> provides dotted method declarations applicable to <span class="m"><span class="it">f</span>(<span class="it">C</span>)</span>, and use the rule for applicability to dotted method calls (described in <a class="xref" href="#sec-dotted-method-applicability">Section 15.3</a><!--nc-->) to determine which declarations are applicable to <span class="m"><span class="it">C</span><sub>0</sub>.<span class="it">f</span>(<span class="it">C</span>)</span>.</p>
+</section>
+<section class="sec" data-num="15.3" data-title="Applicability to Dotted Method Calls">
+<h2 id="sec-dotted-method-applicability" class="nb"><span class="num">15.3</span> Applicability to Dotted Method Calls</h2>
+<p id="p-8c159ea5" class="nb">Dotted method applications can be characterized similarly to named functional applications, except that, analogously to dotted method declarations, we use <span class="m"><span class="it">C</span><sub>0</sub></span> to denote the dynamic type of the receiver object, and, as for named functional calls, <span class="m"><span class="it">C</span></span> to denote the dynamic type of the argument of a dotted method call. We write <span class="m"><span class="it">C</span><sub>0</sub>.<span class="it">f</span>(<span class="it">C</span>)</span> to refer to the call.</p>
+<p id="p-c00af800" class="nb">A dotted method declaration <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> is <em>applicable</em> to a dotted method call <span class="m"><span class="it">C</span><sub>0</sub>.<span class="it">f</span>(<span class="it">C</span>)</span> if <span class="m"><span class="it">C</span><sub>0</sub> ⪯ <span class="it">P</span><sub>0</sub></span> and <span class="m"><span class="it">C</span> ⪯ <span class="it">P</span></span>. If the declaration has static parameters, it is applicable to the call if some instance of it whose static arguments satisfy their bounds is, that is, if <span class="m"><span class="it">C</span><sub>0</sub> ⪯ <span class="it">P</span><sub>0</sub>′</span> and <span class="m"><span class="it">C</span> ⪯ <span class="it">P</span>′</span> for the types <span class="m"><span class="it">P</span><sub>0</sub>′</span> and <span class="m"><span class="it">P</span>′</span> of such an instance; its static arguments are inferred only for the declaration that the call selects (<a class="xref" href="type-inference.html#sec-static-arg-inference">Section 20.1</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-b14f5a80" class="nb">The Working Draft of February 2011 said, as for named functional calls, that static parameters in <span class="m"><span class="it">P</span><sub>0</sub></span> and <span class="m"><span class="it">P</span></span> are inferred before the applicability of the declaration is checked.</p></aside>
+</section>
+<section class="sec" data-num="15.4" data-title="Applicability for Functionals with Varargs and Keyword Parameters">
+<h2 id="sec-applicability-with-special-params" class="nb"><span class="num">15.4</span> Applicability for Functionals with Varargs and Keyword Parameters</h2>
+<p id="p-c29da510" class="nb">The basic idea for handling varargs and keyword parameters is that we can think of a functional declaration that has such parameters as though it were (possibly infinitely) many declarations, one for each set of arguments it may be called with. In other words, we expand these declarations so that there exists a declaration for each number of arguments that can be passed to it.</p>
+<p id="p-68d5a21b" class="nb">A declaration with a varargs parameter corresponds to an infinite number of declarations, one for every number of arguments that may be passed to the varargs parameter. In practice, we can bound that number by the maximum number of arguments that the functional is called with anywhere in the program (in other words, a given program will contain only a finite number of calls with different numbers of arguments). The expansion described here is a conceptual one to simplify the description of the semantics; we do not expect a real implementation to actually expand these declarations at compile time. For example, the following declaration:</p>
+<div class="fx nb" id="c-690c36a1" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.26 110.61 11.16" width="11.061em" height="1.116em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>f</text>
+<text class='t1' x='15.91' y='19.33'>(</text>
+<text class='t0' x='19.79' y='19.33'>x</text>
+<text class='t1' x='28.25' y='19.33'>:</text>
+<text class='t2' x='33.78' y='19.33'>Z</text>
+<text class='t0' x='40.42' y='19.33'>,<tspan x='44.85'>y</tspan></text>
+<text class='t1' x='52.86' y='19.33'>:</text>
+<text class='t2' x='58.4' y='19.33'>Z</text>
+<text class='t0' x='65.04' y='19.33'>,<tspan x='69.47'>z</tspan></text>
+<text class='t1' x='77.3' y='19.33'>:</text>
+<text class='t2' x='82.84' y='19.33'>Z</text>
+<text class='t0' x='91.14' y='19.33'>.<tspan x='95.57'>.</tspan><tspan x='100'>.</tspan></text>
+<text class='t1' x='102.76' y='19.33'>)<tspan x='108.3'>:</tspan></text>
+<text class='t2' x='112.73' y='19.33'>Z</text></svg></div></div>
+<p id="p-7b22a9e9" class="nb">would be expanded into:</p>
+<div class="fx nb both" id="c-6eae3a5b" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.26 158.30 56.49" width="15.830em" height="5.649em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>f</text>
+<text class='t1' x='15.91' y='19.33'>(</text>
+<text class='t0' x='19.79' y='19.33'>x</text>
+<text class='t1' x='28.25' y='19.33'>:</text>
+<text class='t2' x='33.78' y='19.33'>Z</text>
+<text class='t0' x='40.42' y='19.33'>,<tspan x='44.85'>y</tspan></text>
+<text class='t1' x='52.86' y='19.33'>:</text>
+<text class='t2' x='58.4' y='19.33'>Z</text>
+<text class='t1' x='65.04' y='19.33'>)<tspan x='70.57'>:</tspan></text>
+<text class='t2' x='75' y='19.33'>Z</text>
+<text class='t0' x='9.96' y='31.28'>f</text>
+<text class='t1' x='15.91' y='31.28'>(</text>
+<text class='t0' x='19.79' y='31.28'>x</text>
+<text class='t1' x='28.25' y='31.28'>:</text>
+<text class='t2' x='33.78' y='31.28'>Z</text>
+<text class='t0' x='40.42' y='31.28'>,<tspan x='44.85'>y</tspan></text>
+<text class='t1' x='52.86' y='31.28'>:</text>
+<text class='t2' x='58.4' y='31.28'>Z</text>
+<text class='t0' x='65.04' y='31.28'>,<tspan x='69.47'>z</tspan></text>
+<text class='t3' x='74.1' y='32.78'>1</text>
+<text class='t1' x='81.34' y='31.28'>:</text>
+<text class='t2' x='86.87' y='31.28'>Z</text>
+<text class='t1' x='93.51' y='31.28'>)<tspan x='99.05'>:</tspan></text>
+<text class='t2' x='103.48' y='31.28'>Z</text>
+<text class='t0' x='9.96' y='43.24'>f</text>
+<text class='t1' x='15.91' y='43.24'>(</text>
+<text class='t0' x='19.79' y='43.24'>x</text>
+<text class='t1' x='28.25' y='43.24'>:</text>
+<text class='t2' x='33.78' y='43.24'>Z</text>
+<text class='t0' x='40.42' y='43.24'>,<tspan x='44.85'>y</tspan></text>
+<text class='t1' x='52.86' y='43.24'>:</text>
+<text class='t2' x='58.4' y='43.24'>Z</text>
+<text class='t0' x='65.04' y='43.24'>,<tspan x='69.47'>z</tspan></text>
+<text class='t3' x='74.1' y='44.73'>1</text>
+<text class='t1' x='81.34' y='43.24'>:</text>
+<text class='t2' x='86.87' y='43.24'>Z</text>
+<text class='t0' x='93.51' y='43.24'>,<tspan x='97.94'>z</tspan></text>
+<text class='t3' x='102.57' y='44.73'>2</text>
+<text class='t1' x='109.81' y='43.24'>:</text>
+<text class='t2' x='115.34' y='43.24'>Z</text>
+<text class='t1' x='121.99' y='43.24'>)<tspan x='127.52'>:</tspan></text>
+<text class='t2' x='131.95' y='43.24'>Z</text>
+<text class='t0' x='9.96' y='55.19'>f</text>
+<text class='t1' x='15.91' y='55.19'>(</text>
+<text class='t0' x='19.79' y='55.19'>x</text>
+<text class='t1' x='28.25' y='55.19'>:</text>
+<text class='t2' x='33.78' y='55.19'>Z</text>
+<text class='t0' x='40.42' y='55.19'>,<tspan x='44.85'>y</tspan></text>
+<text class='t1' x='52.86' y='55.19'>:</text>
+<text class='t2' x='58.4' y='55.19'>Z</text>
+<text class='t0' x='65.04' y='55.19'>,<tspan x='69.47'>z</tspan></text>
+<text class='t3' x='74.1' y='56.69'>1</text>
+<text class='t1' x='81.34' y='55.19'>:</text>
+<text class='t2' x='86.87' y='55.19'>Z</text>
+<text class='t0' x='93.51' y='55.19'>,<tspan x='97.94'>z</tspan></text>
+<text class='t3' x='102.57' y='56.69'>2</text>
+<text class='t1' x='109.81' y='55.19'>:</text>
+<text class='t2' x='115.34' y='55.19'>Z</text>
+<text class='t0' x='121.99' y='55.19'>,<tspan x='126.41'>z</tspan></text>
+<text class='t3' x='131.05' y='56.69'>3</text>
+<text class='t1' x='138.28' y='55.19'>:</text>
+<text class='t2' x='143.82' y='55.19'>Z</text>
+<text class='t1' x='150.46' y='55.19'>)<tspan x='156'>:</tspan></text>
+<text class='t2' x='160.42' y='55.19'>Z</text>
+<text class='t0' x='9.96' y='67.15'>.<tspan x='14.39'>.</tspan><tspan x='18.82'>.</tspan></text></svg></div><pre class="fx-s"><code>...</code></pre></div>
+<p id="p-01b306c4" class="nb">A declaration with a varargs parameter is applicable to a call if any one of the expanded declarations is applicable.</p>
+</section>
+<section class="sec" data-num="15.5" data-title="Overloading Resolution">
+<h2 id="sec-resolving-overloading" class="nb"><span class="num">15.5</span> Overloading Resolution</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-00f9a206" class="nb">Victor: Does this paragraph, other than the last sentence, really belong in this section?</p></aside>
+<p id="p-018cc0f9" class="nb">To evaluate a given functional call, it is necessary to determine which functional declaration to dispatch to. To do so, we consider the declarations that are applicable to that call at run time. If there is exactly one such declaration, then the call dispatches to that declaration. If there is no such declaration, then the call is <em>undefined</em>, which is a static error. (However, see <a class="xref" href="conversions-coercions.html#sec-applicability-with-coercion">Section 17.4</a><!--nc--> for how coercion may add to the set of applicable declarations.) If multiple declarations are applicable to the call at run time, then we choose an arbitrary declaration among the declarations such that no other applicable declaration is more specific than them. A declaration with static parameters is applicable to a call at run time, as to a static call, when some instance of it whose static arguments satisfy their bounds is applicable to the call, so the declaration to which a call dispatches may be one that the static call did not select. A declaration that the static call selected runs at the instance inferred for the call (<a class="xref" href="type-inference.html#sec-static-arg-inference">Section 20.1</a><!--nc-->); any other declaration runs at the instance in which each type parameter is the intersection of the upper bounds placed on it: its declared bound, <span class="m"><span class="ty">Any</span></span> if it has none (<a class="xref" href="trait-parameters.html#sec-type-param">Section 12.1</a><!--nc-->), and the bounds that the dynamic types of the arguments place on it through the parameter types and that the static type of the call places on it through the return type. Where the type parameter is a static argument of a parameterized trait in a parameter type, as <span class="m"><i>X</i></span> is in <span class="m"><i>t</i>: <span class="ty">Tag</span>⟦<i>X</i>⟧</span>, the value of the argument fixes it, since no value belongs to two instantiations of one parameterized trait (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>); where it is the whole type of a parameter, the dynamic type of the argument is only a lower bound, and the type parameter is its bound under the static type of the call. The type parameters of a declaration that only dispatch reaches are never instantiated with <span class="m"><span class="ty">BottomType</span></span>, nor with the union of the types of the arguments.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-dispatch">Section I.1.32</a><!--nc--></span></p>
+<p id="p-a4e4d7dd" class="nb">The Working Draft of February 2011 did not say at which instance a declaration with static parameters runs when dispatch reaches it and the static call selected another. The rule stated is the one by which the dispatcher of the type group’s paper of 2019 instantiates a declaration (Park, Hong, Steele and Ryu, “Polymorphic Symmetric Multiple Dispatch with Variance”, POPL 2019); the team had assumed the union of the lower bounds and could not prove it correct. Both implementations of the revival take the dynamic type of the argument where the value does not fix the type parameter: the interpreter because it has no static types, and so no static type of the call to bound the instance, as with its choice of coercions (<a class="xref" href="conversions-coercions.html#sec-resolving-coercion">Section 17.5</a><!--nc-->); the compiled path because its dispatcher reads the static arguments of a dispatched declaration from the value and is not given the static type of the call. Where the value fixes the type parameter, the two rules give the same instance. The compiled path’s departure is gated as an expected failure (row 538 of the revival’s gap ledger), and the compiled path does not yet run the second example below (row 496).</p></aside>
+<p id="p-c202328c" class="nb">We use the subtype relation to compare parameter types to determine a more specific declaration. Formally, a declaration <span class="m"><span class="it">f</span>(<span class="it">P</span>)</span> is <em>more specific</em> than a declaration <span class="m"><span class="it">f</span>(<span class="it">Q</span>)</span> if <span class="m"><span class="it">P</span> ≺ <span class="it">Q</span></span>. Similarly, a declaration <span class="m"><span class="it">P</span><sub>0</sub>.<span class="it">f</span>(<span class="it">P</span>)</span> is more specific than a declaration <span class="m"><span class="it">Q</span><sub>0</sub>.<span class="it">f</span>(<span class="it">Q</span>)</span> if <span class="m"><span class="it">P</span><sub>0</sub> ≺ <span class="it">Q</span><sub>0</sub></span> and <span class="m"><span class="it">P</span> ≺ <span class="it">Q</span></span>. (See <a class="xref" href="conversions-coercions.html#sec-resolving-coercion">Section 17.5</a><!--nc--> for how coercion changes the definition of “more specific”.) Restrictions on the definition of overloaded functionals (see <a class="xref" href="overloaded-declarations.html">Chapter 24</a><!--nc-->) guarantee that among all applicable declarations, one is more specific than all the others. Where declarations have static parameters, they are compared on the parameter types they declare, each taken over all its instances: a declaration is more specific than another when the second is applicable to every call to which the first is applicable, and not the other way round. Where neither has static parameters, this is the subtype relation above. No static arguments are inferred for the comparison.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-overloading">Section I.1.30</a><!--nc--></span></p>
+<p id="p-83d7482c" class="nb">The Working Draft of February 2011 said that static parameters are inferred as described in <a class="xref" href="type-inference.html">Chapter 20</a><!--nc--> before the parameter types are compared. The definition stated is that of the type group’s paper of 2011, which checks it as subtyping of the parameter types read as existential types.</p></aside>
+<p id="p-c85cd7fe" class="nb">For example, where <span class="m"><span class="ty">Shape</span></span> comprises the two object types <span class="m"><span class="ty">Circle</span></span> and <span class="m"><span class="ty">Square</span></span>, of the declarations</p>
+<div class="fx nb" id="c-7b6647fc" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 240.05 23.12" width="24.005em" height="2.312em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>describ<tspan x='39.62'>e</tspan></text>
+<text class='t5' x='44.95' y='19.33'></text>
+<text class='t0' x='48.97' y='19.33'>T</text>
+<text class='t6' x='58.94' y='19.33'>extends</text>
+<text class='t1' x='98.32' y='19.33'>Shap<tspan x='120.18'>e</tspan></text>
+<text class='t5' x='124.61' y='19.33'></text>
+<text class='t1' x='128.62' y='19.33'>(</text>
+<text class='t0' x='132.5' y='19.33'>x</text>
+<text class='t1' x='138.19' y='19.33'>:</text>
+<text class='t0' x='142.62' y='19.33'>T</text>
+<text class='t1' x='149.83' y='19.33'>):<tspan x='158.13'>String</tspan><tspan x='187.63'>=</tspan></text>
+<text class='t7' x='198.14' y='19.33'>“</text>
+<text class='t8' x='202.57' y='19.33'>generic</text>
+<text class='t7' x='244.41' y='19.33'>”</text>
+<text class='t4' x='9.96' y='31.28'>describ<tspan x='39.62'>e</tspan></text>
+<text class='t1' x='44.95' y='31.28'>(</text>
+<text class='t0' x='48.83' y='31.28'>x</text>
+<text class='t1' x='54.52' y='31.28'>:<tspan x='58.95'>Circle</tspan><tspan x='84.44'>):</tspan><tspan x='92.74'>String</tspan><tspan x='122.24'>=</tspan></text>
+<text class='t7' x='132.76' y='31.28'>“</text>
+<text class='t8' x='137.18' y='31.28'>circle</text>
+<text class='t7' x='173.05' y='31.28'>”</text></svg></div></div>
+<p id="p-c74c7e7c" class="nb">the second is more specific than the first, although the first has an instance whose parameter type is <span class="m"><span class="ty">Circle</span></span>. The calls <span class="m"><i>describe</i>(<span class="ty">Circle</span>)</span> and <span class="m"><i>describe</i>(<i>s</i>)</span>, where <span class="m"><i>s</i></span> has static type <span class="m"><span class="ty">Shape</span></span> and holds <span class="m"><span class="ty">Circle</span></span>, run the second declaration, and <span class="m"><i>describe</i>(<span class="ty">Square</span>)</span> runs the first. And of the declarations</p>
+<div class="fx nb" id="c-62ed38c2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.26 200.63 23.12" width="20.063em" height="2.312em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>gr<tspan x='18.24'>ab</tspan></text>
+<text class='t5' x='28.54' y='19.33'></text>
+<text class='t0' x='32.55' y='19.33'>X</text>
+<text class='t5' x='41.59' y='19.33'></text>
+<text class='t1' x='45.6' y='19.33'>(</text>
+<text class='t0' x='49.48' y='19.33'>t</text>
+<text class='t1' x='53.07' y='19.33'>:<tspan x='57.5'>T</tspan><tspan x='63.87'>ag</tspan></text>
+<text class='t5' x='73.97' y='19.33'></text>
+<text class='t0' x='77.98' y='19.33'>X</text>
+<text class='t5' x='87.02' y='19.33'></text>
+<text class='t1' x='91.03' y='19.33'>):<tspan x='99.33'>Mark</tspan><tspan x='122.33'>er</tspan></text>
+<text class='t5' x='130.66' y='19.33'></text>
+<text class='t0' x='134.67' y='19.33'>X</text>
+<text class='t5' x='143.71' y='19.33'></text>
+<text class='t1' x='150.49' y='19.33'>=<tspan x='161'>Mark</tspan><tspan x='184'>er</tspan></text>
+<text class='t5' x='192.33' y='19.33'></text>
+<text class='t0' x='196.34' y='19.33'>X</text>
+<text class='t5' x='205.38' y='19.33'></text>
+<text class='t4' x='9.96' y='31.28'>gr<tspan x='18.24'>ab</tspan></text>
+<text class='t1' x='28.54' y='31.28'>(</text>
+<text class='t0' x='32.42' y='31.28'>a</text>
+<text class='t1' x='37.68' y='31.28'>:<tspan x='42.11'>An</tspan><tspan x='54.84'>y</tspan><tspan x='60.24'>):</tspan><tspan x='68.54'>An</tspan><tspan x='81.27'>y</tspan><tspan x='89.43'>=</tspan><tspan x='99.95'>Red</tspan></text></svg></div></div>
+<p id="p-e70d9c19" class="nb">where <span class="m"><span class="ty">Marker</span></span> is an object with a type parameter and <span class="m"><span class="ty">Red</span></span> an object type, the call <span class="m"><i>grab</i>(<i>a</i>)</span>, where <span class="m"><i>a</i></span> has static type <span class="m"><span class="ty">Any</span></span>, selects the second declaration statically; if <span class="m"><i>a</i></span> holds a value of an object type that extends <span class="m"><span class="ty">Tag</span>⟦<span class="ty">Red</span>⟧</span>, the call dispatches to the first, which is applicable to that value and more specific, at <span class="m"><i>X</i> = <span class="ty">Red</span></span>, which the value fixes, and returns <span class="m"><span class="ty">Marker</span>⟦<span class="ty">Red</span>⟧</span>.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-dispatch">Section I.1.32</a><!--nc--></span></p>
+<p id="p-2a427051" class="nb">The Working Draft of February 2011 forbade both pairs of declarations, which differ in their static parameters.</p></aside>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="exceptions.html"><span>Previous</span> 14. Exceptions</a><a class="next" href="operators.html"><span>Next</span> 16. Operators</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/overloading.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

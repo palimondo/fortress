@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>12. Static Parameters · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:stmary10;font-size:9.96px}
+svg.tx text.t4{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t5{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t6{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t7{font-family:cmr10;font-size:9.96px}
+svg.tx text.t8{font-family:cmti10;font-size:9.96px}
+svg.tx text.t9{font-family:cmex10;font-size:9.96px}
+svg.tx text.t10{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t11{font-family:cmr7;font-size:6.97px}
+svg.tx text.t12{font-family:msbm10;font-size:9.96px}
+svg.tx text.t13{font-family:pcrr8r;font-size:9.93px}
+</style>
+</head>
+<body data-page="chapter" data-slug="trait-parameters" data-chapter="12. Static Parameters">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">12. Static Parameters</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="12" data-title="Static Parameters">
+<h1 id="top" class="nb"><a id="chap-trait-parameters"></a><span class="num">Chapter 12</span> Static Parameters</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-type-param">12.1 Type Parameters</a></li><li><a href="#sec-natparams">12.2 Nat and Int Parameters</a></li><li><a href="#sec-boolparams">12.3 Bool Parameters</a></li><li><a href="#sec-dimunitparams">12.4 Dimension and Unit Parameters</a></li><li><a href="#sec-opr-ident">12.5 Operator Parameters</a></li><li><a href="#sec-where-clauses">12.6 Where Clauses</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-73d5d945" class="nb">Of the non-type static parameters, <span class="m"><span class="kw">nat</span></span> and <span class="m"><span class="kw">int</span></span> parameters are supported by the interpreter and the compiled path, and so are static expressions in a size, as far as <a class="xref" href="expressions.html#sec-static-expr">Section 13.27</a><!--nc--> notes; the compiled type checker does not infer a <span class="m"><span class="kw">bool</span></span>, <span class="m"><span class="kw">dim</span></span> or <span class="m"><span class="kw">unit</span></span> static argument.</p>
+<p id="p-b7b1193e" class="nb">The examples in this chapter are not tested nor run by the interpreter.</p></aside>
+<p id="p-4070fb95" class="nb">Trait, object, and functional declarations may be parameterized with <em>static parameters</em>. Static parameters are <em>static variables</em> listed in white square brackets <span class="m">⟦</span> and <span class="m">⟧</span> immediately after the name of a trait, object, or functional and they are in scope of the entire body of the declaration. Static parameters may be instantiated with static expressions discussed in <a class="xref" href="expressions.html#sec-static-expr">Section 13.27</a><!--nc-->. In this chapter, we describe the forms that these static parameters can take.</p>
+<div class="tw nb gr" id="g-b5fa40dc" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 246.52 32.85" width="24.652em" height="3.285em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>StaticP<tspan x='53.89'>ar</tspan><tspan x='62.59'>ams</tspan></text>
+<text class='t2' x='101.86' y='28.8'>::=</text>
+<text class='t3' x='124.97' y='28.8'></text>
+<text class='t1' x='128.98' y='28.8'>StaticP<tspan x='156.97'>ar</tspan><tspan x='165.68'>amList</tspan></text>
+<text class='t3' x='192.98' y='28.8'></text>
+<text class='t1' x='25.9' y='40.76'>StaticP<tspan x='53.89'>ar</tspan><tspan x='62.59'>amList</tspan></text>
+<text class='t2' x='101.86' y='40.76'>::=</text>
+<text class='t1' x='124.97' y='40.76'>StaticP<tspan x='152.95'>ar</tspan><tspan x='161.66'>am</tspan></text>
+<text class='t2' x='173.84' y='40.76'>(</text>
+<text class='t4' x='177.15' y='40.76'>,</text>
+<text class='t1' x='184.07' y='40.76'>StaticP<tspan x='212.06'>ar</tspan><tspan x='220.76'>am</tspan></text>
+<text class='t2' x='232.94' y='40.76'>)</text>
+<text class='t5' x='236.26' y='37.14'>∗</text></svg></div>
+<section class="sec" data-num="12.1" data-title="Type Parameters">
+<h2 id="sec-type-param" class="nb"><span class="num">12.1</span> Type Parameters</h2>
+<div class="tw nb gr" id="g-865bda43" data-kind="grammar"><svg class="tx" data-d="2" viewBox="-5.58 10.45 242.18 21.93" width="24.218em" height="2.193em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='30.16'>StaticP<tspan x='53.89'>ar</tspan><tspan x='62.59'>am</tspan></text>
+<text class='t2' x='86.72' y='30.16'>::=</text>
+<text class='t1' x='109.84' y='30.16'>Id<tspan x='120.9'>Extends</tspan></text>
+<text class='t2' x='152.44' y='30.16'>?<tspan x='159.95'>(</tspan></text>
+<text class='t6' x='163.27' y='30.16'>absorbs<tspan x='205.69'>unit</tspan></text>
+<text class='t2' x='228.27' y='30.16'>)?</text></svg></div>
+<p id="p-ba00eb7b" class="nb">Static parameters may include one or more type parameters. Syntactically, a type parameter consists of an identifier followed by an optional <span class="m"><span class="kw">extends</span></span> clause, followed by an optional “<span class="m"><span class="kw">absorbs</span> <span class="kw">unit</span></span>” clause (described in <a class="xref" href="declaring-dimunits.html#sec-absorbing-units">Section 26.4</a><!--nc-->). If a type parameter does not have an <span class="m"><span class="kw">extends</span></span> clause, it has an implicit “<span class="m"><span class="kw">extends</span> <span class="ty">Any</span></span>” clause.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-bound">Section I.1.31</a><!--nc--></span></p>
+<p id="p-b949dfeb" class="nb">The Working Draft of February 2011 gave such a type parameter the implicit clause “<span class="m"><span class="kw">extends</span> <span class="ty">Object</span></span>”. <span class="m"><span class="ty">Any</span></span> holds every value, tuples and <span class="m"><span class="ty">()</span></span> among them, which <span class="m"><span class="ty">Object</span></span> does not (the team’s later Types chapter, Luchangco, 2012); the Fortress standard libraries are written under <span class="m"><span class="ty">Any</span></span>, instantiating such parameters at tuple types, and the interpreter reads the bound so. The type group’s paper of 2019 says the same: “By default, each type parameter has an upper bound Any” (Park, Hong, Steele and Ryu, POPL 2019). The compiled path gives such a type parameter the bound <span class="m"><span class="ty">Any</span></span> too; there some instances at <span class="m"><span class="ty">()</span></span> or at a tuple type still fail at run time (<a class="xref" href="spec-changes.html#sec-revival-bound">Section I.1.31</a><!--nc-->).</p></aside>
+<p id="p-ff9b4ffc" class="nb">Type parameters are instantiated with types such as trait types, tuple types, and arrow types (See <a class="xref" href="types.html">Chapter 6</a> for a discussion of Fortress types). We use the term <em>naked type variable</em> to refer to an occurrence of a type variable as a stand-alone type (rather than as a parameter to another type). Type parameters can appear in any context that an ordinary type can appear, except that a naked type variable must not appear in the <span class="m"><span class="kw">extends</span></span> clause of a trait or object declaration, nor in the <span class="m"><span class="kw">throws</span></span> clause of a functional or object declaration, nor as the type of a <span class="m"><span class="kw">wrapped</span></span> field (discussed in <a class="xref" href="objects.html#sec-fields">Section 11.2</a><!--nc-->).</p>
+<p id="p-5bd14945" class="nb">Here is a parameterized trait <span class="m"><span class="ty">List</span></span>:</p>
+<div class="fx nb both" id="c-50ca613f" data-kind="code" data-example="StatParam.Type"><div class="fx-r"><svg class="tx" data-d="3" viewBox="-0.60 11.26 118.75 110.89" width="11.875em" height="11.089em" fill="currentColor"><text class='t6' x='0' y='19.33'>trait</text>
+<text class='t7' x='28.92' y='19.33'>List</text>
+<text class='t3' x='45.72' y='19.33'></text>
+<text class='t4' x='49.73' y='19.33'>T</text>
+<text class='t3' x='56.94' y='19.33'></text>
+<text class='t8' x='8.86' y='39.75'>ﬁrst</text>
+<text class='t7' x='26.99' y='39.75'>(<tspan x='31.28'>):</tspan></text>
+<text class='t4' x='39.58' y='39.75'>T</text>
+<text class='t8' x='8.86' y='60.17'>r<tspan x='12.55'>est</tspan></text>
+<text class='t7' x='25.46' y='60.17'>(<tspan x='29.75'>):</tspan><tspan x='38.05'>List</tspan></text>
+<text class='t3' x='54.85' y='60.17'></text>
+<text class='t4' x='58.86' y='60.17'>T</text>
+<text class='t3' x='66.07' y='60.17'></text>
+<text class='t8' x='8.86' y='80.6'>c<tspan x='12.93'>ons</tspan></text>
+<text class='t7' x='28.51' y='80.6'>(</text>
+<text class='t4' x='32.39' y='80.6'>T</text>
+<text class='t7' x='39.59' y='80.6'>):<tspan x='47.9'>List</tspan></text>
+<text class='t3' x='64.69' y='80.6'></text>
+<text class='t4' x='68.71' y='80.6'>T</text>
+<text class='t3' x='75.91' y='80.6'></text>
+<text class='t8' x='8.86' y='101.12'>app<tspan x='23.62'>end</tspan></text>
+<text class='t9' x='39.93' y='93.05'></text>
+<text class='t7' x='44.49' y='101.12'>List</text>
+<text class='t3' x='61.29' y='101.12'></text>
+<text class='t4' x='65.3' y='101.12'>T</text>
+<text class='t3' x='72.51' y='101.12'></text>
+<text class='t9' x='76.52' y='93.05'></text>
+<text class='t7' x='81.09' y='101.12'>:<tspan x='85.52'>List</tspan></text>
+<text class='t3' x='102.32' y='101.12'></text>
+<text class='t4' x='106.33' y='101.12'>T</text>
+<text class='t3' x='113.53' y='101.12'></text>
+<text class='t6' x='0' y='121.54'>end</text></svg></div><pre class="fx-s"><code>trait List[\T\]
+  first(): T
+  rest(): List[\T\]
+  cons(T): List[\T\]
+  append(List[\T\]): List[\T\]
+end</code></pre></div>
+</section>
+<section class="sec" data-num="12.2" data-title="Nat and Int Parameters">
+<h2 id="sec-natparams" class="nb"><span class="num">12.2</span> Nat and Int Parameters</h2>
+<div class="tw nb gr" id="g-5ea6fcdc" data-kind="grammar"><svg class="tx" data-d="4" viewBox="-5.58 10.45 146.07 33.40" width="14.607em" height="3.340em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>StaticP<tspan x='53.89'>ar</tspan><tspan x='62.59'>am</tspan></text>
+<text class='t2' x='86.72' y='28.8'>::=</text>
+<text class='t6' x='111.5' y='28.8'>nat</text>
+<text class='t1' x='131.34' y='28.8'>Id</text>
+<text class='t10' x='86.72' y='40.76'>|</text>
+<text class='t6' x='111.5' y='40.76'>int</text>
+<text class='t1' x='131.34' y='40.76'>Id</text></svg></div>
+<p id="p-0ad16165" class="nb">Static parameters may include one or more <span class="m"><span class="kw">nat</span></span> and <span class="m"><span class="kw">int</span></span> parameters. Syntactically, a <span class="m"><span class="kw">nat</span></span> parameter consists of <span class="m"><span class="kw">nat</span></span> followed by an identifier. An <span class="m"><span class="kw">int</span></span> parameter consists of <span class="m"><span class="kw">int</span></span> followed by an identifier. These parameters are instantiated at runtime with numeric values. A <span class="m"><span class="kw">nat</span></span> parameter may be used to instantiate other <span class="m"><span class="kw">nat</span></span> parameters, or to appear in any context that a variable of type <span class="m">ℕ32</span> can appear, except that it cannot be assigned to. An <span class="m"><span class="kw">int</span></span> parameter may be used to instantiate other <span class="m"><span class="kw">int</span></span> parameters, or to appear in any context that a variable of type <span class="m">ℤ32</span> can appear, except that it cannot be assigned to.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-numerals">Section I.1.50</a><!--nc--></span></p>
+<p id="p-ea3d1f74" class="nb">The revival decided on 28 September 2026 that a <span class="m"><span class="kw">nat</span></span> parameter used as a value converts to <span class="m">ℤ32</span> as a numeral does (<a class="xref" href="spec-changes.html#sec-revival-inference">Section I.1.26</a><!--nc-->), and on 8 November 2026 that a <span class="m"><span class="kw">nat</span></span> or <span class="m"><span class="kw">int</span></span> parameter used as a value is a <span class="m">ℤ32</span>, as a numeral without a radix point is where nothing fixes its type and its value fits (<a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->). This contradicts the sentence above on a <span class="m"><span class="kw">nat</span></span> parameter, which stands: used as a value, it is not accepted where only an <span class="m">ℕ32</span> is, as by a variable declared of type <span class="m">ℕ32</span>, since <span class="m">ℕ32</span> declares no coercion from <span class="m">ℤ32</span>. The revival decided on 9 November 2026 that the four numbers of a numeral type (<a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->) are <span class="m"><span class="kw">nat</span></span> parameters of any size, which, read as values in the body of a coercion from that type, are integers of type <span class="m">ℤ</span>: the bound of a <span class="m"><span class="kw">nat</span></span> or <span class="m"><span class="kw">int</span></span> parameter to the range of <span class="m">ℕ32</span> or <span class="m">ℤ32</span>, which the compiled type checker enforces, is this implementation’s bound for sizes, such as the length of an array, and not a bound of these four numbers.</p></aside>
+<p id="p-ce79ee35" class="nb">An argument whose type is a trait whose <span class="m"><span class="kw">comprises</span></span> clause lists a type at a <span class="m"><span class="kw">nat</span></span> or <span class="m"><span class="kw">int</span></span> <span class="m"><span class="kw">where</span></span>-clause variable (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->), passed where that listed type is expected with a <span class="m"><span class="kw">nat</span></span> or <span class="m"><span class="kw">int</span></span> parameter in the variable’s place, instantiates that parameter, for that call, with the size of the value itself, a size known to equal only itself: where <span class="m"><span class="kw">trait</span> <span class="ty">NatParam</span> <span class="kw">comprises</span> {<i>N</i>⟦<i>n</i>⟧} <span class="kw">where</span> ⟦<span class="kw">nat</span> <i>n</i>⟧</span> is declared, a <span class="m"><span class="ty">NatParam</span></span> passed to <span class="m"><i>f</i>⟦<span class="kw">nat</span> <i>m</i>⟧(<i>x</i>: <i>N</i>⟦<i>m</i>⟧)</span> instantiates <span class="m"><i>m</i></span> with the size of the <span class="m"><i>N</i></span> that it is.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-comprises">Section I.1.21</a><!--nc--></span></p>
+<p id="p-85168160" class="nb">The Working Draft of February 2011 did not say how a size known only at run time reaches a <span class="m"><span class="kw">nat</span></span> parameter. The sentence above states the rule of the team’s comment on the trait <span class="m"><span class="ty">NatParam</span></span> of the Fortress standard libraries: “within that function n becomes a static nat parameter”.</p></aside>
+<p id="p-60877627" class="nb">For example, the following function <span class="m"><i>makeVector</i></span>:</p>
+<div class="fx nb both" id="c-ca1f9e4e" data-kind="code" data-example="StatParam.Nat"><div class="fx-r"><svg class="tx" data-d="5" viewBox="-0.60 11.26 314.69 11.16" width="31.469em" height="1.116em" fill="currentColor"><text class='t8' x='0' y='19.33'>makeV<tspan x='29.05'>e</tspan><tspan x='33.12'>ctor</tspan></text>
+<text class='t3' x='51.38' y='19.33'></text>
+<text class='t4' x='55.39' y='19.33'>T</text>
+<text class='t6' x='65.36' y='19.33'>extends</text>
+<text class='t7' x='104.74' y='19.33'>Num<tspan x='125.78'>b</tspan><tspan x='131.59'>er</tspan></text>
+<text class='t4' x='139.92' y='19.33'>,</text>
+<text class='t6' x='144.34' y='19.33'>nat</text>
+<text class='t4' x='162.8' y='19.33'>s</text>
+<text class='t11' x='167.47' y='20.82'>0</text>
+<text class='t3' x='171.94' y='19.33'></text>
+<text class='t7' x='175.96' y='19.33'>(<tspan x='180.24'>):</tspan><tspan x='188.55'>V</tspan><tspan x='195.19'>ector</tspan></text>
+<text class='t3' x='216.8' y='19.33'></text>
+<text class='t4' x='220.81' y='19.33'>T<tspan x='227.47'>,</tspan><tspan x='231.89'>s</tspan></text>
+<text class='t11' x='236.56' y='20.82'>0</text>
+<text class='t3' x='241.03' y='19.33'></text>
+<text class='t7' x='247.81' y='19.33'>=</text>
+<text class='t8' x='258.33' y='19.33'>ve<tspan x='266.99'>ctor</tspan></text>
+<text class='t3' x='285.24' y='19.33'></text>
+<text class='t4' x='289.26' y='19.33'>T<tspan x='295.91'>,</tspan><tspan x='300.34'>s</tspan></text>
+<text class='t11' x='305.01' y='20.82'>0</text>
+<text class='t3' x='309.48' y='19.33'></text></svg></div><pre class="fx-s"><code>makeVector[\T extends Number, nat s0\]():Vector[\T,s0\] = vector[\T,s0\]</code></pre></div>
+<p id="p-afed8c91" class="nb">declares a <span class="m"><span class="kw">nat</span></span> parameter <span class="m"><i>s</i><sub>0</sub></span>, which appears in both the parameter type and return type of <span class="m"><i>makeVector</i></span>.</p>
+</section>
+<section class="sec" data-num="12.3" data-title="Bool Parameters">
+<h2 id="sec-boolparams" class="nb"><span class="num">12.3</span> Bool Parameters</h2>
+<div class="tw nb gr" id="g-8504c1a2" data-kind="grammar"><svg class="tx" data-d="6" viewBox="-5.58 10.45 151.30 20.38" width="15.130em" height="2.038em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='30.16'>StaticP<tspan x='53.89'>ar</tspan><tspan x='62.59'>am</tspan></text>
+<text class='t2' x='86.72' y='30.16'>::=</text>
+<text class='t6' x='111.5' y='30.16'>bool</text>
+<text class='t1' x='136.57' y='30.16'>Id</text></svg></div>
+<p id="p-9ff8df30" class="nb">Static parameters may include one or more <span class="m"><span class="kw">bool</span></span> parameters. Syntactically, a <span class="m"><span class="kw">bool</span></span> parameter consists of <span class="m"><span class="kw">bool</span></span> followed by an identifier. These parameters are instantiated at runtime with boolean values. They may be used to instantiate other <span class="m"><span class="kw">bool</span></span> parameters, or to appear in any context that a variable of type <span class="m"><span class="ty">Boolean</span></span> can appear, except that they cannot be assigned to.</p>
+<p id="p-066fe7ac" class="nb">For example, the following <span class="m"><span class="kw">coerce</span></span> declared in the trait <span class="m"><span class="ty">Boolean</span></span>:</p>
+<div class="fx nb both" id="c-9b18e806" data-kind="code" data-example="StatParam.Bool"><div class="fx-r"><svg class="tx" data-d="7" viewBox="-0.60 11.81 208.38 49.07" width="20.838em" height="4.907em" fill="currentColor"><text class='t6' x='0' y='19.33'>trait</text>
+<text class='t7' x='28.92' y='19.33'>Bo<tspan x='41.23'>olean</tspan></text>
+<text class='t6' x='8.86' y='39.85'>coerce</text>
+<text class='t3' x='43' y='39.85'></text>
+<text class='t6' x='47.02' y='39.85'>bool</text>
+<text class='t4' x='70.71' y='39.85'>b</text>
+<text class='t3' x='74.98' y='39.85'></text>
+<text class='t9' x='78.99' y='31.78'></text>
+<text class='t4' x='83.56' y='39.85'>x</text>
+<text class='t7' x='89.25' y='39.85'>:<tspan x='93.68'>Bo</tspan><tspan x='106'>oleanLiteral</tspan></text>
+<text class='t3' x='157.64' y='39.85'></text>
+<text class='t4' x='161.65' y='39.85'>b</text>
+<text class='t3' x='165.93' y='39.85'></text>
+<text class='t9' x='169.94' y='31.78'></text>
+<text class='t7' x='177.27' y='39.85'>=</text>
+<text class='t4' x='187.79' y='39.85'>f</text>
+<text class='t7' x='193.74' y='39.85'>(</text>
+<text class='t4' x='197.61' y='39.85'>x</text>
+<text class='t7' x='203.31' y='39.85'>)</text>
+<text class='t6' x='0' y='60.27'>end</text></svg></div><pre class="fx-s"><code>trait Boolean
+  coerce[\bool b\](x: BooleanLiteral[\b\]) = f(x)
+end</code></pre></div>
+<p id="p-b94d94c0" class="nb">declares a <span class="m"><span class="kw">bool</span></span> parameter <span class="m"><i>b</i></span>, which appears in the parameter type.</p>
+</section>
+<section class="sec" data-num="12.4" data-title="Dimension and Unit Parameters">
+<h2 id="sec-dimunitparams" class="nb"><span class="num">12.4</span> Dimension and Unit Parameters</h2>
+<div class="tw nb gr" id="g-cd072c79" data-kind="grammar"><svg class="tx" data-d="8" viewBox="-5.58 10.45 269.55 33.40" width="26.955em" height="3.340em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>StaticP<tspan x='53.89'>ar</tspan><tspan x='62.59'>am</tspan></text>
+<text class='t2' x='86.72' y='28.8'>::=</text>
+<text class='t6' x='111.5' y='28.8'>dim</text>
+<text class='t1' x='131.34' y='28.8'>Id</text>
+<text class='t10' x='86.72' y='40.76'>|</text>
+<text class='t6' x='111.5' y='40.76'>unit</text>
+<text class='t1' x='136.57' y='40.76'>Id</text>
+<text class='t2' x='147.63' y='40.76'>(</text>
+<text class='t7' x='150.95' y='40.76'>:</text>
+<text class='t1' x='157.86' y='40.76'>T<tspan x='162.67'>ype</tspan></text>
+<text class='t2' x='176.49' y='40.76'>)?<tspan x='187.32'>(</tspan></text>
+<text class='t6' x='190.64' y='40.76'>absorbs<tspan x='233.07'>unit</tspan></text>
+<text class='t2' x='255.65' y='40.76'>)?</text></svg></div>
+<p id="p-1c92cae8" class="nb">Static parameters may include one or more <span class="m"><span class="kw">dim</span></span> and <span class="m"><span class="kw">unit</span></span> parameters. Syntactically, a <span class="m"><span class="kw">dim</span></span> parameter begins with <span class="m"><span class="kw">dim</span></span> followed by an identifier. A <span class="m"><span class="kw">unit</span></span> parameter begins with <span class="m"><span class="kw">unit</span></span> followed by an identifier, optionally followed by the token ‘<span class="m">:</span>’ and a dimension, and the unit is thereby restricted to be a unit of the specified dimension. A <span class="m"><span class="kw">unit</span></span> parameter may include the clause “<span class="m"><span class="kw">absorbs</span> <span class="kw">unit</span></span>”; the meaning of this is described in <a class="xref" href="declaring-dimunits.html#sec-absorbing-units">Section 26.4</a><!--nc-->. A <span class="m"><span class="kw">dim</span></span> parameter is allowed to appear in any context that a dimension can appear. A <span class="m"><span class="kw">unit</span></span> parameter is allowed to appear in any context that a unit can appear.</p>
+<p id="p-fc23f89a" class="nb">For example, here is a function (in this case actually a prefix operator definition) that is parameterized with a unit:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-d4490275" class="nb">I manually added a space before U – Sukyoung</p></aside>
+<div class="fx nb" id="c-e470c34c" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 10.62 265.54 11.80" width="26.554em" height="1.180em" fill="currentColor"><text class='t6' x='9.96' y='19.33'>opr</text>
+<text class='t10' x='28.42' y='12.25'>√</text>
+<text class='t3' x='36.72' y='19.33'></text>
+<text class='t6' x='40.74' y='19.33'>unit</text>
+<text class='t4' x='66.64' y='19.33'>U</text>
+<text class='t3' x='74.53' y='19.33'></text>
+<text class='t7' x='78.54' y='19.33'>(</text>
+<text class='t4' x='82.41' y='19.33'>x</text>
+<text class='t7' x='88.11' y='19.33'>:</text>
+<text class='t12' x='92.54' y='19.33'>R</text>
+<text class='t7' x='99.73' y='19.33'>64</text>
+<text class='t4' x='112.18' y='19.33'>U</text>
+<text class='t11' x='120.07' y='15.71'>2</text>
+<text class='t7' x='124.54' y='19.33'>):</text>
+<text class='t12' x='132.84' y='19.33'>R</text>
+<text class='t7' x='140.04' y='19.33'>64</text>
+<text class='t4' x='152.49' y='19.33'>U</text>
+<text class='t7' x='163.15' y='19.33'>=</text>
+<text class='t8' x='173.66' y='19.33'>numeric<tspan x='208.67'>alsqrt</tspan></text>
+<text class='t7' x='233.42' y='19.33'>(</text>
+<text class='t4' x='237.3' y='19.33'>x/U</text>
+<text class='t11' x='255.86' y='15.71'>2</text>
+<text class='t7' x='260.33' y='19.33'>)</text>
+<text class='t4' x='266.42' y='19.33'>U</text></svg></div></div>
+</section>
+<section class="sec" data-num="12.5" data-title="Operator Parameters">
+<h2 id="sec-opr-ident" class="nb"><span class="num">12.5</span> Operator Parameters</h2>
+<div class="tw nb gr" id="g-65597271" data-kind="grammar"><svg class="tx" data-d="10" viewBox="-5.58 10.45 149.68 22.52" width="14.968em" height="2.252em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='30.16'>StaticP<tspan x='53.89'>ar</tspan><tspan x='62.59'>am</tspan></text>
+<text class='t2' x='86.72' y='30.16'>::=</text>
+<text class='t6' x='111.5' y='30.16'>opr</text>
+<text class='t1' x='131.34' y='30.16'>Op</text></svg></div>
+<p id="p-9ee8db16" class="nb">Static parameters may include one or more operator names. Syntactically, an operator parameter begins with <span class="m"><span class="kw">opr</span></span> followed by an operator name.</p>
+<p id="p-f111010a" class="nb">Operator parameters may be freely intermixed with other static parameters. For example, the following trait <span class="m"><span class="ty">IdentityOp</span></span>:</p>
+<div class="fx nb both" id="c-4999c1e4" data-kind="code" data-example="StatParam.Opr.IdentityOp"><div class="fx-r"><svg class="tx" data-d="11" viewBox="-0.60 10.36 244.89 50.52" width="24.489em" height="5.052em" fill="currentColor"><text class='t6' x='0' y='19.43'>trait</text>
+<text class='t7' x='28.92' y='19.43'>Iden<tspan x='47.74'>tit</tspan><tspan x='57.98'>yOp</tspan></text>
+<text class='t9' x='76.52' y='11.36'><tspan x='77.9' y='11.36'></tspan></text>
+<text class='t4' x='82.05' y='19.43'>T</text>
+<text class='t6' x='92.03' y='19.43'>extends</text>
+<text class='t7' x='131.41' y='19.43'>Iden<tspan x='150.22'>tit</tspan><tspan x='160.46'>yOp</tspan></text>
+<text class='t3' x='179.01' y='19.43'></text>
+<text class='t4' x='183.02' y='19.43'>T<tspan x='189.67'>,</tspan></text>
+<text class='t10' x='194.1' y='19.43'></text>
+<text class='t3' x='201.85' y='19.43'></text>
+<text class='t4' x='205.86' y='19.43'>,</text>
+<text class='t6' x='210.29' y='19.43'>opr</text>
+<text class='t10' x='230.41' y='19.43'></text>
+<text class='t9' x='238.15' y='11.36'><tspan x='239.54' y='11.36'></tspan></text>
+<text class='t6' x='8.86' y='39.85'>opr</text>
+<text class='t10' x='28.97' y='39.85'></text>
+<text class='t7' x='36.72' y='39.85'>(</text>
+<text class='t6' x='40.6' y='39.85'>self</text>
+<text class='t7' x='61.52' y='39.85'>)<tspan x='67.05'>:</tspan></text>
+<text class='t4' x='71.48' y='39.85'>T</text>
+<text class='t7' x='81.45' y='39.85'>=</text>
+<text class='t6' x='94.74' y='39.85'>self<tspan x='0' y='60.27'>end</tspan></text></svg></div><pre class="fx-s"><code>trait IdentityOp[\T extends IdentityOp[\T,ODOT\], opr ODOT\]
+  opr ODOT(self):T = self
+end</code></pre></div>
+<p id="p-923aae33" class="nb">is parameterized with a type parameter <span class="m"><i>T</i></span> and an operator parameter <span class="m">⊙</span>. Unlike other static parameters, operator parameters may be used in both type context and value context. The operator parameter <span class="m">⊙</span> is declared as the second static parameter of <span class="m"><span class="ty">IdentityOp</span></span>, instantiated as a static argument in <span class="m"><span class="ty">IdentityOp</span>⟦<i>T</i>, ⊙⟧</span> which is the bound of <span class="m"><i>T</i></span>, and declared as an operator method in <span class="m"><span class="ty">IdentityOp</span></span>. If a trait or object has an operator parameter <span class="m"><span class="op">OP</span></span> and uses <span class="m"><span class="op">OP</span></span> in an expression, then the trait or object must declare or inherit at least one operator method for <span class="m"><span class="op">OP</span></span> of matching fixity. (That is because it would be impossible to type-check <span class="m"><i>T</i></span> with any global definition for <span class="m"><span class="op">OP</span></span>, because the actual operator name is not known yet, and a definition has to come from somewhere.)</p>
+<p id="p-20692491" class="nb">Operator parameters are instantiated with operators. They may be used to instantiate other operator parameters and the names of operator declarations. For example, the following trait <span class="m"><span class="ty">MyIdentity</span></span>:</p>
+<div class="fx nb both" id="c-6d18663d" data-kind="code" data-example="StatParam.Opr.MyIdentity"><div class="fx-r"><svg class="tx" data-d="12" viewBox="4.10 3.45 356.70 25.07" width="35.670em" height="2.507em" fill="currentColor"><text class='t13' x='8.69' y='10.78'>(<tspan y='12.52'>*</tspan></text>
+<text class='t2' x='27.9' y='10.78'>BR<tspan x='40.79'>OKEN...</tspan><tspan x='79.01'>object</tspan><tspan x='105.85'>MyIdentity</tspan><tspan x='153.17'>e</tspan><tspan x='157.45'>xtends</tspan><tspan x='185.95'>IdentityOp[</tspan></text>
+<text class='t13' x='232.44' y='10.78'>\</text>
+<text class='t2' x='238.41' y='10.78'>MyIdentity<tspan x='282.6'>,</tspan><tspan x='287.58'>IDENTITY</tspan></text>
+<text class='t13' x='334.06' y='10.78'>\</text>
+<text class='t2' x='340.03' y='10.78'>]<tspan x='345.84'>end</tspan></text>
+<text class='t13' x='4.7' y='28.46'>*)</text></svg></div><pre class="fx-s"><code>(* BROKEN...
+object MyIdentity extends IdentityOp[\MyIdentity, IDENTITY\] end
+*)</code></pre></div>
+<p id="p-b1a5e020" class="nb">instantiates the operator parameter of its supertrait <span class="m"><span class="ty">IdentityOp</span></span> with the operator name <span class="m"><span class="op">IDENTITY</span></span>. It inherits the <span class="m"><span class="op">IDENTITY</span></span> operator from <span class="m"><span class="ty">IdentityOp</span></span>. Two restrictions apply to instantiations of operator parameters: 1) If a trait or object <span class="m"><i>T</i></span> has operator parameters <span class="m"><span class="op">OP</span><sub>1</sub></span> and <span class="m"><span class="op">OP</span><sub>2</sub></span>, and <span class="m"><i>T</i></span> declares or inherits operator methods of the same fixity for both <span class="m"><span class="op">OP</span><sub>1</sub></span> and <span class="m"><span class="op">OP</span><sub>2</sub></span>, then the actual operators passed in any instantiation of <span class="m"><i>T</i></span> must be different. (That’s because it would be impossible to type check any code in trait <span class="m"><i>T</i></span> that uses either <span class="m"><span class="op">OP</span><sub>1</sub></span> or <span class="m"><span class="op">OP</span><sub>2</sub></span> in an expression if such aliasing were not forbidden.) Note that the clause “of the same fixity” allows both <span class="m"><span class="op">OP</span><sub>1</sub></span> and <span class="m"><span class="op">OP</span><sub>2</sub></span> to be given the same actual operator, say “<span class="m">−</span>”, if <span class="m"><span class="op">OP</span><sub>1</sub></span> has only a prefix definition and <span class="m"><span class="op">OP</span><sub>2</sub></span> has only an infix definition; this is desirable. 2) If a trait or object <span class="m"><i>T</i></span> has an operator parameter <span class="m"><span class="op">OP</span></span> and declares or inherits an operator method for <span class="m"><span class="op">OP</span></span>, and also declares or inherits an operator method of the same fixity for any actual operator <span class="m">@</span> (that is, where <span class="m">@</span> is not an operator parameter), then the actual operator passed for the <span class="m"><span class="op">OP</span></span> parameter must not be <span class="m">@</span>. (That’s because it would be impossible to type check any code in trait <span class="m"><i>T</i></span> that uses the operator <span class="m">@</span> in an expression if such aliasing were not forbidden.)</p>
+<p id="p-5d7c27e6" class="nb">Note that any declarations that may be associated with an actual operator name that is passed for an operator parameter are <em>irrelevant</em> to the behavior of the operator parameter within the parameterized trait, object, or functional. When a trait or object extends a trait parameterized by operator names, the subtrait inherits methods whose names are the actual operator names instead of the operator parameter names.</p>
+<p id="p-027ecf35" class="nb">An operator method declaration whose name is one of the operator parameters of its enclosing trait or object may be overloaded with other operator declarations in the same component; the operator parameter may be instantiated with any operator in the same component. Therefore, such an operator method declaration must satisfy the overloading rules (described in <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc-->) with every operator declaration in the same component. For example, the above <span class="m"><span class="op">IDENTITY</span></span> operator declaration is overloaded with the following <span class="m"><span class="op">IDENTITY</span></span> operator declaration:</p>
+<div class="fx nb both" id="c-108a6ddb" data-kind="code"><div class="fx-r"><svg class="tx" data-d="13" viewBox="9.36 11.26 104.99 23.12" width="10.499em" height="2.312em" fill="currentColor"><text class='t6' x='9.96' y='19.33'>opr<tspan x='28.42'>IDENTITY</tspan></text>
+<text class='t7' x='70.26' y='19.33'>(</text>
+<text class='t4' x='74.14' y='19.33'>x</text>
+<text class='t7' x='79.83' y='19.33'>:</text>
+<text class='t12' x='84.26' y='19.33'>Z</text>
+<text class='t7' x='90.9' y='19.33'>)<tspan x='97.54'>=</tspan></text>
+<text class='t4' x='108.06' y='19.33'>x</text>
+<text class='t6' x='9.96' y='31.28'>opr</text>
+<text class='t7' x='28.42' y='31.28'>+(</text>
+<text class='t4' x='40.04' y='31.28'>x</text>
+<text class='t7' x='45.74' y='31.28'>:</text>
+<text class='t12' x='50.17' y='31.28'>Z</text>
+<text class='t7' x='56.81' y='31.28'>)<tspan x='63.45'>=</tspan></text>
+<text class='t4' x='73.97' y='31.28'>x</text></svg></div><pre class="fx-s"><code>opr +(x: ZZ) = x</code></pre></div>
+<p id="p-5a2fcfef" class="nb">where both <span class="m"><span class="op">IDENTITY</span></span> and <span class="m">+</span> are top-level operator declarations in the same component. Therefore, the declaration of the operator <span class="m">⊙</span> in <span class="m"><span class="ty">IdentityOp</span></span> must satisfy the overloading rules with <span class="m"><span class="op">IDENTITY</span></span> and with <span class="m">+</span>.</p>
+<p id="p-eb0d7326" class="nb">Here are the things programmers can do with an operator parameter:</p>
+<ol>
+<li class="lab"><span class="lab">(1)</span> <p id="p-8e741f6f" class="nb">Use it as the defined name in an operator declaration. This is what trait <span class="m"><span class="ty">BinaryOperator</span>⟦<i>T</i>, ⊙⟧</span> (described in <a class="xref" href="lib-algebraic-constraints.html#sec-opr-properties">Section 40.3</a><!--nc-->) does.</p></li>
+<li class="lab"><span class="lab">(2)</span> <p id="p-df437b01" class="nb">Pass it as an actual operator to another trait that takes an operator parameter. This is what <span class="m"><span class="ty">Associative</span>⟦<i>T</i>, ⊙⟧</span> (described in <a class="xref" href="lib-algebraic-constraints.html#sec-opr-properties">Section 40.3</a><!--nc-->) does when it extends <span class="m"><span class="ty">BinaryOperator</span>⟦<i>T</i>, ⊙⟧</span>.</p></li>
+<li class="lab"><span class="lab">(3)</span> <p id="p-56b04099" class="nb">Use it to distinguish various objects. This is what <span class="m"><span class="ty">Identity</span>⟦⊙⟧</span> (described in <a class="xref" href="lib-algebraic-constraints.html#sec-opr-properties">Section 40.3</a><!--nc-->) does.</p></li>
+<li class="lab"><span class="lab">(4)</span> <p id="p-b45d929b" class="nb">Use it as an operator in an expression. To do this, an operator declaration for that operator parameter must be accessible at the ponit of use, and for that to happen, the parameterized trait must either declare an operator method with that operator parameter as the name, as in case (1), or inherit such a declaration, and the only way to do the latter is to use case (2).</p></li>
+</ol>
+<p id="p-da13615c" class="nb">Many interesting examples are described in <a class="xref" href="lib-algebraic-constraints.html#sec-opr-properties">Section 40.3</a><!--nc-->.</p>
+</section>
+<section class="sec" data-num="12.6" data-title="Where Clauses">
+<h2 id="sec-where-clauses" class="nb"><span class="num">12.6</span> Where Clauses</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-edbb7d81" class="nb">The <span class="m"><span class="kw">where</span></span> clause syntax in this section is out of date.</p></aside>
+<div class="tw nb gr" id="g-3a2a41c3" data-kind="grammar"><svg class="tx" data-d="14" viewBox="-5.58 10.45 259.85 129.04" width="25.985em" height="12.904em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>Wher<tspan x='47.11'>e</tspan></text>
+<text class='t2' x='106.3' y='28.8'>::=</text>
+<text class='t6' x='131.07' y='28.8'>where</text>
+<text class='t10' x='161.38' y='28.8'>{</text>
+<text class='t1' x='168.85' y='28.8'>Wher<tspan x='190.06'>eClauseList</tspan></text>
+<text class='t10' x='239.78' y='28.8'>}</text>
+<text class='t1' x='25.9' y='40.76'>Wher<tspan x='47.11'>eClauseList</tspan></text>
+<text class='t2' x='106.3' y='40.76'>::=</text>
+<text class='t1' x='129.41' y='40.76'>Wher<tspan x='150.62'>eClause</tspan></text>
+<text class='t2' x='182.72' y='40.76'>(</text>
+<text class='t4' x='186.04' y='40.76'>,</text>
+<text class='t1' x='192.96' y='40.76'>Wher<tspan x='214.17'>eClause</tspan></text>
+<text class='t2' x='246.27' y='40.76'>)</text>
+<text class='t5' x='249.59' y='37.14'>∗</text>
+<text class='t1' x='25.9' y='52.71'>Wher<tspan x='47.11'>eClause</tspan></text>
+<text class='t2' x='106.3' y='52.71'>::=</text>
+<text class='t1' x='129.41' y='52.71'>Id<tspan x='140.47'>Extends</tspan></text>
+<text class='t10' x='106.3' y='64.67'>|</text>
+<text class='t1' x='129.41' y='64.67'>T<tspan x='134.22'>ypeAlias</tspan></text>
+<text class='t10' x='106.3' y='76.62'>|</text>
+<text class='t1' x='129.41' y='76.62'>NatConstr<tspan x='170.79'>aint</tspan></text>
+<text class='t10' x='106.3' y='88.58'>|</text>
+<text class='t1' x='129.41' y='88.58'>IntConstr<tspan x='167.46'>aint</tspan></text>
+<text class='t10' x='106.3' y='100.53'>|</text>
+<text class='t1' x='129.41' y='100.53'>BoolConstr<tspan x='175.21'>aint</tspan></text>
+<text class='t10' x='106.3' y='112.49'>|</text>
+<text class='t1' x='129.41' y='112.49'>UnitConstr<tspan x='174.11'>aint</tspan></text>
+<text class='t10' x='106.3' y='124.44'>|</text>
+<text class='t1' x='129.41' y='124.44'>T<tspan x='134.22'>ypeRef</tspan></text>
+<text class='t6' x='166.93' y='124.44'>coerces</text>
+<text class='t1' x='207.69' y='124.44'>T<tspan x='212.49'>ypeRef</tspan></text>
+<text class='t10' x='106.3' y='136.4'>|</text>
+<text class='t1' x='129.41' y='136.4'>T<tspan x='134.22'>ypeRef</tspan></text>
+<text class='t6' x='166.93' y='136.4'>widens</text>
+<text class='t1' x='202.46' y='136.4'>T<tspan x='207.26'>ypeRef</tspan></text></svg></div>
+<p id="p-6ffc50ca" class="nb">Static parameters may have constraints placed on them in a <span class="m"><span class="kw">where</span></span> clause. A <span class="m"><span class="kw">where</span></span> clause begins with <span class="m"><span class="kw">where</span></span>, followed by a sequence of static parameter constraints enclosed in braces <span class="m">{</span> and <span class="m">}</span>, and separated by commas.</p>
+<p id="p-919cbd77" class="nb">A <span class="m"><span class="kw">where</span></span> clause may introduce new static variables, i.e., identifiers for types and other static entities that may not be static parameters. We use the term <em><span class="m"><span class="kw">where</span></span>-clause variables</em> to refer to static variables that are not also static parameters. The <span class="m"><span class="kw">where</span></span>-clause variables must be bound in a <span class="m"><span class="kw">where</span></span> clause.</p>
+<p id="p-32a73512" class="nb">A static parameter constraint is one of the following forms:</p>
+<ul>
+<li><p id="p-0658cd2a" class="nb">a trait constraint consisting of the identifier of a naked type variable, followed by <span class="m"><span class="kw">extends</span></span> followed by a set of trait references which may include naked type variables,</p></li>
+<li><p id="p-257fe88b" class="nb">a type alias (described in <a class="xref" href="types.html#sec-type-alias">Section 6.11</a>),</p></li>
+<li><p id="p-59df477b" class="nb">an arithmetic constraint,</p></li>
+<li><p id="p-e4df2947" class="nb">a boolean constraint,</p></li>
+<li><p id="p-8a918452" class="nb">a unit equality constraint,</p></li>
+<li><p id="p-11a57d48" class="nb">a <span class="m"><span class="kw">coerces</span></span> constraint (described in <a class="xref" href="conversions-coercions.html#sec-coercion-declarations">Section 17.2</a><!--nc-->), or</p></li>
+<li><p id="p-5eb68105" class="nb">a <span class="m"><span class="kw">widens</span></span> constraint (described in <a class="xref" href="conversions-coercions.html#sec-coercion-declarations">Section 17.2</a><!--nc-->).</p></li>
+</ul>
+<p id="p-4d0d8523" class="nb">A <span class="m"><span class="kw">where</span></span> clause may include mutually recursive constraints. All static variables in a trait, object, or functional declaration must occur either as a static parameter or as a <span class="m"><span class="kw">where</span></span>-clause variable. <a class="xref" href="calculi.html#app-where-calculus">Appendix A.2</a><!--nc--> describes a Fortress core calculus with <span class="m"><span class="kw">where</span></span> clauses.</p>
+<p id="p-3f2416fd" class="nb">An entry of an <span class="m"><span class="kw">extends</span></span> clause may carry a <span class="m"><span class="kw">where</span></span> clause of its own (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->). If that clause introduces no <span class="m"><span class="kw">where</span></span>-clause variable and all its constraints are trait constraints, the declared trait or object extends the entry’s type exactly where the constraints hold: an instance whose static arguments satisfy them is of that type, and an instance whose static arguments do not satisfy them is not. The constraints hold while the entry itself, the declaration’s value parameters and its members are checked, as if they were in the declaration’s own <span class="m"><span class="kw">where</span></span> clause. The rest of the declaration holds at every instance and is checked without them: its static parameters, its own <span class="m"><span class="kw">where</span></span> clause, its <span class="m"><span class="kw">throws</span></span> clause and contract, its <span class="m"><span class="kw">excludes</span></span> and <span class="m"><span class="kw">comprises</span></span> clauses, and the other entries of its <span class="m"><span class="kw">extends</span></span> clause. So a list is totally ordered exactly where its elements are:</p>
+<div class="fx nb both" id="c-7a92f3d2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="15" viewBox="9.36 11.26 367.22 32.58" width="36.722em" height="3.258em" fill="currentColor"><text class='t6' x='9.96' y='19.33'>trait</text>
+<text class='t7' x='41.1' y='19.33'>List</text>
+<text class='t3' x='57.89' y='19.33'></text>
+<text class='t4' x='61.91' y='19.33'>E</text>
+<text class='t3' x='69.84' y='19.33'></text>
+<text class='t6' x='76.62' y='19.33'>extends</text>
+<text class='t10' x='115.99' y='19.33'>{</text>
+<text class='t7' x='120.98' y='19.33'>ZeroIndexed</text>
+<text class='t3' x='174.69' y='19.33'></text>
+<text class='t4' x='178.7' y='19.33'>E</text>
+<text class='t3' x='186.63' y='19.33'></text>
+<text class='t4' x='190.65' y='19.33'>,</text>
+<text class='t7' x='33.87' y='31.28'>LexicographicOrder</text>
+<text class='t3' x='119.61' y='31.28'></text>
+<text class='t7' x='123.62' y='31.28'>List</text>
+<text class='t3' x='140.42' y='31.28'></text>
+<text class='t4' x='144.43' y='31.28'>E</text>
+<text class='t3' x='152.36' y='31.28'></text>
+<text class='t4' x='156.37' y='31.28'>,<tspan x='160.8'>E</tspan></text>
+<text class='t3' x='168.73' y='31.28'></text>
+<text class='t6' x='175.51' y='31.28'>where</text>
+<text class='t10' x='204.43' y='31.28'>{</text>
+<text class='t4' x='209.41' y='31.28'>E</text>
+<text class='t6' x='220.1' y='31.28'>extends</text>
+<text class='t7' x='261.7' y='31.28'>StandardT<tspan x='307.94'>otalOrder</tspan></text>
+<text class='t3' x='350.06' y='31.28'></text>
+<text class='t4' x='354.07' y='31.28'>E</text>
+<text class='t3' x='362' y='31.28'></text>
+<text class='t10' x='366.02' y='31.28'>}}</text>
+<text class='t6' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>end</code></pre></div>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-conditional">Section I.1.3</a><!--nc--></span></p>
+<p id="p-9b0478cd" class="nb">This paragraph and its example are new. The Working Draft of February 2011 gave each entry of an <span class="m"><span class="kw">extends</span></span> clause an optional <span class="m"><span class="kw">where</span></span> clause in its grammar and stated no meaning for it, and its front matter lists conditional extension among the features not yet supported.</p></aside>
+<p id="p-feba98f2" class="nb">A <span class="m"><span class="kw">where</span></span>-clause variable may not appear as a static argument in an <span class="m"><span class="kw">extends</span></span> clause. Such an occurrence would make the declared trait or object a subtype of one instantiation for each type that the variable may stand for, which instantiation exclusion forbids (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a> and <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->); the second of the three declarations below shows why.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-where">Section I.1.2</a><!--nc--></span></p>
+<p id="p-d5331637" class="nb">This restriction is new. The three declarations that follow were offered as legal by the Working Draft of February 2011; they are kept as examples of what is not allowed, each with the way to write it.</p></aside>
+<p id="p-6b0c1acc" class="nb">In particular, a trait declaration may not extend other instantiations of itself through a <span class="m"><span class="kw">where</span></span>-clause variable. The following declaration would express that the static parameter <span class="m"><i>S</i></span> of <span class="m"><i>C</i></span> is covariant, making <span class="m"><i>C</i>⟦<i>S</i>⟧</span> a subtype of <span class="m"><i>C</i>⟦<i>T</i>⟧</span> for every supertype <span class="m"><i>T</i></span> of <span class="m"><i>S</i></span>; it is not allowed:</p>
+<div class="fx nb both" id="c-6ab9d5fb" data-kind="code"><div class="fx-r"><svg class="tx" data-d="16" viewBox="9.36 11.26 190.91 44.54" width="19.091em" height="4.454em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>(</text>
+<text class='t10' x='13.84' y='19.33'>∗</text>
+<text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t10' x='76.4' y='19.33'>∗</text>
+<text class='t7' x='81.38' y='19.33'>)</text>
+<text class='t6' x='9.96' y='31.28'>trait</text>
+<text class='t4' x='38.88' y='31.28'>C</text>
+<text class='t3' x='46.71' y='31.28'></text>
+<text class='t4' x='50.73' y='31.28'>S</text>
+<text class='t3' x='57.41' y='31.28'></text>
+<text class='t6' x='64.19' y='31.28'>extends</text>
+<text class='t4' x='103.57' y='31.28'>C</text>
+<text class='t3' x='111.4' y='31.28'></text>
+<text class='t4' x='115.42' y='31.28'>T</text>
+<text class='t3' x='122.62' y='31.28'></text>
+<text class='t6' x='21.92' y='43.24'>where</text>
+<text class='t10' x='50.84' y='43.24'>{</text>
+<text class='t4' x='55.82' y='43.24'>S</text>
+<text class='t6' x='65.27' y='43.24'>extends</text>
+<text class='t4' x='104.65' y='43.24'>T<tspan x='111.3'>,</tspan><tspan x='115.73'>T</tspan></text>
+<text class='t6' x='125.7' y='43.24'>extends</text>
+<text class='t7' x='165.08' y='43.24'>Ob<tspan x='178.92'>ject</tspan></text>
+<text class='t10' x='194.69' y='43.24'>}</text>
+<text class='t6' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)
+trait C[\S\] extends C[\T\]
+  where {S extends T, T extends Object}
+end</code></pre></div>
+<p id="p-4bdeb5b4" class="nb">Static parameters are invariant: <span class="m"><i>C</i>⟦<i>S</i>⟧</span> is a subtype of <span class="m"><i>C</i>⟦<i>T</i>⟧</span> only if <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> are the same type. A value of one instantiation is widened to another by a function whose bounded static parameters state that one argument extends the other:</p>
+<div class="fx nb both" id="c-955ea045" data-kind="code"><div class="fx-r"><svg class="tx" data-d="17" viewBox="9.36 11.26 261.39 58.98" width="26.139em" height="5.898em" fill="currentColor"><text class='t6' x='9.96' y='19.33'>trait</text>
+<text class='t4' x='41.1' y='19.33'>C</text>
+<text class='t3' x='48.93' y='19.33'></text>
+<text class='t4' x='52.94' y='19.33'>S</text>
+<text class='t3' x='59.62' y='19.33'></text>
+<text class='t6' x='21.92' y='31.28'>getter</text>
+<text class='t8' x='58.28' y='31.28'>item</text>
+<text class='t7' x='78.14' y='31.28'>():</text>
+<text class='t4' x='90.32' y='31.28'>S</text>
+<text class='t6' x='9.96' y='43.24'>end<tspan x='9.96' y='55.19'>object</tspan></text>
+<text class='t7' x='46.33' y='55.19'>CItem</text>
+<text class='t3' x='73.72' y='55.19'></text>
+<text class='t4' x='77.74' y='55.19'>S</text>
+<text class='t3' x='84.42' y='55.19'></text>
+<text class='t7' x='88.43' y='55.19'>(</text>
+<text class='t8' x='92.31' y='55.19'>item</text>
+<text class='t7' x='112.17' y='55.19'>:</text>
+<text class='t4' x='116.59' y='55.19'>S</text>
+<text class='t7' x='123.28' y='55.19'>)</text>
+<text class='t6' x='129.92' y='55.19'>extends</text>
+<text class='t4' x='171.51' y='55.19'>C</text>
+<text class='t3' x='179.34' y='55.19'></text>
+<text class='t4' x='183.36' y='55.19'>S</text>
+<text class='t3' x='190.04' y='55.19'></text>
+<text class='t6' x='196.82' y='55.19'>end</text>
+<text class='t8' x='9.96' y='67.15'>widen</text>
+<text class='t3' x='35.68' y='67.15'></text>
+<text class='t4' x='39.69' y='67.15'>T<tspan x='46.34'>,</tspan><tspan x='50.77'>S</tspan></text>
+<text class='t6' x='60.22' y='67.15'>extends</text>
+<text class='t4' x='101.81' y='67.15'>T</text>
+<text class='t3' x='109.02' y='67.15'></text>
+<text class='t7' x='113.03' y='67.15'>(</text>
+<text class='t4' x='116.91' y='67.15'>c</text>
+<text class='t7' x='121.22' y='67.15'>:</text>
+<text class='t4' x='125.65' y='67.15'>C</text>
+<text class='t3' x='133.48' y='67.15'></text>
+<text class='t4' x='137.49' y='67.15'>S</text>
+<text class='t3' x='144.18' y='67.15'></text>
+<text class='t7' x='148.19' y='67.15'>):</text>
+<text class='t4' x='156.49' y='67.15'>C</text>
+<text class='t3' x='164.32' y='67.15'></text>
+<text class='t4' x='168.34' y='67.15'>T</text>
+<text class='t3' x='175.54' y='67.15'></text>
+<text class='t7' x='182.32' y='67.15'>=<tspan x='192.84'>CItem</tspan></text>
+<text class='t3' x='220.24' y='67.15'></text>
+<text class='t4' x='224.25' y='67.15'>T</text>
+<text class='t3' x='231.45' y='67.15'></text>
+<text class='t7' x='235.47' y='67.15'>(</text>
+<text class='t4' x='239.34' y='67.15'>c.</text>
+<text class='t8' x='246.42' y='67.15'>item</text>
+<text class='t7' x='266.28' y='67.15'>)</text></svg></div><pre class="fx-s"><code>trait C[\S\]
+  getter item(): S
+end</code></pre></div>
+<p id="p-93ec35fb" class="nb">so that, where a trait <span class="m"><span class="ty">Dog</span></span> extends a trait <span class="m"><span class="ty">Animal</span></span> and <span class="m"><i>d</i></span> is a <span class="m"><i>C</i>⟦<span class="ty">Dog</span>⟧</span>, <span class="m"><i>widen</i>⟦<span class="ty">Animal</span>, <span class="ty">Dog</span>⟧(<i>d</i>)</span> is a <span class="m"><i>C</i>⟦<span class="ty">Animal</span>⟧</span> with the same item. The library’s covariant collections are written this way.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-covariance">Section I.1.4</a><!--nc--></span></p>
+<p id="p-ce6a0608" class="nb">The Working Draft of February 2011 said that trait declarations are allowed to extend other instantiations of themselves, and gave the declaration above as the way to express covariance. The type group’s later design declares variance instead with a <span class="m"><span class="kw">covariant</span></span> modifier on a static parameter (the team’s later Types chapter, Luchangco, 2012), which is implemented on neither the interpreter nor the compiled path; the revival’s decision record and row 404 of its gap ledger say what is known of it.</p></aside>
+<p id="p-fa4b6600" class="nb">Trait declarations need not have any static parameters in order to have a <span class="m"><span class="kw">where</span></span> clause. But the following trait declaration is not allowed:</p>
+<div class="fx nb both" id="c-b6fea021" data-kind="code"><div class="fx-r"><svg class="tx" data-d="18" viewBox="9.36 11.26 131.00 44.54" width="13.100em" height="4.454em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>(</text>
+<text class='t10' x='13.84' y='19.33'>∗</text>
+<text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t10' x='76.4' y='19.33'>∗</text>
+<text class='t7' x='81.38' y='19.33'>)</text>
+<text class='t6' x='9.96' y='31.28'>trait</text>
+<text class='t4' x='38.88' y='31.28'>C</text>
+<text class='t6' x='49.48' y='31.28'>extends</text>
+<text class='t4' x='88.86' y='31.28'>D</text>
+<text class='t3' x='97.39' y='31.28'></text>
+<text class='t4' x='101.4' y='31.28'>T</text>
+<text class='t3' x='108.61' y='31.28'></text>
+<text class='t6' x='21.92' y='43.24'>where</text>
+<text class='t10' x='50.84' y='43.24'>{</text>
+<text class='t4' x='55.82' y='43.24'>T</text>
+<text class='t6' x='65.79' y='43.24'>extends</text>
+<text class='t7' x='105.17' y='43.24'>Ob<tspan x='119.01'>ject</tspan></text>
+<text class='t10' x='134.78' y='43.24'>}</text>
+<text class='t6' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)
+trait C extends D[\T\]
+  where {T extends Object}
+end</code></pre></div>
+<p id="p-fe1aef27" class="nb">In this declaration, trait <span class="m"><i>C</i></span> would be a subtrait of <em>every</em> instantiation of parametric trait <span class="m"><i>D</i></span>. Thus, trait <span class="m"><i>C</i></span> would have all of the methods of every instantiation of <span class="m"><i>D</i></span>. By thinking of the declaration this way, we can see what restrictions we need to impose on the trait <span class="m"><i>C</i></span> in order for it to be sensible. If trait <span class="m"><i>C</i></span> inherits a method declaration that refers to <span class="m"><i>T</i></span>, it really contains infinitely many methods (one for each instantiation of <span class="m"><i>T</i></span>). However, instantiations of the <span class="m"><span class="kw">where</span></span>-clause variables are not explicit from the program text as static parameters are. It must be possible to infer which method is referred to at the call site. If there is not enough information to infer which method is called, type checking rejects the program and requires more type information from the programmer. Programmers always can provide more type information by using type ascription as described in <a class="xref" href="expressions.html#sec-type-ascription">Section 13.31</a><!--nc-->. But trait <span class="m"><i>C</i></span> would also be a subtype of every pair of different instantiations of <span class="m"><i>D</i></span>, which exclude each other by instantiation exclusion, so no such restriction makes the declaration sensible: that is why it is not allowed.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-every">Section I.1.5</a><!--nc--></span></p>
+<p id="p-76af4dbe" class="nb">The Working Draft of February 2011 said that this declaration is legal. The paragraph above, the team’s own account of why such a trait is dangerous, is kept as the reason for the restriction stated at the start of this section.</p></aside>
+<p id="p-9655272e" class="nb">Object or functional declarations may include <span class="m"><span class="kw">where</span></span> clauses, under the same restriction. The following declaration of an <span class="m"><span class="ty">Empty</span></span> list is not allowed:</p>
+<div class="fx nb both" id="c-949c6af7" data-kind="code"><div class="fx-r"><svg class="tx" data-d="19" viewBox="9.36 11.26 259.75 80.40" width="25.975em" height="8.040em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>(</text>
+<text class='t10' x='13.84' y='19.33'>∗</text>
+<text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t10' x='76.4' y='19.33'>∗</text>
+<text class='t7' x='81.38' y='19.33'>)</text>
+<text class='t6' x='9.96' y='31.28'>object</text>
+<text class='t7' x='44.11' y='31.28'>Empt<tspan x='68.33'>y</tspan></text>
+<text class='t6' x='76.49' y='31.28'>extends</text>
+<text class='t7' x='115.87' y='31.28'>List</text>
+<text class='t3' x='132.67' y='31.28'></text>
+<text class='t4' x='136.68' y='31.28'>T</text>
+<text class='t3' x='143.89' y='31.28'></text>
+<text class='t6' x='150.67' y='31.28'>where</text>
+<text class='t10' x='179.59' y='31.28'>{</text>
+<text class='t4' x='184.57' y='31.28'>T</text>
+<text class='t6' x='194.54' y='31.28'>extends</text>
+<text class='t7' x='233.92' y='31.28'>Ob<tspan x='247.76'>ject</tspan></text>
+<text class='t10' x='263.53' y='31.28'>}</text>
+<text class='t8' x='21.92' y='43.24'>ﬁrst</text>
+<text class='t7' x='40.05' y='43.24'>()<tspan x='50.56'>=</tspan></text>
+<text class='t6' x='61.08' y='43.24'>throw</text>
+<text class='t7' x='90' y='43.24'>Error</text>
+<text class='t8' x='21.92' y='55.19'>r<tspan x='25.61'>est</tspan></text>
+<text class='t7' x='38.52' y='55.19'>()<tspan x='49.04'>=</tspan></text>
+<text class='t6' x='59.55' y='55.19'>throw</text>
+<text class='t7' x='88.47' y='55.19'>Error</text>
+<text class='t8' x='21.92' y='67.15'>c<tspan x='25.99'>ons</tspan></text>
+<text class='t7' x='41.58' y='67.15'>(</text>
+<text class='t4' x='45.45' y='67.15'>x</text>
+<text class='t7' x='51.14' y='67.15'>)<tspan x='57.79'>=</tspan><tspan x='68.3'>Cons</tspan><tspan x='89.94'>(</tspan></text>
+<text class='t4' x='93.82' y='67.15'>x,</text>
+<text class='t6' x='103.94' y='67.15'>self</text>
+<text class='t7' x='124.86' y='67.15'>)</text>
+<text class='t8' x='21.92' y='79.1'>app<tspan x='36.68'>end</tspan></text>
+<text class='t7' x='52.99' y='79.1'>(</text>
+<text class='t8' x='56.86' y='79.1'>xs</text>
+<text class='t7' x='66.38' y='79.1'>)<tspan x='73.02'>=</tspan></text>
+<text class='t8' x='83.54' y='79.1'>xs</text>
+<text class='t6' x='9.96' y='91.06'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)
+object Empty extends List[\T\] where {T extends Object}
+  first() = throw Error
+  rest() = throw Error
+  cons(x) = Cons(x,self)
+  append(xs) = xs
+end</code></pre></div>
+<p id="p-cb5ff15f" class="nb">where <span class="m"><span class="ty">Cons</span></span> is declared in <a class="xref" href="objects.html#sec-object-decls">Section 11.1</a><!--nc-->. Instead, the empty list is one object for each element type, and each use writes the element type, as in <span class="m"><span class="ty">Empty</span>⟦ℤ32⟧</span>:</p>
+<div class="fx nb both" id="c-7a92f3d2-2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="20" viewBox="9.36 11.26 183.29 68.45" width="18.329em" height="6.845em" fill="currentColor"><text class='t6' x='9.96' y='19.33'>object</text>
+<text class='t7' x='46.33' y='19.33'>Empt<tspan x='70.54'>y</tspan></text>
+<text class='t3' x='75.94' y='19.33'></text>
+<text class='t4' x='79.95' y='19.33'>T</text>
+<text class='t3' x='87.16' y='19.33'></text>
+<text class='t6' x='93.94' y='19.33'>extends</text>
+<text class='t7' x='135.53' y='19.33'>List</text>
+<text class='t3' x='152.33' y='19.33'></text>
+<text class='t4' x='156.34' y='19.33'>T</text>
+<text class='t3' x='163.55' y='19.33'></text>
+<text class='t8' x='21.92' y='31.28'>ﬁrst</text>
+<text class='t7' x='40.05' y='31.28'>():</text>
+<text class='t4' x='52.22' y='31.28'>T</text>
+<text class='t7' x='62.2' y='31.28'>=</text>
+<text class='t6' x='72.71' y='31.28'>throw</text>
+<text class='t7' x='103.85' y='31.28'>NotF<tspan x='125.85'>ound</tspan></text>
+<text class='t8' x='21.92' y='43.24'>r<tspan x='25.61'>est</tspan></text>
+<text class='t7' x='38.52' y='43.24'>():<tspan x='50.7'>List</tspan></text>
+<text class='t3' x='67.5' y='43.24'></text>
+<text class='t4' x='71.51' y='43.24'>T</text>
+<text class='t3' x='78.71' y='43.24'></text>
+<text class='t7' x='85.49' y='43.24'>=</text>
+<text class='t6' x='96.01' y='43.24'>throw</text>
+<text class='t7' x='127.14' y='43.24'>NotF<tspan x='149.14'>ound</tspan></text>
+<text class='t8' x='21.92' y='55.19'>c<tspan x='25.99'>ons</tspan></text>
+<text class='t7' x='41.58' y='55.19'>(</text>
+<text class='t4' x='45.45' y='55.19'>x</text>
+<text class='t7' x='51.14' y='55.19'>:</text>
+<text class='t4' x='55.57' y='55.19'>T</text>
+<text class='t7' x='62.78' y='55.19'>):<tspan x='71.08'>List</tspan></text>
+<text class='t3' x='87.88' y='55.19'></text>
+<text class='t4' x='91.89' y='55.19'>T</text>
+<text class='t3' x='99.1' y='55.19'></text>
+<text class='t7' x='105.88' y='55.19'>=<tspan x='116.39'>Cons</tspan></text>
+<text class='t3' x='138.03' y='55.19'></text>
+<text class='t4' x='142.05' y='55.19'>T</text>
+<text class='t3' x='149.25' y='55.19'></text>
+<text class='t7' x='153.26' y='55.19'>(</text>
+<text class='t4' x='157.14' y='55.19'>x,</text>
+<text class='t6' x='167.26' y='55.19'>self</text>
+<text class='t7' x='188.18' y='55.19'>)</text>
+<text class='t8' x='21.92' y='67.15'>app<tspan x='36.68'>end</tspan></text>
+<text class='t7' x='52.99' y='67.15'>(</text>
+<text class='t8' x='56.86' y='67.15'>xs</text>
+<text class='t7' x='66.38' y='67.15'>:<tspan x='70.81'>List</tspan></text>
+<text class='t3' x='87.6' y='67.15'></text>
+<text class='t4' x='91.62' y='67.15'>T</text>
+<text class='t3' x='98.82' y='67.15'></text>
+<text class='t7' x='102.83' y='67.15'>):<tspan x='111.14'>List</tspan></text>
+<text class='t3' x='127.93' y='67.15'></text>
+<text class='t4' x='131.95' y='67.15'>T</text>
+<text class='t3' x='139.15' y='67.15'></text>
+<text class='t7' x='145.93' y='67.15'>=</text>
+<text class='t8' x='156.45' y='67.15'>xs</text>
+<text class='t6' x='9.96' y='79.1'>end</text></svg></div><pre class="fx-s"><code>end</code></pre></div>
+<p id="p-c998c972" class="nb">The library declares its empty collections and its empty optional value (<a class="xref" href="lib-convenience.html#sec-convenience-types">Section 39.2</a><!--nc-->) the same way.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-empty">Section I.1.6</a><!--nc--></span></p>
+<p id="p-d45de122" class="nb">The Working Draft of February 2011 gave the declaration marked “Not allowed” as its example of a <span class="m"><span class="kw">where</span></span> clause on an object. It makes <span class="m"><span class="ty">Empty</span></span> a <span class="m"><span class="ty">List</span>⟦<i>T</i>⟧</span> for every <span class="m"><i>T</i></span> at once, which instantiation exclusion forbids. The declaration after it is the library’s own shape; it needs the element type written at each use until the static arguments of a generic object can be inferred.</p></aside>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="objects.html"><span>Previous</span> 11. Objects</a><a class="next" href="expressions.html"><span>Next</span> 13. Expressions</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/trait-parameters.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

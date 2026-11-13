@@ -5,6 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>6. Types · Fortress specification</title>
 <link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t4{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t5{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t6{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t7{font-family:cmr10;font-size:9.96px}
+svg.tx text.t8{font-family:msbm10;font-size:9.96px}
+svg.tx text.t9{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t10{font-family:stmary10;font-size:9.96px}
+svg.tx text.t11{font-family:cmti10;font-size:9.96px}
+</style>
 </head>
 <body data-page="chapter" data-slug="types" data-chapter="6. Types">
 <nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">6. Types</span><a href="notes.html" class="notes-link">Notes</a></nav>
@@ -25,14 +40,14 @@
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-890e0e99" class="nb">Victor: This doesn’t cover the special types, dimension types, or object expression types. But I think it’s okay for this intro, as long as we don’t assert that these are all the types.</p></aside>
 <p id="p-d7f83c13" class="nb">Every expression has a <em>static type</em>, and every value has a <em>runtime type</em> (also known as a <em>dynamic type</em>). Fortress programs are checked before they are executed to ensure that if an expression <span class="m"><i>e</i></span> evaluates to a value <span class="m"><i>v</i></span>, the runtime type of <span class="m"><i>v</i></span> is a subtype of the static type of <span class="m"><i>e</i></span>. Sometimes we abuse terminology by saying that an expression has the runtime type of the value it evaluates to (see <a class="xref" href="evaluation.html#sec-eval-completion">Section 5.2</a> for a discussion about evaluation of expressions).</p>
-<p id="p-872ae2b8" class="nb">Some types may be parameterized by <em>static parameters</em>; we call these types <em>generic types</em>. See Chapter 12 <span class="pending">[not converted yet]</span> for a discussion of static parameters. A static parameter may be instantiated with a type or a value depending on whether it is a type parameter.</p>
+<p id="p-872ae2b8" class="nb">Some types may be parameterized by <em>static parameters</em>; we call these types <em>generic types</em>. See <a class="xref" href="trait-parameters.html">Chapter 12</a><!--nc--> for a discussion of static parameters. A static parameter may be instantiated with a type or a value depending on whether it is a type parameter.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-73baf6d0" class="nb">Victor: I don’t know if the follow really belongs here. It isn’t complete in any case, because of union/intersection types.</p></aside>
-<p id="p-5b09cac0" class="nb">Two types are identical if and only if they are the same kind and their names and static arguments (if any) are identical. Two <span class="m"><span class="kw">nat</span></span> or <span class="m"><span class="kw">int</span></span> static arguments (Section 12.2 <span class="pending">[not converted yet]</span>, Section 13.27 <span class="pending">[not converted yet]</span>) are identical if and only if they are written alike once each operation whose operands are numerals is replaced by its value: <span class="m">2 3</span> and <span class="m">6</span> are identical, and <span class="m"><i>s</i><sub>0</sub> <i>s</i><sub>1</sub></span> is identical to itself but not to <span class="m"><i>s</i><sub>1</sub> <i>s</i><sub>0</sub></span>. Two such arguments are known to differ when they are two different numerals; a static parameter, or an expression in which one occurs, is not known to differ from a numeral, since the parameter may be instantiated with a value at which they are equal.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see Section I.1.50 <span class="pending">[not converted yet]</span></span></p>
+<p id="p-5b09cac0" class="nb">Two types are identical if and only if they are the same kind and their names and static arguments (if any) are identical. Two <span class="m"><span class="kw">nat</span></span> or <span class="m"><span class="kw">int</span></span> static arguments (<a class="xref" href="trait-parameters.html#sec-natparams">Section 12.2</a><!--nc-->, <a class="xref" href="expressions.html#sec-static-expr">Section 13.27</a><!--nc-->) are identical if and only if they are written alike once each operation whose operands are numerals is replaced by its value: <span class="m">2 3</span> and <span class="m">6</span> are identical, and <span class="m"><i>s</i><sub>0</sub> <i>s</i><sub>1</sub></span> is identical to itself but not to <span class="m"><i>s</i><sub>1</sub> <i>s</i><sub>0</sub></span>. Two such arguments are known to differ when they are two different numerals; a static parameter, or an expression in which one occurs, is not known to differ from a numeral, since the parameter may be instantiated with a value at which they are equal.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-sizes">Section I.1.42</a><!--nc--></span></p>
 <p id="p-d03e2ed1" class="nb">The Working Draft of February 2011 said only that the static arguments of identical types are identical, and did not say when two static arguments written as expressions are. The two sentences above say it, in the reading of the team’s own questions and answers on overloaded operators in the appendix “Internal Document”: a numeral differs from another numeral, and an expression with a static parameter in it is not known to differ from a numeral.</p></aside>
 <p id="p-bc767f96" class="nb">Types are related by several relationships as described in <a class="xref" href="#sec-type-relations">Section 6.2</a>.</p>
-<p id="p-4920539d" class="nb">Syntactically, the positions in which a type may legally appear (i.e., <em>type contexts</em>) is determined by the nonterminal <em>Type</em> in the Fortress grammar, defined in Appendix G <span class="pending">[not converted yet]</span>.</p>
+<p id="p-4920539d" class="nb">Syntactically, the positions in which a type may legally appear (i.e., <em>type contexts</em>) is determined by the nonterminal <em>Type</em> in the Fortress grammar, defined in <a class="xref" href="concrete-syntax.html">Appendix G</a><!--nc-->.</p>
 <section class="sec" data-num="6.1" data-title="Kinds of Types">
 <h2 id="sec-type-kinds" class="nb"><span class="num">6.1</span> Kinds of Types</h2>
 <p id="p-fc7b44cd" class="nb">Fortress supports the following kinds of types:</p>
@@ -56,36 +71,37 @@
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-cfe6fc03" class="nb">add coercion in full language</p></aside>
 <p id="p-dfabb67c" class="nb">The subtype relation is a partial order on types that defines the type hierarchy; that is, it is reflexive, transitive and antisymmetric. <span class="m"><span class="ty">Any</span></span> is the top of the type hierarchy: all types are subtypes of <span class="m"><span class="ty">Any</span></span>. <span class="m"><span class="ty">BottomType</span></span> is the bottom of the type hierarchy: all types are supertypes of <span class="m"><span class="ty">BottomType</span></span>. For types <span class="m"><i>T</i></span> and <span class="m"><i>U</i></span>, we write <span class="m"><i>T</i> ⪯ <i>U</i></span> when <span class="m"><i>T</i></span> is a subtype of <span class="m"><i>U</i></span>, and <span class="m"><i>T</i> ≺ <i>U</i></span> when <span class="m"><i>T</i> ⪯ <i>U</i></span> and <span class="m"><i>T</i> ≠ <i>U</i></span>; in the latter case, we say <span class="m"><i>T</i></span> is a <em>strict</em> subtype of <span class="m"><i>U</i></span>. We also say that <span class="m"><i>T</i></span> is a <em>supertype</em> of <span class="m"><i>U</i></span> if <span class="m"><i>U</i></span> is a subtype of <span class="m"><i>T</i></span>. Thus, in the execution of a valid Fortress program, an expression’s runtime type is always a subtype of its static type. We say that a value is <em>an instance of</em> its runtime type and of every supertype of its runtime type; immediate subtypes of <span class="m"><span class="ty">Any</span></span> comprises of tuple types, arrow types, <span class="m"><span class="ty">()</span></span>, <span class="m"><span class="ty">Object</span></span>, and <span class="m"><span class="ty">Index</span></span>, the trait of the types that a subscript takes, of which a tuple type whose element types are all subtypes of <span class="m"><span class="ty">Index</span></span> is a subtype (<a class="xref" href="#sec-tuple-types">Section 6.5</a>).</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see Section I.1.52 <span class="pending">[not converted yet]</span></span></p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
 <p id="p-c25cf27c" class="nb">The Working Draft of February 2011 listed tuple types, arrow types, <span class="m"><span class="ty">()</span></span> and <span class="m"><span class="ty">Object</span></span> only; <span class="m"><span class="ty">Index</span></span>, which extends <span class="m"><span class="ty">Any</span></span> and not <span class="m"><span class="ty">Object</span></span>, is new.</p></aside>
 <p id="p-a593f424" class="nb">The exclusion relation is a symmetric relation between two types whose intersection is <span class="m"><span class="ty">BottomType</span></span>. Because <span class="m"><span class="ty">BottomType</span></span> is uninhabited (i.e., no value has type <span class="m"><span class="ty">BottomType</span></span>), types that exclude each other are disjoint: no value can have a type that is a subtype of two types that exclude each other.</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-41f5e939" class="nb">The converse is technically not true: we can define two traits with method declarations such that no trait or object can extend them both, so no value can have a type that is a subtype of both trait types, but the trait types do not exclude each other. For example: trait A f(self, y: Object) = 1; end trait B f(x: Object, self) = 2; end trait C f() = 3; end</p>
 <p id="p-ae6035c6" class="nb">No pair of the three trait types defined above can be extended but none of them exclude any of the others.</p></aside>
 <p id="p-4ff20d44" class="nb">Note that <span class="m"><span class="ty">BottomType</span></span> excludes every type including itself (because the intersection of <span class="m"><span class="ty">BottomType</span></span> and any type is <span class="m"><span class="ty">BottomType</span></span>), and also that no type other than <span class="m"><span class="ty">BottomType</span></span> excludes <span class="m"><span class="ty">Any</span></span> (because the intersection of any type <span class="m"><i>T</i></span> and <span class="m"><span class="ty">Any</span></span> is <span class="m"><i>T</i></span>). <span class="m"><span class="ty">BottomType</span></span> is the only type that excludes itself. Also note that if two types exclude each other then any subtypes of these types also exclude each other.</p>
-<p id="p-3c74e4c5" class="nb">Fortress also allows <em>coercion</em> between types (see Chapter 17 <span class="pending">[not converted yet]</span>). A coercion from <span class="m"><i>T</i></span> to <span class="m"><i>U</i></span> is defined in the declaration of <span class="m"><i>U</i></span>. We write <span class="m"><i>T</i> → <i>U</i></span> if <span class="m"><i>U</i></span> defines a coercion from <span class="m"><i>T</i></span>. We say that <span class="m"><i>T</i></span> <em>can be coerced to</em> <span class="m"><i>U</i></span>, and write <span class="m"><i>T</i> ⇝ <i>U</i></span>, if <span class="m"><i>U</i></span> defines a coercion from <span class="m"><i>T</i></span> or any supertype of <span class="m"><i>T</i></span>: <span class="m"><i>T</i> ⇝ <i>U</i> ⟺ ∃<i>T</i>′ : <i>T</i> ⪯ <i>T</i>′ ∧ <i>T</i>′ → <i>U</i></span>.</p>
+<p id="p-3c74e4c5" class="nb">Fortress also allows <em>coercion</em> between types (see <a class="xref" href="conversions-coercions.html">Chapter 17</a><!--nc-->). A coercion from <span class="m"><i>T</i></span> to <span class="m"><i>U</i></span> is defined in the declaration of <span class="m"><i>U</i></span>. We write <span class="m"><i>T</i> → <i>U</i></span> if <span class="m"><i>U</i></span> defines a coercion from <span class="m"><i>T</i></span>. We say that <span class="m"><i>T</i></span> <em>can be coerced to</em> <span class="m"><i>U</i></span>, and write <span class="m"><i>T</i> ⇝ <i>U</i></span>, if <span class="m"><i>U</i></span> defines a coercion from <span class="m"><i>T</i></span> or any supertype of <span class="m"><i>T</i></span>: <span class="m"><i>T</i> ⇝ <i>U</i> ⟺ ∃<i>T</i>′ : <i>T</i> ⪯ <i>T</i>′ ∧ <i>T</i>′ → <i>U</i></span>.</p>
 <p id="p-e58368c2" class="nb">The Fortress type hierarchy is acyclic with respect to both subtyping and coercion relations except for the following:</p>
 <ul>
-<li><p id="p-02637dab" class="nb">The trait <span class="m"><span class="ty">Any</span></span> is a single root of the type hierarchy and it forms a cycle as described in Chapter 31 <span class="pending">[not converted yet]</span>.</p></li>
+<li><p id="p-02637dab" class="nb">The trait <span class="m"><span class="ty">Any</span></span> is a single root of the type hierarchy and it forms a cycle as described in <a class="xref" href="lib-object.html">Chapter 31</a><!--nc-->.</p></li>
 <li><p id="p-dec8efff" class="nb">There exists a bidirectional coercion between two tuple types if and only if they have the same sorted form.</p></li>
 </ul>
 <p id="p-80441614" class="nb">These relations are defined more precisely in the following sections describing each kind of type in more detail. Specifically, the relations are the smallest ones that satisfy all the properties given in those sections (and this one).</p>
 </section>
 <section class="sec" data-num="6.3" data-title="Trait Types">
 <h2 id="sec-trait-types" class="nb"><span class="num">6.3</span> Trait Types</h2>
-<div class="tw nb gr" id="g-4697749f" data-kind="grammar"><p class="label">Syntax</p><table class="grammar">
-<tr><td class="l"><em>Type</em></td><td class="l">::=</td><td class="l"><em>TraitType</em></td></tr>
-</table></div>
+<div class="tw nb gr" id="g-ccbbccf1" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 123.63 22.23" width="12.363em" height="2.223em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='30.16'>T<tspan x='30.7'>ype</tspan></text>
+<text class='t2' x='56.49' y='30.16'>::=</text>
+<text class='t1' x='79.6' y='30.16'>T<tspan x='84.59'>r</tspan><tspan x='88.32'>aitT</tspan><tspan x='103.64'>ype</tspan></text></svg></div>
 <p id="p-a6319fb5" class="nb">A <em>trait type</em> is a named type defined by a trait or object declaration. It is an <em>object trait type</em> if it is defined by an object declaration.</p>
 <aside class="draft"><p class="label">Draft note</p>
-<p id="p-9320aef2" class="nb">Victor: The following text really belongs to traits, not to types. Traits are declared by trait and object declarations (described in Chapter 10 <span class="pending">[not converted yet]</span> and Chapter 11 <span class="pending">[not converted yet]</span>). A trait has a <em>trait type</em> of the same name.</p></aside>
+<p id="p-9320aef2" class="nb">Victor: The following text really belongs to traits, not to types. Traits are declared by trait and object declarations (described in <a class="xref" href="traits.html">Chapter 10</a><!--nc--> and <a class="xref" href="objects.html">Chapter 11</a><!--nc-->). A trait has a <em>trait type</em> of the same name.</p></aside>
 <p id="p-e1be77bc" class="nb">A trait type is a subtype of every type that appears in the <span class="m"><span class="kw">extends</span></span> clause of its definition. In addition, every trait type is a subtype of <span class="m"><span class="ty">Any</span></span>.</p>
 <p id="p-2f649244" class="nb">A trait declaration may also include an <span class="m"><span class="kw">excludes</span></span> clause, in which case the defined trait type excludes every type that appears in that clause. Every trait type also excludes every arrow type and the special types <span class="m"><span class="ty">()</span></span> and <span class="m"><span class="ty">BottomType</span></span>, and every trait type other than <span class="m"><span class="ty">Index</span></span> excludes every tuple type; <span class="m"><span class="ty">Index</span></span> excludes a tuple type only where one of its element types excludes <span class="m"><span class="ty">Index</span></span> (<a class="xref" href="#sec-tuple-types">Section 6.5</a>).</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see Section I.1.52 <span class="pending">[not converted yet]</span></span></p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
 <p id="p-edfda4e0" class="nb">The Working Draft of February 2011 said that every trait type excludes every tuple type. A tuple type whose element types are all subtypes of <span class="m"><span class="ty">Index</span></span> is now a subtype of <span class="m"><span class="ty">Index</span></span>, so <span class="m"><span class="ty">Index</span></span> does not exclude it.</p></aside>
-<p id="p-208f1a6b" class="nb">Two instantiations of the same parameterized trait exclude each other unless each static argument of one, other than an operator argument, is the same as the corresponding static argument of the other: the same type for a type parameter, and the same value for a <span class="m"><span class="kw">nat</span></span>, <span class="m"><span class="kw">int</span></span>, <span class="m"><span class="kw">bool</span></span>, dimension, or unit parameter. This property is called <em>instantiation exclusion</em>. Operator arguments do not count: an operator argument names the operator that a subtrait inherits (Section 12.5 <span class="pending">[not converted yet]</span>), so instantiations that differ only in their operator arguments, such as the instantiations of <span class="m"><span class="ty">BooleanAlgebra</span></span> that <span class="m"><span class="ty">Boolean</span></span> extends (Section 32.1 <span class="pending">[not converted yet]</span>), do not exclude each other on that account. Because types that exclude each other are disjoint, no type is a subtype of two instantiations of one parameterized trait that differ in a static argument other than an operator argument; the rule that this imposes on trait and object declarations is stated in Section 10.1 <span class="pending">[not converted yet]</span>.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see Section I.1.1 <span class="pending">[not converted yet]</span></span></p>
-<p id="p-31727a02" class="nb">The Working Draft of February 2011 stated no exclusion between instantiations, so the relations defined in this chapter, the smallest ones that satisfy the properties given, let a type be a subtype of two different instantiations of one parameterized trait. The paragraph above adds the property. It is the rule the type group named <em>multiple instantiation exclusion</em> (Allen, Hilburn, Kilpatrick, Luchangco, Ryu, Chase, and Steele, “Type Checking Modular Multiple Dispatch with Parametric Polymorphism and Multiple Inheritance”, OOPSLA 2011), which the compiled type checker enforces for type arguments and numerals, not yet in every case (Section I.1.1 <span class="pending">[not converted yet]</span> states its coverage), stated here as the team’s later Types chapter (Luchangco, 2012) states it, under its shorter name.</p></aside>
+<p id="p-208f1a6b" class="nb">Two instantiations of the same parameterized trait exclude each other unless each static argument of one, other than an operator argument, is the same as the corresponding static argument of the other: the same type for a type parameter, and the same value for a <span class="m"><span class="kw">nat</span></span>, <span class="m"><span class="kw">int</span></span>, <span class="m"><span class="kw">bool</span></span>, dimension, or unit parameter. This property is called <em>instantiation exclusion</em>. Operator arguments do not count: an operator argument names the operator that a subtrait inherits (<a class="xref" href="trait-parameters.html#sec-opr-ident">Section 12.5</a><!--nc-->), so instantiations that differ only in their operator arguments, such as the instantiations of <span class="m"><span class="ty">BooleanAlgebra</span></span> that <span class="m"><span class="ty">Boolean</span></span> extends (<a class="xref" href="lib-booleans.html#sec-lib-boolean">Section 32.1</a><!--nc-->), do not exclude each other on that account. Because types that exclude each other are disjoint, no type is a subtype of two instantiations of one parameterized trait that differ in a static argument other than an operator argument; the rule that this imposes on trait and object declarations is stated in <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-rule">Section I.1.1</a><!--nc--></span></p>
+<p id="p-31727a02" class="nb">The Working Draft of February 2011 stated no exclusion between instantiations, so the relations defined in this chapter, the smallest ones that satisfy the properties given, let a type be a subtype of two different instantiations of one parameterized trait. The paragraph above adds the property. It is the rule the type group named <em>multiple instantiation exclusion</em> (Allen, Hilburn, Kilpatrick, Luchangco, Ryu, Chase, and Steele, “Type Checking Modular Multiple Dispatch with Parametric Polymorphism and Multiple Inheritance”, OOPSLA 2011), which the compiled type checker enforces for type arguments and numerals, not yet in every case (<a class="xref" href="spec-changes.html#sec-revival-rule">Section I.1.1</a><!--nc--> states its coverage), stated here as the team’s later Types chapter (Luchangco, 2012) states it, under its shorter name.</p></aside>
 <section class="sec" data-num="6.3.1" data-title="Object Trait Types">
 <h3 id="sec-object-traits" class="nb"><span class="num">6.3.1</span> Object Trait Types</h3>
 <p id="p-fb4e9805" class="nb">An object trait type is a trait type defined by an object declaration. Object declarations do not include <span class="m"><span class="kw">excludes</span></span> clauses, but an object trait type cannot be extended. Thus, an object trait type excludes any type that is not its supertype.</p>
@@ -93,22 +109,34 @@
 </section>
 <section class="sec" data-num="6.4" data-title="Object Expression Types">
 <h2 id="sec-object-exp-types" class="nb"><span class="num">6.4</span> Object Expression Types</h2>
-<p id="p-4655b187" class="nb">An object expression type is defined by an object expression (described in Section 13.9 <span class="pending">[not converted yet]</span>) and the program location of the object expression. Every evaluation of a given object expression has the same object expression type. Two object expressions at different program locations have different object expression types.</p>
+<p id="p-4655b187" class="nb">An object expression type is defined by an object expression (described in <a class="xref" href="expressions.html#sec-object-expr">Section 13.9</a><!--nc-->) and the program location of the object expression. Every evaluation of a given object expression has the same object expression type. Two object expressions at different program locations have different object expression types.</p>
 <p id="p-db2d0ba6" class="nb">Like trait types, an object expression type is a subtype of all trait types that appear in the <span class="m"><span class="kw">extends</span></span> clause of its definition, as well as the type <span class="m"><span class="ty">Any</span></span>.</p>
 <p id="p-0ad26522" class="nb">Like object trait types, an object expression type excludes any type that is not its supertype.</p>
 </section>
 <section class="sec" data-num="6.5" data-title="Tuple Types">
 <h2 id="sec-tuple-types" class="nb"><span class="num">6.5</span> Tuple Types</h2>
-<div class="tw nb gr" id="g-a0c694cb" data-kind="grammar"><p class="label">Syntax</p><table class="grammar">
-<tr><td class="l"><em>TupleType</em></td><td class="l">::=</td><td class="l"><code>(</code> <em>Type</em><span class="m">,</span> <em>TypeList</em> <code>)</code></td></tr>
-<tr><td class="l"><em>TypeList</em></td><td class="l">::=</td><td class="l"><em>Type</em>(<span class="m">,</span> <em>Type</em>)<span class="m"><sup>∗</sup></span></td></tr>
-</table></div>
+<div class="tw nb gr" id="g-59e91019" data-kind="grammar"><svg class="tx" data-d="2" viewBox="-5.58 10.45 184.15 32.85" width="18.415em" height="3.285em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>T<tspan x='30.89'>upleT</tspan><tspan x='52.85'>ype</tspan></text>
+<text class='t2' x='78.63' y='28.8'>::=</text>
+<text class='t3' x='101.75' y='28.8'>(</text>
+<text class='t1' x='110.22' y='28.8'>T<tspan x='115.02'>ype</tspan></text>
+<text class='t4' x='128.85' y='28.8'>,</text>
+<text class='t1' x='135.76' y='28.8'>T<tspan x='140.57'>ypeList</tspan></text>
+<text class='t3' x='172.02' y='28.8'>)</text>
+<text class='t1' x='25.9' y='40.76'>T<tspan x='30.7'>ypeList</tspan></text>
+<text class='t2' x='78.63' y='40.76'>::=</text>
+<text class='t1' x='101.75' y='40.76'>T<tspan x='106.55'>ype</tspan></text>
+<text class='t2' x='120.38' y='40.76'>(</text>
+<text class='t4' x='123.7' y='40.76'>,</text>
+<text class='t1' x='130.61' y='40.76'>T<tspan x='135.42'>ype</tspan></text>
+<text class='t2' x='149.24' y='40.76'>)</text>
+<text class='t5' x='152.56' y='37.14'>∗</text></svg></div>
 <aside class="draft"><p class="label">Draft note</p>
-<p id="p-28599b55" class="nb">Victor: The following two sentences don’t belong in this section: A tuple expression is an ordered sequence of expressions separated by commas and enclosed in parentheses. See Section 13.28 <span class="pending">[not converted yet]</span> for a discussion of tuple expressions.</p></aside>
+<p id="p-28599b55" class="nb">Victor: The following two sentences don’t belong in this section: A tuple expression is an ordered sequence of expressions separated by commas and enclosed in parentheses. See <a class="xref" href="expressions.html#sec-tuple-expr">Section 13.28</a><!--nc--> for a discussion of tuple expressions.</p></aside>
 <p id="p-23ee372c" class="nb">A tuple type consists of a parenthesized, comma-separated list of two or more types.</p>
-<p id="p-0dd20ce3" class="nb">Every tuple type is a subtype of <span class="m"><span class="ty">Any</span></span>. No other type encompasses all tuple types. Tuple types cannot be extended by trait types. Tuple types are covariant: a tuple type <span class="m"><i>X</i></span> is a subtype of tuple type <span class="m"><i>Y</i></span> if and only if they have the same number of element types and each element type of <span class="m"><i>X</i></span> is a subtype of the corresponding element type of <span class="m"><i>Y</i></span>. A tuple type whose element types are all subtypes of the trait <span class="m"><span class="ty">Index</span></span> is a subtype of <span class="m"><span class="ty">Index</span></span>, the trait of the types that a subscript takes (Section 25.7 <span class="pending">[not converted yet]</span>). <span class="m"><span class="ty">Index</span></span> extends <span class="m"><span class="ty">Any</span></span> and not <span class="m"><span class="ty">Object</span></span> (Section 10.1 <span class="pending">[not converted yet]</span>), so such a tuple type is no subtype of <span class="m"><span class="ty">Object</span></span>.</p>
+<p id="p-0dd20ce3" class="nb">Every tuple type is a subtype of <span class="m"><span class="ty">Any</span></span>. No other type encompasses all tuple types. Tuple types cannot be extended by trait types. Tuple types are covariant: a tuple type <span class="m"><i>X</i></span> is a subtype of tuple type <span class="m"><i>Y</i></span> if and only if they have the same number of element types and each element type of <span class="m"><i>X</i></span> is a subtype of the corresponding element type of <span class="m"><i>Y</i></span>. A tuple type whose element types are all subtypes of the trait <span class="m"><span class="ty">Index</span></span> is a subtype of <span class="m"><span class="ty">Index</span></span>, the trait of the types that a subscript takes (<a class="xref" href="operatordefs.html#sec-subscripting-ops">Section 25.7</a><!--nc-->). <span class="m"><span class="ty">Index</span></span> extends <span class="m"><span class="ty">Any</span></span> and not <span class="m"><span class="ty">Object</span></span> (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->), so such a tuple type is no subtype of <span class="m"><span class="ty">Object</span></span>.</p>
 <p id="p-ecd258bf" class="nb">A tuple type excludes any non-tuple type other than <span class="m"><span class="ty">Any</span></span> and <span class="m"><span class="ty">Index</span></span>, and it excludes <span class="m"><span class="ty">Index</span></span> if and only if one of its element types excludes <span class="m"><span class="ty">Index</span></span>.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see Section I.1.52 <span class="pending">[not converted yet]</span></span></p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
 <p id="p-ce2c2de8" class="nb">The Working Draft of February 2011 made no tuple type a subtype of a trait type, and said that a tuple type excludes any non-tuple type other than <span class="m"><span class="ty">Any</span></span>. The rule that a tuple of indices is an <span class="m"><span class="ty">Index</span></span>, and the exclusion that follows from it, are the revival’s: they let an index parameter be bounded by <span class="m"><span class="ty">Index</span></span> while a subscript such as <span class="m"><i>a</i>[<i>i</i>, <i>j</i>]</span> passes the tuple <span class="m">(<i>i</i>, <i>j</i>)</span> as its one index.</p></aside>
 <p id="p-acd44434" class="nb">A tuple type excludes every tuple type that does not have the same number of element types. Also, tuple types that have the same number of element types exclude each other if any pair of corresponding element types exclude each other.</p>
 <p id="p-8747cde7" class="nb">Intersection of nonexclusive tuple types are defined elementwise; the intersection of nonexclusive tuple type <span class="m"><i>X</i></span> and <span class="m"><i>Y</i></span> is a tuple type with exactly corresponding elements, where the type in each element type is the intersection of the types in the corresponding element types of <span class="m"><i>X</i></span> and <span class="m"><i>Y</i></span>. Note that intersection of any exclusive types is <span class="m"><span class="ty">BottomType</span></span> as described in <a class="xref" href="#sec-bottom-type">Section 6.8</a>.</p>
@@ -122,11 +150,26 @@
 <p id="p-a3f2b0d2" class="nb">Function contracts consist of three parts: a <span class="m"><span class="kw">requires</span></span> part, an <span class="m"><span class="kw">ensures</span></span> part, and an <span class="m"><span class="kw">invariant</span></span> part. All three parts are evaluated in the scope of the function body extended with a special variable <em>arg</em>, bound to an immutable array of all function arguments. (This array is useful for describing contracts in the presence of higher-order functions; see <a class="xref" href="#sec-arrow-types">Section 6.6</a>).</p>
 <p id="p-73c72e29" class="nb">Is the special variable <em>arg</em> reserved? What if one of the function’s parameters is named <span class="m"><i>arg</i></span>?</p>
 <p id="p-bb03e69d" class="nb">At runtime, when a function is bound to a variable or parameter <span class="m"><i>f</i></span> whose type includes a contract, the contract is evaluated when the function is called through a reference to <span class="m"><i>f</i></span>. (Note that this contract is distinct from the contract attached to the function bound to <span class="m"><i>f</i></span>, which is also evaluated upon a call to <span class="m"><i>f</i></span>). This contract is evaluated in the enclosing scope of the arrow type, extended with any keyword argument names provided in the arrow type, and the special variable <span class="m"><i>arg</i></span> bound to an immutable array containing the arguments provided at the call site (in the order provided at the call site). If the <span class="m"><span class="kw">requires</span></span> clauses stipulated in the type of <span class="m"><i>f</i></span> are not satisfied, a <span class="m"><span class="ty">CallerViolation</span></span> exception is thrown. Otherwise, if the <span class="m"><span class="kw">requires</span></span> clauses attached to the function bound to <span class="m"><i>f</i></span> is not satisfied, a <span class="m"><span class="ty">ContractBinding</span></span> exception is thrown. If any other part of the contract of the function bound to <span class="m"><i>f</i></span> is not satisfied, a <span class="m"><span class="ty">CalleeViolation</span></span> exception is thrown. Otherwise, if any part of the contract stipulated in the type of <span class="m"><i>f</i></span> is not satisfied, a <span class="m"><span class="ty">ContractBinding</span></span> exception is thrown.</p></aside>
-<div class="tw nb gr" id="g-928bdbe9" data-kind="grammar"><p class="label">Syntax</p><table class="grammar">
-<tr><td class="l"><em>Type</em></td><td class="l">::=</td><td class="l"><em>ArgType</em> <span class="m">→</span> <em>Type</em> <em>Throws</em>?</td></tr>
-<tr><td class="l"><em>ArgType</em></td><td class="l">::=</td><td class="l"><code>(</code> (<em>Type</em><span class="m">,</span>)<span class="m"><sup>∗</sup></span> <em>Type</em><span class="m">...</span> <code>)</code></td></tr>
-<tr><td class="l"></td><td class="l"><span class="m">|</span></td><td class="l"><em>TupleType</em></td></tr>
-</table></div>
+<div class="tw nb gr" id="g-19af3e7f" data-kind="grammar"><svg class="tx" data-d="3" viewBox="-5.58 10.45 206.80 45.36" width="20.680em" height="4.536em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>T<tspan x='30.7'>ype</tspan></text>
+<text class='t2' x='71.06' y='28.8'>::=</text>
+<text class='t1' x='94.18' y='28.8'>Ar<tspan x='103.77'>gT</tspan><tspan x='113.55'>ype</tspan></text>
+<text class='t6' x='131.53' y='28.8'>→</text>
+<text class='t1' x='145.65' y='28.8'>T<tspan x='150.45'>ype</tspan><tspan x='166.77'>Thr</tspan><tspan x='180.71'>ows</tspan></text>
+<text class='t2' x='196.22' y='28.8'>?</text>
+<text class='t1' x='25.9' y='40.76'>Ar<tspan x='35.5'>gT</tspan><tspan x='45.28'>ype</tspan></text>
+<text class='t2' x='71.06' y='40.76'>::=</text>
+<text class='t3' x='94.18' y='40.76'>(</text>
+<text class='t2' x='102.64' y='40.76'>(</text>
+<text class='t1' x='105.96' y='40.76'>T<tspan x='110.76'>ype</tspan></text>
+<text class='t4' x='124.59' y='40.76'>,</text>
+<text class='t2' x='129.02' y='40.76'>)</text>
+<text class='t5' x='132.34' y='37.14'>∗</text>
+<text class='t1' x='139.41' y='40.76'>T<tspan x='144.21'>ype</tspan></text>
+<text class='t4' x='158.04' y='40.76'>...</text>
+<text class='t3' x='170.49' y='40.76'>)</text>
+<text class='t6' x='71.06' y='52.71'>|</text>
+<text class='t1' x='94.18' y='52.71'>T<tspan x='99.17'>upleT</tspan><tspan x='121.12'>ype</tspan></text></svg></div>
 <p id="p-b524060a" class="nb">The static type of an expression that evaluates to a function value is an <em>arrow type</em> (or possibly an intersection of arrow types). An arrow type has three constituent parts: a <em>parameter type</em>, a <em>return type</em>, and a set of <em>exception types</em>. (Multiple parameters or return values are handled by having tuple types for the parameter type or return type respectively.)</p>
 <aside class="draft"><p class="label">Draft note</p>
 <p id="p-7f8e724a" class="nb">Victor: I’d rather say "an exception type", where that type can be a union type, but I’m avoiding mentioning union types for now.</p></aside>
@@ -143,10 +186,31 @@
 <li><p id="p-b41a8a4c" class="nb">for all <span class="m"><i>X</i></span> in <span class="m"><i>C</i></span>, there exists <span class="m"><i>Y</i></span> in <span class="m"><i>F</i></span> such that <span class="m"><i>X</i></span> is a subtype of <span class="m"><i>Y</i></span>.</p></li>
 </ul>
 <p id="p-38c8dca9" class="nb">For arrow types <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span>, we say that <span class="m"><i>S</i></span> is <em>more specific than</em> <span class="m"><i>T</i></span> if the parameter type of <span class="m"><i>S</i></span> is a subtype of the parameter type of <span class="m"><i>T</i></span>. We also say that <span class="m"><i>S</i></span> is <em>more restricted than</em> <span class="m"><i>T</i></span> if the return type of <span class="m"><i>S</i></span> is a subtype of the return type of <span class="m"><i>T</i></span> and for every <span class="m"><i>X</i></span> in the set of exception types of <span class="m"><i>S</i></span>, there exists <span class="m"><i>Y</i></span> in the set of exception types of <span class="m"><i>T</i></span> such that <span class="m"><i>X</i></span> is a subtype of <span class="m"><i>Y</i></span>. Thus, <span class="m"><i>S</i></span> is a subtype of <span class="m"><i>T</i></span> if and only if <span class="m"><i>T</i></span> is more specific than <span class="m"><i>S</i></span> and <span class="m"><i>S</i></span> is more restricted than <span class="m"><i>T</i></span>.</p>
-<p id="p-9e6cf6c2" class="nb">An arrow type excludes any non-arrow type other than <span class="m"><span class="ty">Any</span></span> and the function types that are its subtypes (see <a class="xref" href="#sec-function-types">Section 6.7</a>). However, arrow types do not exclude other arrow types because of overloading as described in Chapter 15 <span class="pending">[not converted yet]</span>.</p>
+<p id="p-9e6cf6c2" class="nb">An arrow type excludes any non-arrow type other than <span class="m"><span class="ty">Any</span></span> and the function types that are its subtypes (see <a class="xref" href="#sec-function-types">Section 6.7</a>). However, arrow types do not exclude other arrow types because of overloading as described in <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc-->.</p>
 <p id="p-0931022b" class="nb">Here are some examples:</p>
-<div class="fx nb both" id="c-39a32c7d" data-kind="code" data-example="Types.Arrow"><div class="fx-r"><span class="tb top"><span class="l"><span class="m"><span class="tt"></span></span><span class="tb"><span class="l"><span class="m"><i>f</i>: (ℝ64, ℝ64) → ℝ64</span></span>
-<span class="l"><span class="m"><i>g</i>: ℤ32 → (ℤ32, ℤ32) <span class="kw">throws</span> <span class="ty">IOFailure</span></span></span></span></span></span></div><pre class="fx-s"><code>  f: (RR64, RR64) -&gt; RR64
+<div class="fx nb both" id="c-39a32c7d" data-kind="code" data-example="Types.Arrow"><div class="fx-r"><svg class="tx" data-d="4" viewBox="4.38 11.26 166.54 31.59" width="16.654em" height="3.159em" fill="currentColor"><text class='t4' x='4.98' y='19.33'>f</text>
+<text class='t7' x='10.93' y='19.33'>:<tspan x='15.36'>(</tspan></text>
+<text class='t8' x='19.23' y='19.33'>R</text>
+<text class='t7' x='26.43' y='19.33'>64</text>
+<text class='t4' x='36.39' y='19.33'>,</text>
+<text class='t8' x='40.82' y='19.33'>R</text>
+<text class='t7' x='48.01' y='19.33'>64)</text>
+<text class='t6' x='64.62' y='19.33'>→</text>
+<text class='t8' x='77.35' y='19.33'>R</text>
+<text class='t7' x='84.54' y='19.33'>64</text>
+<text class='t4' x='4.98' y='39.75'>g</text>
+<text class='t7' x='10.09' y='39.75'>:</text>
+<text class='t8' x='14.52' y='39.75'>Z</text>
+<text class='t7' x='21.16' y='39.75'>32</text>
+<text class='t6' x='33.89' y='39.75'>→</text>
+<text class='t7' x='46.62' y='39.75'>(</text>
+<text class='t8' x='50.49' y='39.75'>Z</text>
+<text class='t7' x='57.14' y='39.75'>32</text>
+<text class='t4' x='67.1' y='39.75'>,</text>
+<text class='t8' x='71.53' y='39.75'>Z</text>
+<text class='t7' x='78.17' y='39.75'>32)</text>
+<text class='t9' x='94.77' y='39.75'>throws</text>
+<text class='t7' x='128.92' y='39.75'>IOF<tspan x='145.94'>ailure</tspan></text></svg></div><pre class="fx-s"><code>  f: (RR64, RR64) -&gt; RR64
   g: ZZ32 -&gt; (ZZ32, ZZ32) throws IOFailure</code></pre></div>
 </section>
 <section class="sec" data-num="6.7" data-title="Function Types">
@@ -171,33 +235,53 @@
 </section>
 <section class="sec" data-num="6.9" data-title="Types in the Fortress Standard Libraries">
 <h2 id="sec-types-libraries" class="nb"><span class="num">6.9</span> Types in the Fortress Standard Libraries</h2>
-<p id="p-2eac0a23" class="nb">The Fortress standard libraries define simple standard types for literals such as <span class="m"><span class="ty">BooleanLiteral</span>⟦<i>b</i>⟧</span>, <span class="m"><span class="ty">()</span></span> (pronounced “void”), <span class="m"><span class="ty">Character</span></span>, <span class="m"><span class="ty">String</span></span>, and the numeral types below <span class="m"><span class="ty">Numeral</span></span>, <span class="m"><span class="ty">NaturalNumeral</span>⟦<i>n</i>, <i>r</i>, <i>v</i>⟧</span> and <span class="m"><span class="ty">RadixPointNumeral</span>⟦<i>n</i>, <i>m</i>, <i>r</i>, <i>v</i>⟧</span>, which exist only when a program is compiled, for appropriate values of <span class="m"><i>b</i></span>, <span class="m"><i>n</i></span>, <span class="m"><i>m</i></span>, <span class="m"><i>r</i></span>, and <span class="m"><i>v</i></span> (See Section 13.1 <span class="pending">[not converted yet]</span> for a discussion of Fortress literals).</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see Section I.1.58 <span class="pending">[not converted yet]</span></span></p>
-<p id="p-80ae35df" class="nb">The Working Draft of February 2011 wrote the numeral type <span class="m"><span class="ty">Numeral</span>⟦<i>n</i>, <i>m</i>, <i>r</i>, <i>v</i>⟧</span>, whose static arguments were the four numbers; the revival decided on 9 November 2026 that the four numbers are the static arguments of the Working Draft’s <span class="m"><span class="ty">NaturalNumeral</span></span> and <span class="m"><span class="ty">RadixPointNumeral</span></span>, below a <span class="m"><span class="ty">Numeral</span></span> without static parameters, and that no value of these types exists when a program runs (Section 13.1 <span class="pending">[not converted yet]</span>).</p></aside>
+<p id="p-2eac0a23" class="nb">The Fortress standard libraries define simple standard types for literals such as <span class="m"><span class="ty">BooleanLiteral</span>⟦<i>b</i>⟧</span>, <span class="m"><span class="ty">()</span></span> (pronounced “void”), <span class="m"><span class="ty">Character</span></span>, <span class="m"><span class="ty">String</span></span>, and the numeral types below <span class="m"><span class="ty">Numeral</span></span>, <span class="m"><span class="ty">NaturalNumeral</span>⟦<i>n</i>, <i>r</i>, <i>v</i>⟧</span> and <span class="m"><span class="ty">RadixPointNumeral</span>⟦<i>n</i>, <i>m</i>, <i>r</i>, <i>v</i>⟧</span>, which exist only when a program is compiled, for appropriate values of <span class="m"><i>b</i></span>, <span class="m"><i>n</i></span>, <span class="m"><i>m</i></span>, <span class="m"><i>r</i></span>, and <span class="m"><i>v</i></span> (See <a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc--> for a discussion of Fortress literals).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-numerals">Section I.1.50</a><!--nc--></span></p>
+<p id="p-80ae35df" class="nb">The Working Draft of February 2011 wrote the numeral type <span class="m"><span class="ty">Numeral</span>⟦<i>n</i>, <i>m</i>, <i>r</i>, <i>v</i>⟧</span>, whose static arguments were the four numbers; the revival decided on 9 November 2026 that the four numbers are the static arguments of the Working Draft’s <span class="m"><span class="ty">NaturalNumeral</span></span> and <span class="m"><span class="ty">RadixPointNumeral</span></span>, below a <span class="m"><span class="ty">Numeral</span></span> without static parameters, and that no value of these types exists when a program runs (<a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->).</p></aside>
 <p id="p-c7aaf2f9" class="nb">Moreover, there are several simple standard numeric types. These types are mutually exclusive; no value has more than one of them. Values of these types are immutable.</p>
 <p id="p-0edc5218" class="nb">The numeric types share the common supertype <span class="m"><span class="ty">Number</span></span>. Fortress includes types for arbitrary-precision integers (of type <span class="m">ℤ</span>), their unsigned equivalents (of type <span class="m">ℕ</span>), rational numbers (of type <span class="m">ℚ</span>), real numbers (of type <span class="m">ℝ</span>), complex numbers (of type <span class="m">ℂ</span>), fixed-size representations for integers including the types <span class="m">ℤ</span>8, <span class="m">ℤ</span>16, <span class="m">ℤ</span>32, <span class="m">ℤ</span>64, <span class="m">ℤ</span>128, their unsigned equivalents <span class="m">ℕ</span>8, <span class="m">ℕ</span>16, <span class="m">ℕ</span>32, <span class="m">ℕ</span>64, <span class="m">ℕ</span>128, floating-point numbers (described below), intervals (of type <span class="m"><span class="ty">Interval</span>⟦<i>X</i>⟧</span>, abbreviated as <span class="m">⟨|<i>X</i>|⟩</span>, where <span class="m"><i>X</i></span> can be instantiated with any number type), and imaginary and complex numbers of fixed size (in rectangular form with types <span class="m">ℂ<i>n</i></span> for <span class="m"><i>n</i> = 16, 32, 64, 128, 256</span> and polar form with type <span class="m"><span class="ty">Polar</span>⟦<i>X</i>⟧</span> where <span class="m"><i>X</i></span> can be instantiated with any real number type).</p>
 <p id="p-dc469356" class="nb">The Fortress standard libraries also define other simple standard types such as <span class="m"><span class="ty">Any</span></span>, <span class="m"><span class="ty">Object</span></span>, <span class="m"><span class="ty">Exception</span></span>, <span class="m"><span class="ty">Boolean</span></span>, and <span class="m"><span class="ty">BooleanInterval</span></span> as well as low-level binary data types such as <span class="m"><span class="ty">LinearSequence</span></span>, <span class="m"><span class="ty">HeapSequence</span></span>, and <span class="m"><span class="ty">BinaryWord</span></span>. See Parts V and VI for discussions of the Fortress standard libraries.</p>
 </section>
 <section class="sec" data-num="6.10" data-title="Intersection and Union Types">
 <h2 id="sec-internal-types" class="nb"><span class="num">6.10</span> Intersection and Union Types</h2>
-<p id="p-1216c2ed" class="nb">For every finite set of types, there is a type denoting a unique <em>intersection</em> of those types. The intersection of a set of types <span class="m"><i>S</i></span> is a subtype of every type <span class="m"><i>T</i> ∈ <i>S</i></span> and of the intersection of every subset of <span class="m"><i>S</i></span>. There is also a type denoting a unique <em>union</em> of those types. The union of a set of types <span class="m"><i>S</i></span> is a supertype of every type <span class="m"><i>T</i> ∈ <i>S</i></span> and of the union of every subset of <span class="m"><i>S</i></span>. Neither intersection types nor union types are first-class types; they are used solely for type inference (as described in Chapter 20 <span class="pending">[not converted yet]</span>) and they cannot be expressed directly in programs.</p>
+<p id="p-1216c2ed" class="nb">For every finite set of types, there is a type denoting a unique <em>intersection</em> of those types. The intersection of a set of types <span class="m"><i>S</i></span> is a subtype of every type <span class="m"><i>T</i> ∈ <i>S</i></span> and of the intersection of every subset of <span class="m"><i>S</i></span>. There is also a type denoting a unique <em>union</em> of those types. The union of a set of types <span class="m"><i>S</i></span> is a supertype of every type <span class="m"><i>T</i> ∈ <i>S</i></span> and of the union of every subset of <span class="m"><i>S</i></span>. Neither intersection types nor union types are first-class types; they are used solely for type inference (as described in <a class="xref" href="type-inference.html">Chapter 20</a><!--nc-->) and they cannot be expressed directly in programs.</p>
 <p id="p-19a017fb" class="nb">The intersection of a set of types <span class="m"><i>S</i></span> is equal to a named type <span class="m"><i>U</i></span> when any subtype of every type <span class="m"><i>T</i> ∈ <i>S</i></span> and of the intersection of every subset of <span class="m"><i>S</i></span> is a subtype of <span class="m"><i>U</i></span>. Similarly, the union of a set of types <span class="m"><i>S</i></span> is equal to a named type <span class="m"><i>U</i></span> when any supertype of every type <span class="m"><i>T</i> ∈ <i>S</i></span> and of the union of every subset of <span class="m"><i>S</i></span> is a supertype of <span class="m"><i>U</i></span>.</p>
-<p id="p-f7d90d5a" class="nb">A type <span class="m"><i>U</i></span> <em>covers</em> a type <span class="m"><i>T</i></span> when every value of <span class="m"><i>T</i></span> is a value of <span class="m"><i>U</i></span>. A type covers each of its subtypes, and a trait with a <span class="m"><span class="kw">comprises</span></span> clause is covered by the union of the types listed in the clause (Section 10.1 <span class="pending">[not converted yet]</span>). Covering is a relation between the values of types and not the subtype relation: a type may cover another type that is not its subtype.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see Section I.1.42 <span class="pending">[not converted yet]</span></span></p>
+<p id="p-f7d90d5a" class="nb">A type <span class="m"><i>U</i></span> <em>covers</em> a type <span class="m"><i>T</i></span> when every value of <span class="m"><i>T</i></span> is a value of <span class="m"><i>U</i></span>. A type covers each of its subtypes, and a trait with a <span class="m"><span class="kw">comprises</span></span> clause is covered by the union of the types listed in the clause (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->). Covering is a relation between the values of types and not the subtype relation: a type may cover another type that is not its subtype.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-covering">Section I.1.34</a><!--nc--></span></p>
 <p id="p-ba31b47e" class="nb">The Working Draft of February 2011 did not define covering. The team’s later Types chapter (Luchangco, 2012) names covering beside subtyping and exclusion as a relation between types, and says that an instantiation of a trait with a <span class="m"><span class="kw">comprises</span></span> clause is covered by the union of the listed types.</p></aside>
 <p id="p-059c3e8c" class="nb">For example:</p>
-<div class="fx nb both" id="c-d463e8b0" data-kind="code"><div class="fx-r"><span class="tb top"><span class="l"><span class="m"><span class="kw">trait</span> <i>S</i> <span class="kw">comprises</span> {<i>U</i>, <i>V</i>} <span class="kw">end</span></span></span>
-<span class="l"><span class="m"><span class="kw">trait</span> <i>T</i> <span class="kw">comprises</span> {<i>V</i>, <i>W</i>} <span class="kw">end</span></span></span>
-<span class="l"><span class="m"><span class="kw">trait</span> <i>U</i> <span class="kw">extends</span> <i>S</i> <span class="kw">excludes</span> <i>W</i> <span class="kw">end</span></span></span>
-<span class="l"><span class="m"><span class="kw">trait</span> <i>V</i> <span class="kw">extends</span> {<i>S</i>, <i>T</i>} <span class="kw">end</span></span></span>
-<span class="l"><span class="m"><span class="kw">trait</span> <i>W</i> <span class="kw">extends</span> <i>T</i> <span class="kw">end</span></span></span></span></div><pre class="fx-s"><code>trait S comprises {U,V} end
-trait T comprises {V,W} end
-trait U extends S excludes W end
-trait V extends {S,T} end
-trait W extends T end</code></pre></div>
-<p id="p-31522916" class="nb">because of the <span class="m"><span class="kw">comprises</span></span> clauses of <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> and the <span class="m"><span class="kw">excludes</span></span> clause of <span class="m"><i>U</i></span>, any value of both <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> is a value of <span class="m"><i>V</i></span>. Thus, <span class="m"><i>V</i></span> covers <span class="m"><i>S</i>∩<i>T</i></span>. A trait may stand between <span class="m"><i>S</i></span> or <span class="m"><i>T</i></span> and their listed types (Section 10.1 <span class="pending">[not converted yet]</span>), so <span class="m"><i>S</i>∩<i>T</i></span> is not in general equal to a named type.</p>
-<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see Section I.1.42 <span class="pending">[not converted yet]</span></span></p>
-<p id="p-0628ecad" class="nb">The Working Draft of February 2011 concluded that any subtype of both <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> must be a subtype of <span class="m"><i>V</i></span>, so that <span class="m"><i>V</i> = <i>S</i>∩<i>T</i></span>. Since the revision of Section 10.1 <span class="pending">[not converted yet]</span>, a trait with static parameters may extend both <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> unlisted when every trait or object that extends it is a subtype of <span class="m"><i>V</i></span>; an instantiation of it is a subtype of <span class="m"><i>S</i></span> and of <span class="m"><i>T</i></span> and not of <span class="m"><i>V</i></span>, though every value of it is a value of <span class="m"><i>V</i></span>.</p></aside>
+<div class="fx nb" id="c-10c15e19" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.26 163.47 56.49" width="16.347em" height="5.649em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>trait</text>
+<text class='t4' x='38.88' y='19.33'>S</text>
+<text class='t9' x='48.33' y='19.33'>comprises</text>
+<text class='t6' x='98.17' y='19.33'>{</text>
+<text class='t4' x='103.15' y='19.33'>U<tspan x='109.94'>,</tspan><tspan x='114.36'>V</tspan></text>
+<text class='t6' x='122.39' y='19.33'>}</text>
+<text class='t9' x='130.14' y='19.33'>end<tspan x='9.96' y='31.28'>trait</tspan></text>
+<text class='t4' x='38.88' y='31.28'>T</text>
+<text class='t9' x='48.85' y='31.28'>comprises</text>
+<text class='t6' x='98.7' y='31.28'>{</text>
+<text class='t4' x='103.68' y='31.28'>V<tspan x='110.04'>,</tspan><tspan x='114.47'>W</tspan></text>
+<text class='t6' x='125.26' y='31.28'>}</text>
+<text class='t9' x='133.01' y='31.28'>end<tspan x='9.96' y='43.24'>trait</tspan></text>
+<text class='t4' x='38.88' y='43.24'>U</text>
+<text class='t9' x='49.54' y='43.24'>extends</text>
+<text class='t4' x='88.92' y='43.24'>S</text>
+<text class='t9' x='98.37' y='43.24'>excludes</text>
+<text class='t4' x='142.98' y='43.24'>W</text>
+<text class='t9' x='156.54' y='43.24'>end<tspan x='9.96' y='55.19'>trait</tspan></text>
+<text class='t4' x='38.88' y='55.19'>V</text>
+<text class='t9' x='49.67' y='55.19'>extends</text>
+<text class='t6' x='89.05' y='55.19'>{</text>
+<text class='t4' x='94.04' y='55.19'>S<tspan x='100.17'>,</tspan><tspan x='104.59'>T</tspan></text>
+<text class='t6' x='111.8' y='55.19'>}</text>
+<text class='t9' x='119.55' y='55.19'>end<tspan x='9.96' y='67.15'>trait</tspan></text>
+<text class='t4' x='38.88' y='67.15'>W</text>
+<text class='t9' x='52.44' y='67.15'>extends</text>
+<text class='t4' x='91.82' y='67.15'>T</text>
+<text class='t9' x='101.79' y='67.15'>end</text></svg></div></div>
+<p id="p-31522916" class="nb">because of the <span class="m"><span class="kw">comprises</span></span> clauses of <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> and the <span class="m"><span class="kw">excludes</span></span> clause of <span class="m"><i>U</i></span>, any value of both <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> is a value of <span class="m"><i>V</i></span>. Thus, <span class="m"><i>V</i></span> covers <span class="m"><i>S</i>∩<i>T</i></span>. A trait may stand between <span class="m"><i>S</i></span> or <span class="m"><i>T</i></span> and their listed types (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->), so <span class="m"><i>S</i>∩<i>T</i></span> is not in general equal to a named type.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-covering">Section I.1.34</a><!--nc--></span></p>
+<p id="p-0628ecad" class="nb">The Working Draft of February 2011 concluded that any subtype of both <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> must be a subtype of <span class="m"><i>V</i></span>, so that <span class="m"><i>V</i> = <i>S</i>∩<i>T</i></span>. Since the revision of <a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->, a trait with static parameters may extend both <span class="m"><i>S</i></span> and <span class="m"><i>T</i></span> unlisted when every trait or object that extends it is a subtype of <span class="m"><i>V</i></span>; an instantiation of it is a subtype of <span class="m"><i>S</i></span> and of <span class="m"><i>T</i></span> and not of <span class="m"><i>V</i></span>, though every value of it is a value of <span class="m"><i>V</i></span>.</p></aside>
 <p id="p-18a24bfa" class="nb">Intersection types (denoted by <span class="m">∩</span>) possess the following properties:</p>
 <ul>
 <li><p id="p-daa4c399" class="nb">Commutativity: <span class="m"><i>T</i>∩<i>U</i> = <i>U</i>∩<i>T</i></span>.</p></li>
@@ -219,19 +303,53 @@ trait W extends T end</code></pre></div>
 </section>
 <section class="sec" data-num="6.11" data-title="Type Aliases">
 <h2 id="sec-type-alias" class="nb"><span class="num">6.11</span> Type Aliases</h2>
-<div class="tw nb gr" id="g-9e8bb69f" data-kind="grammar"><p class="label">Syntax</p><table class="grammar">
-<tr><td class="l"><em>TypeAlias</em></td><td class="l">::=</td><td class="l"><span class="m"><span class="kw">type</span></span> <em>Id</em> <em>StaticParams</em>? <span class="m">=</span> <em>Type</em></td></tr>
-</table></div>
+<div class="tw nb gr" id="g-23ed33e0" data-kind="grammar"><svg class="tx" data-d="6" viewBox="-5.58 10.45 236.48 22.52" width="23.648em" height="2.252em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='30.16'>T<tspan x='30.7'>ypeAlias</tspan></text>
+<text class='t2' x='76.97' y='30.16'>::=</text>
+<text class='t9' x='101.74' y='30.16'>type</text>
+<text class='t1' x='126.82' y='30.16'>Id<tspan x='137.88'>StaticP</tspan><tspan x='165.86'>ar</tspan><tspan x='174.57'>ams</tspan></text>
+<text class='t2' x='190.62' y='30.16'>?</text>
+<text class='t7' x='199.79' y='30.16'>=</text>
+<text class='t1' x='211.69' y='30.16'>T<tspan x='216.49'>ype</tspan></text></svg></div>
 <p id="p-0ead99b7" class="nb">Fortress allows names to serve as aliases for more complex type instantiations. A <em>type alias</em> begins with <span class="m"><span class="kw">type</span></span> followed by the name of the alias type, followed by optional static parameters, followed by <span class="m">=</span>, followed by the type it stands for. Parameterized type aliases are allowed but recursively defined type aliases are not. Here are some examples:</p>
-<div class="fx nb both" id="c-6dcb5bfa" data-kind="code"><div class="fx-r"><span class="tb top"><span class="l"><span class="m"><span class="kw">type</span> <span class="ty">IntList</span> = <span class="ty">List</span>⟦ℤ64⟧</span></span>
-<span class="l"><span class="m"><span class="kw">type</span> <span class="ty">BinOp</span> = <span class="ty">Float</span> × <span class="ty">Float</span> → <span class="ty">Float</span></span></span>
-<span class="l"><span class="m"><span class="kw">type</span> <span class="ty">SimpleFloat</span>⟦<span class="kw">nat</span> <i>e</i>, <span class="kw">nat</span> <i>s</i>⟧ = <span class="ty">DetailedFloat</span>⟦<span class="ty">Unity</span>, <i>e</i>, <i>s</i>, <i>false</i>, <i>false</i>, <i>false</i>, <i>false</i>, <i>true</i>⟧</span></span></span></div><pre class="fx-s"><code>type IntList = List[\ZZ64\]
-type BinOp = Float BY Float -&gt; Float
-type SimpleFloat[\nat e, nat s\] = DetailedFloat[\Unity,e,s,false,false,false,false,true\]</code></pre></div>
+<div class="fx nb" id="c-c35d4939" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="9.36 11.26 380.47 35.07" width="38.047em" height="3.507em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>type</text>
+<text class='t7' x='33.65' y='19.33'>In<tspan x='42.51'>tList</tspan><tspan x='65.95'>=</tspan><tspan x='76.46'>List</tspan></text>
+<text class='t10' x='93.26' y='19.33'></text>
+<text class='t8' x='97.27' y='19.33'>Z</text>
+<text class='t7' x='103.92' y='19.33'>64</text>
+<text class='t10' x='113.88' y='19.33'></text>
+<text class='t9' x='9.96' y='31.28'>type</text>
+<text class='t7' x='33.65' y='31.28'>BinOp<tspan x='65.06'>=</tspan><tspan x='75.58'>Float</tspan></text>
+<text class='t6' x='100.9' y='31.28'>×</text>
+<text class='t7' x='110.86' y='31.28'>Float</text>
+<text class='t6' x='136.74' y='31.28'>→</text>
+<text class='t7' x='149.47' y='31.28'>Float</text>
+<text class='t9' x='9.96' y='43.24'>type</text>
+<text class='t7' x='33.65' y='43.24'>SimpleFloat</text>
+<text class='t10' x='86.09' y='43.24'></text>
+<text class='t9' x='90.11' y='43.24'>nat</text>
+<text class='t4' x='108.56' y='43.24'>e,</text>
+<text class='t9' x='117.63' y='43.24'>nat</text>
+<text class='t4' x='136.09' y='43.24'>s</text>
+<text class='t10' x='140.76' y='43.24'></text>
+<text class='t7' x='147.54' y='43.24'>=<tspan x='158.06'>DetailedFloat</tspan></text>
+<text class='t10' x='217.56' y='43.24'></text>
+<text class='t7' x='221.57' y='43.24'>Unit<tspan x='240.94'>y</tspan></text>
+<text class='t4' x='246.34' y='43.24'>,<tspan x='250.76'>e,</tspan><tspan x='259.83'>s,</tspan></text>
+<text class='t11' x='268.93' y='43.24'>false</text>
+<text class='t4' x='289.03' y='43.24'>,</text>
+<text class='t11' x='293.45' y='43.24'>false</text>
+<text class='t4' x='313.55' y='43.24'>,</text>
+<text class='t11' x='317.98' y='43.24'>false</text>
+<text class='t4' x='338.08' y='43.24'>,</text>
+<text class='t11' x='342.51' y='43.24'>false</text>
+<text class='t4' x='362.6' y='43.24'>,</text>
+<text class='t11' x='367.03' y='43.24'>true</text>
+<text class='t10' x='385.22' y='43.24'></text></svg></div></div>
 <p id="p-d4f8f87e" class="nb">All uses of type aliases are expanded before type checking. Type aliases do not define new types nor nominal equivalence relations among types.</p>
 </section>
 </section>
-<nav class="pager" aria-label="Chapters"><a class="prev" href="evaluation.html"><span>Previous</span> 5. Evaluation</a><a class="next" href="index.html"><span>Next</span> Contents: the chapters after this one are not converted yet</a></nav>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="evaluation.html"><span>Previous</span> 5. Evaluation</a><a class="next" href="declarations.html"><span>Next</span> 7. Names and Declarations</a></nav>
 <footer class="colophon">Converted from <code>Specification/basic/types-vals-vars.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
 </div>
 <script src="reader.js"></script>

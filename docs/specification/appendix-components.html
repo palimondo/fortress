@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C. Components and APIs · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmti10;font-size:9.96px}
+svg.tx text.t1{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t2{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmr10;font-size:9.96px}
+svg.tx text.t4{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t5{font-family:cmr7;font-size:6.97px}
+svg.tx text.t6{font-family:cmmi10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="appendix-components" data-chapter="C. Components and APIs">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">C. Components and APIs</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part VII, Appendices</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="C" data-title="Components and APIs">
+<h1 id="top" class="nb"><a id="app-components"></a><span class="num">Appendix C</span> Components and APIs</h1>
+
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-02eefa98" class="nb">This chapter might not be up to date.</p></aside>
+<p id="p-26735b63" class="nb">As mentioned in <a class="xref" href="components.html">Chapter 22</a><!--nc-->, we formally specify key functionality of the Fortress component system, and illustrate how we can reason about the correctness of the system.</p>
+<p id="p-5e1d52a1" class="nb"><strong>Components</strong>  One important restriction on components is that no API may be both imported and exported by the same component. Formally, we introduce two functions on components, <span class="m"><span class="it">imp</span></span> and <span class="m"><span class="it">exp</span></span>, that return the imported and exported APIs of the component, respectively. For any component <span class="m"><span class="it">c</span></span>, <span class="m"><span class="it">imp</span>(<span class="it">c</span>) ∩ <span class="it">exp</span>(<span class="it">c</span>) = ∅</span>. This restriction is required throughout to ground the semantics of operations on components, as discussed in <a class="xref" href="components.html#sec-basicops">Section 22.8</a><!--nc-->.</p>
+<p id="p-c8c20619" class="nb"><strong>APIs</strong>  Other than its identity, the only relevant characteristic of an API <span class="m"><span class="it">a</span></span> is the set of APIs that it uses, denoted by <span class="m"><span class="it">uses</span>(<span class="it">a</span>)</span>. Because an API <span class="m"><span class="it">a</span></span> might expose types defined in <span class="m"><span class="it">uses</span>(<span class="it">a</span>)</span>, we require that a component that exports <span class="m"><span class="it">a</span></span> also exports all APIs in <span class="m"><span class="it">uses</span>(<span class="it">a</span>)</span> that it does not import. Formally, the following condition holds on the exported APIs of a component <span class="m"><span class="it">c</span></span>:</p>
+<div class="dm nb" id="m-a42dc83c"><svg class="tx" data-d="1" viewBox="123.10 3.37 221.79 11.68" width="22.179em" height="1.168em" fill="currentColor"><text class='t0' x='123.7' y='11.96'>a</text>
+<text class='t1' x='132.33' y='11.96'>∈</text>
+<text class='t2' x='141.74' y='11.96'>e<tspan x='145.96'>xp</tspan></text>
+<text class='t3' x='155.36' y='11.96'>(</text>
+<text class='t0' x='159.24' y='11.96'>c</text>
+<text class='t3' x='164.39' y='11.96'>)</text>
+<text class='t1' x='170.47' y='11.96'>∧</text>
+<text class='t0' x='179.33' y='11.96'>a</text>
+<text class='t4' x='185.19' y='7.84'></text>
+<text class='t1' x='190.75' y='11.96'>∈</text>
+<text class='t2' x='200.16' y='11.96'>uses</text>
+<text class='t3' x='217.31' y='11.96'>(</text>
+<text class='t0' x='221.19' y='11.96'>a</text>
+<text class='t3' x='227.04' y='11.96'>)<tspan x='236.45'>=</tspan></text>
+<text class='t1' x='242.54' y='11.96'>⇒</text>
+<text class='t0' x='258.04' y='11.96'>a</text>
+<text class='t4' x='263.89' y='7.84'></text>
+<text class='t1' x='269.46' y='11.96'>∈</text>
+<text class='t2' x='278.87' y='11.96'>imp</text>
+<text class='t3' x='293.81' y='11.96'>(</text>
+<text class='t0' x='297.68' y='11.96'>c</text>
+<text class='t3' x='302.83' y='11.96'>)</text>
+<text class='t1' x='308.92' y='11.96'>∪</text>
+<text class='t2' x='317.77' y='11.96'>e<tspan x='322'>xp</tspan></text>
+<text class='t3' x='331.4' y='11.96'>(</text>
+<text class='t0' x='335.28' y='11.96'>c</text>
+<text class='t3' x='340.42' y='11.96'>)</text></svg></div>
+<p id="p-982c8934" class="nb"><strong>Link</strong>  Given a set <span class="m"><span class="it">C</span> = {<span class="it">c</span><sub>1</sub>, …, <span class="it">c</span><sub><i>k</i></sub>}</span> of components, we define a partial function <span class="m"><span class="it">link</span>(<span class="it">C</span>)</span> that returns the component resulting from <span class="m"><span class="it">c</span><sub>1</sub></span> through <span class="m"><span class="it">c</span><sub><i>k</i></sub></span>. If <span class="m"><span class="it">c</span> = <span class="it">link</span>(<span class="it">C</span>)</span>, then <span class="m"><span class="it">exp</span>(<span class="it">c</span>) = <span class="big">⋃</span><sub><span class="it">c</span>′ ∈ <span class="it">C</span></sub> <span class="it">exp</span>(<span class="it">c</span>′)</span> and <span class="m"><span class="it">imp</span>(<span class="it">c</span>) = <span class="big">⋃</span><sub><span class="it">c</span>′ ∈ <span class="it">C</span></sub> <span class="it">imp</span>(<span class="it">c</span>′) − <span class="it">exp</span>(<span class="it">c</span>)</span>.</p>
+<p id="p-073fd41a" class="nb">The function <span class="m"><span class="it">link</span></span> is partial because we do not allow arbitrary sets of components to be linked. In particular, Two components cannot be linked if they export the same API.<sup class="fnref"><a id="fnref-1" href="#fn-1">1</a></sup> This restriction is made for the sake of simplicity; it allows programmers to link a set of components without having to specify explicitly which constituent exporting an API <span class="m"><i>A</i></span> provides the implementation exported by the linked component, and which constituent connects to the constituents that import <span class="m"><i>A</i></span>: only one component exports <span class="m"><i>A</i></span>, so there is only one choice. Although we lose expressiveness with this design, the user interface to link is vastly simplified, and it is rare that including multiple components that export a given API in a set of linked components is even desirable. We discuss how even such rare cases can be supported in <a class="xref" href="components.html#sec-advancedops">Section 22.9</a><!--nc-->.</p>
+<p id="p-6fe0660d" class="nb">For a compound component, in addition to the exported and imported APIs, we want to know what its constituents are. So we introduce another function <span class="m"><span class="it">cns</span></span>, which takes a component and returns the set of its constituents. That is, <span class="m"><span class="it">cns</span>(<span class="it">link</span>(<span class="it">C</span>)) = <span class="it">C</span></span>. It is an invariant of the system that for any compound component <span class="m"><i>C</i></span> (i.e., <span class="m"><span class="it">cns</span>(<span class="it">c</span>) ≠ ∅</span>), any API imported by any of its constituents is either imported by <span class="m"><i>C</i></span> or exported by one of its constituents (i.e., <span class="m"><span class="big">⋃</span><sub><span class="it">c</span>′ ∈ <span class="it">cns</span>(<span class="it">c</span>)</sub> <span class="it">imp</span>(<span class="it">c</span>′) ⊆ <span class="it">imp</span>(<span class="it">c</span>) ∪ <span class="big">⋃</span><sub><span class="it">c</span>′ ∈ <span class="it">cns</span>(<span class="it">c</span>)</sub> <span class="it">exp</span>(<span class="it">c</span>′)</span>). This property is crucial for executing components, as we discuss below. A simple component (i.e., one produced directly by compilation) has no constituents (i.e., <span class="m"><span class="it">cns</span>(<span class="it">c</span>) = ∅</span>).</p>
+<p id="p-be6eb851" class="nb"><strong>Upgrade</strong>  A predicate <i>upg?</i> takes two components and indicates whether the first can be upgraded with the second; that is, <span class="m"><span class="it">upg?</span>(<span class="it">c</span><sub><span class="rm"></span></sub><i>t</i>, <span class="it">c</span><sub><span class="rm"></span></sub><i>r</i>)</span> returns true if and only if <span class="m"><span class="it">c</span><sub><span class="rm"></span></sub><i>t</i></span> can be upgraded with <span class="m"><span class="it">c</span><sub><span class="rm"></span></sub><i>r</i></span>. This predicate captures both the constraints imposed by a component’s <span class="m"><i>isValidUpgrade</i></span> function and the conditions that guarantee the well-formedness of the result. That is,</p>
+<div class="dm nb" id="m-3ec50a82"><svg class="tx" data-d="2" viewBox="48.95 13.85 370.10 55.99" width="37.010em" height="5.599em" fill="currentColor"><text class='t2' x='49.55' y='21.92'>upg?</text>
+<text class='t3' x='69.48' y='21.92'>(</text>
+<text class='t0' x='73.35' y='21.92'>c</text>
+<text class='t5' x='77.93' y='23.41'>t</text>
+<text class='t6' x='81.54' y='21.92'>,</text>
+<text class='t0' x='85.97' y='21.92'>c</text>
+<text class='t5' x='90.56' y='23.41'>r</text>
+<text class='t3' x='94.17' y='21.92'>)<tspan x='103.58'>=</tspan></text>
+<text class='t1' x='109.66' y='21.92'>⇒</text>
+<text class='t0' x='122.39' y='21.92'>c</text>
+<text class='t5' x='126.98' y='23.41'>t</text>
+<text class='t6' x='129.76' y='21.92'>.</text>
+<text class='t0' x='132.53' y='21.92'>isV<tspan x='146.3'>alidUp</tspan><tspan x='174.07'>gr</tspan><tspan x='182.34'>ade</tspan></text>
+<text class='t3' x='197.86' y='21.92'>(</text>
+<text class='t0' x='201.73' y='21.92'>c</text>
+<text class='t5' x='206.32' y='23.41'>r</text>
+<text class='t3' x='209.93' y='21.92'>)</text>
+<text class='t1' x='124.61' y='36.86'>∧</text>
+<text class='t2' x='133.46' y='36.86'>imp</text>
+<text class='t3' x='148.41' y='36.86'>(</text>
+<text class='t0' x='152.28' y='36.86'>c</text>
+<text class='t5' x='156.86' y='38.36'>r</text>
+<text class='t3' x='160.48' y='36.86'>)</text>
+<text class='t1' x='167.12' y='36.86'>⊆</text>
+<text class='t2' x='177.63' y='36.86'>e<tspan x='181.86'>xp</tspan></text>
+<text class='t3' x='191.26' y='36.86'>(</text>
+<text class='t0' x='195.14' y='36.86'>c</text>
+<text class='t5' x='199.72' y='38.36'>t</text>
+<text class='t3' x='203.33' y='36.86'>)</text>
+<text class='t1' x='209.42' y='36.86'>∪</text>
+<text class='t2' x='218.28' y='36.86'>imp</text>
+<text class='t3' x='233.22' y='36.86'>(</text>
+<text class='t0' x='237.09' y='36.86'>c</text>
+<text class='t5' x='241.68' y='38.36'>t</text>
+<text class='t3' x='245.29' y='36.86'>)</text>
+<text class='t1' x='124.61' y='51.81'>∧</text>
+<text class='t2' x='133.46' y='51.81'>e<tspan x='137.69'>xp</tspan></text>
+<text class='t3' x='147.09' y='51.81'>(</text>
+<text class='t0' x='150.97' y='51.81'>c</text>
+<text class='t5' x='155.55' y='53.3'>r</text>
+<text class='t3' x='159.16' y='51.81'>)</text>
+<text class='t1' x='165.8' y='51.81'>⊂</text>
+<text class='t2' x='176.32' y='51.81'>e<tspan x='180.54'>xp</tspan></text>
+<text class='t3' x='189.95' y='51.81'>(</text>
+<text class='t0' x='193.82' y='51.81'>c</text>
+<text class='t5' x='198.4' y='53.3'>t</text>
+<text class='t3' x='202.02' y='51.81'>)</text>
+<text class='t1' x='124.61' y='66.75'>∧<tspan x='133.46'>∀</tspan></text>
+<text class='t0' x='139' y='66.75'>c</text>
+<text class='t1' x='146.91' y='66.75'>∈</text>
+<text class='t2' x='156.32' y='66.75'>cns</text>
+<text class='t3' x='169.6' y='66.75'>(</text>
+<text class='t0' x='173.48' y='66.75'>c</text>
+<text class='t5' x='178.06' y='68.24'>t</text>
+<text class='t3' x='181.67' y='66.75'>)</text>
+<text class='t6' x='185.54' y='66.75'>.</text>
+<text class='t3' x='188.31' y='66.75'>(</text>
+<text class='t2' x='192.19' y='66.75'>e<tspan x='196.41'>xp</tspan></text>
+<text class='t3' x='205.81' y='66.75'>(</text>
+<text class='t0' x='209.69' y='66.75'>c</text>
+<text class='t3' x='214.83' y='66.75'>)</text>
+<text class='t1' x='221.48' y='66.75'>⊆</text>
+<text class='t2' x='231.99' y='66.75'>e<tspan x='236.22'>xp</tspan></text>
+<text class='t3' x='245.62' y='66.75'>(</text>
+<text class='t0' x='249.5' y='66.75'>c</text>
+<text class='t5' x='254.08' y='68.24'>r</text>
+<text class='t3' x='257.69' y='66.75'>)</text>
+<text class='t1' x='263.78' y='66.75'>∨</text>
+<text class='t2' x='272.63' y='66.75'>e<tspan x='276.86'>xp</tspan></text>
+<text class='t3' x='286.26' y='66.75'>(</text>
+<text class='t0' x='290.14' y='66.75'>c</text>
+<text class='t3' x='295.28' y='66.75'>)</text>
+<text class='t1' x='301.37' y='66.75'>∩</text>
+<text class='t2' x='310.23' y='66.75'>e<tspan x='314.45'>xp</tspan></text>
+<text class='t3' x='323.86' y='66.75'>(</text>
+<text class='t0' x='327.73' y='66.75'>c</text>
+<text class='t5' x='332.31' y='68.24'>r</text>
+<text class='t3' x='335.92' y='66.75'>)<tspan x='342.57'>=</tspan></text>
+<text class='t1' x='353.08' y='66.75'>∅<tspan x='360.28'>∨</tspan></text>
+<text class='t2' x='369.13' y='66.75'>upg?</text>
+<text class='t3' x='389.06' y='66.75'>(</text>
+<text class='t0' x='392.93' y='66.75'>c</text>
+<text class='t6' x='398.08' y='66.75'>,</text>
+<text class='t0' x='402.51' y='66.75'>c</text>
+<text class='t5' x='407.09' y='68.24'>r</text>
+<text class='t3' x='410.7' y='66.75'>))</text></svg></div>
+<p id="p-b3a4bdcb" class="nb"><strong>Visible and Provided</strong>  We introduce two new functions on components: <i>vis</i>, which returns the APIs of a component that have not been hidden; and <i>prov</i>, which returns those visible APIs that are exported by some top-level constituent of the component (or all the exported APIs of a simple component); we say these APIs are <em>provided</em> by the component. We need to distinguish provided APIs because they can be imported by the top-level constituents of a component, and thus by a replacement component in an upgrade, while other visible APIs cannot be. Thus, for a compound component <span class="m"><span class="it">c</span></span>, <span class="m"><span class="it">prov</span>(<span class="it">c</span>) = <span class="it">vis</span>(<span class="it">c</span>) ∩ <span class="big">⋃</span><sub><span class="it">c</span>′ ∈ <span class="it">cns</span>(<span class="it">c</span>)</sub> <span class="it">exp</span>(<span class="it">c</span>′)</span>. For a simple component <span class="m"><span class="it">c</span></span>, <span class="m"><span class="it">prov</span>(<span class="it">c</span>) = <span class="it">vis</span>(<span class="it">c</span>) = <span class="it">exp</span>(<span class="it">c</span>)</span>.</p>
+<p id="p-329a6490" class="nb"><strong>Constrain</strong>  If <span class="m"><span class="it">c</span></span> is a compound component and <span class="m"><span class="it">A</span> ⊂ <span class="it">exp</span>(<span class="it">c</span>)</span> is a set of APIs such that <span class="m"><span class="it">a</span> ∈ <span class="it">exp</span>(<span class="it">c</span>) ∧ <span class="it">a</span>′ ∈ <span class="it">uses</span>(<span class="it">a</span>) ∩ <span class="it">A</span> ⟹ <span class="it">a</span> ∈ <span class="it">A</span></span>, we define <span class="m"><span class="it">c</span>′ = <span class="it">constrain</span>(<span class="it">c</span>, <span class="it">A</span>)</span> such that <span class="m"><span class="it">exp</span>(<span class="it">c</span>′) = <span class="it">exp</span>(<span class="it">c</span>) − <span class="it">A</span></span> and for any component <span class="m"><span class="it">c</span>′′</span>, <span class="m"><span class="it">upg?</span>(<span class="it">c</span>′, <span class="it">c</span>′′) ⟺ <span class="it">upg?</span>(<span class="it">c</span>, <span class="it">c</span>′′) ∧ <span class="it">exp</span>(<span class="it">c</span>′) ⊈ <span class="it">exp</span>(<span class="it">c</span>′′)</span>. The <span class="m"><span class="it">imp</span></span>, <span class="m"><span class="it">vis</span></span>, <span class="m"><span class="it">prov</span></span> and <span class="m"><span class="it">cns</span></span> functions all have the same values for <span class="m"><span class="it">c</span></span> and <span class="m"><span class="it">c</span>′</span>. The extra condition on the upgrade compatibility simply captures the restriction we mentioned above, that a replacement component should not export every API exported by the target.</p>
+<p id="p-5dd1debf" class="nb"><strong>Hide</strong>  If <span class="m"><span class="it">c</span></span> is a compound component and <span class="m"><span class="it">A</span> ⊂ <span class="it">vis</span>(<span class="it">c</span>)</span> is a set of APIs such that <span class="m"><span class="it">exp</span>(<span class="it">c</span>) ⊈ <span class="it">A</span></span> and <span class="m"><span class="it">a</span> ∈ <span class="it">vis</span>(<span class="it">c</span>) ∧ <span class="it">a</span>′ ∈ <span class="it">uses</span>(<span class="it">a</span>) ∩ <span class="it">A</span> ⟹ <span class="it">a</span> ∈ <span class="it">A</span></span>, we define <span class="m"><span class="it">c</span>′ = <span class="it">hide</span>(<span class="it">c</span>, <span class="it">A</span>)</span> such that <span class="m"><span class="it">vis</span>(<span class="it">c</span>′) = <span class="it">vis</span>(<span class="it">c</span>) − <span class="it">A</span></span>, <span class="m"><span class="it">prov</span>(<span class="it">c</span>′) = <span class="it">prov</span>(<span class="it">c</span>) − <span class="it">A</span></span>, <span class="m"><span class="it">exp</span>(<span class="it">c</span>′) = <span class="it">exp</span>(<span class="it">c</span>) − <span class="it">A</span></span>, and for any component <span class="m"><span class="it">c</span>′′</span>, <span class="m"><span class="it">upg?</span>(<span class="it">c</span>′, <span class="it">c</span>′′) ⟺ <span class="it">upg?</span>(<span class="it">c</span>, <span class="it">c</span>′′) ∧ <span class="it">exp</span>(<span class="it">c</span>′) ⊈ <span class="it">exp</span>(<span class="it">c</span>′′) ∧ <span class="it">vis</span>(<span class="it">c</span>′′) ⊆ <span class="it">vis</span>(<span class="it">c</span>′)</span>. The additional clause in <span class="m"><span class="it">upg?</span>(<span class="it">c</span>′, <span class="it">c</span>′′)</span> (compared with that of <span class="m"><span class="it">constrain</span></span>) reflects the hiding of the APIs: we can no longer upgrade APIs that are hidden.</p>
+<p id="p-2a5a4ea8" class="nb"><strong>Upgrade</strong>  The interplay between imported, exported, visible and provided APIs introduces subtleties. In particular, the last of the three conditions imposed for well-formedness of upgrades is modified to state that for any constituent that is not subsumed by a replacement component, either it can be upgraded with the replacement, or its <em>visible</em> APIs are disjoint from the APIs exported by the replacement (i.e., it is unaffected by the upgrade). To maintain the invariant that no two constituents export the same API, we need another condition, which was implied by the previous condition when no APIs were constrained or hidden: if the replacement subsumes any constituents of the target, then its exported APIs must exactly match the exported APIs of some subset of the constituents of the target. That is, if <span class="m"><span class="it">upg?</span>(<span class="it">c</span><sub><span class="rm"></span></sub><i>t</i>, <span class="it">c</span><sub><span class="rm"></span></sub><i>r</i>) ∧ ∃<span class="it">c</span> ∈ <span class="it">cns</span>(<span class="it">c</span><sub><span class="rm"></span></sub><i>t</i>). <span class="it">exp</span>(<span class="it">c</span>) ⊆ <span class="it">exp</span>(<span class="it">c</span><sub><span class="rm"></span></sub><i>r</i>)</span> then <span class="m"><span class="it">exp</span>(<span class="it">c</span><sub><span class="rm"></span></sub><i>r</i>) = <span class="big">⋃</span><sub><span class="it">c</span> ∈ <span class="it">C</span></sub> <span class="it">exp</span>(<span class="it">c</span>)</span> for some <span class="m"><span class="it">C</span> ⊂ <span class="it">cns</span>(<span class="it">c</span><sub><span class="rm"></span></sub><i>t</i>)</span>. In practice, this restriction is rarely a problem; in most cases, a user wishes to upgrade a target with a new version of a single constituent component, where the APIs exported by the old and new versions are either an exact match, or there are new APIs introduced by the new component that have no implementation in the target.</p>
+<section class="sec fns"><h2 id="footnotes">Footnotes</h2>
+<ol><li id="fn-1">There is one exception to this rule: the special API <span class="m"><span class="ty">Upgradable</span></span>, which is used during upgrades discussed below. <a href="#fnref-1" aria-label="Back to the text">↩</a></li></ol></section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="overloaded-functional.html"><span>Previous</span> B. Overloaded Functional Declarations</a><a class="next" href="app-rendering.html"><span>Next</span> D. Rendering of Fortress Code</a></nav>
+<footer class="colophon">Converted from <code>Specification/appendices/components.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>25. Operator Declarations · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmr10;font-size:9.96px}
+svg.tx text.t4{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t5{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t6{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t7{font-family:cmex10;font-size:9.96px}
+svg.tx text.t8{font-family:stmary10;font-size:9.96px}
+svg.tx text.t9{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t10{font-family:cmti10;font-size:9.96px}
+svg.tx text.t11{font-family:msbm10;font-size:9.96px}
+svg.tx text.t12{font-family:cmmi7;font-size:6.97px}
+svg.tx text.t13{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t14{font-family:cmr7;font-size:6.97px}
+svg.tx text.t15{font-family:cmti7;font-size:6.97px}
+</style>
+</head>
+<body data-page="chapter" data-slug="operatordefs" data-chapter="25. Operator Declarations">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">25. Operator Declarations</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part III, Fortress for Library Writers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="25" data-title="Operator Declarations">
+<h1 id="top" class="nb"><a id="chap-operatordefs"></a><span class="num">Chapter 25</span> Operator Declarations</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-multifix-operator-declarations">25.1 Multifix Operator Declarations</a></li><li><a href="#s-infix-operator-declarations">25.2 Infix Operator Declarations</a></li><li><a href="#s-prefix-operator-declarations">25.3 Prefix Operator Declarations</a></li><li><a href="#sec-postfix-opr-decl">25.4 Postfix Operator Declarations</a></li><li><a href="#s-nofix-operator-declarations">25.5 Nofix Operator Declarations</a></li><li><a href="#sec-bracketing-opr-decl">25.6 Bracketing Operator Declarations</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-944d003a" class="nb">Multifix operators and keyword parameters are not yet supported.</p></aside>
+<p id="p-da70c27d" class="nb">An operator declaration may appear anywhere a top-level function or method declaration may appear. Operator declarations are like other function or method declarations in all respects except that an operator declaration has <span class="m"><span class="kw">opr</span></span> and has an operator name (see <a class="xref" href="operators.html#sec-operator-names">Section 16.1</a><!--nc--> for a discussion of valid operator names) instead of an identifier. The precise placement of the operator name within the declaration depends on the fixity of the operator. Like other functionals, operators may have overloaded declarations (see <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc--> for a discussion of overloading). These overloadings may be of the same or differing fixities.</p>
+<div class="tw nb gr" id="g-252b3023" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 428.29 200.77" width="42.829em" height="20.077em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>FnDecl</text>
+<text class='t2' x='128.24' y='28.8'>::=</text>
+<text class='t1' x='151.35' y='28.8'>FnMods</text>
+<text class='t2' x='184.56' y='28.8'>?</text>
+<text class='t1' x='192.07' y='28.8'>FnHeaderF<tspan x='238.55'>r</tspan><tspan x='241.98'>ont</tspan><tspan x='257.38'>FnHeaderClause</tspan></text>
+<text class='t2' x='328.5' y='28.8'>(</text>
+<text class='t3' x='331.81' y='28.8'>=</text>
+<text class='t1' x='343.71' y='28.8'>Expr</text>
+<text class='t2' x='363.31' y='28.8'>)?</text>
+<text class='t1' x='25.9' y='40.76'>FnHeaderF<tspan x='72.39'>r</tspan><tspan x='75.82'>ont</tspan></text>
+<text class='t2' x='128.24' y='40.76'>::=</text>
+<text class='t1' x='151.35' y='40.76'>OpHeaderF<tspan x='198.94'>r</tspan><tspan x='202.37'>ont</tspan><tspan x='25.9' y='52.71'>OpHeaderF</tspan><tspan x='73.49'>r</tspan><tspan x='76.92'>ont</tspan></text>
+<text class='t2' x='128.24' y='52.71'>::=</text>
+<text class='t4' x='153.01' y='52.71'>opr<tspan x='174.51'>BIG</tspan></text>
+<text class='t2' x='191.87' y='52.71'>?<tspan x='199.38'>(</tspan></text>
+<text class='t5' x='202.7' y='52.71'>{↦→<tspan x='221.79'>|</tspan></text>
+<text class='t1' x='227.05' y='52.71'>LeftEncloser</text>
+<text class='t5' x='280.69' y='52.71'>|</text>
+<text class='t1' x='285.94' y='52.71'>Encloser</text>
+<text class='t2' x='321.59' y='52.71'>)</text>
+<text class='t1' x='327.4' y='52.71'>StaticP<tspan x='355.38'>ar</tspan><tspan x='364.09'>ams</tspan></text>
+<text class='t2' x='380.14' y='52.71'>?</text>
+<text class='t1' x='387.65' y='52.71'>P<tspan x='392.94'>ar</tspan><tspan x='401.65'>ams</tspan></text>
+<text class='t2' x='417.7' y='52.71'>?<tspan x='151.35' y='64.67'>(</tspan></text>
+<text class='t1' x='154.67' y='64.67'>RightEncloser</text>
+<text class='t5' x='214.39' y='64.67'>|</text>
+<text class='t1' x='219.65' y='64.67'>Encloser</text>
+<text class='t2' x='255.3' y='64.67'>)</text>
+<text class='t5' x='128.24' y='76.62'>|</text>
+<text class='t4' x='153.01' y='76.62'>opr</text>
+<text class='t1' x='172.85' y='76.62'>V<tspan x='177.84'>alP</tspan><tspan x='190.88'>ar</tspan><tspan x='199.58'>am</tspan></text>
+<text class='t2' x='214.25' y='76.62'>(</text>
+<text class='t1' x='217.57' y='76.62'>Op</text>
+<text class='t5' x='232.23' y='76.62'>|</text>
+<text class='t1' x='237.49' y='76.62'>ExponentOp</text>
+<text class='t2' x='287.29' y='76.62'>)</text>
+<text class='t1' x='293.1' y='76.62'>StaticP<tspan x='321.09'>ar</tspan><tspan x='329.79'>ams</tspan></text>
+<text class='t2' x='345.84' y='76.62'>?</text>
+<text class='t5' x='128.24' y='88.58'>|</text>
+<text class='t4' x='153.01' y='88.58'>opr<tspan x='174.51'>BIG</tspan></text>
+<text class='t2' x='191.87' y='88.58'>?<tspan x='199.38'>(</tspan></text>
+<text class='t1' x='202.7' y='88.58'>Op</text>
+<text class='t5' x='217.36' y='88.58'>|</text>
+<text class='t6' x='222.62' y='88.58'>ˆ</text>
+<text class='t5' x='231.09' y='88.58'>|</text>
+<text class='t1' x='236.34' y='88.58'>Encloser</text>
+<text class='t5' x='274.48' y='88.58'>|</text>
+<text class='t7' x='279.74' y='81.11'></text>
+<text class='t5' x='292.75' y='88.58'>|</text>
+<text class='t7' x='298' y='81.11'></text>
+<text class='t2' x='307.41' y='88.58'>)</text>
+<text class='t1' x='313.22' y='88.58'>StaticP<tspan x='341.21'>ar</tspan><tspan x='349.91'>ams</tspan></text>
+<text class='t2' x='365.96' y='88.58'>?</text>
+<text class='t1' x='373.48' y='88.58'>V<tspan x='378.46'>alP</tspan><tspan x='391.5'>ar</tspan><tspan x='400.2'>am</tspan><tspan x='25.9' y='100.53'>MdDecl</tspan></text>
+<text class='t2' x='128.24' y='100.53'>::=</text>
+<text class='t1' x='151.35' y='100.53'>MdDef</text>
+<text class='t5' x='128.24' y='112.49'>|</text>
+<text class='t4' x='153.01' y='112.49'>abstract</text>
+<text class='t2' x='196.52' y='112.49'>?</text>
+<text class='t1' x='204.03' y='112.49'>MdMods</text>
+<text class='t2' x='239.44' y='112.49'>?</text>
+<text class='t1' x='246.96' y='112.49'>MdHeaderF<tspan x='295.65'>r</tspan><tspan x='299.08'>ont</tspan><tspan x='314.48'>FnHeaderClause</tspan><tspan x='25.9' y='124.44'>MdHeaderF</tspan><tspan x='74.6'>r</tspan><tspan x='78.03'>ont</tspan></text>
+<text class='t2' x='128.24' y='124.44'>::=</text>
+<text class='t1' x='151.35' y='124.44'>OpMdHeaderF<tspan x='212.22'>r</tspan><tspan x='215.65'>ont</tspan><tspan x='25.9' y='136.4'>OpMdHeaderF</tspan><tspan x='86.77'>r</tspan><tspan x='90.2'>ont</tspan></text>
+<text class='t2' x='128.24' y='136.4'>::=</text>
+<text class='t4' x='153.01' y='136.4'>opr<tspan x='174.51'>BIG</tspan></text>
+<text class='t2' x='191.87' y='136.4'>?<tspan x='199.38'>(</tspan></text>
+<text class='t5' x='202.7' y='136.4'>{↦→<tspan x='221.79'>|</tspan></text>
+<text class='t1' x='227.05' y='136.4'>LeftEncloser</text>
+<text class='t5' x='280.69' y='136.4'>|</text>
+<text class='t1' x='285.94' y='136.4'>Encloser</text>
+<text class='t2' x='321.59' y='136.4'>)</text>
+<text class='t1' x='327.4' y='136.4'>StaticP<tspan x='355.38'>ar</tspan><tspan x='364.09'>ams</tspan></text>
+<text class='t2' x='380.14' y='136.4'>?</text>
+<text class='t1' x='387.65' y='136.4'>P<tspan x='392.94'>ar</tspan><tspan x='401.65'>ams</tspan></text>
+<text class='t2' x='417.7' y='136.4'>?<tspan x='151.35' y='148.35'>(</tspan></text>
+<text class='t1' x='154.67' y='148.35'>RightEncloser</text>
+<text class='t5' x='214.39' y='148.35'>|</text>
+<text class='t1' x='219.65' y='148.35'>Encloser</text>
+<text class='t2' x='255.3' y='148.35'>)<tspan x='151.35' y='160.31'>(</tspan></text>
+<text class='t3' x='154.67' y='160.31'>:<tspan x='157.44'>=</tspan></text>
+<text class='t6' x='169.34' y='160.31'>(</text>
+<text class='t1' x='177.8' y='160.31'>SubscriptAssignP<tspan x='247.3'>ar</tspan><tspan x='256.01'>am</tspan></text>
+<text class='t6' x='270.68' y='160.31'>)</text>
+<text class='t2' x='276.65' y='160.31'>)?</text>
+<text class='t5' x='128.24' y='172.26'>|</text>
+<text class='t4' x='153.01' y='172.26'>opr</text>
+<text class='t1' x='172.85' y='172.26'>V<tspan x='177.84'>alP</tspan><tspan x='190.88'>ar</tspan><tspan x='199.58'>am</tspan></text>
+<text class='t2' x='214.25' y='172.26'>(</text>
+<text class='t1' x='217.57' y='172.26'>Op</text>
+<text class='t5' x='232.23' y='172.26'>|</text>
+<text class='t1' x='237.49' y='172.26'>ExponentOp</text>
+<text class='t2' x='287.29' y='172.26'>)</text>
+<text class='t1' x='293.1' y='172.26'>StaticP<tspan x='321.09'>ar</tspan><tspan x='329.79'>ams</tspan></text>
+<text class='t2' x='345.84' y='172.26'>?</text>
+<text class='t5' x='128.24' y='184.22'>|</text>
+<text class='t4' x='153.01' y='184.22'>opr<tspan x='174.51'>BIG</tspan></text>
+<text class='t2' x='191.87' y='184.22'>?<tspan x='199.38'>(</tspan></text>
+<text class='t1' x='202.7' y='184.22'>Op</text>
+<text class='t5' x='217.36' y='184.22'>|</text>
+<text class='t6' x='222.62' y='184.22'>ˆ</text>
+<text class='t5' x='231.09' y='184.22'>|</text>
+<text class='t1' x='236.34' y='184.22'>Encloser</text>
+<text class='t5' x='274.48' y='184.22'>|</text>
+<text class='t7' x='279.74' y='176.75'></text>
+<text class='t5' x='292.75' y='184.22'>|</text>
+<text class='t7' x='298' y='176.75'></text>
+<text class='t2' x='307.41' y='184.22'>)</text>
+<text class='t1' x='313.22' y='184.22'>StaticP<tspan x='341.21'>ar</tspan><tspan x='349.91'>ams</tspan></text>
+<text class='t2' x='365.96' y='184.22'>?</text>
+<text class='t1' x='373.48' y='184.22'>V<tspan x='378.46'>alP</tspan><tspan x='391.5'>ar</tspan><tspan x='400.2'>am</tspan><tspan x='25.9' y='196.17'>SubscriptAssignP</tspan><tspan x='95.4'>ar</tspan><tspan x='104.11'>am</tspan></text>
+<text class='t2' x='128.24' y='196.17'>::=</text>
+<text class='t1' x='151.35' y='196.17'>V<tspan x='156.33'>ar</tspan><tspan x='165.04'>ar</tspan><tspan x='173.53'>gs</tspan></text>
+<text class='t5' x='128.24' y='208.13'>|</text>
+<text class='t1' x='151.35' y='208.13'>P<tspan x='156.64'>ar</tspan><tspan x='165.35'>am</tspan></text></svg></div>
+<p id="p-23333965" class="nb">An operator declaration has one of eight forms: multifix operator declaration, infix operator declaration, prefix operator declaration, postfix operator declaration, nofix operator declaration, bracketing operator declaration, subscripting operator method declaration, and subscripted assignment operator method declaration. Each is invoked according to specific rules of syntax. An operator method declaration must be a functional method declaration, a subscripting operator method declaration, or a subscripted assignment operator method declaration.</p>
+<section class="sec" data-num="25.1" data-title="Multifix Operator Declarations">
+<h2 id="s-multifix-operator-declarations" class="nb"><span class="num">25.1</span> Multifix Operator Declarations</h2>
+<p id="p-9737ef5c" class="nb">A multifix operator declaration has <span class="m"><span class="kw">opr</span></span> and then an operator name where a functional declaration would have an identifier. The declaration must not have any keyword parameters, and must be capable of accepting at least two arguments. It is permissible to use a varargs parameter; in fact, this is a good way to define a multifix operator. Static parameters (described in <a class="xref" href="trait-parameters.html">Chapter 12</a><!--nc-->) may also be present, between the operator and the parameter list.</p>
+<p id="p-15a8caa6" class="nb">An expression consisting of a multifix operator applied to an expression will invoke a multifix operator declaration. The compiler considers all multifix operator declarations for that operator that are both accessible and applicable, and the most specific operator declaration is chosen according to the usual rules for overloaded functionals. The invocation will pass more than two arguments.</p>
+<p id="p-3b36b912" class="nb">A multifix operator declaration may also be invoked by an infix, a prefix, or nofix (but not a postfix) operator application if the declaration is applicable.</p>
+<p id="p-c63737ab" class="nb">Example:</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-7ec3669f" class="nb">Example is commented out because it is not supported nor run by the interpreter yet.</p></aside>
+</section>
+<section class="sec" data-num="25.2" data-title="Infix Operator Declarations">
+<h2 id="s-infix-operator-declarations" class="nb"><span class="num">25.2</span> Infix Operator Declarations</h2>
+<p id="p-4b101f00" class="nb">An infix operator declaration has <span class="m"><span class="kw">opr</span></span> and then an operator name where a functional declaration would have an identifier. The declaration must have two value parameter, which must not be a keyword parameter or varargs parameter. Static parameters may also be present, between the operator and the parameter list.</p>
+<p id="p-4c45ee64" class="nb">An expression consisting of an infix operator applied to an expression will invoke an infix operator declaration. The compiler considers all infix and multifix operator declarations for that operator that are both accessible and applicable, and the most specific operator declaration is chosen according to the usual rules for overloaded functionals.</p>
+<p id="p-41aa297f" class="nb">Note that superscripting (<span class="tt">^</span>) may be defined using an infix operator declaration even though it has very high precedence and cannot be used as a multifix operator.</p>
+<p id="p-c63737ab-2" class="nb">Example:</p>
+<div class="fx nb both" id="c-f3ee8f4f" data-kind="code" data-example="OprDecl.Infix"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 11.26 318.51 11.16" width="31.851em" height="1.116em" fill="currentColor"><text class='t4' x='0' y='19.33'>opr<tspan x='20.12'>SMAX</tspan></text>
+<text class='t8' x='41.04' y='19.33'></text>
+<text class='t9' x='45.05' y='19.33'>T</text>
+<text class='t4' x='55.03' y='19.33'>extends</text>
+<text class='t3' x='94.41' y='19.33'>String</text>
+<text class='t8' x='121.14' y='19.33'></text>
+<text class='t3' x='125.15' y='19.33'>(</text>
+<text class='t9' x='129.03' y='19.33'>x</text>
+<text class='t3' x='134.72' y='19.33'>:</text>
+<text class='t9' x='139.15' y='19.33'>T<tspan x='145.8'>,</tspan><tspan x='150.23'>y</tspan></text>
+<text class='t3' x='155.47' y='19.33'>:</text>
+<text class='t9' x='159.9' y='19.33'>T</text>
+<text class='t3' x='167.1' y='19.33'>)<tspan x='172.64'>:</tspan></text>
+<text class='t9' x='177.07' y='19.33'>T</text>
+<text class='t3' x='187.04' y='19.33'>=</text>
+<text class='t4' x='197.55' y='19.33'>if</text>
+<text class='t9' x='210.78' y='19.33'>x<tspan x='219.24'>></tspan><tspan x='229.76'>y</tspan></text>
+<text class='t4' x='237.77' y='19.33'>then</text>
+<text class='t9' x='261.46' y='19.33'>x</text>
+<text class='t4' x='269.92' y='19.33'>else</text>
+<text class='t9' x='293.61' y='19.33'>y</text>
+<text class='t4' x='301.62' y='19.33'>end</text></svg></div><pre class="fx-s"><code>opr SMAX[\T extends String\](x: T, y: T):T = if x &gt; y then x else y end</code></pre></div>
+</section>
+<section class="sec" data-num="25.3" data-title="Prefix Operator Declarations">
+<h2 id="s-prefix-operator-declarations" class="nb"><span class="num">25.3</span> Prefix Operator Declarations</h2>
+<p id="p-a01f4af7" class="nb">A prefix operator declaration has <span class="m"><span class="kw">opr</span></span> and then an operator name where a functional declaration would have an identifier. The declaration must have one value parameter, which must not be a keyword parameter or varargs parameter. Static parameters may also be present, between the operator and the parameter list.</p>
+<p id="p-27a3058c" class="nb">An expression consisting of a prefix operator applied to an expression will invoke a prefix operator declaration. The compiler considers all prefix and multifix operator declarations for that operator that are both accessible and applicable, and the most specific operator declaration is chosen according to the usual rules for overloaded functionals.</p>
+<p id="p-c63737ab-3" class="nb">Example:</p>
+<div class="fx nb both" id="c-c7def1f5" data-kind="code" data-example="OprDecl.Prefix"><div class="fx-r"><svg class="tx" data-d="3" viewBox="-0.60 11.26 179.14 11.16" width="17.914em" height="1.116em" fill="currentColor"><text class='t4' x='0' y='19.33'>opr<tspan x='20.12'>INV</tspan></text>
+<text class='t3' x='35.81' y='19.33'>(</text>
+<text class='t9' x='39.68' y='19.33'>x</text>
+<text class='t3' x='45.38' y='19.33'>:<tspan x='49.81'>Widget</tspan><tspan x='81.63'>):</tspan><tspan x='89.93'>Widget</tspan><tspan x='124.53'>=</tspan></text>
+<text class='t9' x='135.04' y='19.33'>x.</text>
+<text class='t10' x='143.5' y='19.33'>invert</text>
+<text class='t3' x='169.78' y='19.33'>(<tspan x='174.07'>)</tspan></text></svg></div><pre class="fx-s"><code>opr INV(x: Widget): Widget = x.invert()</code></pre></div>
+</section>
+<section class="sec" data-num="25.4" data-title="Postfix Operator Declarations">
+<h2 id="sec-postfix-opr-decl" class="nb"><span class="num">25.4</span> Postfix Operator Declarations</h2>
+<p id="p-1a569302" class="nb">A postfix operator declaration has <span class="m"><span class="kw">opr</span></span> where a functional declaration would have an identifier; the operator name itself <em>follows</em> the parameter list. The declaration must have one value parameter, which must not be a keyword parameter or varargs parameter. Static parameters may also be present, between <span class="m"><span class="kw">opr</span></span> and the parameter list.</p>
+<p id="p-76d3d8ec" class="nb">An expression consisting of a postfix operator applied to an expression will invoke a postfix operator declaration. The compiler considers all postfix operator declarations for that operator that are both accessible and applicable, and the most specific operator declaration is chosen according to the usual rules for overloaded functionals.</p>
+<p id="p-c63737ab-4" class="nb">Example:</p>
+<div class="fx nb both" id="c-b24c2ee9" data-kind="code" data-example="OprDecl.Postfix"><div class="fx-r"><svg class="tx" data-d="4" viewBox="-0.60 10.36 176.60 23.42" width="17.660em" height="2.342em" fill="currentColor"><text class='t4' x='0' y='21.42'>opr</text>
+<text class='t3' x='18.46' y='21.42'>(</text>
+<text class='t9' x='22.33' y='21.42'>n</text>
+<text class='t3' x='28.31' y='21.42'>:</text>
+<text class='t11' x='32.74' y='21.42'>Z</text>
+<text class='t3' x='39.38' y='21.42'>32)!<tspan x='60.97'>=</tspan></text>
+<text class='t7' x='76.08' y='11.96'></text>
+<text class='t12' x='71.48' y='33.17'>i</text>
+<text class='t13' x='74.3' y='33.17'>←</text>
+<text class='t14' x='82.25' y='33.17'>1:</text>
+<text class='t12' x='88.47' y='33.17'>n</text>
+<text class='t9' x='95.06' y='21.42'>i</text>
+<text class='t6' x='113.43' y='21.42'>(<tspan y='23.16'>*</tspan></text>
+<text class='t2' x='127.88' y='21.42'>f<tspan x='131.1'>actorial</tspan></text>
+<text class='t6' x='163.47' y='23.16'>*)</text></svg></div><pre class="fx-s"><code>opr (n: ZZ32)! = PROD[i &lt;- 1:n]i (* factorial *)</code></pre></div>
+</section>
+<section class="sec" data-num="25.5" data-title="Nofix Operator Declarations">
+<h2 id="s-nofix-operator-declarations" class="nb"><span class="num">25.5</span> Nofix Operator Declarations</h2>
+<p id="p-92ac822f" class="nb">A nofix operator declaration has <span class="m"><span class="kw">opr</span></span> and then an operator name where a functional declaration would have an identifier. The declaration must have no parameters.</p>
+<p id="p-8e6bad23" class="nb">An expression consisting only of a nofix operator will invoke a nofix operator declaration. The compiler considers all nofix and multifix operator declarations for that operator that are both accessible and applicable, and the most specific operator declaration is chosen according to the usual rules for overloaded functionals.</p>
+<p id="p-5b8aba92" class="nb">Uses for nofix operators are rare, but those rare examples are very useful. For example, if the <span class="m">@</span> operator is used to construct subscripting ranges, and it is the nofix declaration of <span class="m">@</span> that allows a lone <span class="m">@</span> to be used as a subscript:</p>
+<div class="fx nb both" id="c-c3a9a5ca" data-kind="code" data-example="OprDecl.Nofix"><div class="fx-r"><svg class="tx" data-d="5" viewBox="-0.60 11.26 177.54 11.16" width="17.754em" height="1.116em" fill="currentColor"><text class='t4' x='0' y='19.33'>opr</text>
+<text class='t3' x='20.12' y='19.33'>@(<tspan x='32.16'>):</tspan><tspan x='40.46'>ImplicitRange</tspan><tspan x='104.52'>=</tspan><tspan x='115.04'>ImplicitRange</tspan></text></svg></div><pre class="fx-s"><code>opr @(): ImplicitRange = ImplicitRange</code></pre></div>
+</section>
+<section class="sec" data-num="25.6" data-title="Bracketing Operator Declarations">
+<h2 id="sec-bracketing-opr-decl" class="nb"><span class="num">25.6</span> Bracketing Operator Declarations</h2>
+<p id="p-222cf4b7" class="nb">A bracketing operator declaration has <span class="m"><span class="kw">opr</span></span> where a functional declaration would have an identifier. The value parameter list, rather than being surrounded by parentheses, is surrounded by the brackets being defined. A bracketing operator declaration may have any number of parameters, keyword parameters, and varargs parameters in the value parameter list. Static parameters may also be present, between <span class="m"><span class="kw">opr</span></span> and the parameter list. Any paired Unicode brackets may be so defined <em>except</em> ordinary parentheses and white square brackets.</p>
+<p id="p-1c317964" class="nb">An expression consisting of zero or more comma-separated expressions surrounded by a bracket pair will invoke a bracketing operator declaration. The compiler considers all bracketing operator declarations for that type of bracket pair that are both accessible and applicable, and the most specific operator declaration is chosen according to the usual rules for overloaded functionals. For example, the expression <span class="m">⟨<i>p</i>, <i>q</i>⟩</span> might invoke the following bracketing method declaration:</p>
+<div class="fx nb both" id="c-55ed85a0" data-kind="code" data-example="OprDecl.Bracketing"><div class="fx-r"><svg class="tx" data-d="6" viewBox="-0.60 12.00 293.78 65.08" width="29.378em" height="6.508em" fill="currentColor"><text class='t6' x='0' y='19.33'>(<tspan y='21.07'>*</tspan></text>
+<text class='t2' x='14.45' y='19.33'>angle<tspan x='38.52'>brack</tspan><tspan x='60.54'>et</tspan><tspan x='70.23'>notation</tspan><tspan x='105.37'>for</tspan><tspan x='119.48'>inner</tspan><tspan x='142.44'>product</tspan></text>
+<text class='t6' x='175.37' y='21.07'>*)</text>
+<text class='t4' x='0' y='39.85'>opr</text>
+<text class='t7' x='20.12' y='31.78'>⟨</text>
+<text class='t8' x='24.82' y='39.85'></text>
+<text class='t9' x='28.84' y='39.85'>T</text>
+<text class='t4' x='38.81' y='39.85'>extends</text>
+<text class='t3' x='78.19' y='39.85'>Num<tspan x='99.22'>b</tspan><tspan x='105.03'>er</tspan></text>
+<text class='t9' x='113.36' y='39.85'>,</text>
+<text class='t4' x='117.79' y='39.85'>nat</text>
+<text class='t9' x='136.25' y='39.85'>k</text>
+<text class='t8' x='141.75' y='39.85'></text>
+<text class='t9' x='147.42' y='39.85'>x</text>
+<text class='t3' x='153.12' y='39.85'>:<tspan x='157.54'>V</tspan><tspan x='164.19'>ector</tspan></text>
+<text class='t8' x='185.8' y='39.85'></text>
+<text class='t9' x='189.81' y='39.85'>T<tspan x='196.46'>,</tspan><tspan x='200.89'>k</tspan></text>
+<text class='t8' x='206.39' y='39.85'></text>
+<text class='t9' x='210.4' y='39.85'>,<tspan x='214.83'>y</tspan></text>
+<text class='t3' x='220.07' y='39.85'>:<tspan x='224.5'>V</tspan><tspan x='231.14'>ector</tspan></text>
+<text class='t8' x='252.76' y='39.85'></text>
+<text class='t9' x='256.77' y='39.85'>T<tspan x='263.42'>,</tspan><tspan x='267.85'>k</tspan></text>
+<text class='t8' x='273.35' y='39.85'></text>
+<text class='t7' x='277.36' y='31.78'>⟩</text>
+<text class='t3' x='284.83' y='39.85'>=</text>
+<text class='t7' x='37.57' y='52.9'></text>
+<text class='t12' x='20.12' y='74.74'>i</text>
+<text class='t13' x='22.94' y='74.74'>←</text>
+<text class='t12' x='30.88' y='74.74'>x.</text>
+<text class='t15' x='37.76' y='74.74'>indic<tspan x='55.11'>es</tspan></text>
+<text class='t14' x='62.84' y='74.74'>(<tspan x='66.29'>)</tspan></text>
+<text class='t9' x='71.07' y='62.37'>x</text>
+<text class='t12' x='76.76' y='63.86'>i</text>
+<text class='t5' x='82.29' y='62.37'>·</text>
+<text class='t9' x='87.27' y='62.37'>y</text>
+<text class='t12' x='92.16' y='63.86'>i</text></svg></div><pre class="fx-s"><code>(* angle bracket notation for inner product *)
+opr &lt;|[\T extends Number, nat k\] x: Vector[\T,k\], y: Vector[\T,k\]|&gt; =
+    SUM[i &lt;- x.indices()]x[i] DOT y[i]</code></pre></div>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="overloaded-declarations.html"><span>Previous</span> 24. Overloaded Functional Declarations</a><a class="next" href="declaring-dimunits.html"><span>Next</span> 26. Dimension and Unit Declarations</a></nav>
+<footer class="colophon">Converted from <code>Specification/advanced/operator-definitions.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

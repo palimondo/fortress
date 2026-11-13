@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>31. Objects · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t1{font-family:cmr10;font-size:9.96px}
+svg.tx text.t2{font-family:cmti10;font-size:9.96px}
+svg.tx text.t3{font-family:msbm10;font-size:9.96px}
+svg.tx text.t4{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t5{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t6{font-family:cmr7;font-size:6.97px}
+svg.tx text.t7{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t8{font-family:stmary10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-object" data-chapter="31. Objects">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">31. Objects</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part V, Fortress APIs and Documentation for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="31" data-title="Objects">
+<h1 id="top" class="nb"><a id="chap-lib-object"></a><span class="num">Chapter 31</span> Objects</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-the-trait-fortress-core-any">31.1 The Trait Fortress.Core.Any</a></li><li><a href="#s-the-trait-fortress-core-object">31.2 The Trait Fortress.Core.Object</a></li><li><a href="#sec-core-tuple">31.3 The Trait Fortress.Core.Tuple</a></li></ol></nav>
+<section class="sec" data-num="31.1" data-title="The Trait Fortress.Core.Any">
+<h2 id="s-the-trait-fortress-core-any" class="nb"><span class="num">31.1</span> The Trait Fortress.Core.Any</h2>
+<p id="p-2a6cf8b3" class="nb">The trait <span class="m"><span class="ty">Any</span></span> is the single root of the type hierarchy; every object in Fortress has trait <span class="m"><span class="ty">Any</span></span> and therefore every object implements the methods of this trait. The immediate subtypes of the trait <span class="m"><span class="ty">Any</span></span> are <span class="m"><span class="ty">Object</span></span>, <span class="m"><span class="ty">Tuple</span></span>, <span class="m"><span class="ty">()</span></span>, and <span class="m"><span class="ty">Index</span></span>, the trait of the types that a subscript takes (<a class="xref" href="types.html#sec-type-relations">Section 6.2</a>).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
+<p id="p-766b0dae" class="nb">The Working Draft of February 2011 named <span class="m"><span class="ty">Object</span></span>, <span class="m"><span class="ty">Tuple</span></span> and <span class="m"><span class="ty">()</span></span> only; <span class="m"><span class="ty">Index</span></span>, which extends <span class="m"><span class="ty">Any</span></span> and not <span class="m"><span class="ty">Object</span></span>, is new.</p></aside>
+<div class="fx nb both" id="c-8edd5277" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.92 258.33 187.34" width="25.833em" height="18.734em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>An<tspan x='53.83'>y</tspan></text>
+<text class='t0' x='21.92' y='31.28'>getter</text>
+<text class='t2' x='58.28' y='31.28'>hashCo<tspan x='89.34'>de</tspan></text>
+<text class='t1' x='99.77' y='31.28'>():</text>
+<text class='t3' x='111.94' y='31.28'>N</text>
+<text class='t1' x='119.14' y='31.28'>64</text>
+<text class='t0' x='21.92' y='43.24'>opr</text>
+<text class='t4' x='40.38' y='42.27'>≡<tspan x='40.38' y='44.2'>≡</tspan></text>
+<text class='t1' x='48.12' y='43.24'>(</text>
+<text class='t0' x='52' y='43.24'>self</text>
+<text class='t5' x='72.92' y='43.24'>,</text>
+<text class='t2' x='77.35' y='43.24'>other</text>
+<text class='t1' x='100.7' y='43.24'>:<tspan x='105.13'>An</tspan><tspan x='117.86'>y</tspan><tspan x='123.25'>):</tspan><tspan x='131.55'>Bo</tspan><tspan x='143.87'>olean</tspan></text>
+<text class='t0' x='21.92' y='55.19'>opr<tspan x='40.38'>IDENTITY</tspan></text>
+<text class='t1' x='82.22' y='55.19'>(</text>
+<text class='t0' x='86.09' y='55.19'>self</text>
+<text class='t1' x='107.01' y='55.19'>):<tspan x='115.32'>An</tspan><tspan x='128.05'>y</tspan></text>
+<text class='t2' x='21.92' y='67.15'>hash</text>
+<text class='t1' x='42.03' y='67.15'>(</text>
+<text class='t2' x='45.91' y='67.15'>maxval</text>
+<text class='t1' x='77.02' y='67.15'>:</text>
+<text class='t3' x='81.44' y='67.15'>N</text>
+<text class='t1' x='88.64' y='67.15'>64):</text>
+<text class='t3' x='106.9' y='67.15'>N</text>
+<text class='t1' x='114.1' y='67.15'>64</text>
+<text class='t2' x='21.92' y='79.1'>hash</text>
+<text class='t1' x='42.03' y='79.1'>(</text>
+<text class='t2' x='45.91' y='79.1'>maxval</text>
+<text class='t1' x='77.02' y='79.1'>:</text>
+<text class='t3' x='81.44' y='79.1'>N</text>
+<text class='t1' x='88.64' y='79.1'>32):</text>
+<text class='t3' x='106.9' y='79.1'>N</text>
+<text class='t1' x='114.1' y='79.1'>32</text>
+<text class='t2' x='21.92' y='91.06'>toString</text>
+<text class='t1' x='57.55' y='91.06'>():<tspan x='69.73'>String</tspan></text>
+<text class='t0' x='21.92' y='103.01'>property</text>
+<text class='t4' x='66.53' y='103.01'>∀</text>
+<text class='t1' x='72.06' y='103.01'>(</text>
+<text class='t5' x='75.94' y='103.01'>x,<tspan x='86.06'>y</tspan><tspan x='91.3'>,</tspan><tspan x='95.73'>n</tspan></text>
+<text class='t1' x='101.71' y='103.01'>:</text>
+<text class='t3' x='106.14' y='103.01'>N</text>
+<text class='t1' x='113.33' y='103.01'>64)</text>
+<text class='t5' x='129.94' y='103.01'>x</text>
+<text class='t4' x='138.4' y='102.05'>≡<tspan x='138.4' y='103.98'>≡</tspan></text>
+<text class='t5' x='148.91' y='103.01'>y</text>
+<text class='t4' x='156.92' y='103.01'>→</text>
+<text class='t5' x='169.65' y='103.01'>x.</text>
+<text class='t2' x='178.11' y='103.01'>hash</text>
+<text class='t1' x='198.23' y='103.01'>(</text>
+<text class='t5' x='202.1' y='103.01'>n</text>
+<text class='t1' x='208.08' y='103.01'>)</text>
+<text class='t4' x='214.72' y='102.05'>≡<tspan x='214.72' y='103.98'>≡</tspan></text>
+<text class='t5' x='225.24' y='103.01'>y<tspan x='230.48'>.</tspan></text>
+<text class='t2' x='233.25' y='103.01'>hash</text>
+<text class='t1' x='253.36' y='103.01'>(</text>
+<text class='t5' x='257.24' y='103.01'>n</text>
+<text class='t1' x='263.22' y='103.01'>)</text>
+<text class='t0' x='21.92' y='114.97'>property</text>
+<text class='t4' x='66.53' y='114.97'>∀</text>
+<text class='t1' x='72.06' y='114.97'>(</text>
+<text class='t5' x='75.94' y='114.97'>x,<tspan x='86.06'>y</tspan><tspan x='91.3'>,</tspan><tspan x='95.73'>n</tspan></text>
+<text class='t1' x='101.71' y='114.97'>:</text>
+<text class='t3' x='106.14' y='114.97'>N</text>
+<text class='t1' x='113.33' y='114.97'>32)</text>
+<text class='t5' x='129.94' y='114.97'>x</text>
+<text class='t4' x='138.4' y='114'>≡<tspan x='138.4' y='115.93'>≡</tspan></text>
+<text class='t5' x='148.91' y='114.97'>y</text>
+<text class='t4' x='156.92' y='114.97'>→</text>
+<text class='t5' x='169.65' y='114.97'>x.</text>
+<text class='t2' x='178.11' y='114.97'>hash</text>
+<text class='t1' x='198.23' y='114.97'>(</text>
+<text class='t5' x='202.1' y='114.97'>n</text>
+<text class='t1' x='208.08' y='114.97'>)</text>
+<text class='t4' x='214.72' y='114'>≡<tspan x='214.72' y='115.93'>≡</tspan></text>
+<text class='t5' x='225.24' y='114.97'>y<tspan x='230.48'>.</tspan></text>
+<text class='t2' x='233.25' y='114.97'>hash</text>
+<text class='t1' x='253.36' y='114.97'>(</text>
+<text class='t5' x='257.24' y='114.97'>n</text>
+<text class='t1' x='263.22' y='114.97'>)</text>
+<text class='t0' x='21.92' y='126.92'>property</text>
+<text class='t4' x='66.53' y='126.92'>∀</text>
+<text class='t1' x='72.06' y='126.92'>(</text>
+<text class='t5' x='75.94' y='126.92'>x</text>
+<text class='t1' x='81.63' y='126.92'>)</text>
+<text class='t5' x='88.27' y='126.92'>x.</text>
+<text class='t2' x='96.73' y='126.92'>hashCo<tspan x='127.8'>de</tspan></text>
+<text class='t4' x='140.99' y='125.96'>≡<tspan x='140.99' y='127.89'>≡</tspan></text>
+<text class='t5' x='151.5' y='126.92'>x.</text>
+<text class='t2' x='159.96' y='126.92'>hash</text>
+<text class='t1' x='180.08' y='126.92'>(2</text>
+<text class='t6' x='188.93' y='123.31'>64</text>
+<text class='t4' x='199.59' y='126.92'>−</text>
+<text class='t1' x='209.55' y='126.92'>1)</text>
+<text class='t0' x='21.92' y='138.88'>property</text>
+<text class='t4' x='66.53' y='138.88'>∀</text>
+<text class='t1' x='72.06' y='138.88'>(</text>
+<text class='t5' x='75.94' y='138.88'>x,<tspan x='86.06'>y</tspan></text>
+<text class='t1' x='91.3' y='138.88'>)</text>
+<text class='t5' x='97.94' y='138.88'>x</text>
+<text class='t4' x='106.4' y='137.92'>≡<tspan x='106.4' y='139.84'>≡</tspan></text>
+<text class='t5' x='116.92' y='138.88'>y</text>
+<text class='t4' x='124.93' y='138.88'>→</text>
+<text class='t5' x='137.66' y='138.88'>x.</text>
+<text class='t2' x='146.12' y='138.88'>toString</text>
+<text class='t1' x='181.75' y='138.88'>()<tspan x='192.27'>=</tspan></text>
+<text class='t5' x='202.79' y='138.88'>y<tspan x='208.03'>.</tspan></text>
+<text class='t2' x='210.8' y='138.88'>toString</text>
+<text class='t1' x='246.43' y='138.88'>()</text>
+<text class='t0' x='21.92' y='150.83'>property</text>
+<text class='t4' x='66.53' y='150.83'>∀</text>
+<text class='t1' x='72.06' y='150.83'>(</text>
+<text class='t5' x='75.94' y='150.83'>a</text>
+<text class='t1' x='81.2' y='150.83'>)<tspan x='87.84'>(</tspan></text>
+<text class='t0' x='91.72' y='150.83'>IDENTITY</text>
+<text class='t5' x='135.78' y='150.83'>a</text>
+<text class='t1' x='141.04' y='150.83'>)</text>
+<text class='t4' x='147.68' y='149.87'>≡<tspan x='147.68' y='151.8'>≡</tspan></text>
+<text class='t5' x='158.2' y='150.83'>a</text>
+<text class='t0' x='21.92' y='162.79'>property</text>
+<text class='t4' x='66.53' y='162.79'>∀</text>
+<text class='t1' x='72.06' y='162.79'>(</text>
+<text class='t5' x='75.94' y='162.79'>a</text>
+<text class='t1' x='81.2' y='162.79'>)</text>
+<text class='t5' x='87.84' y='162.79'>a</text>
+<text class='t4' x='95.88' y='161.83'>≡<tspan x='95.88' y='163.75'>≡</tspan></text>
+<text class='t5' x='106.39' y='162.79'>a</text>
+<text class='t0' x='21.92' y='174.74'>property</text>
+<text class='t4' x='66.53' y='174.74'>∀</text>
+<text class='t1' x='72.06' y='174.74'>(</text>
+<text class='t5' x='75.94' y='174.74'>a,<tspan x='85.63'>b</tspan></text>
+<text class='t1' x='89.91' y='174.74'>)</text>
+<text class='t5' x='96.55' y='174.74'>a</text>
+<text class='t4' x='104.58' y='173.78'>≡<tspan x='104.58' y='175.71'>≡</tspan></text>
+<text class='t5' x='115.1' y='174.74'>b</text>
+<text class='t4' x='122.14' y='174.74'>↔</text>
+<text class='t5' x='134.87' y='174.74'>b</text>
+<text class='t4' x='141.91' y='173.78'>≡<tspan x='141.91' y='175.71'>≡</tspan></text>
+<text class='t5' x='152.43' y='174.74'>a</text>
+<text class='t0' x='21.92' y='186.7'>property</text>
+<text class='t4' x='66.53' y='186.7'>∀</text>
+<text class='t1' x='72.06' y='186.7'>(</text>
+<text class='t5' x='75.94' y='186.7'>a,<tspan x='85.63'>b,</tspan><tspan x='94.33'>c</tspan></text>
+<text class='t1' x='98.65' y='186.7'>)<tspan x='105.29'>(</tspan></text>
+<text class='t5' x='109.16' y='186.7'>a</text>
+<text class='t4' x='117.2' y='185.74'>≡<tspan x='117.2' y='187.66'>≡</tspan></text>
+<text class='t5' x='127.71' y='186.7'>b</text>
+<text class='t4' x='131.99' y='186.7'>∧</text>
+<text class='t1' x='138.63' y='186.7'>:</text>
+<text class='t5' x='143.06' y='186.7'>b</text>
+<text class='t4' x='150.1' y='185.74'>≡<tspan x='150.1' y='187.66'>≡</tspan></text>
+<text class='t5' x='160.62' y='186.7'>c</text>
+<text class='t1' x='164.93' y='186.7'>)</text>
+<text class='t4' x='171.57' y='186.7'>→</text>
+<text class='t1' x='181.53' y='186.7'>:</text>
+<text class='t5' x='185.96' y='186.7'>a</text>
+<text class='t4' x='193.99' y='185.74'>≡<tspan x='193.99' y='187.66'>≡</tspan></text>
+<text class='t5' x='204.51' y='186.7'>c</text>
+<text class='t0' x='9.96' y='198.66'>end</text></svg></div><pre class="fx-s"><code>trait Any
+  getter hashCode(): NN64
+  opr ===(self, other: Any): Boolean
+  opr IDENTITY(self): Any
+  hash(maxval: NN64): NN64
+  hash(maxval: NN32): NN32
+  toString(): String
+  property FORALL (x, y, n: NN64) x === y IMPLIES x.hash(n) === y.hash(n)
+  property FORALL (x, y, n: NN32) x === y IMPLIES x.hash(n) === y.hash(n)
+  property FORALL (x) x.hashCode === x.hash(2^64-1)
+  property FORALL (x, y) x === y IMPLIES x.toString() = y.toString()
+  property FORALL (a) (IDENTITY a) === a
+  property FORALL (a) a===a
+  property FORALL (a,b) a===b IFF b===a
+  property FORALL (a,b,c) (a===b AND: b===c) IMPLIES: a===c
+end</code></pre></div>
+<section class="sec" data-num="31.1.1" data-title="getter hashCode(): ℕ64">
+<h3 id="s-getter-hashcode-64" class="nb"><span class="num">31.1.1</span> <span class="m"><span class="kw">getter</span> <i>hashCode</i>(): ℕ64</span></h3>
+<p id="p-4fa8433c" class="nb">Every object has associated with it a 64-bit unsigned integer value called its <em>hash code</em>; this is the value returned by the <span class="m"><i>hash</i></span> method when given the argument <span class="m">2<sup>64</sup> − 1</span>. Hash codes are not necessarily consistent from one Fortress application to another, nor from one execution of a Fortress application to another execution of the same application, but remain fixed during the execution of a single Fortress application. It is permitted for two objects to have the same hashCode, but Fortress programmers and implementors should be aware that assigning distinct hash codes to distinct objects may improve the performance of hash tables.</p>
+<p id="p-dcebd649" class="nb">The trait <span class="m"><span class="ty">Any</span></span> defines its <span class="m"><i>hash</i></span> methods in terms of <span class="m"><i>hashCode</i></span>; therefore it suffices for a subtrait to override <span class="m"><i>hashCode</i></span> to get the benefit of the <span class="m"><i>hash</i></span> methods as well.</p>
+</section>
+<section class="sec" data-num="31.1.2" data-title="opr ≣(self, other: Any): Boolean">
+<h3 id="s-opr-self-other-any-boolean" class="nb"><span class="num">31.1.2</span> <span class="m"><span class="kw">opr</span> ≣(<span class="kw">self</span>, <i>other</i>: <span class="ty">Any</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-302b1ebf" class="nb">The infix operator <span class="m">≣</span> (object equivalence) is used to decide whether two objects are “the same object” in the strictest sense possible; this is described in detail in <a class="xref" href="objects.html#sec-equivalence">Section 11.4</a><!--nc-->. Note that the properties of trait <span class="m"><span class="ty">Any</span></span> assert that <span class="m">≣</span> is an equivalence relation.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-object">Section I.1.8</a><!--nc--></span></p>
+<p id="p-a4925070" class="nb">The Working Draft of February 2011 added that in <span class="m"><span class="ty">Object</span></span> this property is asserted abstractly using the algebraic constraints of <a class="xref" href="lib-algebraic-constraints.html">Chapter 40</a><!--nc-->; <span class="m"><span class="ty">Object</span></span> no longer does so (<a class="xref" href="spec-changes.html#sec-revival-object">Section I.1.8</a><!--nc-->).</p></aside>
+<p id="p-0da6b6ec" class="nb">For <span class="m">≣̸</span> see <a class="xref" href="lib-negated-relational-operators.html#sec-operator-NSEQV">Section 34.1.1</a><!--nc-->.</p>
+</section>
+<section class="sec" data-num="31.1.3" data-title="opr IDENTITY(self): Any">
+<h3 id="s-opr-identity-self-any" class="nb"><span class="num">31.1.3</span> <span class="m"><span class="kw">opr</span> <span class="op">IDENTITY</span>(<span class="kw">self</span>): <span class="ty">Any</span></span></h3>
+<p id="p-11fa36fd" class="nb">The operator <span class="m"><span class="op">IDENTITY</span></span> simply returns its argument. (This may not be terribly useful for applications programming, but it has technical uses for specifying contracts and algebraic properties in libraries as described in <a class="xref" href="lib-algebraic-constraints.html#sec-opr-properties">Section 40.3</a><!--nc-->.)</p>
+</section>
+<section class="sec" data-num="31.1.4" data-title="hash(maxval: ℕ64): ℕ64">
+<h3 id="s-hash-maxval-64-64" class="nb"><span class="num">31.1.4</span> <span class="m"><i>hash</i>(<i>maxval</i>: ℕ64): ℕ64</span></h3>
+</section>
+<section class="sec" data-num="" data-title="hash(maxval: ℕ32): ℕ32">
+<h3 id="s-hash-maxval-32-32" class="nb"><span class="m"><i>hash</i>(<i>maxval</i>: ℕ32): ℕ32</span></h3>
+<p id="p-73ffdb5a" class="nb">The <span class="m"><i>hash</i></span> method returns a <em>hash value</em> for the object as an unsigned integer that is less than or equal to the <span class="m"><i>maxval</i></span> argument. This hash value is not necessarily consistent from one Fortress application to another, nor from one execution of a Fortress application to another execution of the same application, but the hash value produced for a given value of the <span class="m"><i>maxval</i></span> argument remains fixed during the execution of a single Fortress application. There is no defined relationship between hash values produced for the same object but with different <span class="m"><i>maxval</i></span> values. Fortress programmers and implementors should be aware that the performance of hash tables is likely to be improved if, for any given collection of objects and given value for the <span class="m"><i>maxval</i></span> argument, the <span class="m"><i>hash</i></span> method assigns hash values to those objects with relatively uniform distribution.</p>
+</section>
+<section class="sec" data-num="31.1.5" data-title="toString(): String">
+<h3 id="s-tostring-string" class="nb"><span class="num">31.1.5</span> <span class="m"><i>toString</i>(): <span class="ty">String</span></span></h3>
+<p id="p-bcff759f" class="nb">The general contract of <span class="m"><i>toString</i></span> is that it returns a string that “textually represents” this object. The idea is to provide a concise but informative representation that will be useful to a person reading it.</p>
+</section>
+</section>
+<section class="sec" data-num="31.2" data-title="The Trait Fortress.Core.Object">
+<h2 id="s-the-trait-fortress-core-object" class="nb"><span class="num">31.2</span> The Trait Fortress.Core.Object</h2>
+<p id="p-18586e3e" class="nb">The trait <span class="m"><span class="ty">Object</span></span> is the root of the type hierarchy for all user-constructed objects and functions. The <span class="m"><span class="ty">Object</span></span> type does not have any additional methods; the properties of the existing operators, such as <span class="m">≣</span>, are those stated in trait <span class="m"><span class="ty">Any</span></span>.</p>
+<div class="fx nb both" id="c-1d849071" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="9.36 11.81 124.43 32.03" width="12.443em" height="3.203em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>Ob<tspan x='54.93'>ject</tspan></text>
+<text class='t0' x='73.47' y='19.33'>extends</text>
+<text class='t1' x='115.07' y='19.33'>An<tspan x='127.8'>y</tspan></text>
+<text class='t0' x='33.87' y='31.28'>excludes</text>
+<text class='t4' x='78.48' y='31.28'>{</text>
+<text class='t1' x='85.12' y='31.28'>T<tspan x='91.49'>uple</tspan></text>
+<text class='t4' x='111.42' y='31.28'>}</text>
+<text class='t0' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>    excludes { Tuple }
+end</code></pre></div>
+<p id="p-94fca8ea" class="nb">The following declaration, which describes those properties with the algebraic constraints of <a class="xref" href="lib-algebraic-constraints.html">Chapter 40</a><!--nc-->, is not allowed:</p>
+<div class="fx nb both" id="c-02d86f52" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 394.03 44.54" width="39.403em" height="4.454em" fill="currentColor"><text class='t1' x='9.96' y='19.33'>(</text>
+<text class='t4' x='13.84' y='19.33'>∗</text>
+<text class='t7' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t4' x='76.4' y='19.33'>∗</text>
+<text class='t1' x='81.38' y='19.33'>)</text>
+<text class='t0' x='9.96' y='31.28'>trait</text>
+<text class='t1' x='41.1' y='31.28'>Ob<tspan x='54.93'>ject</tspan></text>
+<text class='t0' x='73.47' y='31.28'>extends</text>
+<text class='t4' x='112.85' y='31.28'>{</text>
+<text class='t1' x='119.5' y='31.28'>An<tspan x='132.23'>y</tspan></text>
+<text class='t5' x='137.62' y='31.28'>,</text>
+<text class='t1' x='142.05' y='31.28'>Equiv<tspan x='167.09'>alenceRelation</tspan></text>
+<text class='t8' x='230.33' y='31.28'></text>
+<text class='t1' x='234.34' y='31.28'>Ob<tspan x='248.18'>ject</tspan></text>
+<text class='t5' x='263.95' y='31.28'>,</text>
+<text class='t4' x='268.38' y='30.32'>≡<tspan x='268.38' y='32.25'>≡</tspan></text>
+<text class='t8' x='276.13' y='31.28'></text>
+<text class='t5' x='280.14' y='31.28'>,</text>
+<text class='t1' x='284.57' y='31.28'>Iden<tspan x='303.39'>tit</tspan><tspan x='313.63'>yOp</tspan><tspan x='332.45'>erator</tspan></text>
+<text class='t8' x='358.52' y='31.28'></text>
+<text class='t1' x='362.53' y='31.28'>Ob<tspan x='376.37'>ject</tspan></text>
+<text class='t8' x='392.14' y='31.28'></text>
+<text class='t4' x='397.81' y='31.28'>}</text>
+<text class='t0' x='33.87' y='43.24'>excludes</text>
+<text class='t4' x='78.48' y='43.24'>{</text>
+<text class='t1' x='85.12' y='43.24'>T<tspan x='91.49'>uple</tspan></text>
+<text class='t4' x='111.42' y='43.24'>}</text>
+<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)
+trait Object extends { Any, EquivalenceRelation[\Object,===\], IdentityOperator[\Object\] }
+    excludes { Tuple }
+end</code></pre></div>
+<p id="p-ff0bddfa" class="nb">Every trait other than <span class="m"><span class="ty">Any</span></span>, <span class="m"><span class="ty">Object</span></span> and <span class="m"><span class="ty">Index</span></span> extends <span class="m"><span class="ty">Object</span></span> (<a class="xref" href="traits.html#sec-trait-decls">Section 10.1</a><!--nc-->), and the algebraic constraints make each commutative algebraic type <span class="m"><i>T</i></span> an <span class="m"><span class="ty">EquivalenceRelation</span>⟦<i>T</i>, =⟧</span> (<a class="xref" href="lib-algebraic-constraints.html">Chapter 40</a><!--nc-->); such a type would extend two instantiations of <span class="m"><span class="ty">EquivalenceRelation</span></span> whose type arguments differ, which instantiation exclusion forbids (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-object">Section I.1.8</a><!--nc--></span></p>
+<p id="p-045823f0" class="nb">The Working Draft of February 2011 declared <span class="m"><span class="ty">Object</span></span> with the declaration marked “Not allowed”, and said that <span class="m"><span class="ty">Object</span></span> uses algebraic constraints to describe the properties of the existing operators more abstractly. The declaration <span class="m"><span class="kw">trait</span> <span class="ty">Object</span> <span class="kw">extends</span> <span class="ty">Any</span></span> is the library’s.</p></aside>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
+<p id="p-dc1c0747" class="nb">The Working Draft of February 2011 named only <span class="m"><span class="ty">Any</span></span> and <span class="m"><span class="ty">Object</span></span> as the traits that do not extend <span class="m"><span class="ty">Object</span></span>; <span class="m"><span class="ty">Index</span></span>, which the revival adds to the library, is the third.</p></aside>
+</section>
+<section class="sec" data-num="31.3" data-title="The Trait Fortress.Core.Tuple">
+<h2 id="sec-core-tuple" class="nb"><span class="num">31.3</span> The Trait Fortress.Core.Tuple</h2>
+<p id="p-a0a8b88c" class="nb">The trait <span class="m"><span class="ty">Tuple</span></span> is the root of the type hierarchy for all tuple types (see <a class="xref" href="types.html#sec-tuple-types">Section 6.5</a>). No user-defined object can be a subtype of <span class="m"><span class="ty">Tuple</span></span>. As with the type <span class="m"><span class="ty">Object</span></span>, the properties of its existing operators are those stated in trait <span class="m"><span class="ty">Any</span></span>.</p>
+<div class="fx nb both" id="c-4520de47" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.81 119.45 43.98" width="11.945em" height="4.398em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>T<tspan x='47.46'>uple</tspan></text>
+<text class='t0' x='68.49' y='19.33'>extends</text>
+<text class='t1' x='110.09' y='19.33'>An<tspan x='122.82'>y</tspan></text>
+<text class='t0' x='33.87' y='31.28'>excludes</text>
+<text class='t4' x='78.48' y='31.28'>{</text>
+<text class='t1' x='85.12' y='31.28'>Ob<tspan x='98.96'>ject</tspan></text>
+<text class='t4' x='116.4' y='31.28'>}</text>
+<text class='t2' x='21.92' y='43.24'>toString</text>
+<text class='t1' x='57.55' y='43.24'>():<tspan x='69.73'>String</tspan></text>
+<text class='t0' x='9.96' y='55.19'>end</text></svg></div><pre class="fx-s"><code>    excludes { Object }
+  toString(): String
+end</code></pre></div>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-object">Section I.1.8</a><!--nc--></span></p>
+<p id="p-8955356a" class="nb">The Working Draft of February 2011 gave <span class="m"><span class="ty">Tuple</span></span> the same algebraic supertraits as <span class="m"><span class="ty">Object</span></span>, at <span class="m"><span class="ty">Tuple</span></span>, and said that it uses algebraic constraints to describe its existing methods. No tuple type extends a trait, so the rule does not refuse that declaration; it follows <span class="m"><span class="ty">Object</span></span>’s.</p></aside>
+<section class="sec" data-num="31.3.1" data-title="toString(): String">
+<h3 id="s-tostring-string-2" class="nb"><span class="num">31.3.1</span> <span class="m"><i>toString</i>(): <span class="ty">String</span></span></h3>
+<p id="p-ba860e81" class="nb">The <span class="m"><i>toString</i></span> method returns a string <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str"></span></span>”</span></span></span> concatenated as follows:</p>
+<ul>
+<li><p id="p-252265b1" class="nb">If the tuple has just one element, concatenate <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">tuple</span></span>”</span></span></span>.</p></li>
+<li><p id="p-27294bb4" class="nb">Concatenate <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">(</span></span>”</span></span></span>.</p></li>
+<li><p id="p-abc8f7af" class="nb">For each element of the tuple, in left-to-right order, taking all plain elements before any varargs or keyword element, taking any varargs element before any keyword element, and taking keyword elements in the order defined by the type of the tuple (which may not be the sorted order):</p>
+<ul>
+<li><p id="p-48534793" class="nb">If this is a plain element, concatenate the <span class="m"><i>toString</i></span> of the element.</p></li>
+<li><p id="p-f22a367e" class="nb">If this is a varargs element “<span class="m"><i>e</i>…</span>”, concatenate the <span class="m"><i>toString</i></span> of <span class="m"><i>e</i></span> and concatenate <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">...</span></span>”</span></span></span>.</p></li>
+<li><p id="p-22dfe91d" class="nb">If this is a keyword element “<span class="m"><i>id</i> = <i>e</i></span>”, concatenate the <span class="m"><i>toString</i></span> of <span class="m"><i>id</i></span>, concatenate <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">=</span></span>”</span></span></span>, and concatenate the <span class="m"><i>toString</i></span> of <span class="m"><i>e</i></span>.</p></li>
+<li><p id="p-9dbf8df4" class="nb">If this is the last element of the tuple, concatenate <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">)</span></span>”</span></span></span>; otherwise concatenate ", ".</p></li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="optional-libraries.html"><span>Previous</span> 30. Additional Libraries Available to Fortress Programmers</a><a class="next" href="lib-booleans.html"><span>Next</span> 32. Booleans and Boolean Intervals</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic-lib/objects.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

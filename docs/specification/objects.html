@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>11. Objects · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t4{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t5{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t6{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t7{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t8{font-family:cmr10;font-size:9.96px}
+svg.tx text.t9{font-family:cmr7;font-size:6.97px}
+svg.tx text.t10{font-family:cmti10;font-size:9.96px}
+svg.tx text.t11{font-family:msbm10;font-size:9.96px}
+svg.tx text.t12{font-family:stmary10;font-size:9.96px}
+svg.tx text.t13{font-family:cmex10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="objects" data-chapter="11. Objects">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">11. Objects</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="11" data-title="Objects">
+<h1 id="top" class="nb"><a id="chap-objects"></a><span class="num">Chapter 11</span> Objects</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-object-decls">11.1 Object Declarations</a></li><li><a href="#sec-fields">11.2 Field Declarations</a></li><li><a href="#sec-value-objects">11.3 Value Objects</a></li><li><a href="#sec-equivalence">11.4 Object Equivalence</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-903edf99" class="nb">Properties are not yet supported. Of value objects, only strict equivalence is supported: the interpreter and the compiled code compare two value objects of one type field by field (<a class="xref" href="#sec-equivalence">Section 11.4</a><!--nc-->).</p></aside>
+<p id="p-b609d746" class="nb"><em>Objects</em> are values that have object trait types described in <a class="xref" href="types.html#sec-object-traits">Section 6.3.1</a>. Objects contain <em>methods</em> (described in <a class="xref" href="traits.html#sec-methods">Section 10.2</a><!--nc-->) and <em>fields</em> (described in <a class="xref" href="#sec-fields">Section 11.2</a><!--nc-->).</p>
+<p id="p-e23ed9b6" class="nb">An object is a <em>value object</em>, a <em>reference object</em>, or a <em>function object</em>: It is a function object if it has an arrow type, a reference object if it has an object trait type that is not declared with the <span class="m"><span class="kw">value</span></span> modifier (see <a class="xref" href="#sec-value-objects">Section 11.3</a><!--nc-->), and a value object otherwise (i.e., if it has a tuple type, the type (), or an object trait type declared with the <span class="m"><span class="kw">value</span></span> modifier).</p>
+<p id="p-0126663d" class="nb">A value object cannot have mutable fields, and it is completely determined by its type, environment and its fields: Value objects with the same type, environment and fields are indistinguishable. Thus, an implementation may freely copy value objects. Most objects with simple standard types, such as booleans, numeric literals, IEEE floating-point numbers, integers of every precision, and rational numbers are value objects. In contrast, reference objects are thought to “reside in memory”, and are identified by an <em>object reference</em>. A new object reference is created whenever a reference object is constructed, so that reference objects constructed separately are always distinct. What about reference objects that have no mutable fields? Reference objects include strings and aggregates such as arrays, lists and sets.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-object-kinds">Section I.1.41</a><!--nc--></span></p>
+<p id="p-6968eb31" class="nb">The Working Draft of February 2011 named arbitrary-precision numbers among the reference objects and gave strings no kind. The revival decided on 6 November 2026 that the values of the arbitrary-precision integer and rational types are value objects, as the Fortress standard libraries declare them, and on 6 and 7 November 2026 that strings are reference objects: two strings are strictly equivalent only when they are one object, and their text equality is their <span class="m">=</span>.</p></aside>
+<p id="p-24af0795" class="nb">Two string literals of the same text denote one object, so that a string literal evaluated twice, and two literals of one text, are strictly equivalent; a string that a program builds as it runs is another object than a literal of the same text, unless the operation that builds it answers an existing string (<a class="xref" href="expressions.html#sec-literals">Section 13.1</a><!--nc-->).</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-string-literals">Section I.1.51</a><!--nc--></span></p>
+<p id="p-441fab29" class="nb">The Working Draft of February 2011 did not say whether a string literal denotes one object. The revival decided on 8 November 2026 that two string literals of one text are one object, on both implementations; strings remain reference objects.</p></aside>
+<p id="p-8db38e7f" class="nb">Function objects are immutable and have no fields. Identity is not well-defined for function objects, and attempting to check whether two functions are equivalent returns an approximate result. <a class="xref" href="#sec-equivalence">Section 11.4</a><!--nc--> describes object equivalence in further detail.</p>
+<section class="sec" data-num="11.1" data-title="Object Declarations">
+<h2 id="sec-object-decls" class="nb"><span class="num">11.1</span> Object Declarations</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-93c3667d" class="nb">The <span class="m"><span class="kw">transient</span></span> modifier and varargs parameters are eliminated.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-85823fc3" class="nb">What does it mean to have an invariant on an object?</p>
+<p id="p-46b67f4d" class="nb">Christine: The easy answer is that on entrance and exit of every method the invariant is true. Unfortunately I could be in the middle of a method with the invariant violated and want to call another method.</p>
+<p id="p-e7dfb57e" class="nb">Guy: One might argue that invariants should hold on entry and exit of methods that appear in the API. This can be approximated as: invariants must hold before and after every method that is not marked private.</p>
+<p id="p-7a8c8e70" class="nb">Need a more concrete proposal.</p>
+<p id="p-5db9b4c9" class="nb">Does the modifier <span class="m"><span class="kw">atomic</span></span> on a functional check its contract also?</p></aside>
+<div class="tw nb gr" id="g-029a67ea" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 449.49 355.62" width="44.949em" height="35.562em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>ObjectDecl</text>
+<text class='t2' x='126.14' y='28.8'>::=</text>
+<text class='t1' x='149.25' y='28.8'>ObjectMods</text>
+<text class='t2' x='197.95' y='28.8'>?</text>
+<text class='t1' x='205.46' y='28.8'>ObjectHeader<tspan x='264.62'>GoInAnObject</tspan></text>
+<text class='t2' x='322.9' y='28.8'>?</text>
+<text class='t3' x='332.07' y='28.8'>end</text>
+<text class='t2' x='351.91' y='28.8'>(</text>
+<text class='t3' x='355.23' y='28.8'>object</text>
+<text class='t2' x='388.27' y='28.8'>?</text>
+<text class='t1' x='395.78' y='28.8'>Id</text>
+<text class='t2' x='404.35' y='28.8'>)?</text>
+<text class='t1' x='25.9' y='40.76'>ObjectHeader</text>
+<text class='t2' x='126.14' y='40.76'>::=</text>
+<text class='t3' x='150.91' y='40.76'>object</text>
+<text class='t1' x='186.44' y='40.76'>Id<tspan x='197.5'>StaticP</tspan><tspan x='225.49'>ar</tspan><tspan x='234.19'>ams</tspan></text>
+<text class='t2' x='250.24' y='40.76'>?</text>
+<text class='t1' x='257.75' y='40.76'>ObjectV<tspan x='289.3'>alP</tspan><tspan x='302.34'>ar</tspan><tspan x='311.04'>am</tspan></text>
+<text class='t2' x='323.22' y='40.76'>?</text>
+<text class='t1' x='330.73' y='40.76'>ExtendsWher<tspan x='383.48'>e</tspan></text>
+<text class='t2' x='387.91' y='40.76'>?</text>
+<text class='t1' x='395.42' y='40.76'>FnClauses<tspan x='25.9' y='52.71'>ObjectMods</tspan></text>
+<text class='t2' x='126.14' y='52.71'>::=</text>
+<text class='t1' x='149.25' y='52.71'>T<tspan x='154.24'>r</tspan><tspan x='157.97'>aitMods</tspan><tspan x='25.9' y='64.67'>ObjectV</tspan><tspan x='57.44'>alP</tspan><tspan x='70.49'>ar</tspan><tspan x='79.19'>am</tspan></text>
+<text class='t2' x='126.14' y='64.67'>::=</text>
+<text class='t4' x='149.25' y='64.67'>(</text>
+<text class='t1' x='157.72' y='64.67'>ObjectP<tspan x='189.57'>ar</tspan><tspan x='198.28'>ams</tspan></text>
+<text class='t2' x='214.32' y='64.67'>?</text>
+<text class='t4' x='221.84' y='64.67'>)</text>
+<text class='t1' x='25.9' y='76.62'>ObjectP<tspan x='57.75'>ar</tspan><tspan x='66.46'>ams</tspan></text>
+<text class='t2' x='126.14' y='76.62'>::=<tspan x='149.25'>(</tspan></text>
+<text class='t1' x='152.57' y='76.62'>ObjectP<tspan x='184.42'>ar</tspan><tspan x='193.12'>am</tspan></text>
+<text class='t5' x='209.45' y='76.62'>,</text>
+<text class='t2' x='213.88' y='76.62'>)</text>
+<text class='t6' x='217.2' y='73.01'>∗</text>
+<text class='t2' x='224.27' y='76.62'>(</text>
+<text class='t1' x='227.58' y='76.62'>ObjectV<tspan x='259.12'>ar</tspan><tspan x='267.83'>ar</tspan><tspan x='276.32'>gs</tspan></text>
+<text class='t5' x='289.33' y='76.62'>,</text>
+<text class='t2' x='293.76' y='76.62'>)?</text>
+<text class='t1' x='304.59' y='76.62'>ObjectK<tspan x='337.44'>e</tspan><tspan x='341.57'>ywor</tspan><tspan x='361.12'>d</tspan></text>
+<text class='t2' x='366.37' y='76.62'>(</text>
+<text class='t5' x='369.69' y='76.62'>,</text>
+<text class='t1' x='374.12' y='76.62'>ObjectK<tspan x='406.97'>e</tspan><tspan x='411.1'>ywor</tspan><tspan x='430.66'>d</tspan></text>
+<text class='t2' x='435.91' y='76.62'>)</text>
+<text class='t6' x='439.22' y='73.01'>∗</text>
+<text class='t7' x='126.14' y='88.58'>|</text>
+<text class='t2' x='149.25' y='88.58'>(</text>
+<text class='t1' x='152.57' y='88.58'>ObjectP<tspan x='184.42'>ar</tspan><tspan x='193.12'>am</tspan></text>
+<text class='t5' x='209.45' y='88.58'>,</text>
+<text class='t2' x='213.88' y='88.58'>)</text>
+<text class='t6' x='217.2' y='84.96'>∗</text>
+<text class='t1' x='224.27' y='88.58'>ObjectV<tspan x='255.81'>ar</tspan><tspan x='264.51'>ar</tspan><tspan x='273'>gs</tspan></text>
+<text class='t7' x='126.14' y='100.53'>|</text>
+<text class='t1' x='149.25' y='100.53'>ObjectP<tspan x='181.1'>ar</tspan><tspan x='189.81'>am</tspan></text>
+<text class='t2' x='204.47' y='100.53'>(</text>
+<text class='t5' x='207.79' y='100.53'>,</text>
+<text class='t1' x='214.71' y='100.53'>ObjectP<tspan x='246.56'>ar</tspan><tspan x='255.27'>am</tspan></text>
+<text class='t2' x='267.44' y='100.53'>)</text>
+<text class='t6' x='270.76' y='96.92'>∗</text>
+<text class='t1' x='25.9' y='112.49'>ObjectV<tspan x='57.44'>ar</tspan><tspan x='66.15'>ar</tspan><tspan x='74.64'>gs</tspan></text>
+<text class='t2' x='126.14' y='112.49'>::=</text>
+<text class='t3' x='150.91' y='112.49'>transient</text>
+<text class='t1' x='202.13' y='112.49'>V<tspan x='207.12'>ar</tspan><tspan x='215.82'>ar</tspan><tspan x='224.31'>gs</tspan><tspan x='25.9' y='124.44'>ObjectK</tspan><tspan x='58.76'>e</tspan><tspan x='62.88'>ywor</tspan><tspan x='82.44'>d</tspan></text>
+<text class='t2' x='126.14' y='124.44'>::=</text>
+<text class='t1' x='149.25' y='124.44'>ObjectP<tspan x='181.1'>ar</tspan><tspan x='189.81'>am</tspan></text>
+<text class='t8' x='201.98' y='124.44'>=</text>
+<text class='t1' x='211.39' y='124.44'>Expr<tspan x='25.9' y='136.4'>ObjectP</tspan><tspan x='57.75'>ar</tspan><tspan x='66.46'>am</tspan></text>
+<text class='t2' x='126.14' y='136.4'>::=</text>
+<text class='t1' x='149.25' y='136.4'>P<tspan x='154.54'>ar</tspan><tspan x='163.25'>amFldMods</tspan></text>
+<text class='t2' x='211.4' y='136.4'>?</text>
+<text class='t1' x='218.91' y='136.4'>P<tspan x='224.2'>ar</tspan><tspan x='232.91'>am</tspan></text>
+<text class='t7' x='126.14' y='148.35'>|</text>
+<text class='t3' x='150.91' y='148.35'>var<tspan x='172.41'>transient</tspan></text>
+<text class='t1' x='223.64' y='148.35'>P<tspan x='228.93'>ar</tspan><tspan x='237.63'>amWT</tspan><tspan x='262.91'>ype</tspan></text>
+<text class='t7' x='126.14' y='160.31'>|</text>
+<text class='t3' x='150.91' y='160.31'>transient</text>
+<text class='t2' x='199.64' y='160.31'>?</text>
+<text class='t3' x='208.82' y='160.31'>var</text>
+<text class='t1' x='228.66' y='160.31'>P<tspan x='233.95'>ar</tspan><tspan x='242.66'>amWT</tspan><tspan x='267.93'>ype</tspan></text>
+<text class='t7' x='126.14' y='172.26'>|</text>
+<text class='t3' x='150.91' y='172.26'>transient</text>
+<text class='t1' x='202.13' y='172.26'>P<tspan x='207.42'>ar</tspan><tspan x='216.13'>am</tspan><tspan x='25.9' y='184.22'>P</tspan><tspan x='31.19'>ar</tspan><tspan x='39.9'>amWT</tspan><tspan x='65.18'>ype</tspan></text>
+<text class='t2' x='126.14' y='184.22'>::=</text>
+<text class='t1' x='149.25' y='184.22'>BindId<tspan x='179.13'>IsT</tspan><tspan x='191.12'>ype</tspan></text>
+<text class='t2' x='204.95' y='184.22'>?</text>
+<text class='t1' x='25.9' y='196.17'>P<tspan x='31.19'>ar</tspan><tspan x='39.9'>amFldMods</tspan></text>
+<text class='t2' x='126.14' y='196.17'>::=</text>
+<text class='t1' x='149.25' y='196.17'>P<tspan x='154.54'>ar</tspan><tspan x='163.25'>amFldMod</tspan></text>
+<text class='t9' x='207.79' y='192.56'>+</text>
+<text class='t1' x='25.9' y='208.13'>P<tspan x='31.19'>ar</tspan><tspan x='39.9'>amFldMod</tspan></text>
+<text class='t2' x='126.14' y='208.13'>::=</text>
+<text class='t7' x='149.25' y='208.13'>|</text>
+<text class='t3' x='156.17' y='208.13'>hidden</text>
+<text class='t7' x='191.7' y='208.13'>|</text>
+<text class='t3' x='198.62' y='208.13'>settable</text>
+<text class='t7' x='244.61' y='208.13'>|</text>
+<text class='t3' x='251.53' y='208.13'>wrapped</text>
+<text class='t1' x='25.9' y='220.08'>GoInAnObject</text>
+<text class='t2' x='126.14' y='220.08'>::=</text>
+<text class='t1' x='149.25' y='220.08'>Coer<tspan x='168.81'>cions</tspan></text>
+<text class='t2' x='189.84' y='220.08'>?</text>
+<text class='t1' x='197.35' y='220.08'>GoF<tspan x='215.06'>r</tspan><tspan x='218.49'>ontInAnObject</tspan><tspan x='279.82'>GoBac</tspan><tspan x='307.29'>kInAnObject</tspan></text>
+<text class='t2' x='357.82' y='220.08'>?</text>
+<text class='t7' x='126.14' y='232.04'>|</text>
+<text class='t1' x='149.25' y='232.04'>Coer<tspan x='168.81'>cions</tspan></text>
+<text class='t2' x='189.84' y='232.04'>?</text>
+<text class='t1' x='197.35' y='232.04'>GoBac<tspan x='224.82'>kInAnObject</tspan></text>
+<text class='t7' x='126.14' y='243.99'>|</text>
+<text class='t1' x='149.25' y='243.99'>Coer<tspan x='168.81'>cions</tspan><tspan x='25.9' y='255.95'>Coer</tspan><tspan x='45.46'>cions</tspan></text>
+<text class='t2' x='126.14' y='255.95'>::=</text>
+<text class='t1' x='149.25' y='255.95'>Coer<tspan x='168.81'>cion</tspan></text>
+<text class='t9' x='185.96' y='252.33'>+</text>
+<text class='t1' x='25.9' y='267.91'>GoF<tspan x='43.62'>r</tspan><tspan x='47.04'>ontInAnObject</tspan></text>
+<text class='t2' x='126.14' y='267.91'>::=</text>
+<text class='t1' x='149.25' y='267.91'>GoesF<tspan x='175.26'>r</tspan><tspan x='178.69'>ontInAnObject</tspan></text>
+<text class='t9' x='237.53' y='264.29'>+</text>
+<text class='t1' x='25.9' y='279.86'>GoesF<tspan x='51.92'>r</tspan><tspan x='55.34'>ontInAnObject</tspan></text>
+<text class='t2' x='126.14' y='279.86'>::=</text>
+<text class='t1' x='149.25' y='279.86'>FldDecl</text>
+<text class='t7' x='126.14' y='291.82'>|</text>
+<text class='t1' x='149.25' y='291.82'>GetterSetterDef</text>
+<text class='t7' x='126.14' y='303.77'>|</text>
+<text class='t1' x='149.25' y='303.77'>Pr<tspan x='158.76'>opertyDecl</tspan><tspan x='25.9' y='315.73'>GoBac</tspan><tspan x='53.37'>kInAnObject</tspan></text>
+<text class='t2' x='126.14' y='315.73'>::=</text>
+<text class='t1' x='149.25' y='315.73'>GoesBac<tspan x='185.01'>kInAnObject</tspan></text>
+<text class='t9' x='235.54' y='312.11'>+</text>
+<text class='t1' x='25.9' y='327.68'>GoesBac<tspan x='61.67'>kInAnObject</tspan></text>
+<text class='t2' x='126.14' y='327.68'>::=</text>
+<text class='t1' x='149.25' y='327.68'>MdDef</text>
+<text class='t7' x='126.14' y='339.64'>|</text>
+<text class='t1' x='149.25' y='339.64'>Pr<tspan x='158.76'>opertyDecl</tspan><tspan x='25.9' y='351.59'>FnClauses</tspan></text>
+<text class='t2' x='126.14' y='351.59'>::=</text>
+<text class='t1' x='149.25' y='351.59'>Thr<tspan x='163.2'>ows</tspan></text>
+<text class='t2' x='178.7' y='351.59'>?</text>
+<text class='t1' x='186.21' y='351.59'>Wher<tspan x='207.42'>e</tspan></text>
+<text class='t2' x='211.84' y='351.59'>?</text>
+<text class='t1' x='219.36' y='351.59'>Contr<tspan x='242.46'>act</tspan><tspan x='25.9' y='363.55'>Thr</tspan><tspan x='39.85'>ows</tspan></text>
+<text class='t2' x='126.14' y='363.55'>::=</text>
+<text class='t3' x='150.91' y='363.55'>throws</text>
+<text class='t1' x='186.44' y='363.55'>MayT<tspan x='209.14'>r</tspan><tspan x='212.86'>aitT</tspan><tspan x='228.19'>ypes</tspan></text></svg></div>
+<p id="p-f175c4c0" class="nb">Object declarations declare both object values and object trait types. Object declarations extend a set of traits from which they inherit methods. An object declaration inherits the concrete methods of its supertraits and must include a definition for every method declared but not defined by its supertraits. Especially, an object declaration must not include abstract methods (discussed in <a class="xref" href="traits.html#sec-methods">Section 10.2</a><!--nc-->); it must define all abstract methods inherited from its supertraits. It is also allowed to define overloaded declarations of concrete methods inherited from its supertraits.</p>
+<p id="p-fc3c524f" class="nb">Syntactically, an object declaration begins with an optional sequence of modifiers followed by <span class="m"><span class="kw">object</span></span>, followed by the identifier of the object, optional static parameters (described in <a class="xref" href="trait-parameters.html">Chapter 12</a><!--nc-->), optional value parameters, optional traits the object extends, an optional declaration of thrown checked exceptions (discussed in <a class="xref" href="exceptions.html">Chapter 14</a><!--nc-->), an optional <span class="m"><span class="kw">where</span></span> clause (discussed in <a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), a contract for the object (discussed in <a class="xref" href="functions.html#sec-contracts">Section 9.4</a><!--nc-->), zero or more declarations of fields, getter methods, and setter methods, and zero or more declarations of methods, that are not getter or setter, separated by newlines or semicolons, and finally <span class="m"><span class="kw">end</span></span>. An object declaration may end with an optional <span class="m"><span class="kw">object</span></span> and its name again. It is a static error if the identifier after <span class="m"><span class="kw">end</span></span> is not the name of the object being declared. Property declarations (described in <a class="xref" href="tests.html#sec-property-decls">Section 19.6</a><!--nc-->) can be freely commingled with the field and method declarations. Method declarations in object declarations are syntactically identical to method declarations in trait declarations. If an object declaration has no <span class="m"><span class="kw">extends</span></span> clause, the object implicitly extends only trait <span class="m"><span class="ty">Object</span></span>. A <span class="m"><span class="kw">throws</span></span> clause does not include naked type variables. Every element in a <span class="m"><span class="kw">throws</span></span> clause is a subtype of <span class="m"><span class="ty">CheckedException</span></span>. A contract of an object declaration is evaluated when the object is created, as with a function contract (see <a class="xref" href="functions.html#sec-contracts">Section 9.4</a><!--nc-->).</p>
+<p id="p-62a90bf3" class="nb">There are two kinds of object declarations: singleton declarations and constructor declarations. A singleton declaration declares a sole, stand-alone, singleton object. It may have static parameters but it does not have a list of value parameters; every instantiation of such an object with the same static arguments yields the same singleton object. A constructor declaration declares an object constructor function. It may have static parameters and it includes a list of value parameters; every call to the constructor of such an object with the same argument yields a new object. Initialization of singleton objects is nondeterministic as described in <a class="xref" href="evaluation.html">Chapter 5</a>. The type of an object constructor function is an arrow type consisting of the object’s value parameter type followed by the token <span class="m">→</span>, followed by the object trait type.</p>
+<p id="p-9ae89ba1" class="nb">A constructor declaration has a (possibly empty) parenthesized list of value parameters. Each value parameter of a constructor declaration may be preceded by the special modifier <span class="m"><span class="kw">transient</span></span> or by a sequence of field modifiers. A value parameter preceded by the modifier <span class="m"><span class="kw">transient</span></span> does not correspond to a field in an instantiation of the object: <span class="m"><span class="kw">transient</span></span> parameters are not in scope in the object’s method declarations, but are in scope when the initial-value expressions of the fields are evaluated during object creation.</p>
+<p id="p-7d0aa9ae" class="nb">For example, the following leaf object extending trait <span class="m"><span class="ty">Tree</span></span>:</p>
+<div class="fx nb both" id="c-e367a36d" data-kind="code" data-example="Object.Decl.Leaf"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 11.81 150.49 69.39" width="15.049em" height="6.939em" fill="currentColor"><text class='t3' x='0' y='19.33'>object</text>
+<text class='t8' x='34.15' y='19.33'>Leaf</text>
+<text class='t3' x='56.37' y='19.33'>extends</text>
+<text class='t8' x='95.75' y='19.33'>T<tspan x='102.12'>ree</tspan></text>
+<text class='t10' x='8.86' y='39.75'>printT<tspan x='36.48'>r</tspan><tspan x='40.17'>e</tspan><tspan x='44.24'>e</tspan></text>
+<text class='t8' x='49.58' y='39.75'>(<tspan x='53.87'>):</tspan><tspan x='62.17'>(</tspan><tspan x='66.46'>)</tspan><tspan x='73.1'>=</tspan></text>
+<text class='t10' x='83.61' y='39.75'>println</text>
+<text class='t2' x='116.55' y='39.75'>“</text>
+<text class='t4' x='120.98' y='39.75'>leaf</text>
+<text class='t2' x='144.89' y='39.75'>”</text>
+<text class='t3' x='8.86' y='60.17'>opr</text>
+<text class='t7' x='28.97' y='60.17'>|</text>
+<text class='t3' x='31.74' y='60.17'>self</text>
+<text class='t7' x='52.66' y='60.17'>|</text>
+<text class='t8' x='57.09' y='60.17'>:</text>
+<text class='t11' x='61.52' y='60.17'>Z</text>
+<text class='t8' x='68.16' y='60.17'>32<tspan x='80.89'>=</tspan><tspan x='91.41'>0</tspan></text>
+<text class='t3' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>object Leaf extends Tree
+  printTree():() = println "leaf"
+  opr |self| : ZZ32 = 0
+end</code></pre></div>
+<p id="p-c572aa97" class="nb">has no fields and two methods.</p>
+<p id="p-1a899f9b" class="nb">Here is an example of a <span class="m"><span class="ty">Cons</span></span> object constructor extending trait <span class="m"><span class="ty">List</span>⟦<i>T</i>⟧</span>:</p>
+<div class="fx nb both" id="c-e137f279" data-kind="code" data-example="Object.Decl.Cons"><div class="fx-r"><svg class="tx" data-d="3" viewBox="-0.60 10.36 192.71 91.46" width="19.271em" height="9.146em" fill="currentColor"><text class='t3' x='0' y='19.43'>object</text>
+<text class='t8' x='34.15' y='19.43'>Cons</text>
+<text class='t12' x='55.79' y='19.43'></text>
+<text class='t5' x='59.8' y='19.43'>T</text>
+<text class='t12' x='67.01' y='19.43'></text>
+<text class='t13' x='71.02' y='11.36'></text>
+<text class='t10' x='75.59' y='19.43'>ﬁrst</text>
+<text class='t8' x='95.38' y='19.43'>:</text>
+<text class='t5' x='99.81' y='19.43'>T<tspan x='106.46'>,</tspan></text>
+<text class='t10' x='110.89' y='19.43'>r<tspan x='114.58'>est</tspan></text>
+<text class='t8' x='127.49' y='19.43'>:<tspan x='131.92'>List</tspan></text>
+<text class='t12' x='148.72' y='19.43'></text>
+<text class='t5' x='152.73' y='19.43'>T</text>
+<text class='t12' x='159.93' y='19.43'></text>
+<text class='t13' x='163.95' y='11.36'></text>
+<text class='t3' x='8.86' y='39.85'>extends</text>
+<text class='t8' x='48.24' y='39.85'>List</text>
+<text class='t12' x='65.03' y='39.85'></text>
+<text class='t5' x='69.05' y='39.85'>T</text>
+<text class='t12' x='76.25' y='39.85'></text>
+<text class='t10' x='8.86' y='60.27'>c<tspan x='12.93'>ons</tspan></text>
+<text class='t8' x='28.51' y='60.27'>(</text>
+<text class='t5' x='32.39' y='60.27'>x</text>
+<text class='t8' x='38.08' y='60.27'>)<tspan x='44.72'>=</tspan><tspan x='55.24'>Cons</tspan><tspan x='76.88'>(</tspan></text>
+<text class='t5' x='80.76' y='60.27'>x,</text>
+<text class='t3' x='90.88' y='60.27'>self</text>
+<text class='t8' x='111.8' y='60.27'>)</text>
+<text class='t10' x='8.86' y='80.8'>app<tspan x='23.62'>end</tspan></text>
+<text class='t8' x='39.93' y='80.8'>(</text>
+<text class='t10' x='43.8' y='80.8'>xs</text>
+<text class='t8' x='53.31' y='80.8'>)<tspan x='59.96'>=</tspan><tspan x='70.47'>Cons</tspan></text>
+<text class='t13' x='92.11' y='72.73'></text>
+<text class='t10' x='96.68' y='80.8'>ﬁrst</text>
+<text class='t5' x='114.81' y='80.8'>,</text>
+<text class='t10' x='119.24' y='80.8'>r<tspan x='122.93'>est</tspan></text>
+<text class='t5' x='135.84' y='80.8'>.</text>
+<text class='t10' x='138.61' y='80.8'>app<tspan x='153.38'>end</tspan></text>
+<text class='t8' x='169.68' y='80.8'>(</text>
+<text class='t10' x='173.56' y='80.8'>xs</text>
+<text class='t8' x='183.07' y='80.8'>)</text>
+<text class='t13' x='186.94' y='72.73'></text>
+<text class='t3' x='0' y='101.22'>end</text></svg></div><pre class="fx-s"><code>object Cons[\T\](first:T, rest:List[\T\])
+  extends List[\T\]
+  cons(x) = Cons(x,self)
+  append(xs) = Cons(first,rest.append(xs))
+end</code></pre></div>
+<p id="p-1f9d8858" class="nb">Note that this declaration introduces the “factory” function <span class="m"><span class="ty">Cons</span>⟦<i>T</i>⟧(<i>first</i> : <i>T</i>, <i>rest</i> : <span class="ty">List</span>⟦<i>T</i>⟧) : <span class="ty">Cons</span>⟦<i>T</i>⟧</span> which is used in the body of the object declaration to define the <span class="m"><i>cons</i></span> and <span class="m"><i>append</i></span> methods. Multiple factory functions can be defined by overloading an object constructor with functions. For example:</p>
+<div class="fx nb both" id="c-871b184e" data-kind="code" data-example="Object.Decl.ConsFn"><div class="fx-r"><svg class="tx" data-d="4" viewBox="-0.60 11.26 209.92 11.16" width="20.992em" height="1.116em" fill="currentColor"><text class='t8' x='0' y='19.33'>Cons</text>
+<text class='t12' x='21.64' y='19.33'></text>
+<text class='t5' x='25.65' y='19.33'>T</text>
+<text class='t12' x='32.86' y='19.33'></text>
+<text class='t8' x='36.87' y='19.33'>(</text>
+<text class='t10' x='40.75' y='19.33'>ﬁrstitem</text>
+<text class='t8' x='79.45' y='19.33'>:</text>
+<text class='t5' x='83.88' y='19.33'>T</text>
+<text class='t8' x='91.09' y='19.33'>)<tspan x='97.73'>=</tspan><tspan x='108.24'>Cons</tspan><tspan x='129.88'>(</tspan></text>
+<text class='t10' x='133.76' y='19.33'>ﬁrstitem</text>
+<text class='t5' x='170.8' y='19.33'>,</text>
+<text class='t8' x='175.23' y='19.33'>Empt<tspan x='199.45'>y</tspan><tspan x='204.84'>)</tspan></text></svg></div><pre class="fx-s"><code>Cons[\T\](firstitem:T) = Cons(firstitem,Empty)</code></pre></div>
+</section>
+<section class="sec" data-num="11.2" data-title="Field Declarations">
+<h2 id="sec-fields" class="nb"><span class="num">11.2</span> Field Declarations</h2>
+<div class="tw nb gr" id="g-111a2119" data-kind="grammar"><svg class="tx" data-d="5" viewBox="-5.58 10.45 326.31 140.42" width="32.631em" height="14.042em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>FldDecl</text>
+<text class='t2' x='85.17' y='28.8'>::=</text>
+<text class='t1' x='108.28' y='28.8'>FldMods</text>
+<text class='t2' x='144.26' y='28.8'>?</text>
+<text class='t1' x='151.77' y='28.8'>FldWT<tspan x='178.71'>ypes</tspan><tspan x='198.9'>InitV</tspan><tspan x='217.72'>al</tspan></text>
+<text class='t7' x='85.17' y='40.76'>|</text>
+<text class='t1' x='108.28' y='40.76'>BindIdOrBindIdT<tspan x='178.58'>uple</tspan></text>
+<text class='t8' x='199.89' y='40.76'>=</text>
+<text class='t1' x='211.79' y='40.76'>Expr</text>
+<text class='t7' x='85.17' y='52.71'>|</text>
+<text class='t1' x='108.28' y='52.71'>FldMods</text>
+<text class='t2' x='144.26' y='52.71'>?</text>
+<text class='t1' x='151.77' y='52.71'>BindIdOrBindIdT<tspan x='222.07'>uple</tspan></text>
+<text class='t8' x='243.37' y='52.71'>:</text>
+<text class='t1' x='250.29' y='52.71'>T<tspan x='255.09'>ype</tspan></text>
+<text class='t5' x='268.92' y='52.71'>...</text>
+<text class='t1' x='281.37' y='52.71'>InitV<tspan x='300.19'>al</tspan></text>
+<text class='t7' x='85.17' y='64.67'>|</text>
+<text class='t1' x='108.28' y='64.67'>FldMods</text>
+<text class='t2' x='144.26' y='64.67'>?</text>
+<text class='t1' x='151.77' y='64.67'>BindIdOrBindIdT<tspan x='222.07'>uple</tspan></text>
+<text class='t8' x='243.37' y='64.67'>:</text>
+<text class='t1' x='250.29' y='64.67'>T<tspan x='255.28'>upleT</tspan><tspan x='277.24'>ype</tspan><tspan x='293.56'>InitV</tspan><tspan x='312.38'>al</tspan><tspan x='25.9' y='76.62'>FldMods</tspan></text>
+<text class='t2' x='85.17' y='76.62'>::=</text>
+<text class='t1' x='108.28' y='76.62'>FldMod</text>
+<text class='t9' x='140.65' y='73.01'>+</text>
+<text class='t1' x='25.9' y='88.58'>FldMod</text>
+<text class='t2' x='85.17' y='88.58'>::=</text>
+<text class='t3' x='109.94' y='88.58'>var</text>
+<text class='t7' x='129.79' y='88.58'>|</text>
+<text class='t1' x='135.04' y='88.58'>AbsFldMod<tspan x='25.9' y='100.53'>AbsFldMod</tspan></text>
+<text class='t2' x='85.17' y='100.53'>::=</text>
+<text class='t1' x='108.28' y='100.53'>ApiFldMod</text>
+<text class='t7' x='156.98' y='100.53'>|</text>
+<text class='t3' x='163.9' y='100.53'>wrapped</text>
+<text class='t7' x='204.66' y='100.53'>|</text>
+<text class='t3' x='211.58' y='100.53'>private</text>
+<text class='t1' x='25.9' y='112.49'>ApiFldMod</text>
+<text class='t2' x='85.17' y='112.49'>::=</text>
+<text class='t3' x='109.94' y='112.49'>hidden</text>
+<text class='t7' x='145.48' y='112.49'>|</text>
+<text class='t3' x='152.4' y='112.49'>settable</text>
+<text class='t7' x='198.39' y='112.49'>|</text>
+<text class='t3' x='205.31' y='112.49'>test</text>
+<text class='t1' x='25.9' y='124.44'>FldWT<tspan x='52.84'>ypes</tspan></text>
+<text class='t2' x='85.17' y='124.44'>::=</text>
+<text class='t1' x='108.28' y='124.44'>FldWT<tspan x='135.22'>ype</tspan></text>
+<text class='t7' x='85.17' y='136.4'>|</text>
+<text class='t4' x='108.28' y='136.4'>(</text>
+<text class='t1' x='116.75' y='136.4'>FldWT<tspan x='143.69'>ype</tspan></text>
+<text class='t2' x='157.52' y='136.4'>(</text>
+<text class='t5' x='160.84' y='136.4'>,</text>
+<text class='t1' x='167.75' y='136.4'>FldWT<tspan x='194.69'>ype</tspan></text>
+<text class='t2' x='208.52' y='136.4'>)</text>
+<text class='t9' x='211.84' y='132.78'>+</text>
+<text class='t4' x='220.94' y='136.4'>)</text>
+<text class='t1' x='25.9' y='148.35'>FldWT<tspan x='52.84'>ype</tspan></text>
+<text class='t2' x='85.17' y='148.35'>::=</text>
+<text class='t1' x='108.28' y='148.35'>BindId<tspan x='138.16'>IsT</tspan><tspan x='150.16'>ype</tspan></text></svg></div>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-4386e8ef" class="nb">I think this should be phrased differently. When I originally read that, I took it to mean that fields were always “private.” – Scott</p></aside>
+<p id="p-2e71c224" class="nb">Fields are variables local to an object. They must not be referred to outside their enclosing object declarations. Each field is either a non-transient value parameter of a constructor declaration, or it is explicitly defined by a field declaration within the body of a constructor declaration, a singleton declaration, or an object expression (described in <a class="xref" href="expressions.html#sec-object-expr">Section 13.9</a><!--nc-->). A field declaration in an object declaration is syntactically identical to a top-level variable declaration (described in <a class="xref" href="variables.html#sec-top-var-decls">Section 8.1</a><!--nc-->), with the same meanings attached to the form of variable declarations. Additional modifiers apply to fields, as described in <a class="xref" href="traits.html#sec-abstract-fields">Section 10.3</a><!--nc-->. Unlike with an abstract field in a trait declaration, an object declaration may declare a <span class="m"><span class="kw">hidden</span></span> field which is not <span class="m"><span class="kw">settable</span></span>.</p>
+<p id="p-eefc3c5c" class="nb">Each field declaration includes an <em>initial-value</em> expression, which specifies the initial value of that field. Field initialization occurs in textual program order: evaluation of each initial-value expression must complete before evaluation of the next initial-value expression, and all previous field names (and the parameters of the constructor, in a constructor declaration) are in scope when evaluating an initial-value expression (see <a class="xref" href="declarations.html#sec-scope">Section 7.3</a><!--nc-->). All fields of an object are initialized before that object is made available for subsequent computation; thus, it is illegal to invoke methods on an object being initialized: <span class="m"><span class="kw">self</span></span> is <em>not</em> implicitly declared by a field declaration.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-a115156b" class="nb">Victor: Is the following code legal:</p>
+<div class="fx nb both" id="c-9e115de1" data-kind="code"><div class="fx-r"><svg class="tx" data-d="6" viewBox="15.34 11.92 255.54 79.74" width="25.554em" height="7.974em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>trait</text>
+<text class='t5' x='47.07' y='19.33'>T<tspan x='27.9' y='31.28'>x</tspan></text>
+<text class='t8' x='33.59' y='31.28'>:</text>
+<text class='t11' x='38.02' y='31.28'>Z</text>
+<text class='t5' x='27.9' y='43.24'>f</text>
+<text class='t8' x='33.85' y='43.24'>()<tspan x='44.36'>=</tspan></text>
+<text class='t3' x='54.88' y='43.24'>object<tspan x='91.79'>extends</tspan></text>
+<text class='t5' x='133.39' y='43.24'>T<tspan x='102.7' y='55.19'>x</tspan></text>
+<text class='t8' x='111.16' y='55.19'>=</text>
+<text class='t3' x='121.68' y='55.19'>self</text>
+<text class='t5' x='142.6' y='55.19'>.g</text>
+<text class='t8' x='150.47' y='55.19'>()(</text>
+<text class='t7' x='162.1' y='55.19'>∗</text>
+<text class='t2' x='169.85' y='55.19'>self<tspan x='186.72'>here</tspan><tspan x='206.36'>is</tspan><tspan x='215.49'>bound</tspan><tspan x='242.89'>by</tspan><tspan x='255.34'>f</tspan></text>
+<text class='t7' x='261.43' y='55.19'>∗</text>
+<text class='t8' x='266.41' y='55.19'>)</text>
+<text class='t3' x='54.88' y='67.15'>end</text>
+<text class='t5' x='27.9' y='79.1'>g</text>
+<text class='t8' x='33' y='79.1'>()<tspan x='43.52'>=</tspan><tspan x='54.04'>4</tspan></text>
+<text class='t3' x='15.94' y='91.06'>end</text></svg></div><pre class="fx-s"><code>trait T
+  x: ZZ
+  f() = object extends T
+          x = self.g()  (* self here is bound by f *)
+        end
+  g() = 4
+end</code></pre></div>
+<p id="p-74c2e962" class="nb">What about:</p>
+<div class="fx nb both" id="c-230842df" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="15.34 11.92 125.85 79.74" width="12.585em" height="7.974em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>trait</text>
+<text class='t5' x='47.07' y='19.33'>T<tspan x='27.9' y='31.28'>x</tspan></text>
+<text class='t8' x='33.59' y='31.28'>:</text>
+<text class='t11' x='38.02' y='31.28'>Z</text>
+<text class='t5' x='27.9' y='43.24'>f</text>
+<text class='t8' x='33.85' y='43.24'>()<tspan x='44.36'>=</tspan></text>
+<text class='t3' x='54.88' y='43.24'>object<tspan x='91.79'>extends</tspan></text>
+<text class='t5' x='133.39' y='43.24'>T<tspan x='102.7' y='55.19'>x</tspan></text>
+<text class='t8' x='111.16' y='55.19'>=</text>
+<text class='t5' x='121.68' y='55.19'>g</text>
+<text class='t8' x='126.78' y='55.19'>()</text>
+<text class='t3' x='54.88' y='67.15'>end</text>
+<text class='t5' x='27.9' y='79.1'>g</text>
+<text class='t8' x='33' y='79.1'>()<tspan x='43.52'>=</tspan><tspan x='54.04'>4</tspan></text>
+<text class='t3' x='15.94' y='91.06'>end</text></svg></div><pre class="fx-s"><code>trait T
+  x: ZZ
+  f() = object extends T
+          x = g()
+        end
+  g() = 4
+end</code></pre></div></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-12e085a6" class="nb">Victor: This may not belong here, but not sure where!</p></aside>
+<p id="p-7424aff1" class="nb">Within an object declaration or object expression, a field can be accessed by a “naked” identifier reference (see <a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->). Unlike within trait declarations, such a reference does <em>not</em> invoke the getter or setter method of that name. To invoke a getter or setter of that name, it is necessary to use dotted field access (see <a class="xref" href="expressions.html#sec-field-access">Section 13.3</a><!--nc-->).</p>
+</section>
+<section class="sec" data-num="11.3" data-title="Value Objects">
+<h2 id="sec-value-objects" class="nb"><span class="num">11.3</span> Value Objects</h2>
+<p id="p-7b77e109" class="nb">An object declaration with the modifier <span class="m"><span class="kw">value</span></span> declares a value object that is called in many languages a <em>primitive</em> value. The object trait type declared by a value object implicitly has the modifier <span class="m"><span class="kw">value</span></span>.</p>
+<p id="p-77128407" class="nb">The fields of a <span class="m"><span class="kw">value</span></span> object are immutable; they cannot be changed directly or it is a static error. However, Fortress allows value objects to have settable fields as an abbreviation for constructing a new value object with a different value for one field. If a value object has a setter method or a subscripted assignment operator method (described in <a class="xref" href="operatordefs.html#sec-subscripted-assignment">Section 25.8</a><!--nc-->), then the return type of the method must be the value object trait type instead of <span class="m">()</span>. When such a method is invoked, the receiver must itself be assignable, and the value returned by the method is assigned to the receiver.</p>
+<p id="p-d950126f" class="nb">For example, here is a value object <span class="m"><span class="ty">Complex</span></span> number:</p>
+<div class="fx nb both" id="c-7a92f3d2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 11.26 402.84 32.58" width="40.284em" height="3.258em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>value<tspan x='41.65'>object</tspan></text>
+<text class='t8' x='75.8' y='19.33'>Complex<tspan x='114.27'>(</tspan></text>
+<text class='t3' x='118.14' y='19.33'>settable</text>
+<text class='t10' x='162.75' y='19.33'>r<tspan x='166.44'>e</tspan><tspan x='170.52'>al</tspan></text>
+<text class='t8' x='180.84' y='19.33'>:<tspan x='185.27'>Double</tspan></text>
+<text class='t5' x='216.13' y='19.33'>,</text>
+<text class='t3' x='220.56' y='19.33'>settable</text>
+<text class='t10' x='265.17' y='19.33'>imaginary</text>
+<text class='t8' x='311.37' y='19.33'>:<tspan x='315.8'>Double</tspan><tspan x='349.42'>=</tspan><tspan x='359.94'>0)</tspan></text>
+<text class='t3' x='21.92' y='31.28'>opr</text>
+<text class='t8' x='40.38' y='31.28'>+(</text>
+<text class='t3' x='52' y='31.28'>self</text>
+<text class='t5' x='72.92' y='31.28'>,</text>
+<text class='t10' x='77.35' y='31.28'>other</text>
+<text class='t8' x='102.36' y='31.28'>:<tspan x='106.79'>Complex</tspan><tspan x='145.25'>)</tspan><tspan x='151.9'>=</tspan><tspan x='162.41'>Complex</tspan><tspan x='200.88'>(</tspan></text>
+<text class='t10' x='204.75' y='31.28'>r<tspan x='208.44'>e</tspan><tspan x='212.52'>al</tspan></text>
+<text class='t8' x='223.4' y='31.28'>+</text>
+<text class='t10' x='233.36' y='31.28'>other</text>
+<text class='t5' x='256.71' y='31.28'>.</text>
+<text class='t10' x='259.48' y='31.28'>r<tspan x='263.17'>e</tspan><tspan x='267.24'>al</tspan></text>
+<text class='t5' x='275.91' y='31.28'>,</text>
+<text class='t10' x='280.34' y='31.28'>imaginary</text>
+<text class='t8' x='327.1' y='31.28'>+</text>
+<text class='t10' x='337.06' y='31.28'>other</text>
+<text class='t5' x='360.41' y='31.28'>.</text>
+<text class='t10' x='363.18' y='31.28'>imaginary</text>
+<text class='t8' x='407.72' y='31.28'>)</text>
+<text class='t3' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>end</code></pre></div>
+<p id="p-21f5627c" class="nb">When a mutable variable <span class="m"><i>z</i></span>:</p>
+<div class="fx nb" id="c-7f58db0a" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.26 135.98 11.16" width="13.598em" height="1.116em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>var</text>
+<text class='t5' x='28.42' y='19.33'>z</text>
+<text class='t8' x='36.26' y='19.33'>:<tspan x='41.79'>Complex</tspan><tspan x='83.03'>=</tspan><tspan x='93.54'>Complex</tspan><tspan x='132.01'>(0)</tspan></text></svg></div></div>
+<p id="p-6e4a108e" class="nb">updates its <span class="m"><i>imaginary</i></span> field, the following syntax:</p>
+<div class="fx nb both" id="c-0e5537c7" data-kind="code"><div class="fx-r"><svg class="tx" data-d="10" viewBox="9.36 12.20 74.82 9.67" width="7.482em" height="0.967em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>z<tspan x='15.03'>.</tspan></text>
+<text class='t10' x='17.8' y='19.33'>imaginary</text>
+<text class='t8' x='65.11' y='19.33'>:<tspan x='67.88'>=</tspan></text>
+<text class='t5' x='78.4' y='19.33'>v</text></svg></div><pre class="fx-s"><code>z.imaginary := v</code></pre></div>
+<p id="p-7084cd0f" class="nb">can be used as an abbreviation for:</p>
+<div class="fx nb both" id="c-2e8c5004" data-kind="code"><div class="fx-r"><svg class="tx" data-d="11" viewBox="9.36 11.26 102.42 11.16" width="10.242em" height="1.116em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>z</text>
+<text class='t8' x='17.8' y='19.33'>:<tspan x='20.57'>=</tspan><tspan x='31.08'>Complex</tspan><tspan x='69.55'>(</tspan></text>
+<text class='t5' x='73.43' y='19.33'>z<tspan x='78.5'>.</tspan></text>
+<text class='t10' x='81.26' y='19.33'>r<tspan x='84.96'>e</tspan><tspan x='89.03'>al</tspan></text>
+<text class='t5' x='97.7' y='19.33'>,<tspan x='102.13'>v</tspan></text>
+<text class='t8' x='107.31' y='19.33'>)</text></svg></div><pre class="fx-s"><code>z := Complex(z.real, v)</code></pre></div>
+<p id="p-6a019127" class="nb">So the setter for the field <span class="m"><i>imaginary</i></span> in <span class="m"><span class="ty">Complex</span></span> would do the work of constructing and returning <span class="m"><span class="ty">Complex</span>(<i>z</i>.<i>real</i>, <i>v</i>)</span>, and the assignment:</p>
+<div class="fx nb both" id="c-0e5537c7-2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 12.20 74.82 9.67" width="7.482em" height="0.967em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>z<tspan x='15.03'>.</tspan></text>
+<text class='t10' x='17.8' y='19.33'>imaginary</text>
+<text class='t8' x='65.11' y='19.33'>:<tspan x='67.88'>=</tspan></text>
+<text class='t5' x='78.4' y='19.33'>v</text></svg></div><pre class="fx-s"><code>z.imaginary := v</code></pre></div>
+<p id="p-91cd6959" class="nb">would be construed to mean:</p>
+<div class="fx nb both" id="c-ba3ad801" data-kind="code"><div class="fx-r"><svg class="tx" data-d="13" viewBox="9.36 11.26 87.64 11.16" width="8.764em" height="1.116em" fill="currentColor"><text class='t5' x='9.96' y='19.33'>z</text>
+<text class='t8' x='17.8' y='19.33'>:<tspan x='20.57'>=</tspan></text>
+<text class='t5' x='31.08' y='19.33'>z<tspan x='36.16'>.</tspan></text>
+<text class='t10' x='38.92' y='19.33'>imaginary</text>
+<text class='t8' x='83.47' y='19.33'>(</text>
+<text class='t5' x='87.34' y='19.33'>v</text>
+<text class='t8' x='92.53' y='19.33'>)</text></svg></div><pre class="fx-s"><code>z := z.imaginary(v)</code></pre></div>
+<p id="p-17ad5786" class="nb">Note that modifying a settable field directly within the value object is not allowed. For example, the following:</p>
+<div class="fx nb both" id="c-6aba4c8d" data-kind="code"><div class="fx-r"><svg class="tx" data-d="14" viewBox="9.36 12.20 66.78 9.67" width="6.678em" height="0.967em" fill="currentColor"><text class='t10' x='9.96' y='19.33'>imaginary</text>
+<text class='t8' x='57.28' y='19.33'>:<tspan x='60.04'>=</tspan><tspan x='70.56'>3</tspan></text></svg></div><pre class="fx-s"><code>imaginary := 3</code></pre></div>
+<p id="p-77477934" class="nb">within the <span class="m"><span class="ty">Complex</span></span> object means:</p>
+<div class="fx nb both" id="c-f543a3ec" data-kind="code"><div class="fx-r"><svg class="tx" data-d="15" viewBox="9.36 12.20 90.47 9.67" width="9.047em" height="0.967em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>self</text>
+<text class='t5' x='30.88' y='19.33'>.</text>
+<text class='t10' x='33.65' y='19.33'>imaginary</text>
+<text class='t8' x='80.96' y='19.33'>:<tspan x='83.73'>=</tspan><tspan x='94.25'>3</tspan></text></svg></div><pre class="fx-s"><code>self.imaginary := 3</code></pre></div>
+<p id="p-4fda536d" class="nb">and because <span class="m"><span class="kw">self</span></span> is not mutable, the assignment is disallowed.</p>
+</section>
+<section class="sec" data-num="11.4" data-title="Object Equivalence">
+<h2 id="sec-equivalence" class="nb"><span class="num">11.4</span> Object Equivalence</h2>
+<p id="p-2824925a" class="nb">The trait <span class="m"><span class="ty">Any</span></span> declares the object equivalence operator <span class="m">≣</span>. This operator is automatically defined for all objects; it is a static error for the programmer to override it. The <span class="m">≣</span> operator is used to decide whether its two arguments refer to “the same object” in the strictest sense possible. If the arguments have different dynamic types—including the instantiations of all static parameters—the result is always <span class="m"><i>false</i></span>. If both arguments are value objects with the same type, then the result is <span class="m"><i>true</i></span> if and only if corresponding fields of the objects are themselves equivalent as defined by this operator; in particular, two binary words are strictly equivalent if and only if they contain the same bit pattern. If both arguments are object references, then the result is <span class="m"><i>true</i></span> if and only if the two object references refer to the identical reference object (in implementation terms, occupying the same memory locations in the heap). If both arguments are functions, the result is <span class="m"><i>true</i></span> only if the functions behave identically for any choice of type-correct arguments. Even if two functions behave identically, the fortress implementation is free to return <span class="m"><i>false</i></span> when they are compared for object equivalence.</p>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="traits.html"><span>Previous</span> 10. Traits</a><a class="next" href="trait-parameters.html"><span>Next</span> 12. Static Parameters</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/objects.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

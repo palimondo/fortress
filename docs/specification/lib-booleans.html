@@ -1,0 +1,1544 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>32. Booleans and Boolean Intervals · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t1{font-family:cmr10;font-size:9.96px}
+svg.tx text.t2{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t3{font-family:stmary10;font-size:9.96px}
+svg.tx text.t4{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t5{font-family:cmti10;font-size:9.96px}
+svg.tx text.t6{font-family:msbm10;font-size:9.96px}
+svg.tx text.t7{font-family:cmr7;font-size:6.97px}
+svg.tx text.t8{font-family:ptmr8r;font-size:9.93px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-booleans" data-chapter="32. Booleans and Boolean Intervals">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">32. Booleans and Boolean Intervals</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part V, Fortress APIs and Documentation for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="32" data-title="Booleans and Boolean Intervals">
+<h1 id="top" class="nb"><a id="chap-lib-booleans"></a><span class="num">Chapter 32</span> Booleans and Boolean Intervals</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-lib-boolean">32.1 The Trait Fortress.Core.Boolean</a></li><li><a href="#s-the-trait-fortress-standard-booleaninterval">32.2 The Trait Fortress.Standard.BooleanInterval</a></li><li><a href="#s-top-level-booleaninterval-values">32.3 Top-level BooleanInterval Values</a></li></ol></nav>
+<section class="sec" data-num="32.1" data-title="The Trait Fortress.Core.Boolean">
+<h2 id="sec-lib-boolean" class="nb"><span class="num">32.1</span> The Trait Fortress.Core.Boolean</h2>
+<div class="fx nb both" id="c-003260e4" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.81 357.83 727.92" width="35.783em" height="72.792em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>Bo<tspan x='53.41'>olean</tspan></text>
+<text class='t0' x='33.87' y='31.28'>extends</text>
+<text class='t2' x='73.25' y='31.28'>{</text>
+<text class='t1' x='79.89' y='31.28'>Bo<tspan x='92.21'>oleanAlgebra</tspan></text>
+<text class='t3' x='148.97' y='31.28'></text>
+<text class='t1' x='152.98' y='31.28'>Bo<tspan x='165.3'>olean</tspan></text>
+<text class='t4' x='187.99' y='31.28'>,</text>
+<text class='t0' x='192.42' y='31.28'>juxtaposition</text>
+<text class='t4' x='260.41' y='31.28'>,</text>
+<text class='t2' x='264.84' y='31.28'>∨</text>
+<text class='t4' x='271.48' y='31.28'>,</text>
+<text class='t2' x='275.91' y='31.28'>¬</text>
+<text class='t4' x='282.55' y='31.28'>,</text>
+<text class='t2' x='286.98' y='31.28'>∨</text>
+<rect x='286.98' y='32.48' height='.4' width='6.64'/>
+<text class='t3' x='293.62' y='31.28'></text>
+<text class='t4' x='297.63' y='31.28'>,</text>
+<text class='t1' x='79.89' y='43.24'>Bo<tspan x='92.21'>oleanAlgebra</tspan></text>
+<text class='t3' x='148.97' y='43.24'></text>
+<text class='t1' x='152.98' y='43.24'>Bo<tspan x='165.3'>olean</tspan></text>
+<text class='t4' x='187.99' y='43.24'>,</text>
+<text class='t0' x='192.42' y='43.24'>juxtaposition</text>
+<text class='t4' x='260.41' y='43.24'>,</text>
+<text class='t2' x='264.84' y='43.24'>∨</text>
+<text class='t4' x='271.48' y='43.24'>,</text>
+<text class='t2' x='275.91' y='43.24'>¬</text>
+<text class='t4' x='282.55' y='43.24'>,</text>
+<text class='t2' x='286.98' y='43.24'>⊕</text>
+<text class='t3' x='294.73' y='43.24'></text>
+<text class='t4' x='298.74' y='43.24'>,</text>
+<text class='t1' x='79.89' y='55.19'>Bo<tspan x='92.21'>oleanAlgebra</tspan></text>
+<text class='t3' x='148.97' y='55.19'></text>
+<text class='t1' x='152.98' y='55.19'>Bo<tspan x='165.3'>olean</tspan></text>
+<text class='t4' x='187.99' y='55.19'>,</text>
+<text class='t2' x='192.42' y='55.19'>∧</text>
+<text class='t4' x='199.06' y='55.19'>,</text>
+<text class='t2' x='203.49' y='55.19'>∨</text>
+<text class='t4' x='210.13' y='55.19'>,</text>
+<text class='t2' x='214.56' y='55.19'>¬</text>
+<text class='t4' x='221.2' y='55.19'>,</text>
+<text class='t2' x='225.63' y='55.19'>∨</text>
+<rect x='225.63' y='56.39' height='.4' width='6.64'/>
+<text class='t3' x='232.27' y='55.19'></text>
+<text class='t4' x='236.28' y='55.19'>,</text>
+<text class='t1' x='79.89' y='67.15'>Bo<tspan x='92.21'>oleanAlgebra</tspan></text>
+<text class='t3' x='148.97' y='67.15'></text>
+<text class='t1' x='152.98' y='67.15'>Bo<tspan x='165.3'>olean</tspan></text>
+<text class='t4' x='187.99' y='67.15'>,</text>
+<text class='t2' x='192.42' y='67.15'>∧</text>
+<text class='t4' x='199.06' y='67.15'>,</text>
+<text class='t2' x='203.49' y='67.15'>∨</text>
+<text class='t4' x='210.13' y='67.15'>,</text>
+<text class='t2' x='214.56' y='67.15'>¬</text>
+<text class='t4' x='221.2' y='67.15'>,</text>
+<text class='t2' x='225.63' y='67.15'>⊕</text>
+<text class='t3' x='233.37' y='67.15'></text>
+<text class='t4' x='237.39' y='67.15'>,</text>
+<text class='t1' x='79.89' y='79.1'>Bo<tspan x='92.21'>oleanAlgebra</tspan></text>
+<text class='t3' x='148.97' y='79.1'></text>
+<text class='t1' x='152.98' y='79.1'>Bo<tspan x='165.3'>olean</tspan></text>
+<text class='t4' x='187.99' y='79.1'>,</text>
+<text class='t2' x='192.42' y='79.1'>∨</text>
+<text class='t4' x='199.06' y='79.1'>,</text>
+<text class='t0' x='203.49' y='79.1'>juxtaposition</text>
+<text class='t4' x='271.48' y='79.1'>,</text>
+<text class='t2' x='275.91' y='79.1'>¬</text>
+<text class='t4' x='282.55' y='79.1'>,</text>
+<text class='t2' x='286.98' y='79.1'>≡</text>
+<text class='t3' x='294.73' y='79.1'></text>
+<text class='t4' x='298.74' y='79.1'>,</text>
+<text class='t1' x='79.89' y='91.06'>Bo<tspan x='92.21'>oleanAlgebra</tspan></text>
+<text class='t3' x='148.97' y='91.06'></text>
+<text class='t1' x='152.98' y='91.06'>Bo<tspan x='165.3'>olean</tspan></text>
+<text class='t4' x='187.99' y='91.06'>,</text>
+<text class='t2' x='192.42' y='91.06'>∨</text>
+<text class='t4' x='199.06' y='91.06'>,</text>
+<text class='t0' x='203.49' y='91.06'>juxtaposition</text>
+<text class='t4' x='271.48' y='91.06'>,</text>
+<text class='t2' x='275.91' y='91.06'>¬</text>
+<text class='t4' x='282.55' y='91.06'>,</text>
+<text class='t2' x='286.98' y='91.06'>↔</text>
+<text class='t3' x='296.94' y='91.06'></text>
+<text class='t4' x='300.95' y='91.06'>,</text>
+<text class='t1' x='79.89' y='103.01'>Bo<tspan x='92.21'>oleanAlgebra</tspan></text>
+<text class='t3' x='148.97' y='103.01'></text>
+<text class='t1' x='152.98' y='103.01'>Bo<tspan x='165.3'>olean</tspan></text>
+<text class='t4' x='187.99' y='103.01'>,</text>
+<text class='t2' x='192.42' y='103.01'>∨</text>
+<text class='t4' x='199.06' y='103.01'>,</text>
+<text class='t2' x='203.49' y='103.01'>∧</text>
+<text class='t4' x='210.13' y='103.01'>,</text>
+<text class='t2' x='214.56' y='103.01'>¬</text>
+<text class='t4' x='221.2' y='103.01'>,</text>
+<text class='t2' x='225.63' y='103.01'>≡</text>
+<text class='t3' x='233.37' y='103.01'></text>
+<text class='t4' x='237.39' y='103.01'>,</text>
+<text class='t1' x='79.89' y='114.97'>Bo<tspan x='92.21'>oleanAlgebra</tspan></text>
+<text class='t3' x='148.97' y='114.97'></text>
+<text class='t1' x='152.98' y='114.97'>Bo<tspan x='165.3'>olean</tspan></text>
+<text class='t4' x='187.99' y='114.97'>,</text>
+<text class='t2' x='192.42' y='114.97'>∨</text>
+<text class='t4' x='199.06' y='114.97'>,</text>
+<text class='t2' x='203.49' y='114.97'>∧</text>
+<text class='t4' x='210.13' y='114.97'>,</text>
+<text class='t2' x='214.56' y='114.97'>¬</text>
+<text class='t4' x='221.2' y='114.97'>,</text>
+<text class='t2' x='225.63' y='114.97'>↔</text>
+<text class='t3' x='235.59' y='114.97'></text>
+<text class='t4' x='239.6' y='114.97'>,</text>
+<text class='t1' x='79.89' y='126.92'>T<tspan x='86.26'>otalOrder</tspan></text>
+<text class='t3' x='128.38' y='126.92'></text>
+<text class='t1' x='132.39' y='126.92'>Bo<tspan x='144.71'>olean</tspan></text>
+<text class='t4' x='167.4' y='126.92'>,</text>
+<text class='t2' x='171.83' y='126.92'>→</text>
+<text class='t3' x='181.79' y='126.92'></text>
+<text class='t4' x='185.8' y='126.92'>,</text>
+<text class='t1' x='79.89' y='138.88'>P<tspan x='86.4'>artialOrderAndBoundedLattice</tspan></text>
+<text class='t3' x='222.91' y='138.88'></text>
+<text class='t1' x='226.93' y='138.88'>Bo<tspan x='239.24'>olean</tspan></text>
+<text class='t4' x='261.93' y='138.88'>,</text>
+<text class='t2' x='266.36' y='138.88'>→</text>
+<text class='t4' x='276.32' y='138.88'>,</text>
+<text class='t0' x='280.75' y='138.88'>juxtaposition</text>
+<text class='t4' x='348.75' y='138.88'>,</text>
+<text class='t2' x='353.17' y='138.88'>∨</text>
+<text class='t3' x='359.82' y='138.88'></text>
+<text class='t4' x='363.83' y='138.88'>,</text>
+<text class='t1' x='79.89' y='150.83'>P<tspan x='86.4'>artialOrderAndBoundedLattice</tspan></text>
+<text class='t3' x='222.91' y='150.83'></text>
+<text class='t1' x='226.93' y='150.83'>Bo<tspan x='239.24'>olean</tspan></text>
+<text class='t4' x='261.93' y='150.83'>,</text>
+<text class='t2' x='266.36' y='150.83'>→</text>
+<text class='t4' x='276.32' y='150.83'>,</text>
+<text class='t2' x='280.75' y='150.83'>∧</text>
+<text class='t4' x='287.39' y='150.83'>,</text>
+<text class='t2' x='291.82' y='150.83'>∨</text>
+<text class='t3' x='298.46' y='150.83'></text>
+<text class='t4' x='302.48' y='150.83'>,</text>
+<text class='t1' x='79.89' y='162.79'>Iden<tspan x='98.71'>tit</tspan><tspan x='108.95'>yEqualit</tspan><tspan x='145.9'>y</tspan></text>
+<text class='t3' x='151.29' y='162.79'></text>
+<text class='t1' x='155.31' y='162.79'>Bo<tspan x='167.62'>olean</tspan></text>
+<text class='t3' x='190.31' y='162.79'></text>
+<text class='t4' x='194.33' y='162.79'>,</text>
+<text class='t1' x='79.89' y='174.74'>Equiv<tspan x='104.94'>alenceRelation</tspan></text>
+<text class='t3' x='168.17' y='174.74'></text>
+<text class='t1' x='172.19' y='174.74'>Bo<tspan x='184.5'>olean</tspan></text>
+<text class='t4' x='207.2' y='174.74'>,</text>
+<text class='t2' x='211.62' y='174.74'>≡</text>
+<text class='t3' x='219.37' y='174.74'></text>
+<text class='t4' x='223.38' y='174.74'>,</text>
+<text class='t1' x='79.89' y='186.7'>Equiv<tspan x='104.94'>alenceRelation</tspan></text>
+<text class='t3' x='168.17' y='186.7'></text>
+<text class='t1' x='172.19' y='186.7'>Bo<tspan x='184.5'>olean</tspan></text>
+<text class='t4' x='207.2' y='186.7'>,</text>
+<text class='t2' x='211.62' y='186.7'>↔</text>
+<text class='t3' x='221.59' y='186.7'></text>
+<text class='t4' x='225.6' y='186.7'>,</text>
+<text class='t1' x='79.89' y='198.66'>Symmetric</text>
+<text class='t3' x='126.69' y='198.66'></text>
+<text class='t1' x='130.7' y='198.66'>Bo<tspan x='143.02'>olean</tspan></text>
+<text class='t4' x='165.71' y='198.66'>,</text>
+<text class='t2' x='170.14' y='198.66'>∧</text>
+<text class='t3' x='176.78' y='198.66'></text>
+<text class='t4' x='180.79' y='198.66'>,</text>
+<text class='t1' x='185.22' y='198.66'>Symmetric</text>
+<text class='t3' x='232.02' y='198.66'></text>
+<text class='t1' x='236.03' y='198.66'>Bo<tspan x='248.35'>olean</tspan></text>
+<text class='t4' x='271.04' y='198.66'>,</text>
+<text class='t2' x='275.47' y='198.66'>∨</text>
+<text class='t3' x='282.11' y='198.66'></text>
+<text class='t4' x='286.12' y='198.66'>,</text>
+<text class='t1' x='79.89' y='210.61'>Symmetric</text>
+<text class='t3' x='126.69' y='210.61'></text>
+<text class='t1' x='130.7' y='210.61'>Bo<tspan x='143.02'>olean</tspan></text>
+<text class='t4' x='165.71' y='210.61'>,</text>
+<text class='t2' x='170.14' y='210.61'>∨</text>
+<rect x='170.14' y='211.81' height='.4' width='6.64'/>
+<text class='t3' x='176.78' y='210.61'></text>
+<text class='t4' x='180.79' y='210.61'>,</text>
+<text class='t1' x='185.22' y='210.61'>Symmetric</text>
+<text class='t3' x='232.02' y='210.61'></text>
+<text class='t1' x='236.03' y='210.61'>Bo<tspan x='248.35'>olean</tspan></text>
+<text class='t4' x='271.04' y='210.61'>,</text>
+<text class='t2' x='275.47' y='210.61'>⊕</text>
+<text class='t3' x='283.22' y='210.61'></text>
+<text class='t4' x='287.23' y='210.61'>,</text>
+<text class='t1' x='79.89' y='222.57'>Symmetric</text>
+<text class='t3' x='126.69' y='222.57'></text>
+<text class='t1' x='130.7' y='222.57'>Bo<tspan x='143.02'>olean</tspan></text>
+<text class='t4' x='165.71' y='222.57'>,</text>
+<rect x='170.14' y='215.44' height='.4' width='6.64'/>
+<text class='t2' x='170.14' y='222.57'>∧</text>
+<text class='t3' x='176.78' y='222.57'></text>
+<text class='t4' x='180.79' y='222.57'>,</text>
+<text class='t1' x='185.22' y='222.57'>Comm<tspan x='213.73'>utativ</tspan><tspan x='239.74'>e</tspan></text>
+<text class='t3' x='244.17' y='222.57'></text>
+<text class='t1' x='248.18' y='222.57'>Bo<tspan x='260.5'>olean</tspan></text>
+<text class='t4' x='283.19' y='222.57'>,</text>
+<rect x='287.62' y='215.44' height='.4' width='6.64'/>
+<text class='t2' x='287.62' y='222.57'>∧</text>
+<text class='t3' x='294.26' y='222.57'></text>
+<text class='t4' x='298.27' y='222.57'>,</text>
+<text class='t1' x='79.89' y='234.52'>Symmetric</text>
+<text class='t3' x='126.69' y='234.52'></text>
+<text class='t1' x='130.7' y='234.52'>Bo<tspan x='143.02'>olean</tspan></text>
+<text class='t4' x='165.71' y='234.52'>,</text>
+<rect x='170.14' y='227.39' height='.4' width='6.64'/>
+<text class='t2' x='170.14' y='234.52'>∨</text>
+<text class='t3' x='176.78' y='234.52'></text>
+<text class='t4' x='180.79' y='234.52'>,</text>
+<text class='t1' x='185.22' y='234.52'>Comm<tspan x='213.73'>utativ</tspan><tspan x='239.74'>e</tspan></text>
+<text class='t3' x='244.17' y='234.52'></text>
+<text class='t1' x='248.18' y='234.52'>Bo<tspan x='260.5'>olean</tspan></text>
+<text class='t4' x='283.19' y='234.52'>,</text>
+<rect x='287.62' y='227.39' height='.4' width='6.64'/>
+<text class='t2' x='287.62' y='234.52'>∨</text>
+<text class='t3' x='294.26' y='234.52'></text>
+<text class='t2' x='299.93' y='234.52'>}</text>
+<text class='t0' x='33.87' y='246.48'>comprises</text>
+<text class='t2' x='83.71' y='246.48'>{</text>
+<text class='t4' x='90.36' y='246.48'>.<tspan x='94.78'>.</tspan><tspan x='99.21'>.</tspan></text>
+<text class='t2' x='103.64' y='246.48'>}</text>
+<text class='t0' x='21.92' y='258.43'>coerce</text>
+<text class='t3' x='56.07' y='258.43'></text>
+<text class='t0' x='60.08' y='258.43'>bool</text>
+<text class='t4' x='85.98' y='258.43'>b</text>
+<text class='t3' x='90.26' y='258.43'></text>
+<text class='t1' x='94.27' y='258.43'>(</text>
+<text class='t4' x='98.15' y='258.43'>x</text>
+<text class='t1' x='103.84' y='258.43'>:<tspan x='108.27'>Bo</tspan><tspan x='120.58'>oleanLiteral</tspan></text>
+<text class='t3' x='172.22' y='258.43'></text>
+<text class='t4' x='176.23' y='258.43'>b</text>
+<text class='t3' x='180.51' y='258.43'></text>
+<text class='t1' x='184.52' y='258.43'>)</text>
+<text class='t0' x='21.92' y='270.39'>coerce</text>
+<text class='t1' x='56.07' y='270.39'>(</text>
+<text class='t4' x='59.94' y='270.39'>x</text>
+<text class='t1' x='65.64' y='270.39'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t3' x='104.52' y='270.39'></text>
+<text class='t0' x='108.53' y='270.39'>juxtaposition</text>
+<text class='t3' x='176.52' y='270.39'></text>
+<text class='t1' x='180.54' y='270.39'>)</text>
+<text class='t0' x='21.92' y='282.34'>coerce</text>
+<text class='t1' x='56.07' y='282.34'>(</text>
+<text class='t4' x='59.94' y='282.34'>x</text>
+<text class='t1' x='65.64' y='282.34'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t3' x='104.52' y='282.34'></text>
+<text class='t2' x='108.53' y='282.34'>∧</text>
+<text class='t3' x='115.17' y='282.34'></text>
+<text class='t1' x='119.18' y='282.34'>)</text>
+<text class='t0' x='21.92' y='294.3'>coerce</text>
+<text class='t1' x='56.07' y='294.3'>(</text>
+<text class='t4' x='59.94' y='294.3'>x</text>
+<text class='t1' x='65.64' y='294.3'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t3' x='104.52' y='294.3'></text>
+<text class='t2' x='108.53' y='294.3'>∨</text>
+<text class='t3' x='115.17' y='294.3'></text>
+<text class='t1' x='119.18' y='294.3'>)</text>
+<text class='t0' x='21.92' y='306.25'>coerce</text>
+<text class='t1' x='56.07' y='306.25'>(</text>
+<text class='t4' x='59.94' y='306.25'>x</text>
+<text class='t1' x='65.64' y='306.25'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t3' x='104.52' y='306.25'></text>
+<text class='t2' x='108.53' y='306.25'>∨</text>
+<rect x='108.53' y='307.45' height='.4' width='6.64'/>
+<text class='t3' x='115.17' y='306.25'></text>
+<text class='t1' x='119.18' y='306.25'>)</text>
+<text class='t0' x='21.92' y='318.21'>coerce</text>
+<text class='t1' x='56.07' y='318.21'>(</text>
+<text class='t4' x='59.94' y='318.21'>x</text>
+<text class='t1' x='65.64' y='318.21'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t3' x='104.52' y='318.21'></text>
+<text class='t2' x='108.53' y='318.21'>⊕</text>
+<text class='t3' x='116.28' y='318.21'></text>
+<text class='t1' x='120.29' y='318.21'>)</text>
+<text class='t0' x='21.92' y='330.16'>coerce</text>
+<text class='t1' x='56.07' y='330.16'>(</text>
+<text class='t4' x='59.94' y='330.16'>x</text>
+<text class='t1' x='65.64' y='330.16'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t3' x='104.52' y='330.16'></text>
+<text class='t2' x='108.53' y='330.16'>≡</text>
+<text class='t3' x='116.28' y='330.16'></text>
+<text class='t1' x='120.29' y='330.16'>)</text>
+<text class='t0' x='21.92' y='342.12'>coerce</text>
+<text class='t1' x='56.07' y='342.12'>(</text>
+<text class='t4' x='59.94' y='342.12'>x</text>
+<text class='t1' x='65.64' y='342.12'>:<tspan x='70.06'>Iden</tspan><tspan x='88.88'>tit</tspan><tspan x='99.12'>y</tspan></text>
+<text class='t3' x='104.52' y='342.12'></text>
+<text class='t2' x='108.53' y='342.12'>↔</text>
+<text class='t3' x='118.49' y='342.12'></text>
+<text class='t1' x='122.51' y='342.12'>)</text>
+<text class='t0' x='21.92' y='354.07'>coerce</text>
+<text class='t1' x='56.07' y='354.07'>(</text>
+<text class='t4' x='59.94' y='354.07'>x</text>
+<text class='t1' x='65.64' y='354.07'>:<tspan x='70.06'>Complemen</tspan><tspan x='121.26'>tBound</tspan></text>
+<text class='t3' x='153.78' y='354.07'></text>
+<text class='t2' x='157.79' y='354.07'>∧</text>
+<text class='t3' x='164.43' y='354.07'></text>
+<text class='t1' x='168.44' y='354.07'>)</text>
+<text class='t0' x='21.92' y='366.03'>coerce</text>
+<text class='t1' x='56.07' y='366.03'>(</text>
+<text class='t4' x='59.94' y='366.03'>x</text>
+<text class='t1' x='65.64' y='366.03'>:<tspan x='70.06'>Complemen</tspan><tspan x='121.26'>tBound</tspan></text>
+<text class='t3' x='153.78' y='366.03'></text>
+<text class='t2' x='157.79' y='366.03'>∨</text>
+<text class='t3' x='164.43' y='366.03'></text>
+<text class='t1' x='168.44' y='366.03'>)</text>
+<text class='t0' x='21.92' y='377.98'>coerce</text>
+<text class='t1' x='56.07' y='377.98'>(</text>
+<text class='t4' x='59.94' y='377.98'>x</text>
+<text class='t1' x='65.64' y='377.98'>:<tspan x='70.06'>Zero</tspan></text>
+<text class='t3' x='89.46' y='377.98'></text>
+<text class='t2' x='93.48' y='377.98'>∧</text>
+<text class='t3' x='100.12' y='377.98'></text>
+<text class='t1' x='104.13' y='377.98'>)</text>
+<text class='t0' x='21.92' y='389.94'>coerce</text>
+<text class='t1' x='56.07' y='389.94'>(</text>
+<text class='t4' x='59.94' y='389.94'>x</text>
+<text class='t1' x='65.64' y='389.94'>:<tspan x='70.06'>Zero</tspan></text>
+<text class='t3' x='89.46' y='389.94'></text>
+<text class='t2' x='93.48' y='389.94'>∨</text>
+<text class='t3' x='100.12' y='389.94'></text>
+<text class='t1' x='104.13' y='389.94'>)</text>
+<text class='t0' x='21.92' y='401.89'>coerce</text>
+<text class='t1' x='56.07' y='401.89'>(</text>
+<text class='t4' x='59.94' y='401.89'>x</text>
+<text class='t1' x='65.64' y='401.89'>:<tspan x='70.06'>MaximalElemen</tspan><tspan x='140.22'>t</tspan></text>
+<text class='t3' x='144.09' y='401.89'></text>
+<text class='t2' x='148.1' y='401.89'>→</text>
+<text class='t3' x='158.07' y='401.89'></text>
+<text class='t1' x='162.08' y='401.89'>)</text>
+<text class='t0' x='21.92' y='413.85'>coerce</text>
+<text class='t1' x='56.07' y='413.85'>(</text>
+<text class='t4' x='59.94' y='413.85'>x</text>
+<text class='t1' x='65.64' y='413.85'>:<tspan x='70.06'>MinimalElemen</tspan><tspan x='138.28'>t</tspan></text>
+<text class='t3' x='142.15' y='413.85'></text>
+<text class='t2' x='146.17' y='413.85'>→</text>
+<text class='t3' x='156.13' y='413.85'></text>
+<text class='t1' x='160.14' y='413.85'>)</text>
+<text class='t0' x='21.92' y='425.8'>getter</text>
+<text class='t5' x='58.28' y='425.8'>hashCo<tspan x='89.34'>de</tspan></text>
+<text class='t1' x='99.77' y='425.8'>():</text>
+<text class='t6' x='111.94' y='425.8'>N</text>
+<text class='t1' x='119.14' y='425.8'>64</text>
+<text class='t0' x='21.92' y='437.76'>opr<tspan x='43.14'>juxtaposition</tspan></text>
+<text class='t1' x='113.91' y='437.76'>(</text>
+<text class='t0' x='117.78' y='437.76'>self</text>
+<text class='t4' x='138.7' y='437.76'>,</text>
+<text class='t5' x='143.13' y='437.76'>other</text>
+<text class='t1' x='166.48' y='437.76'>:<tspan x='170.91'>Bo</tspan><tspan x='183.22'>olean</tspan><tspan x='205.91'>):</tspan><tspan x='214.22'>Bo</tspan><tspan x='226.53'>olean</tspan></text>
+<text class='t0' x='21.92' y='449.71'>opr</text>
+<text class='t2' x='40.38' y='449.71'>∧</text>
+<text class='t1' x='47.02' y='449.71'>(</text>
+<text class='t0' x='50.89' y='449.71'>self</text>
+<text class='t4' x='71.81' y='449.71'>,</text>
+<text class='t5' x='76.24' y='449.71'>other</text>
+<text class='t1' x='99.59' y='449.71'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>olean</tspan><tspan x='139.03'>):</tspan><tspan x='147.33'>Bo</tspan><tspan x='159.64'>olean</tspan></text>
+<text class='t0' x='21.92' y='461.67'>opr</text>
+<text class='t2' x='40.38' y='461.67'>∧</text>
+<text class='t1' x='47.02' y='461.67'>(</text>
+<text class='t0' x='50.89' y='461.67'>self</text>
+<text class='t4' x='71.81' y='461.67'>,</text>
+<text class='t5' x='76.24' y='461.67'>other</text>
+<text class='t1' x='99.59' y='461.67'>:<tspan x='104.02'>()</tspan></text>
+<text class='t2' x='114.54' y='461.67'>→</text>
+<text class='t1' x='127.27' y='461.67'>Bo<tspan x='139.58'>olean</tspan><tspan x='162.27'>):</tspan><tspan x='170.58'>Bo</tspan><tspan x='182.89'>olean</tspan></text>
+<text class='t0' x='21.92' y='473.62'>opr</text>
+<text class='t2' x='40.38' y='473.62'>∨</text>
+<text class='t1' x='47.02' y='473.62'>(</text>
+<text class='t0' x='50.89' y='473.62'>self</text>
+<text class='t4' x='71.81' y='473.62'>,</text>
+<text class='t5' x='76.24' y='473.62'>other</text>
+<text class='t1' x='99.59' y='473.62'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>olean</tspan><tspan x='139.03'>):</tspan><tspan x='147.33'>Bo</tspan><tspan x='159.64'>olean</tspan></text>
+<text class='t0' x='21.92' y='485.58'>opr</text>
+<text class='t2' x='40.38' y='485.58'>∨</text>
+<text class='t1' x='47.02' y='485.58'>(</text>
+<text class='t0' x='50.89' y='485.58'>self</text>
+<text class='t4' x='71.81' y='485.58'>,</text>
+<text class='t5' x='76.24' y='485.58'>other</text>
+<text class='t1' x='99.59' y='485.58'>:<tspan x='104.02'>()</tspan></text>
+<text class='t2' x='114.54' y='485.58'>→</text>
+<text class='t1' x='127.27' y='485.58'>Bo<tspan x='139.58'>olean</tspan><tspan x='162.27'>):</tspan><tspan x='170.58'>Bo</tspan><tspan x='182.89'>olean</tspan></text>
+<text class='t0' x='21.92' y='497.53'>opr</text>
+<text class='t2' x='40.38' y='497.53'>¬</text>
+<text class='t1' x='47.02' y='497.53'>(</text>
+<text class='t0' x='50.89' y='497.53'>self</text>
+<text class='t1' x='71.81' y='497.53'>):<tspan x='80.12'>Bo</tspan><tspan x='92.43'>olean</tspan></text>
+<text class='t0' x='21.92' y='509.49'>opr</text>
+<text class='t2' x='40.38' y='509.49'>∨</text>
+<rect x='40.38' y='510.68' height='.4' width='6.64'/>
+<text class='t1' x='47.02' y='509.49'>(</text>
+<text class='t0' x='50.89' y='509.49'>self</text>
+<text class='t4' x='71.81' y='509.49'>,</text>
+<text class='t5' x='76.24' y='509.49'>other</text>
+<text class='t1' x='99.59' y='509.49'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>olean</tspan><tspan x='139.03'>):</tspan><tspan x='147.33'>Bo</tspan><tspan x='159.64'>olean</tspan></text>
+<text class='t0' x='21.92' y='521.44'>opr</text>
+<text class='t2' x='40.38' y='521.44'>⊕</text>
+<text class='t1' x='48.12' y='521.44'>(</text>
+<text class='t0' x='52' y='521.44'>self</text>
+<text class='t4' x='72.92' y='521.44'>,</text>
+<text class='t5' x='77.35' y='521.44'>other</text>
+<text class='t1' x='100.7' y='521.44'>:<tspan x='105.13'>Bo</tspan><tspan x='117.44'>olean</tspan><tspan x='140.13'>):</tspan><tspan x='148.44'>Bo</tspan><tspan x='160.75'>olean</tspan></text>
+<text class='t0' x='21.92' y='533.4'>opr</text>
+<text class='t2' x='40.38' y='533.4'>≡</text>
+<text class='t1' x='48.12' y='533.4'>(</text>
+<text class='t0' x='52' y='533.4'>self</text>
+<text class='t4' x='72.92' y='533.4'>,</text>
+<text class='t5' x='77.35' y='533.4'>other</text>
+<text class='t1' x='100.7' y='533.4'>:<tspan x='105.13'>Bo</tspan><tspan x='117.44'>olean</tspan><tspan x='140.13'>):</tspan><tspan x='148.44'>Bo</tspan><tspan x='160.75'>olean</tspan></text>
+<text class='t0' x='21.92' y='545.35'>opr</text>
+<text class='t1' x='40.38' y='545.35'>=<tspan x='48.12'>(</tspan></text>
+<text class='t0' x='52' y='545.35'>self</text>
+<text class='t4' x='72.92' y='545.35'>,</text>
+<text class='t5' x='77.35' y='545.35'>other</text>
+<text class='t1' x='100.7' y='545.35'>:<tspan x='105.13'>Bo</tspan><tspan x='117.44'>olean</tspan><tspan x='140.13'>):</tspan><tspan x='148.44'>Bo</tspan><tspan x='160.75'>olean</tspan></text>
+<text class='t0' x='21.92' y='557.31'>opr</text>
+<text class='t2' x='40.38' y='557.31'>↔</text>
+<text class='t1' x='50.34' y='557.31'>(</text>
+<text class='t0' x='54.21' y='557.31'>self</text>
+<text class='t4' x='75.13' y='557.31'>,</text>
+<text class='t5' x='79.56' y='557.31'>other</text>
+<text class='t1' x='102.91' y='557.31'>:<tspan x='107.34'>Bo</tspan><tspan x='119.65'>olean</tspan><tspan x='142.35'>):</tspan><tspan x='150.65'>Bo</tspan><tspan x='162.96'>olean</tspan></text>
+<text class='t0' x='21.92' y='569.27'>opr</text>
+<text class='t2' x='40.38' y='569.27'>→</text>
+<text class='t1' x='50.34' y='569.27'>(</text>
+<text class='t0' x='54.21' y='569.27'>self</text>
+<text class='t4' x='75.13' y='569.27'>,</text>
+<text class='t5' x='79.56' y='569.27'>other</text>
+<text class='t1' x='102.91' y='569.27'>:<tspan x='107.34'>Bo</tspan><tspan x='119.65'>olean</tspan><tspan x='142.35'>):</tspan><tspan x='150.65'>Bo</tspan><tspan x='162.96'>olean</tspan></text>
+<text class='t0' x='21.92' y='581.22'>opr</text>
+<text class='t2' x='40.38' y='581.22'>→</text>
+<text class='t1' x='50.34' y='581.22'>(</text>
+<text class='t0' x='54.21' y='581.22'>self</text>
+<text class='t4' x='75.13' y='581.22'>,</text>
+<text class='t5' x='79.56' y='581.22'>other</text>
+<text class='t1' x='102.91' y='581.22'>:<tspan x='107.34'>()</tspan></text>
+<text class='t2' x='117.86' y='581.22'>→</text>
+<text class='t1' x='130.59' y='581.22'>Bo<tspan x='142.9'>olean</tspan><tspan x='165.59'>):</tspan><tspan x='173.9'>Bo</tspan><tspan x='186.21'>olean</tspan></text>
+<text class='t0' x='21.92' y='593.18'>opr</text>
+<rect x='40.38' y='586.05' height='.4' width='6.64'/>
+<text class='t2' x='40.38' y='593.18'>∧</text>
+<text class='t1' x='47.02' y='593.18'>(</text>
+<text class='t0' x='50.89' y='593.18'>self</text>
+<text class='t4' x='71.81' y='593.18'>,</text>
+<text class='t5' x='76.24' y='593.18'>other</text>
+<text class='t1' x='99.59' y='593.18'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>olean</tspan><tspan x='139.03'>):</tspan><tspan x='147.33'>Bo</tspan><tspan x='159.64'>olean</tspan></text>
+<text class='t0' x='21.92' y='605.13'>opr</text>
+<rect x='40.38' y='598' height='.4' width='6.64'/>
+<text class='t2' x='40.38' y='605.13'>∨</text>
+<text class='t1' x='47.02' y='605.13'>(</text>
+<text class='t0' x='50.89' y='605.13'>self</text>
+<text class='t4' x='71.81' y='605.13'>,</text>
+<text class='t5' x='76.24' y='605.13'>other</text>
+<text class='t1' x='99.59' y='605.13'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>olean</tspan><tspan x='139.03'>):</tspan><tspan x='147.33'>Bo</tspan><tspan x='159.64'>olean</tspan></text>
+<text class='t0' x='21.92' y='617.09'>opr</text>
+<text class='t2' x='40.38' y='616.12'>≡<tspan x='40.38' y='618.05'>≡</tspan></text>
+<text class='t1' x='48.12' y='617.09'>(</text>
+<text class='t0' x='52' y='617.09'>self</text>
+<text class='t4' x='72.92' y='617.09'>,</text>
+<text class='t5' x='77.35' y='617.09'>other</text>
+<text class='t1' x='100.7' y='617.09'>:<tspan x='105.13'>Bo</tspan><tspan x='117.44'>olean</tspan><tspan x='140.13'>):</tspan><tspan x='148.44'>Bo</tspan><tspan x='160.75'>olean</tspan></text>
+<text class='t5' x='21.92' y='629.04'>majority</text>
+<text class='t1' x='59.59' y='629.04'>(</text>
+<text class='t0' x='63.46' y='629.04'>self</text>
+<text class='t4' x='84.38' y='629.04'>,<tspan x='88.81'>other</tspan></text>
+<text class='t7' x='112.39' y='630.54'>1</text>
+<text class='t1' x='116.86' y='629.04'>:<tspan x='121.29'>Bo</tspan><tspan x='133.6'>olean</tspan></text>
+<text class='t4' x='156.29' y='629.04'>,<tspan x='160.72'>other</tspan></text>
+<text class='t7' x='184.3' y='630.54'>2</text>
+<text class='t1' x='188.77' y='629.04'>:<tspan x='193.2'>Bo</tspan><tspan x='205.51'>olean</tspan><tspan x='228.2'>)</tspan></text>
+<text class='t5' x='21.92' y='641'>toString</text>
+<text class='t1' x='57.55' y='641'>():<tspan x='69.73'>String</tspan></text>
+<text class='t0' x='21.92' y='652.95'>property</text>
+<text class='t2' x='66.53' y='652.95'>∀</text>
+<text class='t1' x='72.06' y='652.95'>(</text>
+<text class='t4' x='75.94' y='652.95'>a,<tspan x='85.63'>b</tspan></text>
+<text class='t1' x='89.91' y='652.95'>)</text>
+<text class='t4' x='96.55' y='652.95'>a<tspan x='104.03'>b</tspan></text>
+<text class='t1' x='111.07' y='652.95'>=<tspan x='121.59'>(</tspan></text>
+<text class='t4' x='125.46' y='652.95'>a</text>
+<text class='t2' x='132.94' y='652.95'>∧</text>
+<text class='t4' x='141.8' y='652.95'>b</text>
+<text class='t1' x='146.07' y='652.95'>)</text>
+<text class='t0' x='21.92' y='664.91'>property</text>
+<text class='t2' x='66.53' y='664.91'>∀</text>
+<text class='t1' x='72.06' y='664.91'>(</text>
+<text class='t4' x='75.94' y='664.91'>a,<tspan x='85.63'>b</tspan></text>
+<text class='t1' x='89.91' y='664.91'>)<tspan x='96.55'>(</tspan></text>
+<text class='t4' x='100.42' y='664.91'>a</text>
+<text class='t2' x='107.9' y='664.91'>∨</text>
+<rect x='107.9' y='666.1' height='.4' width='6.64'/>
+<text class='t4' x='116.76' y='664.91'>b</text>
+<text class='t1' x='121.03' y='664.91'>)<tspan x='127.68'>=</tspan><tspan x='138.19'>(</tspan></text>
+<text class='t4' x='142.07' y='664.91'>a</text>
+<text class='t2' x='149.55' y='664.91'>⊕</text>
+<text class='t4' x='159.51' y='664.91'>b</text>
+<text class='t1' x='163.78' y='664.91'>)</text>
+<text class='t0' x='21.92' y='676.86'>property</text>
+<text class='t2' x='66.53' y='676.86'>∀</text>
+<text class='t1' x='72.06' y='676.86'>(</text>
+<text class='t4' x='75.94' y='676.86'>a,<tspan x='85.63'>b</tspan></text>
+<text class='t1' x='89.91' y='676.86'>)<tspan x='96.55'>(</tspan></text>
+<text class='t4' x='100.42' y='676.86'>a</text>
+<text class='t2' x='108.46' y='676.86'>≡</text>
+<text class='t4' x='118.97' y='676.86'>b</text>
+<text class='t1' x='123.25' y='676.86'>)<tspan x='129.89'>=</tspan><tspan x='140.41'>(</tspan></text>
+<text class='t4' x='144.28' y='676.86'>a</text>
+<text class='t2' x='152.31' y='676.86'>↔</text>
+<text class='t4' x='165.04' y='676.86'>b</text>
+<text class='t1' x='169.32' y='676.86'>)<tspan x='175.96'>=</tspan><tspan x='186.48'>(</tspan></text>
+<text class='t4' x='190.35' y='676.86'>a</text>
+<text class='t1' x='198.38' y='676.86'>=</text>
+<text class='t4' x='208.9' y='676.86'>b</text>
+<text class='t1' x='213.18' y='676.86'>)<tspan x='219.82'>=</tspan><tspan x='230.33'>(</tspan></text>
+<text class='t4' x='234.21' y='676.86'>a</text>
+<text class='t2' x='242.24' y='675.9'>≡<tspan x='242.24' y='677.83'>≡</tspan></text>
+<text class='t4' x='252.76' y='676.86'>b</text>
+<text class='t1' x='257.03' y='676.86'>)</text>
+<text class='t0' x='21.92' y='688.82'>property</text>
+<text class='t2' x='66.53' y='688.82'>∀</text>
+<text class='t1' x='72.06' y='688.82'>(</text>
+<text class='t4' x='75.94' y='688.82'>a,<tspan x='85.63'>b</tspan></text>
+<text class='t1' x='89.91' y='688.82'>)<tspan x='96.55'>(</tspan></text>
+<text class='t4' x='100.42' y='688.82'>a</text>
+<text class='t2' x='108.46' y='688.82'>→</text>
+<text class='t4' x='121.19' y='688.82'>b</text>
+<text class='t1' x='125.46' y='688.82'>)<tspan x='132.1'>=</tspan><tspan x='142.62'>((</tspan></text>
+<text class='t2' x='150.37' y='688.82'>¬</text>
+<text class='t4' x='157.01' y='688.82'>a</text>
+<text class='t1' x='162.28' y='688.82'>)</text>
+<text class='t2' x='168.36' y='688.82'>∨</text>
+<text class='t4' x='177.22' y='688.82'>b</text>
+<text class='t1' x='181.5' y='688.82'>)</text>
+<text class='t0' x='21.92' y='700.77'>property</text>
+<text class='t2' x='66.53' y='700.77'>∀</text>
+<text class='t1' x='72.06' y='700.77'>(</text>
+<text class='t4' x='75.94' y='700.77'>a,<tspan x='85.63'>b</tspan></text>
+<text class='t1' x='89.91' y='700.77'>)<tspan x='96.55'>(</tspan></text>
+<text class='t4' x='100.42' y='700.77'>a</text>
+<rect x='107.9' y='693.64' height='.4' width='6.64'/>
+<text class='t2' x='107.9' y='700.77'>∧</text>
+<text class='t4' x='116.76' y='700.77'>b</text>
+<text class='t1' x='121.03' y='700.77'>)<tspan x='127.68'>=</tspan></text>
+<text class='t2' x='138.19' y='700.77'>¬</text>
+<text class='t1' x='144.83' y='700.77'>(</text>
+<text class='t4' x='148.71' y='700.77'>a</text>
+<text class='t2' x='156.19' y='700.77'>∧</text>
+<text class='t4' x='165.04' y='700.77'>b</text>
+<text class='t1' x='169.32' y='700.77'>)</text>
+<text class='t0' x='21.92' y='712.73'>property</text>
+<text class='t2' x='66.53' y='712.73'>∀</text>
+<text class='t1' x='72.06' y='712.73'>(</text>
+<text class='t4' x='75.94' y='712.73'>a,<tspan x='85.63'>b</tspan></text>
+<text class='t1' x='89.91' y='712.73'>)<tspan x='96.55'>(</tspan></text>
+<text class='t4' x='100.42' y='712.73'>a</text>
+<rect x='107.9' y='705.6' height='.4' width='6.64'/>
+<text class='t2' x='107.9' y='712.73'>∨</text>
+<text class='t4' x='116.76' y='712.73'>b</text>
+<text class='t1' x='121.03' y='712.73'>)<tspan x='127.68'>=</tspan></text>
+<text class='t2' x='138.19' y='712.73'>¬</text>
+<text class='t1' x='144.83' y='712.73'>(</text>
+<text class='t4' x='148.71' y='712.73'>a</text>
+<text class='t2' x='156.19' y='712.73'>∨</text>
+<text class='t4' x='165.04' y='712.73'>b</text>
+<text class='t1' x='169.32' y='712.73'>)</text>
+<text class='t0' x='9.96' y='724.68'>end<tspan x='9.96' y='736.64'>test</tspan></text>
+<text class='t5' x='35.87' y='736.64'>testData</text>
+<text class='t1' x='72.92' y='736.64'>[<tspan x='78.18'>]</tspan><tspan x='83.71'>=</tspan></text>
+<text class='t2' x='94.23' y='736.64'>{</text>
+<text class='t5' x='100.87' y='736.64'>false</text>
+<text class='t4' x='120.97' y='736.64'>,</text>
+<text class='t5' x='125.4' y='736.64'>true</text>
+<text class='t2' x='145.25' y='736.64'>}</text></svg></div><pre class="fx-s"><code>trait Boolean
+    extends { BooleanAlgebra[\Boolean,juxtaposition,OR,NOT,XOR\],
+              BooleanAlgebra[\Boolean,juxtaposition,OR,NOT,OPLUS\],
+              BooleanAlgebra[\Boolean,AND,OR,NOT,XOR\],
+              BooleanAlgebra[\Boolean,AND,OR,NOT,OPLUS\],
+              BooleanAlgebra[\Boolean,OR,juxtaposition,NOT,EQV\],
+              BooleanAlgebra[\Boolean,OR,juxtaposition,NOT,IFF\],
+              BooleanAlgebra[\Boolean,OR,AND,NOT,EQV\],
+              BooleanAlgebra[\Boolean,OR,AND,NOT,IFF\],
+              TotalOrder[\Boolean,IMPLIES\],
+              PartialOrderAndBoundedLattice[\Boolean,IMPLIES,juxtaposition,OR\],
+              PartialOrderAndBoundedLattice[\Boolean,IMPLIES,AND,OR\],
+              IdentityEquality[\Boolean\],
+              EquivalenceRelation[\Boolean,EQV\],
+              EquivalenceRelation[\Boolean,IFF\],
+              Symmetric[\Boolean,AND\], Symmetric[\Boolean,OR\],
+              Symmetric[\Boolean,XOR\], Symmetric[\Boolean,OPLUS\],
+              Symmetric[\Boolean,NAND\], Commutative[\Boolean,NAND\],
+              Symmetric[\Boolean,NOR\], Commutative[\Boolean,NOR\] }
+    comprises { ... }
+  coerce[\bool b\](x: BooleanLiteral[\b\])
+  coerce(x: Identity[\juxtaposition\])
+  coerce(x: Identity[\AND\])
+  coerce(x: Identity[\OR\])
+  coerce(x: Identity[\XOR\])
+  coerce(x: Identity[\OPLUS\])
+  coerce(x: Identity[\EQV\])
+  coerce(x: Identity[\IFF\])
+  coerce(x: ComplementBound[\AND\])
+  coerce(x: ComplementBound[\OR\])
+  coerce(x: Zero[\AND\])
+  coerce(x: Zero[\OR\])
+  coerce(x: MaximalElement[\IMPLIES\])
+  coerce(x: MinimalElement[\IMPLIES\])
+  getter hashCode(): NN64
+  opr juxtaposition(self, other: Boolean): Boolean
+  opr AND(self, other: Boolean): Boolean
+  opr AND(self, other: ()-&gt;Boolean): Boolean
+  opr OR(self, other: Boolean): Boolean
+  opr OR(self, other: ()-&gt;Boolean): Boolean
+  opr NOT(self): Boolean
+  opr XOR(self, other: Boolean): Boolean
+  opr OPLUS(self, other: Boolean): Boolean
+  opr EQV(self, other: Boolean): Boolean
+  opr =(self, other: Boolean): Boolean
+  opr IFF(self, other: Boolean): Boolean
+  opr IMPLIES(self, other: Boolean): Boolean
+  opr IMPLIES(self, other: ()-&gt;Boolean): Boolean
+  opr NAND(self, other: Boolean):  Boolean
+  opr NOR(self, other: Boolean):  Boolean
+  opr ===(self, other: Boolean): Boolean
+  majority(self, other1: Boolean, other2: Boolean)
+  toString(): String
+  property FORALL (a, b) a b = (a AND b)
+  property FORALL (a, b) (a XOR b) = (a OPLUS b)
+  property FORALL (a, b) (a EQV b) = (a IFF b) = (a = b) = (a === b)
+  property FORALL (a, b) (a IMPLIES b) = ((NOT a) OR b)
+  property FORALL (a, b) (a NAND b) = NOT (a AND b)
+  property FORALL (a, b) (a NOR b) = NOT (a OR b)
+end</code></pre></div>
+<section class="sec" data-num="32.1.1" data-title="coerce ⟦bool b⟧(x: BooleanLiteral⟦b⟧)">
+<h3 id="s-coerce-bool-b-x-booleanliteral-b" class="nb"><span class="num">32.1.1</span> <span class="m"><span class="kw">coerce</span> ⟦<span class="kw">bool</span> <i>b</i>⟧(<i>x</i>: <span class="ty">BooleanLiteral</span>⟦<i>b</i>⟧)</span></h3>
+<p id="p-c5dd5dd3" class="nb">A boolean literal can always serve as a <span class="m"><span class="ty">Boolean</span></span> value.</p>
+</section>
+<section class="sec" data-num="32.1.2" data-title="coerce (x: Identity⟦juxtaposition⟧)">
+<h3 id="s-coerce-x-identity-juxtaposition" class="nb"><span class="num">32.1.2</span> <span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦<span class="kw">juxtaposition</span>⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Identity⟦∧⟧)">
+<h3 id="s-coerce-x-identity" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦∧⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Identity⟦∨⟧)">
+<h3 id="s-coerce-x-identity-2" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦∨⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Identity⟦∨⟧)">
+<h3 id="s-coerce-x-identity-3" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦<span class="unl">∨</span>⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Identity⟦⊕⟧)">
+<h3 id="s-coerce-x-identity-4" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦⊕⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Identity⟦≡⟧)">
+<h3 id="s-coerce-x-identity-5" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦≡⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Identity⟦↔⟧)">
+<h3 id="s-coerce-x-identity-6" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Identity</span>⟦↔⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: ComplementBound⟦∧⟧)">
+<h3 id="s-coerce-x-complementbound" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">ComplementBound</span>⟦∧⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: ComplementBound⟦∨⟧)">
+<h3 id="s-coerce-x-complementbound-2" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">ComplementBound</span>⟦∨⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Zero⟦∧⟧)">
+<h3 id="s-coerce-x-zero" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Zero</span>⟦∧⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: Zero⟦∨⟧)">
+<h3 id="s-coerce-x-zero-2" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Zero</span>⟦∨⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: MaximalElement⟦→⟧)">
+<h3 id="s-coerce-x-maximalelement" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">MaximalElement</span>⟦→⟧)</span></h3>
+</section>
+<section class="sec" data-num="" data-title="coerce (x: MinimalElement⟦→⟧)">
+<h3 id="s-coerce-x-minimalelement" class="nb"><span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">MinimalElement</span>⟦→⟧)</span></h3>
+<p id="p-81172bb0" class="nb">The identity for <span class="m">∧</span> or <span class="m"><span class="kw">juxtaposition</span></span> is <span class="m"><i>true</i></span>; the zero and the complement bound for <span class="m">∧</span> or <span class="m"><span class="kw">juxtaposition</span></span> are <span class="m"><i>false</i></span>.</p>
+<p id="p-7d254795" class="nb">The identity for <span class="m">∨</span> is <span class="m"><i>false</i></span>; the zero and the complement bound for <span class="m">∨</span> are <span class="m"><i>false</i></span>.</p>
+<p id="p-1def43c5" class="nb">The identity for <span class="m"><span class="unl">∨</span></span> or <span class="m">⊕</span> is <span class="m"><i>false</i></span>; the identity for <span class="m">≡</span> or <span class="m">↔</span> is <span class="m"><i>true</i></span>.</p>
+<p id="p-4ac39144" class="nb">The maximal element for <span class="m">→</span> (regarded as a partial order operator) is <span class="m"><i>true</i></span>, and the minimal element is <span class="m"><i>false</i></span>.</p>
+</section>
+<section class="sec" data-num="32.1.3" data-title="getter hashCode(): ℕ64">
+<h3 id="s-getter-hashcode-64" class="nb"><span class="num">32.1.3</span> <span class="m"><span class="kw">getter</span> <i>hashCode</i>(): ℕ64</span></h3>
+</section>
+<section class="sec" data-num="32.1.4" data-title="opr juxtaposition (self, other: Boolean): Boolean">
+<h3 id="s-opr-juxtaposition-self-other-boolean-boolean" class="nb"><span class="num">32.1.4</span> <span class="m"><span class="kw">opr</span> <span class="kw">juxtaposition</span> (<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-a8770fc9" class="nb">Juxtaposition of boolean expressions is equivalent to using the logical <span class="sc">and</span> operator <span class="m">∧</span>.</p>
+</section>
+<section class="sec" data-num="32.1.5" data-title="opr ∧(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean" class="nb"><span class="num">32.1.5</span> <span class="m"><span class="kw">opr</span> ∧(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ∧(self, other: () → Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-2" class="nb"><span class="m"><span class="kw">opr</span> ∧(<span class="kw">self</span>, <i>other</i>: () → <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-48322b14" class="nb">The logical <span class="sc">and</span> operator <span class="m">∧</span> (<span class="m"><span class="str">AND</span></span>) returns <span class="m"><i>true</i></span> if both arguments are <span class="m"><i>true</i></span>; otherwise it returns <span class="m"><i>false</i></span>.</p>
+<p id="p-456d440c" class="nb">The conditional logical <span class="sc">and</span> operator <span class="m">∧ :</span> (<span class="m"><span class="str">AND:</span></span>) examines its first argument; if it is <span class="m"><i>false</i></span>, the result is <span class="m"><i>false</i></span>, and the second argument (a thunk) is not evaluated. But if the first argument is <span class="m"><i>true</i></span>, the second argument is evaluated and its result becomes the result of the conditional logical <span class="sc">and</span> operator expression.</p>
+</section>
+<section class="sec" data-num="32.1.6" data-title="opr ∨(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-3" class="nb"><span class="num">32.1.6</span> <span class="m"><span class="kw">opr</span> ∨(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ∨(self, other: () → Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-4" class="nb"><span class="m"><span class="kw">opr</span> ∨(<span class="kw">self</span>, <i>other</i>: () → <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-e4338a2a" class="nb">The logical <span class="sc">or</span> operator <span class="m">∨</span> (<span class="m"><span class="str">OR</span></span>) returns <span class="m"><i>false</i></span> if both arguments are <span class="m"><i>false</i></span>; otherwise it returns <span class="m"><i>true</i></span>.</p>
+<p id="p-ccdf21ed" class="nb">The conditional logical <span class="sc">or</span> operator <span class="m">∨ :</span> (<span class="m"><span class="str">OR:</span></span>) examines its first argument; if it is <span class="m"><i>true</i></span>, the result is <span class="m"><i>true</i></span>, and the second argument (a thunk) is not evaluated. But if the first argument is <span class="m"><i>false</i></span>, the second argument is evaluated and its result becomes the result of the conditional logical <span class="sc">or</span> operator expression.</p>
+</section>
+<section class="sec" data-num="32.1.7" data-title="opr ¬(self): Boolean">
+<h3 id="s-opr-self-boolean" class="nb"><span class="num">32.1.7</span> <span class="m"><span class="kw">opr</span> ¬(<span class="kw">self</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-64cd97b7" class="nb">The logical <span class="sc">not</span> operator <span class="m">¬</span> (<span class="m"><span class="str">NOT</span></span>) returns <span class="m"><i>true</i></span> if its argument is <span class="m"><i>false</i></span>; it returns <span class="m"><i>false</i></span> if its argument is <span class="m"><i>true</i></span>.</p>
+</section>
+<section class="sec" data-num="32.1.8" data-title="opr ∨(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-5" class="nb"><span class="num">32.1.8</span> <span class="m"><span class="kw">opr</span> <span class="unl">∨</span>(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⊕(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-6" class="nb"><span class="m"><span class="kw">opr</span> ⊕(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-ff51bd27" class="nb">The logical exclusive <span class="sc">or</span> operator <span class="m"><span class="unl">∨</span></span> (<span class="m"><span class="str">XOR</span></span>) returns <span class="m"><i>true</i></span> if the arguments are different, one being <span class="m"><i>true</i></span> and the other <span class="m"><i>false</i></span>; it returns <span class="m"><i>false</i></span> if both arguments are <span class="m"><i>true</i></span> or both arguments are <span class="m"><i>false</i></span>.</p>
+<p id="p-52386d34" class="nb">The operator <span class="m">⊕</span> (<span class="m"><span class="str">OPLUS</span></span>) does the same thing as <span class="m"><span class="unl">∨</span></span>.</p>
+</section>
+<section class="sec" data-num="32.1.9" data-title="opr ≡(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-7" class="nb"><span class="num">32.1.9</span> <span class="m"><span class="kw">opr</span> ≡(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr =(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-8" class="nb"><span class="m"><span class="kw">opr</span> =(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ↔(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-9" class="nb"><span class="m"><span class="kw">opr</span> ↔(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-9d86b946" class="nb">The logical equivalence, or exclusive <span class="sc">nor</span>, operator <span class="m">≡</span> (<span class="m"><span class="str">EQV</span></span>) returns <span class="m"><i>true</i></span> if both arguments are <span class="m"><i>true</i></span> or both arguments are <span class="m"><i>false</i></span>; it returns <span class="m"><i>false</i></span> if the arguments are different, one being <span class="m"><i>true</i></span> and the other <span class="m"><i>false</i></span>. (Thus its behavior on boolean values happens to be exactly the same as that of the strict equivalence operator <span class="m">≣</span>.)</p>
+<p id="p-4f12bac2" class="nb">The equality operator <span class="m">=</span> and the if-and-only-if operator <span class="m">↔</span> (<span class="m"><span class="str">IFF</span></span>) do the same thing as <span class="m">≡</span>.</p>
+<p id="p-b2059abc" class="nb">For <span class="m">≢</span> see <a class="xref" href="lib-negated-relational-operators.html#sec-operator-NEQV">Section 34.1.2</a><!--nc-->. For <span class="m">≠</span> see <a class="xref" href="lib-negated-relational-operators.html#sec-operator-NE">Section 34.1.3</a><!--nc-->.</p>
+</section>
+<section class="sec" data-num="32.1.10" data-title="opr →(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-10" class="nb"><span class="num">32.1.10</span> <span class="m"><span class="kw">opr</span> →(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr →(self, other: () → Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-11" class="nb"><span class="m"><span class="kw">opr</span> →(<span class="kw">self</span>, <i>other</i>: () → <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-6a2c79ce" class="nb">The logical implication operator <span class="m">→</span> (<span class="m"><span class="str">IMPLIES</span></span>) returns <span class="m"><i>false</i></span> if the first argument is <span class="m"><i>true</i></span> but the second argument is <span class="m"><i>false</i></span>; otherwise it returns <span class="m"><i>true</i></span>.</p>
+<p id="p-ba78e58e" class="nb">The conditional logical implication operator <span class="m">→ :</span> (<span class="m"><span class="str">IMPLIES:</span></span>) examines its first argument; if it is <span class="m"><i>false</i></span>, the result is <span class="m"><i>true</i></span>, and the second argument (a thunk) is not evaluated. But if the first argument is <span class="m"><i>true</i></span>, the second argument is evaluated and its result becomes the result of the conditional logical implication operator expression.</p>
+</section>
+<section class="sec" data-num="32.1.11" data-title="opr ∧(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-12" class="nb"><span class="num">32.1.11</span> <span class="m"><span class="kw">opr</span> <span class="ovl">∧</span>(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-ab09ced7" class="nb">The logical <span class="sc">nand</span> (<span class="sc">not and</span>) operator <span class="m"><span class="ovl">∧</span></span> (<span class="m"><span class="str">NAND</span></span>) returns <span class="m"><i>false</i></span> if both arguments are <span class="m"><i>true</i></span>; otherwise it returns <span class="m"><i>true</i></span>.</p>
+</section>
+<section class="sec" data-num="32.1.12" data-title="opr ∨(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-13" class="nb"><span class="num">32.1.12</span> <span class="m"><span class="kw">opr</span> <span class="ovl">∨</span>(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-79e3ca45" class="nb">The logical <span class="sc">nor</span> (<span class="sc">not or</span>) operator <span class="m"><span class="ovl">∨</span></span> (<span class="m"><span class="str">NOR</span></span>) returns <span class="m"><i>false</i></span> if both arguments are <span class="m"><i>false</i></span>; otherwise it returns <span class="m"><i>true</i></span>.</p>
+</section>
+<section class="sec" data-num="32.1.13" data-title="opr ≣(self, other: Boolean): Boolean">
+<h3 id="s-opr-self-other-boolean-boolean-14" class="nb"><span class="num">32.1.13</span> <span class="m"><span class="kw">opr</span> ≣(<span class="kw">self</span>, <i>other</i>: <span class="ty">Boolean</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-19cdda22" class="nb">Two boolean values are strictly equivalent if and only if they are the same boolean value (that is, both <span class="m"><i>true</i></span> or both <span class="m"><i>false</i></span>).</p>
+</section>
+<section class="sec" data-num="32.1.14" data-title="majority(self, other1: Boolean, other2: Boolean)">
+<h3 id="s-majority-self-other1-boolean-other2-boolean" class="nb"><span class="num">32.1.14</span> <span class="m"><i>majority</i>(<span class="kw">self</span>, <i>other</i><sub>1</sub>: <span class="ty">Boolean</span>, <i>other</i><sub>2</sub>: <span class="ty">Boolean</span>)</span></h3>
+<p id="p-1a9fefe6" class="nb">If two or three of the argments are <span class="m"><i>true</i></span>, the result is <span class="m"><i>true</i></span>; if two or three of the argments are <span class="m"><i>false</i></span>, the result is <span class="m"><i>false</i></span>.</p>
+</section>
+<section class="sec" data-num="32.1.15" data-title="toString(): String">
+<h3 id="s-tostring-string" class="nb"><span class="num">32.1.15</span> <span class="m"><i>toString</i>(): <span class="ty">String</span></span></h3>
+<p id="p-3086da63" class="nb">The <span class="m"><i>toString</i></span> method returns either <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">true</span></span>”</span></span></span> or <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">false</span></span>”</span></span></span> as appropriate.</p>
+</section>
+</section>
+<section class="sec" data-num="32.2" data-title="The Trait Fortress.Standard.BooleanInterval">
+<h2 id="s-the-trait-fortress-standard-booleaninterval" class="nb"><span class="num">32.2</span> The Trait Fortress.Standard.BooleanInterval</h2>
+<p id="p-1aa59e47" class="nb">A boolean interval is a set of boolean values. There are two distinct boolean values, <span class="m"><i>true</i></span> and <span class="m"><i>false</i></span>, and therefore there are four distinct boolean intervals, which for convenience are given names:</p>
+<div class="center"><div class="dm nb" id="m-99a69bb1"><svg class="tx" data-d="2" viewBox="177.39 13.85 113.21 55.99" width="11.321em" height="5.599em" fill="currentColor"><text class='t1' x='203.81' y='21.92'>T<tspan x='210.18'>rue</tspan><tspan x='226.81'>=</tspan></text>
+<text class='t2' x='237.33' y='21.92'>{</text>
+<text class='t5' x='242.31' y='21.92'>true</text>
+<text class='t2' x='260.5' y='21.92'>}</text>
+<text class='t1' x='202.27' y='36.86'>F<tspan x='207.94'>alse</tspan><tspan x='226.81'>=</tspan></text>
+<text class='t2' x='237.33' y='36.86'>{</text>
+<text class='t5' x='242.31' y='36.86'>false</text>
+<text class='t2' x='262.41' y='36.86'>}</text>
+<text class='t1' x='181.12' y='51.81'>Uncertain<tspan x='226.81'>=</tspan></text>
+<text class='t2' x='237.33' y='51.81'>{</text>
+<text class='t5' x='242.31' y='51.81'>true</text>
+<text class='t4' x='260.5' y='51.81'>,</text>
+<text class='t5' x='264.93' y='51.81'>false</text>
+<text class='t2' x='285.02' y='51.81'>}</text>
+<text class='t1' x='177.99' y='66.75'>Imp<tspan x='195.71'>ossible</tspan><tspan x='226.81'>=</tspan></text>
+<text class='t2' x='237.33' y='66.75'>{<tspan x='243.97'>}</tspan></text></svg></div></div>
+<p id="p-2363bd46" class="nb">Logical operations on intervals obey the interval containment rule: the result interval must contain every boolean result that can be produced by applying the operator to a boolean value taken from each argument interval. For example, if <span class="m"><i>P</i></span> and <span class="m"><i>Q</i></span> are boolean intervals, then by definition <span class="m"><i>P</i> ∧ <i>Q</i> = { <i>x</i> ∧ <i>y</i> | <i>x</i> ← <i>P</i>, <i>y</i> ← <i>Q</i> }</span>.</p>
+<p id="p-5e8bb558" class="nb">A principal application of boolean intervals is to express the results of numerical comparison of numerical intervals. In this way numerical comparisons can also obey the interval containment rule.</p>
+<p id="p-3bd95b45" class="nb">Set operations such as <span class="m">∪</span> and <span class="m">∩</span> may also be used on boolean intervals.</p>
+<div class="fx nb both" id="c-f61668a8" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.81 358.71 644.23" width="35.871em" height="64.423em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='38.88' y='19.33'>Bo<tspan x='51.2'>oleanIn</tspan><tspan x='82.75'>terv</tspan><tspan x='99.65'>al</tspan></text>
+<text class='t0' x='33.87' y='31.28'>extends</text>
+<text class='t2' x='73.25' y='31.28'>{</text>
+<text class='t1' x='79.89' y='31.28'>Bo<tspan x='92.21'>oleanAlgebra</tspan></text>
+<text class='t3' x='148.97' y='31.28'></text>
+<text class='t1' x='152.98' y='31.28'>Bo<tspan x='165.3'>oleanIn</tspan><tspan x='196.85'>terv</tspan><tspan x='213.75'>al</tspan></text>
+<text class='t4' x='221.5' y='31.28'>,</text>
+<text class='t2' x='225.93' y='31.28'>∩</text>
+<text class='t4' x='232.57' y='31.28'>,</text>
+<text class='t2' x='237' y='31.28'>∪</text>
+<text class='t4' x='243.64' y='31.28'>,</text>
+<text class='t0' x='248.07' y='31.28'>SET</text>
+<rect x='264.36' y='30.88' height='.4' width='2.99'/>
+<text class='t0' x='267.35' y='31.28'>COMPLEMENT</text>
+<text class='t4' x='319.65' y='31.28'>,</text>
+<text class='t0' x='324.08' y='31.28'>SYMDIFF</text>
+<text class='t3' x='360.69' y='31.28'></text>
+<text class='t4' x='364.7' y='31.28'>,</text>
+<text class='t1' x='79.89' y='43.24'>Set</text>
+<text class='t3' x='93.73' y='43.24'></text>
+<text class='t1' x='97.74' y='43.24'>Bo<tspan x='110.06'>olean</tspan></text>
+<text class='t3' x='132.75' y='43.24'></text>
+<text class='t4' x='136.76' y='43.24'>,</text>
+<text class='t1' x='79.89' y='55.19'>BinaryIn<tspan x='118.25'>terv</tspan><tspan x='135.16'>alCon</tspan><tspan x='160.34'>tainmen</tspan><tspan x='195.49'>t</tspan></text>
+<text class='t3' x='199.36' y='55.19'></text>
+<text class='t1' x='203.38' y='55.19'>Bo<tspan x='215.69'>oleanIn</tspan><tspan x='247.24'>terv</tspan><tspan x='264.15'>al</tspan></text>
+<text class='t4' x='271.9' y='55.19'>,</text>
+<text class='t1' x='276.32' y='55.19'>Bo<tspan x='288.64'>olean</tspan></text>
+<text class='t4' x='311.33' y='55.19'>,</text>
+<text class='t2' x='315.76' y='55.19'>∧</text>
+<text class='t3' x='322.4' y='55.19'></text>
+<text class='t4' x='326.41' y='55.19'>,</text>
+<text class='t1' x='79.89' y='67.15'>BinaryIn<tspan x='118.25'>terv</tspan><tspan x='135.16'>alCon</tspan><tspan x='160.34'>tainmen</tspan><tspan x='195.49'>t</tspan></text>
+<text class='t3' x='199.36' y='67.15'></text>
+<text class='t1' x='203.38' y='67.15'>Bo<tspan x='215.69'>oleanIn</tspan><tspan x='247.24'>terv</tspan><tspan x='264.15'>al</tspan></text>
+<text class='t4' x='271.9' y='67.15'>,</text>
+<text class='t1' x='276.32' y='67.15'>Bo<tspan x='288.64'>olean</tspan></text>
+<text class='t4' x='311.33' y='67.15'>,</text>
+<text class='t2' x='315.76' y='67.15'>∨</text>
+<text class='t3' x='322.4' y='67.15'></text>
+<text class='t4' x='326.41' y='67.15'>,</text>
+<text class='t1' x='79.89' y='79.1'>BinaryIn<tspan x='118.25'>terv</tspan><tspan x='135.16'>alCon</tspan><tspan x='160.34'>tainmen</tspan><tspan x='195.49'>t</tspan></text>
+<text class='t3' x='199.36' y='79.1'></text>
+<text class='t1' x='203.38' y='79.1'>Bo<tspan x='215.69'>oleanIn</tspan><tspan x='247.24'>terv</tspan><tspan x='264.15'>al</tspan></text>
+<text class='t4' x='271.9' y='79.1'>,</text>
+<text class='t1' x='276.32' y='79.1'>Bo<tspan x='288.64'>olean</tspan></text>
+<text class='t4' x='311.33' y='79.1'>,</text>
+<text class='t2' x='315.76' y='79.1'>∨</text>
+<rect x='315.76' y='80.3' height='.4' width='6.64'/>
+<text class='t3' x='322.4' y='79.1'></text>
+<text class='t4' x='326.41' y='79.1'>,</text>
+<text class='t1' x='79.89' y='91.06'>BinaryIn<tspan x='118.25'>terv</tspan><tspan x='135.16'>alCon</tspan><tspan x='160.34'>tainmen</tspan><tspan x='195.49'>t</tspan></text>
+<text class='t3' x='199.36' y='91.06'></text>
+<text class='t1' x='203.38' y='91.06'>Bo<tspan x='215.69'>oleanIn</tspan><tspan x='247.24'>terv</tspan><tspan x='264.15'>al</tspan></text>
+<text class='t4' x='271.9' y='91.06'>,</text>
+<text class='t1' x='276.32' y='91.06'>Bo<tspan x='288.64'>olean</tspan></text>
+<text class='t4' x='311.33' y='91.06'>,</text>
+<text class='t2' x='315.76' y='91.06'>≡</text>
+<text class='t3' x='323.51' y='91.06'></text>
+<text class='t4' x='327.52' y='91.06'>,</text>
+<text class='t1' x='79.89' y='103.01'>BinaryIn<tspan x='118.25'>terv</tspan><tspan x='135.16'>alCon</tspan><tspan x='160.34'>tainmen</tspan><tspan x='195.49'>t</tspan></text>
+<text class='t3' x='199.36' y='103.01'></text>
+<text class='t1' x='203.38' y='103.01'>Bo<tspan x='215.69'>oleanIn</tspan><tspan x='247.24'>terv</tspan><tspan x='264.15'>al</tspan></text>
+<text class='t4' x='271.9' y='103.01'>,</text>
+<text class='t1' x='276.32' y='103.01'>Bo<tspan x='288.64'>olean</tspan></text>
+<text class='t4' x='311.33' y='103.01'>,</text>
+<text class='t1' x='315.76' y='103.01'>=</text>
+<text class='t3' x='323.51' y='103.01'></text>
+<text class='t4' x='327.52' y='103.01'>,</text>
+<text class='t1' x='79.89' y='114.97'>BinaryIn<tspan x='118.25'>terv</tspan><tspan x='135.16'>alCon</tspan><tspan x='160.34'>tainmen</tspan><tspan x='195.49'>t</tspan></text>
+<text class='t3' x='199.36' y='114.97'></text>
+<text class='t1' x='203.38' y='114.97'>Bo<tspan x='215.69'>oleanIn</tspan><tspan x='247.24'>terv</tspan><tspan x='264.15'>al</tspan></text>
+<text class='t4' x='271.9' y='114.97'>,</text>
+<text class='t1' x='276.32' y='114.97'>Bo<tspan x='288.64'>olean</tspan></text>
+<text class='t4' x='311.33' y='114.97'>,</text>
+<text class='t2' x='315.76' y='114.97'>↔</text>
+<text class='t3' x='325.72' y='114.97'></text>
+<text class='t4' x='329.74' y='114.97'>,</text>
+<text class='t1' x='79.89' y='126.92'>BinaryIn<tspan x='118.25'>terv</tspan><tspan x='135.16'>alCon</tspan><tspan x='160.34'>tainmen</tspan><tspan x='195.49'>t</tspan></text>
+<text class='t3' x='199.36' y='126.92'></text>
+<text class='t1' x='203.38' y='126.92'>Bo<tspan x='215.69'>oleanIn</tspan><tspan x='247.24'>terv</tspan><tspan x='264.15'>al</tspan></text>
+<text class='t4' x='271.9' y='126.92'>,</text>
+<text class='t1' x='276.32' y='126.92'>Bo<tspan x='288.64'>olean</tspan></text>
+<text class='t4' x='311.33' y='126.92'>,</text>
+<rect x='315.76' y='119.8' height='.4' width='6.64'/>
+<text class='t2' x='315.76' y='126.92'>∧</text>
+<text class='t3' x='322.4' y='126.92'></text>
+<text class='t4' x='326.41' y='126.92'>,</text>
+<text class='t1' x='79.89' y='138.88'>BinaryIn<tspan x='118.25'>terv</tspan><tspan x='135.16'>alCon</tspan><tspan x='160.34'>tainmen</tspan><tspan x='195.49'>t</tspan></text>
+<text class='t3' x='199.36' y='138.88'></text>
+<text class='t1' x='203.38' y='138.88'>Bo<tspan x='215.69'>oleanIn</tspan><tspan x='247.24'>terv</tspan><tspan x='264.15'>al</tspan></text>
+<text class='t4' x='271.9' y='138.88'>,</text>
+<text class='t1' x='276.32' y='138.88'>Bo<tspan x='288.64'>olean</tspan></text>
+<text class='t4' x='311.33' y='138.88'>,</text>
+<rect x='315.76' y='131.75' height='.4' width='6.64'/>
+<text class='t2' x='315.76' y='138.88'>∨</text>
+<text class='t3' x='322.4' y='138.88'></text>
+<text class='t4' x='326.41' y='138.88'>,</text>
+<text class='t1' x='79.89' y='150.83'>BinaryIn<tspan x='118.25'>terv</tspan><tspan x='135.16'>alCon</tspan><tspan x='160.34'>tainmen</tspan><tspan x='195.49'>t</tspan></text>
+<text class='t3' x='199.36' y='150.83'></text>
+<text class='t1' x='203.38' y='150.83'>Bo<tspan x='215.69'>oleanIn</tspan><tspan x='247.24'>terv</tspan><tspan x='264.15'>al</tspan></text>
+<text class='t4' x='271.9' y='150.83'>,</text>
+<text class='t1' x='276.32' y='150.83'>Bo<tspan x='288.64'>olean</tspan></text>
+<text class='t4' x='311.33' y='150.83'>,</text>
+<text class='t2' x='315.76' y='150.83'>→</text>
+<text class='t3' x='325.72' y='150.83'></text>
+<text class='t4' x='329.74' y='150.83'>,</text>
+<text class='t1' x='79.89' y='162.79'>UnaryIn<tspan x='115.9'>terv</tspan><tspan x='132.81'>alCon</tspan><tspan x='157.99'>tainmen</tspan><tspan x='193.14'>t</tspan></text>
+<text class='t3' x='197.01' y='162.79'></text>
+<text class='t1' x='201.02' y='162.79'>Bo<tspan x='213.34'>oleanIn</tspan><tspan x='244.89'>terv</tspan><tspan x='261.8'>al</tspan></text>
+<text class='t4' x='269.54' y='162.79'>,</text>
+<text class='t1' x='273.97' y='162.79'>Bo<tspan x='286.29'>olean</tspan></text>
+<text class='t4' x='308.98' y='162.79'>,</text>
+<text class='t2' x='313.41' y='162.79'>¬</text>
+<text class='t3' x='320.05' y='162.79'></text>
+<text class='t4' x='324.06' y='162.79'>,</text>
+<text class='t1' x='79.89' y='174.74'>Generator</text>
+<text class='t3' x='123.74' y='174.74'></text>
+<text class='t1' x='127.76' y='174.74'>Bo<tspan x='140.07'>olean</tspan></text>
+<text class='t3' x='162.76' y='174.74'></text>
+<text class='t2' x='168.44' y='174.74'>}</text>
+<text class='t0' x='33.87' y='186.7'>comprises</text>
+<text class='t2' x='83.71' y='186.7'>{</text>
+<text class='t4' x='90.36' y='186.7'>.<tspan x='94.78'>.</tspan><tspan x='99.21'>.</tspan></text>
+<text class='t2' x='103.64' y='186.7'>}</text>
+<text class='t0' x='21.92' y='198.66'>coerce</text>
+<text class='t1' x='56.07' y='198.66'>(</text>
+<text class='t4' x='59.94' y='198.66'>x</text>
+<text class='t1' x='65.64' y='198.66'>:<tspan x='70.06'>Bo</tspan><tspan x='82.38'>olean</tspan><tspan x='105.07'>)</tspan></text>
+<text class='t0' x='21.92' y='210.61'>getter</text>
+<text class='t5' x='56.07' y='210.61'>hashCo<tspan x='87.13'>de</tspan></text>
+<text class='t1' x='97.55' y='210.61'>():</text>
+<text class='t6' x='109.73' y='210.61'>Z</text>
+<text class='t1' x='116.37' y='210.61'>64</text>
+<text class='t0' x='21.92' y='222.57'>opr</text>
+<text class='t2' x='40.38' y='222.57'>∧</text>
+<text class='t1' x='47.02' y='222.57'>(</text>
+<text class='t0' x='50.89' y='222.57'>self</text>
+<text class='t4' x='71.81' y='222.57'>,</text>
+<text class='t5' x='76.24' y='222.57'>other</text>
+<text class='t1' x='99.59' y='222.57'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>oleanIn</tspan><tspan x='147.88'>terv</tspan><tspan x='164.79'>al</tspan><tspan x='172.54'>):</tspan><tspan x='180.84'>Bo</tspan><tspan x='193.16'>oleanIn</tspan><tspan x='224.71'>terv</tspan><tspan x='241.61'>al</tspan></text>
+<text class='t0' x='21.92' y='234.52'>opr</text>
+<text class='t2' x='40.38' y='234.52'>∨</text>
+<text class='t1' x='47.02' y='234.52'>(</text>
+<text class='t0' x='50.89' y='234.52'>self</text>
+<text class='t4' x='71.81' y='234.52'>,</text>
+<text class='t5' x='76.24' y='234.52'>other</text>
+<text class='t1' x='99.59' y='234.52'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>oleanIn</tspan><tspan x='147.88'>terv</tspan><tspan x='164.79'>al</tspan><tspan x='172.54'>):</tspan><tspan x='180.84'>Bo</tspan><tspan x='193.16'>oleanIn</tspan><tspan x='224.71'>terv</tspan><tspan x='241.61'>al</tspan></text>
+<text class='t0' x='21.92' y='246.48'>opr</text>
+<text class='t2' x='40.38' y='246.48'>¬</text>
+<text class='t1' x='47.02' y='246.48'>(</text>
+<text class='t0' x='50.89' y='246.48'>self</text>
+<text class='t1' x='71.81' y='246.48'>):<tspan x='80.12'>Bo</tspan><tspan x='92.43'>oleanIn</tspan><tspan x='123.98'>terv</tspan><tspan x='140.89'>al</tspan></text>
+<text class='t0' x='21.92' y='258.43'>opr</text>
+<text class='t2' x='40.38' y='258.43'>∨</text>
+<rect x='40.38' y='259.63' height='.4' width='6.64'/>
+<text class='t1' x='47.02' y='258.43'>(</text>
+<text class='t0' x='50.89' y='258.43'>self</text>
+<text class='t4' x='71.81' y='258.43'>,</text>
+<text class='t5' x='76.24' y='258.43'>other</text>
+<text class='t1' x='99.59' y='258.43'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>oleanIn</tspan><tspan x='147.88'>terv</tspan><tspan x='164.79'>al</tspan><tspan x='172.54'>):</tspan><tspan x='180.84'>Bo</tspan><tspan x='193.16'>oleanIn</tspan><tspan x='224.71'>terv</tspan><tspan x='241.61'>al</tspan></text>
+<text class='t0' x='21.92' y='270.39'>opr</text>
+<text class='t2' x='40.38' y='270.39'>⊕</text>
+<text class='t1' x='48.12' y='270.39'>(</text>
+<text class='t0' x='52' y='270.39'>self</text>
+<text class='t4' x='72.92' y='270.39'>,</text>
+<text class='t5' x='77.35' y='270.39'>other</text>
+<text class='t1' x='100.7' y='270.39'>:<tspan x='105.13'>Bo</tspan><tspan x='117.44'>oleanIn</tspan><tspan x='148.99'>terv</tspan><tspan x='165.9'>al</tspan><tspan x='173.65'>):</tspan><tspan x='181.95'>Bo</tspan><tspan x='194.26'>oleanIn</tspan><tspan x='225.81'>terv</tspan><tspan x='242.72'>al</tspan></text>
+<text class='t0' x='21.92' y='282.34'>opr</text>
+<text class='t2' x='40.38' y='282.34'>≡</text>
+<text class='t1' x='48.12' y='282.34'>(</text>
+<text class='t0' x='52' y='282.34'>self</text>
+<text class='t4' x='72.92' y='282.34'>,</text>
+<text class='t5' x='77.35' y='282.34'>other</text>
+<text class='t1' x='100.7' y='282.34'>:<tspan x='105.13'>Bo</tspan><tspan x='117.44'>oleanIn</tspan><tspan x='148.99'>terv</tspan><tspan x='165.9'>al</tspan><tspan x='173.65'>):</tspan><tspan x='181.95'>Bo</tspan><tspan x='194.26'>oleanIn</tspan><tspan x='225.81'>terv</tspan><tspan x='242.72'>al</tspan></text>
+<text class='t0' x='21.92' y='294.3'>opr</text>
+<text class='t1' x='40.38' y='294.3'>=<tspan x='48.12'>(</tspan></text>
+<text class='t0' x='52' y='294.3'>self</text>
+<text class='t4' x='72.92' y='294.3'>,</text>
+<text class='t5' x='77.35' y='294.3'>other</text>
+<text class='t1' x='100.7' y='294.3'>:<tspan x='105.13'>Bo</tspan><tspan x='117.44'>oleanIn</tspan><tspan x='148.99'>terv</tspan><tspan x='165.9'>al</tspan><tspan x='173.65'>):</tspan><tspan x='181.95'>Bo</tspan><tspan x='194.26'>oleanIn</tspan><tspan x='225.81'>terv</tspan><tspan x='242.72'>al</tspan></text>
+<text class='t0' x='21.92' y='306.25'>opr</text>
+<text class='t2' x='40.38' y='306.25'>↔</text>
+<text class='t1' x='50.34' y='306.25'>(</text>
+<text class='t0' x='54.21' y='306.25'>self</text>
+<text class='t4' x='75.13' y='306.25'>,</text>
+<text class='t5' x='79.56' y='306.25'>other</text>
+<text class='t1' x='102.91' y='306.25'>:<tspan x='107.34'>Bo</tspan><tspan x='119.65'>oleanIn</tspan><tspan x='151.2'>terv</tspan><tspan x='168.11'>al</tspan><tspan x='175.86'>):</tspan><tspan x='184.16'>Bo</tspan><tspan x='196.48'>oleanIn</tspan><tspan x='228.03'>terv</tspan><tspan x='244.94'>al</tspan></text>
+<text class='t0' x='21.92' y='318.21'>opr</text>
+<text class='t2' x='40.38' y='318.21'>→</text>
+<text class='t1' x='50.34' y='318.21'>(</text>
+<text class='t0' x='54.21' y='318.21'>self</text>
+<text class='t4' x='75.13' y='318.21'>,</text>
+<text class='t5' x='79.56' y='318.21'>other</text>
+<text class='t1' x='102.91' y='318.21'>:<tspan x='107.34'>Bo</tspan><tspan x='119.65'>oleanIn</tspan><tspan x='151.2'>terv</tspan><tspan x='168.11'>al</tspan><tspan x='175.86'>):</tspan><tspan x='184.16'>Bo</tspan><tspan x='196.48'>oleanIn</tspan><tspan x='228.03'>terv</tspan><tspan x='244.94'>al</tspan></text>
+<text class='t0' x='21.92' y='330.16'>opr</text>
+<rect x='40.38' y='323.03' height='.4' width='6.64'/>
+<text class='t2' x='40.38' y='330.16'>∧</text>
+<text class='t1' x='47.02' y='330.16'>(</text>
+<text class='t0' x='50.89' y='330.16'>self</text>
+<text class='t4' x='71.81' y='330.16'>,</text>
+<text class='t5' x='76.24' y='330.16'>other</text>
+<text class='t1' x='99.59' y='330.16'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>oleanIn</tspan><tspan x='147.88'>terv</tspan><tspan x='164.79'>al</tspan><tspan x='172.54'>):</tspan><tspan x='180.84'>Bo</tspan><tspan x='193.16'>oleanIn</tspan><tspan x='224.71'>terv</tspan><tspan x='241.61'>al</tspan></text>
+<text class='t0' x='21.92' y='342.12'>opr</text>
+<rect x='40.38' y='334.99' height='.4' width='6.64'/>
+<text class='t2' x='40.38' y='342.12'>∨</text>
+<text class='t1' x='47.02' y='342.12'>(</text>
+<text class='t0' x='50.89' y='342.12'>self</text>
+<text class='t4' x='71.81' y='342.12'>,</text>
+<text class='t5' x='76.24' y='342.12'>other</text>
+<text class='t1' x='99.59' y='342.12'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>oleanIn</tspan><tspan x='147.88'>terv</tspan><tspan x='164.79'>al</tspan><tspan x='172.54'>):</tspan><tspan x='180.84'>Bo</tspan><tspan x='193.16'>oleanIn</tspan><tspan x='224.71'>terv</tspan><tspan x='241.61'>al</tspan></text>
+<text class='t0' x='21.92' y='354.07'>opr</text>
+<text class='t2' x='40.38' y='354.07'>∈</text>
+<text class='t1' x='47.02' y='354.07'>(</text>
+<text class='t5' x='50.89' y='354.07'>other</text>
+<text class='t1' x='74.24' y='354.07'>:<tspan x='78.67'>Bo</tspan><tspan x='90.98'>olean</tspan></text>
+<text class='t4' x='113.68' y='354.07'>,</text>
+<text class='t0' x='118.11' y='354.07'>self</text>
+<text class='t1' x='139.03' y='354.07'>):<tspan x='147.33'>Bo</tspan><tspan x='159.64'>olean</tspan></text>
+<text class='t0' x='21.92' y='366.03'>opr</text>
+<text class='t2' x='40.38' y='366.03'>∩</text>
+<text class='t1' x='47.02' y='366.03'>(</text>
+<text class='t0' x='50.89' y='366.03'>self</text>
+<text class='t4' x='71.81' y='366.03'>,</text>
+<text class='t5' x='76.24' y='366.03'>other</text>
+<text class='t1' x='99.59' y='366.03'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>oleanIn</tspan><tspan x='147.88'>terv</tspan><tspan x='164.79'>al</tspan><tspan x='172.54'>):</tspan><tspan x='180.84'>Bo</tspan><tspan x='193.16'>oleanIn</tspan><tspan x='224.71'>terv</tspan><tspan x='241.61'>al</tspan></text>
+<text class='t0' x='21.92' y='377.98'>opr</text>
+<text class='t2' x='40.38' y='377.98'>∪</text>
+<text class='t1' x='47.02' y='377.98'>(</text>
+<text class='t0' x='50.89' y='377.98'>self</text>
+<text class='t4' x='71.81' y='377.98'>,</text>
+<text class='t5' x='76.24' y='377.98'>other</text>
+<text class='t1' x='99.59' y='377.98'>:<tspan x='104.02'>Bo</tspan><tspan x='116.33'>oleanIn</tspan><tspan x='147.88'>terv</tspan><tspan x='164.79'>al</tspan><tspan x='172.54'>):</tspan><tspan x='180.84'>Bo</tspan><tspan x='193.16'>oleanIn</tspan><tspan x='224.71'>terv</tspan><tspan x='241.61'>al</tspan></text>
+<text class='t0' x='21.92' y='389.94'>opr<tspan x='40.38'>SET</tspan></text>
+<rect x='56.66' y='389.54' height='.4' width='2.99'/>
+<text class='t0' x='59.65' y='389.94'>COMPLEMENT</text>
+<text class='t1' x='111.96' y='389.94'>(</text>
+<text class='t0' x='115.83' y='389.94'>self</text>
+<text class='t1' x='136.75' y='389.94'>):<tspan x='145.06'>Bo</tspan><tspan x='157.37'>oleanIn</tspan><tspan x='188.92'>terv</tspan><tspan x='205.83'>al</tspan></text>
+<text class='t0' x='21.92' y='401.89'>opr<tspan x='40.38'>SYMDIFF</tspan></text>
+<text class='t1' x='76.99' y='401.89'>(</text>
+<text class='t0' x='80.86' y='401.89'>self</text>
+<text class='t4' x='101.78' y='401.89'>,</text>
+<text class='t5' x='106.21' y='401.89'>other</text>
+<text class='t1' x='129.56' y='401.89'>:<tspan x='133.99'>Bo</tspan><tspan x='146.3'>oleanIn</tspan><tspan x='177.85'>terv</tspan><tspan x='194.76'>al</tspan><tspan x='202.51'>):</tspan><tspan x='210.81'>Bo</tspan><tspan x='223.13'>oleanIn</tspan><tspan x='254.68'>terv</tspan><tspan x='271.59'>al</tspan></text>
+<text class='t0' x='21.92' y='413.85'>opr</text>
+<text class='t2' x='40.38' y='413.85'>\</text>
+<text class='t1' x='45.36' y='413.85'>(</text>
+<text class='t0' x='49.23' y='413.85'>self</text>
+<text class='t4' x='70.15' y='413.85'>,</text>
+<text class='t5' x='74.58' y='413.85'>other</text>
+<text class='t1' x='97.93' y='413.85'>:<tspan x='102.36'>Bo</tspan><tspan x='114.67'>oleanIn</tspan><tspan x='146.22'>terv</tspan><tspan x='163.13'>al</tspan><tspan x='170.88'>):</tspan><tspan x='179.18'>Bo</tspan><tspan x='191.5'>oleanIn</tspan><tspan x='223.05'>terv</tspan><tspan x='239.95'>al</tspan></text>
+<text class='t5' x='21.92' y='425.8'>p<tspan x='26.5'>ossibly</tspan></text>
+<text class='t1' x='55.64' y='425.8'>(</text>
+<text class='t0' x='59.52' y='425.8'>self</text>
+<text class='t1' x='80.44' y='425.8'>):<tspan x='88.74'>Bo</tspan><tspan x='101.06'>olean</tspan></text>
+<text class='t5' x='21.92' y='437.76'>ne<tspan x='31.59'>c</tspan><tspan x='35.67'>essarily</tspan></text>
+<text class='t1' x='69.01' y='437.76'>(</text>
+<text class='t0' x='72.88' y='437.76'>self</text>
+<text class='t1' x='93.8' y='437.76'>):<tspan x='102.11'>Bo</tspan><tspan x='114.42'>olean</tspan></text>
+<text class='t5' x='21.92' y='449.71'>c<tspan x='25.99'>ertainly</tspan></text>
+<text class='t1' x='60.1' y='449.71'>(</text>
+<text class='t0' x='63.97' y='449.71'>self</text>
+<text class='t1' x='84.89' y='449.71'>):<tspan x='93.2'>Bo</tspan><tspan x='105.51'>olean</tspan></text>
+<text class='t0' x='21.92' y='461.67'>opr</text>
+<text class='t2' x='40.38' y='460.7'>≡<tspan x='40.38' y='462.63'>≡</tspan></text>
+<text class='t1' x='48.12' y='461.67'>(</text>
+<text class='t0' x='52' y='461.67'>self</text>
+<text class='t4' x='72.92' y='461.67'>,</text>
+<text class='t5' x='77.35' y='461.67'>other</text>
+<text class='t1' x='100.7' y='461.67'>:<tspan x='105.13'>Bo</tspan><tspan x='117.44'>oleanIn</tspan><tspan x='148.99'>terv</tspan><tspan x='165.9'>al</tspan><tspan x='173.65'>):</tspan><tspan x='181.95'>Bo</tspan><tspan x='194.26'>olean</tspan></text>
+<text class='t5' x='21.92' y='473.62'>toString</text>
+<text class='t1' x='57.55' y='473.62'>():<tspan x='69.73'>String</tspan></text>
+<text class='t0' x='21.92' y='485.58'>property</text>
+<text class='t5' x='66.53' y='485.58'>true</text>
+<text class='t2' x='87.48' y='485.58'>∈</text>
+<text class='t1' x='96.89' y='485.58'>T<tspan x='103.26'>rue</tspan></text>
+<text class='t2' x='119.34' y='485.58'>∧</text>
+<text class='t5' x='128.19' y='485.58'>false</text>
+<text class='t2' x='151.06' y='485.58'>∈</text>
+<text class='t1' x='160.47' y='485.58'>T<tspan x='166.83'>rue</tspan></text>
+<text class='t0' x='21.92' y='497.53'>property</text>
+<text class='t5' x='66.53' y='497.53'>true</text>
+<text class='t2' x='87.48' y='497.53'>∈</text>
+<text class='t1' x='96.89' y='497.53'>F<tspan x='102.57'>alse</tspan></text>
+<text class='t2' x='120.89' y='497.53'>∧</text>
+<text class='t5' x='129.74' y='497.53'>false</text>
+<text class='t2' x='152.61' y='497.53'>∈</text>
+<text class='t1' x='162.02' y='497.53'>F<tspan x='167.69'>alse</tspan></text>
+<text class='t0' x='21.92' y='509.49'>property</text>
+<text class='t5' x='66.53' y='509.49'>true</text>
+<text class='t2' x='87.48' y='509.49'>∈</text>
+<text class='t1' x='96.89' y='509.49'>Uncertain</text>
+<text class='t2' x='142.03' y='509.49'>∧</text>
+<text class='t5' x='150.88' y='509.49'>false</text>
+<text class='t2' x='173.75' y='509.49'>∈</text>
+<text class='t1' x='183.16' y='509.49'>Uncertain</text>
+<text class='t0' x='21.92' y='521.44'>property</text>
+<text class='t5' x='66.53' y='521.44'>true</text>
+<text class='t2' x='87.48' y='521.44'>∈</text>
+<text class='t1' x='96.89' y='521.44'>Imp<tspan x='114.6'>ossible</tspan></text>
+<text class='t2' x='145.16' y='521.44'>∧</text>
+<text class='t5' x='154.01' y='521.44'>false</text>
+<text class='t2' x='176.88' y='521.44'>∈</text>
+<text class='t1' x='186.29' y='521.44'>Imp<tspan x='204'>ossible</tspan></text>
+<text class='t0' x='21.92' y='533.4'>property</text>
+<text class='t2' x='66.53' y='533.4'>∀</text>
+<text class='t1' x='72.06' y='533.4'>(</text>
+<text class='t4' x='75.94' y='533.4'>a</text>
+<text class='t1' x='81.2' y='533.4'>)</text>
+<text class='t5' x='87.84' y='533.4'>ne<tspan x='97.52'>c</tspan><tspan x='101.59'>essarily</tspan></text>
+<text class='t1' x='134.94' y='533.4'>(</text>
+<text class='t4' x='138.81' y='533.4'>a</text>
+<text class='t1' x='144.08' y='533.4'>)</text>
+<text class='t2' x='150.72' y='532.44'>≡<tspan x='150.72' y='534.36'>≡</tspan><tspan x='161.23' y='533.4'>¬</tspan></text>
+<text class='t5' x='167.88' y='533.4'>p<tspan x='172.46'>ossibly</tspan></text>
+<text class='t1' x='201.6' y='533.4'>(</text>
+<text class='t2' x='205.48' y='533.4'>¬</text>
+<text class='t4' x='212.12' y='533.4'>a</text>
+<text class='t1' x='217.38' y='533.4'>)</text>
+<text class='t0' x='21.92' y='545.35'>property</text>
+<text class='t2' x='66.53' y='545.35'>∀</text>
+<text class='t1' x='72.06' y='545.35'>(</text>
+<text class='t4' x='75.94' y='545.35'>a</text>
+<text class='t1' x='81.2' y='545.35'>)</text>
+<text class='t5' x='87.84' y='545.35'>p<tspan x='92.43'>ossibly</tspan></text>
+<text class='t1' x='121.57' y='545.35'>(</text>
+<text class='t4' x='125.44' y='545.35'>a</text>
+<text class='t1' x='130.71' y='545.35'>)</text>
+<text class='t2' x='137.35' y='545.35'>↔</text>
+<text class='t5' x='150.08' y='545.35'>true</text>
+<text class='t2' x='171.04' y='545.35'>∈</text>
+<text class='t4' x='180.45' y='545.35'>a</text>
+<text class='t0' x='21.92' y='557.31'>property</text>
+<text class='t2' x='66.53' y='557.31'>∀</text>
+<text class='t1' x='72.06' y='557.31'>(</text>
+<text class='t4' x='75.94' y='557.31'>a</text>
+<text class='t1' x='81.2' y='557.31'>)</text>
+<text class='t5' x='87.84' y='557.31'>c<tspan x='91.92'>ertainly</tspan></text>
+<text class='t1' x='126.03' y='557.31'>(</text>
+<text class='t4' x='129.9' y='557.31'>a</text>
+<text class='t1' x='135.17' y='557.31'>)</text>
+<text class='t2' x='141.81' y='557.31'>↔</text>
+<text class='t1' x='154.54' y='557.31'>(</text>
+<text class='t5' x='158.41' y='557.31'>true</text>
+<text class='t2' x='179.37' y='557.31'>∈</text>
+<text class='t4' x='188.78' y='557.31'>a</text>
+<text class='t2' x='196.26' y='557.31'>∧</text>
+<text class='t5' x='205.11' y='557.31'>false</text>
+<text class='t2' x='227.98' y='557.31'>∈</text>
+<text class='t4' x='237.39' y='557.31'>a</text>
+<text class='t1' x='242.65' y='557.31'>)</text>
+<text class='t0' x='21.92' y='569.27'>property</text>
+<text class='t2' x='66.53' y='569.27'>∀</text>
+<text class='t1' x='72.06' y='569.27'>(</text>
+<text class='t4' x='75.94' y='569.27'>a,<tspan x='85.63'>b</tspan></text>
+<text class='t1' x='89.91' y='569.27'>)<tspan x='96.55'>(</tspan></text>
+<text class='t4' x='100.42' y='569.27'>a</text>
+<rect x='107.9' y='562.14' height='.4' width='6.64'/>
+<text class='t2' x='107.9' y='569.27'>∧</text>
+<text class='t4' x='116.76' y='569.27'>b</text>
+<text class='t1' x='121.03' y='569.27'>)</text>
+<text class='t2' x='127.68' y='569.27'>↔<tspan x='140.41'>¬</tspan></text>
+<text class='t1' x='147.05' y='569.27'>(</text>
+<text class='t4' x='150.92' y='569.27'>a</text>
+<text class='t2' x='158.4' y='569.27'>∧</text>
+<text class='t4' x='167.26' y='569.27'>b</text>
+<text class='t1' x='171.53' y='569.27'>)</text>
+<text class='t0' x='21.92' y='581.22'>property</text>
+<text class='t2' x='66.53' y='581.22'>∀</text>
+<text class='t1' x='72.06' y='581.22'>(</text>
+<text class='t4' x='75.94' y='581.22'>a,<tspan x='85.63'>b</tspan></text>
+<text class='t1' x='89.91' y='581.22'>)<tspan x='96.55'>(</tspan></text>
+<text class='t4' x='100.42' y='581.22'>a</text>
+<rect x='107.9' y='574.09' height='.4' width='6.64'/>
+<text class='t2' x='107.9' y='581.22'>∨</text>
+<text class='t4' x='116.76' y='581.22'>b</text>
+<text class='t1' x='121.03' y='581.22'>)</text>
+<text class='t2' x='127.68' y='581.22'>↔<tspan x='140.41'>¬</tspan></text>
+<text class='t1' x='147.05' y='581.22'>(</text>
+<text class='t4' x='150.92' y='581.22'>a</text>
+<text class='t2' x='158.4' y='581.22'>∨</text>
+<text class='t4' x='167.26' y='581.22'>b</text>
+<text class='t1' x='171.53' y='581.22'>)</text>
+<text class='t0' x='9.96' y='593.18'>end</text>
+<text class='t1' x='9.96' y='605.13'>T<tspan x='16.33'>rue</tspan><tspan x='30.19'>:</tspan><tspan x='34.62'>Bo</tspan><tspan x='46.94'>oleanIn</tspan><tspan x='78.48'>terv</tspan><tspan x='95.39'>al</tspan><tspan x='9.96' y='617.09'>F</tspan><tspan x='15.64'>alse</tspan><tspan x='31.74'>:</tspan><tspan x='36.17'>Bo</tspan><tspan x='48.48'>oleanIn</tspan><tspan x='80.03'>terv</tspan><tspan x='96.94'>al</tspan><tspan x='9.96' y='629.04'>Uncertain</tspan><tspan x='52.89'>:</tspan><tspan x='57.31'>Bo</tspan><tspan x='69.63'>oleanIn</tspan><tspan x='101.18'>terv</tspan><tspan x='118.09'>al</tspan><tspan x='9.96' y='641'>Imp</tspan><tspan x='27.67'>ossible</tspan><tspan x='56.01'>:</tspan><tspan x='60.44'>Bo</tspan><tspan x='72.76'>oleanIn</tspan><tspan x='104.3'>terv</tspan><tspan x='121.21'>al</tspan></text>
+<text class='t0' x='9.96' y='652.95'>test</text>
+<text class='t5' x='33.65' y='652.95'>testData</text>
+<text class='t1' x='70.71' y='652.95'>[<tspan x='75.97'>]</tspan><tspan x='81.5'>=</tspan></text>
+<text class='t2' x='92.02' y='652.95'>{</text>
+<text class='t1' x='98.66' y='652.95'>T<tspan x='105.02'>rue</tspan></text>
+<text class='t4' x='118.89' y='652.95'>,</text>
+<text class='t1' x='123.32' y='652.95'>F<tspan x='128.99'>alse</tspan></text>
+<text class='t4' x='145.09' y='652.95'>,</text>
+<text class='t1' x='149.52' y='652.95'>Uncertain</text>
+<text class='t4' x='192.44' y='652.95'>,</text>
+<text class='t1' x='196.87' y='652.95'>Imp<tspan x='214.58'>ossible</tspan></text>
+<text class='t2' x='244.58' y='652.95'>}</text></svg></div><pre class="fx-s"><code>trait BooleanInterval
+    extends { BooleanAlgebra[\BooleanInterval, INTERSECTION, UNION, SET_COMPLEMENT, SYMDIFF\],
+              Set[\Boolean\],
+              BinaryIntervalContainment[\BooleanInterval,Boolean,AND\],
+              BinaryIntervalContainment[\BooleanInterval,Boolean,OR\],
+              BinaryIntervalContainment[\BooleanInterval,Boolean,XOR\],
+              BinaryIntervalContainment[\BooleanInterval,Boolean,EQV\],
+              BinaryIntervalContainment[\BooleanInterval,Boolean,=\],
+              BinaryIntervalContainment[\BooleanInterval,Boolean,IFF\],
+              BinaryIntervalContainment[\BooleanInterval,Boolean,NAND\],
+              BinaryIntervalContainment[\BooleanInterval,Boolean,NOR\],
+              BinaryIntervalContainment[\BooleanInterval,Boolean,IMPLIES\],
+              UnaryIntervalContainment[\BooleanInterval,Boolean,NOT\],
+              Generator[\Boolean\] }
+    comprises { ... }
+  coerce (x: Boolean)
+  getter hashCode(): ZZ64
+  opr AND(self, other: BooleanInterval): BooleanInterval
+  opr OR(self, other: BooleanInterval): BooleanInterval
+  opr NOT(self): BooleanInterval
+  opr XOR(self, other: BooleanInterval): BooleanInterval
+  opr OPLUS(self, other: BooleanInterval): BooleanInterval
+  opr EQV(self, other: BooleanInterval): BooleanInterval
+  opr =(self, other: BooleanInterval): BooleanInterval
+  opr IFF(self, other: BooleanInterval): BooleanInterval
+  opr IMPLIES(self, other: BooleanInterval): BooleanInterval
+  opr NAND(self, other: BooleanInterval): BooleanInterval
+  opr NOR(self, other: BooleanInterval): BooleanInterval
+  opr IN(other: Boolean, self): Boolean
+  opr INTERSECTION(self, other: BooleanInterval): BooleanInterval
+  opr UNION(self, other: BooleanInterval): BooleanInterval
+  opr SET_COMPLEMENT(self): BooleanInterval
+  opr SYMDIFF(self, other: BooleanInterval): BooleanInterval
+  opr SETMINUS(self, other: BooleanInterval): BooleanInterval
+  possibly(self): Boolean
+  necessarily(self): Boolean
+  certainly(self): Boolean
+  opr ===(self, other: BooleanInterval): Boolean
+  toString(): String
+  property true IN True AND false NOTIN True
+  property true NOTIN False AND false IN False
+  property true IN Uncertain AND false IN Uncertain
+  property true NOTIN Impossible AND false NOTIN Impossible
+  property FORALL (a) necessarily(a) === NOT possibly(NOT a)
+  property FORALL (a) possibly(a) IFF true IN a
+  property FORALL (a) certainly(a) IFF (true IN a AND false NOTIN a)
+  property FORALL (a,b) (a NAND b) IFF NOT (a AND b)
+  property FORALL (a,b) (a NOR b) IFF NOT (a OR b)
+end
+True: BooleanInterval
+False: BooleanInterval
+Uncertain: BooleanInterval
+Impossible: BooleanInterval</code></pre></div>
+<section class="sec" data-num="32.2.1" data-title="coerce (x: Boolean)">
+<h3 id="s-coerce-x-boolean" class="nb"><span class="num">32.2.1</span> <span class="m"><span class="kw">coerce</span> (<i>x</i>: <span class="ty">Boolean</span>)</span></h3>
+<p id="p-243ae926" class="nb">A boolean value can always serve as a <span class="m"><span class="ty">BooleanInterval</span></span> value. The value <span class="m"><i>true</i></span> is coerced to <span class="m"><span class="ty">True</span></span>; the value <span class="m"><i>false</i></span> is coerced to <span class="m"><span class="ty">False</span></span>.</p>
+</section>
+<section class="sec" data-num="32.2.2" data-title="getter hashCode(): ℤ64">
+<h3 id="s-getter-hashcode-64-2" class="nb"><span class="num">32.2.2</span> <span class="m"><span class="kw">getter</span> <i>hashCode</i>(): ℤ64</span></h3>
+</section>
+<section class="sec" data-num="32.2.3" data-title="opr ∧(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval" class="nb"><span class="num">32.2.3</span> <span class="m"><span class="kw">opr</span> ∧(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-818ddf34" class="nb">The logical <span class="sc">and</span> operator <span class="m">∧</span> (<span class="m"><span class="str">AND</span></span>) returns <span class="m"><span class="ty">Impossible</span></span> if either argument is <span class="m"><span class="ty">Impossible</span></span>; otherwise it returns <span class="m"><span class="ty">False</span></span> if either argument is <span class="m"><span class="ty">False</span></span>; otherwise it returns <span class="m"><span class="ty">Uncertain</span></span> if either argument is <span class="m"><span class="ty">Uncertain</span></span>; otherwise it returns <span class="m"><span class="ty">True</span></span>. It obeys the interval containment rule. The <span class="m">∧</span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-fc1ef2b0" data-kind="table"><svg class="tx" data-d="4" viewBox="-0.60 -0.60 299.93 61.37" width="29.993em" height="6.137em" fill="currentColor"><text class='t2' x='45.39' y='8.37'>∧</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='8.37'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='298.73'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='20.72'>Uncertain<tspan x='128.1'>Uncertain</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='32.68'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='79.01' y='44.63'>F<tspan x='84.68'>alse</tspan><tspan x='138.67'>F</tspan><tspan x='144.35'>alse</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='56.59'>Imp<tspan x='84.58'>ossible</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.4" data-title="opr ∨(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-2" class="nb"><span class="num">32.2.4</span> <span class="m"><span class="kw">opr</span> ∨(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-8c30bb35" class="nb">The logical <span class="sc">or</span> operator <span class="m">∨</span> (<span class="m"><span class="str">OR</span></span>) returns <span class="m"><span class="ty">Impossible</span></span> if either argument is <span class="m"><span class="ty">Impossible</span></span>; otherwise it returns <span class="m"><span class="ty">True</span></span> if either argument is <span class="m"><span class="ty">True</span></span>; otherwise it returns <span class="m"><span class="ty">Uncertain</span></span> if either argument is <span class="m"><span class="ty">Uncertain</span></span>; otherwise it returns <span class="m"><span class="ty">False</span></span>. It obeys the interval containment rule. The <span class="m">∧</span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-359e9d60" data-kind="table"><svg class="tx" data-d="5" viewBox="-0.60 -0.60 299.93 61.37" width="29.993em" height="6.137em" fill="currentColor"><text class='t2' x='45.39' y='8.37'>∧</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='8.37'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='298.73'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='20.72'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='187.77'>Uncertain</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='79.78' y='32.68'>T<tspan x='86.15'>rue</tspan><tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='44.63'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='56.59'>Imp<tspan x='84.58'>ossible</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.5" data-title="opr ¬(self): BooleanInterval">
+<h3 id="s-opr-self-booleaninterval" class="nb"><span class="num">32.2.5</span> <span class="m"><span class="kw">opr</span> ¬(<span class="kw">self</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-ccd625a7" class="nb">The logical <span class="sc">not</span> operator <span class="m">¬</span> (<span class="m"><span class="str">NOT</span></span>) returns <span class="m"><span class="ty">Impossible</span></span> if its argument is <span class="m"><span class="ty">Impossible</span></span>, <span class="m"><span class="ty">Uncertain</span></span> if its argument is <span class="m"><span class="ty">Uncertain</span></span>, <span class="m"><span class="ty">False</span></span> if its argument is <span class="m"><span class="ty">True</span></span>, and <span class="m"><span class="ty">True</span></span> if its argument is <span class="m"><span class="ty">False</span></span>. It obeys the interval containment rule.</p>
+</section>
+<section class="sec" data-num="32.2.6" data-title="opr ∨(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-3" class="nb"><span class="num">32.2.6</span> <span class="m"><span class="kw">opr</span> <span class="unl">∨</span>(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ⊕(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-4" class="nb"><span class="m"><span class="kw">opr</span> ⊕(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-90cef390" class="nb">The logical exclusive <span class="sc">or</span> operator <span class="m"><span class="unl">∨</span></span> (<span class="m"><span class="str">XOR</span></span>) returns <span class="m"><span class="ty">Impossible</span></span> if either argument is <span class="m"><span class="ty">Impossible</span></span>; otherwise it returns <span class="m"><span class="ty">Uncertain</span></span> if either argument is <span class="m"><span class="ty">Uncertain</span></span>; otherwise it returns <span class="m"><span class="ty">False</span></span> if the arguments are strictly equivalent; otherwise it returns <span class="m"><span class="ty">True</span></span>. It obeys the interval containment rule.</p>
+<p id="p-245edbb5" class="nb">The operator <span class="m">⊕</span> (<span class="m"><span class="str">OPLUS</span></span>) does the same thing as <span class="m"><span class="unl">∨</span></span>. The <span class="m"><span class="unl">∨</span></span> or <span class="m">⊕</span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-27e70163" data-kind="table"><svg class="tx" data-d="6" viewBox="-0.60 -0.60 299.93 61.37" width="29.993em" height="6.137em" fill="currentColor"><text class='t2' x='21.04' y='8.37'>∨</text>
+<rect x='21.04' y='9.56' height='.4' width='6.64'/>
+<text class='t8' x='31.83' y='8.37'>or</text>
+<text class='t2' x='44.28' y='8.37'>⊕</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='8.37'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='298.73'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='20.72'>Uncertain<tspan x='128.1'>Uncertain</tspan><tspan x='187.77'>Uncertain</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='32.68'>Uncertain<tspan x='138.67'>F</tspan><tspan x='144.35'>alse</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='44.63'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='56.59'>Imp<tspan x='84.58'>ossible</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.7" data-title="opr ≡(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-5" class="nb"><span class="num">32.2.7</span> <span class="m"><span class="kw">opr</span> ≡(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr =(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-6" class="nb"><span class="m"><span class="kw">opr</span> =(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="opr ↔(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-7" class="nb"><span class="m"><span class="kw">opr</span> ↔(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-c71cb11f" class="nb">The logical equivalence, or exclusive <span class="sc">nor</span>, operator <span class="m">≡</span> (<span class="m"><span class="str">EQV</span></span>) returns <span class="m"><span class="ty">Impossible</span></span> if either argument is <span class="m"><span class="ty">Impossible</span></span>; otherwise it returns <span class="m"><span class="ty">Uncertain</span></span> if either argument is <span class="m"><span class="ty">Uncertain</span></span>; otherwise it returns <span class="m"><span class="ty">True</span></span> if the arguments are strictly equivalent; otherwise it returns <span class="m"><span class="ty">False</span></span>. It obeys the interval containment rule. (Thus its behavior on boolean interval values is <em>not</em> the same as that of the strict equivalence operator <span class="m">≣</span>.)</p>
+<p id="p-dd826199" class="nb">The equality operator <span class="m">=</span> and the if-and-only-if operator <span class="m">↔</span> (<span class="m"><span class="str">IFF</span></span>) do the same thing as <span class="m">≡</span>. The <span class="m">≡</span> or <span class="m">=</span> or <span class="m">↔</span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-74d5ebcf" data-kind="table"><svg class="tx" data-d="7" viewBox="-0.60 -0.60 314.20 61.37" width="31.420em" height="6.137em" fill="currentColor"><text class='t2' x='7.64' y='8.37'>≡</text>
+<text class='t8' x='19.54' y='8.37'>or</text>
+<text class='t1' x='31.99' y='8.37'>=</text>
+<text class='t8' x='43.89' y='8.37'>or</text>
+<text class='t2' x='56.34' y='8.37'>↔</text>
+<rect x='73.94' y='0' height='11.96' width='.4'/>
+<text class='t1' x='82.71' y='8.37'>Uncertain<tspan x='153.72'>T</tspan><tspan x='160.09'>rue</tspan><tspan x='212.61'>F</tspan><tspan x='218.28'>alse</tspan><tspan x='260.14'>Imp</tspan><tspan x='277.85'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='313'/>
+<text class='t1' x='24.21' y='20.72'>Uncertain</text>
+<rect x='73.94' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='82.71' y='20.72'>Uncertain<tspan x='142.37'>Uncertain</tspan><tspan x='202.04'>Uncertain</tspan><tspan x='260.14'>Imp</tspan><tspan x='277.85'>ossible</tspan><tspan x='46.9' y='32.68'>T</tspan><tspan x='53.27'>rue</tspan></text>
+<rect x='73.94' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='82.71' y='32.68'>Uncertain<tspan x='153.72'>T</tspan><tspan x='160.09'>rue</tspan><tspan x='212.61'>F</tspan><tspan x='218.28'>alse</tspan><tspan x='260.14'>Imp</tspan><tspan x='277.85'>ossible</tspan><tspan x='45.35' y='44.63'>F</tspan><tspan x='51.02'>alse</tspan></text>
+<rect x='73.94' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='82.71' y='44.63'>Uncertain<tspan x='152.95'>F</tspan><tspan x='158.62'>alse</tspan><tspan x='213.39'>T</tspan><tspan x='219.75'>rue</tspan><tspan x='260.14'>Imp</tspan><tspan x='277.85'>ossible</tspan><tspan x='21.08' y='56.59'>Imp</tspan><tspan x='38.79'>ossible</tspan></text>
+<rect x='73.94' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='81.14' y='56.59'>Imp<tspan x='98.86'>ossible</tspan><tspan x='140.81'>Imp</tspan><tspan x='158.52'>ossible</tspan><tspan x='200.48'>Imp</tspan><tspan x='218.19'>ossible</tspan><tspan x='260.14'>Imp</tspan><tspan x='277.85'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.8" data-title="opr →(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-8" class="nb"><span class="num">32.2.8</span> <span class="m"><span class="kw">opr</span> →(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-daf1da2b" class="nb">The logical implication operator <span class="m">→</span> (<span class="m"><span class="str">IMPLIES</span></span>) returns <span class="m"><span class="ty">Impossible</span></span> if either argument is <span class="m"><span class="ty">Impossible</span></span>; otherwise it returns <span class="m"><span class="ty">True</span></span> if the first argument is <span class="m"><span class="ty">False</span></span> or the second argument is <span class="m"><span class="ty">True</span></span>; otherwise it returns <span class="m"><span class="ty">Uncertain</span></span> if either argument is <span class="m"><span class="ty">Uncertain</span></span>; otherwise it returns <span class="m"><span class="ty">False</span></span>. It obeys the interval containment rule. The <span class="m">→</span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-389ca8f0" data-kind="table"><svg class="tx" data-d="8" viewBox="-0.60 -0.60 299.93 61.37" width="29.993em" height="6.137em" fill="currentColor"><text class='t2' x='42.06' y='8.37'>→</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='8.37'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='298.73'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='20.72'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='187.77'>Uncertain</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='32.68'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='79.78' y='44.63'>T<tspan x='86.15'>rue</tspan><tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='56.59'>Imp<tspan x='84.58'>ossible</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.9" data-title="opr ∧(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-9" class="nb"><span class="num">32.2.9</span> <span class="m"><span class="kw">opr</span> <span class="ovl">∧</span>(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-39f6ae9b" class="nb">The logical <span class="sc">nand</span> (<span class="sc">not and</span>) operator <span class="m"><span class="ovl">∧</span></span> (<span class="m"><span class="str">NAND</span></span>) returns <span class="m"><span class="ty">Impossible</span></span> if either argument is <span class="m"><span class="ty">Impossible</span></span>; otherwise it returns <span class="m"><span class="ty">True</span></span> if either argument is <span class="m"><span class="ty">False</span></span>; otherwise it returns <span class="m"><span class="ty">Uncertain</span></span> if either argument is <span class="m"><span class="ty">Uncertain</span></span>; otherwise it returns <span class="m"><span class="ty">False</span></span>. It obeys the interval containment rule. The <span class="m"><span class="ovl">∧</span></span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-48e47172" data-kind="table"><svg class="tx" data-d="9" viewBox="-0.60 -0.60 299.93 61.37" width="29.993em" height="6.137em" fill="currentColor"><rect x='45.39' y='1.24' height='.4' width='6.64'/>
+<text class='t2' x='45.39' y='8.37'>∧</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='8.37'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='298.73'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='20.72'>Uncertain<tspan x='128.1'>Uncertain</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='32.68'>Uncertain<tspan x='138.67'>F</tspan><tspan x='144.35'>alse</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='79.78' y='44.63'>T<tspan x='86.15'>rue</tspan><tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='56.59'>Imp<tspan x='84.58'>ossible</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.10" data-title="opr ∨(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-10" class="nb"><span class="num">32.2.10</span> <span class="m"><span class="kw">opr</span> <span class="ovl">∨</span>(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-fd35d72b" class="nb">The logical <span class="sc">nor</span> (<span class="sc">not or</span>) operator <span class="m"><span class="ovl">∨</span></span> (<span class="m"><span class="str">NOR</span></span>) returns <span class="m"><span class="ty">Impossible</span></span> if either argument is <span class="m"><span class="ty">Impossible</span></span>; otherwise it returns <span class="m"><span class="ty">False</span></span> if either argument is <span class="m"><span class="ty">True</span></span>; otherwise it returns <span class="m"><span class="ty">Uncertain</span></span> if either argument is <span class="m"><span class="ty">Uncertain</span></span>; otherwise it returns <span class="m"><span class="ty">True</span></span>. It obeys the interval containment rule. The <span class="m"><span class="ovl">∨</span></span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-09f9c449" data-kind="table"><svg class="tx" data-d="10" viewBox="-0.60 -0.60 299.93 61.37" width="29.993em" height="6.137em" fill="currentColor"><rect x='45.39' y='1.24' height='.4' width='6.64'/>
+<text class='t2' x='45.39' y='8.37'>∨</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='8.37'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='298.73'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='20.72'>Uncertain<tspan x='138.67'>F</tspan><tspan x='144.35'>alse</tspan><tspan x='187.77'>Uncertain</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='79.01' y='32.68'>F<tspan x='84.68'>alse</tspan><tspan x='138.67'>F</tspan><tspan x='144.35'>alse</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='44.63'>Uncertain<tspan x='138.67'>F</tspan><tspan x='144.35'>alse</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='56.59'>Imp<tspan x='84.58'>ossible</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.11" data-title="opr ∈(other: Boolean, self): Boolean">
+<h3 id="s-opr-other-boolean-self-boolean" class="nb"><span class="num">32.2.11</span> <span class="m"><span class="kw">opr</span> ∈(<i>other</i>: <span class="ty">Boolean</span>, <span class="kw">self</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-9e0abdd6" class="nb">The operator <span class="m">∈</span> (<span class="m"><span class="str">IN</span></span>) returns <span class="m"><i>true</i></span> if its first argument, a boolean value, is contained in its second argument, a boolean interval regarded as a set; otherwise it returns <span class="m"><i>false</i></span>. The <span class="m">∈</span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-ce37b3cf" data-kind="table"><svg class="tx" data-d="11" viewBox="-0.60 -0.60 220.76 37.46" width="22.076em" height="3.746em" fill="currentColor"><text class='t2' x='19.43' y='8.37'>∈</text>
+<rect x='33.71' y='0' height='11.96' width='.4'/>
+<text class='t1' x='40.92' y='8.37'>Uncertain<tspan x='97.46'>T</tspan><tspan x='103.82'>rue</tspan><tspan x='131.3'>F</tspan><tspan x='136.98'>alse</tspan><tspan x='166.7'>Imp</tspan><tspan x='184.41'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='219.56'/>
+<text class='t5' x='8.72' y='20.72'>true</text>
+<rect x='33.71' y='12.35' height='11.96' width='.4'/>
+<text class='t5' x='53.29' y='20.72'>true<tspan x='98.48'>true</tspan><tspan x='132.14'>false</tspan><tspan x='179.67'>false</tspan><tspan x='6.81' y='32.68'>false</tspan></text>
+<rect x='33.71' y='24.31' height='11.96' width='.4'/>
+<text class='t5' x='53.29' y='32.68'>true<tspan x='97.52'>false</tspan><tspan x='133.1'>true</tspan><tspan x='179.67'>false</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.12" data-title="opr ∩(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-11" class="nb"><span class="num">32.2.12</span> <span class="m"><span class="kw">opr</span> ∩(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-f046af2a" class="nb">The intersection operator <span class="m">∩</span> (<span class="m"><span class="str">INTERSECTION</span></span> or <span class="m"><span class="str">CAP</span></span>) returns <span class="m"><span class="ty">Impossible</span></span> if either argument is <span class="m"><span class="ty">Impossible</span></span>; otherwise, if either argument is <span class="m"><span class="ty">Uncertain</span></span>, it returns the other argument; otherwise, if the arguments are the same value (strictly equivalent), it returns that value; otherwise it returns <span class="m"><span class="ty">Impossible</span></span>. The <span class="m">∩</span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-7d7d17b8" data-kind="table"><svg class="tx" data-d="12" viewBox="-0.60 -0.60 299.93 61.37" width="29.993em" height="6.137em" fill="currentColor"><text class='t2' x='45.39' y='8.37'>∩</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='8.37'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='298.73'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='20.72'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='79.78' y='32.68'>T<tspan x='86.15'>rue</tspan><tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='79.01' y='44.63'>F<tspan x='84.68'>alse</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='56.59'>Imp<tspan x='84.58'>ossible</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.13" data-title="opr ∪(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-12" class="nb"><span class="num">32.2.13</span> <span class="m"><span class="kw">opr</span> ∪(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-34ecae96" class="nb">The union operator <span class="m">∪</span> (<span class="m"><span class="str">UNION</span></span> or <span class="m"><span class="str">CUP</span></span>) returns <span class="m"><span class="ty">Uncertain</span></span> if either argument is <span class="m"><span class="ty">Uncertain</span></span>; otherwise, if either argument is <span class="m"><span class="ty">Impossible</span></span>, it returns the other argument; otherwise, if the arguments are the same value (strictly equivalent), it returns that value; otherwise it returns <span class="m"><span class="ty">Uncertain</span></span>. The <span class="m">∪</span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-3504b10c" data-kind="table"><svg class="tx" data-d="13" viewBox="-0.60 -0.60 290.54 61.37" width="29.054em" height="6.137em" fill="currentColor"><text class='t2' x='45.39' y='8.37'>∪</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='8.37'>Uncertain<tspan x='134.76'>T</tspan><tspan x='141.12'>rue</tspan><tspan x='190.52'>F</tspan><tspan x='196.19'>alse</tspan><tspan x='236.49'>Imp</tspan><tspan x='254.2'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='289.34'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='20.72'>Uncertain<tspan x='123.41'>Uncertain</tspan><tspan x='179.95'>Uncertain</tspan><tspan x='238.05'>Uncertain</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='32.68'>Uncertain<tspan x='134.76'>T</tspan><tspan x='141.12'>rue</tspan><tspan x='179.95'>Uncertain</tspan><tspan x='249.4'>T</tspan><tspan x='255.76'>rue</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='44.63'>Uncertain<tspan x='123.41'>Uncertain</tspan><tspan x='190.52'>F</tspan><tspan x='196.19'>alse</tspan><tspan x='248.62'>F</tspan><tspan x='254.29'>alse</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='56.59'>Uncertain<tspan x='134.76'>T</tspan><tspan x='141.12'>rue</tspan><tspan x='190.52'>F</tspan><tspan x='196.19'>alse</tspan><tspan x='236.49'>Imp</tspan><tspan x='254.2'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.14" data-title="opr SET_COMPLEMENT(self): BooleanInterval">
+<h3 id="s-opr-set-complement-self-booleaninterval" class="nb"><span class="num">32.2.14</span> <span class="m"><span class="kw">opr</span> <span class="op">SET_COMPLEMENT</span>(<span class="kw">self</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-293cfea4" class="nb">The set complement operator <span class="m"><span class="op">SET_COMPLEMENT</span></span> returns <span class="m"><span class="ty">Uncertain</span></span> if its argument is <span class="m"><span class="ty">Impossible</span></span>, <span class="m"><span class="ty">Impossible</span></span> if its argument is <span class="m"><span class="ty">Uncertain</span></span>, <span class="m"><span class="ty">False</span></span> if its argument is <span class="m"><span class="ty">True</span></span>, and <span class="m"><span class="ty">True</span></span> if its argument is <span class="m"><span class="ty">False</span></span>.</p>
+</section>
+<section class="sec" data-num="32.2.15" data-title="opr SYMDIFF(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-symdiff-self-other-booleaninterval-booleaninterval" class="nb"><span class="num">32.2.15</span> <span class="m"><span class="kw">opr</span> <span class="op">SYMDIFF</span>(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-2c4dccf5" class="nb">The symmetric difference operator <span class="m"><span class="op">SYMDIFF</span></span> produces a result that contains a given boolean value if and only if exactly one of the arguments contains that boolean value. The <span class="m"><span class="op">SYMDIFF</span></span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-04e8f89d" data-kind="table"><svg class="tx" data-d="14" viewBox="-0.60 -0.60 299.93 61.37" width="29.993em" height="6.137em" fill="currentColor"><text class='t0' x='15.41' y='8.37'>SYMDIFF</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='8.37'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='298.73'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='20.72'>Imp<tspan x='84.58'>ossible</tspan><tspan x='138.67'>F</tspan><tspan x='144.35'>alse</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='247.43'>Uncertain</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='79.01' y='32.68'>F<tspan x='84.68'>alse</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='187.77'>Uncertain</tspan><tspan x='258.78'>T</tspan><tspan x='265.14'>rue</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='79.78' y='44.63'>T<tspan x='86.15'>rue</tspan><tspan x='128.1'>Uncertain</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='258'>F</tspan><tspan x='263.68'>alse</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='56.59'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.16" data-title="opr ∖(self, other: BooleanInterval): BooleanInterval">
+<h3 id="s-opr-self-other-booleaninterval-booleaninterval-13" class="nb"><span class="num">32.2.16</span> <span class="m"><span class="kw">opr</span> ∖(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-188fb740" class="nb">The set difference operator <span class="m">∖</span> (<span class="m"><span class="str">SETMINUS</span></span>) produces a result that contains a given boolean value if and only if the first argument contains that boolean value but the second argument does not. The <span class="m">∖</span> operator may be described by this table:</p>
+<div class="center"><div class="tw nb" id="t-5fbb0984" data-kind="table"><svg class="tx" data-d="15" viewBox="-0.60 -0.60 299.93 61.37" width="29.993em" height="6.137em" fill="currentColor"><text class='t2' x='47.05' y='8.37'>\</text>
+<rect x='59.67' y='0' height='11.96' width='.4'/>
+<text class='t1' x='68.44' y='8.37'>Uncertain<tspan x='139.45'>T</tspan><tspan x='145.81'>rue</tspan><tspan x='198.34'>F</tspan><tspan x='204.01'>alse</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text>
+<rect x='0' y='11.96' height='.4' width='298.73'/>
+<text class='t1' x='9.94' y='20.72'>Uncertain</text>
+<rect x='59.67' y='12.35' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='20.72'>Imp<tspan x='84.58'>ossible</tspan><tspan x='138.67'>F</tspan><tspan x='144.35'>alse</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='247.43'>Uncertain</tspan><tspan x='32.63' y='32.68'>T</tspan><tspan x='38.99'>rue</tspan></text>
+<rect x='59.67' y='24.31' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='32.68'>Imp<tspan x='84.58'>ossible</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='199.11'>T</tspan><tspan x='205.48'>rue</tspan><tspan x='258.78'>T</tspan><tspan x='265.14'>rue</tspan><tspan x='31.08' y='44.63'>F</tspan><tspan x='36.75'>alse</tspan></text>
+<rect x='59.67' y='36.26' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='44.63'>Imp<tspan x='84.58'>ossible</tspan><tspan x='138.67'>F</tspan><tspan x='144.35'>alse</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='258'>F</tspan><tspan x='263.68'>alse</tspan><tspan x='6.81' y='56.59'>Imp</tspan><tspan x='24.52'>ossible</tspan></text>
+<rect x='59.67' y='48.22' height='11.96' width='.4'/>
+<text class='t1' x='66.87' y='56.59'>Imp<tspan x='84.58'>ossible</tspan><tspan x='126.54'>Imp</tspan><tspan x='144.25'>ossible</tspan><tspan x='186.2'>Imp</tspan><tspan x='203.91'>ossible</tspan><tspan x='245.87'>Imp</tspan><tspan x='263.58'>ossible</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="32.2.17" data-title="possibly(self): Boolean">
+<h3 id="s-possibly-self-boolean" class="nb"><span class="num">32.2.17</span> <span class="m"><i>possibly</i>(<span class="kw">self</span>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="necessarily(self): Boolean">
+<h3 id="s-necessarily-self-boolean" class="nb"><span class="m"><i>necessarily</i>(<span class="kw">self</span>): <span class="ty">Boolean</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="certainly(self): Boolean">
+<h3 id="s-certainly-self-boolean" class="nb"><span class="m"><i>certainly</i>(<span class="kw">self</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-3bae9fbe" class="nb">The predicate <span class="m"><i>possibly</i></span> returns <span class="m"><i>true</i></span> if and only if <span class="m"><i>true</i></span> is a member of this boolean interval.</p>
+<p id="p-ea53cbdd" class="nb">The predicate <span class="m"><i>necessarily</i></span> returns <span class="m"><i>true</i></span> if and only if <span class="m"><i>false</i></span> is not a member of this boolean interval (thus “necessarily” is a concise way of saying “not possibly not”).</p>
+<p id="p-232c0bc5" class="nb">The predicate <span class="m"><i>certainly</i></span> returns <span class="m"><i>true</i></span> if and only if this boolean interval is <span class="m"><span class="ty">True</span></span>, that is, it contains <span class="m"><i>true</i></span> but not <span class="m"><i>false</i></span> (thus “certainly” is a concise way of saying “both possibly and necessarily”).</p>
+<p id="p-7fea4d24" class="nb">The fourteen nontrivial functions from a value <span class="m"><i>x</i></span> of type <span class="m"><span class="ty">BooleanInterval</span></span> to type <span class="m"><span class="ty">Boolean</span></span> may thus be expressed as follows:</p>
+<div class="center"><p id="p-e90c2d4e" class="nb"><span class="m"><i>necessarily</i>(<i>x</i>) ∧ <i>necessarily</i>(¬<i>x</i>)</span> <br><span class="m"><i>certainly</i>(¬<i>x</i>)</span> <br><span class="m"><i>necessarily</i>(¬<i>x</i>)</span> <br><span class="m"><i>certainly</i>(<i>x</i>)</span> <br><span class="m"><i>necessarily</i>(<i>x</i>)</span> <br><span class="m"><i>possibly</i>(<i>x</i>) ≡ <i>necessarily</i>(<i>x</i>)</span> <br><span class="m"><i>necessarily</i>(<i>x</i>) ∨ <i>necessarily</i>(¬<i>x</i>)</span> <br><span class="m"><i>possibly</i>(<i>x</i>) ∧ <i>possibly</i>(¬<i>x</i>)</span> <br><span class="m"><i>possibly</i>(<i>x</i>) <span class="unl">∨</span> <i>necessarily</i>(<i>x</i>)</span> <br><span class="m"><i>possibly</i>(¬<i>x</i>)</span> <br><span class="m">¬<i>certainly</i>(<i>x</i>)</span> <br><span class="m"><i>possibly</i>(<i>x</i>)</span> <br><span class="m">¬<i>certainly</i>(¬<i>x</i>)</span> <br><span class="m"><i>possibly</i>(<i>x</i>) ∨ <i>possibly</i>(¬<i>x</i>))</span></p></div>
+<p id="p-351b9aae" class="nb">There are other ways to express some of them; for example, <span class="m"><i>necessarily</i>(<i>x</i>) ∧ <i>necessarily</i>(¬<i>x</i>)</span> is the same as <span class="m"><i>x</i> ≣ <span class="ty">Impossible</span></span>, and <span class="m"><i>possibly</i>(<i>x</i>) ∧ <i>possibly</i>(¬<i>x</i>)</span> is the same as <span class="m"><i>x</i> ≣ <span class="ty">Uncertain</span></span>.</p>
+</section>
+<section class="sec" data-num="32.2.18" data-title="opr ≣(self, other: BooleanInterval): Boolean">
+<h3 id="s-opr-self-other-booleaninterval-boolean" class="nb"><span class="num">32.2.18</span> <span class="m"><span class="kw">opr</span> ≣(<span class="kw">self</span>, <i>other</i>: <span class="ty">BooleanInterval</span>): <span class="ty">Boolean</span></span></h3>
+<p id="p-b0fee262" class="nb">Two boolean intervals are strictly equivalent if and only if they are the same boolean interval.</p>
+</section>
+<section class="sec" data-num="32.2.19" data-title="toString(): String">
+<h3 id="s-tostring-string-2" class="nb"><span class="num">32.2.19</span> <span class="m"><i>toString</i>(): <span class="ty">String</span></span></h3>
+<p id="p-8e456255" class="nb">The <span class="m"><i>toString</i></span> method returns either <span class="m"><span class="rm"><span class="rm">“<span class="tt">True</span>”</span></span></span> or <span class="m"><span class="rm"><span class="rm">“<span class="tt">False</span>”</span></span></span> or <span class="m"><span class="rm"><span class="rm">“<span class="tt">Uncertain</span>”</span></span></span> or <span class="m"><span class="rm"><span class="rm">“<span class="tt">Impossible</span>”</span></span></span> as appropriate.</p>
+</section>
+</section>
+<section class="sec" data-num="32.3" data-title="Top-level BooleanInterval Values">
+<h2 id="s-top-level-booleaninterval-values" class="nb"><span class="num">32.3</span> Top-level BooleanInterval Values</h2>
+<section class="sec" data-num="32.3.1" data-title="True: BooleanInterval">
+<h3 id="s-true-booleaninterval" class="nb"><span class="num">32.3.1</span> <span class="m"><span class="ty">True</span>: <span class="ty">BooleanInterval</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="False: BooleanInterval">
+<h3 id="s-false-booleaninterval" class="nb"><span class="m"><span class="ty">False</span>: <span class="ty">BooleanInterval</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="Uncertain: BooleanInterval">
+<h3 id="s-uncertain-booleaninterval" class="nb"><span class="m"><span class="ty">Uncertain</span>: <span class="ty">BooleanInterval</span></span></h3>
+</section>
+<section class="sec" data-num="" data-title="Impossible: BooleanInterval">
+<h3 id="s-impossible-booleaninterval" class="nb"><span class="m"><span class="ty">Impossible</span>: <span class="ty">BooleanInterval</span></span></h3>
+<p id="p-8e954d2a" class="nb">The immutable variables <span class="m"><span class="ty">True</span></span>, <span class="m"><span class="ty">False</span></span>, <span class="m"><span class="ty">Uncertain</span></span>, and <span class="m"><span class="ty">Impossible</span></span> have as their values the four boolean intervals. They are top-level variables declared in the Fortress standard libraries.</p>
+</section>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="lib-object.html"><span>Previous</span> 31. Objects</a><a class="next" href="lib-numbers-basic.html"><span>Next</span> 33. Numbers</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic-lib/booleans.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

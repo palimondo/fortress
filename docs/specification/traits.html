@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>10. Traits · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:phvr8r;font-size:9.93px}
+svg.tx text.t1{font-family:ptmri8r;font-size:9.93px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t4{font-family:cmsy7;font-size:6.97px}
+svg.tx text.t5{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t6{font-family:cmr7;font-size:6.97px}
+svg.tx text.t7{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t8{font-family:pcrr8r;font-size:9.93px}
+svg.tx text.t9{font-family:cmr10;font-size:9.96px}
+svg.tx text.t10{font-family:stmary10;font-size:9.96px}
+svg.tx text.t11{font-family:cmti10;font-size:9.96px}
+svg.tx text.t12{font-family:msbm10;font-size:9.96px}
+svg.tx text.t13{font-family:cmex10;font-size:9.96px}
+</style>
+</head>
+<body data-page="chapter" data-slug="traits" data-chapter="10. Traits">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">10. Traits</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="10" data-title="Traits">
+<h1 id="top" class="nb"><a id="chap-traits"></a><span class="num">Chapter 10</span> Traits</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-trait-decls">10.1 Trait Declarations</a></li><li><a href="#sec-methods">10.2 Method Declarations</a></li><li><a href="#sec-abstract-fields">10.3 Abstract Field Declarations</a></li><li><a href="#sec-method-contracts">10.4 Method Contracts</a></li><li><a href="#sec-value-traits">10.5 Value Traits</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-2e77b1ac" class="nb">Where clauses, the <span class="m"><span class="kw">override</span></span> modifier, value traits, method contracts, and abstract functional declarations are not yet supported.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-46ab6920" class="nb">Covariant list with <span class="m"><span class="kw">comprises</span></span> clause (Victor’s email titled “Problem with covariant List?” on 10/27/07)</p></aside>
+<p id="p-c2f6a26f" class="nb"><em>Traits</em> are declared by trait declarations. Traits define new named types. A trait specifies a collection of <em>methods</em> (described in <a class="xref" href="#sec-methods">Section 10.2</a><!--nc-->). One trait can extend others, which means that it inherits the methods from those traits, and that the type defined by that trait is a subtype of the types of traits it extends.</p>
+<section class="sec" data-num="10.1" data-title="Trait Declarations">
+<h2 id="sec-trait-decls" class="nb"><span class="num">10.1</span> Trait Declarations</h2>
+<div class="tw nb gr" id="g-30891039" data-kind="grammar"><svg class="tx" data-d="1" viewBox="-5.58 10.45 450.99 307.80" width="45.099em" height="30.780em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitDecl</tspan></text>
+<text class='t2' x='116.49' y='28.8'>::=</text>
+<text class='t1' x='139.61' y='28.8'>T<tspan x='144.6'>r</tspan><tspan x='148.32'>aitMods</tspan></text>
+<text class='t2' x='180.98' y='28.8'>?</text>
+<text class='t1' x='188.49' y='28.8'>T<tspan x='193.48'>r</tspan><tspan x='197.21'>aitHeaderF</tspan><tspan x='243.15'>r</tspan><tspan x='246.57'>ont</tspan><tspan x='261.98'>T</tspan><tspan x='266.97'>r</tspan><tspan x='270.69'>aitClauses</tspan><tspan x='315.25'>GoInA</tspan><tspan x='341.45'>T</tspan><tspan x='346.44'>r</tspan><tspan x='350.16'>ait</tspan></text>
+<text class='t2' x='360.86' y='28.8'>?</text>
+<text class='t3' x='370.04' y='28.8'>end</text>
+<text class='t2' x='389.88' y='28.8'>(</text>
+<text class='t3' x='393.2' y='28.8'>trait</text>
+<text class='t2' x='421.01' y='28.8'>?</text>
+<text class='t1' x='428.52' y='28.8'>Id</text>
+<text class='t2' x='437.09' y='28.8'>)?</text>
+<text class='t1' x='25.9' y='40.76'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitHeaderF</tspan><tspan x='80.56'>r</tspan><tspan x='83.98'>ont</tspan></text>
+<text class='t2' x='116.49' y='40.76'>::=</text>
+<text class='t3' x='141.27' y='40.76'>trait</text>
+<text class='t1' x='171.57' y='40.76'>Id<tspan x='182.63'>StaticP</tspan><tspan x='210.61'>ar</tspan><tspan x='219.32'>ams</tspan></text>
+<text class='t2' x='235.37' y='40.76'>?</text>
+<text class='t1' x='242.88' y='40.76'>ExtendsWher<tspan x='295.63'>e</tspan></text>
+<text class='t2' x='300.06' y='40.76'>?</text>
+<text class='t1' x='25.9' y='52.71'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitClauses</tspan></text>
+<text class='t2' x='116.49' y='52.71'>::=</text>
+<text class='t1' x='139.61' y='52.71'>T<tspan x='144.6'>r</tspan><tspan x='148.32'>aitClause</tspan></text>
+<text class='t4' x='186.52' y='49.1'>∗</text>
+<text class='t1' x='25.9' y='64.67'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitClause</tspan></text>
+<text class='t2' x='116.49' y='64.67'>::=</text>
+<text class='t1' x='139.61' y='64.67'>Excludes</text>
+<text class='t5' x='116.49' y='76.62'>|</text>
+<text class='t1' x='139.61' y='76.62'>Comprises</text>
+<text class='t5' x='116.49' y='88.58'>|</text>
+<text class='t1' x='139.61' y='88.58'>Wher<tspan x='160.82'>e</tspan><tspan x='25.9' y='100.53'>GoInA</tspan><tspan x='52.09'>T</tspan><tspan x='57.09'>r</tspan><tspan x='60.81'>ait</tspan></text>
+<text class='t2' x='116.49' y='100.53'>::=</text>
+<text class='t1' x='139.61' y='100.53'>Coer<tspan x='159.16'>cions</tspan></text>
+<text class='t2' x='180.19' y='100.53'>?</text>
+<text class='t1' x='187.7' y='100.53'>GoF<tspan x='205.42'>r</tspan><tspan x='208.84'>ontInA</tspan><tspan x='235.59'>T</tspan><tspan x='240.59'>r</tspan><tspan x='244.31'>ait</tspan><tspan x='257.5'>GoBac</tspan><tspan x='284.97'>kInA</tspan><tspan x='303.41'>T</tspan><tspan x='308.4'>r</tspan><tspan x='312.13'>ait</tspan></text>
+<text class='t2' x='322.83' y='100.53'>?</text>
+<text class='t5' x='116.49' y='112.49'>|</text>
+<text class='t1' x='139.61' y='112.49'>Coer<tspan x='159.16'>cions</tspan></text>
+<text class='t2' x='180.19' y='112.49'>?</text>
+<text class='t1' x='187.7' y='112.49'>GoBac<tspan x='215.17'>kInA</tspan><tspan x='233.61'>T</tspan><tspan x='238.6'>r</tspan><tspan x='242.33'>ait</tspan></text>
+<text class='t5' x='116.49' y='124.44'>|</text>
+<text class='t1' x='139.61' y='124.44'>Coer<tspan x='159.16'>cions</tspan><tspan x='25.9' y='136.4'>Coer</tspan><tspan x='45.46'>cions</tspan></text>
+<text class='t2' x='116.49' y='136.4'>::=</text>
+<text class='t1' x='139.61' y='136.4'>Coer<tspan x='159.16'>cion</tspan></text>
+<text class='t6' x='176.32' y='132.78'>+</text>
+<text class='t1' x='25.9' y='148.35'>GoF<tspan x='43.62'>r</tspan><tspan x='47.04'>ontInA</tspan><tspan x='73.79'>T</tspan><tspan x='78.78'>r</tspan><tspan x='82.51'>ait</tspan></text>
+<text class='t2' x='116.49' y='148.35'>::=</text>
+<text class='t1' x='139.61' y='148.35'>GoesF<tspan x='165.62'>r</tspan><tspan x='169.04'>ontInA</tspan><tspan x='195.79'>T</tspan><tspan x='200.79'>r</tspan><tspan x='204.51'>ait</tspan></text>
+<text class='t6' x='215.21' y='144.74'>+</text>
+<text class='t1' x='25.9' y='160.31'>GoesF<tspan x='51.92'>r</tspan><tspan x='55.34'>ontInA</tspan><tspan x='82.09'>T</tspan><tspan x='87.08'>r</tspan><tspan x='90.81'>ait</tspan></text>
+<text class='t2' x='116.49' y='160.31'>::=</text>
+<text class='t1' x='139.61' y='160.31'>AbsFldDecl</text>
+<text class='t5' x='116.49' y='172.26'>|</text>
+<text class='t1' x='139.61' y='172.26'>GetterSetterDecl</text>
+<text class='t5' x='116.49' y='184.22'>|</text>
+<text class='t1' x='139.61' y='184.22'>Pr<tspan x='149.12'>opertyDecl</tspan><tspan x='25.9' y='196.17'>GoBac</tspan><tspan x='53.37'>kInA</tspan><tspan x='71.81'>T</tspan><tspan x='76.8'>r</tspan><tspan x='80.53'>ait</tspan></text>
+<text class='t2' x='116.49' y='196.17'>::=</text>
+<text class='t1' x='139.61' y='196.17'>GoesBac<tspan x='175.37'>kInA</tspan><tspan x='193.81'>T</tspan><tspan x='198.8'>r</tspan><tspan x='202.53'>ait</tspan></text>
+<text class='t6' x='213.23' y='192.56'>+</text>
+<text class='t1' x='25.9' y='208.13'>GoesBac<tspan x='61.67'>kInA</tspan><tspan x='80.11'>T</tspan><tspan x='85.1'>r</tspan><tspan x='88.83'>ait</tspan></text>
+<text class='t2' x='116.49' y='208.13'>::=</text>
+<text class='t1' x='139.61' y='208.13'>MdDecl</text>
+<text class='t5' x='116.49' y='220.08'>|</text>
+<text class='t1' x='139.61' y='220.08'>Pr<tspan x='149.12'>opertyDecl</tspan><tspan x='25.9' y='232.04'>T</tspan><tspan x='30.89'>r</tspan><tspan x='34.62'>aitMods</tspan></text>
+<text class='t2' x='116.49' y='232.04'>::=</text>
+<text class='t1' x='139.61' y='232.04'>T<tspan x='144.6'>r</tspan><tspan x='148.32'>aitMod</tspan></text>
+<text class='t6' x='177.37' y='228.42'>+</text>
+<text class='t1' x='25.9' y='243.99'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitMod</tspan></text>
+<text class='t2' x='116.49' y='243.99'>::=</text>
+<text class='t1' x='139.61' y='243.99'>AbsT<tspan x='159.54'>r</tspan><tspan x='163.27'>aitMod</tspan></text>
+<text class='t5' x='194.81' y='243.99'>|</text>
+<text class='t3' x='201.73' y='243.99'>private</text>
+<text class='t1' x='25.9' y='255.95'>AbsT<tspan x='45.84'>r</tspan><tspan x='49.56'>aitMod</tspan></text>
+<text class='t2' x='116.49' y='255.95'>::=</text>
+<text class='t3' x='141.27' y='255.95'>value</text>
+<text class='t5' x='171.57' y='255.95'>|</text>
+<text class='t3' x='178.49' y='255.95'>test</text>
+<text class='t1' x='25.9' y='267.91'>ExtendsWher<tspan x='78.65'>e</tspan></text>
+<text class='t2' x='116.49' y='267.91'>::=</text>
+<text class='t3' x='141.27' y='267.91'>extends</text>
+<text class='t1' x='182.03' y='267.91'>T<tspan x='187.02'>r</tspan><tspan x='190.75'>aitT</tspan><tspan x='206.07'>ypeWher</tspan><tspan x='241.11'>es</tspan><tspan x='25.9' y='279.86'>T</tspan><tspan x='30.89'>r</tspan><tspan x='34.62'>aitT</tspan><tspan x='49.94'>ypeWher</tspan><tspan x='84.98'>es</tspan></text>
+<text class='t2' x='116.49' y='279.86'>::=</text>
+<text class='t1' x='139.61' y='279.86'>T<tspan x='144.6'>r</tspan><tspan x='148.32'>aitT</tspan><tspan x='163.64'>ypeWher</tspan><tspan x='198.68'>e</tspan></text>
+<text class='t5' x='116.49' y='291.82'>|<tspan x='139.61'>{</tspan></text>
+<text class='t1' x='147.08' y='291.82'>T<tspan x='152.07'>r</tspan><tspan x='155.79'>aitT</tspan><tspan x='171.12'>ypeWher</tspan><tspan x='206.15'>eList</tspan></text>
+<text class='t5' x='228.2' y='291.82'>}</text>
+<text class='t1' x='25.9' y='303.77'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitT</tspan><tspan x='49.94'>ypeWher</tspan><tspan x='84.98'>eList</tspan></text>
+<text class='t2' x='116.49' y='303.77'>::=</text>
+<text class='t1' x='139.61' y='303.77'>T<tspan x='144.6'>r</tspan><tspan x='148.32'>aitT</tspan><tspan x='163.64'>ypeWher</tspan><tspan x='198.68'>e</tspan></text>
+<text class='t2' x='203.11' y='303.77'>(</text>
+<text class='t7' x='206.42' y='303.77'>,</text>
+<text class='t1' x='213.34' y='303.77'>T<tspan x='218.33'>r</tspan><tspan x='222.06'>aitT</tspan><tspan x='237.38'>ypeWher</tspan><tspan x='272.42'>e</tspan></text>
+<text class='t2' x='276.84' y='303.77'>)</text>
+<text class='t4' x='280.16' y='300.16'>∗</text>
+<text class='t1' x='25.9' y='315.73'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitT</tspan><tspan x='49.94'>ypeWher</tspan><tspan x='84.98'>e</tspan></text>
+<text class='t2' x='116.49' y='315.73'>::=</text>
+<text class='t1' x='139.61' y='315.73'>T<tspan x='144.6'>r</tspan><tspan x='148.32'>aitT</tspan><tspan x='163.64'>ype</tspan><tspan x='179.96'>Wher</tspan><tspan x='201.17'>e</tspan></text>
+<text class='t2' x='205.6' y='315.73'>?</text></svg></div>
+<div class="tw nb gr" id="g-d3efcd90" data-kind="grammar"><svg class="tx" data-d="2" viewBox="25.30 12.09 183.88 57.59" width="18.388em" height="5.759em" fill="currentColor"><text class='t1' x='25.9' y='19.33'>Excludes</text>
+<text class='t2' x='90.86' y='19.33'>::=</text>
+<text class='t3' x='115.63' y='19.33'>excludes</text>
+<text class='t1' x='161.63' y='19.33'>T<tspan x='166.62'>r</tspan><tspan x='170.34'>aitT</tspan><tspan x='185.67'>ypes</tspan><tspan x='25.9' y='31.28'>Comprises</tspan></text>
+<text class='t2' x='90.86' y='31.28'>::=</text>
+<text class='t3' x='115.63' y='31.28'>comprises</text>
+<text class='t1' x='166.86' y='31.28'>T<tspan x='171.85'>r</tspan><tspan x='175.57'>aitT</tspan><tspan x='190.9'>ypes</tspan><tspan x='25.9' y='43.24'>T</tspan><tspan x='30.89'>r</tspan><tspan x='34.62'>aitT</tspan><tspan x='49.94'>ypes</tspan></text>
+<text class='t2' x='90.86' y='43.24'>::=</text>
+<text class='t1' x='113.97' y='43.24'>T<tspan x='118.96'>r</tspan><tspan x='122.69'>aitT</tspan><tspan x='138.01'>ype</tspan></text>
+<text class='t5' x='90.86' y='55.19'>|<tspan x='113.97'>{</tspan></text>
+<text class='t1' x='121.44' y='55.19'>T<tspan x='126.43'>r</tspan><tspan x='130.16'>aitT</tspan><tspan x='145.48'>ypeList</tspan></text>
+<text class='t5' x='176.93' y='55.19'>}</text>
+<text class='t1' x='25.9' y='67.15'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitT</tspan><tspan x='49.94'>ypeList</tspan></text>
+<text class='t2' x='90.86' y='67.15'>::=</text>
+<text class='t1' x='113.97' y='67.15'>T<tspan x='118.96'>r</tspan><tspan x='122.69'>aitT</tspan><tspan x='138.01'>ype</tspan></text>
+<text class='t2' x='151.84' y='67.15'>(</text>
+<text class='t7' x='155.16' y='67.15'>,</text>
+<text class='t1' x='162.08' y='67.15'>T<tspan x='167.07'>r</tspan><tspan x='170.79'>aitT</tspan><tspan x='186.11'>ype</tspan></text>
+<text class='t2' x='199.94' y='67.15'>)</text>
+<text class='t4' x='203.26' y='63.53'>∗</text></svg></div>
+<div class="tw nb gr" id="g-f697c43c" data-kind="grammar"><svg class="tx" data-d="3" viewBox="25.30 12.09 262.40 225.52" width="26.240em" height="22.552em" fill="currentColor"><text class='t1' x='25.9' y='19.33'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitT</tspan><tspan x='49.94'>ype</tspan></text>
+<text class='t2' x='90.26' y='19.33'>::=</text>
+<text class='t1' x='113.37' y='19.33'>T<tspan x='118.18'>ypeRef</tspan></text>
+<text class='t5' x='90.26' y='31.28'>|</text>
+<text class='t1' x='113.37' y='31.28'>T<tspan x='118.18'>ype</tspan></text>
+<text class='t8' x='134.49' y='31.28'>[</text>
+<text class='t1' x='142.96' y='31.28'>Arr<tspan x='156.65'>aySize</tspan></text>
+<text class='t2' x='182.11' y='31.28'>?</text>
+<text class='t8' x='189.62' y='31.28'>]</text>
+<text class='t5' x='90.26' y='43.24'>|</text>
+<text class='t1' x='113.37' y='43.24'>T<tspan x='118.18'>ype</tspan></text>
+<text class='t8' x='134.49' y='43.24'>ˆ</text>
+<text class='t1' x='142.96' y='43.24'>IntExpr</text>
+<text class='t5' x='90.26' y='55.19'>|</text>
+<text class='t1' x='113.37' y='55.19'>T<tspan x='118.18'>ype</tspan></text>
+<text class='t8' x='134.49' y='55.19'>ˆ<tspan x='142.96'>(</tspan></text>
+<text class='t1' x='151.43' y='55.19'>ExtentRang<tspan x='197.82'>e</tspan></text>
+<text class='t2' x='204.73' y='55.19'>(</text>
+<text class='t5' x='208.05' y='55.19'>×</text>
+<text class='t1' x='219.95' y='55.19'>ExtentRang<tspan x='266.33'>e</tspan></text>
+<text class='t2' x='270.76' y='55.19'>)</text>
+<text class='t4' x='274.07' y='51.58'>∗</text>
+<text class='t8' x='281.15' y='55.19'>)</text>
+<text class='t1' x='25.9' y='67.15'>Arr<tspan x='39.59'>aySize</tspan></text>
+<text class='t2' x='90.26' y='67.15'>::=</text>
+<text class='t1' x='113.37' y='67.15'>ExtentRang<tspan x='159.76'>e</tspan></text>
+<text class='t2' x='164.18' y='67.15'>(</text>
+<text class='t7' x='167.5' y='67.15'>,</text>
+<text class='t1' x='174.42' y='67.15'>ExtentRang<tspan x='220.8'>e</tspan></text>
+<text class='t2' x='225.23' y='67.15'>)</text>
+<text class='t4' x='228.55' y='63.53'>∗</text>
+<text class='t1' x='25.9' y='79.1'>ExtentRang<tspan x='72.29'>e</tspan></text>
+<text class='t2' x='90.26' y='79.1'>::=</text>
+<text class='t1' x='113.37' y='79.1'>StaticAr<tspan x='145.66'>g</tspan></text>
+<text class='t2' x='150.64' y='79.1'>?</text>
+<text class='t8' x='155.07' y='79.1'>#</text>
+<text class='t1' x='165.2' y='79.1'>StaticAr<tspan x='197.48'>g</tspan></text>
+<text class='t2' x='202.47' y='79.1'>?</text>
+<text class='t5' x='90.26' y='91.06'>|</text>
+<text class='t1' x='113.37' y='91.06'>StaticAr<tspan x='145.66'>g</tspan></text>
+<text class='t2' x='150.64' y='91.06'>?</text>
+<text class='t9' x='155.07' y='91.06'>:</text>
+<text class='t1' x='159.49' y='91.06'>StaticAr<tspan x='191.78'>g</tspan></text>
+<text class='t2' x='196.76' y='91.06'>?</text>
+<text class='t5' x='90.26' y='103.01'>|</text>
+<text class='t1' x='113.37' y='103.01'>StaticAr<tspan x='145.66'>g</tspan><tspan x='25.9' y='114.97'>StaticAr</tspan><tspan x='58.19'>gs</tspan></text>
+<text class='t2' x='90.26' y='114.97'>::=</text>
+<text class='t10' x='113.37' y='114.97'></text>
+<text class='t1' x='117.39' y='114.97'>StaticAr<tspan x='149.67'>gList</tspan></text>
+<text class='t10' x='172.28' y='114.97'></text>
+<text class='t1' x='25.9' y='126.92'>StaticAr<tspan x='58.19'>gList</tspan></text>
+<text class='t2' x='90.26' y='126.92'>::=</text>
+<text class='t1' x='113.37' y='126.92'>StaticAr<tspan x='145.66'>g</tspan></text>
+<text class='t2' x='150.64' y='126.92'>(</text>
+<text class='t7' x='153.96' y='126.92'>,</text>
+<text class='t1' x='160.88' y='126.92'>StaticAr<tspan x='193.17'>g</tspan></text>
+<text class='t2' x='198.15' y='126.92'>)</text>
+<text class='t4' x='201.47' y='123.31'>∗</text>
+<text class='t1' x='25.9' y='138.88'>StaticAr<tspan x='58.19'>g</tspan></text>
+<text class='t2' x='90.26' y='138.88'>::=</text>
+<text class='t1' x='113.37' y='138.88'>Op</text>
+<text class='t5' x='90.26' y='150.83'>|</text>
+<text class='t9' x='114.2' y='150.83'>Unit<tspan x='133.58'>y</tspan></text>
+<text class='t5' x='90.26' y='162.79'>|</text>
+<text class='t9' x='114.2' y='162.79'>dimensionless</text>
+<text class='t5' x='90.26' y='174.74'>|</text>
+<text class='t9' x='115.03' y='174.74'>1</text>
+<text class='t7' x='121.68' y='174.74'>/</text>
+<text class='t1' x='128.32' y='174.74'>T<tspan x='133.12'>ype</tspan></text>
+<text class='t5' x='90.26' y='186.7'>|</text>
+<text class='t1' x='113.37' y='186.7'>DimPr<tspan x='140.12'>eﬁxOp</tspan><tspan x='168.62'>T</tspan><tspan x='173.42'>ype</tspan></text>
+<text class='t5' x='90.26' y='198.66'>|</text>
+<text class='t1' x='113.37' y='198.66'>IntExpr</text>
+<text class='t5' x='90.26' y='210.61'>|</text>
+<text class='t1' x='113.37' y='210.61'>BoolExpr</text>
+<text class='t5' x='90.26' y='222.57'>|</text>
+<text class='t1' x='113.37' y='222.57'>T<tspan x='118.18'>ype</tspan></text>
+<text class='t5' x='90.26' y='234.52'>|</text>
+<text class='t1' x='113.37' y='234.52'>UnitExpr</text></svg></div>
+<p id="p-cc873002" class="nb">Syntactically, a trait declaration starts with an optional sequence of modifiers followed by <span class="m"><span class="kw">trait</span></span>, followed by the name of the trait, an optional sequence of static parameters (described in <a class="xref" href="trait-parameters.html">Chapter 12</a><!--nc-->), an optional set of <em>extended</em> traits, an optional set of <em>excluded</em> traits, an optional set of <em>comprises</em> on the trait, an optional <span class="m"><span class="kw">where</span></span> clause (described in <a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), zero or more <em>coercion</em> declarations (discussed in <a class="xref" href="conversions-coercions.html">Chapter 17</a><!--nc-->), zero or more declarations of abstract fields, getter and setter methods, and zero or more declarations of methods separated by newlines or semicolons, that are not getters or setters, and finally <span class="m"><span class="kw">end</span></span>. A trait declaration may end with an optional <span class="m"><span class="kw">trait</span></span> and its name again. It is a static error if the identifier after <span class="m"><span class="kw">end</span></span> is not the name of the trait being declared. Property declarations (described in <a class="xref" href="tests.html#sec-property-decls">Section 19.6</a><!--nc-->) can be freely commingled with the declarations of methods and abstract fields. An <span class="m"><span class="kw">extends</span></span> clause comes first, if any, and <span class="m"><span class="kw">excludes</span></span>, <span class="m"><span class="kw">comprises</span></span>, and <span class="m"><span class="kw">where</span></span> clauses come in any order.</p>
+<p id="p-cad1f6c3" class="nb">Each of <span class="m"><span class="kw">extends</span></span>, <span class="m"><span class="kw">excludes</span></span>, and <span class="m"><span class="kw">comprises</span></span> clauses consists of <span class="m"><span class="kw">extends</span></span>, <span class="m"><span class="kw">excludes</span></span>, and <span class="m"><span class="kw">comprises</span></span> respectively followed by a set of trait references separated by commas and enclosed in braces ‘<span class="tt">{</span>’ and ‘<span class="tt">}</span>’. If such a clause contains only one trait, the enclosing braces may be elided. In an API (but not a component), a <span class="m"><span class="kw">comprises</span></span> clause may include “<span class="m">…</span>”. A trait reference listed in the <span class="m"><span class="kw">comprises</span></span> clause is a declared trait identifier (within the same component or an API imported by the component).</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-1df52bed" class="nb">Victor: Why is this property stated only for a comprises clause? Doesn’t it apply to extends and excludes clauses as well? Also, do we really mean “trait identifier” above? Where is that term defined? Does it include instantiations of parametric traits?</p></aside>
+<p id="p-2fa78697" class="nb">A trait with an <span class="m"><span class="kw">extends</span></span> clause <em>explicitly extends</em> those traits listed in its <span class="m"><span class="kw">extends</span></span> clause.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-6c467413" class="nb">Victor: It is possible for a trait to explicitly extend itself using hidden type variables. In particular, the straightforward interpretation of covariant/contravariant declarations has this property. (But we could just rule this a special case, since it is special in other ways already.)</p></aside>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-where">Section I.1.2</a><!--nc--></span></p>
+<p id="p-717c5023" class="nb">The revival rules on this note and on the one below: a <span class="m"><span class="kw">where</span></span>-clause variable may not appear as a static argument in an <span class="m"><span class="kw">extends</span></span> clause (<a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), so no trait extends itself through a hidden type variable and explicit extension has no self cycles.</p></aside>
+<p id="p-1987fca4" class="nb">In addition, every trait except <span class="m"><span class="ty">Any</span></span>, <span class="m"><span class="ty">Object</span></span> and <span class="m"><span class="ty">Index</span></span> implicitly extends the trait <span class="m"><span class="ty">Object</span></span> if it does not do so explicitly. The trait <span class="m"><span class="ty">Index</span></span> of the library, the trait of the types that a subscript takes, extends only <span class="m"><span class="ty">Any</span></span>, as <span class="m"><span class="ty">Object</span></span> does: a tuple type whose element types are all subtypes of <span class="m"><span class="ty">Index</span></span> is a subtype of <span class="m"><span class="ty">Index</span></span> (<a class="xref" href="types.html#sec-tuple-types">Section 6.5</a>), and no tuple is an <span class="m"><span class="ty">Object</span></span>. A trait that extends <span class="m"><span class="ty">Index</span></span> and no other trait but <span class="m"><span class="ty">Any</span></span> implicitly extends <span class="m"><span class="ty">Object</span></span> too. We define the extension relation to be the transitive closure of implicit and explicit extension. That is, trait <span class="m"><i>T</i></span> <em>extends</em> trait <span class="m"><i>U</i></span> if and only if <span class="m"><i>T</i></span> explicitly or implicitly extends <span class="m"><i>U</i></span> or if there is some trait <span class="m"><i>S</i></span> that <span class="m"><i>T</i></span> explicitly extends and that extends <span class="m"><i>U</i></span>. The extension relation induced by a program is the smallest relation satisfying these conditions. This relation must form an acyclic hierarchy rooted at the traits <span class="m"><span class="ty">Object</span></span> and <span class="m"><span class="ty">Index</span></span>.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-index">Section I.1.44</a><!--nc--></span></p>
+<p id="p-870fead1" class="nb">The Working Draft of February 2011 named only <span class="m"><span class="ty">Any</span></span> and <span class="m"><span class="ty">Object</span></span> as the traits that do not implicitly extend <span class="m"><span class="ty">Object</span></span>, and rooted the hierarchy at <span class="m"><span class="ty">Object</span></span>; <span class="m"><span class="ty">Index</span></span>, which the revival adds to the library, is the third.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-13cbace0" class="nb">Victor: Technically, there may be self cycles in explicit extension due to hidden type variables, as described above.</p></aside>
+<p id="p-09d5a10e" class="nb">If a trait <span class="m"><i>T</i></span> extends trait <span class="m"><i>U</i></span>, or if <span class="m"><i>T</i></span> and <span class="m"><i>U</i></span> are the same trait, we say that <span class="m"><i>T</i></span> is a subtrait of <span class="m"><i>U</i></span> and that <span class="m"><i>U</i></span> is a supertrait of <span class="m"><i>T</i></span>.</p>
+<p id="p-93fadf12" class="nb">We say that trait <span class="m"><i>T</i></span> <em>strictly extends</em> trait <span class="m"><i>U</i></span> if and only if (<em>i</em>) <span class="m"><i>T</i></span> extends <span class="m"><i>U</i></span> and (<em>ii</em>) <span class="m"><i>T</i></span> is not <span class="m"><i>U</i></span>. We say that trait <span class="m"><i>T</i></span> <em>immediately extends</em> trait <span class="m"><i>U</i></span></p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-53c68f8d" class="nb">Victor: I think we don’t use “immediately extends” anywhere in the spec, only “immediate supertype/subtype”.</p></aside>
+<p id="p-2e3ff0f0" class="nb">if and only if (<em>i</em>) <span class="m"><i>T</i></span> strictly extends <span class="m"><i>U</i></span> and (<em>ii</em>) there is no trait <span class="m"><i>V</i></span> such that <span class="m"><i>T</i></span> strictly extends <span class="m"><i>V</i></span> and <span class="m"><i>V</i></span> strictly extends <span class="m"><i>U</i></span>. We call <span class="m"><i>U</i></span> an <em>immediate supertrait</em> of <span class="m"><i>T</i></span> and <span class="m"><i>T</i></span> an <em>immediate subtrait</em> of <span class="m"><i>U</i></span>.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-59db8ff9" class="nb">Victor: this belongs in the type chapter.</p></aside>
+<p id="p-99dcbbf2" class="nb">A trait with an <span class="m"><span class="kw">excludes</span></span> clause excludes every trait listed in its <span class="m"><span class="kw">excludes</span></span> clause. If a trait <span class="m"><i>T</i></span> excludes a trait <span class="m"><i>U</i></span>, the two traits are mutually exclusive: neither can extend the other, and no trait can extend them both. As discussed in <a class="xref" href="types.html#sec-type-relations">Section 6.2</a>, the exclusion relation is symmetric. Thus, if <span class="m"><i>T</i></span> excludes <span class="m"><i>U</i></span> then <span class="m"><i>U</i></span> excludes <span class="m"><i>T</i></span> whether or not <span class="m"><i>T</i></span> is listed in an <span class="m"><span class="kw">excludes</span></span> clause in the declaration of <span class="m"><i>U</i></span>.</p>
+<p id="p-912faa2e" class="nb">If a trait declaration of <span class="m"><i>T</i></span> includes a <span class="m"><span class="kw">comprises</span></span> clause then every type listed in its <span class="m"><span class="kw">comprises</span></span> clause extends <span class="m"><i>T</i></span>, and every value of type <span class="m"><i>T</i></span> is a value of one of the listed types. A listed type may be an instantiation of a parameterized trait, provided that every static variable that occurs in its static arguments is a static parameter of <span class="m"><i>T</i></span> or a <span class="m"><span class="kw">where</span></span>-clause variable of the declaration of <span class="m"><i>T</i></span> (<a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), which the listed type then holds at every value of: a trait declared <span class="m"><span class="kw">trait</span> <span class="ty">NatParam</span> <span class="kw">comprises</span> {<i>N</i>⟦<i>n</i>⟧} <span class="kw">where</span> ⟦<span class="kw">nat</span> <i>n</i>⟧</span> lists <span class="m"><i>N</i>⟦<i>n</i>⟧</span> at every <span class="m"><span class="kw">nat</span></span> value of <span class="m"><i>n</i></span>. A trait or object that explicitly extends <span class="m"><i>T</i></span> must be a subtype of a listed type, unless it is a trait with a <span class="m"><span class="kw">comprises</span></span> clause of its own each of whose listed types meets this requirement, or a trait with static parameters such that at least one trait or object extends it and every trait or object that extends it is a subtype of a listed type. If <span class="m"><i>T</i></span> has static parameters, these statements hold of each instantiation of <span class="m"><i>T</i></span>, with the static parameters of <span class="m"><i>T</i></span> in the listed types replaced by the corresponding static arguments.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-comprises">Section I.1.21</a><!--nc--></span></p>
+<p id="p-0ffac1cd" class="nb">The Working Draft of February 2011 said here, in a draft note, that the traits listed in a <span class="m"><span class="kw">comprises</span></span> clause are exactly the traits that immediately extend <span class="m"><i>T</i></span> and that each of them must list <span class="m"><i>T</i></span> in its <span class="m"><span class="kw">extends</span></span> clause. The revival states the reading of the team’s later Types chapter (Luchangco, 2012) and of the type group’s calculus Welterweight Fortress (2012): the clause says to which types the values of <span class="m"><i>T</i></span> belong. A parameterized trait with a static parameter that <span class="m"><i>T</i></span> does not have can be listed only at particular static arguments; it may stand unlisted between <span class="m"><i>T</i></span> and the listed types, adding no value outside them, when at least one trait or object extends it and every one that does is a subtype of a listed type. This also answers the third question of the draft note on trait identifiers above, whether an instantiation of a parameterized trait may be listed: it may. A <span class="m"><span class="kw">where</span></span>-clause variable of the declaration of <span class="m"><i>T</i></span> may also occur in a listed type, as in the clause of the trait <span class="m"><span class="ty">NatParam</span></span> of the Fortress standard libraries, which the team wrote as a comment and the revival restores.</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-e98ee4db" class="nb">If the <span class="m"><span class="kw">comprises</span></span> clause of a trait <span class="m"><i>T</i></span> includes “<span class="m">…</span>” (and must therefore be in an API), then in a component exporting the enclosing API, other traits may explicitly extend <span class="m"><i>T</i></span>, but these traits may not be declared or imported by the API (see <a class="xref" href="components.html#sec-apis">Section 22.3</a><!--nc-->).</p></aside>
+<p id="p-17fcfa9d" class="nb">A trait declaration of <span class="m"><i>T</i></span> that has no <span class="m"><span class="kw">comprises</span></span> clause, or one that lists no type but “<span class="m">…</span>”, may have a <em>self-type parameter</em>: a static parameter <span class="m"><i>X</i></span> of <span class="m"><i>T</i></span> whose bounds include <span class="m"><i>T</i></span> at its own static parameters, as in <span class="m"><span class="kw">trait</span> <i>T</i>⟦<i>X</i> <span class="kw">extends</span> <i>T</i>⟦<i>X</i>⟧⟧</span>, or include an instantiation of a trait with a self-type parameter that <span class="m"><i>T</i></span> also lists in its <span class="m"><span class="kw">extends</span></span> clause, with <span class="m"><i>X</i></span> as the static argument for that self-type parameter. In the bodies of the methods of <span class="m"><i>T</i></span>, <span class="m"><span class="kw">self</span></span> then has the type <span class="m"><i>T</i> ∩ <i>X</i></span> (<a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->). A trait or object declaration, or an object expression, that extends an instantiation of <span class="m"><i>T</i></span> must be a subtype of the static argument of that instantiation for the self-type parameter of <span class="m"><i>T</i></span>; for a trait declaration the requirement is on the type of <span class="m"><span class="kw">self</span></span> in the bodies of its methods (<a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->), the intersection of its type with the types its <span class="m"><span class="kw">comprises</span></span> clause lists, or with its own self-type parameter <span class="m"><i>Y</i></span>. It is a static error otherwise. An object declaration has no self-type parameter. For example, given the declarations:</p>
+<div class="fx nb" id="c-422206c7" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.26 179.25 23.12" width="17.925em" height="2.312em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t9' x='41.1' y='19.33'>Shap<tspan x='62.96'>e</tspan></text>
+<text class='t10' x='67.39' y='19.33'></text>
+<text class='t7' x='71.4' y='19.33'>S</text>
+<text class='t3' x='80.85' y='19.33'>extends</text>
+<text class='t9' x='120.23' y='19.33'>Shap<tspan x='142.09'>e</tspan></text>
+<text class='t10' x='146.52' y='19.33'></text>
+<text class='t7' x='150.53' y='19.33'>S</text>
+<text class='t10' x='157.22' y='19.33'></text>
+<text class='t3' x='168.01' y='19.33'>end<tspan x='9.96' y='31.28'>object</tspan></text>
+<text class='t9' x='46.33' y='31.28'>P<tspan x='52.83'>oin</tspan><tspan x='65.84'>t</tspan></text>
+<text class='t3' x='72.48' y='31.28'>extends</text>
+<text class='t9' x='111.86' y='31.28'>Shap<tspan x='133.72'>e</tspan></text>
+<text class='t10' x='138.15' y='31.28'></text>
+<text class='t9' x='142.16' y='31.28'>P<tspan x='148.66'>oin</tspan><tspan x='161.67'>t</tspan></text>
+<text class='t10' x='165.55' y='31.28'></text>
+<text class='t3' x='172.33' y='31.28'>end</text></svg></div></div>
+<p id="p-a5ed7887" class="nb">the following object declaration is not allowed:</p>
+<div class="fx nb both" id="c-20d638e4" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.26 179.14 23.12" width="17.914em" height="2.312em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>(</text>
+<text class='t5' x='13.84' y='19.33'>∗</text>
+<text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t5' x='76.4' y='19.33'>∗</text>
+<text class='t9' x='81.38' y='19.33'>)</text>
+<text class='t3' x='9.96' y='31.28'>object</text>
+<text class='t9' x='46.33' y='31.28'>Mark</text>
+<text class='t3' x='72.37' y='31.28'>extends</text>
+<text class='t9' x='111.75' y='31.28'>Shap<tspan x='133.61'>e</tspan></text>
+<text class='t10' x='138.04' y='31.28'></text>
+<text class='t9' x='142.05' y='31.28'>P<tspan x='148.55'>oin</tspan><tspan x='161.56'>t</tspan></text>
+<text class='t10' x='165.43' y='31.28'></text>
+<text class='t3' x='172.21' y='31.28'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)</code></pre></div>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-self-type">Section I.1.43</a><!--nc--></span></p>
+<p id="p-0fa6ccb4" class="nb">The self-type parameter and the rule on the declarations that extend a trait with one are new. The Working Draft of February 2011 typed <span class="m"><span class="kw">self</span></span> as the type of the enclosing trait, or, with a <span class="m"><span class="kw">comprises</span></span> clause, as its intersection with the listed types (<a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->). The revival also reads the type of <span class="m"><span class="kw">self</span></span> from the bound of a self-type parameter, and refuses, as Scala refuses a class whose self type does not conform to the self types of the classes it inherits, a declaration that does not conform to it, so that inside <span class="m"><i>T</i></span> every value of <span class="m"><span class="kw">self</span></span> is an <span class="m"><i>X</i></span>.</p></aside>
+<p id="p-1a30b23d" class="nb">For example, the following trait declaration:</p>
+<div class="fx nb both" id="c-06497da8" data-kind="code" data-example="Trait.Decl"><div class="fx-r"><svg class="tx" data-d="6" viewBox="-0.60 11.81 142.77 48.97" width="14.277em" height="4.897em" fill="currentColor"><text class='t3' x='0' y='19.33'>trait</text>
+<text class='t9' x='28.92' y='19.33'>Catalyst</text>
+<text class='t3' x='68.55' y='19.33'>extends</text>
+<text class='t9' x='107.93' y='19.33'>Ob<tspan x='121.76'>ject</tspan></text>
+<text class='t11' x='8.86' y='39.75'>c<tspan x='12.93'>atalyze</tspan></text>
+<text class='t9' x='43.21' y='39.75'>(</text>
+<text class='t11' x='47.09' y='39.75'>r<tspan x='50.78'>e</tspan><tspan x='54.85'>action</tspan></text>
+<text class='t9' x='82.35' y='39.75'>:<tspan x='86.78'>Reaction</tspan><tspan x='125.1'>):</tspan><tspan x='133.41'>(</tspan><tspan x='137.7'>)</tspan></text>
+<text class='t3' x='0' y='60.17'>end</text></svg></div><pre class="fx-s"><code>trait Catalyst extends Object
+  catalyze(reaction: Reaction): ()
+end</code></pre></div>
+<p id="p-cdfbd215" class="nb">declares a trait <span class="m"><span class="ty">Catalyst</span></span> with no modifiers, no static parameters, and no <span class="m"><span class="kw">excludes</span></span> clauses, no <span class="m"><span class="kw">comprises</span></span> clauses, and no <span class="m"><span class="kw">where</span></span> clauses. Trait <span class="m"><span class="ty">Catalyst</span></span> extends a trait named <span class="m"><span class="ty">Object</span></span>. A single method (named <span class="m"><i>catalyze</i></span>) is declared, which has a parameter of type <span class="m"><span class="ty">Reaction</span></span> and the return type <span class="m"><span class="ty">()</span></span>.</p>
+<p id="p-21a69aa7" class="nb">The following example trait:</p>
+<div class="fx nb both" id="c-fd59918c" data-kind="code"><div class="fx-r"><svg class="tx" data-d="7" viewBox="9.36 11.26 290.89 32.58" width="29.089em" height="3.258em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t9' x='38.88' y='19.33'>Molecule</text>
+<text class='t3' x='80.12' y='19.33'>comprises</text>
+<text class='t5' x='129.96' y='19.33'>{</text>
+<text class='t9' x='136.6' y='19.33'>OrganicMolecule</text>
+<text class='t7' x='209.41' y='19.33'>,</text>
+<text class='t9' x='213.84' y='19.33'>InorganicMolecule</text>
+<text class='t5' x='294.67' y='19.33'>}</text>
+<text class='t11' x='21.92' y='31.28'>mass</text>
+<text class='t9' x='44.12' y='31.28'>():<tspan x='56.3'>Mass</tspan></text>
+<text class='t3' x='9.96' y='43.24'>end</text></svg></div><pre class="fx-s"><code>  mass(): Mass
+end</code></pre></div>
+<p id="p-4b89e4af" class="nb">comprises of two traits: <span class="m"><span class="ty">OrganicMolecule</span></span> and <span class="m"><span class="ty">InorganicMolecule</span></span>. Therefore, the following trait declaration is not allowed:</p>
+<div class="fx nb both" id="c-20d638e4-2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="8" viewBox="9.36 11.26 208.53 20.63" width="20.853em" height="2.063em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>(</text>
+<text class='t5' x='13.84' y='19.33'>∗</text>
+<text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t5' x='76.4' y='19.33'>∗</text>
+<text class='t9' x='81.38' y='19.33'>)</text>
+<text class='t3' x='9.96' y='31.28'>trait</text>
+<text class='t9' x='38.88' y='31.28'>Exclusiv<tspan x='75.33'>eMolecule</tspan></text>
+<text class='t3' x='120.99' y='31.28'>extends</text>
+<text class='t9' x='160.37' y='31.28'>Molecule</text>
+<text class='t3' x='201.6' y='31.28'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)</code></pre></div>
+<p id="p-c6e2f5d1" class="nb">Traits <span class="m"><span class="ty">OrganicMolecule</span></span> and <span class="m"><span class="ty">InorganicMolecule</span></span> may be exclusive:</p>
+<div class="fx nb" id="c-b8b51f7d" data-kind="code"><div class="fx-r"><svg class="tx" data-d="9" viewBox="9.36 11.81 328.55 26.00" width="32.855em" height="2.600em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t9' x='38.88' y='19.33'>OrganicMolecule</text>
+<text class='t3' x='114.46' y='19.33'>extends</text>
+<text class='t9' x='153.84' y='19.33'>Molecule</text>
+<text class='t3' x='195.07' y='19.33'>excludes</text>
+<text class='t9' x='239.68' y='19.33'>InorganicMolecule</text>
+<text class='t3' x='321.63' y='19.33'>end<tspan x='9.96' y='35.27'>trait</tspan></text>
+<text class='t9' x='38.88' y='35.27'>InorganicMolecule</text>
+<text class='t3' x='120.82' y='35.27'>extends</text>
+<text class='t9' x='160.2' y='35.27'>Molecule</text>
+<text class='t3' x='201.44' y='35.27'>end</text></svg></div></div>
+<p id="p-b37b4c23" class="nb"><span class="m"><span class="ty">OrganicMolecule</span></span> and <span class="m"><span class="ty">InorganicMolecule</span></span> exclude each other, even though only <span class="m"><span class="ty">OrganicMolecule</span></span> has an <span class="m"><span class="kw">excludes</span></span> clause. For example, the following trait declaration is not allowed:</p>
+<div class="fx nb both" id="c-20d638e4-3" data-kind="code"><div class="fx-r"><svg class="tx" data-d="10" viewBox="9.36 11.26 336.86 23.12" width="33.686em" height="2.312em" fill="currentColor"><text class='t9' x='9.96' y='19.33'>(</text>
+<text class='t5' x='13.84' y='19.33'>∗</text>
+<text class='t2' x='21.59' y='19.33'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t5' x='76.4' y='19.33'>∗</text>
+<text class='t9' x='81.38' y='19.33'>)</text>
+<text class='t3' x='9.96' y='31.28'>trait</text>
+<text class='t9' x='38.88' y='31.28'>Inclusiv<tspan x='72.42'>eMolecule</tspan></text>
+<text class='t3' x='118.08' y='31.28'>extends</text>
+<text class='t5' x='157.46' y='31.28'>{</text>
+<text class='t9' x='164.11' y='31.28'>InorganicMolecule</text>
+<text class='t7' x='243.28' y='31.28'>,</text>
+<text class='t9' x='247.71' y='31.28'>OrganicMolecule</text>
+<text class='t5' x='322.18' y='31.28'>}</text>
+<text class='t3' x='329.93' y='31.28'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)</code></pre></div>
+<p id="p-0f19d170" class="nb">For the same reason, a trait or object may not extend two instantiations of one parameterized trait that exclude each other by instantiation exclusion (<a class="xref" href="types.html#sec-trait-types">Section 6.3</a>), directly or through its supertraits: any two instantiations of one parameterized trait that it extends must have the same static arguments, operator arguments excepted. For example, the following object declaration is not allowed:</p>
+<div class="fx nb both" id="c-20d638e4-4" data-kind="code"><div class="fx-r"><svg class="tx" data-d="11" viewBox="9.36 11.26 256.96 35.07" width="25.696em" height="3.507em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t9' x='41.1' y='19.33'>P<tspan x='47.6'>aren</tspan><tspan x='66.17'>t</tspan></text>
+<text class='t10' x='70.04' y='19.33'></text>
+<text class='t7' x='74.06' y='19.33'>T</text>
+<text class='t10' x='81.26' y='19.33'></text>
+<text class='t3' x='88.04' y='19.33'>end</text>
+<text class='t9' x='9.96' y='31.28'>(</text>
+<text class='t5' x='13.84' y='31.28'>∗</text>
+<text class='t2' x='21.59' y='31.28'>Not<tspan x='39.02'>allo</tspan><tspan x='53.71'>wed!</tspan></text>
+<text class='t5' x='76.4' y='31.28'>∗</text>
+<text class='t9' x='81.38' y='31.28'>)</text>
+<text class='t3' x='9.96' y='43.24'>object</text>
+<text class='t9' x='46.33' y='43.24'>Child</text>
+<text class='t3' x='72.89' y='43.24'>extends</text>
+<text class='t5' x='112.27' y='43.24'>{</text>
+<text class='t9' x='118.91' y='43.24'>P<tspan x='125.42'>aren</tspan><tspan x='143.99'>t</tspan></text>
+<text class='t10' x='147.86' y='43.24'></text>
+<text class='t12' x='151.87' y='43.24'>Z</text>
+<text class='t9' x='158.52' y='43.24'>32</text>
+<text class='t10' x='168.48' y='43.24'></text>
+<text class='t7' x='172.49' y='43.24'>,</text>
+<text class='t9' x='176.92' y='43.24'>P<tspan x='183.42'>aren</tspan><tspan x='201.99'>t</tspan></text>
+<text class='t10' x='205.87' y='43.24'></text>
+<text class='t9' x='209.88' y='43.24'>String</text>
+<text class='t10' x='236.61' y='43.24'></text>
+<text class='t5' x='242.29' y='43.24'>}</text>
+<text class='t3' x='250.03' y='43.24'>end</text></svg></div><pre class="fx-s"><code>(* Not allowed! *)</code></pre></div>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-rule">Section I.1.1</a><!--nc--></span></p>
+<p id="p-9047217d" class="nb">The rule on declarations is new. The Working Draft of February 2011 allowed a trait to extend two different instantiations of one parameterized trait; the compiled type checker refuses such a declaration when the arguments that differ are types or numerals (<a class="xref" href="spec-changes.html#sec-revival-rule">Section I.1.1</a><!--nc--> states the exceptions), reporting that the two instantiations exclude each other. The team’s later Types chapter (Luchangco, 2012) states the rule as: a trait that extends two instantiations of a generic type, directly or indirectly, must extend an expressible instantiation that is a subtype of both. Where every static parameter is invariant, as in this specification, that is the rule stated above.</p></aside>
+<p id="p-e9bc0344" class="nb">A trait is allowed to have multiple immediate supertraits. The following trait has two immediate supertraits:</p>
+<div class="fx nb" id="c-df0fe017" data-kind="code"><div class="fx-r"><svg class="tx" data-d="12" viewBox="9.36 11.26 252.84 11.16" width="25.284em" height="1.116em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t9' x='38.88' y='19.33'>Enzyme</text>
+<text class='t3' x='76.38' y='19.33'>extends</text>
+<text class='t5' x='115.76' y='19.33'>{</text>
+<text class='t9' x='122.4' y='19.33'>OrganicMolecule</text>
+<text class='t7' x='195.21' y='19.33'>,</text>
+<text class='t9' x='199.64' y='19.33'>Catalyst</text>
+<text class='t5' x='238.16' y='19.33'>}</text>
+<text class='t3' x='245.91' y='19.33'>end</text></svg></div></div>
+</section>
+<section class="sec" data-num="10.2" data-title="Method Declarations">
+<h2 id="sec-methods" class="nb"><span class="num">10.2</span> Method Declarations</h2>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-1b001461" class="nb">hidden without settable is a static error only within traits not within objects !!! – Sukyoung</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-a0524954" class="nb">Accessing a field by a “naked” identifier reference within trait declarations are not allowed. We require a dotted field access by a “self.” prefix. (08/11/08) – Sukyoung</p></aside>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-66a8cb60" class="nb">Getters must always be called with the special syntax: <span class="m"><i>receiver</i>.<i>getterName</i></span></p>
+<p id="p-d3e24f8b" class="nb">A getter is required to have a type consistent with a corresponding setter.</p></aside>
+<div class="tw nb gr" id="g-4bea11ba" data-kind="grammar"><svg class="tx" data-d="13" viewBox="-5.58 10.45 474.60 427.92" width="47.460em" height="42.792em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>MdDecl</text>
+<text class='t2' x='131.12' y='28.8'>::=</text>
+<text class='t1' x='154.23' y='28.8'>MdDef</text>
+<text class='t5' x='131.12' y='40.76'>|</text>
+<text class='t3' x='155.89' y='40.76'>abstract</text>
+<text class='t2' x='199.39' y='40.76'>?</text>
+<text class='t1' x='206.91' y='40.76'>MdMods</text>
+<text class='t2' x='242.32' y='40.76'>?</text>
+<text class='t3' x='251.5' y='40.76'>getter</text>
+<text class='t2' x='284.54' y='40.76'>?</text>
+<text class='t1' x='292.05' y='40.76'>MdHeaderF<tspan x='340.75'>r</tspan><tspan x='344.17'>ont</tspan><tspan x='359.58'>FnHeaderClause</tspan><tspan x='25.9' y='52.71'>MdDef</tspan></text>
+<text class='t2' x='131.12' y='52.71'>::=</text>
+<text class='t1' x='154.23' y='52.71'>MdMods</text>
+<text class='t2' x='189.65' y='52.71'>?</text>
+<text class='t3' x='198.82' y='52.71'>getter</text>
+<text class='t2' x='231.86' y='52.71'>?</text>
+<text class='t1' x='239.37' y='52.71'>MdHeaderF<tspan x='288.07'>r</tspan><tspan x='291.5'>ont</tspan><tspan x='306.9'>FnHeaderClause</tspan></text>
+<text class='t9' x='379.67' y='52.71'>=</text>
+<text class='t1' x='391.57' y='52.71'>Expr<tspan x='25.9' y='64.67'>AbsMdDecl</tspan></text>
+<text class='t2' x='131.12' y='64.67'>::=</text>
+<text class='t3' x='155.89' y='64.67'>abstract</text>
+<text class='t2' x='199.39' y='64.67'>?</text>
+<text class='t1' x='206.91' y='64.67'>AbsMdMods</text>
+<text class='t2' x='257.27' y='64.67'>?</text>
+<text class='t3' x='266.44' y='64.67'>getter</text>
+<text class='t2' x='299.48' y='64.67'>?</text>
+<text class='t1' x='306.99' y='64.67'>MdHeaderF<tspan x='355.69'>r</tspan><tspan x='359.12'>ont</tspan><tspan x='374.52'>FnHeaderClause</tspan><tspan x='25.9' y='76.62'>MdMods</tspan></text>
+<text class='t2' x='131.12' y='76.62'>::=</text>
+<text class='t1' x='154.23' y='76.62'>MdMod</text>
+<text class='t6' x='186.04' y='73.01'>+</text>
+<text class='t1' x='25.9' y='88.58'>MdMod</text>
+<text class='t2' x='131.12' y='88.58'>::=</text>
+<text class='t1' x='154.23' y='88.58'>FnMod</text>
+<text class='t5' x='186.32' y='88.58'>|</text>
+<text class='t3' x='193.24' y='88.58'>override</text>
+<text class='t1' x='25.9' y='100.53'>FnMod</text>
+<text class='t2' x='131.12' y='100.53'>::=</text>
+<text class='t1' x='154.23' y='100.53'>AbsFnMod</text>
+<text class='t5' x='201.26' y='100.53'>|</text>
+<text class='t3' x='208.18' y='100.53'>private</text>
+<text class='t1' x='25.9' y='112.49'>AbsFnMod</text>
+<text class='t2' x='131.12' y='112.49'>::=</text>
+<text class='t1' x='154.23' y='112.49'>LocalFnMod</text>
+<text class='t5' x='209.01' y='112.49'>|</text>
+<text class='t3' x='215.93' y='112.49'>test</text>
+<text class='t1' x='25.9' y='124.44'>LocalFnMod</text>
+<text class='t2' x='131.12' y='124.44'>::=</text>
+<text class='t3' x='155.89' y='124.44'>atomic</text>
+<text class='t5' x='191.42' y='124.44'>|</text>
+<text class='t3' x='198.34' y='124.44'>io</text>
+<text class='t1' x='25.9' y='136.4'>AbsMdMods</text>
+<text class='t2' x='131.12' y='136.4'>::=</text>
+<text class='t1' x='154.23' y='136.4'>AbsMdMod</text>
+<text class='t6' x='200.99' y='132.78'>+</text>
+<text class='t1' x='25.9' y='148.35'>AbsMdMod</text>
+<text class='t2' x='131.12' y='148.35'>::=</text>
+<text class='t1' x='154.23' y='148.35'>AbsFnMod</text>
+<text class='t5' x='201.26' y='148.35'>|</text>
+<text class='t3' x='208.18' y='148.35'>override</text>
+<text class='t1' x='25.9' y='160.31'>GetterSetterDecl</text>
+<text class='t2' x='131.12' y='160.31'>::=</text>
+<text class='t1' x='154.23' y='160.31'>GetterSetterDef</text>
+<text class='t5' x='131.12' y='172.26'>|</text>
+<text class='t3' x='155.89' y='172.26'>abstract</text>
+<text class='t2' x='199.39' y='172.26'>?</text>
+<text class='t1' x='206.91' y='172.26'>FnMods</text>
+<text class='t2' x='240.11' y='172.26'>?</text>
+<text class='t1' x='247.62' y='172.26'>GetterSetterMod<tspan x='317.34'>MdHeaderF</tspan><tspan x='366.04'>r</tspan><tspan x='369.47'>ont</tspan><tspan x='384.87'>FnHeaderClause</tspan><tspan x='25.9' y='184.22'>GetterSetterDef</tspan></text>
+<text class='t2' x='131.12' y='184.22'>::=</text>
+<text class='t1' x='154.23' y='184.22'>FnMods</text>
+<text class='t2' x='187.44' y='184.22'>?</text>
+<text class='t1' x='194.95' y='184.22'>GetterSetterMod<tspan x='264.67'>MdHeaderF</tspan><tspan x='313.36'>r</tspan><tspan x='316.79'>ont</tspan><tspan x='332.19'>FnHeaderClause</tspan></text>
+<text class='t9' x='404.96' y='184.22'>=</text>
+<text class='t1' x='416.86' y='184.22'>Expr<tspan x='25.9' y='196.17'>GetterSetterMod</tspan></text>
+<text class='t2' x='131.12' y='196.17'>::=</text>
+<text class='t3' x='155.89' y='196.17'>getter</text>
+<text class='t5' x='191.42' y='196.17'>|</text>
+<text class='t3' x='198.34' y='196.17'>setter</text>
+<text class='t1' x='25.9' y='208.13'>AbsGetterSetterDecl</text>
+<text class='t2' x='131.12' y='208.13'>::=</text>
+<text class='t3' x='155.89' y='208.13'>abstract</text>
+<text class='t2' x='199.39' y='208.13'>?</text>
+<text class='t1' x='206.91' y='208.13'>AbsFnMods</text>
+<text class='t2' x='255.06' y='208.13'>?</text>
+<text class='t1' x='262.57' y='208.13'>GetterSetterMod<tspan x='332.28'>MdHeaderF</tspan><tspan x='380.98'>r</tspan><tspan x='384.41'>ont</tspan><tspan x='399.81'>FnHeaderClause</tspan><tspan x='25.9' y='220.08'>MdHeaderF</tspan><tspan x='74.6'>r</tspan><tspan x='78.03'>ont</tspan></text>
+<text class='t2' x='131.12' y='220.08'>::=</text>
+<text class='t1' x='154.23' y='220.08'>NamedMdHeaderF<tspan x='231.15'>r</tspan><tspan x='234.58'>ont</tspan></text>
+<text class='t5' x='131.12' y='232.04'>|</text>
+<text class='t1' x='154.23' y='232.04'>OpMdHeaderF<tspan x='215.1'>r</tspan><tspan x='218.53'>ont</tspan><tspan x='25.9' y='243.99'>NamedMdHeaderF</tspan><tspan x='102.82'>r</tspan><tspan x='106.25'>ont</tspan></text>
+<text class='t2' x='131.12' y='243.99'>::=</text>
+<text class='t1' x='154.23' y='243.99'>Id<tspan x='165.29'>StaticP</tspan><tspan x='193.27'>ar</tspan><tspan x='201.98'>ams</tspan></text>
+<text class='t2' x='218.03' y='243.99'>?</text>
+<text class='t1' x='225.54' y='243.99'>MdV<tspan x='243.8'>alP</tspan><tspan x='256.85'>ar</tspan><tspan x='265.55'>am</tspan><tspan x='25.9' y='255.95'>MdV</tspan><tspan x='44.16'>alP</tspan><tspan x='57.21'>ar</tspan><tspan x='65.91'>am</tspan></text>
+<text class='t2' x='131.12' y='255.95'>::=</text>
+<text class='t8' x='154.23' y='255.95'>(</text>
+<text class='t1' x='162.7' y='255.95'>MdP<tspan x='181.27'>ar</tspan><tspan x='189.98'>ams</tspan></text>
+<text class='t2' x='206.03' y='255.95'>?</text>
+<text class='t8' x='213.54' y='255.95'>)</text>
+<text class='t1' x='25.9' y='267.91'>MdP<tspan x='44.47'>ar</tspan><tspan x='53.18'>ams</tspan></text>
+<text class='t2' x='131.12' y='267.91'>::=<tspan x='154.23'>(</tspan></text>
+<text class='t1' x='157.55' y='267.91'>MdP<tspan x='176.12'>ar</tspan><tspan x='184.83'>am</tspan></text>
+<text class='t7' x='197' y='267.91'>,</text>
+<text class='t2' x='201.43' y='267.91'>)</text>
+<text class='t4' x='204.75' y='264.29'>∗</text>
+<text class='t2' x='211.82' y='267.91'>(</text>
+<text class='t1' x='215.13' y='267.91'>V<tspan x='220.12'>ar</tspan><tspan x='228.82'>ar</tspan><tspan x='237.31'>gs</tspan></text>
+<text class='t7' x='246.17' y='267.91'>,</text>
+<text class='t2' x='250.6' y='267.91'>)?</text>
+<text class='t1' x='261.42' y='267.91'>MdK<tspan x='281'>e</tspan><tspan x='285.13'>ywor</tspan><tspan x='304.68'>d</tspan></text>
+<text class='t2' x='309.93' y='267.91'>(</text>
+<text class='t7' x='313.25' y='267.91'>,</text>
+<text class='t1' x='317.68' y='267.91'>MdK<tspan x='337.25'>e</tspan><tspan x='341.38'>ywor</tspan><tspan x='360.94'>d</tspan></text>
+<text class='t2' x='366.19' y='267.91'>)</text>
+<text class='t4' x='369.5' y='264.29'>∗</text>
+<text class='t5' x='131.12' y='279.86'>|</text>
+<text class='t2' x='154.23' y='279.86'>(</text>
+<text class='t1' x='157.55' y='279.86'>MdP<tspan x='176.12'>ar</tspan><tspan x='184.83'>am</tspan></text>
+<text class='t7' x='197' y='279.86'>,</text>
+<text class='t2' x='201.43' y='279.86'>)</text>
+<text class='t4' x='204.75' y='276.25'>∗</text>
+<text class='t1' x='211.82' y='279.86'>V<tspan x='216.8'>ar</tspan><tspan x='225.51'>ar</tspan><tspan x='233.99'>gs</tspan></text>
+<text class='t5' x='131.12' y='291.82'>|</text>
+<text class='t1' x='154.23' y='291.82'>MdP<tspan x='172.8'>ar</tspan><tspan x='181.51'>am</tspan></text>
+<text class='t2' x='193.68' y='291.82'>(</text>
+<text class='t7' x='197' y='291.82'>,</text>
+<text class='t1' x='203.92' y='291.82'>MdP<tspan x='222.49'>ar</tspan><tspan x='231.2'>am</tspan></text>
+<text class='t2' x='243.37' y='291.82'>)</text>
+<text class='t4' x='246.69' y='288.2'>∗</text>
+<text class='t1' x='25.9' y='303.77'>MdK<tspan x='45.48'>e</tspan><tspan x='49.6'>ywor</tspan><tspan x='69.16'>d</tspan></text>
+<text class='t2' x='131.12' y='303.77'>::=</text>
+<text class='t1' x='154.23' y='303.77'>MdP<tspan x='172.8'>ar</tspan><tspan x='181.51'>am</tspan></text>
+<text class='t9' x='193.68' y='303.77'>=</text>
+<text class='t1' x='203.09' y='303.77'>Expr<tspan x='25.9' y='315.73'>MdP</tspan><tspan x='44.47'>ar</tspan><tspan x='53.18'>am</tspan></text>
+<text class='t2' x='131.12' y='315.73'>::=</text>
+<text class='t1' x='154.23' y='315.73'>P<tspan x='159.52'>ar</tspan><tspan x='168.23'>am</tspan></text>
+<text class='t5' x='131.12' y='327.68'>|</text>
+<text class='t3' x='155.89' y='327.68'>self</text>
+<text class='t1' x='25.9' y='339.64'>P<tspan x='31.19'>ar</tspan><tspan x='39.9'>am</tspan></text>
+<text class='t2' x='131.12' y='339.64'>::=</text>
+<text class='t1' x='154.23' y='339.64'>PlainP<tspan x='181.11'>ar</tspan><tspan x='189.82'>am</tspan><tspan x='25.9' y='351.59'>PlainP</tspan><tspan x='52.78'>ar</tspan><tspan x='61.49'>am</tspan></text>
+<text class='t2' x='131.12' y='351.59'>::=</text>
+<text class='t1' x='154.23' y='351.59'>BindId<tspan x='184.11'>IsT</tspan><tspan x='196.1'>ype</tspan></text>
+<text class='t2' x='209.93' y='351.59'>?</text>
+<text class='t5' x='131.12' y='363.55'>|</text>
+<text class='t1' x='154.23' y='363.55'>T<tspan x='159.03'>ype</tspan><tspan x='25.9' y='375.5'>FnHeaderClause</tspan></text>
+<text class='t2' x='131.12' y='375.5'>::=</text>
+<text class='t1' x='154.23' y='375.5'>IsT<tspan x='166.23'>ype</tspan></text>
+<text class='t2' x='180.05' y='375.5'>?</text>
+<text class='t1' x='187.57' y='375.5'>FnClauses<tspan x='25.9' y='387.46'>IsT</tspan><tspan x='37.9'>ype</tspan></text>
+<text class='t2' x='131.12' y='387.46'>::=</text>
+<text class='t9' x='155.89' y='387.46'>:</text>
+<text class='t1' x='162.81' y='387.46'>T<tspan x='167.61'>ype</tspan><tspan x='25.9' y='399.41'>FnClauses</tspan></text>
+<text class='t2' x='131.12' y='399.41'>::=</text>
+<text class='t1' x='154.23' y='399.41'>Thr<tspan x='168.18'>ows</tspan></text>
+<text class='t2' x='183.68' y='399.41'>?</text>
+<text class='t1' x='191.19' y='399.41'>Wher<tspan x='212.4'>e</tspan></text>
+<text class='t2' x='216.83' y='399.41'>?</text>
+<text class='t1' x='224.34' y='399.41'>Contr<tspan x='247.44'>act</tspan><tspan x='25.9' y='411.37'>Thr</tspan><tspan x='39.85'>ows</tspan></text>
+<text class='t2' x='131.12' y='411.37'>::=</text>
+<text class='t3' x='155.89' y='411.37'>throws</text>
+<text class='t1' x='191.42' y='411.37'>MayT<tspan x='214.12'>r</tspan><tspan x='217.85'>aitT</tspan><tspan x='233.17'>ypes</tspan><tspan x='25.9' y='423.32'>MayT</tspan><tspan x='48.6'>r</tspan><tspan x='52.32'>aitT</tspan><tspan x='67.65'>ypes</tspan></text>
+<text class='t2' x='131.12' y='423.32'>::=</text>
+<text class='t5' x='154.23' y='423.32'>{}<tspan x='131.12' y='435.28'>|</tspan></text>
+<text class='t1' x='154.23' y='435.28'>T<tspan x='159.22'>r</tspan><tspan x='162.95'>aitT</tspan><tspan x='178.27'>ypes</tspan></text></svg></div>
+<p id="p-5a1a7ecb" class="nb">A trait declaration contains a set of method declarations. Syntactically, a method declaration begins with an optional sequence of modifiers followed by the method’s name, optional static parameters (described in <a class="xref" href="trait-parameters.html">Chapter 12</a><!--nc-->), the value parameter with its (optionally) declared type, an optional type of a return value, an optional declaration of thrown checked exceptions (discussed in <a class="xref" href="exceptions.html">Chapter 14</a><!--nc-->), an optional <span class="m"><span class="kw">where</span></span> clause (discussed in <a class="xref" href="trait-parameters.html#sec-where-clauses">Section 12.6</a><!--nc-->), a contract for the method (discussed in <a class="xref" href="#sec-method-contracts">Section 10.4</a><!--nc-->), and finally an optional body expression preceded by the token <span class="m">=</span>. If a method declaration has the <span class="m"><span class="kw">getter</span></span> modifier, it does not affect the behavior of a program; rather, it documents that the method is intended to serve as a getter. A <span class="m"><span class="kw">throws</span></span> clause does not include naked type variables. Every element in a <span class="m"><span class="kw">throws</span></span> clause is a subtype of <span class="m"><span class="ty">CheckedException</span></span>.</p>
+<p id="p-209dac50" class="nb">Method declarations can include the following special modifiers:</p>
+<p id="p-6c24ad42" class="nb"><strong><span class="m"><span class="kw">getter</span></span>:</strong>  A method declaration with the modifier <span class="m"><span class="kw">getter</span></span> explicitly declares a getter method for a field, even in the absence of an actual field declaration.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-fdc81779" class="nb">The following description is too confusing. Reword it!!!</p></aside>
+<p id="p-03647897" class="nb">If such a field exists, there is no implicit getter for the field. An explicitly declared getter method must take no arguments and return a result of the field’s type. A getter method must not throw any checked exception. Getter names may not overlap ordinary method names. A getter method must be invoked with the field access syntax:</p>
+<div class="fx nb both" id="c-a50c1098" data-kind="code"><div class="fx-r"><svg class="tx" data-d="14" viewBox="9.36 11.81 32.71 10.06" width="3.271em" height="1.006em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>expr</text>
+<text class='t7' x='29.53' y='19.33'>.</text>
+<text class='t11' x='32.3' y='19.33'>id</text></svg></div><pre class="fx-s"><code>expr.id</code></pre></div>
+<p id="p-5afdedee" class="nb">where <span class="m"><i>id</i></span> is the name of the getter method.</p>
+<p id="p-5d5de5cb" class="nb"><strong><span class="m"><span class="kw">setter</span></span>:</strong>  A method declaration with the modifier <span class="m"><span class="kw">setter</span></span> explicitly declares a setter method for a field, even in the absence of an actual field.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-fdc81779-2" class="nb">The following description is too confusing. Reword it!!!</p></aside>
+<p id="p-60d0fbf9" class="nb">If such a field exists, there is no implicit setter for the field. An explicitly declared setter method must take a single argument—the value being set—and return <span class="m">()</span>. A setter method must not throw any checked exception. Setter names may not overlap ordinary method names. A setter method must be invoked with the <em>assignment syntax</em>:</p>
+<div class="fx nb both" id="c-a2b920ea" data-kind="code"><div class="fx-r"><svg class="tx" data-d="15" viewBox="9.36 11.81 77.87 10.55" width="7.787em" height="1.055em" fill="currentColor"><text class='t7' x='9.96' y='19.33'>expr</text>
+<text class='t6' x='30.08' y='21.76'>1</text>
+<text class='t7' x='34.55' y='19.33'>.</text>
+<text class='t11' x='37.32' y='19.33'>id</text>
+<text class='t9' x='49.26' y='19.33'>:<tspan x='52.03'>=</tspan></text>
+<text class='t7' x='62.54' y='19.33'>expr</text>
+<text class='t6' x='82.66' y='21.76'>2</text></svg></div><pre class="fx-s"><code>expr1.id := expr2</code></pre></div>
+<p id="p-ad357be9" class="nb">We say that a method declaration <em>occurs</em> in a trait declaration. A trait declaration <em>declares</em> a method declaration that occurs in that trait declaration. A trait declaration <em>inherits</em> method declarations from the declarations of its immediate supertraits except those method declarations that are <em>overridden</em> (as described later in this section) or whose parameter type (not including the type of the self parameter) is equal to the parameter type of a method declaration that occurs in the trait declaration. A trait declaration <em>provides</em> the method declarations that it declares or inherits.</p>
+<p id="p-d0311149" class="nb">There are two sorts of method declarations: <em>dotted method</em> declarations and <em>functional method</em> declarations. Syntactically, a dotted method declaration is identical to a function declaration. When a method is invoked, a special self parameter is bound to the object on which it is invoked.</p>
+<p id="p-f0623a27" class="nb">A functional method declaration has a parameter named <span class="m"><span class="kw">self</span></span> at an arbitrary position in its parameter list. This parameter is not given a type and implicitly has the type of the enclosing trait or object.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-self-type">Section I.1.43</a><!--nc--></span></p>
+<p id="p-5a5ea997" class="nb">In a trait <span class="m"><i>T</i></span> with a self-type parameter <span class="m"><i>X</i></span> (<a class="xref" href="#sec-trait-decls">Section 10.1</a><!--nc-->), this remains the type of the <span class="m"><span class="kw">self</span></span> parameter in the declaration’s signature, which overloading and the choice of a declaration at a call read, save the test of whether two overloaded declarations’ parameter types exclude each other, which reads it as <span class="m"><i>T</i> ∩ <i>X</i></span>; in the method’s body <span class="m"><span class="kw">self</span></span> has the type <span class="m"><i>T</i> ∩ <i>X</i></span> (<a class="xref" href="expressions.html#sec-idn-ref">Section 13.2</a><!--nc-->).</p></aside>
+<p id="p-61ae26a9" class="nb">Semantically, functional method declarations can be viewed as top-level function declarations. For example, the following overloaded functional method <span class="m"><i>f</i></span> declared within a trait declaration <span class="m"><i>A</i></span>:</p>
+<div class="fx nb both" id="c-09dc0110" data-kind="code" data-example="Trait.Method.a"><div class="fx-r"><svg class="tx" data-d="16" viewBox="-0.60 11.92 92.32 69.28" width="9.232em" height="6.928em" fill="currentColor"><text class='t3' x='0' y='19.33'>trait</text>
+<text class='t7' x='28.92' y='19.33'>A<tspan x='13.28' y='39.75'>f</tspan></text>
+<text class='t9' x='19.23' y='39.75'>(</text>
+<text class='t3' x='23.11' y='39.75'>self</text>
+<text class='t7' x='44.03' y='39.75'>,<tspan x='48.46'>t</tspan></text>
+<text class='t9' x='53.71' y='39.75'>:</text>
+<text class='t7' x='58.14' y='39.75'>T</text>
+<text class='t9' x='65.35' y='39.75'>)<tspan x='71.99'>=</tspan></text>
+<text class='t7' x='82.51' y='39.75'>e</text>
+<text class='t6' x='87.14' y='41.25'>1</text>
+<text class='t7' x='13.28' y='60.17'>f</text>
+<text class='t9' x='19.23' y='60.17'>(</text>
+<text class='t7' x='23.11' y='60.17'>s</text>
+<text class='t9' x='29.44' y='60.17'>:</text>
+<text class='t7' x='33.87' y='60.17'>S<tspan x='40'>,</tspan></text>
+<text class='t3' x='44.42' y='60.17'>self</text>
+<text class='t9' x='65.34' y='60.17'>)<tspan x='71.99'>=</tspan></text>
+<text class='t7' x='82.5' y='60.17'>e</text>
+<text class='t6' x='87.14' y='61.67'>2</text>
+<text class='t3' x='0' y='80.6'>end</text></svg></div><pre class="fx-s"><code>trait A
+   f(self, t:T) = e1
+   f(s:S, self) = e2
+end</code></pre></div>
+<div class="fx nb both" id="c-614d4e80" data-kind="code" data-example="Trait.Method.b"><div class="fx-r"><svg class="tx" data-d="17" viewBox="-0.60 11.26 28.19 11.16" width="2.819em" height="1.116em" fill="currentColor"><text class='t7' x='0' y='19.33'>f</text>
+<text class='t9' x='5.95' y='19.33'>(</text>
+<text class='t7' x='9.82' y='19.33'>a,<tspan x='19.52'>t</tspan></text>
+<text class='t9' x='23.12' y='19.33'>)</text></svg></div><pre class="fx-s"><code>f(a, t)</code></pre></div>
+<p id="p-4f96a687" class="nb">may be rewritten as top-level functions as follows:</p>
+<div class="fx nb both" id="c-64a69019" data-kind="code" data-example="Trait.Method.c"><div class="fx-r"><svg class="tx" data-d="18" viewBox="-0.60 11.92 133.99 116.60" width="13.399em" height="11.660em" fill="currentColor"><text class='t3' x='0' y='19.33'>trait</text>
+<text class='t7' x='28.92' y='19.33'>A</text>
+<text class='t11' x='13.28' y='39.75'>internalF</text>
+<text class='t9' x='55.1' y='39.75'>(</text>
+<text class='t7' x='58.98' y='39.75'>t</text>
+<text class='t9' x='64.23' y='39.75'>:</text>
+<text class='t7' x='68.66' y='39.75'>T</text>
+<text class='t9' x='75.87' y='39.75'>)<tspan x='82.51'>=</tspan></text>
+<text class='t7' x='93.02' y='39.75'>e</text>
+<text class='t6' x='97.66' y='41.25'>1</text>
+<text class='t11' x='13.28' y='60.17'>internalF</text>
+<text class='t9' x='55.1' y='60.17'>(</text>
+<text class='t7' x='58.98' y='60.17'>s</text>
+<text class='t9' x='65.31' y='60.17'>:</text>
+<text class='t7' x='69.73' y='60.17'>S</text>
+<text class='t9' x='76.42' y='60.17'>)<tspan x='83.06'>=</tspan></text>
+<text class='t7' x='93.57' y='60.17'>e</text>
+<text class='t6' x='98.21' y='61.67'>2</text>
+<text class='t3' x='0' y='80.6'>end</text>
+<text class='t7' x='0' y='105.01'>f</text>
+<text class='t6' x='4.88' y='106.5'>1</text>
+<text class='t9' x='9.35' y='105.01'>(</text>
+<text class='t7' x='13.22' y='105.01'>a</text>
+<text class='t9' x='20.15' y='105.01'>:</text>
+<text class='t7' x='24.58' y='105.01'>A,<tspan x='36.48'>t</tspan></text>
+<text class='t9' x='41.73' y='105.01'>:</text>
+<text class='t7' x='46.16' y='105.01'>T</text>
+<text class='t9' x='53.37' y='105.01'>)<tspan x='60.01'>=</tspan></text>
+<text class='t7' x='70.52' y='105.01'>a.</text>
+<text class='t11' x='78.56' y='105.01'>internalF</text>
+<text class='t9' x='120.38' y='105.01'>(</text>
+<text class='t7' x='124.25' y='105.01'>t</text>
+<text class='t9' x='127.85' y='105.01'>)</text>
+<text class='t7' x='0' y='125.43'>f</text>
+<text class='t6' x='4.88' y='126.92'>2</text>
+<text class='t9' x='9.35' y='125.43'>(</text>
+<text class='t7' x='13.22' y='125.43'>s</text>
+<text class='t9' x='19.55' y='125.43'>:</text>
+<text class='t7' x='23.98' y='125.43'>S<tspan x='30.11'>,</tspan><tspan x='34.54'>a</tspan></text>
+<text class='t9' x='41.46' y='125.43'>:</text>
+<text class='t7' x='45.89' y='125.43'>A</text>
+<text class='t9' x='53.36' y='125.43'>)<tspan x='60.01'>=</tspan></text>
+<text class='t7' x='70.52' y='125.43'>a.</text>
+<text class='t11' x='78.55' y='125.43'>internalF</text>
+<text class='t9' x='120.37' y='125.43'>(</text>
+<text class='t7' x='124.25' y='125.43'>s</text>
+<text class='t9' x='128.92' y='125.43'>)</text></svg></div><pre class="fx-s"><code>trait A
+   internalF(t:T) = e1
+   internalF(s:S) = e2
+end
+
+f1(a:A, t:T) = a.internalF(t)
+f2(s:S, a:A) = a.internalF(s)</code></pre></div>
+<div class="fx nb both" id="c-8b837ddd" data-kind="code" data-example="Trait.Method.d"><div class="fx-r"><svg class="tx" data-d="19" viewBox="-0.60 11.26 31.59 11.16" width="3.159em" height="1.116em" fill="currentColor"><text class='t7' x='0' y='19.33'>f</text>
+<text class='t6' x='4.88' y='20.82'>1</text>
+<text class='t9' x='9.35' y='19.33'>(</text>
+<text class='t7' x='13.22' y='19.33'>a,<tspan x='22.92'>t</tspan></text>
+<text class='t9' x='26.51' y='19.33'>)</text></svg></div><pre class="fx-s"><code>f1(a, t)</code></pre></div>
+<p id="p-11115eab" class="nb">where <span class="m"><i>internalF</i></span> is a freshly generated name. Functional method declarations may be overloaded with top-level function declarations. An abstract function declaration (described in <a class="xref" href="functions.html#sec-abstractFunctionDeclarations">Section 9.3</a><!--nc-->) can be provided also for overloaded functional method declarations. See <a class="xref" href="multiple-dispatch.html">Chapter 15</a><!--nc--> for a discussion of overloaded functionals in Fortress.</p>
+<p id="p-e2d6a96e" class="nb">When a method declaration includes a body expression, it is called a <em>method definition</em>. A method declaration that does not have its body expression is referred to as an <em>abstract method declaration</em>. An abstract method declaration declares an <em>abstract method</em>; any object inheriting an abstract method must define a body expression for the method: a method definition with the same name and the self parameter (if any) at the same position whose parameter type, not counting the type of the self parameter, is that of the abstract method declaration, or definitions whose parameter types are subtypes of it and together cover it (<a class="xref" href="types.html#sec-internal-types">Section 6.10</a>), or it is a static error.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-covering">Section I.1.34</a><!--nc--></span></p>
+<p id="p-d6ad4028" class="nb">The Working Draft of February 2011 said only that any object inheriting an abstract method must define a body expression for the method. The object defines the method by a body at its parameter type, or by bodies at narrower parameter types that together cover it, <span class="m"><span class="kw">comprises</span></span> clauses read at the level of values (<a class="xref" href="#sec-trait-decls">Section 10.1</a><!--nc-->), as <a class="xref" href="functions.html#sec-abstractFunctionDeclarations">Section 9.3</a><!--nc--> asks of the concrete declarations for an abstract function declaration; one body at a narrower parameter type that does not cover the abstract method’s does not define it. This is the rule of the type group’s compiled type checker (2012) and of its calculus Welterweight Fortress (2012). The requirement of <a class="xref" href="objects.html#sec-object-decls">Section 11.1</a><!--nc--> that an object define all abstract methods inherited from its supertraits is unchanged: it defines them in this sense.</p></aside>
+<p id="p-e73a6dbb" class="nb">An abstract method declaration may include the modifier <span class="m"><span class="kw">abstract</span></span>. It may elide parameter names but parameter types cannot be omitted except for the self parameter.</p>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-2af42acb" class="nb">Method declarations that are overridden by some declaration are not accessible. They are not considered for overloading checks.</p>
+<p id="p-61c96218" class="nb">Partial overriding of an overloaded functional is allowed but partial overriding of a functional declaration is not allowed.</p></aside>
+<p id="p-fcc5d33b" class="nb">A method declaration may have the modifier <span class="m"><span class="kw">override</span></span>. Such a declaration <em>overrides</em> any inherited declaration with the same name and the self parameter (if any) at the same position, whose parameter type, not counting the type of the self parameter, is a strict subtype of the overriding declaration’s parameter type. The return type of the overriding declaration must be subtype of that of the overridden declaration to preserve type safety. A declaration with the modifier <span class="m"><span class="kw">override</span></span> must override some inherited declaration. It is a static error if a declaration with the modifier <span class="m"><span class="kw">override</span></span> does not override any inherited declaration.</p>
+<p id="p-7afd0341" class="nb">Here is an example trait <span class="m"><span class="ty">Enzyme</span></span> which provides methods <span class="m"><i>reactionSpeed</i></span> and <span class="m"><i>catalyze</i></span>:</p>
+<div class="fx nb both" id="c-93882062" data-kind="code" data-example="Trait.Method.e"><div class="fx-r"><svg class="tx" data-d="20" viewBox="-0.60 11.26 257.36 70.04" width="25.736em" height="7.004em" fill="currentColor"><text class='t3' x='0' y='19.33'>trait</text>
+<text class='t9' x='28.92' y='19.33'>Enzyme</text>
+<text class='t3' x='66.42' y='19.33'>extends</text>
+<text class='t5' x='105.8' y='19.33'>{</text>
+<text class='t9' x='112.44' y='19.33'>OrganicMolecule</text>
+<text class='t7' x='185.25' y='19.33'>,</text>
+<text class='t9' x='189.68' y='19.33'>Catalyst</text>
+<text class='t5' x='228.2' y='19.33'>}</text>
+<text class='t11' x='8.86' y='39.75'>r<tspan x='12.55'>e</tspan><tspan x='16.62'>actionSp</tspan><tspan x='53.54'>e</tspan><tspan x='57.61'>e</tspan><tspan x='61.68'>d</tspan></text>
+<text class='t9' x='67.81' y='39.75'>(<tspan x='72.1'>):</tspan><tspan x='80.4'>Sp</tspan><tspan x='91.74'>eed</tspan></text>
+<text class='t11' x='8.86' y='60.27'>c<tspan x='12.93'>atalyze</tspan></text>
+<text class='t9' x='43.21' y='60.27'>(</text>
+<text class='t11' x='47.09' y='60.27'>r<tspan x='50.78'>e</tspan><tspan x='54.85'>action</tspan></text>
+<text class='t9' x='82.35' y='60.27'>)<tspan x='88.99'>=</tspan></text>
+<text class='t11' x='99.51' y='60.27'>r<tspan x='103.2'>e</tspan><tspan x='107.27'>action</tspan></text>
+<text class='t7' x='134.77' y='60.27'>.</text>
+<text class='t11' x='137.54' y='60.27'>ac<tspan x='146.7'>c</tspan><tspan x='150.77'>eler</tspan><tspan x='166.18'>ate</tspan></text>
+<text class='t13' x='179.91' y='52.2'></text>
+<text class='t11' x='184.48' y='60.27'>r<tspan x='188.17'>e</tspan><tspan x='192.24'>actionSp</tspan><tspan x='229.16'>e</tspan><tspan x='233.23'>e</tspan><tspan x='237.31'>d</tspan></text>
+<text class='t9' x='243.43' y='60.27'>(<tspan x='247.72'>)</tspan></text>
+<text class='t13' x='251.59' y='52.2'></text>
+<text class='t3' x='0' y='80.7'>end</text></svg></div><pre class="fx-s"><code>trait Enzyme extends { OrganicMolecule, Catalyst }
+  reactionSpeed(): Speed
+  catalyze(reaction) = reaction.accelerate(reactionSpeed())
+end</code></pre></div>
+<p id="p-31de4b35" class="nb"><span class="m"><span class="ty">Enzyme</span></span> inherits the abstract method <span class="m"><i>mass</i></span> from <span class="m"><span class="ty">OrganicMolecule</span></span>, declares the abstract method <span class="m"><i>reactionSpeed</i></span>, and declares the concrete method <span class="m"><i>catalyze</i></span> which is inherited as an abstract method from its supertrait <span class="m"><span class="ty">Catalyst</span></span>.</p>
+</section>
+<section class="sec" data-num="10.3" data-title="Abstract Field Declarations">
+<h2 id="sec-abstract-fields" class="nb"><span class="num">10.3</span> Abstract Field Declarations</h2>
+<div class="tw nb gr" id="g-7571143b" data-kind="grammar"><svg class="tx" data-d="21" viewBox="-5.58 10.45 324.45 117.09" width="32.445em" height="11.709em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>AbsFldDecl</text>
+<text class='t2' x='97.44' y='28.8'>::=</text>
+<text class='t1' x='120.56' y='28.8'>AbsFldMods</text>
+<text class='t2' x='171.48' y='28.8'>?</text>
+<text class='t1' x='178.99' y='28.8'>AbsFldWT<tspan x='220.87'>ypes</tspan></text>
+<text class='t5' x='97.44' y='40.76'>|</text>
+<text class='t1' x='120.56' y='40.76'>AbsFldMods</text>
+<text class='t2' x='171.48' y='40.76'>?</text>
+<text class='t1' x='178.99' y='40.76'>BindIdOrBindIdT<tspan x='249.28'>uple</tspan></text>
+<text class='t9' x='270.59' y='40.76'>:</text>
+<text class='t1' x='277.51' y='40.76'>T<tspan x='282.31'>ype</tspan></text>
+<text class='t7' x='296.14' y='40.76'>...</text>
+<text class='t5' x='97.44' y='52.71'>|</text>
+<text class='t1' x='120.56' y='52.71'>AbsFldMods</text>
+<text class='t2' x='171.48' y='52.71'>?</text>
+<text class='t1' x='178.99' y='52.71'>BindIdOrBindIdT<tspan x='249.28'>uple</tspan></text>
+<text class='t9' x='270.59' y='52.71'>:</text>
+<text class='t1' x='277.51' y='52.71'>T<tspan x='282.5'>upleT</tspan><tspan x='304.46'>ype</tspan><tspan x='25.9' y='64.67'>AbsFldWT</tspan><tspan x='67.79'>ypes</tspan></text>
+<text class='t2' x='97.44' y='64.67'>::=</text>
+<text class='t1' x='120.56' y='64.67'>AbsFldWT<tspan x='162.44'>ype</tspan></text>
+<text class='t5' x='97.44' y='76.62'>|</text>
+<text class='t8' x='120.56' y='76.62'>(</text>
+<text class='t1' x='129.03' y='76.62'>AbsFldWT<tspan x='170.91'>ype</tspan></text>
+<text class='t2' x='184.74' y='76.62'>(</text>
+<text class='t7' x='188.05' y='76.62'>,</text>
+<text class='t1' x='194.97' y='76.62'>AbsFldWT<tspan x='236.85'>ype</tspan></text>
+<text class='t2' x='250.68' y='76.62'>)</text>
+<text class='t6' x='254' y='73.01'>+</text>
+<text class='t8' x='263.11' y='76.62'>)</text>
+<text class='t1' x='25.9' y='88.58'>AbsFldWT<tspan x='67.79'>ype</tspan></text>
+<text class='t2' x='97.44' y='88.58'>::=</text>
+<text class='t1' x='120.56' y='88.58'>BindId<tspan x='150.43'>IsT</tspan><tspan x='162.43'>ype</tspan><tspan x='25.9' y='100.53'>AbsFldMods</tspan></text>
+<text class='t2' x='97.44' y='100.53'>::=</text>
+<text class='t1' x='120.56' y='100.53'>AbsFldMod</text>
+<text class='t6' x='167.87' y='96.92'>+</text>
+<text class='t1' x='25.9' y='112.49'>AbsFldMod</text>
+<text class='t2' x='97.44' y='112.49'>::=</text>
+<text class='t1' x='120.56' y='112.49'>ApiFldMod</text>
+<text class='t5' x='169.25' y='112.49'>|</text>
+<text class='t3' x='176.17' y='112.49'>wrapped</text>
+<text class='t5' x='216.94' y='112.49'>|</text>
+<text class='t3' x='223.85' y='112.49'>private</text>
+<text class='t1' x='25.9' y='124.44'>ApiFldMod</text>
+<text class='t2' x='97.44' y='124.44'>::=</text>
+<text class='t3' x='122.22' y='124.44'>hidden</text>
+<text class='t5' x='157.75' y='124.44'>|</text>
+<text class='t3' x='164.67' y='124.44'>settable</text>
+<text class='t5' x='210.66' y='124.44'>|</text>
+<text class='t3' x='217.58' y='124.44'>test</text></svg></div>
+<p id="p-f3fac7d7" class="nb">Traits may also include abstract field declarations that are implicit declarations of abstract getter methods. Syntactically, an abstract field declaration consists of an optional sequence of modifiers followed by the field name, followed by the token ‘<span class="m">:</span>’, and the type of the field.</p>
+<p id="p-209c06d4" class="nb">By default, a field declaration implicitly declares a getter method for the field unless there is an explicit getter declared in the enclosing trait. An implicit getter method takes no arguments, has the same name as the field, and has a return type equal to the field type. When called, the implicit getter returns the value of the field when called.</p>
+<p id="p-52536320" class="nb">Abstract field declarations can include the following special modifiers:</p>
+<p id="p-196df45a" class="nb"><strong><span class="m"><span class="kw">hidden</span></span>:</strong>  A field declaration with the modifier <span class="m"><span class="kw">hidden</span></span> has no implicit getter method.</p>
+<p id="p-be374ab8" class="nb"><strong><span class="m"><span class="kw">settable</span></span>:</strong>  A field declaration with the modifier <span class="m"><span class="kw">settable</span></span> has an implicit setter method unless there is an explicit setter declared in the enclosing trait. An implicit setter method takes a parameter (with no default expression) whose type is the type of the field, and returns <span class="m">()</span>. When called, the implicit setter rebinds the corresponding field to its argument. If a field declaration includes the modifier <span class="m"><span class="kw">settable</span></span> and <span class="m"><span class="kw">hidden</span></span>, only an abstract setter is declared. If a field declaration includes the modifier <span class="m"><span class="kw">hidden</span></span> without <span class="m"><span class="kw">settable</span></span>, it is a static error. If an abstract field declaration includes the modifier <span class="m"><span class="kw">settable</span></span>, it is mutable. Because the <span class="m"><span class="kw">settable</span></span> modifier implies <span class="m"><span class="kw">var</span></span>, and the <span class="m"><span class="kw">var</span></span> modifier without <span class="m"><span class="kw">settable</span></span> only affects implementations, abstract field declarations do not include the <span class="m"><span class="kw">var</span></span> modifier.</p>
+<p id="p-46b71288" class="nb"><strong><span class="m"><span class="kw">wrapped</span></span>:</strong>  If a field declaration of <span class="m"><i>f</i></span> has the modifier <span class="m"><span class="kw">wrapped</span></span> and the type of <span class="m"><i>f</i></span> is trait type <span class="m"><i>T</i></span>, and <span class="m"><i>T</i></span> is not a naked type variable, then the enclosing trait <span class="m"><i>S</i></span> implicitly includes “forwarding methods” for all methods in <span class="m"><i>T</i></span> that are also inherited from any supertrait of <span class="m"><i>S</i></span>. Each of these methods simply calls the corresponding method on the trait referred to by field <span class="m"><i>f</i></span>. If the trait declaration enclosing <span class="m"><i>f</i></span> explicitly declares a method <span class="m"><i>m</i></span> that conflicts with an implicitly declared forwarding method <span class="m"><i>m</i>′</span>, then the enclosing trait contains only method <span class="m"><i>m</i></span>, not <span class="m"><i>m</i>′</span>. If the trait declaration enclosing <span class="m"><i>f</i></span> inherits a concrete method <span class="m"><i>m</i></span> that conflicts with an implicitly declared forwarding method <span class="m"><i>m</i>′</span>, then the enclosing trait contains only method <span class="m"><i>m</i></span>, not <span class="m"><i>m</i>′</span>. Because wrapped fields do not change declarations of methods but change definitions of methods, they only affect implementations; APIs do not include wrapped fields.</p>
+<p id="p-2b9f70ba" class="nb">For example, in the following declarations:</p>
+<div class="fx nb both" id="c-04047f43" data-kind="code"><div class="fx-r"><svg class="tx" data-d="22" viewBox="9.36 11.26 234.82 96.34" width="23.482em" height="9.634em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>trait</text>
+<text class='t9' x='38.88' y='19.33'>Dictionary</text>
+<text class='t10' x='85.13' y='19.33'></text>
+<text class='t7' x='89.14' y='19.33'>T</text>
+<text class='t10' x='96.34' y='19.33'></text>
+<text class='t11' x='21.92' y='31.28'>put</text>
+<text class='t9' x='36.61' y='31.28'>(</text>
+<text class='t7' x='40.49' y='31.28'>T</text>
+<text class='t9' x='47.69' y='31.28'>):<tspan x='55.99'>()</tspan></text>
+<text class='t11' x='21.92' y='43.24'>get</text>
+<text class='t9' x='35.34' y='43.24'>():</text>
+<text class='t7' x='47.51' y='43.24'>T</text>
+<text class='t3' x='9.96' y='55.19'>end<tspan x='9.96' y='71.13'>trait</tspan></text>
+<text class='t9' x='38.88' y='71.13'>W<tspan x='48.29'>rapp</tspan><tspan x='68.52'>edDictionary</tspan></text>
+<text class='t10' x='124.73' y='71.13'></text>
+<text class='t7' x='128.74' y='71.13'>T</text>
+<text class='t10' x='135.95' y='71.13'></text>
+<text class='t3' x='142.73' y='71.13'>extends</text>
+<text class='t9' x='182.1' y='71.13'>Dictionary</text>
+<text class='t10' x='228.35' y='71.13'></text>
+<text class='t7' x='232.36' y='71.13'>T</text>
+<text class='t10' x='239.57' y='71.13'></text>
+<text class='t3' x='21.92' y='83.09'>wrapped</text>
+<text class='t11' x='61.3' y='83.09'>val</text>
+<text class='t9' x='74.55' y='83.09'>:<tspan x='78.98'>Dictionary</tspan></text>
+<text class='t10' x='125.22' y='83.09'></text>
+<text class='t7' x='129.23' y='83.09'>T</text>
+<text class='t10' x='136.44' y='83.09'></text>
+<text class='t11' x='21.92' y='95.04'>get</text>
+<text class='t9' x='35.34' y='95.04'>():</text>
+<text class='t7' x='47.51' y='95.04'>T</text>
+<text class='t3' x='9.96' y='107'>end</text></svg></div><pre class="fx-s"><code>trait Dictionary[\T\]
+  put(T): ()
+  get(): T
+end
+
+trait WrappedDictionary[\T\] extends Dictionary[\T\]
+  wrapped val: Dictionary[\T\]
+  get(): T
+end</code></pre></div>
+<p id="p-d01c3f86" class="nb">the parametric trait <span class="m"><span class="ty">WrappedDictionary</span></span> implicitly includes the following forwarding method:</p>
+<div class="fx nb" id="c-31b74c52" data-kind="code"><div class="fx-r"><svg class="tx" data-d="23" viewBox="9.36 11.26 86.77 11.16" width="8.677em" height="1.116em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>put</text>
+<text class='t9' x='24.66' y='19.33'>(</text>
+<text class='t7' x='28.53' y='19.33'>x</text>
+<text class='t9' x='34.22' y='19.33'>)<tspan x='40.87'>=</tspan></text>
+<text class='t11' x='51.38' y='19.33'>val</text>
+<text class='t7' x='64.63' y='19.33'>.</text>
+<text class='t11' x='67.4' y='19.33'>put</text>
+<text class='t9' x='82.09' y='19.33'>(</text>
+<text class='t7' x='85.97' y='19.33'>x</text>
+<text class='t9' x='91.66' y='19.33'>)</text></svg></div></div>
+<p id="p-ce72e71d" class="nb">If <span class="m"><i>get</i></span> were not explicitly declared in <span class="m"><span class="ty">WrappedDictionary</span></span>, then <span class="m"><span class="ty">WrappedDictionary</span></span> would also include the forwarding method:</p>
+<div class="fx nb" id="c-321571ec" data-kind="code"><div class="fx-r"><svg class="tx" data-d="24" viewBox="9.36 11.26 72.84 11.16" width="7.284em" height="1.116em" fill="currentColor"><text class='t11' x='9.96' y='19.33'>get</text>
+<text class='t9' x='23.38' y='19.33'>()<tspan x='33.9'>=</tspan></text>
+<text class='t11' x='44.42' y='19.33'>val</text>
+<text class='t7' x='57.67' y='19.33'>.</text>
+<text class='t11' x='60.43' y='19.33'>get</text>
+<text class='t9' x='73.85' y='19.33'>()</text></svg></div></div>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-3f5ee1c1" class="nb">Wrapped fields imply subtyping.</p>
+<p id="p-dcf3ef76" class="nb">what methods are implicitly defined?</p>
+<div class="fx nb both" id="c-37407061" data-kind="code"><div class="fx-r"><svg class="tx" data-d="25" viewBox="15.34 11.92 120.58 243.13" width="12.058em" height="24.313em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>trait</text>
+<text class='t7' x='47.07' y='19.33'>T<tspan x='33.87' y='31.28'>f</tspan></text>
+<text class='t9' x='39.82' y='31.28'>(</text>
+<text class='t7' x='43.7' y='31.28'>x</text>
+<text class='t9' x='49.39' y='31.28'>)<tspan x='56.03'>=</tspan><tspan x='66.55'>17</tspan></text>
+<text class='t3' x='33.87' y='43.24'>abstract</text>
+<text class='t7' x='80.7' y='43.24'>h</text>
+<text class='t9' x='86.44' y='43.24'>(</text>
+<text class='t7' x='90.31' y='43.24'>x</text>
+<text class='t9' x='96.01' y='43.24'>)</text>
+<text class='t3' x='15.94' y='55.19'>end<tspan x='15.94' y='67.15'>object</tspan></text>
+<text class='t7' x='52.3' y='67.15'>A</text>
+<text class='t3' x='62.54' y='67.15'>extends</text>
+<text class='t7' x='104.14' y='67.15'>T<tspan x='33.87' y='79.1'>f</tspan></text>
+<text class='t9' x='39.82' y='79.1'>(</text>
+<text class='t7' x='43.7' y='79.1'>x</text>
+<text class='t9' x='49.39' y='79.1'>)<tspan x='56.03'>=</tspan><tspan x='66.55'>23</tspan></text>
+<text class='t7' x='33.87' y='91.06'>g</text>
+<text class='t9' x='38.98' y='91.06'>(</text>
+<text class='t7' x='42.86' y='91.06'>x</text>
+<text class='t9' x='48.55' y='91.06'>)<tspan x='55.19'>=</tspan><tspan x='65.71'>5</tspan></text>
+<text class='t7' x='33.87' y='103.01'>h</text>
+<text class='t9' x='39.61' y='103.01'>(</text>
+<text class='t7' x='43.49' y='103.01'>x</text>
+<text class='t9' x='49.18' y='103.01'>)<tspan x='55.82'>=</tspan><tspan x='66.34'>3</tspan></text>
+<text class='t3' x='15.94' y='114.97'>end<tspan x='15.94' y='126.92'>object</tspan></text>
+<text class='t7' x='52.3' y='126.92'>B</text>
+<text class='t3' x='63.13' y='126.92'>extends</text>
+<text class='t7' x='104.72' y='126.92'>T</text>
+<text class='t3' x='33.87' y='138.88'>wrapped</text>
+<text class='t7' x='75.47' y='138.88'>a</text>
+<text class='t9' x='80.73' y='138.88'>:</text>
+<text class='t7' x='85.16' y='138.88'>A</text>
+<text class='t3' x='15.94' y='150.83'>end</text>
+<text class='t7' x='15.94' y='166.77'>f</text>
+<text class='t9' x='21.89' y='166.77'>(</text>
+<text class='t7' x='25.76' y='166.77'>x</text>
+<text class='t9' x='31.46' y='166.77'>)<tspan x='38.1'>=</tspan><tspan x='48.62'>(</tspan></text>
+<text class='t3' x='52.49' y='166.77'>self<tspan x='76.18'>asif</tspan></text>
+<text class='t7' x='102.08' y='166.77'>T</text>
+<text class='t9' x='109.29' y='166.77'>)</text>
+<text class='t7' x='113.16' y='166.77'>.f</text>
+<text class='t9' x='121.88' y='166.77'>(</text>
+<text class='t7' x='125.75' y='166.77'>x</text>
+<text class='t9' x='131.45' y='166.77'>)</text>
+<text class='t7' x='15.94' y='178.73'>h</text>
+<text class='t9' x='21.68' y='178.73'>(</text>
+<text class='t7' x='25.55' y='178.73'>x</text>
+<text class='t9' x='31.25' y='178.73'>)<tspan x='37.89'>=</tspan></text>
+<text class='t7' x='48.41' y='178.73'>a.h</text>
+<text class='t9' x='62.18' y='178.73'>(</text>
+<text class='t7' x='66.05' y='178.73'>x</text>
+<text class='t9' x='71.75' y='178.73'>)</text>
+<text class='t3' x='15.94' y='194.67'>trait</text>
+<text class='t7' x='47.07' y='194.67'>U</text>
+<text class='t3' x='33.87' y='206.63'>abstract</text>
+<text class='t7' x='80.7' y='206.63'>g</text>
+<text class='t9' x='85.81' y='206.63'>(</text>
+<text class='t7' x='89.68' y='206.63'>x</text>
+<text class='t9' x='95.37' y='206.63'>)</text>
+<text class='t3' x='15.94' y='218.58'>end<tspan x='15.94' y='230.54'>object</tspan></text>
+<text class='t7' x='52.3' y='230.54'>B</text>
+<text class='t3' x='63.13' y='230.54'>extends</text>
+<text class='t5' x='102.51' y='230.54'>{</text>
+<text class='t7' x='107.49' y='230.54'>T<tspan x='114.14'>,</tspan><tspan x='118.57'>U</tspan></text>
+<text class='t5' x='126.46' y='230.54'>}</text>
+<text class='t3' x='33.87' y='242.49'>wrapped</text>
+<text class='t7' x='75.47' y='242.49'>a</text>
+<text class='t9' x='80.73' y='242.49'>:</text>
+<text class='t7' x='85.16' y='242.49'>A</text>
+<text class='t3' x='92.63' y='242.49'>ERROR</text>
+<text class='t9' x='118.78' y='242.49'>!</text>
+<text class='t3' x='15.94' y='254.45'>end</text></svg></div><pre class="fx-s"><code>trait T
+   f(x) = 17
+   abstract h(x)
+end
+object A extends T
+   f(x) = 23
+   g(x) = 5
+   h(x) = 3
+end
+object B extends T
+   wrapped a: A
+end
+f(x) = (self asif T).f(x)
+h(x) = a.h(x)
+trait U
+   abstract g(x)
+end
+object B extends {T, U}
+   wrapped a: A                  ERROR!
+end</code></pre></div></aside>
+</section>
+<section class="sec" data-num="10.4" data-title="Method Contracts">
+<h2 id="sec-method-contracts" class="nb"><span class="num">10.4</span> Method Contracts</h2>
+<div class="tw nb gr" id="g-4b8ef0c4" data-kind="grammar"><svg class="tx" data-d="26" viewBox="-5.58 10.45 278.62 81.22" width="27.862em" height="8.122em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='28.8'>Contr<tspan x='49.01'>act</tspan></text>
+<text class='t2' x='112.4' y='28.8'>::=</text>
+<text class='t1' x='135.51' y='28.8'>Requir<tspan x='162.26'>es</tspan></text>
+<text class='t2' x='170.56' y='28.8'>?</text>
+<text class='t1' x='178.07' y='28.8'>Ensur<tspan x='201.5'>es</tspan></text>
+<text class='t2' x='209.8' y='28.8'>?</text>
+<text class='t1' x='217.31' y='28.8'>In<tspan x='225.21'>variant</tspan></text>
+<text class='t2' x='254.17' y='28.8'>?</text>
+<text class='t1' x='25.9' y='40.76'>Requir<tspan x='52.65'>es</tspan></text>
+<text class='t2' x='112.4' y='40.76'>::=</text>
+<text class='t3' x='137.17' y='40.76'>requires</text>
+<text class='t5' x='183.16' y='40.76'>{</text>
+<text class='t1' x='190.64' y='40.76'>ExprList</text>
+<text class='t2' x='225.14' y='40.76'>?</text>
+<text class='t5' x='232.65' y='40.76'>}</text>
+<text class='t1' x='25.9' y='52.71'>Ensur<tspan x='49.33'>es</tspan></text>
+<text class='t2' x='112.4' y='52.71'>::=</text>
+<text class='t3' x='137.17' y='52.71'>ensures</text>
+<text class='t5' x='177.93' y='52.71'>{</text>
+<text class='t1' x='185.41' y='52.71'>Ensur<tspan x='208.84'>esClauseList</tspan></text>
+<text class='t2' x='259.95' y='52.71'>?</text>
+<text class='t5' x='267.46' y='52.71'>}</text>
+<text class='t1' x='25.9' y='64.67'>Ensur<tspan x='49.33'>esClauseList</tspan></text>
+<text class='t2' x='112.4' y='64.67'>::=</text>
+<text class='t1' x='135.51' y='64.67'>Ensur<tspan x='158.94'>esClause</tspan></text>
+<text class='t2' x='194.92' y='64.67'>(</text>
+<text class='t7' x='198.23' y='64.67'>,</text>
+<text class='t1' x='205.15' y='64.67'>Ensur<tspan x='228.58'>esClause</tspan></text>
+<text class='t2' x='264.56' y='64.67'>)</text>
+<text class='t4' x='267.88' y='61.05'>∗</text>
+<text class='t1' x='25.9' y='76.62'>Ensur<tspan x='49.33'>esClause</tspan></text>
+<text class='t2' x='112.4' y='76.62'>::=</text>
+<text class='t1' x='135.51' y='76.62'>Expr</text>
+<text class='t2' x='157.6' y='76.62'>(</text>
+<text class='t3' x='160.91' y='76.62'>provided</text>
+<text class='t1' x='206.91' y='76.62'>Expr</text>
+<text class='t2' x='226.51' y='76.62'>)?</text>
+<text class='t1' x='25.9' y='88.58'>In<tspan x='33.8'>variant</tspan></text>
+<text class='t2' x='112.4' y='88.58'>::=</text>
+<text class='t3' x='137.17' y='88.58'>invariant</text>
+<text class='t5' x='188.4' y='88.58'>{</text>
+<text class='t1' x='195.87' y='88.58'>ExprList</text>
+<text class='t2' x='230.37' y='88.58'>?</text>
+<text class='t5' x='237.88' y='88.58'>}</text></svg></div>
+<p id="p-9320ee0a" class="nb">Method contracts consist of three optional clauses: a <span class="m"><span class="kw">requires</span></span> clause, an <span class="m"><span class="kw">ensures</span></span> clause, and an <span class="m"><span class="kw">invariant</span></span> clause. All three clauses are evaluated in the scope of the method body. See <a class="xref" href="functions.html#sec-contracts">Section 9.4</a><!--nc--> for a discussion of each clause.</p>
+<p id="p-5aaffe32" class="nb">Method contracts are handled similarly to the manner described in [<a class="cite" href="references.html#ref-MethodContracts">MethodContracts</a>]. In particular, substitutability under subtyping is preserved. For a call to a method <span class="m"><i>m</i></span> with receiver <span class="m"><i>e</i></span>, we use the term <em>static contract</em> of <span class="m"><i>m</i></span> to refer to a contract declared in the statically most applicable method declaration provided by the static type of <span class="m"><i>e</i></span> and the term <em>dynamic contract</em> of <span class="m"><i>m</i></span> to refer to a contract declared in the dynamically most applicable method declaration provided by the runtime type of <span class="m"><i>e</i></span>. Three exceptions may be thrown due to a method contract violation: <span class="m"><span class="ty">CallerViolation</span></span> is thrown when the <span class="m"><span class="kw">requires</span></span> clause of the static contract fails, <span class="m"><span class="ty">CalleeViolation</span></span> is thrown when the <span class="m"><span class="kw">ensures</span></span> or <span class="m"><span class="kw">invariant</span></span> clause of the dynamic contract fails, and <span class="m"><span class="ty">ContractHierarchyViolation</span></span> is thrown when the <span class="m"><span class="kw">requires</span></span> clause of the dynamic contract or the <span class="m"><span class="kw">ensures</span></span> or <span class="m"><span class="kw">invariant</span></span> clause of the static contract fails.</p>
+<p id="p-902116d3" class="nb">Evaluation of a call to a method <span class="m"><i>m</i></span> with receiver <span class="m"><i>e</i></span> proceeds as follows. First, <span class="m"><i>e</i></span> is evaluated to a value <span class="m"><i>v</i></span> with runtime type <span class="m"><i>U</i></span>. Let <span class="m"><i>C</i></span> and <span class="m"><i>C</i>′</span> be the static and dynamic contracts of <span class="m"><i>m</i></span>, respectively. If the <span class="m"><span class="kw">requires</span></span> clause of <span class="m"><i>C</i></span> fails, a <span class="m"><span class="ty">CallerViolation</span></span> exception is thrown. Otherwise, if the <span class="m"><span class="kw">requires</span></span> clause of <span class="m"><i>C</i>′</span> fails, a <span class="m"><span class="ty">ContractHierarchyViolation</span></span> exception is thrown. Otherwise, the <span class="m"><span class="kw">provided</span></span> subclauses of <span class="m"><i>C</i></span> and <span class="m"><i>C</i>′</span> are evaluated. For every <span class="m"><span class="kw">provided</span></span> subclause that evaluates to <span class="m"><i>true</i></span>, the corresponding <span class="m"><span class="kw">ensures</span></span> subclause is recorded in a table <span class="m"><i>E</i></span> for later comparison. Similarly, the <span class="m"><span class="kw">invariant</span></span> clauses of <span class="m"><i>C</i></span> and <span class="m"><i>C</i>′</span> are evaluated and the results are stored in <span class="m"><i>E</i></span> for later comparison. Then the body of <span class="m"><i>m</i></span> provided by <span class="m"><i>U</i></span> is evaluated. After evaluation of the body, all <span class="m"><span class="kw">ensures</span></span> subclauses of the dynamic contract recorded in <span class="m"><i>E</i></span> are checked to ensure that they evaluate to <span class="m"><i>true</i></span>, and all <span class="m"><span class="kw">invariant</span></span> clauses of the dynamic contract recorded in <span class="m"><i>E</i></span> are checked to ensure that they evaluate to values equal to the values they evaluated to before evaluation of the body. If any such check fails, a <span class="m"><span class="ty">CalleeViolation</span></span> exception is thrown. Otherwise, all <span class="m"><span class="kw">ensures</span></span> subclauses and <span class="m"><span class="kw">invariant</span></span> clauses of the static contract in <span class="m"><i>E</i></span> are checked. If any of these checks fails, a <span class="m"><span class="ty">ContractHierarchyViolation</span></span> exception is thrown.</p>
+</section>
+<section class="sec" data-num="10.5" data-title="Value Traits">
+<h2 id="sec-value-traits" class="nb"><span class="num">10.5</span> Value Traits</h2>
+<div class="tw nb gr" id="g-b27d45de" data-kind="grammar"><svg class="tx" data-d="27" viewBox="-5.58 10.45 132.73 20.38" width="13.273em" height="2.038em" fill="currentColor"><text class='t0' x='-4.98' y='18.3'>Syntax:</text>
+<text class='t1' x='25.9' y='30.16'>T<tspan x='30.89'>r</tspan><tspan x='34.62'>aitMod</tspan></text>
+<text class='t2' x='75.63' y='30.16'>::=</text>
+<text class='t3' x='100.4' y='30.16'>value</text></svg></div>
+<p id="p-c7cc70fc" class="nb">If a trait declaration has the modifier <span class="m"><span class="kw">value</span></span>, all subtraits of that trait must also have the modifier <span class="m"><span class="kw">value</span></span>, and all objects extending that trait are required to be value objects (described in <a class="xref" href="objects.html#sec-value-objects">Section 11.3</a><!--nc-->). If a field declaration of a value trait has the modifier <span class="m"><span class="kw">settable</span></span>, the return type of its implicit setter method is the value trait type. If a value trait has an explicit setter method, the setter must be an abstract method and its return type must be the value trait type. See <a class="xref" href="objects.html#sec-value-objects">Section 11.3</a><!--nc--> for a discussion of updating fields of value objects.</p>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="functions.html"><span>Previous</span> 9. Functions</a><a class="next" href="objects.html"><span>Next</span> 11. Objects</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/traits.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

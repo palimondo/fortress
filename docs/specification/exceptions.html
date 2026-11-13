@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>14. Exceptions · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t1{font-family:cmr10;font-size:9.96px}
+svg.tx text.t2{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t3{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t4{font-family:cmti10;font-size:9.96px}
+svg.tx text.t5{font-family:stmary10;font-size:9.96px}
+svg.tx text.t6{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t7{font-family:pcrr8r;font-size:9.93px}
+</style>
+</head>
+<body data-page="chapter" data-slug="exceptions" data-chapter="14. Exceptions">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">14. Exceptions</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part II, Fortress for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="14" data-title="Exceptions">
+<h1 id="top" class="nb"><a id="chap-exceptions"></a><span class="num">Chapter 14</span> Exceptions</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#s-causes-of-exceptions">14.1 Causes of Exceptions</a></li><li><a href="#sec-exception-types">14.2 Types of Exceptions</a></li><li><a href="#sec-chained-exceptions">14.3 Information of Exceptions</a></li></ol></nav>
+<aside class="draft"><p class="label">Draft note</p>
+<p id="p-6990319e" class="nb">Methods and fields of exceptions, chained exceptions, and static checking of checked exceptions are not yet supported.</p>
+<p id="p-2e43101f" class="nb">Fortress examples in this chapter are not run by the interpreter.</p></aside>
+<p id="p-4b0d77b8" class="nb">Exceptions are values that can be thrown and caught, via <span class="m"><span class="kw">throw</span></span> expressions (described in <a class="xref" href="expressions.html#sec-throw-expr">Section 13.25</a><!--nc-->) and <span class="m"><span class="kw">catch</span></span> clauses of <span class="m"><span class="kw">try</span></span> expressions (described in <a class="xref" href="expressions.html#sec-try-expr">Section 13.26</a><!--nc-->). When a <span class="m"><span class="kw">throw</span></span> expression “<span class="m"><span class="kw">throw</span> <i>e</i></span>” is evaluated, the subexpression <span class="m"><i>e</i></span> is evaluated to an exception. The static type of <span class="m"><i>e</i></span> must be a subtype of <span class="m"><span class="ty">Exception</span></span>. Then the <span class="m"><span class="kw">throw</span></span> expression tries to transfer control to its <em>dynamically containing block</em> (described in <a class="xref" href="evaluation.html">Chapter 5</a>), from the innermost outward, until either (<em>i</em>) an enclosing <span class="m"><span class="kw">try</span></span> expression is reached, with a <span class="m"><span class="kw">catch</span></span> clause matching a type of the thrown exception, or (<em>ii</em>) the outermost dynamically containing block is reached.</p>
+<p id="p-55b013a3" class="nb">If a matching <span class="m"><span class="kw">catch</span></span> clause is reached, the right-hand side of the first matching subclause is evaluated. If no matching <span class="m"><span class="kw">catch</span></span> clause is found before the outermost dynamically containing block is reached, the outermost dynamically containing block completes abruptly whose cause is the thrown exception.</p>
+<p id="p-89a27d0c" class="nb">If an enclosing <span class="m"><span class="kw">try</span></span> expression of a <span class="m"><span class="kw">throw</span></span> expression includes a <span class="m"><span class="kw">finally</span></span> clause, and the <span class="m"><span class="kw">try</span></span> expression completes abruptly, the <span class="m"><span class="kw">finally</span></span> clause is evaluated before control is transferred to the dynamically containing block.</p>
+<section class="sec" data-num="14.1" data-title="Causes of Exceptions">
+<h2 id="s-causes-of-exceptions" class="nb"><span class="num">14.1</span> Causes of Exceptions</h2>
+<p id="p-f145411f" class="nb">Every exception is thrown for one of the following reasons:</p>
+<ol>
+<li><p id="p-ffa3fcf9" class="nb">A <span class="m"><span class="kw">throw</span></span> expression is evaluated.</p></li>
+<li><p id="p-d33bcbda" class="nb">An implementation resource is exceeded (e.g., an attempt is made to allocate beyond the set of available locations).</p></li>
+</ol>
+</section>
+<section class="sec" data-num="14.2" data-title="Types of Exceptions">
+<h2 id="sec-exception-types" class="nb"><span class="num">14.2</span> Types of Exceptions</h2>
+<p id="p-599a79e8" class="nb">All exceptions are subtypes of the type <span class="m"><span class="ty">Exception</span></span> declared as follows:</p>
+<div class="fx nb both" id="c-e1b661df" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="9.36 11.26 315.88 56.49" width="31.588em" height="5.649em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='41.1' y='19.33'>Exception</text>
+<text class='t0' x='87.45' y='19.33'>comprises</text>
+<text class='t2' x='137.29' y='19.33'>{</text>
+<text class='t1' x='143.93' y='19.33'>Chec<tspan x='165.24'>k</tspan><tspan x='170.22'>edException</tspan></text>
+<text class='t3' x='223.77' y='19.33'>,</text>
+<text class='t1' x='228.2' y='19.33'>Unc<tspan x='245.36'>hec</tspan><tspan x='259.47'>k</tspan><tspan x='264.45'>edException</tspan></text>
+<text class='t2' x='319.66' y='19.33'>}</text>
+<text class='t0' x='21.92' y='31.28'>settable</text>
+<text class='t4' x='68.74' y='31.28'>message</text>
+<text class='t1' x='104.63' y='31.28'>:<tspan x='109.05'>Ma</tspan><tspan x='122.89'>yb</tspan><tspan x='133.96'>e</tspan></text>
+<text class='t5' x='138.39' y='31.28'></text>
+<text class='t1' x='142.4' y='31.28'>String</text>
+<text class='t5' x='169.13' y='31.28'></text>
+<text class='t0' x='21.92' y='43.24'>settable</text>
+<text class='t4' x='68.74' y='43.24'>chain</text>
+<text class='t1' x='92.93' y='43.24'>:<tspan x='97.36'>Ma</tspan><tspan x='111.19'>yb</tspan><tspan x='122.26'>e</tspan></text>
+<text class='t5' x='126.69' y='43.24'></text>
+<text class='t1' x='130.7' y='43.24'>Exception</text>
+<text class='t5' x='174.29' y='43.24'></text>
+<text class='t4' x='21.92' y='55.19'>printStackT<tspan x='72.71'>r</tspan><tspan x='76.4'>ac</tspan><tspan x='85.57'>e</tspan></text>
+<text class='t1' x='90.9' y='55.19'>():<tspan x='103.08'>()</tspan></text>
+<text class='t0' x='9.96' y='67.15'>end</text></svg></div><pre class="fx-s"><code>  printStackTrace(): ()
+end</code></pre></div>
+<p id="p-47b880d6" class="nb">Every exception is a subtype of either type <span class="m"><span class="ty">CheckedException</span></span> or <span class="m"><span class="ty">UncheckedException</span></span>:</p>
+<div class="fx nb both" id="c-606388ce" data-kind="code" data-example="Exceptions"><div class="fx-r"><svg class="tx" data-d="2" viewBox="-0.60 11.81 332.87 73.37" width="33.287em" height="7.337em" fill="currentColor"><text class='t0' x='0' y='19.33'>trait</text>
+<text class='t1' x='28.92' y='19.33'>Chec<tspan x='50.23'>k</tspan><tspan x='55.21'>edException</tspan></text>
+<text class='t0' x='111.53' y='19.33'>extends</text>
+<text class='t1' x='150.91' y='19.33'>Exception</text>
+<text class='t0' x='197.26' y='19.33'>excludes</text>
+<text class='t1' x='241.87' y='19.33'>Unc<tspan x='259.03'>hec</tspan><tspan x='273.14'>k</tspan><tspan x='278.12'>edException</tspan></text>
+<text class='t0' x='0' y='39.75'>end<tspan x='0' y='64.16'>trait</tspan></text>
+<text class='t1' x='28.92' y='64.16'>Unc<tspan x='46.08'>hec</tspan><tspan x='60.19'>k</tspan><tspan x='65.17'>edException</tspan></text>
+<text class='t0' x='121.49' y='64.16'>extends</text>
+<text class='t1' x='160.87' y='64.16'>Exception</text>
+<text class='t0' x='207.22' y='64.16'>excludes</text>
+<text class='t1' x='251.83' y='64.16'>Chec<tspan x='273.14'>k</tspan><tspan x='278.12'>edException</tspan></text>
+<text class='t0' x='0' y='84.58'>end</text></svg></div><pre class="fx-s"><code>trait CheckedException extends Exception excludes UncheckedException
+end
+
+trait UncheckedException extends Exception excludes CheckedException
+end</code></pre></div>
+<p id="p-d3f2973b" class="nb">A functional declaration (described in <a class="xref" href="traits.html#sec-methods">Section 10.2</a><!--nc--> and <a class="xref" href="functions.html#sec-function-decls">Section 9.1</a><!--nc-->) includes an optional <span class="m"><span class="kw">throws</span></span> clause in its header listing the <span class="m"><span class="ty">CheckedException</span></span>s (also written <em>checked exceptions</em>) that can be thrown by invocation of the functional. If a <span class="m"><span class="kw">throws</span></span> clause is not explicitly provided, the <span class="m"><span class="kw">throws</span></span> clause of the functional declaration is empty. The body of a functional is statically checked to ensure that no checked exceptions are thrown by any subexpression of the functional body other than those listed in the <span class="m"><span class="kw">throws</span></span> clause. This static check is performed by examining each <span class="m"><span class="kw">throw</span></span> expression and functional invocation <span class="m"><i>I</i></span>, determining the static type of the functional <span class="m"><i>f</i></span> invoked in <span class="m"><i>I</i></span>, and determining the <span class="m"><span class="kw">throws</span></span> clause of <span class="m"><i>f</i></span>. (If <span class="m"><i>f</i></span> is polymorphic, or occurs in a polymorphic context, instantiations of type variables free in the <span class="m"><span class="kw">throws</span></span> clause of <span class="m"><i>f</i></span> are substituted for formal type variables). For each checked exception thrown in <span class="m"><i>I</i></span>, the enclosing expressions of <span class="m"><i>I</i></span> are checked for a matching <span class="m"><span class="kw">catch</span></span> clause. The set <span class="m"><i>A</i></span> of all checked exceptions thrown by all invocations without a matching <span class="m"><span class="kw">catch</span></span> clause in the functional body is accumulated and compared against the <span class="m"><span class="kw">throws</span></span> clause of the enclosing functional declaration. If an exception that is not a subtype of an exception listed in the <span class="m"><span class="kw">throws</span></span> clause occurs in <span class="m"><i>A</i></span>, it is a static error.</p>
+<p id="p-b3b0553f" class="nb">A similar analysis is performed on top-level variable declarations. If it is determined that their initialization expressions can throw a checked exception, it is a static error.</p>
+</section>
+<section class="sec" data-num="14.3" data-title="Information of Exceptions">
+<h2 id="sec-chained-exceptions" class="nb"><span class="num">14.3</span> Information of Exceptions</h2>
+<p id="p-f0c68b89" class="nb">Every exception has optional fields: a message and a chained exception. These fields are default to <span class="m"><span class="ty">Nothing</span>⟦<span class="ty">String</span>⟧</span> and <span class="m"><span class="ty">Nothing</span>⟦<span class="ty">Exception</span>⟧</span> as follows:</p>
+<div class="fx nb both" id="c-e1b661df-2" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.26 313.67 80.40" width="31.367em" height="8.040em" fill="currentColor"><text class='t0' x='9.96' y='19.33'>trait</text>
+<text class='t1' x='38.88' y='19.33'>Exception</text>
+<text class='t0' x='85.24' y='19.33'>comprises</text>
+<text class='t2' x='135.08' y='19.33'>{</text>
+<text class='t1' x='141.72' y='19.33'>Chec<tspan x='163.03'>k</tspan><tspan x='168.01'>edException</tspan></text>
+<text class='t3' x='221.56' y='19.33'>,</text>
+<text class='t1' x='225.99' y='19.33'>Unc<tspan x='243.14'>hec</tspan><tspan x='257.26'>k</tspan><tspan x='262.24'>edException</tspan></text>
+<text class='t2' x='317.45' y='19.33'>}</text>
+<text class='t0' x='21.92' y='31.28'>getter</text>
+<text class='t4' x='56.07' y='31.28'>message</text>
+<text class='t1' x='91.95' y='31.28'>():<tspan x='104.13'>Ma</tspan><tspan x='117.96'>yb</tspan><tspan x='129.03'>e</tspan></text>
+<text class='t5' x='133.46' y='31.28'></text>
+<text class='t1' x='137.47' y='31.28'>String</text>
+<text class='t5' x='164.21' y='31.28'></text>
+<text class='t1' x='170.99' y='31.28'>=<tspan x='181.5'>Nothing</tspan></text>
+<text class='t5' x='216.79' y='31.28'></text>
+<text class='t1' x='220.8' y='31.28'>String</text>
+<text class='t5' x='247.53' y='31.28'></text>
+<text class='t0' x='21.92' y='43.24'>setter</text>
+<text class='t4' x='56.07' y='43.24'>message</text>
+<text class='t1' x='91.95' y='43.24'>(Ma<tspan x='109.66'>yb</tspan><tspan x='120.73'>e</tspan></text>
+<text class='t5' x='125.16' y='43.24'></text>
+<text class='t1' x='129.17' y='43.24'>String</text>
+<text class='t5' x='155.91' y='43.24'></text>
+<text class='t1' x='159.92' y='43.24'>)<tspan x='165.45'>:</tspan><tspan x='169.88'>()</tspan></text>
+<text class='t0' x='21.92' y='55.19'>getter</text>
+<text class='t4' x='56.07' y='55.19'>chain</text>
+<text class='t1' x='80.25' y='55.19'>():<tspan x='92.43'>Ma</tspan><tspan x='106.27'>yb</tspan><tspan x='117.34'>e</tspan></text>
+<text class='t5' x='121.77' y='55.19'></text>
+<text class='t1' x='125.78' y='55.19'>Exception</text>
+<text class='t5' x='169.37' y='55.19'></text>
+<text class='t1' x='176.15' y='55.19'>=<tspan x='186.66'>Nothing</tspan></text>
+<text class='t5' x='221.95' y='55.19'></text>
+<text class='t1' x='225.96' y='55.19'>Exception</text>
+<text class='t5' x='269.55' y='55.19'></text>
+<text class='t0' x='21.92' y='67.15'>setter</text>
+<text class='t4' x='56.07' y='67.15'>chain</text>
+<text class='t1' x='80.25' y='67.15'>(Ma<tspan x='97.97'>yb</tspan><tspan x='109.04'>e</tspan></text>
+<text class='t5' x='113.46' y='67.15'></text>
+<text class='t1' x='117.48' y='67.15'>Exception</text>
+<text class='t5' x='161.06' y='67.15'></text>
+<text class='t1' x='165.08' y='67.15'>)<tspan x='170.61'>:</tspan><tspan x='175.04'>()</tspan></text>
+<text class='t4' x='21.92' y='79.1'>printStackT<tspan x='72.71'>r</tspan><tspan x='76.4'>ac</tspan><tspan x='85.57'>e</tspan></text>
+<text class='t1' x='90.9' y='79.1'>():<tspan x='103.08'>()</tspan></text>
+<text class='t0' x='9.96' y='91.06'>end</text></svg></div><pre class="fx-s"><code>  printStackTrace(): ()
+end</code></pre></div>
+<p id="p-e732e811" class="nb">where an optional value <span class="m"><i>v</i></span> of type <span class="m"><span class="ty">Maybe</span>⟦<i>T</i>⟧</span> is either <span class="m"><span class="ty">Nothing</span>⟦<i>T</i>⟧</span> or <span class="m"><span class="ty">Just</span>(<i>v</i>)</span>.</p>
+<aside class="revision"><p class="label">Revised by the 2026 revival <span class="see">see <a class="xref" href="spec-changes.html#sec-revival-nothing">Section I.1.7</a><!--nc--></span></p>
+<p id="p-07109f9e" class="nb">The Working Draft of February 2011 wrote both defaults as a bare <span class="m"><span class="ty">Nothing</span></span>, one object for every instantiation of <span class="m"><span class="ty">Maybe</span></span>, which instantiation exclusion forbids (<a class="xref" href="lib-convenience.html#sec-convenience-types">Section 39.2</a><!--nc-->).</p></aside>
+<p id="p-6b56d991" class="nb">The <span class="m"><i>chain</i></span> field can be set at most once. If it is set more than once, an <span class="m"><span class="ty">InvalidChain</span></span> exception is thrown. It is generally set when the exception is created.</p>
+<p id="p-2738ac28" class="nb">When an exception is created, the execution stack of its thread at the time of the exception creation is captured in the exception. The invocation of <span class="m"><i>printStackTrace</i></span> prints the captured stack trace. There is no way to update the captured stack trace. If a programmer wants to catch a thrown exception and rethrow it, and capture the stack trace at the time of the second throwing of the exception, the programmer has to create a new exception (perhaps with the original exception as its <span class="m"><i>chain</i></span> field).</p>
+<p id="p-4d78c396" class="nb">When an exception is thrown, its <span class="m"><i>message</i></span> and <span class="m"><i>chain</i></span> fields may be set. For example, if a checked exception is caught in a <span class="m"><span class="kw">catch</span></span> clause, and the <span class="m"><span class="kw">catch</span></span> clause in turn throws an unchecked exception, the unchecked exception can be chained so that an examination of the unchecked exception reveals information about the original exception. For example:</p>
+<div class="fx nb both" id="c-ef0b297b" data-kind="code"><div class="fx-r"><svg class="tx" data-d="4" viewBox="9.36 11.26 357.04 68.45" width="35.704em" height="6.845em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>r<tspan x='13.65'>e</tspan><tspan x='17.73'>ad</tspan></text>
+<text class='t1' x='28.94' y='19.33'>(</text>
+<text class='t4' x='32.82' y='19.33'>ﬁleName</text>
+<text class='t1' x='71.52' y='19.33'>)<tspan x='78.16'>=</tspan></text>
+<text class='t0' x='21.92' y='31.28'>try</text>
+<text class='t4' x='33.87' y='43.24'>r<tspan x='37.56'>e</tspan><tspan x='41.64'>adFile</tspan></text>
+<text class='t1' x='69.26' y='43.24'>(</text>
+<text class='t4' x='73.13' y='43.24'>ﬁleName</text>
+<text class='t1' x='111.84' y='43.24'>)</text>
+<text class='t0' x='21.92' y='55.19'>catch</text>
+<text class='t3' x='50.84' y='55.19'>e</text>
+<text class='t1' x='33.87' y='67.15'>IOF<tspan x='50.89'>ailure</tspan></text>
+<text class='t2' x='78.04' y='67.15'>⇒</text>
+<text class='t0' x='90.49' y='67.15'>throw</text>
+<text class='t1' x='119.41' y='67.15'>Error<tspan x='142.88'>(</tspan></text>
+<text class='t6' x='146.76' y='67.15'>“</text>
+<text class='t7' x='151.18' y='67.15'>This<tspan x='181.07'>code</tspan><tspan x='210.95'>can’t</tspan><tspan x='246.82'>handle</tspan><tspan x='288.66'>IOFailures</tspan></text>
+<text class='t6' x='348.44' y='67.15'>”</text>
+<text class='t3' x='352.86' y='67.15'>,<tspan x='357.29'>e</tspan></text>
+<text class='t1' x='361.93' y='67.15'>)</text>
+<text class='t0' x='21.92' y='79.1'>end</text></svg></div><pre class="fx-s"><code>read(fileName) =
+  try
+    readFile(fileName)
+  catch e
+    IOFailure =&gt; throw Error("This code can't handle IOFailures", e)
+  end</code></pre></div>
+<p id="p-35fb9b9a" class="nb">where the <span class="m"><i>message</i></span> and <span class="m"><i>chain</i></span> fields of <span class="m"><span class="ty">Error</span></span> are set to <span class="m"><span class="rm"><span class="rm">“<span class="m"><span class="str">This code can't handle IOFailures</span></span>”</span></span></span> and <span class="m"><span class="ty">IOFailure</span></span> respectively.</p>
+<p id="p-61c22e88" class="nb">By default, a <span class="m"><span class="kw">forbid</span></span> clause in a <span class="m"><span class="kw">try</span></span> expression throws a new <span class="m"><span class="ty">ForbiddenException</span></span> by <em>chaining</em> the exception thrown by the <span class="m"><span class="kw">try</span></span> block in the <span class="m"><span class="kw">try</span></span> expression that is a subtype of the exception type listed in the <span class="m"><span class="kw">forbid</span></span> clause. For example, the following <span class="m"><i>read</i></span> function:</p>
+<div class="fx nb both" id="c-49e2c1f0" data-kind="code"><div class="fx-r"><svg class="tx" data-d="5" viewBox="9.36 11.26 106.95 56.49" width="10.695em" height="5.649em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>r<tspan x='13.65'>e</tspan><tspan x='17.73'>ad</tspan></text>
+<text class='t1' x='28.94' y='19.33'>(</text>
+<text class='t4' x='32.82' y='19.33'>ﬁleName</text>
+<text class='t1' x='71.52' y='19.33'>)<tspan x='78.16'>=</tspan></text>
+<text class='t0' x='21.92' y='31.28'>try</text>
+<text class='t4' x='33.87' y='43.24'>r<tspan x='37.56'>e</tspan><tspan x='41.64'>adFile</tspan></text>
+<text class='t1' x='69.26' y='43.24'>(</text>
+<text class='t4' x='73.13' y='43.24'>ﬁleName</text>
+<text class='t1' x='111.84' y='43.24'>)</text>
+<text class='t0' x='21.92' y='55.19'>forbid</text>
+<text class='t1' x='56.07' y='55.19'>IOF<tspan x='73.09'>ailure</tspan></text>
+<text class='t0' x='21.92' y='67.15'>end</text></svg></div><pre class="fx-s"><code>read(fileName) =
+  try
+    readFile(fileName)
+  forbid IOFailure
+  end</code></pre></div>
+<p id="p-18ab6ac7" class="nb">is equivalent to:</p>
+<div class="fx nb both" id="c-94ef0941" data-kind="code"><div class="fx-r"><svg class="tx" data-d="6" viewBox="9.36 11.26 208.03 68.45" width="20.803em" height="6.845em" fill="currentColor"><text class='t4' x='9.96' y='19.33'>r<tspan x='13.65'>e</tspan><tspan x='17.73'>ad</tspan></text>
+<text class='t1' x='28.94' y='19.33'>(</text>
+<text class='t4' x='32.82' y='19.33'>ﬁleName</text>
+<text class='t1' x='71.52' y='19.33'>)<tspan x='78.16'>=</tspan></text>
+<text class='t0' x='21.92' y='31.28'>try</text>
+<text class='t4' x='33.87' y='43.24'>r<tspan x='37.56'>e</tspan><tspan x='41.64'>adFile</tspan></text>
+<text class='t1' x='69.26' y='43.24'>(</text>
+<text class='t4' x='73.13' y='43.24'>ﬁleName</text>
+<text class='t1' x='111.84' y='43.24'>)</text>
+<text class='t0' x='21.92' y='55.19'>catch</text>
+<text class='t3' x='50.84' y='55.19'>e</text>
+<text class='t1' x='33.87' y='67.15'>IOF<tspan x='50.89'>ailure</tspan></text>
+<text class='t2' x='78.04' y='67.15'>⇒</text>
+<text class='t0' x='88' y='67.15'>throw</text>
+<text class='t1' x='116.92' y='67.15'>F<tspan x='122.6'>orbiddenException</tspan><tspan x='204.4'>(</tspan></text>
+<text class='t3' x='208.27' y='67.15'>e</text>
+<text class='t1' x='212.91' y='67.15'>)</text>
+<text class='t0' x='21.92' y='79.1'>end</text></svg></div><pre class="fx-s"><code>read(fileName) =
+  try
+    readFile(fileName)
+  catch e
+    IOFailure =&gt; throw ForbiddenException(e)
+  end</code></pre></div>
+<p id="p-baf67e32" class="nb">where the <span class="m"><i>chain</i></span> of <span class="m"><span class="ty">ForbiddenException</span></span> is set to <span class="m"><span class="ty">IOFailure</span></span>.</p>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="expressions.html"><span>Previous</span> 13. Expressions</a><a class="next" href="multiple-dispatch.html"><span>Next</span> 15. Overloading and Multiple Dispatch</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic/exceptions.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>

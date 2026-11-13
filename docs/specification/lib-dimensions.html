@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>37. Dimensions and Units · Fortress specification</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="tex-fonts.css">
+<style>
+svg.tx text.t0{font-family:cmr10;font-size:9.96px}
+svg.tx text.t1{font-family:cmsy10;font-size:9.96px}
+svg.tx text.t2{font-family:ptmr8r;font-size:9.93px}
+svg.tx text.t3{font-family:cmtt10;font-size:9.96px}
+svg.tx text.t4{font-family:cmmi10;font-size:9.96px}
+svg.tx text.t5{font-family:cmr7;font-size:6.97px}
+</style>
+</head>
+<body data-page="chapter" data-slug="lib-dimensions" data-chapter="37. Dimensions and Units">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">37. Dimensions and Units</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">The Fortress Language Specification · Part V, Fortress APIs and Documentation for Application Programmers</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="37" data-title="Dimensions and Units">
+<h1 id="top" class="nb"><a id="chap-lib-dimensions"></a><span class="num">Chapter 37</span> Dimensions and Units</h1>
+<nav class="parts" aria-label="Sections of this chapter"><h2>Sections</h2><ol><li><a href="#sec-lib-siunits">37.1 Fortress.SIUnits</a></li><li><a href="#sec-lib-englishunits">37.2 Fortress.EnglishUnits</a></li><li><a href="#s-fortress-informationunits">37.3 Fortress.InformationUnits</a></li></ol></nav>
+<section class="sec" data-num="37.1" data-title="Fortress.SIUnits">
+<h2 id="sec-lib-siunits" class="nb"><span class="num">37.1</span> Fortress.SIUnits</h2>
+<div class="fx nb both" id="c-f2ccf507" data-kind="code"><div class="fx-r"><svg class="tx" data-d="1" viewBox="15.34 11.26 339.06 1047.11" width="33.906em" height="104.711em" fill="currentColor"><text class='t0' x='15.94' y='19.33'>(</text>
+<text class='t1' x='19.81' y='19.33'>∗</text>
+<text class='t2' x='27.56' y='19.33'>Reference:<tspan x='73.8'>http://ph</tspan><tspan x='107.52'>ysics.nist.go</tspan><tspan x='156.64'>v/cuu/Units/inde</tspan><tspan x='222.91'>x.html</tspan></text>
+<text class='t1' x='251.42' y='19.33'>∗</text>
+<text class='t0' x='256.4' y='19.33'>)<tspan x='15.94' y='35.27'>(</tspan></text>
+<text class='t1' x='19.81' y='35.27'>∗</text>
+<text class='t2' x='27.56' y='35.27'>SI<tspan x='38.91'>base</tspan><tspan x='59.1'>units</tspan></text>
+<text class='t1' x='81.25' y='35.27'>∗</text>
+<text class='t0' x='86.23' y='35.27'>)</text>
+<text class='t3' x='15.94' y='51.21'>dim</text>
+<text class='t0' x='34.4' y='51.21'>Length</text>
+<text class='t3' x='67.75' y='51.21'>SI</text>
+<rect x='78.8' y='50.81' height='.4' width='2.99'/>
+<text class='t3' x='81.79' y='51.21'>unit</text>
+<text class='t0' x='105.48' y='51.21'>meter<tspan x='132.63'>meters</tspan><tspan x='163.71'>m</tspan></text>
+<text class='t3' x='15.94' y='63.16'>dim</text>
+<text class='t0' x='34.4' y='63.16'>Mass</text>
+<text class='t3' x='59.14' y='63.16'>default</text>
+<text class='t0' x='98.52' y='63.16'>kilogram<tspan x='136.46'>;</tspan></text>
+<text class='t3' x='140.89' y='63.16'>SI</text>
+<rect x='151.95' y='62.76' height='.4' width='2.99'/>
+<text class='t3' x='154.94' y='63.16'>unit</text>
+<text class='t0' x='178.62' y='63.16'>gram<tspan x='203'>grams</tspan><tspan x='231.32'>g</tspan><tspan x='236.43'>:</tspan><tspan x='240.86'>Mass</tspan></text>
+<text class='t3' x='15.94' y='75.12'>dim</text>
+<text class='t0' x='34.4' y='75.12'>Time</text>
+<text class='t3' x='59.86' y='75.12'>SI</text>
+<rect x='70.92' y='74.72' height='.4' width='2.99'/>
+<text class='t3' x='73.91' y='75.12'>unit</text>
+<text class='t0' x='97.59' y='75.12'>second<tspan x='128.64'>seconds</tspan><tspan x='163.62'>s</tspan></text>
+<text class='t3' x='15.94' y='87.07'>dim</text>
+<text class='t0' x='34.4' y='87.07'>ElectricCurren<tspan x='97.99'>t</tspan></text>
+<text class='t3' x='104.64' y='87.07'>SI</text>
+<rect x='115.69' y='86.67' height='.4' width='2.99'/>
+<text class='t3' x='118.68' y='87.07'>unit</text>
+<text class='t0' x='142.37' y='87.07'>amp<tspan x='161.47'>ere</tspan><tspan x='176.44'>amp</tspan><tspan x='195.53'>eres</tspan><tspan x='214.43'>A</tspan></text>
+<text class='t3' x='15.94' y='99.03'>dim</text>
+<text class='t0' x='34.4' y='99.03'>T<tspan x='40.76'>emp</tspan><tspan x='59.31'>erature</tspan></text>
+<text class='t3' x='93.12' y='99.03'>SI</text>
+<rect x='104.18' y='98.63' height='.4' width='2.99'/>
+<text class='t3' x='107.17' y='99.03'>unit</text>
+<text class='t0' x='130.86' y='99.03'>k<tspan x='135.84'>elvin</tspan><tspan x='158.81'>k</tspan><tspan x='163.79'>elvins</tspan><tspan x='190.69'>K</tspan></text>
+<text class='t3' x='15.94' y='110.98'>dim</text>
+<text class='t0' x='34.4' y='110.98'>Amoun<tspan x='65.95'>tOfSubstance</tspan></text>
+<text class='t3' x='127.16' y='110.98'>SI</text>
+<rect x='138.22' y='110.59' height='.4' width='2.99'/>
+<text class='t3' x='141.21' y='110.98'>unit</text>
+<text class='t0' x='164.9' y='110.98'>mole<tspan x='187.59'>moles</tspan><tspan x='214.21'>mol</tspan></text>
+<text class='t3' x='15.94' y='122.94'>dim</text>
+<text class='t0' x='34.4' y='122.94'>LuminousIn<tspan x='86.07'>tensit</tspan><tspan x='110.2'>y</tspan></text>
+<text class='t3' x='118.36' y='122.94'>SI</text>
+<rect x='129.42' y='122.54' height='.4' width='2.99'/>
+<text class='t3' x='132.41' y='122.94'>unit</text>
+<text class='t0' x='156.1' y='122.94'>candela<tspan x='190.97'>candelas</tspan><tspan x='229.77'>cd</tspan><tspan x='15.94' y='138.88'>(</tspan></text>
+<text class='t1' x='19.81' y='138.88'>∗</text>
+<text class='t2' x='27.56' y='138.88'>SI<tspan x='38.91'>deri</tspan><tspan x='54.15'>v</tspan><tspan x='58.99'>ed</tspan><tspan x='70.88'>units</tspan><tspan x='92.75'>with</tspan><tspan x='112.95'>special</tspan><tspan x='143.11'>names</tspan><tspan x='171.05'>and</tspan><tspan x='187.93'>symbols</tspan></text>
+<text class='t1' x='223.91' y='138.88'>∗</text>
+<text class='t0' x='228.89' y='138.88'>)</text>
+<text class='t3' x='15.94' y='154.82'>dim</text>
+<text class='t0' x='34.4' y='154.82'>Angle<tspan x='62.35'>=</tspan><tspan x='72.87'>Unit</tspan><tspan x='92.24'>y</tspan></text>
+<text class='t3' x='100.4' y='154.82'>SI</text>
+<rect x='111.46' y='154.42' height='.4' width='2.99'/>
+<text class='t3' x='114.45' y='154.82'>unit</text>
+<text class='t0' x='138.14' y='154.82'>radian<tspan x='168.05'>radians</tspan><tspan x='201.9'>rad</tspan></text>
+<text class='t3' x='15.94' y='166.77'>dim</text>
+<text class='t0' x='34.4' y='166.77'>SolidAngle<tspan x='83.94'>=</tspan><tspan x='94.45'>Unit</tspan><tspan x='113.82'>y</tspan></text>
+<text class='t3' x='121.99' y='166.77'>SI</text>
+<rect x='133.05' y='166.38' height='.4' width='2.99'/>
+<text class='t3' x='136.03' y='166.77'>unit</text>
+<text class='t0' x='159.72' y='166.77'>steradian<tspan x='201.87'>steradians</tspan><tspan x='247.95'>sr</tspan></text>
+<text class='t3' x='15.94' y='178.73'>dim</text>
+<text class='t0' x='34.4' y='178.73'>F<tspan x='40.07'>requency</tspan><tspan x='81.75'>=</tspan><tspan x='92.26'>1</tspan></text>
+<text class='t4' x='97.25' y='178.73'>/</text>
+<text class='t0' x='102.23' y='178.73'>Time</text>
+<text class='t3' x='127.69' y='178.73'>SI</text>
+<rect x='138.75' y='178.33' height='.4' width='2.99'/>
+<text class='t3' x='141.73' y='178.73'>unit</text>
+<text class='t0' x='165.42' y='178.73'>hertz<tspan x='189.8'>Hz</tspan></text>
+<text class='t3' x='15.94' y='190.68'>dim</text>
+<text class='t0' x='34.4' y='190.68'>F<tspan x='40.07'>orce</tspan><tspan x='60.58'>=</tspan><tspan x='71.09'>Mass</tspan><tspan x='95.28'>Acceleration</tspan></text>
+<text class='t3' x='152.04' y='190.68'>SI</text>
+<rect x='163.1' y='190.29' height='.4' width='2.99'/>
+<text class='t3' x='166.09' y='190.68'>unit</text>
+<text class='t0' x='189.78' y='190.68'>newton<tspan x='223.54'>newtons</tspan><tspan x='261.23'>N</tspan></text>
+<text class='t3' x='15.94' y='202.64'>dim</text>
+<text class='t0' x='34.4' y='202.64'>Pressure<tspan x='74'>=</tspan><tspan x='84.52'>F</tspan><tspan x='90.19'>orce</tspan></text>
+<text class='t4' x='107.93' y='202.64'>/</text>
+<text class='t0' x='112.91' y='202.64'>Area</text>
+<text class='t3' x='136.46' y='202.64'>SI</text>
+<rect x='147.52' y='202.24' height='.4' width='2.99'/>
+<text class='t3' x='150.51' y='202.64'>unit</text>
+<text class='t0' x='174.2' y='202.64'>pascal<tspan x='203.03'>pascals</tspan><tspan x='235.8'>P</tspan><tspan x='242.3'>a</tspan></text>
+<text class='t3' x='15.94' y='214.6'>dim</text>
+<text class='t0' x='34.4' y='214.6'>Energy<tspan x='68.19'>=</tspan><tspan x='78.7'>Length</tspan><tspan x='111.5'>F</tspan><tspan x='117.17'>orce</tspan></text>
+<text class='t3' x='137.68' y='214.6'>SI</text>
+<rect x='148.74' y='214.2' height='.4' width='2.99'/>
+<text class='t3' x='151.73' y='214.6'>unit</text>
+<text class='t0' x='175.41' y='214.6'>joule<tspan x='198.38'>joules</tspan><tspan x='225.28'>J</tspan></text>
+<text class='t3' x='15.94' y='226.55'>dim</text>
+<text class='t0' x='34.4' y='226.55'>P<tspan x='40.9'>o</tspan><tspan x='45.61'>w</tspan><tspan x='52.53'>er</tspan><tspan x='63.62'>=</tspan><tspan x='74.14'>Energy</tspan></text>
+<text class='t4' x='105.16' y='226.55'>/</text>
+<text class='t0' x='110.14' y='226.55'>Time</text>
+<text class='t3' x='135.6' y='226.55'>SI</text>
+<rect x='146.66' y='226.15' height='.4' width='2.99'/>
+<text class='t3' x='149.65' y='226.55'>unit</text>
+<text class='t0' x='173.34' y='226.55'>w<tspan x='180.26'>att</tspan><tspan x='195.2'>w</tspan><tspan x='202.12'>atts</tspan><tspan x='220.99'>W</tspan></text>
+<text class='t3' x='15.94' y='238.51'>dim</text>
+<text class='t0' x='34.4' y='238.51'>ElectricCharge<tspan x='101.56'>=</tspan><tspan x='112.08'>ElectricCurren</tspan><tspan x='175.67'>t</tspan><tspan x='181.76'>Time</tspan></text>
+<text class='t3' x='207.22' y='238.51'>SI</text>
+<rect x='218.28' y='238.11' height='.4' width='2.99'/>
+<text class='t3' x='221.27' y='238.51'>unit</text>
+<text class='t0' x='244.96' y='238.51'>coulom<tspan x='275.68'>b</tspan><tspan x='283.43'>coulom</tspan><tspan x='314.14'>bs</tspan><tspan x='325.82'>C</tspan></text>
+<text class='t3' x='15.94' y='250.46'>dim</text>
+<text class='t0' x='34.4' y='250.46'>ElectricP<tspan x='74.28'>oten</tspan><tspan x='92.82'>tial</tspan><tspan x='109.98'>=</tspan><tspan x='120.49'>P</tspan><tspan x='127'>o</tspan><tspan x='131.7'>w</tspan><tspan x='138.62'>er</tspan></text>
+<text class='t4' x='146.95' y='250.46'>/</text>
+<text class='t0' x='151.93' y='250.46'>Curren<tspan x='182.15'>t</tspan></text>
+<text class='t3' x='188.79' y='250.46'>SI</text>
+<rect x='199.85' y='250.06' height='.4' width='2.99'/>
+<text class='t3' x='202.84' y='250.46'>unit</text>
+<text class='t0' x='226.53' y='250.46'>v<tspan x='231.51'>olt</tspan><tspan x='245.35'>v</tspan><tspan x='250.33'>olts</tspan><tspan x='268.09'>V</tspan></text>
+<text class='t3' x='15.94' y='262.42'>dim</text>
+<text class='t0' x='34.4' y='262.42'>Capacitance<tspan x='90.3'>=</tspan><tspan x='100.82'>ElectricCharge</tspan></text>
+<text class='t4' x='165.21' y='262.42'>/</text>
+<text class='t0' x='170.2' y='262.42'>V<tspan x='176.84'>oltage</tspan></text>
+<text class='t3' x='205.62' y='262.42'>SI</text>
+<rect x='216.68' y='262.02' height='.4' width='2.99'/>
+<text class='t3' x='219.66' y='262.42'>unit</text>
+<text class='t0' x='243.35' y='262.42'>farad<tspan x='268.01'>farads</tspan><tspan x='296.6'>F</tspan></text>
+<text class='t3' x='15.94' y='274.37'>dim</text>
+<text class='t0' x='34.4' y='274.37'>Resistance<tspan x='82.8'>=</tspan><tspan x='93.32'>ElectricP</tspan><tspan x='133.19'>oten</tspan><tspan x='151.74'>tial</tspan></text>
+<text class='t4' x='166.13' y='274.37'>/</text>
+<text class='t0' x='171.11' y='274.37'>Curren<tspan x='201.33'>t</tspan></text>
+<text class='t3' x='207.97' y='274.37'>SI</text>
+<rect x='219.03' y='273.97' height='.4' width='2.99'/>
+<text class='t3' x='222.02' y='274.37'>unit</text>
+<text class='t0' x='245.71' y='274.37'>ohm<tspan x='266.74'>ohms</tspan><tspan x='291.7'>Ω</tspan></text>
+<text class='t3' x='15.94' y='286.33'>dim</text>
+<text class='t0' x='34.4' y='286.33'>Conductance<tspan x='93.62'>=</tspan><tspan x='104.14'>1</tspan></text>
+<text class='t4' x='109.12' y='286.33'>/</text>
+<text class='t0' x='114.1' y='286.33'>Resistance</text>
+<text class='t3' x='162.5' y='286.33'>SI</text>
+<rect x='173.56' y='285.93' height='.4' width='2.99'/>
+<text class='t3' x='176.55' y='286.33'>unit</text>
+<text class='t0' x='200.24' y='286.33'>siemens<tspan x='235.77'>S</tspan></text>
+<text class='t3' x='15.94' y='298.28'>dim</text>
+<text class='t0' x='34.4' y='298.28'>MagneticFlux<tspan x='97.36'>=</tspan><tspan x='107.87'>V</tspan><tspan x='114.51'>oltage</tspan><tspan x='142.74'>Time</tspan></text>
+<text class='t3' x='168.2' y='298.28'>SI</text>
+<rect x='179.26' y='297.88' height='.4' width='2.99'/>
+<text class='t3' x='182.25' y='298.28'>unit</text>
+<text class='t0' x='205.94' y='298.28'>w<tspan x='212.86'>eb</tspan><tspan x='223.1'>er</tspan><tspan x='233.64'>w</tspan><tspan x='240.56'>eb</tspan><tspan x='250.8'>ers</tspan><tspan x='265.27'>Wb</tspan></text>
+<text class='t3' x='15.94' y='310.24'>dim</text>
+<text class='t0' x='34.4' y='310.24'>MagneticFluxDensit<tspan x='122.46'>y</tspan><tspan x='130.62'>=</tspan><tspan x='141.14'>MagneticFlux</tspan></text>
+<text class='t4' x='201.33' y='310.24'>/</text>
+<text class='t0' x='206.31' y='310.24'>Area</text>
+<text class='t3' x='229.86' y='310.24'>SI</text>
+<rect x='240.92' y='309.84' height='.4' width='2.99'/>
+<text class='t3' x='243.91' y='310.24'>unit</text>
+<text class='t0' x='267.6' y='310.24'>tesla<tspan x='289.79'>teslas</tspan><tspan x='315.91'>T</tspan></text>
+<text class='t3' x='15.94' y='322.19'>dim</text>
+<text class='t0' x='34.4' y='322.19'>Inductance<tspan x='85.04'>=</tspan><tspan x='95.56'>MagneticFlux</tspan></text>
+<text class='t4' x='155.75' y='322.19'>/</text>
+<text class='t0' x='160.73' y='322.19'>Curren<tspan x='190.95'>t</tspan></text>
+<text class='t3' x='197.59' y='322.19'>SI</text>
+<rect x='208.65' y='321.79' height='.4' width='2.99'/>
+<text class='t3' x='211.64' y='322.19'>unit</text>
+<text class='t0' x='235.33' y='322.19'>henry<tspan x='262.34'>henries</tspan><tspan x='295.08'>H</tspan></text>
+<text class='t3' x='15.94' y='334.15'>dim</text>
+<text class='t0' x='34.4' y='334.15'>LuminousFlux<tspan x='100.04'>=</tspan><tspan x='110.56'>LuminousIn</tspan><tspan x='162.23'>tensit</tspan><tspan x='186.36'>y</tspan><tspan x='193.97'>SolidAngle</tspan></text>
+<text class='t3' x='243.5' y='334.15'>SI</text>
+<rect x='254.56' y='333.75' height='.4' width='2.99'/>
+<text class='t3' x='257.55' y='334.15'>unit</text>
+<text class='t0' x='281.24' y='334.15'>lumen<tspan x='310.02'>lumens</tspan><tspan x='342.73'>lm</tspan></text>
+<text class='t3' x='15.94' y='346.1'>dim</text>
+<text class='t0' x='34.4' y='346.1'>Illuminance<tspan x='87.81'>=</tspan><tspan x='98.33'>LuminousFlux</tspan></text>
+<text class='t4' x='161.2' y='346.1'>/</text>
+<text class='t0' x='166.18' y='346.1'>Area</text>
+<text class='t3' x='189.73' y='346.1'>SI</text>
+<rect x='200.79' y='345.7' height='.4' width='2.99'/>
+<text class='t3' x='203.78' y='346.1'>unit</text>
+<text class='t0' x='227.47' y='346.1'>lux<tspan x='243.24'>lx</tspan></text>
+<text class='t3' x='15.94' y='358.06'>dim</text>
+<text class='t0' x='34.4' y='358.06'>Radion<tspan x='65.26'>uclideActivit</tspan><tspan x='120.88'>y</tspan><tspan x='129.04'>=</tspan><tspan x='139.56'>1</tspan></text>
+<text class='t4' x='144.54' y='358.06'>/</text>
+<text class='t0' x='149.52' y='358.06'>Time</text>
+<text class='t3' x='174.98' y='358.06'>SI</text>
+<rect x='186.04' y='357.66' height='.4' width='2.99'/>
+<text class='t3' x='189.03' y='358.06'>unit</text>
+<text class='t0' x='212.72' y='358.06'>b<tspan x='218.53'>ecquerel</tspan><tspan x='255.92'>b</tspan><tspan x='261.73'>ecquerels</tspan><tspan x='303.05'>Bq</tspan></text>
+<text class='t3' x='15.94' y='370.01'>dim</text>
+<text class='t0' x='34.4' y='370.01'>Absorb<tspan x='66.03'>edDose</tspan><tspan x='99.71'>=</tspan><tspan x='110.23'>Energy</tspan></text>
+<text class='t4' x='141.25' y='370.01'>/</text>
+<text class='t0' x='146.23' y='370.01'>Mass</text>
+<text class='t3' x='170.97' y='370.01'>SI</text>
+<rect x='182.03' y='369.61' height='.4' width='2.99'/>
+<text class='t3' x='185.02' y='370.01'>unit</text>
+<text class='t0' x='208.71' y='370.01'>gra<tspan x='222.29'>y</tspan><tspan x='229.9'>gra</tspan><tspan x='243.49'>ys</tspan><tspan x='254.89'>Gy</tspan></text>
+<text class='t3' x='15.94' y='381.97'>dim</text>
+<text class='t0' x='34.4' y='381.97'>CatalyticActivit<tspan x='104.69'>y</tspan><tspan x='112.85'>=</tspan><tspan x='123.37'>Amoun</tspan><tspan x='154.92'>tOfSubstance</tspan></text>
+<text class='t4' x='213.37' y='381.97'>/</text>
+<text class='t0' x='218.35' y='381.97'>Time</text>
+<text class='t3' x='243.81' y='381.97'>SI</text>
+<rect x='254.87' y='381.57' height='.4' width='2.99'/>
+<text class='t3' x='257.86' y='381.97'>unit</text>
+<text class='t0' x='281.54' y='381.97'>k<tspan x='286.25'>atal</tspan><tspan x='305.07'>k</tspan><tspan x='309.77'>atals</tspan><tspan x='332.52'>k</tspan><tspan x='337.22'>at</tspan><tspan x='15.94' y='397.91'>(</tspan></text>
+<text class='t1' x='19.81' y='397.91'>∗</text>
+<text class='t2' x='27.56' y='397.91'>Other<tspan x='52.74'>deri</tspan><tspan x='67.98'>v</tspan><tspan x='72.81'>ed</tspan><tspan x='84.71'>dimensions</tspan></text>
+<text class='t1' x='132.87' y='397.91'>∗</text>
+<text class='t0' x='137.85' y='397.91'>)</text>
+<text class='t3' x='15.94' y='414.43'>dim</text>
+<text class='t0' x='34.4' y='414.43'>Area<tspan x='57.95'>=</tspan><tspan x='68.47'>Length</tspan></text>
+<text class='t5' x='99.05' y='409.97'>2</text>
+<text class='t3' x='15.94' y='426.97'>dim</text>
+<text class='t0' x='34.4' y='426.97'>V<tspan x='41.04'>olume</tspan><tspan x='69.82'>=</tspan><tspan x='80.34'>Length</tspan></text>
+<text class='t5' x='110.92' y='422.51'>3</text>
+<text class='t3' x='15.94' y='438.92'>dim</text>
+<text class='t0' x='34.4' y='438.92'>V<tspan x='41.04'>elo</tspan><tspan x='53.49'>cit</tspan><tspan x='64.29'>y</tspan><tspan x='72.45'>=</tspan><tspan x='82.97'>Length</tspan></text>
+<text class='t4' x='113.55' y='438.92'>/</text>
+<text class='t0' x='118.53' y='438.92'>Time</text>
+<text class='t3' x='15.94' y='450.88'>dim</text>
+<text class='t0' x='34.4' y='450.88'>Sp<tspan x='45.74'>eed</tspan><tspan x='62.9'>=</tspan><tspan x='73.42'>V</tspan><tspan x='80.06'>elo</tspan><tspan x='92.51'>cit</tspan><tspan x='103.31'>y</tspan></text>
+<text class='t3' x='15.94' y='462.83'>dim</text>
+<text class='t0' x='34.4' y='462.83'>Acceleration<tspan x='91.16'>=</tspan><tspan x='101.67'>V</tspan><tspan x='108.32'>elo</tspan><tspan x='120.77'>cit</tspan><tspan x='131.56'>y</tspan></text>
+<text class='t4' x='136.96' y='462.83'>/</text>
+<text class='t0' x='141.94' y='462.83'>Time</text>
+<text class='t3' x='15.94' y='474.79'>dim</text>
+<text class='t0' x='34.4' y='474.79'>Momen<tspan x='66.5'>tum</tspan><tspan x='86.98'>=</tspan><tspan x='97.5'>Mass</tspan><tspan x='121.68'>V</tspan><tspan x='128.32'>elo</tspan><tspan x='140.78'>cit</tspan><tspan x='151.57'>y</tspan></text>
+<text class='t3' x='15.94' y='486.74'>dim</text>
+<text class='t0' x='34.4' y='486.74'>AngularV<tspan x='76.21'>elo</tspan><tspan x='88.67'>cit</tspan><tspan x='99.46'>y</tspan><tspan x='107.62'>=</tspan><tspan x='118.14'>Angle</tspan></text>
+<text class='t4' x='143.32' y='486.74'>/</text>
+<text class='t0' x='148.3' y='486.74'>Second</text>
+<text class='t3' x='15.94' y='499.28'>dim</text>
+<text class='t0' x='34.4' y='499.28'>AngularAcceleration<tspan x='126.33'>=</tspan><tspan x='136.85'>Angle</tspan></text>
+<text class='t4' x='162.03' y='499.28'>/</text>
+<text class='t0' x='167.01' y='499.28'>Second</text>
+<text class='t5' x='197.45' y='494.82'>2</text>
+<text class='t3' x='15.94' y='511.23'>dim</text>
+<text class='t0' x='34.4' y='511.23'>W<tspan x='43.81'>a</tspan><tspan x='48.51'>v</tspan><tspan x='53.49'>eNum</tspan><tspan x='78.95'>b</tspan><tspan x='84.77'>er</tspan><tspan x='95.86'>=</tspan><tspan x='106.38'>1</tspan></text>
+<text class='t4' x='111.36' y='511.23'>/</text>
+<text class='t0' x='116.34' y='511.23'>Length</text>
+<text class='t3' x='15.94' y='523.19'>dim</text>
+<text class='t0' x='34.4' y='523.19'>MassDensit<tspan x='84.24'>y</tspan><tspan x='92.4'>=</tspan><tspan x='102.92'>Mass</tspan></text>
+<text class='t4' x='124.89' y='523.19'>/</text>
+<text class='t0' x='129.87' y='523.19'>V<tspan x='136.52'>olume</tspan></text>
+<text class='t3' x='15.94' y='535.14'>dim</text>
+<text class='t0' x='34.4' y='535.14'>Curren<tspan x='64.62'>tDensit</tspan><tspan x='96.36'>y</tspan><tspan x='104.52'>=</tspan><tspan x='115.04'>Curren</tspan><tspan x='145.26'>t</tspan></text>
+<text class='t4' x='149.14' y='535.14'>/</text>
+<text class='t0' x='154.12' y='535.14'>Area</text>
+<text class='t3' x='15.94' y='547.1'>dim</text>
+<text class='t0' x='34.4' y='547.1'>MagneticFieldStrength<tspan x='136.96'>=</tspan><tspan x='147.47'>Curren</tspan><tspan x='177.69'>t</tspan></text>
+<text class='t4' x='181.57' y='547.1'>/</text>
+<text class='t0' x='186.55' y='547.1'>Length</text>
+<text class='t3' x='15.94' y='559.05'>dim</text>
+<text class='t0' x='34.4' y='559.05'>Luminance<tspan x='84.9'>=</tspan><tspan x='95.42'>LuminousIn</tspan><tspan x='147.09'>tensit</tspan><tspan x='171.22'>y</tspan></text>
+<text class='t4' x='176.62' y='559.05'>/</text>
+<text class='t0' x='181.6' y='559.05'>Area</text>
+<text class='t3' x='15.94' y='571.01'>dim</text>
+<text class='t0' x='34.4' y='571.01'>W<tspan x='43.81'>ork</tspan><tspan x='60.72'>=</tspan><tspan x='71.23'>Energy</tspan></text>
+<text class='t3' x='15.94' y='582.96'>dim</text>
+<text class='t0' x='34.4' y='582.96'>Action<tspan x='66.22'>=</tspan><tspan x='76.74'>Energy</tspan><tspan x='109.98'>Time</tspan></text>
+<text class='t3' x='15.94' y='594.92'>dim</text>
+<text class='t0' x='34.4' y='594.92'>Momen<tspan x='66.5'>tOfF</tspan><tspan x='86.84'>orce</tspan><tspan x='107.35'>=</tspan><tspan x='117.86'>F</tspan><tspan x='123.54'>orce</tspan><tspan x='143.49'>Length</tspan></text>
+<text class='t3' x='15.94' y='606.87'>dim</text>
+<text class='t0' x='34.4' y='606.87'>T<tspan x='40.76'>orque</tspan><tspan x='67.64'>=</tspan><tspan x='78.15'>Momen</tspan><tspan x='110.25'>tOfF</tspan><tspan x='130.59'>orce</tspan></text>
+<text class='t3' x='15.94' y='619.41'>dim</text>
+<text class='t0' x='34.4' y='619.41'>Momen<tspan x='66.5'>tOfInertia</tspan><tspan x='113.02'>=</tspan><tspan x='123.54'>Mass</tspan><tspan x='147.72'>Length</tspan></text>
+<text class='t5' x='178.3' y='614.96'>2</text>
+<text class='t3' x='15.94' y='631.37'>dim</text>
+<text class='t0' x='34.4' y='631.37'>V<tspan x='41.04'>oltage</tspan><tspan x='69.82'>=</tspan><tspan x='80.34'>ElectricP</tspan><tspan x='120.22'>oten</tspan><tspan x='138.76'>tial</tspan></text>
+<text class='t3' x='15.94' y='643.32'>dim</text>
+<text class='t0' x='34.4' y='643.32'>Conductivit<tspan x='85.87'>y</tspan><tspan x='94.04'>=</tspan><tspan x='104.55'>Conductance</tspan></text>
+<text class='t4' x='161.01' y='643.32'>/</text>
+<text class='t0' x='165.99' y='643.32'>Length</text>
+<text class='t3' x='15.94' y='655.28'>dim</text>
+<text class='t0' x='34.4' y='655.28'>Resistivit<tspan x='75.05'>y</tspan><tspan x='83.22'>=</tspan><tspan x='93.73'>1</tspan></text>
+<text class='t4' x='98.71' y='655.28'>/</text>
+<text class='t0' x='103.69' y='655.28'>Conductivit<tspan x='155.17'>y</tspan></text>
+<text class='t3' x='15.94' y='667.23'>dim</text>
+<text class='t0' x='34.4' y='667.23'>Imp<tspan x='52.11'>edance</tspan><tspan x='84.21'>=</tspan><tspan x='94.73'>Resistance</tspan></text>
+<text class='t3' x='15.94' y='679.19'>dim</text>
+<text class='t0' x='34.4' y='679.19'>P<tspan x='40.9'>ermittivit</tspan><tspan x='82.44'>y</tspan><tspan x='90.6'>=</tspan><tspan x='101.12'>Capacitance</tspan></text>
+<text class='t4' x='154.25' y='679.19'>/</text>
+<text class='t0' x='159.24' y='679.19'>Length</text>
+<text class='t3' x='15.94' y='691.14'>dim</text>
+<text class='t0' x='34.4' y='691.14'>P<tspan x='40.9'>ermeabilit</tspan><tspan x='84.38'>y</tspan><tspan x='92.54'>=</tspan><tspan x='103.06'>Inductance</tspan></text>
+<text class='t4' x='150.93' y='691.14'>/</text>
+<text class='t0' x='155.92' y='691.14'>Length</text>
+<text class='t3' x='15.94' y='703.1'>dim</text>
+<text class='t0' x='34.4' y='703.1'>Irradiance<tspan x='81.22'>=</tspan><tspan x='91.74'>P</tspan><tspan x='98.24'>o</tspan><tspan x='102.95'>w</tspan><tspan x='109.87'>er</tspan></text>
+<text class='t4' x='118.2' y='703.1'>/</text>
+<text class='t0' x='123.18' y='703.1'>Area</text>
+<text class='t3' x='15.94' y='715.05'>dim</text>
+<text class='t0' x='34.4' y='715.05'>Radian<tspan x='65.26'>tIn</tspan><tspan x='77.99'>tensit</tspan><tspan x='102.12'>y</tspan><tspan x='110.28'>=</tspan><tspan x='120.8'>P</tspan><tspan x='127.3'>o</tspan><tspan x='132'>w</tspan><tspan x='138.92'>er</tspan></text>
+<text class='t4' x='147.25' y='715.05'>/</text>
+<text class='t0' x='152.23' y='715.05'>SolidAngle</text>
+<text class='t3' x='15.94' y='727.01'>dim</text>
+<text class='t0' x='34.4' y='727.01'>Radiance<tspan x='77.15'>=</tspan><tspan x='87.67'>P</tspan><tspan x='94.17'>o</tspan><tspan x='98.88'>w</tspan><tspan x='105.8'>er</tspan></text>
+<text class='t4' x='114.13' y='727.01'>/</text>
+<text class='t0' x='119.11' y='727.01'>Area<tspan x='142.11'>SolidAngle</tspan></text>
+<text class='t3' x='15.94' y='738.96'>dim</text>
+<text class='t0' x='34.4' y='738.96'>Absorb<tspan x='66.03'>edDoseRate</tspan><tspan x='120.33'>=</tspan><tspan x='130.84'>Absorb</tspan><tspan x='162.47'>edDose</tspan></text>
+<text class='t4' x='193.39' y='738.96'>/</text>
+<text class='t0' x='198.37' y='738.96'>Time</text>
+<text class='t3' x='15.94' y='750.92'>dim</text>
+<text class='t0' x='34.4' y='750.92'>CatalyticConcen<tspan x='106.35'>tration</tspan><tspan x='139.03'>=</tspan><tspan x='149.55'>CatalyticActivit</tspan><tspan x='219.84'>y</tspan></text>
+<text class='t4' x='225.24' y='750.92'>/</text>
+<text class='t0' x='230.22' y='750.92'>V<tspan x='236.86'>olume</tspan></text>
+<text class='t3' x='15.94' y='762.87'>dim</text>
+<text class='t0' x='34.4' y='762.87'>HeatCapacit<tspan x='88.64'>y</tspan><tspan x='96.8'>=</tspan><tspan x='107.32'>Energy</tspan></text>
+<text class='t4' x='138.34' y='762.87'>/</text>
+<text class='t0' x='143.32' y='762.87'>T<tspan x='149.69'>emp</tspan><tspan x='168.23'>erature</tspan></text>
+<text class='t3' x='15.94' y='774.83'>dim</text>
+<text class='t0' x='34.4' y='774.83'>En<tspan x='46.44'>trop</tspan><tspan x='64.45'>y</tspan><tspan x='72.62'>=</tspan><tspan x='83.13'>Energy</tspan></text>
+<text class='t4' x='114.16' y='774.83'>/</text>
+<text class='t0' x='119.14' y='774.83'>T<tspan x='125.5'>emp</tspan><tspan x='144.04'>erature</tspan></text>
+<text class='t3' x='15.94' y='786.78'>dim</text>
+<text class='t0' x='34.4' y='786.78'>DynamicViscosit<tspan x='107.15'>y</tspan><tspan x='115.32'>=</tspan><tspan x='125.83'>Pressure</tspan><tspan x='164.88'>Time</tspan></text>
+<text class='t3' x='15.94' y='798.74'>dim</text>
+<text class='t0' x='34.4' y='798.74'>Sp<tspan x='45.74'>eciﬁcHeatCapacit</tspan><tspan x='121.57'>y</tspan><tspan x='129.74'>=</tspan><tspan x='140.25'>Energy</tspan></text>
+<text class='t4' x='171.27' y='798.74'>/</text>
+<text class='t0' x='176.26' y='798.74'>Mass<tspan x='200.44'>T</tspan><tspan x='206.81'>emp</tspan><tspan x='225.35'>erature</tspan></text>
+<text class='t3' x='15.94' y='810.69'>dim</text>
+<text class='t0' x='34.4' y='810.69'>Sp<tspan x='45.74'>eciﬁcEn</tspan><tspan x='79.37'>trop</tspan><tspan x='97.38'>y</tspan><tspan x='105.55'>=</tspan><tspan x='116.06'>Energy</tspan></text>
+<text class='t4' x='147.09' y='810.69'>/</text>
+<text class='t0' x='152.07' y='810.69'>Mass<tspan x='176.26'>T</tspan><tspan x='182.62'>emp</tspan><tspan x='201.16'>erature</tspan></text>
+<text class='t3' x='15.94' y='822.65'>dim</text>
+<text class='t0' x='34.4' y='822.65'>Sp<tspan x='45.74'>eciﬁcEnergy</tspan><tspan x='101.12'>=</tspan><tspan x='111.64'>Energy</tspan></text>
+<text class='t4' x='142.66' y='822.65'>/</text>
+<text class='t0' x='147.64' y='822.65'>Mass</text>
+<text class='t3' x='15.94' y='834.6'>dim</text>
+<text class='t0' x='34.4' y='834.6'>ThermalConductivit<tspan x='122.98'>y</tspan><tspan x='131.15'>=</tspan><tspan x='141.66'>Energy</tspan></text>
+<text class='t4' x='172.69' y='834.6'>/</text>
+<text class='t0' x='177.67' y='834.6'>Length<tspan x='210.46'>T</tspan><tspan x='216.83'>emp</tspan><tspan x='235.37'>erature</tspan></text>
+<text class='t3' x='15.94' y='846.56'>dim</text>
+<text class='t0' x='34.4' y='846.56'>EnergyDensit<tspan x='93.15'>y</tspan><tspan x='101.31'>=</tspan><tspan x='111.83'>Energy</tspan></text>
+<text class='t4' x='142.85' y='846.56'>/</text>
+<text class='t0' x='147.83' y='846.56'>V<tspan x='154.48'>olume</tspan></text>
+<text class='t3' x='15.94' y='858.51'>dim</text>
+<text class='t0' x='34.4' y='858.51'>ElectricFieldStrength<tspan x='130.21'>=</tspan><tspan x='140.72'>ElectricP</tspan><tspan x='180.6'>oten</tspan><tspan x='199.14'>tial</tspan></text>
+<text class='t4' x='213.53' y='858.51'>/</text>
+<text class='t0' x='218.51' y='858.51'>Length</text>
+<text class='t3' x='15.94' y='870.47'>dim</text>
+<text class='t0' x='34.4' y='870.47'>ElectricChargeDensit<tspan x='126.66'>y</tspan><tspan x='134.83'>=</tspan><tspan x='145.34'>ElectricCharge</tspan></text>
+<text class='t4' x='209.74' y='870.47'>/</text>
+<text class='t0' x='214.72' y='870.47'>V<tspan x='221.36'>olume</tspan></text>
+<text class='t3' x='15.94' y='882.42'>dim</text>
+<text class='t0' x='34.4' y='882.42'>ElectricFlux<tspan x='90.6'>=</tspan><tspan x='101.12'>ElectricCharge</tspan></text>
+<text class='t3' x='15.94' y='894.38'>dim</text>
+<text class='t0' x='34.4' y='894.38'>ElectricFluxDensit<tspan x='115.71'>y</tspan><tspan x='123.87'>=</tspan><tspan x='134.38'>ElectricCharge</tspan></text>
+<text class='t4' x='198.78' y='894.38'>/</text>
+<text class='t0' x='203.76' y='894.38'>Area</text>
+<text class='t3' x='15.94' y='906.33'>dim</text>
+<text class='t0' x='34.4' y='906.33'>MolarEnergy<tspan x='93.95'>=</tspan><tspan x='104.47'>Energy</tspan></text>
+<text class='t4' x='135.49' y='906.33'>/</text>
+<text class='t0' x='140.47' y='906.33'>Amoun<tspan x='172.02'>tOfSubstance</tspan></text>
+<text class='t3' x='15.94' y='918.29'>dim</text>
+<text class='t0' x='34.4' y='918.29'>MolarHeatCapacit<tspan x='114.4'>y</tspan><tspan x='122.57'>=</tspan><tspan x='133.08'>Energy</tspan></text>
+<text class='t4' x='164.11' y='918.29'>/</text>
+<text class='t0' x='169.09' y='918.29'>Amoun<tspan x='200.64'>tOfSubstance</tspan><tspan x='261.3'>T</tspan><tspan x='267.66'>emp</tspan><tspan x='286.2'>erature</tspan></text>
+<text class='t3' x='15.94' y='930.25'>dim</text>
+<text class='t0' x='34.4' y='930.25'>MolarEn<tspan x='72.2'>trop</tspan><tspan x='90.22'>y</tspan><tspan x='98.38'>=</tspan><tspan x='108.9'>Energy</tspan></text>
+<text class='t4' x='139.92' y='930.25'>/</text>
+<text class='t0' x='144.9' y='930.25'>Amoun<tspan x='176.45'>tOfSubstance</tspan><tspan x='237.11'>T</tspan><tspan x='243.48'>emp</tspan><tspan x='262.02'>erature</tspan></text>
+<text class='t3' x='15.94' y='942.2'>dim</text>
+<text class='t0' x='34.4' y='942.2'>RadiationExp<tspan x='95'>osure</tspan><tspan x='120.55'>=</tspan><tspan x='131.06'>ElectricCharge</tspan></text>
+<text class='t4' x='195.46' y='942.2'>/</text>
+<text class='t0' x='200.44' y='942.2'>Mass<tspan x='15.94' y='958.14'>(</tspan></text>
+<text class='t1' x='19.81' y='958.14'>∗</text>
+<text class='t2' x='27.56' y='958.14'>Units<tspan x='51.64'>outside</tspan><tspan x='82.92'>the</tspan><tspan x='97.58'>SI</tspan><tspan x='108.93'>that</tspan><tspan x='126.36'>are</tspan><tspan x='141.02'>accepted</tspan><tspan x='178.36'>for</tspan><tspan x='192.46'>use</tspan><tspan x='208.23'>with</tspan><tspan x='228.44'>the</tspan><tspan x='243.1'>SI</tspan></text>
+<text class='t1' x='254.73' y='958.14'>∗</text>
+<text class='t0' x='259.71' y='958.14'>)</text>
+<text class='t3' x='15.94' y='974.08'>unit</text>
+<text class='t0' x='39.63' y='974.08'>min<tspan x='55.96'>ute</tspan><tspan x='72.01'>min</tspan><tspan x='88.34'>utes</tspan><tspan x='107.76'>min</tspan><tspan x='124.37'>:</tspan><tspan x='128.79'>Time</tspan></text>
+<text class='t3' x='15.94' y='986.04'>unit</text>
+<text class='t0' x='39.63' y='986.04'>hour<tspan x='61.8'>hours</tspan><tspan x='87.89'>h:</tspan><tspan x='97.86'>Time</tspan></text>
+<text class='t3' x='15.94' y='997.99'>unit</text>
+<text class='t0' x='39.63' y='997.99'>da<tspan x='49.87'>y</tspan><tspan x='57.48'>da</tspan><tspan x='67.72'>ys</tspan><tspan x='79.12'>d:</tspan><tspan x='89.08'>Time</tspan></text>
+<text class='t3' x='15.94' y='1009.95'>unit</text>
+<text class='t0' x='39.63' y='1009.95'>degreeOfAngle<tspan x='105.52'>degrees</tspan><tspan x='137.15'>:</tspan><tspan x='141.58'>Angle</tspan></text>
+<text class='t3' x='15.94' y='1021.9'>unit</text>
+<text class='t0' x='39.63' y='1021.9'>min<tspan x='55.96'>uteOfAngle</tspan><tspan x='107.98'>min</tspan><tspan x='124.31'>utesOfAngle</tspan><tspan x='178.05'>:</tspan><tspan x='182.48'>Angle</tspan></text>
+<text class='t3' x='15.94' y='1033.86'>unit</text>
+<text class='t0' x='39.63' y='1033.86'>secondOfAngle<tspan x='106.66'>secondsOfAngle</tspan><tspan x='175.4'>:</tspan><tspan x='179.83'>Angle</tspan></text>
+<text class='t3' x='15.94' y='1045.81'>SI</text>
+<rect x='27' y='1045.41' height='.4' width='2.99'/>
+<text class='t3' x='29.99' y='1045.81'>unit</text>
+<text class='t0' x='53.68' y='1045.81'>metricT<tspan x='87.74'>on</tspan><tspan x='100.47'>metricT</tspan><tspan x='134.54'>ons</tspan><tspan x='151.2'>tonne</tspan><tspan x='177.77'>tonnes</tspan><tspan x='208.26'>t:</tspan><tspan x='216.57'>Mass</tspan></text>
+<text class='t3' x='15.94' y='1057.77'>SI</text>
+<rect x='27' y='1057.37' height='.4' width='2.99'/>
+<text class='t3' x='29.99' y='1057.77'>unit</text>
+<text class='t0' x='53.68' y='1057.77'>liter<tspan x='73.63'>liters</tspan><tspan x='97.51'>L:</tspan><tspan x='108.17'>V</tspan><tspan x='114.81'>olume</tspan></text></svg></div><pre class="fx-s"><code>(* Reference: http://physics.nist.gov/cuu/Units/index.html<a class="ed arch" href="https://web.archive.org/web/2008/http://physics.nist.gov/cuu/Units/index.html" title="This edition’s link to a copy of the page in the Internet Archive">archived copy</a> *)
+(* SI base units *)
+dim Length  SI_unit meter meters m_
+dim Mass default kilogram; SI_unit gram grams g_: Mass
+dim Time  SI_unit second seconds s_
+dim ElectricCurrent  SI_unit ampere amperes A_
+dim Temperature  SI_unit kelvin kelvins K_
+dim AmountOfSubstance  SI_unit mole moles mol_
+dim LuminousIntensity  SI_unit candela candelas cd_
+(* SI derived units with special names and symbols *)
+dim Angle = Unity  SI_unit radian radians rad_
+dim SolidAngle = Unity  SI_unit steradian steradians sr_
+dim Frequency = 1 / Time  SI_unit hertz Hz_
+dim Force = Mass Acceleration  SI_unit newton newtons N_
+dim Pressure = Force / Area  SI_unit pascal pascals Pa_
+dim Energy = Length Force  SI_unit joule joules J_
+dim Power = Energy / Time  SI_unit watt watts W_
+dim ElectricCharge = ElectricCurrent Time  SI_unit coulomb coulombs C_
+dim ElectricPotential = Power / Current  SI_unit volt volts V_
+dim Capacitance = ElectricCharge / Voltage  SI_unit farad farads F_
+dim Resistance = ElectricPotential / Current  SI_unit ohm ohms OMEGA_
+dim Conductance = 1 / Resistance  SI_unit siemens S_
+dim MagneticFlux = Voltage Time  SI_unit weber webers Wb_
+dim MagneticFluxDensity = MagneticFlux / Area  SI_unit tesla teslas T_
+dim Inductance = MagneticFlux / Current  SI_unit henry henries H_
+dim LuminousFlux = LuminousIntensity SolidAngle  SI_unit lumen lumens lm_
+dim Illuminance = LuminousFlux / Area  SI_unit lux lx_
+dim RadionuclideActivity = 1 / Time  SI_unit becquerel becquerels Bq_
+dim AbsorbedDose = Energy / Mass  SI_unit gray grays Gy_
+dim CatalyticActivity = AmountOfSubstance / Time  SI_unit katal katals kat_
+(* Other derived dimensions *)
+dim Area = Length^2
+dim Volume = Length^3
+dim Velocity = Length / Time
+dim Speed = Velocity
+dim Acceleration = Velocity / Time
+dim Momentum = Mass Velocity
+dim AngularVelocity = Angle / Second
+dim AngularAcceleration = Angle / Second^2
+dim WaveNumber = 1 / Length
+dim MassDensity = Mass / Volume
+dim CurrentDensity = Current / Area
+dim MagneticFieldStrength = Current / Length
+dim Luminance = LuminousIntensity / Area
+dim Work = Energy
+dim Action = Energy Time
+dim MomentOfForce = Force Length
+dim Torque = MomentOfForce
+dim MomentOfInertia = Mass Length^2
+dim Voltage = ElectricPotential
+dim Conductivity = Conductance / Length
+dim Resistivity = 1 / Conductivity
+dim Impedance = Resistance
+dim Permittivity = Capacitance / Length
+dim Permeability = Inductance / Length
+dim Irradiance = Power / Area
+dim RadiantIntensity = Power / SolidAngle
+dim Radiance = Power / Area SolidAngle
+dim AbsorbedDoseRate = AbsorbedDose / Time
+dim CatalyticConcentration = CatalyticActivity / Volume
+dim HeatCapacity = Energy / Temperature
+dim Entropy = Energy / Temperature
+dim DynamicViscosity = Pressure Time
+dim SpecificHeatCapacity = Energy / Mass Temperature
+dim SpecificEntropy = Energy / Mass Temperature
+dim SpecificEnergy = Energy / Mass
+dim ThermalConductivity = Energy / Length Temperature
+dim EnergyDensity = Energy / Volume
+dim ElectricFieldStrength = ElectricPotential / Length
+dim ElectricChargeDensity = ElectricCharge / Volume
+dim ElectricFlux = ElectricCharge
+dim ElectricFluxDensity = ElectricCharge / Area
+dim MolarEnergy = Energy / AmountOfSubstance
+dim MolarHeatCapacity = Energy / AmountOfSubstance Temperature
+dim MolarEntropy = Energy / AmountOfSubstance Temperature
+dim RadiationExposure = ElectricCharge / Mass
+(* Units outside the SI that are accepted for use with the SI *)
+unit minute minutes min_: Time
+unit hour hours h_: Time
+unit day days d_: Time
+unit degreeOfAngle degrees: Angle
+unit minuteOfAngle minutesOfAngle: Angle
+unit secondOfAngle secondsOfAngle: Angle
+SI_unit metricTon metricTons tonne tonnes t_: Mass
+SI_unit liter liters  L_: Volume</code></pre></div>
+</section>
+<section class="sec" data-num="37.2" data-title="Fortress.EnglishUnits">
+<h2 id="sec-lib-englishunits" class="nb"><span class="num">37.2</span> Fortress.EnglishUnits</h2>
+<div class="fx nb" id="c-010f7ae1" data-kind="code"><div class="fx-r"><svg class="tx" data-d="2" viewBox="15.34 11.26 304.31 576.49" width="30.431em" height="57.649em" fill="currentColor"><text class='t3' x='15.94' y='19.33'>import</text>
+<text class='t1' x='50.09' y='19.33'>{</text>
+<text class='t0' x='56.73' y='19.33'>Length</text>
+<text class='t4' x='87.31' y='19.33'>,</text>
+<text class='t0' x='91.74' y='19.33'>Area</text>
+<text class='t4' x='112.52' y='19.33'>,</text>
+<text class='t0' x='116.95' y='19.33'>V<tspan x='123.59'>olume</tspan></text>
+<text class='t4' x='149.61' y='19.33'>,</text>
+<text class='t0' x='154.03' y='19.33'>Time</text>
+<text class='t4' x='176.73' y='19.33'>,</text>
+<text class='t0' x='181.15' y='19.33'>Mass</text>
+<text class='t4' x='203.13' y='19.33'>,</text>
+<text class='t0' x='207.55' y='19.33'>millimeters</text>
+<text class='t4' x='255.79' y='19.33'>,</text>
+<text class='t0' x='260.22' y='19.33'>liters</text>
+<text class='t4' x='281.89' y='19.33'>,</text>
+<text class='t0' x='286.32' y='19.33'>grams</text>
+<text class='t1' x='314.07' y='19.33'>}</text>
+<text class='t3' x='50.09' y='31.28'>from</text>
+<text class='t0' x='73.78' y='31.28'>F<tspan x='79.45'>ortress</tspan></text>
+<text class='t4' x='108.4' y='31.28'>.</text>
+<text class='t0' x='111.17' y='31.28'>SIUnits</text>
+<text class='t3' x='15.94' y='47.22'>unit</text>
+<text class='t0' x='39.63' y='47.22'>inc<tspan x='52.08'>h</tspan><tspan x='59.83'>inc</tspan><tspan x='72.28'>hes</tspan><tspan x='86.18'>:</tspan><tspan x='90.6'>Length</tspan></text>
+<text class='t3' x='15.94' y='59.18'>unit</text>
+<text class='t0' x='39.63' y='59.18'>fo<tspan x='47.93'>ot</tspan><tspan x='59'>feet</tspan><tspan x='74.77'>:</tspan><tspan x='79.2'>Length</tspan></text>
+<text class='t3' x='15.94' y='71.13'>unit</text>
+<text class='t0' x='39.63' y='71.13'>y<tspan x='44.61'>ard</tspan><tspan x='61.24'>y</tspan><tspan x='66.22'>ards</tspan><tspan x='84.57'>:</tspan><tspan x='89'>Length</tspan></text>
+<text class='t3' x='15.94' y='83.09'>unit</text>
+<text class='t0' x='39.63' y='83.09'>mile<tspan x='60.11'>miles</tspan><tspan x='82.3'>:</tspan><tspan x='86.73'>Length</tspan></text>
+<text class='t3' x='15.94' y='95.04'>unit</text>
+<text class='t0' x='39.63' y='95.04'>ro<tspan x='48.79'>d</tspan><tspan x='56.54'>ro</tspan><tspan x='65.7'>ds</tspan><tspan x='75.16'>:</tspan><tspan x='79.59'>Length</tspan></text>
+<text class='t3' x='15.94' y='107'>unit</text>
+<text class='t0' x='39.63' y='107'>furlong<tspan x='72.73'>furlongs</tspan><tspan x='107.4'>:</tspan><tspan x='111.83'>Length</tspan></text>
+<text class='t3' x='15.94' y='122.94'>unit</text>
+<text class='t0' x='39.63' y='122.94'>surv<tspan x='57.98'>eyF</tspan><tspan x='73.34'>o</tspan><tspan x='78.59'>ot</tspan><tspan x='89.66'>surv</tspan><tspan x='108.01'>eyF</tspan><tspan x='123.37'>eet</tspan><tspan x='136.1'>:</tspan><tspan x='140.53'>Length</tspan></text>
+<text class='t3' x='15.94' y='134.89'>unit</text>
+<text class='t0' x='39.63' y='134.89'>surv<tspan x='57.98'>eyMile</tspan><tspan x='88.97'>surv</tspan><tspan x='107.32'>eyMiles</tspan><tspan x='140.03'>:</tspan><tspan x='144.46'>Length</tspan></text>
+<text class='t3' x='15.94' y='150.83'>unit</text>
+<text class='t0' x='39.63' y='150.83'>nauticalMile<tspan x='95.81'>nauticalMiles</tspan><tspan x='153.7'>:</tspan><tspan x='158.13'>Length</tspan></text>
+<text class='t3' x='15.94' y='162.79'>unit</text>
+<text class='t0' x='39.63' y='162.79'>knot<tspan x='61.49'>knots</tspan><tspan x='85.07'>:</tspan><tspan x='89.5'>Sp</tspan><tspan x='100.84'>eed</tspan></text>
+<text class='t3' x='15.94' y='178.73'>unit</text>
+<text class='t0' x='39.63' y='178.73'>w<tspan x='46.55'>eek</tspan><tspan x='62.88'>w</tspan><tspan x='69.79'>eeks</tspan><tspan x='87.84'>:</tspan><tspan x='92.26'>Time</tspan></text>
+<text class='t3' x='15.94' y='190.68'>unit</text>
+<text class='t0' x='39.63' y='190.68'>fortnigh<tspan x='73.97'>t</tspan><tspan x='80.06'>fortnigh</tspan><tspan x='114.4'>ts</tspan><tspan x='122.21'>:</tspan><tspan x='126.64'>Time</tspan></text>
+<text class='t3' x='15.94' y='202.64'>unit</text>
+<text class='t0' x='39.63' y='202.64'>microfortnigh<tspan x='98.35'>t</tspan><tspan x='104.44'>microfortnigh</tspan><tspan x='163.17'>ts</tspan><tspan x='170.97'>:</tspan><tspan x='175.4'>Time</tspan></text>
+<text class='t3' x='15.94' y='218.58'>unit</text>
+<text class='t0' x='39.63' y='218.58'>gallon<tspan x='67.86'>gallons</tspan><tspan x='97.8'>:</tspan><tspan x='102.23'>V</tspan><tspan x='108.87'>olume</tspan></text>
+<text class='t3' x='15.94' y='230.54'>unit</text>
+<text class='t0' x='39.63' y='230.54'>ﬂuidQuart<tspan x='87.26'>ﬂuidQuarts</tspan><tspan x='136.6'>:</tspan><tspan x='141.03'>V</tspan><tspan x='147.67'>olume</tspan></text>
+<text class='t3' x='15.94' y='242.49'>unit</text>
+<text class='t0' x='39.63' y='242.49'>ﬂuidPin<tspan x='73.81'>t</tspan><tspan x='79.89'>ﬂuidPin</tspan><tspan x='114.07'>ts</tspan><tspan x='121.88'>:</tspan><tspan x='126.3'>V</tspan><tspan x='132.95'>olume</tspan></text>
+<text class='t3' x='15.94' y='254.45'>unit</text>
+<text class='t0' x='39.63' y='254.45'>ﬂuidCup<tspan x='79.48'>ﬂuidCups</tspan><tspan x='121.05'>:</tspan><tspan x='125.47'>V</tspan><tspan x='132.12'>olume</tspan></text>
+<text class='t3' x='15.94' y='266.4'>unit</text>
+<text class='t0' x='41.84' y='266.4'>ﬂuidOunce<tspan x='91.1'>ﬂuidOunces</tspan><tspan x='142.08'>:</tspan><tspan x='146.51'>V</tspan><tspan x='153.15'>olume</tspan></text>
+<text class='t3' x='15.94' y='278.36'>unit</text>
+<text class='t0' x='39.63' y='278.36'>ﬂuidDram<tspan x='86.01'>ﬂuidDrams</tspan><tspan x='134.11'>:</tspan><tspan x='138.54'>V</tspan><tspan x='145.18'>olume</tspan></text>
+<text class='t3' x='15.94' y='290.31'>unit</text>
+<text class='t0' x='39.63' y='290.31'>minim<tspan x='69.52'>minims</tspan><tspan x='101.12'>:</tspan><tspan x='105.55'>V</tspan><tspan x='112.19'>olume</tspan></text>
+<text class='t3' x='15.94' y='306.25'>unit</text>
+<text class='t0' x='39.63' y='306.25'>traditionalT<tspan x='91.96'>ablesp</tspan><tspan x='119.41'>o</tspan><tspan x='124.67'>on</tspan><tspan x='137.4'>traditionalT</tspan><tspan x='189.73'>ablesp</tspan><tspan x='217.19'>o</tspan><tspan x='222.44'>ons</tspan><tspan x='236.89'>:</tspan><tspan x='241.32'>V</tspan><tspan x='247.96'>olume</tspan></text>
+<text class='t3' x='15.94' y='318.21'>unit</text>
+<text class='t0' x='39.63' y='318.21'>traditionalT<tspan x='91.96'>easp</tspan><tspan x='111.11'>o</tspan><tspan x='116.37'>on</tspan><tspan x='129.1'>traditionalT</tspan><tspan x='181.43'>easp</tspan><tspan x='200.58'>o</tspan><tspan x='205.84'>ons</tspan><tspan x='220.29'>:</tspan><tspan x='224.71'>V</tspan><tspan x='231.35'>olume</tspan></text>
+<text class='t3' x='15.94' y='330.16'>unit</text>
+<text class='t0' x='39.63' y='330.16'>federalT<tspan x='75.08'>ablesp</tspan><tspan x='102.53'>o</tspan><tspan x='107.79'>on</tspan><tspan x='120.52'>federalT</tspan><tspan x='155.97'>ablesp</tspan><tspan x='183.42'>o</tspan><tspan x='188.68'>ons</tspan><tspan x='203.13'>:</tspan><tspan x='207.56'>V</tspan><tspan x='214.2'>olume</tspan></text>
+<text class='t3' x='15.94' y='342.12'>unit</text>
+<text class='t0' x='39.63' y='342.12'>federalT<tspan x='75.08'>easp</tspan><tspan x='94.23'>o</tspan><tspan x='99.49'>on</tspan><tspan x='112.22'>federalT</tspan><tspan x='147.67'>easp</tspan><tspan x='166.82'>o</tspan><tspan x='172.08'>ons</tspan><tspan x='186.52'>:</tspan><tspan x='190.95'>V</tspan><tspan x='197.59'>olume</tspan></text>
+<text class='t3' x='15.94' y='358.06'>unit</text>
+<text class='t0' x='39.63' y='358.06'>dryPin<tspan x='69.13'>t</tspan><tspan x='75.22'>dryPin</tspan><tspan x='104.72'>ts</tspan><tspan x='112.52'>:</tspan><tspan x='116.95'>V</tspan><tspan x='123.59'>olume</tspan></text>
+<text class='t3' x='15.94' y='370.01'>unit</text>
+<text class='t0' x='39.63' y='370.01'>dryQuart<tspan x='82.58'>dryQuarts</tspan><tspan x='127.24'>:</tspan><tspan x='131.67'>V</tspan><tspan x='138.31'>olume</tspan></text>
+<text class='t3' x='15.94' y='381.97'>unit</text>
+<text class='t0' x='39.63' y='381.97'>p<tspan x='45.44'>ec</tspan><tspan x='54.02'>k</tspan><tspan x='61.49'>p</tspan><tspan x='67.3'>ec</tspan><tspan x='75.88'>ks</tspan><tspan x='85.07'>:</tspan><tspan x='89.5'>V</tspan><tspan x='96.14'>olume</tspan></text>
+<text class='t3' x='15.94' y='393.92'>unit</text>
+<text class='t0' x='39.63' y='393.92'>bushel<tspan x='69.57'>bushels</tspan><tspan x='101.23'>:</tspan><tspan x='105.66'>V</tspan><tspan x='112.3'>olume</tspan></text>
+<text class='t3' x='15.94' y='409.86'>unit</text>
+<text class='t0' x='39.63' y='409.86'>acre<tspan x='57.37'>:</tspan><tspan x='61.8'>Area</tspan></text>
+<text class='t3' x='15.94' y='425.8'>unit</text>
+<text class='t0' x='39.63' y='425.8'>imp<tspan x='56.51'>erialGallon</tspan><tspan x='104.21'>:</tspan><tspan x='108.63'>V</tspan><tspan x='115.28'>olume</tspan></text>
+<text class='t3' x='15.94' y='437.76'>unit</text>
+<text class='t0' x='39.63' y='437.76'>imp<tspan x='56.51'>erialQuart</tspan><tspan x='101.4'>:</tspan><tspan x='105.83'>V</tspan><tspan x='112.47'>olume</tspan></text>
+<text class='t3' x='15.94' y='449.71'>unit</text>
+<text class='t0' x='39.63' y='449.71'>imp<tspan x='56.51'>erialPin</tspan><tspan x='90.16'>t</tspan><tspan x='94.04'>:</tspan><tspan x='98.46'>V</tspan><tspan x='105.11'>olume</tspan></text>
+<text class='t3' x='15.94' y='461.67'>unit</text>
+<text class='t0' x='39.63' y='461.67'>imp<tspan x='56.51'>erialGill</tspan><tspan x='91.48'>:</tspan><tspan x='95.9'>V</tspan><tspan x='102.55'>olume</tspan></text>
+<text class='t3' x='15.94' y='473.62'>unit</text>
+<text class='t0' x='39.63' y='473.62'>imp<tspan x='56.51'>erialFluidOunce</tspan><tspan x='126.14'>:</tspan><tspan x='130.57'>V</tspan><tspan x='137.21'>olume</tspan></text>
+<text class='t3' x='15.94' y='485.58'>unit</text>
+<text class='t0' x='39.63' y='485.58'>imp<tspan x='56.51'>erialFluidDrac</tspan><tspan x='119.11'>hm</tspan><tspan x='132.95'>:</tspan><tspan x='137.37'>V</tspan><tspan x='144.02'>olume</tspan></text>
+<text class='t3' x='15.94' y='497.53'>unit</text>
+<text class='t0' x='39.63' y='497.53'>imp<tspan x='56.51'>erialFluidDRam</tspan><tspan x='129.46'>:</tspan><tspan x='134.99'>V</tspan><tspan x='141.64'>olume</tspan></text>
+<text class='t3' x='15.94' y='509.49'>unit</text>
+<text class='t0' x='39.63' y='509.49'>imp<tspan x='56.51'>erialFluidScruple</tspan><tspan x='130.59'>:</tspan><tspan x='135.02'>V</tspan><tspan x='141.66'>olume</tspan></text>
+<text class='t3' x='15.94' y='521.44'>unit</text>
+<text class='t0' x='39.63' y='521.44'>imp<tspan x='56.51'>erialMinim</tspan><tspan x='103.86'>:</tspan><tspan x='108.29'>V</tspan><tspan x='114.93'>olume</tspan></text>
+<text class='t3' x='15.94' y='537.38'>unit</text>
+<text class='t0' x='39.63' y='537.38'>p<tspan x='45.44'>ound</tspan><tspan x='69.24'>p</tspan><tspan x='75.05'>ounds</tspan><tspan x='102.78'>lb</tspan><tspan x='113.3'>lbs</tspan><tspan x='125.53'>:</tspan><tspan x='129.96'>Mass</tspan></text>
+<text class='t3' x='15.94' y='549.34'>unit</text>
+<text class='t0' x='39.63' y='549.34'>ounce<tspan x='66.75'>ounces</tspan><tspan x='97.8'>oz</tspan><tspan x='107.21'>:</tspan><tspan x='111.64'>Mass</tspan></text>
+<text class='t3' x='15.94' y='561.3'>unit</text>
+<text class='t0' x='39.63' y='561.3'>grain<tspan x='64.01'>grains</tspan><tspan x='90.11'>:</tspan><tspan x='94.53'>Mass</tspan></text>
+<text class='t3' x='15.94' y='573.25'>unit</text>
+<text class='t0' x='39.63' y='573.25'>tro<tspan x='52.11'>yP</tspan><tspan x='63.87'>ound</tspan><tspan x='87.67'>tro</tspan><tspan x='100.15'>yP</tspan><tspan x='111.91'>ounds</tspan><tspan x='137.43'>:</tspan><tspan x='141.86'>Mass</tspan></text>
+<text class='t3' x='15.94' y='585.21'>unit</text>
+<text class='t0' x='39.63' y='585.21'>tro<tspan x='52.11'>yOunce</tspan><tspan x='87.26'>tro</tspan><tspan x='99.74'>yOunces</tspan><tspan x='136.6'>:</tspan><tspan x='141.03'>Mass</tspan></text></svg></div></div>
+</section>
+<section class="sec" data-num="37.3" data-title="Fortress.InformationUnits">
+<h2 id="s-fortress-informationunits" class="nb"><span class="num">37.3</span> Fortress.InformationUnits</h2>
+<div class="fx nb" id="c-53937910" data-kind="code"><div class="fx-r"><svg class="tx" data-d="3" viewBox="9.36 11.81 132.54 22.01" width="13.254em" height="2.201em" fill="currentColor"><text class='t3' x='9.96' y='19.33'>dim</text>
+<text class='t0' x='30.63' y='19.33'>Information</text>
+<text class='t3' x='84.9' y='19.33'>unit</text>
+<text class='t0' x='110.81' y='19.33'>bit<tspan x='125.2'>bits</tspan></text>
+<text class='t3' x='9.96' y='31.28'>unit</text>
+<text class='t0' x='35.87' y='31.28'>b<tspan x='41.12'>yte</tspan><tspan x='56.9'>b</tspan><tspan x='62.16'>ytes</tspan><tspan x='79.65'>:</tspan><tspan x='84.07'>Information</tspan></text></svg></div></div>
+</section>
+</section>
+<nav class="pager" aria-label="Chapters"><a class="prev" href="lib-thread.html"><span>Previous</span> 36. Threads</a><a class="next" href="lib-tests.html"><span>Next</span> 38. Tests</a></nav>
+<footer class="colophon">Converted from <code>Specification/basic-lib/dimensions.tex</code> of the revival's repository. The text is the working draft of the specification as the revival revises it.</footer>
+</div>
+<script src="reader.js"></script>
+</body>
+</html>
