@@ -113,7 +113,7 @@ Fields common to the seven rungs:
   - Whether the distance stage's shadow patch still applies to your `CodeGen.java`.
   - Each sentence of the specification that your change makes false, or none.
   - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
-- **briefing** (11 keys, 8 checks):
+- **briefing** (12 keys, 8 checks):
   - P-175 (check): a group joins every arm that it forked before it completes abruptly, which an `exit` out of a parallel loop meets.
   - F-19: what may run in parallel, and what each path forks.
   - ledger:81 (check): the refusal, which closes.

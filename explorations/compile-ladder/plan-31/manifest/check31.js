@@ -31,7 +31,7 @@
 //   given them when this file was written, because the batch had no go: --write gives it the block and the list
 //   together.
 // - Section 4's rule: in run 1 N shares no file with the other four, and M, L, A and K share CodeGen.java by
-//   declaration, each section's "Overlaps by file." saying so, and the gather applies N, then M, L, A and K; in run
+//   declaration, each section's "Overlaps by file." saying so, and the gather's order is the script's; in run
 //   2 T and D share CodeGen.java only, and the gather applies T, then D.
 // - The stages (section 1's common fields; section 6, "The generator"): N and D name the count stage and the
 //   distance stage in a step of their sections, "once on your final tree", with P-148's runs; M, L, A, K and T open
@@ -266,8 +266,8 @@ if (r) {
   const rule = (() => { const a = s4.indexOf('\n### The rule the rungs keep'); return a < 0 ? '' : s4.slice(a) })()
   const overlaps = (id) => (/\*\*Overlaps by file\.\*\* ([^\n]*)/.exec(section(id) || '') || [, ''])[1]
   if (RUN === '1') {
-    say(/^- \*\*Run 1\.\*\* N shares no file with the other four\. M, L, A and K share `compiler\/codegen\/CodeGen\.java`, by declaration:$/m.test(rule) && ['M', 'L', 'A', 'K'].every(x => new RegExp('^  - ' + x + ': ', 'm').test(rule)) && /^  - The gather applies N, then M, L, A and K: /m.test(rule),
-      'section 4\'s rule for run 1: N shares no file with the other four; M, L, A and K share CodeGen.java by declaration, each with its line; the gather applies N, then M, L, A and K, by the lowest edited line in the shared file')
+    say(/^- \*\*Run 1\.\*\* N shares no file with the other four\. M, L, A and K share `compiler\/codegen\/CodeGen\.java`, by declaration:$/m.test(rule) && ['M', 'L', 'A', 'K'].every(x => new RegExp('^  - ' + x + ': ', 'm').test(rule)) && /^  - The gather's order is the script's: /m.test(rule),
+      'section 4\'s rule for run 1: N shares no file with the other four; M, L, A and K share CodeGen.java by declaration, each with its line; the gather\'s order is the script\'s, by the lowest edited line in the shared file')
     const others = { M: 'L, A and K', L: 'M, A and K', A: 'M, L and K', K: 'M, L and A' }
     say(/^None with M, L, A or K\.$/.test(overlaps('N')) && Object.keys(others).filter(x => RUN_IDS.includes(x)).every(x => overlaps(x) === others[x] + ' edit CodeGen.java too: "The rule the rungs keep".'),
       'each section\'s "Overlaps by file.": N none with M, L, A or K; M, L, A and K each name the other three and the rule')
@@ -348,8 +348,8 @@ if (r) {
   if (RUN === '1') {
     say(/^This run is climb batch 31, the first of the two runs of the record CLIMB-BATCH-31\.md/.test(r.BATCH_INTRO) && ['N', 'M', 'L', 'A', 'K'].every(x => new RegExp('^- ' + x + ', ', 'm').test(r.BATCH_INTRO)) && !/Run 2|climb batch 31b/.test(r.BATCH_INTRO),
       'the intro: run 1 of the record, its five rungs, nothing of run 2')
-    say(/N runs the count stage and the distance stage once on its final tree, with the checker's timing; the others run neither\./.test(r.BATCH_INTRO) && /The gather applies N, M, L, A, then K/.test(r.BATCH_INTRO),
-      'the intro: N runs the two stages once on its final tree, the others run neither; the gather applies N, M, L, A, then K')
+    say(/N runs the count stage and the distance stage once on its final tree, with the checker's timing; the others run neither\./.test(r.BATCH_INTRO) && /The gather applies the rungs in the script's order/.test(r.BATCH_INTRO),
+      'the intro: N runs the two stages once on its final tree, the others run neither; the gather applies the rungs in the script\'s order')
     say(new RegExp("The gate's atomic runs hold " + words[NEW_ATOMIC.length] + ' new programs\\.').test(r.BATCH_INTRO), 'the intro: the gate\'s atomic runs hold ' + words[NEW_ATOMIC.length] + ' new programs, as fork B2 names them')
     const nRung = r.RUNGS.find(x => x.id === 'N')
     if (nRung) say(FORK_W === 'a' ? /^- N, [^\n]*, on both paths, /m.test(r.BATCH_INTRO) && /on both paths \(P-46, P-49, P-173\)$/.test(nRung.title) && /^2\. \*\*Walk\*\* \(fork W\)\. /m.test(nRung.section)
