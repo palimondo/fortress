@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2. Vectors, matrices and the nine weight matrices · microGPT in Fortress</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="walk.css">
+</head>
+<body data-page="chapter" data-slug="arrays" data-chapter="2. Vectors, matrices and the nine weight matrices">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">2. Vectors, matrices and the nine weight matrices</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">microGPT in Fortress, line by line</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="2" data-title="Vectors, matrices and the nine weight matrices">
+<h1 id="top" class="nb"><span class="num">Part 2</span> Vectors, matrices and the nine weight matrices</h1>
+<p class="standfirst">The product of a matrix and a vector, from a 2 by 2 case; why the program writes <code>x w^T</code>; how nine matrices lie in one vector of 4,192 numbers; and the first line of the forward pass.</p>
+<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-a-vector-and-a-matrix">2.1 A vector and a matrix</a></li><li><a href="#s-a-matrix-times-a-vector">2.2 A matrix times a vector</a></li><li><a href="#s-the-order-matters">2.3 The order matters</a></li><li><a href="#s-the-transpose-and-lines-21-to-24">2.4 The transpose, and lines 21 to 24</a></li><li><a href="#s-many-vectors-at-once-why-the-program-writes-x-w-t">2.5 Many vectors at once: why the program writes x w^T</a></li><li><a href="#s-one-vector-of-parameters-nine-matrices">2.6 One vector of parameters, nine matrices</a></li><li><a href="#s-the-first-forward-line-looking-rows-up">2.7 The first forward line: looking rows up</a></li></ol></nav>
+<section class="sec" data-num="2.1" data-title="A vector and a matrix">
+<h2 id="s-a-vector-and-a-matrix" class="nb"><span class="num">2.1</span> A vector and a matrix</h2>
+<p id="p-0818f992" class="nb">A vector is a list of numbers. A matrix is a grid of numbers, in rows and columns. "A 2 by 3 matrix" has 2 rows and 3 columns: the rows are named first.</p>
+<p id="p-bf1aa97d" class="nb">Inside a function, Fortress writes both as literals:</p>
+<div class="fx nb own" id="c-addae87c" data-kind="code"><pre class="fx-s"><code>m: Matrix[\RR64,2,2\] = [1.0 2.0; 3.0 4.0]
+v: Vector[\RR64,2\] = [5.0 6.0]</code></pre></div>
+<p id="p-e4ee2c97" class="nb">Spaces separate the elements of a row, and a semicolon ends a row. So <code>m</code> has the rows 1, 2 and 3, 4. <code>Matrix[\RR64,2,2\]</code> is the library's type for a matrix of floats with 2 rows and 2 columns. <code>Vector[\RR64,2\]</code> is its type for a vector of 2 floats. Both are kinds of <code>Array</code>, the type of Part 1, with the sizes added.</p>
+</section>
+<section class="sec" data-num="2.2" data-title="A matrix times a vector">
+<h2 id="s-a-matrix-times-a-vector" class="nb"><span class="num">2.2</span> A matrix times a vector</h2>
+<p id="p-ec94ce91" class="nb">The product of the matrix <code>m</code> and the vector <code>v</code> is a new vector. Fortress writes the product as the two names side by side, <code>m v</code>. A run printed:</p>
+<pre class="vb nb out" id="o-99a49924" data-kind="output"><code>m v (2): 17.0 39.0</code></pre>
+<p id="p-f31c0eb6" class="nb">Each element of the result comes from one row of <code>m</code>. Take the row, multiply its elements with the elements of <code>v</code>, pair by pair, and add:</p>
+<ul>
+<li><p id="p-9eaed1db" class="nb">Row 0 of <code>m</code> is 1, 2. With <code>v</code>: 1 times 5, plus 2 times 6, is 17.</p></li>
+<li><p id="p-2cc6f5a3" class="nb">Row 1 of <code>m</code> is 3, 4. With <code>v</code>: 3 times 5, plus 4 times 6, is 39.</p></li>
+</ul>
+<div class="dm nb" id="m-473eb397" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='16.410em' height='2.390em' viewBox='63.840598 52.801971 164.102227 23.900374' fill='currentColor' aria-hidden='true'><style type='text/css'>
+@font-face{font-family:qda53aae5dc-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAV8AAoAAAAACOgAAAUxAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAATAqKeIgmCxgAATYCJAMsBCAFgjgHIBvPBgAeB+XGM2VLkqvXwuh43PQvL9CWBFsXTDevO6xNTZC6T1yRqXjkmwgPPLf8HRTGadhtcWEeULcNdDzeG9BF638Aa9YH1+QD/OYoAM1aBkWCPG1NMIGBR9l42jgd0EgHZFNPtA3xOW/bS7cx6nd+AuBhBrYGhAC90NP/KFhtR9g3Zxu6QASCDAAUBtrQepvUQZCGSIvg/1wcQ7zU/0wXtQIA1V0MiEDiOkIQBAmRIElaRDlElP8J99ILTwsIlyygjKQI/A8AVb7A9jEZIrwfyjShiTo8fQRlHakQi1uQx79skwoXb9g3d79Cgns3L99IIYlv75w9yh6B/yBJgitxYOTyw1rhBWYotpcv2e9xk/R5lU83iHSIdT6V+zo/aC7nWsZEqvYeBP8F5YZLRp53s6yTLX3h6Kg/kGEcHOfafnnI8otzLgw9yrK8ey6XQ+zZrEjYe5nnldyz2H1MqO+sYc4B4px1N7+cZZkWMdbhUyz3UIgEwmIabryyZdjrKfYenHNg8DLlVjabtx/ntXy091r8nRfUBmKZDt9E+hQsfZ9XqTwwJ5V64rgXD6+dLFuz/TW9tDpT7tUeed6tUi92l4XngX2HtNvPKw7dG3wu90DoDUfV3scRm/m5nPbYI4phLBtYg+dlj+MGo2aAZ0vsuW0qjne77Y1nqA16PeEmN1wkSfWGjiMvYq/4XD6Cd94v82hmu+gyzrr5sGL5QY3nwOCDd1VnS3y6224Hz7vmctptz+L3PQj1M4YtrObow/HS/XBk+7Do8Lfu+tpEtBnaCJNpp1vv3mnCX9m4k9bTOyH0kR7yi81iLkWHSpHZYv8kJHheQSCY/j1UOHSZW3yhUb6wt3qeVn9yRqBy0p23rqdPENvszdlYWF6c5caO65Qx94OsV8MhZ+l3o3qYfGGVQBf1E9pg+Foqr2yHzKB0yth65IRJM5aD5ZvVkqS+U2/XWGnIH1BbUXLNi7B1ITfGRf44khaNIjHb+/IXpdoFL7+nVFfVP8RqW4q39BbCjKkRQt9yc9L7q06J86Wv2s3tVbr5CQrzKLTCjsyKhPk64ZRZf86Ex09Ry+yZNciFN42F7DTmxJqtQ7eukVreK7GNoVEDBE1ilO9sWD329iezEkXBIyLUEvn6POPLSJr6fN4aQnru7yEuPCrkwYQ8cIQ9s2BRyW+Xo1zY+FlYM9YxZYYb2dBb796KL0Rn8N2FdctLXM3wQ1Z6hPiXD+4HyFfe0GREovRxTdeQb2rTgAPTHwvpAmHe2yvn37TjSeNkMmEtl07AZ6OX3sJ0nQPJcmes6O1g9LUISvp79i669UggNN4Pl67WWl5pJeuq/xQoYPKo/+IDNzZuNtacaCn4IctWgf107nsmthCdwvd5r7YhW34yLvn5xYB7gZKGH6q+/mBd0LvMFeSfFZaFUsaCLQ8o898SR57Iz/4nIFskFOa+s3I+XCtuOeEyuHa078gx5BB3TbkjJ1puGDkA4DuwbPXpxw2y1F+DcAEAAHxuyP/Vjv0/9CG6AJCH9Eg9l7UyMJAxxmSfVDintJNDgBoNMRCyaPAhyQnhOUaokTJmGCP6hFkwRijj9QWEZD4vRKL4AEKm7QStwXBYLAKMUbrPCxBqeSGldj4AYcaAEGvRk7T2o7x+S9+4qMg301JUeOS9oe8M57dO6ho/qaPPHBMeHR4FdqP1GWOiCdqMY1YEt9Vv92vRZ3ejRHLVwnhdjNX9zKKEiwTQbn+k2zQatLabTWVGYZKuaHqSDn0QY0fr5aPgBAAA) format('woff2');}
+@font-face{font-family:qda53aae5dc-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAG0AAoAAAAAA1QAAAFtAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAooQQsGAAE2AiQDCAQgBYI+ByAbtAIArgZsYyr0RTH0zmcsLTA/toMQl4tBiOepsfb+7p4JKlUTpE4jEZpFhpKplHAxovUacri290qoS8Tb9l8xSVRLL+KR6qVaqdAJNZDXSqM52zGV+r8MQOnUTX5/LqC5nf688+VrnScY8hpA0SKLAu6bklcokqKU9m2BWvYTkfJS/q17ipVvprkMYF3wgtztXeMykkWq+jnB8IN1BIB/g4KKdbxgneAYo2mCxT8437EACmgIBhgBGiCD61+Xz/l7ff90XQDiMyCfvH6VOhgt+3wDbwctaUfdjxh9BYR2zPtODv4C8es+JhmvsCgGAsJ4Q08IZsgnmq4Z0TGyQXR1HfcP7RripQ3EoRkQzdgN0bEpILrGnuOhK7dFQd9grphx2VNyedoUSLD2kHiM9eiXjRsjBWSgzFIqlqlVbAVkJ2VhW8IUK/UoYq/Kki+VQE1AssC2mLAV9IrA+nFDD7E0fKWGK4YogAxQPIAJAw==) format('woff2');}
+@font-face{font-family:qda53aae5dc-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKQAAoAAAAABEgAAAJGAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqCGIF4CwgAATYCJAMKBCAFgj4HIBttAwA+DNhkyIbW3zChLrVoNFSKPYRwvy51/r6Q8VYjiNbK6ll4AHTE8oUiDqtEqLiw8ICKlAkLQ+hYocwNrLMpE06w6oW+vVjfoToUoyH+wDlX9fBqLMCJRrW9lFr8F/3o73+S9+mZhCeeCgtPHfADNCobrYoSISXo729qT6D7QBNzf9bUNXys8wDDkMcCzTDtPEDJzuW8DaPRox61Hl2QpcuxoCDdSpf/282rEz9FsBA1kBLSDPSrT54uTAD73Pq5Lev6BpR10a8QAFSAhAztoALtYIaB5HLB57YKPrdWDF0AyECJhHWAMwCQA0KMrIADH7+GP0q9/Dr6ln9Ov6fX19t3tf3kYfchsUF82PvIPj6OXQXeZB4SL4mVFTudhOPng+f0NuV5/zv39DR+Db/Ow63iDm97XnyYfHMKvv3ZBfzy+rsjeBZsZTu91loz4efPbi3WkC2MJxfbIP+Ivx42z3/iabb520KMc94arMf3QbHdXmelmsjzp7ePPTAyxhd7v0X9jSffs69aHJX9f/+/+HInAASCS3d+UEYsNeAcfBlYbnjun3RlEki1BMNdqKVfwq0YB5dL8QLKngFGZgQYBMS1LgCaMKe5UhMt1OmgpdLweq1efFCR1wiDnERz9U7QQqceLdW7VNRaND3h8QOvnurr1XZzZQ62cuXg4AX0Hq2w08L0x3u5Wq4CeYR8kVxGlxgLCmmYC6h8usqWUsq0KVsoMJ7KKasgoAfdujwjaG5NHckNBVv6HibfmIacmpwKFGCFAQA=) format('woff2');}
+text.qda53aae5dcf1 {font-family:qda53aae5dc-cmsy10;font-size:9.96264px}
+text.qda53aae5dcf5 {font-family:qda53aae5dc-cmr10;font-size:9.96264px}
+text.qda53aae5dcf7 {font-family:qda53aae5dc-cmex10;font-size:9.96264px}
+
+</style>
+<g id='page1'>
+<text class='qda53aae5dcf7' x='61.768369' y='53.200477'></text>
+<text class='qda53aae5dcf5' x='69.102012' y='61.17068'>1<tspan x='84.045988'>2</tspan><tspan x='69.102012' y='73.125848'>3</tspan><tspan x='84.045988'>4</tspan></text>
+<text class='qda53aae5dcf7' x='89.027323' y='53.200477'><tspan x='98.021366' y='53.200477'></tspan></text>
+<text class='qda53aae5dcf5' x='105.35501' y='61.17068'>5<tspan x='105.35501' y='73.125848'>6</tspan></text>
+<text class='qda53aae5dcf7' x='110.336346' y='53.200477'></text>
+<text class='qda53aae5dcf5' x='120.437322' y='67.247927'>=</text>
+<text class='qda53aae5dcf7' x='130.953402' y='53.200477'></text>
+<text class='qda53aae5dcf5' x='138.287046' y='61.17068'>1</text>
+<text class='qda53aae5dcf1' x='145.482251' y='61.17068'>·</text>
+<text class='qda53aae5dcf5' x='150.463525' y='61.17068'>5<tspan x='157.65873'>+</tspan><tspan x='167.621344'>2</tspan></text>
+<text class='qda53aae5dcf1' x='174.816549' y='61.17068'>·</text>
+<text class='qda53aae5dcf5' x='179.797823' y='61.17068'>6<tspan x='138.287046' y='73.125848'>3</tspan></text>
+<text class='qda53aae5dcf1' x='145.482251' y='73.125848'>·</text>
+<text class='qda53aae5dcf5' x='150.463525' y='73.125848'>5<tspan x='157.65873'>+</tspan><tspan x='167.621344'>4</tspan></text>
+<text class='qda53aae5dcf1' x='174.816549' y='73.125848'>·</text>
+<text class='qda53aae5dcf5' x='179.797823' y='73.125848'>6</text>
+<text class='qda53aae5dcf7' x='184.779143' y='53.200477'></text>
+<text class='qda53aae5dcf5' x='194.88012' y='67.247927'>=</text>
+<text class='qda53aae5dcf7' x='205.396199' y='53.200477'></text>
+<text class='qda53aae5dcf5' x='212.729843' y='61.17068'>17<tspan x='212.729843' y='73.125848'>39</tspan></text>
+<text class='qda53aae5dcf7' x='222.692514' y='53.200477'></text>
+</g>
+</svg>
+</div>
+<p id="p-5c43201b" class="nb">The step "multiply pair by pair and add" has a name: the dot product of two vectors. Fortress writes it <code>DOT</code>. For the vector <code>v</code> with itself, a run printed:</p>
+<pre class="vb nb out" id="o-bccfa97d" data-kind="output"><code>v DOT v = 61.0</code></pre>
+<p id="p-3b8a80ef" class="nb">That is 5 times 5, plus 6 times 6.</p>
+<p id="p-fff90cd8" class="nb">Two things follow from the way the product is made.</p>
+<ul>
+<li><p id="p-3a46e584" class="nb">The matrix must have as many columns as the vector has elements. Otherwise the pairs do not match.</p></li>
+<li><p id="p-16855272" class="nb">The result has as many elements as the matrix has rows.</p></li>
+</ul>
+<p id="p-798d2a7d" class="nb">So a matrix with 27 rows and 16 columns turns a vector of 16 numbers into a vector of 27 numbers. The model's last matrix does exactly this: it turns the 16 numbers that stand for a position into 27 scores, one for each token.</p>
+<p id="p-d77a307e" class="nb">In Fortress, two values side by side with a space between them form an operator of their own, juxtaposition. The library declares what it means for each pair of types. For a matrix and a vector it is this product (<a href="https://github.com/palimondo/fortress/blob/main/Library/FortressLibrary.fsi#L1941">Library/FortressLibrary.fsi, line 1941</a>). For two numbers it is multiplication, so <code>4 nEmbd</code> is 64.</p>
+</section>
+<section class="sec" data-num="2.3" data-title="The order matters">
+<h2 id="s-the-order-matters" class="nb"><span class="num">2.3</span> The order matters</h2>
+<p id="p-c6c75a21" class="nb">With the vector on the left, the result differs:</p>
+<pre class="vb nb out" id="o-376e2158" data-kind="output"><code>v m (2): 23.0 34.0</code></pre>
+<p id="p-d91cec84" class="nb">Now each element comes from one column of <code>m</code>. Column 0 is 1, 3: 5 times 1, plus 6 times 3, is 23. Column 1 is 2, 4: 5 times 2, plus 6 times 4, is 34.</p>
+<p id="p-3f74df11" class="nb">Two matrices have a product too. Take a second matrix, <code>n</code>, with the rows 0, 1 and 1, 0. A run printed both orders:</p>
+<pre class="vb nb out" id="o-3e263787" data-kind="output"><code>m n (2 x 2):
+    2.0 1.0
+    4.0 3.0
+n m (2 x 2):
+    3.0 4.0
+    1.0 2.0</code></pre>
+<p id="p-b41cc20e" class="nb"><code>m n</code> is <code>m</code> with its columns swapped. <code>n m</code> is <code>m</code> with its rows swapped. The rule for two matrices is the rule above, used many times: the element in row <code>i</code> and column <code>j</code> of the product is the dot product of row <code>i</code> of the left matrix and column <code>j</code> of the right matrix.</p>
+<div class="dm nb" id="m-e7258b85" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='9.218em' height='2.152em' viewBox='62.75467 53.798257 92.177138 21.517188' fill='currentColor' aria-hidden='true'><style type='text/css'>
+@font-face{font-family:qd77836f8d9-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIkAAoAAAAAA7gAAAHaAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBDIEMCwYAATYCJAMIBCAFgj4HIBv/AgCuC2wy1AWrvwiTupRAXWI4sJ67fkV+BkYi+Ngv3fcpAKhOhmA8j89EERQAjAEyqrLCVPVcGYTmoTV3PzFPix7V5CXkedogLyRCoiQIBbp3AmPmtZyAZM87x9TqwMoLm6v8T0Hwc/d8QgG9LSz3syTJ2tKjljRPMMKAsxZYGnz7Auk23SE+olKhHT5FRwvStBzJSe4nT/+1OpuPVTMeoApUI2DsnIEHgPRxtUjFfwN6kT4CgP9AghSt8AKtCAYBmUzw8X/0qYEFgARkCJQAswDIAFHCeI+43XMBVt86rpRoL89L5bduP1+pH91qhZxlv7/Af74mlT8/ftTQ+Mo9pvyAuKJfcWVAWk7MRT8NPk5fZwwY3+5rzKvcPnSNh51fyx3nvYGEFAAIBNU/e541Gqz/pRn4Yfl/vOfXdn4AlRIQdGaQPzHDkiuMEM8ynkBIlEAghFTtOqiB58gUGpCr0YZCYXCjWjctvMiqhH5OhEytNeTajVGodTNXm3A4c/lLraoz66FGwyU2GodGFps3yTNdeLSBBzONeWhsaJTHwszSzlbPmkbMQhezuY6ZHpSRQd7tjZGFOU2vY8iigJtXu9aO1JU2jEYEbKRegw3MkPm5iY4RHkCHAQA=) format('woff2');}
+@font-face{font-family:qd77836f8d9-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAANoAAoAAAAABbQAAAMdAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqFBINuCwoAATYCJAMQBCAFgjgHIBtjBFGU60kI8CMhc9NTs1kLzYGYYy2IP3mfT/6WvUBYgdaz1J2aCD01pydi+nWz1ja1WPKVZkmWICrPMU7HfnsYUeya20JLQ04yCzJM8f/vb/K7rPPi9SvNPWp7QGP5mCpp52uKBpZHkVKmJ3nTRbigV5PhGcwAnzAykwDcyZWPmVHN+lxso4wAQgckgU+h7Q5LRSdXYwbwCK/TbAYAHIAHsEQxlKdF0TmlC9fs9APSEMCp5waAALgC+Ky9F8DhkLukKElRu2iHfdduJIuOTdnQVFUXkVG+k6/XzBXl+fKo6EUhx/L33HDTWE3NZlfttt+UW9GLJNO8hlAt8HDO3pvui7po+yfbmwFrcqKJyypx9+1Q5iEc1JaRrP52CTt/96oz89yUDU4jNd810r57XerXqcfuTTmCxYfFve7ztwXM9/UjUlLW+67JnWc64DWSMUfHkQ1+LeKxYIFkmodXXbXAzTmT73rPd1kgL72bV+OprZ+8kbi0WLBgvjh5vhx/J3XfHlY8QkDPiDxrwTMk4TpLX+2UWW0TMNr9oH2mte2KSoNVzzU07PbyTB7ljhmOGQ4fzFzOdo+toba2oyp1Ldaawk4tz6AOODFCFx4Sb0VJz4j8B8daT1Bs/U4UFirDswyzKg0Wz97VHsmmz2+LrLxpNyf19zxzC1mWBtLTtoqz+JJosr+eX4SMde20L2px24qY2iYuiJArfSzb/HsSsbwssV1Fm+HfU1+//5MgOoYWcfLXiOrgkjlKJ3FUpZH+X5h8ZExAVpTJMjNM0Bf69/We8iGygz9nmTsjO8X9g6/xl9Hqnj5btytLEgUAIAAC54dc29XCev4x8BQA8M6t6E9fYFa4sznnw4BjKe29GPeAV3KlBDLVHiJXRL2CW5oMoNRVasAXDZcZYI0RnxJYj5FAwpCOwKNb5MwXj3QjCHdpDlGipkgga490REMDUYzxpxvp8zJ/SKy3BStSiZgrvf1eb9ufHiZEK1FKJLIdcvu8lgeUijKDvQ1Cl6q6YDs6ugaIpIjAgXxlWyp9NZh2az+IOJAL9nKIpoiiiMQDAAA=) format('woff2');}
+@font-face{font-family:qd77836f8d9-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKkAAoAAAAABJAAAAJaAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqCYIIzCwgAATYCJAMMBCAFgj4HIBuqAwCOwradM04p1kq+Rul4oN/v17nyH2LaVCIktUZiSDSLDCWQtvTNYiFRt+6WtHOH5Nrh7aSJ1EtT3CTOeRLW9loba+omP+cFtHQ7zHEeyJrnCWYYrwGUWMBRGpmk2zQY9USJ2urpkY42SPEDDoAa8RO6/xfoHy786QSwEqjAFUjgVe4eDfWAZFtUAgVJ4I2WAiISunHPbgTjgCwL2CkF26WUrwKABCrU8AB4B2RAlBaxDYN10zzu0j0qLG1bpa9PjojyckRjovZx4eqdxXUeI2eibdVpXDiyxqOTfv6YTy/KL2+n+a0Qs8z3d/DxlmOpdlAFVWfEp262i+mfn/nzH3m0tRVJif/fCiSCEfqZvia33INZwAptFZW5RjHOIrSoFakiyezfC7bBzpRaUgxM7bxy/GJ74dZyE1GH8tEBlf2ZynmZuPu2PQPLJz0BXIvKS8u/XwXFsDIjCCW21mWxkqhZqRS4Hxf5lxKqw/Ijq4+ngZe5mLEypFXDWOwaHQW7vtx25Tk9xUhvgKkC9/R4dBlr6UmktgIBgfsfs7nl7JBfCs7gn9X+r32q/Mek+AdQL4LABXLrTUOpEiA+kuILAInpRDEDItmCQaDiRq8gA7SJPppV2tCaJj1opTI+3miQMyzkBsGoCEGzZrdoTa8mtNLsLWm0qic9EH//qlXL5Y2eHvm25+nmEWw8n15TY2jUGurltt5uXm6eIJqSnIqeTi0NW6mUakqfQjU5uUaePORNslYjJQXbthsPFog3FLuNyhNBjV/FzLaRDRppGdQ/3JY3N17ceMIUAA==) format('woff2');}
+@font-face{font-family:qd77836f8d9-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJcAAoAAAAABDwAAAITAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCBIFoCwoAATYCJAMQBCAFgjgHIBtlAwgehU3ZLRbbVDiC2HlMBA+/Tjx8vx/r3PcFEavePNKYThSNNKommiZrXiKlE0myuyHvm29/NbNiApNP85UO0mwDQzlGQBUuCWrnwbt4IV3aqZuNbXNh+Al1CY4xzQIMMZGoJs7F49EaKEHGnqW7AQePkmg44fVXaSTp898TvLmN8MGik/ksHHLZKAabOyjSHNxRkR7T2/9e29WLf4VBCSN4DRF8lYOjLYcIk2oLkFEIdGnOIKFAb9y9l8YkoFYKyZTanDEZKvkzv7JApd0o9TWQQ+BvEkIadFssuzNrDDMWZDzO+XpvLyGj5HfUc5ilZISQtXBxjmcZLj1y3a3TUUrHbAfvs9eOjuO3mYsReetQsdmZCUHCjeu3FrA6chJeB5k0kcx3myn/cwGnm+FE9gmCaAadIlo+NtLBHwtPQ//dPWwQGvtYo+CjL3vjAL4KJ22BNual56fQnb0/H4IgENzWT6iT9ppio7oE34GuNx8nS18FNEog2AB3FFSqTH8gSLJM58Slg1ZfgdNVIEqDpBIVNDv1MaEjhaVKh0VWWvSStcrE8mbDQtSibBLG1VlkqdkGWelXIGvNjqNm85ZOvPTDK4zbyRNv5kBCop17gN4nt5XzlreOgmQkgWa91mC1SE0cvXqJa+7EWhOPCMuns1Kv45AgIga0m92yGRKBxM84B3bOpjT/8FzLoUBkiERNAQ==) format('woff2');}
+text.qd77836f8d9f3 {font-family:qd77836f8d9-cmmi10;font-size:9.96264px}
+text.qd77836f8d9f4 {font-family:qd77836f8d9-cmmi7;font-size:6.973848px}
+text.qd77836f8d9f5 {font-family:qd77836f8d9-cmr10;font-size:9.96264px}
+text.qd77836f8d9f7 {font-family:qd77836f8d9-cmex10;font-size:9.96264px}
+
+</style>
+<g id='page2'>
+<text class='qd77836f8d9f5' x='61.768369' y='63.262825'>(</text>
+<text class='qd77836f8d9f3' x='65.642742' y='63.262825'>A<tspan x='74.775141'>B</tspan></text>
+<text class='qd77836f8d9f5' x='82.831749' y='63.262825'>)</text>
+<text class='qd77836f8d9f4' x='86.706123' y='64.757206'>ij</text>
+<text class='qd77836f8d9f5' x='96.48999' y='63.262825'>=</text>
+<text class='qd77836f8d9f7' x='107.00607' y='53.798257'></text>
+<text class='qd77836f8d9f4' x='111.999506' y='75.245706'>k</text>
+<text class='qd77836f8d9f3' x='123.056978' y='63.262825'>A</text>
+<text class='qd77836f8d9f4' x='130.528978' y='64.757206'>ik</text>
+<text class='qd77836f8d9f3' x='139.909876' y='63.262825'>B</text>
+<text class='qd77836f8d9f4' x='147.466634' y='64.757206'>k<tspan x='151.870289'>j</tspan></text>
+</g>
+</svg>
+</div>
+<ul>
+<li><p id="p-9f23de60" class="nb"><span class="m"><i>A</i></span> and <span class="m"><i>B</i></span> are the two matrices, left and right.</p></li>
+<li><p id="p-94896a4a" class="nb"><span class="m"><i>A</i><sub><i>i</i><i>k</i></sub></span> is the element of <span class="m"><i>A</i></span> in row <span class="m"><i>i</i></span> and column <span class="m"><i>k</i></span>.</p></li>
+<li><p id="p-56c4ec92" class="nb">The sign ∑ with <span class="m"><i>k</i></span> under it means: add the terms for every <span class="m"><i>k</i></span>. Here <span class="m"><i>k</i></span> runs along row <span class="m"><i>i</i></span> of <span class="m"><i>A</i></span> and down column <span class="m"><i>j</i></span> of <span class="m"><i>B</i></span> at the same time.</p></li>
+</ul>
+<p id="p-fd47ea02" class="nb">For the pairs to match, the left matrix needs as many columns as the right matrix has rows. A matrix of 16 by 64 times a matrix of 64 by 16 gives a matrix of 16 by 16: the two inner sizes must be equal, and the two outer sizes are the result's.</p>
+</section>
+<section class="sec" data-num="2.4" data-title="The transpose, and lines 21 to 24">
+<h2 id="s-the-transpose-and-lines-21-to-24" class="nb"><span class="num">2.4</span> The transpose, and lines 21 to 24</h2>
+<p id="p-f343bca4" class="nb">The transpose of a matrix is the same numbers with rows and columns exchanged: row 0 becomes column 0, row 1 becomes column 1. Mathematics writes it with a raised T, and so does the program, as <code>m^T</code>. A run printed:</p>
+<pre class="vb nb out" id="o-0dc45826" data-kind="output"><code>m^T (2 x 2):
+    1.0 3.0
+    2.0 4.0</code></pre>
+<p id="p-05a33b8a" class="nb">The program declares this operator itself:</p>
+<div class="fx nb src" id="c-961bed8e" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L21" title="MicroGptFlat.fss, line 21">21</a></span>(* ^T on a matrix and on every plane of a rank-3 array, declared here and not</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L22" title="MicroGptFlat.fss, line 22">22</a></span>   in the vocabulary because an API cannot declare a postfix operator (row 133) *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L23" title="MicroGptFlat.fss, line 23">23</a></span>opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = transpose(m)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L24" title="MicroGptFlat.fss, line 24">24</a></span>opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\] = transpose(t)</span></code></pre></div>
+<p id="p-4c950529" class="nb">Line 23 declares a postfix operator. Read it in pieces.</p>
+<ul>
+<li><p id="p-a1c64096" class="nb"><code>opr</code> starts the declaration of an operator.</p></li>
+<li><p id="p-a92bb540" class="nb"><code>(m: Matrix[\RR64,r,c\])^T</code> says where the operand stands and what the operator looks like: a matrix <code>m</code>, then <code>^T</code>.</p></li>
+<li><p id="p-e8f11b21" class="nb"><code>[\nat r, nat c\]</code> declares two static parameters. A <code>nat</code> parameter is a size that a type carries. Here <code>r</code> and <code>c</code> are the matrix's numbers of rows and columns, whatever they are.</p></li>
+<li><p id="p-8b8916c2" class="nb"><code>: Matrix[\RR64,c,r\]</code> is the type of the result. The sizes have changed places: a matrix of <code>r</code> by <code>c</code> gives a matrix of <code>c</code> by <code>r</code>.</p></li>
+<li><p id="p-f01f796c" class="nb"><code>= transpose(m)</code> is the body. <code>transpose</code> is a function of the vocabulary, which calls the library's method <code>t()</code>:</p></li>
+</ul>
+<div class="fx nb src" id="c-0352c67e" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L50" title="FlatArrays.fss, line 50">50</a></span>transpose[\nat r, nat c\](m: Matrix[\RR64,r,c\]): Matrix[\RR64,c,r\] = m.t()</span></code></pre></div>
+<p id="p-bbfd6703" class="nb">Line 24 declares <code>^T</code> a second time, for an array with three indices. Part 4 uses it.</p>
+<aside class="limit"><p class="label">A limit of today's tree</p>
+<p id="p-395f9455" class="nb">The comment in lines 21 and 22 gives the reason for these two lines. The operator belongs in the vocabulary, beside <code>transpose</code>. It is in the model because the parser refuses a postfix operator of this form in an api: the same declaration parses in a component and is a syntax error in a <code>.fsi</code> file (the gap ledger's row 133).</p></aside>
+</section>
+<section class="sec" data-num="2.5" data-title="Many vectors at once: why the program writes x w^T">
+<h2 id="s-many-vectors-at-once-why-the-program-writes-x-w-t" class="nb"><span class="num">2.5</span> Many vectors at once: why the program writes <code>x w^T</code></h2>
+<p id="p-131eefc2" class="nb">The step works on 16 rows at once, one for each position. It keeps the 16 vectors of a stage as the 16 rows of one matrix. To put every row through a matrix <code>w</code>, the program writes <code>x w^T</code>. A small case shows why this is right. Take <code>m</code> from above as <code>w</code>, and a matrix <code>x</code> with three rows:</p>
+<div class="fx nb own" id="c-d3395bba" data-kind="code"><pre class="fx-s"><code>x: Matrix[\RR64,3,2\] = [5.0 6.0; 1.0 0.0; 0.0 1.0]</code></pre></div>
+<pre class="vb nb out" id="o-58ae3915" data-kind="output"><code>x m^T (3 x 2):
+    17.0 39.0
+    1.0 3.0
+    2.0 4.0</code></pre>
+<ul>
+<li><p id="p-6d990175" class="nb">Row 0 of <code>x</code> is 5, 6, the vector <code>v</code>. Row 0 of the result is 17, 39, which is <code>m v</code>.</p></li>
+<li><p id="p-b7bed079" class="nb">Row 1 of <code>x</code> is 1, 0. Row 1 of the result is 1, 3: <code>m</code> times that vector, which picks column 0 of <code>m</code>.</p></li>
+<li><p id="p-78bfd489" class="nb">Row 2 of <code>x</code> is 0, 1. Row 2 of the result is 2, 4: column 1 of <code>m</code>.</p></li>
+</ul>
+<p id="p-09a98816" class="nb">So row <code>i</code> of <code>x m^T</code> is <code>m</code> times row <code>i</code> of <code>x</code>. The reason is the rule for two matrices. The element in row <code>i</code> and column <code>j</code> is row <code>i</code> of <code>x</code> with column <code>j</code> of <code>m^T</code>, and column <code>j</code> of <code>m^T</code> is row <code>j</code> of <code>m</code>.</p>
+<p id="p-d02bf725" class="nb">The forward pass has this form seven times. Read <code>x1 wq^T</code> as "every row of <code>x1</code>, put through <code>wq</code>". The sizes follow the rule: <code>x3 f1^T</code> is a matrix of 16 by 16 times the transpose of a matrix of 64 by 16, which is 16 by 64, so the result is 16 by 64.</p>
+<p id="p-7c463075" class="nb">A postfix operator binds more tightly than juxtaposition, so <code>x m^T</code> means <code>x (m^T)</code> and needs no parentheses.</p>
+</section>
+<section class="sec" data-num="2.6" data-title="One vector of parameters, nine matrices">
+<h2 id="s-one-vector-of-parameters-nine-matrices" class="nb"><span class="num">2.6</span> One vector of parameters, nine matrices</h2>
+<p id="p-de2da196" class="nb">A weight matrix is a matrix whose elements are parameters. The model has nine. This list gives each one's index, its name in the files, its name in the step, its size and its job.</p>
+<ul>
+<li><p id="p-ce4886fb" class="nb">0, <code>wte</code>, in the step <code>wte</code>: 27 by 16, 432 numbers. The token table: row <code>t</code> is the vector for token <code>t</code>.</p></li>
+<li><p id="p-f424a04d" class="nb">1, <code>wpe</code>, in the step <code>wpe</code>: 16 by 16, 256 numbers. The position table: row <code>i</code> is the vector for position <code>i</code>.</p></li>
+<li><p id="p-6314dbee" class="nb">2, <code>lm_head</code>, in the step <code>lm</code>: 27 by 16, 432 numbers. It turns a position's final vector into 27 scores.</p></li>
+<li><p id="p-7b5fa1dd" class="nb">3, 4 and 5, <code>attn_wq</code>, <code>attn_wk</code> and <code>attn_wv</code>, in the step <code>wq</code>, <code>wk</code> and <code>wv</code>: 16 by 16 each, 256 numbers each. Attention's three matrices, in Part 4.</p></li>
+<li><p id="p-d2948f9c" class="nb">6, <code>attn_wo</code>, in the step <code>wo</code>: 16 by 16, 256 numbers. Attention's output matrix.</p></li>
+<li><p id="p-98f831ae" class="nb">7, <code>mlp_fc1</code>, in the step <code>f1</code>: 64 by 16, 1,024 numbers. Part 5.</p></li>
+<li><p id="p-6c77eed8" class="nb">8, <code>mlp_fc2</code>, in the step <code>f2</code>: 16 by 64, 1,024 numbers. Part 5.</p></li>
+</ul>
+<p id="p-6c734342" class="nb">The counts add up to 4,192. The program keeps all of them in one vector, <code>p</code>. The nine matrices lie in it one after the other, each one row after row.</p>
+<figure class="fig nb" id="f-207b877e" data-kind="drawing"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 118" role="img" aria-label="The vector p of 4,192 parameters, cut into nine pieces: wte from 0, wpe from 432, lm from 688, wq from 1120, wk from 1376, wv from 1632, wo from 1888, f1 from 2144, f2 from 3168.">
+<text x="12" y="12" class="muted">the vector p, 4,192 floats</text>
+<rect class="tint" x="12.0" y="34" width="34.6" height="30"/>
+<text x="29.3" y="29" text-anchor="middle">wte</text>
+<text x="29.3" y="53" text-anchor="middle" class="muted">0</text>
+<line class="ink" x1="12.0" y1="64" x2="12.0" y2="69"/>
+<text x="12.0" y="78" text-anchor="start" class="muted">0</text>
+<rect class="tint" x="46.6" y="34" width="20.5" height="30"/>
+<text x="56.9" y="29" text-anchor="middle">wpe</text>
+<text x="56.9" y="53" text-anchor="middle" class="muted">1</text>
+<line class="ink" x1="46.6" y1="64" x2="46.6" y2="82"/>
+<text x="46.6" y="91" text-anchor="middle" class="muted">432</text>
+<rect class="tint" x="67.1" y="34" width="34.6" height="30"/>
+<text x="84.5" y="29" text-anchor="middle">lm</text>
+<text x="84.5" y="53" text-anchor="middle" class="muted">2</text>
+<line class="ink" x1="67.1" y1="64" x2="67.1" y2="69"/>
+<text x="67.1" y="78" text-anchor="middle" class="muted">688</text>
+<rect class="soft" x="101.8" y="34" width="20.5" height="30"/>
+<text x="112.0" y="29" text-anchor="middle">wq</text>
+<text x="112.0" y="53" text-anchor="middle" class="muted">3</text>
+<line class="ink" x1="101.8" y1="64" x2="101.8" y2="82"/>
+<text x="101.8" y="91" text-anchor="middle" class="muted">1120</text>
+<rect class="soft" x="122.3" y="34" width="20.5" height="30"/>
+<text x="132.5" y="29" text-anchor="middle">wk</text>
+<text x="132.5" y="53" text-anchor="middle" class="muted">4</text>
+<line class="ink" x1="122.3" y1="64" x2="122.3" y2="69"/>
+<text x="122.3" y="78" text-anchor="middle" class="muted">1376</text>
+<rect class="soft" x="142.8" y="34" width="20.5" height="30"/>
+<text x="153.1" y="29" text-anchor="middle">wv</text>
+<text x="153.1" y="53" text-anchor="middle" class="muted">5</text>
+<line class="ink" x1="142.8" y1="64" x2="142.8" y2="82"/>
+<text x="142.8" y="91" text-anchor="middle" class="muted">1632</text>
+<rect class="soft" x="163.3" y="34" width="20.5" height="30"/>
+<text x="173.6" y="29" text-anchor="middle">wo</text>
+<text x="173.6" y="53" text-anchor="middle" class="muted">6</text>
+<line class="ink" x1="163.3" y1="64" x2="163.3" y2="69"/>
+<text x="163.3" y="78" text-anchor="middle" class="muted">1888</text>
+<rect class="warm" x="183.8" y="34" width="82.1" height="30"/>
+<text x="224.9" y="29" text-anchor="middle">f1</text>
+<text x="224.9" y="53" text-anchor="middle" class="muted">7</text>
+<line class="ink" x1="183.8" y1="64" x2="183.8" y2="82"/>
+<text x="183.8" y="91" text-anchor="middle" class="muted">2144</text>
+<rect class="warm" x="265.9" y="34" width="82.1" height="30"/>
+<text x="307.0" y="29" text-anchor="middle">f2</text>
+<text x="307.0" y="53" text-anchor="middle" class="muted">8</text>
+<line class="ink" x1="265.9" y1="64" x2="265.9" y2="69"/>
+<text x="265.9" y="78" text-anchor="middle" class="muted">3168</text>
+<line class="ink" x1="348.0" y1="64" x2="348.0" y2="82"/>
+<text x="348.0" y="91" text-anchor="end" class="muted">4192</text>
+<text x="12" y="111" class="muted">name above, index i inside, matOffset(i) below</text>
+</svg><figcaption>The nine weight matrices inside the vector <code>p</code>.</figcaption></figure>
+<div class="fx nb src" id="c-06ff7dcf" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L36" title="MicroGptFlat.fss, line 36">36</a></span>(* ------------------------------- tactic 2/8: one vector, nine views ------ *)</span></code></pre></div>
+<p id="p-bf6aae7d" class="nb">"Tactic 2/8" names two more pieces of Hsu's advice: put things of one kind into one array, and read parts of it through views. A view is a matrix or a vector that has no storage of its own. It reads and writes the elements of another array.</p>
+<p id="p-c266ae0a" class="nb">The next lines are the layout table. They say where each matrix lies.</p>
+<div class="fx nb src" id="c-731c9475" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L37" title="MicroGptFlat.fss, line 37">37</a></span>matName(i: ZZ32): String =</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L38" title="MicroGptFlat.fss, line 38">38</a></span>    if i = 0 then "wte" elif i = 1 then "wpe" elif i = 2 then "lm_head" elif i = 3 then "attn_wq" elif i = 4 then "attn_wk"</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L39" title="MicroGptFlat.fss, line 39">39</a></span>    elif i = 5 then "attn_wv" elif i = 6 then "attn_wo" elif i = 7 then "mlp_fc1" else "mlp_fc2" end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L40" title="MicroGptFlat.fss, line 40">40</a></span>matShape(i: ZZ32): (ZZ32, ZZ32) =</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L41" title="MicroGptFlat.fss, line 41">41</a></span>    if (i = 0) OR (i = 2) then (vocabSize, nEmbd) elif i = 7 then (4 nEmbd, nEmbd) elif i = 8 then (nEmbd, 4 nEmbd) else (nEmbd, nEmbd) end</span></code></pre></div>
+<p id="p-33a89371" class="nb"><code>matName</code> gives the name of matrix <code>i</code>, which is also the name of its file of starting values. <code>matShape</code> gives its size as a pair. Both are functions with one <code>if</code> expression. <code>if</code>, <code>elif</code> and <code>else</code> choose a value, and <code>end</code> closes the expression. <code>4 nEmbd</code> is 64.</p>
+<aside class="limit"><p class="label">A limit of today's tree</p>
+<p id="p-c6469c20" class="nb">A table would be the natural form: an array of nine names and an array of nine pairs. The program writes functions because walk binds a typed array literal at the top level as a tuple and then refuses it (the gap ledger's row 142). The same literal works inside a function, as in the small examples above.</p></aside>
+<div class="fx nb src" id="c-9d763a7d" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L42" title="MicroGptFlat.fss, line 42">42</a></span>matCount(i: ZZ32): ZZ32 = do (r, c) = matShape(i); r c end</span></code></pre></div>
+<p id="p-499b9ee0" class="nb"><code>matCount</code> is the number of elements of matrix <code>i</code>. The block binds the pair <code>(r, c)</code> and returns <code>r c</code>, the product.</p>
+<div class="fx nb src" id="c-98c767d7" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L43" title="MicroGptFlat.fss, line 43">43</a></span>matOffset(i: ZZ32): ZZ32 = SUM[\ZZ32\][j &lt;- 0#i] matCount(j)</span></code></pre></div>
+<p id="p-c90766e6" class="nb"><code>matOffset</code> is the place in <code>p</code> where matrix <code>i</code> starts: the sum of the counts of the matrices before it.</p>
+<div class="dm nb" id="m-59fac190" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='14.090em' height='3.026em' viewBox='61.728518 53.782244 140.897522 30.261211' fill='currentColor' aria-hidden='true'><style type='text/css'>
+@font-face{font-family:q541f1b1a67-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIkAAoAAAAAA7gAAAHaAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBDIEMCwYAATYCJAMIBCAFgj4HIBv/AgCuC2wy1AWrvwiTupRAXWI4sJ67fkV+BkYi+Ngv3fcpAKhOhmA8j89EERQAjAEyqrLCVPVcGYTmoTV3PzFPix7V5CXkedogLyRCoiQIBbp3AmPmtZyAZM87x9TqwMoLm6v8T0Hwc/d8QgG9LSz3syTJ2tKjljRPMMKAsxZYGnz7Auk23SE+olKhHT5FRwvStBzJSe4nT/+1OpuPVTMeoApUI2DsnIEHgPRxtUjFfwN6kT4CgP9AghSt8AKtCAYBmUzw8X/0qYEFgARkCJQAswDIAFHCeI+43XMBVt86rpRoL89L5bduP1+pH91qhZxlv7/Af74mlT8/ftTQ+Mo9pvyAuKJfcWVAWk7MRT8NPk5fZwwY3+5rzKvcPnSNh51fyx3nvYGEFAAIBNU/e541Gqz/pRn4Yfl/vOfXdn4AlRIQdGaQPzHDkiuMEM8ynkBIlEAghFTtOqiB58gUGpCr0YZCYXCjWjctvMiqhH5OhEytNeTajVGodTNXm3A4c/lLraoz66FGwyU2GodGFps3yTNdeLSBBzONeWhsaJTHwszSzlbPmkbMQhezuY6ZHpSRQd7tjZGFOU2vY8iigJtXu9aO1JU2jEYEbKRegw3MkPm5iY4RHkCHAQA=) format('woff2');}
+@font-face{font-family:q541f1b1a67-cmsy7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHYAAoAAAAAA1gAAAGQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAo0RwsGAAE2AiQDCAQgBYI4ByAbtAIAPhRvjMZtFjQ4HnP30e06LEGfarQWBz7aEZJ08vDffr/f584gKhnP4okIiaQVVjep8CrZWqIRMnyrJjbbrrzVUAnVGb5F5x7HCPA/UTY6IeTSGWzAaSKJzIPgJPcDIiaqFFN6R4bcAT0gCaStsquvEaPBmzw/F2zrYJR4hs/O0wv0QFPLA3tAaWIRJlQw74w6Hv0SlyjG7LcdUirFnUZxX7z8a3WrRXyxmQ7wlCPnwbGbFGzDzbPkn/BgGgHA//+gQEKrJNAqG0SWBcPN///Dn2wBoAAZgVrUAzIgag/q93T+3EaPZw8/31xVM0AgeP2Na+9XUgbvli6kUvSgUgGCodwlC9KwgPhZhTTs8JVCrQDB9NVOKlQDYsjKNPhGmRqtqlyZgStU6zYqiVwl9JsFI6u2ZZRpt2+Uq3Y0Vptxc1yizzAPw6L69bM+xiZii8fEe5hGitE5NjU2aclklt/n8SLrJsZtN5hQuk1mQdcdmTRmQsBa5eriuxvgD99WyK6kQhKGTBszZcykBGC3AA==) format('woff2');}
+@font-face{font-family:q541f1b1a67-cmr7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAK8AAoAAAAABIgAAAJwAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCVIIgCwoAATYCJAMQBCAFgjIHIBuXAyguC2wqSob2pywad+lwFq1fD2Yeqorh34txKK0PP+79czGAjBCa4OgO9e2Dbctv6Jp3q6Qq6gIcRetHFNADDV9gYBP43wiAY3aL1tkoGzjKIoE3GthjJD7Ri0Tygzzwr3Fsr9nlwMl/IzhwfkqEJOOhm/FxXkBtj3kvGpxuiiZRggm0/4Fe6EV/C77qmQ0Sscm+kR29vRw+NdkcAAs+k3tEgT7Rl/+0/uEGFoJlQAxgYUAIPBQKTyYFYmx5hSAADAnOCs4AoAAGUMxsInOmAOEqQdnxiuu2NDp/PAgCB6LTQoACAH3rCKD63zPK6pKSJ++WP7q/vc73fs3X1lzK/+nb8+5nfBW8Tv/P5T9sPfdL+Tybeb4vNj4vHJ/YlEhJXt9uUOJqWz168dwhp2/H9XejI2vt60r58dW2lUTnXmWGRdFIppn82CphpWHt90ZyfSKyqCwawbVSn3q+JeHLvV2XYaX1/6NjWy6wLXzcs27F67++jYVspIX6Fj/AHTNPejZH8uW2/1lGxTQGSIEgaGQS9llNHidga0gqC1a+m2CeTV3+ugX3YPXAQOK3GJeT3wEAAAEQiM19e+bkPb8IA4CfjfCvfpXgD3QTAKIoACCwN+YFlpxCriAQUOfBL4COwBJN3uYBBHB2mAGLxbVwBhAylc5xMggqRIICKozTnhenTh9DwgmENk8H5USlo0KU5aPCRNWl4hy1XQbi568EE9TtoR3ZWdu2ztP0NoU1jGZSQtvB2t7aDgEkAplBR1C1RZHgFIqwIKm2ktVoGBIxMzvWbBWEGKIYCArgYT5HciETQ3vhFEGbA2v2rNlhDAAAAA==) format('woff2');}
+@font-face{font-family:q541f1b1a67-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKkAAoAAAAABKAAAAJaAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqCeIIxCwgAATYCJAMMBCAFgjgHIBuiAwiO0WNHHoJjDMkRPscy8UC/Rntfdk/EQ1EL+aJbUkgMlSHS8NIke0h0aJcIlR3y73efCsIFTiLeD4LnJo015/Pe4i+yAZ0APuvUvYAX0K2W9sadoDdH2MuixFK3MbhN5TIWhjz0B6szpNiDqgMF8S36+j+X2h2HnymZCSRICQ3cyul9SjjAuxKVVEiC21lVICKhM1ydsEYBWdbetR9fVYm9FvASobx8xlPAS0AGRLFhmgKj27akRiZQnbuV4z4b7p2ofKmKO5cmMk8LT75Gp+Ku+ad74TYuF5cpobYn6cpHjU4Kd3O7UpvclsnnB5HO6NdrFRWx7PDI7AgOkpeelLgAFbi35HF5PNlwnb3cCNgnVY7z57VJDVNWX61zcW4mzRjFqKLuHZf+EL+hM1O2QGSD05DR1u9Y23wzjFV+6jNM1nsNjj/j/fyPJnOiM0osVr5jeTDCrXzYZ5B7wH4ufkJRh44NN6rm77tBLyBLet/SEuYYEV851jb+eXTdNs5/f5O57H0Qfvff5sqfUVNtuGE5oRv/LXFz3plbAQABgS9fewf9W1b/alMGj8JWf/zRajyexFFArQgCSYX4C2PhQAAvSfEX4SOYDB8ISNagQRC23nMoCy1asazQwgoNOlmpMNJdr58UjJDrBMP0FMvq7bJCtzBWqvcsrTerpCHo/182GEEidRp3ogZVde19ukxISmRiSjgipgHVoRowFgsRJ1mSUAnE2IoVAjdbMAQikg63ZRJFWs1sYtRAqh7MPfa1F1iIEBMkndQQKSIlPng4hBgNkDpIDUYCAA==) format('woff2');}
+@font-face{font-family:q541f1b1a67-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKoAAoAAAAABLQAAAJfAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqDBIIyCwgAATYCJAMMBCAFgj4HIBupA2Aeg+NuEcpQhrbEQMRgyfvx8Lb277kz+/YD0LqvKR6MBqICqaZCAsqmTtTYpsZ0hvb33gc5+M1AA5EIh4y2cpn/+5v8K+q8gP7Q5/6teR7Its67hEKb6zzgCR591XNNiEfoA93uxWGGHC/RpkX6nO7+D2sdbvx0hn7gAK1GD4Syf1eUDGonTjMoyELUWQpIyBguzcOQGkClEjgVuieF+KNAzYwakGf4QExF4GukTiM8lN63qbguHpxRWQsJ0OkDX+c3PhR6ewms7jLNPtVZh/V9ca8gWLAiGJQMjDPHHwO6uvDsnh7tQY0F57U98G48QMkOYW09XNALG/jNXH3VUSnskgPnxidRNzfk9bWz4Q+/fmttCrz7pTjG2fiQl2I0qf6gKj52HsMq6dkJNHjbjr7bkUYQJmaVJtnC/N753CEpSQvV8cGJ5XQMLuZnCstJIxATs0CRTKn83cU8KAhu9LxFkX3WYGiI4X/7slXsJKCRdRaHbF11IoN8pDdo/RecdaLqR0BFbRax3HO9TZSlZLw4R4lEzU78bl+0dQMgELxvWV1sUSz+sRkJ4K/I7X/RURapKI2hXXITQFaQHku90SvwWE5FxLbZGCsFshX3HMSd3ohr1Mc3uFLrwy1dRnCt1nR3mqQMISocCLNsDFe6beKWUWm41u1d0mlZU2rAf/5KxWdmpurq5NqeLqRzknk6PSehKDW/KDlTqg/pQbrA3pUL1x7cO3Cr4enKPpou7blw4cQCHUET3jlx5VJThOhIkLNx6WrshEP7fpznmgYfnbjz6OjnDX0QPRBdCAQ=) format('woff2');}
+@font-face{font-family:q541f1b1a67-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJcAAoAAAAABDwAAAITAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCBIFoCwoAATYCJAMQBCAFgjgHIBtlAwgehU3ZLRbbVDiC2HlMBA+/Tjx8vx/r3PcFEavePNKYThSNNKommiZrXiKlE0myuyHvm29/NbNiApNP85UO0mwDQzlGQBUuCWrnwbt4IV3aqZuNbXNh+Al1CY4xzQIMMZGoJs7F49EaKEHGnqW7AQePkmg44fVXaSTp898TvLmN8MGik/ksHHLZKAabOyjSHNxRkR7T2/9e29WLf4VBCSN4DRF8lYOjLYcIk2oLkFEIdGnOIKFAb9y9l8YkoFYKyZTanDEZKvkzv7JApd0o9TWQQ+BvEkIadFssuzNrDDMWZDzO+XpvLyGj5HfUc5ilZISQtXBxjmcZLj1y3a3TUUrHbAfvs9eOjuO3mYsReetQsdmZCUHCjeu3FrA6chJeB5k0kcx3myn/cwGnm+FE9gmCaAadIlo+NtLBHwtPQ//dPWwQGvtYo+CjL3vjAL4KJ22BNual56fQnb0/H4IgENzWT6iT9ppio7oE34GuNx8nS18FNEog2AB3FFSqTH8gSLJM58Slg1ZfgdNVIEqDpBIVNDv1MaEjhaVKh0VWWvSStcrE8mbDQtSibBLG1VlkqdkGWelXIGvNjqNm85ZOvPTDK4zbyRNv5kBCop17gN4nt5XzlreOgmQkgWa91mC1SE0cvXqJa+7EWhOPCMuns1Kv45AgIga0m92yGRKBxM84B3bOpjT/8FzLoUBkiERNAQ==) format('woff2');}
+@font-face{font-family:q541f1b1a67-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAX8AAoAAAAAChwAAAWxAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAXAqNIIl8CxoAATYCJAMaBCAFgj4HIBupBxGVolsD/EjITmquIJKoXy1Y5G8k40rH46Z/L8EGoQp1D4W6QpUaqU6gLRMxJsbE0c2xKZ2yfWPqId/EiGq33TxQGGCWa+JJIdX/AL4Cp793+t+nLhsLxxbMupDW3vTpXyKFWdkEzOawIdAFngXoU53I6P8dJoqhzZrZHRCO4AaAJwLtBDbALvboPxHs8M3oG8xAbhsHQOYAYeQlhuct1AJHLSzA7v0fCLAP3+fZ/rfTMQA4UwSHcCzynB8ebBZkO0yCUZgFC1RyjjYCM2DeM9x5Rx1isj8EsARMmIw/wHo3vFEDy/chGMJIadeaYSEZRBRXqsglBPLU7GlgMl4whxxl+DTd7fP1XHydsjj0tnCGyjCq1x/N1xoZajAIbCatr9ua5lHRJSdiGIqhDmW+1PN6sSva16t/8noipToac/D+lrtR1qjuniPRBx5pPHQKwyS8/jp1lOHn7d0rNjpDtpyIOFaYejnf54uD5CMw2A4cTzl+W0XTUaZH+fvuPLBEaIjxCoHtQbYluQXLRC/XUeYD43G1kMjk3aS1mHji6uMhxF67ziEW4HxfjVJnCgz54ovRRifffibUTsdBW2HgtUa97OQDwS1yn/hAGDhsVl6uGzfSnUnaQnc/9jnoSMaP2w85xAKDbcDyeqPe1zO18qN7D51h6G5eVVaL3qS5km5f7x1PHGu3XOharU1hS77Ss8jwcabEqL4fuzkUmS2p+n3iMV/h608iDjIFTNN9lTnbEPoaZbiVbzCk2kwi2GdMspuR7tUG+mG4yZc8AMaxetuD2P0WvUlE0zSjQqVpzbTC+mgeNtxkVEc4DDOelnaXhr5EIV61jAt/37kdLv9wnnhVXpPdgKZsw+Zj8ybvkKN4Ko+nSF4caOKhxjnT+rFRbNsYth3NW8eiFZVY+aW05PtCpQXeK0QnRLW31jyejlv68e5LohpOwlLrLu168jfNwJ/suhRcR5+t1fh3B4Ea1IH7nM5Fp/TzYmECGuZuGpkLC+MaO/2ftqHedg5S2Fu2IHG9rEz6wTx25Atv8H6u9KHoTzQDH5rEe1d0Ps7tIe5NfPpWFD0bXypj+y39YfbIlicAYzdkwpqJ8tLZfyQvXqP0ZMiNziF8BK3VoQlo4jLdENLg6qUD/KlV5QG81qaCXRPb5IDtcq33Cunxit33yLtubbnW7SGveEcLUfWE+sofC9UZxSxD4K481q760HTpCq+L9LhhlrkzIH/d0GiYJn1Gtj7gD/ebhMfb4hWv+MP3slqIXw1Q6zn8JXHX3eq+S9774C2QC/XHiC8Pl8c3i3+6CVybntYlxFfU10PLd+RTF+n0Wr0e0vU07Uvh2x3QWYM1XSLrtLmP1ecjyyW2enPMJXj3HaRevEKFVGjRCkyNJi3SUYiKV9E94Rxpm4jkqKGdmqukUAOS9zcD0tIFFGV+jVellIxunoMpG4mp+ubZSj2hAcfO4McShSJBVg9fCAupmHVy7pd38NrM26oN82bjPzgk7FcDlHqi0d+5U3neT7zmaQOcZ5ENYbvgo6W/iDbOqbKWCx25TiFWN7F6PnRVIPlf/V4n6Xra1w2OHKd/t/OpiXR6YWac8ccj3XmokbOOaRE/ckXhG3eOqTs7WdVvSXSapgFDR+j7YDOAHvWDfr8hXjTBv+xXHs4CAIDPo5t+9Rf8/48fF4HpAIAHUyq+sdUjIxZK+AsFVJQIyKQrVNQ0WZlIoRKNEEmYHyIo5msCBb6VgDKAvzxms3D4s9kExGwOjrj5fBFS4FCNAyRGVcxmIYxns4WYyuYgrC7y5ZFb7w7kf/7XoJkxf75Mervtl0mkJOrXk/OHF06Zt1A7Iy5XkiORQa1ZZphtgflGzBWntemGN89MmnHN/DMnI6XiM/NMMcs0cdYuIc0CjbqZat2kGcGwR22Jxz9soSnmebRmcJlcEjnPDhkciEIAAAA=) format('woff2');}
+text.q541f1b1a67f0 {font-family:q541f1b1a67-cmtt10;font-size:9.96264px}
+text.q541f1b1a67f2 {font-family:q541f1b1a67-cmsy7;font-size:6.973848px}
+text.q541f1b1a67f3 {font-family:q541f1b1a67-cmmi10;font-size:9.96264px}
+text.q541f1b1a67f4 {font-family:q541f1b1a67-cmmi7;font-size:6.973848px}
+text.q541f1b1a67f5 {font-family:q541f1b1a67-cmr10;font-size:9.96264px}
+text.q541f1b1a67f6 {font-family:q541f1b1a67-cmr7;font-size:6.973848px}
+text.q541f1b1a67f7 {font-family:q541f1b1a67-cmex10;font-size:9.96264px}
+
+</style>
+<g id='page3'>
+<text class='q541f1b1a67f0' x='61.768369' y='70.866225'>matOffset</text>
+<text class='q541f1b1a67f5' x='108.841433' y='70.866225'>(</text>
+<text class='q541f1b1a67f3' x='112.715806' y='70.866225'>i</text>
+<text class='q541f1b1a67f5' x='116.148065' y='70.866225'>)<tspan x='122.789771'>=</tspan></text>
+<text class='q541f1b1a67f4' x='133.992804' y='58.412879'>i</text>
+<text class='q541f1b1a67f2' x='136.811531' y='58.412879'>−</text>
+<text class='q541f1b1a67f6' x='143.038211' y='58.412879'>1</text>
+<text class='q541f1b1a67f7' x='133.305851' y='61.401656'></text>
+<text class='q541f1b1a67f4' x='133.607652' y='82.62079'>j</text>
+<text class='q541f1b1a67f6' x='137.307341' y='82.62079'>=0</text>
+<text class='q541f1b1a67f0' x='149.356759' y='70.866225'>matCount</text>
+<text class='q541f1b1a67f5' x='191.199483' y='70.866225'>(</text>
+<text class='q541f1b1a67f3' x='195.073857' y='70.866225'>j</text>
+<text class='q541f1b1a67f5' x='199.746837' y='70.866225'>)</text>
+</g>
+</svg>
+</div>
+<p id="p-e792461b" class="nb"><code>SUM</code> is a big operator: an operator that takes a whole collection. The second pair of brackets holds a generator, <code>j &lt;- 0#i</code>, which gives <code>j</code> the values 0 to <code>i - 1</code>. The expression after the brackets is added up for each <code>j</code>. A run printed the ten values <code>matOffset(0)</code> to <code>matOffset(9)</code>:</p>
+<pre class="vb nb out" id="o-7ee8b21a" data-kind="output"><code>0 432 688 1120 1376 1632 1888 2144 3168 4192</code></pre>
+<aside class="limit"><p class="label">A limit of today's tree</p>
+<p id="p-d3cd24b1" class="nb">The first brackets, <code>[\ZZ32\]</code>, tell <code>SUM</code> the type of its result. Walk finds this type by itself. The static type checker of the compiled path does not (the gap ledger's row 731), so the project writes the type in every <code>SUM</code> of this form.</p></aside>
+<div class="fx nb src" id="c-d2d35a90" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L44" title="MicroGptFlat.fss, line 44">44</a></span>nParams(): ZZ32 = matOffset(9)</span></code></pre></div>
+<p id="p-30eb144c" class="nb"><code>nParams</code> is the place after the last matrix: 4,192.</p>
+<div class="fx nb src" id="c-dcbbd551" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L45" title="MicroGptFlat.fss, line 45">45</a></span>view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end</span></code></pre></div>
+<p id="p-004615e8" class="nb">This <code>view</code> takes the parameter vector and an index. It looks up the size and the offset, and calls the vocabulary's <code>view</code> with four arguments. The two functions share a name. Fortress chooses between them by the arguments, here by their number.</p>
+<div class="fx nb src" id="c-535708f8" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L55" title="FlatArrays.fss, line 55">55</a></span>object PView[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32) extends Matrix[\RR64,r,c\]</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L56" title="FlatArrays.fss, line 56">56</a></span>    get(ij: (ZZ32,ZZ32)): RR64 = do (i, j) = ij; base.get(off + i c + j) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L57" title="FlatArrays.fss, line 57">57</a></span>    put(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.put(off + i c + j, x) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L58" title="FlatArrays.fss, line 58">58</a></span>    init0(ij: (ZZ32,ZZ32), x: RR64): () = do (i, j) = ij; base.init0(off + i c + j, x) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L59" title="FlatArrays.fss, line 59">59</a></span>    replica[\U\](): Array2[\U,0,r,0,c\] = array2[\U,r,c\]()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L60" title="FlatArrays.fss, line 60">60</a></span>end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L61" title="FlatArrays.fss, line 61">61</a></span>viewN[\nat s, nat r, nat c\](base: Vector[\RR64,s\], off: ZZ32, _: N[\r\], _: N[\c\]): Matrix[\RR64,r,c\] =</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L62" title="FlatArrays.fss, line 62">62</a></span>    PView[\s,r,c\](base, off)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L63" title="FlatArrays.fss, line 63">63</a></span>view[\nat s\](p: Vector[\RR64,s\], off: ZZ32, nr: ZZ32, nc: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] =</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L64" title="FlatArrays.fss, line 64">64</a></span>    viewN(p, off, reflect(nr), reflect(nc))</span></code></pre></div>
+<ul>
+<li><p id="p-f62bfe3b" class="nb"><code>PView</code> is an object that extends <code>Matrix</code>, so everything that works on a matrix works on it: the product, <code>^T</code>, <code>+</code>.</p></li>
+<li><p id="p-6a02898c" class="nb">Its <code>get</code> reads element <code>(i, j)</code> from the vector <code>base</code> at the place <code>off + i c + j</code>. That is the offset, plus <code>i</code> whole rows of <code>c</code> elements, plus <code>j</code>. Its <code>put</code> writes to the same place.</p></li>
+<li><p id="p-d24d6146" class="nb"><code>view</code> in lines 63 and 64 makes the object. The call <code>reflect(nr)</code> turns an integer that is known only at run time into a size that a type can carry. <code>viewN</code> receives the two sizes as its static parameters <code>r</code> and <code>c</code>.</p></li>
+</ul>
+<p id="p-d95789cd" class="nb">A small case, from a run. The vector <code>f</code> holds 1, 2, 3, 4, 5, 6. <code>view(f, 2, 2, 2)</code> is the 2 by 2 matrix that starts at place 2:</p>
+<pre class="vb nb out" id="o-854c25fe" data-kind="output"><code>view(f, 2, 2, 2) (2 x 2):
+    3.0 4.0
+    5.0 6.0</code></pre>
+<p id="p-9f8f6e1a" class="nb">The view holds no numbers of its own. The run then changed the vector with <code>f[3] := 30.0</code> and printed the view again. Then it wrote through the view, with <code>vw[0,0] := 99.0</code>, where <code>vw</code> is that view, and printed the vector:</p>
+<pre class="vb nb out" id="o-eb1a5e74" data-kind="output"><code>view after f[3] := 30 (2 x 2):
+    3.0 30.0
+    5.0 6.0
+f after view[0,0] := 99 (6): 1.0 2.0 99.0 30.0 5.0 6.0</code></pre>
+<aside class="limit"><p class="label">A limit of today's tree</p>
+<p id="p-7f1846d7" class="nb"><code>reflect</code> runs only under walk today. Compiled programs cannot link its component, <code>NatReflect</code>, yet. Once they can, a compiled call of this form still fails when the JVM verifies the class (the gap ledger's row 307). So the views are a part of the program that the compiled path cannot run as written.</p></aside>
+<p id="p-d52fd466" class="nb">Inside the step, one line makes all nine views:</p>
+<div class="fx nb src" id="c-3aa342fc" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L53" title="MicroGptFlat.fss, line 53">53</a></span>(wte, wpe, lm, wq, wk, wv, wo, f1, f2) = (view(p, 0), view(p, 1), view(p, 2), view(p, 3), view(p, 4), view(p, 5), view(p, 6), view(p, 7), view(p, 8))</span></code></pre></div>
+<p id="p-63af44d9" class="nb">The left side is a tuple of nine names, the right side a tuple of nine calls. A run printed the sizes of six of them:</p>
+<pre class="vb nb out" id="o-9c2bf906" data-kind="output"><code>wte (27,16) wpe (16,16) lm (27,16) wq (16,16) f1 (64,16) f2 (16,64)</code></pre>
+<p id="p-1d150d13" class="nb">None of the nine is a copy. Element <code>[1, 0]</code> of <code>wte</code> is element 16 of <code>p</code>: the run printed 0.050011761464279846 for both.</p>
+</section>
+<section class="sec" data-num="2.7" data-title="The first forward line: looking rows up">
+<h2 id="s-the-first-forward-line-looking-rows-up" class="nb"><span class="num">2.7</span> The first forward line: looking rows up</h2>
+<p id="p-f7498d3c" class="nb">The forward pass is the part of the step that goes from the tokens to the loss.</p>
+<div class="fx nb src" id="c-f01158b7" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L56" title="MicroGptFlat.fss, line 56">56</a></span>    (* -- forward, all (doc, pos) rows at once -- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L57" title="MicroGptFlat.fss, line 57">57</a></span>x = gather(wte, ids) + gather(wpe, pos)</span></code></pre></div>
+<p id="p-adab5a87" class="nb"><code>gather</code> takes a matrix and a vector of keys. It returns a matrix with one row for each key: the row of the first matrix that the key names.</p>
+<div class="fx nb src" id="c-556747bc" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L168" title="FlatArrays.fss, line 168">168</a></span>(* the rows of m at the keys: m[ks;]; the elements of v at the keys: v[ks] *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L169" title="FlatArrays.fss, line 169">169</a></span>gather[\T extends Number, nat r, nat c, nat k\](m: Matrix[\T,r,c\], ks: Vector[\ZZ32,k\]): Array[\T,(ZZ32,ZZ32)\] = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L170" title="FlatArrays.fss, line 170">170</a></span>    (nr, nc) = m.sizes</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L171" title="FlatArrays.fss, line 171">171</a></span>    array[\T\](|ks|, nc).tabulate(fn (i: ZZ32, j: ZZ32): T =&gt; m[ks[i], j])</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L172" title="FlatArrays.fss, line 172">172</a></span>  end</span></code></pre></div>
+<p id="p-2c1954fb" class="nb">Line 171 makes an array of <code>|ks|</code> rows and <code>nc</code> columns, and <code>tabulate</code> fills it from a function of the index: element <code>(i, j)</code> is <code>m[ks[i], j]</code>. The form <code>fn (i: ZZ32, j: ZZ32): T =&gt; ...</code> is an anonymous function, as <code>(i, j) =&gt; ...</code> is in Scala.</p>
+<p id="p-93eb8745" class="nb">A small case, with the matrix <code>m</code> and the keys 1, 0, 1:</p>
+<pre class="vb nb out" id="o-378271cc" data-kind="output"><code>gather(m, [1 0 1]) (3 x 2):
+    3.0 4.0
+    1.0 2.0
+    3.0 4.0</code></pre>
+<p id="p-f1f8179d" class="nb">So <code>gather(wte, ids)</code> is a matrix of 16 by 16. Its row <code>r</code> is the row of the token table for the token <code>ids[r]</code>. The vector that a table holds for a token is called the token's embedding; <code>wte</code> stands for "weights, token embedding". In the same way, row <code>r</code> of <code>gather(wpe, pos)</code> is the embedding of position <code>pos[r]</code>.</p>
+<p id="p-e89dbb08" class="nb">The operator <code>+</code> between two matrices of one size adds them element by element. It is the library's. So row <code>r</code> of <code>x</code> is the token's embedding plus the position's embedding. The sum carries both facts into the rest of the model: which token stands here, and where.</p>
+<p id="p-bc2e41ad" class="nb">Row 1 of <code>x</code> belongs to position 1, where the token is <code>y</code>, 24. A run printed the first four of its 16 numbers, and the two rows that it is the sum of:</p>
+<pre class="vb nb out" id="o-27e96491" data-kind="output"><code>wte[24,0..3] = -0.0291914028145468 -0.02562707413091664 0.04066887602823657 -0.003619274149736821
+wpe[1,0..3] = -0.04936297000126024 0.058443996500918034 -0.00919285762764423 0.16256312623608313
+x[1,0..3] = -0.07855437281580704 0.032816922370001396 0.031476018400592345 0.15894385208634632</code></pre>
+<p id="p-0ef15501" class="nb">The first number of <code>x</code>: -0.0292 plus -0.0494 is -0.0786.</p>
+<p id="p-847f45b6" class="nb">The matrix <code>x</code> has 16 rows and 16 columns, and the two 16s mean different things. The rows are the positions: <code>blockSize</code>. The columns are the numbers of one embedding: <code>nEmbd</code>. With a batch of two documents, <code>x</code> would have 32 rows and still 16 columns.</p>
+</section>
+</section>
+<nav class="pager" aria-label="Parts"><a class="prev" href="task.html"><span>Previous</span> 1. The task, the tokens and the program's frame</a><a class="next" href="norm-softmax.html"><span>Next</span> 3. Two functions on a row: rmsn and sm</a></nav>
+<footer class="colophon">Built from <code>explorations/microgpt-walk/src/02-arrays.md</code> of the revival's repository. The quoted lines are those of <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss">MicroGptFlat.fss</a> and the components beside it, as the build found them.</footer>
+</div>
+<script src="walk.js"></script>
+<script src="reader.js"></script>
+</body>
+</html>

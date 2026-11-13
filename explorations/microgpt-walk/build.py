@@ -185,11 +185,10 @@ def plain(text):
 # ---------------------------------------------------------------- displayed formulas
 
 PREAMBLE = r'''\documentclass[10pt]{article}
-\usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb}
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
-\newcommand{\c}[1]{\mathtt{#1}}
+\renewcommand{\c}[1]{\mathtt{#1}}
 \begin{document}
 '''
 

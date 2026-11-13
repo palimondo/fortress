@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5. The feed-forward block and the loss · microGPT in Fortress</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="walk.css">
+</head>
+<body data-page="chapter" data-slug="mlp-loss" data-chapter="5. The feed-forward block and the loss">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">5. The feed-forward block and the loss</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">microGPT in Fortress, line by line</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="5" data-title="The feed-forward block and the loss">
+<h1 id="top" class="nb"><span class="num">Part 5</span> The feed-forward block and the loss</h1>
+<p class="standfirst">The second half of the forward pass: a block that works on each row alone, the 27 scores of each position, their probabilities, and the one number that says how wrong the model is.</p>
+<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-the-feed-forward-block">5.1 The feed-forward block</a></li><li><a href="#s-from-a-row-to-27-probabilities">5.2 From a row to 27 probabilities</a></li><li><a href="#s-the-loss">5.3 The loss</a></li><li><a href="#s-the-forward-pass-on-one-page">5.4 The forward pass on one page</a></li></ol></nav>
+<section class="sec" data-num="5.1" data-title="The feed-forward block">
+<h2 id="s-the-feed-forward-block" class="nb"><span class="num">5.1</span> The feed-forward block</h2>
+<div class="fx nb src" id="c-3a8059cf" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L60" title="MicroGptFlat.fss, line 60">60</a></span>x3 = rows(rmsn, x2)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L60" title="MicroGptFlat.fss, line 60">60</a></span>m0 = x3 f1^T</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L60" title="MicroGptFlat.fss, line 60">60</a></span>mr = 0.0 MAX m0</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L60" title="MicroGptFlat.fss, line 60">60</a></span>x4 = x2 + mr f2^T</span></code></pre></div>
+<p id="p-c44f9f5a" class="nb">These four declarations are the rest of line 60. They form the model's second block. Karpathy calls it the MLP, for "multi-layer perceptron", and the files of its two matrices are named <code>mlp_fc1</code> and <code>mlp_fc2</code>. This text calls it the feed-forward block.</p>
+<ul>
+<li><p id="p-f74cac9b" class="nb"><code>x3</code> is <code>x2</code> with <code>rmsn</code> on every row. It is the third and last use of <code>rmsn</code> in the forward pass.</p></li>
+<li><p id="p-b27be6ad" class="nb"><code>m0</code> puts every row of <code>x3</code> through <code>f1</code>, a matrix of 64 by 16. Each row of 16 numbers becomes a row of 64 numbers.</p></li>
+<li><p id="p-10bab8b3" class="nb"><code>mr</code> replaces every negative number of <code>m0</code> by 0. <code>MAX</code> is the operator that gives the larger of two values. Between a number and an array, the library applies it to every element (<a href="https://github.com/palimondo/fortress/blob/main/Library/FortressLibrary.fsi#L2877">Library/FortressLibrary.fsi, line 2877</a>).</p></li>
+<li><p id="p-faa6bc7a" class="nb"><code>x4</code> puts every row of <code>mr</code> through <code>f2</code>, a matrix of 16 by 64, which brings it back to 16 numbers. Then it adds the result to <code>x2</code>. This is the second residual connection: the block's result is added to the block's input.</p></li>
+</ul>
+<p id="p-42d085e0" class="nb">A run printed the sizes, how many of the 1,024 numbers of <code>m0</code> are positive, and the first six numbers of row 1 before and after <code>MAX</code>:</p>
+<pre class="vb nb out" id="o-83843d2c" data-kind="output"><code>sizes x2 (16,16) m0 (16,64) mr (16,64) x4 (16,16)
+m0 positive count 466 of 1024
+m0[1,0..5] = 0.4039325142253399 -0.5951570653200444 0.0782116940127397 -0.13886643064580534 0.16013754453254497 0.01747112558184824
+mr[1,0..5] = 0.4039325142253399 0.0 0.0782116940127397 0.0 0.16013754453254497 0.01747112558184824</code></pre>
+<p id="p-d455bcb0" class="nb">Machine-learning texts call the step from <code>m0</code> to <code>mr</code> ReLU. It looks too simple to matter, and the block depends on it. Without it, the block would be <code>x3 f1^T f2^T</code>. A product of two matrices is one matrix, so the two weight matrices together could do nothing that a single matrix of 16 by 16 cannot do. With <code>MAX</code> between them, which of the 64 numbers pass depends on the row. A different row switches off a different set of numbers, and <code>f2</code> then mixes a different set.</p>
+<p id="p-e793d112" class="nb">The two blocks have different jobs. Attention moves numbers between positions. The feed-forward block works on each position alone, on what attention brought to it.</p>
+</section>
+<section class="sec" data-num="5.2" data-title="From a row to 27 probabilities">
+<h2 id="s-from-a-row-to-27-probabilities" class="nb"><span class="num">5.2</span> From a row to 27 probabilities</h2>
+<div class="fx nb src" id="c-ddbc374c" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L61" title="MicroGptFlat.fss, line 61">61</a></span>pr = rows(sm, x4 lm^T)</span></code></pre></div>
+<p id="p-fa0897ba" class="nb"><code>x4 lm^T</code> puts every row of <code>x4</code> through <code>lm</code>, the matrix of 27 by 16. Each position now has 27 numbers, one for each token. They are scores: any size, any sign. Machine-learning texts call such scores logits.</p>
+<p id="p-11a58ebd" class="nb"><code>rows(sm, ...)</code> turns each row of scores into probabilities, as Part 3 showed. <code>pr</code> is a matrix of 16 by 27. Its element in row <code>r</code> and column <code>t</code> is the model's probability that the token <code>t</code> comes next after position <code>r</code>. This matrix is the model's answer.</p>
+<p id="p-38c11b3d" class="nb">For row 0, where the model has read only the mark, a run printed the 27 scores, the 27 probabilities and their sum:</p>
+<pre class="vb nb out" id="o-533b66b8" data-kind="output"><code>logits[0,:] = 0.004672150870404096 0.23893370562835142 0.54273938074588 -0.47743749413539854 0.3506727149458196 -0.00748917592317001 -0.07539966591725165 0.17804521053652556 0.03749227900355961 0.43885563636769087 0.45944460664209064 0.38395621169312166 -0.3505202376471033 0.08480164237680175 0.6743234081198666 -0.09427786135225502 0.022368188896042654 -0.5364918679753164 0.5516588833653321 -0.06448593156812074 0.30599851245840715 -0.15184283111504923 -0.06835113212479514 0.3685106199964408 -0.16789102800718136 0.47675347918273325 0.0372628450359727
+pr[0,:] = 0.03156561234767023 0.03989814637170121 0.05406221651821286 0.019491113937640234 0.04461494422826998 0.031184057430077232 0.029136640166798254 0.03754128913510591 0.032618787933432834 0.04872790172411539 0.049741558309249846 0.04612487406375373 0.022128711377271702 0.03419904783898089 0.06166518866069535 0.02859175241063206 0.03212917028903099 0.01837340598762871 0.05454658153634847 0.02945637127400787 0.042665672440197096 0.02699234559212658 0.029342736243926183 0.04541792179448082 0.02656262446278745 0.050610022991898776 0.03261130493395935
+sum pr[0,:] = 1.0</code></pre>
+<ul>
+<li><p id="p-8d0e9e53" class="nb">The highest score is the fifteenth, 0.674, for the token 14, <code>o</code>. Its probability is 0.0617.</p></li>
+<li><p id="p-ec9bc981" class="nb">The lowest score is -0.536, for the token 17, <code>r</code>. Its probability is 0.0184.</p></li>
+<li><p id="p-6347cacb" class="nb">The right answer for row 0 is <code>y</code>, the token 24. Its score is -0.168 and its probability is 0.0266.</p></li>
+</ul>
+<p id="p-cb26f0ff" class="nb">With equal probabilities, each token would have 1 in 27, which is 0.037. The untrained model is close to that, and it puts <code>y</code> a little below.</p>
+</section>
+<section class="sec" data-num="5.3" data-title="The loss">
+<h2 id="s-the-loss" class="nb"><span class="num">5.3</span> The loss</h2>
+<div class="fx nb src" id="c-4e7c8f53" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L61" title="MicroGptFlat.fss, line 61">61</a></span>loss = -(vm DOT log(pick(pr, tg))) / nv</span></code></pre></div>
+<p id="p-1a65f5d1" class="nb">The loss is one number that says how wrong <code>pr</code> is. Read the line from the inside out.</p>
+<p id="p-3424e22b" class="nb"><code>pick(pr, tg)</code> takes from each row of <code>pr</code> one element: the one in the column that <code>tg</code> names for that row. That is the probability that the model gave to the right answer.</p>
+<div class="fx nb src" id="c-053f2450" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L176" title="FlatArrays.fss, line 176">176</a></span>(* ks ⌷⍤0 1 m : element ks[i] of row i *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L177" title="FlatArrays.fss, line 177">177</a></span>pick[\nat r, nat c, nat k\](m: Matrix[\RR64,r,c\], ks: Vector[\ZZ32,k\]): Array[\RR64,ZZ32\] =</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L178" title="FlatArrays.fss, line 178">178</a></span>    vec(|ks|, fn (i: ZZ32): RR64 =&gt; m[i, ks[i]])</span></code></pre></div>
+<p id="p-76a52d73" class="nb">A small case, with the 3 by 2 matrix <code>x</code> of Part 2, whose rows are 5, 6 and 1, 0 and 0, 1, and the keys 1, 0, 1:</p>
+<pre class="vb nb out" id="o-a048cd9c" data-kind="output"><code>pick(x, [1 0 1]) (3): 6.0 1.0 1.0</code></pre>
+<p id="p-93828574" class="nb">In the step, a run printed:</p>
+<pre class="vb nb out" id="o-1f660b85" data-kind="output"><code>pick(pr,tg) = 0.02656262446278745 0.04017214587408415 0.028414895439496417 0.028956162103254975 0.04622320937199633 0.039261608101615705 0.03672337977848549 0.0349450358489196 0.024151667584315476 0.029294432906131603 0.03222500877833893 0.024508992299195932 0.02184420601149411 0.029300476079837403 0.03684945998367594 0.02893787421043008</code></pre>
+<p id="p-bb4e7285" class="nb">The first number is the 0.0266 for <code>y</code> in row 0. The first seven numbers belong to the seven questions of <code>yuheng</code>. The last nine belong to rows that do not count.</p>
+<p id="p-830fcc93" class="nb"><code>log</code> is the natural logarithm, the reverse of <code>exp</code>: <code>log(exp(t))</code> is <code>t</code>. The logarithm of 1 is 0. The logarithm of a number between 0 and 1 is negative, and the smaller the number, the further below 0. The vocabulary declares <code>log</code> for arrays, element by element. The run printed the logarithms with the sign changed:</p>
+<pre class="vb nb out" id="o-3833c759" data-kind="output"><code>-log pick = 3.6282501466505988 3.214581412219856 3.5608417840041575 3.5419722443055854 3.0742732396794525 3.237508130666618 3.3043416755676898 3.3539788561866484 3.723401850157102 3.5303577842157106 3.4350124577491985 3.708715196151209 3.823819563703278 3.530151514632506 3.3009143148998694 3.5426040155413685</code></pre>
+<p id="p-541f56f9" class="nb">So each row gets a penalty: minus the logarithm of the probability that it gave to the right answer. A probability of 1 gives the penalty 0. A probability of one half gives 0.69. The 0.0266 for <code>y</code> gives 3.63.</p>
+<p id="p-6b08792a" class="nb"><code>vm DOT ...</code> is the dot product with the vector of ones and zeros from Part 1. It adds the values of the seven rows that count and leaves the other nine out:</p>
+<ul>
+<li><p id="p-4b7e5f20" class="nb">3.628 plus 3.215 plus 3.561 plus 3.542 plus 3.074 plus 3.238 plus 3.304 is 23.562.</p></li>
+</ul>
+<p id="p-1ca44a49" class="nb">The minus sign in front makes the sum positive, and <code>/ nv</code> divides it by 7:</p>
+<pre class="vb nb out" id="o-b5f0b6b8" data-kind="output"><code>loss = 3.365966947584851   log 27 = 3.295836866004329</code></pre>
+<div class="dm nb" id="m-44113a2e" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='13.299em' height='2.490em' viewBox='62.346202 52.587241 132.990449 24.901755' fill='currentColor' aria-hidden='true'><style type='text/css'>
+@font-face{font-family:q8a56df4deb-cmmi5;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIoAAoAAAAAA9wAAAHfAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBOIEqCwYAATYCJAMIBCAFgjgHIBsXA2AehU3ZVziqM+B4WNWynfDhKx6+34917vuCmFSqShZNJiFBZQgVsqxkL9FK2uZ1GzKwLl9AO/aHPDAUwZnVakIqmzpn1eD6ZrLGzMmLs41SkfasX+HWfeom/70+1/lPfMpTXLZ98gYPLOPAxwQKdZJh3zRRHrkw7PBs7dgKWRZxqyDdpefnVjMaxj8RoEFFKVED2fllChUX/TIvyETR4MsLSMjQSntaEQzCyOUCFy8vpvty0x4lEPpjMzCWEcgBMVOTqju08XcyeVatVm9gNz6N3yhWF0WiZVHfPnjvnvhWfv4aj91tj9rNi6M97PIb89aT4Cm0cyNIQduarvajlx2Pg+GRzdfNdJ1sIvS61P6/V9HKlaF2rdlr2vHtVrhS8cdGsA0/dlnp++OH/VbvXemYF0QxBIFgY+SVetQw+0/B5+CnMlRyDr38z1LxBUalBIKhaXdczrQpEEYKU/rsACczsLbRy6pdp3EDos4VGgJaqNFKS4WB4WrdDPAirxL6WQKaq7ZPC+3qaanaVVNt1PBxbP+2VXdA2/U2ggFoofVYeU5ts0YKGAUQAMY4OXhsr2lhYW7A96YDUE3GtATlDIMBoALgdazNubcCI6/2YZaTCkkuAkMBEAAYHmCw) format('woff2');}
+@font-face{font-family:q8a56df4deb-cmtt8;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAALEAAoAAAAABJAAAAJ4AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCZII0CwgAATYCJAMIBCAFgjgHIBupAwiOwrblE3Gay9TPMF4q4uH5/VHnvo+RVkpk2gS7MroBSBviuipNXaZNVJ1/oGeXh8gkbbcHwGHjBP7fTf581OaxgBIIdU68F2CBBxxQxPGYQJnEARUYpptD8xThLAwxPxvevkGWBsU5oCTdIDvt4lCeWbxBY0LUwZZwwTNs34dHA5Vd0NRZsYHU6YdaVpXzCZnYDbkgKAyF0g8J74I2TO9VN6qyKSSDEnJ+P3AGg1vi/4vJdU1DV9Xw1LRK9tLTv3zpeXNTdLey/X5EXVt7O/cYcv/ae/aw+/B+w+wqZAzQFQnV9HAMit7cePTNec9fH706cXHkcgXdvYsjtyfvB3ZZcb3wh4ZJy+J1/kzN+l7ejpvlO3deSP2lvsx+Tvq40lzcyAH0V3szeriqS7SA/O2fquGW7uQ75oJ5mn7M5bDAhWx6OXjqe/GHht01/5oxbXOgPbJ7RuRUO5dLGG/7cXbhpxMWP0nSMX1LoB3yvstJ9ZyPe5Qr7kGQfaCbCSab1W+FqNG+s/UOPmFP7AR34efCkptTjnhoVi20QnavMU5LvnhdHKo+Xni6MT/RXmJ2u4s3HF4ACASHLqkwb2qZ8p8my8FHQYeA81TVKw1Kk4FaCQTX1A/CjzW1CIQfgggG4hcz85F3hFLVO4Q6tMDkXKFFLjToJpcKA8fr9SGBXOR1wgBGTM7VWy8XeoiSS/UONPUmytsJ1h+wOjwRRXV2Nx43eixvPVGv2Y7HpuPRiSITRo8fPY65ZIlSYFCR0ohwlCzChpOES4RC6fCKu+liJUsiQpUSFQ2sw6R2GDoIER8IQyIiAi5WOly0RCLUKVGjRBW5YhQAAAAA) format('woff2');}
+@font-face{font-family:q8a56df4deb-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJgAAoAAAAABDgAAAIVAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCCIFdCwgAATYCJAMMBCAFgjgHIBtWA2COwrblE2OiquIwDw5uh4mH/7/vt8+5977/m2cdsZlaH6N8sMDSVhxwCB8sjANKu0P+/e5Hfqi6pJcAbOLWKEw8uskH2Ob1AwTOmj55LNAIE3uR2mAJRYGnaeaurZv2kfaCo5SSnx1KbkQ1aOQXxdE/WlWJ4iVz5IIefcAIXuX1LTEI0DgXW0BHEYMmeweJgnU7u47KMWBQhXQutncw7t+9eiGzwA1IPAJeAFABIbZundD1AoOTOVPCCzvgUhu9jW7ENuEubpzs8fX9pYNEHicenjZUTqtQ/za5uR6LbWy8EW9bEx664rpxKLvial5mWORm9xuxQvPL6OH0cHjDujQIp+9lP6qlNWQoHfXLde57JGjsIbcn+DgWas/MzCBqgRaxya0JRzbMMzzlmtILre6xYUFPWBbDt7X1yP+6DxYo0Xs+HKslpw0/q/Tn91eM+sQ6I9wDABAIJj8Nd16s6n90pYJfLnN3TIB+l4dxCBhLNNxvYU5J40wmR3yk5BSIJxCXPKShUNxCgRD5rI9uWMIKqZol0sxZJ4PmaHrWLgGUos4IhzSFVLOeSbMpkAxmvbezLhSeZvyrc+MXERGidDuOZRDphsFb5zX+iSFxiUERUA6RRWSAnigRoiWIFyAWZCGKvxaR/ETADqHEUYoTIo4EyUBIOxi5kTTXZyrw/+G+UkD+EoWIkyhIBEgOQhZCBqUAAAA=) format('woff2');}
+@font-face{font-family:q8a56df4deb-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIgAAoAAAAAA7gAAAHUAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBDIEMCwYAATYCJAMIBCAFgj4HIBv/AgAuCmxjeOghPrVmUSfFw0K6/pB6jIeP/b6d+2xFNP1Q1qOGurPJrJoznSpWEpFEI0Fzm252sObuJ+Zp8TXNTMBnFjIqeSGRwiKEAp2ecIRk1wgpd6nywubKz93zCQX0trDcz5Ika0uPWtI8wQgDzlpgafDtC6TbdIf4iEqFdvgUHS1I0/uRnOR6cu9fszvzsWoGogJVoOqBsbK9PgHW69kiVX8R6MWqRwgA/v8HCVI0ows0Y+gHMpng9ez///SpvgWABGQIlIAxADJAlA5l+7jctb82v7Ud13hfD0uH714fztSeXWqG7Ih/HuE/X5XLP2/fqqu/Ix0ZfxHGk/9x3Kc9ZKaTf/Xvt84EJ4jnV9bn18qXNx/iZvv7etvdWl9GCwCBoPJzq60jdn4lzcCnnmRzvAe/lvNrUC4BQWcG+V2jHPlFYYR4kPEEQaIEASGkSmegOp4jU6hDrkoLCoX+jUqdrOgiqxB6eREy1eaQa3WOQrULudKg6zOXv9SqBqOjLYFfYiOB4ovNm+SZ4fpssT4ZWSiURAkImBiZWlk6MmeRMjHEbGxg5MgWAVd2e+HMxJilR+FZFHHjatfbkYbSt2MRsXamXls7MULUcxKKQAfQYQAAAA==) format('woff2');}
+@font-face{font-family:q8a56df4deb-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHEAAoAAAAAA2AAAAF9AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAo0RwsGAAE2AiQDCAQgBYI+ByAbugIALgocY2kaViPPreu7JJUfTmcTQk/x8LXf79zdfe9/RDRkppMCQ6KLRQuNZhEv1RNkEtkrzdRtOzdl4/g1FMFgsp4uJlMWDDF6dG5RgqcblcFz9jp5viibKTb43d/f5OcfP+i0tnhm0/b5AovqPMGQ1wB6iFGceWtn7DVbVFcUkX6dkPN47KtIx+npr9+LIr5cUqMFVw2dV2mW1h9ZDbO9qDr6M0Mezc8gAPj/BwkZ/VRATaZB6Qazvf/fJl8mABI8gEo7OgEFEO3LnV/sXQ50HZzvnp18LqFxdI3vVBAIrsSjdfmecgGvEyzogzweg6ApgWBRznGhSg+E4PWG9oJQI2kXIBRNq20GdEV1VtS6WKXNAKvVppdbjcpUlBZhUhNWtFtklUGH1drttq3m3OMSfYa5R/35b+v9s9xojYPnRBy2pc9HejhY6OgiL7lduAJMEcNUQHmn38ZE6k9aFMCYjAUjDqNjPCOwH19+YHtop4fkgYoKcgpghwE=) format('woff2');}
+@font-face{font-family:q8a56df4deb-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAOMAAoAAAAABegAAANBAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAVAqFDIN4Cw4AATYCJAMYBCAFgjgHIBuVBBEVnIdgfhTGbU4ozlP4TpmFI6SwhaLShOo0D994+Ofe3ff+r41rAXd8CYylgUUaZRxoJ8AAw//zdeb7C3FWmhXE1kkqHaVb8x8aYOom/71lbaBvAHi2tQv487LU8rlAI0uzsSwwDdiytaFjBc/7gCiYDCM4QpFCqAkoyRfZvf8cGpuFPlcJqCJawNXhg1W5PzIigcoKEguoohBCjZUgUaAXnukBhR3Q1ZRKK9CHSHESK2HntXN9unSEgKiTdNGC3wD+DpYeQiqQt48ZGLh1mFkZuGIpuqbp6eHYdkP0tbN8lFtPJdE4yXGyPZWpbaJ4kpO5c7xozI35Ap6Tu9y9/MK9QnwLFmNbHF08Al2C7ZzzdkXzEu6bBMJnNPS0hihafKo5sTK6yD2xIjRK8pw819695Ryfh64xugm+YimujjPpfcLTfduFbFuXN4m0HLHgunCjWzsS6CcEUvSNW4LHHp1PClEOzpih0KdP90TikUQ6EQjn2gek76SXiBPpau7k557ydhEU5u/JNxjI/TYRwZzIZpzIMBHTT3JsJbbUsFyO5cAh2oFD6JKHoMdQxJCFoAXdecRQJJdCj/Lgw+I7fe9RCX726lTq0ofpX1iR5GerlvWmfsl7UWoH7zxpHWX5jenlSiz2C624sX9vCo3J9eYMNxCjn7slYumnZhz5fggTsqMZluOgGnrIdJ0BWTd3K/Qu9uOhb6uFHQSs6XQKf90YIz3R7+S0/vqwdpENX1iwZLIkMozlC3BwEJSE4f2LDCkqCkB+qLiALAyFFFQHkwWQFVW8VZF6JmJOZU3PRG0vImdshb13JqO2YaKndmJzOYYAAQR4RkW1BzLr/aEhpwDAT9DOr/grPN/nJbaXoqbDFp1hBoKY870Abz2LSHAT8eskwDwEQLSzDATUBSEHCMBtBdA0YIaBS5SYGVRDjwPVURJubuMjjhwqaQERYmAQBTp+iBKXCESFTp5LR03FYUj56wyHxqcoK10uHGVcaSDwVDxNWEZ0akZkPKaKq+DKYCpRvCTp0oRLgbGXKMxGJwgVL4UyJR6eTBUdngCjDKeUgaWaoKYGLwXC7BDZRB4mQ7TUHY8UD6MKpwKnjBwAAAA=) format('woff2');}
+@font-face{font-family:q8a56df4deb-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAASAAAoAAAAAB+QAAAQ0AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAARAqJEIZwCxQAATYCJAMUBCAFgj4HIBv/BREVozdAfJFgm2rfoYJoESOlsSxk2LXkNh40htphjdxO98JE+CUeoMPfu/uzvSydHqVt8HBNwWyMbWNbOrE4C7B/fN7bvAL2uoCR5C90FE5768C6PKVHBHjsD0/tYcZZIa+5KhSprzINBHdBVAWSNb+lAQaSeBKFYRikiSfSIqr/AfgrD5xOO+fw28MA05Dux21Z+Kz8AIVhAb9zLaBLkLoxUIR4fwj7mWqBUQHtIBHrwVopEFfi3T+HbegPPxSGCrRAlgbyACYbmkqOBirPJcezHCsAZPqjYXIAU1QkgEoXgkKEiiKLBll4XIJkOjYs3qqZA3sF1ZUHiOX98kEYAwiPVE6SKxQiGQk9UjdBMdAXNWu8imcI/eJ+7iAXQ+NB3ggnPXk+3Khi2X/HukJ14oL+qKWJs4sHjnYnj0xXaJR3IVGOeUQP6h6RJB886BnhpG/Z9+8gWVfgnjAUhS4BbV4QmG9POfyEcOzVR7wHSB9B/C10AvSufS2ml3AUcq+l5nEfvoba0ykDPA8NG+LHXn2D595wfpvzwM3TPNpao8vjfBhWHLIdklzz7DLguJRfIPRaB7mG27lR+6p0RRPnHK5NuuF3E1qE3XmgXbmFe8e75UizpUV6qI0DDqfEcDuafbLCbnltuGR0qHWwfJjPbyTzDDN8/SNbKHtoRW9tjO66zq4qru0W/iJ43fpuv/unueLGorkQGMUTrnuBVbD8v3rDsPrisMvc8M9vwhwQ7XAD5je9XxlOr9LsqeLZ57iWOiGHGL5uRffJ/rZUHPdbCzFRs8sFDn+m2zFGdzvPKmO3Ml8Z3w2CWxeZ3bLi7hqrswOTwRUNUbi5vdAy/HyDYalZXsgLpWSRhaHQlDxv5J0m5d1Q9fWFIBtk5ewd7+ItetFH/g5jdlJWO3ER6+GD7MCiO6COxdqOmD67p4p0FMCoXOzBPcRlo5BtflqWJ8r9gs/HFj97png6q68N7m7oDl8ylu9vRuzYTyLuKSpRYvIEBZL5JYBKMq9Ux/BFbiKlV1iNI3OxZnhaYR/rUsGQhZHBfq1kOyGm6gK+FGkHxYU21F9fYXP5Y6/ihFjyPyNKlNul3Od4mEcXXBaYWHO3VrAgTW5uHVzXxIDWM5Hz0uIvtDtK223KHPoKvJx4ZSu4O8bqbCqwLiYinAaj8+uPSWaD/yx5EuC3ySFmQx5PIPJBCQALOUoANwN7PSEnWiw1MykQ64GjM6NMejpejAcfEMhj21GaI5ovG8pEZrMLJFFhBlLocQJpVESW5+OjBkPJPIgQqwtQYBAEUOJSAagARospwcYjp/mPcnHZeq9H4O9wQQLFY0mf5K/PDcrdQbEupVASJQCHprqWvp68DqmZ4sqleQ1ZdT09BFzANLvKmhqk2SicRPS4Go1d6Q6JOTRjDJA5A2XdPxTVSVFQJBQBVnUhAAAA) format('woff2');}
+text.q8a56df4debf0 {font-family:q8a56df4deb-cmtt8;font-size:6.973848px}
+text.q8a56df4debf1 {font-family:q8a56df4deb-cmtt10;font-size:9.96264px}
+text.q8a56df4debf2 {font-family:q8a56df4deb-cmsy10;font-size:9.96264px}
+text.q8a56df4debf3 {font-family:q8a56df4deb-cmmi7;font-size:6.973848px}
+text.q8a56df4debf4 {font-family:q8a56df4deb-cmmi5;font-size:4.98132px}
+text.q8a56df4debf5 {font-family:q8a56df4deb-cmr10;font-size:9.96264px}
+text.q8a56df4debf6 {font-family:q8a56df4deb-cmex10;font-size:9.96264px}
+
+</style>
+<g id='page1'>
+<text class='q8a56df4debf1' x='61.768369' y='65.96216'>loss</text>
+<text class='q8a56df4debf5' x='85.457063' y='65.96216'>=</text>
+<text class='q8a56df4debf2' x='95.973143' y='65.96216'>−</text>
+<text class='q8a56df4debf5' x='107.657085' y='59.222359'>1</text>
+<rect x='104.917404' y='63.272251' height='.398484' width='10.460681'/>
+<text class='q8a56df4debf1' x='104.917404' y='72.79603'>nv</text>
+<text class='q8a56df4debf6' x='118.233998' y='56.497591'></text>
+<text class='q8a56df4debf3' x='123.472472' y='77.419257'>r</text>
+<text class='q8a56df4debf1' x='134.284907' y='65.96216'>vm</text>
+<text class='q8a56df4debf3' x='144.745588' y='67.456541'>r</text>
+<text class='q8a56df4debf5' x='152.478096' y='65.96216'>log</text>
+<text class='q8a56df4debf1' x='167.006926' y='65.96216'>pr</text>
+<text class='q8a56df4debf3' x='177.467607' y='68.674204'>r<tspan x='180.952248'>,</tspan></text>
+<text class='q8a56df4debf0' x='184.679025' y='68.674204'>tg</text>
+<text class='q8a56df4debf4' x='192.08883' y='70.722066'>r</text>
+</g>
+</svg>
+</div>
+<ul>
+<li><p id="p-7a81e2cc" class="nb"><span class="m"><i>r</i></span> runs over the 16 rows.</p></li>
+<li><p id="p-a834a05e" class="nb"><span class="m"><span class="tt">pr</span><sub><i>r</i>,,<span class="tt">tg</span><sub><i>r</i></sub></sub></span> is the element of <code>pr</code> in row <span class="m"><i>r</i></span> and in the column <code>tg[r]</code>: the vector <code>pick(pr, tg)</code>.</p></li>
+<li><p id="p-4271a92d" class="nb"><span class="m"><span class="tt">vm</span><sub><i>r</i></sub></span> is 1 for a row that counts and 0 for the others.</p></li>
+<li><p id="p-ba24e908" class="nb">The sum over <span class="m"><i>r</i></span> of a product is the dot product, <code>DOT</code>.</p></li>
+</ul>
+<p id="p-fb5cdd3e" class="nb">The loss is the mean penalty of the rows that count. Machine-learning texts call this loss cross-entropy.</p>
+<p id="p-d283508b" class="nb">The second number of the output gives a yardstick. A model that gives each of the 27 tokens the same probability has the penalty <code>log(27)</code> in every row, 3.296. The untrained model starts at 3.366, a little worse than knowing nothing. A model that gave every right answer the probability 1 would have the loss 0. Names cannot be foreseen that well, so the loss of a trained model stays well above 0.</p>
+</section>
+<section class="sec" data-num="5.4" data-title="The forward pass on one page">
+<h2 id="s-the-forward-pass-on-one-page" class="nb"><span class="num">5.4</span> The forward pass on one page</h2>
+<figure class="fig nb" id="f-ace0c5e9" data-kind="drawing"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 340" role="img" aria-label="The forward pass as a chain of thirteen stages, from x to the loss, with the size of each stage and the weight matrices that enter it. Two lines at the left show the two places where an earlier stage is added to a later one: xp into x2, and x2 into x4.">
+<text x="30" y="12" class="muted">stage</text><text x="80" y="12" class="muted">made from</text><text x="234" y="12" class="muted">size</text><text x="298" y="12" class="muted">weights</text>
+<rect class="tint" x="30" y="24" width="44" height="18" rx="3"/>
+<text x="52" y="37" text-anchor="middle">x</text>
+<text x="80" y="37" class="t-body">token row + position row</text>
+<text x="234" y="37" class="muted">16 by 16</text>
+<text x="298" y="37">wte wpe</text>
+<rect class="soft" x="30" y="48" width="44" height="18" rx="3"/>
+<text x="52" y="61" text-anchor="middle">xp</text>
+<text x="80" y="61" class="t-body">rmsn on every row</text>
+<text x="234" y="61" class="muted">16 by 16</text>
+<line class="ink" x1="52" y1="42" x2="52" y2="48"/>
+<rect class="soft" x="30" y="72" width="44" height="18" rx="3"/>
+<text x="52" y="85" text-anchor="middle">x1</text>
+<text x="80" y="85" class="t-body">rmsn on every row</text>
+<text x="234" y="85" class="muted">16 by 16</text>
+<line class="ink" x1="52" y1="66" x2="52" y2="72"/>
+<rect class="tint" x="30" y="96" width="44" height="18" rx="3"/>
+<text x="52" y="109" text-anchor="middle">q k v</text>
+<text x="80" y="109" class="t-body">x1 through 3 matrices</text>
+<text x="234" y="109" class="muted">16 by 16</text>
+<text x="298" y="109">wq wk wv</text>
+<line class="ink" x1="52" y1="90" x2="52" y2="96"/>
+<rect class="soft" x="30" y="120" width="44" height="18" rx="3"/>
+<text x="52" y="133" text-anchor="middle">a</text>
+<text x="80" y="133" class="t-body">scores, mask, sm</text>
+<text x="234" y="133" class="muted">4, 16, 16</text>
+<line class="ink" x1="52" y1="114" x2="52" y2="120"/>
+<rect class="soft" x="30" y="144" width="44" height="18" rx="3"/>
+<text x="52" y="157" text-anchor="middle">hc</text>
+<text x="80" y="157" class="t-body">weights times values</text>
+<text x="234" y="157" class="muted">16 by 16</text>
+<line class="ink" x1="52" y1="138" x2="52" y2="144"/>
+<rect class="tint" x="30" y="168" width="44" height="18" rx="3"/>
+<text x="52" y="181" text-anchor="middle">x2</text>
+<text x="80" y="181" class="t-body">xp + hc through wo</text>
+<text x="234" y="181" class="muted">16 by 16</text>
+<text x="298" y="181">wo</text>
+<line class="ink" x1="52" y1="162" x2="52" y2="168"/>
+<rect class="soft" x="30" y="192" width="44" height="18" rx="3"/>
+<text x="52" y="205" text-anchor="middle">x3</text>
+<text x="80" y="205" class="t-body">rmsn on every row</text>
+<text x="234" y="205" class="muted">16 by 16</text>
+<line class="ink" x1="52" y1="186" x2="52" y2="192"/>
+<rect class="tint" x="30" y="216" width="44" height="18" rx="3"/>
+<text x="52" y="229" text-anchor="middle">m0</text>
+<text x="80" y="229" class="t-body">x3 through f1</text>
+<text x="234" y="229" class="muted">16 by 64</text>
+<text x="298" y="229">f1</text>
+<line class="ink" x1="52" y1="210" x2="52" y2="216"/>
+<rect class="soft" x="30" y="240" width="44" height="18" rx="3"/>
+<text x="52" y="253" text-anchor="middle">mr</text>
+<text x="80" y="253" class="t-body">negative numbers to 0</text>
+<text x="234" y="253" class="muted">16 by 64</text>
+<line class="ink" x1="52" y1="234" x2="52" y2="240"/>
+<rect class="tint" x="30" y="264" width="44" height="18" rx="3"/>
+<text x="52" y="277" text-anchor="middle">x4</text>
+<text x="80" y="277" class="t-body">x2 + mr through f2</text>
+<text x="234" y="277" class="muted">16 by 16</text>
+<text x="298" y="277">f2</text>
+<line class="ink" x1="52" y1="258" x2="52" y2="264"/>
+<rect class="tint" x="30" y="288" width="44" height="18" rx="3"/>
+<text x="52" y="301" text-anchor="middle">pr</text>
+<text x="80" y="301" class="t-body">x4 through lm, then sm</text>
+<text x="234" y="301" class="muted">16 by 27</text>
+<text x="298" y="301">lm</text>
+<line class="ink" x1="52" y1="282" x2="52" y2="288"/>
+<rect class="soft" x="30" y="312" width="44" height="18" rx="3"/>
+<text x="52" y="325" text-anchor="middle">loss</text>
+<text x="80" y="325" class="t-body">from pr, tg, vm, nv</text>
+<text x="234" y="325" class="muted">1 number</text>
+<line class="ink" x1="52" y1="306" x2="52" y2="312"/>
+<path class="acc" d="M30 57 H16 V177 H24"/>
+<path class="accfill" d="M30 177 l-7 -4 v8 z"/>
+<path class="acc" d="M30 182 H6 V268 H24"/>
+<path class="accfill" d="M30 268 l-7 -4 v8 z"/>
+</svg><figcaption>The stages of the forward pass. The two lines at the left are the residual connections.</figcaption></figure>
+<p id="p-af5005a7" class="nb">Lines 57 to 61 are the whole forward pass: five lines. The figure leaves out one step, the cut of <code>q</code>, <code>k</code> and <code>v</code> into heads. Each stage is a matrix with one row for each position, except <code>a</code>, which has one plane for each head, and the loss, which is one number.</p>
+</section>
+</section>
+<nav class="pager" aria-label="Parts"><a class="prev" href="attention.html"><span>Previous</span> 4. Attention</a><span></span></nav>
+<footer class="colophon">Built from <code>explorations/microgpt-walk/src/05-mlp-loss.md</code> of the revival's repository. The quoted lines are those of <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss">MicroGptFlat.fss</a> and the components beside it, as the build found them.</footer>
+</div>
+<script src="walk.js"></script>
+<script src="reader.js"></script>
+</body>
+</html>

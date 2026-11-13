@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>3. Two functions on a row: rmsn and sm · microGPT in Fortress</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="walk.css">
+</head>
+<body data-page="chapter" data-slug="norm-softmax" data-chapter="3. Two functions on a row: rmsn and sm">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">3. Two functions on a row: rmsn and sm</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">microGPT in Fortress, line by line</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="3" data-title="Two functions on a row: rmsn and sm">
+<h1 id="top" class="nb"><span class="num">Part 3</span> Two functions on a row: rmsn and sm</h1>
+<p class="standfirst">Two small functions carry much of the model: one brings a row of numbers to a standard size, the other turns a row of scores into probabilities. Each is shown first on two or three numbers, then on a real row.</p>
+<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-rmsn-bring-a-row-to-a-standard-size">3.1 rmsn: bring a row to a standard size</a></li><li><a href="#s-rows-a-function-on-every-row">3.2 rows: a function on every row</a></li><li><a href="#s-sm-scores-into-probabilities">3.3 sm: scores into probabilities</a></li></ol></nav>
+<section class="sec" data-num="3.1" data-title="rmsn: bring a row to a standard size">
+<h2 id="s-rmsn-bring-a-row-to-a-standard-size" class="nb"><span class="num">3.1</span> rmsn: bring a row to a standard size</h2>
+<div class="fx nb src" id="c-2e9f288d" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L26" title="MicroGptFlat.fss, line 26">26</a></span>(* -------------------------------------- rmsn, sm and their backward ------ *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L27" title="MicroGptFlat.fss, line 27">27</a></span>rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)</span></code></pre></div>
+<p id="p-8e03d6f0" class="nb">Line 26 is the heading comment for lines 27 to 34. Lines 30 to 34 are the "backward" functions, which Part 6 reads.</p>
+<p id="p-8a472686" class="nb">Line 27 declares a function. The form is <code>name(parameter: Type): ResultType = expression</code>. This one takes a vector of floats and returns a vector of floats. Karpathy calls the function rmsnorm, for "root mean square normalization".</p>
+<p id="p-3666fe8f" class="nb">Read the right side from the inside out, with the vector 3, 4 as <code>x</code>:</p>
+<ul>
+<li><p id="p-e315ffe9" class="nb"><code>x DOT x</code> is the dot product of <code>x</code> with itself: 3 times 3, plus 4 times 4, is 25. It is the sum of the squares.</p></li>
+<li><p id="p-b177faea" class="nb"><code>|x|</code> is the number of elements of <code>x</code>: 2. The two bars are an operator that encloses its operand. On an array it gives the size.</p></li>
+<li><p id="p-703837fd" class="nb"><code>(x DOT x) / |x|</code> is 12.5: the mean of the squares.</p></li>
+<li><p id="p-2e2d0176" class="nb"><code>epsilon + ...</code> adds 0.00001, the constant of line 18.</p></li>
+<li><p id="p-30fd69a4" class="nb"><code>SQRT</code> is the square root, written as a prefix operator. The root of 12.50001 is 3.5355.</p></li>
+<li><p id="p-55b6e4d2" class="nb"><code>x / ...</code> divides every element of <code>x</code> by that root. An array divided by a number is an operator of the vocabulary (<a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L27">FlatArrays.fss, line 27</a>).</p></li>
+</ul>
+<p id="p-4b1512a2" class="nb">A run printed the result, and then the mean of the squares of the result:</p>
+<pre class="vb nb out" id="o-ef5194b1" data-kind="output"><code>rmsn [3 4] (2): 0.8485277980128058 1.1313703973504077
+mean square of rmsn [3 4] = 0.9999992000006401</code></pre>
+<p id="p-bd0d7f4a" class="nb">So the function divides a vector by the root of its mean square. After that, the mean square of the vector is 1, up to the small <code>epsilon</code>. The proportions of the elements stay: 0.8485 to 1.1314 is still 3 to 4.</p>
+<p id="p-ceb2926a" class="nb">The vector 30, 40 has the same proportions and ten times the size. Its result is almost the same:</p>
+<pre class="vb nb out" id="o-b59e69bb" data-kind="output"><code>rmsn [30 40] (2): 0.8485281340297446 1.1313708453729927</code></pre>
+<p id="p-1cdfb9e6" class="nb">That is the function's job in the model. A row of 16 numbers goes through several matrices, and its overall size can grow or shrink on the way. <code>rmsn</code> removes the overall size and keeps what the numbers say in relation to each other.</p>
+<div class="dm nb" id="m-99aeba22" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='11.155em' height='4.033em' viewBox='62.087173 52.687962 111.554599 40.333699' fill='currentColor' aria-hidden='true'><style type='text/css'>
+@font-face{font-family:qfda6bf3eee-cmr7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIIAAoAAAAAA6wAAAG8AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBDIEVCwYAATYCJAMIBCAFgjIHIBv8AmAehXHDXUKUenlDuTOUInY8PH8vO/e+0RiTvzU4DTwOqE2BBZKGMAUS6x2/v5q30tH6SAupnauQAYd6TQrZhcputuOJbEB/NxwA7DzO0ySgVAOfdHkQa0AaMPSOiUiklZRGRHpNKPmGJqGR75Tb/00TmqIoBcGGOxJYt/cuNTCcjxUYKCIpHAMkCjZxZRPNKVBVgfMxzL+NTwhAgorABFwBUAExmTFexEIIuf34+ECc3eWe7gYuXnBmr6IfH8n7e/zurhO7wcjzkIXlCNpl9OUqN0j5/7NVp6SMdIs7US+ePirFBNz9gMnZIGi900koChjXUISoGdNuY41TXY1fUPux9OkPAIHg7OEwRexT+ceiVvAX1fFCT8jfBMxKEBQD+atOfdIFACDzF+Q11EFIEwQCAADzXiEQVhCgqlYEaBZsOOiq43jevnhUUeeEY5UOqlk3aLbJ0M16qfMuDU6e/9Vc5EZbySKb87JzubtKnlG4tHaX2hhbkJ2fnQcNzIwsnByUbGJ1MVPAromckU0JgpKNnZaZSaw82XLD1NKaKNlIy5DiHmS8Yim4aNm5qBnFKpAtX7Y8VICWAgAAAA==) format('woff2');}
+@font-face{font-family:qfda6bf3eee-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIwAAoAAAAAA+QAAAHkAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBQIExCwYAATYCJAMIBCAFgjgHIBseAyCeg3HjXLZrBA5l2ZoDb5datKh4+G/td+ftLGJ+ukZ+pRJdmlUrFS8NKqSfKqER2YFxOiEJSgATVZJuJyrDGSpF9f7TzbZeln6xI2jxWu9fY5It0JBKCtB/sx1PpID+LgwAZpM84AWeahpPusA6TzSCwAKQdJuIXqI+KrMjCKKvAUUsAmeVxEs8/zMTKf1ZYCkhcQ34ROzkdqs0x2VboUIhwcyqAoECfTLTB2IKQJYlXFYnP6ueJAABMgI1AKs0kAHRuti5rvl7R8CN74nD7Hr8Artz42+pRRRxmdjVbcjuvJ/vjFV8Kvjoq1+CiU/dBpqwtCZfFV+7vj6YG8FH29W8R5RTMvMb6w7F7ruiHvMSZxfdm/GmjqtdiOIre2FtyMb7vO/DdcE6k2Mw3XjD/h5B8ZQtDwIAkJD4uTXuFzpX/puKDH4ZwZ+/RfUX9dhDkwCJQoWom2dOdYAOAIiokz7MAyLUgECi2uKBDqBOLpGVOlFq1YcGpUm7xQg+sJSbJRMsJbIWOygNqKNBi7vSYtnwueRfN2sGNPKemzVKdat6tVxT3Zp5q0A6pVapATgpMFgtChMSpuTUZxmAhpTx01lDYURDSQ0hr/CgJItRfg9lJ1K1acw2FSA6SlpKGmCArQUAAAA=) format('woff2');}
+@font-face{font-family:qfda6bf3eee-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAO8AAoAAAAABhQAAANzAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAARAqFTIQuCwoAATYCJAMQBCAFgj4HIBu5BFGU60kE82PBdHMnUqRCPDWkkabpH/kqHt527/+7s5tmU6vSTFRsulLlKBRTkiE87ZJ2cpoJSgfxQXR0NUqfh9033fbcwfC4ZNZ5xQzx0I0sqelvPr/LsjaPpTku2+eBbOu8SyjAAMNoLSvCgNYnh2/rlDvXgvslqiwGDHYoiUHZoAF5w8v/EVndhd5WHxgGFwA5ANSFbz1StJJjpZsAWLQCAkIH7WcBRpIHzDaKgBDp3ek4wYDdV7pZLK5i5bFS/3qpAFdWp/IHQEyqCxAg8BL6vhlPcLBiIRSjVLUlR6WiKJ2OSzJG8WXpQjw4bR0UBQQUSRWp9uKKDAYPiUbRYqo1OfSMyNCDJXHZwhaTLSsqMiQmFyAlRq3iTpWQ3B8gxwSU5mk82L4OUPSYYkMBPSsSVL8TqSsyha2qadWUOiUaSbl3UxbHoZIBpZqtgIX/UdAYw0LN0eDabf3CTdPaeWlmX08DFNOoWoOqTGkhTcF9W6B82xlflWSIppFoVshQwI0bUAxuSR+RqMSDp7dJlKoqtGEGSd2SKjavneWp7RZnTql0adB4lE0ZonRUpSbU0vLtjBy//qc2eWzWNnjHDn1eIWzwupgT5Ok25YXZw6avjGRIdirHPqFwNmbo8lTTieMEWUiHKf5vN3aPKK0bvw+xl+EOF3QkXLJTDG+YUC1rSY/y4JbUUACBRgppU0aCkoxYXzMJLx6+HWROZK3yYyaZsObF4i1tIkrZQlwPF2+WxpDir0/yguqjUgclTqESbqDcx1TKW7JsB5kdWa8QvE4mnCBLY3FBHWP/VPgtdyjxIaP+nI9IJMTVDWS9eKFpL6m8Q0EwBPoRq7yDm4s/sX8rkugLB7gaKeu6LZBJsloJ/mGQr7uqLK+A4MJTsTHX04a2ZuRFUaG1RqCSssNA5glPG5ZDnaQIZ5cDEIAAngyqZrSA1TdOAhEAvNLutwXJ/wo+B63FOpibvpEr8gQb6XRlfaMpKr/kBho3t7gHJEGAKjREDuLRNVUNBKCIK3YCA77hQeIH7OSmRxJUEECVC0BkYIkn4hXFs0Ed4tnxoiTcjKQflfSf0FLDTKnfPTzCPpN5Sj7O5zRSDA7ckYq9ySyvx+UGPIvBecgNxiiiJ6jJg5ocFHXomQBnw12NMxxgf5cfsDypkOTHgSEdBnToIwA=) format('woff2');}
+@font-face{font-family:qfda6bf3eee-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJIAAoAAAAABAwAAAH/AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqBVIE7CwgAATYCJAMMBCAFgj4HIBs6AwAeg23bOM7CqXpfCyW2OEM8PNzv69xXE5FU3AFYVGWxFCU8goNLFVxpCzKj+39+Xb1ZmO2PQtk9wUvGs5NaVGLeucR2kep/3eLHO75b4a25Nt86xy+w4xoPOFrM+LhAAws5MA+qXSZfcUV7+1BKfm5I09+xLye5Sh7+a+z1JL6aw0gI4QW8Hrzm8E56Hnh/t/4m0rabYZC2Vb0iACiVQIIUzdgCzTiGgEImJC6emuqsr2/Ph0lRIPkF48A6ABkgxEB9TnUXp12ZtP2srTAouv7se3wZP/3cV3t2ojlpTsq/fGl7fd2supsrXPnvO7LnxwP5Ht1payf36ul1neKZMmStYOqllr+4bzc+tq+1MJn+u8uy5ATIn1u79dyL8unFA+y6vTLUtndsbzeC/PZLDZM7PnxWdzpZ7vvP7v/z2tc7a6tzPWwgEHy8YdTj8tnb8jQD/6zNH2y4Gcq3DQPlEpm0oY38rcnSl0IOQprGJ7QMXOqpAdhEoKj0CNTR3MwU6sxclRazUOjfrtTJhy2yCqFXoJiZattmrtWSWaj2pKw0avu40mecB9Oh2SxJ3H9TEhGLo+fMZ2bSi4n0fMhBIwqRUC0iJColaVacQ6uIGZbCpoXMyiIR+oY7YVFEmENGCBXq/XC2P+mImQ8+JcdhRtqihLR5IQ40hIKQ2AI=) format('woff2');}
+@font-face{font-family:qfda6bf3eee-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAALQAAoAAAAABQwAAAKEAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAATAqDOIJgCw4AATYCJAMYBCAFgjgHIBv1A8geB+XGM20kYbmylPiRfa9L932BfZLskBFRF2DpwsBlKqAyLJikYq6QJ/zb634UUFs5BJ5wzRPLMIzoEnkae/7PxR9w/XwNgEVr3Rvw5lUX5u3H0VgBfnSg13i6zScI0kKI6hheEtLt3dHXDODSTJsgAHvYnX9eNjaLPjIHmZMDwEUgCB4K+jljJERxigf+Aw7ZQ/8XAAzAAbzSel54eQCJO4aJlyhdcQvicG+/3goRGCJdYf58wGmABHjQiW6MrX5B/ooybNEaS7WsSMt22vZaLy/D6DYed/tv10yjyzDWkK9tq4stNWGH7861Zrdpamz7rjV7fDll24nFJ709uB171+72Yh47jy865jOW33ValqEuXSSvPRsgXDZi6LjdenL7VM9NpcdGcxf+qeOX5DN8WNrgOGfgaQXl26HorrThLt1HvjpoaO1vrKBZlTRYexqJ2BqreCv3Bg6r/0PLDnd8aWzqFUkOb/9wHPkQKrmCXVJo6GFnkPNwqLpOyOHaoNrDSLpLEn9WhIe1sTNtLCy88mVi7yWNbgh9x3qlYLQrLdolNVg9NOJQTXCNdHsKBbqkXfsdAAAEIPA4lvQb0qPolzvHAwDeBDc+oeB/+TkACE526Ai/lR358vMsLl8WAXRB78H8EYSCAANWCgFEQUdKxJUsQAboIYPmCXrQApkXLRKEDpcEiMKh2QESogQ0TzKQFvgYQYsk8zxJlhV3hvxHzNXGT0lPu9ud9JQ0nXvCHkafMXrqjJHjwzJTMlLSUWmi8SaZbhqXKcI0m0jH4Ak0402RLo1a7alGG/0nCJMuRVoGteoEhzrsCNDt4WYPvm6G0aa+8JHGC5MpRYYU6TgCAAAA) format('woff2');}
+@font-face{font-family:qfda6bf3eee-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAANkAAoAAAAABhAAAAMbAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqFVIQsCwwAATYCJAMMBCAFgj4HIBurBBHVmtMAPhJy05S/iT0XTaxk8Hj691IMZrpmAPUhoQHw96dqHuZC2TwmBjDBIGd34lq05nm4QMVv2DGBli/CghcIqnOaekMkBYuXh+7YBWBRqmQcHICaTZ37Lz/G8+St6WBFRACOC/AE+C6yq2rzwEUJqqhTAhlQp/BBV4ZAMAQKAKsnDxYIJ9kwBu4sAYVSVKkLJagEIpgqmNiHAAdEgS28AYhYBrU+AJD4GwdYGfknHfAbYtacETtGT1OYp4wVy+YuVRSdurxjhQLpWK8/eDV6njV/hQFr6fIFKxTEZixLmnPDb+haDNJse48gRhasv56sZ1i8OjQrbtFW/E8o48ANm2P75q7cvlr16tW8ZQHLDHbFzHOW3xu99LrjzKWKy2crkdlzjIamKWy6Znfjgur867bXA0/HzraYoXQgbsYxmxkzjJbNkse0mfrLZ5OO/b5Xz6rMumZQNjtS2qY7JVc5y6TEYkj658Zb4jsPBh/cSe/6+IHxgg7jC6+dC1+Jn9wYsvEkferhgsUKS2yLv1rokl9b52I/VvVf9NbVcfXxQfB7+uIqeuXBuQd30qsuGr+SuBOBSE8qcDt9cBe9c+OSjd7bdZB24fG1QZrb8Xhfe+XGU/TJjWIXZ/WWo1yi8JHlqp+EdNcn6ldcStLvcy8gKVRiFfjsDml7szcsd0PH3IEKKtxPvHAoqDx8SDwLK8blzvMCAnQZH7yUsIvT7PYXenWC5WV2PLa3qpz1cQWPs19a/Aw/qZXj4VskFTov+mILm/ZVngAAgAAgwB12qE6alPM3YRYbAPBCI+g2Dgj+Cn5RquQoAGFQnd4JDlUVCEQpaceBDqFUAetJQBd+6HMQAIIlCHVRtDpIubnCBhdSCgdiUFC44EJ7vyhUYQgWCFsEBJpwzxU2xJGqcKCIQoULcbQPRaH18P3I/f3ZQlZJdTXDf3BUGB6/mPh+/Jjs2oKq2rwSbSueJY+BV1lJeU11TqV2SFk2tpVmlVRXM/zYaa4qKCvVXuXxVeCXKu1OZewI2cXMBmbMri2oKuaV1DpWPEtDGFZwIg==) format('woff2');}
+text.qfda6bf3eeef0 {font-family:qfda6bf3eee-cmtt10;font-size:9.96264px}
+text.qfda6bf3eeef2 {font-family:qfda6bf3eee-cmmi10;font-size:9.96264px}
+text.qfda6bf3eeef3 {font-family:qfda6bf3eee-cmmi7;font-size:6.973848px}
+text.qfda6bf3eeef4 {font-family:qfda6bf3eee-cmr10;font-size:9.96264px}
+text.qfda6bf3eeef5 {font-family:qfda6bf3eee-cmr7;font-size:6.973848px}
+text.qfda6bf3eeef6 {font-family:qfda6bf3eee-cmex10;font-size:9.96264px}
+
+</style>
+<g id='page1'>
+<text class='qfda6bf3eeef0' x='61.768369' y='63.83125'>rmsn</text>
+<text class='qfda6bf3eeef4' x='82.68973' y='63.83125'>(</text>
+<text class='qfda6bf3eeef2' x='86.564104' y='63.83125'>x</text>
+<text class='qfda6bf3eeef4' x='92.258036' y='63.83125'>)<tspan x='98.899742'>=</tspan></text>
+<text class='qfda6bf3eeef2' x='139.279602' y='57.091449'>x</text>
+<rect x='110.611336' y='61.141341' height='.398484' width='63.030436'/>
+<text class='qfda6bf3eeef6' x='110.611336' y='63.532247'></text>
+<rect x='120.573992' y='63.133762' height='.398484' width='53.06778'/>
+<text class='qfda6bf3eeef2' x='120.573992' y='78.730837'>ε</text>
+<text class='qfda6bf3eeef4' x='127.433617' y='78.730837'>+<tspan x='139.091047' y='71.991035'>1</tspan></text>
+<rect x='138.591745' y='76.040927' height='.398484' width='5.979925'/>
+<text class='qfda6bf3eeef2' x='138.591745' y='85.564707'>n</text>
+<text class='qfda6bf3eeef6' x='147.427583' y='69.266268'></text>
+<text class='qfda6bf3eeef3' x='153.213488' y='90.485402'>i</text>
+<text class='qfda6bf3eeef2' x='163.478491' y='78.730837'>x</text>
+<text class='qfda6bf3eeef5' x='169.172423' y='74.617341'>2</text>
+<text class='qfda6bf3eeef3' x='169.172423' y='81.193769'>i</text>
+</g>
+</svg>
+</div>
+<ul>
+<li><p id="p-bb13fd09" class="nb"><span class="m"><i>x</i></span> is the parameter <code>x</code>, and <span class="m"><i>x</i><sub><i>i</i></sub></span> is its element number <span class="m"><i>i</i></span>.</p></li>
+<li><p id="p-b24f1cc0" class="nb">The sum of the <span class="m"><i>x</i><sub><i>i</i></sub><sup>2</sup></span> over every <span class="m"><i>i</i></span> is <code>x DOT x</code>.</p></li>
+<li><p id="p-9ad7664a" class="nb"><span class="m"><i>n</i></span> is <code>|x|</code>, the number of elements.</p></li>
+<li><p id="p-5b55c835" class="nb"><span class="m">ε</span> is <code>epsilon</code>. If every element of <code>x</code> were 0, the mean square would be 0, and the division would have no result. <code>epsilon</code> keeps the root above 0.</p></li>
+</ul>
+<aside class="limit"><p class="label">A limit of today's tree</p>
+<p id="p-2de14f8d" class="nb">The parameter's type is <code>Array[\RR64,ZZ32\]</code>, a vector of any length. The library's own type for a vector of floats is <code>Vector[\RR64,n\]</code>, with the length <code>n</code> in the type. The model passes <code>rmsn</code> to another function, <code>rows</code>, in line 57. Under walk, a function whose type has a size parameter cannot be passed as an argument: the call fails (the gap ledger's row 156). So the four functions of lines 27 to 34 take the type without a size.</p></aside>
+</section>
+<section class="sec" data-num="3.2" data-title="rows: a function on every row">
+<h2 id="s-rows-a-function-on-every-row" class="nb"><span class="num">3.2</span> rows: a function on every row</h2>
+<div class="fx nb src" id="c-1963b305" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L57" title="MicroGptFlat.fss, line 57">57</a></span>xp = rows(rmsn, x)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L57" title="MicroGptFlat.fss, line 57">57</a></span>x1 = rows(rmsn, xp)</span></code></pre></div>
+<p id="p-aae6ecf5" class="nb"><code>rows</code> belongs to the vocabulary. It takes a function and a matrix. It applies the function to each row of the matrix and puts the results together as the rows of a new matrix. In Fortress a function is a value, so the first argument is just the name <code>rmsn</code>.</p>
+<div class="fx nb src" id="c-767fdf10" data-kind="code"><div class="src-file"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss">FlatArrays.fss</a></div><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L142" title="FlatArrays.fss, line 142">142</a></span>rows[\nat r, nat c\](f: Array[\RR64,ZZ32\] -&gt; Array[\RR64,ZZ32\], m: Matrix[\RR64,r,c\]): Array[\RR64,(ZZ32,ZZ32)\] = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L143" title="FlatArrays.fss, line 143">143</a></span>    (n, d) = m.sizes</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L144" title="FlatArrays.fss, line 144">144</a></span>    out = array[\RR64\](n, d)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L145" title="FlatArrays.fss, line 145">145</a></span>    for i &lt;- 0#n do (row(out, i)).assign(f(row(m, i))) end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L146" title="FlatArrays.fss, line 146">146</a></span>    out</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L147" title="FlatArrays.fss, line 147">147</a></span>  end</span></code></pre></div>
+<ul>
+<li><p id="p-0bceea89" class="nb">The first parameter's type, <code>Array[\RR64,ZZ32\] -&gt; Array[\RR64,ZZ32\]</code>, is the type of a function from a vector to a vector.</p></li>
+<li><p id="p-6a809dd6" class="nb">Line 143 reads the matrix's two sizes into <code>n</code> and <code>d</code>. Line 144 makes the result matrix.</p></li>
+<li><p id="p-274a6f66" class="nb">Line 145 is the loop. <code>row(m, i)</code> is a view of row <code>i</code> of <code>m</code> as a vector. <code>f</code> turns it into a new vector. <code>row(out, i)</code> is a view of row <code>i</code> of the result, and <code>assign</code> copies the new vector into it.</p></li>
+<li><p id="p-6bb6edc4" class="nb">The range <code>0#n</code> is not wrapped in <code>seq</code>, so the turns of the loop may run in parallel. Each turn writes a different row of <code>out</code>, which is safe.</p></li>
+<li><p id="p-a7e3d503" class="nb">Line 146 is the block's value: the filled matrix.</p></li>
+</ul>
+<p id="p-a6f6a43a" class="nb">A small case, with the 3 by 2 matrix <code>x</code> of Part 2, whose rows are 5, 6 and 1, 0 and 0, 1:</p>
+<pre class="vb nb out" id="o-3139b729" data-kind="output"><code>rows(rmsn, x) (3 x 2):
+    0.9053573120059659 1.086428774407159
+    1.4141994204496 0.0
+    0.0 1.4141994204496</code></pre>
+<p id="p-032bf9ba" class="nb">Each row has been divided by the root of its own mean square.</p>
+<p id="p-ce78720e" class="nb">In the step, <code>x</code> is the 16 by 16 matrix of the summed embeddings. For its row 1, a run printed the mean square before and after:</p>
+<pre class="vb nb out" id="o-74da98ef" data-kind="output"><code>meansq x[1] = 0.01127520082084148  meansq xp[1] = 0.9991138837351009  meansq x1[1] = 0.9999899912311551</code></pre>
+<ul>
+<li><p id="p-35d89018" class="nb">The embeddings are small numbers: the mean square of row 1 of <code>x</code> is 0.0113.</p></li>
+<li><p id="p-23b8fe8e" class="nb">Row 1 of <code>xp</code> has the mean square 0.9991. It is not exactly 1, because <code>epsilon</code> is not tiny beside 0.0113.</p></li>
+<li><p id="p-4b63ecaa" class="nb"><code>x1</code> is <code>rmsn</code> applied a second time. It changes little: 0.9991 becomes 0.99999.</p></li>
+</ul>
+<p id="p-a68017ea" class="nb">The model keeps both. <code>xp</code> is the stage that the rest of the model builds on: line 60 adds attention's result to it. <code>x1</code> is what attention reads. Karpathy's program has the same two calls, one after the embeddings are added and one at the start of the attention block.</p>
+</section>
+<section class="sec" data-num="3.3" data-title="sm: scores into probabilities">
+<h2 id="s-sm-scores-into-probabilities" class="nb"><span class="num">3.3</span> sm: scores into probabilities</h2>
+<div class="fx nb src" id="c-a7dae195" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L28" title="MicroGptFlat.fss, line 28">28</a></span>sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX z)); e / (SUM e) end</span></code></pre></div>
+<p id="p-897e5b48" class="nb"><code>sm</code> is softmax. It takes a vector of numbers of any size and sign, here called scores, and returns a vector of probabilities: every element is between 0 and 1, and the elements add up to 1. A higher score gets a higher probability.</p>
+<p id="p-8921d4f2" class="nb">The body is a block with two steps, separated by a semicolon. With the scores 1, 2, 3 as <code>z</code>, a run printed each stage:</p>
+<pre class="vb nb out" id="o-4b1c66a4" data-kind="output"><code>z - BIG MAX z (3): -2.0 -1.0 0.0
+exp(z - BIG MAX z) (3): 0.1353352832366127 0.36787944117144233 1.0
+sm z (3): 0.09003057317038046 0.24472847105479764 0.6652409557748218
+SUM sm(z) = 0.9999999999999999</code></pre>
+<ul>
+<li><p id="p-755a5b7e" class="nb"><code>BIG MAX z</code> is the largest element of <code>z</code>: 3. <code>BIG MAX</code> is a big operator like <code>SUM</code>. Written before an array, it takes all the array's elements.</p></li>
+<li><p id="p-c486ed42" class="nb"><code>z - (BIG MAX z)</code> subtracts 3 from every element. An array minus a number is the library's operator.</p></li>
+<li><p id="p-7a83a0ef" class="nb"><code>exp</code> is the exponential function: <code>exp(t)</code> is the number 2.718… raised to the power <code>t</code>. <code>exp(0)</code> is 1, <code>exp(-1)</code> is 0.368, <code>exp(-2)</code> is 0.135. Its result is always positive. The vocabulary declares <code>exp</code> for arrays: it applies to every element.</p></li>
+<li><p id="p-30d8bfad" class="nb"><code>e</code> is the name of that vector of positive numbers. <code>SUM e</code> is their sum, 1.5032.</p></li>
+<li><p id="p-0c40bf08" class="nb"><code>e / (SUM e)</code> divides every element by the sum. Now the elements add up to 1.</p></li>
+</ul>
+<div class="dm nb" id="m-0d3fe9aa" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='21.921em' height='2.239em' viewBox='62.485679 52.687962 219.212362 22.388661' fill='currentColor' aria-hidden='true'><style type='text/css'>
+@font-face{font-family:q7549ad65ed-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHEAAoAAAAAA2AAAAF7AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAo0RwsGAAE2AiQDCAQgBYI+ByAbugIALgocY2kaViPPreu7JJUfTmcTQk/x8LXf79zd/Q8xCZnppESii0ULjWYRL9UbVDx7pZm6beembBy/hiIYTNbTxWTKgiFGj84tSvB0ozJ4zl4nzxdlL+UGv/v7m/z84wed1hbPbNo+X2BRnScY8hpADzGKM2/tjL1mi+qKItKvE3Ieji010l66+ev2oogvl9RowFVBp1Wa2aVHVsNkJ6oO/syQB/MdCAD+/0FCRjcVUJNxULrBZOf/t8mXCYAED6DSjFZAAUTzXOvHmyc9bdtHG4f7n0toGJ3hOxUEglNxa22+p1zA6wiP+iAPRy+ol0CwKOewUKVrQvB6Q3tBqJE0CxCKptEaA9qiOisqbaymSQ+rVMaXGw3KVJQGYVQTVjSbYTW9Dqs022gbTbnHJfoMc4/689/W+2e50RoHz4k4bFWfj/RwsNDRRV5yu3AFmCKGqYDyTr+NidSftCiAMRkLRhxGx3hGYD++/MD20E4PyQMVFeQUwA4DAAA=) format('woff2');}
+@font-face{font-family:q7549ad65ed-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAK4AAoAAAAABKAAAAJvAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqCeIIxCwgAATYCJAMMBCAFgjgHIBuiAwieA+7cmMX05zzFbYrM8OOsW0wzhGiNzOzBAxfZEbAEAkW6DtmoKmChmFRda3sD6/IJJWoQQ6frIU5IIEuZfb+2PcMkmjazqg2iRfP3D9FEqVohaWgMoQAbcCIBa8C5DL7Pe4u/yAZ0AvisU/cCXkC3Wtobd4LeHGEvixJL3cbgNpXLWBjy0B+szpClznGaRLqa3v+DxR3HpiQRdZASGtzK5kObARR2GGcqkAm3s6oAJGToEK4OMPpAyOXa2+nHO6rEjuDwMkJ5+RxHwSkA5IAkNYxoGLLr8plmdRMJP5jdaKiuX5DDA2a+KudJvIu8YTdsvkztfzsATsWqhwT4C8z+JmAy9wJoAQxn8YMfJ9wPHM1UxPqVkam3LZH2XgQ5gB3VLUOcmhflDk+v/lb7pNkN4RCgWSEfvi6dlOwflmwp+gwMfHUILQsjK036EdkJO9LSdqeU0Lz/hrG+uJ1DW9olfPxZ5/+KL37kuxYmc7gUt+7Otd7ezmI6uz6UQwf6aXnsj6beftuTNqb2ev788MAM1ZnlhMbPv6v3YpgvLzQsXU2W6r++gXxTbew3l6XGP+O57K+5CwAIBHd/V2OzcdI/lZCD347cO/5oNYR/ngK1EggyFUjPQd94jAMvydJziJui8R0EMpOhQAhb7wTOQotWLFdoYYUGHVip0Lu7XjcaaJHXCb0EFcvVW80KnXSxUr1jab1RJhqC/v9lO0SjTONOnDaHrr1Pl+k4OlpuBuR221w2JyJGRmbWVnoW3ApkXbiZDkJGMqqWWRpZzYybk43DQ8pj116rEF3TZk9qh42R5YMPEDc3GxcbJ7QE) format('woff2');}
+@font-face{font-family:q7549ad65ed-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAALsAAoAAAAABNAAAAKgAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqDGIJLCwgAATYCJAMKBCAFgj4HIBvIA0iehbHzIumnHBrN2HzaBhF+V1+dzM4JfLT/QDLz7C9PdPrpPAEnpr+6VYhpCU67ODjz9csE0uZqFf/fW7yL5hvQpRMN+Vvn80Bu6/kEwwQDPm6wjNKIKXXbh8KL6JuWMV7NClZPoJWXTMQBarb6vz8TeiZvm0UucQFhgxT4FK17xfsgKNqQ1hhAI9yiMQAoQAP+9a4/FsmAjYWgaEPaGCgDM9eMzOFoZv8ShgAzAAALAFBIileleri5wYJpIfMgZ1pe0Jl6M5gTYOFxRab29et1b9Rbo352O3aJaVfLb32o67as3A71fdyg87ybgCJTL8ltzLKEjbsbuWaMMTB7mnPq3W7a3XVtb/I4izU5eaNWvaoL8+hm4olq8jZ9KmOSPWJmH+Ut2wmZ2BmzJ2uKyZyATLtaeyUAFO//z7teQ+N/Jzj12rxwdWNhb8fyFc7r6ZCZbbqS1GoLKdP9yuRA7FXyV6sekUXwXAXGNzqXD0w9nvT/yl2IF80u+b2rLyNqKzev57PuTqqYkG1g4wIObfrY/8nknv6DKOC1W9NF7Tk8clcs1VSTfdX3yZ2IixP3i4OHnP1OjvlZq3v2kZoJRTobg+UlML458svlfXpUawaBAAgg0LzRbYtm5MLfnLUFwIuISrdhmS+qrxxvcEYhwoZHVF8M5q88dMAN1ReI3CWLdATQVNIRfiAaV/oDJZAXzMrCxks5cCNA2dhEL7sSSiIasVwQIiluysKdpspBIB2VjTsDW1dyM/Z4gN9gnS6fb8CafY3nOUyWpfdcfaZ134FIvM8nyWWymayQUgTwESRGlB7CSKhCgG5M+enCh48BrGRTd7gRBgjgR9LPJJtC5UK/HHYkou6iJSkk7sYZIEKcvhcScpFJTjLJgSaCBAAAAA==) format('woff2');}
+@font-face{font-family:q7549ad65ed-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKsAAoAAAAABKAAAAJjAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCYIInCwoAATYCJAMQBCAFgj4HIBuqAwgGHvg67f3MdAooJZ12ZR4hnchkIZ44cTNtUucBTcw92zgWz0ldgmGYaNp+oAX0T/pP8OYueyhFsxpy6b7elK8bkFQDxGL0QLVWdeWfDYtUER8LjShhCLgCuAV8oGbYyF4oT3laLtn/DADJ3lgHCAAA+P8fABUgATZICMAGGX9AQUageiqelv//D0+RkVq472dhyKjBtAtYAtwRBALh7uk5ZrndysCVdqna+3W6B3Wrbtmvsl1hc/suk+/U3LmTsqJPy61e7r/FBlbtT+tSu3aKtlarTV0p8tsGrLBNuXOvT9+1q3wsa4y0tRdrtdUm3Ssm22hMdTp7nS7KuNpig1hp7zR8TfDU79c0MeM6pqfZqwaxvdGstPn0nOdTgy12NHW2eZ7PN19lkeMxrn5+ZhRxyQqYJ3ZeufJ8sVOcGVMxw7WPzyqxPm+6qx5dO7+6WnFazP1H7PIcIZRt6oq6L06BvRsCTmYYtplmixXF58fqr+s6fGAgQ+03ZNq11gU41f2r2Gem2gkAAhBw9MyFT23myb8MJBmAN65F9z3td6P0n+AQA1QscxtMyPEEATRGgGnL4g6IrazxXxIkxxOPAGQ8EQAIxDFiIgSawyKUUTDvEXoYY0soKKi3jXDCFwkhGyJwIz0QMia0EnrY0ZdQMGFyZEQ0808E7gNYqWtA9+iI8JvbjAgNH/ReqK/RjOwzbGSvAeqo0MjQCLIYxAAGM4LhdDMUNSUMQiNLA+liAN2MJoJwait7GH0YxEDUw1DCQTCPH0jgO6igRutkjGNqGEkfhv3wXgxATRShRBJKBBIG) format('woff2');}
+@font-face{font-family:q7549ad65ed-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAXEAAoAAAAACgAAAAV6AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAdAqMXIlcCxwAATYCJAM0BCAFgjgHIBu1BxEVo89CfJFg21rYfo+iEZ0O2xyUPyXjln6ibf2bWTAAG7AoK3vDikDvJ15H7MKPiMvI/2wAZN5Q55meMW0dpkYZJ1ERw5Xgm3wA/P/3K71/OjkKACPfRBcXJUgv4ApHJFA02ILW8QVcAB11Y3CNU2Qd/d1vAQgSdAYgsBOaC3wAvBzfei+GOZcb/XOWIQAZgohBD8QIoAK1Pf0N/equMEjAh2wE98B8H7RsOEUAxIcNMZ8HlcjUeB4euEEUVEEdNEEbdEIvDLo6XDuIjTDwO9llG6y12grLLLYwBEIzggNsAMAMAD0DwAtBGDxAaMNjF2JA/6yVlUjkbyhSeZkZJilMVMEhVWqNltZqHbQ6RqebFotZlmK/pKwX1XAsybIaZKnT0ZNa2n2x5ZJpjuK4HuOFmye3SEyWbFJvJNUPW7OSZdOv26/WZdzQhSCtVqC56npol3hl4GHFBl2KLm/bOitYuMpp0Q4lEsLam86Hz9MsK191i9MxJcIV9stt9idvDhWfJJdyXttuBS0KsTzBLNmyzHOh9Tm0WlqnYziOXLTQmeGv2Z6IGLxCxxy6JtnGkbDsUAjQJLq0RYHWaIM1LAkrN6XkQgleuk1zKwhXCOxeuvXw9sk9R7aVBGqBPbqUIxy1ojFSuMFGVOKb5jiKvVdevi/dbUT8+ylSL5KcE17RMVptsob1LMEL5ZJVQdMXHJAQ1GzixnDpcZoQIF3AASQEIfQULj1oU1zD4fMu3xyIKAY2H7RaKCliFMulizcL0CGhEdR7lCyRrk5G1HQIaI7WUE+tQdwhmERbViyW0uRWWOoEtCYQbdLFMPTp44nB0MasacWXbHB2/Fu5sfnPBNLqKt9yV8Z2mwjibNc6kb7VdbVS4ZmyypQ38AkaTEDlNT84gMsHwFUkojulVWlv0Ufr8v/PyDRzQIaSMDvC6eyavbScXlu/NlmeLLiUtDp3b83Z5Q1kFpvoX48YJhJ7pwxJq0WdzighPtrV+kk68hPYXFgbbc7EPMxEr1ecVNzi/9k9d7EgzCbMQ2vnO2V4ZUS/uMxLLzoTZUfhZOhGj0UHqY2dP+9f9XmvwajIgKJlmyvn7+LW2SaLqqO/mT4xnEsUo6lJ3ICqB2YU43Jc2A/ZxosBOrPEYs5XOV/YcCc5LhbvTVnZZBgHsRf5jZ2qbtyDVapv4T+RLP7HQLIA5ZyEf017oHt903/h4MVBmRpUzbijnMGCd/Ghcv4pg28e3nY/+/Bb6KyI/bVzhK0VqeHqPNJJFHsmJe7xXmZlkWAMqum/ICcFjDT0WWGP+qdE73VFaHCSqCFqp9RlaP7T6EMofg/uin5v+uC1ljrOMYncfTpmLdWNy3BhZvc810T3eti7TK7oz750QdZkEGoTHuBN5p1b/2qayLdlpGl6395KsD61QAlDzECOSmXXYN9gFwhJ6ub+f2OVFbgdK+Fzc1xeaca82FsZ1KiVKe97NWOl6ZA9r6JWVsqv4CmmlOXYOV4pOwFODz/b91TTqaqyfdiOVbEPhcUlg0kFZWaWz1VV2H29yizNorlyqG6GMNFOWYXbsPJRiORETkN0zrYETglaNV+Zxr84DQMqf59g6lFBn3tmQPAAAOB3ecZXzeqHiDiC+AaAARkn6jIFItAHjAU0ZbZhNQCaBbXV6cIIGYRjAHd0BeQ4FOyQDOydkZ2K5JC1LPDPYI5lvgiikKSBBkhjxiPAZQJrBJ+JqighseLwKQ8fG0cCykMU0aqCR6BUwSetV+gRGG0KBH6yXDD8DbDRcCQtv2PCydTzMeX26vP6ABXOLCFhYX+vH8pim1LFGkpNfGmK3AmIGNFKb9+CpdjM0VaDYVqp/omRk8ZZ4gNYAPKvNDQ9QQAA) format('woff2');}
+@font-face{font-family:q7549ad65ed-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAALMAAoAAAAABPQAAAKDAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqDQIJlCwgAATYCJAMIBCAFgj4HIBvgAwiOwra1E8wkZb68hSML66jqZBakD4B+AHn+f+ftnxJJqAQzjnQ0ooFO6U3cTBuY13kbA0xDmtbGtbSs84CjMOMxAfNF+A/8QPC6TfTxyRJEYYVvd0FvO8BLk6ZhAHvZ5X/KmNptetMYcGoSACoKGMF3oPi2lkFUjaY6/18B2I/36KH/AQADcIAyjpgtMAeIeoQVFQnUy5OpioCDoiArpwNWAbDwMwOETnjW0bCJDhsvSp22ma2yWB1rVy9apSo5a83AWhUa2GI84VZy9heWrDXhq9YsXasiNXd12eqI1Sb7UxZ7Kx9KXnXHc94q1TUL1GjBQrOJs1W233a7e1VzyR3XO5EXUhfYzVU7mjb3tMvcuWar5ytj9jzjNQto4EjorUsa82+b1C1IlHcZzilVL7KosZso/2Pbfel9x6KP7bPZ/+G9QxAMdiiCvmUvpc9ti9l2zub8M+E5AZm59MtlPtEbDK6Nw+oD8u5Wr7m/qWfp+AYWHyZdOTGqPn6idBHWTlO6YhsRYegQghcybmm6w+FiL8/yIKszqaNN9fzDWluRI/ITV4TJrZsWv1NWZfBaKHYKNqHq0wEACEDw8I/D4jw576/iXAAAPNeJeuCn/v/Jz9KkUwDEMcvq/m02oR7JklcVFAEHEC2McC4CtRATS+qFQDk1IgWi5EgRUlRIUaL0pyVpMsVRlwDR5R+RAmm5pAhVlaQoaf2VJGeTDgv1b1itqKa52cH+Ug8cbO2TxuP1nOLWiqbWshp9J1tHWwcEqVOjXotmJRrpi1GnmIZqFanRrJkDe6mD26RCnVr6XVv2IBim1RZoBaVgsVuow7GLtarQ9IEyNfQ5seXIlgPOCBE=) format('woff2');}
+text.q7549ad65edf0 {font-family:q7549ad65ed-cmtt10;font-size:9.96264px}
+text.q7549ad65edf1 {font-family:q7549ad65ed-cmsy10;font-size:9.96264px}
+text.q7549ad65edf2 {font-family:q7549ad65ed-cmmi10;font-size:9.96264px}
+text.q7549ad65edf3 {font-family:q7549ad65ed-cmmi7;font-size:6.973848px}
+text.q7549ad65edf4 {font-family:q7549ad65ed-cmr10;font-size:9.96264px}
+text.q7549ad65edf6 {font-family:q7549ad65ed-cmex10;font-size:9.96264px}
+
+</style>
+<g id='page2'>
+<text class='q7549ad65edf0' x='61.768369' y='63.83125'>sm</text>
+<text class='q7549ad65edf4' x='72.22905' y='63.83125'>(</text>
+<text class='q7549ad65edf2' x='76.103423' y='63.83125'>z</text>
+<text class='q7549ad65edf4' x='81.174707' y='63.83125'>)</text>
+<text class='q7549ad65edf3' x='85.049081' y='65.325631'>i</text>
+<text class='q7549ad65edf4' x='91.13326' y='63.83125'>=</text>
+<text class='q7549ad65edf2' x='111.472534' y='57.091449'>e</text>
+<text class='q7549ad65edf3' x='116.111406' y='58.58583'>i</text>
+<rect x='102.844854' y='61.141341' height='.398484' width='25.211062'/>
+<text class='q7549ad65edf6' x='102.844854' y='63.19308'></text>
+<text class='q7549ad65edf3' x='113.361006' y='73.653958'>j</text>
+<text class='q7549ad65edf2' x='119.219226' y='70.665121'>e</text>
+<text class='q7549ad65edf3' x='123.858097' y='72.159501'>j</text>
+<text class='q7549ad65edf4' x='149.17674' y='63.83125'>with</text>
+<text class='q7549ad65edf2' x='188.473895' y='63.83125'>e</text>
+<text class='q7549ad65edf3' x='193.112766' y='65.325631'>i</text>
+<text class='q7549ad65edf4' x='199.196945' y='63.83125'>=<tspan x='209.713025'>exp</tspan></text>
+<text class='q7549ad65edf6' x='224.933764' y='55.761445'></text>
+<text class='q7549ad65edf2' x='229.499999' y='63.83125'>z</text>
+<text class='q7549ad65edf3' x='234.133123' y='65.325631'>i</text>
+<text class='q7549ad65edf1' x='239.663835' y='63.83125'>−</text>
+<text class='q7549ad65edf4' x='249.626449' y='63.83125'>max</text>
+<text class='q7549ad65edf3' x='257.047427' y='70.106303'>j</text>
+<text class='q7549ad65edf2' x='269.828492' y='63.83125'>z</text>
+<text class='q7549ad65edf3' x='274.461616' y='65.325631'>j</text>
+<text class='q7549ad65edf6' x='278.659436' y='55.761445'></text>
+</g>
+</svg>
+</div>
+<ul>
+<li><p id="p-101bf273" class="nb"><span class="m"><i>z</i></span> is the parameter <code>z</code>, and <span class="m"><i>z</i><sub><i>i</i></sub></span> its element number <span class="m"><i>i</i></span>.</p></li>
+<li><p id="p-08e647a2" class="nb"><span class="m">max<sub><i>j</i></sub> <i>z</i><sub><i>j</i></sub></span> is <code>BIG MAX z</code>.</p></li>
+<li><p id="p-3c11e427" class="nb"><span class="m"><i>e</i></span> is the local variable <code>e</code>.</p></li>
+<li><p id="p-30091425" class="nb"><span class="m">∑<sub><i>j</i></sub> <i>e</i><sub><i>j</i></sub></span> is <code>SUM e</code>.</p></li>
+</ul>
+<p id="p-df8d5ce1" class="nb">Four facts about <code>sm</code>, each from a run.</p>
+<p id="p-ab703817" class="nb">A step of 1 in the score multiplies the probability by 2.718. The scores 1, 2, 3 are one apart, and 0.2447 is 2.718 times 0.0900.</p>
+<p id="p-83c96c72" class="nb">Only the differences between the scores count. Adding 100 to every score gives the same probabilities:</p>
+<pre class="vb nb out" id="o-db0994d8" data-kind="output"><code>sm(z + 100) (3): 0.09003057317038046 0.24472847105479764 0.6652409557748218</code></pre>
+<p id="p-ae5e9484" class="nb">This is also why the program may subtract the maximum: it changes nothing in the result. It is there for the arithmetic. <code>exp</code> of a large number does not fit into a float, and after the subtraction the largest number that <code>exp</code> sees is 0.</p>
+<p id="p-8c34c6ee" class="nb">Larger differences make the result sharper. With the scores doubled to 2, 4, 6, the largest takes 87 percent:</p>
+<pre class="vb nb out" id="o-ea6a64f7" data-kind="output"><code>sm(2 z) (3): 0.015876239976466765 0.11731042782619838 0.8668133321973349</code></pre>
+<p id="p-2f2da0cf" class="nb">A very low score gets the probability 0, exactly. With a fourth score of minus 10 to the power 10:</p>
+<pre class="vb nb out" id="o-866fad88" data-kind="output"><code>sm [1 2 3 -1e10] (4): 0.09003057317038046 0.24472847105479764 0.6652409557748218 0.0</code></pre>
+<p id="p-570c5b03" class="nb">The other three probabilities are what they were without the fourth score. Part 4 uses this to hide positions from the model.</p>
+<p id="p-73a4d391" class="nb">The model calls <code>sm</code> in two places. In line 59 it turns attention's scores into weights. In line 61 it turns the 27 scores of each position into the 27 probabilities that are the model's answer.</p>
+</section>
+</section>
+<nav class="pager" aria-label="Parts"><a class="prev" href="arrays.html"><span>Previous</span> 2. Vectors, matrices and the nine weight matrices</a><a class="next" href="attention.html"><span>Next</span> 4. Attention</a></nav>
+<footer class="colophon">Built from <code>explorations/microgpt-walk/src/03-norm-softmax.md</code> of the revival's repository. The quoted lines are those of <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss">MicroGptFlat.fss</a> and the components beside it, as the build found them.</footer>
+</div>
+<script src="walk.js"></script>
+<script src="reader.js"></script>
+</body>
+</html>

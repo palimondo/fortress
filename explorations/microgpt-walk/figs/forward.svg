@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 340" role="img" aria-label="The forward pass as a chain of thirteen stages, from x to the loss, with the size of each stage and the weight matrices that enter it. Two lines at the left show the two places where an earlier stage is added to a later one: xp into x2, and x2 into x4.">
+<text x="30" y="12" class="muted">stage</text><text x="80" y="12" class="muted">made from</text><text x="234" y="12" class="muted">size</text><text x="298" y="12" class="muted">weights</text>
+<rect class="tint" x="30" y="24" width="44" height="18" rx="3"/>
+<text x="52" y="37" text-anchor="middle">x</text>
+<text x="80" y="37" class="t-body">token row + position row</text>
+<text x="234" y="37" class="muted">16 by 16</text>
+<text x="298" y="37">wte wpe</text>
+<rect class="soft" x="30" y="48" width="44" height="18" rx="3"/>
+<text x="52" y="61" text-anchor="middle">xp</text>
+<text x="80" y="61" class="t-body">rmsn on every row</text>
+<text x="234" y="61" class="muted">16 by 16</text>
+<line class="ink" x1="52" y1="42" x2="52" y2="48"/>
+<rect class="soft" x="30" y="72" width="44" height="18" rx="3"/>
+<text x="52" y="85" text-anchor="middle">x1</text>
+<text x="80" y="85" class="t-body">rmsn on every row</text>
+<text x="234" y="85" class="muted">16 by 16</text>
+<line class="ink" x1="52" y1="66" x2="52" y2="72"/>
+<rect class="tint" x="30" y="96" width="44" height="18" rx="3"/>
+<text x="52" y="109" text-anchor="middle">q k v</text>
+<text x="80" y="109" class="t-body">x1 through 3 matrices</text>
+<text x="234" y="109" class="muted">16 by 16</text>
+<text x="298" y="109">wq wk wv</text>
+<line class="ink" x1="52" y1="90" x2="52" y2="96"/>
+<rect class="soft" x="30" y="120" width="44" height="18" rx="3"/>
+<text x="52" y="133" text-anchor="middle">a</text>
+<text x="80" y="133" class="t-body">scores, mask, sm</text>
+<text x="234" y="133" class="muted">4, 16, 16</text>
+<line class="ink" x1="52" y1="114" x2="52" y2="120"/>
+<rect class="soft" x="30" y="144" width="44" height="18" rx="3"/>
+<text x="52" y="157" text-anchor="middle">hc</text>
+<text x="80" y="157" class="t-body">weights times values</text>
+<text x="234" y="157" class="muted">16 by 16</text>
+<line class="ink" x1="52" y1="138" x2="52" y2="144"/>
+<rect class="tint" x="30" y="168" width="44" height="18" rx="3"/>
+<text x="52" y="181" text-anchor="middle">x2</text>
+<text x="80" y="181" class="t-body">xp + hc through wo</text>
+<text x="234" y="181" class="muted">16 by 16</text>
+<text x="298" y="181">wo</text>
+<line class="ink" x1="52" y1="162" x2="52" y2="168"/>
+<rect class="soft" x="30" y="192" width="44" height="18" rx="3"/>
+<text x="52" y="205" text-anchor="middle">x3</text>
+<text x="80" y="205" class="t-body">rmsn on every row</text>
+<text x="234" y="205" class="muted">16 by 16</text>
+<line class="ink" x1="52" y1="186" x2="52" y2="192"/>
+<rect class="tint" x="30" y="216" width="44" height="18" rx="3"/>
+<text x="52" y="229" text-anchor="middle">m0</text>
+<text x="80" y="229" class="t-body">x3 through f1</text>
+<text x="234" y="229" class="muted">16 by 64</text>
+<text x="298" y="229">f1</text>
+<line class="ink" x1="52" y1="210" x2="52" y2="216"/>
+<rect class="soft" x="30" y="240" width="44" height="18" rx="3"/>
+<text x="52" y="253" text-anchor="middle">mr</text>
+<text x="80" y="253" class="t-body">negative numbers to 0</text>
+<text x="234" y="253" class="muted">16 by 64</text>
+<line class="ink" x1="52" y1="234" x2="52" y2="240"/>
+<rect class="tint" x="30" y="264" width="44" height="18" rx="3"/>
+<text x="52" y="277" text-anchor="middle">x4</text>
+<text x="80" y="277" class="t-body">x2 + mr through f2</text>
+<text x="234" y="277" class="muted">16 by 16</text>
+<text x="298" y="277">f2</text>
+<line class="ink" x1="52" y1="258" x2="52" y2="264"/>
+<rect class="tint" x="30" y="288" width="44" height="18" rx="3"/>
+<text x="52" y="301" text-anchor="middle">pr</text>
+<text x="80" y="301" class="t-body">x4 through lm, then sm</text>
+<text x="234" y="301" class="muted">16 by 27</text>
+<text x="298" y="301">lm</text>
+<line class="ink" x1="52" y1="282" x2="52" y2="288"/>
+<rect class="soft" x="30" y="312" width="44" height="18" rx="3"/>
+<text x="52" y="325" text-anchor="middle">loss</text>
+<text x="80" y="325" class="t-body">from pr, tg, vm, nv</text>
+<text x="234" y="325" class="muted">1 number</text>
+<line class="ink" x1="52" y1="306" x2="52" y2="312"/>
+<path class="acc" d="M30 57 H16 V177 H24"/>
+<path class="accfill" d="M30 177 l-7 -4 v8 z"/>
+<path class="acc" d="M30 182 H6 V268 H24"/>
+<path class="accfill" d="M30 268 l-7 -4 v8 z"/>
+</svg>

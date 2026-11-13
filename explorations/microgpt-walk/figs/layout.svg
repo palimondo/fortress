@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 118" role="img" aria-label="The vector p of 4,192 parameters, cut into nine pieces: wte from 0, wpe from 432, lm from 688, wq from 1120, wk from 1376, wv from 1632, wo from 1888, f1 from 2144, f2 from 3168.">
+<text x="12" y="12" class="muted">the vector p, 4,192 floats</text>
+<rect class="tint" x="12.0" y="34" width="34.6" height="30"/>
+<text x="29.3" y="29" text-anchor="middle">wte</text>
+<text x="29.3" y="53" text-anchor="middle" class="muted">0</text>
+<line class="ink" x1="12.0" y1="64" x2="12.0" y2="69"/>
+<text x="12.0" y="78" text-anchor="start" class="muted">0</text>
+<rect class="tint" x="46.6" y="34" width="20.5" height="30"/>
+<text x="56.9" y="29" text-anchor="middle">wpe</text>
+<text x="56.9" y="53" text-anchor="middle" class="muted">1</text>
+<line class="ink" x1="46.6" y1="64" x2="46.6" y2="82"/>
+<text x="46.6" y="91" text-anchor="middle" class="muted">432</text>
+<rect class="tint" x="67.1" y="34" width="34.6" height="30"/>
+<text x="84.5" y="29" text-anchor="middle">lm</text>
+<text x="84.5" y="53" text-anchor="middle" class="muted">2</text>
+<line class="ink" x1="67.1" y1="64" x2="67.1" y2="69"/>
+<text x="67.1" y="78" text-anchor="middle" class="muted">688</text>
+<rect class="soft" x="101.8" y="34" width="20.5" height="30"/>
+<text x="112.0" y="29" text-anchor="middle">wq</text>
+<text x="112.0" y="53" text-anchor="middle" class="muted">3</text>
+<line class="ink" x1="101.8" y1="64" x2="101.8" y2="82"/>
+<text x="101.8" y="91" text-anchor="middle" class="muted">1120</text>
+<rect class="soft" x="122.3" y="34" width="20.5" height="30"/>
+<text x="132.5" y="29" text-anchor="middle">wk</text>
+<text x="132.5" y="53" text-anchor="middle" class="muted">4</text>
+<line class="ink" x1="122.3" y1="64" x2="122.3" y2="69"/>
+<text x="122.3" y="78" text-anchor="middle" class="muted">1376</text>
+<rect class="soft" x="142.8" y="34" width="20.5" height="30"/>
+<text x="153.1" y="29" text-anchor="middle">wv</text>
+<text x="153.1" y="53" text-anchor="middle" class="muted">5</text>
+<line class="ink" x1="142.8" y1="64" x2="142.8" y2="82"/>
+<text x="142.8" y="91" text-anchor="middle" class="muted">1632</text>
+<rect class="soft" x="163.3" y="34" width="20.5" height="30"/>
+<text x="173.6" y="29" text-anchor="middle">wo</text>
+<text x="173.6" y="53" text-anchor="middle" class="muted">6</text>
+<line class="ink" x1="163.3" y1="64" x2="163.3" y2="69"/>
+<text x="163.3" y="78" text-anchor="middle" class="muted">1888</text>
+<rect class="warm" x="183.8" y="34" width="82.1" height="30"/>
+<text x="224.9" y="29" text-anchor="middle">f1</text>
+<text x="224.9" y="53" text-anchor="middle" class="muted">7</text>
+<line class="ink" x1="183.8" y1="64" x2="183.8" y2="82"/>
+<text x="183.8" y="91" text-anchor="middle" class="muted">2144</text>
+<rect class="warm" x="265.9" y="34" width="82.1" height="30"/>
+<text x="307.0" y="29" text-anchor="middle">f2</text>
+<text x="307.0" y="53" text-anchor="middle" class="muted">8</text>
+<line class="ink" x1="265.9" y1="64" x2="265.9" y2="69"/>
+<text x="265.9" y="78" text-anchor="middle" class="muted">3168</text>
+<line class="ink" x1="348.0" y1="64" x2="348.0" y2="82"/>
+<text x="348.0" y="91" text-anchor="end" class="muted">4192</text>
+<text x="12" y="111" class="muted">name above, index i inside, matOffset(i) below</text>
+</svg>

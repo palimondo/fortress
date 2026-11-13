@@ -35,31 +35,31 @@
 <a class="lnk" href="task.html#c-73b4ea60">18</a>(epsilon, lr0, beta1, beta2, epsilon_A, nSteps) = (10.0^(-5), 0.01, 0.85, 0.99, 10.0^(-8), 1000)
 <a class="lnk" href="task.html#c-7ecdb875">19</a>(corpusPath, weightsDir) = ("../../apl/reference/dzaima/docs.txt", "../../apl/reference/dzaima/w")
 <a class="lnk">20</a>
-<a class="lnk">21</a>(* ^T on a matrix and on every plane of a rank-3 array, declared here and not
-<a class="lnk">22</a>   in the vocabulary because an API cannot declare a postfix operator (row 133) *)
-<a class="lnk">23</a>opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = transpose(m)
-<a class="lnk">24</a>opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\] = transpose(t)
+<a class="lnk" href="arrays.html#c-961bed8e">21</a>(* ^T on a matrix and on every plane of a rank-3 array, declared here and not
+<a class="lnk" href="arrays.html#c-961bed8e">22</a>   in the vocabulary because an API cannot declare a postfix operator (row 133) *)
+<a class="lnk" href="arrays.html#c-961bed8e">23</a>opr (m: Matrix[\RR64,r,c\])^T[\nat r, nat c\]: Matrix[\RR64,c,r\] = transpose(m)
+<a class="lnk" href="arrays.html#c-961bed8e">24</a>opr (t: Array3[\RR64,0,a,0,b,0,c\])^T[\nat a, nat b, nat c\]: Array3[\RR64,0,a,0,c,0,b\] = transpose(t)
 <a class="lnk">25</a>
-<a class="lnk">26</a>(* -------------------------------------- rmsn, sm and their backward ------ *)
-<a class="lnk">27</a>rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)
-<a class="lnk">28</a>sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX z)); e / (SUM e) end
-<a class="lnk">29</a>mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 =&gt; if j &gt; i then -(10.0^10) else 0.0 end)
+<a class="lnk" href="norm-softmax.html#c-2e9f288d">26</a>(* -------------------------------------- rmsn, sm and their backward ------ *)
+<a class="lnk" href="norm-softmax.html#c-2e9f288d">27</a>rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)
+<a class="lnk" href="norm-softmax.html#c-a7dae195">28</a>sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX z)); e / (SUM e) end
+<a class="lnk" href="attention.html#c-24ae3657">29</a>mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 =&gt; if j &gt; i then -(10.0^10) else 0.0 end)
 <a class="lnk">30</a>rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
 <a class="lnk">31</a>    r = SQRT (epsilon + (x DOT x) / |x|); y = x / r
 <a class="lnk">32</a>    (dy - y ((y DOT dy) / |y|)) / r
 <a class="lnk">33</a>  end
 <a class="lnk">34</a>sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
 <a class="lnk">35</a>
-<a class="lnk">36</a>(* ------------------------------- tactic 2/8: one vector, nine views ------ *)
-<a class="lnk">37</a>matName(i: ZZ32): String =
-<a class="lnk">38</a>    if i = 0 then "wte" elif i = 1 then "wpe" elif i = 2 then "lm_head" elif i = 3 then "attn_wq" elif i = 4 then "attn_wk"
-<a class="lnk">39</a>    elif i = 5 then "attn_wv" elif i = 6 then "attn_wo" elif i = 7 then "mlp_fc1" else "mlp_fc2" end
-<a class="lnk">40</a>matShape(i: ZZ32): (ZZ32, ZZ32) =
-<a class="lnk">41</a>    if (i = 0) OR (i = 2) then (vocabSize, nEmbd) elif i = 7 then (4 nEmbd, nEmbd) elif i = 8 then (nEmbd, 4 nEmbd) else (nEmbd, nEmbd) end
-<a class="lnk">42</a>matCount(i: ZZ32): ZZ32 = do (r, c) = matShape(i); r c end
-<a class="lnk">43</a>matOffset(i: ZZ32): ZZ32 = SUM[\ZZ32\][j &lt;- 0#i] matCount(j)
-<a class="lnk">44</a>nParams(): ZZ32 = matOffset(9)
-<a class="lnk">45</a>view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end
+<a class="lnk" href="arrays.html#c-06ff7dcf">36</a>(* ------------------------------- tactic 2/8: one vector, nine views ------ *)
+<a class="lnk" href="arrays.html#c-731c9475">37</a>matName(i: ZZ32): String =
+<a class="lnk" href="arrays.html#c-731c9475">38</a>    if i = 0 then "wte" elif i = 1 then "wpe" elif i = 2 then "lm_head" elif i = 3 then "attn_wq" elif i = 4 then "attn_wk"
+<a class="lnk" href="arrays.html#c-731c9475">39</a>    elif i = 5 then "attn_wv" elif i = 6 then "attn_wo" elif i = 7 then "mlp_fc1" else "mlp_fc2" end
+<a class="lnk" href="arrays.html#c-731c9475">40</a>matShape(i: ZZ32): (ZZ32, ZZ32) =
+<a class="lnk" href="arrays.html#c-731c9475">41</a>    if (i = 0) OR (i = 2) then (vocabSize, nEmbd) elif i = 7 then (4 nEmbd, nEmbd) elif i = 8 then (nEmbd, 4 nEmbd) else (nEmbd, nEmbd) end
+<a class="lnk" href="arrays.html#c-9d763a7d">42</a>matCount(i: ZZ32): ZZ32 = do (r, c) = matShape(i); r c end
+<a class="lnk" href="arrays.html#c-98c767d7">43</a>matOffset(i: ZZ32): ZZ32 = SUM[\ZZ32\][j &lt;- 0#i] matCount(j)
+<a class="lnk" href="arrays.html#c-d2d35a90">44</a>nParams(): ZZ32 = matOffset(9)
+<a class="lnk" href="arrays.html#c-dcbbd551">45</a>view(p: Array[\RR64,ZZ32\], i: ZZ32): Array[\RR64,(ZZ32,ZZ32)\] = do (r, c) = matShape(i); view(p, matOffset(i), r, c) end
 <a class="lnk">46</a>
 <a class="lnk" href="task.html#c-771d8727">47</a>(* -------------------- tactic 3/5: the corpus as one padded integer matrix - *)
 <a class="lnk" href="task.html#c-771d8727">48</a>corpus: Corpus = loadCorpus(corpusPath, blockSize, bosId)
@@ -67,15 +67,15 @@
 <a class="lnk" href="task.html#c-5a0ca8dc">50</a>(* ------------------------- the step: keys -&gt; (loss, flat gradient). Pure. -- *)
 <a class="lnk" href="task.html#c-5a0ca8dc">51</a>step(p: Array[\RR64,ZZ32\], b: Array[\ZZ32,ZZ32\]): (RR64, Array[\RR64,ZZ32\]) = do
 <a class="lnk" href="task.html#c-4832cf68">52</a>    ids = corpus.tokens(b, 0); tg = corpus.tokens(b, 1); vm = corpus.valid(b); nv = SUM vm; pos = corpus.positions(b)
-<a class="lnk">53</a>    (wte, wpe, lm, wq, wk, wv, wo, f1, f2) = (view(p, 0), view(p, 1), view(p, 2), view(p, 3), view(p, 4), view(p, 5), view(p, 6), view(p, 7), view(p, 8))
-<a class="lnk">54</a>    h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)
-<a class="lnk">55</a>    u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)
-<a class="lnk">56</a>    (* -- forward, all (doc, pos) rows at once -- *)
-<a class="lnk">57</a>    x = gather(wte, ids) + gather(wpe, pos); xp = rows(rmsn, x); x1 = rows(rmsn, xp)
-<a class="lnk">58</a>    (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T); (qh, kh, vh) = (h(q), h(k), h(v))
-<a class="lnk">59</a>    a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim)); hc = u(a vh)
-<a class="lnk">60</a>    x2 = xp + hc wo^T; x3 = rows(rmsn, x2); m0 = x3 f1^T; mr = 0.0 MAX m0; x4 = x2 + mr f2^T
-<a class="lnk">61</a>    pr = rows(sm, x4 lm^T); loss = -(vm DOT log(pick(pr, tg))) / nv
+<a class="lnk" href="arrays.html#c-3aa342fc">53</a>    (wte, wpe, lm, wq, wk, wv, wo, f1, f2) = (view(p, 0), view(p, 1), view(p, 2), view(p, 3), view(p, 4), view(p, 5), view(p, 6), view(p, 7), view(p, 8))
+<a class="lnk" href="attention.html#c-b7dcc0a7">54</a>    h(m: Array[\RR64,(ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32,ZZ32)\] = heads(m, blockSize, nHead, headDim)
+<a class="lnk" href="attention.html#c-b7dcc0a7">55</a>    u(t: Array[\RR64,(ZZ32,ZZ32,ZZ32)\]): Array[\RR64,(ZZ32,ZZ32)\] = unheads(t, nHead)
+<a class="lnk" href="arrays.html#c-f01158b7">56</a>    (* -- forward, all (doc, pos) rows at once -- *)
+<a class="lnk" href="arrays.html#c-f01158b7">57</a>    x = gather(wte, ids) + gather(wpe, pos); xp = rows(rmsn, x); x1 = rows(rmsn, xp)
+<a class="lnk" href="attention.html#c-faef52d8">58</a>    (q, k, v) = (x1 wq^T, x1 wk^T, x1 wv^T); (qh, kh, vh) = (h(q), h(k), h(v))
+<a class="lnk" href="attention.html#c-b5289a63">59</a>    a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim)); hc = u(a vh)
+<a class="lnk" href="attention.html#c-936a19c4">60</a>    x2 = xp + hc wo^T; x3 = rows(rmsn, x2); m0 = x3 f1^T; mr = 0.0 MAX m0; x4 = x2 + mr f2^T
+<a class="lnk" href="mlp-loss.html#c-ddbc374c">61</a>    pr = rows(sm, x4 lm^T); loss = -(vm DOT log(pick(pr, tg))) / nv
 <a class="lnk">62</a>    (* -- backward, one line under each forward line, bottom-up -- *)
 <a class="lnk">63</a>    dL = diag(vm / nv) (pr - onehot(tg, vocabSize)); gLM = dL^T x4; dX4 = dL lm
 <a class="lnk">64</a>    gF2 = dX4^T mr; dM0 = (dX4 f2) × (m0 &gt; 0.0); gF1 = dM0^T x3; dX3 = dM0 f1
