@@ -7,7 +7,9 @@ After the first forward line, row 4 of the matrix holds the embedding of the tok
 
 Almost every line of the forward pass treats each row by itself. A product of the form `x w^T` puts every row through the same matrix, and `rows` applies a function to every row. No number moves from one row to another.
 
-Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. This text says that position `i` reads position `j` when a vector of position `j` enters the average of position `i`. The average is weighted: each position that is read counts with a number between 0 and 1, and these numbers add up to 1. This text calls such a number an attention weight. The word is close to "weight matrix" and means a different thing. A weight matrix holds parameters, which only training changes. The attention weights are computed anew in every forward pass, from the rows themselves. This part follows that computation in four steps:
+Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. This text says that position `i` reads position `j` when a vector of position `j` enters the average of position `i`.
+
+The average is weighted: each position that is read counts with a number between 0 and 1, and these numbers add up to 1. This text calls such a number an attention weight. The word is close to "weight matrix" and means a different thing. A weight matrix holds parameters, which only training changes. The attention weights are computed anew in every forward pass, from the rows themselves. This part follows that computation in four steps:
 
 1. Three products make a query, a key and a value for every position.
 2. A product of queries and keys gives scores.
@@ -26,7 +28,7 @@ The line binds three names to three products. Each product puts every row of `x1
 
 The score that position `i` gives to position `j` is the dot product of query `i` and key `j`. A dot product is large when the two vectors have large elements with the same signs in the same places, and it is negative when the signs disagree. So a high score means: this query and that key fit.
 
-The words query, key and value describe the parts' places in the computation. They say nothing about what the numbers mean. The three matrices `wq`, `wk` and `wv` start as random numbers, and only training gives the fit a use.
+The words query, key and value describe the parts' places in the computation. They say nothing about what the numbers mean. The three matrices `wq`, `wk` and `wv` start as random numbers. What a high score between two positions is good for is decided only by training.
 
 ## Four heads
 
@@ -64,7 +66,7 @@ Both functions return views. No number is copied:
 
 @src FlatArrays.fss 82-90
 
-In line 86, `q` is the plane, `i` the row and `j` the column. `q MOD nh` is the head, and `(q MOD nh) k + j` is the column in the matrix: the head's first column plus `j`. `q DIV nh` is the document, and `(q DIV nh) p + i` is the row in the matrix. With a batch of several documents there is one plane for each pair of a document and a head. This keeps the documents apart: a position reads only positions of its own name.
+In line 86, the name `q` is the plane's number, not the model's matrix `q`. `i` is the row and `j` the column. `q MOD nh` is the head, and `(q MOD nh) k + j` is the column in the matrix: the head's first column plus `j`. `q DIV nh` is the document, and `(q DIV nh) p + i` is the row in the matrix. With a batch of several documents there is one plane for each pair of a document and a head. This keeps the documents apart: a position reads only positions of its own name.
 
 @src 58: (qh, kh, vh) = (h(q), h(k), h(v))
 
