@@ -44,6 +44,17 @@ A part is Markdown with a few additions. The build has its own small converter a
 
 Every value in the text was printed by a run under walk: the program itself, its quick check, or a probe. The probes are copies of `MicroGptFlat.fss` with print lines added, and a file of small array examples. They are scratch and are not committed; the commands and the probes' text are in the transcript of the session that wrote the walk-through.
 
+## If the reader changes
+
+The pages are written against the reader as it was on 2026-11-13 (`reader.css` and `reader.js` as in the tree of commit `2fd0d33b17`). To take a newer reader, run the build with `--reader`, then `check.js`, and read the screenshots. The pages rely on these parts of the reader:
+
+- `body` with `data-page` (`chapter`, `index`, `notes`), `data-slug` and `data-chapter`, where a part's `data-chapter` starts with its number and a full stop;
+- `nav.bar` with a link of class `notes-link`; the empty boxes `#resume` and `#chapter-notes` on a part, `#continue` on the start page;
+- `section.sec` with `data-num` and `data-title` and a heading as its first child, for the Select button and for a note's section;
+- every block that takes a note has the class `nb` and an `id`: a `p`, a heading, a `div.fx` that holds a `pre.fx-s`, a `pre.vb`, a `div.dm`, a `figure`;
+- on the notes page, the ids `export-text`, `copy-notes`, `save-notes`, `export-status`, `import-file`, `import-text`, `import-paste`, `import-status`, `notes-list` and `storage-warning`;
+- the storage keys start with `fortress-spec.`, and the export holds the address `https://palimondo.github.io/fortress/specification/` and the title "Notes on the Fortress Language Specification", which `walk.js` replaces.
+
 ## What the pages need from the reader, and add to it
 
 - The reader keeps notes and the place in the browser's storage under keys that start with `fortress-spec.`. Storage is shared by every page of the site. `walk.js` gives these pages their own keys, `fortress-microgpt.`, so their notes do not mix with the notes on the specification.

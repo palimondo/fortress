@@ -35,6 +35,15 @@ The program is in the folder [explorations/run-c4/src](src:explorations/run-c4/s
 - `FlatData.fss` reads the parameters and the corpus from text files, 125 lines.
 - `MicroGptFlatQuick.fss` is the quick check: it runs the model twice and compares the results with stored values. Part 8 reads it.
 
+To run the model under walk, from the repository's root:
+
+```text
+cd explorations/run-c4/src
+../../../bin/fortress MicroGptFlat.fss
+```
+
+It prints one line with the sizes and then five lines, one for each step of training. Part 7 shows them.
+
 A `.fss` file holds a component, which is a unit of Fortress code. Beside each component is a `.fsi` file of the same name. It holds an api: the list of the names that other components may use, with their types. The pair is like the `.h` file beside the `.m` file of an Objective-C class.
 
 The model's file starts with a comment. Fortress writes a comment between `(*` and `*)`.
