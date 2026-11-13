@@ -36,7 +36,7 @@ Karpathy's microGPT does not write a backward pass. In it, every number is an ob
 
 The comment states the plan. The backward pass takes the forward declarations in reverse order, from the loss back to the embeddings.
 
-The names follow one pattern. For a forward value such as `x4`, the backward value `dX4` has the same size, and each of its elements is a rate: the change of the loss for each unit of change of the same element of `x4`. This text calls `dX4` the gradient at `x4`. For a weight matrix such as `lm`, the gradient is named `gLM`. The nine `g` matrices are the pieces of the result.
+The names follow one pattern. For a forward value such as `x4`, the backward value `dX4` has the same size. Each of its elements is a rate: the change of the loss for each unit of change of the same element of `x4`. This text calls `dX4` the gradient at `x4`. For a weight matrix such as `lm`, the gradient is named `gLM`. The nine `g` matrices are the pieces of the result.
 
 At every forward declaration, the backward pass knows the gradient at the declared value and computes the gradient at the values that it was made from. Four rules are enough.
 
@@ -199,13 +199,13 @@ These are rule 4 for `hc wo^T`. `dX2 wo` is the gradient at `hc`. The forward pa
 `a vh` is a product, plane with plane, so rule 4 applies in every plane, with `A` as `a` and `B` as `vh`.
 
 - The gradient at `B` is `A^T dY`: `dVh = a^T dh`.
-- The gradient at `A` is `dY B^T`: `dh vh^T` is the gradient at the weights `a`.
+- The gradient at `A` is `dY B^T`: `dh vh^T` is the gradient at the attention weights `a`.
 
-The weights came from `sm`, row by row. `rows(sm_b, a, dh vh^T)` goes back through it, row by row, with the function `sm_b` below. The result is the gradient at the masked scores. The mask was added, so by rule 3 it changes nothing. The scores were divided by `SQRT (1.0 headDim)`, so by rule 1 the gradient is divided by it too. `dS` is the gradient at `qh kh^T`.
+The attention weights came from `sm`, row by row. `rows(sm_b, a, dh vh^T)` goes back through it, row by row, with the function `sm_b` below. The result is the gradient at the masked scores. The mask was added, so by rule 3 it changes nothing. The scores were divided by `SQRT (1.0 headDim)`, so by rule 1 the gradient is divided by it too. `dS` is the gradient at `qh kh^T`.
 
 @src 34
 
-`sm_b` takes `p`, a row of weights that `sm` returned, and `dy`, the gradient at those weights. It returns the gradient at the scores that `sm` was given.
+`sm_b` takes `p`, a row of attention weights that `sm` returned, and `dy`, the gradient at those attention weights. It returns the gradient at the scores that `sm` was given.
 
 $$
 \c{sm\_b}(p,\,dy)_j = p_j\,\bigl(dy_j - p \cdot dy\bigr)
@@ -214,7 +214,7 @@ $$
 - $p \cdot dy$ is `p DOT dy`, one number.
 - `dy - (p DOT dy)` subtracts that number from every element, and `×` multiplies element by element with `p`.
 
-The form comes from what `sm` does. One unit more of score `j` raises weight `j` and lowers every other weight, because the weights must still add up to 1. The check uses the three numbers of Part 3 once more. Ask for the gradient of the first probability alone: `dy` is 1, 0, 0.
+The form comes from what `sm` does. One unit more of score `j` raises attention weight `j` and lowers every other attention weight, because the attention weights must still add up to 1. The check uses the three numbers of Part 3 once more. Ask for the gradient of the first probability alone: `dy` is 1, 0, 0.
 
 ```out
 sm_b(p, [1 0 0]) (3): 0.08192506906499324 -0.022033044520174298 -0.05989202454481893
@@ -230,7 +230,7 @@ dS[0,3,:] = -8.376664044184177E-5 8.88923859449681E-5 -1.558747564367834E-5 1.04
 sum dS[0,3,:] = 2.0328790734103208E-20
 ```
 
-The positions that the mask hid have the weight 0 in `p`, so their gradient is 0. The row's sum is 0 up to rounding: raising all the scores of a row by the same amount changes no weight, as Part 3 showed.
+The positions that the mask hid have the attention weight 0 in `p`, so their gradient is 0. The row's sum is 0 up to rounding: raising all the scores of a row by the same amount changes no attention weight, as Part 3 showed.
 
 @src 67: dQh = dS kh
 @src 67: dKh = dS^T qh

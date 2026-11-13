@@ -389,7 +389,9 @@ class Part:
         if kind == 'code':
             lang, text = data
             if lang == 'out':
-                return '<pre class="vb nb out" id="%s" data-kind="output"><code>%s</code></pre>' % (self.uid('o', text), esc(text))
+                long = ' long' if len(text) > 200 else ''      # Speak skips a long box of numbers (walk.js)
+                return ('<pre class="vb nb out%s" id="%s" data-kind="output"><code>%s</code></pre>'
+                        % (long, self.uid('o', text), esc(text)))
             return ('<div class="fx nb own" id="%s" data-kind="code"><pre class="fx-s"><code>%s</code></pre></div>'
                     % (self.uid('c', text), esc(text)))
         if kind == 'src':

@@ -28,7 +28,7 @@
 <line class="ink" x1="52" y1="114" x2="52" y2="120"/>
 <rect class="soft" x="30" y="144" width="44" height="18" rx="3"/>
 <text x="52" y="157" text-anchor="middle">hc</text>
-<text x="80" y="157" class="t-body">weights times values</text>
+<text x="80" y="157" class="t-body">a times the values</text>
 <text x="234" y="157" class="muted">16 by 16</text>
 <line class="ink" x1="52" y1="138" x2="52" y2="144"/>
 <rect class="tint" x="30" y="168" width="44" height="18" rx="3"/>

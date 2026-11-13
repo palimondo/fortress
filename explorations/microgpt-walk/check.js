@@ -38,7 +38,7 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
     }
   }
   await p.emulateMedia({ colorScheme: 'light' });
-  const first = pages.find(f => !['index', 'notes', 'listing'].includes(f));
+  const first = pages.find(f => !['index', 'notes', 'listing'].includes(f) && fs.readFileSync(path.join(OUT, f + '.html'), 'utf8').includes('class="dm'));
   await p.goto(U + first + '.html');
   const gutter = await p.evaluate(() => document.querySelector('.page').getBoundingClientRect().left);
   ok(gutter === 16, 'gutter 16px: ' + gutter);
@@ -47,6 +47,17 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
   const sel = await p.evaluate(() => window.getSelection().toString());
   ok(sel.length > 200 && !/^\s*\d+\s*$/m.test(sel.split('\n')[0]), 'Select selects a section: ' + sel.length + ' characters');
   ok(!/Select|✎/.test(sel), 'the selection holds no button text');
+  // for Speak, the Select button leaves out the formulas and the long boxes of numbers
+  const withMath = await p.evaluate(() => { const d = document.querySelector('.dm'); return d ? d.closest('section.sec[data-num*="."]').getAttribute('data-num') : ''; });
+  if (withMath) {
+    await p.locator(`section.sec[data-num="${withMath}"] > h2 button.sel, section.sec[data-num="${withMath}"] > h3 button.sel`).first().click();
+    const s2 = await p.evaluate(() => window.getSelection().toString());
+    const svgText = await p.evaluate(() => document.querySelector('.dm svg').textContent.replace(/\s+/g, '').slice(0, 12));
+    ok(s2.length > 100 && !s2.replace(/\s+/g, '').includes(svgText), 'the Select button leaves a formula out of its selection (' + withMath + ')');
+    await p.evaluate(() => window.getSelection().removeAllRanges());
+    await p.waitForTimeout(100);
+    ok(await p.evaluate(() => !document.documentElement.classList.contains('speak')), 'a selection by hand can take the formula again');
+  }
   // a note on a paragraph, kept across a reload, under the walk-through's own key
   await p.locator('p.nb .addnote').first().click();
   await p.locator('.note-edit textarea').fill('a note of the check');

@@ -12,6 +12,6 @@ How the pages work:
 - A box headed "Output" shows what a run printed. Every number in this text comes from a run under walk on 13 November 2026, or from a calculation on such numbers that the text shows.
 - A box headed "A limit of today's tree" marks a line whose shape comes from a gap in today's implementation and not from the language's design. [Part 9](part:fortress) collects these boxes.
 - The page remembers where you stopped, in this browser. The pencil at the end of a paragraph, a code block, a formula or a heading attaches a note to it. [Notes](notes.html) lists the notes and exports them as text. They are kept apart from your notes on the specification.
-- The Select button beside a heading selects that section's text, for Speak.
+- The Select button beside a heading selects that section's text, for Speak. Its selection leaves out the formulas and the long boxes of numbers. The text around them says what they hold.
 
 All the examples use one document of the corpus, the name `yuheng`, so that the same numbers return from part to part.

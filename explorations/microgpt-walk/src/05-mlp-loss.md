@@ -103,7 +103,7 @@ $$
 
 The loss is the mean penalty of the rows that count. Machine-learning texts call this loss cross-entropy.
 
-The second number of the output gives a yardstick. A model that gives each of the 27 tokens the same probability has the penalty `log(27)` in every row, 3.296. The untrained model starts at 3.366, a little worse than knowing nothing. A model that gave every right answer the probability 1 would have the loss 0. Names cannot be foreseen that well, so the loss of a trained model stays well above 0.
+The second number of the output is a value to compare the loss with. A model that gives each of the 27 tokens the same probability has the penalty `log(27)` in every row, 3.296. The untrained model starts at 3.366, a little worse than knowing nothing. A model that gave every right answer the probability 1 would have the loss 0. Names cannot be foreseen that well, so the loss of a trained model stays well above 0.
 
 ## The forward pass on one page
 

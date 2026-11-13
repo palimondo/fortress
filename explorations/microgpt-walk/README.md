@@ -48,4 +48,5 @@ Every value in the text was printed by a run under walk: the program itself, its
 
 - The reader keeps notes and the place in the browser's storage under keys that start with `fortress-spec.`. Storage is shared by every page of the site. `walk.js` gives these pages their own keys, `fortress-microgpt.`, so their notes do not mix with the notes on the specification.
 - The reader writes the specification's address and title into exported notes. On the notes page, `walk.js` puts the walk-through's address and title there, and names the saved file `microgpt-walk-notes-DATE.txt`.
+- The Select button is for Speak, which reads a formula glyph by glyph and a box of numbers digit by digit. While the button's selection stands, `walk.js` and `walk.css` leave the formulas and the output boxes of more than 200 characters out of it. A selection made by hand can still take them.
 - `walk.css` adds the line numbers of quoted lines, wrapping of long code lines, the Output box, the box for a limit of today's tree, the formulas' and the drawings' colours, and the listing page.

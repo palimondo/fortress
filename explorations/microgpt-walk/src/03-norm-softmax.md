@@ -40,7 +40,7 @@ $$
 $$
 
 - $x$ is the parameter `x`, and $x_i$ is its element number $i$.
-- The sum of the $x_i^2$ over every $i$ is `x DOT x`.
+- The sum under the root adds the squares of all the elements. It is `x DOT x`.
 - $n$ is `|x|`, the number of elements.
 - $\varepsilon$ is `epsilon`. If every element of `x` were 0, the mean square would be 0, and the division would have no result. `epsilon` keeps the root above 0.
 
@@ -53,7 +53,7 @@ The parameter's type is `Array[\RR64,ZZ32\]`, a vector of any length. The librar
 @src 57: xp = rows(rmsn, x)
 @src 57: x1 = rows(rmsn, xp)
 
-`rows` belongs to the vocabulary. It takes a function and a matrix. It applies the function to each row of the matrix and puts the results together as the rows of a new matrix. In Fortress a function is a value, so the first argument is just the name `rmsn`.
+`rows` belongs to the vocabulary. It takes a function and a matrix. It applies the function to each row of the matrix and puts the results together as the rows of a new matrix. In Fortress a function is a value, so the first argument is the name `rmsn` and nothing more.
 
 @src FlatArrays.fss 142-147
 
@@ -137,7 +137,7 @@ Larger differences make the result sharper. With the scores doubled to 2, 4, 6, 
 sm(2 z) (3): 0.015876239976466765 0.11731042782619838 0.8668133321973349
 ```
 
-A very low score gets the probability 0, exactly. With a fourth score of minus 10 to the power 10:
+A score far below the others gets the probability 0, exactly. With a fourth score of minus 10 to the power 10:
 
 ```out
 sm [1 2 3 -1e10] (4): 0.09003057317038046 0.24472847105479764 0.6652409557748218 0.0
@@ -145,4 +145,4 @@ sm [1 2 3 -1e10] (4): 0.09003057317038046 0.24472847105479764 0.6652409557748218
 
 The other three probabilities are what they were without the fourth score. Part 4 uses this to hide positions from the model.
 
-The model calls `sm` in two places. In line 59 it turns attention's scores into weights. In line 61 it turns the 27 scores of each position into the 27 probabilities that are the model's answer.
+The model calls `sm` in two places. In line 59 it turns the scores of attention into the numbers that Part 4 calls attention weights. In line 61 it turns the 27 scores of each position into the 27 probabilities that are the model's answer.

@@ -1,5 +1,5 @@
 # Attention
-> The one place where a position reads other positions. Every position makes a query, a key and a value; a query scores every key; softmax turns the scores into weights; the weights mix the values. With one real row of weights.
+> The one place where a position reads other positions. Every position makes a query, a key and a value; a query scores every key; softmax turns the scores into attention weights; these mix the values. With one real row of attention weights.
 
 ## What attention is for
 
@@ -7,7 +7,12 @@ After the first forward line, row 4 of the matrix holds the embedding of the tok
 
 Almost every line of the forward pass treats each row by itself. A product of the form `x w^T` puts every row through the same matrix, and `rows` applies a function to every row. No number moves from one row to another.
 
-Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. The average is weighted, and the model computes the weights from the rows themselves. This part follows that computation in four steps: three products make a query, a key and a value for every position; a product of queries and keys gives scores; `sm` turns the scores into weights; a product of weights and values gives the averages.
+Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. The average is weighted: each position that is read counts with a number between 0 and 1, and these numbers add up to 1. This text calls such a number an attention weight. The word is close to "weight matrix" and means a different thing. A weight matrix holds parameters, which only training changes. The attention weights are computed anew in every forward pass, from the rows themselves. This part follows that computation in four steps:
+
+1. Three products make a query, a key and a value for every position.
+2. A product of queries and keys gives scores.
+3. `sm` turns the scores into attention weights.
+4. A product of attention weights and values gives the averages.
 
 ## Query, key and value
 
@@ -16,7 +21,7 @@ Attention is the exception. In it, each position computes an average of vectors 
 The line binds three names to three products. Each product puts every row of `x1` through one weight matrix, as Part 2 showed. So `q`, `k` and `v` are matrices of 16 by 16, with one row for each position.
 
 - Row `i` of `q` is the query of position `i`. The model uses it when position `i` reads.
-- Row `j` of `k` is the key of position `j`. The model uses it when another position decides how much to read from position `j`.
+- Row `j` of `k` is the key of position `j`. The model uses it when another position decides how much to read from position `j`. This key is a vector of floats. It has nothing to do with the keys of Part 1, the integers that look rows up in a table.
 - Row `j` of `v` is the value of position `j`. It is what position `j` hands over when it is read.
 
 The score that position `i` gives to position `j` is the dot product of query `i` and key `j`. A dot product is large when the two vectors have large elements with the same signs in the same places, and it is negative when the signs disagree. So a high score means: this query and that key fit.
@@ -27,7 +32,7 @@ The words query, key and value describe the parts' places in the computation. Th
 
 The model does not use the 16 numbers of a query as one vector. It cuts every query, key and value into four pieces of four numbers: columns 0 to 3, columns 4 to 7, columns 8 to 11, columns 12 to 15. Piece number 0 of the queries works only with piece number 0 of the keys and of the values, and so on. Each of the four is called a head. A head is a complete attention computation on vectors of four numbers. That is the meaning of the constants `nHead`, 4, and `headDim`, 4.
 
-One head gives each position one set of weights. Four heads give it four, so the model can read the earlier positions in four ways at once.
+One head gives each position one set of attention weights. Four heads give it four, so the model can read the earlier positions in four ways at once.
 
 @src 54-55
 
@@ -93,7 +98,7 @@ Line 131 is the work: for each plane `p`, the product of plane `p` of `x` and pl
 The library declares products for vectors and matrices only. A product of rank-3 arrays, plane with plane, is what this model needs, so the vocabulary writes it as a loop over the planes. By your ruling, what a program builds that a fuller library would hold belongs in the library; this operator has not moved there.
 !!!
 
-In each plane, a matrix of 16 by 4 meets a matrix of 4 by 16, and the result is 16 by 16. By the rule of Part 2, its element in row `i` and column `j` is row `i` of the plane of `qh` with row `j` of the plane of `kh`: the dot product of query `i` and key `j`. So plane 0 of `qh kh^T` holds every score of head 0: 16 positions that read, times 16 positions that can be read.
+In each plane, a matrix of 16 by 4 meets a matrix of 4 by 16, and the result is 16 by 16. Take its element in row `i` and column `j`. By the rule of Part 2, it is row `i` of the plane of `qh` with row `j` of the plane of `kh`. That is the dot product of query `i` and key `j`. So plane 0 of `qh kh^T` holds every score of head 0: 16 positions that read, times 16 positions that can be read.
 
 `/ SQRT (1.0 headDim)` divides every score by 2, the square root of 4. A dot product of vectors of 4 numbers adds 4 terms, and with longer vectors it would add more and grow. The division by the root of the length keeps the scores in the same range for any `headDim`. Part 3 showed why the range matters: larger scores make softmax sharper. `1.0 headDim` is the float 4.0. Walk also accepts `SQRT headDim` and prints 2.0 for it; the line writes the conversion out.
 
@@ -145,11 +150,11 @@ In line 59, `mask + ...` adds this matrix to every plane of the scores. A matrix
 masked[0,3,:] = -0.08175008584960282 0.10605658054206196 -0.13388403927731538 0.07289125011412394 -1.0000000000003387E10 -1.0000000000034449E10
 ```
 
-Part 3 showed what softmax does with such a score: it gives it the weight 0, exactly, and leaves the other weights as if the score were not there.
+Part 3 showed what softmax does with such a score: its result for that score is 0, exactly, and its other results are as if the score were not there.
 
 Karpathy's program has no mask. It feeds the model one position at a time and keeps the keys and values of the earlier positions in a list. A later position does not exist yet when an earlier one is computed. The flat program computes all 16 positions at once, so it needs the mask to get the same result.
 
-## The weights
+## The attention weights
 
 `rows(sm, ...)` applies `sm` to every row of every plane. This is the same `rows` as in Part 3, declared a third time for a rank-3 array ([FlatArrays.fss, lines 154 to 159](src:explorations/run-c4/src/FlatArrays.fss#L154)). The result `a` has the size of the scores: 4 planes of 16 by 16. Its elements are the attention weights.
 
@@ -160,7 +165,7 @@ a[0,3,:] = 0.23131863930590738 0.2791091202495081 0.219568047869288 0.2700041925
 sum a[0,3,:] = 1.0
 ```
 
-Position 3 holds the token `h`. In head 0 it reads position 0, the mark, with the weight 0.231; position 1, `y`, with 0.279; position 2, `u`, with 0.220; and itself with 0.270. The twelve later positions have the weight 0. The four weights are close to a quarter each, because the parameters are still the random starting values and the scores are all near 0.
+Position 3 holds the token `h`. In head 0 it reads position 0, the mark, with the attention weight 0.231; position 1, `y`, with 0.279; position 2, `u`, with 0.220; and itself with 0.270. The twelve later positions have the attention weight 0. The sixteen attention weights add up to 1.0. The four that are not 0 are close to a quarter each, because the parameters are still the random starting values and the scores are all near 0.
 
 The starts of two more rows from the same run:
 
@@ -170,7 +175,7 @@ a[2,5,:] = 0.14687047939195907 0.16983380191478548 0.16704614331867995 0.1519876
 sum a[2,5,:] = 1.0
 ```
 
-Position 0 can read only itself, so its one weight is 1. Position 5 in head 2 spreads its weight over positions 0 to 5.
+Position 0 can read only itself, so its one attention weight is 1. Position 5 in head 2 spreads its attention weight over positions 0 to 5.
 
 $$
 \begin{aligned}
@@ -182,13 +187,15 @@ $$
 - $s_{ij}$ is the masked score that position $i$ gives to position $j$, in one head. $s_i$ is the row of the 16 scores of position $i$.
 - $q_i$ is row $i$ of that head's plane of `qh`, and $k_j$ is row $j$ of its plane of `kh`. The dot between them is the dot product.
 - $d$ is `headDim`, 4.
-- $a_{ij}$ is `a[head, i, j]`: the weight with which position $i$ reads position $j$. It is element $j$ of `sm` applied to the row $s_i$.
+- $a_{ij}$ is `a[head, i, j]`: the attention weight with which position $i$ reads position $j$. It is element $j$ of `sm` applied to the row $s_i$.
 
 ## Mixing the values
 
 @src 59: hc = u(a vh)
 
-`a vh` is again the product plane with plane. In each plane, the 16 by 16 matrix of weights meets the 16 by 4 matrix of values, and the result is 16 by 4. Row `i` of the result is the sum, over every position `j`, of the weight `a[i, j]` times the value of position `j`. The weights of a row add up to 1, so this is a weighted average of the values.
+`a vh` is again the product plane with plane. In each plane, the 16 by 16 matrix of attention weights meets the 16 by 4 matrix of values, and the result is 16 by 4. Row `i` of the result is the sum, over every position `j`, of the attention weight `a[i, j]` times the value of position `j`. The attention weights of a row add up to 1, so this is a weighted average of the values.
+
+The average does not know the order of the positions that it mixes: it only adds. What tells the positions apart is the position's embedding, which the first forward line added to every row. Through it, a query can fit the key of a near position better than the key of a far one.
 
 A run printed the values of positions 0 to 3 in head 0, and the result for position 3:
 
@@ -200,7 +207,7 @@ vh[0,3,:] = -0.14966874577363545 0.24185291648488746 0.36048938146221055 0.65555
 (a vh)[0,3,:] = -0.26264079565384846 -0.09083065284086174 0.1298847285979956 0.2674161546393012
 ```
 
-The first number of the result, by hand, from the four weights and the first numbers of the four values:
+The first number of the result, by hand, from the four attention weights and the first numbers of the four values:
 
 - 0.2313 times -0.2006 is -0.0464.
 - 0.2791 times -0.3959 is -0.1105.

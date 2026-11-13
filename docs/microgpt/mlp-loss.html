@@ -30,7 +30,7 @@
 <li><p id="p-faa6bc7a" class="nb"><code>x4</code> puts every row of <code>mr</code> through <code>f2</code>, a matrix of 16 by 64, which brings it back to 16 numbers. Then it adds the result to <code>x2</code>. This is the second residual connection: the block's result is added to the block's input.</p></li>
 </ul>
 <p id="p-42d085e0" class="nb">A run printed the sizes, how many of the 1,024 numbers of <code>m0</code> are positive, and the first six numbers of row 1 before and after <code>MAX</code>:</p>
-<pre class="vb nb out" id="o-83843d2c" data-kind="output"><code>sizes x2 (16,16) m0 (16,64) mr (16,64) x4 (16,16)
+<pre class="vb nb out long" id="o-83843d2c" data-kind="output"><code>sizes x2 (16,16) m0 (16,64) mr (16,64) x4 (16,16)
 m0 positive count 466 of 1024
 m0[1,0..5] = 0.4039325142253399 -0.5951570653200444 0.0782116940127397 -0.13886643064580534 0.16013754453254497 0.01747112558184824
 mr[1,0..5] = 0.4039325142253399 0.0 0.0782116940127397 0.0 0.16013754453254497 0.01747112558184824</code></pre>
@@ -43,7 +43,7 @@ mr[1,0..5] = 0.4039325142253399 0.0 0.0782116940127397 0.0 0.16013754453254497 0
 <p id="p-fa0897ba" class="nb"><code>x4 lm^T</code> puts every row of <code>x4</code> through <code>lm</code>, the matrix of 27 by 16. Each position now has 27 numbers, one for each token. They are scores: any size, any sign. Machine-learning texts call such scores logits.</p>
 <p id="p-11a58ebd" class="nb"><code>rows(sm, ...)</code> turns each row of scores into probabilities, as Part 3 showed. <code>pr</code> is a matrix of 16 by 27. Its element in row <code>r</code> and column <code>t</code> is the model's probability that the token <code>t</code> comes next after position <code>r</code>. This matrix is the model's answer.</p>
 <p id="p-38c11b3d" class="nb">For row 0, where the model has read only the mark, a run printed the 27 scores, the 27 probabilities and their sum:</p>
-<pre class="vb nb out" id="o-533b66b8" data-kind="output"><code>logits[0,:] = 0.004672150870404096 0.23893370562835142 0.54273938074588 -0.47743749413539854 0.3506727149458196 -0.00748917592317001 -0.07539966591725165 0.17804521053652556 0.03749227900355961 0.43885563636769087 0.45944460664209064 0.38395621169312166 -0.3505202376471033 0.08480164237680175 0.6743234081198666 -0.09427786135225502 0.022368188896042654 -0.5364918679753164 0.5516588833653321 -0.06448593156812074 0.30599851245840715 -0.15184283111504923 -0.06835113212479514 0.3685106199964408 -0.16789102800718136 0.47675347918273325 0.0372628450359727
+<pre class="vb nb out long" id="o-533b66b8" data-kind="output"><code>logits[0,:] = 0.004672150870404096 0.23893370562835142 0.54273938074588 -0.47743749413539854 0.3506727149458196 -0.00748917592317001 -0.07539966591725165 0.17804521053652556 0.03749227900355961 0.43885563636769087 0.45944460664209064 0.38395621169312166 -0.3505202376471033 0.08480164237680175 0.6743234081198666 -0.09427786135225502 0.022368188896042654 -0.5364918679753164 0.5516588833653321 -0.06448593156812074 0.30599851245840715 -0.15184283111504923 -0.06835113212479514 0.3685106199964408 -0.16789102800718136 0.47675347918273325 0.0372628450359727
 pr[0,:] = 0.03156561234767023 0.03989814637170121 0.05406221651821286 0.019491113937640234 0.04461494422826998 0.031184057430077232 0.029136640166798254 0.03754128913510591 0.032618787933432834 0.04872790172411539 0.049741558309249846 0.04612487406375373 0.022128711377271702 0.03419904783898089 0.06166518866069535 0.02859175241063206 0.03212917028903099 0.01837340598762871 0.05454658153634847 0.02945637127400787 0.042665672440197096 0.02699234559212658 0.029342736243926183 0.04541792179448082 0.02656262446278745 0.050610022991898776 0.03261130493395935
 sum pr[0,:] = 1.0</code></pre>
 <ul>
@@ -62,10 +62,10 @@ sum pr[0,:] = 1.0</code></pre>
 <p id="p-76a52d73" class="nb">A small case, with the 3 by 2 matrix <code>x</code> of Part 2, whose rows are 5, 6 and 1, 0 and 0, 1, and the keys 1, 0, 1:</p>
 <pre class="vb nb out" id="o-a048cd9c" data-kind="output"><code>pick(x, [1 0 1]) (3): 6.0 1.0 1.0</code></pre>
 <p id="p-93828574" class="nb">In the step, a run printed:</p>
-<pre class="vb nb out" id="o-1f660b85" data-kind="output"><code>pick(pr,tg) = 0.02656262446278745 0.04017214587408415 0.028414895439496417 0.028956162103254975 0.04622320937199633 0.039261608101615705 0.03672337977848549 0.0349450358489196 0.024151667584315476 0.029294432906131603 0.03222500877833893 0.024508992299195932 0.02184420601149411 0.029300476079837403 0.03684945998367594 0.02893787421043008</code></pre>
+<pre class="vb nb out long" id="o-1f660b85" data-kind="output"><code>pick(pr,tg) = 0.02656262446278745 0.04017214587408415 0.028414895439496417 0.028956162103254975 0.04622320937199633 0.039261608101615705 0.03672337977848549 0.0349450358489196 0.024151667584315476 0.029294432906131603 0.03222500877833893 0.024508992299195932 0.02184420601149411 0.029300476079837403 0.03684945998367594 0.02893787421043008</code></pre>
 <p id="p-bb4e7285" class="nb">The first number is the 0.0266 for <code>y</code> in row 0. The first seven numbers belong to the seven questions of <code>yuheng</code>. The last nine belong to rows that do not count.</p>
 <p id="p-830fcc93" class="nb"><code>log</code> is the natural logarithm, the reverse of <code>exp</code>: <code>log(exp(t))</code> is <code>t</code>. The logarithm of 1 is 0. The logarithm of a number between 0 and 1 is negative, and the smaller the number, the further below 0. The vocabulary declares <code>log</code> for arrays, element by element. The run printed the logarithms with the sign changed:</p>
-<pre class="vb nb out" id="o-3833c759" data-kind="output"><code>-log pick = 3.6282501466505988 3.214581412219856 3.5608417840041575 3.5419722443055854 3.0742732396794525 3.237508130666618 3.3043416755676898 3.3539788561866484 3.723401850157102 3.5303577842157106 3.4350124577491985 3.708715196151209 3.823819563703278 3.530151514632506 3.3009143148998694 3.5426040155413685</code></pre>
+<pre class="vb nb out long" id="o-3833c759" data-kind="output"><code>-log pick = 3.6282501466505988 3.214581412219856 3.5608417840041575 3.5419722443055854 3.0742732396794525 3.237508130666618 3.3043416755676898 3.3539788561866484 3.723401850157102 3.5303577842157106 3.4350124577491985 3.708715196151209 3.823819563703278 3.530151514632506 3.3009143148998694 3.5426040155413685</code></pre>
 <p id="p-541f56f9" class="nb">So each row gets a penalty: minus the logarithm of the probability that it gave to the right answer. A probability of 1 gives the penalty 0. A probability of one half gives 0.69. The 0.0266 for <code>y</code> gives 3.63.</p>
 <p id="p-6b08792a" class="nb"><code>vm DOT ...</code> is the dot product with the vector of ones and zeros from Part 1. It adds the values of the seven rows that count and leaves the other nine out:</p>
 <ul>
@@ -116,7 +116,7 @@ text.q8a56df4debf6 {font-family:q8a56df4deb-cmex10;font-size:9.96264px}
 <li><p id="p-ba24e908" class="nb">The sum over <span class="m"><i>r</i></span> of a product is the dot product, <code>DOT</code>.</p></li>
 </ul>
 <p id="p-fb5cdd3e" class="nb">The loss is the mean penalty of the rows that count. Machine-learning texts call this loss cross-entropy.</p>
-<p id="p-d283508b" class="nb">The second number of the output gives a yardstick. A model that gives each of the 27 tokens the same probability has the penalty <code>log(27)</code> in every row, 3.296. The untrained model starts at 3.366, a little worse than knowing nothing. A model that gave every right answer the probability 1 would have the loss 0. Names cannot be foreseen that well, so the loss of a trained model stays well above 0.</p>
+<p id="p-d87f9087" class="nb">The second number of the output is a value to compare the loss with. A model that gives each of the 27 tokens the same probability has the penalty <code>log(27)</code> in every row, 3.296. The untrained model starts at 3.366, a little worse than knowing nothing. A model that gave every right answer the probability 1 would have the loss 0. Names cannot be foreseen that well, so the loss of a trained model stays well above 0.</p>
 </section>
 <section class="sec" data-num="5.4" data-title="The forward pass on one page">
 <h2 id="s-the-forward-pass-on-one-page" class="nb"><span class="num">5.4</span> The forward pass on one page</h2>
@@ -150,7 +150,7 @@ text.q8a56df4debf6 {font-family:q8a56df4deb-cmex10;font-size:9.96264px}
 <line class="ink" x1="52" y1="114" x2="52" y2="120"/>
 <rect class="soft" x="30" y="144" width="44" height="18" rx="3"/>
 <text x="52" y="157" text-anchor="middle">hc</text>
-<text x="80" y="157" class="t-body">weights times values</text>
+<text x="80" y="157" class="t-body">a times the values</text>
 <text x="234" y="157" class="muted">16 by 16</text>
 <line class="ink" x1="52" y1="138" x2="52" y2="144"/>
 <rect class="tint" x="30" y="168" width="44" height="18" rx="3"/>

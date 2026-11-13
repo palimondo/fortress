@@ -22,7 +22,7 @@ Take the name `yuheng`. It gives the model seven questions:
 - After `yu`? `h`. After `yuh`? `e`. After `yuhe`? `n`. After `yuhen`? `g`.
 - After `yuheng`? The right answer is the mark: the name ends here.
 
-The model has 4,192 numbers that decide its answers. They are its parameters. Training changes the parameters, a little at each step, so that the right answers get higher probabilities. One number says how wrong the answers are: the loss. Part 5 defines it. A step of training lowers the loss on the name that the step saw.
+The model has 4,192 numbers that decide its answers. They are its parameters. Training changes the parameters, a little at each step, so that the right answers get higher probabilities. One number says how wrong the answers are: the loss. Part 5 defines it. A step of training aims at a lower loss on the name that the step saw, and Part 7 shows one.
 
 That is the whole task. A GPT is a function from a sequence of tokens to a probability for each possible next token, and a rule for changing its parameters. Karpathy's microGPT writes the function and the rule in Python, on single numbers. The flat program writes the same function and the same rule on whole arrays.
 

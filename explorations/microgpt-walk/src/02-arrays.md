@@ -74,7 +74,7 @@ n m (2 x 2):
     1.0 2.0
 ```
 
-`m n` is `m` with its columns swapped. `n m` is `m` with its rows swapped. The rule for two matrices is the rule above, used many times: the element in row `i` and column `j` of the product is the dot product of row `i` of the left matrix and column `j` of the right matrix.
+`m n` is `m` with its columns swapped. `n m` is `m` with its rows swapped. The rule for two matrices is the rule above, used many times. Take row `i` of the left matrix and column `j` of the right matrix. Their dot product is the element of the product in row `i` and column `j`.
 
 $$
 (A\,B)_{ij} = \sum_{k} A_{ik}\,B_{kj}
@@ -225,7 +225,7 @@ f after view[0,0] := 99 (6): 1.0 2.0 99.0 30.0 5.0 6.0
 ```
 
 !!! limit
-`reflect` runs only under walk today. Compiled programs cannot link its component, `NatReflect`, yet. Once they can, a compiled call of this form still fails when the JVM verifies the class (the gap ledger's row 307). So the views are a part of the program that the compiled path cannot run as written.
+`reflect` runs only under walk today. A size made from a number that is known only at run time does not run on the compiled path (the gap ledger's row 307). So the views are a part of the program that the compiled path cannot run as written.
 !!!
 
 Inside the step, one line makes all nine views:

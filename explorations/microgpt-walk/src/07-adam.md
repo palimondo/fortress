@@ -165,3 +165,9 @@ The whole step on `yuheng`, in the numbers of this text:
 3. The backward pass. It computes 4,192 rates, one for each parameter. 464 of them are 0: the parameters that this name did not use.
 4. Adam. Each of the other 3,728 parameters moves against the sign of its rate. In the first step the move is 0.01, or a little less where the rate is within a few powers of ten of `epsilon_A`.
 5. With the new parameters, the loss on the same name is 2.951.
+
+## What the program leaves out
+
+- It never makes a name. Karpathy's program ends with a loop that does: it gives the model the mark, draws a token by the probabilities of that position, appends the token, and repeats until the model answers with the mark. The flat program stops after training. Its `pr` holds the probabilities that such a loop would draw from.
+- It runs five steps, where the learning rate's schedule is made for 1,000. The five steps are enough to compare the program's numbers with the stored values, which is the program's use today.
+- Its batch is one document. The step itself takes a batch of any size: every matrix then has 16 rows for each document, and the planes of attention keep the documents apart.

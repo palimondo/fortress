@@ -49,3 +49,7 @@ pre.listing a.lnk { color: var(--muted); text-decoration: none; display: inline-
 pre.listing a.lnk:hover, pre.listing a.lnk:focus-visible { color: var(--accent); }
 
 ul.chapters .lead { display: block; color: var(--muted); font-size: .88rem; font-weight: 400; margin-left: 2.2em; }
+
+/* While the Select button's selection stands, the formulas and the long boxes of numbers are left out of it,
+   so that Speak reads the text and not the digits. walk.js sets and clears the class. */
+html.speak .dm svg, html.speak pre.vb.out.long { -webkit-user-select: none; user-select: none; }

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>9. The program as Fortress: where today's tree shapes it · microGPT in Fortress</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="walk.css">
+</head>
+<body data-page="chapter" data-slug="fortress" data-chapter="9. The program as Fortress: where today&#x27;s tree shapes it">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">9. The program as Fortress: where today's tree shapes it</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">microGPT in Fortress, line by line</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="9" data-title="The program as Fortress: where today&#x27;s tree shapes it">
+<h1 id="top" class="nb"><span class="num">Part 9</span> The program as Fortress: where today's tree shapes it</h1>
+<p class="standfirst">The lines whose form comes from a gap in today's implementation, in one list, each with its place in this text. Then what the vocabulary builds that the library lacks, what only walk can run, and what looks odd but is the language.</p>
+<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-in-the-model-s-file">9.1 In the model's file</a></li><li><a href="#s-in-the-vocabulary-and-the-loader">9.2 In the vocabulary and the loader</a></li><li><a href="#s-what-only-walk-runs">9.3 What only walk runs</a></li><li><a href="#s-what-looks-odd-and-is-the-language">9.4 What looks odd and is the language</a></li></ol></nav>
+<section class="sec" data-num="9.1" data-title="In the model&#x27;s file">
+<h2 id="s-in-the-model-s-file" class="nb"><span class="num">9.1</span> In the model's file</h2>
+<p id="p-ef357fb1" class="nb">Six places in <code>MicroGptFlat.fss</code> have a form that a gap of today's tree forces. Each is marked where this text reads the line.</p>
+<ol>
+<li><p id="p-c1029d5b" class="nb">Lines 21 to 24 declare the postfix operator <code>^T</code> in the model. It belongs in the vocabulary. The parser refuses this declaration in an api (the gap ledger's row 133). <a href="arrays.html#s-the-transpose-and-lines-21-to-24">Part 2, the transpose</a>.</p></li>
+<li><p id="p-45eaeafc" class="nb">Every array type of the model is <code>Array[\RR64,ZZ32\]</code> or its like, without a size. The library's <code>Vector</code> and <code>Matrix</code> carry their sizes in the type. Under walk, a function with a size parameter cannot be passed as an argument (row 156), and the model passes <code>rmsn</code>, <code>sm</code>, <code>rmsn_b</code> and <code>sm_b</code> to <code>rows</code>. Types with sizes for the model are your open decision D. <a href="task.html#s-the-first-line-of-the-step-the-keys">Part 1, the step's header</a> and <a href="norm-softmax.html#s-rmsn-bring-a-row-to-a-standard-size">Part 3, rmsn</a>.</p></li>
+<li><p id="p-39d68a53" class="nb">Lines 37 to 41 write the layout table as two functions with <code>if</code> chains. Walk refuses a typed array literal at the top level (row 142). <a href="arrays.html#s-one-vector-of-parameters-nine-matrices">Part 2, the nine matrices</a>.</p></li>
+<li><p id="p-c41c930f" class="nb">Line 43 writes <code>[\ZZ32\]</code> after <code>SUM</code>. Walk finds the type; the compiled path's checker does not (row 731). The same part of Part 2.</p></li>
+<li><p id="p-0cb56498" class="nb">Line 70 writes <code>transpose(...)</code> where lines 63 to 68 write <code>^T</code>. A call cannot be followed by <code>^T</code> (rows 144 and 158). <a href="backward.html#s-back-to-the-two-tables">Part 6, the two tables</a>.</p></li>
+<li><p id="p-f43b06ae" class="nb">Lines 88 to 90 write the type of each mutable variable. The parser's checks refuse <code>var p = ...</code> without one (row 177). <a href="adam.html#s-the-training-loop">Part 7, the training loop</a>.</p></li>
+</ol>
+<p id="p-cca783ec" class="nb">Two smaller things are not forced by anything:</p>
+<ul>
+<li><p id="p-7e3adba6" class="nb">Line 14 imports <code>System</code>, and the file uses no name of it.</p></li>
+<li><p id="p-b2b3e11a" class="nb">Lines 59 and 66 write <code>SQRT (1.0 headDim)</code>. Walk gives 2.0 for <code>SQRT headDim</code> as well.</p></li>
+</ul>
+</section>
+<section class="sec" data-num="9.2" data-title="In the vocabulary and the loader">
+<h2 id="s-in-the-vocabulary-and-the-loader" class="nb"><span class="num">9.2</span> In the vocabulary and the loader</h2>
+<p id="p-6d7c3e81" class="nb">The model's lines read as they do because <code>FlatArrays.fss</code> supplies what the library does not. By your rulings, the model's text is the notation, the vocabulary is repaired around it, and what a fuller library would hold moves into the library. Here is what the vocabulary still builds itself.</p>
+<ul>
+<li><p id="p-86813c3f" class="nb">The operators on whole arrays: <code>×</code> and <code>/</code> between two arrays, <code>/</code> and <code>&gt;</code> between an array and a number, and <code>SQRT</code>, <code>exp</code> and <code>log</code> of an array (<a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L25">FlatArrays.fss, lines 25 to 32</a>). The library has <code>+</code>, <code>-</code>, <code>MIN</code> and <code>MAX</code> between an array and a number, and <code>+</code> and <code>-</code> between two vectors or two matrices. It also has the product of two vectors element by element, as a function named <code>pmul</code> and not as an operator.</p></li>
+<li><p id="p-80506d40" class="nb"><code>rows</code>, in four forms. Each is a <code>for</code> loop over the rows that writes through a view of a row. The library has no operation "apply this function to every row".</p></li>
+<li><p id="p-689b3373" class="nb">Everything for rank-3 arrays: the product plane with plane, a matrix plus every plane, the transpose of every plane, and the views <code>heads</code>, <code>unheads</code> and <code>plane</code>. The library's algebra stops at matrices.</p></li>
+<li><p id="p-bd42fc4e" class="nb">The views take their sizes at run time, through <code>reflect</code>. That runs only under walk (row 307). <a href="arrays.html#s-one-vector-of-parameters-nine-matrices">Part 2</a>.</p></li>
+<li><p id="p-b42e7921" class="nb"><code>transpose</code> is a function, and <code>^T</code> cannot stand beside it in the api (row 133).</p></li>
+<li><p id="p-2c80e032" class="nb"><code>flat</code> is two nested loops with a running offset.</p></li>
+</ul>
+<p id="p-d03c3340" class="nb"><code>Diag</code> is different. A diagonal matrix with its own product is what the type system offers, and by your ruling it stays as it is.</p>
+<p id="p-dad1f3d7" class="nb">In <code>FlatData.fss</code>:</p>
+<ul>
+<li><p id="p-17215229" class="nb"><code>parseFloat</code> exists because the library's <code>strToFloat</code> gives wrong results (row 140).</p></li>
+<li><p id="p-3bc875e3" class="nb"><code>parseRow</code> scans a line character by character, because the library's <code>split</code> does not cut a string at spaces (row 141).</p></li>
+<li><p id="p-fbab8e7f" class="nb"><code>readLines</code> reads the file twice: once to count the lines, once to fill an array of that size.</p></li>
+</ul>
+</section>
+<section class="sec" data-num="9.3" data-title="What only walk runs">
+<h2 id="s-what-only-walk-runs" class="nb"><span class="num">9.3</span> What only walk runs</h2>
+<p id="p-b355bbea" class="nb">The whole program runs only under walk today. The project's goal is the same program compiled to bytecode and running fast, and the record tracks what stands between. Of the things in this text, the views are one such thing: their sizes come from <code>reflect</code>.</p>
+<p id="p-b1f2b452" class="nb">Under walk there is no static type check. A program with a type error runs until the wrong value meets an operation that has no declaration for it. The error message in Part 7, "Failed to find any matching overload", is of this kind: it came at run time, from the product of a float and a fraction.</p>
+</section>
+<section class="sec" data-num="9.4" data-title="What looks odd and is the language">
+<h2 id="s-what-looks-odd-and-is-the-language" class="nb"><span class="num">9.4</span> What looks odd and is the language</h2>
+<p id="p-5b572909" class="nb">These forms are not gaps. They are how Fortress is designed, or how the revival has settled it.</p>
+<ul>
+<li><p id="p-f83644db" class="nb"><code>(1.0 s) / nSteps</code> in line 82. Division of two integers gives an exact fraction, so a float must come in first.</p></li>
+<li><p id="p-d1ddb6e2" class="nb"><code>seq(...)</code> around a range, in lines 91 and in the loaders. A loop is parallel unless its ranges say otherwise.</p></li>
+<li><p id="p-b4c231ca" class="nb">Juxtaposition. <code>beta1 m</code>, <code>x1 wq^T</code>, <code>4 nEmbd</code>, <code>r c</code> and the arguments of <code>println</code> are all the same operator, with a meaning chosen by the types.</p></li>
+<li><p id="p-0987b985" class="nb">The bars. <code>|x|</code> is the size of an array and the absolute value of a number.</p></li>
+<li><p id="p-fcd37a15" class="nb"><code>DOT</code>, <code>SQRT</code> and <code>SUM</code> in capitals. They are the ASCII names of the signs ·, √ and ∑. The source may hold a sign itself: the model writes <code>×</code>, and in a run <code>v · v</code> printed 61.0 and <code>√ 4.0</code> printed 2.0. The sign ∑ is the exception today. The parser takes it as a prefix operator and not as a big operator, so only the name <code>SUM</code> works (the gap ledger's row 5).</p></li>
+<li><p id="p-9c75406d" class="nb">The tuple bindings of lines 17 to 19, 53, 58, 67 and 68. Your ruling keeps this form for the constants.</p></li>
+<li><p id="p-20cca272" class="nb">The hand-written backward pass. It follows from the layout: the program holds plain arrays of floats, with no objects that could record how a number was made.</p></li>
+</ul>
+</section>
+</section>
+<nav class="pager" aria-label="Parts"><a class="prev" href="check.html"><span>Previous</span> 8. The quick check</a><span></span></nav>
+<footer class="colophon">Built from <code>explorations/microgpt-walk/src/09-fortress.md</code> of the revival's repository. The quoted lines are those of <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss">MicroGptFlat.fss</a> and the components beside it, as the build found them.</footer>
+</div>
+<script src="walk.js"></script>
+<script src="reader.js"></script>
+</body>
+</html>

@@ -4,7 +4,8 @@
       shared by every page of the site, so these pages keep theirs under "fortress-microgpt.",
       apart from the notes on the specification.
    2. The reader writes its own address and title into the exported notes. On the notes page, this
-      file puts the walk-through's address and title there, and names the saved file after it. */
+      file puts the walk-through's address and title there, and names the saved file after it.
+   3. The Select button's selection leaves out the formulas and the long boxes of numbers (below). */
 (function () {
   'use strict';
   var FROM = 'fortress-spec.', TO = 'fortress-microgpt.';
@@ -21,6 +22,18 @@
       P.__walkKeys = true;
     }
   } catch (e) { /* the pages work without storage */ }
+
+  /* 3. The Select button is for Speak. While its selection stands, the formulas and the long boxes of
+        numbers are left out of it (walk.css, html.speak): Speak would read them glyph by glyph and digit by
+        digit. A selection made by hand can still take them. */
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (t && t.classList && t.classList.contains('sel')) document.documentElement.classList.add('speak');
+  }, true);
+  document.addEventListener('selectionchange', function () {
+    var s = window.getSelection && window.getSelection();
+    if (!s || s.isCollapsed) document.documentElement.classList.remove('speak');
+  });
 
   function fixExport() {
     var out = document.getElementById('export-text');

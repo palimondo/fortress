@@ -18,7 +18,7 @@
 <section class="sec chapter" data-num="7" data-title="Adam and the training loop">
 <h1 id="top" class="nb"><span class="num">Part 7</span> Adam and the training loop</h1>
 <p class="standfirst">How the gradient changes the parameters: the plain rule first, then Adam's three lines with the real numbers of one parameter, the learning rate, the loop, and the loss of one name before and after one step.</p>
-<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-the-plain-rule-first">7.1 The plain rule first</a></li><li><a href="#s-adam">7.2 Adam</a></li><li><a href="#s-the-learning-rate">7.3 The learning rate</a></li><li><a href="#s-the-training-loop">7.4 The training loop</a></li><li><a href="#s-what-one-step-does-to-the-numbers">7.5 What one step does to the numbers</a></li></ol></nav>
+<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-the-plain-rule-first">7.1 The plain rule first</a></li><li><a href="#s-adam">7.2 Adam</a></li><li><a href="#s-the-learning-rate">7.3 The learning rate</a></li><li><a href="#s-the-training-loop">7.4 The training loop</a></li><li><a href="#s-what-one-step-does-to-the-numbers">7.5 What one step does to the numbers</a></li><li><a href="#s-what-the-program-leaves-out">7.6 What the program leaves out</a></li></ol></nav>
 <section class="sec" data-num="7.1" data-title="The plain rule first">
 <h2 id="s-the-plain-rule-first" class="nb"><span class="num">7.1</span> The plain rule first</h2>
 <p id="p-7eabae9d" class="nb">The gradient says, for each parameter, which way the loss goes when the parameter goes up. Training moves each parameter the other way. The plainest rule takes the same small fraction of every gradient entry:</p>
@@ -163,7 +163,7 @@ text.q176e823945f7 {font-family:q176e823945-cmex10;font-size:9.96264px}
 <li><p id="p-8871a219" class="nb">Their quotient is -1. The move is <code>lr</code> times -1, and <code>lr</code> is 0.01 in the first step. Subtracting it raises the parameter by 0.01: from 0.0626 to 0.0726.</p></li>
 </ul>
 <p id="p-1537bb6f" class="nb">So in the first step, the size of the entry cancels out. Only its sign is left. Two more parameters from the same run:</p>
-<pre class="vb nb out" id="o-a829f881" data-kind="output"><code>index 1100 p0 0.03654080103626847 g 0.031736131393025356 m1 0.004760419708953804 v1 1.0071820357953705E-5 p1 0.026540804187250147 delta -0.009999996849018325
+<pre class="vb nb out long" id="o-a829f881" data-kind="output"><code>index 1100 p0 0.03654080103626847 g 0.031736131393025356 m1 0.004760419708953804 v1 1.0071820357953705E-5 p1 0.026540804187250147 delta -0.009999996849018325
 index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delta 0.0</code></pre>
 <ul>
 <li><p id="p-4f13343d" class="nb">Parameter 1100 has a positive entry, a third the size of the first one. It moves down, also by 0.01.</p></li>
@@ -227,8 +227,16 @@ step 5 loss 3.2208830897506235</code></pre>
 <li><p id="p-4b8fca50" class="nb">With the new parameters, the loss on the same name is 2.951.</p></li>
 </ol>
 </section>
+<section class="sec" data-num="7.6" data-title="What the program leaves out">
+<h2 id="s-what-the-program-leaves-out" class="nb"><span class="num">7.6</span> What the program leaves out</h2>
+<ul>
+<li><p id="p-b9942f62" class="nb">It never makes a name. Karpathy's program ends with a loop that does: it gives the model the mark, draws a token by the probabilities of that position, appends the token, and repeats until the model answers with the mark. The flat program stops after training. Its <code>pr</code> holds the probabilities that such a loop would draw from.</p></li>
+<li><p id="p-9151964b" class="nb">It runs five steps, where the learning rate's schedule is made for 1,000. The five steps are enough to compare the program's numbers with the stored values, which is the program's use today.</p></li>
+<li><p id="p-e69381fe" class="nb">Its batch is one document. The step itself takes a batch of any size: every matrix then has 16 rows for each document, and the planes of attention keep the documents apart.</p></li>
+</ul>
 </section>
-<nav class="pager" aria-label="Parts"><a class="prev" href="backward.html"><span>Previous</span> 6. Backward: the gradient</a><span></span></nav>
+</section>
+<nav class="pager" aria-label="Parts"><a class="prev" href="backward.html"><span>Previous</span> 6. Backward: the gradient</a><a class="next" href="check.html"><span>Next</span> 8. The quick check</a></nav>
 <footer class="colophon">Built from <code>explorations/microgpt-walk/src/07-adam.md</code> of the revival's repository. The quoted lines are those of <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss">MicroGptFlat.fss</a> and the components beside it, as the build found them.</footer>
 </div>
 <script src="walk.js"></script>
