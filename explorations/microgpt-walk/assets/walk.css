@@ -1,0 +1,51 @@
+/* The microGPT walk-through: what its pages add to the specification reader's reader.css,
+   which is used unchanged. Colours and fonts are the reader's variables. */
+
+/* a quoted source line: its number stands at the left, is not selectable, and links to the file.
+   A long line wraps under its own text, so a new line of the file always starts with a number. */
+.fx.src pre.fx-s code, .fx.own pre.fx-s code, pre.vb.out code { white-space: pre-wrap; overflow-wrap: anywhere; }
+pre.fx-s .l { display: block; padding-left: 3.3em; text-indent: -3.3em; }
+pre.fx-s .ln { display: inline-block; width: 2.4em; margin-right: .9em; text-align: right; text-indent: 0; color: var(--muted);
+  -webkit-user-select: none; user-select: none; }
+pre.fx-s .ln a { color: inherit; text-decoration: none; }
+.fx .src-file { font-family: var(--mono); font-size: .72rem; color: var(--muted); padding: 6px 12px 0;
+  -webkit-user-select: none; user-select: none; }
+.fx .src-file a { color: inherit; }
+.fx .src-file + pre.fx-s { border-top: 0; padding-top: 4px; }
+.fx.own pre.fx-s, .fx.src pre.fx-s { background: var(--surface); }
+
+/* what a run printed */
+pre.vb.out { border-left: 4px solid var(--accent); border-radius: 0 6px 6px 0; }
+pre.vb.out::before { content: "Output"; display: block; font-family: var(--mono); font-size: .68rem; color: var(--muted);
+  letter-spacing: .03em; text-transform: uppercase; margin-bottom: .3rem; -webkit-user-select: none; user-select: none; }
+
+/* a displayed formula: LaTeX converted to SVG, drawn in the text colour, with selectable text */
+.dm { position: relative; text-align: left; padding: 6px 0 6px 12px; border-left: 3px solid var(--rule); }
+.dm svg { display: block; max-width: none; fill: currentColor; overflow: visible; }
+
+/* a place where today's tree shapes the program */
+aside.limit { border-left: 4px solid var(--note-rule); background: var(--note-bg); border-radius: 0 6px 6px 0;
+  padding: 10px 14px; margin: 0 0 .9rem; font-size: .94rem; }
+aside.limit .label { color: var(--muted); }
+aside.limit > :last-child { margin-bottom: 0; }
+
+/* drawings */
+figure.fig { margin: 0 0 .9rem; }
+figure.fig svg { display: block; width: 100%; height: auto; max-width: 34rem; }
+figure.fig svg text { font-family: var(--mono); font-size: 11px; fill: currentColor; }
+figure.fig svg .t-body { font-family: var(--body); }
+figure.fig svg .muted { fill: var(--muted); }
+figure.fig svg .ink { stroke: currentColor; fill: none; stroke-width: 1.2; }
+figure.fig svg .soft { stroke: var(--rule); fill: var(--code-bg); stroke-width: 1; }
+figure.fig svg .acc { stroke: var(--accent); fill: none; stroke-width: 1.4; }
+figure.fig svg .accfill { fill: var(--accent); stroke: none; }
+figure.fig svg .tint { fill: var(--rev-bg); stroke: var(--rev-rule); stroke-width: 1; }
+figure.fig svg .warm { fill: var(--note-bg); stroke: var(--note-rule); stroke-width: 1; }
+
+/* the program on one page */
+pre.listing { padding: 10px 12px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; }
+pre.listing a.lnk { color: var(--muted); text-decoration: none; display: inline-block; min-width: 2.4em; margin-right: .9em;
+  text-align: right; -webkit-user-select: none; user-select: none; }
+pre.listing a.lnk:hover, pre.listing a.lnk:focus-visible { color: var(--accent); }
+
+ul.chapters .lead { display: block; color: var(--muted); font-size: .88rem; font-weight: 400; margin-left: 2.2em; }
