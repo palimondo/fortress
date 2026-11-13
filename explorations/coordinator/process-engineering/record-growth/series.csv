@@ -3998,3 +3998,103 @@ seq,utc,commit,ledger_rows,ledger_chars,facts_chars,positions_chars,index_chars,
 3996,2026-11-10 03:32:12Z,1bcb6fac1,973,799558,322839,111811,339675,801724,322958,111879,339793,,"fortress-repo: climb batch 29b landing, the area parts brought in line"
 3997,2026-11-10 03:42:19Z,a88795499,973,799558,322839,111811,339675,801724,322958,111879,339793,,fortress-repo: the cold read of climb batch 29b landing
 3998,2026-11-10 03:55:44Z,da6a8cdb6,973,799558,322839,111811,339675,801724,322958,111879,339793,,"Climb batch 29b's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upd"
+3999,2026-11-10 03:56:47Z,dda2e6e3c,973,799558,322839,111811,339675,801724,322958,111879,339793,,"Revival page: where it stands at the landing of climb batch 29b, the record chart regenerated"
+4000,2026-11-10 03:58:02Z,83d413dfb,973,799558,322839,111811,339675,801724,322958,111879,339793,,"Orientation regression quiz: case 32, the byte type's where clause, and the keys revised from climb batch 29b's orientat"
+4001,2026-11-10 03:58:26Z,ec5516e29,973,799558,322839,111811,339675,801724,322958,111879,339793,,"Boot note: climb batch 29b's landing done, the record and the skill updated; nothing runs; the morning's report and asks"
+4002,2026-11-10 05:44:41Z,87501accd,973,799558,322839,111811,339675,801724,322958,111879,339793,,Boot note: the session on Fable 5.2; his order to close the post-mortem and his Fable-only strategy for the launch offer
+4003,2026-11-10 05:46:44Z,954e15902,973,799558,322839,111811,341068,801724,322958,111879,341186,,"Post-mortem of the numeral design: the fresh worker's design for keeping the curator's intent into the record, and the s"
+4004,2026-11-10 05:48:28Z,54c77e78c,973,799558,322839,111811,341739,801724,322958,111879,341857,,"Post-mortem of the numeral design: the replay of the evening of 11-08 by two fresh readers, blind and shown the line; bo"
+4005,2026-11-10 06:42:28Z,4ffa0bf61,973,799558,322839,111811,341739,801724,322958,111879,341857,,"Post-mortem of the numeral design: the replay's second round, a verifier with five rules for reading him recovers the st"
+4006,2026-11-10 06:46:59Z,77a7eef03,973,799558,322839,111811,342397,801724,322958,111879,342515,,"Post-mortem of the numeral design: the three recovery attempts of 11-09 set side by side, and what a check without the c"
+4007,2026-11-10 07:01:29Z,6b3795acf,973,799558,322839,111811,342397,801724,322958,111879,342515,,"Post-mortem of the numeral design: the replay's third round, a reminder at the write to the session that wrote the line;"
+4008,2026-11-10 07:08:25Z,11ec650a1,973,799558,322839,111811,342397,801724,322958,111879,342515,,"The reminder to re-read the curator's own words: a PostToolUse hook on writes to the held list, the boot note and the de"
+4009,2026-11-10 07:09:58Z,752b28ade,973,799558,322839,111811,342397,801724,322958,111879,342515,,"Boot note: the report running, the resets' expiry by the article's words, his order to compact now and the boot after it"
+4010,2026-11-10 07:11:23Z,64d56dc1c,973,799558,322839,111811,342397,801724,322958,111879,342515,,"Boot note: no skill update for the measure, his decision; the hook's prompt is enough"
+4011,2026-11-10 07:15:06Z,dcb98fc74,973,799558,322839,111811,343210,801724,322958,111879,343328,,Post-mortem of the numeral design: the closing report
+4012,2026-11-10 07:15:40Z,103f6e57c,973,799558,322839,111811,343210,801724,322958,111879,343328,,Boot note and held list: the post-mortem's report committed and the post-mortem closed; his rule that the hook's checks 
+4013,2026-11-10 07:27:19Z,7fb9409ea,973,799558,322839,111811,343210,801724,322958,111879,343328,,Boot note: the full boot after his compaction; nothing runs; the sort of climb batch 29b's four points and the go that w
+4014,2026-11-10 07:42:28Z,9a0f69e01,973,799558,322839,111811,343210,801724,322958,111879,343328,,"The Fable week's temporary switch: the batch, record-landing and orientation scripts and the headless writers run on Fab"
+4015,2026-11-10 07:51:29Z,993cb22de,973,799558,322839,111811,343210,801724,322958,111879,343328,,"Boot note: his go for climb batch 30, the numerals with the parallelism work; the planner and the ways review on a numbe"
+4016,2026-11-10 07:52:17Z,00768e9e9,973,799558,322839,111811,343210,801724,322958,111879,343328,,"Boot note: the check-ins of climb batch 30's preparation; the skill compression after the landing, with his words on it"
+4017,2026-11-10 08:02:47Z,0a6abca6f,973,799558,322839,111811,343210,801724,322958,111879,343328,,"Climb batch 30's planner: the probes, the base build at 9a0f69e01a, a provisional grain size under microGPT's quick chec"
+4018,2026-11-10 08:06:20Z,6694ddb4c,973,799558,322839,111811,343977,801724,322958,111879,344095,,"Review: the ways for a number = a numeral to answer true under the static numerals (rows 973 and 966, item 487), with th"
+4019,2026-11-10 08:08:01Z,e2a2ba233,973,799558,322839,111811,343977,801724,322958,111879,344095,,Boot note: the ways review on a number and a numeral ended; its ask put to him; a ledger writer files its four findings
+4020,2026-11-10 08:08:13Z,21235c80c,973,799558,322839,111811,343977,801724,322958,111879,344095,,Boot note: the times corrected by the clock
+4021,2026-11-10 08:09:25Z,b148d1067,977,803779,322839,111811,343977,805945,322958,111879,344095,,Gap ledger: rows 975 to 978 from the numeral equality ways review: under walk a numeral case clause and a program's own 
+4022,2026-11-10 08:10:00Z,082979628,977,803779,322839,111811,345054,805945,322958,111879,345172,,"Climb batch 30's record, in two runs: the numerals' leftovers with the parallelism review's repairs; five rungs, one con"
+4023,2026-11-10 08:11:42Z,f9d86cef9,977,803779,322839,111811,345054,805945,322958,111879,345172,,"Boot note: climb batch 30's record is written, in two runs; the check before the launch runs"
+4024,2026-11-10 08:31:15Z,694a444c2,977,803779,322839,111811,345633,805945,322958,111879,345751,,"The check of climb batch 30's record before the launch: its findings, and the record corrected in place"
+4025,2026-11-10 08:37:35Z,a874f589a,977,803779,322839,111811,345633,805945,322958,111879,345751,,"Climb batch 30's manifest generator, run 1's block spliced into the batch script, and the atomic runs' eight new program"
+4026,2026-11-10 08:40:11Z,9d0147ff9,978,804904,322839,111811,345633,807070,322958,111879,345751,,"Climb batch 30: row 971's repair by a pool of one thread of its own, the coordinator's fork; row 979 filed and put in ru"
+4027,2026-11-10 08:41:01Z,4f66eaab3,978,804904,322839,111811,345633,807070,322958,111879,345751,,Boot note: climb batch 30's first run launched; the check before the launch and the way taken for row 971
+4028,2026-11-10 11:34:08Z,5031b611c,978,804904,322839,111811,345633,807070,322958,111879,345751,,"Held list and boot note: his answer on a number and a numeral, way 1, with the check of P-46's history"
+4029,2026-11-10 11:34:21Z,460799289,978,804904,322839,111811,345633,807070,322958,111879,345751,,Held list and boot note: the answer's time by the clock
+4030,2026-11-10 11:40:08Z,f36a65124,980,806820,325004,111811,345633,808986,325123,111879,345751,,"The numerals' leftovers: the prelude's RR64 and RR32 take an integer numeral, a compiled program's component classes are"
+4031,2026-11-10 11:40:52Z,76b21f498,982,809330,326487,111811,345633,811500,326606,111879,345751,,"Compiled path: every forked arm is joined before a group completes abruptly, a task arm keeps its own slot, a call's arg"
+4032,2026-11-10 11:43:38Z,594da4129,984,811409,328271,111811,345633,813583,328390,111879,345751,,"The compiled transaction: a block's own writes, the sets its threads share, a nested block's view, handlers in order, an"
+4033,2026-11-10 11:44:36Z,d88ab0542,984,801541,328271,111811,345633,803745,328390,111879,345751,,Close the rows climb batch 30 fixed
+4034,2026-11-10 11:46:11Z,2b73940ec,984,801541,328271,111811,345633,803745,328390,111879,345751,,"Boot note: the state before his compaction; a light boot after it, the whole read at climb batch 30's landing; the two r"
+4035,2026-11-10 11:46:23Z,b8dafc382,984,801541,328271,111811,345633,803745,328390,111879,345751,,Boot note: the state's time by the clock
+4036,2026-11-10 12:20:49Z,0ddfc840e,985,802580,328300,111811,345633,804784,328419,111879,345751,,"Climb batch 30's gather record: the rungs N, P and X on main, their rows, tests and items for the curator"
+4037,2026-11-10 12:31:40Z,eed02564c,985,802588,328415,111811,345633,804792,328534,111879,345751,,Fold the review's corrections
+4038,2026-11-10 12:42:30Z,d89fc0fda,985,802588,328411,111811,345633,804792,328530,111879,345751,batch 30,Record the gate's tables and the microGPT walk check
+4039,2026-11-10 12:47:28Z,855d629c3,985,802588,328411,111811,346577,804792,328530,111879,346695,,"Boot note: climb batch 30 landed, its landing work in flight; two reading notes for the curator, on units with a typed m"
+4040,2026-11-10 13:02:38Z,f592b7c0f,985,802588,328411,111811,347404,804792,328530,111879,347522,,"Review: climb batch 30's combined post-batch review, with its INDEX line"
+4041,2026-11-10 13:04:16Z,832f7d0d9,985,802588,328411,111811,347404,804792,328530,111879,347522,,"Boot note: the post-batch review of climb batch 30 is in, the record-landing workflow runs"
+4042,2026-11-10 13:33:35Z,4aeb48090,985,802588,328411,111811,347404,804792,328530,111879,347522,,A script that switches the workflows and the headless writers between the regular tiers and the all-Fable setting; boot 
+4043,2026-11-10 13:33:52Z,fba050dd6,985,802588,328411,111811,347404,804792,328530,111879,347522,,Boot note and held list: the times by the clock
+4044,2026-11-10 13:53:04Z,5179efc3b,985,802588,328411,111811,347914,804792,328530,111879,348032,,"INDEX: the line for the plan review, whose draft is in the tree"
+4045,2026-11-10 13:53:38Z,f78da2650,986,803736,329368,111719,347914,805940,329487,111787,348032,,"Record landing of climb batch 30: FACTS, POSITIONS and the ledger brought in line with the landing"
+4046,2026-11-10 13:53:38Z,8e0100cf7,986,803736,329368,111719,347914,805940,329487,111787,348032,,"Record landing of climb batch 30: PLAN, the review queue, two maps and the run's folder routed for the landing"
+4047,2026-11-10 14:04:18Z,ab03bdcb8,986,803736,329368,111719,348488,805940,329487,111787,348606,,"Probe: the switch-over rehearsed by brute force, a first version with the first six walls"
+4048,2026-11-10 14:05:25Z,bc1e967fe,986,803736,329368,111719,348488,805940,329487,111787,348606,,"Review: the remaining plan against the goal, with two probes"
+4049,2026-11-10 14:05:38Z,837806b16,986,803736,329368,111719,348488,805940,329487,111787,348606,,"Boot note and held list: the record of climb batch 30 landed, its run stopped before the skill update until Friday's res"
+4050,2026-11-10 14:05:55Z,45b988f3a,986,803736,329368,111719,348488,805940,329487,111787,348606,,Held list: his own points on QuickCheck told apart from the coordinator's
+4051,2026-11-10 14:16:14Z,fd1f1394f,986,803736,329368,111719,348488,805940,329487,111787,348606,,"Held list and boot note: his decision for probes first, and what he wants of the project; the plan review committed; the"
+4052,2026-11-10 14:16:32Z,221857efc,986,803736,329368,111719,348488,805940,329487,111787,348606,,Held list and boot note: his words kept apart from the coordinator's reading
+4053,2026-11-10 14:34:16Z,a0431ff39,986,803736,329368,111719,348488,805940,329487,111787,348606,,"Held list and boot note: his request for the specification as a reader on the web, his learning goals, his additions to "
+4054,2026-11-10 14:50:01Z,1603d08b4,986,803736,329368,111719,348936,805940,329487,111787,349054,,"Java baseline: the pure-Java microGPT beside pure Python, NumPy and dzaima/APL, timed in one session"
+4055,2026-11-10 14:51:40Z,d381e2177,986,803736,329368,111719,348936,805940,329487,111787,349054,,"Probe: the switch-over rehearsed by brute force, the whole report"
+4056,2026-11-10 14:58:04Z,1d1277730,986,803736,329368,111719,349339,805940,329487,111787,349457,,Specification as HTML for a phone: a first sample of the reader under docs/specification
+4057,2026-11-10 14:58:52Z,9483a9194,986,803736,329368,111719,349339,805940,329487,111787,349457,,"Plan review: after the rehearsal's end, the sizes of the two orders, the first compiled timing read, one probe named"
+4058,2026-11-10 15:04:25Z,ee983270e,986,803736,329368,111719,350155,805940,329487,111787,350273,,"Java baseline: the pure-Java microGPT of P-7, its checks, timings and two variants"
+4059,2026-11-10 15:05:33Z,0ff462ac6,986,803736,329368,111719,350155,805940,329487,111787,350273,,"Boot note: the state after the day's probes; nothing runs, the rest waits for Friday's reset"
+4060,2026-11-10 15:48:06Z,77669ad48,986,803736,329368,111719,350155,805940,329487,111787,350273,,"Boot note: the budget at 95 percent, no worker before the reset, a light boot after the compaction"
+4061,2026-11-10 16:39:17Z,e9a065edb,986,803736,329368,111719,350155,805940,329487,111787,350273,,"Held list and boot note: his decision for LaTeX to SVG in the specification reader, at full fidelity"
+4062,2026-11-10 16:43:12Z,a7a0f3efc,986,803736,329368,111719,350155,805940,329487,111787,350273,,"Held list: his idea of the specification's editions as an exhibit, and what git holds of the 1.0 release"
+4063,2026-11-10 16:43:28Z,a304dfed2,986,803736,329368,111719,350155,805940,329487,111787,350273,,Held list: the time by the clock
+4064,2026-11-10 16:50:33Z,178ffcf91,986,803736,329368,111719,350539,805940,329487,111787,350658,,"Draft of a letter to Prof. Ryu on the LaTeX sources of the specification's versions 1.0 and 1.0 beta, for the curator's "
+4065,2026-11-10 17:03:03Z,2b7a04ea0,986,803736,329368,111719,350865,805940,329487,111787,350984,,"The curator's first notes on the specification reader, exported from it, with the coordinator's reading, for the reader'"
+4066,2026-11-10 17:22:26Z,108e6480b,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Leads on the specification's earlier editions from the curator's outside search, with what git confirms; the letter's dr"
+4067,2026-11-10 17:40:46Z,37e619d1d,986,803736,329368,111719,351328,805940,329487,111787,351449,,"The curator's notes on the specification reader: the character tables against the PDF, inline code as it is, the callout"
+4068,2026-11-10 17:40:59Z,0c17fd01f,986,803736,329368,111719,351328,805940,329487,111787,351449,,The curator's notes on the reader: the times by the clock
+4069,2026-11-10 17:44:57Z,79919186c,986,803736,329368,111719,351328,805940,329487,111787,351449,,"README: links to the specification's versions 1.0 alpha and 1.0 beta, and to the 1.0 PDF; the leads note: the two PDFs a"
+4070,2026-11-10 17:50:58Z,3d29abc4e,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Round-trip numeral tests: a radix written as a word comes back as digits, on both paths"
+4071,2026-11-10 17:50:58Z,69b0032d5,986,803736,329368,111719,351328,805940,329487,111787,351449,,"The specification's versions 1.0 alpha (2006) and 1.0 beta (2007) as PDFs, in a folder of their own, with where they cam"
+4072,2026-11-10 17:51:13Z,2a9bb61b3,986,803736,329368,111719,351328,805940,329487,111787,351449,,Held list: the time by the clock
+4073,2026-11-10 17:57:12Z,11ef33fd5,986,803736,329368,111719,351328,805940,329487,111787,351449,,Numeral round-trip tests: one short message for each radix case
+4074,2026-11-10 17:58:40Z,e35c5fc3e,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Boot note and held list: the state after the compaction of 17:55 UTC, his two points of 17:5x"
+4075,2026-11-10 17:59:11Z,26042c54d,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Leads on the specification's editions: where they were published, from the git history"
+4076,2026-11-10 18:08:07Z,22ed75d85,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Tests: the specification's seven rejected numerals, each refused by its rule"
+4077,2026-11-10 18:08:16Z,9be6106dd,986,803736,329368,111719,351328,805940,329487,111787,351449,,Held list: his request for the specification's numeral examples as tests
+4078,2026-11-10 18:12:14Z,13544bb6f,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Tests: the letters of radix 12, valid and rejected, by the specification's rules"
+4079,2026-11-10 18:17:16Z,6e13a77ce,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Numeral tests: the radix-12 and lowercase cases go into the round-trip tests, no test of their own"
+4080,2026-11-10 18:17:16Z,7aafbaf9d,986,803736,329368,111719,351328,805940,329487,111787,351449,,Held list: his rule that a test case is in one file only
+4081,2026-11-10 18:17:27Z,82f07c7e3,986,803736,329368,111719,351328,805940,329487,111787,351449,,Held list: the time by the clock
+4082,2026-11-10 18:26:06Z,a52298e06,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Reader notes: his question on the quotation marks, and the three places the converter leaves as typed"
+4083,2026-11-10 18:33:15Z,66f29439c,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Specification reader: inline code without a box, no ligatures in code, serif quotation marks"
+4084,2026-11-10 18:33:26Z,dbb19ab29,986,803736,329368,111719,351328,805940,329487,111787,351449,,Reader notes: the time by the clock
+4085,2026-11-10 18:34:17Z,2fd0d33b1,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Specification reader: inline code keeps its highlight, with narrow side padding"
+4086,2026-11-10 18:45:23Z,dd65e9795,986,803736,329368,111719,351328,805940,329487,111787,351449,,Boot note: the scan for methods over the JVM compiler's size limit
+4087,2026-11-10 18:53:53Z,d079dce6f,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Tool: list the methods over HotSpot's huge-method limit, against a list of the known ones"
+4088,2026-11-13 22:25:34Z,6468aa6ec,986,803736,329368,111719,351328,805940,329487,111787,351449,,"Boot note: the state after the weekly reset, the record-landing run of climb batch 30 resumed"
+4089,2026-11-13 22:27:45Z,caed1c8ad,986,803736,329368,111719,351328,805940,329487,111787,351449,,Boot note: probe Y and the carriers' ways review run beside the record-landing run
+4090,2026-11-13 22:27:56Z,2fb29035d,986,803736,329368,111719,351328,805940,329487,111787,351449,,Boot note: the workers' launch time by the clock
+4091,2026-11-13 22:41:30Z,8d7694dd4,986,803736,329368,111719,351328,805940,329487,111787,351449,,"fortress-repo: climb batch 30's landing, the orientation's six sections installed"
+4092,2026-11-13 22:41:52Z,c26f6e805,986,803736,329368,111719,351328,805940,329487,111787,351449,,"fortress-repo: climb batch 30's landing, the area parts brought in line"
+4093,2026-11-13 22:45:39Z,2bd37056c,986,803736,329368,111719,352226,805940,329487,111787,352347,,Review: the ways to give each built-in type of the one library its run-time class on the compiled path
+4094,2026-11-13 22:46:52Z,f88205fc5,986,803736,329368,111719,352226,805940,329487,111787,352347,,fortress-repo: the cold read of climb batch 30's landing
+4095,2026-11-13 22:50:14Z,3a95fdc66,986,803736,329368,111719,352226,805940,329487,111787,352347,,"Boot note: the ways review of the built-in types' classes is in, the merge probe runs"
+4096,2026-11-13 22:50:28Z,162295499,986,803736,329368,111719,352226,805940,329487,111787,352347,,"Boot note: the merge probe's time by the clock, the coordinator's reading marked as its own"
+4097,2026-11-13 22:55:50Z,a5257f232,986,803736,329368,111719,353003,805940,329487,111787,353124,,"Probe Y: one build serves the compiled path with either library, in a scratch tree"
+4098,2026-11-13 22:57:05Z,53c057540,986,803736,329368,111719,353003,805940,329487,111787,353124,,"Climb batch 30's skill update after its landing: the writer's tasks and reports, the cold read, and the orientation upda"
