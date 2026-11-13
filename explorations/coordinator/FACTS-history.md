@@ -7387,3 +7387,73 @@ pointer words refreshed in: F-24
 2026-11-10 13:49Z · rewritten · from `explorations/reviews/batch-30-review.md`, "Findings" · commit `d89fc0fda` · by climb batch 30 landing workflow (Opus): cited lines only. Rung N's 72 added lines in `InstantiatingClassloader.java` (f36a651243) moved them down.
 
 - F-337 **The compiled path's class loader loads each helper class of `nativeHelpers/` itself, so a helper reads state that the compiled main sets only through a class that the loader leaves to the system loader.** `mustUseSystemLoader` lists `MainWrapper` and no helper class (`runtimeSystem/InstantiatingClassloader.java:2897-2919`). So `systemOps.getArgs`, and `programArgs.count` and `at`, read `MainWrapper.cachedArgs`, which the compiled main sets and walk's driver sets too; a static of the helper's own, set by the main, is another copy's. What it means: a helper over the run time's state keeps that state on a class that the loader delegates. Shown: `bin/fortress run` of a program that binds `programArgs.count`, with the arguments `a b`, printed `count =  0` over a static of `programArgs` set by `MainWrapper`, and `count =  2` over `MainWrapper.cachedArgs`. Tests: `compiler_tests/NativeHelperProgramArgsPassedCompiled`, which passes two arguments and asserts the count 2 and both arguments, and `compiler_tests/NativeHelperProgramArgsCompiled`, with no argument, the count 0. Detail: `compile-ladder/rung-system-natives/REPORT.md`, "The static, and the loader".
+
+### F-34
+
+2026-11-13 23:38Z · rewritten · from `explorations/compile-ladder/plan-31/PROBES.md`, "3. The measure: the declarations of the fourteen components that the code generator refuses" · by record writer: the measure on today's code, 24 in 8 kinds, replaces the 38 in 10 measured on older code with the helper strings on glue classes
+
+- F-34 **Under the switch-over's setting the code generator refuses 38 declarations of the fourteen components that the distance stage checks, in 10 kinds, all of them declarations that the checker passes.** The setting is the distance stage's (F-53): the checker's failures caught per declaration, and the bound `Any`. Measured once, on `dbf4825e0`'s code, by `compile-ladder/plan-25/probes/codegen.sh` with its 288 helper strings put back on their glue classes; before local functions compiled, the same probe gave 47 in 11 kinds. The kinds that F-315 removes (`Any` in an `extends` clause, `forbid` and the `test` modifier) and the local function (F-320) no longer occur. A declaration counted at its first wall, and no emitted class was run. Each kind left has a ledger row or a plan line, among them varargs (row 624), the type assumption (row 818, the forms that F-325 lists as refused) and "Not in the trait table", which F-338 fixes for a first supertrait and whose root stands at `methodsNamed` and in the dispatch generator (rows 940, 942), so after the switch-over the code generator still stands between the library and bytecode. On climb batch 21b's base (`aa5c67d48`) the dispatch generator refused none of `FortressLibrary`'s 178 overload sets. The count on today's code, with F-325's and F-338's changes, is not measured. No test checks the 38, since the gate's distance stage runs no code generation. Detail: `compile-ladder/rung-codegen-local-functions/REPORT.md`, "5. Programs run old against new; the measure"; `compile-ladder/rung-codegen-walls/REPORT.md`, "5. Programs run old against new, and the probes"; `reviews/phase3-exit/zero-audit.md`, "Part C. The debt carried into phase 4", item 4; `perf-probes/codegen-distance/REPORT.md`, sections 2 to 6.
+
+### F-18
+
+2026-11-13 23:38Z · rewritten · from `explorations/reviews/carriers-ways-2026-11-13.md`, "Points to report: where the record or the rehearsal turned out wrong" · by record writer: its point 4: Unbox.java says nothing of the loader or of instantiations; the loader's stub is a separate trace
+
+- F-18 **On the compiled path, the class loader makes the class of a generic instantiation at its first use, by rewriting the template's bytecode with ASM, and the rewriting only renames, so it gives no instance a `double[]` field.** The class is `InstantiatingClassloader`; the `fortress-repo` skill's "The compiled runtime" gives the mechanism. A size is part of the made class's name, as in `pNatMeth$Box⟦3⟧`, the object `Box` at size 3 in the probe component `pNatMeth`. Inside the class, the size's descriptor is `RTTIsize.of("<n>")` (F-129). A field of the template's type `T`, `LT;`, becomes `LFRR64;` in `Box⟦FRR64⟧`, and `[D` is no class name, so stamping alone keeps every number boxed (F-11). The team's direction for unboxing builds on this class per instantiation (the plan in `compiler/optimization/Unbox.java`; the loader's empty "expando" stub, `runtimeSystem/InstantiatingClassloader.java:168-172`), but a loader that stamps an `RR64` instance with a `double[]` field, way A4 of array decision A (P-85), does not exist and is unmeasured. Walk instantiates generics in its own evaluator, not by classes. Detail: `perf-probes/nat/java.md` section 1; `coordinator/array-design.md` section 2 (probe 1); `reviews/array-design-ways.md` section 3, way A4.
+
+### F-58
+
+2026-11-13 23:38Z · rewritten · from `explorations/compile-ladder/plan-31/probes/model-closure-check.md`, "1. The counts" · by record writer: the count on today's one library, 42 by the driver and 17 under the scratch compile command, replaces the 26 of an earlier library; the three DOT refusals stand for the unsized arrays
+
+- F-58 **When measured, on an earlier library, microGPT's flat program, C4, had 26 errors of its own under the compiled checker, and none came from a numeral's type.** 15 were arrays without sizes: `Array[\RR64,ZZ32\]` where the library wants `Vector`, `Matrix` or `Array3`. 5 were numeral powers such as `10.0^(-5)`, refused as ambiguous because two declarations of `^` each needed the integer converted (row 533). 6 were small slips. On a copy patched with decision D's diff, which sizes the model's arrays (P-87), 14 remained: the 5 powers, 3 `DOT` calls that failed on the api's unused sizes, 1 bridge, `adam`'s, that passes arrays sized only at run time, and 5 small slips. Since then the 17 vector and matrix operators' unused sizes are gone (F-35), so by reading the 3 `DOT` refusals are cleared. Since then too, `MultiplicativeRing`'s `^` takes an `AnyIntegral` exponent, and `RR64` declares `^(self, b:AnyIntegral)` beside its `^(self, b:Number)`, the component's header (`Library/FortressLibrary.fsi:285`, `:365-366`). The distance stage's driver checks a component of `10.0^(-5)` and `10.0^(-8)` against the interpreter's library with no error, so the tie row 533 names does not reproduce there. Each count is a floor, since the checker stops a block at its first failing statement (row 474). Detail: `reviews/array-design-ways.md` section 2; `compile-ladder/rung-integer-power/REPORT.md` section 7; `compile-ladder/rung-export-last/SKEPTIC.md` section 3.
+
+### F-290
+
+2026-11-13 23:38Z · rewritten · from `explorations/compile-ladder/plan-31/probes/model-closure-check.md`, "1. The counts" · by record writer: File and FileSupport measured again on 832f7d0d91
+
+- F-290 **On climb batch 22's code, outside the twelve, the compiled checker finds 624 component errors in 30 of the library's 40 other components, at least 92 api errors in 10 apis, and 25 crashes.** Measured once on climb batch 22's code, with the distance stage's driver over the components outside the twelve, without the compiler's three files and `GeneratorLibrary`; an api counts only up to its first failing stage. `Avl.fss`, a program kept in the library, stops at name binding on both paths (row 830) and is not among the 40. MicroGPT's imports, each checked alone on that code: `System` 2, `File` 4, `FileSupport` 24, `FortressAst` 1. Since then `System`, checked alone on `ee14222d`, reads no error (F-321), and `File`, a plain component since F-332, is not measured again; neither is among the distance's fourteen components. Two of the 40, `CovariantCollection` (12 errors, 2 crashes) and `OneShotFlag` (1), are among the distance's fourteen components since climb batch 22c, at 0 there (F-288). No test checks it. Detail: `reviews/phase3-exit/zero-audit.md`, "A.2 Scope"; `compile-ladder/rung-system-natives/REPORT.md`, "The checker over System"; `reviews/batch-28-review.md`, section 6.
+
+### F-352
+
+2026-11-13 23:38Z · added · from `explorations/compile-ladder/plan-31/probes/switch-rehearsal.md`, "4. How far each program got" · by record writer: the switch-over's rehearsal of 2026-11-10 and the plan review's two kinds of wall
+
+### F-353
+
+2026-11-13 23:38Z · added · from `explorations/compile-ladder/plan-31/probes/probe-y.md`, "1. What ran" · by record writer: probe Y of 2026-11-13
+
+### F-354
+
+2026-11-13 23:38Z · added · from `explorations/compile-ladder/plan-31/probes/probe-y.md`, "6. A finding beside the question: the prelude's jars change with any change of the compiler" · by record writer: probe Y's finding beside its question
+
+### F-355
+
+2026-11-13 23:38Z · added · from `explorations/java-baseline/REPORT.md`, "9. For the record" · by record writer: the Java baseline's facts 1 and 2 and the comparison's fact
+
+### F-356
+
+2026-11-13 23:38Z · added · from `explorations/java-baseline/REPORT.md`, "6. Fork/join: the baseline in the shape of the library and the compiled runtime" · by record writer: the Java baseline's fact 3
+
+### F-357
+
+2026-11-13 23:38Z · added · from `explorations/java-baseline/REPORT.md`, "3. What could not be matched, and what was chosen" · by record writer: the Java baseline's fact 4
+
+### F-358
+
+2026-11-13 23:38Z · added · from `explorations/compile-ladder/plan-31/probes/switch-rehearsal.md`, "5. One timing" · by record writer: the rehearsal's one timing, read by the plan review against the Java loop
+
+### F-359
+
+2026-11-13 23:38Z · added · from `explorations/reviews/carriers-ways-2026-11-13.md`, "What the team's texts say, by provenance" · by record writer: the carriers' review, fact 1
+
+### F-360
+
+2026-11-13 23:38Z · added · from `explorations/compile-ladder/plan-31/probes/number-object-merge.md`, "For FACTS" · by record writer: the carriers' review, facts 2 and 3, with the merge probe's correction: the bodies run at asif RR64
+
+### F-361
+
+2026-11-13 23:38Z · added · from `explorations/compile-ladder/plan-31/probes/number-object-merge.md`, "Measurements" · by record writer: the merge probe's second fact
+
+### F-320
+
+2026-11-13 23:39Z · rewritten · from `explorations/compile-ladder/plan-31/PROBES.md`, "3. The measure: the declarations of the fourteen components that the code generator refuses" · by record writer: F-34 now holds the measure on today's code, so the sentence names the probe of that day, not the entry
+
+- F-320 **The code generator compiles a block's local functions as closures, the group recursive and mutually recursive without a mutable cell.** Each local function of a block is a closure class made as a function expression's, bound under its name in the block's environment, so a call of it and its use as a value go through the closure; it reaches itself as its own `this` and each sibling through a field of its class that the block sets once, after the whole group is made and before the body runs (`compiler/codegen/CodeGen.java`). It refuses three forms that the specification allows, each after the checker passes the program, with its own message: a local function with static parameters of its own, two of one name in a block, and the `atomic` modifier (row 304); a varargs one stops at 'Can't compile VarArgs yet' (row 624). Under the switch-over's setting, measured once on `dbf4825e0`'s code, all nine of the library's declarations that stopped at 'Can't compile LetFn' emit (F-34). Gated by `compiler_tests/LocalFunctionCallCompiled`, `LocalFunctionValueCompiled`, `LocalFunctionRecursiveCompiled`, `LocalFunctionCaptureCompiled` and `LocalFunctionGenericContextCompiled`, their `tests/LocalFunction*Walk` guards, and `XXXLocalFunctionGenericCompiled`, `XXXLocalFunctionOverloadedCompiled` and `XXXLocalFunctionAtomicCompiled`. Detail: `compile-ladder/rung-codegen-local-functions/REPORT.md` sections 1 and 5.
