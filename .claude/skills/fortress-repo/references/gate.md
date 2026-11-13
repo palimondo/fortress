@@ -44,7 +44,7 @@ Run these steps from the tree's root. Keep the logs of steps 2 and 4 in `tmp/gat
 
 ## The atomic runs
 
-The atomic runs compile twenty-two programs, and run each one three times at four threads, in about a minute. They need the library's jars in the tree's caches (`build-and-caches.md`). Run them from `ProjectFortress/`:
+The atomic runs compile twenty-two programs, and run each one three times at four threads. They need the library's jars in the tree's caches (`build-and-caches.md`). Run them from `ProjectFortress/`:
 
     for p in AtomicTopLevelObjectVar AtomicTopLevelVar MutableTopLevelVarInLoop FirstLoadThreadsRungG \
              AlsoArmThrowsJoinsCompiled CallArgumentsForkCompiled AtomicOwnWriteNestedCompiled \

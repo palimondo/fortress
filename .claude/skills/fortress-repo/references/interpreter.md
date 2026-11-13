@@ -20,7 +20,7 @@ Walk departs from the rules of `revival-changes.md`, "Numbers", in these ways, u
 - A numeral with a radix point keeps only one of its leading zeros, so a coercion over `RadixPointNumeral[\n, m, r, v\]` gets `n` = 2 for `00.5`, not 3 (ledger row 960).
 - A `nat` or `int` parameter of 2^31 or more, used as a value, is a `ZZ64` (ledger row 962). Assert no value for it in a test.
 - A numeral at `=` takes its default. So `u = 0` is `false` for a zero `u` of `NN32`, `NN64` or `RR32`, and so is `q = 0.5` for `q: QQ = 1/2` (ledger row 973). `u =/= 0` and `q =/= 0.5` are then `true` (ledger row 966). Bind the numeral at the type first, as `z: NN32 = 0`, then write `u = z` or `u =/= z`.
-- A numeral with a radix point that no place types, and that rounds to an infinity at `RR64`, gives `Infinity`, with no error, on both paths (ledger row 980). Assert no value for it in a test.
+- A numeral with a radix point at a place that fixes no type, which rounds to an infinity at `RR64`, its default, gives `Infinity`, with no error, on both paths (ledger row 980). The rules do not say whether it is an error, so assert no value for it in a test.
 - A numeral type written in a `comprises` clause loads and runs, as `trait T comprises { NaturalNumeral[\1, 10, 3\] } end` does (ledger row 981). The rules refuse it, as the compiled checker does, and as walk does at load in an `extends` clause or as a static argument: 'NaturalNumeral cannot be written in a program except as a parameter's type.'
 - A body with a declared return type is not converted by coercion, except a numeral: `r(): Wide = NarrowOf(3)` returns the `NarrowOf` (ledger row 387). Write the value at the declared type.
 
