@@ -33,7 +33,7 @@ const ok = (c, m) => { if (!c) failed++; console.log((c ? 'PASS ' : 'FAIL ') + m
       await p.goto(U + f + '.html');
       const w = await p.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       const wide = await p.evaluate(() => Array.from(document.querySelectorAll('.dm svg, figure.fig svg')).filter(s => s.getBoundingClientRect().right > window.innerWidth).length);
-      ok(w === 0, `${scheme} ${f}: no sideways scroll (${w}); formulas or drawings wider than the screen: ${wide}`);
+      ok(w === 0 && wide === 0, `${scheme} ${f}: no sideways scroll (${w}); formulas or drawings wider than the screen: ${wide}`);
       await p.screenshot({ path: path.join(SHOTS, `walk-${f}-${scheme}.png`), fullPage: true });
     }
   }

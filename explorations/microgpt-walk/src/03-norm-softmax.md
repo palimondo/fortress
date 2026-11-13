@@ -108,9 +108,10 @@ SUM sm(z) = 0.9999999999999999
 - `e / (SUM e)` divides every element by the sum. Now the elements add up to 1.
 
 $$
-\c{sm}(z)_i = \frac{e_i}{\sum_{j} e_j}
-\qquad\text{with}\qquad
-e_i = \exp\bigl(z_i - \max_{j} z_j\bigr)
+\begin{aligned}
+\c{sm}(z)_i &= \frac{e_i}{\sum_{j} e_j} \\[4pt]
+e_i &= \exp\bigl(z_i - \max_{j} z_j\bigr)
+\end{aligned}
 $$
 
 - $z$ is the parameter `z`, and $z_i$ its element number $i$.

@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>7. Adam and the training loop · microGPT in Fortress</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="walk.css">
+</head>
+<body data-page="chapter" data-slug="adam" data-chapter="7. Adam and the training loop">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">7. Adam and the training loop</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">microGPT in Fortress, line by line</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="7" data-title="Adam and the training loop">
+<h1 id="top" class="nb"><span class="num">Part 7</span> Adam and the training loop</h1>
+<p class="standfirst">How the gradient changes the parameters: the plain rule first, then Adam's three lines with the real numbers of one parameter, the learning rate, the loop, and the loss of one name before and after one step.</p>
+<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-the-plain-rule-first">7.1 The plain rule first</a></li><li><a href="#s-adam">7.2 Adam</a></li><li><a href="#s-the-learning-rate">7.3 The learning rate</a></li><li><a href="#s-the-training-loop">7.4 The training loop</a></li><li><a href="#s-what-one-step-does-to-the-numbers">7.5 What one step does to the numbers</a></li></ol></nav>
+<section class="sec" data-num="7.1" data-title="The plain rule first">
+<h2 id="s-the-plain-rule-first" class="nb"><span class="num">7.1</span> The plain rule first</h2>
+<p id="p-7eabae9d" class="nb">The gradient says, for each parameter, which way the loss goes when the parameter goes up. Training moves each parameter the other way. The plainest rule takes the same small fraction of every gradient entry:</p>
+<div class="dm nb" id="m-de9de0ab" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='5.655em' height='1.005em' viewBox='61.449564 54.752756 56.549006 10.054218' fill='currentColor' aria-hidden='true'><style type='text/css'>
+@font-face{font-family:qe1ea453d34-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIgAAoAAAAABAQAAAHUAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqBUIE3CwgAATYCJAMIBCAFgj4HIBsyAwCuBmwnPTCJFDXjIq2sJ/p5V6EI89OIqmHr2U+EkByUR0aXhUYh372nMCZLh7FZIww3sM4mVSMd1CYk8SFliIlIcKJKf9tsuy9WQyXUj9H9O0YAHCDOjLhmT2AtoPifuBnHefFYup3W9AlU1nnAUbjM1vp//veN+PDvrr37QrGPWim5WaFTG+RhUo96ozz+LxkqXnYaLGygPnD4PXejZhyGom4bpHr3SSIJAA0UOlhCFSyhOUDS1xVlKBpU2+PwXkgHHk7hDJwD6AIi68ZyGvd5uXlJwBtfaVnlc6kTtOmbSZCCN4tIFxGXZ/Nr+xuSjw/Iy+l4mQHWhPYOgSPt/x10HluQ/Pg4a67buwVu9rgiP2KO8KQayfdAs7Ou9jVd11XpyKy0EQBBuPl7+bJP0/8YtQt+5b47kh1qtUGpB2MKhGSKN0ga+vwLiJ4oRnJEg3XsIxdEE0+4V2CzSNLVN9sneiYtE319e8MTNhhQpTsudtiM6JpyS/SsKCP6pjykEw71H1PpE86ZpVUTvvcGCAgP5p4x71PQJNmshIEoiJCcnHq8yi0QH7fpMosqZYLFKzMJZ6gMglWA17TZ5rUisP+HPD9SoInUmCIYEAqEoAJkGAAAAA==) format('woff2');}
+@font-face{font-family:qe1ea453d34-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHEAAoAAAAAA2AAAAF7AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAo0RwsGAAE2AiQDCAQgBYI+ByAbugIALgpsY9rghRp6xBDm55CGB8RYlrWTCL7f77fnPvmIeMhMJyW8i0ULjWYRL9U0k8heaaZtazJTNo5TQxEMJuvRxWTKDx9ivKNzixI83agMnrPXxUPZTcHv+f7+Jj//+EGntcUzm7bPF1hU5wmGvAbQQ4zizFs7Y6/ZorqiiPTrhCzriy0FaS89/bX5o4gvl/SoxlVCx1Sa2aVHVsNICyp7fmbIerJnEAD8B0jI0IYCajYE8m4w0hJhky9JABI8gEodGgA5IOrmGh5vnrQ3bh9tHO5/LqI+dIbvVBAITsX1E42+J+bgtZ97fZD1RQeokkCwKGcfV6VrieD1hvYCVyOpEyAUTY01BjRGdZYrNbJCrXZWKg0t1+hRUOTVwoAhLFdnnBU6PFaqs9HWGPUdl+gzzD3qz39b75/lJmscPCfisFV9PtLDoaaKKfKS24UrwBYxTAWUd/ptjKf+pEUBjMVYsOIwOsYzAvvx4weuh3Z6SB7opJGKAHYYAAA=) format('woff2');}
+@font-face{font-family:qe1ea453d34-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHIAAoAAAAAA3wAAAF+AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANApYYQsGAAE2AiQDCAQgBYI4ByAbzgIALg7M8zdFoYY+/mLIYzsSaVmLh6f7fufemfdallUg/aDtGAb2tVVo400sSsvDTwGljbmtjZmi+dhcU7AImqyj/4spfv3Bm90DtAM6pP3+MQswwLjkoSxuqzxIdhM343wtoIVR7Ot8U8BrcJdaQGsDpVL8U7f5+E1EnKygIIi+Nij5HenI5/z6X/aHHruAxwR0DxOIXQ6P0vAM6hUNRehGWwOJgmU7sizZR6oqMGit+vf2iQEkqEisI1sIVEBOTw9ne7t/X8kfXu9eznnTx6F8A8RznwlmNGRg7/s9ZxgQCH5cjmjub1wq+AX7x4kchQzjEgTLlW6rWo4wiJN3iiIjrY+uSGOTbpggzMHZqjPHdqYss73O3vikTZmIOiHs6pytJl2wnVWX7U268icd+A6S9k1mT/YL0Yupa9Be6ZnxmnPU61H22FFgNIx6k91GW2DbSPH7B1JvQaigLVa10QAzoBpgJQfags8GqBf+uGHHobY6lHqYgwKMANhbAAAA) format('woff2');}
+@font-face{font-family:qe1ea453d34-cmsy7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHUAAoAAAAAA2QAAAGMAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANApATwsGAAE2AiQDCAQgBYI4ByAbvAIAngV2w3XDopgQidESnjbkWR5HSNLJw//v922fd++ISv3f84gmtYRmFpVFpLKmQq7avNJG/udcowIp+6NNIy8MFpHPjyNBAvhsfCVw/aUbLa8tX3WzTd3k901/vvEp9mVj6QRaoAFnkge2gNLUEiqYd0Ydj36JSxRj9tsBqXgTWy0Un4rv47CPWsQ/SyMIeCu8H+fF285H0B/VWWLvRV5MPwQAT0+gQMKwJDAsm0eWBT+qT0/wR3MhAaAAGYE+DAEyIPpeX165k9TNRe72ZE78f37Yf2EONq2LuSi1U0Ag+Dw5fav/eMrg58zei26ku2KFdgUIhvPeqZkJWUD8rBBHBFHoEyvB9J3eV4g+xJC16PNViy7DolWLuTt0mrQsidwhzFoBlXW6VS1GvVKtOr0bOzV9ODbRp5gHO61H7Rpa18rV2OJR8ZkXXVh3fgqNcr1csymXKrQargrYk3NwP2NL1Uaac2a1cDsDasqqAnarTF1sdgPOhz8zAi90QrWOLwUayurKahKA3QIA) format('woff2');}
+@font-face{font-family:qe1ea453d34-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAMIAAoAAAAABQQAAAK+AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqDTIJ6CwgAATYCJAMMBCAFgj4HIBv5A1GUC0aJ8cWBbUxr6CKMhkGVPgf79zeysLAkxkcXfXlhNZSWoFq2ntm9JYQokwQlEAqVyicZhHyNQzgk0mULkj3+3K91Nj4avrRRFE3nEQn+Y0BP09QDpGu+ASiYeMn5Zafc/98uwP/+Jj/OC+gvzG3a5i5cwzrvEgozXvM80yhwCP7ttn8TYY2yk16LNKGJgw1K7sfIQD7n7j+Tf3fip1JOYgK+IQSfcnFz1YLm2lKAjiL2o72DRMFykZxVHBA0NyTzO9Tpz4oap0CD6owI3hDUvyXl8Ypl1KfcGiCnLKR5erQzoUOoVVgZ1eXsZ3UtgZTWEBfUtZoVdc3eZa/uZm5ld3Mt52HpU2k5kOpxgrhqBpXbp6f7nT05yzGJXUwtEF9JCQtLWRnKWT6vmr3L3Y2qrsLOkFOFGOQ0Nsfh1MBUUkrZnlDC4uKUlVjOPNrt6cRWws3cq5yNKta7oryISdmIWMnMbWLk2kComy9orsfDreUnzKnj6mJnb4xl+Uhj50/P0pM6SrByxFiBQRq234yMbUFexmeNwYIGjnQ6xSPioSnm/n3JxIPOiN6YCJzZ+41QQYB0TPS6CSc9N8NBg4Deuq6rn588JZ3+eQQbP49hRp2xlF+DpTtgliGaDg+KhsZ2oN9GmWDWKiXLv3DGvSYXBDqDNJyPCQDdOCy/zkdcMmM45tFTbL1hMKQzpMV4fb6//EnHAASC15c90rV+x0sF79zxNqK+vI9VjEvwAUVH3vdk/Alxr+Q9Id7NZukJFGeoQcWkB2IKc9qMqmYODaasoKbZl8jYJpMs6oSwyxaqpp2jwaoONdOeykmnPqdD+xWr5OPYUrkb78kjstZe2WeCaverHkERMUQFz2y0OB1KGxCbFeqb5EajFkUkQ7xrzSbQRkgOkT4RPcVQJJkXiC+t3aV+OeAQBqFkAQA=) format('woff2');}
+text.qe1ea453d34f0 {font-family:qe1ea453d34-cmtt10;font-size:9.96264px}
+text.qe1ea453d34f1 {font-family:qe1ea453d34-cmsy10;font-size:9.96264px}
+text.qe1ea453d34f2 {font-family:qe1ea453d34-cmsy7;font-size:6.973848px}
+text.qe1ea453d34f3 {font-family:qe1ea453d34-cmmi10;font-size:9.96264px}
+text.qe1ea453d34f5 {font-family:qe1ea453d34-cmr10;font-size:9.96264px}
+
+</style>
+<g id='page1'>
+<text class='qe1ea453d34f3' x='61.768369' y='62.764633'>p</text>
+<text class='qe1ea453d34f2' x='66.780833' y='58.651137'></text>
+<text class='qe1ea453d34f5' x='72.343242' y='62.764633'>=</text>
+<text class='qe1ea453d34f3' x='82.859321' y='62.764633'>p</text>
+<text class='qe1ea453d34f1' x='90.085652' y='62.764633'>−</text>
+<text class='qe1ea453d34f0' x='100.048266' y='62.764633'>lr</text>
+<text class='qe1ea453d34f3' x='113.276279' y='62.764633'>g</text>
+</g>
+</svg>
+</div>
+<ul>
+<li><p id="p-744eff97" class="nb"><span class="m"><i>p</i></span> is the vector of parameters, <span class="m"><i>g</i></span> the gradient, and <span class="m"><i>p</i>'</span> the new parameters.</p></li>
+<li><p id="p-15a34955" class="nb"><code>lr</code> is a small positive number, the learning rate.</p></li>
+</ul>
+<p id="p-c33bfb89" class="nb">This rule is called gradient descent. Its weakness is that gradient entries differ widely in size. In the step on <code>yuheng</code>, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter jumps too far or the second hardly moves.</p>
+<p id="p-b7ea5112" class="nb">The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam, and Karpathy's microGPT uses it too. Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.</p>
+</section>
+<section class="sec" data-num="7.2" data-title="Adam">
+<h2 id="s-adam" class="nb"><span class="num">7.2</span> Adam</h2>
+<div class="fx nb src" id="c-8c166ba8" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L74" title="MicroGptFlat.fss, line 74">74</a></span>(* --------------------- Adam: three whole-vector expressions over p, m, v -- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L75" title="MicroGptFlat.fss, line 75">75</a></span>adam(p: Array[\RR64,ZZ32\], m: Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\], g: Array[\RR64,ZZ32\], t: ZZ32, lr: RR64):</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L76" title="MicroGptFlat.fss, line 76">76</a></span>    (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L77" title="MicroGptFlat.fss, line 77">77</a></span>    m' = beta1 m + (1 - beta1) g</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L78" title="MicroGptFlat.fss, line 78">78</a></span>    v' = beta2 v + (1 - beta2) (g × g)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L79" title="MicroGptFlat.fss, line 79">79</a></span>    p' = p - (lr (m' / (1 - beta1^t))) / (SQRT (v' / (1 - beta2^t)) + epsilon_A)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L80" title="MicroGptFlat.fss, line 80">80</a></span>    (p', m', v')</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L81" title="MicroGptFlat.fss, line 81">81</a></span>  end</span></code></pre></div>
+<p id="p-442b3317" class="nb">Lines 75 and 76 are the header. It is long, so the result type stands on a line of its own.</p>
+<ul>
+<li><p id="p-6d41660e" class="nb"><code>p</code> is the vector of parameters, and <code>g</code> the gradient that <code>step</code> returned.</p></li>
+<li><p id="p-c93067ab" class="nb"><code>m</code> and <code>v</code> are the two vectors of averages. Each has 4,192 numbers, like <code>p</code>. Both start as zeros.</p></li>
+<li><p id="p-cef14e1d" class="nb"><code>t</code> is the number of the step, counted from 1. <code>lr</code> is the learning rate for this step.</p></li>
+<li><p id="p-c4b7f26a" class="nb">The result is three vectors: the new <code>p</code>, the new <code>m</code>, the new <code>v</code>.</p></li>
+</ul>
+<p id="p-50750985" class="nb">A name may end in a prime: <code>m'</code> is a name of its own, read "m prime". Here it is the new <code>m</code>.</p>
+<p id="p-c5bcdb57" class="nb">Line 77 is the average of the gradient. <code>beta1</code> is 0.85. The new average is 85 parts of the old average and 15 parts of the new gradient. <code>beta1 m</code> is a number beside a vector: juxtaposition multiplies every element. <code>+</code> adds two vectors element by element.</p>
+<p id="p-87b75819" class="nb">Line 78 is the average of the squares. <code>g × g</code> multiplies the gradient with itself, element by element. <code>beta2</code> is 0.99: 99 parts old, 1 part new.</p>
+<p id="p-28013a05" class="nb">Line 79 is the move. It has three pieces.</p>
+<ul>
+<li><p id="p-40db3f52" class="nb"><code>m' / (1 - beta1^t)</code> corrects the first average for its start. <code>m</code> starts as 0, so after the first step <code>m'</code> is only 15 parts in 100 of the gradient. At <code>t</code> = 1 the divisor is 1 minus 0.85, which is 0.15, and the division gives the whole gradient back. At <code>t</code> = 3 the divisor is 0.386. As <code>t</code> grows, the divisor goes to 1, and the correction fades.</p></li>
+<li><p id="p-d1e2051b" class="nb"><code>v' / (1 - beta2^t)</code> is the same correction for the second average. <code>SQRT</code> takes the root of every element. <code>+ epsilon_A</code> adds 0.00000001 to every element, so that the division that follows never divides by 0.</p></li>
+<li><p id="p-3ba33374" class="nb">The first piece times <code>lr</code>, divided by the second piece, element by element, is the move. Line 79 subtracts it from <code>p</code>.</p></li>
+</ul>
+<p id="p-5d55ff54" class="nb">Line 80 is the block's value, the triple. The comment in line 74 says "three whole-vector expressions": the function has no loop and no index. It changes none of its arguments.</p>
+<div class="dm nb" id="m-6f7b7909" data-kind="formula"><svg xmlns='http://www.w3.org/2000/svg' width='11.234em' height='9.131em' viewBox='62.057285 53.158697 112.344398 91.308365' fill='currentColor' aria-hidden='true'><style type='text/css'>
+@font-face{font-family:q176e823945-cmtt10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIgAAoAAAAABAQAAAHUAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqBUIE3CwgAATYCJAMIBCAFgj4HIBsyAwCuBmwnPTCJFDXjIq2sJ/p5V6EI89OIqmHr2U+EkByUR0aXhUYh372nMCZLh7FZIww3sM4mVSMd1CYk8SFliIlIcKJKf9tsuy9WQyXUj9H9O0YAHCDOjLhmT2AtoPifuBnHefFYup3W9AlU1nnAUbjM1vp//veN+PDvrr37QrGPWim5WaFTG+RhUo96ozz+LxkqXnYaLGygPnD4PXejZhyGom4bpHr3SSIJAA0UOlhCFSyhOUDS1xVlKBpU2+PwXkgHHk7hDJwD6AIi68ZyGvd5uXlJwBtfaVnlc6kTtOmbSZCCN4tIFxGXZ/Nr+xuSjw/Iy+l4mQHWhPYOgSPt/x10HluQ/Pg4a67buwVu9rgiP2KO8KQayfdAs7Ou9jVd11XpyKy0EQBBuPl7+bJP0/8YtQt+5b47kh1qtUGpB2MKhGSKN0ga+vwLiJ4oRnJEg3XsIxdEE0+4V2CzSNLVN9sneiYtE319e8MTNhhQpTsudtiM6JpyS/SsKCP6pjykEw71H1PpE86ZpVUTvvcGCAgP5p4x71PQJNmshIEoiJCcnHq8yi0QH7fpMosqZYLFKzMJZ6gMglWA17TZ5rUisP+HPD9SoInUmCIYEAqEoAJkGAAAAA==) format('woff2');}
+@font-face{font-family:q176e823945-cmex10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHYAAoAAAAAA3QAAAGOAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANApIWQsGAAE2AiQDCAQgBYI+ByAbzAIAjtEnY75yMGHiGAHPHyHJLA//f99vnzs1TBNgYZpoM1DPW2mgmQfY+vqtEUu7g2sL97wEvrNQwJN4F5NOUsukLF4KJCL8W+74hR7otrDcfx6EbYG1ttY8wQgDzlpgaeDNEy0Yu5nz8UORFLVa+21CTl8xVkkv6fYvM1IbH8VpTMENXkTS7odGksQYD0ne+GqQDnJHCAB6BwkZq6gCq2gOkRRFMB56p7sPhgJAAgWBRSS7SKAAYrHd7u5U+63Weq7sBBTLdeHfiP+q4Pye9R5RTrrPk/+S4PXqopcIUIFA8LyeOlwtnP9Y1ALe95xnXvOrLqskDZJJCQRjdgoP/afIRODireINMpJFZBBcmPYIWpAYRbOAasYamuZwYdo2JaooU8I+I0Ix6xLVugyaWU9x2pn+AZLvMRfRfLyFoTdSj0E0WT0w7ok10tVGMg8IiEOMZFGUV1JXE1cBOBXFMCqIyotrwaBCZlalFRWAFkKryJEXxFWEO1LsHyLagJiGtKqGpDyAAOEgDBVgwwAAAA==) format('woff2');}
+@font-face{font-family:q176e823945-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJQAAoAAAAABCAAAAIHAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqBaIFWCwgAATYCJAMMBCAFgj4HIBtVAwgehXHjUw6lEa18zSKaY8eyCIqxticviGiS/NM/JTw0OkMlVGIgFQ2JZj/ave/nKvAKaKqTXEnNwjB9d6o3YvXU/F/tmLic/hrnDzQ385xaG6QsigKOwozXAAqoiDvP3LWxl4RalqV77s3Hzx2q9mMOZMkXdPmnY7b18VUFvEIRZohiGUzB19w/tJSC3Onqmwqz+3MOardugQDgH0CisI4RWCfjDBhqIUHhRpz3nn+P/lG0Aodgf9AUuAegAaHmN9eVatWWtvt3dNVXt/o2a6/wks4VvqFON/SWc77lrsmy7nXRLad/y91QvRt6hdd805cHMteENtvifsmkaP3z4ogz4Y7UnfAhh3H2IT+bjKFhlI3HcBYaKXmrgKPzHMwX8RXJRz2IS/5Koagf9aZwF1yKDhP2BAj/6thPJe1PWhqUFlIKAIHg+brvr9SDv8fV4Kv4M37p/zJJAmAsQRC3d58/yDc8mvWqfZCvqNPOQ5lgtoRhMesRzzVeYqbUhpawA3M22KGh49OzdtlhRM8Ih8KJbfMu2YFNFezQvKflrImpYx5/61oprG5s93C/j8cerLux8ex8T1FLeWNLabWFF+vJekCUWtXqNGtSrIGFeLWK+FCNQtUatfPgjnZzo3K1aljsstydYFxVA6jyoWDRoEC7EhdpUa7xd5SqZsELyxPLAwMQMg==) format('woff2');}
+@font-face{font-family:q176e823945-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAALMAAoAAAAABQwAAAKBAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAATAqDOIJgCw4AATYCJAMYBCAFgjgHIBv1A8iOw3R7I9sk4fhylDD5z+f1nvuC/smk/iQzhZOp4WVXdtDu7BV5wr+97kcBtZVD4AnXPLEMw4hu/s/FH3D9fA2ARWvdG/DmVRfm7cfRWAF+dKDXeLrNJwjSQojqGF4S0u3d0dcM4FJHqyEAe9idf65WNYs+Mgcpkw3ARSAIHgraOXEQRJHyBv4DDtlD/xcADMABXNN6rniZAIkLhokSI0leCyJxb78+7qNeRwSGSJeZPwNwBCABHnSiG2Orp6+XLPefvdRUTDPEtByWtczVVdfb9CdtXhtUQ2/V9aXkYVnKHFOJ3uixaZnRZhgq27B56VYPTl5/cM4ht/bcxm3Ltriy9psOzN7vPozffMRuh7K0kn3ZMW/hjB5OB6yGQxvGddhUOm40t+Kfmn9J7gP6J/aJdPgckVG07Q5rTRzg1Nzt53r3q/iNhTS5hPqoT0MQUWMVN/ler/5Vf2j+nuYvNbWdQ8jm5h+OvR8CJKefUwoI2OPwdewJUNfx31PhW7EHsXd+zM/ioMBGdrSRBQaVvIzpMremHQLeYa7xGOJsvXpa8VN2D9xd7lcuXZlCgU6r538HAAABCNofU7f07Zj7y4XjAQBv/OpuUvC//BwABCc7dITfyo4sWXkWly+zAbqg9WDW8EV2gJ4rhQAi3yMl4kpmIgN0lEHzBB1pgZ0rLRIEDJd4C8Wh2QbiLx80T9KLFrgbSIsk0z1JqoV3hvxHzFVHjE1KvNudpPhEnXvCHkabOGTcxEEjAlPik+OTUGKUEUabYDynsQLVGUXD4JFUI4yVJJFS7XGGGP1HCpQkXmIGFepIh9r/CNDsAaYMvmaiIca98EFGCJQiXrJ4STgCAAA=) format('woff2');}
+@font-face{font-family:q176e823945-cmsy7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAHUAAoAAAAAA2QAAAGMAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANApATwsGAAE2AiQDCAQgBYI4ByAbvAIAngV2w3XDopgQidESnjbkWR5HSNLJw//v922fd++ISv3f84gmtYRmFpVFpLKmQq7avNJG/udcowIp+6NNIy8MFpHPjyNBAvhsfCVw/aUbLa8tX3WzTd3k901/vvEp9mVj6QRaoAFnkge2gNLUEiqYd0Ydj36JSxRj9tsBqXgTWy0Un4rv47CPWsQ/SyMIeCu8H+fF285H0B/VWWLvRV5MPwQAT0+gQMKwJDAsm0eWBT+qT0/wR3MhAaAAGYE+DAEyIPpeX165k9TNRe72ZE78f37Yf2EONq2LuSi1U0Ag+Dw5fav/eMrg58zei26ku2KFdgUIhvPeqZkJWUD8rBBHBFHoEyvB9J3eV4g+xJC16PNViy7DolWLuTt0mrQsidwhzFoBlXW6VS1GvVKtOr0bOzV9ODbRp5gHO61H7Rpa18rV2OJR8ZkXXVh3fgqNcr1csymXKrQargrYk3NwP2NL1Uaac2a1cDsDasqqAnarTF1sdgPOhz8zAi90QrWOLwUayurKahKA3QIA) format('woff2');}
+@font-face{font-family:q176e823945-cmmi7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKUAAoAAAAABHAAAAJKAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAPAqCQIIMCwgAATYCJAMMBCAFgjgHIBuFA1FU63mCj8N06yPHKcM5a6VEaMJZxTtf8cC31v7I7h3u1aJmL4l4r2OeAp3S8RTxykXmf/z73feJJGoEMHX2Gps6lbMolH2eDeBvmbo3eC5ESyDAaTdogUpaUKluszTwsRBkh4h0dnf09YYU70OTingXL/6HNS47/KrCciDC1nCBn9I6yogEnA1pCQqSEL1ZCohIGB5nwzDmgVoWxKK8FPyiPJSGiUtYfasFnAGQ2fMNYSV95D1jeyVr27n9i8bJte1QJGZh4dbRgfR2sm/OcnpQ3LjaoHudzN7O3tXG4eHWxtHZSd688qT6+HrxDWtuPqni/83e3i3XJbXnVnMrUMzrSxobmGQnewoOaq5zu5Frx6FojOM2J9OyvYiWy/DOYPWXpfyR2ZVajkrRTd5oaBctNeG5psWcC5p9iKwyhGEXArwbRaE90UuKtJ/myvTQLl7RAf5brcW82ZjDlubOdhnEYmfs10f4vAla/pdK3rXgCT5hcnxHCWQldzsjAlLjwTR0Zz/ntwhAQOBF99k+kK7310Rn8MFvf8o3lDZaP76iKUqDIx2mfbJUk74A46X4FuJ1wralKFkvmaGh0y2EoD6AxKzSJ1a6DIu1ytztTpPEoIXcIZhl0MSs055YGRUh1jpdj51WVNwA4MfXEBofH615U3vKCkp48iD9TFhGdGpGZLyQqoKKgjKYShQvSbo04VIIsZcorDcJQsUzH02TB5Eq+jiBEGUKlASy1BLSWnAhFOaEyHbqMBmipTqR4nGjSoGK7leGZgAA) format('woff2');}
+@font-face{font-family:q176e823945-cmr7;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJAAAoAAAAABAgAAAH2AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAANAqBZIFUCwgAATYCJAMKBCAFgjIHIBs9AwCOwrblE2Oi4lBvDhHmjofnD3/n3vf+aIzB2QJcIG2aQG0KJLA0CjCxJZBY7/j91bwzuTDbAcxCEkJR+7sbLxQBwnY8kQL6u0BgNomTKA08AJgEEoQWcGCRUN+UeJSkFA4P7diEkg+xAB3yze75f9q85XjVRH64ErrE4Cg3dwYhONmUV6ChiDy3NZAomOb/NM3BOlBVga3WsNla+4IAFNBFYhe4AKACQiymSR02DtzdHR/jcMj99SjM8QpLQue27r1VJc4jfD2YeGSzWQkXWM75ScDGldvKTZTNRrRY8BjWgbvDES+D17fCCVPFqb+tyYkCu27KaIzE5Nbf1MHTfpecBKSdyaw5gPoZdb3jHsj//zms5dsNdzE7UM9R2ggb5+W+6L+wEggttxKWHc+YyI4eTYfiI1zDYmfDF9S8b774AUAguP64JzO9K/5cSgV/kZ0P9Bb5mwdAX4KgaMhfterSUQAAMn9BHlCphVBsQCC4OuglQ8Y0pqrG6BgyRVe16g9aFMde1AFhVQVQ9Z3TMYtDV99zH7RjYHvr51yNK9cUH8MlNytHhpfNPTyDWGsQymPys/KycqGekpyKng6fRoxOSjxcVeCS0yhGwKehJaakECNXlhySZlNUGbuT8O6BwywGj4GYloGQXIx8WfJkyWUPMFUA) format('woff2');}
+@font-face{font-family:q176e823945-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAXEAAoAAAAACPwAAAV4AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAXAqLDIg8CxAAATYCJAMcBCAFgj4HIBvrBkAehekWyz9IyoltOY+pKQ3PNvsHuIKtAQNF3E5XVUxccxVul6F3rXeNcRmN8iuCh97b393eTKaL4sJM0qgo0EgCi7T+B+DXPN/91H9272NzJH73Sus9r3x+Ix7Z4dY2TPABb+CYvtsvFWQIBw+xXfk1iqAjABLV0FrgA8AP/PQ/HKyZGfRNb4P0EgDA+QK8FYA2GLFPHy02jM6zCPifQkA5BNT/CuHcAgBXEnAyNZ1g/mAfGGYTTc9TyFkblPMK47DB6re/NQhIPzBYhlFRPgDgCcisE4TQ+rAIuBPmPDJfhRlysNGmHSJr8+6+fPag5cCQvfpMqZg6LucEMeOe1yhxm+USZ3+q3HyY2Ks0cS6aPJa150XCEVZUbzmZuf/y5eMcF7UZsh7C94iMIJCk0ylRruvSU81mibOf1R/cCo5L9pdgC8tusblv9HlJ63JhhMOS4I45UnHuGm3dTB3nJO3mY1ligaA4grOs+8AdlZXiuO3s5+NXFAyrVgh7UJuK6uimXLfLsu31vIel7LueDpF1x4jsuWsqdgcuOLD9FoE0sjarizh7uJtVCBriaKZdSt/e/m/eKueZGOHKaAu7QywQ2TN55CXjJolzbYc27cP3vWAFASWdzuTN8cerz14FbsUJUbyaeb/8droE7cpzbj98/uCMHWLOQY9HFMUKr9Ek7JP375aKDz/G7npYJ2pA9+AODLNzXlRsORAjMiY3YfFUnpeSD0u0dVfcnjOocE+1+b7eflZ/WeIuiGCnp1p6TrnkdsJRgF9hvV7IKuU7r6l2S9xdD2HZs4c8dA+3ieqtufvvY/vPKt13DGfiHJg+2yV3koZ9H1on3jsxwdQP15bQmgJeTxVxxpbWSoT8calSt8xWkvDK0tAONcAj8pp/+b9iaYa1Ed/knVy7Q7UsNP2V38tq6OMfblV1hVaEVfqBt1r5M4Ei6Jzzv7nHBGvSTpzQldwv5ng+FQsteWdQUQU11N9pKimH8cdJZRcDL7bkTHmURhPlBvOPJGxZn9Z8Ob7Kjy8No92x304peVcWbJqIEZVEOR04FlSm7bsTTyjdMmqgRgviWhk1ST3tXV+0O7QSmV0W1X3oVvSOYyv7GlAqLhIkHpPvV1FhmvAXOyLPAEvffhfo6PLl2yoT+B31naAmRuW3fZJeXtkC8w+cUba7GPmHfpjmXsoIuAMOpj61gNDXk3qf8btVE/6aLknf+0F4eWh5CNTz043jrq99wHtzNaHNp2IHg1IqG5DWOyMOII1Byh7G2Ls3wi+AnzRVXh/f4cenhmgPRn83hX8ehR5YrRsA7Rt/e5WxCS+jfDT/Qu/proOGVVFpeuN2QiMY7P21laMT1pphdX+1SjbJf9eKr2vn7lg0Pf7DuqbznywKWKtmDFOC5brV9+GengYkKRuLrn6rBJkQkpNXt/ZGV8qXg+qhwZG/PayJUv+QiUfPZOQZWStS+8Gazz+PL6f0fGSoCfr91PNoQPDSi2KvrBVmazP0yXWPSgltwpL2Lqi1PlobGBL66BPFjdop6cU5pY/lYS8OA8PNp9EfYydK1gm3LWt3AoRQw4KZw9nbH1Lwqz8iE/Q/1zQ+AjvM/+//n5Qj4NcAxCrbzo53/iUnfrMGEpFgTM+gn47MRYAO5P/3oR/QUQ7o8i6gQDp9Zgh/i9FHzQfJQYh1pcj4ClF8YAjFly9mM0rFAAHVAAChlSRFJlCf4oM0TvEVyDJAZVj5dG39PG9uuNk8NjXldbVJTUphIV8fTh8xfeyU6aPNTHpSWlIqKDfIbKJpphppMkZjDUeUVQOGMzMbK1UK4zBPMdagAYyfRIgOqA4HbMOh/sCI9jCzMGSebqwpphs9zkiXJG1dPhUCAAAA) format('woff2');}
+text.q176e823945f0 {font-family:q176e823945-cmtt10;font-size:9.96264px}
+text.q176e823945f1 {font-family:q176e823945-cmsy10;font-size:9.96264px}
+text.q176e823945f2 {font-family:q176e823945-cmsy7;font-size:6.973848px}
+text.q176e823945f3 {font-family:q176e823945-cmmi10;font-size:9.96264px}
+text.q176e823945f4 {font-family:q176e823945-cmmi7;font-size:6.973848px}
+text.q176e823945f5 {font-family:q176e823945-cmr10;font-size:9.96264px}
+text.q176e823945f6 {font-family:q176e823945-cmr7;font-size:6.973848px}
+text.q176e823945f7 {font-family:q176e823945-cmex10;font-size:9.96264px}
+
+</style>
+<g id='page2'>
+<text class='q176e823945f3' x='61.768369' y='61.170574'>m</text>
+<text class='q176e823945f2' x='70.515702' y='57.057078'></text>
+<text class='q176e823945f5' x='76.07811' y='61.170574'>=</text>
+<text class='q176e823945f3' x='86.59419' y='61.170574'>β</text>
+<text class='q176e823945f6' x='92.22932' y='62.664955'>1</text>
+<text class='q176e823945f3' x='98.359089' y='61.170574'>m</text>
+<text class='q176e823945f5' x='109.320289' y='61.170574'>+<tspan x='119.282902'>(1</tspan></text>
+<text class='q176e823945f1' x='130.352481' y='61.170574'>−</text>
+<text class='q176e823945f3' x='140.315095' y='61.170574'>β</text>
+<text class='q176e823945f6' x='145.950224' y='62.664955'>1</text>
+<text class='q176e823945f5' x='150.419594' y='61.170574'>)</text>
+<text class='q176e823945f3' x='155.954367' y='61.170574'>g<tspan x='65.329143' y='78.107062'>v</tspan></text>
+<text class='q176e823945f2' x='70.515714' y='73.993566'></text>
+<text class='q176e823945f5' x='76.07811' y='78.107062'>=</text>
+<text class='q176e823945f3' x='86.59419' y='78.107062'>β</text>
+<text class='q176e823945f6' x='92.22932' y='79.601443'>2</text>
+<text class='q176e823945f3' x='98.359089' y='78.107062'>v</text>
+<text class='q176e823945f5' x='105.759526' y='78.107062'>+<tspan x='115.722139'>(1</tspan></text>
+<text class='q176e823945f1' x='126.791718' y='78.107062'>−</text>
+<text class='q176e823945f3' x='136.754332' y='78.107062'>β</text>
+<text class='q176e823945f6' x='142.389461' y='79.601443'>2</text>
+<text class='q176e823945f5' x='146.858831' y='78.107062'>)</text>
+<text class='q176e823945f3' x='152.393604' y='78.107062'>g</text>
+<text class='q176e823945f1' x='159.716778' y='78.107062'></text>
+<text class='q176e823945f3' x='169.679391' y='78.107062'>g<tspan x='65.503249' y='115.276651'>p</tspan></text>
+<text class='q176e823945f2' x='70.515714' y='111.163155'></text>
+<text class='q176e823945f5' x='76.07811' y='115.276651'>=</text>
+<text class='q176e823945f3' x='86.59419' y='115.276651'>p</text>
+<text class='q176e823945f1' x='93.820521' y='115.276651'>−</text>
+<text class='q176e823945f0' x='115.001883' y='101.90077'>lr</text>
+<text class='q176e823945f3' x='137.747732' y='95.160969'>m</text>
+<text class='q176e823945f2' x='146.495066' y='91.545605'></text>
+<rect x='129.42541' y='99.21086' height='.398484' width='28.187054'/>
+<text class='q176e823945f5' x='129.42541' y='108.73464'>1</text>
+<text class='q176e823945f1' x='136.620615' y='108.73464'>−</text>
+<text class='q176e823945f3' x='146.583228' y='108.73464'>β</text>
+<text class='q176e823945f4' x='154.104793' y='105.303081'>t</text>
+<text class='q176e823945f6' x='152.218358' y='111.391273'>1</text>
+<rect x='104.978648' y='112.586741' height='.398484' width='63.852548'/>
+<text class='q176e823945f7' x='104.978648' y='114.977647'></text>
+<rect x='114.941304' y='114.579163' height='.398484' width='30.578081'/>
+<text class='q176e823945f3' x='126.239527' y='125.601276'>v</text>
+<text class='q176e823945f2' x='131.426097' y='121.985912'></text>
+<rect x='116.136817' y='129.651168' height='.398484' width='28.187054'/>
+<text class='q176e823945f5' x='116.136817' y='139.174948'>1</text>
+<text class='q176e823945f1' x='123.332022' y='139.174948'>−</text>
+<text class='q176e823945f3' x='133.294636' y='139.174948'>β</text>
+<text class='q176e823945f4' x='140.8162' y='135.743388'>t</text>
+<text class='q176e823945f6' x='138.929766' y='141.831581'>2</text>
+<text class='q176e823945f5' x='147.733251' y='132.341078'>+</text>
+<text class='q176e823945f3' x='157.695864' y='132.341078'>ε</text>
+<text class='q176e823945f4' x='162.341624' y='133.835458'>A</text>
+</g>
+</svg>
+</div>
+<ul>
+<li><p id="p-3ee1f3d8" class="nb"><span class="m">β<sub>1</sub></span> is <code>beta1</code>, <span class="m">β<sub>2</sub></span> is <code>beta2</code>, and <span class="m">ε<sub><i>A</i></sub></span> is <code>epsilon_A</code>.</p></li>
+<li><p id="p-d7e25ba9" class="nb"><span class="m"><i>g</i> ⊙ <i>g</i></span> is <code>g × g</code>: the product element by element.</p></li>
+<li><p id="p-e67abf5f" class="nb">The root, the division and the powers apply to every element by itself.</p></li>
+</ul>
+<p id="p-2e908d54" class="nb">The numbers of parameter 500 in the first step show what the three lines do. A run printed its value before, its gradient entry, its two averages after the step, its value after, and the difference:</p>
+<pre class="vb nb out" id="o-19f621e6" data-kind="output"><code>index 500 p0 0.06258901428847981 g -0.09262792010673876 m1 -0.013894188016010816 v1 8.579931583300387E-5 p1 0.07258901320889183 delta 0.00999999892041202</code></pre>
+<ul>
+<li><p id="p-76f4aae4" class="nb"><code>m1</code> is 0.15 times the gradient entry: -0.01389.</p></li>
+<li><p id="p-0d52392e" class="nb"><code>v1</code> is 0.01 times the entry's square: 0.0000858.</p></li>
+<li><p id="p-2bfcfcc5" class="nb">The corrected first average is <code>m1</code> divided by 0.15: the entry itself, -0.0926.</p></li>
+<li><p id="p-7a0820b4" class="nb">The corrected second average is <code>v1</code> divided by 0.01: the entry's square. Its root is 0.0926, the entry without its sign.</p></li>
+<li><p id="p-8871a219" class="nb">Their quotient is -1. The move is <code>lr</code> times -1, and <code>lr</code> is 0.01 in the first step. Subtracting it raises the parameter by 0.01: from 0.0626 to 0.0726.</p></li>
+</ul>
+<p id="p-1537bb6f" class="nb">So in the first step, the size of the entry cancels out. Only its sign is left. Two more parameters from the same run:</p>
+<pre class="vb nb out" id="o-a829f881" data-kind="output"><code>index 1100 p0 0.03654080103626847 g 0.031736131393025356 m1 0.004760419708953804 v1 1.0071820357953705E-5 p1 0.026540804187250147 delta -0.009999996849018325
+index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delta 0.0</code></pre>
+<ul>
+<li><p id="p-4f13343d" class="nb">Parameter 1100 has a positive entry, a third the size of the first one. It moves down, also by 0.01.</p></li>
+<li><p id="p-565fe228" class="nb">Parameter 0 lies in the row of <code>wte</code> for the token <code>a</code>. Its entry is 0, and it does not move: 0 divided by <code>epsilon_A</code> is 0.</p></li>
+</ul>
+<p id="p-8497e3c4" class="nb">In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about <code>lr</code> in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less.</p>
+<p id="p-e5581a71" class="nb">The parentheses in line 79 fix the order of the float operations: first <code>lr</code> times the corrected average, then the division. The reference values of the check were computed in that order, and a different order can change the last digit of a float.</p>
+</section>
+<section class="sec" data-num="7.3" data-title="The learning rate">
+<h2 id="s-the-learning-rate" class="nb"><span class="num">7.3</span> The learning rate</h2>
+<div class="fx nb src" id="c-06f6bbc5" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L82" title="MicroGptFlat.fss, line 82">82</a></span>learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)</span></code></pre></div>
+<p id="p-18bf4df5" class="nb">The learning rate falls in a straight line from <code>lr0</code>, 0.01, at step 0, towards 0 at step <code>nSteps</code>, 1,000. A run printed three values:</p>
+<pre class="vb nb out" id="o-065fde2f" data-kind="output"><code>lr(0) = 0.01 lr(1) = 0.00999 lr(999) = 1.000000000000001E-5</code></pre>
+<p id="p-df59ba96" class="nb"><code>lr0 (...)</code> is a number beside a number: the product. <code>1.0 s</code> turns the integer <code>s</code> into a float. The line needs it. In Fortress, <code>/</code> between two integers gives an exact fraction, a value of the type <code>QQ</code>: for <code>s</code> = 3, a run printed <code>s / nSteps</code> as <code>3/1000</code>. The library has no product of a float and such a fraction, and the line without <code>1.0</code> stops with "Failed to find any matching overload". With the float on the left, the division gives a float.</p>
+<p id="p-b32c3950" class="nb">The schedule is set for 1,000 steps, as in Karpathy's program. The loop below runs five.</p>
+</section>
+<section class="sec" data-num="7.4" data-title="The training loop">
+<h2 id="s-the-training-loop" class="nb"><span class="num">7.4</span> The training loop</h2>
+<div class="fx nb src" id="c-035e6ab9" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L84" title="MicroGptFlat.fss, line 84">84</a></span>(* --------------------------------------------------- training ----------- *)</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L85" title="MicroGptFlat.fss, line 85">85</a></span>run(): () = do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L86" title="MicroGptFlat.fss, line 86">86</a></span>    println "microgpt flat | params " nParams() " | corpus " corpus.size() " x " (blockSize + 1) " | batch 1, 5 steps"</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L87" title="MicroGptFlat.fss, line 87">87</a></span>    bsz = 1</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L88" title="MicroGptFlat.fss, line 88">88</a></span>    p: Array[\RR64,ZZ32\] := loadParams(weightsDir, matName, 9, nParams())</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L89" title="MicroGptFlat.fss, line 89">89</a></span>    m: Array[\RR64,ZZ32\] := zeros(nParams())</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L90" title="MicroGptFlat.fss, line 90">90</a></span>    v: Array[\RR64,ZZ32\] := zeros(nParams())</span></code></pre></div>
+<p id="p-242d2842" class="nb">Line 85 declares <code>run</code>, the function that the api <code>Executable</code> asks for. Its result type <code>()</code> is the empty tuple: the function returns nothing.</p>
+<p id="p-68acff02" class="nb">Line 86 prints a line. <code>println</code> takes one argument. Here the argument is built by juxtaposition: a string beside any value is their text joined together. A run printed:</p>
+<pre class="vb nb out" id="o-862535eb" data-kind="output"><code>microgpt flat | params 4192 | corpus 2000 x 17 | batch 1, 5 steps</code></pre>
+<p id="p-5d7f1562" class="nb">Line 87 sets the size of a batch, one document.</p>
+<p id="p-e21fdb97" class="nb">Lines 88 to 90 declare three variables that the loop changes. A declaration of the form <code>name: Type := value</code> makes a mutable variable. <code>loadParams</code> reads the nine files of starting values, in the order of the layout table, into one vector (<a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatData.fss#L93">FlatData.fss, lines 93 to 101</a>). <code>zeros(n)</code> is the vocabulary's vector of <code>n</code> zeros.</p>
+<aside class="limit"><p class="label">A limit of today's tree</p>
+<p id="p-7a58708a" class="nb">The type in lines 88 to 90 is there because walk demands it. The grammar allows a mutable variable without a type, <code>var p = ...</code>, and the parser's checks refuse it: "The type of p is required" (the gap ledger's row 177). The project tested every other written type of the model: each can be left out and the five losses stay the same.</p></aside>
+<aside class="limit"><p class="label">A limit of today's tree</p>
+<p id="p-e4fde559" class="nb"><code>FlatData.fss</code> holds its own function that reads a float from text, and its own scan of a line for numbers. The library's <code>strToFloat</code> reads "-1.5" as -28.5 and fails on a number with 17 digits (the gap ledger's row 140, a defect of the library). The library's <code>split</code> on a string does not cut it at spaces (row 141).</p></aside>
+<div class="fx nb src" id="c-a8e1d30b" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L91" title="MicroGptFlat.fss, line 91">91</a></span>  for s &lt;- seq(0#5) do</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L92" title="MicroGptFlat.fss, line 92">92</a></span>      t0 = nanoTime()</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L93" title="MicroGptFlat.fss, line 93">93</a></span>      (l, g) = step(p, keys(bsz, fn (i: ZZ32): ZZ32 =&gt; (s bsz + i) MOD corpus.size()))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L94" title="MicroGptFlat.fss, line 94">94</a></span>      (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L95" title="MicroGptFlat.fss, line 95">95</a></span>      println "step " (s + 1) " loss " l "  (" ((nanoTime() - t0) DIV 1000000) " ms)"</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L96" title="MicroGptFlat.fss, line 96">96</a></span>  end</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L97" title="MicroGptFlat.fss, line 97">97</a></span>end</span></code></pre></div>
+<ul>
+<li><p id="p-9629ce34" class="nb">Line 91 opens a loop over the steps 0 to 4. The range is wrapped in <code>seq</code>, so the steps run in order. They must: each step needs the parameters that the step before it made.</p></li>
+<li><p id="p-5e01eaa3" class="nb">Line 92 reads the clock.</p></li>
+<li><p id="p-e874c098" class="nb">Line 93 calls the model. Its second argument is the batch. <code>keys(n, f)</code> is the vocabulary's vector of <code>n</code> integers, filled from a function of the index. Here it holds the numbers of the documents <code>s bsz + i</code>, each taken <code>MOD</code> the number of documents, so that the numbers start again at 0 after the last document. With a batch of one, step <code>s</code> learns from document <code>s</code>. The left side binds the step's two results to <code>l</code> and <code>g</code>.</p></li>
+<li><p id="p-95e0a7f7" class="nb">Line 94 calls Adam and assigns its three results to the three variables at once. <code>:=</code> with a tuple on the left assigns to each name. The step count <code>t</code> is <code>s + 1</code>.</p></li>
+<li><p id="p-2a8ae7a6" class="nb">Line 95 prints the step's number, its loss, and the time that it took in milliseconds. <code>DIV</code> is division of integers without a remainder.</p></li>
+<li><p id="p-8617069b" class="nb">Line 96 closes the loop, and line 97 closes <code>run</code>.</p></li>
+</ul>
+<p id="p-250b4590" class="nb">A run of the program printed these five losses:</p>
+<pre class="vb nb out" id="o-e2ec01cf" data-kind="output"><code>step 1 loss 3.365966947584851
+step 2 loss 3.4242727838717717
+step 3 loss 3.177802125458052
+step 4 loss 3.0663556842241975
+step 5 loss 3.2208830897506235</code></pre>
+<p id="p-f576c611" class="nb">Each line also ended with the step's time. This text leaves the times out. They are walk's, and by your ruling walk's speed says nothing about how fast Fortress is.</p>
+<p id="p-4210a0d8" class="nb">The five losses go up and down. They cannot be compared with each other: each is measured on a different name, <code>yuheng</code>, <code>diondre</code>, <code>xavien</code>, <code>jori</code>, <code>juanluis</code>, and each is measured before that step's own change to the parameters.</p>
+</section>
+<section class="sec" data-num="7.5" data-title="What one step does to the numbers">
+<h2 id="s-what-one-step-does-to-the-numbers" class="nb"><span class="num">7.5</span> What one step does to the numbers</h2>
+<p id="p-1fcc1c21" class="nb">To see the effect of a step, measure the same name before and after. A run did the step on <code>yuheng</code>, applied Adam once, and called <code>step</code> on <code>yuheng</code> again with the new parameters:</p>
+<pre class="vb nb out" id="o-9911ddaf" data-kind="output"><code>loss doc 0 before 3.365966947584851 after one Adam step 2.9510500702232525</code></pre>
+<p id="p-c67c585c" class="nb">The loss on <code>yuheng</code> fell from 3.366 to 2.951. In probabilities: <code>exp</code> of minus 3.366 is 0.035, and <code>exp</code> of minus 2.951 is 0.052. These are the probabilities that give the same two losses if all seven right answers have one and the same probability: 0.035 before the step, 0.052 after it.</p>
+<p id="p-110ad826" class="nb">The same change helped a little on a name that the step did not see. The loss on document 1, <code>diondre</code>, with the old and with the new parameters:</p>
+<pre class="vb nb out" id="o-ebaa9a31" data-kind="output"><code>loss doc 1 with p0 3.4265763956879174 with p1 3.4242727838717717</code></pre>
+<p id="p-760a6d87" class="nb">The second number is the loss that the program printed for step 2.</p>
+<p id="p-07b0a0d5" class="nb">The whole step on <code>yuheng</code>, in the numbers of this text:</p>
+<ol>
+<li><p id="p-21646a1c" class="nb">The keys. The name becomes 16 rows of tokens, of which 7 count: <code>ids</code>, <code>tg</code>, <code>vm</code>, <code>pos</code>.</p></li>
+<li><p id="p-46a55f88" class="nb">The forward pass. From the keys and the 4,192 parameters it computes a matrix of 16 by 27 probabilities. The seven right answers have probabilities between 0.027 and 0.046. The loss is 3.366.</p></li>
+<li><p id="p-1fd6063a" class="nb">The backward pass. It computes 4,192 rates, one for each parameter. 464 of them are 0: the parameters that this name did not use.</p></li>
+<li><p id="p-960e0191" class="nb">Adam. Each of the other 3,728 parameters moves against the sign of its rate. In the first step the move is 0.01, or a little less where the rate is within a few powers of ten of <code>epsilon_A</code>.</p></li>
+<li><p id="p-4b8fca50" class="nb">With the new parameters, the loss on the same name is 2.951.</p></li>
+</ol>
+</section>
+</section>
+<nav class="pager" aria-label="Parts"><a class="prev" href="backward.html"><span>Previous</span> 6. Backward: the gradient</a><span></span></nav>
+<footer class="colophon">Built from <code>explorations/microgpt-walk/src/07-adam.md</code> of the revival's repository. The quoted lines are those of <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss">MicroGptFlat.fss</a> and the components beside it, as the build found them.</footer>
+</div>
+<script src="walk.js"></script>
+<script src="reader.js"></script>
+</body>
+</html>

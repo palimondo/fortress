@@ -44,11 +44,11 @@
 <a class="lnk" href="norm-softmax.html#c-2e9f288d">27</a>rmsn(x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = x / SQRT (epsilon + (x DOT x) / |x|)
 <a class="lnk" href="norm-softmax.html#c-a7dae195">28</a>sm(z: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do e = exp(z - (BIG MAX z)); e / (SUM e) end
 <a class="lnk" href="attention.html#c-24ae3657">29</a>mask: Array[\RR64,(ZZ32,ZZ32)\] = mat(blockSize, blockSize, fn (i: ZZ32, j: ZZ32): RR64 =&gt; if j &gt; i then -(10.0^10) else 0.0 end)
-<a class="lnk">30</a>rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
-<a class="lnk">31</a>    r = SQRT (epsilon + (x DOT x) / |x|); y = x / r
-<a class="lnk">32</a>    (dy - y ((y DOT dy) / |y|)) / r
-<a class="lnk">33</a>  end
-<a class="lnk">34</a>sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
+<a class="lnk" href="backward.html#c-e8b2091c">30</a>rmsn_b(dy: Array[\RR64,ZZ32\], x: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = do
+<a class="lnk" href="backward.html#c-e8b2091c">31</a>    r = SQRT (epsilon + (x DOT x) / |x|); y = x / r
+<a class="lnk" href="backward.html#c-e8b2091c">32</a>    (dy - y ((y DOT dy) / |y|)) / r
+<a class="lnk" href="backward.html#c-e8b2091c">33</a>  end
+<a class="lnk" href="backward.html#c-72b72481">34</a>sm_b(p: Array[\RR64,ZZ32\], dy: Array[\RR64,ZZ32\]): Array[\RR64,ZZ32\] = p × (dy - (p DOT dy))
 <a class="lnk">35</a>
 <a class="lnk" href="arrays.html#c-06ff7dcf">36</a>(* ------------------------------- tactic 2/8: one vector, nine views ------ *)
 <a class="lnk" href="arrays.html#c-731c9475">37</a>matName(i: ZZ32): String =
@@ -76,42 +76,42 @@
 <a class="lnk" href="attention.html#c-b5289a63">59</a>    a = rows(sm, mask + (qh kh^T) / SQRT (1.0 headDim)); hc = u(a vh)
 <a class="lnk" href="attention.html#c-936a19c4">60</a>    x2 = xp + hc wo^T; x3 = rows(rmsn, x2); m0 = x3 f1^T; mr = 0.0 MAX m0; x4 = x2 + mr f2^T
 <a class="lnk" href="mlp-loss.html#c-ddbc374c">61</a>    pr = rows(sm, x4 lm^T); loss = -(vm DOT log(pick(pr, tg))) / nv
-<a class="lnk">62</a>    (* -- backward, one line under each forward line, bottom-up -- *)
-<a class="lnk">63</a>    dL = diag(vm / nv) (pr - onehot(tg, vocabSize)); gLM = dL^T x4; dX4 = dL lm
-<a class="lnk">64</a>    gF2 = dX4^T mr; dM0 = (dX4 f2) × (m0 &gt; 0.0); gF1 = dM0^T x3; dX3 = dM0 f1
-<a class="lnk">65</a>    dX2 = dX4 + rows(rmsn_b, dX3, x2); gWO = dX2^T hc; dh = h(dX2 wo)
-<a class="lnk">66</a>    dVh = a^T dh; dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)
-<a class="lnk">67</a>    dQh = dS kh; dKh = dS^T qh; (dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))
-<a class="lnk">68</a>    (gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1); dX1 = dQ wq + dK wk + dV wv
-<a class="lnk">69</a>    dXp = dX2 + rows(rmsn_b, dX1, xp); dX = rows(rmsn_b, dXp, x)
-<a class="lnk">70</a>    gWTE = transpose(onehot(ids, vocabSize)) dX; gWPE = transpose(onehot(pos, blockSize)) dX
-<a class="lnk">71</a>    (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))
-<a class="lnk">72</a>  end
+<a class="lnk" href="backward.html#c-512de2de">62</a>    (* -- backward, one line under each forward line, bottom-up -- *)
+<a class="lnk" href="backward.html#c-7b10383c">63</a>    dL = diag(vm / nv) (pr - onehot(tg, vocabSize)); gLM = dL^T x4; dX4 = dL lm
+<a class="lnk" href="backward.html#c-8429f7f8">64</a>    gF2 = dX4^T mr; dM0 = (dX4 f2) × (m0 &gt; 0.0); gF1 = dM0^T x3; dX3 = dM0 f1
+<a class="lnk" href="backward.html#c-c172d8bb">65</a>    dX2 = dX4 + rows(rmsn_b, dX3, x2); gWO = dX2^T hc; dh = h(dX2 wo)
+<a class="lnk" href="backward.html#c-f1379693">66</a>    dVh = a^T dh; dS = rows(sm_b, a, dh vh^T) / SQRT (1.0 headDim)
+<a class="lnk" href="backward.html#c-973ba1fe">67</a>    dQh = dS kh; dKh = dS^T qh; (dQ, dK, dV) = (u(dQh), u(dKh), u(dVh))
+<a class="lnk" href="backward.html#c-b7a06271">68</a>    (gWQ, gWK, gWV) = (dQ^T x1, dK^T x1, dV^T x1); dX1 = dQ wq + dK wk + dV wv
+<a class="lnk" href="backward.html#c-6c161a65">69</a>    dXp = dX2 + rows(rmsn_b, dX1, xp); dX = rows(rmsn_b, dXp, x)
+<a class="lnk" href="backward.html#c-518a7d08">70</a>    gWTE = transpose(onehot(ids, vocabSize)) dX; gWPE = transpose(onehot(pos, blockSize)) dX
+<a class="lnk" href="backward.html#c-adbaba9c">71</a>    (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))
+<a class="lnk" href="backward.html#c-adbaba9c">72</a>  end
 <a class="lnk">73</a>
-<a class="lnk">74</a>(* --------------------- Adam: three whole-vector expressions over p, m, v -- *)
-<a class="lnk">75</a>adam(p: Array[\RR64,ZZ32\], m: Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\], g: Array[\RR64,ZZ32\], t: ZZ32, lr: RR64):
-<a class="lnk">76</a>    (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) = do
-<a class="lnk">77</a>    m' = beta1 m + (1 - beta1) g
-<a class="lnk">78</a>    v' = beta2 v + (1 - beta2) (g × g)
-<a class="lnk">79</a>    p' = p - (lr (m' / (1 - beta1^t))) / (SQRT (v' / (1 - beta2^t)) + epsilon_A)
-<a class="lnk">80</a>    (p', m', v')
-<a class="lnk">81</a>  end
-<a class="lnk">82</a>learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)
+<a class="lnk" href="adam.html#c-8c166ba8">74</a>(* --------------------- Adam: three whole-vector expressions over p, m, v -- *)
+<a class="lnk" href="adam.html#c-8c166ba8">75</a>adam(p: Array[\RR64,ZZ32\], m: Array[\RR64,ZZ32\], v: Array[\RR64,ZZ32\], g: Array[\RR64,ZZ32\], t: ZZ32, lr: RR64):
+<a class="lnk" href="adam.html#c-8c166ba8">76</a>    (Array[\RR64,ZZ32\], Array[\RR64,ZZ32\], Array[\RR64,ZZ32\]) = do
+<a class="lnk" href="adam.html#c-8c166ba8">77</a>    m' = beta1 m + (1 - beta1) g
+<a class="lnk" href="adam.html#c-8c166ba8">78</a>    v' = beta2 v + (1 - beta2) (g × g)
+<a class="lnk" href="adam.html#c-8c166ba8">79</a>    p' = p - (lr (m' / (1 - beta1^t))) / (SQRT (v' / (1 - beta2^t)) + epsilon_A)
+<a class="lnk" href="adam.html#c-8c166ba8">80</a>    (p', m', v')
+<a class="lnk" href="adam.html#c-8c166ba8">81</a>  end
+<a class="lnk" href="adam.html#c-06f6bbc5">82</a>learningRate(s: ZZ32): RR64 = lr0 (1 - (1.0 s) / nSteps)
 <a class="lnk">83</a>
-<a class="lnk">84</a>(* --------------------------------------------------- training ----------- *)
-<a class="lnk">85</a>run(): () = do
-<a class="lnk">86</a>    println "microgpt flat | params " nParams() " | corpus " corpus.size() " x " (blockSize + 1) " | batch 1, 5 steps"
-<a class="lnk">87</a>    bsz = 1
-<a class="lnk">88</a>    p: Array[\RR64,ZZ32\] := loadParams(weightsDir, matName, 9, nParams())
-<a class="lnk">89</a>    m: Array[\RR64,ZZ32\] := zeros(nParams())
-<a class="lnk">90</a>    v: Array[\RR64,ZZ32\] := zeros(nParams())
-<a class="lnk">91</a>    for s &lt;- seq(0#5) do
-<a class="lnk">92</a>        t0 = nanoTime()
-<a class="lnk">93</a>        (l, g) = step(p, keys(bsz, fn (i: ZZ32): ZZ32 =&gt; (s bsz + i) MOD corpus.size()))
-<a class="lnk">94</a>        (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))
-<a class="lnk">95</a>        println "step " (s + 1) " loss " l "  (" ((nanoTime() - t0) DIV 1000000) " ms)"
-<a class="lnk">96</a>    end
-<a class="lnk">97</a>  end
+<a class="lnk" href="adam.html#c-035e6ab9">84</a>(* --------------------------------------------------- training ----------- *)
+<a class="lnk" href="adam.html#c-035e6ab9">85</a>run(): () = do
+<a class="lnk" href="adam.html#c-035e6ab9">86</a>    println "microgpt flat | params " nParams() " | corpus " corpus.size() " x " (blockSize + 1) " | batch 1, 5 steps"
+<a class="lnk" href="adam.html#c-035e6ab9">87</a>    bsz = 1
+<a class="lnk" href="adam.html#c-035e6ab9">88</a>    p: Array[\RR64,ZZ32\] := loadParams(weightsDir, matName, 9, nParams())
+<a class="lnk" href="adam.html#c-035e6ab9">89</a>    m: Array[\RR64,ZZ32\] := zeros(nParams())
+<a class="lnk" href="adam.html#c-035e6ab9">90</a>    v: Array[\RR64,ZZ32\] := zeros(nParams())
+<a class="lnk" href="adam.html#c-a8e1d30b">91</a>    for s &lt;- seq(0#5) do
+<a class="lnk" href="adam.html#c-a8e1d30b">92</a>        t0 = nanoTime()
+<a class="lnk" href="adam.html#c-a8e1d30b">93</a>        (l, g) = step(p, keys(bsz, fn (i: ZZ32): ZZ32 =&gt; (s bsz + i) MOD corpus.size()))
+<a class="lnk" href="adam.html#c-a8e1d30b">94</a>        (p, m, v) := adam(p, m, v, g, s + 1, learningRate(s))
+<a class="lnk" href="adam.html#c-a8e1d30b">95</a>        println "step " (s + 1) " loss " l "  (" ((nanoTime() - t0) DIV 1000000) " ms)"
+<a class="lnk" href="adam.html#c-a8e1d30b">96</a>    end
+<a class="lnk" href="adam.html#c-a8e1d30b">97</a>  end
 <a class="lnk" href="task.html#c-9be2b4ac">98</a>end</code></pre>
 </div>
 <script src="walk.js"></script>
