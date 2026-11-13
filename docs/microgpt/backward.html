@@ -351,6 +351,16 @@ dX[9,0..3] = 0.0 0.0 0.0 0.0</code></pre>
 </section>
 <section class="sec" data-num="6.9" data-title="The result">
 <h2 id="s-the-result" class="nb"><span class="num">6.9</span> The result</h2>
+<p id="p-4f6ae634" class="nb">The comment in line 62 says "one line under each forward line, bottom-up". This list pairs them:</p>
+<ul>
+<li><p id="p-7d7a2bbf" class="nb">Forward line 61, <code>pr</code> and <code>loss</code>: backward line 63.</p></li>
+<li><p id="p-4c82f511" class="nb">Forward line 60, from <code>x3</code> to <code>x4</code>: backward line 64 and the first declaration of line 65.</p></li>
+<li><p id="p-bec5d567" class="nb">Forward line 60, <code>x2</code>, and line 59, <code>hc</code>: the rest of line 65.</p></li>
+<li><p id="p-ac3b410b" class="nb">Forward line 59, <code>a</code>: backward line 66.</p></li>
+<li><p id="p-87fea66a" class="nb">Forward line 58: backward lines 67 and 68.</p></li>
+<li><p id="p-7c67d285" class="nb">Forward line 57, <code>xp</code> and <code>x1</code>: backward line 69.</p></li>
+<li><p id="p-17d14621" class="nb">Forward line 57, <code>x</code>: backward line 70.</p></li>
+</ul>
 <div class="fx nb src" id="c-adbaba9c" data-kind="code"><pre class="fx-s"><code><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L71" title="MicroGptFlat.fss, line 71">71</a></span>  (loss, flat(gWTE, gWPE, gLM, gWQ, gWK, gWV, gWO, gF1, gF2))</span><span class="l"><span class="ln"><a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss#L72" title="MicroGptFlat.fss, line 72">72</a></span>end</span></code></pre></div>
 <p id="p-d74093f8" class="nb">The value of the step is a pair: the loss, and the nine gradient matrices made into one vector. <code>flat</code> belongs to the vocabulary. It takes any number of matrices and writes their elements, row after row, into one vector (<a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/FlatArrays.fss#L179">FlatArrays.fss, lines 179 to 189</a>). A small case, with the matrices <code>m</code> and <code>n</code> of Part 2:</p>
 <pre class="vb nb out" id="o-c5e09830" data-kind="output"><code>flat(m, n) (8): 1.0 2.0 3.0 4.0 0.0 1.0 1.0 0.0</code></pre>

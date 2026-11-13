@@ -14,4 +14,4 @@ This text explains the model and the code together. It takes the lines in the or
 - The Select button beside a heading selects that section's text, for Speak. Its selection leaves out the formulas and the long boxes of numbers. The text around them says what they hold.
 !!!
 
-All the examples use one document of the corpus, the name `yuheng`, so that the same numbers return from part to part.
+All the examples use one document of the corpus, the name `yuheng`, so that the same numbers return from part to part. [Part 10](part:names) lists every name of the step and every word of this text in one place.

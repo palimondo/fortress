@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>10. Every name of the step, and the words of this text · microGPT in Fortress</title>
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="walk.css">
+</head>
+<body data-page="chapter" data-slug="names" data-chapter="10. Every name of the step, and the words of this text">
+<nav class="bar" aria-label="Reader"><a href="index.html">Contents</a><span class="here">10. Every name of the step, and the words of this text</span><a href="notes.html" class="notes-link">Notes</a></nav>
+<div class="page">
+<header class="masthead">
+<p class="eyebrow">microGPT in Fortress, line by line</p>
+</header>
+<div id="resume"></div>
+<div id="chapter-notes"></div>
+<section class="sec chapter" data-num="10" data-title="Every name of the step, and the words of this text">
+<h1 id="top" class="nb"><span class="num">Part 10</span> Every name of the step, and the words of this text</h1>
+<p class="standfirst">A reference to return to: what each name in the function <code>step</code> holds, with its size for a batch of one document, and the words that this text uses, each with its meaning.</p>
+<nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-the-names-of-the-forward-pass">10.1 The names of the forward pass</a></li><li><a href="#s-the-names-of-the-backward-pass">10.2 The names of the backward pass</a></li><li><a href="#s-the-words-of-this-text">10.3 The words of this text</a></li></ol></nav>
+<section class="sec" data-num="10.1" data-title="The names of the forward pass">
+<h2 id="s-the-names-of-the-forward-pass" class="nb"><span class="num">10.1</span> The names of the forward pass</h2>
+<p id="p-f4b52124" class="nb">The sizes are those that a run printed for a batch of one document. "16 by 16" means 16 rows by 16 columns. A size with three numbers means planes, rows, columns.</p>
+<ul>
+<li><p id="p-3e7acc36" class="nb"><code>p</code>: the parameters. A vector of 4,192 floats.</p></li>
+<li><p id="p-f7644453" class="nb"><code>b</code>: the batch, the numbers of the documents of this step. Here one integer, 0.</p></li>
+<li><p id="p-5979dba6" class="nb"><code>ids</code>: the token that the model reads in each row. 16 integers.</p></li>
+<li><p id="p-460286da" class="nb"><code>tg</code>: the token that comes next in each row, the right answer. 16 integers.</p></li>
+<li><p id="p-d49d8ab5" class="nb"><code>vm</code>: 1.0 for a row that counts, 0.0 for a row after the name's end. 16 floats.</p></li>
+<li><p id="p-f72addbc" class="nb"><code>nv</code>: the number of rows that count. 7.0 for <code>yuheng</code>.</p></li>
+<li><p id="p-498f3279" class="nb"><code>pos</code>: the position of each row, 0 to 15. 16 integers.</p></li>
+<li><p id="p-63b08bee" class="nb"><code>wte</code>: the token table, 27 by 16. Row <code>t</code> is the embedding of the token <code>t</code>. A view into <code>p</code>.</p></li>
+<li><p id="p-96336ed3" class="nb"><code>wpe</code>: the position table, 16 by 16. Row <code>i</code> is the embedding of position <code>i</code>. A view into <code>p</code>.</p></li>
+<li><p id="p-c672413c" class="nb"><code>lm</code>: the matrix that makes 27 scores from a row, 27 by 16. A view into <code>p</code>.</p></li>
+<li><p id="p-66bcb90e" class="nb"><code>wq</code>, <code>wk</code>, <code>wv</code>: the matrices that make queries, keys and values, 16 by 16 each. Views into <code>p</code>.</p></li>
+<li><p id="p-57320bf4" class="nb"><code>wo</code>: the matrix that mixes the heads' results, 16 by 16. A view into <code>p</code>.</p></li>
+<li><p id="p-6f81af93" class="nb"><code>f1</code>: the first matrix of the feed-forward block, 64 by 16. <code>f2</code>: the second, 16 by 64. Views into <code>p</code>.</p></li>
+<li><p id="p-220e7afd" class="nb"><code>x</code>: the token's embedding plus the position's embedding, for each row. 16 by 16.</p></li>
+<li><p id="p-e4ee2d95" class="nb"><code>xp</code>: <code>x</code> with <code>rmsn</code> on every row. 16 by 16. Attention's result is added to it.</p></li>
+<li><p id="p-fd10e693" class="nb"><code>x1</code>: <code>xp</code> with <code>rmsn</code> on every row. 16 by 16. Attention reads it.</p></li>
+<li><p id="p-efb8e405" class="nb"><code>q</code>, <code>k</code>, <code>v</code>: every row of <code>x1</code> through <code>wq</code>, <code>wk</code>, <code>wv</code>: the query, the key and the value of each position. 16 by 16 each.</p></li>
+<li><p id="p-038af4ee" class="nb"><code>qh</code>, <code>kh</code>, <code>vh</code>: the same numbers cut into heads. 4 planes of 16 by 4 each. Views.</p></li>
+<li><p id="p-7dc6707a" class="nb"><code>a</code>: the attention weights. 4 planes of 16 by 16. In a plane, row <code>i</code> holds the attention weights with which position <code>i</code> reads positions 0 to 15. Each row adds up to 1.</p></li>
+<li><p id="p-0c239559" class="nb"><code>hc</code>: for each position, the four heads' weighted averages of the values, side by side. 16 by 16.</p></li>
+<li><p id="p-e255590a" class="nb"><code>x2</code>: <code>xp</code> plus <code>hc</code> through <code>wo</code>. 16 by 16. The feed-forward block's result is added to it.</p></li>
+<li><p id="p-94cf3176" class="nb"><code>x3</code>: <code>x2</code> with <code>rmsn</code> on every row. 16 by 16.</p></li>
+<li><p id="p-75e167b9" class="nb"><code>m0</code>: every row of <code>x3</code> through <code>f1</code>. 16 by 64.</p></li>
+<li><p id="p-af3a2d94" class="nb"><code>mr</code>: <code>m0</code> with its negative numbers set to 0. 16 by 64.</p></li>
+<li><p id="p-577fee17" class="nb"><code>x4</code>: <code>x2</code> plus <code>mr</code> through <code>f2</code>. 16 by 16.</p></li>
+<li><p id="p-fc05340e" class="nb"><code>pr</code>: the model's answer. 16 by 27. Row <code>r</code> holds the 27 probabilities for the token after position <code>r</code>.</p></li>
+<li><p id="p-7153c494" class="nb"><code>loss</code>: one float. The mean, over the rows that count, of minus the logarithm of the probability of the right answer.</p></li>
+</ul>
+</section>
+<section class="sec" data-num="10.2" data-title="The names of the backward pass">
+<h2 id="s-the-names-of-the-backward-pass" class="nb"><span class="num">10.2</span> The names of the backward pass</h2>
+<p id="p-3edc6381" class="nb">Each name holds rates: the change of the loss for each unit of change of an element of a forward value. It has the size of that forward value.</p>
+<ul>
+<li><p id="p-9af848bd" class="nb"><code>dL</code>: the gradient at the 27 scores of each row, before <code>sm</code>. 16 by 27.</p></li>
+<li><p id="p-35716e6c" class="nb"><code>gLM</code>: the gradient at <code>lm</code>. 27 by 16.</p></li>
+<li><p id="p-5f3cbd25" class="nb"><code>dX4</code>: the gradient at <code>x4</code>. 16 by 16.</p></li>
+<li><p id="p-86253b12" class="nb"><code>gF2</code>: the gradient at <code>f2</code>. 16 by 64.</p></li>
+<li><p id="p-6ab35dc4" class="nb"><code>dM0</code>: the gradient at <code>m0</code>. 16 by 64.</p></li>
+<li><p id="p-72c4cbbb" class="nb"><code>gF1</code>: the gradient at <code>f1</code>. 64 by 16.</p></li>
+<li><p id="p-48413d13" class="nb"><code>dX3</code>: the gradient at <code>x3</code>. 16 by 16.</p></li>
+<li><p id="p-5206a1b5" class="nb"><code>dX2</code>: the gradient at <code>x2</code>. 16 by 16.</p></li>
+<li><p id="p-f846fac4" class="nb"><code>gWO</code>: the gradient at <code>wo</code>. 16 by 16.</p></li>
+<li><p id="p-b3307762" class="nb"><code>dh</code>: the gradient at the heads' averages, <code>a vh</code>. 4 planes of 16 by 4.</p></li>
+<li><p id="p-152ad16f" class="nb"><code>dVh</code>: the gradient at <code>vh</code>. 4 planes of 16 by 4.</p></li>
+<li><p id="p-99745701" class="nb"><code>dS</code>: the gradient at the scores <code>qh kh^T</code>. 4 planes of 16 by 16.</p></li>
+<li><p id="p-f65fd4e6" class="nb"><code>dQh</code>, <code>dKh</code>: the gradients at <code>qh</code> and <code>kh</code>. 4 planes of 16 by 4 each.</p></li>
+<li><p id="p-8ca0b066" class="nb"><code>dQ</code>, <code>dK</code>, <code>dV</code>: the gradients at <code>q</code>, <code>k</code> and <code>v</code>. 16 by 16 each.</p></li>
+<li><p id="p-0907f432" class="nb"><code>gWQ</code>, <code>gWK</code>, <code>gWV</code>: the gradients at <code>wq</code>, <code>wk</code> and <code>wv</code>. 16 by 16 each.</p></li>
+<li><p id="p-e536a717" class="nb"><code>dX1</code>: the gradient at <code>x1</code>. 16 by 16.</p></li>
+<li><p id="p-94efa9d8" class="nb"><code>dXp</code>: the gradient at <code>xp</code>. 16 by 16.</p></li>
+<li><p id="p-5b425e53" class="nb"><code>dX</code>: the gradient at <code>x</code>. 16 by 16.</p></li>
+<li><p id="p-6c07566a" class="nb"><code>gWTE</code>: the gradient at <code>wte</code>. 27 by 16.</p></li>
+<li><p id="p-2cb30eab" class="nb"><code>gWPE</code>: the gradient at <code>wpe</code>. 16 by 16.</p></li>
+</ul>
+<p id="p-419c3b70" class="nb">The step returns <code>loss</code> and the nine <code>g</code> matrices as one vector of 4,192 floats, in the layout of <code>p</code>.</p>
+</section>
+<section class="sec" data-num="10.3" data-title="The words of this text">
+<h2 id="s-the-words-of-this-text" class="nb"><span class="num">10.3</span> The words of this text</h2>
+<ul>
+<li><p id="p-384db09b" class="nb">Token: an integer that stands for one character. 0 to 25 are <code>a</code> to <code>z</code>.</p></li>
+<li><p id="p-06b8ff80" class="nb">Mark, or BOS: the token 26. It stands before a name and after it.</p></li>
+<li><p id="p-49b09367" class="nb">Document: one name of the corpus.</p></li>
+<li><p id="p-be87b8cd" class="nb">Position: a place in a document's row of tokens, counted from 0. The model reads positions 0 to 15.</p></li>
+<li><p id="p-ccdcfb36" class="nb">Row: one pair of a document and a position. Every matrix of the step has one row for each pair.</p></li>
+<li><p id="p-4750374e" class="nb">Batch: the documents that one step learns from.</p></li>
+<li><p id="p-c1793608" class="nb">Key, in Part 1: an integer that looks a row up in a table. <code>ids</code>, <code>tg</code> and <code>pos</code> are vectors of keys.</p></li>
+<li><p id="p-ebd19144" class="nb">Parameter: one of the 4,192 floats that training changes.</p></li>
+<li><p id="p-c1f515b1" class="nb">Weight matrix: one of the nine matrices of parameters.</p></li>
+<li><p id="p-8242e343" class="nb">Vocabulary: the file <code>FlatArrays.fss</code>, the array operations that the model's lines call.</p></li>
+<li><p id="p-17d1a585" class="nb">View: a matrix or a vector without storage of its own. It reads and writes another array.</p></li>
+<li><p id="p-8ddebdce" class="nb">Plane: one of the matrices of an array with three indices.</p></li>
+<li><p id="p-f58b9cad" class="nb">Embedding: the row that a table holds for a token or for a position.</p></li>
+<li><p id="p-3ae0ab53" class="nb">Score: a number of any size and sign that goes into <code>sm</code>.</p></li>
+<li><p id="p-11ec4c8b" class="nb">Query, key and value, in attention: three vectors that each position makes from its row. A query with a key gives a score. The values are what gets averaged.</p></li>
+<li><p id="p-b48b636f" class="nb">Head: one of the four attention computations, each on four of the sixteen columns.</p></li>
+<li><p id="p-1b359f34" class="nb">Attention weight: a number between 0 and 1 that says how much one position reads from another. The model computes it anew in every forward pass.</p></li>
+<li><p id="p-dc93aaac" class="nb">Residual connection: adding a block's result to the block's input.</p></li>
+<li><p id="p-b4f65fbb" class="nb">Forward pass: the part of the step from the tokens to the loss, lines 57 to 61.</p></li>
+<li><p id="p-45d3223d" class="nb">Loss: one number that says how wrong the model's probabilities are for the right answers.</p></li>
+<li><p id="p-2f3b800b" class="nb">Gradient: for each parameter, the rate at which the loss changes when that parameter changes.</p></li>
+<li><p id="p-a4b6f826" class="nb">Backward pass: the part of the step that computes the gradient, lines 63 to 70.</p></li>
+<li><p id="p-808a4cc6" class="nb">Step: the function <code>step</code>, one forward pass and one backward pass. A step of training is a step and one call of <code>adam</code>.</p></li>
+</ul>
+</section>
+</section>
+<nav class="pager" aria-label="Parts"><a class="prev" href="fortress.html"><span>Previous</span> 9. The program as Fortress: where today's tree shapes it</a><span></span></nav>
+<footer class="colophon">Built from <code>explorations/microgpt-walk/src/10-names.md</code> of the revival's repository. The quoted lines are those of <a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/src/MicroGptFlat.fss">MicroGptFlat.fss</a> and the components beside it, as the build found them.</footer>
+</div>
+<script src="walk.js"></script>
+<script src="reader.js"></script>
+</body>
+</html>

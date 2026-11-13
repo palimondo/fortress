@@ -177,6 +177,15 @@ sum a[2,5,:] = 1.0
 
 Position 0 can read only itself, so its one attention weight is 1. Position 5 in head 2 spreads its attention weight over positions 0 to 5.
 
+Nearly equal attention weights are what an untrained model gives. Two runs of `sm` on four scores show the two ends:
+
+```out
+sm [0 0 0 0] (4): 0.25 0.25 0.25 0.25
+sm [5 0 0 0] (4): 0.9801866626534912 0.006604445782169691 0.006604445782169691 0.006604445782169691
+```
+
+With equal scores, every position gets a quarter, and the average of the values is a plain mean. With one score 5 above the others, that position gets 98 percent, and the average is almost that position's value alone. Training changes `wq` and `wk`. Through them it can move a head from the first case towards the second, for the pairs of positions where that lowers the loss.
+
 $$
 \begin{aligned}
 s_{ij} &= \frac{q_i \cdot k_j}{\sqrt{d}} + \c{mask}_{ij} \\[4pt]

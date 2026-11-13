@@ -283,6 +283,16 @@ Lines 63 to 68 write a transpose as `^T`. Line 70 writes `transpose(...)`, a fun
 
 ## The result
 
+The comment in line 62 says "one line under each forward line, bottom-up". This list pairs them:
+
+- Forward line 61, `pr` and `loss`: backward line 63.
+- Forward line 60, from `x3` to `x4`: backward line 64 and the first declaration of line 65.
+- Forward line 60, `x2`, and line 59, `hc`: the rest of line 65.
+- Forward line 59, `a`: backward line 66.
+- Forward line 58: backward lines 67 and 68.
+- Forward line 57, `xp` and `x1`: backward line 69.
+- Forward line 57, `x`: backward line 70.
+
 @src 71-72
 
 The value of the step is a pair: the loss, and the nine gradient matrices made into one vector. `flat` belongs to the vocabulary. It takes any number of matrices and writes their elements, row after row, into one vector ([FlatArrays.fss, lines 179 to 189](src:explorations/run-c4/src/FlatArrays.fss#L179)). A small case, with the matrices `m` and `n` of Part 2:
