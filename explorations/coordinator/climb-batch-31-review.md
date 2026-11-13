@@ -88,7 +88,7 @@ Section 2 said: "One difference stays: for `a: Any` that holds an `NN32` zero, w
 
 ### A6. The test owed
 
-Rung N, step 2, added `h: QQ = 1/2`, `h = 0.5` to the promoted test. PLAN's line on the test owed asks for both orders: "add `h: QQ = 1/2` with `h = 0.5` and `0.5 = h` asserted `true`" (`PLAN.md:753`). Added.
+Rung N, step 2, added `h: QQ = 1/2`, `h = 0.5` to the promoted test. PLAN's line on the test owed asks for both orders: "add `h: QQ = 1/2` with `h = 0.5` and `0.5 = h` asserted `true`" (`PLAN.md`, the line that opens "review-routed.2 of climb batch 29b's merged-diff review"). Added.
 
 ### A7. The 27 classes
 
@@ -265,7 +265,32 @@ The nearest two edits are K's at `:1768` and L's above `:1776`, 8 lines apart. N
 - **It is the only check of L's closure half** (B1).
 - **Its patch.** It edits `NamingCzar.java`, where L changes `gensymArrowClassName`, and `TraitTable.scala`, in the folder that N edits. The record names the first.
 
-## 6. What this check did not do
+## 6. The manifest generator and the launch's inputs
+
+Made after this check, from the record as corrected: `explorations/compile-ladder/plan-31/manifest/`, in the form of `plan-30/manifest/`.
+
+- `lists31.py`: the briefing and checks lists of the seven rungs, 104 keys, each matching one place (`facts-extract.sh --check`, "bad lists 0").
+- `gen31.py --run 1|2 [--fork-w a|b]`: the `MANIFEST` block from the record. The record is written for fork W at (a). At (b) the generator first makes fifteen exact substitutions in the record's text (its `W_B_RECORD`): step 2 of rung N struck, and each sentence of N's block in section 1, of its section 4 and of run 1's intro that the struck step makes false (B4). Each substitution is asserted, so an edit of the record that it does not know stops it. It writes the changed record beside the block, for `check31.js`.
+- `check31.js --run 1|2 [--fork-w a|b] [--write]`: `check30.js`'s checks, with this record's forms: 118 checks for run 1, 0 problems at (a) and at (b); run 2's block also passes.
+- `block-run1-fork-w-a.js` and `block-run1-fork-w-b.js`: run 1's block for each answer, as generated on 2026-11-13. They differ in rung N's title, blurb, one point, three reasons, one key with its reason, and five lines of its section, and in one line of the intro.
+
+**The atomic runs.** Fork B2 names rung A's two programs, `AtomicExprCompiled` and `AtomicFieldCompiled`. `check31.js` adds them to the script's `ATOMIC_COMPILER` list in the spliced copy, 24 programs and 72 lines, and `--write` puts the block and the list into the tracked script together. I did not put the names into the tracked script alone: the batch has no go, and a gate run from the script before rung A lands would be red on two programs that do not exist.
+
+**The scenario checker.** `node explorations/coordinator/tools/workflow-scenarios.js <the spliced scratch copy>`: 0 problems, for the copy at (a) and the copy at (b).
+
+**Not done, by the brief.** The tracked script is unchanged: no block, no atomic name, `FABLE_WEEK` as it was. Nothing was launched. No base build was made.
+
+**To install, after the go and the answer to fork W** (`X` is `a` or `b`; `OUT31` defaults to the main tree's `tmp/`):
+
+    python3 -B explorations/compile-ladder/plan-31/manifest/lists31.py --run 1 --fork-w X     # bad lists 0
+    python3 -B explorations/compile-ladder/plan-31/manifest/gen31.py --run 1 --fork-w X
+    node explorations/compile-ladder/plan-31/manifest/check31.js --run 1 --fork-w X           # problems: 0
+    node explorations/compile-ladder/plan-31/manifest/check31.js --run 1 --fork-w X --write   # the block and the atomic list
+    node explorations/coordinator/tools/workflow-scenarios.js                                 # problems: 0
+
+At (b), copy `$OUT31/CLIMB-BATCH-31-fork-w-b.md` over the record first, so that the record on `main` is what ran; the three tools take that record with `--fork-w b` as they take the other. Then the manual's line on the atomic runs ("22 since climb batch 30's first run") becomes 24, and the commit is the base.
+
+## 7. What this check did not do
 
 - No suite, no stage of the gate, no timing, no run of the measure.
 - No run against the one library.
