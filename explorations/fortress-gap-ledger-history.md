@@ -10253,3 +10253,45 @@ rewritten
 rewritten
 
 | 948 | on the compiled path an `atomic` block is not atomic with respect to writes made outside `atomic`: a block that reads `x` twice while another task assigns `x` without `atomic` sees two values in 2,405 to 2,994 of 3,000 blocks; under walk, 0 of 300 | NEGATIVE-VERIFIED | implementation gap (runtime) | `basic/expressions/atomic.tex`, "Atomic Expressions" | none | parallelism review | A plain write is `MutableFValue.setValue`, a volatile store that neither takes nor moves the global sequence lock (`ProjectFortress/src/com/sun/fortress/runtimeSystem/Transaction.java:76`), a read validates only when that lock has moved (`:216`), and a read-only commit returns unvalidated (`:301`). Walk's plain write aborts the cell's readers and writer (`interpreter/env/ReferenceCell.java:134-140`, `:166-171`). The program is outside the discipline of `basic/memory-model.tex`, "Programming Discipline"; atomic.tex's last paragraph still asks for atomicity. At 157323e5: 2,085 to 2,983 of 3,000. |
+
+### Row 874
+
+note added
+
+| 874 | in the one library's world the code generator refuses the whole of FortressLibrary and FortressBuiltin at the wrappers of the helper classes their bindings name: 'Can't generate header for method parse with jvm desc =Ljava/lang/String; stripped = FortressLibrary$String' | NEGATIVE-VERIFIED | implementation gap (codegen) | silent | explorations/compile-ladder/plan-25/probes/codegen.sh | climb batch 25's planner | siblings: 368. CodeGenerationPhase makes a wrapper for each method of each class that the rewrite's synthetic import names (repository/ForeignJava.java:807); FortressMethodAdapter.toImplFFFF finds no converter for a one-library type such as FortressLibrary$String or FortressLibrary$ZZ32 (compiler/nativeInterface/FortressMethodAdapter.java:250-268 at 25238e60c), as perf-probes/helper-calls/REPORT.md, section 5, read. With the 173 helper strings on glue classes, FortressLibrary emits 482 declarations. The foreign-type table and the run-time classes are the switch-over's names work, N5. |
+
+### Row 942
+
+note added
+
+| 942 | the code generator stops, 'Not in the trait table: B', on an object that declares a functional method beside one of its name that it inherits, with a body, from an imported api's trait, the two overloading validly, as `tag(self, n: ZZ32)` in `object O extends B` beside `B`'s `tag(self, s: String)` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/traits.tex`, "Method Declarations" | `ProjectFortress/compiler_tests/XXXApiTraitOverloadCompiled.test` | climb batch 28 rung T | siblings: 733, 732, 940. Stack: `TypeAnalyzer.typeCons` ← `OverloadingOracle.lteq` ← `OverloadSet.fLessSpecThanG` (`ProjectFortress/src/com/sun/fortress/compiler/OverloadSet.java:532`) ← `OverloadSet.split` ← `CodeGen.generateTopLevelOverloads` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:7168` at 157323e51) ← `forObjectDeclPrePass` (`:4677`), before `dumpMethodChaining`, so row 733's repair does not reach it; also with `B` a later supertrait. With the api's method abstract, or no method of that name in the object, it compiles. Walk prints each body. Mechanism past `typeCons` not traced. |
+
+### Row 81
+
+note added
+
+| 81 | `label` / `exit` is unimplemented in the code generator | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification-1.0-frozen/appendices/grammars/concrete-syntax.tex:972`, "Expressions" | none | ours | `Can't compile Label` (`CodeGen.sayWhat`). `CodeGen` declares no `forLabel` or `forExit`, so the node reaches `defaultCase`, which throws `sayWhat` (`ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:1674-1676`, `:1558-1561`). Workaround: write the loop without `exit`, as a `while` over a mutable flag. Probe `explorations/compiler-probes/p31.fss` (a `label L` round a `seq` loop that exits `with i`), in the parent of `c69cb2064`. full text: history, row 81 |
+
+### Row 624
+
+rewritten
+
+| 624 | the code generator does not compile a function or a method with a varargs parameter: a top-level function stops with "Can't compile VarArgs yet", a trait method with `OptionUnwrapException` | NEGATIVE-VERIFIED | implementation gap (codegen) | `Specification/basic/functions.tex`, "Function Declarations", "Function Applications" | `ProjectFortress/compiler_tests/XXXVarargsCodeGeneration.test` | climb batch 10 rung C and its first skeptic | siblings: 304, 604. `NamingCzar` throws it (`ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:1308`, `:1318`, `:1458`, `:1569` at c124c6b65), and `CodeGen.forLetFn` for a local function (`CodeGen.java:3597`); for a method `jvmSignatureFor` unwraps every parameter's type (`NamingCzar.java:945`). `trait Tagger`'s `tag(x: String, rest: ZZ32...)` fails where walk prints `abc` (`XXXVarargsMethodCodeGeneration`). A varargs call stops its caller too: the one library's `test stringifyChars()` (`Library/String.fss:337`) calling `assert`, 'Can't compile VarArgs yet' from `CodeGen.resolveMethodAndSignature`. Walk binds the parameter to an `ImmutableArray1`. full text: history, row 624 |
+
+### Row 315
+
+rewritten
+
+| 315 | the code generator emits two closure classes with one name when two function-typed nodes share a source position, and the compile dies with `ZipException: duplicate entry`: `5 :OP: 6` over three overloads of `opr OP`, and `sz(fn () => 2147483646 + 1)` | NEGATIVE-VERIFIED | implementation gap (codegen) | `basic/conversions-coercions.tex`, "Coercion Invocations" | none | ladder rung 4 | The name comes from the source position alone (`NamingCzar.gensymArrowClassName`, `ProjectFortress/src/com/sun/fortress/compiler/NamingCzar.java:891-892`, used by `CodeGen.forFnExpr`, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java:3531`), so a second `FnExpr` there collides in `ByteCodeWriter.writeJarredFile`. The two nodes are coercion thunks. At c124c6b65, bin/fortress compile on a copy of `ProjectFortress/tests/ConditionalOpTruncation.fss` (a passing walk test) dies: 'duplicate entry: ConditionalOpTruncation$\=fn@20\!15.class'. The numeral-only probe: `explorations/compile-ladder/rung-overflow-natives/probes/skeptic/SkLitThunk.fss`, in the parent of `ab067d9b6`. |
+
+### Row 866
+
+rewritten
+
+| 866 | on the compiled path, a program's object that extends `ZZ32` compiles, and its run dies when the object's class loads: `MyNum + 1`, for `object MyNum extends ZZ32`, ends 'IncompatibleClassChangeError: class ...$MyNum can not implement ...FZZ32, because it is not an interface' | NEGATIVE-VERIFIED | implementation gap (prelude) | `Specification/basic-lib/basic-integers.tex`, "Integers" | `ProjectFortress/compiler_tests/XXXObjectExtendsZZ32Compiled.test` | climb batch 24 rung W's skeptic | siblings: 551, 698. The prelude's `trait ZZ32` lists no `comprises` clause (`ProjectFortress/LibraryBuiltin/CompilerBuiltin.fsi:210`), so the checker takes the extender; `FZZ32` is a class (`ProjectFortress/src/com/sun/fortress/compiler/runtimeValues/FZZ32.java:14`, at c124c6b65). The one library's `ZZ32 comprises { Int }` (`Library/FortressLibrary.fsi:536-538`). The link passes (`ObjectExtendsZZ32CompiledLink`); the run prints 'REACHED' before `MyNum`'s first use, or none if `MyNum` declares a functional method. Under walk it loads (row 551), and `MyNum + 1` ends 'getInt not implemented for FOrdinaryObject'. Ends at the switch-over, when the checker reads the one library's `comprises`. |
+
+### Row 757
+
+rewritten
+
+| 757 | `fortress compile` of a file after `fortress typecheck` of the same unchanged file writes no jar and exits 0, so `fortress run` of it stops with 'Could not load P' and 'Resource not found : P.class' | NEGATIVE-VERIFIED | implementation gap (tools) | silent | none | climb batch 17 rung A | On the base 3aea3da53, with a private caches folder: `explorations/coordinator/tools/old-fortress.sh <base> <caches> typecheck` of a probe SkTcThenCompile.fss, then `compile` of it (exit 0, no SkTcThenCompile.jar in the caches' bytecode_cache), then `run`; the probe was never committed. By reading, at c124c6b65: `repository/GraphRepository.java:283` takes a component whose analyzed_cache entry is no older than its source as done, and `isStale` (`:614`) compares source dates, its dependencies' included, with the cache's and checks a foreign change, never the jar. A compile of a fresh copy of the file under another name writes its jar. Workaround: compile before any typecheck of the file. |
