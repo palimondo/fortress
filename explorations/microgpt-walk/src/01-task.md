@@ -136,7 +136,7 @@ The function `step` is the model. Its header says what goes in and what comes ou
 The comment says "Pure": `step` changes nothing outside itself. It reads `p` and `b` and the corpus, and it returns two values.
 
 !!! limit
-The type `Array[\RR64,ZZ32\]` does not say how long the vector is. The library has a type that does: `Vector[\RR64,n\]`, where `n` is a size that the type carries. The model uses the type without a size everywhere. One cause is in walk: a function whose type has a size parameter cannot be passed as an argument (the gap ledger's row 156; Part 3 meets it at `rmsn`). Whether the model's arrays get types with sizes is a decision of yours that is still open; the record calls it decision D.
+The type `Array[\RR64,ZZ32\]` does not say how long the vector is. The library has a type that does: `Vector[\RR64,n\]`, where `n` is a size that the type carries. The model's functions take and return the type without a size. Only the two operators of lines 23 and 24 name sizes. One cause is in walk: a function whose type has a size parameter cannot be passed as an argument (the gap ledger's row 156; Part 3 meets it at `rmsn`). Whether the model's arrays get types with sizes is a decision of yours that is still open; the record calls it decision D.
 !!!
 
 The step's first line makes five vectors. A semicolon separates declarations on one line.
