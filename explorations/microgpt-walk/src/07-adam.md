@@ -12,7 +12,7 @@ $$
 - $p$ is the vector of parameters, $g$ the gradient, and $p'$ the new parameters.
 - `lr` is a small positive number, the learning rate.
 
-This rule is called gradient descent. Its weakness is that gradient entries differ widely in size. In the step on `yuheng`, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter jumps too far or the second hardly moves.
+This rule is called gradient descent. Its weakness is that gradient entries differ widely in size. In the step on `yuheng`, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.
 
 The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam, and Karpathy's microGPT uses it too. Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.
 
@@ -35,7 +35,7 @@ Line 78 is the average of the squares. `g × g` multiplies the gradient with its
 
 Line 79 is the move. It has three pieces.
 
-- `m' / (1 - beta1^t)` corrects the first average for its start. `m` starts as 0, so after the first step `m'` is only 15 parts in 100 of the gradient. At `t` = 1 the divisor is 1 minus 0.85, which is 0.15, and the division gives the whole gradient back. At `t` = 3 the divisor is 0.386. As `t` grows, the divisor goes to 1, and the correction fades.
+- `m' / (1 - beta1^t)` corrects the first average for its start. `m` starts as 0, so after the first step `m'` is only 15 parts in 100 of the gradient. At `t` = 1 the divisor is 1 minus 0.85, which is 0.15, and the division gives the whole gradient back. At `t` = 3 the divisor is 0.386. As `t` grows, the divisor goes to 1, and the correction changes less and less.
 - `v' / (1 - beta2^t)` is the same correction for the second average. `SQRT` takes the root of every element. `+ epsilon_A` adds 0.00000001 to every element, so that the division that follows never divides by 0.
 - The first piece times `lr`, divided by the second piece, element by element, is the move. Line 79 subtracts it from `p`.
 

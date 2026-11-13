@@ -1,5 +1,5 @@
 # Two functions on a row: rmsn and sm
-> Two small functions carry much of the model: one brings a row of numbers to a standard size, the other turns a row of scores into probabilities. Each is shown first on two or three numbers, then on a real row.
+> Two small functions that the model calls again and again: one brings a row of numbers to a standard size, the other turns a row of scores into probabilities. Each is shown first on two or three numbers, then on a real row.
 
 ## rmsn: bring a row to a standard size
 
@@ -131,7 +131,7 @@ sm(z + 100) (3): 0.09003057317038046 0.24472847105479764 0.6652409557748218
 
 This is also why the program may subtract the maximum: it changes nothing in the result. It is there for the arithmetic. `exp` of a large number does not fit into a float, and after the subtraction the largest number that `exp` sees is 0.
 
-Larger differences make the result sharper. With the scores doubled to 2, 4, 6, the largest takes 87 percent:
+Larger differences make the result more uneven. With the scores doubled to 2, 4, 6, the largest gets 87 percent:
 
 ```out
 sm(2 z) (3): 0.015876239976466765 0.11731042782619838 0.8668133321973349

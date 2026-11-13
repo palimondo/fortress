@@ -7,7 +7,7 @@ After the first forward line, row 4 of the matrix holds the embedding of the tok
 
 Almost every line of the forward pass treats each row by itself. A product of the form `x w^T` puts every row through the same matrix, and `rows` applies a function to every row. No number moves from one row to another.
 
-Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. The average is weighted: each position that is read counts with a number between 0 and 1, and these numbers add up to 1. This text calls such a number an attention weight. The word is close to "weight matrix" and means a different thing. A weight matrix holds parameters, which only training changes. The attention weights are computed anew in every forward pass, from the rows themselves. This part follows that computation in four steps:
+Attention is the exception. In it, each position computes an average of vectors from the positions up to and including its own, and adds the average to its own row. This text says that position `i` reads position `j` when a vector of position `j` enters the average of position `i`. The average is weighted: each position that is read counts with a number between 0 and 1, and these numbers add up to 1. This text calls such a number an attention weight. The word is close to "weight matrix" and means a different thing. A weight matrix holds parameters, which only training changes. The attention weights are computed anew in every forward pass, from the rows themselves. This part follows that computation in four steps:
 
 1. Three products make a query, a key and a value for every position.
 2. A product of queries and keys gives scores.
@@ -22,7 +22,7 @@ The line binds three names to three products. Each product puts every row of `x1
 
 - Row `i` of `q` is the query of position `i`. The model uses it when position `i` reads.
 - Row `j` of `k` is the key of position `j`. The model uses it when another position decides how much to read from position `j`. This key is a vector of floats. It has nothing to do with the keys of Part 1, the integers that look rows up in a table.
-- Row `j` of `v` is the value of position `j`. It is what position `j` hands over when it is read.
+- Row `j` of `v` is the value of position `j`. It is what position `j` gives when it is read.
 
 The score that position `i` gives to position `j` is the dot product of query `i` and key `j`. A dot product is large when the two vectors have large elements with the same signs in the same places, and it is negative when the signs disagree. So a high score means: this query and that key fit.
 
@@ -38,7 +38,7 @@ One head gives each position one set of attention weights. Four heads give it fo
 
 These two lines stand at the top of the step, before the forward pass. They declare two functions inside the function `step`. A local function can use the names around it, and is declared like a top-level one.
 
-- `h` takes a matrix and returns an array with three indices. The program's comments call such an array a rank-3 array. Its type is `Array[\RR64,(ZZ32,ZZ32,ZZ32)\]`: the index is a triple. It is a pile of matrices of one size. Each matrix of the pile is a plane, and the three indices are the plane, the row and the column.
+- `h` takes a matrix and returns an array with three indices. The program's comments call such an array a rank-3 array. Its type is `Array[\RR64,(ZZ32,ZZ32,ZZ32)\]`: the index is a triple. It holds several matrices of one size, in a fixed order. Each of these matrices is a plane, and the three indices are the plane, the row and the column.
 - `u` goes the other way, from a rank-3 array to a matrix.
 
 Both call the vocabulary. A small case shows what they do. The matrix `y` has the rows 1, 2, 3, 4 and 5, 6, 7, 8. The call `heads(y, 2, 2, 2)` asks for 2 positions in a document, 2 heads, and 2 numbers in a head:
@@ -100,7 +100,7 @@ The library declares products for vectors and matrices only. A product of rank-3
 
 In each plane, a matrix of 16 by 4 meets a matrix of 4 by 16, and the result is 16 by 16. Take its element in row `i` and column `j`. By the rule of Part 2, it is row `i` of the plane of `qh` with row `j` of the plane of `kh`. That is the dot product of query `i` and key `j`. So plane 0 of `qh kh^T` holds every score of head 0: 16 positions that read, times 16 positions that can be read.
 
-`/ SQRT (1.0 headDim)` divides every score by 2, the square root of 4. A dot product of vectors of 4 numbers adds 4 terms, and with longer vectors it would add more and grow. The division by the root of the length keeps the scores in the same range for any `headDim`. Part 3 showed why the range matters: larger scores make softmax sharper. `1.0 headDim` is the float 4.0. Walk also accepts `SQRT headDim` and prints 2.0 for it; the line writes the conversion out.
+`/ SQRT (1.0 headDim)` divides every score by 2, the square root of 4. A dot product of vectors of 4 numbers adds 4 terms, and with longer vectors it would add more and grow. The division by the root of the length keeps the scores in the same range for any `headDim`. Part 3 showed why the range matters: larger differences between scores make the result of softmax more uneven. `1.0 headDim` is the float 4.0. Walk also accepts `SQRT headDim` and prints 2.0 for it; the line writes the conversion out.
 
 A run printed the keys of positions 0 to 3 in head 0, and the 16 scores that position 3 gives in head 0:
 
@@ -152,7 +152,7 @@ masked[0,3,:] = -0.08175008584960282 0.10605658054206196 -0.13388403927731538 0.
 
 Part 3 showed what softmax does with such a score: its result for that score is 0, exactly, and its other results are as if the score were not there.
 
-Karpathy's program has no mask. It feeds the model one position at a time and keeps the keys and values of the earlier positions in a list. A later position does not exist yet when an earlier one is computed. The flat program computes all 16 positions at once, so it needs the mask to get the same result.
+Karpathy's program has no mask. It gives the model one position at a time and keeps the keys and values of the earlier positions in a list. A later position does not exist yet when an earlier one is computed. The flat program computes all 16 positions at once, so it needs the mask to get the same result.
 
 ## The attention weights
 

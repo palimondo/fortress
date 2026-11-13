@@ -38,7 +38,7 @@ A part is Markdown with a few additions. The build has its own small converter a
 - A fenced block marked `out` is what a run printed; marked `fortress` or `text` it is code that is not in the program's files.
 - `$$` on a line of its own opens and closes a displayed formula in LaTeX. `\c{name}` sets a name of the code in typewriter type.
 - `@fig name | caption` places `figs/name.svg`.
-- `!!! limit` to `!!!` is a box for a line that a limit of today's tree shapes.
+- `!!! limit` to `!!!` is a box for a line that a limit of today's tree shapes. `!!! words Title | lead` to `!!!` is a folded box, used on the start page.
 
 ## Where the numbers come from
 

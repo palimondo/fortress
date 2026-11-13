@@ -34,7 +34,7 @@
 m0 positive count 466 of 1024
 m0[1,0..5] = 0.4039325142253399 -0.5951570653200444 0.0782116940127397 -0.13886643064580534 0.16013754453254497 0.01747112558184824
 mr[1,0..5] = 0.4039325142253399 0.0 0.0782116940127397 0.0 0.16013754453254497 0.01747112558184824</code></pre>
-<p id="p-d455bcb0" class="nb">Machine-learning texts call the step from <code>m0</code> to <code>mr</code> ReLU. It looks too simple to matter, and the block depends on it. Without it, the block would be <code>x3 f1^T f2^T</code>. A product of two matrices is one matrix, so the two weight matrices together could do nothing that a single matrix of 16 by 16 cannot do. With <code>MAX</code> between them, which of the 64 numbers pass depends on the row. A different row switches off a different set of numbers, and <code>f2</code> then mixes a different set.</p>
+<p id="p-44aa7e8a" class="nb">Machine-learning texts call the step from <code>m0</code> to <code>mr</code> ReLU. It looks too simple to matter, and the block depends on it. Without it, the block would be <code>x3 f1^T f2^T</code>. A product of two matrices is one matrix, so the two weight matrices together could do nothing that a single matrix of 16 by 16 cannot do. With <code>MAX</code> between them, which of the 64 numbers pass depends on the row. A different row has a different set of numbers set to 0, and <code>f2</code> then mixes a different set.</p>
 <p id="p-e793d112" class="nb">The two blocks have different jobs. Attention moves numbers between positions. The feed-forward block works on each position alone, on what attention brought to it.</p>
 </section>
 <section class="sec" data-num="5.2" data-title="From a row to 27 probabilities">

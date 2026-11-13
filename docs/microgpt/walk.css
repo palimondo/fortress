@@ -53,3 +53,5 @@ ul.chapters .lead { display: block; color: var(--muted); font-size: .88rem; font
 /* While the Select button's selection stands, the formulas and the long boxes of numbers are left out of it,
    so that Speak reads the text and not the digits. walk.js sets and clears the class. */
 html.speak .dm svg, html.speak pre.vb.out.long { -webkit-user-select: none; user-select: none; }
+
+.intro details.words { margin: 0 0 .9rem; }

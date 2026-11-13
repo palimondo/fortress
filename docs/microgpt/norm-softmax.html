@@ -17,7 +17,7 @@
 <div id="chapter-notes"></div>
 <section class="sec chapter" data-num="3" data-title="Two functions on a row: rmsn and sm">
 <h1 id="top" class="nb"><span class="num">Part 3</span> Two functions on a row: rmsn and sm</h1>
-<p class="standfirst">Two small functions carry much of the model: one brings a row of numbers to a standard size, the other turns a row of scores into probabilities. Each is shown first on two or three numbers, then on a real row.</p>
+<p class="standfirst">Two small functions that the model calls again and again: one brings a row of numbers to a standard size, the other turns a row of scores into probabilities. Each is shown first on two or three numbers, then on a real row.</p>
 <nav class="parts" aria-label="Sections of this part"><h2>Sections</h2><ol><li><a href="#s-rmsn-bring-a-row-to-a-standard-size">3.1 rmsn: bring a row to a standard size</a></li><li><a href="#s-rows-a-function-on-every-row">3.2 rows: a function on every row</a></li><li><a href="#s-sm-scores-into-probabilities">3.3 sm: scores into probabilities</a></li></ol></nav>
 <section class="sec" data-num="3.1" data-title="rmsn: bring a row to a standard size">
 <h2 id="s-rmsn-bring-a-row-to-a-standard-size" class="nb"><span class="num">3.1</span> rmsn: bring a row to a standard size</h2>
@@ -183,7 +183,7 @@ text.q6ea8a958f8f7 {font-family:q6ea8a958f8-cmex10;font-size:9.96264px}
 <p id="p-83c96c72" class="nb">Only the differences between the scores count. Adding 100 to every score gives the same probabilities:</p>
 <pre class="vb nb out" id="o-db0994d8" data-kind="output"><code>sm(z + 100) (3): 0.09003057317038046 0.24472847105479764 0.6652409557748218</code></pre>
 <p id="p-ae5e9484" class="nb">This is also why the program may subtract the maximum: it changes nothing in the result. It is there for the arithmetic. <code>exp</code> of a large number does not fit into a float, and after the subtraction the largest number that <code>exp</code> sees is 0.</p>
-<p id="p-8c34c6ee" class="nb">Larger differences make the result sharper. With the scores doubled to 2, 4, 6, the largest takes 87 percent:</p>
+<p id="p-b06d2c74" class="nb">Larger differences make the result more uneven. With the scores doubled to 2, 4, 6, the largest gets 87 percent:</p>
 <pre class="vb nb out" id="o-ea6a64f7" data-kind="output"><code>sm(2 z) (3): 0.015876239976466765 0.11731042782619838 0.8668133321973349</code></pre>
 <p id="p-5744c35f" class="nb">A score far below the others gets the probability 0, exactly. With a fourth score of minus 10 to the power 10:</p>
 <pre class="vb nb out" id="o-866fad88" data-kind="output"><code>sm [1 2 3 -1e10] (4): 0.09003057317038046 0.24472847105479764 0.6652409557748218 0.0</code></pre>

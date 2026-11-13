@@ -411,6 +411,10 @@ class Part:
             cls, _, label = head.partition(' ')
             label = label or {'limit': "A limit of today's tree"}.get(cls, cls)
             inner = '\n'.join(self.block(k, d) for k, d in self.blocks(lines))
+            if cls == 'words':        # a folded box, as "How this edition works" on the specification's start page
+                head, _, lead = label.partition('|')
+                return ('<details class="words"><summary><strong class="w-head">%s</strong> <span class="w-lead">%s</span></summary>\n%s</details>'
+                        % (esc(head.strip()), inline(lead.strip()), inner))
             return '<aside class="%s"><p class="label">%s</p>\n%s</aside>' % (cls, esc(label), inner)
         raise SystemExit('unknown block: ' + kind)
 
@@ -497,7 +501,9 @@ def index_page(parts, intro):
 %s
 </header>
 <div id="continue"></div>
+<div class="intro">
 %s
+</div>
 <section class="part contents">
 <h2>Contents</h2>
 <ul class="chapters">%s</ul>

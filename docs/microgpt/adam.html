@@ -50,7 +50,7 @@ text.qe1ea453d34f5 {font-family:qe1ea453d34-cmr10;font-size:9.96264px}
 <li><p id="p-744eff97" class="nb"><span class="m"><i>p</i></span> is the vector of parameters, <span class="m"><i>g</i></span> the gradient, and <span class="m"><i>p</i>'</span> the new parameters.</p></li>
 <li><p id="p-15a34955" class="nb"><code>lr</code> is a small positive number, the learning rate.</p></li>
 </ul>
-<p id="p-c33bfb89" class="nb">This rule is called gradient descent. Its weakness is that gradient entries differ widely in size. In the step on <code>yuheng</code>, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter jumps too far or the second hardly moves.</p>
+<p id="p-71e14034" class="nb">This rule is called gradient descent. Its weakness is that gradient entries differ widely in size. In the step on <code>yuheng</code>, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.</p>
 <p id="p-b7ea5112" class="nb">The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam, and Karpathy's microGPT uses it too. Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.</p>
 </section>
 <section class="sec" data-num="7.2" data-title="Adam">
@@ -68,7 +68,7 @@ text.qe1ea453d34f5 {font-family:qe1ea453d34-cmr10;font-size:9.96264px}
 <p id="p-87b75819" class="nb">Line 78 is the average of the squares. <code>g × g</code> multiplies the gradient with itself, element by element. <code>beta2</code> is 0.99: 99 parts old, 1 part new.</p>
 <p id="p-28013a05" class="nb">Line 79 is the move. It has three pieces.</p>
 <ul>
-<li><p id="p-40db3f52" class="nb"><code>m' / (1 - beta1^t)</code> corrects the first average for its start. <code>m</code> starts as 0, so after the first step <code>m'</code> is only 15 parts in 100 of the gradient. At <code>t</code> = 1 the divisor is 1 minus 0.85, which is 0.15, and the division gives the whole gradient back. At <code>t</code> = 3 the divisor is 0.386. As <code>t</code> grows, the divisor goes to 1, and the correction fades.</p></li>
+<li><p id="p-e544b1eb" class="nb"><code>m' / (1 - beta1^t)</code> corrects the first average for its start. <code>m</code> starts as 0, so after the first step <code>m'</code> is only 15 parts in 100 of the gradient. At <code>t</code> = 1 the divisor is 1 minus 0.85, which is 0.15, and the division gives the whole gradient back. At <code>t</code> = 3 the divisor is 0.386. As <code>t</code> grows, the divisor goes to 1, and the correction changes less and less.</p></li>
 <li><p id="p-d1e2051b" class="nb"><code>v' / (1 - beta2^t)</code> is the same correction for the second average. <code>SQRT</code> takes the root of every element. <code>+ epsilon_A</code> adds 0.00000001 to every element, so that the division that follows never divides by 0.</p></li>
 <li><p id="p-3ba33374" class="nb">The first piece times <code>lr</code>, divided by the second piece, element by element, is the move. Line 79 subtracts it from <code>p</code>.</p></li>
 </ul>
