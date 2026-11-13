@@ -13,7 +13,7 @@ The batch's generator writes each run's manifest from this section. Each rung's 
 |---|---|---|---|---|
 | 1 | N | `rung-numeral-most-specific` | A numeral at a call goes to the most specific declaration that takes it | 210 |
 | 1 | M | `rung-method-forwarders` | The methods that a class inherits: one method once, and a body inherited through an api's trait | 220 |
-| 1 | L | `rung-label-exit` | `label` and `exit`, and two closures at one source position | 200 |
+| 1 | L | `rung-label-exit` | `label` and `exit` on the compiled path | 180 |
 | 1 | A | `rung-atomic-expr-field` | `atomic` as an expression, and a mutable field inside a transaction | 170 |
 | 1 | K | `rung-comprises-cast` | The cast where a trait's value stands for the type that its `comprises` clause lists | 150 |
 | 2 | T | `rung-tuple-parameter` | A method whose one parameter is a tuple, and a tuple as an operator's operand | 220 |
@@ -104,29 +104,26 @@ Fields common to the seven rungs:
 ### L
 - **slug:** `rung-label-exit`
 - **worktree:** `/home/user/fortress-label-exit`
-- **section:** `L. label and exit on the compiled path, and two closures at one source position: an exit leaves its label's block with its value, also from inside a loop's body, and each closure class gets a name of its own (rows 81 and 315)`
-- **blurb:** the code generator has no case for a label block or an exit (row 81), so every declaration that holds one is refused, the one library's Indexed among them; and it names a closure's class by its source position alone, so two closures at one position are written under one name and the jar's write stops (row 315). The rung compiles label and exit, an exit from inside a loop's body or a function expression included, and gives each closure class a name of its own.
+- **section:** `L. label and exit on the compiled path: an exit leaves its label's block with its value, also from inside a loop's body (row 81)`
+- **blurb:** the code generator has no case for a label block or an exit (row 81), so every declaration that holds one is refused, the one library's Indexed among them. The rung compiles label and exit, an exit from inside a loop's body or a function expression included.
 - **points to report:**
-  - `exit` as built: how it reaches its label from a loop's body, which is a closure and can run in a task; what the other iterations of a parallel loop do; what a `finally` clause and an `atomic` block between the `exit` and its label do.
+  - `exit` as built: how it reaches its label from a loop's body, which is a closure and can run in a task; what the other iterations of a parallel loop do; what a `finally` clause between the `exit` and its label does; and an `exit` out of an `atomic` block, whose writes the specification retains: built, or its expected-failure test and its new row.
   - Each form tested, failing on the base and passing after at one thread and at four: an `exit` with and without a value, out of a `while`, out of a `for`, a label nested in a label, a label as a function's whole body.
-  - The closure's name as built, and row 315's two reproducers before and after.
-  - Every existing test whose pinned class name or message changed.
+  - Every existing test whose pinned message changed.
   - Whether the distance stage's shadow patch still applies to your `CodeGen.java`.
   - Each sentence of the specification that your change makes false, or none.
   - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
-- **briefing** (14 keys, 10 checks):
+- **briefing** (11 keys, 8 checks):
   - P-175 (check): a group joins every arm that it forked before it completes abruptly, which an `exit` out of a parallel loop meets.
   - F-19: what may run in parallel, and what each path forks.
   - ledger:81 (check): the refusal, which closes.
-  - ledger:315 (check): the two closure classes of one name, which closes.
   - REH `W9. ` (check): the library's sites of `label`.
-  - REH `W10. A closure class written twice into the jar` (check): the library's site of the closure.
   - SPEC `basic/expressions/label.tex#Label and Exit` (check): the construct.
   - SPEC `basic/evaluation/parallelism.tex#Threads and Parallelism`: when a group completes abruptly.
+  - SPEC `basic/expressions/atomic.tex#Atomic Expressions` (check): what an `exit` out of an `atomic` block does to the block's writes.
   - SRC `interpreter/evaluator/Evaluator.java#public FValue forLabel` (check): walk's label, the precedent.
   - SRC `interpreter/evaluator/Evaluator.java#public FValue forExit` (check): walk's exit.
-  - SRC `compiler/codegen/CodeGen.java#public void forFnExpr` (check): where a closure's class is named and written.
-  - SRC `compiler/NamingCzar.java#public static String gensymArrowClassName(String desc, Span sp)`: the name from the position.
+  - SRC `compiler/codegen/CodeGen.java#public void forFnExpr`: how a loop's body becomes a closure, which an `exit` leaves.
   - `code:Library/FortressLibrary.fss#trait Indexed[`: the library's `indexOf`, an `exit` out of a `for`.
   - REC `Forks the batch takes` (check): the defaults you build.
 
@@ -332,9 +329,9 @@ Each rung is given as what a Fortress programmer could not compile before and ca
 The count of declarations of the one library's fourteen components that the code generator refuses.
 
 - **Before: 24, in 8 kinds.** Measured on the base build's code by the rehearsal's way (PROBES, section 3). F-34 holds this figure since `5064f7f80b`; its older text, 38 in 10 kinds, was of older code.
-- **Run 1 takes off:** the 4 of `label` and the 2 of the closure class (L), and the 1 of the `atomic` expression (A): 7. Two of those declarations have a second wall behind the first, varargs. So expect 17 to 19 after run 1.
-- **Run 2 takes off:** the 4 range operators over pairs and triples (T). Expect 13 to 15.
-- **What stays:** varargs 8, the kind environment 4, the intersection 1, and what stands behind them.
+- **Run 1 takes off:** the 4 of `label` (L) and the 1 of the `atomic` expression (A): 5. Two of the four have a second wall behind the first: varargs behind `Generator2`'s, and the partial type assumption (row 818) behind `SubString`'s. So expect 19 to 21 after run 1.
+- **Run 2 takes off:** the 4 range operators over pairs and triples (T). Expect 15 to 17.
+- **What stays:** varargs 8, the kind environment 4, the closure class 2, the intersection 1, and what stands behind them.
 - **M, K and the first half of T do not move this count.** Their classes are written and fail when they load, which the count cannot see. Their measure is their tests. The rehearsal counted 244 duplicated methods in 27 classes; that figure can be taken again only after the switch.
 - The checker's count and the distance stay 0 and 0 (F-53).
 
@@ -367,10 +364,12 @@ You have not decided which Java class stands for each built-in type (`reviews/ca
 
 ### For the batch after, in this order
 
+Two walls wait for a program compiled against the one library, since a test of their repair needs it: varargs (row 624), and the closure class written twice (row 315), whose only sites today are the one library's `LexicographicOrder` and `List`, with the cause not traced. Row 315's two older programs compile and run today.
+
 1. The kind environment (rows 812 and 822): 4 of the refused declarations, `List`'s among them.
 2. The intersection as a receiver (row 540) and the partial type assumption (row 818), in the code that T leaves.
 3. The code generator's stable order (fork S).
-4. Varargs, as soon as a program can be compiled against the one library.
+4. Varargs and the closure class, as soon as a program can be compiled against the one library.
 5. Row 571's own shape, if rung M leaves it open.
 
 ### Before the batch runs
@@ -387,7 +386,7 @@ You have not decided which Java class stands for each built-in type (`reviews/ca
 - **Run 1, about 4.6M tokens written, from 3.7M to 5.9M; about 7 hours at two agents at a time.**
   - Workers, about 2.0M: N 0.5M, M 0.5M, L 0.4M, A 0.3M, K 0.3M. Skeptics, about 1.2M; N's runs the count stage itself.
   - The fixed roles, about 1.1M: the disk check, the gather with five rungs and one specification build, the merged-diff review, the gate, the commit stage. A judge and a repair round, about 0.3M.
-  - Minutes: N 210, M 220, L 200, A 170, K 150.
+  - Minutes: N 210, M 220, L 180, A 170, K 150.
 - **Run 2, about 2.6M, from 2.1M to 3.4M; about 5 hours.** Workers about 0.9M (T 0.5M, D 0.4M), skeptics 0.5M, the fixed roles 1.0M, a judge and a repair round 0.2M. Minutes: T 220, D 170.
 - **The evidence.** Climb batch 30's three rungs and fixed roles wrote 3.13M by the harness's count, 2.92M by its review, 47 % under its estimate (`reviews/batch-30-review.md`, title). Every agent runs on Fable at medium effort (`FABLE_WEEK`).
 
@@ -414,7 +413,7 @@ None of the forks below is consequential: each builds within a decision on recor
 9. **M1. A trait's own declaration replaces an inherited body at the same parameter types.** The class's method forwards to the trait's own body, and no second method is written. **Default: so.** The reason: the specification's method declarations; P-47 relies on it; walk runs the trait's own.
 10. **M2. A method that an api declares without `abstract` has a body in its component,** so an object that inherits it gets a forwarder to the trait's class. **Default: so.** The reason: with the trait first in the `extends` clause the same call runs today.
 11. **L1. An `exit` leaves through the loop's body as an abrupt completion that names its label,** each evaluation of a label block having its own identity; a parallel loop joins the arms that it forked first. **Default: so.** The reason: walk's `forLabel` and `forExit`; P-175.
-12. **L2. A closure's class is named by its source position and its number among the closures of that position.** **Default: so; a closure alone at its position keeps today's name.** The reason: tests and the class loader read today's names.
+12. **L2. The closure class written twice (row 315) is left out.** **Default: so; it waits with varargs for a program compiled against the one library.** Way not taken: a repair of the name in rung L with the measure as its only check. The reason: the row's two programs pass on `84f1c37190`, the library's form cannot be written under the prelude, and no test can fail first (`climb-batch-31-review.md`, B1). An `exit` out of an `atomic` block is rung L's to test: the specification retains the block's writes (`Specification/basic/expressions/atomic.tex:60-63`), the compiled handler discards them for every abrupt completion, and the handler's code is no rung's of this run; so L builds it if its own files reach it, and else leaves an expected-failure test and a new row.
 13. **A1. A `var` field is kept in a cell, as a top-level `var` is;** a `var` value parameter too. **Default: so.** Way not taken: a location keyed by the object and the field. The reason: the code's own way for a mutable variable (run 2 of `CLIMB-BATCH-30.md`, fork Y2). The one library's `var` fields are of both forms: `OneShot(var canTryIt: Boolean)` and the generic `Box[\T\](var val: T)` as value parameters, and `String.fss`'s as fields of an object's body; a cell holds any of them.
 14. **K1. The cast is emitted only where the value's static type is not a subtype of the declared type by the `extends` clauses,** so a call that verifies today keeps its bytecode. **Default: so.**
 15. **T1. A tuple-typed parameter keeps today's convention, its elements as separate JVM parameters, and a bridge method joins the instantiated signature to it.** **Default: so, if the worker's reading of row 832 allows it; else the worker reports the other way before building it.** Way not taken: one boxed tuple everywhere, which changes every compiled method with a tuple parameter. The reason: 1,558 compiled tests run on today's convention.
@@ -433,7 +432,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **What you build, in order.**
 1. **The checker.** In `scala_src/typechecker/impls/Functionals.scala`, a call with a numeral argument compares the attempt by subtyping with the attempt by the numeral's own coercion: the most specific applicable declaration runs; of two not ordered, the one that the numeral's default fits. A value's coercion stays as it is. Tests first, compiled, under the prelude:
-   - `ProjectFortress/compiler_tests/NumeralMostSpecificCompiled.test`: `k(5)` for `k(x: Any)` beside `k(x: NN32)` prints `nn32` (today the run dies, 'NoSuchMethodError … \=k{…}(fortress.AnyType$Any)', row 390's numeral case); a program's `same(a: Any, b: Any)` beside `same(a: NN32, b: NN32)` on `(u, 0)` and `(0, u)`; `k(a)` for `a: Any` still runs the `Any` declaration; `gg(5, w)` of P-173 still runs the `ZZ32` declaration.
+   - `ProjectFortress/compiler_tests/NumeralMostSpecificCompiled.test`: `k(5)` for `k(x: Any)` beside `k(x: NN32)` prints `nn32` (today the run dies, 'NoSuchMethodError … \=k{…}(fortress.AnyType$Any)', row 390's numeral case); a program's `same(a: Any, b: Any)` beside `same(a: NN32, b: NN32)` on `(u, 0)` and `(0, u)`; `k(a)` for `a: Any` still runs the `Any` declaration; `gg(5, w)` of P-173 still runs the `ZZ32` declaration; `x^2` for `x: RR64` still runs the prelude's `RR64` power with a `ZZ32` exponent, the numeral a `ZZ32`, shown by a result that the `RR64` exponent's power would round otherwise or by the checked tree.
    - `ProjectFortress/compiler_tests/NumeralTieDefaultCompiled.test`: row 989's program prints `rr64` (today 'Ambiguous coercion in call to function mul').
    - `compiler_tests/NumeralStaticDesignCompiled` is a guard.
 2. **Walk** (fork W). In `interpreter/evaluator/values/OverloadedFunction.java`, `bestMatchForNumerals` and what it calls follow the same rule, and the dispatch cache's keys tell apart what the rule tells apart. Tests first: `tests/XXXNumeralEqualsNumberWalk.fss` and `tests/XXXNotEqualNumeral.fss` promoted, the first with `h: QQ = 1/2`, `h = 0.5` and `0.5 = h` added (PLAN's line on the test owed); `tests/NumeralMostSpecificWalk.fss` with step 1's programs, a `case u of 0 => …` (row 975) and a program's own number type (row 976).
@@ -480,26 +479,26 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 **Overlaps by file.** L, A and K edit `CodeGen.java` too: "The rule the rungs keep".
 
-### L. `label` and `exit` on the compiled path, and two closures at one source position: an `exit` leaves its label's block with its value, also from inside a loop's body, and each closure class gets a name of its own (rows 81 and 315)
+### L. `label` and `exit` on the compiled path: an `exit` leaves its label's block with its value, also from inside a loop's body (row 81)
 
-**The mission.** Two walls stand on the path of a one-line program against the one library, and both show under the prelude. The code generator has no case for `label` and `exit` (row 81), and the one library's `Indexed`, above every string and array, holds one in `indexOf`. And a closure's class is named by its source position alone, so two closures at one position stop the jar's write (row 315); the one library's `LexicographicOrder` and `List` meet it.
+**The mission.** A wall on the path of a one-line program against the one library shows under the prelude: the code generator has no case for `label` and `exit` (row 81), and the one library's `Indexed`, above every string and array, holds one in `indexOf`.
 
 **The decisions this rung builds.** P-175, for an `exit` out of a parallel loop. Section 3's forks L1 and L2. The specification's section "Label and Exit" is the standard, and walk's `forLabel` and `forExit` the precedent.
 
 **What you build, in order.**
 1. **`label` and `exit`** (fork L1; row 81). Test first, `ProjectFortress/compiler_tests/LabelExitCompiled.test`, printing `PASS` or `FAIL`: `PLabel.fss`'s `exit … with` out of a `while`; an `exit` with no value; an `exit` out of a `for` over a range, the form of `Library/FortressLibrary.fss:2188-2194`, at one thread and at four, with the label's value one of the values that an iteration exits with; a label nested in a label, the inner `exit` naming the outer; a label as a function's whole body with several `exit`s (`Library/String.fss:148-158`); an `exit` inside a `try` with a `catch` of every exception, which does not catch it. Seen failing on the base: 'Can't compile Label'.
-2. **The closure's name** (fork L2; row 315). Test first, `compiler_tests/ClosureSamePositionCompiled.test`: the row's two programs, `5 :OP: 6` over three overloads of `opr OP`, and `sz(fn () => 2147483646 + 1)`. Not seen failing on the base: at `84f1c37190` both compile and run, printing 3 and 2147483647: the first program's two closures are named by their own numerals' positions, and the second's sum folds (the check of 2026-11-13, `climb-batch-31-review.md`, finding B1). A program that fails first under the prelude with 'ZipException: duplicate entry' is not known; until one is, this step has no test.
-3. **The whole compiled suite once,** `ant testFast`, since a closure's name reaches every compiled closure.
+2. **An `exit` out of an `atomic` block.** The specification: "If it completes abruptly by exiting to an enclosing label expression, writes within the block are retained and become visible to other threads" (`Specification/basic/expressions/atomic.tex:60-63`). The compiled block's handler takes every abrupt completion and ends the transaction with its writes discarded (`runtimeSystem/BaseTask.java:285-314`), and that code is not yours. Write the case as a test: `atomic do g := 7; exit done end` inside `label done`, `g` read after. If your own files reach the specification's answer, the test is plain and in step 1's file. If not, it is an expected-failure test, `compiler_tests/XXXExitOutOfAtomicCompiled`, with a new row in your `record.md`; build nothing in `forAtomicBlock`, `BaseTask.java` or `Transaction.java`.
+3. **The whole compiled suite once,** `ant testFast`.
 
 **The stages.** None. List your files (`STAGE_BLIND`). Run the distance stage's shadow patch once on your final tree, as rung M's section gives it, and report its exit.
 
-**Rows.** Close 81 and 315.
+**Rows.** Close 81. A new row, `NEW-L-1`, if step 2 leaves an expected failure.
 
-**Specification.** No Effect of Appendix I names these rows. List each sentence your change makes false, or none.
+**Specification.** No Effect of Appendix I names this row. List each sentence your change makes false, or none.
 
-**Files.** `compiler/codegen/CodeGen.java`: new members for the label block and the exit, put directly above `defaultCase` (`:1776`); `forFnExpr` (`:3643-3707`) and the naming in `forLetFn`; `compiler/NamingCzar.java`, `gensymArrowClassName`; a run-time class for the exit under `runtimeSystem/` if you need one; your tests. Not: `forAtomicBlock`, `forTry`, `genParallelExprs`; `runtimeSystem/BaseTask.java` and `Transaction.java`; microGPT.
+**Files.** `compiler/codegen/CodeGen.java`: new members for the label block and the exit, put directly above `defaultCase` (`:1776`); a run-time class for the exit under `runtimeSystem/` if you need one; your tests. Not: `forFnExpr` and the closures' names (row 315 is not this batch's); `forAtomicBlock`, `forTry`, `genParallelExprs`; `runtimeSystem/BaseTask.java` and `Transaction.java`; microGPT.
 
-**Reserved points.** A model line: none. A change to a class name that a test or the class loader reads, beyond a second closure's.
+**Reserved points.** A model line: none. A change to a class name that a test or the class loader reads.
 
 **Overlaps by file.** M, A and K edit `CodeGen.java` too: "The rule the rungs keep".
 
@@ -545,6 +544,8 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 **Specification.** `Specification/appendices/changes.tex:4312` names row 695: bring its sentence in line if the row closes. `changes.tex:1676` and `Specification/basic/inference.tex:458` name row 307: leave them unless `XXXNatOpenRun` passes.
 
 **Files.** `compiler/codegen/CodeGen.java`: `conditionallyCastParameter` (`:7208-7240`) and its callers' arguments to it, the returned value in `generateFunctionalBody`, and a new member put directly above `conditionallyCastParameter`; your tests; the specification's sentence named. Not: `evalArg`'s forking; `dumpMethodChaining`; `forAtomicBlock`; microGPT.
+
+A cast that is needed at a field, whose code is rung A's (`forObjectDeclPrePass`, `VarCodeGen`), or in a forwarder, whose code is rung M's (`generateForwardingFor`), is reported with its program, not built.
 
 **Reserved points.** A model line: none. A cast at a place that verifies today.
 
@@ -600,10 +601,10 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 - **Run 1.** N shares no file with the other four. M, L, A and K share `compiler/codegen/CodeGen.java`, by declaration:
   - M: `dumpTraitDecls` through the code before `genParallelExprs` (`:769-1690`); a new member goes directly above `dumpMethodChaining` (`:926`).
-  - L: new members directly above `defaultCase` (`:1776`); `forFnExpr` (`:3643-3707`) and the name in `forLetFn` (`:3829`).
+  - L: new members directly above `defaultCase` (`:1776`).
   - A: a new member directly below `forAtomicBlock` (`:1868`); the value parameters and the fields in `forObjectDeclPrePass` (`:4813-4862`).
   - K: `conditionallyCastParameter` (`:7208-7240`), the returned value in `generateFunctionalBody` (`:2880`), a new member directly above `conditionallyCastParameter`.
-  - The gather applies N, then M, L, A and K: of two rungs that share a file, the one whose lowest edited line is lower goes first (`climb-batch-workflow.md`, "Gather", "The order").
+  - The gather's order is the script's: of two rungs that share a file, the one whose lowest edited line is lower goes first (`climb-batch-workflow.md`, "Gather", "The order"). The expected order is N, M, K, L, A, since two callers of `conditionallyCastParameter` stand in `genParallelExprs` (`:1756`, `:1768`), above L's new members; it is a forecast, and the hunks do not overlap in either order.
 - **The distance stage's shadow patch** (`explorations/coordinator/tools/distance/shadow-patch.py`) edits a copy of `CodeGen.java` by text. A rung that edits `CodeGen.java` runs it once and reports its exit; if it no longer applies, the rung reports the lines, and the gather repairs the tool.
 - **Run 2.** T and D share `CodeGen.java` only, in declarations far apart. The gather applies T, then D.
 - **They meet on the merged tree:** the suites, the atomic runs with A's two programs, the ladder and the two stages; the gather's 52 demos; the commit stage's microGPT quick checks, which read N's rule under walk.
@@ -616,7 +617,7 @@ The planner's brief, piece by piece, with its home here. "Under the prelude" say
 
 - **Varargs (row 624):** out (fork V). Its refusal reproduces under the prelude (`XXXVarargsCodeGeneration`); a test of its repair needs the one library (PROBES, section 2).
 - **`label` and `exit` (row 81):** L. Under the prelude: yes.
-- **A closure class written twice (row 315's kind):** L. Row 315's own reproducers compile and run under the prelude at `84f1c37190`, without the failure (`climb-batch-31-review.md`, finding B1); the library's form cannot be written there (it needs `zip` and `BIG AND`), and only the measure shows it.
+- **A closure class written twice (row 315's kind):** out (fork L2), with varargs. Row 315's own programs compile and run under the prelude at `84f1c37190` (`climb-batch-31-review.md`, finding B1); the library's form cannot be written there (it needs `zip` and `BIG AND`), and only the measure shows it.
 - **One method written twice, with the wrong forwarder (row 571's kind):** M, as row 990. Under the prelude: yes.
 - **The missing cast at a `comprises` type (rows 307 and 695's kind):** K, as row 991. Under the prelude: yes.
 - **The bridge for a method over a tuple index type (row 832's kind):** T, in run 2, as row 992. Under the prelude: yes, as a `VerifyError`.
@@ -662,11 +663,11 @@ The batch runs on the workflow of climb batches 22 to 30: `coordinator/climb-bat
 
 - N, a numeral at a call goes to the most specific declaration that takes it, on both paths, so that u = 0 is true for a zero u of NN32;
 - M, the methods that a class inherits: one method written once where a generic trait gives a body to a method that it also inherits, and a forwarder for a body inherited through an api's trait that is not first;
-- L, label and exit on the compiled path, and a name of its own for each closure class;
+- L, label and exit on the compiled path;
 - A, atomic as an expression, and a mutable field inside a transaction;
 - K, the cast where a trait's value stands for the type that its comprises clause lists.
 
-Each rung has tests that fail on the base and pass after, compiled against the prelude. M, L, A and K share CodeGen.java by declaration: each keeps to its own, as its section says. N runs the count stage and the distance stage once on its final tree, with the checker's timing; the others run neither. microGPT changes no line, and its quick checks under walk stay 7 of 7. The gather applies N, M, L, A, then K, builds the specification once, and runs the 52 team demos on the merged tree. The gate's atomic runs hold two new programs.
+Each rung has tests that fail on the base and pass after, compiled against the prelude. M, L, A and K share CodeGen.java by declaration: each keeps to its own, as its section says. N runs the count stage and the distance stage once on its final tree, with the checker's timing; the others run neither. microGPT changes no line, and its quick checks under walk stay 7 of 7. The gather applies the rungs in the script's order, expected N, M, K, L, A, builds the specification once, and runs the 52 team demos on the merged tree. The gate's atomic runs hold two new programs.
 
 **Run 2.** This run is climb batch 31b, the second of the two runs of the record CLIMB-BATCH-31.md, after climb batch 31, which landed rungs N, M, L, A and K. Its rungs:
 
@@ -697,7 +698,7 @@ For run 2, after run 1's landing and its routing: sections T and D read again ag
 The comparands for run 1 are climb batch 30's `summary.txt`, `checker-count.txt` (0) and `distance.txt` (0, `#crash none`), in `compile-ladder/climb-batch-30/gate/`; for run 2, run 1's.
 
 - `testSystem`: the comparand's count, with N's one new walk test; N's two promotions keep the count.
-- `testFast`: the compiler track's count plus N's two, M's two, L's two, A's two and K's one new tests, with the promotions keeping the count; the library track unchanged.
+- `testFast`: the compiler track's count plus N's two, M's two, L's one, A's two and K's one new tests, and L's expected failure if its step 2 leaves one, with the promotions keeping the count; the library track unchanged.
 - The atomic runs: the comparand's programs and A's two, each three times `PASS`.
 - The ladder: no rung declares a move. N's rule reaches its programs' calls with numerals: a changed output is traced to N.
 - The checker count: 0; the distance: 0, `#crash none`; reported, never red.
@@ -708,7 +709,7 @@ The comparands for run 1 are climb batch 30's `summary.txt`, `checker-count.txt`
 
 New rows go into the ledger only through `ledger.py add`, by the gather.
 
-- **Run 1, closed:** 973, 966, 975, 976, 989 (N); 990, 732, and 571 if it passes (M); 81, 315 (L); 875, 319 (A); 991, and 695 if the cast reaches it (K). **Rewritten:** 390 (N).
+- **Run 1, closed:** 973, 966, 975, 976, 989 (N); 990, 732, and 571 if it passes (M); 81 (L); 875, 319 (A); 991, and 695 if the cast reaches it (K). **Rewritten:** 390 (N).
 - **Run 2, closed:** 992, 832, 819 (T); 988, 474 (D).
 
 ### After the landing
@@ -725,7 +726,7 @@ The batch edits no FACTS or POSITIONS entry. After run 1, these are false:
 - **P-46:** its sentence "Rows 973 and 966: walk answers `false` for `u = 0`, and `true` for `u =/= 0`", with fork W at (a). **P-173:** "rows 973 and 966 hold where walk departs", the same.
 - **P-59,** if fork W lands at (a): it gains the numeral's case, that walk's choice for a call with a numeral follows P-46 before the switch-over.
 - **F-19** and the entries that name rows 319 and 875 as open: a mutable field is inside the transaction, and the atomic expression compiles.
-- The entries that name rows 81, 315, 732 and 695 as open; F-349's sentence that walk's rule on a declaration that fits a numeral as it is "is apart from it".
+- The entries that name rows 81, 732 and 695 as open; F-349's sentence that walk's rule on a declaration that fits a numeral as it is "is apart from it".
 - After run 2: P-9's and PLAN's sentences that the tuple binding does not compile, if any names it; the entries that name rows 474, 832 and 819 as open.
 
 ### For the skill writer: the sentences of `fortress-repo` this batch makes false
