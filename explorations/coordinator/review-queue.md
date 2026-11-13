@@ -2,11 +2,11 @@
 
 ## When each item is needed
 
-The asks that stay after the cleanup of 2026-11-05, grouped by the work that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) or (c) gives the other way, the cost, the home and its "Needed by" line. The cleanup gave each of the 312 open items one verdict: 77 settled or stale, now in (a); 117 decisions that landed at a default that no planned work needs his word on again, moved to `coordinator/review-queue-learning-2026-11-05.md`, the material for a page that he reads to learn what was decided; 53 items of the coordinator's own work, moved to `coordinator/coordinator-work-2026-11-05.md`; and the 65 asks below. Each item that left keeps its number in (a), with the file it went to. A landing files its new items for him by the routing (`coordinator/tools/record-landing/routing.md`), each with its "Needed by" line, and brings this section and its counts in line. Climb batch 26's routing added items 355 to 367, and moved 310 and 340, landed at a default, to that batch's group. Climb batch 27's routing added items 373 to 405, 378 answered and the rest open; moved 363, built, to (a); and moved 371 to the switch-over's group, since its rung landed without it. His decision of 10:5x UTC on 2026-11-07 on Q1 of the natives review added item 406, for his detailed review of it, and item 407, the judgement's Q2, which the decision leaves open; his word of 14:19 UTC that day moved 404 to (a). His answer of 02:1x UTC on 2026-11-08 to Q2 moved 407 to (a). Climb batch 28's routing added items 408 to 437, all open; moved 373 and 377, whose defaults that batch built, to its group, still open for his review; and brought 319, 335, 380, 384, 385, 403 and 406 in line with its landing. Climb batch 29's routing added items 448 to 486, all open; moved 438 to 442 and 444 to 446 to (a), since he took their defaults at 23:3x UTC on 2026-11-08 and the batch built them; moved 443 and 447 to (c), each open on the half that had no default on record when he answered; and brought 76, 224, 372, 380, 403, 406 and 437 in line with its landing. The rewrite of P-174 to his static numerals on 2026-11-09, with P-176 and P-37's exception for the numerals, moved 443, 448, 456, 458, 476, 478 and 482 to (a), answered, and brought 447, 449, 450, 463, 473, 475 and 477, and 95 and 445 in (a), in line with it. Climb batch 29b's routing added items 487 to 499, all open; brought 449, 450, 462, 470, 473, 475, 477 and 479 in line with its landing; and gave 448, which the batch built, and 443, 456, 458, 478 and 482, whose PLAN lines moved, their homes in PLAN-history. Climb batch 30's routing added items 500 to 511, all open; moved 449 and 487 to (a), answered by his go of 07:4x UTC and his answer of 11:3x UTC on 2026-11-10; moved 408, 413, 425 and 493 to (a), since the batch closed their rows; reworded 488, 489 and 418 to the defaults that the batch built, each still open for his review, and moved 489 to (c); and brought 450, 457, 459, 461, 462, 470 and 495 in line with its landing.
+The asks that stay after the cleanup of 2026-11-05, grouped by the work that needs his word, in PLAN's order; each line gives the question and its default, and the item's own text in (b) or (c) gives the other way, the cost, the home and its "Needed by" line. The cleanup gave each of the 312 open items one verdict: 77 settled or stale, now in (a); 117 decisions that landed at a default that no planned work needs his word on again, moved to `coordinator/review-queue-learning-2026-11-05.md`, the material for a page that he reads to learn what was decided; 53 items of the coordinator's own work, moved to `coordinator/coordinator-work-2026-11-05.md`; and the 65 asks below. Each item that left keeps its number in (a), with the file it went to. A landing files its new items for him by the routing (`coordinator/tools/record-landing/routing.md`), each with its "Needed by" line, and brings this section and its counts in line. Climb batch 26's routing added items 355 to 367, and moved 310 and 340, landed at a default, to that batch's group. Climb batch 27's routing added items 373 to 405, 378 answered and the rest open; moved 363, built, to (a); and moved 371 to the switch-over's group, since its rung landed without it. His decision of 10:5x UTC on 2026-11-07 on Q1 of the natives review added item 406, for his detailed review of it, and item 407, the judgement's Q2, which the decision leaves open; his word of 14:19 UTC that day moved 404 to (a). His answer of 02:1x UTC on 2026-11-08 to Q2 moved 407 to (a). Climb batch 28's routing added items 408 to 437, all open; moved 373 and 377, whose defaults that batch built, to its group, still open for his review; and brought 319, 335, 380, 384, 385, 403 and 406 in line with its landing. Climb batch 29's routing added items 448 to 486, all open; moved 438 to 442 and 444 to 446 to (a), since he took their defaults at 23:3x UTC on 2026-11-08 and the batch built them; moved 443 and 447 to (c), each open on the half that had no default on record when he answered; and brought 76, 224, 372, 380, 403, 406 and 437 in line with its landing. The rewrite of P-174 to his static numerals on 2026-11-09, with P-176 and P-37's exception for the numerals, moved 443, 448, 456, 458, 476, 478 and 482 to (a), answered, and brought 447, 449, 450, 463, 473, 475 and 477, and 95 and 445 in (a), in line with it. Climb batch 29b's routing added items 487 to 499, all open; brought 449, 450, 462, 470, 473, 475, 477 and 479 in line with its landing; and gave 448, which the batch built, and 443, 456, 458, 478 and 482, whose PLAN lines moved, their homes in PLAN-history. Climb batch 30's routing added items 500 to 511, all open; moved 449 and 487 to (a), answered by his go of 07:4x UTC and his answer of 11:3x UTC on 2026-11-10; moved 408, 413, 425 and 493 to (a), since the batch closed their rows; reworded 488, 489 and 418 to the defaults that the batch built, each still open for his review, and moved 489 to (c); and brought 450, 457, 459, 461, 462, 470 and 495 in line with its landing. The filing of the probes of 2026-11-10 to 2026-11-13 added items 512 to 527, all open: the questions of the switch-over's rehearsal, the plan review, the Java baseline, probe Y, the carriers' review and the merge probe, fork W of climb batch 31's record, the item that climb batch 30's orientation held, and the pair order's answer that row 511 lacks.
 
-**Counts**, 184 open items, 73 consequential and 111 routine:
+**Counts**, 200 open items, 83 consequential and 117 routine:
 - Before the ledger's repair: 5 (0 consequential, 5 routine).
-- The next batch and the natives' batches: 6 (5 consequential, 1 routine).
+- The next batch and the natives' batches: 7 (6 consequential, 1 routine).
 - Climb batch 29's numeral defaults, for his review: 1 (0 consequential, 1 routine).
 - Before the switch-over: 25 (22 consequential, 3 routine).
 - Before microGPT compiles: 12 (9 consequential, 3 routine).
@@ -20,6 +20,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - Climb batch 29's defaults, for his review; later work needs a few of them: 27 (8 consequential, 19 routine).
 - Climb batch 29b's defaults, for his review; later work needs a few of them: 9 (0 consequential, 9 routine).
 - Climb batch 30's defaults and open questions, for his review; no planned work waits on them but 504: 11 (6 consequential, 5 routine).
+- The probes of 2026-11-10 to 2026-11-13, decisions not taken: 15 (9 consequential, 6 routine).
 
 **Before the ledger's repair** (PLAN, "Where we stand", "Next": the gap ledger's full pass over about 180 open rows, which PLAN had put before climb batch 26; that batch landed without it).
 - **265.** Which status a ledger row takes for a defect where the specification is silent: `NEGATIVE-VERIFIED` widened, `CONTESTED`, or `POSITIVE-VERIFIED`. Default: the rows as they are.
@@ -35,6 +36,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **403.** For later gates, the distance stage report-only, as P-39 has it, or a crash that no rung declared red in the distance as in the count (row 929, closed by climb batch 28's rung K). Default: report-only, the record's.
 - **335.** A static check of the natives' shared state in the gate, a parallel test for each helper that holds state, both, or neither, before N3. Default: neither.
 - **406.** His detailed review of P-169, the runtime's own 13 native bindings named as compiled helpers that walk's loader answers with its own operations, which he took from the independent Fable judgement of 45 names as it landed; climb batch 28 built the 13, and the numerals' 32 left P-169 (P-174), the last 24 removed with the old numeral types by climb batch 29. Default: as decided.
+- **525.** Fork W of climb batch 31, which holds its launch with his go: walk gets the numeral rule now, in rung N, or when it runs the checker. Recommended by the batch's record, not a decision: now.
 
 **Climb batch 29's numeral defaults, for his review** (PLAN, "Climb batch 29, listed for his review"). Of the ten defaults that he took at 23:3x UTC on 2026-11-08, "Yeah. Option one.", with the numeral design (P-173, P-174), climb batch 29 built each, and nine are in (a), 443 since the static numerals answered it. This one stays open on the half that had no default on record when he answered; the batch built the record's default for it. No planned work waits on it.
 - **447.** The constant chapter's concatenation of two natural numerals. Default: folded into one natural numeral, the record's point 2 (fork F4), as landed.
@@ -235,6 +237,23 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
 - **510.** D2 of the parallelism review, not yet asked: whether a compiled `atomic` block is atomic with respect to a write made outside `atomic` (row 948), and after it a contention policy. No default on record.
 - **511.** The compiled `drandom` gives values that depend on the schedule above one thread (row 876): a defect to repair, or not. No default on record.
 
+**The probes of 2026-11-10 to 2026-11-13, decisions not taken** (PLAN, "Where we stand", the probes' line, and phase 4's closing paragraph). Eight probes and reviews ran outside any batch and landed nothing; each question below is a decision not taken, with the way that its source recommends, which is not a decision. 513 comes first on either road, with 514; 512 is needed before the batch after climb batch 31 is planned, and 522 before that batch; 515 to 521 arise only under an answer to 513 or 512; 523 and 524 come before microGPT runs fast; no planned work waits on 518, 526 and 527.
+- **512.** The order of the remaining work: the whole switch-over first, or the model's slice first with one build that serves both libraries. Recommended by the plan review: the model's slice first.
+- **513.** Which run-time class carries each built-in type of the one library on the compiled path. Recommended by the carriers' review: the object's class carries the value and the trait stays an interface (way C).
+- **514.** Under P-26, the prelude's trait form of a carried type: a later decision of the team's, or code that serves only the implementation. The review's reading: not a later decision.
+- **515.** The five number traits merged with their one object each (way D), if 513 is answered with way C. Recommended by the carriers' review: a second step, ruled on apart.
+- **516.** Where the five objects live after a merge: `FortressLibrary`, with a table of five names in walk, or `FortressBuiltin`. The probe's choice in scratch: `FortressLibrary`.
+- **517.** Walk's two repairs (rows 997 and 998) before a merge, or the merge first with the two recorded. The probe's estimate: the repairs first.
+- **518.** `round` of an `RR64`: a `ZZ64`, as it runs, or a `ZZ`, as the trait declares (row 1000). No default on record; as the tree runs, `ZZ64`.
+- **519.** After a merge, a `typecase` arm at a removed name such as `Int` matches every value until row 959 is repaired: acceptable, or row 959 first. No default on record.
+- **520.** Row 542, the checker's refusal of a valid generic-beside-plain pair over an object domain: a condition of the merge, or of the switch-over only. The probe's estimate: before the switch-over.
+- **521.** With the model's slice first, the second set of the run time's value classes: a map of names over the first set, or files of its own. No default on record; in scratch, the map.
+- **522.** The order of the code generator's output made stable before the switch-over's work starts (row 996). Default of climb batch 31's record: a rung in the batch after it.
+- **523.** A grain for the library's matrix product now, or with the first compiled kernel. Recommended by the plan review: with the first compiled kernel.
+- **524.** The baseline that P-7 names: the careful scalar Java program, or the fastest Java that keeps the checks. As built: the scalar program.
+- **526.** The orientation's rewrite of "Static parameters, `where` clauses and sizes", held at climb batch 30's update over row 591. Default: the skill's text, as held.
+- **527.** The pair order's answer for a pair of mixed numbers, `(1,2) < (1,2.5)` (row 511). No default on record; walk refuses it.
+
 **Reading an item.** Line numbers are those of `main` at `79c2a5602`, in items 205 to 234 those of `main` at `6b560762f`, and in items 235 to 249, and in the text that the clarity pass brought, those of `main` at `aa1c14230`, and in items 250 to 267, and in the text that the FACTS clarity pass and the scrape brought, those of `main` at `382289832`, whose tree outside `explorations/` is the same as at the FACTS chunks' bases; in items 279 to 290, those of `main` at `66f6b3d19`; in items 318 to 322, those of `main` at `ef099f7e4`; in items 323 to 325, and in the POPL 2019 rules map's readings added to items 9, 60 and 286, those of `main` at `501140f96`, the map's base. A home in PLAN is named by its heading and its item number or opening words, since PLAN's consolidation of 2026-10-15; before it a home was PLAN's line number at `046207371`. "PLAN" is `explorations/coordinator/PLAN.md`, "PLAN-history" is `explorations/coordinator/PLAN-history.md`, which holds PLAN's closed items word for word, "POSITIONS" is `explorations/coordinator/POSITIONS.md`; report paths without a folder are under `explorations/`. A row is a row of the gap ledger. "(10-02: N)" names the entry of this file's version of 2026-10-02. The page for him is built from the same text (`scratchpad/review-backlog/page.html` in the coordinator's session).
 
 ## (b) Consequential, by theme
@@ -371,7 +390,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 26, listed for his review", T.worker.2; PLAN, phase 4, the names; F-322; `compile-ladder/rung-string-natives/REPORT.md:208`; `coordinator/CLIMB-BATCH-26.md`, section 2, forks 20 and 21; `reviews/batch-26-review.md`, Part 1, "Where the text, the brief or the principles split", 5, and Part 4, "Two notes owed", (i); row 846; F-299
    - Needed by: before the switch-over's names batch (set by the landing workflow, from the review's note (i)); its design meets the two readings.
 
-### Numbers and numerals (16)
+### Numbers and numerals (21)
 
 21. **`NN32` into `RR64` against answer 8 (item 37).** He decided that `NN32` converts into `RR64`, since it fits exactly. Built, that makes a `ZZ32` with an `NN32` ambiguous between `RR64`'s and `ZZ64`'s operators on both paths, where answer 8 gives `ZZ64`; two team tests go red.
    - Landed: Not built.
@@ -488,8 +507,43 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 29, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-29.md`, section 3, fork 11; `reviews/batch-29-review.md`, "The decisions consequential for him"; POSITIONS P-174 and P-160
    - Needed by: before the names batch (set by the landing workflow).
 
+515. **If the object's class carries the value: are the five number traits `ZZ32`, `ZZ64`, `ZZ`, `NN64` and `RR64` merged with their one object each (way D)?** Question 3 of the carriers' review, with its probe. Each of the five has exactly one object, `Int`, `Long`, `BigNum`, `UnsignedLong` and `Float`; the split was made for `IntLiteral` and for nesting, which are gone (F-360). The merge changes text that the team wrote. In a scratch tree it leaves the checker count and the distance at 0 and microGPT's quick checks passing, and walk's suite differs in one `XXX` test; it removes the names `Int`, `Long`, `BigNum`, `UnsignedLong` and `Float`, and widens three open gaps to the five types that every program uses (F-361; rows 997, 998 and 542).
+   - Landed: Nothing; the scratch tree's diff is `compile-ladder/plan-31/probes/number-object-merge.patch`. Recommended by the carriers' review, and not a decision: way C now, and way D as a second step that he rules on apart.
+   - The other way: No merge: two names stay for each of the five types, held together by one rule on each path (F-344 is walk's).
+   - Its cost: By the probe: two rungs for the merge, tests first, and two that it should wait for (items 517 and 520); 12 files, 258 lines added and 308 deleted, no model line; three passages of Appendix I name the objects.
+   - Home: `reviews/carriers-ways-2026-11-13.md`, "Way D" and "Questions for the curator", 3; `compile-ladder/plan-31/probes/number-object-merge.md`, "Result" and "Estimate in rungs, tests first, on both paths"; F-360, F-361
+   - Needed by: after item 513, and only if it is answered with way C; no planned work waits on it.
 
-### Sizes and arrays (12)
+516. **If the five number traits are merged with their objects: where do the five objects live?** Question 1 of the merge probe. Either in `FortressLibrary`, with walk told by a table of five names which of that component's objects have native values, as the probe built it; or in `FortressBuiltin` beside `NN32` and `RR32`, with six private functions and the five types' api moved there.
+   - Landed: Nothing. The probe's choice in scratch, and not a decision: they stay in `FortressLibrary`.
+   - The other way: `FortressBuiltin`, which keeps walk's one rule, that a native component's objects are native.
+   - Its cost: Staying: 126 lines net of library text and a table of five names in walk's Java. Moving: about 620 lines of objects and 50 of helpers, and the five types leave the api `FortressLibrary`.
+   - Home: `compile-ladder/plan-31/probes/number-object-merge.md`, "What was built" and "Questions for the curator", 1
+   - Needed by: with item 515; no planned work waits on it.
+
+518. **What does `round` of an `RR64` answer: a `ZZ64`, as it runs today, or a `ZZ`, as the trait declares (row 1000)?** Question 3 of the merge probe. `trait RR64` declares `round(self): ZZ`, and its object `Float` declares `round(self): ZZ64` over a helper that answers a Java `long`; `Float`'s runs, and the api declares no `round` for `RR64`. `truncate` and the floor and ceiling brackets answer `ZZ64` (row 330).
+   - Landed: `ZZ64`, as the tree runs. No default on record; the probe kept today's behaviour in scratch.
+   - The other way: `ZZ`, which changes the type that `round` answers under walk.
+   - Its cost: One declaration of the library either way; under `ZZ`, a helper that answers a big integer.
+   - Home: row 1000; `compile-ladder/plan-31/probes/number-object-merge.md`, "Obstacles, in the order met", 10, and "Questions for the curator", 3; row 330; POSITIONS P-68
+   - Needed by: no planned work; the merge of item 515 must keep one of the two declarations.
+
+525. **Fork W of climb batch 31: does walk get the numeral rule now, in rung N, or when it runs the checker?** The one question before that batch's launch. He decided that a numeral at a call goes to the most specific declaration that takes it, so that `u = 0` is `true` for a zero `u` of `NN32` (P-46). Rung N builds it in the checker. Walk has no checker until after the switch-over (P-12), and P-59 says that walk chooses a coercion by the run-time value and "is not changed for it before the switch-over". The record judges the fork consequential, because way (a) reads that sentence as about a value's coercion only.
+   - Landed: Nothing; the batch has no go. Recommended by the batch's record, and not a decision: (a), walk now, in rung N, so that rows 973 and 966 close on both paths. The record is written for (a).
+   - The other way: (b) Walk waits: rung N builds the checker's half and the library's `=/=` only, and under walk `u = 0` stays `false` until walk runs the checker. For (b), step 2 of rung N's section is struck, with its two promotions.
+   - Its cost: (a): about a third of rung N's work; one difference stays, for `a: Any` that holds an `NN32` zero, where walk answers `a = 0` with `true` and the checker with `false`. (b): every program written until walk runs the checker meets the wrong answer under walk.
+   - Home: `coordinator/CLIMB-BATCH-31.md`, section 2, "The one question before the launch", and section 3, "The consequential fork"; POSITIONS P-46, P-59, P-12, P-173; rows 973 and 966; items 470 and 487
+   - Needed by: the next batch, climb batch 31; its launch waits for his go and for this answer.
+
+527. **What does the pair order answer for a pair of mixed numbers, as `(1,2) < (1,2.5)` (row 511)?** From the cold read of climb batch 30's skill update. Row 511 gives only what walk does: a generic call over mixed widths through a tuple parameter is not promoted, so the pair order refuses mixed numbers at a position. Its specification cell says that the tuple shape is silent. By promotion the answer would be `true`, but no entry of the record states the rule's answer, so an expected-failure test of it cannot be written.
+   - Landed: Walk refuses the comparison (`TupleOrderMixedRefused`). No default on record.
+   - The other way: `true`, by promotion of each position, after his ruling; or no answer, and the refusal stays the behaviour.
+   - Its cost: A ruling, then one `XXX` test and a sentence of the `fortress-repo` skill; the repair is on Q-walk's line with row 511.
+   - Home: `compile-ladder/climb-batch-30/skills/writer-2.md`, "Flags left" and "For the coordinator"; row 511; PLAN, phase 4, Q-walk
+   - Needed by: no planned work; Q-walk's device for row 511 needs it when that work is planned.
+
+
+### Sizes and arrays (13)
 
 30. **A size known only at run time: way 4a and his decision on sizes.** A size is a number used as a static parameter, as in `Array1[\RR64, n\]`. The library's `reflect` turns a number known only at run time into a value that carries it. Way 4a lets the checker read such an argument as a size fixed for that call.
    - Landed: Way 4a, built by batch 13 after his question of 2026-10-09T15:10:56Z whether forks 2 and 3 could go into the next batch, at the judgement's default; it waits for his review; ten library calls cleared. It reads an opened size as bound for the call, not as unknown.
@@ -577,6 +631,13 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 29, listed for his review", C.worker.2; `compile-ladder/rung-numeral-checker/REPORT.md:166`; `reviews/batch-29-review.md`, Part 1, split 7; POSITIONS P-173 and P-40; row 962
    - Needed by: no planned work (set by the landing workflow); row 962 is in no batch, since its question is open.
 
+523. **Does the library's matrix product get a grain now, as the parallel range did, or with the first compiled kernel?** Finding C of the plan review. `mul` splits down to single elements, where the range stops at 16 since climb batch 30 (P-175). In a Java model of microGPT's step in the library's fork/join shape, the step is 19 to 80 times slower than plain loops at the library's grains, and 1.4 to 4.8 times with the product stopped at blocks of 16 (F-356). Its gain in Fortress can be measured only once a kernel compiles.
+   - Landed: Nothing; `mul` as the team wrote it. Recommended by the plan review, and not a decision: put it on phase 6's list and build it in the first batch that has a compiled kernel to measure it on, by his rule that no performance decision rests on anything but a compiled timing (P-29).
+   - The other way: Extend the rule now: one library rung, tested under walk by equal products.
+   - Its cost: One library rung, about 1M tokens. If it waits, the first compiled timing of a matrix carries this factor and is read with it.
+   - Home: `reviews/plan-review-2026-11-10.md`, sections 5.2, 6.1 (finding C) and 7.5; `java-baseline/REPORT.md`, section 6; F-356; POSITIONS P-175, P-29; PLAN, phase 6, the library's own splits
+   - Needed by: before microGPT runs fast; the first compiled kernel is the point at which it can be measured.
+
 ### The library's generators, strings and comparisons (6)
 
 39. **A generator's size (item 45).** Library code read a size from a value typed `Generator`, which declares none.
@@ -661,7 +722,7 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Climb batch 27, listed for his review", judge.1; `compile-ladder/climb-batch-27/JUDGE-review.md`, "What each side got right"; `reviews/batch-27-review.md`, Part 1, split 3; rows 919 and 921; F-283
    - Needed by: before the batch that fixes row 919 (set by the landing workflow); that batch builds on the choice.
 
-### Code generation and the run time (14)
+### Code generation and the run time (17)
 
 450. **Which class holds the field of a numeral's place at a program's own type (P-176): the component's class, and, at a type that names a type parameter of its generic declaration, the instantiated class?** F.worker.1 and F.skeptic.1 of climb batch 29's rung F. The code generator sets a static field for each numeral place at a program's type in the component class's static initializer, whatever class holds the place (`numeralCoercionSiteDesc`, `ProjectFortress/src/com/sun/fortress/compiler/codegen/CodeGen.java`). Since climb batch 29b's rung A (`a26e74f5c`), a place whose type names no type variable, as `site(): Gen[\RR64\] = 3`, is one object (`compiler_tests/NumeralCoercionGenericTypeCompiled.test`), and row 970 is closed. A place whose type names a type parameter of its generic declaration, as `m(): Gen[\T\] = 3` in `object Box[\T\]`, still calls the coercion's method at each evaluation, where P-176 has one value for each instance (row 957; `compiler_tests/XXXNumeralGenericPlaceCompiled.test`). Fork A5, one static final in each instantiation's class, was not built.
    - Landed: The component's class; a place at a type parameter evaluated at each use. Default: the component's class, as landed, and one value for each place at a generic type (P-176).
@@ -762,7 +823,28 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 84; `reviews/parallelism-foundations-2026-11-08.md`, "Questions for the curator", D2; `coordinator/CLIMB-BATCH-30.md`, section 2, "What the batch leaves out"; rows 948 and 984; item 504
    - Needed by: no planned work (set by the landing workflow); no rung needs it (`coordinator/CLIMB-BATCH-30.md`, section 2, "What the batch leaves out").
 
-### How batches run (2)
+513. **Which run-time class carries each built-in type of the one library on the compiled path?** The rehearsal's question, the plan review's, and question 1 of the carriers' review. A carrier is the JVM class whose instances are a built-in type's values, as `FZZ32` for the prelude's `trait ZZ32`. The one library declares these types in other shapes: `trait ZZ32 comprises { Int }` with a native `value object Int`, and `value object Boolean` with no trait. The review finds nine ways, of which three stand. Way A: the prelude's way whole, the trait's class written by hand, and the objects leave the library; the library and walk are rewritten. Way C: the object's class carries the value and the trait stays an interface, which is walk's own way; the library and walk do not change, and the code generator learns that a native object has a payload. Way D: way C with each number trait merged with its one object (item 515). The team's sources do not point to one way (F-359, F-360). No way keeps today's compiled behaviour, since the prelude is deleted; way C keeps walk's.
+   - Landed: Nothing built; no rung of climb batch 31 needs the answer, and none is redone under any of the three ways. The rehearsal's hack was a fourth way (an empty carrier object below each trait), which breaks walk and is ruled out. Recommended by the carriers' review, and not a decision: way C, in its form 2, where the code generator writes the carrier over a hand-written payload class that names no library.
+   - The other way: Way A; or way D at once.
+   - Its cost: Way C: about three rungs of the code generator, by reading, and the thirteen run-time classes change in any case; it removes two of the rehearsal's walls by construction and closes row 866. Way A: the same run-time work, with a library rung and a walk rung. Items 371 and 372, on the number traits as value traits and on the five native objects made private, are decided with it.
+   - Home: `reviews/carriers-ways-2026-11-13.md`, "The ways sorted", "Recommendation" and "Questions for the curator", 1; `compile-ladder/plan-31/probes/switch-rehearsal.md`, W2, W12 to W14 and "Questions for the curator"; `reviews/plan-review-2026-11-10.md`, sections 7.1 and 7.5; F-352, F-359, F-360; rows 874, 995 and 866; POSITIONS P-37, P-26
+   - Needed by: before the switch-over's work is planned; the names work is this choice and then about three rungs, and it stands first under either order of item 512.
+
+514. **Under P-26, is the prelude's trait form of a carried type a later decision of the team's, or code that serves only the implementation?** Question 2 of the carriers' review; it decides between way A and the others of item 513. P-37 says that the one library takes a design of the prelude's where it is the team's later decision, and P-26 says which code counts. The class itself, a final class that holds one JVM primitive, is later, built alike for all the types, and every way keeps it. The class put on a trait with no object below is later in date for every type; against it as a decision of the language: its author's paper calls it a special case "for the time being", the number traits became traits to nest them and to hold the literals, and both reasons are gone, an open trait lets a program break the run (row 866), and the team's plan for unboxing has no case for it (F-359).
+   - Landed: Nothing; POSITIONS is unchanged. The review's reading, and not a decision: the trait form is not a later decision of the team's.
+   - The other way: It is the team's later decision, so P-37 takes it, which is way A of item 513.
+   - Its cost: None of its own; it is the ground of item 513.
+   - Home: `reviews/carriers-ways-2026-11-13.md`, "Is the prelude's carrier the team's later decision, type by type (P-37)" and "Questions for the curator", 2; F-359; POSITIONS P-26, P-37
+   - Needed by: with item 513.
+
+524. **Is the baseline that P-7 names the careful scalar Java program, or the fastest Java that keeps the checks?** The Java baseline's question. P-7 calls the pure-Java microGPT "the optimal result, the one to aim at". The program in `java-baseline/` is plain loops over `double[]` on one thread, with the arithmetic of the Fortress source: 0.10 ms a step. It is not the fastest Java for this model: the Vector API in the products alone gives 75 µs, and other savings are not measured (F-355).
+   - Landed: The scalar program is the baseline, as its worker's brief said, with the Vector API variant measured beside it. Not a decision of his.
+   - The other way: The fastest Java that keeps the checks, which moves the target by a quarter or more and reorders some sums.
+   - Its cost: None now. It sets what a ratio of compiled Fortress to Java means.
+   - Home: `java-baseline/REPORT.md`, section 5, "What is not optimal in the baseline", and section 9, "Questions for the curator"; F-355; POSITIONS P-7
+   - Needed by: before microGPT runs fast; phase 6 measures against the baseline.
+
+### How batches run (3)
 
 403. **Does a crash in the distance stage that no rung declared make a later gate red, as it does in the checker count?** The post-batch review's finding A. At climb batch 27's gate the distance held two `#crash` rows: the compiled checker crashed while it typed `value object Char`, so the zero did not cover `Char`'s body (row 929; F-54). Climb batch 28's rung K closed row 929 (`a3eba5067`; F-334), and that batch's gate reads `#crash none`, as climb batch 29's does (`reviews/batch-29-review.md`, section 1); the question stays for later gates. The distance stage is report-only until the switch-over (P-39), so it cannot fail a gate. The finding's first half, the push, is answered: his go of 14:0x UTC on 2026-11-07, "You have a go.", given after the probe of the crash (`coordinator/HELD.md`), and the row is filed as row 929.
    - Landed: (i), the distance report-only, as P-39 has it. Default: (i), the record's.
@@ -777,6 +859,13 @@ The asks that stay after the cleanup of 2026-11-05, grouped by the work that nee
    - Its cost: One sentence of P-87. The first way for the model's sized types in item 37, each change shown to him as a diff, and PLAN item 13, fork 5, stand or fall with it, as does `reviews/open-asks-2026-10-16.md:260`. P-87 gives decision D, still open and returning after the switch-over, as such a diff. P-9 restates the rule in its pointer to P-87 ("a change to a model line is shown to the curator as a diff first"), so a strike takes that clause of P-9 too.
    - Home: POSITIONS P-87; `coordinator/positions-audit/full/evidence/corrections-c7.md`, "P-87", "Questions for him", question 1; item 37; PLAN item 13, fork 5, the model's sized types
    - Needed by: before microGPT compiles; phase 5 changes the model's lines for its sized types (PLAN item 13, fork 5), and the rule decides how each change reaches him.
+
+512. **Which order of the remaining work: the whole switch-over first, or the model's slice first, with one build that serves both libraries?** Finding A of the plan review, as it stands after the rehearsal's end, and the first question of probe Y. The rehearsal met two kinds of wall: walls that a test compiled against the prelude can show today, 11 to 15 rungs under either order, and walls that only a tree switched onto the one library shows (F-352). In the first order (A1), the walls that only the switch shows, the move of the 1,907 compiled tests and the prelude's deletion are one landing that cannot be gated in parts. In the second (A2), the compile command selects the one library beside the prelude, a second set of the run time's value classes serves it, and those walls are met one at a time on `main`; the prelude lives until the end. Probe Y showed in scratch that one build can serve both libraries (F-353). The sizes are the plan review's estimates from the rehearsal's rungs, not a plan. P-33's order of the phases and P-85's word that the array work comes after the switch-over stand until he decides; the one library (P-37) is not in question.
+   - Landed: Nothing built. The approved order (P-33) stands, and climb batch 31 is planned on the walls that both orders share. Recommended by the plan review, and not a decision: A2, since probe Y shows the second set running both libraries from one build.
+   - The other way: A1, the approved order, with probe X first (the three compiled test tracks run against the scratch switch, 1.5M to 3M tokens), which gives its single landing a size.
+   - Its cost: A1: a compiled matrix against the one library after 6 to 10 batches, 30M to 140M tokens. A2: after 3 to 5 batches, 15M to 70M tokens; beyond A1 it costs two rungs, perhaps three, about 200 s and a small test track in every gate, and four small mechanisms (selector, caches, stamp, names table) that the prelude's deletion removes again.
+   - Home: `reviews/plan-review-2026-11-10.md`, sections 6.1 (finding A), 7.2 and 7.5; `compile-ladder/plan-31/probes/probe-y.md`, section 7 and "Questions for the curator"; F-352, F-353; POSITIONS P-33, P-37, P-85; PLAN, phase 4, its closing paragraph
+   - Needed by: before the batch after climb batch 31 is planned; that batch is cut from the walls that only the switch shows, and the two orders land them differently. His decision on the carriers (item 513) comes first on either road.
 
 ## (c) Routine, by theme
 
@@ -803,7 +892,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 28, listed for his review", K.worker.2; `ProjectFortress/src/com/sun/fortress/scala_src/typechecker/impls/Common.scala:69`, `:82`; `ProjectFortress/src/com/sun/fortress/scala_src/useful/PartialOrder.scala`; F-334
    - Needed by: the next rung that edits `Common.scala` (set by the landing workflow).
 
-### Overloading and the Meet Rule (4)
+### Overloading and the Meet Rule (5)
 
 58. Typing a call between two closed traits by the intersection of return types is limited to families with no static parameters (row 543), narrower than the text's boundary.
    - Landed: The judge's narrower condition; gated. The other way: The proof addendum's boundary, as the text states it. Its cost: A checker change; the rejected narrowing sends the intersection into ties the code generator crashes on (row 540).
@@ -829,7 +918,14 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 29b, listed for his review", gather.3; row 694
    - Needed by: no planned work (set by the landing workflow); told, not asked.
 
-### Walk's checks at load (2)
+520. **Is row 542 a condition of the merge of the five number traits, or of the switch-over only?** Question 5 of the merge probe. The compiled checker refuses a generic declaration beside a plain one whose domain is an object type, a valid pair (row 542). After the merge that refusal reaches `ZZ32`, `ZZ64` and `RR64` in a program checked against the one library. By reading the row; the checker was not run on such a program against the merged library, and the library itself holds no such pair.
+   - Landed: Nothing; row 542 is open. The probe's estimate, and not a decision: row 542 before the switch-over.
+   - The other way: A condition of the merge itself.
+   - Its cost: One checker rung, with row 542's `XXX` test.
+   - Home: `compile-ladder/plan-31/probes/number-object-merge.md`, "Obstacles, in the order met", 7, and "Questions for the curator", 5; row 542
+   - Needed by: with item 515; no planned work waits on it.
+
+### Walk's checks at load (3)
 
 76. Walk does not refuse an `override` over a declaration whose parameter types mention a static parameter whose bounds walk has lost (row 693).
    - Landed: This lenience, the base's behaviour for one shape. The other way: Carry the enclosing `where` clauses into object expressions (a rung of its own); or refuse, with false errors on programs the base loads. Its cost: One expected failure records it.
@@ -842,6 +938,13 @@ Each is kept as landed unless he says otherwise.
    - Its cost: More cases of walk's load check.
    - Home: PLAN, "Climb batch 30, listed for his review", N.worker.3; `compile-ladder/rung-numeral-leftovers/REPORT.md:230`; `coordinator/CLIMB-BATCH-30.md`, section 3, fork N3; POSITIONS P-174 and P-12; row 981
    - Needed by: no planned work (set by the landing workflow).
+
+517. **If the five number traits are merged: are walk's two repairs made first?** Question 2 of the merge probe. Two defects exist today at `NN32` and `RR32` and would reach the five types: walk stops a valid generic method whose type parameter is bounded by a value type (row 997), and walk's load check loses a refusal for a generic declaration beside a plain one over an object type (row 998).
+   - Landed: Nothing; rows 997 and 998 are open. The probe's estimate, and not a decision: both repaired before the merge.
+   - The other way: Merge, and record the two.
+   - Its cost: Two walk rungs, each with a test that fails today at `RR32` or `NN32`.
+   - Home: `compile-ladder/plan-31/probes/number-object-merge.md`, "Obstacles, in the order met", 5 and 6, and "Questions for the curator", 2; rows 997, 998 and 697
+   - Needed by: with item 515; no planned work waits on it.
 
 ### Walk's choice of declaration and instance (3)
 
@@ -862,7 +965,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 9, listed for his review", Row 591; Row 616; PLAN, "Climb batch 10, listed for his review", Stop met and lifted; `compile-ladder/rung-walk-instance/REPORT.md:319`; `compile-ladder/rung-walk-meet/SKEPTIC.md:122`; P-48, which names walk's three `Bottom` cases, rows 587, 591 and 612; F-141, walk's instance of a type parameter that nothing fixes, which lists row 591 with its expected failure
    - Needed by: before Q-walk; its expected failures wait until walk has the checker's static types (rows 591, 616; PLAN, phase 4).
 
-### Numbers and numerals (15)
+### Numbers and numerals (16)
 
 359. **Row 440's change went in as a rewrite of its line, not as a note; told, not asked.** S.worker.2 and S.skeptic.2 of climb batch 26's rung S. The rung's brief asked for a note to row 440. The row's notes cell held 676 of its 700 characters, so the rung rewrote the whole line by `ledger.py rewrite`. The new line names `<=` and `>=` beside `=` and `CMP`: under walk `QQ`'s 0/0 compared with itself answers `true` for the three and `EqualTo` for `CMP`, where the rationals chapter gives `false` and `Unordered` (F-319).
    - Landed: The row rewritten. Default: as landed.
@@ -970,6 +1073,13 @@ Each is kept as landed unless he says otherwise.
    - Its cost: Two declarations in the prelude, which only the exception allows, so it is his to confirm that a natural-numeral coercion is "the numerals" of his exception. The other way takes four lines out of the prelude and respells the test.
    - Home: PLAN-history, "Climb batch 30's landing, 2026-11-10", "Pavol's answers, in the order they are needed", item 79; `coordinator/CLIMB-BATCH-30.md`, section 3, fork N2; `reviews/batch-30-review.md`, "The decisions consequential for him, and the readings he has not confirmed", 3; `reviews/batch-29b-review.md`, Findings, 2; POSITIONS P-37 and P-174; row 442
    - Needed by: no planned work (set by the landing workflow).
+
+519. **If the five number traits are merged: is a `typecase` arm at a removed name acceptable until row 959 is repaired?** Question 4 of the merge probe. After the merge a program that names `Int`, `Long`, `BigNum`, `UnsignedLong` or `Float` in a `typecase` arm keeps loading, and takes that arm for every value, with no message: an arm that names no declared type matches all, on both paths (row 959). Any other use of a removed name stops at load.
+   - Landed: Nothing; row 959 is open. No default on record.
+   - The other way: Row 959 repaired first, so that such an arm is refused.
+   - Its cost: One test of the tree is hit, `tests/NumberPrintTest.fss:31`, which asserts nothing there.
+   - Home: `compile-ladder/plan-31/probes/number-object-merge.md`, "Obstacles, in the order met", 8, and "Questions for the curator", 4; row 959
+   - Needed by: with item 515; no planned work waits on it.
 
 ### Sizes and arrays (4)
 
@@ -1161,7 +1271,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 30, listed for his review", gather.2; `compile-ladder/climb-batch-30/RECORD.md`, "The tests on the merged tree"; F-283; row 986
    - Needed by: no planned work (set by the landing workflow); told, not asked.
 
-### Code generation and the run time (8)
+### Code generation and the run time (10)
 
 205. **Boxing is measured on microGPT-shaped kernels, not on a scalar loop with literals and a `:=` accumulator, which microGPT's kernels do not run.** A measurement of what boxing costs on the compiled path uses code shaped like microGPT's kernels: the dot product over the flat parameter vector, the matrix product, the row lift (`perf-probes/kernels/REPORT.md`, section 2). It does not use a scalar loop that keeps float literals inside the hot loop and a `:=` accumulator, as the first boxing probe did (`perf-probes/boxing/REPORT.md`, section 2). His only word was one instruction. On 2026-09-15 at 22:34 UTC, on that probe, he said that the test seemed to meet an edge case that the microGPT experiments had not met, float literals parsed from strings, and asked for a fairer and better test. The kernels probe did that. P-17 told this as history until the consolidation of 2026-10-13 (`b87a17de5`) kept it "as the rule on what to measure". He was never asked about the rule. The text it stood in said "which microGPT never runs". MicroGPT's kernels run no such loop, but C4's weight loader does: `parseFloat` keeps `m: RR64 := 0.0` and runs `m := 10.0 m + ...` in a `while` loop (`run-c4/src/FlatData.fss:16-30`). So the item says "which microGPT's kernels do not run".
    - Landed: As stated, in P-17 from 2026-10-13 until the audit. The one measurement it describes is the kernels probe of 2026-09-15 (F-11, boxing the main cost of microGPT-shaped array code). Default: as stated.
@@ -1218,6 +1328,20 @@ Each is kept as landed unless he says otherwise.
    - Its cost: Not sized by any source.
    - Home: PLAN, "Pavol's answers, in the order they are needed", item 85; `reviews/natives-shared-state-audit.md`, 3.2; `coordinator/CLIMB-BATCH-30.md`, section 2, "What the batch leaves out"; row 876
    - Needed by: no planned work (set by the landing workflow).
+
+521. **If the model's slice comes first: is the second set of the run time's value classes a map of names over the first set, or files of its own?** Question 2 of probe Y. In the probe the second set's sources are the first set's under eight replacements of names, made in the build. It follows from the carriers: under a way whose hand-written classes extend generated ones, the map works today; under way C in its form 2 there may be no second set at all, if `FValue.asString()` is also freed of the library's name, which is by reading only.
+   - Landed: Nothing; in scratch, the map. No default on record.
+   - The other way: Files of its own, 638 lines in seventeen files, edited beside the first set's on every change.
+   - Its cost: The map: 43 lines of `build.xml`. It is one rung, or two if the carriers get content of their own.
+   - Home: `compile-ladder/plan-31/probes/probe-y.md`, sections 2, 3 and 7, and "Questions for the curator"; `reviews/carriers-ways-2026-11-13.md`, "Against the rehearsal's question and the plan review's section 7"; F-353
+   - Needed by: with items 512 and 513; it arises only if item 512 is answered with the model's slice first.
+
+522. **Is the order of the code generator's output made stable before the switch-over's work starts (row 996)?** Question 3 of probe Y, and fork S of climb batch 31's record. The order in which the code generator writes a class's methods and a dispatch method's tests follows the JVM's identity hashes, so two compiles of one tree by different builds are not comparable byte for byte, and a wrong forwarder can come and go with the order (F-354).
+   - Landed: Nothing; row 996 is open. The default of climb batch 31's record, which has no go: no rung of its own in that batch; its rung M chooses between two bodies by rule, not by order, and shows its tests under two hash modes; a rung for the whole order in the batch after.
+   - The other way: A sixth rung in climb batch 31's first run, which would edit the loop that rung M repairs.
+   - Its cost: One rung, about 0.6M tokens. Without it jars of two compiles cannot be compared; no test is known to depend on the order once rung M lands.
+   - Home: `compile-ladder/plan-31/probes/probe-y.md`, section 6 and "Questions for the curator"; `coordinator/CLIMB-BATCH-31.md`, section 2, "The forks you may want to see", and section 3, fork S; row 996; F-354
+   - Needed by: before the batch after climb batch 31; its record puts the rung there.
 
 ### How batches run (38)
 
@@ -1487,7 +1611,7 @@ Each is kept as landed unless he says otherwise.
    - Home: PLAN, "Climb batch 30, listed for his review", the record's forks; `coordinator/CLIMB-BATCH-30.md`, section 3; `reviews/batch-30-review.md`, Part 4, "Record defaults"; items 500, 488, 489, 503, 501 and 418
    - Needed by: no planned work (set by the landing workflow).
 
-### The record, its tools and the repository (12)
+### The record, its tools and the repository (13)
 
 225. **Is "The unrevised copy, `Specification-1.0-frozen/`, is never touched" his standing rule (P-95)?** P-95 says that every change to the specification is recorded with its reason, and adds: "The unrevised copy, `Specification-1.0-frozen/`, is never touched." He agreed to that for one rung: the route A rung of batch 4, in the question of 2026-09-24 at 14:36 UTC ("the frozen copy untouched"), which he answered with "Agreed. Route A it is." The coordinator made it a standing rule. It fits his wish of the same morning (07:03 UTC) to keep the original historic record. Confirm it, or strike it?
    - Landed: The sentence, as the entry reads. Default: kept, until he answers. The tree keeps it: the folder is the same tree as at the team's commit `5a68404fd` of 2012-07-19 (`coordinator/positions-audit/full/evidence/P-95.md`, section 2).
@@ -1572,6 +1696,13 @@ Each is kept as landed unless he says otherwise.
    - Its cost: Not sized by any source; about 90 row rewrites through `ledger.py rewrite`.
    - Home: PLAN, "Climb batch 28, listed for his review", review.1; `explorations/fortress-gap-ledger.md:65`, row 147's `Library/FortressLibrary.fsi:590`; `reviews/batch-28-review.md`, Findings, C; items 265 and 267
    - Needed by: before the ledger's repair (set by the landing workflow); the ledger's full pass, or the answer of no pass, meets the same rows.
+
+526. **Does the orientation's rewrite of "Static parameters, `where` clauses and sizes" go in?** Held by climb batch 30's orientation judgement. The section keeps the skill's text after climb batch 30's update, because the rewrite tells a worker to write the static arguments in all three cases where walk gives `Bottom`, and row 591 gives no such way round: its reproducer, `pick2(Apple, Cherry)` at `T extends { Red, Round }`, has no named type below both bounds.
+   - Landed: The section as on `main`. The other six sections are installed from `compile-ladder/climb-batch-30/orientation/orientation.md`. Default: the skill's text, as held.
+   - The other way: The rewrite, with "so write their static arguments" limited to rows 587 and 612, or kept for row 591 after a run under walk shows a written static argument that works there. It also brings the `pick` example's object and row 663, "ignore the condition" for row 774, the `N[\nat n\]` gloss, and the cut of the size's descriptor.
+   - Its cost: One run under walk of row 591's two cases with a written static argument, and one edit of the section, 91 bytes larger than the skill's.
+   - Home: `compile-ladder/climb-batch-30/orientation/queue.md`; `compile-ladder/climb-batch-30/orientation/judgement.md`, "Per section"; `writer-2.log`, "Could not place", second item; ledger row 591, `ProjectFortress/tests/XXXInferSeveralBoundsWalk.fss`
+   - Needed by: never; no planned work waits on it, and the skill's text states the three cases without an instruction.
 
 ## (a) Settled or stale: these leave the lists
 
