@@ -76,7 +76,7 @@
 <li><p id="p-0987b985" class="nb">The bars. <code>|x|</code> is the size of an array and the absolute value of a number.</p></li>
 <li><p id="p-fcd37a15" class="nb"><code>DOT</code>, <code>SQRT</code> and <code>SUM</code> in capitals. They are the ASCII names of the signs ·, √ and ∑. The source may hold a sign itself: the model writes <code>×</code>, and in a run <code>v · v</code> printed 61.0 and <code>√ 4.0</code> printed 2.0. The sign ∑ is the exception today. The parser takes it as a prefix operator and not as a big operator, so only the name <code>SUM</code> works (the gap ledger's row 5).</p></li>
 <li><p id="p-9c75406d" class="nb">The tuple bindings of lines 17 to 19, 53, 58, 67 and 68. Your ruling keeps this form for the constants.</p></li>
-<li><p id="p-20cca272" class="nb">The hand-written backward pass. It follows from the layout: the program holds plain arrays of floats, with no objects that could record how a number was made.</p></li>
+<li><p id="p-806d7b35" class="nb">The hand-written backward pass. It follows from the layout: the program holds plain arrays of floats, with no objects that could record how a number was made. The project's notes on the layout call the backward lines "the price of no autograd" (<a href="https://github.com/palimondo/fortress/blob/main/explorations/apl/reference/hsu-flat/HANDOVER-HSU.md#L53">HANDOVER-HSU.md, line 53</a>).</p></li>
 </ul>
 </section>
 </section>

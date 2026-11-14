@@ -88,7 +88,7 @@ For the pairs to match, the left matrix needs as many columns as the right matri
 
 ## The transpose, and lines 21 to 24
 
-The transpose of a matrix is the same numbers with rows and columns exchanged: row 0 becomes column 0, row 1 becomes column 1. Mathematics writes it with a raised T, and so does the program, as `m^T`. A run printed:
+The transpose of a matrix is the same numbers with rows and columns exchanged: row 0 becomes column 0, row 1 becomes column 1. The program writes it `m^T`. A run printed:
 
 ```out
 m^T (2 x 2):
@@ -159,7 +159,7 @@ The counts add up to 4,192. The program keeps all of them in one vector, `p`. Th
 
 @src 36
 
-"Tactic 2/8" names two more pieces of Hsu's advice: put things of one kind into one array, and read parts of it through views. A view is a matrix or a vector that has no storage of its own. It reads and writes the elements of another array.
+"Tactic 2/8" names two more pieces of Hsu's advice, again in the words of the project's notes ([HANDOVER-HSU.md, lines 18 to 33](src:explorations/apl/reference/hsu-flat/HANDOVER-HSU.md#L18)): tactic 2, the nine weight matrices in one parameter vector; tactic 8, the nine matrices as views of that vector. A view is a matrix or a vector that has no storage of its own. It reads and writes the elements of another array.
 
 The next lines are the layout table. They say where each matrix lies.
 
@@ -251,7 +251,7 @@ The forward pass is the part of the step that goes from the tokens to the loss.
 
 @src FlatArrays.fss 168-172
 
-Line 171 makes an array of `|ks|` rows and `nc` columns, and `tabulate` fills it from a function of the index: element `(i, j)` is `m[ks[i], j]`. The form `fn (i: ZZ32, j: ZZ32): T => ...` is an anonymous function, as `(i, j) => ...` is in Scala.
+Line 171 makes an array of `|ks|` rows and `nc` columns, and `tabulate` fills it from a function of the index: element `(i, j)` is `m[ks[i], j]`. The form `fn (i: ZZ32, j: ZZ32): T => ...` is a function without a name.
 
 A small case, with the matrix `m` and the keys 1, 0, 1:
 
@@ -262,7 +262,7 @@ gather(m, [1 0 1]) (3 x 2):
     3.0 4.0
 ```
 
-So `gather(wte, ids)` is a matrix of 16 by 16. Its row `r` is the row of the token table for the token `ids[r]`. The vector that a table holds for a token is called the token's embedding; `wte` stands for "weights, token embedding". In the same way, row `r` of `gather(wpe, pos)` is the embedding of position `pos[r]`.
+So `gather(wte, ids)` is a matrix of 16 by 16. Its row `r` is the row of the token table for the token `ids[r]`. The row that a table holds for a token is called the token's embedding. The project's write-up of run B uses the word so: "A token is a row of the embedding table" ([explorations/run-b/article.md, line 31](src:explorations/run-b/article.md#L31)). In the same way, row `r` of `gather(wpe, pos)` is the embedding of position `pos[r]`.
 
 The operator `+` between two matrices of one size adds them element by element. It is the library's. So row `r` of `x` is the token's embedding plus the position's embedding. The sum carries both facts into the rest of the model: which token stands here, and where.
 

@@ -26,9 +26,9 @@ index 1100 p 0.03654080103626847 g 0.031736131393025356 loss+ 3.3659672649481087
 
 Here the entry is positive: raising the parameter raises the loss.
 
-The experiment needs two forward passes for one parameter. For all the parameters that is 8,384 forward passes. The backward pass gets all 4,192 entries at once, with about as much work as one more forward pass. Its usual name is backpropagation.
+The experiment needs two forward passes for one parameter. For all the parameters that is 8,384 forward passes. The backward pass gets all 4,192 entries in one pass. The project's write-up of run B uses the field's name for it, backpropagation ([explorations/run-b/article.md, line 13](src:explorations/run-b/article.md#L13)).
 
-Karpathy's microGPT does not write a backward pass. In it, every number is an object that remembers how it was computed, as in his micrograd, and the gradient follows from those records. The flat program has no such objects. Its backward pass is written out by hand, in lines 63 to 70.
+Karpathy's microGPT does not write a backward pass by hand. The same line of the write-up says of his program: "every number in the forward pass is a `Value` with a mutable `grad` field". The gradient is found by going back through those objects. The flat program has no such objects. Its backward pass is written out by hand, in lines 63 to 70.
 
 ## The names and the rules
 
@@ -62,7 +62,7 @@ The smallest case of rule 4 uses numbers from Part 2. Let `A` be the one row 5, 
 - Raise the 5 by one unit: the product rises by 1, the element of `B` that the 5 meets. Raise the 6: the product rises by 3. So the gradient at `A` is the row 1, 3. That is `B^T`.
 - Raise the 1 by one unit: the product rises by 5. Raise the 3: it rises by 6. So the gradient at `B` is the column 5, 6. That is `A^T`.
 
-A larger product is many such sums. Each element of `A` enters several elements of `Y`, and by rule 2 its parts add. Written out, the additions give the two formulas above. The sizes are a check that you can make at every line: `dY B^T` has the size of `A`, and `A^T dY` has the size of `B`.
+A larger product is many such sums. Each element of `A` enters several elements of `Y`, and by rule 2 its parts add. Written out, the additions give the two formulas above. The sizes are a check that you can make at every line: `dY B^T` has the size of `A`, and `A^T dY` has the size of `B`. The project's write-up of run B writes its backward maps in the same two forms, `G Bᵀ` and `Aᵀ G` ([explorations/run-b/article.md, line 158](src:explorations/run-b/article.md#L158)). The experiment of the last section is the check by a run: it agrees with the gradient that these rules give.
 
 ## From the loss to the scores
 
@@ -113,7 +113,7 @@ $$
 - $r$ is the row and $t$ the token.
 - The square bracket is 1 where the statement inside it is true and 0 where it is false. It is the matrix `onehot(tg, vocabSize)`.
 
-Three numbers from Part 3 confirm the formula. The scores 1, 2, 3 give the probabilities 0.0900, 0.2447, 0.6652. Suppose the first is the right answer. A run raised the second score by one millionth and measured the change of the first probability: the rate was -0.02203. The penalty is minus the logarithm of the first probability, and the logarithm's rate at 0.0900 is 1 divided by 0.0900. So the penalty changes at the rate 0.02203 divided by 0.0900, which is 0.2447: the second probability, as the formula says.
+Three numbers from Part 3 confirm the formula. The scores 1, 2, 3 give the probabilities 0.0900, 0.2447, 0.6652. Suppose the first is the right answer. A run raised the second score by one millionth and measured the change of the first probability: the rate was -0.02203. The penalty is minus the logarithm of the first probability, and the logarithm's rate at 0.0900 is 1 divided by 0.0900. A run measured that rate as 11.10733 and printed 11.10734 for the quotient. So the penalty changes at the rate 0.02203 divided by 0.0900, which is 0.2447: the second probability, as the formula says.
 
 ## Back through lm
 

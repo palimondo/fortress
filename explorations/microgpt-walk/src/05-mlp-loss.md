@@ -8,7 +8,7 @@
 @src 60: mr = 0.0 MAX m0
 @src 60: x4 = x2 + mr f2^T
 
-These four declarations are the rest of line 60. They form the model's second block. Karpathy calls it the MLP, for "multi-layer perceptron", and the files of its two matrices are named `mlp_fc1` and `mlp_fc2`. This text calls it the feed-forward block.
+These four declarations are the rest of line 60. They form the model's second block. The project's note on Karpathy's program calls it the "relu MLP" ([explorations/microgpt-port.md, line 10](src:explorations/microgpt-port.md#L10)), and the files of its two matrices are named `mlp_fc1` and `mlp_fc2`. This text calls it the feed-forward block.
 
 - `x3` is `x2` with `rmsn` on every row. It is the third and last use of `rmsn` in the forward pass.
 - `m0` puts every row of `x3` through `f1`, a matrix of 64 by 16. Each row of 16 numbers becomes a row of 64 numbers.
@@ -24,7 +24,7 @@ m0[1,0..5] = 0.4039325142253399 -0.5951570653200444 0.0782116940127397 -0.138866
 mr[1,0..5] = 0.4039325142253399 0.0 0.0782116940127397 0.0 0.16013754453254497 0.01747112558184824
 ```
 
-Machine-learning texts call the step from `m0` to `mr` ReLU. The step is small, and the block needs it. Without it, the block would be `x3 f1^T f2^T`. A product of two matrices is one matrix, so the two weight matrices together could do nothing that a single matrix of 16 by 16 cannot do. With `MAX` between them, which of the 64 numbers pass depends on the row. A different row has a different set of numbers set to 0, and `f2` then mixes a different set.
+The project's note on Karpathy's program calls the step from `m0` to `mr` relu ([explorations/microgpt-port.md, line 10](src:explorations/microgpt-port.md#L10)), and the project's port of his program has a method of that name ([explorations/microgpt.fss, line 26](src:explorations/microgpt.fss#L26)). The step is small, and the block needs it. Without it, the block would be `x3 f1^T f2^T`. A product of two matrices is one matrix, so the two weight matrices together could do nothing that a single matrix of 16 by 16 cannot do. With `MAX` between them, which of the 64 numbers pass depends on the row. A different row has a different set of numbers set to 0, and `f2` then mixes a different set.
 
 The two blocks have different jobs. Attention moves numbers between positions. The feed-forward block works on each position alone, on what attention brought to it.
 
@@ -32,7 +32,7 @@ The two blocks have different jobs. Attention moves numbers between positions. T
 
 @src 61: pr = rows(sm, x4 lm^T)
 
-`x4 lm^T` puts every row of `x4` through `lm`, the matrix of 27 by 16. Each position now has 27 numbers, one for each token. They are scores: any size, any sign. Machine-learning texts call such scores logits.
+`x4 lm^T` puts every row of `x4` through `lm`, the matrix of 27 by 16. Each position now has 27 numbers, one for each token. They are scores: any size, any sign. The project's port of Karpathy's program names them `logits` ([explorations/microgpt.fss, line 152](src:explorations/microgpt.fss#L152)).
 
 `rows(sm, ...)` turns each row of scores into probabilities, as Part 3 showed. `pr` is a matrix of 16 by 27. Its element in row `r` and column `t` is the model's probability that the token `t` comes next after position `r`. This matrix is the model's answer.
 
@@ -101,9 +101,9 @@ $$
 - $\c{vm}_r$ is 1 for a row that counts and 0 for the others.
 - The sum over $r$ of a product is the dot product, `DOT`.
 
-The loss is the mean penalty of the rows that count. Machine-learning texts call this loss cross-entropy.
+The loss is the mean penalty of the rows that count. The project's write-up of run B describes the same loss in words: "the average, over positions, of the negative log-probability the model assigned to the token that actually came next" ([explorations/run-b/article.md, line 75](src:explorations/run-b/article.md#L75)). This text recalls cross-entropy as the field's name for this loss, and found the name in no file of the tree.
 
-The second number of the output is a value to compare the loss with. A model that gives each of the 27 tokens the same probability has the penalty `log(27)` in every row, 3.296. The untrained model starts at 3.366, a little worse than equal probabilities. A model that gave every right answer the probability 1 would have the loss 0. Names cannot be foreseen that well, so the loss of a trained model stays well above 0.
+The second number of the output is a value to compare the loss with. A model that gives each of the 27 tokens the same probability has the penalty `log(27)` in every row, 3.296. The untrained model starts at 3.366, a little worse than equal probabilities. A model that gave every right answer the probability 1 would have the loss 0. The project's note on a run of Karpathy's program records losses between 2.26 and 2.65 at steps 200 to 1,000, each on a different name ([explorations/microgpt-port.md, lines 144 and 145](src:explorations/microgpt-port.md#L144)).
 
 ## The forward pass on one page
 

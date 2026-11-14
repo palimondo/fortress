@@ -102,7 +102,7 @@ The library declares products for vectors and matrices only. A product of rank-3
 
 In each plane, a matrix of 16 by 4 meets a matrix of 4 by 16, and the result is 16 by 16. Take its element in row `i` and column `j`. By the rule of Part 2, it is row `i` of the plane of `qh` with row `j` of the plane of `kh`. That is the dot product of query `i` and key `j`. So plane 0 of `qh kh^T` holds every score of head 0: 16 positions that read, times 16 positions that can be read.
 
-`/ SQRT (1.0 headDim)` divides every score by 2, the square root of 4. A dot product of vectors of 4 numbers adds 4 terms, and with longer vectors it would add more and grow. The division by the root of the length keeps the scores in the same range for any `headDim`. Part 3 showed why the range matters: larger differences between scores make the result of softmax more uneven. `1.0 headDim` is the float 4.0. Walk also accepts `SQRT headDim` and prints 2.0 for it; the line writes the conversion out.
+`/ SQRT (1.0 headDim)` divides every score by 2, the square root of 4. The project's write-up of run B describes the scores as "scaled by the square root of the key width" ([explorations/run-b/article.md, line 55](src:explorations/run-b/article.md#L55)) and gives no reason. The reason that this text recalls, and did not test, is this: a dot product of longer vectors adds more terms and grows, and the division keeps the scores in the same range for any `headDim`. Part 3 showed why the range matters: larger differences between scores make the result of softmax more uneven. `1.0 headDim` is the float 4.0. Walk also accepts `SQRT headDim` and prints 2.0 for it; the line writes the conversion out.
 
 A run printed the keys of positions 0 to 3 in head 0, and the 16 scores that position 3 gives in head 0:
 
@@ -154,7 +154,7 @@ masked[0,3,:] = -0.08175008584960282 0.10605658054206196 -0.13388403927731538 0.
 
 Part 3 showed what softmax does with such a score: its result for that score is 0, exactly, and its other results are as if the score were not there.
 
-Karpathy's program has no mask. It gives the model one position at a time and keeps the keys and values of the earlier positions in a list. A later position does not exist yet when an earlier one is computed. The flat program computes all 16 positions at once, so it needs the mask to get the same result.
+Karpathy's program has no mask. In the words of the project's write-up of run B, it "reaches the same numbers by never computing a later position's score at all (its `keys`/`values` lists hold only the past)" ([explorations/run-b/article.md, line 59](src:explorations/run-b/article.md#L59)). The project's port of his program shows the same: its function takes one position at a time and appends that position's key and value to two lists ([explorations/microgpt.fss, lines 106 to 112](src:explorations/microgpt.fss#L106)). The flat program computes all 16 positions at once, so it needs the mask to get the same result.
 
 ## The attention weights
 
@@ -179,14 +179,14 @@ sum a[2,5,:] = 1.0
 
 Position 0 can read only itself, so its one attention weight is 1. Position 5 in head 2 spreads its attention weight over positions 0 to 5.
 
-Nearly equal attention weights are what an untrained model gives. Two runs of `sm` on four scores show the two ends:
+The starting parameters give nearly equal attention weights, as the rows above show. Two runs of `sm` on four scores show the two ends:
 
 ```out
 sm [0 0 0 0] (4): 0.25 0.25 0.25 0.25
 sm [5 0 0 0] (4): 0.9801866626534912 0.006604445782169691 0.006604445782169691 0.006604445782169691
 ```
 
-With equal scores, every position gets a quarter, and the average of the values is a plain mean. With one score 5 above the others, that position gets 98 percent, and the average is almost that position's value alone. Training changes `wq` and `wk`. Through them it can move a head from the first case towards the second, for the pairs of positions where that lowers the loss.
+With equal scores, every position gets a quarter, and the average of the values is a plain mean. With one score 5 above the others, that position gets 98 percent, and the average is almost that position's value alone. Training changes `wq` and `wk`, and with them the scores. So it can move a head from the first case towards the second. No run in this text shows a trained head.
 
 $$
 \begin{aligned}
@@ -246,7 +246,7 @@ hc[3,0..3] = -0.26264079565384846 -0.09083065284086174 0.1298847285979956 0.2674
 
 `hc wo^T` puts every row of `hc` through the last attention matrix, `wo`. In `hc`, each head's result sits in its own four columns. `wo` mixes the sixteen columns.
 
-Then the line adds the result to `xp`, the matrix that attention started from. It does not replace `xp`. So a row of `x2` still holds what the row held before, its own token and position, and it now also holds a mix of what the earlier positions hold. Adding a stage's result to the stage's input in this way is called a residual connection. The model does it twice: here, and at the end of the feed-forward block in Part 5.
+Then the line adds the result to `xp`, the matrix that attention started from. It does not replace `xp`. So a row of `x2` still holds what the row held before, its own token and position, and it now also holds a mix of what the earlier positions hold. Adding a stage's result to the stage's input in this way is called a residual connection. The project's write-up of run B uses the name so: "The residual connections add each block's output to its input" ([explorations/run-b/article.md, line 63](src:explorations/run-b/article.md#L63)). The model does it twice: here, and at the end of the feed-forward block in Part 5.
 
 `x2` is a matrix of 16 by 16, one row for each position, like every stage before it.
 

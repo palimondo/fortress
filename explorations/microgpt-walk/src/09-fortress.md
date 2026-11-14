@@ -58,4 +58,4 @@ These forms are not gaps. They are how Fortress is designed, or how the revival 
 - The bars. `|x|` is the size of an array and the absolute value of a number.
 - `DOT`, `SQRT` and `SUM` in capitals. They are the ASCII names of the signs ·, √ and ∑. The source may hold a sign itself: the model writes `×`, and in a run `v · v` printed 61.0 and `√ 4.0` printed 2.0. The sign ∑ is the exception today. The parser takes it as a prefix operator and not as a big operator, so only the name `SUM` works (the gap ledger's row 5).
 - The tuple bindings of lines 17 to 19, 53, 58, 67 and 68. Your ruling keeps this form for the constants.
-- The hand-written backward pass. It follows from the layout: the program holds plain arrays of floats, with no objects that could record how a number was made.
+- The hand-written backward pass. It follows from the layout: the program holds plain arrays of floats, with no objects that could record how a number was made. The project's notes on the layout call the backward lines "the price of no autograd" ([HANDOVER-HSU.md, line 53](src:explorations/apl/reference/hsu-flat/HANDOVER-HSU.md#L53)).

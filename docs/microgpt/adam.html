@@ -50,8 +50,8 @@ text.qe1ea453d34f5 {font-family:qe1ea453d34-cmr10;font-size:9.96264px}
 <li><p id="p-744eff97" class="nb"><span class="m"><i>p</i></span> is the vector of parameters, <span class="m"><i>g</i></span> the gradient, and <span class="m"><i>p</i>'</span> the new parameters.</p></li>
 <li><p id="p-15a34955" class="nb"><code>lr</code> is a small positive number, the learning rate.</p></li>
 </ul>
-<p id="p-71e14034" class="nb">This rule is called gradient descent. Its weakness is that gradient entries differ widely in size. In the step on <code>yuheng</code>, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.</p>
-<p id="p-b7ea5112" class="nb">The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam, and Karpathy's microGPT uses it too. Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.</p>
+<p id="p-72eddb3b" class="nb">The weakness of this rule is that gradient entries differ widely in size. In the step on <code>yuheng</code>, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.</p>
+<p id="p-10c56d51" class="nb">The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam. Karpathy's microGPT uses it too: the project's note on his program lists "Adam with bias correction and linear LR decay" (<a href="https://github.com/palimondo/fortress/blob/main/explorations/microgpt-port.md#L10">explorations/microgpt-port.md, line 10</a>). Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.</p>
 </section>
 <section class="sec" data-num="7.2" data-title="Adam">
 <h2 id="s-adam" class="nb"><span class="num">7.2</span> Adam</h2>
@@ -169,8 +169,8 @@ index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delt
 <li><p id="p-4f13343d" class="nb">Parameter 1100 has a positive entry, a third the size of the first one. It moves down, also by 0.01.</p></li>
 <li><p id="p-565fe228" class="nb">Parameter 0 lies in the row of <code>wte</code> for the token <code>a</code>. Its entry is 0, and it does not move: 0 divided by <code>epsilon_A</code> is 0.</p></li>
 </ul>
-<p id="p-8497e3c4" class="nb">In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about <code>lr</code> in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less.</p>
-<p id="p-e5581a71" class="nb">The parentheses in line 79 fix the order of the float operations: first <code>lr</code> times the corrected average, then the division. The reference values of the check were computed in that order, and a different order can change the last digit of a float.</p>
+<p id="p-7abebe56" class="nb">In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about <code>lr</code> in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less. This follows from the three lines. No run in this text shows it.</p>
+<p id="p-4560e2b0" class="nb">The parentheses in line 79 fix the order of the float operations: first <code>lr</code> times the corrected average, then the division. The project's note on this line says that the order is NumPy's, because the reference values of the check are NumPy's (<a href="https://github.com/palimondo/fortress/blob/main/explorations/run-c4/tour.md">explorations/run-c4/tour.md, row 27</a>).</p>
 </section>
 <section class="sec" data-num="7.3" data-title="The learning rate">
 <h2 id="s-the-learning-rate" class="nb"><span class="num">7.3</span> The learning rate</h2>
@@ -178,7 +178,7 @@ index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delt
 <p id="p-18bf4df5" class="nb">The learning rate falls in a straight line from <code>lr0</code>, 0.01, at step 0, towards 0 at step <code>nSteps</code>, 1,000. A run printed three values:</p>
 <pre class="vb nb out" id="o-065fde2f" data-kind="output"><code>lr(0) = 0.01 lr(1) = 0.00999 lr(999) = 1.000000000000001E-5</code></pre>
 <p id="p-56a86649" class="nb"><code>lr0 (...)</code> is a number beside a number: the product. <code>1.0 s</code> turns the integer <code>s</code> into a float. The line needs it. In Fortress, <code>/</code> between two integers gives an exact fraction, a value of the type <code>QQ</code> (the gap ledger's row 174 records this as the rule): for <code>s</code> = 3, a run printed <code>s / nSteps</code> as <code>3/1000</code>. The library has no product of a float and such a fraction, and the line without <code>1.0</code> stops with "Failed to find any matching overload". With the float on the left, the division gives a float.</p>
-<p id="p-e036b524" class="nb">The schedule is made for 1,000 steps, the number that the reference program of Part 8 was run with. The loop below runs five.</p>
+<p id="p-c911774b" class="nb">The schedule is made for 1,000 steps, the number that the reference program of Part 8 was run with (<a href="https://github.com/palimondo/fortress/blob/main/explorations/experiment/run-c-goldens/make_goldens.py#L21">explorations/experiment/run-c-goldens/make_goldens.py, line 21</a>). The loop below runs five.</p>
 <aside class="limit"><p class="label">A limit of today's tree</p>
 <p id="p-9780a17b" class="nb"><code>1.0 s</code> runs under walk. The compiled path's checker refuses it today when it checks against the interpreter's library: it finds two products that fit only after a conversion, of two floats and of two fractions, and cannot choose (the gap ledger's row 989).</p></aside>
 </section>
@@ -216,7 +216,9 @@ step 5 loss 3.2208830897506235</code></pre>
 <h2 id="s-what-one-step-does-to-the-numbers" class="nb"><span class="num">7.5</span> What one step does to the numbers</h2>
 <p id="p-1fcc1c21" class="nb">To see the effect of a step, measure the same name before and after. A run did the step on <code>yuheng</code>, applied Adam once, and called <code>step</code> on <code>yuheng</code> again with the new parameters:</p>
 <pre class="vb nb out" id="o-9911ddaf" data-kind="output"><code>loss doc 0 before 3.365966947584851 after one Adam step 2.9510500702232525</code></pre>
-<p id="p-c67c585c" class="nb">The loss on <code>yuheng</code> fell from 3.366 to 2.951. In probabilities: <code>exp</code> of minus 3.366 is 0.035, and <code>exp</code> of minus 2.951 is 0.052. These are the probabilities that give the same two losses if all seven right answers have one and the same probability: 0.035 before the step, 0.052 after it.</p>
+<p id="p-3052723a" class="nb">The loss on <code>yuheng</code> fell from 3.366 to 2.951. In probabilities, a run printed <code>exp</code> of minus each loss:</p>
+<pre class="vb nb out" id="o-92ab5a85" data-kind="output"><code>exp(-3.365966947584851) = 0.034528612612313464  exp(-2.9510500702232525) = 0.052284774427746754</code></pre>
+<p id="p-4b05f8a8" class="nb">These are the probabilities that give the same two losses if all seven right answers have one and the same probability: 0.035 before the step, 0.052 after it.</p>
 <p id="p-110ad826" class="nb">The same change helped a little on a name that the step did not see. The loss on document 1, <code>diondre</code>, with the old and with the new parameters:</p>
 <pre class="vb nb out" id="o-ebaa9a31" data-kind="output"><code>loss doc 1 with p0 3.4265763956879174 with p1 3.4242727838717717</code></pre>
 <p id="p-760a6d87" class="nb">The second number is the loss that the program printed for step 2.</p>
@@ -232,7 +234,7 @@ step 5 loss 3.2208830897506235</code></pre>
 <section class="sec" data-num="7.6" data-title="What the program leaves out">
 <h2 id="s-what-the-program-leaves-out" class="nb"><span class="num">7.6</span> What the program leaves out</h2>
 <ul>
-<li><p id="p-b9942f62" class="nb">It never makes a name. Karpathy's program ends with a loop that does: it gives the model the mark, draws a token by the probabilities of that position, appends the token, and repeats until the model answers with the mark. The flat program stops after training. Its <code>pr</code> holds the probabilities that such a loop would draw from.</p></li>
+<li><p id="p-fa0c180b" class="nb">It never makes a name. The project's port of Karpathy's program ends with a loop that does (<a href="https://github.com/palimondo/fortress/blob/main/explorations/microgpt.fss#L262">explorations/microgpt.fss, lines 262 to 289</a>): it gives the model the mark, makes probabilities from the scores of that position, draws a token by them, appends the token, and repeats until the mark is drawn or the block's positions are used. The flat program stops after training. Its <code>pr</code> holds probabilities of the kind that such a loop draws from.</p></li>
 <li><p id="p-9151964b" class="nb">It runs five steps, where the learning rate's schedule is made for 1,000. The five steps are enough to compare the program's numbers with the stored values, which is the program's use today.</p></li>
 <li><p id="p-e69381fe" class="nb">Its batch is one document. The step itself takes a batch of any size: every matrix then has 16 rows for each document, and the planes of attention keep the documents apart.</p></li>
 </ul>

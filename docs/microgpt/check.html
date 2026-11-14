@@ -43,7 +43,7 @@ VERDICT: 7 PASS, 0 FAIL of 7 -- ALL PASS</code></pre>
 <li><p id="p-f5ea8620" class="nb">The parameters after one Adam step. The largest difference is 0.00000000000000028.</p></li>
 <li><p id="p-bf3e483c" class="nb">The loss of the step on document 1 with the new parameters: 3.42427278387177 in both, with a difference in the sixteenth digit.</p></li>
 </ol>
-<p id="p-693be481" class="nb">The differences in checks 4, 6 and 7 are a few units in the last binary digit of a 64-bit float. Two programs that add the same floats in a different order differ by that much.</p>
+<p id="p-2c123eb9" class="nb">The differences in checks 4, 6 and 7 are near 0.0000000000000001. This text takes them for differences of rounding between the two programs, and did not trace them.</p>
 <p id="p-e2917c5c" class="nb">Checks 3, 5 and 7 are numbers that this text has met: the loss of Part 5, the zeros of Part 6, and the second loss of the training loop in Part 7.</p>
 </section>
 <section class="sec" data-num="8.2" data-title="The file">

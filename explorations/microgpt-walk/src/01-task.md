@@ -24,7 +24,7 @@ Take the name `yuheng`. It gives the model seven questions:
 
 The model has 4,192 numbers that decide its answers. They are its parameters. Training changes the parameters, a little at each step, so that the right answers get higher probabilities. One number says how wrong the answers are: the loss. Part 5 defines it. A step of training aims at a lower loss on the name that the step saw, and Part 7 shows one.
 
-That is the whole task. A GPT is a function from a sequence of tokens to a probability for each possible next token, and a rule for changing its parameters. Karpathy's microGPT writes the function and the rule in Python, on single numbers. The flat program writes the same function and the same rule on whole arrays.
+That is the whole task. A GPT is a function from a sequence of tokens to a probability for each possible next token, and a rule for changing its parameters. Karpathy's microGPT writes the function and the rule in Python, on single numbers: the project's note on his program speaks of "a complete GPT in 243 lines of dependency-free Python" with "scalar reverse-mode autodiff" ([explorations/microgpt-port.md, lines 6 to 8](src:explorations/microgpt-port.md#L6)). The flat program writes the same function and the same rule on whole arrays.
 
 ## The files
 
@@ -44,7 +44,7 @@ cd explorations/run-c4/src
 
 It prints one line with the sizes and then five lines, one for each step of training. Part 7 shows them.
 
-A `.fss` file holds a component, which is a unit of Fortress code. Beside each component is a `.fsi` file of the same name. It holds an api: the list of the names that other components may use, with their types. The pair is like the `.h` file beside the `.m` file of an Objective-C class.
+A `.fss` file holds a component, which is a unit of Fortress code. Beside each component is a `.fsi` file of the same name. It holds an api: the list of the names that other components may use, with their types.
 
 The model's file starts with a comment. Fortress writes a comment between `(*` and `*)`.
 
@@ -54,7 +54,7 @@ The comment names the parts of the file in order: the constants ("hyperparameter
 
 The comment also names three things from the project's history, which this text does not need:
 
-- "Hsu" is Aaron Hsu, who writes compilers in APL. The program's data layout follows his advice: few arrays, each flat, and no objects in between. The word "flat" in the program's name means this layout.
+- "Hsu" is Aaron Hsu. The program's data layout follows his talk "Designing Your Data", as the header of the program's api says: "one flat parameter vector whose nine matrices are views, one integer corpus matrix, one pure step" ([MicroGptFlat.fsi, lines 1 to 4](src:explorations/run-c4/src/MicroGptFlat.fsi#L1)). The word "flat" in the program's name means this layout.
 - The `.dyalog` file is an APL program with the same layout. The Fortress lines were written beside its lines.
 - "Run C4" is the record's name for this program. It was the fourth round of an experiment that the record calls run C.
 
@@ -77,13 +77,13 @@ The lines of this file use no name of `System`. A copy of the file without line 
 
 Line 16 is a comment that works as a heading. The file has nine such lines. This text quotes each where its section begins.
 
-Line 17 declares six names at once. The left side is a tuple of names and the right side is a tuple of values, as in Scala's `val (a, b) = (1, 2)`. A declaration with `=` makes an immutable variable, like Swift's `let`.
+Line 17 declares six names at once. The left side is a tuple of names and the right side is a tuple of values. A declaration with `=` makes an immutable variable.
 
 - `nEmbd` is 16. The model turns each token into a vector of 16 numbers, and every later vector that stands for a token has 16 numbers too.
 - `blockSize` is 16. The model reads at most 16 positions of a name.
 - `nHead` is 4 and `headDim` is 4. Part 4 explains them. Their product is `nEmbd`.
 - `vocabSize` is 27: the 26 letters and the mark.
-- `bosId` is 26: the integer that stands for the mark. Karpathy calls the mark BOS, for "beginning of sequence".
+- `bosId` is 26: the integer that stands for the mark. BOS is short for "beginning of sequence": the project's write-up of run B describes the vocabulary of Karpathy's program as "the lowercase letters and a beginning-of-sequence token" ([explorations/run-b/article.md, line 21](src:explorations/run-b/article.md#L21)).
 
 No type is written. A numeral without a point is a `ZZ32`, a signed 32-bit integer. A numeral with a point is an `RR64`, a 64-bit float.
 
@@ -98,7 +98,7 @@ Line 18 declares six more constants.
 
 @src 19
 
-Line 19 gives the two places on disk: the corpus, and the folder of the parameters' starting values. The paths are relative, so the program runs only from its own folder, `explorations/run-c4/src`. The starting values are Karpathy's own, from his program's random seed 42, written out as text.
+Line 19 gives the two places on disk: the corpus, and the folder of the parameters' starting values. The paths are relative, so the program runs only from its own folder, `explorations/run-c4/src`. The starting values are what the Python program starts from with the random seed 42, written out as text: the project's note calls them "Karpathy's seed-42 init" ([explorations/apl/reference/HANDOVER-APL.md, line 35](src:explorations/apl/reference/HANDOVER-APL.md#L35)).
 
 ## The corpus as one matrix of tokens
 
@@ -106,14 +106,14 @@ A token is an integer that stands for one character. The program gives `a` the t
 
 @src 47-48
 
-Line 47 is the heading comment. "Tactic 3/5" points to two of Hsu's pieces of advice, by the numbers that the project's notes give them: keep a table as whole arrays, and turn characters into small integers once, when the data is loaded.
+Line 47 is the heading comment. "Tactic 3/5" points to two pieces of Hsu's advice, by the numbers and in the words of the project's notes on his talk ([HANDOVER-HSU.md, lines 18 to 33](src:explorations/apl/reference/hsu-flat/HANDOVER-HSU.md#L18)): tactic 3, the corpus as one integer matrix with a vector of lengths, built once; tactic 5, characters turned into small integers when the data is loaded.
 
 Line 48 declares a top-level variable with a written type, `Corpus`. Its value is computed once, when the component is loaded, before `run` starts. The function `loadCorpus` and the type `Corpus` are in `FlatData.fss`:
 
 @src FlatData.fss 119-124
 
 - Line 120 reads the file into an array of strings, one name each.
-- Line 121 makes a matrix of integers and fills it with the token 26. `array[\ZZ32\](rows, columns)` is the library's function that makes an array. The brackets `[\ZZ32\]` hold a static argument, here the element type: Fortress writes `[\ \]` where Scala writes `[ ]`. `|names|` is the number of elements of `names`, 2,000. `blk` is `blockSize`, so the matrix has 17 columns.
+- Line 121 makes a matrix of integers and fills it with the token 26. `array[\ZZ32\](rows, columns)` is the library's function that makes an array. The brackets `[\ZZ32\]` hold a static argument, here the element type. Plain brackets hold an index, as in `tokm[d, 1 + j]` in the next line. `|names|` is the number of elements of `names`, 2,000. `blk` is `blockSize`, so the matrix has 17 columns.
 - Line 122 is a loop with two counters, `d` over the documents and `j` over the characters of one name. A document is one name of the corpus. `0#n` is a range: `n` integers, starting at 0. So `0#5` is 0, 1, 2, 3, 4. The body puts the token of character `j` into column `1 + j`. A character's token is its code point minus the code point of `a`. The operator `:=` assigns to an element of an array.
 - A Fortress loop runs its turns in parallel unless every range is wrapped in `seq`. Here both are wrapped, so the loop runs in order.
 - Line 123 builds the result, a `Corpus` object. Its second argument is a vector with one entry for each document: 1 plus the number of the name's characters.
@@ -130,7 +130,7 @@ The object's declaration follows.
 
 @src FlatData.fss 106-118
 
-- Line 106 declares an object with three parameters. An object's parameters are its fields, as in a Scala case class. `tokm` is the token matrix, `len` the lengths, `blk` the block size.
+- Line 106 declares an object with three parameters. An object's parameters are its fields. `tokm` is the token matrix, `len` the lengths, `blk` the block size.
 - The types use the library's array type, `Array[\E,I\]`. `E` is the type of the elements and `I` the type of the index. `Array[\ZZ32,ZZ32\]` has one integer as its index: it is a vector of integers. `Array[\ZZ32,(ZZ32,ZZ32)\]` has a pair of integers as its index: it is a matrix of integers.
 - Lines 107 to 109 are small methods. `tokm[d, j]` reads the element in row `d` and column `j`.
 - Lines 112 to 117 are the three methods that the step calls. The next section shows what they return.

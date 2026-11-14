@@ -12,9 +12,9 @@ $$
 - $p$ is the vector of parameters, $g$ the gradient, and $p'$ the new parameters.
 - `lr` is a small positive number, the learning rate.
 
-This rule is called gradient descent. Its weakness is that gradient entries differ widely in size. In the step on `yuheng`, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.
+The weakness of this rule is that gradient entries differ widely in size. In the step on `yuheng`, parameter 500 has the entry -0.0926. The stored gradient that the quick check compares with gives parameter 1000 the entry -0.00000079, a hundred thousand times smaller. With one learning rate for both, either the first parameter moves too far or the second hardly moves.
 
-The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam, and Karpathy's microGPT uses it too. Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.
+The program uses a rule that sets the size of the move for each parameter by itself. Its name is Adam. Karpathy's microGPT uses it too: the project's note on his program lists "Adam with bias correction and linear LR decay" ([explorations/microgpt-port.md, line 10](src:explorations/microgpt-port.md#L10)). Adam keeps two more numbers for every parameter, from step to step: an average of the parameter's recent gradient entries, and an average of their squares.
 
 ## Adam
 
@@ -75,9 +75,9 @@ index 0 p0 -0.04273180935726127 g 0.0 m1 0.0 v1 0.0 p1 -0.04273180935726127 delt
 - Parameter 1100 has a positive entry, a third the size of the first one. It moves down, also by 0.01.
 - Parameter 0 lies in the row of `wte` for the token `a`. Its entry is 0, and it does not move: 0 divided by `epsilon_A` is 0.
 
-In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about `lr` in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less.
+In later steps the averages hold several gradients. A parameter whose entries keep one sign goes on moving by about `lr` in each step. A parameter whose entries change sign has a small first average and a large second one, and it moves less. This follows from the three lines. No run in this text shows it.
 
-The parentheses in line 79 fix the order of the float operations: first `lr` times the corrected average, then the division. The reference values of the check were computed in that order, and a different order can change the last digit of a float.
+The parentheses in line 79 fix the order of the float operations: first `lr` times the corrected average, then the division. The project's note on this line says that the order is NumPy's, because the reference values of the check are NumPy's ([explorations/run-c4/tour.md, row 27](src:explorations/run-c4/tour.md)).
 
 ## The learning rate
 
@@ -91,7 +91,7 @@ lr(0) = 0.01 lr(1) = 0.00999 lr(999) = 1.000000000000001E-5
 
 `lr0 (...)` is a number beside a number: the product. `1.0 s` turns the integer `s` into a float. The line needs it. In Fortress, `/` between two integers gives an exact fraction, a value of the type `QQ` (the gap ledger's row 174 records this as the rule): for `s` = 3, a run printed `s / nSteps` as `3/1000`. The library has no product of a float and such a fraction, and the line without `1.0` stops with "Failed to find any matching overload". With the float on the left, the division gives a float.
 
-The schedule is made for 1,000 steps, the number that the reference program of Part 8 was run with. The loop below runs five.
+The schedule is made for 1,000 steps, the number that the reference program of Part 8 was run with ([explorations/experiment/run-c-goldens/make_goldens.py, line 21](src:explorations/experiment/run-c-goldens/make_goldens.py#L21)). The loop below runs five.
 
 !!! limit
 `1.0 s` runs under walk. The compiled path's checker refuses it today when it checks against the interpreter's library: it finds two products that fit only after a conversion, of two floats and of two fractions, and cannot choose (the gap ledger's row 989).
@@ -152,7 +152,13 @@ To see the effect of a step, measure the same name before and after. A run did t
 loss doc 0 before 3.365966947584851 after one Adam step 2.9510500702232525
 ```
 
-The loss on `yuheng` fell from 3.366 to 2.951. In probabilities: `exp` of minus 3.366 is 0.035, and `exp` of minus 2.951 is 0.052. These are the probabilities that give the same two losses if all seven right answers have one and the same probability: 0.035 before the step, 0.052 after it.
+The loss on `yuheng` fell from 3.366 to 2.951. In probabilities, a run printed `exp` of minus each loss:
+
+```out
+exp(-3.365966947584851) = 0.034528612612313464  exp(-2.9510500702232525) = 0.052284774427746754
+```
+
+These are the probabilities that give the same two losses if all seven right answers have one and the same probability: 0.035 before the step, 0.052 after it.
 
 The same change helped a little on a name that the step did not see. The loss on document 1, `diondre`, with the old and with the new parameters:
 
@@ -172,6 +178,6 @@ The whole step on `yuheng`, in the numbers of this text:
 
 ## What the program leaves out
 
-- It never makes a name. Karpathy's program ends with a loop that does: it gives the model the mark, draws a token by the probabilities of that position, appends the token, and repeats until the model answers with the mark. The flat program stops after training. Its `pr` holds the probabilities that such a loop would draw from.
+- It never makes a name. The project's port of Karpathy's program ends with a loop that does ([explorations/microgpt.fss, lines 262 to 289](src:explorations/microgpt.fss#L262)): it gives the model the mark, makes probabilities from the scores of that position, draws a token by them, appends the token, and repeats until the mark is drawn or the block's positions are used. The flat program stops after training. Its `pr` holds probabilities of the kind that such a loop draws from.
 - It runs five steps, where the learning rate's schedule is made for 1,000. The five steps are enough to compare the program's numbers with the stored values, which is the program's use today.
 - Its batch is one document. The step itself takes a batch of any size: every matrix then has 16 rows for each document, and the planes of attention keep the documents apart.

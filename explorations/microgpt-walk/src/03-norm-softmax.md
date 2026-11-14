@@ -7,7 +7,7 @@
 
 Line 26 is the heading comment for lines 27 to 34. Lines 30 to 34 are the "backward" functions, which Part 6 reads.
 
-Line 27 declares a function. The form is `name(parameter: Type): ResultType = expression`. This one takes a vector of floats and returns a vector of floats. Karpathy calls the function rmsnorm, for "root mean square normalization".
+Line 27 declares a function. The form is `name(parameter: Type): ResultType = expression`. This one takes a vector of floats and returns a vector of floats. The project's port of Karpathy's program names the function `rmsnorm` ([explorations/microgpt.fss, line 83](src:explorations/microgpt.fss#L83)). The letters stand for root mean square, which is what the line computes, as the steps below show.
 
 Read the right side from the inside out, with the vector 3, 4 as `x`:
 
@@ -33,7 +33,7 @@ The vector 30, 40 has the same proportions and ten times the size. Its result is
 rmsn [30 40] (2): 0.8485281340297446 1.1313708453729927
 ```
 
-That is the function's job in the model. A row of 16 numbers goes through several matrices, and its overall size can grow or shrink on the way. `rmsn` removes the overall size and keeps what the numbers say in relation to each other.
+That is the function's job in the model: it removes the overall size of a row and keeps what the numbers say in relation to each other. The project's write-up of run B gives the reason in these words: normalizing every position's vector "keeps the scale of the residual stream in check" ([explorations/run-b/article.md, line 39](src:explorations/run-b/article.md#L39)). This text did not test what the model does without it.
 
 $$
 \c{rmsn}(x) = \frac{x}{\sqrt{\varepsilon + \dfrac{1}{n}\displaystyle\sum_{i} x_i^2}}
@@ -84,7 +84,7 @@ meansq x[1] = 0.01127520082084148  meansq xp[1] = 0.9991138837351009  meansq x1[
 - Row 1 of `xp` has the mean square 0.9991. It is not exactly 1, because `epsilon` is not tiny beside 0.0113.
 - `x1` is `rmsn` applied a second time. It changes little: 0.9991 becomes 0.99999.
 
-The model keeps both. `xp` is the stage that the rest of the model builds on: line 60 adds attention's result to it. `x1` is what attention reads. Karpathy's program has the same two calls, one after the embeddings are added and one at the start of the attention block.
+The model keeps both. `xp` is the stage that the rest of the model builds on: line 60 adds attention's result to it. `x1` is what attention reads. The project's port of Karpathy's program has the same two calls, one after the other, and also adds attention's result to the first ([explorations/microgpt.fss, lines 108, 109 and 128](src:explorations/microgpt.fss#L108)).
 
 ## sm: scores into probabilities
 
@@ -129,7 +129,15 @@ Only the differences between the scores count. Adding 100 to every score gives t
 sm(z + 100) (3): 0.09003057317038046 0.24472847105479764 0.6652409557748218
 ```
 
-This is also why the program may subtract the maximum: it changes nothing in the result. It is there for the arithmetic. `exp` of a large number does not fit into a float, and after the subtraction the largest number that `exp` sees is 0.
+This is also why the program may subtract the maximum: it changes nothing in the result. It is there for the arithmetic. `exp` of a large number does not fit into a float, and after the subtraction the largest number that `exp` sees is 0. A run shows it on the scores 1001, 1002, 1003:
+
+```out
+exp(1000.0) = Infinity
+sm [1001 1002 1003] (3): 0.09003057317038046 0.24472847105479764 0.6652409557748218
+exp z / SUM exp z (3): NaN NaN NaN
+```
+
+The last line is the same computation without the subtraction. It gives no numbers.
 
 Larger differences make the result more uneven. With the scores doubled to 2, 4, 6, the largest gets 87 percent:
 

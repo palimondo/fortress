@@ -34,8 +34,8 @@
 <p id="p-5676e9fc" class="nb">The same experiment on parameter 1100, which is element <code>[25, 12]</code> of <code>lm</code>:</p>
 <pre class="vb nb out" id="o-e9aa2adc" data-kind="output"><code>index 1100 p 0.03654080103626847 g 0.031736131393025356 loss+ 3.3659672649481087 loss- 3.3659666302254805 fd 0.03173613141171927</code></pre>
 <p id="p-60e1f525" class="nb">Here the entry is positive: raising the parameter raises the loss.</p>
-<p id="p-9de7df73" class="nb">The experiment needs two forward passes for one parameter. For all the parameters that is 8,384 forward passes. The backward pass gets all 4,192 entries at once, with about as much work as one more forward pass. Its usual name is backpropagation.</p>
-<p id="p-58776556" class="nb">Karpathy's microGPT does not write a backward pass. In it, every number is an object that remembers how it was computed, as in his micrograd, and the gradient follows from those records. The flat program has no such objects. Its backward pass is written out by hand, in lines 63 to 70.</p>
+<p id="p-7dd3e6b9" class="nb">The experiment needs two forward passes for one parameter. For all the parameters that is 8,384 forward passes. The backward pass gets all 4,192 entries in one pass. The project's write-up of run B uses the field's name for it, backpropagation (<a href="https://github.com/palimondo/fortress/blob/main/explorations/run-b/article.md#L13">explorations/run-b/article.md, line 13</a>).</p>
+<p id="p-72876040" class="nb">Karpathy's microGPT does not write a backward pass by hand. The same line of the write-up says of his program: "every number in the forward pass is a <code>Value</code> with a mutable <code>grad</code> field". The gradient is found by going back through those objects. The flat program has no such objects. Its backward pass is written out by hand, in lines 63 to 70.</p>
 </section>
 <section class="sec" data-num="6.2" data-title="The names and the rules">
 <h2 id="s-the-names-and-the-rules" class="nb"><span class="num">6.2</span> The names and the rules</h2>
@@ -81,7 +81,7 @@ text.q5816a37bd3f5 {font-family:q5816a37bd3-cmr10;font-size:9.96264px}
 <li><p id="p-92bc0bd3" class="nb">Raise the 5 by one unit: the product rises by 1, the element of <code>B</code> that the 5 meets. Raise the 6: the product rises by 3. So the gradient at <code>A</code> is the row 1, 3. That is <code>B^T</code>.</p></li>
 <li><p id="p-f04a28ec" class="nb">Raise the 1 by one unit: the product rises by 5. Raise the 3: it rises by 6. So the gradient at <code>B</code> is the column 5, 6. That is <code>A^T</code>.</p></li>
 </ul>
-<p id="p-58dd991f" class="nb">A larger product is many such sums. Each element of <code>A</code> enters several elements of <code>Y</code>, and by rule 2 its parts add. Written out, the additions give the two formulas above. The sizes are a check that you can make at every line: <code>dY B^T</code> has the size of <code>A</code>, and <code>A^T dY</code> has the size of <code>B</code>.</p>
+<p id="p-926375c4" class="nb">A larger product is many such sums. Each element of <code>A</code> enters several elements of <code>Y</code>, and by rule 2 its parts add. Written out, the additions give the two formulas above. The sizes are a check that you can make at every line: <code>dY B^T</code> has the size of <code>A</code>, and <code>A^T dY</code> has the size of <code>B</code>. The project's write-up of run B writes its backward maps in the same two forms, <code>G Bᵀ</code> and <code>Aᵀ G</code> (<a href="https://github.com/palimondo/fortress/blob/main/explorations/run-b/article.md#L158">explorations/run-b/article.md, line 158</a>). The experiment of the last section is the check by a run: it agrees with the gradient that these rules give.</p>
 </section>
 <section class="sec" data-num="6.3" data-title="From the loss to the scores">
 <h2 id="s-from-the-loss-to-the-scores" class="nb"><span class="num">6.3</span> From the loss to the scores</h2>
@@ -150,7 +150,7 @@ text.q2ee1b441ecf7 {font-family:q2ee1b441ec-cmex10;font-size:9.96264px}
 <li><p id="p-02f46fcc" class="nb"><span class="m"><i>r</i></span> is the row and <span class="m"><i>t</i></span> the token.</p></li>
 <li><p id="p-36eaa9b2" class="nb">The square bracket is 1 where the statement inside it is true and 0 where it is false. It is the matrix <code>onehot(tg, vocabSize)</code>.</p></li>
 </ul>
-<p id="p-fc14dbdd" class="nb">Three numbers from Part 3 confirm the formula. The scores 1, 2, 3 give the probabilities 0.0900, 0.2447, 0.6652. Suppose the first is the right answer. A run raised the second score by one millionth and measured the change of the first probability: the rate was -0.02203. The penalty is minus the logarithm of the first probability, and the logarithm's rate at 0.0900 is 1 divided by 0.0900. So the penalty changes at the rate 0.02203 divided by 0.0900, which is 0.2447: the second probability, as the formula says.</p>
+<p id="p-5092e334" class="nb">Three numbers from Part 3 confirm the formula. The scores 1, 2, 3 give the probabilities 0.0900, 0.2447, 0.6652. Suppose the first is the right answer. A run raised the second score by one millionth and measured the change of the first probability: the rate was -0.02203. The penalty is minus the logarithm of the first probability, and the logarithm's rate at 0.0900 is 1 divided by 0.0900. A run measured that rate as 11.10733 and printed 11.10734 for the quotient. So the penalty changes at the rate 0.02203 divided by 0.0900, which is 0.2447: the second probability, as the formula says.</p>
 </section>
 <section class="sec" data-num="6.4" data-title="Back through lm">
 <h2 id="s-back-through-lm" class="nb"><span class="num">6.4</span> Back through lm</h2>
