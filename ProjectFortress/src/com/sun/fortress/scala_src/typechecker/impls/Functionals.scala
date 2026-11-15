@@ -614,6 +614,140 @@ trait Functionals { self: STypeChecker with Common =>
   }
 
   /**
+   * The call that a reduction with generators desugars to,
+   * __bigOperator(BIG OP(), clauses), where the reduction writes no static
+   * argument of its big operator. Right is the call's candidates and type
+   * where it is accepted: as it is written, where the big operator typed alone
+   * has an instance and the call's type converts to the expected type; else
+   * with the big operator's static argument written, as the reduction's
+   * expected type, where the call so written is accepted and its type converts
+   * to the expected type, and else as the type of the reduction's body. So a
+   * big operator whose bound names its own static parameter, which has no
+   * instance alone, is instantiated by the reduction's declared type or its
+   * body, and a call that is accepted as written is not changed. Left is the
+   * argument to check for the refusal where no form is accepted and the big
+   * operator has no instance alone: with the body's type written, or else the
+   * expected type, where the big operator has an instance at it. None for any
+   * other call.
+   */
+  private def reductionApplication(preCandidates: List[PreAppCandidate],
+                                   arg: Expr,
+                                   context: Option[Type],
+                                   fallBackWithoutContext: Boolean)
+                                  (implicit errorFactory: ApplicationErrorFactory)
+                                   : Option[Either[Expr, (List[AppCandidate], Type)]] = {
+    def bigOperator(pc: PreAppCandidate) = pc.overloading.exists(_.getOriginalName match {
+      case id: Id => id.getText == WellKnownNames.bigOperator
+      case _ => false
+    })
+    if (preCandidates.isEmpty || !preCandidates.forall(bigOperator)) return None
+    arg match {
+      case STupleExpr(info, List(op @ SOpExpr(opInfo, ref, Nil), clauses: FnExpr), None, Nil, inApp)
+           if ref.getStaticArgs.isEmpty =>
+        val tryChecker = STypeCheckerFactory.makeTryChecker(this)
+        def writtenOp(t: Type): Expr =
+          SOpExpr(opInfo, addStaticArgs(ref, List(NF.makeTypeArg(NU.getSpan(op), t, false))), Nil)
+        def written(t: Type): Expr = STupleExpr(info, List(writtenOp(t), clauses), None, Nil, inApp)
+        def instance(t: Type) = tryChecker.tryCheckExpr(writtenOp(t)).isDefined
+        def accepted(a: Expr) = (try {
+          tryChecker.typedApplication(preCandidates, getArgList(a), context, None, fallBackWithoutContext)
+        } catch { case _: StaticError => None }).filter(r => context.forall(coercions.substitutableFor(r._2, _)))
+        def acceptedAt(t: Type) = if (instance(t)) accepted(written(t)) else None
+        val alone = tryChecker.tryCheckExpr(op).isDefined
+        (if (alone) accepted(arg) else None).map(Right(_)).orElse {
+          val declared = context.filter(!hasInferenceVars(_))
+          declared.flatMap(acceptedAt).map(Right(_)).orElse {
+            val body = reductionBodyType(preCandidates, clauses)
+            body.flatMap(acceptedAt).map(Right(_)).orElse(
+              if (alone) None else body.filter(instance).orElse(declared.filter(instance)).map(t => Left(written(t))))
+          }
+        }
+      case _ => None
+    }
+  }
+
+  /**
+   * The type of the body of a reduction with generators, from its desugared
+   * clauses fn (r, u) => __generate(g, r, fn x => u(body)): the clauses are
+   * checked at the parameter type of a candidate of __bigOperator with each
+   * of its static parameters at Any, and the type is that of the argument of
+   * u, a numeral at its default.
+   */
+  private def reductionBodyType(preCandidates: List[PreAppCandidate], clauses: FnExpr): Option[Type] = {
+    val unitName = toListFromImmutable(clauses.getHeader.getParams) match {
+      case List(_, u) => u.getName.getText
+      case _ => return None
+    }
+    val tryChecker = STypeCheckerFactory.makeTryChecker(this)
+    preCandidates.to(LazyList).flatMap { pc =>
+      val sps = getStaticParams(pc.arrow)
+      val arrow: Option[Type] =
+        if (sps.isEmpty) Some(pc.arrow)
+        else if (sps.forall(sp => !sp.isLifted && sp.getKind.isInstanceOf[KindType]))
+          staticInstantiation(sps.map(sp => NF.makeTypeArg(NU.getSpan(sp), Types.ANY, false)), pc.arrow)
+        else None
+      val checked = arrow.flatMap {
+        case a: ArrowType => getTypeAt(a.getDomain, 1)
+        case _ => None
+      }.flatMap {
+        case p: ArrowType =>
+          tryChecker.tryCheckExpr(clauses, Some(NF.makeArrowType(NU.getSpan(p), p.getDomain, Types.ANY)))
+        case _ => None
+      }
+      checked.flatMap { c =>
+        var found: Option[Type] = None
+        object finder extends Walker {
+          override def walk(node: Any): Any = node match {
+            case S_RewriteFnApp(_, SVarRef(_, id, _, _), a) if found.isEmpty && id.getText == unitName =>
+              found = getType(a); node
+            case _ => if (found.isEmpty) super.walk(node) else node
+          }
+        }
+        finder(c)
+        found
+      }
+    }.headOption
+  }
+
+  /**
+   * A reference to a generic function where an arrow type is expected, as an
+   * argument at a parameter of arrow type or the value of a variable declared
+   * with one: the reference with the static arguments that make its type a
+   * subtype of the arrow type. None where the reference writes its static
+   * arguments, has several declarations or one without static parameters,
+   * where the expected type is no arrow type, and where no instance is a
+   * subtype of it. A static parameter that the arrow type does not fix is an
+   * error, signalled on the reference as instantiated.
+   */
+  private def instantiatedReference(fn: FunctionalRef,
+                                    overloadings: List[Overloading],
+                                    expected: Option[Type]): Option[Expr] = {
+    if (!fn.getStaticArgs.isEmpty) return None
+    overloadings match {
+      case List(SOverloading(info, name, origName, Some(ty: ArrowType), schema))
+           if getStaticParams(ty).nonEmpty && getStaticParams(ty).forall(!_.isLifted) =>
+        val arrow = expected.map(normalize) match {
+          case Some(a: ArrowType) if !hasStaticParams(a) && !hasInferenceVars(a) => a
+          case _ => return None
+        }
+        def constraint(inf: ArrowType, ops: Map[Op, Op]): CFormula = analyzer.subtype(inf, arrow)
+        val (inst, sargs) = inferStaticParamsHelper(ty, constraint, false, true, false).getOrElse(return None)
+        val open = getStaticParams(ty).zip(sargs).collect {
+          case (sp, STypeArg(_, _, t)) if t.isInstanceOf[BottomType] || hasInferenceVars(t) => sp.getName
+          case (sp, SIntArg(_, _, _: _InferenceVarInt)) => sp.getName
+        }
+        if (open.nonEmpty)
+          signal(fn, ("A reference to the generic function %s takes its static arguments from the arrow type " +
+                      "that receives it, and %s does not fix %s.").format(fn.getOriginalName, normalize(arrow),
+                                                                         open.mkString(", ")))
+        Some(addType(addStaticArgs(addOverloadings(fn, List(SOverloading(info, name, origName, Some(inst), schema)), false),
+                                   sargs),
+                     inst))
+      case _ => None
+    }
+  }
+
+  /**
    * Type check the application of the given arrow candidates to the given arg.
    * This returns the statically applicable candidates (with their corresponding
    * inferred static args and updated arguments) with the most specific one at
@@ -636,9 +770,22 @@ trait Functionals { self: STypeChecker with Common =>
                            (implicit errorFactory: ApplicationErrorFactory)
                             : Option[(List[AppCandidate], Type)] = {
 
-    // Check the application using the args extrapolated from arg.
-    val args = getArgList(arg)
-    typedApplication(preCandidates, args, context, None, fallBackWithoutContext) map { case (candidates, callType) =>
+    // The value of a variable whose type is a generic function's, which no
+    // arrow type instantiated, has no place for the static arguments of a call.
+    if (preCandidates.exists(pc => pc.overloading.isEmpty && hasStaticParams(pc.arrow, true))) {
+      signal(errorFactory.app, "The applicand is the value of a generic function that no arrow type received: " +
+                               "a reference to a generic function takes its static arguments from the arrow type " +
+                               "that receives it, as the declared type of the variable it is bound to, or writes them.")
+      return None
+    }
+
+    // A reduction's desugared call is checked with its big operator's static
+    // argument where it needs one; any other call, and a reduction that is
+    // refused, using the args extrapolated from arg.
+    val reduction = reductionApplication(preCandidates, arg, context, fallBackWithoutContext)
+    val args = getArgList(reduction.flatMap(_.left.toOption).getOrElse(arg))
+    reduction.flatMap(_.toOption).orElse(
+      typedApplication(preCandidates, args, context, None, fallBackWithoutContext)) map { case (candidates, callType) =>
 
       // Combine the separated args back into a single arg in the resulting app
       // candidate.
@@ -953,6 +1100,8 @@ trait Functionals { self: STypeChecker with Common =>
    * type, and the retry passes over the argument.
    */
   private def retypable(c: Expr): Boolean = c match {
+    case f: FunctionalRef =>
+      f.getStaticArgs.isEmpty && getType(f).exists(t => conjuncts(t).exists(hasStaticParams(_, true)))
     case S_RewriteFnApp(_, f: FunctionalRef, _) => !f.getStaticArgs.isEmpty
     case SOpExpr(_, f, _) => !f.getStaticArgs.isEmpty
     case m: MethodInvocation => !m.getStaticArgs.isEmpty
@@ -1515,7 +1664,10 @@ trait Functionals { self: STypeChecker with Common =>
       val intersectionType = NF.makeMaybeIntersectionType(toJavaList(overloadingTypes))
       // val intersectionType = analyzer.meet(overloadingTypes)
       
-      addType(addOverloadings(fn, checkedOverloadings, false), intersectionType)
+      // A reference to a generic function takes its static arguments from the
+      // arrow type that receives it.
+      instantiatedReference(fn, checkedOverloadings, expected).getOrElse(
+        addType(addOverloadings(fn, checkedOverloadings, false), intersectionType))
     }
 
     case app @ S_RewriteFnApp(SExprInfo(span, paren, _), fn, arg) => {

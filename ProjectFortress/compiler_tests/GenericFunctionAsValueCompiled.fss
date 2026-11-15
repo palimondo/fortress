@@ -1,0 +1,26 @@
+(* A reference to a generic function, passed where an arrow type is expected, is instantiated by that arrow type: at a parameter, at a parameter of a sized arrow type, and at a typed local binding. *)
+component GenericFunctionAsValueCompiled
+export Executable
+
+object Box[\F extends Object\](v: F) end
+count[\F extends Object\](b: Box[\F\]): ZZ32 = 1
+useOne(g: Box[\ZZ32\] -> ZZ32): ZZ32 = do z: ZZ32 = 7; g(Box[\ZZ32\](z)) end
+
+object Sized[\nat n\](v: ZZ32) end
+half[\nat n\](b: Sized[\n\]): ZZ32 = n DIV 2
+useSized(g: Sized[\6\] -> ZZ32): ZZ32 = g(Sized[\6\](1))
+
+same[\T extends Object\](x: T): T = x
+twice(g: String -> String, s: String): String = g(g(s))
+
+run(): () = do
+    assert(useOne(count), 1, "useOne(count): count is instantiated at Box[\\ZZ32\\] -> ZZ32, the type of useOne's parameter; Specification/basic/expressions/var-ref.tex, section \"Identifier References\"")
+    assert(useSized(half), 3, "useSized(half): half is instantiated at the size 6 of useSized's parameter type")
+    assert(twice(same, "ab"), "ab", "twice(same, s): same is instantiated at String -> String")
+    g: Box[\ZZ32\] -> ZZ32 = count
+    z: ZZ32 = 7
+    assert(g(Box[\ZZ32\](z)), 1, "g: Box[\\ZZ32\\] -> ZZ32 = count: count is instantiated at the declared type of g")
+    println("PASS")
+  end
+
+end

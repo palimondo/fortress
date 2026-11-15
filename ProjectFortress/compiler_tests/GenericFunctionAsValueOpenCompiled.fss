@@ -1,0 +1,13 @@
+(* A reference to a generic function whose receiving arrow type leaves one of its static parameters open is refused. *)
+component GenericFunctionAsValueOpenCompiled
+export Executable
+
+pick[\A extends Object, B extends Object\](x: A): ZZ32 = 3
+useOne(g: ZZ32 -> ZZ32): ZZ32 = g(7)
+
+run(): () = do
+    g: ZZ32 -> ZZ32 = pick
+    println(useOne(g))
+  end
+
+end

@@ -317,6 +317,10 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
       withConditionalParents(s, parentResult, throughParent)
     case (s: ObjectExprType, t) => pSub(removeSelf(s), t)
     // Arrow types
+    // The type of a generic function taken as a value carries the function's
+    // own static parameters, which no kind environment binds outside its
+    // declaration: it is a subtype of an arrow type only once instantiated.
+    case (s: ArrowType, t: ArrowType) if carriesOwnStaticParams(s) || carriesOwnStaticParams(t) => pFalse()
     case (SArrowType(_, d1, r1, e1, i1, _), SArrowType(_, d2, r2, e2, i2, _)) =>
       pAnd(pAnd(pSub(d2, d1), pSub(r1, r2)), pSub(e1, e2))
     // Tuple types
@@ -1070,6 +1074,13 @@ class TypeAnalyzer(val traits: TraitTable, val env: KindEnv) extends BoundedLatt
     }
     excludes ++ transitively
   }
+
+  /** Whether the arrow type carries static parameters that the kind environment does not bind. */
+  private def carriesOwnStaticParams(t: ArrowType): Boolean =
+    !t.getInfo.getStaticParams.isEmpty && {
+      traits.readContext()
+      toListFromImmutable(t.getInfo.getStaticParams).exists(sp => env.staticParam(sp.getName).isEmpty)
+    }
 
   // Accessor method for kind env
   def staticParam(x: Id): StaticParam = {
