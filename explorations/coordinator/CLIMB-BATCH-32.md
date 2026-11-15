@@ -37,7 +37,7 @@ Fields common to the five rungs:
   - The count and distance tables on your final tree, and the commit they ran on.
   - Each sentence of the specification that your change makes false, or none.
   - A file edited beyond those named.
-- **briefing** (14 keys, 10 checks):
+- **briefing** (15 keys, 11 checks):
   - P-87 (check): no line of the model or of its helper file changes in this batch.
   - P-173: the default type that a numeral takes at an untyped binding, which `var p = 3` meets.
   - ledger:133 (check): the api's rule, which closes.
@@ -52,6 +52,7 @@ Fields common to the five rungs:
   - SRC `parser/Symbol.rats#transient Op Accumulator` (check): the accumulator.
   - SRC `parser_util/SyntaxChecker.java#public void forLocalVarDeclOnly` (check): the check.
   - `map:modules-and-phases.md#B.2 Rats! parsing`: how the grammars are built and what a grammar edit makes stale.
+  - REC `Forks the batch takes` (check): the defaults you build.
 
 ### S
 - **slug:** `rung-superscript-after`
@@ -65,7 +66,7 @@ Fields common to the five rungs:
   - The count and distance tables on your final tree, and the commit they ran on.
   - Each sentence of the specification that your change makes false, or none.
   - A file edited beyond those named.
-- **briefing** (12 keys, 10 checks):
+- **briefing** (13 keys, 11 checks):
   - P-87 (check): no line of the model changes.
   - ledger:84 (check): the grammar's gap, which closes.
   - ledger:158 (check): walk's refusal, which closes.
@@ -78,6 +79,7 @@ Fields common to the five rungs:
   - SRC `interpreter/evaluator/Evaluator.java#public FValue forOpExpr(OpExpr x)` (check): walk's postfix branch.
   - SRC `interpreter/evaluator/Evaluator.java#private FValue forTightJuxt(Juxt x, boolean isPostfix)` (check): walk's refusal.
   - `map:compile-path-walkthrough.md#1. Parsing and the syntax tree`: the tree that both paths read.
+  - REC `Forks the batch takes` (check): the defaults you build.
 
 ### C
 - **slug:** `rung-static-argument-inferred`
@@ -93,7 +95,7 @@ Fields common to the five rungs:
   - Each sentence of the specification changed, before and after; each sentence your change makes false that this section does not name.
   - Step 2 not landed: what remains, and row 758's whole new line.
   - A file edited beyond those named.
-- **briefing** (21 keys, 14 checks):
+- **briefing** (22 keys, 15 checks):
   - P-78 (check): the reduction's decision; the written argument is row 731's workaround.
   - P-51 (check): a call written as an argument is typed again against each parameter type.
   - P-48 (check): a type parameter that a call does not fix takes its bound.
@@ -115,6 +117,7 @@ Fields common to the five rungs:
   - SRC `scala_src/typechecker/impls/Functionals.scala#private def retypedApplication(` (check): the retry.
   - SRC `scala_src/types/TypeAnalyzer.scala#def staticParam(x: Id)` (check): where the crash is raised.
   - `map:compile-path-walkthrough.md#3. The checker`: how the checker walks a call.
+  - REC `Forks the batch takes` (check): the defaults you build.
 
 ### F
 - **slug:** `rung-generic-function-value`
@@ -127,7 +130,7 @@ Fields common to the five rungs:
   - The row lift with sized functions: `rows(rmsn, x)` for `rmsn[\nat n\](x: Vector[\RR64,n\])` and a `rows` whose arrow parameter is sized, in a test program of your own.
   - Every existing test whose verdict, output or pinned message changed.
   - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
-- **briefing** (14 keys, 8 checks):
+- **briefing** (15 keys, 9 checks):
   - P-87 (check): no line of the model changes; the sized row lift is decision D's diff, not yours.
   - P-48 (check): a type parameter that a call does not fix takes its bound, and walk's open parameter.
   - P-55: sizes are compared by their written form.
@@ -142,28 +145,30 @@ Fields common to the five rungs:
   - SRC `interpreter/evaluator/values/Fcn.java#public FType type()` (check): the value's missing type.
   - SRC `interpreter/evaluator/EvaluatorBase.java#static Simple_fcn inferAndInstantiateGenericFunction(List<FValue> args,` (check): how a direct call fixes the static arguments.
   - `map:modules-and-phases.md#B.8 The interpreter tail`: where walk binds and applies.
+  - REC `Forks the batch takes` (check): the defaults you build.
 
 ### B
 - **slug:** `rung-toplevel-array-literal`
 - **worktree:** `/home/user/fortress-toplevel-array-literal`
 - **section:** `B. An array literal at the top level is an array under walk, with its declared type or without one (row 142)`
-- **blurb:** under walk an array literal that is the value of a top-level variable is never built into an array: with a declared type the binding fails with a type mismatch against a tuple, and without one the name holds a tuple of tuples (row 142). In a function body the same literal is built. The rung builds it at the top level too, so that a table of the model can be a literal.
+- **blurb:** under walk an array literal that is the value of a top-level variable is never built into an array: with a declared type the binding fails with a type mismatch against a tuple, and without one the name holds a tuple of tuples (row 142). In a function body the same literal is built where it has a declared type, and without one it stops with an error (row 49). The rung builds it at the top level too, so that a table of the model can be a literal.
 - **points to report:**
   - Row 142's four probes and the untyped form, failing on the base and passing after; a literal of rank 1 and 2, of numerals, of names and expressions, of strings; a literal at a `var` top-level variable.
   - What an untyped top-level literal's type is, and whether it differs from the same literal's in a function body.
   - Every existing test whose verdict, output or pinned message changed; a top-level binding of a pasted tuple that a program relied on.
   - The files you edited, for `STAGE_BLIND`; a file edited beyond those named.
-- **briefing** (10 keys, 7 checks):
+- **briefing** (11 keys, 8 checks):
   - P-87 (check): no line of the model changes.
   - P-173 (check): where a numeral converts, which the elements of a typed literal meet.
   - ledger:142 (check): the binding, which closes.
-  - ledger:49: a sibling on the array literal.
+  - ledger:49: a sibling on the array literal, whose error the untyped literal meets in a function body.
   - ledger:104: a sibling on the array literal.
   - SPEC `basic/expressions/aggregate.tex#Array Expressions` (check): the literal and its type.
   - SPEC `basic/variables.tex#Top-Level Variable Declarations` (check): the top-level declaration.
   - SRC `interpreter/evaluator/BuildEnvironments.java#private void forVarDecl4` (check): the top-level binding.
   - SRC `interpreter/evaluator/LHSEvaluator.java#public Voidoid forLValue(LValue x)` (check): the body's binding, the precedent.
   - `map:modules-and-phases.md#B.8 The interpreter tail`: how walk builds a component's environment.
+  - REC `Forks the batch takes` (check): the defaults you build.
 
 ## 2. For the curator
 
@@ -187,7 +192,7 @@ You asked for the notation's gaps to come first. This batch is planned and has n
 - **Array comprehensions (row 50): one question.** The specification has the form `[(i, j) ↦ e | i ← 0#n, j ← 0#m]`. It would be the form of the model's `mask` and of the helper file's `gather`, `onehot` and `pick`. The specification's text does not say how large the array is. It rewrites the form to `a = array()` and a row of assignments, with no size. So I left it out. The ways:
   - **(a) Leave it out for now.** `mask`, `gather`, `onehot` and `pick` stay as they are. Cost: nothing.
   - **(b) The size comes from the declared type.** `mask: RR64[16,16] = [(i, j) ↦ ... ]`. This is how the plain array literal works today. It needs sized types in the model, which is your open decision D. About 2 rungs.
-  - **(c) The size comes from the generators.** Where each index is a plain loop variable over a range, the array spans those ranges. Any other shape needs a declared type. This serves today's unsized lines. It is a rule of ours, written into the specification. About 2 rungs.
+  - **(c) The size comes from the generators.** Where each index is a plain loop variable over a range, the array spans those ranges. Any other shape needs a declared type. This serves today's unsized lines. The overview's two examples read so ("describes a 3 × 3 array"); the rule itself would be ours, written into the specification. About 2 rungs.
   - **Recommended: (a) now, and (c) or (b) with your answer on static sizes** (question 3 of the review). The two questions decide each other.
 - **The diffs to the model.** No rung changes a model line. Each rung makes a diff possible. They are listed below. Applying each is your word, after the landing (P-87).
 
@@ -289,7 +294,8 @@ Two counts, from the review's section 1.
 - **Lines that an open gap shapes. Before: 20 of the model's 98, and 14 of the helper file's 190.**
   - The model: lines 21 to 24, 27, 28, 30, 34, 37 to 41, 43, 45, 52, 70, 88 to 90.
   - The helper file: lines 47 to 51 (`transpose` as functions), 64, 95 and 108 (`reflect`), 142, 148, 154 and 160 (the row lift's unsized functions), 181 and 182.
-- **After, once you apply the diffs: 1 of the model's lines** (line 45, `reflect`) **and 3 of the helper file's** (the three `reflect` lines). Without decision D, the four vector functions and the four row-lift lines stay: 5 and 7.
+- **After, once you apply the diffs: 1 of the model's lines** (line 45, which calls the helper file's `view`, whose line 64 uses `reflect`) **and 3 of the helper file's** (the three `reflect` lines). Without decision D, the four vector functions and the four row-lift lines stay: 5 and 7.
+- Line 29 (`mask`, row 50), line 51 (the unsized arrays of `step`, decision D) and line 42 (which rung B's diff rewrites with line 45) are not in the count either way: the count holds the lines that a boxed gap of this batch shapes, and line 45.
 - Lines 17 to 19 and line 82 are not in the count. Their text is already the short form. Only the compiled path refuses them, and climb batch 31 repairs that.
 - The checker's count and the distance stay 0 and 0 (F-53). microGPT's quick checks under walk stay 7 of 7 for both programs, with no line of either changed.
 
@@ -298,6 +304,7 @@ Two counts, from the review's section 1.
 - **`Functionals.scala`, the checker's file for calls.** Batch 31's rung N edits how a call with a numeral chooses its declaration (`typedApplication`, `typedApplicationOfChecked`, `numeralTie`). This batch's rung C edits how a call's static arguments are inferred (`checkApplicableWithInference`, `typedApplicationOfArg`, `retypedApplication`, the functional reference's case). `typedApplicationOfChecked` calls both. No line is edited by both as planned.
 - **Walk's `OverloadedFunction.java`.** Batch 31's rung N edits `bestMatchForNumerals` there. This batch's rung F may edit how an overloaded name with a generic declaration is passed as a value. Rung F keeps out of `bestMatchForNumerals`, `Coercions.java` and `Numerals.java`.
 - **The top-level variable declaration.** Batch 31b's rung D repairs the tuple binding in the checker (`Thunker.scala`) and the code generator (`forVarDeclPrePass`). This batch's rung B repairs the array literal in walk (`BuildEnvironments.forVarDecl4`). Same construct, different paths, no shared file.
+- **The specification's `appendices/changes.tex`.** Batch 31's rungs N and K edit sentences near `:5286-5298`, `:3813-3825` and `:4312`. This batch's rung C edits `:1256-1264` and the entry at `:2434`. No sentence is edited by both.
 - **`label` and `exit` (batch 31's rung L):** nothing shared. No rung here edits the code generator.
 - **Does the order matter?** No. Whichever batch launches second is read again against the first one's landed tree, and its base build is made new. If both were launched from one base at once, the two edits of `Functionals.scala` would have to be merged by hand; the workflow runs one batch at a time, so this does not arise.
 
@@ -348,13 +355,13 @@ None of the forks below is consequential: each builds within a decision on recor
 
 1. **R1. One run of five rungs.** **Default: so.** Ways not taken: nine rungs, one a row, which the disk floor does not hold (17.5 G) and which pays a grammar rebuild and a skeptic four times for one-line repairs; two runs, which nothing needs, since no two rungs share a declaration. The reason: `references/batch.md`, "The go".
 2. **R2. Row 758 is in the batch, as rung C's second step.** Rows 731 and 758 are not one repair. They are one rung because both are in `Functionals.scala`, in the code that infers a call's static arguments. **Default: so; step 2 lands if it fits, and else the rung lands step 1 and reports.** Way not taken: 758 in a second run of one rung, about 1.0M of fixed roles for it.
-3. **R3. Row 50 is left out** until the curator's answer. **Default: so.** The text gives the form and the desugaring, `do a = array(); a[i1] := e1, gs1; ...; a end` (`Specification/advanced/parallelism-locality/defining-generators.tex:241-266`), and says that the comprehension need not define every cell (`Specification/basic/expressions/comprehensions.tex:15-19`). It leaves open: the array's size and lower bounds, since `array()` takes none; its element type and its static type for the checker; and its two notations, `↦` in the chapter and `=` in the overview (`Specification/preliminaries/overview.tex:974-990`).
+3. **R3. Row 50 is left out** until the curator's answer. **Default: so.** The text gives the form and the desugaring, `do a = array(); a[i1] := e1, gs1; ...; a end` (`Specification/advanced/parallelism-locality/defining-generators.tex:241-266`), and says that the comprehension need not define every cell (`Specification/basic/expressions/comprehensions.tex:15-19`). It leaves open: the array's size and lower bounds, since `array()` takes none; its element type and its static type for the checker; and its two notations, `↦` in the chapter and `=` in the overview (`Specification/preliminaries/overview.tex:974-990`). The overview's examples do name a size: a comprehension over `x ← 0:2, y ← 0:2` "describes a 3 × 3 array" (`overview.tex:976`, `:991`, the same in the Working Draft), so the team's examples read the size from the generators, with no rule written.
 4. **P1. The signs U+2211 and U+220F are accumulators wherever `SUM` and `PROD` are,** in an expression and in an operator's declaration, and are no longer prefix operators. **Default: so.** The reason: the specification's grammar, `Accumulator ::= ∑ | ∏ | BIG (Encloser | Op)`; `Operators.java` already names them `SUM` and `PROD`. The other Unicode big operators that the grammar reads through `BIG` are not touched.
-5. **P2. `var p = e` takes the type of `e`,** a numeral its default (P-173). **Default: so.** The reason: `LocalVarDecl ::= [var] VarMayTypes = Expr`; both paths already run it once the check is gone (PROBES, section 3). The `:=` form without a declaration stays refused: the grammar asks for a type there.
-6. **P3. An untyped mutable local whose value is an array literal** stops under walk with "Can't infer element type for array construction" (PROBES, section 3). **Default: P reports it; a row of its own if no row holds it; not repaired here.**
-7. **S1. A superscript after any dotted primary applies to the whole primary to its left,** a method call's result included. **Default: so.** The reason: "A tight juxtaposition is always left-associated if it contains any dot" (`Specification/basic/operators/juxtameaning.tex:128-129`).
+5. **P2. `var p = e` takes the type of `e`,** a numeral its default (P-173). **Default: so.** The reason: `LocalVarDecl ::= [var] VarMayTypes = Expr`; both paths already run it once the check is gone (PROBES, section 3). The `:=` form without a declaration stays refused: the grammar asks for a type there. The production is the appendix's (`Specification-1.0-frozen/appendices/grammars/concrete-syntax.tex:1125-1126`); the chapter's own grammar and prose give an untyped local no `var` (`Specification/basic/variables.tex:76-96`, `:174-181`, the same in the Working Draft), and the check's own comment asks for the type on purpose: the check of 2026-11-15 puts this to the coordinator (`climb-batch-32-review.md`, finding 1).
+6. **P3. An untyped mutable local whose value is an array literal** stops under walk with "Can't infer element type for array construction" (PROBES, section 3). **Default: P reports it; row 49 holds it (an array literal with no declared type is not built under walk); not repaired here.**
+7. **S1. A superscript after any dotted primary applies to the whole primary to its left,** a method call's result included. **Default: so.** The reason: "A tight juxtaposition is always left-associated if it contains any dot" (`Specification/basic/operators/juxtameaning.tex:130-131`).
 8. **S2. `f(x)^T` stays a static error on both paths** (row 144). **Default: so; S's tests pin it.**
-9. **C1. The checker fixes a reduction's unwritten static argument by the reduction's declared type where it has one that fits the bound, and else by the type of its body.** **Default: so.** Way not taken: the body's type first, which is the specification's plain sentence ("a sum is desugared with the reduction for the type N of the expression") and which would sum `x: RR64 = SUM[j <- 0#n] f(j)` in `ZZ32` when compiled and in `RR64` under walk. The reason: walk's rule as landed (F-59), and one answer on both paths. P-78 is not bent: its written argument is row 731's workaround by its own words, and its history shows the workaround entering with the gap (`POSITIONS-history.md`, P-78, the blocks of 2026-10-22).
+9. **C1. The checker fixes a reduction's unwritten static argument by the reduction's declared type where it has one that fits the bound, and else by the type of its body.** **Default: so.** Way not taken: the body's type first, which is the plain sentence of the revival's revised text, not of the Working Draft ("a sum is desugared with the reduction for the type N of the expression", `Specification/basic/expressions/reductions.tex:27-29`, in the box `revival-reductions`) and which would sum `x: RR64 = SUM[j <- 0#n] f(j)` in `ZZ32` when compiled and in `RR64` under walk. The reason: walk's rule as landed (F-59), and one answer on both paths. P-78 is not bent: its written argument is row 731's workaround by its own words, and its history shows the workaround entering with the gap (`POSITIONS-history.md`, P-78, the blocks of 2026-10-22).
 10. **C2. No library line and no test is unwritten.** The library's sites keep their static arguments (F-285), and so do the team's tests. **Default: so.** The team demos that leave the argument out (P-79) then need no respelling: C reports which of them the checker now accepts, if its probe reaches them.
 11. **F1. Under walk a generic function value is instantiated at the arrow type of the parameter or variable that receives it; where that leaves a static parameter open, it stays generic and is instantiated at its first application from the arguments' run-time types,** as a direct call is. **Default: so.** The reason: `var-ref.tex`, "the static arguments are statically inferred from the context"; walk has no static types (P-12), so the context it has is the receiving type and the call.
 12. **B1. An untyped array literal at the top level is the array that the same literal is in a function body.** **Default: so.** The reason: `aggregate.tex`, "Array Expressions"; one meaning for one form.
@@ -459,7 +466,7 @@ Each rung's section is its worker's brief. The briefing keys of section 1 give t
 
 ### B. An array literal at the top level is an array under walk, with its declared type or without one (row 142)
 
-**The mission.** The model program holds two tables, the names and the shapes of its nine matrices, as chains of `if` in two functions, because under walk an array literal at the top level is not built into an array: with a declared type the binding fails against a tuple, and without one the name holds a tuple of tuples (row 142). In a function body the same literal is an array, with numerals, names or expressions as its elements. You make the top level do what the body does.
+**The mission.** The model program holds two tables, the names and the shapes of its nine matrices, as chains of `if` in two functions, because under walk an array literal at the top level is not built into an array: with a declared type the binding fails against a tuple, and without one the name holds a tuple of tuples (row 142). In a function body the same literal is an array where it has a declared type, with numerals, names or expressions as its elements; without a declared type it stops there with "Can't infer element type for array construction" (row 49, seen again by the check of 2026-11-15, `climb-batch-32-review.md`, finding 2). You make the top level do what the body does.
 
 **The decisions this rung builds.** P-87; P-173 for the elements of a typed literal. Section 3's fork B1.
 
@@ -513,7 +520,7 @@ The planner's brief, candidate by candidate, with its home here. Each was reprod
 
 ### Rows filed by plan
 
-None. Every defect met is in a row. Fork P3's neighbour, an untyped mutable local whose value is an array literal, is rung P's to file if no row holds it. A rung's new rows go in its `record.md` as `NEW-<rung>-<n>`.
+None. Every defect met is in a row. Fork P3's neighbour, an untyped mutable local whose value is an array literal, is row 49's. A rung's new rows go in its `record.md` as `NEW-<rung>-<n>`.
 
 ### Left out, each with its home
 
@@ -589,7 +596,7 @@ The batch edits no FACTS or POSITIONS entry. After the landing, these are false:
 
 - **P-78:** "The compiled checker fixes it from neither the generators, the body nor a declared type that receives the value, and refuses every such `SUM` or `PROD` that leaves it out (row 731, a gap of the checker). Row 731's workaround is to write it in every clause form of `SUM` and `PROD`": the checker fixes it; the decision's first two sentences stand.
 - **P-79:** "and the reductions that leave out the static argument of a big operator whose bound names its own static parameter, such as `SUM`; their repair writes the argument (row 731)".
-- **P-87:** its sub-item on row 731, "the phase 3 exit judgement places the checker's fix before microGPT compiles ... review-queue item 51 waits".
+- **P-87:** nothing. P-87 names no row; the sentence "the phase 3 exit judgement places the checker's fix before microGPT compiles ... review-queue item 51 waits" is `PLAN.md:106`'s, which "After the landing" above lists.
 - **F-59:** its title's second half, "and the compiled checker needs that argument written in every clause form", and the sentences on row 731; "the refusal is row 731's, and no test pins it".
 - **F-221:** "an F-bounded one is still refused (row 731)".
 - **F-285:** "while row 731's checker gap stays for user programs and the team demos"; the library's written sites stand.
